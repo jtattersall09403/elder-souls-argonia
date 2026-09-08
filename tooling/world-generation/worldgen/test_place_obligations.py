@@ -30,6 +30,22 @@ def test_every_catalogue_field_has_exactly_one_contract_policy():
     assert not (po.PROVENANCE_FIELDS & po.PLOT_FIELDS)
     assert not (po.PROVENANCE_FIELDS & po.DELIVERY_FIELDS)
     assert not (po.PLOT_FIELDS & po.DELIVERY_FIELDS)
+    assert set(po.DELIVERY_OWNER_BY_ROOT) == po.DELIVERY_FIELDS
+    assert set(po.DELIVERY_OWNER_BY_ROOT.values()) <= po.DELIVERY_OWNERS
+
+
+def test_new_id_bearing_blueprint_section_cannot_promote_itself_to_evidence():
+    bp = {"id": "place.test.promotion",
+          "designNotes": {"id": "landmark.promotion.not-authored"}}
+    registry, errors = po.blueprint_object_registry(bp)
+    assert "landmark.promotion.not-authored" not in registry
+    assert any("has no evidence-promotion policy" in error for error in errors)
+
+    bp = {"id": "place.test.promotion",
+          "parcels": [{"id": "landmark.promotion.wrong-container"}]}
+    registry, errors = po.blueprint_object_registry(bp)
+    assert "landmark.promotion.wrong-container" not in registry
+    assert any("expected one of ['parcel']" in error for error in errors)
 
 
 def test_provenance_and_plot_mechanics_do_not_emit_obligations():
@@ -73,7 +89,7 @@ def test_faction_seat_is_distinct_from_ownership_and_needs_concrete_evidence():
           "parcels": [{"id": "parcel.seat.hall", "use": "hall"}], "macroEvidence": []}
     errors, _ = po.check_phase11(rec, bp)
     assert any("from factionPresence" in e for e in errors)
-    bp["macroEvidence"] = [{"sourcePaths": ["factionPresence"],
+    bp["macroEvidence"] = [{"sourcePaths": ["factionPresence[faction.test:seat]"],
                             "evidenceRefs": ["o.guard", "parcel.seat.hall"]}]
     errors, rows = po.check_phase11(rec, bp)
     assert not errors
@@ -88,7 +104,7 @@ def test_every_institutional_faction_role_needs_host_and_person(role):
           "landmarks": [{"id": "landmark.presence.sign"}],
           "occupants": [{"slotId": "occupant.presence.agent",
                          "ownerFaction": "faction.test"}],
-          "macroEvidence": [{"sourcePaths": ["factionPresence"],
+          "macroEvidence": [{"sourcePaths": [f"factionPresence[faction.test:{role}]"],
                              "evidenceRefs": ["landmark.presence.sign"]}]}
     errors, _ = po.check_phase11(rec, bp)
     assert any("faction-bound occupant" in error for error in errors)
@@ -101,10 +117,34 @@ def test_territorial_presence_does_not_invent_an_institution():
     rec = {"id": "place.test.territory",
            "factionPresence": [{"factionRef": "faction.test", "role": "territory"}]}
     bp = {"id": rec["id"], "landmarks": [{"id": "landmark.border"}],
-          "macroEvidence": [{"sourcePaths": ["factionPresence"],
+          "macroEvidence": [{"sourcePaths": ["factionPresence[faction.test:territory]"],
                              "evidenceRefs": ["landmark.border"]}]}
     errors, _ = po.check_phase11(rec, bp)
     assert not errors
+
+
+def test_broad_faction_evidence_cannot_satisfy_an_unrelated_semantic_leaf():
+    rec = {"id": "place.test.presences", "factionPresence": [
+        {"factionRef": "faction.one", "role": "seat"},
+        {"factionRef": "faction.two", "role": "office"},
+    ]}
+    bp = {
+        "id": rec["id"],
+        "parcels": [{"id": "parcel.presences.hall", "use": "hall"}],
+        "occupants": [
+            {"slotId": "occupant.one", "ownerFaction": "faction.one"},
+            {"slotId": "occupant.two", "ownerFaction": "faction.two"},
+        ],
+        "macroEvidence": [{
+            "sourcePaths": ["factionPresence"],
+            "evidenceRefs": ["parcel.presences.hall", "occupant.one", "occupant.two"],
+        }],
+    }
+    errors, _rows = po.check_phase11(rec, bp)
+    assert any("faction seat faction.one needs" in error for error in errors)
+    assert any("faction office faction.two needs" in error for error in errors)
+    assert any("from factionPresence[faction.one:seat]" in error for error in errors)
+    assert any("from factionPresence[faction.two:office]" in error for error in errors)
 
 
 def test_named_macro_occupant_is_not_met_by_an_unrelated_occupant():
@@ -161,6 +201,12 @@ def test_export_rejects_a_whole_missing_or_unexpected_place():
     _document, errors = po.obligation_document(
         _records(), blueprints, expected_place_ids=set(expected) - {blueprints[0]["id"]})
     assert any("unexpected blueprint places" in error for error in errors)
+    promoted = {"id": "place.test.new-blueprint"}
+    promoted_records = dict(_records(), **{promoted["id"]: {"id": promoted["id"]}})
+    _document, errors = po.obligation_document(
+        promoted_records, [*blueprints, promoted], expected_place_ids=expected)
+    assert any("unexpected blueprint places" in error and promoted["id"] in error
+               for error in errors)
 
 
 def test_exported_phase11_manifest_rejects_bogus_or_cross_place_evidence():
@@ -179,6 +225,19 @@ def test_exported_phase11_manifest_rejects_bogus_or_cross_place_evidence():
     assert any("cross-place evidence" in error for error in
                po.verify_phase11_document(mutant,
                                           expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS))
+
+
+def test_phase11_manifest_cannot_reassign_a_promise_to_a_convenient_owner():
+    document, errors = po.live_phase11_document()
+    assert not errors
+    mutant = copy.deepcopy(document)
+    row = mutant["rows"][0]
+    expected = row["deliveryOwner"]
+    row["deliveryOwner"] = next(owner for owner in po.DELIVERY_OWNERS if owner != expected)
+    mutant["obligationsSha256"] = po._document_rows_sha256(mutant["rows"])
+    errors = po.verify_phase11_document(
+        mutant, expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS)
+    assert any("does not match" in error and "owner" in error for error in errors)
 
 
 def test_downstream_manifest_gate_rejects_missing_stale_and_empty_delivery():
@@ -216,6 +275,50 @@ def test_downstream_manifest_gate_rejects_missing_stale_and_empty_delivery():
                                                         object_registry=registry))
     assert po.verify_final_delivery(obligations, [], object_registry=registry)
     assert not po.verify_final_delivery(obligations, [good], object_registry=registry)
+
+
+def test_owner_manifest_and_object_claims_must_cover_each_other_exactly():
+    obligations = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
+                                 {"value": "n1"}, ("occupant.one",), "phase-13")]
+    registry = {
+        "occupant.one": {"kind": "occupant", "placeId": "place.x",
+                         "deliversObligationIds": ["o.one"]},
+        "occupant.two": {"kind": "occupant", "placeId": "place.x",
+                         "deliversObligationIds": ["o.one"]},
+    }
+    manifest = {
+        "schemaVersion": po.MANIFEST_SCHEMA_VERSION,
+        "kind": "place-obligation-deliveries", "owner": "phase-13",
+        "obligationsSha256": po.owner_obligations_sha256(obligations, "phase-13"),
+        "objectRegistrySha256": po.compiled_object_registry_sha256(registry),
+        "deliveries": [{"obligationId": "o.one", "objectRefs": ["occupant.one"]}],
+    }
+    errors = po.verify_delivery_manifest(
+        obligations, manifest, "phase-13", object_registry=registry)
+    assert any("do not exactly match object claims" in error for error in errors)
+
+    registry["occupant.two"]["deliversObligationIds"] = ["o.unknown"]
+    manifest["objectRegistrySha256"] = po.compiled_object_registry_sha256(registry)
+    errors = po.verify_delivery_manifest(
+        obligations, manifest, "phase-13", object_registry=registry)
+    assert any("claims unknown obligation" in error for error in errors)
+
+
+def test_delivery_contract_rejects_an_unowned_or_misowned_semantic_root():
+    wrong = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
+                           {"value": "n1"}, ("occupant.one",), "phase-12")]
+    registry = {"occupant.one": {
+        "kind": "occupant", "placeId": "place.x", "deliversObligationIds": ["o.one"]}}
+    manifest = {
+        "schemaVersion": po.MANIFEST_SCHEMA_VERSION,
+        "kind": "place-obligation-deliveries", "owner": "phase-12",
+        "obligationsSha256": po.owner_obligations_sha256(wrong, "phase-12"),
+        "objectRegistrySha256": po.compiled_object_registry_sha256(registry),
+        "deliveries": [{"obligationId": "o.one", "objectRefs": ["occupant.one"]}],
+    }
+    errors = po.verify_delivery_manifest(wrong, manifest, "phase-12",
+                                         object_registry=registry)
+    assert any("owner 'phase-12' does not match 'phase-13'" in error for error in errors)
 
 
 def test_delivery_manifest_resolves_typed_refs_in_compiled_registry():

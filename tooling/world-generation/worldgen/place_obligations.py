@@ -77,6 +77,57 @@ QUALITATIVE_ROOTS = {
     "sitingPrefs", "status", "traversalModes", "underwaterAccess", "vibe",
 }
 
+# Ownership is deliberately exhaustive.  Falling through to Phase 11 made a
+# newly introduced promise look owned even though no downstream team had
+# accepted it.
+PHASE12_ROOTS = {"entrance", "interior", "underwaterAccess"}
+PHASE13_ROOTS = {
+    "contents", "hostility", "notableNpcSlots", "occupants", "ownerFaction",
+    "rewardProfile", "rumourPoolKey", "services",
+}
+QUEST_ROOTS = {"deedCounterKeys", "localStateVariants", "questHooks", "sockets"}
+DELIVERY_OWNER_BY_ROOT = {
+    **{root: "phase-12" for root in PHASE12_ROOTS},
+    **{root: "phase-13" for root in PHASE13_ROOTS},
+    **{root: "quests" for root in QUEST_ROOTS},
+    **{root: "phase-11-compiled" for root in
+       DELIVERY_FIELDS - PHASE12_ROOTS - PHASE13_ROOTS - QUEST_ROOTS},
+}
+PROMISE_OWNER_BY_KIND = {
+    "entrance": "phase-12",
+    "named-npc": "phase-13",
+    "npc-role": "phase-13",
+    "provision": "quests",
+    "reward": "phase-13",
+    "service": "phase-13",
+    "socket": "quests",
+    "travel": "phase-13",
+}
+
+# Only ids in authored, delivery-bearing containers may become evidence.
+# Planning alternatives (siting candidates and clearance bookkeeping) are
+# intentionally not promoted into the registry.  A new id-bearing blueprint
+# section therefore needs an explicit policy here before it can certify work.
+BLUEPRINT_OBJECT_KINDS = {
+    "approaches": frozenset({"approach"}),
+    "boardwalks": frozenset({"boardwalk"}),
+    "canals": frozenset({"canal"}),
+    "combatSpaces": frozenset({"combat"}),
+    "districts": frozenset({"district"}),
+    "docks": frozenset({"dock"}),
+    "doors": frozenset({"door"}),
+    "fences": frozenset({"fence"}),
+    "landmarks": frozenset({"landmark"}),
+    "networkTerminals": frozenset({"terminal"}),
+    "occupants": frozenset({"occupant"}),
+    "parcels": frozenset({"parcel"}),
+    "questSockets": frozenset({"evidence", "marks", "scene", "socket", "station"}),
+    "routes": frozenset({"route"}),
+    "travelServices": frozenset({"travel"}),
+    "variants": frozenset({"variant"}),
+}
+NON_DELIVERY_ID_CONTAINERS = frozenset({"clearance", "siting"})
+
 
 @dataclass(frozen=True)
 class Obligation:
@@ -99,8 +150,17 @@ class Obligation:
 
 def classify_record_fields(record: dict) -> list[str]:
     """Errors for catalogue fields not classified exactly once."""
-    return [f"{record.get('id', '<unknown>')}: unclassified catalogue field {key!r}"
-            for key in sorted(set(record) - set(FIELD_POLICY))]
+    errors = [f"{record.get('id', '<unknown>')}: unclassified catalogue field {key!r}"
+              for key in sorted(set(record) - set(FIELD_POLICY))]
+    missing_owners = sorted(DELIVERY_FIELDS - set(DELIVERY_OWNER_BY_ROOT))
+    extra_owners = sorted(set(DELIVERY_OWNER_BY_ROOT) - DELIVERY_FIELDS)
+    invalid_owners = sorted(root for root, owner in DELIVERY_OWNER_BY_ROOT.items()
+                            if owner not in DELIVERY_OWNERS)
+    if missing_owners or extra_owners or invalid_owners:
+        errors.append(
+            f"delivery-owner policy is not exact: missing={missing_owners}, "
+            f"extra={extra_owners}, invalid={invalid_owners}")
+    return errors
 
 
 def _stable_id(place_id: str, path: str, semantic_key: str = "") -> str:
@@ -139,11 +199,28 @@ def blueprint_object_registry(bp: dict) -> tuple[dict[str, dict[str, str]], list
     def walk(value, container: str) -> None:
         if isinstance(value, dict):
             if isinstance(value.get("id"), str):
-                add(value["id"], value["id"].split(".", 1)[0])
+                kind = value["id"].split(".", 1)[0]
+                allowed = BLUEPRINT_OBJECT_KINDS.get(container)
+                if allowed is None:
+                    if container not in NON_DELIVERY_ID_CONTAINERS:
+                        errors.append(
+                            f"{place_id}: id-bearing blueprint container {container!r} "
+                            "has no evidence-promotion policy")
+                elif kind not in allowed:
+                    errors.append(
+                        f"{place_id}: object {value['id']!r} in {container!r} has kind "
+                        f"{kind!r}; expected one of {sorted(allowed)}")
+                else:
+                    add(value["id"], kind)
             if isinstance(value.get("slotId"), str):
-                add(value["slotId"], "occupant")
+                if container == "occupants":
+                    add(value["slotId"], "occupant")
+                else:
+                    errors.append(
+                        f"{place_id}: slotId in {container!r} cannot be promoted as an occupant")
             if isinstance(value.get("socketRef"), str):
-                add(value["socketRef"], "quest-socket-ref")
+                if container in {"parcels", "questSockets"}:
+                    add(value["socketRef"], "quest-socket-ref")
             for child in value.values():
                 walk(child, container)
         elif isinstance(value, list):
@@ -187,18 +264,24 @@ def _manual_evidence(path: str, index: dict[str, tuple[str, ...]]) -> tuple[str,
     # A root link deliberately covers its child fields: `vibe` is reviewed as
     # one composed visual promise, while its children remain separate rows.
     root = path.split(".", 1)[0].split("[", 1)[0]
+    if root == "factionPresence":
+        # Institutional presences are identity-bearing.  One broad link must
+        # not certify a different faction or role in the same catalogue row.
+        branch = path.rsplit(".", 1)[0]
+        return index.get(path, index.get(branch, ()))
     return index.get(path, index.get(root, ()))
 
 
 def _owner(path: str) -> str:
-    if path.startswith(("interior", "entrance", "underwaterAccess")):
-        return "phase-12"
-    if path.startswith(("contents", "services", "rewardProfile", "hostility",
-                        "ownerFaction", "notableNpcSlots", "occupants", "rumourPoolKey")):
-        return "phase-13"
-    if path.startswith(("questHooks", "sockets", "deedCounterKeys", "localStateVariants")):
-        return "quests"
-    return "phase-11-compiled"
+    root = path.split(".", 1)[0].split("[", 1)[0]
+    return DELIVERY_OWNER_BY_ROOT[root]
+
+
+def _expected_owner(path: str, kind: str) -> str | None:
+    if kind in PROMISE_OWNER_BY_KIND:
+        return PROMISE_OWNER_BY_KIND[kind]
+    root = path.split(".", 1)[0].split("[", 1)[0]
+    return DELIVERY_OWNER_BY_ROOT.get(root)
 
 
 def _ids_of_kinds(registry: Mapping[str, dict[str, str]], *kinds: str) -> tuple[str, ...]:
@@ -251,8 +334,11 @@ def _walk_semantic(value, path: str) -> Iterable[tuple[str, object, str]]:
     elif isinstance(value, list):
         for item in value:
             if isinstance(item, dict):
-                key = next((item.get(k) for k in ("slotId", "id", "kind", "provisionId")
-                            if item.get(k)), None)
+                if path == "factionPresence" and item.get("factionRef") and item.get("role"):
+                    key = f"{item['factionRef']}:{item['role']}"
+                else:
+                    key = next((item.get(k) for k in ("slotId", "id", "kind", "provisionId")
+                                if item.get(k)), None)
                 if key is None:
                     key = hashlib.sha256(json.dumps(item, sort_keys=True).encode()).hexdigest()[:8]
                 yield from _walk_semantic(item, f"{path}[{key}]")
@@ -277,8 +363,9 @@ def build_obligations(record: dict, bp: dict) -> tuple[list[Obligation], list[st
     for presence in record.get("factionPresence") or []:
         if not isinstance(presence, dict) or presence.get("role") == "territory":
             continue
-        refs = set(evidence.get("factionPresence", ()))
         faction = presence.get("factionRef")
+        presence_path = f"factionPresence[{faction}:{presence.get('role')}]"
+        refs = set(evidence.get(presence_path, ()))
         institutional = {p.get("id") for p in bp.get("parcels", []) or []
                          if p.get("use") in {"civic", "hall", "watch", "gate", "work"}
                          or p.get("service") in {"guild-hall", "council", "court",
@@ -306,12 +393,13 @@ def build_obligations(record: dict, bp: dict) -> tuple[list[Obligation], list[st
             errors.append(f"{record.get('id')}: {promise.id} resolves only to non-objects {unknown}")
         root = path.split(".", 1)[0].split("[", 1)[0]
         promise_refs.setdefault(root, set()).update(realised)
+        owner = PROMISE_OWNER_BY_KIND.get(promise.kind)
+        if owner is None:
+            errors.append(f"{record.get('id')}: promise kind {promise.kind!r} has no delivery owner")
+            owner = "unowned"
         rows.append(Obligation(
             _stable_id(record["id"], path, promise.id), record["id"], path,
-            promise.kind, {"promiseId": promise.id}, realised,
-            "quests" if promise.kind in {"provision", "socket"} else
-            ("phase-13" if promise.kind in {"service", "npc-role", "named-npc", "reward", "travel"}
-             else "phase-12"),
+            promise.kind, {"promiseId": promise.id}, realised, owner,
         ))
 
     # Qualitative commitments are individually preserved but share compact
@@ -493,6 +581,15 @@ def verify_phase11_document(document: dict, *, expected_place_ids: Iterable[str]
             errors.append(f"phase-11 manifest: obligation {oid!r} has unexpected place {place_id!r}")
         else:
             places_with_rows.add(place_id)
+        expected_owner = _expected_owner(str(row.get("sourcePath", "")),
+                                         str(row.get("kind", "")))
+        if expected_owner is None:
+            errors.append(
+                f"phase-11 manifest: obligation {oid!r} has no explicit delivery-owner policy")
+        elif row.get("deliveryOwner") != expected_owner:
+            errors.append(
+                f"phase-11 manifest: obligation {oid!r} owner {row.get('deliveryOwner')!r} "
+                f"does not match {expected_owner!r}")
         refs = row.get("phase11Evidence")
         if not isinstance(refs, list) or not refs:
             errors.append(f"phase-11 manifest: obligation {oid!r} has no typed evidence")
@@ -580,6 +677,18 @@ def verify_delivery_manifest(obligations: Iterable[Obligation], manifest: dict,
     """Generic hard gate consumed by Phase 12, 13, quests and final assembly."""
     obligations = list(obligations)
     errors = _check_compiled_object_registry(object_registry)
+    obligation_by_id: dict[str, Obligation] = {}
+    for obligation in obligations:
+        if obligation.id in obligation_by_id:
+            errors.append(f"delivery contract has duplicate obligation id {obligation.id!r}")
+        obligation_by_id[obligation.id] = obligation
+        expected_owner = _expected_owner(obligation.sourcePath, obligation.kind)
+        if expected_owner is None:
+            errors.append(f"delivery contract obligation {obligation.id!r} has no explicit owner policy")
+        elif obligation.deliveryOwner != expected_owner:
+            errors.append(
+                f"delivery contract obligation {obligation.id!r} owner "
+                f"{obligation.deliveryOwner!r} does not match {expected_owner!r}")
     registry_lookup = object_registry if isinstance(object_registry, Mapping) else {}
     if not isinstance(manifest, dict):
         return errors + [f"{owner}: delivery manifest must be an object"]
@@ -637,6 +746,35 @@ def verify_delivery_manifest(obligations: Iterable[Obligation], manifest: dict,
                     errors.append(
                         f"{owner}: {oid} object ref {ref!r} has kind "
                         f"{entry.get('kind')!r}; expected one of {sorted(accepted)}")
+
+    # Check the other direction of the join too.  Without this, an object
+    # could claim an obligation that its owner's manifest quietly omitted, or
+    # a manifest could name only one of several objects claiming delivery.
+    refs_claimed_by_obligation: dict[str, set[str]] = {}
+    for ref, entry in registry_lookup.items():
+        if not isinstance(entry, Mapping):
+            continue
+        claims = entry.get("deliversObligationIds")
+        if not isinstance(claims, list):
+            continue
+        if len(claims) != len(set(claim for claim in claims if isinstance(claim, str))):
+            errors.append(f"{owner}: object ref {ref!r} has duplicate obligation claims")
+        for claim in claims:
+            if not isinstance(claim, str) or claim not in obligation_by_id:
+                errors.append(f"{owner}: object ref {ref!r} claims unknown obligation {claim!r}")
+                continue
+            if obligation_by_id[claim].deliveryOwner == owner:
+                refs_claimed_by_obligation.setdefault(claim, set()).add(ref)
+    for oid, obligation in expected_rows.items():
+        row = delivered.get(oid)
+        manifest_refs = (set(row.get("objectRefs", []))
+                         if isinstance(row, dict) and isinstance(row.get("objectRefs"), list)
+                         else set())
+        claimed_refs = refs_claimed_by_obligation.get(oid, set())
+        if manifest_refs != claimed_refs:
+            errors.append(
+                f"{owner}: {oid} manifest refs {sorted(manifest_refs)} do not exactly match "
+                f"object claims {sorted(claimed_refs)}")
     expected = set(expected_rows)
     missing = sorted(expected - set(delivered))
     stale = sorted(set(delivered) - expected)
