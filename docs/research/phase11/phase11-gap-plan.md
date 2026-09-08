@@ -167,7 +167,7 @@ root `test:placement` script runs only the blueprint, catalogue, route-grading
 and plot-stat suites (rather than the full world-generation suite); deployment
 requires both it and the normal build job.
 
-### B9 — Macro promise to final delivery contract (owner 2026-09-08) — B9a DONE
+### B9 — Macro promise to final delivery contract (owner 2026-09-08) — B9a DONE; B9b GATE DONE / DEBT OPEN
 
 **Cause**: the quest-purpose-without-a-socket finding is one instance of a
 class: prose in `why` blocks, `notes`, purposes and design records names
@@ -190,7 +190,8 @@ tests the Phase 12/13/quest delivery-manifest join (missing, empty, duplicate
 or stale rows fail); those phases emit their manifests when their compilers
 land. The old purpose ledger remains a compatibility view meanwhile.
 
-**B9b still to deliver — referential prose lint:** extract every named entity
+**B9b gate delivered 2026-09-08; existing reference debt remains open:**
+`worldgen.prose_links` extracts named entities
 from the prose surfaces (quest
 titles from the quest index, NPC names from `occupants[]`/the cast roster,
 place names from the catalogue, route names from the registry, faction and
@@ -202,7 +203,17 @@ places, routes, services, factions), WARN where it is open (items until
 Phase 13's registers exist). The reverse holds too: a typed ref with no
 mention in the prose is checked for contradiction, not required repetition:
 typed records need not restate every id in prose. Apply to the five blueprints and the 800 catalogue records;
-report counts by entity class. Files: `worldgen/prose_links.py` (new),
+report counts by entity class. The extractor is deliberately high precision:
+ambiguous short/common display names do not assert a join, quest titles require
+an explicit id-shaped mention, and terse service names require an availability
+context. The first reviewed run records 305 existing HARD rows (place 198,
+faction 51, route 46, service 10) and 22 item WARN rows in
+`world/sources/sites/prose-link-debt.json`. These are visible debt, not a silent
+allowance: exact reviewed rows may disappear as links are added, while any new
+record/field/entity row fails the monotonic gate. The blueprint validator uses
+that gate too. Retire the manifest rows during catalogue and blueprint editing;
+when it reaches zero, delete the manifest and switch the test to hard-zero.
+Files: `worldgen/prose_links.py` (new),
 `blueprint.py` hook, `test_catalogue.py`, `lint_prose.py` (shares the
 surface list), docs/text/style-guide.md (one line: name a thing only if
 the record links it). Alongside water: yes.

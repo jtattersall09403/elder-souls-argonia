@@ -1597,6 +1597,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         from .place_obligations import check_phase11
         obligation_errors, _ = check_phase11(macro_record, bp)
         errors += obligation_errors
+        from .prose_links import check_blueprint
+        errors += check_blueprint(bp)
     if not set(bp.get("causalModel", {})) >= CAUSAL_KEYS:
         fail(f"causalModel must carry {sorted(CAUSAL_KEYS)}")
     if "boundary" in bp and not _polygon_ok(bp["boundary"]):

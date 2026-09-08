@@ -65,6 +65,33 @@ PROSE_PATHS = [
 ]
 
 
+def iter_catalogue_prose(rec: dict):
+    """Yield the catalogue prose surface shared by style and reference lint."""
+    for path in PROSE_PATHS:
+        text = _get(rec, path)
+        if text:
+            yield ".".join(path), text
+    for i, occupant in enumerate(rec.get("occupants") or []):
+        if isinstance(occupant, str):
+            yield f"occupants[{i}]", occupant
+    contents = rec.get("contents") or {}
+    for kind in ("creatures", "npcs", "loot"):
+        for i, slot in enumerate(contents.get(kind) or []):
+            if not isinstance(slot, dict):
+                continue
+            for key in ("note", "provenance"):
+                if isinstance(slot.get(key), str):
+                    yield f"contents.{kind}[{i}].{key}", slot[key]
+    for i, variant in enumerate(rec.get("localStateVariants") or []):
+        if isinstance(variant, dict):
+            for key in ("when", "whatChanges"):
+                if isinstance(variant.get(key), str):
+                    yield f"localStateVariants[{i}].{key}", variant[key]
+    for i, flip in enumerate((rec.get("hostility") or {}).get("flips") or []):
+        if isinstance(flip, dict) and isinstance(flip.get("note"), str):
+            yield f"hostility.flips[{i}].note", flip["note"]
+
+
 @dataclass(frozen=True)
 class Rule:
     id: str
@@ -296,28 +323,8 @@ def lint_record(res: LintResult, rec: dict, scope: str) -> None:
                 res.by_scope_rule[scope]["field-echo"] += 1
                 break
             grams.setdefault(g, fname)
-    for path in PROSE_PATHS:
-        t = _get(rec, path)
-        if t:
-            res.add_text(scope, rid, ".".join(path), t)
-    for i, o in enumerate(rec.get("occupants") or []):
-        if isinstance(o, str):
-            res.add_text(scope, rid, f"occupants[{i}]", o)
-    c = rec.get("contents") or {}
-    for kind in ("creatures", "npcs", "loot"):
-        for i, slot in enumerate(c.get(kind) or []):
-            if isinstance(slot, dict):
-                for k in ("note", "provenance"):
-                    if isinstance(slot.get(k), str):
-                        res.add_text(scope, rid, f"contents.{kind}[{i}].{k}", slot[k])
-    for i, v in enumerate(rec.get("localStateVariants") or []):
-        if isinstance(v, dict):
-            for k in ("when", "whatChanges"):
-                if isinstance(v.get(k), str):
-                    res.add_text(scope, rid, f"localStateVariants[{i}].{k}", v[k])
-    for i, f in enumerate((rec.get("hostility") or {}).get("flips") or []):
-        if isinstance(f, dict) and isinstance(f.get("note"), str):
-            res.add_text(scope, rid, f"hostility.flips[{i}].note", f["note"])
+    for field_name, text in iter_catalogue_prose(rec):
+        res.add_text(scope, rid, field_name, text)
 
 
 DUP_FIELD_MIN = 4        # the same whole prose field on ≥ this many records = boilerplate (hard)

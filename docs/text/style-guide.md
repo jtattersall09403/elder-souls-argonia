@@ -378,6 +378,9 @@ editor flagging tone. This is deliberately flatter than the dialogue voice in
 each other. `vibe.mood` and `vibe.condition` are labels, not lines: one or
 two plain words, or a plain fact.
 
+Name a quest, person, place, route, service, item, faction or socket only when
+the same record carries its typed reference; prose is never the join.
+
 The **reviewer's test for the class** is in [review-process.md
 §3](review-process.md): read the record's last sentence alone, and read every
 sentence asking "what is this sentence doing besides stating its fact?" Any
