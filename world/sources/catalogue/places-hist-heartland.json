@@ -122,38 +122,38 @@
       "underwaterAccess": "argonian-only-depth",
       "localStateVariants": [],
       "position": {
-        "u": 0.73661,
-        "v": 0.45922
+        "u": 0.67564,
+        "v": 0.36329
       },
       "positionM": [
-        5431.4,
-        3386.1
+        4981.8,
+        2678.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.sinkhole-007",
-          "score": 4.371,
-          "whyLost": "too close to place.hist-heartland.dive-shaft-xanmeer-well"
+          "siteId": "site.free.open-water-0314",
+          "score": 4.577,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.open-water-0246",
-          "score": 3.764,
-          "whyLost": "taken by place.hist-heartland.submerged-xanmeer-topmost"
+          "siteId": "site.free.open-water-0315",
+          "score": 4.404,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.open-water-0261",
-          "score": 3.505,
-          "whyLost": "taken by place.hist-heartland.dive-shaft-xanmeer-well"
+          "siteId": "site.free.open-water-0288",
+          "score": 4.124,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 252 m from the nearest route; at the water's edge; won on culture-clump, region, submerged.",
+      "whySiteWon": "islet in coastal lagoon & salt marsh (danger band 3), 714 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, landform, region.",
       "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
+        "landform": "islet",
+        "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 252.5,
-        "distanceToWaterM": 0.0,
-        "score": 3.501
+        "distanceToRouteM": 714.2,
+        "distanceToWaterM": 11.0,
+        "score": 4.687
       },
       "hostility": {
         "baseline": "hostile",
@@ -199,7 +199,8 @@
             "provenance": "left for the next traveller, by shelter custom"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.islet-046"
     },
     {
       "id": "place.hist-heartland.alten-markmont",
@@ -13510,7 +13511,8 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.nine-trunks.json): A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation."
+        "why": "A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
+        "candidateId": "candidate.nine-trunks.knoll"
       },
       "services": [
         "lodging",
@@ -18307,7 +18309,8 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330). Within 250 m this is the water along which a loaded canoe can be poled. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle."
+        "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330). Within 250 m this is the water along which a loaded canoe can be poled. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle.",
+        "candidateId": "candidate.sap-tapping-licensed.a-north-bank"
       }
     },
     {

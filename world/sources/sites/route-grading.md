@@ -6,65 +6,24 @@ grading. The shoulder is sized from the change the blend actually applies, so wh
 
 | class | ways | cap deg | max grad before | max grad after | metres graded | ford/bridge m |
 | --- | --- | --- | --- | --- | --- | --- |
-| boardwalk | 42 | n/a (not graded) | 78.8 | 78.8 | 0 | 0 |
-| causeway | 3 | 12 | 51.4 | 31.1 | 129 | 208 |
-| footpath | 97 | 17 | 84.9 | 84.9 | 34963 | 5515 |
-| road | 7 | 8 | 59.1 | 18.2 | 31333 | 4005 |
-| track | 33 | 12 | 68.2 | 49.3 | 42068 | 11509 |
-| trunk_road | 3 | 8 | 69.4 | 18.4 | 10669 | 4825 |
+| boardwalk | 40 | n/a (not graded) | 68.3 | 68.3 | 0 | 0 |
+| causeway | 1 | 12 | 38.0 | 0.0 | 0 | 142 |
+| footpath | 89 | 17 | 84.9 | 39.6 | 30947 | 7189 |
+| road | 7 | 8 | 59.1 | 8.5 | 20105 | 16246 |
+| track | 34 | 12 | 68.2 | 12.9 | 26717 | 15313 |
+| trunk_road | 3 | 8 | 69.4 | 7.8 | 9525 | 7782 |
 
-Heightfield samples changed: 1165544.
+Heightfield samples changed: 946208.
 
-Ways still over their cap: 44 of 143. Routing now holds the gradient itself — both solvers wall off any step over the class cap (`routes.grade_factor`), so a line climbs a spur by switchback or contour instead of head-on. What survives is not a line that could have gone round: it is ground that has to be climbed to reach the place at the end of it, and the honest remedy is authored geometry (a stair, a ramped terrace, a boardwalk or a bridge over the gap), not a deeper cut.
+Ways still over their cap: 3 of 134. Routing now holds the gradient itself — both solvers wall off any step over the class cap (`routes.grade_factor`), so a line climbs a spur by switchback or contour instead of head-on. What survives is not a line that could have gone round: it is ground that has to be climbed to reach the place at the end of it, and the honest remedy is authored geometry (a stair, a ramped terrace, a boardwalk or a bridge over the gap), not a deeper cut.
 
 ## Survivors and what each one needs
 
 | way | class | worst deg | over-cap m | where | remedy |
 | --- | --- | --- | --- | --- | --- |
-| `track.mercantile-coast.ixtaxh-xanmeer` | footpath | 84.9 | 13 of 1062 | the place end | one step or deck piece over the lip |
-| `track.pirate-freeholds.careening-hard` | footpath | 72.0 | 33 of 1111 | mid-way (39%) | boardwalk or bridge deck over the step |
-| `track.imperial-fringe.stonewastes` | track | 49.3 | 58 of 2823 | the place end | stair or ramped terrace on the approach |
-| `track.imperial-fringe.swampmoth-town` | track | 46.1 | 75 of 5843 | mid-way (16%) | boardwalk or bridge deck over the step |
-| `track.dunmer-north.rimfield` | footpath | 46.0 | 88 of 3654 | mid-way (21%) | boardwalk or bridge deck over the step |
-| `track.dunmer-north.the-white-pans` | footpath | 45.2 | 17 of 612 | the place end | one step or deck piece over the lip |
-| `track.dunmer-north.the-north-cut` | footpath | 44.7 | 4 of 361 | the junction end | one step or deck piece over the lip |
-| `track.imperial-fringe.lowmere-raft-town` | footpath | 43.7 | 214 of 6834 | mid-way (70%) | stepped ascent (authored flight) over the climb |
-| `track.dunmer-north.tearmouth` | track | 43.5 | 4 of 2510 | mid-way (24%) | one step or deck piece over the lip |
-| `track.pirate-freeholds.veterans-holding` | track | 43.5 | 41 of 3829 | the place end | stair or ramped terrace on the approach |
-| `track.dunmer-north.crystalgate` | track | 42.9 | 21 of 5734 | the place end | stair or ramped terrace on the approach |
-| `track.pirate-freeholds.dunmer-frontier-holding` | track | 42.9 | 21 of 5839 | the place end | stair or ramped terrace on the approach |
-| `track.dunmer-north.branchmont` | track | 41.6 | 2 of 195 | the junction end | one step or deck piece over the lip |
-| `track.dunmer-north.the-flu-cordon` | footpath | 40.8 | 80 of 1589 | the place end | stair or ramped terrace on the approach |
-| `track.dunmer-north.the-field-gate-garrison` | track | 37.9 | 101 of 4616 | mid-way (23%) | boardwalk or bridge deck over the step |
-| `track.dunmer-north.the-divers-landing` | footpath | 37.9 | 34 of 770 | mid-way (79%) | boardwalk or bridge deck over the step |
-| `track.imperial-fringe.stonefoot-terrace-village` | footpath | 37.8 | 21 of 1977 | mid-way (63%) | boardwalk or bridge deck over the step |
-| `track.dunmer-north.mazzatun` | track | 36.6 | 19 of 2945 | the junction end | one step or deck piece over the lip |
-| `track.hist-heartland.heretic-stone-restarted` | track | 32.0 | 38 of 2646 | the place end | stair or ramped terrace on the approach |
-| `track.dunmer-north.sings-for-the-pipes` | causeway | 31.1 | 2 of 178 | the junction end | one step or deck piece over the lip |
-| `track.imperial-fringe.the-drowning-gate` | footpath | 29.2 | 4 of 134 | mid-way (37%) | one step or deck piece over the lip |
-| `track.imperial-fringe.onkobra-kwama-mine` | footpath | 27.8 | 25 of 1067 | mid-way (44%) | boardwalk or bridge deck over the step |
-| `track.hist-heartland.porter-relay-poling` | footpath | 27.6 | 3 of 77 | mid-way (80%) | one step or deck piece over the lip |
-| `track.dunmer-north.wolk-market` | track | 27.4 | 3 of 56 | the junction end | one step or deck piece over the lip |
-| `track.pirate-freeholds.corimont-tradehouse` | footpath | 27.0 | 8 of 78 | the junction end | one step or deck piece over the lip |
-| `track.imperial-fringe.marcians-terrace` | footpath | 25.7 | 19 of 967 | the junction end | one step or deck piece over the lip |
-| `track.naga-kur-deeps.dead-water-village` | track | 25.5 | 5 of 977 | mid-way (31%) | one step or deck piece over the lip |
-| `track.dunmer-north.nine-fords` | track | 23.7 | 12 of 2442 | mid-way (37%) | one step or deck piece over the lip |
-| `track.dunmer-north.the-veterans-ridge` | track | 23.7 | 12 of 2044 | mid-way (24%) | one step or deck piece over the lip |
-| `track.imperial-fringe.fort-swampmoth` | footpath | 23.3 | 2 of 100 | the junction end | one step or deck piece over the lip |
-| `track.dunmer-north.nine-marks` | footpath | 23.0 | 3 of 577 | mid-way (47%) | one step or deck piece over the lip |
-| `track.dunmer-north.the-salt-and-shell` | footpath | 22.7 | 4 of 536 | the junction end | one step or deck piece over the lip |
-| `track.dunmer-north.the-northern-rest` | footpath | 22.5 | 4 of 57 | the junction end | one step or deck piece over the lip |
-| `track.dunmer-north.the-diggings-ladder` | footpath | 21.9 | 18 of 492 | mid-way (65%) | one step or deck piece over the lip |
-| `track.imperial-fringe.mile-house-of-the-eagle` | footpath | 21.5 | 3 of 79 | the junction end | one step or deck piece over the lip |
-| `track.dunmer-north.the-shut-village` | footpath | 21.2 | 4 of 1076 | mid-way (17%) | one step or deck piece over the lip |
-| `track.imperial-fringe.claywater-station` | footpath | 19.3 | 3 of 189 | the junction end | one step or deck piece over the lip |
-| `track.dunmer-north.tear-road-stage` | footpath | 18.4 | 3 of 707 | the junction end | one step or deck piece over the lip |
-| `route.road.thorn-tear-road` | trunk_road | 18.4 | 16 of 1741 | mid-way (53%) | one step or deck piece over the lip |
-| `route.road.gideon-stormhold` | road | 18.2 | 5 of 5675 | the junction end | one step or deck piece over the lip |
-| `track.dunmer-north.hutan-tzel` | track | 14.1 | 4 of 796 | mid-way (24%) | one step or deck piece over the lip |
-| `track.dunmer-north.stands-on-the-island` | track | 13.8 | 3 of 365 | the junction end | one step or deck piece over the lip |
-| `track.imperial-fringe.the-stone-talkers-watch` | track | 13.0 | 6 of 3321 | mid-way (57%) | one step or deck piece over the lip |
-| `route.road.alten-corimont-stormhold` | road | 12.5 | 23 of 3244 | mid-way (42%) | boardwalk or bridge deck over the step |
+| `track.dunmer-north.the-two-gate-bridge` | footpath | 39.6 | 3 of 129 | the junction end | one step or deck piece over the lip |
+| `track.dunmer-north.the-first-count` | footpath | 20.2 | 2 of 223 | the junction end | one step or deck piece over the lip |
+| `track.dunmer-north.the-north-border-post` | footpath | 20.2 | 2 of 270 | the junction end | one step or deck piece over the lip |
 
 ## Covered by authored geometry
 
@@ -72,16 +31,53 @@ These ways were over the cap on the natural ground and are not any more: the cli
 
 | way | class | structure m | max grad after |
 | --- | --- | --- | --- |
-| `route.road.archon-gideon` | road | 40 | 8.4 |
-| `route.road.blackrose-lilmoth` | road | 61 | 7.0 |
-| `route.road.gideon-blackwood-road` | trunk_road | 246 | 8.0 |
-| `route.road.gideon-soulrest` | road | 21 | 6.6 |
-| `track.dunmer-north.saltmarch-village` | track | 36 | 11.3 |
-| `track.dunmer-north.the-last-landing` | footpath | 18 | 14.9 |
-| `track.imperial-fringe.onkobra-field-station` | footpath | 11 | 10.7 |
-| `track.pirate-freeholds.reoccupied-fort` | footpath | 15 | 14.3 |
-| `track.pirate-freeholds.rim-pass-station` | footpath | 59 | 14.3 |
-| `track.pirate-freeholds.upriver-hist-village` | track | 24 | 10.6 |
+| `route.road.alten-corimont-stormhold` | road | 135 | 8.4 |
+| `route.road.archon-gideon` | road | 59 | 8.5 |
+| `route.road.blackrose-lilmoth` | road | 61 | 5.0 |
+| `route.road.gideon-blackwood-road` | trunk_road | 407 | 7.2 |
+| `route.road.gideon-soulrest` | road | 21 | 7.2 |
+| `route.road.gideon-stormhold` | road | 133 | 7.8 |
+| `route.road.stormhold-thorn` | trunk_road | 402 | 7.8 |
+| `route.road.thorn-tear-road` | trunk_road | 331 | 5.9 |
+| `track.dunmer-north.branchmont` | track | 38 | 11.3 |
+| `track.dunmer-north.cut-and-stack` | footpath | 34 | 6.1 |
+| `track.dunmer-north.hissmir` | track | 18 | 8.8 |
+| `track.dunmer-north.mazzatun` | track | 1223 | 10.4 |
+| `track.dunmer-north.nine-marks` | footpath | 784 | 6.8 |
+| `track.dunmer-north.saltmarch-village` | track | 551 | 12.0 |
+| `track.dunmer-north.silyanorn-diggings` | footpath | 1979 | 16.0 |
+| `track.dunmer-north.stands-on-the-island` | track | 37 | 11.3 |
+| `track.dunmer-north.tearmouth` | track | 37 | 10.0 |
+| `track.dunmer-north.the-ash-causeway` | footpath | 19 | 12.8 |
+| `track.dunmer-north.the-diggings-ladder` | footpath | 1762 | 15.0 |
+| `track.dunmer-north.the-fish-boon-ground` | footpath | 19 | 6.1 |
+| `track.dunmer-north.the-last-landing` | footpath | 36 | 12.8 |
+| `track.dunmer-north.the-northern-rest` | footpath | 66 | 12.8 |
+| `track.dunmer-north.the-salt-and-shell` | footpath | 16 | 6.4 |
+| `track.dunmer-north.the-shut-village` | footpath | 600 | 15.7 |
+| `track.dunmer-north.the-veterans-ridge` | track | 1616 | 10.7 |
+| `track.hist-heartland.heretic-stone-restarted` | track | 535 | 11.8 |
+| `track.hist-heartland.porter-relay-poling` | footpath | 26 | 0.0 |
+| `track.imperial-fringe.bone-road-waystation` | footpath | 1069 | 16.9 |
+| `track.imperial-fringe.marcians-terrace` | footpath | 654 | 17.0 |
+| `track.imperial-fringe.mile-house-of-the-eagle` | footpath | 18 | 6.8 |
+| `track.imperial-fringe.moonmarch-ground` | footpath | 21 | 7.9 |
+| `track.imperial-fringe.reedcutters-toll` | footpath | 301 | 12.9 |
+| `track.imperial-fringe.stonefoot-terrace-village` | footpath | 285 | 12.5 |
+| `track.imperial-fringe.swampmoth-town` | track | 2591 | 10.4 |
+| `track.imperial-fringe.the-hollow-pass-station` | footpath | 72 | 16.3 |
+| `track.imperial-fringe.the-pass-shelter` | footpath | 173 | 6.8 |
+| `track.imperial-fringe.the-stone-talkers-watch` | track | 1097 | 10.7 |
+| `track.imperial-fringe.westfield-village` | track | 53 | 9.5 |
+| `track.mercantile-coast.ixtaxh-xanmeer` | footpath | 26 | 0.4 |
+| `track.mercantile-coast.lighter-flotilla` | footpath | 138 | 8.8 |
+| `track.mercantile-coast.moonmarch` | footpath | 18 | 6.4 |
+| `track.pirate-freeholds.chasecreek` | footpath | 18 | 10.8 |
+| `track.pirate-freeholds.rim-pass-station` | footpath | 59 | 14.8 |
+| `track.pirate-freeholds.rockpoint` | footpath | 18 | 13.3 |
+| `track.pirate-freeholds.trunk-road-tradehouse` | footpath | 308 | 12.0 |
+| `track.pirate-freeholds.upriver-hist-village` | track | 1 | 3.7 |
+| `track.pirate-freeholds.veterans-holding` | track | 1582 | 11.8 |
 
 ## Major roads: stretches re-routed before grading
 
@@ -89,28 +85,28 @@ These ways were over the cap on the natural ground and are not any more: the cli
 
 | road | class | natural max before | after | stretches | points |
 | --- | --- | --- | --- | --- | --- |
-| `route.road.alten-corimont-stormhold` | road | 28.3 | 7.9 | 2 | 144 → 484 |
-| `route.road.archon-gideon` | road | 25.1 | 7.9 | 9 | 287 → 1018 |
-| `route.road.blackrose-lilmoth` | road | 15.5 | 6.7 | 2 | 83 → 189 |
-| `route.road.gideon-blackwood-road` | trunk_road | 32.0 | 15.0 | 1 | 98 → 445 |
-| `route.road.gideon-soulrest` | road | 22.3 | 8.0 | 6 | 289 → 745 |
-| `route.road.gideon-stormhold` | road | 20.2 | 7.0 | 2 | 191 → 865 |
-| `route.road.helstrom-blackrose` | road | 24.3 | 7.7 | 6 | 273 → 778 |
-| `route.road.soulrest-blackrose` | road | 22.2 | 7.1 | 2 | 115 → 428 |
-| `route.road.stormhold-thorn` | trunk_road | 40.9 | 9.3 | 6 | 300 → 1596 |
-| `route.road.thorn-tear-road` | trunk_road | 62.7 | 41.7 | 1 | 63 → 270 |
+| `route.road.alten-corimont-stormhold` | road | 8.1 | 7.9 | 1 | 484 → 486 |
+| `route.road.archon-gideon` | road | 21.2 | 7.9 | 3 | 1018 → 1017 |
+| `route.road.blackrose-lilmoth` | road | 6.7 | 6.7 | 0 | 189 → 189 |
+| `route.road.gideon-blackwood-road` | trunk_road | 27.1 | 11.4 | 6 | 445 → 516 |
+| `route.road.gideon-soulrest` | road | 21.2 | 8.0 | 6 | 745 → 790 |
+| `route.road.gideon-stormhold` | road | 22.8 | 7.9 | 6 | 865 → 899 |
+| `route.road.helstrom-blackrose` | road | 13.7 | 7.7 | 2 | 778 → 875 |
+| `route.road.soulrest-blackrose` | road | 10.2 | 7.1 | 1 | 428 → 432 |
+| `route.road.stormhold-thorn` | trunk_road | 22.1 | 10.1 | 8 | 1596 → 1841 |
+| `route.road.thorn-tear-road` | trunk_road | 38.8 | 38.8 | 1 | 270 → 313 |
 
 ## Worst ten remaining spots
 
 | way | class | deg | km east | km south |
 | --- | --- | --- | --- | --- |
-| track.mercantile-coast.ixtaxh-xanmeer | footpath | 84.9 | 0.37 | 5.08 |
-| track.pirate-freeholds.careening-hard | footpath | 72.0 | 4.04 | 0.87 |
-| track.imperial-fringe.stonewastes | track | 49.3 | 1.44 | 2.01 |
-| track.imperial-fringe.swampmoth-town | track | 46.1 | 0.62 | 3.91 |
-| track.dunmer-north.rimfield | footpath | 46.0 | 1.40 | 1.09 |
-| track.dunmer-north.the-white-pans | footpath | 45.2 | 6.79 | 0.82 |
-| track.dunmer-north.the-north-cut | footpath | 44.7 | 6.09 | 1.22 |
-| track.imperial-fringe.lowmere-raft-town | footpath | 43.7 | 1.00 | 1.91 |
-| track.dunmer-north.tearmouth | track | 43.5 | 7.15 | 0.37 |
-| track.pirate-freeholds.veterans-holding | track | 43.5 | 4.51 | 0.90 |
+| track.dunmer-north.the-two-gate-bridge | footpath | 39.6 | 5.87 | 1.60 |
+| track.dunmer-north.the-first-count | footpath | 20.2 | 2.65 | 0.73 |
+| track.dunmer-north.the-north-border-post | footpath | 20.2 | 2.65 | 0.73 |
+| track.imperial-fringe.the-ravine-doors | footpath | 17.7 | 1.11 | 4.88 |
+| track.imperial-fringe.marcians-terrace | footpath | 17.0 | 0.77 | 4.48 |
+| track.imperial-fringe.bone-road-waystation | footpath | 16.9 | 0.65 | 2.93 |
+| track.imperial-fringe.the-hollow-pass-station | footpath | 16.3 | 1.20 | 1.89 |
+| track.dunmer-north.silyanorn-diggings | footpath | 16.0 | 1.52 | 0.85 |
+| track.dunmer-north.the-shut-village | footpath | 15.7 | 5.44 | 0.81 |
+| track.dunmer-north.nine-stone-bench | footpath | 15.5 | 2.21 | 1.51 |

@@ -1,17 +1,16 @@
 {
- "size": 84659,
- "mtime_ns": 1788611901166000000,
- "naturalSha256": "644ce44934e6637a897118910f71059e3fd79c8c6606f9c6caab757d524ae2fd",
+ "routesSha256": "3054cc9422015219fcb04abecd50c2217d65210c5464ce9184c6584f531580a6",
+ "naturalSha256": "0c3fb8323226b24d2fba9eaee3acd8c308fd46f45668cd7042be3ac28c846aad",
  "roads": [
   {
    "id": "route.road.soulrest-blackrose",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 22.204765378692773,
+   "beforeDeg": 10.23314654890804,
    "afterDeg": 7.106705184146567,
-   "stretches": 2,
-   "pxBefore": 115,
-   "pxAfter": 428,
+   "stretches": 1,
+   "pxBefore": 428,
+   "pxAfter": 432,
    "worstKm": [
     1.12,
     6.75
@@ -22,10 +21,10 @@
    "id": "route.road.blackrose-lilmoth",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 15.469835378842074,
+   "beforeDeg": 6.722366059092217,
    "afterDeg": 6.722366059092217,
-   "stretches": 2,
-   "pxBefore": 83,
+   "stretches": 0,
+   "pxBefore": 189,
    "pxAfter": 189,
    "worstKm": [
     3.56,
@@ -37,11 +36,11 @@
    "id": "route.road.alten-corimont-stormhold",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 28.28482723116962,
+   "beforeDeg": 8.129096328869963,
    "afterDeg": 7.920873253530958,
-   "stretches": 2,
-   "pxBefore": 144,
-   "pxAfter": 484,
+   "stretches": 1,
+   "pxBefore": 484,
+   "pxAfter": 486,
    "worstKm": [
     3.15,
     0.73
@@ -52,14 +51,14 @@
    "id": "route.road.stormhold-thorn",
    "kind": "trunk_road",
    "cap": 8.0,
-   "beforeDeg": 40.91153637306685,
-   "afterDeg": 9.262146811198953,
-   "stretches": 6,
-   "pxBefore": 300,
-   "pxAfter": 1596,
+   "beforeDeg": 22.072339947126128,
+   "afterDeg": 10.061005455798965,
+   "stretches": 8,
+   "pxBefore": 1596,
+   "pxAfter": 1841,
    "worstKm": [
-    3.87,
-    0.85
+    6.19,
+    0.81
    ],
    "atEnd": false
   },
@@ -67,14 +66,14 @@
    "id": "route.road.gideon-stormhold",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 20.249802846937957,
-   "afterDeg": 7.029436037857781,
-   "stretches": 2,
-   "pxBefore": 191,
-   "pxAfter": 865,
+   "beforeDeg": 22.82729503205791,
+   "afterDeg": 7.892268462719443,
+   "stretches": 6,
+   "pxBefore": 865,
+   "pxAfter": 899,
    "worstKm": [
-    2.26,
-    1.77
+    2.41,
+    1.09
    ],
    "atEnd": false
   },
@@ -82,11 +81,11 @@
    "id": "route.road.gideon-soulrest",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 22.325530363378796,
+   "beforeDeg": 21.15875919641122,
    "afterDeg": 7.983839654634931,
    "stretches": 6,
-   "pxBefore": 289,
-   "pxAfter": 745,
+   "pxBefore": 745,
+   "pxAfter": 790,
    "worstKm": [
     1.99,
     3.37
@@ -97,14 +96,14 @@
    "id": "route.road.gideon-blackwood-road",
    "kind": "trunk_road",
    "cap": 8.0,
-   "beforeDeg": 31.96193372723789,
-   "afterDeg": 14.953449878687788,
-   "stretches": 1,
-   "pxBefore": 98,
-   "pxAfter": 445,
+   "beforeDeg": 27.12750511213028,
+   "afterDeg": 11.419793950577473,
+   "stretches": 6,
+   "pxBefore": 445,
+   "pxAfter": 516,
    "worstKm": [
-    0.86,
-    3.2
+    0.75,
+    3.21
    ],
    "atEnd": false
   },
@@ -112,11 +111,11 @@
    "id": "route.road.archon-gideon",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 25.12169900395143,
+   "beforeDeg": 21.15875919641122,
    "afterDeg": 7.888272471328184,
-   "stretches": 9,
-   "pxBefore": 287,
-   "pxAfter": 1018,
+   "stretches": 3,
+   "pxBefore": 1018,
+   "pxAfter": 1017,
    "worstKm": [
     3.69,
     3.21
@@ -127,11 +126,11 @@
    "id": "route.road.helstrom-blackrose",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 24.331440548562906,
+   "beforeDeg": 13.663832553222543,
    "afterDeg": 7.679847798762093,
-   "stretches": 6,
-   "pxBefore": 273,
-   "pxAfter": 778,
+   "stretches": 2,
+   "pxBefore": 778,
+   "pxAfter": 875,
    "worstKm": [
     3.43,
     3.28
@@ -142,11 +141,11 @@
    "id": "route.road.thorn-tear-road",
    "kind": "trunk_road",
    "cap": 8.0,
-   "beforeDeg": 62.74623959462226,
-   "afterDeg": 41.6887500449389,
+   "beforeDeg": 38.7724922932517,
+   "afterDeg": 38.7724922932517,
    "stretches": 1,
-   "pxBefore": 63,
-   "pxAfter": 270,
+   "pxBefore": 270,
+   "pxAfter": 313,
    "worstKm": [
     6.54,
     0.5
