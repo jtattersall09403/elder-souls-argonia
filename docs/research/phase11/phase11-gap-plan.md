@@ -35,7 +35,7 @@ terrain chain. A Phase 11 agent may work now under these rules:
 
 ## Batches, in order
 
-### B1 — Round B massing pipeline (the big one) — NOT blocked on a Round A approval
+### B1 — Round B massing pipeline (the big one) — REOPENED BY DEPLOYMENT AUDIT 2026-09-08
 
 The owner's ruling (2026-09-06): deliver Round B if it does not depend on a
 place being signed off. The *pipeline* does not; only the final judgement
@@ -57,7 +57,7 @@ changes, re-run.
 - **Files**: new `packages/game-core/src/settlement/` (loader, instancer,
   LOD tiers, anchoring), studio mount in `CharacterMode.tsx`/`Fly3D.tsx`,
   a compiled bundle exporter in `worldgen/export_settlement_bundle.py`.
-- **Acceptance (implementation complete; final-raster application pending)**: the reusable package
+- **Acceptance**: the reusable package
   renderer, atomic fail-closed exporter, three-tier/far instancing, streamed
   perimeter anchoring, material/CSM reapply contract, ground treatments,
   radius-aware grass exclusion, versioned imperative colliders, paired door
@@ -69,11 +69,34 @@ changes, re-run.
   stage: it rebuild-compares the bundle, paints coherent PATH controls,
   excludes signed-depth water, preserves macro alpha and content-addresses
   inputs/policy/output. Run it after the final water raster handoff, then the
-  implementation is present in the shipped raster as 30/30.
+  implementation is present in the shipped raster.
   Owner still walks Lilmoth and supplies the low/medium/high FPS readings.
 - **Alongside water?** No — it touches the studio scene files the water
   agent is editing (`CharacterMode.tsx`, `ChunkTerrain.tsx`, the water
   pipeline's overlay pass). Run after the water pass closes.
+
+**Why this was reopened.** A clean-room check of the deployed path found that
+the implementation claim had been made against data structures, not the world
+the player receives: no `province/settlements.json` or settlement kit bundle was
+published; landmark and fence asset references were omitted by the compiler;
+raw blueprint ids could masquerade as compiled delivery evidence; pad grades,
+foundation scatter and navigation records had no consumer; anchoring/burying
+was not per-asset; settlement collisions still moved with a focus ring; and the
+browser probe never opened a rendered settlement. These are one systemic gap:
+**a produced record is not delivery until the next real consumer has accepted
+it, and the final running scene has proved it.**
+
+The reopened acceptance is therefore all of the following, with no “record
+exists” substitute: every asset-bearing blueprint object emits a physical
+placement; compiled receipts bind emitted objects plus applied/final terrain
+evidence; kit manifests carry measured per-asset anchoring policy; pad grades,
+foundation scatter and navigation hand-offs are consumed or visibly fail
+closed; settlement collision stays stable while crossing a settlement; placed
+LOD/shadow behavior is checked after final grading; all five settlements and
+route structures compile without errors or warnings; the exact kit assets and
+settlement bundle are published; and the combined browser run renders Lilmoth
+and Nine-Trunks with non-zero geometry and zero grounding findings. Only then
+may the 30-item claim return.
 
 ### B2 — Terrain chain rebuild with the corrected grader
 
@@ -195,7 +218,7 @@ root `test:placement` script runs only the blueprint, catalogue, route-grading
 and plot-stat suites (rather than the full world-generation suite); deployment
 requires both it and the normal build job.
 
-### B10 — Phase 11 test efficiency — DONE 2026-09-08
+### B10 — Phase 11 test/probe efficiency — OPTIMISATION LANDED; FINAL PROFILE PENDING
 
 The placement gate was profiled rather than shortened by dropping coverage.
 The prose-reference pass now builds its registry/entity index once and uses a
@@ -217,6 +240,16 @@ kept as dead coverage. The placement gate now also names the final terrain-
 promise postconditions, macro replot and minor-route suites explicitly, so the
 speed work cannot hide those delivery checks.
 
+The expanded 2026-09-08 profile, taken while water and compiler outputs were
+still moving, ran 361 checks in 83.75 s (353 pass, eight expected in-flight
+failures). It exposed one new waste: the minor-waterway determinism test spends
+29.43 s doing four full solves even when no fixed berth changes the natural
+answer. Remove that duplicate solve after the water file is handed off, then
+take the final all-green timing. The combined browser workload now reuses its
+blueprint browser/page for the 3D settlement proof (Lilmoth, then an in-process
+teleport to Nine-Trunks) and continues to share one build/preview server with
+the complete water suite.
+
 ### B9 — Macro promise to final delivery contract (owner 2026-09-08) — B9a DONE; B9b GATE DONE / DEBT OPEN
 
 **Cause**: the quest-purpose-without-a-socket finding is one instance of a
@@ -227,7 +260,7 @@ nothing can check that the thing exists or is delivered (engineering
 standard 12: prose written against the record).
 
 **B9a delivered:** `worldgen.place_obligations` classifies every catalogue
-field as delivery, provenance or plot mechanics; the test walks all 800
+field as delivery, provenance or plot mechanics; the test walks all 827
 records and a new unclassified field is a hard failure. Every semantic leaf
 of a delivery field becomes a stable typed obligation. Existing typed
 resolvers are reused; qualitative `why`/`vibe`/siting promises use compact
@@ -235,7 +268,12 @@ resolvers are reused; qualitative `why`/`vibe`/siting promises use compact
 the prose is not copied into a second hand-maintained list. The blueprint
 validator rejects missing or dangling evidence at every magnitude. An
 optional typed `factionPresence[]` distinguishes a faction seat/chapter/
-outpost/office from mere `ownerFaction` control. The same module defines and
+outpost/office from mere `ownerFaction` control. Three live promises now
+exercise the distinction: the Naga-Kur seat, the Waykeepers' seasonal seat and
+the Cyrodilic Collections chapter. Every institutional role requires a physical
+host plus a faction-bound person when its blueprint is made, and the compiled
+receipt accepts only an emitted parcel/landmark/occupant for that obligation.
+The same module defines and
 tests the Phase 12/13/quest delivery-manifest join (missing, empty, duplicate
 or stale rows fail); those phases emit their manifests when their compilers
 land. The old purpose ledger remains a compatibility view meanwhile.
@@ -252,7 +290,7 @@ record: `socketRef`, `occupantRef`, `placeRef`, `routeRef`, `serviceRef`,
 places, routes, services, factions), WARN where it is open (items until
 Phase 13's registers exist). The reverse holds too: a typed ref with no
 mention in the prose is checked for contradiction, not required repetition:
-typed records need not restate every id in prose. Apply to the five blueprints and the 800 catalogue records;
+typed records need not restate every id in prose. Apply to the five blueprints and all 827 catalogue records;
 report counts by entity class. The extractor is deliberately high precision:
 ambiguous short/common display names do not assert a join, quest titles require
 an explicit id-shaped mention, and terse service names require an availability
@@ -316,7 +354,8 @@ the record links it). Alongside water: yes.
 - **DONE 2026-09-08 — hut composite doorways.** The full Lilmoth door pass
   was rerun after the interior index landed; moved parcels were re-derived on
   the measured 2.8 m radial entrance before the clean settlement compile.
-- **Pusbottom density.** The owner's Round A question 3 (warren as drawn, about 20 huts/ha, or opened out) has no ruling yet; the redraw keeps the count (15 huts) and only removes the grid.
+- **DONE — Pusbottom density.** Decision 0041's accepted lore grounding keeps
+  fifteen huts; the redraw removes the grid without changing that count.
 - **DONE with B3 — Nine-Trunks pitch and boundary.** Both are derived from
   authored member geometry and validator-held; the ring remains jittered.
 
@@ -363,7 +402,7 @@ the record links it). Alongside water: yes.
 - `hostile-or-clearable ≥ 55 %` sits at 55.5 % (three records of headroom):
   any hostile cut needs a matching promotion, or the owner lowers the floor.
 
-## Owner decisions still open (recommendations in 0041 § Review 2026-09-07; all accepted by the owner 2026-09-07 except the stilt-hall interior, superseded by the plugin-derived interior mapping)
+## Owner decisions recorded (none of these blocks implementation)
 
 Plot evenness re-solve (B5) · Imperial gate tower / Ayleid stair block as
 solid masses · Argonian records promise a shrine, not a temple · the
