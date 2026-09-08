@@ -78,6 +78,7 @@ EYE_HEIGHT_M = 1.83           # the character (97 D8)
 CANOPY_COMPARE_MIN_M = 100.0
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
+KIT_CONFIG_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "pipeline" / "config" / "kits"
 PALETTES = REPO_ROOT / "world" / "sources" / "flora" / "palettes.json"
 OUT_DIR = Path(__file__).resolve().parents[1] / "output" / "settlements"
 
@@ -91,26 +92,59 @@ CULTURE_KITS = {k: v["kits"] for k, v in bp_mod.KIT_SETS.items()}
 # but never weaker).
 FIT_MIN = {"direct": 0.0, "plinth": 0.15, "pad": 0.6, "stilt": 0.0, "dug-in": 0.0}
 FIT_MAX = {"direct": 0.15, "plinth": 0.6, "pad": 2.0, "stilt": float("inf"), "dug-in": float("inf")}
+DRESSING_COUNTS = {"dwelling": (3, 6)}
+WORK_USES = {"work", "works", "workshop", "yard", "industry", "quay", "market",
+             "kiln", "haulage", "quarry", "hoist"}
 
 
 def _seed_int(*parts: str) -> int:
     return int.from_bytes(hashlib.sha256("|".join(parts).encode()).digest()[:8], "big")
 
 
+def dressing_count(seed: str, parcel: dict) -> int:
+    """97 decision 4: 3–6 objects at a dwelling, 6–12 at a works parcel."""
+    use = str(parcel.get("use") or "").lower()
+    bounds = DRESSING_COUNTS.get(use) or ((6, 12) if use in WORK_USES else None)
+    if bounds is None:
+        return 0
+    lo, hi = bounds
+    return lo + _seed_int(seed, parcel.get("id", ""), "dressing-count") % (hi - lo + 1)
+
+
 class KitShelf:
     """Loads the built kit manifests and picks assets for building families."""
 
-    def __init__(self, kits_dir: Path = KITS_DIR):
+    def __init__(self, kits_dir: Path = KITS_DIR, config_dir: Path = KIT_CONFIG_DIR):
         self.assets_by_kit: dict[str, list[dict]] = {}
         self.textures_mb: dict[str, float] = {}
         # every measured asset by id, across all kits — the flora kit included,
         # because the canopy the first-seen object has to clear lives there
         self.by_asset: dict[str, dict] = {}
+        self.dressing_by_kit: dict[str, list[str]] = {}
         for name, path in sorted((p.stem.removesuffix(".kit"), p) for p in kits_dir.glob("*.kit.json")):
             data = json.loads(path.read_text())
             self.assets_by_kit[name] = data["assets"]
             for asset in data["assets"]:
                 self.by_asset.setdefault(asset["id"], asset)
+        for path in sorted(config_dir.glob("*.json")):
+            data = json.loads(path.read_text())
+            vocab = data.get("dressing") or []
+            if vocab:
+                self.dressing_by_kit[data["id"]] = [str(v) for v in vocab]
+
+    def dressing(self, culture: str) -> list[str]:
+        """The first kit-owned vocabulary in a district's preference order.
+
+        `works-v1` is a fallback for cultures without their own clutter, not
+        an invitation to blend every culture kit and the neutral works shelf
+        around each house.
+        """
+        for kit in bp_mod.kits_for_district(culture, "prop"):
+            out = [asset_id for asset_id in self.dressing_by_kit.get(kit, [])
+                   if asset_id in self.by_asset]
+            if out:
+                return list(dict.fromkeys(out))
+        return []
 
     def find(self, culture: str, asset_ref: str, kind: str = "building") -> dict | None:
         """An exact kit asset id inside the district's kit set (the Part 6
@@ -321,6 +355,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     warns: list[str] = list(warnings or [])
     placements: list[dict] = []
     grades: list[dict] = []
+    dressing_report: dict[str, int] = {}
 
     culture_of = {d["id"]: d["cultureKit"] for d in bp["districts"]}
     kind_of = pk_mod.kinds_of(bp)
@@ -388,6 +423,45 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "groundFit": fit,
             "provenance": _provenance(bp_id, seed, f"parcel-building/{fit}", asset["id"], []),
         })
+
+        # 97 decision 4 / G18: an occupied shell or works mass is not a
+        # finished place until its use leaves visible objects around it.  The
+        # vocabulary belongs to the district's kit, while count/position are
+        # deterministic functions of the blueprint seed and parcel id.
+        count = dressing_count(seed, parcel)
+        if count:
+            vocabulary = shelf.dressing(culture)
+            if not vocabulary:
+                errors.append(f"{pid}: use {parcel.get('use')!r} requires {count} dressing objects, "
+                              f"but kit set {culture!r} has no dressing[] vocabulary")
+            radius = max((math.hypot(x - cx, z - cz) for x, z in foot_m), default=1.5) + 1.2
+            phase = (_seed_int(seed, pid, "dressing-angle") % 3600) / 10.0
+            for i in range(count if vocabulary else 0):
+                # Repeat a tight local vocabulary.  Dressing density should
+                # not explode the material budget merely because the source
+                # kit offers dozens of plausible baskets and racks.
+                local_vocab = vocabulary[:1]
+                aid = local_vocab[_seed_int(seed, pid, str(i), "dressing-asset") % len(local_vocab)]
+                prop = shelf.by_asset[aid]
+                angle = math.radians(phase + i * (137.507764 + (i % 3) * 7.0))
+                ring = radius + (i % 3) * 0.65
+                px, pz = cx + math.sin(angle) * ring, cz + math.cos(angle) * ring
+                py = survey.height_at(px, pz)
+                placements.append({
+                    "id": f"{bp_id}.{pid}.dressing.{i + 1}",
+                    "parcelId": pid,
+                    "dressingFor": parcel.get("use"),
+                    "assetId": aid,
+                    "kit": next((k for k, rows in shelf.assets_by_kit.items()
+                                 if any(a["id"] == aid for a in rows)), None),
+                    "positionM": [round(px, 3), round(py, 3), round(pz, 3)],
+                    "yawDeg": round((phase + i * 71.0) % 360.0, 1),
+                    "scale": 1.0,
+                    "groundFit": "direct",
+                    "provenance": _provenance(bp_id, seed,
+                                               f"parcel-dressing/{parcel.get('use')}", aid, []),
+                })
+            dressing_report[pid] = count
 
     for dock in sorted(bp.get("docks", []), key=lambda d: d["id"]):
         x, z = survey.uv_to_m(*dock["position"])
@@ -491,6 +565,10 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "affectedChunks": sorted(affected),
         },
         "budgetReport": report,
+        "dressingReport": {
+            "byParcel": dict(sorted(dressing_report.items())),
+            "objects": sum(dressing_report.values()),
+        },
         "promiseLedger": [vars(pr) | {"met": pr.met} for pr in ledger],
         "errors": errors,
         # WARN grade (module 97 §G): reported, never failing

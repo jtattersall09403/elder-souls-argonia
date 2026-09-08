@@ -8,6 +8,12 @@
     0.12
   ],
   "textureMaxSize": 512,
+  "dressing": [
+    "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+    "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01",
+    "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
+    "mudmother:gv_meshes/argoniannest/fishracksmall"
+  ],
   "textureOverlayPools": [
     "tropical"
   ],

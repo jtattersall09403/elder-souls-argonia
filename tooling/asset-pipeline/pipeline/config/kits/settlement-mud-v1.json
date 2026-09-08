@@ -8,6 +8,12 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "dressing": [
+  "mudmother:gv_meshes/argoniannest/woventable01",
+  "mudmother:gv_meshes/argoniannest/wovenchair01",
+  "mudmother:gv_meshes/argoniannest/basketfull",
+  "mudmother:gv_meshes/argoniannest/paintedurn01"
+ ],
  "snapLogic": {
   "assemblies": "Composites in this kit: `composite:mud/hut-with-entrance` is `hutexterior` + `doorframe01` + the wood door leaf at the offsets BM&V used 22 times (templates bmv-blackmarsh:t0037 and t0091). The rule is that the mud hut shell is an unbroken drum — its entrance is three separate pieces, and a hut placed without them cannot be entered. The bare `hutexterior` stays in the kit for ruins and abandoned shells."
  },

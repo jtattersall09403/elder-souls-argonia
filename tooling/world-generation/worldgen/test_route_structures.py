@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 
 import numpy as np
+import pytest
 
 from . import grade_routes as G
 from .compile_route_structures import (FAMILIES, RAMP_MAX_DEG, compile_structure,
@@ -55,6 +56,16 @@ def test_refuses_a_piece_that_is_too_steep():
         assert "cap" in str(e)
     else:
         raise AssertionError("a 63 deg flight was accepted")
+
+
+def test_rise_is_checked_against_vertical_bbox_not_a_plan_extent():
+    fam = {"broken": {"culture": "test",
+                      "stair": {"asset": "a", "runM": 8.0, "riseM": 3.0, "widthM": 4.0}}}
+    # A 12 m horizontal extent used to make 3 m look measured even though the
+    # mesh is only 1 m high.
+    kit = {"a": {"id": "a", "sizeM": [4.0, 8.0, 1.0]}}
+    with pytest.raises(ValueError, match="vertical z bbox"):
+        validate(kit, fam)
 
 
 def test_lays_a_flight_on_a_synthetic_slope():

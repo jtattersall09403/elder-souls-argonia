@@ -65,7 +65,7 @@ def test_corrected_blueprint_compiles_clean(survey, shelf):
     for p in result["placements"]:
         assert p["provenance"]["sourceBlueprintId"] == result["id"]
         parcel = parcels.get(p.get("parcelId"))
-        if parcel is None:
+        if parcel is None or "dressingFor" in p:
             continue
         cx, cz = survey.uv_to_m(*parcel["centreUV"])
         assert abs(p["positionM"][0] - cx) < 1e-3
@@ -118,3 +118,19 @@ def test_dressing_prop_resolves_outside_the_district_kit_set(shelf):
     assert board is not None, "the works kit ships no board to test with"
     assert shelf.find("argonian-stilt", board["id"], "prop") is not None
     assert shelf.find("argonian-stilt", board["id"], "building") is None
+
+
+@pytest.mark.parametrize(("use", "bounds"), [
+    ("dwelling", (3, 6)),
+    ("work", (6, 12)),
+    ("kiln", (6, 12)),
+])
+def test_use_drives_dressing_count_in_the_decided_band(use, bounds):
+    parcel = {"id": f"parcel.fixture.{use}", "use": use}
+    count = cs.dressing_count("fixed-seed", parcel)
+    assert bounds[0] <= count <= bounds[1]
+    assert count == cs.dressing_count("fixed-seed", parcel)
+
+
+def test_non_dwelling_non_works_parcel_gets_no_automatic_dressing():
+    assert cs.dressing_count("fixed-seed", {"id": "parcel.x", "use": "gate"}) == 0

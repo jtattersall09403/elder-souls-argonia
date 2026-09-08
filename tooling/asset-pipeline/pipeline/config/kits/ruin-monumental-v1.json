@@ -8,6 +8,11 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "dressing": [
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem01",
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02",
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skeletontotem01"
+ ],
  "snapLogic": {
   "assemblies": "Composites in this kit: `composite:ayleid/arblock-mass-2x2x2` and `-3x1x3` are pre-stacked masses of `arblock01` on the 2.65 m / 0.87 m lattice its authors tile it on (templates bmv-valenwood:t0000, t0001, t0006 — hundreds of placements each). The rule they encode is that the block is never a building on its own: it is a masonry unit, and a ruin terrace is a mass of them. Everything else — stairs, statue walls, bridges, columns, rings — stays a single piece, because what a ruin does with them is a design decision, not a lattice."
  },

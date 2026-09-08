@@ -174,6 +174,17 @@ def validate(kit: dict, families: dict | None = None) -> None:
                         f"{fam}/{role}: {key}={piece[key]} is no longer an extent of "
                         f"{piece['asset']} (sizeM {extents}); re-measure the kit")
             if piece["riseM"] > 0.0:
+                # Built manifests are [x, plan-y, vertical-z].  Checking rise
+                # against "any extent" let a horizontal width accidentally
+                # certify a flight.  A tread-to-tread rise may be smaller than
+                # the full vertical bbox (the root passerelle includes its
+                # supporting posts), but it can never exceed it.
+                vertical_m = extents[2]
+                if piece["riseM"] > vertical_m + SIZE_TOLERANCE_M:
+                    raise ValueError(
+                        f"{fam}/{role}: riseM={piece['riseM']} exceeds the vertical z bbox "
+                        f"{vertical_m} m of {piece['asset']} (sizeM {extents}); the x/y plan "
+                        f"extents cannot certify a climb")
                 deg = math.degrees(math.atan(piece["riseM"] / piece["runM"]))
                 if deg > cap + 1e-6:
                     raise ValueError(

@@ -7,7 +7,13 @@
     0.35,
     0.12
   ],
-  "textureMaxSize": 512,
+    "textureMaxSize": 512,
+    "dressing": [
+        "mudmother:gv_meshes/argoniannest/argoniantotem01",
+        "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+        "vanilla:clutter/basket01",
+        "vanilla:clutter/common/cratesmall01"
+    ],
   "snapLogic": {
     "passerelles": "The walkway system's own encoded grid \u2014 this is the whole reason to package it intact. `passl<len>[h<rise>]<d|i>01`: `l` = length in Bethesda units (64/128/160/256/512), `h` = the rise that segment climbs (0/32/64/128), `d`/`i` = the two authored handrail sides (droite/interieur), which must stay consistent along a run or the rail flips. `passl256h64startd01` is the authored START of a climbing run. `passturn45...` are flat/climbing 45-degree turns (`ldi`/`rdi`/`lid`/`rid` encode which side turns and which rail leads); `passcirc45r1280...` and `passcirc90r448/r576...` are true arcs at a fixed radius (1280 / 448 / 576 units) \u2014 chain only arcs of the SAME radius. `passjunct`/`passjuncx`/`passjuncy` are the T, cross and Y junctions; `passend01` terminates; `passesc128h64d01` is the stair. All pieces butt end-to-end on the deck plane with origin at the entry face, so a run is a sum of `l` values and its height a sum of `h` values.",
     "kiosque": "A platform node dropped into a walkway run: `kiosk01` deck, `kioskaccesd01`/`kioskaccesi01` the two approach ramps that mate to a `pass...` end, `kioskbarriered01`/`kioskbarrierei01` the railings, `kioskmurd01`/`kioskmuri01` the solid sides, `kioskfixation001` the collar that ties it to a trunk.",

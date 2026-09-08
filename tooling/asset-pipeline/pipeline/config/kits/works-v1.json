@@ -8,6 +8,13 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "dressing": [
+  "vanilla:clutter/barrel01",
+  "vanilla:clutter/common/cratesmall01",
+  "vanilla:clutter/basket01",
+  "vanilla:clutter/bucket01",
+  "vanilla:clutter/containers/miscsacklarge"
+ ],
  "textureOverlayPools": [
   "tropical"
  ],

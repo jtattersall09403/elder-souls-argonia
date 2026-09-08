@@ -437,11 +437,16 @@ its long tail; it varies.** Within 10 m of a lived-in dwelling 3–6 pieces
 6–12 (the layout and the props *are* the trade, since no machinery props
 exist); a ruin or abandoned place 1–3 plus decay; a camp 4–8 around the fire
 with the loot cached away from it. Repeated detail is noticed before repeated
-architecture, so the vocabulary rotates within a district. *E* (Skyrim p50 2,
+architecture, so the vocabulary belongs to the district kit and its
+deterministic distribution varies around each parcel. *E* (Skyrim p50 2,
 p90 19 within 10 m; the mod sets 0 — an unfinished world, not a target); *S*
 (GDC 2013 detail-repetition finding; five-slot recipe); *L* material-culture
-prop brief. **Enforced by** nothing yet — the outdoor dressing pass does not
-exist (G18).
+prop brief. **Enforced by** `compile_settlement`: `dressing_count` holds
+dwellings to 3–6 and works uses to 6–12, resolves every object through the
+district kit's `dressing[]` vocabulary, and publishes per-parcel counts in
+`dressingReport`. Missing kit vocabulary is HARD (G18 closed for occupied
+dwellings and works; ruin/camp bands remain Phase 15 because those record
+classes are not settlement parcels).
 
 **C13. Vegetation meets buildings as a graded field, not a line.** Hard
 clearance is the footprint union dilated by a jittered offset; a thinned ring
@@ -708,7 +713,7 @@ message, so a failure sends the reader to one rule above.
 | G23 | C1a/C5b | props, structures and buildings were one undifferentiated "parcel", so a works yard was judged as a village | derive a `kind` per parcel from the interiors index and the measured mesh; the counting rules read it | **CLOSED** — `worldgen.parcel_kinds`; C1 kit-set membership is reported (WARN) with the dressing pool admitted everywhere |
 | G24 | C5a | "designed to touch" covered kit snaps only, so a hoist against its rock face had to be mis-declared as a snap | a second flag for trade contacts, with a clearance rather than a join | **CLOSED (HARD)** — `worksWith` + `worksWithWhy` (validator) and `parcel-gap`'s `WORKS_WITH_CLEAR_M` 0.5 m |
 | G17 | C8 | yaw diversity | validator: ≤10 % of a district's parcels within 5° of one yaw  | **CLOSED** — `blueprint.validate_blueprint` 97 C8 (HARD): at most max(2, 10 %) of a district's parcels within ±5° of one bearing, from 8 parcels up, unless the district declares `routing: "straight"` |
-| G18 | C12 | no outdoor dressing pass | `compile_settlement` dressing rule per `use` with count bands and a rotating vocabulary; report counts  | OPEN (no outdoor dressing pass) |
+| G18 | C12 | no outdoor dressing pass | `compile_settlement` dressing rule per `use` with count bands and a kit-owned deterministic vocabulary; report counts | **CLOSED for settlement dwellings/works** — 3–6 / 6–12 are compiled and reported; ruin/camp dressing remains the already-owned Phase 15 `compile_dressing` scope |
 | G19 | C14/E3 | kit `snapLogic` is prose, so a gate arch, its tower and two wall stubs could be placed NEAR each other and pass every check (owner, 2026-09-08) | per-kit connector table checked when two pieces touch | **CLOSED (HARD)** — `pipeline.measure_connectors` writes `<kit>.connectors.json` (per piece: face, position, outward normal, width, height, evidence `co-placement` from the source authors' repeated offsets or `bounds` from the measured plan outline) and `blueprint_integration` `abuts-snap` holds every `abuts` pair to a 0.15 m / 5° face coincidence; an unmeasured kit is a WARN, never a pass |
 | G20 | D9 | `combatSpaces` not required | add to REQUIRED for magnitude ≥ M3  | **CLOSED** — `combatSpaces` is in `REQUIRED`; each needs a boundary, a `clearanceClass` and a why (HARD) |
 | G21 | C-stitch | approach roads and inside streets were separate layers | terminals named against the province network, checked in metres and degrees | **CLOSED** — `networkTerminals[]` + `blueprint_integration` `network-stitch`; `compile_minor_routes` ends at the terminal |
