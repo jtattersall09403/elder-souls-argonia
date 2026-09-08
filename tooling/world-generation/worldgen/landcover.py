@@ -25,6 +25,7 @@ from __future__ import annotations
 import numpy as np
 from scipy import ndimage
 
+from .fastfilter import gaussian
 from .scale import TUNE, TUNE_A, TUNE_S
 from .sculpt import TALUS_FULL_TAN, TALUS_TAN
 
@@ -99,7 +100,7 @@ SCREE_MAX_TAN = TALUS_FULL_TAN      # above this loose debris cannot rest
 
 
 def _noise(shape, sigma, rng):
-    n = ndimage.gaussian_filter(rng.standard_normal(shape, dtype=np.float32), sigma)
+    n = gaussian(rng.standard_normal(shape, dtype=np.float32), sigma)
     return (n / max(n.std(), 1e-9)).astype(np.float32)
 
 
@@ -170,7 +171,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
 
     # Landform-scale slope for material rules (micro-relief bumps must not
     # paint slope bands — they striped the basin, owner report 2026-08-23).
-    slope_lf = ndimage.gaussian_filter(slope, 22.0 * TUNE / m_per_px)
+    slope_lf = gaussian(slope, 22.0 * TUNE / m_per_px)
 
     # Multi-scale patchiness (owner 2026-08-23: uniform ~35 m blobs read as
     # camouflage). Fine-grained variation only where the ground is "doing
@@ -216,7 +217,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         mat = np.where(mont & (height > MONT_CRAG_M + belt_wob), MOUNTAIN_ROCK, mat)
 
     # Raised ground: local prominence (~30 m window) reads drier everywhere.
-    prom = height - ndimage.gaussian_filter(height, 28.0 * TUNE / m_per_px)
+    prom = height - gaussian(height, 28.0 * TUNE / m_per_px)
     marshy = np.isin(region, list(MARSHY))
     mat = np.where(prom > 0.35, rmap("high"), mat)
 
@@ -280,7 +281,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     big = np.zeros_like(areas, dtype=bool)
     big[areas * (m_per_px ** 2) / 1e6 >= LAKE_MIN_KM2] = True
     near_big = big[lblw[iy, ix]]
-    rocky = ndimage.gaussian_filter(slope_lf, 20.0 * TUNE / m_per_px) > 0.045 * TUNE_S
+    rocky = gaussian(slope_lf, 20.0 * TUNE / m_per_px) > 0.045 * TUNE_S
     low = rel < 2.5
     band2 = (~water) & (shore_d < 58.0 * TUNE) & low          # damp fringe
     band1 = (~water) & (shore_d < 32.0 * TUNE) & low          # wet mud / salt / rock
@@ -361,7 +362,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         m = mat == i
         if not m.any():
             continue
-        b = ndimage.gaussian_filter(m.astype(np.float32), 1.5)
+        b = gaussian(m.astype(np.float32), 1.5)
         m0 = b > w0
         m1 = (~m0) & (b > w1)
         id1[m0] = id0[m0]
