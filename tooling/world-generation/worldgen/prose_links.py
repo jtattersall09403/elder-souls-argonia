@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from bisect import bisect_right
 from collections import Counter
 from dataclasses import dataclass
 from functools import lru_cache
@@ -85,6 +86,23 @@ class Result:
         }
 
 
+@dataclass(frozen=True)
+class EntityIndex:
+    """The immutable lookup tables shared by every record in one lint pass.
+
+    Building these inside ``check_record`` made the province-wide gate scan
+    every entity and re-read both registry files once per catalogue record.
+    The index contains exactly the same derived values, but computes them once
+    for the batch (and remains an implementation detail of the checker).
+    """
+
+    entities: tuple[Entity, ...]
+    known_by_kind: dict[str, frozenset[str]]
+    known_kind_by_id: dict[str, str]
+    route_aliases: dict[str, str]
+    quest_codes: dict[str, str]
+
+
 def _load_entries(path: Path, key: str = "entries") -> list[dict]:
     if not path.exists():
         return []
@@ -145,23 +163,44 @@ def _values(node, key: str):
             yield from _values(value, key)
 
 
-def typed_refs(record: dict, entities: list[Entity]) -> dict[str, set[str]]:
+def _entity_index(entities: list[Entity] | tuple[Entity, ...]) -> EntityIndex:
+    entity_tuple = tuple(entities)
+    known_by_kind = {
+        kind: frozenset(entity.id for entity in entity_tuple if entity.kind == kind)
+        for kind in REF_FIELD
+    }
+    route_aliases = {
+        alias: route["id"]
+        for route in _load_entries(ROUTES, "routes")
+        for alias in route.get("aliases") or []
+    }
+    quest_codes = {
+        str(entry.get("code") or "").casefold(): entry.get("id")
+        for entry in _load_entries(REGISTRIES / "quests.json")
+    }
+    return EntityIndex(
+        entity_tuple,
+        known_by_kind,
+        {entity.id: entity.kind for entity in entity_tuple},
+        route_aliases,
+        quest_codes,
+    )
+
+
+def typed_refs(record: dict, entities: list[Entity] | tuple[Entity, ...],
+               index: EntityIndex | None = None) -> dict[str, set[str]]:
+    index = index or _entity_index(entities)
     refs = {kind: set(_values(record, field)) for kind, field in REF_FIELD.items()}
-    known = {e.id: e.kind for e in entities}
-    route_aliases = {}
-    for route in _load_entries(ROUTES, "routes"):
-        for alias in route.get("aliases") or []:
-            route_aliases[alias] = route["id"]
 
     def add(value) -> None:
         """Add a value only after its structural field established typing."""
         if not isinstance(value, str):
             return
-        kind = known.get(value)
+        kind = index.known_kind_by_id.get(value)
         if kind:
             refs[kind].add(value)
-        elif value in route_aliases:
-            refs["route"].add(route_aliases[value])
+        elif value in index.route_aliases:
+            refs["route"].add(index.route_aliases[value])
         elif value.startswith("place."):
             refs["place"].add(value)
         elif value.startswith("route."):
@@ -215,10 +254,9 @@ def typed_refs(record: dict, entities: list[Entity]) -> dict[str, set[str]]:
     # Catalogue quest ownership uses the authoring code (MQ01/LH19) by design;
     # it is a typed join once resolved through the quest registry.
     ownership = str((record.get("questHooks") or {}).get("tierOwnership") or "")
-    codes = {str(entry.get("code") or "").casefold(): entry.get("id")
-             for entry in _load_entries(REGISTRIES / "quests.json")}
-    refs["quest"].update(codes[token.casefold()] for token in re.findall(r"\b[A-Z]{2}\d{2}\b", ownership)
-                         if token.casefold() in codes)
+    refs["quest"].update(index.quest_codes[token.casefold()]
+                         for token in re.findall(r"\b[A-Z]{2}\d{2}\b", ownership)
+                         if token.casefold() in index.quest_codes)
     return refs
 
 
@@ -229,10 +267,13 @@ def _mention_index(entities: tuple[Entity, ...]):
     for entity in entities:
         if counts[entity.kind, entity.name.casefold()] == 1:
             by_name.setdefault(entity.name.casefold(), []).append(entity)
-    names = sorted(by_name, key=lambda name: (-len(name), name))
-    pattern = re.compile(r"(?<![\w-])(?:" + "|".join(re.escape(name) for name in names) +
-                         r")(?![\w-])", re.IGNORECASE)
-    return pattern, by_name
+    trie: dict = {}
+    for name in by_name:
+        node = trie
+        for char in name:
+            node = node.setdefault(char, {})
+        node[None] = name
+    return trie, by_name
 
 
 def _high_precision(entity: Entity) -> bool:
@@ -252,58 +293,107 @@ def _high_precision(entity: Entity) -> bool:
 
 
 def _mentioned_entities(text: str, entities: tuple[Entity, ...]):
-    """Resolve complete phrases in one pass (rather than N regex scans)."""
-    pattern, by_name = _mention_index(entities)
-    for match in pattern.finditer(text):
-        yielded: set[tuple[str, str]] = set()
-        for entity in by_name[match.group(0).casefold()]:
+    """Yield ``(entity, offset)`` for complete phrases in one linear pass."""
+    trie, by_name = _mention_index(entities)
+    folded = text.casefold()
+
+    def wordish(char: str) -> bool:
+        return char == "-" or char == "_" or char.isalnum()
+
+    i = 0
+    while i < len(folded):
+        if i and wordish(folded[i - 1]):
+            i += 1
+            continue
+        node = trie
+        j = i
+        match_name = None
+        match_end = i
+        while j < len(folded) and folded[j] in node:
+            node = node[folded[j]]
+            j += 1
+            if None in node and (j == len(folded) or not wordish(folded[j])):
+                match_name = node[None]
+                match_end = j
+        if match_name is None:
+            i += 1
+            continue
+        matched = text[i:match_end]
+        for entity in by_name[match_name]:
             if not _high_precision(entity):
                 continue
             if (entity.kind in {"place", "faction", "npc"} and entity.name != entity.id
-                    and match.group(0) != entity.name):
+                    and matched != entity.name):
                 continue  # proper-name vocabularies keep their authored case
             # Service vocabulary is intentionally terse and therefore
             # polysemous (court, stable, market). Count it only when the prose
             # describes availability, not when the noun is scenery or mood.
             if entity.kind == "service":
-                context = text[max(0, match.start() - 32):min(len(text), match.end() + 32)]
+                context = text[max(0, i - 32):min(len(text), match_end + 32)]
                 if not re.search(r"\b(?:service|services|offers?|provides?|available|hire|pay|buy|sell|"
                                  r"lodging|training|transport|use of|access to)\b", context, re.I):
                     continue
-            key = (entity.kind, entity.id)
-            if key not in yielded:
-                yielded.add(key)
-                yield entity
+            yield entity, i
+        i = match_end
 
 
-def check_record(record: dict, prose: list[tuple[str, str]], entities: list[Entity]) -> Result:
+def check_record(record: dict, prose: list[tuple[str, str]], entities: list[Entity],
+                 index: EntityIndex | None = None) -> Result:
+    index = index or _entity_index(entities)
     record_id = str(record.get("id") or "<record>")
-    refs = typed_refs(record, entities)
-    known_by_kind = {kind: {e.id for e in entities if e.kind == kind} for kind in REF_FIELD}
+    refs = typed_refs(record, entities, index)
     findings: list[Finding] = []
     mentions = Counter()
     entity_tuple = tuple(entities)
     seen_missing: set[tuple[str, str, str]] = set()
+    # One catalogue record commonly has 10–20 prose leaves. Running the large
+    # entity regex separately for every leaf dominated this gate. Scan one
+    # joined string per record, with a separator wider than the service-context
+    # window so neighbouring fields cannot influence one another, then map the
+    # match offset back to its original field.
+    separator = "\n" + ("\0" * 64) + "\n"
+    starts: list[int] = []
+    ends: list[int] = []
+    fields: list[str] = []
+    chunks: list[str] = []
+    cursor = 0
     for field, text in prose:
-        for entity in _mentioned_entities(text, entity_tuple):
-            mentions[entity.kind] += 1
-            if entity.id not in refs[entity.kind]:
-                missing_key = (field, entity.kind, entity.id)
-                if missing_key in seen_missing:
-                    continue
-                seen_missing.add(missing_key)
-                severity = SEVERITY[entity.kind]
-                findings.append(Finding(
-                    severity, record_id, field, entity.kind, entity.id, entity.name,
-                    f"names {entity.name!r} but carries no {REF_FIELD[entity.kind]} {entity.id!r}",
-                ))
+        if chunks:
+            chunks.append(separator)
+            cursor += len(separator)
+        starts.append(cursor)
+        ends.append(cursor + len(text))
+        fields.append(field)
+        chunks.append(text)
+        cursor += len(text)
+    seen_mentions: set[tuple[str, str, str]] = set()
+    for entity, offset in _mentioned_entities("".join(chunks), entity_tuple):
+        field_i = bisect_right(starts, offset) - 1
+        if field_i < 0 or offset >= ends[field_i]:
+            continue
+        field = fields[field_i]
+        mention_key = (field, entity.kind, entity.id)
+        if mention_key in seen_mentions:
+            continue
+        seen_mentions.add(mention_key)
+        mentions[entity.kind] += 1
+        if entity.id not in refs[entity.kind]:
+            missing_key = (field, entity.kind, entity.id)
+            if missing_key in seen_missing:
+                continue
+            seen_missing.add(missing_key)
+            severity = SEVERITY[entity.kind]
+            findings.append(Finding(
+                severity, record_id, field, entity.kind, entity.id, entity.name,
+                f"names {entity.name!r} but carries no {REF_FIELD[entity.kind]} {entity.id!r}",
+            ))
     # Reverse direction: absence from prose is fine. A declared generic ref is
     # nevertheless contradictory when it cannot resolve in its closed domain.
     for kind, field in REF_FIELD.items():
         if kind == "item":  # Phase 13's item register is deliberately open.
             continue
         for ref in sorted(set(_values(record, field))):
-            if ref not in known_by_kind[kind]:
+            if ref not in index.known_by_kind[kind]:
                 findings.append(Finding(
                     "hard", record_id, field, kind, ref, ref,
                     f"{field} {ref!r} does not resolve in the {kind} vocabulary",
@@ -348,14 +438,15 @@ def check_all(records: list[dict] | None = None, blueprints: list[dict] | None =
         blueprints = [json.loads(path.read_text(encoding="utf-8")).get("blueprint", {})
                       for path in sorted(BLUEPRINTS.glob("place.*.json"))]
     entities = load_entities(records, blueprints)
+    index = _entity_index(entities)
     result = Result([], Counter(), 0)
     for record in records:
-        current = check_record(record, list(lint_prose.iter_catalogue_prose(record)), entities)
+        current = check_record(record, list(lint_prose.iter_catalogue_prose(record)), entities, index)
         result.findings.extend(current.findings)
         result.mentions.update(current.mentions)
         result.records += 1
     for bp in blueprints:
-        current = check_record(bp, _blueprint_prose(bp), entities)
+        current = check_record(bp, _blueprint_prose(bp), entities, index)
         result.findings.extend(current.findings)
         result.mentions.update(current.mentions)
         result.records += 1
@@ -367,9 +458,15 @@ def _live_entities() -> tuple[Entity, ...]:
     return tuple(load_entities())
 
 
+@lru_cache(maxsize=1)
+def _live_entity_index() -> EntityIndex:
+    return _entity_index(_live_entities())
+
+
 def check_blueprint(bp: dict) -> list[str]:
     """Blueprint validator hook: only new HARD debt blocks existing records."""
-    result = check_record(bp, _blueprint_prose(bp), list(_live_entities()))
+    entities = _live_entities()
+    result = check_record(bp, _blueprint_prose(bp), list(entities), _live_entity_index())
     return [f"{finding.record_id}: referential prose: {finding.message}"
             for finding in new_hard_debt(result)]
 

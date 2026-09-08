@@ -53,6 +53,26 @@ def test_item_names_warn_until_phase13_register_closes():
     assert len(result.warnings) == 1
 
 
+def test_matcher_keeps_longest_boundary_case_and_per_field_semantics():
+    entities = [
+        pl.Entity("place", "place.test.nine", "Nine"),
+        pl.Entity("place", "place.test.nine-trunks", "Nine-Trunks"),
+    ]
+    result = pl.check_record(
+        {"id": "place.test.camp"},
+        [
+            ("why.a", "Nine-Trunks and Nine-Trunks are named here."),
+            ("why.b", "Nine-Trunks is named again; nine-trunks and xNine-Trunks are not."),
+        ],
+        entities,
+    )
+    assert result.mentions == {"place": 2}
+    assert [(finding.field, finding.entity_id) for finding in result.hard] == [
+        ("why.a", "place.test.nine-trunks"),
+        ("why.b", "place.test.nine-trunks"),
+    ]
+
+
 def test_live_debt_is_visible_and_no_new_hard_row_appears():
     result = pl.check_all()
     baseline = pl.load_debt()

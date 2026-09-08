@@ -154,6 +154,43 @@ def test_routing_is_deterministic():
     assert sr.route_way(way, bp, survey) == sr.route_way(way, bp, SurveyStub(height))
 
 
+def test_route_cache_is_content_keyed_and_returns_fresh_points(monkeypatch):
+    way = {"id": "route.t.cached", "kind": "track", "widthM": 3.0,
+           "routing": "terrain", "via": [uv(150, 150), uv(180, 180)]}
+    bp = {"boundary": [uv(140, 140), uv(190, 140), uv(190, 190), uv(140, 190)],
+          "parcels": [], "routes": [way]}
+    survey = SurveyStub()
+    calls = 0
+    original = sr._route_way_uncached
+
+    def counted(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(sr, "_route_way_uncached", counted)
+    sr._ROUTE_CACHE.clear()
+    first = sr.route_way(way, bp, survey)
+    second = sr.route_way(way, bp, survey)
+    assert calls == 1
+    assert second == first
+    assert second is not first
+    assert all(a is not b for a, b in zip(first, second))
+
+    # Mutating a returned result cannot poison the cache.
+    first[0][0] = 0.99
+    assert sr.route_way(way, bp, survey) == second
+    assert calls == 1
+
+    # Every routing input is represented by the full content key, and a
+    # different survey identity cannot reuse results derived from this raster.
+    way["via"][1] = uv(175, 180)
+    sr.route_way(way, bp, survey)
+    assert calls == 2
+    sr.route_way(way, bp, SurveyStub())
+    assert calls == 3
+
+
 def test_apply_then_check_is_clean():
     way = {"id": "route.t.apply", "kind": "footpath", "widthM": 2.0, "routing": "terrain",
            "via": [uv(150, 150), uv(300, 260)]}

@@ -108,6 +108,7 @@ Run (from tooling/world-generation/), after `blueprint_footprints --apply`:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import heapq
 import json
 import math
@@ -663,6 +664,8 @@ def _way_class(bp: dict, way: dict) -> str:
 
 _FIELD_CACHE: dict = {}
 _FIELD_CACHE_MAX = 64
+_ROUTE_CACHE: dict = {}
+_ROUTE_CACHE_MAX = 128
 
 
 def module_m(way: dict) -> float | None:
@@ -726,8 +729,8 @@ def local_field(way: dict, bp: dict, survey, cell_m: float = CELL_M,
     return field
 
 
-def route_way(way: dict, bp: dict, survey=None) -> list[list[float]]:
-    """The derived `points` polyline for one way, in province UV."""
+def _route_way_uncached(way: dict, bp: dict, survey=None) -> list[list[float]]:
+    """Compute the derived `points` polyline for one way, in province UV."""
     extent_m = _extent_m(survey) if survey is not None else PROVINCE_EXTENT_M
     via = way.get("via") or []
     if len(via) < 2:
@@ -765,6 +768,35 @@ def route_way(way: dict, bp: dict, survey=None) -> list[list[float]]:
         if not out or p != out[-1]:
             out.append(p)
     return out
+
+
+def route_way(way: dict, bp: dict, survey=None) -> list[list[float]]:
+    """Return the derived route, memoised on every input that can affect it.
+
+    Schema validation, settlement compilation and integration checks commonly
+    ask for the same terrain route in one process. ``local_field`` already
+    avoids rebuilding its cost raster, but A* was still repeated each time.
+    The full way and blueprint content make edits miss the cache; the retained
+    survey object both distinguishes raster instances and prevents Python from
+    reusing an object id while its entry is live. Callers always receive fresh
+    point lists, so mutating a returned derivation cannot poison later checks.
+    """
+    if way.get("routing") != "terrain" or survey is None:
+        return _route_way_uncached(way, bp, survey)
+    try:
+        content = json.dumps([way, bp], sort_keys=True, separators=(",", ":"),
+                             ensure_ascii=False).encode("utf-8")
+    except (TypeError, ValueError):                    # uncacheable fixture/input
+        return _route_way_uncached(way, bp, survey)
+    key = (id(survey), hashlib.sha256(content).digest())
+    hit = _ROUTE_CACHE.get(key)
+    if hit is not None and hit[0] is survey:
+        return [point[:] for point in hit[1]]
+    result = _route_way_uncached(way, bp, survey)
+    if len(_ROUTE_CACHE) >= _ROUTE_CACHE_MAX:
+        _ROUTE_CACHE.clear()
+    _ROUTE_CACHE[key] = (survey, [point[:] for point in result])
+    return [point[:] for point in result]
 
 
 # --------------------------------------------------------------------------- #
