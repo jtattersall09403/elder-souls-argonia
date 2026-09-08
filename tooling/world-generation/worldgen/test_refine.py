@@ -53,32 +53,33 @@ def test_carve_polyline_reaches_bed_level():
     assert out.min() >= -1.01        # never carves below the bed level
 
 
-def test_carve_to_profile_puts_the_bed_under_the_water_level():
-    """The bed inside the hydraulic width ends up at least the band film
-    below the conditioned station level, so the compiler's ribbon waters the
-    whole carved bed (owner permission 2026-09-07)."""
-    from .compile_water import FILM_DEPTH, station_long_profile
+def test_carve_to_profile_cuts_a_wet_monotone_bed_and_records_the_solution(tmp_path):
+    """The channel carve (decision 0047): the bed under every station ends
+    up the band's centre depth below a monotone long profile, only ever
+    lowered inside the trench, and the solution is saved for compile_water."""
+    from .channels import CENTRE_DEPTH, ChannelSolution, _sample
 
     n_c = 24
-    # a gentle reach (the film is a film, not a cascade: a steep reach is a
-    # strip, handled by compile_water's cascade records)
     h = np.tile(np.linspace(60.0, 57.0, n_c * 3, dtype=np.float32)[:, None],
                 (1, n_c * 3))
-    # a rough bed: bumps that used to punch dry gaps through the channel
-    h[::7, :] += 1.5
+    h += 0.06 * np.abs(np.arange(n_c * 3) - 37)[None, :]      # a shallow V
+    h[::7, :] += 1.5                                          # bumps across the bed
     rivers = np.zeros((n_c, n_c), dtype=np.uint8)
     rivers[:, 12] = 2
     flow_to = np.full(n_c * n_c, -1, dtype=np.int64)
     for y in range(n_c - 1):
         flow_to[y * n_c + 12] = (y + 1) * n_c + 12
     npz = {"rivers": rivers, "accum_km2": np.full((n_c, n_c), 4.0, np.float32),
-           "flow_to": flow_to, "filled": h[::3, ::3].copy()}
-    out, stats = carve_to_profile(h.copy(), npz)
+           "flow_to": flow_to, "filled": h[::3, ::3].copy(),
+           "ocean": np.zeros((n_c, n_c), bool), "regions": np.zeros((n_c, n_c), np.uint8),
+           "wetlands": np.zeros((n_c, n_c), bool), "flood": np.zeros((n_c, n_c), np.uint8),
+           "lakes": np.zeros((n_c, n_c), bool)}
+    out, stats = carve_to_profile(h.copy(), npz, save_path=tmp_path / "channels.npz")
     assert stats["cellsLowered"] > 0
-    assert (out <= h + 1e-4).all()                 # only ever lowered
-    prof = station_long_profile(out, rivers, npz["accum_km2"], flow_to,
-                                npz["filled"], bed_win=5)
-    lvl = prof["w_st"]
-    bed = out[prof["sy"], prof["sx"]]
-    assert (lvl - bed >= 0.30).all()   # a real column over the whole reach
-    assert (np.diff(lvl) <= 1e-3).all()            # monotone downstream
+    sol = ChannelSolution.load(tmp_path / "channels.npz")
+    sl = sol.stations_of(0)
+    bed = _sample(out, sol.y[sl], sol.x[sl])
+    assert (sol.L[sl] - bed >= CENTRE_DEPTH[2] - 0.05).all()   # a real column everywhere
+    assert (np.diff(sol.L[sl]) <= 1e-4).all()                  # monotone downstream
+    assert (np.diff(bed) <= 0.05).all()                        # the bumps are gone
+    assert (out - h).max() <= 1.5 + 1e-4                       # shoulder raise is bounded

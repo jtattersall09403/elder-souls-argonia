@@ -41,6 +41,22 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     boardwalk: boardwalk|pier; fence: fence|wall|palisade|
                     hedge (assetRef of the kit piece, drawn on the map).
                     Every way carries `why` (owner 2026-09-05).
+                    A FENCE also carries (owner ruling 2026-09-08): `class`
+                    (pole-wall | curtain | palisade | fence | ring-panel — the
+                    wall's own kind, which picks its routing costs: contour,
+                    the outer edge of the built hull, dry ground); `routingWhy`
+                    (REQUIRED when `routing` is "straight": a wall is routed
+                    unless someone SURVEYED it); `waterOk` {maxDepthM} where
+                    the lore drives poles into the shallows (Lilmoth's estuary
+                    wall); `gapAt[]`, the way ids the wall is opened for (a
+                    gate); and DERIVED `moduleM`, the long axis of the measured
+                    piece, which the routed line is quantised into. HARD: a
+                    wall crosses no parcel hull, crosses no way outside
+                    `gapAt`, and stands in water only with `waterOk`. Designed
+                    contact is declared: `abuts[]` + `abutsWhy` (a dais set on
+                    a retaining course, a conduit its pillars carry, a panel
+                    butted into the piece it plugs against), and `gapAt` also
+                    covers a line CARRIED OVER a way.
   why (on districts, parcels, landmarks, docks)   the plain-English record a
                     reviewer reads on click, reference register:
                     {what, whyHere (why it is in this place at all),
@@ -154,7 +170,28 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     ~0.45 is the Nine-Trunks case; kit architecture stays 1.
                     Parcels may carry `scale` under the same rule; the derived
                     footprint and the compiler honour it)
-  docks[]           {id, position, waterBodyId, piledToBed: true}
+  docks[]           {id, position, waterBodyId, piledToBed: true, hullClass,
+                    fit?} — a dock is a WATER TERMINAL, not a deck the design
+                    drew near some water (owner review 2026-09-08). Every dock
+                    must be answered by a `networkTerminals[]` entry of kind
+                    `lane` or `channel` carrying `dockId`, and the serving
+                    water route must END at it.
+                      hullClass  canoe | small-draft | keeled — the deepest
+                                 hull the berth serves. It sets the depth the
+                                 water must carry: 0.6 / 1.2 / 3.0 m, sampled
+                                 100 m off the dock ALONG the serving route
+                                 (97 B5, closing G9).
+                      fit        which way the two were made to meet:
+                                 "water-to-dock" — the channel is re-ended at
+                                 the authored berth (what lane-terminals.json
+                                 does for a city);
+                                 "to-water" — the berth is moved to where the
+                                 published channel already ends.
+                                 Absent, it is DERIVED: water-to-dock when the
+                                 dock's own water passes its hull class and a
+                                 published water end is within 150 m;
+                                 to-water otherwise. The dock's `why` must say
+                                 which was used and why.
   combatSpaces[]    REQUIRED (>=1, each with boundary, clearanceClass and a
                     why — 97 D9): open ground where
                     a fight CAN happen (a quest, a hostility flip, a night
@@ -162,7 +199,21 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     a safe city still has them, each with its why.
   questSockets[]    {id, kind ("scene"|"evidence"|"container"|"npc"|
                     "encounter"|"boss"|"station"|"mark"), position?,
-                    parcelId?, ownerQuestTier?}
+                    parcelId?, ownerQuestTier?, questId?, socketRef?}
+                    A socket bound to a parcel and a quest purpose are the SAME
+                    fact seen twice (owner review 2026-09-08), so both
+                    directions are HARD:
+                      * a `playerPurpose` of kind `quest-giver`/`quest-stage`
+                        must carry `socketRef` naming a socket in this
+                        blueprint whose `parcelId` is that parcel — a building
+                        whose purpose is a quest has the marker that says so;
+                      * a socket that names a `parcelId` must find a
+                        quest-kind purpose on that parcel — a marker on a
+                        building the record never says is a quest building is
+                        a marker with nothing behind it.
+                    `questId` (optional) names the quest the socket belongs to
+                    and must match a row in the quest data
+                    (`world/sources/quests/`, validated by `worldgen.quests`).
   doors[]           {id (door.<region>.<slug>.<n>), parcelId, facingDeg,
                     thresholdUV, interiorClaim {sizeClass, culture,
                     interiorRef, owner?}}
@@ -301,6 +352,7 @@ from . import blueprint_footprints as fp
 from . import blueprint_interiors as bi
 from . import parcel_kinds as pk
 from . import province_network as pn
+from .player_purpose import QUEST_PURPOSE_KINDS
 from .catalogue import CATALOGUE_DIR, load_region_files
 
 SCHEMA_VERSION = 1
@@ -467,7 +519,14 @@ WHY_KEYS_AREA = ("what", "whyHere", "whyNeighbours", "playerPurpose", "microGeog
 APPROACH_MODES = {"walk", "boat", "swim"}
 # 97 C-stitch — the kinds a network terminal may declare. `lane` is the water
 # case: a boat lane ends at a landing, not at a gate.
-TERMINAL_KINDS = {"road", "track", "footpath", "boardwalk", "lane"}
+TERMINAL_KINDS = {"road", "track", "footpath", "boardwalk", "lane", "channel"}
+# 97 B5 / G9 — the depth a berth must carry for the deepest hull it serves,
+# sampled DOCK_DEPTH_SAMPLE_M off the dock along the route that serves it.
+HULL_CLASS_DEPTH_M = {"canoe": 0.6, "small-draft": 1.2, "keeled": 3.0}
+DOCK_DEPTH_SAMPLE_M = 100.0
+DOCK_TERMINAL_TOLERANCE_M = 10.0    # dock -> published water end
+DOCK_FIT_SEARCH_M = 150.0           # how far a channel may be re-ended to a berth
+DOCK_FITS = {"to-water", "water-to-dock"}
 INTERIOR_KINDS = {"dwelling", "shop", "hall", "shell", "none"}
 MIN_WHY_CHARS = 20
 BUDGET_KEYS = {"maxInstances", "maxUniqueMaterials", "maxTextureMB", "maxColliders"}
@@ -710,6 +769,160 @@ def _occupancy_warnings(bp: dict) -> list[str]:
     return [f"{bp.get('id', '<missing id>')}: scaleGrounding.npcsPlanned is {planned} but only "
             f"{authored} occupant slot(s) are authored ({authored / planned * 100:.0f} % — the floor is "
             f"50 %); either author the people or ground the smaller number in the lore"]
+
+
+# --------------------------------------------------------------------------- #
+# 97 C10 — fences and walls are ROUTED (owner ruling 2026-09-08)
+# --------------------------------------------------------------------------- #
+FENCE_SAMPLE_M = 0.5          # how finely a wall line is read against the ground
+FENCE_PARCEL_TOL_M = 0.4      # a wall may graze a building's edge, never enter it
+FENCE_DEPTH_TOL_M = 0.15      # raster resolution, not licence to stand in deep water
+FENCE_WET_TOL_M = 2.0         # a wall's foot may touch a puddle; a wall may not stand in one
+FENCE_STRAIGHT_MODULES = 3    # a run longer than this with no bend, on falling ground
+FENCE_FALL_M = 0.5            # ... crossing this much height, is a drawn line
+
+
+def _sample_polyline_m(pts, extent_m: float, step_m: float = FENCE_SAMPLE_M):
+    """Every `step_m` along a UV polyline, in metres."""
+    out = []
+    for a, b in zip(pts, pts[1:]):
+        ax, az = float(a[0]) * extent_m, float(a[1]) * extent_m
+        bx, bz = float(b[0]) * extent_m, float(b[1]) * extent_m
+        n = max(1, int(math.hypot(bx - ax, bz - az) / step_m))
+        for i in range(n + 1):
+            t = i / n
+            out.append((ax + (bx - ax) * t, az + (bz - az) * t))
+    return out
+
+
+def _segments_cross(a, b, c, d) -> bool:
+    """True only for a PROPER crossing: a wall that ends on a way's edge, or
+    runs along it, is not the same thing as a wall laid across it."""
+    def side(p, q, r):
+        return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0])
+    d1, d2 = side(a, b, c), side(a, b, d)
+    d3, d4 = side(c, d, a), side(c, d, b)
+    return ((d1 > 0) != (d2 > 0)) and ((d3 > 0) != (d4 > 0))
+
+
+def _point_in_polygon_m(pt, poly) -> bool:
+    inside = False
+    j = len(poly) - 1
+    for i in range(len(poly)):
+        xi, zi = poly[i]
+        xj, zj = poly[j]
+        if (zi > pt[1]) != (zj > pt[1]) and pt[0] < (xj - xi) * (pt[1] - zi) / (zj - zi + 1e-30) + xi:
+            inside = not inside
+        j = i
+    return inside
+
+
+def _dist_to_polygon_edge_m(pt, poly) -> float:
+    best = float("inf")
+    for a, b in zip(poly, poly[1:] + poly[:1]):
+        dx, dz = b[0] - a[0], b[1] - a[1]
+        d2 = dx * dx + dz * dz
+        t = 0.0 if d2 <= 1e-12 else max(0.0, min(1.0, ((pt[0] - a[0]) * dx + (pt[1] - a[1]) * dz) / d2))
+        best = min(best, math.hypot(pt[0] - (a[0] + t * dx), pt[1] - (a[1] + t * dz)))
+    return best
+
+
+def _fence_failures(bp: dict, survey=None) -> list[str]:
+    """HARD 97 C10 geometry: a wall may not cross a building or a way it has
+    not declared a gap at, and may not stand in water it has no licence for."""
+    from . import street_router as _sr
+    extent_m = float(getattr(survey, "extent_m", _sr.PROVINCE_EXTENT_M))
+    out: list[str] = []
+    parcels = [(p.get("id"), [(float(q[0]) * extent_m, float(q[1]) * extent_m)
+                              for q in (p.get("footprint") or [])])
+               for p in bp.get("parcels") or []]
+    ways = [(w.get("id"), [(float(q[0]) * extent_m, float(q[1]) * extent_m)
+                           for q in (w.get("points") or [])])
+            for key in ("routes", "canals", "boardwalks") for w in bp.get(key) or []]
+    for f in bp.get("fences") or []:
+        fid = f.get("id")
+        pts = f.get("points") or []
+        if len(pts) < 2:
+            continue
+        line = [(float(p[0]) * extent_m, float(p[1]) * extent_m) for p in pts]
+        samples = _sample_polyline_m(pts, extent_m)
+
+        abuts = set(f.get("abuts") or [])
+        for pid, poly in parcels:
+            if len(poly) < 3 or pid in abuts:
+                continue
+            bx = [q[0] for q in poly]; bz = [q[1] for q in poly]
+            if not (min(bx) <= max(q[0] for q in line) and max(bx) >= min(q[0] for q in line)
+                    and min(bz) <= max(q[1] for q in line) and max(bz) >= min(q[1] for q in line)):
+                continue
+            inside = [q for q in samples
+                      if _point_in_polygon_m(q, poly) and _dist_to_polygon_edge_m(q, poly) > FENCE_PARCEL_TOL_M]
+            if inside:
+                out.append(f"fence {fid}: 97 C10 — the wall line crosses the hull of {pid} "
+                           f"({len(inside)} sample(s) inside it); a wall runs round a building, "
+                           f"never through it — re-route it (street_router --apply) or move the piece")
+                break
+
+        gaps = set(f.get("gapAt") or [])
+        for wid, wpts in ways:
+            if wid in gaps or len(wpts) < 2:
+                continue
+            crossed = any(_segments_cross(a, b, c, d)
+                          for a, b in zip(line, line[1:])
+                          for c, d in zip(wpts, wpts[1:]))
+            if crossed:
+                out.append(f"fence {fid}: 97 C10 — the wall line crosses the way {wid} without "
+                           f"declaring it in gapAt; a wall crosses a way only at a gate or an "
+                           f"opening, and the opening is named")
+
+        if survey is not None:
+            water_ok = f.get("waterOk") if isinstance(f.get("waterOk"), dict) else None
+            wet = [q for q in samples if _sr.sample_water(survey, q[0], q[1])]
+            wet_m = len(wet) * FENCE_SAMPLE_M
+            if wet_m > FENCE_WET_TOL_M and water_ok is None:
+                out.append(f"fence {fid}: 97 C10 — the wall stands in water for {wet_m:.1f} m "
+                           f"({len(wet)} of {len(samples)} samples) but declares no waterOk; only a "
+                           f"wall the lore drives into the shallows may stand in water, and it says "
+                           f"how deep")
+            elif wet and water_ok is not None:
+                limit = float(water_ok.get("maxDepthM") or 0.0)
+                deep = [_sr.sample_depth_m(survey, q[0], q[1]) for q in wet]
+                worst = max(deep)
+                if worst > limit + FENCE_DEPTH_TOL_M:
+                    out.append(f"fence {fid}: 97 C10 — the wall stands in {worst:.2f} m of water but "
+                               f"waterOk.maxDepthM is {limit:.2f} m; no pole is driven there")
+    return out
+
+
+def _fence_warnings(bp: dict, survey=None) -> list[str]:
+    """WARN 97 C10: a long unbent run across falling ground is a drawn line."""
+    if survey is None:
+        return []
+    from . import street_router as _sr
+    extent_m = float(getattr(survey, "extent_m", _sr.PROVINCE_EXTENT_M))
+    out: list[str] = []
+    for f in bp.get("fences") or []:
+        module = f.get("moduleM")
+        pts = f.get("points") or []
+        if not isinstance(module, (int, float)) or module <= 0 or len(pts) < 2:
+            continue
+        limit = FENCE_STRAIGHT_MODULES * float(module)
+        for a, b in zip(pts, pts[1:]):
+            ax, az = float(a[0]) * extent_m, float(a[1]) * extent_m
+            bx, bz = float(b[0]) * extent_m, float(b[1]) * extent_m
+            run = math.hypot(bx - ax, bz - az)
+            if run <= limit:
+                continue
+            hs = [_sr.sample_height_m(survey, q[0], q[1])
+                  for q in _sample_polyline_m([a, b], extent_m, 2.0)]
+            fall = max(hs) - min(hs)
+            if fall > FENCE_FALL_M:
+                out.append(f"{bp.get('id', '<missing id>')}: 97 C10 — fence {f.get('id')} runs "
+                           f"{run:.1f} m ({run / float(module):.1f} modules) with no bend across "
+                           f"{fall:.2f} m of fall; a wall built on the ground steps or turns with the "
+                           f"contour (route it: street_router --apply)")
+                break
+    return out
 
 
 def _placement_warnings(bp: dict) -> list[str]:
@@ -1077,6 +1290,259 @@ def needs_terminals(record: dict | None) -> bool:
     return record.get("discovery") == "road" or bool(record.get("reachedVia"))
 
 
+LANE_TERMINALS_PATH = (Path(__file__).resolve().parents[3] / "world" / "sources"
+                       / "routes" / "lane-terminals.json")
+
+
+@lru_cache(maxsize=1)
+def _lane_terminal_docks() -> dict[str, tuple[float, float]]:
+    """{dockId: (u, v)} declared in lane-terminals.json — the berths the Phase 4
+    boat lanes are re-ended at (compile_society)."""
+    try:
+        doc = json.loads(LANE_TERMINALS_PATH.read_text())
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out: dict[str, tuple[float, float]] = {}
+    for spec in (doc.get("terminals") or {}).values():
+        uv, did = spec.get("terminalUV"), spec.get("dockId")
+        if isinstance(did, str) and isinstance(uv, list) and len(uv) == 2:
+            out[did] = (float(uv[0]), float(uv[1]))
+    return out
+
+
+def _water_routes() -> dict:
+    try:
+        return {rid: r for rid, r in pn.load_network().items() if r.is_water}
+    except Exception:  # noqa: BLE001 — a partial checkout has no bundles
+        return {}
+
+
+def _approach_points(points, from_end: str, distance_m: float) -> list[tuple[float, float]]:
+    """The vertices of the first `distance_m` of a polyline from one end, plus
+    the point at exactly that distance — the water a hull crosses on its way in
+    to the berth."""
+    pts = list(points) if from_end == "head" else list(reversed(points))
+    out = [pts[0]] if pts else []
+    walked = 0.0
+    for a, b in zip(pts, pts[1:]):
+        seg = math.dist(a, b)
+        if walked + seg >= distance_m:
+            t = (distance_m - walked) / seg if seg else 0.0
+            out.append((a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t))
+            break
+        walked += seg
+        out.append(b)
+    return out
+
+
+def _dock_survey(survey=None):
+    if survey is not None:
+        return survey
+    from . import street_router as _sr
+    try:
+        return _sr.default_survey()
+    except Exception:  # noqa: BLE001 — no published rasters in this checkout
+        return None
+
+
+# The province publishes a DEPTH only for the bodies its hydrology solves
+# (ocean, lakes, the river bands). A marsh poling channel is carried by the
+# region raster instead — `open_water` is true there and the depth reads 0.0.
+# So a cell the province calls open water is credited with the canoe minimum
+# and no more: a poled hull, never a keel. A berth off that mask gets no
+# credit at all, which is what fails a landing drawn on dry ground.
+MARSH_WATER_CREDIT_M = HULL_CLASS_DEPTH_M["canoe"]
+
+
+def _water_depth_at(survey, x: float, z: float) -> float | None:
+    try:
+        depth = float(survey.sample(x, z)["hydrology"]["waterDepthM"])
+    except Exception:  # noqa: BLE001
+        return None
+    return max(depth, MARSH_WATER_CREDIT_M) if _is_open_water(survey, x, z) else depth
+
+
+def _is_open_water(survey, x: float, z: float) -> bool:
+    try:
+        row, col = survey.grid_px(x, z)
+        return bool(survey.open_water[row, col])
+    except Exception:  # noqa: BLE001
+        return False
+
+
+
+@lru_cache(maxsize=1)
+def quest_ids() -> frozenset[str]:
+    """Every authored quest id — the set a socket's `questId` may name."""
+    try:
+        from . import quests as _q
+        return frozenset(str(q.get("id")) for q in _q.load_quests())
+    except Exception:  # noqa: BLE001 — a partial checkout has no quest data
+        return frozenset()
+
+
+def _validate_socket_purposes(bp: dict, fail) -> None:
+    """A quest purpose is a socket and a socket is a quest purpose (owner
+    review 2026-09-08). The prose said "the elder gives you work" and nothing
+    on the map said where; these two checks are what stop that."""
+    sockets = bp.get("questSockets") or []
+    by_id = {s.get("id"): s for s in sockets}
+    parcels = bp.get("parcels") or []
+    quest_parcels: dict[str, list[dict]] = {}
+    for parcel in parcels:
+        entries = [e for e in (parcel.get("playerPurpose") or [])
+                   if isinstance(e, dict) and e.get("kind") in QUEST_PURPOSE_KINDS]
+        if entries:
+            quest_parcels[parcel.get("id")] = entries
+    known_quests = quest_ids()
+
+    for parcel_id, entries in quest_parcels.items():
+        for e in entries:
+            ref = e.get("socketRef")
+            if not isinstance(ref, str) or not ref:
+                fail(f"parcel {parcel_id} carries a {e['kind']!r} purpose with no socketRef — "
+                     f"a purpose that names a quest must name the questSockets[] entry the player "
+                     f"finds it at, or the map shows nothing where the record promises work")
+                continue
+            socket = by_id.get(ref)
+            if socket is None:
+                fail(f"parcel {parcel_id} playerPurpose socketRef {ref!r} is not a "
+                     f"questSockets[] id in this blueprint")
+            elif socket.get("parcelId") != parcel_id:
+                fail(f"parcel {parcel_id} points at socket {ref!r}, but that socket is bound "
+                     f"to {socket.get('parcelId')!r} — a purpose and its socket are the same place")
+
+    for socket in sockets:
+        pid = socket.get("parcelId")
+        if pid is not None and pid not in quest_parcels:
+            fail(f"socket {socket.get('id')} is bound to parcel {pid!r}, which carries no "
+                 f"playerPurpose of kind {sorted(QUEST_PURPOSE_KINDS)} — a quest marker on a "
+                 f"building the record does not call a quest building")
+        qid = socket.get("questId")
+        if qid is not None and known_quests and qid not in known_quests:
+            fail(f"socket {socket.get('id')} names questId {qid!r}, which is not a quest in "
+                 f"world/sources/quests/ (run `python3 -m worldgen.quests --check`)")
+
+
+def _validate_docks(bp: dict, fail, warnings: list[str] | None, survey=None, geometry: bool = True) -> None:
+    """97 B5 / G9 + the 2026-09-08 review: a dock is a WATER TERMINAL.
+
+    Three things are HARD here. The dock declares the deepest hull it serves;
+    a `networkTerminals[]` entry of water kind names it; and the water the
+    province publishes actually reaches it — its end within
+    DOCK_TERMINAL_TOLERANCE_M, carrying the hull class's depth
+    DOCK_DEPTH_SAMPLE_M along the serving route. Which of the two was moved to
+    meet the other is `fit`, derived when it is not declared, and always
+    reported."""
+    docks = bp.get("docks") or []
+    if not docks:
+        return
+    bid = bp.get("id", "<missing id>")
+    terminals = bp.get("networkTerminals") or []
+    by_dock: dict[str, list[dict]] = {}
+    for t in terminals:
+        did = t.get("dockId")
+        if isinstance(did, str):
+            by_dock.setdefault(did, []).append(t)
+    routes = _water_routes()
+    survey = _dock_survey(survey)
+    extent = float(getattr(survey, "extent_m", fp.PROVINCE_EXTENT_M))
+    lane_terminal_docks = _lane_terminal_docks()
+
+    for dk in docks:
+        did = dk.get("id")
+        pos = dk.get("position")
+        hull = dk.get("hullClass")
+        if hull not in HULL_CLASS_DEPTH_M:
+            fail(f"dock {did}: hullClass must be one of {sorted(HULL_CLASS_DEPTH_M)} "
+                 f"(97 B5 — the deepest hull this berth serves sets the depth the water must carry)")
+        if dk.get("fit") is not None and dk.get("fit") not in DOCK_FITS:
+            fail(f"dock {did}: fit must be one of {sorted(DOCK_FITS)} — which of the berth and the "
+                 f"channel was moved to meet the other")
+        served = by_dock.get(did) or []
+        water_served = [t for t in served if t.get("kind") in ("lane", "channel")]
+        if not water_served:
+            fail(f"dock {did}: a dock is a water terminal — it needs a networkTerminals[] entry of "
+                 f"kind 'lane' or 'channel' carrying dockId {did!r}, so the route that serves the "
+                 f"berth is named and its geometry is checked")
+        for t in water_served:
+            if t.get("kind") == "lane" and did not in lane_terminal_docks:
+                fail(f"dock {did}: terminal {t.get('id')} is a lane berth, so "
+                     f"world/sources/routes/lane-terminals.json must carry an entry with "
+                     f"dockId {did!r} — otherwise compile_society still ends the lane at the anchor")
+        if did in lane_terminal_docks and isinstance(pos, list) and len(pos) == 2:
+            lu, lv = lane_terminal_docks[did]
+            off = math.dist((float(pos[0]) * extent, float(pos[1]) * extent), (lu * extent, lv * extent))
+            if off > DOCK_TERMINAL_TOLERANCE_M:
+                fail(f"dock {did}: lane-terminals.json puts the berth {off:.1f} m from the dock "
+                     f"position — the two files must name the same point")
+        if not geometry or not (isinstance(pos, list) and len(pos) == 2) or not routes or survey is None:
+            continue
+
+        dx, dz = float(pos[0]) * extent, float(pos[1]) * extent
+        # the published water end nearest the berth, and the route it ends
+        best = None
+        for rid, r in routes.items():
+            for end, idx in (("head", 0), ("tail", -1)):
+                if not r.points_m:
+                    continue
+                d = math.dist((dx, dz), r.points_m[idx])
+                if best is None or d < best[0]:
+                    best = (d, rid, end)
+        end_m, end_route, end_which = best
+        # a berth may also lie ON a published lane (Lilmoth's roadstead): the
+        # water reaches it either way, and that is what the rule is about.
+        on_route = min((math.dist((dx, dz), p) for r in routes.values() for p in r.points_m),
+                       default=float("inf"))
+        reach_m = min(end_m, on_route)
+        if reach_m > DOCK_TERMINAL_TOLERANCE_M:
+            fail(f"dock {did}: the nearest published waterway reaches {reach_m:.0f} m away "
+                 f"(nearest end {end_m:.0f} m, on {end_route}) — a dock must sit on the water that "
+                 f"serves it (tolerance {DOCK_TERMINAL_TOLERANCE_M:.0f} m). Either move the berth to "
+                 f"the channel (fit 'to-water') or re-end the channel at the berth (fit "
+                 f"'water-to-dock', then re-run worldgen.compile_minor_waterways)")
+
+        need = HULL_CLASS_DEPTH_M.get(hull)
+        serving = None
+        for t in water_served:
+            serving = routes.get(t.get("routeId")) or serving
+        if serving is None:
+            serving = routes.get(end_route)
+        # 97 B5 measures the water the hull actually uses: the DEEPEST line
+        # over the first DOCK_DEPTH_SAMPLE_M of the serving route. A marsh
+        # channel's published depth is a per-cell surface sample, so a poled
+        # hull needs a deep line through the reed plain, not a deep plain; the
+        # dock Nine-Trunks used to carry had 0.24 m anywhere within 100 m and
+        # fails this outright.
+        depth = None
+        if serving is not None and serving.points_m:
+            which = "head" if math.dist((dx, dz), serving.points_m[0]) <= \
+                math.dist((dx, dz), serving.points_m[-1]) else "tail"
+            samples = [_water_depth_at(survey, x, z)
+                       for x, z in _approach_points(serving.points_m, which, DOCK_DEPTH_SAMPLE_M)]
+            samples = [v for v in samples if v is not None]
+            if samples:
+                depth = max(samples)
+        if need is not None and depth is not None and depth + 1e-6 < need:
+            fail(f"dock {did}: hullClass {hull!r} needs {need:.1f} m of water, but the serving "
+                 f"route carries {depth:.2f} m {DOCK_DEPTH_SAMPLE_M:.0f} m off the berth (97 B5/G9)")
+        fit = dk.get("fit") or _derive_dock_fit(dk, survey, end_m, need)
+        if warnings is not None:
+            warnings.append(f"{bid}: dock {did} fit {fit} — water reaches {reach_m:.1f} m from the "
+                            f"berth, {depth if depth is None else round(depth, 2)} m deep "
+                            f"{DOCK_DEPTH_SAMPLE_M:.0f} m out, hull {hull}")
+
+
+def _derive_dock_fit(dk: dict, survey, end_m: float, need: float | None) -> str:
+    """water-to-dock when the berth's own water already passes its hull class
+    and a published water end is within DOCK_FIT_SEARCH_M; to-water otherwise."""
+    pos = dk.get("position") or [0, 0]
+    extent = float(getattr(survey, "extent_m", fp.PROVINCE_EXTENT_M))
+    here = _water_depth_at(survey, float(pos[0]) * extent, float(pos[1]) * extent) if survey else None
+    passes = need is None or (here is not None and here + 1e-6 >= need)
+    return "water-to-dock" if (passes and end_m <= DOCK_FIT_SEARCH_M) else "to-water"
+
+
 def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey=None,
                        warnings: list[str] | None = None) -> list[str]:
     """Hard schema + placement validation; returns the failures.
@@ -1089,6 +1555,7 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
     bid = bp.get("id", "<missing id>")
     if warnings is not None:
         warnings += _placement_warnings(bp)
+        warnings += _fence_warnings(bp, survey)
         warnings += _why_quality_warnings(bp)
         warnings += _occupancy_warnings(bp)
 
@@ -1267,6 +1734,9 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         check_why(f"landmark {lm.get('id')}", lm.get("why"), WHY_KEYS_FULL)
     for dk in bp.get("docks", []):
         check_why(f"dock {dk.get('id')}", dk.get("why"), WHY_KEYS_AREA)
+    # A fixture compiled --skip-catalogue (known_place_ids is None) has no
+    # published water network to stitch to: schema checks only.
+    _validate_docks(bp, fail, warnings, survey, geometry=known_place_ids is not None)
     # 97 D9 / G20 — every place has at least one combat space with its clearance
     # class and a why, even where it is safe: a hostility flip, a night attack
     # or a quest will use it, and critical animations need the room.
@@ -1321,8 +1791,52 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             for ref in w.get("endsAt", []) or []:
                 if not isinstance(ref, str):
                     fail(f"{key} {wid}: endsAt entries must be ids")
-            if key == "fences" and not w.get("assetRef"):
-                fail(f"fences {wid}: assetRef (the kit's fence/wall piece) is required")
+            if key == "fences":
+                from . import street_router as _sr
+                if not w.get("assetRef"):
+                    fail(f"fences {wid}: assetRef (the kit's fence/wall piece) is required")
+                if w.get("class") not in _sr.FENCE_CLASSES:
+                    fail(f"fences {wid}: 97 C10 — class must be one of "
+                         f"{sorted(_sr.FENCE_CLASSES)} (the wall's own kind decides how it is routed)")
+                if w.get("routing") == "straight" and not (
+                        isinstance(w.get("routingWhy"), str) and len(w["routingWhy"].strip()) >= MIN_WHY_CHARS):
+                    fail(f"fences {wid}: 97 C10 — a straight wall needs routingWhy: a wall is routed "
+                         f"over the ground unless it was SURVEYED, and the record says who surveyed it")
+                wok = w.get("waterOk")
+                if wok is not None and not (isinstance(wok, dict)
+                                            and isinstance(wok.get("maxDepthM"), (int, float))
+                                            and wok["maxDepthM"] > 0):
+                    fail(f"fences {wid}: 97 C10 — waterOk must be {{maxDepthM: <metres>}} (how deep a "
+                         f"pole is driven), or be absent")
+                gap_ids = {x.get("id") for k in ("routes", "canals", "boardwalks")
+                           for x in bp.get(k, []) or []}
+                for g in w.get("gapAt", []) or []:
+                    if g not in gap_ids:
+                        fail(f"fences {wid}: 97 C10 — gapAt {g!r} names no way in this blueprint; a gap "
+                             f"is an opening in the wall where a named way passes through it")
+                parcel_ids = {x.get("id") for x in bp.get("parcels", []) or []}
+                for a in w.get("abuts", []) or []:
+                    if a not in parcel_ids:
+                        fail(f"fences {wid}: 97 C10 — abuts {a!r} names no parcel in this blueprint; "
+                             f"abuts is the DESIGNED contact (a course a dais stands on, a conduit its "
+                             f"pillars carry, a panel butted into the piece it plugs against)")
+                if (w.get("abuts") and not (isinstance(w.get("abutsWhy"), str)
+                                            and len(w["abutsWhy"].strip()) >= MIN_WHY_CHARS)):
+                    fail(f"fences {wid}: 97 C10 — abutsWhy is required with abuts: contact between a "
+                         f"wall and a building is either a mistake or a design, and the record says which")
+                want_module = _sr.module_m(w)
+                if want_module is not None and w.get("moduleM") != want_module:
+                    fail(f"fences {wid}: 97 C10 — moduleM is derived from the measured piece "
+                         f"({want_module} m, the long axis of {w.get('assetRef')}); it reads "
+                         f"{w.get('moduleM')!r} — run 'python3 -m worldgen.street_router --apply <file>'")
+
+    # 97 C10 (owner ruling 2026-09-08) — a wall is a line ON the ground: it
+    # crosses no building, crosses a way only at a declared gap, and stands in
+    # water only where its own waterOk says poles are driven.
+    if bp.get("fences"):
+        from . import street_router as _sr_f
+        errors += [f"{bid}: {m}" for m in _fence_failures(
+            bp, survey if survey is not None else _sr_f.default_survey())]
 
     # 97 C-stitch (owner requirement 2026-09-05) — the network into the place
     # and the streets inside it are ONE network. A blueprint declares where the
@@ -1417,6 +1931,7 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             if key == "landmarks" and "yawDeg" in item and not isinstance(item["yawDeg"], (int, float)):
                 fail(f"landmark {item.get('id')}: yawDeg must be a number")
 
+    _validate_socket_purposes(bp, fail)
     for s in bp.get("questSockets", []):
         if s.get("kind") not in SOCKET_KINDS:
             fail(f"socket {s.get('id')}: kind must be one of {sorted(SOCKET_KINDS)}")

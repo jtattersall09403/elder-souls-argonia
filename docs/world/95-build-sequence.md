@@ -340,6 +340,19 @@ applies to this phase's packets exactly as to Phase 11's. Interior navmesh
 bakes land with 10b's pipeline — author the geometry now, bake when the
 pipeline exists.
 
+**Both phases CONSUME the purpose ledger.** Every `playerPurpose` entry a
+Phase 11 blueprint carries is a row in
+`world/sources/sites/purpose-ledger.json` (written by
+`worldgen.export_purpose_ledger`, kept byte-current by
+`worldgen/test_export_purpose_ledger.py`), and each row names the phase that
+has to build the thing: Phase 12 for the interiors, fixtures and readables;
+Phase 13 for the loot tables, occupants, services and encounters; the quest
+data for `quest-giver`/`quest-stage`, which also carry the socket and the quest
+id. A row with nothing delivered against it is a hard failure in the phase that
+owns it — the same shape, and the same intent, as an unmet macro promise in
+`worldgen.blueprint_promises`. That is what stops a settlement whose record
+promises a fence, a bed and a quest-giver from shipping as three closed doors.
+
 Deliverables:
 
 - exterior portal and foundation data;
@@ -537,6 +550,19 @@ exemplar-first shape (§85.4): build the habitat/encounter/loot systems, prove
 them on the exemplar areas and a contrast set, roll out per region packet in
 Phase 15. Authoring is semantic (ladder references, §86.0); mine the shipped
 games' data for habitat/encounter patterns where useful (§86.0b).
+
+**Both phases CONSUME the purpose ledger.** Every `playerPurpose` entry a
+Phase 11 blueprint carries is a row in
+`world/sources/sites/purpose-ledger.json` (written by
+`worldgen.export_purpose_ledger`, kept byte-current by
+`worldgen/test_export_purpose_ledger.py`), and each row names the phase that
+has to build the thing: Phase 12 for the interiors, fixtures and readables;
+Phase 13 for the loot tables, occupants, services and encounters; the quest
+data for `quest-giver`/`quest-stage`, which also carry the socket and the quest
+id. A row with nothing delivered against it is a hard failure in the phase that
+owns it — the same shape, and the same intent, as an unmet macro promise in
+`worldgen.blueprint_promises`. That is what stops a settlement whose record
+promises a fence, a bed and a quest-giver from shipping as three closed doors.
 
 Deliverables:
 

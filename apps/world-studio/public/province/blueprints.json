@@ -1584,7 +1584,7 @@
             "playerPurpose": "Cover and a vertical marker at the yard's south edge; a rope and beam over the stream.",
             "what": "A timber hoist standing over the block face, its beam out above the cut.",
             "whyHere": "Blocks are lifted out of the cut and onto the carts; the hoist is how the tribe raises what it cannot carry.",
-            "whyNeighbours": "It stands between the cutting floor and the half-cut blocks.",
+            "whyNeighbours": "It stands between the cutting floor and the half-cut blocks, clear of both. The kit has no authored joint from a hoist to a rock face or to a block pile, so the three are set as a working group.",
             "whySpot": "Between the cut face and the pile of half-cut blocks, so a block comes off the face, up the hoist and onto the pile in one movement."
           },
           "yawDeg": 208.2
@@ -2607,8 +2607,8 @@
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
           "buildingFamily": "works-staging",
           "centreM": [
-            1971.501,
-            1357.001
+            1971.85,
+            1356.199
           ],
           "districtId": "district.mazzatun.staging",
           "entrance": null,
@@ -2617,55 +2617,55 @@
           "id": "parcel.mazzatun.scaffold-c",
           "interior": null,
           "notes": null,
-          "orientationWhy": "Two-sided bay opened toward the yard road, its decks still on the riser line.",
+          "orientationWhy": "Two-sided bay laid on the four-sided base's west face, on the base's own bearing, because that is the face on which the stockade kit joins bays. Its open sides look down the yard road.",
           "polygon": [
             [
-              1970.229,
-              1355.407
+              1970.678,
+              1354.531
             ],
             [
-              1970.272,
-              1355.333
+              1970.725,
+              1354.459
             ],
             [
-              1970.349,
-              1355.295
+              1970.804,
+              1354.426
             ],
             [
-              1973.133,
-              1355.745
+              1973.555,
+              1355.046
             ],
             [
-              1973.194,
-              1355.806
+              1973.613,
+              1355.11
             ],
             [
-              1973.211,
-              1355.89
+              1973.624,
+              1355.195
             ],
             [
-              1972.772,
-              1358.594
+              1973.022,
+              1357.868
             ],
             [
-              1972.73,
-              1358.669
+              1972.975,
+              1357.939
             ],
             [
-              1972.653,
-              1358.707
+              1972.896,
+              1357.972
             ],
             [
-              1969.869,
-              1358.256
+              1970.145,
+              1357.352
             ],
             [
-              1969.808,
-              1358.195
+              1970.088,
+              1357.288
             ],
             [
-              1969.791,
-              1358.112
+              1970.076,
+              1357.204
             ]
           ],
           "spans": null,
@@ -2678,14 +2678,14 @@
             "whyNeighbours": "It stands between the half-cut blocks and the great stair.",
             "whySpot": "Joined to the four-sided base as one deck at the head of the yard, between the block pile and the great stair."
           },
-          "yawDeg": 9.2
+          "yawDeg": 12.7
         },
         {
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
           "buildingFamily": "works-staging",
           "centreM": [
-            1975.401,
-            1360.901
+            1974.571,
+            1360.678
           ],
           "districtId": "district.mazzatun.staging",
           "entrance": null,
@@ -2693,61 +2693,61 @@
             "deg": 271.9,
             "evidence": "co-placement",
             "outside": true,
-            "worldDeg": 253.1
+            "worldDeg": 194.6
           },
           "groundFit": "stilt",
           "id": "parcel.mazzatun.scaffold-stair",
           "interior": null,
           "notes": null,
-          "orientationWhy": "The scaffold stair climbs against the fall, its foot on the lower step.",
+          "orientationWhy": "The flight is set on the four-sided base's south face, which is the joint that the stockade kit's own builders use, so the stair is built into the deck that it climbs. It rises against the fall with its foot on the lower step.",
           "polygon": [
             [
-              1973.355,
-              1359.918
+              1972.664,
+              1361.909
             ],
             [
-              1973.354,
-              1359.823
+              1972.583,
+              1361.86
             ],
             [
-              1973.404,
-              1359.753
+              1972.549,
+              1361.781
             ],
             [
-              1976.396,
-              1358.734
+              1973.244,
+              1358.698
             ],
             [
-              1976.478,
-              1358.759
+              1973.308,
+              1358.641
             ],
             [
-              1976.536,
-              1358.835
+              1973.402,
+              1358.631
             ],
             [
-              1977.56,
-              1361.845
+              1976.505,
+              1359.33
             ],
             [
-              1977.561,
-              1361.94
+              1976.586,
+              1359.379
             ],
             [
-              1977.511,
-              1362.01
+              1976.619,
+              1359.459
             ],
             [
-              1974.52,
-              1363.028
+              1975.925,
+              1362.541
             ],
             [
-              1974.437,
-              1363.003
+              1975.86,
+              1362.599
             ],
             [
-              1974.38,
-              1362.928
+              1975.766,
+              1362.608
             ]
           ],
           "spans": null,
@@ -2757,10 +2757,10 @@
             "playerPurpose": "The LV30 npc socket: the keeper whose route knowledge exists nowhere else.",
             "what": "A timber scaffold stair, the walkway keeper's post.",
             "whyHere": "The scaffolds are climbed by their stairs. The keeper of the walkways stands at the foot of the stair nearest the gate.",
-            "whyNeighbours": "It stands beside the cart and the block face; the keeper watches the gate from here.",
+            "whyNeighbours": "It is built onto the south face of the four-sided base. The two-sided bay is on that base's west face, so stair and bay are one deck. The keeper watches the gate from the foot of the flight.",
             "whySpot": "Against the south side of the four-sided base, the flight facing the yard so the climb is seen from the road."
           },
-          "yawDeg": 341.2
+          "yawDeg": 282.7
         },
         {
           "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
@@ -3357,7 +3357,8 @@
           "positionM": [
             1981.001,
             1360.001
-          ]
+          ],
+          "questId": "quest.local.lv29"
         },
         {
           "id": "socket.mazzatun.conduit-head",
@@ -3368,7 +3369,8 @@
           "positionM": [
             2017.001,
             1345.001
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.mazzatun.conduit-room",
@@ -3379,7 +3381,8 @@
           "positionM": [
             1998.001,
             1339.001
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.mazzatun.half-cut-blocks",
@@ -3390,7 +3393,8 @@
           "positionM": [
             1963.001,
             1357.001
-          ]
+          ],
+          "questId": "quest.local.lv29"
         },
         {
           "id": "socket.mazzatun.hist-overlook",
@@ -3401,7 +3405,8 @@
           "positionM": [
             2017.001,
             1350.001
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.mazzatun.shaper",
@@ -3412,7 +3417,8 @@
           "positionM": [
             2010.001,
             1337.001
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.mazzatun.walkway-keeper",
@@ -3423,7 +3429,8 @@
           "positionM": [
             1990.001,
             1358.501
-          ]
+          ],
+          "questId": "quest.local.lv30"
         },
         {
           "id": "socket.mazzatun.xit-xaht-mark",
@@ -3434,7 +3441,8 @@
           "positionM": [
             1984.001,
             1336.001
-          ]
+          ],
+          "questId": "quest.local.lv28"
         }
       ],
       "scaleGrounding": {
@@ -3503,9 +3511,16 @@
             "landmark.mazzatun.hist",
             "parcel.mazzatun.stair-throat"
           ],
+          "fenceClass": "ring-panel",
+          "gapAt": [
+            "route.mazzatun.haul",
+            "route.mazzatun.terrace",
+            "route.mazzatun.pens-stair-link"
+          ],
           "group": "fences",
           "id": "fence.mazzatun.conduit",
           "kind": "wall",
+          "moduleM": 9.56,
           "notes": null,
           "points": [
             [
@@ -3513,36 +3528,36 @@
               1341.001
             ],
             [
-              2051.485,
-              1336.574
+              2051.405,
+              1336.555
             ],
             [
-              2043.856,
-              1336.123
+              2041.861,
+              1336.008
             ],
             [
-              2018.622,
-              1344.727
+              2015.008,
+              1346.082
             ],
             [
-              2014.969,
-              1344.968
+              2014.673,
+              1336.528
             ],
             [
-              2008.001,
-              1343.501
+              2008.063,
+              1343.435
             ],
             [
-              1997.501,
-              1347.301
+              1999.086,
+              1346.721
             ],
             [
-              1997.019,
-              1345.872
+              1990.243,
+              1343.088
             ],
             [
-              1998.501,
-              1341.528
+              1999.637,
+              1341.314
             ]
           ],
           "routing": "arc",
@@ -3576,15 +3591,21 @@
               1343.001
             ]
           ],
-          "why": "The amber conduit: hollowed root carrying sap from Tsono-Xuhil up the escarpment to the head at the lip, over the gate on the pillars and into the throat. Authored as a wall because the schema has no conduit kind; it is a built line, not a path.",
+          "waterOk": null,
+          "why": "The amber conduit: hollowed root carrying sap from Tsono-Xuhil up the escarpment to the head at the lip, over the gate on the pillars and into the throat. Authored as a wall because the schema has no conduit kind; it is a built line.",
           "widthM": 1.2
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [
+            "route.mazzatun.works-store-path"
+          ],
           "group": "fences",
           "id": "fence.mazzatun.pen",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -3592,11 +3613,31 @@
               1319.001
             ],
             [
-              2010.501,
-              1319.001
+              1953.621,
+              1322.099
+            ],
+            [
+              1960.561,
+              1328.557
+            ],
+            [
+              1989.001,
+              1328.5
+            ],
+            [
+              1991.024,
+              1326.072
+            ],
+            [
+              2003.651,
+              1325.494
+            ],
+            [
+              2010.531,
+              1318.972
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               1953.001,
@@ -3607,15 +3648,19 @@
               1319.001
             ]
           ],
-          "why": "The woven fence along the uphill side of the pens and down their east side to the lip, so the only way out of the pens is down the stair into the works or west along the lane. Its east side needs no leg: the east shell and the east course close it.",
+          "waterOk": null,
+          "why": "The woven fence along the uphill side of the pens and down their east side to the lip, so the only way out of the pens is down the stair into the works or west along the lane. Its east side needs no leg, because the east shell and the east course close it.",
           "widthM": 0.3
         },
         {
           "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02",
           "endsAt": [],
+          "fenceClass": "curtain",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.mazzatun.riser-lower-east",
           "kind": "wall",
+          "moduleM": 6.38,
           "notes": null,
           "points": [
             [
@@ -3638,15 +3683,19 @@
               1349.501
             ]
           ],
+          "waterOk": null,
           "why": "The same course east of the great stair as far as the gate wall.",
           "widthM": 6.4
         },
         {
           "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02",
           "endsAt": [],
+          "fenceClass": "curtain",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.mazzatun.riser-lower-west",
           "kind": "wall",
+          "moduleM": 6.38,
           "notes": null,
           "points": [
             [
@@ -3669,15 +3718,19 @@
               1349.501
             ]
           ],
+          "waterOk": null,
           "why": "The retaining course under the yard riser from the west end of the shelf to the kiln, under the frontage dais.",
           "widthM": 6.4
         },
         {
           "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
           "endsAt": [],
+          "fenceClass": "curtain",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.mazzatun.riser-upper-east",
           "kind": "wall",
+          "moduleM": 6.38,
           "notes": null,
           "points": [
             [
@@ -3700,15 +3753,19 @@
               1332.501
             ]
           ],
+          "waterOk": null,
           "why": "The same retaining course east of the pens stair, as far as the east pen.",
           "widthM": 6.4
         },
         {
           "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
           "endsAt": [],
+          "fenceClass": "curtain",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.mazzatun.riser-upper-west",
           "kind": "wall",
+          "moduleM": 6.38,
           "notes": null,
           "points": [
             [
@@ -3731,6 +3788,7 @@
               1332.501
             ]
           ],
+          "waterOk": null,
           "why": "The retaining course of quad blocks under the pens riser, from the corner block to the pens stair; the north course stands on it.",
           "widthM": 6.4
         },
@@ -3739,9 +3797,12 @@
           "endsAt": [
             "parcel.mazzatun.haul-gate"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.mazzatun.gateway",
           "kind": "road",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -3764,6 +3825,7 @@
               1354.631
             ]
           ],
+          "waterOk": null,
           "why": "The passage through the gate itself, square to the wall, which the gate parcel spans; drawn straight because a gate opening is a surveyed thing.",
           "widthM": 3.0
         },
@@ -3773,9 +3835,12 @@
             "landmark.mazzatun.hist",
             "parcel.mazzatun.haul-gate"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.mazzatun.haul",
           "kind": "road",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -3792,19 +3857,11 @@
             ],
             [
               2059.501,
-              1350.501
-            ],
-            [
-              2058.501,
               1351.501
             ],
             [
-              2056.501,
-              1350.501
-            ],
-            [
               2054.501,
-              1352.501
+              1346.501
             ],
             [
               2054.501,
@@ -3815,20 +3872,20 @@
               1357.501
             ],
             [
-              2046.501,
+              2042.501,
               1357.501
             ],
             [
-              2045.501,
+              2041.501,
               1356.501
             ],
             [
-              2045.501,
-              1340.501
+              2041.501,
+              1337.501
             ],
             [
               2039.501,
-              1334.501
+              1335.501
             ],
             [
               2040.001,
@@ -3863,15 +3920,7 @@
               1348.501
             ],
             [
-              2018.501,
-              1350.501
-            ],
-            [
-              2010.501,
-              1350.501
-            ],
-            [
-              2009.501,
+              2017.501,
               1351.501
             ],
             [
@@ -3898,6 +3947,7 @@
               1350.001
             ]
           ],
+          "waterOk": null,
           "why": "The haul road from the Hist court on the gorge floor up 40 m of escarpment to the gate: two traverses and two bends, the line worn by carts and gangs. It runs where the face is least steep and it keeps the conduit head on the skyline for the last bend. It begins on the east side of the Hist court, from which the conduit head shows whole on the lip; from the foot of the face itself the rock hides it.",
           "widthM": 3.0
         },
@@ -3907,9 +3957,12 @@
             "parcel.mazzatun.pen-rack",
             "parcel.mazzatun.pen-c"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.mazzatun.pen-lane",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -3960,6 +4013,7 @@
               1330.001
             ]
           ],
+          "waterOk": null,
           "why": "The lane along the pens, from the rack at the west end past the three doors to the head of the pens stair and the east pen; the labourers' one street.",
           "widthM": 1.6
         },
@@ -3968,9 +4022,12 @@
           "endsAt": [
             "parcel.mazzatun.pens-stair"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.mazzatun.pens-stair-link",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -3993,6 +4050,7 @@
               1344.301
             ]
           ],
+          "waterOk": null,
           "why": "The short worn line from the foot of the pens stair down to the terrace track, straight because it runs on the fall line between two stone pieces.",
           "widthM": 1.5
         },
@@ -4002,9 +4060,12 @@
             "parcel.mazzatun.shelf-gate",
             "parcel.mazzatun.tower"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.mazzatun.terrace",
           "kind": "track",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -4012,11 +4073,7 @@
               1349.043
             ],
             [
-              1981.501,
-              1349.501
-            ],
-            [
-              1985.001,
+              1984.501,
               1345.501
             ],
             [
@@ -4067,6 +4124,7 @@
               1342.501
             ]
           ],
+          "waterOk": null,
           "why": "The terrace track along the works, from the shelf gate at the west end past the great stair head, the statue court and the throat door to the watch column at the lip. It is the way along the middle step. It begins on the gate's inner face so the ridge track runs on without a break.",
           "widthM": 2.5
         },
@@ -4076,9 +4134,12 @@
             "parcel.mazzatun.gate-frontage",
             "parcel.mazzatun.shelf-gate"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.mazzatun.terrace-head",
           "kind": "track",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -4101,6 +4162,7 @@
               1351.509
             ]
           ],
+          "waterOk": null,
           "why": "The eleven metres between the shelf head and the gate: the ridge track's own line carried past the frontage dais to the gate that closes it, so the way in and the terrace inside are one track with one wall across it.",
           "widthM": 2.5
         },
@@ -4109,9 +4171,12 @@
           "endsAt": [
             "parcel.mazzatun.works-store"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.mazzatun.works-store-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -4134,6 +4199,7 @@
               1321.486
             ]
           ],
+          "waterOk": null,
           "why": "A path up off the pen lane between the two western shells to the store entrance, because a cart cannot be brought up the step and the stock is carried.",
           "widthM": 1.2
         },
@@ -4143,9 +4209,12 @@
             "parcel.mazzatun.haul-gate",
             "parcel.mazzatun.great-stair"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.mazzatun.yard",
           "kind": "road",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -4168,6 +4237,7 @@
               1353.501
             ]
           ],
+          "waterOk": null,
           "why": "The yard road from the inside of the gate to the foot of the great stair: the spine of the yard, along which the carts run.",
           "widthM": 3.0
         }
@@ -4854,7 +4924,7 @@
             "microGeography": "Piles stand in the pool 2 m below the bank on its eastern shore, where the water is deep enough for a laden pole boat and the reed bed is thin.",
             "playerPurpose": "The arrival point for a player who comes by boat and the travel service to Uxaneet.",
             "what": "The landing at the head of the pier in the western pool, where the boat from Uxaneet ties up.",
-            "whyHere": "The village is reached by water from Uxaneet as often as by the road; delegations bring baggage. Baggage comes by boat.",
+            "whyHere": "The village is reached by water from Uxaneet as often as by the road. Delegations bring baggage, which comes by boat. No other water within reach of the ring will float a laden hull, so the poling channel that serves the village is drawn to these piles rather than the piles moved out to it (fit `water-to-dock`).",
             "whyNeighbours": "The pier runs from it to the bank and the landing path climbs from the bank to the arch; the western family's hut, whose household poles the boat, stands in the wall above it."
           }
         }
@@ -5356,7 +5426,18 @@
           ],
           "routeId": "track.hist-heartland.nine-trunks",
           "wayId": "route.nine-trunks.spur",
-          "why": "The heartland track reaches the village on the one shoulder that carries a cart above the pool's flood line; it crosses the boundary here and the spur carries it the last 120 m to the gate gap, so track and street are one line."
+          "why": "The heartland track reaches the village on the shoulder that carries a cart above the pool's flood line; it crosses the boundary here and the spur carries it the last 120 m to the gate gap, so track and street are one line."
+        },
+        {
+          "id": "terminal.nine-trunks.landing-channel",
+          "kind": "channel",
+          "positionM": [
+            4907.903,
+            3733.902
+          ],
+          "routeId": "waterway.hist-heartland.nine-trunks.landing",
+          "wayId": "boardwalk.nine-trunks.pier",
+          "why": "The poling channel off the heartland water network is drawn up to the western pool and dies at the landing piles; the pier carries the baggage from it up the bank."
         }
       ],
       "parcels": [
@@ -7246,7 +7327,8 @@
           "positionM": [
             4920.902,
             3795.902
-          ]
+          ],
+          "questId": "quest.local.lh53"
         },
         {
           "id": "socket.nine-trunks.empty-pitches",
@@ -7257,7 +7339,8 @@
           "positionM": [
             4916.902,
             3825.902
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.nine-trunks.felling-claim",
@@ -7268,7 +7351,8 @@
           "positionM": [
             4983.736,
             3745.812
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.nine-trunks.guest-cache",
@@ -7279,7 +7363,8 @@
           "positionM": [
             4972.902,
             3764.902
-          ]
+          ],
+          "questId": "quest.local.mq19"
         },
         {
           "id": "socket.nine-trunks.identity-case",
@@ -7290,7 +7375,8 @@
           "positionM": [
             4972.902,
             3735.402
-          ]
+          ],
+          "questId": "quest.local.mq19"
         },
         {
           "id": "socket.nine-trunks.pitch-ledger",
@@ -7301,18 +7387,20 @@
           "positionM": [
             4948.902,
             3765.902
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.nine-trunks.pitch-taker",
           "kind": "npc",
           "notes": null,
           "ownerQuestTier": 3,
-          "parcelId": null,
+          "parcelId": "parcel.nine-trunks.hut-pitch-taker",
           "positionM": [
             4949.902,
             3762.902
-          ]
+          ],
+          "questId": "quest.local.lh51"
         },
         {
           "id": "socket.nine-trunks.root-join",
@@ -7323,7 +7411,8 @@
           "positionM": [
             4999.985,
             3748.677
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.nine-trunks.tree-minder",
@@ -7334,7 +7423,8 @@
           "positionM": [
             4969.482,
             3753.299
-          ]
+          ],
+          "questId": "quest.local.mq19"
         }
       ],
       "scaleGrounding": {
@@ -7390,7 +7480,7 @@
         "fences": 20,
         "keptTrees": 9,
         "landmarks": 19,
-        "networkTerminals": 1,
+        "networkTerminals": 2,
         "parcels": 15,
         "questSockets": 9,
         "sitingCandidates": 3,
@@ -7402,9 +7492,12 @@
           "endsAt": [
             "dock.nine-trunks.landing"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.nine-trunks.pier",
           "kind": "pier",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -7427,15 +7520,19 @@
               3733.902
             ]
           ],
+          "waterOk": null,
           "why": "A short piled pier from the bank into the western pool, so a poled boat lands at a deck and not in the reeds.",
           "widthM": 1.8
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/snakefence01",
           "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.pitch-line-north",
           "kind": "fence",
+          "moduleM": 2.12,
           "notes": null,
           "points": [
             [
@@ -7443,11 +7540,15 @@
               3809.902
             ],
             [
+              4923.904,
+              3812.9
+            ],
+            [
               4923.902,
-              3821.902
+              3821.38
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               4926.902,
@@ -7458,15 +7559,19 @@
               3821.902
             ]
           ],
+          "waterOk": null,
           "why": "The northern run of the pitch line, leaving the ten-metre gap through which the pitch path enters the ground.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/snakefence01",
           "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.pitch-line-south",
           "kind": "fence",
+          "moduleM": 2.12,
           "notes": null,
           "points": [
             [
@@ -7474,30 +7579,38 @@
               3785.902
             ],
             [
-              4930.902,
-              3799.902
+              4931.904,
+              3788.9
+            ],
+            [
+              4931.847,
+              3797.38
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               4934.902,
               3785.902
             ],
             [
-              4930.902,
-              3799.902
+              4931.853,
+              3796.575
             ]
           ],
-          "why": "The southern run of the pitch line: the snake fence which marks the rented ground off from the spur, so a delegation knows where the paid ground begins.",
+          "waterOk": null,
+          "why": "The southern run of the pitch line: the snake fence which marks the rented ground off from the spur, stopping two metres short of the pitch path so a delegation coming up it knows where the paid ground begins.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-020-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7520,15 +7633,19 @@
               3721.695
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the east family hut and the elder trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-020-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7551,15 +7668,19 @@
               3725.814
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the east family hut and the north-eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-060-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7582,15 +7703,19 @@
               3729.487
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the first guest hut and the north-eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-060-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7613,15 +7738,19 @@
               3736.028
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the first guest hut and the eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-100-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7644,15 +7773,19 @@
               3741.523
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the second guest hut and the eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-100-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7675,15 +7808,19 @@
               3750.629
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the second guest hut and the south-eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-140-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7706,15 +7843,19 @@
               3755.638
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the third guest hut and the south-eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-140-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7737,15 +7878,19 @@
               3760.982
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the third guest hut and the southern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-180-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7768,15 +7913,19 @@
               3763.398
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the store hut and the southern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-180-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7799,15 +7948,19 @@
               3764.335
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the store hut and the road-side trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-220-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7830,15 +7983,19 @@
               3763.689
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel between the arch and the road-side trunk, closing the northern shoulder of the gate gap.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-220-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7861,15 +8018,19 @@
               3758.184
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel between the arch and the water-side trunk, closing the southern shoulder of the gate gap.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-260-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7892,15 +8053,19 @@
               3753.26
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the pitch-taker's hut and the water-side trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-260-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7923,15 +8088,19 @@
               3743.291
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the pitch-taker's hut and the western trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-300-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7954,15 +8123,19 @@
               3737.578
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the west family hut and the western trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-300-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -7985,15 +8158,19 @@
               3729.117
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the west family hut and the north-western trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-340-l",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -8016,15 +8193,19 @@
               3725.102
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the tree-minder's hut and the north-western trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "ring-panel",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.nine-trunks.plug-340-r",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -8047,6 +8228,7 @@
               3721.829
             ]
           ],
+          "waterOk": null,
           "why": "A woven panel of 1.5 m closing the gap between the tree-minder's hut and the elder trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
@@ -8055,9 +8237,12 @@
           "endsAt": [
             "parcel.nine-trunks.gate"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.nine-trunks.landing-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -8073,16 +8258,16 @@
               3748.401
             ],
             [
-              4936.903,
-              3747.902
+              4936.565,
+              3747.955
             ],
             [
-              4947.403,
+              4946.403,
               3758.401
             ],
             [
-              4955.423,
-              3758.619
+              4955.315,
+              3758.56
             ]
           ],
           "routing": "terrain",
@@ -8092,15 +8277,16 @@
               3733.902
             ],
             [
-              4936.903,
-              3747.902
+              4936.565,
+              3747.955
             ],
             [
-              4954.324,
-              3760.63
+              4954.261,
+              3760.49
             ]
           ],
-          "why": "The path from the pier head up the bank to the arch, for guests who come by water from Uxaneet; it rises under a metre in 50 m and bends round the water-side trunk.",
+          "waterOk": null,
+          "why": "The path from the pier head up the bank to the arch: it leaves the water where the bank is low enough to climb with a load.",
           "widthM": 1.5
         },
         {
@@ -8108,9 +8294,12 @@
           "endsAt": [
             "parcel.nine-trunks.pitch-1"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.nine-trunks.pitch-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -8137,6 +8326,7 @@
               3800.902
             ]
           ],
+          "waterOk": null,
           "why": "The short branch from the spur through the gap in the pitch line to the first shelter, worn by baggage carried in and out.",
           "widthM": 1.5
         },
@@ -8145,9 +8335,12 @@
           "endsAt": [
             "parcel.nine-trunks.gate"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.nine-trunks.ring-walk",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -8262,6 +8455,7 @@
               3756.699
             ]
           ],
+          "waterOk": null,
           "why": "The trodden ring inside the huts, from which every door in the wall is reached; it begins and ends inside the arch.",
           "widthM": 1.5
         },
@@ -8270,9 +8464,12 @@
           "endsAt": [
             "parcel.nine-trunks.gate"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.nine-trunks.spur",
           "kind": "track",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -8355,6 +8552,7 @@
               3749.681
             ]
           ],
+          "waterOk": null,
           "why": "The cart line into the village. The heartland track from the Uxaneet crossing climbs the shoulder from the south-west; the same line is carried inside the boundary, up the last 120 m to the gate gap. It is not a second road beside the track. It is the track, named where the village keeps it.",
           "widthM": 3.0
         },
@@ -8364,9 +8562,12 @@
             "parcel.nine-trunks.gate",
             "parcel.nine-trunks.naheesh-house"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.nine-trunks.talk-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -8393,6 +8594,7 @@
               3739.871
             ]
           ],
+          "waterOk": null,
           "why": "The straight walk from the arch across the clearing to the naheesh's door, the spine of the village and the line which every arrival reads first.",
           "widthM": 1.5
         }
@@ -8733,8 +8935,8 @@
           "why": {
             "microGeography": "Piled to the bed at the lip of the channel, past the reed margin, where the water first reaches a canoe's draught.",
             "playerPurpose": "The arrival point for a player who comes by canoe. It is the scene of the night landing in MR04.",
-            "what": "The landing: a piled stage in 1.4 m of water where the crew's canoe lies.",
-            "whyHere": "Sap leaves by water when the track is watched. The assembly's inspection comes by water, so the camp has a landing.",
+            "what": "The landing: a piled stage at the channel head where the crew's canoe lies.",
+            "whyHere": "Sap leaves by water when the track is watched. The assembly's inspection comes by water too, so the camp has a landing. The channel is drawn up to these piles rather than the piles moved out to it (fit `water-to-dock`): the stage stands where the bank carries a load, within reach of a poled canoe.",
             "whyNeighbours": "The plank walk ends on it, the licence board stands on the bank beside it, with the poling line coming up to its head."
           }
         }
@@ -8796,6 +8998,17 @@
       ],
       "networkTerminals": [
         {
+          "id": "terminal.sap-tapping-licensed.landing-channel",
+          "kind": "channel",
+          "positionM": [
+            3478.502,
+            4373.002
+          ],
+          "routeId": "waterway.hist-heartland.sap-tapping-licensed.landing",
+          "wayId": "canal.sap-tapping-licensed.channel",
+          "why": "The camp's water link is a poled channel off the heartland network. It ends at the landing below the camp; the plank walk carries the tins the rest of the way up."
+        },
+        {
           "id": "terminal.sap-tapping-licensed.track-head",
           "kind": "footpath",
           "positionM": [
@@ -8804,7 +9017,7 @@
           ],
           "routeId": "track.hist-heartland.sap-tapping-licensed",
           "wayId": "route.sap-tapping-licensed.track",
-          "why": "The stage is licensed but not advertised: one worn line leaves the heartland network to the south-east and dies at the foot of the stair. This is where it reaches the camp. It is walked ground, not drawn ground, so the path is routed and left off the map."
+          "why": "The stage is licensed but not advertised. One worn line leaves the heartland network to the south-east and dies at the foot of the stair, which is where it reaches the camp. It is walked ground, so the path is routed and left off the map."
         }
       ],
       "parcels": [
@@ -9249,8 +9462,8 @@
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
           "buildingFamily": "works-scaffold-stair",
           "centreM": [
-            3493.122,
-            4384.902
+            3492.261,
+            4385.549
           ],
           "districtId": "district.sap-tapping-licensed.stage",
           "entrance": null,
@@ -9258,7 +9471,7 @@
             "deg": 271.9,
             "evidence": "co-placement",
             "outside": true,
-            "worldDeg": 301.9
+            "worldDeg": 317.9
           },
           "groundFit": "stilt",
           "id": "parcel.sap-tapping-licensed.stage-stair",
@@ -9266,55 +9479,55 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The flight is set on bearing 300 to the stage so the climb starts on the landward side at the head of the track, never over the water.",
+          "orientationWhy": "The flight is set with its west face on the stage's south face, so the stair is built into the stage. The climb still starts on the landward side at the head of the track, clear of the water.",
           "polygon": [
             [
-              3492.514,
-              4382.715
+              3492.279,
+              4383.279
             ],
             [
-              3492.585,
-              4382.652
+              3492.365,
+              4383.238
             ],
             [
-              3492.67,
-              4382.644
+              3492.449,
+              4383.253
             ],
             [
-              3495.407,
-              4384.224
+              3494.644,
+              4385.526
             ],
             [
-              3495.443,
-              4384.302
+              3494.657,
+              4385.612
             ],
             [
-              3495.424,
-              4384.395
+              3494.613,
+              4385.696
             ],
             [
-              3493.834,
-              4387.149
+              3492.326,
+              4387.905
             ],
             [
-              3493.763,
-              4387.212
+              3492.24,
+              4387.946
             ],
             [
-              3493.677,
-              4387.22
+              3492.156,
+              4387.93
             ],
             [
-              3490.94,
-              4385.64
+              3489.96,
+              4385.657
             ],
             [
-              3490.905,
-              4385.562
+              3489.948,
+              4385.572
             ],
             [
-              3490.924,
-              4385.469
+              3489.992,
+              4385.488
             ]
           ],
           "spans": null,
@@ -9327,7 +9540,7 @@
             "whyNeighbours": "The track ends against its lowest tread; the mule line stands beside the track a few paces back.",
             "whySpot": "At the head of the track: the climb starts where the walk from the road ends, never over the water."
           },
-          "yawDeg": 30.0
+          "yawDeg": 46.0
         },
         {
           "assetRef": "vanilla:clutter/carts/handcart01",
@@ -9457,7 +9670,8 @@
           "positionM": [
             3489.502,
             4393.502
-          ]
+          ],
+          "questId": "quest.mr.mr04"
         },
         {
           "id": "socket.sap-tapping-licensed.licence",
@@ -9468,7 +9682,8 @@
           "positionM": [
             3484.202,
             4375.002
-          ]
+          ],
+          "questId": "quest.mr.mr04"
         },
         {
           "id": "socket.sap-tapping-licensed.mr04-anchor-roster",
@@ -9476,7 +9691,11 @@
           "notes": null,
           "ownerQuestTier": "tier-2",
           "parcelId": "parcel.sap-tapping-licensed.stage-deck",
-          "positionM": null
+          "positionM": [
+            3489.55,
+            4382.477
+          ],
+          "questId": "quest.mr.mr04"
         },
         {
           "id": "socket.sap-tapping-licensed.night-landing",
@@ -9487,7 +9706,8 @@
           "positionM": [
             3481.502,
             4376.502
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.sap-tapping-licensed.tapper",
@@ -9498,7 +9718,8 @@
           "positionM": [
             3491.6,
             4385.402
-          ]
+          ],
+          "questId": null
         }
       ],
       "scaleGrounding": {
@@ -9554,7 +9775,7 @@
         "fences": 0,
         "keptTrees": 4,
         "landmarks": 2,
-        "networkTerminals": 1,
+        "networkTerminals": 2,
         "parcels": 7,
         "questSockets": 5,
         "sitingCandidates": 3,
@@ -9566,14 +9787,17 @@
           "endsAt": [
             "dock.sap-tapping-licensed.landing"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.sap-tapping-licensed.landing-walk",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
-              3487.002,
-              4381.002
+              3486.933,
+              4381.34
             ],
             [
               3478.502,
@@ -9583,15 +9807,16 @@
           "routing": "straight",
           "via": [
             [
-              3487.002,
-              4381.002
+              3486.933,
+              4381.34
             ],
             [
               3478.502,
               4373.002
             ]
           ],
-          "why": "The plank walk from the stage foot across the reed margin to the landing. It is laid straight because 12 m of planks over soft ground take the shortest line. It ends on the dock so a canoe unloads onto boards rather than into mud.",
+          "waterOk": null,
+          "why": "The plank walk from the stage stair down to the landing, laid over reed and soft bank so a tin is carried dry.",
           "widthM": 1.6
         },
         {
@@ -9599,22 +9824,29 @@
           "endsAt": [
             "dock.sap-tapping-licensed.landing"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "canals",
           "id": "canal.sap-tapping-licensed.channel",
           "kind": "channel",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
-              3462.902,
-              4366.102
+              3462.6,
+              4365.855
             ],
             [
-              3466.402,
-              4369.602
+              3467.1,
+              4370.355
             ],
             [
-              3475.402,
-              4369.602
+              3472.923,
+              4370.279
+            ],
+            [
+              3476.1,
+              4373.355
             ],
             [
               3478.502,
@@ -9624,19 +9856,20 @@
           "routing": "terrain",
           "via": [
             [
-              3462.902,
-              4366.102
+              3462.6,
+              4365.855
             ],
             [
-              3472.902,
-              4370.102
+              3472.923,
+              4370.279
             ],
             [
               3478.502,
               4373.002
             ]
           ],
-          "why": "The poling line up the channel from the north-west to the landing: the 0.9 m water that a loaded canoe can use. It is also the covert extraction route for which the recipe asks.",
+          "waterOk": null,
+          "why": "The last stretch of the poling channel, drawn where the camp keeps it: open water between the reed banks, dying at the landing piles.",
           "widthM": 6.0
         },
         {
@@ -9644,14 +9877,21 @@
           "endsAt": [
             "parcel.sap-tapping-licensed.dwelling"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.sap-tapping-licensed.tent-spur",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
               3496.002,
               4398.502
+            ],
+            [
+              3500.1,
+              4394.355
             ],
             [
               3501.391,
@@ -9669,6 +9909,7 @@
               4397.202
             ]
           ],
+          "waterOk": null,
           "why": "The worn spur from the track to the hut's door: three strides that the crew take every night, so the door is on a way.",
           "widthM": 1.2
         },
@@ -9677,9 +9918,12 @@
           "endsAt": [
             "parcel.sap-tapping-licensed.stage-stair"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.sap-tapping-licensed.track",
           "kind": "track",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -9695,8 +9939,8 @@
               4392.503
             ],
             [
-              3494.118,
-              4386.657
+              3494.49,
+              4385.814
             ]
           ],
           "routing": "terrain",
@@ -9718,6 +9962,7 @@
               4388.204
             ]
           ],
+          "waterOk": null,
           "why": "The single worn line into the camp, worn from the west. The heartland network reaches the stage across the flat, so the track meets the camp at its lower head. It bends twice in the last 30 m, round the hut's door and past the mule line, to die at the foot of the stair.",
           "widthM": 2.5
         }
@@ -10359,7 +10604,7 @@
             "microGeography": "The stair drops from the flat at 0 m to the bed at 2 m.",
             "playerPurpose": "The diving-stair station and the start of every dive into the drowned quarter.",
             "what": "The diving stair: a timber stair off the divers’ pier into the channel.",
-            "whyHere": "The salvage divers enter the water from a stair, not from the deck, so the deck stays clear for cargo.",
+            "whyHere": "The salvage divers enter the water from a stair, so the deck stays clear for cargo. The channel between the flooded rows already reaches the stair, so it was re-ended on it rather than the stair moved (fit `water-to-dock`).",
             "whyNeighbours": "The divers’ shed is at its head and the drowned villa floors lie below it."
           }
         },
@@ -10376,7 +10621,7 @@
             "microGeography": "The piles stand at the head of the dredged channel in 4 m of water.",
             "playerPurpose": "The arrival point by boat and the departure point for the lighter flotilla and the Meerhleel boat.",
             "what": "The lighter berth at the pier head, where laden lighters come alongside.",
-            "whyHere": "The shelf is too shallow for a hull, so cargo comes ashore in lighters and needs a berth at the channel head.",
+            "whyHere": "The shelf is too shallow for a hull, so cargo comes ashore in lighters and needs a berth at the channel head. The lanes already end at these piles and the approach carries 6.6 m of water, so the channel was re-ended on the authored berth (fit `water-to-dock`).",
             "whyNeighbours": "The pier runs from the quay deck to it and the channel runs from it to the roadstead."
           }
         },
@@ -10393,7 +10638,7 @@
             "microGeography": "Piles driven into the plateau edge in 10 m of water.",
             "playerPurpose": "Where a ship passenger is put into a lighter; the sea-side end of the city.",
             "what": "The tender mooring at the roadstead, where the big hulls lie and the lighters load.",
-            "whyHere": "The 10 m plateau is the nearest water to the city in which a hull can lie.",
+            "whyHere": "The 10 m plateau is the nearest water to the city in which a hull can lie. The dredged channel already runs to its edge, so the channel was re-ended on the authored mooring (fit `water-to-dock`).",
             "whyNeighbours": "The roadstead mark stands over it and the channel runs from it to the pier."
           }
         }
@@ -11169,6 +11414,17 @@
       ],
       "networkTerminals": [
         {
+          "id": "terminal.lilmoth.divers-channel",
+          "kind": "channel",
+          "positionM": [
+            3852.998,
+            6404.004
+          ],
+          "routeId": "waterway.mercantile-coast.lilmoth.diving-stair",
+          "wayId": "boardwalk.lilmoth.divers-pier",
+          "why": "The drowned quarter is entered from the water, so the channel that runs between the flooded house rows ends at the diving stair; the divers' pier is the last dry stretch of it."
+        },
+        {
           "id": "terminal.lilmoth.land-gate",
           "kind": "road",
           "positionM": [
@@ -11177,7 +11433,7 @@
           ],
           "routeId": "route.road.blackrose-lilmoth",
           "wayId": "route.lilmoth.gate-road",
-          "why": "The Blackrose road runs in along the pond's north shore and reaches the bluff foot here, on the one line of firm ground between the pond and the tidal flat; the city walls its gate across that line, so the road and the gate yard inside are one street."
+          "why": "The Blackrose road runs in along the pond's north shore and reaches the bluff foot here, on the firm ground between the pond and the tidal flat; the city walls its gate across that line, so the road and the gate yard inside are one street."
         },
         {
           "id": "terminal.lilmoth.lighter-quay-archon",
@@ -11188,7 +11444,7 @@
           ],
           "routeId": "route.boat.lilmoth-archon",
           "wayId": "boardwalk.lilmoth.lighter-pier",
-          "why": "The Archon lane leaves from the berth at which it arrives. A boat bound north is loaded at the quay off the pier, so the lane starts where the pier ends rather than at a second landing that the city never built."
+          "why": "The Archon lane leaves from the berth at which it arrives. A boat bound north is loaded at the quay off the pier, so the lane starts at the pier head. The city built no second landing."
         },
         {
           "id": "terminal.lilmoth.lighter-quay-blackrose",
@@ -11211,6 +11467,17 @@
           "routeId": "route.boat.soulrest-lilmoth",
           "wayId": "boardwalk.lilmoth.lighter-pier",
           "why": "The Soulrest lane comes up the estuary from the west and can go no further than the channel head. The shelf inside is too shallow for a laden hull, so the run ends at the lighter quay and the pier carries the cargo up to the deck."
+        },
+        {
+          "id": "terminal.lilmoth.roadstead-channel",
+          "kind": "channel",
+          "positionM": [
+            3990.005,
+            6368.007
+          ],
+          "routeId": "waterway.mercantile-coast.lilmoth.roadstead-tender",
+          "wayId": "canal.lilmoth.lighter-channel",
+          "why": "The tender mooring is the sea-side end of the city. The dredged channel runs from the pier head out to it; no hull comes further in than its piles."
         }
       ],
       "parcels": [
@@ -13347,8 +13614,8 @@
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
           "buildingFamily": "imperial-keep-tower",
           "centreM": [
-            3586.365,
-            6384.029
+            3586.496,
+            6384.291
           ],
           "districtId": "district.lilmoth.north-gate",
           "entrance": null,
@@ -13359,135 +13626,135 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The tower shares the arch's bearing, so its faces sit flush with the gate piers and the curtain beyond. Nothing turns on a doorway here, because the piece has none.",
+          "orientationWhy": "The tower shares the arch's bearing and its east face is set on the arch's west pier, so the two stand as one piece of masonry. The piece has no doorway, so nothing here is turned to one.",
           "polygon": [
             [
-              3584.827,
-              6381.5
+              3584.958,
+              6381.762
             ],
             [
-              3585.354,
-              6381.25
+              3585.485,
+              6381.512
             ],
             [
-              3585.912,
-              6381.109
+              3586.043,
+              6381.372
             ],
             [
-              3586.488,
-              6381.075
+              3586.619,
+              6381.337
             ],
             [
-              3587.065,
-              6381.158
+              3587.196,
+              6381.42
             ],
             [
-              3587.615,
-              6381.35
+              3587.746,
+              6381.612
             ],
             [
-              3588.11,
-              6381.645
+              3588.241,
+              6381.907
             ],
             [
-              3588.541,
-              6382.027
+              3588.672,
+              6382.289
             ],
             [
-              3588.894,
-              6382.491
+              3589.025,
+              6382.754
             ],
             [
-              3589.144,
-              6383.018
+              3589.275,
+              6383.28
             ],
             [
-              3589.284,
-              6383.576
+              3589.415,
+              6383.839
             ],
             [
-              3589.319,
-              6384.152
+              3589.45,
+              6384.415
             ],
             [
-              3589.236,
-              6384.729
+              3589.367,
+              6384.991
             ],
             [
-              3589.044,
-              6385.279
+              3589.175,
+              6385.541
             ],
             [
-              3588.748,
-              6385.775
+              3588.879,
+              6386.037
             ],
             [
-              3588.367,
-              6386.206
+              3588.498,
+              6386.468
             ],
             [
-              3587.902,
-              6386.558
+              3588.033,
+              6386.82
             ],
             [
-              3587.376,
-              6386.808
+              3587.507,
+              6387.071
             ],
             [
-              3586.817,
-              6386.949
+              3586.948,
+              6387.211
             ],
             [
-              3586.241,
-              6386.983
+              3586.372,
+              6387.245
             ],
             [
-              3585.665,
-              6386.901
+              3585.796,
+              6387.163
             ],
             [
-              3585.115,
-              6386.709
+              3585.246,
+              6386.971
             ],
             [
-              3584.619,
-              6386.413
+              3584.75,
+              6386.675
             ],
             [
-              3584.188,
-              6386.031
+              3584.319,
+              6386.293
             ],
             [
-              3583.835,
-              6385.567
+              3583.966,
+              6385.829
             ],
             [
-              3583.585,
-              6385.04
+              3583.716,
+              6385.302
             ],
             [
-              3583.445,
-              6384.482
+              3583.576,
+              6384.744
             ],
             [
-              3583.411,
-              6383.906
+              3583.542,
+              6384.168
             ],
             [
-              3583.493,
-              6383.329
+              3583.624,
+              6383.591
             ],
             [
-              3583.685,
-              6382.779
+              3583.816,
+              6383.041
             ],
             [
-              3583.981,
-              6382.284
+              3584.112,
+              6382.546
             ],
             [
-              3584.362,
-              6381.853
+              3584.493,
+              6382.115
             ]
           ],
           "spans": null,
@@ -13495,9 +13762,9 @@
           "why": {
             "microGeography": "Its footing falls 3 m across the base from the crest side to the road, so the tower is cut into the shelf, as the Imperial masonry here sank rather than stood on piles.",
             "playerPurpose": "The patrol post at the gate and the station for the north-gate quest scenes. The piece measures solid, so the tower is a thing to climb past rather than enter.",
-            "what": "The squat Imperial gate tower, 6 m square and 13 m high, adjoining the north pier of the arch. It is a mass: the mesh has no room inside it.",
+            "what": "The squat Imperial gate tower, 6 m square and 13 m high, adjoining the north pier of the arch. The mesh has no room inside, so the piece is solid.",
             "whyHere": "The Imperial wall had a tower at each gate; this one did not fall in 4E 48 and the council patrol uses it as its post.",
-            "whyNeighbours": "The arch on its south and the broken curtain on its north are the pieces that it was built to join.",
+            "whyNeighbours": "The arch is built into its south side and the broken curtain into its north. The tower is the joint between the gate and the wall.",
             "whySpot": "It stands on the north side of the arch, on the same shelf, where a watcher on its top sees the whole length of the road back to the pond."
           },
           "yawDeg": 58.7
@@ -17389,8 +17656,8 @@
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
           "buildingFamily": "imperial-keep-wall",
           "centreM": [
-            3582.943,
-            6378.388
+            3583.061,
+            6378.527
           ],
           "districtId": "district.lilmoth.north-gate",
           "entrance": null,
@@ -17406,31 +17673,31 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "It continues the line of the tower northward, on the bearing of the old curtain.",
+          "orientationWhy": "It carries the tower's bearing on from the tower's west face, so the curtain leaves the gate on one line and shows its finished face to the country outside.",
           "polygon": [
             [
-              3582.343,
-              6374.938
+              3582.461,
+              6375.076
             ],
             [
-              3582.737,
-              6374.757
+              3582.854,
+              6374.895
             ],
             [
-              3586.296,
-              6380.61
+              3586.413,
+              6380.749
             ],
             [
-              3583.373,
-              6382.387
+              3583.491,
+              6382.525
             ],
             [
-              3580.178,
-              6377.132
+              3580.296,
+              6377.27
             ],
             [
-              3582.002,
-              6375.204
+              3582.119,
+              6375.342
             ]
           ],
           "spans": null,
@@ -17440,25 +17707,25 @@
             "playerPurpose": "A climbable stub that gives a view over the pond and back along the road.",
             "what": "A broken length of the Imperial curtain running north from the gate tower, its top fallen.",
             "whyHere": "The curtain ran from the gate up onto the crest; this is the piece that still stands next to the tower.",
-            "whyNeighbours": "It joins the tower on one side and the standing west curtain on the other.",
+            "whyNeighbours": "It is built into the tower on one side and runs on toward the standing west curtain on the other.",
             "whySpot": "It occupies the wall line immediately north of the tower, on the same shelf."
           },
           "yawDeg": 58.7
         },
         {
-          "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
+          "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
           "buildingFamily": "imperial-keep-wall",
           "centreM": [
-            3593.849,
-            6396.336
+            3593.617,
+            6395.889
           ],
           "districtId": "district.lilmoth.north-gate",
           "entrance": null,
           "front": {
-            "deg": 132.6,
+            "deg": 226.6,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 204.5
+            "worldDeg": 285.3
           },
           "groundFit": "pad",
           "id": "parcel.lilmoth.wall-stub-south",
@@ -17466,31 +17733,31 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Turned to 71.9° so the stub's finished face looks out at 205°, away from the town: the curtain flanks the gate road on the line of the old wall rather than aiming at it, showing its outer face to whoever comes up.",
+          "orientationWhy": "Turned from 71.9° to the gate's own 58.7° so that its west face lands on the arch's east pier, which is how the Imperial set joins a flanking curtain to its gate. Its finished face still looks south-west, out of the city, because the segment used here is the one whose show side falls on that hand at this bearing.",
           "polygon": [
             [
-              3594.343,
-              6392.344
+              3593.018,
+              6392.439
             ],
             [
-              3596.484,
-              6398.894
+              3593.411,
+              6392.258
             ],
             [
-              3596.113,
-              6399.046
+              3596.97,
+              6398.111
             ],
             [
-              3595.723,
-              6399.142
+              3594.047,
+              6399.888
             ],
             [
-              3593.037,
-              6399.357
+              3590.852,
+              6394.633
             ],
             [
-              3591.093,
-              6393.407
+              3592.676,
+              6392.705
             ]
           ],
           "spans": null,
@@ -17498,12 +17765,12 @@
           "why": {
             "microGeography": "The ground under it falls 0.6 m southward toward the pond.",
             "playerPurpose": "It closes the gate yard on the south, so the road is the way into the city.",
-            "what": "A broken length of the Imperial curtain running south from the arch toward the pond.",
+            "what": "A broken length of the Imperial curtain running south from the arch toward the pond, built into the gate's southern pier.",
             "whyHere": "The curtain south of the gate ran down to the water; this is the piece that remains above ground.",
-            "whyNeighbours": "It joins the arch on its north and ends at the rubble of the fallen south tower.",
+            "whyNeighbours": "It is joined to the arch on its north and ends at the rubble of the fallen south tower.",
             "whySpot": "It sits on the wall line south of the arch, where the shelf begins to fall toward the pond."
           },
-          "yawDeg": 71.9
+          "yawDeg": 58.7
         },
         {
           "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
@@ -17564,7 +17831,8 @@
           "positionM": [
             3722.517,
             6288.033
-          ]
+          ],
+          "questId": "quest.local.lm03"
         },
         {
           "id": "evidence.lilmoth.slaughter-list",
@@ -17575,7 +17843,8 @@
           "positionM": [
             3802.799,
             6362.005
-          ]
+          ],
+          "questId": "quest.main.mq13"
         },
         {
           "id": "evidence.lilmoth.tariff-roll",
@@ -17586,7 +17855,8 @@
           "positionM": [
             3698.796,
             6307.153
-          ]
+          ],
+          "questId": "quest.local.lm05"
         },
         {
           "id": "marks.lilmoth.council-standing",
@@ -17597,7 +17867,8 @@
           "positionM": [
             3753.102,
             6310.619
-          ]
+          ],
+          "questId": "quest.main.mq32"
         },
         {
           "id": "marks.lilmoth.drowned-quarter-cleared",
@@ -17608,7 +17879,8 @@
           "positionM": [
             3946.0,
             6392.0
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "scene.lilmoth.council-floor",
@@ -17619,7 +17891,8 @@
           "positionM": [
             3753.102,
             6310.619
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "scene.lilmoth.drowned-quarter-dive",
@@ -17630,7 +17903,8 @@
           "positionM": [
             3946.0,
             6392.0
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "scene.lilmoth.third-hist-court",
@@ -17641,7 +17915,56 @@
           "positionM": [
             3652.004,
             6348.002
-          ]
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.lilmoth.an-xileel-agent",
+          "kind": "npc",
+          "notes": null,
+          "ownerQuestTier": 2,
+          "parcelId": "parcel.lilmoth.pus-agent-room",
+          "positionM": [
+            3798.18,
+            6373.418
+          ],
+          "questId": "quest.main.mq13"
+        },
+        {
+          "id": "socket.lilmoth.factor-at-home",
+          "kind": "npc",
+          "notes": null,
+          "ownerQuestTier": 2,
+          "parcelId": "parcel.lilmoth.factor-house",
+          "positionM": [
+            3744.782,
+            6300.65
+          ],
+          "questId": "quest.local.lm08"
+        },
+        {
+          "id": "socket.lilmoth.lamp-stair",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": 2,
+          "parcelId": "parcel.lilmoth.quay-lamp",
+          "positionM": [
+            3852.003,
+            6338.004
+          ],
+          "questId": "quest.local.lm20"
+        },
+        {
+          "id": "socket.lilmoth.licensed-lot-family",
+          "kind": "npc",
+          "notes": null,
+          "ownerQuestTier": 2,
+          "parcelId": "parcel.lilmoth.pus-lot-family",
+          "positionM": [
+            3801.006,
+            6387.49
+          ],
+          "questId": "quest.local.lm01"
         },
         {
           "id": "socket.lilmoth.lq08-anchor-three-floors",
@@ -17649,7 +17972,11 @@
           "notes": null,
           "ownerQuestTier": "tier-3",
           "parcelId": "parcel.lilmoth.pus-tower",
-          "positionM": null
+          "positionM": [
+            3787.254,
+            6342.318
+          ],
+          "questId": "quest.local.lq08"
         },
         {
           "id": "socket.lilmoth.mq32-epilogue-sockets",
@@ -17657,7 +17984,11 @@
           "notes": null,
           "ownerQuestTier": "tier-0",
           "parcelId": "parcel.lilmoth.council-hall",
-          "positionM": null
+          "positionM": [
+            3721.74,
+            6299.412
+          ],
+          "questId": "quest.main.mq32"
         },
         {
           "id": "socket.lilmoth.pusbottom-vault",
@@ -17665,7 +17996,47 @@
           "notes": null,
           "ownerQuestTier": "tier-2",
           "parcelId": "parcel.lilmoth.pus-vault-house",
-          "positionM": null
+          "positionM": [
+            3787.803,
+            6360.385
+          ],
+          "questId": "quest.tg.tg08"
+        },
+        {
+          "id": "socket.lilmoth.retired-rota",
+          "kind": "npc",
+          "notes": null,
+          "ownerQuestTier": 2,
+          "parcelId": "parcel.lilmoth.elders-house",
+          "positionM": [
+            3738.128,
+            6313.662
+          ],
+          "questId": "quest.local.lm11"
+        },
+        {
+          "id": "socket.lilmoth.rockpark-broker",
+          "kind": "npc",
+          "notes": null,
+          "ownerQuestTier": 2,
+          "parcelId": "parcel.lilmoth.pus-broker-house",
+          "positionM": [
+            3786.735,
+            6376.816
+          ],
+          "questId": "quest.local.lm21"
+        },
+        {
+          "id": "socket.lilmoth.sixth-speaker",
+          "kind": "npc",
+          "notes": null,
+          "ownerQuestTier": 2,
+          "parcelId": "parcel.lilmoth.fisher-f",
+          "positionM": [
+            3746.247,
+            6451.658
+          ],
+          "questId": "quest.local.lm24"
         },
         {
           "id": "socket.lilmoth.tidal-palace",
@@ -17673,7 +18044,11 @@
           "notes": null,
           "ownerQuestTier": "tier-2",
           "parcelId": "parcel.lilmoth.drowned-villa-hall",
-          "positionM": null
+          "positionM": [
+            3946.0,
+            6392.0
+          ],
+          "questId": "quest.tg.tg10"
         },
         {
           "id": "station.lilmoth.council-hall",
@@ -17684,7 +18059,8 @@
           "positionM": [
             3720.511,
             6301.63
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "station.lilmoth.diving-stair",
@@ -17695,7 +18071,8 @@
           "positionM": [
             3836.599,
             6400.0
-          ]
+          ],
+          "questId": "quest.local.lm10"
         },
         {
           "id": "station.lilmoth.lighter-quay",
@@ -17706,7 +18083,8 @@
           "positionM": [
             3852.003,
             6368.007
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "station.lilmoth.north-gate",
@@ -17717,7 +18095,8 @@
           "positionM": [
             3588.002,
             6388.004
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "station.lilmoth.upper-walkway-market",
@@ -17728,7 +18107,8 @@
           "positionM": [
             3713.469,
             6319.865
-          ]
+          ],
+          "questId": null
         }
       ],
       "scaleGrounding": {
@@ -17784,9 +18164,9 @@
         "fences": 4,
         "keptTrees": 4,
         "landmarks": 9,
-        "networkTerminals": 4,
+        "networkTerminals": 6,
         "parcels": 61,
-        "questSockets": 17,
+        "questSockets": 24,
         "sitingCandidates": 3,
         "ways": 26
       },
@@ -17796,9 +18176,12 @@
           "endsAt": [
             "parcel.lilmoth.tariff-bell"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.bench-walk",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -17821,6 +18204,7 @@
               6302.006
             ]
           ],
+          "waterOk": null,
           "why": "The council walkway, the one surveyed line in the Argonian city, laid straight along the bench from the spine track to the bell.",
           "widthM": 3.0
         },
@@ -17829,9 +18213,12 @@
           "endsAt": [
             "parcel.lilmoth.council-hall"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.council-landing",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -17854,6 +18241,7 @@
               6306.557
             ]
           ],
+          "waterOk": null,
           "why": "The plank landing off the council walkway to the hall's own front, so the sitting is entered from the walkway and not off the bench grass.",
           "widthM": 1.5
         },
@@ -17863,9 +18251,12 @@
             "parcel.lilmoth.divers-shed",
             "dock.lilmoth.diving-stair"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.divers-pier",
           "kind": "pier",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -17888,6 +18279,7 @@
               6404.004
             ]
           ],
+          "waterOk": null,
           "why": "The short pier from the divers’ shed to the diving stair.",
           "widthM": 2.0
         },
@@ -17897,9 +18289,12 @@
             "parcel.lilmoth.quay-deck",
             "dock.lilmoth.lighter-quay"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.lighter-pier",
           "kind": "pier",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -17922,15 +18317,19 @@
               6368.007
             ]
           ],
+          "waterOk": null,
           "why": "The lighter pier from the quay deck east to the head of the channel, where the lighters come alongside.",
           "widthM": 3.0
         },
         {
           "assetRef": null,
           "endsAt": [],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.pus-tower-landing",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -17953,15 +18352,19 @@
               6350.783
             ]
           ],
+          "waterOk": null,
           "why": "The short landing that carries the loop's west lane to the rooming house's door, because the tenants come home in the dark and the bluff foot is mud.",
           "widthM": 1.5
         },
         {
           "assetRef": null,
           "endsAt": [],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.pusbottom-cross",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -17996,6 +18399,7 @@
               6404.004
             ]
           ],
+          "waterOk": null,
           "why": "The cross lane, a skewed plank link from the west lane to the east lane across the middle of the quarter, so a hut on the far side is reached without walking the whole loop.",
           "widthM": 2.0
         },
@@ -18004,9 +18408,12 @@
           "endsAt": [
             "parcel.lilmoth.quay-deck"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.pusbottom-loop",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18109,6 +18516,7 @@
               6376.003
             ]
           ],
+          "waterOk": null,
           "why": "The loop walkway of Pusbottom: a west lane that follows the bluff foot and bends with it, a short south lane over the wet ground and an east lane on piles over the shallows back up to the quay deck. Planks run straight from pile to pile between its bends, so no leg of it is a ruled line. None of it is a worn path.",
           "widthM": 2.0
         },
@@ -18117,9 +18525,12 @@
           "endsAt": [
             "parcel.lilmoth.quay-deck"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.quay-lane",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18142,6 +18553,7 @@
               6357.005
             ]
           ],
+          "waterOk": null,
           "why": "The quay lane along the water’s edge from the lantern at the stair foot past the licence house and the lamp to the deck.",
           "widthM": 2.5
         },
@@ -18150,9 +18562,12 @@
           "endsAt": [
             "parcel.lilmoth.boat-awning"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.shore-lane",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18255,6 +18670,7 @@
               6459.503
             ]
           ],
+          "waterOk": null,
           "why": "The boardwalk from the south corner of Pusbottom, clear of the corner hut, over the wet flat to the fishers’ row and the boat awning.",
           "widthM": 2.0
         },
@@ -18263,9 +18679,12 @@
           "endsAt": [
             "parcel.lilmoth.quay-deck"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "boardwalks",
           "id": "boardwalk.lilmoth.spine-lower",
           "kind": "boardwalk",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18312,6 +18731,7 @@
               6366.001
             ]
           ],
+          "waterOk": null,
           "why": "The spine across the north of Pusbottom from the stair foot to the quay deck, the busiest planks in the city.",
           "widthM": 3.0
         },
@@ -18320,9 +18740,12 @@
           "endsAt": [
             "dock.lilmoth.roadstead-tender"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "canals",
           "id": "canal.lilmoth.lighter-channel",
           "kind": "channel",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18345,46 +18768,84 @@
               6368.007
             ]
           ],
+          "waterOk": null,
           "why": "The dredged navigation line from the pier head to the roadstead, the one water deep enough for a laden lighter across the shelf.",
           "widthM": 14.0
         },
         {
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
           "endsAt": [],
+          "fenceClass": "pole-wall",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.lilmoth.estuary-pole-wall",
           "kind": "palisade",
+          "moduleM": 0.23,
           "notes": null,
           "points": [
             [
-              3785.0,
-              6438.003
+              3818.003,
+              6442.973
             ],
             [
-              3781.003,
-              6480.003
+              3812.505,
+              6447.506
+            ],
+            [
+              3812.505,
+              6463.506
+            ],
+            [
+              3806.505,
+              6469.506
+            ],
+            [
+              3806.505,
+              6481.506
+            ],
+            [
+              3805.505,
+              6482.506
+            ],
+            [
+              3801.505,
+              6482.506
+            ],
+            [
+              3801.782,
+              6481.315
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
-              3785.0,
-              6438.003
+              3818.003,
+              6442.973
             ],
             [
-              3781.003,
-              6480.003
+              3812.105,
+              6459.195
+            ],
+            [
+              3801.782,
+              6481.315
             ]
           ],
-          "why": "The Argonian wall facing the estuary: a line of driven poles along the shore of the fishers’ quarter, the city’s wall on the side that the Imperials never built.",
+          "waterOk": {
+            "maxDepthM": 1.1
+          },
+          "why": "The Argonian wall facing the estuary: poles driven into the tidal flat off the fishers' quarter, standing in 0.6 to 1.1 m of water and taking the run of the flat's edge. The wall stands in the water through which the city is entered.",
           "widthM": 0.3
         },
         {
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
           "endsAt": [],
+          "fenceClass": "palisade",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.lilmoth.hist-court-ring",
           "kind": "palisade",
+          "moduleM": 0.23,
           "notes": null,
           "points": [
             [
@@ -18392,43 +18853,51 @@
               6323.271
             ],
             [
-              3640.01,
-              6318.891
+              3640.505,
+              6315.506
             ],
             [
-              3634.12,
-              6318.134
+              3637.505,
+              6315.506
             ],
             [
-              3624.703,
-              6322.035
+              3636.003,
+              6317.999
             ],
             [
-              3619.942,
-              6328.207
+              3631.505,
+              6317.506
             ],
             [
-              3618.004,
-              6336.006
+              3625.505,
+              6323.506
             ],
             [
-              3618.525,
-              6339.86
+              3623.276,
+              6323.271
             ],
             [
-              3620.919,
-              6345.64
+              3617.505,
+              6329.506
             ],
             [
-              3624.815,
-              6349.923
+              3617.505,
+              6342.506
+            ],
+            [
+              3623.276,
+              6348.732
+            ],
+            [
+              3630.505,
+              6348.506
             ],
             [
               3636.003,
               6354.004
             ]
           ],
-          "routing": "arc",
+          "routing": "terrain",
           "via": [
             [
               3648.73,
@@ -18455,15 +18924,19 @@
               6354.004
             ]
           ],
-          "why": "The ring of driven poles round the Hist court, closed on the north, west and south and open to the spine on the east: walled and open, as the city rule requires.",
+          "waterOk": null,
+          "why": "The ring of driven poles round the Hist court, closed on the north, west and south. It stands open to the spine on the east, as the city rule requires.",
           "widthM": 0.3
         },
         {
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
           "endsAt": [],
+          "fenceClass": "curtain",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.lilmoth.imperial-curtain-north",
           "kind": "wall",
+          "moduleM": 6.9,
           "notes": null,
           "points": [
             [
@@ -18494,15 +18967,19 @@
               6252.007
             ]
           ],
+          "waterOk": null,
           "why": "The broken north curtain along the shoulder above the council bench, fallen to half its height.",
           "widthM": 3.5
         },
         {
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01",
           "endsAt": [],
+          "fenceClass": "curtain",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.lilmoth.imperial-curtain-west",
           "kind": "wall",
+          "moduleM": 7.28,
           "notes": null,
           "points": [
             [
@@ -18533,7 +19010,8 @@
               6320.005
             ]
           ],
-          "why": "The standing Imperial curtain from the gate tower north up the west face of the crest, 13 m high, what the water and the An-Xileel left.",
+          "waterOk": null,
+          "why": "The standing Imperial curtain from the gate tower north up the west face of the crest, 13 m high. The water and the An-Xileel took the rest of it.",
           "widthM": 3.5
         },
         {
@@ -18541,9 +19019,12 @@
           "endsAt": [
             "parcel.lilmoth.tariff-bell"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.bluff-stair",
           "kind": "stair",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18566,6 +19047,7 @@
               6332.002
             ]
           ],
+          "waterOk": null,
           "why": "The timber stair down the bluff from the bell to the Pusbottom junction, 9 m of fall in 35 m.",
           "widthM": 2.5
         },
@@ -18574,9 +19056,12 @@
           "endsAt": [
             "landmark.lilmoth.third-hist"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.court-approach",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18611,6 +19096,7 @@
               6336.006
             ]
           ],
+          "waterOk": null,
           "why": "The short path from the spine through the opening in the court ring to the trunk.",
           "widthM": 1.5
         },
@@ -18619,9 +19105,12 @@
           "endsAt": [
             "parcel.lilmoth.minder-lodge"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.court-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18680,6 +19169,7 @@
               6332.002
             ]
           ],
+          "waterOk": null,
           "why": "The tenders’ path from the spine round the south of the court ring to the minder’s door.",
           "widthM": 1.5
         },
@@ -18688,9 +19178,12 @@
           "endsAt": [
             "parcel.lilmoth.boat-awning"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.fishers-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18789,6 +19282,7 @@
               6456.503
             ]
           ],
+          "waterOk": null,
           "why": "The fishers' path: the worn line from the gate yard down the southern slope to the boat awning at the end of the shore quarter, 120 m of walking where the loop and the shore lane cost 500. It swings west of the gate lodging, which stands across the straight line. The fishing households take their catch up to the gate market by it; a walker at the gate sees the fishers' roofs below.",
           "widthM": 1.2
         },
@@ -18797,9 +19291,12 @@
           "endsAt": [
             "parcel.lilmoth.gate-lodging"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.gate-lodging-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18822,6 +19319,7 @@
               6385.128
             ]
           ],
+          "waterOk": null,
           "why": "A plank path off the gate yard to the lodging door, because the yard is kept clear for carts and the beds are reached from its edge.",
           "widthM": 1.2
         },
@@ -18830,9 +19328,12 @@
           "endsAt": [
             "parcel.lilmoth.gate-arch"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.gate-road",
           "kind": "road",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18855,6 +19356,7 @@
               6390.009
             ]
           ],
+          "waterOk": null,
           "why": "The last stretch of the Imperial road from Blackrose, surveyed straight to the gate arch, which stands across it.",
           "widthM": 4.3
         },
@@ -18863,9 +19365,12 @@
           "endsAt": [
             "parcel.lilmoth.gate-arch"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.gate-yard",
           "kind": "road",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18888,15 +19393,19 @@
               6375.41
             ]
           ],
+          "waterOk": null,
           "why": "The Imperial road inside the arch, running straight to the lantern at the foot of the crest, where Imperial Lilmoth ended and the Argonian track begins.",
           "widthM": 4.3
         },
         {
           "assetRef": null,
           "endsAt": [],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.spine-track",
           "kind": "track",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -18975,6 +19484,7 @@
               6314.203
             ]
           ],
+          "waterOk": null,
           "why": "The worn track from the gate yard over the southern shoulder of the crest, bending in past the spine trader's door and out again round the tavern, passing the Hist court on its left hand, down to the council bench.",
           "widthM": 3.0
         },
@@ -18983,9 +19493,12 @@
           "endsAt": [
             "parcel.lilmoth.strongroom"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.strongroom-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -19020,6 +19533,7 @@
               6288.004
             ]
           ],
+          "waterOk": null,
           "why": "The path from the council walkway round the east end of the hall to the strongroom door.",
           "widthM": 1.5
         },
@@ -19028,9 +19542,12 @@
           "endsAt": [
             "parcel.lilmoth.spine-tavern"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.tavern-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -19053,6 +19570,7 @@
               6354.152
             ]
           ],
+          "waterOk": null,
           "why": "A short path off the spine to the tavern door, because the track carries the quay traffic and drinkers step aside for it.",
           "widthM": 1.2
         },
@@ -19061,9 +19579,12 @@
           "endsAt": [
             "parcel.lilmoth.second-tender-lodge"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.lilmoth.tender-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -19110,6 +19631,7 @@
               6305.0
             ]
           ],
+          "waterOk": null,
           "why": "The path from the spine north-west to the second tender’s lodge on the crest edge.",
           "widthM": 1.5
         }
@@ -19518,7 +20040,7 @@
             "microGeography": "Piled in the dead-end head of the creek at 1 m elevation against the toe of the slope, in water one boat's width wide.",
             "playerPurpose": "The arrival point by water and the threshold between the boat and the walk.",
             "what": "A small piled landing at the head of the poling creek where boats stop.",
-            "whyHere": "The pond has no water link, so a boat can come no nearer than the creek head 150 m south-east of it and 8 m below.",
+            "whyHere": "The pond has no water link, so a boat can come no nearer than the creek head 150 m south-east of it and 8 m below. The published channel already ends within a boat's length of the piles and carries 0.84 m of water on the approach, so the channel was re-ended on the authored berth (fit `water-to-dock`).",
             "whyNeighbours": "The pole lane ends at it and the bank path climbs west from it; the head pole stands beside it."
           }
         }
@@ -19807,7 +20329,18 @@
           ],
           "routeId": "track.naga-kur-deeps.wamasu-pond-adult",
           "wayId": "route.wamasu-pond-adult.stand-path",
-          "why": "Hunters cross the rootland from the west and take the one dry rise to the pond, so the land approach reaches the knoll at the foot of the stand's ramp; the stand path carries it round the west and south banks to the offering shelf. Nothing about the charge is published, so the line is routed and left off the map."
+          "why": "Hunters cross the rootland from the west and take the dry rise to the pond, so the land approach reaches the knoll at the foot of the stand's ramp; the stand path carries it round the west and south banks to the offering shelf. Nothing about the charge is published, so the line is routed and left off the map."
+        },
+        {
+          "id": "terminal.wamasu-pond-adult.pole-lane",
+          "kind": "channel",
+          "positionM": [
+            2560.002,
+            4556.003
+          ],
+          "routeId": "waterway.naga-kur-deeps.wamasu-pond-adult.lane-landing",
+          "wayId": "canal.wamasu-pond-adult.pole-lane",
+          "why": "A poled boat reaches the pond only up the creek. The creek dies at the landing; the pole lane is the last stretch of that channel drawn inside the place."
         }
       ],
       "parcels": [
@@ -20084,7 +20617,8 @@
           "positionM": [
             2466.004,
             4403.003
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.wamasu-pond-adult.cave-mouth",
@@ -20095,7 +20629,8 @@
           "positionM": [
             2446.0,
             4402.0
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.wamasu-pond-adult.charged-water",
@@ -20103,7 +20638,11 @@
           "notes": null,
           "ownerQuestTier": "tier-1",
           "parcelId": "parcel.wamasu-pond-adult.hunters-stand",
-          "positionM": null
+          "positionM": [
+            2444.002,
+            4371.002
+          ],
+          "questId": null
         },
         {
           "id": "socket.wamasu-pond-adult.offerings",
@@ -20114,7 +20653,8 @@
           "positionM": [
             2471.999,
             4426.001
-          ]
+          ],
+          "questId": "quest.local.ln05"
         },
         {
           "id": "socket.wamasu-pond-adult.pond-floor",
@@ -20125,7 +20665,8 @@
           "positionM": [
             2460.002,
             4408.002
-          ]
+          ],
+          "questId": null
         },
         {
           "id": "socket.wamasu-pond-adult.stand-evidence",
@@ -20136,7 +20677,8 @@
           "positionM": [
             2444.002,
             4371.002
-          ]
+          ],
+          "questId": "quest.local.ln05"
         }
       ],
       "scaleGrounding": {
@@ -20192,7 +20734,7 @@
         "fences": 1,
         "keptTrees": 6,
         "landmarks": 15,
-        "networkTerminals": 1,
+        "networkTerminals": 2,
         "parcels": 3,
         "questSockets": 6,
         "sitingCandidates": 3,
@@ -20204,9 +20746,12 @@
           "endsAt": [
             "dock.wamasu-pond-adult.lane-landing"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "canals",
           "id": "canal.wamasu-pond-adult.pole-lane",
           "kind": "channel",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -20214,12 +20759,16 @@
               4716.001
             ],
             [
-              2637.504,
-              4698.503
+              2623.504,
+              4701.503
+            ],
+            [
+              2623.504,
+              4683.503
             ],
             [
               2604.504,
-              4665.503
+              4664.503
             ],
             [
               2605.002,
@@ -20289,15 +20838,19 @@
               4558.002
             ]
           ],
+          "waterOk": null,
           "why": "The pole-marked poling line up the creek from the estuary to the landing at its head, kept in the open water for its whole length because the creek is the nearest water that a boat can use, 8 m below the pond at its head.",
           "widthM": 3.5
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
           "group": "fences",
           "id": "fence.wamasu-pond-adult.offering-line",
           "kind": "fence",
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
@@ -20305,11 +20858,15 @@
               4437.002
             ],
             [
-              2476.003,
-              4435.004
+              2474.63,
+              4436.497
+            ],
+            [
+              2475.699,
+              4435.334
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               2462.0,
@@ -20320,7 +20877,8 @@
               4435.004
             ]
           ],
-          "why": "A stake line along the landward edge of the offering shelf, which marks where the offering ground begins for anyone coming up the bank path and gives the shelf an edge from the inside as well as the outside.",
+          "waterOk": null,
+          "why": "A stake line along the landward edge of the offering shelf, which marks where the offering ground begins for anyone coming up the bank path. The shelf has an edge from the inside as well as from the outside.",
           "widthM": 0.3
         },
         {
@@ -20329,9 +20887,12 @@
             "parcel.wamasu-pond-adult.offering-platform",
             "dock.wamasu-pond-adult.lane-landing"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.wamasu-pond-adult.bank-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -20414,6 +20975,7 @@
               4432.003
             ]
           ],
+          "waterOk": null,
           "why": "The one worn line from the landing up the slope to the offering shelf, climbing 8 m over 150 m with two bends around the toe of the slope, so that the pond stays hidden until the last bend.",
           "widthM": 1.5
         },
@@ -20423,9 +20985,12 @@
             "parcel.wamasu-pond-adult.hunters-stand",
             "parcel.wamasu-pond-adult.hunters-stand-deck"
           ],
+          "fenceClass": null,
+          "gapAt": [],
           "group": "routes",
           "id": "route.wamasu-pond-adult.stand-path",
           "kind": "footpath",
+          "moduleM": null,
           "notes": null,
           "points": [
             [
@@ -20524,6 +21089,7 @@
               4364.499
             ]
           ],
+          "waterOk": null,
           "why": "The hunter's own line from the offering shelf round the south and west banks, past the cave mouth and up the west slope to the foot of the stand's ramp, which faces the ridge and is climbed from the landward side.",
           "widthM": 1.2
         }

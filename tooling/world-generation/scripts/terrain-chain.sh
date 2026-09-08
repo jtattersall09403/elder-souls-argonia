@@ -10,23 +10,30 @@
 #   ./scripts/terrain-chain.sh --from grade_routes    # resume at a stage
 #   ./scripts/terrain-chain.sh --list          # stages, in order
 #
-# Run from tooling/world-generation. Takes roughly ten minutes end to end.
+# Run from tooling/world-generation. Takes roughly fifteen minutes end to end.
 # `grade_routes` runs twice on purpose: the first pass MEASURES the stretches
 # no 30 deg bench can carry, `author_route_structures` turns them into decks,
 # spans and flights, and the second pass grades again with those windows
 # excluded (the ground inside them is left alone for the placed piece).
+# `compile_water` also runs twice: first straight after the carve, so the
+# grader sees THIS run's channels and lakes (every wet sample is a crossing it
+# leaves alone, no fill into open water) and the `water/natural` snapshot is
+# this run's pre-grading water; then last, on the graded ground that ships.
 set -euo pipefail
 
-# Stages that need paths rather than defaults. `refine_province` takes the
-# vault heightfield and the hydrology pass; VAULT can be overridden.
+# Stages that need paths rather than defaults: `sculpt_province` takes the
+# raw vault heightfield, `refine_province` the heightfield and the hydrology
+# pass; VAULT can be overridden.
 VAULT="${VAULT:-$HOME/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/argonia-heightfield}"
 declare -A STAGE_ARGS=(
+  [sculpt_province]="$VAULT/heightfield-f32.npy"
   [refine_province]="$VAULT/heightfield-f32.npy|$VAULT/hydrology-pass1.npz"
 )
 
 STAGES=(
   "sculpt_province"
   "refine_province"
+  "compile_water"
   "routes"
   "reroute_majors"
   "compile_minor_routes"

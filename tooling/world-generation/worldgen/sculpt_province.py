@@ -25,13 +25,13 @@ from .sculpt import SEED, sculpt
 
 def main() -> None:
     height_path = Path(sys.argv[1])
-    t0 = time.time()
+    t0 = time.perf_counter()
     full = condition(np.flipud(np.load(height_path)))
     rng = np.random.default_rng(SEED)
     z, report = sculpt(full, rng)
     out = height_path.parent / "heightfield-sculpted-f32.npy"
     np.save(out, z)
-    report["elapsedS"] = round(time.time() - t0, 1)
+    report["elapsedS"] = round(time.perf_counter() - t0, 1)
     report["source"] = height_path.name
     (height_path.parent / "sculpt-meta.json").write_text(json.dumps(report, indent=2))
     print(json.dumps(report, indent=2))

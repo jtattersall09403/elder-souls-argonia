@@ -62,6 +62,33 @@ PURPOSE_KINDS: dict[str, tuple[str, str]] = {
     "vantage": ("minor", "a reachable high point with a sightline worth the climb"),
 }
 
+# The purposes that ARE a quest: each one must name the questSockets[] entry
+# the player meets it at (`socketRef`), and that socket must be bound to the
+# same parcel. Enforced in `blueprint._validate_socket_purposes` (owner review
+# 2026-09-08 — Lilmoth had eight buildings whose purpose named a quest and no
+# marker anywhere on the map).
+QUEST_PURPOSE_KINDS = ("quest-giver", "quest-stage")
+
+# Which later phase has to BUILD the thing a purpose promises (owner review
+# 2026-09-08). Every entry is a row in `world/sources/sites/purpose-ledger.json`
+# (worldgen.export_purpose_ledger), and the Phase 12/13 compilers consume that
+# ledger the way the macro compilers consume `blueprint_promises`: an
+# undelivered row is a failure, not a note.
+#   phase-12  interiors, dressing and the fixtures the player operates
+#   phase-13  loot tables, occupants, encounters and services
+#   quests    the quest data and its sockets (docs/quests/)
+PURPOSE_PHASE = {
+    "quest-giver": "quests", "quest-stage": "quests",
+    "service-station": "phase-13", "faction-door": "phase-13",
+    "unique-item": "phase-13", "valuables": "phase-13", "trade": "phase-13",
+    "training": "phase-13", "witness": "phase-13", "fence": "phase-13",
+    "rumour": "phase-13", "cache": "phase-13",
+    "actionable-information": "phase-13",
+    "lock-target": "phase-12", "bed": "phase-12", "crafting": "phase-12",
+    "usable-fixture": "phase-12", "readable": "phase-12",
+    "hiding-place": "phase-12", "vantage": "phase-12",
+}
+
 TIERS = ("major", "medium", "minor")
 TIER_RANK = {"minor": 0, "medium": 1, "major": 2}
 

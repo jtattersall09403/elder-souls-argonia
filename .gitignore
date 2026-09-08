@@ -8,3 +8,4 @@ __pycache__/
 tmp/
 tooling/world-generation/output/
 .claude/settings.local.json
+.claude/worktrees/

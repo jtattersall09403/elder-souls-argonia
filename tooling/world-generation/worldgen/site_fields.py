@@ -183,11 +183,12 @@ class ProvinceSurvey:
         self.air_visibility_m = (3.912 / beta).astype(np.float32)
 
         # -- water (2017 / 1345) -------------------------------------------
-        surf = _rgb(water_dir / "water-surface.png").astype(np.float32)
-        wlo, whi = self.water_meta["surface"]["minM"], self.water_meta["surface"]["maxM"]
-        self.water_level_m = ((surf[..., 0] * 256 + surf[..., 1]) / 65535.0
-                              * (whi - wlo) + wlo).astype(np.float32)
-        self.water_depth_m = (surf[..., 2] * 0.1).astype(np.float32)
+        from .compile_water import decode_surface
+        # signed depth (schema v2: negative = dry ground above the local
+        # water table / buried); depth > 0 is wet
+        self.water_level_m, self.water_signed_depth_m = decode_surface(
+            _rgb(water_dir / "water-surface.png"), self.water_meta)
+        self.water_depth_m = np.maximum(self.water_signed_depth_m, 0.0)
         klass = _rgb(water_dir / "water-class.png")
         self.water_class = _resample(klass[..., 0], self.grid_n)
         self.water_turbidity = _resample(klass[..., 1], self.grid_n).astype(np.float32) / 255.0

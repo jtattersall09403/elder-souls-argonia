@@ -59,12 +59,12 @@ class ProvinceFields:
         lo, hi = refined["heightMinMetres"], refined["heightMaxMetres"]
         self.height_m = (rgb[..., 0] * 256 + rgb[..., 1]) / 65535.0 * (hi - lo) + lo
 
-        surface = np.asarray(Image.open(province / "water" / "water-surface.png")
-                             .convert("RGB")).astype(np.float32)
-        wlo, whi = water_meta["surface"]["minM"], water_meta["surface"]["maxM"]
-        water_level = (surface[..., 0] * 256 + surface[..., 1]) / 65535.0 * (whi - wlo) + wlo
-        depth = surface[..., 2] * 0.1
-        wet = depth > 0.05
+        from .compile_water import decode_surface
+        water_level, depth = decode_surface(
+            np.asarray(Image.open(province / "water" / "water-surface.png").convert("RGB")),
+            water_meta)
+        wet = depth > 0.05     # signed depth (schema v2): dry ground reads negative
+        depth = np.maximum(depth, 0.0)
 
         # Nearest wet cell's water level, everywhere.
         land_d, (iy, ix) = ndimage.distance_transform_edt(~wet, return_indices=True)

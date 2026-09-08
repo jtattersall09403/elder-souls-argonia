@@ -119,7 +119,7 @@ sightlines. They are pinned to their committed dots in
 `macro_plot.RESITE_PINS`, each with a written reason, because moving them
 mid-water-pass would move them twice. This batch re-sites them with the
 evenness re-solve, against the FINAL water rasters, and then deletes the
-pins. The owner accepted the re-solve (2026-09-07); it runs after Round B.
+pins. The owner accepted the re-solve (2026-09-07) and its timing (2026-09-08): after Round B on Lilmoth, before rollout, against the final water.
 
 
 Clark–Evans R per zone reproduces (1.44–2.28) but a Monte-Carlo null in the
@@ -153,9 +153,37 @@ Mechanism: a `placement-tests` job in `.github/workflows/` (pytest over
 cached pip, ~3 min) and an `npm run test:placement` script. Alongside
 water: yes.
 
+### B9 — Everything the prose names is a typed link (owner 2026-09-08)
+
+**Cause**: the quest-purpose-without-a-socket finding is one instance of a
+class: prose in `why` blocks, `notes`, purposes and design records names
+things (quests, named people, services, other places, routes, items,
+factions, landmarks, sockets) that the typed fields do not reference, so
+nothing can check that the thing exists or is delivered (engineering
+standard 12: prose written against the record).
+
+**Mechanism**: a prose-entity check in the blueprint validator and the
+catalogue tests: extract every named entity from the prose surfaces (quest
+titles from the quest index, NPC names from `occupants[]`/the cast roster,
+place names from the catalogue, route names from the registry, faction and
+item names from `world/sources/registries/`, service words from
+`catalogue.SERVICES`, socket ids) and require a typed reference on the same
+record: `socketRef`, `occupantRef`, `placeRef`, `routeRef`, `serviceRef`,
+`itemRef`, `factionRef`. HARD where the vocabulary is closed (quests,
+places, routes, services, factions), WARN where it is open (items until
+Phase 13's registers exist). The reverse holds too: a typed ref with no
+mention in the prose is a WARN (the record promises what it does not
+describe). Apply to the five blueprints and the 800 catalogue records;
+report counts by entity class. Files: `worldgen/prose_links.py` (new),
+`blueprint.py` hook, `test_catalogue.py`, `lint_prose.py` (shares the
+surface list), docs/text/style-guide.md (one line: name a thing only if
+the record links it). Alongside water: yes.
+
 ### B8 — Smaller items (each one brief)
 
-- **Argonian cart gate** (sourcing gap, 2026-09-07): the only Argonian enclosure piece in the mods we hold clears 1.72 m, a footpath; Argonian places whose spine carries carts (Mazzatun, Lilmoth's estuary wall) use the Redoran or Imperial gate with the record giving the lore reason. Search the wider mod scene (Nexus) for an Argonian/marsh gate ≥ 3.5 m clear; Nexus API with the owner's key; credit + hash.
+- **Doors on the tidal flat vs the final water** (2026-09-08): the door reachability test reads water depth; the water agent's in-flight rasters put four Pusbottom thresholds (doors 22/23/25/30) in >0.5 m of water although the committed rasters do not. When the water pass commits, re-compile all five and, where the flat is really deeper now, raise the huts' piles/threshold or move them 2–4 m landward (the solver in the Lilmoth repair record). Belongs with B2/B5 (final water first).
+
+- **Argonian cart gate** (sourcing gap, 2026-09-07; owner 2026-09-08: run the Nexus search first thing in the gap-plan session): the only Argonian enclosure piece in the mods we hold clears 1.72 m, a footpath; Argonian places whose spine carries carts (Mazzatun, Lilmoth's estuary wall) use the Redoran or Imperial gate with the record giving the lore reason. Search the wider mod scene (Nexus) for an Argonian/marsh gate ≥ 3.5 m clear; Nexus API with the owner's key; credit + hash.
 - **BM&V newcastle guardhouse** ships with no derivable door (removed from `enclosure-v1`): decide from the plugin door links whether the mod ever used it enterable; if not, it is a mass.
 - **Mazzatun raiders' back way — decided, no terrain request.** The rise west of the pens is a climbable rock face, and climbing is free by default (module 00-core), so the Xit-Xaht bring the taken down it by hand. One walked way onto the shelf, through the gate; the back way is climb-only and no ground is cut (implementation lead 2026-09-07, decision 0041 Taste ledger).
 - **Hut composites' doorway derivation shifted mid-session.** `bamboohut01/02-with-door` now derive a radial doorway; eleven untouched Lilmoth bamboohut02 parcels, the two kiosks and the gate lodging need `blueprint_footprints --doors` / `--orient` re-run once the interiors-index pass lands (their `interiorRef` rows are that pass's).
@@ -198,6 +226,7 @@ water: yes.
   `blueprint_integration` so the next one cannot pass. Found in the
   2026-09-07 repair round; `hist-court`'s east edge, which was 4 m short of
   its own tavern, was extended in that round.
+- **Four Pusbottom doors compile as unreachable and sap-tapping's channel is on dry ground** (found 2026-09-08 in the fence-routing pass, not caused by it — both reproduce with `fences[]` emptied). `compile_settlement` on Lilmoth: `door.…lilmoth.22/23/25/30 unreachable (land=False)` — four stilt-hut thresholds stand over water with no deck or boardwalk reaching them; on sap-tapping: `canal.sap-tapping-licensed.channel is over dry ground for 100 % of its length`. Both are compile ERRORS today. Fix: reach the four doors with the Pusbottom plank runs (or move the huts onto the flat), and re-end the sap-tapping channel on water the hydrology publishes.
 - `hostile-or-clearable ≥ 55 %` sits at 55.5 % (three records of headroom):
   any hostile cut needs a matching promotion, or the owner lowers the floor.
 

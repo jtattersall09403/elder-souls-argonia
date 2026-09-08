@@ -31,7 +31,7 @@
     ],
     "scaleGrounding": {
       "loreSource": "Fixture only: a five-building landing, sized as the smallest trading stop in module 92's ladder.",
-      "population": "12–16",
+      "population": "12\u201316",
       "households": 4,
       "buildingsPlanned": 5,
       "npcsPlanned": 6,
@@ -658,6 +658,12 @@
             "kind": "lock-target",
             "tier": "medium",
             "note": "The cargo door is locked and the factor carries the only key."
+          },
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The ledger the factor keeps here is the object one quest sends the player to read.",
+            "socketRef": "socket.mire-landing.ledger"
           }
         ]
       },
@@ -723,7 +729,8 @@
           {
             "kind": "quest-giver",
             "tier": "major",
-            "note": "The Imperial factor, who wants the clan's toll claim tested in writing."
+            "note": "The Imperial factor, who wants the clan's toll claim tested in writing.",
+            "socketRef": "socket.mire-landing.factor"
           },
           {
             "kind": "trade",
@@ -974,7 +981,13 @@
             0.712551071,
             0.606224456
           ]
-        ]
+        ],
+        "class": "fence",
+        "routingWhy": "Surveyed to the yard. The fence is set on the yard's own boundary line, which the holding measured off the road when it fenced the stock in.",
+        "gapAt": [
+          "route.mire-landing.approach"
+        ],
+        "moduleM": 4.1
       }
     ],
     "landmarks": [
@@ -1012,7 +1025,8 @@
           "whyNeighbours": "It grows straight out of the quay deck, and the dredged channel meets its head.",
           "playerPurpose": "The mooring for the ferry, and the point where a player arrives by water.",
           "microGeography": "The piles stand in the drop-off at the edge of the channel, clear of the reeds."
-        }
+        },
+        "hullClass": "canoe"
       }
     ],
     "combatSpaces": [
@@ -1059,6 +1073,17 @@
           0.600528387
         ],
         "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.mire-landing.factor",
+        "kind": "station",
+        "parcelId": "parcel.mire-landing.factor-house",
+        "ownerQuestTier": 3,
+        "notes": "The factor at home, where the landing's quest begins.",
+        "position": [
+          0.714494021,
+          0.605184608
+        ]
       }
     ],
     "approaches": [
@@ -1318,6 +1343,20 @@
       "maxUniqueMaterials": 56,
       "maxTextureMB": 48,
       "maxColliders": 260
-    }
+    },
+    "networkTerminals": [
+      {
+        "id": "terminal.mire-landing.bay-channel",
+        "routeId": "route.boat.lilmoth-archon",
+        "entryUV": [
+          0.722858243,
+          0.597544732
+        ],
+        "wayId": "boardwalk.mire-landing.spine",
+        "kind": "channel",
+        "dockId": "dock.mire-landing.main",
+        "why": "The bay lane comes in from the roadstead and ends at the piled dock, the one berth a laden boat can reach."
+      }
+    ]
   }
 }

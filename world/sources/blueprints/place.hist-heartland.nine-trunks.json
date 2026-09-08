@@ -242,7 +242,7 @@
           0.5049048
         ],
         "yawDeg": 83.4,
-        "orientationWhy": "Turned to 83.4\u00b0 so the doorway looks in at 195\u00b0 onto the ring walk, between the elder trunk and the north-eastern trunk; the door opens inward, because the huts of the ring are entered from the clearing.",
+        "orientationWhy": "Turned to 83.4° so the doorway looks in at 195° onto the ring walk, between the elder trunk and the north-eastern trunk; the door opens inward, because the huts of the ring are entered from the clearing.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -385,7 +385,7 @@
           0.5061783
         ],
         "yawDeg": 124.2,
-        "orientationWhy": "Turned to 124.2\u00b0, its doorway on 236\u00b0 onto the ring walk, so a guest steps off the walk into the hut and the rented arc reads as one row.",
+        "orientationWhy": "Turned to 124.2°, its doorway on 236° onto the ring walk, so a guest steps off the walk into the hut and the rented arc reads as one row.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -534,7 +534,7 @@
           0.5080806
         ],
         "yawDeg": 161.2,
-        "orientationWhy": "Turned to 161.2\u00b0, its doorway on 273\u00b0 onto the ring walk, as every hut of the rented arc is.",
+        "orientationWhy": "Turned to 161.2°, its doorway on 273° onto the ring walk, as every hut of the rented arc is.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -677,7 +677,7 @@
           0.5097704
         ],
         "yawDeg": 201.0,
-        "orientationWhy": "Turned to 201.0\u00b0, its doorway on 313\u00b0 onto the ring walk, closing the rented arc.",
+        "orientationWhy": "Turned to 201.0°, its doorway on 313° onto the ring walk, closing the rented arc.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -820,7 +820,7 @@
           0.5105423
         ],
         "yawDeg": 245.9,
-        "orientationWhy": "Turned to 245.9\u00b0, its doorway on 358\u00b0 onto the ring walk, so the store is filled from the clearing and shows a blank wall to the road.",
+        "orientationWhy": "Turned to 245.9°, its doorway on 358° onto the ring walk, so the store is filled from the clearing and shows a blank wall to the road.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -835,6 +835,12 @@
             "kind": "valuables",
             "tier": "medium",
             "note": "The stock belongs to the village. The pitch-taker prices anything taken."
+          },
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The guest cache from which the delegation of The Child of Two Hist draws its provisions.",
+            "socketRef": "socket.nine-trunks.guest-cache"
           }
         ],
         "why": {
@@ -963,7 +969,7 @@
           0.5084001
         ],
         "yawDeg": 337.2,
-        "orientationWhy": "Turned to 337.2\u00b0, its doorway on 89\u00b0 onto the ring walk, so the pitch-taker steps out onto the walk that runs to the gate.",
+        "orientationWhy": "Turned to 337.2°, its doorway on 89° onto the ring walk, so the pitch-taker steps out onto the walk that runs to the gate.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -972,7 +978,8 @@
           {
             "kind": "quest-giver",
             "tier": "major",
-            "note": "Pitch-Rights is given at this door; the household is paid to leave the baggage shut in Under the Overflow."
+            "note": "Pitch-Rights is given at this door; the household is paid to leave the baggage shut in Under the Overflow.",
+            "socketRef": "socket.nine-trunks.pitch-taker"
           },
           {
             "kind": "trade",
@@ -1111,7 +1118,7 @@
           0.5062943
         ],
         "yawDeg": 4.9,
-        "orientationWhy": "Turned to 4.9\u00b0, its doorway on 117\u00b0 onto the ring walk, between the western and north-western trunks; the boat household walks out through the gate like everyone else.",
+        "orientationWhy": "Turned to 4.9°, its doorway on 117° onto the ring walk, between the western and north-western trunks; the boat household walks out through the gate like everyone else.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -1254,7 +1261,7 @@
           0.5049037
         ],
         "yawDeg": 48.1,
-        "orientationWhy": "Turned to 48.1\u00b0, its doorway on 160\u00b0 onto the ring walk, in the gap next to the elder trunk, so the minder steps out facing the trunk that is watched.",
+        "orientationWhy": "Turned to 48.1°, its doorway on 160° onto the ring walk, in the gap next to the elder trunk, so the minder steps out facing the trunk that is watched.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -1407,7 +1414,8 @@
           {
             "kind": "quest-stage",
             "tier": "major",
-            "note": "The hearing house of The Child of Two Hist and the evidence socket of the identity case."
+            "note": "The hearing house of The Child of Two Hist and the evidence socket of the identity case.",
+            "socketRef": "socket.nine-trunks.identity-case"
           },
           {
             "kind": "actionable-information",
@@ -1628,7 +1636,15 @@
             0.509201106
           ]
         ],
-        "service": "shrine"
+        "service": "shrine",
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The tree-minder is questioned on this deck in The Child of Two Hist.",
+            "socketRef": "socket.nine-trunks.tree-minder"
+          }
+        ]
       },
       {
         "id": "parcel.nine-trunks.gate",
@@ -1759,6 +1775,14 @@
             0.667236303,
             0.514461263
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The delegation baggage of Under the Overflow is stacked under this canvas and stays shut.",
+            "socketRef": "socket.nine-trunks.delegation-baggage"
+          }
         ]
       },
       {
@@ -1935,7 +1959,7 @@
           0.514851429
         ],
         "yawDeg": 105.9,
-        "orientationWhy": "Turned to 105.9\u00b0 so the doorway looks out at 218\u00b0 onto the pitch path, the line every delegation walks between the pitches and the village.",
+        "orientationWhy": "Turned to 105.9° so the doorway looks out at 218° onto the pitch path, the line every delegation walks between the pitches and the village.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The pitch store, out of which the village sells food, cord and pitch-dues receipts to the delegations.",
@@ -2312,18 +2336,18 @@
             0.5063941
           ],
           [
-            0.6695458,
-            0.5082928
+            0.6695,
+            0.5083
           ],
           [
-            0.6719085,
-            0.510019
+            0.6719,
+            0.51
           ]
         ],
         "endsAt": [
           "parcel.nine-trunks.gate"
         ],
-        "why": "The path from the pier head up the bank to the arch, for guests who come by water from Uxaneet; it rises under a metre in 50 m and bends round the water-side trunk.",
+        "why": "The path from the pier head up the bank to the arch: it leaves the water where the bank is low enough to climb with a load.",
         "points": [
           [
             0.6668333,
@@ -2338,16 +2362,16 @@
             0.508360534
           ],
           [
-            0.6695458,
-            0.5082928
+            0.6695,
+            0.5083
           ],
           [
-            0.670969813,
+            0.670834193,
             0.509716741
           ],
           [
-            0.672057476,
-            0.509746247
+            0.672042936,
+            0.509738305
           ]
         ]
       },
@@ -2446,7 +2470,10 @@
             0.674477,
             0.5047386
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 20° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-020-r",
@@ -2474,7 +2501,10 @@
             0.675773,
             0.5052972
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 20° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-060-l",
@@ -2502,7 +2532,10 @@
             0.6763784,
             0.5057953
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 60° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-060-r",
@@ -2530,7 +2563,10 @@
             0.6770244,
             0.5066824
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 60° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-100-l",
@@ -2558,7 +2594,10 @@
             0.6771989,
             0.5074277
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 100° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-100-r",
@@ -2586,7 +2625,10 @@
             0.676968,
             0.5086626
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 100° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-140-l",
@@ -2614,7 +2656,10 @@
             0.6765861,
             0.5093419
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 140° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-140-r",
@@ -2642,7 +2687,10 @@
             0.6758072,
             0.5100667
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 140° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-180-l",
@@ -2670,7 +2718,10 @@
             0.675101,
             0.5103944
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 180° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-180-r",
@@ -2698,7 +2749,10 @@
             0.6740735,
             0.5105214
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 180° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-260-l",
@@ -2726,7 +2780,10 @@
             0.672057,
             0.5090195
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 260° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-260-r",
@@ -2754,7 +2811,14 @@
             0.6716443,
             0.5076675
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 260° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58,
+        "abuts": [
+          "parcel.nine-trunks.hut-pitch-taker"
+        ],
+        "abutsWhy": "The panel is lashed into the wall of the hut beside it, so its end reads inside the hut's outline by the width of the lashing."
       },
       {
         "id": "fence.nine-trunks.plug-300-l",
@@ -2782,7 +2846,10 @@
             0.6716931,
             0.5068927
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 300° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-300-r",
@@ -2810,7 +2877,10 @@
             0.6721841,
             0.5057452
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 300° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-340-l",
@@ -2838,7 +2908,10 @@
             0.6727273,
             0.5052007
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 340° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-340-r",
@@ -2866,7 +2939,10 @@
             0.6737146,
             0.5047567
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 340° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-220-l",
@@ -2894,7 +2970,10 @@
             0.67333,
             0.5104339
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 220° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.nine-trunks.plug-220-r",
@@ -2922,41 +3001,54 @@
             0.6723918,
             0.5096873
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "routingWhy": "The span between two authored pieces on the ring's 220° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "moduleM": 1.58,
+        "abuts": [
+          "parcel.nine-trunks.gate"
+        ],
+        "abutsWhy": "The panel is lashed to the gate post, so its end reads inside the gate's outline; that joint is what closes the ring on this side."
       },
       {
         "id": "fence.nine-trunks.pitch-line-south",
         "kind": "fence",
         "widthM": 0.3,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.6692745,
             0.5134464
           ],
           [
-            0.668732,
-            0.5153451
+            0.6688609,
+            0.5148939
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/snakefence01",
-        "why": "The southern run of the pitch line: the snake fence which marks the rented ground off from the spur, so a delegation knows where the paid ground begins.",
+        "why": "The southern run of the pitch line: the snake fence which marks the rented ground off from the spur, stopping two metres short of the pitch path so a delegation coming up it knows where the paid ground begins.",
         "points": [
           [
             0.6692745,
             0.5134464
           ],
           [
-            0.668732,
-            0.5153451
+            0.668867876,
+            0.513852993
+          ],
+          [
+            0.668860169,
+            0.515003031
           ]
-        ]
+        ],
+        "class": "fence",
+        "moduleM": 2.12
       },
       {
         "id": "fence.nine-trunks.pitch-line-north",
         "kind": "fence",
         "widthM": 0.3,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.6681895,
@@ -2975,10 +3067,16 @@
             0.5167013
           ],
           [
-            0.6677827,
-            0.5183287
+            0.667782889,
+            0.517107907
+          ],
+          [
+            0.667782711,
+            0.51825797
           ]
-        ]
+        ],
+        "class": "fence",
+        "moduleM": 2.12
       }
     ],
     "landmarks": [
@@ -3078,7 +3176,7 @@
           "whyHere": "The trunks came first and the huts were fitted to the gaps between them. This one holds the south of the ring, above the store hut and the road beyond it.",
           "whySpot": "The southern trunk stands on 3.5 m ground, the lowest footing of the nine. It is the trunk seen from the road.",
           "whyNeighbours": "The third guest hut is panelled to its northern side and the store hut to its southern, so it divides the rented gaps from the tribe's own stores.",
-          "playerPurpose": "A 25 m column at the south. From the Archon\u2013Gideon road it is the trunk nearest to a traveller. It stands over the store hut's blank wall.",
+          "playerPurpose": "A 25 m column at the south. From the Archon–Gideon road it is the trunk nearest to a traveller. It stands over the store hut's blank wall.",
           "microGeography": "Its base is on 3.5 m ground, the lowest footing of the nine. Wet-season run-off leaves the clearing past it."
         }
       },
@@ -3372,11 +3470,13 @@
         "piledToBed": true,
         "why": {
           "what": "The landing at the head of the pier in the western pool, where the boat from Uxaneet ties up.",
-          "whyHere": "The village is reached by water from Uxaneet as often as by the road; delegations bring baggage. Baggage comes by boat.",
+          "whyHere": "The village is reached by water from Uxaneet as often as by the road. Delegations bring baggage, which comes by boat. No other water within reach of the ring will float a laden hull, so the poling channel that serves the village is drawn to these piles rather than the piles moved out to it (fit `water-to-dock`).",
           "whyNeighbours": "The pier runs from it to the bank and the landing path climbs from the bank to the arch; the western family's hut, whose household poles the boat, stands in the wall above it.",
           "playerPurpose": "The arrival point for a player who comes by boat and the travel service to Uxaneet.",
           "microGeography": "Piles stand in the pool 2 m below the bank on its eastern shore, where the water is deep enough for a laden pole boat and the reed bed is thin."
-        }
+        },
+        "hullClass": "canoe",
+        "fit": "water-to-dock"
       }
     ],
     "combatSpaces": [
@@ -3491,7 +3591,9 @@
           0.6713088,
           0.5103271
         ],
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "parcelId": "parcel.nine-trunks.hut-pitch-taker",
+        "questId": "quest.local.lh51"
       },
       {
         "id": "socket.nine-trunks.empty-pitches",
@@ -3510,7 +3612,8 @@
           0.6673758,
           0.5148026
         ],
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "questId": "quest.local.lh53"
       },
       {
         "id": "socket.nine-trunks.root-join",
@@ -3538,7 +3641,8 @@
           0.6739642,
           0.5090247
         ],
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "questId": "quest.local.mq19"
       },
       {
         "id": "socket.nine-trunks.identity-case",
@@ -3548,7 +3652,8 @@
           0.6744281,
           0.5065975
         ],
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "questId": "quest.local.mq19"
       },
       {
         "id": "socket.nine-trunks.guest-cache",
@@ -3558,7 +3663,8 @@
           0.6744281,
           0.5105983
         ],
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "questId": "quest.local.mq19"
       }
     ],
     "approaches": [
@@ -4205,7 +4311,19 @@
         ],
         "wayId": "route.nine-trunks.spur",
         "kind": "track",
-        "why": "The heartland track reaches the village on the one shoulder that carries a cart above the pool's flood line; it crosses the boundary here and the spur carries it the last 120 m to the gate gap, so track and street are one line."
+        "why": "The heartland track reaches the village on the shoulder that carries a cart above the pool's flood line; it crosses the boundary here and the spur carries it the last 120 m to the gate gap, so track and street are one line."
+      },
+      {
+        "id": "terminal.nine-trunks.landing-channel",
+        "routeId": "waterway.hist-heartland.nine-trunks.landing",
+        "entryUV": [
+          0.6656128,
+          0.5063941
+        ],
+        "wayId": "boardwalk.nine-trunks.pier",
+        "kind": "channel",
+        "dockId": "dock.nine-trunks.landing",
+        "why": "The poling channel off the heartland water network is drawn up to the western pool and dies at the landing piles; the pier carries the baggage from it up the bank."
       }
     ]
   }

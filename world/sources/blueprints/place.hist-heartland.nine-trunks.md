@@ -139,8 +139,8 @@ matched `mudhut01intnew`; the round house is a shell and claims
 | `route.nine-trunks.landing-path` | footpath 1.5 m | terrain | gate | 51 m, rises 3.4 → 4.1 m |
 | `route.nine-trunks.pitch-path` | footpath 1.5 m | terrain | pitch-1 | 18 m |
 | `boardwalk.nine-trunks.pier` | pier 1.8 m | straight | dock | 9 m, bank 3.4 m to water 1.2 m |
-| `fence.nine-trunks.plug-<bearing>-l/r` (×18) | fence 0.3 m | straight | — | 1.4–1.65 m each |
-| `fence.nine-trunks.pitch-line-south/north` | fence 0.3 m | straight | — | 15 m and 12 m |
+| `fence.nine-trunks.plug-<bearing>-l/r` (×18) | ring-panel 0.3 m | straight (the span between two authored pieces) | — | 0.8–2.6 m, one to two 1.58 m panels each |
+| `fence.nine-trunks.pitch-line-south/north` | fence 0.3 m | terrain | — | 12.7 m each, six 2.12 m lengths, with the ten-metre opening between them for the pitch path |
 
 What the integration checks changed against the first draft: the dock moved
 from dry ground 36 m south-west (the first draft's "landing" stood at 3.9 m
@@ -348,3 +348,16 @@ house), six medium, none flavour-only: 33 % major, inside the 40 % ceiling for
 a village. The rented huts earn their doors as beds and as evidence rather than
 as three copies of the same room, and the swept unlet hut is now information
 about a tribe that stopped coming rather than an empty prop.
+
+## The berth and its channel (owner review, 2026-09-08)
+
+The landing was drawn on the western pool and nothing in the published water
+network ended there, so it read as a dock beside the water rather than on it.
+The berth keeps its place, because the village was built on this pool, and the
+poling channel is now solved to it (`fit: water-to-dock`,
+`terminal.nine-trunks.landing-channel` on
+`waterway.hist-heartland.nine-trunks.landing`). The berth is `canoe` class:
+the pool is marsh water the province classifies but publishes no depth for, so
+it is credited with the 0.6 m a poled hull needs and no more. Every socket
+bound to a building is answered by a quest purpose on it. The pitch-taker
+socket is bound to the hut that gives Pitch-Rights.

@@ -490,3 +490,80 @@ def test_parcel_overlap_still_fails_for_two_pieces_on_the_ground(survey):
     bp = _bp(parcels=[parcel("parcel.stub.a", 100, 100, half=6.0, centreUV=uv(100, 100)),
                       parcel("parcel.stub.b", 104, 100, half=6.0, centreUV=uv(104, 100))])
     assert any("overlap" in e for e in check_integration(bp, survey))
+
+
+# --- abuts-snap (97 C14/E3, owner 2026-09-08) ------------------------------- #
+# A stub connector library: a 10 m wall module with an end face at each end of
+# its long axis, and a piece with none at all.
+from .blueprint_integration import (SNAP_POS_M, ConnectorLibrary,       # noqa: E402
+                                    check_abuts_snap)
+
+
+class StubConnectors(ConnectorLibrary):
+    def __init__(self):
+        self.by_asset = {
+            "kit:wall": [
+                {"face": "east", "positionInPiece": [5.0, 0.0], "normalDeg": 90.0,
+                 "widthM": 2.0, "heightM": 6.0, "evidence": "bounds"},
+                {"face": "west", "positionInPiece": [-5.0, 0.0], "normalDeg": 270.0,
+                 "widthM": 2.0, "heightM": 6.0, "evidence": "bounds"},
+            ],
+        }
+        self.kit_of = {"kit:wall": "stub-kit"}
+
+
+def wall(pid, cx, cz, yaw=0.0, asset="kit:wall", **over):
+    return {"id": pid, "assetRef": asset, "centreUV": uv(cx, cz), "yawDeg": yaw,
+            "footprint": box(cx, cz, 5.0), **over}
+
+
+def test_abuts_snap_fails_when_the_two_pieces_only_stand_near_each_other(survey):
+    # the owner's Lilmoth gate: the second wall starts 1 m past the first's face
+    bp = _bp(parcels=[wall("parcel.stub.wall-a", 100, 100),
+                      wall("parcel.stub.wall-b", 111, 100,
+                           abuts=["parcel.stub.wall-a"], abutsWhy="the kit's own run")])
+    errs = check_abuts_snap(bp, survey, StubConnectors())
+    assert any("abuts-snap" in e and "parcel.stub.wall-a" in e for e in errs)
+    assert any("miss by 1.00 m" in e for e in errs)
+    assert not any(e.startswith("integration-warn: ") for e in errs)   # HARD
+
+
+def test_abuts_snap_passes_when_the_faces_coincide(survey):
+    bp = _bp(parcels=[wall("parcel.stub.wall-a", 100, 100),
+                      wall("parcel.stub.wall-b", 110, 100,
+                           abuts=["parcel.stub.wall-a"], abutsWhy="the kit's own run")])
+    assert check_abuts_snap(bp, survey, StubConnectors()) == []
+
+
+def test_abuts_snap_fails_when_the_faces_touch_but_point_the_same_way(survey):
+    # end to end in position, but the second piece is turned 90 deg: the faces
+    # meet at a corner, not on a plane
+    bp = _bp(parcels=[wall("parcel.stub.wall-a", 100, 100),
+                      wall("parcel.stub.wall-b", 110, 100, yaw=90.0,
+                           abuts=["parcel.stub.wall-a"], abutsWhy="the kit's own run")])
+    assert any("abuts-snap" in e for e in check_abuts_snap(bp, survey, StubConnectors()))
+
+
+def test_abuts_snap_allows_two_pieces_joined_through_the_one_between_them(survey):
+    bp = _bp(parcels=[
+        wall("parcel.stub.wall-a", 100, 100, abuts=["parcel.stub.wall-c"]),
+        wall("parcel.stub.wall-b", 110, 100,
+             abuts=["parcel.stub.wall-a", "parcel.stub.wall-c"]),
+        wall("parcel.stub.wall-c", 120, 100, abuts=["parcel.stub.wall-b"]),
+    ])
+    assert check_abuts_snap(bp, survey, StubConnectors()) == []
+
+
+def test_abuts_snap_warns_rather_than_passing_when_a_kit_has_no_connectors(survey):
+    bp = _bp(parcels=[wall("parcel.stub.wall-a", 100, 100),
+                      wall("parcel.stub.hut", 140, 100, asset="kit:unmeasured",
+                           abuts=["parcel.stub.wall-a"], abutsWhy="")])
+    msgs = check_abuts_snap(bp, survey, StubConnectors())
+    assert len(msgs) == 1 and msgs[0].startswith("integration-warn: ")
+    assert "measure_connectors" in msgs[0]
+    # a WARN never reaches the compile-failing list
+    assert not [e for e in check_integration(bp, survey) if "abuts-snap" in e]
+
+
+def test_abuts_snap_tolerance_is_a_hands_width(survey):
+    assert SNAP_POS_M == 0.15

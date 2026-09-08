@@ -63,6 +63,7 @@ sourcing rule); the register only records outcomes.
 
 | Round | Lesson | Where it now lives |
 |---|---|---|
+| Review 2026-09-08 | A quest purpose is a socket and a socket is a quest purpose; a dock is a water terminal the channel ends at; every purpose is a ledger row a later phase must deliver | `socketRef`, dock terminals + `hullClass`, `purpose-ledger.json` |
 | Water round 2 (2026-09-08) | Effect meshes (waterfalls, rapids, mist) are not kit content: they are authored for another renderer and `check_credits` has no registry rows for them. A fall is our path-traced geometry carrying the vanilla *textures* and Bethesda's measured stack rules; rock dressing along strips and lips is a scatter job with candidate positions exported by the runtime | decision 0047 addendum; `ChannelStrips.stripBoulderCandidates`; `waterfall-fx-textures` manifest |
 | Review 2026-09-07 | A check that swallows its own failure is a check that is off; a canal needs a bound, a door needs a sightline; the claims in a round record are measured, not repeated | `canal-bound`, `door-sightline`, raise-on-failure in `_water_at` / `check_network_stitch` |
 | Part 6 | The macro plot places by landform *class*; four of five plots could not carry the place as recorded (no standing water for a pond, a 47° hillside, 4.3 m of relief across a ring, no navigable water). The meso pass exists to measure; expect 60–150 m moves and write them back | `apply_sitings`; 0041 § Part 6 delivery record |
@@ -99,6 +100,8 @@ sourcing rule); the register only records outcomes.
 | Round A audit | "Designed to touch" covered kit snaps only, so a hoist against the rock it works had to be mis-declared as a snap. A trade contact is `worksWith` + `worksWithWhy`: exempt from the 8 m floor, and held 0.5 m CLEAR, because nobody authored those two pieces to join | validator `worksWith`; `WORKS_WITH_CLEAR_M`; 97 C5a / G24 |
 | Round A audit | The prose linter read every hard-wrapped markdown line as a sentence, so "the road runs from" was reported as ending on a preposition (14 of 24 hits). Markdown is linted by paragraph, and a code span becomes a neutral word rather than nothing | `lint_prose.lint_markdown` |
 | Review 2026-09-07 | Turning a building to its door is not the end of the move: the way clearance, the sightline and the spacing are re-run after every orient pass; the router bends the way before the building moves | `--orient` then `street_router --apply` then compile; the compile is the gate |
+| Review 2026-09-08 | Walls and fences are routed over the ground like streets, in the wall's own module, standing in water only where the lore drives poles | `street_router` fence mode, `fences[].class/waterOk/gapAt` |
+| Review 2026-09-08 | Pieces designed to connect are snapped face to face, never placed near each other: connectors are measured from the authors' co-placements and the mesh, and `abuts` is checked as a snap | `measure_connectors`, `<kit>.connectors.json`, `abuts-snap` |
 | Assemblies round | The macro plot is more even than random (Clark–Evans R ≈ 1.8 per zone, target < 1): a report can only say so; fixing it is a re-solve that the owner must call | `plot_stats`, 0041 § Assemblies round |
 
 ## 3. Automation-readiness checklist (Phase 15 gate)

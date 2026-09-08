@@ -172,6 +172,8 @@ export interface BpCombatSpace {
 export interface BpSocket {
   id: string; kind: string | null; parcelId: string | null; ownerQuestTier: number | null;
   notes: string | null; positionM: Pt | null;
+  /** The quest this socket belongs to, where the blueprint names one. */
+  questId?: string | null;
 }
 export interface BpKeptTree {
   id: string; kind: string | null; notes: string | null; positionM: Pt | null;

@@ -28,6 +28,16 @@ checks run inside `compile_settlement` and FAIL the compile:
   passage           where a way runs between two building hulls, the clear gap
                     between those hulls must be at least PASSAGE_MIN_M — two
                     character widths (97 C3 / D8), or the player cannot pass.
+  abuts-snap        (97 C14/E3, owner 2026-09-08: Lilmoth's gate read as "a
+                    gate arch, a tower and two wall stubs placed next to each
+                    other") a parcel that declares `abuts` must SNAP to its
+                    neighbour: one of its measured connector faces coincides
+                    with one of the neighbour's, within SNAP_POS_M and
+                    SNAP_NORMAL_TOL_DEG of opposition, in world space after
+                    each piece's centre and yaw — or the two are joined through
+                    a piece they both snap to. Connectors come from
+                    `pipeline.measure_connectors`; a pair whose kit has none
+                    measured is a WARN naming the kit, never a silent pass.
   network-stitch    (97 C-stitch, owner requirement 2026-09-05) the roads and
                     paths INTO a place must be one continuous network with the
                     streets inside it. For each `networkTerminals[]` entry: the
@@ -429,11 +439,182 @@ def check_integration(bp: dict, survey) -> list[str]:
         if key == "routes" and w.get("kind") in ("road", "track") and frac_wet * ln.length > ROAD_WATER_MAX_M:
             errors.append(f"integration: {w.get('kind')} {w['id']} crosses {frac_wet * ln.length:.0f} m of water — longer than a ford; needs a bridge or a boardwalk piece")
 
+    # abuts-snap (97 C14/E3) — a declared snap has to BE a snap.
+    errors += [m for m in check_abuts_snap(bp, survey) if not m.startswith(WARN_PREFIX)]
+
     # network-stitch (97 C-stitch) — only when the survey can reach the published
     # province bundles (the synthetic surveys in the tests pass their own).
     if getattr(survey, "province", None) is not None:
         errors += check_network_stitch(bp, survey)
     return errors
+
+
+# --------------------------------------------------------------------------- #
+# abuts-snap (97 C14/E3, G19 — owner 2026-09-08)
+# --------------------------------------------------------------------------- #
+class ConnectorLibrary:
+    """Measured connector faces for every kit, keyed by kit asset id.
+
+    Written by ``pipeline.measure_connectors``: per piece, the faces the piece
+    was made to join on, in the piece's own local frame (x east, z south,
+    centred on the pivot `compile_settlement` places), with the OUTWARD bearing
+    of each face. Evidence is either the authors' own co-placements or the
+    measured mesh bounds — never a filename.
+    """
+
+    def __init__(self, kits_dir=None):
+        import json as _json
+        from pathlib import Path as _Path
+
+        from .blueprint_footprints import KITS_DIR
+
+        kits_dir = _Path(kits_dir) if kits_dir is not None else KITS_DIR
+        self.by_asset: dict[str, list[dict]] = {}
+        self.kit_of: dict[str, str] = {}
+        if not kits_dir.exists():
+            return
+        for path in sorted(kits_dir.glob("*.connectors.json")):
+            data = _json.loads(path.read_text())
+            kit = data.get("kit", path.name.removesuffix(".connectors.json"))
+            for asset_id, conns in (data.get("assets") or {}).items():
+                self.by_asset.setdefault(asset_id, conns)
+                self.kit_of.setdefault(asset_id, kit)
+
+    def get(self, asset_ref: str) -> list[dict]:
+        return self.by_asset.get(asset_ref) or []
+
+
+_CONNECTORS: ConnectorLibrary | None = None
+
+
+def connectors(kits_dir=None) -> ConnectorLibrary:
+    """Process-wide cache of the measured connector tables (read-only data)."""
+    global _CONNECTORS
+    if kits_dir is not None:
+        return ConnectorLibrary(kits_dir)
+    if _CONNECTORS is None:
+        _CONNECTORS = ConnectorLibrary()
+    return _CONNECTORS
+
+
+def _world_connectors(parcel: dict, survey, library: ConnectorLibrary):
+    """A parcel's connectors in world metres: (x, z, outward bearing, face)."""
+    conns = library.get(parcel.get("assetRef") or "")
+    if not conns or not parcel.get("centreUV"):
+        return []
+    cx, cz = _m(survey, parcel["centreUV"])
+    yaw = float(parcel.get("yawDeg") or 0.0)
+    r = math.radians(yaw)
+    cos_y, sin_y = math.cos(r), math.sin(r)
+    out = []
+    for c in conns:
+        px, pz = c["positionInPiece"]
+        # yawDeg is a compass bearing, so the map rotation is CLOCKWISE
+        # (blueprint_footprints): (x, z) -> (x cos - z sin, x sin + z cos).
+        wx = cx + px * cos_y - pz * sin_y
+        wz = cz + px * sin_y + pz * cos_y
+        out.append((wx, wz, (yaw + float(c["normalDeg"])) % 360.0, c.get("face", "?"),
+                    c.get("evidence", "?")))
+    return out
+
+
+def _heading_delta(a: float, b: float) -> float:
+    """Angle between two DIRECTED bearings, 0-180 deg (a face normal points one
+    way; two faces meet only when they point INTO each other)."""
+    d = abs(a - b) % 360.0
+    return min(d, 360.0 - d)
+
+
+def _nearest_connector_pair(pa: dict, pb: dict, survey, library):
+    """(gap m, opposition deg, face a, face b, evidence a, evidence b) for the
+    closest pair of connector faces on two parcels — or None if either piece
+    has no measured connectors."""
+    ca = _world_connectors(pa, survey, library)
+    cb = _world_connectors(pb, survey, library)
+    if not ca or not cb:
+        return None
+    best = None
+    for wax, waz, na, fa, ea in ca:
+        for wbx, wbz, nb, fb, eb in cb:
+            d = math.hypot(wax - wbx, waz - wbz)
+            opp = _heading_delta(na, nb + 180.0)
+            if best is None or (d, opp) < (best[0], best[1]):
+                best = (d, opp, fa, fb, ea, eb)
+    return best
+
+
+WARN_PREFIX = "integration-warn: "
+# How close two connectors have to be to count as ONE joint. 0.15 m is a
+# hand's width: below it the two faces read as one piece of masonry, above it
+# the eye sees a slot of daylight between them.
+SNAP_POS_M = 0.15
+# and how nearly opposite the two faces have to point. Five degrees over a
+# 7 m wall run is 0.6 m of splay at the far end — the most that still reads as
+# a joint rather than a gap that widens.
+SNAP_NORMAL_TOL_DEG = 5.0
+
+
+def check_abuts_snap(bp: dict, survey, library: ConnectorLibrary | None = None) -> list[str]:
+    """97 C14/E3 — a declared `abuts` pair must actually SNAP, face to face.
+
+    Owner 2026-09-08, on Lilmoth's north gate: "a gate arch, a tower and two
+    wall stubs placed next to each other. In reality these need to be properly
+    built into/attached to each other." `abuts` used to mean only "these two
+    are exempt from the 8 m spacing floor", so a pair could be declared a snap
+    while standing a metre apart on their own bearings. It now means SNAPPED:
+    some connector of A and some connector of B coincide in world space, within
+    SNAP_POS_M, pointing into each other within SNAP_NORMAL_TOL_DEG.
+
+    HARD. A pair with no connectors measured on either piece is a WARN naming
+    the kit to measure — never a silent pass.
+    """
+    library = connectors() if library is None else library
+    parcels = {p["id"]: p for p in bp.get("parcels", []) if p.get("id")}
+    pairs: set[tuple[str, str]] = set()
+    for pid, p in parcels.items():
+        for other in p.get("abuts") or []:
+            if other in parcels:
+                pairs.add((pid, other) if pid < other else (other, pid))
+    # First pass: which declared pairs snap DIRECTLY. A third piece standing
+    # between two others joins them (a stair and a bay on opposite faces of one
+    # scaffold base are one deck), so a pair that both snap to a common
+    # neighbour is joined too — through it, not merely near it.
+    snapped: set[tuple[str, str]] = set()
+    for ia, ib in sorted(pairs):
+        best = _nearest_connector_pair(parcels[ia], parcels[ib], survey, library)
+        if best is not None and best[0] <= SNAP_POS_M and best[1] <= SNAP_NORMAL_TOL_DEG:
+            snapped.add((ia, ib))
+            snapped.add((ib, ia))
+    out: list[str] = []
+    for ia, ib in sorted(pairs):
+        pa, pb = parcels[ia], parcels[ib]
+        if pa.get("stacksOn") == ib or pb.get("stacksOn") == ia:
+            continue     # a vertical stack, not a face join — `stacksOn` owns it
+        ca = _world_connectors(pa, survey, library)
+        cb = _world_connectors(pb, survey, library)
+        if not ca or not cb:
+            missing = [f"{p['id']} ({p.get('assetRef')}, kit "
+                       f"{library.kit_of.get(p.get('assetRef') or '', 'unmeasured')})"
+                       for p, c in ((pa, ca), (pb, cb)) if not c]
+            out.append(
+                f"{WARN_PREFIX}97 C14/E3 abuts-snap — {ia} and {ib} declare a snap, but no connector "
+                f"faces are measured for {', '.join(missing)}; run "
+                f"'python3 -m pipeline.measure_connectors --kit <kit>' so the snap can be checked")
+            continue
+        best = _nearest_connector_pair(pa, pb, survey, library)
+        d, opp, fa, fb, ea, eb = best
+        if d <= SNAP_POS_M and opp <= SNAP_NORMAL_TOL_DEG:
+            continue
+        if any((ia, mid) in snapped and (ib, mid) in snapped
+               for mid in parcels if mid not in (ia, ib)):
+            continue     # joined through the piece that stands between them
+        out.append(
+            f"integration: 97 C14/E3 abuts-snap — {ia} and {ib} declare a snap, but their nearest "
+            f"connector faces ({fa} on {ia}, {fb} on {ib}) miss by {d:.2f} m and {opp:.1f}° "
+            f"(limits {SNAP_POS_M:.2f} m, {SNAP_NORMAL_TOL_DEG:.0f}°); pieces designed to connect are "
+            f"built into each other, not placed near each other — move one onto the other's face "
+            f"(evidence: {ea}/{eb}), or drop the `abuts` if this pair was never authored to join")
+    return out
 
 
 def _bearing(p0, p1) -> float | None:

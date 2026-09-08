@@ -35,6 +35,28 @@ by construction, and recorded verbatim in the manifest's `node` field; the full
 semantic id stays in the GLB's `extras.assetId`, which is what the runtime and
 `pipeline.measure_footprints` look assets up by.
 
+`measure_connectors` answers "where was this piece made to join?" — the
+question `<kit>.footprints.json` cannot answer, because a hull says where a
+piece stands and not which of its faces is a joint. Run
+`python3 -m pipeline.measure_connectors` after `measure_footprints`; it writes
+`output/kits/<kit>.connectors.json`, one entry per joining face:
+`{face, positionInPiece [x, z], normalDeg, widthM, heightM, evidence}`, in the
+same local frame as the footprints (x east, z south, centred on the pivot the
+settlement compiler places; `normalDeg` is the face's OUTWARD compass bearing,
+so a world-space connector is `centre + R(yawDeg)·positionInPiece`). Evidence is
+`co-placement` — the modal offset and yaw at which the SOURCE AUTHORS repeatedly
+placed that pair (`world/sources/placement/kit-assemblies-mined.json`), halved to
+the joint between the two pivots, keeping only the shortest span on each bearing
+because a multiple of the module pitch is a chain of joins and not a face — or
+`bounds`, the measured plan outline's own faces for pieces no mined plugin
+places: two end faces for a run module (a wall, rail, quay or curtain, at least
+twice as long as it is wide), four for a tower, corner or gate block. It never
+reads a filename. `worldgen.blueprint_integration`'s `abuts-snap` check (97
+C14/E3, G19) holds every blueprint parcel that declares `abuts` to a 0.15 m /
+5° coincidence of two of these faces, so a gate arch, its tower and its wall
+stubs are built into each other instead of standing near each other. The run is
+a couple of seconds over all kits and is deterministic.
+
 `interiors_index` answers "which buildings have an inside, and where is the
 door?" (owner ruling 2026-09-05: *very few buildings have doors; everything
 intended to have an interior must have one*). Run

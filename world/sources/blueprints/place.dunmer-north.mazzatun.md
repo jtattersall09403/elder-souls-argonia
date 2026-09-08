@@ -38,7 +38,8 @@ The Xit-Xaht live underground, in the twisted halls that earned the place its ep
 The terrace rules, each of them visible in the data:
 
 1. **Every course runs along a riser; every stair runs on the fall line.** The works district declares `routing: "straight"` (97 C2/C8): a xanmeer is laid on a 90-degree grid, the two risers are built straight walls, and the courses, the statue wall, the dais and the stairs are squared to them at 0° or 90°; the tower and the east course take the lip's own bearing. The shared cardinal bearing is the grid culture's exception to the yaw-diversity rule, declared on the district with its why.
-2. **The risers are built, not painted.** Heightfields cannot hold a vertical, so the two risers are `fences[]` of kind `wall` with the quad-block asset: `fence.mazzatun.riser-upper-{west,east}` at z 1332.5 (either side of the pens stair) and `fence.mazzatun.riser-lower-{west,east}` at z 1349.5 (either side of the great stair). Buildings on a riser stand on the course.
+2. **The risers are built lines and every other wall line is routed.** The two risers and the four Imperial-era courses keep `routing: "straight"` with the survey reason on the entry, because a retaining course is laid to the cut that it holds up; the pen fence is routed over the ground like a street and now follows the pens' contour instead of ruling across it (owner ruling 2026-09-08).
+ Heightfields cannot hold a vertical, so the two risers are `fences[]` of kind `wall` with the quad-block asset: `fence.mazzatun.riser-upper-{west,east}` at z 1332.5 (either side of the pens stair) and `fence.mazzatun.riser-lower-{west,east}` at z 1349.5 (either side of the great stair). Buildings on a riser stand on the course.
 3. **The slope ladder is obeyed by measurement.** Seven parcels are pads (Δ < 2 m), twenty-one are dug in and the scaffold stair is stilted against the base it climbs; nothing is graded above 2 m. The compiler's own Δ pushed six parcels from pad to dug-in this round (course-n1, pen-b, half-cut blocks, scaffolds a/b/c), which is the permitted downward relaxation of the ladder.
 4. **The pens are mud and the works are stone**, by district, never blended; the IGS Ayleid pieces and the Here There Be Monsters xanmeer pieces stand in separate parcels and never abut (tower to course-e1: 0.33 m, the closest).
 5. **Authority is high and last.** The tower (shaper's station) stands at the lip at the far end of the terrace track; the pens are higher still, which is the point: the labour is above the masters and looks down at their stone, while the masters look up into the pens from the court.
@@ -64,12 +65,12 @@ The conduit is not a path. It is `fence.mazzatun.conduit`, kind `wall`, asset `h
 
 ## 5. Fences
 
-| Fence | Kind | Asset | Line |
-|---|---|---|---|
-| `fence.mazzatun.riser-upper-west` / `-east` | wall | `arquadblock01` | z 1332.5, 31 m + 8 m, split at the pens stair |
-| `fence.mazzatun.riser-lower-west` / `-east` | wall | `arquadblock02` | z 1349.5, 17 m + 9 m, split at the great stair |
-| `fence.mazzatun.pen` | fence | `argonianfence01` | north of the pens at z 1319, from the rack to the east course: 57 m; the east shell and the east course close the east side |
-| `fence.mazzatun.conduit` | wall | `histroots03` | Hist → lip → over the gate → throat, 81 m |
+| Fence | Class | Routing | Asset | Line |
+|---|---|---|---|---|
+| `fence.mazzatun.riser-upper-west` / `-east` | curtain | straight, surveyed | `arquadblock01` | z 1332.5, 31.0 m + 8.0 m (five blocks and one), split at the pens stair |
+| `fence.mazzatun.riser-lower-west` / `-east` | curtain | straight, surveyed | `arquadblock02` | z 1349.5, 14.0 m + 9.0 m, split at the great stair; the west course runs under the frontage dais, so it is declared in `abuts` |
+| `fence.mazzatun.pen` | fence | terrain | `argonianfence01` | north and east of the pens, routed along the 206–207 m contour: 66.4 m, forty-two woven panels with six bends, opened where `route.mazzatun.works-store-path` passes through it |
+| `fence.mazzatun.conduit` | ring-panel | arc | `histroots03` | Hist → lip → over the gate → throat, 105.2 m; carried on `parcel.mazzatun.conduit-pillar` and over three ways, all declared |
 
 The compiler does not yet place fence or wall pieces; these are map and data until it does; the record says so in `assetConstraints`.
 
@@ -156,9 +157,9 @@ The haul road keeps its own approach from the gorge floor, but it carries no pro
 | `haul-cart` | staging | `handcart01` | 1.3 × 2.2 | 1.4 | 233.7° | pad |
 | `kiln` | staging | `smelter01` | 2.8 × 3.1 | 2.6 | 354° | dug-in, on the stream lip at 1989, 1361.5 (Δ 3.2 m), downwind and downstream of the courses and the pens |
 | `scaffold-a` | staging | `stockadescaffoldbase4sided01` | 3.7 × 3.8 | 2.7 | 320.5° | dug-in, west lobe (1955.5, 1350.5) |
-| `scaffold-b` / `scaffold-c` / `scaffold-stair` | staging | `stockadescaffoldbase4sided01` / `base2sided01` / `stockadescaffoldstairs01` | 3.7 × 3.8 each | 2.7 / 2.7 / 3.5 | 12.1° / 9.2° / 341.2° | one scaffold assembly at 1971.5–1975.4, 1357–1361: the two-sided base joins the four-sided base on its unrailed side and the stair stands against it, declared with `abuts` (97 C5); dug-in / dug-in / stilt |
+| `scaffold-b` / `scaffold-c` / `scaffold-stair` | staging | `stockadescaffoldbase4sided01` / `base2sided01` / `stockadescaffoldstairs01` | 3.7 × 3.8 each | 2.7 / 2.7 / 3.5 | 12.1° / 12.7° / 282.7° | one scaffold assembly at 1971.8–1975.4, 1356–1361: the two-sided base is laid on the west face of the four-sided base and the stair on its south face, each on the joint that the stockade kit's own builders repeat (3.6 m and 3.7 m pivot to pivot), so the three form one deck. Snapping them on 2026-09-08 moved the bay 0.87 m and the stair 0.86 m; `abuts` now means this joint and is checked as one (97 C14/E3). Dug-in / dug-in / stilt |
 | `cutting-floor` | staging | `mineoreiron01` | 7.2 × 7.3 | 1.7 | 42.8° | dug-in, against the western rise (1950.5, 1357.5), where the shelf runs out into rock |
-| `hoist` | staging | `minescaffoldbasesupportw01` | 3.7 × 3.8 | 2.7 | 208.2° | pad, between the cut face and the half-cut blocks (1956.5, 1360); the mine scaffold is authored to stand against the mine rock piece, so the contact is declared as `abuts` |
+| `hoist` | staging | `minescaffoldbasesupportw01` | 3.7 × 3.8 | 2.7 | 208.2° | pad, between the cut face and the half-cut blocks (1956.5, 1360); the kit has no authored joint from a hoist to a rock face or to a block pile, so this is a working contact, declared `worksWith`, which keeps half a metre of clear ground between the three (97 C5a) |
 
 Pieces with an off-centre pivot (`arstairscenter01`, `arstatuewall01`, `arstairs01`, `arsteppeddias01`, `arrubblepile03`) were authored by where the hull should stand; `centreUV` was back-solved from the measured hull centroid.
 
@@ -251,3 +252,12 @@ who has begun to remember, a rota that can be learnt by taking a shift in the
 pen the overseers watch hardest, and the floor a working visitor is given to
 sleep on. Nothing here is major. The quest weight of Mazzatun sits in the works and the
 conduit room rather than in the pens.
+
+## Sockets and purposes (owner review, 2026-09-08)
+
+Mazzatun has no berth. It is reached by the ridge track. Its six bound
+sockets are now each answered by a quest purpose on the parcel on which they
+stand. The purposes name their socket, so the statue court, the stair throat, the
+tower, the half-cut blocks, the scaffold stair and the cutting floor read as
+quest ground on the map as well as in the prose. Four carry the quest they
+belong to (LV28, LV29 twice, LV30).

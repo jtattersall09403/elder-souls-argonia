@@ -55,8 +55,8 @@
             1993.3,
             1455.9
           ],
-          "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and \u0394 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
-          "rejectedBecause": "\u0394 \u2265 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
+          "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and Δ 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
+          "rejectedBecause": "Δ ≥ 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
         },
         {
           "id": "candidate.mazzatun.gorge",
@@ -244,19 +244,11 @@
           ],
           [
             0.279310797,
-            0.183155733
-          ],
-          [
-            0.279175177,
             0.183291354
           ],
           [
-            0.278903935,
-            0.183155733
-          ],
-          [
             0.278632694,
-            0.183426975
+            0.18261325
           ],
           [
             0.278632694,
@@ -267,20 +259,20 @@
             0.184105078
           ],
           [
-            0.277547728,
+            0.277005246,
             0.184105078
           ],
           [
-            0.277412108,
+            0.276869625,
             0.183969457
           ],
           [
-            0.277412108,
-            0.181799526
+            0.276869625,
+            0.181392664
           ],
           [
             0.276598384,
-            0.180985802
+            0.181121423
           ],
           [
             0.276666194,
@@ -315,15 +307,7 @@
             0.182884492
           ],
           [
-            0.273750349,
-            0.183155733
-          ],
-          [
-            0.272665384,
-            0.183155733
-          ],
-          [
-            0.272529763,
+            0.273614729,
             0.183291354
           ],
           [
@@ -462,11 +446,7 @@
             0.182958
           ],
           [
-            0.268732384,
-            0.183020113
-          ],
-          [
-            0.269207057,
+            0.269139246,
             0.18247763
           ],
           [
@@ -645,7 +625,10 @@
             0.269478298,
             0.180714561
           ]
-        ]
+        ],
+        "class": "curtain",
+        "routingWhy": "Surveyed. A retaining course is laid to the cut that it holds up, and whoever quarried the pens shelf cut it square.",
+        "moduleM": 6.38
       },
       {
         "id": "fence.mazzatun.riser-upper-east",
@@ -674,7 +657,10 @@
             0.271919471,
             0.180714561
           ]
-        ]
+        ],
+        "class": "curtain",
+        "routingWhy": "Surveyed with the west course off the same cut line, so the two read as one riser broken by the stair.",
+        "moduleM": 6.38
       },
       {
         "id": "fence.mazzatun.riser-lower-west",
@@ -703,7 +689,14 @@
             0.267579609,
             0.183020112
           ]
-        ]
+        ],
+        "class": "curtain",
+        "routingWhy": "Surveyed. The yard shelf below was cut on the same square, and the course follows that cut rather than the fall.",
+        "moduleM": 6.38,
+        "abuts": [
+          "parcel.mazzatun.gate-frontage"
+        ],
+        "abutsWhy": "The frontage dais stands on this course; the course runs under it. That sets the dais level with the yard."
       },
       {
         "id": "fence.mazzatun.riser-lower-east",
@@ -732,13 +725,16 @@
             0.271241367,
             0.183020112
           ]
-        ]
+        ],
+        "class": "curtain",
+        "routingWhy": "Surveyed to the lower cut as far as the gate wall, which is itself set on the survey line.",
+        "moduleM": 6.38
       },
       {
         "id": "fence.mazzatun.pen",
         "kind": "fence",
         "widthM": 0.3,
-        "routing": "straight",
+        "routing": "terrain",
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
         "via": [
           [
@@ -751,16 +747,41 @@
           ]
         ],
         "endsAt": [],
-        "why": "The woven fence along the uphill side of the pens and down their east side to the lip, so the only way out of the pens is down the stair into the works or west along the lane. Its east side needs no leg: the east shell and the east course close it.",
+        "why": "The woven fence along the uphill side of the pens and down their east side to the lip, so the only way out of the pens is down the stair into the works or west along the lane. Its east side needs no leg, because the east shell and the east course close it.",
         "points": [
           [
             0.264867195,
             0.178883682
           ],
           [
-            0.272665384,
-            0.178883682
+            0.264951242,
+            0.179303921
+          ],
+          [
+            0.265892528,
+            0.180179687
+          ],
+          [
+            0.269749572,
+            0.180171942
+          ],
+          [
+            0.270023969,
+            0.179842744
+          ],
+          [
+            0.271736418,
+            0.179764282
+          ],
+          [
+            0.272669499,
+            0.178879781
           ]
+        ],
+        "class": "fence",
+        "moduleM": 1.58,
+        "gapAt": [
+          "route.mazzatun.works-store-path"
         ]
       },
       {
@@ -803,45 +824,56 @@
           "landmark.mazzatun.hist",
           "parcel.mazzatun.stair-throat"
         ],
-        "why": "The amber conduit: hollowed root carrying sap from Tsono-Xuhil up the escarpment to the head at the lip, over the gate on the pillars and into the throat. Authored as a wall because the schema has no conduit kind; it is a built line, not a path.",
+        "why": "The amber conduit: hollowed root carrying sap from Tsono-Xuhil up the escarpment to the head at the lip, over the gate on the pillars and into the throat. Authored as a wall because the schema has no conduit kind; it is a built line.",
         "points": [
           [
             0.280734815,
             0.181867337
           ],
           [
-            0.278223641,
-            0.181267013
+            0.278212813,
+            0.181264424
           ],
           [
-            0.277188958,
-            0.18120579
+            0.2769184,
+            0.181190296
           ],
           [
-            0.273766759,
-            0.182372652
+            0.273276639,
+            0.182556523
           ],
           [
-            0.273271338,
-            0.182405371
+            0.273231194,
+            0.181260786
           ],
           [
-            0.272326333,
-            0.182206388
+            0.272334808,
+            0.182197532
           ],
           [
-            0.270902315,
-            0.182721747
+            0.27111724,
+            0.182643096
           ],
           [
-            0.270837016,
-            0.182527974
+            0.269917965,
+            0.182150409
           ],
           [
-            0.271037936,
-            0.181938925
+            0.271191984,
+            0.181909836
           ]
-        ]
+        ],
+        "class": "ring-panel",
+        "moduleM": 9.56,
+        "gapAt": [
+          "route.mazzatun.haul",
+          "route.mazzatun.terrace",
+          "route.mazzatun.pens-stair-link"
+        ],
+        "abuts": [
+          "parcel.mazzatun.conduit-pillar"
+        ],
+        "abutsWhy": "The conduit is carried on the pillar: the run passes over the pillar head, which is the load the pillar was raised to take."
       }
     ],
     "parcels": [
@@ -856,7 +888,7 @@
           0.179532519
         ],
         "yawDeg": 69.6,
-        "orientationWhy": "Turned to 69.6\u00b0 so the shell's one doorway looks out at 182\u00b0 onto the pen lane, the walk the overseers keep.",
+        "orientationWhy": "Turned to 69.6° so the shell's one doorway looks out at 182° onto the pen lane, the walk the overseers keep.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "A mud shell for four or five of the taken labourers, the westernmost of the three pens.",
@@ -1000,7 +1032,7 @@
           0.179729402
         ],
         "yawDeg": 30.8,
-        "orientationWhy": "Turned to 30.8\u00b0, its doorway on 143\u00b0 onto the pen lane, so the second shell is entered off the same walk as the first.",
+        "orientationWhy": "Turned to 30.8°, its doorway on 143° onto the pen lane, so the second shell is entered off the same walk as the first.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The middle pen, a mud shell for four or five taken labourers.",
@@ -1144,7 +1176,7 @@
           0.179968647
         ],
         "yawDeg": 153.0,
-        "orientationWhy": "Turned to 153.0\u00b0, its doorway on 265\u00b0 onto the upper end of the pen lane, where the walk bends behind the rise.",
+        "orientationWhy": "Turned to 153.0°, its doorway on 265° onto the upper end of the pen lane, where the walk bends behind the rise.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "A mud shell for four or five of the taken labourers. It is the easternmost of the three. The tribe puts working visitors on its floor as well.",
@@ -1969,7 +2001,15 @@
             0.181335821
           ]
         ],
-        "service": "shrine"
+        "service": "shrine",
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The stone rite of The Building Has Resumed is put to a visitor on this court, at the mark socket.",
+            "socketRef": "socket.mazzatun.xit-xaht-mark"
+          }
+        ]
       },
       {
         "id": "parcel.mazzatun.stair-throat",
@@ -2109,6 +2149,14 @@
             0.270723296,
             0.181704301
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The conduit-room scene plays at this stair head. The stone is solid and does not open.",
+            "socketRef": "socket.mazzatun.conduit-room"
+          }
         ]
       },
       {
@@ -2417,6 +2465,14 @@
             0.272544234,
             0.181207251
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The shaper is met at the tower station, above the whole shelf.",
+            "socketRef": "socket.mazzatun.shaper"
+          }
         ]
       },
       {
@@ -2669,6 +2725,14 @@
             0.265829874,
             0.183410059
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The half-cut blocks are the evidence of The Stone Heresy. The cut face reads as recent work.",
+            "socketRef": "socket.mazzatun.half-cut-blocks"
+          }
         ]
       },
       {
@@ -2682,7 +2746,7 @@
           0.183435315
         ],
         "yawDeg": 1.3,
-        "orientationWhy": "Set to 1.3\u00b0 so the gate's 7.3 m run stands square across the haul road it spans, on the line the timber gate it replaced held; the Redoran piece carries its run 2.2\u00b0 off the old one in its own frame, which the yaw takes up.",
+        "orientationWhy": "Set to 1.3° so the gate's 7.3 m run stands square across the haul road it spans, on the line the timber gate it replaced held; the Redoran piece carries its run 2.2° off the old one in its own frame, which the yaw takes up.",
         "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
         "why": {
           "what": "A Redoran compound gate of 7.3 m, 10.1 m to the parapet, standing across the haul road at the head of the climb. Its clear opening is 3.5 m, which passes the 3 m road under it.",
@@ -2847,74 +2911,82 @@
         "buildingFamily": "works-staging",
         "groundFit": "stilt",
         "centreUV": [
-          0.267905098,
-          0.184566188
+          0.267792551,
+          0.184536032
         ],
-        "yawDeg": 341.2,
-        "orientationWhy": "The scaffold stair climbs against the fall, its foot on the lower step.",
+        "yawDeg": 282.7,
+        "orientationWhy": "The flight is set on the four-sided base's south face, which is the joint that the stockade kit's own builders use, so the stair is built into the deck that it climbs. It rises against the fall with its foot on the lower step.",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
         "why": {
           "what": "A timber scaffold stair, the walkway keeper's post.",
           "whyHere": "The scaffolds are climbed by their stairs. The keeper of the walkways stands at the foot of the stair nearest the gate.",
           "whySpot": "Against the south side of the four-sided base, the flight facing the yard so the climb is seen from the road.",
-          "whyNeighbours": "It stands beside the cart and the block face; the keeper watches the gate from here.",
+          "whyNeighbours": "It is built onto the south face of the four-sided base. The two-sided bay is on that base's west face, so stair and bay are one deck. The keeper watches the gate from the foot of the flight.",
           "playerPurpose": "The LV30 npc socket: the keeper whose route knowledge exists nowhere else.",
           "microGeography": "A pad at about 199 m on the yard floor, at the foot of the fall the stair climbs."
         },
         "footprint": [
           [
-            0.267627622,
-            0.184432859
+            0.267533888,
+            0.184702955
           ],
           [
-            0.26762754,
-            0.184419993
+            0.267522876,
+            0.184696303
           ],
           [
-            0.267634341,
-            0.184410515
+            0.267518348,
+            0.184685551
           ],
           [
-            0.268040039,
-            0.184272404
+            0.267612565,
+            0.184267474
           ],
           [
-            0.268051211,
-            0.184275764
+            0.267621267,
+            0.184259704
           ],
           [
-            0.268058996,
-            0.184286007
+            0.267634069,
+            0.184258418
           ],
           [
-            0.268197981,
-            0.184694272
+            0.268054792,
+            0.184353232
           ],
           [
-            0.268198063,
-            0.184707138
+            0.268065804,
+            0.184359885
           ],
           [
-            0.268191261,
-            0.184716617
+            0.268070332,
+            0.184370637
           ],
           [
-            0.267785564,
-            0.184854727
+            0.267976115,
+            0.184788713
           ],
           [
-            0.267774391,
-            0.184851368
+            0.267967413,
+            0.184796484
           ],
           [
-            0.267766606,
-            0.184841124
+            0.267954611,
+            0.184797769
           ]
         ],
         "abuts": [
           "parcel.mazzatun.scaffold-b"
         ],
-        "abutsWhy": "The stockade stair is the kit's own flight onto a stockade base and stands against the base it climbs."
+        "abutsWhy": "The stockade stair is the kit's own flight onto a stockade base. The vanilla builders set the two at a repeated 3.7 m offset, which is the joint measured here.",
+        "playerPurpose": [
+          {
+            "kind": "quest-giver",
+            "tier": "major",
+            "note": "The walkway keeper of The Route Is in His Head works this stair. The route he walks is not recorded.",
+            "socketRef": "socket.mazzatun.walkway-keeper"
+          }
+        ]
       },
       {
         "id": "parcel.mazzatun.cutting-floor",
@@ -3006,6 +3078,14 @@
             0.263947361,
             0.183975758
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "quest-giver",
+            "tier": "major",
+            "note": "The carver who gives The Stone Heresy works this floor, where the cutting is heard from the swamp.",
+            "socketRef": "socket.mazzatun.carver"
+          }
         ]
       },
       {
@@ -3025,7 +3105,7 @@
           "what": "A timber hoist standing over the block face, its beam out above the cut.",
           "whyHere": "Blocks are lifted out of the cut and onto the carts; the hoist is how the tribe raises what it cannot carry.",
           "whySpot": "Between the cut face and the pile of half-cut blocks, so a block comes off the face, up the hoist and onto the pile in one movement.",
-          "whyNeighbours": "It stands between the cutting floor and the half-cut blocks.",
+          "whyNeighbours": "It stands between the cutting floor and the half-cut blocks, clear of both. The kit has no authored joint from a hoist to a rock face or to a block pile, so the three are set as a working group.",
           "playerPurpose": "Cover and a vertical marker at the yard's south edge; a rope and beam over the stream.",
           "microGeography": "A pad at about 202 m on the lip of the cut, 3 m above the yard floor."
         },
@@ -3079,11 +3159,11 @@
             0.184377156
           ]
         ],
-        "abuts": [
+        "worksWith": [
           "parcel.mazzatun.cutting-floor",
           "parcel.mazzatun.half-cut-blocks"
         ],
-        "abutsWhy": "The mine scaffold support is authored to stand against the mine rock face that it serves. The hoist lifts the blocks out of the cut onto the pile beside it; the three pieces are one working face."
+        "worksWithWhy": "The mine scaffold support is not authored to join either piece. It stands against the rock face that it works and over the blocks that it lifts, so half a metre of clear ground is kept between the three (97 C5a)."
       },
       {
         "id": "parcel.mazzatun.scaffold-a",
@@ -3164,11 +3244,11 @@
         "buildingFamily": "works-staging",
         "groundFit": "dug-in",
         "centreUV": [
-          0.267376178,
-          0.184037268
+          0.267423539,
+          0.18392857
         ],
-        "yawDeg": 9.2,
-        "orientationWhy": "Two-sided bay opened toward the yard road, its decks still on the riser line.",
+        "yawDeg": 12.7,
+        "orientationWhy": "Two-sided bay laid on the four-sided base's west face, on the base's own bearing, because that is the face on which the stockade kit joins bays. Its open sides look down the yard road.",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
         "why": {
           "what": "A two-sided scaffold bay below the kiln and the frontage.",
@@ -3180,59 +3260,59 @@
         },
         "footprint": [
           [
-            0.267203731,
-            0.183821116
+            0.267264609,
+            0.183702294
           ],
           [
-            0.267209482,
-            0.183811057
+            0.267270964,
+            0.183692604
           ],
           [
-            0.267219937,
-            0.183805881
+            0.267281716,
+            0.183688076
           ],
           [
-            0.267597468,
-            0.183867027
+            0.267654809,
+            0.183772156
           ],
           [
-            0.267605755,
-            0.183875239
+            0.26766258,
+            0.183780858
           ],
           [
-            0.267608037,
-            0.183886599
+            0.267664164,
+            0.183792337
           ],
           [
-            0.267548625,
-            0.18425342
+            0.267582469,
+            0.184154846
           ],
           [
-            0.267542874,
-            0.184263479
+            0.267576114,
+            0.184164536
           ],
           [
-            0.267532419,
-            0.184268655
+            0.267565362,
+            0.184169064
           ],
           [
-            0.267154888,
-            0.184207509
+            0.267192269,
+            0.184084984
           ],
           [
-            0.267146601,
-            0.184199297
+            0.267184498,
+            0.184076282
           ],
           [
-            0.267144319,
-            0.184187937
+            0.267182914,
+            0.184064803
           ]
         ],
         "abuts": [
           "parcel.mazzatun.scaffold-b",
           "parcel.mazzatun.scaffold-stair"
         ],
-        "abutsWhy": "A two-sided stockade base is authored to join a neighbouring base on its unrailed sides; with the four-sided base it forms one wider scaffold deck."
+        "abutsWhy": "A two-sided stockade base is authored to join a neighbouring base on its unrailed sides; with the four-sided base it forms one wider deck. The vanilla builders place the two 3.6 m apart, which is the measured joint. The stair stands on the far face of that same base, so bay and stair are one deck through it."
       },
       {
         "id": "parcel.mazzatun.scaffold-b",
@@ -3317,7 +3397,7 @@
           0.183292441
         ],
         "yawDeg": 134.7,
-        "orientationWhy": "Set to 134.7\u00b0 so the gate's 7.3 m run stands square across the ridge track it spans. The track leaves the shelf head on 302\u00b0; the Redoran piece carries its run 77.3\u00b0 off its own zero, which the yaw takes up.",
+        "orientationWhy": "Set to 134.7° so the gate's 7.3 m run stands square across the ridge track it spans. The track leaves the shelf head on 302°; the Redoran piece carries its run 77.3° off its own zero, which the yaw takes up.",
         "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
         "why": {
           "what": "The twin of the haul gate at the west head of the shelf, the same Redoran gate across the ridge track.",
@@ -3395,7 +3475,7 @@
           0.178815871
         ],
         "yawDeg": 68.0,
-        "orientationWhy": "Turned to 68.0\u00b0 so the entrance looks along 180\u00b0 to the pen lane, which is the line up off the step to this part of the works.",
+        "orientationWhy": "Turned to 68.0° so the entrance looks along 180° to the pen lane, which is the line up off the step to this part of the works.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The works store, where the tribe keeps and sells the tools, cord and dried fish that keep the courses moving.",
@@ -3666,7 +3746,8 @@
         ],
         "parcelId": "parcel.mazzatun.half-cut-blocks",
         "ownerQuestTier": 3,
-        "socketRef": "evidence.mazzatun.the-half-cut-blocks"
+        "socketRef": "evidence.mazzatun.the-half-cut-blocks",
+        "questId": "quest.local.lv29"
       },
       {
         "id": "socket.mazzatun.shaper",
@@ -3688,7 +3769,8 @@
         ],
         "parcelId": "parcel.mazzatun.statue-court",
         "ownerQuestTier": 3,
-        "socketRef": "marks.mazzatun.xit-xaht-mark"
+        "socketRef": "marks.mazzatun.xit-xaht-mark",
+        "questId": "quest.local.lv28"
       },
       {
         "id": "socket.mazzatun.carver",
@@ -3698,7 +3780,8 @@
           0.18444413
         ],
         "parcelId": "parcel.mazzatun.cutting-floor",
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "questId": "quest.local.lv29"
       },
       {
         "id": "socket.mazzatun.walkway-keeper",
@@ -3708,7 +3791,8 @@
           0.184240699
         ],
         "parcelId": "parcel.mazzatun.scaffold-stair",
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "questId": "quest.local.lv30"
       },
       {
         "id": "socket.mazzatun.conduit-head",

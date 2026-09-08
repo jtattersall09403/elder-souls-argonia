@@ -47,16 +47,11 @@ NOISE_AMP = {0: 0.0, 1: 3.0, 2: 2.0, 3: 0.3, 4: 0.3, 5: 0.4, 6: 0.35, 7: 0.35,
 # a bank, and the channel proper is cut TO the water level by carve_to_profile.
 CHANNELS = {1: (10.0 * TUNE, 1.4), 2: (22.0 * TUNE, 2.6), 3: (45.0 * TUNE, 4.2)}
 TERRACE_FRAC = 0.45
-# Channel carve (to a level, like carve_polyline). The bed is cut to the
-# conditioned station long profile minus the band film, inside the river's own
-# hydraulic half-width; the cut is flat out to CHANNEL_FLAT_FRAC of that width
-# and smoothsteps up to the bank over the rest. Lowering is capped at the
-# terrace depth plus CHANNEL_MAX_EXTRA_M so a cascade cliff is never planed off.
-CHANNEL_FLAT_FRAC = 0.6
-CHANNEL_MIN_HALF_PX = 2.0        # >= the compiler's 1-px floor on the half grid
-CHANNEL_MAX_EXTRA_M = 2.0
+# The channel proper is cut by worldgen.channels (decision 0047): one smooth
+# centreline and monotone long profile per reach, shared with compile_water.
 CHANNEL_NOISE_FADE_M = 90.0 * TUNE   # detail noise fades within ~2 channel widths
-
+CARVE_ROUNDS = 4                     # carve -> flood -> profile fixed point (0047)
+CARVE_DRIFT_TOL_M = 0.05
 BLACKROSE_UV = (0.32, 0.87)
 LAKE_RADII_M = (470.0 * TUNE, 360.0 * TUNE)
 LAKE_BED_M = -4.0
@@ -119,65 +114,68 @@ def carve_channels(h, rivers_up):
     return h, dist_all
 
 
-def carve_to_profile(h, npz):
-    """Cut the channel bed TO the water level, inside the river's own width.
+def carve_to_profile(h, npz, save_path=None):
+    """Cut every river trench to the channel long profile (decision 0047).
 
-    The level is `compile_water.station_long_profile` — the same conditioned,
-    monotone-downstream station profile the water compiler builds — so the
-    terrain and the water surface are solved from one definition instead of
-    two. Bed target = station level - band film; cross-section flat out to
-    CHANNEL_FLAT_FRAC of the hydraulic half-width, smoothstepping up to the
-    untouched bank; ground is only ever LOWERED, and never by more than the
-    terrace depth + CHANNEL_MAX_EXTRA_M (which is what keeps a cascade lip a
-    cascade lip rather than planing the fall away).
+    `channels.solve` builds the smooth centrelines and the monotone profile
+    L(s) on THIS terrain (valley floor, bankfull bank, falls as steps);
+    `standing_water.pool_channels` backwaters it through the accepted lakes
+    (and accepts the hollows a river cannot leave); `channels.carve` cuts the
+    parabolic bed to L − D inside the water width, builds the shoulder to
+    L + 0.3 and digs the plunge basins. Islets under 12 samples inside a body
+    are sunk so pools do not read as speckle. The carve is iterated to a fixed
+    point against the bodies and profile found on the CARVED terrain (what the
+    compiler floods), and the final solution is saved next to the heights so
+    compile_water fills exactly the trench that was cut.
 
-    Runs LAST, after the fluvial continuum and the shoreline smoothing, so
-    the profile is solved on exactly the terrain the compiler will read.
+    Runs LAST, after the fluvial continuum and the shoreline smoothing.
     """
-    from .compile_water import FILM_DEPTH, station_long_profile
+    from . import channels
+    from . import standing_water as sw
 
-    prof = station_long_profile(h, npz["rivers"], npz["accum_km2"],
-                                npz["flow_to"], npz["filled"], bed_win=5)
-    sy, sx = prof["sy"], prof["sx"]
-    band = prof["band"]
-    target_st = (prof["w_st"] - prof["film_st"]).astype(np.float32)
-    half_px = np.maximum(prof["w_geom"] * 0.5 / RAW_M,
-                         CHANNEL_MIN_HALF_PX).astype(np.float32)
-    cap_st = np.select([band == b for b in (1, 2, 3)],
-                       [np.float32(CHANNELS[b][1] * TERRACE_FRAC + CHANNEL_MAX_EXTRA_M)
-                        for b in (1, 2, 3)]).astype(np.float32)
-
-    st_mask = np.zeros(h.shape, dtype=bool)
-    st_mask[sy, sx] = True
-    tgt_r = np.full(h.shape, np.inf, dtype=np.float32)
-    np.minimum.at(tgt_r, (sy, sx), target_st)      # deepest station wins
-    rad_r = np.zeros(h.shape, dtype=np.float32)
-    np.maximum.at(rad_r, (sy, sx), half_px)
-    cap_r = np.zeros(h.shape, dtype=np.float32)
-    np.maximum.at(cap_r, (sy, sx), cap_st)
-
-    d, (ky, kx) = ndimage.distance_transform_edt(~st_mask, return_indices=True)
-    d = d.astype(np.float32)
-    r = rad_r[ky, kx]
-    inside = d <= r
-    flat = CHANNEL_FLAT_FRAC * r
-    t = np.clip((d - flat) / np.maximum(r - flat, 1e-6), 0.0, 1.0)
-    wgt = np.where(inside, 1.0 - t * t * (3.0 - 2.0 * t), 0.0).astype(np.float32)
-    bed = tgt_r[ky, kx]
-    aim = (bed * wgt + h * (1.0 - wgt)).astype(np.float32)
-    aim = np.maximum(aim, h - cap_r[ky, kx])       # never cut deeper than the cap
-    lowered = np.where(inside, np.minimum(h, aim), h).astype(np.float32)
-    drop = (h - lowered)[inside & (h - lowered > 0.01)]
-    stats = {
-        "cellsLowered": int(drop.size),
-        "medianM": round(float(np.median(drop)), 3) if drop.size else 0.0,
-        "p90M": round(float(np.percentile(drop, 90)), 3) if drop.size else 0.0,
-        "p99M": round(float(np.percentile(drop, 99)), 3) if drop.size else 0.0,
-        "maxM": round(float(drop.max()), 3) if drop.size else 0.0,
-        "intentFootprintCells": int(inside.sum()),
-        "stations": int(len(target_st)),
-    }
-    return lowered, stats
+    placement = sw.placement_snapshot(h.shape, RAW_M)
+    if save_path is not None:
+        np.save(Path(save_path).with_name("refined-height-precarve-f32.npy"), h)
+    bodies = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, placement=placement)
+    sol = channels.solve(h, npz, step=STEP, mpp=RAW_M, roads=placement["major_roads"])
+    pool_report = sw.pool_channels(sol, bodies, log=print)
+    h0 = h
+    rounds = []
+    for rnd in range(CARVE_ROUNDS):
+        # never cut the rim of a standing body (a ring cut 6 m + w/2 out from
+        # a channel that skirts a pool would lower its spill: protect ~16 m)
+        # and never raise its bed or its rim (a levee across an outlet dams it)
+        collar = ndimage.binary_dilation(bodies.wet, iterations=9) & ~bodies.wet
+        rim = ndimage.binary_dilation(bodies.wet, iterations=2)
+        h, stats = channels.carve(h0, sol, protect=collar, no_raise=rim)
+        h, n_islands = sw.lower_islands(h, bodies)
+        # the compiler floods THIS terrain: the bodies and the profile it will
+        # find must be the ones the trench was cut to, so re-solve on the
+        # carved ground and carve again from the pre-carve terrain until the
+        # profile stands still (a lake the trench captured drains; a hollow the
+        # river cannot leave becomes a lake)
+        bodies2 = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, placement=placement)
+        sol2 = sol.copy()
+        pool_report = sw.pool_channels(sol2, bodies2, log=print)
+        drift = float(np.abs(sol2.L - sol.L).max())
+        flips = int((sol2.pooled != sol.pooled).sum())
+        rounds.append({"round": rnd, "profileDriftM": round(drift, 3), "pooledFlips": flips,
+                       "bodies": int(bodies2.n)})
+        print(f"carve round {rnd}: profile drift {drift:.3f} m, pooled flips {flips}, bodies {bodies2.n}")
+        bodies, sol = bodies2, sol2
+        if drift <= CARVE_DRIFT_TOL_M:
+            break
+    stats["islandsLowered"] = n_islands
+    stats["carveRounds"] = rounds
+    stats.update({k: v for k, v in pool_report.items() if not k.endswith("Sites")})
+    stats["bodies"] = bodies.census
+    if save_path is not None:
+        sol.save(save_path)
+        # the roads/places the pools were judged against: the compile must
+        # judge them against the SAME snapshot, or a road re-routed through a
+        # pool after the carve drops that pool from under its channel
+        sw.save_placement(placement, Path(save_path).with_name("placement-at-carve.npz"))
+    return h, stats
 
 
 def carve_polyline(h, p0, p1, half_w_m, bed_m, rng):
@@ -374,14 +372,13 @@ def main() -> None:
         filled=npz["filled"], step=STEP)
     print("fluvial:", fluvial_stats)
 
-    # Channel bed LAST: cut to the conditioned water profile on the final
-    # terrain, so the compiler re-solves the same profile over a bed that is
-    # already at it (owner permission 2026-09-07 to edit terrain for water).
-    h, channel_stats = carve_to_profile(h, npz)
-    print("channel carve:", json.dumps(channel_stats))
-
+    # Channel bed LAST: cut to the water profile on the final terrain; the
+    # solution is saved so the compiler fills the very trench that was cut
+    # (owner permission 2026-09-07 to edit terrain for water; decision 0047).
     vault_dir = height_path.parent / "province-refined"
     vault_dir.mkdir(exist_ok=True)
+    h, channel_stats = carve_to_profile(h, npz, save_path=vault_dir / "channels-pass1.npz")
+    print("channel carve:", json.dumps(channel_stats))
     np.save(vault_dir / "refined-height-f32.npy", h)
 
     # studio raster at half resolution (RG 16-bit packing), low-passed before

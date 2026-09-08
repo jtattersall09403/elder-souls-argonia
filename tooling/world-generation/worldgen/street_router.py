@@ -20,8 +20,43 @@ THE CULTURAL SWITCH (`routing`)
   1 m grid, least cost over the actual heights, water and buildings. This is
   the default for Argonian tracks, village lanes and reed boardwalks.
 
-Fences are structures, not paths: they follow their `via` straight unless the
-author asked for ``"arc"``.
+FENCES AND WALLS (owner ruling 2026-09-08)
+------------------------------------------
+The owner looked at the exemplars and saw the same fault in the enclosure that
+the streets used to have: walls drawn as ruled lines, and Lilmoth's estuary
+pole wall lying across the shoreline instead of standing in it. So a fence is
+routed by the same A* over the same survey, with the costs a WALL cares about
+rather than the ones a lane cares about. The class is on the entry
+(`fences[].class`, one of pole-wall | curtain | palisade | fence | ring-panel)
+and it picks the profile in `FENCE_PROFILES`:
+
+  * **contour** — a wall is built along a height band, not up and over one, so
+    the climb term is on |Δheight| per step (K_FENCE_CONTOUR), not on grade².
+  * **the outer edge of the built hull** — an enclosing class (pole-wall,
+    curtain, palisade) is cheap in the band from the parcels' convex hull to
+    `FENCE_HULL_BAND_M` beyond it, and dear well inside it: a wall runs round
+    the yards, not through them. `fence` and `ring-panel` are interior work
+    (a pen line, a panel plugging one gap in a ring of dwellings) and carry no
+    hull preference. Water is never a yard, so the hull terms apply on dry
+    cells only.
+  * **dry ground, unless the lore drives poles** — water costs
+    ×FENCE_WATER_PENALTY unless the entry declares `waterOk: {maxDepthM}`.
+    With `waterOk` the sense flips as it does for a boardwalk: dry ground costs
+    ×FENCE_DRY_PENALTY_WET, water within `maxDepthM` is free and water deeper
+    than that is ×FENCE_DEEP_PENALTY — a driven pole stands where a pole can
+    be driven. Depth is read from the survey's `water_depth_m`; a survey stub
+    without one treats wet cells as `UNKNOWN_DEPTH_M`.
+  * **ways** — crossing another way costs ×FENCE_WAY_PENALTY within its half
+    width, EXCEPT the way ids the entry lists in `gapAt`: those are the gate,
+    the opening, the place the wall is meant to be broken.
+
+`points` are then quantised into runs of the wall's own module — the long axis
+of the measured piece in ``<kit>.footprints.json`` (a connectors file, when the
+pipeline publishes one, would be read in preference) — so every straight run is
+a whole number of modules and the bends are where corner pieces go. `moduleM`
+is written back onto the entry as derived data. A `straight` fence keeps its
+surveyed line exactly (that is what `straight` means, and it is allowed only
+with a `routingWhy`), so quantisation applies to `terrain` and `arc` fences.
 
 THE COST MODEL (terrain routing)
 --------------------------------
@@ -101,6 +136,30 @@ SNAP_MAX_M = 30.0               # how far a terminal waypoint may be pulled onto
 MATCH_TOLERANCE_M = 0.3
 MAX_CELLS = 900_000             # a blueprint bigger than this is a plot, not a place
 
+# --- fence/wall routing (owner ruling 2026-09-08) --------------------------- #
+FENCE_CLASSES = ("pole-wall", "curtain", "palisade", "fence", "ring-panel")
+# hug: the enclosing classes want the outer edge of the built hull.
+FENCE_PROFILES = {
+    "pole-wall":  {"hug": True,  "contour": 1.0},
+    "curtain":    {"hug": True,  "contour": 0.6},   # surveyed masonry cuts the ground a little
+    "palisade":   {"hug": True,  "contour": 1.0},
+    "fence":      {"hug": False, "contour": 1.0},
+    "ring-panel": {"hug": False, "contour": 1.0},
+}
+K_FENCE_CONTOUR = 6.0           # cost of crossing a height band: ×(|Δh| / FENCE_BAND_M)²
+FENCE_BAND_M = 0.5              # the height band a wall run is built along
+FENCE_TURN_M = 0.6              # a wall bends more readily than a lane wears a corner
+FENCE_HULL_BAND_M = 4.0         # the built hull, buffered: where an enclosing wall stands
+FENCE_INSIDE_PENALTY = 5.0      # well inside the hull: a wall does not run through the yards
+FENCE_OUTSIDE_PENALTY = 2.5     # far outside it: a wall that encloses nothing
+FENCE_PARCEL_PENALTY = 400.0    # a wall may not cross a building (HARD in the validator)
+FENCE_WATER_PENALTY = 60.0      # dry ground unless the entry declares waterOk
+FENCE_DRY_PENALTY_WET = 1.6     # a pole wall on dry land is not the wall the lore describes
+FENCE_DEEP_PENALTY = 200.0      # deeper than maxDepthM: no pole can be driven
+FENCE_WAY_PENALTY = 90.0        # crossing a way that is not a declared gapAt opening
+UNKNOWN_DEPTH_M = 0.6           # wet cell, survey with no depth grid (stubs and fixtures)
+MODULE_MIN_M = 0.25             # below this a "module" is a stake, and quantising is noise
+
 _HEIGHT_CACHE: dict = {}
 
 _OFFSETS = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
@@ -126,6 +185,23 @@ def sample_height_m(survey, x: float, z: float) -> float:
     h00 = float(grid[r0][c0]); h01 = float(grid[r0][c1])
     h10 = float(grid[r1][c0]); h11 = float(grid[r1][c1])
     return (h00 * (1 - tx) + h01 * tx) * (1 - tz) + (h10 * (1 - tx) + h11 * tx) * tz
+
+
+def sample_depth_m(survey, x: float, z: float) -> float:
+    """Standing water depth at world metres, 0.0 on dry ground.
+
+    Reads the survey's `water_depth_m` raster (its own resolution, which is not
+    the hydrology grid's). A duck-typed survey without one — the test stubs —
+    reports UNKNOWN_DEPTH_M wherever `open_water` is set, so a `waterOk` fence
+    still routes deterministically without the published rasters."""
+    grid = getattr(survey, "water_depth_m", None)
+    if grid is None:
+        return UNKNOWN_DEPTH_M if sample_water(survey, x, z) else 0.0
+    n = len(grid)
+    px = _extent_m(survey) / n
+    col = min(max(int(x / px), 0), n - 1)
+    row = min(max(int(z / px), 0), n - 1)
+    return float(grid[row][col])
 
 
 def sample_water(survey, x: float, z: float) -> bool:
@@ -181,6 +257,59 @@ def _dist_point_polyline(p, pts) -> float:
     return d
 
 
+def convex_hull(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    """Monotone chain hull, counter-clockwise, no repeated last point."""
+    pts = sorted(set((round(x, 4), round(z, 4)) for x, z in points))
+    if len(pts) < 3:
+        return pts
+
+    def half(seq):
+        out: list[tuple[float, float]] = []
+        for p in seq:
+            while len(out) >= 2:
+                (ax, az), (bx, bz) = out[-2], out[-1]
+                if (bx - ax) * (p[1] - az) - (bz - az) * (p[0] - ax) > 0:
+                    break
+                out.pop()
+            out.append(p)
+        return out
+
+    return half(pts)[:-1] + half(reversed(pts))[:-1]
+
+
+def built_hull(bp: dict, extent_m: float) -> list[tuple[float, float]]:
+    """The convex hull of every parcel footprint, in metres — the built edge a
+    wall is measured against (the same hull `blueprint` reports density on)."""
+    pts: list[tuple[float, float]] = []
+    for p in bp.get("parcels") or []:
+        for q in p.get("footprint") or []:
+            pts.append((float(q[0]) * extent_m, float(q[1]) * extent_m))
+    return convex_hull(pts)
+
+
+def quantise_to_module(pts_m: list[tuple[float, float]], module_m: float
+                       ) -> list[tuple[float, float]]:
+    """Snap each straight run to a whole number of wall modules.
+
+    The first vertex is the wall's start; every following segment keeps its
+    direction and takes the nearest whole number of modules of length (at least
+    one). A run is then a chain of straight modules and each retained vertex is
+    a corner piece."""
+    if module_m < MODULE_MIN_M or len(pts_m) < 2:
+        return list(pts_m)
+    out = [pts_m[0]]
+    for b in pts_m[1:]:
+        ax, az = out[-1]
+        dx, dz = b[0] - ax, b[1] - az
+        length = math.hypot(dx, dz)
+        if length <= 1e-9:
+            continue
+        n = max(1, int(round(length / module_m)))
+        snapped = n * module_m
+        out.append((ax + dx / length * snapped, az + dz / length * snapped))
+    return out
+
+
 def douglas_peucker(pts: list[tuple[float, float]], eps: float) -> list[tuple[float, float]]:
     if len(pts) <= 2:
         return list(pts)
@@ -229,8 +358,11 @@ class LocalField:
     """A 1 m grid over the blueprint's boundary bbox + margin, with the cell
     multipliers a way of this class must respect."""
 
-    def __init__(self, way: dict, bp: dict, survey, cell_m: float = CELL_M):
+    def __init__(self, way: dict, bp: dict, survey, cell_m: float = CELL_M,
+                 is_fence: bool = False):
         self.survey = survey
+        self.is_fence = bool(is_fence)
+        self.profile = FENCE_PROFILES.get(str(way.get("class")), FENCE_PROFILES["fence"])
         self.extent_m = _extent_m(survey)
         self.cell_m = cell_m
         pts_uv: list[list[float]] = list(bp.get("boundary") or [])
@@ -275,6 +407,10 @@ class LocalField:
             parcels.append((poly, ENDS_PARCEL_PENALTY if p.get("id") in ends else PARCEL_PENALTY,
                             (min(bx), min(bz), max(bx), max(bz))))
 
+        if self.is_fence:
+            self._build_fence_field(way, bp, survey, parcels)
+            return
+
         neighbours: list[list[tuple[float, float]]] = []
         for key in WAY_KEYS:
             if key == "fences" or not self._same_class(way, key, bp):
@@ -308,6 +444,61 @@ class LocalField:
                     if (nx0 <= x <= nx1 and nz0 <= z <= nz1
                             and _dist_point_polyline((x, z), nb) <= NEIGHBOUR_M):
                         m *= NEIGHBOUR_PENALTY
+                        break
+                self.mult[r][c] = m
+
+    # ------------------------------------------------------------- fences --
+    def _build_fence_field(self, way: dict, bp: dict, survey, parcels) -> None:
+        """The wall's cost field: the built hull's outer edge, dry ground (or
+        the declared shallows), and the ways it may not cross."""
+        water_ok = way.get("waterOk") if isinstance(way.get("waterOk"), dict) else None
+        max_depth = float(water_ok.get("maxDepthM", 0.0)) if water_ok else 0.0
+        hug = bool(self.profile["hug"])
+        hull = built_hull(bp, self.extent_m) if hug else []
+        gaps = {g for g in (way.get("gapAt") or []) if isinstance(g, str)}
+
+        crossings: list[tuple[list[tuple[float, float]], float, tuple]] = []
+        for key in ("routes", "canals", "boardwalks"):
+            for w in bp.get(key) or []:
+                if w.get("id") in gaps:
+                    continue
+                via = [(float(q[0]) * self.extent_m, float(q[1]) * self.extent_m)
+                       for q in (w.get("via") or [])]
+                if len(via) < 2:
+                    continue
+                half = max(float(w.get("widthM") or 1.0) / 2.0, 0.5)
+                nx = [q[0] for q in via]; nz = [q[1] for q in via]
+                crossings.append((via, half, (min(nx) - half, min(nz) - half,
+                                              max(nx) + half, max(nz) + half)))
+
+        self.mult = [[1.0] * self.w for _ in range(self.h)]
+        for r in range(self.h):
+            for c in range(self.w):
+                x, z = self.xz(r, c)
+                m = 1.0
+                wet = sample_water(survey, x, z)
+                if water_ok:
+                    if not wet:
+                        m *= FENCE_DRY_PENALTY_WET
+                    elif sample_depth_m(survey, x, z) > max_depth:
+                        m *= FENCE_DEEP_PENALTY
+                elif wet:
+                    m *= FENCE_WATER_PENALTY
+                if hug and not wet and len(hull) >= 3:
+                    inside = _point_in_poly(x, z, hull)
+                    d = _dist_point_polyline((x, z), hull + [hull[0]])
+                    if inside and d > FENCE_HULL_BAND_M:
+                        m *= FENCE_INSIDE_PENALTY
+                    elif not inside and d > FENCE_HULL_BAND_M:
+                        m *= FENCE_OUTSIDE_PENALTY
+                for poly, _pen, (bx0, bz0, bx1, bz1) in parcels:
+                    if bx0 <= x <= bx1 and bz0 <= z <= bz1 and _point_in_poly(x, z, poly):
+                        m *= FENCE_PARCEL_PENALTY
+                        break
+                for via, half, (nx0, nz0, nx1, nz1) in crossings:
+                    if (nx0 <= x <= nx1 and nz0 <= z <= nz1
+                            and _dist_point_polyline((x, z), via) <= half):
+                        m *= FENCE_WAY_PENALTY
                         break
                 self.mult[r][c] = m
 
@@ -368,15 +559,23 @@ class LocalField:
                     continue
                 step = cell * (1.4142135623730951 if dr and dc else 1.0)
                 dh = self.height[nr][nc] - h_here
-                grade = abs(dh) / step
-                # side-slope at the destination, measured across the step
-                px, pz = -dc, dr
-                cross = abs(self.height_rc(nr + pz, nc + px)
-                            - self.height_rc(nr - pz, nc - px)) / (2.0 * step)
-                terrain = 1.0 + K_SLOPE * grade * grade + K_CROSS * cross * cross
+                if self.is_fence:
+                    # a wall follows the contour: the cost is the height band
+                    # it crosses, not the grade it climbs
+                    band = abs(dh) / FENCE_BAND_M
+                    terrain = 1.0 + K_FENCE_CONTOUR * self.profile["contour"] * band * band
+                    turn_m = FENCE_TURN_M
+                else:
+                    grade = abs(dh) / step
+                    # side-slope at the destination, measured across the step
+                    px, pz = -dc, dr
+                    cross = abs(self.height_rc(nr + pz, nc + px)
+                                - self.height_rc(nr - pz, nc - px)) / (2.0 * step)
+                    terrain = 1.0 + K_SLOPE * grade * grade + K_CROSS * cross * cross
+                    turn_m = TURN_M
                 turn = 0.0
                 if di >= 0:
-                    turn = TURN_M * _turn_steps(di, k)
+                    turn = turn_m * _turn_steps(di, k)
                 nd = d + step * terrain * self.mult[nr][nc] + turn
                 nstate = (nr, nc, k)
                 if nd < dist.get(nstate, float("inf")) - 1e-12:
@@ -466,7 +665,44 @@ _FIELD_CACHE: dict = {}
 _FIELD_CACHE_MAX = 64
 
 
-def local_field(way: dict, bp: dict, survey, cell_m: float = CELL_M) -> "LocalField":
+def module_m(way: dict) -> float | None:
+    """The wall module: the long axis of the measured piece, in metres.
+
+    Read from the kit connectors file when the pipeline publishes one for this
+    kit (the author's own snap length), else from the piece's measured ground
+    hull in `<kit>.footprints.json`. None when the piece is not in the vault
+    measurements (a schema-only checkout)."""
+    ref = way.get("assetRef")
+    if not isinstance(ref, str):
+        return None
+    from . import blueprint_footprints as bf
+    lib = bf.library()
+    kit = lib.kit_of.get(ref)
+    if kit:
+        conn = bf.KITS_DIR / f"{kit}.connectors.json"
+        if conn.exists():
+            faces = (json.loads(conn.read_text()).get("assets") or {}).get(ref) or []
+            # the module is the span between the two OPPOSED connector faces:
+            # what the author left for the next piece to butt against.
+            span = 0.0
+            for i, a in enumerate(faces):
+                for b in faces[i + 1:]:
+                    if abs(abs(float(a.get("normalDeg", 0)) - float(b.get("normalDeg", 0))) - 180.0) > 1.0:
+                        continue
+                    pa, pb = a.get("positionInPiece") or [0, 0], b.get("positionInPiece") or [0, 0]
+                    span = max(span, math.hypot(float(pa[0]) - float(pb[0]),
+                                                float(pa[1]) - float(pb[1])))
+            if span > 0:
+                return round(span, 3)
+    record = lib.get(ref)
+    if not record:
+        return None
+    long_axis = max(float(record.get("widthM") or 0.0), float(record.get("depthM") or 0.0))
+    return round(long_axis, 3) if long_axis > 0 else None
+
+
+def local_field(way: dict, bp: dict, survey, cell_m: float = CELL_M,
+                is_fence: bool = False) -> "LocalField":
     """`LocalField(way, bp, survey)`, memoised on the inputs that determine it.
 
     A field is expensive (a cost multiplier per 1 m cell) and is rebuilt
@@ -476,17 +712,17 @@ def local_field(way: dict, bp: dict, survey, cell_m: float = CELL_M) -> "LocalFi
     the cache; a *different* survey object misses it too. Read-only after
     construction, so sharing one is safe."""
     try:
-        key = (id(survey), cell_m, json.dumps(
+        key = (id(survey), cell_m, is_fence, json.dumps(
             [way, bp.get("boundary"), [(p.get("id"), p.get("footprint")) for p in bp.get("parcels") or []],
              [[(w.get("id"), w.get("kind"), w.get("via")) for w in bp.get(k) or []] for k in WAY_KEYS]],
             sort_keys=True, default=str))
     except (TypeError, ValueError):                     # noqa: BLE001 - uncacheable input
-        return LocalField(way, bp, survey, cell_m)
+        return LocalField(way, bp, survey, cell_m, is_fence)
     field = _FIELD_CACHE.get(key)
     if field is None:
         if len(_FIELD_CACHE) >= _FIELD_CACHE_MAX:
             _FIELD_CACHE.clear()
-        field = _FIELD_CACHE[key] = LocalField(way, bp, survey, cell_m)
+        field = _FIELD_CACHE[key] = LocalField(way, bp, survey, cell_m, is_fence)
     return field
 
 
@@ -503,8 +739,8 @@ def route_way(way: dict, bp: dict, survey=None) -> list[list[float]]:
     is_fence = _way_class(bp, way) == "fences"
     if routing == "arc":
         pts_m = catmull_rom(via_m)
-    elif routing == "terrain" and not is_fence and survey is not None:
-        field = local_field(way, bp, survey)
+    elif routing == "terrain" and survey is not None:
+        field = local_field(way, bp, survey, is_fence=is_fence)
         pts_m = []
         for a, b in zip(via_m, via_m[1:]):
             cells = field.astar(field.rc(*a), field.rc(*b))
@@ -515,6 +751,14 @@ def route_way(way: dict, bp: dict, survey=None) -> list[list[float]]:
         pts_m = via_m
 
     pts_m = douglas_peucker(pts_m, SIMPLIFY_M)
+    if is_fence and routing != "straight":
+        # a routed wall is built in its own module: whole modules between the
+        # bends, and a corner piece at each bend (owner ruling 2026-09-08)
+        mod = way.get("moduleM")
+        if not isinstance(mod, (int, float)) or mod <= 0:
+            mod = module_m(way)
+        if isinstance(mod, (int, float)) and mod > 0:
+            pts_m = quantise_to_module(pts_m, float(mod))
     out: list[list[float]] = []
     for x, z in pts_m:
         p = [round(x / extent_m, UV_ROUND), round(z / extent_m, UV_ROUND)]
@@ -544,6 +788,10 @@ def apply_to_blueprint(bp: dict, survey=None) -> list[str]:
     problems: list[str] = []
     for key, way in iter_ways(bp):
         try:
+            if key == "fences":
+                mod = module_m(way)
+                if mod is not None:
+                    way["moduleM"] = mod
             way["points"] = route_way(way, bp, survey)
         except Exception as exc:                       # noqa: BLE001 — reported, not raised
             problems.append(f"{key} {way.get('id')}: {exc}")
@@ -555,7 +803,7 @@ def check_blueprint(bp: dict, survey=None) -> list[str]:
     extent_m = _extent_m(survey) if survey is not None else PROVINCE_EXTENT_M
     problems: list[str] = []
     for key, way in iter_ways(bp):
-        if way.get("routing") == "terrain" and survey is None and _way_class(bp, way) != "fences":
+        if way.get("routing") == "terrain" and survey is None:
             continue                                    # cannot derive without ground
         try:
             derived = route_way(way, bp, survey)

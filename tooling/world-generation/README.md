@@ -28,9 +28,15 @@ python3 -m worldgen.build_ground_materials
 python3 -m worldgen.sculpt_province "<...>/argonia-heightfield/heightfield-f32.npy"
 
 # 5. Phase 6: refine the WHOLE PROVINCE at full resolution (sculpted base,
-#    detail noise, channels, Blackrose lake, land cover 0011 w/ north zone +
-#    mountain belts + shoreline types, portages 0012, flood states, exports)
+#    detail noise, channels carved to the water profile (0047), Blackrose
+#    lake, land cover 0011 w/ north zone + mountain belts + shoreline types,
+#    portages 0012, flood states, exports)
 python3 -m worldgen.refine_province "<...>/heightfield-f32.npy" "<...>/hydrology-pass1.npz"
+
+# The full rebuild order (refine -> routes -> grading -> chunks -> water ->
+# landcover -> scatter) lives in ONE place: ./scripts/terrain-chain.sh
+# (decision 0025). `python3 -m worldgen.compile_water` alone needs the
+# channels solution refine_province writes beside the refined heights.
 
 # 6. Phase 6: chunk the refined province for collision/LOD (Phase 7 consumes)
 python3 -m worldgen.compile_chunks
@@ -69,6 +75,12 @@ python3 -m worldgen.render_blueprint \
 Rerun 2 (then 3) after changing conditioning, thresholds or authored region
 overrides; rerun 3 alone after changing anchors, connections, danger or
 culture rules. Outputs are deterministic (fixed noise seed).
+
+## Dependencies
+
+Python 3.12 with `numpy`, `scipy`, `Pillow`, `scikit-image` (>= 0.22;
+`standing_water.py` uses `skimage.morphology.reconstruction`, `local_minima`
+and `skimage.segmentation.watershed`), `pytest` (+ optional `pytest-xdist`).
 
 ## Tests
 
@@ -113,6 +125,22 @@ arrangement. None of it changes what any test asserts.
   and micro-undulation (research: docs/research/world-terrain/mountain-terrain-synthesis.md).
 - `worldgen/hydrology.py` — ocean/sea geodesics, priority-flood + G&M flat
   resolution, noised D8 routing, rivers/lakes/watersheds, wetness, salinity.
+- `worldgen/channels.py` — the ONE river-channel definition (decision 0047):
+  coarse flow graph → smooth centrelines per reach (junctions pinned),
+  stations every 1.83 m with width, depth, valley floor, bankfull bank and
+  the monotone long profile L(s); falls (cliffs) as steps, steep strips,
+  lake-outlet sills, lost stretches. `refine_province` carves the trench to
+  it (`carve`) and saves the solution as `province-refined/channels-pass1.npz`;
+  `compile_water` fills the same cells at L.
+- `worldgen/standing_water.py` — sea + standing bodies by flooding the real
+  full-res terrain (priority flood via `skimage.morphology.reconstruction`),
+  the rounds-8-10 acceptance rules per flood component, one level of nested
+  sub-basins (watershed catchments to their saddles), river-trapped hollows
+  accepted as lakes, per-body season response, islet lowering.
+- `worldgen/compile_water.py` — the water compile (schema v2): W + signed
+  depth on the 2017 grid registered to texel centres, table band, burial,
+  classes/flow/season, strips + cascades in `water-meta.json`, invariants
+  census in `stats`. ~45 s. Gate: `worldgen/test_water_invariants.py`.
 - `worldgen/regions.py` — HAND/flood, soils, ecological region classes,
   climate profiles (§33.1), authored overrides from
   `world/sources/regions/authored-overrides.json` (e.g. the jungle).

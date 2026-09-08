@@ -34,7 +34,7 @@ The Part 6 draft drew a "poling detour" from the pond's east shore to the head o
 - the pole-marked lane is `canal.wamasu-pond-adult.pole-lane`, a `channel` routed over the creek (192 m, 100 % over published water), ending at a piled landing `dock.wamasu-pond-adult.lane-landing` at the creek head;
 - `route.wamasu-pond-adult.bank-path` (footpath, 1.5 m) climbs from the landing to the offering platform: 182 m, 8 m of climb, two bends;
 - `route.wamasu-pond-adult.stand-path` (footpath, 1.0 m) runs from the offering shelf round the south and west banks, past the cave mouth, up the west slope to the foot of the stand's ramp: 101 m;
-- the offering shelf's landward edge is `fence.wamasu-pond-adult.offering-line` (14 m of `argonianfence01`), so the offering ground has an edge from inside as well as outside.
+- the offering shelf's landward edge is `fence.wamasu-pond-adult.offering-line` (14.2 m of `argonianfence01`, routed along the shelf's own contour), so the offering ground has an edge from inside as well as outside.
 
 The catalogue's `vibe.approach` ("the pole line marks what is out there long before it becomes visible") survives intact; what changed is where the water is.
 
@@ -98,7 +98,7 @@ Both parcels are authored as centre, piece, bearing and reason; `footprint` is d
 | `parcel.wamasu-pond-adult.hunters-stand` | 2444.0, 4371.0 | `stockadescaffoldbase3sided01` | 146 | Open unrailed face down the 146 deg line to the centre of the pan; railed sides and ramp on the landward flank | 3.70 x 3.84 m, 9.04 m² |
 | `parcel.wamasu-pond-adult.offering-platform` | 2472.0, 4426.0 | `argonianplatform` | 345 | Square to the south waterline; the pivot sits at the landward end so the deck reaches 2.7 m toward the shallows | 2.79 x 2.68 m, 7.27 m² |
 
-Ways are authored as `via` and derived by `worldgen.street_router --apply` (terrain routing for the two footpaths and the channel; the fence is straight).
+Ways are authored as `via` and derived by `worldgen.street_router --apply` (terrain routing for the two footpaths, the channel and the stake line: the line takes the contour of the shelf edge, nine 1.58 m panels over 14.2 m with one bend).
 
 ## Asset picks (measured, `sizeM` x/y/height in metres)
 
@@ -147,7 +147,7 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 1. `positionM` → [2466.0, 4403.0] is already applied by the Part 6 siting.
 2. Add a `terrainRequests` entry: `{kind: "pool", radiusM: 30, note: "the pan must hold 2.5 m of standing water over a floor to which a diver can descend"}`. The found depth is 0.30 m.
 3. `vibe.approach` should say that the pole line is followed on the creek below the pond and that the last 180 m are on foot; `relations.reachedVia` should name the creek landing rather than imply water to the pond.
-4. The compiled minor waterway `waterway.naga-kur-deeps.wamasu-pond-adult` runs over ground that the water raster shows dry for two thirds of its length; it should be re-derived onto the creek that the channel follows.
+4. The compiled minor waterway `waterway.naga-kur-deeps.wamasu-pond-adult.lane-landing` runs over ground that the water raster shows dry for two thirds of its length; it should be re-derived onto the creek that the channel follows.
 
 ## Open questions for the owner
 
@@ -203,3 +203,13 @@ No parcel here carries a door: the stand, the platform and the bank works are
 all dressing, and dressing is out of scope of the enterable-purpose rule. The
 place's returns are its boss, its offerings and its flooded cave mouth, which
 are sockets rather than interiors.
+
+## The berth and its sockets (owner review, 2026-09-08)
+
+The creek-head landing is a `canoe` berth and a water terminal
+(`terminal.wamasu-pond-adult.pole-lane` on
+`waterway.naga-kur-deeps.wamasu-pond-adult.lane-landing`); the channel already
+ended within a boat's length of the piles and carries 0.84 m on the approach,
+so it was re-ended on them (`fit: water-to-dock`). The stand and the offering
+platform each carry a quest purpose naming LN05 and the socket that sits on
+them.

@@ -2961,7 +2961,7 @@
         "landform": "pinned (Part 6 meso siting)",
         "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 297.4,
+        "distanceToRouteM": 289.0,
         "distanceToWaterM": 12.3,
         "score": null
       },
@@ -21400,7 +21400,7 @@
         "landform": "pinned (Part 6 meso siting)",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 164.6,
+        "distanceToRouteM": 116.6,
         "distanceToWaterM": 29.5,
         "score": null
       },
@@ -23777,7 +23777,7 @@
         "landform": "pinned (Part 6 meso siting)",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 617.9,
+        "distanceToRouteM": 601.3,
         "distanceToWaterM": 19.8,
         "score": null
       },
@@ -58402,7 +58402,7 @@
         "landform": "pinned (Part 6 meso siting)",
         "regionClass": "lake & standing water",
         "dangerBand": 5,
-        "distanceToRouteM": 277.7,
+        "distanceToRouteM": 279.7,
         "distanceToWaterM": 0.0,
         "score": null
       },

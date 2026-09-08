@@ -679,7 +679,7 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
                 <circle cx={so.positionM[0]} cy={so.positionM[1]} r={px(5)} fill={SOCKET_FILL}
                   stroke={so.id === selectedId ? "#fff" : "#3a2f10"} strokeWidth={px(1.4)}
                   style={{ cursor: "pointer" }}
-                  onMouseEnter={enter(`${shortName(so.id)} — ${so.kind ?? "socket"}${so.ownerQuestTier != null ? ` · tier ${so.ownerQuestTier}` : ""}`)}
+                  onMouseEnter={enter(`${shortName(so.id)} — ${so.kind ?? "socket"}${so.ownerQuestTier != null ? ` · tier ${so.ownerQuestTier}` : ""}${so.questId ? ` · ${so.questId}` : ""}`)}
                   onMouseLeave={() => setHover(null)}
                   onClick={pickId(so.id)} />
                 {showLabels && (

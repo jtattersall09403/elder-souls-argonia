@@ -140,6 +140,8 @@ WHY = {
    "The field station is a hut on the bank above the workings. Its last few metres come up that bank in one step.",
  "route.road.gideon-soulrest":
    "One sill of rock sits in the road close to the Gideon end. It is low enough for a span to clear it.",
+ "route.road.stormhold-thorn":
+   "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace.",
 }
 
 

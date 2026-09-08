@@ -139,6 +139,13 @@ def _ways(bp: dict, extent_m: float) -> list[dict]:
                 "widthM": w.get("widthM"),
                 "assetRef": w.get("assetRef"),
                 "routing": w.get("routing"),
+                # 97 C10 (2026-09-08): a wall carries its class, its module and
+                # the openings it declares, so the viewer can read WHY the line
+                # bends where it bends and stands where it stands.
+                "fenceClass": w.get("class"),
+                "moduleM": w.get("moduleM"),
+                "gapAt": [r for r in (w.get("gapAt") or []) if isinstance(r, str)],
+                "waterOk": w.get("waterOk"),
                 "endsAt": [r for r in (w.get("endsAt") or []) if isinstance(r, str)],
                 "why": _why_text(w),
                 "notes": w.get("notes"),
@@ -355,10 +362,29 @@ def project(doc: dict, extent_m: float) -> dict:
           "polygon": _poly_m(cs.get("boundary"), extent_m)}
          for cs in bp.get("combatSpaces") or []),
         key=lambda cs: str(cs["id"]))
+    # A socket bound to a parcel is drawn ON that parcel even when it declares
+    # no point of its own: the studio's sockets layer skips anything without a
+    # positionM, and the owner read that gap as "this quest building has no
+    # marker" (review 2026-09-08). The footprint centroid is the honest
+    # fallback — it is inside the building the socket belongs to.
+    footprints = {p.get("id"): p.get("footprint") for p in bp.get("parcels") or []}
+
+    def _socket_point(s: dict):
+        pt = _point_m(s.get("position"), extent_m)
+        if pt is not None:
+            return pt
+        fpoly = footprints.get(s.get("parcelId"))
+        if isinstance(fpoly, list) and fpoly:
+            u = sum(q[0] for q in fpoly) / len(fpoly)
+            v = sum(q[1] for q in fpoly) / len(fpoly)
+            return _point_m([u, v], extent_m)
+        return None
+
     sockets = sorted(
         ({"id": s.get("id"), "kind": s.get("kind"), "parcelId": s.get("parcelId"),
           "ownerQuestTier": s.get("ownerQuestTier"), "notes": s.get("notes"),
-          "positionM": _point_m(s.get("position"), extent_m)}
+          "questId": s.get("questId"),
+          "positionM": _socket_point(s)}
          for s in bp.get("questSockets") or []),
         key=lambda s: str(s["id"]))
 

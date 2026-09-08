@@ -125,8 +125,16 @@ def load_network(province: Path = PROVINCE, registry_path: Path = REGISTRY_PATH)
     minor_water = province / "waterways-minor.json"
     if minor_water.exists():
         for ch in json.loads(minor_water.read_text())["channels"]:
+            pts = _px_to_m(ch["px"], px_m)
+            end = ch.get("endsAtM")
+            if isinstance(end, list) and len(end) == 2 and pts:
+                # the channel was solved to a blueprint BERTH (`dockId`): px[0]
+                # is only the raster cell the dock falls in, so put the exact
+                # berth back on the head of the line — the same treatment a
+                # declared lane terminal gets above (owner review 2026-09-08).
+                pts = ((float(end[0]), float(end[1])),) + pts[1:]
             out[ch["id"]] = NetworkRoute(ch["id"], classes.get(ch["id"], ch.get("class") or "channel"),
-                                         "water", _px_to_m(ch["px"], px_m))
+                                         "water", pts)
     if minor_path.exists():
         for t in json.loads(minor_path.read_text())["tracks"]:
             pts = _px_to_m(t["px"], px_m)

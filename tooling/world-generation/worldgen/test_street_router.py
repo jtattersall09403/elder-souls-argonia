@@ -179,3 +179,122 @@ def test_validator_rejects_hand_edited_points():
     way = dict(way, points=[[0.11, 0.11], [0.16, 0.12]])
     bad = blueprint.validate_blueprint(_bp(routes=[way]), None)
     assert [e for e in bad if "derived route" in e and "--apply" in e]
+
+
+# --------------------------------------------------------------------------- #
+# fences and walls are routed too (owner ruling 2026-09-08)
+# --------------------------------------------------------------------------- #
+def _fence(**over):
+    f = {"id": "fence.t.wall", "kind": "palisade", "class": "palisade", "widthM": 0.3,
+         "routing": "terrain", "why": "The wall round the yards, on the ground.",
+         "assetRef": "kit:none", "via": [uv(150, 150), uv(150, 300)]}
+    f.update(over)
+    return f
+
+
+def _fence_bp(fence, **over):
+    bp = {"boundary": [uv(100, 100), uv(400, 100), uv(400, 400), uv(100, 400)],
+          "parcels": [], "routes": [], "fences": [fence]}
+    bp.update(over)
+    return bp
+
+
+def test_a_routed_wall_follows_the_contour_instead_of_crossing_it():
+    """A slope running east–west: the straight line up it crosses 15 m of fall,
+    the routed line stays on its band."""
+    def height(x, z):
+        return 0.15 * (z - 150.0)          # ground falls to the south
+
+    fence = _fence(via=[uv(150, 200), uv(300, 210)])
+    survey = SurveyStub(height)
+    pts_m = to_m(sr.route_way(fence, _fence_bp(fence), survey))
+    hs = [height(x, z) for x, z in _densify(pts_m)]
+    assert max(hs) - min(hs) < 1.6         # the straight line crosses 1.5 m of fall
+    assert len(pts_m) > 2                  # ... by bending
+
+
+def test_a_pole_wall_with_waterok_stands_in_the_shallows():
+    """The lore drives poles: the wall takes the wet line, not the dry one."""
+    def water(x, z):
+        return x > 250.0
+
+    fence = _fence(**{"class": "pole-wall", "waterOk": {"maxDepthM": 1.0},
+                      "via": [uv(260, 150), uv(260, 300)]})
+    survey = SurveyStub(water_fn=water)
+    wet = to_m(sr.route_way(fence, _fence_bp(fence), survey))
+    assert all(water(x, z) for x, z in _densify(wet))
+    # the same wall without the licence keeps out of the water entirely
+    dry_fence = _fence(via=[uv(260, 150), uv(260, 300)])
+    dry = _densify(to_m(sr.route_way(dry_fence, _fence_bp(dry_fence), survey)))
+    assert sum(1 for x, z in dry if water(x, z)) < 0.2 * len(dry)
+
+
+def test_a_wall_avoids_a_parcel_and_crosses_a_way_only_at_its_declared_gap():
+    from . import blueprint
+
+    parcel = {"id": "parcel.t.hall", "footprint": [uv(190, 200), uv(230, 200),
+                                                   uv(230, 240), uv(190, 240)]}
+    way = {"id": "route.t.lane", "kind": "footpath", "widthM": 2.0, "routing": "straight",
+           "why": "The lane through the gate.", "via": [uv(120, 220), uv(300, 220)],
+           "points": [[120 / EXTENT_M, 220 / EXTENT_M], [300 / EXTENT_M, 220 / EXTENT_M]]}
+    survey = SurveyStub()
+    # routed, the wall goes round the hall by itself and crosses the lane once
+    routed = _fence(via=[uv(210, 160), uv(210, 300)])
+    bp = _fence_bp(routed, parcels=[parcel], routes=[way])
+    sr.apply_to_blueprint(bp, survey)
+    routed_fails = blueprint._fence_failures(bp, survey)
+    assert not [f for f in routed_fails if "crosses the hull" in f]
+    assert [f for f in routed_fails if "crosses the way" in f]
+
+    # drawn as a ruled line, the same wall runs through the hall: HARD
+    fence = _fence(routing="straight", via=[uv(210, 160), uv(210, 300)],
+                   points=[uv(210, 160), uv(210, 300)])
+    bp = _fence_bp(fence, parcels=[parcel], routes=[way])
+    fails = blueprint._fence_failures(bp, survey)
+    assert [f for f in fails if "crosses the hull" in f]
+    assert [f for f in fails if "crosses the way" in f]
+    # declared: the hall is designed contact, the lane is the gate
+    bp["fences"][0]["gapAt"] = ["route.t.lane"]
+    bp["fences"][0]["abuts"] = ["parcel.t.hall"]
+    assert blueprint._fence_failures(bp, survey) == []
+
+
+def test_a_wall_in_water_without_waterok_fails_and_too_deep_fails():
+    from . import blueprint
+
+    fence = _fence(routing="straight", via=[uv(260, 150), uv(260, 300)],
+                   points=[uv(260, 150), uv(260, 300)])
+    bp = _fence_bp(fence)
+    survey = SurveyStub(water_fn=lambda x, z: x > 250.0)
+    assert [f for f in blueprint._fence_failures(bp, survey) if "declares no waterOk" in f]
+    fence["waterOk"] = {"maxDepthM": 1.0}       # stub depth is UNKNOWN_DEPTH_M
+    assert blueprint._fence_failures(bp, survey) == []
+    fence["waterOk"] = {"maxDepthM": 0.1}
+    assert [f for f in blueprint._fence_failures(bp, survey) if "no pole is driven there" in f]
+
+
+def test_a_long_unbent_run_across_falling_ground_warns():
+    from . import blueprint
+
+    fence = _fence(routing="straight", moduleM=2.0,
+                   via=[uv(150, 150), uv(150, 250)],
+                   points=[uv(150, 150), uv(150, 250)])
+    bp = _fence_bp(fence)
+    flat = SurveyStub()
+    assert blueprint._fence_warnings(bp, flat) == []
+    slope = SurveyStub(lambda x, z: 0.05 * z)
+    assert [w for w in blueprint._fence_warnings(bp, slope) if "with no bend" in w]
+
+
+def test_a_routed_wall_is_built_in_whole_modules():
+    fence = _fence(moduleM=4.0, via=[uv(150, 150), uv(150, 290)])
+    pts_m = to_m(sr.route_way(fence, _fence_bp(fence), SurveyStub()))
+    for a, b in zip(pts_m, pts_m[1:]):
+        run = math.hypot(b[0] - a[0], b[1] - a[1])
+        assert abs(run / 4.0 - round(run / 4.0)) < 0.02
+
+
+def test_a_straight_wall_keeps_its_surveyed_line():
+    """`straight` is the surveyed line: no routing, no module quantising."""
+    fence = _fence(routing="straight", moduleM=4.0, via=[uv(150, 150), uv(150, 293)])
+    assert to_m(sr.route_way(fence, _fence_bp(fence), SurveyStub())) == [(150, 150), (150, 293)]

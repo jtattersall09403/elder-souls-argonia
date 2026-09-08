@@ -205,7 +205,7 @@ line.** A canoe or raft landing needs ≥0.6 m; a small-draft boat station ≥1.
 m; a keeled hull berth ≥3 m — and a place whose living depends on hulls *not*
 berthing (Lilmoth's lighters) needs the shallow shelf recorded as a feature.
 *L* (small-draft doctrine; Lilmoth's ships anchor out); Lilmoth record §1.
-**Enforced by** the design record's candidate table only — G9.
+**Enforced by** `blueprint._validate_docks` (hull class, the water terminal, the 10 m reach and the `fit` direction) plus the design record's candidate table — G9.
 
 **B6. The approach is designed at meso, before geometry.** The chosen
 candidate must offer a first-seen object taller than the vegetation on the
@@ -414,6 +414,17 @@ by** `fences[]` kinds and the reviewer; checklist item 13 (the edge reads
 from inside as well as outside). The ring-of-dwellings case is a D-edge, not a
 `fences[]` entry: it is drawn as parcels and read as the edge (*O*
 implementation lead 2026-09-07, audit §7.4).
+A wall or fence that IS a `fences[]` entry is ROUTED over the ground like a
+street, in its own kit module, and stands in water only where the lore drives
+poles (*O* 2026-09-08): `street_router`'s fence mode costs the contour, the
+outer edge of the built hull and dry ground per `fences[].class` (pole-wall |
+curtain | palisade | fence | ring-panel), `waterOk {maxDepthM}` licenses the
+shallows, `gapAt[]` names the ways for which the wall is opened or over which it is carried, and
+`abuts[]` names the designed contact. **Enforced by** HARD checks in
+`blueprint._fence_failures` (no parcel hull crossed, no way crossed outside
+`gapAt`, no standing water without `waterOk`, `moduleM` derived, `routingWhy`
+on a `straight` wall) and the WARN in `_fence_warnings` (a run over three
+modules with no bend across falling ground).
 
 **C11. Kit purity is per district and a piece is chosen on its measured
 geometry; a piece whose hull is not attributable to its pivot is dropped.**
@@ -467,10 +478,14 @@ terminal instead of the plotted dot.
 **C14. Verticality carries its own ascent: every raised deck has its stair,
 ramp or ladder visible from the node below; ramps run ≤30°; a passerelle run
 is a sum of the kit's own lengths and rises.** *S* (Bethesda 30–45°
-for animation, 60° AI ceiling); kit `snapLogic` (settlement-root
-`passl<len>h<rise>`, `stockadescaffold` base/top side counts). **Enforced
-by** `compile_settlement` door slope ≤30° on a 2 m gradient; checklist item 12; the
-snap grammar is prose in the kit config — G19.
+for animation, 60° AI ceiling); *E* the measured connector table (each piece's
+joining faces, their positions, outward normals, widths and heights, derived
+from the source authors' own co-placements and from the mesh bounds —
+`pipeline.measure_connectors`, `<kit>.connectors.json`). The snap grammar is
+MEASURED DATA, not prose in a kit config, and a stair that serves a deck is
+laid on that deck's face. **Enforced by** `compile_settlement` door slope ≤30°
+on a 2 m gradient; checklist item 12; `blueprint_integration` `abuts-snap`
+(HARD) for the join itself; G19 closed.
 
 **C15. The Hist is not cleared, built over or moved; the settlement bends
 around it; its minders face it.** *L* (each xanmeer housed its tribe's Hist;
@@ -590,7 +605,13 @@ lashed-plank) are not chained across systems; `jets` pieces only finish a run
 begun elsewhere; passerelle arcs chain only at one radius; scaffold decks
 match their base's side count. *O* CLAUDE.md 2026-09-04. **Enforced
 by** `KIT_SETS` (set level) and `assetConstraints` bans; the piece-level
-`snapLogic` is prose — G19.
+piece-level joins are checked by `blueprint_integration` `abuts-snap` (HARD):
+a parcel that declares `abuts` must have one of its measured connector faces
+COINCIDE with one of its neighbour's — within 0.15 m and 5° of opposition in
+world space, after each piece's centre and yaw — or be joined to it through a
+piece both of them snap to. `abuts` therefore means SNAPPED, not "allowed to
+stand close"; a pair whose kit has no connectors measured is a WARN naming
+that kit, never a silent pass. G19 closed.
 
 **E4. A sourcing gap is a job with an owner and a status, filled in the
 session it is found; it is shown as a gap, not faked.** *O* 2026-09-05.
@@ -676,7 +697,7 @@ message, so a failure sends the reader to one rule above.
 | G6 | A10 | hostile/settlement shares reported only | two soft ceilings in `test_catalogue.py` (settlement+civic ≤ 22 %, hostile-or-clearable ≥ 55 %)  | **CLOSED** — `test_settlement_and_civic_share_is_under_the_ceiling` (SOFT ceiling, 21.2 % live) and `test_hostile_or_clearable_share_is_over_the_floor` (HARD floor per 0041 touchpoint ①, 55.5 % live — 3 records of headroom) |
 | G7 | B1 | `siting` optional | add `siting` to the validator's REQUIRED list for every blueprint of a plotted record  | **CLOSED** — `blueprint.validate_blueprint` requires `siting` on any blueprint of a catalogue record (HARD; the Part 0 fixture, compiled `--skip-catalogue`, details no record and is exempt) |
 | G8 | B4 | highest seasonal water and over-water share not measured | compiler reads the flood-band raster at each footprint; reports the over-water share per district against the culture band  | OPEN (needs a flood-band raster read) |
-| G9 | B5 | dock depth by hull class | `docks[].hullClass` + compiler sample of depth 100 m off the dock at the water raster  | OPEN (needs `docks[].hullClass` + a depth sample) |
+| G9 | B5 | dock depth by hull class, and the dock ON the water that serves it | `blueprint._validate_docks`: `docks[].hullClass` (canoe 0.6 / small-draft 1.2 / keeled 3.0 m) sampled over the first 100 m of the serving route; a `networkTerminals[]` entry of kind lane/channel carrying `dockId`; the published water within 10 m of the berth; `docks[].fit` (`water-to-dock` re-ends the channel on the berth in `compile_minor_waterways`, `to-water` moves the berth to the channel end), derived when absent and reported with the metres | CLOSED 2026-09-08 |
 | G10 | B6/D2 | first-seen height vs canopy not computed | compiler line-of-sight from each approach's start to `firstSeen` using the dossier heights + palette canopy height along the ray  | **PART-CLOSED** — `compile_settlement._first_seen_warnings` runs bare-terrain line of sight from the approach's first waypoint to the `firstSeen` piece and reports the piece's height against the region palette's measured canopy (WARN). Canopy is not in the survey, so the ray itself is bare-terrain only |
 | G11 | B7 | `terrainRequests` not carved | Part 6 carve job in the chunk rebuild; validator warns while a request is unfulfilled  | OPEN (Part 6 carve job) |
 | G12 | C3/D8 | spine width and 1.3 m passage not checked | integration: spine `widthM` > every other way in the blueprint; min gap between neighbouring footprints along a way ≥ 1.3 m  | **CLOSED** — `blueprint_integration` `passage` (a way between two hulls needs 1.3 m of clear gap, HARD) + width classes in `_placement_warnings` (road 4.3 m, track 2.5, path 1.2, plus no rank inversion, WARN) |
@@ -688,7 +709,7 @@ message, so a failure sends the reader to one rule above.
 | G24 | C5a | "designed to touch" covered kit snaps only, so a hoist against its rock face had to be mis-declared as a snap | a second flag for trade contacts, with a clearance rather than a join | **CLOSED (HARD)** — `worksWith` + `worksWithWhy` (validator) and `parcel-gap`'s `WORKS_WITH_CLEAR_M` 0.5 m |
 | G17 | C8 | yaw diversity | validator: ≤10 % of a district's parcels within 5° of one yaw  | **CLOSED** — `blueprint.validate_blueprint` 97 C8 (HARD): at most max(2, 10 %) of a district's parcels within ±5° of one bearing, from 8 parcels up, unless the district declares `routing: "straight"` |
 | G18 | C12 | no outdoor dressing pass | `compile_settlement` dressing rule per `use` with count bands and a rotating vocabulary; report counts  | OPEN (no outdoor dressing pass) |
-| G19 | C14/E3 | kit `snapLogic` is prose | per-kit connector table (`connectors.json`: entry/exit faces, lengths, rises, radii, side counts) checked when two pieces touch  | OPEN (needs `connectors.json`) |
+| G19 | C14/E3 | kit `snapLogic` is prose, so a gate arch, its tower and two wall stubs could be placed NEAR each other and pass every check (owner, 2026-09-08) | per-kit connector table checked when two pieces touch | **CLOSED (HARD)** — `pipeline.measure_connectors` writes `<kit>.connectors.json` (per piece: face, position, outward normal, width, height, evidence `co-placement` from the source authors' repeated offsets or `bounds` from the measured plan outline) and `blueprint_integration` `abuts-snap` holds every `abuts` pair to a 0.15 m / 5° face coincidence; an unmeasured kit is a WARN, never a pass |
 | G20 | D9 | `combatSpaces` not required | add to REQUIRED for magnitude ≥ M3  | **CLOSED** — `combatSpaces` is in `REQUIRED`; each needs a boundary, a `clearanceClass` and a why (HARD) |
 | G21 | C-stitch | approach roads and inside streets were separate layers | terminals named against the province network, checked in metres and degrees | **CLOSED** — `networkTerminals[]` + `blueprint_integration` `network-stitch`; `compile_minor_routes` ends at the terminal |
 | G22 | E9 | the macro layer's promises (services, named people, travel, provisions) were prose, so nothing checked the blueprint delivered them | type `services[]` on the record and check every promise against the blueprint objects that realise it | **CLOSED** — `catalogue.SERVICES` + `worldgen.derive_services` (derivation rules, migration, band minimums in `test_catalogue`) and `worldgen.blueprint_promises` called once from `compile_settlement`: unmet promise is HARD from M3 up, WARN below, ledger written to `output/settlements/<id>.ledger.md` |

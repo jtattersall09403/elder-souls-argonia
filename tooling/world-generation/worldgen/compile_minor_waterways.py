@@ -56,11 +56,13 @@ from __future__ import annotations
 
 import argparse
 import json
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
 from scipy import ndimage
 
+from . import blueprint as bp_mod
 from . import catalogue
 from .compile_minor_routes import OUT_MD, multi_source_field, trace
 from .routes import boat_cost_surface
@@ -77,6 +79,69 @@ SNAP_M = 260.0          # how far a dry-footed place may reach its own landing
 CROSSING_M = 420.0      # a bank-to-bank ferry hop
 BOAT_MODES = {"boat", "ferry", "lighter", "pilot"}
 WATER_FAMILIES = {"landing", "water-village", "crossing", "submerged-way"}
+
+
+# --------------------------------------------------------------------------- #
+# berths (owner review 2026-09-08)
+# --------------------------------------------------------------------------- #
+# A dock is a water terminal: the channel that serves a place ends AT the berth,
+# not at the anchor pixel the macro plot put on the settlement's centre of
+# gravity. This is the same mechanism `lane-terminals.json` gives the Phase 4
+# boat lanes, derived here from the blueprint instead of hand-declared, and it
+# runs BOTH ways per dock (`docks[].fit`):
+#   water-to-dock — the channel is re-ended at the authored berth;
+#   to-water      — the berth is the point the published water reaches, so the
+#                   channel is solved to the nearest navigable cell that carries
+#                   the dock's hull class and the blueprint's dock position is
+#                   authored there.
+# `blueprint.py` holds the HARD check that the two agree (within 10 m, at hull
+# depth 100 m out); this module is what makes them agree.
+HULL_DEPTH_M = bp_mod.HULL_CLASS_DEPTH_M
+
+
+@lru_cache(maxsize=1)
+def centre_depth_grid(s: ProvinceSurvey) -> np.ndarray:
+    """Published water depth AT EACH GRID CELL CENTRE — the same number
+    `ProvinceSurvey.sample()` reports, so the depth this compiler sites a berth
+    by is the depth `blueprint.py` then checks it against."""
+    idx = np.clip(((np.arange(s.grid_n) + 0.5) * s.grid_px_m / s.height_px_m).astype(int),
+                  0, s.water_depth_m.shape[0] - 1)
+    return s.water_depth_m[np.ix_(idx, idx)]
+
+
+@lru_cache(maxsize=1)
+def blueprint_docks() -> dict[str, list[dict]]:
+    """{place id: [dock, ...]} — every berth the blueprints declare, in id
+    order, so the channels are solved deterministically."""
+    out: dict[str, list[dict]] = {}
+    if not bp_mod.BLUEPRINT_DIR.exists():
+        return out
+    for path in sorted(bp_mod.BLUEPRINT_DIR.glob("*.json")):
+        try:
+            bp = json.loads(path.read_text()).get("blueprint") or {}
+        except (OSError, json.JSONDecodeError):
+            continue
+        docks = [d for d in (bp.get("docks") or [])
+                 if isinstance(d.get("position"), list) and len(d["position"]) == 2]
+        if docks and bp.get("id"):
+            out[bp["id"]] = sorted(docks, key=lambda d: str(d.get("id")))
+    return out
+
+
+def dock_fit(dock: dict, s: ProvinceSurvey, depth_grid) -> str:
+    """The declared `fit`, or the derivation blueprint.py documents: the berth
+    keeps its place when its own water already carries its hull class."""
+    if dock.get("fit") in bp_mod.DOCK_FITS:
+        return dock["fit"]
+    need = HULL_DEPTH_M.get(dock.get("hullClass"), 0.0)
+    x, z = s.uv_to_m(float(dock["position"][0]), float(dock["position"][1]))
+    row, col = s.grid_px(x, z)
+    here = float(depth_grid[row, col])
+    if s.open_water[row, col]:
+        # the marsh credit blueprint.py documents: a cell the province calls
+        # open water floats a poled hull even where it publishes no depth
+        here = max(here, bp_mod.MARSH_WATER_CREDIT_M)
+    return "water-to-dock" if here + 1e-6 >= need else "to-water"
 
 
 def navigable(s: ProvinceSurvey) -> np.ndarray:
@@ -106,13 +171,20 @@ def seed_network(s: ProvinceSurvey) -> np.ndarray:
     return mask & navigable(s)
 
 
-def _snap(s: ProvinceSurvey, reachable: np.ndarray, row: int, col: int) -> tuple[int, int] | None:
+def _snap(s: ProvinceSurvey, reachable: np.ndarray, row: int, col: int,
+          depth_grid: np.ndarray | None = None, min_depth_m: float = 0.0) -> tuple[int, int] | None:
     """Nearest CONNECTED navigable cell within SNAP_M — the place's landing.
 
     Connected, not merely navigable: half the marsh raster is one-pixel
     puddles, and snapping into one would strand a place that in fact sits a
     few metres from a live channel."""
-    nav = reachable
+    # A BERTH (min_depth_m > 0) may only be sited where the province publishes
+    # real water: deep enough for the hull class AND inside `open_water`, the
+    # mask every other check reads (blueprint_integration's canal test among
+    # them). Snapping a landing into 0.4 m of marsh the water mask calls dry is
+    # how a dock ends up "beside" the water it is supposed to be on.
+    nav = reachable if (depth_grid is None or min_depth_m <= 0.0) else (
+        reachable & (depth_grid >= min_depth_m) & s.open_water)
     if nav[row, col]:
         return row, col
     rad = int(SNAP_M / s.grid_px_m) + 1
@@ -136,6 +208,10 @@ def is_water_bound(rec: dict) -> bool:
     if cl.get("family") in WATER_FAMILIES:
         return True
     if rec.get("underwaterAccess", "none") != "none":
+        return True
+    if rec["id"] in blueprint_docks():
+        # a blueprint that declares a berth is water-served by construction —
+        # the berth is the promise, and this compiler is what keeps it
         return True
     for edge in (rec.get("relations", {}) or {}).get("travelServiceEdges", []) or []:
         ref = edge.split(":", 1)[-1]
@@ -181,6 +257,8 @@ def run(write: bool = True) -> dict:
     cost = cost_surface(s)
     nav = navigable(s)
     network = seed_network(s)
+    depth_grid = centre_depth_grid(s)
+    docks_by_place = blueprint_docks()
     w, px_m = s.grid_n, s.grid_px_m
     channels: list[dict] = []
     unconnected: list[dict] = []
@@ -190,36 +268,69 @@ def run(write: bool = True) -> dict:
         reachable = np.isfinite(dist) & nav
         new_cells = np.zeros_like(network)
         for rec in batch:
-            x, z = rec["positionM"]
-            row, col = s.grid_px(float(x), float(z))
-            snapped = _snap(s, reachable, row, col)
-            if snapped is None:
-                unconnected.append({"id": rec["id"],
-                                    "why": f"no connected navigable water within {SNAP_M:.0f} m",
-                                    "batch": bi})
-                continue
-            row, col = snapped
-            path = trace(prev, row, col, w)
-            length_m = sum(np.hypot(path[i + 1][0] - path[i][0], path[i + 1][1] - path[i][1]) * px_m
-                           for i in range(len(path) - 1))
-            if length_m <= ARRIVAL_M:
-                on_network += 1
+            slug = rec["id"].split(".", 1)[1]
+            # One target per BERTH where the blueprint declares them (owner
+            # review 2026-09-08), else the plotted anchor as before.
+            targets: list[tuple[str, tuple[float, float], dict | None]] = []
+            for dock in docks_by_place.get(rec["id"], []):
+                u, v = float(dock["position"][0]), float(dock["position"][1])
+                cid = "waterway." + slug + "." + str(dock.get("id", "")).rsplit(".", 1)[-1]
+                targets.append((cid, s.uv_to_m(u, v), dock))
+            if not targets:
+                targets = [("waterway." + slug, tuple(rec["positionM"]), None)]
+            for cid, (x, z), dock in targets:
+                row, col = s.grid_px(float(x), float(z))
+                fit = dock_fit(dock, s, depth_grid) if dock else None
+                need = HULL_DEPTH_M.get((dock or {}).get("hullClass"), 0.0) if fit == "to-water" else 0.0
+                snapped = _snap(s, reachable, row, col, depth_grid, need)
+                if snapped is None and need:
+                    snapped = _snap(s, reachable, row, col)
+                if snapped is None:
+                    unconnected.append({"id": rec["id"],
+                                        "why": f"no connected navigable water within {SNAP_M:.0f} m",
+                                        "batch": bi})
+                    continue
+                srow, scol = snapped
+                path = trace(prev, srow, scol, w)
+                length_m = sum(np.hypot(path[i + 1][0] - path[i][0], path[i + 1][1] - path[i][1]) * px_m
+                               for i in range(len(path) - 1))
+                if length_m > MAX_CHANNEL_M:
+                    unconnected.append({"id": rec["id"], "why": f"nearest water path {length_m / 1000:.1f} km",
+                                        "batch": bi})
+                    continue
                 for c, r in path:
                     new_cells[r, c] = True
-                continue
-            if length_m > MAX_CHANNEL_M:
-                unconnected.append({"id": rec["id"], "why": f"nearest water path {length_m / 1000:.1f} km",
-                                    "batch": bi})
-                continue
-            kind = classify(s, path, length_m, rec)
-            channels.append({
-                "id": "waterway." + rec["id"].split(".", 1)[1],
-                "kind": kind, "class": kind, "from": rec["id"], "to": "network",
-                "batch": bi, "lengthKm": round(length_m / 1000.0, 3),
-                "px": [[int(c), int(r)] for c, r in path],
-            })
-            for c, r in path:
-                new_cells[r, c] = True
+                if length_m <= ARRIVAL_M and dock is None:
+                    on_network += 1
+                    continue
+                kind = classify(s, path, length_m, rec)
+                channel = {
+                    "id": cid,
+                    "kind": kind, "class": kind, "from": rec["id"], "to": "network",
+                    "batch": bi, "lengthKm": round(length_m / 1000.0, 3),
+                    "px": [[int(c), int(r)] for c, r in path],
+                }
+                if dock is not None:
+                    # the berth this channel serves, and the EXACT point it ends
+                    # at: the traced line is a chain of 5.48 m raster cells, so
+                    # its head is only the cell the berth falls in.
+                    # water-to-dock ends the channel on the authored berth;
+                    # to-water ends it on the water the berth must be moved to
+                    # (and `blueprint.py` fails until the dock is authored there).
+                    # to-water ends the channel at the CELL CENTRE, which is
+                    # the point `ProvinceSurvey.sample()` reports the depth of
+                    # and therefore the point blueprint.py checks the berth at.
+                    ex, ez = (float(x), float(z)) if fit == "water-to-dock" else (
+                        (scol + 0.5) * px_m, (srow + 0.5) * px_m)
+                    channel["dockId"] = dock.get("id")
+                    channel["fit"] = fit
+                    channel["endsAtM"] = [round(ex, 3), round(ez, 3)]
+                if len(path) < 2:
+                    # the berth already stands on the network: nothing to draw,
+                    # but it IS served (blueprint.py measures to the lane).
+                    on_network += 1
+                    continue
+                channels.append(channel)
         network |= new_cells
     channels.sort(key=lambda t: t["id"])
     unconnected.sort(key=lambda u: u["id"])

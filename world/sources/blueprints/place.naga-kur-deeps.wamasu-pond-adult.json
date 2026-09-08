@@ -232,6 +232,14 @@
             0.331522878,
             0.592529449
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "What the hunter left on the deck is read from this stand in What Waits at the Gate, with the charged water below it.",
+            "socketRef": "socket.wamasu-pond-adult.stand-evidence"
+          }
         ]
       },
       {
@@ -323,6 +331,14 @@
             0.335297363,
             0.600429311
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The offering scene of What Waits at the Gate plays on this platform, at the water’s edge.",
+            "socketRef": "socket.wamasu-pond-adult.offerings"
+          }
         ]
       },
       {
@@ -628,12 +644,16 @@
             0.639587
           ],
           [
-            0.357699912,
-            0.637213842
+            0.355801223,
+            0.637620704
+          ],
+          [
+            0.355801223,
+            0.635179532
           ],
           [
             0.35322443,
-            0.63273836
+            0.632602739
           ],
           [
             0.353292,
@@ -688,7 +708,7 @@
         "id": "fence.wamasu-pond-adult.offering-line",
         "kind": "fence",
         "widthM": 0.3,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.333898,
@@ -700,17 +720,23 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A stake line along the landward edge of the offering shelf, which marks where the offering ground begins for anyone coming up the bank path and gives the shelf an edge from the inside as well as the outside.",
+        "why": "A stake line along the landward edge of the offering shelf, which marks where the offering ground begins for anyone coming up the bank path. The shelf has an edge from the inside as well as from the outside.",
         "points": [
           [
             0.333898,
             0.601749
           ],
           [
-            0.335797,
-            0.601478
+            0.335610878,
+            0.601680538
+          ],
+          [
+            0.335755868,
+            0.60152276
           ]
-        ]
+        ],
+        "class": "fence",
+        "moduleM": 1.58
       }
     ],
     "siting": {
@@ -1034,11 +1060,13 @@
         "piledToBed": true,
         "why": {
           "what": "A small piled landing at the head of the poling creek where boats stop.",
-          "whyHere": "The pond has no water link, so a boat can come no nearer than the creek head 150 m south-east of it and 8 m below.",
+          "whyHere": "The pond has no water link, so a boat can come no nearer than the creek head 150 m south-east of it and 8 m below. The published channel already ends within a boat's length of the piles and carries 0.84 m of water on the approach, so the channel was re-ended on the authored berth (fit `water-to-dock`).",
           "whyNeighbours": "The pole lane ends at it and the bank path climbs west from it; the head pole stands beside it.",
           "playerPurpose": "The arrival point by water and the threshold between the boat and the walk.",
           "microGeography": "Piled in the dead-end head of the creek at 1 m elevation against the toe of the slope, in water one boat's width wide."
-        }
+        },
+        "hullClass": "canoe",
+        "fit": "water-to-dock"
       }
     ],
     "combatSpaces": [
@@ -1107,7 +1135,8 @@
           0.600257
         ],
         "parcelId": "parcel.wamasu-pond-adult.offering-platform",
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "questId": "quest.local.ln05"
       },
       {
         "id": "socket.wamasu-pond-adult.stand-evidence",
@@ -1117,7 +1146,8 @@
           0.592798
         ],
         "parcelId": "parcel.wamasu-pond-adult.hunters-stand",
-        "ownerQuestTier": 3
+        "ownerQuestTier": 3,
+        "questId": "quest.local.ln05"
       },
       {
         "id": "socket.wamasu-pond-adult.pond-floor",
@@ -1377,7 +1407,19 @@
         ],
         "wayId": "route.wamasu-pond-adult.stand-path",
         "kind": "footpath",
-        "why": "Hunters cross the rootland from the west and take the one dry rise to the pond, so the land approach reaches the knoll at the foot of the stand's ramp; the stand path carries it round the west and south banks to the offering shelf. Nothing about the charge is published, so the line is routed and left off the map."
+        "why": "Hunters cross the rootland from the west and take the dry rise to the pond, so the land approach reaches the knoll at the foot of the stand's ramp; the stand path carries it round the west and south banks to the offering shelf. Nothing about the charge is published, so the line is routed and left off the map."
+      },
+      {
+        "id": "terminal.wamasu-pond-adult.pole-lane",
+        "routeId": "waterway.naga-kur-deeps.wamasu-pond-adult.lane-landing",
+        "entryUV": [
+          0.347189,
+          0.617888
+        ],
+        "wayId": "canal.wamasu-pond-adult.pole-lane",
+        "kind": "channel",
+        "dockId": "dock.wamasu-pond-adult.lane-landing",
+        "why": "A poled boat reaches the pond only up the creek. The creek dies at the landing; the pole lane is the last stretch of that channel drawn inside the place."
       }
     ]
   }

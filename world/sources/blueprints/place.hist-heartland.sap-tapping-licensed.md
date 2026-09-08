@@ -88,7 +88,10 @@ grading 2 m or more. The matching `stockadescaffoldtop3sided01` tier is placed a
 field added at Round A), so the stage is footing and railed deck as the kit's
 grammar stacks them; the deck declares `abuts` the stair, whose top tread
 meets its rail line. The stair was moved 0.6 m landward so the two ground
-hulls stop overlapping.
+hulls stop overlapping, then 1.08 m further on 2026-09-08 so that its west
+face lands on the stage's south face: `abuts` is now checked as a snap
+(97 C14/E3), so the flight is built into the stage. Its bearing went from 30° to 46°
+with it.
 
 **The rest is four objects.** `horsetrough01` (1.85 × 0.69 m) makes the mule
 line at (3492.0, 4390.0), beside the track; `handcart01` (1.32 × 2.21 m) is
@@ -163,7 +166,7 @@ from north.
 | Object | Asset | Hull (m) | Yaw | Why that way |
 |---|---|---|---|---|
 | stage | `stockadescaffoldbase3sided01` | 3.70 × 3.84 | 316 | the unrailed face looks along bearing 136 to the trunk, where the tap lines run |
-| stair | `stockadescaffoldstairs01` | 3.58 × 3.46 | 30 | the flight sits on bearing 300 to the stage, so the climb starts landward at the head of the track |
+| stair | `stockadescaffoldstairs01` | 3.58 × 3.46 | 46 | the flight's west face is laid on the stage's south face, so the climb starts landward at the head of the track |
 | mule line | `horsetrough01` | 1.85 × 0.69 | 253 | the long axis lies on bearing 343, along the track, so the mules stand beside the path |
 | stock | `handcart01` | 1.32 × 2.21 | 29 | the shafts point to the head of the track, so the cart is pulled out without turning |
 | dwelling | `mudhut01` | 5.92 × 6.47 | 45 | the one doorway looks down the spur onto the stage path; the blind back stands to the channel |
@@ -331,3 +334,14 @@ One interior, the crew's hut, and it is medium-tier: a crew who sleep through
 the night landing MR04 stages and one who wakes, a graded stock kept off the
 stage where the licence does not count it, and a season's tally that does not
 match what has left by canoe.
+
+## The berth and its channel (owner review, 2026-09-08)
+
+The landing is a `canoe` berth and a water terminal: the poling channel is
+solved to the piles (`fit: water-to-dock`,
+`terminal.sap-tapping-licensed.landing-channel` on
+`waterway.hist-heartland.sap-tapping-licensed.landing`), so the extraction
+route on which the camp depends is drawn on the province map and not only in this
+record. All three sockets (the licence board, the graded stock and the
+anchor roster) are answered by a quest purpose naming MR04 on the parcel on
+which they stand.
