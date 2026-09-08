@@ -70,7 +70,7 @@ export class WaterDisplacementRegistry {
     const candidates: { actor: string; spheres: readonly WaterDisplacementSphere[]; distance: number; admitted: boolean }[] = [];
     for (const [actor, spheres] of this.actors) {
       if (this.eligible(spheres)) candidates.push({ actor, spheres, admitted: this.applied.has(key(actor, 0)),
-        distance: Math.min(...spheres.map(s => (s.center.x - cx) ** 2 + (s.center.z - cz) ** 2)) });
+        distance: spheres.reduce((m, s) => Math.min(m, (s.center.x - cx) ** 2 + (s.center.z - cz) ** 2), Infinity) });
     }
     candidates.sort((a, b) => Number(b.admitted) - Number(a.admitted) || a.distance - b.distance || (a.actor < b.actor ? -1 : a.actor > b.actor ? 1 : 0));
     const desired = new Map<string, WaterDisplacementSphere>();

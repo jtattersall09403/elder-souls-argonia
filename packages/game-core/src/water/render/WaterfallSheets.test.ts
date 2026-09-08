@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import {
   CREST_BACK_M, CREST_FOAM_M, FREE_FLIGHT_MIN_AIR_M, FREE_FLIGHT_MIN_SPAN_M, GRAVITY_MPS2, GROUND_CLEARANCE_M,
-  MAX_CHUTE_SPEED_MS, MAX_SEGMENT_DROP_M, MIN_LIP_SPEED_MS, MIN_QUAD_LENGTH_M, SHEET_DEPTH_FADE_M, SHEET_EMISSIVE,
+  MAX_CHUTE_SPEED_MS, MAX_SEGMENT_DROP_M, MAX_TRACE_RUN_M, MAX_TRACE_STEPS, MIN_LIP_SPEED_MS, MIN_QUAD_LENGTH_M, SHEET_DEPTH_FADE_M, SHEET_EMISSIVE,
   SHEET_FACING_FADE, SHEET_LAYERS, SHEET_PIECE_FAMILIES, SHEET_PIECE_OVERLAP, SIDE_STRIP_LAYER, WATERFALL_TEXTURE_ROLES,
   alignCascadeToStrips, buildWaterfallSheetGeometry, chuteStripFromPath, freeFlightSpanM, loadWaterfallTextures,
   sheetAeration, sheetAlpha, sheetCrestBoost, sheetEmissive, sheetLateralOffsets, sheetPieceFamily, sheetPieceSpans,
@@ -30,6 +30,22 @@ function cascade(over: Partial<Cascade> & { profile: number[] }): Cascade {
 /** Ground: flat at lip level up to the lip, then a sheer face. */
 const cliffProfile = (length: number, top: number, base: number) =>
   Array.from({ length }, (_, i) => (i < 3 ? top : base));
+
+/**
+ * Linear min/max over an attribute (or any array-like). Never `Math.max(...arr)`:
+ * spreading a vertex attribute as call arguments overflows the stack past
+ * ~125 k values, and the shipped v1 data builds 320 k+ vertices.
+ */
+function extent(a: ArrayLike<number> | { count: number; getX: (i: number) => number }): { min: number; max: number } {
+  let min = Infinity;
+  let max = -Infinity;
+  if ("getX" in a) {
+    for (let i = 0; i < a.count; i++) { const v = a.getX(i); if (v < min) min = v; if (v > max) max = v; }
+  } else {
+    for (let i = 0; i < a.length; i++) { const v = a[i]; if (v < min) min = v; if (v > max) max = v; }
+  }
+  return { min, max };
+}
 
 describe("waterfall sheet paths", () => {
   it("throws a parabola off a free cliff and lands at the plunge height", () => {
@@ -149,7 +165,7 @@ describe("waterfall sheet paths", () => {
     expect(built.segmentCount).toBe(1);
     // the core layer is narrower and brighter than the front sheet
     const tint = built.geometry.getAttribute("aTint");
-    expect(Math.max(...Array.from({ length: tint.count }, (_, i) => tint.getX(i)))).toBeGreaterThan(1);
+    expect(extent(tint).max).toBeGreaterThan(1);
     expect(SHEET_LAYERS[2].widthScale).toBeLessThan(1);
   });
 
@@ -170,7 +186,7 @@ describe("waterfall sheet paths", () => {
     expect(widths.length).toBeGreaterThan(10);
     const top = widths.filter((w) => w.frac < 0.05);
     const foot = widths.filter((w) => w.frac > 0.8);
-    expect(Math.max(...top.map((w) => w.w))).toBeLessThan(Math.min(...foot.map((w) => w.w)));
+    expect(extent(top.map((w) => w.w)).max).toBeLessThan(extent(foot.map((w) => w.w)).min);
     // and the texture pinch converges the across coordinate at the top
     expect(Math.abs(sideStripPinchedU(1, 0) - 0.5)).toBeLessThan(Math.abs(sideStripPinchedU(1, 1) - 0.5));
     expect(sideStripPinchedU(1, 1)).toBeCloseTo(1, 9);
@@ -265,7 +281,7 @@ describe("piece-stacked body (owner steer: stack vanilla-sized sheets, not one r
   });
 
   it("maps the kit's manifest roles onto the shader slots and tolerates a missing texture", async () => {
-    expect(WATERFALL_TEXTURE_ROLES).toEqual({ sheet: "sheet-main", ring: "plunge-ring", skirt: "mist-cloud-strip", mist: "mist-cloud" });
+    expect(WATERFALL_TEXTURE_ROLES).toEqual({ sheet: "sheet-main", ring: "plunge-ring", skirt: "mist-cloud-strip", mist: "mist-cloud", foam: "foam-tile" });
     const loaded: string[] = [];
     const fake = { loadAsync: async (url: string) => { loaded.push(url); if (url.includes("missing")) throw new Error("404"); return new Texture(); } };
     const set = await loadWaterfallTextures({ sheet: "a.png", ring: "missing.png" }, fake);
@@ -410,13 +426,74 @@ describe("across-width profile", () => {
   });
 });
 
-describe("shipped cascade geometry", () => {
-  const metaPath = fileURLToPath(
-    new URL("../../../../../apps/world-studio/public/province/water/water-meta.json", import.meta.url));
-  const cascades: Cascade[] = JSON.parse(readFileSync(metaPath, "utf8")).cascades ?? [];
+describe("bounded builder on synthetic worst cases", () => {
+  /** A straight ramp: `runM` long, `slope` rise/run, profile sampled every `stepM`. */
+  const ramp = (runM: number, slope: number, stepM: number, extraM = 0) => {
+    const top = runM * slope;
+    const length = Math.ceil((runM + extraM + 3) / stepM) + 1;
+    const profile = Array.from({ length }, (_, i) => top - Math.max(-3 + i * stepM, 0) * slope);
+    return cascade({
+      id: "ramp", lip: { x: 0, y: top, z: 0 }, plunge: { x: runM, y: 0, z: 0 }, dropM: top,
+      profile, profileStepM: stepM, profileStartM: -3, widthM: 6, lipSpeedMS: 2,
+    });
+  };
 
-  it("has cascades to build", () => {
+  it("traces a 500 m ramp with a 4 k-sample profile in bounded steps and builds it as one chute", () => {
+    const fall = ramp(500, Math.tan((25 * Math.PI) / 180), 0.125);
+    expect(fall.profile!.length).toBeGreaterThan(4000);
+    const path = traceWaterfallSheet(fall);
+    expect(path.points.length).toBeLessThanOrEqual(MAX_TRACE_STEPS + 2);
+    expect(path.freeFlight).toBe(false);
+    const last = path.points[path.points.length - 1];
+    expect(last.s).toBeGreaterThan(400);
+    expect(last.s).toBeLessThanOrEqual(MAX_TRACE_RUN_M);
+    for (const p of path.points) expect(Number.isFinite(p.y)).toBe(true);
+    const t0 = performance.now();
+    const built = buildWaterfallSheetGeometry([fall]);
+    expect(performance.now() - t0).toBeLessThan(2000);
+    expect(built.fallCount).toBe(0);
+    expect(built.chutes).toHaveLength(1);
+    expect(built.chutes[0].points.length).toBe(path.points.length);
+    expect(buildChannelStripGeometry(built.chutes).triangleCount).toBeGreaterThan(0);
+  });
+
+  it("caps the path in metres and steps when the profile runs for kilometres and the plunge is never reached", () => {
+    // plunge deliberately below the ramp's foot: the plunge test can never fire
+    const fall = { ...ramp(3000, 0.05, 1), plunge: { x: 3000, y: -500, z: 0 } };
+    const path = traceWaterfallSheet(fall);
+    expect(path.points.length).toBeLessThanOrEqual(MAX_TRACE_STEPS + 2);
+    expect(path.points[path.points.length - 1].s).toBeLessThanOrEqual(MAX_TRACE_RUN_M + 5);
+    // and a 500 m cliff sheet (the free-flight branch) is bounded too
+    const cliff = cascade({ lip: { x: 0, y: 500, z: 0 }, plunge: { x: 30, y: 0, z: 0 }, dropM: 500,
+      profile: cliffProfile(400, 500, -20), lipSpeedMS: 1 });
+    const sheet = traceWaterfallSheet(cliff);
+    expect(sheet.freeFlight).toBe(true);
+    expect(sheet.points.length).toBeLessThanOrEqual(MAX_TRACE_STEPS + 2);
+    const built = buildWaterfallSheetGeometry([cliff, fall]);
+    expect(built.fallCount).toBe(1);
+    const pos = built.geometry.getAttribute("position");
+    expect(Number.isFinite(extent(pos).min) && Number.isFinite(extent(pos).max)).toBe(true);
+  });
+});
+
+describe("shipped cascade geometry (smoke: whatever water-meta.json ships, v1 or v2)", () => {
+  // WATER_META_PATH lets a reviewer run this smoke against another export
+  // (e.g. `git show HEAD:...water-meta.json > /tmp/v1.json`).
+  const metaPath = process.env.WATER_META_PATH ?? fileURLToPath(
+    new URL("../../../../../apps/world-studio/public/province/water/water-meta.json", import.meta.url));
+  const meta = JSON.parse(readFileSync(metaPath, "utf8")) as { schemaVersion?: number; cascades?: Cascade[] };
+  const cascades: Cascade[] = meta.cascades ?? [];
+
+  it("has cascades to build, in a schema the builder reads", () => {
+    // v1 (96 cascades, many long slope "falls") and v2 (fewer, cliff-classified)
+    // share the cascade record shape; the builder must take either.
+    expect([1, 2]).toContain(meta.schemaVersion);
     expect(cascades.length).toBeGreaterThan(0);
+    for (const c of cascades) {
+      expect(typeof c.id).toBe("string");
+      expect(Array.isArray(c.profile)).toBe(true);
+      expect(Number.isFinite(c.dropM)).toBe(true);
+    }
   });
 
   it("draws no degenerate quad and no undefined vertex over every shipped cascade", () => {
@@ -437,9 +514,9 @@ describe("shipped cascade geometry", () => {
       Array.prototype.filter.call(a.array, (v: number) => Number.isFinite(v)).length;
     expect(finite(pos)).toBe(true);
     expect(finite(uv)).toBe(true);
-    const us = Array.from({ length: uv.count }, (_, i) => uv.getX(i));
-    expect(Math.min(...us)).toBeGreaterThanOrEqual(0);
-    expect(Math.max(...us)).toBeLessThanOrEqual(1);
+    const us = extent(uv);
+    expect(us.min).toBeGreaterThanOrEqual(0);
+    expect(us.max).toBeLessThanOrEqual(1);
     for (const name of named) {
       const a = built.geometry.getAttribute(name);
       expect(a.count).toBe(pos.count);
@@ -457,10 +534,9 @@ describe("shipped cascade geometry", () => {
       smallest = Math.min(smallest, 0.5 * Math.hypot(...cross));
     }
     expect(smallest).toBeGreaterThan(MIN_QUAD_LENGTH_M);
-    const fracs = Array.from({ length: built.geometry.getAttribute("aFrac").count },
-      (_, i) => built.geometry.getAttribute("aFrac").getX(i));
-    expect(Math.min(...fracs)).toBeGreaterThanOrEqual(0);
-    expect(Math.max(...fracs)).toBeLessThanOrEqual(1);
+    const fracs = extent(built.geometry.getAttribute("aFrac"));
+    expect(fracs.min).toBeGreaterThanOrEqual(0);
+    expect(fracs.max).toBeLessThanOrEqual(1);
   });
 
   it("never leaves a chute flying: bed speed is capped and long falls land", () => {

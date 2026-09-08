@@ -102,7 +102,14 @@ export const SHEET_EMISSIVE = { free: 1.0, chute: 0.75, side: 0.53 } as const;
 /** View-angle falloff: opacity 1 → 0 between cos 0.26 and cos 0.09 (≈75°→85°
  * from the normal; vault audit §7) — edge-on layers fade out. */
 export const SHEET_FACING_FADE = { start: 0.09, full: 0.26 } as const;
-const MAX_TRACE_STEPS = 4096;
+/**
+ * Hard bounds on one traced path, independent of the cascade record: the
+ * trace also stops at the end of the exported profile, but a record with a
+ * kilometres-long profile (or a stalled arc) must still cost O(steps), never
+ * grow without limit. Longest shipped path (fall-33, 259 m drop) is ~700 points.
+ */
+export const MAX_TRACE_STEPS = 4096;
+export const MAX_TRACE_RUN_M = 1500;
 const MAX_FALL_SPEED_MS = 40;
 /**
  * Water running ON the bed loses energy to friction and aeration; only free
@@ -304,6 +311,7 @@ export function traceWaterfallSheet(fall: Cascade, options: { stepM?: number } =
     // otherwise a landed sheet ran on along the pool floor to the end of the
     // exported profile (54 m of path for a 20 m fall).
     if (y <= plungeY + GROUND_CLEARANCE_M + 1e-3) break;
+    if (s >= MAX_TRACE_RUN_M) break;
   }
 
   const dropM = fall.lip.y - points[points.length - 1].y;
@@ -920,6 +928,9 @@ export interface WaterfallTextureSet {
   skirt?: THREE.Texture | null;
   mist?: THREE.Texture | null;
   ring?: THREE.Texture | null;
+  /** The field water's foam dissolve/breakup tile (sea, beach, river flecks)
+   * — one foam family across sheets, strips and field (study §3.1 (3)). */
+  foam?: THREE.Texture | null;
 }
 export type WaterfallTextureSlot = keyof WaterfallTextureSet;
 
@@ -930,6 +941,7 @@ export const WATERFALL_TEXTURE_ROLES: Readonly<Record<WaterfallTextureSlot, stri
   ring: "plunge-ring",        // fxwhitewater: plunge-pool foam ring, puffs +0.375
   skirt: "mist-cloud-strip",  // fxcloudroundtilestrip: skirt fog strip
   mist: "mist-cloud",         // fxcloudroundtile: mist blast / skirt fog card
+  foam: "foam-tile",          // foamtile01: field foam dissolve (alpha = coverage)
 });
 
 /**
