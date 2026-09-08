@@ -1,3 +1,6 @@
+import * as THREE from "three";
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+
 export interface ArchitectureLodContract {
   absoluteTriangleFloor: readonly [number, number];
   distancePerFootprintDiagonal: readonly [number, number];
@@ -31,4 +34,55 @@ export function validateLodTriangles(
       || triangles[2] < Math.min(triangles[0], contract.absoluteTriangleFloor[1])) {
     throw new Error("architecture LOD fell below its absolute triangle floor");
   }
+}
+
+/** Validate the texture actually bound to a drawn material, not a manifest claim. */
+export function validateMaterialTextureCap(material: THREE.Material, maxSize: number): void {
+  if (!Number.isFinite(maxSize) || maxSize <= 0) throw new Error("invalid settlement texture cap");
+  const texture = (material as THREE.MeshStandardMaterial).map;
+  if (!texture) return;
+  const image = texture.image as { width?: number; height?: number } | undefined;
+  if (!image || !Number.isFinite(image.width) || !Number.isFinite(image.height)) {
+    throw new Error(`settlement material ${material.name || "<unnamed>"} has an unmeasured colour texture`);
+  }
+  if ((image.width ?? 0) > maxSize || (image.height ?? 0) > maxSize) {
+    throw new Error(`settlement material ${material.name || "<unnamed>"} exceeds ${maxSize}px texture cap`);
+  }
+}
+
+/** Bake repeated far-tier instances into one real geometry for one material. */
+export function mergeTransformedGeometry(
+  geometry: THREE.BufferGeometry,
+  transforms: readonly THREE.Matrix4[],
+): THREE.BufferGeometry | null {
+  if (!transforms.length) return null;
+  const copies = transforms.map((matrix) => geometry.clone().applyMatrix4(matrix));
+  const merged = mergeGeometries(copies, false);
+  copies.forEach((copy) => copy.dispose());
+  if (!merged) throw new Error("settlement far-tier geometry could not be merged");
+  return merged;
+}
+
+export function selectCollisionRing<T>(
+  candidates: readonly { value: T; distanceM: number; parts: number }[],
+  radiusM: number,
+  partBudget: number,
+): { chosen: T[]; coveredRadiusM: number; parts: number } {
+  const ordered = candidates
+    .filter((candidate) => candidate.distanceM <= radiusM)
+    .slice()
+    .sort((a, b) => a.distanceM - b.distanceM);
+  const chosen: T[] = [];
+  let parts = 0;
+  let coveredRadiusM = radiusM;
+  for (const candidate of ordered) {
+    const cost = Math.max(1, candidate.parts);
+    if (parts + cost > partBudget) {
+      coveredRadiusM = candidate.distanceM;
+      break;
+    }
+    parts += cost;
+    chosen.push(candidate.value);
+  }
+  return { chosen, coveredRadiusM, parts };
 }

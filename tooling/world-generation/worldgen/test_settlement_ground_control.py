@@ -11,6 +11,7 @@ from PIL import Image
 
 from .settlement_ground_control import (
     BUILT_GROUND_MATERIAL_ID,
+    _publish_with_marker,
     open_water_from_surface,
     paint_ground_control,
     process_files,
@@ -159,3 +160,26 @@ def test_missing_bundle_fails_without_touching_outputs(tmp_path):
         raise AssertionError("missing bundle should fail")
     assert control_path.read_bytes() == old_control
     assert not provenance_path.exists()
+
+
+def test_two_file_publication_invalidates_old_marker_before_content_change(tmp_path, monkeypatch):
+    content = tmp_path / "ground-control.png"
+    marker = tmp_path / "ground-control.settlements.json"
+    content.write_bytes(b"old-content")
+    marker.write_bytes(b"old-marker")
+    real_replace = __import__("os").replace
+
+    def fail_content_replace(source, target):
+        if Path(target) == content:
+            raise OSError("synthetic interrupted publication")
+        return real_replace(source, target)
+
+    monkeypatch.setattr("worldgen.settlement_ground_control.os.replace", fail_content_replace)
+    try:
+        _publish_with_marker(content, b"new-content", marker, b"new-marker")
+    except OSError as exc:
+        assert "interrupted" in str(exc)
+    else:
+        raise AssertionError("synthetic interruption should fail")
+    assert content.read_bytes() == b"old-content"
+    assert not marker.exists()  # no stale marker can certify different bytes

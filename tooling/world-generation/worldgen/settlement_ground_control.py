@@ -249,7 +249,7 @@ def _png_bytes(array: np.ndarray) -> bytes:
     return stream.getvalue()
 
 
-def _atomic_write(path: Path, data: bytes) -> None:
+def _stage_write(path: Path, data: bytes) -> str:
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     try:
@@ -257,10 +257,41 @@ def _atomic_write(path: Path, data: bytes) -> None:
             handle.write(data)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temporary, path)
-    finally:
+        return temporary
+    except Exception:
         if os.path.exists(temporary):
             os.unlink(temporary)
+        raise
+
+
+def _publish_with_marker(content_path: Path, content: bytes,
+                         marker_path: Path, marker: bytes) -> None:
+    """Publish two staged files with the content-addressed marker last.
+
+    The old marker is invalidated before content changes. A process death can
+    therefore leave either the previous consistent pair, no marker, or the new
+    consistent pair—never an old marker falsely certifying new bytes.
+    """
+    staged_content = _stage_write(content_path, content)
+    staged_marker = _stage_write(marker_path, marker)
+    invalidated_marker: str | None = None
+    try:
+        if marker_path.exists():
+            fd, invalidated_marker = tempfile.mkstemp(
+                prefix=f".{marker_path.name}.invalid.", dir=marker_path.parent)
+            os.close(fd)
+            os.unlink(invalidated_marker)
+            os.replace(marker_path, invalidated_marker)
+        os.replace(staged_content, content_path)
+        staged_content = ""
+        os.replace(staged_marker, marker_path)
+        staged_marker = ""
+        if invalidated_marker and os.path.exists(invalidated_marker):
+            os.unlink(invalidated_marker)
+    finally:
+        for temporary in (staged_content, staged_marker):
+            if temporary and os.path.exists(temporary):
+                os.unlink(temporary)
 
 
 def process_files(bundle_path: Path, control_path: Path, water_surface_path: Path,
@@ -315,10 +346,9 @@ def process_files(bundle_path: Path, control_path: Path, water_surface_path: Pat
     }
     provenance_bytes = _canonical(provenance)
     # Nothing on disk changes until every input, paint and manifest operation
-    # above has completed successfully.  Each published file is then replaced
-    # atomically, so an interrupted PNG write can never truncate the live map.
-    _atomic_write(control_path, output_bytes)
-    _atomic_write(provenance_path, provenance_bytes)
+    # above has completed successfully. The hash marker is replaced last and
+    # is absent during the publication window, so consumers can fail closed.
+    _publish_with_marker(control_path, output_bytes, provenance_path, provenance_bytes)
     return provenance
 
 

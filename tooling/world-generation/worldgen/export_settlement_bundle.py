@@ -31,6 +31,7 @@ COLLISION_FRAME = "settlement-pivot-yup-v1"
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SETTLEMENTS = Path(__file__).resolve().parents[1] / "output" / "settlements"
 DEFAULT_STRUCTURES = Path(__file__).resolve().parents[1] / "output" / "route-structures"
+ROUTE_STRUCTURES_SOURCE = REPO_ROOT / "world" / "sources" / "routes" / "route-structures.json"
 BLUEPRINTS = REPO_ROOT / "world" / "sources" / "blueprints"
 KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 OUT = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements.json"
@@ -83,6 +84,98 @@ def _kit_assets(names: set[str], kits_dir: Path) -> tuple[dict, dict[str, dict]]
     return kits, assets
 
 
+def _route_file_name(way_id: str) -> str:
+    if "." not in way_id:
+        raise ValueError(f"route structure way id has no namespace: {way_id}")
+    return way_id.split(".", 1)[1].replace(".", "-") + ".json"
+
+
+def _validated_route_docs(structures_dir: Path, source_path: Path) -> list[dict]:
+    """Require the compiler shelf to cover the authored structure set exactly.
+
+    Glob-derived publication used to mean deleting one output file simply
+    deleted that route's physical structures from the runtime bundle.  The
+    authoring registry is the expected-set authority; output filenames, way
+    ids, embedded source rows and sourceStructureId coverage must all agree.
+    """
+    source = _read(source_path)
+    rows = source.get("structures")
+    if not isinstance(rows, list):
+        raise ValueError("route structure source has no structures list")
+    expected_by_way: dict[str, list[dict]] = {}
+    source_ids: set[str] = set()
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict) or not isinstance(row.get("id"), str) \
+                or not isinstance(row.get("wayId"), str):
+            raise ValueError(f"route structure source row {index} is invalid")
+        if row["id"] in source_ids:
+            raise ValueError(f"duplicate authored route structure id: {row['id']}")
+        source_ids.add(row["id"])
+        expected_by_way.setdefault(row["wayId"], []).append(row)
+
+    expected_files = {_route_file_name(way_id): way_id for way_id in expected_by_way}
+    actual_files = {path.name: path for path in structures_dir.glob("*.json")}
+    missing = sorted(set(expected_files) - set(actual_files))
+    unexpected = sorted(set(actual_files) - set(expected_files))
+    if missing or unexpected:
+        detail = []
+        if missing:
+            detail.append(f"missing route structure outputs: {', '.join(missing)}")
+        if unexpected:
+            detail.append(f"unexpected route structure outputs: {', '.join(unexpected)}")
+        raise ValueError("route structure output file set is incomplete; " + "; ".join(detail))
+
+    docs: list[dict] = []
+    placement_ids: set[str] = set()
+    for filename, way_id in sorted(expected_files.items()):
+        doc = _read(actual_files[filename])
+        if doc.get("wayId") != way_id:
+            raise ValueError(f"{filename}: wayId does not match expected {way_id}")
+        expected_rows = sorted(expected_by_way[way_id], key=lambda row: row["id"])
+        actual_rows = doc.get("structures")
+        if not isinstance(actual_rows, list) or sorted(actual_rows, key=lambda row: row.get("id", "")) != expected_rows:
+            raise ValueError(f"{way_id}: compiled structure set differs from authored source")
+        placements = doc.get("placements")
+        if not isinstance(placements, list):
+            raise ValueError(f"{way_id}: placements must be a list")
+        covered: set[str] = set()
+        for placement in placements:
+            if not isinstance(placement, dict) or not isinstance(placement.get("id"), str):
+                raise ValueError(f"{way_id}: invalid route placement")
+            if placement["id"] in placement_ids:
+                raise ValueError(f"duplicate route placement id: {placement['id']}")
+            placement_ids.add(placement["id"])
+            provenance = placement.get("provenance")
+            structure_id = provenance.get("sourceStructureId") if isinstance(provenance, dict) else None
+            if structure_id not in {row["id"] for row in expected_rows}:
+                raise ValueError(f"{placement['id']}: placement has unknown sourceStructureId")
+            covered.add(structure_id)
+        absent = sorted({row["id"] for row in expected_rows} - covered)
+        if absent:
+            raise ValueError(f"{way_id}: authored structures have no placements: {', '.join(absent)}")
+        for row in expected_rows:
+            pieces = sorted(
+                (placement for placement in placements
+                 if placement["provenance"]["sourceStructureId"] == row["id"]),
+                key=lambda placement: placement.get("fromM", float("inf")),
+            )
+            expected_ids = [f"{row['id']}.p{index}" for index in range(1, len(pieces) + 1)]
+            if [piece["id"] for piece in pieces] != expected_ids:
+                raise ValueError(f"{row['id']}: route placement id set is not contiguous")
+            if any(not isinstance(piece.get("fromM"), (int, float))
+                   or not isinstance(piece.get("toM"), (int, float)) for piece in pieces):
+                raise ValueError(f"{row['id']}: route placements need measured chainage")
+            if abs(float(pieces[0]["fromM"]) - float(row["fromM"])) > 0.02:
+                raise ValueError(f"{row['id']}: route placements do not start at authored chainage")
+            for before, after in zip(pieces, pieces[1:]):
+                if abs(float(before["toM"]) - float(after["fromM"])) > 0.02:
+                    raise ValueError(f"{row['id']}: route placement chainage has a gap")
+            if float(pieces[-1]["toM"]) < float(row["toM"]) - 0.05:
+                raise ValueError(f"{row['id']}: route placements do not cover authored chainage")
+        docs.append(doc)
+    return docs
+
+
 def _metres(poly: list, survey: ProvinceSurvey) -> list[list[float]]:
     return [[round(v, 3) for v in survey.uv_to_m(float(p[0]), float(p[1]))]
             for p in poly]
@@ -91,7 +184,8 @@ def _metres(poly: list, survey: ProvinceSurvey) -> list[list[float]]:
 def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  structures_dir: Path = DEFAULT_STRUCTURES,
                  blueprints_dir: Path = BLUEPRINTS,
-                 kits_dir: Path = KITS) -> dict:
+                 kits_dir: Path = KITS,
+                 route_structures_source: Path = ROUTE_STRUCTURES_SOURCE) -> dict:
     survey = ProvinceSurvey()
     blueprint_by_id = {}
     for path in sorted(blueprints_dir.glob("place.*.json")):
@@ -133,7 +227,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         raise ValueError("compiled settlement set does not match the authored exemplar set; "
                          + "; ".join(details))
 
-    route_docs = [_read(p) for p in sorted(structures_dir.glob("*.json"))]
+    route_docs = _validated_route_docs(structures_dir, route_structures_source)
     kits, assets = _kit_assets(kit_names, kits_dir)
 
     settlements = []
@@ -168,8 +262,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                     "buryM": BURY_BY_FIT[fit], "buryCapM": BURY_CAP_BY_FIT[fit],
                     "slopeBuryPerM": 0.08,
                 },
-                "collision": {"frame": COLLISION_FRAME,
-                              "kind": "none" if is_dressing else asset.get("collision", "none")},
+                "collision": _collision_contract(asset, disabled=is_dressing),
                 "provenance": raw["provenance"],
             }
             ids.append(placement["id"])
@@ -217,8 +310,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "anchor": {"mode": "streamed-origin", "groundFit": "direct",
                            "originOffsetM": asset.get("originOffsetM", [0, 0, 0]),
                            "buryM": 0.06, "buryCapM": 0.15, "slopeBuryPerM": 0.0},
-                "collision": {"frame": COLLISION_FRAME,
-                              "kind": asset.get("collision", "none")},
+                "collision": _collision_contract(asset),
                 "provenance": raw["provenance"],
             })
             route_count += 1
@@ -229,7 +321,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         "collisionFrame": COLLISION_FRAME,
         "lod": {"tiers": 3, "absoluteTriangleFloor": [120, 80],
                 "distancePerFootprintDiagonal": [4.0, 12.0],
-                "farMergeDistanceM": 900, "atlasMaxSize": 4096},
+                "farMergeDistanceM": 900, "atlasMaxSize": 4096,
+                "colliderRadiusM": 180, "colliderPartBudget": 256},
         "kits": kits, "settlements": settlements,
         "placements": all_placements, "groundTreatments": treatments,
         "navmeshCuts": navmesh, "navmeshLinks": navmesh_links, "doors": doors,
@@ -239,22 +332,62 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     }
 
 
+def _collision_contract(asset: dict, *, disabled: bool = False) -> dict:
+    contract = {"frame": COLLISION_FRAME,
+                "kind": "none" if disabled else asset.get("collision", "none")}
+    # Asset-pipeline collision boxes are measured against the source pivot.
+    # Prefer that exact proxy over rebuilding a box from render submeshes.
+    box = asset.get("collisionBox")
+    if not disabled and asset.get("collisionFrame") == "pivot-yup-v3" and isinstance(box, dict):
+        half = box.get("halfExtentsM")
+        centre = box.get("centreOffsetM")
+        if (isinstance(half, list) and len(half) == 3
+                and isinstance(centre, list) and len(centre) == 3):
+            contract["parts"] = [{"halfExtentsM": half, "offsetM": centre}]
+            contract["proxySource"] = "measured-manifest-box"
+    return contract
+
+
+def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path) -> tuple[Path, list[str]]:
+    """Validate and copy every asset to a private sibling before publication."""
+    public_dir.parent.mkdir(parents=True, exist_ok=True)
+    stage = Path(tempfile.mkdtemp(prefix=".kits-stage.", dir=public_dir.parent))
+    names: list[str] = []
+    try:
+        for name in sorted(bundle["kits"]):
+            for suffix in (".glb", ".kit.json"):
+                source = kits_dir / f"{name}{suffix}"
+                if not source.is_file() or source.stat().st_size <= 0:
+                    raise ValueError(f"runtime kit asset is missing or empty: {source}")
+                target = stage / source.name
+                shutil.copy2(source, target)
+                with target.open("rb") as handle:
+                    os.fsync(handle.fileno())
+                names.append(source.name)
+        return stage, names
+    except Exception:
+        shutil.rmtree(stage, ignore_errors=True)
+        raise
+
+
 def copy_assets(bundle: dict, kits_dir: Path = KITS,
                 public_dir: Path = PUBLIC_KITS) -> None:
-    public_dir.mkdir(parents=True, exist_ok=True)
-    for name in sorted(bundle["kits"]):
-        for suffix in (".glb", ".kit.json"):
-            source = kits_dir / f"{name}{suffix}"
-            if not source.exists():
-                raise ValueError(f"runtime kit asset is missing: {source}")
-            shutil.copy2(source, public_dir / source.name)
+    stage, names = _stage_assets(bundle, kits_dir, public_dir)
+    try:
+        public_dir.mkdir(parents=True, exist_ok=True)
+        for name in names:
+            os.replace(stage / name, public_dir / name)
+    finally:
+        shutil.rmtree(stage, ignore_errors=True)
 
 
 def export(out: Path = OUT, copy: bool = False) -> dict:
     bundle = build_bundle()
-    _atomic_json(out, bundle)
     if copy:
         copy_assets(bundle)
+    # settlements.json is the publication marker. It can never name assets
+    # that have not all been validated, staged and moved into place.
+    _atomic_json(out, bundle)
     return bundle
 
 
@@ -265,9 +398,9 @@ def main() -> int:
     args = ap.parse_args()
     try:
         bundle = build_bundle()
-        _atomic_json(args.out, bundle)
         if args.copy_assets:
             copy_assets(bundle)
+        _atomic_json(args.out, bundle)
     except ValueError as exc:
         print(f"export_settlement_bundle: {exc}")
         return 1

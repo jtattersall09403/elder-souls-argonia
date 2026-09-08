@@ -4,7 +4,13 @@ import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js"
 import * as THREE from "three";
 import { anchorPlacement, footprintDiagonalM } from "./anchoring";
 import { buildArchitectureKit, type ArchitecturePart } from "./kit";
-import { architectureLod, validateLodTriangles } from "./lod";
+import {
+  architectureLod,
+  mergeTransformedGeometry,
+  selectCollisionRing,
+  validateLodTriangles,
+  validateMaterialTextureCap,
+} from "./lod";
 import {
   applySettlementSurface,
   updateSettlementEnvironment,
@@ -21,7 +27,7 @@ import {
 interface DrawBucket {
   part: ArchitecturePart;
   transforms: THREE.Matrix4[];
-  far: number;
+  farTransforms: THREE.Matrix4[];
 }
 
 const REBUILD_MOVE_M = 40;
@@ -82,7 +88,19 @@ function solidFrom(
   if (placement.collision.frame !== SETTLEMENT_COLLISION_FRAME) {
     throw new Error(`${placement.id}: untagged/old collision frame refused`);
   }
-  const collisionParts = parts.flatMap((part) => {
+  const measuredParts = placement.collision.parts?.flatMap((part) => {
+    const minY = Math.min(part.offsetM[1] + part.halfExtentsM[1] - 0.05,
+      part.offsetM[1] - part.halfExtentsM[1] + placement.anchor.buryM);
+    const maxY = part.offsetM[1] + part.halfExtentsM[1];
+    if (maxY <= minY) return [];
+    return [{
+      halfExtentsM: [part.halfExtentsM[0], (maxY - minY) / 2, part.halfExtentsM[2]] as
+        [number, number, number],
+      offsetM: [part.offsetM[0], (maxY + minY) / 2, part.offsetM[2]] as
+        [number, number, number],
+    }];
+  });
+  const collisionParts = measuredParts?.length ? measuredParts : parts.flatMap((part) => {
     part.geometry.computeBoundingBox();
     if (!part.geometry.boundingBox) return [];
     const box = part.geometry.boundingBox.clone().applyMatrix4(part.localMatrix);
@@ -106,10 +124,11 @@ export function SettlementLayer({
 }: SettlementLayerProps) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
+  const [fatalError, setFatalError] = useState<Error | null>(null);
   const [gltfs, setGltfs] = useState<Map<string, GLTF>>(() => new Map());
   const pendingKits = useRef(new Set<string>());
   const [revision, setRevision] = useState(0);
-  const builtAt = useRef<{ x: number; z: number } | null>(null);
+  const builtAt = useRef<{ x: number; z: number; coveredRadiusM: number } | null>(null);
   const incomplete = useRef(false);
   const retryAt = useRef(0);
   const uniforms = useMemo<SettlementMaterialUniforms>(() => ({
@@ -120,7 +139,9 @@ export function SettlementLayer({
     let cancelled = false;
     loadSettlementBundle(baseUrl).then((data) => {
       if (!cancelled) setBundle(data);
-    }).catch((error) => console.error("SettlementLayer", error));
+    }).catch((error: unknown) => {
+      if (!cancelled) setFatalError(error instanceof Error ? error : new Error(String(error)));
+    });
     return () => { cancelled = true; };
   }, [baseUrl]);
 
@@ -140,11 +161,15 @@ export function SettlementLayer({
     for (const id of wanted) {
       if (gltfs.has(id) || pendingKits.current.has(id)) continue;
       const kit = bundle.kits[id];
-      if (!kit) continue;
+      if (!kit) {
+        setFatalError(new Error(`settlement bundle references missing kit ${id}`));
+        continue;
+      }
       pendingKits.current.add(id);
       loader.loadAsync(`${baseUrl}${kit.glb}`).then((gltf) => {
         setGltfs((current) => new Map(current).set(id, gltf));
-      }).catch((error) => console.error(`SettlementLayer kit ${id}`, error))
+      }).catch((error: unknown) => setFatalError(new Error(
+        `settlement kit ${id} failed: ${error instanceof Error ? error.message : String(error)}`)))
         .finally(() => pendingKits.current.delete(id));
     }
   }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs]);
@@ -157,7 +182,8 @@ export function SettlementLayer({
     const env = environment?.();
     if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.minuteOfDay);
     const at = builtAt.current; const focus = focusRef.current;
-    if (at && Math.hypot(focus.x - at.x, focus.z - at.z) > REBUILD_MOVE_M) {
+    const rebuildMoveM = at ? Math.min(REBUILD_MOVE_M, Math.max(1, at.coveredRadiusM * 0.5)) : REBUILD_MOVE_M;
+    if (at && Math.hypot(focus.x - at.x, focus.z - at.z) > rebuildMoveM) {
       builtAt.current = null; setRevision((v) => v + 1);
     }
     if (incomplete.current && performance.now() - retryAt.current > 2000) {
@@ -171,9 +197,9 @@ export function SettlementLayer({
     if (!group || !bundle) return;
     group.clear();
     const focus = focusRef.current;
-    builtAt.current = { ...focus };
+    builtAt.current = { ...focus, coveredRadiusM: 0 };
     const buckets = new Map<string, DrawBucket>();
-    const solids: SettlementSolid[] = [];
+    const solidCandidates: { value: SettlementSolid; distanceM: number; parts: number }[] = [];
     let placementCount = 0;
     incomplete.current = false;
     for (const placement of bundle.placements) {
@@ -197,30 +223,48 @@ export function SettlementLayer({
       );
       asset.levels[choice.level].forEach((part, partIndex) => {
         const key = `${placement.kit}|${placement.assetId}|${choice.level}|${partIndex}`;
-        const bucket = buckets.get(key) ?? { part, transforms: [], far: 0 };
-        bucket.transforms.push(transform.clone().multiply(part.localMatrix));
-        if (choice.farMerged) bucket.far += 1;
+        const bucket = buckets.get(key) ?? { part, transforms: [], farTransforms: [] };
+        const partTransform = transform.clone().multiply(part.localMatrix);
+        if (choice.farMerged) bucket.farTransforms.push(partTransform);
+        else bucket.transforms.push(partTransform);
         buckets.set(key, bucket);
       });
       const solid = solidFrom(placement, anchored.y, asset.levels[0]);
-      if (solid && distance < 180) solids.push(solid);
+      if (solid) solidCandidates.push({ value: solid, distanceM: distance, parts: solid.parts.length });
       placementCount += 1;
     }
 
-    let triangles = 0; let far = 0;
+    const collision = selectCollisionRing(solidCandidates, bundle.lod.colliderRadiusM,
+      bundle.lod.colliderPartBudget);
+    builtAt.current.coveredRadiusM = collision.coveredRadiusM;
+    let triangles = 0; let draws = 0; let farInstances = 0; let farMeshes = 0;
     for (const bucket of buckets.values()) {
       const material = bucket.part.material;
+      validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
       const windowMaterial = /window|glow/i.test(material.name);
       applySettlementSurface(material, uniforms, windowMaterial);
       materialPatch?.(material);
-      const mesh = new THREE.InstancedMesh(bucket.part.geometry, material, bucket.transforms.length);
-      bucket.transforms.forEach((matrix, i) => mesh.setMatrixAt(i, matrix));
-      mesh.instanceMatrix.needsUpdate = true;
-      mesh.castShadow = true; mesh.receiveShadow = true;
-      mesh.userData.esSettlementLodAuthority = true;
-      group.add(mesh);
+      if (bucket.transforms.length) {
+        const mesh = new THREE.InstancedMesh(bucket.part.geometry, material, bucket.transforms.length);
+        bucket.transforms.forEach((matrix, i) => mesh.setMatrixAt(i, matrix));
+        mesh.instanceMatrix.needsUpdate = true;
+        mesh.castShadow = true; mesh.receiveShadow = true;
+        mesh.userData.esSettlementLodAuthority = true;
+        group.add(mesh);
+        draws += 1;
+      }
+      const farGeometry = mergeTransformedGeometry(bucket.part.geometry, bucket.farTransforms);
+      if (farGeometry) {
+        const mesh = new THREE.Mesh(farGeometry, material);
+        mesh.castShadow = true; mesh.receiveShadow = true;
+        mesh.userData.esSettlementFarMerge = true;
+        group.add(mesh);
+        draws += 1;
+        farMeshes += 1;
+        farInstances += bucket.farTransforms.length;
+      }
       triangles += bucket.part.triangles * bucket.transforms.length;
-      far += bucket.far;
+      triangles += bucket.part.triangles * bucket.farTransforms.length;
     }
     // Fine wall-foot skirt/contact AO: near-only, never part of far LOD.
     for (const treatment of bundle.groundTreatments) {
@@ -230,21 +274,37 @@ export function SettlementLayer({
       const skirt = treatmentMesh(treatment.footprintM, treatment.baseSkirtWidthM, groundAt);
       if (skirt) group.add(skirt);
     }
-    onSolids?.(solids);
-    onStats?.({ placements: placementCount, draws: buckets.size, triangles,
-      colliderParts: solids.reduce((n, s) => n + s.parts.length, 0), farMergedInstances: far });
+    onSolids?.(collision.chosen);
+    onStats?.({ placements: placementCount, draws, triangles,
+      colliderParts: collision.parts, colliderCoveredRadiusM: collision.coveredRadiusM,
+      farMergedMeshes: farMeshes, farMergedInstances: farInstances });
     return () => {
       for (const child of [...group.children]) {
         group.remove(child);
         if (child instanceof THREE.InstancedMesh) child.dispose();
         else if (child instanceof THREE.Mesh) {
           child.geometry.dispose();
-          (child.material as THREE.Material).dispose();
+          if (!child.userData.esSettlementFarMerge) {
+            (child.material as THREE.Material).dispose();
+          }
         }
       }
     };
   }, [bundle, kits, revision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms]);
 
+  // A conspicuous runtime sentinel makes missing settlement data visible in
+  // both production and development even when the host has no ErrorBoundary.
+  // It contains no substitute world geometry: publication has failed closed.
+  if (fatalError) return (
+    <group name="settlement-layer-failed"
+      position={[focusRef.current.x, 30, focusRef.current.z]}
+      userData={{ error: fatalError.message }}>
+      <mesh>
+        <octahedronGeometry args={[18, 0]} />
+        <meshBasicMaterial color={0xff00ff} wireframe />
+      </mesh>
+    </group>
+  );
   return <group ref={root} name="settlement-layer" />;
 }

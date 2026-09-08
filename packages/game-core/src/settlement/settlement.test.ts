@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { anchorPlacement, footprintDiagonalM } from "./anchoring";
-import { architectureLod, validateLodTriangles } from "./lod";
+import {
+  architectureLod,
+  mergeTransformedGeometry,
+  selectCollisionRing,
+  validateLodTriangles,
+  validateMaterialTextureCap,
+} from "./lod";
 import { SETTLEMENT_COLLISION_FRAME, type SettlementPlacement } from "./types";
 import * as THREE from "three";
 import { applySettlementSurface, reapplySettlementSurface } from "./materials";
@@ -62,5 +68,43 @@ describe("settlement material patch contract", () => {
     expect(shader.vertexShader).toContain("esSettlementLocalHeight");
     expect(shader.fragmentShader).toContain("esWallWet");
     expect(Object.keys(shader.uniforms)).toContain("esSettlementNight");
+  });
+
+  it("validates the dimensions of the texture actually bound for drawing", () => {
+    const material = new THREE.MeshStandardMaterial();
+    const texture = new THREE.Texture({ width: 2048, height: 1024 } as HTMLImageElement);
+    material.map = texture;
+    expect(() => validateMaterialTextureCap(material, 4096)).not.toThrow();
+    expect(() => validateMaterialTextureCap(material, 1024)).toThrow(/exceeds/);
+    material.map = new THREE.Texture();
+    expect(() => validateMaterialTextureCap(material, 4096)).toThrow(/unmeasured/);
+  });
+});
+
+describe("settlement far geometry and collision budgets", () => {
+  it("bakes far instances into one actual geometry", () => {
+    const source = new THREE.BoxGeometry(1, 1, 1);
+    const merged = mergeTransformedGeometry(source, [
+      new THREE.Matrix4().makeTranslation(0, 0, 0),
+      new THREE.Matrix4().makeTranslation(10, 0, 0),
+    ]);
+    expect(merged).not.toBeNull();
+    merged!.computeBoundingBox();
+    expect(merged!.boundingBox!.min.x).toBeCloseTo(-0.5);
+    expect(merged!.boundingBox!.max.x).toBeCloseTo(10.5);
+    expect(merged!.getAttribute("position").count).toBe(source.getAttribute("position").count * 2);
+    merged!.dispose(); source.dispose();
+  });
+
+  it("spends a collider-part budget and reports the genuinely covered radius", () => {
+    const candidates = [
+      { value: "near", distanceM: 3, parts: 2 },
+      { value: "next", distanceM: 8, parts: 3 },
+      { value: "far", distanceM: 12, parts: 1 },
+    ];
+    expect(selectCollisionRing(candidates, 20, 4)).toEqual({
+      chosen: ["near"], coveredRadiusM: 8, parts: 2,
+    });
+    expect(selectCollisionRing(candidates, 20, 20).coveredRadiusM).toBe(20);
   });
 });

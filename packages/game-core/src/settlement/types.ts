@@ -22,7 +22,13 @@ export interface SettlementPlacement {
   scale: number;
   footprintM: [number, number][];
   anchor: SettlementAnchor;
-  collision: { frame: string; kind: string };
+  collision: {
+    frame: string;
+    kind: string;
+    /** Measured source-pivot proxies win over render-geometry bounds. */
+    parts?: SettlementCollisionPart[];
+    proxySource?: "measured-manifest-box";
+  };
 }
 
 export interface GroundTreatment {
@@ -43,6 +49,8 @@ export interface SettlementBundle {
     distancePerFootprintDiagonal: [number, number];
     farMergeDistanceM: number;
     atlasMaxSize: number;
+    colliderRadiusM: number;
+    colliderPartBudget: number;
   };
   kits: Record<string, { id: string; glb: string; manifest: string }>;
   placements: SettlementPlacement[];
@@ -71,7 +79,9 @@ export interface SettlementRenderStats {
   draws: number;
   triangles: number;
   colliderParts: number;
+  farMergedMeshes: number;
   farMergedInstances: number;
+  colliderCoveredRadiusM: number;
 }
 
 export interface SettlementLayerProps {
