@@ -117,6 +117,32 @@ interface ControlRaster {
   metresPerTexel: number;
 }
 
+type Footprint = [number, number][];
+
+function pointSegmentDistance(x: number, z: number, a: [number, number], b: [number, number]): number {
+  const dx = b[0] - a[0]; const dz = b[1] - a[1];
+  const t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / (dx * dx + dz * dz || 1)));
+  return Math.hypot(x - (a[0] + dx * t), z - (a[1] + dz * t));
+}
+
+/** Reject by origin PLUS species radius: a fern rooted outside a floor may
+ * still put two metres of frond through it. */
+export function excludedByFootprints(
+  x: number, z: number, radiusM: number, footprints: readonly Footprint[],
+): boolean {
+  for (const poly of footprints) {
+    let inside = false;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const a = poly[i]; const b = poly[j];
+      if ((a[1] > z) !== (b[1] > z)
+          && x < ((b[0] - a[0]) * (z - a[1])) / (b[1] - a[1]) + a[0]) inside = !inside;
+      if (pointSegmentDistance(x, z, a, b) <= radiusM) return true;
+    }
+    if (inside) return true;
+  }
+  return false;
+}
+
 let controlPromise: Promise<ControlRaster> | null = null;
 let controlBase: string | null = null;
 
@@ -195,6 +221,8 @@ export function Groundcover({
   const [kit, setKit] = useState<FloraKit | null>(null);
   const [control, setControl] = useState<ControlRaster | null>(null);
   const [chunks, setChunks] = useState<ChunksManifest | null>(null);
+  const [exclusions, setExclusions] = useState<Footprint[]>([]);
+  const radii = useRef(new Map<string, number>());
   const water = useRef<WaterData | null>(null);
   const store = sharedChunkStore(baseUrl);
   const meshes = useRef<THREE.InstancedMesh[]>([]);
@@ -208,7 +236,18 @@ export function Groundcover({
     let cancelled = false;
     fetch(`${baseUrl}kits/groundcover-province-v1.kit.json`)
       .then((r) => r.json())
-      .then((m) => { if (!cancelled) setManifest(m as KitManifest); })
+      .then((m: KitManifest) => {
+        if (!cancelled) {
+          setManifest(m);
+          radii.current = new Map(m.assets.map((a) => [a.id, Math.max(a.sizeM[0], a.sizeM[1]) / 2]));
+        }
+      })
+      .catch(() => undefined);
+    fetch(`${baseUrl}province/settlements.json`)
+      .then((r) => r.ok ? r.json() : Promise.reject(new Error("no settlements")))
+      .then((b: { groundTreatments?: { footprintM: Footprint }[] }) => {
+        if (!cancelled) setExclusions((b.groundTreatments ?? []).map((t) => t.footprintM));
+      })
       .catch(() => undefined);
     sharedControlRaster(baseUrl)
       .then((c) => { if (!cancelled) setControl(c); })
@@ -327,6 +366,7 @@ export function Groundcover({
 
             const distance = Math.hypot(focus.x - x, focus.z - z);
             if (distance > ringRadiusM) continue;
+            if (excludedByFootprints(x, z, radii.current.get(plan.id) ?? 0, exclusions)) continue;
 
             const h = groundHeightM(store, chunks, x, z);
             if (h === null) continue;
@@ -419,7 +459,7 @@ export function Groundcover({
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
-  }, [kit, control, chunks, revision, verticalScale, onStats, focusRef, store, ringRadiusM, maxInstances]);
+  }, [kit, control, chunks, exclusions, revision, verticalScale, onStats, focusRef, store, ringRadiusM, maxInstances]);
 
   return <group ref={root} name="groundcover" />;
 }

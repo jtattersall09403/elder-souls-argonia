@@ -10,6 +10,10 @@ import { Vegetation, type VegetationStats } from "./vegetation/Vegetation";
 import { Groundcover } from "./vegetation/Groundcover";
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
+import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import { groundHeightM } from "./vegetation/terrainHeight";
+import { lastWeatherSample } from "./weather/weatherState";
+import { worldClock } from "./sky/timeState";
 
 /**
  * Province flyover. Terrain comes from the same streamed chunks as the
@@ -239,6 +243,15 @@ export function Fly3D(props: Fly3DProps) {
       return heights[py * size + px] * exaggeration;
     };
   }, [props.heights, props.size, props.metresPerPixel, props.exaggeration]);
+  const settlementGroundAt = useMemo(() => (x: number, z: number) => {
+    if (!chunkManifest) return null;
+    const height = groundHeightM(store, chunkManifest, x, z);
+    return height === null ? null : height * props.exaggeration;
+  }, [store, chunkManifest, props.exaggeration]);
+  const settlementEnvironment = useMemo(() => () => {
+    const sample = lastWeatherSample();
+    return sample ? { rainIntensity: sample.rainIntensity, minuteOfDay: worldClock.now().minuteOfDay } : null;
+  }, []);
   return (
     <Canvas
       camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
@@ -296,6 +309,8 @@ export function Fly3D(props: Fly3DProps) {
                 </Suspense>
               </>
             )}
+            <SettlementLayer baseUrl={import.meta.env.BASE_URL} focusRef={focusRef}
+              groundAt={settlementGroundAt} environment={settlementEnvironment} />
           </>
         ) : (
           <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}

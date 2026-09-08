@@ -102,6 +102,18 @@ def _seed_int(*parts: str) -> int:
     return int.from_bytes(hashlib.sha256("|".join(parts).encode()).digest()[:8], "big")
 
 
+def blueprint_sha256(bp: dict) -> str:
+    """Content identity of the authored blueprint object.
+
+    Canonical JSON ignores whitespace/key ordering but not any authored value;
+    this makes the compile/export contract stable across checkout and formatter
+    runs while rejecting a genuinely stale successful compile.
+    """
+    canonical = json.dumps(bp, sort_keys=True, separators=(",", ":"),
+                           ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
 def dressing_count(seed: str, parcel: dict) -> int:
     """97 decision 4: 3–6 objects at a dwelling, 6–12 at a works parcel."""
     use = str(parcel.get("use") or "").lower()
@@ -588,6 +600,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     return {
         "schemaVersion": SCHEMA_VERSION,
         "id": bp_id,
+        "sourceBlueprintSha256": blueprint_sha256(bp),
         "seed": seed,
         "generator": {"id": GENERATOR_ID, "version": GENERATOR_VERSION},
         "placements": placements,

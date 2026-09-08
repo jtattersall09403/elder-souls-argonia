@@ -17,6 +17,9 @@ export interface QualitySettings {
   readonly vegDrawScale: number;
   /** Vegetation chunk ring around the focus (chunks are ~468 m). */
   readonly vegChunkRing: number;
+  /** Architecture LOD/draw-distance multiplier. Colliders and gameplay data
+   * are unchanged; only the visual tier boundary moves. */
+  readonly architectureDrawScale: number;
   /** T3 groundcover ring radius in metres. */
   readonly groundcoverRadiusM: number;
   /** T3 groundcover hard instance budget. */
@@ -30,6 +33,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     name: "low",
     vegDrawScale: 0.55,
     vegChunkRing: 1,
+    architectureDrawScale: 0.65,
     groundcoverRadiusM: 50,
     groundcoverMaxInstances: 30_000,
     dprMax: 1,
@@ -38,6 +42,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     name: "medium",
     vegDrawScale: 0.8,
     vegChunkRing: 2,
+    architectureDrawScale: 1,
     groundcoverRadiusM: 65,
     groundcoverMaxInstances: 45_000,
     dprMax: 1.25,
@@ -46,6 +51,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     name: "high",
     vegDrawScale: 1,
     vegChunkRing: 2,
+    architectureDrawScale: 1.25,
     groundcoverRadiusM: 75,
     groundcoverMaxInstances: 60_000,
     dprMax: 1.5,

@@ -31,6 +31,7 @@ import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
+import { reapplySettlementSurface } from "@elder-souls/game-core/settlement/materials";
 
 /**
  * The natural light and sky system (world module 55, Phase 8a): Preetham sky
@@ -681,6 +682,10 @@ export function WorldSky({
           // round 5. reapplyWindSway is a no-op on materials wind never
           // touched.
           reapplyWindSway(m);
+          // Architecture wetness/window emission uses the same defensive
+          // contract: CSM owns the first patch, then the settlement surface
+          // hook is restored and chains it (Round B checklist item 12).
+          reapplySettlementSurface(m);
           m.needsUpdate = true;
           anyNew = true;
         }

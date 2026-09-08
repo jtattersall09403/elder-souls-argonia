@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
+    "./settlement/SettlementLayer": "./src/settlement/SettlementLayer.tsx",
     "./water/render/WaterSurface": "./src/water/render/WaterSurface.tsx",
     "./water/render/WaterPipeline": "./src/water/render/WaterPipeline.tsx",
     "./*": "./src/*.ts"

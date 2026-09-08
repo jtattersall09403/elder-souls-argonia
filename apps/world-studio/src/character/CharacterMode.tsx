@@ -35,10 +35,12 @@ import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter";
 import { worldClock } from "../sky/timeState";
 import { CityMarkers } from "../CityMarkers";
-import { BlueprintGround } from "./BlueprintGround";
-import { loadBlueprints, type Blueprint } from "../blueprints/blueprintsData";
 import { Vegetation } from "../vegetation/Vegetation";
 import { Groundcover } from "../vegetation/Groundcover";
+import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
+import { SettlementColliders } from "./SettlementColliders";
+import { lastWeatherSample } from "../weather/weatherState";
 import { headingOf } from "../compass";
 import { Minimap } from "./Minimap";
 import type { MinimapOverlay } from "./minimapOverlay";
@@ -121,20 +123,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     parseQuality(new URLSearchParams(window.location.search).get("q"), "medium"));
   // Settlement beacons in walk mode (owner round 6): on by default.
   const [showMarkers, setShowMarkers] = useState(true);
-  // TEMPORARY debug layer (owner 2026-09-05): the settlement blueprint painted
-  // on the ground, until Round B places real buildings. `?bpground=1` seeds it.
-  const [showBpGround, setShowBpGround] = useState(
-    () => new URLSearchParams(window.location.search).get("bpground") === "1");
-  const [blueprints, setBlueprints] = useState<Blueprint[]>([]);
-  useEffect(() => {
-    if (!showBpGround || blueprints.length) return;
-    let alive = true;
-    loadBlueprints(base)
-      .then((b) => { if (alive) setBlueprints(b.blueprints); })
-      .catch(() => {});
-    return () => { alive = false; };
-  }, [showBpGround, blueprints.length, base]);
-  const bpGroundAt = useMemo(
+  const settlementGroundAt = useMemo(
     () => (x: number, z: number) => world.groundHeight(x, z),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [world, verticalScale],
@@ -148,6 +137,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Phase 8b: the authoritative water query rides the shared assets; the
   // environment query and the renderer sample the same data (module 60 §38).
   const waterWorldRef = useRef<WaterWorld | null>(null);
+  const settlementSolidsRef = useRef<SettlementSolid[]>([]);
+  const settlementEnvironment = useCallback(() => {
+    const sample = lastWeatherSample();
+    return sample ? { rainIntensity: sample.rainIntensity, minuteOfDay: worldClock.now().minuteOfDay } : null;
+  }, []);
+  const handleSettlementSolids = useCallback((solids: SettlementSolid[]) => {
+    settlementSolidsRef.current = solids;
+  }, []);
   const waterSurfaceFocus = useCallback((): Vec3 | null => {
     const position = player.current?.body?.translation();
     return position ? { x: position.x, y: position.y / verticalScaleRef.current, z: position.z } : null;
@@ -349,6 +346,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               verticalScale={verticalScale}
               quality={quality}
             />
+            <SettlementLayer
+              baseUrl={base}
+              focusRef={focusRef}
+              groundAt={settlementGroundAt}
+              quality={quality}
+              environment={settlementEnvironment}
+              onSolids={handleSettlementSolids}
+            />
           </Suspense>
           {/* Phase 8b water: the compiled province surface + shared pipeline;
               the wading player feeds a churn ring for contact foam. */}
@@ -359,10 +364,6 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             surfaceFocus={waterSurfaceFocus}
           />
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
-          {/* TEMPORARY until Round B builds the real thing. */}
-          {showBpGround && blueprints.length > 0 && (
-            <BlueprintGround blueprints={blueprints} focusRef={focusRef} groundAt={bpGroundAt} />
-          )}
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
@@ -392,6 +393,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               baseUrl={import.meta.env.BASE_URL}
               onCount={setFloraColliderCount}
             />
+            <SettlementColliders solidsRef={settlementSolidsRef} />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
               <Suspense fallback={null}>
                 <SkyrimFighter
@@ -459,11 +461,6 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <label style={{ display: "flex", alignItems: "center", gap: 4 }}>
           <input type="checkbox" checked={showMarkers} onChange={(e) => setShowMarkers(e.target.checked)} />
           markers
-        </label>
-        <label style={{ display: "flex", alignItems: "center", gap: 4 }}
-          title="TEMPORARY: paint the settlement blueprint (districts, parcels, ways, doors) on the ground around you">
-          <input type="checkbox" checked={showBpGround} onChange={(e) => setShowBpGround(e.target.checked)} />
-          bp ground
         </label>
         <label title="Render quality on foot: draw distances, plant density, pixel density">
           quality{" "}

@@ -77,6 +77,10 @@ def test_deterministic(survey, shelf):
     a = cs.compile_blueprint(_corrected(_blueprint()), survey, shelf)
     b = cs.compile_blueprint(_corrected(_blueprint()), survey, shelf)
     assert json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
+    assert a["sourceBlueprintSha256"] == cs.blueprint_sha256(_corrected(_blueprint()))
+    changed = _corrected(_blueprint())
+    changed["seed"] = f"{changed['seed']}.changed"
+    assert cs.blueprint_sha256(changed) != a["sourceBlueprintSha256"]
 
 
 def test_budget_enforced(survey, shelf):
