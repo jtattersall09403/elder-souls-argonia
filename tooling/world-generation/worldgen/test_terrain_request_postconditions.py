@@ -42,7 +42,7 @@ def _documents(delivery: dict):
         "kind": "terrain-request-fulfillments",
         "sourceDigest": plan["sourceDigest"],
         "planDigest": plan["planDigest"],
-        "finalHeightSha256": height_hash,
+        "postRefineHeightSha256": height_hash,
         "fulfillments": [{
             "requestId": row["id"], "operationIds": row["operationIds"],
             "evidenceRefs": [f"terrain-operation-evidence.{row['operationIds'][0]}.sha256."
@@ -126,7 +126,6 @@ def test_spatially_local_downstream_erasure_invalidates_semantic_shape_promises(
     final = applied.copy()
     final[:, :21] = base[:, :21]  # erase one authored half, leave the other pristine
     final_hash = hashlib.sha256(final.tobytes()).hexdigest()
-    fulfillment["finalHeightSha256"] = final_hash
     water = {
         "w_full": final + 2.0, "wet_full": np.ones(final.shape, dtype=bool),
         "body_full": np.ones(final.shape, dtype=np.int16),
@@ -152,17 +151,18 @@ def test_missing_water_to_height_provenance_is_a_hard_unsupported_failure():
     assert report["status"] == "fail"
 
 
-def test_stale_fulfillment_height_hash_fails():
+def test_final_report_binds_post_grade_height_not_the_refine_receipt():
     plan, fulfillment, height, water, height_hash = _documents({"feature": "test-pool"})
     fulfillment = copy.deepcopy(fulfillment)
-    fulfillment["finalHeightSha256"] = "0" * 64
+    fulfillment["postRefineHeightSha256"] = "0" * 64
     report = post.build_report(plan, fulfillment, height, water,
                                artifact_hashes={"fixture": "a" * 64},
                                water_height_sha256=height_hash)
     finding = next(row for row in report["globalFindings"]
                    if row["field"] == "finalHeightSha256")
-    assert finding["status"] == "fail"
-    assert finding["measured"]["actual"] == height_hash
+    assert finding["status"] == "pass"
+    assert finding["measured"] == height_hash
+    assert report["finalHeightSha256"] == height_hash
 
 
 def test_report_digest_covers_measurements_and_input_hashes():

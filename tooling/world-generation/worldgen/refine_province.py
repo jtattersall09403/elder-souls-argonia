@@ -439,7 +439,12 @@ def main() -> None:
     print("channel carve:", json.dumps(channel_stats))
     np.save(vault_dir / "refined-height-f32.npy", h)
     terrain_fulfillment["appliedHeightSha256"] = terrain_applied_sha
-    terrain_fulfillment["finalHeightSha256"] = hashlib.sha256(h.tobytes()).hexdigest()
+    # This is an operation receipt, not a claim about the eventual terrain.
+    # Route grading still runs twice after refine. The postcondition stage
+    # content-addresses that genuinely final raster and proves every request
+    # survived it; naming this intermediate hash "final" made a correct chain
+    # fail as soon as grading changed any cell.
+    terrain_fulfillment["postRefineHeightSha256"] = hashlib.sha256(h.tobytes()).hexdigest()
     terrain_artifacts = {
         "terrain-request-plan.json": terrain_plan,
         "terrain-request-fulfillments.json": terrain_fulfillment,
