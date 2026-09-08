@@ -1,23 +1,24 @@
 import { describe, expect, it } from "vitest";
 import {
-  HYDRO_GRID_INTERVALS, HYDRO_GRID_SAMPLES, METRES_PER_HYDRO_SAMPLE,
-  PROVINCE_EXTENT_M, SOURCE_GRID_INTERVALS, SOURCE_GRID_SAMPLES,
-  hydroSampleToMetres, hydroSampleToUv, uvToRasterSample,
+  HYDRO_GRID_SAMPLES, METRES_PER_HYDRO_SAMPLE, PROVINCE_EXTENT_M,
+  PROVINCE_EXTENT_RAW_SPACINGS, RAW_METRES_PER_SAMPLE, SOURCE_GRID_SAMPLES,
+  hydroPixelCenterToMetres, hydroPixelCenterToUv, metresToHydroPixel,
 } from "./provinceScale";
 
-describe("province vertex-lattice registration", () => {
-  it("gives source and hydrology grids the same exact endpoints", () => {
+describe("province cell-centre registration", () => {
+  it("makes the authored extent and macro overshoot explicit", () => {
     expect(SOURCE_GRID_SAMPLES).toBe(4033);
     expect(HYDRO_GRID_SAMPLES).toBe(1345);
-    expect(PROVINCE_EXTENT_M).toBeCloseTo(SOURCE_GRID_INTERVALS * 1.82784, 10);
-    expect(PROVINCE_EXTENT_M).toBeCloseTo(HYDRO_GRID_INTERVALS * METRES_PER_HYDRO_SAMPLE, 10);
-    expect(hydroSampleToMetres(HYDRO_GRID_INTERVALS)).toBeCloseTo(PROVINCE_EXTENT_M, 10);
+    expect(PROVINCE_EXTENT_M).toBeCloseTo(PROVINCE_EXTENT_RAW_SPACINGS * RAW_METRES_PER_SAMPLE, 10);
+    expect(HYDRO_GRID_SAMPLES * METRES_PER_HYDRO_SAMPLE - PROVINCE_EXTENT_M)
+      .toBeCloseTo(RAW_METRES_PER_SAMPLE, 10);
   });
 
-  it("round-trips endpoints without a phantom sample", () => {
-    expect(hydroSampleToUv(0)).toBe(0);
-    expect(hydroSampleToUv(HYDRO_GRID_INTERVALS)).toBe(1);
-    expect(uvToRasterSample(1, SOURCE_GRID_SAMPLES)).toBe(SOURCE_GRID_INTERVALS);
-    expect(uvToRasterSample(hydroSampleToUv(672), SOURCE_GRID_SAMPLES)).toBe(2016);
+  it("round-trips pixel centres and locks the Nine-Trunks authored join", () => {
+    for (const pixel of [0, 672, 910, 1344]) {
+      expect(metresToHydroPixel(hydroPixelCenterToMetres(pixel))).toBeCloseTo(pixel, 12);
+    }
+    expect(hydroPixelCenterToMetres(910)).toBeCloseTo(4992.74496, 10);
+    expect(hydroPixelCenterToUv(910)).toBeCloseTo(0.6771194843827467, 12);
   });
 });

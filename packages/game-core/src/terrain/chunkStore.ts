@@ -23,8 +23,8 @@ export interface ChunkMeta {
 export interface ChunksManifest {
   chunkSamples: number;
   chunkMetres: number;
-  /** Vertex-lattice span. The last streaming chunk is partial, so grid ×
-   * chunkMetres is intentionally larger and must never be used as extent. */
+  /** Authored province UV span. The last streaming chunk is partial, so grid
+   * × chunkMetres is intentionally larger and must never be used as extent. */
   sourceGridSamples: number;
   extentM: number;
   verticalScaleAtGeometry: number;

@@ -91,8 +91,8 @@ def main() -> None:
     manifest = {
         "chunkSamples": CHUNK,
         "chunkMetres": round(CHUNK * RAW_M, 1),
-        # The final chunk is partial.  grid * chunkMetres is therefore a
-        # streaming allocation bound, not the physical province span.
+        # The final chunk is partial. grid * chunkMetres is therefore a
+        # streaming allocation bound, not the authored province UV span.
         "sourceGridSamples": SOURCE_GRID_SAMPLES,
         "extentM": PROVINCE_EXTENT_M,
         "verticalScaleAtGeometry": VERTICAL_SCALE_AT_GEOMETRY,

@@ -14,7 +14,7 @@ import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLay
 import { groundHeightM } from "./vegetation/terrainHeight";
 import { lastWeatherSample } from "./weather/weatherState";
 import { worldClock } from "./sky/timeState";
-import { hydroSampleToUv } from "./provinceScale";
+import { hydroPixelCenterToMetres } from "./provinceScale";
 
 /**
  * Province flyover. Terrain comes from the same streamed chunks as the
@@ -55,16 +55,15 @@ function LanesOverlay({ heights, size, metresPerPixel, exaggeration }: {
   }, []);
   const object = useMemo(() => {
     if (!lanes || !lanes.length) return null;
-    const extentM = (size - 1) * metresPerPixel;
     const pos: number[] = [];
     const col: number[] = [];
     const water = [0.35, 0.8, 1.0];
     const amber = [1.0, 0.7, 0.3];
     const at = (mx: number, my: number) => {
-      const u = hydroSampleToUv(mx), v = hydroSampleToUv(my);
-      const px = Math.min(Math.round(u * (size - 1)), size - 1);
-      const py = Math.min(Math.round(v * (size - 1)), size - 1);
-      return [u * extentM, Math.max(heights[py * size + px], 0) * exaggeration + 10, v * extentM];
+      const x = hydroPixelCenterToMetres(mx), z = hydroPixelCenterToMetres(my);
+      const px = Math.min(Math.round(x / metresPerPixel), size - 1);
+      const py = Math.min(Math.round(z / metresPerPixel), size - 1);
+      return [x, Math.max(heights[py * size + px], 0) * exaggeration + 10, z];
     };
     for (const lane of lanes) {
       for (let i = 0; i + 1 < lane.px.length; i++) {
@@ -234,7 +233,7 @@ export function Fly3D(props: Fly3DProps) {
   useEffect(() => {
     store.manifest().then(setChunkManifest).catch(() => setChunkManifest(null));
   }, [store]);
-  const extentM = chunkManifest?.extentM ?? (props.size - 1) * props.metresPerPixel;
+  const extentM = chunkManifest?.extentM ?? props.size * props.metresPerPixel;
   const focusRef = useRef({ x: start[0], z: start[2] });
   const markerGroundAt = useMemo(() => {
     const { heights, size, metresPerPixel, exaggeration } = props;

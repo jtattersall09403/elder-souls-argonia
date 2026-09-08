@@ -172,7 +172,7 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
       return {
         ids,
         size: canvas.width,
-        metresPerTexel: PROVINCE_EXTENT_M / (canvas.width - 1),
+        metresPerTexel: PROVINCE_EXTENT_M / canvas.width,
       };
     })();
   }
@@ -180,8 +180,8 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
 }
 
 function coverAt(control: ControlRaster, x: number, z: number): number {
-  const tx = Math.max(0, Math.min(control.size - 1, Math.round(x / control.metresPerTexel)));
-  const tz = Math.max(0, Math.min(control.size - 1, Math.round(z / control.metresPerTexel)));
+  const tx = Math.max(0, Math.min(control.size - 1, Math.floor(x / control.metresPerTexel)));
+  const tz = Math.max(0, Math.min(control.size - 1, Math.floor(z / control.metresPerTexel)));
   return control.ids[tz * control.size + tx];
 }
 

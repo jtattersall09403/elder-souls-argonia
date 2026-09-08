@@ -44,7 +44,7 @@ import {
   loadProvinceMeta, paintProvinceMap,
 } from "../map/provinceMap";
 import { loadMinimapOverlay, type MinimapOverlay } from "../character/minimapOverlay";
-import { HYDRO_GRID_PX } from "../places/placesData";
+import { hydroPixelCenterToMetres } from "../provinceScale";
 
 const PANEL: React.CSSProperties = {
   background: "rgba(10,14,20,0.92)", color: "#e6ecf5", border: "1px solid #2b3644",
@@ -258,14 +258,13 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
   const context = useMemo(() => {
     if (!bp || !bundle || !overlay) return null;
     const ext = bundle.provinceExtentM;
-    const perPx = ext / (HYDRO_GRID_PX - 1);
     const b = bp.contextM;
     const inside = (p: Pt) => p[0] >= b.x0 && p[0] <= b.x1 && p[1] >= b.z0 && p[1] <= b.z1;
     const dots = overlay.dots
       .map((d) => ({ ...d, at: [d.u * ext, d.v * ext] as Pt }))
       .filter((d) => inside(d.at));
     const lines = overlay.lines
-      .flatMap((l) => clipPolylineToBox(l.px.map(([c, r]) => [c * perPx, r * perPx] as Pt), b)
+      .flatMap((l) => clipPolylineToBox(l.px.map(([c, r]) => [hydroPixelCenterToMetres(c), hydroPixelCenterToMetres(r)] as Pt), b)
         .map((pts) => ({ mode: l.mode, pts })));
     return { dots, lines };
   }, [bp, bundle, overlay]);

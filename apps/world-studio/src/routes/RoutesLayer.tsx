@@ -21,7 +21,7 @@ import {
   type MinorTrack, type RouteGeometry, type RouteSelection, type RouteStructure,
   type RoutesIndexBundle,
 } from "./routesData";
-import { HYDRO_GRID_INTERVALS } from "../provinceScale";
+import { hydroPixelCenterToUv } from "../provinceScale";
 
 const VB = 1000;
 
@@ -105,7 +105,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1, pointerEvents: "none" }}>
         {lines.map((l) => {
           const st = ROUTE_STYLE[l.mode];
-          const pts = l.px.map(([c, r]) => `${(c / HYDRO_GRID_INTERVALS) * VB},${(r / HYDRO_GRID_INTERVALS) * VB}`).join(" ");
+          const pts = l.px.map(([c, r]) => `${hydroPixelCenterToUv(c) * VB},${hydroPixelCenterToUv(r) * VB}`).join(" ");
           const on = l.key === selectedKey;
           return (
             <g key={l.key} style={{ cursor: "pointer" }}
@@ -125,7 +125,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
             hover. The pieces themselves are placed in 3D by Round B. */}
         {structures.map((s) => {
           const pts = structurePx(s)
-            .map(([c, r]) => `${(c / HYDRO_GRID_INTERVALS) * VB},${(r / HYDRO_GRID_INTERVALS) * VB}`).join(" ");
+            .map(([c, r]) => `${hydroPixelCenterToUv(c) * VB},${hydroPixelCenterToUv(r) * VB}`).join(" ");
           return (
             <polyline key={s.id} points={pts} fill="none" stroke={STRUCTURE_STYLE.stroke}
               strokeWidth={STRUCTURE_STYLE.width} strokeDasharray={STRUCTURE_STYLE.dash}

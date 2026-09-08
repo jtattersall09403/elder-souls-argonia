@@ -18,19 +18,22 @@ HSCALE = 1.0                    # horizontal world scale (0015; was 3.0, 0006)
 RAW_M = RAW_METRES_PER_SAMPLE * HSCALE            # full-res sample size, world m
 VERTICAL_SCALE_AT_GEOMETRY = 1.0                  # 0015 (was 5.0, 0006 addendum)
 
-# Argonia is a 126-cell square.  Each LAND cell contributes 32 intervals and
-# shares its 33rd boundary sample with the next cell, so the stitched source is
-# a 4033-sample *vertex lattice* spanning 4032 intervals.  Extent must
-# therefore use ``(sample_count - 1) * spacing``.  Treating samples as texel
-# areas (``sample_count * spacing``) adds a phantom cell at the east/south
-# edges; the former blueprint constants accidentally added two raw samples.
+# Province UV is an authored coordinate frame, not the last terrain vertex.
+# Its reviewed extent is 4034 raw spacings. This is independently locked by
+# authored hydrology joins: macro pixel i is a cell centre at
+# ``(i + 0.5) * HYDRO_PX_M``; Nine-Trunks pixel 910 is 4992.74496 m and
+# 0.677119484 of this exact extent. The 4033 terrain samples do not define a
+# competing UV frame.
 SOURCE_GRID_SAMPLES = 4033
-PROVINCE_EXTENT_M = (SOURCE_GRID_SAMPLES - 1) * RAW_M
+PROVINCE_EXTENT_RAW_SPACINGS = 4034
+PROVINCE_EXTENT_M = PROVINCE_EXTENT_RAW_SPACINGS * RAW_M
 
-# Hydrology, society, routes and climate use source samples 0, 3, ... 4032:
-# 1345 lattice samples, 1344 intervals, exactly the same physical extent.
+# Hydrology, society, routes and climate are 1345 cell-centred texels. Their
+# outer raster edge overshoots the authored frame by one raw spacing (one
+# third of a macro pixel); converters use centre coordinates, never size as a
+# substitute for PROVINCE_EXTENT_M.
 HYDRO_STEP = 3
-HYDRO_GRID_SAMPLES = (SOURCE_GRID_SAMPLES - 1) // HYDRO_STEP + 1
+HYDRO_GRID_SAMPLES = 1345
 HYDRO_PX_M = RAW_M * HYDRO_STEP
 
 
@@ -44,14 +47,14 @@ def metres_to_uv(value: float) -> float:
     return float(value) / PROVINCE_EXTENT_M
 
 
-def hydro_sample_to_metres(index: float) -> float:
-    """Map a hydrology lattice sample index (integer or fractional) to metres."""
-    return float(index) * HYDRO_PX_M
+def hydro_pixel_center_to_metres(index: float) -> float:
+    """Map a hydrology pixel index (integer or fractional) to its centre."""
+    return (float(index) + 0.5) * HYDRO_PX_M
 
 
-def metres_to_hydro_sample(value: float) -> float:
-    """Inverse of :func:`hydro_sample_to_metres`."""
-    return float(value) / HYDRO_PX_M
+def metres_to_hydro_pixel(value: float) -> float:
+    """Inverse of :func:`hydro_pixel_center_to_metres`."""
+    return float(value) / HYDRO_PX_M - 0.5
 
 TUNE = HSCALE / 3.0             # metre/km constants tuned at x3
 TUNE_A = TUNE * TUNE            # km^2 (area) constants tuned at x3

@@ -34,24 +34,23 @@ def test_world_x_maps_to_columns_and_southward_z_maps_to_rows():
     control = _control()
     result, _stats = paint_ground_control(
         control, np.zeros((8, 8), dtype=bool), [_square(5, 1, 7, 3)],
-        extent_m=7, yard_apron_m=0, edge_blend_m=0.1)
+        extent_m=8, yard_apron_m=0, edge_blend_m=0.1)
     changed = result[..., 0] == BUILT_GROUND_MATERIAL_ID
     assert np.array_equal(np.argwhere(changed), np.array([
-        [1, 5], [1, 6], [1, 7], [2, 5], [2, 6], [2, 7],
-        [3, 5], [3, 6], [3, 7]]))
+        [1, 5], [1, 6], [2, 5], [2, 6]]))
 
 
 def test_polygon_and_apron_clip_cleanly_at_province_boundary():
     result, stats = paint_ground_control(
         _control(5, 5), np.zeros((5, 5), dtype=bool), [_square(-2, -2, 1, 1)],
-        extent_m=4, yard_apron_m=1, edge_blend_m=0.1)
+        extent_m=5, yard_apron_m=1, edge_blend_m=0.1)
     changed = result[..., 0] == BUILT_GROUND_MATERIAL_ID
     assert changed[0, 0]
     assert changed[0, 1]
     assert changed[1, 0]
     assert changed[1, 1]  # diagonal centre remains within the one-metre apron
     assert not changed[2, 2]
-    assert stats["candidateTexels"] == 8
+    assert stats["candidateTexels"] == 4
 
 
 def test_open_water_is_never_painted():
@@ -59,7 +58,7 @@ def test_open_water_is_never_painted():
     water[2, 3] = True
     result, stats = paint_ground_control(
         _control(6, 6), water, [_square(1, 1, 5, 5)],
-        extent_m=5, yard_apron_m=0, edge_blend_m=0.1)
+        extent_m=6, yard_apron_m=0, edge_blend_m=0.1)
     assert result[2, 3, 0] == 6
     assert result[2, 2, 0] == BUILT_GROUND_MATERIAL_ID
     assert stats["openWaterExcludedTexels"] == 1
@@ -70,7 +69,7 @@ def test_edge_uses_old_primary_as_secondary_and_preserves_macro_alpha():
     alpha = control[..., 3].copy()
     result, stats = paint_ground_control(
         control, np.zeros((7, 7), dtype=bool), [_square(2, 2, 5, 5)],
-        extent_m=6, yard_apron_m=0, edge_blend_m=1.5)
+        extent_m=7, yard_apron_m=0, edge_blend_m=1.5)
     # Centre is fully built; an adjacent texel is a partial old-ground edge.
     assert tuple(result[3, 3, :3]) == (BUILT_GROUND_MATERIAL_ID, 6, 0)
     assert result[3, 1, 0] == BUILT_GROUND_MATERIAL_ID
@@ -90,11 +89,11 @@ def test_existing_path_primary_has_stale_weight_reasserted():
 
 
 def test_water_surface_signed_depth_decoding_and_registration():
-    # 2x2 vertex samples span a 4 m extent; the north-east sample is wet.
+    # 2x2 water texels cover a 4 m extent; the north-east source texel is wet.
     surface = np.zeros((2, 2, 3), dtype=np.uint8)
     surface[..., 2] = 50  # depth = -1 m under the synthetic encoding
     surface[0, 1, 2] = 200  # depth = +2 m
-    meta = {"surface": {"size": 2, "metresPerPixel": 4,
+    meta = {"surface": {"size": 2, "metresPerPixel": 2,
                         "depthMinM": -2, "depthSpanM": 4}}
     actual = open_water_from_surface(surface, meta, (4, 4), extent_m=4)
     expected = np.zeros((4, 4), dtype=bool)
@@ -117,7 +116,7 @@ def _write_inputs(root: Path) -> tuple[dict, list[Path]]:
     Image.fromarray(_control(4, 4), "RGBA").save(control_path)
     surface = np.zeros((2, 2, 3), dtype=np.uint8)
     Image.fromarray(surface, "RGB").save(water_path)
-    meta_path.write_text(json.dumps({"surface": {"size": 2, "metresPerPixel": 4,
+    meta_path.write_text(json.dumps({"surface": {"size": 2, "metresPerPixel": 2,
                                                   "depthMinM": -2, "depthSpanM": 4}}))
     return bundle, [bundle_path, control_path, water_path, meta_path, provenance_path]
 

@@ -13,7 +13,7 @@ export interface MapMeta {
   imageWidth: number;
   /** Raster height in pixels. */
   imageHeight: number;
-  /** World metres between adjacent raster samples. */
+  /** World metres covered by one raster pixel. */
   metresPerPixel: number;
 }
 

@@ -402,8 +402,8 @@ export function App() {
     const heights = displayHeights();
     if (!canvas || !heights || !meta) return;
     const rect = canvas.getBoundingClientRect();
-    const x = Math.round(((e.clientX - rect.left) / rect.width) * (meta.imageWidth - 1));
-    const y = Math.round(((e.clientY - rect.top) / rect.height) * (meta.imageHeight - 1));
+    const x = Math.floor(((e.clientX - rect.left) / rect.width) * meta.imageWidth);
+    const y = Math.floor(((e.clientY - rect.top) / rect.height) * meta.imageHeight);
     if (x < 0 || y < 0 || x >= meta.imageWidth || y >= meta.imageHeight) return;
     const hgt = heights[y * meta.imageWidth + x];
     const km = (v: number) => ((v * meta.metresPerPixel) / 1000).toFixed(2);
@@ -463,8 +463,8 @@ export function App() {
     const px = decodedPxRef.current.regions;
     const legend = legends.regions;
     if (!m || !px || !legend) return { regionId: "unknown", biomeId: "unknown" };
-    const x = Math.max(0, Math.min(m.imageWidth - 1, Math.round(xM / m.metresPerPixel)));
-    const y = Math.max(0, Math.min(m.imageHeight - 1, Math.round(zM / m.metresPerPixel)));
+    const x = Math.max(0, Math.min(m.imageWidth - 1, Math.floor(xM / m.metresPerPixel)));
+    const y = Math.max(0, Math.min(m.imageHeight - 1, Math.floor(zM / m.metresPerPixel)));
     const i = (y * m.imageWidth + x) * 4;
     if (px[i + 3] === 0) return { regionId: "ocean", biomeId: "ocean" };
     let best = "unknown";
@@ -481,20 +481,20 @@ export function App() {
     const canvas = canvasRef.current;
     if (!canvas || !meta) return;
     const rect = canvas.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * (meta.imageWidth - 1);
-    const y = ((e.clientY - rect.top) / rect.height) * (meta.imageHeight - 1);
+    const x = ((e.clientX - rect.left) / rect.width) * meta.imageWidth;
+    const y = ((e.clientY - rect.top) / rect.height) * meta.imageHeight;
     enterFly((x * meta.metresPerPixel) / 1000, (y * meta.metresPerPixel) / 1000);
   }
 
   /** Place dots are province fractions (u east, v south); the spawn is km. */
   const flyToFraction = useCallback((u: number, v: number) => {
     if (!meta) return;
-    const kmAcross = ((meta.imageWidth - 1) * meta.metresPerPixel) / 1000;
+    const kmAcross = (meta.imageWidth * meta.metresPerPixel) / 1000;
     enterFly(u * kmAcross, v * kmAcross);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meta]);
 
-  const extentKm = meta ? (((meta.imageWidth - 1) * meta.metresPerPixel) / 1000).toFixed(1) : "…";
+  const extentKm = meta ? ((meta.imageWidth * meta.metresPerPixel) / 1000).toFixed(1) : "…";
 
   const characterOverlay = view === "character" ? (
     <CharacterMode

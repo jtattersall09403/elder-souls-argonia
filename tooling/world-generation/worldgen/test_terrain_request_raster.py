@@ -102,6 +102,14 @@ def test_application_is_deterministic_does_not_mutate_inputs_and_falls_back_with
     assert {row["axisSource"] for row in first_stats} == {"local-gradient-fallback"}
 
 
+def test_authored_frame_may_extend_two_samples_past_terrain_support():
+    plan = _plan([_record("knoll", 0)])
+    source = _height()[:-2, :-2]
+    result, manifest, _stats = raster.apply_plan(source, plan, MPS)
+    assert result.shape == source.shape
+    assert not tr.verify_fulfillment_manifest(plan, manifest)
+
+
 @pytest.mark.parametrize("mutation, expected", [
     ("missing", "missing planned operations"),
     ("stale", "stale unreferenced operations"),
@@ -130,7 +138,7 @@ def test_changed_operation_document_and_bad_raster_contracts_fail_closed():
     with pytest.raises(raster.TerrainRequestRasterError, match="planDigest"):
         raster.apply_plan(_height(), stale_policy, MPS)
 
-    with pytest.raises(raster.TerrainRequestRasterError, match="lattice extent"):
+    with pytest.raises(raster.TerrainRequestRasterError, match="raster support"):
         raster.apply_plan(np.zeros((40, 41), dtype=np.float32), plan, MPS)
     with pytest.raises(raster.TerrainRequestRasterError, match="flow_vectors"):
         raster.apply_plan(_height(), plan, MPS, flow_vectors=np.zeros((41, 41, 3)))

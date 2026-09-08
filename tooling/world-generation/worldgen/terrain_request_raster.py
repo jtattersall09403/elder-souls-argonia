@@ -312,9 +312,14 @@ def apply_plan(
     extent = float(plan["extentM"])
     raster_extents = ((height.shape[1] - 1) * mps, (height.shape[0] - 1) * mps)
     tolerance = max(1e-6, mps * 1e-6)
-    if any(abs(value - extent) > tolerance for value in raster_extents):
+    # Production's authored UV frame extends two raw spacings beyond the last
+    # 4033 terrain vertex. Synthetic/test rasters commonly end exactly at the
+    # coordinate extent. Reject every other registration instead of silently
+    # scaling operations to an unrelated raster.
+    if any(min(abs(extent - value), abs(extent - value - 2.0 * mps)) > tolerance
+           for value in raster_extents):
         raise TerrainRequestRasterError(
-            f"raster lattice extent {raster_extents} does not match plan extent {extent}")
+            f"raster support {raster_extents} does not match plan coordinate extent {extent}")
 
     flow = None if flow_vectors is None else np.asarray(flow_vectors)
     if flow is not None and (flow.shape != height.shape + (2,) or not np.all(np.isfinite(flow))):

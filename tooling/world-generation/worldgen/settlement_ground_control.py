@@ -12,9 +12,8 @@ the secondary and its weight rises smoothly.  Alpha is never modified.
 
 The coarse yard apron is 5.5 m (three 1.83 m full-resolution texels), followed
 by one 1.83 m transition texel.  These are intentionally too coarse for the
-wall-foot treatment, which remains bundle-driven geometry. Raster sample
-spacing is derived from the image's vertex-lattice intervals and canonical
-province extent;
+wall-foot treatment, which remains bundle-driven geometry. Raster texel size
+is always derived from the image dimensions and canonical province extent;
 ``refined/meta.json`` describes a different raster and must not be used.
 
 Run, after exporting a fresh settlement bundle::
@@ -158,21 +157,21 @@ def settlement_coverage(shape: tuple[int, int],
     sized coordinate mesh per polygon.  World X maps to columns and southward
     world Z maps to rows."""
     height, width = shape
-    if height <= 1 or width <= 1 or extent_m <= 0 or yard_apron_m < 0 or edge_blend_m <= 0:
+    if height <= 0 or width <= 0 or extent_m <= 0 or yard_apron_m < 0 or edge_blend_m <= 0:
         raise ValueError("invalid raster extent or treatment widths")
-    metres_x = extent_m / (width - 1)
-    metres_z = extent_m / (height - 1)
+    metres_x = extent_m / width
+    metres_z = extent_m / height
     reach = yard_apron_m + edge_blend_m
     union_distance = np.full(shape, np.inf, dtype=np.float32)
     for polygon in polygons:
         min_x = max(0, math.floor((min(p[0] for p in polygon) - reach) / metres_x))
-        max_x = min(width - 1, math.ceil((max(p[0] for p in polygon) + reach) / metres_x))
+        max_x = min(width - 1, math.floor((max(p[0] for p in polygon) + reach) / metres_x))
         min_z = max(0, math.floor((min(p[1] for p in polygon) - reach) / metres_z))
-        max_z = min(height - 1, math.ceil((max(p[1] for p in polygon) + reach) / metres_z))
+        max_z = min(height - 1, math.floor((max(p[1] for p in polygon) + reach) / metres_z))
         if min_x > max_x or min_z > max_z:
             continue
-        xs = np.arange(min_x, max_x + 1, dtype=np.float64) * metres_x
-        zs = np.arange(min_z, max_z + 1, dtype=np.float64) * metres_z
+        xs = (np.arange(min_x, max_x + 1, dtype=np.float64) + 0.5) * metres_x
+        zs = (np.arange(min_z, max_z + 1, dtype=np.float64) + 0.5) * metres_z
         distance = _distance_to_polygon(xs[None, :], zs[:, None], polygon)
         target = union_distance[min_z:max_z + 1, min_x:max_x + 1]
         np.minimum(target, distance, out=target)
@@ -232,14 +231,14 @@ def open_water_from_surface(surface: np.ndarray, meta: dict,
         raise ValueError("water surface dimensions do not match water meta")
     if not isinstance(mpp, (int, float)) or mpp <= 0:
         raise ValueError("water surface metresPerPixel must be positive")
-    if abs(float(mpp) * (int(size) - 1) - extent_m) > 1e-6:
+    if abs(float(mpp) * int(size) - extent_m) > float(mpp) + 1e-6:
         raise ValueError("water surface extent does not match canonical province extent")
     depth = surface[..., 2].astype(np.float32) / 255.0 * float(depth_span) + float(depth_min)
     wet = depth > 0.0
     height, width = target_shape
-    xs = np.clip(np.rint(np.arange(width) * (extent_m / (width - 1)) / float(mpp)).astype(int),
+    xs = np.clip(np.floor((np.arange(width) + 0.5) * (extent_m / width) / float(mpp)).astype(int),
                  0, surface.shape[1] - 1)
-    zs = np.clip(np.rint(np.arange(height) * (extent_m / (height - 1)) / float(mpp)).astype(int),
+    zs = np.clip(np.floor((np.arange(height) + 0.5) * (extent_m / height) / float(mpp)).astype(int),
                  0, surface.shape[0] - 1)
     return wet[np.ix_(zs, xs)]
 
@@ -297,7 +296,7 @@ def process_files(bundle_path: Path, control_path: Path, water_surface_path: Pat
         "yardApronM": YARD_APRON_M,
         "edgeBlendM": EDGE_BLEND_M,
         "provinceExtentM": extent_m,
-        "registration": "vertex samples; world x=east/column, z=south/row",
+        "registration": "texel centres; world x=east/column, z=south/row",
         "waterRule": "water-surface decoded signed depth > 0",
     }
     provenance = {

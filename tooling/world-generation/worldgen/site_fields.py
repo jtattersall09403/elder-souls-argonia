@@ -27,7 +27,7 @@ already use. It composes `ProvinceFields` rather than duplicating it.
 
 CONVENTIONS (module 00-core §8, decisions 0003/0015)
 ----------------------------------------------------
-* metres, sea level y = 0, province extent 7369.85088 m square, HSCALE 1.
+* metres, sea level y = 0, province extent 7373.50656 m square, HSCALE 1.
 * World X = east, Z = south. Origin (0, 0) is the province's NORTH-WEST corner,
   which is pixel (row 0, col 0) of every published raster ("row 0 is north").
   So `col = x / px_m`, `row = z / px_m` on any raster — the same mapping

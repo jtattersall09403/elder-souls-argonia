@@ -78,7 +78,7 @@ export function drawMinimapOverlay(
   viewPx: number,
   metresPerViewPx: number,
 ): void {
-  const gridToMap = (meta.imageWidth - 1) / (HYDRO_GRID_PX - 1);
+  const gridToMap = meta.imageWidth / HYDRO_GRID_PX;
   const zoomed = metresPerViewPx < 20;
   ctx.save();
   ctx.lineCap = "round";
@@ -93,7 +93,7 @@ export function drawMinimapOverlay(
     ctx.beginPath();
     let started = false;
     for (const [c, r] of line.px) {
-      const { x, y } = toView(c * gridToMap, r * gridToMap);
+      const { x, y } = toView((c + 0.5) * gridToMap, (r + 0.5) * gridToMap);
       if (x < -4 || y < -4 || x > viewPx + 4 || y > viewPx + 4) { started = false; continue; }
       if (started) ctx.lineTo(x, y); else { ctx.moveTo(x, y); started = true; }
     }
@@ -104,7 +104,7 @@ export function drawMinimapOverlay(
   const labelled: { x: number; y: number }[] = [];
   for (const d of overlay.dots) {
     if (!zoomed && d.tier > 1) continue;
-    const { x, y } = toView(d.u * (meta.imageWidth - 1), d.v * (meta.imageHeight - 1));
+    const { x, y } = toView(d.u * meta.imageWidth, d.v * meta.imageHeight);
     if (x < -6 || y < -6 || x > viewPx + 6 || y > viewPx + 6) continue;
     const r = zoomed ? Math.max(2.2, 5 - d.tier * 0.7) : Math.max(1.6, 4 - d.tier);
     ctx.beginPath();

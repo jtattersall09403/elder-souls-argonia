@@ -39,7 +39,7 @@ describe("minimap math", () => {
     expect(dot.x).toBeCloseTo(0);
     expect(dot.y).toBeCloseTo(0);
 
-    const far = (meta.imageWidth - 1) * meta.metresPerPixel;
+    const far = meta.imageWidth * meta.metresPerPixel;
     const cropFar = cropRectFor(far, far, 1500, meta);
     expect(cropFar.x + cropFar.size).toBeCloseTo(meta.imageWidth);
     expect(cropFar.y + cropFar.size).toBeCloseTo(meta.imageHeight);

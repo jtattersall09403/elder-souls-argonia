@@ -50,7 +50,7 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx, overl
   const smallMeta: MapMeta = useMemo(() => ({
     imageWidth: DOWNSCALE_PX,
     imageHeight: DOWNSCALE_PX,
-    metresPerPixel: (meta.metresPerPixel * (meta.imageWidth - 1)) / (DOWNSCALE_PX - 1),
+    metresPerPixel: (meta.metresPerPixel * meta.imageWidth) / DOWNSCALE_PX,
   }), [meta]);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx, overl
     // Map-raster pixel (full-res meta) → minimap canvas, for the overlay.
     let toView: (px: number, py: number) => { x: number; y: number };
     let metresPerViewPx: number;
-    const fullToSmall = (DOWNSCALE_PX - 1) / (meta.imageWidth - 1);
+    const fullToSmall = DOWNSCALE_PX / meta.imageWidth;
     if (zoomed) {
       const crop = cropRectFor(xM, zM, ZOOM_SPAN_M, smallMeta);
       ctx.imageSmoothingEnabled = true;
@@ -79,7 +79,7 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx, overl
       dot = { x: (px / DOWNSCALE_PX) * VIEW_PX, y: (py / DOWNSCALE_PX) * VIEW_PX };
       const k = VIEW_PX / meta.imageWidth;
       toView = (qx, qy) => ({ x: qx * k, y: qy * k });
-      metresPerViewPx = ((meta.imageWidth - 1) * meta.metresPerPixel) / VIEW_PX;
+      metresPerViewPx = (meta.imageWidth * meta.metresPerPixel) / VIEW_PX;
     }
     if (overlay) drawMinimapOverlay(ctx, overlay, meta, toView, VIEW_PX, metresPerViewPx);
     // Player: heading wedge behind a centred dot.
