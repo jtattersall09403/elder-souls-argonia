@@ -273,9 +273,19 @@ def serialise(document: dict) -> str:
     return json.dumps(document, ensure_ascii=False, indent=2, sort_keys=False) + "\n"
 
 
+def owner_obligations_sha256(obligations: Iterable[Obligation], owner: str) -> str:
+    """Content address an owner's exact requirements, not merely their ids."""
+    rows = sorted((row.as_dict() for row in obligations if row.deliveryOwner == owner),
+                  key=lambda row: row["id"])
+    payload = json.dumps(rows, sort_keys=True, separators=(",", ":"),
+                         ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def verify_delivery_manifest(obligations: Iterable[Obligation], manifest: dict,
                              owner: str) -> list[str]:
     """Generic hard gate consumed by Phase 12, 13, quests and final assembly."""
+    obligations = list(obligations)
     errors: list[str] = []
     if owner not in DELIVERY_OWNERS:
         errors.append(f"unknown delivery owner {owner!r}")
@@ -283,8 +293,18 @@ def verify_delivery_manifest(obligations: Iterable[Obligation], manifest: dict,
         errors.append(f"{owner}: delivery manifest schemaVersion must be {MANIFEST_SCHEMA_VERSION}")
     if manifest.get("kind") != "place-obligation-deliveries" or manifest.get("owner") != owner:
         errors.append(f"{owner}: manifest must declare kind place-obligation-deliveries and its owner")
+    expected_digest = owner_obligations_sha256(obligations, owner)
+    if manifest.get("obligationsSha256") != expected_digest:
+        errors.append(f"{owner}: obligationsSha256 does not match the exact current requirements")
     delivered: dict[str, dict] = {}
-    for row in manifest.get("deliveries") or []:
+    rows = manifest.get("deliveries")
+    if not isinstance(rows, list):
+        errors.append(f"{owner}: deliveries must be a list")
+        rows = []
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            errors.append(f"{owner}: deliveries[{index}] must be an object")
+            continue
         oid = row.get("obligationId")
         if not oid or oid in delivered:
             errors.append(f"{owner}: missing or duplicate obligationId {oid!r}")

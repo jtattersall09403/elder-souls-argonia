@@ -117,18 +117,26 @@ def test_interchange_document_is_byte_deterministic():
 def test_downstream_manifest_gate_rejects_missing_stale_and_empty_delivery():
     obligations = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
                                  {"value": "n1"}, ("parcel.x",), "phase-13")]
+    digest = po.owner_obligations_sha256(obligations, "phase-13")
     assert po.verify_delivery_manifest(obligations, {"schemaVersion": 1,
                                        "kind": "place-obligation-deliveries", "owner": "phase-13",
+                                       "obligationsSha256": digest,
                                        "deliveries": []},
                                        "phase-13")
     assert po.verify_delivery_manifest(obligations, {"schemaVersion": 1,
-                                       "kind": "place-obligation-deliveries", "owner": "phase-13", "deliveries": [
+                                       "kind": "place-obligation-deliveries", "owner": "phase-13",
+                                       "obligationsSha256": digest, "deliveries": [
         {"obligationId": "o.one", "objectRefs": []},
         {"obligationId": "o.stale", "objectRefs": ["npc.stale"]},
     ]}, "phase-13")
-    good = {"schemaVersion": 1, "kind": "place-obligation-deliveries", "owner": "phase-13", "deliveries": [
+    good = {"schemaVersion": 1, "kind": "place-obligation-deliveries", "owner": "phase-13",
+            "obligationsSha256": digest, "deliveries": [
         {"obligationId": "o.one", "objectRefs": ["npc.one"]},
     ]}
     assert not po.verify_delivery_manifest(obligations, good, "phase-13")
+    changed = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
+                             {"value": "a changed promise"}, ("parcel.x",), "phase-13")]
+    assert any("exact current requirements" in error
+               for error in po.verify_delivery_manifest(changed, good, "phase-13"))
     assert po.verify_final_delivery(obligations, [])
     assert not po.verify_final_delivery(obligations, [good])
