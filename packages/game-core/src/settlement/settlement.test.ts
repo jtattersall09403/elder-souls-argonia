@@ -15,6 +15,10 @@ import {
   validateMaterialTextureCap,
 } from "./lod";
 import {
+  pointInSettlementBoundary,
+  selectCollisionResidency,
+} from "./collisionResidency";
+import {
   SETTLEMENT_COLLISION_FRAME,
   type SettlementBundle,
   type SettlementPlacement,
@@ -257,5 +261,43 @@ describe("settlement far geometry and collision budgets", () => {
       chosen: ["near"], coveredRadiusM: 8, parts: 2,
     });
     expect(selectCollisionRing(candidates, 20, 20).coveredRadiusM).toBe(20);
+  });
+
+  it("keeps every settlement collider resident across focus-ring and chunk boundaries", () => {
+    const settlements = [{
+      id: "settlement.a", placementIds: ["west", "east"],
+      boundaryM: [[0, 0], [130, 0], [130, 100], [0, 100]] as [number, number][],
+      budgetReport: null, floodBandReport: {}, variants: [],
+    }] satisfies SettlementBundle["settlements"];
+    const at = (x: number) => selectCollisionResidency([
+      { value: "west", placementId: "west", distanceM: Math.abs(x - 10), parts: 2 },
+      { value: "east", placementId: "east", distanceM: Math.abs(x - 120), parts: 2 },
+      { value: "outside", placementId: "outside", distanceM: Math.abs(x - 135), parts: 1 },
+    ], settlements, { x, z: 50 }, 30, 8);
+    // 63 → 65 crosses a 64 m terrain-chunk edge; 20 → 110 also reverses
+    // which building would have fallen inside an ordinary 30 m focus ring.
+    for (const x of [20, 63, 65, 110]) {
+      expect(at(x).residentPlacementIds).toEqual(["east", "west"]);
+      expect(at(x).chosen).toEqual(expect.arrayContaining(["east", "west"]));
+      expect(at(x).activeSettlementIds).toEqual(["settlement.a"]);
+    }
+    expect(pointInSettlementBoundary(130, 50, settlements[0].boundaryM)).toBe(true);
+  });
+
+  it("fails explicitly rather than dropping an over-budget resident building", () => {
+    const settlements = [{
+      id: "settlement.a", placementIds: ["large", "small"],
+      boundaryM: [[0, 0], [10, 0], [10, 10], [0, 10]] as [number, number][],
+      budgetReport: null, floodBandReport: {}, variants: [],
+    }] satisfies SettlementBundle["settlements"];
+    const selected = selectCollisionResidency([
+      { value: "large", placementId: "large", distanceM: 1, parts: 5 },
+      { value: "small", placementId: "small", distanceM: 2, parts: 1 },
+    ], settlements, { x: 5, z: 5 }, 20, 4);
+    expect(selected.chosen).toEqual([]);
+    expect(selected.budgetExceeded).toMatchObject({
+      activeSettlementIds: ["settlement.a"], requiredResidentParts: 6, partBudget: 4,
+      residentPlacementIds: ["large", "small"],
+    });
   });
 });

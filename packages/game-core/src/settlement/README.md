@@ -28,9 +28,14 @@ Load-bearing contracts:
   retained per placement and rolled up per settlement in `onStats`;
 - settlement collision accepts only `settlement-pivot-yup-v1`, prefers
   measured manifest boxes where present, and otherwise derives visible-part
-  boxes from loaded geometry. A moving ring spends an explicit proxy-part
-  budget, reports its genuinely covered radius, and drives rebuild distance
-  from that radius. The app consumes it with an imperative fixed-body diff;
+  boxes from loaded geometry. While the focus is inside an authored settlement
+  boundary, every building collider in that settlement stays resident by
+  stable id, including across focus-ring and terrain-chunk edges. Only the
+  remaining explicit proxy-part budget is spent on the moving outside ring;
+  its genuinely covered radius and every omitted placement id are reported.
+  If resident buildings alone exceed the hard budget, the layer fails visibly
+  instead of publishing a partial solid settlement. The app consumes the
+  stable set with an imperative fixed-body diff;
 - a failed bundle or kit load produces a conspicuous magenta failure sentinel;
   it cannot silently degrade into a settlement-free landscape;
 - materials carry aerial, rain wetness and all-tier window emission state in
@@ -41,7 +46,8 @@ Load-bearing contracts:
 
 Browser acceptance may read the immutable `globalThis.__STUDIO_SETTLEMENT_DEBUG__`
 snapshot. It reports `loading`/`loaded`/`failed`, bundle and rendered placement
-counts, draw/triangle counts and the per-settlement grounding audit; it exposes
+counts, draw/triangle counts, final-transform evidence, the per-settlement
+grounding audit and the complete collision residency/budget result; it exposes
 no controls or mutable renderer objects.
 
 The authored/compiled boundary stays explicit: navmesh cuts, paired door

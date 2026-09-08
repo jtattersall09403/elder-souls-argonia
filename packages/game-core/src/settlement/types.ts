@@ -92,6 +92,19 @@ export interface SettlementRenderStats {
   colliderCoveredRadiusM: number;
   grounding: SettlementGroundAudit[];
   finalTransformEvidence: SettlementFinalTransformEvidence;
+  collision: SettlementCollisionAudit;
+}
+
+/** Collider residency and any explicit moving-ring budget shortfall. */
+export interface SettlementCollisionAudit {
+  status: "loading" | "ring" | "resident" | "failed";
+  activeSettlementIds: readonly string[];
+  residentPlacementIds: readonly string[];
+  omittedPlacementIds: readonly string[];
+  parts: number;
+  requiredResidentParts: number;
+  partBudget: number;
+  coveredRadiusM: number;
 }
 
 /** Machine-readable proof for the final anchored transform and depth pair. */
@@ -155,6 +168,7 @@ export type SettlementProofState = Readonly<{
   triangles: number;
   grounding: readonly ReadonlySettlementGroundAudit[];
   finalTransformEvidence: Readonly<SettlementFinalTransformEvidence>;
+  collision: Readonly<SettlementCollisionAudit>;
   error?: string;
 }>;
 
