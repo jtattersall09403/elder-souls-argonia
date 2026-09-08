@@ -14,7 +14,7 @@ import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLay
 import { groundHeightM } from "./vegetation/terrainHeight";
 import { lastWeatherSample } from "./weather/weatherState";
 import { worldClock } from "./sky/timeState";
-import { hydroPixelCenterToMetres } from "./provinceScale";
+import { AUTHORED_UV_EXTENT_M, hydroPixelCenterToMetres, TERRAIN_SUPPORT_EXTENT_M } from "./provinceScale";
 
 /**
  * Province flyover. Terrain comes from the same streamed chunks as the
@@ -233,7 +233,9 @@ export function Fly3D(props: Fly3DProps) {
   useEffect(() => {
     store.manifest().then(setChunkManifest).catch(() => setChunkManifest(null));
   }, [store]);
-  const extentM = chunkManifest?.extentM ?? props.size * props.metresPerPixel;
+  const terrainExtentM = chunkManifest?.terrainSupportExtentM
+    ?? chunkManifest?.extentM ?? TERRAIN_SUPPORT_EXTENT_M;
+  const authoredExtentM = chunkManifest?.authoredUvExtentM ?? AUTHORED_UV_EXTENT_M;
   const focusRef = useRef({ x: start[0], z: start[2] });
   const markerGroundAt = useMemo(() => {
     const { heights, size, metresPerPixel, exaggeration } = props;
@@ -275,7 +277,7 @@ export function Fly3D(props: Fly3DProps) {
       {/* Natural light and sky (Phase 8a): sun/moons/stars, CSM shadows,
           exposure and the aerial haze all come from WorldSky — the old fixed
           hemisphere+directional pair and hand-tuned fog are gone. */}
-      <WorldSky mode="fly" extentM={extentM} verticalScale={props.exaggeration}>
+      <WorldSky mode="fly" extentM={authoredExtentM} verticalScale={props.exaggeration}>
         {chunkManifest ? (
           <>
             <FocusTracker focusRef={focusRef} />
@@ -328,7 +330,7 @@ export function Fly3D(props: Fly3DProps) {
       {props.mode === "fly" ? (
         <>
           <PointerLockControls onLock={() => setLocked(true)} onUnlock={() => setLocked(false)} />
-          <FlyRig speedRef={speedRef} onPosition={props.onPosition} extentM={extentM} />
+          <FlyRig speedRef={speedRef} onPosition={props.onPosition} extentM={terrainExtentM} />
           {!locked && null}
         </>
       ) : (

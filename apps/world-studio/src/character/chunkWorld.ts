@@ -73,7 +73,7 @@ export class ChunkWorld implements EnvironmentQuery {
       for (let i = 0; i < ids.length; i++) ids[i] = px[i * 4];
       this.controlIds = ids;
       this.controlSize = size;
-      this.controlMetresPerTexel = this.manifest.extentM / size;
+      this.controlMetresPerTexel = this.manifest.authoredUvExtentM / size;
     } catch {
       /* material identification degrades gracefully to undefined */
     }
