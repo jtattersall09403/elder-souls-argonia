@@ -16,7 +16,7 @@ import pytest
 from . import channels as ch
 from . import standing_water as sw
 from .compile_chunks import DEFAULT_HEIGHTS
-from .compile_water import CLASSES, FLOW_MAX, compute, decode_surface
+from .compile_water import CLASSES, FLOW_MAX, compute, decode_surface, hovering_edges
 from .scale import RAW_M
 
 VAULT = DEFAULT_HEIGHTS.parent.parent
@@ -152,6 +152,29 @@ def test_tributary_shares_the_trunk_level_at_the_junction():
         assert abs(float(end) - float(start)) < 1e-3
     for r in range(3):
         assert (np.diff(sol.L[sol.stations_of(r)]) <= 1e-5).all()
+
+
+def test_hovering_edge_only_exempts_the_cell_that_is_down_the_cliff():
+    """A nearby canyon does not excuse a shallow dry ledge below W."""
+    W = np.full((5, 5), -np.inf, dtype=np.float32)
+    wet = np.zeros((5, 5), dtype=bool)
+    assigned = np.zeros((5, 5), dtype=bool)
+    fall = np.zeros((5, 5), dtype=bool)
+    ground = np.full((5, 5), 11.0, dtype=np.float32)
+    W[2, 2] = 10.0
+    wet[2, 2] = True
+    ground[2, 3] = 9.9       # shallow dry ledge: invalid hovering water
+    ground[3, 3] = 0.0       # canyon one diagonal cell away
+    cliff = []
+    bad = hovering_edges(W, wet, assigned, ground, fall, max_drop=8.0, cliff_out=cliff)
+    assert bad[2, 2]
+    assert cliff == [0]
+
+    ground[2, 3] = 0.0       # the immediate neighbour is now the cliff face
+    cliff = []
+    bad = hovering_edges(W, wet, assigned, ground, fall, max_drop=8.0, cliff_out=cliff)
+    assert not bad.any()
+    assert cliff == [1]
 
 
 def test_a_river_trapped_in_a_hollow_makes_a_lake():

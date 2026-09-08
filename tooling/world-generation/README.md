@@ -169,20 +169,31 @@ arrangement. None of it changes what any test asserts.
   resolution, noised D8 routing, rivers/lakes/watersheds, wetness, salinity.
 - `worldgen/channels.py` — the ONE river-channel definition (decision 0047):
   coarse flow graph → smooth centrelines per reach (junctions pinned),
-  stations every 1.83 m with width, depth, valley floor, bankfull bank and
-  the monotone long profile L(s); falls (cliffs) as steps, steep strips,
-  lake-outlet sills, lost stretches. `refine_province` carves the trench to
-  it (`carve`) and saves the solution as `province-refined/channels-pass1.npz`;
-  `compile_water` fills the same cells at L.
+  stations every 1.83 m with width, depth, valley floor, bank barrier and
+  the monotone long profile L(s) capped BANKFULL (never more than a small
+  levee over the ground beside it); falls (cliffs ≥ 3 m at ≥ 50°) as steps
+  landing at the next station's level, steep strips, lake-outlet weirs, lost
+  stretches, fords at road crossings, captured lakes, channels whose widths
+  touch sharing the lower level. `refine_province` carves the trench to it
+  (`carve`: parabolic bed, chute notch, shoulder levee with per-kind caps,
+  plunge bowls, brink notch, weirs) and saves the solution as
+  `province-refined/channels-pass1.npz` beside `refined-height-precarve-f32.npy`;
+  `compile_water` fills the same cells at the same interpolated level.
 - `worldgen/standing_water.py` — sea + standing bodies by flooding the real
-  full-res terrain (priority flood via `skimage.morphology.reconstruction`),
-  the rounds-8-10 acceptance rules per flood component, one level of nested
-  sub-basins (watershed catchments to their saddles), river-trapped hollows
-  accepted as lakes, per-body season response, islet lowering.
-- `worldgen/compile_water.py` — the water compile (schema v2): W + signed
-  depth on the 2017 grid registered to texel centres, table band, burial,
-  classes/flow/season, strips + cascades in `water-meta.json`, invariants
-  census in `stats`. ~45 s. Gate: `worldgen/test_water_invariants.py`.
+  full-res terrain (8-connected priority flood via
+  `skimage.morphology.reconstruction`), the rounds-8-10 acceptance rules per
+  flood component (every body a major road crosses capped at road + 0.3 m),
+  one level of nested sub-basins (watershed catchments to their saddles),
+  river-trapped hollows accepted as lakes (replayed at the carve's level by
+  the compile), per-body season response, islet lowering.
+- `worldgen/compile_water.py` — the water compile (schema v2): keeps the
+  carve's profile (never re-solves it), floods the bodies on the shipped
+  ground, W + signed depth on the 2017 grid registered to texel centres,
+  bounded lateral flood (200 m, 8-connected), plunge pools, table band,
+  burial, classes/flow/season, strips + cascades in `water-meta.json`,
+  invariants census in `stats` (hovering edges, cliff-edge cells, dry
+  stations, road/track cells in water split sea/lake/river). ~70 s. Gate:
+  `worldgen/test_water_invariants.py`.
 - `worldgen/regions.py` — HAND/flood, soils, ecological region classes,
   climate profiles (§33.1), authored overrides from
   `world/sources/regions/authored-overrides.json` (e.g. the jungle).

@@ -184,8 +184,12 @@ def hovering_edges(W, wet, assigned, g, fall_foot, min_drop: float = 0.05,
         b = (slice(max(-dy, 0), n + min(-dy, 0)), slice(max(-dx, 0), n + min(-dx, 0)))
         drop = W[a] - g[b]
         edge = wet[a] & ~wet[b] & ~assigned[b] & ~fall_foot[a] & ~fall_foot[b]
-        bad[a] |= edge & (drop >= min_drop) & (drop <= max_drop)
-        cliff += int((edge & (drop > max_drop)).sum())
+        # Exempt only the neighbour that is itself down the cliff. Looking at
+        # its surrounding 3x3 would also exempt a shallow dry ledge beside a
+        # cliff, even though that ledge is physically below the water level.
+        lip = drop > max_drop
+        bad[a] |= edge & (drop >= min_drop) & ~lip
+        cliff += int((edge & (drop >= min_drop) & lip).sum())
     if cliff_out is not None:
         cliff_out.append(cliff)
     return bad
@@ -271,19 +275,23 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
     # cells hold the plunge level (else the pool's rim hangs above dry bowl).
     # Only cells that belong to the fall (nearest to its face or plunge):
     # downstream the chute is already lower
-    # ...the pool is the connected ground under the plunge level around the
-    # plunge cell, out to 1.5 widths, that no channel width already claims
+    # ...only cells that belong to the fall (nearest to its face, lip or
+    # plunge): downstream the chute is already lower
+    k_near = np.maximum(near, 0)
     for k in np.flatnonzero(sol.plunge & valid_st):
-        w_m = float(sol.width[k]); rr = int(np.ceil(1.5 * w_m / mpp)) + 1
+        w_m = float(sol.width[k]); rr = int(np.ceil(w_m / mpp)) + 1
         cy, cx = int(round(float(sol.y[k]))), int(round(float(sol.x[k])))
         y0, y1 = max(cy - rr, 0), min(cy + rr + 1, n); x0, x1 = max(cx - rr, 0), min(cx + rr + 1, n)
         yy, xx = np.mgrid[y0:y1, x0:x1]
-        cand = (np.hypot(yy - sol.y[k], xx - sol.x[k]) * mpp <= 1.5 * w_m) & (g[y0:y1, x0:x1] < sol.L[k])
-        lbl, _n = ndimage.label(cand | in_chan[y0:y1, x0:x1], structure=np.ones((3, 3), bool))
-        seed = lbl[cy - y0, cx - x0]
-        disc = cand & ~in_chan[y0:y1, x0:x1] & (lbl == seed) if seed else np.zeros_like(cand)
+        kn = k_near[y0:y1, x0:x1]
+        # ...and the bowl cells beside the first stations after the plunge
+        # (a chute carries no lateral flood, so the pool must claim them)
+        below = (sol.reach[kn] == sol.reach[k]) & (kn > k) & (kn <= k + rr)
+        disc = (np.hypot(yy - sol.y[k], xx - sol.x[k]) * mpp <= w_m) & ~in_chan[y0:y1, x0:x1] \
+            & (g[y0:y1, x0:x1] < sol.L[k]) & ((sol.kind[kn] == ch.KIND_FALL) | (kn == k) | sol.lip[kn] | below)
         w_chan[y0:y1, x0:x1] = np.where(disc, np.minimum(w_chan[y0:y1, x0:x1], sol.L[k]), w_chan[y0:y1, x0:x1])
         in_chan[y0:y1, x0:x1] |= disc
+    del k_near
     # a body inside a channel's width is a pool in the bed (a plunge bowl,
     # an over-deepened stretch): the river flows through it at L, never
     # drops into it, so the channel keeps the higher of the two. A channel

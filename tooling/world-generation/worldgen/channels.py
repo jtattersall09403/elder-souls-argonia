@@ -495,8 +495,10 @@ def _backwater(v: np.ndarray, pooled: np.ndarray, lost: np.ndarray, pool: np.nda
     """Per pooled run: if the profile arrives at or above the lake (or less
     than BACKWATER_MAX_M under it — a shore dip), the run takes the lake
     level and the lake reaches upstream until the profile stands above it.
-    If the route climbs further INTO a higher lake, the running minimum
-    stands (the river captures that lake; its body still floods at compile)."""
+    If the route arrives further under the lake, the running minimum stands
+    and the run is CAPTURED: the river cuts through and the lake drains to
+    it, so its stations are ordinary channel — `pooled` is cleared in place
+    (no weir after it, no lake level for it)."""
     v = v.copy()
     m = len(v)
     k = 0
@@ -515,6 +517,8 @@ def _backwater(v: np.ndarray, pooled: np.ndarray, lost: np.ndarray, pool: np.nda
             while i >= 0 and not pooled[i] and not lost[i] and v[i] < P:
                 v[i] = P
                 i -= 1
+        else:
+            pooled[k:j + 1] = False
         k = j + 1
     return v
 
@@ -596,13 +600,15 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
         # section dips in — and must not carry that into the lake)
         pw = pooled[sl]
         if pw.any():
-            v = _backwater(v, pw, lost[sl], sol.pool[sl])
+            v = _backwater(v, pw, lost[sl], sol.pool[sl])   # may clear captured runs in pw
         runs = _fall_runs(sol.floor[sl], sol.arc[sl])
         a0 = sl.start
         for a, b in runs:
             if v[a] - v[b] >= FALL_MIN_STEP_M and not pooled[sl][a:b + 1].any():
-                # a fall landing in a lake or the sea drops to ITS level
-                foot = v[b + 1] if b + 1 < len(v) and pooled[sl][b + 1] else v[b]
+                # the fall lands at the level the channel continues at (the
+                # next station's, a lake's or the sea's): a step right after
+                # the plunge would leave the pool hanging over the reach below
+                foot = v[b + 1] if b + 1 < len(v) else v[b]
                 v[a + 1:b + 1] = min(v[b], foot)
                 lip[a0 + a] = True
                 plunge[a0 + b] = True
@@ -672,7 +678,8 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
     # a CAPTURED body: the river arrives under its level (more than
     # BACKWATER_MAX_M) and cuts on through — the body drains to the trench,
     # so its stations are ordinary channel, not pooled
-    captured = pooled & (L < sol.pool - 0.05)
+    was_pooled = np.isfinite(sol.pool) & (sol.pool >= sol.natural - POOL_TOL_M)
+    captured = was_pooled & (~pooled | (L < sol.pool - 0.05))
     pooled = pooled & ~captured
     sol.L = L.astype(np.float32)
     sol.lip, sol.plunge, sol.pooled, sol.lost, sol.captured = lip, plunge, pooled, lost, captured
@@ -941,6 +948,7 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
         h[y0:y1, x0:x1] = np.where(brink, np.minimum(blk, L_k - D_k * (1.0 - t * t)), blk)
     # plunge basins, before the shoulder (their cells join the footprint)
     n_basins = 0
+    bowl_cells = np.zeros(h.shape, dtype=bool)
     for k in np.flatnonzero(sol.plunge):
         P = float(sol.L[k]); w = float(sol.width[k]); dp = max(float(depth[k]), PLUNGE_MIN_DEPTH_M)
         rr = int(np.ceil(w / sol.mpp)) + 1
@@ -959,6 +967,7 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
         dig = (dd <= w) & ((blk <= P + PLUNGE_FLOOR_ABOVE_M) | ((dd <= 0.35 * w) & (along >= -0.5 * sol.mpp)))
         h[y0:y1, x0:x1] = np.where(dig, np.minimum(blk, bowl), blk)
         footprint[y0:y1, x0:x1] |= dig
+        bowl_cells[y0:y1, x0:x1] |= dig
         in_level[y0:y1, x0:x1] = np.where(dig, np.maximum(in_level[y0:y1, x0:x1], P), in_level[y0:y1, x0:x1])
         n_basins += 1
     # shoulder ring, around the nearest ACTIVE station (a pooled station has
@@ -970,7 +979,8 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
     # channel where it enters a lake or the sea would dam it)
     nb, d = nearest_stations(sol, h.shape, active)
     r = np.maximum(sol.width[np.maximum(nb, 0)] * 0.5, 1e-3)
-    ring = (~footprint) & (nb >= 0) & (d <= r + SHOULDER_BLEND_M)
+    bowl_edge = ndimage.binary_dilation(bowl_cells, iterations=2) & ~footprint
+    ring = (~footprint) & (nb >= 0) & ((d <= r + SHOULDER_BLEND_M) | bowl_edge)
     del footprint
     L = np.where(nb >= 0, level_at_cells(sol, nb, h.shape), -np.inf).astype(np.float32)
     # ...and where two channels run side by side, the higher one's water
@@ -980,6 +990,10 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
     del in_level
     crest = L + SHOULDER_RAISE_M
     t2 = np.clip((d - r - SHOULDER_CREST_M) / (SHOULDER_BLEND_M - SHOULDER_CREST_M), 0.0, 1.0)
+    # the rim of a plunge bowl is full crest whatever its distance from the
+    # chute's stations (the bowl is two half-widths across)
+    t2 = np.where(bowl_edge, 0.0, t2)
+    del bowl_cells, bowl_edge
     t2 = t2 * t2 * (3.0 - 2.0 * t2)
     target = crest * (1.0 - t2) + h * t2
     lo = ref - SHOULDER_CUT_CAP_M
