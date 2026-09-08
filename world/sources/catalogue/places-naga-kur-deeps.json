@@ -2418,6 +2418,12 @@
       "densityLayer": "landmark",
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
+      "factionPresence": [
+        {
+          "factionRef": "faction.naga-kur",
+          "role": "seat"
+        }
+      ],
       "ownerFaction": "faction.naga-kur",
       "localStateVariants": [
         {

@@ -587,10 +587,20 @@ def _validate_cross_record(catalogue_dir: Path, errors: list[str]) -> None:
     except Exception:  # registry missing on a partial checkout
         aliases = None
     recs = {r["id"]: r for rf in load_region_files(catalogue_dir) for r in rf.places}
+    factions_path = catalogue_dir.parent / "registries" / "factions.json"
+    known_factions = None
+    if factions_path.exists():
+        faction_data = json.loads(factions_path.read_text())
+        known_factions = {row.get("id") for row in faction_data.get("entries", [])}
     live = {rid for rid, r in recs.items() if r.get("status") not in ("deferred", "cut")}
     for rid, rec in recs.items():
         if rid not in live:
             continue
+        if known_factions is not None:
+            for i, presence in enumerate(rec.get("factionPresence") or []):
+                faction = presence.get("factionRef") if isinstance(presence, dict) else None
+                if faction not in known_factions:
+                    errors.append(f"{rid}: factionPresence[{i}] names unknown faction {faction!r}")
         rel = rec.get("relations") or {}
         for key in ("dependsOn", "supplies", "rivals", "patrols", "visibleFrom", "reachedVia", "tolls"):
             for v in rel.get(key, []) or []:

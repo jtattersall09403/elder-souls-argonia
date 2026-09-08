@@ -108,6 +108,21 @@ def test_live_catalogue_dir_validates():
     assert catalogue.validate_catalogue(check_permanence=False) == []
 
 
+def test_live_faction_presence_ids_resolve_to_the_registry():
+    factions = json.loads(
+        (catalogue.CATALOGUE_DIR.parent / "registries" / "factions.json").read_text()
+    )
+    known = {row["id"] for row in factions["entries"]}
+    present = [
+        presence["factionRef"]
+        for region in catalogue.load_region_files()
+        for record in region.places
+        for presence in record.get("factionPresence", [])
+    ]
+    assert present, "the faction-presence contract must be exercised by live places"
+    assert set(present) <= known
+
+
 # --- province density budget -------------------------------------------------
 # Moved here from test_type_recipes.py on 2026-09-02 (verify/wrap agent): the
 # record budget is a property of the CATALOGUE, not of the recipe file, and it

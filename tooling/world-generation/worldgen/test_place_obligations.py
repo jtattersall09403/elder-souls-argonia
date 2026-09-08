@@ -80,6 +80,33 @@ def test_faction_seat_is_distinct_from_ownership_and_needs_concrete_evidence():
     assert any(r.sourcePath.startswith("factionPresence") for r in rows)
 
 
+@pytest.mark.parametrize("role", ["seat", "chapter", "outpost", "office"])
+def test_every_institutional_faction_role_needs_host_and_person(role):
+    rec = {"id": "place.test.presence",
+           "factionPresence": [{"factionRef": "faction.test", "role": role}]}
+    bp = {"id": rec["id"],
+          "landmarks": [{"id": "landmark.presence.sign"}],
+          "occupants": [{"slotId": "occupant.presence.agent",
+                         "ownerFaction": "faction.test"}],
+          "macroEvidence": [{"sourcePaths": ["factionPresence"],
+                             "evidenceRefs": ["landmark.presence.sign"]}]}
+    errors, _ = po.check_phase11(rec, bp)
+    assert any("faction-bound occupant" in error for error in errors)
+    bp["macroEvidence"][0]["evidenceRefs"].append("occupant.presence.agent")
+    errors, _ = po.check_phase11(rec, bp)
+    assert not errors
+
+
+def test_territorial_presence_does_not_invent_an_institution():
+    rec = {"id": "place.test.territory",
+           "factionPresence": [{"factionRef": "faction.test", "role": "territory"}]}
+    bp = {"id": rec["id"], "landmarks": [{"id": "landmark.border"}],
+          "macroEvidence": [{"sourcePaths": ["factionPresence"],
+                             "evidenceRefs": ["landmark.border"]}]}
+    errors, _ = po.check_phase11(rec, bp)
+    assert not errors
+
+
 def test_named_macro_occupant_is_not_met_by_an_unrelated_occupant():
     rec = {
         "id": "place.test.people", "contents": {"creatures": [], "loot": [], "npcs": [

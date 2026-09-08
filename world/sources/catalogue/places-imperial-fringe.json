@@ -2326,6 +2326,12 @@
         "travelServiceEdges": []
       },
       "culture": "imperial",
+      "factionPresence": [
+        {
+          "factionRef": "faction.cyrodilic-collections",
+          "role": "chapter"
+        }
+      ],
       "ownerFaction": "faction.cyrodilic-collections",
       "occupants": [
         "D1 local dig hands",
@@ -4532,6 +4538,12 @@
         ]
       },
       "culture": "argonian",
+      "factionPresence": [
+        {
+          "factionRef": "faction.rootworm-waykeepers",
+          "role": "seat"
+        }
+      ],
       "ownerFaction": "faction.rootworm-waykeepers",
       "occupants": [
         "D1 Rootworm Waykeepers in season",

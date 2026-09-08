@@ -270,21 +270,26 @@ def build_obligations(record: dict, bp: dict) -> tuple[list[Obligation], list[st
     rows: list[Obligation] = []
     promise_refs: dict[str, set[str]] = {}
 
-    # Ownership is not a seat. A typed seat needs both a place that can serve
-    # as the institution and somebody of that faction bound into the design.
+    # Ownership is not an institutional presence. Every typed presence except
+    # a territorial claim needs both a physical host and somebody of that
+    # faction bound into the design. The host may be an open-air landmark: the
+    # Waykeepers' seasonal seat is deliberately a tally post, not a building.
     for presence in record.get("factionPresence") or []:
-        if not isinstance(presence, dict) or presence.get("role") != "seat":
+        if not isinstance(presence, dict) or presence.get("role") == "territory":
             continue
         refs = set(evidence.get("factionPresence", ()))
         faction = presence.get("factionRef")
-        civic = {p.get("id") for p in bp.get("parcels", []) or []
-                 if p.get("use") in {"civic", "hall"}
-                 or p.get("service") in {"guild-hall", "council", "court"}}
+        institutional = {p.get("id") for p in bp.get("parcels", []) or []
+                         if p.get("use") in {"civic", "hall", "watch", "gate", "work"}
+                         or p.get("service") in {"guild-hall", "council", "court",
+                                                "licence-office"}}
+        institutional.update(l.get("id") for l in bp.get("landmarks", []) or [])
         faction_people = {o.get("slotId") for o in bp.get("occupants", []) or []
                           if o.get("ownerFaction") == faction}
-        if not (refs & civic) or not (refs & faction_people):
-            errors.append(f"{record.get('id')}: faction seat {faction} needs macroEvidence "
-                          "naming a civic/hall parcel and a faction-bound occupant")
+        if not (refs & institutional) or not (refs & faction_people):
+            errors.append(f"{record.get('id')}: faction {presence.get('role')} {faction} needs "
+                          "macroEvidence naming an institutional parcel/landmark and a "
+                          "faction-bound occupant")
 
     # Existing typed resolvers remain the authority for their detailed kinds.
     for promise in blueprint_promises.build_ledger(bp, record):
