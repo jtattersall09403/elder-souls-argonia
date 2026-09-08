@@ -166,7 +166,7 @@ THOMAS_WEIGHT = 1.2
 HULL_CLASS_M = {"canoe": 0.6, "small-draft": 1.2, "keeled": 3.0}
 NAVIGABLE_HULL_CLASS = {
     "port-town": "keeled", "legal-harbour-city": "keeled", "neutral-free-port": "keeled",
-    "shipyard": "keeled", "head-of-navigation": "keeled", "foreign-trading-station": "keeled",
+    "shipyard": "keeled", "head-of-navigation": "keeled",
     "ferry-stage": "small-draft", "customs-town": "small-draft", "tradehouse": "small-draft",
     "bonded-warehouse": "small-draft", "pirate-anchorage": "small-draft",
     "salvage-divers-yard": "small-draft", "monsoon-barrier": "small-draft",

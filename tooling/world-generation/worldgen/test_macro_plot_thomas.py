@@ -177,3 +177,10 @@ def test_the_four_authored_exemplar_overrides_remain_post_solve_pins():
         "place.naga-kur-deeps.wamasu-pond-adult",
     }
     assert all(o["source"].startswith("world/sources/blueprints/") for o in overrides)
+
+
+def test_an_inland_foreign_trading_station_does_not_imply_a_keel_berth():
+    """An inland entrepot promises a navigable route, not a sea-hull berth."""
+    hull = macro_plot.NAVIGABLE_HULL_CLASS.get(
+        "foreign-trading-station", macro_plot.NAVIGABLE_DEFAULT_CLASS)
+    assert hull == "canoe"
