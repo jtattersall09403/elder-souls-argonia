@@ -91,6 +91,9 @@ declare -A STAGE_ARGS=(
   # scatter compiler only reports, and the committed bundles stay stale after
   # the terrain moves.
   [compile_scatter]="--out|$REPO_ROOT/apps/world-studio/public/province/vegetation"
+  # The bundle is only delivery once the kit GLBs it names are in the site the
+  # browser fetches; without this the runtime asks for meshes that are not there.
+  [export_settlement_bundle]="--copy-assets"
 )
 
 STAGES=(
@@ -108,6 +111,15 @@ STAGES=(
   "compile_water"
   "terrain_request_postconditions"
   "rebake_landcover"
+  # The settlement ground paint sits BETWEEN the land-cover bake and the
+  # scatter, and it has to. `rebake_landcover` rewrites `ground-control.png`
+  # from scratch, so paint applied before it is wiped; `compile_scatter` READS
+  # `ground-control.png` (compile_scatter.py:117) and reads the settlement
+  # clearance, so paint applied after it is not in the bundles the world
+  # streams and the trees grow through the floors. Publishing the bundle first
+  # is what gives the paint stage something to read.
+  "export_settlement_bundle"
+  "settlement_ground_control"
   "compile_scatter"
 )
 
@@ -126,6 +138,15 @@ FOOTPRINT_STAGES=(
   "compile_water"
   "terrain_request_postconditions"
   "rebake_landcover"
+  # The settlement ground paint sits BETWEEN the land-cover bake and the
+  # scatter, and it has to. `rebake_landcover` rewrites `ground-control.png`
+  # from scratch, so paint applied before it is wiped; `compile_scatter` READS
+  # `ground-control.png` (compile_scatter.py:117) and reads the settlement
+  # clearance, so paint applied after it is not in the bundles the world
+  # streams and the trees grow through the floors. Publishing the bundle first
+  # is what gives the paint stage something to read.
+  "export_settlement_bundle"
+  "settlement_ground_control"
   "compile_scatter"
 )
 
