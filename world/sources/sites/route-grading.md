@@ -6,16 +6,16 @@ grading. The shoulder is sized from the change the blend actually applies, so wh
 
 | class | ways | cap deg | max grad before | max grad after | metres graded | ford/bridge m |
 | --- | --- | --- | --- | --- | --- | --- |
-| boardwalk | 40 | n/a (not graded) | 68.3 | 68.3 | 0 | 0 |
-| causeway | 1 | 12 | 38.0 | 2.7 | 4 | 142 |
-| footpath | 90 | 17 | 84.9 | 39.6 | 30960 | 7235 |
-| road | 7 | 8 | 59.1 | 8.5 | 20105 | 16246 |
-| track | 34 | 12 | 68.2 | 12.9 | 26673 | 15534 |
-| trunk_road | 3 | 8 | 69.4 | 7.8 | 9523 | 7794 |
+| boardwalk | 25 | n/a (not graded) | 81.0 | 81.0 | 0 | 0 |
+| causeway | 2 | 12 | 13.6 | 8.7 | 37 | 100 |
+| footpath | 95 | 17 | 74.2 | 39.6 | 30213 | 7085 |
+| road | 7 | 8 | 59.1 | 8.5 | 19853 | 16921 |
+| track | 42 | 12 | 68.2 | 12.8 | 28811 | 14670 |
+| trunk_road | 3 | 8 | 69.4 | 7.8 | 9623 | 7763 |
 
-Heightfield samples changed: 943906.
+Heightfield samples changed: 983811.
 
-Ways still over their cap: 3 of 135. Routing now holds the gradient itself — both solvers wall off any step over the class cap (`routes.grade_factor`), so a line climbs a spur by switchback or contour instead of head-on. What survives is not a line that could have gone round: it is ground that has to be climbed to reach the place at the end of it, and the honest remedy is authored geometry (a stair, a ramped terrace, a boardwalk or a bridge over the gap), not a deeper cut.
+Ways still over their cap: 3 of 149. Routing now holds the gradient itself — both solvers wall off any step over the class cap (`routes.grade_factor`), so a line climbs a spur by switchback or contour instead of head-on. What survives is not a line that could have gone round: it is ground that has to be climbed to reach the place at the end of it, and the honest remedy is authored geometry (a stair, a ramped terrace, a boardwalk or a bridge over the gap), not a deeper cut.
 
 ## Survivors and what each one needs
 
@@ -31,60 +31,62 @@ These ways were over the cap on the natural ground and are not any more: the cli
 
 | way | class | structure m | max grad after |
 | --- | --- | --- | --- |
-| `route.road.alten-corimont-stormhold` | road | 135 | 8.4 |
+| `route.road.alten-corimont-stormhold` | road | 496 | 7.7 |
 | `route.road.archon-gideon` | road | 59 | 8.5 |
 | `route.road.blackrose-lilmoth` | road | 61 | 5.0 |
-| `route.road.gideon-blackwood-road` | trunk_road | 407 | 7.2 |
-| `route.road.gideon-soulrest` | road | 21 | 7.2 |
-| `route.road.gideon-stormhold` | road | 133 | 7.8 |
-| `route.road.stormhold-thorn` | trunk_road | 402 | 7.8 |
-| `route.road.thorn-tear-road` | trunk_road | 331 | 5.9 |
-| `track.dunmer-north.branchmont` | track | 38 | 11.3 |
-| `track.dunmer-north.crystalgate` | track | 737 | 10.7 |
-| `track.dunmer-north.cut-and-stack` | footpath | 34 | 6.1 |
+| `route.road.gideon-blackwood-road` | trunk_road | 576 | 7.6 |
+| `route.road.gideon-soulrest` | road | 134 | 7.2 |
+| `route.road.gideon-stormhold` | road | 226 | 7.8 |
+| `route.road.stormhold-thorn` | trunk_road | 462 | 7.8 |
+| `route.road.thorn-tear-road` | trunk_road | 500 | 5.7 |
+| `track.dunmer-north.branchmont` | track | 67 | 11.3 |
+| `track.dunmer-north.crystalgate` | track | 757 | 12.0 |
+| `track.dunmer-north.cut-and-stack` | footpath | 56 | 6.1 |
 | `track.dunmer-north.hissmir` | track | 18 | 8.8 |
-| `track.dunmer-north.mazzatun` | track | 1223 | 10.4 |
-| `track.dunmer-north.nine-fords` | track | 42 | 6.3 |
+| `track.dunmer-north.hixinoag` | footpath | 17 | 3.9 |
+| `track.dunmer-north.mazzatun` | track | 1341 | 12.7 |
 | `track.dunmer-north.nine-marks` | footpath | 784 | 6.8 |
-| `track.dunmer-north.saltmarch-village` | track | 551 | 12.0 |
-| `track.dunmer-north.silyanorn-diggings` | footpath | 1979 | 16.0 |
+| `track.dunmer-north.saltmarch-village` | track | 641 | 12.0 |
+| `track.dunmer-north.silyanorn-diggings` | footpath | 2600 | 17.0 |
+| `track.dunmer-north.sings-for-the-pipes` | footpath | 17 | 0.0 |
 | `track.dunmer-north.stands-on-the-island` | track | 37 | 11.3 |
-| `track.dunmer-north.tearmouth` | track | 37 | 10.0 |
-| `track.dunmer-north.the-ash-causeway` | footpath | 19 | 12.8 |
-| `track.dunmer-north.the-diggings-ladder` | footpath | 1762 | 15.0 |
-| `track.dunmer-north.the-field-gate-garrison` | track | 1522 | 10.4 |
-| `track.dunmer-north.the-fish-boon-ground` | footpath | 19 | 6.1 |
-| `track.dunmer-north.the-last-landing` | footpath | 36 | 12.8 |
-| `track.dunmer-north.the-northern-rest` | footpath | 66 | 12.8 |
+| `track.dunmer-north.the-ash-causeway` | footpath | 19 | 16.0 |
+| `track.dunmer-north.the-diggings-ladder` | footpath | 1932 | 14.0 |
+| `track.dunmer-north.the-field-gate-garrison` | track | 1769 | 12.7 |
+| `track.dunmer-north.the-fish-boon-ground` | footpath | 19 | 10.3 |
+| `track.dunmer-north.the-last-landing` | footpath | 36 | 16.0 |
+| `track.dunmer-north.the-northern-rest` | footpath | 66 | 13.4 |
 | `track.dunmer-north.the-salt-and-shell` | footpath | 16 | 6.4 |
-| `track.dunmer-north.the-shut-village` | footpath | 600 | 15.7 |
-| `track.dunmer-north.the-veterans-ridge` | track | 1616 | 10.7 |
+| `track.dunmer-north.the-shut-village` | footpath | 772 | 14.2 |
+| `track.dunmer-north.the-veterans-ridge` | track | 1721 | 12.0 |
 | `track.hist-heartland.heretic-stone-restarted` | track | 535 | 11.8 |
-| `track.hist-heartland.porter-relay-poling` | footpath | 26 | 0.0 |
-| `track.imperial-fringe.bone-road-waystation` | footpath | 1069 | 16.9 |
-| `track.imperial-fringe.lowmere-raft-town` | causeway | 61 | 2.7 |
+| `track.hist-heartland.porter-relay-poling` | footpath | 107 | 0.8 |
+| `track.imperial-fringe.bone-road-waystation` | footpath | 1117 | 17.4 |
+| `track.imperial-fringe.claywater-station` | footpath | 22 | 0.0 |
+| `track.imperial-fringe.fort-swampmoth` | footpath | 18 | 6.7 |
+| `track.imperial-fringe.lowmere-raft-town` | footpath | 13 | 6.2 |
 | `track.imperial-fringe.marcians-terrace` | footpath | 654 | 17.0 |
-| `track.imperial-fringe.mile-house-of-the-eagle` | footpath | 18 | 6.8 |
-| `track.imperial-fringe.moonmarch-ground` | footpath | 21 | 7.9 |
-| `track.imperial-fringe.onkobra-kwama-mine` | footpath | 88 | 6.7 |
-| `track.imperial-fringe.reedcutters-toll` | footpath | 301 | 12.9 |
+| `track.imperial-fringe.mile-house-of-the-eagle` | footpath | 18 | 11.4 |
+| `track.imperial-fringe.moonmarch-ground` | footpath | 41 | 17.2 |
+| `track.imperial-fringe.onkobra-kwama-mine` | footpath | 145 | 6.7 |
+| `track.imperial-fringe.red-cart-yard` | footpath | 21 | 4.6 |
+| `track.imperial-fringe.reedcutters-toll` | footpath | 301 | 13.1 |
 | `track.imperial-fringe.stonefoot-terrace-village` | footpath | 285 | 12.5 |
 | `track.imperial-fringe.stonewastes` | track | 639 | 11.8 |
-| `track.imperial-fringe.swampmoth-town` | track | 2591 | 10.4 |
+| `track.imperial-fringe.swampmoth-town` | track | 3578 | 10.9 |
 | `track.imperial-fringe.the-hollow-pass-station` | footpath | 72 | 16.3 |
-| `track.imperial-fringe.the-pass-shelter` | footpath | 173 | 6.8 |
-| `track.imperial-fringe.the-stone-talkers-watch` | track | 1097 | 10.7 |
+| `track.imperial-fringe.the-pass-shelter` | footpath | 98 | 2.3 |
+| `track.imperial-fringe.the-stone-talkers-watch` | track | 1542 | 10.7 |
 | `track.imperial-fringe.westfield-village` | track | 53 | 9.5 |
-| `track.mercantile-coast.ixtaxh-xanmeer` | footpath | 26 | 0.4 |
-| `track.mercantile-coast.lighter-flotilla` | footpath | 138 | 8.8 |
+| `track.imperial-penal-south.rose-supply-town` | track | 19 | 2.9 |
 | `track.mercantile-coast.moonmarch` | footpath | 18 | 6.4 |
 | `track.pirate-freeholds.chasecreek` | footpath | 18 | 10.8 |
-| `track.pirate-freeholds.dunmer-frontier-holding` | track | 662 | 11.8 |
+| `track.pirate-freeholds.dunmer-frontier-holding` | track | 698 | 11.8 |
 | `track.pirate-freeholds.rim-pass-station` | footpath | 59 | 14.8 |
 | `track.pirate-freeholds.rockpoint` | footpath | 18 | 13.3 |
-| `track.pirate-freeholds.trunk-road-tradehouse` | footpath | 308 | 12.0 |
+| `track.pirate-freeholds.trunk-road-tradehouse` | footpath | 308 | 10.6 |
 | `track.pirate-freeholds.upriver-hist-village` | track | 1 | 3.7 |
-| `track.pirate-freeholds.veterans-holding` | track | 1582 | 11.8 |
+| `track.pirate-freeholds.veterans-holding` | track | 1707 | 11.8 |
 
 ## Major roads: stretches re-routed before grading
 
@@ -93,14 +95,14 @@ These ways were over the cap on the natural ground and are not any more: the cli
 | road | class | natural max before | after | stretches | points |
 | --- | --- | --- | --- | --- | --- |
 | `route.road.alten-corimont-stormhold` | road | 8.1 | 7.9 | 1 | 484 → 486 |
-| `route.road.archon-gideon` | road | 21.2 | 7.9 | 3 | 1018 → 1017 |
+| `route.road.archon-gideon` | road | 21.2 | 7.9 | 3 | 1018 → 1050 |
 | `route.road.blackrose-lilmoth` | road | 6.7 | 6.7 | 0 | 189 → 189 |
-| `route.road.gideon-blackwood-road` | trunk_road | 27.1 | 11.4 | 6 | 445 → 516 |
-| `route.road.gideon-soulrest` | road | 21.2 | 8.0 | 6 | 745 → 790 |
-| `route.road.gideon-stormhold` | road | 22.8 | 7.9 | 6 | 865 → 899 |
-| `route.road.helstrom-blackrose` | road | 13.7 | 7.7 | 2 | 778 → 875 |
-| `route.road.soulrest-blackrose` | road | 10.2 | 7.1 | 1 | 428 → 432 |
-| `route.road.stormhold-thorn` | trunk_road | 22.1 | 10.1 | 8 | 1596 → 1841 |
+| `route.road.gideon-blackwood-road` | trunk_road | 27.1 | 11.4 | 7 | 445 → 552 |
+| `route.road.gideon-soulrest` | road | 21.2 | 8.0 | 6 | 745 → 822 |
+| `route.road.gideon-stormhold` | road | 22.8 | 7.9 | 6 | 865 → 919 |
+| `route.road.helstrom-blackrose` | road | 13.7 | 7.7 | 2 | 778 → 870 |
+| `route.road.soulrest-blackrose` | road | 10.2 | 7.1 | 1 | 428 → 434 |
+| `route.road.stormhold-thorn` | trunk_road | 22.1 | 10.1 | 9 | 1596 → 1833 |
 | `route.road.thorn-tear-road` | trunk_road | 38.8 | 38.8 | 1 | 270 → 314 |
 
 ## Worst ten remaining spots
@@ -111,9 +113,9 @@ These ways were over the cap on the natural ground and are not any more: the cli
 | track.dunmer-north.the-first-count | footpath | 20.2 | 2.65 | 0.73 |
 | track.dunmer-north.the-north-border-post | footpath | 20.2 | 2.65 | 0.73 |
 | track.imperial-fringe.the-ravine-doors | footpath | 17.7 | 1.11 | 4.88 |
+| track.imperial-fringe.bone-road-waystation | footpath | 17.4 | 0.35 | 2.64 |
+| track.imperial-fringe.moonmarch-ground | footpath | 17.2 | 1.30 | 3.26 |
+| track.dunmer-north.silyanorn-diggings | footpath | 17.0 | 1.53 | 0.85 |
 | track.imperial-fringe.marcians-terrace | footpath | 17.0 | 0.77 | 4.48 |
-| track.imperial-fringe.bone-road-waystation | footpath | 16.9 | 0.65 | 2.93 |
 | track.imperial-fringe.the-hollow-pass-station | footpath | 16.3 | 1.20 | 1.89 |
-| track.dunmer-north.silyanorn-diggings | footpath | 16.0 | 1.52 | 0.85 |
-| track.dunmer-north.the-shut-village | footpath | 15.7 | 5.44 | 0.81 |
-| track.dunmer-north.nine-stone-bench | footpath | 15.5 | 2.21 | 1.51 |
+| track.dunmer-north.the-ash-causeway | footpath | 16.0 | 6.27 | 0.58 |

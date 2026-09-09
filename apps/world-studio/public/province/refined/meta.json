@@ -24,26 +24,26 @@
   "channelCarve": {
     "stations": 31700,
     "reaches": 162,
-    "cellsLowered": 160729,
-    "cellsRaised": 21792,
-    "medianM": 0.724,
-    "p90M": 2.472,
+    "cellsLowered": 159991,
+    "cellsRaised": 21789,
+    "medianM": 0.721,
+    "p90M": 2.461,
     "maxM": 135.936,
     "maxRaiseM": 4.5,
     "trenchCells": 222849,
-    "pooledStations": 16547,
+    "pooledStations": 16619,
     "shoreStations": 492,
     "capturedStations": 735,
-    "fordStations": 1169,
+    "fordStations": 1206,
     "fallStations": 24,
     "lostStations": 0,
-    "steepStations": 6299,
+    "steepStations": 6302,
     "falls": 16,
     "plungeBasins": 16,
-    "pooledLevelMoved": 773,
+    "pooledLevelMoved": 777,
     "pooledLevelMovedMaxM": 1.134,
-    "pooledLevelLost": 110,
-    "islandsLowered": 1445,
+    "pooledLevelLost": 114,
+    "islandsLowered": 1440,
     "authoredWaterways": [
       {
         "id": "waterway.hist-heartland.nine-trunks",
@@ -53,7 +53,13 @@
         "promisedDepthM": 0.6,
         "hullClass": "canoe",
         "samplesCut": 757,
-        "joins": 2
+        "joins": 2,
+        "window": [
+          2064,
+          2142,
+          2724,
+          2762
+        ]
       }
     ],
     "dockApproaches": [
@@ -72,16 +78,16 @@
         "routeId": "waterway.hist-heartland.sap-tapping-licensed.landing",
         "hullClass": "canoe",
         "promisedDepthM": 0.6,
-        "waterLevelAtBerthM": 28.818,
-        "waterLevelAtReachEndM": 22.33,
-        "existingMinDepthM": -5.934,
-        "bedAtBerthM": 27.968,
+        "waterLevelAtBerthM": 0.053,
+        "waterLevelAtReachEndM": 0.053,
+        "existingMinDepthM": -1.137,
+        "bedAtBerthM": -0.797,
         "halfWidthM": 6.0,
-        "lengthM": 172.0,
+        "lengthM": 246.0,
         "status": "blocked",
-        "blockedSamples": 45,
-        "blockedFirstAtM": 8.0,
-        "blockedHighestAboveWaterM": 5.934
+        "blockedSamples": 14,
+        "blockedFirstAtM": 74.0,
+        "blockedHighestAboveWaterM": 1.137
       },
       {
         "dockId": "dock.lilmoth.lighter-quay",
@@ -99,6 +105,12 @@
         "volumeM3": 26226.4,
         "maxCutM": 3.25,
         "protectedCoreCells": 302,
+        "window": [
+          3468,
+          3643,
+          2001,
+          2153
+        ],
         "dredgedMinDepthM": 3.25,
         "status": "dredged"
       },
@@ -128,6 +140,12 @@
         "volumeM3": 20380.8,
         "maxCutM": 3.249,
         "protectedCoreCells": 530,
+        "window": [
+          3337,
+          3502,
+          2119,
+          2218
+        ],
         "dredgedMinDepthM": 3.25,
         "status": "dredged"
       },
@@ -162,11 +180,17 @@
         "bedAtBerthM": -0.85,
         "halfWidthM": 6.0,
         "lengthM": 100.0,
-        "cellsCut": 88,
-        "areaM2": 294.0,
-        "volumeM3": 103.4,
+        "cellsCut": 84,
+        "areaM2": 280.6,
+        "volumeM3": 104.8,
         "maxCutM": 0.85,
-        "protectedCoreCells": 42,
+        "protectedCoreCells": 34,
+        "window": [
+          2485,
+          2543,
+          1392,
+          1428
+        ],
         "dredgedMinDepthM": 0.85,
         "status": "dredged"
       }
@@ -174,20 +198,20 @@
     "forcedBasins": 1,
     "neighbourCapturedStations": 544,
     "lostReaches": 0,
-    "cutBelowFloorP90M": 0.18,
-    "cutBelowFloorMaxM": 7.75,
+    "cutBelowFloorP90M": 0.17,
+    "cutBelowFloorMaxM": 7.16,
     "bodies": {
       "depressions": 77240,
       "acceptedDepressions": 2542,
       "rescuedBasins": 194,
       "sheets": 1865,
-      "roadCapped": 71,
+      "roadCapped": 67,
       "roadRejected": 0,
       "nestedAccepted": 38,
       "nestedCandidates": 6613,
-      "bodies": 2749,
-      "sheetBodies": 1920,
-      "bodyCells": 575530
+      "bodies": 2740,
+      "sheetBodies": 1917,
+      "bodyCells": 584251
     }
   },
   "terrainRequests": {

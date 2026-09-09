@@ -1,8 +1,8 @@
 {
-  "inputHeightSha256": "9f4be4add7a92ec47e4d7a6263518c5db7536b9c7785b601ff88d12e030b2139",
+  "inputHeightSha256": "69ca85ac77d480eb71c116d1cdfc593eb2e9202da841e4f58b5d7feb414d0883",
   "kind": "settlement-pad-grades",
-  "outputHeightSha256": "619692d372a475f3647c2e98d9b458e692c3eab7c3374b825d0f201e3cc7fd16",
-  "padSetSha256": "c151813d3c2a437ed6e8ff68df926c8d4b23ed177c3304252dbb523cc0a375b6",
+  "outputHeightSha256": "f37f2c22bb61a3f0932e6f9f5b558faba3085bf2cc0ad216a7341073d8852328",
+  "padSetSha256": "04d5a87e44b9073b52aaf8f60695a2fe5a1402ff4ff60119c646cfded651e8c3",
   "pads": [
     {
       "changedSamples": 6,
@@ -60,16 +60,16 @@
       "falloffM": 2.251013,
       "falloffRatio": 2.5,
       "id": "pad-grade.place.dunmer-north.mazzatun.parcel.mazzatun.hoist",
-      "maxCutM": 0.156219,
-      "maxFillM": 0.842987,
+      "maxCutM": 0.105026,
+      "maxFillM": 0.760971,
       "maxHardSurfaceErrorM": 0.0,
-      "measuredDeltaM": 1.163631,
+      "measuredDeltaM": 1.008556,
       "parcelId": "parcel.mazzatun.hoist",
       "placeId": "place.dunmer-north.mazzatun",
       "postcondition": "pass",
       "residualTiltDeg": 0.7,
       "sourceBlueprintSha256": "b405e3371e41e68daca81bff63c8654c63b05869d61d6b8e0481afb77984df28",
-      "targetHeightM": 207.243687,
+      "targetHeightM": 206.958077,
       "tiltBearingDeg": 208.2
     },
     {
@@ -96,14 +96,14 @@
       "id": "pad-grade.place.dunmer-north.mazzatun.parcel.mazzatun.pen-oven",
       "maxCutM": 0.291626,
       "maxFillM": 1.159836,
-      "maxHardSurfaceErrorM": 7.6e-06,
-      "measuredDeltaM": 0.993768,
+      "maxHardSurfaceErrorM": 7.4e-06,
+      "measuredDeltaM": 0.992068,
       "parcelId": "parcel.mazzatun.pen-oven",
       "placeId": "place.dunmer-north.mazzatun",
       "postcondition": "pass",
       "residualTiltDeg": 0.7,
       "sourceBlueprintSha256": "b405e3371e41e68daca81bff63c8654c63b05869d61d6b8e0481afb77984df28",
-      "targetHeightM": 206.963304,
+      "targetHeightM": 206.963381,
       "tiltBearingDeg": 342.0
     },
     {
@@ -111,16 +111,16 @@
       "falloffM": 2.662098,
       "falloffRatio": 2.5,
       "id": "pad-grade.place.dunmer-north.mazzatun.parcel.mazzatun.pen-rack",
-      "maxCutM": 0.222366,
-      "maxFillM": 0.835709,
-      "maxHardSurfaceErrorM": 2.3e-06,
-      "measuredDeltaM": 0.820007,
+      "maxCutM": 0.220856,
+      "maxFillM": 0.831909,
+      "maxHardSurfaceErrorM": 1.3e-06,
+      "measuredDeltaM": 0.88042,
       "parcelId": "parcel.mazzatun.pen-rack",
       "placeId": "place.dunmer-north.mazzatun",
       "postcondition": "pass",
       "residualTiltDeg": 0.7,
       "sourceBlueprintSha256": "b405e3371e41e68daca81bff63c8654c63b05869d61d6b8e0481afb77984df28",
-      "targetHeightM": 206.401583,
+      "targetHeightM": 206.398284,
       "tiltBearingDeg": 325.7
     },
     {
@@ -332,16 +332,16 @@
       "falloffM": 1.82784,
       "falloffRatio": 2.5,
       "id": "pad-grade.place.hist-heartland.sap-tapping-licensed.parcel.sap-tapping-licensed.mule-line",
-      "maxCutM": 0.037859,
-      "maxFillM": 0.446886,
+      "maxCutM": 0.037668,
+      "maxFillM": 0.447779,
       "maxHardSurfaceErrorM": 5e-07,
-      "measuredDeltaM": 0.461539,
+      "measuredDeltaM": 0.46307,
       "parcelId": "parcel.sap-tapping-licensed.mule-line",
       "placeId": "place.hist-heartland.sap-tapping-licensed",
       "postcondition": "pass",
       "residualTiltDeg": 0.7,
-      "sourceBlueprintSha256": "890d82155bd3053a0d5aa17fe6bd7908d2fb0a42245b4cbb94cd92c7de03a617",
-      "targetHeightM": 31.564396,
+      "sourceBlueprintSha256": "d97cb41845e5d63f9b257e637fdebef1c65ddce72a4103e5466e2835f6e77050",
+      "targetHeightM": 31.568394,
       "tiltBearingDeg": 270.0
     },
     {
@@ -396,6 +396,6 @@
       "tiltBearingDeg": 243.5
     }
   ],
-  "receiptSha256": "567dc120dc23145fc090381291e0ab4297d7fb6d9e0ecc093f228d244a55a4b7",
+  "receiptSha256": "995b1135c40e78c9c9c4ba42dc232da03b2aeb7d9a5fe75362fdaa3eff5214f6",
   "schemaVersion": 1
 }

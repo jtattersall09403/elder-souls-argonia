@@ -1,5 +1,5 @@
 {
- "routesSha256": "c4a101ca9960e20bb1a3532f46cdf1c79c7d7ade37c6dd63c96373ecab7c0d57",
+ "routesSha256": "9d53b02834634cea40f621233d2d447098d18b7af108c30f55e7c75bb40f4d2a",
  "naturalSha256": "0c3fb8323226b24d2fba9eaee3acd8c308fd46f45668cd7042be3ac28c846aad",
  "roads": [
   {
@@ -10,7 +10,7 @@
    "afterDeg": 7.106705184146567,
    "stretches": 1,
    "pxBefore": 428,
-   "pxAfter": 432,
+   "pxAfter": 434,
    "worstKm": [
     1.12,
     6.75
@@ -53,9 +53,9 @@
    "cap": 8.0,
    "beforeDeg": 22.072339947126128,
    "afterDeg": 10.061005455798965,
-   "stretches": 8,
+   "stretches": 9,
    "pxBefore": 1596,
-   "pxAfter": 1841,
+   "pxAfter": 1833,
    "worstKm": [
     6.19,
     0.81
@@ -70,7 +70,7 @@
    "afterDeg": 7.892268462719443,
    "stretches": 6,
    "pxBefore": 865,
-   "pxAfter": 899,
+   "pxAfter": 919,
    "worstKm": [
     2.41,
     1.09
@@ -85,7 +85,7 @@
    "afterDeg": 7.983839654634931,
    "stretches": 6,
    "pxBefore": 745,
-   "pxAfter": 790,
+   "pxAfter": 822,
    "worstKm": [
     1.99,
     3.37
@@ -98,9 +98,9 @@
    "cap": 8.0,
    "beforeDeg": 27.12750511213028,
    "afterDeg": 11.419793950577473,
-   "stretches": 6,
+   "stretches": 7,
    "pxBefore": 445,
-   "pxAfter": 516,
+   "pxAfter": 552,
    "worstKm": [
     0.75,
     3.21
@@ -115,7 +115,7 @@
    "afterDeg": 7.888272471328184,
    "stretches": 3,
    "pxBefore": 1018,
-   "pxAfter": 1017,
+   "pxAfter": 1050,
    "worstKm": [
     3.69,
     3.21
@@ -130,7 +130,7 @@
    "afterDeg": 7.679847798762093,
    "stretches": 2,
    "pxBefore": 778,
-   "pxAfter": 875,
+   "pxAfter": 870,
    "worstKm": [
     3.43,
     3.28

@@ -23,7 +23,7 @@
   16,
   16
  ],
- "sourceSha256": "12b97b63f998d69409905d66de0b7b1a7cdefbb7d904d5298f70db7eb4b31906",
+ "sourceSha256": "437efb86d3cec7e8daad3a0bff4ca9ce7ca82164b3cd64c2460becf2f9537a9b",
  "chunks": [
   {
    "cx": 0,
@@ -580,7 +580,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -2.22,
+     "minM": -2.554,
      "maxM": 159.299
     }
    }
@@ -1400,7 +1400,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": 266.077,
+     "minM": 266.073,
      "maxM": 590.453
     },
     "2": {
@@ -1410,7 +1410,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": 266.471,
+     "minM": 266.469,
      "maxM": 589.638
     },
     "4": {
@@ -1420,7 +1420,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 266.726,
+     "minM": 266.724,
      "maxM": 587.418
     }
    }
@@ -2361,7 +2361,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": -4.756,
-     "maxM": 141.602
+     "maxM": 141.605
     },
     "2": {
      "file": "chunk_10_3_lod2.png",
@@ -2371,7 +2371,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -4.7,
-     "maxM": 141.458
+     "maxM": 141.462
     },
     "4": {
      "file": "chunk_10_3_lod4.png",
@@ -2381,7 +2381,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -3.932,
-     "maxM": 141.18
+     "maxM": 141.182
     }
    }
   },
@@ -6761,7 +6761,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": 8.545,
-     "maxM": 38.195
+     "maxM": 38.076
     },
     "2": {
      "file": "chunk_8_10_lod2.png",
@@ -6771,7 +6771,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": 8.776,
-     "maxM": 38.145
+     "maxM": 37.996
     },
     "4": {
      "file": "chunk_8_10_lod4.png",
@@ -6781,7 +6781,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": 9.466,
-     "maxM": 38.02
+     "maxM": 37.931
     }
    }
   },
@@ -7281,7 +7281,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": -4.396,
-     "maxM": 5.991
+     "maxM": 5.941
     },
     "2": {
      "file": "chunk_5_11_lod2.png",
@@ -7291,7 +7291,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -4.12,
-     "maxM": 5.951
+     "maxM": 5.891
     },
     "4": {
      "file": "chunk_5_11_lod4.png",
@@ -7301,7 +7301,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -3.695,
-     "maxM": 5.851
+     "maxM": 5.845
     }
    }
   },
@@ -7481,7 +7481,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": -38.842,
-     "maxM": 5.643
+     "maxM": 5.66
     },
     "2": {
      "file": "chunk_10_11_lod2.png",
@@ -7491,7 +7491,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -38.842,
-     "maxM": 5.015
+     "maxM": 5.039
     },
     "4": {
      "file": "chunk_10_11_lod4.png",
@@ -7501,7 +7501,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -38.874,
-     "maxM": 4.373
+     "maxM": 4.383
     }
    }
   },
@@ -7961,7 +7961,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": -3.468,
-     "maxM": 7.48
+     "maxM": 7.488
     },
     "2": {
      "file": "chunk_6_12_lod2.png",
@@ -7971,7 +7971,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -3.453,
-     "maxM": 7.333
+     "maxM": 7.332
     },
     "4": {
      "file": "chunk_6_12_lod4.png",
@@ -8001,7 +8001,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": -4.033,
-     "maxM": 7.35
+     "maxM": 7.126
     },
     "2": {
      "file": "chunk_7_12_lod2.png",
@@ -8011,7 +8011,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -3.877,
-     "maxM": 6.573
+     "maxM": 6.458
     },
     "4": {
      "file": "chunk_7_12_lod4.png",
@@ -8021,7 +8021,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -3.751,
-     "maxM": 6.042
+     "maxM": 6.198
     }
    }
   },
@@ -8721,7 +8721,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": -61.842,
-     "maxM": 4.287
+     "maxM": 4.286
     },
     "2": {
      "file": "chunk_9_13_lod2.png",
@@ -8731,7 +8731,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -61.219,
-     "maxM": 4.273
+     "maxM": 4.267
     },
     "4": {
      "file": "chunk_9_13_lod4.png",
@@ -8741,7 +8741,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -60.739,
-     "maxM": 4.241
+     "maxM": 4.225
     }
    }
   },
