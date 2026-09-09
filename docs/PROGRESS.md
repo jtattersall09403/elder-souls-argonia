@@ -97,16 +97,22 @@ may turn up work that belongs to this session's goal.
   own failure message says so. It measures the shipped scatter bundles against
   the re-based density ladder, so it stays red until the scatter rollout in
   step 2 runs. Do not "fix" it; run step 2.
-- `test_type_siting::test_the_built_ground_is_what_stands_there_not_the_outer_boundary`
-  — **measured 2026-09-09: this is a one-line test fragility, not unfinished
-  work.** The assertion that matters passes on both revisions (built ground
-  reads 20–35 m either way). What fails is the guard that stops the test being
-  vacuous: it compares the working tree's sap-tapping blueprint against `HEAD`
-  and requires the two outer boundaries to differ by >100 m, and now that the
-  landing move is committed both read exactly 254.22 m. Pin the "before"
-  revision to the commit before the landing move instead of to `HEAD` and it
-  goes green. Keep the guard — it is the thing that stops the test passing for
-  the wrong reason.
+- ~~`test_type_siting::test_the_built_ground_is_what_stands_there_not_the_outer_boundary`~~
+  — **FIXED 2026-09-09 (`956b8b25`).** The "before" revision is pinned to
+  `c37bc674`, the last revision before the landing move blew the sap camp's
+  outer boundary from 31.83 m to 254.22 m, so the anti-vacuity guard can fire
+  again. The guard is kept.
+
+**The stale vault is reconciled (2026-09-09, this session).** One
+`terrain-chain.sh --from refine_province` on committed sources: 8m03s, exit 0,
+and `worldgen/test_water_invariants.py` is now **43/43 green** — the three
+failures predicted below were the stale-vault mismatch, exactly as diagnosed,
+not compiler defects. Stage timings from that run, for sizing work: refine
+150s · compile_water 67s + 68s · reroute_majors 14s · compile_minor_routes 11s
+· grade_routes 8.9s + 8.1s · compile_chunks 32s · export_web_chunks 28s ·
+rebake_landcover 39s · compile_scatter 34s. One new finding from it:
+`stats.dryCoarseRiverCells` reads **2**, where the water resume note requires
+0; it is with the water work.
 
 1. **Finish the chain optimisation — and do it efficiently** (owner, 2026-09-09).
    A one-dock edit cost a **461 s** full province rebuild and we paid it
