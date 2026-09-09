@@ -225,10 +225,10 @@ rebake_landcover 39s · compile_scatter 34s. One new finding from it:
 4. **Phase 11's gap fill** — [phase11-gap-plan.md](research/phase11/phase11-gap-plan.md).
    **B13 carries the paused session's whole plan** (the per-consumer season
    design, the marsh-credit deletion, the single accessor, the D1 hostility
-   floor, what is queued against water). **Warning: there are two sections
-   numbered B12** — the grader `_water_fields` redesign (line ~294) and the
-   place-extent batch (line ~366), written by the two sessions independently.
-   Renumber one before working from it.
+   floor, what is queued against water). ~~Warning: there are two sections
+   numbered B12~~ — **fixed 2026-09-09**: the place-extent batch is now **B14**
+   and the grader `_water_fields` redesign keeps B12; the two 0041
+   cross-references were repointed with it.
 
    **Owner ruling 2026-09-09:** the hostile-density figure (">= 15/km², at
    least Morrowind's frequency") is a **preference held in balance, not a hard

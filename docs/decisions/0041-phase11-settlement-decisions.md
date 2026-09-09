@@ -255,7 +255,11 @@ touchpoint wait on compiler work it doesn't need.
    the same compile** for affected chunks — near scatter recompiled while
    the distant billboard layer isn't gives ghost trees that vanish on
    approach (same rule as building LOD). The skeleton emits masks +
-   affectedChunks; the scatter-compiler consumption of them is open work.
+   affectedChunks; the scatter compiler and the runtime groundcover ring both
+   consume them since 2026-09-09, through the one keep-factor rule in
+   `worldgen/settlement_clearance.py` and its TypeScript twin. Principle
+   [C13](../world/97-placement-principles.md) describes what runs; the
+   playbook's step 7b says when to re-scatter.
    **Phase 10 caution (2026-09-02): tree-collider work is still in flight**
    — a parallel agent is finalising trunk solidity (round 9+ did not pass).
    Design the clearing-mask interface against the scatter compiler's
@@ -2496,7 +2500,7 @@ from every settlement; 13.9 % is ≥600 m. The isolation floors are therefore
 `--resolve-all` under the model leaves 6 of 580 records with no honest site
 (`horwalli-waterworks-deeps`, `dream-wallow-sap-pool`, `freehold-smithy`,
 `the-permit-dig`, `wamasu-pond-nest`, `rim-snowline-hermitage`). Measured
-route down: 44 → 30 → 19 → 13 → 7 → 6 (see gap-plan B12 for what each step
+route down: 44 → 30 → 19 → 13 → 7 → 6 (see gap-plan B14 for what each step
 was). Two of the six carry no `proximity` block at all, so proximity tuning
 cannot reach zero — the footprint model itself costs those records. **Owner
 call:** shrink the radii, cut/defer ~6 records, or raise supply. The prize is
@@ -2564,7 +2568,7 @@ commands, but real.
 sited at the type's 600 m floor: measured, the best isolation either can reach
 after every other authored gate is 580 m and 309 m, because the border
 mountains are where the province's rim settlements are. Options and evidence
-in gap-plan B12. Also open at 578/580: one empty Thomas parent in
+in gap-plan B14. Also open at 578/580: one empty Thomas parent in
 `imperial-penal-south`, and three `maxFromM` ceilings missing by 0.3 m, 37 m
 and 201 m through the known ordering hole (a ceiling is unjudgeable until
 something of its class is plotted).
