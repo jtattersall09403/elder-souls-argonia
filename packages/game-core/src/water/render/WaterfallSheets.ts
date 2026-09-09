@@ -66,9 +66,45 @@ export const CREST_FOAM_M = 3;
  * 15 % dissolve on a 20 m fall left that point one third opaque against dark
  * rock while the pool foam past the foot was solid white (42 % step). */
 export const SHEET_FOOT_DISSOLVE_M = 0.8;
-/** Aerated water is opaque: the alpha floor rises with the whiteness so a
- * plunging body is never a 55 % veil over the cliff (fit band, 0047 addendum). */
-export const SHEET_AERATED_OPACITY = 0.9;
+/**
+ * Opacity of FULLY aerated water. Re-derived 2026-09-08 against the falls the
+ * compiler actually emits (16 true cliffs, 6.5–131 m, 74–88°) rather than the
+ * mixed ramp/fall set the old 0.9 was tuned on: a white-water jet is optically
+ * thick within centimetres, so the floor at full aeration is all but 1, and the
+ * rock shows through only where the aeration itself is low (the top of a short
+ * fall, the feathered edges) — which is what the reference frames show
+ * (docs/research/rendering/reference/). The floor now rides `aeration`, not the
+ * streak-modulated `white`, so it is a property of the water, not of the noise.
+ */
+export const SHEET_AERATED_OPACITY = 0.95;
+/**
+ * Aeration model (free flight). Air entrainment on a plunging jet grows with
+ * how far the jet has travelled AND how fast it is going — the entrained
+ * volume scales with the jet's surface interaction, so the natural variable is
+ * the product `fallenM * speedMS` (m²/s), not the fraction of the drop. That
+ * matters here: `frac` is per-site by construction, so a 6.5 m fall and a
+ * 131 m fall used to reach the same whiteness at the same fraction of their
+ * height, which is physically wrong and needed a per-site constant to hide.
+ * With this form the short fall stays greyer at its foot and the tall one is
+ * saturated a fifth of the way down, from one law.
+ *
+ *   aeration = LIP + (MAX − LIP) · (1 − exp(−fallenM · speedMS / SCALE))
+ *
+ * `LIP` is the broken water already coming over the lip; `SCALE` is set so a
+ * 6.5 m fall (foot speed ~11 m/s) reaches ~0.75 and a 25 m fall (~22 m/s) is
+ * effectively saturated by two thirds of the way down.
+ */
+export const AERATION_LIP = 0.55;
+export const AERATION_MAX = 0.99;
+export const AERATION_SCALE_M2S = 120;
+/**
+ * Body colour endpoints. The un-aerated end is LIT river water in daylight,
+ * not deep water: a falling sheet is a thin, sunlit skin of water, and the old
+ * (0.30, 0.42, 0.46) deep-water end is what made the body render as a dark
+ * ribbon between the bright river above it and the bright pool foam below it
+ * (probe 2026-09-08: fall/foam luminance x0.55). Fully aerated water is white.
+ */
+export const SHEET_WATER_ALBEDO = [0.55, 0.62, 0.66] as const;
 /** The impact zone: over the last metres of arc the body goes fully white and
  * opaque, the way the vanilla skirt's foam covers the bottom 3.5 m — the pool
  * foam past the foot is solid white, and the join must not step. */
@@ -79,11 +115,17 @@ export const SHEET_THICKNESS_M = 0.25;
  * Three body layers (owner refinement): a falling sheet has to read as a
  * plunging VOLUME. Front and back give the 0.25 m thickness; a narrower,
  * brighter core down the middle of the flow gives the body its mass.
+ *
+ * The back layer's tint was 0.55. With `depthWrite` off the three layers
+ * composite in arbitrary order, so a back layer at nearly half brightness
+ * darkened the composite wherever it landed on top — the second half of the
+ * dark-ribbon defect. Aerated water is not darker on its far side; the back
+ * layer is only slightly shaded, enough to read as thickness.
  */
 export const SHEET_LAYERS = [
   { offsetM: 0, widthScale: 1, tint: 1 },
-  { offsetM: -SHEET_THICKNESS_M, widthScale: 1, tint: 0.55 },
-  { offsetM: SHEET_THICKNESS_M * 0.5, widthScale: 0.55, tint: 1.25 },
+  { offsetM: -SHEET_THICKNESS_M, widthScale: 1, tint: 0.8 },
+  { offsetM: SHEET_THICKNESS_M * 0.5, widthScale: 0.55, tint: 1.15 },
 ] as const;
 /**
  * Vanilla thin-sheet families (vault audit §2.2; `NNNNxNNN` = drop x width
@@ -106,14 +148,35 @@ export const SIDE_STRIP_LAYER = 3;
 /** Side strip width at the foot of the fall (m); it pinches to 10 % at the lip. */
 export const SIDE_STRIP_M = 0.6;
 export const SIDE_STRIP_PINCH = 0.1;
-/** Per-layer alpha and soft-particle fade depth (m), from `softFalloffDepth`:
- * 40 u = 0.57 m on the sheets, 75 u = 1.07 m on the spray (side strips)
- * (vault audit §4 rule 5). */
+/**
+ * Per-layer alpha and soft-particle fade depth (m), from `softFalloffDepth`:
+ * 75 u = 1.07 m on the spray (side strips) (vault audit §4 rule 5).
+ *
+ * The three BODY layers carried the sheets' measured 0.57 m and it was the
+ * larger half of the dark-ribbon defect. `airM` is measured against the ground
+ * profile UNDER the arc, so on a 74–88° cliff a sheet standing off the face by
+ * centimetres still reports metres of air (the ground below it is the cliff
+ * base). The fade therefore switched fully ON while the scene depth behind the
+ * fragment was the rock face a few centimetres away — alpha x smoothstep(0,
+ * 0.57, ~0.1) ≈ 0.1, so the body rendered as a ~10 % veil over dark rock.
+ *
+ * A plunging body is opaque water, not a particle card: it does not fade
+ * because a wall is behind it. The soft fade is only for genuine soft cards,
+ * so it now applies to the spray strips alone (0 = off). The body's two real
+ * cut lines are already handled physically: the foot dissolves along its ARC
+ * (`SHEET_FOOT_DISSOLVE_M`) and a bed-following reach is excluded by `airM`.
+ */
 export const SHEET_LAYER_ALPHA = [1, 0.68, 0.85, 0.7] as const;
-export const SHEET_DEPTH_FADE_M = [0.57, 0.57, 0.57, 1.07] as const;
-/** Unlit emissive multiple: unit white in free fall, 0.75 on a chute reach;
- * the spray-class side strips carry the thin sheets' 0.70 grey x 0.75. */
-export const SHEET_EMISSIVE = { free: 1.0, chute: 0.75, side: 0.53 } as const;
+export const SHEET_DEPTH_FADE_M = [0, 0, 0, 1.07] as const;
+/**
+ * Unlit emissive multiple: unit white in free fall, 0.75 on a chute reach.
+ * The spray-class side strips took the thin sheets' 0.70 grey x 0.75 = 0.53,
+ * but that 0.70 is a vanilla MATERIAL colour multiplied by a bright spray
+ * texture; our procedural stand-in has no texture to put the light back, so at
+ * 0.53 the feathered edge read as a grey fringe on a grey cliff instead of
+ * spray. 0.80 is the same 0.75 chute multiple applied to spray-white.
+ */
+export const SHEET_EMISSIVE = { free: 1.0, chute: 0.75, side: 0.8 } as const;
 /** View-angle falloff: opacity 1 → 0 between cos 0.26 and cos 0.09 (≈75°→85°
  * from the normal; vault audit §7) — edge-on layers fade out. */
 export const SHEET_FACING_FADE = { start: 0.09, full: 0.26 } as const;
@@ -670,8 +733,10 @@ export interface SheetSampleInput {
   u: number;
   /** Layer index: 0..2 body layers, 3 side strip. */
   layer: number;
-  /** Fraction of the total drop already fallen, 0..1. */
+  /** Fraction of the total drop already fallen, 0..1 (side-strip pinch/flare). */
   frac: number;
+  /** Metres actually fallen from the lip — the aeration variable. */
+  fallenM?: number;
   /** Local water speed (m/s). */
   speedMS: number;
   /** Local descent slope, 0 (flat) .. 1 (sheer). */
@@ -693,13 +758,43 @@ export interface SheetSampleInput {
   white?: number;
 }
 
-/** Aeration (0..1): how white the water is here. */
-export function sheetAeration(i: Pick<SheetSampleInput, "free" | "speedMS" | "frac" | "slope">): number {
+/**
+ * Aeration (0..1): how white the water is here. Free flight uses the physical
+ * entrainment law above — metres actually fallen x local speed — so no term in
+ * it is per-site. A chute is aerated by local speed and steepness instead.
+ */
+export function sheetAeration(i: Pick<SheetSampleInput, "free" | "speedMS" | "slope"> & { fallenM?: number }): number {
   if (i.free) {
-    return clamp01(Math.min(0.22 + i.speedMS * 0.05 + smoothstep(0.15, 0.75, i.frac) * 0.55, 0.98));
+    const n = Math.max(i.fallenM ?? 0, 0) * Math.max(i.speedMS, 0) / AERATION_SCALE_M2S;
+    return clamp01(AERATION_LIP + (AERATION_MAX - AERATION_LIP) * (1 - Math.exp(-n)));
   }
   // Whitewater: a chute is aerated by speed and steepness, all the way down.
   return clamp01(Math.min(0.42 + i.speedMS * 0.045 + smoothstep(0.08, 0.5, i.slope) * 0.45, 0.99));
+}
+
+/**
+ * Whiteness (the shader's `white`): aeration, modulated only slightly by the
+ * animated streak field and the width profile. It used to be
+ * `aeration * (0.45 + 0.75 * streak) * (0.7 + 0.3 * profile)` — a product of
+ * three sub-unity terms that pulled a fully aerated body down to ~0.2 and
+ * parked its albedo at the deep-water end of the mix. Streaks are texture on
+ * white water, not a brightness switch.
+ */
+export function sheetWhiteness(i: SheetSampleInput): number {
+  if (i.white !== undefined) return clamp01(i.white);
+  const noise = clamp01(i.noise ?? 0.5);
+  const profile = sheetWidthProfile(i.u);
+  return clamp01(sheetAeration(i) * (0.85 + 0.15 * noise) * (0.92 + 0.08 * profile));
+}
+
+/** Body albedo (linear RGB) at a whiteness: lit water → white as it aerates. */
+export function sheetAlbedo(white: number): [number, number, number] {
+  const w = clamp01(white);
+  return [
+    SHEET_WATER_ALBEDO[0] + (1 - SHEET_WATER_ALBEDO[0]) * w,
+    SHEET_WATER_ALBEDO[1] + (1 - SHEET_WATER_ALBEDO[1]) * w,
+    SHEET_WATER_ALBEDO[2] + (1 - SHEET_WATER_ALBEDO[2]) * w,
+  ];
 }
 
 /** Unlit emissive multiple: 1.0 in free fall, 0.75 running on rock (§2.4). */
@@ -724,17 +819,24 @@ export function sheetAlpha(i: SheetSampleInput): number {
   const l = Math.min(Math.max(Math.round(i.layer), 0), SHEET_LAYER_ALPHA.length - 1);
   const remainM = i.remainM ?? SHEET_FOOT_FOAM_M;
   const foot = 1 - smoothstep(SHEET_FOOT_DISSOLVE_M, SHEET_FOOT_FOAM_M, remainM);
-  const white = Math.max(clamp01(i.white ?? sheetAeration(i) * (0.45 + 0.75 * noise) * (0.7 + 0.3 * profile)), foot);
-  let alpha = (i.opacity ?? 1) * profile * Math.max(0.55 + 0.45 * noise, SHEET_AERATED_OPACITY * white, foot)
+  const aeration = sheetAeration(i);
+  // The opacity floor is a property of the WATER (how aerated it is), not of
+  // the animated noise: the old floor rode `white`, which is aeration knocked
+  // down by the streak term and the width profile, so a fully aerated body
+  // could sit at half opacity over the cliff.
+  let alpha = (i.opacity ?? 1) * profile * Math.max(0.55 + 0.45 * noise, SHEET_AERATED_OPACITY * aeration, foot)
     * SHEET_LAYER_ALPHA[l];
   alpha *= smoothstep(0, SHEET_FOOT_DISSOLVE_M, remainM);
   // faces seen edge-on fade out (no hard silhouette cut)
   alpha *= smoothstep(SHEET_FACING_FADE.start, SHEET_FACING_FADE.full, i.facing ?? 1);
   // Soft particle, but only where there IS air behind the sheet. Water running
   // on the bed is in contact with it and must not fade against it.
-  const freeness = smoothstep(0.15, 1.2, i.airM);
-  const depthFade = smoothstep(0, SHEET_DEPTH_FADE_M[l], i.depthDeltaM ?? 0);
-  alpha *= 1 + freeness * (depthFade - 1);
+  const fadeM = SHEET_DEPTH_FADE_M[l];
+  if (fadeM > 0) {
+    const freeness = smoothstep(0.15, 1.2, i.airM);
+    const depthFade = smoothstep(0, fadeM, i.depthDeltaM ?? 0);
+    alpha *= 1 + freeness * (depthFade - 1);
+  }
   return clamp01(alpha);
 }
 
@@ -746,11 +848,17 @@ float esSheetWidthProfile(float u){
   float x = clamp(u, 0.0, 1.0);
   return smoothstep(0.0, 0.3, x) * smoothstep(1.0, 0.7, x);
 }
-float esSheetAeration(float free, float speed, float frac, float slope){
+float esSheetAeration(float free, float speed, float fallenM, float slope){
+  float jet = ${AERATION_LIP.toFixed(2)} + ${(AERATION_MAX - AERATION_LIP).toFixed(2)}
+    * (1.0 - exp(-max(fallenM, 0.0) * max(speed, 0.0) / ${AERATION_SCALE_M2S.toFixed(1)}));
   float air = free > 0.5
-    ? min(0.22 + speed * 0.05 + smoothstep(0.15, 0.75, frac) * 0.55, 0.98)
+    ? jet
     : min(0.42 + speed * 0.045 + smoothstep(0.08, 0.5, slope) * 0.45, 0.99);
   return clamp(air, 0.0, 1.0);
+}
+vec3 esSheetAlbedo(float white){
+  return mix(vec3(${SHEET_WATER_ALBEDO[0].toFixed(2)}, ${SHEET_WATER_ALBEDO[1].toFixed(2)},
+    ${SHEET_WATER_ALBEDO[2].toFixed(2)}), vec3(1.0), clamp(white, 0.0, 1.0));
 }
 float esSheetCrest(float arcM){
   return 1.0 - smoothstep(${CREST_BACK_M.toFixed(2)}, ${(CREST_BACK_M + CREST_FOAM_M).toFixed(2)}, arcM);
@@ -860,10 +968,13 @@ void main() {
   // Aeration: free flight entrains air with the distance fallen; a chute is
   // aerated by local speed and steepness instead, so it stays white end to end.
   float freeHere = step(0.15, vAir);
-  float aeration = esSheetAeration(freeHere, vSpeed, vFrac, vSlope);
+  // metres actually fallen from the lip (the sheet starts CREST_BACK_M upstream
+  // of it): the aeration variable, so the law is the same on every fall
+  float fallenM = max(arc - ${CREST_BACK_M.toFixed(2)}, 0.0);
+  float aeration = esSheetAeration(freeHere, vSpeed, fallenM, vSlope);
   // crest wrap: foam to ~1 over the wrap and the first 1.5 m past the lip
   float crest = esSheetCrest(arc);
-  float white = clamp(aeration * (0.45 + 0.75 * streak) * mix(0.7, 1.0, profile), 0.0, 1.0);
+  float white = clamp(aeration * (0.85 + 0.15 * streak) * mix(0.92, 1.0, profile), 0.0, 1.0);
   white = max(white, crest * (0.75 + 0.25 * foam));
   // the impact zone: solid white over the last metres of arc (arc / frac = the whole path)
   float remainM = arc * (1.0 / max(vFrac, 1e-3) - 1.0);
@@ -873,18 +984,21 @@ void main() {
   // x0.75 on a chute reach; no normal term, no refraction, no shore terms.
   // The sky + sun irradiance scales it so the HDR frame exposes it like foam.
   float emissive = mix(${SHEET_EMISSIVE.chute.toFixed(2)}, ${SHEET_EMISSIVE.free.toFixed(2)}, freeHere);
-  vec3 albedo = mix(vec3(0.30, 0.42, 0.46), vec3(1.0), white);
+  vec3 albedo = esSheetAlbedo(white);
   float churn = smoothstep(0.35, 0.85, foam);
   albedo = mix(albedo, vec3(1.0), churn * aeration * 0.4);
   // the additive crest accent (Bethesda's one SRC_ALPHA/ONE layer) at 0.25
   albedo += crest * foam * 0.25;
   albedo *= emissive * vTint;          // back layer darker, core brighter
-  float light = 0.55 + 0.45 * clamp(uSunDir.y, 0.0, 1.0);
-  vec3 color = albedo * (uAmbient + uSunLight * light);
+  // Lit like the white water it is: the shared irradiance (whitewaterStreaks)
+  // undoes the runtime's aerial feed scaling, so the fall, its pool foam, its
+  // mist and the strip whitewater upstream all expose as one thing.
+  vec3 color = albedo * esFallsIrradiance(uAmbient, uSunLight, uSunDir);
 
   float noise = clamp(streak + churn * 0.6, 0.0, 1.0);
-  // aerated water is opaque: the floor rises with the whiteness
-  float alpha = uOpacity * profile * max(max(0.55 + 0.45 * noise, ${SHEET_AERATED_OPACITY.toFixed(2)} * white), foot)
+  // aerated water is opaque: the floor rides the AERATION (a property of the
+  // water), not white (which the streak field and the width profile knock down)
+  float alpha = uOpacity * profile * max(max(0.55 + 0.45 * noise, ${SHEET_AERATED_OPACITY.toFixed(2)} * aeration), foot)
     * esSheetLayerAlpha(vLayer);
   // dissolve into the plunge over the last metres of arc, and cross-fade
   // across each piece overlap (a third of a piece) so the stack reads as one
@@ -895,21 +1009,28 @@ void main() {
   vec3 faceN = normalize(cross(dFdx(vWorldPos), dFdy(vWorldPos)));
   float facing = abs(dot(faceN, normalize(cameraPosition - vWorldPos)));
   alpha *= smoothstep(${SHEET_FACING_FADE.start.toFixed(2)}, ${SHEET_FACING_FADE.full.toFixed(2)}, facing);
-  // Seen from under the pool (the \`below\` handling): the sheet fades out at
-  // the surface and nothing of it is drawn in the water — the plunging water
-  // under the surface is the bubble pass's job, never an opaque slab.
-  if (uUnderwater > 0.5) alpha *= smoothstep(uSurfaceY - 0.3, uSurfaceY + 1.0, vWorldPos.y);
+  // Seen from under the pool: nothing of the falls kit is drawn. Below the
+  // surface the plunging water is the bubble pass's job, never an opaque slab;
+  // ABOVE it, an air-drawn sheet reaches a submerged eye only through the
+  // surface, and we render neither the refraction, the water column's
+  // extinction, nor Snell's window (at the gorge probe's 30 deg up-pitch the
+  // surface is past the 48.6 deg critical angle and is a mirror, so the fall
+  // should not be visible at all). Drawing it raw painted the submerged frame.
+  // What the surface shows from below belongs to the field water's below
+  // variant; uSurfaceY is kept for that layer's own use.
+  alpha *= 1.0 - clamp(uUnderwater, 0.0, 1.0);
   // Soft particle — but ONLY where there is air behind the sheet. Water running
   // on the bed sits GROUND_CLEARANCE_M above the terrain; fading it against
   // that terrain erased the middle of every chute and left its overhanging
   // edges bright, which is exactly backwards.
-  if (uHasDepth > 0.5) {
+  float fadeM = esSheetDepthFadeM(vLayer);
+  if (uHasDepth > 0.5 && fadeM > 0.0) {
     vec2 suv = gl_FragCoord.xy / uResolution;
     float d = texture2D(uSceneDepth, suv).x;
     float sceneEye = (uCamNear * uCamFar) / (uCamFar - d * (uCamFar - uCamNear));
     float fragEye = 1.0 / gl_FragCoord.w;
     float freeness = smoothstep(0.15, 1.2, vAir);
-    alpha *= mix(1.0, smoothstep(0.0, esSheetDepthFadeM(vLayer), sceneEye - fragEye), freeness);
+    alpha *= mix(1.0, smoothstep(0.0, fadeM, sceneEye - fragEye), freeness);
   }
   if (alpha < 0.004) discard;
   gl_FragColor = vec4(color, alpha);
@@ -1225,6 +1346,7 @@ export class WaterfallSheets {
     this.uniforms.uUnderwater.value = underwater ? 1 : 0;
     this.uniforms.uSurfaceY.value = surfaceY;
     if (underwater) this.uniforms.uHasDepth.value = 0;
+    this.base.setUnderwater(underwater);
     this.mist.setUnderwater(underwater, surfaceY);
   }
 

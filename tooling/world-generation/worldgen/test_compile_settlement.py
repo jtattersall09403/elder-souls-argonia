@@ -25,6 +25,15 @@ def survey():
 @pytest.fixture(scope="module")
 def shelf():
     built = cs.KitShelf()
+    # `tooling/asset-pipeline/output/kits` is build output from the asset
+    # vault and is gitignored, so a clean CI checkout has no kits at all and
+    # these tests can never pass there — they failed the Pages deploy for
+    # everyone with "the works kit ships no board to test with". Skip when the
+    # shelf is empty, the way the compiled-water invariants skip without the
+    # vault; a machine that HAS built the kits still runs them in full.
+    if not built.assets_by_kit:
+        pytest.skip("built asset kits unavailable (asset-pipeline output is "
+                    "build output from the vault, absent on a clean checkout)")
     # The Part-0 fixture predates the built landmark kit. Keep the fixture
     # independent of the live asset build while still exercising the hard rule
     # that its assetRef becomes a measured placement.

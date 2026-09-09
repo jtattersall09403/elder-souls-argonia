@@ -68,4 +68,12 @@ describe("plunge base kit (vault audit §2.5: geometry, not particles)", () => {
     // the ring's counter-scrolling foam rate: +0.375 tiles/s over the 0.313 body rate
     expect(BASE_SCROLL_GAIN).toBeCloseTo(0.375 / 0.313, 1);
   });
+
+  it("draws nothing from under the pool it lies on (the submerged leak)", () => {
+    const dry = plungeBaseAlpha(0.5, 0.5, 0.3, 1);
+    // quads lie on the surface: from below, that surface is the field shader's
+    // job and this foam must not paint the submerged frame
+    expect(plungeBaseAlpha(0.5, 0.5, 0.3, 1, 10, true)).toBe(0);
+    expect(plungeBaseAlpha(0.5, 0.5, 0.3, 1, 10, false)).toBeCloseTo(dry, 6);
+  });
 });

@@ -156,7 +156,8 @@ export function buildPlungeBaseGeometry(sites: readonly PlungeSite[]): PlungeBas
 }
 
 /** Alpha twin of the base fragment (minus depth): soft box edges x radial fade. */
-export function plungeBaseAlpha(u: number, vLocal: number, distFrac: number, streak: number, depthDeltaM = 10): number {
+export function plungeBaseAlpha(u: number, vLocal: number, distFrac: number, streak: number, depthDeltaM = 10,
+  underwater = false): number {
   const sm = (e0: number, e1: number, x: number) => {
     const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
     return t * t * (3 - 2 * t);
@@ -164,7 +165,8 @@ export function plungeBaseAlpha(u: number, vLocal: number, distFrac: number, str
   const box = sm(0, 0.35, u) * sm(1, 0.65, u) * sm(0, 0.35, vLocal) * sm(1, 0.65, vLocal);
   const radial = 1 - sm(0.55, 1.05, distFrac);
   const depth = sm(0, BASE_DEPTH_FADE_M, depthDeltaM);
-  return Math.min(Math.max(box * radial * (0.35 + 0.65 * streak) * depth * 0.85, 0), 1);
+  const below = underwater ? 0 : 1;
+  return Math.min(Math.max(box * radial * (0.35 + 0.65 * streak) * depth * below * 0.85, 0), 1);
 }
 
 const BASE_VERTEX = /* glsl */ `
@@ -193,6 +195,7 @@ varying vec2 vBaseUv;
 varying vec2 vBaseFade;
 varying vec2 vLocal;
 uniform float uTime;
+uniform float uUnderwater;
 uniform vec3 uAmbient;
 uniform vec3 uSunLight;
 uniform vec3 uSunDir;
@@ -212,6 +215,13 @@ void main() {
             * smoothstep(0.0, 0.35, vLocal.y) * smoothstep(1.0, 0.65, vLocal.y);
   float radial = 1.0 - smoothstep(0.55, 1.05, vBaseFade.x);
   float alpha = uOpacity * box * radial * (0.35 + 0.65 * streak) * 0.85;
+  // Seen from under the pool: these quads are foam lying ON the surface, and
+  // from below there is no foam to see — the underside of the surface is the
+  // field shader's below variant's job. The base kit was the one child of the
+  // falls layer with NO submerged handling at all, and 16 sites' worth of
+  // bright quads painted the submerged frame (probe fall-gorge-under, mean
+  // |dRGB| 5.83). Same rule as the sheet and the mist.
+  alpha *= 1.0 - clamp(uUnderwater, 0.0, 1.0);
   if (uHasDepth > 0.5) {
     vec2 suv = gl_FragCoord.xy / uResolution;
     float d = texture2D(uSceneDepth, suv).x;
@@ -220,8 +230,8 @@ void main() {
     alpha *= smoothstep(0.0, ${BASE_DEPTH_FADE_M.toFixed(2)}, sceneEye - fragEye);
   }
   if (alpha < 0.004) discard;
-  float light = 0.55 + 0.45 * clamp(uSunDir.y, 0.0, 1.0);
-  vec3 color = vec3(${BASE_EMISSIVE.toFixed(2)}) * (0.8 + 0.2 * foam) * (uAmbient + uSunLight * light);
+  vec3 color = vec3(${BASE_EMISSIVE.toFixed(2)}) * (0.8 + 0.2 * foam)
+    * esFallsIrradiance(uAmbient, uSunLight, uSunDir);
   gl_FragColor = vec4(color, alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -258,6 +268,7 @@ export class PlungeBase {
       uCamFar: { value: 60000 },
       uResolution: { value: new THREE.Vector2(1, 1) },
       uOpacity: { value: 1 },
+      uUnderwater: { value: 0 },
       uStreakTex: { value: options.streakTexture ?? null },
     };
     this.material = new THREE.ShaderMaterial({
@@ -295,6 +306,11 @@ export class PlungeBase {
     (this.uniforms.uAmbient.value as THREE.Vector3).copy(runtime.ambient.value);
     (this.uniforms.uSunLight.value as THREE.Vector3).copy(runtime.sunLight.value);
     (this.uniforms.uSunDir.value as THREE.Vector3).copy(runtime.sunDirection.value);
+  }
+
+  /** Submerged camera: the base kit draws nothing (see the fragment). */
+  setUnderwater(underwater: boolean): void {
+    this.uniforms.uUnderwater.value = underwater ? 1 : 0;
   }
 
   setDepth(texture: THREE.Texture | null, near: number, far: number, width: number, height: number): void {

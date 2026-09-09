@@ -7,7 +7,9 @@ import {
   MAX_CHUTE_SPEED_MS, MAX_TRACE_RUN_M, MAX_TRACE_STEPS, MIN_LIP_SPEED_MS, MIN_QUAD_LENGTH_M, SHEET_DEPTH_FADE_M, SHEET_EMISSIVE,
   SHEET_FACING_FADE, SHEET_LAYERS, SHEET_PIECE_FAMILIES, SHEET_PIECE_OVERLAP, SIDE_STRIP_LAYER, WATERFALL_TEXTURE_ROLES,
   alignCascadeToStrips, buildWaterfallSheetGeometry, chuteStripFromPath, freeFlightSpanM, loadWaterfallTextures,
-  sheetAeration, sheetAlpha, sheetCrestBoost, sheetEmissive, sheetLateralOffsets, sheetPieceFamily, sheetPieceSpans,
+  AERATION_LIP, AERATION_MAX, SHEET_AERATED_OPACITY, SHEET_WATER_ALBEDO,
+  sheetAeration, sheetAlbedo, sheetAlpha, sheetCrestBoost, sheetEmissive, sheetLateralOffsets, sheetPieceFamily,
+  sheetPieceSpans, sheetWhiteness,
   sheetWidthProfile, sideStripPinchedU, traceCascades, traceWaterfallSheet, fallSiteMarks, type Cascade,
 } from "./WaterfallSheets";
 import { Texture } from "three";
@@ -213,9 +215,14 @@ describe("waterfall sheet paths", () => {
     expect(CREST_BACK_M).toBeLessThanOrEqual(3);
     expect(sheetEmissive(true)).toBe(1);
     expect(sheetEmissive(false)).toBe(0.75);
-    expect(SHEET_EMISSIVE.side).toBeCloseTo(0.7 * 0.75, 1);
-    // measured soft-particle depths: 0.57 m sheets, 1.07 m spray
-    expect(SHEET_DEPTH_FADE_M.slice(0, 3)).toEqual([0.57, 0.57, 0.57]);
+    // spray-white x the 0.75 chute multiple: the vanilla 0.70 grey is a
+    // material colour that a bright spray texture multiplies back up, and our
+    // procedural stand-in has no texture to do that
+    expect(SHEET_EMISSIVE.side).toBeCloseTo(0.8, 2);
+    // the soft-particle fade is for genuine soft cards only: the spray strips
+    // keep the measured 1.07 m, the opaque body layers do not fade against the
+    // cliff they fall in front of (see SHEET_DEPTH_FADE_M)
+    expect(SHEET_DEPTH_FADE_M.slice(0, 3)).toEqual([0, 0, 0]);
     expect(SHEET_DEPTH_FADE_M[SIDE_STRIP_LAYER]).toBe(1.07);
     // edge-on faces fade out between cos 0.26 and 0.09
     const mid = { u: 0.5, layer: 0, frac: 0.5, speedMS: 20, slope: 1, free: true, airM: 6, depthDeltaM: 6 };
@@ -406,17 +413,19 @@ describe("across-width profile", () => {
     });
   }
 
-  it("keeps a bed-following chute opaque where the old depth fade erased it", () => {
-    // 0.12 m of terrain behind the sheet: the free-flight fade would kill this.
+  it("never fades the opaque body against what is behind it — only the spray does", () => {
+    // 0.12 m of terrain behind the sheet: a bed-following chute stays opaque.
     const chute = { u: 0.5, layer: 0, frac: 0.5, speedMS: 9, slope: 0.5, free: false,
       airM: 0, depthDeltaM: GROUND_CLEARANCE_M };
     expect(sheetAlpha(chute)).toBeGreaterThan(0.6);
-    // with air behind it the sheet soft-fades over the measured 0.57 m
-    expect(sheetAlpha({ ...chute, airM: 6 })).toBeLessThan(0.3);
-    expect(sheetAlpha({ ...chute, airM: 6, depthDeltaM: 0.6 })).toBeGreaterThan(0.6);
-    // the spray-class side strips fade over the longer 1.07 m
-    expect(sheetAlpha({ ...chute, layer: 3, airM: 6, depthDeltaM: 0.6 }))
-      .toBeLessThan(sheetAlpha({ ...chute, layer: 0, airM: 6, depthDeltaM: 0.6 }));
+    // and so does a free-flight body standing centimetres off a cliff face —
+    // `airM` reports metres there (the ground under the arc is the cliff base),
+    // which is what used to switch the fade on and leave a 10 % veil
+    expect(sheetAlpha({ ...chute, airM: 6 })).toBeCloseTo(sheetAlpha({ ...chute, airM: 6, depthDeltaM: 6 }), 9);
+    expect(sheetAlpha({ ...chute, airM: 6 })).toBeGreaterThan(0.6);
+    // the spray-class side strips DO soft-fade, over the measured 1.07 m
+    expect(sheetAlpha({ ...chute, layer: 3, airM: 6, depthDeltaM: 0.1 }))
+      .toBeLessThan(sheetAlpha({ ...chute, layer: 3, airM: 6, depthDeltaM: 2 }) * 0.5);
   });
 
   it("whitens a chute on local speed and slope, not on distance fallen", () => {
@@ -424,9 +433,62 @@ describe("across-width profile", () => {
     expect(sheetAeration(near)).toBeGreaterThan(0.8);
     // the same reach, flat and slow, is not whitewater
     expect(sheetAeration({ ...near, speedMS: 1.5, slope: 0.02 })).toBeLessThan(0.55);
-    // and the free-flight branch still ramps with the drop
-    expect(sheetAeration({ free: true, frac: 0.9, speedMS: 20, slope: 1 }))
-      .toBeGreaterThan(sheetAeration({ free: true, frac: 0.02, speedMS: 3, slope: 1 }));
+    // and the free-flight branch still ramps with the fall
+    expect(sheetAeration({ free: true, fallenM: 20, speedMS: 20, slope: 1 }))
+      .toBeGreaterThan(sheetAeration({ free: true, fallenM: 0.5, speedMS: 3, slope: 1 }));
+  });
+
+  /** Free-flight speed after falling `h` m from a 1.5 m/s lip. */
+  const fallSpeed = (h: number) => Math.sqrt(MIN_LIP_SPEED_MS ** 2 + 2 * GRAVITY_MPS2 * h);
+
+  it("brightens downward from one physical law — no per-site constant", () => {
+    // The shipped set is 16 true cliffs, 6.5 m to 131 m. The aeration law is a
+    // function of metres FALLEN x local speed, so the same call describes both
+    // ends of that range; the old `frac` form made every fall reach the same
+    // whiteness at the same fraction of its own height.
+    const at = (h: number) => sheetAeration({ free: true, fallenM: h, speedMS: fallSpeed(h), slope: 1 });
+    expect(at(0)).toBeCloseTo(AERATION_LIP, 6);
+    // monotone downward on both the shortest and the tallest shipped fall
+    for (const drop of [6.5, 131]) {
+      for (let f = 0; f < 1; f += 0.1) {
+        expect(at(drop * (f + 0.1))).toBeGreaterThan(at(drop * f) - 1e-9);
+      }
+      expect(at(drop)).toBeGreaterThan(at(0));
+    }
+    // a short fall never gets as white as a tall one at its own foot
+    expect(at(6.5)).toBeLessThan(at(131));
+    expect(at(131)).toBeCloseTo(AERATION_MAX, 2);
+    // ... and the short one is still well aerated at its foot, not grey
+    expect(at(6.5)).toBeGreaterThan(0.7);
+  });
+
+  it("renders the body near-white and opaque where it is aerated", () => {
+    // The defect this replaces: the body rendered x0.55 the luminance of the
+    // pool foam beside it, because `white` was a product of three sub-unity
+    // terms and the un-aerated albedo end was deep water.
+    const foot = { u: 0.5, layer: 0, frac: 0.95, fallenM: 25, speedMS: fallSpeed(25), slope: 1,
+      free: true, airM: 6, depthDeltaM: 6 };
+    const white = sheetWhiteness(foot);
+    expect(white).toBeGreaterThan(0.85);
+    const [r, g, b] = sheetAlbedo(white);
+    // the plunge base's foam sits at BASE_EMISSIVE 0.9 in the same irradiance;
+    // the fall must not be the dark thing between the river and that foam
+    for (const c of [r, g, b]) expect(c).toBeGreaterThan(0.9);
+    expect(sheetAlpha(foot)).toBeGreaterThan(0.85);
+    // near the lip the water is less aerated: brighter than deep water, but the
+    // rock still shows through the thin part (the reference frames' top third)
+    const lip = { ...foot, frac: 0.05, fallenM: 0.5, speedMS: fallSpeed(0.5) };
+    expect(sheetWhiteness(lip)).toBeLessThan(white);
+    expect(sheetAlbedo(sheetWhiteness(lip))[0]).toBeGreaterThan(SHEET_WATER_ALBEDO[0]);
+    expect(sheetAlpha(lip)).toBeLessThan(sheetAlpha(foot));
+  });
+
+  it("floors opacity on the aeration, not on the animated streak field", () => {
+    const body = { u: 0.5, layer: 0, frac: 0.6, fallenM: 30, speedMS: fallSpeed(30), slope: 1,
+      free: true, airM: 6, depthDeltaM: 6 };
+    // the darkest moment of the noise still leaves a fully aerated body opaque
+    expect(sheetAlpha({ ...body, noise: 0 })).toBeGreaterThan(SHEET_AERATED_OPACITY * 0.95);
+    expect(sheetAlpha({ ...body, noise: 0 }) / sheetAlpha({ ...body, noise: 1 })).toBeGreaterThan(0.9);
   });
 
   it("the core layer is the narrowest and brightest, never the edges", () => {

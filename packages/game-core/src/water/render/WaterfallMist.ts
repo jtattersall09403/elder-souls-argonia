@@ -425,9 +425,12 @@ void main() {
     depthFadeM = ${MIST_DEPTH_FADE_M.skirt.toFixed(2)};
   }
   alpha *= uOpacity;
-  // seen from under the pool: nothing of the mist below the surface, a fade
-  // just above it (the \`below\` handling — never an opaque slab in the water)
-  if (uUnderwater > 0.5) alpha *= smoothstep(uSurfaceY - 0.3, uSurfaceY + 0.6, vWorldPos.y);
+  // Seen from under the pool: nothing of the mist is drawn. It is airborne
+  // spray; a submerged eye reaches it only through the surface, which we do
+  // not refract, tint or clip to Snell's window — that view belongs to the
+  // field water's below variant. Same rule as the sheet and the plunge base,
+  // and the reason the falls layer stopped painting the submerged frame.
+  alpha *= 1.0 - clamp(uUnderwater, 0.0, 1.0);
   if (uHasDepth > 0.5) {
     vec2 suv = gl_FragCoord.xy / uResolution;
     float d = texture2D(uSceneDepth, suv).x;
@@ -436,8 +439,8 @@ void main() {
     alpha *= smoothstep(0.0, depthFadeM, sceneEye - fragEye);
   }
   if (alpha < 0.004) discard;
-  float light = 0.55 + 0.45 * clamp(uSunDir.y, 0.0, 1.0);
-  vec3 color = vec3(emissive) * (0.85 + 0.15 * cov) * (uAmbient + uSunLight * light);
+  vec3 color = vec3(emissive) * (0.85 + 0.15 * cov)
+    * esFallsIrradiance(uAmbient, uSunLight, uSunDir);
   gl_FragColor = vec4(color, alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>

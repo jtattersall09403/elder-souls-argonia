@@ -100,11 +100,56 @@ export function streakUv(layer: number, u: number, arcM: number, timeS: number, 
   return { u: uu, v: vv };
 }
 
+/**
+ * Recovering surface irradiance from the runtime's AERIAL light feeds.
+ *
+ * `WaterRuntime.ambient` / `.sunLight` are documented (types.ts) as the HDR
+ * aerial feeds, and the light rig builds them that way:
+ *   ambient  = sky irradiance x 0.1        (lightRig `hazeAmbient`)
+ *   sunLight = direct irradiance x kHaze   (lightRig `hazeSunLight`, kHaze
+ *              0.06 at midday, rising to ~0.19 through the golden hour)
+ * They are the SCATTERING radiances the fog term wants, not the irradiance
+ * that lights a surface. The whole waterfall kit — sheet, plunge base, mist —
+ * multiplied its albedo by them raw, so it was exposed at a tenth of the sky
+ * while everything around it, including the physically-lit whitewater the
+ * field shader draws in the strips a metre upstream at the same 0.85–0.90
+ * white albedo, was lit by the real light rig. That is why the fall rendered
+ * as the DARK thing between the bright river above it and the bright pool
+ * foam below it (probe 2026-09-08: fall body 103 vs strip/pool foam 172 on
+ * screen, and no albedo change could move it).
+ *
+ * Undoing both documented scales and dividing by pi for the Lambert BRDF is
+ * the physical conversion. kHaze is not carried on the uniform, so the sun
+ * feed uses its midday value: through the golden hour we then UNDER-recover
+ * the sun, which is exactly when a vertical white body sees least of it.
+ */
+export const AERIAL_SKY_FEED_SCALE = 0.1;
+export const AERIAL_SUN_FEED_SCALE = 0.06;
+
+/**
+ * Irradiance for the aerated-white waterfall kit (TS twin of
+ * `esFallsIrradiance`). The sun keeps the kit's existing elevation weight —
+ * the body has no normal, so `0.55 + 0.45 * sunY` stands in for N·L on a
+ * near-vertical sheet: full when the sun is overhead, never zero, because a
+ * white body is lit by multiple scattering from every direction.
+ */
+export function fallsIrradiance(ambient: readonly number[], sunLight: readonly number[], sunDirY: number): [number, number, number] {
+  const sun = 0.55 + 0.45 * Math.min(Math.max(sunDirY, 0), 1);
+  return [0, 1, 2].map((i) =>
+    (ambient[i] / AERIAL_SKY_FEED_SCALE + (sunLight[i] / AERIAL_SUN_FEED_SCALE) * sun) / Math.PI,
+  ) as [number, number, number];
+}
+
 /** Compiled into the sheet, base and strip fragment shaders. Twin of the
  * functions above: `esStreakUv(layer, u, arcM, t, gain, wobbleScale)`. */
 export const WHITEWATER_GLSL = /* glsl */ `
 #ifndef ES_WHITEWATER_GLSL
 #define ES_WHITEWATER_GLSL 1
+vec3 esFallsIrradiance(vec3 ambient, vec3 sunLight, vec3 sunDir){
+  float sun = 0.55 + 0.45 * clamp(sunDir.y, 0.0, 1.0);
+  return (ambient / ${AERIAL_SKY_FEED_SCALE.toFixed(2)}
+    + (sunLight / ${AERIAL_SUN_FEED_SCALE.toFixed(2)}) * sun) * RECIPROCAL_PI;
+}
 const vec3 ES_STREAK_TILE = vec3(${STREAK_LAYERS.map((l) => l.tileM.toFixed(2)).join(", ")});
 const vec3 ES_STREAK_RATE = vec3(${STREAK_LAYERS.map((l) => l.rateMS.toFixed(2)).join(", ")});
 const vec3 ES_STREAK_ACROSS = vec3(${STREAK_LAYERS.map((l) => l.acrossTiles.toFixed(2)).join(", ")});

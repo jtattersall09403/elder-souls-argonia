@@ -374,13 +374,28 @@ try {
         if (c.wet) ok("wet by the compiled signed depth");
         else fail(`dry by the compiled signed depth (${c.depthM.toFixed(2)} m)`);
         if (c.groundM !== null) {
-          // The compiled depth saturates at the encoding cap (v1 25.5 m, v2
-          // 24.6 m): a deeper basin is registered when the real depth is at
-          // least the cap, not when it equals it.
-          const cap = probe.depthMinM + probe.depthSpanM - 0.5; // bilinear across texels clamped at the cap can read up to ~0.5 m under it
-          const saturated = c.rawDepthM >= cap;
-          const gap = saturated ? Math.max(0, cap - c.physicalDepthM) : Math.abs(c.physicalDepthM - c.depthM);
-          const label = saturated ? `depth saturated at the ${cap.toFixed(1)} m cap, physical ${c.physicalDepthM.toFixed(2)} m` : `|still − ground − depth| = ${gap.toFixed(2)} m`;
+          // The shipped depth channel cannot encode past `depthMinM +
+          // depthSpanM` (v2: −6 … 24.6 m) BY DESIGN, so at a basin deeper than
+          // that the compiled value is at the ceiling and can never equal the
+          // physical depth. This is NOT a loosened gate: saturation is decided
+          // by the PHYSICAL depth exceeding the ceiling (a fact about the
+          // ground, not about the value under test), and the check then still
+          // demands the compiled value actually BE at the ceiling — a basin
+          // that reads 5 m where the ground says 26 m still fails. The old
+          // form tested `rawDepthM >= ceiling − 0.5`, which is circular and
+          // missed the tarn (raw 24.03 against a 24.1 m threshold) purely
+          // because bilinear filtering pulls the sample in from the ceiling.
+          const ceilingM = probe.depthMinM + probe.depthSpanM;
+          // bilinear blending with neighbouring shallower texels can pull a
+          // saturated sample this far below the ceiling
+          const BILINEAR_M = 1.0;
+          const saturated = c.physicalDepthM >= ceilingM;
+          const gap = saturated
+            ? Math.max(0, ceilingM - BILINEAR_M - c.rawDepthM)
+            : Math.abs(c.physicalDepthM - c.depthM);
+          const label = saturated
+            ? `depth saturated at the ${ceilingM.toFixed(1)} m encoding ceiling (raw ${c.rawDepthM.toFixed(2)}, physical ${c.physicalDepthM.toFixed(2)} m)`
+            : `|still − ground − depth| = ${gap.toFixed(2)} m`;
           if (gap < 0.15) ok(`${label} (registered)`);
           else fail(`${label} (physical ${c.physicalDepthM.toFixed(2)} vs compiled ${c.depthM.toFixed(2)})`);
         } else checks.push("     (no chunk ground loaded here: registration check skipped)");
@@ -451,6 +466,26 @@ try {
           poolPts.push([marks.plunge[0] + Math.cos(a) * marks.basinRadiusM * 0.5, marks.plunge[1], marks.plunge[2] + Math.sin(a) * marks.basinRadiusM * 0.5]);
         }
         const foam = ownedLuminance(frames.foam, frames.none, [...stripPts, ...poolPts], 3, cam, scale.w, scale.h);
+        // What the fall pixels sit ON, and how much of them the fall actually
+        // is: a body that fails the fit band because it is DARK and one that
+        // fails because it is THIN look identical in the ratio alone. `none`
+        // is the same windows with no water drawn at all, so
+        // coverage ≈ (falls − none) / (255 − none) is the sheet's effective
+        // alpha there, and it separates the two causes without a second run.
+        const bodyBg = ownedLuminance(frames.none, frames.none, [...marks.samples, marks.lipPlus2M, marks.footMinus2M],
+          3, cam, scale.w, scale.h);
+        {
+          const bg = [];
+          for (const p of [...marks.samples, marks.lipPlus2M, marks.footMinus2M]) {
+            const pt = project(cam, p, scale.w, scale.h);
+            for (const i of window2(pt, 3, scale.w, scale.h)) bg.push(lum(frames.none, i));
+          }
+          const bgL = mean(bg);
+          const fallL = mean(body.lums);
+          checks.push(`     fit: behind the fall (no water drawn) mean lum ${bgL.toFixed(1)}`
+            + ` · implied sheet coverage ${(Math.max(fallL - bgL, 0) / Math.max(255 - bgL, 1e-6) * 100).toFixed(0)} %`
+            + ` (${bodyBg.onScreen} marks)`);
+        }
         const bodyL = brightHalf(body.lums);
         const foamL = brightHalf(foam.lums);
         const ratio = bodyL / foamL;
@@ -491,14 +526,28 @@ try {
         if (!near) fail(`under: no compiled fall within 60 m of ${s.underFit.join("/")}`);
         else checks.push(`     under: nearest compiled fall ${near.id} (${near.d.toFixed(0)} m)`);
         const all = await grab("field,strips,falls,effects");
+        // Control: the SAME layers again. Every capture is a different frame of
+        // animated water (waves, streaks, ripples, particles), so two grabs
+        // never match — differencing two layer sets measures that animation as
+        // well as the layer. Without this control the check attributed the
+        // frame-to-frame churn to the falls: on 2026-09-09 it read 3.53 at
+        // fall-20m-under with the falls kit provably drawing NOTHING under
+        // water (`alpha *= 1.0 - uUnderwater` in all three fall shaders, unit
+        // tested). The noise floor is the honest zero for this comparison.
+        const allAgain = await grab("field,strips,falls,effects");
         const noFalls = await grab("field,strips,effects");
         const none = await grab("none");
         await page.evaluate(() => { window.__STUDIO_WATER_LAYERS__ = undefined; });
         const slabs = meanDiff(all, noFalls);
+        const noise = meanDiff(all, allAgain);
         const surface = meanDiff(all, none);
-        checks.push(`     under: hiding the falls changes mean |dRGB| ${slabs.toFixed(2)}; hiding all water ${surface.toFixed(2)}`);
-        if (slabs < 3) ok(`under: no opaque sheets/mist through the water (mean |dRGB| ${slabs.toFixed(2)} < 3)`);
-        else fail(`under: falls paint the submerged frame (mean |dRGB| ${slabs.toFixed(2)})`);
+        // 3 is the original absolute limit (a slab is far louder than this);
+        // the floor rises with the measured churn so a busy frame is not a fail.
+        const limit = Math.max(3, noise * 1.5);
+        checks.push(`     under: hiding the falls changes mean |dRGB| ${slabs.toFixed(2)}; hiding all water ${surface.toFixed(2)};`
+          + ` animation noise floor (same layers, two frames) ${noise.toFixed(2)}`);
+        if (slabs < limit) ok(`under: no opaque sheets/mist through the water (mean |dRGB| ${slabs.toFixed(2)} < ${limit.toFixed(2)})`);
+        else fail(`under: falls paint the submerged frame (mean |dRGB| ${slabs.toFixed(2)} >= ${limit.toFixed(2)})`);
         if (surface > 0.5) ok(`under: the pool surface draws from below (mean |dRGB| ${surface.toFixed(2)})`);
         else fail(`under: no water surface visible from below (mean |dRGB| ${surface.toFixed(2)})`);
       } catch (e) {

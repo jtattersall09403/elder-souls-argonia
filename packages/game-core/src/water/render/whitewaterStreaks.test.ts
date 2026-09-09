@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   STREAK_BREATHE_AMPLITUDE, STREAK_BREATHE_PERIOD_S, STREAK_LAYERS, STREAK_RATE_SPREAD, STREAK_RATE_TILES_S,
   STREAK_U_DRIFT_UVS, WHITEWATER_GLSL, streakBreathe, streakSpeedGain, streakUv,
+  AERIAL_SKY_FEED_SCALE, AERIAL_SUN_FEED_SCALE, fallsIrradiance,
 } from "./whitewaterStreaks";
 
 describe("whitewater streak layers (vault audit §4, research §2.3)", () => {
@@ -94,5 +95,25 @@ describe("whitewater streak layers (vault audit §4, research §2.3)", () => {
     // texture slot with a procedural fallback
     expect(WHITEWATER_GLSL).toContain("#ifdef ES_STREAK_TEX");
     expect(WHITEWATER_GLSL).toContain("uniform sampler2D uStreakTex;");
+  });
+
+  it("lights the falls kit on real irradiance, not on the aerial feeds", () => {
+    // types.ts: `ambient` is sky irradiance x 0.1 and `sunLight` is direct
+    // irradiance x haze scatter. Using them raw exposed the whole waterfall kit
+    // at a tenth of the sky, which is why the fall read darker than the
+    // identical strip whitewater beside it.
+    const amb = [0.02, 0.024, 0.03];
+    const sun = [0.4, 0.36, 0.3];
+    const e = fallsIrradiance(amb, sun, 1);
+    for (let i = 0; i < 3; i++) {
+      expect(e[i]).toBeCloseTo((amb[i] / AERIAL_SKY_FEED_SCALE + sun[i] / AERIAL_SUN_FEED_SCALE) / Math.PI, 9);
+      // and it is several times what the raw feeds gave
+      expect(e[i]).toBeGreaterThan((amb[i] + sun[i]) * 2);
+    }
+    // night (sun below the horizon) still leaves the sky term
+    expect(fallsIrradiance(amb, [0, 0, 0], -1)[0]).toBeCloseTo(amb[0] / AERIAL_SKY_FEED_SCALE / Math.PI, 9);
+    expect(WHITEWATER_GLSL).toContain("vec3 esFallsIrradiance(");
+    expect(WHITEWATER_GLSL).toContain(`ambient / ${AERIAL_SKY_FEED_SCALE.toFixed(2)}`);
+    expect(WHITEWATER_GLSL).toContain(`sunLight / ${AERIAL_SUN_FEED_SCALE.toFixed(2)}`);
   });
 });
