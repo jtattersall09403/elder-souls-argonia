@@ -27,3 +27,14 @@ def test_floor_is_not_silently_enforced_before_part_8():
         assert ab.check() == []
     else:
         assert 0.0 < ab.BREADTH_FLOOR <= 1.0
+
+
+def test_understory_breadth_is_reported():
+    """`asset_breadth` had no flora term at all, so one grass per region would
+    have passed every breadth check we owned. The gate is in
+    `test_vegetation_ladder.py`; this only proves the report sees the layer."""
+    flora = ab.understory_breadth()
+    assert flora["distinctUnderstorySpecies"] > 0
+    assert len(flora["byRegionClass"]) == 14
+    for region, row in flora["byRegionClass"].items():
+        assert row["species"] > 0, region

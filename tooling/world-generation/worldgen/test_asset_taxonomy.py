@@ -46,3 +46,22 @@ def test_unknown_paths_are_flagged_low_confidence_rather_than_guessed():
     result = classify("meshes/xav_armorie_01.nif")
     assert result.category == "misc"
     assert result.confidence <= 0.3
+
+
+def test_mushroom_architecture_is_architecture():
+    """Stroti's mushroom house kit matched the `mushroom` strong token on its
+    filenames and came back as `fungus` — 34 buildings, fences, doors, chairs
+    and lamps counted as flora, which inflates every flora count and poisons
+    any breadth check built on the category."""
+    for name in ("mushroomhouse01", "mushroomfence01", "mushroomdoor01",
+                 "strotimushroomchair", "mushroomlamp01"):
+        result = classify(f"meshes/architecture/mushroom house/{name}.nif")
+        assert result.category == "architecture", (name, result.category)
+        assert "mushroom-form" in result.tags
+
+
+def test_misfiled_flora_is_still_rescued_by_name():
+    """The guard above must not undo the rule it guards: BM&V keeps Morrowind
+    trama roots under `architecture/` and places them as vegetation."""
+    assert classify("meshes/architecture/tramaroot01.nif").category == "root"
+    assert classify("meshes/plants/floramushroom01.nif").category == "fungus"

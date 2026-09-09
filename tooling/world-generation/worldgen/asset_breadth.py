@@ -156,6 +156,45 @@ def report() -> dict:
     }
 
 
+#: The vegetation side of the same question. Until 2026-09-09 this module had
+#: no flora term at all, so nothing here would have noticed that nine of
+#: fourteen region classes carried no understory species of their own and the
+#: border mountains carried exactly ONE species below the trees. The gate
+#: itself is `test_vegetation_ladder.py`; this reports the numbers next to the
+#: settlement ones so a breadth review sees the whole pool in one place.
+def understory_breadth() -> dict:
+    from .vegetation_ladder import ROCK_ROLES, is_stem_layer, load_palettes
+
+    palettes = load_palettes()
+    by_region = {
+        region: {layer["species"] for layer in entry["layers"]
+                 if not is_stem_layer(layer)
+                 and layer.get("role") not in ROCK_ROLES}
+        for region, entry in palettes.items()
+    }
+    everywhere: dict[str, int] = defaultdict(int)
+    for species in by_region.values():
+        for one in species:
+            everywhere[one] += 1
+    kit_path = KIT_CONFIG_DIR / "flora-province-v1.json"
+    kit = {a["asset"] for a in json.loads(kit_path.read_text())["assets"]}
+    used = {layer["species"] for entry in palettes.values()
+            for layer in entry["layers"]}
+    return {
+        "distinctUnderstorySpecies": len(everywhere),
+        "floraKitAssets": len(kit),
+        "floraKitUnusedByAnyPalette": sorted(kit - used),
+        "byRegionClass": {
+            region: {
+                "species": len(species),
+                "regionExclusive": sorted(
+                    s.rsplit("/", 1)[-1] for s in species if everywhere[s] == 1),
+            }
+            for region, species in sorted(by_region.items(), key=lambda kv: int(kv[0]))
+        },
+    }
+
+
 def check() -> list[str]:
     """Breadth failures. Empty until Part 8 sets `BREADTH_FLOOR`."""
     if BREADTH_FLOOR is None:
@@ -186,6 +225,15 @@ def main() -> int:
         print(f"  {bp_id}: {row['distinctLinkedShells']} linked shells of "
               f"{row['availableToItsCultures']} available to {', '.join(row['cultures']) or 'no culture'}"
               f" ({row['distinctShells']} distinct parcels' pieces in all)")
+    flora = understory_breadth()
+    print(f"  understory: {flora['distinctUnderstorySpecies']} distinct species "
+          f"across 14 region classes; "
+          f"{len(flora['floraKitUnusedByAnyPalette'])} of "
+          f"{flora['floraKitAssets']} flora-kit assets unused")
+    for region, row in flora["byRegionClass"].items():
+        print(f"    region {region:>2}: {row['species']} species, "
+              f"{len(row['regionExclusive'])} region-exclusive "
+              f"({', '.join(row['regionExclusive']) or 'none'})")
     if data["linkedShellsNoKitShips"]:
         print(f"  {len(data['linkedShellsNoKitShips'])} linked shells no built kit ships "
               f"(sourcing gaps): {', '.join(data['linkedShellsNoKitShips'][:5])}…")

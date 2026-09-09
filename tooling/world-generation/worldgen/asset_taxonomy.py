@@ -77,6 +77,7 @@ _DIR_RULES: tuple[tuple[str, str, tuple[str, ...], tuple[str, ...], tuple[str, .
     ("landscaping", "plant", (), (), ()),
     ("plants", "plant", (), (), ()),
     ("meshes/flora", "plant", (), (), ()),
+    ("architecture/mushroom house", "architecture", (), (), ("mushroom-form",)),
     ("vurt_shroom", "fungus", (), (), ()),
     ("mushrooms", "fungus", (), (), ()),
     ("garden", "plant", (), (), ("cultivated",)),
@@ -243,6 +244,12 @@ _STRONG_FLORA_TOKENS: tuple[tuple[str, str], ...] = (
     ("kelp", "aquatic-plant"), ("seaweed", "aquatic-plant"),
     ("mushroom", "fungus"), ("toadstool", "fungus"),
 )
+# ...and the exception that proves the rule: Stroti's mushroom ARCHITECTURE
+# (34 records under `meshes/architecture/mushroom house` — houses, fences,
+# doors, chairs, lamps) matched the `mushroom` token on its filename and came
+# back as `fungus`, inflating every flora count and poisoning any breadth check
+# built on the category. A mushroom-shaped door is a door, so the directory
+# rule below is long enough to win outright and the strong tokens never see it.
 
 _LOD_RE = re.compile(r"(_lod(_flat)?|_distant|lod_flat)\.nif$", re.I)
 
@@ -314,7 +321,10 @@ def classify(path: str) -> Classification:
                 category = refined
                 confidence = 0.85
                 break
-    else:
+    elif "mushroom-form" not in tags:
+        # `mushroom-form` marks a kit whose BUILDINGS are shaped like fungi
+        # (Stroti's mushroom house). Its filenames all say "mushroom"; none of
+        # them is a plant, so the strong tokens must not see it.
         for fragment, refined in _STRONG_FLORA_TOKENS:
             if fragment in stem:
                 category = refined
