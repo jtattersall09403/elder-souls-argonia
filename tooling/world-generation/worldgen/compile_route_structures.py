@@ -274,14 +274,26 @@ def compile_structure(st: dict, way: dict, heights: np.ndarray,
             "re-run author_route_structures against the current route geometry"
         )
 
+    corrected = None
     if not ramp_ok(st["kind"], m["gradeDeg"]):
-        raise ValueError(
-            f"{st['id']}: a {st['kind']} would grade {m['gradeDeg']:.1f} deg over "
-            f"{span:.0f} m, over the {RAMP_MAX_DEG:.0f} deg deck cap — this window "
-            f"needs a flight. The record says riseM {float(st.get('riseM', 0.0)):.2f} m "
-            f"and this ground measures {rise:.2f} m, so the record was authored "
-            "against different heights: re-run author_route_structures "
-            "(worldgen._kind cannot choose this kind from this measurement)")
+        # The author measures between the two grading passes and this compiler
+        # measures after the second, so a window's ground CAN move between them
+        # even though pass 2 leaves the inside of a window alone: its endpoints
+        # sample the shoulder the second pass benched. Refusing to build was the
+        # right instinct while the two modules measured differently, but they no
+        # longer do — `ramp_ok` is one rule and this measurement is the
+        # authoritative one, so the honest act is to build what the ground can
+        # carry and SAY SO, rather than stop the chain on a piece nobody chose
+        # deliberately. A ramp that cannot be a ramp is a flight; the record is
+        # rewritten by the next author pass, and the correction is reported so
+        # the drift stays visible rather than becoming a quiet fixup.
+        corrected = {"id": st["id"], "wayId": st["wayId"], "was": st["kind"],
+                     "now": "stepped-ascent", "gradeDeg": round(m["gradeDeg"], 1),
+                     "recordRiseM": round(float(st.get("riseM", 0.0)), 2),
+                     "groundRiseM": round(rise, 2)}
+        st = dict(st, kind="stepped-ascent")
+        role = KIND_ROLE[st["kind"]]
+        piece, landing = fam[role], fam["landing"]
 
     placements: list[dict] = []
     c = a
@@ -322,6 +334,8 @@ def compile_structure(st: dict, way: dict, heights: np.ndarray,
            "family": st["family"], "pieces": len(placements),
            "spanM": round(span, 1), "riseM": round(rise, 2),
            "fromM": round(a, 2), "toM": round(b, 2)}
+    if corrected is not None:
+        row["kindCorrected"] = corrected
     return placements, row
 
 
@@ -349,6 +363,16 @@ def compile_all(structures: list[dict], ways_by_id: dict, heights: np.ndarray,
         doc["structures"].append({k: v for k, v in st.items()})
         doc["placements"].extend(placements)
         rows.append(row)
+    corrections = [r["kindCorrected"] for r in rows if r.get("kindCorrected")]
+    if corrections:
+        print(f"[route-structures] {len(corrections)} structure(s) could not carry "
+              f"the piece the author chose on the ground this compile measures, and "
+              f"were built as a flight instead — the author runs between the two "
+              f"grading passes and this compiler after the second:")
+        for c in corrections:
+            print(f"    {c['id']} ({c['wayId']}): {c['was']} -> {c['now']}, "
+                  f"{c['gradeDeg']} deg; record rise {c['recordRiseM']} m, "
+                  f"ground rise {c['groundRiseM']} m")
     if familyless:
         print(f"[route-structures] {len(familyless)} authored structures name no "
               f"family and cannot be built: {', '.join(sorted(familyless)[:6])}"
