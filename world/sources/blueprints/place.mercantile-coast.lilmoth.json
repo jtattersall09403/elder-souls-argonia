@@ -161,16 +161,12 @@
         "wealth": "middling",
         "boundary": [
           [
-            0.485685359,
-            0.864275111
+            0.485549969,
+            0.864372965
           ],
           [
-            0.485391168,
-            0.864816944
-          ],
-          [
-            0.48393202,
-            0.868106047
+            0.48393416,
+            0.868108744
           ],
           [
             0.485013275,
@@ -249,12 +245,12 @@
             0.864893949
           ],
           [
-            0.490269585,
-            0.86409587
+            0.490270324,
+            0.864096252
           ],
           [
-            0.486423675,
-            0.864056412
+            0.486272653,
+            0.864043619
           ]
         ],
         "notes": "What the water left standing: the arch across the road, the tower, two wall stubs and the rubble of the south tower. No new work is built into the masonry. Named for the road it faces (owner 2026-09-07); the district and socket ids keep the old survey name because ids are stable.",
@@ -982,11 +978,11 @@
         "buildingFamily": "imperial-keep-wall",
         "groundFit": "pad",
         "centreUV": [
-          0.486417451,
-          0.865138899
+          0.486380717,
+          0.865133038
         ],
-        "yawDeg": 343.5,
-        "orientationWhy": "Turned to split the narrow angle between the arriving gate-yard road and the country outside the boundary, with its measured south connector snapped to the tower's north face.",
+        "yawDeg": 335.5,
+        "orientationWhy": "Turned three degrees off the tower's square while its measured south connector remains snapped to the tower's north face; this lays the ruined corner along the buildable shelf instead of bridging the steeper cross-fall.",
         "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
         "interior": {
           "kind": "none"
@@ -1005,28 +1001,28 @@
         "abutsWhy": "The ruined inner-corner piece is authored to turn a curtain at a tower; the stub's measured south connector sits on the tower's north connector.",
         "footprint": [
           [
-            0.485878254,
-            0.865056745
+            0.485835334,
+            0.865126725
           ],
           [
-            0.486054883,
-            0.864731435
+            0.485964969,
+            0.864779999
           ],
           [
-            0.486499605,
-            0.864599702
+            0.48638703,
+            0.864587655
           ],
           [
-            0.486704908,
-            0.865292793
+            0.486686795,
+            0.865245428
           ],
           [
-            0.486703078,
-            0.865296164
+            0.486685451,
+            0.865249021
           ],
           [
-            0.486009987,
-            0.865501467
+            0.486027678,
+            0.865548786
           ]
         ]
       },
