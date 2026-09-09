@@ -864,3 +864,64 @@ with a wall run it was designed to meet. If one ever appears, the swap is two
 `place.dunmer-north.mazzatun.json` and `place.mercantile-coast.lilmoth.json`; both
 blueprints already span their ways with a single gate asset, so nothing else in
 the compile changes.
+
+## 2026-09-09 — the route span kit: CLOSED from the vault, no download needed
+
+**The gap.** `route-structures-v1` has a piece for climbing and none for
+spanning. Its only road-spanning asset is
+`vanilla:architecture/whiterun/wrterrain/wrbridgestone01`, measured at **4.216 m
+run × 4.047 m wide × 1.302 m thick, riseM 0.0**, and the compiler tiles it. From
+`world/sources/routes/route-structures.json`: **211 spanning structures,
+17,094 m**, shortest **23.6 m**, median **70.0 m**, longest **389.6 m**
+(`structure.road-gideon-blackwood-road.34`, ~93 slabs). There was no pier, no
+abutment, no parapet and no end cap anywhere in the kit.
+
+**Searched, in order: the vault first.** `vault-inventory.md`, then the
+per-pool registries by *directory* (never by keyword), then — the decisive
+step — the authors' own co-placement offsets in
+`world/sources/placement/kit-assemblies-mined.json`. Nothing needed to be
+downloaded; two authored span systems were already in the vault at 0% packaged.
+
+**What was found, measured (built manifest `[x, plan-y, vertical-z]`):**
+
+| Piece | Role | sizeM | Authored offset (mined) |
+|---|---|---|---|
+| `vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01` | deck module | 2.873 × **5.462** × 1.479 | self-chains at **5.46 m** (`vanilla:t0029`, n=25); 10.92 m skipping one (`t1941`) |
+| `…/nortmpextplattower01` | pier | 3.475 × 5.047 × **26.825**, pivot at deck level (21.848 m of shaft below) | sits **2.73 m** from a deck pivot = under a deck joint (`t0038`, n=22) |
+| `…/nortmpextplattower02` | wide pier | 3.475 × 7.283 × 26.810 | 3.19 m from a deck pivot (`t0531`, n=6) |
+| `…/nortmpextplattowerbridgeendcap01` | abutment | 2.788 × **0.963** × 1.366 | deck's own 2.79 m width |
+| `…/nortmpextplattowerbridgefree01` | unsupported deck | 3.475 × 3.731 × 3.593 | 2.27 m from a deck pivot (`t0150`, n=12) |
+| `…/nortmpextplatshaftbot01` | pier foot | 7.283 × 7.283 × 0.455 | — |
+| `…/nortmpextplatstairmid02` + `staircapl01`/`capr01` | approach flight | 7.283 × 10.791 × **7.306** (34.1°) | caps at ±3.64 m (`t0054`, n=19) |
+| `bmv:architecture/huts/exterior/bridge01` | legged timber span | 2.284 × **4.977** × 3.134, pivot on the ground | repeated at 9.70 m (`bmv-blackmarsh:t0076`, n=13) — **4.72 m more than the piece is long, so two separate spans, NOT a chain** |
+| `…/huts/exterior/steps02` | its approach | 2.284 × 4.968 × 3.156 | 9.71 m from a `bridge01` (`t0277`) |
+| `vanilla:landscape/bridges/bridgeshort01` / `bridgenarrow01` | whole bridge | 7.451 / 4.832 × **23.435** × 16.157 | none — never placed end to end |
+| `…/bridge01` / `bridgelong01` | whole bridge | 9.133 × **42.084** / **52.188** × 17.211 | none |
+| `vanilla:dungeons/nordic/exterior/dragonbridge01` | landmark | 73.321 × 15.050 × 42.839 | none |
+
+**Packaged as `route-spans-v1`** (`tooling/asset-pipeline/pipeline/config/kits/route-spans-v1.json`,
+policy `route-structure`): 18 assets, **30 s** build, 12.0 MB GLB;
+`measure_footprints` 7 s, `measure_connectors` 0.1 s → **20 co-placement
+connectors**, so the authors' spacing is now measured data the `abuts-snap`
+check can hold a chain to, not prose. Three families, nothing mixed:
+`nordic-viaduct` (deck + pier + foot + end cap + approach flight),
+`marsh-timber` (single legged span + its steps), `stone-arch` (five whole
+bridges, placed one per crossing, never tiled). All vanilla or BM&V — both
+already credited in root `README.md`, no new hash.
+
+**Rejected, with the measurement.** `mwkeep:…/keep/exterior/bridges/mwimparchbridge01`
+(7.28 × 4.78 × 13.06) and `02` (8.71 × 4.89 × 13.06) are already in
+`imperial-keep`, but no plugin in the mined sets places them, so there is no
+authored evidence either may be chained; their connectors are `bounds`-only.
+`vanilla:dungeons/imperial/exterior/impextbridge01` is 3.03 × 8.83 × 2.09 with
+`impextarchsupport01` (4.78 × 1.64 × 6.34) beside it, but again no mined
+end-to-end template — the HTBM retexture chains it at ~2 m and ~4 m inside a
+ruin, which is not a road crossing.
+
+**Still open (one line, evidenced).** The Nordic viaduct deck is **2.873 m**
+wide against wrbridgestone01's 4.047 m — a one-cart deck, below the 3.5 m cart
+width module 97 C3 sets for a spine. No wider modular deck with an authored
+pier exists in the vault. Whoever wires the family into
+`compile_route_structures.FAMILIES` should decide deliberately whether a trunk
+road's viaduct may be one cart wide, or whether the two-lane crossings drop to
+`stone-arch` singles at ≤52 m.
