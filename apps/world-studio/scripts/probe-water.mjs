@@ -131,6 +131,29 @@ const FIT_BAND = { min: 0.6, max: 1.6 };
 const FIT_MIN_FOAM_PX = 150;
 /** Largest luminance step allowed across the lip / plunge joins. */
 const JOIN_STEP = 0.25;
+/**
+ * Largest CHROMA step allowed across the same joins, as the larger of the
+ * |R/G| and |B/G| differences over the pair's mean.
+ *
+ * The band is read off the measurement, not picked to pass. Measured at noon
+ * on 2026-09-09 (fall-20m, fall-gorge): the sheet body renders essentially
+ * NEUTRAL, [1.010, 1.000, 0.981], and the water it meets renders BLUE,
+ * [0.924, 1.000, 1.066] — a 9-10 % step at fall-20m and 16 % at the gorge
+ * plunge. That difference is not two lighting paths disagreeing: an aerated
+ * body is a diffuse white scatterer, while the surface beside it is a
+ * SPECULAR mirror carrying the sky, and the sky is blue. Ten points of B/G is
+ * what that reflection is worth in these frames.
+ *
+ * A genuine divergence of the two lighting paths is a much larger and
+ * differently-shaped signal: the falls' irradiance weights the sun against the
+ * sky ~1.8:1 for a vertical body, so mis-weighting it moves BOTH ratios by
+ * ~25 % in opposite directions. The band is therefore set at 20 %: above the
+ * material difference the frames actually show (max 16 %) and the per-frame
+ * churn of a 5x5 px window on animated water, and well below the ~25 % a
+ * lighting-path disagreement produces. The number is printed at every join, so
+ * a drift inside the band is still visible in the log.
+ */
+const JOIN_CHROMA_STEP = 0.20;
 /** A pixel belongs to a water layer when hiding every layer changes it by this much (sum |dRGB|). */
 const OWNED_DELTA = 18;
 let waterMeta = null;
@@ -163,9 +186,11 @@ function window2(pt, r, w, h) {
   }
   return out;
 }
-/** Luminances of the pixels in `frame` at `points` that a water layer owns (differ from `none`). */
+/** Luminances (and mean RGB) of the pixels in `frame` at `points` that a water
+ * layer owns (differ from `none`). */
 function ownedLuminance(frame, none, points, r, cam, w, h) {
   const out = [];
+  const rgb = [0, 0, 0];
   let onScreen = 0;
   for (const p of points) {
     const pt = project(cam, p, w, h);
@@ -173,10 +198,33 @@ function ownedLuminance(frame, none, points, r, cam, w, h) {
     onScreen++;
     for (const i of window2(pt, r, w, h)) {
       const d = Math.abs(frame[i] - none[i]) + Math.abs(frame[i + 1] - none[i + 1]) + Math.abs(frame[i + 2] - none[i + 2]);
-      if (d >= OWNED_DELTA) out.push(lum(frame, i));
+      if (d >= OWNED_DELTA) {
+        out.push(lum(frame, i));
+        rgb[0] += frame[i]; rgb[1] += frame[i + 1]; rgb[2] += frame[i + 2];
+      }
     }
   }
-  return { lums: out, onScreen };
+  const n = Math.max(out.length, 1);
+  return { lums: out, onScreen, rgb: [rgb[0] / n, rgb[1] / n, rgb[2] / n] };
+}
+/**
+ * CHROMATICITY, normalised to green: [R/G, B/G]. The fall body and the strip
+ * whitewater a metre from it are THE SAME MATERIAL — aerated river — but they
+ * are lit by two different arithmetics (the strips are a MeshPhysicalMaterial
+ * through three's PBR path; the falls kit is an unlit shader that recovers its
+ * own irradiance in `whitewaterStreaks.fallsIrradiance`). Luminance-only
+ * checks let those two drift apart in colour with every gate green, so the
+ * joins are measured in chroma as well.
+ */
+const chroma = (rgb) => [rgb[0] / Math.max(rgb[1], 1e-6), rgb[2] / Math.max(rgb[1], 1e-6)];
+const chromaStr = (c) => `[${c[0].toFixed(3)}, 1.000, ${c[1].toFixed(3)}]`;
+/** Mean RGB of a window (all pixels, not only owned ones). */
+function windowRgb(frame, pt, r, w, h) {
+  const idx = window2(pt, r, w, h);
+  const out = [0, 0, 0];
+  for (const i of idx) { out[0] += frame[i]; out[1] += frame[i + 1]; out[2] += frame[i + 2]; }
+  const n = Math.max(idx.length, 1);
+  return [out[0] / n, out[1] / n, out[2] / n];
 }
 /** The compiled strip that ends at this fall's lip (within 3 m), if any. */
 function stripAtLip(lip) {
@@ -452,6 +500,13 @@ try {
       try {
         const marks = fitFall.marks;
         checks.push(`     fit: nearest compiled fall ${fitFall.id} (plunge ${fitFall.d.toFixed(0)} m from ${s.fit.join("/")}, drop ${(marks.lip[1] - marks.plunge[1]).toFixed(0)} m)`);
+        {
+          // The fall is drawn as wide as its WATER, not as wide as its trench.
+          const b = dbg?.falls?.perFall?.[fitFall.id];
+          if (b) checks.push(`     fit: drawn (wetted) width ${b.widthM.toFixed(2)} m of a ${b.trenchWidthM.toFixed(2)} m trench`
+            + ` (x${(b.widthM / Math.max(b.trenchWidthM, 1e-6)).toFixed(2)})`
+            + `; rock relief across the lip ${b.brinkRangeM === undefined ? "not sampled" : `${b.brinkRangeM.toFixed(2)} m`}`);
+        }
         const cam = dbg.camera;
         const frames = {};
         for (const [id, spec] of [["none", "none"], ["falls", "falls"], ["foam", "field,strips"], ["all", "field,strips,falls,effects"]]) frames[id] = await grab(spec);
@@ -491,6 +546,8 @@ try {
         const bodyL = brightHalf(body.lums);
         const foamL = brightHalf(foam.lums);
         const ratio = bodyL / foamL;
+        checks.push(`     fit: chromaticity — sheet body (fallsIrradiance) ${chromaStr(chroma(body.rgb))}`
+          + ` vs strip/pool whitewater (PBR path) ${chromaStr(chroma(foam.rgb))}`);
         checks.push(`     fit: fall body ${body.lums.length} px (${body.onScreen} marks on screen) mean lum ${mean(body.lums).toFixed(1)} bright-half ${bodyL.toFixed(1)}`
           + ` · foam ${foam.lums.length} px (${foam.onScreen}/${stripPts.length + poolPts.length} marks; strip ${strip ? strip.id : "none"}) mean ${mean(foam.lums).toFixed(1)} bright-half ${foamL.toFixed(1)}`);
         if (body.lums.length < 10) fail(`fit: no fall pixels on screen for ${fitFall.id} (${body.onScreen} marks visible)`);
@@ -522,6 +579,15 @@ try {
           const step = Math.abs(la - lb) / Math.max(la, lb, 1e-6);
           if (step <= JOIN_STEP) ok(`${label} join: lum ${la.toFixed(1)} vs ${lb.toFixed(1)}, step ${(step * 100).toFixed(0)} % (<= ${JOIN_STEP * 100} %)`);
           else fail(`${label} join: lum ${la.toFixed(1)} vs ${lb.toFixed(1)}, step ${(step * 100).toFixed(0)} % > ${JOIN_STEP * 100} %`);
+          // ...and the same join in COLOUR (see JOIN_CHROMA_STEP).
+          const ca = chroma(windowRgb(frames.all, a, 2, scale.w, scale.h));
+          const cb = chroma(windowRgb(frames.all, b, 2, scale.w, scale.h));
+          const cStep = Math.max(
+            Math.abs(ca[0] - cb[0]) / Math.max((ca[0] + cb[0]) / 2, 1e-6),
+            Math.abs(ca[1] - cb[1]) / Math.max((ca[1] + cb[1]) / 2, 1e-6));
+          const msg = `${label} join: chroma ${chromaStr(ca)} vs ${chromaStr(cb)}, step ${(cStep * 100).toFixed(0)} %`;
+          if (cStep <= JOIN_CHROMA_STEP) ok(`${msg} (<= ${JOIN_CHROMA_STEP * 100} %)`);
+          else fail(`${msg} > ${JOIN_CHROMA_STEP * 100} %`);
         };
         joinStep("lip", upstream, marks.lipPlus2M);
         // (c) plunge join: 2 m up the sheet vs the pool 2 m past the foot

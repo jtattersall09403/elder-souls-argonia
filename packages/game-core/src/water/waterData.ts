@@ -15,6 +15,11 @@ export interface WaterMeta {
   cascades?: { id: string; lip: { x: number; y: number; z: number };
     plunge: { x: number; y: number; z: number }; direction: { x: number; y?: number; z: number };
     widthM: number; dropM: number; riverBand: number; bodyIndex: number;
+    /** The width the WATER occupies at the lip (m), derived from the flow —
+     * `widthM` is the channel's hydraulic (bank-to-bank) width and the water
+     * inside that trench does not fill it. Absent on pre-2026-09-09 compiles;
+     * the renderer falls back to `widthM`. */
+    wettedWidthM?: number;
     /** Refined-terrain heights (m) under the fall line, `profileStepM` apart,
      * the first at `profileStartM` from the lip along `direction`. The sheet
      * builder needs them to tell a free cliff from a ramp it must hug. */
@@ -27,6 +32,9 @@ export interface WaterMeta {
    * field at each end. Points run downstream; `y` is non-increasing. */
   channels?: { id: string; band: number; points: {
     x: number; z: number; y: number; bedY: number; halfWidthM: number;
+    /** Half-width of the WETTED cross-section here (m); `halfWidthM` is the
+     * trench. Absent on older compiles — callers fall back to `halfWidthM`. */
+    wettedHalfWidthM?: number;
     speedMS: number; season: number;
     /** v1: steep|fall|field|join. v2 (decision 0047): join|steep|lip|plunge —
      * a strip ends at a `lip` and resumes at the `plunge`; the sheet bridges. */

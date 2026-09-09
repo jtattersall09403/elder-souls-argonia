@@ -11,6 +11,8 @@ import {
   sheetAeration, sheetAlbedo, sheetAlpha, sheetCrestBoost, sheetEmissive, sheetLateralOffsets, sheetPieceFamily,
   sheetPieceSpans, sheetWhiteness,
   sheetJetThickness, sheetJetSpread, sideStripPinchedU, traceCascades, traceWaterfallSheet, fallSiteMarks, type Cascade,
+  BRINK_FLAT_M, BRINK_MAX_ARC_M, BRINK_STATIONS, SHEET_CREST_FEATHER_M,
+  brinkAt, cascadeWettedWidthM, measureBrink,
 } from "./WaterfallSheets";
 import { Texture } from "three";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadeEmitterKit, cascadePathEmitters } from "./WaterCascadeSources";
@@ -659,5 +661,98 @@ describe("shipped cascade geometry (smoke: whatever water-meta.json ships, v1 or
       // it must come back to the bed, not end as a flat plate in mid-air
       expect(last.airM).toBeLessThan(0.5);
     }
+  });
+});
+
+describe("the water's width, not the trench's (compiler wettedWidthM)", () => {
+  const base = { profile: cliffProfile(40, 20, 0), widthM: 12 };
+  it("falls back to the hydraulic width when the compile has no wetted field", () => {
+    const c = cascade(base);
+    expect(cascadeWettedWidthM(c)).toBe(12);
+    expect(traceWaterfallSheet(c).widthM).toBe(12);
+  });
+  it("draws the wetted width, and keeps the trench alongside it", () => {
+    const path = traceWaterfallSheet(cascade({ ...base, wettedWidthM: 4.5 }));
+    expect(path.widthM).toBe(4.5);
+    expect(path.trenchWidthM).toBe(12);
+  });
+  it("never exceeds the trench, and never collapses to nothing", () => {
+    expect(cascadeWettedWidthM(cascade({ ...base, wettedWidthM: 99 }))).toBe(12);
+    expect(cascadeWettedWidthM(cascade({ ...base, wettedWidthM: 0.01 }))).toBe(0.5);
+  });
+  it("narrows the sheet, its side strips, its base and its mist together", () => {
+    const wide = buildWaterfallSheetGeometry([cascade(base)]);
+    const wet = buildWaterfallSheetGeometry([cascade({ ...base, wettedWidthM: 4 })]);
+    const span = (g: typeof wide) => {
+      const pos = g.geometry.getAttribute("position");
+      return extent({ count: pos.count, getX: (i) => pos.getZ(i) });
+    };
+    const a = span(wide);
+    const b = span(wet);
+    // the fall runs +x, so its across-axis is z
+    expect(b.max - b.min).toBeLessThan((a.max - a.min) * 0.6);
+    expect(wet.paths[0].widthM).toBe(4);
+    // the plunge basin the base and mist size themselves from follows it
+    expect(fallSiteMarks(wet.paths[0]).basinRadiusM)
+      .toBeLessThan(fallSiteMarks(wide.paths[0]).basinRadiusM);
+  });
+});
+
+describe("the crest follows the rock it leaves", () => {
+  const fall = cascade({ profile: cliffProfile(40, 20, 0), widthM: 8 });
+  /** Ground across the lip line (the fall runs +x, so across is z). */
+  const notch = (x: number, z: number) => (x < 0.5 ? 20 + Math.min(Math.abs(z), 3) : 0);
+  const sill = () => 20;
+
+  it("measures the relief across the lip, not the height against lip.y", () => {
+    const b = measureBrink(fall, notch)!;
+    expect(b.acrossM).toHaveLength(BRINK_STATIONS);
+    expect(b.groundRangeM).toBeCloseTo(3, 1);
+    expect(brinkAt(b, "crestArcM", 0)).toBeCloseTo(0, 2);
+    expect(brinkAt(b, "crestArcM", 4)).toBeGreaterThan(2);
+  });
+  it("reports a lip flat to a few centimetres as a clean sill, with no delay", () => {
+    const b = measureBrink(fall, sill)!;
+    expect(b.groundRangeM).toBeLessThanOrEqual(BRINK_FLAT_M);
+    expect(b.crestArcM.every((v) => v === 0)).toBe(true);
+    expect(b.notchCentreM).toBe(0);
+  });
+  it("caps the delay a very proud shoulder can impose", () => {
+    const b = measureBrink(fall, (x, z) => (x < 0.5 ? 20 + Math.abs(z) * 40 : 0))!;
+    expect(Math.max(...b.crestArcM)).toBeLessThanOrEqual(BRINK_MAX_ARC_M);
+  });
+  it("holds the water off until the arc has passed the proud rock", () => {
+    const at = (arcM: number, crestArcM: number) => sheetAlpha({
+      u: 0.5, layer: 0, frac: 0.1, fallenM: arcM, speedMS: 8, slope: 1, airM: 5, free: true,
+      arcM, crestArcM });
+    expect(at(0.3, 0)).toBeGreaterThan(0);
+    expect(at(0.3, 3)).toBe(0);
+    expect(at(3 + SHEET_CREST_FEATHER_M, 3)).toBeGreaterThan(0);
+  });
+  it("bakes the delay per column, so the built crest is not one straight line", () => {
+    const built = buildWaterfallSheetGeometry([fall], { groundHeightM: notch });
+    const a = built.geometry.getAttribute("aCrestArcM");
+    const e = extent({ count: a.count, getX: (i) => a.getX(i) });
+    // columns near the notch floor are held back by centimetres, the
+    // shoulders by metres: the top edge is a shape, not a line
+    expect(e.max - e.min).toBeGreaterThan(1);
+    expect(e.min).toBeLessThan(e.max * 0.7);
+    expect(built.paths[0].brink?.groundRangeM).toBeCloseTo(3, 1);
+  });
+  it("leaves the crest alone with no sampler, and on a measured sill", () => {
+    for (const g of [undefined, sill]) {
+      const built = buildWaterfallSheetGeometry([fall], { groundHeightM: g });
+      const a = built.geometry.getAttribute("aCrestArcM");
+      expect(extent({ count: a.count, getX: (i) => a.getX(i) }).max).toBe(0);
+    }
+  });
+  it("centres the drawn band on the notch when there is room in the trench", () => {
+    const offset = (x: number, z: number) => (x < 0.5 ? 20 + Math.abs(z - 3) : 0);
+    const c = cascade({ profile: cliffProfile(40, 20, 0), widthM: 8, wettedWidthM: 2 });
+    const built = buildWaterfallSheetGeometry([c], { groundHeightM: offset });
+    const pos = built.geometry.getAttribute("position");
+    const z = extent({ count: pos.count, getX: (i) => pos.getZ(i) });
+    expect((z.min + z.max) / 2).toBeGreaterThan(1);
+    expect(built.paths[0].brink?.notchCentreM).toBeCloseTo(3, 0);
   });
 });

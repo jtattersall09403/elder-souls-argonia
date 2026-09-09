@@ -176,7 +176,12 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const cascades = assets.meta.cascades ?? [];
     return cascades.length
       ? new WaterfallSheets(cascades, runtime.applyAerial,
-        { channels: assets.meta.channels ?? [], textures: assets.waterfallTextures })
+        { channels: assets.meta.channels ?? [], textures: assets.waterfallTextures,
+          // The rock the crest leaves: the compiled surface raster carries the
+          // still-water level W and the signed depth W − ground, so ground is
+          // W − depth everywhere, wet or dry (dry cells store W = ground −
+          // buryM). The sheets sample it ACROSS each lip line.
+          groundHeightM: (x, z) => assets.data.surfaceBase(x, z) - assets.data.depthProxy(x, z) })
       : null;
   }, [assets, runtime.applyAerial]);
   useEffect(() => () => falls?.dispose(), [falls]);

@@ -127,6 +127,45 @@ export const SHEET_LATERAL_FADE = 0.25;
  * `CREST_BACK_M` upstream of the lip), so the body has no straight top line. */
 export const SHEET_CREST_FEATHER_M = 0.6;
 /**
+ * THE BRINK — why the crest is no longer a horizontal line drawn across the lip.
+ *
+ * `SHEET_CREST_FEATHER_M` is 0.6 m, about four pixels on a 16 m fall, so the
+ * top of the body was a straight edge across the full width. The reference
+ * frames' lip is a notch between rocks: the crest is as irregular as the stone
+ * it leaves. That is not noise to be invented — the terrain is there to be
+ * sampled, and it is NOT flat. Measured across the sixteen compiled lips
+ * (refined height raster, 3.66 m/px, 17 stations spanning the trench) the
+ * ground varies bank to bank by 0.68 m (fall-11) to 13.73 m (fall-8), median
+ * ~3.1 m; nine of the sixteen have a shoulder standing ≥ 0.3 m above the
+ * lowest column of their own lip. So there is a notch to find.
+ *
+ * What is measured is the rock's RELIEF across the lip, `ground(u) − min
+ * ground`, not `ground(u) − lip.y`. Two reasons, both measured:
+ *  - the lip's own y and the height raster are registered on different grids
+ *    and at 3.66 m/px, so the absolute difference carries a per-site offset
+ *    (fall-0 reads its whole lip line 3.3 m "proud", which would delete the
+ *    fall); the relief cancels it.
+ *  - beyond the banks the ground is the CLIFF FACE below the lip, so
+ *    `lip.y − ground` grows to tens of metres out there and would make the
+ *    jet thickest at its edges — the exact opposite of a notch.
+ *
+ * The relief becomes `crestArcM(u)`, capped at `BRINK_MAX_ARC_M`: a column
+ * whose stone stands that far proud of the notch floor carries no water at the
+ * lip, and the body only appears that far down the arc, once the nappe has
+ * spread. The water's LATERAL extent stays a flow property (the compiler's
+ * `wettedWidthM`), but it is centred on the lowest column of the measured lip
+ * — the water runs in the notch, not down the middle of the trench.
+ *
+ * Without a ground sampler the crest delay is 0 and the centre is the trench's,
+ * so the code is unchanged against hosts that cannot supply terrain.
+ */
+export const BRINK_STATIONS = 17;
+/** Cap on the crest delay a proud shoulder imposes (m of arc). */
+export const BRINK_MAX_ARC_M = 6;
+/** Relief below this reads as a clean sill, not a notch (m) — one raster
+ * texel of bilinear ripple on a 3.66 m grid is a few centimetres. */
+export const BRINK_FLAT_M = 0.15;
+/**
  * Aeration model (free flight). Air entrainment on a plunging jet grows with
  * how far the jet has travelled AND how fast it is going — the entrained
  * volume scales with the jet's surface interaction, so the natural variable is
@@ -269,9 +308,45 @@ export interface FallPathPoint {
   airM: number;
 }
 
+/** Ground height (m) under a world point, or null where it is unknown. */
+export type GroundSampler = (x: number, z: number) => number | null;
+
+/**
+ * The width the WATER occupies at the lip. `cascade.widthM` is the channel's
+ * hydraulic width — bank to bank, `WIDTH_COEF · accum^WIDTH_EXP` — and the
+ * water inside that trench does not fill it, which is why the sheet was drawn
+ * as a curtain across the whole channel. The compiler ships `wettedWidthM`
+ * (2026-09-09); until it does, the trench width stands in.
+ */
+export function cascadeWettedWidthM(fall: Cascade): number {
+  const trench = Math.max(fall.widthM, 0.5);
+  const wetted = fall.wettedWidthM;
+  return wetted !== undefined && Number.isFinite(wetted) && wetted > 0
+    ? Math.min(Math.max(wetted, 0.5), trench)
+    : trench;
+}
+
+/** Per-column brink measurement across a lip (see `BRINK_STATIONS`). */
+export interface BrinkProfile {
+  /** Signed metres across the lip, trench centre 0, one per station. */
+  acrossM: number[];
+  /** Rock relief above the lowest column (m). */
+  reliefM: number[];
+  /** Metres of arc before water appears in this column: relief, capped. */
+  crestArcM: number[];
+  /** Signed metres across to the lowest column — the notch floor. */
+  notchCentreM: number;
+  /** Ground range across the lip (m) — the evidence a notch exists at all. */
+  groundRangeM: number;
+}
+
 export interface FallPath {
   id: string;
   points: FallPathPoint[];
+  /** The rock across the lip, when a ground sampler was supplied. */
+  brink?: BrinkProfile;
+  /** The channel's hydraulic (bank-to-bank) width (m) — the TRENCH. */
+  trenchWidthM: number;
   /** True only when the water is in the air by ≥ `FREE_FLIGHT_MIN_AIR_M`
    * over a contiguous ≥ `FREE_FLIGHT_MIN_SPAN_M` of arc. A ramp is false and
    * is drawn as a chute strip, never as a fall body. */
@@ -279,9 +354,59 @@ export interface FallPath {
   /** Longest contiguous arc (m) with that much air under the sheet. */
   freeSpanM: number;
   dropM: number;
+  /** The DRAWN width (m): the wetted width, not the trench. */
   widthM: number;
   /** The cascade as traced (after strip alignment). */
   cascade: Cascade;
+}
+
+/**
+ * Measure the rock across a lip. Stations span the TRENCH (the rock edge is a
+ * property of the channel, not of the water in it); the water's own extent is
+ * then whatever part of that span is below the lip water level.
+ */
+export function measureBrink(fall: Cascade, ground: GroundSampler,
+  stations = BRINK_STATIONS): BrinkProfile | undefined {
+  let dx = fall.direction.x;
+  let dz = fall.direction.z;
+  const dl = Math.hypot(dx, dz);
+  if (!(dl > 1e-6)) return undefined;
+  dx /= dl; dz /= dl;
+  const nx = -dz;
+  const nz = dx;
+  const trench = Math.max(fall.widthM, 0.5);
+  const acrossM: number[] = [];
+  const groundM: number[] = [];
+  for (let i = 0; i < stations; i++) {
+    const u = stations === 1 ? 0 : i / (stations - 1);
+    const a = (u - 0.5) * trench;
+    const g = ground(fall.lip.x + nx * a, fall.lip.z + nz * a);
+    if (g === null || !Number.isFinite(g)) return undefined;
+    acrossM.push(a);
+    groundM.push(g);
+  }
+  const gMin = Math.min(...groundM);
+  const gMax = Math.max(...groundM);
+  const notchCentreM = acrossM[groundM.indexOf(gMin)];
+  const reliefM = groundM.map((g) => g - gMin);
+  // A lip flat to within BRINK_FLAT_M is a clean sill: no crest delay at all
+  // (and the notch centre is meaningless, so it is not used either).
+  const flat = gMax - gMin <= BRINK_FLAT_M;
+  const crestArcM = reliefM.map((r) => (flat ? 0 : Math.min(Math.max(r - BRINK_FLAT_M, 0), BRINK_MAX_ARC_M)));
+  return { acrossM, reliefM, crestArcM, notchCentreM: flat ? 0 : notchCentreM, groundRangeM: gMax - gMin };
+}
+
+/** Linear interpolation of a per-station brink term at signed metres across. */
+export function brinkAt(profile: BrinkProfile, term: "reliefM" | "crestArcM", acrossM: number): number {
+  const xs = profile.acrossM;
+  const ys = profile[term];
+  if (acrossM <= xs[0]) return ys[0];
+  if (acrossM >= xs[xs.length - 1]) return ys[ys.length - 1];
+  const span = xs[1] - xs[0];
+  const f = (acrossM - xs[0]) / span;
+  const i = Math.min(Math.floor(f), xs.length - 2);
+  const t = f - i;
+  return ys[i] * (1 - t) + ys[i + 1] * t;
 }
 
 function terrainSampler(fall: Cascade): (s: number) => number | null {
@@ -349,7 +474,8 @@ export function alignCascadeToStrips(fall: Cascade, channels: readonly ChannelSt
 }
 
 /** Ballistic sheet path from the lip, clamped onto the exported ground profile. */
-export function traceWaterfallSheet(fall: Cascade, options: { stepM?: number } = {}): FallPath {
+export function traceWaterfallSheet(fall: Cascade,
+  options: { stepM?: number; groundHeightM?: GroundSampler } = {}): FallPath {
   const stepM = Math.min(Math.max(options.stepM ?? 0.5, 0.05), 5);
   let dx = fall.direction.x;
   let dz = fall.direction.z;
@@ -441,13 +567,19 @@ export function traceWaterfallSheet(fall: Cascade, options: { stepM?: number } =
 
   const dropM = fall.lip.y - points[points.length - 1].y;
   const freeSpanM = freeFlightSpanM(points);
+  const brink = options.groundHeightM ? measureBrink(fall, options.groundHeightM) : undefined;
+  // The drawn width is the WATER's, not the trench's: the compiler's
+  // `wettedWidthM` where it ships it, the trench where it does not.
+  const wetted = cascadeWettedWidthM(fall);
   return {
     id: fall.id,
     points,
+    brink,
+    trenchWidthM: Math.max(fall.widthM, 0.5),
     freeFlight: freeSpanM >= FREE_FLIGHT_MIN_SPAN_M,
     freeSpanM,
     dropM,
-    widthM: Math.max(fall.widthM, 0.5),
+    widthM: wetted,
     cascade: fall,
   };
 }
@@ -485,7 +617,7 @@ export interface TracedCascades {
 
 /** Trace, align to the strips and classify every compiled cascade once. */
 export function traceCascades(cascades: readonly Cascade[],
-  options: { stepM?: number; channels?: readonly ChannelStrip[] } = {}): TracedCascades {
+  options: { stepM?: number; channels?: readonly ChannelStrip[]; groundHeightM?: GroundSampler } = {}): TracedCascades {
   const paths = cascades
     .filter((c) => Number.isFinite(c.dropM) && c.dropM >= MIN_CASCADE_DROP_M)
     .map((c) => traceWaterfallSheet(alignCascadeToStrips(c, options.channels), options))
@@ -577,7 +709,7 @@ export interface WaterfallSheetGeometry {
 /** All fall bodies in one geometry; ramps come back as `chutes` instead. */
 export function buildWaterfallSheetGeometry(
   cascades: readonly Cascade[],
-  options: { stepM?: number; channels?: readonly ChannelStrip[] } = {},
+  options: { stepM?: number; channels?: readonly ChannelStrip[]; groundHeightM?: GroundSampler } = {},
 ): WaterfallSheetGeometry {
   const traced = traceCascades(cascades, options);
   const paths = traced.sheets;
@@ -593,6 +725,9 @@ export function buildWaterfallSheetGeometry(
   const piece: number[] = [];    // (piece start arc m, piece height m, scroll phase s)
   const pieceUv: number[] = [];  // the piece's own 0..1 rectangle
   const fade: number[] = [];     // cross-fade across piece overlaps
+  // metres of arc the proud rock delays the crest by in this column (0
+  // without a ground sampler, and 0 on a lip measured flat).
+  const crestArc: number[] = [];
   const index: number[] = [];
   const perFall: WaterfallSheetGeometry["perFall"] = {};
   let pieceCount = 0;
@@ -630,8 +765,10 @@ export function buildWaterfallSheetGeometry(
       if (tl > 1e-6) { tx /= tl; tz /= tl; } else { tx = 1; tz = 0; }
       frames.push({ tx, tz, nx: -tz, nz: tx });
     }
+    const bp = path.brink;
     const pushVertex = (i: number, x: number, z: number, u: number, l: number, t: number,
-      pieceStartM: number, pieceHeightM: number, phaseS: number, endFade: number, pieceU: number) => {
+      pieceStartM: number, pieceHeightM: number, phaseS: number, endFade: number, pieceU: number,
+      acrossM: number) => {
       const p = pts[i];
       position.push(x, p.y, z);
       uv.push(u, along[i]);
@@ -644,6 +781,8 @@ export function buildWaterfallSheetGeometry(
       piece.push(pieceStartM, pieceHeightM, phaseS);
       pieceUv.push(pieceU, Math.min(Math.max((along[i] - pieceStartM) / pieceHeightM, 0), 1));
       fade.push(endFade);
+      // The rock across the lip, sampled at this vertex's own column.
+      crestArc.push(bp ? brinkAt(bp, "crestArcM", acrossM) : 0);
     };
     const pushQuads = (base: number, first: number, last: number) => {
       for (let i = first; i < last; i++) {
@@ -662,6 +801,11 @@ export function buildWaterfallSheetGeometry(
     const family = sheetPieceFamily(path.dropM);
     const spans = sheetPieceSpans(lengthM, family.heightM);
     const lateral = sheetLateralOffsets(path.widthM, family.widthM);
+    // The water runs in the notch, not down the middle of the trench: the
+    // drawn band is centred on the lowest measured column of the lip, held
+    // inside the trench.
+    const room = Math.max((path.trenchWidthM - path.widthM) * 0.5, 0);
+    const notchShift = Math.min(Math.max(path.brink?.notchCentreM ?? 0, -room), room);
     for (let k = 0; k < spans.length; k++) {
       const span = spans[k];
       let first = 0;
@@ -691,12 +835,12 @@ export function buildWaterfallSheetGeometry(
             const { tx, tz, nx, nz } = frames[i];
             const f = endFadeAt(i);
             for (const side of [-1, 1]) {
-              const across = centre + half * side;
+              const across = notchShift + centre + half * side;
               // u across the WHOLE fall for the width profile; the piece's own
               // 0..1 rectangle rides aPieceUv
-              const uFall = Math.min(Math.max(0.5 + across / path.widthM, 0), 1);
+              const uFall = Math.min(Math.max(0.5 + (across - notchShift) / path.widthM, 0), 1);
               pushVertex(i, p.x + nx * across - tx * back, p.z + nz * across - tz * back, uFall, l, spec.tint,
-                span.startM, height, phase, f, side < 0 ? 0 : 1);
+                span.startM, height, phase, f, side < 0 ? 0 : 1, across);
             }
           }
           pushQuads(base, first, last);
@@ -716,12 +860,12 @@ export function buildWaterfallSheetGeometry(
         const p = pts[i];
         const { nx, nz } = frames[i];
         const flare = SIDE_STRIP_M * (SIDE_STRIP_PINCH + (1 - SIDE_STRIP_PINCH) * fracAt[i]);
-        const inner = half * 0.85;
-        const outer = half + flare;
-        pushVertex(i, p.x + nx * inner * side, p.z + nz * inner * side, 0, SIDE_STRIP_LAYER, SHEET_EMISSIVE.side,
-          0, Math.max(lengthM, 1e-3), 0, 1, 0);
-        pushVertex(i, p.x + nx * outer * side, p.z + nz * outer * side, 1, SIDE_STRIP_LAYER, SHEET_EMISSIVE.side,
-          0, Math.max(lengthM, 1e-3), 0, 1, 1);
+        const inner = notchShift + half * 0.85 * side;
+        const outer = notchShift + (half + flare) * side;
+        pushVertex(i, p.x + nx * inner, p.z + nz * inner, 0, SIDE_STRIP_LAYER, SHEET_EMISSIVE.side,
+          0, Math.max(lengthM, 1e-3), 0, 1, 0, inner);
+        pushVertex(i, p.x + nx * outer, p.z + nz * outer, 1, SIDE_STRIP_LAYER, SHEET_EMISSIVE.side,
+          0, Math.max(lengthM, 1e-3), 0, 1, 1, outer);
       }
       pushQuads(base, 0, pts.length - 1);
     }
@@ -740,6 +884,7 @@ export function buildWaterfallSheetGeometry(
   geometry.setAttribute("aPiece", new THREE.Float32BufferAttribute(piece, 3));
   geometry.setAttribute("aPieceUv", new THREE.Float32BufferAttribute(pieceUv, 2));
   geometry.setAttribute("aEndFade", new THREE.Float32BufferAttribute(fade, 1));
+  geometry.setAttribute("aCrestArcM", new THREE.Float32BufferAttribute(crestArc, 1));
   geometry.setIndex(index);
   geometry.computeBoundingSphere();
   return {
@@ -836,6 +981,8 @@ export interface SheetSampleInput {
   arcM?: number;
   /** Whiteness 0..1 (the shader's `white`); omitted = derived from the aeration. */
   white?: number;
+  /** Metres of arc the proud rock delays the crest by in this column. */
+  crestArcM?: number;
 }
 
 /**
@@ -906,7 +1053,12 @@ export function sheetAlpha(i: SheetSampleInput): number {
   // spread edge to edge across the compiled width.
   let alpha = (i.opacity ?? 1) * sheetCoverage(i) * SHEET_LAYER_ALPHA[l];
   alpha *= smoothstep(0, SHEET_FOOT_DISSOLVE_M, remainM);
-  if (i.arcM !== undefined) alpha *= smoothstep(0, SHEET_CREST_FEATHER_M, i.arcM);
+  // The crest follows the rock it leaves: in a column where the stone stands
+  // proud of the lip the water only appears `crestArcM` further down the arc,
+  // so a notched brink is pinched and a clean sill is not.
+  if (i.arcM !== undefined) {
+    alpha *= smoothstep(0, SHEET_CREST_FEATHER_M, i.arcM - (i.crestArcM ?? 0));
+  }
   // faces seen edge-on fade out (no hard silhouette cut)
   alpha *= smoothstep(SHEET_FACING_FADE.start, SHEET_FACING_FADE.full, i.facing ?? 1);
   // Soft particle, but only where there IS air behind the sheet. Water running
@@ -978,6 +1130,8 @@ attribute float aSlope;
 attribute vec3 aPiece;
 attribute vec2 aPieceUv;
 attribute float aEndFade;
+attribute float aCrestArcM;
+varying float vCrestArcM;
 varying vec2 vSheetUv;
 varying float vSpeed;
 varying float vLayer;
@@ -993,6 +1147,7 @@ uniform float uVerticalScale;
 ${FALLS_SHADOW_VERTEX_PARS}
 void main() {
   vSheetUv = aSheetUv;
+  vCrestArcM = aCrestArcM;
   vPiece = aPiece;
   vPieceUv = aPieceUv;
   vEndFade = aEndFade;
@@ -1013,6 +1168,7 @@ void main() {
 
 const SHEET_FRAGMENT = /* glsl */ `
 precision highp float;
+varying float vCrestArcM;
 varying vec2 vSheetUv;
 varying float vSpeed;
 varying float vLayer;
@@ -1107,7 +1263,11 @@ void main() {
   alpha *= smoothstep(0.0, ${SHEET_FOOT_DISSOLVE_M.toFixed(2)}, remainM);
   // no straight top line: the sheet's top edge lies on the water upstream of
   // the lip, so it fades in over its first metre of arc
-  alpha *= smoothstep(0.0, ${SHEET_CREST_FEATHER_M.toFixed(2)}, arc);
+  // ...and it starts where the ROCK falls away: in a column whose stone
+  // stands proud of the notch floor the water only appears vCrestArcM metres
+  // of arc further down (measured across the lip; 0 without a ground sampler
+  // and 0 on a lip flat to BRINK_FLAT_M).
+  alpha *= smoothstep(0.0, ${SHEET_CREST_FEATHER_M.toFixed(2)}, arc - vCrestArcM);
   alpha *= vEndFade;
   // ...and its lateral twin: a lamina never ends on a cut edge inside the jet
   // (not the spray strips: their inner edge abuts the sheet and must not gap)
@@ -1244,7 +1404,12 @@ export interface WaterfallDiagnostics {
 
 export interface FallBudget {
   dropM: number;
+  /** The DRAWN (wetted) width — what the sheet, its strips, base and mist measure. */
   widthM: number;
+  /** The channel's hydraulic width; drawn width is a fraction of it. */
+  trenchWidthM: number;
+  /** Ground range across the lip (m) when the rock was sampled. */
+  brinkRangeM?: number;
   familyM: number;
   pieces: number;
   sheetTriangles: number;
@@ -1332,8 +1497,11 @@ export class WaterfallSheets {
   private readonly byId = new Map<string, FallPath>();
 
   constructor(cascades: readonly Cascade[], applyAerial: (m: THREE.Material) => void,
-    options: { channels?: readonly ChannelStrip[]; textures?: WaterfallTextureSet } = {}) {
-    const built = buildWaterfallSheetGeometry(cascades, { channels: options.channels });
+    options: { channels?: readonly ChannelStrip[]; textures?: WaterfallTextureSet;
+      /** Ground height under a world point: the rock the crest leaves. */
+      groundHeightM?: GroundSampler } = {}) {
+    const built = buildWaterfallSheetGeometry(cascades,
+      { channels: options.channels, groundHeightM: options.groundHeightM });
     const tex = options.textures ?? {};
     this.paths = built.paths;
     this.chuteStrips = built.chutes;
@@ -1392,7 +1560,8 @@ export class WaterfallSheets {
       const quads = this.base.quadsPerFall[p.id] ?? 0;
       const mist = this.mist.diagnostics.perFall[p.id] ?? { cards: 0, discs: 0, skirts: 0, triangles: 0 };
       perFall[p.id] = {
-        dropM: p.dropM, widthM: p.widthM, familyM: sheetPieceFamily(p.dropM).heightM,
+        dropM: p.dropM, widthM: p.widthM, trenchWidthM: p.trenchWidthM,
+        brinkRangeM: p.brink?.groundRangeM, familyM: sheetPieceFamily(p.dropM).heightM,
         pieces: sheet.pieces, sheetTriangles: sheet.triangles,
         baseQuads: quads, baseTriangles: quads * 2,
         mistCards: mist.cards, groundMist: mist.discs, mistTriangles: mist.triangles,

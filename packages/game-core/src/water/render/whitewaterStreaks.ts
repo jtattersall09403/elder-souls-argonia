@@ -159,6 +159,29 @@ export const AERIAL_SUN_FEED_SCALE = 0.06;
  * Lambertian would). Renormalising against the UNSHADOWED balance leaves
  * `sunVisibility` free to darken a shaded fall.
  */
+/**
+ * SKY VIEW — measured 2026-09-09, and why it is 1 and not `0.5 + 0.5·up`.
+ *
+ * The falls kit and the water beside it are the same material lit by two
+ * different arithmetics: the field and strip water is a MeshPhysicalMaterial
+ * through three's PBR path (scene lights + IBL), the kit is this unlit
+ * function. Measured on screen at fall-20m under one light (probe
+ * `fit: chromaticity`): the sheet body rendered [1.022, 1.000, 0.971] against
+ * the strip/pool whitewater's [0.911, 1.000, 1.072] — 12 % redder and 9 %
+ * less blue, and 15 % less blue at fall-gorge. Two surfaces of one material
+ * do not differ that far by geometry alone, so the gap was ours.
+ *
+ * Its cause was an inconsistency inside this function: the body was treated as
+ * a CLOUD OF DROPLETS for the sun (`FALLS_SPHERE_INTERCEPT`, E_n/4, because a
+ * sphere intercepts the beam over its cross-section) and as a FLAT PLATE for
+ * the sky (half the hemisphere when vertical). A sphere sees the sky from
+ * every direction the rock does not block; halving the blue term while keeping
+ * the sun's full sphere intercept is what weighted the body toward the sun's
+ * own colour. One view factor, one model: the sky term is not halved.
+ * Magnitude is unaffected — the renormalisation below restores the calibrated
+ * exposure — so this changes colour only, which is what it was for.
+ */
+export const FALLS_SKY_VIEW = 1;
 export const FALLS_GROUND_ALBEDO = 0.22;
 export const FALLS_SPHERE_INTERCEPT = 0.25;
 /** Sun elevation floor for the sphere intercept — a grazing sun is not infinite. */
@@ -175,7 +198,7 @@ export function fallsIrradiance(ambient: readonly number[], sunLight: readonly n
   const up = Math.min(Math.max(upness, 0), 1);
   const vis = Math.min(Math.max(sunVisibility, 0), 1);
   const sunY = Math.min(Math.max(sunDirY, FALLS_MIN_SUN_Y), 1);
-  const skyView = 0.5 + 0.5 * up;
+  const skyView = FALLS_SKY_VIEW;
   const sunView = FALLS_SPHERE_INTERCEPT / sunY + (1 - FALLS_SPHERE_INTERCEPT / sunY) * up;
   const bounce = (1 - up) * 0.5 * FALLS_GROUND_ALBEDO;
   const sky = [0, 1, 2].map((i) => ambient[i] / AERIAL_SKY_FEED_SCALE);
@@ -249,7 +272,7 @@ vec3 esFallsIrradianceG(vec3 ambient, vec3 sunLight, vec3 sunDir, float upness, 
   float up = clamp(upness, 0.0, 1.0);
   float v = clamp(vis, 0.0, 1.0);
   float sunY = clamp(sunDir.y, ${FALLS_MIN_SUN_Y.toFixed(2)}, 1.0);
-  float skyView = 0.5 + 0.5 * up;
+  float skyView = 1.00;
   float sunSphere = ${FALLS_SPHERE_INTERCEPT.toFixed(2)} / sunY;
   float sunView = mix(sunSphere, 1.0, up);
   float bounce = (1.0 - up) * 0.5 * ${FALLS_GROUND_ALBEDO.toFixed(2)};
