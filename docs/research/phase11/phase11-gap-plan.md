@@ -250,7 +250,16 @@ and `test_water_invariants` asserts through it. `ProvinceSurvey` should
 gain `wet_grid(season)` so a water question cannot be asked without answering
 which season it is about.
 
-**An owner call that fell out of it.** With the land denominator corrected (it
+**OWNER RULING 2026-09-09 — the hostile-density floor is SOFT.** The ">= 15
+per km², at least Morrowind's frequency" figure was **a preference held in
+balance against other goals, not a hard rule**, and the owner is content for it
+to be softened: *"we shouldn't stubbornly stick to the 15 target if it makes
+other things worse"*. The session decides. Danger can also be filled in later
+through encounters rather than through placed records, so a shortfall in the
+static count is not by itself a failure. This supersedes the earlier reading of
+that number as a floor to be defended.
+
+**The call that surfaced it.** With the land denominator corrected (it
 was reading the class raster, so it excluded 7.13 km² of dry ground), **D1
 misses the owner's ">= 15/km², at least Morrowind's frequency" floor in both
 seasons — 12.7 dry, 13.8 wet.** Not a seasonal artefact. The floor is not to be

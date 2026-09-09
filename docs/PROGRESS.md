@@ -86,8 +86,11 @@ work that belongs to this session's goal.
    heightfield with the local carves, rebuild only the tiles they touch;
    `compile_water` stays whole at 68 s) and a **chain lock** are part-built; the
    acceptance test is a **byte-identical diff against a full run** for the same
-   edit. Build the slow reference ONCE and restore from a copy — re-running it
-   per iteration is what made this expensive the first time. Do it before 3 and
+   edit. **Build the slow reference ONCE, keep the copy, and restore from it
+   between iterations — do NOT re-run the slow chain to reset state.** That
+   mistake cost an hour on 2026-09-09: five full builds where one reference and
+   five copies would have done. The reference only goes stale if the chain's
+   *inputs* change, which editing the fast path does not do. Do it before 3 and
    4, both of which rebuild repeatedly.
    Two more cases worth taking: a compile-only change (the wetted width moved no
    ground yet still took a full chain) should not invalidate the terrain, and
@@ -103,6 +106,12 @@ work that belongs to this session's goal.
    design, the marsh-credit deletion, the single accessor, the D1 hostility
    floor, what is queued against water); **B12** is the grader change that was
    reverted, with its acceptance test.
+**Owner ruling 2026-09-09:** the hostile-density figure (">= 15/km², at least
+Morrowind's frequency") is a **preference held in balance, not a hard floor**.
+It may be softened where holding it would make other things worse, the session
+decides, and danger can be filled in later through encounters rather than
+placed records.
+
 5. **Place spacing and tree density** settle out of step 1 and whatever it
    surfaces.
 
