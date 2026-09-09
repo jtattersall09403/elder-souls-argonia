@@ -699,8 +699,8 @@ def check_neighbour(ctx: Ctx, rec: dict) -> list[Finding]:
 # 5. REGION / CULTURE IDENTITY
 # --------------------------------------------------------------------------- #
 VIBE_TERRAIN_WORDS = {
-    "mountain": ("border mountains", "upland hills", "upland plateau"),
-    "hillside": ("upland hills", "border mountains", "upland plateau"),
+    "mountain": ("border mountains", "upland hills"),
+    "hillside": ("upland hills", "border mountains"),
     "cliff": ("border mountains", "upland hills", "tidal delta", "firm lowland"),
     "the sea": ("ocean", "tidal delta", "coastal lagoon & salt marsh", "mangrove forest"),
     "open sea": ("ocean", "tidal delta", "coastal lagoon & salt marsh"),

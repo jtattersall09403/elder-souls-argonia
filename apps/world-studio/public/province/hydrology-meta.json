@@ -95,14 +95,6 @@
         140
       ]
     },
-    "10": {
-      "name": "raised hammock",
-      "rgb": [
-        200,
-        150,
-        90
-      ]
-    },
     "11": {
       "name": "firm lowland",
       "rgb": [
@@ -206,13 +198,6 @@
       "rain": "seasonal flood rains",
       "visibility": 600,
       "canopy": 0.15
-    },
-    "raised hammock": {
-      "humidity": 0.7,
-      "mist": 0.4,
-      "rain": "showers",
-      "visibility": 700,
-      "canopy": 0.6
     },
     "firm lowland": {
       "humidity": 0.7,
@@ -328,7 +313,6 @@
     "interior swamp": 0.0324,
     "fringe marsh": 0.0563,
     "seasonal floodplain": 0.0087,
-    "raised hammock": 0.0,
     "firm lowland": 0.1604,
     "lake & standing water": 0.0609,
     "tropical jungle": 0.0547,

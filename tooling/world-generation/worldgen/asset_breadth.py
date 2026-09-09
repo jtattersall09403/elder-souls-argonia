@@ -227,7 +227,7 @@ def main() -> int:
               f" ({row['distinctShells']} distinct parcels' pieces in all)")
     flora = understory_breadth()
     print(f"  understory: {flora['distinctUnderstorySpecies']} distinct species "
-          f"across 14 region classes; "
+          f"across {len(flora['byRegionClass'])} region classes; "
           f"{len(flora['floraKitUnusedByAnyPalette'])} of "
           f"{flora['floraKitAssets']} flora-kit assets unused")
     for region, row in flora["byRegionClass"].items():

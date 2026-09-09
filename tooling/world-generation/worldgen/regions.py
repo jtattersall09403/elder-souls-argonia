@@ -116,7 +116,6 @@ REGION_CLASSES = {
     7: ("interior swamp", (60, 150, 90)),
     8: ("fringe marsh", (110, 180, 110)),
     9: ("seasonal floodplain", (170, 200, 140)),
-    10: ("raised hammock", (200, 150, 90)),
     11: ("firm lowland", (140, 160, 110)),
     12: ("lake & standing water", (70, 140, 215)),
     13: ("tropical jungle", (55, 175, 45)),
@@ -127,7 +126,7 @@ REGION_CLASSES = {
 # humidity and mist 0..1, visibility in rough metres under canopy/weather.
 # canopy = canopy closure 0..1 (module 55 §96: "canopy is a light property of
 # place") — permanent-dusk forest classes (rootland deep marsh, tropical
-# jungle) near 1.0; swamp forest / mangrove fringe / tree-island hammock mid;
+# jungle) near 1.0; swamp forest and mangrove fringe mid;
 # open marsh, floodplain, delta reed low; crag, mountains and open water ~0.
 CLIMATE = {
     0: {"humidity": 0.7, "mist": 0.2, "rain": "sea squalls", "visibility": 2000, "canopy": 0.0},
@@ -140,7 +139,6 @@ CLIMATE = {
     7: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 200, "canopy": 0.65},
     8: {"humidity": 0.9, "mist": 0.6, "rain": "monsoonal", "visibility": 350, "canopy": 0.3},
     9: {"humidity": 0.8, "mist": 0.5, "rain": "seasonal flood rains", "visibility": 600, "canopy": 0.15},
-    10: {"humidity": 0.7, "mist": 0.4, "rain": "showers", "visibility": 700, "canopy": 0.6},
     11: {"humidity": 0.7, "mist": 0.3, "rain": "seasonal", "visibility": 900, "canopy": 0.35},
     12: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 300, "canopy": 0.05},
     13: {"humidity": 0.95, "mist": 0.7, "rain": "monsoonal downpour", "visibility": 90, "canopy": 1.0},
@@ -207,10 +205,11 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float,
     soil[(slope > SOIL_ROCK_SLOPE) | (z > 35)] = 1
     soil[~land] = 0
 
-    # Raised hammocks: locally prominent dry ground surrounded by wetland.
-    prominence = z - ndimage.gaussian_filter(z, 10)
-    wet_neighbourhood = ndimage.uniform_filter(hydro.wetlands.astype(np.float32), 15)
-    hammock = land & ~hydro.wetlands & (prominence > 3.0) & (z < 30) & (wet_neighbourhood > 0.35)
+    # Class 10 ("raised hammock") was RETIRED 2026-09-09 (decision 0050): the
+    # rule below claimed only 18 pixels — 0.05 ha of a 37 km province — and no
+    # place ever sat in it. Prominent dry ground inside wetland now falls to
+    # firm lowland / seasonal floodplain, which is what those pixels became.
+    # Do not re-add an id 10: the ids are stable and 10 is burnt.
 
     near_major = ndimage.binary_dilation(hydro.rivers == 3, iterations=3)
     # Deltas are point features where rivers actually meet the sea.
@@ -237,7 +236,6 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float,
     regions[marsh & (dist_sea_m > DEEP_MARSH_MIN_SEA_DIST_M)] = 6
     regions[(flood >= 2) & ~marsh & land & near_water] = 9
     regions[land & near_major & ~hydro.tidal] = 5
-    regions[hammock] = 10
     regions[hydro.tidal & land] = 4
     regions[(hydro.tidal | marsh) & land & river_mouth] = 3
     # Mangrove forest: the seaward, strongly saline, flat, SHELTERED mud
@@ -261,7 +259,7 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float,
                 & (soil != 1))
     regions[mangrove] = 14
     # Uplands need height *and* drainage: a flat terrace standing over a marsh
-    # is hammock or lowland, not hills.
+    # is lowland, not hills.
     regions[land & (z > HILL_MIN_HEIGHT_M) & (slope_deg > HILL_MIN_SLOPE_DEG)] = 2
     regions[land & (z > MOUNTAIN_MIN_HEIGHT_M) & (interiorness(*z.shape) < 0.35)] = 1
     regions[hydro.lakes] = 12

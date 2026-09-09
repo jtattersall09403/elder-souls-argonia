@@ -465,8 +465,7 @@
         "regionClasses": [
           "fringe marsh",
           "tropical jungle",
-          "firm lowland",
-          "raised hammock"
+          "firm lowland"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -2717,7 +2716,6 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "naga-kur deep interior",
           "tropical jungle"
         ],
         "hardConstraints": [
@@ -5509,8 +5507,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -5721,8 +5718,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -7892,7 +7888,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "interior swamp",
           "rootland deep marsh",
           "firm lowland",
@@ -8111,7 +8106,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "seasonal floodplain",
           "interior swamp",
           "fringe marsh"
@@ -9526,8 +9520,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -9740,8 +9733,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -10205,8 +10197,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -10419,8 +10410,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -15803,8 +15793,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -16470,8 +16459,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -20509,7 +20497,6 @@
           "upland hills",
           "border mountains",
           "firm lowland",
-          "raised hammock",
           "interior swamp"
         ],
         "hardConstraints": [
@@ -21360,7 +21347,7 @@
       "sitingPrefs": {
         "regionClasses": [
           "fringe marsh",
-          "interior wetland",
+          "interior swamp",
           "mangrove forest"
         ],
         "hardConstraints": [

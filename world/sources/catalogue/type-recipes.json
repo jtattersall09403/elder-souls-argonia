@@ -401,7 +401,6 @@
         ],
         "waterRelation": "surrounded by marsh, above flood",
         "regionClasses": [
-          "raised hammock",
           "interior swamp",
           "seasonal floodplain",
           "fringe marsh"
@@ -442,7 +441,7 @@
         1,
         4
       ],
-      "lore": "region grammar: raised hammock; Lore:Black Marsh",
+      "lore": "landform: tree-island above the marsh (siting landformClasses island / flood-high); Lore:Black Marsh",
       "footprintRadiusM": 115,
       "footprintSource": "band"
     },
@@ -633,7 +632,6 @@
           "interior swamp",
           "firm lowland",
           "seasonal floodplain",
-          "raised hammock",
           "upland hills"
         ],
         "neighbourRelation": "one per region packet, near but not in a settlement"
@@ -720,7 +718,6 @@
           "interior swamp",
           "fringe marsh",
           "seasonal floodplain",
-          "raised hammock",
           "firm lowland",
           "rootland deep marsh",
           "tropical jungle",
@@ -2248,7 +2245,6 @@
           "fringe marsh",
           "rootland deep marsh",
           "firm lowland",
-          "raised hammock",
           "upland hills"
         ],
         "neighbourRelation": "always paired with a hero Hist, a Sithis temple or a trial ground"
@@ -2914,8 +2910,7 @@
         "regionClasses": [
           "fringe marsh",
           "tropical jungle",
-          "firm lowland",
-          "raised hammock"
+          "firm lowland"
         ],
         "neighbourRelation": "on a trade water; brokers between neighbours"
       },
@@ -3278,7 +3273,6 @@
           "interior swamp",
           "rootland deep marsh",
           "fringe marsh",
-          "raised hammock",
           "tropical jungle"
         ],
         "neighbourRelation": "one to two hours from its neighbours by water; clusters along a drainage"
@@ -4752,8 +4746,7 @@
         "regionClasses": [
           "interior swamp",
           "fringe marsh",
-          "rootland deep marsh",
-          "raised hammock"
+          "rootland deep marsh"
         ],
         "neighbourRelation": "attached to a village"
       },
@@ -4971,7 +4964,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "tropical jungle"
         ],
         "neighbourRelation": "attached to a village or standing on a hunting route"
@@ -5041,7 +5033,6 @@
         "waterRelation": "water for dyeing",
         "regionClasses": [
           "firm lowland",
-          "raised hammock",
           "fringe marsh",
           "interior swamp",
           "tropical jungle"
@@ -5183,8 +5174,7 @@
         "regionClasses": [
           "interior swamp",
           "fringe marsh",
-          "firm lowland",
-          "raised hammock"
+          "firm lowland"
         ],
         "neighbourRelation": "in an artisan or festival village"
       },
@@ -5400,7 +5390,6 @@
         "regionClasses": [
           "tropical jungle",
           "interior swamp",
-          "raised hammock",
           "rootland deep marsh"
         ],
         "neighbourRelation": "serves builders and instrument-makers"
@@ -5538,7 +5527,6 @@
         "waterRelation": "water for dye and retting",
         "regionClasses": [
           "firm lowland",
-          "raised hammock",
           "fringe marsh",
           "interior swamp"
         ],
@@ -5610,7 +5598,6 @@
         "regionClasses": [
           "upland hills",
           "firm lowland",
-          "raised hammock",
           "border mountains"
         ],
         "neighbourRelation": "near a settlement, above canopy where possible"
@@ -5686,7 +5673,6 @@
         ],
         "waterRelation": "dry and airy — a real constraint here",
         "regionClasses": [
-          "raised hammock",
           "upland hills",
           "firm lowland",
           "tropical jungle"
@@ -5968,7 +5954,6 @@
         "waterRelation": "stable damp shade",
         "regionClasses": [
           "interior swamp",
-          "raised hammock",
           "tropical jungle",
           "rootland deep marsh"
         ],
@@ -7909,7 +7894,6 @@
         "regionClasses": [
           "firm lowland",
           "upland hills",
-          "raised hammock",
           "fringe marsh"
         ],
         "neighbourRelation": "in or beside a settlement"
@@ -8132,7 +8116,6 @@
         "waterRelation": "clean warm water",
         "regionClasses": [
           "firm lowland",
-          "raised hammock",
           "fringe marsh",
           "interior swamp"
         ],
@@ -8199,8 +8182,7 @@
         "regionClasses": [
           "firm lowland",
           "fringe marsh",
-          "interior swamp",
-          "raised hammock"
+          "interior swamp"
         ],
         "neighbourRelation": "in a settlement"
       },
@@ -10952,8 +10934,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "neighbourRelation": "a regional centre; routes converge on it"
       },
@@ -11027,7 +11008,6 @@
           "interior swamp",
           "fringe marsh",
           "rootland deep marsh",
-          "raised hammock",
           "seasonal floodplain",
           "tropical jungle"
         ],
@@ -11254,7 +11234,6 @@
         "regionClasses": [
           "interior swamp",
           "fringe marsh",
-          "raised hammock",
           "seasonal floodplain",
           "tropical jungle"
         ],
@@ -11402,8 +11381,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "neighbourRelation": "a short walk from a village, out of its sight"
       },
@@ -11568,7 +11546,6 @@
         "regionClasses": [
           "interior swamp",
           "fringe marsh",
-          "raised hammock",
           "seasonal floodplain",
           "rootland deep marsh"
         ],
@@ -11635,8 +11612,7 @@
         "regionClasses": [
           "interior swamp",
           "fringe marsh",
-          "rootland deep marsh",
-          "raised hammock"
+          "rootland deep marsh"
         ],
         "neighbourRelation": "always paired with a Hist and an uxith"
       },
@@ -12068,8 +12044,7 @@
         "regionClasses": [
           "interior swamp",
           "rootland deep marsh",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "neighbourRelation": "a regional pilgrimage terminus"
       },
@@ -12435,8 +12410,7 @@
           "fringe marsh",
           "seasonal floodplain",
           "rootland deep marsh",
-          "tidal delta",
-          "raised hammock"
+          "tidal delta"
         ],
         "neighbourRelation": "every Argonian settlement has one; war memorials stand alone"
       },
@@ -12490,7 +12464,7 @@
         "ancestor",
         "clan-founder"
       ],
-      "summary": "On a tree-island the ground is precious and the crown is dry, so the dead go up: a terraced ancestor platform on the highest point of a hammock, which only this region can host.",
+      "summary": "A terraced ancestor platform on the crown of a tree-island, standing above the flood that reaches the village below. The ground around the island is under water for part of the year, so the dead are carried up the terraces instead of being staked.",
       "slots": {
         "cue": "cut terraces stepping up a wooded dome, visible as a shape change in the island's profile",
         "population": "0-2 tenders; elevated member on the crown",
@@ -12507,9 +12481,12 @@
         ],
         "waterRelation": "above the flood on a tree-island",
         "regionClasses": [
-          "raised hammock"
+          "interior swamp",
+          "seasonal floodplain",
+          "fringe marsh",
+          "firm lowland"
         ],
-        "neighbourRelation": "one per inhabited hammock; the region's signature sacred form"
+        "neighbourRelation": "one per inhabited tree-island; the sacred site of the hammock village below"
       },
       "magnitude": null,
       "cultures": [
@@ -12547,7 +12524,7 @@
         3,
         6
       ],
-      "lore": "region grammar: raised hammock; Lore:Argonian (staking needs soft ground the hammock crown does not have)",
+      "lore": "landform: tree-island crown (siting landformClasses island / flood-high); Lore:Argonian (staking needs soft ground that the hammock crown lacks)",
       "footprintRadiusM": 35,
       "footprintSource": "band"
     },
@@ -13092,7 +13069,6 @@
           "interior swamp",
           "fringe marsh",
           "rootland deep marsh",
-          "raised hammock",
           "tropical jungle"
         ],
         "neighbourRelation": "inside a village with a Hist"
@@ -13167,7 +13143,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "seasonal floodplain",
           "lake & standing water",
           "tidal delta"
@@ -13241,7 +13216,6 @@
         "regionClasses": [
           "interior swamp",
           "fringe marsh",
-          "raised hammock",
           "firm lowland"
         ],
         "neighbourRelation": "just outside a village"
@@ -13312,7 +13286,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "seasonal floodplain"
         ],
         "neighbourRelation": "serves a settlement cluster"
@@ -13455,8 +13428,7 @@
           "firm lowland",
           "fringe marsh",
           "interior swamp",
-          "tidal delta",
-          "raised hammock"
+          "tidal delta"
         ],
         "neighbourRelation": "on a troupe circuit"
       },
@@ -14127,7 +14099,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "tropical jungle"
         ],
         "neighbourRelation": "in an M3+ settlement"
@@ -14201,7 +14172,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "seasonal floodplain",
           "tropical jungle"
         ],
@@ -14862,7 +14832,6 @@
         "waterRelation": "beside its craft",
         "regionClasses": [
           "firm lowland",
-          "raised hammock",
           "fringe marsh",
           "interior swamp",
           "tropical jungle"
@@ -15160,7 +15129,6 @@
           "interior swamp",
           "fringe marsh",
           "rootland deep marsh",
-          "raised hammock",
           "tropical jungle",
           "upland hills",
           "seasonal floodplain"
@@ -15234,7 +15202,6 @@
           "interior swamp",
           "fringe marsh",
           "rootland deep marsh",
-          "raised hammock",
           "tropical jungle"
         ],
         "neighbourRelation": "in or beside a village"
@@ -15451,7 +15418,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "seasonal floodplain",
           "rootland deep marsh",
           "tropical jungle"
@@ -15917,8 +15883,7 @@
           "seasonal floodplain",
           "rootland deep marsh",
           "upland hills",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "neighbourRelation": "chained along routes at a day's travel; the province's D0 floor outside cities"
       },
@@ -17248,7 +17213,6 @@
           "interior swamp",
           "rootland deep marsh",
           "tropical jungle",
-          "raised hammock",
           "fringe marsh"
         ],
         "neighbourRelation": "dominates its immediate district"
@@ -21532,7 +21496,6 @@
           "interior swamp",
           "rootland deep marsh",
           "tropical jungle",
-          "raised hammock",
           "fringe marsh"
         ],
         "neighbourRelation": "in xanmeer country; contrasts directly with the tended and sealed ones"
@@ -21759,7 +21722,6 @@
           "interior swamp",
           "rootland deep marsh",
           "tropical jungle",
-          "raised hammock",
           "fringe marsh"
         ],
         "neighbourRelation": "a landmark for its whole district; a village within 1 km tends it"
@@ -21836,8 +21798,7 @@
           "ocean",
           "lake & standing water",
           "tidal delta",
-          "mangrove forest",
-          "raised hammock"
+          "mangrove forest"
         ],
         "neighbourRelation": "worked seasonally from a nearby settlement"
       },
@@ -22131,7 +22092,6 @@
         ],
         "waterRelation": "the last water in a drying landscape",
         "regionClasses": [
-          "raised hammock",
           "seasonal floodplain"
         ],
         "neighbourRelation": "the region's ecological engine; villages time their year on it"
@@ -22170,7 +22130,7 @@
         1,
         4
       ],
-      "lore": "region grammar: raised hammock and seasonal floodplain; ecology-encounters-loot feed (the flood cycle drives the fauna)",
+      "lore": "region grammar: seasonal floodplain; ecology-encounters-loot feed (the flood cycle drives the fauna)",
       "footprintRadiusM": 45,
       "footprintSource": "band"
     },
@@ -24075,8 +24035,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "neighbourRelation": "the root layer is continuous — galleries connect, and that connection is the map"
       },
@@ -24966,7 +24925,6 @@
           "interior swamp",
           "fringe marsh",
           "rootland deep marsh",
-          "raised hammock",
           "seasonal floodplain"
         ],
         "neighbourRelation": "200-600 m from the village it serves"
@@ -25495,7 +25453,6 @@
           "upland hills",
           "border mountains",
           "firm lowland",
-          "raised hammock",
           "interior swamp"
         ],
         "neighbourRelation": "above canopy; visible from a distance"
@@ -25806,8 +25763,7 @@
           "fringe marsh",
           "seasonal floodplain",
           "rootland deep marsh",
-          "tidal delta",
-          "raised hammock"
+          "tidal delta"
         ],
         "neighbourRelation": "where somebody died, on or off a route"
       },

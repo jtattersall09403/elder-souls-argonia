@@ -3017,8 +3017,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "firm lowland",
-          "raised hammock"
+          "firm lowland"
         ],
         "landformClasses": [
           "enclosed-clearing",
@@ -5837,7 +5836,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "interior swamp",
           "seasonal floodplain",
           "fringe marsh"
@@ -7564,7 +7562,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "seasonal floodplain"
         ],
         "landformClasses": [
@@ -10977,7 +10974,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "interior swamp",
           "seasonal floodplain",
           "fringe marsh"
@@ -12787,8 +12783,7 @@
           "ocean",
           "lake & standing water",
           "tidal delta",
-          "mangrove forest",
-          "raised hammock"
+          "mangrove forest"
         ],
         "landformClasses": [
           "islet",
@@ -14733,8 +14728,7 @@
           "seasonal floodplain",
           "rootland deep marsh",
           "upland hills",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -15886,7 +15880,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "seasonal floodplain",
           "interior swamp",
           "fringe marsh"
@@ -19067,7 +19060,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "seasonal floodplain"
         ],
         "landformClasses": [
@@ -20016,7 +20008,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "seasonal floodplain"
         ],
         "landformClasses": [
@@ -20265,7 +20256,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "seasonal floodplain",
           "interior swamp",
           "fringe marsh",
@@ -21659,7 +21649,6 @@
         "regionClasses": [
           "upland hills",
           "firm lowland",
-          "raised hammock",
           "border mountains"
         ],
         "landformClasses": [
@@ -29472,8 +29461,7 @@
           "ocean",
           "lake & standing water",
           "tidal delta",
-          "mangrove forest",
-          "raised hammock"
+          "mangrove forest"
         ],
         "landformClasses": [
           "islet",

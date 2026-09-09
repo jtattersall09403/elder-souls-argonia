@@ -202,9 +202,13 @@ each other: region 5's tall waterweed also stands in region 14. Exclusivity
 is measured against neighbours, since that is what a player crossing a
 boundary sees, rather than against the whole province.
 
-One class is a special case. The raised hammock (region 10) is small enough
-that it shares no boundary with any other class above the 250-edge threshold,
-so the gate cannot bind on it. It was given two species of its own anyway.
+One class was a special case. The raised hammock (region 10) was small enough
+that it shared no boundary with any other class above the 250-edge threshold,
+so the gate could not bind on it. It was given two species of its own anyway.
+**Superseded 2026-09-09: class 10 was retired outright (decision 0050) — its
+18 pixels went to firm lowland, rootland deep marsh, seasonal floodplain and
+interior swamp, and its palette and understory rows are gone. The ladder rows
+below that mention region 10 are history.**
 
 **New gate.** `test_each_region_has_exclusive_understory`. Mutation-tested:
 giving region 8's two reed beds to its neighbour region 11 turns it red with

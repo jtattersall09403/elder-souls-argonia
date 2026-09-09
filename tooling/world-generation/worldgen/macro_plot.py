@@ -69,8 +69,8 @@ SCHEMA_VERSION = 1
 DEFAULT_SEED = 1103                      # phase 11, part 3
 
 REGION_NAME_TO_ID = {name: i for i, (name, _rgb) in REGION_CLASSES.items()}
-FIRM_REGIONS = {"upland hills", "border mountains", "raised hammock", "firm lowland",
-                "fringe marsh", "seasonal floodplain", "tropical jungle", "upland plateau"}
+FIRM_REGIONS = {"upland hills", "border mountains", "firm lowland",
+                "fringe marsh", "seasonal floodplain", "tropical jungle"}
 MARSH_REGIONS = {"interior swamp", "rootland deep marsh", "mangrove forest",
                  "coastal lagoon & salt marsh", "tidal delta", "fringe marsh"}
 WATER_REGIONS = {"ocean", "lake & standing water", "deep river corridor"}

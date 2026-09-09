@@ -63,7 +63,6 @@ TARGET_RATIOS: dict[int, float] = {
     7: 0.67,   # interior swamp — type 2 flooded forest
     8: 0.40,   # fringe marsh — the legible ecotone step
     9: 0.12,   # seasonal floodplain — 5c savanna; the open counterpoint
-    10: 0.45,  # raised hammock — dry palm islands on the hummocks
     11: 0.55,  # firm lowland — our largest lowland class, must sit below 13
     12: 0.02,  # lake & standing water — drowned snags only
     13: 1.00,  # tropical jungle — the reference (owner: do not change)
@@ -78,25 +77,25 @@ TARGET_RATIOS: dict[int, float] = {
 #: what open water should carry — the anomaly was attribution, not scatter.
 MEASURED_DELIVERED_PER_HA: dict[int, float] = {
     1: 12.74, 2: 32.60, 3: 26.03, 4: 69.17, 5: 11.73, 6: 115.68, 7: 119.32,
-    8: 19.22, 9: 15.27, 10: 18.48, 11: 26.97, 12: 0.87, 13: 39.00, 14: 149.06,
+    8: 19.22, 9: 15.27, 11: 26.97, 12: 0.87, 13: 39.00, 14: 149.06,
 }
 
 #: delivered / authored for the same shipping. This is the fraction of an
 #: authored hectare that survives the altitude band, the slope and depth
 #: gates, clearance rejection and `composition.py`'s cluster division. It is
-#: MEASURED for every class — including 3, 4, 5, 9 and 10, which the earlier
+#: MEASURED for every class — including 3, 4, 5 and 9, which the earlier
 #: dominant-chunk audit could not see, because the per-pixel measure needs no
 #: chunk to be dominated by the class to count its instances.
 MEASURED_ATTENUATION: dict[int, float] = {
     1: 0.187, 2: 0.222, 3: 0.153, 4: 0.206, 5: 0.107, 6: 0.621, 7: 0.590,
-    8: 0.408, 9: 0.136, 10: 0.176, 11: 0.490, 12: 0.144, 13: 0.459, 14: 0.331,
+    8: 0.408, 9: 0.136, 11: 0.490, 12: 0.144, 13: 0.459, 14: 0.331,
 }
 
 #: Classes whose region covers so little of the province that their per-pixel
 #: sample is thin. Their attenuation is real but noisy; the gates widen for
-#: them. Measured areas (2026-09-09, `region_area_ha`): 3 → 3.8 ha,
-#: 5 → 10.3 ha, 10 → 0.1 ha, 4 → 17.3 ha.
-THIN_SAMPLE_CLASSES = frozenset({3, 4, 5, 10})
+#: them. Measured areas (2026-09-09, `region_area_ha`, after class 10 was
+#: retired): 3 → 3.8 ha, 5 → 10.3 ha, 4 → 17.3 ha.
+THIN_SAMPLE_CLASSES = frozenset({3, 4, 5})
 
 #: Below this the per-hectare sample cannot answer the question at all, and a
 #: wider tolerance is not the honest response — silence is, provided it is a
@@ -106,16 +105,18 @@ THIN_SAMPLE_CLASSES = frozenset({3, 4, 5, 10})
 #: needs enough instances that Poisson noise is smaller than that. At the
 #: 1/sqrt(n) relative error of a count, ±0.35 on a ratio near 1 needs n ≳ 8,
 #: and the thinnest classes deliver 12–74 stems per hectare, so one hectare is
-#: the floor at which the measure starts meaning anything. On the shipped bake
-#: exactly one class falls below it: **raised hammock (class 10) is 18 pixels,
-#: 0.1 ha of a 37 km² province**, delivering ~30 instances in total and reading
-#: 4× its target on a sample far too thin to act on. That is a hole in the
-#: region grammar rather than a vegetation defect, and it is queued in
-#: `docs/polish-backlog.md`.
+#: the floor at which the measure starts meaning anything.
 #:
-#: The gate REPORTS every class it excludes by name, in the same style as
-#: `conftest.py`'s KNOWN RED banner: a class must never leave the ladder
-#: quietly, which is how region 10's 4× overshoot went unnoticed.
+#: On the shipped bake of 2026-09-09 exactly one class fell below it — raised
+#: hammock (class 10), 18 pixels, 0.05 ha of a 37 km² province, reading 4× its
+#: target on a sample far too thin to act on. That was a hole in the region
+#: grammar, not a vegetation defect, and it was closed by RETIRING the class
+#: (decision 0050). **No class is below the floor now**, and
+#: `test_no_region_class_leaves_the_delivered_gate_silently` holds it there.
+#:
+#: The gate still REPORTS every class it would exclude, by name, in the same
+#: style as `conftest.py`'s KNOWN RED banner: a class must never leave the
+#: ladder quietly, which is how region 10's 4× overshoot went unnoticed.
 MIN_MEASURABLE_AREA_HA = 1.0
 
 #: Ladder tolerance. The re-base is linear in the authored count, but

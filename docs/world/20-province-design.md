@@ -273,7 +273,7 @@ The generator can use internal ecological classes independent of political names
 | Flooded forest | Shallow water beneath canopy, roots, fallen trunks | Wading, swimming, root bridges, climbing | Raised villages, tree/root structures, small docks |
 | Interior swamp | Pools, hummocks, winding channels, poor sight lines | Local knowledge, canoe channels, difficult retreat | Small dispersed Hist-centred communities |
 | Seasonal floodplain | Large wetness variation, temporary lakes and channels | Route availability changes by season or weather | Seasonal platforms, movable structures, causeways |
-| Raised hammock | Stable local high ground inside wetlands | Foot hub, defensible camp, landmark | Valuable settlement, shrine, tomb, fort or refuge site |
+| Tree island / hammock (landform, **not** a region class — decision 0050) | Stable local high ground inside wetlands | Foot hub, defensible camp, landmark | Valuable settlement, shrine, tomb, fort or refuge site |
 | Rootland | Giant Hist/root influence, organic topography, unusual chemistry | Root paths, climbing, submerged passages, ritual transit | Hist settlements, sacred sites, restricted outsider access |
 | Northern transition | Firmer ground and Morrowind-facing wetlands | Denser foot and road network, mixed water travel | Border towns, Dunmer interaction, defensive sites |
 | Western frontier | Red clay, drainage works, roads, estates and Imperial remnants | Engineered routes with variable survival | Mixed settlements, plantations, forts, administrative ruins |

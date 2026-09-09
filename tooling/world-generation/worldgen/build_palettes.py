@@ -833,32 +833,6 @@ REGIONS[9] = {
     ],
 }
 
-REGIONS[10] = {
-    "id": "raised-hammock",
-    "note": "Tree islands: dry crest palms/bamboo over a marsh skirt that"
-            " wades (M1). The crest/skirt split is the depth gate.",
-    "layers": [
-        canopy("palm_c", 45.0, depth=(-8.0, -0.2), scale=(0.55, 0.85),
-               slope_max=30.0, clearance=1.5),
-        # Signature: the broad-crowned fan palm over the island crest, with
-        # banana clumps under it — dry, fertile ground in the marsh.
-        canopy("fanpalm_wide", 45.0, depth=(-8.0, -0.1), scale=(0.8, 1.15),
-               clearance=1.5),
-        canopy("fanpalm", 15.0, depth=(-8.0, -0.1), scale=(0.7, 1.2)),
-        understory("banana", 40.0, depth=(-6.0, 0.2), scale=(0.9, 1.4),
-                   clump_size_median=6, clump_radius_m=5.0),
-        understory("bamboo", 55.0, depth=(-6.0, 0.2), scale=(0.9, 1.6),
-                   clump_size_median=9, clump_radius_m=5.0),
-        interior_shrub("bracken", 60.0, depth=(-6.0, 0.3)),
-        gap_thicket("trop_plant", 120.0, depth=(-6.0, 0.2)),
-        # Round 8 breadth pass: big ferns in the shade under the crest palms,
-        # pads on the skirt pools that separate one hammock from the next.
-        understory("fern_big", 40.0, depth=(-6.0, 0.3), scale=(0.7, 1.2)),
-        aquatic_lilypads(30.0),
-        aquatic_reeds(145.0),
-    ],
-}
-
 REGIONS[11] = {
     "id": "firm-lowland",
     "note": "The drier ground BETWEEN waterways — still swamp-forest to the"
@@ -1204,9 +1178,6 @@ EXCLUSIVE_UNDERSTORY: dict[int, list[dict]] = {
     9: [gap_thicket("brackclump_c", 45.0, depth=(-99.0, 0.3),
                     slope_deg_max=30.0),
         understory("brack_d", 40.0, depth=(-99.0, 0.3), scale=(0.8, 1.3))],
-    # Raised hammock: dry-crest fern under the palms.
-    10: [understory("brackclump_d", 50.0, depth=(-99.0, -0.1), scale=(0.7, 1.1)),
-         understory("brack_e", 45.0, depth=(-99.0, -0.1), scale=(0.8, 1.3))],
     # Firm lowland: our largest lowland class, and the one that most needed
     # something of its own at eye level.
     11: [understory("brackclump_e", 45.0, depth=(-99.0, 0.2), scale=(0.7, 1.1)),

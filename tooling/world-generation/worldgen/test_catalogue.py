@@ -323,3 +323,51 @@ def test_a_ruin_promises_nothing():
                                   "variant": "riverine", "magnitude": "M4"},
                   status="ruined", culture="argonian")
     assert derive_services.derive(rec) == []
+
+
+def test_no_record_or_recipe_names_a_region_class_the_world_does_not_have():
+    """A siting preference for a class no raster produces is a silent no-op.
+
+    Found 2026-09-09 while retiring `raised hammock` (decision 0050):
+    `place.naga-kur-deeps.deepmire-refuge` asked for `["upland plateau",
+    "interior swamp"]`, and `upland plateau` has never been a region class, so
+    half of its stated preference did nothing and nobody could see it. The
+    retirement itself is the reason this gate has to exist — a class can leave
+    `REGION_CLASSES` and its name can survive in a hundred records.
+
+    MUTATION: put "raised hammock" back in any recipe's `regionClasses` — red.
+    """
+    from .regions import REGION_CLASSES
+    from . import macro_plot
+
+    live = {name for _i, (name, _rgb) in REGION_CLASSES.items()}
+    dead: dict[str, list[str]] = {}
+
+    for path in sorted(catalogue.CATALOGUE_DIR.glob("places-*.json")):
+        doc = json.loads(path.read_text())
+        for record in (doc.get("places", doc) if isinstance(doc, dict) else doc):
+            named = (record.get("sitingPrefs") or {}).get("regionClasses") or []
+            for name in named:
+                if name not in live:
+                    dead.setdefault(name, []).append(record["id"])
+
+    recipes = json.loads((catalogue.CATALOGUE_DIR / "type-recipes.json").read_text())
+    rows = recipes.get("types", recipes)
+    for type_id, recipe in (rows.items() if isinstance(rows, dict)
+                            else ((r.get("id"), r) for r in rows)):
+        for name in (recipe.get("regionClasses") or []):
+            if name not in live:
+                dead.setdefault(name, []).append(f"type-recipe {type_id}")
+
+    for set_name in ("FIRM_REGIONS", "MARSH_REGIONS", "WATER_REGIONS"):
+        for name in getattr(macro_plot, set_name) - live:
+            dead.setdefault(name, []).append(f"macro_plot.{set_name}")
+
+    assert not dead, (
+        "region-class names that no raster can produce, so every rule reading "
+        "them silently does nothing:\n  "
+        + "\n  ".join(f"{name!r} named by {len(where)}: "
+                      f"{', '.join(sorted(where)[:4])}"
+                      f"{' …' if len(where) > 4 else ''}"
+                      for name, where in sorted(dead.items()))
+        + f"\n\nLive classes: {sorted(live)}")

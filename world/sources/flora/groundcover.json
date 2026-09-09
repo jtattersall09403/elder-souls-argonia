@@ -1108,78 +1108,6 @@
         ]
       }
     },
-    "10": {
-      "id": "raised-hammock",
-      "note": "Dry crests: fern and leafy plant on the island tops, a small shore plant at the waterline. The mixed low plants on the scrub are carried by no other region.",
-      "swaps": {
-        "3": [
-          {
-            "asset": "bmv:landscape/grass/ewpshore14",
-            "density": 2450,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_marshplant1",
-            "density": 2100,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0
-          }
-        ],
-        "16": [
-          {
-            "asset": "bmv:landscape/grass/vurt_yelgrass",
-            "density": 3800,
-            "slopeDegMax": 45,
-            "heightVariance": 0.35,
-            "positionJitterM": 0.42,
-            "waveperiod": 200
-          },
-          {
-            "asset": "tropical:landscape/grass/grassplant01",
-            "density": 2350,
-            "slopeDegMax": 45,
-            "heightVariance": 0.35,
-            "positionJitterM": 0.42,
-            "waveperiod": 200
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_mixedplants",
-            "density": 1100,
-            "slopeDegMax": 45,
-            "heightVariance": 0.35,
-            "positionJitterM": 0.42,
-            "waveperiod": 200
-          }
-        ],
-        "18": [
-          {
-            "asset": "bmv:landscape/grass/vurt_brownplants",
-            "density": 1900,
-            "slopeDegMax": 45,
-            "heightVariance": 0.35,
-            "positionJitterM": 0.42,
-            "waveperiod": 200
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_mixedplants",
-            "density": 1650,
-            "slopeDegMax": 45,
-            "heightVariance": 0.35,
-            "positionJitterM": 0.42,
-            "waveperiod": 200
-          }
-        ]
-      }
-    },
     "11": {
       "id": "firm-lowland",
       "note": "Drained soil under a high canopy. Fern grass runs from the leaf mud through the undergrowth. The swamp ground keeps reed with a shore plant. The open dirt takes a forest ground cover.",
@@ -1599,14 +1527,6 @@
       15,
       16,
       17,
-      18
-    ],
-    "10": [
-      3,
-      11,
-      13,
-      14,
-      16,
       18
     ],
     "11": [

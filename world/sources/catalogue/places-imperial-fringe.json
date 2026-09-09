@@ -2853,7 +2853,6 @@
           "rootland deep marsh",
           "interior swamp",
           "tropical jungle",
-          "raised hammock",
           "upland hills",
           "firm lowland"
         ],
@@ -8939,7 +8938,6 @@
           "interior swamp",
           "fringe marsh",
           "firm lowland",
-          "raised hammock",
           "seasonal floodplain"
         ],
         "landformClasses": [

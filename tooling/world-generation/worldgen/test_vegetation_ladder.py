@@ -92,8 +92,10 @@ def test_authored_ladder_ordering():
         assert value < equiv[13], (
             f"region {region} carries {value:.1f} stems/ha against the "
             f"jungle's {equiv[13]:.1f} — the jungle must lead the lowlands")
-    for lower, higher in ((6, 13), (7, 6), (11, 5), (11, 2), (10, 11),
-                          (8, 10), (4, 8), (1, 4), (9, 1), (12, 9)):
+    # (8, 11) replaces the pair (8, 10), (10, 11) that class 10 sat between
+    # before it was retired (decision 0050); it is the same transitive claim.
+    for lower, higher in ((6, 13), (7, 6), (11, 5), (11, 2), (8, 11),
+                          (4, 8), (1, 4), (9, 1), (12, 9)):
         assert equiv[lower] < equiv[higher], (
             f"ladder inverted: region {lower} ({equiv[lower]:.1f}/ha) should "
             f"sit below region {higher} ({equiv[higher]:.1f}/ha)")
@@ -126,7 +128,7 @@ def test_delivered_ladder():
         if area < vl.MIN_MEASURABLE_AREA_HA:
             # NAMED, never silent. Thin classes used to be skipped outright,
             # which is how raised hammock came to deliver 4x its target with
-            # nothing to say so.
+            # nothing to say so (it was retired for it, decision 0050).
             unmeasurable.append(
                 f"region {region}: {area:.2f} ha of province, below the "
                 f"{vl.MIN_MEASURABLE_AREA_HA:.1f} ha floor — delivered ratio "
@@ -159,8 +161,13 @@ def test_no_region_class_leaves_the_delivered_gate_silently():
     so four of the fourteen classes were outside the only gate that measures
     what ships — and raised hammock delivered 1.90 against a 0.45 target with
     nothing to report it. Thin classes are now tested at the wider tolerance;
-    only a class with too little province to hold a sample at all is excused,
-    and the gate prints those by name.
+    only a class with too little province to hold a sample at all would be
+    excused, and the gate prints those by name.
+
+    The hole is CLOSED, not tolerated: raised hammock was the one class under
+    the floor, and it was retired from the region grammar on 2026-09-09
+    (decision 0050), so the honest answer here is now **zero excused**. Any
+    class dropping below the floor again means the region solve has moved.
 
     MUTATION: restore the `region in vl.THIN_SAMPLE_CLASSES` skip — red.
     """
@@ -173,12 +180,13 @@ def test_no_region_class_leaves_the_delivered_gate_silently():
         "every thin-sample class is being excused by the area floor, so the "
         "wider THIN_RATIO_TOLERANCE gates nothing. Either the floor is too "
         "high or THIN_SAMPLE_CLASSES is stale.")
-    assert len(excused) <= 1, (
+    assert not excused, (
         f"{len(excused)} region classes have too little province to be held "
-        f"to the delivered ladder: {sorted(excused)}. One (raised hammock, "
-        f"0.1 ha) is a recorded hole in the region grammar "
-        f"(docs/polish-backlog.md); more than one means the region solve has "
-        f"moved and the ladder is measuring a province that is not there.")
+        f"to the delivered ladder: {sorted(excused)}. This used to be excused "
+        f"for raised hammock (class 10, 0.05 ha); that hole was CLOSED by "
+        f"retiring the class (decision 0050), so the expected count is zero. "
+        f"A class below the floor now means the region solve has moved and "
+        f"the ladder is measuring a province that is not there.")
 
 
 # --- gate 3: understory and groundcover breadth ------------------------------

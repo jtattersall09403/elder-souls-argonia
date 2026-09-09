@@ -36,7 +36,6 @@ DANGER_BASE = {
     7: 2.7,   # interior swamp
     8: 2.0,   # fringe marsh
     9: 1.8,   # seasonal floodplain
-    10: 2.0,  # raised hammock
     11: 1.5,  # firm lowland
     12: 2.0,  # lake & standing water
     13: 2.6,  # tropical jungle — dense, low visibility, predator country

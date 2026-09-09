@@ -54,7 +54,6 @@ REGION_PALETTES = {
     7:  dict(base=MUCK, damp=BC_MUD, wet=BLACK_MUD, bank=BANK_WET, high=MARSH_GRASS, litter=UNDERGROWTH),  # interior swamp
     8:  dict(base=MARSH_GRASS, damp=MUCK, wet=BC_MUD, bank=BANK_WET, high=SWAMP_GRASS, litter=UNDERGROWTH),  # fringe marsh
     9:  dict(base=SWAMP_GRASS, damp=MUD_LEAVES, wet=PUDDLE, bank=CLAY, high=TROP_GRASS, litter=LITTER),      # seasonal floodplain
-    10: dict(base=SCRUB, damp=GRASS_DIRT, wet=MUD_LEAVES, bank=CLAY, high=SCRUB, litter=LITTER),    # raised hammock
     11: dict(base=TROP_GRASS, damp=MARSH_GRASS, wet=MUCK, bank=CLAY, high=SCRUB, litter=GRASS_DIRT),  # firm lowland
     12: dict(base=SILT, damp=SILT, wet=SILT, bank=BANK_WET, high=SCRUB, litter=SILT),               # lake bed
     13: dict(base=JUNGLE, damp=BLACK_MUD, wet=BLACK_MUD, bank=BC_MUD, high=FOREST_FLOOR, litter=LITTER),  # tropical jungle

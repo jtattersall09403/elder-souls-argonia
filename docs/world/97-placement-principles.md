@@ -55,7 +55,7 @@ check (owner rounds) — see G1.
 **A2. Site types map onto our landforms; in a marsh the dry point is the
 settlement.** Bridging point → the narrows and fords (`crossing` transit
 types); confluence → route junctions and river-mouth ports; dry point →
-`flood-high`, `raised hammock`, `ridge-end`; defensive spur or meander →
+`flood-high`, `island`, `ridge-end`; defensive spur or meander →
 `ridge-end`, `cliff-bench`; gap town → `saddle`. The spring-line type has no
 marsh analogue: water is nowhere scarce, so firm ground takes its role, and
 everything not on the dry point is field, fishery or grave. *S* (site

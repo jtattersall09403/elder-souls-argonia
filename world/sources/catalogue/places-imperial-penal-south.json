@@ -738,8 +738,7 @@
           "seasonal floodplain",
           "rootland deep marsh",
           "upland hills",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "on a route, with a landing"
@@ -12185,7 +12184,6 @@
           "interior swamp",
           "fringe marsh",
           "rootland deep marsh",
-          "raised hammock",
           "seasonal floodplain"
         ],
         "hardConstraints": [

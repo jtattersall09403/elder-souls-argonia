@@ -783,8 +783,7 @@
           "seasonal floodplain",
           "rootland deep marsh",
           "upland hills",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "on a route, with a landing"
@@ -6848,7 +6847,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "rootland deep marsh",
           "interior swamp",
           "fringe marsh"
@@ -7082,7 +7080,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock",
           "rootland deep marsh",
           "interior swamp",
           "fringe marsh"
@@ -8802,7 +8799,6 @@
           "interior swamp",
           "rootland deep marsh",
           "fringe marsh",
-          "raised hammock",
           "tropical jungle"
         ],
         "hardConstraints": [
@@ -8963,7 +8959,6 @@
           "interior swamp",
           "rootland deep marsh",
           "fringe marsh",
-          "raised hammock",
           "tropical jungle"
         ],
         "hardConstraints": [
@@ -9558,7 +9553,6 @@
           "interior swamp",
           "rootland deep marsh",
           "tropical jungle",
-          "raised hammock",
           "fringe marsh"
         ],
         "hardConstraints": [
@@ -10933,8 +10927,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "spring or still water at the root"
@@ -14193,8 +14186,7 @@
           "seasonal floodplain",
           "rootland deep marsh",
           "upland hills",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "on a route, with a landing"
@@ -16992,7 +16984,6 @@
           "interior swamp",
           "rootland deep marsh",
           "tropical jungle",
-          "raised hammock",
           "fringe marsh"
         ],
         "hardConstraints": [
@@ -18117,7 +18108,6 @@
           "rootland deep marsh",
           "interior swamp",
           "tropical jungle",
-          "raised hammock",
           "firm lowland"
         ],
         "hardConstraints": [
@@ -23787,8 +23777,7 @@
         "regionClasses": [
           "interior swamp",
           "rootland deep marsh",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "raised above water"
@@ -25179,7 +25168,6 @@
           "interior swamp",
           "fringe marsh",
           "rootland deep marsh",
-          "raised hammock",
           "seasonal floodplain"
         ],
         "hardConstraints": [
@@ -26098,8 +26086,7 @@
         "regionClasses": [
           "fringe marsh",
           "tropical jungle",
-          "firm lowland",
-          "raised hammock"
+          "firm lowland"
         ],
         "hardConstraints": [
           "landing plus access to its raw material"
@@ -27696,7 +27683,6 @@
           "interior swamp",
           "rootland deep marsh",
           "tropical jungle",
-          "raised hammock",
           "fringe marsh"
         ],
         "hardConstraints": [
@@ -28256,7 +28242,6 @@
           "upland hills",
           "border mountains",
           "firm lowland",
-          "raised hammock",
           "interior swamp"
         ],
         "hardConstraints": [

@@ -273,8 +273,7 @@
       "sitingPrefs": {
         "regionClasses": [
           "interior swamp",
-          "rootland deep marsh",
-          "raised hammock"
+          "rootland deep marsh"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps",
@@ -2295,7 +2294,6 @@
         "regionClasses": [
           "interior swamp",
           "rootland deep marsh",
-          "raised hammock",
           "fringe marsh",
           "tropical jungle"
         ],
@@ -2641,7 +2639,6 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "upland plateau",
           "interior swamp"
         ],
         "hardConstraints": [
@@ -4866,7 +4863,10 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "raised hammock"
+          "interior swamp",
+          "seasonal floodplain",
+          "fringe marsh",
+          "firm lowland"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps"
@@ -8374,7 +8374,6 @@
         "regionClasses": [
           "interior swamp",
           "rootland deep marsh",
-          "raised hammock",
           "fringe marsh"
         ],
         "hardConstraints": [
@@ -9889,8 +9888,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps"
@@ -10142,8 +10140,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps"
@@ -10320,8 +10317,7 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle",
-          "raised hammock"
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps"
@@ -10774,8 +10770,7 @@
       "sitingPrefs": {
         "regionClasses": [
           "interior swamp",
-          "rootland deep marsh",
-          "raised hammock"
+          "rootland deep marsh"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps",
@@ -11445,8 +11440,7 @@
       "sitingPrefs": {
         "regionClasses": [
           "interior swamp",
-          "rootland deep marsh",
-          "raised hammock"
+          "rootland deep marsh"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps",
@@ -12522,7 +12516,6 @@
           "interior swamp",
           "rootland deep marsh",
           "tropical jungle",
-          "raised hammock",
           "fringe marsh"
         ],
         "hardConstraints": [
@@ -13305,8 +13298,7 @@
       "sitingPrefs": {
         "regionClasses": [
           "interior swamp",
-          "rootland deep marsh",
-          "raised hammock"
+          "rootland deep marsh"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps",
