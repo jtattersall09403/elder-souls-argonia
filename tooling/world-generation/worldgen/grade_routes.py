@@ -48,8 +48,10 @@ Per way, in a stable id order:
 Water and specials:
 * A **boardwalk grades nothing** — it is a placed deck over the water.
 * On a way that is not crossing water, the graded profile is never pushed
-  below the published water surface (`water/water-surface.png`, restricted to
-  actually-wet cells by `water-class.png`): we do not dig roads into rivers.
+  below the **wet-season** waterline, measured from the compiled signed depth
+  (`water_report.ShippedWater`, not the class label) and extended a mesh skirt
+  past the shoreline: we do not dig roads into rivers, and we do not dig them
+  under a marsh in flood either.
 * **Authored structures** — a stair flight, stepped ascent, boardwalk/bridge
   deck or one-step lip recorded in `world/sources/routes/route-structures.json`
   is treated exactly like a bridge: nothing is cut or filled inside its
@@ -58,8 +60,9 @@ Water and specials:
   The over-cap stretches this pass measures are exported to
   `output/route-grading-stretches.json` (gitignored) so the structure data is
   derived from the measurement rather than typed by hand.
-* **Fords and bridges** — the stretches where a way crosses river / estuary /
-  lake / coast cells — are derived from the water class raster. Their profile
+* **Fords and bridges** — the stretches where a way crosses open water — are
+  derived from measured wet-season depth, with marsh (wet ground, crossed on
+  foot) excluded by class. Their profile
   is still smoothed (so the approaches line up) but no height is ever written
   on a wet cell: a ford keeps its bed and a bridge deck is an asset above the
   gap.
@@ -134,7 +137,15 @@ SMOOTH_ITERS = 24              # low-pass / redistribute alternations
 SMOOTH_SIGMA_SAMPLES = 2.5     # low-pass width, in centreline samples
 WATER_CLEARANCE_M = 0.15
 # water-class.png R indices: 0 none, 1 coast, 2 estuary, 3 river, 4 lake, 5 marsh.
-OPEN_WATER_CLASSES = (1, 2, 3, 4)       # keep graded ways this far above the water table
+# The class raster answers *what kind* of water a cell is, never *whether* it is
+# wet — that is measured from the signed depth (see `_water_fields`). The only
+# class this pass asks about is marsh, which is wet ground, not open water.
+MARSH_CLASS = 5
+# How far past the measured waterline the "never cut below this" floor reaches,
+# in surface-grid (export) texels. 1 is the neighbourhood `hovering_edges`
+# compares; the second is registration slack, because grading happens on the
+# full-res grid and the invariant reads every other sample.
+SHORE_FLOOR_EXT_PX = 2
 
 # The ungraded studio raster, written beside `height-rg.png` for siting.
 NATURAL_HEIGHT_FILE = "height-natural-rg.png"
@@ -379,28 +390,78 @@ def max_gradient_deg(z: np.ndarray, ds: np.ndarray) -> float:
 # main grading pass
 # --------------------------------------------------------------------------
 def _water_fields(province: Path, shape) -> tuple[np.ndarray | None, np.ndarray | None]:
-    """(water level in metres, wet mask) resampled to the full-res grid, or
-    (None, None) if the water bake has not been produced yet."""
+    """(wet-season waterline floor in metres, open-water mask), full-res, or
+    (None, None) if the water bake has not been produced yet.
+
+    WHERE THE WATER IS IS MEASURED, NOT LABELLED (2026-09-09)
+    --------------------------------------------------------
+    `water-class.png` is a *type label over a superset* of the wet area — it is
+    deliberately dilated `compile_water.CLASS_EXT_PX` past the shoreline so the
+    class, turbidity and salinity of a body continue under its mesh skirt.
+    6.5 km2 of it is dry in every season. Reading it as a wetness mask both
+    over-protected ground that never sees water and MISSED cells that stand at
+    or below the water table outside the label, where the grader could cut a
+    road under the waterline. So wetness comes from the compiled signed depth,
+    through the one accessor (`water_report.ShippedWater`), and the class
+    raster is used for the only thing it is: the type name.
+
+    Two questions, two answers — this is the distinction the reverted
+    2026-09-09 version collapsed:
+
+    * **May the grader write ground here?** No, on open water: a ford keeps its
+      bed and a bridge deck is an asset above the gap. MARSH is exempt: marsh
+      is wet *ground*, paths cross it, and treating it as open water would chop
+      every marsh way into graded and ungraded pieces with a step between them
+      — the defect this pass exists to remove.
+    * **How low may the graded surface go?** Never below the WET-SEASON
+      waterline. That floor applies over marsh too: a marsh road is a causeway,
+      and an exemption from the no-write rule is not an exemption from the
+      water. The floor is extended a couple of export texels past the waterline
+      (a plain maximum over that radius) so a dry cell ADJACENT to a river
+      cannot be cut below its neighbour's surface either — that is exactly what
+      a hovering edge is, seen from the dry side, and the invariant that counts
+      them compares a wet cell against its 8-neighbourhood on the export grid.
+      The extension is sized off that neighbourhood plus a texel of
+      registration slack, NOT off the class raster's 22 m mesh skirt: the skirt
+      is a rendering allowance, and using it as a grading floor lifts roads a
+      shoreline's width inland for no measured reason.
+
+    The season is the wet one throughout: `signed_depth_m("wet")`, the seasonal
+    maximum. Grading for the dry season would leave the road under water for
+    half the year.
+    """
     meta_path = province / "water" / "water-meta.json"
     if not meta_path.exists():
         return None, None
-    meta = json.loads(meta_path.read_text())
-    surf = np.asarray(Image.open(province / "water" / "water-surface.png").convert("RGB"),
-                      dtype=np.uint32)
-    lo, hi = meta["surface"]["minM"], meta["surface"]["maxM"]
-    q = (surf[..., 0] << 8) | surf[..., 1]
-    level = (q.astype(np.float32) / 65535.0) * (hi - lo) + lo
-    # R channel is the class index (0 = dry); G/B carry turbidity/salinity.
-    klass = np.asarray(Image.open(province / "water" / "water-class.png").convert("RGB"))[..., 0]
-    # Open water only (coast/estuary/river/lake). MARSH is wet *ground*: paths
-    # cross it normally and its water table follows the ground, so excluding it
-    # would chop every marsh way into graded and ungraded pieces with a step
-    # between them — the very defect this pass exists to remove.
-    wet = np.isin(klass, OPEN_WATER_CLASSES)
-    zoom_l = (shape[0] / level.shape[0], shape[1] / level.shape[1])
-    zoom_w = (shape[0] / wet.shape[0], shape[1] / wet.shape[1])
-    level = ndimage.zoom(level, zoom_l, order=1)[: shape[0], : shape[1]]
-    wet = ndimage.zoom(wet.astype(np.uint8), zoom_w, order=0)[: shape[0], : shape[1]] > 0
+    from .water_report import ShippedWater
+
+    S = ShippedWater(province / "water", heights=None)
+    # Measured standing water at the seasonal maximum, on the surface grid.
+    wet_all = S.wet_grid("wet")
+    # The wet-season water surface: base surface lifted by the same per-body
+    # seasonal response that lifts the depth, so surface - ground stays the
+    # signed depth the accessor reports.
+    surface_wet = (S.w2 + S.signed_depth_m("wet") - S.depth2).astype(np.float32)
+
+    # Floor: the wet-season waterline, extended over the neighbourhood the
+    # hovering-edge invariant reads (one export texel) plus a texel of slack.
+    level = ndimage.maximum_filter(np.where(wet_all, surface_wet, -np.inf),
+                                   size=2 * SHORE_FLOOR_EXT_PX + 1)
+
+    # No-write: open water only. The class raster is 1345^2 and the surface
+    # grid 2017^2, so the label has to be resampled onto the measurement before
+    # the two can be combined — NEAREST, because a class is a label and
+    # interpolating it would invent classes between two bodies.
+    zoom_c = (wet_all.shape[0] / S.cls.shape[0], wet_all.shape[1] / S.cls.shape[1])
+    cls2 = ndimage.zoom(S.cls, zoom_c, order=0)[: wet_all.shape[0], : wet_all.shape[1]]
+    wet = wet_all & (cls2 != MARSH_CLASS)
+
+    # Both fields go to the full-res grid nearest-neighbour: the mask is a
+    # mask, and the floor is a constraint (a bilinear blend of a waterline with
+    # the -inf that means "no water here" would be meaningless).
+    zoom = (shape[0] / level.shape[0], shape[1] / level.shape[1])
+    level = ndimage.zoom(level, zoom, order=0)[: shape[0], : shape[1]]
+    wet = ndimage.zoom(wet.astype(np.uint8), zoom, order=0)[: shape[0], : shape[1]] > 0
     return level.astype(np.float32), wet
 
 
@@ -425,9 +486,11 @@ def grade(h: np.ndarray, ways_list: list[dict],
     locked = np.zeros_like(cur)
     stats: list[dict] = []
     ny, nx = h.shape
-    submerged = None
-    if wet is not None and level is not None:
-        submerged = wet & (h <= level + 0.05)
+    # Open water is measured, so a cell in the mask already HAS water standing
+    # over its ground: no second height test is needed (and the old one, which
+    # compared the ungraded ground against the water surface, let the grader
+    # fill any wet cell whose bed the previous pass had already raised).
+    submerged = wet
 
     for way in ways_list:
         kind = way["kind"]
@@ -458,8 +521,15 @@ def grade(h: np.ndarray, ways_list: list[dict],
         chain = np.concatenate([[0.0], np.cumsum(ds)])
         structure = span_mask(chain, spans.get(way["id"], []))
         skip = crossing | structure
-        # Never cut a way that starts above the sea down below it.
+        # Never cut a way that starts above the sea down below it ...
         floor = np.where((z > 0.0) & ~skip, WATER_CLEARANCE_M, -1e9)
+        # ... and never cut it below the local WET-SEASON waterline either.
+        # This is the rule that keeps a marsh causeway a causeway: marsh is
+        # exempt from the no-write mask above, not from the water.
+        if level is not None:
+            near = level[iy, ix]
+            here = np.isfinite(near) & ~skip
+            floor = np.where(here, np.maximum(floor, near + WATER_CLEARANCE_M), floor)
 
         g = z.copy()
         i0 = 0
@@ -599,6 +669,19 @@ def grade(h: np.ndarray, ways_list: list[dict],
         if submerged is not None:
             add = np.where(submerged[bb], 0.0, add)   # never fill open water
         cur[bb] = (base + add).astype(np.float32)
+        # THE WATERLINE IS ENFORCED ON THE WRITE, not only on the profile.
+        # Capping the centreline profile is not enough: the shoulder blend
+        # reaches up to MAX_SHOULDER_M sideways and pulls the ground down
+        # towards the road, so a bank beside a river could still be cut below
+        # the river's surface — which is precisely a hovering edge, seen from
+        # the dry side. Clamp every written cell to the local wet-season
+        # waterline, but never RAISE ground that was already under it: that
+        # would be fill, and filling water is the other invariant.
+        if level is not None:
+            lf = level[bb] + np.float32(WATER_CLEARANCE_M)
+            known = np.isfinite(lf)
+            cur[bb] = np.where(known, np.maximum(cur[bb], np.minimum(base, lf)),
+                               cur[bb]).astype(np.float32)
         np.maximum(locked[bb], wmax, out=locked[bb])
 
         bench = over_cap_runs(chain, unbenchable & ~skip, local_deg,
@@ -742,6 +825,14 @@ def write_report(stats: list[dict], path: Path, cells: int,
              f"{MAX_FILL_M:.0f} m; where it does not fit, the stretch is left "
              "ungraded and reported as an over-cap window for authored "
              "geometry, never buried under an embankment.",
+             "",
+             "Where the water is is MEASURED, from the compiled signed depth "
+             "at the wet season, not read off the class raster (which is a "
+             "type label deliberately dilated past the shoreline). Open water "
+             "is never written on; marsh is gradeable ground, because paths "
+             "cross it; and no graded cell anywhere, marsh included, is left "
+             "below the wet-season waterline. A marsh way that cannot be held "
+             "above it becomes an over-cap window and gets a deck.",
              "",
              "| class | ways | cap deg | max grad before | max grad after | metres graded | ford/bridge m |",
              "| --- | --- | --- | --- | --- | --- | --- |"]

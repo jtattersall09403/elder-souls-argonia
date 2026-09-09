@@ -211,8 +211,10 @@ started unless said.
 
 **The class-versus-geometry audit (done, and its numbers).** `water-class.png`
 is a TYPE label over a superset of the wet area — that contract is now stated
-in `water-meta.json` `klass.meaning`. Measured over 31.40 km² of classed cells:
-21.47 wet in the dry season, 24.90 at the seasonal maximum, **6.50 km² dry in
+in `water-meta.json` `klass.meaning`. Measured over 31.38 km² of classed cells (re-measured 2026-09-09 after the
+clean `--from refine_province` chain, and these are the numbers the code and
+`test_water_fact_invariants.py` now carry): 21.44 wet in the dry season, 24.86
+at the seasonal maximum, **6.52 km² dry in
 every season**, of which **96.2 % sits inside the deliberate 4-pixel (~22 m)
 `CLASS_EXT_PX` dilation** that exists so the shore shader has a class and a
 turbidity to read past the waterline. The within-dilation share is flat at
@@ -281,6 +283,37 @@ water. Extending it from dock approaches to published lanes is the next step.
 that order, because the plot moves records and the scatter must follow.
 `test_vegetation_ladder::test_delivered_ladder` is **intentionally red** until
 that rollout runs; its docstring says so.
+
+**B13 LANDED 2026-09-09** (decision 0049). Delivered: measured `wet_grid`/
+`dry_grid`/`water_intent`, per-consumer season, `channel_season` typing,
+`MARSH_WATER_CREDIT_M` deleted, the hostility denominator on measured dry
+ground, the density-vs-spacing binding measure, `ShippedWater.wet_grid(season)`
+as the single accessor with `ProvinceSurvey` delegating to it, and
+`test_water_fact_invariants.py` asserting all of it on the shipped rasters.
+D1 accepted at 12.7/km² with no records added, per the owner's soft-floor
+ruling.
+
+**Left open by B13, with the mechanism:**
+- Three compilers still open the water PNGs themselves instead of going through
+  `ShippedWater`: `compile_scatter.py:76`, `grade_routes.py:388`,
+  `settlement_ground_control.py:55`. Each is another agent's file. Mechanism:
+  route them through `ShippedWater` with an explicit season when next touched;
+  `test_water_fact_invariants` will catch a class-mask regression in them, but
+  not a second decoder.
+- `ProvinceSurvey` carries two wet-season notions: `wet_season` (the
+  `refined/flood-wet.png` inundation mask from `refine_province`) and
+  `wet_season_grid` (signed depth + amplitude x response). They are not the
+  same mask. `compile_minor_routes._classify_ground` reads both. Decide which
+  is authoritative and delete the other.
+- Unrelated reds seen on 2026-09-09 in the same tree, NOT caused by B13 and not
+  water-owned: `test_render_blueprint::test_fixture_blueprint_is_schema_valid`
+  (the `combatSpace ... aroundIds` rule was added without updating
+  `worldgen/testdata/place.fixture.mire-landing.json`), and
+  `test_export_blueprints` / `test_export_purpose_ledger` (stale committed
+  export against uncommitted blueprint edits — run
+  `python3 -m worldgen.export_blueprints`). `test_live_dir_validates` also
+  reports four `boundary is not the derived polygon` failures needing
+  `python3 -m worldgen.blueprint_footprints --areas`.
 
 **Structural, agreed between both sessions.** Move to **separate git worktrees**
 before the rollout rather than during it — almost every collision today was one
@@ -363,7 +396,7 @@ records with no collisions, no invalid sites, no navigability exceptions and
 no resiting pins. It wrote the catalogue and the edge-corrected Clark–Evans
 report (median R 0.838). The four authored exemplars remain blueprint-pinned.
 
-### B12 — Places have EXTENT: typed footprints + typed proximity — DONE 2026-09-09 (580/580 in a dry run; the catalogue write waits on the final water rasters, B5)
+### B14 — Places have EXTENT: typed footprints + typed proximity — DONE 2026-09-09 (580/580 in a dry run; the catalogue write waits on the final water rasters, B5)
 
 **Delivered.** Every one of the 350 type recipes now carries
 `footprintRadiusM` (derived by `worldgen.author_type_siting` from the authored
