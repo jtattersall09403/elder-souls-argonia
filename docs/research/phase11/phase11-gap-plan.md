@@ -51,7 +51,7 @@ changes, re-run.
   in sync (the `onBeforeCompile` contract), contact AO/base skirt, collider
   BUDGET by count over a ring (the Phase 10 lesson), navmesh cut markers,
   door transition markers, night windows, wetness.
-- **Also here**: the 2,151 route-structure pieces (`route-structures.json`)
+- **Also here**: the 4,147 current route-structure pieces (`route-structures.json`)
   rendered as 3D, since they use the same placed-piece path; and the
   "bp ground" overlay retired (`BlueprintGround.tsx` says so in its header).
 - **Files**: new `packages/game-core/src/settlement/` (loader, instancer,
@@ -114,11 +114,14 @@ may the 30-item claim return.
   agent owns the rasters it reads. Coordinate: run once the water agent has
   committed and is not mid-solve.
 
-The 2026-09-08 water build regenerated the province and the route-structure
-author/compile hand-off now agrees at exact window endpoints: 331 structures
-and 4,143 pieces compile. Final acceptance remains open because the independent
-terrain-promise report has 50/66 passing; the 16 failures are now recorded in
-the water handoff and remain water-compiler work rather than exceptions here.
+The final route reconciliation now agrees at exact rerouted-way endpoints: 38
+stale windows proved to begin beyond seven roads' new ends and were removed
+with measured evidence; endpoint-crossing windows are clipped rather than
+dropped. The current exact set is 293 structures and 4,147 placed pieces, with
+no zero-piece row and no stale generated file. Final acceptance remains open
+because the independent terrain-promise report has 50/66 passing; the 16
+failures are now recorded in the water handoff and remain water-compiler work
+rather than exceptions here.
 
 ### B3 — Derived area boundaries (districts, combat spaces) — DONE 2026-09-08
 
@@ -354,6 +357,19 @@ the record links it). Alongside water: yes.
   canoe's 0.60 m requirement. The water round still owns making that authored
   reach visibly wet, carved and labelled in the final terrain.
 
+- **Sap-Tapping dry dock splice (found by final consumer audit,
+  2026-09-09):** the settlement is internally consistent—dock, terminal and
+  19.04 m local canal meet at `(3478.500, 4373.000)`—but the minor-waterway
+  publisher inserted that coordinate in front of a genuine wet route 92.94 m
+  away, creating a dry straight connector. Moving the berth would sever its
+  11.86 m plank walk, licence-board view and night-landing scene. **Phase 11
+  guard DONE (`0a194af5`):** `water-to-dock` accepts only the existing 10 m
+  raster tolerance and otherwise requires authored pre-water geometry; ten
+  focused tests hold the rule. **Physical water remains in the water handoff:**
+  extend the exact local centreline to a measured same-level receiving branch,
+  then carve and publish the whole authored line. Until then Sap remains an
+  intentional hard failure, not a generated connection.
+
 - **DONE 2026-09-08 — doors on the tidal flat vs the final water.** Four
   Pusbottom thresholds are intentionally on stilt decks. The terrain compiler
   now accepts wet access only where a `groundFit: stilt` parcel has an
@@ -421,10 +437,16 @@ the record links it). Alongside water: yes.
 - **DONE with B3 — district containment.** Derived interlocking polygons
   contain all member parcels, and `blueprint_integration` independently rejects
   any future parcel outside its district.
-- **Lilmoth half DONE; sap waits on final water — compile failures found in
-  the fence-routing pass.** Pusbottom's four wet stilt doors now use the narrow
-  authored-boardwalk rule above and Lilmoth is clean. Re-end sap-tapping's
-  channel on water after the water hand-off; it remains an error until then.
+- **Lilmoth blueprint-owned cleanup DONE 2026-09-09; final water remains
+  red.** The dredged lighter lanes deliver their three-metre depth, the north
+  ruin corner now fits a 1.79 m pad, and the 1.917 m pole wall was reseated on
+  a surveyed 29.124 m shelf in 0.12–0.96 m water outside the dredged lane. All
+  23 authored pads pass the dry application (1,669 changed samples), but they
+  are not baked until the final water compiler and blueprints stop moving.
+  Lilmoth's forced full compile has zero blueprint-owned findings; its 17
+  errors and five warnings remain final-water postconditions, typed cut
+  evidence and water-distribution findings. Sap's exact local line remains a
+  water-handoff action as recorded above.
 - `hostile-or-clearable ≥ 55 %` sits at 55.5 % (three records of headroom):
   any hostile cut needs a matching promotion, or the owner lowers the floor.
 
