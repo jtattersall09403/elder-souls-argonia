@@ -61,18 +61,52 @@ first, then open only the master-plan sections the active phase needs.
 
 ## One session picks this up (2026-09-09)
 
-Two sessions were running in one working copy and are now consolidated into
-one. Everything below is committed; nothing is half-written. Work it in this
-order — the reasons are dependencies, not preference.
+> This whole section is a **hand-over, not a permanent part of this file** —
+> it is why PROGRESS is over its 80-line rule. Delete it as you finish each
+> piece, folding one line of evidence into the phase rows above, and remove the
+> heading when the last item lands.
 
-**The Pages deploy is red, and step 4 is what turns it green.** Two checks fail:
-`test_vegetation_ladder::test_delivered_ladder` (intentionally, until the
-scatter rollout runs) and `test_type_siting::test_the_built_ground_is_what_stands_there_not_the_outer_boundary`.
-Both belong to the paused Phase 11 work. Until they pass, the studio keeps
-serving the build from 2026-09-09 02:30, so none of the later waterfall work is
-visible to the owner. The owner's call (2026-09-09) was to leave them for this
-session rather than have the water session run them, because they may turn up
-work that belongs to this session's goal.
+Two sessions were running in one working copy and are now consolidated into
+one. Everything below is committed except the six dirty files named in step 1.
+
+**The order below is a recommendation from the two sessions that wrote it, not
+an instruction — judge it yourself and say what you chose.** The owner's
+explicit steer (2026-09-09) is that you decide the most sensible order. Three
+things are genuine dependencies rather than preference, and the rest is yours:
+
+- The **chain optimisation (1) pays for itself before the rebuilds**, because
+  everything after it rebuilds and a full province run is ~451 s.
+- The **plot re-solve must precede the scatter run** inside step 2: the plot
+  moves records and the scatter would otherwise be compiled against places that
+  then move.
+- **B1 (5) needs the studio scene files free**, which the consolidation gives
+  it, and everything downstream of the exemplars waits on B1 proving one place.
+
+Everything else — where the water leftovers (3) and the gap fill (4) sit, and
+whether to take the two cheap deploy-greens first — is a judgement call. Taking
+the deploy-greens early is worth considering on its own merits: the owner
+cannot see any of the waterfall work until they land.
+
+**The Pages deploy is red. Two checks fail; one is a one-line fix and the
+other needs step 2.** Until they pass the studio
+keeps serving the build from 2026-09-09 02:30. The owner's call (2026-09-09)
+was to leave both for this session rather than the water session, because they
+may turn up work that belongs to this session's goal.
+
+- `test_vegetation_ladder::test_delivered_ladder` — red **on purpose**, and its
+  own failure message says so. It measures the shipped scatter bundles against
+  the re-based density ladder, so it stays red until the scatter rollout in
+  step 2 runs. Do not "fix" it; run step 2.
+- `test_type_siting::test_the_built_ground_is_what_stands_there_not_the_outer_boundary`
+  — **measured 2026-09-09: this is a one-line test fragility, not unfinished
+  work.** The assertion that matters passes on both revisions (built ground
+  reads 20–35 m either way). What fails is the guard that stops the test being
+  vacuous: it compares the working tree's sap-tapping blueprint against `HEAD`
+  and requires the two outer boundaries to differ by >100 m, and now that the
+  landing move is committed both read exactly 254.22 m. Pin the "before"
+  revision to the commit before the landing move instead of to `HEAD` and it
+  goes green. Keep the guard — it is the thing that stops the test passing for
+  the wrong reason.
 
 1. **Finish the chain optimisation — and do it efficiently** (owner, 2026-09-09).
    A one-dock edit cost a **461 s** full province rebuild and we paid it
@@ -185,16 +219,84 @@ work that belongs to this session's goal.
 4. **Phase 11's gap fill** — [phase11-gap-plan.md](research/phase11/phase11-gap-plan.md).
    **B13 carries the paused session's whole plan** (the per-consumer season
    design, the marsh-credit deletion, the single accessor, the D1 hostility
-   floor, what is queued against water); **B12** is the grader change that was
-   reverted, with its acceptance test.
-**Owner ruling 2026-09-09:** the hostile-density figure (">= 15/km², at least
-Morrowind's frequency") is a **preference held in balance, not a hard floor**.
-It may be softened where holding it would make other things worse, the session
-decides, and danger can be filled in later through encounters rather than
-placed records.
+   floor, what is queued against water). **Warning: there are two sections
+   numbered B12** — the grader `_water_fields` redesign (line ~294) and the
+   place-extent batch (line ~366), written by the two sessions independently.
+   Renumber one before working from it.
 
-5. **Place spacing and tree density** settle out of step 1 and whatever it
-   surfaces.
+   **Owner ruling 2026-09-09:** the hostile-density figure (">= 15/km², at
+   least Morrowind's frequency") is a **preference held in balance, not a hard
+   floor**. It may be softened where holding it would make other things worse,
+   the session decides, and danger can be filled in later through encounters
+   rather than placed records. The paused session's call on the one live case,
+   already argued in B13: **accept D1 at 12.7/km² and add no records** — D1
+   only ever passed because the land denominator read the class raster and was
+   22 % too small, it is 0.24 km² so one record swings it 4 points, and its
+   measured 92 m between fights is the tightest in the province against
+   212–233 m elsewhere. Fix the *metric* (report spacing alongside density and
+   let spacing bind on small bands), not the world.
+
+5. **B1 — put the buildings in the world.** This is the substantial piece and
+   the handover above does not name it. `compile_settlement` output rendered as
+   placed kit pieces in the studio, per the reopened B1 at the top of the gap
+   plan. Nothing yet stands up as geometry: the five exemplars have authored
+   blueprints, and that is all. B1 was blocked only on the water pass touching
+   the studio scene files, which this consolidation removes.
+
+   **Owner's rulings on how the rest follows** (2026-09-09, recorded in the gap
+   plan § What follows gap closure): no blueprint work on any place beyond the
+   five exemplars until B1 has proved one place standing in the world; the
+   exemplars must leave behind an **automatable process** — a repeatable chain
+   plus a skill under `.claude/skills/` — not just five good places, and the
+   exit test is that the fifth exemplar needed no hand-decision the first did
+   not; the owner is hands-on for the major cities and the early-game places
+   where the opening plays out, everything else goes through the process; and
+   **if the gates cannot house every record, cut records rather than weaken the
+   gates** — a slightly smaller province is the accepted price.
+
+## Already delivered 2026-09-09 — do not redo (paused Phase 11 session)
+
+All committed. Decisions [0041](decisions/0041-phase11-settlement-decisions.md),
+[0048](decisions/0048-vegetation-density-ladder.md),
+[0036](decisions/0036-phase10-placement-decisions.md) rounds 11–12.
+
+- **Tree density re-based.** The jungle was 7th of 14 as authored and at the
+  37th percentile of lowland chunks as shipped. Now the densest, with every
+  other class re-based around it from the lore dossiers and the tropical
+  ecology targets, ~51 % fewer trees province-wide. **The jungle itself did not
+  move** — owner constraint, its feel was approved. Gated by
+  `test_vegetation_ladder`; the delivered half needs step 2's scatter run.
+- **Vegetation variety.** Grass had no region axis at all; it has one now
+  (`groundcover.json` schema v2). Flora kit rebuilt 81 → 108 assets, groundcover
+  kit 7 → 34, both through `build_kit` with the fitter provenance intact. Every
+  region class has ≥2 understory species none of its measured neighbours
+  carries, adjacency measured from `hydro-regions.png` rather than hand-listed.
+- **Colliders.** Leaf cards were being fitted as solid wood because the test was
+  a hand-maintained texture-name list: mangrove 4.4× → 1.27× of measured trunk
+  girth, worst jungle tree 10.93 m → 2.08 m. Separately, plants with no wood at
+  all fell back to a whole-silhouette capsule — bamboo, banana and tropical
+  plant are now walk-through, and a 10.6 m aspen wrongly non-solid is now solid.
+  `COLLIDER_BUDGET` 2500 → 3600 pays for the slimmer capsules.
+- **Places have extent.** `footprintRadiusM` on all 350 types, derived from
+  **built ground** (parcel hulls), not the outer boundary — `FOOTPRINT_CEILING_M`
+  deleted as the sticking plaster it was. Typed `proximity` on 72 types read
+  from each type's own siting prose. Isolation measured as **Tobler climb
+  effort in equivalent-flat-metres**, not plan distance, so the floors keep
+  their numbers and their calibration. Dry-run re-solve: **580/580, zero typed
+  siting violations**, nearest neighbour p5 35 → 71, median 85 → 132 m.
+- **Gap-plan QA.** Claims re-audited against the code, not the write-up: the
+  prose gate fired on zero quests and zero NPCs, B3's drift guard could not
+  fail (the fixture canonicalised itself), `terrain_request_postconditions` and
+  `measure_connectors` had no live consumer, `chunkWorld.ts` hard-coded the
+  hydrology pixel size against B6, and six numbers in the plan were wrong. All
+  fixed. `tooling/world-generation/conftest.py` now prints a **KNOWN RED**
+  banner naming water-owned expected failures so nobody mistakes them for a
+  broken suite.
+
+**Chain optimisation — why `--footprint` is off by default.** Because it is not
+yet proven: 36 of 1809 files still differ end to end. That is the honest
+gate, and the flag should stay off until the control run attributes them.
+Turning it on by default is the *last* step of task 1, not a shortcut past it.
 
 **Before splitting into two sessions again**, move to separate git worktrees:
 almost every collision was one session's *uncommitted* work breaking the
