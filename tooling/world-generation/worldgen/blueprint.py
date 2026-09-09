@@ -1204,6 +1204,12 @@ def _front_failures(bp: dict) -> tuple[list[str], list[str]]:
     middle = _enclosure_centroid_m(bp)
     spanned = {w.get("id"): w for w, _pts in _ways(bp)}
     for parcel in bp.get("parcels") or []:
+        # A stacked top inherits the base assembly's placement. Its local
+        # front may differ from the base mesh's axes, but it cannot be turned
+        # independently toward the nearest path without breaking the authored
+        # snap chain; the base/stair connector checks own that relationship.
+        if parcel.get("stacksOn"):
+            continue
         record = lib.get(parcel.get("assetRef"))
         front = bi.front(record)
         if front is None:

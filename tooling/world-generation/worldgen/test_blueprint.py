@@ -932,6 +932,13 @@ def test_a_front_looking_at_the_approach_passes(front_index):
     assert blueprint._front_failures(_front_bp(yaw=90.0)) == ([], [])
 
 
+def test_a_stacked_top_is_oriented_by_its_assembly_not_the_nearest_way(front_index):
+    front_index({"deg": 0.0, "evidence": "co-placement", "outside": True})
+    bp = _front_bp(yaw=270.0, use="work")
+    bp["parcels"][0]["stacksOn"] = "parcel.walled.base"
+    assert blueprint._front_failures(bp) == ([], [])
+
+
 def test_an_ordinary_piece_only_warns_while_an_enclosure_edge_fails(front_index):
     """The approach is advice — how a piece is usually planted, not a law about
     this plot. What turns a wrong-way piece into a hard failure is being an
