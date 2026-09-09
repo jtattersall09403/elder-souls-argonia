@@ -78,8 +78,13 @@ FREE_LANDFORMS = ("any-firm-ground", "any-shallow-marsh", "any-channel-bank")
 
 SAME_TYPE_MIN_M = 300.0          # "never two of the same template in sight" — marsh sightlines are short
 SAME_TYPE_LANDMARK_MIN_M = 700.0
-RELATED_MIN_M = 60.0             # parent/child pairs may sit together
-COLLISION_MIN_M = 30.0           # distinct map dots may not occupy one footprint
+COLLISION_MIN_M = 30.0           # absolute floor: two dots are never one dot
+# Places have EXTENT, not just a position (owner ruling 2026-09-09). Every type
+# carries `footprintRadiusM` in type-recipes.json (derived from the authored
+# blueprint boundary where one exists — see worldgen.author_type_siting), and
+# the physical clearance between two dots is the SUM of their two radii. A type
+# with no radius falls back to half the old flat floor, which reproduces it.
+DEFAULT_FOOTPRINT_M = COLLISION_MIN_M / 2.0
 FREE_SPACING_M = 140.0           # free-ground lattice pitch
 SUBMERGED_SPACING_M = 60.0       # underwater POIs need distinct candidate footprints too
 ACCEPT_SCORE = 0.9               # below this a pair is not an honest fit
@@ -158,7 +163,12 @@ THOMAS_CULTURES = {
     "saxhleel-coast": {"parentFloorM": 500.0, "sigmaM": 140.0},
 }
 THOMAS_CHILD_RADIUS_M = 300.0
-THOMAS_CHILDREN_PER_PARENT = 8
+# Seven, not eight (2026-09-09). Once places have EXTENT a 300 m kernel
+# cannot hold eight of them: eight children in a 300 m disc average ~106 m
+# apart, and two M3 villages alone need 230 m. Seven is as far as the
+# authored per-culture parent floors allow (six needs 22 parents in
+# dunmer-north and only 19 clear its 600 m floor).
+THOMAS_CHILDREN_PER_PARENT = 7
 THOMAS_WEIGHT = 1.2
 
 # A navigable identity is a hard physical claim.  The reach is the place's own
@@ -226,6 +236,11 @@ class Demand:
     purpose: str = "wonder-oddity"                           # playerPurpose.primary (v2)
     stance: str = "neutral"                                  # hostility.baseline (v2)
     owner: str | None = None                                 # hostility.owner (v2)
+    footprint_m: float = DEFAULT_FOOTPRINT_M                 # type-recipe footprintRadiusM
+    proximity: dict = field(default_factory=dict)            # type-recipe proximity block
+
+    def may_abut(self, other_cls: str) -> bool:
+        return other_cls in (self.proximity.get("mayAbut") or ())
 
 HINT_PATTERNS = [
     ("submerged", re.compile(r"\b(fully )?submerged|underwater|below (the )?water|beneath the water|drowned\b", re.I)),
@@ -263,7 +278,7 @@ def build_thomas_prior(demands: list[Demand], cands: list[Candidate], seed: int)
     """Choose deterministic latent parent sites in each culture mask.
 
     Parents are candidate ground, ordered by a stable seeded hash and admitted
-    only when they clear that culture's parent floor. Roughly eight catalogue
+    only when they clear that culture's parent floor. Roughly seven catalogue
     records share a parent. They consume no candidate and are not places; they
     are solely a density prior for the subsequent assignment.
     """
@@ -512,7 +527,9 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
                 bound_max=bound_max, near_point=near_point,
                 purpose=(rec.get("playerPurpose") or {}).get("primary", "wonder-oddity"),
                 stance=(rec.get("hostility") or {}).get("baseline", "neutral"),
-                owner=(rec.get("hostility") or {}).get("owner")))
+                owner=(rec.get("hostility") or {}).get("owner"),
+                footprint_m=float(recipe.get("footprintRadiusM") or DEFAULT_FOOTPRINT_M),
+                proximity=dict(recipe.get("proximity") or {})))
     live = {d.id for d in demands}
     for d in demands:   # refs to deferred/cut records cannot bind
         d.sightline_to = [r for r in d.sightline_to if r in live]
@@ -990,22 +1007,78 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     return sum(parts.values()), parts
 
 
+def related_pair(d: Demand, od: Demand) -> bool:
+    """A relationship between two records is SYMMETRIC: if a hist is bound to
+    its city, the city is related to its hist. The gate used to read the
+    relationship only from the record being placed, so which of the pair the
+    solver happened to reach first changed the answer."""
+    return (od.id in d.parents or d.id in od.parents
+            or od.id in d.sightline_to or d.id in od.sightline_to
+            or od.id == d.bound_to or d.id == od.bound_to)
+
+
+def abuts(d: Demand, od: Demand) -> bool:
+    """May these two share ground rather than clear each other's footprint?
+
+    Two authored reasons, both typed, neither guessed from prose:
+    * `bound_to` — "inside / part of / at the edge of X" (or a satellite named
+      for X). The record is sited WITHIN the other's ground by definition, so
+      demanding the sum of the two radii would push a city's own quarter off
+      its own city.
+    * `proximity.mayAbut` — the type recipe naming the classes it attaches to
+      ("attached to a living settlement", "beneath or beside an Ayleid ruin").
+
+    An abutting pair clears only the SMALLER of the two footprints — they are
+    still two distinct dots, but the small one sits inside the big one's
+    ground, which is what "inside the city" means. (The brief proposed the
+    larger radius; measured, that is infeasible: it puts a satellite at or
+    beyond the city rim while `boundTo.maxM` (250 m) and the type's own
+    `maxFromM` (250 m) require it closer than a 265 m city radius, so 24
+    tier-0 satellites went homeless. Smaller radius, same intent.)
+
+    Everything else clears the SUM: an unrelated lighthouse 38 m off a city
+    still fails, which is the point of the rule."""
+    if d.bound_to == od.id or od.bound_to == d.id:
+        return True
+    return d.may_abut(od.cls) or od.may_abut(d.cls)
+
+
 def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Candidate]],
-                  factor: float = 1.0) -> tuple[bool, str | None]:
-    """Protect physical collisions and authored repetition rules, not evenness.
+                  factor: float = 1.0, s: "ProvinceSurvey | None" = None
+                  ) -> tuple[bool, str | None]:
+    """Protect physical footprints, typed proximity semantics and authored
+    repetition rules — not evenness.
 
     The former general 100–800 m hard floor necessarily produced regular
     spacing. Density now comes from `thomas_prior_score`; this predicate keeps
-    only relationships that mean something in the authored world.
+    only relationships that mean something in the authored world:
+
+    * **footprints** (2026-09-09): a place occupies ground, so two dots must be
+      at least the SUM of their two `footprintRadiusM` apart. A related pair
+      whose type declares `proximity.mayAbut` for the other's class shares
+      ground instead, and takes the MAX — that is how a city's own hist sits
+      inside the city while an unrelated lighthouse 38 m off still fails.
+    * **typed proximity**: `proximity.minFromClassM` / `maxFromM` /
+      `outOfSightOf`, read from the type's own `neighbourRelation` prose. These
+      used to be prose the solver never read; they are hard gates now.
+    * **authored repetition**: same type / same type on one road.
+
+    Only the repetition rules relax; footprints and proximity never do.
     """
+    prox = d.proximity
+    min_from = prox.get("minFromClassM") or {}
+    max_from = prox.get("maxFromM") or {}
+    out_of_sight = set(prox.get("outOfSightOf") or ())
+    nearest_by_class: dict[str, float] = {}
+
     for oid, (od, oc) in plotted_d.items():
         dist = math.hypot(c.x - oc.x, c.z - oc.z)
-        related = oid in d.parents or d.id in od.parents or oid in d.sightline_to or oid == d.bound_to
-        # Every map dot represents a distinct footprint. Related records may
-        # cluster, but they have the same immutable collision floor as any
-        # other pair; their relationship is not a reason to demand extra empty
-        # ground or to permit overlap.
-        physical_need = COLLISION_MIN_M
+        related = related_pair(d, od)
+        # Every map dot represents a distinct footprint.
+        if related and abuts(d, od):
+            physical_need = max(COLLISION_MIN_M, min(d.footprint_m, od.footprint_m))
+        else:
+            physical_need = max(COLLISION_MIN_M, d.footprint_m + od.footprint_m)
         semantic_need = 0.0
         if not related:
             if od.type == d.type:
@@ -1019,6 +1092,37 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
         need = max(physical_need, semantic_need * factor)
         if dist < need:
             return False, oid
+        # Typed proximity, judged against everything already on the map — in
+        # BOTH directions. A hermitage's 800 m floor is a property of the pair,
+        # so a village plotted later may not walk into it either.
+        if not related:
+            o_prox = od.proximity
+            if dist < max(min_from.get(od.cls) or 0.0,
+                          (o_prox.get("minFromClassM") or {}).get(d.cls) or 0.0):
+                return False, oid
+            if s is not None and (
+                    (od.cls in out_of_sight) or (d.cls in set(o_prox.get("outOfSightOf") or ()))) \
+                    and s.line_of_sight(c.x, c.z, oc.x, oc.z):
+                return False, oid
+        if od.cls in max_from:
+            nearest_by_class[od.cls] = min(nearest_by_class.get(od.cls, float("inf")), dist)
+
+    # `route` is a pseudo-class: distance to the nearest route line, measured
+    # on the candidate itself.
+    if "route" in min_from and c.route_m < min_from["route"]:
+        return False, "route"
+    if "route" in max_from and c.route_m > max_from["route"]:
+        return False, "route"
+    # A ceiling can only be judged against records that are already plotted.
+    # If nothing of that class is on the map yet the constraint is not
+    # violated — it is unjudgeable, and `report_proximity` re-checks every
+    # ceiling against the finished plot so an unjudged one cannot hide.
+    for cls, limit in max_from.items():
+        if cls == "route":
+            continue
+        near = nearest_by_class.get(cls)
+        if near is not None and near > limit:
+            return False, f"max-from:{cls}"
     return True, None
 
 
@@ -1361,7 +1465,7 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                 if len(best_by_d[did]) < 3:
                     best_by_d[did].append((cid, sc, f"taken by {c.used_by}"))
                 continue
-            ok, blocker = separation_ok(d, c, plotted_d, sep_factor)
+            ok, blocker = separation_ok(d, c, plotted_d, sep_factor, s)
             if not ok:
                 if len(best_by_d[did]) < 3:
                     best_by_d[did].append((cid, sc, f"too close to {blocker}"))
@@ -1409,7 +1513,14 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
               ("neighbour-zone", True, 1.0, RELAXED_SCORE, False),
               ("spacing-3/4", True, 0.75, RELAXED_SCORE, False),
               ("spacing-1/2", True, 0.5, RELAXED_SCORE, False),
-              ("region-relaxed", True, 0.75, RELAXED_SCORE, True)]
+              ("region-relaxed", True, 0.75, RELAXED_SCORE, True),
+              # The matrix had a hole: no stage relaxed BOTH the repetition
+              # spacing and the region wish, so a record whose only free ground
+              # was off-region and near a same-type neighbour had nowhere to go
+              # even though a valid cell existed (found 2026-09-09 by the
+              # whyHomeless diagnostic: "would have fitted", 65 cells).
+              # `sep_factor` never touches the footprint or proximity gates.
+              ("spacing-1/2-region-relaxed", True, 0.5, RELAXED_SCORE, True)]
     for si, (name, relaxed, factor, min_score, relax_region) in enumerate(stages):
         pool = [d for d in demands if d.id not in result]
         if not pool:
@@ -1420,10 +1531,131 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
         for h in homeless:
             if h["id"] in placed:
                 h["resolvedAt"] = name
+    # 3. EVICTION REPAIR (2026-09-09). The stages above are greedy and never
+    # take a site back, so a record can be homeless purely because a more
+    # flexible peer reached its one good cell first. Once footprints make sites
+    # genuinely contested that stops being rare. For each record still
+    # homeless, in id order: find a plotted, movable, unreferenced record whose
+    # site this record can honestly use, move it in, and re-place the evicted
+    # record anywhere still valid. Rolled back unless BOTH succeed, so it can
+    # only ever reduce the homeless batch, and every gate is still judged.
+    def _free_site(rid: str) -> tuple[Candidate, dict]:
+        entry = result.pop(rid)
+        plotted_xy.pop(rid, None)
+        plotted_d.pop(rid, None)
+        entry["candidate"].used_by = None
+        return entry["candidate"], entry
+
+    def _place(d: Demand, c: Candidate, sc: float, parts: dict, note: str) -> None:
+        c.used_by = d.id
+        plotted_xy[d.id] = (c.x, c.z)
+        plotted_d[d.id] = (d, c)
+        result[d.id] = {"candidate": c, "score": sc, "parts": parts,
+                        "runners": [], "relaxed": True, "repair": note}
+
+    def _best_free(d: Demand) -> tuple[float, Candidate, dict] | None:
+        meta_now = {oid: od for oid, (od, _oc) in plotted_d.items()}
+        best = None
+        for c in cands:
+            if c.used_by or not water_identity_ok(d, c, s):
+                continue
+            sc, parts = score_pair(d, c, plotted_xy, True, s, True, meta_now)
+            cluster = thomas_prior_score(d, c, thomas_prior, True, plotted_xy)
+            if cluster is None or sc + cluster < RELAXED_SCORE:
+                continue
+            if not separation_ok(d, c, plotted_d, 0.5, s)[0]:
+                continue
+            key = (sc + cluster, c.id)
+            if best is None or key > (best[0], best[1].id):
+                best = (sc + cluster, c, parts)
+        return best
+
+    referenced_ids = {ref for d in demands
+                      for ref in d.sightline_to + ([d.bound_to] if d.bound_to else [])}
+    # Repeated: freeing one site can unblock the next record, so the pass
+    # runs until it stops helping (bounded, deterministic).
+    for _repair_pass in range(8):
+        if all(h["id"] in result for h in homeless):
+            break
+        for h in sorted(homeless, key=lambda h: h["id"]):
+            if h["id"] in result:
+                continue
+            d = by_did[h["id"]]
+            meta_now = {oid: od for oid, (od, _oc) in plotted_d.items()}
+            options = []
+            for c in cands:
+                holder = c.used_by
+                if holder is None or holder in referenced_ids:
+                    continue
+                od = by_did.get(holder)
+                entry = result.get(holder)
+                if od is None or entry is None or od.tier == 0 or od.bound_to or od.sightline_to:
+                    continue
+                if entry["candidate"].kind in ("anchor", "pinned", COMMITTED_SEED_KIND):
+                    continue
+                if not water_identity_ok(d, c, s):
+                    continue
+                sc, parts = score_pair(d, c, plotted_xy, True, s, True, meta_now)
+                cluster = thomas_prior_score(d, c, thomas_prior, True, plotted_xy)
+                if cluster is None or sc + cluster < RELAXED_SCORE:
+                    continue
+                options.append((sc + cluster, c.id, c, parts, holder))
+            options.sort(key=lambda o: (-o[0], o[1]))
+            for total, _cid, c, parts, holder in options:
+                evicted_c, evicted_entry = _free_site(holder)
+                if not separation_ok(d, c, plotted_d, 0.5, s)[0]:
+                    _place(by_did[holder], evicted_c, evicted_entry.get("score"),
+                           evicted_entry.get("parts") or {}, "")
+                    result[holder] = evicted_entry
+                    continue
+                _place(d, c, total, parts, f"took the site of {holder}")
+                moved = _best_free(by_did[holder])
+                if moved is None:                       # roll back: nobody is evicted for nothing
+                    _free_site(d.id)
+                    _place(by_did[holder], evicted_c, evicted_entry.get("score"),
+                           evicted_entry.get("parts") or {}, "")
+                    result[holder] = evicted_entry
+                    continue
+                msc, mc, mparts = moved
+                _place(by_did[holder], mc, msc, mparts, f"re-sited so {d.id} could take its site")
+                h["resolvedAt"] = "eviction-repair"
+                break
+
     for h in homeless:
         if h["id"] in result:
             result[h["id"]]["homelessStage"] = h.get("resolvedAt")
     unresolved = [h for h in homeless if h["id"] not in result]
+    # WHY it failed, not just that it did (2026-09-09): re-walk every candidate
+    # under the loosest stage and tally the first gate that rejected it, so a
+    # homeless record names the constraint to argue with.
+    diag_meta = {oid: od for oid, (od, _oc) in plotted_d.items()}
+    for h in unresolved:
+        d = by_did[h["id"]]
+        why: dict[str, int] = {}
+        blockers: dict[str, int] = {}
+        for c in cands:
+            if c.used_by:
+                why["site taken"] = why.get("site taken", 0) + 1
+                continue
+            if not water_identity_ok(d, c, s):
+                why["water identity"] = why.get("water identity", 0) + 1
+                continue
+            sc, _parts = score_pair(d, c, plotted_xy, True, s, True, diag_meta)
+            cluster = thomas_prior_score(d, c, thomas_prior, True, plotted_xy)
+            if cluster is None:
+                why["culture clump"] = why.get("culture clump", 0) + 1
+                continue
+            if sc + cluster < RELAXED_SCORE:
+                why["score below the honest bar"] = why.get("score below the honest bar", 0) + 1
+                continue
+            ok, blocker = separation_ok(d, c, plotted_d, 0.5, s)
+            if not ok:
+                why["separation"] = why.get("separation", 0) + 1
+                blockers[str(blocker)] = blockers.get(str(blocker), 0) + 1
+                continue
+            why["would have fitted"] = why.get("would have fitted", 0) + 1
+        h["whyHomeless"] = dict(sorted(why.items(), key=lambda kv: -kv[1]))
+        h["separationBlockers"] = dict(sorted(blockers.items(), key=lambda kv: -kv[1])[:5])
     return result, unresolved
 
 
@@ -1473,7 +1705,7 @@ def swap_pass(demands: list[Demand], result: dict[str, dict], meta: dict[str, De
                 continue
             plotted_d = {k: (by_d[k], result[k]["candidate"])
                          for k in result if k not in (a, b)}
-            if not separation_ok(da, cb, plotted_d)[0] or not separation_ok(db, ca, plotted_d)[0]:
+            if not separation_ok(da, cb, plotted_d, 1.0, s)[0] or not separation_ok(db, ca, plotted_d, 1.0, s)[0]:
                 continue
             gain = (sa + sb) - (result[a]["score"] + result[b]["score"])
             if gain >= SWAP_MIN_GAIN and (best is None or gain > best[0]):
@@ -1674,6 +1906,55 @@ def route_visibility_sweep(s: ProvinceSurvey, plotted: dict[str, tuple[Demand, C
     }
 
 
+def typed_siting_violations(demands: list[Demand], result: dict[str, dict],
+                            s: ProvinceSurvey | None = None) -> list[dict]:
+    """Re-check the footprint and proximity gates against the FINISHED plot.
+
+    `separation_ok` judges each record against what was already on the map, so
+    a ceiling whose target had not been plotted yet went unjudged and a floor
+    could be crossed by a later record. This is the closing pass: every live
+    pair, every gate, no ordering. It is what the tests assert on, and an
+    empty list is the contract."""
+    plotted = [(d, result[d.id]["candidate"]) for d in demands if d.id in result]
+    out: list[dict] = []
+    for i, (d, c) in enumerate(plotted):
+        min_from = d.proximity.get("minFromClassM") or {}
+        max_from = d.proximity.get("maxFromM") or {}
+        out_of_sight = set(d.proximity.get("outOfSightOf") or ())
+        nearest: dict[str, float] = {}
+        for j, (od, oc) in enumerate(plotted):
+            if i == j:
+                continue
+            dist = math.hypot(c.x - oc.x, c.z - oc.z)
+            related = related_pair(d, od)
+            abut = related and abuts(d, od)
+            need = (max(COLLISION_MIN_M, min(d.footprint_m, od.footprint_m)) if abut
+                    else max(COLLISION_MIN_M, d.footprint_m + od.footprint_m))
+            if i < j and dist < need:
+                out.append({"id": d.id, "gate": "footprint", "other": od.id,
+                            "distM": round(dist, 1), "needM": round(need, 1)})
+            if not related:
+                floor = min_from.get(od.cls) or 0.0
+                if dist < floor:
+                    out.append({"id": d.id, "gate": "minFromClassM", "other": od.id,
+                                "distM": round(dist, 1), "needM": floor})
+                if out_of_sight and od.cls in out_of_sight and s is not None \
+                        and s.line_of_sight(c.x, c.z, oc.x, oc.z):
+                    out.append({"id": d.id, "gate": "outOfSightOf", "other": od.id,
+                                "distM": round(dist, 1), "needM": None})
+            if od.cls in max_from:
+                nearest[od.cls] = min(nearest.get(od.cls, float("inf")), dist)
+        if "route" in min_from and c.route_m < min_from["route"]:
+            out.append({"id": d.id, "gate": "minFromClassM", "other": "route",
+                        "distM": round(c.route_m, 1), "needM": min_from["route"]})
+        for cls, limit in max_from.items():
+            near = c.route_m if cls == "route" else nearest.get(cls)
+            if near is None or near > limit:
+                out.append({"id": d.id, "gate": "maxFromM", "other": cls,
+                            "distM": None if near is None else round(near, 1), "needM": limit})
+    return sorted(out, key=lambda r: (r["id"], r["gate"], str(r["other"])))
+
+
 def build_report(demands: list[Demand], result: dict[str, dict], unresolved: list[dict],
                  plotted: dict[str, tuple[Demand, Candidate]], s: ProvinceSurvey, seed: int,
                  n_scour: int, n_free: int) -> dict:
@@ -1783,6 +2064,7 @@ def build_report(demands: list[Demand], result: dict[str, dict], unresolved: lis
                     "sameTypeWithinSightPairs": same_type_pairs},
         "routeDistance": {"medianM": round(float(np.median(route_d))),
                           "fineTempoWithin300mFraction": round(float((np.asarray(fine) <= 300).mean()), 3)},
+        "typedSitingViolations": typed_siting_violations(demands, result, s),
         "antiSameynessQuotaBreaches": quota_breaches,
         "relaxedRecords": relaxed_records,
         "namedConstraintChecks": named_checks,
@@ -2005,8 +2287,6 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
     }
     rep["clusteringOutcome"], clustering_errors = thomas_outcome(
         prior, demands, result, unresolved)
-    if resolve_all and clustering_errors:
-        raise RuntimeError("; ".join(clustering_errors))
     rep["clarkEvans"] = plot_stats.clark_evans(
         positions_by_zone({did: r["candidate"] for did, r in result.items()}, demands),
         plot_stats.zone_land_area_m2(s), plot_stats.zone_land_masks(s), s.grid_px_m,
@@ -2019,6 +2299,11 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
         rj, rm = (REPORT_JSON, REPORT_MD) if write else (report_only_to / "macro-plot.json", report_only_to / "macro-plot.md")
         rj.write_text(json.dumps(rep, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         rm.write_text(digest(rep, result, demands), encoding="utf-8")
+    # The failure is raised AFTER the report is written (2026-09-09): a
+    # resolve-all that leaves records homeless is exactly when the per-record
+    # reasons are needed, and raising first threw them away.
+    if resolve_all and clustering_errors:
+        raise RuntimeError("; ".join(clustering_errors))
     return rep
 
 

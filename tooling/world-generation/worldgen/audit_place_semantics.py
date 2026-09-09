@@ -260,6 +260,7 @@ class Ctx:
     records: dict[str, dict]                     # id -> record (all statuses)
     region_of: dict[str, str]                    # id -> catalogue region
     names_by_region: dict[str, dict[str, str]] = field(default_factory=dict)
+    recipes: dict[str, dict] = field(default_factory=dict)   # type id -> type recipe
 
     def __post_init__(self):
         if not self.names_by_region:
@@ -890,7 +891,73 @@ def check_duplicates(ctx: Ctx, records: list[dict]) -> list[Finding]:
 # --------------------------------------------------------------------------- #
 # driver
 # --------------------------------------------------------------------------- #
+def check_type_proximity(ctx: Ctx, rec: dict) -> list[Finding]:
+    """The record against its own TYPE's stated siting semantics.
+
+    `check_neighbour` only judges a claim the record itself names ("within
+    sight of Wolk Market"). A type whose whole identity is distance — "deliberately
+    far from every living settlement", "far from help", "a short walk from a
+    village, out of its sight" — said so in `type-recipes.json`, and nothing
+    read it: 19 of 22 records of the isolation types contradicted their own
+    type prose and passed this audit clean (standard 12 violation, fixed
+    2026-09-09). The distances are the typed `proximity` block, authored from
+    that prose by `worldgen.author_type_siting`; an absent block means the type
+    states no distance and there is nothing to check."""
+    recipe = ctx.recipes.get(rec["classification"]["type"]) or {}
+    prox = recipe.get("proximity") or {}
+    pos = ctx.pos(rec)
+    if not prox or pos is None:
+        return []
+    rid = rec["id"]
+    region = ctx.region_of[rid]
+    why = clip(prox.get("why") or f"type {rec['classification']['type']}")
+    nearest: dict[str, tuple[float, dict]] = {}
+    out: list[Finding] = []
+    for oid, other in ctx.records.items():
+        if oid == rid or other.get("status") not in LIVE_STATUSES:
+            continue
+        d = ctx.distance(rec, other)
+        if d is None:
+            continue
+        ocls = other["classification"]["class"]
+        if ocls not in nearest or d < nearest[ocls][0]:
+            nearest[ocls] = (d, other)
+    for cls, floor in (prox.get("minFromClassM") or {}).items():
+        if cls == "route":
+            continue
+        row = nearest.get(cls)
+        if row and row[0] < float(floor):
+            out.append(Finding(rid, region, "type-proximity", "high", why,
+                               f"{row[1].get('name') or row[1]['id']} ({cls}) is "
+                               f"{row[0]:.0f} m away — inside the type's {floor:.0f} m floor",
+                               "move"))
+    for cls, ceiling in (prox.get("maxFromM") or {}).items():
+        if cls == "route":
+            continue
+        row = nearest.get(cls)
+        if row is None:
+            out.append(Finding(rid, region, "type-proximity", "med", why,
+                               f"no live {cls} anywhere in the catalogue to sit within "
+                               f"{ceiling:.0f} m of", "rewrite"))
+        elif row[0] > float(ceiling):
+            out.append(Finding(rid, region, "type-proximity", "high", why,
+                               f"nearest {cls} ({row[1].get('name') or row[1]['id']}) is "
+                               f"{row[0]:.0f} m away — outside the type's {ceiling:.0f} m ceiling",
+                               "move"))
+    for cls in prox.get("outOfSightOf") or []:
+        row = nearest.get(cls)
+        if row is None:
+            continue
+        opos = ctx.pos(row[1])
+        if opos and ctx.terrain.line_of_sight(pos[0], pos[1], opos[0], opos[1]):
+            out.append(Finding(rid, region, "type-proximity", "med", why,
+                               f"{row[1].get('name') or row[1]['id']} ({cls}) is in plain "
+                               f"sight {row[0]:.0f} m away", "move"))
+    return out
+
+
 CHECKS: tuple[tuple[str, Callable[[Ctx, dict], list[Finding]]], ...] = (
+    ("type-proximity", check_type_proximity),
     ("route", check_route),
     ("landform", check_landform),
     ("water", check_water),
@@ -939,8 +1006,10 @@ def build_ctx(terrain: Terrain | None = None, province: Path = PROVINCE) -> Ctx:
         for rec in places:
             records[rec["id"]] = rec
             region_of[rec["id"]] = region
+    recipes = {t["type"]: t for t in
+               json.loads((catalogue.CATALOGUE_DIR / "type-recipes.json").read_text())["types"]}
     return Ctx(terrain=terrain or SurveyTerrain(), routes=load_routes(province),
-               records=records, region_of=region_of)
+               records=records, region_of=region_of, recipes=recipes)
 
 
 # --------------------------------------------------------------------------- #
