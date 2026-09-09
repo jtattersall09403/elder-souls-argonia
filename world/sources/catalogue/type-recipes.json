@@ -86,7 +86,9 @@
     "assetPlan": "inventory family ids. The withdrawn darkwater pool must never appear.",
     "assetGaps": "permanent no-Nexus-answer gaps. grave-stakes = build staked-dead fields from cairns, totems and stockade pikes; working-props = distinguish works sites by LAYOUT and dressing, never bespoke machinery.",
     "complexityBudget": "complex needs complexityJustification (Morrowind-level placement ceiling)",
-    "countBand": "[min,max] expected instances province-wide, non-uniform by causal gradient"
+    "countBand": "[min,max] expected instances province-wide, non-uniform by causal gradient",
+    "footprintRadiusM": "how much ground the type occupies, metres. DERIVED from the authored blueprint boundary where one exists, else banded from magnitude / class / complexityBudget. The macro plot's collision floor for a pair is the SUM of the two radii.",
+    "proximity": "typed siting gates read from this type's own siting.neighbourRelation. minFromClassM = hard floor to every live record of that place class; maxFromM = hard ceiling to the nearest already-plotted record of that class ('route' = metres to the nearest route line); outOfSightOf = classes it must have no line of sight to; mayAbut = classes a RELATED neighbour may share ground with (max of the two radii, not the sum). ABSENT MEANS NO CONSTRAINT - that is the default, and prose that states no distance deliberately gets no block."
   },
   "types": [
     {
@@ -156,7 +158,9 @@
         0,
         3
       ],
-      "lore": "Lore:Bright-Throat Village (cliffs over Oliis Bay)"
+      "lore": "Lore:Bright-Throat Village (cliffs over Oliis Bay)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "flood-high-hamlet",
@@ -224,7 +228,9 @@
         2,
         5
       ],
-      "lore": "region grammar: seasonal floodplain"
+      "lore": "region grammar: seasonal floodplain",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "gorge-wall-dwelling",
@@ -294,7 +300,9 @@
         2,
         5
       ],
-      "lore": "region grammar: deep river corridor; scour: gorge (60) and ravine (90) candidates concentrate on the corridor and the rim"
+      "lore": "region grammar: deep river corridor; scour: gorge (60) and ravine (90) candidates concentrate on the corridor and the rim",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "grassland-field-village",
@@ -363,7 +371,9 @@
         1,
         4
       ],
-      "lore": "Lore:Thorn; Lore:Saltrice; Lore:House Dres"
+      "lore": "Lore:Thorn; Lore:Saltrice; Lore:House Dres",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "hammock-village",
@@ -432,7 +442,9 @@
         1,
         4
       ],
-      "lore": "region grammar: raised hammock; Lore:Black Marsh"
+      "lore": "region grammar: raised hammock; Lore:Black Marsh",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "upland-terrace-village",
@@ -501,7 +513,15 @@
         2,
         5
       ],
-      "lore": "region grammar: upland hills / border mountains; scour finding: a quarter of interesting ground is on the rim"
+      "lore": "region grammar: upland hills / border mountains; scour finding: a quarter of interesting ground is on the rim",
+      "footprintRadiusM": 65,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 450
+        },
+        "why": "siting.neighbourRelation: on a pass or an upland route; isolated"
+      }
     },
     {
       "type": "neutral-free-port",
@@ -575,7 +595,9 @@
         0,
         3
       ],
-      "lore": "Lore:Alten Corimont; Lore:All Flags Navy"
+      "lore": "Lore:Alten Corimont; Lore:All Flags Navy",
+      "footprintRadiusM": 140,
+      "footprintSource": "band"
     },
     {
       "type": "claimable-steading",
@@ -651,7 +673,18 @@
         1,
         4
       ],
-      "lore": "build-out register: player ownership needs a place shape reserved now, or it is a refactor later (0041 forward-compatibility block)"
+      "lore": "build-out register: player ownership needs a place shape reserved now, or it is a refactor later (0041 forward-compatibility block)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 150
+        },
+        "maxFromM": {
+          "settlement": 800
+        },
+        "why": "siting.neighbourRelation: one per region packet, near but not in a settlement"
+      }
     },
     {
       "type": "domestic-compound",
@@ -731,7 +764,9 @@
         30,
         40
       ],
-      "lore": "tone axis: the mundane and domestic register; module 92 (most people do not live in named settlements)"
+      "lore": "tone axis: the mundane and domestic register; module 92 (most people do not live in named settlements)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "colonial-quarter",
@@ -806,7 +841,18 @@
         4,
         7
       ],
-      "lore": "Lore:Accession War; Lore:Umbriel; Lore:Lilmoth"
+      "lore": "Lore:Accession War; Lore:Umbriel; Lore:Lilmoth",
+      "footprintRadiusM": 65,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 250
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: attached to or beside a major settlement"
+      }
     },
     {
       "type": "foreign-trading-station",
@@ -876,7 +922,9 @@
         1,
         4
       ],
-      "lore": "Lore:Alten Markmont (Arena gazetteer); Lore:East Empire Company"
+      "lore": "Lore:Alten Markmont (Arena gazetteer); Lore:East Empire Company",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "imperial-farmstead",
@@ -944,7 +992,9 @@
         0,
         2
       ],
-      "lore": "Lore:Black Marsh (Imperial houses on the same soil sank)"
+      "lore": "Lore:Black Marsh (Imperial houses on the same soil sank)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "road-station-village",
@@ -1017,7 +1067,9 @@
         2,
         5
       ],
-      "lore": "Lore:Blackwood Road; openworld research (waystation recipe)"
+      "lore": "Lore:Blackwood Road; openworld research (waystation recipe)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "contested-ex-capital",
@@ -1090,7 +1142,9 @@
         0,
         3
       ],
-      "lore": "Lore:Soulrest; Lore:Red Bramman; Lore:Topal Bay"
+      "lore": "Lore:Soulrest; Lore:Red Bramman; Lore:Topal Bay",
+      "footprintRadiusM": 230,
+      "footprintSource": "band"
     },
     {
       "type": "field-margin-city",
@@ -1164,7 +1218,9 @@
         0,
         3
       ],
-      "lore": "Lore:Thorn; Lore:House Dres; Lore:Saltrice"
+      "lore": "Lore:Thorn; Lore:House Dres; Lore:Saltrice",
+      "footprintRadiusM": 230,
+      "footprintSource": "band"
     },
     {
       "type": "frontier-records-city",
@@ -1238,7 +1294,9 @@
         0,
         3
       ],
-      "lore": "Lore:Gideon; Lore:Rootworm; Lore:Twyllbek; Lore:Cyrodilic Collections"
+      "lore": "Lore:Gideon; Lore:Rootworm; Lore:Twyllbek; Lore:Cyrodilic Collections",
+      "footprintRadiusM": 230,
+      "footprintSource": "band"
     },
     {
       "type": "hist-grove-capital",
@@ -1308,7 +1366,9 @@
         0,
         3
       ],
-      "lore": "Lore:Helstrom; Lore:Middle Argonia; PGE3/Argonia (survivors of the Battle of Argonia retreat to Helstrom)"
+      "lore": "Lore:Helstrom; Lore:Middle Argonia; PGE3/Argonia (survivors of the Battle of Argonia retreat to Helstrom)",
+      "footprintRadiusM": 230,
+      "footprintSource": "band"
     },
     {
       "type": "island-confluence-city",
@@ -1384,7 +1444,9 @@
         0,
         3
       ],
-      "lore": "Lore:Blackrose; Lore:Lilmothiit; Lore:Blackrose Prison"
+      "lore": "Lore:Blackrose; Lore:Lilmothiit; Lore:Blackrose Prison",
+      "footprintRadiusM": 230,
+      "footprintSource": "band"
     },
     {
       "type": "legal-harbour-city",
@@ -1461,7 +1523,9 @@
         0,
         3
       ],
-      "lore": "Lore:Archon; Lore:East Empire Company; Lore:Shadowscales"
+      "lore": "Lore:Archon; Lore:East Empire Company; Lore:Shadowscales",
+      "footprintRadiusM": 230,
+      "footprintSource": "band"
     },
     {
       "type": "rebuilt-stilt-city",
@@ -1539,7 +1603,9 @@
         0,
         3
       ],
-      "lore": "Lore:Lilmoth; Lore:Umbriel; Lore:Ripper Eel; Lore:Pusbottom"
+      "lore": "Lore:Lilmoth; Lore:Umbriel; Lore:Ripper Eel; Lore:Pusbottom",
+      "footprintRadiusM": 230,
+      "footprintSource": "blueprint"
     },
     {
       "type": "terraced-river-city",
@@ -1615,7 +1681,9 @@
         0,
         3
       ],
-      "lore": "Lore:Stormhold; Lore:Silyanorn; Lore:Knahaten Flu (began here)"
+      "lore": "Lore:Stormhold; Lore:Silyanorn; Lore:Knahaten Flu (began here)",
+      "footprintRadiusM": 230,
+      "footprintSource": "band"
     },
     {
       "type": "customs-town",
@@ -1687,7 +1755,9 @@
         0,
         3
       ],
-      "lore": "Lore:Slough Point; Lore:Blackwood Road"
+      "lore": "Lore:Slough Point; Lore:Blackwood Road",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "dunmer-frontier-holding",
@@ -1762,7 +1832,9 @@
         0,
         3
       ],
-      "lore": "Lore:House Dres; Lore:Tear; Lore:Red Year (4E 5); foreign-powers dossier (the cold settled frontier)"
+      "lore": "Lore:House Dres; Lore:Tear; Lore:Red Year (4E 5); foreign-powers dossier (the cold settled frontier)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "estate-village",
@@ -1837,7 +1909,9 @@
         2,
         5
       ],
-      "lore": "Lore:Archein; labour-and-bondage dossier (the Owing)"
+      "lore": "Lore:Archein; labour-and-bondage dossier (the Owing)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "garrison-town",
@@ -1913,7 +1987,9 @@
         2,
         5
       ],
-      "lore": "morrowind-content-density.md (the M4 rung); Lore:Fort Swampmoth; argonia-4e201-state (shellback city levies)"
+      "lore": "morrowind-content-density.md (the M4 rung); Lore:Fort Swampmoth; argonia-4e201-state (shellback city levies)",
+      "footprintRadiusM": 140,
+      "footprintSource": "band"
     },
     {
       "type": "inland-market-town",
@@ -1990,7 +2066,9 @@
         2,
         5
       ],
-      "lore": "morrowind-content-density.md (Suran, Balmora: the M4 rung carries Morrowind's texture)"
+      "lore": "morrowind-content-density.md (Suran, Balmora: the M4 rung carries Morrowind's texture)",
+      "footprintRadiusM": 140,
+      "footprintSource": "band"
     },
     {
       "type": "plantation-quarters",
@@ -2057,7 +2135,9 @@
         0,
         3
       ],
-      "lore": "Lore:Black Marsh (no cash-crop economy is possible); Lore:Archein; Lore:Hereguard Plantation"
+      "lore": "Lore:Black Marsh (no cash-crop economy is possible); Lore:Archein; Lore:Hereguard Plantation",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "port-town",
@@ -2129,7 +2209,9 @@
         1,
         4
       ],
-      "lore": "Lore:Black Marsh (minor ports); Lore:East Empire Company"
+      "lore": "Lore:Black Marsh (minor ports); Lore:East Empire Company",
+      "footprintRadiusM": 140,
+      "footprintSource": "band"
     },
     {
       "type": "shrine-town",
@@ -2204,7 +2286,9 @@
         0,
         3
       ],
-      "lore": "morrowind-content-density.md (the M4 rung is where Morrowind's texture lives); Lore:Hissmir"
+      "lore": "morrowind-content-density.md (the M4 rung is where Morrowind's texture lives); Lore:Hissmir",
+      "footprintRadiusM": 140,
+      "footprintSource": "band"
     },
     {
       "type": "toll-road-town",
@@ -2276,7 +2360,9 @@
         2,
         5
       ],
-      "lore": "Lore:Black Marsh (toll-towns); the Owing (labour-and-bondage dossier)"
+      "lore": "Lore:Black Marsh (toll-towns); the Owing (labour-and-bondage dossier)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "trade-landing",
@@ -2347,7 +2433,9 @@
         14,
         20
       ],
-      "lore": "Lore:Black Marsh (barter economy); demographics module 92"
+      "lore": "Lore:Black Marsh (barter economy); demographics module 92",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "works-town",
@@ -2425,7 +2513,9 @@
         0,
         3
       ],
-      "lore": "morrowind-content-density.md (Gnisis, Caldera); Lore:Stormhold (crystals); Lore:Gideon (red clay)"
+      "lore": "morrowind-content-density.md (Gnisis, Caldera); Lore:Stormhold (crystals); Lore:Gideon (red clay)",
+      "footprintRadiusM": 140,
+      "footprintSource": "band"
     },
     {
       "type": "freed-worker-shelter",
@@ -2494,7 +2584,9 @@
         1,
         4
       ],
-      "lore": "labour-and-bondage dossier; Blackrose Chainbreakers (quest plan)"
+      "lore": "labour-and-bondage dossier; Blackrose Chainbreakers (quest plan)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "hist-less-refuge",
@@ -2565,7 +2657,15 @@
         3,
         6
       ],
-      "lore": "Lore:Lukiul; League of Open Water (quest plan); Lore:Hist"
+      "lore": "Lore:Lukiul; League of Open Water (quest plan); Lore:Hist",
+      "footprintRadiusM": 65,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 400
+        },
+        "why": "siting.neighbourRelation: on the edge of somewhere that would not take them in"
+      }
     },
     {
       "type": "morrowind-veterans-holding",
@@ -2637,7 +2737,9 @@
         1,
         4
       ],
-      "lore": "Lore:Accession War; Lore:Argonian Invasion of Morrowind (4E 5-6); Lore:Tear"
+      "lore": "Lore:Accession War; Lore:Argonian Invasion of Morrowind (4E 5-6); Lore:Tear",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "quarantine-village",
@@ -2707,7 +2809,9 @@
         5
       ],
       "lore": "Lore:Knahaten Flu; fauna-hazards dossier (swamp rot, blood rot, greenspore)",
-      "countBandNote": "Band widened 1->3 (2026-09-02 reconciliation): the Knahaten Flu emptied the province, so quarantine residue is plural by canon. The three are signature-distinct — a village that shut itself and never reopened (north), an abandoned holding pen whose burial ground dwarfs it (south), and a cordon never formally lifted, repainted yearly by the people inside it (coast)."
+      "countBandNote": "Band widened 1->3 (2026-09-02 reconciliation): the Knahaten Flu emptied the province, so quarantine residue is plural by canon. The three are signature-distinct — a village that shut itself and never reopened (north), an abandoned holding pen whose burial ground dwarfs it (south), and a cordon never formally lifted, repainted yearly by the people inside it (coast).",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "waiting-vigil-settlement",
@@ -2774,7 +2878,9 @@
         0,
         2
       ],
-      "lore": "Lore:An-Xileel; Lore:Umbriel; argonia-4e201-state (the Wild Ones)"
+      "lore": "Lore:An-Xileel; Lore:Umbriel; argonia-4e201-state (the Wild Ones)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "artisan-village",
@@ -2845,7 +2951,9 @@
         0,
         3
       ],
-      "lore": "Lore:Bright-Throat Village; Lore:Argonian (jewellery, guarded weaving secrets)"
+      "lore": "Lore:Bright-Throat Village; Lore:Argonian (jewellery, guarded weaving secrets)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "beast-keeper-village",
@@ -2917,7 +3025,9 @@
         0,
         2
       ],
-      "lore": "Lore:Dead-Water (crocodiles); Lore:Lizard-Steed; Lore:Riverbacks (osheeja gar)"
+      "lore": "Lore:Dead-Water (crocodiles); Lore:Lizard-Steed; Lore:Riverbacks (osheeja gar)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "bereaved-village",
@@ -2988,7 +3098,9 @@
         2,
         5
       ],
-      "lore": "Lore:Hist (a settlement without a Hist is always political)"
+      "lore": "Lore:Hist (a settlement without a Hist is always political)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "hatchery-village",
@@ -3056,7 +3168,9 @@
         0,
         3
       ],
-      "lore": "Lore:Hatching Pools; Lore:Argonian (egg-tenders, Keepers of the Shell)"
+      "lore": "Lore:Hatching Pools; Lore:Argonian (egg-tenders, Keepers of the Shell)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "heretic-stone-village",
@@ -3125,7 +3239,9 @@
         4
       ],
       "lore": "Lore:Mazzatun; Lore:Xit-Xaht; Lore:Duskfall",
-      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): the causes are different, not duplicated. Mazzatun builds because a sap-enslaved Hist will not stop giving the order; the interior's Restarted Work builds because a naheesh argued publicly that the Duskfall renunciation was a mistake. One is a tragedy, one is a heresy, and the province needs both for the taboo to read as contested rather than insane."
+      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): the causes are different, not duplicated. Mazzatun builds because a sap-enslaved Hist will not stop giving the order; the interior's Restarted Work builds because a naheesh argued publicly that the Duskfall renunciation was a mistake. One is a tragedy, one is a heresy, and the province needs both for the taboo to read as contested rather than insane.",
+      "footprintRadiusM": 130,
+      "footprintSource": "blueprint"
     },
     {
       "type": "hist-village",
@@ -3205,7 +3321,9 @@
         11,
         14
       ],
-      "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band"
+      "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band",
+      "footprintRadiusM": 120,
+      "footprintSource": "blueprint"
     },
     {
       "type": "insular-village",
@@ -3278,7 +3396,9 @@
         1,
         4
       ],
-      "lore": "Lore:Stonewastes (Four Winds); Lore:Lut-Eileel"
+      "lore": "Lore:Stonewastes (Four Winds); Lore:Lut-Eileel",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "naga-village",
@@ -3349,7 +3469,15 @@
         0,
         3
       ],
-      "lore": "Lore:Naga (a people of Black Marsh; the tribeless are the brigands, not the whole nation)"
+      "lore": "Lore:Naga (a people of Black Marsh; the tribeless are the brigands, not the whole nation)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "route": 400
+        },
+        "why": "siting.neighbourRelation: near the roads its tribeless relatives work"
+      }
     },
     {
       "type": "necropolis-village",
@@ -3421,7 +3549,9 @@
         2,
         5
       ],
-      "lore": "Lore:Veeskhleel (the tribe associated with the dead); Lore:Argonian (grave-singers, xul-vaat)"
+      "lore": "Lore:Veeskhleel (the tribe associated with the dead); Lore:Argonian (grave-singers, xul-vaat)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "nightbound-village",
@@ -3489,7 +3619,9 @@
         0,
         3
       ],
-      "lore": "Lore:Veeskhleel; Lore:Blight Bog"
+      "lore": "Lore:Veeskhleel; Lore:Blight Bog",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "pilgrim-trial-village",
@@ -3561,7 +3693,9 @@
         0,
         3
       ],
-      "lore": "Lore:Hissmir; Lore:Trials of the Burnished Scales; Lore:Mages Guild (dissolved 4E)"
+      "lore": "Lore:Hissmir; Lore:Trials of the Burnished Scales; Lore:Mages Guild (dissolved 4E)",
+      "footprintRadiusM": 140,
+      "footprintSource": "band"
     },
     {
       "type": "sap-touched-village",
@@ -3625,7 +3759,9 @@
         0,
         2
       ],
-      "lore": "Lore:Hist Sap; Miredancers (settlement-register)"
+      "lore": "Lore:Hist Sap; Miredancers (settlement-register)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "boardwalk-village",
@@ -3698,7 +3834,9 @@
         3,
         6
       ],
-      "lore": "Lore:Murkmire (platforms ascending from ground to hover above water)"
+      "lore": "Lore:Murkmire (platforms ascending from ground to hover above water)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "canoe-berth-hamlet",
@@ -3768,7 +3906,9 @@
         18,
         26
       ],
-      "lore": "Lore:Argonian (Agaceph tail-poled rafts); Lore:Sea Transportation"
+      "lore": "Lore:Argonian (Agaceph tail-poled rafts); Lore:Sea Transportation",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "drifting-village",
@@ -3838,7 +3978,9 @@
         3
       ],
       "lore": "Lore:Hixinoag; Lore:Black Marsh (most villages do not stay put)",
-      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation), and settlement-register.md 5 G3.3 updated to match: its 'exactly one' was an EXTRAPOLATED engineering-cost recommendation, not canon — canon says MOST villages do not stay put. Two hand-authored mobile villages: canon Hixinoag on the northern caravan route, and an inner-swamp raft village whose abandoned moorings form a trail of ghost villages, which is this type's own recipe (the empty mooring is as much a POI as the full one)."
+      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation), and settlement-register.md 5 G3.3 updated to match: its 'exactly one' was an EXTRAPOLATED engineering-cost recommendation, not canon — canon says MOST villages do not stay put. Two hand-authored mobile villages: canon Hixinoag on the northern caravan route, and an inner-swamp raft village whose abandoned moorings form a trail of ghost villages, which is this type's own recipe (the empty mooring is as much a POI as the full one).",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "houseboat-flotilla",
@@ -3910,7 +4052,9 @@
         0,
         3
       ],
-      "lore": "Lore:Salt-Cured; Online:Tide-Born Boat; Online:Kothringi Tidal Canoe"
+      "lore": "Lore:Salt-Cured; Online:Tide-Born Boat; Online:Kothringi Tidal Canoe",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "mangrove-platform-village",
@@ -3977,7 +4121,9 @@
         1,
         4
       ],
-      "lore": "Lore:Murkmire (the ten-mile mangrove wall); Lore:Red Bramman"
+      "lore": "Lore:Murkmire (the ten-mile mangrove wall); Lore:Red Bramman",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "raft-village",
@@ -4049,7 +4195,9 @@
         0,
         3
       ],
-      "lore": "Lore:Argonian Houseboat; Lore:Alten Meerhleel"
+      "lore": "Lore:Argonian Houseboat; Lore:Alten Meerhleel",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "stilt-village",
@@ -4125,7 +4273,9 @@
         6,
         9
       ],
-      "lore": "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)"
+      "lore": "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "fish-station",
@@ -4199,7 +4349,9 @@
         20,
         28
       ],
-      "lore": "Lore:Argonian Cuisine (trodh eaten alive); Lore:Oliis Bay"
+      "lore": "Lore:Argonian Cuisine (trodh eaten alive); Lore:Oliis Bay",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "frog-pond-farm",
@@ -4266,7 +4418,9 @@
         0,
         3
       ],
-      "lore": "Lore:Argonian (vossa-satl; frogs selected by tone); Lore:Panther River"
+      "lore": "Lore:Argonian (vossa-satl; frogs selected by tone); Lore:Panther River",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "guar-byre",
@@ -4336,7 +4490,9 @@
         1,
         4
       ],
-      "lore": "Lore:Guar (Glowgill breathes underwater); Lore:Archon"
+      "lore": "Lore:Guar (Glowgill breathes underwater); Lore:Archon",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "pearl-and-shell-bed",
@@ -4408,7 +4564,9 @@
         1,
         4
       ],
-      "lore": "acceptance rule: Argonian physiology materially changes underwater play — the economy must reflect it"
+      "lore": "acceptance rule: Argonian physiology materially changes underwater play — the economy must reflect it",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "predator-pen",
@@ -4478,7 +4636,18 @@
         0,
         2
       ],
-      "lore": "Lore:Ripper Eel; Lore:Dead-Water; Lore:Riverbacks"
+      "lore": "Lore:Ripper Eel; Lore:Dead-Water; Lore:Riverbacks",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 250
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: attached to a village or a city canal system"
+      }
     },
     {
       "type": "shell-yard",
@@ -4547,7 +4716,9 @@
         0,
         2
       ],
-      "lore": "Lore:Haj Mota; material-culture (shell shields and platters)"
+      "lore": "Lore:Haj Mota; material-culture (shell shields and platters)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "small-stock-beds",
@@ -4616,7 +4787,9 @@
         6,
         10
       ],
-      "lore": "Lore:Argonian Cuisine; Lore:Swamp Jelly"
+      "lore": "Lore:Argonian Cuisine; Lore:Swamp Jelly",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "anomalous-smithy",
@@ -4687,7 +4860,9 @@
         1,
         4
       ],
-      "lore": "material-culture (metal use almost unheard of post-Duskfall)"
+      "lore": "material-culture (metal use almost unheard of post-Duskfall)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "boatwright-yard",
@@ -4760,7 +4935,9 @@
         0,
         3
       ],
-      "lore": "Lore:Sea Transportation; material-culture (Argonians crew foreign hulls, build small craft)"
+      "lore": "Lore:Sea Transportation; material-culture (Argonians crew foreign hulls, build small craft)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "bone-and-hide-works",
@@ -4831,7 +5008,9 @@
         8,
         12
       ],
-      "lore": "material-culture (bone-workers with bronze tools; crocodile and snake hide)"
+      "lore": "material-culture (bone-workers with bronze tools; crocodile and snake hide)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "dye-and-lacquer-house",
@@ -4900,7 +5079,9 @@
         3,
         5
       ],
-      "lore": "material-culture (scale lacquer, coloured leather tail bands, lacquered wasp thoraxes)"
+      "lore": "material-culture (scale lacquer, coloured leather tail bands, lacquered wasp thoraxes)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "glass-and-bead-house",
@@ -4968,7 +5149,9 @@
         2,
         4
       ],
-      "lore": "Lore:Kothringi (cairns adorned with glass beads); Lore:Argonian (obverdian)"
+      "lore": "Lore:Kothringi (cairns adorned with glass beads); Lore:Argonian (obverdian)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "instrument-and-toy-works",
@@ -5034,7 +5217,9 @@
         2,
         4
       ],
-      "lore": "Lore:Argonian (vossa-satl, fox-kites, spring-snake boxes)"
+      "lore": "Lore:Argonian (vossa-satl, fox-kites, spring-snake boxes)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "salvage-divers-yard",
@@ -5106,7 +5291,9 @@
         4,
         7
       ],
-      "lore": "Lore:Lilmoth (the drowned quarter, salvaged for 150 years)"
+      "lore": "Lore:Lilmoth (the drowned quarter, salvaged for 150 years)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "shipyard",
@@ -5182,7 +5369,9 @@
         1,
         4
       ],
-      "lore": "Lore:Sea Transportation; Lore:All Flags Navy; foreign-powers dossier (the coast's hulls are foreign-built)"
+      "lore": "Lore:Sea Transportation; Lore:All Flags Navy; foreign-powers dossier (the coast's hulls are foreign-built)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "slug-shaping-house",
@@ -5244,7 +5433,9 @@
         2,
         3
       ],
-      "lore": "material-culture (Jassa Red slugs and flint flash carve channels in wood and stone)"
+      "lore": "material-culture (Jassa Red slugs and flint flash carve channels in wood and stone)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "wamasu-works",
@@ -5313,7 +5504,9 @@
         1,
         4
       ],
-      "lore": "Lore:Wamasu (hide, luminescent organs, charge-holding bones, Hist-sap insulated prods)"
+      "lore": "Lore:Wamasu (hide, luminescent organs, charge-holding bones, Hist-sap insulated prods)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "weaving-house",
@@ -5382,7 +5575,9 @@
         3,
         5
       ],
-      "lore": "Lore:Argonian (weaving secrets closely guarded); Lore:Kothringi (metal-strand rope)"
+      "lore": "Lore:Argonian (weaving secrets closely guarded); Lore:Kothringi (metal-strand rope)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "calcinator-court",
@@ -5452,7 +5647,15 @@
         1,
         4
       ],
-      "lore": "magic-practice dossier (moon phases dictate calcinator positioning); Lore:Sky-Moons"
+      "lore": "magic-practice dossier (moon phases dictate calcinator positioning); Lore:Sky-Moons",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 500
+        },
+        "why": "siting.neighbourRelation: near a settlement, above canopy where possible"
+      }
     },
     {
       "type": "drying-yard",
@@ -5521,7 +5724,9 @@
         10,
         14
       ],
-      "lore": "Lore:Argonian (marshweed smoking); Lore:Black Marsh (lumberries harvested in Last Seed)"
+      "lore": "Lore:Argonian (marshweed smoking); Lore:Black Marsh (lumberries harvested in Last Seed)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "floating-garden",
@@ -5587,7 +5792,15 @@
         8,
         12
       ],
-      "lore": "Lore:Black Marsh (subsistence farming); material-culture"
+      "lore": "Lore:Black Marsh (subsistence farming); material-culture",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 1500
+        },
+        "why": "siting.neighbourRelation: always within sight of its village"
+      }
     },
     {
       "type": "paddy-works",
@@ -5656,7 +5869,9 @@
         1,
         4
       ],
-      "lore": "Lore:Saltrice; Lore:House Dres; Lore:Hereguard Plantation"
+      "lore": "Lore:Saltrice; Lore:House Dres; Lore:Hereguard Plantation",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "reed-cutting-ground",
@@ -5723,7 +5938,9 @@
         14,
         20
       ],
-      "lore": "material-culture (reed and wattle); region grammar"
+      "lore": "material-culture (reed and wattle); region grammar",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "seed-doll-nursery",
@@ -5786,7 +6003,9 @@
         2,
         3
       ],
-      "lore": "Lore:Argonian (xeech'kis seed dolls, grown from a nurtured seed)"
+      "lore": "Lore:Argonian (xeech'kis seed dolls, grown from a nurtured seed)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "bog-iron-bloomery",
@@ -5856,7 +6075,15 @@
         0,
         3
       ],
-      "lore": "Lore:Black Marsh (bog iron); material-culture (metal use almost unheard of post-Duskfall)"
+      "lore": "Lore:Black Marsh (bog iron); material-culture (metal use almost unheard of post-Duskfall)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "route": 400
+        },
+        "why": "siting.neighbourRelation: near a road or a foreign settlement"
+      }
     },
     {
       "type": "clay-pit-and-kiln",
@@ -5926,7 +6153,9 @@
         0,
         3
       ],
-      "lore": "Lore:Gideon (Onkobra red clay pottery); Lore:Onkobra River"
+      "lore": "Lore:Gideon (Onkobra red clay pottery); Lore:Onkobra River",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "crystal-diggings",
@@ -5999,7 +6228,9 @@
         0,
         3
       ],
-      "lore": "Lore:Stormhold (crystals); Lore:Silyanorn; prisons dossier (Warden Varus's Tunnel Rats)"
+      "lore": "Lore:Stormhold (crystals); Lore:Silyanorn; prisons dossier (Warden Varus's Tunnel Rats)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "derelict-concession",
@@ -6070,7 +6301,9 @@
         0,
         2
       ],
-      "lore": "Lore:Soulrest (gold and timber exports halted 3E 427 by tribal uprisings)"
+      "lore": "Lore:Soulrest (gold and timber exports halted 3E 427 by tribal uprisings)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "gem-workings",
@@ -6141,7 +6374,9 @@
         1,
         4
       ],
-      "lore": "Lore:Jasper; Lore:Murkmire (neesak of scrying); Lore:Blackwood (niben-crystal)"
+      "lore": "Lore:Jasper; Lore:Murkmire (neesak of scrying); Lore:Blackwood (niben-crystal)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "hardwood-and-charcoal-camp",
@@ -6213,7 +6448,9 @@
         6,
         9
       ],
-      "lore": "region grammar: tropical jungle; material-culture (fuel scarcity in a saturated landscape)"
+      "lore": "region grammar: tropical jungle; material-culture (fuel scarcity in a saturated landscape)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "knapping-floor",
@@ -6281,7 +6518,15 @@
         0,
         3
       ],
-      "lore": "Lore:Argonian (jadeflint, obverdian, volcanic glass skinning shards)"
+      "lore": "Lore:Argonian (jadeflint, obverdian, volcanic glass skinning shards)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: near a village or a hunting ground"
+      }
     },
     {
       "type": "kwama-mine",
@@ -6350,7 +6595,15 @@
         0,
         3
       ],
-      "lore": "Lore:Onkobra Kwama Mine; Lore:Kwama"
+      "lore": "Lore:Onkobra Kwama Mine; Lore:Kwama",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "route": 400
+        },
+        "why": "siting.neighbourRelation: near a road for shipping"
+      }
     },
     {
       "type": "peat-cutting",
@@ -6420,7 +6673,9 @@
         0,
         3
       ],
-      "lore": "Lore:Black Marsh (the Great Burn, 1E 2828, Legate Elissia Mallicius)"
+      "lore": "Lore:Black Marsh (the Great Burn, 1E 2828, Legate Elissia Mallicius)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "salt-pans",
@@ -6490,7 +6745,9 @@
         1,
         4
       ],
-      "lore": "material-culture (salt as barter commodity); region grammar: coastal lagoon & salt marsh"
+      "lore": "material-culture (salt as barter commodity); region grammar: coastal lagoon & salt marsh",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "antiquities-fence",
@@ -6559,7 +6816,9 @@
         3,
         5
       ],
-      "lore": "Lore:Cyrodilic Collections; Lore:Xanmeer (entering to loot is a serious offence)"
+      "lore": "Lore:Cyrodilic Collections; Lore:Xanmeer (entering to loot is a serious offence)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "clandestine-dig-camp",
@@ -6631,7 +6890,9 @@
         0,
         3
       ],
-      "lore": "Lore:College of Whispers; Lore:Umbriel; Lore:Synod"
+      "lore": "Lore:College of Whispers; Lore:Umbriel; Lore:Synod",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "contraband-cache",
@@ -6704,7 +6965,9 @@
         12,
         18
       ],
-      "lore": "Lore:Alten Corimont; Lore:Onkobra River (many mouths); Lore:Red Bramman"
+      "lore": "Lore:Alten Corimont; Lore:Onkobra River (many mouths); Lore:Red Bramman",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "daril-fermentary",
@@ -6774,7 +7037,9 @@
         1,
         4
       ],
-      "lore": "material-culture (daril); Lore:Argonian"
+      "lore": "material-culture (daril); Lore:Argonian",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "sap-tapping-camp",
@@ -6843,7 +7108,15 @@
         0,
         3
       ],
-      "lore": "Lore:Hist Sap (bloodlust hallucinogen to non-Argonians)"
+      "lore": "Lore:Hist Sap (bloodlust hallucinogen to non-Argonians)",
+      "footprintRadiusM": 30,
+      "footprintSource": "blueprint",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 400
+        },
+        "why": "siting.neighbourRelation: at an isolated or rogue Hist, far from a village"
+      }
     },
     {
       "type": "smugglers-lay-by",
@@ -6913,7 +7186,9 @@
         10,
         14
       ],
-      "lore": "Lore:Thorn (guards turn a blind eye); Lore:Topal Bay"
+      "lore": "Lore:Thorn (guards turn a blind eye); Lore:Topal Bay",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "smugglers-ledge",
@@ -6981,7 +7256,21 @@
         2,
         5
       ],
-      "lore": "region grammar: border mountains; Lore:Blackwood Road (the legal crossings are few, so the illegal ones are the rim)"
+      "lore": "region grammar: border mountains; Lore:Blackwood Road (the legal crossings are few, so the illegal ones are the rim)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 250
+        },
+        "maxFromM": {
+          "settlement": 800
+        },
+        "outOfSightOf": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: beside a pass, out of sight of its post"
+      }
     },
     {
       "type": "hiring-office",
@@ -7051,7 +7340,9 @@
         8,
         12
       ],
-      "lore": "labour-and-bondage dossier (the Owing, nushmeekos); Lore:Archein"
+      "lore": "labour-and-bondage dossier (the Owing, nushmeekos); Lore:Archein",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "ledger-house",
@@ -7123,7 +7414,9 @@
         5,
         8
       ],
-      "lore": "labour-and-bondage dossier; Lore:Blackrose Prison (the Blackguards' internal ledger)"
+      "lore": "labour-and-bondage dossier; Lore:Blackrose Prison (the Blackguards' internal ledger)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "muster-yard",
@@ -7190,7 +7483,9 @@
         5,
         8
       ],
-      "lore": "labour-and-bondage dossier; argonia-4e201-state (shellback city levies)"
+      "lore": "labour-and-bondage dossier; argonia-4e201-state (shellback city levies)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "tunnel-rat-gallery",
@@ -7262,7 +7557,18 @@
         4
       ],
       "lore": "prisons dossier (Warden Varus's Tunnel Rats digging for crystals)",
-      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): Warden Varus's Tunnel Rats are canon penal labour, and the two seams they are attested near — Silyanorn's crystal and Soulrest's gold — are far apart. One gallery is still worked under an untraceable Owing; the other is a flooded grave the bone-carriers cannot reach."
+      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): Warden Varus's Tunnel Rats are canon penal labour, and the two seams they are attested near — Silyanorn's crystal and Soulrest's gold — are far apart. One gallery is still worked under an untraceable Owing; the other is a flooded grave the bone-carriers cannot reach.",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "martial": 500
+        },
+        "mayAbut": [
+          "martial"
+        ],
+        "why": "siting.neighbourRelation: below or beside a carceral site"
+      }
     },
     {
       "type": "work-gang-camp",
@@ -7335,7 +7641,9 @@
         10,
         14
       ],
-      "lore": "labour-and-bondage dossier (owings worked off cutting boardwalk, dredging channel, staking graves)"
+      "lore": "labour-and-bondage dossier (owings worked off cutting boardwalk, dredging channel, staking graves)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "counting-bench",
@@ -7405,7 +7713,9 @@
         4,
         6
       ],
-      "lore": "module 92 demographics (three currency tiers)"
+      "lore": "module 92 demographics (three currency tiers)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "market-fair-ground",
@@ -7482,7 +7792,15 @@
         3,
         6
       ],
-      "lore": "module 92 (three currency tiers: septims, barter, obligation); Lore:Argonian (barter economy); Lore:Lizard-Steed"
+      "lore": "module 92 (three currency tiers: septims, barter, obligation); Lore:Argonian (barter economy); Lore:Lizard-Steed",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 350
+        },
+        "why": "siting.neighbourRelation: on neutral ground between settlements, or in an M3+ settlement"
+      }
     },
     {
       "type": "steed-hire-post",
@@ -7554,7 +7872,9 @@
         4,
         6
       ],
-      "lore": "Lore:Lizard-Steed; Lore:Guar"
+      "lore": "Lore:Lizard-Steed; Lore:Guar",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "brewhouse",
@@ -7625,7 +7945,15 @@
         4,
         6
       ],
-      "lore": "Lore:Hissmir Fish-Eye Rye; Lore:Argonian Cuisine (phlegmwine, xanmeer brandy)"
+      "lore": "Lore:Hissmir Fish-Eye Rye; Lore:Argonian Cuisine (phlegmwine, xanmeer brandy)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 350
+        },
+        "why": "siting.neighbourRelation: in or beside a settlement"
+      }
     },
     {
       "type": "cookshop",
@@ -7695,7 +8023,9 @@
         6,
         9
       ],
-      "lore": "Lore:Gideon (cookshops that know what outsiders can stomach)"
+      "lore": "Lore:Gideon (cookshops that know what outsiders can stomach)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "field-remedy-stall",
@@ -7767,7 +8097,9 @@
         10,
         14
       ],
-      "lore": "fauna-hazards dossier (emollient, purifier buds, depth sticks)"
+      "lore": "fauna-hazards dossier (emollient, purifier buds, depth sticks)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "groomers-house",
@@ -7835,7 +8167,9 @@
         4,
         6
       ],
-      "lore": "material-culture (grooming as a full material category)"
+      "lore": "material-culture (grooming as a full material category)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "pickling-and-sauce-house",
@@ -7896,7 +8230,9 @@
         3,
         5
       ],
-      "lore": "Lore:Argonian Cuisine"
+      "lore": "Lore:Argonian Cuisine",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "bonded-warehouse",
@@ -7975,7 +8311,18 @@
         3,
         6
       ],
-      "lore": "guilds-and-orders dossier (the EEC is gone; its wharves and bonded stores are not)"
+      "lore": "guilds-and-orders dossier (the EEC is gone; its wharves and bonded stores are not)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 250
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: attached to a port or a wharf"
+      }
     },
     {
       "type": "porter-relay-yard",
@@ -8048,7 +8395,9 @@
         1,
         4
       ],
-      "lore": "Lore:Black Marsh (Imperial roads made freight slower); Lore:Sea Transportation"
+      "lore": "Lore:Black Marsh (Imperial roads made freight slower); Lore:Sea Transportation",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "causeway",
@@ -8126,7 +8475,9 @@
         2,
         5
       ],
-      "lore": "Lore:Bogmother (the stone causeway from Stormhold); material-culture (buoyant timber causeways)"
+      "lore": "Lore:Bogmother (the stone causeway from Stormhold); material-culture (buoyant timber causeways)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "ford-post",
@@ -8196,7 +8547,9 @@
         14,
         20
       ],
-      "lore": "fauna-hazards dossier (a bridge can be under water for four days); traversal doctrine"
+      "lore": "fauna-hazards dossier (a bridge can be under water for four days); traversal doctrine",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "portage-slipway",
@@ -8267,7 +8620,9 @@
         1,
         4
       ],
-      "lore": "Lore:Seafalls (Arena gazetteer); Lore:Sea Transportation"
+      "lore": "Lore:Seafalls (Arena gazetteer); Lore:Sea Transportation",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "tide-timed-run",
@@ -8338,7 +8693,9 @@
         1,
         4
       ],
-      "lore": "module 50 (tides are calendared world state); the thinnest traversal gate in the taxonomy was fast transit"
+      "lore": "module 50 (tides are calendared world state); the thinnest traversal gate in the taxonomy was fast transit",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "toll-bridge",
@@ -8418,7 +8775,15 @@
         3,
         6
       ],
-      "lore": "labour-and-bondage dossier (every crossing has an owner); Lore:Keel-Sakka (the Tum-Taleel's bridge)"
+      "lore": "labour-and-bondage dossier (every crossing has an owner); Lore:Keel-Sakka (the Tum-Taleel's bridge)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "route": 60
+        },
+        "why": "siting.neighbourRelation: on the route graph; its owner lives within sight"
+      }
     },
     {
       "type": "toll-tower",
@@ -8492,7 +8857,9 @@
         1,
         4
       ],
-      "lore": "Lore:Black Marsh (toll-towns); openworld research (watchtower recipe: the reward is the view)"
+      "lore": "Lore:Black Marsh (toll-towns); openworld research (watchtower recipe: the reward is the view)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "canopy-crossing",
@@ -8561,7 +8928,9 @@
         1,
         4
       ],
-      "lore": "traversal: no canon tree-way network; treat arboreal routes as local, not a system"
+      "lore": "traversal: no canon tree-way network; treat arboreal routes as local, not a system",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "platform-ladder-tower",
@@ -8627,7 +8996,9 @@
         5,
         8
       ],
-      "lore": "Lore:Murkmire (platforms ascending high into the air); scour finding: no long sightlines below the rim"
+      "lore": "Lore:Murkmire (platforms ascending high into the air); scour finding: no long sightlines below the rim",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "walkway-junction",
@@ -8700,7 +9071,9 @@
         2,
         5
       ],
-      "lore": "asset inventory (the passerelles walkway kit: curving, climbing, branching); Lore:Murkmire"
+      "lore": "asset inventory (the passerelles walkway kit: curving, climbing, branching); Lore:Murkmire",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "ferry-stage",
@@ -8776,7 +9149,9 @@
         5,
         8
       ],
-      "lore": "Lore:Black Marsh (outsiders arrive by ferry behind an Argonian guide)"
+      "lore": "Lore:Black Marsh (outsiders arrive by ferry behind an Argonian guide)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "head-of-navigation",
@@ -8850,7 +9225,9 @@
         3,
         6
       ],
-      "lore": "region grammar: deep river corridor; Lore:Sea Transportation (small-draft craft are the province's freight)"
+      "lore": "region grammar: deep river corridor; Lore:Sea Transportation (small-draft craft are the province's freight)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "mooring-cluster",
@@ -8919,7 +9296,9 @@
         8,
         12
       ],
-      "lore": "Lore:Argonian Houseboat; drifting-village mooring model"
+      "lore": "Lore:Argonian Houseboat; drifting-village mooring model",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "night-shelter-platform",
@@ -8986,7 +9365,9 @@
         10,
         14
       ],
-      "lore": "Lore:Black Marsh (guides choose when to move and where to shelter)"
+      "lore": "Lore:Black Marsh (guides choose when to move and where to shelter)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "raft-landing",
@@ -9059,7 +9440,9 @@
         26,
         34
       ],
-      "lore": "Lore:Sea Transportation (small-draft craft are the fastest transport in Argonia)"
+      "lore": "Lore:Sea Transportation (small-draft craft are the fastest transport in Argonia)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "wharf",
@@ -9134,7 +9517,9 @@
         6,
         9
       ],
-      "lore": "Lore:East Empire Company; Lore:Archon"
+      "lore": "Lore:East Empire Company; Lore:Archon",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "monsoon-barrier",
@@ -9200,7 +9585,9 @@
         1,
         4
       ],
-      "lore": "Lore:Blackwood Road (closes in monsoon)"
+      "lore": "Lore:Blackwood Road (closes in monsoon)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "mountain-pass-station",
@@ -9272,7 +9659,9 @@
         1,
         4
       ],
-      "lore": "scour: a quarter of the interesting ground is on the rim, and it is the only ground with range; region grammar: border mountains"
+      "lore": "scour: a quarter of the interesting ground is on the rim, and it is the only ground with range; region grammar: border mountains",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "road-stage",
@@ -9344,7 +9733,15 @@
         3,
         6
       ],
-      "lore": "Lore:Blackwood Road; openworld research (waystation is deliberately safe)"
+      "lore": "Lore:Blackwood Road; openworld research (waystation is deliberately safe)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "route": 300
+        },
+        "why": "siting.neighbourRelation: day-travel spacing; something named within 300 m of the road"
+      }
     },
     {
       "type": "waymark-junction",
@@ -9418,7 +9815,9 @@
         22,
         30
       ],
-      "lore": "asset inventory §signage (all lettering is Imperial; Argonian wayfinding must be pictographic)"
+      "lore": "asset inventory §signage (all lettering is Imperial; Argonian wayfinding must be pictographic)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "waystation",
@@ -9493,7 +9892,9 @@
         16,
         22
       ],
-      "lore": "openworld research §3.2 (waystation recipe); Lore:Nisswo"
+      "lore": "openworld research §3.2 (waystation recipe); Lore:Nisswo",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "bubble-spire-exit",
@@ -9563,7 +9964,9 @@
         1,
         4
       ],
-      "lore": "Lore:Rootworm; hist-placement dossier"
+      "lore": "Lore:Rootworm; hist-placement dossier",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "rootworm-station",
@@ -9634,7 +10037,9 @@
         2,
         5
       ],
-      "lore": "Lore:Rootworm (the Underground Express); §12b rule: the southern terminus is wintertide-only"
+      "lore": "Lore:Rootworm (the Underground Express); §12b rule: the southern terminus is wintertide-only",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "air-pocket-station",
@@ -9698,7 +10103,9 @@
         1,
         4
       ],
-      "lore": "module 20 §12.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)"
+      "lore": "module 20 §12.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "canal-gate",
@@ -9768,7 +10175,9 @@
         4,
         6
       ],
-      "lore": "Lore:Ripper Eel (trained to hunt Argonians crossing Lilmoth's canals)"
+      "lore": "Lore:Ripper Eel (trained to hunt Argonians crossing Lilmoth's canals)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "dive-shaft",
@@ -9840,7 +10249,9 @@
         2,
         5
       ],
-      "lore": "acceptance rule: underwater POIs throughout appropriate regions; Lore:Lakemire Xanmeer"
+      "lore": "acceptance rule: underwater POIs throughout appropriate regions; Lore:Lakemire Xanmeer",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "flooded-passage",
@@ -9913,7 +10324,9 @@
         3,
         6
       ],
-      "lore": "Lore:Lilmoth (drowned quarter); acceptance rule: swimming creates access progression"
+      "lore": "Lore:Lilmoth (drowned quarter); acceptance rule: swimming creates access progression",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "dibella-house",
@@ -9977,7 +10390,9 @@
         1,
         2
       ],
-      "lore": "Lore:Gideon (the Dibellaseum in the old Martius manor); Lore:Kothringi"
+      "lore": "Lore:Gideon (the Dibellaseum in the old Martius manor); Lore:Kothringi",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "orphaned-conclave-hall",
@@ -10050,7 +10465,9 @@
         6,
         9
       ],
-      "lore": "Lore:Mages Guild (dissolved 4E); foreign-powers dossier (Conclave of the One, Riana, Charity, Brotherhood of Seth)"
+      "lore": "Lore:Mages Guild (dissolved 4E); foreign-powers dossier (Conclave of the One, Riana, Charity, Brotherhood of Seth)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "ruined-chapel",
@@ -10118,7 +10535,9 @@
         1,
         4
       ],
-      "lore": "Lore:Umpholo (the Maran mission died of swamp rot in a month)"
+      "lore": "Lore:Umpholo (the Maran mission died of swamp rot in a month)",
+      "footprintRadiusM": 35,
+      "footprintSource": "band"
     },
     {
       "type": "shunned-daedric-ruin",
@@ -10194,7 +10613,9 @@
         0,
         3
       ],
-      "lore": "Lore:Ten-Maur-Wolk; Lore:Haj Uxith (Molag Bal); Lore:Stillrise Village (Clavicus Vile)"
+      "lore": "Lore:Ten-Maur-Wolk; Lore:Haj Uxith (Molag Bal); Lore:Stillrise Village (Clavicus Vile)",
+      "footprintRadiusM": 60,
+      "footprintSource": "band"
     },
     {
       "type": "wayside-imperial-shrine",
@@ -10260,7 +10681,9 @@
         8,
         12
       ],
-      "lore": "Lore:Blackwood Road; asset inventory (19 wayshrine pieces)"
+      "lore": "Lore:Blackwood Road; asset inventory (19 wayshrine pieces)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "city-hist",
@@ -10331,7 +10754,18 @@
         6,
         8
       ],
-      "lore": "Lore:Hist; settlement-register (the eight majors' Hist states)"
+      "lore": "Lore:Hist; settlement-register (the eight majors' Hist states)",
+      "footprintRadiusM": 35,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 250
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: inside an M4 or M5 settlement"
+      }
     },
     {
       "type": "drowned-hist",
@@ -10398,7 +10832,15 @@
         0,
         3
       ],
-      "lore": "Lore:Blackrose (the drowned tree in the lake)"
+      "lore": "Lore:Blackrose (the drowned tree in the lake)",
+      "footprintRadiusM": 40,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 800
+        },
+        "why": "siting.neighbourRelation: tended from a nearby settlement"
+      }
     },
     {
       "type": "harmed-hist",
@@ -10470,7 +10912,15 @@
         2,
         5
       ],
-      "lore": "Lore:Hist Sap; Lore:Mazzatun (an enslaved Hist); hist-and-sap dossier (mnemic egg)"
+      "lore": "Lore:Hist Sap; Lore:Mazzatun (an enslaved Hist); hist-and-sap dossier (mnemic egg)",
+      "footprintRadiusM": 35,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 800
+        },
+        "why": "siting.neighbourRelation: beside a bereaved or sap-touched village"
+      }
     },
     {
       "type": "hero-hist-grove",
@@ -10539,7 +10989,9 @@
         5,
         8
       ],
-      "lore": "Lore:Hist; hist-placement dossier (the ten hero Hist)"
+      "lore": "Lore:Hist; hist-placement dossier (the ten hero Hist)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "village-hist",
@@ -10611,7 +11063,18 @@
         30,
         40
       ],
-      "lore": "Lore:Hist (most, though not all, settlements have one)"
+      "lore": "Lore:Hist (most, though not all, settlements have one)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 250
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: inside a village of M2 or above"
+      }
     },
     {
       "type": "wild-hist",
@@ -10680,7 +11143,15 @@
         2,
         5
       ],
-      "lore": "Lore:Hist (the eight Hist states); Lore:Lilmoth (the rogue Hist of 4E 48)"
+      "lore": "Lore:Hist (the eight Hist states); Lore:Lilmoth (the rogue Hist of 4E 48)",
+      "footprintRadiusM": 35,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: deliberately far from any living settlement"
+      }
     },
     {
       "type": "beast-offering-shrine",
@@ -10748,7 +11219,9 @@
         2,
         5
       ],
-      "lore": "Lore:Wamasu (Haynekhtnamet of Shadowfen received offerings to stop seasonal flooding)"
+      "lore": "Lore:Wamasu (Haynekhtnamet of Shadowfen received offerings to stop seasonal flooding)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "bonding-hall",
@@ -10816,7 +11289,9 @@
         5,
         8
       ],
-      "lore": "Lore:Bright-Throat (bonding guests, phlegmwine); Lore:Argonian (gender change celebrations)"
+      "lore": "Lore:Bright-Throat (bonding guests, phlegmwine); Lore:Argonian (gender change celebrations)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "convocation-ground",
@@ -10883,7 +11358,15 @@
         0,
         3
       ],
-      "lore": "§12b owner decision Q2 (the great Root Talk is an occasion, not a council); Lore:Hist-Tsoko"
+      "lore": "§12b owner decision Q2 (the great Root Talk is an occasion, not a council); Lore:Hist-Tsoko",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "sacred": 400
+        },
+        "why": "siting.neighbourRelation: at or beside a hero Hist or a capital"
+      }
     },
     {
       "type": "dream-wallow",
@@ -10950,7 +11433,21 @@
         3,
         6
       ],
-      "lore": "Lore:Bright-Throat; Lore:Naga-Kur (starblossom, red paint, the kaju kill)"
+      "lore": "Lore:Bright-Throat; Lore:Naga-Kur (starblossom, red paint, the kaju kill)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 120
+        },
+        "maxFromM": {
+          "settlement": 600
+        },
+        "outOfSightOf": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: a short walk from a village, out of its sight"
+      }
     },
     {
       "type": "maturity-trial-ground",
@@ -11022,7 +11519,18 @@
         1,
         4
       ],
-      "lore": "Lore:Argonian (Chukka-Sei, raj-nassa); Lore:Hissmir (Trials of the Burnished Scales); Lore:Naga-Kur"
+      "lore": "Lore:Argonian (Chukka-Sei, raj-nassa); Lore:Hissmir (Trials of the Burnished Scales); Lore:Naga-Kur",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 300
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: attached to a village or a pilgrim town"
+      }
     },
     {
       "type": "mourning-ground",
@@ -11092,7 +11600,9 @@
         6,
         9
       ],
-      "lore": "sky-moons-calendar dossier (Xeech, Hist-Tsoko and Xulomaht are the three Mournings)"
+      "lore": "sky-moons-calendar dossier (Xeech, Hist-Tsoko and Xulomaht are the three Mournings)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "naming-day-ground",
@@ -11155,7 +11665,9 @@
         10,
         14
       ],
-      "lore": "Lore:Argonian (Naming Day sap-taking sets gloor); hist-and-sap dossier"
+      "lore": "Lore:Argonian (Naming Day sap-taking sets gloor); hist-and-sap dossier",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "shadowscale-ground",
@@ -11232,7 +11744,15 @@
         2,
         5
       ],
-      "lore": "sithis-nisswo-shadowscales dossier; Lore:Shadowscales (children born under the Shadow); Lore:Kota-Vimleel (the Black-Tongues); the Archon sanctuary closed 4E 187"
+      "lore": "sithis-nisswo-shadowscales dossier; Lore:Shadowscales (children born under the Shadow); Lore:Kota-Vimleel (the Black-Tongues); the Archon sanctuary closed 4E 187",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: near a hatchery and a major city, deliberately unremarkable"
+      }
     },
     {
       "type": "art-and-destroy-site",
@@ -11297,7 +11817,9 @@
         2,
         5
       ],
-      "lore": "Lore:Nisswo (art made then destroyed); Lore:Sithis (Raj-Sithis the Changer)"
+      "lore": "Lore:Nisswo (art made then destroyed); Lore:Sithis (Raj-Sithis the Changer)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "meditation-stone",
@@ -11367,7 +11889,9 @@
         14,
         20
       ],
-      "lore": "Lore:Nisswo (black-onyx meditation stones)"
+      "lore": "Lore:Nisswo (black-onyx meditation stones)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "nisswo-rest-house",
@@ -11431,7 +11955,9 @@
         2,
         5
       ],
-      "lore": "Lore:Nisswo (welcome in almost every village)"
+      "lore": "Lore:Nisswo (welcome in almost every village)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "preaching-ground",
@@ -11501,7 +12027,9 @@
         12,
         16
       ],
-      "lore": "Lore:Nisswo (no central governance, no consistent doctrine, by design)"
+      "lore": "Lore:Nisswo (no central governance, no consistent doctrine, by design)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "sithis-temple",
@@ -11575,7 +12103,9 @@
         2,
         5
       ],
-      "lore": "Lore:Teeth of Sithis; Lore:Xul-Thuxis; Lore:Glenbridge; Lore:Duskfall"
+      "lore": "Lore:Teeth of Sithis; Lore:Xul-Thuxis; Lore:Glenbridge; Lore:Duskfall",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "bone-repatriation-waystation",
@@ -11641,7 +12171,9 @@
         4,
         7
       ],
-      "lore": "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison"
+      "lore": "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "cairn-field",
@@ -11706,7 +12238,15 @@
         1,
         4
       ],
-      "lore": "Lore:Kothringi (cairn burial, glass beads); Lore:Knahaten Flu"
+      "lore": "Lore:Kothringi (cairn burial, glass beads); Lore:Knahaten Flu",
+      "footprintRadiusM": 20,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "ruin": 500
+        },
+        "why": "siting.neighbourRelation: beside a lost-peoples ruin"
+      }
     },
     {
       "type": "foreign-graveyard",
@@ -11773,7 +12313,18 @@
         0,
         3
       ],
-      "lore": "Lore:Argonian (no Arkay's Blessing); Lore:Black Marsh (corpses rot too fast for necromancy)"
+      "lore": "Lore:Argonian (no Arkay's Blessing); Lore:Black Marsh (corpses rot too fast for necromancy)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 300
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: attached to a foreign settlement"
+      }
     },
     {
       "type": "grave-singers-yard",
@@ -11842,7 +12393,9 @@
         8,
         12
       ],
-      "lore": "Lore:Argonian (grave-singer); Lore:Naga-Kur (mortuary armoury)"
+      "lore": "Lore:Argonian (grave-singer); Lore:Naga-Kur (mortuary armoury)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "grave-stake-field",
@@ -11918,7 +12471,9 @@
         30,
         40
       ],
-      "lore": "§12b (grave-stakes are a province-wide interactable); Lore:Argonian (xul-vaat, bog blight)"
+      "lore": "§12b (grave-stakes are a province-wide interactable); Lore:Argonian (xul-vaat, bog blight)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "hammock-crown-terrace",
@@ -11986,7 +12541,9 @@
         3,
         6
       ],
-      "lore": "region grammar: raised hammock; Lore:Argonian (staking needs soft ground the hammock crown does not have)"
+      "lore": "region grammar: raised hammock; Lore:Argonian (staking needs soft ground the hammock crown does not have)",
+      "footprintRadiusM": 35,
+      "footprintSource": "band"
     },
     {
       "type": "mass-grave-memorial",
@@ -12061,7 +12618,9 @@
         5,
         8
       ],
-      "lore": "Lore:Umbriel; Lore:Knahaten Flu; Lore:Black Marsh (the Great Burn); Lore:Deepmire (the province's Umbriel memorial)"
+      "lore": "Lore:Umbriel; Lore:Knahaten Flu; Lore:Black Marsh (the Great Burn); Lore:Deepmire (the province's Umbriel memorial)",
+      "footprintRadiusM": 35,
+      "footprintSource": "band"
     },
     {
       "type": "pahnjee-rack",
@@ -12126,7 +12685,9 @@
         10,
         14
       ],
-      "lore": "fauna-hazards dossier (bog blight warded with pahnjees)"
+      "lore": "fauna-hazards dossier (bog blight warded with pahnjees)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "urn-vault",
@@ -12196,7 +12757,18 @@
         2,
         5
       ],
-      "lore": "Lore:Argonian (blasphemers bound to an urn and denied return)"
+      "lore": "Lore:Argonian (blasphemers bound to an urn and denied return)",
+      "footprintRadiusM": 35,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 150
+        },
+        "maxFromM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: deliberately outside a village's normal ground"
+      }
     },
     {
       "type": "murkwood-verge",
@@ -12266,7 +12838,9 @@
         0,
         3
       ],
-      "lore": "Lore:Murkwood (the forest that moves); Conclave of Baal and the Vaults of Gemin (quests 20 §12b)"
+      "lore": "Lore:Murkwood (the forest that moves); Conclave of Baal and the Vaults of Gemin (quests 20 §12b)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "umbriel-shadow-track",
@@ -12337,7 +12911,9 @@
         5,
         8
       ],
-      "lore": "Lore:Umbriel (4E 48, its path across Black Marsh); this type is the province's one genuinely long, legible linear feature"
+      "lore": "Lore:Umbriel (4E 48, its path across Black Marsh); this type is the province's one genuinely long, legible linear feature",
+      "footprintRadiusM": 35,
+      "footprintSource": "band"
     },
     {
       "type": "egg-log-house",
@@ -12398,7 +12974,9 @@
         3,
         5
       ],
-      "lore": "Lore:Argonian (every egg logged with parents, hatch date and star sign)"
+      "lore": "Lore:Argonian (every egg logged with parents, hatch date and star sign)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "play-ground",
@@ -12467,7 +13045,15 @@
         6,
         9
       ],
-      "lore": "Lore:Archon (children play underwater); Lore:Argonian (Marsh Tag, Sink Tag, Jaw Beetle Fight)"
+      "lore": "Lore:Archon (children play underwater); Lore:Argonian (Marsh Tag, Sink Tag, Jaw Beetle Fight)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 350
+        },
+        "why": "siting.neighbourRelation: inside or beside a settlement"
+      }
     },
     {
       "type": "uxith",
@@ -12538,7 +13124,9 @@
         22,
         30
       ],
-      "lore": "Lore:Argonian (uxith, egg-tenders, egg logs); Lore:Hatching Pools"
+      "lore": "Lore:Argonian (uxith, egg-tenders, egg logs); Lore:Hatching Pools",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "ball-court",
@@ -12616,7 +13204,9 @@
         10,
         14
       ],
-      "lore": "Lore:Teeba-Hatsei; Lore:Teeba-Enoo (Argonian ball games); sky-moons-calendar dossier"
+      "lore": "Lore:Teeba-Hatsei; Lore:Teeba-Enoo (Argonian ball games); sky-moons-calendar dossier",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "debate-circle",
@@ -12681,7 +13271,9 @@
         5,
         8
       ],
-      "lore": "sky-moons-calendar dossier (Shaja-Nushmeeko: adolescent gatherings and debate; Hist-Deek: airing injustices)"
+      "lore": "sky-moons-calendar dossier (Shaja-Nushmeeko: adolescent gatherings and debate; Hist-Deek: airing injustices)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "festival-ground",
@@ -12751,7 +13343,9 @@
         2,
         5
       ],
-      "lore": "sky-moons-calendar dossier (the calendar as a festival schedule)"
+      "lore": "sky-moons-calendar dossier (the calendar as a festival schedule)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "fighting-pit",
@@ -12821,7 +13415,9 @@
         2,
         4
       ],
-      "lore": "Lore:Gideon (the Ruction Ring); Lore:Circle of Champions (Helstrom's Pit Daemons)"
+      "lore": "Lore:Gideon (the Ruction Ring); Lore:Circle of Champions (Helstrom's Pit Daemons)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "performance-platform",
@@ -12893,7 +13489,9 @@
         6,
         9
       ],
-      "lore": "sky-moons-calendar dossier (Thtithil-Gah: travelling entertainers earn most of their year)"
+      "lore": "sky-moons-calendar dossier (Thtithil-Gah: travelling entertainers earn most of their year)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "placation-court",
@@ -12963,7 +13561,18 @@
         0,
         3
       ],
-      "lore": "§12b Alten Meerhleel (tribes placated with a Teeba-Enoo court)"
+      "lore": "§12b Alten Meerhleel (tribes placated with a Teeba-Enoo court)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 300
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: beside an outsider-facing settlement"
+      }
     },
     {
       "type": "tradehouse",
@@ -13043,7 +13652,9 @@
         6,
         9
       ],
-      "lore": "Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
+      "lore": "Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "vice-den",
@@ -13118,7 +13729,9 @@
         0,
         3
       ],
-      "lore": "Lore:Shells and Stones; material-culture (daril); labour-and-bondage dossier (debt becomes owing)"
+      "lore": "Lore:Shells and Stones; material-culture (daril); labour-and-bondage dossier (debt becomes owing)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "council-house",
@@ -13186,7 +13799,9 @@
         5,
         8
       ],
-      "lore": "Lore:Lilmoth (merchant council); Lore:Helstrom (assembly of naheesh and tree-minders)"
+      "lore": "Lore:Lilmoth (merchant council); Lore:Helstrom (assembly of naheesh and tree-minders)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "courier-relay",
@@ -13261,7 +13876,9 @@
         0,
         3
       ],
-      "lore": "Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
+      "lore": "Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "harbour-office",
@@ -13334,7 +13951,9 @@
         4,
         6
       ],
-      "lore": "Lore:Alten Corimont (captain of the port); Lore:Archon (harbour authority in EEC buildings)"
+      "lore": "Lore:Alten Corimont (captain of the port); Lore:Archon (harbour authority in EEC buildings)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "stipend-post",
@@ -13400,7 +14019,9 @@
         2,
         4
       ],
-      "lore": "argonia-4e201-state (a few hundred tribal irregulars on a state stipend)"
+      "lore": "argonia-4e201-state (a few hundred tribal irregulars on a state stipend)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "wardens-office",
@@ -13469,7 +14090,9 @@
         3,
         5
       ],
-      "lore": "Lore:An-Xileel; argonia-4e201-state (Archwardens, the Organism, the frontier screen)"
+      "lore": "Lore:An-Xileel; argonia-4e201-state (Archwardens, the Organism, the frontier screen)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "alchemists-court",
@@ -13537,7 +14160,9 @@
         6,
         9
       ],
-      "lore": "magic-practice dossier; Lore:Argonian (field medicine)"
+      "lore": "magic-practice dossier; Lore:Argonian (field medicine)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "elders-house",
@@ -13609,7 +14234,9 @@
         8,
         12
       ],
-      "lore": "Lore:Argonian (oral culture: the old ARE the archive); social-function axis, old age and disability"
+      "lore": "Lore:Argonian (oral culture: the old ARE the archive); social-function axis, old age and disability",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "pest-house",
@@ -13679,7 +14306,18 @@
         0,
         2
       ],
-      "lore": "fauna-hazards dossier (swamp rot, blood rot, greenspore); Lore:Knahaten Flu"
+      "lore": "fauna-hazards dossier (swamp rot, blood rot, greenspore); Lore:Knahaten Flu",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 200
+        },
+        "maxFromM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: 200-600 m outside an M3+ settlement"
+      }
     },
     {
       "type": "quarantine-shed",
@@ -13752,7 +14390,18 @@
         0,
         2
       ],
-      "lore": "Lore:Knahaten Flu; Lore:Slough Point (census and excise)"
+      "lore": "Lore:Knahaten Flu; Lore:Slough Point (census and excise)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 300
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: at a legal port or border crossing"
+      }
     },
     {
       "type": "withdrawal-house",
@@ -13821,7 +14470,15 @@
         0,
         3
       ],
-      "lore": "Lore:Hist Sap; material-culture (daril); sap-touched-village is the failure case this type exists to prevent"
+      "lore": "Lore:Hist Sap; material-culture (daril); sap-touched-village is the failure case this type exists to prevent",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 350
+        },
+        "why": "siting.neighbourRelation: just outside a settlement, near sap country"
+      }
     },
     {
       "type": "arbitration-ground",
@@ -13890,7 +14547,9 @@
         8,
         12
       ],
-      "lore": "Lore:Argonian (disputes to a mutually chosen arbitrator; no gaols, no treasury); Lore:Shadowscales (ku-vastei)"
+      "lore": "Lore:Argonian (disputes to a mutually chosen arbitrator; no gaols, no treasury); Lore:Shadowscales (ku-vastei)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "courthouse",
@@ -13958,7 +14617,9 @@
         1,
         3
       ],
-      "lore": "Lore:Gideon (the courthouse still functions); labour-and-bondage dossier"
+      "lore": "Lore:Gideon (the courthouse still functions); labour-and-bondage dossier",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "gallows-yard",
@@ -14026,7 +14687,9 @@
         4,
         6
       ],
-      "lore": "asset inventory (six gallows statics); labour-and-bondage dossier"
+      "lore": "asset inventory (six gallows statics); labour-and-bondage dossier",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "records-archive",
@@ -14094,7 +14757,9 @@
         3,
         5
       ],
-      "lore": "Lore:Gideon (the province's records city); engineering standard: restricted-door flag class"
+      "lore": "Lore:Gideon (the province's records city); engineering standard: restricted-door flag class",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "vicecanons-hall",
@@ -14158,7 +14823,9 @@
         3,
         4
       ],
-      "lore": "Lore:Stormhold (the Vicecanons, a 2E invention)"
+      "lore": "Lore:Stormhold (the Vicecanons, a 2E invention)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "apprentice-house",
@@ -14227,7 +14894,9 @@
         4,
         6
       ],
-      "lore": "Lore:Argonian (weaving and craft secrets closely guarded, hereditary)"
+      "lore": "Lore:Argonian (weaving and craft secrets closely guarded, hereditary)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "curators-chapterhouse",
@@ -14290,7 +14959,9 @@
         1,
         2
       ],
-      "lore": "Lore:Cyrodilic Collections (HQ Lilmoth, alcove at Stormhold, betrayed by Kassandra)"
+      "lore": "Lore:Cyrodilic Collections (HQ Lilmoth, alcove at Stormhold, betrayed by Kassandra)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "field-station",
@@ -14363,7 +15034,15 @@
         0,
         3
       ],
-      "lore": "Lore:Miregaunts of the Marsh (Black Marsh Exploration Society, Kratius Gray)"
+      "lore": "Lore:Miregaunts of the Marsh (Black Marsh Exploration Society, Kratius Gray)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 350
+        },
+        "why": "siting.neighbourRelation: deliberately near something interesting and far from help"
+      }
     },
     {
       "type": "library",
@@ -14437,7 +15116,9 @@
         0,
         3
       ],
-      "lore": "Lore:Gandranen (anachronistic library); Conclave of Baal and the Vaults of Gemin (§12b, Murkwood)"
+      "lore": "Lore:Gandranen (anachronistic library); Conclave of Baal and the Vaults of Gemin (§12b, Murkwood)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "storytelling-ground",
@@ -14510,7 +15191,9 @@
         14,
         20
       ],
-      "lore": "Lore:Jel; Lore:Argonian (oral transmission); build-out: song-line markers are a natural rumour-pool key"
+      "lore": "Lore:Jel; Lore:Argonian (oral transmission); build-out: song-line markers are a natural rumour-pool key",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "teaching-ground",
@@ -14580,7 +15263,15 @@
         8,
         12
       ],
-      "lore": "Lore:Argonian (deelith, raj-deelith, naheesh, Chukka-Sei); Lore:Jel (no past or future tense)"
+      "lore": "Lore:Argonian (deelith, raj-deelith, naheesh, Chukka-Sei); Lore:Jel (no past or future tense)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 350
+        },
+        "why": "siting.neighbourRelation: in or beside a village"
+      }
     },
     {
       "type": "unbuilt-museum-site",
@@ -14642,7 +15333,9 @@
         1,
         1
       ],
-      "lore": "Lore:Cyrodilic Collections (hoped to build a museum in Black Marsh; §12b notes it was never built)"
+      "lore": "Lore:Cyrodilic Collections (hoped to build a museum in Black Marsh; §12b notes it was never built)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "enchanters-bench",
@@ -14714,7 +15407,9 @@
         4,
         6
       ],
-      "lore": "Lore:Stormhold (filled crystals enchant, hollow ones hold corruption); Lore:Wamasu (bones hold a charge for years)"
+      "lore": "Lore:Stormhold (filled crystals enchant, hollow ones hold corruption); Lore:Wamasu (bones hold a charge for years)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "sign-readers-ground",
@@ -14788,7 +15483,9 @@
         14,
         20
       ],
-      "lore": "magic-practice dossier (magic as folk literacy; vastei as the progression currency) — the world-side anchor for the stats/progression workstream"
+      "lore": "magic-practice dossier (magic as folk literacy; vastei as the progression currency) — the world-side anchor for the stats/progression workstream",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "synod-outstation",
@@ -14860,7 +15557,18 @@
         0,
         3
       ],
-      "lore": "Lore:Synod; guilds-and-orders dossier (the Mages Guild dissolved; the Synod and the College of Whispers inherited)"
+      "lore": "Lore:Synod; guilds-and-orders dossier (the Mages Guild dissolved; the Synod and the College of Whispers inherited)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 400
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: in or near a northern city; rival to the Whispers"
+      }
     },
     {
       "type": "whispers-house",
@@ -14932,7 +15640,9 @@
         0,
         2
       ],
-      "lore": "Lore:College of Whispers (secretive, no public chapters); Lore:Umbriel (what they are here for)"
+      "lore": "Lore:College of Whispers (secretive, no public chapters); Lore:Umbriel (what they are here for)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "foreign-quarter",
@@ -15008,7 +15718,9 @@
         4,
         6
       ],
-      "lore": "Lore:Thorn (large Dunmer minority); Lore:Soulrest (the most racially mixed city); Lore:Khajiit"
+      "lore": "Lore:Thorn (large Dunmer minority); Lore:Soulrest (the most racially mixed city); Lore:Khajiit",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "slum-quarter",
@@ -15082,7 +15794,9 @@
         4,
         6
       ],
-      "lore": "Lore:Pusbottom; guilds-and-orders dossier (Pusbottom and Alten Corimont as the native thieves-guild equivalents)"
+      "lore": "Lore:Pusbottom; guilds-and-orders dossier (Pusbottom and Alten Corimont as the native thieves-guild equivalents)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "dry-cache",
@@ -15156,7 +15870,9 @@
         24,
         32
       ],
-      "lore": "module 20 §12.3b (refuge and fixedLoot reward types)"
+      "lore": "module 20 §12.3b (refuge and fixedLoot reward types)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "hearth-house",
@@ -15231,7 +15947,15 @@
         0,
         2
       ],
-      "lore": "Lore:Argonian (a comer cannot be refused); pacing: a hostile province needs a safety floor outside its cities"
+      "lore": "Lore:Argonian (a comer cannot be refused); pacing: a hostile province needs a safety floor outside its cities",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "route": 250
+        },
+        "why": "siting.neighbourRelation: chained along routes at a day's travel; the province's D0 floor outside cities"
+      }
     },
     {
       "type": "refuge-station",
@@ -15300,7 +16024,18 @@
         1,
         4
       ],
-      "lore": "§12b Deepmire, the Refuge (a D4 destination with an approach route)"
+      "lore": "§12b Deepmire, the Refuge (a D4 destination with an approach route)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 450
+        },
+        "maxFromM": {
+          "route": 300
+        },
+        "why": "siting.neighbourRelation: deliberately remote; an approach route exists and is maintained"
+      }
     },
     {
       "type": "storm-shelter",
@@ -15372,7 +16107,9 @@
         0,
         3
       ],
-      "lore": "climate fields (sea squalls, orographic rain); module 20 §12.3b refuge reward type"
+      "lore": "climate fields (sea squalls, orographic rain); module 20 §12.3b refuge reward type",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "failed-drainage-works",
@@ -15437,7 +16174,9 @@
         5,
         8
       ],
-      "lore": "Lore:Black Marsh (forty years and millions of gold of Imperial road, bridge and drainage investment made freight slower)"
+      "lore": "Lore:Black Marsh (forty years and millions of gold of Imperial road, bridge and drainage investment made freight slower)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "latrine-stage",
@@ -15500,7 +16239,9 @@
         6,
         10
       ],
-      "lore": "material-culture; region grammar (waste in a saturated landscape)"
+      "lore": "material-culture; region grammar (waste in a saturated landscape)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "midden",
@@ -15569,7 +16310,9 @@
         12,
         16
       ],
-      "lore": "material-culture (organic material culture); region grammar"
+      "lore": "material-culture (organic material culture); region grammar",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "holding-pit",
@@ -15639,7 +16382,18 @@
         3,
         6
       ],
-      "lore": "Lore:Argonian (no gaols); labour-and-bondage dossier (the Owing's drift)"
+      "lore": "Lore:Argonian (no gaols); labour-and-bondage dossier (the Owing's drift)",
+      "footprintRadiusM": 40,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 300
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: attached to a hard-owing estate or crossing"
+      }
     },
     {
       "type": "prison-ruin",
@@ -15711,7 +16465,15 @@
         0,
         3
       ],
-      "lore": "§12b White Rose Prison (abandoned, structurally sound, full of Argonian dead)"
+      "lore": "§12b White Rose Prison (abandoned, structurally sound, full of Argonian dead)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: far from everything, by design"
+      }
     },
     {
       "type": "reoccupied-prison",
@@ -15786,7 +16548,9 @@
         0,
         3
       ],
-      "lore": "Lore:Blackrose Prison (raised in a day by Pelladil Direnni; the Blackguards' heirs)"
+      "lore": "Lore:Blackrose Prison (raised in a day by Pelladil Direnni; the Blackguards' heirs)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "sealed-facility",
@@ -15852,7 +16616,9 @@
         1,
         2
       ],
-      "lore": "§12b the Archon Shadowscale facility (closed 4E 187, standing, sealed)"
+      "lore": "§12b the Archon Shadowscale facility (closed 4E 187, standing, sealed)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "slaver-apparatus",
@@ -15923,7 +16689,9 @@
         1,
         4
       ],
-      "lore": "Lore:House Dres; Lore:Archein; labour-and-bondage dossier (slavery ended; only the apparatus remains)"
+      "lore": "Lore:House Dres; Lore:Archein; labour-and-bondage dossier (slavery ended; only the apparatus remains)",
+      "footprintRadiusM": 40,
+      "footprintSource": "band"
     },
     {
       "type": "abandoned-fort",
@@ -15997,7 +16765,9 @@
         2,
         5
       ],
-      "lore": "module 20 §11 (the six-stage foreign-infrastructure life cycle)"
+      "lore": "module 20 §11 (the six-stage foreign-infrastructure life cycle)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "battlefield-ground",
@@ -16067,7 +16837,15 @@
         1,
         4
       ],
-      "lore": "Lore:Battle of Argonia (1E 2811); Lore:Xi-Tsei Massacre (1E 2820)"
+      "lore": "Lore:Battle of Argonia (1E 2811); Lore:Xi-Tsei Massacre (1E 2820)",
+      "footprintRadiusM": 40,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "route": 400
+        },
+        "why": "siting.neighbourRelation: at a xanmeer, a crossing or a road"
+      }
     },
     {
       "type": "buried-weapon-cache",
@@ -16129,7 +16907,15 @@
         1,
         4
       ],
-      "lore": "Lore:Blackwater War (1E 2836: Argonians stop fighting and bury their weapons)"
+      "lore": "Lore:Blackwater War (1E 2836: Argonians stop fighting and bury their weapons)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "martial": 800
+        },
+        "why": "siting.neighbourRelation: near a battlefield or a village of the period"
+      }
     },
     {
       "type": "occupied-fort",
@@ -16204,7 +16990,9 @@
         0,
         3
       ],
-      "lore": "Lore:Fort Swampmoth (held, but not by the Empire); Lore:Oblivion Crisis (legions rumoured recalled)"
+      "lore": "Lore:Fort Swampmoth (held, but not by the Empire); Lore:Oblivion Crisis (legions rumoured recalled)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "siege-earthworks",
@@ -16268,7 +17056,9 @@
         1,
         4
       ],
-      "lore": "Lore:Blackrose (Welloc's siege earthworks)"
+      "lore": "Lore:Blackrose (Welloc's siege earthworks)",
+      "footprintRadiusM": 40,
+      "footprintSource": "band"
     },
     {
       "type": "defenders-hall",
@@ -16338,7 +17128,9 @@
         3,
         5
       ],
-      "lore": "Lore:Stonewastes (the Four Winds, active since their ancestors erected their first hut)"
+      "lore": "Lore:Stonewastes (the Four Winds, active since their ancestors erected their first hut)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "drill-ground",
@@ -16404,7 +17196,15 @@
         4,
         6
       ],
-      "lore": "Lore:Argonian (foremost experts in guerrilla warfare in Tamriel)"
+      "lore": "Lore:Argonian (foremost experts in guerrilla warfare in Tamriel)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 350
+        },
+        "why": "siting.neighbourRelation: beside a settlement"
+      }
     },
     {
       "type": "inhabited-xanmeer-fort",
@@ -16479,7 +17279,9 @@
         2,
         5
       ],
-      "lore": "Lore:Xanmeer (~20% inhabited; inhabited for their walls and still-working ancient defences)"
+      "lore": "Lore:Xanmeer (~20% inhabited; inhabited for their walls and still-working ancient defences)",
+      "footprintRadiusM": 115,
+      "footprintSource": "band"
     },
     {
       "type": "levy-armoury",
@@ -16543,7 +17345,9 @@
         5,
         8
       ],
-      "lore": "argonia-4e201-state (shellback city levies, not a standing army)"
+      "lore": "argonia-4e201-state (shellback city levies, not a standing army)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "totem-perimeter",
@@ -16611,7 +17415,9 @@
         10,
         14
       ],
-      "lore": "Lore:Hutan-Tzel (rune-carved totems that attract dangerous creatures if meddled with)"
+      "lore": "Lore:Hutan-Tzel (rune-carved totems that attract dangerous creatures if meddled with)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "beacon-platform",
@@ -16681,7 +17487,9 @@
         8,
         12
       ],
-      "lore": "scour finding: nothing 12 m tall reads at 1.4 km — landmarks must be tall, close, or lit"
+      "lore": "scour finding: nothing 12 m tall reads at 1.4 km — landmarks must be tall, close, or lit",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "border-post",
@@ -16751,7 +17559,9 @@
         1,
         4
       ],
-      "lore": "argonia-4e201-state (occasional patrols; every 4E 201 data point is about withdrawal)"
+      "lore": "argonia-4e201-state (occasional patrols; every 4E 201 data point is about withdrawal)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "deniable-listening-post",
@@ -16828,7 +17638,9 @@
         0,
         3
       ],
-      "lore": "foreign-powers dossier (Thalmor); argonia-4e201-state (the Veiled Reed); guilds-and-orders dossier"
+      "lore": "foreign-powers dossier (Thalmor); argonia-4e201-state (the Veiled Reed); guilds-and-orders dossier",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "lighthouse",
@@ -16902,7 +17714,9 @@
         1,
         4
       ],
-      "lore": "Lore:Sea Transportation; wrecker tradition (foreign-powers dossier)"
+      "lore": "Lore:Sea Transportation; wrecker tradition (foreign-powers dossier)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "patrol-shelter",
@@ -16968,7 +17782,9 @@
         8,
         12
       ],
-      "lore": "argonia-4e201-state (the frontier screen)"
+      "lore": "argonia-4e201-state (the frontier screen)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "watchtower",
@@ -17043,7 +17859,9 @@
         3,
         6
       ],
-      "lore": "openworld research §3.2 (watchtower: the reward is the view); scour: only the rim has range"
+      "lore": "openworld research §3.2 (watchtower: the reward is the view); scour: only the rim has range",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "fishing-camp",
@@ -17118,7 +17936,9 @@
         24,
         32
       ],
-      "lore": "Lore:Tide-Born (small-draft boats out at first light); Lore:Oliis Bay"
+      "lore": "Lore:Tide-Born (small-draft boats out at first light); Lore:Oliis Bay",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "gatherers-camp",
@@ -17188,7 +18008,9 @@
         14,
         20
       ],
-      "lore": "Lore:Black Marsh (lumberries harvested in Last Seed); material-culture"
+      "lore": "Lore:Black Marsh (lumberries harvested in Last Seed); material-culture",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "guide-camp",
@@ -17257,7 +18079,9 @@
         2,
         5
       ],
-      "lore": "Lore:Black Marsh (guides choose when to move and refuse to stop where you want)"
+      "lore": "Lore:Black Marsh (guides choose when to move and refuse to stop where you want)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "hunters-stand",
@@ -17330,7 +18154,9 @@
         16,
         22
       ],
-      "lore": "openworld research §3.1 (the Bear Hunter's Camp satellite pattern)"
+      "lore": "openworld research §3.1 (the Bear Hunter's Camp satellite pattern)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "pilgrim-camp",
@@ -17400,7 +18226,9 @@
         3,
         6
       ],
-      "lore": "Lore:Hissmir; sky-moons-calendar dossier"
+      "lore": "Lore:Hissmir; sky-moons-calendar dossier",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "prospectors-camp",
@@ -17473,7 +18301,15 @@
         1,
         4
       ],
-      "lore": "Lore:Stormhold (crystals); Lore:Jasper"
+      "lore": "Lore:Stormhold (crystals); Lore:Jasper",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "works": 800
+        },
+        "why": "siting.neighbourRelation: near a known extraction district"
+      }
     },
     {
       "type": "bone-carriers-camp",
@@ -17539,7 +18375,9 @@
         0,
         2
       ],
-      "lore": "Lore:Argonian (bones brought to the dirt); Blackrose Chainbreakers (quest plan)"
+      "lore": "Lore:Argonian (bones brought to the dirt); Blackrose Chainbreakers (quest plan)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "owing-eviction-camp",
@@ -17602,7 +18440,15 @@
         2,
         5
       ],
-      "lore": "labour-and-bondage dossier (owings extendable, transferable, heritable in fact)"
+      "lore": "labour-and-bondage dossier (owings extendable, transferable, heritable in fact)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 300
+        },
+        "why": "siting.neighbourRelation: immediately outside an estate village"
+      }
     },
     {
       "type": "refugee-camp",
@@ -17672,7 +18518,15 @@
         0,
         3
       ],
-      "lore": "module 92 demographics; fauna-hazards dossier (seasonal flooding)"
+      "lore": "module 92 demographics; fauna-hazards dossier (seasonal flooding)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 350
+        },
+        "why": "siting.neighbourRelation: just outside a settlement that has not taken them in"
+      }
     },
     {
       "type": "vigil-camp",
@@ -17738,7 +18592,9 @@
         0,
         3
       ],
-      "lore": "argonia-4e201-state (the Wild Ones as a constituency)"
+      "lore": "argonia-4e201-state (the Wild Ones as a constituency)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "dig-camp",
@@ -17811,7 +18667,15 @@
         2,
         5
       ],
-      "lore": "Lore:Cyrodilic Collections; Lore:College of Whispers"
+      "lore": "Lore:Cyrodilic Collections; Lore:College of Whispers",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "ruin": 500
+        },
+        "why": "siting.neighbourRelation: always beside a ruin"
+      }
     },
     {
       "type": "survey-camp",
@@ -17883,7 +18747,9 @@
         0,
         3
       ],
-      "lore": "module 20 §11 (foreign infrastructure surveyed and imposed); Lore:Black Marsh (failed Imperial works)"
+      "lore": "module 20 §11 (foreign infrastructure surveyed and imposed); Lore:Black Marsh (failed Imperial works)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "treasure-hunters-camp",
@@ -17957,7 +18823,15 @@
         2,
         5
       ],
-      "lore": "openworld research §3.1 (the satellite node that resolves the implied story)"
+      "lore": "openworld research §3.1 (the satellite node that resolves the implied story)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "ruin": 500
+        },
+        "why": "siting.neighbourRelation: beside a notable ruin or hard-to-reach landform"
+      }
     },
     {
       "type": "blackguard-hideout",
@@ -18029,7 +18903,15 @@
         6,
         9
       ],
-      "lore": "Lore:Blackrose Prison (the Blackguards' heirs, prison-descended three generations)"
+      "lore": "Lore:Blackrose Prison (the Blackguards' heirs, prison-descended three generations)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 400
+        },
+        "why": "macro_plot city-ring ruling: a hostile camp at a city gate is a mistake, not a challenge (was score-only until 2026-09-09)"
+      }
     },
     {
       "type": "cult-raid-camp",
@@ -18100,7 +18982,9 @@
         3,
         6
       ],
-      "lore": "Lore:Sul-Xan (jade death masks, green raider tattoos, soul-snares; Xi-Tsei, Rockgrove, the Silent Halls)"
+      "lore": "Lore:Sul-Xan (jade death masks, green raider tattoos, soul-snares; Xi-Tsei, Rockgrove, the Silent Halls)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "naga-highway-camp",
@@ -18173,7 +19057,9 @@
         6,
         9
       ],
-      "lore": "Lore:Naga (the majority of native brigands and highwaymen; they leave when merchants stop coming)"
+      "lore": "Lore:Naga (the majority of native brigands and highwaymen; they leave when merchants stop coming)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "pirate-anchorage",
@@ -18247,7 +19133,15 @@
         2,
         5
       ],
-      "lore": "Lore:Pirates of Topal Bay; Lore:Lucinia Falco (letters of marque, 1E 2833)"
+      "lore": "Lore:Pirates of Topal Bay; Lore:Lucinia Falco (letters of marque, 1E 2833)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "route": 300
+        },
+        "why": "siting.neighbourRelation: near a shipping lane it can reach and leave"
+      }
     },
     {
       "type": "poacher-camp",
@@ -18322,7 +19216,18 @@
         3,
         6
       ],
-      "lore": "Lore:Hist Sap; Lore:Marsh Giant (killing one is an ecological and religious offence)"
+      "lore": "Lore:Hist Sap; Lore:Marsh Giant (killing one is an ecological and religious offence)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 150
+        },
+        "maxFromM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: just outside a village's watched ground"
+      }
     },
     {
       "type": "safehouse-drop",
@@ -18396,7 +19301,9 @@
         10,
         14
       ],
-      "lore": "argonia-4e201-state (the Veiled Reed); labour-and-bondage dossier (the Chainbreakers' routes)"
+      "lore": "argonia-4e201-state (the Veiled Reed); labour-and-bondage dossier (the Chainbreakers' routes)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "wrecker-beach",
@@ -18463,7 +19370,9 @@
         1,
         4
       ],
-      "lore": "foreign-powers dossier (a coast with trade implies wreckers); Lore:Sea Transportation"
+      "lore": "foreign-powers dossier (a coast with trade implies wreckers); Lore:Sea Transportation",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "barsaebic-compound",
@@ -18533,7 +19442,9 @@
         2,
         5
       ],
-      "lore": "Lore:Barsaebic Ayleids; Lore:Silyanorn; Lore:Twyllbek Ruins"
+      "lore": "Lore:Barsaebic Ayleids; Lore:Silyanorn; Lore:Twyllbek Ruins",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "fenlord-tomb",
@@ -18599,7 +19510,15 @@
         1,
         4
       ],
-      "lore": "Lore:Ayleids; Lore:Barsaebic Ayleids"
+      "lore": "Lore:Ayleids; Lore:Barsaebic Ayleids",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "ruin": 800
+        },
+        "why": "siting.neighbourRelation: near a Barsaebic compound"
+      }
     },
     {
       "type": "keystone-chamber",
@@ -18663,7 +19582,9 @@
         1,
         4
       ],
-      "lore": "Lore:Ayleid Wells; quest-provision keystone pattern (§13 typed provisions)"
+      "lore": "Lore:Ayleid Wells; quest-provision keystone pattern (§13 typed provisions)",
+      "footprintRadiusM": 50,
+      "footprintSource": "band"
     },
     {
       "type": "lamia-cavern",
@@ -18731,7 +19652,18 @@
         0,
         3
       ],
-      "lore": "Lore:Lamia; Lore:Loriasel"
+      "lore": "Lore:Lamia; Lore:Loriasel",
+      "footprintRadiusM": 90,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "ruin": 300
+        },
+        "mayAbut": [
+          "ruin"
+        ],
+        "why": "siting.neighbourRelation: beneath or beside an Ayleid ruin"
+      }
     },
     {
       "type": "ring-complex",
@@ -18796,7 +19728,9 @@
         0,
         3
       ],
-      "lore": "Lore:Ayleids; module 20 §11 (historical layers must stay distinguishable)"
+      "lore": "Lore:Ayleids; module 20 §11 (historical layers must stay distinguishable)",
+      "footprintRadiusM": 55,
+      "footprintSource": "band"
     },
     {
       "type": "bargain-site",
@@ -18868,7 +19802,9 @@
         0,
         3
       ],
-      "lore": "Lore:Stillrise Village (Clavicus Vile's bargain); Lore:Ten-Maur-Wolk"
+      "lore": "Lore:Stillrise Village (Clavicus Vile's bargain); Lore:Ten-Maur-Wolk",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "oblivion-gate-scar",
@@ -18936,7 +19872,15 @@
         0,
         3
       ],
-      "lore": "Lore:Oblivion Crisis (the Argonians invaded Oblivion through the gates); Lore:Black Marsh"
+      "lore": "Lore:Oblivion Crisis (the Argonians invaded Oblivion through the gates); Lore:Black Marsh",
+      "footprintRadiusM": 55,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 800
+        },
+        "why": "siting.neighbourRelation: near settlements that existed in 3E 433"
+      }
     },
     {
       "type": "sap-collection-facility",
@@ -19006,7 +19950,9 @@
         0,
         3
       ],
-      "lore": "Lore:Haj Uxith (Molag Bal's sap harvest); Lore:Hist Sap"
+      "lore": "Lore:Haj Uxith (Molag Bal's sap harvest); Lore:Hist Sap",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "burn-scar-village",
@@ -19070,7 +20016,9 @@
         3,
         6
       ],
-      "lore": "Lore:Black Marsh (Legate Elissia Mallicius set the marsh alight, 1E 2828; parts still burn)"
+      "lore": "Lore:Black Marsh (Legate Elissia Mallicius set the marsh alight, 1E 2828; parts still burn)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "drowned-village",
@@ -19146,7 +20094,15 @@
         5,
         8
       ],
-      "lore": "Lore:Lilmoth (the drowned quarter); acceptance rule: underwater POIs throughout appropriate regions"
+      "lore": "Lore:Lilmoth (the drowned quarter); acceptance rule: underwater POIs throughout appropriate regions",
+      "footprintRadiusM": 65,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 500
+        },
+        "why": "siting.neighbourRelation: below a living settlement, or beside one that watched it go"
+      }
     },
     {
       "type": "plague-abandoned-village",
@@ -19219,7 +20175,9 @@
         4,
         7
       ],
-      "lore": "Lore:Knahaten Flu (2E 560-603; the Argonians alone were immune)"
+      "lore": "Lore:Knahaten Flu (2E 560-603; the Argonians alone were immune)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "plague-cordon-line",
@@ -19290,7 +20248,9 @@
         2,
         5
       ],
-      "lore": "Lore:Knahaten Flu (2E 560-603, wiped out the Kothringi, Lilmothiit and Horwalli)"
+      "lore": "Lore:Knahaten Flu (2E 560-603, wiped out the Kothringi, Lilmothiit and Horwalli)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "rebuilt-elsewhere-footprint",
@@ -19362,7 +20322,9 @@
         16,
         22
       ],
-      "lore": "Lore:Black Marsh (most villages do not stay put; the moving village is the norm)"
+      "lore": "Lore:Black Marsh (most villages do not stay put; the moving village is the norm)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "subsidence-hamlet",
@@ -19428,7 +20390,9 @@
         3,
         6
       ],
-      "lore": "scour finding: sinkholes are genuinely rare (11) — spend this type sparingly; Lore:Black Marsh (the Great Burn)"
+      "lore": "scour finding: sinkholes are genuinely rare (11) — spend this type sparingly; Lore:Black Marsh (the Great Burn)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "umbriel-stripped-village",
@@ -19499,7 +20463,9 @@
         3,
         6
       ],
-      "lore": "Lore:Umbriel (4E 48; the dead rose and walked); argonia-4e201-state"
+      "lore": "Lore:Umbriel (4E 48; the dead rose and walked); argonia-4e201-state",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "derelict-plantation",
@@ -19568,7 +20534,9 @@
         3,
         6
       ],
-      "lore": "Lore:Hereguard Plantation; Lore:Archein; Lore:Black Marsh (no cash-crop economy is possible)"
+      "lore": "Lore:Hereguard Plantation; Lore:Archein; Lore:Black Marsh (no cash-crop economy is possible)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "ducal-ruin",
@@ -19636,7 +20604,9 @@
         0,
         3
       ],
-      "lore": "Lore:Giovesse (Arena gazetteer); module 20 §11 (imposed foreign infrastructure)"
+      "lore": "Lore:Giovesse (Arena gazetteer); module 20 §11 (imposed foreign infrastructure)",
+      "footprintRadiusM": 65,
+      "footprintSource": "band"
     },
     {
       "type": "empty-mission",
@@ -19699,7 +20669,9 @@
         1,
         4
       ],
-      "lore": "Lore:Umpholo (the mission died of swamp rot within a month)"
+      "lore": "Lore:Umpholo (the mission died of swamp rot within a month)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "failed-roadworks",
@@ -19770,7 +20742,9 @@
         3,
         6
       ],
-      "lore": "Lore:Black Marsh (Imperial roads, bridges and drainage made freight slower)"
+      "lore": "Lore:Black Marsh (Imperial roads, bridges and drainage made freight slower)",
+      "footprintRadiusM": 50,
+      "footprintSource": "band"
     },
     {
       "type": "sacked-colonial-quarter",
@@ -19835,7 +20809,18 @@
         1,
         4
       ],
-      "lore": "Lore:Accession War; foreign-powers dossier"
+      "lore": "Lore:Accession War; foreign-powers dossier",
+      "footprintRadiusM": 65,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 250
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: attached to a living settlement that does not talk about it"
+      }
     },
     {
       "type": "second-empire-works",
@@ -19906,7 +20891,18 @@
         1,
         4
       ],
-      "lore": "Lore:Blackrose Prison (Second Empire, raised in a day by Pelladil Direnni); Lore:Reman Empire; Lore:Akaviri"
+      "lore": "Lore:Blackrose Prison (Second Empire, raised in a day by Pelladil Direnni); Lore:Reman Empire; Lore:Akaviri",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "works": 300
+        },
+        "mayAbut": [
+          "works"
+        ],
+        "why": "siting.neighbourRelation: under or beside later Imperial works"
+      }
     },
     {
       "type": "sunken-house",
@@ -19972,7 +20968,9 @@
         8,
         12
       ],
-      "lore": "Lore:Black Marsh (Imperial houses on the same soil sank)"
+      "lore": "Lore:Black Marsh (Imperial houses on the same soil sank)",
+      "footprintRadiusM": 40,
+      "footprintSource": "band"
     },
     {
       "type": "cantemiric-velothi-site",
@@ -20039,7 +21037,9 @@
         0,
         3
       ],
-      "lore": "Lore:Cantemiric Velothi (lost people of the Black Marsh seaboard)"
+      "lore": "Lore:Cantemiric Velothi (lost people of the Black Marsh seaboard)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "horwalli-waterworks",
@@ -20110,7 +21110,9 @@
         0,
         3
       ],
-      "lore": "Lore:Horwalli (a lost people of Black Marsh); module 50 (hydrology first)"
+      "lore": "Lore:Horwalli (a lost people of Black Marsh); module 50 (hydrology first)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "kothringi-ruin",
@@ -20184,7 +21186,9 @@
         3,
         6
       ],
-      "lore": "Lore:Kothringi (silver-skinned, wiped out by the Knahaten Flu 2E 560); Lore:Knahaten Flu"
+      "lore": "Lore:Kothringi (silver-skinned, wiped out by the Knahaten Flu 2E 560); Lore:Knahaten Flu",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "lilmothiit-substratum",
@@ -20249,7 +21253,18 @@
         0,
         3
       ],
-      "lore": "Lore:Lilmothiit (vulpine, vanished after the Knahaten Flu; Lilmoth named for them)"
+      "lore": "Lore:Lilmothiit (vulpine, vanished after the Knahaten Flu; Lilmoth named for them)",
+      "footprintRadiusM": 55,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 300
+        },
+        "mayAbut": [
+          "settlement"
+        ],
+        "why": "siting.neighbourRelation: beneath or beside a currently occupied place"
+      }
     },
     {
       "type": "orma-tactile-ruin",
@@ -20316,7 +21331,15 @@
         0,
         3
       ],
-      "lore": "Lore:Orma (a blind people of Black Marsh); lost-peoples dossier"
+      "lore": "Lore:Orma (a blind people of Black Marsh); lost-peoples dossier",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 500
+        },
+        "why": "siting.neighbourRelation: deliberately isolated; the Orma left almost nothing"
+      }
     },
     {
       "type": "yespest-misattributed-site",
@@ -20381,7 +21404,15 @@
         0,
         2
       ],
-      "lore": "Lore:Yespest (a lost people of Black Marsh); lore golden rule: the province argues with itself about its own history"
+      "lore": "Lore:Yespest (a lost people of Black Marsh); lore golden rule: the province argues with itself about its own history",
+      "footprintRadiusM": 55,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: near a settlement that tells the story wrong"
+      }
     },
     {
       "type": "broken-xanmeer",
@@ -20452,7 +21483,9 @@
         3,
         6
       ],
-      "lore": "Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)"
+      "lore": "Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "duskfall-horizon-site",
@@ -20527,7 +21560,9 @@
         1,
         4
       ],
-      "lore": "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) — this type is where that rule is visibly made"
+      "lore": "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) — this type is where that rule is visibly made",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "sealed-xanmeer",
@@ -20598,7 +21633,9 @@
         4,
         7
       ],
-      "lore": "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone"
+      "lore": "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "submerged-xanmeer",
@@ -20673,7 +21710,9 @@
         5,
         8
       ],
-      "lore": "Lore:Lakemire Xanmeer; Lore:Ixtaxh Xanmeer (re-drowned but for the topmost chamber)"
+      "lore": "Lore:Lakemire Xanmeer; Lore:Ixtaxh Xanmeer (re-drowned but for the topmost chamber)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "tended-xanmeer",
@@ -20747,7 +21786,9 @@
         4,
         7
       ],
-      "lore": "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)"
+      "lore": "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "bird-colony",
@@ -20821,7 +21862,15 @@
         3,
         6
       ],
-      "lore": "tone axis: beauty that is alive rather than geological; ecology-encounters-loot feed"
+      "lore": "tone axis: beauty that is alive rather than geological; ecology-encounters-loot feed",
+      "footprintRadiusM": 30,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "settlement": 800
+        },
+        "why": "siting.neighbourRelation: worked seasonally from a nearby settlement"
+      }
     },
     {
       "type": "bog-blight-ground",
@@ -20890,7 +21939,15 @@
         3,
         6
       ],
-      "lore": "Lore:Argonian (pulling a grave-stake raises a bog blight); fauna-hazards dossier (pahnjees)"
+      "lore": "Lore:Argonian (pulling a grave-stake raises a bog blight); fauna-hazards dossier (pahnjees)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "sacred": 400
+        },
+        "why": "siting.neighbourRelation: at or beside a grave-stake field"
+      }
     },
     {
       "type": "crocodile-ravine",
@@ -20962,7 +22019,9 @@
         10,
         14
       ],
-      "lore": "Lore:Dead-Water (crocodile-keeping); fauna-hazards dossier"
+      "lore": "Lore:Dead-Water (crocodile-keeping); fauna-hazards dossier",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "death-hopper-pool",
@@ -21028,7 +22087,9 @@
         8,
         12
       ],
-      "lore": "fauna-hazards dossier (death hoppers, depth sticks)"
+      "lore": "fauna-hazards dossier (death hoppers, depth sticks)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "dry-season-herd-ground",
@@ -21095,7 +22156,9 @@
         1,
         4
       ],
-      "lore": "region grammar: raised hammock and seasonal floodplain; ecology-encounters-loot feed (the flood cycle drives the fauna)"
+      "lore": "region grammar: raised hammock and seasonal floodplain; ecology-encounters-loot feed (the flood cycle drives the fauna)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "hackwing-roost",
@@ -21165,7 +22228,9 @@
         3,
         6
       ],
-      "lore": "fauna-hazards dossier (hackwing); ecology-encounters-loot feed"
+      "lore": "fauna-hazards dossier (hackwing); ecology-encounters-loot feed",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "legendary-deep",
@@ -21237,7 +22302,9 @@
         2,
         5
       ],
-      "lore": "fauna-hazards dossier; module 20 §16 (fixed regional danger; D5 stays D5)"
+      "lore": "fauna-hazards dossier; module 20 §16 (fixed regional danger; D5 stays D5)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "leviathan-bone-field",
@@ -21311,7 +22378,9 @@
         1,
         4
       ],
-      "lore": "Lore:Argonian (bone as a primary structural material); fauna-hazards dossier"
+      "lore": "Lore:Argonian (bone as a primary structural material); fauna-hazards dossier",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "marsh-giant-ground",
@@ -21377,7 +22446,9 @@
         2,
         5
       ],
-      "lore": "Lore:Marsh Giant (killing one is an ecological and religious offence)"
+      "lore": "Lore:Marsh Giant (killing one is an ecological and religious offence)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "miregaunt-ward",
@@ -21446,7 +22517,9 @@
         2,
         5
       ],
-      "lore": "Lore:Miregaunt; Lore:Miregaunts of the Marsh (Kratius Gray, Black Marsh Exploration Society)"
+      "lore": "Lore:Miregaunt; Lore:Miregaunts of the Marsh (Kratius Gray, Black Marsh Exploration Society)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "sea-drake-deep",
@@ -21515,7 +22588,9 @@
         0,
         3
       ],
-      "lore": "fauna-hazards dossier; acceptance rule: deep underwater play"
+      "lore": "fauna-hazards dossier; acceptance rule: deep underwater play",
+      "footprintRadiusM": 50,
+      "footprintSource": "band"
     },
     {
       "type": "serpent-ground",
@@ -21584,7 +22659,9 @@
         1,
         4
       ],
-      "lore": "fauna-hazards dossier (moon-adder); material-culture (snake hide, daril)"
+      "lore": "fauna-hazards dossier (moon-adder); material-culture (snake hide, daril)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "shell-beast-ground",
@@ -21654,7 +22731,15 @@
         1,
         4
       ],
-      "lore": "Lore:Haj Mota; material-culture (shell shields)"
+      "lore": "Lore:Haj Mota; material-culture (shell shields)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "works": 800
+        },
+        "why": "siting.neighbourRelation: supplies a nearby craft works"
+      }
     },
     {
       "type": "voriplasm-chamber",
@@ -21724,7 +22809,18 @@
         1,
         4
       ],
-      "lore": "Lore:Voriplasm; ecology-encounters-loot feed (loot has provenance)"
+      "lore": "Lore:Voriplasm; ecology-encounters-loot feed (loot has provenance)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "ruin": 200
+        },
+        "mayAbut": [
+          "ruin"
+        ],
+        "why": "siting.neighbourRelation: inside a xanmeer, an Ayleid ruin or a flooded cellar"
+      }
     },
     {
       "type": "wamasu-pond",
@@ -21795,7 +22891,9 @@
         4,
         7
       ],
-      "lore": "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)"
+      "lore": "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)",
+      "footprintRadiusM": 230,
+      "footprintSource": "blueprint"
     },
     {
       "type": "wisp-lure",
@@ -21863,7 +22961,9 @@
         1,
         4
       ],
-      "lore": "fauna-hazards dossier; module 55 (night light as a first-class world state)"
+      "lore": "fauna-hazards dossier; module 55 (night light as a first-class world state)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "mineral-node",
@@ -21935,7 +23035,9 @@
         12,
         16
       ],
-      "lore": "Lore:Jasper; Lore:Stormhold (crystals); Lore:Argonian (obverdian, volcanic glass)"
+      "lore": "Lore:Jasper; Lore:Stormhold (crystals); Lore:Argonian (obverdian, volcanic glass)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "reagent-pool",
@@ -22008,7 +23110,9 @@
         14,
         20
       ],
-      "lore": "ecology-encounters-loot feed; magic-practice dossier (moon-graded reagents)"
+      "lore": "ecology-encounters-loot feed; magic-practice dossier (moon-graded reagents)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "vine-face",
@@ -22078,7 +23182,9 @@
         10,
         14
       ],
-      "lore": "Lore:Argonian (jadeflint hafting, fibre); acceptance rule: climbing creates access progression"
+      "lore": "Lore:Argonian (jadeflint hafting, fibre); acceptance rule: climbing creates access progression",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "black-mud-trap",
@@ -22143,7 +23249,9 @@
         10,
         14
       ],
-      "lore": "fauna-hazards dossier (depth sticks); region grammar"
+      "lore": "fauna-hazards dossier (depth sticks); region grammar",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "collapsing-pinnacle",
@@ -22207,7 +23315,9 @@
         0,
         3
       ],
-      "lore": "acceptance rule: large logical surfaces climbable by default; scour: the rim carries the relief"
+      "lore": "acceptance rule: large logical surfaces climbable by default; scour: the rim carries the relief",
+      "footprintRadiusM": 35,
+      "footprintSource": "band"
     },
     {
       "type": "drawdown-flat",
@@ -22274,7 +23384,9 @@
         2,
         5
       ],
-      "lore": "region grammar: lake & standing water; module 50 (seasonal water levels are authored world state)"
+      "lore": "region grammar: lake & standing water; module 50 (seasonal water levels are authored world state)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "drowning-narrows",
@@ -22343,7 +23455,9 @@
         1,
         4
       ],
-      "lore": "module 50 (tides and water levels as world state); Lore:Sea Transportation"
+      "lore": "module 50 (tides and water levels as world state); Lore:Sea Transportation",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "foul-water-pool",
@@ -22407,7 +23521,9 @@
         8,
         12
       ],
-      "lore": "fauna-hazards dossier (swamp rot, blood rot, purifier buds)"
+      "lore": "fauna-hazards dossier (swamp rot, blood rot, purifier buds)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "gas-vent-field",
@@ -22476,7 +23592,9 @@
         6,
         9
       ],
-      "lore": "Lore:Black Marsh (peat burning underground since 1E 2828)"
+      "lore": "Lore:Black Marsh (peat burning underground since 1E 2828)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "swarm-hollow",
@@ -22542,7 +23660,9 @@
         6,
         9
       ],
-      "lore": "fauna-hazards dossier (fleshflies, emollient); Lore:Slough Point (the garrison losing their ears)"
+      "lore": "fauna-hazards dossier (fleshflies, emollient); Lore:Slough Point (the garrison losing their ears)",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "whitewater-reach",
@@ -22615,7 +23735,9 @@
         1,
         4
       ],
-      "lore": "region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards"
+      "lore": "region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "becalmed-lane",
@@ -22686,7 +23808,9 @@
         0,
         2
       ],
-      "lore": "Lore:Pirates of Topal Bay; Lore:Sea Transportation; the ocean class needs D5 destinations"
+      "lore": "Lore:Pirates of Topal Bay; Lore:Sea Transportation; the ocean class needs D5 destinations",
+      "footprintRadiusM": 50,
+      "footprintSource": "band"
     },
     {
       "type": "fishing-bank",
@@ -22757,7 +23881,9 @@
         3,
         6
       ],
-      "lore": "Lore:Oliis Bay; Lore:Topal Bay; Lore:Tide-Born"
+      "lore": "Lore:Oliis Bay; Lore:Topal Bay; Lore:Tide-Born",
+      "footprintRadiusM": 30,
+      "footprintSource": "band"
     },
     {
       "type": "reef",
@@ -22829,7 +23955,9 @@
         3,
         6
       ],
-      "lore": "acceptance rule: player-sailable boats and deep underwater play need destinations ON the water"
+      "lore": "acceptance rule: player-sailable boats and deep underwater play need destinations ON the water",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "sea-stack",
@@ -22897,7 +24025,9 @@
         0,
         3
       ],
-      "lore": "region grammar: ocean; acceptance rule: large logical surfaces climbable by default"
+      "lore": "region grammar: ocean; acceptance rule: large logical surfaces climbable by default",
+      "footprintRadiusM": 50,
+      "footprintSource": "band"
     },
     {
       "type": "root-hollow-gallery",
@@ -22977,7 +24107,9 @@
         13,
         16
       ],
-      "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
+      "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "wild-rootworm-burrow",
@@ -23046,7 +24178,15 @@
         2,
         5
       ],
-      "lore": "Lore:Rootworm (eight feet, translucent, digests very slowly)"
+      "lore": "Lore:Rootworm (eight feet, translucent, digests very slowly)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "maxFromM": {
+          "transit": 400
+        },
+        "why": "siting.neighbourRelation: on or beside the root-transit network, which is why it matters"
+      }
     },
     {
       "type": "air-pocket-grotto",
@@ -23112,7 +24252,15 @@
         2,
         5
       ],
-      "lore": "module 20 §12.3b (underwater grottoes and air pockets as hard-to-reach types); acceptance: Argonian physiology changes underwater play"
+      "lore": "module 20 §12.3b (underwater grottoes and air pockets as hard-to-reach types); acceptance: Argonian physiology changes underwater play",
+      "footprintRadiusM": 25,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 300
+        },
+        "why": "siting.neighbourRelation: hidden; discovered by exploring water"
+      }
     },
     {
       "type": "bioluminescent-water",
@@ -23189,7 +24337,9 @@
         2,
         5
       ],
-      "lore": "Lore:Wamasu (luminescent organs); Lore:Guar (Glowgill); module 55 (night is authored world state, so night-only places are legitimate)"
+      "lore": "Lore:Wamasu (luminescent organs); Lore:Guar (Glowgill); module 55 (night is authored world state, so night-only places are legitimate)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "climbable-ruin-roof",
@@ -23257,7 +24407,9 @@
         3,
         6
       ],
-      "lore": "acceptance rule: large logical surfaces climbable by default; xanmeer-mesoamerican-reference"
+      "lore": "acceptance rule: large logical surfaces climbable by default; xanmeer-mesoamerican-reference",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "mist-locked-hollow",
@@ -23324,7 +24476,9 @@
         1,
         4
       ],
-      "lore": "module 55 (time/light/weather as first-class world state; mist is a climate field per region class)"
+      "lore": "module 55 (time/light/weather as first-class world state; mist is a climate field per region class)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "shunned-ground-marker",
@@ -23391,7 +24545,9 @@
         14,
         20
       ],
-      "lore": "Lore:Ten-Maur-Wolk; Lore:Stillrise Village; distinctiveness: the marker is cheaper and more effective than the thing it warns of"
+      "lore": "Lore:Ten-Maur-Wolk; Lore:Stillrise Village; distinctiveness: the marker is cheaper and more effective than the thing it warns of",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "sinkhole-mouth",
@@ -23456,7 +24612,9 @@
         3,
         6
       ],
-      "lore": "scour finding: only 11 sinkholes province-wide — do not design types that assume this landform is common"
+      "lore": "scour finding: only 11 sinkholes province-wide — do not design types that assume this landform is common",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "vista-ledge",
@@ -23521,7 +24679,9 @@
         1,
         4
       ],
-      "lore": "scour finding: median site sees 18% of its 1.2 km surroundings — a view is a reward"
+      "lore": "scour finding: median site sees 18% of its 1.2 km surroundings — a view is a reward",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "waterfall-chamber",
@@ -23588,7 +24748,9 @@
         2,
         5
       ],
-      "lore": "scour: 60 waterfall candidates (capped), concentrated on the rim; openworld research (concealment as a gate)"
+      "lore": "scour: 60 waterfall candidates (capped), concentrated on the rim; openworld research (concealment as a gate)",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "hermit-hut",
@@ -23667,7 +24829,15 @@
         2,
         5
       ],
-      "lore": "openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
+      "lore": "openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: deliberately far from everything; the effort-to-reach IS the design"
+      }
     },
     {
       "type": "keepers-lodge",
@@ -23743,7 +24913,9 @@
         1,
         4
       ],
-      "lore": "labour-and-bondage dossier (crossings have owners and therefore keepers)"
+      "lore": "labour-and-bondage dossier (crossings have owners and therefore keepers)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "officeholders-house",
@@ -23818,7 +24990,9 @@
         2,
         5
       ],
-      "lore": "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)"
+      "lore": "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "snowline-hermitage",
@@ -23886,7 +25060,15 @@
         2,
         5
       ],
-      "lore": "region grammar: border mountains; scour: the rim is the only ground with genuine sightlines"
+      "lore": "region grammar: border mountains; scour: the rim is the only ground with genuine sightlines",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 600
+        },
+        "why": "siting.neighbourRelation: the rim's signature dwelling; deliberately alone"
+      }
     },
     {
       "type": "squatted-ruin-home",
@@ -23957,7 +25139,9 @@
         2,
         5
       ],
-      "lore": "module 20 §11 (stage five of the foreign-infrastructure life cycle: reuse)"
+      "lore": "module 20 §11 (stage five of the foreign-infrastructure life cycle: reuse)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "boundary-totem",
@@ -24029,7 +25213,9 @@
         24,
         32
       ],
-      "lore": "Lore:Hutan-Tzel (rune-carved totems); asset constraint: all Argonian wayfinding is pictographic"
+      "lore": "Lore:Hutan-Tzel (rune-carved totems); asset constraint: all Argonian wayfinding is pictographic",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "chime-frame",
@@ -24099,7 +25285,9 @@
         16,
         22
       ],
-      "lore": "material-culture (chimes as a craft); scour finding: no long sightlines — sound and light must carry wayfinding"
+      "lore": "material-culture (chimes as a craft); scour finding: no long sightlines — sound and light must carry wayfinding",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "memorial-stone",
@@ -24176,7 +25364,9 @@
         0,
         3
       ],
-      "lore": "Lore:All Flags Navy; Lore:Battle of Argonia; Lore:Umbriel"
+      "lore": "Lore:All Flags Navy; Lore:Battle of Argonia; Lore:Umbriel",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "standing-curiosity",
@@ -24256,7 +25446,9 @@
         2,
         5
       ],
-      "lore": "module 20 §12.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category"
+      "lore": "module 20 §12.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "stone-calendar",
@@ -24326,7 +25518,9 @@
         4
       ],
       "lore": "Lore:Xinchei-Konu; sky-moons-calendar dossier",
-      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): TWO canon-defensible instruments of utterly different character — Xinchei-Konu, the canon lowland monument with a hereditary jekka-wass keeper and a clean southern horizon, and the interior's Tsoko Stones, a canopy-gap ring that times the Root Talk convocation. Different regions, different signatures, no template reuse."
+      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): TWO canon-defensible instruments of utterly different character — Xinchei-Konu, the canon lowland monument with a hereditary jekka-wass keeper and a clean southern horizon, and the interior's Tsoko Stones, a canopy-gap ring that times the Root Talk convocation. Different regions, different signatures, no template reuse.",
+      "footprintRadiusM": 25,
+      "footprintSource": "band"
     },
     {
       "type": "abandoned-boat",
@@ -24396,7 +25590,9 @@
         16,
         22
       ],
-      "lore": "openworld research §3.1 (the satellite node that resolves the implied story)"
+      "lore": "openworld research §3.1 (the satellite node that resolves the implied story)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "cache",
@@ -24477,7 +25673,9 @@
         26,
         34
       ],
-      "lore": "openworld research §3.1 (slot 4: the gated reward that rewards a capability)"
+      "lore": "openworld research §3.1 (slot 4: the gated reward that rewards a capability)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "derelict-works",
@@ -24555,7 +25753,9 @@
         16,
         22
       ],
-      "lore": "asset constraint: no bespoke industrial props exist — works sites must be distinguished by LAYOUT and dressing, not by machinery"
+      "lore": "asset constraint: no bespoke industrial props exist — works sites must be distinguished by LAYOUT and dressing, not by machinery",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "lone-grave-stake",
@@ -24627,7 +25827,9 @@
         26,
         34
       ],
-      "lore": "§12b (grave-stakes as a province-wide interactable); Lore:Argonian (xul-vaat)"
+      "lore": "§12b (grave-stakes as a province-wide interactable); Lore:Argonian (xul-vaat)",
+      "footprintRadiusM": 20,
+      "footprintSource": "band"
     },
     {
       "type": "wreck",
@@ -24709,7 +25911,9 @@
         3,
         6
       ],
-      "lore": "openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)"
+      "lore": "openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)",
+      "footprintRadiusM": 45,
+      "footprintSource": "band"
     },
     {
       "type": "fallen-flier",
@@ -24770,7 +25974,19 @@
         0,
         3
       ],
-      "lore": "uesp:Morrowind:Tarhiel (the Icarian Flight scrolls near Seyda Neen, 3E 427); docs/quests/36-cast-roster.md §58"
+      "lore": "uesp:Morrowind:Tarhiel (the Icarian Flight scrolls near Seyda Neen, 3E 427); docs/quests/36-cast-roster.md §58",
+      "footprintRadiusM": 20,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 500,
+          "route": 400
+        },
+        "maxFromM": {
+          "route": 1500
+        },
+        "why": "siting.neighbourRelation: remote; deliberately far from every route"
+      }
     }
   ],
   "countBandNote": "countBand for every recordScope='poi' type was RE-DERIVED on 2026-09-02 (verify/wrap agent, critique round) from the ACTUAL live record count in places-*.json — live meaning status not 'deferred' and not 'cut'. The original bands were a pre-derivation forecast summing to 637-739 poi records against a province envelope the coverage critique has since corrected to 467-596 (docs/research/phase11/phase11-critique/coverage-density.md S1/S2), so they no longer described anything real. Slack rule: n=0 -> [0,1] (type enumerated but unspent, available to Part 3); n=1 -> [1,2] and n=2 -> [2,3] so genuine singulars stay singular; 3<=n<=5 -> n+/-1; n>5 -> n+/-2. Independent per-type slack sums to a far wider envelope than the province total, which is why the province check now lives where it belongs — on the catalogue's live record count, not on the sum of these bands (test_catalogue.py). The band is a Part 3 maintenance envelope: a type drifting outside it is a signal to re-derive, not a licence to force-fit."
