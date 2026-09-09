@@ -67,8 +67,12 @@ left is a handover, not a loose end:
    consumer adds two concrete witnesses: the Sap-Tapping landing falls to
    0.00 m over its first 100 m (needs 0.6 m), and Lilmoth's lighter quay falls
    to 1.20 m on Soulrest–Lilmoth and 0.84 m on Blackrose–Lilmoth (needs 3.0 m).
-   Nine-Trunks and Wamasu Pond now pass. Keep these failures red until the
-   physical compiler makes the authored cuts wet, labelled, deep and correctly
+   Nine-Trunks and Wamasu Pond now pass. Nine-Trunks' complete settlement
+   compile also leaves two honest flood-band warnings: both guest huts have
+   57/57 natural-flood-band samples but 0/57 open-water and 0/57 wet-season
+   samples. Preserve the authored ring and require final raised-pad evidence;
+   do not move or relabel the huts to silence the finding. Keep these failures
+   red until the physical compiler makes the authored cuts wet, labelled, deep and correctly
    current-bearing; do not lower hull classes or move fixed berths to hide them.
 2. **`npm run test:placement` fails on four `test_compile_settlement` tests on
    a clean checkout of `main`.** They are not water's: they fail identically at

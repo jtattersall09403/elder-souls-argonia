@@ -98,7 +98,7 @@ settlement bundle are published; and the combined browser run renders Lilmoth
 and Nine-Trunks with non-zero geometry and zero grounding findings. Only then
 may the 30-item claim return.
 
-### B2 — Terrain chain rebuild with the corrected grader
+### B2 — Terrain chain rebuild with the corrected grader — CHAIN RUN; WATER ACCEPTANCE STILL RED
 
 - **What**: the rim fix in `grade_routes.py` (review session) has not been
   applied to the shipped rasters/chunks. Run
@@ -113,6 +113,12 @@ may the 30-item claim return.
 - **Alongside water?** No — `compile_water` is in the chain and the water
   agent owns the rasters it reads. Coordinate: run once the water agent has
   committed and is not mid-solve.
+
+The 2026-09-08 water build regenerated the province and the route-structure
+author/compile hand-off now agrees at exact window endpoints: 331 structures
+and 4,143 pieces compile. Final acceptance remains open because the independent
+terrain-promise report has 50/66 passing; the 16 failures are now recorded in
+the water handoff and remain water-compiler work rather than exceptions here.
 
 ### B3 — Derived area boundaries (districts, combat spaces) — DONE 2026-09-08
 
@@ -147,7 +153,7 @@ five exemplars were re-derived; 127 focused tests and `blueprint --check` pass.
 | G19 connectors — **DONE 2026-09-08** | per-kit `connectors.json` measured from authored co-placement or bounds; every `abuts` join is held to 0.15 m / 5° and an unmeasured kit is visible WARN debt | `pipeline.measure_connectors`, `blueprint_integration` |
 | G8 flood band — **CODE/REPORT DONE 2026-09-08; final-water review pending** | compiled settlements now carry centre/vertex/edge samples, per-district open-water share and WARN-grade section/culture checks; final rasters decide the reviewed values | `compile_settlement.py` `floodBandReport` |
 | G9 dock depth — **DONE 2026-09-08** | `docks[].hullClass` requires its published serving water at the berth and the class depth over the first 100 m; `fit` states which side may move | `blueprint._validate_docks`, `compile_minor_waterways` |
-| G11 terrainRequests — **66/66 typed plan + all 15 raster profiles DONE; chain integration pending** | content-addressed carve/raise operations execute deterministically with typed gradient/contour/flow/water axes, clipped bounds and per-operation raster hashes; an exact fulfillment manifest rejects missing, stale or unevidenced work. Integrate after B5 fixes request positions, before the B2 rebuild | `terrain_requests.py`, `terrain_request_raster.py`, then `refine_province` |
+| G11 terrainRequests — **66/66 typed plan + all 15 raster profiles DONE; final water 50/66 PASSING** | content-addressed carve/raise operations execute deterministically with typed gradient/contour/flow/water axes, clipped bounds and per-operation raster hashes; an exact fulfillment manifest rejects missing, stale or unevidenced work. The remaining 16 final-water failures stay red in the water handoff | `terrain_requests.py`, `terrain_request_raster.py`, `terrain_request_postconditions.py`, then `refine_province` |
 | G13 first node — **DONE 2026-09-08** | `blueprint_integration` infers the Argonian-stilt spine as the track/boardwalk nearest the gate and requires its first geometric building node to be a typed `market`, `shop` or `hall`; `endsAt` remains truthful terminal data, not a false intermediate-node list. The rule is mutation-tested not to broaden to Imperial or other culture grammars | `blueprint_integration` |
 
 **Alongside water?** G18, G19, G9, G13 yes; G8 and G11 need the raster
@@ -189,7 +195,7 @@ records with no collisions, no invalid sites, no navigability exceptions and
 no resiting pins. It wrote the catalogue and the edge-corrected Clark–Evans
 report (median R 0.839). The four authored exemplars remain blueprint-pinned.
 
-### B6 — One province extent
+### B6 — One province extent — DONE 2026-09-08
 
 The authored UV frame is 7373.50656 m. Hydrology geometry names cell-centred
 pixels: pixel `i` is `(i + 0.5) × 5.48352 m`; its 1345-cell outer edge is
@@ -200,7 +206,10 @@ centre converters; Python network/survey/audit consumers and the Studio map,
 fly, blueprint and minimap layers use those semantics. Chunk manifests publish
 the authored extent instead of inviting `grid × chunkMetres`. Twelve scale
 tests include exact UV↔metre↔pixel round trips and the Nine-Trunks join.
-**DONE 2026-09-08; generated chunk manifests refresh with B2.**
+Generated chunk manifests were refreshed by the final province build, and all
+30 built asset-kit manifests can now refresh reviewed placement policy without
+rerunning Blender; the refresh validates the complete set before replacing any
+file.
 
 ### B7 — Python tests as a CI gate — DONE 2026-09-08
 
@@ -243,14 +252,28 @@ speed work cannot hide those delivery checks.
 The expanded 2026-09-08 profile, taken while water and compiler outputs were
 still moving, ran 361 checks in 83.75 s (353 pass, eight expected in-flight
 failures). It exposed one new waste: the minor-waterway determinism test spends
-29.43 s doing four full solves even when no fixed berth changes the natural
-answer. Remove that duplicate solve after the water file is handed off, then
-take the final all-green timing. The combined browser workload now reuses its
+29.43 s rebuilding the same static movement graph for the natural and fitted
+answers. **DONE 2026-09-08:** one immutable graph is now shared while the two
+answers retain their independent growing networks and distance fields; the
+same two-run determinism check takes 17.58 s (40% faster) and also asserts one
+graph build per run. Asset-policy-only changes can likewise refresh existing
+measured kit manifests without rerunning Blender; validation of every manifest
+happens before any is replaced. Take the final all-green timing after the water
+handoff. The combined browser workload now reuses its
 blueprint browser/page for the 3D settlement proof (Lilmoth, then an in-process
 teleport to Nine-Trunks) and continues to share one build/preview server with
 the complete water suite.
 
-### B9 — Macro promise to final delivery contract (owner 2026-09-08) — B9a DONE; B9b GATE DONE / DEBT OPEN
+A second isolated profile removed repeated loading of the province survey from
+three placement suites: plot statistics fell from 6.63 s to 1.06 s, scale from
+6.44 s to 0.60 s, and synthetic blueprint checks from 10.99 s to 1.22 s. The
+macro suite now shares one survey and passes 8/8 in 15.13 s; the focused group
+passes 61/61 and the real-survey controls pass 10/10. A deliberately contended
+combined run (while the water build was active) reached 391 passes and five
+known in-flight water/settlement failures in 109.46 s. This is a diagnostic
+baseline, not the final green timing; repeat it once B1/B2 are complete.
+
+### B9 — Macro promise to final delivery contract (owner 2026-09-08) — DONE 2026-09-08
 
 **Cause**: the quest-purpose-without-a-socket finding is one instance of a
 class: prose in `why` blocks, `notes`, purposes and design records names
@@ -278,7 +301,7 @@ tests the Phase 12/13/quest delivery-manifest join (missing, empty, duplicate
 or stale rows fail); those phases emit their manifests when their compilers
 land. The old purpose ledger remains a compatibility view meanwhile.
 
-**B9b gate delivered 2026-09-08; existing reference debt remains open:**
+**B9b gate and migration delivered 2026-09-08:**
 `worldgen.prose_links` extracts named entities
 from the prose surfaces (quest
 titles from the quest index, NPC names from `occupants[]`/the cast roster,
@@ -290,17 +313,15 @@ record: `socketRef`, `occupantRef`, `placeRef`, `routeRef`, `serviceRef`,
 places, routes, services, factions), WARN where it is open (items until
 Phase 13's registers exist). The reverse holds too: a typed ref with no
 mention in the prose is checked for contradiction, not required repetition:
-typed records need not restate every id in prose. Apply to the five blueprints and all 827 catalogue records;
-report counts by entity class. The extractor is deliberately high precision:
+typed records need not restate every id in prose. It applies to the five
+blueprints and the whole catalogue. The extractor is deliberately high precision:
 ambiguous short/common display names do not assert a join, quest titles require
 an explicit id-shaped mention, and terse service names require an availability
-context. The first reviewed run records 305 existing HARD rows (place 198,
-faction 51, route 46, service 10) and 22 item WARN rows in
-`world/sources/sites/prose-link-debt.json`. These are visible debt, not a silent
-allowance: exact reviewed rows may disappear as links are added, while any new
-record/field/entity row fails the monotonic gate. The blueprint validator uses
-that gate too. Retire the manifest rows during catalogue and blueprint editing;
-when it reaches zero, delete the manifest and switch the test to hard-zero.
+context. The migration added 436 exact source-to-entity links. The final walk
+covers 832 records with zero HARD and zero WARN findings.
+`world/sources/sites/prose-link-debt.json` was deleted and the gate is now
+hard-zero: future unlinked promises fail rather than joining an accepted
+backlog. The blueprint validator uses the same gate.
 Files: `worldgen/prose_links.py` (new),
 `blueprint.py` hook, `test_catalogue.py`, `lint_prose.py` (shares the
 surface list), docs/text/style-guide.md (one line: name a thing only if
@@ -308,7 +329,7 @@ the record links it). Alongside water: yes.
 
 ### B8 — Smaller items (each one brief)
 
-- **Nine-Trunks dock fitted to the wrong side of the village (owner,
+- **DONE 2026-09-08 — Nine-Trunks dock fitted to the wrong side of the village (owner,
   2026-09-08):** G9 validated the channel only *after* `water-to-dock` had
   rerouted it to the already-authored berth. That makes a wrong berth
   self-validating and erased the earlier authored dotted waterway whose head
@@ -326,7 +347,12 @@ the record links it). Alongside water: yes.
   owns carving and labelling the authored local reach, while Phase 11 retains
   the independent exact-terminal, continuous-wetness and first-100-metre
   depth acceptance gates. This division prevents either workstream from
-  marking the shared outcome complete on its own.
+  marking the shared outcome complete on its own. The merged publication now
+  carries the exact authored metre line beginning
+  `(4992.745, 3786.371) → (5010.298, 3819.476)` rather than a replacement path,
+  and the published first 100 m measures 1.32 m minimum depth against the
+  canoe's 0.60 m requirement. The water round still owns making that authored
+  reach visibly wet, carved and labelled in the final terrain.
 
 - **DONE 2026-09-08 — doors on the tidal flat vs the final water.** Four
   Pusbottom thresholds are intentionally on stilt decks. The terrain compiler
@@ -401,6 +427,18 @@ the record links it). Alongside water: yes.
   channel on water after the water hand-off; it remains an error until then.
 - `hostile-or-clearable ≥ 55 %` sits at 55.5 % (three records of headroom):
   any hostile cut needs a matching promotion, or the owner lowers the floor.
+
+## What follows gap closure
+
+Phase 11 then moves from proving the system on five authored exemplars to a
+controlled province rollout. Places are taken in small packets, ordered by
+region and player importance, and each packet must pass the same whole chain:
+macro obligation ledger → blueprint → terrain/water delivery → compiled assets
+and placements → final gates → owner walk and frame-rate reading. A packet does
+not advance merely because its source file exists; every promised detail must
+have named physical evidence in the published, running place. Failures feed
+back into the shared compiler or rule when they expose a general gap, rather
+than becoming per-place exceptions.
 
 ## Owner decisions recorded (none of these blocks implementation)
 
