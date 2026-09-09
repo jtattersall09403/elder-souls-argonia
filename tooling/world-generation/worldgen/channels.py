@@ -55,6 +55,38 @@ SPECIFIC_RUNOFF = 0.0475                 # m³/s per km² of catchment. Mean ann
                                          # wet-tropical lowland (~1500 mm/yr) — Black Marsh is
                                          # the wettest province; one physical constant for the
                                          # whole province, never a per-site figure.
+# A channel's geometry is set by its DOMINANT (bankfull, channel-forming)
+# discharge, not by the mean annual flow: the mean is the trickle in the bed,
+# the dominant is the flow the bed was cut to carry, and it is what a river
+# looks like when it is running normally. `width` above is already a bankfull
+# relation, so the wetted width has to close against a bankfull flow too or the
+# two numbers answer different questions and the ratio comes out absurd (it did:
+# 0.105–0.178, a 16 m fall drawn 0.74 m wide).
+#
+# No published Q_bankfull / Q_mean-annual multiple exists — the literature
+# normalises bankfull by return period or by the mean annual flood. So the
+# multiple is *derived*, from a regional bankfull-discharge curve over its own
+# region's water balance, and then transferred as a DIMENSIONLESS ratio onto our
+# runoff (transferring a ratio across climates is defensible; transferring an
+# absolute discharge is not):
+#   USGS regionalized bankfull curve, New York Region 5 (humid temperate):
+#     Q_bf = 45.3 · DA^0.856  [ft³/s, mi²]  ->  0.568 · A^0.856  [m³/s, km²]
+#     (USGS SIR, "Regionalized equations for bankfull discharge and channel
+#      characteristics of streams in New York"; NY Regions 6/7 give 0.53/0.41
+#      at 1 km² with exponents 0.84/0.77 — same order.)
+#   New York mean annual runoff ~550 mm/yr = 0.0174 m³/s per km².
+#   ratio(1 km²) = 0.568 / 0.0174 ≈ 32.6 ; ratio(A) = ratio(1) · A^(0.856-1).
+# Exponent 0.856 is inside the b≈0.45–0.60 downstream cluster once expressed
+# against discharge (Leopold & Maddock 1953, USGS Prof. Paper 252). Transferring
+# the temperate multiple to the tropics is conservative rather than generous:
+# tropical bankfull recurs MORE often than temperate (observed median return
+# interval 1.0 yr vs 1.4 yr; the uniform 2-yr assumption overestimates tropical
+# bankfull by 54±78%) — Nature Communications (2026), "Global estimation of
+# bankfull river discharge reveals distinct flood recurrences across climate
+# zones", doi:10.1038/s41467-026-76433-3.
+DOMINANT_OVER_MEAN_1KM2 = 32.6           # dominant/mean-annual discharge at a 1 km² catchment
+DOMINANT_RATIO_EXP = -0.144              # ...falling as A^this (0.856 − 1): small catchments are
+                                         # flashier, so their bankfull is a bigger multiple
 BASEFLOW_M3S = 0.002                     # a headwater trickle still carries something (2 L/s;
                                          # binds on no station of the shipped network, so the
                                          # wetted width is pure flow, not a floor)
@@ -868,6 +900,21 @@ def _classify(sol: ChannelSolution, kind: np.ndarray) -> None:
     sol.speed = v.astype(np.float32)
 
 
+def dominant_discharge(accum: np.ndarray) -> np.ndarray:
+    """Channel-forming (bankfull) discharge, m³/s, from catchment area (km²).
+
+        Q_dom = SPECIFIC_RUNOFF · A · DOMINANT_OVER_MEAN_1KM2 · A^DOMINANT_RATIO_EXP
+
+    i.e. the mean annual flow of OUR water balance times a dimensionless
+    dominant/mean multiple carried over from a regional bankfull curve. See the
+    constants for the derivation and the citations.
+    """
+    a = np.maximum(np.asarray(accum, dtype=np.float64), 0.0)
+    mean_q = SPECIFIC_RUNOFF * a
+    mult = DOMINANT_OVER_MEAN_1KM2 * np.maximum(a, MIN_ACCUM_KM2) ** DOMINANT_RATIO_EXP
+    return np.maximum(mean_q * mult, BASEFLOW_M3S)
+
+
 def wetted_width(sol: ChannelSolution) -> np.ndarray:
     """Width of the WATER at each station (m), <= the hydraulic `width`.
 
@@ -876,21 +923,25 @@ def wetted_width(sol: ChannelSolution) -> np.ndarray:
     `carve_to_profile`), so a flow standing `dc` deep at the centreline
     reaches out to `t = sqrt(dc/D)` and its section area is
         A = (2/3)·(width·t)·dc = (2/3)·width·D^-0.5·dc^1.5.
-    Discharge closes it: `Q = A·v` with Q from the catchment (specific
-    runoff × accum) and v the station's banded speed, giving
+    Discharge closes it: `Q = A·v` with Q the station's DOMINANT (bankfull,
+    channel-forming) discharge and v the station's banded speed, giving
         dc = (1.5·Q·sqrt(D) / (width·v))^(2/3),  wetted = width·sqrt(dc/D).
 
+    Q must be the dominant discharge, not the mean annual one: `width` is a
+    bankfull width law, so closing against the mean annual flow would be
+    comparing the trickle to the bed. `dominant_discharge()` supplies it (see
+    DOMINANT_OVER_MEAN_1KM2 for the derivation and sources).
+
     Why this relation and not another: Q, v, D and the section are all
-    carried per station, and only Q is new (one province-wide runoff
-    coefficient, no per-site number). The alternative — inverting the
-    Leopold–Maddock width law — is circular, since `width` IS that law, and
-    would return a fixed fraction of it. This one varies with catchment,
-    slope-driven speed and band independently.
+    carried per station, and only Q is new (province-wide constants, no
+    per-site number). The alternative — inverting the Leopold–Maddock width
+    law — is circular, since `width` IS that law, and would return a fixed
+    fraction of it. This one varies with catchment, slope-driven speed and
+    band independently.
 
     Bank to bank at a pooled station: standing water fills its body.
     """
-    Q = np.maximum(SPECIFIC_RUNOFF * np.maximum(sol.accum.astype(np.float64), 0.0),
-                   BASEFLOW_M3S)
+    Q = dominant_discharge(sol.accum)
     w = np.maximum(sol.width.astype(np.float64), 1e-3)
     D = np.maximum(sol.depth.astype(np.float64), 0.05)
     v = np.maximum(sol.speed.astype(np.float64), 0.05)
