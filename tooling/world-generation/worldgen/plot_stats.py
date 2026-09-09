@@ -18,8 +18,22 @@ EDGE-CORRECTED R
 The null is Monte-Carlo sampled in the exact culture∧land mask, including its
 coastlines, holes and thin corridors. R = 1 is random in that available shape,
 R > 1 is regular/even spacing — the procedural tell — and R < 1 is clustered.
-Target: R < 1 in every zone, near the hand-placed 0.5 in settled zones. It is
-a report, not a gate: the deep wilds may legitimately sit closer to random.
+
+OWNER STEER 2026-09-09, WHICH REVERSES THE OLD TARGET. Looking at the deployed
+plot the owner called the province **too clustered**, and said: "I am OK with
+the province ending up 'more even than random' ... if it is necessary for our
+other rules and preferences to be met." So R > 1 is no longer the procedural
+tell to be avoided at all costs; it is an accepted price for the typed
+footprint, proximity and isolation gates. The old target — R < 1 everywhere,
+near the hand-placed 0.5 in settled zones — is superseded. What is still
+wanted is that the *settled* zones stay the most clustered ones, because that
+is where lore puts hamlet clumps round a parent settlement.
+
+Measured on this steer: the committed plot reads 0.835 (clustered, and what
+the owner objected to); the footprint-model re-solve reads 1.117, with the
+three settled zones lowest at 0.879–0.99. That is the shape we want.
+
+It is a report, not a gate.
 
 The area is the zone's own land: the culture raster's territory for that zone
 intersected with `ProvinceSurvey.land` (authored, walkable/wadeable ground —
@@ -134,8 +148,11 @@ def clark_evans(positions_by_zone: dict[str, list[tuple[float, float]]],
     return {
         "measure": "Edge-corrected nearest-neighbour ratio R = observed mean NN distance / the mean of "
                    f"{trials} deterministic Poisson trials in the same culture∧land mask",
-        "target": "R < 1 (clustered); hand-placed worlds measure about 0.5 (97 A5). Reported, not gated.",
-        "zonesOverTarget": sorted(z for z, v in zones.items() if v.get("R") is not None and v["R"] >= 1.0),
+        "target": "R = 1 is random in the zone's own shape. Even spacing (R > 1) is ACCEPTED where the typed "
+                  "footprint, proximity and isolation gates require it (owner steer 2026-09-09, reversing the "
+                  "earlier 'R < 1 everywhere' target); what is still wanted is that the settled zones stay the "
+                  "most clustered, because that is where lore puts hamlet clumps. Reported, not gated.",
+        "zonesEvenerThanRandom": sorted(z for z, v in zones.items() if v.get("R") is not None and v["R"] >= 1.0),
         "median": round(sorted(ratios)[len(ratios) // 2], 3) if ratios else None,
         "byZone": zones,
     }
@@ -145,7 +162,7 @@ def digest_section(stats: dict) -> list[str]:
     """The macro-plot.md section for `stats` (97 G3)."""
     lines = ["", "## Clustering — Clark-Evans R per zone (97 A5 / G3)", "",
              f"{stats['target']} Median R {stats['median']}; "
-             f"over target: {', '.join(stats['zonesOverTarget']) or 'none'}.", "",
+             f"Evener than random: {', '.join(stats['zonesEvenerThanRandom']) or 'none'}.", "",
              "| zone | plotted | land km² | mean NN m | same-mask null m | R |", "|---|---:|---:|---:|---:|---:|"]
     for zone, z in stats["byZone"].items():
         if z.get("R") is None:

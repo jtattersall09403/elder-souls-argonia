@@ -2699,7 +2699,7 @@ def main(argv: list[str] | None = None) -> None:
     if a.report_only:
         stats = report_only()
         print(f"[macro-plot] Clark-Evans median R {stats['median']}; "
-              f"over target (>=1): {', '.join(stats['zonesOverTarget']) or 'none'}")
+              f"evener than random (R >= 1): {', '.join(stats['zonesEvenerThanRandom']) or 'none'}")
         return
     if a.dry_run:
         a.report_dir.mkdir(parents=True, exist_ok=True)

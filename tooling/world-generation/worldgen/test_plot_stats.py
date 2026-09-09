@@ -11,7 +11,7 @@ def test_clark_evans_known_square_lattice_is_regular():
     row = stats["byZone"]["test-zone"]
     assert row["n"] == 9
     assert row["R"] == 2.0
-    assert stats["zonesOverTarget"] == ["test-zone"]
+    assert stats["zonesEvenerThanRandom"] == ["test-zone"]
 
 
 def test_clark_evans_refuses_a_tiny_sample():
