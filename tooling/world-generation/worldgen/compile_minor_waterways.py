@@ -82,6 +82,11 @@ ARRIVAL_M = 45.0        # already on a lane or navigable river: no channel
 MAX_CHANNEL_M = 9000.0  # beyond this the place is not water-served
 SNAP_M = 260.0          # how far a dry-footed place may reach its own landing
 CROSSING_M = 420.0      # a bank-to-bank ferry hop
+# Re-ending a raster route on an authored berth may absorb only the ordinary
+# cell-centre quantisation that the dock consumer already permits.  A longer
+# gap is not route geometry: it is missing pre-water channel geometry, and
+# drawing a straight segment across it fabricates water over unknown ground.
+FIXED_DOCK_WET_JOIN_M = bp_mod.DOCK_TERMINAL_TOLERANCE_M
 BOAT_MODES = {"boat", "ferry", "lighter", "pilot"}
 WATER_FAMILIES = {"landing", "water-village", "crossing", "submerged-way"}
 
@@ -366,6 +371,38 @@ def _authored_channel(authored: dict, rec: dict, batch: int,
     }, path)
 
 
+def require_fixed_dock_wet_join(route_id: str, target_m: tuple[float, float],
+                                snapped: tuple[int, int] | None,
+                                pixel_m: float) -> float:
+    """Reject a synthetic dry join from a fixed berth to a wet-only solve.
+
+    ``water-to-dock`` fixes the published terminal, but it does not author the
+    unknown ground between that terminal and the first cell the water-only
+    graph can traverse.  The exact-terminal substitution is safe only inside
+    the same 10 m tolerance used by the independent dock consumer.  Anything
+    longer needs an absolute centreline in ``authored-minor-waterways.json``
+    so terrain can be carved before water and the route can publish that same
+    geometry afterwards.
+    """
+    hint = "world/sources/routes/authored-minor-waterways.json"
+    if snapped is None:
+        raise ValueError(
+            f"{route_id}: fixed water-to-dock berth has no connected navigable "
+            f"water within {SNAP_M:.0f} m; author its full pre-water centreline "
+            f"in {hint} instead of publishing a dry connector")
+    row, col = snapped
+    wet_m = ((float(col) + 0.5) * pixel_m, (float(row) + 0.5) * pixel_m)
+    gap_m = float(np.hypot(wet_m[0] - target_m[0], wet_m[1] - target_m[1]))
+    if gap_m > FIXED_DOCK_WET_JOIN_M + 1e-6:
+        raise ValueError(
+            f"{route_id}: fixed water-to-dock berth is {gap_m:.1f} m from the "
+            f"first connected navigable cell (limit {FIXED_DOCK_WET_JOIN_M:.0f} m); "
+            f"refusing to fabricate a dry connector by replacing the route end. "
+            f"Author the full pre-water centreline in {hint} so it can be carved "
+            f"and published as one physical channel")
+    return gap_m
+
+
 def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
     context = context or solve_context()
     s = context.survey
@@ -405,6 +442,8 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                 snapped = _snap(s, reachable, row, col, depth_grid, need)
                 if snapped is None and need:
                     snapped = _snap(s, reachable, row, col)
+                if dock is not None and fit == "water-to-dock":
+                    require_fixed_dock_wet_join(cid, (float(x), float(z)), snapped, px_m)
                 if snapped is None:
                     unconnected.append({"id": rec["id"],
                                         "why": f"no connected navigable water within {SNAP_M:.0f} m",

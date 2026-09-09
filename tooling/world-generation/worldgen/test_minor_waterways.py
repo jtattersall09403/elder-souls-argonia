@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from . import catalogue, compile_minor_waterways as mw
 
 
@@ -30,6 +32,37 @@ def test_water_to_dock_without_structured_reason_cannot_bias_publication():
             "fit": "water-to-dock"}
     assert mw.channel_targets(rec, [dock], _TargetSurvey(), fit_docks=True) == [
         ("waterway.hist.nine-trunks", (20.0, 30.0), None)]
+
+
+def test_fixed_dock_accepts_only_cell_scale_wet_join():
+    # A berth at the corner of its nearest 5.48 m hydrology cell is ordinary
+    # raster quantisation and remains inside the consumer's existing 10 m gate.
+    pixel_m = 5.48352
+    gap = mw.require_fixed_dock_wet_join(
+        "waterway.test.near", (4 * pixel_m, 5 * pixel_m), (5, 4), pixel_m)
+    assert gap == pytest.approx(pixel_m / 2 ** 0.5)
+    assert mw.FIXED_DOCK_WET_JOIN_M == mw.bp_mod.DOCK_TERMINAL_TOLERANCE_M
+
+
+def test_fixed_dock_refuses_sap_scale_dry_splice_without_authored_line():
+    # Sap's published symptom: the fixed berth is (3478.5, 4373.0) m but the
+    # water-only solve begins in hydrology cell [626, 812], 92.94 m away.  The
+    # compiler used to replace that cell with the berth coordinate and thereby
+    # draw a long straight segment over dry ground.
+    with pytest.raises(ValueError, match=(
+            r"92\.9 m from the first connected navigable cell .*"
+            r"refusing to fabricate a dry connector.*authored-minor-waterways\.json")):
+        mw.require_fixed_dock_wet_join(
+            "waterway.hist-heartland.sap-tapping-licensed.landing",
+            (3478.5, 4373.0), (812, 626), 5.48352)
+
+
+def test_fixed_dock_without_any_wet_snap_requires_authored_line():
+    with pytest.raises(ValueError, match=(
+            r"no connected navigable water within 260 m.*"
+            r"authored-minor-waterways\.json")):
+        mw.require_fixed_dock_wet_join(
+            "waterway.test.missing", (50.0, 50.0), None, 5.0)
 
 
 def test_minor_water_repair_marker_is_content_addressed():
@@ -138,5 +171,9 @@ def test_recompile_is_deterministic_and_shares_one_step_graph_per_run(monkeypatc
             super().__init__(*args, **kwargs)
 
     monkeypatch.setattr(mw, "StepGraph", CountedStepGraph)
+    # This test isolates graph reuse/determinism from live authored-water
+    # completeness; the guard has its own scale-exact pass/fail tests above.
+    monkeypatch.setattr(mw, "require_fixed_dock_wet_join",
+                        lambda route_id, target_m, snapped, pixel_m: 0.0)
     assert mw.run(write=False) == mw.run(write=False)
     assert builds == 2

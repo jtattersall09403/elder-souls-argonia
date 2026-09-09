@@ -203,13 +203,34 @@ before the rebuild:
 | --- | --- |
 | Lilmoth lighter quay / Soulrest–Lilmoth | dredged 366 m × 30 m, 26 223 m³, max cut 3.25 m, 1.18 → 3.25 m |
 | Lilmoth lighter quay / Blackrose–Lilmoth | dredged 358 m × 30 m, 20 463 m³, max cut 3.25 m, 0.86 → 3.25 m |
-| Sap-Tapping landing / its landing channel | **blocked, nothing cut** — 39 of 51 approach points, from the berth itself outward, stand up to 1.48 m ABOVE the local water (29.22 m) |
+| Sap-Tapping landing / its landing channel | **blocked, nothing cut** — 39 of 51 approach points, from the berth itself outward, stand up to 1.48 m ABOVE the local water (29.22 m); the first real route cell is 92.94 m south-west of the exact berth and the nearest final-raster canoe-depth cell is 104.39 m away |
 | Wamasu Pond lane landing / its lane | **blocked, nothing cut** — 7 of 51 points stand up to 1.09 m above the water, first 20 m out |
 
-The two blocked reaches are placement findings, not terrain ones: forcing them
-would mean cutting 2.8 m and 3.9 m deep through banks the landings sit on
-(≈3 900 m³ and ≈3 100 m³), which is a ditch through dry ground, not a dredged
-channel. Wamasu Pond currently PASSES `_validate_docks` only through
+Sap-Tapping is a missing authored-water delivery, not permission to move its
+settlement geometry. The blueprint's dock, network terminal and local canal
+end exactly at `[3478.500, 4373.000]` m; its 11.86 m plank walk and the licence
+board facing 318° depend on a canoe arriving from the north-west. The published
+minor route instead replaces a wet-only A\* cell 92.94 m to the south-west with
+the berth coordinate, fabricating a dry straight join: independent 2 m samples
+put 47 of 52 points on that join out of the water. Moving the dock to that cell
+would sever the short walk, reverse the authored reveal and move the MR04 night
+landing away from the board.
+
+**Action for the water owner:** add
+`waterway.hist-heartland.sap-tapping-licensed.landing` to
+`world/sources/routes/authored-minor-waterways.json`. Preserve the blueprint's
+exact final centreline points
+`[3462.599, 4365.853]`, `[3467.099, 4370.353]`,
+`[3472.922, 4370.277]`, `[3476.099, 4373.353]`,
+`[3478.500, 4373.000]`; choose a measured same-level receiving branch and
+extend the outward head to it, then author, carve and publish the full line as
+one physical channel. Do not guess that outward head from the already-published
+water route: the nearest natural channel station is about 99 m away, beyond the
+authored carve's 60 m joining search. Phase 11 now refuses the 92.94 m splice
+and asks for this pre-water source instead.
+
+Wamasu Pond remains a separate thin-geometry finding. It currently PASSES
+`_validate_docks` only through
 `MARSH_WATER_CREDIT_M` — an open-water marsh cell is credited the canoe
 minimum whatever its signed depth — so the geometry there is thinner than the
 gate reads.
