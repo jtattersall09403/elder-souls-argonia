@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+from types import SimpleNamespace
 
+import numpy as np
 import pytest
 
 from . import catalogue, compile_minor_waterways as mw
@@ -34,35 +36,89 @@ def test_water_to_dock_without_structured_reason_cannot_bias_publication():
         ("waterway.hist.nine-trunks", (20.0, 30.0), None)]
 
 
-def test_fixed_dock_accepts_only_cell_scale_wet_join():
-    # A berth at the corner of its nearest 5.48 m hydrology cell is ordinary
-    # raster quantisation and remains inside the consumer's existing 10 m gate.
-    pixel_m = 5.48352
+def _fake_water(depth: np.ndarray, mpp: float = 1.0):
+    """The two fields `compile_minor_waterways` reads off the compiled water."""
+    return SimpleNamespace(depth2=depth.astype(np.float32), mpp2=mpp)
+
+
+def test_fixed_dock_accepts_a_berth_standing_in_published_water():
+    depth = np.zeros((200, 200), dtype=np.float32)
+    depth[95:105, 95:105] = 1.4          # a real, published pool at the berth
     gap = mw.require_fixed_dock_wet_join(
-        "waterway.test.near", (4 * pixel_m, 5 * pixel_m), (5, 4), pixel_m)
-    assert gap == pytest.approx(pixel_m / 2 ** 0.5)
+        "waterway.test.near", (100.5, 100.5), "canoe", _fake_water(depth))
+    assert gap <= mw.FIXED_DOCK_WET_JOIN_M
     assert mw.FIXED_DOCK_WET_JOIN_M == mw.bp_mod.DOCK_TERMINAL_TOLERANCE_M
 
 
-def test_fixed_dock_refuses_sap_scale_dry_splice_without_authored_line():
-    # Sap's published symptom: the fixed berth is (3478.5, 4373.0) m but the
-    # water-only solve begins in hydrology cell [626, 812], 92.94 m away.  The
-    # compiler used to replace that cell with the berth coordinate and thereby
-    # draw a long straight segment over dry ground.
+def test_fixed_dock_refuses_a_berth_the_coarse_raster_alone_calls_water():
+    """Defect 1 (2026-09-08). Sap-Tapping's berth sits inside a 50-cell macro
+    hydrology 'lake' blob that the COMPILED water publishes as 100 % dry
+    ground, with the real water ~91 m away at the head of the reach. The guard
+    used to snap inside that blob, measure a 0 m gap and pass."""
+    depth = np.zeros((200, 200), dtype=np.float32)
+    depth[100, 9:20] = 1.0               # the only real water: ~91 m west
     with pytest.raises(ValueError, match=(
-            r"92\.9 m from the first connected navigable cell .*"
-            r"refusing to fabricate a dry connector.*authored-minor-waterways\.json")):
-        mw.require_fixed_dock_wet_join(
-            "waterway.hist-heartland.sap-tapping-licensed.landing",
-            (3478.5, 4373.0), (812, 626), 5.48352)
-
-
-def test_fixed_dock_without_any_wet_snap_requires_authored_line():
-    with pytest.raises(ValueError, match=(
-            r"no connected navigable water within 260 m.*"
+            r"publishes 0\.00 m of depth.*"
+            r"nearest published water carrying 0\.6 m is 9[01]\.\d m away.*"
             r"authored-minor-waterways\.json")):
         mw.require_fixed_dock_wet_join(
-            "waterway.test.missing", (50.0, 50.0), None, 5.0)
+            "waterway.hist-heartland.sap-tapping-licensed.landing",
+            (110.5, 100.5), "canoe", _fake_water(depth))
+
+
+def test_fixed_dock_with_no_published_water_anywhere_requires_authored_line():
+    with pytest.raises(ValueError, match=(
+            r"no published water carries 0\.6 m within 9 km.*"
+            r"authored-minor-waterways\.json")):
+        mw.require_fixed_dock_wet_join(
+            "waterway.test.missing", (50.0, 50.0), "canoe",
+            _fake_water(np.zeros((200, 200), dtype=np.float32)))
+
+
+def _trench_water():
+    """A 10 m creek running north, deepest on its axis at x = 45 m."""
+    depth = np.zeros((200, 200), dtype=np.float32)
+    depth[:, 40:51] = 1.0
+    depth[:, 45] = 2.0
+    return _fake_water(depth)
+
+
+def test_derived_line_on_the_bank_is_snapped_into_its_trench():
+    """Defect 2 (2026-09-08). `dock.wamasu-pond-adult.lane-landing` rode the
+    east lip of its creek because the published line is a walk of 5.48 m cell
+    centres and the trench is about 10 m wide."""
+    bank = [[52.0, float(z)] for z in range(10, 61, 5)]
+    snapped = mw.snap_points_to_wet_axis(bank, _trench_water())
+    assert snapped[0] == [52.0, 10.0] and snapped[-1] == [52.0, 60.0], "terminals move"
+    # onto the axis cell (x 45..46), from 7 m out on the dry east bank
+    assert all(int(p[0]) == 45 for p in snapped[1:-1]), snapped
+    assert [p[1] for p in snapped] == [float(z) for z in range(10, 61, 5)]
+
+
+def test_authored_line_with_the_same_shape_is_never_snapped():
+    class Survey:
+        grid_px_m = 5.0
+
+        @staticmethod
+        def grid_px(x, z):
+            return int(z // 5), int(x // 5)
+
+        @staticmethod
+        def uv_to_m(u, v):
+            return u * 100.0, v * 100.0
+
+    authored = {
+        "id": "waterway.test.place",
+        "pointsM": [[52.0, float(z)] for z in range(60, 9, -5)],
+        "terminalM": [52.0, 10.0], "terminalId": "terminal.test.dock",
+        "contentDigest": "abc123",
+    }
+    dock = {"id": "dock.test.place", "position": [0.52, 0.10], "fit": "to-water"}
+    channel, _ = mw._authored_channel(authored, {"id": "place.test.place"}, 2, Survey(), [dock])
+    # the author's geometry, published unmoved even though the water beside it
+    # is deeper — an authored line is the author's, never the compiler's
+    assert channel["pointsM"] == [[52.0, float(z)] for z in range(10, 61, 5)]
+    assert channel["endsAtM"] == [52.0, 10.0]
 
 
 def test_minor_water_repair_marker_is_content_addressed():
@@ -108,6 +164,16 @@ def _doc():
     return json.loads(mw.OUT_JSON.read_text())
 
 
+def test_no_berth_is_refused_in_the_published_network():
+    """The debt gate (owner 2026-09-09). A berth the compiled water cannot
+    carry publishes NO connector — not a fabricated dry one — and this stays
+    red until the berth is fixed or its pre-water centreline is authored in
+    `world/sources/routes/authored-minor-waterways.json`. Same contract as the
+    `unauthored` structures gate in `test_route_structure_authoring`."""
+    refused = _doc().get("refusedBerths") or []
+    assert not refused, "\n".join(r["why"] for r in refused)
+
+
 def _plotted():
     return {rec["id"]: rec for rf in catalogue.load_region_files() for rec in rf.places
             if rec.get("status") not in {"cut", "deferred"} and "positionM" in rec}
@@ -143,10 +209,13 @@ def test_boat_stations_are_channelled_or_explained():
     channelled = {c["from"] for c in doc["channels"]}
     unconnected = {u["id"] for u in doc["unconnected"]}
     on_network = {u["id"] for u in doc["onNetwork"]}
+    # a refused berth is EXPLAINED, not silently dropped: it is named here with
+    # its measured numbers, and the debt gate above is what fails for it
+    refused = {r["from"] for r in doc.get("refusedBerths") or []}
     assert len(on_network) == len(doc["onNetwork"])
     assert doc["summary"]["onNetworkAlready"] == len(on_network)
     assert not (channelled & unconnected or channelled & on_network or unconnected & on_network)
-    served = channelled | unconnected | on_network
+    served = channelled | unconnected | on_network | refused
     stations = [r["id"] for r in _plotted().values()
                 if set((r.get("travelStation") or {}).get("modes") or []) & mw.BOAT_MODES]
     assert stations, "no boat stations in the catalogue?"
@@ -174,6 +243,6 @@ def test_recompile_is_deterministic_and_shares_one_step_graph_per_run(monkeypatc
     # This test isolates graph reuse/determinism from live authored-water
     # completeness; the guard has its own scale-exact pass/fail tests above.
     monkeypatch.setattr(mw, "require_fixed_dock_wet_join",
-                        lambda route_id, target_m, snapped, pixel_m: 0.0)
+                        lambda route_id, target_m, hull_class=None, water=None: 0.0)
     assert mw.run(write=False) == mw.run(write=False)
     assert builds == 2

@@ -49,6 +49,10 @@ WHAT IT WRITES
   `routes-minor.json` (the studio draws it; Part 6's compilers and fast
   travel consume it).
 * a section in `world/sources/sites/minor-routes.md` — the digest.
+* `refusedBerths` in that JSON — a berth the COMPILED water cannot carry gets
+  no connector at all, and a test stays red until it is authored or fixed. One
+  unpublishable dock does not stop the network from publishing (owner
+  2026-09-09), and it never buys its way in with a fabricated dry join.
 * nothing else: registry solving is a separate opt-in flag (`--registry`).
 """
 
@@ -70,6 +74,7 @@ from .compile_minor_routes import OUT_MD, StepGraph, trace
 from .hydrology_intent import load_authored_minor_waterways
 from .routes import boat_cost_surface
 from .site_fields import ProvinceSurvey
+from .water_report import ShippedWater
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OUT_JSON = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "waterways-minor.json"
@@ -77,7 +82,7 @@ NATURAL_JSON = OUT_JSON.with_name("waterways-minor-natural.json")
 REPAIR_MARKER = OUT_JSON.with_name("waterways-minor-repaired-by.json")
 REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2   # +derived `pointsM`, +`refusedBerths` (2026-09-09)
 ARRIVAL_M = 45.0        # already on a lane or navigable river: no channel
 MAX_CHANNEL_M = 9000.0  # beyond this the place is not water-served
 SNAP_M = 260.0          # how far a dry-footed place may reach its own landing
@@ -89,6 +94,18 @@ CROSSING_M = 420.0      # a bank-to-bank ferry hop
 FIXED_DOCK_WET_JOIN_M = bp_mod.DOCK_TERMINAL_TOLERANCE_M
 BOAT_MODES = {"boat", "ferry", "lighter", "pilot"}
 WATER_FAMILIES = {"landing", "water-village", "crossing", "submerged-way"}
+
+# How far a DERIVED centreline may be moved sideways onto the axis of the water
+# it claims to run down (defect 2, owner review 2026-09-08). The routing grid is
+# a 5.48 m cell walk, so a trench about two cells wide is clipped onto its lip
+# at every bend. One and a half cells is enough to cross from a lip to the axis
+# of such a trench and never enough to jump into a different body — and the
+# scan below will only cross water that is continuously wet anyway.
+AXIS_SNAP_M = 1.5 * 5.48352
+AXIS_SNAP_STEP_M = 0.5          # finer than the routing grid, which is the point
+# The shallowest hull the province floats: a berth may not be certified against
+# mere membership of a raster blob, it needs water a poled canoe can sit in.
+MIN_BERTH_DEPTH_M = bp_mod.HULL_CLASS_DEPTH_M["canoe"]
 
 
 # --------------------------------------------------------------------------- #
@@ -117,6 +134,52 @@ def centre_depth_grid(s: ProvinceSurvey) -> np.ndarray:
     idx = np.clip(((np.arange(s.grid_n) + 0.5) * s.grid_px_m / s.height_px_m).astype(int),
                   0, s.water_depth_m.shape[0] - 1)
     return s.water_depth_m[np.ix_(idx, idx)]
+
+
+# --------------------------------------------------------------------------- #
+# the COMPILED water — the only water this compiler validates against
+# --------------------------------------------------------------------------- #
+# The macro hydrology raster is a coarse plan; the signed-depth raster under
+# `apps/world-studio/public/province/water/` is what ships and what the runtime
+# and `dock_dredge` read. Validating a berth against the plan is the circular
+# check decision 0047 exists to remove: a macro "lake" blob 50 cells across can
+# publish as 100 % dry ground. Everything below therefore reads the compiled
+# water, and where it cannot be opened it RAISES: a guard that cannot see the
+# water it is guarding must not report success.
+@lru_cache(maxsize=1)
+def compiled_water() -> ShippedWater:
+    try:
+        return ShippedWater()
+    except Exception as exc:  # noqa: BLE001 — any failure is a blind guard
+        raise ValueError(
+            "compiled water is unavailable "
+            "(apps/world-studio/public/province/water/): the berth and centreline "
+            f"checks cannot be run against the water that ships — {exc}") from exc
+
+
+def compiled_depth_at(water: ShippedWater, x: float, z: float) -> float:
+    """Published depth in metres at a world point, 0.0 on dry ground."""
+    n = water.depth2.shape[0]
+    row = int(np.clip(z / water.mpp2, 0, n - 1))
+    col = int(np.clip(x / water.mpp2, 0, n - 1))
+    return float(water.depth2[row, col])
+
+
+def nearest_compiled_water_m(water: ShippedWater, x: float, z: float,
+                             min_depth_m: float, radius_m: float) -> float | None:
+    """Distance to the nearest COMPILED cell at least `min_depth_m` deep, or
+    None if there is none within `radius_m`."""
+    n = water.depth2.shape[0]
+    cy, cx = z / water.mpp2, x / water.mpp2
+    rad = int(np.ceil(radius_m / water.mpp2)) + 1
+    r0, r1 = max(int(cy) - rad, 0), min(int(cy) + rad + 1, n)
+    c0, c1 = max(int(cx) - rad, 0), min(int(cx) + rad + 1, n)
+    deep = np.argwhere(water.depth2[r0:r1, c0:c1] >= min_depth_m)
+    if not len(deep):
+        return None
+    dist = np.hypot((deep[:, 0] + r0 + 0.5) - cy, (deep[:, 1] + c0 + 0.5) - cx) * water.mpp2
+    best = float(dist.min())
+    return best if best <= radius_m else None
 
 
 @lru_cache(maxsize=1)
@@ -324,18 +387,7 @@ def solve_context() -> SolveContext:
 
 def _authored_path(s: ProvinceSurvey, authored: dict) -> list[tuple[int, int]]:
     """Raster cells for an authored centreline, from its berth to the network."""
-    points = list(reversed(authored["pointsM"]))
-    cells: list[tuple[int, int]] = []
-    for a, b in zip(points, points[1:]):
-        ar, ac = s.grid_px(float(a[0]), float(a[1]))
-        br, bc = s.grid_px(float(b[0]), float(b[1]))
-        steps = max(abs(br - ar), abs(bc - ac), 1)
-        for i in range(steps + 1):
-            cell = (int(round(ac + (bc - ac) * i / steps)),
-                    int(round(ar + (br - ar) * i / steps)))
-            if not cells or cells[-1] != cell:
-                cells.append(cell)
-    return cells
+    return cells_along(s, list(reversed(authored["pointsM"])))
 
 
 def _authored_dock(authored: dict, docks: list[dict], s: ProvinceSurvey) -> dict:
@@ -372,35 +424,150 @@ def _authored_channel(authored: dict, rec: dict, batch: int,
 
 
 def require_fixed_dock_wet_join(route_id: str, target_m: tuple[float, float],
-                                snapped: tuple[int, int] | None,
-                                pixel_m: float) -> float:
+                                hull_class: str | None = None,
+                                water: ShippedWater | None = None) -> float:
     """Reject a synthetic dry join from a fixed berth to a wet-only solve.
 
     ``water-to-dock`` fixes the published terminal, but it does not author the
-    unknown ground between that terminal and the first cell the water-only
-    graph can traverse.  The exact-terminal substitution is safe only inside
-    the same 10 m tolerance used by the independent dock consumer.  Anything
-    longer needs an absolute centreline in ``authored-minor-waterways.json``
-    so terrain can be carved before water and the route can publish that same
-    geometry afterwards.
+    unknown ground between that terminal and the first water a hull can float
+    in.  The exact-terminal substitution is safe only inside the same 10 m
+    tolerance used by the independent dock consumer.  Anything longer needs an
+    absolute centreline in ``authored-minor-waterways.json`` so terrain can be
+    carved before water and the route can publish that same geometry after.
+
+    Measured against the COMPILED water (defect 1, 2026-09-08).  This used to
+    read the macro hydrology raster, where a berth sitting inside a 50-cell
+    "lake" blob that publishes as bone-dry ground scored a 0 m gap and passed —
+    validating the dock against a coarser water than the one that ships.  Real
+    published depth is required now, not membership of a plan raster.
     """
     hint = "world/sources/routes/authored-minor-waterways.json"
-    if snapped is None:
-        raise ValueError(
-            f"{route_id}: fixed water-to-dock berth has no connected navigable "
-            f"water within {SNAP_M:.0f} m; author its full pre-water centreline "
-            f"in {hint} instead of publishing a dry connector")
-    row, col = snapped
-    wet_m = ((float(col) + 0.5) * pixel_m, (float(row) + 0.5) * pixel_m)
-    gap_m = float(np.hypot(wet_m[0] - target_m[0], wet_m[1] - target_m[1]))
-    if gap_m > FIXED_DOCK_WET_JOIN_M + 1e-6:
-        raise ValueError(
-            f"{route_id}: fixed water-to-dock berth is {gap_m:.1f} m from the "
-            f"first connected navigable cell (limit {FIXED_DOCK_WET_JOIN_M:.0f} m); "
-            f"refusing to fabricate a dry connector by replacing the route end. "
-            f"Author the full pre-water centreline in {hint} so it can be carved "
-            f"and published as one physical channel")
-    return gap_m
+    water = water if water is not None else compiled_water()
+    need = max(HULL_DEPTH_M.get(hull_class or "", 0.0), MIN_BERTH_DEPTH_M)
+    x, z = float(target_m[0]), float(target_m[1])
+    gap_m = nearest_compiled_water_m(water, x, z, need, FIXED_DOCK_WET_JOIN_M)
+    if gap_m is not None:
+        return gap_m
+    far = nearest_compiled_water_m(water, x, z, need, MAX_CHANNEL_M)
+    where = (f"the nearest published water carrying {need:.1f} m is {far:.1f} m away"
+             if far is not None else
+             f"no published water carries {need:.1f} m within {MAX_CHANNEL_M / 1000:.0f} km")
+    raise ValueError(
+        f"{route_id}: fixed water-to-dock berth stands where the compiled water "
+        f"publishes {compiled_depth_at(water, x, z):.2f} m of depth (needs {need:.1f} m within "
+        f"{FIXED_DOCK_WET_JOIN_M:.0f} m); {where}. Refusing to fabricate a dry "
+        f"connector by replacing the route end: author the full pre-water "
+        f"centreline in {hint} so it can be carved and published as one "
+        f"physical channel")
+
+
+def check_fixed_dock_wet_join(route_id: str, target_m: tuple[float, float],
+                              hull_class: str | None,
+                              water: ShippedWater) -> dict | None:
+    """The refusal, scoped to the dock instead of to the run.
+
+    One unpublishable berth must not stop the network from publishing (owner
+    2026-09-09). The refusal itself is unchanged and absolute — no fabricated
+    dry connector, no berth moved, no hull class lowered — but it is RECORDED
+    on the output with its measured numbers rather than raised, and
+    `test_minor_waterways` stays red while anything is recorded. Same shape as
+    the `unauthored` structures in `worldgen.author_route_structures`.
+
+    Returns None when the berth is wet, or the refusal record when it is not.
+    """
+    try:
+        require_fixed_dock_wet_join(route_id, target_m, hull_class, water)
+        return None
+    except ValueError as refusal:
+        x, z = float(target_m[0]), float(target_m[1])
+        need = max(HULL_DEPTH_M.get(hull_class or "", 0.0), MIN_BERTH_DEPTH_M)
+        nearest = nearest_compiled_water_m(water, x, z, need, MAX_CHANNEL_M)
+        return {
+            "id": route_id,
+            "hullClass": hull_class,
+            "berthM": [round(x, 3), round(z, 3)],
+            "needM": need,
+            "depthAtBerthM": round(compiled_depth_at(water, x, z), 3),
+            "nearestWaterM": round(nearest, 1) if nearest is not None else None,
+            "why": str(refusal),
+        }
+
+
+# --------------------------------------------------------------------------- #
+# defect 2: a DERIVED centreline is snapped onto the axis of its own channel
+# --------------------------------------------------------------------------- #
+# An AUTHORED line is the author's geometry and is never touched — see
+# `_authored_channel`, which publishes `pointsM` straight from the source file
+# and never calls anything below. Only lines this compiler derives (an A* walk
+# of 5.48 m cell centres) are snapped, because only they were quantised.
+def wet_axis_offset_m(water: ShippedWater, x: float, z: float,
+                      nx: float, nz: float, max_offset_m: float = AXIS_SNAP_M,
+                      step_m: float = AXIS_SNAP_STEP_M) -> float:
+    """Signed offset along the unit normal (nx, nz) from (x, z) to the deepest
+    point of the ONE contiguous wet run nearest the point.
+
+    Contiguity is what keeps this honest: the scan may cross from a bank into
+    the trench beside it, but it can never hop a dry sill into a different body.
+    """
+    steps = int(max_offset_m / step_m)
+    offsets = np.arange(-steps, steps + 1) * step_m
+    depth = np.array([compiled_depth_at(water, x + nx * o, z + nz * o) for o in offsets])
+    wet = depth > 0.0
+    if not wet.any():
+        return 0.0
+    zero = steps                                   # index of offset 0.0
+    if wet[zero]:
+        start = zero
+    else:                                          # nearest wet sample either side
+        start = int(np.argmin(np.where(wet, np.abs(offsets), np.inf)))
+    lo = start
+    while lo > 0 and wet[lo - 1]:
+        lo -= 1
+    hi = start
+    while hi + 1 < len(wet) and wet[hi + 1]:
+        hi += 1
+    run = slice(lo, hi + 1)
+    best = depth[run].max()
+    # deepest sample of the run; ties go to the one nearest the current line
+    cands = np.flatnonzero(depth[run] >= best - 1e-9) + lo
+    return float(offsets[cands[int(np.argmin(np.abs(offsets[cands])))]])
+
+
+def snap_points_to_wet_axis(points_m: list[list[float]], water: ShippedWater) -> list[list[float]]:
+    """Move each INTERIOR point of a derived line onto the wet axis of the
+    water beneath it. The two ends are terminals — the berth (or its landing
+    cell) and the join to the published network — so they stay put."""
+    if len(points_m) < 3:
+        return [[round(float(px), 3), round(float(pz), 3)] for px, pz in points_m]
+    out = [list(points_m[0])]
+    for i in range(1, len(points_m) - 1):
+        (ax, az), (bx, bz) = points_m[i - 1], points_m[i + 1]
+        tx, tz = bx - ax, bz - az
+        norm = float(np.hypot(tx, tz))
+        if norm < 1e-9:
+            out.append(list(points_m[i]))
+            continue
+        nx, nz = -tz / norm, tx / norm       # unit normal to the local tangent
+        x, z = points_m[i]
+        off = wet_axis_offset_m(water, float(x), float(z), nx, nz)
+        out.append([float(x) + nx * off, float(z) + nz * off])
+    out.append(list(points_m[-1]))
+    return [[round(float(px), 3), round(float(pz), 3)] for px, pz in out]
+
+
+def cells_along(s: ProvinceSurvey, points_m) -> list[tuple[int, int]]:
+    """The raster cells a metre polyline passes through, as [col, row] pairs."""
+    cells: list[tuple[int, int]] = []
+    for a, b in zip(points_m, points_m[1:]):
+        ar, ac = s.grid_px(float(a[0]), float(a[1]))
+        br, bc = s.grid_px(float(b[0]), float(b[1]))
+        steps = max(abs(br - ar), abs(bc - ac), 1)
+        for i in range(steps + 1):
+            cell = (int(round(ac + (bc - ac) * i / steps)),
+                    int(round(ar + (br - ar) * i / steps)))
+            if not cells or cells[-1] != cell:
+                cells.append(cell)
+    return cells
 
 
 def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
@@ -412,8 +579,10 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
     depth_grid = context.depth
     docks_by_place = context.docks
     w, px_m = s.grid_n, s.grid_px_m
+    water = compiled_water()   # raises if the water that ships cannot be read
     channels: list[dict] = []
     unconnected: list[dict] = []
+    refused: list[dict] = []
     on_network: dict[str, dict] = {}
     for bi, batch in enumerate(demand(files), start=1):
         dist, prev = context.graph.field(network)
@@ -443,7 +612,14 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                 if snapped is None and need:
                     snapped = _snap(s, reachable, row, col)
                 if dock is not None and fit == "water-to-dock":
-                    require_fixed_dock_wet_join(cid, (float(x), float(z)), snapped, px_m)
+                    refusal = check_fixed_dock_wet_join(
+                        cid, (float(x), float(z)), dock.get("hullClass"), water)
+                    if refusal is not None:
+                        # publish NOTHING for this berth — no connector, no
+                        # network cells — and carry the debt on the output
+                        refused.append({**refusal, "from": rec["id"],
+                                        "dockId": dock.get("id"), "batch": bi})
+                        continue
                 if snapped is None:
                     unconnected.append({"id": rec["id"],
                                         "why": f"no connected navigable water within {SNAP_M:.0f} m",
@@ -451,8 +627,24 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                     continue
                 srow, scol = snapped
                 path = trace(prev, srow, scol, w)
-                length_m = sum(np.hypot(path[i + 1][0] - path[i][0], path[i + 1][1] - path[i][1]) * px_m
-                               for i in range(len(path) - 1))
+                # The traced line is a walk of 5.48 m CELL CENTRES, so on a
+                # trench about two cells wide it rides the lip through every
+                # bend (defect 2). Publish exact metre geometry snapped onto
+                # the wet axis instead; `px` is re-derived from it so the
+                # studio layer and the network raster follow the same line.
+                # ex/ez: water-to-dock ends the channel on the authored berth;
+                # to-water ends it at the CELL CENTRE, which is the point
+                # `ProvinceSurvey.sample()` reports the depth of and therefore
+                # the point blueprint.py checks the berth at.
+                ex, ez = ((float(x), float(z)) if fit == "water-to-dock"
+                          else ((scol + 0.5) * px_m, (srow + 0.5) * px_m))
+                raw_points = [[(c + 0.5) * px_m, (r + 0.5) * px_m] for c, r in path]
+                raw_points[0] = [ex, ez]
+                points_m = snap_points_to_wet_axis(raw_points, water)
+                if len(points_m) >= 2:
+                    path = cells_along(s, points_m)
+                length_m = sum(float(np.hypot(b[0] - a[0], b[1] - a[1]))
+                               for a, b in zip(points_m, points_m[1:]))
                 if length_m > MAX_CHANNEL_M:
                     unconnected.append({"id": rec["id"], "why": f"nearest water path {length_m / 1000:.1f} km",
                                         "batch": bi})
@@ -471,19 +663,16 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                     "kind": kind, "class": kind, "from": rec["id"], "to": "network",
                     "batch": bi, "lengthKm": round(length_m / 1000.0, 3),
                     "px": [[int(c), int(r)] for c, r in path],
+                    # Exact metre geometry, snapped to the channel axis. `px`
+                    # is the raster shadow of this line, not the line itself.
+                    "pointsM": points_m,
                 }
                 if dock is not None:
                     # the berth this channel serves, and the EXACT point it ends
-                    # at: the traced line is a chain of 5.48 m raster cells, so
-                    # its head is only the cell the berth falls in.
+                    # at — `points_m[0]`, which the snap leaves untouched:
                     # water-to-dock ends the channel on the authored berth;
                     # to-water ends it on the water the berth must be moved to
                     # (and `blueprint.py` fails until the dock is authored there).
-                    # to-water ends the channel at the CELL CENTRE, which is
-                    # the point `ProvinceSurvey.sample()` reports the depth of
-                    # and therefore the point blueprint.py checks the berth at.
-                    ex, ez = (float(x), float(z)) if fit == "water-to-dock" else (
-                        (scol + 0.5) * px_m, (srow + 0.5) * px_m)
                     channel["dockId"] = dock.get("id")
                     channel["fit"] = fit
                     channel["endsAtM"] = [round(ex, 3), round(ez, 3)]
@@ -499,6 +688,7 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
         network |= new_cells
     channels.sort(key=lambda t: t["id"])
     unconnected.sort(key=lambda u: u["id"])
+    refused.sort(key=lambda r: r["id"])
     doc = {
         "schemaVersion": SCHEMA_VERSION, "kind": "minor-waterways",
         "generatedBy": "worldgen.compile_minor_waterways (Phase 11 Part 3c, decision 0041)",
@@ -508,11 +698,17 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
         "crossingM": CROSSING_M,
         "summary": {"channels": len(channels), "onNetworkAlready": len(on_network),
                     "unconnected": len(unconnected),
+                    "refusedBerths": len(refused),
                     "byKind": {k: sum(1 for t in channels if t["kind"] == k)
                                for k in ("channel", "river", "crossing")},
                     "totalKm": round(sum(t["lengthKm"] for t in channels), 2)},
         "onNetwork": [on_network[key] for key in sorted(on_network)],
-        "unconnected": unconnected, "channels": channels,
+        "unconnected": unconnected,
+        # Berths the compiled water cannot carry. Nothing is published for
+        # them: no connector, no cells. Red in `test_minor_waterways` until
+        # each is authored or fixed (owner 2026-09-09).
+        "refusedBerths": refused,
+        "channels": channels,
     }
     return doc
 
@@ -606,6 +802,15 @@ def digest(doc: dict, solved: list[dict]) -> str:
          f"or by guide — a design fact to check, not a failure):", ""]
     for u in doc["unconnected"]:
         L.append(f"  - `{u['id']}` — {u['why']}")
+    refused = doc.get("refusedBerths") or []
+    if refused:
+        L += ["", f"- **{len(refused)} REFUSED berths** — the compiled water cannot carry the hull "
+              f"the blueprint promises, so no connector is published for them at all "
+              f"(`test_minor_waterways` is red until each is authored or fixed):", ""]
+        for r in refused:
+            L.append(f"  - `{r['dockId']}` — needs {r['needM']:.1f} m, the water publishes "
+                     f"{r['depthAtBerthM']:.2f} m at the berth; nearest water that deep "
+                     f"{('%.1f m away' % r['nearestWaterM']) if r['nearestWaterM'] is not None else 'not within 9 km'}")
     L += ["", "### Longest channels", "", "| place | class | km |", "|---|---|---|"]
     for t in sorted(doc["channels"], key=lambda t: -t["lengthKm"])[:15]:
         L.append(f"| `{t['from']}` | {t['kind']} | {t['lengthKm']} |")
@@ -639,6 +844,11 @@ def main(argv: list[str] | None = None) -> None:
     print(f"[minor-waterways] {sm['channels']} channels ({sm['totalKm']} km) {sm['byKind']}; "
           f"on-network {sm['onNetworkAlready']}; unconnected {sm['unconnected']}; "
           f"registry solved {len(solved)}")
+    for r in doc.get("refusedBerths") or []:
+        print(f"[minor-waterways] REFUSED {r['dockId']}: {r['why']}")
+    if doc.get("refusedBerths"):
+        print(f"[minor-waterways] {len(doc['refusedBerths'])} berth(s) refused; the rest of the "
+              f"network is published. test_minor_waterways stays red until they are fixed.")
 
 
 if __name__ == "__main__":
