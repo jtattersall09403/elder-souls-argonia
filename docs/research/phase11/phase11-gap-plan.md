@@ -61,7 +61,7 @@ changes, re-run.
   renderer, atomic fail-closed exporter, three-tier/far instancing, streamed
   perimeter anchoring, material/CSM reapply contract, ground treatments,
   radius-aware grass exclusion, versioned imperative colliders, paired door
-  and navmesh records, and all 2,151 route pieces are implemented with focused
+  and navmesh records, and all 4,147 route pieces are implemented with focused
   tests. The exporter requires exact equality between the authored exemplar
   set and fresh content-hashed compile outputs: a stale or simply absent place
   cannot quietly disappear from the runtime bundle. Checklist 18's coarse
@@ -229,7 +229,7 @@ must meet their hull depth within 150 m unless they carry a typed terrain-cut
 promise that will create it. The full owner-approved solve placed 580/580
 records with no collisions, no invalid sites, no navigability exceptions and
 no resiting pins. It wrote the catalogue and the edge-corrected Clark–Evans
-report (median R 0.839). The four authored exemplars remain blueprint-pinned.
+report (median R 0.838). The four authored exemplars remain blueprint-pinned.
 
 ### B6 — One province extent — DONE 2026-09-08
 
@@ -309,11 +309,25 @@ combined run (while the water build was active) reached 391 passes and five
 known in-flight water/settlement failures in 109.46 s. This is a diagnostic
 baseline, not the final green timing; repeat it once B1/B2 are complete.
 
-The post-cleanup combined gate now reaches 409 passes and the one deliberate
-Sap physical-channel failure in 53.63 s pytest time / 56.61 s wall time. That
-run caught and drove out a real Lilmoth quay-routing regression first, so the
-gain has not traded away detection. The all-green timing remains pending the
-water-owned Sap line and B2 postconditions.
+**Read every timing in B10 as a dated diagnostic baseline, not a settled
+result.** Each was taken while the water solve and the compiler outputs were
+still moving, so none reproduces today; they record where the time went at the
+moment the optimisation landed, which is what they were for.
+
+The post-cleanup combined gate reached 409 passes and the one deliberate Sap
+physical-channel failure in 53.63 s pytest time / 56.61 s wall time — measured
+2026-09-08, on that day's water data, with the slow marker deselected. That run
+caught and drove out a real Lilmoth quay-routing regression first, so the gain
+has not traded away detection.
+
+Re-measured 2026-09-09 on this VM, `npm run test:placement`, with the water
+agent's Sap berth red and the macro-plot agent mid-edit in the shared tree:
+**417 passed, 2 failed, 2 deselected, 71.36 s**. The two reds were
+`test_blueprint.py::test_live_dir_validates` (the Sap berth) and
+`test_macro_plot.py::test_no_two_live_places_share_ground` (a transient
+`macro_plot.RELATED_MIN_M` rename in another agent's working tree, not a
+committed defect). The all-green timing remains pending the water-owned Sap
+line and B2 postconditions; take it then, once, under stated conditions.
 
 ### B9 — Macro promise to final delivery contract (owner 2026-09-08) — DONE 2026-09-08
 
@@ -488,6 +502,80 @@ the record links it). Alongside water: yes.
   water-handoff action as recorded above.
 - `hostile-or-clearable ≥ 55 %` sits at 55.5 % (three records of headroom):
   any hostile cut needs a matching promotion, or the owner lowers the floor.
+
+## QA round — gates that could not fail (delivered 2026-09-09)
+
+An audit of this plan's own delivery found six defects, five of them gates that
+were green by construction. All are fixed here; the numbers below are measured,
+not restated.
+
+- **The prose gate never fired on quests or NPCs.** `prose_links._high_precision`
+  refused every quest title outright, so B9's motivating class — a quest purpose
+  with no typed link — was exactly the one the live gate could not see. A title
+  now fires when it is at least three words *and* the phrase denotes nothing in
+  any other closed vocabulary (that keeps *Lake Meer*, which is a lake, and
+  *Keepers of the Shell*, which is a faction, unasserted), matched in its
+  authored case. Live: **quest 61 mentions, 0 hard**, after migrating the 19
+  real findings it exposed into exact `proseRefs` on the Nine-Trunks (7) and
+  Lilmoth (12) blueprints. **npc stays 0 mentions, and that is now proven, not
+  assumed**: the closed vocabulary is the two registered principals
+  (`npc.holds-the-reed`, `npc.nesh-deeka`) and neither name nor id occurs
+  anywhere in the 1,281,019 characters of catalogue and blueprint prose;
+  `occupants[]` carries descriptions ("D1 caretaker few"), not names. A test
+  asserts the quest count is non-zero, pins the npc vocabulary, and carries a
+  positive control proving the same extractor does fire on an NPC name.
+  Mutation-tested: restoring the old rule reddens three tests.
+- **B3's drift rejection was untested.** Every fixture ran
+  `apply_area_boundaries` first, so deleting `blueprint.py`'s drift guard left
+  the suite green. `test_hand_edited_area_boundary_is_rejected_as_drift` now
+  edits a derived district and a derived combat space *after* canonicalisation,
+  and adds an extra-vertex case. Mutation-tested: deleting the guard reddens it.
+- **The terrain-request postcondition module had no live consumer.** All 11 of
+  its tests were synthetic, so the quoted 50/66 came from a report nothing
+  gated. It now defaults to the *published*
+  `apps/world-studio/public/province/refined/terrain-request-{plan,fulfillments}.json`,
+  three live tests bind it to those records, and the 16 water-owned final-water
+  failures are registered in
+  `world/sources/terrain/terrain-request-known-red.json`. Known-red is reported
+  by name, never suppressed: an unexpected failure, a row that has started
+  passing, or a row missing from the report all fail the gate. Measured now:
+  **50/66 passing, 16 known-red, 0 unexpected**.
+- **`test_measure_connectors.py` ran in no CI job**, so the half of the 97 G19
+  evidence chain that *produces* connector measurements was unguarded while the
+  half that consumes them was gated. New `npm run test:pipeline` runs the whole
+  `tooling/asset-pipeline/pipeline` suite (**130 passed, 10 subtests, 17 s**) in
+  the `placement-tests` job. Making it green needed one real fill: the Lilmoth
+  destroyed keep-wall corner
+  (`mwkeep:…/mwimparchwallcorin01destroyed01`) had no asset policy, so
+  `test_placement_metadata` was failing unseen. Given `pad` — the policy its
+  sibling `mwimparchwall01destroyed01` already carries.
+- **`test:placement:slow` was in no workflow.** Wired into `placement-tests`
+  rather than deleted: the two tests re-grade the whole province and skip where
+  the vault is absent (that includes the CI runner), so folding them into the
+  default selection would put a permanently-skipped pair in the hot path.
+  Wiring keeps them from drifting. Running them here immediately caught a
+  regression nobody could see: **`test_grade_routes.py::test_province_grading_leaves_no_unreported_wall`
+  fails at `rimCellsMadeSteeperOutsideWindows` 22,602 against its 20,000 cap**
+  (rim p95 and over-cap windows still pass). That is route grading on terrain
+  the water pass has been moving under it; it belongs with B1/B2 and must be
+  re-measured and either fixed or re-based once the water solve settles.
+  **Open — next agent on B1/B2 owns it.**
+- **`blueprint_integration._CONNECTORS`** is a pure load cache of immutable
+  measured data in `tooling/`, not shared state in `packages/`, so standard 5
+  does not reach it — but it is now an `lru_cache` with no module-level mutable
+  binding and no `global`, keeping the `kits_dir` injection point. Recorded in
+  the function's docstring so the judgement is not re-made.
+- **Wrong numbers corrected at source**: "2,151 route pieces" → 4,147 (293
+  structures; the published `route-structures.json` sums to 4,147); median R
+  0.839 → 0.838 (`world/sources/sites/macro-plot.md:341`); B10's timings are now
+  labelled as the dated diagnostic baselines they are.
+- **The red deploy gate now explains itself.** The owner is holding the deploy
+  on the water-owned Sap-Tapping berth rather than moving the gate (2026-09-09),
+  which is correct — but a bare red suite reads as a broken one. A new
+  `tooling/world-generation/conftest.py` prints a `KNOWN RED — water-owned,
+  expected` block naming those two tests and pointing at the water handoff, and
+  counts any failure it does not cover. It changes no outcome: nothing is
+  xfailed, quarantined or skipped, and the gate is not weakened.
 
 ## What follows gap closure
 
