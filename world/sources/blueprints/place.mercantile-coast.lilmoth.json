@@ -10827,8 +10827,24 @@
         "placeRef": "place.imperial-penal-south.blackrose"
       },
       {
+        "sourcePath": "combatSpaces[1].why",
+        "questRef": "quest.local.lm16"
+      },
+      {
+        "sourcePath": "combatSpaces[1].why",
+        "questRef": "quest.local.lm23"
+      },
+      {
+        "sourcePath": "combatSpaces[3].why",
+        "questRef": "quest.local.lm02"
+      },
+      {
         "sourcePath": "districts[0].why.what",
         "placeRef": "place.imperial-penal-south.blackrose"
+      },
+      {
+        "sourcePath": "landmarks[6].why.playerPurpose",
+        "questRef": "quest.local.lm06"
       },
       {
         "sourcePath": "networkTerminals[0].why",
@@ -10867,12 +10883,44 @@
         "factionRef": "faction.an-xileel"
       },
       {
+        "sourcePath": "parcels[24].playerPurpose[1].note",
+        "questRef": "quest.local.lm07"
+      },
+      {
+        "sourcePath": "parcels[24].why.playerPurpose",
+        "questRef": "quest.local.lm07"
+      },
+      {
+        "sourcePath": "parcels[24].why.playerPurpose",
+        "questRef": "quest.local.lm23"
+      },
+      {
+        "sourcePath": "parcels[28].playerPurpose[1].note",
+        "questRef": "quest.local.lm02"
+      },
+      {
+        "sourcePath": "parcels[31].playerPurpose[0].note",
+        "questRef": "quest.local.lm16"
+      },
+      {
+        "sourcePath": "parcels[31].why.playerPurpose",
+        "questRef": "quest.local.lm16"
+      },
+      {
         "sourcePath": "parcels[44].playerPurpose[1].note",
         "placeRef": "place.mercantile-coast.stripped-village-north"
       },
       {
         "sourcePath": "parcels[44].why.playerPurpose",
         "placeRef": "place.mercantile-coast.stripped-village-north"
+      },
+      {
+        "sourcePath": "parcels[52].why.playerPurpose",
+        "questRef": "quest.local.lm06"
+      },
+      {
+        "sourcePath": "parcels[53].why.playerPurpose",
+        "questRef": "quest.local.lm23"
       },
       {
         "sourcePath": "parcels[54].why.what",

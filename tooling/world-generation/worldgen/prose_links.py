@@ -363,25 +363,40 @@ def _prose_ref_index(record: dict, prose: list[tuple[str, str]],
 def _mention_index(entities: tuple[Entity, ...]):
     counts = Counter((entity.kind, entity.name.casefold()) for entity in entities)
     by_name: dict[str, list[Entity]] = {}
+    kinds_by_name: dict[str, frozenset[str]] = {}
+    kinds: dict[str, set[str]] = {}
+    for entity in entities:
+        kinds.setdefault(entity.name.casefold(), set()).add(entity.kind)
     for entity in entities:
         if counts[entity.kind, entity.name.casefold()] == 1:
             by_name.setdefault(entity.name.casefold(), []).append(entity)
+    kinds_by_name = {name: frozenset(value) for name, value in kinds.items()}
     trie: dict = {}
     for name in by_name:
         node = trie
         for char in name:
             node = node.setdefault(char, {})
         node[None] = name
-    return trie, by_name
+    return trie, by_name, kinds_by_name
 
 
-def _high_precision(entity: Entity) -> bool:
+# A quest title has to clear this to be asserted from a bare prose mention.
+# Two-word titles are the ones that collide (Lake Meer is a lake, Keepers of
+# the Shell is a faction); three words of authored title are not a phrase the
+# marsh prose reaches for by accident.
+QUEST_TITLE_MIN_WORDS = 3
+
+
+def _high_precision(entity: Entity, kinds_by_name: dict[str, frozenset[str]]) -> bool:
     """Exclude registry labels too ambiguous to assert from bare prose."""
     if entity.name == entity.id:
         return True
     words = entity.name.split()
     if entity.kind == "quest":
-        return False  # titles are stock phrases; use the id or a [[quest:…]] marker
+        # Titles fire only when they are long enough to be distinctive and the
+        # phrase denotes nothing else in any other closed vocabulary.
+        return (len(words) >= QUEST_TITLE_MIN_WORDS
+                and kinds_by_name.get(entity.name.casefold(), frozenset()) == frozenset({"quest"}))
     if entity.kind == "place" and len(words) == 2 and words[0].casefold() == "the":
         return False  # The Break/The Roll/etc. collide heavily with ordinary phrases
     if entity.kind == "place" and len(words) == 1 and len(entity.name) <= 5:
@@ -393,7 +408,7 @@ def _high_precision(entity: Entity) -> bool:
 
 def _mentioned_entities(text: str, entities: tuple[Entity, ...]):
     """Yield ``(entity, offset)`` for complete phrases in one linear pass."""
-    trie, by_name = _mention_index(entities)
+    trie, by_name, kinds_by_name = _mention_index(entities)
     folded = text.casefold()
 
     def wordish(char: str) -> bool:
@@ -419,9 +434,9 @@ def _mentioned_entities(text: str, entities: tuple[Entity, ...]):
             continue
         matched = text[i:match_end]
         for entity in by_name[match_name]:
-            if not _high_precision(entity):
+            if not _high_precision(entity, kinds_by_name):
                 continue
-            if (entity.kind in {"place", "faction", "npc"} and entity.name != entity.id
+            if (entity.kind in {"place", "faction", "npc", "quest"} and entity.name != entity.id
                     and matched != entity.name):
                 continue  # proper-name vocabularies keep their authored case
             # Service vocabulary is intentionally terse and therefore

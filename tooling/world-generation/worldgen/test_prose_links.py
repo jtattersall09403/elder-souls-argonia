@@ -36,6 +36,67 @@ def test_quest_title_is_ambiguous_but_explicit_id_is_checked():
     assert len(marked.hard) == 1
 
 
+def test_distinctive_quest_title_fires_but_short_or_colliding_titles_do_not():
+    """A title is asserted only when it is long and denotes nothing else."""
+    distinctive = pl.Entity("quest", "quest.local.lm05", "The Record Room")
+    fired = pl.check_record(
+        {"id": "place.test.a"},
+        [("why.playerPurpose", "The Record Room begins at this desk.")],
+        [distinctive],
+    )
+    assert [f.entity_id for f in fired.hard] == ["quest.local.lm05"]
+
+    linked = pl.check_record(
+        {"id": "place.test.a", "questSockets": [{"questId": "quest.local.lm05"}]},
+        [("why.playerPurpose", "The Record Room begins at this desk.")],
+        [distinctive],
+    )
+    assert linked.findings == []
+
+    short = pl.Entity("quest", "quest.local.lr55", "Lake Meer")
+    assert pl.check_record(
+        {"id": "place.test.a"}, [("why.founding", "Lake Meer is north.")], [short],
+    ).findings == []
+
+    # A title that is also a faction name stays unasserted however long it is.
+    collision = [
+        pl.Entity("quest", "quest.local.lv24", "Keepers of the Shell"),
+        pl.Entity("faction", "faction.keepers-of-the-shell", "Keepers of the Shell"),
+    ]
+    colliding = pl.check_record(
+        {"id": "place.test.a", "ownerFaction": "faction.keepers-of-the-shell"},
+        [("why.founding", "Keepers of the Shell hold the reef.")],
+        collision,
+    )
+    assert colliding.findings == []
+
+    # Lower-cased ordinary prose is not the authored title.
+    assert pl.check_record(
+        {"id": "place.test.a"}, [("why.founding", "the record room is damp.")], [distinctive],
+    ).findings == []
+
+
+def test_live_gate_actually_sees_quest_titles_and_the_npc_vocabulary_is_two_names():
+    """Neither HARD class may be green because the extractor matches nothing.
+
+    quest fires on real prose. npc genuinely does not: the closed vocabulary is
+    the two registered principals, and no catalogue or blueprint prose field
+    names either of them (occupants[] carries descriptions, not names).
+    """
+    result = pl.check_all()
+    assert result.mentions["quest"] > 0
+    npcs = [entity for entity in pl.load_entities() if entity.kind == "npc"]
+    assert {entity.id for entity in npcs} == {"npc.holds-the-reed", "npc.nesh-deeka"}
+    assert result.mentions["npc"] == 0
+    # Positive control: the same extractor does fire on an NPC name in prose.
+    control = pl.check_record(
+        {"id": "place.test.a"},
+        [("why.founding", "Nesh-Deeka keeps a room above the wharf.")],
+        [pl.Entity("npc", "npc.nesh-deeka", "Nesh-Deeka")],
+    )
+    assert [f.entity_id for f in control.hard] == ["npc.nesh-deeka"]
+
+
 def test_unknown_explicit_ref_is_a_reverse_contradiction():
     result = pl.check_record(
         {"id": "place.test.a", "placeRef": "place.test.missing"}, [],

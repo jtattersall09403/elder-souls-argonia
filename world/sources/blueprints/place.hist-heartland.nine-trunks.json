@@ -4658,6 +4658,18 @@
         "placeRef": "place.hist-heartland.greenspring"
       },
       {
+        "sourcePath": "combatSpaces[0].why",
+        "questRef": "quest.local.lh52"
+      },
+      {
+        "sourcePath": "districts[1].why.playerPurpose",
+        "questRef": "quest.local.lh37"
+      },
+      {
+        "sourcePath": "landmarks[11].why.playerPurpose",
+        "questRef": "quest.local.lh52"
+      },
+      {
         "sourcePath": "landmarks[2].why.whyHere",
         "serviceRef": "lodging"
       },
@@ -4670,12 +4682,28 @@
         "placeRef": "place.saxhleel-coast.archon"
       },
       {
+        "sourcePath": "parcels[12].why.playerPurpose",
+        "questRef": "quest.local.lh37"
+      },
+      {
         "sourcePath": "parcels[1].why.playerPurpose",
         "serviceRef": "lodging"
       },
       {
+        "sourcePath": "parcels[2].playerPurpose[0].note",
+        "questRef": "quest.local.lh37"
+      },
+      {
+        "sourcePath": "parcels[2].why.playerPurpose",
+        "questRef": "quest.local.lh37"
+      },
+      {
         "sourcePath": "parcels[2].why.whyHere",
         "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[3].why.playerPurpose",
+        "questRef": "quest.local.lh37"
       }
     ]
   }
