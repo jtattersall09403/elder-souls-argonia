@@ -10,7 +10,9 @@
 #   ./scripts/terrain-chain.sh --force         # rebuild every stage regardless
 #   ./scripts/terrain-chain.sh --from grade_routes    # resume at a stage
 #   ./scripts/terrain-chain.sh --list          # stages, in order
-#   ./scripts/terrain-chain.sh --footprint     # LOCAL edit fast path (below)
+#   ./scripts/terrain-chain.sh --footprint     # force the LOCAL edit fast path
+#   ./scripts/terrain-chain.sh --full          # force the whole chain
+#   ./scripts/terrain-chain.sh --allow-sculpt  # let the sculpt re-run (rare)
 #   ./scripts/terrain-chain.sh --steal-lock    # take a lock a dead run left
 #
 # Run from tooling/world-generation. A full forced rebuild is roughly six
@@ -28,9 +30,17 @@
 # `argonia-heightfield` directory (a scratch copy for benchmarking, a second
 # worktree building at the same time). VAULT below follows it.
 #
-# --footprint: THE LOCAL-EDIT FAST PATH. Use it, and only it, when the ONLY
-# thing you changed is one of the two carves that touch a bounded patch of
-# ground:
+# THE LOCAL-EDIT FAST PATH, and when it is chosen. A plain run TAKES IT BY
+# DEFAULT when it can prove it applies: `chain_stages local-carve-only` compares
+# every input and output of the recorded `refine_province` against disk, and
+# says yes only when the sole change is one of the two bounded carves below,
+# with the terrain code untouched and a carve snapshot on disk. Anything else —
+# a changed module, a changed hydrology, no previous full run — takes the whole
+# chain. `--footprint` forces the fast path and `--full` forbids it, and both
+# print which path they took and why.
+#
+# The fast path applies when the ONLY thing you changed is one of the two
+# carves that touch a bounded patch of ground:
 #
 #   * a blueprint dock's hullClass / position / networkTerminals entry
 #     (worldgen/dock_dredge.py), or
@@ -162,18 +172,34 @@ FOOTPRINT_STAGES=(
 
 from=""
 force=""
+allow_sculpt=""
 footprint=""
+full=""
 steal=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --list) printf '%s\n' "${STAGES[@]}"; exit 0 ;;
     --force) force="--force"; shift ;;
     --footprint) footprint=1; shift ;;
+    --full) full=1; shift ;;
+    --allow-sculpt) allow_sculpt=1; shift ;;
     --steal-lock) steal=1; shift ;;
     --from) from="${2:?--from needs a stage name}"; shift 2 ;;
-    *) echo "usage: $0 [--from <stage>] [--force] [--footprint] [--steal-lock] [--list]" >&2; exit 2 ;;
+    *) echo "usage: $0 [--from <stage>] [--force] [--footprint|--full] [--allow-sculpt] [--steal-lock] [--list]" >&2; exit 2 ;;
   esac
 done
+
+# The default is the fast path WHEN IT APPLIES. `--full`, `--force` and
+# `--from` are all explicit statements that this run is not a local carve, so
+# none of them auto-select it.
+if [[ -z "$footprint" && -z "$full" && -z "$force" && -z "$from" ]]; then
+  if why=$(ES_VAULT_ROOT="$VAULT" python3 -m worldgen.chain_stages local-carve-only); then
+    echo "Fast path: $why. (--full forces the whole chain.)"
+    footprint=1
+  else
+    echo "Full chain: $why."
+  fi
+fi
 
 if [[ -n "$footprint" ]]; then
   STAGES=("${FOOTPRINT_STAGES[@]}")
@@ -245,6 +271,17 @@ for stage in "${STAGES[@]}"; do
   key=$(printf '%s%02d-%s' "${footprint:+fp-}" "$index" "$stage")
   if [[ -n "$from" && $started -eq 0 ]]; then
     [[ "$stage" == "$from" ]] && started=1 || continue
+  fi
+  # THE SCULPT IS FROZEN. `sculpt_province` re-derives the base terrain the
+  # owner approved at the Phase 6b walk gate, and a `--force` run once replaced
+  # it and cost the project a day. It is not a stage a routine rebuild may take
+  # on its own initiative — and it WILL try, because it reads `routes.json`,
+  # which `reroute_majors` rewrites five stages later, so its fingerprint is
+  # stale after almost every run (polish backlog: the chain's feedback edge).
+  # Re-sculpting is a deliberate act; `--allow-sculpt` is how you say so.
+  if [[ "$stage" == "sculpt_province" && -z "$allow_sculpt" ]]; then
+    echo "=== $stage === SKIPPED: the sculpted base is frozen (--allow-sculpt to re-derive it)"
+    continue
   fi
   echo "=== $stage ==="
   args=()

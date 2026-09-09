@@ -21,13 +21,14 @@ import json
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+from .vault import REPO_ROOT, asset_pipeline_root  # noqa: E402
+
 sys.path.insert(0, str(REPO_ROOT / "tooling" / "asset-pipeline"))
 
 from PIL import Image  # noqa: E402
 from pipeline.bsa import BSAArchive  # noqa: E402
 
-_VAULT_ROOT = REPO_ROOT.parent / "elder-scrolls-asset-pipeline"
+_VAULT_ROOT = asset_pipeline_root()
 DEFAULT_DATA = _VAULT_ROOT / "skyrim-source" / "Data"
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "kits" / "waterfall-fx-textures"
 

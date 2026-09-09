@@ -37,6 +37,7 @@ j * mpp, per packages/game-core/src/terrain/heightfield.ts).
 from __future__ import annotations
 
 import numpy as np
+from .npz_io import savez as _savez
 from scipy import ndimage
 
 from .scale import RAW_M
@@ -299,7 +300,7 @@ class ChannelSolution:
         arrays = {k: np.asarray(v) for k, v in self.__dict__.items()
                   if isinstance(v, (np.ndarray, np.generic, float, int))}
         arrays["shape"] = np.asarray(self.shape, dtype=np.int64)
-        np.savez_compressed(path, **arrays)
+        _savez(path, **arrays)
 
     @classmethod
     def load(cls, path) -> "ChannelSolution":

@@ -29,16 +29,16 @@ from pathlib import Path
 
 from .asset_taxonomy import NON_CONTENT_CATEGORIES, classify, normalise
 from .esp_index import UNITS_PER_METRE, Plugin
+from .vault import asset_pipeline_root
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 REGISTRY_DIR = REPO_ROOT / "world" / "sources" / "assets"
 
-DEFAULT_VAULT = Path(
-    os.environ.get(
-        "ELDER_SOULS_ASSET_ROOT",
-        Path.home() / "workspace/elder-souls-dev/elder-scrolls-asset-pipeline",
-    )
-)
+# ELDER_SOULS_ASSET_ROOT is this tool's historical override; worldgen.vault
+# answers it the same way everything else in the chain does when it is unset.
+DEFAULT_VAULT = (Path(os.environ["ELDER_SOULS_ASSET_ROOT"])
+                 if os.environ.get("ELDER_SOULS_ASSET_ROOT")
+                 else asset_pipeline_root())
 
 _LOD_SUFFIX = re.compile(r"(_lod_flat|_lod|_distant)$", re.I)
 

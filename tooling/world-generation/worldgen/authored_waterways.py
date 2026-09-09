@@ -25,7 +25,7 @@ from __future__ import annotations
 import numpy as np
 from scipy import ndimage
 
-from .blueprint import HULL_CLASS_DEPTH_M
+from .dock_spec import HULL_CLASS_DEPTH_M
 from .scale import RAW_M
 
 SCHEMA_NOTE = "authored-minor-waterway-carve"

@@ -23,6 +23,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+from .npz_io import savez as _savez
 from scipy import ndimage
 from skimage.morphology import local_minima, reconstruction
 from skimage.segmentation import watershed
@@ -279,7 +280,7 @@ def placement_snapshot(shape, mpp) -> dict:
 
 
 def save_placement(snapshot: dict, path) -> None:
-    np.savez_compressed(path, **{k: np.packbits(v) for k, v in snapshot.items()},
+    _savez(path, **{k: np.packbits(v) for k, v in snapshot.items()},
                         shape=np.asarray(next(iter(snapshot.values())).shape))
 
 

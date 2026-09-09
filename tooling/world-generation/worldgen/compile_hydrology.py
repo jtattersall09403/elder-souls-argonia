@@ -18,6 +18,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+from .npz_io import savez as _savez
 from PIL import Image
 from scipy import ndimage
 
@@ -54,7 +55,7 @@ def main() -> None:
     result = compute(z, metres_per_px)
     reg = compute_regions(z, result, metres_per_px)
 
-    np.savez_compressed(
+    _savez(
         grid_path.parent / "hydrology-pass1.npz",
         conditioned=z, ocean=result.ocean, filled=result.filled.astype(np.float32),
         flow_to=result.flow_to.astype(np.int32), accum_km2=result.accum_km2,
