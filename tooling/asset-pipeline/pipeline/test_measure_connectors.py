@@ -4,6 +4,10 @@ The two evidence paths, one failing and one passing case each, on synthetic
 inputs so the arithmetic is readable.
 """
 
+import pathlib
+
+import pytest
+
 from pipeline.measure_connectors import (bounds_connectors,
                                          coplacement_connectors, measure_kit)
 
@@ -60,6 +64,22 @@ def test_a_vertical_stack_is_not_a_ground_plane_join():
     assert coplacement_connectors({"kit:a", "kit:b"}, tmpl, FOOTPRINTS) == {}
 
 
+#: `measure_kit` reads a BUILT kit's footprints, which are build output and are
+#: gitignored — so this test cannot run on a clean checkout, and on CI it did
+#: not skip, it ERRORED and took the whole deploy with it (run 34394484954,
+#: 2026-09-09). The repo already settled this pattern for the four settlement
+#: tests that need the same output: skip where the build is absent, run for
+#: real on a machine that has it. Skipping is honest here because the thing
+#: under test is a MEASUREMENT of built geometry; with no build there is
+#: nothing to measure and a pass would be meaningless either way.
+_KIT_FOOTPRINTS = (pathlib.Path(__file__).resolve().parents[1]
+                   / "output" / "kits" / "imperial-keep.footprints.json")
+
+
+@pytest.mark.skipif(not _KIT_FOOTPRINTS.exists(),
+                    reason="imperial-keep is not built in this checkout "
+                           "(gitignored build output); run pipeline.build_kit "
+                           "--kit imperial-keep to measure it for real")
 def test_the_shipped_gate_arch_carries_a_face_on_each_pier():
     data = measure_kit("imperial-keep")
     arch = data["assets"]["mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/"
