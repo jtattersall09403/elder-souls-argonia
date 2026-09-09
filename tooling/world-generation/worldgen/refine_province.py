@@ -176,10 +176,17 @@ def apply_local_carves(h, level_with_sea, wet, stations, log=print):
     # never touches ground standing above the waterline.
     h, dredge_stats = dock_dredge.dredge_docks(
         h, level_with_sea, RAW_M, stations=stations, log=log)
+    # ...and the same rule along the WHOLE of every published boat lane, not
+    # just the 100 m a dock promises: a lane the catalogue and the quests send
+    # people down has to carry a hull for its whole length, or say where it
+    # does not. Never cuts above the waterline; an above-water run is reported
+    # as a portage, which is a real world fact and must be declared.
+    h, lane_stats = dock_dredge.dredge_lanes(
+        h, level_with_sea, RAW_M, stations=stations, log=log)
     boxes = footprint.normalise(
-        row["window"] for row in (*authored_stats, *dredge_stats)
-        if row.get("window"))
-    return h, authored_stats, dredge_stats, boxes
+        [row["window"] for row in (*authored_stats, *dredge_stats) if row.get("window")]
+        + [win for row in lane_stats for win in row.get("windows", [])])
+    return h, authored_stats, dredge_stats, lane_stats, boxes
 
 
 def carve_to_profile(h, npz, save_path=None):
@@ -238,7 +245,7 @@ def carve_to_profile(h, npz, save_path=None):
         np.savez(local_dir / "local-carve-inputs.npz",
                  level_with_sea=bodies.level_with_sea,
                  wet=bodies.wet | bodies.sea)
-    h, authored_stats, dredge_stats, carve_boxes = apply_local_carves(
+    h, authored_stats, dredge_stats, lane_stats, carve_boxes = apply_local_carves(
         h, bodies.level_with_sea, bodies.wet | bodies.sea, stations, log=print)
     # self-consistency report: the compiler floods THIS terrain and keeps the
     # profile above; a lake the trench breached, or a hollow the levee made
@@ -257,6 +264,7 @@ def carve_to_profile(h, npz, save_path=None):
     stats["islandsLowered"] = n_islands
     stats["authoredWaterways"] = authored_stats
     stats["dockApproaches"] = dredge_stats
+    stats["laneChannels"] = lane_stats
     stats.update({k: v for k, v in pool_report.items() if not k.endswith("Sites")})
     stats["bodies"] = bodies.census
     if save_path is not None:

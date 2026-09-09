@@ -459,3 +459,134 @@ def test_site_1590_4250_has_no_hovering_edge(S):
     sl, disc = S.disc_full(1590, 4250, 60.0)
     bad = hovering_map(S)[sl] & disc
     assert not bad.any()
+
+
+# --------------------------------------------------------------------------
+# the class raster's two bounds (2026-09-09)
+
+
+def test_class_covers_the_band_the_shore_shader_reads(S):
+    """`CLASS_EXT_PX` is derived from the shader, so the data must show it.
+
+    `packages/game-core/src/water/render/groundWetness.ts` reads the class
+    raster on DRY ground out to a 22 m shore distance (`esWetShore < 22.0`,
+    faded over 14-22 m) and samples it bilinearly. A dry cell inside that band
+    with no class makes the shader read class 0, turbidity 0 and salinity 0,
+    which switches off the coastal fetch gate and the beach run-up with it.
+    At the 4 px radius that used to be hard-coded this was measurably wrong:
+    3 311 cells (0.100 km2) inside the shader's own band carried no class.
+    """
+    from .compile_water import CLASS_EXT_PX, CLASS_SHADER_BAND_M, STEP  # noqa: PLC0415
+    mpp3 = RAW_M * STEP
+    n3 = S.cls.shape[0]
+    wet3 = _wet_at_class_resolution(S, n3)
+    dist_m = ndimage.distance_transform_edt(~wet3) * mpp3
+    # the extension is also capped in HEIGHT, so only cells the rise rule keeps
+    # are owed a class; compare against the reachable ones
+    reach = _class_reachable(S, n3, wet3)
+    missing = (~wet3) & reach & (dist_m > 0) & (dist_m <= CLASS_SHADER_BAND_M) & (S.cls == 0)
+    assert CLASS_EXT_PX * mpp3 >= CLASS_SHADER_BAND_M, (
+        f"the class extension ({CLASS_EXT_PX} px = {CLASS_EXT_PX * mpp3:.2f} m) no longer "
+        f"covers the shader's {CLASS_SHADER_BAND_M:.1f} m wet-shore band")
+    assert int(missing.sum()) == 0, (
+        f"{int(missing.sum())} dry cells inside the shader's {CLASS_SHADER_BAND_M:.0f} m "
+        f"wet-shore band carry no class, so the shore there reads as open land")
+
+
+def test_no_extension_cell_stands_above_its_own_water(S):
+    """The other bound: the extension is lateral, so without a height cap it
+    labels ground metres up a bank. Measured before the cap (2026-09-09):
+    2.72 km2 of the class raster stood more than 2 m above water at its own
+    SEASONAL maximum (polish backlog). Wet cells are exempt by definition —
+    they ARE the water — so this asserts on the extension only.
+    """
+    from .compile_water import CLASS_EXT_RISE_M, STEP  # noqa: PLC0415
+    n3 = S.cls.shape[0]
+    wet3 = _wet_at_class_resolution(S, n3)
+    bad = (S.cls > 0) & ~wet3 & ~_class_reachable(S, n3, wet3)
+    km2 = ((RAW_M * STEP) / 1000.0) ** 2
+    assert int(bad.sum()) == 0, (
+        f"{int(bad.sum())} extension cells ({bad.sum() * km2:.3f} km2) carry a class while "
+        f"standing more than {CLASS_EXT_RISE_M:.1f} m above the water at its seasonal maximum")
+
+
+def _class_block(S, n3, full):
+    """A full-resolution boolean/float reduced to the class grid by block max."""
+    from .compile_water import STEP  # noqa: PLC0415
+    i3 = export_index(full.shape[0], STEP)
+    return ndimage.maximum_filter(full, size=STEP)[np.ix_(i3, i3)][:n3, :n3]
+
+
+def _wet_at_class_resolution(S, n3):
+    """`compile_water`'s `wet3`: the full-res wet mask, block-max to 1345."""
+    return _class_block(S, n3, S.wet)
+
+
+def _class_reachable(S, n3, wet3):
+    """Cells the water can reach: within CLASS_EXT_PX of wet, and no more than
+    CLASS_EXT_RISE_M above that water's SEASONAL maximum. This is the compiler's
+    own extension rule, recomputed from the SHIPPED rasters rather than trusted
+    (`compile_water` section 8).
+
+    The seasonal maximum is read from the 2017 surface + shore-G pair that
+    ships, which is a coarser grid than the compiler's full-res one; taking its
+    block MAXIMUM makes this an over-estimate of how high the water gets, so the
+    reconstruction can only ever be more permissive than the compiler and never
+    turn a correct raster red.
+    """
+    from .compile_water import (CLASS_EXT_PX, CLASS_EXT_RISE_M,  # noqa: PLC0415
+                                SEASON_AMPLITUDE_M, STEP)
+    mpp3 = RAW_M * STEP
+    season_max2 = np.where(S.wet2, S.w2 + SEASON_AMPLITUDE_M * S.season2, -np.inf)
+    season_max2 = ndimage.maximum_filter(season_max2, size=3)
+    # nearest 2017 texel to each 1345 cell centre
+    idx = np.clip((((np.arange(n3) + 0.5) * mpp3 / S.mpp2) - 0.5).round().astype(int),
+                  0, S.w2.shape[0] - 1)
+    season_max3 = season_max2[np.ix_(idx, idx)]
+    i3 = export_index(S.refined.shape[0], STEP)
+    ground3 = ndimage.minimum_filter(S.refined, size=STEP)[np.ix_(i3, i3)][:n3, :n3]
+    dist_px, (ky, kx) = ndimage.distance_transform_edt(~wet3, return_indices=True)
+    return (dist_px <= CLASS_EXT_PX) & (ground3 <= season_max3[ky, kx] + CLASS_EXT_RISE_M)
+
+
+def test_every_published_boat_lane_carries_a_hull_or_declares_a_portage(S):
+    """A published lane is a promise the catalogue's travel edges and the
+    quests both make. Measured on the shipped rasters before `dredge_lanes`
+    existed: 876 of 3 071 major boat-lane cells carried less than a canoe's
+    0.6 m in the BASE season, and 686 of those stood at or above the local
+    waterline. A lane may be carried (dredged), or it may cross dry ground for
+    a portage's length — the province's own declared portages run 11-89 m — but
+    it may never be shallow water nobody can use, and it may never be demoted.
+    """
+    from . import dock_dredge as dd  # noqa: PLC0415
+    promises = dd.load_lane_promises()
+    if not promises:
+        pytest.skip("no published boat lanes in this checkout")
+    level = np.where(S.wet2, S.w2, np.nan).astype(np.float64)
+    shallow, overland = [], []
+    for row in promises:
+        pts = dd._resample_line(row["pointsM"])
+        samples = np.stack([pts[:, 1] / S.mpp2, pts[:, 0] / S.mpp2], axis=1)
+        if not dd._inside(samples, S.w2.shape).all():
+            continue
+        levels = dd._lane_levels(level, samples, S.mpp2)
+        governed = np.isfinite(levels)
+        ground = dd._sample_levels(S.ground2.astype(np.float64), samples)
+        above = ~governed | (ground >= levels)
+        for a, b in dd._runs(above):
+            if b - a < 2:
+                above[a:b] = True
+        for a, b in dd._runs(above):
+            length = float(b - a) * dd.RESAMPLE_M
+            if length > dd.LANE_PORTAGE_MAX_M:
+                overland.append(f"{row['routeId']}: {length:.0f} m overland at "
+                                f"[{pts[a, 0]:.0f}, {pts[a, 1]:.0f}]")
+        bad = int(((levels - ground)[~above] < row["needM"] - DEPTH_QUANTUM_M).sum())
+        if bad:
+            shallow.append(f"{row['routeId']}: {bad} samples under "
+                           f"{row['needM']:.1f} m with water over them")
+    assert not overland, ("a boat lane runs overland for longer than anyone carries a hull: "
+                          + "; ".join(overland))
+    assert not shallow, ("a published boat lane is too shallow for the smallest craft that "
+                         "uses it, and dredging it is the fix (never a demotion): "
+                         + "; ".join(shallow))

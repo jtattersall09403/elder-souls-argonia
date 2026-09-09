@@ -49,6 +49,29 @@ ground) the promise cannot be kept by dredging, so the reach is reported
 ``blocked`` and nothing at all is cut there: half a trench would hide the
 fault. That is a berth or route placement call, not a terrain one.
 
+THE SAME RULE ALONG A WHOLE PUBLISHED LANE (2026-09-09). A dock's promise is
+only the first 100 m of it. The province also PUBLISHES six major boat lanes
+(``route.boat.*`` in ``waterways.json``), and the catalogue's travel-service
+edges and the quests route people down them; a lane that a hull cannot use for
+a kilometre in the middle is the same broken promise a mile further out.
+Measured on the shipped rasters before this pass: 876 of 3 071 lane cells
+carried less than a canoe's ``LANE_MIN_DEPTH_M`` in the BASE season, and 686 of
+those stood at or above the local waterline — dry land under a published lane.
+
+``dredge_lanes`` applies the identical machinery to the whole line: same level
+field, same non-increasing bed, same sloped sides, same refusal to touch a cell
+at or above its own water. Two outcomes, and no third:
+
+* **dredged** — the lane was below its waterline but too shallow, so the
+  channel is cut and the lane carries a canoe. This is a poled lane's village
+  keeping it open, which is what the world says already happens.
+* **portage** — a run of the lane stands ABOVE the local water. Nothing is cut
+  (half a trench would hide it) and the run is REPORTED with its length and
+  position, because a boat route crossing dry ground is a portage: a real,
+  already-modelled world fact (``refine_province.resolve_portages``) that has
+  to be DECLARED. A lane may not be quietly demoted, and its hull class may
+  never be lowered to make the shallow water pass.
+
 Runs in :func:`worldgen.refine_province.carve_to_profile`, after
 ``authored_waterways.carve_authored``, on the same full-res sample grid.
 """
@@ -80,6 +103,26 @@ DEPTH_MARGIN_M = 0.25           # cut below the promise so rounding cannot eat i
 LEAD_OUT_M = 250.0              # how far past the promise the channel may run to meet deep water
 LEVEL_SCAN_M = 80.0             # how far off the reach a station may still govern it
 RESAMPLE_M = 2.0
+
+# A published boat lane carries, at minimum, the smallest craft that uses it.
+# That is the canoe: Lilmoth is DELIBERATELY canoe-class (its living is
+# lighters BECAUSE keels cannot berth), so the lane's floor is the hull table's
+# canoe entry and the deeper classes are kept where they are promised — at the
+# berths, by `dredge_docks`. Naming it from the one table means a change to the
+# hull ladder moves the lane rule with it.
+LANE_MIN_DEPTH_M = HULL_CLASS_DEPTH_M["canoe"]
+LANE_HALF_WIDTH_M = HULL_CHANNEL_HALF_WIDTH_M["canoe"]
+# A run of lane standing above its own water shorter than this is a bar the
+# lane clips, not a crossing anyone would carry a boat over; it is still
+# reported, and it is still never cut.
+LANE_PORTAGE_MIN_M = 6.0
+# ...and beyond THIS a land crossing stops being a portage and becomes a
+# defect. Read off the province's own declared portages
+# (`refined/portages.json`, written by `refine_province.resolve_portages`):
+# they run 11-89 m. Nobody carries a coasting hull half a kilometre overland,
+# so a longer run is a lane routed across country and has to be re-solved or
+# re-typed — it is reported ``blocked``, never quietly carried.
+LANE_PORTAGE_MAX_M = 100.0
 
 
 # --------------------------------------------------------------------------
@@ -383,3 +426,202 @@ def dredge_docks(h: np.ndarray, level_with_sea: np.ndarray,
                 f"{stats['volumeM3']:.0f} m3, depth {have:.2f} -> {after:.2f} m")
         out.append(rec)
     return h, out
+
+
+# --------------------------------------------------------------------------
+# the published lanes
+
+
+def load_lane_promises(network=None) -> list[dict]:
+    """Every published major boat lane, with the depth a lane must carry.
+
+    Read from the published network, which is what the catalogue's travel
+    edges, the quests and the studio all consume — not from a source file that
+    could disagree with what shipped.
+    """
+    if network is None:
+        from . import province_network as pn
+        network = pn.load_network()
+    rows = []
+    for rid, route in sorted(network.items()):
+        if not route.is_water or not rid.startswith("route.boat.") or not route.points_m:
+            continue
+        rows.append({"routeId": rid, "needM": LANE_MIN_DEPTH_M,
+                     "pointsM": [tuple(map(float, p)) for p in route.points_m]})
+    return rows
+
+
+def _runs(flags: np.ndarray):
+    """Contiguous ``(start, stop)`` index ranges where `flags` is True."""
+    idx = np.flatnonzero(np.diff(np.concatenate(([False], flags, [False])).astype(np.int8)))
+    return list(zip(idx[::2], idx[1::2]))
+
+
+def dredge_lanes(h: np.ndarray, level_with_sea: np.ndarray, mpp: float = RAW_M,
+                 stations=None, promises=None, log=None) -> tuple[np.ndarray, list[dict]]:
+    """Carry every published boat lane, or say loudly where it cannot be.
+
+    Each lane is split at the samples that stand at or above their own water.
+    Every wet run that is shallower than ``LANE_MIN_DEPTH_M`` is dredged with
+    the dock machinery; every above-water run is reported as a portage and left
+    bit-identical. Returns (heights, one row per lane).
+    """
+    if promises is None:
+        promises = load_lane_promises()
+    level = np.where(np.isfinite(level_with_sea), level_with_sea, np.nan)
+    out: list[dict] = []
+    for row in promises:
+        need = row["needM"]
+        pts = _resample_line(row["pointsM"])
+        samples = np.stack([pts[:, 1] / mpp, pts[:, 0] / mpp], axis=1)   # (row=z, col=x)
+        rec = {"routeId": row["routeId"], "promisedDepthM": need,
+               "lengthM": round(float(len(samples) - 1) * RESAMPLE_M, 1)}
+        inside = _inside(samples, h.shape)
+        if not inside.all():
+            # a lane that leaves this grid is not this grid's lane; clamping
+            # its samples to the edge would dig a trench in the wrong place
+            rec["status"] = "off-grid"
+            out.append(rec)
+            continue
+        # NOT `reach_levels`: that makes the series non-increasing outward from
+        # the FIRST sample, which is right for a dock approach leading away
+        # from a berth and wrong for a lane, whose two ends are both open
+        # water — it would cut a false slope down the whole line and, at the
+        # far end, dig metres below the water the lane joins.
+        levels = _lane_levels(level, samples, mpp, stations)
+        governed = np.isfinite(levels)
+        if not governed.any():
+            rec["status"] = "no-water"
+            out.append(rec)
+            if log:
+                log(f"lane dredge {row['routeId']}: no water governs any of it")
+            continue
+        ground = _sample_levels(h, samples)
+        depths = np.where(governed, levels - ground, np.nan)
+        rec["existingMinDepthM"] = round(float(np.nanmin(depths)), 3)
+        rec["shallowSamples"] = int((depths < need).sum())
+        # above its own water, or with no water at all: a portage, never a cut
+        above = ~governed | (ground >= levels)
+        # a single wet sample wedged between two land crossings is not a reach
+        # anyone floats: it is part of the crossing. Absorbing it keeps the
+        # census honest — otherwise it survives as an uncuttable shallow sample
+        # with no explanation, which is exactly the kind of residue that gets
+        # read later as a compiler defect.
+        for a, b in _runs(~above):
+            if b - a < 2:
+                above[a:b] = True
+        portages = []
+        for a, b in _runs(above):
+            length = float(b - a) * RESAMPLE_M
+            rise = float(np.nanmax((ground - levels)[a:b])) if governed[a:b].any() else float("nan")
+            portages.append({
+                "atM": [round(float(pts[a, 0]), 1), round(float(pts[a, 1]), 1)],
+                "lengthM": round(length, 1),
+                "highestAboveWaterM": None if math.isnan(rise) else round(rise, 3),
+            })
+        rec["portages"] = [p for p in portages if p["lengthM"] >= LANE_PORTAGE_MIN_M]
+        rec["portageM"] = round(sum(p["lengthM"] for p in portages), 1)
+        rec["overlandRuns"] = [p for p in portages if p["lengthM"] > LANE_PORTAGE_MAX_M]
+        boxes, cells, volume = [], 0, 0.0
+        for a, b in _runs(~above & (depths < need)):
+            seg, seg_lvl = samples[a:b], levels[a:b]
+            if len(seg) < 2:
+                continue
+            # Samples are RESAMPLE_M apart and cells are mpp across, so several
+            # samples share a cell and the cell takes the bed of whichever is
+            # NEAREST. If that neighbour's water stands higher, the cell is cut
+            # to the wrong bed and the lower sample reads a sill. Cutting to
+            # the lowest level within a cell's reach removes the artefact
+            # without over-digging: on a real gradient the two differ by
+            # centimetres.
+            k = max(int(math.ceil(mpp / RESAMPLE_M)), 1)
+            bed = ndimage.minimum_filter1d(seg_lvl, size=2 * k + 1, mode="nearest") \
+                - need - DEPTH_MARGIN_M
+            h, stats = dredge_channel(h, seg, bed, seg_lvl, mpp, LANE_HALF_WIDTH_M)
+            boxes.append(list(stats["window"]))
+            cells += stats["cellsCut"]
+            volume += stats["volumeM3"]
+        rec["cellsCut"], rec["volumeM3"] = cells, round(volume, 1)
+        rec["windows"] = boxes
+        after = np.where(governed, levels - _sample_levels(h, samples), np.nan)
+        rec["dredgedMinDepthM"] = round(float(np.nanmin(np.where(above, np.nan, after))), 3) \
+            if (~above).any() else None
+        rec["shallowSamplesAfter"] = int((after[~above] < need - 1e-6).sum())
+        if rec["shallowSamplesAfter"] or rec["overlandRuns"]:
+            rec["status"] = "blocked"
+        elif rec["portages"]:
+            rec["status"] = "portaged"
+        else:
+            rec["status"] = "carried"
+        if log:
+            log(f"lane dredge {row['routeId']}: {rec['status'].upper()}, {rec['lengthM']:.0f} m of "
+                f"lane, {rec['shallowSamples']} shallow samples -> {rec['shallowSamplesAfter']}, "
+                f"{cells} cells cut, {volume:.0f} m3, "
+                f"{len(rec['portages'])} portage run(s) totalling {rec['portageM']:.0f} m")
+            for p in rec["portages"]:
+                log(f"    portage {p['lengthM']:.0f} m at {p['atM']}, up to "
+                    f"{p['highestAboveWaterM']} m above the water — NOT cut: a boat route over "
+                    f"dry ground is a portage and has to be declared, not dug or demoted")
+            for p in rec["overlandRuns"]:
+                log(f"    BLOCKED: {p['lengthM']:.0f} m of {row['routeId']} at {p['atM']} runs "
+                    f"OVERLAND, up to {p['highestAboveWaterM']} m above any water. Past "
+                    f"{LANE_PORTAGE_MAX_M:.0f} m that is not a carry anyone makes — the lane "
+                    f"needs re-solving or re-typing, and nothing here may be dug or demoted")
+        out.append(rec)
+    return h, out
+
+
+def _resample_line(points_m, spacing_m: float = RESAMPLE_M) -> np.ndarray:
+    """Resample a metre-space polyline at ~`spacing_m`, keeping both ends."""
+    pts = np.asarray(points_m, dtype=np.float64)
+    out = [pts[0]]
+    for a, b in zip(pts, pts[1:]):
+        span = float(math.dist(a, b))
+        n = max(int(math.ceil(span / spacing_m)), 1)
+        for i in range(1, n + 1):
+            out.append(a + (b - a) * (i / n))
+    return np.asarray(out, dtype=np.float64)
+
+
+def _lane_levels(level: np.ndarray, samples_yx: np.ndarray, mpp: float, stations=None,
+                 scan_m: float = LEVEL_SCAN_M) -> np.ndarray:
+    """The level of the water standing at each lane sample; NaN where none is.
+
+    Unlike `reach_levels` this applies NO monotone rule: a lane runs between
+    two open ends rather than outward from a berth, so forcing its levels
+    non-increasing along the line would cut a false slope down its whole length
+    and, at the far end, dig metres below the water it joins.
+    """
+    ys, xs = samples_yx[:, 0], samples_yx[:, 1]
+    out = np.full(len(samples_yx), np.nan, dtype=np.float64)
+    pad = int(np.ceil(scan_m / mpp)) + 2
+    y0 = max(int(np.floor(ys.min())) - pad, 0)
+    y1 = min(int(np.ceil(ys.max())) + pad + 1, level.shape[0])
+    x0 = max(int(np.floor(xs.min())) - pad, 0)
+    x1 = min(int(np.ceil(xs.max())) + pad + 1, level.shape[1])
+    sub = level[y0:y1, x0:x1]
+    finite = np.isfinite(sub)
+    if finite.any():
+        dist, (iy, ix) = ndimage.distance_transform_edt(
+            ~finite, sampling=(mpp, mpp), return_indices=True)
+        ry = np.clip(np.round(ys).astype(int) - y0, 0, sub.shape[0] - 1)
+        rx = np.clip(np.round(xs).astype(int) - x0, 0, sub.shape[1] - 1)
+        near = dist[ry, rx] <= scan_m
+        out[near] = sub[iy[ry, rx], ix[ry, rx]][near]
+    if stations is not None:
+        sy, sx, sl = stations
+        keep = np.isfinite(sl)
+        if keep.any():
+            sy, sx, sl = sy[keep], sx[keep], sl[keep]
+            # chunked so a long lane does not build an (stations x samples)
+            # matrix: the province's channel solution has ~10^6 stations
+            for i in range(0, len(ys), 512):
+                d = np.hypot(sy[:, None] - ys[None, i:i + 512],
+                             sx[:, None] - xs[None, i:i + 512]) * mpp
+                j = np.argmin(d, axis=0)
+                dmin = d[j, np.arange(d.shape[1])]
+                cand = np.where(dmin <= scan_m, sl[j], np.nan)
+                seg = out[i:i + 512]
+                out[i:i + 512] = np.where(
+                    np.isfinite(cand) & (~np.isfinite(seg) | (cand < seg)), cand, seg)
+    return out

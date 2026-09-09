@@ -48,6 +48,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import time
 from pathlib import Path
 
@@ -83,7 +84,32 @@ SEASON_AMPLITUDE_M = sw.SEASON_AMPLITUDE_M
 RIVER_RESPONSE = {1: 0.35, 2: 0.5, 3: 0.5}
 FLOW_MAX = 3.0
 SHORE_MAX_M = 160.0
-CLASS_EXT_PX = 4              # class/turbidity continue this far past the shoreline
+# --- how far past the shoreline the class/turbidity/salinity label continues.
+#
+# NOT a taste number: it is the distance the GROUND shader reads the class
+# raster at. `packages/game-core/src/water/render/groundWetness.ts`
+# (SURFACE_WETNESS_GLSL) gates its wet-shore band on `esWetShore < 22.0` m and
+# fades it out over 14-22 m, and it samples the class raster with `texture2D`,
+# so a fragment at 22.0 m of shore distance blends texels whose centres lie up
+# to half a texel further out in each axis (mpp*sqrt(1/2) in Euclidean shore
+# distance, which is 1-Lipschitz). The radius is therefore derived from the
+# shader's own band, and MOVES WITH IT if either number changes.
+#
+# Measured on the shipped bake at the 4 px that used to be hard-coded
+# (2026-09-09): 3 311 dry cells (0.100 km2) INSIDE the shader's own 22 m band
+# carried no class at all, and 15 869 more (0.477 km2) in the bilinear halo, so
+# 4 px was too NARROW, not too generous. The derivation gives 5 px (27.42 m).
+CLASS_SHADER_BAND_M = 22.0    # SURFACE_WETNESS_GLSL's wet-shore band, in metres
+CLASS_EXT_PX = int(math.ceil(
+    (CLASS_SHADER_BAND_M + RAW_M * STEP * math.sqrt(0.5)) / (RAW_M * STEP)))
+# ...and how far ABOVE its own water an extension cell may stand. The radius is
+# lateral, so on a steep bank 4-5 px of dilation used to label ground metres
+# above any water it could ever see: 2.72 km2 of the class raster stood more
+# than 2 m above water at its own SEASONAL MAXIMUM (polish backlog, measured
+# 2026-09-09). The shader's wet band is a waterline band — it cannot draw wet
+# sand 2 m up a bank — so an extension cell that high buys the renderer nothing
+# and lies to every consumer that reads the raster.
+CLASS_EXT_RISE_M = 2.0
 PROFILE_STEP_M = 1.0
 PROFILE_START_M = -3.0
 PROFILE_PAST_M = 25.0
@@ -537,13 +563,34 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
     ww = ndimage.binary_dilation(npz["rivers"][:n3, :n3] >= 2, iterations=2) & (tannin < 0.5)
     turb[ww] = np.maximum(turb[ww], 0.58)
     turb = np.clip(ndimage.gaussian_filter(turb, 1.5), 0.0, 1.0)
+    # The extension is bounded BOTH ways: laterally by what the shore shader
+    # samples (CLASS_EXT_PX), and vertically by how far above its own water a
+    # cell may still stand (CLASS_EXT_RISE_M). Without the second bound the
+    # lateral radius alone labels ground metres up a steep bank — 2.72 km2 of
+    # it — and a consumer reading the raster as "there is water here" is then
+    # reading a cliff. The comparison is against the SEASONAL MAXIMUM of the
+    # water that gives the cell its class, so a marsh margin that floods for
+    # months keeps its label; only ground the water can never reach loses it.
+    season_max = np.where(wet, W + SEASON_AMPLITUDE_M * resp, -np.inf)
+    season_max3 = ndimage.maximum_filter(
+        np.nan_to_num(season_max, nan=-np.inf, posinf=-np.inf), size=step)[np.ix_(i3, i3)]
+    # lowest ground in the block, to match wet3's block-max: a cell counts as
+    # reachable if ANY of the ground it covers is within the band
+    ground3 = ndimage.minimum_filter(g, size=step)[np.ix_(i3, i3)]
     dist_px, (ky, kx) = ndimage.distance_transform_edt(~wet3, return_indices=True)
-    ext = (~wet3) & (dist_px <= CLASS_EXT_PX)
+    near = (~wet3) & (dist_px <= CLASS_EXT_PX)
+    ext = near & (ground3 <= season_max3[ky, kx] + CLASS_EXT_RISE_M)
+    class_ext_stats = {
+        "classExtPx": CLASS_EXT_PX,
+        "classExtRiseM": CLASS_EXT_RISE_M,
+        "classExtCells": int(ext.sum()),
+        "classExtRejectedByRise": int((near & ~ext).sum()),
+    }
     cls_ext = cls.copy()
     cls_ext[ext] = cls[ky[ext], kx[ext]]
     for arr in (turb, tannin, salinity):
         arr[ext] = arr[ky[ext], kx[ext]]
-    del dist_px, ky, kx
+    del dist_px, ky, kx, near, season_max, season_max3, ground3
 
     # --- 9. flow (1345): centreline tangent × speed --------------------------
     vx = np.zeros((n3, n3), dtype=np.float32)
@@ -676,6 +723,7 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
         "ownerFrac": round(float((owner2 > 0).mean()), 6),
         "classFrac": {name: round(float((cls_ext == i).mean()), 5)
                       for i, name in enumerate(CLASSES) if i},
+        **class_ext_stats,
         **{k: v for k, v in bodies.census.items()},
         **pool_report,
     }
@@ -787,6 +835,16 @@ def write_outputs(r: dict, vault: Path, *, source_height_sha256: str) -> None:
                  "flowMax": FLOW_MAX, "shoreMaxM": SHORE_MAX_M},
         "klass": {"file": "water-class.png", "size": int(n3), "metresPerPixel": RAW_M * STEP,
                   "classes": CLASSES,
+                  # The extension past the shoreline, stated so a consumer can
+                  # reason about it instead of measuring it: `extPx` is derived
+                  # from the ground shader's own 22 m wet-shore band plus its
+                  # bilinear half-texel halo, and `extRiseM` caps how far above
+                  # its own water (at the SEASONAL MAXIMUM) an extension cell
+                  # may stand.
+                  "extPx": CLASS_EXT_PX,
+                  "extM": round(CLASS_EXT_PX * RAW_M * STEP, 2),
+                  "extShaderBandM": CLASS_SHADER_BAND_M,
+                  "extRiseM": CLASS_EXT_RISE_M,
                   # Said in the data because reading it wrongly has already
                   # shipped a defect: a dock guard asked this raster whether a
                   # berth's cell was water, got yes, and published a 91 m dry
@@ -804,7 +862,11 @@ def write_outputs(r: dict, vault: Path, *, source_height_sha256: str) -> None:
                              "carries a canoe in the monsoon and is mud in the "
                              "dry season is the world working, not a defect - "
                              "so ask the depth AT THE SEASON THAT MATTERS, "
-                             "never whether a cell has a class."},
+                             "never whether a cell has a class. The superset is "
+                             "BOUNDED: a cell with no water of its own is "
+                             "labelled only within extPx of water AND within "
+                             "extRiseM above that water's seasonal maximum, so "
+                             "the label never runs up a bank."},
         "channels": r["channels"],
         "cascades": r["cascades"],
         "stats": r["stats"],

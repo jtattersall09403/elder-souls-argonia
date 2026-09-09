@@ -348,6 +348,7 @@ try {
     console.log(`== ${s.id}`);
     let dbg = null;
     let probe = null;
+    let groundReliefM = null;
     let loaded = "fresh page";
     if (hookAvailable && !needFreshContext) {
       try {
@@ -382,6 +383,27 @@ try {
         if (probe.rows[Math.floor(points.length / 2)].groundM !== null) break;
         await page.waitForTimeout(400);
       } while (Date.now() < deadline);
+      // Registration needs the ground's TEXEL-SCALE RELIEF, not just the
+      // ground under the camera. The compiled depth is one number per texel;
+      // the probe reads it BILINEARLY and compares it against ground sampled
+      // from the finer terrain, and bilinear filtering only commutes with a
+      // LINEAR ground. So sample ground at the four surrounding depth-texel
+      // centres (+-mpp/2) and let the tolerance carry the spread between them:
+      // on flat water the relief is ~0 and the gate stays exactly as tight as
+      // it was (water-handoff.md item 4; measured at fall-20m-under, where the
+      // ground crosses 274.89 -> 277.41 m across one texel quad and every
+      // texel is nonetheless exact).
+      if (probe && probe.surfaceMetresPerPixel > 0) {
+        const c = probe.rows[Math.floor(probe.rows.length / 2)];
+        const h = probe.surfaceMetresPerPixel / 2;
+        const quad = [
+          { x: c.x - h, z: c.z - h }, { x: c.x + h, z: c.z - h },
+          { x: c.x - h, z: c.z + h }, { x: c.x + h, z: c.z + h },
+        ];
+        const corners = await page.evaluate((pts) => window.__STUDIO_WATER_PROBE__(pts), quad);
+        const g = corners.rows.map((r) => r.groundM).filter((v) => v !== null);
+        groundReliefM = g.length === 4 ? Math.max(...g) - Math.min(...g) : null;
+      }
       const before = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__.frames);
       await page.waitForFunction((f) => window.__STUDIO_WATER_DEBUG__.frames >= f + 2, before,
         { timeout: 30_000, polling: 200 });
@@ -508,8 +530,15 @@ try {
           const label = saturated
             ? `depth saturated at the ${ceilingM.toFixed(1)} m encoding ceiling (raw ${c.rawDepthM.toFixed(2)}, physical ${c.physicalDepthM.toFixed(2)} m)`
             : `|still − ground − depth| = ${gap.toFixed(2)} m`;
-          if (gap < 0.15) ok(`${label} (registered)`);
-          else fail(`${label} (physical ${c.physicalDepthM.toFixed(2)} vs compiled ${c.depthM.toFixed(2)})`);
+          // Tolerance = the flat-water gate PLUS half the ground's relief
+          // across the depth texel quad. Half, not all: bilinear interpolation
+          // can differ from the texel value by at most half the spread the
+          // corners span, so this is the arithmetic's own bound and not slack.
+          const relief = groundReliefM ?? 0;
+          const tol = 0.15 + 0.5 * relief;
+          const reliefNote = relief > 0.01 ? `, ground relief ${relief.toFixed(2)} m across the depth texel quad` : "";
+          if (gap < tol) ok(`${label} (registered, tolerance ${tol.toFixed(2)} m${reliefNote})`);
+          else fail(`${label} > ${tol.toFixed(2)} m${reliefNote} (physical ${c.physicalDepthM.toFixed(2)} vs compiled ${c.depthM.toFixed(2)})`);
         } else checks.push("     (no chunk ground loaded here: registration check skipped)");
       } else if (s.expect === "dry") {
         if (!c.wet) ok(`dry (${c.depthM.toFixed(2)} m)`);
@@ -784,8 +813,20 @@ try {
       const rel = f / Math.max(g, 1e-6);
       const line = `${s.id} ${f.toFixed(2)} fps with the falls = x${rel.toFixed(2)} of ${g.toFixed(2)} fps without`
         + (river !== undefined ? ` (lowland-river character view ${river.toFixed(2)} fps)` : "");
+      // A ratio of two rates is only a measurement while both rates carry
+      // enough frames to be one. Under software GL these sites run at
+      // 1.3-2.0 fps, where the FPS_WINDOW_MS window holds a handful of frames
+      // and one stray frame moves the ratio by tens of per cent: consecutive
+      // runs measured x1.37 (pass) and x0.89 (fail) on unchanged code. Below
+      // the floor the check REPORTS rather than asserts, the way the fit and
+      // join checks already do — a gate that flips on noise teaches agents to
+      // ignore it, which is worse than no gate.
+      const FPS_ASSERT_FLOOR = 5.0;
       if (rel >= 0.9) lines.push(`ok   ${line}`);
-      else { lines.push(`FAIL ${line}`); failures.push(`frame rate cliff at ${s.id}: ${line}`); }
+      else if (Math.min(f, g) < FPS_ASSERT_FLOOR) {
+        lines.push(`note ${line} — reported only: under ${FPS_ASSERT_FLOOR} fps the `
+          + `${FPS_WINDOW_MS / 1000} s window holds too few frames for the ratio to be a measurement`);
+      } else { lines.push(`FAIL ${line}`); failures.push(`frame rate cliff at ${s.id}: ${line}`); }
     }
     if (lines.length) report.push(`## frame rate at the falls\n${lines.join("\n")}\n`);
   }

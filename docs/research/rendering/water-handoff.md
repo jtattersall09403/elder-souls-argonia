@@ -121,14 +121,42 @@ left is a handover, not a loose end:
    ground read from the 1.83 m terrain, and bilinear filtering only commutes
    with a linear ground. In fall-20m's plunge bowl the ground crosses 274.89 →
    277.41 m across that one texel quad, so the two arithmetics differ by
-   0.19 m at the camera (measured) while every texel is right. **Probe fix to
-   apply** (`apps/world-studio/scripts/probe-water.mjs`, owned elsewhere): the
-   registration tolerance must carry the ground's texel-scale relief. The
-   probe already sends arbitrary points to `__STUDIO_WATER_PROBE__`, so sample
-   ground at the four surrounding depth-texel centres (`±mpp/2` in x and z,
-   `mpp` = `meta.surface.metresPerPixel`) and gate on
-   `gap < 0.15 + 0.5 * (max − min)` of those four. On flat water the relief is
-   ~0 and the gate stays exactly as tight as it is today.
+   0.19 m at the camera (measured) while every texel is right. **Probe fix APPLIED 2026-09-09.**
+   `apps/world-studio/scripts/probe-water.mjs` now samples ground at the four
+   depth-texel centres around the camera (`±mpp/2`, `mpp` from the new
+   `surfaceMetresPerPixel` field on the probe summary) and gates on
+   `gap < 0.15 + 0.5 * (max − min)`. On flat water the relief is ~0 and the gate
+   is exactly as tight as before. The falls' frame-rate ratio, which sat beside
+   it in the polish backlog, now REPORTS instead of asserting below 5 fps —
+   under software GL those sites run at 1.3–2.0 fps, where the window holds too
+   few frames for a ratio to be a measurement (it gave x1.37 and x0.89 on
+   consecutive unchanged runs).
+
+5. **The class raster's extension is now DERIVED, not chosen (2026-09-09).**
+   `CLASS_EXT_PX` was a hard-coded 4 px. The right number comes from what the
+   ground shader actually samples past the waterline: `SURFACE_WETNESS_GLSL`
+   gates its wet-shore band on `esWetShore < 22.0` m and reads the class raster
+   bilinearly, so it needs a class out to 22.0 m plus a half-texel halo
+   (`mpp·√½` = 3.88 m) — 4.72 px, so **5 px (27.42 m)**. Four was too NARROW,
+   not too generous: measured on the shipped bake, 3 311 dry cells (0.100 km²)
+   INSIDE the shader's own 22 m band carried no class at all, and 15 869 more
+   (0.477 km²) in the halo. `compile_water` now computes the radius from
+   `CLASS_SHADER_BAND_M`, so it moves if the shader's band moves, and publishes
+   `klass.extPx` / `klass.extM` / `klass.extShaderBandM` / `klass.extRiseM` in
+   the meta so the shipped contract and the code cannot drift apart.
+
+   The radius was never what made 6.50 km² of the raster dry all year, though.
+   Most of that is marsh and river margin that floods for months — the world
+   working. The defect was the **2.72 km² standing more than 2 m above any
+   water at any season** (polish backlog), and the cause is that the dilation is
+   purely LATERAL: on a steep bank 5 px of it runs metres uphill. The extension
+   now carries a second bound, `CLASS_EXT_RISE_M = 2.0`, measured against the
+   seasonal MAXIMUM of the water that gives the cell its class, so a marsh
+   margin keeps its label and a bank does not. Two invariants hold it:
+   `test_class_covers_the_band_the_shore_shader_reads` and
+   `test_no_extension_cell_stands_above_its_own_water`. What the cap cannot
+   reach — 1 577 cells classed by the WET mask's own block-max on a steep
+   bank — is a resolution problem and is queued in the polish backlog.
 
 **CI is green and the round is deployed** (`04e78dd`, 2026-09-09 00:40 UTC).
 Two breakages found by CI on the way there, both fixed: the prose linter
@@ -209,6 +237,16 @@ reach fills from the open water. It only ever cuts, and it never touches a cell
 standing at or above the waterline. Called once from `carve_to_profile` after
 `authored_waterways.carve_authored`; its rows land in `stats["dockApproaches"]`.
 
+**And along whole published lanes, 2026-09-09.** A dock's promise is only its
+first 100 m; the six published `route.boat.*` lanes are promises too, and 876 of
+3 071 shipped lane cells carried less than a canoe's 0.6 m in the base season.
+`dock_dredge.dredge_lanes` applies the same machinery to the whole line (rows in
+`stats["laneChannels"]`): 986 shallow samples with water over them are cut to
+0.6 m, an above-water run up to `LANE_PORTAGE_MAX_M` (100 m, the ceiling read
+off the province's own declared portages, which run 11-89 m) is REPORTED as a
+portage and never touched, and a longer one is `blocked` — see the polish
+backlog for the two lanes that trip it, which are lane geometry and not water.
+
 The port's channel is dug because that is what a working port does — the berth
 is fixed by what stands on it and the hull class is a claim the catalogue and
 the quests make, so neither may be moved to make the check pass.
@@ -220,31 +258,33 @@ before the rebuild:
 | --- | --- |
 | Lilmoth lighter quay / Soulrest–Lilmoth | dredged 366 m × 30 m, 26 223 m³, max cut 3.25 m, 1.18 → 3.25 m |
 | Lilmoth lighter quay / Blackrose–Lilmoth | dredged 358 m × 30 m, 20 463 m³, max cut 3.25 m, 0.86 → 3.25 m |
-| Sap-Tapping landing / its landing channel | **blocked, nothing cut** — 39 of 51 approach points, from the berth itself outward, stand up to 1.48 m ABOVE the local water (29.22 m); the first real route cell is 92.94 m south-west of the exact berth and the nearest final-raster canoe-depth cell is 104.39 m away |
-| Wamasu Pond lane landing / its lane | **blocked, nothing cut** — 7 of 51 points stand up to 1.09 m above the water, first 20 m out |
+| Sap-Tapping landing / its landing channel | **blocked, nothing cut** — RE-MEASURED 2026-09-09 against the moved berth at `[3309.400, 4815.000]`: 18 of 51 approach points stand above the water, minimum depth −1.32 m. The berth itself is fine (0.60 m); the fault is the published route's first segment, a straight 199.7 m join from the berth to the first real water cell. **Fixed at source:** the creek is now authored (below) |
+| Wamasu Pond lane landing / its lane | **PASSES, 2026-09-09** — re-measured against the current blueprint: 0 of 51 points above water, minimum 0.84 m over the first 100 m against a 0.6 m canoe promise. The old row predates the rebuild |
 
 Sap-Tapping is a missing authored-water delivery, not permission to move its
 settlement geometry. The blueprint's dock, network terminal and local canal
-end exactly at `[3478.500, 4373.000] (SUPERSEDED — that berth moved 2026-09-09)` m; its 11.86 m plank walk and the licence
-board facing 318° depend on a canoe arriving from the north-west. The published
-minor route instead replaces a wet-only A\* cell 92.94 m to the south-west with
-the berth coordinate, fabricating a dry straight join: independent 2 m samples
-put 47 of 52 points on that join out of the water. Moving the dock to that cell
-would sever the short walk, reverse the authored reveal and move the MR04 night
-landing away from the board.
+end exactly at `[3309.400, 4815.000]` (the berth has moved twice since the
+table above was written); its 11.86 m plank walk and the licence board facing
+318° depend on a canoe arriving from the north-west. The published minor route
+instead joins the berth to its first real water cell 199.7 m to the south with
+one straight segment, fabricating a dry join: 18 of the first 51 approach
+samples are out of the water. Moving the dock to that cell would sever the short
+walk, reverse the authored reveal and move the MR04 night landing away from the
+board.
 
-**Action for the water owner:** add
-`waterway.hist-heartland.sap-tapping-licensed.landing` to
-`world/sources/routes/authored-minor-waterways.json`. Preserve the blueprint's
-exact final centreline points
-`[3462.599, 4365.853]`, `[3467.099, 4370.353]`,
-`[3472.922, 4370.277]`, `[3476.099, 4373.353]`,
-`[3478.500, 4373.000] (SUPERSEDED — that berth moved 2026-09-09)`; choose a measured same-level receiving branch and
-extend the outward head to it, then author, carve and publish the full line as
-one physical channel. Do not guess that outward head from the already-published
-water route: the nearest natural channel station is about 99 m away, beyond the
-authored carve's 60 m joining search. Phase 11 now refuses the 92.94 m splice
-and asks for this pre-water source instead.
+**DONE 2026-09-09.** `waterway.hist-heartland.sap-tapping-licensed.landing` is
+authored in `world/sources/routes/authored-minor-waterways.json`. Its last three
+points ARE the blueprint's `canal.sap-tapping-licensed.channel` via list
+unchanged (`[3308.0, 4838.0]`, `[3308.5, 4828.0]`, `[3309.4, 4815.0]`), so the
+11.86 m plank walk, the licence board at 318 degrees and the MR04 night landing
+keep the canoe arriving as authored. The outward head is a MEASURED same-level
+receiving branch at `[3310.218, 5013.765]`, not a guess and not the published
+route's own water: the straight join the minor route uses crosses a ridge
+topping 2.42 m above the water, while the authored line's highest ground is
++0.05 m and the water stands at ONE level (0.05 m) from the berth to the branch,
+so the whole 213 m channel is a cut of at most 0.85 m — a tidal creek, not an
+excavation. It is carved and published as one physical channel by
+`authored_waterways.carve_authored` on the next chain run.
 
 Wamasu Pond remains a separate thin-geometry finding. It currently PASSES
 `_validate_docks` only through

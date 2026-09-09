@@ -14,6 +14,28 @@
       "terminalId": "terminal.nine-trunks.landing-channel",
       "connectsTo": ["network.minor-waterways.hist-heartland"],
       "source": "Authored natural poling-channel centreline ending at dock.nine-trunks.landing; absolute pre-water source, independent of published route and water rasters."
+    },
+    {
+      "id": "waterway.hist-heartland.sap-tapping-licensed.landing",
+      "pointsM": [
+        [3310.218, 5013.765],
+        [3310.218, 4999.142],
+        [3310.218, 4980.864],
+        [3317.53, 4962.586],
+        [3324.841, 4944.307],
+        [3335.808, 4929.684],
+        [3335.808, 4911.406],
+        [3335.808, 4893.128],
+        [3321.185, 4874.849],
+        [3313.874, 4856.571],
+        [3308.0, 4838.0],
+        [3308.5, 4828.0],
+        [3309.4, 4815.0]
+      ],
+      "terminalM": [3309.4, 4815.0],
+      "terminalId": "terminal.sap-tapping-licensed.landing-channel",
+      "connectsTo": ["network.minor-waterways.hist-heartland"],
+      "source": "Authored tidal creek up to dock.sap-tapping-licensed.landing. The last three points ARE the blueprint's canal.sap-tapping-licensed.channel via list, unchanged, so the 11.86 m plank walk and the licence board keep the canoe arriving as authored. The rest is the creek's own line down to the receiving branch at [3310.218, 5013.765], chosen by measuring the ground rather than by drawing a straight one: the straight join the published minor route uses crosses a ridge topping 2.42 m above the water, while this line's highest ground is +0.05 m and its water stands at one level (0.05 m) from the berth to the branch, so the whole channel is a cut of at most 0.85 m. Absolute pre-water source, independent of the published route and water rasters."
     }
   ]
 }

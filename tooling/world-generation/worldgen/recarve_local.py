@@ -20,10 +20,14 @@ so rather than assuming it (see THE GUARD).
 
 WHAT IT IS VALID FOR
 --------------------
-Edits whose whole effect on the terrain is one of those two carves:
+Edits whose whole effect on the terrain is one of those carves:
 
 * a blueprint dock's `hullClass`, `position` or `networkTerminals` entry;
-* a line in `world/sources/routes/authored-minor-waterways.json`.
+* a line in `world/sources/routes/authored-minor-waterways.json`;
+* the depth or width rule a published boat lane is carried to
+  (`dock_dredge.LANE_MIN_DEPTH_M` / `LANE_HALF_WIDTH_M`). NOT a change to lane
+  GEOMETRY — the lane networks are solved before grading and this path does not
+  re-solve them.
 
 NOT valid for anything upstream of the boundary — the sculpt, the hydrology,
 the region fields, the fluvial pass, the typed terrain requests, the channel
@@ -205,7 +209,7 @@ def main() -> None:
 
     from . import channels
     sol = channels.ChannelSolution.load(_require(CHANNELS_SOLUTION))
-    h, authored_stats, dredge_stats, new_boxes = apply_local_carves(
+    h, authored_stats, dredge_stats, lane_stats, new_boxes = apply_local_carves(
         prelocal.copy(), inputs["level_with_sea"], inputs["wet"],
         (sol.y, sol.x, sol.L), log=print)
 
@@ -223,6 +227,7 @@ def main() -> None:
                          .get("channelCarve", {}))
     channel_stats["authoredWaterways"] = authored_stats
     channel_stats["dockApproaches"] = dredge_stats
+    channel_stats["laneChannels"] = lane_stats
     channel_stats.update(_post_carve_stats(h))
     _rewrite_meta(lo, hi, q_shape, channel_stats)
     _rewrite_fulfilments(h)

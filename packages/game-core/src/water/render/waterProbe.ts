@@ -34,6 +34,12 @@ export interface WaterProbeRow {
 
 export interface WaterProbeSummary {
   schemaVersion: number;
+  /** Depth/surface texel size in metres. A consumer comparing a BILINEAR
+   * depth sample against ground read from the finer terrain needs it: the two
+   * arithmetics only commute where the ground is linear across the texel quad,
+   * so the registration tolerance has to carry the ground's texel-scale
+   * relief (water-handoff.md item 4). */
+  surfaceMetresPerPixel: number;
   depthMinM: number;
   depthSpanM: number;
   tideM: number;
@@ -64,6 +70,7 @@ export function createWaterProbe(assets: WaterAssets, options: {
     });
     return {
       schemaVersion: assets.meta.schemaVersion ?? 1,
+      surfaceMetresPerPixel: assets.meta.surface.metresPerPixel,
       depthMinM: assets.meta.surface.depthMinM ?? 0,
       depthSpanM: assets.meta.surface.depthSpanM ?? 25.5,
       tideM: tide, seasonM: season,
