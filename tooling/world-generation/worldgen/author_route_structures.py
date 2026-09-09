@@ -243,6 +243,8 @@ WHY = {
    "The road reaches the water point level. The boat channel is cut square into the clay and the Argonian landing faces that cut with stone. The way down to the boats crosses the facing rather than breaking it.",
  "track.imperial-fringe.red-cart-yard":
    "The yard is the last hard standing before the ground goes soft, so freight changes carriers here. Its edge stands above the porters' path and is kept hard for loaded carts. The drop off it is stepped rather than cut back into the standing on which the carts turn.",
+ "track.pirate-freeholds.flu-cairn-field":
+   "The cairns stand on the ridge end above the village, on dry ground with loose stone to hand. The path to the village runs down the length of that slope, built the whole way. A bench cut into the slope would take the cairns with it. Strangers have re-stacked the piles for six hundred years.",
  "track.imperial-penal-south.rose-supply-town":
    "Vaunting holds the last firm ground on the causeway road, with its walled magazine behind it. The barge landing sits below the causeway bank. The way down to it steps off that bank, which carries the road along which the Rose is supplied.",
 }
