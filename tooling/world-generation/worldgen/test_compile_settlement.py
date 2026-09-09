@@ -256,6 +256,45 @@ def test_applied_terrain_with_failed_final_postcondition_cannot_be_certified():
     assert any("postconditions have not passed" in error for error in errors)
 
 
+def _known_red_case(monkeypatch, register):
+    """A failing final postcondition, judged against a stubbed known-red register."""
+    record = {"id": "place.test.known-red", "position": {"u": .5, "v": .5},
+              "terrainRequests": [{"kind": "pool", "radiusM": 10,
+                                   "delivery": {"feature": "pool"}, "note": "real pool"}]}
+    plan, fulfillment, postconditions = _terrain_evidence(record, passing=False)
+    request_id = plan["requests"][0]["id"]
+    from . import terrain_request_postconditions as trp
+    monkeypatch.setattr(trp, "load_known_red",
+                        lambda *a, **k: ({request_id: register} if register else {}))
+    notes: list[str] = []
+    objects, errors = cs.compiled_terrain_objects(
+        record, plan=plan, fulfillment=fulfillment, postconditions=postconditions,
+        notes=notes)
+    return request_id, objects, errors, notes
+
+
+def test_registered_water_owned_known_red_is_reported_by_name_not_failed(monkeypatch):
+    """A REGISTERED water debt has one owner: it is named, never silent, and it
+    does not fail the settlement compiler, which cannot fix it."""
+    request_id, objects, errors, notes = _known_red_case(
+        monkeypatch, {"failingFields": ["depthClass", "current"]})
+    assert errors == []
+    assert objects, "the compiled terrain object must still be emitted"
+    assert len(notes) == 1
+    assert "KNOWN-RED" in notes[0] and request_id in notes[0]
+    assert "depthClass, current" in notes[0]
+
+
+def test_unregistered_failed_final_postcondition_is_still_a_hard_error(monkeypatch):
+    """The mutation that would matter: an unregistered failure must not be
+    quietly absorbed by the known-red path."""
+    _request_id, objects, errors, notes = _known_red_case(monkeypatch, None)
+    assert objects == []
+    assert notes == []
+    assert any("no passing final postcondition" in error for error in errors)
+    assert any("postconditions have not passed" in error for error in errors)
+
+
 @pytest.mark.parametrize(("key", "source"), [
     ("landmarks", {"id": "landmark.omission.beacon", "assetRef": "asset.beacon",
                    "position": [.2, .3]}),
@@ -499,3 +538,69 @@ def test_flood_report_covers_raster_cells_inside_large_footprint():
     assert evidence["sampleCount"] > 9
     assert evidence["overOpenWater"] is True
     assert warnings
+
+
+# --- the stilt share rule is scoped by measured ground, not by culture label --
+
+def _stilt_district_report(*, touches_water: bool):
+    """One `argonian-stilt` district of four buildings, none over open water.
+
+    `touches_water` decides only whether the ground under them is in the flood
+    band at all — which is the difference between Lilmoth's shore quarter and
+    its hilltop hist court.
+    """
+    bp = {
+        "id": "place.test.stilt",
+        "districts": [{"id": "district.test.d", "cultureKit": "argonian-stilt"}],
+        "parcels": [{"id": f"parcel.test.b{i}", "districtId": "district.test.d",
+                     "use": "dwelling"} for i in range(4)],
+    }
+    kinds = {p["id"]: "building" for p in bp["parcels"]}
+
+    class Survey:
+        pass
+
+    def evidence(parcel, _survey):
+        return {"parcelId": parcel["id"], "districtId": parcel["districtId"],
+                "use": parcel["use"], "sampleCount": 40,
+                "openWaterSamples": 0,
+                "floodBandSamples": 12 if touches_water else 0,
+                "wetSeasonInundatedSamples": 0, "maxFloodBand": 1 if touches_water else 0,
+                "centre": {"openWater": False, "floodBand": 0,
+                           "wetSeasonInundated": False},
+                "overOpenWater": False,
+                "touchesFloodSection": touches_water,
+                "entireFootprintDryInSurvey": not touches_water}
+
+    import worldgen.compile_settlement as cs
+    original = cs._parcel_flood_evidence
+    cs._parcel_flood_evidence = evidence
+    try:
+        return cs.flood_band_report(bp, Survey(), kinds)
+    finally:
+        cs._parcel_flood_evidence = original
+
+
+def test_the_stilt_share_rule_only_judges_a_district_that_reaches_the_water():
+    """MUTATION: drop the `touches_water` scope — red on the second case.
+
+    Lilmoth's `council-crown` and `hist-court` are `argonian-stilt` by culture
+    kit and stand on the 11-13 m bench and the 19-23 m crest; every building in
+    them measures 0 open-water, 0 flood-band and 0 wet-season samples. The rule
+    was being applied by LABEL where it must be applied by measured ground.
+    """
+    report, warnings = _stilt_district_report(touches_water=True)
+    row = report["districts"][0]
+    assert row["cultureRule"]["id"] == "argonian-stilt-open-water-share"
+    assert row["cultureRule"].get("applicable") is not False
+    assert row["conforms"] is False and warnings, (
+        "a stilt district ON the water with no building over it must still fail")
+
+    report, warnings = _stilt_district_report(touches_water=False)
+    row = report["districts"][0]
+    assert row["cultureRule"]["applicable"] is False, row["cultureRule"]
+    assert "why" in row["cultureRule"], "a rule declared inapplicable must say why"
+    assert row["conforms"] is None
+    assert not warnings, (
+        f"a district that reaches no water is not built over water and has "
+        f"nothing to measure, yet it warned: {warnings}")

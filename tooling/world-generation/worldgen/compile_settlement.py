@@ -66,6 +66,7 @@ from .blueprint_promises import check_promises, load_record, write_ledger
 from . import place_obligations
 from . import player_purpose as pp_mod
 from . import terrain_requests
+from . import settlement_clearance as sc_mod
 
 SCHEMA_VERSION = 1
 GENERATOR_ID = "compile_settlement"
@@ -199,7 +200,8 @@ def phase11_obligation_receipt(bp: dict, record: dict,
 
 def compiled_terrain_objects(record: dict, *, plan: dict | None = None,
                              fulfillment: dict | None = None,
-                             postconditions: dict | None = None) -> tuple[list[dict], list[str]]:
+                             postconditions: dict | None = None,
+                             notes: list[str] | None = None) -> tuple[list[dict], list[str]]:
     """Compile catalogue terrain requests into the same final-object stream.
 
     Terrain operations are produced by a separate terrain pass, but the
@@ -207,6 +209,17 @@ def compiled_terrain_objects(record: dict, *, plan: dict | None = None,
     treating an authored route near it as delivery.  Keeping these records in
     ``compiledObjects`` also lets the exporter verify the receipt without
     trusting the receipt's own private copy.
+
+    A terrain request whose FINAL postcondition fails only because the shipped
+    water solve does not yet deliver its depth/current/water relation is not a
+    settlement defect and is not this compiler's to fix.  Those requests are
+    already registered, by id and failing field, in
+    ``world/sources/terrain/terrain-request-known-red.json`` and reported by
+    name by ``terrain_request_postconditions``.  This compiler now consults the
+    same register so one debt has one owner: a REGISTERED failure is appended
+    to ``notes`` as ``KNOWN-RED``, never suppressed and never silent, while an
+    UNREGISTERED failure stays a hard error exactly as before.  Digest
+    staleness stays hard for both: that is identity, not water.
     """
     if not (record.get("terrainRequests") or []):
         return [], []
@@ -245,7 +258,18 @@ def compiled_terrain_objects(record: dict, *, plan: dict | None = None,
     if (postconditions.get("planDigest") != plan.get("planDigest")
             or postconditions.get("sourceDigest") != plan.get("sourceDigest")):
         errors.append(f"{record['id']}: final terrain postconditions do not match the applied plan")
-    if postconditions.get("status") != "pass":
+    from .terrain_request_postconditions import KNOWN_RED_DOC, load_known_red
+    known_red = load_known_red()
+    _notes = notes if notes is not None else []
+    # Which of THIS place's requests actually failed in the shipped report, and
+    # are they all registered? Only then is the report-wide status explained.
+    _failed_here = {row.get("requestId") for row in postconditions.get("requests", [])
+                    if isinstance(row, dict) and row.get("status") != "pass"
+                    and any(req.get("id") == row.get("requestId")
+                            and req.get("placeId") == record["id"]
+                            for req in plan.get("requests", []))}
+    _unregistered = _failed_here - set(known_red)
+    if postconditions.get("status") != "pass" and (_unregistered or not _failed_here):
         errors.append(f"{record['id']}: final terrain postconditions have not passed")
 
     local_plan, local_errors = terrain_requests.build_plan([record])
@@ -268,7 +292,15 @@ def compiled_terrain_objects(record: dict, *, plan: dict | None = None,
             errors.append(f"{record['id']}: terrain request {request_id} has no applied fulfillment")
         row = results.get(request_id)
         if not isinstance(row, dict) or row.get("status") != "pass":
-            errors.append(f"{record['id']}: terrain request {request_id} has no passing final postcondition")
+            registered = known_red.get(request_id)
+            if isinstance(row, dict) and registered:
+                fields = ", ".join(registered.get("failingFields") or []) or "unstated fields"
+                _notes.append(
+                    f"{record['id']}: KNOWN-RED (water-owned, see {KNOWN_RED_DOC}) terrain request "
+                    f"{request_id} still fails on {fields}")
+            else:
+                errors.append(
+                    f"{record['id']}: terrain request {request_id} has no passing final postcondition")
         if row and row.get("deliverySha256") != terrain_requests.delivery_digest(request["delivery"]):
             errors.append(f"{record['id']}: terrain request {request_id} final delivery digest is stale")
     if errors:
@@ -603,7 +635,20 @@ def flood_band_report(bp: dict, survey: ProvinceSurvey,
         kit = district.get("cultureKit")
         rule = None
         conforms = None
-        if kit == "argonian-stilt" and share is not None:
+        # SCOPE: the stilt share rule is about a district built OVER water, so
+        # it applies only where the district reaches the water at all. Lilmoth's
+        # council-crown and hist-court are `argonian-stilt` by culture kit but
+        # stand on the 11-13 m bench and the 19-23 m crest, and every building
+        # in them measures 0 open-water, 0 flood-band and 0 wet-season samples.
+        # Requiring 15-30 % of a hilltop district to be over open water is a
+        # rule applied by LABEL where it should be applied by measured ground —
+        # the same defect this province has now found in half a dozen places.
+        # A district out of the water is reported as `applicable: false`, by
+        # name, never silently: if a stilt district turns out to stand nowhere
+        # near water, that is worth someone looking at, just not as a flood
+        # finding.
+        touches_water = any(by_id[pid]["touchesFloodSection"] for pid in building_ids)
+        if kit == "argonian-stilt" and share is not None and touches_water:
             rule = {"id": "argonian-stilt-open-water-share", "min": 0.15, "max": 0.30}
             conforms = 0.15 <= share <= 0.30
             if not conforms:
@@ -611,6 +656,12 @@ def flood_band_report(bp: dict, survey: ProvinceSurvey,
                     f"{bp_id}: 97 B4/G8 — district {did} has {len(over_ids)}/{len(building_ids)} "
                     f"buildings over open water ({share * 100:.1f}%); argonian-stilt requires 15–30%"
                 )
+        elif kit == "argonian-stilt" and share is not None:
+            rule = {"id": "argonian-stilt-open-water-share", "min": 0.15, "max": 0.30,
+                    "applicable": False,
+                    "why": "no building in this district touches open water, a flood "
+                           "band or the wet-season extent, so it is not built over "
+                           "water and the share rule has nothing to measure"}
         elif kit == "argonian-root":
             rule = {"id": "argonian-root-no-open-water", "max": 0.0}
             conforms = not over_ids
@@ -1178,8 +1229,12 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     macro_record = load_record(bp_id)
     obligation_receipt = None
     if macro_record is not None:
-        terrain_objects, terrain_object_errors = compiled_terrain_objects(macro_record)
+        terrain_notes: list[str] = []
+        terrain_objects, terrain_object_errors = compiled_terrain_objects(
+            macro_record, notes=terrain_notes)
         errors += terrain_object_errors
+        for note in terrain_notes:
+            print(f"compile_settlement: {note}", file=sys.stderr)
         compiled_objects.extend(terrain_objects)
         compiled_objects.sort(key=lambda row: row["id"])
         obligation_receipt, obligation_errors = phase11_obligation_receipt(
@@ -1195,12 +1250,17 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     warns += flood_warnings
 
     # --- clearance masks for the scatter compiler -----------------------
-    chunk_m = 462.0  # 16x16 chunks over the 7392 m province (see chunks meta)
-    affected: set[tuple[int, int]] = set()
-    for poly in bp["clearance"].get("hardClear", []) + bp["clearance"].get("thinned", []):
-        for u, v in poly:
-            x, z = survey.uv_to_m(u, v)
-            affected.add((int(x // chunk_m), int(z // chunk_m)))
+    # In the vegetation compiler's own chunk size (compile_scatter.CHUNK_M =
+    # 256 samples x RAW_M = 467.93 m). The old local 462.0 m constant put a
+    # settlement in the wrong chunk once past ~x=39 km/462 of drift — i.e. it
+    # named chunks the scatter compiler does not have.
+    metre_clearance = {
+        "hardClear": [[list(survey.uv_to_m(u, v)) for u, v in poly]
+                      for poly in bp["clearance"].get("hardClear", [])],
+        "thinned": [[list(survey.uv_to_m(u, v)) for u, v in poly]
+                    for poly in bp["clearance"].get("thinned", [])],
+    }
+    affected = set(sc_mod.affected_chunks(metre_clearance))
 
     # --- static budget report (0041 perf contract) ----------------------
     unique_assets = sorted({p["assetId"] for p in placements})
