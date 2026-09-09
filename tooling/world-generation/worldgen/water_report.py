@@ -47,9 +47,18 @@ class ShippedWater:
         flow = np.asarray(Image.open(water_dir / "water-flow.png").convert("RGB"))
         self.flow = flow[..., 2].astype(np.float32) / 255.0 * float(self.meta["flow"]["flowMax"])
         self.mppf = float(self.meta["flow"]["metresPerPixel"])
-        self.refined = np.load(heights).astype(np.float32)
-        i2 = export_index(self.refined.shape[0], WEB_STEP)
-        self.ground2 = self.refined[np.ix_(i2, i2)]
+        # The full-resolution ground lives in the asset vault, which a clean
+        # checkout (CI) does not have. Everything the shipped rasters answer on
+        # their own — depth, wetness, class, flow, shore — must still work
+        # there, or a gate that reads the water it ships cannot run in CI.
+        # Callers that need `refined`/`ground2` get a clear error instead of a
+        # missing attribute.
+        self.refined = None
+        self.ground2 = None
+        if heights is not None and Path(heights).exists():
+            self.refined = np.load(heights).astype(np.float32)
+            i2 = export_index(self.refined.shape[0], WEB_STEP)
+            self.ground2 = self.refined[np.ix_(i2, i2)]
         self.wet2 = self.depth2 > 0.0
 
     # --- grid lookups -----------------------------------------------------
@@ -63,7 +72,8 @@ class ShippedWater:
         return {
             "surfaceM": float(self._tex(self.w2, x, z, self.mpp2)),
             "depthM": float(self._tex(self.depth2, x, z, self.mpp2)),
-            "groundM": float(self._tex(self.ground2, x, z, self.mpp2)),
+            "groundM": (float(self._tex(self.ground2, x, z, self.mpp2))
+                        if self.ground2 is not None else float("nan")),
             "wet": bool(self._tex(self.wet2, x, z, self.mpp2)),
             "shoreM": float(self._tex(self.shore2, x, z, self.mpp2)),
             "season": float(self._tex(self.season2, x, z, self.mpp2)),
