@@ -569,7 +569,7 @@ def _is_hair_mesh(mesh):
         # `brow` also matches an eye named "...Brown". Skyrim's brow head
         # parts use the plural `Brows`, so keep the discriminator exact enough
         # that brown irises retain their eye material.
-        for token in ("hair", "brows", "beard", "feather")
+        for token in ("hair", "brows", "beard", "mustache", "feather")
     )
 
 
@@ -1721,6 +1721,9 @@ SUMMARY["skinMeshes"] = sorted(
 )
 SUMMARY["hairMeshes"] = sorted(
     m.name for m in VISIBLE_MESHES if _is_hair_mesh(m)
+)
+SUMMARY["browMeshes"] = sorted(
+    m.name for m in VISIBLE_MESHES if "brows" in m.name.lower()
 )
 # Which biped slot each body mesh occupies, read from the NIF's own dismember
 # partitions. Armour reports the slots it covers the same way, so "does this

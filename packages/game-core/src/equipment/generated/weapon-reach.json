@@ -13,7 +13,7 @@
     "inputsSha256": "40ec578140bdebf4f40746318b7dc1c99e36467c5f72ca770e8bb993607e7674",
     "animationManifestSha256": "37cf90fc4e6fd8095b47f806f32c38e7ceb317ec9f222a905784083a2f5a4d3d",
     "assets": {
-      "races/dunmer.glb": "0f16a5f0c6e93d22b8f99d34ed47ea720425c86ed638034c39d1941f3b5346f4",
+      "races/dunmer.glb": "e4748eb1253ea1699b58a47fc51b1944bc35a5414b2db6e8f4dd715ecf5f8ac4",
       "weapons/iron-dagger.glb": "d405a720f11bf7217ca7157ccc32b67ba8cbc94ba0f4b932cd4c1c54bfac6449",
       "rig-skyrim-humanoid.oneHanded.glb": "e9e401be7d8e63aa8170ac89315b73bd3c3580e0b364eb3cf66131ede094b450",
       "rig-skyrim-humanoid.criticals.glb": "a95ddf321bbbce8a22b1a93996d86f2dce9886c6f1a92ea45b6a7f6392efd8eb",

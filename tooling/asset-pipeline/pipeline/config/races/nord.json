@@ -4,9 +4,9 @@
   "description": "Skyrim's own: pale, broad and made for cold.",
   "body": "male",
   "skinTint": [
-    0.7764706612,
-    0.6901960969,
-    0.6588235497
+    0.7176470757,
+    0.611764729,
+    0.5686274767
   ],
   "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
@@ -17,8 +17,8 @@
   "heightScale": 1.03,
   "faceGen": {
     "plugin": "Skyrim.esm",
-    "formId": "0002BF9D",
-    "editorId": "Ralof"
+    "formId": "00019FE8",
+    "editorId": "Golldir"
   },
-  "bodyWeight": 75
+  "bodyWeight": 65
 }

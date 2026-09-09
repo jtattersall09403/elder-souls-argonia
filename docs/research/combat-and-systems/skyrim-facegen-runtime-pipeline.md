@@ -65,6 +65,15 @@ translate the glossy cornea response to a low-roughness clearcoat material.
 The generated FaceGen head texture is already composited; only body pieces and
 the head parts driven by HairTint remain dynamically tintable.
 
+HairTint head parts are exported as alpha-tested cutouts. Blender 4 otherwise
+turns their authored alpha into glTF `BLEND`, which produces sorting and edge
+artefacts on brows and layered hair. The post-export pass follows the glTF
+node-to-mesh-to-material references for the selected hair, hairline, brow,
+beard, mustache and feather meshes, then writes `MASK` with a 0.5 cutoff. It
+does not guess from a material name. A race build rejects any selected brow
+that has fallen outside the HairTint set or any discovered HairTint material
+that was not masked.
+
 FaceGen NIFs contain a mixture of head-local geometry and head parts with a
 separate NIF-node transform. The importer classifies those two spaces. Generated
 heads retain the vanilla base head's topology and vertex order, so the pipeline
@@ -106,12 +115,12 @@ The default roster now uses these vanilla Skyrim NPC FaceGen records:
 
 | Race | Source NPC | FormID | `NAM7` weight |
 | --- | --- | --- | ---: |
-| Nord | Ralof | `0002BF9D` | 75 |
+| Nord | Golldir | `00019FE8` | 65 |
 | Imperial | Brother Verulus | `0001338C` | 15 |
 | Breton | Adeber | `000661AD` | 55 |
 | Redguard | Nazir | `0001C3AB` | 40 |
-| Altmer | Quaranir | `0002BA3C` | 50 |
-| Bosmer | Enthir | `0001C19C` | 10 |
+| Altmer | Ice warlock 03 boss | `000E101E` | 50 |
+| Bosmer | Wood Elf road courier | `001065EE` | 20 |
 | Dunmer | Dravin Llanith | `00013353` | 20 |
 | Orsimer | Kharag gro-Shurkul | `00013291` | 40 |
 | Khajiit | Mazaka | `00013298` | 50 |
@@ -120,7 +129,7 @@ The default roster now uses these vanilla Skyrim NPC FaceGen records:
 These are defaults, not race templates. Future presets can point at other
 FaceGen outputs, and full creation can generate a new output without changing
 the rendering contract. Every listed skin and hair colour is the selected NPC's
-authored `QNAM`/`HCLF` value. The human defaults deliberately span Ralof's pale
+authored `QNAM`/`HCLF` value. The human defaults deliberately span Golldir's pale
 Nord tone, Adeber's light-medium Breton tone, Brother Verulus's medium Imperial
 tone and Nazir's dark Redguard tone. This is the same data-driven variation
 Skyrim uses; none of these values is a post-process brightness or colour grade.
@@ -132,9 +141,20 @@ The current pipeline is already scalable for authored appearances: a config
 can select any complete Skyrim NPC FaceGen record, body weight, skin colour and
 hair colour, and the race build produces the same browser-ready asset. The
 second comparison sheet exercises that path with a fixed race-valid sample:
-Balgruuf, Sorex Vinius, Cosnach, Ahtar, Ancano, Faendal, Savos Aren, Burguk,
-Ma'iq and Jaree-Ra. It proves variation in morph geometry, head parts, eyes,
+Alvor, Sorex Vinius, Cosnach, Ahtar, ice warlock 04 boss, Niruin, Savos Aren,
+Burguk, Ma'iq and Jaree-Ra. It proves variation in morph geometry, head parts, eyes,
 hair, beards, marks, FaceTint and weight, including beast races.
+
+The source NPC's race is audited before selection, as are its complete PNAM
+head parts. Editor IDs describe the reusable asset family rather than a race
+restriction: vanilla Skyrim, for example, gives Breton NPCs race-valid
+`HairMaleNord*` parts and gives both Altmer and Bosmer race-valid
+`HairMaleElf*` parts. The accepted current/alternate pairs use `Elf06`/`Elf07`
+for Altmer and `Elf07`/`Elf04` for Bosmer. No Bosmer in either sheet uses a
+`DarkElf` hair part. `Elf01`, `Elf02`, `Elf03`, `Elf08` and `Elf09` were
+visually rejected because they produce the bald-crown, long lower-fringe
+silhouette. Every accepted humanoid and mer appearance carries the brow chosen
+by that same NPC record; valid beast head parts remain species-specific.
 
 It is not yet a full Skyrim character generator. Randomly mixing only the
 existing JSON values would mismatch a baked FaceGeom NIF with its FaceTint and

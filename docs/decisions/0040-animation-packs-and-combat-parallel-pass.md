@@ -1146,19 +1146,26 @@ makes Mazaka and Ma'iq visibly different while retaining their Skyrim-authored
 fur textures and head parts. Jaree-Ra likewise demonstrates an Argonian with a
 different FaceTint, eyes, weight and head spikes from Gulum-Ei.
 
-The defaults remain whole vanilla NPC appearances. Ralof replaces the malformed
-Nord source and supplies a pale, blond Nord; clean-shaven Adeber replaces the
-Breton with the broken beard. Brother Verulus, Nazir and Enthir broaden the
-human and elven tone range. Their `QNAM`, `HCLF`, `NAM7`, FaceGeom, FaceTint,
+The defaults remain whole vanilla NPC appearances. Golldir supplies a pale,
+full-haired Nord; clean-shaven Adeber replaces the Breton with the broken
+beard. Brother Verulus, Nazir, the Altmer ice-warlock record and the Wood Elf
+road courier broaden the human and elven tone range. Their `QNAM`, `HCLF`, `NAM7`, FaceGeom, FaceTint,
 eyes and head parts all come from their `Skyrim.esm` NPC records; there is no
 manual enemy recolour or post-process race grading.
 
+The follow-up hair and brow review rejects the bald-crown/lower-fringe Elf
+styles and keeps only full-haired defaults and alternates. Altmer use generic
+Elf parts selected by Altmer NPC records; Bosmer use generic Elf parts selected
+by Bosmer records, with no Dark Elf hair in either accepted Bosmer. Brows,
+hairlines, hair, beards, mustaches and feathers now retain HairTint and export
+as 0.5-threshold alpha cutouts. This matches the source cards and prevents the
+soft sorting artefacts produced by Blender's glTF `BLEND` fallback.
+
 Visual acceptance uses two 3200×1480 sheets rendered through the game camera,
 each showing close face and unequipped full body for all ten races. The default
-sheet checks every neck, eye and mouth. The fixed alternate sample uses
-Balgruuf, Sorex Vinius, Cosnach, Ahtar, Ancano, Faendal, Savos Aren, Burguk,
-Ma'iq and Jaree-Ra. Balgruuf's long tied hair and Cosnach's short braided style
-replace the two earlier bald-looking candidates. Both sheets show closed necks,
+sheet checks every neck, eye and mouth. The fixed alternate sample uses Alvor,
+Sorex Vinius, Cosnach, Ahtar, a second Altmer ice-warlock record, Niruin, Savos
+Aren, Burguk, Ma'iq and Jaree-Ra. Both sheets show closed necks,
 enclosed mouths, present eyes and distinct race-valid appearances.
 
 This work establishes a scalable preset pipeline, not the full character

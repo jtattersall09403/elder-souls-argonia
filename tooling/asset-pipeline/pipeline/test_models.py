@@ -140,7 +140,7 @@ class FaceGenSourceTests(unittest.TestCase):
         self.assertNotIn("eyes", names)
         self.assertNotIn("mouth", names)
         self.assertIsNone(plan.morph)
-        self.assertEqual(plan.body_weight, 75)
+        self.assertEqual(plan.body_weight, 65)
         self.assertTrue({"body-weight-zero", "hands-weight-zero", "feet-weight-zero"}.issubset(names))
 
     def test_body_weight_rejects_values_outside_skyrims_range(self):
