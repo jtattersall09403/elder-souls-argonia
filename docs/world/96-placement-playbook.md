@@ -136,6 +136,13 @@ grader still needs their windows; they are kept out of the studio bundle,
 because nothing is built there. The count prints every run — if it grows, the
 families need a shorter piece, not a looser gate.
 
+**A derived route is regenerated, never hand-corrected** (water round 2 close-out,
+2026-09-09). When the terrain moves, a blueprint's derived routes, boardwalks
+and canals drift past the 0.3 m tolerance and the validator names them. The fix
+is `street_router --apply <file>` and `blueprint_footprints --apply`, not an
+edit to the points — they are derived geometry and an edit only survives until
+the next rebuild. Wamasu Pond needed exactly this after the sap-tapping chain.
+
 ## 4. Records and routing
 
 - Process (this module) · taste steers → 0041 Taste ledger · per-place

@@ -70,6 +70,11 @@ FAMILY_BY_REGION = {
     # two regions for now; it splits cleanly if the coast ever gets its own
     # quay-timber kit.
     "mercantile-coast": "root-timber",
+    # The penal south builds nothing private: the Rose, the causeway and
+    # Vaunting's magazine are Empire work by convict labour, and module 97
+    # puts both Imperial regions in the same kit set. A fort-wall variant of
+    # `stone-civic` is where a future split belongs, not a new family.
+    "imperial-penal-south": "stone-civic",
 }
 ROAD_FAMILY = "stone-civic"
 
@@ -230,6 +235,16 @@ WHY = {
    "Chasecreek is a rise of firm ground with a creek behind it. Boats lie in the creek out of sight of the channel. The path climbs the rise whole, because a notch in the bank would show the masts from the water.",
  "track.pirate-freeholds.rockpoint":
    "Rockpoint has one land approach and the bank there was steepened by hand to hold it. The stone footings of the old landing are still in the slope. The way up goes over them.",
+ "track.dunmer-north.hixinoag":
+   "The village keeps two or three moorings and moves between them as the water suits. The posts stay in place. Tackle, planks and stores move with the boats. Where the caravan path comes off the firm bank onto the mooring ground it is built, because the bank is the route's ground rather than the village's.",
+ "track.dunmer-north.sings-for-the-pipes":
+   "Six spring-fed ponds hold six temperatures, kept apart by the banks and sluices between them. The path up from the ponds climbs one of those banks. A cut would put one pond's water into the next and lose thirty years of selection.",
+ "track.imperial-fringe.claywater-station":
+   "The road reaches the water point level. The boat channel is cut square into the clay and the Argonian landing faces that cut with stone. The way down to the boats crosses the facing rather than breaking it.",
+ "track.imperial-fringe.red-cart-yard":
+   "The yard is the last hard standing before the ground goes soft, so freight changes carriers here. Its edge stands above the porters' path and is kept hard for loaded carts. The drop off it is stepped rather than cut back into the standing on which the carts turn.",
+ "track.imperial-penal-south.rose-supply-town":
+   "Vaunting holds the last firm ground on the causeway road, with its walled magazine behind it. The barge landing sits below the causeway bank. The way down to it steps off that bank, which carries the road along which the Rose is supplied.",
 }
 
 
