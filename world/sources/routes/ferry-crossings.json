@@ -1,0 +1,213 @@
+{
+  "_": "The province's ferry services: who will carry you over water, from where to where, for what, and when they will not. AUTHORED, never generated - `world/sources/routes/water-crossings.json` says where a way stands in water, and this file says which of those the world answers with a boat and why. Two kinds live here. A `road-crossing` repairs a named break in a way: the road arrives at water it cannot bridge and continues on the far bank, and the ferry is the only lawful join. A `station-run` is a scheduled passage between two catalogued travel stations that already declare `ferry` in `travelStation.modes` - the Morrowind-style pay-and-go network - recorded here as edges so the travel system reads one graph rather than re-deriving it from 800 place records. Both are `talk and teleport` (owner ruling 2026-09-09): the player speaks to the operator, pays, and arrives. No boat is simulated and no ferry is a vehicle. Every string a player reads is a `text.*` id in packages/text-catalogue (engineering standard 4); every gate is a predicate from docs/quests/85-condition-vocabulary.md (standard 10). Checked by `python3 -m worldgen.ferry_crossings --check`.",
+  "schemaVersion": 1,
+  "policy": {
+    "_": "How a crossing was decided. Banding is in `worldgen.water_crossings`; this records the judgement applied on top of it.",
+    "depthIsNotTheTest": "The deepest crossing anywhere in the province measures 1.48 m and the deepest on the major network 1.25 m. Nothing here is too deep to wade. Span decides, and a legal or cultural reason can decide over span.",
+    "ferry": "A ferry-band crossing (span >= 70 m) becomes a ferry only where the catalogue already gives it a reason: someone lives there, has a motive to run a boat, and would be poorer if the crossing were free. Three of the five ferry-band crossings on the major network qualify, in three clusters; the other two are the same water as their cluster and are served by the same stage.",
+    "ford": "A ford-band crossing (span < 20 m) is left as a ford. 41 of the 52 major-network crossings are these. They are wadeable, they read as a road going through shallow water, and Morrowind's own roads do exactly this. They are not defects and they need no structure.",
+    "span": "A span-band crossing (20-70 m) is a deck on posts, built by `compile_route_structures` from the families it already ships (the marsh boardwalk on its own posts, the timber trestle). 6 on the major network, 9 on tracks. Not ferries: a boat that crosses 30 m of knee-deep water is a joke, and the pieces to bridge it exist.",
+    "deadEnd": "None. Acceptance rule (world 00-core): all eight major cities stay connected, and legs may be flood-damaged, bridged or ferried but never absent."
+  },
+  "operatorModel": {
+    "_": "Who runs a ferry and who may ride. CANON where cited; the operating detail is EXTRAPOLATED from it and labelled.",
+    "canon": [
+      "Outsiders enter drowned-marsh country by ferry boat behind a hired Argonian guide (Lore:Tribes of Blackwood: Riverbacks; world/sources/lore/topics/material-culture.md).",
+      "Guided river travel is multi-day and the guide decides when to move, where to shelter and whether to stop at all (Lore:Lost Tales of the Famed Explorer: Fragment III).",
+      "Toll settlements on the routes are a canon Imperial-era institution (PGE1; world/sources/lore/regions/secondary-settlements.md).",
+      "Small-draft is the doctrine: the waterways are the fastest transport inside Argonia and are worked by small craft (Lore:Sea Transportation)."
+    ],
+    "extrapolated": [
+      "A ferry is a family or a village office, not a guild. It is inherited, and the fare is what the family says it is unless a court has nailed up a list.",
+      "Nobody is refused for what they are. A ferry refuses for what a passenger owes, carries, or has done in that region - which is the Owing ledger, not a race check. This keeps the race-neutral rule (85 A4) intact.",
+      "An Imperial-run crossing sells lawfulness as much as passage: the alternative is wading, and wading past a customs post is smuggling."
+    ]
+  },
+  "craft": {
+    "_": "Verified against the built kits on 2026-09-09, not chosen from filenames. `watercraft-v1` is built (45/45) but is NOT yet in any compiled settlement and its GLB is not yet deployed to apps/world-studio/public/kits - see docs/polish-backlog.md. Sizes are metres from the built kit manifests. Nothing was sourced for this work; every credit is already in README.md.",
+    "native-plank-ferry": {"pieceRef": "ferries:yamadori/ferries/plank_ferry_swamp_01", "sizeM": [2.65, 3.557, 1.546], "kit": "watercraft-v1"},
+    "native-poled-raft": {"pieceRef": "ferryraft:snt/ferry/ferryraft01", "sizeM": [3.236, 4.104, 1.711], "kit": "watercraft-v1", "gangplank": "ferryraft:snt/ferry/norbridgewoodplanks01"},
+    "swamp-rowboat-ferry": {"pieceRef": "ferries:yamadori/ferries/rowboat_ferry_swamp_01", "sizeM": [2.771, 9.624, 2.185], "kit": "watercraft-v1"},
+    "dugout-canoe": {"pieceRef": "canoe:actors/sfss/canoe/canoe1", "sizeM": [1.981, 6.762, 2.125], "kit": "watercraft-v1"},
+    "landing-argonian": {"pieceRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01", "sizeM": [3.649, 1.823, 1.963], "kit": "docks-v1", "mooringPost": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01"},
+    "landing-steps": {"pieceRef": "bmv:sheogorad/dagon fel/dockssteps", "sizeM": [2.453, 2.188, 2.22], "kit": "docks-v1"}
+  },
+  "services": [
+    {
+      "id": "ferry.hist-heartland.underway-basin",
+      "kind": "road-crossing",
+      "status": "active",
+      "crossingIds": ["crossing.major.001", "crossing.major.005"],
+      "severs": ["route.road.helstrom-blackrose", "route.road.archon-gideon"],
+      "water": {"class": "lake", "name": "the basin under Helstrom"},
+      "measured": {"spanM": 161.5, "maxDepthM": 1.12, "source": "world/sources/routes/water-crossings.json"},
+      "hullClass": "canoe",
+      "craft": "native-poled-raft",
+      "landings": [
+        {"id": "ferry-landing.underway-basin.north", "positionM": [3520.7, 2839.0], "piece": "landing-argonian"},
+        {"id": "ferry-landing.underway-basin.south", "positionM": [3514.9, 2969.0], "piece": "landing-argonian"}
+      ],
+      "operator": {
+        "slotId": "ferry-slot.underway-basin.poler",
+        "role": "village poler",
+        "ownerFaction": null,
+        "nearestPlaceId": "place.hist-heartland.root-gallery-helstrom-underway"
+      },
+      "fare": {"gold": 3, "freeIf": [{"predicate": "placeStanceIs", "place": "place.hist-heartland.root-gallery-helstrom-underway", "is": "friendly"}]},
+      "available": [],
+      "refusedIf": [{"predicate": "weatherIs", "is": "storm"}],
+      "text": {
+        "name": "text.ferry.underway-basin.name",
+        "hail": "text.ferry.underway-basin.hail",
+        "refusal": "text.ferry.refused-weather"
+      },
+      "why": "Two trunk roads walk into the same 160 m of open basin 70 m apart, and the catalogue already answers why neither bridges it: the Underway, the trunk root under Helstrom, is 'opened and kept as a road because the surface route crosses the deep basin'. The root gallery is the Argonian way through. The raft is for everything that will not go under Helstrom - cargo too tall for the root, Imperial couriers who will not walk inside a Hist, anyone the gallery's keepers have turned back. One stage serves both roads because it is one lake.",
+      "questUse": "The only lawful surface crossing on the Helstrom-Blackrose trunk. Closing it forces the Underway, which is a Hist interior."
+    },
+    {
+      "id": "ferry.imperial-fringe.onkobra-bond",
+      "kind": "road-crossing",
+      "status": "active",
+      "crossingIds": ["crossing.major.002", "crossing.major.003"],
+      "severs": ["route.road.archon-gideon", "route.road.gideon-soulrest", "route.road.gideon-stormhold"],
+      "water": {"class": "river", "name": "the lower Onkobra"},
+      "measured": {"spanM": 119.3, "maxDepthM": 0.5, "source": "world/sources/routes/water-crossings.json"},
+      "hullClass": "small-draft",
+      "craft": "swamp-rowboat-ferry",
+      "landings": [
+        {"id": "ferry-landing.onkobra-bond.town", "positionM": [1378.5, 3005.0], "piece": "landing-steps"},
+        {"id": "ferry-landing.onkobra-bond.far", "positionM": [1378.5, 3075.0], "piece": "landing-steps"}
+      ],
+      "operator": {
+        "slotId": "ferry-slot.onkobra-bond.clerk",
+        "role": "customs boatman",
+        "ownerFaction": null,
+        "nearestPlaceId": "place.imperial-fringe.bonded-shed-of-the-onkobra"
+      },
+      "fare": {"gold": 10, "freeIf": []},
+      "available": [],
+      "refusedIf": [{"predicate": "carriedValueAtLeast", "value": 400}],
+      "text": {
+        "name": "text.ferry.onkobra-bond.name",
+        "hail": "text.ferry.onkobra-bond.hail",
+        "refusal": "text.ferry.onkobra-bond.refusal"
+      },
+      "why": "Three trunk roads out of Gideon meet the Onkobra on the same reach, and Gideon's bonded warehouse stands 24 m from the wider of the two crossings: 'goods declared but not yet taxed have to sit somewhere lockable. Gideon's court is their lawful holder.' The water is half a metre deep, so the ferry is not there because the river cannot be waded. It is there because the county has put a boat and a clerk on the only crossing its roads use, and everything that steps off the boat has been looked at. Wading is faster. Wading is also smuggling.",
+      "questUse": "A customs choke on every road out of Gideon. `carriedValueAtLeast` refuses the boat, which pushes the player to the ford and into the Owing ledger."
+    },
+    {
+      "id": "ferry.imperial-fringe.drowning-gate",
+      "kind": "road-crossing",
+      "status": "active",
+      "crossingIds": ["crossing.major.004"],
+      "severs": ["route.road.gideon-blackwood-road"],
+      "water": {"class": "river", "name": "the western road's flood reach"},
+      "measured": {"spanM": 78.0, "maxDepthM": 1.18, "source": "world/sources/routes/water-crossings.json"},
+      "hullClass": "canoe",
+      "craft": "native-plank-ferry",
+      "landings": [
+        {"id": "ferry-landing.drowning-gate.east", "positionM": [458.2, 3132.0], "piece": "landing-argonian"},
+        {"id": "ferry-landing.drowning-gate.west", "positionM": [458.2, 3203.0], "piece": "landing-argonian"}
+      ],
+      "operator": {
+        "slotId": "ferry-slot.drowning-gate.barrier-family",
+        "role": "barrier keeper",
+        "ownerFaction": null,
+        "nearestPlaceId": "place.imperial-fringe.the-drowning-gate"
+      },
+      "fare": {"gold": 15, "freeIf": []},
+      "available": [{"predicate": "seasonIs", "is": "wet"}],
+      "refusedIf": [],
+      "text": {
+        "name": "text.ferry.drowning-gate.name",
+        "hail": "text.ferry.drowning-gate.hail",
+        "refusal": "text.ferry.drowning-gate.refusal"
+      },
+      "why": "The Drowning Gate is a monsoon barrier 108 m up the road: 'the western road closes every monsoon at this point', and 'two families are paid by Gideon to swing the barrier and to argue with whoever wants it opened anyway'. They already stand at a shut road with a crowd of people who want past. The ferry is what they sell when the gate is down, and it is the only way onto the Blackwood Road out of the province in the wet season. In the dry season the gate is open and the reach is a ford, so the service is seasonal and the fare is what a monopoly charges.",
+      "questUse": "The province's canon western exit. Seasonal availability gives a quest a hard reason a route is shut without moving any terrain."
+    },
+    {
+      "id": "ferry.imperial-penal-south.blackrose-lake",
+      "kind": "station-run",
+      "status": "active",
+      "crossingIds": [],
+      "severs": [],
+      "water": {"class": "lake", "name": "the Blackrose lake"},
+      "measured": null,
+      "hullClass": "small-draft",
+      "craft": "swamp-rowboat-ferry",
+      "stations": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.lake-ferry-stage",
+        "place.imperial-penal-south.lake-boardwalk-village",
+        "place.imperial-penal-south.longmont",
+        "place.imperial-penal-south.three-gate-toll"
+      ],
+      "operator": {"slotId": "ferry-slot.blackrose-lake.stage-keeper", "role": "stage keeper", "ownerFaction": null, "nearestPlaceId": "place.imperial-penal-south.lake-ferry-stage"},
+      "fare": {"gold": 8, "freeIf": []},
+      "available": [],
+      "refusedIf": [{"predicate": "owingAtLeast", "region": "region.imperial-penal-south", "value": 500}],
+      "text": {"name": "text.ferry.blackrose-lake.name", "hail": "text.ferry.stage-generic.hail", "refusal": "text.ferry.refused-owing"},
+      "why": "The five lake stations already declare `ferry` in `travelStation.modes` and already name each other as destinations. This edge only writes down the network they imply, so the travel system reads one graph. A prison lake is the one place a ferry checks who is getting on.",
+      "questUse": "Blackrose is a prison. The refusal predicate is the escape problem stated in data."
+    },
+    {
+      "id": "ferry.mercantile-coast.bramman-oliis",
+      "kind": "station-run",
+      "status": "active",
+      "crossingIds": [],
+      "severs": [],
+      "water": {"class": "river", "name": "the Bramman"},
+      "measured": null,
+      "hullClass": "small-draft",
+      "craft": "swamp-rowboat-ferry",
+      "stations": ["place.mercantile-coast.bramman-river-ferry", "place.mercantile-coast.oliis-ferry-stage"],
+      "operator": {"slotId": "ferry-slot.bramman-oliis.ferryman", "role": "ferryman", "ownerFaction": null, "nearestPlaceId": "place.mercantile-coast.bramman-river-ferry"},
+      "fare": {"gold": 5, "freeIf": []},
+      "available": [],
+      "refusedIf": [],
+      "text": {"name": "text.ferry.bramman-oliis.name", "hail": "text.ferry.stage-generic.hail", "refusal": "text.ferry.refused-weather"},
+      "why": "Bramman River Ferry is a road crossing the catalogue already solved: 'the coast road crosses the river south of Soulrest where it is too deep to bridge'. It pairs with the Oliis stage, and the Oliis ferry 'is older than the rebuilt city'. Recorded as a station run because both ends are catalogued stations, not bare landings.",
+      "questUse": null
+    },
+    {
+      "id": "ferry.saxhleel-coast.estuary-run",
+      "kind": "station-run",
+      "status": "active",
+      "crossingIds": [],
+      "severs": [],
+      "water": {"class": "estuary", "name": "the Saxhleel estuary"},
+      "measured": null,
+      "hullClass": "small-draft",
+      "craft": "swamp-rowboat-ferry",
+      "stations": ["place.saxhleel-coast.archon", "place.mercantile-coast.soulrest", "place.saxhleel-coast.portdun-mont"],
+      "operator": {"slotId": "ferry-slot.estuary-run.master", "role": "ferry master", "ownerFaction": null, "nearestPlaceId": "place.saxhleel-coast.archon"},
+      "fare": {"gold": 20, "freeIf": []},
+      "available": [],
+      "refusedIf": [{"predicate": "weatherIs", "is": "storm"}],
+      "text": {"name": "text.ferry.estuary-run.name", "hail": "text.ferry.stage-generic.hail", "refusal": "text.ferry.refused-weather"},
+      "why": "Archon and Soulrest are two of the three major seaports (Lore:Sea Transportation) and both already declare `ferry`. The long open-water leg is the one run in the province that a storm can stop, which is what the refusal predicate is for.",
+      "questUse": null
+    },
+    {
+      "id": "ferry.saxhleel-coast.jungle-stage",
+      "kind": "station-run",
+      "status": "deferred",
+      "deferredWhy": "Both `place.saxhleel-coast.jungle-ferry-stage` and `place.saxhleel-coast.estuary-ferry-stage` are `status: deferred` in the catalogue. The edge is written now so that promoting either record is a one-line status flip and not a rediscovery.",
+      "crossingIds": [],
+      "severs": [],
+      "water": {"class": "estuary", "name": "the Saxhleel estuary"},
+      "measured": null,
+      "hullClass": "canoe",
+      "craft": "native-plank-ferry",
+      "stations": ["place.saxhleel-coast.archon", "place.saxhleel-coast.jungle-ferry-stage", "place.mercantile-coast.soulrest", "place.saxhleel-coast.estuary-ferry-stage"],
+      "operator": {"slotId": "ferry-slot.jungle-stage.poler", "role": "village poler", "ownerFaction": null, "nearestPlaceId": "place.saxhleel-coast.archon"},
+      "fare": {"gold": 6, "freeIf": []},
+      "available": [],
+      "refusedIf": [],
+      "text": {"name": "text.ferry.jungle-stage.name", "hail": "text.ferry.stage-generic.hail", "refusal": "text.ferry.refused-weather"},
+      "why": "Two deferred stages that Archon and Soulrest already name as ferry destinations. Reserved, not live.",
+      "questUse": null
+    }
+  ]
+}

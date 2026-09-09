@@ -55,6 +55,31 @@ COLLISION_FRAME = "settlement-pivot-yup-v1"
 # The old value, 256, was a bare literal never calibrated against a real
 # settlement, and it silently blanked Lilmoth in the browser. See decision 0052.
 COLLIDER_PART_BUDGET = 1600
+
+# `--ship-with-errors` exists so the owner can walk a world with named defects
+# in it rather than wait for a clean one. That bargain only holds while the
+# defect DEGRADES GRACEFULLY: a hut on the wrong ground line, a quay in the
+# flood band, a place whose prose is ahead of its geometry. The world still
+# draws, and the defect is visible and named.
+#
+# These classes do not degrade. Each one makes the runtime refuse to draw or
+# throw outright, so waiving it does not buy a defective world — it buys a
+# blank one, which is the opposite of what the override is for. On 2026-09-09
+# exactly that happened: a two-tier LOD chain was shipped under the override,
+# `validateLodTriangles` threw, and the studio rendered nothing at all.
+# The override refuses these by name (decision 0052).
+NON_WAIVABLE_ERROR_CLASSES = {
+    "lod contract":
+        "SettlementLayer.validateLodTriangles throws on it; the throw unwinds "
+        "the whole layer build, so NOTHING draws",
+    "collider budget":
+        "SettlementLayer's collision-residency check refuses outright and draws "
+        "no settlement geometry at all while the player is inside the boundary",
+    "texture cap":
+        "SettlementLayer.validateMaterialTextureCap throws on it; the throw "
+        "unwinds the whole layer build, so NOTHING draws",
+}
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SETTLEMENTS = Path(__file__).resolve().parents[1] / "output" / "settlements"
 DEFAULT_STRUCTURES = Path(__file__).resolve().parents[1] / "output" / "route-structures"
@@ -88,9 +113,34 @@ COMPATIBLE_ASSET_GROUND_FITS = {
     "mwimparchwall01destroyed01": {"direct", "pad"},
     "vanilla:clutter/carts/handcart01": {"pad", "plinth"},
     "vanilla:clutter/stockade/stockadescaffoldbase3sided01": {"stilt", "plinth"},
+    # A span's timber trestle foot (decision 0051): the same piece that is
+    # dug into a bank as settlement scaffolding stands at the route deck line
+    # when it is carrying a crossing, which the route path anchors 'direct'.
+    # Re-checked 2026-09-09 after the span windows were trimmed to their
+    # measured obstacles: 300 placements -> 18, all still route structures, so
+    # the row is still load-bearing and is kept. It is judged legal, not judged
+    # good; retiring it needs the trestle's foot to be anchored on the same
+    # treatment in both paths, which is a kit change, not a shelf change.
+    "vanilla:clutter/stockade/stockadescaffoldbase4sided01": {"direct", "dug-in"},
     "vanilla:clutter/stockade/stockadescaffoldstairs01": {"direct", "stilt"},
     "vanilla:clutter/stockade/stockadescaffoldtop3sided01": {"stilt", "plinth"},
 }
+
+
+def _refuse_or_override(error_class: str, errors: list[str], message: str,
+                        ship_with_errors: str | None, overridden: list[str]) -> None:
+    """Raise, or record the owner's override — unless the class is fatal at runtime."""
+    if not errors:
+        return
+    if error_class in NON_WAIVABLE_ERROR_CLASSES:
+        raise ValueError(
+            f"{message}\n"
+            f"This error class is NON-WAIVABLE and --ship-with-errors cannot ship it: "
+            f"{NON_WAIVABLE_ERROR_CLASSES[error_class]}. "
+            f"Fix the asset, stop placing it, or move the contract on the evidence.")
+    if ship_with_errors is None:
+        raise ValueError(message)
+    overridden.extend(f"{error_class}: {error}" for error in errors)
 
 
 def _read(path: Path) -> dict:
@@ -525,16 +575,29 @@ def _validated_route_docs(structures_dir: Path, source_path: Path) -> list[dict]
                  if placement["provenance"]["sourceStructureId"] == row["id"]),
                 key=lambda placement: placement.get("fromM", float("inf")),
             )
-            expected_ids = [f"{row['id']}.p{index}" for index in range(1, len(pieces) + 1)]
-            if [piece["id"] for piece in pieces] != expected_ids:
+            # The id set must be complete — a dropped piece is a hole nobody
+            # would notice — but ids are not numbered in chainage order once
+            # piers and towers are interleaved with the deck they carry
+            # (decision 0051), so compare the set, not the sequence.
+            expected_ids = {f"{row['id']}.p{index}" for index in range(1, len(pieces) + 1)}
+            if {piece["id"] for piece in pieces} != expected_ids:
                 raise ValueError(f"{row['id']}: route placement id set is not contiguous")
             if any(not isinstance(piece.get("fromM"), (int, float))
                    or not isinstance(piece.get("toM"), (int, float)) for piece in pieces):
                 raise ValueError(f"{row['id']}: route placements need measured chainage")
-            if abs(float(pieces[0]["fromM"]) - float(row["fromM"])) > 0.02:
-                raise ValueError(f"{row['id']}: route placements do not start at authored chainage")
+            # A piece may begin BEFORE the authored start: an abutment reaches
+            # back onto the bank the deck lands on, which is the whole point of
+            # decision 0051's abutments and piers (3 of 543 structures do, by
+            # 1.5–3.1 m). What must never happen is starting LATE — that is a
+            # hole in the road where the way meets the span.
+            if float(pieces[0]["fromM"]) - float(row["fromM"]) > 0.02:
+                raise ValueError(f"{row['id']}: route placements start after authored chainage")
+            # Overlap is not a gap. A pier, tower or abutment shares chainage
+            # with the deck it carries by design (decision 0051), and 1926 of
+            # the province's piece pairs overlap by 0.09–4.09 m for exactly
+            # that reason. Only a positive gap is a hole in the road.
             for before, after in zip(pieces, pieces[1:]):
-                if abs(float(before["toM"]) - float(after["fromM"])) > 0.02:
+                if float(after["fromM"]) - float(before["toM"]) > 0.02:
                     raise ValueError(f"{row['id']}: route placement chainage has a gap")
             if float(pieces[-1]["toM"]) < float(row["toM"]) - 0.05:
                 raise ValueError(f"{row['id']}: route placements do not cover authored chainage")
@@ -955,26 +1018,23 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                     "colliderPartBudget": COLLIDER_PART_BUDGET}
 
     lod_errors = lod_contract_errors(all_placements, lod_contract, kits_dir)
-    if lod_errors:
-        message = "placed asset cannot satisfy the runtime LOD contract: " + "; ".join(lod_errors)
-        if ship_with_errors is None:
-            raise ValueError(message)
-        overridden.extend(f"lod contract: {e}" for e in lod_errors)
+    _refuse_or_override(
+        "lod contract", lod_errors,
+        "placed asset cannot satisfy the runtime LOD contract: " + "; ".join(lod_errors),
+        ship_with_errors, overridden)
 
     cap_errors = texture_cap_errors(kits, lod_contract, kits_dir)
-    if cap_errors:
-        message = "published kit texture is over the runtime cap: " + "; ".join(cap_errors)
-        if ship_with_errors is None:
-            raise ValueError(message)
-        overridden.extend(f"texture cap: {e}" for e in cap_errors)
+    _refuse_or_override(
+        "texture cap", cap_errors,
+        "published kit texture is over the runtime cap: " + "; ".join(cap_errors),
+        ship_with_errors, overridden)
 
     budget_errors = collider_budget_errors(
         settlements, all_placements, COLLIDER_PART_BUDGET, kits_dir)
-    if budget_errors:
-        message = "settlement collider budget exceeded: " + "; ".join(budget_errors)
-        if ship_with_errors is None:
-            raise ValueError(message)
-        overridden.extend(f"collider budget: {e}" for e in budget_errors)
+    _refuse_or_override(
+        "collider budget", budget_errors,
+        "settlement collider budget exceeded: " + "; ".join(budget_errors),
+        ship_with_errors, overridden)
 
     return {
         "schemaVersion": SCHEMA_VERSION,

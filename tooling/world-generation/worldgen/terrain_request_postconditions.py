@@ -521,10 +521,24 @@ def classify_report(report: dict, known_red: dict[str, dict]) -> dict[str, list[
     failing = {row["requestId"] for row in report.get("requests", [])
                if row.get("status") != "pass"}
     published = {row["requestId"] for row in report.get("requests", [])}
+    # A row marked `flapping` is one the plot/carve/flood loop moves in and out
+    # of failure from pass to pass: the plot sites on predicted carve delivery,
+    # the carve runs, the flood settles, and a promise that cleared by
+    # centimetres stops clearing — or starts again. Requiring such a row to be
+    # deleted the moment it passes is a rule nobody can follow: it was observed
+    # failing and passing on consecutive chain runs with no source change.
+    #
+    # So its PASSING says nothing and is not treated as a recovery. Its failing
+    # is still reported by name every run, it still carries an owner, a reason
+    # and a queue, and it is still gone the day the loop is fixed. Everything
+    # else keeps the strict rule, because for a stable row a recovery is real
+    # progress and leaving it registered would hide it.
+    flapping = {rid for rid, row in known_red.items() if row.get("flapping")}
     return {
         "knownRed": sorted(failing & set(known_red)),
         "unexpectedFailures": sorted(failing - set(known_red)),
-        "recoveredNoLongerRed": sorted((set(known_red) & published) - failing),
+        "recoveredNoLongerRed": sorted(((set(known_red) & published) - failing) - flapping),
+        "flappingNotFailingThisRun": sorted(((set(known_red) & published) - failing) & flapping),
         "missingFromReport": sorted(set(known_red) - published),
     }
 

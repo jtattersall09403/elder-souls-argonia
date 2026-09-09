@@ -284,215 +284,228 @@ export function SettlementLayer({
   }, [bundle, fatalError, onSolids]);
 
   useEffect(() => {
-    const group = root.current;
-    if (!group || !bundle || fatalError) return;
-    group.clear();
-    const focus = focusRef.current;
-    const residentPlacementIds = residentPlacementIdsAt(bundle.settlements, focus);
-    builtAt.current = { ...focus, coveredRadiusM: 0 };
-    const buckets = new Map<string, DrawBucket>();
-    const solidCandidates: {
-      value: SettlementSolid; placementId: string; distanceM: number; parts: number;
-    }[] = [];
-    const placementGrounding: SettlementPlacementGroundAudit[] = [];
-    let placementCount = 0;
-    incomplete.current = false;
-    for (const placement of bundle.placements) {
-      // Audit every physical place reference, not just what this quality tier
-      // happens to draw. settlement.placementIds includes dressing, so the
-      // expected and measured populations remain exactly comparable.
-      const settlementAnchored = placement.kind === "route-structure"
-        ? null : anchorPlacement(placement, groundAt);
-      if (settlementAnchored) {
-        placementGrounding.push(placementGroundAudit(placement, settlementAnchored));
+    // Every throw inside this build is the settlement layer's own failure and
+    // must surface as its own fatal sentinel. Uncaught, it unmounts the whole
+    // React subtree the layer sits in — which is how one two-tier-LOD asset
+    // took the studio's entire HUD down with it (2026-09-09).
+    const build = (): (() => void) | void => {
+      const group = root.current;
+      if (!group || !bundle || fatalError) return;
+      group.clear();
+      const focus = focusRef.current;
+      const residentPlacementIds = residentPlacementIdsAt(bundle.settlements, focus);
+      builtAt.current = { ...focus, coveredRadiusM: 0 };
+      const buckets = new Map<string, DrawBucket>();
+      const solidCandidates: {
+        value: SettlementSolid; placementId: string; distanceM: number; parts: number;
+      }[] = [];
+      const placementGrounding: SettlementPlacementGroundAudit[] = [];
+      let placementCount = 0;
+      incomplete.current = false;
+      for (const placement of bundle.placements) {
+        // Audit every physical place reference, not just what this quality tier
+        // happens to draw. settlement.placementIds includes dressing, so the
+        // expected and measured populations remain exactly comparable.
+        const settlementAnchored = placement.kind === "route-structure"
+          ? null : anchorPlacement(placement, groundAt);
+        if (settlementAnchored) {
+          placementGrounding.push(placementGroundAudit(placement, settlementAnchored));
+        }
+        const distance = Math.hypot(placement.positionM[0] - focus.x, placement.positionM[2] - focus.z);
+        const cap = placement.kind === "dressing" ? 350
+          : placement.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
+        const inDrawRange = distance <= cap * (quality?.architectureDrawScale ?? 1);
+        const collisionResident = residentPlacementIds.has(placement.id);
+        if (!inDrawRange && !collisionResident) continue;
+        const anchored = settlementAnchored ?? anchorPlacement(placement, groundAt);
+        if (!anchored.complete) { incomplete.current = true; continue; }
+        const asset = kits.get(placement.kit)?.get(placement.assetId);
+        if (!asset) continue;
+        if (inDrawRange) {
+          const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
+          validateLodTriangles(triangles, bundle.lod);
+          const choice = architectureLod(distance, footprintDiagonalM(placement), asset.levels.length,
+            bundle.lod, quality?.architectureDrawScale ?? 1);
+          // Compute this only after the streamed terrain (including any compiled
+          // pad grade) is final. Both near instances and far merges consume this
+          // exact matrix; LOD choice cannot re-anchor a building.
+          const transform = finalPlacementTransform(placement, anchored);
+          asset.levels[choice.level].forEach((part, partIndex) => {
+            const key = `${placement.kit}|${placement.assetId}|${choice.level}|${partIndex}`;
+            const bucket = buckets.get(key) ?? {
+              part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [],
+            };
+            const partTransform = transform.clone().multiply(part.localMatrix);
+            if (choice.farMerged) {
+              bucket.farTransforms.push(partTransform);
+              bucket.farGroundLinesM.push(anchored.groundLineM);
+            } else {
+              bucket.transforms.push(partTransform);
+              bucket.groundLinesM.push(anchored.groundLineM);
+            }
+            buckets.set(key, bucket);
+          });
+          placementCount += 1;
+        }
+        const solid = solidFrom(placement, anchored.y, anchored.buryM, asset.levels[0]);
+        if (solid) solidCandidates.push({ value: solid, placementId: placement.id,
+          distanceM: distance, parts: solid.parts.length });
       }
-      const distance = Math.hypot(placement.positionM[0] - focus.x, placement.positionM[2] - focus.z);
-      const cap = placement.kind === "dressing" ? 350
-        : placement.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
-      const inDrawRange = distance <= cap * (quality?.architectureDrawScale ?? 1);
-      const collisionResident = residentPlacementIds.has(placement.id);
-      if (!inDrawRange && !collisionResident) continue;
-      const anchored = settlementAnchored ?? anchorPlacement(placement, groundAt);
-      if (!anchored.complete) { incomplete.current = true; continue; }
-      const asset = kits.get(placement.kit)?.get(placement.assetId);
-      if (!asset) continue;
-      if (inDrawRange) {
-        const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
-        validateLodTriangles(triangles, bundle.lod);
-        const choice = architectureLod(distance, footprintDiagonalM(placement), asset.levels.length,
-          bundle.lod, quality?.architectureDrawScale ?? 1);
-        // Compute this only after the streamed terrain (including any compiled
-        // pad grade) is final. Both near instances and far merges consume this
-        // exact matrix; LOD choice cannot re-anchor a building.
-        const transform = finalPlacementTransform(placement, anchored);
-        asset.levels[choice.level].forEach((part, partIndex) => {
-          const key = `${placement.kit}|${placement.assetId}|${choice.level}|${partIndex}`;
-          const bucket = buckets.get(key) ?? {
-            part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [],
-          };
-          const partTransform = transform.clone().multiply(part.localMatrix);
-          if (choice.farMerged) {
-            bucket.farTransforms.push(partTransform);
-            bucket.farGroundLinesM.push(anchored.groundLineM);
-          } else {
-            bucket.transforms.push(partTransform);
-            bucket.groundLinesM.push(anchored.groundLineM);
-          }
-          buckets.set(key, bucket);
-        });
-        placementCount += 1;
-      }
-      const solid = solidFrom(placement, anchored.y, anchored.buryM, asset.levels[0]);
-      if (solid) solidCandidates.push({ value: solid, placementId: placement.id,
-        distanceM: distance, parts: solid.parts.length });
-    }
 
-    const collision = selectCollisionResidency(solidCandidates, bundle.settlements, focus,
-      bundle.lod.colliderRadiusM, bundle.lod.colliderPartBudget);
-    if (collision.budgetExceeded) {
-      const over = collision.budgetExceeded;
-      collisionFailure.current = {
-        status: "failed",
-        activeSettlementIds: over.activeSettlementIds,
-        residentPlacementIds: over.residentPlacementIds,
-        omittedPlacementIds: over.residentPlacementIds,
-        parts: 0,
-        requiredResidentParts: over.requiredResidentParts,
-        partBudget: over.partBudget,
-        coveredRadiusM: 0,
-      };
-      onSolids?.([]);
-      setFatalError(new Error(
-        `settlement collision budget exceeded inside ${over.activeSettlementIds.join(", ")}: `
-        + `${over.requiredResidentParts} parts require a hard budget of ${over.partBudget}; `
-        + `refusing to omit ${over.residentPlacementIds.join(", ")}`,
-      ));
-      return;
-    }
-    builtAt.current.coveredRadiusM = collision.coveredRadiusM;
-    let triangles = 0; let draws = 0; let farInstances = 0; let farMeshes = 0;
-    let nearInstances = 0; let groundBoundInstances = 0; let shadowPairedDraws = 0;
-    const shadowPairFailures: string[] = [];
-    for (const bucket of buckets.values()) {
-      const material = bucket.part.material;
-      validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
-      const windowMaterial = /window|glow/i.test(material.name);
-      materialPatch?.(material);
-      const depthMaterial = applySettlementSurfaceWithShadow(material, uniforms, windowMaterial);
-      const pairErrors = settlementShadowPairErrors(material, depthMaterial);
-      if (pairErrors.length) {
-        shadowPairFailures.push(...pairErrors.map((error) =>
-          `${material.name || "<unnamed>"}: ${error}`));
-        throw new Error(`settlement colour/depth material pair failed: ${pairErrors.join("; ")}`);
-      }
-      if (bucket.transforms.length) {
-        const geometry = bucket.part.geometry.clone();
-        geometry.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, new THREE.InstancedBufferAttribute(
-          new Float32Array(bucket.groundLinesM), 1,
+      const collision = selectCollisionResidency(solidCandidates, bundle.settlements, focus,
+        bundle.lod.colliderRadiusM, bundle.lod.colliderPartBudget);
+      if (collision.budgetExceeded) {
+        const over = collision.budgetExceeded;
+        collisionFailure.current = {
+          status: "failed",
+          activeSettlementIds: over.activeSettlementIds,
+          residentPlacementIds: over.residentPlacementIds,
+          omittedPlacementIds: over.residentPlacementIds,
+          parts: 0,
+          requiredResidentParts: over.requiredResidentParts,
+          partBudget: over.partBudget,
+          coveredRadiusM: 0,
+        };
+        onSolids?.([]);
+        setFatalError(new Error(
+          `settlement collision budget exceeded inside ${over.activeSettlementIds.join(", ")}: `
+          + `${over.requiredResidentParts} parts require a hard budget of ${over.partBudget}; `
+          + `refusing to omit ${over.residentPlacementIds.join(", ")}`,
         ));
-        const mesh = new THREE.InstancedMesh(geometry, material, bucket.transforms.length);
-        bucket.transforms.forEach((matrix, i) => mesh.setMatrixAt(i, matrix));
-        mesh.instanceMatrix.needsUpdate = true;
-        mesh.castShadow = true; mesh.receiveShadow = true;
-        if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
-        mesh.userData.esSettlementLodAuthority = true;
-        mesh.userData.esSettlementOwnedGeometry = true;
-        group.add(mesh);
-        draws += 1;
-        nearInstances += bucket.transforms.length;
-        groundBoundInstances += bucket.transforms.length;
-        if (depthMaterial) shadowPairedDraws += 1;
+        return;
       }
-      const farGeometry = mergeTransformedGeometry(
-        bucket.part.geometry, bucket.farTransforms, bucket.farGroundLinesM,
-      );
-      if (farGeometry) {
-        const mesh = new THREE.Mesh(farGeometry, material);
-        mesh.castShadow = true; mesh.receiveShadow = true;
-        if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
-        mesh.userData.esSettlementFarMerge = true;
-        group.add(mesh);
-        draws += 1;
-        farMeshes += 1;
-        farInstances += bucket.farTransforms.length;
-        groundBoundInstances += bucket.farTransforms.length;
-        if (depthMaterial) shadowPairedDraws += 1;
+      builtAt.current.coveredRadiusM = collision.coveredRadiusM;
+      let triangles = 0; let draws = 0; let farInstances = 0; let farMeshes = 0;
+      let nearInstances = 0; let groundBoundInstances = 0; let shadowPairedDraws = 0;
+      const shadowPairFailures: string[] = [];
+      for (const bucket of buckets.values()) {
+        const material = bucket.part.material;
+        validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
+        const windowMaterial = /window|glow/i.test(material.name);
+        materialPatch?.(material);
+        const depthMaterial = applySettlementSurfaceWithShadow(material, uniforms, windowMaterial);
+        const pairErrors = settlementShadowPairErrors(material, depthMaterial);
+        if (pairErrors.length) {
+          shadowPairFailures.push(...pairErrors.map((error) =>
+            `${material.name || "<unnamed>"}: ${error}`));
+          throw new Error(`settlement colour/depth material pair failed: ${pairErrors.join("; ")}`);
+        }
+        if (bucket.transforms.length) {
+          const geometry = bucket.part.geometry.clone();
+          geometry.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, new THREE.InstancedBufferAttribute(
+            new Float32Array(bucket.groundLinesM), 1,
+          ));
+          const mesh = new THREE.InstancedMesh(geometry, material, bucket.transforms.length);
+          bucket.transforms.forEach((matrix, i) => mesh.setMatrixAt(i, matrix));
+          mesh.instanceMatrix.needsUpdate = true;
+          mesh.castShadow = true; mesh.receiveShadow = true;
+          if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
+          mesh.userData.esSettlementLodAuthority = true;
+          mesh.userData.esSettlementOwnedGeometry = true;
+          group.add(mesh);
+          draws += 1;
+          nearInstances += bucket.transforms.length;
+          groundBoundInstances += bucket.transforms.length;
+          if (depthMaterial) shadowPairedDraws += 1;
+        }
+        const farGeometry = mergeTransformedGeometry(
+          bucket.part.geometry, bucket.farTransforms, bucket.farGroundLinesM,
+        );
+        if (farGeometry) {
+          const mesh = new THREE.Mesh(farGeometry, material);
+          mesh.castShadow = true; mesh.receiveShadow = true;
+          if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
+          mesh.userData.esSettlementFarMerge = true;
+          group.add(mesh);
+          draws += 1;
+          farMeshes += 1;
+          farInstances += bucket.farTransforms.length;
+          groundBoundInstances += bucket.farTransforms.length;
+          if (depthMaterial) shadowPairedDraws += 1;
+        }
+        triangles += bucket.part.triangles * bucket.transforms.length;
+        triangles += bucket.part.triangles * bucket.farTransforms.length;
       }
-      triangles += bucket.part.triangles * bucket.transforms.length;
-      triangles += bucket.part.triangles * bucket.farTransforms.length;
-    }
-    // Fine wall-foot skirt/contact AO: near-only, never part of far LOD.
-    for (const treatment of bundle.groundTreatments) {
-      const cx = treatment.footprintM.reduce((n, p) => n + p[0], 0) / treatment.footprintM.length;
-      const cz = treatment.footprintM.reduce((n, p) => n + p[1], 0) / treatment.footprintM.length;
-      if (Math.hypot(cx - focus.x, cz - focus.z) > 300) continue;
-      const skirt = treatmentMesh(treatment.footprintM, treatment.baseSkirtWidthM, groundAt);
-      if (skirt) group.add(skirt);
-    }
-    const grounding = settlementGroundAudits(bundle.settlements, placementGrounding);
-    onSolids?.(collision.chosen);
-    const collisionAudit = {
-      status: collision.activeSettlementIds.length ? "resident" as const : "ring" as const,
-      activeSettlementIds: collision.activeSettlementIds,
-      residentPlacementIds: collision.residentPlacementIds,
-      omittedPlacementIds: collision.omittedPlacementIds,
-      parts: collision.parts,
-      requiredResidentParts: collision.requiredResidentParts,
-      partBudget: bundle.lod.colliderPartBudget,
-      coveredRadiusM: collision.coveredRadiusM,
-    };
-    const finalTransformEvidence = {
-      finalAnchoredPlacements: placementCount,
-      nearInstances,
-      farMergedInstances: farInstances,
-      groundBoundInstances,
-      shadowPairedDraws,
-      shadowPairFailures,
-    };
-    onStats?.({ placements: placementCount, draws, triangles,
-      colliderParts: collision.parts, colliderCoveredRadiusM: collision.coveredRadiusM,
-      farMergedMeshes: farMeshes, farMergedInstances: farInstances, grounding,
-      finalTransformEvidence, collision: collisionAudit });
-    const drawScale = quality?.architectureDrawScale ?? 1;
-    const allVisibleKitsReady = bundle.placements.every((placement) => {
-      const cap = placement.kind === "dressing" ? 350
-        : placement.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
-      const distance = Math.hypot(placement.positionM[0] - focus.x,
-        placement.positionM[2] - focus.z);
-      return (!residentPlacementIds.has(placement.id) && distance > cap * drawScale)
-        || kits.has(placement.kit);
-    });
-    publishSettlementProof({
-      status: allVisibleKitsReady ? "loaded" : "loading",
-      settlements: bundle.settlements.length,
-      placements: bundle.placements.length,
-      renderedPlacements: placementCount,
-      draws,
-      triangles,
-      grounding,
-      finalTransformEvidence,
-      collision: collisionAudit,
-    });
-    return () => {
-      const depthMaterials = new Set<THREE.Material>();
-      for (const child of [...group.children]) {
-        group.remove(child);
-        if (child instanceof THREE.Mesh && child.customDepthMaterial) {
-          depthMaterials.add(child.customDepthMaterial);
-        }
-        if (child instanceof THREE.InstancedMesh) {
-          child.dispose();
-          if (child.userData.esSettlementOwnedGeometry) child.geometry.dispose();
-        }
-        else if (child instanceof THREE.Mesh) {
-          child.geometry.dispose();
-          if (!child.userData.esSettlementFarMerge) {
-            (child.material as THREE.Material).dispose();
+      // Fine wall-foot skirt/contact AO: near-only, never part of far LOD.
+      for (const treatment of bundle.groundTreatments) {
+        const cx = treatment.footprintM.reduce((n, p) => n + p[0], 0) / treatment.footprintM.length;
+        const cz = treatment.footprintM.reduce((n, p) => n + p[1], 0) / treatment.footprintM.length;
+        if (Math.hypot(cx - focus.x, cz - focus.z) > 300) continue;
+        const skirt = treatmentMesh(treatment.footprintM, treatment.baseSkirtWidthM, groundAt);
+        if (skirt) group.add(skirt);
+      }
+      const grounding = settlementGroundAudits(bundle.settlements, placementGrounding);
+      onSolids?.(collision.chosen);
+      const collisionAudit = {
+        status: collision.activeSettlementIds.length ? "resident" as const : "ring" as const,
+        activeSettlementIds: collision.activeSettlementIds,
+        residentPlacementIds: collision.residentPlacementIds,
+        omittedPlacementIds: collision.omittedPlacementIds,
+        parts: collision.parts,
+        requiredResidentParts: collision.requiredResidentParts,
+        partBudget: bundle.lod.colliderPartBudget,
+        coveredRadiusM: collision.coveredRadiusM,
+      };
+      const finalTransformEvidence = {
+        finalAnchoredPlacements: placementCount,
+        nearInstances,
+        farMergedInstances: farInstances,
+        groundBoundInstances,
+        shadowPairedDraws,
+        shadowPairFailures,
+      };
+      onStats?.({ placements: placementCount, draws, triangles,
+        colliderParts: collision.parts, colliderCoveredRadiusM: collision.coveredRadiusM,
+        farMergedMeshes: farMeshes, farMergedInstances: farInstances, grounding,
+        finalTransformEvidence, collision: collisionAudit });
+      const drawScale = quality?.architectureDrawScale ?? 1;
+      const allVisibleKitsReady = bundle.placements.every((placement) => {
+        const cap = placement.kind === "dressing" ? 350
+          : placement.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
+        const distance = Math.hypot(placement.positionM[0] - focus.x,
+          placement.positionM[2] - focus.z);
+        return (!residentPlacementIds.has(placement.id) && distance > cap * drawScale)
+          || kits.has(placement.kit);
+      });
+      publishSettlementProof({
+        status: allVisibleKitsReady ? "loaded" : "loading",
+        settlements: bundle.settlements.length,
+        placements: bundle.placements.length,
+        renderedPlacements: placementCount,
+        draws,
+        triangles,
+        grounding,
+        finalTransformEvidence,
+        collision: collisionAudit,
+      });
+      return () => {
+        const depthMaterials = new Set<THREE.Material>();
+        for (const child of [...group.children]) {
+          group.remove(child);
+          if (child instanceof THREE.Mesh && child.customDepthMaterial) {
+            depthMaterials.add(child.customDepthMaterial);
+          }
+          if (child instanceof THREE.InstancedMesh) {
+            child.dispose();
+            if (child.userData.esSettlementOwnedGeometry) child.geometry.dispose();
+          }
+          else if (child instanceof THREE.Mesh) {
+            child.geometry.dispose();
+            if (!child.userData.esSettlementFarMerge) {
+              (child.material as THREE.Material).dispose();
+            }
           }
         }
-      }
-      depthMaterials.forEach((material) => material.dispose());
+        depthMaterials.forEach((material) => material.dispose());
+      };
     };
+    try {
+      return build();
+    } catch (error) {
+      onSolids?.([]);
+      setFatalError(error instanceof Error ? error : new Error(String(error)));
+      return undefined;
+    }
   }, [bundle, kits, revision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError]);
 

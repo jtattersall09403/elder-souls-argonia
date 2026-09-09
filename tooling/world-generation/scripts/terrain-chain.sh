@@ -159,6 +159,12 @@ STAGES=(
   # edit or a re-carve left the world unbuildable until somebody ran five
   # commands by hand. It belongs here, after the final water and the land cover
   # and immediately before the publish that consumes it.
+  # Ways are waypoints plus `routing: terrain`, and footprints, districts and
+  # doors are derived from the placed pieces — all of them read the shipped
+  # rasters, so a re-carve makes every one of them drift and compile_settlement
+  # refuses. Nothing re-derived them, so it was a command a person had to
+  # remember after every rebuild.
+  "rederive_blueprints"
   "compile_settlement"
   "export_settlement_bundle"
   "settlement_ground_control"
@@ -201,6 +207,12 @@ FOOTPRINT_STAGES=(
   # edit or a re-carve left the world unbuildable until somebody ran five
   # commands by hand. It belongs here, after the final water and the land cover
   # and immediately before the publish that consumes it.
+  # Ways are waypoints plus `routing: terrain`, and footprints, districts and
+  # doors are derived from the placed pieces — all of them read the shipped
+  # rasters, so a re-carve makes every one of them drift and compile_settlement
+  # refuses. Nothing re-derived them, so it was a command a person had to
+  # remember after every rebuild.
+  "rederive_blueprints"
   "compile_settlement"
   "export_settlement_bundle"
   "settlement_ground_control"

@@ -99,6 +99,7 @@ ROADSIDE_OFFSETS_M = (35.0, 90.0)
 
 DANGER_TIER = {"D0": 1, "D1": 1, "D2": 2, "D3": 3, "D4": 4, "D5": 5}
 SIGHTLINE_MAX_M = 1500.0         # a "within sight of X" claim further than this is not a sightline
+SIGHTLINE_COMFORT_M = 5.0        # margin above the sampler's tolerance that earns the full view reward
 BOUND_MAX_M = 250.0              # "inside / part of / off the bank of X"
 ON_ROUTE_MAX_M = 220.0           # "on the road" further than this is a false claim (strict stages)
 NEAR_POINT_RELAX = 2.0           # homeless-batch multiplier on sitingPrefs.nearPoint.maxM
@@ -189,8 +190,15 @@ THOMAS_WEIGHT = 1.2
 # waterfront rather than its landward map dot; hull classes match B5.
 HULL_CLASS_M = {"canoe": 0.6, "small-draft": 1.2, "keeled": 3.0}
 NAVIGABLE_HULL_CLASS = {
-    "port-town": "keeled", "legal-harbour-city": "keeled", "neutral-free-port": "keeled",
+    "port-town": "keeled", "legal-harbour-city": "keeled",
     "shipyard": "keeled", "head-of-navigation": "keeled",
+    # `neutral-free-port` is Alten Corimont and only Alten Corimont. Owner
+    # ruling 2026-09-09 (polish-backlog "Owner rulings 2026-09-09"): its
+    # harbour measures 2.4 m, a sea keel needs 3.0 m, and the world is right —
+    # the port is worked by shallow-bottomed craft that come a long way up
+    # shallow river to reach it. The class states what floats there; it is not
+    # a loosened threshold.
+    "neutral-free-port": "small-draft",
     "ferry-stage": "small-draft", "customs-town": "small-draft", "tradehouse": "small-draft",
     "bonded-warehouse": "small-draft", "pirate-anchorage": "small-draft",
     "salvage-divers-yard": "small-draft", "monsoon-barrier": "small-draft",
@@ -999,13 +1007,29 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
             rx, rz = plotted[ref]
             if math.hypot(c.x - rx, c.z - rz) > SIGHTLINE_MAX_M:
                 return -9.0, {"sightline": -9.0}
-            if survey is not None and not survey.line_of_sight(c.x, c.z, rx, rz, eye_a=1.7, eye_b=8.0):
-                return -9.0, {"sightline": -9.0}
+            margin = math.inf
+            if survey is not None:
+                los = survey.sightline_clearance(c.x, c.z, rx, rz, eye_a=1.7, eye_b=8.0)
+                if not los["clear"]:
+                    return -9.0, {"sightline": -9.0}
+                margin = los["marginM"]
             other = plotted_meta.get(ref) if plotted_meta is not None else None
-            if other is not None and d.id in other.sightline_to and survey is not None \
-                    and not survey.line_of_sight(rx, rz, c.x, c.z, eye_a=1.7, eye_b=8.0):
-                return -9.0, {"mutual-sightline": -9.0}
-            parts["sightline"] = 0.6
+            if other is not None and d.id in other.sightline_to and survey is not None:
+                back = survey.sightline_clearance(rx, rz, c.x, c.z, eye_a=1.7, eye_b=8.0)
+                if not back["clear"]:
+                    return -9.0, {"mutual-sightline": -9.0}
+                margin = min(margin, back["marginM"])
+            # Clearance is REWARDED, not merely permitted. A flat pass/fail
+            # bonus gave the greedy solve no reason to prefer a view with
+            # headroom over one that grazes the ridge, so the whole population
+            # settled on the threshold and every raster rebuild flipped one or
+            # two records out of the plot (review 2026-09-09, decision 0048).
+            # Half the reward is for having the view at all; half is earned
+            # across the first SIGHTLINE_COMFORT_M of margin over the sampler's
+            # own tolerance, so the maximum is unchanged at 0.6 and no other
+            # weight needs retuning.
+            headroom = 0.0 if margin <= 0 else min(margin / SIGHTLINE_COMFORT_M, 1.0)
+            parts["sightline"] = 0.3 + 0.3 * headroom
     if d.bound_to and d.bound_to in plotted:
         bx, bz = plotted[d.bound_to]
         if math.hypot(c.x - bx, c.z - bz) > d.bound_max:
@@ -1373,17 +1397,26 @@ def _point_depth_m(s: ProvinceSurvey, x: float, z: float) -> float:
 
 
 def committed_candidate(s: ProvinceSurvey, rec: dict, x: float, z: float) -> Candidate:
-    """The committed dot as a candidate. Region class, danger band, landform
-    and the route/water distances are read from the record's own `plotFacts`
-    (they ARE the winning candidate's facts, and the grid at the dot can
-    disagree by a pixel with the scour site that won it); the water depth and
-    the ground classification are re-measured off the CURRENT survey, because
-    those are what a terrain edit moves."""
+    """The committed dot as a candidate.
+
+    Region class, danger band and landform are read from the record's own
+    `plotFacts`: they are AUTHORED/CLASSIFICATION facts, they ARE the winning
+    candidate's, and the grid at the dot can disagree by a pixel with the scour
+    site that won it (`_raster_still_reads` owns that tolerance).
+
+    Every PHYSICAL measurement — the water and route distances, the water
+    depth, the slope — is re-measured off the CURRENT survey. It used to take
+    `distanceToWaterM` out of the record's own `plotFacts`, so a placeholder or
+    a pre-carve number was copied forward on every re-plot and could never
+    self-correct; the nine anchors' hard-coded 0.0 survived exactly that way
+    (docs/research/world-terrain/place-water-facts-vs-shipped-water.md §5.2).
+    A measured fact comes from the raster or it is not a measurement.
+    """
     rid = rec["id"]
     facts = rec.get("plotFacts") or {}
     row, col = s.grid_px(x, z)
     anchors = s.anchor_points_m
-    wm = float(facts.get("distanceToWaterM", s.dist_to_water_m[row, col]))
+    wm = float(s.dist_to_water_m[row, col])
     return Candidate(
         id=f"committed.{rid.rsplit('.', 1)[-1]}", kind=COMMITTED_SEED_KIND,
         landform=facts.get("landform") or _classify_free(s, row, col) or "off-lattice",
@@ -1391,7 +1424,7 @@ def committed_candidate(s: ProvinceSurvey, rec: dict, x: float, z: float) -> Can
         region=facts.get("regionClass") or REGION_CLASSES[int(s.region_grid[row, col])][0],
         danger=int(facts.get("dangerBand", s.danger[row, col])),
         zone=s.culture_names.get(int(s.culture[row, col])),
-        route_m=float(facts.get("distanceToRouteM", s.dist_to_route_m[row, col])),
+        route_m=float(s.dist_to_route_m[row, col]),
         water_m=wm, depth_m=0.0,
         slope=float(s.slope_grid[row, col]), prominence=0.0, visibility=0.0, concealment=0.0,
         water_relation=max(0.0, 1.0 - wm / 300.0),
@@ -1573,12 +1606,25 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
         slug = d.id.rsplit(".", 1)[-1]
         if d.tier == 0 and slug in anchors:
             ax, az = anchors[slug]
-            c = Candidate(id=f"anchor.{slug}", kind="anchor", landform="anchor", x=ax, z=az,
-                          region=REGION_CLASSES[int(s.region_grid[s.grid_px(ax, az)])][0],
-                          danger=int(s.danger[s.grid_px(ax, az)]), zone=d.zone,
-                          route_m=0.0, water_m=0.0, depth_m=0.0, slope=0.0, prominence=0.0,
-                          visibility=0.0, concealment=0.0, water_relation=1.0, anchor_m=0.0)
-            measure_candidate_water(s, c)
+            # The anchor's position is the owner's; every PHYSICAL fact about
+            # it is the ground's. This used to build the candidate with literal
+            # `route_m=0.0, water_m=0.0, slope=0.0`, and `measure_candidate_water`
+            # only ever sets `depth_m`/`navigable_depth_m` — so all nine anchors
+            # shipped `distanceToWaterM: 0.0` and eight of the nine were wrong
+            # (Lilmoth 107.7 m, Stormhold 109.7 m). See
+            # docs/research/world-terrain/place-water-facts-vs-shipped-water.md §5.1.
+            # `pinned_candidate` is the one function that measures a point off
+            # the survey; the anchor branch reuses it rather than keeping a
+            # second, unmeasured copy.
+            c = pinned_candidate(s, d.id, ax, az)
+            c.id = f"anchor.{slug}"
+            c.kind = "anchor"
+            c.landform = "anchor"
+            c.zone = d.zone
+            # an anchor is not scored against the water, and it is its own anchor
+            c.water_relation = 1.0
+            c.anchor_m = 0.0
+            c.anchor_id = slug
             plotted_xy[d.id] = (ax, az)
             plotted_d[d.id] = (d, c)
             result[d.id] = {"candidate": c, "score": None, "parts": {}, "runners": [],

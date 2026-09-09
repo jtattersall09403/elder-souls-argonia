@@ -788,3 +788,49 @@ def test_texture_cap_gate_measures_the_published_image_not_a_manifest_claim(tmp_
 def test_shipped_kit_textures_are_inside_the_runtime_cap():
     bundle = json.loads(ex.OUT.read_text())
     assert ex.texture_cap_errors(bundle["kits"], bundle["lod"], ex.PUBLIC_KITS) == []
+
+
+def test_the_owner_override_ships_a_waivable_error_and_records_it_by_name():
+    overridden = []
+    ex._refuse_or_override("pad delivery", ["a hut sits 0.3 m proud"],
+                           "settlement pad delivery is incomplete",
+                           "owner wants to walk the province", overridden)
+    assert overridden == ["pad delivery: a hut sits 0.3 m proud"]
+
+
+def test_the_owner_override_cannot_ship_an_error_that_is_fatal_at_runtime():
+    """The 2026-09-09 defect: a short LOD chain went out under the override and
+    the studio drew nothing at all. The override buys a defective world, never
+    a blank one."""
+    for error_class in sorted(ex.NON_WAIVABLE_ERROR_CLASSES):
+        overridden = []
+        with pytest.raises(ValueError) as raised:
+            ex._refuse_or_override(error_class, ["some/asset: measured breach"],
+                                   f"{error_class} breach: some/asset: measured breach",
+                                   "owner wants to see it", overridden)
+        assert "NON-WAIVABLE" in str(raised.value)
+        assert ex.NON_WAIVABLE_ERROR_CLASSES[error_class] in str(raised.value)
+        assert "some/asset: measured breach" in str(raised.value)
+        assert overridden == []
+
+
+def test_every_runtime_fatal_gate_is_registered_as_non_waivable():
+    """The three gates that mirror a runtime refusal/throw, by name. A new gate
+    of that kind must be added here as well, or the override could waive it."""
+    assert set(ex.NON_WAIVABLE_ERROR_CLASSES) == {
+        "lod contract", "collider budget", "texture cap"}
+
+
+def test_a_non_waivable_breach_stops_a_whole_export_even_under_the_override(
+        tmp_path, monkeypatch):
+    """End to end: the gate is wired into build_bundle, not merely available."""
+    monkeypatch.setattr(ex, "lod_contract_errors",
+                        lambda *a, **k: ["kit-x/asset:short: LOD chain has 2 tier(s)"])
+    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    _warned_settlement(tmp_path, conforms=True)
+    with pytest.raises(ValueError) as raised:
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", _route_source(tmp_path, []),
+                        ship_with_errors="owner insists on seeing it")
+    assert "NON-WAIVABLE" in str(raised.value)
+    assert "asset:short" in str(raised.value)

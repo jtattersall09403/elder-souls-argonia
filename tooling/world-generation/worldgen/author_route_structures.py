@@ -39,8 +39,8 @@ from pathlib import Path
 
 import numpy as np
 
-from .compile_route_structures import (FAMILIES, KIND_ROLE, measure_window,
-                                       ramp_ok)
+from .compile_route_structures import (FAMILIES, KIND_ROLE, SPAN_KINDS,
+                                       SPAN_SYSTEMS, measure_window, ramp_ok)
 from .grade_routes import (GRADIENT_CAP_DEG, STRETCHES_PATH, STRUCTURES_PATH,
                            resample, sample_bilinear, ways)
 from .scale import RAW_M
@@ -50,7 +50,74 @@ CHAINAGE_TOLERANCE_M = 0.05
 
 # Two over-cap stretches closer together than this are one structure: a flight
 # does not stop and restart across ten metres of level ground.
+#
+# ONE GAP FOR BOTH KINDS, decided 2026-09-09 and not by preference. This value
+# is what grew a chain of wrinkles on a rough hillside into one 390 m "bridge",
+# so the obvious remedy is a second, much smaller gap for spans. It is not
+# needed, and a second constant would be a second thing to keep true:
+#
+#  * merging is a statement about the DEFECT ("these wrinkles are one problem"),
+#    and that statement is equally right for a flight and for a crossing.
+#  * what was wrong was never the merge, it was that a merged window was built
+#    as a span without anyone measuring a gap. `obstacle_span` now measures it,
+#    and it cuts the window back to the run that has something under it — which
+#    is a strictly better answer than any merge gap, because it is derived from
+#    the ground rather than from a distance somebody chose.
+#  * a span-specific merge gap would also cut the wrong way at the other end: a
+#    braided channel with two arms 40 m apart is one crossing, and a small gap
+#    would author it as two decks with a strip of mid-river bank between them.
+#    Trimming keeps the whole crossing and drops the dry approaches.
+#
+# Measured after trimming: no surviving span is longer than the obstacle under
+# it, so this constant no longer decides any span's length. It stays as the
+# flight rule it always was.
 AUTHOR_MERGE_GAP_M = 60.0
+
+# --------------------------------------------------------------------------
+# THE OBSTACLE A SPAN EXISTS TO CROSS
+# --------------------------------------------------------------------------
+# Measured 2026-09-09: of the 204 span structures the province shipped, 192
+# crossed no water at all, the deepest gap under any of them was 5.8 m, and the
+# median clearance of the deck over the ground was 0.6 m. The worst was 126
+# chained viaduct decks laid down a continuous DRY hillside falling 65 m to
+# 46 m at 4.4 %. They were bridges over nothing.
+#
+# The cause was that nothing in the chain ever asked whether there was a gap.
+# `merged_stretches` joins over-cap wrinkles within `AUTHOR_MERGE_GAP_M` into
+# one long window, `_kind` judges that window on its END-TO-END grade, and a
+# long window on a uniform slope reads under `DECK_MAX_GRADE_DEG` and becomes a
+# bridge. So the question is asked here, once, on the ground and the water:
+#
+#   a span window is the longest contiguous run inside the merged window where
+#   either standing water is deeper than `SPAN_DEEP_M`, or the ground falls
+#   more than one deck thickness below the window's own chord.
+#
+# Everything outside that run is not a span. A window with no such run at all
+# is not a structure and is dropped — see `obstacle_span`.
+#
+#: The water compiler's own "deep enough to matter" threshold, identical to
+#: `water_crossings.DEEP_M` so the two can never disagree about what is wet.
+SPAN_DEEP_M = 0.3
+#: WHICH SEASON, and why it is not the dry one. The bake publishes both ends of
+#: the seasonal rule and `ShippedWater.signed_depth_m` demands the caller name
+#: one. A span is permanent geometry: it has to carry the way at the seasonal
+#: MAXIMUM, because a deck built for the dry season is a road under water for
+#: the months of the monsoon. Measured both ways on the shipped windows
+#: (2026-09-09): `dry` leaves 67 spans and 1,278 m of deck, `wet` leaves 94 and
+#: 1,914 m. The 27 in the difference are crossings that are dry ground for part
+#: of the year and standing water for the rest — exactly the ones a marsh
+#: province builds a causeway over.
+SPAN_SEASON = "wet"
+#: One deck thickness. Read from the span kit's own measured geometry rather
+#: than typed in, so re-measuring the asset moves this threshold with it; the
+#: THICKEST authored deck is used, so a drop that clears this is a real gap
+#: under every span system, not just the slimmest one.
+DECK_THICKNESS_M = max(
+    float((spec.get("deck") or {})["thicknessM"])
+    for spec in SPAN_SYSTEMS.values() if "thicknessM" in (spec.get("deck") or {}))
+#: Chainage between obstacle samples. Under the 1.8 m water/height texel, so a
+#: single-texel gap cannot fall between two samples.
+SPAN_SAMPLE_M = 1.5
 
 # A window graded steeper than this end to end is not a deck (see the 12 deg
 # compile_route_structures.RAMP_MAX_DEG): it is a flight. Three degrees of
@@ -89,6 +156,24 @@ ROAD_FAMILY = "stone-civic"
 
 # One authored sentence per survivor way (standard 12: prose written against
 # the record, promising nothing the typed fields cannot show).
+#
+# AN ENTRY HERE IS DORMANT UNTIL ITS WAY CARRIES A STRUCTURE. Over-cap windows
+# are measured on ground that moves, and `compile_minor_routes` re-solves and
+# occasionally renames ways, so at any moment about half these keys name a way
+# with nothing built on it — and 16 name a way the current route set does not
+# have at all. A dormant sentence publishes nothing and breaks no standard;
+# deleting it would throw away reviewed prose that the next re-solve asks for
+# again. What standard 12 does require is checked here and in the audit that
+# produced the 2026-09-09 rewrites: every sentence attached to a LIVE structure
+# must describe the obstacle that structure's own measurement shows.
+#
+# REWRITTEN 2026-09-09, thirteen of them, after the span windows were trimmed
+# to their measured obstacles. The old sentences described rock sills, border
+# ridges, field walls and knee-high ledges; the trimmed record shows that what
+# the province's road spans actually cross is standing water, one to two and a
+# half metres of it, tens of metres wide. `route.road.gideon-blackwood-road`
+# was the worst: it claimed to cross "the border ridge where the ridge is
+# thinnest" over 126 chained deck pieces laid down a continuous dry hillside.
 WHY = {
  "track.imperial-fringe.swampmoth-town":
    "The track leaves the moth farms by a break in the scarp. That break is already a rock stair. Widening it would drop the ledge on which the farms stand onto the road.",
@@ -135,7 +220,7 @@ WHY = {
  "track.hist-heartland.porter-relay-poling":
    "The porters' path is short and crosses one root buttress; the buttress is living wood and is walked over on a deck.",
  "track.dunmer-north.nine-marks":
-   "The marks stand along a bank above the flats. The path climbs the bank once to reach them; below it the ground is under water half the year.",
+   "The marks stand along a bank above the flats, which lie under water for much of the year. The path climbs the bank to reach them. It is carried on deck wherever standing water lies over its line.",
  "track.dunmer-north.nine-fords":
    "The track leaves the water between the fords and goes over a shoulder of higher ground. That shoulder is what holds the two fords apart.",
  "track.dunmer-north.the-veterans-ridge":
@@ -149,21 +234,21 @@ WHY = {
  "track.dunmer-north.saltmarch-village":
    "One old sea wall stands between the village and its track. It still holds the tide off the village ground.",
  "route.road.alten-corimont-stormhold":
-   "Mid-route the road crosses a rock sill between two basins. The sill is narrow. Cutting it would drain one basin into the other.",
+   "The road meets standing water several times between Alten Corimont and Stormhold. Each sheet is broad enough that a cart cannot be walked through it. The crossings are spanned.",
  "route.road.blackrose-lilmoth":
    "Near the junction the road runs along a ridge of firm ground above the fen. For a kilometre either side, that ridge is the dry ground.",
  "route.road.gideon-blackwood-road":
-   "The Blackwood road crosses the border ridge where the ridge is thinnest. Even there it is stone, so the trunk cap is held on built decks rather than by quarrying the crossing.",
+   "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck.",
  "route.road.gideon-stormhold":
-   "Two short sills interrupt an otherwise level run. Each is a single span's worth of rock across the road.",
+   "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck.",
  "route.road.archon-gideon":
-   "The road out of Archon steps up twice onto old field walls near Gideon. Those walls still divide worked land.",
+   "The Archon road reaches Gideon across worked land that still holds water between its drains. Those channels cut across the line of the road. A cart cannot take a ford every mile, so each channel is spanned.",
  "track.imperial-fringe.onkobra-field-station":
    "The field station is a hut on the bank above the workings. Its last few metres come up that bank in one step.",
  "route.road.gideon-soulrest":
-   "One sill of rock sits in the road close to the Gideon end. It is low enough for a span to clear it.",
+   "Two channels cross the road between Gideon and Soulrest. Each is about a metre deep and some tens of metres wide. The road is carried over both.",
  "route.road.stormhold-thorn":
-   "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace.",
+   "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart.",
  # Written 2026-09-08 against the survivors the 0047 re-carve produced, and
  # reviewed by a separate agent under the style guide. Each one is about the
  # place and its landform rather than a measured stretch, so a re-grade that
@@ -233,7 +318,7 @@ WHY = {
  "track.imperial-fringe.reedcutters-toll":
    "The bridge is village timber on driven piles and its deck is kept low, so the road comes down to it through the reed beds on more of the same. The banks here are reed and mud, too soft for a cut.",
  "track.imperial-fringe.westfield-village":
-   "Westfield lies on the western apron of the saddle and its fields are held dry by sluices and drains. The track steps down through them along the field banks, which stand higher than the crop ground on either side.",
+   "Westfield lies on the western apron of the saddle and its fields are held dry by sluices and drains. The track steps down through them along the field banks. Where the ground falls away between two banks the track is carried across rather than filled.",
  "track.mercantile-coast.ixtaxh-xanmeer":
    "Only the top chamber of the xanmeer still stands above the silt. The divers go down its outer face, which is masonry and vertical. Every doorway is below that line.",
  "track.mercantile-coast.lighter-flotilla":
@@ -325,11 +410,11 @@ WHY = {
  "track.mercantile-coast.hammock-crown-murkmire":
    "The crown is the highest dry ground in a wide floodplain and four villages bury in four sectors of it. Every part of the terrace belongs to one of the four. The way up comes over the crown's edge, since no village will yield an inch of its sector for a cut.",
  "track.mercantile-coast.hereguard-plantation":
-   "Hereguard's rice ground is a river terrace that floods every year. The flooding suits rice; nothing else is grown on it. The bunds hold the water on the fields. The track runs along the bunds and steps down off the terrace where they end.",
+   "Hereguard's rice ground is a river terrace that floods every year. The flood suits rice. The terrace carries no other crop. The bunds hold the water on the fields. Where the track meets standing water it goes over on deck rather than cutting the bund.",
  "track.mercantile-coast.mirtis-plantation":
    "Mirtis burned with its exports still in the yard and the great house has not been reoccupied. It stands on firm lowland above its river landing. The track drops off that bank to the water, where the estate's stone facing is still in the slope.",
  "track.mercantile-coast.necropolis-village-murkmire":
-   "Xul-Vaat is built on peat firm enough to hold a driven pole. Pole-driving is its trade. The paths step up at the edges of that peat rather than cutting into it. Drained peat will not take one.",
+   "Xul-Vaat is built on peat firm enough to hold a driven pole. Pole-driving is its trade. The paths between the burial grounds cross open water on the village's own decks. Drained peat slumps under a cut face, so nothing on these paths is dug.",
  "track.mercantile-coast.oliis-boardwalk":
    "The village grew as a walkway first and the houses were hung off it afterwards, in a mangrove belt too soft for foundations and too dense for boats. There is no ground here to cut. Where the deck changes level it does so on built steps. Each household maintains its own span.",
  "track.mercantile-coast.slaughter-memorial":
@@ -347,15 +432,15 @@ WHY = {
  # against the place records at the way's ends, so a re-grade that moves a
  # window leaves the sentence true.
  "route.road.helstrom-blackrose":
-   "The road runs from the grove to the lake across the deep basin, where the firm going is hummocks and low rock in soft ground. The road climbs each rise where it stands. A bench cut level between the rises would stand under water for half the year.",
+   "The road runs from the grove to the lake across the deep basin, where the firm going is hummocks and low rock in soft ground. Between the hummocks the water stands, so the road is carried over it. A bench cut level between the rises would stand under water for half the year.",
  "route.road.soulrest-blackrose":
-   "The road leaves the coastal terrace and falls into the lake basin. The steepest pitches of that fall are carried on stone spans, the longest of them a third of a kilometre. The ground below the terrace edge is fen that will not hold a cut face.",
+   "The road leaves the coastal terrace and falls into the lake basin. The fen at the bottom holds standing water all year, so the last stretch is carried over it. The fen bottom is too soft for a cut face or a fill.",
  "track.dunmer-north.riverwalk":
    "Riverwalk is strung along its channel. The channel is the street and arrivals come by boat. The land approach runs the length of the channel bank and is built the whole way, because the river takes back what is cut into that bank.",
  "track.imperial-fringe.the-counted-dead":
    "The counting ground was cut into the slope rather than dug, with the earliest counts in a chamber beneath it. The road climbs to it and drops away beyond it on built steps. A cut at either end would open the chamber.",
  "track.hist-heartland.insular-hereditary-watch":
-   "The wardens hold the ridge end above a sealed xanmeer and turn visitors back at it. The last hundred metres climb the ridge on built work. The approach is kept too narrow for a cart.",
+   "The wardens hold the ridge end above a sealed xanmeer. Visitors are turned back at the top of the approach. That approach crosses the standing water below the ridge on deck. It is kept too narrow for a cart.",
  "track.mercantile-coast.keel-sakka-stilts":
    "The landing takes Lilmoth's freight off the road and onto the river. The channel edge is the deep-water face along which the boats lie, so the road reaches it without breaking it. The short rise from the water is built.",
 }
@@ -430,28 +515,153 @@ def _mark(rec: dict) -> dict:
     return rec
 
 
-def _chain_and_z(way: dict, heights: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """The way's chainage and ground profile, exactly as the compiler builds it."""
+class SpanWater:
+    """Standing depth at a world point, for the one question this module asks.
+
+    Wraps the shipped bake rather than re-running the water pass: the depth a
+    span is built against must be the depth the province ships and the renderer
+    draws, or the structure and the water disagree about the same crossing.
+    """
+
+    def __init__(self, depth: np.ndarray, metres_per_pixel: float):
+        self.depth = depth
+        self.mpp = float(metres_per_pixel)
+
+    @classmethod
+    def shipped(cls, season: str = SPAN_SEASON) -> "SpanWater":
+        from .water_report import ShippedWater
+        w = ShippedWater()
+        return cls(w.signed_depth_m(season), w.mpp2)
+
+    def depth_m(self, xs: np.ndarray, zs: np.ndarray) -> np.ndarray:
+        """Signed depth, metres, at world (x, z). Negative is dry."""
+        n = self.depth.shape[0]
+        ix = np.clip((np.asarray(xs) / self.mpp).astype(int), 0, n - 1)
+        iy = np.clip((np.asarray(zs) / self.mpp).astype(int), 0, n - 1)
+        return self.depth[iy, ix]
+
+
+#: A province with no water at all. For unit tests and for callers proving the
+#: DROP half of the rule; never a fallback when the bake is missing, because a
+#: silent "there is no water" would approve every dry window as a crossing.
+NO_WATER = SpanWater(np.full((1, 1), -1e6, dtype=np.float32), 1e9)
+
+
+def obstacle_span(chain: np.ndarray, xs: np.ndarray, zs: np.ndarray,
+                  hs: np.ndarray, from_m: float, to_m: float,
+                  water: SpanWater) -> tuple[float, float] | None:
+    """The run inside a window that a span actually has to cross, or None.
+
+    The chord is the straight line the deck runs on between the window's two
+    ground endpoints (no embankment: a span changes no ground). A sample is an
+    obstacle where the water there is deeper than `SPAN_DEEP_M` or the ground
+    falls more than `DECK_THICKNESS_M` below that chord — below one deck
+    thickness the deck's own underside is already on the ground, so there is
+    nothing to bridge. The longest contiguous run of obstacle samples is the
+    span; `None` means the window contains no gap and is not a structure.
+    """
+    span_m = float(to_m) - float(from_m)
+    if span_m <= CHAINAGE_TOLERANCE_M:
+        return None
+    n = max(int(span_m / SPAN_SAMPLE_M) + 1, 3)
+    cs = np.linspace(float(from_m), float(to_m), n)
+    ground = np.interp(cs, chain, hs)
+    chord = np.linspace(ground[0], ground[-1], n)
+    deep = water.depth_m(np.interp(cs, chain, xs), np.interp(cs, chain, zs)) > SPAN_DEEP_M
+    obstacle = deep | ((chord - ground) > DECK_THICKNESS_M)
+    best: tuple[float, float] | None = None
+    i = 0
+    while i < n:
+        if not obstacle[i]:
+            i += 1
+            continue
+        j = i
+        while j + 1 < n and obstacle[j + 1]:
+            j += 1
+        if best is None or cs[j] - cs[i] > best[1] - best[0]:
+            best = (float(cs[i]), float(cs[j]))
+        i = j + 1
+    if best is None or best[1] - best[0] <= CHAINAGE_TOLERANCE_M:
+        return None
+    return best
+
+
+def _resolve(chain: np.ndarray, xs: np.ndarray, zs: np.ndarray, hs: np.ndarray,
+             from_m: float, to_m: float, worst_deg: float, way_kind: str,
+             water: SpanWater) -> dict | None:
+    """One window -> the structure it justifies, or None for "not a structure".
+
+    THE single place a span window is trimmed to its obstacle. A window whose
+    kind is not a span is left exactly as measured; a span window is cut back to
+    `obstacle_span` and re-judged on what is left, and a span window with no
+    obstacle in it is dropped.
+
+    `from_m`/`to_m` are always the SOURCE window — the merged over-cap stretch —
+    and never the trimmed result, which is why the record carries both. The
+    obstacle is measured against the chord over the whole window, and trimming
+    lowers that chord: hand a trimmed window back in and the drop under its own
+    new chord is smaller, so the pass would retire its own crossings and author
+    them again a run later, one structure at a time. Re-measuring always starts
+    from the window keeps the record a fixed point of its own pipeline.
+    """
+    m = measure_window(chain, hs, from_m, to_m)
+    if m["spanM"] <= CHAINAGE_TOLERANCE_M:
+        return None
+    kind = _kind(m["spanM"], m["riseM"], worst_deg, way_kind)
+    if kind not in SPAN_KINDS:
+        return {"fromM": m["fromM"], "toM": m["toM"], "riseM": m["riseM"],
+                "spanM": m["spanM"], "kind": kind, "gapM": 0.0,
+                "windowFromM": m["fromM"], "windowToM": m["toM"]}
+    gap = obstacle_span(chain, xs, zs, hs, m["fromM"], m["toM"], water)
+    if gap is None:
+        return None
+    trimmed = measure_window(chain, hs, gap[0], gap[1])
+    if trimmed["spanM"] <= CHAINAGE_TOLERANCE_M:
+        return None
+    return {"fromM": trimmed["fromM"], "toM": trimmed["toM"],
+            "riseM": trimmed["riseM"], "spanM": trimmed["spanM"],
+            "kind": _kind(trimmed["spanM"], trimmed["riseM"], worst_deg,
+                          way_kind, gap_m=trimmed["spanM"]),
+            "gapM": trimmed["spanM"],
+            "windowFromM": m["fromM"], "windowToM": m["toM"]}
+
+
+def _chain_and_z(way: dict, heights: np.ndarray) \
+        -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """The way's chainage, world x, world z and ground profile, exactly as the
+    compiler builds them (`compile_route_structures._profile`)."""
     pts = resample(way["px"])
     ds = np.maximum(np.hypot(*np.diff(pts, axis=0).T) * RAW_M, 1e-6)
     chain = np.concatenate([[0.0], np.cumsum(ds)])
-    return chain, sample_bilinear(heights, pts[:, 0], pts[:, 1])
+    return (chain, pts[:, 0] * RAW_M, pts[:, 1] * RAW_M,
+            sample_bilinear(heights, pts[:, 0], pts[:, 1]))
 
 
-def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray) -> dict:
+def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray,
+             water: SpanWater = NO_WATER) -> dict | None:
     """Re-measure one authored window and re-choose its kind and piece.
 
     The measurement is `compile_route_structures.measure_window`, the same call
     the compiler makes, so the window's clipped end, its rise and its grade are
-    one number each rather than two per module.
+    one number each rather than two per module. A stored SPAN window is trimmed
+    to its obstacle like a new one, and returns None when it has none: a record
+    is a pure function of the ground it describes, so a bridge over nothing does
+    not get to survive by being old.
     """
-    chain, z = _chain_and_z(ways_by_id[st["wayId"]], heights)
-    m = measure_window(chain, z, st["fromM"], st["toM"])
+    chain, xs, zs, z = _chain_and_z(ways_by_id[st["wayId"]], heights)
+    m = _resolve(chain, xs, zs, z, st.get("windowFromM", st["fromM"]),
+                 st.get("windowToM", st["toM"]), st["worstDeg"],
+                 GRADIENT_CAP_KIND[st["wayId"]], water)
+    if m is None:
+        return None
     out = dict(st)
+    out["fromM"] = round(m["fromM"], 2)
     out["toM"] = round(m["toM"], 2)
     out["riseM"] = round(m["riseM"], 2)
-    out["kind"] = _kind(m["spanM"], m["riseM"], st["worstDeg"],
-                        GRADIENT_CAP_KIND[st["wayId"]])
+    out["gapM"] = round(m["gapM"], 2)
+    out["windowFromM"] = round(m["windowFromM"], 2)
+    out["windowToM"] = round(m["windowToM"], 2)
+    out["kind"] = m["kind"]
     fam = _family(st["wayId"])
     out["family"] = fam
     out["pieceRef"] = (FAMILIES[fam][KIND_ROLE[out["kind"]]]["asset"]
@@ -504,7 +714,8 @@ def _family(way_id: str) -> str | None:
 MIN_STRUCTURE_RISE_M = 1.2
 
 
-def _kind(length_m: float, rise_m: float, worst_deg: float, way_kind: str) -> str:
+def _kind(length_m: float, rise_m: float, worst_deg: float, way_kind: str,
+          gap_m: float = 0.0) -> str:
     """The piece the defect asks for, from its measured shape.
 
     A short, low defect is a lip: one step or one deck piece over it. A long
@@ -527,11 +738,21 @@ def _kind(length_m: float, rise_m: float, worst_deg: float, way_kind: str) -> st
     grade_deg = math.degrees(math.atan(abs(rise_m) / max(length_m, 1e-6)))
     deck = "bridge" if way_kind in ("road", "trunk_road") else "deck"
     flight = "stepped-ascent" if length_m > 120.0 else "stair"
+    # `gap_m` > 0 means the window has been TRIMMED to a measured obstacle:
+    # water deeper than a wader, or ground falling clear below the deck. A lip
+    # step is a single tread over a terrace edge and has nothing under it, so a
+    # measured gap forecloses that branch however short the crossing is.
+    spans_a_gap = gap_m > 0.0
     if way_kind in ("road", "trunk_road"):
         if grade_deg >= DECK_MAX_GRADE_DEG:
             kind = "stepped-ascent"
         else:
-            kind = "lip-step" if length_m <= 30.0 else deck
+            kind = "lip-step" if length_m <= 30.0 and not spans_a_gap else deck
+    elif spans_a_gap:
+        # There is something under this window, so the only question left is
+        # whether the crossing is flat enough to be a deck or steep enough to
+        # be a climb down and up. It is never a single tread.
+        kind = deck if (grade_deg < DECK_MAX_GRADE_DEG and worst_deg < 28.0) else flight
     elif length_m <= 30.0 and abs(rise_m) <= min(4.0, 0.19 * length_m):
         kind = "lip-step"
     elif grade_deg >= DECK_MAX_GRADE_DEG or worst_deg >= 28.0:
@@ -560,7 +781,7 @@ def merged_stretches(way: dict, stretches: list[dict], cap: float,
             out.append({"fromM": s["fromM"], "toM": s["toM"], "worstDeg": s["worstDeg"]})
     if not out:
         return []
-    chain, z = _chain_and_z(way, heights)
+    chain, _xs, _zs, z = _chain_and_z(way, heights)
     # The grader's stretch chainage can run past a re-routed way's end, so the
     # window is measured (and stored) clipped — the same clip the compiler makes.
     kept = []
@@ -623,6 +844,12 @@ def _reconcile_prior_windows(prior: list[dict], ways_by_id: dict) \
             if endpoint < to_m:
                 current["toM"] = endpoint
                 clipped.append((stored, end_m))
+        # The SOURCE window is clipped with it. `_resolve` re-measures the
+        # obstacle over the window, so a window left running past the route end
+        # would be silently clipped there instead, moving the chord it is
+        # measured against and making the record disagree with itself next run.
+        if float(current.get("windowToM", to_m)) > end_m:
+            current["windowToM"] = round(end_m, 2)
         kept.append(current)
     return kept, dropped, clipped
 
@@ -638,7 +865,8 @@ def _highest_suffix_by_way(structures: list[dict]) -> dict[str, int]:
 
 
 def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
-           survivors: set[str], prior: list[dict] | None = None) -> dict:
+           survivors: set[str], prior: list[dict] | None = None,
+           *, water: SpanWater) -> dict:
     """Valid existing structures are kept and new measured windows are added.
 
     Numbering continues from the HIGHEST suffix already issued on each way, not
@@ -674,17 +902,31 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
               f"to current route endpoint {end_m:.2f} m")
     structures = []
     stale_noise: list[str] = []
+    stale_no_gap: list[str] = []
     for row in kept:
-        fresh = _refresh(row, ways_by_id, heights)
+        fresh = _refresh(row, ways_by_id, heights, water)
+        if fresh is None:
+            stale_no_gap.append(f"{row['id']} ({row['wayId']})")
+            continue
         # The same noise floor applies to a STORED structure re-measured on
         # today's ground. Most of the province's unauthored backlog is here:
         # pieces authored when a window's over-cap reading came from the two
         # surfaces disagreeing, not from a step. One measured 0.06 m of rise
         # across 17.8 m while its worst sample gradient read 25 degrees.
-        if abs(float(fresh.get("riseM") or 0.0)) < MIN_STRUCTURE_RISE_M:
+        # A window with a MEASURED gap under it is exempt: a river crossing is
+        # flat, so its rise is near zero and the noise floor would delete the
+        # one kind of structure that is certainly real.
+        if not fresh.get("gapM") \
+                and abs(float(fresh.get("riseM") or 0.0)) < MIN_STRUCTURE_RISE_M:
             stale_noise.append(f"{fresh['id']} ({fresh.get('riseM')} m)")
             continue
         structures.append(fresh)
+    if stale_no_gap:
+        print(f"{len(stale_no_gap)} stored SPAN structures cross nothing on "
+              f"today's ground (no water over {SPAN_DEEP_M} m at the "
+              f"{SPAN_SEASON} season, no drop over {DECK_THICKNESS_M:.3f} m "
+              f"below the chord) and were retired: "
+              f"{', '.join(stale_no_gap[:5])}{' …' if len(stale_no_gap) > 5 else ''}")
     if stale_noise:
         print(f"{len(stale_noise)} stored structures re-measure below the "
               f"{MIN_STRUCTURE_RISE_M:.1f} m noise floor and were retired: "
@@ -719,9 +961,16 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
     taken: dict[str, list[tuple[float, float]]] = {}
     vanished: list[str] = []
     noise: list[str] = []
+    no_gap: list[str] = []
     counts = _highest_suffix_by_way(structures)
     for s in structures:
-        taken.setdefault(s["wayId"], []).append((s["fromM"], s["toM"]))
+        # The SOURCE window, not the trimmed extent. A span is cut back to the
+        # obstacle it crosses, so its `fromM`/`toM` no longer cover the merged
+        # over-cap window it came from — and a "is this window already carried"
+        # test against the trimmed extent answers no every time, authoring the
+        # same crossing again under a new id on every run.
+        taken.setdefault(s["wayId"], []).append(
+            (s.get("windowFromM", s["fromM"]), s.get("windowToM", s["toM"])))
     for entry in sorted(stretch_doc["ways"], key=lambda e: e["wayId"]):
         wid = entry["wayId"]
         if wid not in survivors:
@@ -738,24 +987,33 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
         wins = merged_stretches(ways_by_id[wid], entry["stretches"], cap, heights)
         fam = _family(wid)
         slug = wid.split(".", 1)[1].replace(".", "-")
+        chain, wxs, wzs, wz = _chain_and_z(ways_by_id[wid], heights)
         for w in wins:
             if any(a - 0.01 <= w["fromM"] and w["toM"] <= b + 0.01
                    for a, b in taken.get(wid, [])):
                 continue          # already carried by an authored structure
-            if abs(w["riseM"]) < MIN_STRUCTURE_RISE_M:
+            res = _resolve(chain, wxs, wzs, wz, w["fromM"], w["toM"],
+                           w["worstDeg"], entry["kind"], water)
+            if res is None:
+                no_gap.append(f"{wid} {w['fromM']:.0f}-{w['toM']:.0f} m")
+                continue
+            if not res["gapM"] and abs(res["riseM"]) < MIN_STRUCTURE_RISE_M:
                 noise.append(f"{wid} {w['fromM']:.0f}-{w['toM']:.0f} m "
-                             f"({w['riseM']:+.2f} m)")
+                             f"({res['riseM']:+.2f} m)")
                 continue
             counts[wid] = n = counts.get(wid, 0) + 1
-            kind = _kind(w["spanM"], w["riseExactM"], w["worstDeg"], entry["kind"])
+            kind = res["kind"]
             structures.append(_mark({
                 "id": f"structure.{slug}.{n}",
                 "wayId": wid,
                 "kind": kind,
                 "family": fam,
-                "fromM": round(w["fromM"], 2),
-                "toM": round(w["toM"], 2),
-                "riseM": w["riseM"],
+                "fromM": round(res["fromM"], 2),
+                "toM": round(res["toM"], 2),
+                "riseM": round(res["riseM"], 2),
+                "gapM": round(res["gapM"], 2),
+                "windowFromM": round(res["windowFromM"], 2),
+                "windowToM": round(res["windowToM"], 2),
                 "worstDeg": w["worstDeg"],
                 "capDeg": cap,
                 "pieceRef": (FAMILIES[fam][KIND_ROLE[kind]]["asset"]
@@ -767,6 +1025,10 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
         print(f"{len(vanished)} stretch rows name ways the current route set no "
               f"longer has and were dropped: {', '.join(sorted(vanished)[:6])}"
               f"{' …' if len(vanished) > 6 else ''}")
+    if no_gap:
+        print(f"{len(no_gap)} over-cap windows would have been spanned but cross "
+              f"NOTHING and are not structures: "
+              f"{', '.join(no_gap[:4])}{' …' if len(no_gap) > 4 else ''}")
     if noise:
         print(f"{len(noise)} over-cap windows are below the {MIN_STRUCTURE_RISE_M:.1f} m "
               f"resolution noise floor and are NOT structures: "
@@ -821,7 +1083,8 @@ def main() -> None:
     prior = (json.loads(STRUCTURES_PATH.read_text())["structures"]
              if STRUCTURES_PATH.exists() else [])
     out = author(doc, {w["id"]: w for w in ways()}, heights,
-                 survivor_ids(REPORT_PATH), prior)
+                 survivor_ids(REPORT_PATH), prior,
+                 water=SpanWater.shipped())
     STRUCTURES_PATH.parent.mkdir(parents=True, exist_ok=True)
     STRUCTURES_PATH.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n")
     print(f"{len(out['structures'])} structures -> {STRUCTURES_PATH}")

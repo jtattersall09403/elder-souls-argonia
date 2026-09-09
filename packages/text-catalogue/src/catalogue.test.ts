@@ -8,7 +8,17 @@ import {
   textFingerprint,
   type TextEntry,
 } from "./catalogue.js";
-import { CATALOGUE, SYSTEM_TEXT, COMBAT_SANDBOX_TEXT, EQUIPMENT_TEXT } from "./entries.js";
+import {
+  CATALOGUE,
+  SYSTEM_TEXT,
+  COMBAT_SANDBOX_TEXT,
+  EQUIPMENT_TEXT,
+  FERRY_TEXT,
+} from "./entries.js";
+
+/** Every exported block, so a new block cannot be added without the count moving. */
+const BLOCKS = [SYSTEM_TEXT, COMBAT_SANDBOX_TEXT, EQUIPMENT_TEXT, FERRY_TEXT];
+const ALL = BLOCKS.flat();
 
 const entry = (over: Partial<TextEntry> = {}): TextEntry => ({
   id: "text.system.example",
@@ -66,16 +76,26 @@ describe("the catalogue enforces engineering standard 4", () => {
 
 describe("the shipped entries", () => {
   it("build", () => {
-    expect(CATALOGUE.size).toBe(SYSTEM_TEXT.length + COMBAT_SANDBOX_TEXT.length + EQUIPMENT_TEXT.length);
+    expect(CATALOGUE.size).toBe(ALL.length);
   });
 
-
   it("expose a surface view for the voice reviewer to iterate", () => {
-    expect(bySurface(CATALOGUE, "system").length).toBe(SYSTEM_TEXT.length);
-    expect(bySurface(CATALOGUE, "dialogue")).toEqual([]);
+    // The reviewer sweeps one surface at a time, so every surface in use must
+    // come back complete. Counting from the blocks rather than from a literal
+    // means adding text cannot silently leave a surface unreviewed.
+    for (const surface of new Set(ALL.map((e) => e.surface))) {
+      expect(bySurface(CATALOGUE, surface).length, surface).toBe(
+        ALL.filter((e) => e.surface === surface).length,
+      );
+    }
   });
 
   it("carry a note on every entry — context is what the voice review reads", () => {
-    for (const e of SYSTEM_TEXT) expect(e.note, e.id).toBeTruthy();
+    // `ui` chrome is exempt: a button reading "Max reach" has no context a
+    // reviewer could use. Everything with a voice must explain itself.
+    for (const e of ALL) {
+      if (e.surface === "ui") continue;
+      expect(e.note, e.id).toBeTruthy();
+    }
   });
 });

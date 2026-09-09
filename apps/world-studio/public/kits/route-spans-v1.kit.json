@@ -1,0 +1,1040 @@
+{
+ "kit": "route-spans-v1",
+ "assets": [
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01",
+   "node": "es|fe9d37b9d3|rdic_exterior_nortmpextplattowerbridge01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    2.873,
+    5.462,
+    1.479
+   ],
+   "originOffsetM": [
+    1.422,
+    2.731,
+    0.433
+   ],
+   "triangles": 548,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone02a.dds",
+    "ridgedstone05.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatTowerBridge01:26.Mat",
+    "NorTmpExtPlatTowerBridge01:27.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.433,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01",
+   "node": "es|771b7aa280|_exterior_nortmpextplattowerbridgefree01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    3.475,
+    3.731,
+    3.593
+   ],
+   "originOffsetM": [
+    1.738,
+    1.821,
+    1.868
+   ],
+   "triangles": 805,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone02a.dds",
+    "ridgedstone05.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatTowerBridgeFree01:26.Mat",
+    "NorTmpExtPlatTowerBridgeFree01:27.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.868,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01",
+   "node": "es|52fbf51da9|xterior_nortmpextplattowerbridgeendcap01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    2.788,
+    0.963,
+    1.366
+   ],
+   "originOffsetM": [
+    1.399,
+    0.963,
+    0.433
+   ],
+   "triangles": 312,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone02a.dds",
+    "ridgedstone05.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatTowerBridgeEndCap01:26.Mat",
+    "NorTmpExtPlatTowerBridgeEndCap01:27.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.433,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplattower01",
+   "node": "es|ed0c2a14cd|ons_nordic_exterior_nortmpextplattower01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    3.475,
+    5.047,
+    26.825
+   ],
+   "originOffsetM": [
+    1.738,
+    5.047,
+    21.848
+   ],
+   "triangles": 2414,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone02a.dds",
+    "ridgedstone05.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatTower01:26.Mat",
+    "NorTmpExtPlatTower01:27.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 21.848,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplattower02",
+   "node": "es|53a75ef3b2|ons_nordic_exterior_nortmpextplattower02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    3.475,
+    7.283,
+    26.81
+   ],
+   "originOffsetM": [
+    1.738,
+    3.641,
+    21.848
+   ],
+   "triangles": 3364,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone02a.dds",
+    "ridgedstone05.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatTower02:26.Mat",
+    "NorTmpExtPlatTower02:27.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 21.848,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplatshaftbot01",
+   "node": "es|341a4369f8|_nordic_exterior_nortmpextplatshaftbot01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.283,
+    7.283,
+    0.455
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    0.455
+   ],
+   "triangles": 688,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone02a.dds",
+    "ridgedstonewall01.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatShaftBot01:27.Mat",
+    "NorTmpExtPlatShaftBot01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.455,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02",
+   "node": "es|5c2e64e85c|_nordic_exterior_nortmpextplatstairmid02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.283,
+    10.791,
+    7.306
+   ],
+   "originOffsetM": [
+    3.641,
+    10.014,
+    7.283
+   ],
+   "triangles": 881,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstonestairs01.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatStairMid02:44.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 7.283,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapl01",
+   "node": "es|bd4bcd3789|nordic_exterior_nortmpextplatstaircapl01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    4.725,
+    10.791,
+    7.306
+   ],
+   "originOffsetM": [
+    4.725,
+    10.014,
+    7.283
+   ],
+   "triangles": 588,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone05.dds",
+    "ridgedstonestairs01.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatStairCapL01:26.Mat",
+    "NorTmpExtPlatStairCapL01:44.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 7.283,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapr01",
+   "node": "es|118fb44b58|nordic_exterior_nortmpextplatstaircapr01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    4.725,
+    10.791,
+    7.306
+   ],
+   "originOffsetM": [
+    -0.0,
+    10.014,
+    7.283
+   ],
+   "triangles": 588,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone05.dds",
+    "ridgedstonestairs01.dds"
+   ],
+   "materials": [
+    "NorTmpExtPlatStairCapR01:26.Mat",
+    "NorTmpExtPlatStairCapR01:44.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 7.283,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/huts/exterior/bridge01",
+   "node": "es|66e8bcedd6|bmv__architecture_huts_exterior_bridge01",
+   "category": "architecture",
+   "sizeM": [
+    2.284,
+    4.977,
+    3.134
+   ],
+   "originOffsetM": [
+    1.157,
+    2.783,
+    -0.003
+   ],
+   "triangles": 16516,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "wood01.dds",
+    "woodend01.dds"
+   ],
+   "materials": [
+    "Bridge01:0.Mat",
+    "Bridge01:1.Mat",
+    "Bridge01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.003,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/huts/exterior/steps01",
+   "node": "es|302e193f97|bmv__architecture_huts_exterior_steps01",
+   "category": "architecture",
+   "sizeM": [
+    1.571,
+    1.208,
+    0.446
+   ],
+   "originOffsetM": [
+    0.78,
+    0.641,
+    -0.0
+   ],
+   "triangles": 198,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wall01.dds"
+   ],
+   "materials": [
+    "Steps.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/huts/exterior/steps02",
+   "node": "es|9039e2c968|bmv__architecture_huts_exterior_steps02",
+   "category": "architecture",
+   "sizeM": [
+    2.284,
+    4.968,
+    3.156
+   ],
+   "originOffsetM": [
+    1.157,
+    2.746,
+    0.019
+   ],
+   "triangles": 20400,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "wood01.dds",
+    "woodend01.dds"
+   ],
+   "materials": [
+    "Rope.Mat",
+    "Steps2:0.Mat",
+    "Steps2:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.019,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/huts/exterior/steps03",
+   "node": "es|b4d6d1d2b3|bmv__architecture_huts_exterior_steps03",
+   "category": "architecture",
+   "sizeM": [
+    1.695,
+    1.417,
+    0.566
+   ],
+   "originOffsetM": [
+    0.866,
+    0.575,
+    0.024
+   ],
+   "triangles": 4136,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "wood01.dds",
+    "woodend01.dds"
+   ],
+   "materials": [
+    "Steps3:0.Mat",
+    "Steps3:1.Mat",
+    "Steps3:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.024,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:landscape/bridges/bridgeshort01",
+   "node": "es|b20de4b9de|vanilla__landscape_bridges_bridgeshort01",
+   "category": "bridge",
+   "sizeM": [
+    7.451,
+    23.435,
+    16.157
+   ],
+   "originOffsetM": [
+    3.725,
+    11.685,
+    14.373
+   ],
+   "triangles": 2566,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bridge01.dds",
+    "dirt02.dds",
+    "road01.dds",
+    "roaddetails01.dds"
+   ],
+   "materials": [
+    "BridgeShort01:3.Mat",
+    "BridgeShort01:4.Mat",
+    "BridgeShort01:5.Mat",
+    "BridgeShort01:7.Mat",
+    "BridgeShort01:8.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 14.373,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:landscape/bridges/bridgenarrow01",
+   "node": "es|f1be24b9d9|anilla__landscape_bridges_bridgenarrow01",
+   "category": "bridge",
+   "sizeM": [
+    4.832,
+    23.435,
+    16.157
+   ],
+   "originOffsetM": [
+    2.416,
+    11.685,
+    14.373
+   ],
+   "triangles": 2566,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bridge01.dds",
+    "dirt02.dds",
+    "road01.dds",
+    "roaddetails01.dds"
+   ],
+   "materials": [
+    "BridgeNarrow01:3.Mat",
+    "BridgeNarrow01:4.Mat",
+    "BridgeNarrow01:5.Mat",
+    "BridgeNarrow01:7.Mat",
+    "BridgeNarrow01:8.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 14.373,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:landscape/bridges/bridge01",
+   "node": "es|03ca8f25e8|vanilla__landscape_bridges_bridge01",
+   "category": "bridge",
+   "sizeM": [
+    9.133,
+    42.084,
+    17.211
+   ],
+   "originOffsetM": [
+    4.567,
+    21.009,
+    14.373
+   ],
+   "triangles": 4750,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bridge01.dds",
+    "dirt02.dds",
+    "road01.dds",
+    "roaddetails01.dds"
+   ],
+   "materials": [
+    "Bridge01:3.Mat",
+    "Bridge01:5.Mat",
+    "Object36.Mat",
+    "Road:7.Mat",
+    "Road:8.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 14.373,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:landscape/bridges/bridgelong01",
+   "node": "es|cd462e3736|vanilla__landscape_bridges_bridgelong01",
+   "category": "bridge",
+   "sizeM": [
+    9.133,
+    52.188,
+    17.211
+   ],
+   "originOffsetM": [
+    4.567,
+    26.062,
+    14.373
+   ],
+   "triangles": 6104,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bridge01.dds",
+    "dirt02.dds",
+    "road01.dds",
+    "roaddetails01.dds"
+   ],
+   "materials": [
+    "BridgeLong01:3.Mat",
+    "BridgeLong01:4.Mat",
+    "BridgeLong01:5.Mat",
+    "BridgeLong01:7.Mat",
+    "BridgeLong01:8.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 14.373,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/nordic/exterior/dragonbridge01",
+   "node": "es|8feaf734fd|_dungeons_nordic_exterior_dragonbridge01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    73.321,
+    15.05,
+    42.839
+   ],
+   "originOffsetM": [
+    36.661,
+    7.525,
+    22.43
+   ],
+   "triangles": 12144,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ridgedstone02a.dds",
+    "ridgedstone05.dds",
+    "ridgedstone06.dds",
+    "road01.dds",
+    "rubblepile02.dds"
+   ],
+   "materials": [
+    "Bridge01:26.Mat",
+    "Bridge01:27.Mat",
+    "Bridge01:28.Mat",
+    "Bridge01:31.Mat",
+    "Bridge01:48.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 22.43,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+   "node": "es|ff494ec92d|er_stockade_stockadescaffoldbase4sided01",
+   "category": "clutter",
+   "sizeM": [
+    3.704,
+    3.843,
+    2.731
+   ],
+   "originOffsetM": [
+    1.852,
+    1.921,
+    -0.0
+   ],
+   "triangles": 336,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeScaffoldBase4Sided01:0.Mat",
+    "StockadeScaffoldBase4Sided01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+   "node": "es|9927ca079b|ter_stockade_stockadescaffoldtop0sided01",
+   "category": "clutter",
+   "sizeM": [
+    3.535,
+    3.739,
+    0.278
+   ],
+   "originOffsetM": [
+    1.782,
+    1.869,
+    0.219
+   ],
+   "triangles": 123,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds"
+   ],
+   "materials": [
+    "StockadeScaffoldTop0Sided01:1 - L2_Accessories:1.Mat",
+    "StockadeScaffoldTop0Sided01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.219,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
+   "node": "es|4d54328f96|ter_stockade_stockadescaffoldtop2sided01",
+   "category": "clutter",
+   "sizeM": [
+    3.535,
+    3.739,
+    0.957
+   ],
+   "originOffsetM": [
+    1.796,
+    1.893,
+    0.219
+   ],
+   "triangles": 255,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeScaffoldTop2Sided01:0.Mat",
+    "StockadeScaffoldTop2Sided01:1 - L2_Accessories:1 - L1_Rails:1.M",
+    "StockadeScaffoldTop2Sided01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.219,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
+   "node": "es|1966366980|ter_stockade_stockadescaffoldtop3sided01",
+   "category": "clutter",
+   "sizeM": [
+    3.535,
+    3.771,
+    0.957
+   ],
+   "originOffsetM": [
+    1.761,
+    1.955,
+    0.219
+   ],
+   "triangles": 307,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeScaffoldTop3Sided01:0.Mat",
+    "StockadeScaffoldTop3Sided01:1 - L1_Rail:1 - L2_Accessories:1.Ma",
+    "StockadeScaffoldTop3Sided01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.219,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-spans-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 62
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ }
+}

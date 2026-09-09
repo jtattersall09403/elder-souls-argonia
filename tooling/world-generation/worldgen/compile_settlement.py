@@ -397,7 +397,18 @@ class KitShelf:
         self.dressing_by_kit: dict[str, list[str]] = {}
         for name, path in sorted((p.stem.removesuffix(".kit"), p) for p in kits_dir.glob("*.kit.json")):
             data = json.loads(path.read_text())
-            self.assets_by_kit[name] = data["assets"]
+            # Only assets that can satisfy the runtime's three-tier LOD contract
+            # are placeable. Throwaway sourcing probes are built with a single
+            # lodRatio, so their assets have a two-tier chain and make
+            # SettlementLayer's validateLodTriangles throw the moment the player
+            # is close enough to draw one. `locate` scans kits alphabetically,
+            # so `probe-enclosure`/`probe-gapfill` were beating `settlement-*`
+            # and `underwater-v1` to assets those shipping kits also hold —
+            # which blanked the studio at Mazzatun (2026-09-09, decision 0052).
+            self.assets_by_kit[name] = [asset for asset in data["assets"]
+                                        if len(asset.get("lodRatios") or []) >= 2]
+            # by_asset stays complete: it is measurement (canopy heights, sizes),
+            # not selection, and a probe kit is a legitimate measurement source.
             for asset in data["assets"]:
                 self.by_asset.setdefault(asset["id"], asset)
         for path in sorted(config_dir.glob("*.json")):

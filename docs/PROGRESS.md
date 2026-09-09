@@ -45,7 +45,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28, good-enough not perfect; full history in 0025; leftovers in polish-backlog |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30, good-enough not perfect; full history in 0032; GAME_TIME_SCALE = 30 |
 | 10 — asset deep catalogue, kits, vegetation machinery (0034) | done | Owner CLOSED 2026-09-04 ("tested and working"); full history in [0036](decisions/0036-phase10-placement-decisions.md). Density ladder re-based and DELIVERED 2026-09-09 ([0048](decisions/0048-vegetation-density-ladder.md)): jungle is now the densest canopy at its owner-approved level, every other class re-based to it, ~51% fewer trees province-wide, `test_delivered_ladder` green. Flora kit 81->108 assets, groundcover 7->34, grass given a region axis, every region carries >=2 species no measured neighbour has. Leaf cards no longer fitted as solid wood (mangrove 4.4x->1.27x of trunk girth, worst tree 10.9m->2.08m). |
-| 11 — settlement/location system, exemplar-first (0034) | in progress | Per [0041](decisions/0041-phase11-settlement-decisions.md). Parts 0-6, Round A, assemblies, doors and the promise rounds are recorded there round by round; the 2026-09-07 review's batch plan is [research/phase11/phase11-gap-plan.md](research/phase11/phase11-gap-plan.md), and its batches are closed. **B1 DELIVERED 2026-09-09 — buildings stand in the world**: `settlements.json` publishes **10,441 placed pieces** (115 buildings, 9,708 route structures, 328 fences, 237 dressing, 47 landmarks, 6 docks) across 18 kits, with the settlement yards painted into the ground control and the vegetation cleared out of built ground (783 plants inside footprints -> 0). All five exemplars compile at 0 errors. **The held rollout ran**: `macro_plot --resolve-all` + `apply_sitings` plot 580/580 with zero typed-siting violations, nearest neighbour p5 35->70 m and median 85->133 m, Clark-Evans 0.835->1.124 (owner steer: evener than random is accepted). The repeatable path is `.claude/skills/settlement-build/`. **Next**: the span kit wired into `compile_route_structures.FAMILIES` with its exemplars placed for owner review, then the routing-cost change and the 57 ferry crossings. |
+| 11 — settlement/location system, exemplar-first (0034) | in progress | Per [0041](decisions/0041-phase11-settlement-decisions.md). Parts 0-6, Round A, assemblies, doors and the promise rounds are recorded there round by round; the 2026-09-07 review's batch plan is [research/phase11/phase11-gap-plan.md](research/phase11/phase11-gap-plan.md), and its batches are closed. **B1 DELIVERED AND BROWSER-PROVED 2026-09-09 — buildings stand in the world** (the first "delivered" claim was made from the bundle publishing alone and was wrong; two runtime faults were hiding behind it, both since fixed and both now gated at export — `colliderPartBudget` was a placeholder 256 against Lilmoth's measured 1,033 resident parts, now `COLLIDER_PART_BUDGET = 1600` from measurement ([0052](decisions/0052-a-published-bundle-obeys-the-runtime-contract.md)), and six assets resolved out of throwaway `probe-*` sourcing kits with no three-tier LOD chain, because `KitShelf.locate` scanned every built manifest in sorted order). Measured in the browser at eight sites, zero `settlement-layer-failed`, HUD intact: Mazzatun 1,163 drawn, Lilmoth 555. `settlements.json` publishes **10,441 placed pieces** (115 buildings, 9,708 route structures, 328 fences, 237 dressing, 47 landmarks, 6 docks) across 18 kits, with the settlement yards painted into the ground control and the vegetation cleared out of built ground (783 plants inside footprints -> 0). All five exemplars compile at 0 errors. **The held rollout ran**: `macro_plot --resolve-all` + `apply_sitings` plot 580/580 with zero typed-siting violations, nearest neighbour p5 35->70 m and median 85->133 m, Clark-Evans 0.835->1.124 (owner steer: evener than random is accepted). The repeatable path is `.claude/skills/settlement-build/`. **Next**: fix the two render defects. ~~the routing-cost change~~ **NOT NEEDED — premise disproved** ([research](research/world-terrain/route-spans-and-crossing-costs.md), 2026-09-09): the routers price crossings correctly. **The span-window trim is DONE and republished** (2026-09-09): `author_route_structures.obstacle_span` cuts every span window back to the run it actually crosses (water over 0.3 m at the wet season, or ground falling more than the viaduct's own 1.479 m deck thickness below the deck line), and a window with no such run is not a structure. Spans 205 -> 97, deck 16,712 m -> 3,069 m, longest 389.6 m -> 108.2 m, bundle route pieces 9,708 -> 4,225; road paint restored under the removed spans (4,994 m major, 3,084 m minor, via `rebake_landcover`); 13 `why` sentences rewritten against the measurement; browser-proved at eight sites. No reroute, so the owner-approved plot and spacing did not move. The re-run also reconciled **177 stored structures whose ways had moved or been re-solved since the file was last authored** — a staleness that shipped. The span kit and its six exemplars are DONE ([0051](decisions/0051-route-span-systems.md)); the water crossings are re-derived, measured and decided (52 on the major network: 41 fords, 6 decks on posts, 3 ferries + 4 station runs), needing only `compile_settlement` + `export_settlement_bundle` and a placeable-NPC record type to appear. |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip. **The swim slice BUILDS the underwater set dressing** (submerged scatter band, wreck/submerged-ruin statics, one wreck place) on its exemplar — owner 2026-09-04, world 95 Phase 9 / 65 |
 | C — parallel combat workstream (sandbox; feeds 10b) | done: measured reach + bow/race corrections | All 35 melee weapons and 245 attacks measured from mounted geometry and sourced motion. Bow sight uses a 5° elevation, locked aim centres once then detaches to mouse input, and stationary bow turns pivot around a planted sole. Ten playable bodies use distinct Skyrim-authored NPC FaceGen, FaceTint, skin/hair colour and body-weight data. Full-surface head registration and body-loop stitching close the neck in bind pose and animation; matched skin weights prevent reopening. Bodies match `NAM7` weight, beast FaceTint works without a humanoid detail map, HairTint brows/hair/beards use alpha-tested source cutouts, and ordinary enemies no longer receive a test tint. Automated build contracts plus close/full-body inspection of both the ten defaults and ten race-valid alternates pass; the accepted Bosmer use actual Bosmer records and no Dark Elf hair parts. Full slider/head-part/tint generation is scheduled for 10b, with stats integration in 10c. See [0040](decisions/0040-animation-packs-and-combat-parallel-pass.md) round 14 and [FaceGen pipeline research](research/combat-and-systems/skyrim-facegen-runtime-pipeline.md). |
@@ -73,46 +73,82 @@ take the natural ground with built pieces where it is too steep, and the
 question is whether a road still reads as a road.
 
 **Named and not hidden**, all in the deployed build:
-- **Lilmoth's harbour channel is dry** — 0.0 m where it needs 0.6, visible from
-  the quay. Water-owned, registered.
-- ~~Long spans are a chain of 4.2 m slabs with no piers.~~ **Fixed and ready to
-  walk (2026-09-09).** `route-spans-v1` is wired in and the crossings are
-  rebuilt: 204 crossings, 4,531 pieces, **841 towers and bays, every one of
-  them standing on the ground beneath it**. No deck anywhere in the province
-  sits more than 19 cm below the terrain. No ground was moved. Six
-  exemplars, four of them beside a place exemplar so one trip checks both. All
-  in the deployed studio
-  (`https://jtattersall09403.github.io/elder-souls-argonia/studio/`):
-  - **Mazzatun, the short stone crossing**: `?view=character&x=1.947&z=1.367&t=12:00`.
-    A 48 m raised deck on the road below the ruin: nine slabs between two end
-    caps, one tower under it. *Wrong if* an end does not meet the road, or a
-    stretch of deck has no tower beneath it.
-  - **Lilmoth, the long low causeway**: `?view=character&x=3.474&z=6.380&t=12:00`.
-    71 m on the Blackrose road west of the city, thirteen slabs, no towers,
-    because the deck stays within 0.8 m of the ground here. *Wrong if* it reads
-    as a bridge over dry ground, or an end steps.
-  - **Nine-Trunks, the tall viaduct**: `?view=character&x=4.422&z=3.492&t=12:00`.
-    Look hardest at this one: 84 m of deck standing up to 8 m clear on four
-    towers, on the Archon–Gideon road. *Wrong if* a tower stops short of the
-    ground, or the deck dives into the hillside.
-  - **The Wamasu-pond road, the single arch**: `?view=character&x=2.150&z=3.909&t=12:00`.
-    One whole vanilla stone bridge, 42 m long, carrying its own arch, piers and
-    parapet over a 36 m rock sill. Three crossings get this; the rest fall too
-    much for a flat bridge. *Wrong if* it overhangs the gap, or an end is
-    buried.
-  - **Ashroot, the marsh boardwalk**: `?view=character&x=3.935&z=5.849&t=12:00`.
-    38 m of Argonian raised timber walkway on its own posts, east of Lilmoth.
-    *Wrong if* the posts do not reach the mud.
-  - **The veterans' holding, the timber trestle**: `?view=character&x=4.855&z=1.298&t=12:00`.
-    The rebuilt family: 112 m of railed plank deck on 39 stacked scaffold bays,
-    up to 6.3 m in the air. Its old deck used three planks that appear together
-    in no vanilla building; every join here is copied from vanilla's own
-    placements. *Wrong
-    if* a bay floats, or the handrail is missing along the high part.
+- **The buildings render again — FIXED 2026-09-09, not yet redeployed**
+  ([0052](decisions/0052-a-published-bundle-obeys-the-runtime-contract.md)).
+  Two independent defects stopped `SettlementLayer` drawing anything; both are
+  fixed at the root, and the fix is proved in a browser against a local build
+  of the new bundle (Mazzatun: 3,209 placements drawn, 169 draws, 1.8 M
+  triangles, HUD intact, zero page errors).
+  1. `colliderPartBudget` was **256**, a placeholder literal never calibrated
+     against a real settlement, and Lilmoth's residents need **1,033** parts.
+     Now **1,600**, measured, with its derivation recorded beside it.
+  2. `KitShelf.locate` scanned every built kit alphabetically, so the throwaway
+     sourcing probes `probe-enclosure`/`probe-gapfill` — built with one
+     `lodRatio`, so a two-tier LOD chain — beat the shipping kits to assets
+     those kits also hold. `validateLodTriangles` then threw from inside the
+     draw effect, uncaught, taking the studio's whole React tree with it (that
+     is why the `markers` checkbox vanished). `KitShelf` now offers only assets
+     that can satisfy the three-tier contract, and the layer's own throws are
+     caught into its own failure sentinel instead of unmounting the host.
 
-  Rules and rejects: [decision 0051](decisions/0051-route-span-systems.md).
-- **57 water crossings need ferries** (45 lake, 12 river), exposed when the two
-  mechanisms that were flattening rivers under bridges were deleted.
+  The general lesson is recorded in 0052: **every contract the runtime enforces
+  now has an export gate that reads the shipped GLB** (LOD chain, texture cap,
+  collider budget), and the owner's `--ship-with-errors` override **cannot
+  waive a runtime-fatal error class** — waiving one is what shipped a build in
+  which nothing drew at all.
+- ~~Long spans are a chain of 4.2 m slabs with no piers.~~ **Fixed, then most of
+  them deleted — ready to walk, 2026-09-09.** A viaduct kit (the set of proper
+  bridge parts: piers, arches and a roadway) was wired into the build.
+  Measuring the result found the real defect underneath. Of the 204 bridges standing at that point,
+  192 had nothing beneath them to cross: no water, no gap. The worst was a
+  chain of 126 roadway pieces running straight down a dry hillside. Nothing in
+  the build had ever asked whether there was a gap there in the first place. It
+  does now. Each bridge is trimmed back to the stretch that has either standing
+  water deeper than 0.3 m in the wet season, or ground that drops more than one
+  roadway thickness (1.479 m, measured from the kit's own parts) below the
+  line that the road wants to hold. A bridge with no such stretch left is deleted.
+  **Bridges 205 → 97, total bridge roadway 16,712 m → 3,069 m, the longest
+  bridge in the province 389.6 m → 108.2 m**. The shipped world carries 4,225
+  bridge pieces where there were 9,708. Roads that lost a bridge get their road surface
+  painted back on the ground: 4,994 m of main road and 3,084 m of track and
+  path, which the bridges had been covering. Each bridge also carries a
+  one-line explanation of why it is there. Thirteen of those lines described
+  rock sills, border ridges and field walls that the ground does not actually
+  have; they are rewritten to match what was measured (standard 12). Proved in a browser at all
+  six crossings plus Mazzatun and Lilmoth: every one draws, no layer failure,
+  HUD intact. Six exemplars, one per span system, in the deployed studio
+  (`https://jtattersall09403.github.io/elder-souls-argonia/studio/`) — full
+  list with what to look for in
+  [research/phase11/walkthrough-2026-09-09.md](research/phase11/walkthrough-2026-09-09.md).
+  Headline three: the **Nine-Trunks viaduct**
+  `?view=character&x=4.517&z=3.608&t=12:00` (75.5 m over 1.4 m of water), the
+  **Xul-Vaat walkway** `?view=character&x=1.203&z=5.730&t=12:00` (101.5 m, the
+  longest span left) and the **reformed Blackwood road viaduct**
+  `?view=character&x=0.849&z=3.181&t=12:00` (389.6 m of deck over nothing, now
+  52.6 m over a real 2.0 m drop).
+
+  Rules and rejects: [decision 0051](decisions/0051-route-span-systems.md);
+  the measurement and its derivation:
+  [research/world-terrain/route-spans-and-crossing-costs.md](research/world-terrain/route-spans-and-crossing-costs.md).
+- **Water crossings are now measured, and ferries are decided** (2026-09-09).
+  The old "57 (45 lake, 12 river)" was not reproducible from any script,
+  report or bake — `git log -S` finds only the docs quoting each other, and
+  its lake/river split was inverted against the water compiler's own cell
+  counts. Replaced by `python3 -m worldgen.water_crossings`, which re-derives
+  it in a minute: **52 on the major network (31 river, 21 lake)** and 63 on
+  tracks, table in [world/sources/sites/water-crossings.md](../world/sources/sites/water-crossings.md).
+  The deepest crossing in the province is **1.48 m**, so depth never stops
+  anyone and span decides: **41 of the 52 are fords under 20 m and stay
+  fords**, 6 are 20–70 m and are deck-on-posts work for the span kit, and 5
+  clear 70 m. Those 5 are three clusters, and each becomes **one ferry**:
+  the basin under Helstrom, Gideon's bonded crossing on the Onkobra, and the
+  seasonal ferry at the Drowning Gate. With the four existing station runs
+  the graph is [world/sources/routes/ferry-crossings.json](../world/sources/routes/ferry-crossings.json)
+  (6 active, 1 deferred), gated by `worldgen.ferry_crossings --check`.
+  **Not yet placed**: nothing renders until a later agent runs the settlement
+  chain — see that file's `craft` note and the polish-backlog rows for
+  `watercraft-v1`, which is built but reaches no compiled place, and for the
+  missing placeable-NPC record type that talk-and-teleport needs.
 - Two placement checks are red behind a dated `continue-on-error` in
   `.github/workflows/deploy-pages.yml`, which names them and says to delete it
   when they pass.

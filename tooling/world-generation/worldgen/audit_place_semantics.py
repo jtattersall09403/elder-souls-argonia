@@ -95,6 +95,14 @@ SUPPLIES_MAX_M = 4000.0
 SIGHTLINE_DISCOVERY_M = 450.0  # a sightline discovery must be seen from a route
 ROAD_DISCOVERY_M = 300.0
 UNDERWATER_MIN_DEPTH_M = 1.5
+ENTRANCE_REACH_M = 15.0        # "at its own entrance", not "in its neighbourhood"
+#: The season every water measurement in this audit is taken at. The DRY
+#: (base) season is the harsher of the two the bake publishes: a quay that is
+#: only wet four months a year is a defect, so a bank/dive/island claim has to
+#: hold at the dry season or it is not true all year. `plotFacts` means the
+#: same season (worldgen.remeasure_plot_facts) and the gate in
+#: test_committed_water_facts.py checks the same one. Decision 0049.
+WATER_SEASON = "dry"
 DUPLICATE_MAX_M = 1000.0
 DUPLICATE_JACCARD = 0.6
 DANGER_TIER = {"D0": 1, "D1": 1, "D2": 2, "D3": 3, "D4": 4, "D5": 5}
@@ -172,6 +180,15 @@ class SurveyTerrain:
         d0, d1 = int(r0 * scale), max(int(r1 * scale), int(r0 * scale) + 1)
         e0, e1 = int(c0 * scale), max(int(c1 * scale), int(c0 * scale) + 1)
         dpatch = s.water_depth_m[d0:d1, e0:e1]
+        # ...and the same measurement at the ENTRANCE rather than over its
+        # neighbourhood. A dive shaft needs the water where the player enters
+        # it; the Sunk Well passes a 150 m depth test on water 70 m away.
+        er = max(1, int(round(ENTRANCE_REACH_M / (s.extent_m / s.water_depth_m.shape[0]))))
+        wrow = int(row * scale)
+        wcol = int(col * scale)
+        wn = s.water_depth_m.shape[0]
+        epatch = s.water_depth_m[max(0, wrow - er):min(wn, wrow + er + 1),
+                                 max(0, wcol - er):min(wn, wcol + er + 1)]
         hyd = smp["hydrology"]
         return {
             "elevationM": smp["elevationM"],
@@ -183,6 +200,10 @@ class SurveyTerrain:
             "heightAboveWaterM": hyd["heightAboveWaterTableM"],
             "waterDepthM": hyd["waterDepthM"],
             "maxDepthNearbyM": round(float(dpatch.max()), 2) if dpatch.size else 0.0,
+            # MEASURED off the shipped water (dry/base season), never off the
+            # record's own plotFacts — see check_water.
+            "maxDepthAtEntranceM": round(float(epatch.max()), 2) if epatch.size else 0.0,
+            "distanceToWaterM": round(float(s.dist_to_water_m[row, col]), 1),
             "shoreDistanceM": hyd["shoreDistanceM"],
             "coastDistanceM": hyd["coastDistanceM"],
             "wetland": hyd["wetland"],
@@ -548,12 +569,24 @@ SUBMERGED_CLAIM = re.compile(r"\bsubmerged\b|\bunderwater\b|\bdrowned\b|\bbeneat
 
 
 def check_water(ctx: Ctx, rec: dict) -> list[Finding]:
+    """Check prose against the shipped water, at `WATER_SEASON`.
+
+    This used to read `water_m` out of the record's own `plotFacts`, so it
+    compared a record's prose to a number that the record reported about
+    itself. It could not fail on its own defect. Nine anchors carried a
+    hard-coded `distanceToWaterM: 0.0`, so Lilmoth's
+    "quay/harbour/anchorage/stilts" prose passed at 108 m from water. The
+    shipped audit named neither Lilmoth, Stormhold, Alten Corimont nor the
+    Sunk Well
+    (docs/research/world-terrain/place-water-facts-vs-shipped-water.md §5.3).
+    Every number below is measured off the raster at the dot.
+    """
     pos = ctx.pos(rec)
-    facts = rec.get("plotFacts") or {}
     if pos is None:
         return []
     rid, region = rec["id"], ctx.region_of[rec["id"]]
-    water_m = float(facts.get("distanceToWaterM", 0.0))
+    t = ctx.terrain.terrain_at(*pos)
+    water_m = float(t["distanceToWaterM"])
     out: list[Finding] = []
 
     bank = _first_claim(rec, BANK_CLAIM)
@@ -581,18 +614,31 @@ def check_water(ctx: Ctx, rec: dict) -> list[Finding]:
 
     ua = rec.get("underwaterAccess")
     entrance = rec.get("entrance")
-    needs_depth = ua in {"dive-entry", "flooded-interior", "submerged", "dive"} \
-        or entrance in {"underwater-entry", "flooded"}
+    # The vocabularies live in `catalogue`, alongside the ones they are subsets
+    # of, so a membership test here cannot silently name strings no record uses
+    # — which is exactly what this branch did for 180 typed-dive records
+    # (§5.4). `test_audit_place_semantics.py` asserts they still occur.
+    needs_depth = ua in catalogue.WET_ACCESS or entrance in catalogue.UNDERWATER_ENTRANCES
+    is_dive = ua in catalogue.DEEP_ACCESS or entrance in catalogue.UNDERWATER_ENTRANCES
     sub = _first_claim(rec, SUBMERGED_CLAIM)
     if needs_depth or sub:
-        t = ctx.terrain.terrain_at(*pos)
         if t["maxDepthNearbyM"] < UNDERWATER_MIN_DEPTH_M:
             claim = (f"underwaterAccess={ua}, entrance={entrance}"
                      if needs_depth else clip(sub[1]))
             out.append(Finding(rid, region, "water", "high", clip(claim),
                                f"deepest water within 150 m is {t['maxDepthNearbyM']:.1f} m",
                                "move"))
-    if ua in {None, "none"} and entrance in {"underwater-entry", "flooded"}:
+        elif is_dive and t["maxDepthAtEntranceM"] < UNDERWATER_MIN_DEPTH_M:
+            # The neighbourhood has water; the entrance does not. A dive shaft
+            # 70 m from the nearest usable water is not a dive shaft.
+            out.append(Finding(
+                rid, region, "water", "high",
+                clip(f"underwaterAccess={ua}, entrance={entrance}"),
+                f"deepest water within {ENTRANCE_REACH_M:.0f} m of the entrance is "
+                f"{t['maxDepthAtEntranceM']:.1f} m; deepest within 150 m is "
+                f"{t['maxDepthNearbyM']:.1f} m; the nearest water is "
+                f"{water_m:.0f} m away", "move"))
+    if ua in {None, "none"} and entrance in catalogue.UNDERWATER_ENTRANCES:
         out.append(Finding(rid, region, "water", "med",
                            f"entrance={entrance} but underwaterAccess={ua}",
                            "the two access fields disagree", "rewrite"))

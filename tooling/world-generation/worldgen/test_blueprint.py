@@ -2,7 +2,7 @@
 
 import pytest
 
-from . import blueprint, blueprint_footprints, blueprint_interiors, street_router
+from . import blueprint, blueprint_footprints, blueprint_interiors, known_red, street_router
 
 # A real, measured kit asset: parcels are picked on geometry, so the tests are
 # too (the validator recomputes the derived footprint from this piece).
@@ -123,13 +123,21 @@ class _StubLibrary(blueprint_interiors.InteriorLibrary):
 
 
 @pytest.fixture(autouse=True)
-def default_index(monkeypatch):
-    """Every test runs against an interiors index that DOES derive an entrance
-    for the fixture's piece, on the side the fixture's door sits: the
+def default_index(request, monkeypatch):
+    """Every SYNTHETIC test runs against an interiors index that DOES derive an
+    entrance for the fixture's piece, on the side the fixture's door sits: the
     door-on-the-canonical-entrance rule (owner rulings 2026-09-05 / 2026-09-07)
     is exercised on purpose by the tests below, not incidentally by every other
     one. Tests that want a different index install it over this with
-    `stub_index`."""
+    `stub_index`.
+
+    A test marked `real_index` opts OUT: the stub holds exactly one asset, so
+    handing it to a gate that validates the REAL live blueprints made every real
+    kit piece look as if it had no measured entrance, and the validator fell
+    back to its nearest-footprint-edge proxy. That reported two Lilmoth door
+    errors the shipped data does not have (2026-09-09)."""
+    if "real_index" in request.keywords:
+        return
     record = {"interior": "shell", "sizeClass": "large", "planAreaM2": 186.94,
               "entrance": {"sideDeg": (_door_facing() - YAW_DEG) % 360.0, "arcM": 1.3,
                            "offsetM": [0.0, 3.2], "kind": "assembly"}}
@@ -208,11 +216,14 @@ def test_budget_shape():
     assert any("budget" in e for e in errs)
 
 
+@pytest.mark.real_index
 def test_live_dir_validates():
     """Hard again since 2026-09-05: the five live blueprints are re-authored
     against the Part 6 schema and the doors-and-interiors rulings."""
     # the live dir holds real places from Part 6 on; validate against the catalogue
-    assert blueprint.validate_all(known_place_ids=blueprint.catalogue_ids()) == []
+    known_red.assert_clear(
+        "worldgen/test_blueprint.py::test_live_dir_validates",
+        blueprint.validate_all(known_place_ids=blueprint.catalogue_ids()))
 
 
 def test_parcel_requires_orientation_with_a_reason():

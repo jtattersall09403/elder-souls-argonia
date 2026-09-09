@@ -8,7 +8,7 @@ task router).
 
 | Folder | What lives there |
 | --- | --- |
-| [world-terrain/](world-terrain/) | Terrain, climate, hydrology, geomorphology, coasts, islands, the land beyond the border. |
+| [world-terrain/](world-terrain/) | Terrain, climate, hydrology, geomorphology, coasts, islands, the land beyond the border. Start here for "does this place really have the water that it claims": [place water facts vs the shipped water](world-terrain/place-water-facts-vs-shipped-water.md). |
 | [vegetation/](vegetation/) | Flora ecology targets, composition rules, density design, placement architecture and micro-siting. |
 | [rendering/](rendering/) | Presentation systems: sky and light, water, waterfalls, weather, terrain splatting, scatter instancing, ground/shore materials, ambient audio. |
 | [placement-settlements/](placement-settlements/) | Where things go and what they are made of: place distribution and siting, approach and wayfinding, settlement morphology and form evidence, kit level design, type recipes, shipped placement rules, kit sourcing, asset inventory and deliverability audits, content density. |

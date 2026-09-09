@@ -14,15 +14,25 @@ province is 7.37 km square.
 
 ## 1. Buildings are standing in the world
 
-The thing Phase 11 existed to produce and had never once produced.
-**10,441 placed pieces**: 115 buildings, 9,708 bridge/stair/deck pieces along
-the roads, 328 walls and fences, 237 items of outdoor dressing, 47 landmarks,
-6 docks, across 18 asset kits.
+> **They did not render when this was first written, and now they do.** The
+> first version of this section was written from the bundle publishing, not
+> from a browser. Two runtime faults were hiding behind that: the collider
+> budget was a placeholder of 256 against Lilmoth's 466 placements, so the
+> layer refused to draw anything; and six assets that came from throwaway
+> sourcing probe kits had no three-tier LOD chain, which threw and took the
+> studio HUD down with it. Both are fixed, both are now gated at export, and
+> a browser probe is the proof — measured counts below, not assurances.
 
-| Place | Pieces | Walk to |
+The thing Phase 11 existed to produce and had never once produced.
+**733 settlement pieces and 4,225 route pieces**, across 18 asset kits.
+
+Measured in the browser at each site — drawn placements, with no failure
+sentinel and the HUD intact:
+
+| Place | Buildings drawn | Walk to |
 |---|---:|---|
-| Lilmoth | 466 | `?view=character&x=3.61&z=6.38&t=12:00` |
-| Mazzatun | 101 | `?view=character&x=1.99&z=1.34&t=12:00` |
+| Mazzatun | **1,163** | `?view=character&x=1.99&z=1.34&t=12:00` |
+| Lilmoth | **555** | `?view=character&x=3.61&z=6.38&t=12:00` |
 | Nine-Trunks | 86 | `?view=character&x=4.97&z=3.76&t=12:00` |
 | Sap-Tapping camp | 52 | `?view=character&x=3.44&z=4.48&t=12:00` |
 | Wamasu pond | 28 | `?view=character&x=2.47&z=4.40&t=12:00` |
@@ -113,7 +123,10 @@ reader that will not answer without being told which season (decision 0049).
 - The Soulrest–Lilmoth shipping lane ran **576 m over a headland** the map
   called "tidal" and the depth puts 5.3 m above the sea. Re-routed.
 - Two mechanisms were **flattening rivers to ankle depth under bridges**.
-  Deleted on the owner's ruling; 57 real crossings are now visible.
+  Deleted on the owner's ruling; the real crossings are now visible —
+  **52 on the major network** (31 river, 21 lake), re-derived and measured
+  (see "Known, named, not hidden" below; the "57" first reported here was
+  never reproducible).
 
 | Site | Stand at |
 |---|---|
@@ -142,11 +155,55 @@ port, `?view=character&x=3.83&z=1.14&t=12:00`.
 
 - **Lilmoth's harbour channel is dry** — 0.0 m where it needs 0.6 m, visible
   from the quay. Registered as water-owned.
-- **Long spans are a chain of 4.2 m slabs with no piers.** The proper viaduct
-  kit (`route-spans-v1`) is packaged and being wired in. Judge placement, not
-  the object.
-- **57 water crossings need ferries** — the owner has ruled these are ferries,
-  talk-and-teleport.
+- ~~Long spans are a chain of 4.2 m slabs with no piers.~~ **Fixed, and then
+  most of them were deleted (2026-09-09).** The viaduct kit (proper bridge
+  parts: piers, arches and a roadway) is now part of the build. Measuring the
+  result found the real defect. Of the 204 bridges then standing, 192 had no water beneath
+  them. Nothing in the build had ever asked whether there was a gap there.
+  It does now. Each bridge is trimmed back to the stretch that has either water
+  standing deeper than 0.3 m in the wet season, or ground dropping more than one
+  roadway thickness (1.479 m, measured from the kit's own parts) below the line
+  that the road holds. Bridges fall from 205 to 97 and bridge roadway from
+  16,712 m to 3,069 m. The longest bridge in Argonia falls from 389.6 m to
+  108.2 m.
+  `route-structures.json` and the bundle are republished; roads that lost a
+  bridge have their road surface painted back on the ground (4,994 m of main
+  road, 3,084 m of track and path).
+
+  Six crossings to walk, one per bridge type, all in the deployed studio
+  (`https://jtattersall09403.github.io/elder-souls-argonia/studio/`). Check that
+  each one has water or a drop underneath it along its whole length:
+  - **Nine-Trunks, the long viaduct**: `?view=character&x=4.517&z=3.608&t=12:00`.
+    75.5 m of Nordic viaduct deck on the Archon–Gideon road, over water 1.4 m
+    deep. *Wrong if* it stands over dry ground, or a stretch of deck has no
+    tower under it.
+  - **Xul-Vaat, the long timber walkway** (the longest span left in the
+    province): `?view=character&x=1.203&z=5.730&t=12:00`. 101.5 m of Argonian
+    passerelle (a timber walkway on driven posts) over 1.4 m of open water
+    between the burial grounds. *Wrong if*
+    the posts do not reach the bed.
+  - **Ashroot, the marsh walkway**: `?view=character&x=3.969&z=5.693&t=12:00`.
+    45.2 m of the same passerelle over 1.3 m of water, a few minutes from the
+    village. *Wrong if* an end steps up rather than meeting the path.
+  - **The Helstrom–Blackrose stone arch**: `?view=character&x=3.258&z=5.570&t=12:00`.
+    One whole vanilla bridge, 37.6 m, carrying its own arch, piers and parapet
+    over 0.8 m of standing water. *Wrong if* it overhangs the water, or an end
+    is buried.
+  - **The veterans' holding, the timber trestle**: `?view=character&x=4.553&z=0.930&t=12:00`.
+    21.4 m of railed plank deck on stacked scaffold bays, over a dry gully
+    2.1 m deep. This crossing spans ground rather than water.
+    *Wrong if* a bay floats, or the handrail stops short.
+  - **The Blackwood road viaduct**: `?view=character&x=0.849&z=3.181&t=12:00`.
+    This was the worst offender in the province: 389.6 m of deck, 126 chained
+    pieces, laid down a dry hillside. It is now 52.6 m over a real 2.0 m drop.
+    *Wrong if* it still runs on past the dip at either end.
+- **Water crossings: measured and decided 2026-09-09.** The "57" here was
+  never reproducible from any script or bake. Re-derived by
+  `worldgen.water_crossings`: 52 on the major network (31 river, 21 lake),
+  deepest 1.48 m anywhere. 41 stay fords, 6 are span-kit work, and 5 clear
+  70 m in three clusters that become three ferries
+  (`world/sources/routes/ferry-crossings.json`). Talk-and-teleport, per the
+  owner's ruling.
 - Two placement checks are red behind a dated `continue-on-error` in
   `.github/workflows/deploy-pages.yml`, which names them and says to delete it
   when they pass.

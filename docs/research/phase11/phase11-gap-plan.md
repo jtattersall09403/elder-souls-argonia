@@ -203,6 +203,79 @@ rather than the compiled water, so a 91 m dry connector satisfied a 10 m rule.
 That guard is being fixed on the water side; when it lands, this dock fails
 loudly instead of silently.
 
+### B15 — Water facts: root causes fixed 2026-09-09, three things queued behind them
+
+Diagnosis: [place water facts vs the shipped water](../world-terrain/place-water-facts-vs-shipped-water.md).
+
+**Done in the same session.** `macro_plot.assign()` no longer builds the nine
+owner-approved anchors with literal `route_m=0.0, water_m=0.0`. It calls
+`pinned_candidate`, which measures the point off the survey.
+`committed_candidate()` no longer reads `distanceToWaterM` / `distanceToRouteM`
+back out of the record's own `plotFacts`, so a placeholder can no longer be
+copied forward on every re-plot. `worldgen.remeasure_plot_facts` rewrote
+`distanceToWaterM` on **181 of 827** records against the shipped dry-season
+water, with every `positionM` verified byte-identical before and after. The
+nine anchors went from a uniform `0.0` to 0.0–109.7 m (Lilmoth 107.7,
+Stormhold 109.7). `audit_place_semantics.check_water` now measures the raster
+instead of the record's self-report. Its `underwaterAccess` / `entrance`
+vocabularies moved into `catalogue.py`, beside the schema sets of which they
+are subsets; two gates assert those names are both legal and actually used, so
+a membership test cannot go dead again. The missing gate is
+`worldgen/test_committed_water_facts.py`.
+
+**B15.1 — `plotFacts.distanceToRouteM` is still self-reported.** The same
+placeholder bug, same nine anchors, same fix already written:
+`python3 -m worldgen.remeasure_plot_facts --with-route` corrects it (289
+records move when route is included, against 181 for water alone). It was not
+run on 2026-09-09 because the route-structures work was re-publishing the route
+network at the time. Re-measuring against a mid-flight raster would bake in a
+number that is about to change. **Run it in the same pass as
+the next terrain chain, after the route compilers have published**, then extend
+`test_committed_water_facts.py` with the matching route assertion.
+
+**B15.2 — the Sunk Well needs authored water; it is also the deploy gate.**
+`place.hist-heartland.dive-shaft-xanmeer-well` is typed `deep-dive` /
+`well-shaft` in −3.00 m of dry floor across its whole neighbourhood, nearest
+usable water 71 m away. It is the single record failing
+`test_macro_plot.py::test_the_solve_keeps_every_committed_cell`. That failure
+is what holds the dated `continue-on-error` on the places job in
+`.github/workflows/deploy-pages.yml`. No fact rewrite can clear it. The Phase 3
+pass marked the cell wetland / flood band 3 / wet-season inundated, but the
+physical compiler has not delivered water there. Route it through
+`worldgen/hydrology_intent.py` +
+`world/sources/routes/authored-minor-waterways.json` exactly as B11's landing
+was, then `./scripts/terrain-chain.sh --from refine_province`. Same pass, same
+mechanism, three more records whose type demands water and has none:
+`place.pirate-freeholds.trunk-road-tradehouse` (`landform: open-water`, 85 m),
+`place.hist-heartland.legendary-deep-medusa-wood` and
+`place.mercantile-coast.mudfoot` (coves, 71 m and 75 m).
+
+**B15.3 — 49 records whose prose or typed access outruns their water.** The
+fixed audit reports them. They need re-authoring rather than moving. Each one
+goes through the `text-review` skill. Twenty-six claim a dive at an entrance
+holding under 1.5 m of water within 15 m. The worst are `feeds-the-north`
+(0.0 m at the entrance, real water 91 m away), `loriasel-caverns` (101 m),
+`the-divers-landing` (123 m) and `wall-hist-village` (45 m). Twenty-three carry
+a typed swim or dive with under 1.5 m anywhere within 150 m.
+`ten-thousand-nests` and `the-stormhold-falls-chamber` stand on dry ground
+behind a swim claim; `saltrice-village`, `the-cold-lights` and
+`raft-village-lashed` are `underwater-entry` in water a player would wade.
+Lilmoth appears here for one prose line about a drowned quarter underfoot. Its
+own docks measure 3.2–9.6 m and are fine. Three island claims stand 30–97 m
+from water, among them `hist-first-rain-trunk`, whose name states the island.
+
+**Not a defect, do not "fix".** Twenty-eight records stand in 0.24–0.72 m of
+marsh, which is the normal depth for marsh ground. They reached the list because
+`SUBMERGED_MIN_DEPTH_M`, a *submerged place* threshold, was read across
+marsh villages, tolls and boardwalks. Any depth floor for those kinds of place
+belongs to the place kind rather than to one province-wide number.
+
+**Open owner call.** Alten Corimont, the opening city, is a river-bank port
+with a channel to the sea in the lore. The shipped water gives it 165 m of
+poling channel at 0.48–1.92 m, 27 m from the dot. Whether that is enough water for a
+first impression of a free port is a design judgement rather than a measurement
+failure.
+
 ### B13 — Handed over from the paused Phase 11 session, 2026-09-09
 
 Recorded here because it existed only in cross-session messages and would

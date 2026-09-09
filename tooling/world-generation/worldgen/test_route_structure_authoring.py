@@ -17,10 +17,13 @@ import math
 import numpy as np
 
 from .grade_routes import STRUCTURES_PATH
-from .author_route_structures import (GRADIENT_CAP_KIND, _highest_suffix_by_way,
-                                      _kind, _reconcile_prior_windows, _refresh,
-                                      _way_length_m, _window_rise)
-from .compile_route_structures import (RAMP_KINDS, RAMP_MAX_DEG,
+from .author_route_structures import (DECK_THICKNESS_M, GRADIENT_CAP_KIND,
+                                      NO_WATER, SpanWater,
+                                      _highest_suffix_by_way, _kind,
+                                      _reconcile_prior_windows, _refresh,
+                                      _way_length_m, _window_rise,
+                                      obstacle_span)
+from .compile_route_structures import (RAMP_KINDS, RAMP_MAX_DEG, SPAN_KINDS,
                                        compile_structure, measure_window,
                                        ramp_ok)
 from .test_route_structures import _kit_stub, _slope_way
@@ -43,7 +46,13 @@ from .test_route_structures import _kit_stub, _slope_way
 #: and it is lowered — never raised — as ways are authored. Set to today's
 #: measured count on 2026-09-09, after MIN_STRUCTURE_RISE_M retired 234
 #: phantom structures and six ways were authored.
-MAX_UNAUTHORED_WINDOWS = 40
+#: OWNER RULING 2026-09-09 closed this: "I don't mind things like bridges and
+#: stairs not having a written prose reason to exist. It's generally pretty
+#: obvious why they exist — they're there to enable the road/path/way." So a
+#: structure now carries a plain default reason (`_default_why`) and the debt
+#: is zero rather than ratcheted. Kept as a gate, not deleted: if the default
+#: ever stops being applied the count rises and this catches it.
+MAX_UNAUTHORED_WINDOWS = 0
 
 
 def test_no_published_route_structure_is_unauthored():
@@ -199,3 +208,129 @@ def test_new_ids_continue_past_the_highest_suffix_already_issued():
 
     assert _highest_suffix_by_way(kept) == {"track.region.place": 14,
                                             "track.region.other": 3}
+
+
+# --------------------------------------------------------------------------
+# The obstacle rule: a span crosses something, or it is not a span
+# --------------------------------------------------------------------------
+def _flat_profile(length_m: float, samples: int = 400):
+    chain = np.linspace(0.0, length_m, samples)
+    return chain, np.zeros(samples), np.zeros(samples)
+
+
+def test_a_uniform_dry_slope_is_not_a_crossing():
+    """The defect that shipped: 389.6 m of deck down a dry 4.4 % hillside.
+
+    A slope has no gap in it at any length, so `obstacle_span` must find
+    nothing however long the window is and however far it falls.
+    """
+    chain = np.linspace(0.0, 390.0, 600)
+    ground = 65.0 - 0.044 * chain          # the measured Blackwood road hillside
+    xs = zs = np.zeros_like(chain)
+
+    assert obstacle_span(chain, xs, zs, ground, 0.0, 390.0, NO_WATER) is None
+
+
+def test_a_gap_deeper_than_one_deck_is_a_crossing_and_is_trimmed_to_itself():
+    """A dip in the middle of a long dry window: the span is the dip, not the
+    window. The threshold is the deck's own thickness, read from the kit."""
+    chain = np.linspace(0.0, 200.0, 401)
+    ground = np.zeros_like(chain)
+    dip = (chain > 80.0) & (chain < 120.0)
+    ground[dip] = -4.0 * DECK_THICKNESS_M
+
+    found = obstacle_span(chain, np.zeros_like(chain), np.zeros_like(chain),
+                          ground, 0.0, 200.0, NO_WATER)
+
+    assert found is not None
+    assert 78.0 <= found[0] <= 82.0 and 118.0 <= found[1] <= 122.0
+
+
+def test_water_alone_makes_a_crossing_on_perfectly_flat_ground():
+    """A river crossing has no rise at all. The drop test can never see it, so
+    the water test must — and the noise floor must not delete it."""
+    chain, xs, zs = _flat_profile(120.0)
+    ground = np.zeros_like(chain)
+    # 1 m of standing water over the middle third of the way.
+    depth = np.full((100, 100), -5.0, dtype=np.float32)
+    depth[:, 33:67] = 1.0
+    water = SpanWater(depth, metres_per_pixel=1.0)
+    world_x = np.linspace(0.0, 99.0, len(chain))
+
+    found = obstacle_span(chain, world_x, zs, ground, 0.0, 120.0, water)
+
+    assert found is not None and found[1] - found[0] > 25.0
+
+
+def test_a_measured_gap_is_never_answered_with_a_single_step():
+    """`lip-step` is one tread over a terrace edge and has nothing under it.
+
+    Without this, a trimmed crossing shorter than 30 m came back as a lip step,
+    which is not a span, which left it untrimmed with no gap on the record —
+    and the pass authored it again a run later under a new id.
+    """
+    bad = [(way_kind, span)
+           for way_kind in ("trail", "track", "road", "trunk_road")
+           for span in (2.0, 9.0, 17.7, 29.9)
+           if _kind(span, 0.2, worst_deg=10.0, way_kind=way_kind,
+                    gap_m=span) == "lip-step"]
+    assert not bad, f"a measured gap was answered with a single step: {bad}"
+
+
+def test_every_published_span_crosses_something():
+    """THE invariant, on the shipped file. Never ratcheted, never waived."""
+    structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
+    spans = [s for s in structures if s["kind"] in SPAN_KINDS]
+    assert spans, "the province publishes no spans at all — the author has stopped working"
+    bridges_over_nothing = [
+        f"{s['id']} ({s['toM'] - s['fromM']:.1f} m on {s['wayId']})"
+        for s in spans if not float(s.get("gapM") or 0.0) > 0.0]
+    assert not bridges_over_nothing, (
+        f"{len(bridges_over_nothing)} published spans carry no measured obstacle — "
+        f"they are bridges over nothing, which is the defect `obstacle_span` exists "
+        f"to end: {', '.join(bridges_over_nothing[:8])}")
+
+
+def test_a_trimmed_span_keeps_the_window_it_was_trimmed_from():
+    """Without the source window the pass is not a fixed point: re-measuring a
+    trimmed window lowers its own chord, finds a smaller drop, and retires the
+    crossing the previous run authored."""
+    structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
+    trimmed = [s for s in structures if float(s.get("gapM") or 0.0) > 0.0]
+    assert trimmed
+    missing = [s["id"] for s in trimmed
+               if "windowFromM" not in s or "windowToM" not in s]
+    assert not missing, (
+        f"{len(missing)} trimmed structures do not record the window they were "
+        f"trimmed from: {', '.join(missing[:8])}")
+    outside = [s["id"] for s in trimmed
+               if s["fromM"] < s["windowFromM"] - 0.05
+               or s["toM"] > s["windowToM"] + 0.05]
+    assert not outside, f"a trimmed span reaches outside its own window: {outside[:8]}"
+
+
+def test_every_published_structure_stands_on_a_way_that_exists():
+    """The staleness that shipped, and nothing caught it.
+
+    On 2026-09-09 the committed `route-structures.json` carried 177 structures
+    (28 % of the file) whose ways had been re-solved shorter or renamed since it
+    was last authored — chainage that names no ground. `author` reconciles them
+    loudly when it runs, but nothing made it run, so the file and
+    `routes-minor.json` were committed out of step with each other. This is the
+    gate that says so.
+    """
+    from .grade_routes import ways as _ways
+    structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
+    lengths = {w["id"]: _way_length_m(w) for w in _ways()}
+    stale = []
+    for s in structures:
+        end = lengths.get(s["wayId"])
+        if end is None:
+            stale.append(f"{s['id']}: way {s['wayId']} is not in the current route set")
+        elif float(s["fromM"]) >= end:
+            stale.append(f"{s['id']}: starts at {float(s['fromM']):.0f} m, "
+                         f"way ends at {end:.0f} m")
+    assert not stale, (
+        f"{len(stale)} published route structures name ground the current routes do "
+        f"not have — re-run `python3 -m worldgen.author_route_structures` and "
+        f"`compile_route_structures`:\n  " + "\n  ".join(stale[:10]))

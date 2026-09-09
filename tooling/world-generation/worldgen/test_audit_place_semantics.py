@@ -12,6 +12,7 @@ import copy
 import json
 
 from . import audit_place_semantics as aps
+from . import catalogue
 
 
 # --------------------------------------------------------------------------- #
@@ -25,6 +26,7 @@ class FlatTerrain:
             "elevationM": 3.0, "slopeDeg": 0.5, "regionName": "firm lowland",
             "dangerBand": 2, "culture": "pirate-freeholds", "relief150M": 0.4,
             "heightAboveWaterM": 2.0, "waterDepthM": 0.0, "maxDepthNearbyM": 0.1,
+            "maxDepthAtEntranceM": 0.1, "distanceToWaterM": 400.0,
             "shoreDistanceM": 400.0, "coastDistanceM": 900.0, "wetland": False,
             "floodBand": 0,
         }
@@ -105,7 +107,9 @@ def test_synthetic_contradictions_are_caught():
         plotFacts={"landform": "any-firm-ground", "regionClass": "interior swamp",
                    "dangerBand": 5, "distanceToRouteM": 900.0, "distanceToWaterM": 800.0},
     )
-    ctx = make_ctx([bad], routes=[road])
+    # the water check MEASURES: the 800 m lives on the ground, not on the
+    # record's own plotFacts, which is the field it used to grade itself by.
+    ctx = make_ctx([bad], routes=[road], terrain=FlatTerrain(distanceToWaterM=800.0))
     found = {f.check for f in aps.audit(ctx)}
     assert {"route", "landform", "water", "region", "danger", "discovery",
             "generic"} <= found
@@ -187,3 +191,62 @@ def test_report_json_shape():
     assert doc["schemaVersion"] == aps.SCHEMA_VERSION
     assert doc["livePlaces"] == 1
     json.dumps(doc)  # serialisable
+
+
+# --------------------------------------------------------------------------- #
+# the vocabularies the water check tests membership in
+# --------------------------------------------------------------------------- #
+# `check_water` once asked whether `underwaterAccess` was one of
+# {"dive-entry", "flooded-interior", "submerged", "dive"} and `entrance` one of
+# {"underwater-entry", "flooded"}. Five of those six names exist nowhere in the
+# catalogue, so the branch never fired on any of 180 typed-dive records
+# (docs/research/world-terrain/place-water-facts-vs-shipped-water.md §5.4). The
+# sets now live in `catalogue`, beside the vocabularies they are subsets of,
+# and these two tests make a dead membership test impossible to reintroduce:
+# a name must be legal AND actually used.
+WATER_VOCABULARIES = {
+    "WET_ACCESS": (catalogue.WET_ACCESS, catalogue.UNDERWATER_ACCESS, "underwaterAccess"),
+    "DEEP_ACCESS": (catalogue.DEEP_ACCESS, catalogue.UNDERWATER_ACCESS, "underwaterAccess"),
+    "UNDERWATER_ENTRANCES": (catalogue.UNDERWATER_ENTRANCES, catalogue.ENTRANCES, "entrance"),
+}
+
+
+def test_every_water_vocabulary_is_a_subset_of_the_schema():
+    for name, (subset, vocab, _field) in WATER_VOCABULARIES.items():
+        assert subset, f"{name} is empty"
+        assert subset <= vocab, f"{name} names values the schema does not allow: {subset - vocab}"
+
+
+def test_every_water_vocabulary_name_actually_occurs_in_the_catalogue():
+    """The check a regex cannot do: is this string ever in the data?"""
+    used: dict[str, set] = {"underwaterAccess": set(), "entrance": set()}
+    for rf in catalogue.load_region_files():
+        for rec in rf.places:
+            for f in used:
+                if rec.get(f) is not None:
+                    used[f].add(rec[f])
+    for name, (subset, _vocab, field_name) in WATER_VOCABULARIES.items():
+        dead = subset - used[field_name]
+        assert not dead, (
+            f"{name} tests membership in {sorted(dead)}, which no record's "
+            f"'{field_name}' ever carries — the branch cannot fire")
+
+
+def test_the_water_check_fires_on_a_typed_dive_in_dry_ground():
+    """Both directions, on the vocabulary that really ships."""
+    rec = {"id": "place.pirate-freeholds.probe", "name": "Probe",
+           "positionM": [1000.0, 1000.0], "underwaterAccess": "deep-dive",
+           "entrance": "well-shaft"}
+    dry = make_ctx([rec], terrain=FlatTerrain())
+    assert [f.check for f in aps.check_water(dry, rec)] == ["water"]
+    # water in the neighbourhood but not at the entrance is still a defect
+    near = make_ctx([rec], terrain=FlatTerrain(maxDepthNearbyM=4.0,
+                                               maxDepthAtEntranceM=0.0,
+                                               distanceToWaterM=70.0))
+    finding = aps.check_water(near, rec)
+    assert len(finding) == 1 and "entrance" in finding[0].fact
+    # ...and real water at the entrance passes
+    wet = make_ctx([rec], terrain=FlatTerrain(maxDepthNearbyM=4.0,
+                                              maxDepthAtEntranceM=3.0,
+                                              distanceToWaterM=0.0))
+    assert aps.check_water(wet, rec) == []

@@ -2172,8 +2172,18 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
     if warnings is not None:
         warnings += [f"{bid}: {msg}" for msg in front_warn]
 
+    # Building a place clears its vegetation, exactly as it would in the real
+    # world (owner ruling, 0041). That is a property of every place, so the
+    # declaration is REQUIRED, not optional: an absent block used to slip
+    # through here and then fail as a bare KeyError inside compile_settlement,
+    # which names neither the place nor the rule. A place that clears nothing
+    # says so with three empty lists.
     cl = bp.get("clearance", {})
-    if cl and not {"hardClear", "thinned", "kept"} <= set(cl):
+    if not cl:
+        fail("clearance is required — every place declares how building it "
+             "clears the wild growth (0041): hardClear, thinned, kept "
+             "(all three, empty lists if it clears nothing)")
+    elif not {"hardClear", "thinned", "kept"} <= set(cl):
         fail("clearance must carry hardClear, thinned, kept (graded clearing, 0041)")
 
     variants = bp.get("variants", [])

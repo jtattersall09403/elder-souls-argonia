@@ -124,6 +124,13 @@ with no structured row behind it, a row that has started passing, or a row
 whose place has left the compiled set all fail the export. Never add a row for
 a defect that is yours to fix.
 
+Three of its gates are **non-waivable** and `--ship-with-errors` will refuse
+them by name: the LOD contract, the texture cap and the collider part budget
+([decision 0052](../../../docs/decisions/0052-a-published-bundle-obeys-the-runtime-contract.md)).
+Each mirrors a check the runtime enforces by throwing or refusing to draw, so
+shipping over one buys a blank world, not a defective one. If you hit one, the
+answer is the asset or the placement — never the flag.
+
 It also carries the route structures from
 `world/sources/routes/route-structures.json` down the same placed-piece path.
 

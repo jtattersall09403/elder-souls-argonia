@@ -93,13 +93,60 @@ def test_the_solve_keeps_every_committed_cell(survey):
     _d, _f, _sc, _fr, result, unresolved, resite, pinned, _cr = macro_plot.solve(survey)
     assert not unresolved
     assert not resite, (
-        "records the current fields invalidate — re-run the full plot and record the moves: "
+        "records the current fields invalidate. Do NOT re-run the full plot to clear this: "
+        "the committed spacing (580/580, nearest-neighbour p5 70 m, median 133 m, "
+        "Clark-Evans 1.124) is owner-approved and re-solving against changed rasters "
+        "destroys it. Instead diagnose the ONE named record: measure the gate it fails "
+        "(sightline: ProvinceSurvey.sightline_clearance; water: the compiled depth at the "
+        "dot) and decide whether the FIELD is wrong (fix the raster or the compiler), the "
+        "GATE is wrong (measuring below its own resolution), or the RECORD's prose is wrong "
+        "(re-author the claim). Moving a dot is the owner's call, via pin_overrides. "
         + "; ".join(f"{h['id']} ({h['reason']})" for h in resite))
     assert not pinned
     committed = {rec["id"]: rec["positionM"] for _z, rec in _live()}
     for did, r in result.items():
         c = r["candidate"]
         assert committed[did] == [round(c.x, 1), round(c.z, 1)], did
+
+
+def test_the_sightline_gate_fails_on_real_relief_and_not_on_sampler_noise(survey):
+    """Both directions of the sightline gate, on synthetic ground.
+
+    The tolerance is derived from the local 3x3 relief so the verdict is not
+    decided by the 5.48 m sampler's own quantisation — but a tolerance is only
+    honest if the gate can still fail. A gentle 50 m hill (local spread ~0.4 m)
+    must block; a 0.2 m graze in ground whose own cell spans 5 m must not.
+    """
+    import numpy as np
+    ax, az, bx, bz = 4000.0, 4000.0, 4900.0, 4000.0
+    base = survey.height_view
+    row, col = survey.grid_px(0.5 * (ax + bx), az)
+    try:
+        g = np.zeros_like(base)
+        rr, cc = np.ogrid[:g.shape[0], :g.shape[1]]
+        g[:] = np.maximum(0.0, 50.0 - 0.6 * np.hypot(rr - row, cc - col))
+        survey.__dict__["height_view"] = g
+        hill = survey.sightline_clearance(ax, az, bx, bz, eye_a=1.7, eye_b=8.0)
+        assert not hill["clear"], hill
+        assert hill["clearanceM"] < -40.0 and hill["toleranceM"] < 1.0, hill
+
+        g = np.zeros_like(base)
+        g[row - 1:row + 2, col - 1:col + 2] = [[0.0, 5.0, 0.0],
+                                               [5.0, 5.05, 5.0],
+                                               [0.0, 5.0, 0.0]]
+        survey.__dict__["height_view"] = g
+        graze = survey.sightline_clearance(ax, az, bx, bz, eye_a=1.7, eye_b=8.0)
+        assert graze["clear"], graze
+        assert -1.0 < graze["clearanceM"] < 0.0 and graze["toleranceM"] > 2.0, graze
+
+        # ...and a blockage of twice the tolerance in that same broken ground
+        # is still a break: the tolerance forgives noise, never relief.
+        g[row, col] = 12.0
+        survey.__dict__["height_view"] = g
+        real = survey.sightline_clearance(ax, az, bx, bz, eye_a=1.7, eye_b=8.0)
+        assert not real["clear"], real
+    finally:
+        survey.__dict__["height_view"] = base
 
 
 def test_navigable_roles_sit_on_navigable_water(survey):

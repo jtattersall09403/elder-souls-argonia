@@ -8,7 +8,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-from . import catalogue, compile_minor_waterways as mw
+from . import catalogue, compile_minor_waterways as mw, known_red
 
 
 class _TargetSurvey:
@@ -171,7 +171,9 @@ def test_no_berth_is_refused_in_the_published_network():
     `world/sources/routes/authored-minor-waterways.json`. Same contract as the
     `unauthored` structures gate in `test_route_structure_authoring`."""
     refused = _doc().get("refusedBerths") or []
-    assert not refused, "\n".join(r["why"] for r in refused)
+    known_red.assert_clear(
+        "worldgen/test_minor_waterways.py::test_no_berth_is_refused_in_the_published_network",
+        [r["why"] for r in refused])
 
 
 def _plotted():

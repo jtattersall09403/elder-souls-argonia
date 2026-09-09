@@ -192,38 +192,38 @@
         ]
       },
       "position": {
-        "u": 0.47603,
-        "v": 0.91183
+        "u": 0.44257,
+        "v": 0.73319
       },
       "positionM": [
-        3510.0,
-        6723.4
+        3263.3,
+        5406.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.land-bridge-026",
-          "score": 1.591,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.mangrove-forest.islet-041",
+          "score": 3.096,
+          "whyLost": "too close to place.mercantile-coast.bramman-screen"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1186",
-          "score": 1.439,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.lake-standing-water.cove-008",
+          "score": 2.869,
+          "whyLost": "taken by place.mercantile-coast.mudfoot"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1162",
-          "score": 1.359,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0793",
+          "score": 2.776,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 93 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.alten-meerhleel (+1.28).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 93 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on route, hinterland, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.mirtis-plantation (+0.96).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
-        "dangerBand": 2,
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 49.0,
-        "score": 3.008
+        "distanceToWaterM": 38.4,
+        "score": 1.804
       },
       "proseRefs": [
         {
@@ -396,22 +396,28 @@
         }
       ],
       "position": {
-        "u": 0.55218,
-        "v": 0.80354
+        "u": 0.43542,
+        "v": 0.89874
       },
       "positionM": [
-        4071.5,
-        5924.9
+        3210.6,
+        6626.8
       ],
-      "candidatesConsidered": [],
-      "whySiteWon": "cove in fringe marsh (danger band 3), 202 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.alessian-hull (+1.28).",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0796",
+          "score": 2.887,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
+        }
+      ],
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 190 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on region, parent, navigable; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 202.2,
+        "landform": "any-shallow-marsh",
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 190.0,
         "distanceToWaterM": 5.5,
-        "score": 3.076
+        "score": 2.75
       },
       "hostility": {
         "baseline": "friendly",
@@ -487,7 +493,6 @@
           "place.mercantile-coast.soulrest"
         ]
       },
-      "scourSiteId": "site.scour.fringe-marsh.cove-027",
       "services": [
         "apothecary",
         "boatwright",
@@ -644,29 +649,29 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1161",
-          "score": 1.989,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1285",
+          "score": 3.42,
+          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
         },
         {
-          "siteId": "site.free.roadside-0479",
-          "score": 1.882,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1346",
+          "score": 2.904,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
         },
         {
-          "siteId": "site.free.roadside-0798",
-          "score": 1.696,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1305",
+          "score": 2.64,
+          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 74 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.xinchei-konu (+0.50).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 74 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.chasepoint (+0.77).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 73.8,
         "distanceToWaterM": 11.0,
-        "score": 3.84
+        "score": 3.843
       },
       "hostility": {
         "baseline": "hostile",
@@ -1044,38 +1049,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.ashroot-village",
       "position": {
-        "u": 0.54028,
-        "v": 0.75595
+        "u": 0.54623,
+        "v": 0.73513
       },
       "positionM": [
-        3983.8,
-        5574.0
+        4027.6,
+        5420.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0479",
-          "score": 3.787,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1076",
+          "score": 4.37,
+          "whyLost": "too close to place.naga-kur-deeps.dead-water-village"
         },
         {
-          "siteId": "site.free.any-firm-ground-1066",
-          "score": 3.687,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0791",
+          "score": 4.315,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0746",
-          "score": 3.626,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0792",
+          "score": 4.245,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 451 m from the nearest route; its choice #3 landform; won on landform, culture-clump, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.keshu-grove (+1.25).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 611 m from the nearest route; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 451.2,
-        "distanceToWaterM": 98.9,
-        "score": 4.083
+        "distanceToRouteM": 610.9,
+        "distanceToWaterM": 29.5,
+        "score": 3.318
       },
       "hostility": {
         "baseline": "wary",
@@ -1296,38 +1301,38 @@
         }
       ],
       "position": {
-        "u": 0.43096,
-        "v": 0.93397
+        "u": 0.43408,
+        "v": 0.85305
       },
       "positionM": [
-        3177.7,
-        6886.7
+        3200.7,
+        6290.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0798",
-          "score": 4.858,
-          "whyLost": "taken by place.mercantile-coast.hist-village-keel-sakka"
+          "siteId": "site.free.roadside-0791",
+          "score": 4.867,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0065",
-          "score": 4.126,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0792",
+          "score": 4.804,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
         },
         {
-          "siteId": "site.free.any-firm-ground-1276",
-          "score": 4.024,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0015",
+          "score": 4.435,
+          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 33 m from the nearest route; its choice #2 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 92 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 32.9,
-        "distanceToWaterM": 32.9,
-        "score": 4.795
+        "distanceToRouteM": 91.9,
+        "distanceToWaterM": 5.5,
+        "score": 3.841
       },
       "hostility": {
         "baseline": "wary",
@@ -1591,38 +1596,38 @@
         ]
       },
       "position": {
-        "u": 0.58668,
-        "v": 0.81946
+        "u": 0.53582,
+        "v": 0.78123
       },
       "positionM": [
-        4325.9,
-        6042.3
+        3950.9,
+        5760.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1211",
-          "score": 4.854,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0814",
+          "score": 5.331,
+          "whyLost": "too close to max-from:sacred"
         },
         {
-          "siteId": "site.free.any-firm-ground-1232",
-          "score": 4.673,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1208",
+          "score": 4.566,
+          "whyLost": "too close to max-from:sacred"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1210",
-          "score": 4.582,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1229",
+          "score": 4.436,
+          "whyLost": "too close to max-from:sacred"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 93 m from the nearest route; its choice #3 landform; won on culture-clump, route, nearPoint; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 264 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.moonmarch (+1.29).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 93.1,
-        "distanceToWaterM": 51.7,
-        "score": 5.312
+        "distanceToRouteM": 263.8,
+        "distanceToWaterM": 19.8,
+        "score": 4.829
       }
     },
     {
@@ -1999,29 +2004,29 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1342",
-          "score": 4.723,
+          "siteId": "site.free.any-firm-ground-1339",
+          "score": 4.691,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.roadside-0013",
-          "score": 4.484,
+          "score": 4.476,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1326",
-          "score": 4.341,
+          "siteId": "site.scour.fringe-marsh.cove-064",
+          "score": 3.491,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 39 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, culture-clump, nearPoint; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 39 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, culture-clump, nearPoint; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 46.9,
-        "score": 4.781
+        "distanceToWaterM": 5.5,
+        "score": 4.812
       },
       "terrainRequests": [
         {
@@ -2204,38 +2209,38 @@
         }
       ],
       "position": {
-        "u": 0.48897,
-        "v": 0.88758
+        "u": 0.47603,
+        "v": 0.91183
       },
       "positionM": [
-        3605.4,
-        6544.6
+        3510.0,
+        6723.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0917",
-          "score": 3.31,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0797",
+          "score": 3.356,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1335",
-          "score": 2.861,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1332",
+          "score": 2.878,
+          "whyLost": "taken by place.mercantile-coast.bright-throat-village"
         },
         {
-          "siteId": "site.free.roadside-0804",
-          "score": 2.815,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1297",
+          "score": 2.772,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 38 m from the nearest route; its choice #4 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 93 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
+        "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 38.4,
-        "distanceToWaterM": 54.3,
-        "score": 3.403
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 5.5,
+        "score": 2.352
       },
       "hostility": {
         "baseline": "neutral",
@@ -2448,8 +2453,8 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0800",
-          "score": 2.781,
+          "siteId": "site.free.roadside-0793",
+          "score": 2.79,
           "whyLost": "lost on score"
         }
       ],
@@ -2459,8 +2464,8 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 23.3,
-        "distanceToWaterM": 19.8,
-        "score": 2.929
+        "distanceToWaterM": 11.0,
+        "score": 2.949
       },
       "hostility": {
         "baseline": "friendly",
@@ -2988,38 +2993,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.chasepoint-wreck-households",
       "position": {
-        "u": 0.40196,
-        "v": 0.83924
+        "u": 0.13126,
+        "v": 0.88907
       },
       "positionM": [
-        2963.8,
-        6188.2
+        967.8,
+        6555.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0798",
-          "score": 3.908,
+          "siteId": "site.free.any-firm-ground-1076",
+          "score": 3.963,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0799",
-          "score": 3.855,
+          "siteId": "site.free.roadside-0791",
+          "score": 3.913,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1349",
-          "score": 3.789,
+          "siteId": "site.free.roadside-0792",
+          "score": 3.843,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 30 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, route; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.xinchei-konu (+1.26).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 165 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.ashfield (+0.77).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 29.5,
-        "distanceToWaterM": 22.6,
-        "score": 4.771
+        "distanceToRouteM": 165.0,
+        "distanceToWaterM": 28.0,
+        "score": 3.589
       },
       "hostility": {
         "baseline": "guarded",
@@ -4117,38 +4122,38 @@
         ]
       },
       "position": {
-        "u": 0.5797,
-        "v": 0.8266
+        "u": 0.49194,
+        "v": 0.90766
       },
       "positionM": [
-        4274.4,
-        6094.9
+        3627.3,
+        6692.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0812",
-          "score": 5.168,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0805",
+          "score": 5.321,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0918",
-          "score": 5.132,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.fringe-marsh.ford-010",
+          "score": 5.259,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0817",
-          "score": 5.123,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1247",
+          "score": 5.235,
+          "whyLost": "too close to place.imperial-penal-south.west-market-town"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 89 m from the nearest route; its first-choice landform; won on culture-clump, landform, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 104 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 89.3,
-        "distanceToWaterM": 44.2,
-        "score": 5.408
+        "distanceToRouteM": 104.2,
+        "distanceToWaterM": 34.7,
+        "score": 4.557
       },
       "proseRefs": [
         {
@@ -4655,38 +4660,38 @@
         }
       ],
       "position": {
-        "u": 0.47558,
-        "v": 0.90319
+        "u": 0.46405,
+        "v": 0.89984
       },
       "positionM": [
-        3506.7,
-        6659.7
+        3421.6,
+        6635.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0917",
-          "score": 3.777,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.mangrove-forest.islet-041",
+          "score": 3.824,
+          "whyLost": "too close to place.mercantile-coast.bramman-screen"
         },
         {
-          "siteId": "site.free.roadside-0804",
-          "score": 3.262,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0797",
+          "score": 3.804,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0807",
-          "score": 3.223,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1297",
+          "score": 3.23,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "islet in mangrove forest (danger band 2), 39 m from the nearest route; its choice #2 landform; won on landform, culture-clump, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 39 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on culture-clump, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "islet",
+        "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
-        "dangerBand": 2,
+        "dangerBand": 0,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 36.8,
-        "score": 3.961
+        "distanceToWaterM": 0.0,
+        "score": 2.798
       },
       "hostility": {
         "baseline": "neutral",
@@ -4737,7 +4742,6 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.mangrove-forest.islet-041",
       "proseRefs": [
         {
           "sourcePath": "why.occupantsMotive",
@@ -6219,38 +6223,38 @@
         }
       ],
       "position": {
-        "u": 0.5808,
-        "v": 0.83588
+        "u": 0.40419,
+        "v": 0.82809
       },
       "positionM": [
-        4282.6,
-        6163.4
+        2980.3,
+        6105.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0800",
-          "score": 4.451,
+          "siteId": "site.free.roadside-0793",
+          "score": 4.45,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1246",
+          "score": 3.804,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0063",
-          "score": 3.781,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0744",
-          "score": 3.686,
+          "siteId": "site.scour.mangrove-forest.islet-041",
+          "score": 3.762,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 39 m from the nearest route; its choice #2 landform; won on culture-clump, route, landform; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in lake & standing water (danger band 3), 5 m from the nearest route; at the water's edge; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 38.8,
-        "distanceToWaterM": 27.4,
-        "score": 4.893
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 0.0,
+        "score": 4.331
       },
       "hostility": {
         "baseline": "neutral",
@@ -6949,38 +6953,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.four-village-crown-compact",
       "position": {
-        "u": 0.48153,
-        "v": 0.88058
+        "u": 0.40985,
+        "v": 0.85457
       },
       "positionM": [
-        3550.6,
-        6493.0
+        3022.0,
+        6301.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0812",
-          "score": 4.091,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0791",
+          "score": 3.846,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0916",
-          "score": 4.064,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.fringe-marsh.headland-022",
+          "score": 3.111,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1321",
-          "score": 3.994,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.fringe-marsh.summit-047",
+          "score": 3.103,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 5 m from the nearest route; at the water's edge; no free 'island' site was left in the zone, so plain ground; won on route, culture-clump, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 93 m from the nearest route; at the water's edge; no free 'island' site was left in the zone, so plain ground; won on route, culture-clump, region; placed from the homeless batch at stage 'relaxed-score'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.quinrawl-anchorage (+1.68).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 5.5,
-        "distanceToWaterM": 0.0,
-        "score": 4.242
+        "dangerBand": 3,
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 11.0,
+        "score": 3.445
       },
       "hostility": {
         "baseline": "hostile",
@@ -7177,38 +7181,38 @@
       "underwaterAccess": "none",
       "ownerFaction": null,
       "position": {
-        "u": 0.48712,
-        "v": 0.88053
+        "u": 0.53656,
+        "v": 0.85114
       },
       "positionM": [
-        3591.8,
-        6492.6
+        3956.4,
+        6275.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1186",
-          "score": 2.089,
+          "siteId": "site.free.roadside-0791",
+          "score": 3.488,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1316",
+          "score": 2.338,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1162",
-          "score": 2.037,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0912",
-          "score": 1.929,
+          "siteId": "site.scour.fringe-marsh.headland-022",
+          "score": 2.266,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 37 m from the nearest route; its choice #2 landform; won on route, culture-clump, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.teeba-enoo-court (+0.41).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 57 m from the nearest route; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 36.8,
-        "distanceToWaterM": 28.0,
-        "score": 3.801
+        "dangerBand": 3,
+        "distanceToRouteM": 57.2,
+        "distanceToWaterM": 43.9,
+        "score": 2.4
       },
       "hostility": {
         "baseline": "hostile",
@@ -7433,24 +7437,24 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1338",
-          "score": 3.032,
+          "siteId": "site.free.any-firm-ground-1322",
+          "score": 3.435,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1324",
-          "score": 2.492,
+          "siteId": "site.free.any-firm-ground-1335",
+          "score": 3.035,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 30 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 30 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 29.5,
-        "distanceToWaterM": 29.5,
-        "score": 3.887
+        "distanceToWaterM": 28.0,
+        "score": 3.919
       },
       "hostility": {
         "baseline": "neutral",
@@ -7839,38 +7843,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.hereguard-estate",
       "position": {
-        "u": 0.59903,
-        "v": 0.76264
+        "u": 0.13125,
+        "v": 0.8556
       },
       "positionM": [
-        4417.0,
-        5623.3
+        967.8,
+        6308.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1137",
-          "score": 3.905,
-          "whyLost": "taken by place.mercantile-coast.moonmarch"
+          "siteId": "site.free.roadside-0720",
+          "score": 3.96,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         },
         {
-          "siteId": "site.free.any-firm-ground-1308",
-          "score": 3.428,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1066",
+          "score": 3.584,
+          "whyLost": "too close to place.mercantile-coast.rockpark"
         },
         {
-          "siteId": "site.free.any-firm-ground-1288",
-          "score": 3.414,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.firm-lowland.flood-high-008",
+          "score": 3.476,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 322 m from the nearest route; its choice #4 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in firm lowland (danger band 2), 375 m from the nearest route; its choice #2 landform; won on culture-clump-yielded, landform, region; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "flood-high",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 321.9,
-        "distanceToWaterM": 55.1,
-        "score": 3.681
+        "dangerBand": 2,
+        "distanceToRouteM": 375.1,
+        "distanceToWaterM": 42.8,
+        "score": 3.322
       },
       "hostility": {
         "baseline": "friendly",
@@ -7968,7 +7972,8 @@
         "lodging",
         "shrine",
         "trader"
-      ]
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-002"
     },
     {
       "id": "place.mercantile-coast.hestra-stone",
@@ -8432,38 +8437,38 @@
         }
       ],
       "position": {
-        "u": 0.49492,
-        "v": 0.88878
+        "u": 0.41803,
+        "v": 0.72843
       },
       "positionM": [
-        3649.3,
-        6553.4
+        3082.4,
+        5371.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0804",
-          "score": 4.488,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0797",
+          "score": 5.298,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0818",
-          "score": 4.281,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.mangrove-forest.islet-041",
+          "score": 4.706,
+          "whyLost": "too close to place.mercantile-coast.bramman-screen"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1263",
-          "score": 4.2,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1297",
+          "score": 4.659,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 27 m from the nearest route; its choice #3 landform; won on culture-clump, route, landform; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 33 m from the nearest route; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
-        "dangerBand": 2,
-        "distanceToRouteM": 27.4,
-        "distanceToWaterM": 62.0,
-        "score": 4.983
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 58.3,
+        "score": 3.462
       },
       "hostility": {
         "baseline": "neutral",
@@ -8652,38 +8657,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.blackguards",
       "position": {
-        "u": 0.39601,
-        "v": 0.84593
+        "u": 0.40304,
+        "v": 0.83678
       },
       "positionM": [
-        2920.0,
-        6237.5
+        2971.8,
+        6170.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0903",
-          "score": 3.835,
-          "whyLost": "taken by place.mercantile-coast.naga-village-oliis"
+          "siteId": "site.scour.firm-lowland.flood-high-008",
+          "score": 4.196,
+          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1246",
+          "score": 3.825,
+          "whyLost": "too close to place.imperial-penal-south.west-market-town"
         },
         {
           "siteId": "site.free.roadside-0063",
-          "score": 3.818,
-          "whyLost": "too close to place.mercantile-coast.naga-village-oliis"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1066",
-          "score": 3.739,
-          "whyLost": "lost on score"
+          "score": 3.782,
+          "whyLost": "too close to place.imperial-penal-south.west-market-town"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 25 m from the nearest route; at the water's edge; its choice #4 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 35 m from the nearest route; its choice #4 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 24.5,
-        "distanceToWaterM": 17.3,
-        "score": 3.758
+        "distanceToRouteM": 35.1,
+        "distanceToWaterM": 32.0,
+        "score": 3.551
       },
       "hostility": {
         "baseline": "hostile",
@@ -9059,38 +9064,38 @@
       "underwaterAccess": "none",
       "ownerFaction": null,
       "position": {
-        "u": 0.42168,
-        "v": 0.93853
+        "u": 0.4622,
+        "v": 0.68604
       },
       "positionM": [
-        3109.2,
-        6920.3
+        3408.0,
+        5058.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-033",
-          "score": 2.937,
-          "whyLost": "taken by place.mercantile-coast.pilgrim-xanmeer"
+          "siteId": "site.free.roadside-0791",
+          "score": 2.934,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0799",
-          "score": 2.873,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0792",
+          "score": 2.882,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.any-firm-ground-1133",
-          "score": 2.862,
+          "siteId": "site.free.roadside-0015",
+          "score": 2.451,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 39 m from the nearest route; at the water's edge; its choice #5 landform; won on culture-clump, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 188 m from the nearest route; its choice #5 landform; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.teeth-of-sithis (+0.45).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 38.8,
-        "distanceToWaterM": 12.3,
-        "score": 2.934
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 187.7,
+        "distanceToWaterM": 56.5,
+        "score": 3.072
       },
       "hostility": {
         "baseline": "hostile",
@@ -9700,7 +9705,7 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 154.4,
-        "distanceToWaterM": 39.9,
+        "distanceToWaterM": 65.8,
         "score": 4.443
       },
       "hostility": {
@@ -9955,18 +9960,18 @@
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-firm-ground-1039",
+          "score": 2.497,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.free.any-firm-ground-1040",
-          "score": 2.263,
+          "score": 2.153,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1013",
-          "score": 2.117,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1068",
-          "score": 1.238,
+          "siteId": "site.free.any-firm-ground-1038",
+          "score": 1.468,
           "whyLost": "lost on score"
         }
       ],
@@ -9976,8 +9981,8 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 589.3,
-        "distanceToWaterM": 60.3,
-        "score": 2.596
+        "distanceToWaterM": 213.3,
+        "score": 2.586
       },
       "hostility": {
         "baseline": "hostile",
@@ -10208,38 +10213,38 @@
       "underwaterAccess": "deep-dive",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.05019,
-        "v": 0.68977
+        "u": 0.39675,
+        "v": 0.81916
       },
       "positionM": [
-        370.1,
-        5086.0
+        2925.5,
+        6040.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.open-water-0602",
-          "score": 2.265,
+          "siteId": "site.free.open-water-0584",
+          "score": 2.076,
+          "whyLost": "too close to place.imperial-penal-south.west-market-town"
+        },
+        {
+          "siteId": "site.free.open-water-0577",
+          "score": 1.777,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.open-water-0594",
-          "score": 1.987,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0595",
-          "score": 1.955,
+          "siteId": "site.scour.firm-lowland.summit-045",
+          "score": 1.597,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "islet in lake & standing water (danger band 3), 846 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in lake & standing water (danger band 3), 71 m from the nearest route; at the water's edge; won on region, submerged, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "islet",
+        "landform": "open-water",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 846.2,
+        "distanceToRouteM": 71.3,
         "distanceToWaterM": 0.0,
-        "score": 3.374
+        "score": 1.809
       },
       "hostility": {
         "baseline": "hostile",
@@ -10307,7 +10312,6 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.islet-004",
       "proseRefs": [
         {
           "sourcePath": "playerPurpose.hook",
@@ -10790,28 +10794,38 @@
       "underwaterAccess": "surface-swim",
       "ownerFaction": "faction.keel-sakka-landing",
       "position": {
-        "u": 0.06358,
-        "v": 0.73736
+        "u": 0.5808,
+        "v": 0.83588
       },
       "positionM": [
-        468.8,
-        5436.9
+        4282.6,
+        6163.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.open-water-0515",
-          "score": 2.896,
+          "siteId": "site.free.any-shallow-marsh-1256",
+          "score": 5.257,
+          "whyLost": "too close to place.mercantile-coast.sunkfoot"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1347",
+          "score": 4.359,
+          "whyLost": "too close to place.mercantile-coast.bramman-river-ferry"
+        },
+        {
+          "siteId": "site.free.roadside-0785",
+          "score": 3.645,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 531 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 39 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
-        "dangerBand": 0,
-        "distanceToRouteM": 531.2,
-        "distanceToWaterM": 5.5,
-        "score": 3.152
+        "dangerBand": 3,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 16.5,
+        "score": 4.138
       },
       "hostility": {
         "baseline": "wary",
@@ -11036,38 +11050,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.52467,
-        "v": 0.75446
+        "u": 0.50533,
+        "v": 0.75744
       },
       "positionM": [
-        3868.6,
-        5563.0
+        3726.1,
+        5585.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1133",
-          "score": 3.105,
-          "whyLost": "taken by place.mercantile-coast.ashroot-village"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1132",
-          "score": 2.489,
+          "siteId": "site.free.any-firm-ground-1109",
+          "score": 2.414,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1136",
-          "score": 2.229,
+          "siteId": "site.free.any-firm-ground-1134",
+          "score": 2.245,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.cove-023",
+          "score": 2.188,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 444 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on culture-clump, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.ashroot-village (+1.25).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 422 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, hinterland, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.moonmarch (+0.80).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 444.3,
-        "distanceToWaterM": 59.1,
-        "score": 3.855
+        "distanceToRouteM": 422.2,
+        "distanceToWaterM": 72.1,
+        "score": 2.786
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -11420,39 +11434,38 @@
         }
       ],
       "position": {
-        "u": 0.07474,
-        "v": 0.70463
+        "u": 0.06879,
+        "v": 0.72769
       },
       "positionM": [
-        551.1,
-        5195.6
+        507.2,
+        5365.6
       ],
-      "scourSiteId": "site.scour.ocean.cove-067",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.ocean.natural-harbour-011",
-          "score": 2.998,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0812",
+          "score": 4.325,
+          "whyLost": "too close to place.mercantile-coast.sunkfoot"
         },
         {
-          "siteId": "site.free.open-water-0515",
-          "score": 2.85,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1256",
+          "score": 3.684,
+          "whyLost": "too close to place.mercantile-coast.keel-sakka-stilts"
         },
         {
-          "siteId": "site.scour.mangrove-forest.cove-030",
-          "score": 2.806,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.mangrove-forest.islet-041",
+          "score": 3.326,
+          "whyLost": "too close to place.mercantile-coast.bramman-screen"
         }
       ],
-      "whySiteWon": "cove in ocean (danger band 0), 646 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in mangrove forest (danger band 0), 555 m from the nearest route; at the water's edge; won on region, hinterland, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "ocean",
+        "landform": "open-water",
+        "regionClass": "mangrove forest",
         "dangerBand": 0,
-        "distanceToRouteM": 646.0,
+        "distanceToRouteM": 554.6,
         "distanceToWaterM": 0.0,
-        "score": 3.663
+        "score": 2.921
       },
       "hostility": {
         "baseline": "wary",
@@ -11783,7 +11796,7 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 0.0,
+        "distanceToWaterM": 107.7,
         "score": null
       },
       "hostility": {
@@ -12390,23 +12403,7 @@
         4417.0,
         6023.6
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0590",
-          "score": 3.514,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0551",
-          "score": 3.367,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0567",
-          "score": 3.205,
-          "whyLost": "lost on score"
-        }
-      ],
+      "candidatesConsidered": [],
       "whySiteWon": "open water in mangrove forest (danger band 0), 39 m from the nearest route; at the water's edge; won on region, submerged, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "open-water",
@@ -12414,7 +12411,7 @@
         "dangerBand": 0,
         "distanceToRouteM": 38.8,
         "distanceToWaterM": 0.0,
-        "score": 3.593
+        "score": 3.178
       },
       "hostility": {
         "baseline": "friendly",
@@ -12791,39 +12788,38 @@
       "underwaterAccess": "surface-swim",
       "ownerFaction": "faction.long-bar-wreckers",
       "position": {
-        "u": 0.4265,
-        "v": 0.93963
+        "u": 0.11415,
+        "v": 0.90765
       },
       "positionM": [
-        3144.8,
-        6928.4
+        841.7,
+        6692.6
       ],
-      "scourSiteId": "site.scour.fringe-marsh.headland-022",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.cove-027",
-          "score": 3.27,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.fringe-marsh.headland-022",
+          "score": 4.319,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0903",
-          "score": 3.074,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0791",
+          "score": 3.331,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0063",
-          "score": 3.06,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.fringe-marsh.islet-017",
+          "score": 3.288,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "headland in fringe marsh (danger band 3), 66 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "cove in fringe marsh (danger band 2), 61 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "headland",
+        "landform": "cove",
         "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 66.0,
-        "distanceToWaterM": 15.5,
-        "score": 4.319
+        "dangerBand": 2,
+        "distanceToRouteM": 60.6,
+        "distanceToWaterM": 5.5,
+        "score": 2.907
       },
       "hostility": {
         "baseline": "hostile",
@@ -12904,7 +12900,8 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.mercantile-coast.soulrest"
         }
-      ]
+      ],
+      "scourSiteId": "site.scour.fringe-marsh.cove-001"
     },
     {
       "id": "place.mercantile-coast.mad-hermit-jungle",
@@ -13614,38 +13611,38 @@
         ]
       },
       "position": {
-        "u": 0.08738,
-        "v": 0.8437
+        "u": 0.44807,
+        "v": 0.75074
       },
       "positionM": [
-        644.3,
-        6221.1
+        3303.8,
+        5535.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1133",
-          "score": 3.063,
-          "whyLost": "taken by place.mercantile-coast.ashroot-village"
+          "siteId": "site.free.roadside-0720",
+          "score": 4.179,
+          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
         },
         {
-          "siteId": "site.free.roadside-0746",
-          "score": 2.662,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.firm-lowland.flood-high-008",
+          "score": 3.724,
+          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
         },
         {
-          "siteId": "site.free.any-firm-ground-1134",
-          "score": 2.608,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1052",
+          "score": 3.441,
+          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 35 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.slaughter-memorial (+0.42).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 51 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.alessian-hull (+0.96).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 34.7,
-        "distanceToWaterM": 22.6,
-        "score": 3.155
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 50.6,
+        "distanceToWaterM": 7.8,
+        "score": 2.755
       },
       "proseRefs": [
         {
@@ -13792,38 +13789,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.moonmarch-caravan-house",
       "position": {
-        "u": 0.59829,
-        "v": 0.75223
+        "u": 0.52467,
+        "v": 0.75446
       },
       "positionM": [
-        4411.5,
-        5546.6
+        3868.6,
+        5563.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1163",
-          "score": 4.538,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0720",
+          "score": 4.374,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         },
         {
-          "siteId": "site.free.any-firm-ground-1308",
-          "score": 4.139,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0470",
+          "score": 3.831,
+          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.free.any-firm-ground-1288",
-          "score": 4.08,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1093",
+          "score": 3.738,
+          "whyLost": "taken by place.mercantile-coast.stripped-village-north"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 380 m from the nearest route; its choice #3 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 444 m from the nearest route; its choice #3 landform; won on landform, culture-clump, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.keshu-grove (+0.80).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 380.0,
-        "distanceToWaterM": 89.3,
-        "score": 4.724
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 444.3,
+        "distanceToWaterM": 27.4,
+        "score": 2.694
       },
       "hostility": {
         "baseline": "guarded",
@@ -14052,33 +14049,38 @@
         }
       ],
       "position": {
-        "u": 0.10374,
-        "v": 0.8504
+        "u": 0.17589,
+        "v": 0.86229
       },
       "positionM": [
-        765.0,
-        6270.4
+        1296.9,
+        6358.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0800",
-          "score": 4.376,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0793",
+          "score": 4.375,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
         },
         {
-          "siteId": "site.free.open-water-0577",
-          "score": 3.912,
+          "siteId": "site.free.open-water-0585",
+          "score": 4.181,
+          "whyLost": "too close to place.imperial-penal-south.west-market-town"
+        },
+        {
+          "siteId": "site.scour.mangrove-forest.islet-041",
+          "score": 3.469,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 165 m from the nearest route; its first-choice landform; won on landform, route, culture-clump; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 380 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
+        "landform": "cove",
+        "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 165.0,
-        "distanceToWaterM": 32.9,
-        "score": 5.088
+        "distanceToRouteM": 380.2,
+        "distanceToWaterM": 74.6,
+        "score": 3.86
       },
       "hostility": {
         "baseline": "friendly",
@@ -14151,7 +14153,8 @@
           "sourcePath": "why.occupantsMotive",
           "routeRef": "route.track.mercantile-coast.coast-road"
         }
-      ]
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.cove-008"
     },
     {
       "id": "place.mercantile-coast.murkmire-hearth-house",
@@ -14607,38 +14610,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.tribeless-naga",
       "position": {
-        "u": 0.55813,
-        "v": 0.79462
+        "u": 0.4674,
+        "v": 0.71653
       },
       "positionM": [
-        4115.4,
-        5859.1
+        3446.4,
+        5283.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1133",
-          "score": 2.48,
-          "whyLost": "taken by place.mercantile-coast.ashroot-village"
+          "siteId": "site.free.roadside-0791",
+          "score": 2.571,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0063",
-          "score": 2.275,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0792",
+          "score": 2.499,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1249",
-          "score": 2.247,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1246",
+          "score": 2.302,
+          "whyLost": "too close to place.imperial-penal-south.west-market-town"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 283 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.hammock-village-murkmire (+0.84).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 309 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.teeth-of-sithis (+0.38).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 283.1,
-        "distanceToWaterM": 44.2,
-        "score": 1.795
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 309.3,
+        "distanceToWaterM": 27.4,
+        "score": 1.732
       },
       "hostility": {
         "baseline": "hostile",
@@ -14910,13 +14913,13 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1198",
-          "score": 4.644,
+          "siteId": "site.free.any-shallow-marsh-1195",
+          "score": 4.639,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1222",
-          "score": 4.564,
+          "siteId": "site.free.any-shallow-marsh-1219",
+          "score": 4.575,
           "whyLost": "lost on score"
         },
         {
@@ -14931,8 +14934,8 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 504.1,
-        "distanceToWaterM": 24.5,
-        "score": 5.033
+        "distanceToWaterM": 23.3,
+        "score": 5.044
       },
       "hostility": {
         "baseline": "wary",
@@ -15141,22 +15144,38 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
       "position": {
-        "u": 0.21455,
-        "v": 0.87717
+        "u": 0.12457,
+        "v": 0.93889
       },
       "positionM": [
-        1582.0,
-        6467.8
+        918.5,
+        6922.9
       ],
-      "candidatesConsidered": [],
-      "whySiteWon": "open water in coastal lagoon & salt marsh (danger band 3), 192 m from the nearest route; at the water's edge; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.open-water-0585",
+          "score": 3.424,
+          "whyLost": "taken by place.mercantile-coast.glowfen-murkmire"
+        },
+        {
+          "siteId": "site.free.roadside-0720",
+          "score": 3.334,
+          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
+        },
+        {
+          "siteId": "site.free.roadside-0791",
+          "score": 2.706,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 159 m from the nearest route; no free 'sinkhole' site was left in the zone, so plain ground; won on route, culture-clump, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "coastal lagoon & salt marsh",
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 192.0,
-        "distanceToWaterM": 0.0,
-        "score": 3.258
+        "distanceToRouteM": 159.0,
+        "distanceToWaterM": 41.8,
+        "score": 2.451
       },
       "hostility": {
         "baseline": "hostile",
@@ -15355,18 +15374,18 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.open-water-0515",
-          "score": 4.251,
+          "siteId": "site.free.roadside-0785",
+          "score": 4.834,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.mangrove-forest.river-mouth-008",
-          "score": 3.554,
+          "siteId": "site.free.any-shallow-marsh-1347",
+          "score": 4.649,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1290",
-          "score": 3.339,
+          "siteId": "site.free.open-water-0497",
+          "score": 3.822,
           "whyLost": "lost on score"
         }
       ],
@@ -15376,8 +15395,8 @@
         "regionClass": "mangrove forest",
         "dangerBand": 0,
         "distanceToRouteM": 399.4,
-        "distanceToWaterM": 5.5,
-        "score": 5.209
+        "distanceToWaterM": 0.0,
+        "score": 5.224
       },
       "hostility": {
         "baseline": "wary",
@@ -15628,38 +15647,38 @@
         ]
       },
       "position": {
-        "u": 0.18257,
-        "v": 0.86974
+        "u": 0.08887,
+        "v": 0.79239
       },
       "positionM": [
-        1346.2,
-        6413.0
+        655.3,
+        5842.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1267",
-          "score": 4.292,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1286",
+          "score": 4.499,
+          "whyLost": "too close to place.mercantile-coast.mudfoot"
         },
         {
-          "siteId": "site.scour.fringe-marsh.cove-037",
+          "siteId": "site.scour.lake-standing-water.land-bridge-026",
           "score": 4.085,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0015",
-          "score": 4.074,
+          "siteId": "site.free.roadside-0019",
+          "score": 3.972,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "land bridge in lake & standing water (danger band 4), 308 m from the nearest route; at the water's edge; won on culture-clump, route, bound; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 132 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on route, bound, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "land-bridge",
-        "regionClass": "lake & standing water",
-        "dangerBand": 4,
-        "distanceToRouteM": 307.5,
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 131.8,
         "distanceToWaterM": 0.0,
-        "score": 4.76
+        "score": 4.444
       },
       "terrainRequests": [
         {
@@ -15682,8 +15701,7 @@
           },
           "note": "Standing salt water over the hole, deep enough that the bottom is dark from the surface."
         }
-      ],
-      "scourSiteId": "site.scour.lake-standing-water.land-bridge-026"
+      ]
     },
     {
       "id": "place.mercantile-coast.oliis-ferry-stage",
@@ -15835,15 +15853,21 @@
         348.2,
         5930.4
       ],
-      "candidatesConsidered": [],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1189",
+          "score": 5.19,
+          "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
+        }
+      ],
       "whySiteWon": "firm ground in fringe marsh (danger band 3), 323 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on culture-clump, nearPoint, route; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 322.6,
-        "distanceToWaterM": 5.5,
-        "score": 4.943
+        "distanceToWaterM": 0.0,
+        "score": 4.956
       },
       "hostility": {
         "baseline": "neutral",
@@ -16231,38 +16255,38 @@
         ]
       },
       "position": {
-        "u": 0.5916,
-        "v": 0.82511
+        "u": 0.12605,
+        "v": 0.96344
       },
       "positionM": [
-        4362.1,
-        6084.0
+        929.5,
+        7103.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1259",
-          "score": 4.423,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0797",
+          "score": 4.828,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1213",
-          "score": 4.422,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.mangrove-forest.islet-041",
+          "score": 4.784,
+          "whyLost": "too close to place.mercantile-coast.bramman-screen"
         },
         {
-          "siteId": "site.free.roadside-0911",
-          "score": 3.902,
-          "whyLost": "lost on score"
+          "siteId": "site.free.open-water-0631",
+          "score": 4.432,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "open water in mangrove forest (danger band 0), 35 m from the nearest route; at the water's edge; won on route, culture-clump, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in mangrove forest (danger band 0), 22 m from the nearest route; at the water's edge; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "open-water",
         "regionClass": "mangrove forest",
         "dangerBand": 0,
-        "distanceToRouteM": 35.1,
+        "distanceToRouteM": 21.9,
         "distanceToWaterM": 0.0,
-        "score": 4.768
+        "score": 4.007
       }
     },
     {
@@ -17092,32 +17116,31 @@
         660.8,
         6111.4
       ],
-      "scourSiteId": "site.scour.fringe-marsh.flood-high-033",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.summit-047",
           "score": 3.243,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
+        },
+        {
+          "siteId": "site.free.roadside-0791",
+          "score": 2.451,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0479",
-          "score": 2.622,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0798",
-          "score": 2.457,
+          "siteId": "site.free.roadside-0792",
+          "score": 2.379,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in fringe marsh (danger band 2), 20 m from the nearest route; its first-choice landform; won on landform, culture-clump, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in fringe marsh (danger band 2), 20 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "flood-high",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 19.8,
-        "distanceToWaterM": 46.9,
-        "score": 3.285
+        "distanceToWaterM": 50.6,
+        "score": 2.605
       },
       "hostility": {
         "baseline": "hostile",
@@ -17191,7 +17214,8 @@
             "provenance": "the untended lower chambers"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-033"
     },
     {
       "id": "place.mercantile-coast.pusbottom-barge",
@@ -17366,22 +17390,38 @@
         ]
       },
       "position": {
-        "u": 0.42872,
-        "v": 0.83697
+        "u": 0.49967,
+        "v": 0.88118
       },
       "positionM": [
-        3161.1,
-        6171.4
+        3684.3,
+        6497.4
       ],
-      "candidatesConsidered": [],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 35 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, bound; landform wishes taken from the type recipe (record had none).",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0804",
+          "score": 5.817,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0910",
+          "score": 5.791,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1252",
+          "score": 5.675,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 89 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, bound; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 34.7,
-        "distanceToWaterM": 19.8,
-        "score": 5.484
+        "distanceToRouteM": 89.3,
+        "distanceToWaterM": 17.3,
+        "score": 5.937
       },
       "services": []
     },
@@ -17530,38 +17570,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.salt-teeth",
       "position": {
-        "u": 0.17589,
-        "v": 0.86229
+        "u": 0.44031,
+        "v": 0.70329
       },
       "positionM": [
-        1296.9,
-        6358.1
+        3246.6,
+        5185.7
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.lake-standing-water.cove-008",
+          "score": 3.08,
+          "whyLost": "too close to route"
+        },
+        {
           "siteId": "site.scour.fringe-marsh.headland-022",
           "score": 2.295,
-          "whyLost": "lost on score"
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.scour.lake-standing-water.land-bridge-026",
-          "score": 2.013,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0577",
-          "score": 1.717,
-          "whyLost": "lost on score"
+          "siteId": "site.free.open-water-0585",
+          "score": 2.227,
+          "whyLost": "too close to place.mercantile-coast.ixtaxh-xanmeer"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 380 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 92 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on culture-clump, hinterland, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.hammock-crown-murkmire (+1.68).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 380.2,
-        "distanceToWaterM": 0.0,
-        "score": 3.369
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 91.9,
+        "distanceToWaterM": 43.9,
+        "score": 2.203
       },
       "hostility": {
         "baseline": "hostile",
@@ -17654,7 +17694,6 @@
           "place.mercantile-coast.moonmarch"
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-008",
       "proseRefs": [
         {
           "sourcePath": "why.occupantsMotive",
@@ -17803,38 +17842,38 @@
         }
       ],
       "position": {
-        "u": 0.07325,
-        "v": 0.84891
+        "u": 0.11787,
+        "v": 0.70835
       },
       "positionM": [
-        540.1,
-        6259.4
+        869.1,
+        5223.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1039",
-          "score": 3.142,
-          "whyLost": "taken by place.mercantile-coast.white-rose-prison"
+          "siteId": "site.scour.firm-lowland.flood-high-008",
+          "score": 3.508,
+          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
         },
         {
-          "siteId": "site.free.any-firm-ground-1137",
-          "score": 2.541,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0720",
+          "score": 3.297,
+          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
         },
         {
-          "siteId": "site.free.any-firm-ground-1040",
-          "score": 2.472,
+          "siteId": "site.free.any-firm-ground-1093",
+          "score": 3.021,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 33 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, culture-clump, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.tempering-ground (+0.39).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 418 m from the nearest route; its choice #2 landform; won on landform, culture-clump, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 32.9,
-        "distanceToWaterM": 5.5,
-        "score": 1.861
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 418.1,
+        "distanceToWaterM": 197.5,
+        "score": 3.044
       },
       "hostility": {
         "baseline": "hostile",
@@ -18207,28 +18246,38 @@
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.11787,
-        "v": 0.70835
+        "u": 0.08515,
+        "v": 0.69869
       },
       "positionM": [
-        869.1,
-        5223.1
+        627.9,
+        5151.8
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.firm-lowland.flood-high-008",
+          "score": 3.35,
+          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
+        },
+        {
           "siteId": "site.free.any-firm-ground-1066",
-          "score": 1.638,
-          "whyLost": "lost on score"
+          "score": 3.049,
+          "whyLost": "too close to place.mercantile-coast.rockpark"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1052",
+          "score": 2.993,
+          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 418 m from the nearest route; its choice #5 landform; won on region, landform, remote; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.sealed-meer-murkmire (+0.87).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 646 m from the nearest route; its choice #5 landform; won on region, remote, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.sealed-meer-murkmire (+0.37).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 418.1,
-        "distanceToWaterM": 90.4,
-        "score": 2.533
+        "distanceToRouteM": 645.5,
+        "distanceToWaterM": 62.5,
+        "score": 2.316
       },
       "hostility": {
         "baseline": "hostile",
@@ -18444,38 +18493,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.49084,
-        "v": 0.87011
+        "u": 0.48153,
+        "v": 0.86927
       },
       "positionM": [
-        3619.2,
-        6415.8
+        3550.6,
+        6409.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0810",
-          "score": 6.002,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0079",
+          "score": 5.961,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0808",
-          "score": 5.98,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1346",
+          "score": 5.929,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
         },
         {
-          "siteId": "site.free.any-firm-ground-1280",
-          "score": 5.92,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0803",
+          "score": 5.928,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 1), 11 m from the nearest route; its first-choice landform; won on culture-clump, landform, bound; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 1), 25 m from the nearest route; its first-choice landform; won on culture-clump, landform, bound; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 1,
-        "distanceToRouteM": 11.0,
-        "distanceToWaterM": 38.8,
-        "score": 6.003
+        "distanceToRouteM": 24.5,
+        "distanceToWaterM": 86.7,
+        "score": 5.83
       },
       "hostility": {
         "baseline": "hostile",
@@ -18857,33 +18906,38 @@
       "underwaterAccess": "surface-swim",
       "ownerFaction": "faction.brammans-pilots",
       "position": {
-        "u": 0.54103,
-        "v": 0.83581
+        "u": 0.51723,
+        "v": 0.8028
       },
       "positionM": [
-        3989.3,
-        6162.8
+        3813.8,
+        5919.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0818",
-          "score": 3.765,
-          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
+          "siteId": "site.free.roadside-0797",
+          "score": 4.053,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0800",
-          "score": 3.101,
+          "siteId": "site.free.roadside-0812",
+          "score": 4.002,
+          "whyLost": "too close to place.mercantile-coast.sunkfoot"
+        },
+        {
+          "siteId": "site.free.roadside-0811",
+          "score": 3.771,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in tidal delta (danger band 2), 20 m from the nearest route; at the water's edge; its choice #3 landform; won on bound, landform, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 88 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, landform; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "tidal delta",
-        "dangerBand": 2,
-        "distanceToRouteM": 19.8,
-        "distanceToWaterM": 19.8,
-        "score": 3.424
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 7.8,
+        "score": 3.772
       },
       "hostility": {
         "baseline": "wary",
@@ -19114,28 +19168,28 @@
         }
       ],
       "position": {
-        "u": 0.08515,
-        "v": 0.69869
+        "u": 0.43022,
+        "v": 0.71951
       },
       "positionM": [
-        627.9,
-        5151.8
+        3172.2,
+        5305.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1094",
-          "score": 1.978,
+          "siteId": "site.free.any-firm-ground-1093",
+          "score": 2.197,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 646 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on culture-clump, region, remote; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.white-rose-prison (+0.52).",
+      "whySiteWon": "summit in firm lowland (danger band 4), 71 m from the nearest route; its choice #4 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.root-gallery-murkmire (+0.37).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "summit",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 645.5,
-        "distanceToWaterM": 61.3,
-        "score": 3.293
+        "dangerBand": 4,
+        "distanceToRouteM": 71.3,
+        "distanceToWaterM": 74.6,
+        "score": 3.833
       },
       "hostility": {
         "baseline": "hostile",
@@ -19209,7 +19263,8 @@
           },
           "note": "A low raised knoll for the meer; surrounding marsh remains a siting preference, not a promise of an island."
         }
-      ]
+      ],
+      "scourSiteId": "site.scour.firm-lowland.summit-045"
     },
     {
       "id": "place.mercantile-coast.sealed-meer-west",
@@ -19515,38 +19570,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.lilmoth-merchant-council",
       "position": {
-        "u": 0.07892,
-        "v": 0.83775
+        "u": 0.41608,
+        "v": 0.83925
       },
       "positionM": [
-        581.9,
-        6177.2
+        3068.0,
+        6188.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0922",
-          "score": 3.193,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0075",
+          "score": 3.492,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-033",
-          "score": 3.158,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1276",
+          "score": 3.343,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0481",
-          "score": 3.156,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0802",
+          "score": 3.328,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 33 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.mirtis-plantation (+0.42).",
+      "whySiteWon": "flood high in firm lowland (danger band 2), 47 m from the nearest route; its first-choice landform; won on landform, region, culture-clump; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 32.9,
-        "distanceToWaterM": 15.5,
-        "score": 3.519
+        "distanceToRouteM": 47.2,
+        "distanceToWaterM": 34.7,
+        "score": 2.971
       },
       "hostility": {
         "baseline": "neutral",
@@ -19626,7 +19681,8 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.mercantile-coast.lilmoth"
         }
-      ]
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-032"
     },
     {
       "id": "place.mercantile-coast.smoulder-cuts",
@@ -19986,7 +20042,7 @@
         "regionClass": "fringe marsh",
         "dangerBand": 1,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 0.0,
+        "distanceToWaterM": 50.6,
         "score": null
       },
       "hostility": {
@@ -20269,8 +20325,8 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0787",
-          "score": 2.906,
+          "siteId": "site.free.roadside-0780",
+          "score": 2.903,
           "whyLost": "lost on score"
         }
       ],
@@ -20859,18 +20915,18 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.open-water-0641",
-          "score": 5.108,
+          "siteId": "site.free.open-water-0625",
+          "score": 5.112,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.open-water-0626",
+          "score": 4.907,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.tidal-delta.river-mouth-011",
           "score": 4.904,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0642",
-          "score": 4.901,
           "whyLost": "lost on score"
         }
       ],
@@ -21400,38 +21456,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.league-of-open-water",
       "position": {
-        "u": 0.07502,
-        "v": 0.88684
+        "u": 0.0554,
+        "v": 0.87568
       },
       "positionM": [
-        553.2,
-        6539.1
+        408.5,
+        6456.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0486",
-          "score": 6.516,
+          "siteId": "site.free.roadside-0481",
+          "score": 6.545,
           "whyLost": "too close to place.mercantile-coast.soulrest"
         },
         {
-          "siteId": "site.free.roadside-0487",
-          "score": 6.472,
+          "siteId": "site.free.roadside-0774",
+          "score": 6.512,
           "whyLost": "too close to place.mercantile-coast.soulrest"
         },
         {
-          "siteId": "site.free.roadside-0001",
-          "score": 6.405,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0482",
+          "score": 6.461,
+          "whyLost": "too close to place.mercantile-coast.soulrest"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 1), 20 m from the nearest route; its first-choice landform; won on culture-clump, landform, bound; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 1), 58 m from the nearest route; its first-choice landform; won on landform, bound, route; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "regionClass": "firm lowland",
         "dangerBand": 1,
-        "distanceToRouteM": 19.8,
-        "distanceToWaterM": 29.5,
-        "score": 6.452
+        "distanceToRouteM": 58.3,
+        "distanceToWaterM": 27.4,
+        "score": 6.003
       },
       "hostility": {
         "baseline": "friendly",
@@ -22140,29 +22196,29 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1068",
-          "score": 3.359,
-          "whyLost": "taken by place.mercantile-coast.sealed-meer-murkmire"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1040",
-          "score": 2.326,
+          "siteId": "site.free.any-firm-ground-1038",
+          "score": 3.341,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1013",
-          "score": 2.179,
+          "siteId": "site.free.any-firm-ground-1068",
+          "score": 2.868,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1039",
+          "score": 2.129,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 357 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 357 m from the nearest route; its choice #2 landform; won on landform, culture-clump, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 357.5,
-        "distanceToWaterM": 23.3,
-        "score": 3.292
+        "distanceToWaterM": 67.8,
+        "score": 3.779
       },
       "hostility": {
         "baseline": "hostile",
@@ -23306,38 +23362,38 @@
         ]
       },
       "position": {
-        "u": 0.56965,
-        "v": 0.84704
+        "u": 0.55739,
+        "v": 0.8437
       },
       "positionM": [
-        4200.3,
-        6245.7
+        4109.9,
+        6221.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1259",
-          "score": 4.894,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0812",
+          "score": 5.707,
+          "whyLost": "too close to max-from:settlement"
         },
         {
-          "siteId": "site.free.open-water-0613",
-          "score": 4.383,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1256",
+          "score": 5.008,
+          "whyLost": "too close to max-from:settlement"
         },
         {
-          "siteId": "site.free.open-water-0614",
-          "score": 4.289,
-          "whyLost": "lost on score"
+          "siteId": "site.free.open-water-0598",
+          "score": 4.379,
+          "whyLost": "too close to max-from:settlement"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 39 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in mangrove forest (danger band 0), 99 m from the nearest route; at the water's edge; won on route, culture-clump, nearPoint; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 38.8,
-        "distanceToWaterM": 12.3,
-        "score": 5.691
+        "landform": "open-water",
+        "regionClass": "mangrove forest",
+        "dangerBand": 0,
+        "distanceToRouteM": 98.7,
+        "distanceToWaterM": 0.0,
+        "score": 4.158
       },
       "approachDanger": "D2",
       "sitingNote": "Pinned 50 m west onto the coastal lagoon cell, where the danger raster reads band 2: a drowned hamlet with an apex ambusher in it cannot sit on band-0 city apron."
@@ -23649,38 +23705,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.placation-court-holders",
       "position": {
-        "u": 0.39824,
-        "v": 0.84104
+        "u": 0.18183,
+        "v": 0.91035
       },
       "positionM": [
-        2936.4,
-        6201.4
+        1340.7,
+        6712.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1066",
-          "score": 4.183,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1285",
+          "score": 4.488,
+          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
         },
         {
-          "siteId": "site.free.roadside-0746",
-          "score": 4.143,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1346",
+          "score": 4.02,
+          "whyLost": "too close to place.mercantile-coast.bright-throat-village"
         },
         {
-          "siteId": "site.free.roadside-0808",
-          "score": 4.11,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1305",
+          "score": 3.713,
+          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 40 m from the nearest route; at the water's edge; no free 'any-firm-ground' site was left in the zone, so plain ground; won on culture-clump, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.hammock-village-murkmire (+0.41).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 33 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 39.5,
-        "distanceToWaterM": 5.5,
-        "score": 4.45
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 41.8,
+        "score": 3.475
       },
       "hostility": {
         "baseline": "friendly",
@@ -23890,38 +23946,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.nisswo",
       "position": {
-        "u": 0.54176,
-        "v": 0.73661
+        "u": 0.54028,
+        "v": 0.75595
       },
       "positionM": [
-        3994.7,
-        5431.4
+        3983.8,
+        5574.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.summit-051",
-          "score": 1.991,
+          "siteId": "site.scour.firm-lowland.summit-045",
+          "score": 2.492,
+          "whyLost": "taken by place.mercantile-coast.xinchei-konu"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.summit-049",
+          "score": 2.276,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.summit-021",
-          "score": 1.856,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.summit-047",
-          "score": 1.837,
+          "siteId": "site.scour.firm-lowland.flood-high-008",
+          "score": 2.261,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "summit in tropical jungle (danger band 4), 593 m from the nearest route; its first-choice landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 451 m from the nearest route; at the water's edge; no free 'summit' site was left in the zone, so plain ground; won on culture-clump, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.hist-village-keel-sakka (+0.45).",
       "plotFacts": {
-        "landform": "summit",
+        "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 593.2,
-        "distanceToWaterM": 50.6,
-        "score": 2.065
+        "distanceToRouteM": 451.2,
+        "distanceToWaterM": 12.3,
+        "score": 2.51
       },
       "hostility": {
         "baseline": "hostile",
@@ -24020,7 +24076,6 @@
           "place.imperial-fringe.glenbridge"
         ]
       },
-      "scourSiteId": "site.scour.tropical-jungle.summit-049",
       "proseRefs": [
         {
           "sourcePath": "vibe.approach",
@@ -24179,38 +24234,38 @@
         }
       ],
       "position": {
-        "u": 0.18555,
-        "v": 0.8794
+        "u": 0.10746,
+        "v": 0.69571
       },
       "positionM": [
-        1368.1,
-        6484.3
+        792.4,
+        5129.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0922",
-          "score": 3.781,
-          "whyLost": "taken by place.mercantile-coast.teeba-enoo-court"
+          "siteId": "site.free.roadside-0791",
+          "score": 4.12,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0813",
-          "score": 3.636,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0792",
+          "score": 4.061,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0479",
-          "score": 3.616,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0805",
+          "score": 3.739,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 240 m from the nearest route; at the water's edge; its choice #5 landform; won on culture-clump, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.rockpark (+0.39).",
+      "whySiteWon": "firm ground in upland hills (danger band 3), 523 m from the nearest route; its choice #5 landform; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 240.3,
-        "distanceToWaterM": 12.3,
-        "score": 4.729
+        "distanceToRouteM": 522.8,
+        "distanceToWaterM": 228.1,
+        "score": 3.193
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -25051,22 +25106,33 @@
         }
       ],
       "position": {
-        "u": 0.46712,
-        "v": 0.8913
+        "u": 0.54103,
+        "v": 0.83581
       },
       "positionM": [
-        3444.3,
-        6572.0
+        3989.3,
+        6162.8
       ],
-      "candidatesConsidered": [],
-      "whySiteWon": "shallow marsh in tidal delta (danger band 2), 27 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0797",
+          "score": 4.923,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
+        },
+        {
+          "siteId": "site.free.roadside-0797",
+          "score": 5.268,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
+        }
+      ],
+      "whySiteWon": "shallow marsh in tidal delta (danger band 2), 20 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "tidal delta",
         "dangerBand": 2,
-        "distanceToRouteM": 27.4,
-        "distanceToWaterM": 12.3,
-        "score": 4.372
+        "distanceToRouteM": 19.8,
+        "distanceToWaterM": 15.5,
+        "score": 4.255
       },
       "hostility": {
         "baseline": "guarded",
@@ -25972,38 +26038,28 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
       "position": {
-        "u": 0.40419,
-        "v": 0.82809
+        "u": 0.07623,
+        "v": 0.69348
       },
       "positionM": [
-        2980.3,
-        6105.9
+        562.1,
+        5113.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.open-water-0602",
-          "score": 3.021,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0594",
-          "score": 2.753,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0595",
-          "score": 2.717,
+          "siteId": "site.scour.mangrove-forest.islet-041",
+          "score": 1.8,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 5 m from the nearest route; at the water's edge; won on culture-clump, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "isthmus in firm lowland (danger band 2), 707 m from the nearest route; at the water's edge; won on region, submerged, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 5.5,
-        "distanceToWaterM": 0.0,
-        "score": 3.062
+        "landform": "isthmus",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 707.4,
+        "distanceToWaterM": 11.0,
+        "score": 2.123
       },
       "hostility": {
         "baseline": "hostile",
@@ -26054,7 +26110,8 @@
             "provenance": "villa strongboxes that went down with their floors"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.firm-lowland.isthmus-039"
     },
     {
       "id": "place.mercantile-coast.vossa-satl-village",
@@ -26682,38 +26739,38 @@
         }
       ],
       "position": {
-        "u": 0.10672,
-        "v": 0.71802
+        "u": 0.39898,
+        "v": 0.67489
       },
       "positionM": [
-        786.9,
-        5294.3
+        2941.9,
+        4976.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1068",
-          "score": 2.08,
+          "siteId": "site.scour.firm-lowland.flood-high-008",
+          "score": 2.603,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.flood-high-001",
-          "score": 2.067,
+          "siteId": "site.free.any-firm-ground-1038",
+          "score": 1.913,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1094",
-          "score": 1.969,
+          "siteId": "site.free.any-firm-ground-1012",
+          "score": 1.902,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 449 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, remote, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.sealed-meer-murkmire (+0.52).",
+      "whySiteWon": "flood high in firm lowland (danger band 4), 167 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "flood-high",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 449.3,
-        "distanceToWaterM": 90.8,
-        "score": 2.733
+        "dangerBand": 4,
+        "distanceToRouteM": 166.8,
+        "distanceToWaterM": 66.3,
+        "score": 2.709
       },
       "hostility": {
         "baseline": "hostile",
@@ -26796,7 +26853,8 @@
           "sourcePath": "why.siteAdvantages",
           "placeRef": "place.dunmer-north.bogmother"
         }
-      ]
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-007"
     },
     {
       "id": "place.mercantile-coast.whitebone-reef",
@@ -26973,41 +27031,40 @@
         ]
       },
       "position": {
-        "u": 0.50905,
-        "v": 0.81098
+        "u": 0.50012,
+        "v": 0.81173
       },
       "positionM": [
-        3753.5,
-        5979.8
+        3687.7,
+        5985.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.open-water-0589",
-          "score": 4.599,
+          "siteId": "site.free.open-water-0579",
+          "score": 4.204,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.open-water-0588",
-          "score": 4.289,
+          "siteId": "site.free.open-water-0557",
+          "score": 4.123,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.open-water-0597",
-          "score": 4.207,
+          "siteId": "site.free.open-water-0569",
+          "score": 4.092,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 27 m from the nearest route; at the water's edge; its choice #2 landform; won on route, culture-clump, landform; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in lake & standing water (danger band 3), 22 m from the nearest route; at the water's edge; won on route, nearPoint, culture-clump; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
+        "landform": "open-water",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 27.4,
+        "distanceToRouteM": 21.9,
         "distanceToWaterM": 0.0,
-        "score": 5.273
+        "score": 4.279
       },
-      "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon named by its regionClasses.",
-      "scourSiteId": "site.scour.lake-standing-water.cove-038"
+      "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon named by its regionClasses."
     },
     {
       "id": "place.mercantile-coast.witness-vigil-camp",
@@ -27298,38 +27355,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.49523,
-        "v": 0.87866
+        "u": 0.43096,
+        "v": 0.93397
       },
       "positionM": [
-        3651.5,
-        6478.8
+        3177.7,
+        6886.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0922",
-          "score": 4.542,
-          "whyLost": "taken by place.mercantile-coast.teeba-enoo-court"
+          "siteId": "site.free.roadside-0805",
+          "score": 4.475,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0916",
-          "score": 4.349,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0807",
+          "score": 4.154,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0812",
-          "score": 4.32,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0917",
+          "score": 4.14,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 64 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 33 m from the nearest route; its choice #3 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 64.2,
-        "distanceToWaterM": 23.3,
-        "score": 4.386
+        "dangerBand": 3,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 27.4,
+        "score": 4.076
       },
       "hostility": {
         "baseline": "guarded",
@@ -27530,38 +27587,38 @@
         }
       ],
       "position": {
-        "u": 0.49967,
-        "v": 0.88118
+        "u": 0.50087,
+        "v": 0.90171
       },
       "positionM": [
-        3684.3,
-        6497.4
+        3693.2,
+        6648.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0815",
-          "score": 5.787,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0807",
+          "score": 6.067,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.roadside-0920",
-          "score": 5.767,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.fringe-marsh.headland-022",
+          "score": 6.025,
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.free.roadside-0919",
-          "score": 5.755,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1296",
+          "score": 5.992,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 89 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on culture-clump, route, bound; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 60 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on route, bound, sightline; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 89.3,
-        "distanceToWaterM": 24.5,
-        "score": 5.988
+        "distanceToRouteM": 60.3,
+        "distanceToWaterM": 21.9,
+        "score": 4.983
       },
       "hostility": {
         "baseline": "hostile",
@@ -28165,28 +28222,38 @@
         ]
       },
       "position": {
-        "u": 0.07549,
-        "v": 0.76413
+        "u": 0.09259,
+        "v": 0.73587
       },
       "positionM": [
-        556.6,
-        5634.3
+        682.7,
+        5425.9
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-firm-ground-1141",
+          "score": 3.91,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1118",
+          "score": 3.449,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.free.any-firm-ground-1117",
-          "score": 2.855,
+          "score": 3.434,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "isthmus in fringe marsh (danger band 3), 326 m from the nearest route; at the water's edge; won on nearPoint, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 388 m from the nearest route; no free 'oxbow' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "isthmus",
+        "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 325.8,
-        "distanceToWaterM": 0.0,
-        "score": 3.161
+        "distanceToRouteM": 388.4,
+        "distanceToWaterM": 38.4,
+        "score": 4.117
       },
       "terrainRequests": [
         {
@@ -28201,7 +28268,6 @@
           "note": "The shrine door is an underwater entry: it needs standing water over the threshold, not a wet margin."
         }
       ],
-      "scourSiteId": "site.scour.fringe-marsh.isthmus-048",
       "proseRefs": [
         {
           "sourcePath": "why.founding",
@@ -28352,38 +28418,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.xinchei-keeper",
       "position": {
-        "u": 0.4436,
-        "v": 0.93815
+        "u": 0.10374,
+        "v": 0.72695
       },
       "positionM": [
-        3270.9,
-        6917.5
+        765.0,
+        5360.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1348",
-          "score": 2.8,
-          "whyLost": "taken by place.mercantile-coast.chasepoint"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.flood-high-032",
-          "score": 2.791,
+          "siteId": "site.free.any-firm-ground-1345",
+          "score": 2.803,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1137",
-          "score": 2.509,
+          "siteId": "site.scour.firm-lowland.flood-high-008",
+          "score": 2.569,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1076",
+          "score": 2.508,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 73 m from the nearest route; no free 'summit' site was left in the zone, so plain ground; won on culture-clump, region, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.ashfield (+0.50).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 397 m from the nearest route; no free 'summit' site was left in the zone, so plain ground; won on culture-clump, region, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.root-gallery-murkmire (+1.18).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 73.2,
-        "distanceToWaterM": 27.4,
-        "score": 3.105
+        "dangerBand": 3,
+        "distanceToRouteM": 397.3,
+        "distanceToWaterM": 76.2,
+        "score": 2.653
       },
       "hostility": {
         "baseline": "neutral",

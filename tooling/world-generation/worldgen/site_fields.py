@@ -461,8 +461,50 @@ class ProvinceSurvey:
         return ndimage.gaussian_filter(self.height_grid, 2.0)
 
     def view_height_at(self, x: float, z: float) -> float:
+        """Bilinear sample of the smoothed view height.
+
+        Nearest-neighbour quantises the ray to the 5.48 m grid, which is
+        coarser than the sub-metre clearances the sightline gate has to
+        judge: a blocking pixel whose 3x3 neighbourhood spans several metres
+        can hand back a height metres away from the ray's true footpoint, so
+        the verdict became a coin-flip on every raster rebuild (plot review
+        2026-09-09). Bilinear costs three extra lookups and removes the
+        quantisation; the residual sub-cell uncertainty is priced separately
+        by `view_height_tolerance_at`.
+        """
+        n = self.grid_n
+        fx = min(max(x / self.grid_px_m - 0.5, 0.0), n - 1.0)
+        fz = min(max(z / self.grid_px_m - 0.5, 0.0), n - 1.0)
+        c0, r0 = int(fx), int(fz)
+        c1, r1 = min(c0 + 1, n - 1), min(r0 + 1, n - 1)
+        tx, tz = fx - c0, fz - r0
+        g = self.height_view
+        top = float(g[r0, c0]) * (1.0 - tx) + float(g[r0, c1]) * tx
+        bot = float(g[r1, c0]) * (1.0 - tx) + float(g[r1, c1]) * tx
+        return top * (1.0 - tz) + bot * tz
+
+    def view_height_nearest(self, x: float, z: float) -> float:
+        """Nearest-neighbour sample, kept for callers that want the raw cell."""
         row, col = self.grid_px(x, z)
         return float(self.height_view[row, col])
+
+    def view_height_tolerance_at(self, x: float, z: float) -> float:
+        """How far the sampled height may be wrong at (x, z), in metres.
+
+        The grid stores one height per 5.48 m cell; within a cell the real
+        surface varies by roughly the local relief. Half the 3x3 spread of
+        `height_view` around the point is that local relief expressed as a
+        +/- band about the sampled value — derived from the actual raster at
+        the actual point, so flat ground gets a tolerance near zero and broken
+        ground gets a wide one. It is deliberately NOT a constant: a magic
+        tolerance would be a licence for a gate that cannot fail.
+        """
+        n = self.grid_n
+        row, col = self.grid_px(x, z)
+        r0, r1 = max(row - 1, 0), min(row + 2, n)
+        c0, c1 = max(col - 1, 0), min(col + 2, n)
+        patch = self.height_view[r0:r1, c0:c1]
+        return 0.5 * float(patch.max() - patch.min())
 
     def viewshed(self, x: float, z: float, radius_m: float,
                  eye_m: float = 1.7, rays: int = 72,
@@ -508,22 +550,46 @@ class ProvinceSurvey:
             "medianFirstBlockM": round(float(np.median(first_block_m)), 1),
         }
 
-    def line_of_sight(self, ax: float, az: float, bx: float, bz: float,
-                      eye_a: float = 1.7, eye_b: float = 1.7,
-                      step_m: float | None = None) -> bool:
+    def sightline_clearance(self, ax: float, az: float, bx: float, bz: float,
+                            eye_a: float = 1.7, eye_b: float = 1.7,
+                            step_m: float | None = None) -> dict:
+        """Measure the tightest point of a sightline instead of judging it.
+
+        Returns the worst clearance in metres (ray height minus ground,
+        negative = the ground is above the ray), the sampler's own tolerance
+        at that point, the parametric position, and the verdict: a sightline
+        is broken only when the blockage exceeds what the sampler can
+        actually resolve there. `marginM` is the number the scorer prices —
+        clearance net of the tolerance, so "just clears by noise" scores as
+        zero headroom rather than as a pass.
+        """
         step = step_m or self.grid_px_m
         d = math.hypot(bx - ax, bz - az)
         if d < 1e-6:
-            return True
+            return {"clearanceM": float("inf"), "toleranceM": 0.0,
+                    "marginM": float("inf"), "atT": 0.0, "clear": True}
         n = max(2, int(d / step))
         h0 = self.view_height_at(ax, az) + eye_a
         h1 = self.view_height_at(bx, bz) + eye_b
+        worst = math.inf
+        worst_t = 0.0
+        worst_px = (ax, az)
         for j in range(1, n):
             t = j / n
-            hx = self.view_height_at(ax + (bx - ax) * t, az + (bz - az) * t)
-            if hx > h0 + (h1 - h0) * t:
-                return False
-        return True
+            px, pz = ax + (bx - ax) * t, az + (bz - az) * t
+            clear = h0 + (h1 - h0) * t - self.view_height_at(px, pz)
+            if clear < worst:
+                worst, worst_t, worst_px = clear, t, (px, pz)
+        tol = self.view_height_tolerance_at(*worst_px)
+        return {"clearanceM": round(worst, 3), "toleranceM": round(tol, 3),
+                "marginM": round(worst - tol, 3), "atT": round(worst_t, 4),
+                "clear": worst > -tol}
+
+    def line_of_sight(self, ax: float, az: float, bx: float, bz: float,
+                      eye_a: float = 1.7, eye_b: float = 1.7,
+                      step_m: float | None = None) -> bool:
+        return bool(self.sightline_clearance(
+            ax, az, bx, bz, eye_a=eye_a, eye_b=eye_b, step_m=step_m)["clear"])
 
     def height_at(self, x: float, z: float) -> float:
         row, col = self._px(x, z, self.height_px_m, self.fields.height_m.shape[0])

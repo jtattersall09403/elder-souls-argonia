@@ -85,5 +85,123 @@ export const EQUIPMENT_TEXT: readonly TextEntry[] = [
   { id: "text.equipment.attack-reach-note", surface: "ui", text: "Furthest horizontal weapon contact in the opening light attack, including its step" },
 ];
 
+/**
+ * Ferries — the talk-and-teleport crossings (owner ruling 2026-09-09).
+ * The graph is `world/sources/routes/ferry-crossings.json`; every `text.*` id
+ * it carries is registered here and checked by
+ * `python3 -m worldgen.ferry_crossings --check`.
+ *
+ * Register: these are working people at a landing, not innkeepers. They are
+ * doing a job in weather, they have said it a thousand times, and none of them
+ * is pleased to see you (culture-registers.md — regional layer, marsh trades).
+ */
+export const FERRY_TEXT: readonly TextEntry[] = [
+  {
+    id: "text.ferry.underway-basin.name",
+    surface: "descriptive",
+    text: "The basin raft",
+    note: "Map and service-menu label for the Helstrom basin crossing.",
+  },
+  {
+    id: "text.ferry.underway-basin.hail",
+    surface: "dialogue",
+    text:
+      "Three drakes and I pole you over. Or walk under Helstrom for nothing. The root keeps some of the people who enter it.",
+    note:
+      "Argonian village poler. The ferry only exists because the free alternative is the Underway, a Hist root gallery — so the line names the price and the alternative, and lets the player weigh them. No threat: he is stating what the root is like.",
+  },
+  {
+    id: "text.ferry.onkobra-bond.name",
+    surface: "descriptive",
+    text: "The bonded crossing",
+    note: "Gideon's customs ferry on the lower Onkobra.",
+  },
+  {
+    id: "text.ferry.onkobra-bond.hail",
+    surface: "dialogue",
+    text:
+      "Ten drakes and the clerk sees what you are carrying. The river is knee-deep if you would rather not be seen. Wading is legal until I write it down as smuggling.",
+    note:
+      "Imperial customs boatman at Gideon's bonded shed. The water measures 0.5 m, so the boat is not physically necessary and the line must not pretend otherwise — it sells lawfulness. The last sentence is the whole gate: wading is legal until he decides it was smuggling. Reviewed 2026-09-09.",
+  },
+  {
+    id: "text.ferry.onkobra-bond.refusal",
+    surface: "dialogue",
+    text: "Not with that on your back. Declare it at the shed or walk.",
+    note:
+      "Shown when `carriedValueAtLeast` refuses the boat. Names the two ways out so the rule teaches itself.",
+  },
+  {
+    id: "text.ferry.drowning-gate.name",
+    surface: "descriptive",
+    text: "The gate ferry",
+    note: "The seasonal crossing at the Drowning Gate, on the Blackwood Road.",
+  },
+  {
+    id: "text.ferry.drowning-gate.hail",
+    surface: "dialogue",
+    text:
+      "The gate is down until the rains stop. Fifteen drakes to go round it by water. My brother takes the arguments.",
+    note:
+      "One of the two families Gideon pays to swing the monsoon barrier. The fare is a monopoly price and he knows it; the dry wit is structural (style guide §2.2): arguing is an established part of the service, handled by the brother. Reviewed 2026-09-09.",
+  },
+  {
+    id: "text.ferry.drowning-gate.refusal",
+    surface: "dialogue",
+    text: "Gate is open. In the dry season there is no fare to take.",
+    note: "Dry season, when the reach is a ford and the service does not run.",
+  },
+  {
+    id: "text.ferry.blackrose-lake.name",
+    surface: "descriptive",
+    text: "The lake stages",
+    note: "The Blackrose lake ferry network: five stations that already name each other.",
+  },
+  {
+    id: "text.ferry.bramman-oliis.name",
+    surface: "descriptive",
+    text: "The Bramman ferry",
+    note: "Bramman River Ferry to the Oliis stage; the coast road's crossing south of Soulrest.",
+  },
+  {
+    id: "text.ferry.estuary-run.name",
+    surface: "descriptive",
+    text: "The estuary run",
+    note: "Archon to Soulrest and Portdun-Mont; the longest open-water passage in the network.",
+  },
+  {
+    id: "text.ferry.jungle-stage.name",
+    surface: "descriptive",
+    text: "The jungle stages",
+    note: "Reserved. Both stages are deferred records in the catalogue.",
+  },
+  {
+    id: "text.ferry.stage-generic.hail",
+    surface: "dialogue",
+    text: "Where are you bound? I go when the boat is full, or when you pay for the empty seats.",
+    note:
+      "The shared hail for a scheduled stage, where the operator is a station keeper rather than a named character. Morrowind's travel NPCs open with the question and nothing else; the second sentence is the fare rule stated as the way the trade works, and it is also the answer to 'why can I leave immediately'.",
+  },
+  {
+    id: "text.ferry.refused-owing",
+    surface: "dialogue",
+    text: "You owe too much on this water. Settle it, then ask me again.",
+    note:
+      "`owingAtLeast` on the Blackrose lake, where the ferry is the only way off a prison shore. Names the remedy, because a gate with no way through it is a wall.",
+  },
+  {
+    id: "text.ferry.refused-weather",
+    surface: "dialogue",
+    text: "Not in this. Come back when it drops.",
+    note:
+      "`weatherIs: storm`. Five words, because a boatman refusing weather does not explain himself.",
+  },
+];
+
 /** The live catalogue. Built at module load so a malformed entry fails the tests. */
-export const CATALOGUE = buildCatalogue([...SYSTEM_TEXT, ...COMBAT_SANDBOX_TEXT, ...EQUIPMENT_TEXT]);
+export const CATALOGUE = buildCatalogue([
+  ...SYSTEM_TEXT,
+  ...COMBAT_SANDBOX_TEXT,
+  ...EQUIPMENT_TEXT,
+  ...FERRY_TEXT,
+]);

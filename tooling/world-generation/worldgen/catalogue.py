@@ -152,6 +152,27 @@ ENTRANCES = {"none", "door", "trapdoor", "cellar-door", "hollow-trunk", "root-mo
              "underwater-entry", "sinkhole-lip", "burrow", "stair-throat", "well-shaft",
              "grave-cut", "cave-mouth", "gate"}
 UNDERWATER_ACCESS = {"none", "surface-swim", "shallow-dive", "deep-dive", "argonian-only-depth"}
+# Subsets of the two vocabularies above, defined HERE so no consumer can invent
+# its own spelling. `audit_place_semantics.check_water` once tested membership
+# in {"dive-entry", "flooded-interior", "submerged", "dive"} and
+# {"underwater-entry", "flooded"} — six names, four of which exist nowhere in
+# the catalogue, so that branch never fired on any of 180 typed-dive records
+# (docs/research/world-terrain/place-water-facts-vs-shipped-water.md §5.4).
+# `test_audit_place_semantics.py` asserts these are subsets of the vocabularies
+# AND that every name in them actually occurs in the shipped catalogue, so the
+# same class of dead membership test cannot come back.
+#
+# Any water contact at all: the record claims the player gets wet.
+WET_ACCESS = {"surface-swim", "shallow-dive", "deep-dive", "argonian-only-depth"}
+# A record whose access is a DEEP dive is claiming the depth at its own way in,
+# not somewhere in its neighbourhood — as is anything with an underwater
+# entrance. `shallow-dive` is deliberately out: a marsh village typed
+# `shallow-dive` behind a door means "there is diving here", not "the door is
+# under water", and holding its threshold to a dive depth would flag 26
+# villages, capitals and beaches that are exactly what they say they are.
+DEEP_ACCESS = {"deep-dive", "argonian-only-depth"}
+# Entrances that are themselves under water.
+UNDERWATER_ENTRANCES = {"underwater-entry"}
 DISCOVERY = {"sightline", "road", "rumour", "document", "none"}
 COMPLEXITY = {"trivial", "simple", "standard", "complex"}
 WORKFLOW = ("derived", "plotted", "authored", "frozen")
