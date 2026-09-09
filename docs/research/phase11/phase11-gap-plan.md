@@ -203,6 +203,41 @@ rather than the compiled water, so a 91 m dry connector satisfied a 10 m rule.
 That guard is being fixed on the water side; when it lands, this dock fails
 loudly instead of silently.
 
+### B12 — `grade_routes._water_fields`: the redesign is right, the version tried was not (2026-09-09)
+
+The Phase 11 pass rewrote how the road grader decides where water is: wetness
+from the compiled **signed depth** rather than from `water-class.png`, with the
+MARSH class exempted by identity because marsh is wet *ground* that paths cross
+normally. **The reasoning is right and should be redone** — the class raster is
+a type label over a superset (6.5 km² of it is dry in every season, 96.2 % of
+that inside the deliberate 22 m `CLASS_EXT_PX` dilation), and reading it as a
+wetness mask both over-protected dry ground and missed 2,249 cells at or below
+the water level where a road could be cut under the waterline.
+
+The version in the tree on 2026-09-09 was **reverted**, for two reasons:
+
+1. **It broke three water invariants.** With it in place a full chain produced
+   hovering edges (e.g. 1320/3080, 1338/3076, 2764/2530), **21 coarse river
+   cells with a dry bed**, and strip points outside their trench around
+   6186/499. Exempting marsh means the grader may cut marsh ways, and marsh is
+   wet ground, so it cut under the waterline — which is what those invariants
+   exist to catch.
+2. **It was internally inconsistent.** The comment states "WET IS MEASURED, and
+   measured at the WET SEASON", but the code tested `signed_depth > 0.0`, which
+   is the dry season. The wet-season test the comment intends is
+   `signed_depth + season.amplitudeM * seasonResponse > 0`.
+
+It also crashed the chain until fixed: the signed depth is 2017² and the class
+raster 1345², so they cannot be combined before one is resampled onto the other
+(nearest-neighbour — a class is a label and must not be interpolated).
+
+**To redo it:** keep the depth-not-class principle, decide marsh deliberately
+(a road across marsh still must not sit under the wet-season waterline, so
+"exempt by identity" may be too broad — an exemption from the *level floor* is
+not the same as an exemption from the *water*), grade against the season the
+comment intends, and run `pytest worldgen/test_water_invariants.py` after a
+full chain before committing. Those three invariants are the acceptance test.
+
 ### B5 — Province plot re-solve: evenness, and the 28 dots the water rebuild drowned
 
 **Added 2026-09-07 (reconciliation).** The Phase P water rasters now put 28
