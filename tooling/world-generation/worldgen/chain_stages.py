@@ -42,7 +42,9 @@ import hashlib
 import json
 import os
 import runpy
+import shutil
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -148,13 +150,21 @@ def is_fresh(stamp: dict, code: str, at: int = -1,
              written_by: dict[str, int] | None = None) -> bool:
     """Is this stage's recorded work still the work the chain would do now?
 
-    The chain is not a clean DAG — it has feedback edges. `sculpt_province`
-    reads `routes.json`, which `reroute_majors` rewrites four stages later;
-    `refine_province` writes the refined heightfield, which `grade_routes`
-    then re-grades. A file whose LAST writer is a later stage therefore says
-    nothing about whether this stage is stale: it is downstream state, and
-    holding a stage to it would mean the chain never settles — every run
-    would rebuild the sculpt because the run before it moved the roads.
+    The chain is not a clean DAG. Some files are MUTATED IN PLACE by a later
+    stage: `refine_province` writes the refined heightfield and `grade_routes`
+    then re-grades it, in the same file. A file whose LAST writer is a later
+    stage therefore says nothing about whether this stage is stale — it is
+    downstream state, and holding a stage to it would mean nothing settled.
+
+    That exemption is a licence for in-place mutation, NOT for feeding a stage
+    its own output. The chain used to do the latter: the terrain was carved
+    along the PUBLISHED route files, which `reroute_majors` and
+    `compile_minor_routes` then rewrote from that terrain. Two identical
+    `--force` runs moved 147 of the 1,809 files the chain publishes.
+    `worldgen.carve_routes` fixed it by freezing the carve's road inputs. If
+    you add a stage, keep the rule it establishes — the carve reads frozen
+    inputs, never a file a later stage writes — or the caching below quietly
+    stops meaning anything again.
 
     So a stage is fresh when its code is unchanged and every file it touched
     whose last writer is itself or an earlier stage is unchanged. That is
@@ -248,19 +258,37 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
         return 0.0, False
 
     seen_at: dict[Path, int] = {}
+    # WORKER PROCESSES. `export_web_chunks` and `compile_scatter` do their file
+    # writing inside a multiprocessing Pool, and an audit hook only sees its own
+    # process. Until 2026-09-09 every file those stages wrote was invisible
+    # here: their stamps recorded no outputs at all, so this module's promise —
+    # "an output edited or deleted by hand rebuilds rather than being trusted" —
+    # was false for exactly the two stages that publish the browser's terrain.
+    # Deleting a published chunk PNG and re-running printed `skip (unchanged)`
+    # and left the hole. Linux forks, so the hook is inherited by the workers;
+    # each worker appends what it saw to its own file under `audit_dir`, and the
+    # parent merges them before deciding what was written.
+    parent_pid = os.getpid()
+    audit_dir = Path(tempfile.mkdtemp(prefix="chain-audit-"))
 
     def hook(event: str, args) -> None:
         # Fires BEFORE the open, so the mtime recorded here is the file's
         # state going in: anything whose mtime moves by the end was written.
-        if event == "open":
-            target = args[0]
-            if isinstance(target, (str, bytes, os.PathLike)):
-                try:
-                    path = Path(os.fsdecode(target))
-                except (ValueError, UnicodeDecodeError):
-                    return
-                if path not in seen_at:
-                    seen_at[path] = _mtime(path)
+        if event != "open":
+            return
+        target = args[0]
+        if not isinstance(target, (str, bytes, os.PathLike)):
+            return
+        try:
+            path = Path(os.fsdecode(target))
+        except (ValueError, UnicodeDecodeError):
+            return
+        if path in seen_at or audit_dir in path.parents:
+            return          # the second test is what stops the hook recursing
+        seen_at[path] = _mtime(path)
+        if os.getpid() != parent_pid:
+            with open(audit_dir / f"{os.getpid()}.txt", "a", encoding="utf-8") as fh:
+                fh.write(f"{seen_at[path]}\t{path}\n")
 
     sys.addaudithook(hook)
     argv_saved = sys.argv[:]
@@ -271,6 +299,12 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
     finally:
         elapsed = time.perf_counter() - t0
         sys.argv = argv_saved
+
+    for record in audit_dir.glob("*.txt"):
+        for line in record.read_text(encoding="utf-8").splitlines():
+            was, _, name = line.partition("\t")
+            seen_at.setdefault(Path(name), int(was))
+    shutil.rmtree(audit_dir, ignore_errors=True)
 
     inputs: dict[str, str] = {}
     outputs: dict[str, str] = {}

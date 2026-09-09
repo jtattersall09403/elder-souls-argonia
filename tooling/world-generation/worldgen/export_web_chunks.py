@@ -74,7 +74,12 @@ def export_gradients(mps: float) -> dict:
         s = np.sign(g) * np.sqrt(np.clip(np.abs(g) / GRADIENT_CLAMP, 0.0, 1.0))
         rgb[..., channel] = np.clip(np.round((s + 1.0) * 127.5), 0, 255).astype(np.uint8)
     name = "normal-grad.png"
-    Image.fromarray(rgb, mode="RGB").save(OUT_DIR / name, optimize=True)
+    # NOT optimize=True. On this 4033 x 4033 RGB texture PIL's optimizer costs
+    # 27.0 s and saves 260 KB of 18.1 MB (1.4 %) over the default compression:
+    # measured 2026-09-09. It was 27 s of the export stage's 30 s, and the
+    # stage sat on one core for all of it while the pool starved. zlib level 6
+    # encodes the same pixels in 6.1 s, and PNG is lossless either way.
+    Image.fromarray(rgb, mode="RGB").save(OUT_DIR / name, compress_level=6)
     return {"file": name, "clamp": GRADIENT_CLAMP, "encoding": "signed-sqrt",
             "size": list(heights.shape)}
 
