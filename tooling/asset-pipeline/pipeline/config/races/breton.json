@@ -4,21 +4,21 @@
   "description": "High Rock stock, with a little elf far back.",
   "body": "male",
   "skinTint": [
-    0.7176470757,
-    0.611764729,
-    0.5686274767
+    0.6549019814,
+    0.5254902244,
+    0.4784314036
   ],
   "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
-    0.3046875,
-    0.296875,
-    0.2734375
+    0.4375,
+    0.4609375,
+    0.34375
   ],
   "heightScale": 1.0,
   "faceGen": {
     "plugin": "Skyrim.esm",
-    "formId": "00013281",
-    "editorId": "GiraudGemane"
+    "formId": "000661AD",
+    "editorId": "Adeber"
   },
-  "bodyWeight": 20
+  "bodyWeight": 55
 }

@@ -29,4 +29,16 @@ describe("playable race appearance", () => {
     const tones = Object.values(RACES).map((race) => race.appearance.skinTint.join(","));
     expect(new Set(tones).size).toBe(tones.length);
   });
+
+  it("keeps the human defaults on a visibly broad Skyrim-authored tone range", () => {
+    const luminance = (id: "nord" | "breton" | "imperial" | "redguard") => {
+      const [red, green, blue] = RACES[id].appearance.skinTint;
+      return red * 0.2126 + green * 0.7152 + blue * 0.0722;
+    };
+
+    expect(luminance("nord")).toBeGreaterThan(luminance("breton"));
+    expect(luminance("breton")).toBeGreaterThan(luminance("imperial"));
+    expect(luminance("imperial")).toBeGreaterThan(luminance("redguard"));
+    expect(luminance("nord") - luminance("redguard")).toBeGreaterThan(0.45);
+  });
 });

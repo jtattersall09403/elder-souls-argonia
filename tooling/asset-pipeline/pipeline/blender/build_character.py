@@ -236,6 +236,101 @@ if support_head_points:
         "max": [round(max(point[axis] for point in support_head_points), 4) for axis in range(3)],
     }
 
+
+def mesh_boundary(obj):
+    """Return open edges and their connected vertex components."""
+    edge_uses = {}
+    for polygon in obj.data.polygons:
+        vertices = list(polygon.vertices)
+        for index, start in enumerate(vertices):
+            edge = tuple(sorted((start, vertices[(index + 1) % len(vertices)])))
+            edge_uses[edge] = edge_uses.get(edge, 0) + 1
+    edges = [edge for edge, uses in edge_uses.items() if uses == 1]
+    neighbours = {}
+    for start, end in edges:
+        neighbours.setdefault(start, set()).add(end)
+        neighbours.setdefault(end, set()).add(start)
+    components = []
+    unseen = set(neighbours)
+    while unseen:
+        pending = [unseen.pop()]
+        component = set(pending)
+        while pending:
+            current = pending.pop()
+            for neighbour in neighbours[current]:
+                if neighbour in unseen:
+                    unseen.remove(neighbour)
+                    component.add(neighbour)
+                    pending.append(neighbour)
+        components.append(component)
+    return edges, components
+
+
+def closest_point_on_segments(point, segments):
+    closest = None
+    closest_distance = float("inf")
+    closest_segment = None
+    closest_fraction = 0.0
+    for start, end, start_index, end_index in segments:
+        along = end - start
+        length_squared = along.length_squared
+        fraction = 0.0 if length_squared <= 1e-12 else max(
+            0.0, min(1.0, (point - start).dot(along) / length_squared)
+        )
+        candidate = start + along * fraction
+        distance = (point - candidate).length
+        if distance < closest_distance:
+            closest = candidate
+            closest_distance = distance
+            closest_segment = (start_index, end_index)
+            closest_fraction = fraction
+    return closest, closest_distance, closest_segment, closest_fraction
+
+
+def vertex_weights(obj, index):
+    weights = {}
+    for group in obj.vertex_groups:
+        try:
+            weight = group.weight(index)
+        except RuntimeError:
+            continue
+        if weight > 1e-8:
+            weights[group.name] = weight
+    return weights
+
+
+# The body's highest open boundary is its neck. It is the authoritative seam:
+# Skyrim generated the chosen head at NAM7 weight, and the body above has just
+# been blended to that same weight. The generic support head is useful for
+# recovering a FaceGen NIF's coordinate system, but its open boundaries include
+# the mouth and the split edge of the facial shell. Treating the smallest or
+# lowest component as "the neck" snapped the mouth instead and left the real
+# neck roughly 0.1 source units away from the torso — the white ring visible in
+# every close-up.
+body_meshes = [obj for obj in meshes if MESH_ROLES.get(obj.name) == "body"]
+body_skin = max(body_meshes, key=lambda obj: len(obj.data.vertices), default=None)
+body_neck_segments = []
+body_neck_vertices = set()
+if body_skin is not None:
+    body_edges, body_components = mesh_boundary(body_skin)
+    if body_components:
+        body_neck_vertices = max(body_components, key=lambda component: sum(
+            (body_skin.matrix_world @ body_skin.data.vertices[index].co).z
+            for index in component
+        ) / len(component))
+        body_neck_segments = [
+            (
+                body_skin.matrix_world @ body_skin.data.vertices[start].co,
+                body_skin.matrix_world @ body_skin.data.vertices[end].co,
+                start,
+                end,
+            )
+            for start, end in body_edges
+            if start in body_neck_vertices and end in body_neck_vertices
+        ]
+if not body_neck_segments:
+    raise RuntimeError("body has no open neck boundary")
+
 # Generated humanoid heads retain the exact base-head topology and vertex
 # order. Register that authored head against the vanilla support head with a
 # least-squares rigid transform. This recovers the NIF-node attachment from
@@ -253,45 +348,11 @@ facegen_world_alignment = None
 facegen_neck_targets = {}
 if facegen_anchor is not None:
     support_head = support_heads[0]
-    edge_uses = {}
-    for polygon in support_head.data.polygons:
-        vertices = list(polygon.vertices)
-        for index, start in enumerate(vertices):
-            edge = tuple(sorted((start, vertices[(index + 1) % len(vertices)])))
-            edge_uses[edge] = edge_uses.get(edge, 0) + 1
-    boundary_edges = [edge for edge, uses in edge_uses.items() if uses == 1]
-    boundary_neighbours = {}
-    for start, end in boundary_edges:
-        boundary_neighbours.setdefault(start, set()).add(end)
-        boundary_neighbours.setdefault(end, set()).add(start)
-    boundary_components = []
-    unseen = set(boundary_neighbours)
-    while unseen:
-        pending = [unseen.pop()]
-        component = set(pending)
-        while pending:
-            current = pending.pop()
-            for neighbour in boundary_neighbours[current]:
-                if neighbour in unseen:
-                    unseen.remove(neighbour)
-                    component.add(neighbour)
-                    pending.append(neighbour)
-        boundary_components.append(component)
-    if not boundary_components:
-        raise RuntimeError("support head has no open boundary for neck registration")
-    # Eye and mouth openings are boundary loops too. The neck loop is the one
-    # with the lowest mean point in the upright Blender bind pose.
-    neck_vertices = min(boundary_components, key=lambda component: sum(
-        (support_head.matrix_world @ support_head.data.vertices[index].co).z
-        for index in component
-    ) / len(component))
-    if len(neck_vertices) < 8:
-        raise RuntimeError("support-head neck boundary is too small to register")
-    registration_indices = sorted(neck_vertices)
-    facegen_neck_targets = {
-        index: support_head.matrix_world @ support_head.data.vertices[index].co
-        for index in registration_indices
-    }
+    # The generated head retains the support head's topology and vertex order.
+    # Fit the complete surface so no particular facial opening is mistaken for
+    # the registration landmark. Facial morph deltas become residuals; the one
+    # rigid NIF-node transform is what this fit recovers.
+    registration_indices = range(len(support_head.data.vertices))
     source = np.array([
         tuple(facegen_anchor.matrix_world @ facegen_anchor.data.vertices[index].co)
         for index in registration_indices
@@ -319,7 +380,7 @@ if facegen_anchor is not None:
     SUMMARY["faceGenRegistration"] = {
         "anchor": facegen_anchor.name,
         "support": support_head.name,
-        "neckVertices": len(registration_indices),
+        "registrationVertices": len(support_head.data.vertices),
         "rmsResidual": round(float(np.sqrt(np.mean(np.sum((aligned - target) ** 2, axis=1)))), 5),
     }
 for obj in facegen_meshes:
@@ -347,10 +408,64 @@ for obj in facegen_meshes:
     else:
         obj.data.transform(head_attachment.matrix_local)
     if obj is facegen_anchor:
+        # Close the visible head/body seam against the actual weight-blended
+        # torso. The head's outer shell and mouth opening can belong to one
+        # connected boundary in vanilla topology, so proximity to the body neck
+        # is the stable discriminator. Snap to the nearest point on the loop,
+        # which also handles the head/body loops having different vertex counts.
+        boundary_edges, _boundary_components = mesh_boundary(obj)
+        boundary_indices = {index for edge in boundary_edges for index in edge}
+        body_neck_points = [point for segment in body_neck_segments for point in segment[:2]]
+        neck_centre = sum(body_neck_points, Vector()) / len(body_neck_points)
+        neck_radius = max((point - neck_centre).length for point in body_neck_points)
+        snap_limit = neck_radius * 0.5
         to_object = obj.matrix_world.inverted()
-        for index, target in facegen_neck_targets.items():
+        seam_before = []
+        snapped = 0
+        for index in boundary_indices:
+            point = obj.matrix_world @ obj.data.vertices[index].co
+            target, distance, segment, fraction = closest_point_on_segments(
+                point, body_neck_segments
+            )
+            if target is None or segment is None or distance > snap_limit:
+                continue
+            seam_before.append(distance)
             obj.data.vertices[index].co = to_object @ target
+            # Matching positions only closes the bind pose. Skyrim's idle and
+            # attacks immediately reopen it unless both sides receive the same
+            # blended Neck/Head transforms. Interpolate the weights of the body
+            # edge point we snapped to, and put those exact weights on the head
+            # boundary vertex.
+            start_weights = vertex_weights(body_skin, segment[0])
+            end_weights = vertex_weights(body_skin, segment[1])
+            interpolated = {
+                name: start_weights.get(name, 0.0) * (1.0 - fraction)
+                    + end_weights.get(name, 0.0) * fraction
+                for name in set(start_weights) | set(end_weights)
+            }
+            total = sum(interpolated.values())
+            if total <= 1e-8:
+                raise RuntimeError("body neck vertex has no skin weights")
+            for group in obj.vertex_groups:
+                try:
+                    group.remove([index])
+                except RuntimeError:
+                    pass
+            for name, weight in interpolated.items():
+                group = obj.vertex_groups.get(name)
+                if group is None:
+                    group = obj.vertex_groups.new(name=name)
+                group.add([index], weight / total, "REPLACE")
+            snapped += 1
+        if snapped < 8:
+            raise RuntimeError("FaceGen head found too few body-neck vertices to stitch")
         obj.data.update()
+        SUMMARY["faceGenNeckSeam"] = {
+            "headVertices": snapped,
+            "bodyVertices": len(body_neck_vertices),
+            "maxDistanceBefore": round(float(max(seam_before)), 5),
+            "maxDistanceAfter": 0.0,
+        }
 SUMMARY["faceGenAttachment"] = facegen_attachment
 
 VISIBLE_MESHES = [o for o in meshes if MESH_ROLES.get(o.name) != "support-head"]
@@ -533,10 +648,16 @@ def _bake_facegen_diffuse(diffuse, tint, detail, material_name):
     width, height = int(diffuse.size[0]), int(diffuse.size[1])
     base = _resampled_pixels(diffuse, width, height)
     tint_pixels = _resampled_pixels(tint, width, height)
-    detail_pixels = _resampled_pixels(detail, width, height)
     rgb = base[:, :3]
     tint_rgb = tint_pixels[:, :3]
-    detail_rgb = (detail_pixels[:, :3] + (1.0 / 255.0)) * (255.0 / 64.0)
+    if detail is not None:
+        detail_pixels = _resampled_pixels(detail, width, height)
+        detail_rgb = (detail_pixels[:, :3] + (1.0 / 255.0)) * (255.0 / 64.0)
+    else:
+        # Beast FaceGen materials do not all declare the humanoid detail map.
+        # Their tint stage still runs; omitting the whole bake made every
+        # Khajiit head use the same base fur regardless of its FaceTint.
+        detail_rgb = np.ones_like(rgb)
     overlay = rgb * rgb + 2.0 * tint_rgb * rgb - 2.0 * tint_rgb * rgb * rgb
     result = np.empty_like(base)
     result[:, :3] = np.clip(overlay * detail_rgb, 0.0, 1.0)
@@ -559,6 +680,7 @@ def rebuild_materials():
     # that discarded FaceGen tint/detail, eye reflections, hair alpha and all
     # compatible normal maps, producing the reported painted-statue faces.
     rebuilt = []
+    tint_bakes = []
     seen = set()
     for obj in meshes:
         for slot in obj.material_slots:
@@ -583,7 +705,12 @@ def rebuild_materials():
             if MESH_ROLES.get(obj.name) == "facegen" and "head" in obj.name.lower():
                 tint = tint or FACEGEN_TINT_IMAGE
                 detail = detail or FACEGEN_DETAIL_IMAGE
-            if diffuse is not None and tint is not None and detail is not None:
+            if diffuse is not None and tint is not None:
+                tint_bakes.append({
+                    "mesh": obj.name,
+                    "material": mat.name,
+                    "usesDetailMap": detail is not None,
+                })
                 diffuse = _bake_facegen_diffuse(diffuse, tint, detail, mat.name)
             authored_color = tuple(mat.diffuse_color[:3])
             mat.use_nodes = True
@@ -639,6 +766,7 @@ def rebuild_materials():
                 except TypeError:
                     pass
             rebuilt.append((mat.name, diffuse.name if diffuse else None))
+    SUMMARY["faceGenTintBakes"] = tint_bakes
     return rebuilt
 
 
