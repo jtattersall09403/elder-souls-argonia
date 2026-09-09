@@ -17,6 +17,12 @@ answer: a 1.2 m worn strip cannot be wider than one texel.
 Ground paint vs clearance are deliberately different widths: a cart track is
 2.5 m of bare dirt but keeps trees off ~8 m, and a boardwalk paints nothing at
 all (it is a placed asset over water) while still needing the reeds cut back.
+
+**Spans carry the road clear of the ground.** Where an authored bridge or deck
+carries a way over a dip, the ground below is ground the road never touches, so
+it is not painted (see `SPANNING_KINDS`). Vegetation clearance is deliberately
+NOT cut back the same way — a tree growing up through a deck is worse than a
+gap in the canopy — so `corridor_masks` ignores structures entirely.
 """
 
 from __future__ import annotations
@@ -27,10 +33,37 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 
+from .grade_routes import resample
 from .scale import RAW_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
+# Authored route structures (worldgen.author_route_structures); chainage
+# windows are metres along `grade_routes.resample`d centrelines.
+STRUCTURES_PATH = REPO_ROOT / "world" / "sources" / "routes" / "route-structures.json"
+
+# Structure kinds whose running surface is CARRIED CLEAR of the ground: the
+# road is up on the piece, so the dip, river or gully underneath keeps its
+# natural cover and gets no road paint.
+SPANNING_KINDS = frozenset({"bridge", "deck"})
+# Kinds that REST on the slope they climb — their ground stays painted, because
+# the player walks on ground-hugging masonry, not over a void.
+GROUNDED_KINDS = frozenset({"lip-step", "stair", "stepped-ascent"})
+# NOT `compile_route_structures.RAMP_KINDS` ({deck, bridge, lip-step}). That set
+# splits level-surface pieces from climbing pieces; this one splits carried-clear
+# from on-ground. A lip-step is level AND on the ground, so the two disagree.
+
+# The window includes an 8 m landing pad at each end (grade_routes
+# .STRETCH_LANDING_M) that the piece's abutment sits on. Stopping the paint dead
+# on the window edge would leave the road ending in mid-air at the abutment, so
+# the erase is inset this far at each end and the last metres of paint run in
+# under the deck ends.
+ABUTMENT_INSET_M = 4.0
+# Erase width for the major-road stripe: `refine_province.rasterize_roads`
+# dilates 2 iterations (~9 m); one iteration more, so the whole stripe goes even
+# where the frozen carve line and the published centreline the structures were
+# measured on have drifted by a texel.
+ROAD_ERASE_WIDTH_M = 12.0
 
 # Minor-route land-cover class ids used by `landcover.compile_ground_control`
 # (1/2 map to TRACK / PATH there; 0 = unpainted).
@@ -72,17 +105,18 @@ def _iterations(width_m: float) -> int:
     return max(0, int(round((width_m / RAW_M - 1.0) / 2.0)))
 
 
-def minor_routes(path: Path | None = None) -> list[tuple[str, list]]:
-    """[(kind, px polyline)] from routes-minor.json (empty if absent)."""
+def minor_ways(path: Path | None = None) -> list[tuple[str, str, list]]:
+    """[(id, kind, px polyline)] from routes-minor.json (empty if absent)."""
     path = path or (PROVINCE / "routes-minor.json")
     if not path.exists():
         return []
     data = json.loads(path.read_text())
-    return [(t.get("kind", "footpath"), t.get("px", [])) for t in data.get("tracks", [])]
+    return [(t.get("id", ""), t.get("kind", "footpath"), t.get("px", []))
+            for t in data.get("tracks", [])]
 
 
-def major_routes(path: Path | None = None) -> list[tuple[str, list]]:
-    """[(kind, px polyline)] of the road/trunk classes in routes.json."""
+def major_ways(path: Path | None = None) -> list[tuple[str, str, list]]:
+    """[(id, kind, px polyline)] of the road/trunk classes in routes.json."""
     path = path or (PROVINCE / "routes.json")
     if not path.exists():
         return []
@@ -90,8 +124,83 @@ def major_routes(path: Path | None = None) -> list[tuple[str, list]]:
     for route in json.loads(path.read_text()).get("routes", []):
         cls = route.get("class")
         if cls in ("road", "trunk"):
-            out.append(("trunk_road" if cls == "trunk" else "road", route.get("px", [])))
+            out.append((route.get("id", ""),
+                        "trunk_road" if cls == "trunk" else "road",
+                        route.get("px", [])))
     return out
+
+
+def minor_routes(path: Path | None = None) -> list[tuple[str, list]]:
+    """[(kind, px polyline)] from routes-minor.json (empty if absent)."""
+    return [(k, px) for _, k, px in minor_ways(path)]
+
+
+def major_routes(path: Path | None = None) -> list[tuple[str, list]]:
+    """[(kind, px polyline)] of the road/trunk classes in routes.json."""
+    return [(k, px) for _, k, px in major_ways(path)]
+
+
+def spanning_spans(path: Path | None = None) -> dict[str, list[tuple[float, float]]]:
+    """wayId -> [(fromM, toM)] for the CARRIED-CLEAR structures only.
+
+    Windows are metres of chainage along `grade_routes.resample(px, STEP)`, the
+    same centreline the grader and the structure compiler use."""
+    path = STRUCTURES_PATH if path is None else path
+    out: dict[str, list[tuple[float, float]]] = {}
+    if not path.exists():
+        return out
+    for s in json.loads(path.read_text()).get("structures", []):
+        if s.get("kind") not in SPANNING_KINDS:
+            continue
+        a, b = float(s["fromM"]), float(s["toM"])
+        out.setdefault(str(s.get("wayId", "")), []).append((min(a, b), max(a, b)))
+    return out
+
+
+def _span_line(shape, ways, spans, step: int, origin_full=(0, 0),
+               inset_m: float = ABUTMENT_INSET_M) -> np.ndarray:
+    """Centreline samples that sit under a span, as a 1 px bool mask.
+
+    Ways are matched to structures BY ID against the very polylines being
+    painted, so chainage is measured on the same geometry the paint follows.
+    """
+    mask = np.zeros(shape, dtype=bool)
+    for wid, px in ways:
+        windows = spans.get(wid)
+        if not windows or len(px) < 2:
+            continue
+        pts = resample(px, step)
+        if len(pts) < 2:
+            continue
+        seg = np.hypot(*np.diff(pts, axis=0).T) * RAW_M
+        chain = np.concatenate([[0.0], np.cumsum(seg)])
+        inside = np.zeros(len(chain), dtype=bool)
+        for a, b in windows:
+            lo, hi = a + inset_m, b - inset_m
+            if hi <= lo:
+                continue
+            inside |= (chain >= lo) & (chain <= hi)
+        if not inside.any():
+            continue
+        xs = np.rint(pts[inside, 0]).astype(int) - origin_full[1]
+        ys = np.rint(pts[inside, 1]).astype(int) - origin_full[0]
+        ok = (xs >= 0) & (xs < shape[1]) & (ys >= 0) & (ys < shape[0])
+        mask[ys[ok], xs[ok]] = True
+    return mask
+
+
+def major_spanning_mask(shape, step: int, origin_full=(0, 0), province: Path | None = None,
+                        structures: Path | None = None,
+                        width_m: float = ROAD_ERASE_WIDTH_M) -> np.ndarray:
+    """Full-res mask of ground carried clear by a bridge/deck on a MAJOR road.
+
+    Call sites subtract it from the road paint (`rasterize_roads`), which knows
+    nothing about structures."""
+    province = province or PROVINCE
+    ways = [(wid, px) for wid, _k, px in major_ways(province / "routes.json")]
+    line = _span_line(shape, ways, spanning_spans(structures), step, origin_full)
+    it = _iterations(width_m)
+    return ndimage.binary_dilation(line, iterations=it) if it and line.any() else line
 
 
 def stamp(mask, px, step: int, origin_full=(0, 0)) -> None:
@@ -106,31 +215,46 @@ def stamp(mask, px, step: int, origin_full=(0, 0)) -> None:
         mask[ys[ok], xs[ok]] = True
 
 
-def rasterize_minor_paint(shape, step: int, origin_full=(0, 0), path: Path | None = None):
+def rasterize_minor_paint(shape, step: int, origin_full=(0, 0), path: Path | None = None,
+                          structures: Path | None = None):
     """int8 raster of minor-route surface classes (MINOR_TRACK / MINOR_PATH).
 
     Deterministic; narrower kinds are drawn last so a footpath never
-    overwrites the wider track it joins."""
+    overwrites the wider track it joins. Ground under a bridge or deck is left
+    unpainted — the way is up on the piece and never touches it — while stairs,
+    stepped ascents and lip-steps keep their paint, because they rest on the
+    slope (`SPANNING_KINDS` vs `GROUNDED_KINDS`)."""
     out = np.zeros(shape, dtype=np.int8)
-    routes = minor_routes(path)
+    ways = minor_ways(path)
+    spans = spanning_spans(structures)
     for kind in ("track", "causeway", "footpath"):
         width = PAINT_WIDTH_M.get(kind, 0.0)
         if width <= 0.0:
             continue
         mask = np.zeros(shape, dtype=bool)
-        for k, px in routes:
+        for _wid, k, px in ways:
             if k == kind:
                 stamp(mask, px, step, origin_full)
         it = _iterations(width)
         if it:
             mask = ndimage.binary_dilation(mask, iterations=it)
+        carried = _span_line(shape, [(w, px) for w, k, px in ways if k == kind],
+                             spans, step, origin_full)
+        if carried.any():
+            # One iteration wider than the stripe, so no fringe survives.
+            mask &= ~ndimage.binary_dilation(carried, iterations=it + 1)
         out[mask & (out == 0)] = PAINT_CLASS[kind]
     return out
 
 
 def corridor_masks(shape, step: int, origin_full=(0, 0), province: Path | None = None):
     """(trunk_mask, ground_mask): where woody layers are cleared, and where
-    groundcover is additionally thinned. Covers both networks."""
+    groundcover is additionally thinned. Covers both networks.
+
+    Structures are deliberately ignored: clearance under a bridge or deck STAYS.
+    A canopy tree growing up through the deck the player is walking on is a
+    worse artefact than a gap in the canopy below a span, and the span's own
+    piercing/soffit clearance is not modelled anywhere else."""
     province = province or PROVINCE
     routes = (major_routes(province / "routes.json")
               + minor_routes(province / "routes-minor.json"))

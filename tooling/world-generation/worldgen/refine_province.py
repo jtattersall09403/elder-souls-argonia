@@ -33,7 +33,7 @@ from scipy import ndimage
 from .carve_routes import carve_polylines, carve_source, warn_on_drift
 from .condition import base_terrain
 from .landcover import compile_ground_control
-from .routes_raster import rasterize_minor_paint
+from .routes_raster import major_spanning_mask, rasterize_minor_paint
 from .scale import RAW_M, TUNE
 
 STEP = 3                               # macro rasters are 1/3 of full res
@@ -580,7 +580,9 @@ def main() -> None:
     del gy2, gx2
     v_frac = np.broadcast_to(
         (np.arange(h.shape[0], dtype=np.float32) / h.shape[0])[:, None], h.shape)
-    roads = rasterize_roads(h.shape, (0, 0)) | portage_track
+    # Ground carried clear by a bridge/deck gets no road surface painted on it.
+    roads = ((rasterize_roads(h.shape, (0, 0)) & ~major_spanning_mask(h.shape, STEP, (0, 0)))
+             | portage_track)
     # Frozen network, not the published one this run's ground re-solves.
     minor = rasterize_minor_paint(h.shape, STEP, (0, 0),
                                   path=carve_source("routes-minor.json"))

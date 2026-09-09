@@ -358,3 +358,32 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   lever. Raising it would bury 250 cells under more than 6 m of embankment and
   leave the authoring debt where it is. The lever, if one is wanted, is the
   shoulder budget or the routing, not the fill.
+
+- **The water solve still treats a bridged crossing as ground that must stay
+  dry** (found 2026-09-09 alongside the paint-under-spans fix in
+  `worldgen/routes_raster.py`). Two places rasterise every route/track line
+  with no structure filter and then suppress the water the bridge exists to
+  cross:
+  * `worldgen/standing_water.py:260-265` — `road_cap = g + ROAD_MAX_DEPTH_M`
+    (0.30 m, `:49`) and `road_reject` delete or cap any pool a way touches;
+    the `roads` mask comes from `placement_cells(..., kinds=("roads",))`
+    (`:89-131`), which excludes boardwalks only.
+  * `worldgen/channels.py:450-459` — a section whose width touches a road
+    becomes a ford station, clamped to `FORD_DEPTH_M` 0.3 m (`:107`, applied
+    `:294-296`). A river an authored bridge spans is shallowed under its deck.
+
+  Mechanism, not just theory: sampling `refined/flood-wet.png` along the 205
+  bridge/deck windows (4 m abutment inset) leaves 85 major and 111 minor span
+  samples still standing over published water — the suppression is what keeps
+  the rest dry. **The ordering is the real problem**: both run inside
+  `refine_province` off the frozen `carve-inputs` network, before grading, so
+  they cannot read `route-structures.json` without a second pass or a promotion
+  cycle. Fixing it is a chain-ordering job, not a one-line filter.
+  Related false positive: `worldgen/compile_water.py:755-770` reports
+  `road/trackCellsInWater`, which will count legitimate bridge crossings as
+  defects once the above is fixed.
+- **Route structures emit no navigation data.** `compile_route_structures.py`
+  places 205 spanning pieces but no nav cut and no deck-to-ground link, unlike
+  stilt parcels (`export_settlement_bundle.py:619-635`). No province navmesh is
+  baked today, so nothing is wrong yet; whoever bakes one must give bridges and
+  decks the treatment stilts already get.

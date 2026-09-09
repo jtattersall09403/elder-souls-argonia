@@ -39,7 +39,7 @@ from scipy import ndimage
 from .compile_chunks import DEFAULT_HEIGHTS
 from .landcover import compile_ground_control
 from .refine_province import REPO_ROOT, SEED, STEP, rasterize_roads
-from .routes_raster import rasterize_minor_paint
+from .routes_raster import major_spanning_mask, rasterize_minor_paint
 from .scale import RAW_M
 
 STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined"
@@ -60,7 +60,8 @@ def main() -> None:
     del gy, gx
     v_frac = np.broadcast_to(
         (np.arange(h.shape[0], dtype=np.float32) / h.shape[0])[:, None], h.shape)
-    roads = rasterize_roads(h.shape, (0, 0))
+    # Ground carried clear by a bridge/deck gets no road surface painted on it.
+    roads = rasterize_roads(h.shape, (0, 0)) & ~major_spanning_mask(h.shape, STEP, (0, 0))
     minor = rasterize_minor_paint(h.shape, STEP, (0, 0))
     w4 = up(water["w2"])
 
