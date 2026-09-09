@@ -48,7 +48,7 @@ MIN_ACCUM_KM2 = 0.02
 CENTRE_DEPTH = {1: 0.5, 2: 1.2, 3: 2.0}  # water depth at the centreline by band
 # --- wetted width (what the water occupies, not what the trench is) ---------
 # `width` above is the HYDRAULIC width: the bank-to-bank width of the trench
-# the carve digs, and the width the field raster, flood, road and ford rules
+# the carve digs, and the width the field raster and flood rules
 # all use. The water inside that trench does not fill it. `wetted_width()`
 # derives the width the flow actually occupies from continuity on the carved
 # cross-section (see the function).
@@ -104,7 +104,6 @@ SILL_RAISE_CAP_M = 3.5                   # ...and the flank of a lake-outlet wei
 LEVEE_ALLOW_M = 0.45                     # bankfull: L <= the lower bank barrier + this...
 DITCH_ALLOW_M = 1.2                      # ...and <= the lowest ring ground + this
 DITCH_SCAN_M = 2.0                       # ring ground deeper than this under the floor is ignored
-FORD_DEPTH_M = 0.3                       # a road crossing keeps the bed within this of L
 SMOOTH_SIGMA_CELLS = 1.2                 # centreline smoothing (coarse cells)
 JUNCTION_RAMP_M = 40.0                   # a small junction mismatch eases out over this
 JUNCTION_RAMP_SLOPE = 0.05               # a hanging tributary with no cliff ramps down at this
@@ -286,14 +285,16 @@ class ChannelSolution:
     def depth_cut(self) -> np.ndarray:
         """Centre depth the bed is cut to: the band's depth, deeper on a chute
         (STEEP_NOTCH_FRAC of the level drop per cell, so the terrain between
-        two stations stays under the ribbon), and a ford at a road crossing."""
+        two stations stays under the ribbon).
+
+        A road crossing gets NO special bed (owner ruling 2026-09-09): the
+        river keeps its depth under a bridge. A crossing is content — a
+        bridge, a declared ford or a ferry — authored by the route
+        structures, not a hole flattened in the water."""
         d = self.depth.astype(np.float32)
         slope = getattr(self, "slope_w", None)
         if slope is not None:
             d = d + STEEP_NOTCH_FRAC * np.clip(slope, 0.0, 1.0) * self.mpp
-        ford = getattr(self, "ford", None)
-        if ford is not None:
-            d = np.where(ford, np.minimum(d, FORD_DEPTH_M), d)
         return d.astype(np.float32)
 
     def save(self, path) -> None:
@@ -308,21 +309,18 @@ class ChannelSolution:
         d = {k: (z[k].item() if z[k].ndim == 0 else z[k]) for k in z.files}
         d["shape"] = tuple(int(v) for v in d["shape"])
         d.setdefault("spacing_m", np.float32(d["mpp"]))     # one sample per station
-        d.setdefault("ford", np.zeros(len(d["x"]), dtype=bool))
+        d.pop("ford", None)          # retired 2026-09-09; older solutions carry it
         d.setdefault("to_sea", np.zeros(len(d["x"]), dtype=bool))
         d.setdefault("captured", np.zeros(len(d["x"]), dtype=bool))
         return cls(**d)
 
 
 def solve(terrain: np.ndarray, npz, pool_level: np.ndarray | None = None,
-          step: int = 3, mpp: float = RAW_M, roads: np.ndarray | None = None) -> ChannelSolution:
+          step: int = 3, mpp: float = RAW_M) -> ChannelSolution:
     """Build the channel network on the PRE-carve `terrain` (full res).
 
     `pool_level`: per-cell level of accepted standing bodies on the same grid
-    (-inf / nan where none) — stations inside one are pooled to it.
-    `roads`: bool mask of the road network; a station on it is a FORD (the
-    bed stays within FORD_DEPTH_M of the water, so a road never stands in
-    open water at a crossing)."""
+    (-inf / nan where none) — stations inside one are pooled to it."""
     rivers, flow_to, accum = npz["rivers"], npz["flow_to"], npz["accum_km2"]
     hc, wc = rivers.shape
     n_full = terrain.shape[0]
@@ -447,16 +445,6 @@ def solve(terrain: np.ndarray, npz, pool_level: np.ndarray | None = None,
     # reaches that drain to the sea: their profile never drops under 0 (an
     # open channel cannot run below the sea it flows into and climb back)
     to_sea = _reaches_to_sea(reaches, flow_to, ocean)
-    ford = np.zeros(n_st, dtype=bool)
-    if roads is not None:
-        # a station is a ford when the road touches its section anywhere
-        # across the width (a road crosses at an angle: the cells it covers
-        # at the bank belong to stations up- and downstream of the centre)
-        rd = ndimage.binary_dilation(roads, iterations=2)
-        offs = np.linspace(-1.0, 1.0, 9)[None, :] * (r_px[:, None] + 1.0)
-        ys = np.clip(np.round(y[:, None] + ny[:, None] * offs).astype(int), 0, terrain.shape[0] - 1)
-        xs = np.clip(np.round(x[:, None] + nx[:, None] * offs).astype(int), 0, terrain.shape[1] - 1)
-        ford = rd[ys, xs].any(1)
 
     sol = ChannelSolution(
         x=x.astype(np.float32), y=y.astype(np.float32), tx=tx.astype(np.float32),
@@ -464,7 +452,7 @@ def solve(terrain: np.ndarray, npz, pool_level: np.ndarray | None = None,
         reach_end=reach_end, band=band, accum=accum, width=width, depth=depth,
         floor=floor, bank_min=bank_min, bank_low=bank_low, centre=centre, centre_cell=centre_cell,
         natural=natural,
-        ford=ford, to_sea=to_sea[reach], pool=np.full(n_st, -np.inf, dtype=np.float32),
+        to_sea=to_sea[reach], pool=np.full(n_st, -np.inf, dtype=np.float32),
         mpp=float(mpp), step=int(step), shape=tuple(terrain.shape),
         spacing_m=np.float32(spacing * mpp),
         down_reach=_downstream_reaches(reaches, rivers, flow_to),
@@ -1049,8 +1037,7 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
     """Cut the trench and build the shoulder (decision 0047).
 
     Inside the water width: parabolic bed from L − D·ramp at the centreline
-    to L at the edge (only ever lowered; D is FORD_DEPTH_M at a road
-    crossing). Shoulder ring w/2 .. w/2 + 6 m: crest 0.3 over the highest L
+    to L at the edge (only ever lowered). Shoulder ring w/2 .. w/2 + 6 m: crest 0.3 over the highest L
     of the stations around the cell, from the water's edge out to 3.5 m,
     smoothstep back to the original terrain by the ring's edge (raised or cut
     to that profile; a cut into a hillside is capped; `protect` cells — the
@@ -1234,7 +1221,6 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
         "pooledStations": int(sol.pooled.sum()),
         "shoreStations": int(sol.shore.sum()),
         "capturedStations": int(getattr(sol, "captured", np.zeros(0, bool)).sum()),
-        "fordStations": int(sol.ford.sum()),
         "fallStations": int((sol.kind == KIND_FALL).sum()),
         "lostStations": int((sol.kind == KIND_LOST).sum()),
         "steepStations": int((sol.kind == KIND_STEEP).sum()),

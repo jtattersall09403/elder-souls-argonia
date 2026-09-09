@@ -215,7 +215,7 @@ def carve_to_profile(h, npz, save_path=None):
     if save_path is not None:
         np.save(Path(save_path).with_name("refined-height-precarve-f32.npy"), h)
     bodies = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, placement=placement)
-    sol = channels.solve(h, npz, step=STEP, mpp=RAW_M, roads=placement["major_roads"])
+    sol = channels.solve(h, npz, step=STEP, mpp=RAW_M)
     pool_report = sw.pool_channels(sol, bodies, log=print)
     # never cut the rim of a standing body or the sea (a ring cut 6 m + w/2
     # out from a channel that skirts a pool would lower its spill: protect

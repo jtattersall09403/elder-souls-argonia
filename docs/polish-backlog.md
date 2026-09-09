@@ -359,11 +359,39 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   leave the authoring debt where it is. The lever, if one is wanted, is the
   shoulder budget or the routing, not the fill.
 
-- **The water solve still treats a bridged crossing as ground that must stay
-  dry** (found 2026-09-09 alongside the paint-under-spans fix in
-  `worldgen/routes_raster.py`). Two places rasterise every route/track line
-  with no structure filter and then suppress the water the bridge exists to
-  cross:
+- **DONE 2026-09-09 (owner ruling): the water solve no longer suppresses a
+  crossing.** Both mechanisms below are deleted, not made structure-aware —
+  `ROAD_MAX_DEPTH_M`/`POOL_MIN_KEEP_RELIEF_M` and the `road_cap`/`road_reject`
+  block are gone from `standing_water._evaluate`; `FORD_DEPTH_M`, the `ford`
+  station array and `solve(..., roads=)` are gone from `channels.py`.
+  Measured on the shipped vault, roads-only (`placement-at-carve.npz`,
+  full-res cells of 1.83 m): standing bodies put 10 major-road cells over
+  0.3 m before, 3,798 after, in 45 patches spanning 35–250 m at 0.9–3.3 m;
+  the channel network puts 2,755 major-road cells in its own width, of which
+  1,246 over 0.5 m in 12 crossings 16–108 m wide at 1.2–2.0 m. The 33 other
+  river crossings stay under 0.5 m — natural fords. Guard test:
+  `test_water.py::test_a_bridged_river_keeps_its_depth_under_the_crossing`
+  and `::test_a_lake_a_road_runs_through_keeps_its_level`. The chain must be
+  re-run from `refine_province` before this shows in the shipped water, and
+  `roadCellsDeepInWater` (6,198 today, 5,511 of it SEA) will rise.
+  **Still open, and now load-bearing: nothing authors those crossings.**
+  `author_route_structures.author()` reads only the grader's over-cap gradient
+  stretches (`:553`, `:640`) — no water input at all — and `grade_routes`
+  excludes every wet sample from the stretches it emits (`:534-538`,
+  `:720-732`), so a water crossing can never become a structure. There is no
+  `ford`/`ferry`/`causeway` kind in `compile_route_structures.KIND_ROLE`
+  (`:149-150`), the longest deck piece runs 13.3 m (`:114-116`), and the
+  1.2 m `MIN_STRUCTURE_RISE_M` floor would drop a flat water span anyway.
+  So each of the 45 + 12 crossings needs either a hand-authored ferry/ford
+  record (registry row + crossing place, per `compile_minor_waterways`
+  `:377-390`) or a sourced pier/trestle kit and a water-reading author pass.
+  `grade_routes.py:63-67` claims fords and bridges "are derived from measured
+  wet-season depth" — false; only a `crossingM` tally is.
+- ~~**The water solve still treats a bridged crossing as ground that must stay
+  dry**~~ (found 2026-09-09 alongside the paint-under-spans fix in
+  `worldgen/routes_raster.py`; kept for the evidence). Two places rasterised
+  every route/track line with no structure filter and then suppressed the
+  water the bridge exists to cross:
   * `worldgen/standing_water.py:260-265` — `road_cap = g + ROAD_MAX_DEPTH_M`
     (0.30 m, `:49`) and `road_reject` delete or cap any pool a way touches;
     the `roads` mask comes from `placement_cells(..., kinds=("roads",))`
@@ -382,6 +410,21 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   Related false positive: `worldgen/compile_water.py:755-770` reports
   `road/trackCellsInWater`, which will count legitimate bridge crossings as
   defects once the above is fixed.
+- **The road raster paints the frozen line; everything else measures the
+  published one.** `refine_province.rasterize_roads` (`:470-490`) reads
+  `carve-inputs/routes.json`, which `carve_routes.SOURCES` promotes from
+  `routes-natural.json` — deliberately, to break the `reroute_majors` cycle.
+  Measured 2026-09-09, frozen vs published `routes.json`, per-vertex nearest
+  distance in macro px (1 px = 5.48 m): all 10 majors differ; median deviation
+  0 px on every one, max 12 px (≈66 m) on `route.road.helstrom-blackrose`,
+  then 9.2, 7.3, 6.4, 6.3 px; `alten-corimont-stormhold` 0. So it matters only
+  locally, but where it does the painted ~27 m corridor (landcover rebake,
+  `rebake_landcover.py:64`) is up to 66 m off the road the player walks.
+  `carve_routes.warn_on_drift` only compares bytes against the promotion
+  source, so it says nothing about this: today it reports `routes-minor.json`
+  STALE and majors current. Whoever next unpicks the carve/reroute cycle
+  should make the drift check report the geometric deviation, not just
+  inequality, and decide whether landcover should paint the published line.
 - **Route structures emit no navigation data.** `compile_route_structures.py`
   places 205 spanning pieces but no nav cut and no deck-to-ground link, unlike
   stilt parcels (`export_settlement_bundle.py:619-635`). No province navmesh is

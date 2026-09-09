@@ -431,3 +431,54 @@ def test_lowland_rivers_have_a_speed_floor(province):
         m = hydro["rivers"] == band
         if m.any():
             assert np.percentile(speed[m], 50) >= floor * 0.8, band
+
+
+# ---------------------------------------------------------------------------
+# A way crossing water never suppresses the water (owner ruling 2026-09-09)
+# ---------------------------------------------------------------------------
+
+def test_a_bridged_river_keeps_its_depth_under_the_crossing():
+    """The retired road ford cut the bed to 0.3 m wherever a way touched the
+    section, so the pipeline bridged a river and then flattened it to ankle
+    depth underneath. A crossing is content (bridge / declared ford / ferry);
+    the channel keeps the depth its band gives it."""
+    nc = 40
+    h = _valley(nc)
+    npz = _graph(nc, [_straight(nc)], [3])
+    sol = ch.solve(h, npz, step=STEP, mpp=MPP)
+    assert not hasattr(sol, "ford"), "ford stations retired: no per-station road cut"
+    assert "roads" not in ch.solve.__code__.co_varnames[:ch.solve.__code__.co_argcount]
+    assert (sol.depth > 0.3).any()
+    assert (sol.depth_cut >= sol.depth - 1e-6).all()     # only the chute notch adds
+    # a solution saved before the ruling still compiles at full depth
+    old = sol.copy()
+    old.ford = np.ones(sol.n, dtype=bool)
+    assert (old.depth_cut >= old.depth - 1e-6).all()
+
+
+def test_a_lake_a_road_runs_through_keeps_its_level():
+    """The retired pool road cap held any body a way touched at road ground
+    + 0.3 m and dropped the ones that kept no relief under it. A road through
+    a basin is a crossing to author, not a reason to drain the basin."""
+    nc = 40
+    n = nc * STEP
+    zz, xx = np.mgrid[0:n, 0:n].astype(np.float32)
+    h = (40.0 + 0.02 * zz).astype(np.float32)
+    bowl = (slice(30, 60), slice(30, 60))
+    h[bowl] -= 6.0                                   # a closed basin
+    npz = _graph(nc, [_straight(nc, r0=2, r1=8)], [1])
+    npz.update(ocean=np.zeros((nc, nc), bool),
+               regions=np.full((nc, nc), 6, np.uint8),
+               wetlands=np.ones((nc, nc), bool),
+               flood=np.zeros((nc, nc), np.uint8), lakes=np.zeros((nc, nc), bool))
+    roads = np.zeros(h.shape, dtype=bool)
+    roads[44:46, :] = True                           # a way straight across it
+    placement = {"occupied": roads.copy(), "roads": roads, "major_roads": roads}
+    free = sw.solve_bodies(h, npz, step=STEP, mpp=MPP, with_placement=False)
+    crossed = sw.solve_bodies(h, npz, step=STEP, mpp=MPP, placement=placement)
+    assert free.n >= 1 and crossed.n >= 1
+    deep = np.where(np.isfinite(crossed.level), crossed.level - h, -1.0)
+    assert (deep[roads] > 0.3).any(), "the road crossing was flattened to a ford"
+    ok = np.isfinite(free.level) & np.isfinite(crossed.level)
+    assert np.allclose(free.level[ok], crossed.level[ok], atol=1e-4)
+    assert np.isfinite(crossed.level).sum() == np.isfinite(free.level).sum()

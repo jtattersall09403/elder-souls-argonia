@@ -8,7 +8,9 @@ grid. So no wet cell can have a lower dry neighbour, and every body is flat.
 
 Acceptance rules are the ones the owner tuned over rounds 8–10 (relief,
 floor slope, extent per relief, marsh leniency, deep-basin rescue with the
-placement and road caps), re-expressed per flood component. A rejected
+placement cap), re-expressed per flood component. A way running through a
+body neither caps nor deletes it (owner ruling 2026-09-09): a crossing is
+authored content, not a hole in the water. A rejected
 depression is searched ONE level down: its watershed catchments filled to
 their own saddles are offered to the same rules (the lake inside a plateau
 the raster mistook for one basin).
@@ -46,8 +48,6 @@ MARSH_MIN_DEPTH_M = 0.10
 SHEET_SLOPE = 0.07
 BASIN_MIN_RELIEF_M = 3.0
 BASIN_MAX_RISE_M = 2.0
-ROAD_MAX_DEPTH_M = 0.30
-POOL_MIN_KEEP_RELIEF_M = 0.25
 ALLOW_FRAC = 0.25
 HEART_REGIONS = (6, 7, 8, 13)
 SUBBASIN_MIN_CELLS = MIN_POOL_CELLS
@@ -88,8 +88,8 @@ def priority_fill(g: np.ndarray, drain: np.ndarray) -> np.ndarray:
 
 def placement_cells(shape, mpp, kinds=("places", "blueprints", "roads")) -> np.ndarray:
     """Cells the placement phases have built on (place anchors, parcel
-    centres, the road/track network), used to cap rescued basins and to
-    make fords. `roads` is the whole walked network (routes.json + the minor
+    centres, the road/track network), used to cap rescued basins.
+    `roads` is the whole walked network (routes.json + the minor
     tracks, boardwalks excluded: a boardwalk is a deck over the water);
     `major_roads` is routes.json alone. Missing exports mean nothing is
     protected there."""
@@ -223,7 +223,7 @@ def _floor_slope(depth, lbl, idx, slope, relief):
     return np.nan_to_num(np.asarray(ndimage.median(slope, fl, idx), dtype=np.float32), nan=np.inf)
 
 
-def _evaluate(g, level_cell, lbl, n, slope, allow, heart, rivery_mask, occ, roads, mpp):
+def _evaluate(g, level_cell, lbl, n, slope, allow, heart, rivery_mask, occ, mpp):
     """Apply the acceptance rules to labelled candidate bodies whose per-cell
     spill level is `level_cell`. Returns (accepted level per body or -inf,
     flags dict)."""
@@ -252,21 +252,16 @@ def _evaluate(g, level_cell, lbl, n, slope, allow, heart, rivery_mask, occ, road
     occupied = np.asarray(ndimage.maximum(occ.astype(np.float32), lbl, idx)) > 0.5
     lvl = spill.copy()
     lvl = np.where(rescued & occupied, np.minimum(lvl, floor + BASIN_MAX_RISE_M), lvl)
-    bowl_only = keep & bowl & ~rivery & ~sheet
     keep = keep | rescued
-    # roads are never put in open water (round 10): every body a road runs
-    # through is capped at road ground + ROAD_MAX_DEPTH_M (a ford); a rescued
-    # basin or a plain bowl that would keep no relief under that cap is dropped
-    road_cap = np.where(roads, g + ROAD_MAX_DEPTH_M, np.inf).astype(np.float32)
-    road_cap = np.asarray(ndimage.minimum(road_cap, lbl, idx), dtype=np.float32)
-    guarded = rescued | bowl_only
-    road_reject = guarded & np.isfinite(road_cap) & (road_cap - floor < POOL_MIN_KEEP_RELIEF_M)
-    keep &= ~road_reject
-    lvl = np.minimum(lvl, road_cap)
+    # A road running through a body does NOT cap or delete it (owner ruling
+    # 2026-09-09, retiring the round-10 road cap): water is not flattened to
+    # ankle depth because a way touches it. Where a way meets real water the
+    # crossing is content — a bridge, a declared ford or a ferry — authored
+    # by the route structures against the water that actually ships.
     lvl = np.where(keep, lvl, -np.inf).astype(np.float32)
     flags = {"sheet": sheet & keep, "rescued": rescued & keep, "bowl": bowl & keep,
-             "hearty": hearty & keep, "roadCapped": keep & (lvl < spill - 1e-4),
-             "roadRejected": road_reject, "rejected": ~keep, "areas": areas,
+             "hearty": hearty & keep, "capped": keep & (lvl < spill - 1e-4),
+             "rejected": ~keep, "areas": areas,
              "relief": relief, "floor": floor}
     return lvl, flags
 
@@ -319,26 +314,22 @@ def solve_bodies(g: np.ndarray, npz, step: int = 3, mpp: float = RAW_M,
     allow = up(npz["wetlands"] | (npz["flood"] >= 1) | npz["lakes"]) | riv | heart
     if placement is not None:
         occ = placement["occupied"]
-        roads = placement.get("major_roads", placement["roads"])
     elif with_placement:
         occ = placement_cells(shape, mpp)
-        roads = placement_cells(shape, mpp, kinds=("major_roads",))
     else:
         occ = np.zeros(shape, dtype=bool)
-        roads = occ
     level = np.full(shape, -np.inf, dtype=np.float32)
     census = {"depressions": int(n)}
     per_body_flags = []
     if n:
-        lvl, fl = _evaluate(g, filled, lbl, n, slope, allow, heart, riv, occ, roads, mpp)
+        lvl, fl = _evaluate(g, filled, lbl, n, slope, allow, heart, riv, occ, mpp)
         lvl_cell = np.concatenate([[-np.inf], lvl]).astype(np.float32)[lbl]
         level = np.where(g < lvl_cell, lvl_cell, -np.inf).astype(np.float32)
         census.update({
             "acceptedDepressions": int(np.isfinite(lvl).sum()),
             "rescuedBasins": int(fl["rescued"].sum()),
             "sheets": int(fl["sheet"].sum()),
-            "roadCapped": int(fl["roadCapped"].sum()),
-            "roadRejected": int(fl["roadRejected"].sum()),
+            "cappedBasins": int(fl["capped"].sum()),
         })
         # --- one level of nesting inside rejected, large depressions --------
         big = fl["rejected"] & (fl["areas"] >= SUBBASIN_MIN_CELLS) & (fl["relief"] >= POOL_MIN_RELIEF_M)
@@ -368,7 +359,7 @@ def solve_bodies(g: np.ndarray, npz, step: int = 3, mpp: float = RAW_M,
                     piece_lvl = np.asarray(ndimage.maximum(sub_lvl, sub_lbl, sl_idx), dtype=np.float32)
                     piece_cell = np.concatenate([[-np.inf], piece_lvl]).astype(np.float32)[sub_lbl]
                     lvl2, fl2 = _evaluate(g, piece_cell, sub_lbl, ns, slope, allow, heart,
-                                          riv, occ, roads, mpp)
+                                          riv, occ, mpp)
                     l2 = np.concatenate([[-np.inf], lvl2]).astype(np.float32)[sub_lbl]
                     nested = g < l2
                     level = np.where(nested, np.maximum(level, l2), level)
