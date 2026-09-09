@@ -7676,6 +7676,66 @@
             0.875713707
           ]
         ]
+      },
+      {
+        "id": "route.lilmoth.boatwright-door",
+        "kind": "footpath",
+        "widthM": 1.2,
+        "routing": "terrain",
+        "via": [
+          [
+            0.521665429,
+            0.861581376
+          ],
+          [
+            0.522234969,
+            0.861581376
+          ]
+        ],
+        "why": "The short worn step across the compacted quay edge from the lane to the boatwright's west-facing door.",
+        "endsAt": [
+          "parcel.lilmoth.quay-boatwright"
+        ],
+        "points": [
+          [
+            0.521665429,
+            0.861581376
+          ],
+          [
+            0.522166704,
+            0.861567749
+          ]
+        ]
+      },
+      {
+        "id": "route.lilmoth.quay-lamp-door",
+        "kind": "footpath",
+        "widthM": 1.2,
+        "routing": "terrain",
+        "via": [
+          [
+            0.521665429,
+            0.85957304
+          ],
+          [
+            0.522157215,
+            0.85957304
+          ]
+        ],
+        "why": "The short worn step across the compacted quay edge from the lane to the lamp keeper's door.",
+        "endsAt": [
+          "parcel.lilmoth.quay-lamp"
+        ],
+        "points": [
+          [
+            0.521665429,
+            0.85957304
+          ],
+          [
+            0.522157215,
+            0.85957304
+          ]
+        ]
       }
     ],
     "canals": [
@@ -8016,11 +8076,35 @@
         "id": "boardwalk.lilmoth.quay-lane",
         "kind": "boardwalk",
         "widthM": 2.5,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.5217,
             0.857665
+          ],
+          [
+            0.521665429,
+            0.85895
+          ],
+          [
+            0.521665429,
+            0.85957304
+          ],
+          [
+            0.521665429,
+            0.8602
+          ],
+          [
+            0.521665429,
+            0.86065
+          ],
+          [
+            0.521665429,
+            0.8611
+          ],
+          [
+            0.521665429,
+            0.861581376
           ],
           [
             0.5217,
@@ -8041,8 +8125,28 @@
             0.857665
           ],
           [
+            0.521665429,
+            0.85957304
+          ],
+          [
+            0.521529809,
+            0.860038913
+          ],
+          [
+            0.521665429,
+            0.8602
+          ],
+          [
+            0.521665429,
+            0.861937603
+          ],
+          [
             0.5217,
             0.862141
+          ],
+          [
+            0.521936671,
+            0.862344465
           ],
           [
             0.522003493,
