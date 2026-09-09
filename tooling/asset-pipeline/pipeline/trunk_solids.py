@@ -49,15 +49,15 @@ WOOD = (
     "bark", "trunk", "wood", "stump", "log", "giant_tree", "branch", "wolene",
     "root",
 )
-#: Substrings that veto a wood match. Beyond leaf cards whose names contain a
-#: wood word (`gkbtreeaspenbranchcompgreen1dark`), this lists the big CUTOUT
-#: CARDS textured as wood: `palmmiddle` is a 4-triangle 323 m² crossed fill
-#: card, `grandoak`/`gkbbranch3dark` are crown-branch cards (~3.5 m² per
-#: triangle vs ≤1 m² for every real trunk tube). Fitting capsules to a card
-#: solidifies the air its transparent texels span — the fanpalm and
-#: treeofwolene defects in the first fit.
-NOT_WOOD = ("leaf", "conifer", "maple", "moss", "comp", "frond", "valenwood",
-            "palmmiddle", "grandoak", "gkbbranch3dark")
+#: Substrings that veto a wood match: leaf/frond textures whose names contain a
+#: wood word (`gkbtreeaspenbranchcompgreen1dark`). Cutout CARDS textured as
+#: wood are NOT listed here any more — they are rejected by the geometric test
+#: below (`is_card`). Three card names used to be blacklisted individually
+#: (`palmmiddle`, `grandoak`, `gkbbranch3dark`); a name list can only ever veto
+#: the cards somebody already walked into, and it missed `gkbbranch1/5/10`,
+#: `gkbjunglebranch2/3`, `datepalmbark7/8` and `tundradriftwoodbranches01`,
+#: which is what solidified the mangrove and jungle crowns (round 11).
+NOT_WOOD = ("leaf", "conifer", "maple", "moss", "comp", "frond", "valenwood")
 
 MIN_RADIUS_M = 0.11
 MIN_CLUSTER_POINTS = 14
@@ -65,10 +65,46 @@ MAX_CAPSULES = 96
 SAMPLES_PER_M2 = 70.0
 CELL_M = 0.55  # XZ clustering grid; adjacent (8-way) occupied cells connect.
 
+#: A cutout card is a handful of huge quads standing in for a whole crown; a
+#: real trunk/limb tube is finely segmented however big the tree is. So the
+#: property that separates them is triangle size RELATIVE TO THE TREE: a tube's
+#: triangles are ~1e-5–5e-4 of height², a card's 2.5e-3–2.0e-2. An absolute
+#: area cut cannot do this — the anvil canopy palm's genuine 42 m trunk carries
+#: 0.67 m² triangles, larger than a mangrove crown card's 0.56 m² — which is
+#: exactly why the name list existed. Measured over all 142 wood-matched
+#: primitives in flora-province-v1, the cut sits in a clean band: the largest
+#: tube is 1.44e-3 (`bananabarktop3`) and the smallest card 2.49e-3
+#: (`gkbtundradriftwoodbranches01`), so 2.0e-3 has ~25 % margin either side.
+CARD_TRI_AREA_PER_HEIGHT2 = 2.0e-3
+
+#: Cards are rejected in favour of the tubes they surround. Where a species has
+#: NO other wood primitive there is nothing to fall back to but the measured
+#: capsule, so a lone borderline primitive is kept and left to the girth clamp
+#: instead (the man-fern's stem, 2.41e-3, is the one such case in the kit).
+#: Past this multiple of the threshold it is not borderline — it is a crossed
+#: fill card like `palmmiddle`, and the pass fails rather than solidify a
+#: crown.
+LONE_CARD_FAIL_FACTOR = 2.0
+
+#: A band cluster wider than this multiple of the species' independently
+#: measured trunk girth is a splayed multi-stem (mangrove prop roots, a
+#: willow's fork), not one bole: split it, and clamp what will not split.
+#: Without this a p88 disc is drawn across the whole splay — the second half of
+#: the round-11 defect, which survives the card fix on its own.
+SPLIT_RADIUS_FACTOR = 1.3
+MAX_RADIUS_FACTOR = 1.5
+
 
 def is_wood(texture: str) -> bool:
     t = texture.lower()
     return any(w in t for w in WOOD) and not any(v in t for v in NOT_WOOD)
+
+
+def is_card(mean_tri_area_m2: float, height_m: float) -> bool:
+    """True when a wood-matched primitive is a cutout card, not a tube."""
+    if height_m <= 0:
+        return False
+    return mean_tri_area_m2 > CARD_TRI_AREA_PER_HEIGHT2 * height_m * height_m
 
 
 # --- minimal GLB reader -----------------------------------------------------
@@ -101,9 +137,18 @@ def texture_name(gltf, material_index) -> str:
     return img.get("uri") or img.get("name", "?")
 
 
-def wood_points(gltf, blob, binoff, root_node, rng) -> np.ndarray:
-    """Area-weighted surface samples of the asset's level-0 wood primitives."""
-    points = []
+def wood_points(gltf, blob, binoff, root_node, rng, height_m: float,
+                rejected: list[tuple[str, float]] | None = None,
+                lone: list[tuple[str, float]] | None = None) -> np.ndarray:
+    """Area-weighted surface samples of the asset's level-0 wood TUBE primitives.
+
+    Wood-matched primitives that fail `is_card` are dropped and appended to
+    `rejected`; the caller reports them, so a newly added species with an
+    unseen card texture is loud rather than silently solid. A species with no
+    tube at all keeps its lone primitive (see `LONE_CARD_FAIL_FACTOR`).
+    """
+    tubes: list[tuple] = []
+    cards: list[tuple] = []
     for child_index in root_node.get("children", []):
         node = gltf["nodes"][child_index]
         extras = node.get("extras", {})
@@ -111,7 +156,8 @@ def wood_points(gltf, blob, binoff, root_node, rng) -> np.ndarray:
             continue
         translation = np.array(node.get("translation", [0.0, 0.0, 0.0]))
         for prim in gltf["meshes"][node["mesh"]]["primitives"]:
-            if not is_wood(texture_name(gltf, prim.get("material"))):
+            texture = texture_name(gltf, prim.get("material"))
+            if not is_wood(texture):
                 continue
             pos = accessor(gltf, blob, binoff, prim["attributes"]["POSITION"])
             pos = pos.astype("f8") + translation
@@ -122,13 +168,31 @@ def wood_points(gltf, blob, binoff, root_node, rng) -> np.ndarray:
             tris = pos[idx.reshape(-1, 3).astype("i8")]
             a, b, c = tris[:, 0], tris[:, 1], tris[:, 2]
             area = 0.5 * np.linalg.norm(np.cross(b - a, c - a), axis=1)
-            counts = np.maximum(1, (area * SAMPLES_PER_M2).astype(int))
-            for i in range(len(tris)):
-                u = rng.random((counts[i], 2))
-                flip = u.sum(axis=1) > 1
-                u[flip] = 1 - u[flip]
-                points.append(a[i] + u[:, :1] * (b[i] - a[i])
-                              + u[:, 1:] * (c[i] - a[i]))
+            mean_area = float(area.mean()) if len(area) else 0.0
+            entry = (texture, mean_area, tris, area)
+            (cards if is_card(mean_area, height_m) else tubes).append(entry)
+
+    chosen = tubes
+    if not tubes and cards:
+        # Nothing else to stand on: keep them, and let the caller judge how
+        # card-like they are (LONE_CARD_FAIL_FACTOR).
+        chosen = cards
+        if lone is not None:
+            lone.extend((texture, mean) for texture, mean, _, _ in cards)
+        cards = []
+    if rejected is not None:
+        rejected.extend((texture, mean_area) for texture, mean_area, _, _ in cards)
+
+    points = []
+    for _texture, _mean, tris, area in chosen:
+        a, b, c = tris[:, 0], tris[:, 1], tris[:, 2]
+        counts = np.maximum(1, (area * SAMPLES_PER_M2).astype(int))
+        for i in range(len(tris)):
+            u = rng.random((counts[i], 2))
+            flip = u.sum(axis=1) > 1
+            u[flip] = 1 - u[flip]
+            points.append(a[i] + u[:, :1] * (b[i] - a[i])
+                          + u[:, 1:] * (c[i] - a[i]))
     return np.vstack(points) if points else np.empty((0, 3))
 
 
@@ -175,7 +239,9 @@ def split_anisotropic(xz: np.ndarray, members: np.ndarray) -> list[np.ndarray]:
     return [members[bins == b] for b in np.unique(bins)]
 
 
-def fit_cluster(sub: np.ndarray, depth: int = 0) -> list[tuple[np.ndarray, float]]:
+def fit_cluster(sub: np.ndarray, split_radius_m: float = 1e9,
+                max_radius_m: float = 1e9,
+                depth: int = 0) -> list[tuple[np.ndarray, float]]:
     """(centre, radius) discs for one band cluster's XZ points.
 
     Ring test: a real trunk cross-section is sampled on its WALL, so radial
@@ -184,12 +250,19 @@ def fit_cluster(sub: np.ndarray, depth: int = 0) -> list[tuple[np.ndarray, float
     disc — or a diffuse spray of twig cards, whose bounding circle would
     solidify air. Try a 2-means split first; when splitting stops helping,
     take the tighter p55 radius so a spray stays mostly walk-through.
+
+    A cluster wider than `SPLIT_RADIUS_FACTOR` × the species' measured trunk
+    girth is split even when it passes the ring test: a mangrove's prop-root
+    tangle and a willow's fork read as a ring from above while being mostly
+    walk-through air. Whatever still will not split is clamped to
+    `max_radius_m` rather than shipped as a drum.
     """
     centre = np.median(sub, axis=0)
     radial = np.linalg.norm(sub - centre, axis=1)
     radius = float(np.percentile(radial, 88))
     ring = float(np.percentile(radial, 40)) >= 0.5 * radius
-    if not ring and depth < 3 and len(sub) >= 2 * MIN_CLUSTER_POINTS:
+    too_wide = radius > split_radius_m
+    if (not ring or too_wide) and depth < 5 and len(sub) >= 2 * MIN_CLUSTER_POINTS:
         seed_a = sub[np.argmax(np.linalg.norm(sub - sub.mean(axis=0), axis=1))]
         seed_b = sub[np.argmax(np.linalg.norm(sub - seed_a, axis=1))]
         centres = np.stack([seed_a, seed_b])
@@ -203,15 +276,17 @@ def fit_cluster(sub: np.ndarray, depth: int = 0) -> list[tuple[np.ndarray, float
         if all(len(h) >= MIN_CLUSTER_POINTS for h in halves) and (
             np.linalg.norm(centres[0] - centres[1]) > 0.6 * radius
         ):
-            return [d for h in halves for d in fit_cluster(h, depth + 1)]
+            return [d for h in halves
+                    for d in fit_cluster(h, split_radius_m, max_radius_m, depth + 1)]
     if not ring:
         radius = float(np.percentile(radial, 55))
+    radius = min(radius, max_radius_m)
     if radius < MIN_RADIUS_M:
         return []
     return [(centre, radius)]
 
 
-def fit_capsules(points: np.ndarray) -> list[dict]:
+def fit_capsules(points: np.ndarray, trunk_radius_m: float = 0.0) -> list[dict]:
     """The oriented capsule set for one species' wood samples."""
     if len(points) < MIN_CLUSTER_POINTS:
         return []
@@ -222,6 +297,12 @@ def fit_capsules(points: np.ndarray) -> list[dict]:
     band = float(np.clip(height / 18.0, 1.5, 2.5))
     n_bands = max(1, int(np.ceil(height / band)))
     band = height / n_bands
+    # The measured girth is the reference for "too wide"; without one, fall
+    # back to a generous absolute cap rather than no cap at all.
+    split_radius = (trunk_radius_m * SPLIT_RADIUS_FACTOR
+                    if trunk_radius_m > 0 else 1.0)
+    max_radius = (trunk_radius_m * MAX_RADIUS_FACTOR
+                  if trunk_radius_m > 0 else 2.0)
 
     #: (centre_xz, radius, y_lo, y_hi) per accepted cluster, per band.
     per_band: list[list[tuple[np.ndarray, float, float, float]]] = []
@@ -237,7 +318,7 @@ def fit_capsules(points: np.ndarray) -> list[dict]:
                 for part in split_anisotropic(xz, members):
                     if len(part) < MIN_CLUSTER_POINTS:
                         continue
-                    for centre, radius in fit_cluster(xz[part]):
+                    for centre, radius in fit_cluster(xz[part], split_radius, max_radius):
                         accepted.append((centre, radius, lo, hi))
         per_band.append(accepted)
 
@@ -271,7 +352,11 @@ def fit_capsules(points: np.ndarray) -> list[dict]:
                                    round(up_centre[1], 3)],
                         })
     capsules = merge_stacked(capsules)
-    capsules.sort(key=lambda c: -c["radiusM"])
+    # When the cap bites, keep the capsules the player can WALK INTO. Sorting
+    # fattest-first spent the whole budget on canopy limbs and dropped the
+    # slim base capsules the round-11 split produces — the anvil canopy palm
+    # lost 96 of its 101 low wood samples that way. Low first, then fat.
+    capsules.sort(key=lambda c: (min(c["aM"][1], c["bM"][1]), -c["radiusM"]))
     return capsules[:MAX_CAPSULES]
 
 
@@ -335,6 +420,7 @@ def rewrite(manifest_path: Path) -> None:
             roots[asset_id] = node
 
     rng = np.random.default_rng(11)
+    blind = []
     for asset in manifest["assets"]:
         if asset.get("collision") != "trunk-capsule":
             continue
@@ -342,8 +428,24 @@ def rewrite(manifest_path: Path) -> None:
         if root is None:
             print(f"[trunk-solids] {asset['id']}: no GLB node, left as-is")
             continue
-        points = wood_points(gltf, blob, binoff, root, rng)
-        capsules = fit_capsules(points)
+        # sizeM is kit source space (z-up): [x, y, height].
+        height = float(asset.get("sizeM", [0, 0, 0])[2])
+        girth = float((asset.get("collisionCapsule") or {}).get("radiusM", 0.0))
+        rejected: list[tuple[str, float]] = []
+        lone: list[tuple[str, float]] = []
+        limit = CARD_TRI_AREA_PER_HEIGHT2 * height * height
+        points = wood_points(gltf, blob, binoff, root, rng, height, rejected,
+                             lone)
+        for texture, mean_area in sorted(set(rejected)):
+            print(f"[trunk-solids] {asset['id']}: card rejected {texture} "
+                  f"(mean tri {mean_area:.3f} m², limit {limit:.3f} m²)")
+        for texture, mean_area in sorted(set(lone)):
+            print(f"[trunk-solids] {asset['id']}: kept lone {texture} "
+                  f"(mean tri {mean_area:.3f} m², limit {limit:.3f} m²)")
+            if mean_area > LONE_CARD_FAIL_FACTOR * limit:
+                blind.append(f"{asset['id']} ({texture}, "
+                             f"{mean_area / limit:.1f}x the card limit)")
+        capsules = fit_capsules(points, girth)
         if not capsules:
             # No wood parts (single-texture shrubs): keep the plain capsule.
             asset.pop("collisionSegments", None)
@@ -358,6 +460,19 @@ def rewrite(manifest_path: Path) -> None:
         # Boxes ride the same frame tag; their semantics are unchanged.
         if asset.get("collision") == "convex" and asset.get("collisionFrame"):
             asset["collisionFrame"] = "pivot-yup-v3"
+    if blind:
+        # A species whose ONLY wood geometry is unmistakably a crossed fill
+        # card would be fitted as a solid crown. Loud, not silent (source
+        # gate): a new species with an unseen card texture stops the pass.
+        raise SystemExit(
+            "[trunk-solids] only wood geometry is a cutout card for: "
+            + "; ".join(blind)
+            + " — add its real trunk primitive or exclude the texture.")
+    manifest["trunkSolids"] = {
+        "fitter": "pipeline.trunk_solids",
+        "cardTriAreaPerHeight2": CARD_TRI_AREA_PER_HEIGHT2,
+        "maxRadiusFactor": MAX_RADIUS_FACTOR,
+    }
     manifest_path.write_text(json.dumps(manifest, indent=1))
     print(f"[trunk-solids] wrote {manifest_path}")
 
