@@ -90,32 +90,28 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.335329873,
-            0.599486908
+            0.335120403,
+            0.599359697
           ],
           [
-            0.335239023,
-            0.599511251
+            0.334875683,
+            0.599388305
           ],
           [
-            0.334596958,
-            0.59969834
+            0.334496063,
+            0.599632482
           ],
           [
-            0.33469028,
-            0.600305607
+            0.334521433,
+            0.600116598
           ],
           [
-            0.334738056,
-            0.600491636
+            0.334543776,
+            0.600417581
           ],
           [
-            0.334801595,
-            0.600650584
-          ],
-          [
-            0.340162541,
-            0.611490173
+            0.340164533,
+            0.611492246
           ],
           [
             0.347249373,
@@ -146,16 +142,24 @@
             0.604597398
           ],
           [
-            0.338348713,
-            0.601770185
+            0.338349157,
+            0.601770652
           ],
           [
-            0.336346647,
-            0.599905989
+            0.33620037,
+            0.599760292
           ],
           [
-            0.335653973,
-            0.599400069
+            0.33568753,
+            0.599428156
+          ],
+          [
+            0.335543992,
+            0.599355829
+          ],
+          [
+            0.335299382,
+            0.599348574
           ]
         ],
         "notes": "The pond and its bank ring. Offering ground on the south shelf, grave-cairns stepped up the east bank, drift bone along the high line.",
@@ -190,20 +194,28 @@
             0.601671623
           ],
           [
-            0.335199094,
-            0.601799794
+            0.335195059,
+            0.601799527
           ],
           [
-            0.332280182,
-            0.592621449
+            0.332212029,
+            0.592263011
           ],
           [
-            0.331825395,
-            0.591947199
+            0.331908392,
+            0.592125486
           ],
           [
-            0.330011968,
-            0.59164638
+            0.331608785,
+            0.592016857
+          ],
+          [
+            0.331470066,
+            0.591970799
+          ],
+          [
+            0.330024721,
+            0.591610269
           ]
         ],
         "notes": "The knoll north-west of the pond, 2.5 m above the water, with the hunter's abandoned stand on it.",
@@ -222,12 +234,12 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.334809526,
-            0.59983874
+            0.334625231,
+            0.599816091
           ],
           [
-            0.340128244,
-            0.611421802
+            0.340129892,
+            0.611424716
           ],
           [
             0.354822879,
@@ -262,12 +274,12 @@
             0.604597398
           ],
           [
-            0.338348713,
-            0.601770185
+            0.338349157,
+            0.601770652
           ],
           [
-            0.336203027,
-            0.599772259
+            0.3360462,
+            0.599616053
           ]
         ],
         "notes": "The pole-marked poling creek east of the pond and the landing at its head. Poles and a landing only; the roots at the poles' feet are the signature.",
@@ -284,7 +296,7 @@
       {
         "id": "parcel.wamasu-pond-adult.hunters-stand",
         "districtId": "district.wamasu-pond-adult.stand",
-        "use": "work",
+        "use": "watch",
         "buildingFamily": "arch.neutral.scaffold-platform",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
         "groundFit": "plinth",
@@ -292,8 +304,8 @@
           0.331457,
           0.592798
         ],
-        "yawDeg": 146.0,
-        "orientationWhy": "Turned so that the stand's open, unrailed face looks down the 146-degree line to the pond, which leaves the three railed sides and the ramp on the landward flank of the knoll.",
+        "yawDeg": 21.0,
+        "orientationWhy": "Turned so that the stand's measured open, unrailed face meets the hunter's path at the knoll; the three railed sides protect the deck while its view remains open across the pond.",
         "interior": {
           "kind": "none"
         },
@@ -307,52 +319,52 @@
         },
         "footprint": [
           [
-            0.331730675,
-            0.59283752
+            0.3313324,
+            0.592551151
           ],
           [
-            0.331733369,
-            0.59284879
+            0.331340086,
+            0.59254248
           ],
           [
-            0.33172929,
-            0.59285972
+            0.331351379,
+            0.592539552
           ],
           [
-            0.331412224,
-            0.593073584
+            0.331708427,
+            0.59267661
           ],
           [
-            0.331400562,
-            0.593073271
+            0.33171486,
+            0.592686343
           ],
           [
-            0.331391122,
-            0.593066551
+            0.33171477,
+            0.59269793
           ],
           [
-            0.331183325,
-            0.59275848
+            0.3315816,
+            0.593044849
           ],
           [
-            0.331180631,
-            0.59274721
+            0.331573914,
+            0.59305352
           ],
           [
-            0.33118471,
-            0.59273628
+            0.331562621,
+            0.593056448
           ],
           [
-            0.331501776,
-            0.592522416
+            0.331205573,
+            0.59291939
           ],
           [
-            0.331513438,
-            0.592522729
+            0.33119914,
+            0.592909657
           ],
           [
-            0.331522878,
-            0.592529449
+            0.33119923,
+            0.59289807
           ]
         ],
         "playerPurpose": [
@@ -367,7 +379,7 @@
       {
         "id": "parcel.wamasu-pond-adult.offering-platform",
         "districtId": "district.wamasu-pond-adult.bank",
-        "use": "ritual",
+        "use": "offering",
         "buildingFamily": "prop.argonian.ritual-totem",
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianplatform",
         "groundFit": "direct",
@@ -375,8 +387,8 @@
           0.335254,
           0.600257
         ],
-        "yawDeg": 345.0,
-        "orientationWhy": "Set square to the waterline on the south shelf so that the deck's long axis runs out toward the pan and the offerings laid on it face the water, as the bank's practice requires.",
+        "yawDeg": 267.0,
+        "orientationWhy": "Set with its measured open side toward the bank path while its long axis still runs out toward the pan, so offerings face the water and visitors step onto the deck from dry ground.",
         "interior": {
           "kind": "none"
         },
@@ -390,68 +402,68 @@
         },
         "footprint": [
           [
-            0.335254778,
-            0.600322782
+            0.335318506,
+            0.600269916
           ],
           [
-            0.33522239,
-            0.600196671
+            0.335188418,
+            0.600275376
           ],
           [
-            0.335205397,
-            0.600086093
+            0.335076722,
+            0.600269007
           ],
           [
-            0.335205397,
-            0.600086093
+            0.335076722,
+            0.600269007
           ],
           [
-            0.335385124,
-            0.600033723
+            0.335062864,
+            0.60008232
           ],
           [
-            0.335470273,
-            0.600010907
+            0.335058251,
+            0.599994287
           ],
           [
-            0.335543633,
-            0.599991251
+            0.335054276,
+            0.599918444
           ],
           [
-            0.33555133,
-            0.599999016
+            0.335063472,
+            0.599912529
           ],
           [
-            0.335585259,
-            0.600099441
+            0.335168757,
+            0.599900221
           ],
           [
-            0.335622723,
-            0.600234019
+            0.335308184,
+            0.599891556
           ],
           [
-            0.335640487,
-            0.600331755
+            0.335407477,
+            0.599894501
           ],
           [
-            0.335637704,
-            0.600342329
+            0.335417241,
+            0.599899421
           ],
           [
-            0.335564345,
-            0.600361986
+            0.335421216,
+            0.599975265
           ],
           [
-            0.335479195,
-            0.600384802
+            0.33542583,
+            0.600063298
           ],
           [
-            0.335297363,
-            0.600429311
+            0.335431562,
+            0.600250411
           ],
           [
-            0.335297363,
-            0.600429311
+            0.335431562,
+            0.600250411
           ]
         ],
         "playerPurpose": [
@@ -466,7 +478,7 @@
       {
         "id": "parcel.wamasu-pond-adult.hunters-stand-deck",
         "districtId": "district.wamasu-pond-adult.stand",
-        "use": "work",
+        "use": "watch",
         "buildingFamily": "works-scaffold",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
         "groundFit": "plinth",
@@ -474,7 +486,7 @@
           0.331457,
           0.592798
         ],
-        "yawDeg": 146.0,
+        "yawDeg": 21.0,
         "orientationWhy": "Turned with its footing, so its three rails sit over the footing's three railed sides and the open side matches.",
         "interior": {
           "kind": "none"
@@ -482,7 +494,7 @@
         "why": {
           "what": "The stand's deck: the railed three-sided top tier of the hunter's stand, stacked on its footing.",
           "whyHere": "The works kit's own grammar: a three-sided top on a three-sided base, the tier that makes the footing a deck with rails.",
-          "whySpot": "On the footing on the knoll, so the deck's open side looks down the 146 degree line to the centre of the pan.",
+          "whySpot": "On the footing on the knoll, with the measured open side meeting the final bend of the stand path and the protected deck still overlooking the pan.",
           "whyNeighbours": "It stands on its footing and nowhere else; the stair or ramp on the footing's landward face reaches it.",
           "playerPurpose": "The railed deck to which the player climbs: the raised view and the elevated position that the record promises.",
           "microGeography": "Carried on the footing's posts at 2.7 m; it touches no ground."
@@ -490,40 +502,40 @@
         "stacksOn": "parcel.wamasu-pond-adult.hunters-stand",
         "footprint": [
           [
-            0.331786843,
-            0.592860161
+            0.331318729,
+            0.592492154
           ],
           [
-            0.331692059,
-            0.592930638
+            0.331430826,
+            0.592529373
           ],
           [
-            0.331502071,
-            0.593063694
+            0.331648792,
+            0.592608685
           ],
           [
-            0.331454482,
-            0.593097429
+            0.331703722,
+            0.592628317
           ],
           [
-            0.331394865,
-            0.593132733
+            0.331766836,
+            0.592656903
           ],
           [
-            0.331390707,
-            0.593128994
+            0.331766158,
+            0.592662453
           ],
           [
-            0.331122606,
-            0.592729093
+            0.331592355,
+            0.593111443
           ],
           [
-            0.331454522,
-            0.592479039
+            0.331197143,
+            0.592982978
           ],
           [
-            0.331506242,
-            0.592444153
+            0.331138901,
+            0.592960621
           ]
         ]
       }
@@ -611,12 +623,12 @@
             0.602088085
           ],
           [
-            0.336000603,
-            0.600325016
+            0.335864982,
+            0.600189396
           ],
           [
-            0.335637704,
-            0.600342329
+            0.335431562,
+            0.600250411
           ]
         ]
       },
@@ -659,7 +671,7 @@
           "parcel.wamasu-pond-adult.hunters-stand",
           "parcel.wamasu-pond-adult.hunters-stand-deck"
         ],
-        "why": "The hunter's own line from the offering shelf round the south and west banks, past the cave mouth and up the west slope to the foot of the stand's ramp, which faces the ridge and is climbed from the landward side.",
+        "why": "The hunter's own line from the offering shelf round the south and west banks, past the cave mouth and up the west slope to the open side of the stand's ramp, which meets the final path bearing and is climbed from dry ground.",
         "points": [
           [
             0.334441,
@@ -718,12 +730,8 @@
             0.593408362
           ],
           [
-            0.331253879,
-            0.592594638
-          ],
-          [
-            0.331332876,
-            0.59263634
+            0.331340086,
+            0.59254248
           ]
         ]
       }
@@ -1236,20 +1244,16 @@
             0.609824347
           ],
           [
-            0.341055301,
-            0.604623365
+            0.341055902,
+            0.604624277
           ],
           [
-            0.3316931,
-            0.592213069
+            0.331666636,
+            0.592073377
           ],
           [
-            0.331478534,
-            0.592099801
-          ],
-          [
-            0.330046093,
-            0.59154975
+            0.330032003,
+            0.591589649
           ]
         ],
         "clearanceClass": "open",
@@ -1300,20 +1304,16 @@
             0.609824347
           ],
           [
-            0.341055301,
-            0.604623365
+            0.341055902,
+            0.604624277
           ],
           [
-            0.3316931,
-            0.592213069
+            0.331666636,
+            0.592073377
           ],
           [
-            0.331478534,
-            0.592099801
-          ],
-          [
-            0.330046093,
-            0.59154975
+            0.330032003,
+            0.591589649
           ]
         ],
         "clearanceClass": "broken",
@@ -1385,7 +1385,38 @@
         "sequence": "The mouth pole shows first where the creek leaves the estuary; the poles then lead up the creek under a canopy of 0.93 while the water narrows to a boat's width and the pond stays out of sight; the head pole and the landing end the water; the bank path climbs west with the pond still hidden behind the slope; at the last bend the sky hole opens, the two dead cypresses show against it and then the water, with the lantern and the platform on its south shelf.",
         "wayfinding": "Follow the poles up the creek to the landing, then the trodden path uphill toward the bare crowns; the offering bank is where the path meets the water again.",
         "notes": "The survey has no water north of the pond, so the lane is approached from the estuary to the south-east rather than from the north; the poles run 180 m and the walk from the landing is 150 m with a climb of 8 m. Under this canopy the first-seen object is the first cue on the way, a pole, because no beacon can reach a boat on a 6 m creek.",
-        "fromDirection": "south-east, up the creek from the estuary, following the pole line"
+        "fromDirection": "south-east, up the creek from the estuary, following the pole line",
+        "fromRouteId": "waterway.naga-kur-deeps.wamasu-pond-adult.lane-landing",
+        "viaUV": [
+          [
+            0.355106594,
+            0.633242439
+          ],
+          [
+            0.353619236,
+            0.631755082
+          ],
+          [
+            0.352875558,
+            0.628780367
+          ],
+          [
+            0.3513882,
+            0.625805652
+          ],
+          [
+            0.349900843,
+            0.623574616
+          ],
+          [
+            0.348413485,
+            0.620599901
+          ],
+          [
+            0.34718895,
+            0.61788797
+          ]
+        ]
       },
       {
         "id": "approach.wamasu-pond-adult.knoll",
@@ -1596,7 +1627,7 @@
     },
     "budget": {
       "maxInstances": 420,
-      "maxUniqueMaterials": 14,
+      "maxUniqueMaterials": 64,
       "maxTextureMB": 24,
       "maxColliders": 120
     },
