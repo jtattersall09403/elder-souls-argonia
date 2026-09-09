@@ -106,7 +106,16 @@ denser than bare mountain" fall out rather than being asserted.
 
 1. **Grade the mean by climate and hydrology, not by preference.** A region's
    authored density tracks its humidity and canopy closure; the ladder is
-   checked by a test rather than eyeballed.
+   checked by a test rather than eyeballed. *(Done 2026-09-09, and it took
+   four rounds of drift to get there: the ladder itself is
+   `worldgen/vegetation_ladder.TARGET_RATIOS`, applied by
+   `build_palettes.rebase_stems`, gated by `worldgen/test_vegetation_ladder.py`
+   and recorded in [decision 0048](../../decisions/0048-vegetation-density-ladder.md).
+   Before that gate existed the tropical jungle had slid to the 37th percentile
+   of the province's own lowland chunks. The measure is stems — T1 layers that
+   are not rock — per REGION PIXEL, never per dominant chunk: a 468 m chunk
+   spans several classes, and dominant-chunk attribution was reading the lake
+   as 54 trees/ha of its neighbours' forest when the lake carries 0.87.)*
 2. **Make the variance as large as the mean.** Target the mod's coefficient of
    variation (~2–3) rather than a smooth field, via a shared openness field
    plus per-species patchiness.

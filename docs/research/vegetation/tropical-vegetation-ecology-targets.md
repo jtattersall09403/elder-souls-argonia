@@ -400,6 +400,26 @@ canopy assets' own visual mass. Emergent giants use distinct large assets.
 
 ### 7.1 Per-landscape placement targets (per hectare = 100×100 m)
 
+> **Read the "assets/ha" column as botany, not as a shipping target.** Row 1
+> asks for 180–240 canopy assets/ha in jungle interior; the province delivers
+> **39 stems/ha** there. That is not a shortfall of five times over.
+>
+> Our shipped canopy is **wide-crown composites, each standing for several real
+> stems**. The round-7 Anvil composite (`build_palettes.py`, region 13) is a
+> 42 m tree carrying a 33.8 m crown; one of them closes what fifteen of round
+> 5's trees closed, which is why that round's note records stem counts
+> falling while closure rose. The working conversion at the jungle roof is
+> **1 shipped asset ≈ 5 botanical stems**, so 39/ha of ours reads against the
+> 180–240 of the literature.
+>
+> Past that point the browser, not botany, is the limit; see
+> [vegetation-density-design.md](vegetation-density-design.md) §(a) and the
+> ladder in [decision 0048](../../decisions/0048-vegetation-density-ladder.md),
+> which holds the jungle at its current level by owner constraint and re-bases
+> every other region *relative to it*. We build to the ratios between the rows
+> below; the absolute numbers are the ecology from which they came.
+
+
 | Landscape | Canopy trees (assets/ha) | Emergent/giant assets | Small-tree/sapling assets | Shrub clumps | Herb groundcover cover | Canopy closure target |
 |---|---|---|---|---|---|---|
 | **1. Jungle interior (terra firme)** | 180–240 | 5–8 | 100–150 | 30–60 (interior only) | 15–25 % (litter/bare elsewhere) | 90–95 % |

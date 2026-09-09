@@ -1,5 +1,26 @@
 # Regional vegetation variety audit — 2026-09-08
 
+> **Superseded in part, 2026-09-09.** This audit measured SPECIES variety and
+> got it right. What it did not measure was between-region *density*. The
+> owner's follow-up report ("everything below the mountains looks the same")
+> turned out to be about that: the tropical jungle was delivering at
+> the 37th percentile of the province's own lowland chunks.
+>
+> Two things below are now stale:
+>
+> * the delivered densities quoted here are **per dominant chunk**, which
+>   attributes a class's neighbours' trees to the class. The lake's 54.4
+>   trees/ha is that artefact; measured per region pixel the lake carries 0.87.
+>   Use `worldgen.vegetation_ladder.measure_delivered_by_region`.
+> * §2's two views still exclude the aquatics from the "woody + plant" column,
+>   which is why a reed monoculture across eleven of fourteen palettes did
+>   not show up here. `report_flora_variety.py` now prints a third, understory
+>   view that keeps them.
+>
+> The density ladder, its grounding and its gates are
+> [decision 0048](../../decisions/0048-vegetation-density-ladder.md).
+
+
 Owner, 2026-09-08, after vegetation quietly went province-wide: "it looks like
 it may be a little samey between regions … we have a lot of assets available,
 so let's use the breadth." This is the measurement, the vault comparison, the

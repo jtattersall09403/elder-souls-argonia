@@ -611,3 +611,39 @@ That stays a standing gap. The Redoran reading is the record's own: the
 Xit-Xaht raid their Dunmer neighbours for labour, and the masonry across the
 road is taken the same way the people are. Reasoning and the old→new pieces are
 in the Mazzatun design record §13.
+
+## 2026-09-09 — flora kit: understory breadth (OPEN, blocker named)
+
+Decision 0048 raised every region class to at least six distinct understory
+species, but could not give nine of fourteen classes a species of their *own*.
+The reason is not a shortage of meshes; it is that **the built flora kit is
+full**. `flora-province-v1.glb` ships 81 assets and the palettes already place
+78 of them; the three spare are trees.
+
+The held stock exists and is named in the registries:
+`bmv:landscape/trees/reedlarge1 / reedmed1 / reedsmall1 / reedsmall2` (four
+unused reed sizes against the single `vurt_reeds` doing all the work),
+`bmv:landscape/plants/espfernbraken01–06st` and `espfernbrakencluster01–06`
+(twelve bracken variants against one `braken` in use),
+`bmv:landscape/plants/bigshrub(colorful)`, `bigshrub-b(colorful)` and
+`bigshrub-c(colorful)` (three colour variants against the one `bigshrub2` in use),
+`bmv:landscape/trees/gkblillipad` (a second lilypad),
+`depths:landscape/grass/tbp_seaweed01/02/06`,
+`depths:landscape/grass/waterkelptall02/03`,
+`vanilla:landscape/grass/watercoralgrass01`,
+`vanilla:landscape/plants/kelpshortstatic01`,
+`vanilla:plants/floraswampfungalpod01/02` and `floramushroom01–06`.
+
+**Why it is open rather than done in the same session.** Adding any of them is
+not a data edit: each needs a row in `pipeline/config/kits/flora-province-v1.json`
+with a reviewed `placement` object, then `python3 -m pipeline.build_kit --kit
+flora-province-v1` (Wine + Blender + PyNifly) and `python3 -m pipeline.vet_kit`,
+then `compile_scatter`. Several of the candidates have no measured
+`sizeM` in the registry at all (`reedlarge1` records 0,0,0), so the placement
+policies cannot be written from the record as it stands. They need the kit
+build's own measurement, which is the same run. That is a pipeline job to
+sequence with the scatter rollout, not a deferral of judgement.
+
+`worldgen/test_vegetation_ladder.py::test_palette_species_are_all_in_the_shipped_flora_kit`
+fails if a palette reaches for a species the kit does not carry, so this cannot
+be half-done by accident.

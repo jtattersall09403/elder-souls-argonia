@@ -192,6 +192,21 @@
 >   measures cover of TUBE wood (743 samples at walking height, 0 uncovered;
 >   it was passing at 6.06 % uncovered on a card-inflated denominator).
 >
+> ### 2026-09-09 — the between-region density ladder (decision 0048)
+>
+> The regional-variety pass below fixed *species*; it did not touch *density*,
+> and the owner's next report ("everything below the mountains looks the same")
+> was about density. Between-region comparison is no longer authored in the
+> region tables at all: it lives in
+> `worldgen/vegetation_ladder.TARGET_RATIOS`, is applied to the T1 non-rock
+> stem layers by `build_palettes.rebase_stems`, and is gated by
+> `worldgen/test_vegetation_ladder.py`. `groundcover.json` gained a region
+> axis at the same time (schema v2). **Run-book change: after
+> `build_palettes`, the flora kit must be current before `compile_scatter` —
+> `test_palette_species_are_all_in_the_shipped_flora_kit` is what catches a
+> palette reaching for a mesh the kit does not carry.** Full record:
+> [0048](0048-vegetation-density-ladder.md).
+>
 > ### 2026-09-08 — province-wide rollout recorded; regional variety pass
 >
 > **What happened.** Vegetation scatter left the five exemplar rings and
