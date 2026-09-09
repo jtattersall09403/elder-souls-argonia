@@ -16,7 +16,8 @@ import json
 import numpy as np
 
 from .grade_routes import STRUCTURES_PATH
-from .author_route_structures import (_kind, _reconcile_prior_windows,
+from .author_route_structures import (_highest_suffix_by_way, _kind,
+                                      _reconcile_prior_windows,
                                       _way_length_m, _window_rise)
 
 
@@ -72,3 +73,17 @@ def test_prior_windows_follow_a_rerouted_way_endpoint():
     assert kept[1]["toM"] == round(end_m, 2)
     assert [row[0]["id"] for row in dropped] == ["structure.past", "structure.missing"]
     assert [row[0]["id"] for row in clipped] == ["structure.crosses"]
+
+
+def test_new_ids_continue_past_the_highest_suffix_already_issued():
+    """A dropped structure must not let a new one reuse a kept id.
+
+    Counting survivors restarts the numbering inside the range already issued;
+    ten duplicate ids across five ways shipped that way (found 2026-09-09).
+    """
+    kept = [{"id": "structure.region-place.1", "wayId": "track.region.place"},
+            {"id": "structure.region-place.14", "wayId": "track.region.place"},
+            {"id": "structure.region-other.3", "wayId": "track.region.other"}]
+
+    assert _highest_suffix_by_way(kept) == {"track.region.place": 14,
+                                            "track.region.other": 3}

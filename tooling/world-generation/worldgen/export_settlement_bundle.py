@@ -21,6 +21,7 @@ import json
 import math
 import os
 import shutil
+import sys
 import tempfile
 from pathlib import Path
 
@@ -42,6 +43,8 @@ DEFAULT_STRUCTURES = Path(__file__).resolve().parents[1] / "output" / "route-str
 ROUTE_STRUCTURES_SOURCE = REPO_ROOT / "world" / "sources" / "routes" / "route-structures.json"
 BLUEPRINTS = REPO_ROOT / "world" / "sources" / "blueprints"
 KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
+WARNING_KNOWN_RED = (REPO_ROOT / "world" / "sources" / "settlements"
+                     / "settlement-warning-known-red.json")
 OUT = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements.json"
 PUBLIC_KITS = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 
@@ -340,6 +343,66 @@ def validate_applied_pad_grades(receipt: dict | None, blueprints: list[dict],
     return errors
 
 
+def load_warning_known_red(path: Path | None = None) -> dict[tuple[str, str, str], dict]:
+    """Settlement compile warnings that are named, owned and tracked.
+
+    A register, not a suppression, exactly as
+    ``terrain_request_postconditions.load_known_red``: the exporter still
+    reports every row by name, and a warning outside the register, a row that
+    has started passing, or a row whose place is absent from the compiled set
+    all fail the export.
+    """
+    path = path or WARNING_KNOWN_RED
+    if not path.exists():
+        return {}
+    document = json.loads(path.read_text(encoding="utf-8"))
+    rows: dict[tuple[str, str, str], dict] = {}
+    for row in document.get("warnings") or []:
+        for field in ("placeId", "subjectId", "rule", "owner", "queuedIn", "why"):
+            if not row.get(field):
+                raise ValueError(f"{path.name}: a register row is missing '{field}' — "
+                                 "every row names its owner, its reason and where it is queued")
+        rows[(row["placeId"], row["subjectId"], row["rule"])] = row
+    return rows
+
+
+def warning_keys(doc: dict) -> list[tuple[str, str, str]]:
+    """The (place, subject, rule) key of every warning the compile raised.
+
+    Read from the compiled ``floodBandReport``'s structured rows rather than
+    from the warning prose, so a key survives a change in the measured sample
+    counts and disappears when the finding itself does.
+    """
+    report = doc.get("floodBandReport") or {}
+    place_id = doc.get("id")
+    keys: list[tuple[str, str, str]] = []
+    for district in report.get("districts") or []:
+        rule = district.get("cultureRule")
+        if rule and district.get("conforms") is False:
+            keys.append((place_id, district["districtId"], rule["id"]))
+    for section in report.get("sectionRules") or []:
+        if section.get("conforms") is False:
+            keys.append((place_id, section["parcelId"], section["rule"]))
+    return keys
+
+
+def classify_warnings(compiled_docs: list[dict],
+                      known_red: dict[tuple[str, str, str], dict]) -> dict[str, list]:
+    """Split the compiled warning set against the register."""
+    raised = []
+    for doc in compiled_docs:
+        raised.extend(warning_keys(doc))
+    raised_set = set(raised)
+    compiled_places = {doc.get("id") for doc in compiled_docs}
+    return {
+        "knownRed": sorted(raised_set & set(known_red)),
+        "unexplained": sorted(raised_set - set(known_red)),
+        "noLongerRed": sorted(key for key in known_red
+                              if key[0] in compiled_places and key not in raised_set),
+        "placeNotCompiled": sorted(key for key in known_red if key[0] not in compiled_places),
+    }
+
+
 def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  structures_dir: Path = DEFAULT_STRUCTURES,
                  blueprints_dir: Path = BLUEPRINTS,
@@ -348,8 +411,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  catalogue_records_by_id: dict[str, dict] | None = None,
                  terrain_evidence: tuple[dict, dict, dict] | None = None,
                  pad_grade_receipt: dict | None = None,
-                 final_height: np.ndarray | None = None) -> dict:
+                 final_height: np.ndarray | None = None,
+                 known_red_path: Path | None = None) -> dict:
     survey = ProvinceSurvey()
+    known_red = load_warning_known_red(known_red_path)
     if catalogue_records_by_id is None:
         catalogue_records_by_id = {
             record["id"]: record
@@ -395,9 +460,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         warnings = doc.get("warnings")
         if not isinstance(warnings, list) or flood_report.get("warningCount") != len(warnings):
             raise ValueError(f"{doc['id']} warning ledger disagrees with floodBandReport")
-        if warnings:
-            raise ValueError(f"{doc['id']} has {len(warnings)} unclosed placement warnings; "
-                             "review and resolve them before runtime export")
+        if len(warning_keys(doc)) != len(warnings):
+            raise ValueError(f"{doc['id']} raised {len(warnings)} warnings but only "
+                             f"{len(warning_keys(doc))} carry a structured floodBandReport row; "
+                             "an unattributable warning cannot be explained, so it blocks export")
         bp = blueprint_by_id.get(doc["id"])
         if bp is None:
             raise ValueError(f"compiled settlement has no authored blueprint: {doc['id']}")
@@ -422,6 +488,29 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         raise ValueError("compiled settlement set does not match the authored exemplar set; "
                          + "; ".join(details))
 
+    split = classify_warnings([doc for doc, _bp in compiled], known_red)
+    for key in split["knownRed"]:
+        row = known_red[key]
+        print(f"  KNOWN-RED settlement warning ({row['owner']}-owned, queued in "
+              f"{row['queuedIn']}): {key[0]} / {key[1]} / {key[2]}")
+    blocking = []
+    for key in split["unexplained"]:
+        blocking.append(f"UNEXPLAINED WARNING {key[0]} / {key[1]} / {key[2]}")
+    for key in split["noLongerRed"]:
+        blocking.append(f"NO LONGER RED — remove from {WARNING_KNOWN_RED.name}: "
+                        f"{key[0]} / {key[1]} / {key[2]}")
+    for key in split["placeNotCompiled"]:
+        blocking.append(f"KNOWN-RED ROW'S PLACE IS NOT IN THE COMPILED SET: "
+                        f"{key[0]} / {key[1]} / {key[2]}")
+    if blocking:
+        raise ValueError("settlement warnings block export: " + "; ".join(blocking))
+    warning_register = [
+        {"placeId": key[0], "subjectId": key[1], "rule": key[2],
+         "owner": known_red[key]["owner"], "queuedIn": known_red[key]["queuedIn"],
+         "why": known_red[key]["why"]}
+        for key in split["knownRed"]
+    ]
+
     route_docs = _validated_route_docs(structures_dir, route_structures_source)
     kits, assets = _kit_assets(kit_names, kits_dir)
 
@@ -440,7 +529,11 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         if record is not None:
             evidence_kwargs = (dict(zip(("plan", "fulfillment", "postconditions"), terrain_evidence))
                                if terrain_evidence is not None else {})
-            terrain_objects, terrain_errors = compiled_terrain_objects(record, **evidence_kwargs)
+            terrain_notes: list[str] = []
+            terrain_objects, terrain_errors = compiled_terrain_objects(
+                record, notes=terrain_notes, **evidence_kwargs)
+            for note in terrain_notes:
+                print(f"export_settlement_bundle: {note}", file=sys.stderr)
             expected_objects.extend(terrain_objects)
             expected_objects.sort(key=lambda row: row["id"])
             object_errors += terrain_errors
@@ -579,6 +672,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "farMergeDistanceM": 900, "atlasMaxSize": 4096,
                 "colliderRadiusM": 180, "colliderPartBudget": 256},
         "kits": kits, "settlements": settlements,
+        "knownRedWarnings": warning_register,
         "phase11ObligationReceipts": sorted(obligation_receipts,
                                               key=lambda receipt: receipt["placeId"]),
         "compiledObjects": sorted(all_compiled_objects, key=lambda row: row["id"]),

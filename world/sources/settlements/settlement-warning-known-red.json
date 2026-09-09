@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "kind": "settlement-warning-known-red",
+  "why": "Settlement compile warnings that are named, owned and tracked rather than silently tolerated. The exporter still refuses to publish on any UNEXPLAINED warning: a warning outside this register is a hard error, a register row that has started passing is a hard error, and a row whose place is not in the compiled set is a hard error. Each row names the owner and where the work is queued, so a row can never become a quiet holding position. Keys are (placeId, subjectId, ruleId) taken from the compiled floodBandReport's structured rows, so a row survives a change in the measured sample counts and dies when the finding itself dies.",
+  "measuredOn": "2026-09-09",
+  "warnings": [
+    {
+      "placeId": "place.hist-heartland.nine-trunks",
+      "subjectId": "parcel.nine-trunks.guest-hut-1",
+      "rule": "dwelling-dry-levee-or-bench",
+      "owner": "water",
+      "queuedIn": "docs/research/rendering/water-handoff.md",
+      "why": "57/57 natural-flood-band samples but 0/57 open-water and 0/57 wet-season samples: two water layers disagreeing about the same ground, not a placement defect. The water handoff is explicit that this is water-owned - 'Preserve the authored ring and require final raised-pad evidence; do not move or relabel the huts to silence the finding.' Dry ground 8-12 m away was tested and every candidate breaks door-on-way, a fence crossing, or the 16/ha density cap."
+    },
+    {
+      "placeId": "place.hist-heartland.nine-trunks",
+      "subjectId": "parcel.nine-trunks.guest-hut-2",
+      "rule": "dwelling-dry-levee-or-bench",
+      "owner": "water",
+      "queuedIn": "docs/research/rendering/water-handoff.md",
+      "why": "Same layer disagreement as guest-hut-1: 57/57 flood-band, 0/57 open-water, 0/57 wet-season. This hut is also the physical host of the quest record 'The empty hut of Water Without Ceremony: the absent tribe's place', so it is not a candidate for cutting."
+    },
+    {
+      "placeId": "place.mercantile-coast.lilmoth",
+      "subjectId": "district.lilmoth.shore-quarter",
+      "rule": "argonian-stilt-open-water-share",
+      "owner": "water",
+      "queuedIn": "docs/research/rendering/water-handoff.md",
+      "why": "All seven fishers' huts stand in the mapped flood band (7-42 of ~41 samples each, three of them wet-season inundated) yet the open-water layer reports 0 for every one of them. The estuary flat the record describes is wet; the open-water raster does not yet agree with the flood and wet-season fields. Same layer disagreement as the Nine-Trunks huts."
+    },
+    {
+      "placeId": "place.mercantile-coast.lilmoth",
+      "subjectId": "district.lilmoth.lighter-quay",
+      "rule": "argonian-stilt-open-water-share",
+      "owner": "water",
+      "queuedIn": "docs/research/rendering/water-handoff.md",
+      "why": "3/7 = 42.9% against a 15-30% band, but the share is not yet stable: the lighter shed and the quay smith are flood-band on 41/41 samples and the smith is wet-season inundated on 41/41, while the open-water layer reports 0 for both. Whether they count as over water is decided by the water layer that is still being reconciled, so the measured share will move when it lands."
+    },
+    {
+      "placeId": "place.mercantile-coast.lilmoth",
+      "subjectId": "district.lilmoth.council-crown",
+      "rule": "argonian-stilt-open-water-share",
+      "owner": "settlement",
+      "queuedIn": "docs/polish-backlog.md",
+      "why": "Not a water finding: the crown's buildings are genuinely dry (0 open-water, 0 flood, 0 wet-season on six of seven). The district's own record puts it on the 11-13 m bench east of the crest, so 15-30% of it can never stand over water; the defect is the culture rule's scope, applied to every argonian-stilt district regardless of the ground it stands on. Fixing that is a rule design decision, queued rather than taken here."
+    },
+    {
+      "placeId": "place.mercantile-coast.lilmoth",
+      "subjectId": "district.lilmoth.hist-court",
+      "rule": "argonian-stilt-open-water-share",
+      "owner": "settlement",
+      "queuedIn": "docs/polish-backlog.md",
+      "why": "Not a water finding: all five buildings sample 0 open-water, 0 flood, 0 wet-season. The district's record puts it on the crest at 19-23 m, so the 15-30% over-open-water share cannot apply. Same rule-scope defect as council-crown."
+    }
+  ]
+}

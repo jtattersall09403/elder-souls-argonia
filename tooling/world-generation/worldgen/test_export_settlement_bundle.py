@@ -10,6 +10,22 @@ from . import terrain_requests
 from . import grade_settlement_pads as pad_grades
 
 
+REAL_REGISTER = ex.WARNING_KNOWN_RED
+
+
+@pytest.fixture(autouse=True)
+def _no_register(tmp_path, monkeypatch):
+    """Fixture places are not in the real known-red register; start empty."""
+    monkeypatch.setattr(ex, "WARNING_KNOWN_RED", tmp_path / "absent-register.json")
+
+
+def _register(tmp_path, monkeypatch, rows):
+    path = tmp_path / "register.json"
+    _write(path, {"schemaVersion": 1, "kind": "settlement-warning-known-red", "warnings": rows})
+    monkeypatch.setattr(ex, "WARNING_KNOWN_RED", path)
+    return path
+
+
 def _write(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data))
@@ -240,7 +256,30 @@ def test_refuses_compiler_errors(tmp_path, monkeypatch):
                         tmp_path / "kits", _route_source(tmp_path, []))
 
 
-def test_refuses_unclosed_flood_warning_before_runtime_export(tmp_path, monkeypatch):
+def _warned_settlement(tmp_path, *, conforms=False):
+    _write(tmp_path / "kits/route-structures-v1.kit.json",
+           {"kit": "route-structures-v1", "assets": []})
+    bp = {"id": "place.a"}
+    _write(tmp_path / "bp/place.a.json", {"blueprint": bp})
+    _write(tmp_path / "sett/place.a.settlement.json", {
+        "id": "place.a", "sourceBlueprintSha256": ex.blueprint_sha256(bp),
+        "errors": [], "warnings": ["wet civic floor"] if not conforms else [],
+        "floodBandReport": {
+            "warningCount": 0 if conforms else 1,
+            "sectionRules": [{"parcelId": "parcel.a", "rule": "civic-sacred-dry",
+                              "conforms": conforms}],
+        },
+        "placements": [], "compiledObjects": [], "doors": [], "budgetReport": {},
+    })
+
+
+def _build(tmp_path):
+    return ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                           tmp_path / "kits", _route_source(tmp_path, []))
+
+
+def test_refuses_a_warning_with_no_structured_row(tmp_path, monkeypatch):
+    """An unattributable warning cannot be explained, so it still blocks."""
     monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
     bp = {"id": "place.a"}
     _write(tmp_path / "bp/place.a.json", {"blueprint": bp})
@@ -249,9 +288,72 @@ def test_refuses_unclosed_flood_warning_before_runtime_export(tmp_path, monkeypa
         "errors": [], "warnings": ["wet civic floor"],
         "floodBandReport": {"warningCount": 1}, "placements": [],
     })
-    with pytest.raises(ValueError, match="unclosed placement warnings"):
-        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
-                        tmp_path / "kits", _route_source(tmp_path, []))
+    with pytest.raises(ValueError, match="unattributable"):
+        _build(tmp_path)
+
+
+def test_refuses_an_unregistered_flood_warning(tmp_path, monkeypatch):
+    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    _warned_settlement(tmp_path)
+    with pytest.raises(ValueError, match="UNEXPLAINED WARNING"):
+        _build(tmp_path)
+
+
+def test_a_registered_warning_is_reported_by_name_and_does_not_block(tmp_path, monkeypatch,
+                                                                     capsys):
+    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    _warned_settlement(tmp_path)
+    _register(tmp_path, monkeypatch, [{
+        "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
+        "owner": "water", "queuedIn": "docs/research/rendering/water-handoff.md",
+        "why": "two water layers disagree",
+    }])
+    bundle = _build(tmp_path)
+    assert bundle["knownRedWarnings"] == [{
+        "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
+        "owner": "water", "queuedIn": "docs/research/rendering/water-handoff.md",
+        "why": "two water layers disagree",
+    }]
+    assert "KNOWN-RED settlement warning (water-owned" in capsys.readouterr().out
+
+
+def test_a_register_row_that_has_started_passing_blocks(tmp_path, monkeypatch):
+    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    _warned_settlement(tmp_path, conforms=True)
+    _register(tmp_path, monkeypatch, [{
+        "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
+        "owner": "water", "queuedIn": "docs/research/rendering/water-handoff.md",
+        "why": "two water layers disagree",
+    }])
+    with pytest.raises(ValueError, match="NO LONGER RED"):
+        _build(tmp_path)
+
+
+def test_a_register_row_whose_place_vanished_blocks(tmp_path, monkeypatch):
+    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    _warned_settlement(tmp_path, conforms=True)
+    _register(tmp_path, monkeypatch, [{
+        "placeId": "place.gone", "subjectId": "parcel.x", "rule": "civic-sacred-dry",
+        "owner": "water", "queuedIn": "docs/research/rendering/water-handoff.md",
+        "why": "two water layers disagree",
+    }])
+    with pytest.raises(ValueError, match="NOT IN THE COMPILED SET"):
+        _build(tmp_path)
+
+
+def test_a_register_row_must_name_its_owner_and_where_it_is_queued(tmp_path, monkeypatch):
+    path = _register(tmp_path, monkeypatch, [{
+        "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
+        "owner": "water", "why": "no queuedIn",
+    }])
+    with pytest.raises(ValueError, match="queuedIn"):
+        ex.load_warning_known_red(path)
+
+
+def test_the_shipped_register_rows_are_well_formed():
+    rows = ex.load_warning_known_red(REAL_REGISTER)
+    assert rows, "the shipped register should carry the current known-red warnings"
+    assert all(row["owner"] and row["queuedIn"] and row["why"] for row in rows.values())
 
 
 def test_refuses_stale_success_after_blueprint_mutation(tmp_path, monkeypatch):

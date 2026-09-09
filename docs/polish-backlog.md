@@ -238,3 +238,27 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   terrain; scatter boulders tight against every compiled cascade lip/side
   (`water-meta.json` `cascades[]`) in the Phase 10 scatter compiler. Varden
   recipe, research/rendering/waterfalls-realtime.md §6.
+- **The argonian-stilt open-water share is applied to districts that stand on
+  dry high ground.** `flood_band_report` (worldgen/compile_settlement.py) asks
+  every `argonian-stilt` district to put 15–30% of its buildings over open
+  water. Lilmoth's `council-crown` (the 11–13 m bench) and `hist-court` (the
+  crest at 19–23 m) measure 0 open-water, 0 flood-band and 0 wet-season samples
+  on almost every building, so the rule cannot be satisfied where the record
+  puts them: it is the rule's scope, not the placement, that is wrong. Both are
+  registered as settlement-owned rows in
+  `world/sources/settlements/settlement-warning-known-red.json`; the register
+  reports them by name on every export and fails if either quietly starts
+  passing. The fix is a rule-scope decision (which district kinds, or which
+  measured ground, the share applies to) and wants an owner steer.
+- **One ground slot still reads the un-tropicalised vanilla texture.** From
+  2026-09-09 every vanilla texture in the asset pipeline resolves through
+  Tropical Skyrim by default (owner ruling; see
+  [90-asset-strategy §74.1a](world/90-asset-strategy.md)). The ground-material
+  table is the one place left that does not: `build_ground_materials.py` slot
+  `peat_slope` pulls `textures/landscape/frozenmarshdirtslopes01.dds` from the
+  vanilla BSA (`kind="bsa"` — the table's only such slot) and hue-shifts it
+  with tint `(14, 1.08, 1.0)` to fake the tropicalisation. Tropical ships that
+  exact file. The consistent fix is `kind="ts"` with the tint dropped, but the
+  tint came out of an owner-reviewed ground round and every ground change needs
+  a look, so it wants an owner call plus a `build_ground_materials` re-run and
+  a terrain recompile.

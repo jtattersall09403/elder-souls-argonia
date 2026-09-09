@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import json
 import math
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -419,9 +420,26 @@ def _reconcile_prior_windows(prior: list[dict], ways_by_id: dict) \
     return kept, dropped, clipped
 
 
+def _highest_suffix_by_way(structures: list[dict]) -> dict[str, int]:
+    """The largest numeric id suffix already issued on each way."""
+    highest: dict[str, int] = {}
+    for s in structures:
+        suffix = str(s["id"]).rsplit(".", 1)[-1]
+        used = int(suffix) if suffix.isdigit() else 0
+        highest[s["wayId"]] = max(highest.get(s["wayId"], 0), used)
+    return highest
+
+
 def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
            survivors: set[str], prior: list[dict] | None = None) -> dict:
     """Valid existing structures are kept and new measured windows are added.
+
+    Numbering continues from the HIGHEST suffix already issued on each way, not
+    from the count of survivors: when an earlier pass dropped a structure,
+    counting survivors restarts the numbering inside the range already in use
+    and a new structure silently takes a kept structure's id. That shipped —
+    ten duplicate ids across five ways in `route-structures.json`, found
+    2026-09-09 when the bundle exporter refused them.
 
     Exempting a structure's window moves the profile at its landings, which can
     expose a short new over-cap stretch next door; the grader then reports that
@@ -449,10 +467,9 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
               f"to current route endpoint {end_m:.2f} m")
     structures = [_refresh(s, ways_by_id, heights) for s in kept]
     taken: dict[str, list[tuple[float, float]]] = {}
-    counts: dict[str, int] = {}
+    counts = _highest_suffix_by_way(structures)
     for s in structures:
         taken.setdefault(s["wayId"], []).append((s["fromM"], s["toM"]))
-        counts[s["wayId"]] = counts.get(s["wayId"], 0) + 1
     for entry in sorted(stretch_doc["ways"], key=lambda e: e["wayId"]):
         wid = entry["wayId"]
         if wid not in survivors:
@@ -484,6 +501,11 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
                 "sourcing": "kit",
             }))
     structures.sort(key=lambda s: (s["wayId"], s["fromM"]))
+    counted = Counter(s["id"] for s in structures)
+    collisions = sorted(sid for sid, n in counted.items() if n > 1)
+    if collisions:
+        raise ValueError("route structure ids must be unique (engineering standard 1); "
+                         f"duplicated: {', '.join(collisions)}")
     unauthored = [s for s in structures if s.get("unauthored")]
     if unauthored:
         print(f"{len(unauthored)} structures on "
