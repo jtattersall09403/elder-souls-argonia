@@ -92,6 +92,40 @@ work that belongs to this session's goal.
    it; the owner's instruction is explicitly to do this work efficiently, not
    just to make the chain efficient.
 
+   **Where it actually got to** (landed `8e22a6d4`, off by default behind
+   `--footprint`): a one-dock edit runs in **262 s against the slow chain's
+   451 s** — chunks 26.9 → 3.8 s (10 of 256), scatter 28.8 → 8.9 s; the water
+   solve stays whole because a flood is province-wide. **Proven:**
+   `refine_province` is bit-deterministic (0 differing cells of 16.3 M) and the
+   fast path's re-carved heightfield is byte-identical to the slow build's.
+   **The one open item:** end to end, **36 of 1809 files still differ** — 4
+   chunks (none of them the dredged chunk), the pad grades, the water surface
+   and meta, the gradient and height rasters, the postconditions; 832 differing
+   height cells at rows 705–741, cols 2440–2478. Crucially **the same 36 differ
+   when the fast path runs with no source change at all**, so it is introduced
+   downstream of the re-carve, in the grading/pads/water stack. Attributing it
+   needs one control run: repeat the SLOW chain on unchanged sources and see
+   whether those 36 move anyway.
+
+   **A slow-build reference already exists — use it, do not rebuild it.**
+   `/tmp/REF/` (741 MB) is a complete converged slow build: `studio-province/`,
+   `province-refined/`, `chain-stamps.json`, with a 1809-file sha manifest at
+   `/tmp/hash-REF.txt` and `/tmp/proof-hash.sh` to regenerate one. The working
+   tree was restored to it and verified 1809/1809 identical. If `/tmp` has been
+   cleared, one slow run recreates it — then keep it.
+
+   **Two defects found while doing this, both cheap and both worth taking:**
+   `refine_province`'s stage fingerprint transitively reaches `compile_water`
+   (`refine_province → authored_waterways → blueprint → street_router →
+   site_fields → compile_water`), which is why a compile-only change rebuilt
+   the whole province; `authored_waterways` imports `blueprint` only for three
+   constants, so moving them to a leaf module cuts the edge at the first hop
+   and drops refine's closure from 42 modules to the terrain ones. And the
+   grader case below is **already solved and merely unadvertised**:
+   `grade_routes` is idempotent against `refined-height-ungraded-f32.npy`
+   (`grade_routes.py:872`), so a grader change can already start at
+   `--from grade_routes`.
+
    Two more cases worth taking: a compile-only change (the wetted width moved
    no ground yet still took a full chain) should not invalidate the terrain,
    and grading is cumulative on the carve, so a grader change needs
