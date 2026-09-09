@@ -65,15 +65,27 @@ function decodeBundle(buffer: Buffer, speciesOrder: string[]): Instance[] {
 
 /** Wood-classifier twin of pipeline/trunk_solids.py (kept tiny on purpose). */
 const WOOD = ["bark", "trunk", "wood", "stump", "log", "giant_tree", "branch", "wolene", "root"];
-const NOT_WOOD = ["leaf", "conifer", "maple", "moss", "comp", "frond", "valenwood",
-  "palmmiddle", "grandoak", "gkbbranch3dark"];
+const NOT_WOOD = ["leaf", "conifer", "maple", "moss", "comp", "frond", "valenwood"];
 const isWood = (t: string) => {
   const lower = t.toLowerCase();
   return WOOD.some((w) => lower.includes(w)) && !NOT_WOOD.some((v) => lower.includes(v));
 };
+/**
+ * Cutout CARDS textured as wood are not wood the colliders owe cover to —
+ * they are the crown, and solidifying them is the round-11 defect. Same
+ * geometric rule as the fitter (`CARD_TRI_AREA_PER_HEIGHT2`): triangle size
+ * relative to the tree, because a card is a few huge quads and a tube is
+ * finely segmented however big the tree is.
+ */
+const CARD_TRI_AREA_PER_HEIGHT2 = 2.0e-3;
+const isCard = (meanTriAreaM2: number, heightM: number) =>
+  heightM > 0 && meanTriAreaM2 > CARD_TRI_AREA_PER_HEIGHT2 * heightM * heightM;
 
 /** Per-species wood-mesh VERTICES from the shipped GLB, pivot space (Y-up). */
-function woodVertices(glb: Buffer): Map<string, [number, number, number][]> {
+function woodVertices(
+  glb: Buffer,
+  heights: Map<string, number>,
+): Map<string, [number, number, number][]> {
   const jsonLength = glb.readUInt32LE(12);
   const gltf = JSON.parse(glb.subarray(20, 20 + jsonLength).toString());
   const binOffset = 20 + jsonLength + 8;
@@ -107,6 +119,23 @@ function woodVertices(glb: Buffer): Map<string, [number, number, number][]> {
       for (const prim of gltf.meshes[child.mesh].primitives) {
         if (!isWood(textureName(prim.material))) continue;
         const pos = accessor(prim.attributes.POSITION) as Float32Array;
+        const idx = prim.indices === undefined
+          ? null
+          : (accessor(prim.indices) as Uint16Array | Uint32Array);
+        const triCount = (idx ? idx.length : pos.length / 3) / 3;
+        let areaSum = 0;
+        for (let t = 0; t < triCount; t++) {
+          const v = [0, 1, 2].map((k) => (idx ? idx[t * 3 + k] : t * 3 + k) * 3);
+          const ab = [0, 1, 2].map((k) => pos[v[1] + k] - pos[v[0] + k]);
+          const ac = [0, 1, 2].map((k) => pos[v[2] + k] - pos[v[0] + k]);
+          areaSum += 0.5 * Math.hypot(
+            ab[1] * ac[2] - ab[2] * ac[1],
+            ab[2] * ac[0] - ab[0] * ac[2],
+            ab[0] * ac[1] - ab[1] * ac[0]);
+        }
+        if (isCard(areaSum / Math.max(1, triCount), heights.get(assetId) ?? 0)) {
+          continue;
+        }
         for (let i = 0; i < pos.length; i += 3) {
           vertices.push([pos[i] + tx, pos[i + 1] + ty, pos[i + 2] + tz]);
         }
@@ -136,7 +165,11 @@ beforeAll(async () => {
   instances = decodeBundle(bundle, index.speciesOrder).filter((inst) =>
     Math.hypot(inst.x - FOCUS.x, inst.z - FOCUS.z) <= RING_M
     && isSolid(assets.get(inst.species)));
-  wood = woodVertices(readFileSync(join(PUBLIC, "kits/flora-province-v1.glb")));
+  // sizeM is kit source space (z-up): [x, y, height].
+  const heights = new Map<string, number>(
+    manifest.assets.map((a: FloraCollisionAsset) => [a.id, a.sizeM?.[2] ?? 0]));
+  wood = woodVertices(readFileSync(join(PUBLIC, "kits/flora-province-v1.glb")),
+    heights);
 
   // Build the bodies exactly as VegetationColliders does.
   world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
@@ -213,7 +246,9 @@ describe("trunks at the owner's reported coordinates are solid", () => {
         }
       }
     }
-    expect(tested).toBeGreaterThan(1000);
+    // Was >1000 before round 11 excluded crown CARDS from the wood set: a
+    // third of the low-height "wood" here was leaf cutout hanging below 2.2 m.
+    expect(tested).toBeGreaterThan(500);
     // Thin twigs at the edge of the wood classifier may poke out; trunks may
     // not. 5% is far below any walkable gap and far above float noise.
     expect(
@@ -235,5 +270,52 @@ describe("trunks at the owner's reported coordinates are solid", () => {
       { x: 1, y: 0, z: 0 });
     const hit = world.castRay(ray, 16, true);
     expect(hit, "no collider across the reported trunk").not.toBeNull();
+  });
+});
+
+/**
+ * The leaves gate (round 11). The owner walked into a mangrove's CROWN: the
+ * fitter had drawn a 3.6 m capsule over a foliage cutout card. Nothing could
+ * catch it — the tests above prove wood IS solid, never that air is not.
+ *
+ * The reference is the single `collisionCapsule`, which is the species' trunk
+ * girth measured independently of the fit. No moulded capsule may be much
+ * fatter than the bole it moulds; when one is, it is standing over leaves.
+ */
+describe("fitted capsules stay near the measured trunk girth", () => {
+  /** Post-fix worst case is 1.50 (the fitter's own clamp); 1.6 leaves margin. */
+  const MAX_RATIO = 1.6;
+
+  it("no trunk-capsule species carries a capsule wider than the gate", () => {
+    const manifest = JSON.parse(
+      readFileSync(join(PUBLIC, "kits/flora-province-v1.kit.json"), "utf8"),
+    ) as { assets: FloraCollisionAsset[] };
+    const checked: string[] = [];
+    const offenders: string[] = [];
+    for (const asset of manifest.assets) {
+      if (asset.collision !== "trunk-capsule") continue;
+      const girth = asset.collisionCapsule?.radiusM ?? 0;
+      const segments = asset.collisionSegments ?? [];
+      if (girth <= 0 || segments.length === 0) continue;
+      checked.push(asset.id);
+      const widest = Math.max(...segments.map((s) => s.radiusM));
+      if (widest > MAX_RATIO * girth) {
+        offenders.push(
+          `${asset.id} ${widest.toFixed(2)} m vs girth ${girth.toFixed(2)} m`
+          + ` (${(widest / girth).toFixed(2)}x)`,
+        );
+      }
+    }
+    expect(checked.length).toBeGreaterThan(30);
+    expect(offenders, "capsules fitted over foliage, not wood").toEqual([]);
+  });
+
+  it("the kit records that the trunk fitter ran over it", () => {
+    // `trunk_solids.py` is a POST-pass: a plain `build_kit.py` run would ship
+    // the unfitted fat capsules and every check above would still pass.
+    const manifest = JSON.parse(
+      readFileSync(join(PUBLIC, "kits/flora-province-v1.kit.json"), "utf8"),
+    ) as { trunkSolids?: { fitter?: string } };
+    expect(manifest.trunkSolids?.fitter).toBe("pipeline.trunk_solids");
   });
 });
