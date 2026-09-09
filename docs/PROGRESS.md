@@ -74,29 +74,37 @@ visible to the owner. The owner's call (2026-09-09) was to leave them for this
 session rather than have the water session run them, because they may turn up
 work that belongs to this session's goal.
 
-1. **Run the held rollout first** (owner's call, 2026-09-09): `macro_plot
-   --resolve-all` + `apply_sitings`, then `compile_scatter` and the vegetation
-   export — in that order, because the plot moves records and the scatter must
-   follow. A dry run was clean at 580/580 with zero siting violations. This
-   turns the deploy green, and the owner chose it first *because* it is likely
-   to surface further work, which belongs to this session's goal rather than to
-   a later discovery.
-2. **Finish the chain optimisation.** A one-dock edit cost a **461 s** full
-   province rebuild and we paid it repeatedly. The fast path (patch the graded
-   heightfield with the local carves, rebuild only the tiles they touch;
-   `compile_water` stays whole at 68 s) and a **chain lock** are part-built; the
-   acceptance test is a **byte-identical diff against a full run** for the same
-   edit. **Build the slow reference ONCE, keep the copy, and restore from it
-   between iterations — do NOT re-run the slow chain to reset state.** That
-   mistake cost an hour on 2026-09-09: five full builds where one reference and
-   five copies would have done. The reference only goes stale if the chain's
-   *inputs* change, which editing the fast path does not do. Do it before 3 and
-   4, both of which rebuild repeatedly.
-   Two more cases worth taking: a compile-only change (the wetted width moved no
-   ground yet still took a full chain) should not invalidate the terrain, and
-   grading is cumulative on the carve, so a grader change needs
+1. **Finish the chain optimisation — and do it efficiently** (owner, 2026-09-09).
+   A one-dock edit cost a **461 s** full province rebuild and we paid it
+   repeatedly. Part-built and uncommitted-then-landed: a fast path (patch the
+   graded heightfield with the local carves, rebuild only the tiles they touch;
+   `compile_water` stays whole at 68 s) and a **chain lock**. The acceptance
+   test is a **byte-identical diff against a full run** for the same edit.
+
+   **How to do it cheaply, because the first attempt cost an hour:** build the
+   slow reference **once**, keep the copy, and restore from it between
+   iterations — never re-run the slow chain to reset state. The reference only
+   goes stale if the chain's *inputs* change, and editing the fast path does
+   not. Five full builds were run where one reference and five copies would
+   have done. Consider too whether the proof needs the whole province at all,
+   or whether a bounded region or a synthetic fixture proves the same property
+   for a fraction of the cost — and if you see a better way than either, take
+   it; the owner's instruction is explicitly to do this work efficiently, not
+   just to make the chain efficient.
+
+   Two more cases worth taking: a compile-only change (the wetted width moved
+   no ground yet still took a full chain) should not invalidate the terrain,
+   and grading is cumulative on the carve, so a grader change needs
    `--from refine_province` where a stored pre-grade heightfield would let it
    start at `grade_routes` and save 220 s.
+
+2. **Run the held rollout**: `macro_plot --resolve-all` + `apply_sitings`, then
+   `compile_scatter` and the vegetation export — in that order, because the
+   plot moves records and the scatter must follow. A dry run was clean at
+   580/580 with zero siting violations. **This is what turns the deploy green**,
+   and it is likely to surface further work, which belongs to this session's
+   goal.
+
 3. **Close the water leftovers** — [water-handoff.md](research/rendering/water-handoff.md)
    § what is left: 6.5 km² of class raster dry in every season, 876 of 3,071
    major-lane cells under a canoe's 0.6 m, and the `CLASS_EXT_PX` radius
