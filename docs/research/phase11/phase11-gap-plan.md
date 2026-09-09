@@ -162,6 +162,39 @@ five exemplars were re-derived; 127 focused tests and `blueprint --check` pass.
 **Alongside water?** G18, G19, G9, G13 yes; G8 and G11 need the raster
 chain, so with B2.
 
+### B11 — Sap-Tapping's landing is 91 m from any water (measured 2026-09-09)
+
+**The berth is wrong, not the water.** `dock.sap-tapping-licensed.landing` sits
+at (3478.5, 4373.0) on ground 30.52 m, class `none`, dry. The nearest water a
+canoe could use is **91.4 m south-west** at (3433, 4453) — the head of reach
+118, surface 29.22 m, 0.36–0.48 m deep, band 1. There is no upstream reach
+stopping short: the drainage genuinely begins there. The ground between runs
+29.5–30.70 m for 92 continuous metres, up to 1.48 m *above* the local water,
+so it cannot be dredged — that would be a ditch through the terrace the
+landing stands on.
+
+The blueprint's own prose is false against the terrain: `causalModel.siteAdvantages`
+claims "16 m from a channel deep enough (0.9 m)" and `docks[0].why.microGeography`
+says "piled to the bed at the lip of the channel". Measured gap 91.4 m, and the
+channel that exists carries 0.50 m design depth.
+
+**What must move:** the landing, and with it the works district's water end,
+about **92.6 m on bearing 242°** to roughly **(3435, 4454)** — which is outside
+the current place boundary (x 3468.6–3514.6, z 4368.4–4412.4), so the place
+anchor moves too. Once the berth is on wet ground the approach dredges without
+a blocked sample (the first 100 m from that point is wet at every sample; the
+dredge would cut it to 0.85 m). The alternative is to drop the dock and carry
+the sap out by track — `traversalModes` already lists `walk`.
+
+Also noticed while measuring: this place's `sitingPrefs.nearPoint` is
+(4269, 4176) with `maxM 400`, and the plotted anchor is (3490.6, 4391.8) —
+**808 m away**, so the siting constraint was already violated.
+
+Why it shipped: the dock wet-join guard measured the coarse hydrology raster
+rather than the compiled water, so a 91 m dry connector satisfied a 10 m rule.
+That guard is being fixed on the water side; when it lands, this dock fails
+loudly instead of silently.
+
 ### B5 — Province plot re-solve: evenness, and the 28 dots the water rebuild drowned
 
 **Added 2026-09-07 (reconciliation).** The Phase P water rasters now put 28
