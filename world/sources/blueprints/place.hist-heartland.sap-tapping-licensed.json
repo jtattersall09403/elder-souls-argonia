@@ -438,8 +438,12 @@
             0.656132867
           ],
           [
-            0.448701031,
-            0.653189899
+            0.448701032,
+            0.65477666
+          ],
+          [
+            0.448836652,
+            0.654681726
           ],
           [
             0.44882309,
@@ -825,7 +829,7 @@
           0.607649545
         ],
         "yawDeg": 113.0,
-        "orientationWhy": "The hut has one doorway. Turned to 113.0°, it looks out at 225° onto the tent spur, the path the tapper walks twice a day.",
+        "orientationWhy": "The hut has one doorway. Turned to 113.0\u00b0, it looks out at 225\u00b0 onto the tent spur, the path the tapper walks twice a day.",
         "footprint": [
           [
             0.467818461,
@@ -1602,12 +1606,12 @@
       ]
     },
     "scaleGrounding": {
-      "loreSource": "type recipe sap-tapping-camp (population 2–5, an elevated member on the stage, a mule line); Lore:Hist Sap; world/sources/lore/topics/hist-placement.md §75 (a licence runs against the tree, for one season)",
+      "loreSource": "type recipe sap-tapping-camp (population 2\u20135, an elevated member on the stage, a mule line); Lore:Hist Sap; world/sources/lore/topics/hist-placement.md \u00a775 (a licence runs against the tree, for one season)",
       "population": "3",
       "households": 1,
       "buildingsPlanned": 3,
       "npcsPlanned": 3,
-      "why": "A licence is one stage on one tree for one season. One stage needs a tapper on the deck and two hands on the ground. Three people share a hut, keep a mule line and fill a cart. Three things are BUILT here — the stage, its stair and the hut — and the mule line, the cart and the licence board are the dressing that says what the three are for (97 C5b)."
+      "why": "A licence is one stage on one tree for one season. One stage needs a tapper on the deck and two hands on the ground. Three people share a hut, keep a mule line and fill a cart. Three things are BUILT here \u2014 the stage, its stair and the hut \u2014 and the mule line, the cart and the licence board are the dressing that says what the three are for (97 C5b)."
     },
     "approaches": [
       {

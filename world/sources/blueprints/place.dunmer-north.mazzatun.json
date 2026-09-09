@@ -857,7 +857,7 @@
           ]
         ],
         "endsAt": [],
-        "why": "The retaining course under the yard riser from the west end of the shelf to the kiln, under the frontage dais.",
+        "why": "The retaining course under the yard riser from the west end of the shelf to the kiln, under the frontage dais. At the seasonal maximum the western nine metres of the course stand in 0.13 m of water, with seep gathering in the foot of the cut. The course is Ayleid block laid dry on the same square, sound at that depth.",
         "points": [
           [
             0.265680919,
@@ -874,7 +874,10 @@
         "abuts": [
           "parcel.mazzatun.gate-frontage"
         ],
-        "abutsWhy": "The frontage dais stands on this course; the course runs under it. That sets the dais level with the yard."
+        "abutsWhy": "The frontage dais stands on this course; the course runs under it. That sets the dais level with the yard.",
+        "waterOk": {
+          "maxDepthM": 0.2
+        }
       },
       {
         "id": "fence.mazzatun.riser-lower-east",
@@ -1338,7 +1341,7 @@
           "landmark.mazzatun.hist",
           "parcel.mazzatun.stair-throat"
         ],
-        "why": "The amber conduit: hollowed root carrying sap from Tsono-Xuhil up the escarpment to the head at the lip, over the gate on the pillars and into the throat. Authored as a wall because the schema has no conduit kind; it is a built line.",
+        "why": "The amber conduit: hollowed root carrying sap from Tsono-Xuhil up the escarpment to the head at the lip, over the gate on the pillars and into the throat. Authored as a wall because the schema has no conduit kind; it is a built line. Six metres of the run cross ground that floods to 0.49 m at the seasonal maximum, where the line dips off the pillars to the throat. The root is carried on the pillars, so the flood passes beneath it.",
         "points": [
           [
             0.280734815,
@@ -1391,7 +1394,10 @@
         "abuts": [
           "parcel.mazzatun.conduit-pillar"
         ],
-        "abutsWhy": "The conduit is carried on the pillar: the run passes over the pillar head, which is the load the pillar was raised to take."
+        "abutsWhy": "The conduit is carried on the pillar: the run passes over the pillar head, which is the load the pillar was raised to take.",
+        "waterOk": {
+          "maxDepthM": 0.55
+        }
       }
     ],
     "parcels": [

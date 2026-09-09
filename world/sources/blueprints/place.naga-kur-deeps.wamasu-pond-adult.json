@@ -178,24 +178,20 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.328993906,
-            0.594529223
+            0.328989067,
+            0.594542925
           ],
           [
-            0.330082196,
-            0.599242416
+            0.330092304,
+            0.5984388
           ],
           [
-            0.331462397,
-            0.600622617
+            0.332000677,
+            0.600347172
           ],
           [
-            0.333260691,
-            0.601671623
-          ],
-          [
-            0.335195059,
-            0.601799527
+            0.335390324,
+            0.602423777
           ],
           [
             0.332212029,
@@ -839,7 +835,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A stake line along the landward edge of the offering shelf, which marks where the offering ground begins for anyone coming up the bank path. The shelf has an edge from the inside as well as from the outside.",
+        "why": "A stake line along the landward edge of the offering shelf, which marks where the offering ground begins for anyone coming up the bank path. The shelf has an edge from the inside as well as from the outside. At the seasonal maximum the pond covers the shelf. The whole stake line then stands in 0.80 to 1.04 m of water. The offerings are made at that season.",
         "points": [
           [
             0.333898,
@@ -855,7 +851,10 @@
           ]
         ],
         "class": "fence",
-        "moduleM": 1.58
+        "moduleM": 1.58,
+        "waterOk": {
+          "maxDepthM": 1.1
+        }
       }
     ],
     "siting": {
@@ -1204,16 +1203,16 @@
         ],
         "boundary": [
           [
-            0.328993906,
-            0.594529223
+            0.328989067,
+            0.594542925
           ],
           [
-            0.330075857,
-            0.599214962
+            0.330082302,
+            0.598403479
           ],
           [
-            0.340205994,
-            0.611535399
+            0.340200072,
+            0.611529235
           ],
           [
             0.347249373,
@@ -1264,16 +1263,16 @@
         ],
         "boundary": [
           [
-            0.328993906,
-            0.594529223
+            0.328989067,
+            0.594542925
           ],
           [
-            0.330075857,
-            0.599214962
+            0.330082302,
+            0.598403479
           ],
           [
-            0.340205994,
-            0.611535399
+            0.340200072,
+            0.611529235
           ],
           [
             0.347249373,
