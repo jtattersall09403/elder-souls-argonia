@@ -45,6 +45,20 @@ from .scale import RAW_M
 WIDTH_COEF, WIDTH_EXP = 14.0, 0.40      # Leopold–Maddock hydraulic width (m, km²)
 MIN_ACCUM_KM2 = 0.02
 CENTRE_DEPTH = {1: 0.5, 2: 1.2, 3: 2.0}  # water depth at the centreline by band
+# --- wetted width (what the water occupies, not what the trench is) ---------
+# `width` above is the HYDRAULIC width: the bank-to-bank width of the trench
+# the carve digs, and the width the field raster, flood, road and ford rules
+# all use. The water inside that trench does not fill it. `wetted_width()`
+# derives the width the flow actually occupies from continuity on the carved
+# cross-section (see the function).
+SPECIFIC_RUNOFF = 0.0475                 # m³/s per km² of catchment. Mean annual runoff of a
+                                         # wet-tropical lowland (~1500 mm/yr) — Black Marsh is
+                                         # the wettest province; one physical constant for the
+                                         # whole province, never a per-site figure.
+BASEFLOW_M3S = 0.002                     # a headwater trickle still carries something (2 L/s;
+                                         # binds on no station of the shipped network, so the
+                                         # wetted width is pure flow, not a floor)
+WETTED_MIN_M = 0.6                       # a stream narrower than this is a seep, not a channel
 FLOOR_CLEAR_M = 0.15                     # natural level = valley floor + this
 FLOOR_BELOW_CENTRE_M = 4.0               # the section min may not chase a cliff
 SHOULDER_RAISE_M = 0.3                   # shoulder crest = L + this, from the water's edge...
@@ -852,6 +866,41 @@ def _classify(sol: ChannelSolution, kind: np.ndarray) -> None:
     v = np.maximum(v, floor)
     v[sol.pooled] = np.minimum(v[sol.pooled], floor[sol.pooled])
     sol.speed = v.astype(np.float32)
+
+
+def wetted_width(sol: ChannelSolution) -> np.ndarray:
+    """Width of the WATER at each station (m), <= the hydraulic `width`.
+
+    Relation used: continuity on the carved section. The carve cuts a
+    parabolic bed, `bed(t) = L - D(1 - t²)` for `t = 2·offset/width` (see
+    `carve_to_profile`), so a flow standing `dc` deep at the centreline
+    reaches out to `t = sqrt(dc/D)` and its section area is
+        A = (2/3)·(width·t)·dc = (2/3)·width·D^-0.5·dc^1.5.
+    Discharge closes it: `Q = A·v` with Q from the catchment (specific
+    runoff × accum) and v the station's banded speed, giving
+        dc = (1.5·Q·sqrt(D) / (width·v))^(2/3),  wetted = width·sqrt(dc/D).
+
+    Why this relation and not another: Q, v, D and the section are all
+    carried per station, and only Q is new (one province-wide runoff
+    coefficient, no per-site number). The alternative — inverting the
+    Leopold–Maddock width law — is circular, since `width` IS that law, and
+    would return a fixed fraction of it. This one varies with catchment,
+    slope-driven speed and band independently.
+
+    Bank to bank at a pooled station: standing water fills its body.
+    """
+    Q = np.maximum(SPECIFIC_RUNOFF * np.maximum(sol.accum.astype(np.float64), 0.0),
+                   BASEFLOW_M3S)
+    w = np.maximum(sol.width.astype(np.float64), 1e-3)
+    D = np.maximum(sol.depth.astype(np.float64), 0.05)
+    v = np.maximum(sol.speed.astype(np.float64), 0.05)
+    dc = np.minimum((1.5 * Q * np.sqrt(D) / (w * v)) ** (2.0 / 3.0), D)
+    wet = w * np.sqrt(dc / D)
+    wet = np.clip(wet, np.minimum(WETTED_MIN_M, w), w)
+    pooled = getattr(sol, "pooled", None)
+    if pooled is not None:
+        wet = np.where(pooled, w, wet)
+    return wet.astype(np.float32)
 
 
 # ---------------------------------------------------------------------------

@@ -396,6 +396,32 @@ def test_compiled_meta_carries_strips_and_cascades(province):
         assert abs(np.hypot(c["direction"]["x"], c["direction"]["z"]) - 1.0) < 1e-3
 
 
+def test_wetted_width_follows_the_flow_not_the_trench():
+    """Continuity, not a fraction: doubling the catchment widens the water,
+    speeding the same flow up narrows it, and the trench is never exceeded."""
+    def sol(accum, speed, band=1, width=None, n=1):
+        acc = np.full(n, accum, dtype=np.float32)
+        w = (ch.WIDTH_COEF * np.maximum(acc, ch.MIN_ACCUM_KM2) ** ch.WIDTH_EXP
+             if width is None else np.full(n, width, dtype=np.float32))
+        return ch.ChannelSolution(
+            accum=acc, width=w.astype(np.float32),
+            depth=np.full(n, ch.CENTRE_DEPTH[band], dtype=np.float32),
+            speed=np.full(n, speed, dtype=np.float32),
+            pooled=np.zeros(n, dtype=bool))
+    small = float(ch.wetted_width(sol(0.2, 1.0))[0])
+    big = float(ch.wetted_width(sol(2.0, 1.0))[0])
+    fast = float(ch.wetted_width(sol(0.2, 3.0))[0])
+    assert 0 < small < big
+    assert fast < small
+    # never wider than the trench, however much water arrives
+    s = sol(1e6, 0.15)
+    assert ch.wetted_width(s)[0] <= s.width[0] + 1e-6
+    # standing water fills its body bank to bank
+    s = sol(0.2, 1.0)
+    s.pooled = np.ones(1, dtype=bool)
+    assert float(ch.wetted_width(s)[0]) == pytest.approx(float(s.width[0]))
+
+
 @needs_vault
 def test_lowland_rivers_have_a_speed_floor(province):
     npz, hydro_meta = province

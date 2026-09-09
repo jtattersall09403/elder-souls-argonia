@@ -34,6 +34,14 @@ Writes:
     water-class.png    1345² RGB: R class idx, G turbidity, B salinity
     water-owner.png    2017² L: 0 field / 128 strip / 255 fall footprint
     water-meta.json    encodings, channels[] (strips), cascades[], stats
+
+`water-meta.json` carries, per strip point (`channels[].points[]`): x, z, y,
+bedY, `halfWidthM` (HYDRAULIC — half the trench the carve digs, what the
+field raster, flood and ford rules use), `wettedHalfWidthM` (half the width
+the WATER occupies, `channels.wetted_width`; <= halfWidthM), speedMS, season,
+kind, arcM. Per cascade: lip/plunge/direction, `widthM` (hydraulic),
+`wettedWidthM` (the water), dropM, profile, lipSpeedMS. The renderer draws
+the wetted width; the ground is unchanged by it.
 """
 
 from __future__ import annotations
@@ -159,6 +167,17 @@ def spread_table(t: np.ndarray, g: np.ndarray, rise: float, iters: int) -> np.nd
             break
         t = np.where(take, lvl, t)
     return t
+
+
+def _ratio_census(pairs) -> dict:
+    """min / median / max of wetted-over-hydraulic width, for the census print.
+    A spread of ~1.0 everywhere would mean the wetted width is measuring
+    nothing; the shipped network runs 0.10-0.24."""
+    r = np.array([w / h for w, h in pairs if h > 0], dtype=np.float64)
+    if not len(r):
+        return {"n": 0}
+    return {"n": int(len(r)), "min": round(float(r.min()), 3),
+            "median": round(float(np.median(r)), 3), "max": round(float(r.max()), 3)}
 
 
 def _terrain_sampler(refined: np.ndarray, mpp: float):
@@ -551,6 +570,9 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
     terrain_at = _terrain_sampler(g, mpp)
     x_m = sol.x * mpp
     z_m = sol.y * mpp
+    # the WATER's width, not the trench's: `width` is the hydraulic (bank-to-bank)
+    # width the carve, flood and ford rules use; the renderer draws the flow
+    wetted = ch.wetted_width(sol)
 
     def field_at(k):
         # the field surface at the cell the EMITTED (rounded) coordinates name
@@ -563,6 +585,7 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
                 "y": round(float(sol.L[k] if y is None else y), 3),
                 "bedY": round(float(terrain_at(x_m[k], z_m[k])[0]), 2),
                 "halfWidthM": round(float(sol.width[k] * 0.5), 2),
+                "wettedHalfWidthM": round(float(wetted[k] * 0.5), 2),
                 "speedMS": round(float(sol.speed[k]), 2),
                 "season": round(float(band_resp[sol.band[k]]), 2),
                 "kind": kind}
@@ -617,6 +640,7 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
             "plunge": {"x": round(px, 2), "y": round(float(sol.L[b]), 3), "z": round(pz, 2)},
             "direction": {"x": round(dx, 4), "y": 0, "z": round(dz, 4)},
             "widthM": round(float(sol.width[a]), 2),
+            "wettedWidthM": round(float(wetted[a]), 2),
             "dropM": round(float(sol.L[a] - sol.L[b]), 3),
             "profileStepM": PROFILE_STEP_M, "profileStartM": PROFILE_START_M,
             "profile": [round(float(v), 2) for v in prof],
@@ -642,6 +666,9 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
                          "fall": int((sol.kind == 2).sum()), "lost": int((sol.kind == 3).sum())},
         "stripCount": len(strips), "stripKm": round(strip_len / 1000.0, 2),
         "cascadeCount": len(cascades),
+        "wettedFracCascades": _ratio_census([(c["wettedWidthM"], c["widthM"]) for c in cascades]),
+        "wettedFracStrips": _ratio_census([(p["wettedHalfWidthM"], p["halfWidthM"])
+                                           for s in strips for p in s["points"]]),
         "wetFrac": round(float(wet.mean()), 4),
         "visibleWaterFrac2017": round(float(wet2.mean()), 4),
         "tableFrac2017": round(float(table2.mean()), 4),

@@ -213,6 +213,40 @@ def test_join_points_lie_on_the_field_surface(S):
     assert not bad, f"{len(bad)} joins off the field: {bad[:8]}"
 
 
+def test_wetted_width_is_shipped_and_is_the_water_not_the_trench(S):
+    """The renderer draws the width of the WATER. `widthM`/`halfWidthM` stay
+    the hydraulic (trench) width the carve, flood and ford rules use; the
+    wetted width is positive, never wider than the trench, and — the point of
+    the field — is NOT a fixed fraction of it, or it would be a second copy of
+    the same number (the defect this replaced: the fall was drawn bank to
+    bank and read as a curtain instead of a ribbon)."""
+    ratios = []
+    for c in S.meta["cascades"]:
+        w, h = c["wettedWidthM"], c["widthM"]
+        assert w > 0, f"{c['id']} wetted width {w}"
+        assert w <= h + 1e-6, f"{c['id']} wetted {w} > hydraulic {h}"
+        ratios.append(w / h)
+    assert len(ratios) == len(S.meta["cascades"]) > 0
+    # falls are flowing water: none of them fills its trench
+    assert max(ratios) < 0.9, f"cascade wetted/hydraulic max {max(ratios):.3f}"
+    assert max(ratios) / max(min(ratios), 1e-6) > 1.2, \
+        f"cascade wetted width is a fixed fraction of the trench: {sorted(ratios)[:3]}"
+
+    strip_ratios = []
+    for chn in S.meta["channels"]:
+        for p in chn["points"]:
+            w, h = p["wettedHalfWidthM"], p["halfWidthM"]
+            assert w > 0, f"{chn['id']} wetted half-width {w}"
+            assert w <= h + 1e-6, f"{chn['id']} wetted {w} > hydraulic {h}"
+            strip_ratios.append(w / h)
+    assert len(strip_ratios) > 100
+    # a pooled join may fill its body (ratio 1); the flowing points may not
+    assert np.median(strip_ratios) < 0.9, \
+        f"strip wetted/hydraulic median {np.median(strip_ratios):.3f}"
+    assert np.percentile(strip_ratios, 90) / max(min(strip_ratios), 1e-6) > 1.2, \
+        "strip wetted width is a fixed fraction of the trench"
+
+
 def _cliff(cascade):
     """(drop, face slope, horizontal run) of a cascade, from its OWN geometry:
     the drop over the horizontal distance lip -> plunge. The old test scanned
