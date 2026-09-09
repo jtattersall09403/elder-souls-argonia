@@ -1352,15 +1352,37 @@ def resolve_out(arg: str | None, bp_id: str) -> tuple[Path, Path]:
     return target, target.parent
 
 
-def main() -> int:
+BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
+DEFAULT_OUT_DIR = REPO_ROOT / "tooling" / "world-generation" / "output" / "settlements"
+
+
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--blueprint", required=True)
+    ap.add_argument("--blueprint", default=None)
+    ap.add_argument("--all", action="store_true",
+                    help="compile every authored blueprint into the default output "
+                         "directory. This is what the terrain chain runs: "
+                         "export_settlement_bundle refuses a compile whose source "
+                         "blueprint has moved under it, and until this existed "
+                         "nothing in the chain PRODUCED what the exporter consumes, "
+                         "so a blueprint edit silently left the world unbuildable.")
     ap.add_argument("--skip-catalogue", action="store_true",
                     help="skip the blueprint-id-in-catalogue check (fixtures)")
     ap.add_argument("--out", default=None,
                     help="a file path, or a DIRECTORY to write <id>.settlement.json into; the promise "
                          "ledger is written beside it, so --out /tmp/x touches nothing in the tree")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
+    if args.all == bool(args.blueprint):
+        ap.error("give exactly one of --blueprint or --all")
+
+    if args.all:
+        out_dir = args.out or str(DEFAULT_OUT_DIR)
+        worst = 0
+        for path in sorted(BLUEPRINT_DIR.glob("place.*.json")):
+            code = main(["--blueprint", str(path), "--out", out_dir]
+                        + (["--skip-catalogue"] if args.skip_catalogue else []))
+            worst = max(worst, code)
+        return worst
 
     data = json.loads(Path(args.blueprint).read_text())
     bp = data["blueprint"]

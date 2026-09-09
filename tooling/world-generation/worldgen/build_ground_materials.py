@@ -106,7 +106,13 @@ MATERIALS = [
     ("salt_flat",     "acg", "Ground054",                                   9.0, None, 78),
     ("dry_clay",      "ph",  "mud_cracked_dry_riverbed_002",                7.0, None, 75),
     ("dirt_path",     "pr",  "dirtpath01.dds",                              6.0, None, 68),
-    ("peat_slope",    "bsa", "textures/landscape/frozenmarshdirtslopes01.dds", 8.0, (14, 1.08, 1.0), 45),
+    # Owner ruling 2026-09-09: take Tropical's own repaint, not the vanilla
+    # FROZEN marsh slope hue-shifted warm. Tropical ships this exact filename
+    # already repainted for the climate, so the tint was a warm coat of paint
+    # over snow-country dirt where a tropical texture existed all along. The
+    # owner reviewed the tint in an earlier ground round and, told what it was,
+    # said they had simply missed it.
+    ("peat_slope",    "ts",  "landscape/frozenmarshdirtslopes01.dds",        8.0, None, 45),
     ("track_mud",     "ph",  "aerial_mud_1",                                6.0, None, 55),
     ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 74),
     ("mountain_rock", "ts",  "mountains/mountainslab01.dds",               16.0, None, 62),

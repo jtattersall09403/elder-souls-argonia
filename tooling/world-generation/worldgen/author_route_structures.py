@@ -466,6 +466,33 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
         print(f"clipped stored structure {s['id']} from {float(s['toM']):.2f} m "
               f"to current route endpoint {end_m:.2f} m")
     structures = [_refresh(s, ways_by_id, heights) for s in kept]
+    # Stored data can already carry duplicate ids: the numbering used to be
+    # seeded from the COUNT of survivors, so a dropped structure restarted
+    # numbering inside a range already issued. Ten such pairs are in the
+    # shipped route-structures.json. That is damage to repair, not a reason to
+    # refuse to author — the uniqueness guard below is an invariant on what
+    # this pass EMITS, and it can only do its job if stale collisions have been
+    # resolved first. Repaired deterministically (later window on each way
+    # takes the next free suffix, in chainage order) and reported by name.
+    seen: dict[str, int] = {}
+    renumbered: list[tuple[str, str]] = []
+    highest = _highest_suffix_by_way(structures)
+    for s in sorted(structures, key=lambda s: (s["wayId"], s["fromM"])):
+        sid = s["id"]
+        if sid not in seen:
+            seen[sid] = 1
+            continue
+        wid = s["wayId"]
+        slug = wid.split(".", 1)[1].replace(".", "-")
+        highest[wid] = highest.get(wid, 0) + 1
+        s["id"] = f"structure.{slug}.{highest[wid]}"
+        seen[s["id"]] = 1
+        renumbered.append((sid, s["id"]))
+    for was, now in renumbered:
+        print(f"renumbered stored duplicate {was} -> {now}")
+    if renumbered:
+        print(f"{len(renumbered)} stored structures carried a duplicate id "
+              "(old count-based numbering) and were renumbered")
     taken: dict[str, list[tuple[float, float]]] = {}
     counts = _highest_suffix_by_way(structures)
     for s in structures:
