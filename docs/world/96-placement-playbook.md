@@ -121,6 +121,14 @@ A place type may be rolled out without an owner round when ALL of these hold:
 
 Cities never leave the owner's hands (0041).
 
+**A structure no piece fits is not published** (water round 2, 2026-09-09).
+The 0047 re-carve produced short over-cap windows that no piece of their
+family spans, so 38 authored structures compiled to zero pieces. They stay in
+`world/sources/routes/route-structures.json`, because the debt is real and the
+grader still needs their windows; they are kept out of the studio bundle,
+because nothing is built there. The count prints every run — if it grows, the
+families need a shorter piece, not a looser gate.
+
 ## 4. Records and routing
 
 - Process (this module) · taste steers → 0041 Taste ledger · per-place

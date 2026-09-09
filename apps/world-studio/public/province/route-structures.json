@@ -1,5 +1,5 @@
 {
-  "_": "Route structures for the studio routes layer, world metres (X east, Z south). Written by worldgen.compile_route_structures.",
+  "_": "Route structures for the studio routes layer, world metres (X east, Z south). Written by worldgen.compile_route_structures. Structures whose window fits no piece of their family are recorded in world/sources/routes/route-structures.json but not published here: nothing is built on the ground.",
   "schemaVersion": 1,
   "structures": [
     {
@@ -2064,50 +2064,6 @@
     },
     {
       "family": "dunmer-stone",
-      "id": "structure.dunmer-north-crystalgate.3",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.crystalgate",
-      "why": "The gate stands above its own quarry face. That quarry is still worked, so the approach climbs on masonry rather than through the working stone."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-crystalgate.4",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.crystalgate",
-      "why": "The gate stands above its own quarry face. That quarry is still worked, so the approach climbs on masonry rather than through the working stone."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-crystalgate.5",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.crystalgate",
-      "why": "The gate stands above its own quarry face. That quarry is still worked, so the approach climbs on masonry rather than through the working stone."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-crystalgate.6",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.crystalgate",
-      "why": "The gate stands above its own quarry face. That quarry is still worked, so the approach climbs on masonry rather than through the working stone."
-    },
-    {
-      "family": "dunmer-stone",
       "id": "structure.dunmer-north-crystalgate.7",
       "kind": "lip-step",
       "pieces": 3,
@@ -3053,61 +3009,6 @@
       "spanM": 45.1,
       "wayId": "track.dunmer-north.mazzatun",
       "why": "The road to Mazzatun climbs out of the flood ground onto a ridge. That ridge is the reason the ruin above it has stayed dry."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-nine-fords.1",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.nine-fords",
-      "why": "The track leaves the water between the fords and goes over a shoulder of higher ground. That shoulder is what holds the two fords apart."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-nine-fords.2",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.nine-fords",
-      "why": "The track leaves the water between the fords and goes over a shoulder of higher ground. That shoulder is what holds the two fords apart."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-nine-fords.3",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.nine-fords",
-      "why": "The track leaves the water between the fords and goes over a shoulder of higher ground. That shoulder is what holds the two fords apart."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-nine-fords.4",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.nine-fords",
-      "why": "The track leaves the water between the fords and goes over a shoulder of higher ground. That shoulder is what holds the two fords apart."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-nine-fords.5",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.nine-fords",
-      "why": "The track leaves the water between the fords and goes over a shoulder of higher ground. That shoulder is what holds the two fords apart."
     },
     {
       "family": "dunmer-stone",
@@ -6819,17 +6720,6 @@
     },
     {
       "family": "dunmer-stone",
-      "id": "structure.dunmer-north-the-field-gate-garrison.10",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.the-field-gate-garrison",
-      "why": "The garrison sits on the high field above a run of terraces. Each terrace lip is a wall of packed clay that would slump if it were cut back."
-    },
-    {
-      "family": "dunmer-stone",
       "id": "structure.dunmer-north-the-field-gate-garrison.11",
       "kind": "deck",
       "pieces": 5,
@@ -7753,39 +7643,6 @@
       ],
       "riseM": -3.56,
       "spanM": 23.3,
-      "wayId": "track.dunmer-north.the-field-gate-garrison",
-      "why": "The garrison sits on the high field above a run of terraces. Each terrace lip is a wall of packed clay that would slump if it were cut back."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-the-field-gate-garrison.7",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.the-field-gate-garrison",
-      "why": "The garrison sits on the high field above a run of terraces. Each terrace lip is a wall of packed clay that would slump if it were cut back."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-the-field-gate-garrison.8",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.dunmer-north.the-field-gate-garrison",
-      "why": "The garrison sits on the high field above a run of terraces. Each terrace lip is a wall of packed clay that would slump if it were cut back."
-    },
-    {
-      "family": "dunmer-stone",
-      "id": "structure.dunmer-north-the-field-gate-garrison.9",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
       "wayId": "track.dunmer-north.the-field-gate-garrison",
       "why": "The garrison sits on the high field above a run of terraces. Each terrace lip is a wall of packed clay that would slump if it were cut back."
     },
@@ -11859,182 +11716,6 @@
     },
     {
       "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.10",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.11",
-      "kind": "stepped-ascent",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.12",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.13",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.14",
-      "kind": "stepped-ascent",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.15",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.16",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.17",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.2",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.3",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.4",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.5",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.6",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.7",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.8",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-lowmere-raft-town.9",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.lowmere-raft-town",
-      "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
-    },
-    {
-      "family": "stone-rural",
       "id": "structure.imperial-fringe-marcians-terrace.1",
       "kind": "lip-step",
       "pieces": 6,
@@ -12758,39 +12439,6 @@
       ],
       "riseM": 0.86,
       "spanM": 31.8,
-      "wayId": "track.imperial-fringe.onkobra-kwama-mine",
-      "why": "The path to the mine crosses the spoil bank the mine itself threw up; digging through spoil to flatten it would only put it back on the path."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-onkobra-kwama-mine.2",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.onkobra-kwama-mine",
-      "why": "The path to the mine crosses the spoil bank the mine itself threw up; digging through spoil to flatten it would only put it back on the path."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-onkobra-kwama-mine.3",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.onkobra-kwama-mine",
-      "why": "The path to the mine crosses the spoil bank the mine itself threw up; digging through spoil to flatten it would only put it back on the path."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-onkobra-kwama-mine.4",
-      "kind": "lip-step",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
       "wayId": "track.imperial-fringe.onkobra-kwama-mine",
       "why": "The path to the mine crosses the spoil bank the mine itself threw up; digging through spoil to flatten it would only put it back on the path."
     },
@@ -14083,28 +13731,6 @@
       ],
       "riseM": -0.14,
       "spanM": 28.4,
-      "wayId": "track.imperial-fringe.stonewastes",
-      "why": "The stonewastes are slabs on edge with soil between them. The track goes over the slabs because under them there is nothing to cut."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-stonewastes.6",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.imperial-fringe.stonewastes",
-      "why": "The stonewastes are slabs on edge with soil between them. The track goes over the slabs because under them there is nothing to cut."
-    },
-    {
-      "family": "stone-rural",
-      "id": "structure.imperial-fringe-stonewastes.7",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
       "wayId": "track.imperial-fringe.stonewastes",
       "why": "The stonewastes are slabs on edge with soil between them. The track goes over the slabs because under them there is nothing to cut."
     },
@@ -18785,50 +18411,6 @@
       ],
       "riseM": -2.98,
       "spanM": 72.6,
-      "wayId": "track.pirate-freeholds.dunmer-frontier-holding",
-      "why": "The holding was placed to watch the water from height. The last climb was left awkward on purpose, so it is carried rather than flattened."
-    },
-    {
-      "family": "scaffold-timber",
-      "id": "structure.pirate-freeholds-dunmer-frontier-holding.4",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.pirate-freeholds.dunmer-frontier-holding",
-      "why": "The holding was placed to watch the water from height. The last climb was left awkward on purpose, so it is carried rather than flattened."
-    },
-    {
-      "family": "scaffold-timber",
-      "id": "structure.pirate-freeholds-dunmer-frontier-holding.5",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.pirate-freeholds.dunmer-frontier-holding",
-      "why": "The holding was placed to watch the water from height. The last climb was left awkward on purpose, so it is carried rather than flattened."
-    },
-    {
-      "family": "scaffold-timber",
-      "id": "structure.pirate-freeholds-dunmer-frontier-holding.6",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
-      "wayId": "track.pirate-freeholds.dunmer-frontier-holding",
-      "why": "The holding was placed to watch the water from height. The last climb was left awkward on purpose, so it is carried rather than flattened."
-    },
-    {
-      "family": "scaffold-timber",
-      "id": "structure.pirate-freeholds-dunmer-frontier-holding.7",
-      "kind": "deck",
-      "pieces": 0,
-      "pointsM": [],
-      "riseM": 0.0,
-      "spanM": 0.0,
       "wayId": "track.pirate-freeholds.dunmer-frontier-holding",
       "why": "The holding was placed to watch the water from height. The last climb was left awkward on purpose, so it is carried rather than flattened."
     },

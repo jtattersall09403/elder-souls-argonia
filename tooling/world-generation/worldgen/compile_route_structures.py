@@ -374,20 +374,37 @@ def studio_export(by_way: dict[str, dict], rows: list[dict]) -> dict:
     B's job — this is the 2D footprint only."""
     row_by_id = {r["structureId"]: r for r in rows}
     out = []
+    unplaced = []
     for wid in sorted(by_way):
         doc = by_way[wid]
         for st in doc["structures"]:
             ps = [p for p in doc["placements"] if p["provenance"]["sourceStructureId"] == st["id"]]
             r = row_by_id[st["id"]]
+            # A window no piece of its family fits carries no piece, so there
+            # is nothing for the studio to draw and nothing built on the
+            # ground. It stays in the authored record — that is where the debt
+            # lives — but shipping it here would publish a structure of zero
+            # pieces as if it existed. Re-grading changes the window lengths,
+            # so this is a moving set: the count is printed every run.
+            if not r["pieces"]:
+                unplaced.append(st["id"])
+                continue
             out.append({
                 "id": st["id"], "wayId": wid, "kind": st["kind"],
                 "family": st["family"], "pieces": r["pieces"],
                 "riseM": r["riseM"], "spanM": r["spanM"], "why": st["why"],
                 "pointsM": [[p["posM"][0], p["posM"][2]] for p in ps],
             })
+    if unplaced:
+        print(f"[route-structures] {len(unplaced)} authored structures place no "
+              f"piece and are not published: {', '.join(sorted(unplaced)[:6])}"
+              f"{' …' if len(unplaced) > 6 else ''}")
     return {"schemaVersion": SCHEMA_VERSION,
             "_": "Route structures for the studio routes layer, world metres "
-                 "(X east, Z south). Written by worldgen.compile_route_structures.",
+                 "(X east, Z south). Written by worldgen.compile_route_structures. "
+                 "Structures whose window fits no piece of their family are "
+                 "recorded in world/sources/routes/route-structures.json but not "
+                 "published here: nothing is built on the ground.",
             "structures": out}
 
 

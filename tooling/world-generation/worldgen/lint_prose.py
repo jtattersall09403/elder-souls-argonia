@@ -42,6 +42,7 @@ of markdown files. It never edits anything.
 from __future__ import annotations
 
 import argparse
+import ast
 import json
 import re
 import sys
@@ -395,6 +396,18 @@ def lint_quests(res: LintResult) -> None:
 
 ROUTE_STRUCTURES = (catalogue.REPO_ROOT / "world" / "sources" / "routes"
                     / "route-structures.json")
+AUTHOR_ROUTE_STRUCTURES = Path(__file__).with_name("author_route_structures.py")
+
+
+def _literal_dict(module_path: Path, name: str) -> dict:
+    """The value of a module-level dict literal, read without importing it."""
+    tree = ast.parse(module_path.read_text(encoding="utf-8"), str(module_path))
+    for node in tree.body:
+        targets = (node.targets if isinstance(node, ast.Assign)
+                   else [node.target] if isinstance(node, ast.AnnAssign) else [])
+        if any(isinstance(t, ast.Name) and t.id == name for t in targets):
+            return ast.literal_eval(node.value)
+    raise RuntimeError(f"{name} is not a literal assignment in {module_path.name}")
 
 
 def lint_route_structures(res: LintResult) -> None:
@@ -411,12 +424,18 @@ def lint_route_structures(res: LintResult) -> None:
     Sentences already linted from WHY are not linted twice (the file copies
     them verbatim), so the density figures stay honest.
 
-    A missing or empty surface is a FAILURE, not a clean run: the module must
-    import and WHY must be non-empty, or this raises.
-    """
-    from . import author_route_structures as ars      # local: keeps import cost off other runs
+    A missing or empty surface is a FAILURE, not a clean run: WHY must be
+    readable and non-empty, or this raises.
 
-    why = getattr(ars, "WHY", None)
+    WHY is read from the module's SOURCE rather than by importing it. The
+    linter is part of the repo-standards gate, which CI runs in the Node build
+    job with no Python packages installed, and importing
+    `author_route_structures` drags in numpy through the grading chain — the
+    gate died on `ModuleNotFoundError: numpy` the first time this surface was
+    added. The dict is a literal, so `ast` reads it exactly, with no
+    dependencies at all.
+    """
+    why = _literal_dict(AUTHOR_ROUTE_STRUCTURES, "WHY")
     if not isinstance(why, dict) or not why:
         raise RuntimeError("author_route_structures.WHY is missing or empty — "
                            "the route-structure prose surface cannot lint nothing and pass")
