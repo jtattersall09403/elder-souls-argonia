@@ -52,7 +52,12 @@ CLASS_RANK = {
     "track": 3, "causeway": 3,
     "road": 4, "trunk": 4,
 }
-WATER_CLASSES = {"lane", "channel", "canal"}
+# `river` belongs here (2026-09-09): `compile_minor_waterways` classes a minor
+# waterway `river` when it runs down water that already exists rather than a cut
+# line, so a berth on a natural reach was served by a route the water set did
+# not contain — `blueprint._water_routes` reported it absent from the published
+# network and `dock_dredge` never saw its approach. A river is water.
+WATER_CLASSES = {"lane", "channel", "canal", "river"}
 
 
 @dataclass(frozen=True)

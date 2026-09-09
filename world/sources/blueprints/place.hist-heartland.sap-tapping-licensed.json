@@ -4,11 +4,11 @@
     "id": "place.hist-heartland.sap-tapping-licensed",
     "seed": "place.hist-heartland.sap-tapping-licensed",
     "causalModel": {
-      "founding": "The assembly designated this Hist for tapping and issued one licence against it: one stage, one season, one tree. The stage stands where the crew could raise it without cutting into the root flare.",
-      "siteAdvantages": "A firm terrace at 30.7 to 31.4 m, standing a metre and a half above the channel and rising to the hut pad at 32.7 m. The landing lies 22.4 m off on bearing 327, standing in the channel, which carries 0.60 m there and dredges to 0.85 m for a poled canoe. The canopy closes at 1.00 overhead; the road is 526 m to the south-west.",
+      "founding": "The assembly designated this Hist for tapping and issued a licence against it, for a single stage on the tree for one season. The stage stands where the crew could raise it without cutting into the root flare.",
+      "siteAdvantages": "A firm terrace at 30.7 to 31.4 m under a closed canopy, rising to the hut pad at 32.7 m, with the road 526 m to the south-west. The water is not here. The reach below the camp falls 29 m in 460 m and stands in pockets. The canoe lies 370 m away at the head of the tide, where the surface runs dead level and the dredged creek carries 0.84 m for 358 m to the coast.",
       "occupantsMotive": "A tapper and two crew whose licence is their livelihood. They keep the stage correct and police poachers themselves, because a district that cannot police itself loses its licences.",
-      "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage last year. Night landings at the same channel are not the crew's work; the crew do not stop them either.",
-      "wouldChangeIf": "A licence revoked would empty the stage within a season and make the same channel a poacher's road."
+      "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage last year. The lay-by is out of sight of the camp and out of earshot. Night landings there are not the crew's work.",
+      "wouldChangeIf": "A licence revoked would empty the stage within a season and leave the lay-by to whoever poles up to it."
     },
     "macroEvidence": [
       {
@@ -41,20 +41,44 @@
     ],
     "boundary": [
       [
-        0.462873862,
-        0.604434117
+        0.462873393,
+        0.604434263
       ],
       [
-        0.469111862,
-        0.604434117
+        0.469111944,
+        0.604434263
       ],
       [
-        0.469111862,
-        0.610401117
+        0.469111944,
+        0.610401573
       ],
       [
-        0.462873862,
-        0.610401117
+        0.465178945,
+        0.610401573
+      ],
+      [
+        0.45432929,
+        0.650301178
+      ],
+      [
+        0.45432929,
+        0.658438419
+      ],
+      [
+        0.44646329,
+        0.658438419
+      ],
+      [
+        0.44646329,
+        0.650301178
+      ],
+      [
+        0.459754117,
+        0.608936869
+      ],
+      [
+        0.462873393,
+        0.607309421
       ]
     ],
     "districts": [
@@ -65,57 +89,65 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.462962138,
-            0.605008696
+            0.465411185,
+            0.605775256
           ],
           [
-            0.462921772,
-            0.605391874
+            0.465186115,
+            0.606000884
           ],
           [
-            0.465068428,
-            0.609676899
+            0.465086919,
+            0.606105901
           ],
           [
-            0.466450852,
-            0.610401117
+            0.463810381,
+            0.607661864
           ],
           [
-            0.468186519,
-            0.610401117
+            0.463688272,
+            0.60801649
           ],
           [
-            0.46701511,
-            0.606520252
+            0.463822782,
+            0.608292226
           ],
           [
-            0.466642651,
-            0.606147792
+            0.465140631,
+            0.609714724
           ],
           [
-            0.466171603,
-            0.605699994
+            0.466451722,
+            0.610401573
           ],
           [
-            0.466074664,
-            0.605639509
+            0.468188868,
+            0.610401573
           ],
           [
-            0.463647353,
-            0.604723655
+            0.466966375,
+            0.606528342
           ],
           [
-            0.463352512,
-            0.604692578
+            0.46656363,
+            0.606103813
+          ],
+          [
+            0.466182223,
+            0.605706621
+          ],
+          [
+            0.465782105,
+            0.605456968
           ]
         ],
-        "notes": "The tapping stage on the Hist's channel face, its stair, the mule line, the season's stock and the licence board at the landing. Works set only (stockade scaffold at one side count, the BM&V notice board).",
+        "notes": "The tapping stage on the Hist's channel face, its stair, the mule line, the season's stock and the licence board at the head of the sap track. Works set only (stockade scaffold at one side count, the BM&V notice board).",
         "why": {
-          "what": "The works: the stage and its stair against the Hist's channel face, the mule line, the season's cart and the licence board at the water's edge.",
+          "what": "The works: the stage and its stair against the Hist's channel face, the mule line, the season's cart and the licence board where the track to the water leaves the camp.",
           "whyHere": "Sap is drawn where the tree stands; the stage is raised against the trunk and everything that serves it stays within a few paces.",
-          "whyNeighbours": "It lies between the hut to the east and the landing to the north-west, so the crew walk through the works both to their beds and to their boat; the board stands at its water end, where a canoe reads it first.",
-          "playerPurpose": "The climbable stage, the tapper and the graded stock; the licence board is read from the landing below.",
-          "microGeography": "The terrace here runs 30.7 to 31.4 m, a metre and a half above the channel, with a 1.26 m fall under the stage that the scaffold posts take."
+          "whyNeighbours": "It lies between the hut to the east and the fall to the west, so the crew walk through the works both to their beds and to the track down to their boat; the board stands at its western end, where that track starts.",
+          "playerPurpose": "The climbable stage, the tapper, the graded stock and the licence, all within thirty paces of each other.",
+          "microGeography": "The terrace here runs 30.7 to 31.4 m, with a 1.26 m fall under the stage that the scaffold posts take and a longer fall to the south-west that the sap track uses."
         }
       },
       {
@@ -145,16 +177,16 @@
             0.607115082
           ],
           [
-            0.465787028,
-            0.609114128
+            0.46578751,
+            0.609113177
           ],
           [
-            0.466941761,
-            0.609112885
+            0.467018033,
+            0.609113177
           ],
           [
-            0.46805497,
-            0.608521781
+            0.468062075,
+            0.608517699
           ],
           [
             0.468336979,
@@ -193,13 +225,13 @@
             0.606713867
           ]
         ],
-        "notes": "One mud-hut dwelling behind the trunk, the crew's hearth clutter and the plank walk down to the landing. Mud-culture set only; never blended with the works props on the stage.",
+        "notes": "One mud-hut dwelling behind the trunk, the crew's hearth clutter and the spur off the track. Mud-culture set only; never blended with the works props on the stage.",
         "why": {
-          "what": "The camp: one hut, its hearth clutter and the spur down from the track.",
-          "whyHere": "A season's crew sleep beside their stage and land their canoe beside their stage, so the hut and the landing sit at the two ends of the works.",
-          "whyNeighbours": "The hut stands behind the trunk from the water and the landing stands in front of it, so a boat sees the stage and the board and nothing of where the crew sleep.",
-          "playerPurpose": "The hut is the camp's only interior. The crew sleep in it through the night landing that MR04 stages at the water below.",
-          "microGeography": "The hut pad sits at 32.7 m. From it the ground falls west and north to the reed margin at the water's edge."
+          "what": "The camp: one hut, its hearth clutter and the spur off the track.",
+          "whyHere": "A season's crew sleep beside their stage. The stage stands at the tree.",
+          "whyNeighbours": "The hut stands behind the trunk from the works, so a visitor meets the stage first and the sleeping place last.",
+          "playerPurpose": "The hut is the camp's only interior. The crew sleep in it through the night landing that MR04 stages at the lay-by.",
+          "microGeography": "The hut pad sits at 32.7 m, the highest ground in the camp. From it the ground falls west and south toward the creek."
         }
       }
     ],
@@ -230,7 +262,7 @@
         "endsAt": [
           "parcel.sap-tapping-licensed.stage-stair"
         ],
-        "why": "The single worn line into the camp, worn from the west. The heartland network reaches the stage across the flat, so the track meets the camp at its lower head. It bends round the hut and mule line, then hooks north-west to die squarely at the scaffold stair's measured open foot.",
+        "why": "The single worn line into the camp, worn from the south-east. The heartland network reaches the stage across the flat, so the track meets the camp at its lower head. It bends round the hut and mule line, then hooks north-west to die squarely at the scaffold stair's open foot.",
         "points": [
           [
             0.467619862,
@@ -241,20 +273,103 @@
             0.608445117
           ],
           [
-            0.466535151,
-            0.607621203
+            0.466466862,
+            0.607757117
           ],
           [
-            0.466535151,
-            0.606807479
-          ],
-          [
-            0.46626391,
-            0.606536238
+            0.465924858,
+            0.607214487
           ],
           [
             0.466025637,
             0.606641563
+          ]
+        ]
+      },
+      {
+        "id": "route.sap-tapping-licensed.sap-track",
+        "kind": "footpath",
+        "widthM": 1.2,
+        "routing": "terrain",
+        "via": [
+          [
+            0.464907703,
+            0.608530007
+          ],
+          [
+            0.459754117,
+            0.618430317
+          ],
+          [
+            0.455007393,
+            0.637417213
+          ],
+          [
+            0.450260669,
+            0.652335488
+          ]
+        ],
+        "why": "The carry path down to the water. The camp stands 30.8 m above the tide and the nearest water that a canoe can travel is 370 m to the south-south-west, so the sap is carried down on a crewman's back. It is a footpath rather than a track because one pitch falls a quarter, which no mule descends under load; the mules take the road instead. The line starts at the stage foot, passes the licence board six paces below it and ends on the bank at the head of the plank walk.",
+        "points": [
+          [
+            0.464907703,
+            0.608530007
+          ],
+          [
+            0.462805582,
+            0.610740625
+          ],
+          [
+            0.462805582,
+            0.615487349
+          ],
+          [
+            0.458194479,
+            0.620098452
+          ],
+          [
+            0.458194479,
+            0.625930141
+          ],
+          [
+            0.457245134,
+            0.626879486
+          ],
+          [
+            0.457245134,
+            0.629998762
+          ],
+          [
+            0.456567031,
+            0.630676865
+          ],
+          [
+            0.456567031,
+            0.632982417
+          ],
+          [
+            0.455888928,
+            0.63366052
+          ],
+          [
+            0.455888928,
+            0.636508555
+          ],
+          [
+            0.454261479,
+            0.638136003
+          ],
+          [
+            0.454261479,
+            0.640577175
+          ],
+          [
+            0.450192859,
+            0.644645796
+          ],
+          [
+            0.450260669,
+            0.652335488
           ]
         ]
       },
@@ -276,15 +391,15 @@
         "endsAt": [
           "parcel.sap-tapping-licensed.dwelling"
         ],
-        "why": "The worn spur from the track to the hut's door: three strides that the crew take every night, so the door is on a way.",
+        "why": "The worn spur from the track to the hut's door: three strides that the crew take every night.",
         "points": [
           [
             0.466670772,
             0.608570694
           ],
           [
-            0.466806392,
-            0.608570548
+            0.466874203,
+            0.608570694
           ],
           [
             0.467401666,
@@ -301,38 +416,34 @@
         "routing": "terrain",
         "via": [
           [
-            0.46036441,
-            0.606360076
+            0.448633221,
+            0.656132867
           ],
           [
-            0.462344472,
-            0.605871842
+            0.448701032,
+            0.65477666
           ],
           [
-            0.46429741,
-            0.605112366
+            0.44882309,
+            0.653013591
           ]
         ],
         "endsAt": [
           "dock.sap-tapping-licensed.landing"
         ],
-        "why": "The last stretch of the poling channel, drawn where the camp keeps it. Open water runs between the reed banks and ends at the landing piles in the head of the reach.",
+        "why": "The last 23 m of the poling line, coming up the creek from the south between mud and reed and ending at the piles. Above the piles the reach falls too steeply for poling.",
         "points": [
           [
-            0.46036441,
-            0.606360076
+            0.448633221,
+            0.656132867
           ],
           [
-            0.461788427,
-            0.606400617
+            0.448701031,
+            0.653189899
           ],
           [
-            0.463009013,
-            0.605180031
-          ],
-          [
-            0.46429741,
-            0.605112366
+            0.44882309,
+            0.653013591
           ]
         ]
       }
@@ -345,26 +456,26 @@
         "routing": "straight",
         "via": [
           [
-            0.465440862,
-            0.606243117
+            0.450260669,
+            0.652335488
           ],
           [
-            0.46429741,
-            0.605112366
+            0.44882309,
+            0.653013591
           ]
         ],
         "endsAt": [
           "dock.sap-tapping-licensed.landing"
         ],
-        "why": "The plank walk from the stage stair down to the landing, laid over reed and soft bank so a tin is carried dry.",
+        "why": "The plank walk from the bank down to the landing, 11.7 m laid over mud and reed so a tin is carried dry off the sap track and into the canoe.",
         "points": [
           [
-            0.465440862,
-            0.606243117
+            0.450260669,
+            0.652335488
           ],
           [
-            0.46429741,
-            0.605112366
+            0.44882309,
+            0.653013591
           ]
         ]
       }
@@ -438,9 +549,9 @@
         },
         "why": {
           "what": "The tapping stage: a three-sided stockade scaffold footing with its deck at 2.7 m, whose open face looks at the trunk.",
-          "whyHere": "A tapping stage is the one structure the licence requires; the tap lines run from the tree to its deck.",
+          "whyHere": "A tapping stage is the structure that the licence requires; the tap lines run from the tree to its deck.",
           "whySpot": "It stands 9.8 m off the trunk centre on the channel face, clear of the root flare, where the crew could raise it without cutting into a root.",
-          "whyNeighbours": "The stair joins it on the landward side, the root flare lies between it and the trunk. The plank walk leaves from a stride off its foot.",
+          "whyNeighbours": "The stair joins it on the landward side, the root flare lies between it and the trunk. The sap track leaves from a stride off its foot.",
           "playerPurpose": "The stage that MR04 asks the player to climb and search; the tapper stands above it by day.",
           "microGeography": "The ground under the footing falls 1.26 m toward the water, which is why it stands on its own posts rather than on a cut pad."
         }
@@ -514,7 +625,7 @@
         "why": {
           "what": "The scaffold stair, 3.45 m of rise, that climbs to the deck from the landward side.",
           "whyHere": "A deck at 2.7 m needs a way up. The crew carry full vessels down it.",
-          "whySpot": "At the head of the track: the climb starts where the walk from the road ends, never over the water.",
+          "whySpot": "At the head of the track. The climb starts where the walk from the road ends, on dry ground.",
           "whyNeighbours": "The track ends against its lowest tread; the mule line stands beside the track a few paces back.",
           "playerPurpose": "The visible means of ascent: from the last bend of the track the stair is in frame, so the player knows how to reach the deck.",
           "microGeography": "The ground under the flight falls 0.89 m, so it stands on posts like the footing."
@@ -536,7 +647,7 @@
           0.609154117
         ],
         "yawDeg": 270.0,
-        "orientationWhy": "The trough's long axis lies north to south, along the track's last stretch, so the mules stand beside the path and not across it.",
+        "orientationWhy": "The trough's long axis lies north to south, along the track's last stretch, so the mules stand beside the path rather than across it.",
         "footprint": [
           [
             0.465475107,
@@ -594,8 +705,8 @@
           "what": "A trough and the tie line for the two mules that carry the season's sap to the road.",
           "whyHere": "Sap goes out by mule when the channel is watched, so the crew keep the animals at the camp.",
           "whySpot": "Beside the last straight of the track, a dozen paces short of the stair, where a loaded mule can be tied without standing in the path.",
-          "whyNeighbours": "Nine paces from the cart, on the track side, so a load is carried from cart to mule along the path and nothing stands between the stair and the stage.",
-          "playerPurpose": "A tell for the player: mules at a camp with a landing mean that sap leaves by two routes.",
+          "whyNeighbours": "Nine paces from the cart, on the track side, so a load is carried from cart to mule along the path. Nothing stands between the stair and the stage.",
+          "playerPurpose": "Mules at a camp that also keeps a landing show that sap leaves by two routes.",
           "microGeography": "On a gentle pad at 31.3 m, where the track straightens for its run to the stair."
         }
       },
@@ -842,11 +953,11 @@
           }
         ],
         "why": {
-          "what": "A woven Argonian hut for the tapper and two crew.",
-          "whyHere": "A licence runs for a season, so the crew live under canvas, not in a hut that would say they come back every year.",
-          "whySpot": "The flattest pad in the camp, behind the trunk from the water, so a passing boat reads nothing of the sleeping place.",
-          "whyNeighbours": "Its open end looks down the track, so the crew see who comes up it; its blind back stands to the channel.",
-          "playerPurpose": "The camp's only interior. It is the place where the crew sleep during the night landing that MR04 stages.",
+          "what": "A small Argonian mud hut with one doorway, where the crew of three sleep.",
+          "whyHere": "The same crew work the licence season after season, so they keep a mud hut rather than a tent.",
+          "whySpot": "The flattest pad in the camp, behind the trunk from the stage, so a visitor reaches the works before the sleeping place.",
+          "whyNeighbours": "Its one doorway looks down the track, so the crew see who comes up it; its blind back stands to the channel.",
+          "playerPurpose": "The camp's only interior. Inside are the crew's beds, their own stock and the season's tally.",
           "microGeography": "On a plinth over a 0.71 m fall, at 32.7 m, the highest ground in the camp."
         }
       },
@@ -858,56 +969,22 @@
         "assetRef": "bmv:advertising_board",
         "groundFit": "stilt",
         "centreUV": [
-          0.463551496,
-          0.605342921
+          0.464365221,
+          0.607987524
         ],
-        "yawDeg": 231.0,
-        "orientationWhy": "The pane stands parallel to the bank on bearing 141, so its face looks on bearing 231 straight down the channel; a canoe poling up the last leg reads it three metres before it comes alongside the piles.",
+        "yawDeg": 199.0,
+        "orientationWhy": "The pane stands across the sap track on bearing 109, so its face looks on bearing 199 down the line to the water. Whoever climbs the 370 m from the landing reads the licence before the stage comes into frame.",
         "interior": {
           "kind": "none"
         },
         "why": {
           "what": "The licence board: a roofed notice pane on two posts, with the licence and its counter-signature pinned under the roof.",
-          "whyHere": "The licence is hung to be readable from the water, so the assembly's inspectors and the rival tribe's canoes can see the stage is lawful without landing.",
-          "whySpot": "On the bank 5.8 m down-channel of the landing, three metres off the poling line, on the last dry ground before the reeds, so a boat comes to the board and then to the piles.",
-          "whyNeighbours": "It stands below the landing, which in turn stands below the stage. A boat therefore passes the board first and the stage last. A walker off the track meets them in the other order.",
-          "playerPurpose": "The evidence socket of MR04: the counter-signature that the player matches elsewhere, legible from a canoe and from the walk.",
-          "microGeography": "Two posts driven into the lip of the bank at 28.6 m, each to its own depth over a 0.2 m fall, standing 0.39 m above the channel's surface."
+          "whyHere": "The licence runs against the tree, so it hangs at the tree. The water is 370 m off and the stage cannot be seen from it, so a board on the bank down there would license nothing an inspector could see.",
+          "whySpot": "On the terrace at 30.8 m, where the track down to the landing leaves the camp. Every load of sap passes it leaving the camp; every visitor passes it arriving.",
+          "whyNeighbours": "It stands ten paces west of the stock cart and eight west of the mule line, clear of both, with the stage and its stair behind it to the east.",
+          "playerPurpose": "The evidence socket of MR04: the counter-signature that the player matches elsewhere.",
+          "microGeography": "Two posts driven into the terrace lip at 30.8 m, at the point where the ground begins its fall to the creek."
         },
-        "footprint": [
-          [
-            0.463586495,
-            0.605422776
-          ],
-          [
-            0.463584587,
-            0.605422576
-          ],
-          [
-            0.463477901,
-            0.60529083
-          ],
-          [
-            0.463478102,
-            0.605288922
-          ],
-          [
-            0.463519207,
-            0.605255636
-          ],
-          [
-            0.463521114,
-            0.605255837
-          ],
-          [
-            0.4636278,
-            0.605387583
-          ],
-          [
-            0.4636276,
-            0.60538949
-          ]
-        ],
         "playerPurpose": [
           {
             "kind": "quest-stage",
@@ -915,6 +992,40 @@
             "note": "The counter-signature on the board is the evidence Sap for Sale matches elsewhere.",
             "socketRef": "socket.sap-tapping-licensed.licence"
           }
+        ],
+        "footprint": [
+          [
+            0.464437219,
+            0.608036699
+          ],
+          [
+            0.464435495,
+            0.60803754
+          ],
+          [
+            0.464275205,
+            0.607982347
+          ],
+          [
+            0.464274364,
+            0.607980623
+          ],
+          [
+            0.464291584,
+            0.607930613
+          ],
+          [
+            0.464293308,
+            0.607929772
+          ],
+          [
+            0.464453598,
+            0.607984964
+          ],
+          [
+            0.464454439,
+            0.607986688
+          ]
         ]
       },
       {
@@ -937,8 +1048,8 @@
           "what": "The stage deck: the railed three-sided top tier of the tapping stage, stacked on its footing.",
           "whyHere": "The works kit's own grammar: a three-sided top on a three-sided base, the tier that makes the footing a deck with rails.",
           "whySpot": "On the footing against the Hist's channel face, so the tapper works at the rails with the trunk on the open side.",
-          "whyNeighbours": "It stands on its footing and nowhere else; the stair or ramp on the footing's landward face reaches it.",
-          "playerPurpose": "The railed deck to which the player climbs: the raised view and the elevated position that the record promises; the graded sap is sold off this deck, which is the only counter that the stage keeps.",
+          "whyNeighbours": "It stands on its footing. The stair on the footing's landward face reaches it.",
+          "playerPurpose": "The railed deck to which the player climbs. Graded sap is sold from it; the stage keeps no other counter.",
           "microGeography": "Carried on the footing's posts at 2.7 m; it touches no ground."
         },
         "stacksOn": "parcel.sap-tapping-licensed.stage",
@@ -1039,25 +1150,26 @@
       {
         "id": "dock.sap-tapping-licensed.landing",
         "position": [
-          0.46429741,
-          0.605112366
+          0.44882309,
+          0.653013591
         ],
         "waterBodyId": "water.channel.licensed-stage",
         "piledToBed": true,
         "groundFit": "stilt",
         "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
-        "yawDeg": 138.0,
-        "notes": "The landing faces bearing 138, back up the plank walk, so a canoe poling up the last leg on bearing 51 comes alongside and unloads toward the camp.",
+        "yawDeg": 65.0,
+        "notes": "The landing faces bearing 65, back up the plank walk, so a canoe poling up the creek from the south lies alongside the piles and unloads onto the bank.",
         "why": {
-          "what": "The landing: a piled stage at the channel head where the crew's canoe lies.",
-          "whyHere": "Sap leaves by water when the track is watched. The assembly's inspection comes by water too, so the camp has a landing. The channel is drawn up to these piles rather than the piles moved out to it (fit `water-to-dock`). They stand in the head of the reach, in 0.60 m of water on a bed at 28.75 m, which the dredge cuts to 0.85 m so a loaded canoe is not poling on mud.",
-          "whyNeighbours": "The plank walk ends on it, the licence board stands on the bank 5.8 m down-channel, with the poling line coming up to its head.",
-          "playerPurpose": "The arrival point for a player who comes by canoe. It is the scene of the night landing in MR04.",
-          "microGeography": "Piled to the bed at the head of the reach, past the reed margin, standing in 0.60 m of water with the deck 11.9 m of plank walk out from the dry bank."
+          "what": "The landing: a piled stage at the head of the tide, where the crew's canoe lies.",
+          "whyHere": "Sap leaves by water. The water that a canoe can use is not at the camp. Above this point the reach falls 29 m in 460 m and stands in pockets a hull cannot pass. Here the surface is dead level at 0.05 m and the sea is 1.40 km off. The tide reaches no further inland than these piles.",
+          "whySpot": "The piles stand in 0.84 m of compiled water on a bed 0.80 m below the surface, at the last cell of the creek that carries a canoe. Five metres north the surface climbs to 0.96 m and the creek becomes a fall. The berth is the head of navigation; it cannot be moved further up.",
+          "whyNeighbours": "Nothing else stands here. The plank walk runs 11.7 m to the dry bank at 1.35 m. The sap track climbs from that bank to the camp. The lay-by is left unmarked.",
+          "playerPurpose": "The arrival point for a player who comes by canoe. It is the far end of the walk down from the stage. The night landing in MR04 is staged here.",
+          "microGeography": "Piled to the bed at the head of the tide, in a dead-level creek that runs 358 m to the coast, with a low mud bank on its east side and reeds on its west."
         },
         "hullClass": "canoe",
         "fit": "water-to-dock",
-        "fixedBerthReason": "The inspection and loading stage must stand on the firm bank that carries filled sap jars; the surrounding reed margin cannot carry its piles or loads."
+        "fixedBerthReason": "The water fixes the berth. This is the highest cell of the creek that floats a canoe, and the ground above it is a falling reach."
       }
     ],
     "combatSpaces": [
@@ -1087,24 +1199,24 @@
             0.60868869
           ],
           [
-            0.466852676,
-            0.610401117
+            0.466853132,
+            0.610401573
           ],
           [
-            0.468186519,
-            0.610401117
+            0.468188868,
+            0.610401573
           ],
           [
-            0.46701511,
-            0.606520252
+            0.466966375,
+            0.606528342
           ],
           [
-            0.466642651,
-            0.606147792
+            0.46656363,
+            0.606103813
           ],
           [
-            0.466171603,
-            0.605699994
+            0.466182223,
+            0.605706621
           ],
           [
             0.465782105,
@@ -1112,7 +1224,7 @@
           ]
         ],
         "clearanceClass": "tight",
-        "why": "MR04's night landing is watched from the reed margin; blown cover brings the woken crew down the stair to this ground. The licence-revoked flip makes the same crew hostile by day. The stage foot is the one patch wide enough for a fight; it is tight."
+        "why": "MR04's night landing is watched from the reeds at the lay-by; a carrier who is followed up the track brings the woken crew down the stair to this ground. The licence-revoked flip makes the same crew hostile by day. The stage foot is the widest ground in the camp. The space is tight."
       }
     ],
     "questSockets": [
@@ -1120,8 +1232,8 @@
         "id": "socket.sap-tapping-licensed.licence",
         "kind": "evidence",
         "position": [
-          0.463551496,
-          0.605342921
+          0.464365221,
+          0.607987524
         ],
         "parcelId": "parcel.sap-tapping-licensed.licence-board",
         "ownerQuestTier": 2,
@@ -1151,8 +1263,8 @@
         "id": "socket.sap-tapping-licensed.night-landing",
         "kind": "scene",
         "position": [
-          0.464704272,
-          0.605587039
+          0.449582566,
+          0.653420453
         ],
         "ownerQuestTier": 2
       },
@@ -1244,20 +1356,20 @@
         ],
         [
           [
-            0.463320941,
-            0.60513949
+            0.463958359,
+            0.607580662
           ],
           [
-            0.463795613,
-            0.60513949
+            0.464772083,
+            0.607580662
           ],
           [
-            0.463795613,
-            0.605587038
+            0.464772083,
+            0.608394387
           ],
           [
-            0.463320941,
-            0.605587038
+            0.463958359,
+            0.608394387
           ]
         ],
         [
@@ -1276,6 +1388,24 @@
           [
             0.465721427,
             0.609452228
+          ]
+        ],
+        [
+          [
+            0.449446945,
+            0.651793005
+          ],
+          [
+            0.450803152,
+            0.651793005
+          ],
+          [
+            0.450803152,
+            0.653149212
+          ],
+          [
+            0.449446945,
+            0.653149212
           ]
         ]
       ],
@@ -1301,6 +1431,24 @@
             0.465314565,
             0.609316607
           ]
+        ],
+        [
+          [
+            0.447548256,
+            0.650979281
+          ],
+          [
+            0.451616876,
+            0.650979281
+          ],
+          [
+            0.451616876,
+            0.655319143
+          ],
+          [
+            0.447548256,
+            0.655319143
+          ]
         ]
       ],
       "kept": [
@@ -1316,8 +1464,8 @@
           "id": "kept.sap-tapping-licensed.reed-margin",
           "kind": "reed-bed",
           "position": [
-            0.464364862,
-            0.605383117
+            0.448226359,
+            0.654505419
           ]
         },
         {
@@ -1404,7 +1552,7 @@
             4480.6
           ],
           "chosen": true,
-          "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc. The landing stands 22.4 m off on bearing 327, in the channel, on a bed at 28.75 m under 0.60 m of compiled water; `dock_dredge` reports it dredged, 172 m by 12 m, 617 m3, taking the approach from 0.04 m to 0.85 m with no blocked sample. Every parcel stands on dry compiled ground: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 28.63 m on the bank lip 0.39 m above the channel. Road 526 m to the south-west, forded once at the channel's lower reach. Canopy closure 1.00; concealment 0.74, weaker than the old terrace's 0.93."
+          "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc; every parcel stands dry: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 30.81 m. Road 526 m to the south-west. Canopy closure 1.00; concealment 0.74. The camp keeps this bank. Its landing stands elsewhere. The water at the foot of the camp is an 882 m2 pocket bounded x 3327-3433, z 4453-4507, connected to nothing, on a reach that falls 6.3% over 463 m, so a canoe floating there can go nowhere. The berth moved 357 m on bearing 201 to (3309.4, 4815.0), the head of the tide, which the recipe's satellite slot already asks for at 200 to 400 m. See dossier licensed-stage-layby."
         },
         {
           "id": "candidate.sap-tapping-licensed.a-north-bank",
@@ -1422,7 +1570,7 @@
             4492.0
           ],
           "why": "The flattest ground on this bank: slope 4.94 deg at the dot, 5.88 m of relief across a 30 m disc, all of it dry.",
-          "rejectedBecause": "The berth it implies sits on an 11.0 deg bank 0.25 m above the surface, with the poling water 8.0 m off, which is beyond the reach of the 3.6 by 1.83 m dock piece, so the deck would end over mud. The camp would also stand 7.8 m above its water table, which would make the licence board a climb up from the water instead of a board legible from a canoe."
+          "rejectedBecause": "The berth it implies sits on an 11.0 deg bank 0.25 m above the surface, with the poling water 8.0 m off, which is beyond the reach of the 3.6 by 1.83 m dock piece, so the deck would end over mud. The camp would also stand 7.8 m above its water table, putting the licence board a climb above anyone arriving by canoe."
         },
         {
           "id": "candidate.sap-tapping-licensed.g-lower-bank",
@@ -1431,7 +1579,7 @@
             4480.0
           ],
           "why": "Two metres from the chosen point and slightly nearer the water: the berth would lie 4.53 m from 0.6 m water at 0.39 m above the surface.",
-          "rejectedBecause": "The licence board falls in 0.60 m of published water. The board is meant to be read from a canoe while standing on dry bank. The berth's own bank measures 7.5 deg, too steep for the piles to stand level."
+          "rejectedBecause": "Two metres of gain buys nothing. The water below it is the same dead pocket. The bank measures 7.5 deg, too steep for piles to stand level."
         }
       ]
     },
@@ -1467,36 +1615,36 @@
         "mode": "walk",
         "fromRouteId": "track.hist-heartland.sap-tapping-licensed",
         "firstSeen": "landmark.sap-tapping-licensed.hist",
-        "sequence": "The Hist's crown shows above the jungle canopy from the low ground to the south-west, 530 m out along the worn line; the track goes under closed canopy and the crown is lost; it fords the channel's lower reach at about 120 m out; the pale trunk reads between the other trunks at about 30 m; the hut's door and the mule line appear at the first bend; the stair and the stage come into frame at the second bend, with the water beyond them.",
-        "wayfinding": "Follow the one worn line north-east off the road toward the great tree. Ford the channel's lower reach, then keep on until the line bends twice at the camp and ends at the foot of the stair.",
-        "notes": "The last 27 m bend twice, round the hut and past the mule line, so the stage is seen, lost behind the trunk and found again. Canopy closure over the camp is 1.00, but the dossier measures concealment at 0.74. The camp is in view from 26% of the route points within two kilometres, against a fourteenth of them at the terrace that the place left. A walker on the track steers by the crown rather than by anything built.",
+        "sequence": "The Hist's crown shows above the jungle canopy from the low ground to the south-east, 400 m out along the worn line. The track then goes under closed canopy and the crown is lost. The pale trunk reads between the other trunks at about 30 m. The hut's door and the mule line appear at the first bend. The stair and the stage come into frame at the second.",
+        "wayfinding": "Follow the one worn line north-west off the road toward the great tree. Keep on until it bends twice at the camp and ends at the foot of the stair.",
+        "notes": "The track is 416 m long and joins the heartland network at (3654.8, 4751.5), 349 m to the south-east; the Helstrom-Blackrose road runs 526 m to the south-west as the crow flies. The last 27 m bend twice, round the hut and past the mule line, so the stage is seen, lost behind the trunk and found again. Canopy closure over the camp is 1.00 and the dossier measures concealment at 0.74. The camp is in view from 26% of the route points within two kilometres, against a fourteenth of them at the terrace the place left. A walker on the track steers by the crown rather than by anything built. The carry path leaves the same ground on the other side. It passes the licence board and drops to the water.",
         "viaUV": [
           [
-            0.43046005,
-            0.626811676
+            0.494174517,
+            0.642910263
           ],
           [
-            0.442869342,
-            0.621319038
+            0.485994051,
+            0.63844819
           ],
           [
-            0.452783214,
-            0.616924928
+            0.477069906,
+            0.631755082
           ],
           [
-            0.4614765,
-            0.613086862
+            0.471864155,
+            0.62134358
           ]
         ]
       },
       {
         "id": "approach.sap-tapping-licensed.channel-by-canoe",
         "mode": "boat",
-        "fromDirection": "south-west, up the channel",
+        "fromDirection": "south, up the creek",
         "firstSeen": "landmark.sap-tapping-licensed.hist",
-        "sequence": "The crown stands over the channel from a bend away; the reed margin hides the bank; the roof of the licence board shows over the reeds; the plank walk and the landing open up; last, the stage rail and the tap lines on the trunk.",
-        "wayfinding": "Pole up the channel toward the great tree and come alongside the piles at its head, past the board on the bank; the plank walk leads from the landing to the stage foot.",
-        "notes": "The channel bends before the board so it is read at about 20 m and not from the far reach. The board stands on the bank 5.8 m below the landing, where a canoe reads the licence before it comes alongside the piles."
+        "sequence": "The Hist's crown stands over the jungle to the north-east from a bend away; the reeds hide the east bank until 20 m; the piles and the plank walk open up at the head of the creek; the bank above them is empty; the track that climbs from it is not seen until a boat is alongside.",
+        "wayfinding": "Pole up the creek toward the great tree and come alongside the piles where the water ends. Take the plank walk to the bank and follow the track up; it climbs 29.5 m in 370 and dies at the licence board, with the stage beyond it.",
+        "notes": "The lay-by is unmarked. The licence hangs at the tree, 370 m up the track, so an inspector reads it after the climb rather than from the water. Concealment at the berth is 0.99: the road passes 209 m to the south-west and the landing is in view from 1% of the 817 route points within 2 km."
       }
     ],
     "networkTerminals": [
@@ -1515,13 +1663,13 @@
         "id": "terminal.sap-tapping-licensed.landing-channel",
         "routeId": "waterway.hist-heartland.sap-tapping-licensed.landing",
         "entryUV": [
-          0.46429741,
-          0.605112366
+          0.44882309,
+          0.653013591
         ],
         "wayId": "canal.sap-tapping-licensed.channel",
         "kind": "channel",
         "dockId": "dock.sap-tapping-licensed.landing",
-        "why": "The camp's water link is a poled channel off the heartland network, 849 m of it. It ends at the piles at the head of the reach, below the camp; the plank walk carries the tins the rest of the way up."
+        "why": "The camp's water link is the tidal creek at the foot of the reach, poled up from the network 380 m to the south. It ends at the piles at the head of the tide; the sap track carries the tins the remaining 370 m up to the camp."
       }
     ]
   }
