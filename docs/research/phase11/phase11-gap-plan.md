@@ -276,6 +276,12 @@ combined run (while the water build was active) reached 391 passes and five
 known in-flight water/settlement failures in 109.46 s. This is a diagnostic
 baseline, not the final green timing; repeat it once B1/B2 are complete.
 
+The post-cleanup combined gate now reaches 409 passes and the one deliberate
+Sap physical-channel failure in 53.63 s pytest time / 56.61 s wall time. That
+run caught and drove out a real Lilmoth quay-routing regression first, so the
+gain has not traded away detection. The all-green timing remains pending the
+water-owned Sap line and B2 postconditions.
+
 ### B9 — Macro promise to final delivery contract (owner 2026-09-08) — DONE 2026-09-08
 
 **Cause**: the quest-purpose-without-a-socket finding is one instance of a
