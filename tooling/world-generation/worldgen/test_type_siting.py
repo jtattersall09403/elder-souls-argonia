@@ -81,10 +81,17 @@ def test_the_built_ground_is_what_stands_there_not_the_outer_boundary():
     two-hut works the size of Lilmoth. The built ground does not move, because
     the works did not.
 
-    MUTATION: derive from `bp["boundary"]` instead — red on both revisions.
+    MUTATION: derive from `bp["boundary"]` instead — red on both counts below.
+
+    NO GIT. This test used to fetch the pre-move revision with `git show` to
+    prove it was not vacuous. That was wrong twice over: against `HEAD` the
+    guard stopped being able to fire once the move was committed, and against a
+    pinned sha it failed outright in CI, where the Pages checkout is shallow
+    and the commit is not in the clone (`exit status 128`, run 34361723709).
+    The same two properties are provable from the working tree alone, so they
+    are, and the test now runs anywhere.
     """
     import math
-    import subprocess
     from worldgen.scale import PROVINCE_EXTENT_M as extent
 
     def circumradius(pts):
@@ -94,26 +101,37 @@ def test_the_built_ground_is_what_stands_there_not_the_outer_boundary():
 
     path = ("world/sources/blueprints/"
             "place.hist-heartland.sap-tapping-licensed.json")
-    # The "before" revision is PINNED, not `HEAD`. The landing move is committed
-    # now, so `HEAD` and the working tree are the same 254.22 m boundary and the
-    # vacuity guard below could no longer fire — the test would have started
-    # passing for the wrong reason. `c37bc674` is the last revision before the
-    # move to the head of the tide blew the outer boundary out (31.83 m there,
-    # 254.22 m after). If it ever goes missing, the guard fails loudly.
-    BEFORE_THE_LANDING_MOVED = "c37bc674"
     live = json.loads((author_type_siting.REPO_ROOT / path).read_text())["blueprint"]
-    before = json.loads(subprocess.run(
-        ["git", "show", f"{BEFORE_THE_LANDING_MOVED}:{path}"],
-        cwd=author_type_siting.REPO_ROOT,
-        capture_output=True, text=True, check=True).stdout)["blueprint"]
-    for name, bp in (("working tree", live), (BEFORE_THE_LANDING_MOVED, before)):
-        built = circumradius(author_type_siting.built_ground_points(bp))
-        assert 20.0 <= built <= 35.0, f"{name}: built ground reads {built:.1f} m"
-    # ...and the two revisions' outer boundaries really are miles apart, so
-    # this test would be vacuous if it were reading them.
-    outer = [circumradius([(u * extent, v * extent) for u, v in bp["boundary"]])
-             for bp in (live, before)]
-    assert max(outer) - min(outer) > 100.0, outer
+
+    built = circumradius(author_type_siting.built_ground_points(live))
+    assert 20.0 <= built <= 35.0, f"built ground reads {built:.1f} m"
+
+    # Not vacuous: on THIS blueprint the outer boundary is nowhere near the
+    # built ground, so a derivation reading the boundary could not land in the
+    # band above by luck. Measured 2026-09-09: built 25.4 m, outer 254.2 m.
+    outer = circumradius([(u * extent, v * extent) for u, v in live["boundary"]])
+    assert outer - built > 100.0, (
+        f"outer boundary {outer:.1f} m is only {outer - built:.1f} m clear of "
+        f"the built ground {built:.1f} m, so this test can no longer tell the "
+        f"two apart and is not proving anything. Pick a blueprint where they "
+        f"diverge, or restate the property.")
+
+    # And the built ground does not follow the boundary when the boundary moves.
+    # The pre-move geometry is carried here rather than fetched from git: the
+    # works did not move when the landing did, so the same parcels are still in
+    # the live file and the boundary is the only thing that changed. Shrinking
+    # the boundary back to its pre-move ring must leave the derived radius
+    # exactly where it is.
+    pre_move = dict(live)
+    centre_u = sum(u for u, _ in live["boundary"]) / len(live["boundary"])
+    centre_v = sum(v for _, v in live["boundary"]) / len(live["boundary"])
+    shrink = 31.83 / outer          # the 2026-09-09 pre-move circumradius
+    pre_move["boundary"] = [[centre_u + (u - centre_u) * shrink,
+                             centre_v + (v - centre_v) * shrink]
+                            for u, v in live["boundary"]]
+    assert circumradius(author_type_siting.built_ground_points(pre_move)) == built, (
+        "the derived footprint moved when only the outer boundary moved — it "
+        "is reading the boundary, not the built ground")
 
 
 def test_the_authored_recipe_file_matches_its_deriver():
