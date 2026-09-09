@@ -203,6 +203,85 @@ rather than the compiled water, so a 91 m dry connector satisfied a 10 m rule.
 That guard is being fixed on the water side; when it lands, this dock fails
 loudly instead of silently.
 
+### B13 — Handed over from the paused Phase 11 session, 2026-09-09
+
+Recorded here because it existed only in cross-session messages and would
+otherwise be lost when that session ends. All of it is measured, none of it is
+started unless said.
+
+**The class-versus-geometry audit (done, and its numbers).** `water-class.png`
+is a TYPE label over a superset of the wet area — that contract is now stated
+in `water-meta.json` `klass.meaning`. Measured over 31.40 km² of classed cells:
+21.47 wet in the dry season, 24.90 at the seasonal maximum, **6.50 km² dry in
+every season**, of which **96.2 % sits inside the deliberate 4-pixel (~22 m)
+`CLASS_EXT_PX` dilation** that exists so the shore shader has a class and a
+turbidity to read past the waterline. The within-dilation share is flat at
+94.6–98.7 % across all five classes, which is what proves the dilation rather
+than the season is the dominant cause. Only 0.117 km² is wet-season-wet and
+outside the dilation.
+
+**The consumer batch (designed, not delivered).** Roughly ten Phase 11
+consumers read the water rasters directly and each made its own assumption.
+The decided shape:
+- Season is assigned **per consumer**, not globally. Boat lanes and berths take
+  base depth, with flood-only routes **typed** rather than inferred — so the
+  2,501 published channel cells that are dry in the base season get split into
+  wet-year-round / wet-season-only / dry-always, and only the last is a defect.
+- Building thresholds and fences move to the **wet-season** extent.
+- The hostility denominator takes the dry season as its headline, with the wet
+  figure published beside it.
+- `MARSH_WATER_CREDIT_M` is to be **deleted** (`blueprint.py`, mirrored in
+  `compile_minor_waterways.py`): measured over the 62,553 cells where it fires,
+  median depth −0.12 m at base and **exactly 0.00 m at full flood**, and 91.5 %
+  never reach a canoe's draft in any season. It manufactures depth from class
+  membership. Note `test_dock_and_socket_rules::test_marsh_water_is_credited_the_canoe_minimum_and_no_more`
+  asserts the credit and must be updated with the deletion.
+- `ProvinceSurvey.open_water` (`site_fields.py:285-293`) is
+  `region_grid in {ocean, lake} OR depth > 0.5`; the OR marks 1.88 km² as open
+  water at ≤ 0.5 m, 1.08 km² of it dry.
+
+**The single accessor (agreed between both sessions, not built).** Every
+physical-water question should go through one accessor with a **season
+argument**, so no compiler touches a PNG and the meaning is answered once.
+`worldgen/water_report.py` `ShippedWater` already is that accessor on the water
+side — it reads depth, class, flow, shore and season, works without the vault,
+and `test_water_invariants` asserts through it. `ProvinceSurvey` should
+**delegate to it** rather than grow a parallel reader, and `ShippedWater` should
+gain `wet_grid(season)` so a water question cannot be asked without answering
+which season it is about.
+
+**An owner call that fell out of it.** With the land denominator corrected (it
+was reading the class raster, so it excluded 7.13 km² of dry ground), **D1
+misses the owner's ">= 15/km², at least Morrowind's frequency" floor in both
+seasons — 12.7 dry, 13.8 wet.** Not a seasonal artefact. The floor is not to be
+lowered and hostiles are not to be added quietly; the question is whether the
+metric counts strict hostiles or includes flip-to-hostile records, and any real
+gap closes with content. Worth telling the owner it is a *correction*: the
+number they were shown before was flattered by the same 6.5 km².
+
+**Queued against water, with numbers.** The 6.5 km² all-season class surplus,
+and **876 of 3,071 shipped major-lane cells under a canoe's 0.6 m even in the
+base season**. Carving is `refine_province`, and `dock_dredge` is the machinery
+for it — it already cuts a promised depth along a route from the shipped
+rasters and refuses rather than ditching when a berth stands above its own
+water. Extending it from dock approaches to published lanes is the next step.
+
+**Still held, ready to run.** `macro_plot --resolve-all` + `apply_sitings`
+(a dry run was clean at 580/580 with zero siting violations), then
+`compile_scatter` and the vegetation export for the new density ladder — in
+that order, because the plot moves records and the scatter must follow.
+`test_vegetation_ladder::test_delivered_ladder` is **intentionally red** until
+that rollout runs; its docstring says so.
+
+**Structural, agreed between both sessions.** Move to **separate git worktrees**
+before the rollout rather than during it — almost every collision today was one
+session's *uncommitted* work breaking the other's *runs*, not committed code
+disagreeing. Blocker to clear first: the asset vault is resolved relative to the
+checkout (`compile_chunks.REPO_ROOT.parent`), so from a worktree every
+vault-dependent tool fails confusingly; `ES_VAULT_ROOT` exists as the override
+and nothing uses it. Cost: ~113 MB of province data per worktree on a 1.9 GB
+repo.
+
 ### B12 — `grade_routes._water_fields`: the redesign is right, the version tried was not (2026-09-09)
 
 The Phase 11 pass rewrote how the road grader decides where water is: wetness
