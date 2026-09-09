@@ -1,6 +1,7 @@
 import type { EnvironmentContact, EnvironmentQuery, Vec3, WaterSample, WorldWaterQuery } from "@elder-souls/contracts";
 import { SEA_LEVEL_Y } from "@elder-souls/contracts";
 import { dayPhaseAt, moonAt, MOONS, sunAt } from "@elder-souls/world-time";
+import { METRES_PER_HYDRO_SAMPLE } from "../provinceScale";
 import { worldClock } from "../sky/timeState";
 import { lastWeatherSample } from "../weather/weatherState";
 import type { ChunkStore, ChunksManifest } from "./chunkStore";
@@ -23,7 +24,9 @@ export class ChunkWorld implements EnvironmentQuery {
   /** Dominant land-cover material id per control texel (id0 channel). */
   private controlIds: Uint8Array | null = null;
   private controlSize = 0;
-  private controlMetresPerTexel = 5.48352;
+  /** B6: the province pixel size has exactly one owner (provinceScale.ts /
+   * worldgen.scale). Replaced from the manifest once chunks load. */
+  private controlMetresPerTexel = METRES_PER_HYDRO_SAMPLE;
   private materialNames = new Map<number, string>();
   /** Region-class visibility (m) from the compiled climate profiles. */
   private regionVisibility = new Map<string, number>();
@@ -151,7 +154,7 @@ export class ChunkWorld implements EnvironmentQuery {
     contact.groundHeight = ground;
     contact.groundMaterial = this.groundMaterialAt(position.x, position.z);
     // Support normal from central differences one LOD-1 sample out.
-    const step = 5.48352;
+    const step = METRES_PER_HYDRO_SAMPLE;
     const west = this.groundHeight(position.x - step, position.z);
     const east = this.groundHeight(position.x + step, position.z);
     const north = this.groundHeight(position.x, position.z - step);

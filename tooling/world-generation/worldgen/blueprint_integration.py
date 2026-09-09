@@ -87,6 +87,7 @@ does the geometry.
 from __future__ import annotations
 
 import math
+from functools import lru_cache as _lru_cache
 
 from shapely.geometry import LineString, Point, Polygon
 from shapely.ops import nearest_points, unary_union
@@ -604,17 +605,24 @@ class ConnectorLibrary:
         return self.by_asset.get(asset_ref) or []
 
 
-_CONNECTORS: ConnectorLibrary | None = None
+@_lru_cache(maxsize=1)
+def _default_connectors() -> ConnectorLibrary:
+    return ConnectorLibrary()
 
 
 def connectors(kits_dir=None) -> ConnectorLibrary:
-    """Process-wide cache of the measured connector tables (read-only data)."""
-    global _CONNECTORS
+    """Process-wide cache of the measured connector tables (read-only data).
+
+    Standard 5 bans module-level mutable singletons. This is a pure load cache
+    of immutable measured data in ``tooling/`` rather than shared state in
+    ``packages/``, so it stays — but as an ``lru_cache`` with no module-level
+    mutable binding and no ``global``, and an explicit ``kits_dir`` injection
+    point for any caller that needs a different table. Recorded here rather
+    than left as a judgement the next reader has to make again.
+    """
     if kits_dir is not None:
         return ConnectorLibrary(kits_dir)
-    if _CONNECTORS is None:
-        _CONNECTORS = ConnectorLibrary()
-    return _CONNECTORS
+    return _default_connectors()
 
 
 def _world_connectors(parcel: dict, survey, library: ConnectorLibrary):

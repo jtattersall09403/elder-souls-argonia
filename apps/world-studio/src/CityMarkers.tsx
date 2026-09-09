@@ -21,8 +21,7 @@ import { loadBlueprints } from "./blueprints/blueprintsData";
  * away places"): a marker is culled by distance per tier, fades over the last
  * quarter of its range, only the nearest MAX_VISIBLE are shown, the label is
  * sized for the distance it is read at, and it is depth-tested so land in
- * the way hides it. The near-only parcel labels of BlueprintGround are the
- * model.
+ * the way hides it.
  */
 /** Range per tier, metres from the camera. */
 const RANGE_M = { major: 6000, minor: 1500 } as const;
