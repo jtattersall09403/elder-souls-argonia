@@ -48,6 +48,15 @@ off above ROUTING_CAP_DEG: a track to a hill village switchbacks up the spur
 instead of running straight at it and leaving `grade_routes` a climb no cut or
 fill can hold (owner requirement 2026-09-05 — every way walkable end to end).
 
+AUTHORED OVERRIDES
+------------------
+A track named in `world/sources/routes/authored-routes.json` is not solved at
+all: its hand-drawn metre-space centreline is rasterised and published exactly
+as authored (`worldgen/authored_routes.py`), the same contract the authored
+minor waterways keep. Use it for a way whose right line is a design fact the
+cost surface cannot express — never to paper over an over-cap window that is
+really sub-metre surface roughness.
+
 BLUEPRINT TERMINALS (owner requirement 2026-09-05)
 --------------------------------------------------
 Where a place has a Part 6 blueprint with `networkTerminals[]`, the minor path
@@ -87,6 +96,7 @@ from scipy import ndimage
 from . import blueprint as bp_mod
 from . import catalogue
 from . import province_network as pn
+from .authored_routes import load_by_id, to_px
 from .routes import EDGE_MARGIN, EDGE_PENALTY, NEIGHBOR_OFFSETS, grade_factor
 from .site_fields import ProvinceSurvey
 
@@ -384,6 +394,10 @@ def run(write: bool = True) -> dict:
     unconnected: list[dict] = []
     on_road = 0
     terminals = blueprint_terminals()
+    # A hand-authored track is published exactly as drawn — same contract as
+    # `authored_waterways`. It still gets its length, its class and its network
+    # cells from the authored line, so everything downstream sees a real way.
+    authored = load_by_id()
     batches = demand(files, set(terminals))
     # One graph for all four batches: only the seeds change between them.
     graph = StepGraph(cost, px_m, height, ROUTING_CAP_DEG)
@@ -398,8 +412,16 @@ def run(write: bool = True) -> dict:
             entry_uv = terminal[0] if terminal else None
             if entry_uv is not None:
                 x, z = s.uv_to_m(*entry_uv)
+            track_id = "track." + rec["id"].split(".", 1)[1]
+            override = authored.get(track_id)
+            if override is not None:
+                # AUTHORED: the drawn line IS the path. No solve, no arrival or
+                # length test — the author has already answered both questions.
+                path = [(int(c), int(r)) for c, r in to_px(override, px_m, w)]
+            else:
+                path = None
             row, col = s.grid_px(float(x), float(z))
-            if not s.land[row, col]:
+            if path is None and not s.land[row, col]:
                 # a submerged / island record: walk to the nearest land cell first
                 land_rc = np.argwhere(s.land)
                 d2 = (land_rc[:, 0] - row) ** 2 + (land_rc[:, 1] - col) ** 2
@@ -408,16 +430,17 @@ def run(write: bool = True) -> dict:
                     unconnected.append({"id": rec["id"], "why": "no land within the snap; boat-served"})
                     continue
                 row, col = map(int, land_rc[k])
-            if not np.isfinite(dist[row, col]):
+            if path is None and not np.isfinite(dist[row, col]):
                 unconnected.append({"id": rec["id"], "why": "no land path at all"})
                 continue
-            path = trace(prev, row, col, w)
+            if path is None:
+                path = trace(prev, row, col, w)
             length_m = sum(np.hypot(path[i + 1][0] - path[i][0], path[i + 1][1] - path[i][1]) * px_m
                            for i in range(len(path) - 1))
-            if length_m <= ARRIVAL_M:
+            if override is None and length_m <= ARRIVAL_M:
                 on_road += 1
                 continue
-            if length_m > MAX_TRACK_M and rec["classification"]["class"] != "settlement":
+            if override is None and length_m > MAX_TRACK_M and rec["classification"]["class"] != "settlement":
                 unconnected.append({"id": rec["id"], "why": f"cheapest land path {length_m / 1000:.1f} km", "batch": bi})
                 continue
             # A SETTLEMENT always keeps its path, however long. People live
@@ -429,12 +452,14 @@ def run(write: bool = True) -> dict:
                             terminal[1] if terminal else None)
             end_c, end_r = path[-1]
             track = {
-                "id": "track." + rec["id"].split(".", 1)[1],
+                "id": track_id,
                 "kind": kind,
                 "endsAtTerminal": entry_uv is not None, "from": rec["id"], "to": "network",
                 "batch": bi, "lengthKm": round(length_m / 1000.0, 3),
                 "px": [[int(c), int(r)] for c, r in path],
             }
+            if override is not None:
+                track["authoredGeometryDigest"] = override["contentDigest"]
             if entry_uv is not None:
                 # the EXACT terminal, in world metres. The traced path is a
                 # chain of 5.48 m raster cells, so its first vertex is the cell

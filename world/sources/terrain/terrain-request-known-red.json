@@ -3,7 +3,7 @@
   "kind": "terrain-request-known-red",
   "owner": "water",
   "why": "These typed terrain requests were applied and survived the terrain raster, but the shipped water solve does not yet deliver the depth, current or water relation they ask for. They are owned by the water workstream and tracked in docs/research/rendering/water-handoff.md. They must stay visibly red: the postcondition gate reports them as KNOWN-RED and fails on any request outside this register.",
-  "measuredOn": "2026-09-09",
+  "measuredOn": "2026-09-09 final chain",
   "requests": [
     {
       "requestId": "terrain-request.dunmer-north.hackwing-wall.cliff-bench.023ccbae7827",
@@ -75,12 +75,25 @@
       ]
     },
     {
-      "requestId": "terrain-request.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
-      "placeId": "place.imperial-penal-south.chainbreaker-shelter",
+      "requestId": "terrain-request.imperial-fringe.the-empty-steading.cut.58c9f7a9b888",
+      "placeId": "place.imperial-fringe.the-empty-steading",
       "failingFields": [
-        "depthClass",
         "waterRelation"
-      ]
+      ],
+      "owner": "Phase 11 - macro plot terrain-promise gate",
+      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
+      "queuedIn": "docs/research/phase11/phase11-gap-plan.md"
+    },
+    {
+      "requestId": "terrain-request.imperial-penal-south.necromantic-dig.dry-rise.63cbc58862be",
+      "placeId": "place.imperial-penal-south.necromantic-dig",
+      "failingFields": [
+        "waterRelation",
+        "heightClass"
+      ],
+      "owner": "Phase 11 - macro plot terrain-promise gate",
+      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
+      "queuedIn": "docs/research/phase11/phase11-gap-plan.md"
     },
     {
       "requestId": "terrain-request.mercantile-coast.lilmoth.cut.bec1279f83eb",
@@ -92,11 +105,24 @@
       ]
     },
     {
-      "requestId": "terrain-request.naga-kur-deeps.air-pocket-station-deeps.pool.4bef463f2250",
-      "placeId": "place.naga-kur-deeps.air-pocket-station-deeps",
+      "requestId": "terrain-request.mercantile-coast.oliis-drake-deep.pool.4bf87006bb64",
+      "placeId": "place.mercantile-coast.oliis-drake-deep",
+      "failingFields": [
+        "depthClass"
+      ],
+      "owner": "Phase 11 - macro plot terrain-promise gate",
+      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
+      "queuedIn": "docs/research/phase11/phase11-gap-plan.md"
+    },
+    {
+      "requestId": "terrain-request.mercantile-coast.oliis-drake-deep.sinkhole.0e781321e579",
+      "placeId": "place.mercantile-coast.oliis-drake-deep",
       "failingFields": [
         "depthM"
-      ]
+      ],
+      "owner": "Phase 11 - macro plot terrain-promise gate",
+      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
+      "queuedIn": "docs/research/phase11/phase11-gap-plan.md"
     },
     {
       "requestId": "terrain-request.naga-kur-deeps.harmed-hist-enslaved.cut.e03a148d66e8",
@@ -111,6 +137,28 @@
       "failingFields": [
         "waterRelation"
       ]
+    },
+    {
+      "requestId": "terrain-request.naga-kur-deeps.naga-village-settled.dry-rise.e3796dd374e1",
+      "placeId": "place.naga-kur-deeps.naga-village-settled",
+      "failingFields": [
+        "waterRelation",
+        "heightClass"
+      ],
+      "owner": "Phase 11 - macro plot terrain-promise gate",
+      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
+      "queuedIn": "docs/research/phase11/phase11-gap-plan.md"
+    },
+    {
+      "requestId": "terrain-request.naga-kur-deeps.umbriel-stripped-undead.dry-rise.7a0348023e4c",
+      "placeId": "place.naga-kur-deeps.umbriel-stripped-undead",
+      "failingFields": [
+        "waterRelation",
+        "heightClass"
+      ],
+      "owner": "Phase 11 - macro plot terrain-promise gate",
+      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
+      "queuedIn": "docs/research/phase11/phase11-gap-plan.md"
     },
     {
       "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb",

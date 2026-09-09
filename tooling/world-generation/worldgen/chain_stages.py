@@ -191,6 +191,17 @@ def is_fresh(stamp: dict, code: str, at: int = -1,
 #: (`authored_waterways`). Both cut a bounded patch of ground and nothing else.
 LOCAL_CARVE_INPUTS = ("world/sources/blueprints/",
                       "world/sources/routes/authored-minor-waterways.json")
+#: NOT `authored-routes.json`, on purpose (judged 2026-09-09). A road override
+#: moves route GEOMETRY, and the fast path elides both route solves —
+#: `recarve_local` says so itself and its guard cannot check a corridor it never
+#: re-solved. It would also gain nothing: the two solves cost 13.2 s and 11.4 s
+#: (measured, `--dry-run`), a road edit has to run both either way, and the plain
+#: chain already skips the sculpt (frozen) and `refine_province` (its inputs are
+#: untouched by a route file) on the stamp book alone. The fast path could save
+#: only refine's ~153 s, in exchange for a footprint nothing can verify.
+
+
+
 
 
 def local_carve_only() -> tuple[bool, str]:

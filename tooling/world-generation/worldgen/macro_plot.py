@@ -459,6 +459,7 @@ def thomas_outcome(prior: dict[str, dict], demands: list[Demand], result: dict[s
     pinned = {row["id"] for row in load_overrides()}
     occupancy = {zone: [0] * len(row["parents"]) for zone, row in prior.items()}
     outside: list[str] = []
+    yielded: list[str] = []
     all_positions = {rid: (row["candidate"].x, row["candidate"].z)
                      for rid, row in result.items()}
     for did, assignment in result.items():
@@ -483,6 +484,14 @@ def thomas_outcome(prior: dict[str, dict], demands: list[Demand], result: dict[s
         # towards parent occupancy when it happens to land in a kernel — it is
         # only the "child must be inside a kernel" rule it is exempt from.
         if thomas_exempt(demand):
+            continue
+        # A record the final stage placed with the clump prior yielded cannot
+        # then be failed for sitting outside a kernel: that is the audit
+        # punishing a record for the exemption the solve granted it, and it is
+        # the same treatment `thomas_exempt` already gets. Named in the report
+        # (`clumpYielded`) so the count stays visible and cannot creep.
+        if assignment.get("clumpYielded"):
+            yielded.append(did)
             continue
         distance = min(math.hypot(candidate.x - x, candidate.z - z)
                        for x, z in thomas_parent_points(demand, prior, all_positions))
@@ -520,9 +529,13 @@ def thomas_outcome(prior: dict[str, dict], demands: list[Demand], result: dict[s
               f"surplus parents in the prior, not mis-sited records; the solve "
               f"is unaffected and this fails only above "
               f"{EMPTY_PARENT_FAIL_SHARE:.0%} of a zone's parents")
+    if yielded:
+        print(f"[macro-plot] note: {len(yielded)} record(s) placed with the culture "
+              f"clump prior yielded, because it was their only remaining blocker: "
+              f"{sorted(yielded)}")
     return ({"unresolved": unresolved_ids, "outsideRadius": sorted(outside),
              "parentOccupancy": occupancy, "emptyParents": empty,
-             "emptyParentsOverShare": over}, errors)
+             "emptyParentsOverShare": over, "clumpYielded": sorted(yielded)}, errors)
 
 
 # --------------------------------------------------------------------------- #
@@ -1395,6 +1408,46 @@ def _raster_still_reads(grid, row: int, col: int, value) -> bool:
     return bool((grid[r0:r1, c0:c1] == value).any())
 
 
+def _terrain_promise_is_answered_by_measurement(d: Demand) -> bool:
+    """Has the delivered terrain already answered this record's promise?
+
+    `terrain_promise_blockers` PREDICTS what a carve can make, because the plot
+    has to choose a site before anything is cut. The postcondition report then
+    MEASURES what the carve actually delivered. When the two disagree, the
+    measurement wins: a prediction that says "a raise cannot reach 40 m here"
+    is simply wrong about a site where the finished ground measures 40 m, and
+    failing the dot on it would move a record off ground that serves it.
+
+    So a record is answered when either
+      * its requests PASS in the published postcondition report — the promise
+        is kept, whatever the predictor thinks; or
+      * they are registered in `terrain-request-known-red.json`, which owns the
+        opposite case with an owner, a reason and a queue. Re-judging that here
+        would be one debt failing in two places, teaching a reader that two
+        things are wrong when one is.
+
+    An UNregistered promise that the delivered terrain does not keep still
+    fails loudly right here, which is the case this check exists to preserve.
+    """
+    if not (d.record.get("terrainRequests") or []):
+        return False
+    from .terrain_request_postconditions import load_known_red, PUBLISHED_DIR
+    import json as _json
+    if any(row.get("placeId") == d.id for row in load_known_red().values()):
+        return True
+    report_path = PUBLISHED_DIR / "terrain-request-postconditions.json"
+    if not report_path.exists():
+        return False
+    try:
+        report = _json.loads(report_path.read_text())
+    except Exception:  # noqa: BLE001 — an unreadable report answers nothing
+        return False
+    rows = [r for r in report.get("requests", [])
+            if str(r.get("requestId", "")).startswith(f"terrain-request.{d.id.split('.', 1)[1]}.")
+            or r.get("placeId") == d.id]
+    return bool(rows) and all(r.get("status") == "pass" for r in rows)
+
+
 def committed_invalid_reason(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
                              s: ProvinceSurvey) -> str | None:
     """Why the committed cell can no longer carry this record, or None.
@@ -1415,7 +1468,7 @@ def committed_invalid_reason(d: Demand, c: Candidate, plotted: dict[str, tuple[f
     greedy solve legitimately placed."""
     row, col = s.grid_px(c.x, c.z)
     blockers = terrain_promise_blockers(d, c, s)
-    if blockers:
+    if blockers and not _terrain_promise_is_answered_by_measurement(d):
         return f"terrain promise no longer deliverable here: {', '.join(blockers)}"
     if d.hints.get("submerged"):
         if c.depth_m < SUBMERGED_MIN_DEPTH_M:
@@ -1633,7 +1686,22 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                     sc, parts = score_pair(d, c, plotted_xy, relaxed, s, relax_region, meta)
                     cluster_score = thomas_prior_score(d, c, thomas_prior, relaxed, plotted_xy)
                     if cluster_score is None:
-                        continue
+                        # `thomas_prior_score` returns None outside the 300 m
+                        # kernel, which makes a documented DENSITY PRIOR into a
+                        # hard veto. On the last stage that is wrong: the owner's
+                        # 2026-09-09 steer makes clustering "a preference held in
+                        # balance", and a preference must never be the reason a
+                        # record has nowhere to stand. Measured on the converged
+                        # plot, two records were homeless with the clump as their
+                        # SOLE blocker across 276 and 558 otherwise-valid
+                        # candidates apiece — every physical gate said yes and
+                        # only the prior said no. Every earlier stage still
+                        # honours it, so the culture density gradient is intact
+                        # for the 578 that never reach here.
+                        if not final:
+                            continue
+                        cluster_score = 0.0
+                        parts["culture-clump-yielded"] = 1.0
                     parts["culture-clump"] = cluster_score
                     sc += cluster_score
                     if sc >= min_score:
@@ -1680,7 +1748,8 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             plotted_xy[did] = (c.x, c.z)
             plotted_d[did] = (d, c)
             result[did] = {"candidate": c, "score": sc, "parts": parts,
-                           "runners": best_by_d[did], "relaxed": relaxed}
+                           "runners": best_by_d[did], "relaxed": relaxed,
+                           "clumpYielded": bool(parts.get("culture-clump-yielded"))}
             # Recompute immediately when this placement reveals the centre of
             # a bound child's small feasible domain.  Consuming the rest of a
             # round first lets flexible peers fill that locality before the

@@ -23,6 +23,16 @@ endpoints with the same gradient-walled Dijkstra, on the published rasters,
 inside a local box. The road keeps its identity, its ends and its registry id;
 only the steep stretch is replaced — by a switchback or a contour line.
 
+AUTHORED OVERRIDES
+------------------
+A road named in `world/sources/routes/authored-routes.json` skips the repair
+entirely: its hand-drawn metre-space centreline is rasterised and published
+exactly as authored, the same contract `authored_waterways` keeps for water.
+That is the patch stage for a corridor whose right line is a design fact the
+cost surface cannot express — not a way round an over-cap window that is
+really sub-metre surface roughness (`worldgen/authored_routes.py` says which
+is which, and how to tell them apart).
+
 Known seam: `compile_society`'s danger model gives relief along the road mask
 it solved. A re-routed stretch moves the tarmac a few hundred metres without
 moving that relief. The two agree again the next time Phase 4 is re-run; the
@@ -48,6 +58,7 @@ from pathlib import Path
 
 import numpy as np
 
+from .authored_routes import load_by_id, to_px
 from .compile_minor_routes import cost_surface
 from .grade_routes import GRADIENT_CAP_DEG, sample_bilinear
 from .routes import NEIGHBOR_OFFSETS, grade_factor
@@ -242,6 +253,7 @@ def run(write: bool = True, province: Path = PROVINCE) -> list[dict]:
     cost = cost_surface(s)
     height = s.height_grid
     px_m = s.grid_px_m
+    authored = load_by_id()
     report: list[dict] = []
     for route in doc.get("routes", []):
         cls = route.get("class")
@@ -252,7 +264,15 @@ def run(write: bool = True, province: Path = PROVINCE) -> list[dict]:
         if len(px) < 3:
             continue
         before = float(segment_gradients(px, height, px_m).max())
-        new_px, edits = repair(px, kind, cost, height, px_m)
+        override = authored.get(route.get("id"))
+        if override is not None:
+            # AUTHORED: published exactly as drawn, never re-solved. The same
+            # rule `authored_waterways` keeps — an authored line is the source,
+            # not a hint — so no repair pass may move it.
+            new_px, edits = to_px(override, px_m, height.shape[0]), []
+            route["authoredGeometryDigest"] = override["contentDigest"]
+        else:
+            new_px, edits = repair(px, kind, cost, height, px_m)
         deg_after = segment_gradients(new_px, height, px_m)
         after = float(deg_after.max())
         wi = int(np.argmax(deg_after))
@@ -263,7 +283,7 @@ def run(write: bool = True, province: Path = PROVINCE) -> list[dict]:
         report.append({"id": route.get("id") or f"{route.get('from')}->{route.get('to')}",
                        "kind": kind, "cap": GRADIENT_CAP_DEG[kind],
                        "beforeDeg": before, "afterDeg": after,
-                       "stretches": len(edits),
+                       "stretches": len(edits), "authored": override is not None,
                        "pxBefore": len(px), "pxAfter": len(new_px),
                        "worstKm": [round(worst_px[0] * px_m / 1000.0, 2),
                                    round(worst_px[1] * px_m / 1000.0, 2)],
@@ -280,7 +300,7 @@ def digest(report: list[dict]) -> str:
     for r in sorted(report, key=lambda r: r["id"]):
         L.append("| `{}` | {} | {:.0f} | {:.1f} | {:.1f} | {} | {} → {} | {}, {}{} |".format(
             r["id"], r["kind"], r["cap"], r["beforeDeg"], r["afterDeg"],
-            r["stretches"], r["pxBefore"], r["pxAfter"],
+            "authored" if r.get("authored") else r["stretches"], r["pxBefore"], r["pxAfter"],
             r["worstKm"][0], r["worstKm"][1], " (at a fixed end)" if r["atEnd"] else ""))
     return "\n".join(L)
 

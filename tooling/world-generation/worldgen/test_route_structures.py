@@ -104,17 +104,35 @@ def test_puts_a_landing_where_the_ground_flattens():
     assert FAMILIES["dunmer-stone"]["stair"]["asset"] in assets
 
 
-def test_refuses_a_deck_steeper_than_the_ramp_cap():
+def test_a_deck_steeper_than_the_ramp_cap_is_built_as_a_flight_and_reported():
+    """The ground wins, and the correction is named.
+
+    This used to refuse, which was right while the author and the compiler
+    measured a window differently: an impossible piece meant the two disagreed
+    and somebody had to look. They now share `measure_window` and `ramp_ok`, so
+    the only remaining source of disagreement is honest — the author runs
+    between the two road-grading passes and this compiler after the second, and
+    a window's endpoints sample the shoulder pass 2 benched. Stopping the whole
+    province chain on a piece nobody chose deliberately was the wrong answer;
+    building what the ground can carry and saying so is the right one.
+
+    MUTATION: drop the `kindCorrected` row and this test cannot tell a silent
+    fixup from a reported one.
+    """
     way, h = _slope_way(rise_per_m=0.45)      # 24 deg ground
     st = {"id": "structure.dunmer-north-test.1", "wayId": way["id"],
           "kind": "deck", "family": "dunmer-stone",
           "fromM": 100.0, "toM": 160.0, "why": "test"}
-    try:
-        compile_structure(st, way, h, _kit_stub())
-    except ValueError as e:
-        assert f"{RAMP_MAX_DEG:.0f} deg deck cap" in str(e)
-    else:
-        raise AssertionError("a 24 deg deck was accepted")
+    placements, row = compile_structure(st, way, h, _kit_stub())
+    assert placements, "the window must still be built"
+    assert row["kind"] == "stepped-ascent", row["kind"]
+    correction = row.get("kindCorrected")
+    assert correction, "a silent correction is exactly what this must not be"
+    assert correction["was"] == "deck" and correction["now"] == "stepped-ascent"
+    assert correction["gradeDeg"] > RAMP_MAX_DEG
+    # the stored rise and the measured rise are both reported, because the gap
+    # between them IS the finding
+    assert "recordRiseM" in correction and "groundRiseM" in correction
 
 
 def test_refuses_an_authored_window_past_the_current_route_endpoint():

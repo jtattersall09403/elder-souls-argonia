@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "kind": "authored-routes",
+  "_": "Hand-authored road and track centrelines. Absolute metre space, published EXACTLY as drawn: reroute_majors will not re-solve an authored road and compile_minor_routes will not re-trace an authored track. Same contract as authored-minor-waterways.json. Every entry needs a `why` that is a world record (reviewed under the text-review skill). See worldgen/authored_routes.py for when an override is the right answer and when it is not: an over-cap window that is sub-metre surface roughness is NOT routing, and hand-drawing the same corridor hides it rather than fixing it.",
+  "routes": []
+}

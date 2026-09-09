@@ -421,6 +421,28 @@ def _family(way_id: str) -> str | None:
     return FAMILY_BY_REGION.get(way_id.split(".")[1])
 
 
+#: A window whose ground rise is smaller than this is not a defect in the
+#: route, it is the two surfaces disagreeing about the same ground.
+#:
+#: The routers cost their lines against `ProvinceSurvey.height_grid` — 1345
+#: cells, 5.48 m apart, smoothed — while `grade_routes` measures the full
+#: 4033-cell terrain. Measured along the shipped polylines (2026-09-09), the
+#: two surfaces differ by an RMS of 0.11–0.13 m with a worst case of 1.02 m,
+#: and a single 1 m pip across a 5.48 m step reads as 10.3 degrees. That is the
+#: whole of the "excess gradient" on the roads that looked badly routed: one of
+#: them shows 2 samples over its 8 degree cap on the router's grid and 44 on
+#: the grader's, over 1799 samples of the same line.
+#:
+#: So a structure authored there would be a bridge over nothing — a real one
+#: measured 0.17 m of rise across 18 m — and nobody can write an honest `why`
+#: for it, which is exactly why 61 structures had none. 1.2 m clears the
+#: measured worst-case disagreement with a small margin. A genuine step this
+#: small is not over any gradient cap in the first place, so nothing real is
+#: lost: a 1.2 m rise only breaches the 8 degree road cap over less than 8.5 m,
+#: and `merged_stretches` does not produce windows that short.
+MIN_STRUCTURE_RISE_M = 1.2
+
+
 def _kind(length_m: float, rise_m: float, worst_deg: float, way_kind: str) -> str:
     """The piece the defect asks for, from its measured shape.
 
@@ -589,7 +611,23 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
     for s, end_m in clipped:
         print(f"clipped stored structure {s['id']} from {float(s['toM']):.2f} m "
               f"to current route endpoint {end_m:.2f} m")
-    structures = [_refresh(s, ways_by_id, heights) for s in kept]
+    structures = []
+    stale_noise: list[str] = []
+    for row in kept:
+        fresh = _refresh(row, ways_by_id, heights)
+        # The same noise floor applies to a STORED structure re-measured on
+        # today's ground. Most of the province's unauthored backlog is here:
+        # pieces authored when a window's over-cap reading came from the two
+        # surfaces disagreeing, not from a step. One measured 0.06 m of rise
+        # across 17.8 m while its worst sample gradient read 25 degrees.
+        if abs(float(fresh.get("riseM") or 0.0)) < MIN_STRUCTURE_RISE_M:
+            stale_noise.append(f"{fresh['id']} ({fresh.get('riseM')} m)")
+            continue
+        structures.append(fresh)
+    if stale_noise:
+        print(f"{len(stale_noise)} stored structures re-measure below the "
+              f"{MIN_STRUCTURE_RISE_M:.1f} m noise floor and were retired: "
+              f"{', '.join(stale_noise[:5])}{' …' if len(stale_noise) > 5 else ''}")
     # Stored data can already carry duplicate ids: the numbering used to be
     # seeded from the COUNT of survivors, so a dropped structure restarted
     # numbering inside a range already issued. Ten such pairs are in the
@@ -618,12 +656,22 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
         print(f"{len(renumbered)} stored structures carried a duplicate id "
               "(old count-based numbering) and were renumbered")
     taken: dict[str, list[tuple[float, float]]] = {}
+    vanished: list[str] = []
+    noise: list[str] = []
     counts = _highest_suffix_by_way(structures)
     for s in structures:
         taken.setdefault(s["wayId"], []).append((s["fromM"], s["toM"]))
     for entry in sorted(stretch_doc["ways"], key=lambda e: e["wayId"]):
         wid = entry["wayId"]
         if wid not in survivors:
+            continue
+        if wid not in ways_by_id:
+            # The stretch export can name a way the current route set no longer
+            # has: the plot moves, `compile_minor_routes` re-solves, and a way
+            # is renamed or gone. Reconcile it the way a stored structure on a
+            # vanished way is already reconciled - loudly, not with a KeyError
+            # that stops the province chain on its ninth stage.
+            vanished.append(wid)
             continue
         cap = GRADIENT_CAP_DEG[entry["kind"]]
         wins = merged_stretches(ways_by_id[wid], entry["stretches"], cap, heights)
@@ -633,6 +681,10 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
             if any(a - 0.01 <= w["fromM"] and w["toM"] <= b + 0.01
                    for a, b in taken.get(wid, [])):
                 continue          # already carried by an authored structure
+            if abs(w["riseM"]) < MIN_STRUCTURE_RISE_M:
+                noise.append(f"{wid} {w['fromM']:.0f}-{w['toM']:.0f} m "
+                             f"({w['riseM']:+.2f} m)")
+                continue
             counts[wid] = n = counts.get(wid, 0) + 1
             kind = _kind(w["spanM"], w["riseExactM"], w["worstDeg"], entry["kind"])
             structures.append(_mark({
@@ -650,6 +702,14 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
                 "why": _why(wid),
                 "sourcing": "kit",
             }))
+    if vanished:
+        print(f"{len(vanished)} stretch rows name ways the current route set no "
+              f"longer has and were dropped: {', '.join(sorted(vanished)[:6])}"
+              f"{' …' if len(vanished) > 6 else ''}")
+    if noise:
+        print(f"{len(noise)} over-cap windows are below the {MIN_STRUCTURE_RISE_M:.1f} m "
+              f"resolution noise floor and are NOT structures: "
+              f"{', '.join(noise[:4])}{' …' if len(noise) > 4 else ''}")
     structures.sort(key=lambda s: (s["wayId"], s["fromM"]))
     counted = Counter(s["id"] for s in structures)
     collisions = sorted(sid for sid, n in counted.items() if n > 1)

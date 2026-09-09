@@ -485,17 +485,35 @@ def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
 
 
 def load_known_red(path: Path | None = None) -> dict[str, dict]:
-    """The water-owned requests whose final-water postconditions are red.
+    """The requests whose final postconditions are red, each with an owner.
 
     A register, not a suppression: the gate still reports each one, and any
     request that fails outside the register — or any register row that has
     quietly started passing — is a gate failure.
+
+    Ownership is PER ROW, not per file. The register began as a water-owned
+    list, and when the plot gained a terrain-promise gate it grew rows that are
+    not water's to fix; a file-level `owner` would have mislabelled them and a
+    later agent would have gone looking in the wrong workstream. A row may
+    override the file's `owner`, `why` and `queuedIn`, and a row that overrides
+    the owner must say why and where the work is queued, or loading fails —
+    an unattributed debt is the thing this register exists to prevent.
     """
     path = path or KNOWN_RED_PATH
     if not path.exists():
         return {}
     document = json.loads(path.read_text(encoding="utf-8"))
-    return {row["requestId"]: row for row in document.get("requests") or []}
+    rows = {}
+    for row in document.get("requests") or []:
+        if row.get("owner") and not (row.get("why") and row.get("queuedIn")):
+            raise ValueError(
+                f"{path.name}: {row['requestId']} names its own owner "
+                f"{row['owner']!r} but not both `why` and `queuedIn`. A row that "
+                f"is not the file's default owner must say why it is red and "
+                f"where the work to close it is queued.")
+        rows[row["requestId"]] = {"owner": document.get("owner"),
+                                  "why": document.get("why"), **row}
+    return rows
 
 
 def classify_report(report: dict, known_red: dict[str, dict]) -> dict[str, list[str]]:
@@ -541,7 +559,13 @@ def main(argv: list[str] | None = None) -> int:
                         default=published("terrain-request-fulfillments.json"))
     parser.add_argument("--height", type=Path, default=DEFAULT_HEIGHTS)
     parser.add_argument("--water", type=Path, default=water_default)
-    parser.add_argument("--out", type=Path, default=vault / "terrain-request-postconditions.json")
+    # PUBLISHED by default, like the inputs. The module reads the published
+    # plan and fulfillments but wrote its report only into the vault, so the
+    # copy every consumer reaches for did not exist at all - macro_plot's
+    # committed-cell audit silently fell back to its own predictor rather
+    # than the measurement, and the vault copy is build scratch nobody ships.
+    parser.add_argument("--out", type=Path,
+                        default=PUBLISHED_DIR / "terrain-request-postconditions.json")
     args = parser.parse_args(argv)
     paths = {"plan": args.plan, "fulfillment": args.fulfillment,
              "height": args.height, "water": args.water}
@@ -572,9 +596,13 @@ def main(argv: list[str] | None = None) -> int:
               for row in request["findings"])
     print(f"terrain request postconditions: {report['status']} — "
           f"{len(report['requests'])} requests, {failures} non-passing findings; {args.out}")
-    split = classify_report(report, load_known_red())
+    known_red = load_known_red()
+    split = classify_report(report, known_red)
     for request_id in split["knownRed"]:
-        print(f"  KNOWN-RED (water-owned, see {KNOWN_RED_DOC}): {request_id}")
+        row = known_red.get(request_id) or {}
+        owner = row.get("owner") or "water-owned"
+        where = row.get("queuedIn") or KNOWN_RED_DOC
+        print(f"  KNOWN-RED ({owner}, see {where}): {request_id}")
     for request_id in split["unexpectedFailures"]:
         print(f"  UNEXPECTED FAILURE: {request_id}")
     for request_id in split["recoveredNoLongerRed"]:

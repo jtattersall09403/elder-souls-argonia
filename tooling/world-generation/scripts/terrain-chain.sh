@@ -56,6 +56,14 @@
 # the full chain, in the same order, so grading, structures, pads and both
 # water solves see the same ground they always did.
 #
+# A HAND-AUTHORED ROUTE LINE (world/sources/routes/authored-routes.json) is
+# deliberately NOT on that list. It moves route geometry, and the fast path
+# elides both route solves, so the guard would have nothing to check. It would
+# also buy nothing: the solves cost 13.2 s and 11.4 s, a route edit has to run
+# both either way, and a plain run already skips the frozen sculpt and
+# `refine_province` on the stamp book. Change a road line, run this script
+# normally.
+#
 # It is NOT valid for anything else, and it will not pretend otherwise:
 # `recarve_local` checks the snapshot against the refined heightfield outside
 # the last footprint and EXITS if anything upstream moved. Anything touching
@@ -103,6 +111,7 @@ declare -A STAGE_ARGS=(
   [compile_scatter]="--out|$REPO_ROOT/apps/world-studio/public/province/vegetation"
   # The bundle is only delivery once the kit GLBs it names are in the site the
   # browser fetches; without this the runtime asks for meshes that are not there.
+  [compile_settlement]="--all"
   [export_settlement_bundle]="--copy-assets"
 )
 
@@ -145,6 +154,12 @@ STAGES=(
   # clearance, so paint applied after it is not in the bundles the world
   # streams and the trees grow through the floors. Publishing the bundle first
   # is what gives the paint stage something to read.
+  # The exporter refuses a compile whose source blueprint or terrain has moved
+  # under it, and rightly - but nothing produced that compile, so a blueprint
+  # edit or a re-carve left the world unbuildable until somebody ran five
+  # commands by hand. It belongs here, after the final water and the land cover
+  # and immediately before the publish that consumes it.
+  "compile_settlement"
   "export_settlement_bundle"
   "settlement_ground_control"
   "compile_scatter"
@@ -181,6 +196,12 @@ FOOTPRINT_STAGES=(
   # clearance, so paint applied after it is not in the bundles the world
   # streams and the trees grow through the floors. Publishing the bundle first
   # is what gives the paint stage something to read.
+  # The exporter refuses a compile whose source blueprint or terrain has moved
+  # under it, and rightly - but nothing produced that compile, so a blueprint
+  # edit or a re-carve left the world unbuildable until somebody ran five
+  # commands by hand. It belongs here, after the final water and the land cover
+  # and immediately before the publish that consumes it.
+  "compile_settlement"
   "export_settlement_bundle"
   "settlement_ground_control"
   "compile_scatter"

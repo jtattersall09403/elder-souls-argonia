@@ -30,27 +30,11 @@
     },
     {
       "placeId": "place.mercantile-coast.lilmoth",
-      "subjectId": "district.lilmoth.lighter-quay",
-      "rule": "argonian-stilt-open-water-share",
-      "owner": "water",
-      "queuedIn": "docs/research/rendering/water-handoff.md",
-      "why": "3/7 = 42.9% against a 15-30% band, but the share is not yet stable: the lighter shed and the quay smith are flood-band on 41/41 samples and the smith is wet-season inundated on 41/41, while the open-water layer reports 0 for both. Whether they count as over water is decided by the water layer that is still being reconciled, so the measured share will move when it lands."
-    },
-    {
-      "placeId": "place.mercantile-coast.lilmoth",
       "subjectId": "district.lilmoth.council-crown",
       "rule": "argonian-stilt-open-water-share",
       "owner": "settlement",
       "queuedIn": "docs/polish-backlog.md",
       "why": "Not a water finding: the crown's buildings are genuinely dry (0 open-water, 0 flood, 0 wet-season on six of seven). The district's own record puts it on the 11-13 m bench east of the crest, so 15-30% of it can never stand over water; the defect is the culture rule's scope, applied to every argonian-stilt district regardless of the ground it stands on. Fixing that is a rule design decision, queued rather than taken here."
-    },
-    {
-      "placeId": "place.mercantile-coast.lilmoth",
-      "subjectId": "district.lilmoth.hist-court",
-      "rule": "argonian-stilt-open-water-share",
-      "owner": "settlement",
-      "queuedIn": "docs/polish-backlog.md",
-      "why": "Not a water finding: all five buildings sample 0 open-water, 0 flood, 0 wet-season. The district's record puts it on the crest at 19-23 m, so the 15-30% over-open-water share cannot apply. Same rule-scope defect as council-crown."
     },
     {
       "placeId": "place.hist-heartland.sap-tapping-licensed",

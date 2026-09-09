@@ -296,29 +296,42 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   forbids — but the honest fix is for the pad grader to take the same exclusion
   windows the route grader takes. Cheap: it is the same window list, read from
   the same path.
-- **Three route ways cannot be closed by authoring, because the line is wrong,
-  not the ground** (measured 2026-09-09, blocking
-  `test_no_shipped_route_structure_is_unauthored`).
-  * `track.dunmer-north.riverwalk` — the catalogue records Riverwalk as a
-    boardwalk village "strung along a channel because the channel is the
-    street", reached from a trunk boat lane. Its access track runs 4,912 m and
-    **starts at 349.6 m of altitude and ends at 32.8 m**; 488 of its 2,241
-    samples are over the 12 deg track cap, and the structure author gives it 22
-    windows covering **62% of the way**, including four stepped ascents of 31 to
-    45 m of descent at up to 73 deg. A channel-side boardwalk village is not
-    reached over a 317 m mountain. Writing a `why` sentence for it would be
-    fiction under standard 12; the fix is the router or the siting.
-  * `route.road.helstrom-blackrose` — a trunk road from -1.1 m to -2.5 m that
-    crosses a 35 m hill at chainage 2,280 m, leaving 117 of 3,357 samples over
-    the 8 deg road cap and **23 authored structures**, most of them near-zero
-    end-to-end rise (a "bridge" over 18 to 130 m of surface roughness). Twenty
-    three spans on one trunk road is the "staircase province" the Phase 11 gap
-    plan warned about; it wants a routing look, not 23 sentences.
-  * `route.road.soulrest-blackrose` — the same fault on the same corridor: a
-    3,560 m trunk road between -4.8 m and 10.9 m with 62 of 1,680 samples over
-    the 8 deg road cap and 4 authored windows, one of them a 355 m "bridge"
-    carrying 8.4 m. Both Blackrose approaches fail the same way, which points at
-    the corridor rather than at either road.
+- **The "three badly routed ways" are not badly routed. The fault is a
+  RESOLUTION MISMATCH between the router's height field and the grader's**
+  (re-measured 2026-09-09 against the shipped data, superseding the earlier
+  entry here, which was written from a province state that has since moved).
+  Blocking `test_no_shipped_route_structure_is_unauthored` (61 structures now
+  carry no `why`, not 49).
+  * The routers cost against `ProvinceSurvey.height_grid` — 1345², 5.48 m/px,
+    smoothed. `grade_routes` measures the full-resolution ungraded terrain,
+    4033², sampled at `STEP * RAW_M` = 5.48 m. Along
+    `route.road.helstrom-blackrose` the two surfaces differ by **0.13 m RMS,
+    1.02 m worst**, yet the same 1,799-sample line reads **2 samples over the
+    8 deg cap (max 9.3 deg) on the router's grid and 44 over cap (max 25.6 deg)
+    on the ground the grader sees**; `route.road.soulrest-blackrose` reads
+    **0 over cap (max 7.8 deg) against 15 over cap (max 19.4 deg)**. A 1 m pip
+    over a 5.48 m step is 10.3 deg — that is the whole excess.
+  * So the corridors are right. `helstrom-blackrose` gains 35 m over 1.4 km and
+    gives it back over 1.6 km (≈1.4 deg mean): it takes a saddle, gently, and
+    24 of its 24 structure windows sit on near-flat ground with net rises of
+    −5.5 to +3.8 m. `track.dunmer-north.riverwalk` is 852 m long, has **2**
+    structures and grades to **3.8 deg** — the 4,912 m / 349.6 m / 22-window
+    figures in the earlier entry describe terrain that no longer exists.
+  * Neither remedy the owner proposed on 2026-09-09 can touch this. A cheaper
+    climb cost cannot help a solver that is already routing a 1.4 deg line, and
+    a hand-authored line is drawn on the same 5.48 m view, so it inherits the
+    same invisible pips. The override mechanism was still built
+    (`worldgen/authored_routes.py`, `world/sources/routes/authored-routes.json`,
+    honoured exactly by `reroute_majors` and `compile_minor_routes`) and ships
+    EMPTY, for the genuinely awkward corridor.
+  * **The real fix is downstream, in `author_route_structures`**: it turns a
+    sub-metre roughness pip into a bridge or a lip-step. Either the grader
+    should absorb these (they are far inside `MAX_FILL_M` = 6 m — measure why
+    it does not, before changing anything), or the author needs a minimum rise
+    / minimum sustained-length threshold so a 0.5 m bump over 18 m of a flat
+    causeway is not a span. That is one change and it retires most of the 61
+    missing `why`s at once. `author_route_structures.py` was outside this
+    task's scope.
   The other 41 unauthored ways were authored on 2026-09-09 (sentences written
   against their place catalogue records and reviewed by a separate agent under
   the `text-review` skill); they sat at 14–19% window coverage with 1–5
