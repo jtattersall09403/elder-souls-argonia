@@ -161,7 +161,8 @@ def blueprint_terminals() -> dict[str, tuple[tuple[float, float], str]]:
 def cost_surface(s: ProvinceSurvey) -> np.ndarray:
     slope = np.radians(s.slope_grid)
     cost = 1.0 + np.tan(slope) * 12.0 + 30.0 * (np.tan(slope) / 0.5) ** 2
-    wet = s.wetlands & ~s.open_water
+    # measured shallow standing water — ground you wade, not ground you sail
+    wet = s.wet_grid & ~s.open_water
     cost = np.where(wet, cost * COST_WETLAND, cost)
     cost = np.where(s.flood >= 2, cost * COST_FLOOD, cost)
     cost = np.where(s.height_grid > 40.0, cost * COST_MOUNTAIN, cost)
@@ -320,11 +321,24 @@ def classify(s: ProvinceSurvey, path: list[tuple[int, int]], magnitude: str | No
 
 
 def _classify_ground(s: ProvinceSurvey, path: list[tuple[int, int]], magnitude: str | None, cls: str) -> str:
+    """Deck, embankment or beaten earth — a physical choice, so it is made on
+    measured water, not on the region/wetland class rasters.
+
+    A BOARDWALK is a deck standing over water: it is earned where the way
+    crosses ground that measurably holds water now (`wet_grid`) or goes under
+    in the wet season (`wet_season`, the refined inundation mask). The old test
+    was `region in MARSH_REGIONS or wetlands`, both authored classes, so a way
+    over permanently dry marsh-labelled ground was decked.
+    """
     cells = np.array([(r, c) for c, r in path])
-    reg = s.region_grid[cells[:, 0], cells[:, 1]]
-    marsh = float((np.isin(reg, MARSH_REGIONS) | s.wetlands[cells[:, 0], cells[:, 1]]).mean())
-    flood = float((s.flood[cells[:, 0], cells[:, 1]] >= 2).mean())
-    if marsh >= 0.5:
+    rows, cols = cells[:, 0], cells[:, 1]
+    wet_n = int(s.wet_season.shape[0])
+    scale = wet_n / s.grid_n
+    wr = np.clip((rows * scale).astype(int), 0, wet_n - 1)
+    wc = np.clip((cols * scale).astype(int), 0, wet_n - 1)
+    under_water = float((s.wet_grid[rows, cols] | s.wet_season[wr, wc]).mean())
+    flood = float((s.flood[rows, cols] >= 2).mean())
+    if under_water >= 0.5:
         return "boardwalk"
     if flood >= 0.5:
         return "causeway"

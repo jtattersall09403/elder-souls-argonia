@@ -13591,7 +13591,7 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 116.6,
-        "distanceToWaterM": 29.5,
+        "distanceToWaterM": 42.8,
         "score": null
       },
       "hostility": {
@@ -18396,13 +18396,13 @@
         4480.6
       ],
       "candidatesConsidered": [],
-      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc. The landing stands 22.4 m off on bearing 327 in the channel itself, on a bed at 28.75 m under 0.60 m of compiled water; `dock_dredge` reports it dredged, 172 m by 12 m, 617 m3, taking the approach from 0.04 m to 0.85 m with no blocked sample. Every parcel stands on dry compiled ground: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 28.63 m on the bank lip 0.39 m above the channel. Road 526 m to the south-west, forded once at the channel's lower reach. Canopy closure 1.00; concealment 0.74, weaker than the old terrace's 0.93.",
+      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc; every parcel stands dry: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 30.81 m. Road 526 m to the south-west. Canopy closure 1.00; concealment 0.74. The camp keeps this bank. Its landing stands elsewhere. The water at the foot of the camp is an 882 m2 pocket bounded x 3327-3433, z 4453-4507, connected to nothing, on a reach that falls 6.3% over 463 m, so a canoe floating there can go nowhere. The berth moved 357 m on bearing 201 to (3309.4, 4815.0), the head of the tide, which the recipe's satellite slot already asks for at 200 to 400 m. See dossier licensed-stage-layby.",
       "plotFacts": {
         "landform": "pinned (Part 6 meso siting)",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 524.8,
-        "distanceToWaterM": 19.8,
+        "distanceToWaterM": 16.5,
         "score": null
       },
       "hostility": {
@@ -18463,7 +18463,7 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc. The landing stands 22.4 m off on bearing 327 in the channel itself, on a bed at 28.75 m under 0.60 m of compiled water; `dock_dredge` reports it dredged, 172 m by 12 m, 617 m3, taking the approach from 0.04 m to 0.85 m with no blocked sample. Every parcel stands on dry compiled ground: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 28.63 m on the bank lip 0.39 m above the channel. Road 526 m to the south-west, forded once at the channel's lower reach. Canopy closure 1.00; concealment 0.74, weaker than the old terrace's 0.93.",
+        "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc; every parcel stands dry: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 30.81 m. Road 526 m to the south-west. Canopy closure 1.00; concealment 0.74. The camp keeps this bank. Its landing stands elsewhere. The water at the foot of the camp is an 882 m2 pocket bounded x 3327-3433, z 4453-4507, connected to nothing, on a reach that falls 6.3% over 463 m, so a canoe floating there can go nowhere. The berth moved 357 m on bearing 201 to (3309.4, 4815.0), the head of the tide, which the recipe's satellite slot already asks for at 200 to 400 m. See dossier licensed-stage-layby.",
         "candidateId": "candidate.sap-tapping-licensed.e-reach118-bank"
       }
     },

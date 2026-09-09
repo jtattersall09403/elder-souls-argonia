@@ -913,7 +913,14 @@ def _fence_failures(bp: dict, survey=None) -> list[str]:
 
         if survey is not None:
             water_ok = f.get("waterOk") if isinstance(f.get("waterOk"), dict) else None
-            wet = [q for q in samples if _sr.sample_water(survey, q[0], q[1])]
+            # WET SEASON, not the base season: a wall stands in the water at
+            # its worst. Reading the base mask let a wall on ground that floods
+            # pass without declaring `waterOk`; reading the class raster (the
+            # older defect) did the opposite and failed walls for standing in
+            # 1.88 km2 of water that is not there, so the record had to DECLARE
+            # water it does not stand in to pass — a standard-12 violation
+            # baked into a gate.
+            wet = [q for q in samples if _sr.sample_wet_season_water(survey, q[0], q[1])]
             wet_m = len(wet) * FENCE_SAMPLE_M
             if wet_m > FENCE_WET_TOL_M and water_ok is None:
                 out.append(f"fence {fid}: 97 C10 — the wall stands in water for {wet_m:.1f} m "
@@ -922,7 +929,7 @@ def _fence_failures(bp: dict, survey=None) -> list[str]:
                            f"how deep")
             elif wet and water_ok is not None:
                 limit = float(water_ok.get("maxDepthM") or 0.0)
-                deep = [_sr.sample_depth_m(survey, q[0], q[1]) for q in wet]
+                deep = [_sr.sample_wet_season_depth_m(survey, q[0], q[1]) for q in wet]
                 worst = max(deep)
                 if worst > limit + FENCE_DEPTH_TOL_M:
                     out.append(f"fence {fid}: 97 C10 — the wall stands in {worst:.2f} m of water but "
@@ -1398,29 +1405,20 @@ def _dock_survey(survey=None):
         return None
 
 
-# The province publishes a DEPTH only for the bodies its hydrology solves
-# (ocean, lakes, the river bands). A marsh poling channel is carried by the
-# region raster instead — `open_water` is true there and the depth reads 0.0.
-# So a cell the province calls open water is credited with the canoe minimum
-# and no more: a poled hull, never a keel. A berth off that mask gets no
-# credit at all, which is what fails a landing drawn on dry ground.
-MARSH_WATER_CREDIT_M = HULL_CLASS_DEPTH_M["canoe"]
-
-
+# A berth's water is the depth the province publishes, and nothing else.
+#
+# There used to be a MARSH_WATER_CREDIT_M here: a cell inside `open_water` was
+# credited with the canoe minimum "because the province publishes a depth only
+# for the bodies its hydrology solves". That premise is false under water
+# schema v2 — the surface raster publishes a SIGNED depth on every cell, and on
+# the marsh cells the credit existed to rescue it reads negative. The credit
+# therefore manufactured 0.6 m of water out of class membership, which is how a
+# berth 91 m from usable water once satisfied a 10 m wet-join rule.
 def _water_depth_at(survey, x: float, z: float) -> float | None:
     try:
-        depth = float(survey.sample(x, z)["hydrology"]["waterDepthM"])
+        return float(survey.sample(x, z)["hydrology"]["waterDepthM"])
     except Exception:  # noqa: BLE001
         return None
-    return max(depth, MARSH_WATER_CREDIT_M) if _is_open_water(survey, x, z) else depth
-
-
-def _is_open_water(survey, x: float, z: float) -> bool:
-    try:
-        row, col = survey.grid_px(x, z)
-        return bool(survey.open_water[row, col])
-    except Exception:  # noqa: BLE001
-        return False
 
 
 

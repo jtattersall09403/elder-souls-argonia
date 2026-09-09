@@ -227,12 +227,50 @@ def sample_depth_m(survey, x: float, z: float) -> float:
 
 
 def sample_water(survey, x: float, z: float) -> bool:
-    grid = survey.open_water
+    """Open water in the BASE season — water that is there all year.
+
+    `survey.open_water` is a MEASURED mask (signed depth > 0.5 m). It used to
+    be `region in {ocean, lake} OR depth > 0.5`, and the class half of that OR
+    is why a berth 91 m from usable water once passed a 10 m wet-join rule.
+    """
+    return _sample_mask(survey, survey.open_water, x, z)
+
+
+def _sample_mask(survey, grid, x: float, z: float) -> bool:
     n = len(grid)
     px = float(survey.grid_px_m)
     col = min(max(int(x / px), 0), n - 1)
     row = min(max(int(z / px), 0), n - 1)
     return bool(grid[row][col])
+
+
+def sample_wet_season_water(survey, x: float, z: float) -> bool:
+    """Standing water at the SEASONAL MAXIMUM — what a built thing must clear.
+
+    A wall or a floor is judged against the wet season, not the dry one: a
+    house must not stand in water four months a year. A duck-typed survey
+    without the seasonal field (the test stubs) falls back to the base mask.
+    """
+    grid = getattr(survey, "wet_season_grid", None)
+    if grid is None:
+        return sample_water(survey, x, z)
+    return _sample_mask(survey, grid, x, z)
+
+
+def sample_wet_season_depth_m(survey, x: float, z: float) -> float:
+    """Standing depth at the SEASONAL MAXIMUM, 0.0 where it never floods.
+
+    This is what `waterOk.maxDepthM` is judged against, so a record declares
+    the worst water it actually stands in rather than the calmest.
+    """
+    grid = getattr(survey, "wet_season_depth_m", None)
+    if grid is None:
+        return sample_depth_m(survey, x, z)
+    n = len(grid)
+    px = _extent_m(survey) / n
+    col = min(max(int(x / px), 0), n - 1)
+    row = min(max(int(z / px), 0), n - 1)
+    return max(float(grid[row][col]), 0.0)
 
 
 # --------------------------------------------------------------------------- #
@@ -503,11 +541,13 @@ class LocalField:
             for c in range(self.w):
                 x, z = self.xz(r, c)
                 m = 1.0
-                wet = sample_water(survey, x, z)
+                # a wall is judged against the WET SEASON: it has to stand
+                # wherever the water reaches, not only where it sits in March
+                wet = sample_wet_season_water(survey, x, z)
                 if water_ok:
                     if not wet:
                         m *= FENCE_DRY_PENALTY_WET
-                    elif sample_depth_m(survey, x, z) > max_depth:
+                    elif sample_wet_season_depth_m(survey, x, z) > max_depth:
                         m *= FENCE_DEEP_PENALTY
                 elif wet:
                     m *= FENCE_WATER_PENALTY

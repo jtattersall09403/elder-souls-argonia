@@ -294,9 +294,9 @@ D1 accepted at 12.7/km² with no records added, per the owner's soft-floor
 ruling.
 
 **Left open by B13, with the mechanism:**
-- Three compilers still open the water PNGs themselves instead of going through
-  `ShippedWater`: `compile_scatter.py:76`, `grade_routes.py:388`,
-  `settlement_ground_control.py:55`. Each is another agent's file. Mechanism:
+- Two compilers still open the water PNGs themselves instead of going through
+  `ShippedWater`: `compile_scatter.py:76` and `settlement_ground_control.py:55`
+  (`grade_routes` was moved onto the accessor in 540c1e92). Mechanism:
   route them through `ShippedWater` with an explicit season when next touched;
   `test_water_fact_invariants` will catch a class-mask regression in them, but
   not a second decoder.

@@ -2,8 +2,8 @@
 
 Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/world-studio/public/province/routes-minor.json`.
 
-- **164 paths**, 111.73 km in total: track 42, footpath 95, boardwalk 25, causeway 2
-- 61 places were already on a road or landing (within 45 m)
+- **163 paths**, 111.67 km in total: track 42, footpath 94, boardwalk 25, causeway 2
+- 62 places were already on a road or landing (within 45 m)
 - 2 of the paths are **unmapped** (batch 4): routed, graded and painted ground that the player's map never draws, so a rumoured place is still found by walking
 - 2 places have **no land path** (boat-, guide- or root-served — a design fact to check, not a failure; longest allowed path 4.0 km):
 
@@ -36,8 +36,9 @@ Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/wo
 
 Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 boat cost surface, land impassable); data in `apps/world-studio/public/province/waterways-minor.json`.
 
-- **127 channels**, 40.55 km in total: channel 76, river 41, crossing 10
+- **127 channels**, 40.41 km in total: channel 77, river 40, crossing 10
 - 74 water-bound places already sit on a lane or navigable river (within 45 m)
+- **When each lane has its water**: 81 carry a hull all year, 2 only in the wet season and 44 run over ground that the water bake finds dry in every season (203 cells). That last group is a defect. Those lanes are drawn but cannot be poled; each carries `"season": "dry"` in the JSON. The worst of them are listed below. The fix is to carve the bed or to withdraw the lane.
 - 26 water-bound places have **no boat path** (reached on foot, by root or by guide — a design fact to check, not a failure):
 
   - `place.dunmer-north.hixinoag` — no connected navigable water within 260 m
@@ -66,6 +67,22 @@ Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 b
   - `place.mercantile-coast.mudfoot` — no connected navigable water within 260 m
   - `place.naga-kur-deeps.horwalli-waterworks-deeps` — no connected navigable water within 260 m
   - `place.naga-kur-deeps.root-gallery-blight-warren` — no connected navigable water within 260 m
+
+### Lanes drawn over dry ground
+
+| place | class | km | cells dry in every season |
+|---|---|---:|---:|
+| `place.naga-kur-deeps.dead-water-village` | channel | 0.619 | 26 |
+| `place.dunmer-north.tearmouth` | channel | 2.084 | 15 |
+| `place.hist-heartland.drowning-narrows-current` | channel | 0.668 | 14 |
+| `place.hist-heartland.sap-tapping-licensed` | channel | 0.213 | 12 |
+| `place.hist-heartland.treasure-hunters-live-camp` | river | 0.583 | 11 |
+| `place.hist-heartland.root-gallery-deep-throat` | river | 0.462 | 10 |
+| `place.naga-kur-deeps.raft-village-lashed` | channel | 0.122 | 9 |
+| `place.hist-heartland.drawdown-flat-exposed` | channel | 0.486 | 8 |
+| `place.dunmer-north.hissmir` | river | 0.439 | 7 |
+| `place.dunmer-north.hutan-tzel` | channel | 0.869 | 7 |
+| _…34 more_ | | | |
 
 ### Longest channels
 

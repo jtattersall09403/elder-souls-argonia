@@ -183,23 +183,28 @@ class ProvinceSurvey:
         self.air_visibility_m = (3.912 / beta).astype(np.float32)
 
         # -- water (2017 / 1345) -------------------------------------------
-        from .compile_water import decode_surface
+        # ONE reader for the compiled water. `ShippedWater` already knows how
+        # to open these rasters, decode the signed depth and answer a season;
+        # the survey delegates to it rather than keeping a second, subtly
+        # different reader of the same PNGs (decision 0049). `heights=None`
+        # because the survey carries its own ground and a clean checkout (CI)
+        # has no vault.
+        from .water_report import ShippedWater
+        self.water = ShippedWater(water_dir, heights=None)
         # signed depth (schema v2: negative = dry ground above the local
         # water table / buried); depth > 0 is wet
-        self.water_level_m, self.water_signed_depth_m = decode_surface(
-            _rgb(water_dir / "water-surface.png"), self.water_meta)
+        self.water_level_m = self.water.w2
+        self.water_signed_depth_m = self.water.depth2
         self.water_depth_m = np.maximum(self.water_signed_depth_m, 0.0)
-        klass = _rgb(water_dir / "water-class.png")
-        self.water_class = _resample(klass[..., 0], self.grid_n)
-        self.water_turbidity = _resample(klass[..., 1], self.grid_n).astype(np.float32) / 255.0
-        self.water_salinity = _resample(klass[..., 2], self.grid_n).astype(np.float32) / 255.0
+        self.water_class = _resample(self.water.klass[..., 0], self.grid_n)
+        self.water_turbidity = _resample(self.water.klass[..., 1], self.grid_n).astype(np.float32) / 255.0
+        self.water_salinity = _resample(self.water.klass[..., 2], self.grid_n).astype(np.float32) / 255.0
         self.water_class_names = self.water_meta["klass"]["classes"]
         # water-shore.png: R = shore distance / SHORE_MAX_M, G = seasonal
         # response (how much this water rises/falls with the wet season),
         # B = tannin (blackwater staining).
-        shore = _rgb(water_dir / "water-shore.png").astype(np.float32) / 255.0
-        self.water_season_response = _resample(shore[..., 1], self.grid_n)
-        self.water_tannin = _resample(shore[..., 2], self.grid_n)
+        self.water_season_response = _resample(self.water.season2, self.grid_n)
+        self.water_tannin = _resample(self.water.tannin2, self.grid_n)
         # wet-season newly-inundated mask (refine_province, half-res of refined)
         self.wet_season = np.asarray(
             Image.open(province / "refined" / "flood-wet.png")) > 127
@@ -282,18 +287,94 @@ class ProvinceSurvey:
         return self.fields.region
 
     @cached_property
+    def wet_grid(self) -> np.ndarray:
+        """MEASURED standing water: the published signed depth is positive.
+
+        This is the only honest answer to "is there water on this cell". The
+        class raster (`water_class`) and the region raster are *intent*: they
+        are a strict superset of the wet ground, and on the shipped bake 32%
+        of what they call water is dry (signed depth <= 0). Anything deciding
+        a physical fact — a berth, a boat lane, a wall, a street, a sightline,
+        a per-km2 denominator — reads this or `water_depth_m`, never a class.
+        """
+        result = _resample(self.water.wet_grid("dry"), self.grid_n)
+        result.setflags(write=False)
+        return result
+
+    @cached_property
+    def dry_grid(self) -> np.ndarray:
+        """MEASURED dry ground in the BASE season: `~wet_grid`."""
+        result = ~self.wet_grid
+        result.setflags(write=False)
+        return result
+
+    @cached_property
+    def wet_season_depth_m(self) -> np.ndarray:
+        """Signed depth at the SEASONAL MAXIMUM, metres.
+
+        The province has wet and dry seasons and the water bake publishes both:
+        `water-surface.png` B is the base signed depth, and `water-shore.png` G
+        is a per-body wet-season RESPONSE in 0..1 which the runtime lifts by
+        `season.amplitudeM` (water-meta.json `season.runtime`:
+        ``wet <=> signedDepth + amplitudeM * season * seasonWetness > 0``).
+        This is `ShippedWater.signed_depth_m("wet")` — that rule at
+        seasonWetness = 1, answered by the one water reader.
+
+        Base wet extent 21.44 km2; seasonal maximum 25.39 km2; so 3.95 km2 of
+        the province is genuinely seasonal ground. Which of the two a gate
+        wants is a real question with different answers per consumer — see
+        decision 0049. It is NOT the same question as class-versus-depth: 6.52
+        of the 31.38 km2 `water-class.png` calls water is dry in *every*
+        season.
+        """
+        result = _resample(self.water.signed_depth_m("wet"), self.grid_n).astype(np.float32)
+        result.setflags(write=False)
+        return result
+
+    @cached_property
+    def wet_season_grid(self) -> np.ndarray:
+        """MEASURED wet-season water: standing water at the seasonal maximum.
+
+        What a wall, a floor or a threshold must clear — a house must not stand
+        in water four months a year. A superset of `wet_grid`.
+        """
+        result = self.wet_season_depth_m > 0.0
+        result.setflags(write=False)
+        return result
+
+    @cached_property
     def open_water(self) -> np.ndarray:
-        """Open water: ocean, lakes, and anything deeper than 0.5 m.
+        """MEASURED open water: standing water deeper than 0.5 m.
 
         Shallower standing water is marsh — authored, played-on ground.
+
+        This used to be `region in {ocean, lake} OR depth > 0.5`. The `OR` was
+        the defect: the region class alone marked 1.88 km2 at depth <= 0.5 m
+        as open water, 1.08 km2 of it fully dry, and every consumer of this
+        mask decides a physical fact. `water_intent` keeps the old meaning
+        available for anything that genuinely wants the authored intent.
         """
-        deep = _resample(self.water_depth_m, self.grid_n) > 0.5
-        result = np.isin(self.region_grid, OPEN_WATER_REGIONS) | deep
+        result = _resample(self.water_depth_m, self.grid_n) > 0.5
+        result.setflags(write=False)
+        return result
+
+    @cached_property
+    def water_intent(self) -> np.ndarray:
+        """AUTHORED intent, not water: the region raster's ocean/lake bodies
+        plus measured deep water. A strict superset of `open_water`.
+
+        Legitimate uses are identity and appearance ("which body is this",
+        "which palette"). It is NEVER a licence to decide that water is
+        physically present — use `open_water`, `wet_grid` or `water_depth_m`.
+        """
+        result = np.isin(self.region_grid, OPEN_WATER_REGIONS) | self.open_water
         result.setflags(write=False)
         return result
 
     @cached_property
     def land(self) -> np.ndarray:
+        """Authored land: everything that is not measured open water. Includes
+        wadeable shallow marsh, which is walked, not sailed."""
         return ~self.open_water
 
     @cached_property
@@ -308,8 +389,16 @@ class ProvinceSurvey:
 
     @cached_property
     def dist_to_water_m(self) -> np.ndarray:
-        wet = self.open_water | self.wetlands | (self.river_band > 0)
-        return (ndimage.distance_transform_edt(~wet) * self.grid_px_m).astype(np.float32)
+        """Distance to the nearest cell that MEASURABLY holds water.
+
+        Was `open_water | wetlands | river_band > 0` — three masks whose union
+        is 9.7% dry ground (2.10 km2 of 21.71 km2), so every "at the water's edge" record
+        and every shore gate read a distance shorter than the walk. The wet
+        marsh and the river bands are inside `wet_grid` already, because the
+        surface raster publishes a positive depth on them.
+        """
+        return (ndimage.distance_transform_edt(~self.wet_grid)
+                * self.grid_px_m).astype(np.float32)
 
     @cached_property
     def anchor_points_m(self) -> dict[str, tuple[float, float]]:
@@ -322,12 +411,20 @@ class ProvinceSurvey:
         cell_km2 = (self.grid_px_m / 1000.0) ** 2
         n = self.grid_n * self.grid_n
         reg = self.region_grid
-        deep = _resample(self.water_depth_m, self.grid_n) > 0.5
-        ocean = reg == OCEAN_REGION
-        lake = reg == 12
-        river_open = (~ocean) & (~lake) & deep
-        marsh_shallow = (~ocean) & (~lake) & (~deep) & (self.wetlands | (reg == 14))
+        # The parts must partition the square, so they are cut out of the SAME
+        # mask `land` is the complement of: measured open water. Naming which
+        # body a wet cell belongs to is what the region raster is for; deciding
+        # that water is there is not (see `water_intent`). Splitting the four
+        # parts across the two meanings is how this report used to double-count
+        # the 1.88 km² the region raster calls ocean or lake and the water bake
+        # publishes as at most ankle-deep.
+        deep = self.open_water
+        ocean = deep & (reg == OCEAN_REGION)
+        lake = deep & (reg == 12)
+        river_open = deep & (~ocean) & (~lake)
+        marsh_shallow = (~deep) & (self.wetlands | (reg == 14))
         authored = self.land
+        intent_only = self.water_intent & ~deep
         return {
             "provinceExtentKm": round(self.extent_m / 1000.0, 3),
             "provinceBoundingAreaKm2": round(n * cell_km2, 2),
@@ -336,11 +433,15 @@ class ProvinceSurvey:
             "deepRiverAndChannelKm2": round(int(river_open.sum()) * cell_km2, 2),
             "authoredLandKm2": round(int(authored.sum()) * cell_km2, 2),
             "ofWhichShallowMarshKm2": round(int(marsh_shallow.sum()) * cell_km2, 2),
+            "namedWaterThatIsNotDeepKm2": round(int(intent_only.sum()) * cell_km2, 2),
             "definition": (
                 "authored land = province bounding square minus open water, where "
-                "open water = ocean region + lake region + any cell with published "
-                "water depth > 0.5 m. Shallow marsh (<= 0.5 m) counts as authored "
-                "land: it is waded, poled and built on."
+                "open water is MEASURED: any cell whose published water depth "
+                "exceeds 0.5 m. The ocean/lake/river split names which body each "
+                "of those wet cells belongs to. Shallow marsh (<= 0.5 m) counts "
+                "as authored land: it is waded, poled and built on, and so does "
+                "`namedWaterThatIsNotDeepKm2` — ground the region raster calls "
+                "ocean or lake where the water bake finds ankle depth or none."
             ),
         }
 

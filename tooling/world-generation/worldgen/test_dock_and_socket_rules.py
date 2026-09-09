@@ -100,11 +100,26 @@ def test_water_to_dock_needs_a_structured_physical_reason():
     assert any("fixedBerthReason" in e for e in errors)
 
 
-def test_marsh_water_is_credited_the_canoe_minimum_and_no_more():
-    marsh = _Survey(0.0, True)
-    assert bp_mod._water_depth_at(marsh, 1.0, 1.0) == bp_mod.HULL_CLASS_DEPTH_M["canoe"]
-    dry = _Survey(0.0, False)
-    assert bp_mod._water_depth_at(dry, 1.0, 1.0) == 0.0
+def test_a_berth_gets_no_depth_it_has_not_been_measured_to_have():
+    """The MARSH_WATER_CREDIT_M this test used to assert has been deleted.
+
+    It credited any cell inside `open_water` with the canoe minimum (0.6 m) on
+    the premise that "the province publishes a DEPTH only for the bodies its
+    hydrology solves". That premise is false under water schema v2 — the
+    surface raster publishes a signed depth on every cell — and the credit
+    manufactured 0.6 m of water out of class membership. Measured on the
+    shipped bake, the 1.88 km2 where it fired has a median base depth of
+    -0.12 m and a median depth of exactly 0.00 m at full flood, and 91.5% of
+    those cells never reach a canoe's draft in any season. It is not a crude
+    stand-in for a seasonal value; a flood-only channel is declared instead
+    (`compile_minor_waterways.channel_season`). Decision 0049.
+    """
+    assert not hasattr(bp_mod, "MARSH_WATER_CREDIT_M")
+    assert not hasattr(bp_mod, "_is_open_water")
+    # class membership buys nothing: both cells report the depth as measured
+    assert bp_mod._water_depth_at(_Survey(0.0, True), 1.0, 1.0) == 0.0
+    assert bp_mod._water_depth_at(_Survey(0.0, False), 1.0, 1.0) == 0.0
+    assert bp_mod._water_depth_at(_Survey(4.0, False), 1.0, 1.0) == 4.0
 
 
 def _channel_blueprint(route_id: str = "waterway.test") -> dict:

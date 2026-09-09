@@ -59,7 +59,47 @@ class ShippedWater:
             self.refined = np.load(heights).astype(np.float32)
             i2 = export_index(self.refined.shape[0], WEB_STEP)
             self.ground2 = self.refined[np.ix_(i2, i2)]
+        self.klass = klass          # R class, G turbidity, B salinity
+        self.tannin2 = shore[..., 2].astype(np.float32) / 255.0
         self.wet2 = self.depth2 > 0.0
+
+    # --- season -----------------------------------------------------------
+    #
+    # THE province has a wet and a dry season and the bake publishes both, so
+    # "is there water here" is not a question with one answer. Every consumer
+    # asks it through `signed_depth_m(season)` / `wet_grid(season)` and has to
+    # name the season it means; nothing else may open these PNGs. The names
+    # are the two ends of the runtime rule in `water-meta.json`
+    # (`season.runtime`), evaluated at seasonWetness 0 and 1.
+    SEASONS = {"dry": 0.0, "base": 0.0, "wet": 1.0}
+
+    def season_wetness(self, season: str | float) -> float:
+        """Resolve a season name (or a raw 0..1 wetness) to a wetness."""
+        if isinstance(season, (int, float)):
+            return float(np.clip(float(season), 0.0, 1.0))
+        try:
+            return self.SEASONS[season]
+        except KeyError:
+            raise ValueError(
+                f"unknown season {season!r}; use one of {sorted(self.SEASONS)} "
+                f"or a wetness in 0..1") from None
+
+    def signed_depth_m(self, season: str | float) -> np.ndarray:
+        """Signed depth over the surface grid at a named season, metres.
+
+        Negative is dry ground above the local water table. At `wet` this is
+        the seasonal maximum: base depth lifted by the per-body response in
+        `water-shore.png` G times `season.amplitudeM`.
+        """
+        wetness = self.season_wetness(season)
+        if wetness == 0.0:
+            return self.depth2
+        amplitude = float(self.meta["season"]["amplitudeM"])
+        return (self.depth2 + amplitude * self.season2 * wetness).astype(np.float32)
+
+    def wet_grid(self, season: str | float) -> np.ndarray:
+        """MEASURED standing water at a named season: signed depth > 0."""
+        return self.signed_depth_m(season) > 0.0
 
     # --- grid lookups -----------------------------------------------------
 

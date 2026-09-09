@@ -82,7 +82,9 @@ NATURAL_JSON = OUT_JSON.with_name("waterways-minor-natural.json")
 REPAIR_MARKER = OUT_JSON.with_name("waterways-minor-repaired-by.json")
 REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
 
-SCHEMA_VERSION = 2   # +derived `pointsM`, +`refusedBerths` (2026-09-09)
+SCHEMA_VERSION = 3   # +`season`/`dryCells` per channel; navigable is now the
+                     # MEASURED base-season depth, not five class rasters
+                     # (2026-09-09, decision 0049)
 ARRIVAL_M = 45.0        # already on a lane or navigable river: no channel
 MAX_CHANNEL_M = 9000.0  # beyond this the place is not water-served
 SNAP_M = 260.0          # how far a dry-footed place may reach its own landing
@@ -209,11 +211,10 @@ def dock_fit(dock: dict, s: ProvinceSurvey, depth_grid) -> str:
     need = HULL_DEPTH_M.get(dock.get("hullClass"), 0.0)
     x, z = s.uv_to_m(float(dock["position"][0]), float(dock["position"][1]))
     row, col = s.grid_px(x, z)
+    # The published signed depth is the only answer. There is no credit for
+    # class membership: the surface raster publishes a depth on every cell,
+    # and where a berth is dry it reads negative (see blueprint._water_depth_at).
     here = float(depth_grid[row, col])
-    if s.open_water[row, col]:
-        # the marsh credit blueprint.py documents: a cell the province calls
-        # open water floats a poled hull even where it publishes no depth
-        here = max(here, bp_mod.MARSH_WATER_CREDIT_M)
     return "water-to-dock" if here + 1e-6 >= need else "to-water"
 
 
@@ -238,9 +239,55 @@ def channel_targets(rec: dict, docks: list[dict], s: ProvinceSurvey,
     return [("waterway." + slug, tuple(rec["positionM"]), None)]
 
 
+SEASON_YEAR_ROUND = "year-round"
+SEASON_WET = "wet-season"
+SEASON_DRY = "dry"          # never navigable; a defect, never published
+
+
+def channel_season(s: ProvinceSurvey, path: list[tuple[int, int]]) -> tuple[str, int]:
+    """Type a published channel by the season its water is actually there.
+
+    Returns (season, cells dry in EVERY season). A lane navigable only in
+    flood is a real thing in a marsh province — 90 of the 6,820 shipped minor
+    channel cells (1.3%) are wet only in the wet season — so it is DECLARED,
+    not inferred and not silently deleted. A cell dry in every season is not
+    seasonal, it is wrong: 215 cells (3.2%) across 44 channels are in that
+    group today, and the digest lists the worst of them.
+
+    The A* solve runs on `navigable` (base season), so a solved channel comes
+    out year-round by construction. This bites on `_authored_channel`, which
+    publishes an authored centreline WITHOUT the navigable solve.
+    """
+    base_grid = getattr(s, "wet_grid", None)
+    season_grid = getattr(s, "wet_season_grid", None)
+    if not path or base_grid is None or season_grid is None:
+        # duck-typed survey without the published rasters (the test stubs):
+        # no measurement is available, so nothing is claimed.
+        return SEASON_YEAR_ROUND, 0
+    rows = np.array([r for _c, r in path])
+    cols = np.array([c for c, _r in path])
+    base = base_grid[rows, cols]
+    seasonal = season_grid[rows, cols]
+    dry_always = int((~seasonal).sum())
+    if dry_always:
+        return SEASON_DRY, dry_always
+    return (SEASON_YEAR_ROUND if bool(base.all()) else SEASON_WET), 0
+
+
 def navigable(s: ProvinceSurvey) -> np.ndarray:
-    """Every cell a hull or a pole can move through."""
-    return s.open_water | s.lakes | s.tidal | s.wetlands | (s.river_band > 0)
+    """Every cell a hull or a pole can move through: MEASURED standing water.
+
+    BASE season: a published lane must carry its hull all year. A flood-only
+    lane is typed via `channel_season`, never produced by accident here.
+
+    Was `open_water | lakes | tidal | wetlands | river_band > 0` — five class
+    rasters and not one depth. That mask covers 23.42 km2 of which 3.24 km2
+    (13.8%) is ground the water compiler publishes as dry, so it licensed
+    lanes over dry land: 187 of the cells now published still sit inside it
+    while the depth reads dry. Nothing carves them — `refine_province` carves
+    the authored list only — so they are typed and listed instead.
+    """
+    return s.wet_grid
 
 
 def cost_surface(s: ProvinceSurvey) -> np.ndarray:
@@ -273,10 +320,10 @@ def _snap(s: ProvinceSurvey, reachable: np.ndarray, row: int, col: int,
     puddles, and snapping into one would strand a place that in fact sits a
     few metres from a live channel."""
     # A BERTH (min_depth_m > 0) may only be sited where the province publishes
-    # real water: deep enough for the hull class AND inside `open_water`, the
-    # mask every other check reads (blueprint_integration's canal test among
-    # them). Snapping a landing into 0.4 m of marsh the water mask calls dry is
-    # how a dock ends up "beside" the water it is supposed to be on.
+    # real water: deep enough for the hull class AND inside `open_water` — now
+    # a measured mask (signed depth > 0.5 m), the same one every other check
+    # reads (blueprint_integration's canal test among them). Snapping a landing
+    # into 0.4 m of marsh is how a dock ends up "beside" its water.
     nav = reachable if (depth_grid is None or min_depth_m <= 0.0) else (
         reachable & (depth_grid >= min_depth_m) & s.open_water)
     if nav[row, col]:
@@ -409,6 +456,7 @@ def _authored_channel(authored: dict, rec: dict, batch: int,
     points = [list(map(float, point)) for point in reversed(authored["pointsM"])]
     length_m = sum(np.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(points, points[1:]))
     terminal = [round(float(v), 3) for v in authored["terminalM"]]
+    season, dry_cells = channel_season(s, path)
     return ({
         "id": authored["id"], "kind": "channel", "class": "channel",
         "from": rec["id"], "to": "network", "batch": batch,
@@ -420,6 +468,7 @@ def _authored_channel(authored: dict, rec: dict, batch: int,
         "dockId": dock["id"], "fit": dock.get("fit") or "to-water",
         "endsAtM": terminal, "terminalId": authored.get("terminalId"),
         "authoredGeometryDigest": authored["contentDigest"],
+        "season": season, "dryCells": dry_cells,
     }, path)
 
 
@@ -667,6 +716,7 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                     # is the raster shadow of this line, not the line itself.
                     "pointsM": points_m,
                 }
+                channel["season"], channel["dryCells"] = channel_season(s, path)
                 if dock is not None:
                     # the berth this channel serves, and the EXACT point it ends
                     # at — `points_m[0]`, which the snap leaves untouched:
@@ -701,7 +751,14 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                     "refusedBerths": len(refused),
                     "byKind": {k: sum(1 for t in channels if t["kind"] == k)
                                for k in ("channel", "river", "crossing")},
-                    "totalKm": round(sum(t["lengthKm"] for t in channels), 2)},
+                    "totalKm": round(sum(t["lengthKm"] for t in channels), 2),
+                    # Which season each published lane's water is there in.
+                    # Declared, not inferred: a flood-only channel is a real
+                    # thing in a marsh province; a channel dry in EVERY season
+                    # is a defect, and this is where it is visible.
+                    "bySeason": {season: sum(1 for t in channels if t.get("season") == season)
+                                 for season in (SEASON_YEAR_ROUND, SEASON_WET, SEASON_DRY)},
+                    "dryCells": sum(int(t.get("dryCells") or 0) for t in channels)},
         "onNetwork": [on_network[key] for key in sorted(on_network)],
         "unconnected": unconnected,
         # Berths the compiled water cannot carry. Nothing is published for
@@ -798,6 +855,12 @@ def digest(doc: dict, solved: list[dict]) -> str:
          ", ".join(f"{k} {v}" for k, v in sm["byKind"].items()),
          f"- {sm['onNetworkAlready']} water-bound places already sit on a lane or navigable river "
          f"(within {doc['arrivalM']:.0f} m)",
+         f"- **When each lane has its water**: {sm['bySeason'][SEASON_YEAR_ROUND]} carry a hull all "
+         f"year, {sm['bySeason'][SEASON_WET]} only in the wet season and "
+         f"{sm['bySeason'][SEASON_DRY]} run over ground that the water bake finds dry in every season "
+         f"({sm['dryCells']} cells). That last group is a defect. Those lanes are drawn but cannot "
+         f"be poled; each carries `\"season\": \"dry\"` in the JSON. The worst of them are listed "
+         f"below. The fix is to carve the bed or to withdraw the lane.",
          f"- {sm['unconnected']} water-bound places have **no boat path** (reached on foot, by root "
          f"or by guide — a design fact to check, not a failure):", ""]
     for u in doc["unconnected"]:
@@ -811,6 +874,15 @@ def digest(doc: dict, solved: list[dict]) -> str:
             L.append(f"  - `{r['dockId']}` — needs {r['needM']:.1f} m, the water publishes "
                      f"{r['depthAtBerthM']:.2f} m at the berth; nearest water that deep "
                      f"{('%.1f m away' % r['nearestWaterM']) if r['nearestWaterM'] is not None else 'not within 9 km'}")
+    dry = sorted((t for t in doc["channels"] if t.get("season") == SEASON_DRY),
+                 key=lambda t: -int(t.get("dryCells") or 0))
+    if dry:
+        L += ["", "### Lanes drawn over dry ground", "",
+              "| place | class | km | cells dry in every season |", "|---|---|---:|---:|"]
+        for t in dry[:10]:
+            L.append(f"| `{t['from']}` | {t['kind']} | {t['lengthKm']} | {t.get('dryCells') or 0} |")
+        if len(dry) > 10:
+            L.append(f"| _…{len(dry) - 10} more_ | | | |")
     L += ["", "### Longest channels", "", "| place | class | km |", "|---|---|---|"]
     for t in sorted(doc["channels"], key=lambda t: -t["lengthKm"])[:15]:
         L.append(f"| `{t['from']}` | {t['kind']} | {t['lengthKm']} |")
