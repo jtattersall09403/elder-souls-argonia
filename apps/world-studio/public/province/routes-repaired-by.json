@@ -1,5 +1,5 @@
 {
- "routesSha256": "285120f8760de984e7df1080be9be391a2d0ff5993812c083240552853f8474a",
+ "routesSha256": "c4a101ca9960e20bb1a3532f46cdf1c79c7d7ade37c6dd63c96373ecab7c0d57",
  "naturalSha256": "0c3fb8323226b24d2fba9eaee3acd8c308fd46f45668cd7042be3ac28c846aad",
  "roads": [
   {
@@ -55,7 +55,7 @@
    "afterDeg": 10.061005455798965,
    "stretches": 8,
    "pxBefore": 1596,
-   "pxAfter": 1839,
+   "pxAfter": 1841,
    "worstKm": [
     6.19,
     0.81

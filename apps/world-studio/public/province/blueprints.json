@@ -9514,7 +9514,7 @@
           "fromRouteId": null,
           "id": "approach.sap-tapping-licensed.channel-by-canoe",
           "mode": "boat",
-          "notes": "The channel bends before the board so it is read at about 20 m and not from the far reach. The board stands on the bank 5.8 m below the landing because a licence hung to be read from the water is the place's whole signature.",
+          "notes": "The channel bends before the board so it is read at about 20 m and not from the far reach. The board stands on the bank 5.8 m below the landing, where a canoe reads the licence before it comes alongside the piles.",
           "sequence": "The crown stands over the channel from a bend away; the reed margin hides the bank; the roof of the licence board shows over the reeds; the plank walk and the landing open up; last, the stage rail and the tap lines on the trunk.",
           "wayfinding": "Pole up the channel toward the great tree and come alongside the piles at its head, past the board on the bank; the plank walk leads from the landing to the stage foot."
         },
@@ -9524,7 +9524,7 @@
           "fromRouteId": "track.hist-heartland.sap-tapping-licensed",
           "id": "approach.sap-tapping-licensed.track-from-road",
           "mode": "walk",
-          "notes": "The last 27 m bend twice, round the hut and past the mule line, so the stage is seen, lost behind the trunk and re-found. Canopy closure over the camp is 1.00, but the dossier measures concealment at 0.74: the camp is in view from 26% of the route points within two kilometres, against a fourteenth at the terrace this place left. The walker steers by the tree, not by the camp.",
+          "notes": "The last 27 m bend twice, round the hut and past the mule line, so the stage is seen, lost behind the trunk and found again. Canopy closure over the camp is 1.00, but the dossier measures concealment at 0.74. The camp is in view from 26% of the route points within two kilometres, against a fourteenth of them at the terrace that the place left. A walker on the track steers by the crown rather than by anything built.",
           "sequence": "The Hist's crown shows above the jungle canopy from the low ground to the south-west, 530 m out along the worn line; the track goes under closed canopy and the crown is lost; it fords the channel's lower reach at about 120 m out; the pale trunk reads between the other trunks at about 30 m; the hut's door and the mule line appear at the first bend; the stair and the stage come into frame at the second bend, with the water beyond them.",
           "wayfinding": "Follow the one worn line north-east off the road toward the great tree. Ford the channel's lower reach, then keep on until the line bends twice at the camp and ends at the foot of the stair."
         }
@@ -9563,7 +9563,7 @@
         "founding": "The assembly designated this Hist for tapping and issued one licence against it: one stage, one season, one tree. The stage stands where the crew could raise it without cutting into the root flare.",
         "occupantsMotive": "A tapper and two crew whose licence is their livelihood. They keep the stage correct and police poachers themselves, because a district that cannot police itself loses its licences.",
         "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage last year. Night landings at the same channel are not the crew's work; the crew do not stop them either.",
-        "siteAdvantages": "A firm terrace at 30.7 to 31.4 m, standing a metre and a half above the channel and rising to the hut pad at 32.7 m. The landing lies 22.4 m off on bearing 327, out in the water itself, where the channel already carries 0.60 m and dredges to 0.85 m for a poled canoe. The canopy closes at 1.00 overhead; the road is 526 m to the south-west.",
+        "siteAdvantages": "A firm terrace at 30.7 to 31.4 m, standing a metre and a half above the channel and rising to the hut pad at 32.7 m. The landing lies 22.4 m off on bearing 327, standing in the channel, which carries 0.60 m there and dredges to 0.85 m for a poled canoe. The canopy closes at 1.00 overhead; the road is 526 m to the south-west.",
         "wouldChangeIf": "A licence revoked would empty the stage within a season and make the same channel a poacher's road."
       },
       "clearance": {
@@ -9860,7 +9860,7 @@
           ],
           "wealth": "poor",
           "why": {
-            "microGeography": "The hut takes the flattest pad on the terrace, at 32.7 m and the highest ground in the camp, with the ground falling west and north to the reed margin at the water's edge.",
+            "microGeography": "The hut pad sits at 32.7 m. From it the ground falls west and north to the reed margin at the water's edge.",
             "playerPurpose": "The hut is the camp's only interior. The crew sleep in it through the night landing that MR04 stages at the water below.",
             "what": "The camp: one hut, its hearth clutter and the spur down from the track.",
             "whyHere": "A season's crew sleep beside their stage and land their canoe beside their stage, so the hut and the landing sit at the two ends of the works.",
@@ -9946,7 +9946,7 @@
             "microGeography": "Piled to the bed at the head of the reach, past the reed margin, standing in 0.60 m of water with the deck 11.9 m of plank walk out from the dry bank.",
             "playerPurpose": "The arrival point for a player who comes by canoe. It is the scene of the night landing in MR04.",
             "what": "The landing: a piled stage at the channel head where the crew's canoe lies.",
-            "whyHere": "Sap leaves by water when the track is watched. The assembly's inspection comes by water too, so the camp has a landing. The channel is drawn up to these piles rather than the piles moved out to it (fit `water-to-dock`): they stand in the head of the reach itself, in 0.60 m of water on a bed at 28.75 m, which the dredge cuts to 0.85 m so a loaded canoe is never poling on mud.",
+            "whyHere": "Sap leaves by water when the track is watched. The assembly's inspection comes by water too, so the camp has a landing. The channel is drawn up to these piles rather than the piles moved out to it (fit `water-to-dock`). They stand in the head of the reach, in 0.60 m of water on a bed at 28.75 m, which the dredge cuts to 0.85 m so a loaded canoe is not poling on mud.",
             "whyNeighbours": "The plank walk ends on it, the licence board stands on the bank 5.8 m down-channel, with the poling line coming up to its head."
           }
         }
@@ -9979,11 +9979,11 @@
             4478.801
           ],
           "why": {
-            "microGeography": "Rooted at 32.1 m on the terrace lip, with the crown's long axis laid across the channel so the deepest shade falls over the stage.",
+            "microGeography": "Rooted at 32.1 m on the terrace lip, with the crown's long axis laid across the channel on bearing 211.",
             "playerPurpose": "The beacon: the crown shows above the canopy from the road and from the channel. It is the mark toward which the player walks and paddles.",
             "what": "The licensed Hist: the largest Hist mesh in the vault, 64 m across the crown and 53.6 m tall.",
             "whyHere": "The tree is the reason for the place; the assembly designated it and the licence runs against it.",
-            "whyNeighbours": "The stage is raised on its channel face, the hut stands behind it, with the crown shading both the works and the landing.",
+            "whyNeighbours": "The stage is raised on its channel face and the hut stands behind it. The crown shades both the works and the landing.",
             "whySpot": "It stands on the north-east bank of the channel at the head of the terrace, where its root plate is above the flood and its channel face looks down on the poling water."
           }
         },
@@ -10232,8 +10232,8 @@
             "microGeography": "Two posts driven into the lip of the bank at 28.6 m, each to its own depth over a 0.2 m fall, standing 0.39 m above the channel's surface.",
             "playerPurpose": "The evidence socket of MR04: the counter-signature that the player matches elsewhere, legible from a canoe and from the walk.",
             "what": "The licence board: a roofed notice pane on two posts, with the licence and its counter-signature pinned under the roof.",
-            "whyHere": "The catalogue's signature: the licence is hung to be readable from the water, so the assembly's inspectors and the rival tribe's canoes can see the stage is lawful without landing.",
-            "whyNeighbours": "It stands below the landing and the landing stands below the stage, so a boat reads board, then landing, then stage. A walker off the track sees stage then board.",
+            "whyHere": "The licence is hung to be readable from the water, so the assembly's inspectors and the rival tribe's canoes can see the stage is lawful without landing.",
+            "whyNeighbours": "It stands below the landing, which in turn stands below the stage. A boat therefore passes the board first and the stage last. A walker off the track meets them in the other order.",
             "whySpot": "On the bank 5.8 m down-channel of the landing, three metres off the poling line, on the last dry ground before the reeds, so a boat comes to the board and then to the piles."
           },
           "yawDeg": 231.0
@@ -10761,7 +10761,7 @@
               4480.6
             ],
             "rejectedBecause": null,
-            "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc. The landing stands 22.4 m off on bearing 327 in the channel itself, on a bed at 28.75 m under 0.60 m of compiled water; `dock_dredge` reports it dredged, 172 m by 12 m, 617 m3, taking the approach from 0.04 m to 0.85 m with no blocked sample. Every parcel stands on dry compiled ground: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 28.63 m on the bank lip 0.39 m above the channel. Road 526 m to the south-west, forded once at the channel's lower reach. Canopy closure 1.00; concealment 0.74, weaker than the old terrace's 0.93."
+            "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc. The landing stands 22.4 m off on bearing 327, in the channel, on a bed at 28.75 m under 0.60 m of compiled water; `dock_dredge` reports it dredged, 172 m by 12 m, 617 m3, taking the approach from 0.04 m to 0.85 m with no blocked sample. Every parcel stands on dry compiled ground: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 28.63 m on the bank lip 0.39 m above the channel. Road 526 m to the south-west, forded once at the channel's lower reach. Canopy closure 1.00; concealment 0.74, weaker than the old terrace's 0.93."
           },
           {
             "chosen": false,
@@ -10770,7 +10770,7 @@
               3434.0,
               4492.0
             ],
-            "rejectedBecause": "The berth it implies sits on an 11.0 deg bank 0.25 m above the surface, with the poling water 8.0 m off, which is beyond the reach of the 3.6 by 1.83 m dock piece, so the deck would end over mud. The camp would also stand 7.8 m above its water table, which makes the licence board a climb from the water rather than a thing read from it.",
+            "rejectedBecause": "The berth it implies sits on an 11.0 deg bank 0.25 m above the surface, with the poling water 8.0 m off, which is beyond the reach of the 3.6 by 1.83 m dock piece, so the deck would end over mud. The camp would also stand 7.8 m above its water table, which would make the licence board a climb up from the water instead of a board legible from a canoe.",
             "why": "The flattest ground on this bank: slope 4.94 deg at the dot, 5.88 m of relief across a 30 m disc, all of it dry."
           },
           {
@@ -10780,7 +10780,7 @@
               3430.0,
               4480.0
             ],
-            "rejectedBecause": "The licence board falls in 0.60 m of published water. The record's whole signature is a licence read from the water while standing on dry bank. The berth's own bank measures 7.5 deg, too steep for the piles to stand level.",
+            "rejectedBecause": "The licence board falls in 0.60 m of published water. The board is meant to be read from a canoe while standing on dry bank. The berth's own bank measures 7.5 deg, too steep for the piles to stand level.",
             "why": "Two metres from the chosen point and slightly nearer the water: the berth would lie 4.53 m from 0.6 m water at 0.39 m above the surface."
           }
         ],
@@ -10885,7 +10885,7 @@
             ]
           ],
           "waterOk": null,
-          "why": "The last stretch of the poling channel, drawn where the camp keeps it: open water between the reed banks, ending at the landing piles in the head of the reach.",
+          "why": "The last stretch of the poling channel, drawn where the camp keeps it. Open water runs between the reed banks and ends at the landing piles in the head of the reach.",
           "widthM": 6.0
         },
         {
