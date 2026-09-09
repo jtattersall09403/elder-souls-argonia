@@ -786,7 +786,25 @@ def write_outputs(r: dict, vault: Path, *, source_height_sha256: str) -> None:
         "flow": {"file": "water-flow.png", "size": int(n3), "metresPerPixel": RAW_M * STEP,
                  "flowMax": FLOW_MAX, "shoreMaxM": SHORE_MAX_M},
         "klass": {"file": "water-class.png", "size": int(n3), "metresPerPixel": RAW_M * STEP,
-                  "classes": CLASSES},
+                  "classes": CLASSES,
+                  # Said in the data because reading it wrongly has already
+                  # shipped a defect: a dock guard asked this raster whether a
+                  # berth's cell was water, got yes, and published a 91 m dry
+                  # connector (2026-09-09). An audit then measured 46 % of the
+                  # cells this raster calls water as dry.
+                  "meaning": "TYPE label over a SUPERSET of the wet area, not a "
+                             "wetness mask. It says what kind of water a cell "
+                             "belongs to, over the water's SEASONAL reach. "
+                             "Wetness is signed depth in water-surface.png B "
+                             "plus the season lift: wet <=> depth + "
+                             "season.amplitudeM * seasonResponse > 0. Measured "
+                             "2026-09-09 over 31.40 km2 of classed cells: 21.47 "
+                             "wet in the dry season, 24.90 at the seasonal "
+                             "maximum, 6.50 dry all year. A marsh channel that "
+                             "carries a canoe in the monsoon and is mud in the "
+                             "dry season is the world working, not a defect - "
+                             "so ask the depth AT THE SEASON THAT MATTERS, "
+                             "never whether a cell has a class."},
         "channels": r["channels"],
         "cascades": r["cascades"],
         "stats": r["stats"],

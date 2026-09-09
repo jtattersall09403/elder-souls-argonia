@@ -1,6 +1,6 @@
 {
  "schemaVersion": 2,
- "sourceHeightSha256": "619692d372a475f3647c2e98d9b458e692c3eab7c3374b825d0f201e3cc7fd16",
+ "sourceHeightSha256": "039b7770e41d85c112e55d8132c42f7bb4282a71cca97b0a07c99513a525862e",
  "surface": {
   "file": "water-surface.png",
   "size": 2017,
@@ -42,7 +42,8 @@
    "river",
    "lake",
    "marsh"
-  ]
+  ],
+  "meaning": "TYPE label over a SUPERSET of the wet area, not a wetness mask. It says what kind of water a cell belongs to, over the water's SEASONAL reach. Wetness is signed depth in water-surface.png B plus the season lift: wet <=> depth + season.amplitudeM * seasonResponse > 0. Measured 2026-09-09 over 31.40 km2 of classed cells: 21.47 wet in the dry season, 24.90 at the seasonal maximum, 6.50 dry all year. A marsh channel that carries a canoe in the monsoon and is mud in the dry season is the world working, not a defect - so ask the depth AT THE SEASON THAT MATTERS, never whether a cell has a class."
  },
  "channels": [
   {
@@ -79883,7 +79884,7 @@
      "x": 3309.37,
      "z": 4811.33,
      "y": 0.812,
-     "bedY": 0.21,
+     "bedY": 0.12,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 1.3,
      "speedMS": 2.3,
@@ -79895,7 +79896,7 @@
      "x": 3309.36,
      "z": 4813.16,
      "y": 0.548,
-     "bedY": -0.09,
+     "bedY": -0.45,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 1.3,
      "speedMS": 2.3,
@@ -79907,7 +79908,7 @@
      "x": 3309.35,
      "z": 4814.99,
      "y": 0.053,
-     "bedY": -0.48,
+     "bedY": -0.8,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 3.3,
      "speedMS": 0.45,
@@ -83746,11 +83747,11 @@
   "classFrac": {
    "coast": 0.32138,
    "estuary": 0.00732,
-   "river": 0.03083,
+   "river": 0.03084,
    "lake": 0.15652,
-   "marsh": 0.06189
+   "marsh": 0.0619
   },
-  "depressions": 77218,
+  "depressions": 77216,
   "acceptedDepressions": 2571,
   "rescuedBasins": 193,
   "sheets": 1874,
@@ -83767,19 +83768,19 @@
   "pooledLevelLost": 3,
   "lostStations": 0,
   "lostReaches": 0,
-  "roadCellsInWater": 12245,
-  "roadCellsDeepInWater": 5792,
+  "roadCellsInWater": 12260,
+  "roadCellsDeepInWater": 5824,
   "roadCellsDeepBy": {
    "sea": 5650,
-   "lake": 22,
-   "river": 120
+   "lake": 78,
+   "river": 96
   },
-  "trackCellsInWater": 21961,
-  "trackCellsDeepInWater": 12558,
+  "trackCellsInWater": 21976,
+  "trackCellsDeepInWater": 12590,
   "trackCellsDeepBy": {
    "sea": 11286,
-   "lake": 258,
-   "river": 1014
+   "lake": 314,
+   "river": 990
   }
  }
 }
