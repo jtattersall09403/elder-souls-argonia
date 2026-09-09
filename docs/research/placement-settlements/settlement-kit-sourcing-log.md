@@ -701,3 +701,96 @@ Credits: all three pools (`bmv`, `depths`, `vanilla`) were already credited in
 the root README and `worldgen.check_credits` passes, so this change needed no
 new credit row.
 
+
+## 2026-09-09 — the Argonian cart gate: searched, measured, still no candidate (gap plan B8)
+
+B8 asked for the step the earlier pass could not take: an authenticated search
+of the Nexus index for an Argonian / Black Marsh / marsh-culture gate whose
+**measured** opening clears the 3.5 m cart width, so that Mazzatun and Lilmoth
+need not keep wearing Redoran and Imperial masonry.
+
+**The search actually run.** Nexus's public REST API has no text search, so the
+index was queried through the site's own GraphQL endpoint
+(`api-router.nexusmods.com/graphql`, `mods(filter:…)`): 45 name-wildcard
+queries and 12 description `MATCHES` queries, unfiltered by game and then per
+game across Skyrim SE, Skyrim classic, Oblivion and Morrowind. Terms covered
+the culture (argonian, saxhleel, kothringi, naga, black marsh, hist, lilmoth,
+mazzatun), the material vocabulary (reed, thatch, wicker, bamboo, stilt,
+mangrove, palisade, shanty, primitive) and the Xanmeer/Mesoamerican register
+(xanmeer, mayan, aztec, mesoamerican, tribal village, jungle resource). Mod
+pages that looked plausible were pulled with the owner's premium key
+(`api.nexusmods.com/v1/games/<game>/mods/<id>.json`) and read for their own
+contents list rather than their title.
+
+**One genuinely new lead, downloaded and measured — and it fails on geometry.**
+
+| Source | Nexus | sha256 (first 16) | Measured | Verdict |
+|---|---|---|---|---|
+| Argonian Dungeons — Tileset (Reekus), "free to use in ANY mod for ANY purpose" | Oblivion 52204 v1.1, file 1000032391 | `8f333b5c037fe791` | see below | **rejected on scale, not registered** |
+
+This is the only Argonian-idiom architecture set on Nexus that we did not
+already hold, and it advertises "3 entrances, 7 walls". PyNifly cannot read
+Oblivion NIFs (`gameSkeletons['']` KeyError), so the meshes were parsed with
+pyffi and measured with the same aperture method as the 2026-09-07 pass —
+rays along the short axis at 4 cm steps, at 0.3 / 1.0 / 1.8 / 2.2 / 3.0 /
+4.0 m above the piece's own ground plane, Bethesda units × 0.0142875:
+
+| Mesh | Bounding box (m) | Widest clear span |
+|---|---|---|
+| `ArgDungeonEntrance` | 1.08 × 0.71 × **0.55** | 0.04 m at 0.3 m, nothing above |
+| `ArgDungeonEntrance02` | 0.82 × 1.11 × **0.92** | 0.44 m at 0.3 m, nothing above |
+| `ArgDungeonEntrance02a` | 0.82 × 0.65 × **0.92** | 0.04 m at 0.3 m, nothing above |
+| `Argonian_Canopy` | 8.11 × 8.95 × 13.71 | 1.12 m |
+| `ArgDungeonInt_Hallway` (scale check) | 7.53 × 3.96 × **2.14** | 0.96 m at 1.0 m |
+| `ArgDungeonInt_Wall` (scale check) | 1.93 × 0.26 × **1.78** | — |
+
+The set is authored **sub-scale and internally inconsistent**: a doorway 0.55 m
+tall, a corridor wall shorter than a player, next to an 13.7 m canopy. Its
+author expected each reference to carry its own scale multiplier in the CS. A
+gate only becomes a gate here by picking a number — which is deciding on the
+label, not the geometry, and is exactly what the 2026-09-04 ruling forbids. The
+archive is not registered and no credit line was added, because nothing from it
+is relied upon.
+
+*Lead for a later pass, not a deferral of this one:* the same set carries 62
+Argonian decoration/clutter meshes (obelisks, murals, lanterns, crests,
+pedestals) under a blanket any-purpose licence. Whoever dresses Argonian
+interiors should re-open Oblivion 52204 — with the scale caveat above measured
+and in hand.
+
+**The vault re-checked for anything the last pass missed.** The HTBM Xanmeer
+pieces named `WallFree01/02` and `WallCorner01/02` had never been measured (the
+2026-09-07 table names only `wallstraight` and `xanmeer_exterior_wall`). They
+are solid: clear spans of 0.04–0.16 m at every height, i.e. surface relief on a
+closed mass. `dweclutterarchsmall01` (1.72 m) and `orcawningfull01` (1.52 m)
+confirm the earlier finding at footpath width. The Argonian family's best
+opening remains **`htbm:villages/argonian/stonewallarch01` at 1.72 m**.
+
+**Conclusion — OPEN, with the reason written down.** No Argonian, marsh,
+Hist-culture or Mesoamerican-flavoured gate with a measured ≥3.5 m opening
+exists in the vault, in the mods we hold, or on Nexus across four Elder Scrolls
+games. The Xanmeer tilesets ship no gate at all, and one may not be faked from
+two wall halves. **Mazzatun keeps `bmv:architecture/redoran/custom/redoranwallgate`
+(3.52 m clear; `place.dunmer-north.mazzatun.json:3274` and `:3925`) and Lilmoth
+keeps `mwkeep:…/exterior/walls/mwimparchwallgate01` (3.20 m;
+`place.mercantile-coast.lilmoth.json:759`)**, both for the reasons already in
+their design records — Xit-Xaht masonry taken off the Dunmer along with the
+labour, and Lilmoth's Imperial waterfront. This is a shortage of authored
+Argonian *enclosure* geometry in the modding scene, not an unfinished search.
+
+**A defect found alongside it.** Lilmoth's north gate is the province's Imperial
+front door and clears **3.20 m** — track class under module 97 C3, below the
+3.5 m cart width and below the 4.3 m spine mark. The two spine-class gates we
+own (`bmv:…/newcastle/wall/1024/1024wallgate01`, 5.52 m, and `1024arch01`,
+8.96 m) are the same imperial-civic newcastle vocabulary that `mwkeep` sits
+beside, so this is a swap inside one culture rather than a sourcing job.
+Whoever next owns `place.mercantile-coast.lilmoth.json` should decide it
+deliberately; it is not changed here because that file belongs to another agent.
+
+**What would close it, for the next agent.** A single authored piece is all
+that is needed: an Argonian/marsh gate module ≥3.5 m clear from 0.3 m to 2.2 m,
+with a wall run it was designed to meet. If one ever appears, the swap is two
+`enclosure-v1` rows plus the `gate` asset id in
+`place.dunmer-north.mazzatun.json` and `place.mercantile-coast.lilmoth.json`; both
+blueprints already span their ways with a single gate asset, so nothing else in
+the compile changes.
