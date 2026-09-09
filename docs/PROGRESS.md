@@ -92,6 +92,17 @@ what looks wrong — one line per bullet is plenty.
 - **The beach.** Your coordinate is genuinely 40 cm out into the sea — the
   sand starts 20 m east. Try [x=6.12 z=1.638](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=6.12&z=1.638&t=12:00)
   and tell me whether that reads as a beach.
+- **The waterfalls again, after a second pass tonight.** They were being lit
+  by the haze values instead of by light, and the sheet was a slab where the
+  stream beside it is broken up; both are fixed, and they take shadow now.
+  What is still wrong, and I would like your eye on it: the top of a fall is
+  a straight line rather than a notch between rocks, and the body is drawn
+  wider than the reference's narrow ribbon. Same gorge link as above.
+- **Waterfall colour is a question for you.** Our falls read warm ivory
+  rather than neutral white. That is not the water — it is the world's
+  midday sun at your locked warmth of 1.0, which makes the noon sunlight
+  orange. Tell me if you want white water against grey rock and I will put
+  the warmth question in front of you properly.
 - **The sea is worth a fresh look even though it passed last time** — the wave
   model was replaced during this round. Calm and storm:
   [x=6.16 z=5.07](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00)
