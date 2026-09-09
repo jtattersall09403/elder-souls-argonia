@@ -766,17 +766,57 @@ Order matters between them: the place re-solve moves records, and settlement
 ground control repaints footprints, so run the re-solve first and the scatter
 after, or the scatter will be compiled against places that then move.
 
-## What follows gap closure
+## What follows gap closure (owner rulings, 2026-09-09)
 
-Phase 11 then moves from proving the system on five authored exemplars to a
-controlled province rollout. Places are taken in small packets, ordered by
-region and player importance, and each packet must pass the same whole chain:
-macro obligation ledger → blueprint → terrain/water delivery → compiled assets
-and placements → final gates → owner walk and frame-rate reading. A packet does
-not advance merely because its source file exists; every promised detail must
-have named physical evidence in the published, running place. Failures feed
-back into the shared compiler or rule when they expose a general gap, rather
-than becoming per-place exceptions.
+**Fewer places is an acceptable price.** If the footprint and proximity gates
+cannot house every record, cut records rather than weaken the gates: the owner
+would rather hold the rules and carry a slightly smaller province than shove
+everything in. The re-solve does not need this today — the dry run places
+580 of 580 with zero typed-siting violations — but it settles in advance what
+happens the first time a region packet does not fit, and it removes the
+temptation to shave a radius to save a dot.
+
+**The order of work, confirmed by the owner.** Macro plot for the whole
+province first (substantially done). Then take a few places all the way
+through, end to end — blueprint, exterior build, interior build, and whatever
+else a finished place needs — and use them to develop the process. Then run
+that process everywhere else.
+
+That is what Phase 11's exemplar-first shape already means, and the piece that
+delivers "buildings actually standing in the world" is **B1**, the Round B
+massing pipeline: `compile_settlement` output rendered as placed kit pieces in
+the studio. B1 is the reopened batch at the top of this file and it is the
+next substantial job. It is held only because it touches the studio scene
+files the water pass has been editing. **No blueprint work should start on
+places beyond the five exemplars until B1 has proved one place standing in
+the world** — a blueprint whose massing has never been rendered is a record,
+not a place, and this file's own lesson is that a produced record is not
+delivery until a consumer has accepted it. Interiors are Phase 12, which
+0034 allows to interleave with 11 and which the same exemplars carry.
+
+**The exemplars must leave behind an automatable process, not just five good
+places.** The owner's stated purpose for them is to develop "a good process
+and/or set of agent skills we can automate", and rollout is then running that
+process rather than re-deriving it per packet. So the exit condition for the
+exemplar work is a repeatable authoring path — the compiler chain plus a
+skill under `.claude/skills/` that briefs an agent through it, in the way
+`text-review` already does for prose — and not merely five finished records.
+Whatever a human had to decide by hand for the fifth exemplar that they also
+had to decide for the first is a gap in that process.
+
+**The owner is hands-on for the places that carry the most weight**: the major
+cities, and the very early-game places where the opening scenes play out.
+Those are guided, reviewed and gated by the owner rather than run through the
+automated path unattended. Everything else goes through the process.
+
+Rollout then takes places in small packets, ordered by region and player
+importance, and each packet passes the same whole chain: macro obligation
+ledger, blueprint, terrain/water delivery, compiled assets and placements,
+final gates, then an owner walk and a frame-rate reading. A packet does not
+advance because its source file exists; every promised detail must have named
+physical evidence in the published, running place. Failures feed back into the
+shared compiler or rule when they expose a general gap, rather than becoming
+per-place exceptions.
 
 ## Owner decisions recorded (none of these blocks implementation)
 
