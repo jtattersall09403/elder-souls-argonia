@@ -107,6 +107,24 @@ work that belongs to this session's goal.
    needs one control run: repeat the SLOW chain on unchanged sources and see
    whether those 36 move anyway.
 
+   **State of the tree at hand-over (2026-09-09 13:30).** The repo's
+   `public/province` is the **verified-good build** (restored from git, water
+   suite green when it was committed). The **vault's derived files are NOT** —
+   they are from a later run whose sculpt base had been replaced. The frozen
+   base itself has been **restored** from `heightfield-sculpted-august-2026.npy`
+   and its hash verified, so the inputs are correct; what is stale is everything
+   derived from the wrong base still sitting in `province-refined/`. **One
+   `./scripts/terrain-chain.sh --from refine_province` reconciles it**, and step
+   1 involves rebuilds anyway, so do it first and the water suite goes green.
+   Until you do, expect `test_no_wet_cell_has_a_lower_dry_neighbour` (6 cells
+   near 1912/3789), `test_strip_points_sit_inside_their_trench` (1 point) and
+   `test_site_1470_4130_is_a_deep_flat_lake` (17.64 m against a 20 m floor) to
+   fail — that is the mismatch, not a compiler defect.
+
+   **Never let `sculpt_province` run.** That is what caused the above: a
+   `--force` run re-sculpted and replaced the frozen base. Always
+   `--from refine_province`. The polish backlog carries the standing row.
+
    **The trap in that reference, hit on 2026-09-09 — read this before using it.**
    `/tmp/REF/` holds BOTH the repo's `public/province` and the **vault**
    (`province-refined/`, `chain-stamps.json`). Restoring it puts the vault back
