@@ -430,3 +430,46 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   stilt parcels (`export_settlement_bundle.py:619-635`). No province navmesh is
   baked today, so nothing is wrong yet; whoever bakes one must give bridges and
   decks the treatment stilts already get.
+
+## Owner rulings 2026-09-09 — ways over water, and how roads choose their line
+
+- **Alten Corimont is served by shallow-draft boats.** Its harbour measures 2.4 m
+  where a keeled hull wants 3.0 m, and the owner's ruling is that this is the
+  world, not a defect: "2.4 m frankly sounds fine to me. Let's just say that
+  it's served by shallower bottomed boats. They have to come quite a long way up
+  some presumably shallower water areas to get there from the sea anyway." So the
+  record's hull class changes to match the water, which is a decision about what
+  sails there — not the forbidden move of lowering a class to make a check pass.
+  Done when: the record declares a hull its harbour can float, its prose says so,
+  and `test_navigable_roles_sit_on_navigable_water` passes without an exemption.
+- **The router should take the long way round rather than bridge a gorge.**
+  Owner: "Can we try to make the routing algorithm just choose better routes to
+  begin with? Perhaps by changing its costs or something? Going 'the long way
+  round' so as to reduce bridge lengths is good road building." That is better
+  than the length cap that was proposed, and it is what a real surveyor does.
+  Measured today: 211 spanning structures, shortest 23.6 m, **median 70.0 m**,
+  longest 389.6 m, and 69 % are longer than the longest whole bridge vanilla
+  ships. A road needing a 70 m bridge two hundred times has been routed without
+  reference to where the ground is crossable, because the cost function does not
+  know a span is expensive. Done when: span length distribution falls sharply
+  with no loss of connectivity, and the province's eight cities stay joined.
+- **Water crossings become ferries, and a ferry is talk-and-teleport.** Owner:
+  "we should definitely have ferry crossings. I know we have the assets for
+  this, I've looked at some ferry pieces myself. These could be 'talk and
+  teleport' like fast travel for simplicity." There are **57** crossings to
+  author — 45 lake, 12 river, the river ones 16–108 m wide and 1.2–2.0 m deep —
+  exposed when the two water-suppressing mechanisms were deleted. The blocking
+  gap is structural and measured: `author_route_structures.author()` takes no
+  water input at all, `grade_routes` excludes every wet sample from the stretches
+  it emits, and `compile_route_structures.KIND_ROLE` has no `ford`, `ferry` or
+  `causeway` kind, so a water crossing cannot become a built thing today. Done
+  when: every one of the 57 is a ferry, a declared ford or a span, and none is
+  an undeclared gap.
+- **CORRECTION, and it matters for what may be built.** An earlier note here
+  argued a long viaduct was implausible because "this province has no polity
+  that built one". That is wrong: Black Marsh **was an Imperial province**, and
+  the Blackwood Road, Fort Swampmoth, Blackrose prison and Lilmoth's own
+  surviving Imperial gate are all in the records. Imperial engineering on this
+  scale is canon, and a ruined or half-drowned viaduct is good content. The case
+  against the 390 m span is that the ROAD was routed badly, not that the empire
+  could not have built it.
