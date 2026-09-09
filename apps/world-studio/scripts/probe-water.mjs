@@ -154,6 +154,10 @@ const JOIN_STEP = 0.25;
  * a drift inside the band is still visible in the log.
  */
 const JOIN_CHROMA_STEP = 0.20;
+/** Fewest DRAWN water pixels a join will be asserted on (see `ribbonAt`). */
+const JOIN_MIN_WATER_PX = 150;
+/** …and the share of the sampled band that must be that water. */
+const JOIN_MIN_COVERAGE = 0.5;
 /** A pixel belongs to a water layer when hiding every layer changes it by this much (sum |dRGB|). */
 const OWNED_DELTA = 18;
 let waterMeta = null;
@@ -225,6 +229,64 @@ function windowRgb(frame, pt, r, w, h) {
   for (const i of idx) { out[0] += frame[i]; out[1] += frame[i + 1]; out[2] += frame[i + 2]; }
   const n = Math.max(idx.length, 1);
   return [out[0] / n, out[1] / n, out[2] / n];
+}
+/**
+ * The DRAWN ribbon at a mark on the sheet, as pixels.
+ *
+ * Two things changed under this probe in September 2026: a fall is drawn at its
+ * WETTED width (~0.4 of the trench, `perFall.widthM` against `trenchWidthM`),
+ * and the crest follows the rock's relief across the lip, so the band runs in
+ * the lip's NOTCH rather than down the middle of the channel. A single window
+ * on the traced centreline therefore no longer lands reliably on water: at
+ * fall-25m, with 4.35 m of rock relief across the lip, most of it sat on cliff
+ * and the "sheet" it reported was the rock behind the fall.
+ *
+ * So the sample follows the water. `mark` is fanned laterally across the
+ * trench, the offsets the falls layer actually OWNS (falls frame differs from
+ * `none`) locate the ribbon, and the measurement is taken over a band of the
+ * wetted width centred there — owned pixels only. `coverage` is the share of
+ * the fanned pixels that were water, and it is reported at every join so the
+ * gate below can never be read as a licence: it says how much of what was
+ * measured is real.
+ */
+function ribbonAt(frames, mark, perp, widthM, trenchWidthM, cam, w, h) {
+  const at = (offset) => [mark[0] + perp[0] * offset, mark[1], mark[2] + perp[1] * offset];
+  // The band must be able to CARRY the pixel floor below: 9 columns of a 7x7
+  // window is up to 441 px, so JOIN_MIN_WATER_PX is about a third of a full
+  // ribbon, not an unreachable ceiling.
+  const owned = (p) => {
+    const pt = project(cam, p, w, h);
+    const idx = window2(pt, 3, w, h);
+    const px = [];
+    for (const i of idx) {
+      const d = Math.abs(frames.falls[i] - frames.none[i]) + Math.abs(frames.falls[i + 1] - frames.none[i + 1])
+        + Math.abs(frames.falls[i + 2] - frames.none[i + 2]);
+      if (d >= OWNED_DELTA) px.push(i);
+    }
+    return { total: idx.length, px };
+  };
+  // 1. Locate the ribbon: fan the full trench, weight by owned pixels.
+  const half = Math.max(trenchWidthM, widthM) * 0.5;
+  let wsum = 0, wn = 0, scanned = 0, scannedOwned = 0;
+  for (let k = -8; k <= 8; k++) {
+    const off = (k / 8) * half;
+    const o = owned(at(off));
+    scanned += o.total; scannedOwned += o.px.length;
+    wsum += off * o.px.length; wn += o.px.length;
+  }
+  if (!wn) return { px: [], total: scanned, coverage: 0, centreM: 0 };
+  const centreM = wsum / wn;
+  // 2. Measure across the WETTED width about that centre.
+  const idx = [];
+  let total = 0;
+  for (let k = -4; k <= 4; k++) {
+    const f = (k / 4) * 0.45;
+    const o = owned(at(centreM + f * widthM));
+    total += o.total;
+    idx.push(...o.px);
+  }
+  return { px: idx, total, coverage: total ? idx.length / total : 0, centreM,
+    scanCoverage: scanned ? scannedOwned / scanned : 0 };
 }
 /** The compiled strip that ends at this fall's lip (within 3 m), if any. */
 function stripAtLip(lip) {
@@ -570,28 +632,64 @@ try {
         const upstream = strip
           ? [strip.points.reduce((b, q) => (Math.abs((q.arcM ?? 0) - (lipArc - 2)) < Math.abs((b.arcM ?? 0) - (lipArc - 2)) ? q : b))].map((q) => [q.x, q.y, q.z])[0]
           : [marks.lip[0] - marks.direction[0] * 2, marks.lip[1], marks.lip[2] - marks.direction[1] * 2];
-        const joinStep = (label, pA, pB) => {
-          const a = project(cam, pA, scale.w, scale.h);
-          const b = project(cam, pB, scale.w, scale.h);
-          if (!a || !b) { checks.push(`     ${label} join: mark off screen (${a ? "" : "upstream "}${b ? "" : "downstream"}) — not measured here`); return; }
-          const la = mean(window2(a, 2, scale.w, scale.h).map((i) => lum(frames.all, i)));
-          const lb = mean(window2(b, 2, scale.w, scale.h).map((i) => lum(frames.all, i)));
+        const budget = dbg?.falls?.perFall?.[fitFall.id];
+        const perp = [-marks.direction[1], marks.direction[0]];
+        /**
+         * One join. `sheetSide` names which of the two marks sits ON the drawn
+         * sheet; that one is sampled through `ribbonAt` (the water), the other
+         * is the strip / pool surface and keeps its plain window.
+         */
+        const joinStep = (label, pA, pB, sheetSide) => {
+          const sheetMark = sheetSide === "a" ? pA : pB;
+          const otherMark = sheetSide === "a" ? pB : pA;
+          const other = project(cam, otherMark, scale.w, scale.h);
+          const rib = budget
+            ? ribbonAt(frames, sheetMark, perp, budget.widthM, budget.trenchWidthM, cam, scale.w, scale.h)
+            : null;
+          if (!other) { checks.push(`     ${label} join: the still-water mark is off screen — not measured here`); return; }
+          if (!rib) { fail(`${label} join: no per-fall budget for ${fitFall.id}; cannot locate the drawn ribbon`); return; }
+          checks.push(`     ${label} join: ribbon ${rib.px.length}/${rib.total} px water (coverage ${(rib.coverage * 100).toFixed(0)} %)`
+            + `, notch centre ${rib.centreM.toFixed(2)} m off the traced line`
+            + `, wetted ${budget.widthM.toFixed(2)} m of ${budget.trenchWidthM.toFixed(2)} m trench`);
+          // The ribbon is ABSENT where the compiled data says a fall is drawn:
+          // that is a rendering failure, and it must fail rather than skip —
+          // otherwise a fall that quietly stopped drawing would sail through a
+          // check that measures nothing.
+          if (rib.px.length === 0) {
+            fail(`${label} join: the fall ${fitFall.id} is compiled but NO drawn water was found across its lip`
+              + ` (${rib.total} px scanned across the full ${budget.trenchWidthM.toFixed(2)} m trench)`);
+            return;
+          }
+          const la = mean(rib.px.map((i) => lum(frames.all, i)));
+          const lb = mean(window2(other, 2, scale.w, scale.h).map((i) => lum(frames.all, i)));
           const step = Math.abs(la - lb) / Math.max(la, lb, 1e-6);
-          if (step <= JOIN_STEP) ok(`${label} join: lum ${la.toFixed(1)} vs ${lb.toFixed(1)}, step ${(step * 100).toFixed(0)} % (<= ${JOIN_STEP * 100} %)`);
-          else fail(`${label} join: lum ${la.toFixed(1)} vs ${lb.toFixed(1)}, step ${(step * 100).toFixed(0)} % > ${JOIN_STEP * 100} %`);
-          // ...and the same join in COLOUR (see JOIN_CHROMA_STEP).
-          const ca = chroma(windowRgb(frames.all, a, 2, scale.w, scale.h));
-          const cb = chroma(windowRgb(frames.all, b, 2, scale.w, scale.h));
+          const rgbA = [0, 0, 0];
+          for (const i of rib.px) { rgbA[0] += frames.all[i]; rgbA[1] += frames.all[i + 1]; rgbA[2] += frames.all[i + 2]; }
+          const ca = chroma(rgbA.map((v) => v / rib.px.length));
+          const cb = chroma(windowRgb(frames.all, other, 2, scale.w, scale.h));
           const cStep = Math.max(
             Math.abs(ca[0] - cb[0]) / Math.max((ca[0] + cb[0]) / 2, 1e-6),
             Math.abs(ca[1] - cb[1]) / Math.max((ca[1] + cb[1]) / 2, 1e-6));
-          const msg = `${label} join: chroma ${chromaStr(ca)} vs ${chromaStr(cb)}, step ${(cStep * 100).toFixed(0)} %`;
-          if (cStep <= JOIN_CHROMA_STEP) ok(`${msg} (<= ${JOIN_CHROMA_STEP * 100} %)`);
-          else fail(`${msg} > ${JOIN_CHROMA_STEP * 100} %`);
+          const lumMsg = `${label} join: lum ${la.toFixed(1)} vs ${lb.toFixed(1)}, step ${(step * 100).toFixed(0)} %`;
+          const chromaMsg = `${label} join: chroma ${chromaStr(ca)} vs ${chromaStr(cb)}, step ${(cStep * 100).toFixed(0)} %`;
+          // Same rule as the fit band's foam reference: a handful of pixels of
+          // water is not a measurement of a join. Report and do not assert.
+          if (rib.px.length < JOIN_MIN_WATER_PX || rib.coverage < JOIN_MIN_COVERAGE) {
+            checks.push(`     ${lumMsg} — NOT asserted, only ${rib.px.length} px at ${(rib.coverage * 100).toFixed(0)} %`
+              + ` coverage (needs ${JOIN_MIN_WATER_PX} px and ${JOIN_MIN_COVERAGE * 100} %)`);
+            checks.push(`     ${chromaMsg} — NOT asserted, same reason`);
+            return;
+          }
+          if (step <= JOIN_STEP) ok(`${lumMsg} (<= ${JOIN_STEP * 100} %)`);
+          else fail(`${lumMsg} > ${JOIN_STEP * 100} %`);
+          // ...and the same join in COLOUR (see JOIN_CHROMA_STEP).
+          if (cStep <= JOIN_CHROMA_STEP) ok(`${chromaMsg} (<= ${JOIN_CHROMA_STEP * 100} %)`);
+          else fail(`${chromaMsg} > ${JOIN_CHROMA_STEP * 100} %`);
         };
-        joinStep("lip", upstream, marks.lipPlus2M);
+        joinStep("lip", upstream, marks.lipPlus2M, "b");
         // (c) plunge join: 2 m up the sheet vs the pool 2 m past the foot
-        joinStep("plunge", marks.footMinus2M, [marks.foot[0] + marks.direction[0] * 2, marks.plunge[1], marks.foot[2] + marks.direction[1] * 2]);
+        joinStep("plunge", marks.footMinus2M,
+          [marks.foot[0] + marks.direction[0] * 2, marks.plunge[1], marks.foot[2] + marks.direction[1] * 2], "a");
       } catch (e) {
         fail(`fit capture failed: ${String(e).slice(0, 200)}`);
         try { await page.evaluate(() => { window.__STUDIO_WATER_LAYERS__ = undefined; }); } catch { /* ignore */ }
