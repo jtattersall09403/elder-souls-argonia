@@ -1,69 +1,881 @@
 {
-  "id": "argonia-groundcover-provisional-v1",
-  "status": "PROVISIONAL — species choice and densities are the phase agent's proposal pending owner placement decisions. The schema is not provisional: it is Bethesda's GRAS field list, adopted as a checklist per module 95 §86.0b.",
+  "id": "argonia-groundcover-v2",
+  "schemaVersion": 2,
+  "status": "ACTIVE — the land-cover base is the mined Bethesda GRAS binding; the region layer above it is decision 0048. Schema is Bethesda's GRAS field list, adopted as a checklist per module 95 §86.0b.",
   "grounding": {
-    "schema": "docs/research/placement-settlements/shipped-world-placement-rules.md R10 — GRAS carries density, slope limits, a distance-from-water rule with a mode enum, position jitter, height/colour variance and a wind wave period; LTEX.GNAM binds grasses to painted ground and never allows more than three",
+    "schema": "docs/research/placement-settlements/shipped-world-placement-rules.md R10: GRAS carries density, slope limits, a distance-from-water rule with a mode enum, position jitter, height/colour variance and a wind wave period; LTEX.GNAM binds grasses to painted ground and never allows more than three",
     "observedValues": "world/sources/placement/groundcover-rules.json",
-    "landCoverIds": "tooling/world-generation/worldgen/landcover.py — the same ids the ground-control raster stores in its red channel"
+    "landCoverIds": "tooling/world-generation/worldgen/landcover.py — the same ids the ground-control raster stores in its red channel",
+    "regionClasses": "tooling/world-generation/worldgen/regions.py — the same ids apps/world-studio/public/province/hydro-regions.png stores by colour",
+    "why": "v1 was keyed by land cover ALONE, so the tidal delta, the interior swamp and the mangrove coast got literally identical grass wherever they shared a cover id. `vurt_reeds` carried MARSH_GRASS, SWAMP_GRASS and SCUM, so every reed bed in Black Marsh was the same plant. Region grammar drives everything (00-core rule 7)"
   },
   "rules": {
     "maxSpeciesPerCover": 3,
+    "maxCoversPerSpeciesPerRegion": 2,
+    "resolution": "species for (region class, land cover) = byRegionClass[region].swaps[cover] when present, else byLandCover[cover].species. A swap REPLACES the base list for that one cover in that one region; it never merges",
+    "whyTheCapStillHolds": "LTEX.GNAM's limit of three is per painted TEXTURE, so it caps how many species may share one cover. It says nothing about the same cover carrying different species in different regions. The swap layer therefore fits inside the shipped-game rule rather than bending it",
     "bareGroundIsFine": "20 of the 47 mined landscape textures allow no grass at all; mud, silt, rock and road are meant to read bare",
     "tier": "T3 — regenerated at runtime from the land-cover raster inside a camera ring, never written into chunk bundles (module 65 §110)",
-    "densityUnit": "instances per hectare inside the ring, before the slope response"
+    "densityUnit": "instances per hectare inside the ring, before the slope response",
+    "assetPool": "every asset here must be in tooling/asset-pipeline/pipeline/config/kits/groundcover-province-v1.json — the ring loads that one GLB. Adding a species is a kit rebuild, not a data edit"
   },
   "byLandCover": {
-    "11": {"cover": "MARSH_GRASS", "species": [
-      {"asset": "bmv:landscape/grass/vurt_reeds", "density": 11700, "slopeDegMax": 40, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120},
-      {"asset": "tropical:landscape/grass/cattailgrass", "density": 3000, "slopeDegMax": 35, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120, "waterRule": "below-at-least", "unitsFromWater": 0}
-    ]},
-    "12": {"cover": "UNDERGROWTH", "species": [
-      {"asset": "tropical:landscape/grass/ferngrass01", "density": 6000, "slopeDegMax": 50, "heightVariance": 0.33, "positionJitterM": 0.42, "waveperiod": 240},
-      {"asset": "bmv:landscape/grass/esurosebaywillowherb01", "density": 2500, "slopeDegMax": 45, "heightVariance": 0.3, "positionJitterM": 0.42, "waveperiod": 200}
-    ]},
-    "13": {"cover": "BC_MOSS", "species": [
-      {"asset": "tropical:landscape/grass/grassfern01", "density": 4000, "slopeDegMax": 50, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
-    ]},
-    "14": {"cover": "MOSS", "species": [
-      {"asset": "tropical:landscape/grass/grassfern01", "density": 3500, "slopeDegMax": 50, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
-    ]},
-    "15": {"cover": "SWAMP_GRASS", "species": [
-      {"asset": "bmv:landscape/grass/vurt_reeds", "density": 9100, "slopeDegMax": 40, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120},
-      {"asset": "tropical:landscape/grass/grassplant01", "density": 3500, "slopeDegMax": 45, "heightVariance": 0.35, "positionJitterM": 0.42, "waveperiod": 200}
-    ]},
-    "16": {"cover": "TROP_GRASS", "species": [
-      {"asset": "tropical:landscape/grass/marshgrassobj01", "density": 6000, "slopeDegMax": 42, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120},
-      {"asset": "tropical:landscape/grass/grassfern01", "density": 3000, "slopeDegMax": 50, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
-    ]},
-    "17": {"cover": "GRASS_DIRT", "species": [
-      {"asset": "tropical:landscape/grass/grassplant01", "density": 2500, "slopeDegMax": 45, "heightVariance": 0.3, "positionJitterM": 0.42, "waveperiod": 200}
-    ]},
-    "18": {"cover": "SCRUB", "species": [
-      {"asset": "bmv:landscape/grass/esurosebaywillowherb01", "density": 2000, "slopeDegMax": 45, "heightVariance": 0.3, "positionJitterM": 0.45, "waveperiod": 220}
-    ]},
-    "19": {"cover": "JUNGLE", "species": [
-      {"asset": "tropical:landscape/grass/ferngrass01", "density": 8000, "slopeDegMax": 50, "heightVariance": 0.33, "positionJitterM": 0.42, "waveperiod": 240},
-      {"asset": "tropical:landscape/grass/grassfern01", "density": 5000, "slopeDegMax": 50, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240},
-      {"asset": "tropical:landscape/grass/grassplant01", "density": 2500, "slopeDegMax": 45, "heightVariance": 0.35, "positionJitterM": 0.42, "waveperiod": 200}
-    ]},
-    "20": {"cover": "FOREST_FLOOR", "species": [
-      {"asset": "tropical:landscape/grass/ferngrass01", "density": 5000, "slopeDegMax": 50, "heightVariance": 0.33, "positionJitterM": 0.42, "waveperiod": 240}
-    ]},
-    "21": {"cover": "LITTER", "species": [
-      {"asset": "tropical:landscape/grass/grassfern01", "density": 1800, "slopeDegMax": 45, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
-    ]},
-    "3": {"cover": "SCUM", "species": [
-      {"asset": "bmv:landscape/grass/vurt_reeds", "density": 3250, "slopeDegMax": 30, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120, "waterRule": "below-at-least", "unitsFromWater": 0}
-    ]},
-    "9": {"cover": "PEAT", "species": [
-      {"asset": "tropical:landscape/grass/marshgrassobj01", "density": 3000, "slopeDegMax": 40, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120}
-    ]},
-    "10": {"cover": "MUD_LEAVES", "species": [
-      {"asset": "tropical:landscape/grass/grassfern01", "density": 1500, "slopeDegMax": 40, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
-    ]}
+    "11": {
+      "cover": "MARSH_GRASS",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/marshgrassobj01",
+          "density": 8200,
+          "slopeDegMax": 40,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.55,
+          "waveperiod": 120
+        },
+        {
+          "asset": "tropical:landscape/grass/cattailgrass",
+          "density": 3000,
+          "slopeDegMax": 35,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.55,
+          "waveperiod": 120,
+          "waterRule": "below-at-least",
+          "unitsFromWater": 0
+        }
+      ]
+    },
+    "12": {
+      "cover": "UNDERGROWTH",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/ferngrass01",
+          "density": 6000,
+          "slopeDegMax": 50,
+          "heightVariance": 0.33,
+          "positionJitterM": 0.42,
+          "waveperiod": 240
+        },
+        {
+          "asset": "bmv:landscape/grass/esurosebaywillowherb01",
+          "density": 2500,
+          "slopeDegMax": 45,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.42,
+          "waveperiod": 200
+        }
+      ]
+    },
+    "13": {
+      "cover": "BC_MOSS",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/grassfern01",
+          "density": 4000,
+          "slopeDegMax": 50,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.4,
+          "waveperiod": 240
+        }
+      ]
+    },
+    "14": {
+      "cover": "MOSS",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/grassfern01",
+          "density": 3500,
+          "slopeDegMax": 50,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.4,
+          "waveperiod": 240
+        }
+      ]
+    },
+    "15": {
+      "cover": "SWAMP_GRASS",
+      "species": [
+        {
+          "asset": "bmv:landscape/grass/vurt_reeds",
+          "density": 9100,
+          "slopeDegMax": 40,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.55,
+          "waveperiod": 120
+        },
+        {
+          "asset": "tropical:landscape/grass/grassplant01",
+          "density": 3500,
+          "slopeDegMax": 45,
+          "heightVariance": 0.35,
+          "positionJitterM": 0.42,
+          "waveperiod": 200
+        }
+      ]
+    },
+    "16": {
+      "cover": "TROP_GRASS",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/marshgrassobj01",
+          "density": 6000,
+          "slopeDegMax": 42,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.55,
+          "waveperiod": 120
+        },
+        {
+          "asset": "tropical:landscape/grass/grassfern01",
+          "density": 3000,
+          "slopeDegMax": 50,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.4,
+          "waveperiod": 240
+        }
+      ]
+    },
+    "17": {
+      "cover": "GRASS_DIRT",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/grassplant01",
+          "density": 2500,
+          "slopeDegMax": 45,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.42,
+          "waveperiod": 200
+        }
+      ]
+    },
+    "18": {
+      "cover": "SCRUB",
+      "species": [
+        {
+          "asset": "bmv:landscape/grass/esurosebaywillowherb01",
+          "density": 2000,
+          "slopeDegMax": 45,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.45,
+          "waveperiod": 220
+        }
+      ]
+    },
+    "19": {
+      "cover": "JUNGLE",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/ferngrass01",
+          "density": 8000,
+          "slopeDegMax": 50,
+          "heightVariance": 0.33,
+          "positionJitterM": 0.42,
+          "waveperiod": 240
+        },
+        {
+          "asset": "tropical:landscape/grass/grassfern01",
+          "density": 5000,
+          "slopeDegMax": 50,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.4,
+          "waveperiod": 240
+        },
+        {
+          "asset": "tropical:landscape/grass/grassplant01",
+          "density": 2500,
+          "slopeDegMax": 45,
+          "heightVariance": 0.35,
+          "positionJitterM": 0.42,
+          "waveperiod": 200
+        }
+      ]
+    },
+    "20": {
+      "cover": "FOREST_FLOOR",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/ferngrass01",
+          "density": 5000,
+          "slopeDegMax": 50,
+          "heightVariance": 0.33,
+          "positionJitterM": 0.42,
+          "waveperiod": 240
+        }
+      ]
+    },
+    "21": {
+      "cover": "LITTER",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/grassfern01",
+          "density": 1800,
+          "slopeDegMax": 45,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.4,
+          "waveperiod": 240
+        }
+      ]
+    },
+    "3": {
+      "cover": "SCUM",
+      "species": [
+        {
+          "asset": "bmv:landscape/grass/vurt_reeds",
+          "density": 3250,
+          "slopeDegMax": 30,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.55,
+          "waveperiod": 120,
+          "waterRule": "below-at-least",
+          "unitsFromWater": 0
+        }
+      ]
+    },
+    "9": {
+      "cover": "PEAT",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/marshgrassobj01",
+          "density": 3000,
+          "slopeDegMax": 40,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.55,
+          "waveperiod": 120
+        }
+      ]
+    },
+    "10": {
+      "cover": "MUD_LEAVES",
+      "species": [
+        {
+          "asset": "tropical:landscape/grass/grassfern01",
+          "density": 1500,
+          "slopeDegMax": 40,
+          "heightVariance": 0.3,
+          "positionJitterM": 0.4,
+          "waveperiod": 240
+        }
+      ]
+    }
+  },
+  "byRegionClass": {
+    "1": {
+      "id": "border-mountains",
+      "note": "Thin dry soil on the province's only cold ground. The flowering herb, not marsh grass, carries the peat benches. A small fern holds the shade under the pine (lore/regions/thornmarsh-and-east.md:11).",
+      "swaps": {
+        "9": [
+          {
+            "asset": "bmv:landscape/grass/esurosebaywillowherb01",
+            "density": 2200,
+            "slopeDegMax": 42,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.45,
+            "waveperiod": 220
+          }
+        ],
+        "20": [
+          {
+            "asset": "tropical:landscape/grass/grassfern01",
+            "density": 2600,
+            "slopeDegMax": 50,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.4,
+            "waveperiod": 240
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "upland-hills",
+      "note": "\"More temperate grasslands compared to the swampier south\" (lore/regions/thornmarsh-and-east.md:11): a leafy herb sward between the hill stands, fern grass only in their shade.",
+      "swaps": {
+        "16": [
+          {
+            "asset": "tropical:landscape/grass/grassplant01",
+            "density": 5200,
+            "slopeDegMax": 45,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.42,
+            "waveperiod": 200
+          },
+          {
+            "asset": "bmv:landscape/grass/esurosebaywillowherb01",
+            "density": 3400,
+            "slopeDegMax": 45,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.45,
+            "waveperiod": 220
+          }
+        ],
+        "20": [
+          {
+            "asset": "tropical:landscape/grass/grassfern01",
+            "density": 3600,
+            "slopeDegMax": 50,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.4,
+            "waveperiod": 240
+          }
+        ],
+        "10": [
+          {
+            "asset": "tropical:landscape/grass/ferngrass01",
+            "density": 1800,
+            "slopeDegMax": 40,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.42,
+            "waveperiod": 240
+          }
+        ]
+      }
+    },
+    "3": {
+      "id": "tidal-delta",
+      "note": "Freshwater cattail on the channel margins where the river still wins against the tide; the reed holds the peat behind them (lore/regions/waters.md:27).",
+      "swaps": {
+        "3": [
+          {
+            "asset": "tropical:landscape/grass/cattailgrass",
+            "density": 3600,
+            "slopeDegMax": 30,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120,
+            "waterRule": "below-at-least",
+            "unitsFromWater": 0
+          }
+        ],
+        "9": [
+          {
+            "asset": "bmv:landscape/grass/vurt_reeds",
+            "density": 3400,
+            "slopeDegMax": 38,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120
+          }
+        ]
+      }
+    },
+    "4": {
+      "id": "coastal-lagoon-salt-marsh",
+      "note": "Saline: cattail cannot hold here, so salt-marsh grass takes the flats and the scum alone. The swamp-grass ground carries a low leafy plant (lore/regions/waters.md:24).",
+      "swaps": {
+        "3": [
+          {
+            "asset": "tropical:landscape/grass/marshgrassobj01",
+            "density": 2600,
+            "slopeDegMax": 28,
+            "heightVariance": 0.28,
+            "positionJitterM": 0.55,
+            "waveperiod": 120,
+            "waterRule": "below-at-least",
+            "unitsFromWater": 0
+          }
+        ],
+        "15": [
+          {
+            "asset": "tropical:landscape/grass/grassplant01",
+            "density": 3200,
+            "slopeDegMax": 35,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.42,
+            "waveperiod": 200
+          }
+        ]
+      }
+    },
+    "5": {
+      "id": "deep-river-corridor",
+      "note": "Moving fresh water: cattail and reed together along the cover that this corridor paints, thick at the bank and absent in the channel (lore/regions/waters.md:27,31).",
+      "swaps": {
+        "3": [
+          {
+            "asset": "tropical:landscape/grass/cattailgrass",
+            "density": 4200,
+            "slopeDegMax": 32,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120,
+            "waterRule": "below-at-least",
+            "unitsFromWater": 0
+          },
+          {
+            "asset": "bmv:landscape/grass/vurt_reeds",
+            "density": 3000,
+            "slopeDegMax": 30,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120,
+            "waterRule": "below-at-least",
+            "unitsFromWater": 0
+          }
+        ]
+      }
+    },
+    "6": {
+      "id": "rootland-deep-marsh",
+      "note": "Ecology type 4: the floor is moss and leaf litter under buttressed trunks, herbs under 5% (§4.3). Fern grass on the wet leaf mud is the sole stemmed plant.",
+      "swaps": {
+        "10": [
+          {
+            "asset": "tropical:landscape/grass/ferngrass01",
+            "density": 1600,
+            "slopeDegMax": 40,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.42,
+            "waveperiod": 240
+          }
+        ],
+        "12": [
+          {
+            "asset": "tropical:landscape/grass/ferngrass01",
+            "density": 4800,
+            "slopeDegMax": 50,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.42,
+            "waveperiod": 240
+          }
+        ],
+        "16": [
+          {
+            "asset": "tropical:landscape/grass/grassplant01",
+            "density": 3000,
+            "slopeDegMax": 42,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.42,
+            "waveperiod": 200
+          }
+        ],
+        "15": [
+          {
+            "asset": "bmv:landscape/grass/vurt_reeds",
+            "density": 9600,
+            "slopeDegMax": 40,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120
+          }
+        ]
+      }
+    },
+    "7": {
+      "id": "interior-swamp",
+      "note": "Flooded forest: cattail alone on the marsh ground, because the reed is already carrying the standing water beside it (lore/regions/middle-argonia.md:85).",
+      "swaps": {
+        "11": [
+          {
+            "asset": "tropical:landscape/grass/cattailgrass",
+            "density": 7600,
+            "slopeDegMax": 35,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120,
+            "waterRule": "below-at-least",
+            "unitsFromWater": 0
+          }
+        ],
+        "16": [
+          {
+            "asset": "tropical:landscape/grass/ferngrass01",
+            "density": 4200,
+            "slopeDegMax": 45,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.42,
+            "waveperiod": 240
+          },
+          {
+            "asset": "tropical:landscape/grass/grassfern01",
+            "density": 2600,
+            "slopeDegMax": 48,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.4,
+            "waveperiod": 240
+          }
+        ]
+      }
+    },
+    "8": {
+      "id": "fringe-marsh",
+      "note": "The ecotone between swamp and grassland: the temperate herb creeping south into the undergrowth, a thinner reed belt and fern grass between the pools.",
+      "swaps": {
+        "12": [
+          {
+            "asset": "bmv:landscape/grass/esurosebaywillowherb01",
+            "density": 3800,
+            "slopeDegMax": 45,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.45,
+            "waveperiod": 220
+          }
+        ],
+        "15": [
+          {
+            "asset": "bmv:landscape/grass/vurt_reeds",
+            "density": 5600,
+            "slopeDegMax": 40,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120
+          },
+          {
+            "asset": "tropical:landscape/grass/grassfern01",
+            "density": 3000,
+            "slopeDegMax": 48,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.4,
+            "waveperiod": 240
+          }
+        ],
+        "9": [
+          {
+            "asset": "tropical:landscape/grass/grassplant01",
+            "density": 2800,
+            "slopeDegMax": 40,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.42,
+            "waveperiod": 200
+          }
+        ]
+      }
+    },
+    "9": {
+      "id": "seasonal-floodplain",
+      "note": "\"Fields of ferns and flowered grasses\" (lore/topics/fauna-hazards.md:99). The sward is tall and unbroken, the densest grass in the north.",
+      "swaps": {
+        "11": [
+          {
+            "asset": "tropical:landscape/grass/cattailgrass",
+            "density": 5200,
+            "slopeDegMax": 35,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120,
+            "waterRule": "below-at-least",
+            "unitsFromWater": 0
+          }
+        ],
+        "15": [
+          {
+            "asset": "bmv:landscape/grass/vurt_reeds",
+            "density": 4600,
+            "slopeDegMax": 40,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120
+          }
+        ],
+        "16": [
+          {
+            "asset": "tropical:landscape/grass/marshgrassobj01",
+            "density": 9500,
+            "slopeDegMax": 42,
+            "heightVariance": 0.34,
+            "positionJitterM": 0.55,
+            "waveperiod": 120
+          },
+          {
+            "asset": "tropical:landscape/grass/grassplant01",
+            "density": 3400,
+            "slopeDegMax": 45,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.42,
+            "waveperiod": 200
+          }
+        ],
+        "10": [
+          {
+            "asset": "tropical:landscape/grass/ferngrass01",
+            "density": 1600,
+            "slopeDegMax": 40,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.42,
+            "waveperiod": 240
+          }
+        ]
+      }
+    },
+    "10": {
+      "id": "raised-hammock",
+      "note": "Dry crests: fern and leafy plant on the island tops. The moss ground under the palms takes the coarser fern grass rather than the deep swamp's fine one.",
+      "swaps": {
+        "13": [
+          {
+            "asset": "tropical:landscape/grass/ferngrass01",
+            "density": 3200,
+            "slopeDegMax": 48,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.42,
+            "waveperiod": 240
+          }
+        ],
+        "16": [
+          {
+            "asset": "tropical:landscape/grass/grassfern01",
+            "density": 4200,
+            "slopeDegMax": 45,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.4,
+            "waveperiod": 240
+          },
+          {
+            "asset": "tropical:landscape/grass/grassplant01",
+            "density": 3000,
+            "slopeDegMax": 45,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.42,
+            "waveperiod": 200
+          }
+        ]
+      }
+    },
+    "11": {
+      "id": "firm-lowland",
+      "note": "Dry feet under a tall roof: fern grass runs from the leaf mud through the undergrowth, the swamp ground keeps reeds alone and the leafy plant carries the open patches.",
+      "swaps": {
+        "10": [
+          {
+            "asset": "tropical:landscape/grass/ferngrass01",
+            "density": 1900,
+            "slopeDegMax": 40,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.42,
+            "waveperiod": 240
+          }
+        ],
+        "12": [
+          {
+            "asset": "tropical:landscape/grass/ferngrass01",
+            "density": 5600,
+            "slopeDegMax": 50,
+            "heightVariance": 0.33,
+            "positionJitterM": 0.42,
+            "waveperiod": 240
+          }
+        ],
+        "15": [
+          {
+            "asset": "bmv:landscape/grass/vurt_reeds",
+            "density": 7200,
+            "slopeDegMax": 40,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120
+          }
+        ],
+        "16": [
+          {
+            "asset": "tropical:landscape/grass/grassplant01",
+            "density": 4200,
+            "slopeDegMax": 45,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.42,
+            "waveperiod": 200
+          }
+        ]
+      }
+    },
+    "12": {
+      "id": "lake-and-standing-water",
+      "note": "Open water: a shore reed belt, thinner than any marsh's. The drowned ground behind it carries no grass.",
+      "swaps": {
+        "3": [
+          {
+            "asset": "bmv:landscape/grass/vurt_reeds",
+            "density": 2800,
+            "slopeDegMax": 26,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.55,
+            "waveperiod": 120,
+            "waterRule": "below-at-least",
+            "unitsFromWater": 0
+          }
+        ]
+      }
+    },
+    "13": {
+      "id": "tropical-jungle",
+      "note": "The densest herb layer in the province and the reference for the rest (\"rainforest leading inland\", lore/regions/murkmire.md:13). The scrub ground drops the temperate herb for the leafy tropical plant. The litter under the closed roof carries a fern grass.",
+      "swaps": {
+        "18": [
+          {
+            "asset": "tropical:landscape/grass/grassplant01",
+            "density": 3200,
+            "slopeDegMax": 45,
+            "heightVariance": 0.35,
+            "positionJitterM": 0.42,
+            "waveperiod": 200
+          }
+        ],
+        "21": [
+          {
+            "asset": "tropical:landscape/grass/grassfern01",
+            "density": 2600,
+            "slopeDegMax": 45,
+            "heightVariance": 0.3,
+            "positionJitterM": 0.4,
+            "waveperiod": 240
+          }
+        ]
+      }
+    },
+    "14": {
+      "id": "mangrove-forest",
+      "note": "Brackish intertidal under a nigh-impenetrable wall (lore/regions/murkmire.md:23): salt-marsh grass on the mud, no freshwater reed or cattail, near-bare under the prop roots.",
+      "swaps": {
+        "3": [
+          {
+            "asset": "tropical:landscape/grass/marshgrassobj01",
+            "density": 2400,
+            "slopeDegMax": 22,
+            "heightVariance": 0.28,
+            "positionJitterM": 0.55,
+            "waveperiod": 120,
+            "waterRule": "below-at-least",
+            "unitsFromWater": 0
+          }
+        ]
+      }
+    }
   },
   "bare": {
-    "covers": ["SILT", "RIVER_MUD", "BANK_WET", "BLACK_MUD", "PUDDLE", "CLAY", "MUCK", "BC_MUD", "MOSSY_ROCK", "BC_ROCK", "SAND", "SALT", "DRY_CLAY", "PATH", "PEAT_SLOPE", "TRACK", "BC_ROAD", "MOUNTAIN_ROCK", "BEACH_SAND", "SEABED_SAND", "PEBBLES", "OCEAN_FLOOR", "DIRT_CLIFF"],
-    "why": "roads, rock, open mud and the seabed carry no groundcover — the mined ratio is 20 bare of 47 ground types, and bare ground is what makes a reed bed read as a reed bed"
-  }
+    "covers": [
+      "SILT",
+      "RIVER_MUD",
+      "BANK_WET",
+      "BLACK_MUD",
+      "PUDDLE",
+      "CLAY",
+      "MUCK",
+      "BC_MUD",
+      "MOSSY_ROCK",
+      "BC_ROCK",
+      "SAND",
+      "SALT",
+      "DRY_CLAY",
+      "PATH",
+      "PEAT_SLOPE",
+      "TRACK",
+      "BC_ROAD",
+      "MOUNTAIN_ROCK",
+      "BEACH_SAND",
+      "SEABED_SAND",
+      "PEBBLES",
+      "OCEAN_FLOOR",
+      "DIRT_CLIFF"
+    ],
+    "why": "roads, rock, open mud and the seabed carry no groundcover. The mined ratio is 20 bare of 47 ground types; bare ground is what makes a reed bed read as a reed bed"
+  },
+  "regionCovers": {
+    "1": [
+      9,
+      13,
+      18,
+      20
+    ],
+    "2": [
+      9,
+      10,
+      16,
+      17,
+      18,
+      20,
+      21
+    ],
+    "3": [
+      3,
+      9,
+      11,
+      15,
+      17
+    ],
+    "4": [
+      3,
+      9,
+      15
+    ],
+    "5": [
+      3
+    ],
+    "6": [
+      3,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "7": [
+      3,
+      9,
+      11,
+      12,
+      15,
+      16,
+      17,
+      18
+    ],
+    "8": [
+      3,
+      9,
+      11,
+      12,
+      15,
+      16,
+      17,
+      18
+    ],
+    "9": [
+      3,
+      9,
+      10,
+      11,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "10": [
+      3,
+      11,
+      13,
+      14,
+      16,
+      18
+    ],
+    "11": [
+      3,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "12": [
+      3,
+      9,
+      17,
+      18
+    ],
+    "13": [
+      3,
+      18,
+      19,
+      20,
+      21
+    ],
+    "14": [
+      3
+    ]
+  },
+  "regionCoversNote": "land covers each region class actually paints, measured from the shipped apps/world-studio/public/province/refined/ground-control.png against hydro-regions.png (covers holding >=0.5% of the class's area, 2026-09-09). A swap for a cover a region never paints is dead data; the breadth gate reads this list, not the whole cover table."
 }

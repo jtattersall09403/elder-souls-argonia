@@ -64,34 +64,67 @@ interface SpeciesPlan {
    * candidate then survives at (local density / max), so cover boundaries
    * stay crisp at per-instance resolution. */
   maxDensity: number;
-  byCover: Map<number, SpeciesRule>;
+  /** Keyed by `slotKey(region, cover)`: schema v2 binds grass to the pair,
+   * not to the cover alone. */
+  bySlot: Map<number, SpeciesRule>;
+  /** Any rule at all, for the jitter amplitude (they differ by ≤0.15 m). */
+  anyRule: SpeciesRule;
   needsWater: boolean;
 }
 
-/** groundcover.json: land-cover id (ground-control red channel) → species.
- * Absent ids are the bare list — bare ground stays bare (decision 0036 Q5). */
-const TABLE = (groundcoverTable as unknown as {
+/** groundcover.json v2: (region class, land-cover id) → species. Covers with
+ * no entry are the bare list — bare ground stays bare (decision 0036 Q5). */
+const TABLE = groundcoverTable as unknown as {
+  schemaVersion: number;
   byLandCover: Record<string, { species: SpeciesRule[] }>;
-}).byLandCover;
+  byRegionClass: Record<string, { swaps: Record<string, SpeciesRule[]> }>;
+};
+
+if (TABLE.schemaVersion !== 2) {
+  throw new Error(`groundcover.json schema ${TABLE.schemaVersion}, expected 2`);
+}
+
+/** Region classes run 0–14; land covers 0–63. Region 0 in the key is the
+ * "region unknown" slot the base land-cover table fills, used until the
+ * region raster has loaded (and for anything off its edge). */
+const REGION_SLOT_STRIDE = 64;
+const REGION_UNKNOWN = -1;
+
+function slotKey(region: number, cover: number): number {
+  return (region + 1) * REGION_SLOT_STRIDE + cover;
+}
+
+/** The swap layer resolves per (region, cover): a region's swap REPLACES the
+ * base list for that one cover, it never merges into it. */
+function rulesFor(region: number, coverId: string): SpeciesRule[] {
+  const swap = TABLE.byRegionClass[String(region)]?.swaps?.[coverId];
+  return swap ?? TABLE.byLandCover[coverId].species;
+}
 
 function buildPlans(): SpeciesPlan[] {
   const plans = new Map<string, SpeciesPlan>();
-  for (const [coverId, { species }] of Object.entries(TABLE)) {
-    for (const rule of species) {
-      let plan = plans.get(rule.asset);
-      if (!plan) {
-        plan = {
-          id: rule.asset,
-          index: plans.size,
-          maxDensity: 0,
-          byCover: new Map(),
-          needsWater: false,
-        };
-        plans.set(rule.asset, plan);
+  const regions = [REGION_UNKNOWN, ...Object.keys(TABLE.byRegionClass).map(Number)];
+  for (const region of regions) {
+    for (const coverId of Object.keys(TABLE.byLandCover)) {
+      // The unknown-region slot is the unswapped base table.
+      const rules = rulesFor(region, coverId);
+      for (const rule of rules) {
+        let plan = plans.get(rule.asset);
+        if (!plan) {
+          plan = {
+            id: rule.asset,
+            index: plans.size,
+            maxDensity: 0,
+            bySlot: new Map(),
+            anyRule: rule,
+            needsWater: false,
+          };
+          plans.set(rule.asset, plan);
+        }
+        plan.bySlot.set(slotKey(region, Number(coverId)), rule);
+        plan.maxDensity = Math.max(plan.maxDensity, rule.density);
+        if (rule.waterRule === "below-at-least") plan.needsWater = true;
       }
-      plan.byCover.set(Number(coverId), rule);
-      plan.maxDensity = Math.max(plan.maxDensity, rule.density);
-      if (rule.waterRule === "below-at-least") plan.needsWater = true;
     }
   }
   return [...plans.values()];
@@ -276,6 +309,60 @@ function coverAt(control: ControlRaster, x: number, z: number): number {
   return control.ids[tz * control.size + tx];
 }
 
+// --- region raster -----------------------------------------------------------
+
+let regionPromise: Promise<ControlRaster> | null = null;
+let regionBase: string | null = null;
+
+/**
+ * Region classes, decoded from `hydro-regions.png` by the legend the
+ * hydrology meta ships — the same colours `worldgen.regions.REGION_CLASSES`
+ * writes, read rather than duplicated, so a legend change cannot silently
+ * split the compiler's world from the runtime's.
+ *
+ * Loaded ONCE per session like the land-cover raster. Until it resolves, the
+ * ring places from the unswapped base table: grass appears immediately and
+ * changes species when the region arrives, rather than the ground staying
+ * bare on a cold load.
+ */
+function sharedRegionRaster(baseUrl: string): Promise<ControlRaster> {
+  if (!regionPromise || regionBase !== baseUrl) {
+    regionBase = baseUrl;
+    regionPromise = (async () => {
+      const [meta, res] = await Promise.all([
+        fetch(`${baseUrl}province/hydrology-meta.json`).then((r) => r.json()),
+        fetch(`${baseUrl}province/hydro-regions.png`),
+      ]);
+      const legend = meta.regionsLegend as Record<string, { rgb: [number, number, number] }>;
+      const byColour = new Map<number, number>();
+      for (const [id, entry] of Object.entries(legend)) {
+        const [r, g, b] = entry.rgb;
+        byColour.set((r << 16) | (g << 8) | b, Number(id));
+      }
+      const bitmap = await createImageBitmap(await res.blob(), {
+        premultiplyAlpha: "none",
+        colorSpaceConversion: "none",
+      });
+      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+      const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
+      ctx.drawImage(bitmap, 0, 0);
+      const px = ctx.getImageData(0, 0, bitmap.width, bitmap.height).data;
+      bitmap.close();
+      const ids = new Uint8Array(canvas.width * canvas.height);
+      for (let i = 0; i < ids.length; i++) {
+        const key = (px[i * 4] << 16) | (px[i * 4 + 1] << 8) | px[i * 4 + 2];
+        ids[i] = byColour.get(key) ?? 0;
+      }
+      return {
+        ids,
+        size: canvas.width,
+        metresPerTexel: PROVINCE_EXTENT_M / canvas.width,
+      };
+    })();
+  }
+  return regionPromise;
+}
+
 // Terrain height: shared with the baked-scatter renderer — see terrainHeight.ts.
 
 // --- component ---------------------------------------------------------------
@@ -312,6 +399,7 @@ export function Groundcover({
   const [manifest, setManifest] = useState<KitManifest | null>(null);
   const [kit, setKit] = useState<FloraKit | null>(null);
   const [control, setControl] = useState<ControlRaster | null>(null);
+  const [regionRaster, setRegionRaster] = useState<ControlRaster | null>(null);
   const [chunks, setChunks] = useState<ChunksManifest | null>(null);
   const [exclusions, setExclusions] = useState<Footprint[]>([]);
   const [foundationTreatments, setFoundationTreatments] = useState<FoundationTreatment[]>([]);
@@ -350,6 +438,9 @@ export function Groundcover({
       .catch(() => undefined);
     sharedControlRaster(baseUrl)
       .then((c) => { if (!cancelled) setControl(c); })
+      .catch(() => undefined);
+    sharedRegionRaster(baseUrl)
+      .then((c) => { if (!cancelled) setRegionRaster(c); })
       .catch(() => undefined);
     store.manifest()
       .then((m) => { if (!cancelled) setChunks(m); })
@@ -468,7 +559,7 @@ export function Groundcover({
           // Position must exist before the cover under it can be sampled, so
           // the jitter amplitude is the plan's first rule's (they differ by
           // ≤0.15 m across covers — well under a texel).
-          const jitterM = (plan.byCover.values().next().value as SpeciesRule).positionJitterM;
+          const jitterM = plan.anyRule.positionJitterM;
           for (let k = 0; k < g * g; k++) {
             if (u01(hash32(tx, tz, plan.index, k * 8)) >= keepP) continue;
             const jx = (u01(hash32(tx, tz, plan.index, k * 8 + 1)) - 0.5) * 2;
@@ -476,8 +567,13 @@ export function Groundcover({
             const x = tx * TILE_M + ((k % g) + 0.5) * cell + jx * jitterM;
             const z = tz * TILE_M + (Math.floor(k / g) + 0.5) * cell + jz * jitterM;
 
-            const rule = plan.byCover.get(coverAt(control, x, z));
-            if (!rule) continue; // bare cover, or bound to other species
+            // Region THEN cover: schema v2's swap layer is what stops the
+            // delta, the interior swamp and the mangrove coast sharing one
+            // reed wherever they share a cover id.
+            const region = regionRaster
+              ? coverAt(regionRaster, x, z) : REGION_UNKNOWN;
+            const rule = plan.bySlot.get(slotKey(region, coverAt(control, x, z)));
+            if (!rule) continue; // bare cover, or bound to other species here
             if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= rule.density / plan.maxDensity) continue;
 
             const distance = Math.hypot(focus.x - x, focus.z - z);
