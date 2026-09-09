@@ -77,6 +77,10 @@ WATER_REGIONS = {"ocean", "lake & standing water", "deep river corridor"}
 FREE_LANDFORMS = ("any-firm-ground", "any-shallow-marsh", "any-channel-bank")
 
 SAME_TYPE_MIN_M = 300.0          # "never two of the same template in sight" — marsh sightlines are short
+# The range an `outOfSightOf` rule reaches when its type declares no paired
+# `maxFromM` for that class: the widest authored neighbour range in the
+# catalogue (smugglers-ledge, 800 m from its pass post).
+OUT_OF_SIGHT_DEFAULT_M = 800.0
 SAME_TYPE_LANDMARK_MIN_M = 700.0
 COLLISION_MIN_M = 30.0           # absolute floor: two dots are never one dot
 # Places have EXTENT, not just a position (owner ruling 2026-09-09). Every type
@@ -135,6 +139,16 @@ OPENING_ALLOW = {"place.pirate-freeholds.the-wading-ground"}
 # everything already plotted within HOSTILE_CLUSTER_M, and never bites below
 # HOSTILE_CLUSTER_FLOOR. One owner's territory is still free (owner match is
 # excluded from the count), which was the rule's real intent.
+# ...and (2026-09-09) the count is of hostile places that HOLD the ground: a
+# record with occupants or a named `hostility.owner`. "One owner's territory is
+# free" only means anything about territory-holders, and an unoccupied hostile
+# ruin holds none — `horwalli-waterworks-deeps` is a lost-peoples waterworks
+# whose own record says "Unstaffed; the works run themselves, badly", with no
+# occupants and no owner faction, and it went homeless because thirteen other
+# places within 800 m of its authored drainage pinch were also hostile. Danger
+# is not a claim; a claimant is. Both sides of the pair must hold ground, so
+# this narrows the rule to the rivalry it was written for and leaves the
+# province's hostility frequency untouched.
 HOSTILE_CLUSTER_M = 800.0
 HOSTILE_CLUSTER_FLOOR = 4
 HOSTILE_CLUSTER_SHARE = 0.7
@@ -233,6 +247,7 @@ class Demand:
     bound_to: str | None = None                              # must sit within bound_max of this (hard)
     bound_max: float = BOUND_MAX_M
     near_point: tuple[float, float, float] | None = None       # (x, z, maxM): typed `sitingPrefs.nearPoint`
+    scour_site_ids: list[str] = field(default_factory=list)  # typed `sitingPrefs.scourSiteIds`: the record's own claim
     purpose: str = "wonder-oddity"                           # playerPurpose.primary (v2)
     stance: str = "neutral"                                  # hostility.baseline (v2)
     owner: str | None = None                                 # hostility.owner (v2)
@@ -372,14 +387,46 @@ def reference_supports_local_dependents(
     return True
 
 
+def thomas_exempt(d: Demand) -> bool:
+    """Is this record, by its own typed fields, not a clump CHILD at all?
+
+    The Thomas prior models small places clustering around latent parents. Two
+    authored facts make membership of a 300 m kernel arithmetically impossible,
+    and neither is a preference the solver may trade away (2026-09-09):
+
+    * **it is too big to be one of a clump.** A place whose own
+      `footprintRadiusM` is at least half the child radius fills the kernel: a
+      230 m wamasu pond and a 115 m M3 village need 345 m of clearance, more
+      than the kernel's whole diameter, so the pond can never be a child
+      beside anything.
+    * **it is authored to stand apart.** A type whose `minFromClassM` puts it
+      further from settlements than the child radius is being asked to sit
+      inside a settlement clump and far from settlements at once. The
+      snowline hermitage's own recipe says "deliberately alone".
+
+    Exempt records score 0 from the prior rather than None — no clumping
+    bonus, no clumping veto — which is the same treatment
+    `thomas_parent_points` already gives a stronger authored locality. It
+    exempts 12 of 350 types: the eight capitals (owner-pinned anchors in any
+    case), the wamasu pond, and the isolation types above 300 m.
+    """
+    if d.footprint_m * 2.0 >= THOMAS_CHILD_RADIUS_M:
+        return True
+    floors = (d.proximity.get("minFromClassM") or {}).values()
+    return max(floors, default=0.0) > THOMAS_CHILD_RADIUS_M
+
+
 def thomas_prior_score(d: Demand, c: Candidate, prior: dict[str, dict], relaxed: bool,
                        plotted: dict[str, tuple[float, float]] | None = None) -> float | None:
     """Density score for a child candidate, or None outside its strict clump.
 
     The Gaussian is the Thomas-process kernel. Every stage keeps children
     within 300 m; authored localities add conditional parents rather than
-    weakening that ceiling.
+    weakening that ceiling, and records that cannot be children at all
+    (`thomas_exempt`) are scored flat rather than vetoed.
     """
+    if thomas_exempt(d):
+        return 0.0
     cluster = prior[d.zone]
     distance = min(math.hypot(c.x - px, c.z - pz)
                    for px, pz in thomas_parent_points(d, prior, plotted))
@@ -417,6 +464,11 @@ def thomas_outcome(prior: dict[str, dict], demands: list[Demand], result: dict[s
         nearest = min(range(len(generic_distances)), key=generic_distances.__getitem__)
         if generic_distances[nearest] <= float(cluster["childRadiusM"]) + 1e-6:
             occupancy[demand.zone][nearest] += 1
+        # A record that cannot be a clump child (`thomas_exempt`) still counts
+        # towards parent occupancy when it happens to land in a kernel — it is
+        # only the "child must be inside a kernel" rule it is exempt from.
+        if thomas_exempt(demand):
+            continue
         distance = min(math.hypot(candidate.x - x, candidate.z - z)
                        for x, z in thomas_parent_points(demand, prior, all_positions))
         if distance > float(cluster["childRadiusM"]) + 1e-6:
@@ -525,6 +577,7 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
                 landforms_from_recipe=from_recipe, regions=regions,
                 parents=parents, hints=hints, record=rec, sightline_to=sight, bound_to=bound,
                 bound_max=bound_max, near_point=near_point,
+                scour_site_ids=[str(sid) for sid in (prefs.get("scourSiteIds") or [])],
                 purpose=(rec.get("playerPurpose") or {}).get("primary", "wonder-oddity"),
                 stance=(rec.get("hostility") or {}).get("baseline", "neutral"),
                 owner=(rec.get("hostility") or {}).get("owner"),
@@ -947,7 +1000,7 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
             dist = math.hypot(c.x - ox, c.z - oz)
             if dist <= HOSTILE_CLUSTER_M:
                 near_total += 1
-                if d.stance == "hostile" and om.stance == "hostile" \
+                if holds_ground(d) and holds_ground(om) \
                         and (d.owner is None or d.owner != om.owner):
                     hostile_near += 1
             if om.purpose == d.purpose and oid != d.bound_to and oid not in d.parents:
@@ -1043,6 +1096,40 @@ def abuts(d: Demand, od: Demand) -> bool:
     return d.may_abut(od.cls) or od.may_abut(d.cls)
 
 
+def holds_ground(d: Demand) -> bool:
+    """A hostile CLAIMANT: hostile baseline, plus somebody there to hold it.
+
+    See HOSTILE_CLUSTER_M. Occupants or a named `hostility.owner` is what makes
+    a hostile place a territory another hostile place can be crowded by."""
+    return d.stance == "hostile" and bool(d.owner or (d.record.get("occupants") or []))
+
+
+def out_of_sight_binds(d: Demand, od: Demand, dist: float) -> bool:
+    """Does `d`'s (or `od`'s) `outOfSightOf` rule bind against THIS pair?
+
+    Both authored `outOfSightOf` rows name the neighbour they are hiding from
+    in the same breath as the neighbour they belong to — "a short walk from a
+    village, out of ITS sight"; "beside a pass, out of sight of ITS post" —
+    and both carry the paired `maxFromM` that says how far that neighbour is.
+    Judging the rule against every settlement in the province instead read the
+    prose as "out of sight of everything", and it is not a small difference:
+    `dream-wallow-sap-pool` went homeless on line of sight to settlements
+    1.3 km away, in a marsh whose own repetition rule is 300 m because
+    "sightlines are short". The rule binds within the relationship's own
+    range and says nothing outside it.
+
+    A future `outOfSightOf` written without a `maxFromM` for that class has no
+    authored range, so it falls back to the widest one in the catalogue.
+    """
+    for owner, other in ((d, od), (od, d)):
+        if other.cls not in set(owner.proximity.get("outOfSightOf") or ()):
+            continue
+        reach = (owner.proximity.get("maxFromM") or {}).get(other.cls)
+        if dist <= float(reach if reach is not None else OUT_OF_SIGHT_DEFAULT_M):
+            return True
+    return False
+
+
 def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Candidate]],
                   factor: float = 1.0, s: "ProvinceSurvey | None" = None
                   ) -> tuple[bool, str | None]:
@@ -1100,8 +1187,7 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
             if dist < max(min_from.get(od.cls) or 0.0,
                           (o_prox.get("minFromClassM") or {}).get(d.cls) or 0.0):
                 return False, oid
-            if s is not None and (
-                    (od.cls in out_of_sight) or (d.cls in set(o_prox.get("outOfSightOf") or ()))) \
+            if s is not None and out_of_sight_binds(d, od, dist) \
                     and s.line_of_sight(c.x, c.z, oc.x, oc.z):
                 return False, oid
         if od.cls in max_from:
@@ -1374,6 +1460,19 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                      <= min(radius * NEAR_POINT_RELAX, THOMAS_CHILD_RADIUS_M)]
         local_candidates[d.id] = sites
     reserved_by: dict[str, set[str]] = {}
+    # An authored `sitingPrefs.scourSiteIds` is a claim on a NAMED site — the
+    # strongest siting evidence a record carries short of a pin, and until
+    # 2026-09-09 the plot read it nowhere at all (189 records carry one). A
+    # flexible record could therefore take the one ridge a hermitage was
+    # authored onto and push the hermitage off the map, which is what happened
+    # to `rim-snowline-hermitage`: `veterans-holding`, which has its own
+    # authored site and its own nearPoint, took both of the hermitage's. So a
+    # named site is reserved for its claimants, exactly as a nearPoint domain
+    # is; claimants themselves are never blocked, and a claim on a site the
+    # scour no longer produces simply reserves nothing.
+    for d in demands:
+        for sid in d.scour_site_ids:
+            reserved_by.setdefault(sid, set()).add(d.id)
     for d in demands:
         if d.near_point is None:
             continue
@@ -1572,6 +1671,35 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
 
     referenced_ids = {ref for d in demands
                       for ref in d.sightline_to + ([d.bound_to] if d.bound_to else [])}
+
+    # A `maxFromM` ceiling is satisfied by whichever record of that class is
+    # NEAREST, so moving a record can break the ceiling of a third record that
+    # neither repair ever looked at — a dig that needs a ruin within 500 m
+    # loses its ruin when the ruin is re-sited. Both repairs therefore ask, of
+    # every record that was relying on the mover, whether something of the
+    # class is still inside its ceiling; a move that strands one is rolled
+    # back like any other failed move.
+    def _ceiling_dependents(od: Demand, at: Candidate) -> list[tuple[str, float]]:
+        out = []
+        for rid, (m, oc) in plotted_d.items():
+            if rid == od.id:
+                continue
+            limit = (m.proximity.get("maxFromM") or {}).get(od.cls)
+            if limit is not None and math.hypot(oc.x - at.x, oc.z - at.z) <= float(limit):
+                out.append((rid, float(limit)))
+        return out
+
+    def _ceilings_hold(deps: list[tuple[str, float]], cls: str) -> bool:
+        for rid, limit in deps:
+            entry = plotted_d.get(rid)
+            if entry is None:
+                continue
+            _m, oc = entry
+            if not any(m2.cls == cls and rid2 != rid
+                       and math.hypot(oc.x - oc2.x, oc.z - oc2.z) <= limit
+                       for rid2, (m2, oc2) in plotted_d.items()):
+                return False
+        return True
     # Repeated: freeing one site can unblock the next record, so the pass
     # runs until it stops helping (bounded, deterministic).
     for _repair_pass in range(8):
@@ -1617,8 +1745,71 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                     result[holder] = evicted_entry
                     continue
                 msc, mc, mparts = moved
+                deps = _ceiling_dependents(by_did[holder], evicted_c)
                 _place(by_did[holder], mc, msc, mparts, f"re-sited so {d.id} could take its site")
+                if not _ceilings_hold(deps, by_did[holder].cls):
+                    _free_site(holder)
+                    _free_site(d.id)
+                    _place(by_did[holder], evicted_c, evicted_entry.get("score"),
+                           evicted_entry.get("parts") or {}, "")
+                    result[holder] = evicted_entry
+                    continue
                 h["resolvedAt"] = "eviction-repair"
+                break
+            if h["id"] in result:
+                continue
+            # 3b. NEIGHBOUR REPAIR (2026-09-09). The pass above only reclaims a
+            # site somebody is standing ON. Once footprints are hard gates the
+            # commoner case is a FREE cell that one movable neighbour's
+            # clearance reaches into — the last records out of the plot each
+            # had twenty or thirty cells failing on separation alone. Same
+            # bargain: move the one neighbour, take the cell, roll back unless
+            # both land honestly, and judge every gate at each step.
+            options = []
+            for c in cands:
+                if c.used_by or not water_identity_ok(d, c, s):
+                    continue
+                sc, parts = score_pair(d, c, plotted_xy, True, s, True, meta_now)
+                cluster = thomas_prior_score(d, c, thomas_prior, True, plotted_xy)
+                if cluster is None or sc + cluster < RELAXED_SCORE:
+                    continue
+                ok, blocker = separation_ok(d, c, plotted_d, 0.5, s)
+                if ok or blocker not in plotted_d or blocker in referenced_ids:
+                    continue
+                od = by_did.get(blocker)
+                entry = result.get(blocker)
+                if od is None or entry is None or od.tier == 0 or od.bound_to or od.sightline_to:
+                    continue
+                if entry["candidate"].kind in ("anchor", "pinned", COMMITTED_SEED_KIND):
+                    continue
+                options.append((sc + cluster, c.id, c, parts, blocker))
+            options.sort(key=lambda o: (-o[0], o[1]))
+            for total, _cid, c, parts, blocker in options:
+                evicted_c, evicted_entry = _free_site(blocker)
+                if not separation_ok(d, c, plotted_d, 0.5, s)[0]:
+                    _place(by_did[blocker], evicted_c, evicted_entry.get("score"),
+                           evicted_entry.get("parts") or {}, "")
+                    result[blocker] = evicted_entry
+                    continue
+                _place(d, c, total, parts, f"neighbour {blocker} re-sited to clear this ground")
+                moved = _best_free(by_did[blocker])
+                if moved is None:
+                    _free_site(d.id)
+                    _place(by_did[blocker], evicted_c, evicted_entry.get("score"),
+                           evicted_entry.get("parts") or {}, "")
+                    result[blocker] = evicted_entry
+                    continue
+                msc, mc, mparts = moved
+                deps = _ceiling_dependents(by_did[blocker], evicted_c)
+                _place(by_did[blocker], mc, msc, mparts, f"re-sited to clear ground for {d.id}")
+                if not _ceilings_hold(deps, by_did[blocker].cls):
+                    _free_site(blocker)
+                    _free_site(d.id)
+                    _place(by_did[blocker], evicted_c, evicted_entry.get("score"),
+                           evicted_entry.get("parts") or {}, "")
+                    result[blocker] = evicted_entry
+                    continue
+                h["resolvedAt"] = "neighbour-repair"
                 break
 
     for h in homeless:
@@ -1626,35 +1817,44 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             result[h["id"]]["homelessStage"] = h.get("resolvedAt")
     unresolved = [h for h in homeless if h["id"] not in result]
     # WHY it failed, not just that it did (2026-09-09): re-walk every candidate
-    # under the loosest stage and tally the first gate that rejected it, so a
-    # homeless record names the constraint to argue with.
+    # under the loosest stage and judge EVERY gate independently, so a homeless
+    # record names the constraint to argue with. A first-gate-wins tally lies
+    # here: it reports whichever gate happens to be tested first (the culture
+    # prior rejects thousands of cells for every record, homeless or not), and
+    # hides the gate that is actually the last one standing. What resolves a
+    # record is `soleBlocker`: candidates that fail exactly ONE gate. Fix that
+    # gate and those cells become sitable; a record with no sole blocker
+    # anywhere is one the province has no ground for.
     diag_meta = {oid: od for oid, (od, _oc) in plotted_d.items()}
     for h in unresolved:
         d = by_did[h["id"]]
         why: dict[str, int] = {}
+        sole: dict[str, int] = {}
         blockers: dict[str, int] = {}
         for c in cands:
-            if c.used_by:
-                why["site taken"] = why.get("site taken", 0) + 1
-                continue
-            if not water_identity_ok(d, c, s):
-                why["water identity"] = why.get("water identity", 0) + 1
-                continue
             sc, _parts = score_pair(d, c, plotted_xy, True, s, True, diag_meta)
             cluster = thomas_prior_score(d, c, thomas_prior, True, plotted_xy)
+            sep_ok, blocker = separation_ok(d, c, plotted_d, 0.5, s)
+            failed = []
+            if c.used_by:
+                failed.append("site taken")
+            if not water_identity_ok(d, c, s):
+                failed.append("water identity")
             if cluster is None:
-                why["culture clump"] = why.get("culture clump", 0) + 1
-                continue
-            if sc + cluster < RELAXED_SCORE:
-                why["score below the honest bar"] = why.get("score below the honest bar", 0) + 1
-                continue
-            ok, blocker = separation_ok(d, c, plotted_d, 0.5, s)
-            if not ok:
-                why["separation"] = why.get("separation", 0) + 1
+                failed.append("culture clump")
+            elif sc + cluster < RELAXED_SCORE:
+                failed.append("score below the honest bar")
+            if not sep_ok:
+                failed.append("separation")
                 blockers[str(blocker)] = blockers.get(str(blocker), 0) + 1
-                continue
-            why["would have fitted"] = why.get("would have fitted", 0) + 1
+            for g in failed:
+                why[g] = why.get(g, 0) + 1
+            if not failed:
+                why["would have fitted"] = why.get("would have fitted", 0) + 1
+            elif len(failed) == 1:
+                sole[failed[0]] = sole.get(failed[0], 0) + 1
         h["whyHomeless"] = dict(sorted(why.items(), key=lambda kv: -kv[1]))
+        h["soleBlocker"] = dict(sorted(sole.items(), key=lambda kv: -kv[1]))
         h["separationBlockers"] = dict(sorted(blockers.items(), key=lambda kv: -kv[1])[:5])
     return result, unresolved
 
@@ -1939,6 +2139,7 @@ def typed_siting_violations(demands: list[Demand], result: dict[str, dict],
                     out.append({"id": d.id, "gate": "minFromClassM", "other": od.id,
                                 "distM": round(dist, 1), "needM": floor})
                 if out_of_sight and od.cls in out_of_sight and s is not None \
+                        and out_of_sight_binds(d, od, dist) \
                         and s.line_of_sight(c.x, c.z, oc.x, oc.z):
                     out.append({"id": d.id, "gate": "outOfSightOf", "other": od.id,
                                 "distM": round(dist, 1), "needM": None})

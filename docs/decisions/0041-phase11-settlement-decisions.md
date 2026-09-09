@@ -2513,3 +2513,64 @@ marked the gap CLOSED on it; the real gate is two-level —
 `HOSTILE_SHARE_HARD_FLOOR = 0.50` asserts, `HOSTILE_SHARE_FLOOR = 0.55` only
 warns — so the much-quoted "three records of headroom" was headroom against a
 warning. G6 is PART-CLOSED, and whether to make 55 % hard is an open owner call.
+
+## Part 3b addendum — the six homeless records, resolved one by one (2026-09-09)
+
+The owner's instruction on the blocked re-plot was that a place which cannot
+be sited under its own stated semantics is a finding about that record or
+about the province, never a licence to shrink the radii or relax the footprint
+floor. Held: **neither the derived radii nor `physical_need` changed.** Each
+of the six was diagnosed to the single gate that bound it, and each turned out
+to be a defect in a record's typed fields, in a derivation, or in the solver.
+578 of 580 now plot; nearest-neighbour median 85 → 136 m, p5 35 → 75 m.
+
+**The diagnostic was lying first.** `whyHomeless` tallied the FIRST gate that
+rejected each candidate, which is nearly always the culture prior (it rejects
+2,500–4,000 cells for every record, homeless or not). The gate actually
+standing between a record and the map was hidden behind it. It now judges
+every gate independently and reports `soleBlocker` — candidates failing
+exactly one. Every finding below came from that.
+
+| record | binding constraint | resolution |
+|---|---|---|
+| `the-permit-dig` | its `nearPoint` was 268 m from Stormhold (needs 275) and 1043 m from the ruin it sits on, vs the type's 500 m ruin ceiling | the point had been written at the Collections' alcove in the city, not at the dig; removed, and `maxFromM {ruin: 500}` + `dependsOn` site it |
+| `wamasu-wallow-struck-ground` | `nearPoint` put a 230 m hazard pond ~200 m inside Hutan-Tzel's clearance | contradicts its own prose ("the village two hours east", "off any walked path"); removed |
+| `freehold-smithy` | every cell inside its 250 m bind to Alten Corimont scored −9 on `sightlineTo` the careening hard | the hard had plotted 419 m outside the basin its own record says it is inside; gave it the `boundTo` Alten Corimont its prose asserts |
+| `dream-wallow-sap-pool` | `outOfSightOf: [settlement]` judged against every settlement in the province — rejected on a sightline to a village 1.3 km away | the prose is "a short walk from a village, out of ITS sight", and both `outOfSightOf` rows carry the paired `maxFromM`; the rule now binds within that range |
+| `horwalli-waterworks-deeps` | the hostile-cluster share rule, at its own authored drainage pinch: 13 of 16 places within 800 m are hostile | the rule is about rival TERRITORY; the Horwalli Cut is unstaffed, with no occupants and no owner faction, so it holds none. Both sides must now hold ground |
+| `wamasu-pond-nest`, and the two snowline hermitages | the Thomas 300 m child-radius gate | a 230 m pond plus a 115 m village needs 345 m — more than the kernel's diameter; a type with a 600 m isolation floor is being told to sit in a settlement clump and 600 m from settlements at once. `thomas_exempt` scores those flat |
+
+**Two solver defects found and fixed en route.**
+`sitingPrefs.scourSiteIds` — a record naming the exact site it was authored
+onto — was read by **nothing**, on 189 records. Named sites are now reserved
+for their claimants, as a `nearPoint` domain already was. And the
+eviction-repair pass only reclaimed a site somebody was standing ON; under
+footprints the commoner case is a free cell one movable neighbour's clearance
+reaches into, so a **neighbour repair** was added on the same terms. Both now
+check that moving a record does not strand a third record's `maxFromM`
+ceiling, and roll back if it does.
+
+**One authored conflict resolved by evidence.** `rim-snowline-hermitage`'s two
+`scourSiteIds` lie 250 m inside `veterans-holding`'s authored `nearPoint`
+domain, while the hermitage type demands 600 m from any settlement — two
+authored claims that cannot both stand. The settlement's is the older and
+load-bearing one (an M3 holding of forty veterans); the hermitage's site
+claims were dropped. Noted in passing: `veterans-holding`'s own `scourSiteId`
+(`summit-015`) is 807 m from its own `nearPoint` (max 300 m) — a second
+authored contradiction, harmless now that claims are reservations rather than
+commands, but real.
+
+**OPEN — owner call.** The two `snowline-hermitage` records cannot both be
+sited at the type's 600 m floor: measured, the best isolation either can reach
+after every other authored gate is 580 m and 309 m, because the border
+mountains are where the province's rim settlements are. Options and evidence
+in gap-plan B12. Also open at 578/580: one empty Thomas parent in
+`imperial-penal-south`, and three `maxFromM` ceilings missing by 0.3 m, 37 m
+and 201 m through the known ordering hole (a ceiling is unjudgeable until
+something of its class is plotted).
+
+**The re-solved catalogue is still NOT committed.** Per the owner's recorded
+timing (gap-plan B5) the re-solve runs against the FINAL water rasters, and
+`test_blueprint.py::test_live_dir_validates` was still red on the Sap-Tapping
+berth when this landed. The source fixes and the solver corrections are
+committed; the catalogue write is one command, recorded in the handover.

@@ -240,7 +240,7 @@ records with no collisions, no invalid sites, no navigability exceptions and
 no resiting pins. It wrote the catalogue and the edge-corrected Clark–Evans
 report (median R 0.838). The four authored exemplars remain blueprint-pinned.
 
-### B12 — Places have EXTENT: typed footprints + typed proximity — MECHANISM DONE 2026-09-09, RE-PLOT BLOCKED
+### B12 — Places have EXTENT: typed footprints + typed proximity — MECHANISM DONE 2026-09-09; RE-PLOT 578/580, OWNER CALL ON ONE TYPE
 
 **Delivered.** Every one of the 350 type recipes now carries
 `footprintRadiusM` (derived by `worldgen.author_type_siting` from the authored
@@ -279,6 +279,100 @@ records, or raise supply (the parent floors, or the honest-fit score bar).
 The committed spacing would go from median NN 85 m to **131 m** (p5 35 → 73,
 p95 249 → 240) with **zero** typed-siting violations, against 426 overlapping
 pairs and 31 isolation-floor breaches today.
+
+**6 → 2 (2026-09-09, second pass).** Each of the six was diagnosed to the
+single gate that bound it, and every one turned out to be a defect in a
+record, a derivation or the solver rather than a case for weaker footprints.
+The footprint floor and the derived radii are untouched.
+
+* The homeless diagnostic itself was wrong. It tallied the FIRST gate that
+  rejected each candidate, so it reported the culture prior — which rejects
+  thousands of cells for every record, placed or not — and hid the gate that
+  was actually last standing. It now judges every gate independently and
+  reports `soleBlocker`: the candidates that fail exactly one. That single
+  change is what made the six legible.
+* `the-permit-dig` — its `nearPoint` sat 268 m from Stormhold (a 230 m city
+  plus its own 45 m needs 275) and 1043 m from the Outer Silyanorn ruin its
+  own record says it stands on the edge of, against the type's 500 m ruin
+  ceiling. The point had been written at the alcove in the city, not at the
+  dig. Removed; the typed `maxFromM {ruin: 500}` and `dependsOn` site it.
+* `wamasu-wallow-struck-ground` — same defect: a `nearPoint` that put a 230 m
+  hazard pond ~200 m from Hutan-Tzel, against its own prose ("the village two
+  hours east", "off any walked path"). Removed.
+* `freehold-smithy` — every cell inside its 250 m bind to Alten Corimont
+  scored −9 on `sightlineTo` the careening hard, because the hard had plotted
+  419 m OUTSIDE the port basin its own record says it is inside. The hard now
+  carries the `boundTo` Alten Corimont its prose asserts.
+* `dream-wallow-sap-pool` — `outOfSightOf: [settlement]` was judged against
+  every settlement in the province, so the wallow was rejected for a sightline
+  to a village 1.3 km away. Both authored `outOfSightOf` rows name the
+  neighbour they hide from in the same breath as the one they belong to ("a
+  short walk from a village, out of ITS sight") and both carry the paired
+  `maxFromM`. The rule now binds within that range (`out_of_sight_binds`).
+* `horwalli-waterworks-deeps` — rejected by the hostile-cluster share rule at
+  its own authored drainage pinch: 13 of 16 places within 800 m are hostile,
+  which is what the deep interior IS. The rule's own intent is rival
+  TERRITORY ("one owner's territory is still free"), and the Horwalli Cut has
+  no occupants and no owner faction — its record says "Unstaffed; the works
+  run themselves". Both sides of the pair must now hold ground
+  (`holds_ground`). Province hostility frequency is untouched.
+* `wamasu-pond-nest` and the snowline hermitages — the Thomas child-radius
+  gate was asking records to be clump children when their own typed fields
+  make that arithmetically impossible: a 230 m pond plus a 115 m village needs
+  345 m of clearance, more than the 300 m kernel's whole diameter, and a type
+  whose `minFromClassM` is 600 m is being told to sit inside a settlement
+  clump and 600 m from settlements at once. `thomas_exempt` scores those flat
+  (no bonus, no veto) — the same treatment `thomas_parent_points` already
+  gives a stronger authored locality. 12 of 350 types, of which 8 are pinned
+  capitals.
+* `sitingPrefs.scourSiteIds` was read by NOTHING. 189 records carry one; the
+  plot never looked. Named sites are now reserved for their claimants like a
+  `nearPoint` domain is.
+* **Neighbour repair.** The eviction-repair pass only reclaimed a site
+  somebody was standing ON; the commoner case under footprints is a FREE cell
+  one movable neighbour's clearance reaches into. Both repairs now also verify
+  that moving a record does not strand a THIRD record's `maxFromM` ceiling
+  (a dig losing the ruin it must be within 500 m of), and roll back if it does.
+
+Result: **578 of 580 plotted**, nearest-neighbour median 85 → **136 m**,
+p5 35 → **75 m**, p95 250 → 267 m.
+
+**OWNER CALL — the two snowline hermitages.** `rim-snowline-hermitage` and
+`the-snowline-cell` are the province's only two `snowline-hermitage` records.
+The type's own recipe prose is "the rim's signature dwelling; deliberately
+alone" and its floor is 600 m from any settlement. Measured, after every other
+authored gate, the best isolation either can reach is **580 m** (the cell,
+20 m short) and **309 m** (the rim hermitage). The border mountains are
+where the province's rim settlements are: 17.9 % of border-mountains ground
+is ≥600 m from every settlement, but each record also needs its own culture's
+slice of that rim. This is not a case for shrinking anything — it is a real
+finding about the province. Three honest options:
+1. cut or defer one of the two (they are near-duplicates: both M1 lone
+   dwellings of ascetics on the border rim, one imperial-fringe, one
+   pirate-freeholds);
+2. lower the type's floor to what the rim can deliver, recording that "alone"
+   on a mountain is a climb rather than a plan distance (their own prose says
+   "a full day's climb with no track", "the pass keeper below comes up once a
+   year with salt") — this needs a measured rule, not a fitted number;
+3. accept 578/580 and carry the two as deferred.
+
+Also still open at 578/580: one Thomas parent in `imperial-penal-south` has no
+child, and 3 `maxFromM` ceilings miss by 0.3 m, 37 m and 201 m — the known
+ordering hole where a ceiling is unjudgeable until something of that class is
+plotted. Both need the same treatment as the homeless batch: a repair pass
+rather than a post-hoc complaint.
+
+**CROSS-AGENT HAZARD (2026-09-09).** `author_type_siting.blueprint_radii()`
+derives `sap-tapping-camp`'s footprint from
+`world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json`,
+which the water agent is rewriting. Its boundary has gone from 31.8 m to
+254.2 m circumradius in the working tree, so `type_siting`'s two derivation
+tests are RED right now through no fault of the placement work, and when that
+blueprint lands the camp's footprint jumps 30 → 230 m — a works the size of
+Lilmoth, the same boundary-encloses-the-approach over-read that
+`FOOTPRINT_CEILING_M` was pasted over for the wamasu pond. Re-run
+`author_type_siting --apply` after the water work lands, and fix the
+derivation to measure ground held rather than the outer envelope.
 
 Until it lands, `test_type_siting.test_the_shipped_catalogue_does_not_get_worse`
 ratchets the shipped catalogue so it cannot regress.

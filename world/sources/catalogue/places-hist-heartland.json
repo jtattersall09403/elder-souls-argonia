@@ -23748,12 +23748,7 @@
           "pool",
           "hollow",
           "any-firm-ground"
-        ],
-        "nearPoint": {
-          "x": 3087,
-          "z": 1492,
-          "maxM": 350
-        }
+        ]
       },
       "relations": {
         "dependsOn": [],

@@ -24740,12 +24740,7 @@
           "a conservation tent",
           "a permit posted at the gate"
         ],
-        "scourSiteIds": [],
-        "nearPoint": {
-          "x": 2921.0,
-          "z": 710.0,
-          "maxM": 250.0
-        }
+        "scourSiteIds": []
       },
       "relations": {
         "dependsOn": [

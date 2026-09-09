@@ -751,7 +751,11 @@
         ],
         "scourSiteIds": [
           "site.scour.firm-lowland.oxbow-016"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.pirate-freeholds.alten-corimont",
+          "maxM": 250
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -9840,10 +9844,7 @@
           "saddle",
           "cliff-bench"
         ],
-        "scourSiteIds": [
-          "site.scour.border-mountains.ridge-end-042",
-          "site.scour.border-mountains.saddle-041"
-        ]
+        "scourSiteIds": []
       },
       "culture": "argonian",
       "occupants": [
