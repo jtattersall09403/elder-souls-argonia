@@ -30,6 +30,7 @@ from .npz_io import savez as _savez
 from PIL import Image
 from scipy import ndimage
 
+from .carve_routes import carve_polylines, carve_source, warn_on_drift
 from .condition import base_terrain
 from .landcover import compile_ground_control
 from .routes_raster import rasterize_minor_paint
@@ -467,15 +468,16 @@ def write_flood_states(h) -> None:
 
 
 def rasterize_roads(shape, origin_full):
-    """Rasterize the Phase 4 road corridors (routes.json, macro [x, y] px)
-    into a bool mask ~27 m wide. Water rules override later, so crossings
-    stay unpainted (bridges/ferries are placed features)."""
-    routes_path = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "routes.json"
+    """Rasterize the Phase 4 road corridors (macro [x, y] px) into a bool mask
+    ~27 m wide. Water rules override later, so crossings stay unpainted
+    (bridges/ferries are placed features).
+
+    The polylines come from the FROZEN network (`carve_routes`), never the
+    published `routes.json` that `reroute_majors` rewrites from this very
+    carve — see that module for why the chain could not settle otherwise.
+    """
     mask = np.zeros(shape, dtype=bool)
-    if not routes_path.exists():
-        return mask
-    for route in json.loads(routes_path.read_text()).get("routes", []):
-        px = route.get("px", [])
+    for px in carve_polylines():
         for (x0m, y0m), (x1m, y1m) in zip(px, px[1:]):
             x0, y0 = x0m * STEP - origin_full[1], y0m * STEP - origin_full[0]
             x1, y1 = x1m * STEP - origin_full[1], y1m * STEP - origin_full[0]
@@ -488,6 +490,7 @@ def rasterize_roads(shape, origin_full):
 
 
 def main() -> None:
+    warn_on_drift()
     height_path, npz_path = Path(sys.argv[1]), Path(sys.argv[2])
     full = base_terrain(height_path)  # image orientation, true metres; sculpted if present (6b)
     npz = np.load(npz_path)
@@ -578,7 +581,9 @@ def main() -> None:
     v_frac = np.broadcast_to(
         (np.arange(h.shape[0], dtype=np.float32) / h.shape[0])[:, None], h.shape)
     roads = rasterize_roads(h.shape, (0, 0)) | portage_track
-    minor = rasterize_minor_paint(h.shape, STEP, (0, 0))
+    # Frozen network, not the published one this run's ground re-solves.
+    minor = rasterize_minor_paint(h.shape, STEP, (0, 0),
+                                  path=carve_source("routes-minor.json"))
     landcover_mat, control = compile_ground_control(
         h, regions_up, rivers_up, slope_f, RAW_M, rng,
         salinity=up(npz["salinity"]), twi=up(npz["twi"]),
