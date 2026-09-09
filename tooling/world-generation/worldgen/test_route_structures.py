@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import math
 
 import numpy as np
@@ -9,7 +10,8 @@ import pytest
 
 from . import grade_routes as G
 from .compile_route_structures import (FAMILIES, RAMP_MAX_DEG, compile_structure,
-                                       residual_over_cap, validate)
+                                       publish_route_outputs, residual_over_cap,
+                                       validate)
 from .scale import RAW_M
 
 
@@ -113,6 +115,31 @@ def test_refuses_a_deck_steeper_than_the_ramp_cap():
         assert f"{RAMP_MAX_DEG:.0f} deg deck cap" in str(e)
     else:
         raise AssertionError("a 24 deg deck was accepted")
+
+
+def test_refuses_an_authored_window_past_the_current_route_endpoint():
+    way, h = _slope_way(cells=80)
+    st = {"id": "structure.dunmer-north-test.stale", "wayId": way["id"],
+          "kind": "deck", "family": "dunmer-stone",
+          "fromM": 1_000.0, "toM": 1_050.0, "why": "test"}
+    with pytest.raises(ValueError, match="does not overlap the current"):
+        compile_structure(st, way, h, _kit_stub())
+
+
+def test_route_output_publication_replaces_the_exact_file_set(tmp_path):
+    out = tmp_path / "route-structures"
+    out.mkdir()
+    (out / "stale-way.json").write_text("stale")
+    docs = {
+        "track.region.current": {"schemaVersion": 1, "wayId": "track.region.current",
+                                  "structures": [], "placements": []},
+    }
+
+    publish_route_outputs(docs, out)
+
+    assert [path.name for path in out.iterdir()] == ["region-current.json"]
+    assert json.loads((out / "region-current.json").read_text())["wayId"] \
+        == "track.region.current"
 
 
 def test_residual_is_zero_when_every_stretch_is_covered():

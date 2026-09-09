@@ -14,14 +14,14 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `route.road.gideon-blackwood-road` | 12 | bridge, lip-step, stepped-ascent | 60 | 24.5 | 0 |
 | `route.road.gideon-soulrest` | 1 | lip-step | 1 | 0.5 | 25 |
 | `route.road.gideon-stormhold` | 5 | bridge, lip-step | 19 | 6.7 | 0 |
-| `route.road.stormhold-thorn` | 9 | bridge, lip-step, stepped-ascent | 80 | 16.2 | 0 |
+| `route.road.stormhold-thorn` | 9 | bridge, lip-step | 80 | 14.6 | 0 |
 | `route.road.thorn-tear-road` | 2 | bridge, stepped-ascent | 70 | 28.2 | 40 |
 | `track.dunmer-north.branchmont` | 2 | lip-step | 6 | 5.4 | 0 |
-| `track.dunmer-north.crystalgate` | 12 | deck, lip-step, stair, stepped-ascent | 113 | 74.0 | 0 |
+| `track.dunmer-north.crystalgate` | 8 | deck, lip-step, stair, stepped-ascent | 113 | 74.0 | 0 |
 | `track.dunmer-north.cut-and-stack` | 1 | stair | 6 | 12.1 | 0 |
 | `track.dunmer-north.hissmir` | 1 | lip-step | 3 | 3.1 | 0 |
 | `track.dunmer-north.mazzatun` | 14 | deck, lip-step, stepped-ascent | 161 | 137.3 | 0 |
-| `track.dunmer-north.nine-fords` | 6 | deck, lip-step, stair | 7 | 9.7 | 0 |
+| `track.dunmer-north.nine-fords` | 1 | stair | 7 | 9.7 | 0 |
 | `track.dunmer-north.nine-marks` | 4 | deck, lip-step, stepped-ascent | 113 | 95.5 | 0 |
 | `track.dunmer-north.saltmarch-village` | 6 | deck, lip-step, stepped-ascent | 84 | 58.0 | 0 |
 | `track.dunmer-north.silyanorn-diggings` | 13 | deck, lip-step, stair, stepped-ascent | 298 | 219.9 | 0 |
@@ -29,7 +29,7 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `track.dunmer-north.tearmouth` | 1 | stair | 6 | 0.9 | 0 |
 | `track.dunmer-north.the-ash-causeway` | 1 | stair | 3 | 4.0 | 0 |
 | `track.dunmer-north.the-diggings-ladder` | 12 | deck, lip-step, stair, stepped-ascent | 263 | 174.8 | 0 |
-| `track.dunmer-north.the-field-gate-garrison` | 14 | deck, lip-step, stepped-ascent | 229 | 112.5 | 0 |
+| `track.dunmer-north.the-field-gate-garrison` | 10 | deck, lip-step, stepped-ascent | 229 | 112.5 | 0 |
 | `track.dunmer-north.the-first-count` | 1 | lip-step | 3 | 2.1 | 0 |
 | `track.dunmer-north.the-fish-boon-ground` | 1 | stair | 3 | 4.0 | 0 |
 | `track.dunmer-north.the-last-landing` | 2 | lip-step, stair | 6 | 7.1 | 0 |
@@ -42,14 +42,14 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `track.hist-heartland.heretic-stone-restarted` | 9 | deck, lip-step, stair, stepped-ascent | 269 | 54.4 | 0 |
 | `track.hist-heartland.porter-relay-poling` | 1 | lip-step | 15 | 3.0 | 0 |
 | `track.imperial-fringe.bone-road-waystation` | 11 | deck, lip-step, stair, stepped-ascent | 200 | 114.1 | 0 |
-| `track.imperial-fringe.lowmere-raft-town` | 17 | deck, lip-step, stepped-ascent | 8 | 5.1 | 0 |
+| `track.imperial-fringe.lowmere-raft-town` | 1 | deck | 8 | 5.2 | 0 |
 | `track.imperial-fringe.marcians-terrace` | 8 | lip-step, stair, stepped-ascent | 134 | 85.3 | 0 |
 | `track.imperial-fringe.mile-house-of-the-eagle` | 1 | lip-step | 5 | 1.6 | 0 |
 | `track.imperial-fringe.moonmarch-ground` | 1 | lip-step | 6 | 0.3 | 0 |
-| `track.imperial-fringe.onkobra-kwama-mine` | 5 | deck, lip-step, stair | 15 | 1.3 | 0 |
+| `track.imperial-fringe.onkobra-kwama-mine` | 2 | deck, stair | 15 | 1.3 | 0 |
 | `track.imperial-fringe.reedcutters-toll` | 7 | deck, lip-step, stair | 53 | 35.2 | 0 |
 | `track.imperial-fringe.stonefoot-terrace-village` | 5 | deck, lip-step, stair, stepped-ascent | 68 | 21.4 | 0 |
-| `track.imperial-fringe.stonewastes` | 10 | deck, lip-step, stepped-ascent | 149 | 42.4 | 0 |
+| `track.imperial-fringe.stonewastes` | 8 | deck, lip-step, stepped-ascent | 153 | 42.4 | 0 |
 | `track.imperial-fringe.swampmoth-town` | 25 | deck, lip-step, stair, stepped-ascent | 506 | 251.2 | 0 |
 | `track.imperial-fringe.the-hollow-pass-station` | 1 | stair | 14 | 10.7 | 0 |
 | `track.imperial-fringe.the-pass-shelter` | 1 | stepped-ascent | 31 | 6.6 | 0 |
@@ -59,7 +59,7 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `track.mercantile-coast.lighter-flotilla` | 1 | stepped-ascent | 76 | 7.5 | 0 |
 | `track.mercantile-coast.moonmarch` | 1 | lip-step | 10 | 1.3 | 0 |
 | `track.pirate-freeholds.chasecreek` | 1 | lip-step | 3 | 0.5 | 0 |
-| `track.pirate-freeholds.dunmer-frontier-holding` | 15 | deck, lip-step, stair, stepped-ascent | 92 | 60.2 | 0 |
+| `track.pirate-freeholds.dunmer-frontier-holding` | 11 | deck, lip-step, stair, stepped-ascent | 92 | 60.2 | 0 |
 | `track.pirate-freeholds.reoccupied-fort` | 1 | lip-step | 3 | 0.4 | 0 |
 | `track.pirate-freeholds.rim-pass-station` | 2 | deck, lip-step | 7 | 6.1 | 0 |
 | `track.pirate-freeholds.rockpoint` | 1 | lip-step | 3 | 0.5 | 0 |
@@ -76,10 +76,6 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.dunmer-north-crystalgate.11` | lip-step | dunmer-stone | 2056 | 2073 | -3.4 | 3 |
 | `structure.dunmer-north-crystalgate.12` | stepped-ascent | dunmer-stone | 2155 | 2339 | -16.0 | 29 |
 | `structure.dunmer-north-crystalgate.2` | stair | dunmer-stone | 404 | 477 | -5.3 | 11 |
-| `structure.dunmer-north-crystalgate.3` | deck | dunmer-stone | 4512 | 2570 | 0.0 | 0 |
-| `structure.dunmer-north-crystalgate.4` | deck | dunmer-stone | 4729 | 2570 | 0.0 | 0 |
-| `structure.dunmer-north-crystalgate.5` | deck | dunmer-stone | 5280 | 2570 | 0.0 | 0 |
-| `structure.dunmer-north-crystalgate.6` | deck | dunmer-stone | 5471 | 2570 | 0.0 | 0 |
 | `structure.dunmer-north-crystalgate.7` | lip-step | dunmer-stone | 297 | 315 | -3.1 | 3 |
 | `structure.dunmer-north-crystalgate.8` | lip-step | dunmer-stone | 1050 | 1069 | -2.0 | 3 |
 | `structure.dunmer-north-crystalgate.9` | deck | dunmer-stone | 1512 | 1558 | -6.0 | 4 |
@@ -99,11 +95,6 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.dunmer-north-mazzatun.7` | stepped-ascent | dunmer-stone | 2308 | 2452 | -16.2 | 22 |
 | `structure.dunmer-north-mazzatun.8` | deck | dunmer-stone | 138 | 177 | 6.0 | 3 |
 | `structure.dunmer-north-mazzatun.9` | deck | dunmer-stone | 918 | 963 | 6.7 | 4 |
-| `structure.dunmer-north-nine-fords.1` | lip-step | dunmer-stone | 644 | 624 | 0.0 | 0 |
-| `structure.dunmer-north-nine-fords.2` | deck | dunmer-stone | 1220 | 624 | 0.0 | 0 |
-| `structure.dunmer-north-nine-fords.3` | deck | dunmer-stone | 1437 | 624 | 0.0 | 0 |
-| `structure.dunmer-north-nine-fords.4` | deck | dunmer-stone | 1987 | 624 | 0.0 | 0 |
-| `structure.dunmer-north-nine-fords.5` | deck | dunmer-stone | 2179 | 624 | 0.0 | 0 |
 | `structure.dunmer-north-nine-fords.6` | stair | dunmer-stone | 186 | 228 | -9.7 | 7 |
 | `structure.dunmer-north-nine-marks.1` | deck | dunmer-stone | 422 | 463 | -3.2 | 4 |
 | `structure.dunmer-north-nine-marks.2` | lip-step | dunmer-stone | 459 | 476 | -0.3 | 3 |
@@ -145,7 +136,6 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.dunmer-north-the-diggings-ladder.8` | stepped-ascent | dunmer-stone | 1749 | 1981 | -31.6 | 37 |
 | `structure.dunmer-north-the-diggings-ladder.9` | lip-step | dunmer-stone | 475 | 496 | 1.3 | 4 |
 | `structure.dunmer-north-the-field-gate-garrison.1` | stepped-ascent | dunmer-stone | 0 | 152 | -10.8 | 24 |
-| `structure.dunmer-north-the-field-gate-garrison.10` | deck | dunmer-stone | 4353 | 2677 | 0.0 | 0 |
 | `structure.dunmer-north-the-field-gate-garrison.11` | deck | dunmer-stone | 196 | 260 | -9.3 | 5 |
 | `structure.dunmer-north-the-field-gate-garrison.12` | stepped-ascent | dunmer-stone | 1509 | 1641 | -17.5 | 21 |
 | `structure.dunmer-north-the-field-gate-garrison.13` | stepped-ascent | dunmer-stone | 1726 | 1867 | -14.5 | 22 |
@@ -155,9 +145,6 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.dunmer-north-the-field-gate-garrison.4` | deck | dunmer-stone | 973 | 1003 | -1.8 | 3 |
 | `structure.dunmer-north-the-field-gate-garrison.5` | stepped-ascent | dunmer-stone | 1098 | 1367 | -18.6 | 41 |
 | `structure.dunmer-north-the-field-gate-garrison.6` | lip-step | dunmer-stone | 1560 | 1584 | -3.6 | 4 |
-| `structure.dunmer-north-the-field-gate-garrison.7` | deck | dunmer-stone | 3394 | 2677 | 0.0 | 0 |
-| `structure.dunmer-north-the-field-gate-garrison.8` | deck | dunmer-stone | 3611 | 2677 | 0.0 | 0 |
-| `structure.dunmer-north-the-field-gate-garrison.9` | deck | dunmer-stone | 4161 | 2677 | 0.0 | 0 |
 | `structure.dunmer-north-the-first-count.1` | lip-step | dunmer-stone | 207 | 223 | -2.1 | 3 |
 | `structure.dunmer-north-the-fish-boon-ground.1` | stair | dunmer-stone | 48 | 66 | -4.0 | 3 |
 | `structure.dunmer-north-the-last-landing.1` | lip-step | dunmer-stone | 113 | 130 | -3.1 | 3 |
@@ -210,23 +197,7 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.imperial-fringe-bone-road-waystation.7` | stepped-ascent | stone-rural | 2224 | 2653 | -53.4 | 78 |
 | `structure.imperial-fringe-bone-road-waystation.8` | stair | stone-rural | 2744 | 2811 | -10.7 | 11 |
 | `structure.imperial-fringe-bone-road-waystation.9` | deck | stone-rural | 760 | 843 | -6.8 | 10 |
-| `structure.imperial-fringe-lowmere-raft-town.1` | deck | stone-rural | 103 | 164 | 5.1 | 8 |
-| `structure.imperial-fringe-lowmere-raft-town.10` | lip-step | stone-rural | 5206 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.11` | stepped-ascent | stone-rural | 5307 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.12` | deck | stone-rural | 5721 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.13` | deck | stone-rural | 6111 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.14` | stepped-ascent | stone-rural | 6327 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.15` | lip-step | stone-rural | 6553 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.16` | lip-step | stone-rural | 6628 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.17` | lip-step | stone-rural | 6611 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.2` | deck | stone-rural | 866 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.3` | lip-step | stone-rural | 994 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.4` | deck | stone-rural | 2210 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.5` | lip-step | stone-rural | 2712 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.6` | lip-step | stone-rural | 3530 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.7` | lip-step | stone-rural | 3715 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.8` | deck | stone-rural | 3962 | 164 | 0.0 | 0 |
-| `structure.imperial-fringe-lowmere-raft-town.9` | deck | stone-rural | 4148 | 164 | 0.0 | 0 |
+| `structure.imperial-fringe-lowmere-raft-town.1` | deck | stone-rural | 103 | 164 | 5.2 | 8 |
 | `structure.imperial-fringe-marcians-terrace.1` | lip-step | stone-rural | 561 | 582 | -3.6 | 6 |
 | `structure.imperial-fringe-marcians-terrace.2` | stair | stone-rural | 643 | 662 | -4.3 | 3 |
 | `structure.imperial-fringe-marcians-terrace.3` | lip-step | stone-rural | 738 | 758 | -1.8 | 6 |
@@ -238,9 +209,6 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.imperial-fringe-mile-house-of-the-eagle.1` | lip-step | stone-rural | 152 | 170 | -1.6 | 5 |
 | `structure.imperial-fringe-moonmarch-ground.1` | lip-step | stone-rural | 72 | 94 | -0.3 | 6 |
 | `structure.imperial-fringe-onkobra-kwama-mine.1` | deck | stone-rural | 100 | 132 | 0.9 | 4 |
-| `structure.imperial-fringe-onkobra-kwama-mine.2` | lip-step | stone-rural | 256 | 150 | 0.0 | 0 |
-| `structure.imperial-fringe-onkobra-kwama-mine.3` | lip-step | stone-rural | 656 | 150 | 0.0 | 0 |
-| `structure.imperial-fringe-onkobra-kwama-mine.4` | lip-step | stone-rural | 248 | 150 | 0.0 | 0 |
 | `structure.imperial-fringe-onkobra-kwama-mine.5` | stair | stone-rural | 94 | 150 | 0.5 | 11 |
 | `structure.imperial-fringe-reedcutters-toll.1` | stair | stone-rural | 3 | 24 | -6.5 | 4 |
 | `structure.imperial-fringe-reedcutters-toll.2` | deck | stone-rural | 165 | 274 | -5.5 | 13 |
@@ -259,9 +227,7 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.imperial-fringe-stonewastes.2` | stepped-ascent | stone-rural | 399 | 527 | -9.1 | 36 |
 | `structure.imperial-fringe-stonewastes.3` | lip-step | stone-rural | 638 | 659 | -2.9 | 6 |
 | `structure.imperial-fringe-stonewastes.4` | stepped-ascent | stone-rural | 736 | 1035 | -16.3 | 76 |
-| `structure.imperial-fringe-stonewastes.5` | deck | stone-rural | 1126 | 1154 | -0.1 | 4 |
-| `structure.imperial-fringe-stonewastes.6` | deck | stone-rural | 1888 | 1154 | 0.0 | 0 |
-| `structure.imperial-fringe-stonewastes.7` | deck | stone-rural | 2187 | 1154 | 0.0 | 0 |
+| `structure.imperial-fringe-stonewastes.5` | lip-step | stone-rural | 1126 | 1154 | -0.1 | 8 |
 | `structure.imperial-fringe-stonewastes.8` | deck | stone-rural | 39 | 119 | -6.7 | 10 |
 | `structure.imperial-fringe-stonewastes.9` | lip-step | stone-rural | 202 | 220 | -2.2 | 5 |
 | `structure.imperial-fringe-swampmoth-town.1` | stepped-ascent | stone-rural | 0 | 147 | -1.8 | 31 |
@@ -319,10 +285,6 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.pirate-freeholds-dunmer-frontier-holding.15` | stepped-ascent | scaffold-timber | 1993 | 2149 | -14.0 | 25 |
 | `structure.pirate-freeholds-dunmer-frontier-holding.2` | lip-step | scaffold-timber | 355 | 373 | 2.6 | 3 |
 | `structure.pirate-freeholds-dunmer-frontier-holding.3` | stair | scaffold-timber | 509 | 582 | -3.0 | 12 |
-| `structure.pirate-freeholds-dunmer-frontier-holding.4` | deck | scaffold-timber | 4617 | 2656 | 0.0 | 0 |
-| `structure.pirate-freeholds-dunmer-frontier-holding.5` | deck | scaffold-timber | 4834 | 2656 | 0.0 | 0 |
-| `structure.pirate-freeholds-dunmer-frontier-holding.6` | deck | scaffold-timber | 5385 | 2656 | 0.0 | 0 |
-| `structure.pirate-freeholds-dunmer-frontier-holding.7` | deck | scaffold-timber | 5576 | 2656 | 0.0 | 0 |
 | `structure.pirate-freeholds-dunmer-frontier-holding.8` | lip-step | scaffold-timber | 927 | 946 | -1.8 | 3 |
 | `structure.pirate-freeholds-dunmer-frontier-holding.9` | deck | scaffold-timber | 1011 | 1114 | -8.4 | 9 |
 | `structure.pirate-freeholds-reoccupied-fort.1` | lip-step | scaffold-timber | 78 | 94 | -0.4 | 3 |
@@ -389,15 +351,15 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 | `structure.road-gideon-stormhold.3` | bridge | stone-civic | 3568 | 3600 | 2.0 | 8 |
 | `structure.road-gideon-stormhold.4` | lip-step | stone-civic | 5550 | 5574 | -0.5 | 1 |
 | `structure.road-gideon-stormhold.5` | lip-step | stone-civic | 5886 | 5910 | -0.6 | 1 |
-| `structure.road-stormhold-thorn.1` | bridge | stone-civic | 1831 | 1870 | 1.3 | 10 |
-| `structure.road-stormhold-thorn.2` | bridge | stone-civic | 2054 | 2217 | 2.8 | 39 |
-| `structure.road-stormhold-thorn.3` | lip-step | stone-civic | 2299 | 2318 | 0.9 | 1 |
-| `structure.road-stormhold-thorn.4` | bridge | stone-civic | 11579 | 11631 | 2.2 | 13 |
-| `structure.road-stormhold-thorn.5` | lip-step | stone-civic | 1825 | 1843 | 1.0 | 1 |
-| `structure.road-stormhold-thorn.6` | lip-step | stone-civic | 2045 | 2065 | -0.4 | 1 |
-| `structure.road-stormhold-thorn.7` | lip-step | stone-civic | 2292 | 2310 | 0.9 | 1 |
-| `structure.road-stormhold-thorn.8` | bridge | stone-civic | 11524 | 11579 | 3.9 | 13 |
-| `structure.road-stormhold-thorn.9` | stepped-ascent | stone-civic | 11570 | 11588 | 3.0 | 1 |
+| `structure.road-stormhold-thorn.1` | bridge | stone-civic | 1831 | 1870 | 0.7 | 10 |
+| `structure.road-stormhold-thorn.2` | bridge | stone-civic | 2054 | 2217 | 3.9 | 39 |
+| `structure.road-stormhold-thorn.3` | lip-step | stone-civic | 2299 | 2318 | 1.0 | 1 |
+| `structure.road-stormhold-thorn.4` | bridge | stone-civic | 11579 | 11631 | 1.6 | 13 |
+| `structure.road-stormhold-thorn.5` | lip-step | stone-civic | 1825 | 1843 | 0.8 | 1 |
+| `structure.road-stormhold-thorn.6` | lip-step | stone-civic | 2045 | 2065 | -0.7 | 1 |
+| `structure.road-stormhold-thorn.7` | lip-step | stone-civic | 2292 | 2310 | 0.1 | 1 |
+| `structure.road-stormhold-thorn.8` | bridge | stone-civic | 11524 | 11579 | 4.7 | 13 |
+| `structure.road-stormhold-thorn.9` | lip-step | stone-civic | 11570 | 11588 | 1.1 | 1 |
 | `structure.road-thorn-tear-road.1` | bridge | stone-civic | 388 | 668 | -18.3 | 67 |
 | `structure.road-thorn-tear-road.2` | stepped-ascent | stone-civic | 887 | 939 | -9.9 | 3 |
 

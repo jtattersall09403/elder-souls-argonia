@@ -16,7 +16,8 @@ import json
 import numpy as np
 
 from .grade_routes import STRUCTURES_PATH
-from .author_route_structures import _kind, _window_rise
+from .author_route_structures import (_kind, _reconcile_prior_windows,
+                                      _way_length_m, _window_rise)
 
 
 def test_no_shipped_route_structure_is_unauthored():
@@ -50,3 +51,24 @@ def test_structure_kind_uses_exact_window_endpoints():
 
     assert rise == 5.2
     assert _kind(20.0, rise, worst_deg=10.0, way_kind="trail") == "stair"
+
+
+def test_prior_windows_follow_a_rerouted_way_endpoint():
+    way = {"id": "track.region.place", "kind": "track", "px": [[0, 0], [10, 0]]}
+    end_m = _way_length_m(way)
+    prior = [
+        {"id": "structure.valid", "wayId": way["id"], "fromM": 5, "toM": 10},
+        {"id": "structure.crosses", "wayId": way["id"],
+         "fromM": end_m - 5, "toM": end_m + 20},
+        {"id": "structure.past", "wayId": way["id"],
+         "fromM": end_m + 10, "toM": end_m + 20},
+        {"id": "structure.missing", "wayId": "track.region.gone",
+         "fromM": 5, "toM": 10},
+    ]
+
+    kept, dropped, clipped = _reconcile_prior_windows(prior, {way["id"]: way})
+
+    assert [row["id"] for row in kept] == ["structure.valid", "structure.crosses"]
+    assert kept[1]["toM"] == round(end_m, 2)
+    assert [row[0]["id"] for row in dropped] == ["structure.past", "structure.missing"]
+    assert [row[0]["id"] for row in clipped] == ["structure.crosses"]

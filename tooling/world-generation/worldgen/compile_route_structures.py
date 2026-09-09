@@ -45,6 +45,9 @@ from __future__ import annotations
 
 import json
 import math
+import os
+import shutil
+import tempfile
 from pathlib import Path
 
 import numpy as np
@@ -227,6 +230,12 @@ def compile_structure(st: dict, way: dict, heights: np.ndarray,
     chain, xs, zs, hs = _profile(way, heights)
     a, b = float(st["fromM"]), min(float(st["toM"]), float(chain[-1]))
     span = max(b - a, 0.0)
+    if span <= 0.05:
+        raise ValueError(
+            f"{st['id']}: authored window {a:.2f}-{float(st['toM']):.2f} m "
+            f"does not overlap the current {float(chain[-1]):.2f} m route; "
+            "re-run author_route_structures against the current route geometry"
+        )
     _, _, ha = _at(chain, xs, zs, hs, a)
     _, _, hb = _at(chain, xs, zs, hs, b)
     rise = hb - ha
@@ -408,6 +417,42 @@ def studio_export(by_way: dict[str, dict], rows: list[dict]) -> dict:
             "structures": out}
 
 
+def publish_route_outputs(by_way: dict[str, dict], out_dir: Path = OUT_DIR) -> None:
+    """Publish the exact compiled file set without retaining stale way files.
+
+    Every JSON is completed in a sibling staging directory before the prior
+    shelf moves aside. A failed write leaves the old complete shelf in place;
+    a process death during the two renames leaves no shelf rather than a stale
+    file falsely satisfying an authored way.
+    """
+    out_dir.parent.mkdir(parents=True, exist_ok=True)
+    stage = Path(tempfile.mkdtemp(prefix=f".{out_dir.name}.stage.", dir=out_dir.parent))
+    backup = stage.with_name(f"{stage.name}.previous")
+    old_moved = False
+    try:
+        for wid, doc in sorted(by_way.items()):
+            slug = wid.split(".", 1)[1].replace(".", "-")
+            (stage / f"{slug}.json").write_text(
+                json.dumps(doc, indent=2, sort_keys=True) + "\n")
+        if out_dir.exists():
+            os.replace(out_dir, backup)
+            old_moved = True
+        os.replace(stage, out_dir)
+        if old_moved:
+            shutil.rmtree(backup)
+            old_moved = False
+    except Exception:
+        if old_moved and not out_dir.exists() and backup.exists():
+            os.replace(backup, out_dir)
+            old_moved = False
+        raise
+    finally:
+        if stage.exists():
+            shutil.rmtree(stage)
+        if backup.exists() and not old_moved:
+            shutil.rmtree(backup)
+
+
 def main() -> None:
     from .compile_chunks import DEFAULT_HEIGHTS
     from .grade_routes import STRETCHES_PATH
@@ -417,11 +462,7 @@ def main() -> None:
     structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
     heights = np.load(DEFAULT_HEIGHTS)
     by_way, rows = compile_all(structures, {w["id"]: w for w in ways()}, heights, kit)
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    for wid, doc in sorted(by_way.items()):
-        slug = wid.split(".", 1)[1].replace(".", "-")
-        (OUT_DIR / f"{slug}.json").write_text(
-            json.dumps(doc, indent=2, sort_keys=True) + "\n")
+    publish_route_outputs(by_way)
     residual = residual_over_cap(json.loads(STRETCHES_PATH.read_text()), structures)
     write_report(rows, residual, REPORT_PATH)
     STUDIO_PATH.write_text(json.dumps(studio_export(by_way, rows),

@@ -44,6 +44,7 @@ from .grade_routes import (GRADIENT_CAP_DEG, STRETCHES_PATH, STRUCTURES_PATH,
 from .scale import RAW_M
 
 SCHEMA_VERSION = 1
+CHAINAGE_TOLERANCE_M = 0.05
 
 # Two over-cap stretches closer together than this are one structure: a flight
 # does not stop and restart across ten metres of level ground.
@@ -356,33 +357,79 @@ def merged_stretches(way: dict, stretches: list[dict], cap: float,
 GRADIENT_CAP_KIND: dict[str, str] = {}      # wayId -> class, filled by author()
 
 
+def _way_length_m(way: dict) -> float:
+    """Current resampled chainage length for a published route."""
+    pts = resample(way["px"])
+    if len(pts) < 2:
+        return 0.0
+    return float(np.hypot(*np.diff(pts, axis=0).T).sum() * RAW_M)
+
+
+def _reconcile_prior_windows(prior: list[dict], ways_by_id: dict) \
+        -> tuple[list[dict], list[tuple[dict, str]], list[tuple[dict, float]]]:
+    """Bind carried windows to the current geometry of their named way.
+
+    A minor route may keep its stable id while a terrain rebuild replaces its
+    polyline. Raw chainage beyond the new endpoint does not name ground on the
+    current route and therefore cannot remain authored structure evidence.
+    Windows crossing the endpoint are clipped to that measured endpoint; a
+    window starting there is dropped rather than compiled as zero pieces.
+    """
+    kept: list[dict] = []
+    dropped: list[tuple[dict, str]] = []
+    clipped: list[tuple[dict, float]] = []
+    for stored in prior:
+        way = ways_by_id.get(stored["wayId"])
+        if way is None:
+            dropped.append((stored, "way no longer exists in the current route set"))
+            continue
+        end_m = _way_length_m(way)
+        start_m = float(stored["fromM"])
+        to_m = float(stored["toM"])
+        if start_m >= end_m - CHAINAGE_TOLERANCE_M:
+            dropped.append((
+                stored,
+                f"window starts at {start_m:.2f} m but the current route ends at {end_m:.2f} m",
+            ))
+            continue
+        current = dict(stored)
+        if to_m > end_m:
+            endpoint = round(end_m, 2)
+            if endpoint < to_m:
+                current["toM"] = endpoint
+                clipped.append((stored, end_m))
+        kept.append(current)
+    return kept, dropped, clipped
+
+
 def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
            survivors: set[str], prior: list[dict] | None = None) -> dict:
-    """Existing structures are kept and added to, never replaced.
+    """Valid existing structures are kept and new measured windows are added.
 
     Exempting a structure's window moves the profile at its landings, which can
     expose a short new over-cap stretch next door; the grader then reports that
     way as a survivor again. Re-running this module adds a structure for the
-    new stretch and leaves the ones already authored alone, so author → grade →
-    author converges instead of oscillating.
+    new stretch and leaves still-valid authored windows alone, so author →
+    grade → author converges instead of oscillating. A re-routed way is the
+    exception: chainage at or beyond its new endpoint no longer names ground.
     """
     # Prior windows are kept, but their kind, rise and piece are re-derived on
     # the current surface: the record must be a pure function of the ground it
     # describes, not of the order the passes happened to run in.
     GRADIENT_CAP_KIND.update({e["wayId"]: e["kind"] for e in stretch_doc["ways"]})
     GRADIENT_CAP_KIND.update({w["id"]: w["kind"] for w in ways_by_id.values()})
-    # A stored structure whose way no longer exists cannot be built: re-routing
-    # on re-carved terrain produces a different set of minor tracks. Drop it,
-    # loudly — never silently.
-    kept, dropped = [], []
-    for s in (prior or []):
-        (kept if s["wayId"] in ways_by_id else dropped).append(s)
-    for s in dropped:
-        print(f"dropped stored structure {s['id']}: way {s['wayId']} "
-              "no longer exists in the current route set")
+    # A stored structure whose way disappeared, or whose raw chainage is past
+    # a re-routed way's new endpoint, cannot be built. Reconcile it loudly;
+    # keeping the same way id is not evidence that old chainage still exists.
+    kept, dropped, clipped = _reconcile_prior_windows(prior or [], ways_by_id)
+    for s, reason in dropped:
+        print(f"dropped stored structure {s['id']}: {reason}")
     if dropped:
         print(f"{len(dropped)} stored structures dropped "
-              f"({len({s['wayId'] for s in dropped})} missing ways)")
+              f"({len({s['wayId'] for s, _reason in dropped})} changed/missing ways)")
+    for s, end_m in clipped:
+        print(f"clipped stored structure {s['id']} from {float(s['toM']):.2f} m "
+              f"to current route endpoint {end_m:.2f} m")
     structures = [_refresh(s, ways_by_id, heights) for s in kept]
     taken: dict[str, list[tuple[float, float]]] = {}
     counts: dict[str, int] = {}

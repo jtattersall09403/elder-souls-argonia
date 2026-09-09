@@ -817,47 +817,47 @@
       "pieces": 10,
       "pointsM": [
         [
-          3475.864,
+          3482.289,
           482.55
         ],
         [
-          3480.08,
+          3486.505,
           482.55
         ],
         [
-          3484.296,
+          3490.721,
           482.55
         ],
         [
-          3488.512,
+          3494.937,
           482.55
         ],
         [
-          3492.728,
-          482.55
+          3498.957,
+          483.021
         ],
         [
-          3496.944,
-          482.55
+          3501.939,
+          486.003
         ],
         [
-          3500.377,
-          484.441
+          3504.92,
+          488.984
         ],
         [
-          3503.358,
-          487.422
+          3507.901,
+          491.965
         ],
         [
-          3506.339,
-          490.403
+          3510.882,
+          494.946
         ],
         [
-          3509.32,
-          493.384
+          3513.863,
+          497.927
         ]
       ],
-      "riseM": 1.3,
+      "riseM": 0.73,
       "spanM": 38.4,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -869,163 +869,163 @@
       "pieces": 39,
       "pointsM": [
         [
-          3632.504,
-          539.799
-        ],
-        [
-          3635.486,
-          542.78
-        ],
-        [
-          3639.665,
+          3637.657,
           542.868
         ],
         [
-          3643.054,
-          544.865
+          3641.634,
+          543.446
         ],
         [
-          3646.035,
-          547.846
+          3644.616,
+          546.427
         ],
         [
-          3649.016,
-          550.827
+          3647.597,
+          549.408
         ],
         [
-          3651.997,
-          553.809
+          3650.578,
+          552.389
         ],
         [
-          3654.979,
-          556.79
+          3653.559,
+          555.37
         ],
         [
-          3657.96,
-          559.771
+          3656.54,
+          558.351
         ],
         [
-          3660.941,
-          562.752
+          3659.521,
+          561.333
+        ],
+        [
+          3662.502,
+          564.314
         ],
         [
           3662.991,
-          566.119
+          568.327
         ],
         [
-          3663.026,
-          570.321
+          3664.587,
+          571.882
         ],
         [
-          3666.007,
-          573.302
+          3667.569,
+          574.863
         ],
         [
-          3668.988,
-          576.283
+          3670.55,
+          577.844
         ],
         [
-          3671.969,
-          579.264
+          3673.531,
+          580.826
         ],
         [
-          3674.95,
-          582.245
+          3676.512,
+          583.807
         ],
         [
-          3677.932,
-          585.226
+          3679.493,
+          586.788
         ],
         [
-          3680.913,
-          588.208
-        ],
-        [
-          3683.894,
-          591.189
+          3682.474,
+          589.769
         ],
         [
           3684.925,
-          594.977
+          592.97
         ],
         [
-          3685.979,
-          598.757
+          3684.925,
+          597.186
         ],
         [
-          3688.96,
-          601.738
+          3687.54,
+          600.319
         ],
         [
-          3691.941,
-          604.719
+          3690.522,
+          603.3
         ],
         [
-          3694.922,
-          607.701
+          3693.503,
+          606.281
         ],
         [
           3695.892,
-          611.515
+          609.507
         ],
         [
-          3697.007,
-          615.269
+          3695.892,
+          613.723
         ],
         [
-          3699.988,
-          618.25
+          3698.569,
+          616.831
         ],
         [
-          3699.122,
+          3701.13,
           619.638
         ],
         [
-          3696.59,
-          620.335
+          3696.914,
+          619.638
         ],
         [
-          3699.571,
-          623.316
+          3698.151,
+          621.897
         ],
         [
-          3702.552,
-          626.297
+          3701.132,
+          624.878
         ],
         [
-          3705.533,
-          629.279
+          3704.114,
+          627.859
         ],
         [
-          3708.514,
-          632.26
+          3707.095,
+          630.84
         ],
         [
-          3711.496,
-          635.241
+          3710.076,
+          633.821
         ],
         [
           3712.343,
-          639.106
+          637.098
         ],
         [
-          3713.58,
-          642.809
+          3712.343,
+          641.314
         ],
         [
-          3716.562,
-          645.79
-        ],
-        [
-          3717.827,
-          649.482
+          3715.142,
+          644.371
         ],
         [
           3717.827,
-          653.698
+          647.475
+        ],
+        [
+          3717.827,
+          651.691
+        ],
+        [
+          3717.827,
+          655.907
+        ],
+        [
+          3719.927,
+          658.022
         ]
       ],
-      "riseM": 2.78,
+      "riseM": 3.87,
       "spanM": 163.4,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -1037,11 +1037,11 @@
       "pieces": 1,
       "pointsM": [
         [
-          3777.974,
-          696.235
+          3782.516,
+          692.036
         ]
       ],
-      "riseM": 0.92,
+      "riseM": 0.99,
       "spanM": 19.7,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -1053,59 +1053,59 @@
       "pieces": 13,
       "pointsM": [
         [
-          6202.346,
-          910.264
+          6201.539,
+          904.459
         ],
         [
-          6201.861,
-          906.533
-        ],
-        [
-          6200.119,
-          903.039
-        ],
-        [
-          6197.138,
-          900.058
+          6198.558,
+          901.477
         ],
         [
           6196.378,
-          896.157
+          898.164
         ],
         [
           6196.378,
-          891.941
+          893.948
         ],
         [
           6196.378,
-          887.725
+          889.732
         ],
         [
           6196.378,
-          883.509
+          885.516
         ],
         [
-          6193.865,
-          880.334
+          6195.284,
+          881.753
         ],
         [
-          6190.905,
-          877.353
+          6192.303,
+          878.772
         ],
         [
-          6193.886,
-          874.371
+          6192.466,
+          875.791
+        ],
+        [
+          6195.447,
+          872.81
         ],
         [
           6196.378,
-          871.188
+          868.979
         ],
         [
           6196.378,
-          866.972
+          864.763
+        ],
+        [
+          6196.378,
+          860.547
         ]
       ],
-      "riseM": 2.17,
+      "riseM": 1.62,
       "spanM": 52.7,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -1117,11 +1117,11 @@
       "pieces": 1,
       "pointsM": [
         [
-          3469.913,
-          481.395
+          3475.859,
+          482.55
         ]
       ],
-      "riseM": 0.99,
+      "riseM": 0.82,
       "spanM": 17.8,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -1133,11 +1133,11 @@
       "pieces": 1,
       "pointsM": [
         [
-          3626.664,
-          533.958
+          3631.206,
+          538.501
         ]
       ],
-      "riseM": -0.38,
+      "riseM": -0.69,
       "spanM": 19.7,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -1149,11 +1149,11 @@
       "pieces": 1,
       "pointsM": [
         [
-          3773.427,
-          691.689
+          3777.97,
+          696.231
         ]
       ],
-      "riseM": 0.89,
+      "riseM": 0.1,
       "spanM": 17.8,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -1165,59 +1165,59 @@
       "pieces": 13,
       "pointsM": [
         [
-          6223.795,
-          900.698
+          6222.14,
+          906.436
         ],
         [
-          6223.701,
-          904.875
+          6219.158,
+          909.418
         ],
         [
-          6220.72,
-          907.856
+          6216.177,
+          908.13
         ],
         [
-          6217.739,
-          909.691
-        ],
-        [
-          6214.758,
-          906.71
+          6213.196,
+          905.149
         ],
         [
           6212.828,
-          903.294
+          901.085
         ],
         [
           6212.828,
-          899.078
+          896.869
         ],
         [
-          6212.828,
-          894.862
+          6212.007,
+          894.634
         ],
         [
-          6210.588,
-          896.054
-        ],
-        [
-          6207.607,
-          899.035
+          6209.026,
+          897.616
         ],
         [
           6207.345,
-          903.143
+          901.135
         ],
         [
           6207.345,
-          907.359
+          905.351
         ],
         [
-          6206.034,
+          6207.345,
+          909.567
+        ],
+        [
+          6203.826,
           910.264
+        ],
+        [
+          6201.861,
+          908.013
         ]
       ],
-      "riseM": 3.87,
+      "riseM": 4.71,
       "spanM": 54.5,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -1225,15 +1225,15 @@
     {
       "family": "stone-civic",
       "id": "structure.road-stormhold-thorn.9",
-      "kind": "stepped-ascent",
+      "kind": "lip-step",
       "pieces": 1,
       "pointsM": [
         [
-          6207.345,
-          906.803
+          6204.382,
+          910.264
         ]
       ],
-      "riseM": 2.95,
+      "riseM": 1.08,
       "spanM": 17.8,
       "wayId": "route.road.stormhold-thorn",
       "why": "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace."
@@ -11709,7 +11709,7 @@
           3098.189
         ]
       ],
-      "riseM": 5.11,
+      "riseM": 5.22,
       "spanM": 61.0,
       "wayId": "track.imperial-fringe.lowmere-raft-town",
       "why": "Lowmere sits at the bottom of a long ravine. The path is its dry approach, so the last descent is stepped rather than dug into a wall that already sheds."
@@ -13709,24 +13709,40 @@
     {
       "family": "stone-rural",
       "id": "structure.imperial-fringe-stonewastes.5",
-      "kind": "deck",
-      "pieces": 4,
+      "kind": "lip-step",
+      "pieces": 8,
       "pointsM": [
         [
           1990.792,
           3975.826
         ],
         [
-          1997.131,
+          1993.366,
+          3978.4
+        ],
+        [
+          1995.941,
+          3980.975
+        ],
+        [
+          1999.557,
           3981.036
         ],
         [
-          2004.414,
-          3983.965
+          2002.696,
+          3982.247
         ],
         [
-          2010.423,
-          3989.973
+          2005.271,
+          3984.821
+        ],
+        [
+          2007.845,
+          3987.396
+        ],
+        [
+          2010.42,
+          3989.97
         ]
       ],
       "riseM": -0.14,
