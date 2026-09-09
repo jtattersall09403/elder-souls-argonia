@@ -225,7 +225,7 @@ before the rebuild:
 
 Sap-Tapping is a missing authored-water delivery, not permission to move its
 settlement geometry. The blueprint's dock, network terminal and local canal
-end exactly at `[3478.500, 4373.000]` m; its 11.86 m plank walk and the licence
+end exactly at `[3478.500, 4373.000] (SUPERSEDED — that berth moved 2026-09-09)` m; its 11.86 m plank walk and the licence
 board facing 318° depend on a canoe arriving from the north-west. The published
 minor route instead replaces a wet-only A\* cell 92.94 m to the south-west with
 the berth coordinate, fabricating a dry straight join: independent 2 m samples
@@ -239,7 +239,7 @@ landing away from the board.
 exact final centreline points
 `[3462.599, 4365.853]`, `[3467.099, 4370.353]`,
 `[3472.922, 4370.277]`, `[3476.099, 4373.353]`,
-`[3478.500, 4373.000]`; choose a measured same-level receiving branch and
+`[3478.500, 4373.000] (SUPERSEDED — that berth moved 2026-09-09)`; choose a measured same-level receiving branch and
 extend the outward head to it, then author, carve and publish the full line as
 one physical channel. Do not guess that outward head from the already-published
 water route: the nearest natural channel station is about 99 m away, beyond the

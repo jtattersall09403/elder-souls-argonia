@@ -162,7 +162,15 @@ five exemplars were re-derived; 127 focused tests and `blueprint --check` pass.
 **Alongside water?** G18, G19, G9, G13 yes; G8 and G11 need the raster
 chain, so with B2.
 
-### B11 — Sap-Tapping's landing is 91 m from any water (measured 2026-09-09)
+### B11 — Sap-Tapping's landing is 91 m from any water — **DONE 2026-09-09**
+
+**Closed:** the owner chose to move the place. The landing now stands in 0.60 m of
+compiled water at the head of reach 118 and its approach dredges to 0.85 m with no
+blocked sample; the anchor moved 117.7 m on bearing 212. The record's two false
+claims about its channel were rewritten and reviewed. Original measurements below,
+kept because they are the evidence for the move.
+
+#### Original finding
 
 **The berth is wrong, not the water.** `dock.sap-tapping-licensed.landing` sits
 at (3478.5, 4373.0) on ground 30.52 m, class `none`, dry. The nearest water a
