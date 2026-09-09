@@ -126,11 +126,15 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     terminal's way, and no road/track way crosses the boundary
                     anywhere else (an unplanned second entrance).
   scaleGrounding    REQUIRED: {loreSource, population (int or "a–b"),
-                    households, buildingsPlanned, npcsPlanned, why} — the
+                    households, buildingsPlanned, npcsPlanned, why,
+                    densityForm?} — the
                     place's size derived from the lore/demographics, with the
                     count of BUILDINGS AND STRUCTURES (`parcel_kinds`: props
                     and stacked pieces do not count) within ±25 % of
-                    buildingsPlanned.
+                    buildingsPlanned. `densityForm` is `settlement` by default;
+                    use `works-yard` for a compact exterior production yard
+                    whose habitation is elsewhere. Each form still has a
+                    measured density band; this is not an exemption.
   parcels may carry `abuts: [<parcel id>, ...]` + `abutsWhy` — the declared
                     exception to the 8 m spacing floor (97 C5) for pieces the
                     KIT authored to snap together (a hut on its deck, a shed
@@ -504,6 +508,13 @@ PASSAGE_MIN_M = 1.3
 # (`DENSITY_CLASSES`).
 DENSITY_BAND = {"M2": (15.0, 33.0), "M3": (7.0, 16.0), "M4": (4.0, 11.0), "M5": (4.0, 11.0)}
 DENSITY_CLASSES = {"settlement"}
+# A works yard measures the deliberately compact surface plant, not the homes
+# and civic fabric represented by a settlement band.  It therefore has its own
+# checked band instead of silently skipping C6.  Mazzatun's exterior was the
+# motivating case: the occupied city is underground, while the authored shelf
+# is a dense loading, smelting and scaffold yard.
+DENSITY_FORM_BAND = {"works-yard": (20.0, 60.0)}
+DENSITY_FORMS = {"settlement", *DENSITY_FORM_BAND}
 # Below this the band is noise: one hut inside its own 15 m clearance can never
 # reach a hamlet's 15/ha, and saying so tells nobody anything.
 MIN_PARCELS_FOR_DENSITY = 4
@@ -974,14 +985,17 @@ def _placement_warnings(bp: dict) -> list[str]:
     # tightness. Measured over the BUILT hull, and only for settlements: the
     # bands were mined from settlements, so a lair or a works camp judged on
     # them is a number about nothing (audit §6.3).
-    band = DENSITY_BAND.get(cls)
+    density_form = (bp.get("scaleGrounding") or {}).get("densityForm", "settlement")
+    band = (DENSITY_BAND.get(cls) if density_form == "settlement"
+            else DENSITY_FORM_BAND.get(density_form))
     area_ha = built_hull_area_ha(bp, parcels)
     if (band and area_ha > 0 and len(parcels) >= MIN_PARCELS_FOR_DENSITY
             and (record_class in DENSITY_CLASSES or not record)):
         density = len(parcels) / area_ha
         if not (band[0] <= density <= band[1]):
             out.append(f"{bid}: 97 C6 — {len(parcels)} buildings and structures over {area_ha:.2f} ha of "
-                       f"built hull is {density:.1f}/ha; the {cls} band is {band[0]:.0f}–{band[1]:.0f}/ha "
+                       f"built hull is {density:.1f}/ha; the {density_form} {cls} band is "
+                       f"{band[0]:.0f}–{band[1]:.0f}/ha "
                        f"(spread the pieces or close them up; the hull is the parcels, not the boundary)")
 
     # 97 C7 — the building mix follows the ladder and the lore. Buildings only:
@@ -1962,6 +1976,10 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             if k not in sg:
                 fail(f"scaleGrounding.{k} is required (size derived from lore, module 92)")
         bpn = sg.get("buildingsPlanned")
+        density_form = sg.get("densityForm", "settlement")
+        if density_form not in DENSITY_FORMS:
+            fail(f"scaleGrounding.densityForm must be one of {sorted(DENSITY_FORMS)}, "
+                 f"not {density_form!r}")
         # 97 D7: the plan counts BUILDINGS AND STRUCTURES. A rack, an oven or a
         # notice board is dressing, and the top of a scaffold is the same
         # structure seen from higher up — neither is a second building (audit

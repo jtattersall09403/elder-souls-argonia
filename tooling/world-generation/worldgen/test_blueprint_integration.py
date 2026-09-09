@@ -233,6 +233,26 @@ def test_gate_spans_passes_when_the_road_runs_through_the_arch(survey):
     assert check_integration(bp, survey) == []
 
 
+def test_gate_spans_accepts_only_serialisation_scale_edge_drift(survey):
+    bp = _bp(
+        parcels=[parcel("parcel.stub.gate", 100, 200, spans="route.stub.road")],
+        routes=[way("route.stub.road", [(50, 200), (89.999, 200)], kind="road",
+                    endsAt=["parcel.stub.gate"])],
+    )
+    errs = check_integration(bp, survey)
+    assert not any("does not stand across route.stub.road" in e for e in errs)
+
+
+def test_gate_spans_still_rejects_a_real_gap_beyond_rounding(survey):
+    bp = _bp(
+        parcels=[parcel("parcel.stub.gate", 100, 200, spans="route.stub.road")],
+        routes=[way("route.stub.road", [(50, 200), (89.98, 200)], kind="road",
+                    endsAt=["parcel.stub.gate"])],
+    )
+    errs = check_integration(bp, survey)
+    assert any("does not stand across route.stub.road" in e for e in errs)
+
+
 # --- door-to-way ----------------------------------------------------------- #
 
 def test_door_to_way_fails_when_the_door_opens_onto_nothing(survey):

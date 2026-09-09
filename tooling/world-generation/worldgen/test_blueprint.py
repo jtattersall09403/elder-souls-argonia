@@ -649,6 +649,33 @@ def test_density_skips_a_lair_and_counts_no_props(monkeypatch):
     assert not any("97 C6" in w for w in warns), warns
 
 
+def test_compact_works_yard_has_its_own_checked_density_band():
+    """97 C6 — compact exterior plant is measured, not exempted or mistaken
+    for the full above-ground fabric of a settlement."""
+    compact = _yaw_parcels([0, 20, 45, 70, 100, 130, 165, 200, 240, 300])
+    for i, parcel in enumerate(compact):
+        u = 0.13 + i * 0.0003       # ~2 m bays: exterior plant, not housing
+        parcel["centreUV"] = [u, 0.13]
+        parcel["footprint"] = _derived(centre_uv=[u, 0.13], yaw=parcel["yawDeg"])
+    grounding = {**_bp()["scaleGrounding"], "buildingsPlanned": 10}
+    _errs, settlement_warns = blueprint.validate_blueprint_full(
+        _bp(parcels=compact, doors=[], scaleGrounding=grounding), KNOWN)
+    assert any("97 C6" in w and "settlement M2 band" in w
+               for w in settlement_warns), settlement_warns
+
+    _errs, works_warns = blueprint.validate_blueprint_full(
+        _bp(parcels=compact, doors=[],
+            scaleGrounding={**grounding, "densityForm": "works-yard"}), KNOWN)
+    assert not any("97 C6" in w for w in works_warns), works_warns
+
+
+def test_density_form_must_name_a_checked_model():
+    grounding = {**_bp()["scaleGrounding"], "densityForm": "special-case"}
+    errs = blueprint.validate_blueprint(
+        _bp(scaleGrounding=grounding), KNOWN)
+    assert any("densityForm must be one of" in e for e in errs), errs
+
+
 def test_scale_grounding_counts_buildings_and_structures_not_props():
     """97 D7 / audit §6.5 — a stacked deck is the same structure seen from
     higher up, and a prop is dressing; neither is a second building."""

@@ -99,6 +99,7 @@ OVERLAP_M = 1.5
 OVERLAP_RUN_M = 6.0
 DOOR_REACH_M = 4.0
 THROUGH_AREA_M2 = 2.0      # an attached way may brush the edge it ends at; more than this is running through
+GATE_EDGE_ROUNDING_M = 0.01  # derived UV points are rounded to 9 dp; accept only centimetre-scale edge drift
 ABUT_EXEMPT_USES = {"wall", "fence", "palisade", "hedge"}   # 97 C10 enclosure
 # 97 C5 `worksWith` (decision 2026-09-07): a trade contact — a hoist against the
 # rock face it works, an oven beside its rack. The kit authored no snap for the
@@ -308,7 +309,12 @@ def check_integration(bp: dict, survey) -> list[str]:
             continue
         _k, _w, ln = by_way[span]
         poly = polys.get(pid)
-        if poly is None or not ln.intersects(poly):
+        # `street_router` snaps an `endsAt` endpoint to the exact footprint
+        # edge, then serialises UV at nine decimal places. That final rounding
+        # can put the reconstructed line a few micrometres outside the polygon.
+        # A centimetre covers only that numeric drift; it does not forgive a
+        # gate that actually stands beside its road.
+        if poly is None or ln.distance(poly) > GATE_EDGE_ROUNDING_M:
             errors.append(f"integration: gate {pid} does not stand across {span} — the way must pass through the gate's footprint")
             continue
         if p.get("use") != "gate":

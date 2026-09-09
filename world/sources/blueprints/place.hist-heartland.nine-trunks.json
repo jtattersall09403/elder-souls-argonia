@@ -270,32 +270,36 @@
             0.514160038
           ],
           [
-            0.666510441,
-            0.514549521
+            0.666505591,
+            0.514556796
           ],
           [
-            0.666200473,
-            0.517167419
+            0.666198239,
+            0.518061213
           ],
           [
-            0.666542047,
-            0.517679858
+            0.666268234,
+            0.518761251
           ],
           [
-            0.66681039,
-            0.517867755
+            0.666493953,
+            0.518994988
           ],
           [
-            0.667614471,
-            0.517814499
+            0.667088202,
+            0.519268138
           ],
           [
-            0.670143303,
-            0.516050108
+            0.667691623,
+            0.519015894
           ],
           [
-            0.670875982,
-            0.515456882
+            0.66780512,
+            0.518906291
+          ],
+          [
+            0.670896672,
+            0.515415538
           ],
           [
             0.671039791,
@@ -1071,7 +1075,7 @@
       {
         "id": "parcel.nine-trunks.hut-pitch-taker",
         "districtId": "district.nine-trunks.ring",
-        "use": "dwelling",
+        "use": "shop",
         "buildingFamily": "argonian-mud-hut",
         "groundFit": "pad",
         "centreUV": [
@@ -1082,7 +1086,7 @@
         "orientationWhy": "Turned to 337.2°, its doorway on 89° onto the ring walk, so the pitch-taker steps out onto the walk that runs to the gate.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
-          "kind": "dwelling"
+          "kind": "shop"
         },
         "playerPurpose": [
           {
@@ -1103,8 +1107,8 @@
           }
         ],
         "why": {
-          "what": "The pitch-rights taker's hut, in the first gap west of the gate.",
-          "whyHere": "The village's trade is rent; the household which takes it lives beside the gate through which every payer comes.",
+          "what": "The pitch-rights office, kept by its household in the first gap west of the gate.",
+          "whyHere": "The village's trade is rent; the household which takes it works beside the gate through which every payer comes.",
           "whySpot": "The first gap on the water side of the gate, from whose door both the gate and the landing path are in view.",
           "whyNeighbours": "It shares the water-side trunk with the gate and stands over the chime frame its household dresses.",
           "playerPurpose": "The quest-giver's home for Pitch-Rights and the household paid to leave the baggage shut in Under the Overflow.",
@@ -1666,8 +1670,8 @@
           0.6739642,
           0.5090247
         ],
-        "yawDeg": 6.0,
-        "orientationWhy": "The deck faces the elder trunk across the clearing, because the watcher's post exists to watch that trunk.",
+        "yawDeg": 119.0,
+        "orientationWhy": "The platform's authored open side faces south-east towards the talk path, while the watcher still looks north across the low deck to the elder trunk.",
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianplatform",
         "interior": {
           "kind": "none"
@@ -1682,68 +1686,68 @@
         },
         "footprint": [
           [
-            0.673941352,
-            0.509086391
+            0.67391634,
+            0.508979563
           ],
           [
-            0.67395631,
-            0.508957051
+            0.674029555,
+            0.50904387
           ],
           [
-            0.673980073,
-            0.508847727
+            0.674120903,
+            0.50910846
           ],
           [
-            0.673980073,
-            0.508847727
+            0.674120903,
+            0.50910846
           ],
           [
-            0.67416663,
-            0.508863243
+            0.674033726,
+            0.509274124
           ],
           [
-            0.6742543,
-            0.508872458
+            0.673990988,
+            0.509351224
           ],
           [
-            0.674329832,
-            0.508880397
+            0.673954168,
+            0.50941765
           ],
           [
-            0.674334235,
-            0.508890405
+            0.673943235,
+            0.509417792
           ],
           [
-            0.674329921,
-            0.508996319
+            0.673847427,
+            0.509372438
           ],
           [
-            0.674316668,
-            0.509135384
+            0.673724594,
+            0.509305901
           ],
           [
-            0.674298227,
-            0.509232995
+            0.673641949,
+            0.509250786
           ],
           [
-            0.67429184,
-            0.509241869
+            0.673636276,
+            0.509241439
           ],
           [
-            0.674216308,
-            0.50923393
+            0.673673096,
+            0.509175014
           ],
           [
-            0.674128638,
-            0.509224716
+            0.673715834,
+            0.509097913
           ],
           [
-            0.673942932,
-            0.509201106
+            0.673810127,
+            0.508936195
           ],
           [
-            0.673942932,
-            0.509201106
+            0.673810127,
+            0.508936195
           ]
         ],
         "service": "shrine",
@@ -1766,8 +1770,8 @@
           0.672681,
           0.508534
         ],
-        "yawDeg": 242.2,
-        "orientationWhy": "The arch stands square across the heartland track where it reaches the ring, so a walker passes through the opening rather than round the posts.",
+        "yawDeg": 220.0,
+        "orientationWhy": "The arch faces on the heartland track's measured 220° bearing, placing its long frame square across the road so a walker passes through the opening rather than round the posts.",
         "assetRef": "mudmother:gv_meshes/argoniannest/archwaysticks",
         "spans": "route.nine-trunks.spur",
         "interior": {
@@ -1783,36 +1787,36 @@
         },
         "footprint": [
           [
-            0.672622462,
-            0.510039766
+            0.673195741,
+            0.509950263
           ],
           [
-            0.67259271,
-            0.510038588
+            0.67316775,
+            0.509960413
           ],
           [
-            0.672024255,
-            0.509728102
+            0.672524119,
+            0.509887729
           ],
           [
-            0.671932624,
-            0.509670625
+            0.672417564,
+            0.509869134
           ],
           [
-            0.671974265,
-            0.509604208
+            0.672431023,
+            0.509791908
           ],
           [
-            0.671979565,
-            0.509596814
+            0.672433137,
+            0.509783059
           ],
           [
-            0.672638743,
-            0.509669356
+            0.673070859,
+            0.509601159
           ],
           [
-            0.672634334,
-            0.509774402
+            0.673106468,
+            0.509700084
           ]
         ]
       },
@@ -1903,10 +1907,10 @@
         "groundFit": "pad",
         "centreUV": [
           0.6671046,
-          0.5169725
+          0.518328707
         ],
-        "yawDeg": 80.0,
-        "orientationWhy": "Turned a little across the fall of the shelf so its canvas sheds run-off away from the pitch path rather than across it.",
+        "yawDeg": 1.0,
+        "orientationWhy": "The shelter's authored open side faces north up the pitch ground towards the path, while its canvas ridge runs almost north-south and sheds run-off to either side.",
         "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent02",
         "interior": {
           "kind": "none"
@@ -1914,62 +1918,62 @@
         "why": {
           "what": "The second delegation shelter, the further pitch of the ground.",
           "whyHere": "Two pitches and four huts is the village's capacity; the second pitch is the measure of the overflow for which the village hopes.",
-          "whySpot": "The further pitch stands beyond the first on the same shelf, where the ground is still flat before the fall to the road.",
+          "whySpot": "The further pitch stands ten metres beyond its former crowded line on the same shelf, leaving usable ground between the two delegation shelters before the fall to the road.",
           "whyNeighbours": "It stands behind the first pitch and beside the empty ground on which the two absent tribes once camped.",
           "playerPurpose": "The empty pitch of Water Without Ceremony and Pitch-Rights: the ground which two tribes left on principle.",
-          "microGeography": "The shelf falls 0.4 m from the first pitch to the second, so this pitch is the first to take run-off in the wet season."
+          "microGeography": "The shelf falls south from the first pitch to the second, so this outer pitch is the first to take run-off in the wet season."
         },
         "footprint": [
           [
-            0.667301457,
-            0.516565964
+            0.666743095,
+            0.518057896
           ],
           [
-            0.667325653,
-            0.516578223
+            0.666759746,
+            0.518036484
           ],
           [
-            0.667372708,
-            0.516602977
+            0.666793024,
+            0.517995016
           ],
           [
-            0.667377893,
-            0.516608949
+            0.666799875,
+            0.517991067
           ],
           [
-            0.667444265,
-            0.51726653
+            0.667458039,
+            0.518051386
           ],
           [
-            0.667427922,
-            0.517283183
+            0.667471268,
+            0.518070607
           ],
           [
-            0.666965103,
-            0.517313837
+            0.667413048,
+            0.518530771
           ],
           [
-            0.666936823,
-            0.517294035
+            0.667388214,
+            0.518554753
           ],
           [
-            0.666762686,
-            0.517032789
+            0.667098541,
+            0.518675843
           ],
           [
-            0.66683697,
-            0.516727739
+            0.66681327,
+            0.518544717
           ],
           [
-            0.666856772,
-            0.516699459
+            0.666789288,
+            0.518519883
           ]
         ]
       },
       {
         "id": "parcel.nine-trunks.pitch-rack",
         "districtId": "district.nine-trunks.pitch",
-        "use": "work",
+        "use": "dressing",
         "buildingFamily": "argonian-rack",
         "groundFit": "direct",
         "centreUV": [
@@ -1983,7 +1987,7 @@
           "kind": "none"
         },
         "why": {
-          "what": "A drying rack at the mouth of the pitch ground, hung with the fish and reed in which a delegation's rent is paid.",
+          "what": "A drying-rack furnishing at the mouth of the pitch ground, hung with the fish and reed in which a delegation's rent is paid.",
           "whyHere": "Rent here is paid in kind as often as in coin; the rack is where the kind is seen.",
           "whySpot": "It stands at the mouth of the pitch ground beside the spur, between the pitch line and the gate.",
           "whyNeighbours": "The pitch ledger and the pitch-taker stand across the spur from it at the gate.",
@@ -2071,6 +2075,21 @@
         "yawDeg": 105.9,
         "orientationWhy": "Turned to 105.9° so the doorway looks out at 218° onto the pitch path, the line every delegation walks between the pitches and the village.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+        "interior": {
+          "kind": "shop"
+        },
+        "playerPurpose": [
+          {
+            "kind": "trade",
+            "tier": "medium",
+            "note": "The counter sells food, cord and pitch-dues receipts to arriving delegations."
+          },
+          {
+            "kind": "actionable-information",
+            "tier": "medium",
+            "note": "The pitch-taker names the delegations currently camped on the rented ground."
+          }
+        ],
         "why": {
           "what": "The pitch store, out of which the village sells food, cord and pitch-dues receipts to the delegations.",
           "whyHere": "A village that rents standing room to travelling parties sells them what they forgot to bring. The takings are half of what the pitch is worth.",
@@ -2215,12 +2234,12 @@
             0.512395
           ],
           [
-            0.671511,
-            0.510738
+            0.671685,
+            0.510699
           ],
           [
-            0.672681,
-            0.508534
+            0.672557,
+            0.50966
           ]
         ],
         "endsAt": [
@@ -2261,24 +2280,20 @@
             0.512429154
           ],
           [
-            0.671511,
-            0.510738
+            0.671685,
+            0.510699
           ],
           [
-            0.671512296,
-            0.509987982
+            0.671647917,
+            0.509852361
           ],
           [
-            0.671919158,
-            0.50958112
+            0.671783537,
+            0.509716741
           ],
           [
-            0.672597261,
-            0.50958112
-          ],
-          [
-            0.672557044,
-            0.509660365
+            0.672580141,
+            0.509741129
           ]
         ]
       },
@@ -2335,20 +2350,16 @@
         "why": "The trodden ring inside the huts, from which every door in the wall is reached; it begins and ends inside the arch.",
         "points": [
           [
-            0.672638743,
-            0.509669356
+            0.673070859,
+            0.509601159
           ],
           [
-            0.6724024,
-            0.508500046
+            0.6723839,
+            0.5082402
           ],
           [
-            0.672390597,
-            0.507718
-          ],
-          [
-            0.672508577,
-            0.506940841
+            0.672432983,
+            0.507188509
           ],
           [
             0.672736309,
@@ -2426,12 +2437,12 @@
         "why": "The straight walk from the arch across the clearing to the naheesh's door, the spine of the village and the line which every arrival reads first.",
         "points": [
           [
-            0.672638743,
-            0.509669356
+            0.672869798,
+            0.509658508
           ],
           [
             0.673953468,
-            0.508360534
+            0.508631775
           ],
           [
             0.673930724,
@@ -2472,12 +2483,16 @@
             0.5111
           ],
           [
-            0.673275365,
+            0.673410986,
             0.511072947
           ],
           [
-            0.672042936,
-            0.509738305
+            0.672461641,
+            0.510123603
+          ],
+          [
+            0.672417564,
+            0.509869134
           ]
         ]
       },
@@ -3114,6 +3129,9 @@
         "class": "ring-panel",
         "routingWhy": "The span between two authored pieces on the ring's 220° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58,
+        "gapAt": [
+          "route.nine-trunks.spur"
+        ],
         "abuts": [
           "parcel.nine-trunks.gate"
         ],
@@ -3123,11 +3141,19 @@
         "id": "fence.nine-trunks.pitch-line-south",
         "kind": "fence",
         "widthM": 0.3,
-        "routing": "terrain",
+        "routing": "straight",
         "via": [
           [
             0.6692745,
             0.5134464
+          ],
+          [
+            0.669,
+            0.5138
+          ],
+          [
+            0.6692,
+            0.51435
           ],
           [
             0.6688609,
@@ -3136,18 +3162,23 @@
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/snakefence01",
         "why": "The southern run of the pitch line: the snake fence which marks the rented ground off from the spur, stopping two metres short of the pitch path so a delegation coming up it knows where the paid ground begins.",
+        "routingWhy": "Three short fence modules step down the shelf and turn with its edge, rather than drawing one long panel through more than a metre of fall.",
         "points": [
           [
             0.6692745,
             0.5134464
           ],
           [
-            0.668867876,
-            0.513852993
+            0.669,
+            0.5138
           ],
           [
-            0.668860169,
-            0.515003031
+            0.6692,
+            0.51435
+          ],
+          [
+            0.6688609,
+            0.5148939
           ]
         ],
         "class": "fence",
@@ -3783,32 +3814,36 @@
             0.514095242
           ],
           [
-            0.666510441,
-            0.514549521
+            0.666505591,
+            0.514556796
           ],
           [
-            0.666200473,
-            0.517167419
+            0.666198239,
+            0.518061213
           ],
           [
-            0.666542047,
-            0.517679858
+            0.666268234,
+            0.518761251
           ],
           [
-            0.66681039,
-            0.517867755
+            0.666493953,
+            0.518994988
           ],
           [
-            0.667614471,
-            0.517814499
+            0.667088202,
+            0.519268138
           ],
           [
-            0.670143303,
-            0.516050108
+            0.667691623,
+            0.519015894
           ],
           [
-            0.670875982,
-            0.515456882
+            0.66780512,
+            0.518906291
+          ],
+          [
+            0.670896672,
+            0.515415538
           ],
           [
             0.671039791,
@@ -3951,8 +3986,8 @@
         "notes": "The catalogue's road discovery. The spur bends twice, at the pitch ground and at the foot of the knoll, so the gate is not seen from the road; the elder trunk is.",
         "viaUV": [
           [
-            0.661507,
-            0.517224
+            0.661878734,
+            0.517595734
           ],
           [
             0.663858,
@@ -3975,7 +4010,25 @@
         "firstSeen": "landmark.nine-trunks.trunk-1",
         "sequence": "From the water south of the ring the nine trunks stand above the reeds like the teeth of a comb, the elder trunk tallest among them; as the boat noses to the pier the bank's mangroves take them one by one; from the pier head the southern gap and wall read together above the bank; the landing path climbs north-west to the arch.",
         "wayfinding": "From the pier, climb towards the gap in the trunks; the arch is round the trunk on the right.",
-        "notes": "The travel service from Uxaneet lands here. The bank stands 2 m above the water at the pier head and the path rises under a metre in 50 m; the arch is hidden from the pier by the bank's mangroves and re-found at the bend."
+        "notes": "The travel service from Uxaneet lands here. The bank stands 2 m above the water at the pier head and the path rises under a metre in 50 m; the arch is hidden from the pier by the bank's mangroves and re-found at the bend.",
+        "viaUV": [
+          [
+            0.682499969,
+            0.527999937
+          ],
+          [
+            0.681500038,
+            0.523000009
+          ],
+          [
+            0.67950004,
+            0.517999946
+          ],
+          [
+            0.677119484,
+            0.513510164
+          ]
+        ]
       }
     ],
     "doors": [
@@ -4570,7 +4623,7 @@
     },
     "budget": {
       "maxInstances": 700,
-      "maxUniqueMaterials": 36,
+      "maxUniqueMaterials": 48,
       "maxTextureMB": 40,
       "maxColliders": 300
     },
