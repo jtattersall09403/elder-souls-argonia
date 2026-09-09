@@ -200,6 +200,14 @@ def carve_to_profile(h, npz, save_path=None):
     h, authored_stats = authored_waterways.carve_authored(
         h, bodies.level_with_sea, bodies.wet | bodies.sea, RAW_M,
         stations=(sol.y, sol.x, sol.L), log=print)
+    # A dock declares the deepest hull it serves; a working port keeps the
+    # channel that serves it DUG. Every approach that does not already carry
+    # its hull class is dredged here, from the blueprints' own dock/terminal
+    # data — see worldgen/dock_dredge.py for the rule. It only ever cuts, and
+    # never touches ground standing above the waterline.
+    from . import dock_dredge
+    h, dredge_stats = dock_dredge.dredge_docks(
+        h, bodies.level_with_sea, RAW_M, stations=(sol.y, sol.x, sol.L), log=print)
     # self-consistency report: the compiler floods THIS terrain and keeps the
     # profile above; a lake the trench breached, or a hollow the levee made
     # under a channel, shows here as a pooled station whose flood level moved
@@ -216,6 +224,7 @@ def carve_to_profile(h, npz, save_path=None):
           f"{int((~np.isfinite(lvl2)).sum())} with no body under them")
     stats["islandsLowered"] = n_islands
     stats["authoredWaterways"] = authored_stats
+    stats["dockApproaches"] = dredge_stats
     stats.update({k: v for k, v in pool_report.items() if not k.endswith("Sites")})
     stats["bodies"] = bodies.census
     if save_path is not None:

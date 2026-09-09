@@ -57,6 +57,12 @@ def resample_polyline(points_m: list[list[float]], spacing_m: float = RESAMPLE_M
     return np.asarray(out)
 
 
+def _inside(samples_yx: np.ndarray, shape) -> np.ndarray:
+    """Which sample points fall inside a grid of `shape`."""
+    return ((samples_yx[:, 0] >= 0) & (samples_yx[:, 0] <= shape[0] - 1)
+            & (samples_yx[:, 1] >= 0) & (samples_yx[:, 1] <= shape[1] - 1))
+
+
 def _nearest_wet(level: np.ndarray, wet: np.ndarray, sy: float, sx: float,
                  mpp: float, search_m: float):
     """Nearest wet sample to (sy, sx) within `search_m`: (y, x, level, dist) or None."""
@@ -182,6 +188,15 @@ def carve_authored(h: np.ndarray, level_with_sea: np.ndarray, wet: np.ndarray,
     for way in waterways:
         pts = resample_polyline(way["pointsM"])
         samples = np.stack([pts[:, 1] / mpp, pts[:, 0] / mpp], axis=1)   # (row=z, col=x)
+        # A line whose geometry is not on THIS grid is not this grid's line:
+        # carving it would clamp it onto the edge, and demanding receiving
+        # water for it turns every synthetic or partial terrain into a crash
+        # (it did: test_refine's tile). Skip it and say so.
+        if not (_inside(samples, h.shape)).any():
+            stats.append({"id": way["id"], "status": "off-grid", "samplesCut": 0})
+            if log is not None:
+                log(f"authored waterway {way['id']}: off this grid, not carved")
+            continue
         # the level is the receiving surface AT THE TERMINAL (the authored end
         # the promise is made at), not a constant and not the far end's water
         term_m = way.get("terminalM") or way["pointsM"][-1]
