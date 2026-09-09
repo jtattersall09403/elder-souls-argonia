@@ -67,11 +67,42 @@ resampled profile, which a uniform 51° mountainside passed, and it asked for a
   for survivors it cannot author and a CI test holds the debt; 38 authored
   sentences and one piece family closed it.
 
+## Closed after the first hand-off (2026-09-09)
+
+- **Hovering edges are zero.** The last cell was not a gap in the flood: it
+  sits inside a steep station's own half-width, and the ground past its dry
+  neighbour keeps falling 4 m to the same river's next stretch. Claiming it
+  wet 83 cells and took hovering from 1 to 8. The rule that holds is 0047's
+  brink rule applied to a chute — a steep reach is drawn by its ribbon, not
+  the field raster — and it excuses exactly one cell province-wide, counted
+  as `stripEdgeCells` and capped by the invariant.
+- **The falls take shadow and break up.** They were lit by the aerial-haze
+  feeds at a tenth of the sky, and the sheet held a flat 0.89–0.91 alpha
+  across its middle while the streak noise that breaks up the strips moved it
+  by 2 %. The profile is now derived from critical flow over the lip
+  (thickness ∝ (1 − x²)^1.5, opacity by Beer–Lambert) and the margins fizz
+  with the strips' own whiteness law. A shadowed fall renders at 0.43 of open
+  sun. All five fall sites pass.
+- **Lilmoth's quay has its 3 m.** A dock whose serving route is shallower than
+  its hull class is promised now has its approach dredged — 366 m and 358 m of
+  channel, entirely below the waterline, quay bank untouched.
+- **The 0.21 m submerged disagreement was the probe's arithmetic**, comparing
+  a bilinear depth sample with a bilinear ground sample across a texel quad
+  where the ground crosses 2.5 m. Every texel there is right to within a
+  quantum; pinned by a test that also asserts the site is still that steep.
+
 ## Known and recorded, not fixed
 
-- One hovering cell at 113 E / 1201 S: a 0.16 m step beside an 81° chute, 7 m
-  above a lip. Pinned by site in the invariant, with the diagnosis, so any new
-  one still fails.
+- The falls read closer to a card than to the reference ribbon in three named
+  ways, all in the polish backlog: the crest is a straight terrain edge
+  because that is the compiler's lip geometry; how wide a fall is *drawn* is
+  an owner call (the compiled width is right to ×1.00 against the stream
+  feeding every fall); and the warm ivory is the world's midday sun at the
+  owner's locked warmth of 1.0, not the falls' albedo.
+- Two dock approaches are refused rather than forced: Sap-Tapping's landing
+  stands 1.48 m above its own water at the berth, and Wamasu Pond's lane
+  1.09 m above it 20 m out. Both are berth or route faults for the placement
+  side.
 - `place.hist-heartland.air-pocket-station-basin` was the only place the new
   water invalidated (a submerged record left in 0.0 m of water); the re-plot
   moved it and kept the other 570.
