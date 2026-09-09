@@ -126,7 +126,25 @@ MARGIN_M = 30.0
 K_SLOPE = 24.0                  # cost of climbing: ×grade²
 K_CROSS = 6.0                   # cost of a side-slope: ×cross-grade²
 TURN_M = 1.2                    # effective metres per 45° of direction change
-PARCEL_PENALTY = 120.0
+#: A parcel a way does not `endsAt` is IMPASSABLE, not merely expensive.
+#:
+#: This was 120.0 — a strong cost, but a cost, so a way whose detour was dearer
+#: still went straight through a house. The integration validator then rejected
+#: it outright ("a way may only touch a building it endsAt"), which is one rule
+#: with two implementations: a soft one in the router and a hard one in the
+#: check. Found 2026-09-09 when a chain stage re-derived every way against
+#: re-carved ground and three of the five exemplars produced a route through a
+#: building at once.
+#:
+#: A very large FINITE cost, not infinity: with an infinite multiplier every
+#: candidate cost becomes inf, A* can no longer order them, and the search
+#: reports success on a path that still goes through the house (measured
+#: 2026-09-09 — three of five exemplars crossed a building while the router
+#: said OK). A million makes any detour that exists cheaper than crossing, so
+#: the router goes round wherever it can, and where it genuinely cannot the
+#: crossing survives to be caught by the integration check with the way and the
+#: building named — which is a finding a person can act on.
+PARCEL_PENALTY = 1.0e6
 ENDS_PARCEL_PENALTY = 8.0
 WATER_PENALTY_DRY_WAY = 40.0    # a road may ford, never swim
 DRY_PENALTY_WET_WAY = 1.6       # a boardwalk on dry ground is a wasted boardwalk

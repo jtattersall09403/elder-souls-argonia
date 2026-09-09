@@ -356,7 +356,7 @@
           0.5049048
         ],
         "yawDeg": 83.4,
-        "orientationWhy": "Turned to 83.4\u00b0 so the doorway looks in at 195\u00b0 onto the ring walk, between the elder trunk and the north-eastern trunk; the door opens inward, because the huts of the ring are entered from the clearing.",
+        "orientationWhy": "Turned to 83.4° so the doorway looks in at 195° onto the ring walk, between the elder trunk and the north-eastern trunk; the door opens inward, because the huts of the ring are entered from the clearing.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -499,7 +499,7 @@
           0.5061783
         ],
         "yawDeg": 124.2,
-        "orientationWhy": "Turned to 124.2\u00b0, its doorway on 236\u00b0 onto the ring walk, so a guest steps off the walk into the hut and the rented arc reads as one row.",
+        "orientationWhy": "Turned to 124.2°, its doorway on 236° onto the ring walk, so a guest steps off the walk into the hut and the rented arc reads as one row.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -648,7 +648,7 @@
           0.5080806
         ],
         "yawDeg": 161.2,
-        "orientationWhy": "Turned to 161.2\u00b0, its doorway on 273\u00b0 onto the ring walk, as every hut of the rented arc is.",
+        "orientationWhy": "Turned to 161.2°, its doorway on 273° onto the ring walk, as every hut of the rented arc is.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -791,7 +791,7 @@
           0.5097704
         ],
         "yawDeg": 201.0,
-        "orientationWhy": "Turned to 201.0\u00b0, its doorway on 313\u00b0 onto the ring walk, closing the rented arc.",
+        "orientationWhy": "Turned to 201.0°, its doorway on 313° onto the ring walk, closing the rented arc.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -934,7 +934,7 @@
           0.5105423
         ],
         "yawDeg": 245.9,
-        "orientationWhy": "Turned to 245.9\u00b0, its doorway on 358\u00b0 onto the ring walk, so the store is filled from the clearing and shows a blank wall to the road.",
+        "orientationWhy": "Turned to 245.9°, its doorway on 358° onto the ring walk, so the store is filled from the clearing and shows a blank wall to the road.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -1083,7 +1083,7 @@
           0.5084001
         ],
         "yawDeg": 337.2,
-        "orientationWhy": "Turned to 337.2\u00b0, its doorway on 89\u00b0 onto the ring walk, so the pitch-taker steps out onto the walk that runs to the gate.",
+        "orientationWhy": "Turned to 337.2°, its doorway on 89° onto the ring walk, so the pitch-taker steps out onto the walk that runs to the gate.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "shop"
@@ -1232,7 +1232,7 @@
           0.5062943
         ],
         "yawDeg": 4.9,
-        "orientationWhy": "Turned to 4.9\u00b0, its doorway on 117\u00b0 onto the ring walk, between the western and north-western trunks; the boat household walks out through the gate like everyone else.",
+        "orientationWhy": "Turned to 4.9°, its doorway on 117° onto the ring walk, between the western and north-western trunks; the boat household walks out through the gate like everyone else.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -1375,7 +1375,7 @@
           0.5049037
         ],
         "yawDeg": 48.1,
-        "orientationWhy": "Turned to 48.1\u00b0, its doorway on 160\u00b0 onto the ring walk, in the gap next to the elder trunk, so the minder steps out facing the trunk that is watched.",
+        "orientationWhy": "Turned to 48.1°, its doorway on 160° onto the ring walk, in the gap next to the elder trunk, so the minder steps out facing the trunk that is watched.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -1771,7 +1771,7 @@
           0.508534
         ],
         "yawDeg": 220.0,
-        "orientationWhy": "The arch faces on the heartland track's measured 220\u00b0 bearing, placing its long frame square across the road so a walker passes through the opening rather than round the posts.",
+        "orientationWhy": "The arch faces on the heartland track's measured 220° bearing, placing its long frame square across the road so a walker passes through the opening rather than round the posts.",
         "assetRef": "mudmother:gv_meshes/argoniannest/archwaysticks",
         "spans": "route.nine-trunks.spur",
         "interior": {
@@ -2073,7 +2073,7 @@
           0.514851429
         ],
         "yawDeg": 105.9,
-        "orientationWhy": "Turned to 105.9\u00b0 so the doorway looks out at 218\u00b0 onto the pitch path, the line every delegation walks between the pitches and the village.",
+        "orientationWhy": "Turned to 105.9° so the doorway looks out at 218° onto the pitch path, the line every delegation walks between the pitches and the village.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "shop"
@@ -2231,7 +2231,7 @@
           ],
           [
             0.669311,
-            0.512395
+            0.5127
           ],
           [
             0.671685,
@@ -2268,16 +2268,20 @@
             0.511751051
           ],
           [
-            0.66708,
-            0.511651
+            0.667172434,
+            0.51161543
           ],
           [
-            0.667850538,
-            0.512429154
+            0.6682574,
+            0.51161543
           ],
           [
-            0.669884848,
-            0.512429154
+            0.669311,
+            0.5127
+          ],
+          [
+            0.671376675,
+            0.510666085
           ],
           [
             0.671685,
@@ -2593,7 +2597,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 20\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 20° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2624,7 +2628,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 20\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 20° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2655,7 +2659,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 60\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 60° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2686,7 +2690,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 60\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 60° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2717,7 +2721,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 100\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 100° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2748,7 +2752,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 100\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 100° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2779,7 +2783,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 140\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 140° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2810,7 +2814,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 140\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 140° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2841,7 +2845,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 180\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 180° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2872,7 +2876,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 180\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 180° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2903,7 +2907,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 260\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 260° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -2934,7 +2938,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 260\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 260° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58,
         "abuts": [
           "parcel.nine-trunks.hut-pitch-taker"
@@ -2969,7 +2973,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 300\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 300° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -3000,7 +3004,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 300\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 300° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -3031,7 +3035,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 340\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 340° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -3062,7 +3066,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 340\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 340° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -3096,7 +3100,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 220\u00b0 bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 220° bearing, anticlockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58
       },
       {
@@ -3127,7 +3131,7 @@
           ]
         ],
         "class": "ring-panel",
-        "routingWhy": "The span between two authored pieces on the ring's 220\u00b0 bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
+        "routingWhy": "The span between two authored pieces on the ring's 220° bearing, clockwise side. The panel is the gap itself, so its line is the gap's line.",
         "moduleM": 1.58,
         "gapAt": [
           "route.nine-trunks.spur"
@@ -3322,7 +3326,7 @@
           "whyHere": "The trunks came first and the huts were fitted to the gaps between them. This one holds the south of the ring, above the store hut and the road beyond it.",
           "whySpot": "The southern trunk stands on 3.5 m ground, the lowest footing of the nine. It is the trunk seen from the road.",
           "whyNeighbours": "The third guest hut is panelled to its northern side and the store hut to its southern, so it divides the rented gaps from the tribe's own stores.",
-          "playerPurpose": "A 25 m column at the south. From the Archon\u2013Gideon road it is the trunk nearest to a traveller. It stands over the store hut's blank wall.",
+          "playerPurpose": "A 25 m column at the south. From the Archon–Gideon road it is the trunk nearest to a traveller. It stands over the store hut's blank wall.",
           "microGeography": "Its base is on 3.5 m ground, the lowest footing of the nine. Wet-season run-off leaves the clearing past it."
         }
       },
