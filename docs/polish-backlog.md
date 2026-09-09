@@ -248,6 +248,30 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   reports them by name on every export and fails if either quietly starts
   passing. The fix is a rule-scope decision (which district kinds, or which
   measured ground, the share applies to) and wants an owner steer.
+- **`works-quays-flood-section` is applied to works that stand nowhere near
+  water.** Same function, same shape of defect: `flood_band_report` asks every
+  parcel whose `use` is in `FLOOD_SECTION_WORK_USES` to touch open water, the
+  flood band or wet-season inundation. That is a quay rule. The licensed
+  tapping camp (`place.hist-heartland.sap-tapping-licensed`) is a works camp on
+  a jungle terrace at 30.7–32.7 m whose own siting record measures the nearest
+  canoe water at 370 m and berths the landing separately; its stage, deck,
+  stair and mule line all measure 0/0/0 and cannot ever pass. Four
+  settlement-owned rows are registered in
+  `world/sources/settlements/settlement-warning-known-red.json`. The fix is the
+  same rule-scope decision as the bullet above — which uses, or which measured
+  ground, a flood-section rule applies to — and wants the same owner steer.
+- **The licensed camp's province track ends about 25 m past the camp.**
+  `track.hist-heartland.sap-tapping-licensed` (713 m,
+  `apps/world-studio/public/province/routes-minor.json`) was routed to the
+  terminal `entryUV` (3448.0, 4500.8) that the blueprint declared before the
+  camp's berth and anchor moved on 2026-09-09. Its last 30 m run south down the
+  camp's eastern flank, and the camp track then runs back north to the stair, so
+  the two lines sit within about 3 m of each other for roughly 12 m and read as
+  one path drawn twice. Every gate passes (the entry point is exactly on the
+  route and the bearings are 13° apart), so this is a look, not a red. The fix
+  is to move `terminal.sap-tapping-licensed.track-head`'s `entryUV` to where the
+  road first reaches the camp and re-run `worldgen.compile_minor_routes`; that
+  is a chain stage, so it belongs to whoever holds the chain lock.
 - **One ground slot still reads the un-tropicalised vanilla texture.** From
   2026-09-09 every vanilla texture in the asset pipeline resolves through
   Tropical Skyrim by default (owner ruling; see
@@ -260,3 +284,55 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   tint came out of an owner-reviewed ground round and every ground change needs
   a look, so it wants an owner call plus a `build_ground_materials` re-run and
   a terrain recompile.
+- **`grade_settlement_pads` does not exempt route-structure windows.**
+  `grade_routes` reads `world/sources/routes/route-structures.json` and leaves
+  every authored window's ground alone (`grade_routes.py:157,173`), because a
+  structure stands on the ground it was measured on. `grade_settlement_pads.py`
+  reads no such thing: where a settlement pad overlaps a structure window it
+  moves that ground after the author has measured it and before
+  `compile_route_structures` re-measures it. Since 2026-09-09 both modules take
+  one measurement (`compile_route_structures.measure_window`), so the compiler
+  now raises with a named cause instead of laying a deck on a grade the cap
+  forbids — but the honest fix is for the pad grader to take the same exclusion
+  windows the route grader takes. Cheap: it is the same window list, read from
+  the same path.
+- **Two route ways cannot be closed by authoring, because the line is wrong,
+  not the ground** (measured 2026-09-09, blocking
+  `test_no_shipped_route_structure_is_unauthored`).
+  * `track.dunmer-north.riverwalk` — the catalogue records Riverwalk as a
+    boardwalk village "strung along a channel because the channel is the
+    street", reached from a trunk boat lane. Its access track runs 4,912 m and
+    **starts at 349.6 m of altitude and ends at 32.8 m**; 488 of its 2,241
+    samples are over the 12 deg track cap, and the structure author gives it 22
+    windows covering **62% of the way**, including four stepped ascents of 31 to
+    45 m of descent at up to 73 deg. A channel-side boardwalk village is not
+    reached over a 317 m mountain. Writing a `why` sentence for it would be
+    fiction under standard 12; the fix is the router or the siting.
+  * `route.road.helstrom-blackrose` — a trunk road from -1.1 m to -2.5 m that
+    crosses a 35 m hill at chainage 2,280 m, leaving 117 of 3,357 samples over
+    the 8 deg road cap and **23 authored structures**, most of them near-zero
+    end-to-end rise (a "bridge" over 18 to 130 m of surface roughness). Twenty
+    three spans on one trunk road is the "staircase province" the Phase 11 gap
+    plan warned about; it wants a routing look, not 23 sentences.
+  The other 42 unauthored ways sit at 14–19% window coverage with 1–5
+  structures each and are ordinary authored geometry.
+- **Gap plan B2's `MAX_FILL_M` hypothesis is measurably wrong — do not raise
+  it.** B2 asked whether raising `grade_routes.MAX_FILL_M` from 6 m to 8 m
+  would clear most over-cap windows before anyone authored them. Measured
+  2026-09-09 by calling `grade_routes.grade()` (pure, writes nothing) on the
+  ungraded snapshot at five values, 4 s per pass:
+
+  | MAX_FILL_M | survivor ways | ways with stretches | over-cap stretches | over-cap m | cells filled >6 m |
+  | --- | --- | --- | --- | --- | --- |
+  | 6 | 38 | 43 | 112 | 1693 | 0 |
+  | 8 | 38 | 40 | 98 | 1347 | 202 |
+  | 10 | 37 | 38 | 94 | 1243 | 250 |
+  | 14 | 37 | 38 | 94 | 1243 | 250 |
+  | 20 | 37 | 38 | 94 | 1243 | 250 |
+
+  The curve is flat from 10 m on: going to 20 m of made ground buys **one** way
+  out of 38. The survivors are bench-limited (`need > r_max`: no 30 deg bench
+  fits inside `MAX_SHOULDER_M`), not fill-limited, so the fill cap is not the
+  lever. Raising it would bury 250 cells under more than 6 m of embankment and
+  leave the authoring debt where it is. The lever, if one is wanted, is the
+  shoulder budget or the routing, not the fill.
