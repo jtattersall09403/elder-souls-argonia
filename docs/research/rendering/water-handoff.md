@@ -36,9 +36,31 @@ continue from the repo alone at any moment, with nothing to be explained.
    carve; never loosen a test without a numeric reason written in the test.
 2. Read the "Resume log" at the bottom of [water-quality.md](water-quality.md).
    Watch `stats` in `water-meta.json`: `hoveringEdges`
-   must be 0, `dryCoarseRiverCells` 0, `roadCellsDeepInWater` down to the
-   known fords only (roads never stand in open water), `maxDepthM` only where a
-   real closed basin exists.
+   must be 0, `dryCoarseRiverCells` 0, `maxDepthM` only where a real closed
+   basin exists.
+
+   **`roadCellsDeepInWater` is NO LONGER a number to drive down** (owner
+   ruling 2026-09-09) — do not try, and do not re-add what was removed to
+   achieve it. Two mechanisms used to hold it near zero by suppressing the
+   water rather than crossing it: `standing_water` capped or deleted any pool a
+   way touched at 0.30 m, and `channels` cut a bridged river section to a 0.30 m
+   ford. So the pipeline built a bridge over a river and then flattened the
+   river to ankle depth underneath it. Both are deleted.
+
+   What the honest number now shows is CONTENT: 57 water crossings province-
+   wide, 45 on lakes and 12 on rivers, the river ones 16–108 m wide and
+   1.2–2.0 m deep. Note that the shipped figure was always dominated by
+   something these mechanisms never touched — 5,511 of 6,198 cells are SEA, the
+   route solver's ferry crossings.
+
+   **The real gap behind it:** a water crossing can never become a built
+   structure today. `author_route_structures.author()` takes no water input at
+   all, and `grade_routes` excludes every wet sample from the stretches it
+   emits, so a river crossing is invisible to the piece author. There is no
+   `ford`, `ferry` or `causeway` kind in `compile_route_structures.KIND_ROLE`,
+   and the longest deck piece runs 13.3 m. Those 57 crossings need authoring —
+   as ferries, declared fords, or spans from a kit that can reach across
+   them — and that is the job, not driving a statistic down.
 3. Rebuild: `./scripts/terrain-chain.sh --from refine_province` (never let
    `sculpt_province` re-run — polish backlog; `compile_water` runs twice by
    design — before grading so the road grader sees the channels, and last on
