@@ -166,32 +166,36 @@
           "notes": null,
           "polygon": [
             [
-              1978.05,
-              1331.46
+              1982.329,
+              1328.715
+            ],
+            [
+              1978.247,
+              1329.373
             ],
             [
               1977.274,
-              1331.802
+              1329.802
             ],
             [
               1975.542,
-              1332.569
+              1330.569
             ],
             [
               1974.039,
-              1334.539
+              1332.539
             ],
             [
-              1973.311,
-              1336.237
+              1973.401,
+              1334.027
             ],
             [
-              1977.075,
-              1353.702
+              1975.644,
+              1354.915
             ],
             [
-              1994.36,
-              1350.408
+              1994.453,
+              1350.385
             ],
             [
               2007.545,
@@ -206,8 +210,8 @@
               1335.061
             ],
             [
-              1992.746,
-              1327.444
+              1993.07,
+              1327.57
             ]
           ],
           "why": "The stone rite of LV28 is put to a visitor before the statue wall; refusing it flips the place hostile and the shaper's watch comes down the terrace to this court."
@@ -530,8 +534,8 @@
         },
         {
           "centreM": [
-            1981.813,
-            1351.699
+            1983.279,
+            1353.122
           ],
           "cultureKit": "neutral-works",
           "id": "district.mazzatun.staging",
@@ -539,16 +543,12 @@
           "notes": "The lower step and the stream lip, 196-203 m. Block face, hoist, scaffolds, gate and cart. The stockade scaffold family is placed per its own snap logic.",
           "polygon": [
             [
-              1953.35,
-              1345.145
+              1951.25,
+              1346.485
             ],
             [
-              1950.898,
-              1347.166
-            ],
-            [
-              1943.775,
-              1353.16
+              1943.738,
+              1353.209
             ],
             [
               1942.602,
@@ -571,16 +571,20 @@
               1363.723
             ],
             [
-              1956.496,
-              1365.973
+              1956.467,
+              1365.966
             ],
             [
-              1975.658,
-              1366.606
+              1975.246,
+              1366.868
             ],
             [
-              1989.352,
-              1366.887
+              1975.435,
+              1366.876
+            ],
+            [
+              1989.392,
+              1366.882
             ],
             [
               2049.943,
@@ -595,8 +599,8 @@
               1332.892
             ],
             [
-              2040.885,
-              1294.88
+              2040.882,
+              1294.877
             ]
           ],
           "wealth": "poor",
@@ -757,7 +761,7 @@
           }
         },
         {
-          "assetRef": "flora.hist.tsono-xuhil",
+          "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histtree",
           "id": "landmark.mazzatun.hist",
           "kind": "hist-tree",
           "notes": "Tsono-Xuhil, its own catalogue record (place.dunmer-north.mazzatun-hist), 85 m east and 55 m below the shelf. Never cleared and never built over.",
@@ -1225,7 +1229,7 @@
             ]
           ],
           "spans": null,
-          "use": "quarry",
+          "use": "stone-cutting",
           "why": {
             "microGeography": "Dug into the lip at about 200 m, the headwater stream 3 to 8 m south of it.",
             "playerPurpose": "The carver's npc socket for LV29 and the place from which the sound of stone being cut carries into the swamp.",
@@ -1694,7 +1698,7 @@
             ]
           ],
           "spans": null,
-          "use": "haulage",
+          "use": "cart",
           "why": {
             "microGeography": "A pad at about 199 m on the yard floor beside the road.",
             "playerPurpose": "A prop that says a working day is in progress. It gives cover in the yard fight.",
@@ -1850,7 +1854,7 @@
             ]
           ],
           "spans": null,
-          "use": "hoist",
+          "use": "block-lifting",
           "why": {
             "microGeography": "A pad at about 202 m on the lip of the cut, 3 m above the yard floor.",
             "playerPurpose": "Cover and a vertical marker at the yard's south edge; a rope and beam over the stream.",
@@ -1996,7 +2000,7 @@
             ]
           ],
           "spans": null,
-          "use": "kiln",
+          "use": "lime-burning",
           "why": {
             "microGeography": "A pad at about 202 m on the riser, its mouth uphill.",
             "playerPurpose": "Smoke by day and glow by night: the second beacon of the place from the gorge after the conduit head.",
@@ -2452,69 +2456,69 @@
             "deg": 198.4,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 336.1
+            "worldDeg": 180.4
           },
           "groundFit": "pad",
           "id": "parcel.mazzatun.pen-oven",
           "interior": null,
           "notes": null,
-          "orientationWhy": "Mouth to the lane and out of the wind that comes over the top of the step.",
+          "orientationWhy": "The measured open side faces the pen lane while the carapace shields the fire from the wind over the top of the step.",
           "polygon": [
             [
-              1964.535,
-              1324.795
+              1961.756,
+              1326.59
             ],
             [
-              1964.255,
-              1326.523
+              1962.722,
+              1325.13
             ],
             [
-              1964.149,
-              1326.823
+              1962.942,
+              1324.901
             ],
             [
-              1963.859,
-              1326.965
+              1963.265,
+              1324.89
             ],
             [
-              1962.169,
-              1327.366
+              1964.97,
+              1325.22
             ],
             [
-              1961.938,
-              1326.874
+              1964.978,
+              1325.764
             ],
             [
-              1961.927,
-              1326.803
+              1964.959,
+              1325.833
             ],
             [
-              1961.919,
-              1326.08
+              1964.669,
+              1326.495
             ],
             [
-              1961.929,
-              1326.017
+              1964.634,
+              1326.548
             ],
             [
-              1962.464,
-              1325.313
+              1963.856,
+              1326.969
             ],
             [
-              1962.569,
-              1325.205
+              1963.717,
+              1327.025
             ],
             [
-              1963.254,
-              1324.635
+              1962.858,
+              1327.262
             ],
             [
-              1964.034,
-              1324.601
+              1962.133,
+              1326.972
             ]
           ],
           "spans": null,
-          "use": "work",
+          "use": "cooking",
           "why": {
             "microGeography": "A pad on the flat of the step at about 207 m, 3 m from the lane.",
             "playerPurpose": "Labourers stand idle here, within earshot of a player.",
@@ -2523,7 +2527,7 @@
             "whyNeighbours": "It stands between the racks and the first pen, so the west end of the lane is where the taken gather before the shift.",
             "whySpot": "Beside the racks at the west end of the step, the end farthest from the pens stair and the works."
           },
-          "yawDeg": 137.7
+          "yawDeg": 342.0
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -2607,7 +2611,7 @@
             ]
           ],
           "spans": null,
-          "use": "work",
+          "use": "drying",
           "why": {
             "microGeography": "A pad on the last flat of the step at about 206 m before the ground climbs west to the shoulder.",
             "playerPurpose": "The marker at which the pens lane ends; the first object of Mazzatun read from the ridge track below the rise.",
@@ -2724,61 +2728,61 @@
             "deg": 183.9,
             "evidence": "co-placement",
             "outside": true,
-            "worldDeg": 144.4
+            "worldDeg": 67.9
           },
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.scaffold-a",
           "interior": null,
           "notes": null,
-          "orientationWhy": "Scaffold bay squared to the course that it serves, so its decks run along the riser.",
+          "orientationWhy": "The scaffold's measured open side faces the terrace-head approach and its decks remain aligned with the western riser course they serve.",
           "polygon": [
             [
-              1953.463,
-              1350.403
+              1954.931,
+              1352.458
             ],
             [
-              1953.436,
-              1350.323
+              1954.846,
+              1352.466
             ],
             [
-              1953.458,
-              1350.239
+              1954.77,
+              1352.425
             ],
             [
-              1955.634,
-              1348.446
+              1953.534,
+              1349.89
             ],
             [
-              1955.72,
-              1348.44
+              1953.548,
+              1349.805
             ],
             [
-              1955.794,
-              1348.482
+              1953.607,
+              1349.743
             ],
             [
-              1957.537,
-              1350.597
+              1956.069,
+              1348.542
             ],
             [
-              1957.564,
-              1350.677
+              1956.154,
+              1348.534
             ],
             [
-              1957.542,
-              1350.761
+              1956.23,
+              1348.575
             ],
             [
-              1955.366,
-              1352.554
+              1957.466,
+              1351.11
             ],
             [
-              1955.28,
-              1352.56
+              1957.452,
+              1351.195
             ],
             [
-              1955.206,
-              1352.518
+              1957.393,
+              1351.257
             ]
           ],
           "spans": null,
@@ -2791,7 +2795,7 @@
             "whyNeighbours": "It stands west of the half-cut blocks and below the frontage dais.",
             "whySpot": "Below the corner block and the single block, at the west end of the yard."
           },
-          "yawDeg": 320.5
+          "yawDeg": 244.0
         },
         {
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
@@ -2806,61 +2810,61 @@
             "deg": 183.9,
             "evidence": "co-placement",
             "outside": true,
-            "worldDeg": 196.0
+            "worldDeg": 29.9
           },
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.scaffold-b",
           "interior": null,
           "notes": null,
-          "orientationWhy": "Scaffold bay squared to the block face, decks along the same riser line.",
+          "orientationWhy": "The scaffold's measured open side faces the terrace-head approach, with its decks set across the lower step beside the block face.",
           "polygon": [
             [
-              1974.211,
-              1355.344
+              1976.157,
+              1358.893
             ],
             [
-              1974.257,
-              1355.272
+              1976.095,
+              1358.952
             ],
             [
-              1974.336,
-              1355.238
+              1976.01,
+              1358.966
             ],
             [
-              1977.093,
-              1355.829
+              1973.475,
+              1357.73
             ],
             [
-              1977.151,
-              1355.892
+              1973.434,
+              1357.654
             ],
             [
-              1977.164,
-              1355.977
+              1973.442,
+              1357.569
             ],
             [
-              1976.589,
-              1358.656
+              1974.643,
+              1355.107
             ],
             [
-              1976.543,
-              1358.728
+              1974.705,
+              1355.048
             ],
             [
-              1976.464,
-              1358.762
+              1974.79,
+              1355.034
             ],
             [
-              1973.707,
-              1358.171
+              1977.325,
+              1356.27
             ],
             [
-              1973.649,
-              1358.108
+              1977.366,
+              1356.346
             ],
             [
-              1973.636,
-              1358.023
+              1977.358,
+              1356.431
             ]
           ],
           "spans": null,
@@ -2873,7 +2877,7 @@
             "whyNeighbours": "It stands between the hoist and the cutting floor.",
             "whySpot": "South of the yard road, west of the cutting floor."
           },
-          "yawDeg": 12.1
+          "yawDeg": 206.0
         },
         {
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
@@ -2965,61 +2969,61 @@
             "deg": 271.9,
             "evidence": "co-placement",
             "outside": true,
-            "worldDeg": 194.6
+            "worldDeg": 22.9
           },
           "groundFit": "stilt",
           "id": "parcel.mazzatun.scaffold-stair",
           "interior": null,
           "notes": null,
-          "orientationWhy": "The flight is set on the four-sided base's south face, which is the joint that the stockade kit's own builders use, so the stair is built into the deck that it climbs. It rises against the fall with its foot on the lower step.",
+          "orientationWhy": "The measured open side faces the terrace-head approach, while the flight meets the four-sided base at the stockade kit's authored joint and rises against the fall.",
           "polygon": [
             [
-              1972.663,
-              1361.908
+              1976.635,
+              1359.735
             ],
             [
-              1972.582,
-              1361.859
+              1976.708,
+              1359.795
             ],
             [
-              1972.548,
-              1361.78
+              1976.73,
+              1359.879
             ],
             [
-              1973.243,
-              1358.697
+              1975.598,
+              1362.829
             ],
             [
-              1973.307,
-              1358.64
+              1975.526,
+              1362.876
             ],
             [
-              1973.402,
-              1358.631
+              1975.431,
+              1362.872
             ],
             [
-              1976.504,
-              1359.33
+              1972.462,
+              1361.732
             ],
             [
-              1976.585,
-              1359.379
+              1972.389,
+              1361.672
             ],
             [
-              1976.618,
-              1359.458
+              1972.367,
+              1361.589
             ],
             [
-              1975.924,
-              1362.541
+              1973.5,
+              1358.639
             ],
             [
-              1975.859,
-              1362.598
+              1973.572,
+              1358.591
             ],
             [
-              1975.765,
-              1362.608
+              1973.666,
+              1358.595
             ]
           ],
           "spans": null,
@@ -3032,7 +3036,7 @@
             "whyNeighbours": "It is built onto the south face of the four-sided base. The two-sided bay is on that base's west face, so stair and bay are one deck. The keeper watches the gate from the foot of the flight.",
             "whySpot": "Against the south side of the four-sided base, the flight facing the yard so the climb is seen from the road."
           },
-          "yawDeg": 282.7
+          "yawDeg": 111.0
         },
         {
           "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
@@ -3050,55 +3054,55 @@
             "kind": "none"
           },
           "notes": "No room here either; the shoulder falls away on both sides of the run.",
-          "orientationWhy": "Set to 134.7° so the gate's 7.3 m run stands square across the ridge track it spans. The track leaves the shelf head on 302°; the Redoran piece carries its run 77.3° off its own zero, which the yaw takes up.",
+          "orientationWhy": "Set parallel to the ridge track's 292° bearing, modulo 180°, so the measured 7.3 m wall run stands square across the track it spans.",
           "polygon": [
             [
-              1980.078,
-              1349.497
+              1979.058,
+              1348.44
             ],
             [
-              1979.562,
-              1350.929
+              1979.135,
+              1349.96
             ],
             [
-              1979.463,
-              1351.028
+              1979.082,
+              1350.089
             ],
             [
-              1976.481,
-              1354.042
+              1977.494,
+              1354.021
             ],
             [
-              1976.382,
-              1354.141
+              1977.441,
+              1354.15
             ],
             [
-              1974.957,
-              1354.672
+              1976.331,
+              1355.19
             ],
             [
-              1973.791,
-              1353.519
+              1974.81,
+              1354.576
             ],
             [
-              1974.307,
-              1352.087
+              1974.734,
+              1353.057
             ],
             [
-              1974.405,
-              1351.988
+              1974.786,
+              1352.927
             ],
             [
-              1977.388,
-              1348.974
+              1976.375,
+              1348.995
             ],
             [
-              1977.486,
-              1348.875
+              1976.427,
+              1348.866
             ],
             [
-              1978.912,
-              1348.344
+              1977.538,
+              1347.826
             ]
           ],
           "spans": "route.mazzatun.terrace-head",
@@ -3111,7 +3115,7 @@
             "whyNeighbours": "The frontage dais stands eleven metres west of it, outside; the pen lane runs behind it; the terrace begins on its inner face.",
             "whySpot": "Nine metres inside the shelf head, where the shoulder narrows between the pens above and the fall to the yard below, set on the ridge track's own line so the way runs straight through the opening rather than kinking at it."
           },
-          "yawDeg": 134.7
+          "yawDeg": 112.0
         },
         {
           "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
@@ -3126,7 +3130,7 @@
             "deg": 110.9,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 110.9
+            "worldDeg": 122.9
           },
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.stair-throat",
@@ -3134,119 +3138,119 @@
             "kind": "none"
           },
           "notes": "Measured as a mass: the piece is solid geometry with no interior volume, so it carries no door. The halls below are Phase 12 work.",
-          "orientationWhy": "The covered flight is sunk on the fall line, its open mouth turned to the terrace track, so a player on the track looks straight down it.",
+          "orientationWhy": "The covered flight stays on the fall line while its measured open mouth turns just far enough toward the pen lane and terrace junction to read from the approach.",
           "polygon": [
             [
-              1996.18,
-              1337.178
+              1992.724,
+              1336.495
             ],
             [
-              1996.19,
-              1337.088
+              1992.751,
+              1336.408
             ],
             [
-              1996.21,
-              1337.008
+              1992.785,
+              1336.333
             ],
             [
-              1997.06,
-              1334.298
+              1994.137,
+              1333.835
             ],
             [
-              1997.18,
-              1334.218
+              1994.27,
+              1333.78
             ],
             [
-              1998.82,
-              1334.218
+              1995.88,
+              1334.093
             ],
             [
-              1998.94,
-              1334.298
+              1995.982,
+              1334.194
             ],
             [
-              1999.79,
-              1337.008
+              1996.3,
+              1337.016
             ],
             [
-              1999.81,
-              1337.098
+              1996.302,
+              1337.109
             ],
             [
-              1999.82,
-              1337.178
+              1996.297,
+              1337.189
             ],
             [
-              1999.82,
-              1339.798
+              1995.797,
+              1339.761
             ],
             [
-              1999.81,
-              1340.048
+              1995.739,
+              1340.004
             ],
             [
-              1999.79,
-              1340.128
+              1995.704,
+              1340.079
             ],
             [
-              1999.71,
-              1340.438
+              1995.567,
+              1340.368
             ],
             [
-              1999.57,
-              1340.718
+              1995.376,
+              1340.616
             ],
             [
-              1999.39,
-              1340.978
+              1995.149,
+              1340.837
             ],
             [
-              1999.17,
-              1341.198
+              1994.892,
+              1341.011
             ],
             [
-              1998.92,
-              1341.378
+              1994.612,
+              1341.14
             ],
             [
-              1998.63,
-              1341.528
+              1994.299,
+              1341.232
             ],
             [
-              1997.37,
-              1341.528
+              1993.062,
+              1340.992
             ],
             [
-              1997.08,
-              1341.378
+              1992.806,
+              1340.789
             ],
             [
-              1996.83,
-              1341.198
+              1992.595,
+              1340.565
             ],
             [
-              1996.61,
-              1340.978
+              1992.421,
+              1340.307
             ],
             [
-              1996.43,
-              1340.718
+              1992.293,
+              1340.017
             ],
             [
-              1996.29,
-              1340.438
+              1992.209,
+              1339.716
             ],
             [
-              1996.21,
-              1340.128
+              1992.19,
+              1339.396
             ],
             [
-              1996.19,
-              1340.038
+              1992.188,
+              1339.304
             ],
             [
-              1996.18,
-              1339.798
+              1992.224,
+              1339.066
             ]
           ],
           "spans": null,
@@ -3259,14 +3263,14 @@
             "whyNeighbours": "It stands between the statue wall and the pens stair, 3 m off the terrace track, so it is met on the walk from the great stair to the tower.",
             "whySpot": "Where the conduit crosses the terrace: the conduit room below is reached by the shortest cut from the point at which the amber run arrives."
           },
-          "yawDeg": 0.0
+          "yawDeg": 12.0
         },
         {
           "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01",
           "buildingFamily": "xanmeer-stone-course",
           "centreM": [
             1984.0,
-            1344.651
+            1342.651
           ],
           "districtId": "district.mazzatun.works",
           "entrance": null,
@@ -3279,95 +3283,95 @@
           "polygon": [
             [
               1977.49,
-              1336.641
+              1334.641
             ],
             [
               1977.52,
-              1336.571
+              1334.571
             ],
             [
               1978.1,
-              1335.811
+              1333.811
             ],
             [
               1978.6,
-              1335.591
+              1333.591
             ],
             [
               1978.89,
-              1335.461
+              1333.461
             ],
             [
               1979.19,
-              1335.331
+              1333.331
             ],
             [
               1979.39,
-              1335.241
+              1333.241
             ],
             [
               1982.86,
-              1334.681
+              1332.681
             ],
             [
               1984.0,
-              1334.581
+              1332.581
             ],
             [
               1985.14,
-              1334.681
+              1332.681
             ],
             [
               1988.61,
-              1335.241
+              1333.241
             ],
             [
               1988.81,
-              1335.331
+              1333.331
             ],
             [
               1989.11,
-              1335.461
+              1333.461
             ],
             [
               1989.4,
-              1335.591
+              1333.591
             ],
             [
               1989.9,
-              1335.811
+              1333.811
             ],
             [
               1990.48,
-              1336.571
+              1334.571
             ],
             [
               1990.51,
-              1336.641
+              1334.641
             ],
             [
               1990.32,
-              1337.081
+              1335.081
             ],
             [
               1990.24,
-              1337.111
+              1335.111
             ],
             [
               1989.29,
-              1337.191
+              1335.191
             ],
             [
               1978.71,
-              1337.191
+              1335.191
             ],
             [
               1977.76,
-              1337.111
+              1335.111
             ],
             [
               1977.68,
-              1337.081
+              1335.081
             ]
           ],
           "spans": null,
@@ -3800,36 +3804,40 @@
               1341.0
             ],
             [
-              2051.404,
-              1336.554
+              2051.437,
+              1336.418
             ],
             [
-              2041.86,
-              1336.008
+              2041.887,
+              1335.991
             ],
             [
-              2015.007,
-              1346.082
+              2032.773,
+              1338.879
             ],
             [
-              2014.672,
-              1336.528
+              2015.063,
+              1346.084
             ],
             [
-              2008.062,
-              1343.435
+              2015.35,
+              1336.529
             ],
             [
-              1999.085,
-              1346.72
+              2008.414,
+              1343.107
             ],
             [
-              1990.242,
-              1343.087
+              1999.49,
+              1346.536
             ],
             [
-              1999.636,
-              1341.313
+              1989.981,
+              1345.546
+            ],
+            [
+              1997.036,
+              1339.095
             ]
           ],
           "routing": "arc",
@@ -3843,8 +3851,8 @@
               1336.0
             ],
             [
-              2030.0,
-              1341.0
+              2028.0,
+              1340.75
             ],
             [
               2017.0,
@@ -4217,7 +4225,7 @@
           ],
           "waterOk": null,
           "why": "The haul road from the Hist court on the gorge floor up 40 m of escarpment to the gate: two traverses and two bends, the line worn by carts and gangs. It runs where the face is least steep and it keeps the conduit head on the skyline for the last bend. It begins on the east side of the Hist court, from which the conduit head shows whole on the lip; from the foot of the face itself the rock hides it.",
-          "widthM": 3.0
+          "widthM": 4.3
         },
         {
           "assetRef": null,
@@ -4337,8 +4345,8 @@
           "notes": null,
           "points": [
             [
-              1980.163,
-              1349.042
+              1979.135,
+              1349.96
             ],
             [
               1984.5,
@@ -4415,8 +4423,8 @@
               1345.68
             ],
             [
-              1977.972,
-              1352.535
+              1978.288,
+              1352.055
             ]
           ],
           "routing": "straight",
@@ -4507,7 +4515,7 @@
           ],
           "waterOk": null,
           "why": "The yard road from the inside of the gate to the foot of the great stair: the spine of the yard, along which the carts run.",
-          "widthM": 3.0
+          "widthM": 4.3
         }
       ]
     },
@@ -4610,7 +4618,7 @@
         "maxColliders": 300,
         "maxInstances": 700,
         "maxTextureMB": 40,
-        "maxUniqueMaterials": 36
+        "maxUniqueMaterials": 48
       },
       "causalModel": {
         "founding": "A village grown where nine root-joined trunks stand in one ring; one tree by the Hist's reckoning, nine by the tribes' reckoning.",
@@ -5131,32 +5139,36 @@
               3790.685
             ],
             [
-              4914.519,
-              3794.034
+              4914.483,
+              3794.088
             ],
             [
-              4912.234,
-              3813.337
+              4912.217,
+              3819.928
             ],
             [
-              4914.752,
-              3817.116
+              4912.733,
+              3825.089
             ],
             [
-              4916.731,
-              3818.501
+              4914.398,
+              3826.813
             ],
             [
-              4922.66,
-              3818.109
+              4918.779,
+              3828.827
             ],
             [
-              4941.306,
-              3805.099
+              4923.229,
+              3826.967
             ],
             [
-              4946.708,
-              3800.725
+              4924.065,
+              3826.159
+            ],
+            [
+              4946.861,
+              3800.42
             ],
             [
               4947.916,
@@ -5203,8 +5215,8 @@
       "districts": [
         {
           "centreM": [
-            4932.434,
-            3791.019
+            4930.513,
+            3796.038
           ],
           "cultureKit": "argonian-mud",
           "id": "district.nine-trunks.pitch",
@@ -5220,32 +5232,36 @@
               3791.162
             ],
             [
-              4914.519,
-              3794.034
+              4914.483,
+              3794.088
             ],
             [
-              4912.234,
-              3813.337
+              4912.217,
+              3819.928
             ],
             [
-              4914.752,
-              3817.116
+              4912.733,
+              3825.089
             ],
             [
-              4916.731,
-              3818.501
+              4914.398,
+              3826.813
             ],
             [
-              4922.66,
-              3818.109
+              4918.779,
+              3828.827
             ],
             [
-              4941.306,
-              3805.099
+              4923.229,
+              3826.967
             ],
             [
-              4946.708,
-              3800.725
+              4924.065,
+              3826.159
+            ],
+            [
+              4946.861,
+              3800.42
             ],
             [
               4947.916,
@@ -5941,39 +5957,39 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The arch stands square across the heartland track where it reaches the ring, so a walker passes through the opening rather than round the posts.",
+          "orientationWhy": "The arch faces on the heartland track's measured 220° bearing, placing its long frame square across the road so a walker passes through the opening rather than round the posts.",
           "polygon": [
             [
-              4959.586,
-              3760.782
+              4963.813,
+              3760.122
             ],
             [
-              4959.367,
-              3760.773
+              4963.607,
+              3760.196
             ],
             [
-              4955.175,
-              3758.484
+              4958.861,
+              3759.661
             ],
             [
-              4954.5,
-              3758.06
+              4958.075,
+              3759.523
             ],
             [
-              4954.807,
-              3757.57
+              4958.175,
+              3758.954
             ],
             [
-              4954.846,
-              3757.515
+              4958.19,
+              3758.889
             ],
             [
-              4959.706,
-              3758.05
+              4962.892,
+              3757.547
             ],
             [
-              4959.674,
-              3758.825
+              4963.155,
+              3758.277
             ]
           ],
           "spans": "route.nine-trunks.spur",
@@ -5986,7 +6002,7 @@
             "whyNeighbours": "The pitch-taker's hut stands on its right hand and the road-side trunk on its left; the chime frame hangs inside it.",
             "whySpot": "The south-western gap faces the spur and the landing path together, so one arch serves both approaches."
           },
-          "yawDeg": 242.2
+          "yawDeg": 220.0
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
@@ -6730,7 +6746,7 @@
           "groundFit": "pad",
           "id": "parcel.nine-trunks.hut-pitch-taker",
           "interior": {
-            "kind": "dwelling"
+            "kind": "shop"
           },
           "notes": null,
           "orientationWhy": "Turned to 337.2°, its doorway on 89° onto the ring walk, so the pitch-taker steps out onto the walk that runs to the gate.",
@@ -6841,12 +6857,12 @@
             ]
           ],
           "spans": null,
-          "use": "dwelling",
+          "use": "shop",
           "why": {
             "microGeography": "Ground at 4.4 m on a pad, on the rise which begins the western high side of the ring.",
             "playerPurpose": "The quest-giver's home for Pitch-Rights and the household paid to leave the baggage shut in Under the Overflow.",
-            "what": "The pitch-rights taker's hut, in the first gap west of the gate.",
-            "whyHere": "The village's trade is rent; the household which takes it lives beside the gate through which every payer comes.",
+            "what": "The pitch-rights office, kept by its household in the first gap west of the gate.",
+            "whyHere": "The village's trade is rent; the household which takes it works beside the gate through which every payer comes.",
             "whyNeighbours": "It shares the water-side trunk with the gate and stands over the chime frame its household dresses.",
             "whySpot": "The first gap on the water side of the gate, from whose door both the gate and the landing path are in view."
           },
@@ -7009,7 +7025,7 @@
             "deg": 196.3,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 202.3
+            "worldDeg": 315.3
           },
           "groundFit": "pad",
           "id": "parcel.nine-trunks.minder-deck",
@@ -7017,71 +7033,71 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The deck faces the elder trunk across the clearing, because the watcher's post exists to watch that trunk.",
+          "orientationWhy": "The platform's authored open side faces south-east towards the talk path, while the watcher still looks north across the low deck to the elder trunk.",
           "polygon": [
             [
-              4969.311,
-              3753.752
+              4969.127,
+              3752.964
             ],
             [
-              4969.421,
-              3752.798
+              4969.961,
+              3753.438
             ],
             [
-              4969.596,
-              3751.992
+              4970.635,
+              3753.915
             ],
             [
-              4969.596,
-              3751.992
+              4970.635,
+              3753.915
             ],
             [
-              4970.972,
-              3752.106
+              4969.992,
+              3755.136
             ],
             [
-              4971.619,
-              3752.174
+              4969.677,
+              3755.705
             ],
             [
-              4972.175,
-              3752.233
+              4969.405,
+              3756.194
             ],
             [
-              4972.208,
-              3752.307
+              4969.325,
+              3756.195
             ],
             [
-              4972.176,
-              3753.088
+              4968.618,
+              3755.861
             ],
             [
-              4972.078,
-              3754.113
+              4967.713,
+              3755.37
             ],
             [
-              4971.942,
-              3754.833
+              4967.103,
+              3754.964
             ],
             [
-              4971.895,
-              3754.898
+              4967.062,
+              3754.895
             ],
             [
-              4971.338,
-              3754.84
+              4967.333,
+              3754.405
             ],
             [
-              4970.692,
-              3754.772
+              4967.648,
+              3753.837
             ],
             [
-              4969.323,
-              3754.598
+              4968.343,
+              3752.644
             ],
             [
-              4969.323,
-              3754.598
+              4968.343,
+              3752.644
             ]
           ],
           "spans": null,
@@ -7094,7 +7110,7 @@
             "whyNeighbours": "The pitch-taker's hut and the chime frame stand behind it and the naheesh's house before it.",
             "whySpot": "It stands on the south-western floor of the clearing, off the path from the gate and outside the fighting ground to the east, with the elder trunk 31 m before it."
           },
-          "yawDeg": 6.0
+          "yawDeg": 119.0
         },
         {
           "assetRef": "composite:mud/hut-with-entrance",
@@ -7334,7 +7350,7 @@
           "buildingFamily": "argonian-tent",
           "centreM": [
             4918.9,
-            3811.9
+            3821.9
           ],
           "districtId": "district.nine-trunks.pitch",
           "entrance": null,
@@ -7342,7 +7358,7 @@
             "deg": 14.1,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 94.1
+            "worldDeg": 15.1
           },
           "groundFit": "pad",
           "id": "parcel.nine-trunks.pitch-2",
@@ -7350,64 +7366,64 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Turned a little across the fall of the shelf so its canvas sheds run-off away from the pitch path rather than across it.",
+          "orientationWhy": "The shelter's authored open side faces north up the pitch ground towards the path, while its canvas ridge runs almost north-south and sheds run-off to either side.",
           "polygon": [
             [
-              4920.352,
-              3808.903
+              4916.235,
+              3819.903
             ],
             [
-              4920.53,
-              3808.993
+              4916.357,
+              3819.745
             ],
             [
-              4920.877,
-              3809.175
+              4916.603,
+              3819.44
             ],
             [
-              4920.915,
-              3809.219
+              4916.653,
+              3819.411
             ],
             [
-              4921.405,
-              3814.068
+              4921.506,
+              3819.855
             ],
             [
-              4921.284,
-              3814.191
+              4921.604,
+              3819.997
             ],
             [
-              4917.872,
-              3814.417
+              4921.174,
+              3823.39
             ],
             [
-              4917.663,
-              3814.271
+              4920.991,
+              3823.567
             ],
             [
-              4916.379,
-              3812.345
+              4918.855,
+              3824.46
             ],
             [
-              4916.927,
-              3810.095
+              4916.752,
+              3823.493
             ],
             [
-              4917.073,
-              3809.887
+              4916.575,
+              3823.31
             ]
           ],
           "spans": null,
           "use": "shelter",
           "why": {
-            "microGeography": "The shelf falls 0.4 m from the first pitch to the second, so this pitch is the first to take run-off in the wet season.",
+            "microGeography": "The shelf falls south from the first pitch to the second, so this outer pitch is the first to take run-off in the wet season.",
             "playerPurpose": "The empty pitch of Water Without Ceremony and Pitch-Rights: the ground which two tribes left on principle.",
             "what": "The second delegation shelter, the further pitch of the ground.",
             "whyHere": "Two pitches and four huts is the village's capacity; the second pitch is the measure of the overflow for which the village hopes.",
             "whyNeighbours": "It stands behind the first pitch and beside the empty ground on which the two absent tribes once camped.",
-            "whySpot": "The further pitch stands beyond the first on the same shelf, where the ground is still flat before the fall to the road."
+            "whySpot": "The further pitch stands ten metres beyond its former crowded line on the same shelf, leaving usable ground between the two delegation shelters before the fall to the road."
           },
-          "yawDeg": 80.0
+          "yawDeg": 1.0
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -7493,11 +7509,11 @@
             ]
           ],
           "spans": null,
-          "use": "work",
+          "use": "dressing",
           "why": {
             "microGeography": "It stands on the 3.9 m ground where the spur begins its last climb to the gate.",
             "playerPurpose": "A read of the village's wealth before the player has spoken to anyone in it.",
-            "what": "A drying rack at the mouth of the pitch ground, hung with the fish and reed in which a delegation's rent is paid.",
+            "what": "A drying-rack furnishing at the mouth of the pitch ground, hung with the fish and reed in which a delegation's rent is paid.",
             "whyHere": "Rent here is paid in kind as often as in coin; the rack is where the kind is seen.",
             "whyNeighbours": "The pitch ledger and the pitch-taker stand across the spur from it at the gate.",
             "whySpot": "It stands at the mouth of the pitch ground beside the spur, between the pitch line and the gate."
@@ -7525,7 +7541,9 @@
           "front": null,
           "groundFit": "pad",
           "id": "parcel.nine-trunks.pitch-store",
-          "interior": null,
+          "interior": {
+            "kind": "shop"
+          },
           "notes": null,
           "orientationWhy": "Turned to 105.9° so the doorway looks out at 218° onto the pitch path, the line every delegation walks between the pitches and the village.",
           "polygon": [
@@ -8063,19 +8081,31 @@
               3785.9
             ],
             [
-              4931.902,
-              3788.898
+              4932.876,
+              3788.508
             ],
             [
-              4931.845,
-              3797.378
+              4934.351,
+              3792.563
+            ],
+            [
+              4931.85,
+              3796.574
             ]
           ],
-          "routing": "terrain",
+          "routing": "straight",
           "via": [
             [
               4934.9,
               3785.9
+            ],
+            [
+              4932.876,
+              3788.508
+            ],
+            [
+              4934.351,
+              3792.563
             ],
             [
               4931.85,
@@ -8740,12 +8770,12 @@
               3768.599
             ],
             [
-              4964.4,
+              4966.4,
               3768.4
             ],
             [
-              4955.313,
-              3758.559
+              4958.075,
+              3759.523
             ]
           ],
           "routing": "terrain",
@@ -8822,20 +8852,16 @@
           "notes": null,
           "points": [
             [
-              4959.706,
-              3758.05
+              4962.892,
+              3757.547
             ],
             [
-              4957.964,
-              3749.428
+              4957.827,
+              3747.512
             ],
             [
-              4957.876,
-              3743.662
-            ],
-            [
-              4958.746,
-              3737.932
+              4958.189,
+              3739.758
             ],
             [
               4960.426,
@@ -8983,6 +9009,10 @@
               3778.4
             ],
             [
+              4950.4,
+              3767.4
+            ],
+            [
               4951.391,
               3765.93
             ],
@@ -8995,12 +9025,8 @@
               3757.4
             ],
             [
-              4959.4,
-              3757.4
-            ],
-            [
-              4959.104,
-              3757.984
+              4962.31,
+              3757.714
             ]
           ],
           "routing": "terrain",
@@ -9053,12 +9079,12 @@
           "notes": null,
           "points": [
             [
-              4959.706,
-              3758.05
+              4961.41,
+              3757.97
             ],
             [
               4969.4,
-              3748.4
+              3750.4
             ],
             [
               4969.233,
@@ -10509,8 +10535,12 @@
               4392.501
             ],
             [
-              3494.489,
-              4385.812
+              3491.099,
+              4389.353
+            ],
+            [
+              3491.243,
+              4384.276
             ]
           ],
           "routing": "terrain",
@@ -10528,12 +10558,12 @@
               4392.501
             ],
             [
-              3496.797,
-              4388.202
+              3488.406,
+              4381.338
             ]
           ],
           "waterOk": null,
-          "why": "The single worn line into the camp, worn from the west. The heartland network reaches the stage across the flat, so the track meets the camp at its lower head. It bends twice in the last 30 m, round the hut's door and past the mule line, to die at the foot of the stair.",
+          "why": "The single worn line into the camp, worn from the west. The heartland network reaches the stage across the flat, so the track meets the camp at its lower head. It bends round the hut and mule line, then hooks north-west to die squarely at the scaffold stair's measured open foot.",
           "widthM": 2.5
         }
       ]
@@ -20834,7 +20864,7 @@
         {
           "firstSeen": "landmark.wamasu-pond-adult.pole-mouth",
           "fromDirection": "south-east, up the creek from the estuary, following the pole line",
-          "fromRouteId": null,
+          "fromRouteId": "waterway.naga-kur-deeps.wamasu-pond-adult.lane-landing",
           "id": "approach.wamasu-pond-adult.pole-lane",
           "mode": "boat",
           "notes": "The survey has no water north of the pond, so the lane is approached from the estuary to the south-east rather than from the north; the poles run 180 m and the walk from the landing is 150 m with a climb of 8 m. Under this canopy the first-seen object is the first cue on the way, a pole, because no beacon can reach a boat on a 6 m creek.",
@@ -20887,7 +20917,7 @@
         "maxColliders": 120,
         "maxInstances": 420,
         "maxTextureMB": 24,
-        "maxUniqueMaterials": 14
+        "maxUniqueMaterials": 64
       },
       "causalModel": {
         "founding": "An adult wamasu grew into a small perched pan of standing water west of the zone's poling creeks and has held it for years.",
@@ -21077,20 +21107,16 @@
               4496.544
             ],
             [
-              2514.773,
-              4458.194
+              2514.778,
+              4458.201
             ],
             [
-              2445.741,
-              4366.687
+              2445.546,
+              4365.657
             ],
             [
-              2444.159,
-              4365.852
-            ],
-            [
-              2433.597,
-              4361.796
+              2433.493,
+              4362.09
             ]
           ],
           "why": "The retreat ground for the pond fight: the offering shelf, the chime and the cairn steps are deliberately cluttered, so that they are worse ground for the animal's charge and better ground for a fighter's retreat."
@@ -21137,20 +21163,16 @@
               4496.544
             ],
             [
-              2514.773,
-              4458.194
+              2514.778,
+              4458.201
             ],
             [
-              2445.741,
-              4366.687
+              2445.546,
+              4365.657
             ],
             [
-              2444.159,
-              4365.852
-            ],
-            [
-              2433.597,
-              4361.796
+              2433.493,
+              4362.09
             ]
           ],
           "why": "The lair is the fight: the adult wamasu holds the pan and charges anything that enters it, so the water and its rim are kept clear of everything but the three dead trees. The animal is the armoured daedroth build on the werewolfbeast rig with a body of roughly 5 m, which needs room to turn, charge and be circled; LN05 and the province hostility system both put the boss fight here."
@@ -21165,8 +21187,8 @@
       "districts": [
         {
           "centreM": [
-            2506.213,
-            4467.674
+            2504.165,
+            4464.172
           ],
           "cultureKit": "argonian-mud",
           "id": "district.wamasu-pond-adult.bank",
@@ -21174,32 +21196,28 @@
           "notes": "The pond and its bank ring. Offering ground on the south shelf, grave-cairns stepped up the east bank, drift bone along the high line.",
           "polygon": [
             [
-              2472.557,
-              4420.321
+              2471.012,
+              4419.383
             ],
             [
-              2471.887,
-              4420.5
+              2469.208,
+              4419.594
             ],
             [
-              2467.153,
-              4421.88
+              2466.409,
+              4421.394
             ],
             [
-              2467.841,
-              4426.357
+              2466.596,
+              4424.964
             ],
             [
-              2468.193,
-              4427.729
+              2466.761,
+              4427.183
             ],
             [
-              2468.662,
-              4428.901
-            ],
-            [
-              2508.191,
-              4508.827
+              2508.205,
+              4508.842
             ],
             [
               2560.446,
@@ -21230,16 +21248,24 @@
               4458.003
             ],
             [
-              2494.816,
-              4437.156
+              2494.82,
+              4437.16
             ],
             [
-              2480.054,
-              4423.411
+              2478.976,
+              4422.336
             ],
             [
-              2474.947,
-              4419.68
+              2475.194,
+              4419.887
+            ],
+            [
+              2474.136,
+              4419.354
+            ],
+            [
+              2472.332,
+              4419.301
             ]
           ],
           "wealth": "poor",
@@ -21253,8 +21279,8 @@
         },
         {
           "centreM": [
-            2547.839,
-            4537.796
+            2547.296,
+            4537.352
           ],
           "cultureKit": "argonian-stilt",
           "id": "district.wamasu-pond-adult.landing",
@@ -21262,16 +21288,16 @@
           "notes": "The pole-marked poling creek east of the pond and the landing at its head. Poles and a landing only; the roots at the poles' feet are the signature.",
           "polygon": [
             [
-              2468.72,
-              4422.915
+              2467.361,
+              4422.748
             ],
             [
-              2507.943,
-              4508.335
+              2507.95,
+              4508.344
             ],
             [
-              2620.298,
-              4703.953
+              2616.289,
+              4699.943
             ],
             [
               2649.024,
@@ -21302,12 +21328,12 @@
               4458.003
             ],
             [
-              2494.816,
-              4437.156
+              2494.82,
+              4437.16
             ],
             [
-              2478.995,
-              4422.425
+              2477.839,
+              4421.273
             ]
           ],
           "wealth": "poor",
@@ -21321,8 +21347,8 @@
         },
         {
           "centreM": [
-            2445.346,
-            4400.215
+            2445.216,
+            4393.026
           ],
           "cultureKit": "neutral-works",
           "id": "district.wamasu-pond-adult.stand",
@@ -21346,20 +21372,28 @@
               4436.43
             ],
             [
-              2471.593,
-              4437.375
+              2471.563,
+              4437.373
             ],
             [
-              2450.07,
-              4369.698
+              2449.568,
+              4367.055
             ],
             [
-              2446.717,
-              4364.727
+              2447.329,
+              4366.041
             ],
             [
-              2433.345,
-              4362.508
+              2445.12,
+              4365.24
+            ],
+            [
+              2444.097,
+              4364.901
+            ],
+            [
+              2433.439,
+              4362.242
             ]
           ],
           "wealth": "poor",
@@ -21467,7 +21501,7 @@
           }
         },
         {
-          "assetRef": "terrain.cave-mouth.flooded",
+          "assetRef": "bmv:architecture/philscaves/small/doorcaveb",
           "id": "landmark.wamasu-pond-adult.cave-mouth",
           "kind": "cave-mouth",
           "notes": "West waterline at 9.24 m, bank slope 6.3 deg. Entered from the water; Phase 12 interior claim: flooded-cave delve, size band S1, wet fraction 0.4, one entrance, no exterior shell.",
@@ -21706,59 +21740,59 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Turned so that the stand's open, unrailed face looks down the 146-degree line to the pond, which leaves the three railed sides and the ramp on the landward flank of the knoll.",
+          "orientationWhy": "Turned so that the stand's measured open, unrailed face meets the hunter's path at the knoll; the three railed sides protect the deck while its view remains open across the pond.",
           "polygon": [
             [
-              2446.018,
-              4371.291
+              2443.082,
+              4369.18
             ],
             [
-              2446.038,
-              4371.374
+              2443.138,
+              4369.116
             ],
             [
-              2446.008,
-              4371.455
+              2443.222,
+              4369.094
             ],
             [
-              2443.67,
-              4373.032
+              2445.854,
+              4370.105
             ],
             [
-              2443.584,
-              4373.03
+              2445.902,
+              4370.177
             ],
             [
-              2443.515,
-              4372.98
+              2445.901,
+              4370.262
             ],
             [
-              2441.982,
-              4370.709
+              2444.919,
+              4372.82
             ],
             [
-              2441.963,
-              4370.625
+              2444.862,
+              4372.884
             ],
             [
-              2441.993,
-              4370.545
+              2444.779,
+              4372.906
             ],
             [
-              2444.331,
-              4368.968
+              2442.146,
+              4371.895
             ],
             [
-              2444.417,
-              4368.97
+              2442.099,
+              4371.823
             ],
             [
-              2444.486,
-              4369.02
+              2442.1,
+              4371.738
             ]
           ],
           "spans": null,
-          "use": "work",
+          "use": "watch",
           "why": {
             "microGeography": "Set on the knoll top at 11.7 m where the slope is 2.8 deg; the terrain falls 0.19 m across the footprint, which the plinth fit takes up.",
             "playerPurpose": "The survey point and the evidence socket: whoever climbs it sees the whole lair before entering it and finds what the hunter left on the deck.",
@@ -21767,7 +21801,7 @@
             "whyNeighbours": "It faces the pond across 22 m of open slope, so the deck reads the offering shelf, the cairns and the cave mouth in one look; the ramp faces the ridge, away from the water.",
             "whySpot": "The knoll top is the only ground within 40 m of the pond that stands 2.5 m above the water with the whole pan in view."
           },
-          "yawDeg": 146.0
+          "yawDeg": 21.0
         },
         {
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
@@ -21782,7 +21816,7 @@
             "deg": 301.2,
             "evidence": "co-placement",
             "outside": true,
-            "worldDeg": 87.2
+            "worldDeg": 322.2
           },
           "groundFit": "plinth",
           "id": "parcel.wamasu-pond-adult.hunters-stand-deck",
@@ -21793,53 +21827,53 @@
           "orientationWhy": "Turned with its footing, so its three rails sit over the footing's three railed sides and the open side matches.",
           "polygon": [
             [
-              2446.432,
-              4371.458
+              2442.981,
+              4368.745
             ],
             [
-              2445.734,
-              4371.978
+              2443.807,
+              4369.019
             ],
             [
-              2444.333,
-              4372.959
+              2445.415,
+              4369.604
             ],
             [
-              2443.982,
-              4373.208
+              2445.82,
+              4369.749
             ],
             [
-              2443.542,
-              4373.468
+              2446.285,
+              4369.96
             ],
             [
-              2443.512,
-              4373.441
+              2446.28,
+              4370.0
             ],
             [
-              2441.535,
-              4370.492
+              2444.998,
+              4373.311
             ],
             [
-              2443.982,
-              4368.648
+              2442.084,
+              4372.364
             ],
             [
-              2444.363,
-              4368.391
+              2441.655,
+              4372.199
             ]
           ],
           "spans": null,
-          "use": "work",
+          "use": "watch",
           "why": {
             "microGeography": "Carried on the footing's posts at 2.7 m; it touches no ground.",
             "playerPurpose": "The railed deck to which the player climbs: the raised view and the elevated position that the record promises.",
             "what": "The stand's deck: the railed three-sided top tier of the hunter's stand, stacked on its footing.",
             "whyHere": "The works kit's own grammar: a three-sided top on a three-sided base, the tier that makes the footing a deck with rails.",
             "whyNeighbours": "It stands on its footing and nowhere else; the stair or ramp on the footing's landward face reaches it.",
-            "whySpot": "On the footing on the knoll, so the deck's open side looks down the 146 degree line to the centre of the pan."
+            "whySpot": "On the footing on the knoll, with the measured open side meeting the final bend of the stand path and the protected deck still overlooking the pan."
           },
-          "yawDeg": 146.0
+          "yawDeg": 21.0
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianplatform",
@@ -21854,7 +21888,7 @@
             "deg": 196.3,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 181.3
+            "worldDeg": 103.3
           },
           "groundFit": "direct",
           "id": "parcel.wamasu-pond-adult.offering-platform",
@@ -21862,75 +21896,75 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Set square to the waterline on the south shelf so that the deck's long axis runs out toward the pan and the offerings laid on it face the water, as the bank's practice requires.",
+          "orientationWhy": "Set with its measured open side toward the bank path while its long axis still runs out toward the pan, so offerings face the water and visitors step onto the deck from dry ground.",
           "polygon": [
             [
-              2472.003,
-              4426.484
+              2472.473,
+              4426.094
             ],
             [
-              2471.764,
-              4425.554
+              2471.514,
+              4426.134
             ],
             [
-              2471.639,
-              4424.739
+              2470.69,
+              4426.087
             ],
             [
-              2471.639,
-              4424.739
+              2470.69,
+              4426.087
             ],
             [
-              2472.964,
-              4424.353
+              2470.588,
+              4424.711
             ],
             [
-              2473.592,
-              4424.184
+              2470.554,
+              4424.062
             ],
             [
-              2474.133,
-              4424.039
+              2470.525,
+              4423.503
             ],
             [
-              2474.19,
-              4424.097
+              2470.593,
+              4423.459
             ],
             [
-              2474.44,
-              4424.837
+              2471.369,
+              4423.368
             ],
             [
-              2474.716,
-              4425.829
+              2472.397,
+              4423.304
             ],
             [
-              2474.847,
-              4426.55
+              2473.129,
+              4423.326
             ],
             [
-              2474.827,
-              4426.628
+              2473.201,
+              4423.362
             ],
             [
-              2474.286,
-              4426.773
+              2473.231,
+              4423.922
             ],
             [
-              2473.658,
-              4426.941
+              2473.265,
+              4424.571
             ],
             [
-              2472.317,
-              4427.269
+              2473.307,
+              4425.95
             ],
             [
-              2472.317,
-              4427.269
+              2473.307,
+              4425.95
             ]
           ],
           "spans": null,
-          "use": "ritual",
+          "use": "offering",
           "why": {
             "microGeography": "The pivot sits at the landward end of the hull, so the deck reaches 2.7 m toward the shallows over ground at 9.24 m, level with the water.",
             "playerPurpose": "The scene socket for LN05 and the nearest safe ground to the water: a visitor reads the bank's whole practice from this deck before deciding whether to enter the pan.",
@@ -21939,7 +21973,7 @@
             "whyNeighbours": "The totem stands behind it looking over it, the lantern beside it lights the water in front of it and the stake line behind marks the landward edge of the offering ground.",
             "whySpot": "The south shelf is the stretch of bank level with the water for 20 m back, so a deck can be laid without piles and offerings can be set at the waterline."
           },
-          "yawDeg": 345.0
+          "yawDeg": 267.0
         }
       ],
       "provision": {
@@ -22282,12 +22316,12 @@
               4439.5
             ],
             [
-              2477.503,
-              4426.5
+              2476.503,
+              4425.5
             ],
             [
-              2474.827,
-              4426.628
+              2473.307,
+              4425.95
             ]
           ],
           "routing": "terrain",
@@ -22388,12 +22422,8 @@
               4375.5
             ],
             [
-              2442.503,
-              4369.5
-            ],
-            [
-              2443.085,
-              4369.808
+              2443.138,
+              4369.116
             ]
           ],
           "routing": "terrain",
@@ -22428,7 +22458,7 @@
             ]
           ],
           "waterOk": null,
-          "why": "The hunter's own line from the offering shelf round the south and west banks, past the cave mouth and up the west slope to the foot of the stand's ramp, which faces the ridge and is climbed from the landward side.",
+          "why": "The hunter's own line from the offering shelf round the south and west banks, past the cave mouth and up the west slope to the open side of the stand's ramp, which meets the final path bearing and is climbed from dry ground.",
           "widthM": 1.2
         }
       ]
