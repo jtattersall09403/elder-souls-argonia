@@ -724,6 +724,48 @@ not restated.
   counts any failure it does not cover. It changes no outcome: nothing is
   xfailed, quarantined or skipped, and the gate is not weakened.
 
+## The two rollouts still held on the water pass (2026-09-09)
+
+Everything else in this file is authored, gated and committed. Two compiles
+remain, and both are held for the reason the owner already recorded in B5:
+they must run against the FINAL water rasters. The signal to go is
+`worldgen/test_blueprint.py::test_live_dir_validates` turning green and the
+water session's tree being clean. Until then `tooling/world-generation/conftest.py`
+prints a KNOWN RED banner naming that test, so nobody mistakes it for a broken
+suite.
+
+**Rollout 1 — the place re-solve.** The dry run is clean: 580/580 plotted, zero
+typed-siting violations, nearest neighbour p5 71 / median 132 / p95 257 m
+against today's 35 / 85 / 250.
+
+    cd tooling/world-generation
+    python3 -m worldgen.macro_plot --resolve-all
+    python3 -m worldgen.apply_sitings
+
+`apply_sitings` itself re-runs `compile_minor_routes`, `compile_minor_waterways`,
+`hostility_frequency`, `export_places` and `export_routes`. Three of those write
+files the water session has had dirty (`world/sources/sites/hostility-frequency.md`,
+`apps/world-studio/public/province/places.json`), so sequence after it is done,
+not merely after its test is green. Note the hazard the resolver found:
+`macro_plot` writes the catalogue BEFORE it raises on homeless records, so a run
+that ends unhappy still leaves a written catalogue behind — check the homeless
+count in the report, do not trust the exit alone.
+
+**Rollout 2 — the vegetation scatter.** The density ladder of
+[0048](../../decisions/0048-vegetation-density-ladder.md) and the two rebuilt
+kits are authored but not yet in the shipped bundles, so the world still carries
+the old, near-uniform tree density.
+`worldgen/test_vegetation_ladder.py::test_delivered_ladder` is deliberately red
+until this runs and its failure message says so. Run `compile_scatter` and the
+vegetation export through the terrain chain, then re-fit `MEASURED_ATTENUATION`
+from the delivered bundles: the authored numbers were set by treating delivery
+as linear in authored count, and the classes cut hardest will land slightly
+above target. Tolerance is +/-0.15, or +/-0.35 for the four thin-sample classes.
+
+Order matters between them: the place re-solve moves records, and settlement
+ground control repaints footprints, so run the re-solve first and the scatter
+after, or the scatter will be compiled against places that then move.
+
 ## What follows gap closure
 
 Phase 11 then moves from proving the system on five authored exemplars to a
