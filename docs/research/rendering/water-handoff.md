@@ -52,16 +52,24 @@ The round's own work is delivered and measured — the evidence, one row per
 owner item, is [water-round2-evidence.md](water-round2-evidence.md). What is
 left is a handover, not a loose end:
 
-1. **The authored local hydrology contract is half done.** The carve now makes
-   an authored centreline real water (`worldgen/authored_waterways.py`: the
-   Nine-Trunks poling channel carries 1.32 m against its 0.6 m promise, all 59
-   points). But `compile_minor_waterways` still publishes an A\*-routed path of
-   its own instead of the authored line, so `test_blueprint::test_live_dir_validates`
-   measures the wrong geometry and fails. That file is the placement side's.
-   `terrain_request_postconditions` reports 66 requests / 26 non-passing
-   findings of the same family ("channel-edge requires a final labelled wet
-   channel", "final water must satisfy 'diving' depth") — that is the rest of
-   this contract, and it is the next water job.
+1. **The authored local hydrology placement half is now done (`16b1860`).**
+   `compile_minor_waterways` publishes the exact authored metre-space line and
+   terminal rather than its own A\* substitute. The independent consumer check
+   now measures Nine-Trunks at the south-of-ring dock: exact terminal, 1.32 m
+   minimum over the first 100 m against the 0.6 m canoe promise. Do not move
+   this berth or replace the authored line.
+
+   **The physical-water half remains the next water job.** On the current final
+   rasters, `terrain-request-postconditions.json` has 50/66 passing and 16
+   non-passing requests. The remaining failures are final water identity,
+   wetness, depth or current delivery (plus survival at the two Reedcutters /
+   Onkobra operations), not blueprint-placement work. The independent dock
+   consumer adds two concrete witnesses: the Sap-Tapping landing falls to
+   0.00 m over its first 100 m (needs 0.6 m), and Lilmoth's lighter quay falls
+   to 1.20 m on Soulrest–Lilmoth and 0.84 m on Blackrose–Lilmoth (needs 3.0 m).
+   Nine-Trunks and Wamasu Pond now pass. Keep these failures red until the
+   physical compiler makes the authored cuts wet, labelled, deep and correctly
+   current-bearing; do not lower hull classes or move fixed berths to hide them.
 2. **`npm run test:placement` fails on four `test_compile_settlement` tests on
    a clean checkout of `main`.** They are not water's: they fail identically at
    the commit before the province rebuild. They entered the CI gate when the
