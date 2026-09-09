@@ -46,6 +46,21 @@ continue from the repo alone at any moment, with nothing to be explained.
    then `python3 -m pytest -q -n auto` and `npm run test:placement`.
 4. Data contract v2 is frozen (0047 § Decision): the runtime is coded to it.
 
+### Owner decisions, 2026-09-09
+
+- **Sap-Tapping's landing moves to the water** (not a dug channel, not dropped).
+  The berth stands 104.4 m from any water carrying a canoe's 0.6 m, on ground up
+  to 1.48 m above it, so it cannot be dredged. The landing and the place anchor
+  move about 92.6 m on bearing 242 degrees to the head of reach 118 at
+  ~(3435, 4454), where the approach is wet at every sample and dredges to
+  0.85 m. The place's plotted anchor was already 808 m from its own
+  `sitingPrefs.nearPoint`, so the re-siting is chosen by the playbook rather
+  than by translating the old dot.
+- **The deploy is held** until that berth is fixed, rather than moving the debt
+  gate out of the deploy-blocking job.
+  `test_minor_waterways::test_no_berth_is_refused_in_the_published_network` is
+  the only red test; everything else in CI is green.
+
 ### Closed 2026-09-08 late evening
 
 The round's own work is delivered and measured — the evidence, one row per
