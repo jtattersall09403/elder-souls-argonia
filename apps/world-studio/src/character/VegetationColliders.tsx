@@ -45,8 +45,16 @@ const RING_M = 20;
  * dozens of capsules, a pebble is one, so counting instances budgets the
  * wrong thing. These are fixed bodies with no simulation, so the cost is
  * broad-phase only and a few thousand is cheap.
+ *
+ * Raised 2500 -> 3600 in round 11, when the trunk fitter stopped mistaking
+ * leaf cards for wood (decision 0036). Slimming the capsules split splayed
+ * stems into several thin discs instead of one fat drum, so the kit went
+ * 2,039 -> 2,961 capsules and mean cost per species 41 -> 59. At the old
+ * budget that dropped the trees covered by a ring from ~61 to ~42, which
+ * shrinks the covered radius and so buys MORE frequent rebuilds — the exact
+ * trade the MAX_BODIES note below warns against. 3600 restores ~61.
  */
-const COLLIDER_BUDGET = 2500;
+const COLLIDER_BUDGET = 3600;
 
 /**
  * Backstop on bodies, for the pathological case where every solid in the ring
