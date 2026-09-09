@@ -64,6 +64,7 @@
       "households": 9,
       "buildingsPlanned": 27,
       "npcsPlanned": 12,
+      "densityForm": "works-yard",
       "why": "The Xit-Xaht who remain are a work gang and its shaper, about thirty in six households. They live underground in the halls behind the stair-throat, so the exterior carries no dwellings of theirs. The taken labourers, twelve to fifteen, are housed in three mud shells of 30 m2. The other twenty-three structures are the works: courses, stairs, kiln, scaffolds, block face, hoist, gate and conduit."
     },
     "siting": {
@@ -84,8 +85,8 @@
             1993.3,
             1455.9
           ],
-          "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and Δ 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
-          "rejectedBecause": "Δ ≥ 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
+          "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and \u0394 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
+          "rejectedBecause": "\u0394 \u2265 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
         },
         {
           "id": "candidate.mazzatun.gorge",
@@ -287,16 +288,12 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.264914617,
-            0.182429454
+            0.264629795,
+            0.182611209
           ],
           [
-            0.264582105,
-            0.182703557
-          ],
-          [
-            0.263616109,
-            0.183516503
+            0.263611011,
+            0.183523137
           ],
           [
             0.263457037,
@@ -319,16 +316,12 @@
             0.184949051
           ],
           [
-            0.26534139,
-            0.185254148
+            0.26534278,
+            0.185254481
           ],
           [
-            0.267940077,
-            0.185340068
-          ],
-          [
-            0.269797299,
-            0.185378214
+            0.269795323,
+            0.18537846
           ],
           [
             0.278014705,
@@ -343,8 +336,8 @@
             0.180767751
           ],
           [
-            0.276786154,
-            0.175612443
+            0.276785808,
+            0.175612039
           ]
         ],
         "notes": "The lower step and the stream lip, 196-203 m. Block face, hoist, scaffolds, gate and cart. The stockade scaffold family is placed per its own snap logic.",
@@ -361,7 +354,7 @@
       {
         "id": "route.mazzatun.haul",
         "kind": "road",
-        "widthM": 3.0,
+        "widthM": 4.3,
         "routing": "terrain",
         "via": [
           [
@@ -373,8 +366,8 @@
             0.176306889
           ],
           [
-            0.273953781,
-            0.182409819
+            0.274225022,
+            0.182138578
           ],
           [
             0.272597574,
@@ -452,12 +445,12 @@
             0.181663906
           ],
           [
-            0.273953781,
-            0.182409819
+            0.274225022,
+            0.182138578
           ],
           [
-            0.274021591,
-            0.183020113
+            0.274292832,
+            0.182748871
           ],
           [
             0.273750349,
@@ -502,7 +495,7 @@
       {
         "id": "route.mazzatun.yard",
         "kind": "road",
-        "widthM": 3.0,
+        "widthM": 4.3,
         "routing": "terrain",
         "via": [
           [
@@ -556,8 +549,8 @@
             0.182501994
           ],
           [
-            0.268253923,
-            0.183431717
+            0.268296768,
+            0.183366615
           ]
         ]
       },
@@ -595,8 +588,8 @@
         "why": "The terrace track along the works, from the shelf gate at the west end past the great stair head, the statue court and the throat door to the watch column at the lip. It is the way along the middle step. It begins on the gate's inner face so the ridge track runs on without a break.",
         "points": [
           [
-            0.268551,
-            0.182958
+            0.268411586,
+            0.183082431
           ],
           [
             0.269139246,
@@ -763,15 +756,47 @@
             0.180714561
           ],
           [
+            0.267837,
+            0.180714561
+          ]
+        ],
+        "endsAt": [],
+        "why": "The western three-module retaining run under the pens riser, from the corner block to the first vertical step in the cut.",
+        "points": [
+          [
+            0.265274057,
+            0.180714561
+          ],
+          [
+            0.267837,
+            0.180714561
+          ]
+        ],
+        "class": "curtain",
+        "routingWhy": "Surveyed as the lower of two straight runs; its east joint is the vertical step where the rock shelf rises.",
+        "moduleM": 6.38
+      },
+      {
+        "id": "fence.mazzatun.riser-upper-west-step",
+        "kind": "wall",
+        "widthM": 6.4,
+        "routing": "straight",
+        "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
+        "via": [
+          [
+            0.267837,
+            0.180714561
+          ],
+          [
             0.269478298,
             0.180714561
           ]
         ],
         "endsAt": [],
-        "why": "The retaining course of quad blocks under the pens riser, from the corner block to the pens stair; the north course stands on it.",
+        "why": "The eastern two-module retaining run continues from the vertical step to the pens stair, carrying the north course above it.",
         "points": [
           [
-            0.265274057,
+            0.267837,
             0.180714561
           ],
           [
@@ -780,7 +805,7 @@
           ]
         ],
         "class": "curtain",
-        "routingWhy": "Surveyed. A retaining course is laid to the cut that it holds up, and whoever quarried the pens shelf cut it square.",
+        "routingWhy": "Surveyed as the upper straight run after the cut steps vertically at its west joint.",
         "moduleM": 6.38
       },
       {
@@ -887,7 +912,7 @@
         "id": "fence.mazzatun.pen",
         "kind": "fence",
         "widthM": 0.3,
-        "routing": "terrain",
+        "routing": "straight",
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
         "via": [
           [
@@ -895,12 +920,20 @@
             0.178883682
           ],
           [
-            0.272665384,
-            0.178883682
+            0.264951242,
+            0.179303921
+          ],
+          [
+            0.265892528,
+            0.180179687
+          ],
+          [
+            0.266443534,
+            0.180178581
           ]
         ],
         "endsAt": [],
-        "why": "The woven fence along the uphill side of the pens and down their east side to the lip, so the only way out of the pens is down the stair into the works or west along the lane. Its east side needs no leg, because the east shell and the east course close it.",
+        "why": "The woven fence climbs from the western shoulder to the first short contour run behind the pens; its east joint is the first vertical step between fence panels.",
         "points": [
           [
             0.264867195,
@@ -915,27 +948,355 @@
             0.180179687
           ],
           [
+            0.266443534,
+            0.180178581
+          ]
+        ],
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "Surveyed from the final terrain solve. The long uphill edge is built as seven short level runs with vertical panel joints at each change in the rock shelf.",
+        "gapAt": [
+          "route.mazzatun.works-store-path"
+        ]
+      },
+      {
+        "id": "fence.mazzatun.pen-step-2",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.266443534,
+            0.180178581
+          ],
+          [
+            0.266994541,
+            0.180177474
+          ]
+        ],
+        "points": [
+          [
+            0.266443534,
+            0.180178581
+          ],
+          [
+            0.266994541,
+            0.180177474
+          ]
+        ],
+        "endsAt": [],
+        "why": "The second level fence run steps separately across the uneven uphill edge of the pens.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "Three surveyed panels rise from the 206.1 m western ledge to the next vertical joint."
+      },
+      {
+        "id": "fence.mazzatun.pen-step-3",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.266994541,
+            0.180177474
+          ],
+          [
+            0.267545547,
+            0.180176368
+          ]
+        ],
+        "points": [
+          [
+            0.266994541,
+            0.180177474
+          ],
+          [
+            0.267545547,
+            0.180176368
+          ]
+        ],
+        "endsAt": [],
+        "why": "The third level fence run steps separately across the uneven uphill edge of the pens.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "Three surveyed panels complete the climb onto the 207.1 m crown of the shelf."
+      },
+      {
+        "id": "fence.mazzatun.pen-step-4",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.267545547,
+            0.180176368
+          ],
+          [
+            0.268096553,
+            0.180175261
+          ]
+        ],
+        "points": [
+          [
+            0.267545547,
+            0.180176368
+          ],
+          [
+            0.268096553,
+            0.180175261
+          ]
+        ],
+        "endsAt": [],
+        "why": "The fourth level fence run steps separately across the uneven uphill edge of the pens.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "Three surveyed panels cross the crown where the final rock holds close to 207 m."
+      },
+      {
+        "id": "fence.mazzatun.pen-step-5",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.268096553,
+            0.180175261
+          ],
+          [
+            0.268647559,
+            0.180174155
+          ]
+        ],
+        "points": [
+          [
+            0.268096553,
+            0.180175261
+          ],
+          [
+            0.268647559,
+            0.180174155
+          ]
+        ],
+        "endsAt": [],
+        "why": "The fifth level fence run carries the opening where the works-store path climbs through the pen edge.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "Three surveyed panels step toward the store-path opening as the crown begins to fall eastward.",
+        "gapAt": [
+          "route.mazzatun.works-store-path"
+        ]
+      },
+      {
+        "id": "fence.mazzatun.pen-step-6",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.268647559,
+            0.180174155
+          ],
+          [
+            0.269198566,
+            0.180173049
+          ]
+        ],
+        "points": [
+          [
+            0.268647559,
+            0.180174155
+          ],
+          [
+            0.269198566,
+            0.180173049
+          ]
+        ],
+        "endsAt": [],
+        "why": "The sixth level fence run steps separately across the uneven uphill edge of the pens.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "Three surveyed panels descend toward the 206.4 m eastern ledge before the final turn."
+      },
+      {
+        "id": "fence.mazzatun.pen-step-7",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.269198566,
+            0.180173049
+          ],
+          [
             0.269749572,
             0.180171942
           ],
           [
             0.270023969,
             0.179842744
+          ]
+        ],
+        "points": [
+          [
+            0.269198566,
+            0.180173049
+          ],
+          [
+            0.269749572,
+            0.180171942
+          ],
+          [
+            0.270023969,
+            0.179842744
+          ]
+        ],
+        "endsAt": [],
+        "why": "The seventh level run reaches the eastern turn and ends at the next vertical panel joint.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "The surveyed crown run turns east and stops before the ground begins its next measured fall."
+      },
+      {
+        "id": "fence.mazzatun.pen-step-8",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.270023969,
+            0.179842744
+          ],
+          [
+            0.270594785,
+            0.17981659
+          ]
+        ],
+        "points": [
+          [
+            0.270023969,
+            0.179842744
+          ],
+          [
+            0.270594785,
+            0.17981659
+          ]
+        ],
+        "endsAt": [],
+        "why": "The eighth three-panel fence run steps down separately along the eastern edge of the pens.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "A short surveyed run between the first two vertical joints of the eastern descent."
+      },
+      {
+        "id": "fence.mazzatun.pen-step-9",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.270594785,
+            0.17981659
+          ],
+          [
+            0.271165602,
+            0.179790436
+          ]
+        ],
+        "points": [
+          [
+            0.270594785,
+            0.17981659
+          ],
+          [
+            0.271165602,
+            0.179790436
+          ]
+        ],
+        "endsAt": [],
+        "why": "The ninth three-panel fence run continues the separate stepped descent toward the east shell.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "A short surveyed run between the middle vertical joints of the eastern descent."
+      },
+      {
+        "id": "fence.mazzatun.pen-step-10",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.271165602,
+            0.179790436
           ],
           [
             0.271736418,
             0.179764282
           ],
           [
+            0.272202959,
+            0.179322032
+          ]
+        ],
+        "points": [
+          [
+            0.271165602,
+            0.179790436
+          ],
+          [
+            0.271736418,
+            0.179764282
+          ],
+          [
+            0.272202959,
+            0.179322032
+          ]
+        ],
+        "endsAt": [],
+        "why": "The tenth stepped run turns from the shelf edge and descends halfway to the east closure.",
+        "class": "fence",
+        "moduleM": 1.58,
+        "routingWhy": "Two short surveyed legs turn onto the steep eastern descent and stop at its middle joint."
+      },
+      {
+        "id": "fence.mazzatun.pen-step-11",
+        "kind": "fence",
+        "widthM": 0.3,
+        "routing": "straight",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "via": [
+          [
+            0.272202959,
+            0.179322032
+          ],
+          [
             0.272669499,
             0.178879781
           ]
         ],
+        "points": [
+          [
+            0.272202959,
+            0.179322032
+          ],
+          [
+            0.272669499,
+            0.178879781
+          ]
+        ],
+        "endsAt": [],
+        "why": "The final three-panel step reaches the lip where the east shell and stone course close the pens.",
         "class": "fence",
         "moduleM": 1.58,
-        "gapAt": [
-          "route.mazzatun.works-store-path"
-        ]
+        "routingWhy": "The last surveyed run ends the descent without crossing a pen or its lane."
       },
       {
         "id": "fence.mazzatun.conduit",
@@ -953,8 +1314,8 @@
             0.181189233
           ],
           [
-            0.275309988,
-            0.181867337
+            0.275038747,
+            0.181833432
           ],
           [
             0.273546919,
@@ -984,36 +1345,40 @@
             0.181867337
           ],
           [
-            0.278212813,
-            0.181264424
+            0.278217317,
+            0.181245885
           ],
           [
-            0.2769184,
-            0.181190296
+            0.276922073,
+            0.181188061
           ],
           [
-            0.273276639,
-            0.182556523
+            0.275686081,
+            0.181579625
           ],
           [
-            0.273231194,
-            0.181260786
+            0.273284205,
+            0.182556861
           ],
           [
-            0.272334808,
-            0.182197532
+            0.273323193,
+            0.181260914
           ],
           [
-            0.27111724,
-            0.182643096
+            0.27238248,
+            0.182153135
           ],
           [
-            0.269917965,
-            0.182150409
+            0.271172179,
+            0.182618078
           ],
           [
-            0.271191984,
-            0.181909836
+            0.269918435,
+            0.182287735
+          ],
+          [
+            0.271145494,
+            0.181869015
           ]
         ],
         "class": "ring-panel",
@@ -1041,7 +1406,7 @@
           0.179532519
         ],
         "yawDeg": 69.6,
-        "orientationWhy": "Turned to 69.6° so the shell's one doorway looks out at 182° onto the pen lane, the walk the overseers keep.",
+        "orientationWhy": "Turned to 69.6\u00b0 so the shell's one doorway looks out at 182\u00b0 onto the pen lane, the walk the overseers keep.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "A mud shell for four or five of the taken labourers, the westernmost of the three pens.",
@@ -1185,7 +1550,7 @@
           0.179729402
         ],
         "yawDeg": 30.8,
-        "orientationWhy": "Turned to 30.8°, its doorway on 143° onto the pen lane, so the second shell is entered off the same walk as the first.",
+        "orientationWhy": "Turned to 30.8\u00b0, its doorway on 143\u00b0 onto the pen lane, so the second shell is entered off the same walk as the first.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The middle pen, a mud shell for four or five taken labourers.",
@@ -1329,7 +1694,7 @@
           0.179968647
         ],
         "yawDeg": 153.0,
-        "orientationWhy": "Turned to 153.0°, its doorway on 265° onto the upper end of the pen lane, where the walk bends behind the rise.",
+        "orientationWhy": "Turned to 153.0\u00b0, its doorway on 265\u00b0 onto the upper end of the pen lane, where the walk bends behind the rise.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "A mud shell for four or five of the taken labourers. It is the easternmost of the three. The tribe puts working visitors on its floor as well.",
@@ -1466,15 +1831,15 @@
       {
         "id": "parcel.mazzatun.pen-oven",
         "districtId": "district.mazzatun.pens",
-        "use": "work",
+        "use": "cooking",
         "buildingFamily": "argonian-mud-shell",
         "groundFit": "pad",
         "centreUV": [
           0.266269317,
           0.179831868
         ],
-        "yawDeg": 137.7,
-        "orientationWhy": "Mouth to the lane and out of the wind that comes over the top of the step.",
+        "yawDeg": 342.0,
+        "orientationWhy": "The measured open side faces the pen lane while the carapace shields the fire from the wind over the top of the step.",
         "assetRef": "mudmother:gv_meshes/argoniannest/carapaceoven",
         "why": {
           "what": "A carapace oven at which the taken cook what they are given.",
@@ -1486,63 +1851,63 @@
         },
         "footprint": [
           [
-            0.266431538,
-            0.179669589
+            0.266054689,
+            0.179913013
           ],
           [
-            0.266393603,
-            0.179903973
+            0.266185714,
+            0.179715006
           ],
           [
-            0.266379208,
-            0.179944576
+            0.266215543,
+            0.179683924
           ],
           [
-            0.266339897,
-            0.179963843
+            0.2662593,
+            0.179682541
           ],
           [
-            0.266110757,
-            0.18001832
+            0.266490557,
+            0.179727185
           ],
           [
-            0.266079343,
-            0.179951556
+            0.266491713,
+            0.179800961
           ],
           [
-            0.266077879,
-            0.179941886
+            0.266489068,
+            0.179810377
           ],
           [
-            0.266076739,
-            0.179843907
+            0.266449787,
+            0.179900144
           ],
           [
-            0.266078104,
-            0.179835331
+            0.266445014,
+            0.179907398
           ],
           [
-            0.266150769,
-            0.179739873
+            0.266339505,
+            0.179964497
           ],
           [
-            0.266164903,
-            0.179725179
+            0.266320576,
+            0.179972073
           ],
           [
-            0.266257829,
-            0.179647957
+            0.266204105,
+            0.180004213
           ],
           [
-            0.266363652,
-            0.179643347
+            0.266105761,
+            0.179964867
           ]
         ]
       },
       {
         "id": "parcel.mazzatun.pen-rack",
         "districtId": "district.mazzatun.pens",
-        "use": "work",
+        "use": "drying",
         "buildingFamily": "argonian-mud-shell",
         "groundFit": "pad",
         "centreUV": [
@@ -2042,7 +2407,7 @@
       {
         "id": "parcel.mazzatun.statue-court",
         "districtId": "district.mazzatun.works",
-        "use": "ritual",
+        "use": "ritual-wall",
         "buildingFamily": "xanmeer-stone-course",
         "groundFit": "dug-in",
         "centreUV": [
@@ -2171,11 +2536,11 @@
         "buildingFamily": "xanmeer-stone-course",
         "groundFit": "dug-in",
         "centreUV": [
-          0.270970126,
-          0.178868473
+          0.271485126,
+          0.178918473
         ],
-        "yawDeg": 0.0,
-        "orientationWhy": "The covered flight is sunk on the fall line, its open mouth turned to the terrace track, so a player on the track looks straight down it.",
+        "yawDeg": 12.0,
+        "orientationWhy": "The covered flight stays on the fall line while its measured open mouth turns just far enough toward the pen lane and terrace junction to read from the approach.",
         "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
         "why": {
           "what": "A covered stone flight sunk into the rock, read as the way down to the halls under the shelf.",
@@ -2191,116 +2556,116 @@
         "notes": "Measured as a mass: the piece is solid geometry with no interior volume, so it carries no door. The halls below are Phase 12 work.",
         "footprint": [
           [
-            0.270723296,
-            0.181348975
+            0.270727965,
+            0.181293452
           ],
           [
-            0.270724653,
-            0.181336769
+            0.270731829,
+            0.181281794
           ],
           [
-            0.270727365,
-            0.18132592
+            0.270736738,
+            0.181271746
           ],
           [
-            0.270842643,
-            0.180958388
+            0.270925911,
+            0.180936213
           ],
           [
-            0.270858917,
-            0.180947538
+            0.270944085,
+            0.180928984
           ],
           [
-            0.271081335,
-            0.180947538
+            0.271161643,
+            0.180975227
           ],
           [
-            0.271097609,
-            0.180958388
+            0.271175306,
+            0.180989223
           ],
           [
-            0.271212887,
-            0.18132592
+            0.27121165,
+            0.181372692
           ],
           [
-            0.271215599,
-            0.181338126
+            0.271211766,
+            0.181385195
           ],
           [
-            0.271216956,
-            0.181348975
+            0.271210836,
+            0.181396089
           ],
           [
-            0.271216956,
-            0.181704301
+            0.27113696,
+            0.181743651
           ],
           [
-            0.271215599,
-            0.181738207
+            0.271128584,
+            0.181776533
           ],
           [
-            0.271212887,
-            0.181749056
+            0.271123675,
+            0.181786582
           ],
           [
-            0.271202037,
-            0.181791099
+            0.271104321,
+            0.181825449
           ],
           [
-            0.27118305,
-            0.181829073
+            0.271077854,
+            0.181858646
           ],
           [
-            0.271158639,
-            0.181864334
+            0.271046645,
+            0.181888061
           ],
           [
-            0.271128802,
-            0.18189417
+            0.271011257,
+            0.181911042
           ],
           [
-            0.271094897,
-            0.181918582
+            0.270973017,
+            0.181927871
           ],
           [
-            0.271055567,
-            0.181938925
+            0.270930317,
+            0.181939593
           ],
           [
-            0.270884685,
-            0.181938925
+            0.270763169,
+            0.181904064
           ],
           [
-            0.270845355,
-            0.181918582
+            0.270728928,
+            0.181875989
           ],
           [
-            0.27081145,
-            0.18189417
+            0.270700839,
+            0.181845061
           ],
           [
-            0.270781613,
-            0.181864334
+            0.270677858,
+            0.181809673
           ],
           [
-            0.270757202,
-            0.181829073
+            0.270661311,
+            0.181770107
           ],
           [
-            0.270738215,
-            0.181791099
+            0.270650634,
+            0.181729015
           ],
           [
-            0.270727365,
-            0.181749056
+            0.270648763,
+            0.181685636
           ],
           [
-            0.270724653,
-            0.18173685
+            0.270648648,
+            0.181673133
           ],
           [
-            0.270723296,
-            0.181704301
+            0.270654088,
+            0.181641013
           ]
         ],
         "playerPurpose": [
@@ -2415,7 +2780,7 @@
       {
         "id": "parcel.mazzatun.kiln",
         "districtId": "district.mazzatun.staging",
-        "use": "kiln",
+        "use": "lime-burning",
         "buildingFamily": "works-staging",
         "groundFit": "dug-in",
         "centreUV": [
@@ -2899,7 +3264,7 @@
           0.183435315
         ],
         "yawDeg": 1.3,
-        "orientationWhy": "Set to 1.3° so the gate's 7.3 m run stands square across the haul road it spans, on the line the timber gate it replaced held; the Redoran piece carries its run 2.2° off the old one in its own frame, which the yaw takes up.",
+        "orientationWhy": "Set to 1.3\u00b0 so the gate's 7.3 m run stands square across the haul road it spans, on the line the timber gate it replaced held; the Redoran piece carries its run 2.2\u00b0 off the old one in its own frame, which the yaw takes up.",
         "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
         "why": {
           "what": "A Redoran compound gate of 7.3 m, 10.1 m to the parapet, standing across the haul road at the head of the climb. Its clear opening is 3.5 m, which passes the 3 m road under it.",
@@ -2968,7 +3333,7 @@
       {
         "id": "parcel.mazzatun.haul-cart",
         "districtId": "district.mazzatun.staging",
-        "use": "haulage",
+        "use": "cart",
         "buildingFamily": "works-staging",
         "groundFit": "pad",
         "centreUV": [
@@ -3064,11 +3429,11 @@
         "buildingFamily": "works-staging",
         "groundFit": "stilt",
         "centreUV": [
-          0.267792551,
-          0.184536032
+          0.26743997,
+          0.183835392
         ],
-        "yawDeg": 282.7,
-        "orientationWhy": "The flight is set on the four-sided base's south face, which is the joint that the stockade kit's own builders use, so the stair is built into the deck that it climbs. It rises against the fall with its foot on the lower step.",
+        "yawDeg": 67.7,
+        "orientationWhy": "The stair and its two scaffold bays are turned and moved as one measured assembly: the authored connector still joins the base while the open working face addresses the terrace-head approach.",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
         "why": {
           "what": "A timber scaffold stair, the walkway keeper's post.",
@@ -3080,52 +3445,52 @@
         },
         "footprint": [
           [
-            0.267533888,
-            0.184702955
+            0.267556111,
+            0.183550294
           ],
           [
-            0.267522876,
-            0.184696303
+            0.267568948,
+            0.183549426
           ],
           [
-            0.267518348,
-            0.184685551
+            0.267578824,
+            0.183555637
           ],
           [
-            0.267612565,
-            0.184267474
+            0.267741444,
+            0.183952146
           ],
           [
-            0.267621267,
-            0.184259704
+            0.267738773,
+            0.183963502
           ],
           [
-            0.267634069,
-            0.184258418
+            0.267729023,
+            0.183971898
           ],
           [
-            0.268054792,
-            0.184353232
+            0.267330005,
+            0.184135548
           ],
           [
-            0.268065804,
-            0.184359885
+            0.267317168,
+            0.184136415
           ],
           [
-            0.268070332,
-            0.184370637
+            0.267307292,
+            0.184130205
           ],
           [
-            0.267976115,
-            0.184788713
+            0.267144671,
+            0.183733696
           ],
           [
-            0.267967413,
-            0.184796484
+            0.267147343,
+            0.183722339
           ],
           [
-            0.267954611,
-            0.184797769
+            0.267157092,
+            0.183713943
           ]
         ],
         "abuts": [
@@ -3144,7 +3509,7 @@
       {
         "id": "parcel.mazzatun.cutting-floor",
         "districtId": "district.mazzatun.staging",
-        "use": "quarry",
+        "use": "stone-cutting",
         "buildingFamily": "works-staging",
         "groundFit": "dug-in",
         "centreUV": [
@@ -3244,7 +3609,7 @@
       {
         "id": "parcel.mazzatun.hoist",
         "districtId": "district.mazzatun.staging",
-        "use": "hoist",
+        "use": "block-lifting",
         "buildingFamily": "works-staging",
         "groundFit": "pad",
         "centreUV": [
@@ -3328,8 +3693,8 @@
           0.265206247,
           0.183155733
         ],
-        "yawDeg": 320.5,
-        "orientationWhy": "Scaffold bay squared to the course that it serves, so its decks run along the riser.",
+        "yawDeg": 244.0,
+        "orientationWhy": "The scaffold bay turns its measured open working face toward the terrace-head approach while its decks continue to serve the western riser course.",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
         "why": {
           "what": "A four-sided scaffold bay under the western courses.",
@@ -3341,52 +3706,52 @@
         },
         "footprint": [
           [
-            0.264930045,
-            0.183142626
+            0.265129024,
+            0.183421244
           ],
           [
-            0.264926283,
-            0.183131666
+            0.265117488,
+            0.183422343
           ],
           [
-            0.264929295,
-            0.183120395
+            0.265107232,
+            0.183416783
           ],
           [
-            0.265224403,
-            0.182877126
+            0.264939577,
+            0.183073039
           ],
           [
-            0.265236042,
-            0.18287632
+            0.26494151,
+            0.183061534
           ],
           [
-            0.265246082,
-            0.182882104
+            0.264949478,
+            0.183053121
           ],
           [
-            0.265482449,
-            0.18316884
+            0.26528347,
+            0.182890222
           ],
           [
-            0.265486211,
-            0.1831798
+            0.265295006,
+            0.182889123
           ],
           [
-            0.265483199,
-            0.183191071
+            0.265305262,
+            0.182894683
           ],
           [
-            0.265188091,
-            0.18343434
+            0.265472917,
+            0.183238427
           ],
           [
-            0.265176452,
-            0.183435146
+            0.265470984,
+            0.183249932
           ],
           [
-            0.265166412,
-            0.183429362
+            0.265463016,
+            0.183258345
           ]
         ]
       },
@@ -3397,11 +3762,11 @@
         "buildingFamily": "works-staging",
         "groundFit": "dug-in",
         "centreUV": [
-          0.267423539,
-          0.18392857
+          0.268090673,
+          0.184121339
         ],
-        "yawDeg": 12.7,
-        "orientationWhy": "Two-sided bay laid on the four-sided base's west face, on the base's own bearing, because that is the face on which the stockade kit joins bays. Its open sides look down the yard road.",
+        "yawDeg": 157.7,
+        "orientationWhy": "The two-sided bay turns with the complete scaffold assembly; its unrailed side remains locked to the four-sided base at the measured vanilla joint.",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
         "why": {
           "what": "A two-sided scaffold bay below the kiln and the frontage.",
@@ -3413,52 +3778,52 @@
         },
         "footprint": [
           [
-            0.267264609,
-            0.183702294
+            0.268350647,
+            0.184215536
           ],
           [
-            0.267270964,
-            0.183692604
+            0.268351,
+            0.184227118
           ],
           [
-            0.267281716,
-            0.183688076
+            0.26834479,
+            0.184236994
           ],
           [
-            0.267654809,
-            0.183772156
+            0.267990943,
+            0.184382117
           ],
           [
-            0.26766258,
-            0.183780858
+            0.267979586,
+            0.184379445
           ],
           [
-            0.267664164,
-            0.183792337
+            0.267971705,
+            0.184370951
           ],
           [
-            0.267582469,
-            0.184154846
+            0.267830699,
+            0.184027142
           ],
           [
-            0.267576114,
-            0.184164536
+            0.267830346,
+            0.18401556
           ],
           [
-            0.267565362,
-            0.184169064
+            0.267836556,
+            0.184005684
           ],
           [
-            0.267192269,
-            0.184084984
+            0.268190403,
+            0.183860561
           ],
           [
-            0.267184498,
-            0.184076282
+            0.26820176,
+            0.183863233
           ],
           [
-            0.267182914,
-            0.184064803
+            0.268209641,
+            0.183871727
           ]
         ],
         "abuts": [
@@ -3474,11 +3839,11 @@
         "buildingFamily": "works-staging",
         "groundFit": "dug-in",
         "centreUV": [
-          0.267905098,
-          0.184037268
+          0.267633857,
+          0.184308509
         ],
-        "yawDeg": 12.1,
-        "orientationWhy": "Scaffold bay squared to the block face, decks along the same riser line.",
+        "yawDeg": 157.1,
+        "orientationWhy": "The four-sided base turns with the two-sided bay and stair as one measured assembly, keeping both connector joints closed while its open working face addresses the approach.",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
         "why": {
           "what": "A four-sided scaffold bay beside the block face.",
@@ -3490,52 +3855,52 @@
         },
         "footprint": [
           [
-            0.267743808,
-            0.183812668
+            0.267894803,
+            0.184399978
           ],
           [
-            0.26775006,
-            0.183802913
+            0.267895277,
+            0.184411556
           ],
           [
-            0.267760764,
-            0.183798272
+            0.267889171,
+            0.184421496
           ],
           [
-            0.268134718,
-            0.183878441
+            0.267536863,
+            0.184570317
           ],
           [
-            0.268142579,
-            0.183887061
+            0.267525479,
+            0.184567765
           ],
           [
-            0.268144283,
-            0.183898523
+            0.267517509,
+            0.184559353
           ],
           [
-            0.268066388,
-            0.184261868
+            0.267372911,
+            0.18421704
           ],
           [
-            0.268060136,
-            0.184271623
+            0.267372437,
+            0.184205462
           ],
           [
-            0.268049432,
-            0.184276264
+            0.267378543,
+            0.184195522
           ],
           [
-            0.267675478,
-            0.184196095
+            0.267730851,
+            0.184046701
           ],
           [
-            0.267667617,
-            0.184187475
+            0.267742235,
+            0.184049253
           ],
           [
-            0.267665913,
-            0.184176013
+            0.267750205,
+            0.184057665
           ]
         ]
       },
@@ -3549,8 +3914,8 @@
           0.26811318,
           0.183292441
         ],
-        "yawDeg": 134.7,
-        "orientationWhy": "Set to 134.7° so the gate's 7.3 m run stands square across the ridge track it spans. The track leaves the shelf head on 302°; the Redoran piece carries its run 77.3° off its own zero, which the yaw takes up.",
+        "yawDeg": 112.0,
+        "orientationWhy": "Set parallel to the ridge track's 292\u00b0 bearing, modulo 180\u00b0, so the measured 7.3 m wall run stands square across the track it spans.",
         "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
         "why": {
           "what": "The twin of the haul gate at the west head of the shelf, the same Redoran gate across the ridge track.",
@@ -3567,52 +3932,52 @@
         "notes": "No room here either; the shoulder falls away on both sides of the run.",
         "footprint": [
           [
-            0.268539465,
-            0.183019772
+            0.268401219,
+            0.182876388
           ],
           [
-            0.268469515,
-            0.183213856
+            0.268411586,
+            0.183082431
           ],
           [
-            0.26845616,
-            0.183227351
+            0.268404473,
+            0.183100035
           ],
           [
-            0.268051686,
-            0.183636084
+            0.268189063,
+            0.183633195
           ],
           [
-            0.26803833,
-            0.18364958
+            0.26818195,
+            0.1836508
           ],
           [
-            0.26784499,
-            0.183721558
+            0.268031363,
+            0.183791814
           ],
           [
-            0.267686895,
-            0.18356511
+            0.267825141,
+            0.183708494
           ],
           [
-            0.267756845,
-            0.183371026
+            0.267814774,
+            0.183502451
           ],
           [
-            0.2677702,
-            0.183357531
+            0.267821887,
+            0.183484847
           ],
           [
-            0.268174674,
-            0.182948798
+            0.268037297,
+            0.182951687
           ],
           [
-            0.26818803,
-            0.182935302
+            0.26804441,
+            0.182934082
           ],
           [
-            0.26838137,
-            0.182863324
+            0.268194997,
+            0.182793068
           ]
         ]
       },
@@ -3628,7 +3993,7 @@
           0.178815871
         ],
         "yawDeg": 68.0,
-        "orientationWhy": "Turned to 68.0° so the entrance looks along 180° to the pen lane, which is the line up off the step to this part of the works.",
+        "orientationWhy": "Turned to 68.0\u00b0 so the entrance looks along 180\u00b0 to the pen lane, which is the line up off the step to this part of the works.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The works store, where the tribe keeps and sells the tools, cord and dried fish that keep the courses moving.",
@@ -3811,16 +4176,16 @@
             0.180991061
           ],
           [
-            0.267621804,
-            0.181221379
+            0.267632188,
+            0.181197154
           ],
           [
-            0.268132276,
-            0.183590054
+            0.267947679,
+            0.183752142
           ],
           [
-            0.270476494,
-            0.183143263
+            0.270489126,
+            0.183140105
           ],
           [
             0.272264624,
@@ -3852,36 +4217,44 @@
         ],
         "boundary": [
           [
-            0.269611571,
-            0.18304844
+            0.269572416,
+            0.183049276
           ],
           [
-            0.2671614,
-            0.183150119
+            0.26803703,
+            0.18333739
           ],
           [
-            0.26690802,
-            0.183256826
+            0.267523464,
+            0.183545408
           ],
           [
-            0.266757027,
-            0.183487057
+            0.267007302,
+            0.183763444
           ],
           [
-            0.266632076,
-            0.184041507
+            0.266823644,
+            0.184062423
           ],
           [
-            0.266669714,
-            0.184314265
+            0.266834906,
+            0.184337517
           ],
           [
-            0.266890289,
-            0.184561265
+            0.267056057,
+            0.184861056
           ],
           [
-            0.269616526,
-            0.185369733
+            0.26724543,
+            0.185060932
+          ],
+          [
+            0.26744491,
+            0.18510565
+          ],
+          [
+            0.26966246,
+            0.185372339
           ],
           [
             0.269826694,
@@ -4137,6 +4510,24 @@
       {
         "id": "approach.mazzatun.haul-road",
         "mode": "walk",
+        "viaUV": [
+          [
+            0.280734815,
+            0.181867337
+          ],
+          [
+            0.279175177,
+            0.179493975
+          ],
+          [
+            0.276666194,
+            0.176306889
+          ],
+          [
+            0.273953781,
+            0.182409819
+          ]
+        ],
         "firstSeen": "landmark.mazzatun.conduit-head",
         "sequence": "From the Hist court on the gorge floor the conduit-head pillar reads on the lip 40 m above, with the amber line running down the face to the tree; the first traverse turns away and the face hides it; the second bend brings the gate wall across the road with the pillar beside it; through the gate the yard opens and the great stair stands ahead; at its head the statue wall.",
         "wayfinding": "Follow the amber conduit up the face; it leads to the gate. Inside the gate the road runs straight to the foot of the great stair.",
@@ -4442,10 +4833,10 @@
       "tierOwnership": "LV28 tier-3; LV29 tier-3; LV30 tier-3; LV26 anchored on the sibling Hist record; tier-0 protected"
     },
     "budget": {
-      "maxInstances": 96,
-      "maxUniqueMaterials": 70,
+      "maxInstances": 104,
+      "maxUniqueMaterials": 85,
       "maxTextureMB": 128,
-      "maxColliders": 96
+      "maxColliders": 104
     },
     "networkTerminals": [
       {
@@ -4482,7 +4873,7 @@
         "factionRef": "faction.xit-xaht"
       },
       {
-        "sourcePath": "fences[5].why",
+        "sourcePath": "fences[16].why",
         "placeRef": "place.dunmer-north.mazzatun-hist"
       },
       {
