@@ -35,6 +35,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from .vegetation_ladder import (MEASURED_ATTENUATION, MEASURED_DELIVERED_PER_HA,
+                                TARGET_RATIOS, is_stem_layer, multipliers)
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OUT = REPO_ROOT / "world" / "sources" / "flora" / "palettes.json"
 
@@ -636,6 +639,14 @@ REGIONS[4] = {
         canopy("coconut_palm", 30.0, depth=(-6.0, -0.1), scale=(0.8, 1.2),
                clearance=1.4),
         understory("trop_plant", 45.0, depth=(-6.0, 0.2)),
+        # Round 8 breadth pass: salt-marsh grass on the pans behind the
+        # mangrove, strand scrub on the dune line, thicket where fresh water
+        # reaches the back of the lagoon.
+        layer("algrass", 60.0, role="tall-grass", clump_size_median=8,
+              clump_radius_m=9.0, water_depth_m=[-99.0, 0.25],
+              slope_deg_max=22.0, scale_range=[0.7, 1.2]),
+        understory("loebush", 30.0, depth=(-6.0, -0.2), scale=(0.6, 1.0)),
+        gap_thicket("trop_shrub", 40.0, depth=(-6.0, 0.1)),
         aquatic_reeds(255.0),
         aquatic_kelp("wkelp_tall", 60.0, depth=(0.8, 6.0), peak=2.0),
         aquatic_kelp("kelp_tall", 30.0, depth=(1.2, 7.0), peak=2.5),
@@ -658,9 +669,19 @@ REGIONS[3] = {
         canopy("flatpalm_b", 18.0, depth=(-6.0, -0.2), scale=(0.8, 1.2),
                slope_max=25.0, clearance=1.5, clump_radius_m=12.0),
         understory("trop_shrub", 35.0, depth=(-4.0, 0.5), riparian=RIPARIAN_WET),
-        aquatic_reeds(350.0),
+        # Round 8 breadth pass: the delta floor was reeds, one shrub and one
+        # kelp. Salt-flat sward on the drying mud, ferns on the levee crowns,
+        # tall kelp in the deeper channels between them.
+        layer("algrass", 70.0, role="tall-grass", clump_size_median=7,
+              clump_radius_m=8.0, water_depth_m=[-99.0, 0.3],
+              slope_deg_max=26.0, scale_range=[0.7, 1.2]),
+        understory("fern", 20.0, depth=(-6.0, -0.1), scale=(0.6, 1.0)),
+        # Reeds were 61% of everything the delta's floor carried — a reed bed
+        # is meant to READ as a reed bed against something, not be the region.
+        aquatic_reeds(260.0),
         aquatic_lilypads(60.0),
         aquatic_kelp("wkelp_short", 40.0, depth=(0.6, 4.0), peak=1.4),
+        aquatic_kelp("kelp_tall", 25.0, depth=(1.4, 7.0), peak=2.6),
     ],
 }
 
@@ -714,6 +735,15 @@ REGIONS[8] = {
         understory("loebush", 40.0, depth=(-99.0, 0.2)),
         understory("fern", 50.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
         bank_wall("bracken", 125.0),
+        # Round 8 breadth pass: the band the player crosses is a SWARD, and it
+        # carried none — reeds at the water and bare between. Grass and herbs
+        # give the open marsh something at knee height away from the pools.
+        layer("algrass", 70.0, role="tall-grass", clump_size_median=8,
+              clump_radius_m=9.0, water_depth_m=[-99.0, 0.3],
+              slope_deg_max=30.0, scale_range=[0.8, 1.4]),
+        layer("chickweed", 30.0, role="forb", clump_size_median=7,
+              clump_radius_m=7.0, water_depth_m=[-99.0, 0.2],
+              slope_deg_max=30.0, scale_range=[0.9, 1.4]),
         aquatic_reeds(320.0, guild="reed-bed"),
         aquatic_lilypads(50.0, guild="lilypad-pond"),
         drowned_thicket_guild("fern", 40.0),
@@ -743,6 +773,11 @@ REGIONS[9] = {
         layer("chickweed", 40.0, role="forb", clump_size_median=8,
               clump_radius_m=7.0, water_depth_m=[-99.0, 0.4],
               slope_deg_max=32.0, scale_range=[0.9, 1.5]),
+        # Round 8 breadth pass: bracken on the abrupt outer edge of the
+        # gallery ribbon (§6.1 — the edge is where the light gradient lives),
+        # and pads on the standing water the flood leaves behind.
+        gap_thicket("bracken", 40.0, depth=(-99.0, 0.3), slope_deg_max=30.0),
+        aquatic_lilypads(30.0),
         aquatic_reeds(95.0),
     ],
 }
@@ -765,6 +800,10 @@ REGIONS[10] = {
                    clump_size_median=9, clump_radius_m=5.0),
         interior_shrub("bracken", 60.0, depth=(-6.0, 0.3)),
         gap_thicket("trop_plant", 120.0, depth=(-6.0, 0.2)),
+        # Round 8 breadth pass: big ferns in the shade under the crest palms,
+        # pads on the skirt pools that separate one hammock from the next.
+        understory("fern_big", 40.0, depth=(-6.0, 0.3), scale=(0.7, 1.2)),
+        aquatic_lilypads(30.0),
         aquatic_reeds(145.0),
     ],
 }
@@ -828,6 +867,11 @@ REGIONS[12] = {
         aquatic_reeds(210.0, guild="reed-bed"),
         aquatic_kelp("kelp_tall", 70.0, depth=(1.0, 9.0), peak=3.0,
                      guild="kelp-forest"),
+        # Round 8 breadth pass: a shallow-margin weed under the deep kelp, and
+        # bracken standing in the drawdown zone the lake leaves at low water.
+        aquatic_kelp("wkelp_short", 40.0, depth=(0.5, 2.5), peak=1.2,
+                     guild="kelp-forest"),
+        drowned_thicket_guild("bracken", 25.0),
         dead_snag("snag_c", 3.0, depth=(0.6, 3.5)),
         layer("cypress_big", 3.0, tier="T1", role="drowned-tree",
               clump_size_median=2, clump_radius_m=12.0,
@@ -882,6 +926,13 @@ REGIONS[14] = {
         # Aquatic tier: brackish — seaweed in the channels, reeds on the
         # landward brack margin; no freshwater lilypads.
         aquatic_kelp("wkelp_tall", 40.0, depth=(0.8, 5.0), peak=1.8),
+        # Round 8 breadth pass: the landward transition carried palms and one
+        # shrub. Ferns in the shade behind the fringe, salt scrub on the dry
+        # back edge, tall weed in the deeper tidal creeks.
+        understory("fern", 20.0, depth=(-4.0, 0.1), shore_m=[40.0, 180.0],
+                   scale=(0.6, 1.0)),
+        gap_thicket("loebush", 30.0, depth=(-4.0, -0.1)),
+        aquatic_kelp("kelp_tall", 25.0, depth=(1.2, 6.0), peak=2.4),
         aquatic_reeds(90.0),
     ],
 }
@@ -916,6 +967,16 @@ REGIONS[2] = {
                     slope_deg_max=50.0),
         gap_thicket("gorse", 60.0, depth=(-99.0, -0.2), slope_deg_max=50.0),
         gallery("alder", 50.0, shore=(0.0, 25.0), scale=(0.8, 1.1)),
+        # Round 8 breadth pass: bracken under the stands, loebush in the open
+        # scrub between them, herbs in the sward — the hill floor was three
+        # species and read as one.
+        interior_shrub("bracken", 40.0, depth=(-99.0, -0.2)),
+        understory("loebush", 35.0, depth=(-99.0, -0.2),
+                   riparian=RIPARIAN_DRY, slope_deg_max=50.0,
+                   slope_half_angle_deg=35.0),
+        layer("chickweed", 30.0, role="forb", clump_size_median=7,
+              clump_radius_m=7.0, water_depth_m=[-99.0, 0.1],
+              slope_deg_max=46.0, scale_range=[0.9, 1.4]),
         layer("algrass", 70.0, role="tall-grass", clump_size_median=6,
               clump_radius_m=7.0, water_depth_m=[-99.0, 0.1],
               slope_deg_max=50.0, slope_half_angle_deg=35.0,
@@ -945,6 +1006,25 @@ REGIONS[1] = {
                riparian=RIPARIAN_DRY, patchiness=1.3),
         understory("fall_shrub", 45.0, depth=(-99.0, -0.3),
                    altitude_m=[0.0, 480.0], scale=(0.7, 1.2)),
+        # Round 8 breadth pass: the mountains carried ONE understory species,
+        # so every slope in the province's only cold ground read identically.
+        # These five are the temperate-hill understory the uplands already
+        # use, gated to the altitudes each can hold — bracken and gorse below
+        # the treeline, grass and herbs climbing past it onto the open fell.
+        interior_shrub("loebush", 25.0, depth=(-99.0, -0.3),
+                       altitude_m=[0.0, 440.0]),
+        gap_thicket("bracken", 35.0, depth=(-99.0, -0.3),
+                    altitude_m=[0.0, 400.0], slope_deg_max=48.0),
+        gap_thicket("gorse", 30.0, depth=(-99.0, -0.3),
+                    altitude_m=[0.0, 460.0], slope_deg_max=48.0),
+        layer("algrass", 60.0, role="tall-grass", clump_size_median=6,
+              clump_radius_m=8.0, water_depth_m=[-99.0, -0.2],
+              altitude_m=[0.0, 620.0], slope_deg_max=48.0,
+              slope_half_angle_deg=35.0, scale_range=[0.7, 1.2]),
+        layer("chickweed", 30.0, role="forb", clump_size_median=7,
+              clump_radius_m=7.0, water_depth_m=[-99.0, -0.2],
+              altitude_m=[0.0, 560.0], slope_deg_max=45.0,
+              scale_range=[0.8, 1.3]),
         *boulders(55.0, slope_max=60.0),
         cliff_dressing(16.0),
     ],
@@ -992,19 +1072,58 @@ def apply_coastal_gradient(layers: list[dict]) -> None:
             entry.update(salt)
 
 
+def rebase_stems(region: int, layers: list[dict], factor: float) -> None:
+    """Apply the between-region ladder (`vegetation_ladder.TARGET_RATIOS`).
+
+    The region tables above author each stratum on its OWN ecological terms —
+    a rootland cypress stand, a mangrove wall, a savanna gallery ribbon. What
+    they never encoded was how those regions compare to each other, and that
+    is what drifted: by round 7 the tropical jungle sat at the 37th percentile
+    of the province's own lowland chunks.
+
+    So the comparison is applied once, here, as a single scalar per region on
+    the STEM layers only (T1, not rock — `vegetation_ladder.is_stem_layer`).
+    Doing it as a multiplier rather than by re-typing 60 numbers is deliberate:
+
+    * the understory, aquatics, groundcover, boulders and epiphytes keep their
+      authored values, so this moves the tree ladder and nothing else;
+    * every spatial parameter — `patchiness`, `glade_response`, the ~90 m
+      glade and ~190 m stand wavelengths, `clump_size_median`, `clump_radius_m`
+      — is untouched, so each region's variance stays a FRACTION of its new
+      mean rather than becoming a smooth thin field. A region that halves gets
+      half as many clumps of the same size, not the same clumps thinned;
+    * re-basing again is one number per row in the ladder table.
+    """
+    if factor == 1.0:
+        return
+    for entry in layers:
+        if is_stem_layer(entry):
+            entry["instances_per_hectare"] = round(
+                entry["instances_per_hectare"] * factor, 3)
+
+
 def build() -> dict:
     total = {}
+    factors = multipliers()
     for region, spec in sorted(REGIONS.items()):
         apply_coastal_gradient(spec["layers"])
+        rebase_stems(region, spec["layers"], factors.get(region, 1.0))
         per_ha = sum(l["instances_per_hectare"] for l in spec["layers"])
+        stems = sum(l["instances_per_hectare"]
+                    for l in spec["layers"] if is_stem_layer(l))
         entry = {"id": spec["id"], "layers": spec["layers"],
-                 "targetInstancesPerHectare": round(per_ha, 1)}
+                 "targetInstancesPerHectare": round(per_ha, 1),
+                 "authoredStemsPerHectare": round(stems, 2),
+                 "ladderRatioTarget": TARGET_RATIOS[region],
+                 "ladderMultiplierApplied": factors.get(region, 1.0)}
         if "note" in spec:
             entry["note"] = spec["note"]
         total[str(region)] = entry
     return {
         "id": "argonia-flora-v2",
-        "status": "EVIDENCE-BASED v2 (Phase 10 round 2) — generated by "
+        "schemaVersion": 3,
+        "status": "EVIDENCE-BASED v2 (Phase 10 round 2), tree ladder re-based "
+                  "2026-09-09 (decision 0048) — generated by "
                   "worldgen/build_palettes.py; edit THAT, then re-run it. "
                   "Structure and densities from the three research docs; "
                   "owner decisions 0036 Q1-Q4 still bind (landmark giants, "
@@ -1048,6 +1167,25 @@ def build() -> dict:
                     "groundcover.json (T3 ring) — most of the 'dense' read "
                     "lives THERE (M5), not here",
             "densityScale": "global multiplier, owner's one knob",
+            "ladder": "between-region tree density is NOT authored in the "
+                      "region tables — it is re-based from "
+                      "worldgen/vegetation_ladder.TARGET_RATIOS (jungle = "
+                      "1.00, owner-held) and applied to the T1 non-rock stem "
+                      "layers by build_palettes.rebase_stems. Change the "
+                      "ladder there, not here",
+        },
+        "ladder": {
+            "reference": "13 (tropical jungle) — held at its shipped level by "
+                         "owner constraint 2026-09-09; every other class is "
+                         "re-based relative to it (decision 0048)",
+            "stemMeasure": "T1-tier layers excluding role rock / cliff-"
+                           "dressing — see worldgen/vegetation_ladder.py",
+            "targetRatios": TARGET_RATIOS,
+            "measuredDeliveredPerHectare2026_09_09": MEASURED_DELIVERED_PER_HA,
+            "measuredAttenuation2026_09_09": MEASURED_ATTENUATION,
+            "pending": "these ratios are DESIGN targets until compile_scatter "
+                       "re-runs; test_vegetation_ladder::test_delivered_ladder "
+                       "stays red until it does",
         },
         "byRegionClass": total,
         "densityScale": 1.0,
