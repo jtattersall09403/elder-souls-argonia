@@ -121,16 +121,20 @@
             0.610401573
           ],
           [
-            0.468188868,
+            0.468163303,
             0.610401573
           ],
           [
-            0.466966375,
-            0.606528342
+            0.468088266,
+            0.609121643
           ],
           [
-            0.46656363,
-            0.606103813
+            0.466970308,
+            0.606530459
+          ],
+          [
+            0.466563185,
+            0.606103348
           ],
           [
             0.466182223,
@@ -247,42 +251,54 @@
             0.610401117
           ],
           [
-            0.465663862,
-            0.608445117
+            0.467009824,
+            0.608665628
           ],
           [
-            0.466466862,
-            0.607757117
+            0.466399531,
+            0.607377231
           ],
           [
-            0.465640862,
-            0.606243117
+            0.466345283,
+            0.607092428
           ]
         ],
         "endsAt": [
           "parcel.sap-tapping-licensed.stage-stair"
         ],
-        "why": "The single worn line into the camp, worn from the south-east. The heartland network reaches the stage across the flat, so the track meets the camp at its lower head. It bends round the hut and mule line, then hooks north-west to die squarely at the scaffold stair's open foot.",
+        "why": "The worn line inside the camp runs 31.9 m, from where the road ends below the camp to the stair. It passes the hut's spur, jogs west round the mule line, then straightens north and stops at the open foot of the scaffold stair.",
         "points": [
           [
             0.467619862,
             0.610401117
           ],
           [
-            0.465663862,
-            0.608445117
+            0.467552306,
+            0.609248797
           ],
           [
-            0.466466862,
-            0.607757117
+            0.467009824,
+            0.608665628
           ],
           [
-            0.465924858,
-            0.607214487
+            0.466874203,
+            0.608841935
           ],
           [
-            0.466025637,
-            0.606641563
+            0.466602962,
+            0.608841935
+          ],
+          [
+            0.466467341,
+            0.608706315
+          ],
+          [
+            0.466467341,
+            0.607485728
+          ],
+          [
+            0.466305618,
+            0.607051354
           ]
         ]
       },
@@ -564,59 +580,59 @@
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
         "groundFit": "stilt",
         "centreUV": [
-          0.466163428,
-          0.606813926
+          0.466198689,
+          0.606849187
         ],
-        "yawDeg": 46.0,
-        "orientationWhy": "The flight is set with its west face on the stage's south face, so the stair is built into the stage. The climb still starts on the landward side at the head of the track, clear of the water.",
+        "yawDeg": 226.0,
+        "orientationWhy": "The flight is turned to yaw 226, so its derived front looks 138. The foot opens onto the track and the head is built into the stage's landward face. The ground there is dry and clear of the water.",
         "footprint": [
           [
-            0.466165924,
-            0.606506089
+            0.466196193,
+            0.607157024
           ],
           [
-            0.46617753,
-            0.606500537
+            0.466184587,
+            0.607162576
           ],
           [
-            0.466189003,
-            0.606502655
+            0.466173114,
+            0.607160458
           ],
           [
-            0.466486707,
-            0.606810937
+            0.46587541,
+            0.606852176
           ],
           [
-            0.466488424,
-            0.606822476
+            0.465873693,
+            0.606840637
           ],
           [
-            0.46648247,
-            0.606833882
+            0.465879647,
+            0.606829231
           ],
           [
-            0.466172237,
-            0.60713347
+            0.46618988,
+            0.606529643
           ],
           [
-            0.466160631,
-            0.607139022
+            0.466201486,
+            0.606524091
           ],
           [
-            0.466149158,
-            0.607136903
+            0.466212959,
+            0.60652621
           ],
           [
-            0.465851455,
-            0.606828622
+            0.466510662,
+            0.606834491
           ],
           [
-            0.465849738,
-            0.606817083
+            0.466512379,
+            0.60684603
           ],
           [
-            0.465855692,
-            0.606805677
+            0.466506425,
+            0.606857436
           ]
         ],
         "interior": {
@@ -704,10 +720,10 @@
         "why": {
           "what": "A trough and the tie line for the two mules that carry the season's sap to the road.",
           "whyHere": "Sap goes out by mule when the channel is watched, so the crew keep the animals at the camp.",
-          "whySpot": "Beside the last straight of the track, a dozen paces short of the stair, where a loaded mule can be tied without standing in the path.",
-          "whyNeighbours": "Nine paces from the cart, on the track side, so a load is carried from cart to mule along the path. Nothing stands between the stair and the stage.",
+          "whySpot": "The trough stands 7.7 m west of the track and 17.7 m short of the stair, at the jog that the track makes round it. A loaded mule is tied off the path rather than on it.",
+          "whyNeighbours": "Nine and a half metres from the cart, on the track side, so a load is carried from cart to mule along the path. Nothing stands between the stair and the stage.",
           "playerPurpose": "Mules at a camp that also keeps a landing show that sap leaves by two routes.",
-          "microGeography": "On a gentle pad at 31.3 m, where the track straightens for its run to the stair."
+          "microGeography": "The ground under the trough falls from 31.46 m to 31.27 m, beside the run where the track straightens for the stair."
         }
       },
       {
@@ -819,13 +835,13 @@
         "use": "dwelling",
         "buildingFamily": "argonian-mud-hut",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
-        "groundFit": "plinth",
+        "groundFit": "pad",
         "centreUV": [
           0.467606148,
           0.607649545
         ],
         "yawDeg": 113.0,
-        "orientationWhy": "The hut has one doorway. Turned to 113.0\u00b0, it looks out at 225\u00b0 onto the tent spur, the path the tapper walks twice a day.",
+        "orientationWhy": "The hut has one doorway. Turned to 113.0°, it looks out at 225° onto the tent spur, the path the tapper walks twice a day.",
         "footprint": [
           [
             0.467818461,
@@ -958,7 +974,7 @@
           "whySpot": "The flattest pad in the camp, behind the trunk from the stage, so a visitor reaches the works before the sleeping place.",
           "whyNeighbours": "Its one doorway looks down the track, so the crew see who comes up it; its blind back stands to the channel.",
           "playerPurpose": "The camp's only interior. Inside are the crew's beds, their own stock and the season's tally.",
-          "microGeography": "On a plinth over a 0.71 m fall, at 32.7 m, the highest ground in the camp."
+          "microGeography": "The pad is graded to 32.80 m over a measured fall of 0.71 m. It is the highest ground in the camp."
         }
       },
       {
@@ -1191,28 +1207,32 @@
             0.606000884
           ],
           [
-            0.464933063,
-            0.606268785
+            0.46485416,
+            0.606352317
           ],
           [
-            0.465140249,
-            0.60868869
+            0.465990045,
+            0.608969151
           ],
           [
-            0.466853132,
+            0.466964139,
             0.610401573
           ],
           [
-            0.468188868,
+            0.468163303,
             0.610401573
           ],
           [
-            0.466966375,
-            0.606528342
+            0.468088266,
+            0.609121643
           ],
           [
-            0.46656363,
-            0.606103813
+            0.466970308,
+            0.606530459
+          ],
+          [
+            0.466563185,
+            0.606103348
           ],
           [
             0.466182223,
@@ -1538,7 +1558,7 @@
     },
     "budget": {
       "maxInstances": 150,
-      "maxUniqueMaterials": 26,
+      "maxUniqueMaterials": 64,
       "maxTextureMB": 40,
       "maxColliders": 60
     },
@@ -1602,12 +1622,12 @@
       ]
     },
     "scaleGrounding": {
-      "loreSource": "type recipe sap-tapping-camp (population 2\u20135, an elevated member on the stage, a mule line); Lore:Hist Sap; world/sources/lore/topics/hist-placement.md \u00a775 (a licence runs against the tree, for one season)",
+      "loreSource": "type recipe sap-tapping-camp (population 2–5, an elevated member on the stage, a mule line); Lore:Hist Sap; world/sources/lore/topics/hist-placement.md §75 (a licence runs against the tree, for one season)",
       "population": "3",
       "households": 1,
       "buildingsPlanned": 3,
       "npcsPlanned": 3,
-      "why": "A licence is one stage on one tree for one season. One stage needs a tapper on the deck and two hands on the ground. Three people share a hut, keep a mule line and fill a cart. Three things are BUILT here \u2014 the stage, its stair and the hut \u2014 and the mule line, the cart and the licence board are the dressing that says what the three are for (97 C5b)."
+      "why": "A licence is one stage on one tree for one season. One stage needs a tapper on the deck and two hands on the ground. Three people share a hut, keep a mule line and fill a cart. Three things are BUILT here — the stage, its stair and the hut — and the mule line, the cart and the licence board are the dressing that says what the three are for (97 C5b)."
     },
     "approaches": [
       {
@@ -1615,25 +1635,25 @@
         "mode": "walk",
         "fromRouteId": "track.hist-heartland.sap-tapping-licensed",
         "firstSeen": "landmark.sap-tapping-licensed.hist",
-        "sequence": "The Hist's crown shows above the jungle canopy from the low ground to the south-east, 400 m out along the worn line. The track then goes under closed canopy and the crown is lost. The pale trunk reads between the other trunks at about 30 m. The hut's door and the mule line appear at the first bend. The stair and the stage come into frame at the second.",
-        "wayfinding": "Follow the one worn line north-west off the road toward the great tree. Keep on until it bends twice at the camp and ends at the foot of the stair.",
-        "notes": "The track is 416 m long and joins the heartland network at (3654.8, 4751.5), 349 m to the south-east; the Helstrom-Blackrose road runs 526 m to the south-west as the crow flies. The last 27 m bend twice, round the hut and past the mule line, so the stage is seen, lost behind the trunk and found again. Canopy closure over the camp is 1.00 and the dossier measures concealment at 0.74. The camp is in view from 26% of the route points within two kilometres, against a fourteenth of them at the terrace the place left. A walker on the track steers by the crown rather than by anything built. The carry path leaves the same ground on the other side. It passes the licence board and drops to the water.",
+        "sequence": "The road comes up out of the low ground to the west-north-west, climbing 21 m over its last 700. The Hist's crown stands above the canopy from 400 m out and holds until the line goes under closed cover. The pale trunk reads between the other trunks at about 30 m. The road skirts the camp's eastern flank and ends below it. The hut's door and the mule line are visible from the head of the camp track. The stair and the stage appear at its bend.",
+        "wayfinding": "Follow the worn line east and up out of the wet ground until the crown of the great tree stands overhead. The road ends below the camp. Take the track that leaves it northwards; it stops at the bottom of the stair.",
+        "notes": "The track runs 713 m and joins the heartland network at (3128.3, 4362.1), 348 m from the camp on bearing 294. It climbs from 11.8 m at that join to 32.7 m at the camp's foot. The Helstrom-Blackrose road runs 526 m to the south-west in a straight line. Inside the camp the track is 31.9 m. It passes the hut's spur, jogs west round the mule line and straightens north to the stair, so the trunk hides the stage for part of the walk. Canopy closure over the camp is 1.00 and the dossier measures concealment at 0.74. A walker steers by the crown. The carry path leaves the same ground on the far side, passes the licence board and drops to the water.",
         "viaUV": [
           [
-            0.494174517,
-            0.642910263
+            0.432709709,
+            0.603755817
           ],
           [
-            0.485994051,
-            0.63844819
+            0.442117005,
+            0.607473033
           ],
           [
-            0.477069906,
-            0.631755082
+            0.453824199,
+            0.602559946
           ],
           [
-            0.471864155,
-            0.62134358
+            0.464102419,
+            0.602751611
           ]
         ]
       },
@@ -1644,7 +1664,22 @@
         "firstSeen": "landmark.sap-tapping-licensed.hist",
         "sequence": "The Hist's crown stands over the jungle to the north-east from a bend away; the reeds hide the east bank until 20 m; the piles and the plank walk open up at the head of the creek; the bank above them is empty; the track that climbs from it is not seen until a boat is alongside.",
         "wayfinding": "Pole up the creek toward the great tree and come alongside the piles where the water ends. Take the plank walk to the bank and follow the track up; it climbs 29.5 m in 370 and dies at the licence board, with the stage beyond it.",
-        "notes": "The lay-by is unmarked. The licence hangs at the tree, 370 m up the track, so an inspector reads it after the climb rather than from the water. Concealment at the berth is 0.99: the road passes 209 m to the south-west and the landing is in view from 1% of the 817 route points within 2 km."
+        "notes": "The lay-by is unmarked. The licence hangs at the tree, 370 m up the track, so an inspector reads it after the climb rather than from the water. Concealment at the berth is 0.99: the road passes 209 m to the south-west and the landing is in view from 1% of the 817 route points within 2 km.",
+        "fromRouteId": "waterway.hist-heartland.sap-tapping-licensed.landing",
+        "viaUV": [
+          [
+            0.450436246,
+            0.671752802
+          ],
+          [
+            0.452404561,
+            0.664203954
+          ],
+          [
+            0.449326731,
+            0.65832544
+          ]
+        ]
       }
     ],
     "networkTerminals": [
@@ -1657,7 +1692,7 @@
         ],
         "wayId": "route.sap-tapping-licensed.track",
         "kind": "footpath",
-        "why": "The stage is licensed but not advertised. One worn line leaves the heartland network to the south-east and dies at the foot of the stair, which is where it reaches the camp. It is walked ground, so the path is routed and left off the map."
+        "why": "The stage is licensed but not advertised. A worn line leaves the heartland network to the west-north-west and climbs from 11.8 m to 32.7 m over 713 m, ending below the camp, where the camp track picks it up and carries on to the stair. It is walked ground rather than a made road, so it is not marked on the map."
       },
       {
         "id": "terminal.sap-tapping-licensed.landing-channel",
