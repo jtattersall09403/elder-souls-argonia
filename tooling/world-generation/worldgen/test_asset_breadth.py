@@ -4,10 +4,21 @@ The floor itself is Part 8's call; until then these tests keep the mechanism
 honest — the report runs, and it never silently reports nothing.
 """
 
+import pytest
+
 from . import asset_breadth as ab
+from . import compile_settlement as cs
 
 
 def test_report_runs_and_counts_linked_shells():
+    # The kits are built from the asset vault into a gitignored directory, so
+    # a clean checkout has none and this can only ever fail there — it blocked
+    # the Pages deploy on "no linked shell is shipped by any built kit"
+    # (2026-09-09). Skip where there are no kits at all; a machine that has
+    # built them still runs the check in full, and an EMPTY report on a machine
+    # that HAS kits is still the failure this test exists for.
+    if not any(cs.KITS_DIR.glob("*.kit.json")):
+        pytest.skip("no built asset kits (vault build output, absent on a clean checkout)")
     data = ab.report()
     assert data["linkedShellsAvailable"] > 0, "no linked shell is shipped by any built kit"
     assert data["linkedShellsUsed"] <= data["linkedShellsAvailable"]
