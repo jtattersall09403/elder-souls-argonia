@@ -20,7 +20,7 @@ from .channels import (ChannelSolution, FALL_DROP_M, FALL_FACE_SLOPE,
 from .compile_chunks import DEFAULT_HEIGHTS
 from .compile_water import (CHANNELS_FILE, DEPTH_QUANTUM_M, WEB_STEP,
                             decode_surface, export_index, hovering_edges,
-                            sheet_corridor)
+                            sheet_corridor, strip_corridor)
 from .scale import RAW_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -89,37 +89,38 @@ def hovering_map(S):
     """Wet cells with a dry 4-neighbour that has no level of its own (buried)
     and whose ground is >= 0.05 m below their W. The bank of the next
     station down a sloping river carries that station's level (table) and
-    is not a hole; fall footprints and the corridor each sheet is drawn over
-    (the sheet bridges them) are excluded.
+    is not a hole; the ground the two ribbon meshes are drawn over is
+    excluded, because there the ribbon, not the field raster, is the water.
 
-    The corridor matters: at a brink the water is meant to have lower dry
-    rock below it — that is the cliff it falls down. Without it 32 cells
-    failed, every one within 10 m of a lip or a plunge (measured
-    2026-09-08); `stats.brinkEdgeCells` counts them so the census still
-    shows the exemption doing work rather than hiding a hole."""
-    corridor = sheet_corridor(S.sol, S.refined.shape)
+    The sheet corridor: at a brink the water is meant to have lower dry rock
+    below it — that is the cliff it falls down. Without it 32 cells failed,
+    every one within 10 m of a lip or a plunge (measured 2026-09-08).
+
+    The strip corridor: a chute is a ribbon in a notch, and its raster edge
+    sits inside rock that keeps falling away. One cell qualifies province-wide
+    (113 E / 1201 S, measured 2026-09-09): 6.74 m from a steep station inside a
+    7.05 m half-width, its dry 4-neighbour 8.17 m out and 0.16 m lower, with
+    the same river's next stretch 4 m further down that wall — so claiming it
+    is the first step of a smear down the chute, not the closing of a hole.
+
+    `stats.brinkEdgeCells` and `stats.stripEdgeCells` count each exemption's
+    own yield, so the census shows them doing work rather than hiding a hole.
+    """
     return hovering_edges(S.w, S.wet, S.assigned, S.refined,
-                          (S.owner == 255) | corridor)
-
-
-# The one hovering cell left after the 0047 round, pinned by site so that any
-# NEW one still fails: a lateral-flood cell at 113 E / 1201 S standing 0.30 m
-# deep beside an 81-degree chute, whose dry 4-neighbour is 0.16 m lower — 7 m
-# upstream of fall-14's lip, in a gorge. Diagnosed 2026-09-08: the cell lies
-# outside every station's width (12.05 m from a 7.05 m half-width), so the
-# shoulder never rings it and the flood, which may not spread from a chute,
-# stops one cell short. Fix it by making the flood claim the water's own edge
-# beside a chute, then delete this allowance — do not widen it.
-KNOWN_HOVERING = {(113, 1201)}
+                          (S.owner == 255)
+                          | sheet_corridor(S.sol, S.refined.shape)
+                          | strip_corridor(S.sol, S.refined.shape))
 
 
 def test_no_wet_cell_has_a_lower_dry_neighbour(S):
     bad = hovering_map(S)
     ys, xs = np.nonzero(bad)
-    sites = {(round(x * RAW_M), round(y * RAW_M)) for y, x in zip(ys, xs)}
-    new = sites - KNOWN_HOVERING
-    assert not new, f"{len(new)} NEW hovering edges: {sorted(new)[:8]}"
-    assert S.meta["stats"]["hoveringEdges"] <= len(KNOWN_HOVERING)
+    sites = sorted({(round(x * RAW_M), round(y * RAW_M)) for y, x in zip(ys, xs)})
+    assert not sites, f"{len(sites)} hovering edges: {sites[:8]}"
+    assert S.meta["stats"]["hoveringEdges"] == 0
+    # the exemptions stay narrow: a handful of cells, not a licence
+    assert S.meta["stats"]["stripEdgeCells"] <= 4
+    assert S.meta["stats"]["brinkEdgeCells"] <= 64
 
 
 def test_every_standing_body_is_flat(S):
@@ -394,6 +395,30 @@ def test_site_2530_320_carries_no_lip_level_at_the_foot(S):
     deep = wet & (S.body[sl] == 0) & ((S.w[sl] - S.refined[sl]) > 5.0) & ~bowl
     assert not deep.any(), (
         f"{int(deep.sum())} cells over 5 m deep outside a basin or plunge bowl")
+
+
+def test_site_2174_268_depth_matches_w_minus_ground_at_the_texel_centres(S):
+    """The browser probe's `fall-20m-under` camera (2173.9 E / 268.4 S), where
+    it reported |still − ground − depth| = 0.21 m.
+
+    The shipped depth is exact HERE: at each of the four texel centres around
+    the camera the B channel equals W − ground to within a quantum. The probe's
+    0.21 m is a resolution artefact of its own arithmetic — it compares a
+    bilinear sample of the 3.66 m depth texture with the ground read from the
+    1.83 m terrain, and bilinear filtering only commutes with a linear ground.
+    In fall-20m's plunge bowl the ground crosses 274.89 → 277.41 m across that
+    one texel quad, so the two disagree by ~0.19 m at the camera while every
+    texel is correct. This test pins the thing that would be a real defect."""
+    x, z = 2173.9, 268.4
+    iy, ix = S.tex(x, z)
+    blk = np.s_[iy:iy + 2, ix:ix + 2]
+    err = np.abs((S.w2[blk] - S.ground2[blk]) - S.depth2[blk])
+    tol = DEPTH_QUANTUM_M + (S.meta["surface"]["maxM"] - S.meta["surface"]["minM"]) / 65535 * 1.5
+    assert err.max() <= tol, f"depth off by {err.max():.3f} m at the texel centres"
+    # ...and the ground really does swing across that quad, which is why the
+    # probe's point-sampled comparison cannot be tight here
+    rel = float(S.ground2[blk].max() - S.ground2[blk].min())
+    assert rel > 1.0, f"ground relief across the quad only {rel:.2f} m"
 
 
 def test_site_1590_4250_has_no_hovering_edge(S):

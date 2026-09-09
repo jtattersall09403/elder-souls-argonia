@@ -84,11 +84,34 @@ left is a handover, not a loose end:
    CSM), so a fall on a shaded gorge floor is lit as if in open sun — which is
    why the gorge fall measures ×2.10 of the water around it. All queued in the
    polish backlog with the measurements.
-3. One hovering cell remains, pinned by site in the invariant with its
-   diagnosis (113 E / 1201 S, a 0.16 m step beside an 81° chute).
-4. `fall-20m-under` reports `|still − ground − depth| = 0.21 m`: the still
-   surface and the depth channel disagree at that point. Compiler-side, small,
-   and left failing rather than papered over.
+3. ~~One hovering cell remains~~ **closed 2026-09-09.** `hoveringEdges` is 0
+   with no pinned site. The cell at 113 E / 1201 S was not one flood step
+   short: it is 6.74 m from a steep station (inside a 7.05 m half-width) and
+   its dry 4-neighbour is 8.17 m out, outside every band, with the same
+   river's next stretch 4 m further down that wall — claiming it starts a
+   smear down the chute. A chute is drawn by the strip ribbon, not the field
+   raster, so `compile_water.strip_corridor` excuses the ground each ribbon is
+   drawn over, exactly as `sheet_corridor` does for a brink.
+   `stats.stripEdgeCells` is its **marginal** yield over the sheet corridor
+   and reads 1 province-wide. The shipped rasters are byte-identical to the
+   previous compile: only the census and the gate moved.
+4. ~~`fall-20m-under` reports `|still − ground − depth| = 0.21 m`~~ **not a
+   compiler defect, 2026-09-09.** The shipped depth is exact at that site: at
+   all four texel centres around the camera (2173.9 E / 268.4 S) the B channel
+   equals W − ground within a quantum, pinned by
+   `test_site_2174_268_depth_matches_w_minus_ground_at_the_texel_centres`. The
+   probe compares a *bilinear* sample of the 3.66 m depth texture against
+   ground read from the 1.83 m terrain, and bilinear filtering only commutes
+   with a linear ground. In fall-20m's plunge bowl the ground crosses 274.89 →
+   277.41 m across that one texel quad, so the two arithmetics differ by
+   0.19 m at the camera (measured) while every texel is right. **Probe fix to
+   apply** (`apps/world-studio/scripts/probe-water.mjs`, owned elsewhere): the
+   registration tolerance must carry the ground's texel-scale relief. The
+   probe already sends arbitrary points to `__STUDIO_WATER_PROBE__`, so sample
+   ground at the four surrounding depth-texel centres (`±mpp/2` in x and z,
+   `mpp` = `meta.surface.metresPerPixel`) and gate on
+   `gap < 0.15 + 0.5 * (max − min)` of those four. On flat water the relief is
+   ~0 and the gate stays exactly as tight as it is today.
 
 **CI is green and the round is deployed** (`04e78dd`, 2026-09-09 00:40 UTC).
 Two breakages found by CI on the way there, both fixed: the prose linter
@@ -152,6 +175,44 @@ frame rate with the falls layer ≥ 0.9 × the same page without it. A fit site
 names the PLUNGE it looks at in metres and resolves the nearest compiled
 cascade, because cascade ids are renumbered by every compile. The checks
 passed on the 2026-09-08 11:33 data and must be re-run on the final data.
+
+## Dock approaches are DREDGED, not demoted (2026-09-09, awaiting the rebuild)
+
+`worldgen/dock_dredge.py` (rule written out in its module docstring; unit
+tests in `worldgen/test_dock_dredge.py`, no vault needed) closes the physical
+half of the dock promise. It reads every `docks[]` entry and its water
+`networkTerminals[]` from the blueprints, takes the serving route's geometry
+from the published network, and where the first `DOCK_DEPTH_SAMPLE_M` does not
+already carry `HULL_CLASS_DEPTH_M[hullClass]` it cuts a channel along that
+route: hull-sized width, sloped sides, bed at the LOCAL water level minus the
+promise (levels are read per sample and made non-increasing outward, because a
+100 m marsh or tidal reach crosses a gradient and one number would leave a
+sill), run on past the promise until it meets water already deep enough so the
+reach fills from the open water. It only ever cuts, and it never touches a cell
+standing at or above the waterline. Called once from `carve_to_profile` after
+`authored_waterways.carve_authored`; its rows land in `stats["dockApproaches"]`.
+
+The port's channel is dug because that is what a working port does — the berth
+is fixed by what stands on it and the hull class is a claim the catalogue and
+the quests make, so neither may be moved to make the check pass.
+
+Measured on the shipped rasters (published water surface as the level field),
+before the rebuild:
+
+| dock / route | verdict |
+| --- | --- |
+| Lilmoth lighter quay / Soulrest–Lilmoth | dredged 366 m × 30 m, 26 223 m³, max cut 3.25 m, 1.18 → 3.25 m |
+| Lilmoth lighter quay / Blackrose–Lilmoth | dredged 358 m × 30 m, 20 463 m³, max cut 3.25 m, 0.86 → 3.25 m |
+| Sap-Tapping landing / its landing channel | **blocked, nothing cut** — 39 of 51 approach points, from the berth itself outward, stand up to 1.48 m ABOVE the local water (29.22 m) |
+| Wamasu Pond lane landing / its lane | **blocked, nothing cut** — 7 of 51 points stand up to 1.09 m above the water, first 20 m out |
+
+The two blocked reaches are placement findings, not terrain ones: forcing them
+would mean cutting 2.8 m and 3.9 m deep through banks the landings sit on
+(≈3 900 m³ and ≈3 100 m³), which is a ditch through dry ground, not a dredged
+channel. Wamasu Pond currently PASSES `_validate_docks` only through
+`MARSH_WATER_CREDIT_M` — an open-water marsh cell is credited the canoe
+minimum whatever its signed depth — so the geometry there is thinner than the
+gate reads.
 
 ## Then: close-out (in this order)
 

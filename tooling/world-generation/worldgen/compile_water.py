@@ -66,6 +66,7 @@ LATERAL_MAX_M = 200.0         # bounded lateral flood from channel cells (a capt
 TABLE_RISE_M = 2.0            # dry cells this close above a body carry its level
 TABLE_MAX_M = 30.0            # ...within this distance
 BURY_M = 3.0
+HOVER_MIN_DROP_M = 0.05        # a dry neighbour this far under a wet cell's W is a hole
 CLIFF_DROP_M = 2.5            # in-width ground this far under the bed is a cliff foot, not river
 SAIL_GUARD_WIN = 65           # full-res samples (~120 m) for the buried-below-water guard
 DEPTH_MIN_M, DEPTH_SPAN_M = -6.0, 30.6
@@ -222,7 +223,36 @@ def sheet_corridor(sol, shape, pad_m: float = 2.0) -> np.ndarray:
     return mask
 
 
-def hovering_edges(W, wet, assigned, g, fall_foot, min_drop: float = 0.05,
+def strip_corridor(sol, shape, pad_m: float = RAW_M) -> np.ndarray:
+    """Mask of the ground each STEEP run's ribbon is drawn over: every steep
+    station's own width plus one cell.
+
+    A chute is not painted by the field raster — the strip mesh is the water
+    there, a ribbon in a notch. Its raster edge therefore sits *inside* rock
+    that keeps falling away, and one cell out the ground is a few centimetres
+    lower: at 113 E / 1201 S the wet cell is 6.74 m from its station (inside a
+    7.05 m half-width) and the dry cell 8.17 m out is 0.16 m lower — with the
+    river's next stretch 4 m further down, so claiming it starts a smear down
+    the chute wall rather than closing a hole. Same argument as
+    `sheet_corridor` makes for a brink, and counted the same way
+    (`stats.stripEdgeCells`) so the exemption stays visible.
+    """
+    mask = np.zeros(shape, dtype=bool)
+    n = shape[0]
+    for k in np.flatnonzero((sol.kind == ch.KIND_STEEP) & ~sol.lost):
+        r_m = float(sol.width[k]) * 0.5 + pad_m
+        r = int(np.ceil(r_m / sol.mpp))
+        cy, cx = int(round(float(sol.y[k]))), int(round(float(sol.x[k])))
+        y0, y1 = max(cy - r, 0), min(cy + r + 1, n)
+        x0, x1 = max(cx - r, 0), min(cx + r + 1, shape[1])
+        if y1 <= y0 or x1 <= x0:
+            continue
+        yy, xx = np.mgrid[y0:y1, x0:x1]
+        mask[y0:y1, x0:x1] |= np.hypot(yy - sol.y[k], xx - sol.x[k]) * sol.mpp <= r_m
+    return mask
+
+
+def hovering_edges(W, wet, assigned, g, fall_foot, min_drop: float = HOVER_MIN_DROP_M,
                    max_drop: float = ch.CANYON_MAX_M, cliff_out: list | None = None) -> np.ndarray:
     """Mask of wet cells with a 4-neighbour that is dry, unassigned (no level
     of its own) and whose ground lies >= min_drop under the wet cell's W.
@@ -406,11 +436,21 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
     # station's level as its table and is not a hole; fall footprints are
     # bridged by the sheet.
     cliff_edge: list = []
-    # a brink is not a hole: the sheet carries the water down the corridor
+    # a brink is not a hole: the sheet carries the water down the corridor.
+    # Nor is a chute's notch wall: the strip ribbon, not the field raster,
+    # is the water there (see `strip_corridor`).
     corridor = sheet_corridor(sol, g.shape)
-    hover = int(hovering_edges(W, wet, assigned, g, fall_foot | corridor,
+    ribbon = strip_corridor(sol, g.shape)
+    hover = int(hovering_edges(W, wet, assigned, g, fall_foot | corridor | ribbon,
                                cliff_out=cliff_edge).sum())
-    brink_cells = int((hovering_edges(W, wet, assigned, g, fall_foot).sum()) - hover)
+    # what each exemption excuses: the sheet corridor against the footprint
+    # alone, and the strip ribbon against everything else — its MARGINAL yield,
+    # since most steep stations sit at a lip or a plunge and are already inside
+    # the sheet corridor. Both counts keep the exemptions visible in the census
+    # rather than letting them hide a hole.
+    sheet_only = int(hovering_edges(W, wet, assigned, g, fall_foot | corridor).sum())
+    brink_cells = int(hovering_edges(W, wet, assigned, g, fall_foot).sum()) - sheet_only
+    strip_cells = sheet_only - hover
     iy = np.clip(np.round(sol.y).astype(int), 0, n - 1)
     ix = np.clip(np.round(sol.x).astype(int), 0, n - 1)
     st_wet = np.isfinite(W[iy, ix]) & (W[iy, ix] >= g[iy, ix] - 0.01)   # water reaches the bed
@@ -588,6 +628,7 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
         "hoveringEdges": hover,
         "cliffEdgeCells": int(cliff_edge[0]),
         "brinkEdgeCells": int(brink_cells),
+        "stripEdgeCells": int(strip_cells),
         "boundHitCells": int(bound_hit.sum()),
         "boundHitReaches": int(len(bound_reaches)),
         "dryStations": int((live & ~st_wet).sum()),
