@@ -26,12 +26,19 @@ jobs:
           cache: pip
           cache-dependency-path: tooling/world-generation/requirements-test.txt
       - run: python -m pip install -r tooling/world-generation/requirements-test.txt
-      # KNOWN RED on main: worldgen/test_blueprint.py::test_live_dir_validates and
-      # worldgen/test_minor_waterways.py::test_no_berth_is_refused_in_the_published_network
-      # both fail on the Sap-Tapping dry berth. That is water-owned and the owner
-      # has chosen (2026-09-09) to hold the deploy rather than move the gate — see
-      # docs/research/rendering/water-handoff.md. The suite is not broken; do not
-      # xfail, quarantine or weaken it. Deploy resumes when the berth is wet.
+      # KNOWN RED on main, all water-owned, all held rather than moved out of the
+      # blocking job (owner, 2026-09-09) — see docs/research/rendering/water-handoff.md.
+      # The suites are not broken; do not xfail, quarantine or weaken them.
+      #   * test_blueprint.py::test_live_dir_validates (and, on some builds,
+      #     test_minor_waterways.py::test_no_berth_is_refused_in_the_published_network)
+      #     — the Sap-Tapping berth stands on dry ground in the published water.
+      #   * test_water_invariants.py::test_no_extension_cell_stands_above_its_own_water
+      #     — 80 942 cells (2.434 km2). The class raster on disk was baked before
+      #     `CLASS_EXT_RISE_M` existed (its `klass` meta has no `extRiseM`); it goes
+      #     green on the next `compile_water`.
+      #   * test_water_invariants.py::…boat_lane_carries_a_hull… — 122 m of
+      #     route.boat.blackrose-lilmoth crosses a marsh flat that is dry in BOTH
+      #     seasons. Owner call: declare the carry or make the flat water.
       - run: npm run test:placement
       # The slow split re-grades the whole province from the vault rasters. It
       # skips where the vault is absent (that includes this runner), so it is
@@ -40,6 +47,19 @@ jobs:
       # The half of the connector/footprint evidence chain that PRODUCES the
       # measurements consumed by the placement suite (97 G19).
       - run: npm run test:pipeline
+      # The water compiler's acceptance suite (decision 0047) — rivers reach the
+      # sea, no cell hovers, a fall is a cliff, every published boat lane
+      # carries a hull. It gated NOTHING until 2026-09-09: it was in none of the
+      # four CI commands, so the whole water contract had never blocked a
+      # deploy. Wired here, in the Python job, because these modules import
+      # numpy/scipy and the Node build job has neither.
+      #
+      # Its province-level half needs the asset vault and SKIPS on this runner,
+      # exactly as `test:placement:slow` does — wired to stop it drifting, and
+      # the measurement happens on a machine that has the world. `test_water.py`
+      # runs its synthetic worlds here for real, and so does
+      # `test_reroute_lanes.py`, which needs no data at all.
+      - run: npm run test:water
 
   build:
     runs-on: ubuntu-latest

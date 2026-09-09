@@ -1,0 +1,31 @@
+{
+ "schemaVersion": 1,
+ "kind": "major-lane-overland-repair",
+ "season": "base",
+ "needM": 0.6,
+ "portageMaxM": 100.0,
+ "lanes": [
+  {
+   "id": "route.boat.blackrose-lilmoth",
+   "beforeOverlandM": [
+    122.0
+   ],
+   "afterOverlandM": [
+    122.0
+   ],
+   "pointsBefore": 372,
+   "pointsAfter": 372,
+   "edits": [
+    {
+     "atM": [
+      3143.4,
+      6025.0
+     ],
+     "lengthM": 122.0,
+     "status": "unsolved",
+     "why": "no wet line inside a 90 px box"
+    }
+   ]
+  }
+ ]
+}

@@ -57,9 +57,77 @@ continue from the repo alone at any moment, with nothing to be explained.
   `sitingPrefs.nearPoint`, so the re-siting is chosen by the playbook rather
   than by translating the old dot.
 - **The deploy is held** until that berth is fixed, rather than moving the debt
-  gate out of the deploy-blocking job.
-  `test_minor_waterways::test_no_berth_is_refused_in_the_published_network` is
-  the only red test; everything else in CI is green.
+  gate out of the deploy-blocking job. `test_blueprint::test_live_dir_validates`
+  (and, on some builds,
+  `test_minor_waterways::test_no_berth_is_refused_in_the_published_network`)
+  carries it. The current full red list is in the next section and in the
+  workflow's own comment — keep the two in step.
+
+### The water suites now gate the deploy, and the boat lanes come ashore (2026-09-09)
+
+**The acceptance suite gated nothing.** `worldgen/test_water_invariants.py` and
+`worldgen/test_water.py` were in none of the four commands
+`.github/workflows/deploy-pages.yml` runs, so the whole water contract — rivers
+reach the sea, no cell hovers, a fall is a cliff, a lane carries a hull — had
+never blocked a deploy. Both are now `npm run test:water`, wired into the
+**Python** job (they import numpy/scipy; the Node build job has neither, which
+is what broke the prose linter last time). Cost: **9.8 s** with the vault, 1.3 s
+without. Its province half skips on a bare runner exactly as
+`test:placement:slow` does, so the real measurement happens on a machine that
+has the world; `test_water.py`'s synthetic worlds and the new
+`test_reroute_lanes.py` run for real on the runner.
+
+**Three published lane stretches ran overland**, and the cause was the one
+found five times over: `compile_society` builds its boat cost from the Phase 3
+hydrology pass — `ocean`, `lakes`, `rivers`, `tidal`, `wetlands` — every one a
+*type label*, never a depth. `tidal` and `wetlands` are cheap in
+`routes.boat_cost_surface`, so the solver cut a headland whose cells are
+labelled `tidal` while standing metres above the sea. At 3120 E / 6860 S:
+`hydrology-pass1.npz` says `tidal=True`, the compiled signed depth says
+**−5.28 m**.
+
+`worldgen/reroute_lanes.py` is the water counterpart of `reroute_majors`: it
+re-solves only the overland stretches of the **published** `waterways.json`,
+on the compiled signed depth read through `water_report.ShippedWater`, inside a
+local box, keeping every id, class and declared berth.
+`waterways-natural.json` — the siting seam — is untouched, so no committed
+record re-plots. Passable is *wet*, not *deep enough*: a shallow is dredged
+(`dock_dredge.dredge_lanes`) and dry ground is not, so shallows are dearer but
+crossable and dry ground is a wall. The repaired line is exact metres in a new
+`pointsM` (the poling channels' existing convention, now honoured for lanes in
+`province_network.load_network`); `px` stays the coarse studio trail. Re-running
+it with nothing to fix rewrites nothing (verified: identical md5).
+
+Measured, `route.boat.soulrest-lilmoth`:
+
+| stretch | before | after |
+| --- | --- | --- |
+| 3054 E / 6926 S | 576 m overland, up to 5.76 m above its water | gone — longest remaining hop on that stretch 12 m |
+| 3545 E / 6682 S | 178 m | gone |
+| 3778 E / 6536 S | 16 m | gone |
+
+Lane length 4514 → 4544 m (+0.7 %); the line moves 8.9 m on average and 71 m at
+most. Every other hop on the lane is unchanged and ≤ 82 m, inside the range of
+the province's declared portages (11–89 m).
+
+**Open, and an owner call.** `route.boat.blackrose-lilmoth` still crosses
+**122 m** of dry ground at 3142 E / 6026 S and `reroute_lanes` reports it
+`unsolved` rather than inventing a line. It is not a beach: it is a class-5
+marsh flat standing 0.05–0.93 m above a level-0 water table, with **no standing
+water in either season**, and the nearest wet detour is 4 226 m for a 316 m
+gap. Blackrose's own lane terminal reads −1.68 m on the shipped rasters, so the
+lane cannot be re-solved against water the compiler has not delivered yet. Two
+honest answers, both yours: declare the carry (it is 37 % longer than the
+province's longest existing portage, and `LANE_PORTAGE_MAX_M = 100` was read
+off those), or make the flat water in the carve. Re-measure after the chain run
+before deciding — the marsh may close.
+
+`test_no_extension_cell_stands_above_its_own_water` is red at **80 942 cells
+(2.434 km²)**, and the claim that a chain run clears it is VERIFIED, not
+trusted: the shipped `water-meta.json` `klass` block carries no `extPx` /
+`extRiseM`, so the class raster on disk was baked by `2eaac9a4`, before
+`e7bbd279` added `CLASS_EXT_RISE_M`. The next `compile_water` re-bakes it under
+the cap.
 
 ### Closed 2026-09-08 late evening
 

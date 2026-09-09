@@ -100,6 +100,14 @@ STAGES=(
   "sculpt_province"
   "refine_province"
   "compile_water"
+  # The published boat lanes are re-solved against the water this run just
+  # compiled, on measured depth rather than the hydrology pass's type labels
+  # (which called a headland 5.28 m above the sea "tidal" and sent a lane over
+  # it). It runs after BOTH water solves and writes nothing when there is
+  # nothing to fix. It is a feedback edge: the carve that DREDGES a lane runs
+  # earlier, in refine_province, so a lane repaired here is served by the next
+  # run's carve. One pass repairs the line; a second serves it.
+  "reroute_lanes"
   "reroute_majors"
   "compile_minor_routes"
   "grade_routes"
@@ -109,6 +117,7 @@ STAGES=(
   "compile_chunks"
   "export_web_chunks"
   "compile_water"
+  "reroute_lanes"
   "terrain_request_postconditions"
   "rebake_landcover"
   # The settlement ground paint sits BETWEEN the land-cover bake and the
@@ -136,6 +145,7 @@ FOOTPRINT_STAGES=(
   "compile_chunks"
   "export_web_chunks"
   "compile_water"
+  "reroute_lanes"
   "terrain_request_postconditions"
   "rebake_landcover"
   # The settlement ground paint sits BETWEEN the land-cover bake and the

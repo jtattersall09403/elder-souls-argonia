@@ -115,7 +115,15 @@ def load_network(province: Path = PROVINCE, registry_path: Path = REGISTRY_PATH)
     water = province / "waterways.json"
     if water.exists():
         for lane in json.loads(water.read_text())["lanes"]:
-            pts = _px_to_m(lane["px"], px_m)
+            # An exact metre line wins over the raster trail, exactly as it does
+            # for a poling channel below: `reroute_lanes` re-solves an overland
+            # stretch on the 3.66 m water grid, and re-quantising that onto the
+            # 5.48 m hydrology lattice would put the lane back on the bank.
+            # `px` remains the coarse trail the studio overlay draws.
+            exact_points = lane.get("pointsM")
+            pts = (tuple((float(p[0]), float(p[1])) for p in exact_points)
+                   if isinstance(exact_points, list) and len(exact_points) >= 2
+                   else _px_to_m(lane["px"], px_m))
             # a declared lane terminal is an exact berth, not the raster cell
             # it falls in (compile_society; 97 C-stitch)
             for key, index in (("startsAtM", 0), ("endsAtM", -1)):
