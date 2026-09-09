@@ -4,21 +4,21 @@
   "description": "Tall, golden, and quietly certain of it.",
   "body": "male",
   "skinTint": [
-    0.6000000238,
-    0.5529412031,
-    0.3333333433
+    0.4901961088,
+    0.4392157197,
+    0.2745098174
   ],
   "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
-    0.6328125,
-    0.6015625,
-    0.4453125
+    0.546875,
+    0.5859375,
+    0.6640625
   ],
   "heightScale": 1.08,
   "faceGen": {
     "plugin": "Skyrim.esm",
-    "formId": "0002BA3C",
-    "editorId": "Quaranir"
+    "formId": "000E101E",
+    "editorId": "EncWarlockIce03BossHighElfM"
   },
   "bodyWeight": 50
 }

@@ -20,6 +20,13 @@ def valid_summary(*, detail: bool = True) -> dict:
             "material": "FaceGenHead",
             "usesDetailMap": detail,
         }],
+        "hairMeshes": ["BrowsMaleHumanoid09", "HairMaleNord11"],
+        "browMeshes": ["BrowsMaleHumanoid09"],
+        "headPartAlphaModes": {
+            "materials": ["BrowsMaleHumanoid09.Mat", "HairMaleNord11.Mat"],
+            "masked": 2,
+            "alphaCutoff": 0.5,
+        },
     }
 
 
@@ -41,6 +48,18 @@ class FaceGenBuildContractTests(unittest.TestCase):
         summary["faceGenNeckSeam"]["maxDistanceAfter"] = 0.02
         summary["faceGenTintBakes"] = []
         with self.assertRaisesRegex(RuntimeError, "seam remains open.*FaceTint"):
+            validate_facegen_summary("nord", summary)
+
+    def test_rejects_a_brow_outside_the_hair_tint_path(self):
+        summary = valid_summary()
+        summary["hairMeshes"] = ["HairMaleNord11"]
+        with self.assertRaisesRegex(RuntimeError, "brows were not classified"):
+            validate_facegen_summary("nord", summary)
+
+    def test_rejects_blended_head_part_cards(self):
+        summary = valid_summary()
+        summary["headPartAlphaModes"]["masked"] = 1
+        with self.assertRaisesRegex(RuntimeError, "not alpha-tested"):
             validate_facegen_summary("nord", summary)
 
 

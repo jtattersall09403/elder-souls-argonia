@@ -24,6 +24,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import struct
 from pathlib import Path
 
 from .build import (
@@ -82,8 +83,66 @@ def validate_facegen_summary(race_id: str, summary: dict) -> None:
         failures.append("head/body neck seam remains open")
     if not any("head" in bake.get("mesh", "").lower() for bake in tint_bakes):
         failures.append("FaceTint was not baked into the exported head")
+    brows = set(summary.get("browMeshes", []))
+    hair = set(summary.get("hairMeshes", []))
+    if not brows.issubset(hair):
+        failures.append("brows were not classified as HairTint head parts")
+    alpha = summary.get("headPartAlphaModes", {})
+    if alpha.get("materials") and alpha.get("masked") != len(alpha["materials"]):
+        failures.append("one or more HairTint head parts are not alpha-tested")
     if failures:
         raise RuntimeError(f"{race_id} FaceGen export invalid: {'; '.join(failures)}")
+
+
+def set_head_part_alpha_modes(glb: Path, summary: dict) -> dict:
+    """Make Skyrim's translucent head-part cards alpha-tested cutouts.
+
+    Brows, hair, hairlines, beards and feathers carry authored alpha, but
+    Blender 4 maps its remaining hashed surface mode to glTF ``BLEND``.
+    Skyrim renders these cards with an alpha threshold.  Resolve the material
+    indices through the exported node/mesh graph so this stays correct for any
+    race-valid head part and does not depend on an editor-ID naming pattern.
+    """
+    data = bytearray(glb.read_bytes())
+    magic, _version, _length = struct.unpack_from("<4sII", data, 0)
+    chunk_length, chunk_type = struct.unpack_from("<I4s", data, 12)
+    if magic != b"glTF" or chunk_type != b"JSON":
+        raise ValueError(f"{glb} is not a GLB with a leading JSON chunk")
+    start = 20
+    gltf = json.loads(bytes(data[start:start + chunk_length]))
+
+    head_parts = set(summary.get("hairMeshes", []))
+    material_indices = set()
+    for node in gltf.get("nodes", []):
+        if node.get("name") not in head_parts or "mesh" not in node:
+            continue
+        mesh = gltf.get("meshes", [])[node["mesh"]]
+        material_indices.update(
+            primitive["material"]
+            for primitive in mesh.get("primitives", [])
+            if "material" in primitive
+        )
+
+    materials = gltf.get("materials", [])
+    for index in material_indices:
+        materials[index]["alphaMode"] = "MASK"
+        materials[index]["alphaCutoff"] = 0.5
+
+    encoded = json.dumps(gltf, separators=(",", ":")).encode("utf-8")
+    encoded += b" " * (-len(encoded) % 4)
+    rebuilt = bytearray(data[:12])
+    rebuilt += struct.pack("<I4s", len(encoded), b"JSON") + encoded
+    rebuilt += data[start + chunk_length:]
+    struct.pack_into("<I", rebuilt, 8, len(rebuilt))
+    glb.write_bytes(bytes(rebuilt))
+
+    result = {
+        "materials": sorted(materials[index].get("name", "") for index in material_indices),
+        "masked": len(material_indices),
+        "alphaCutoff": 0.5,
+    }
+    print(f"[races] {glb.stem}: {len(material_indices)} HairTint material(s) alpha-tested")
+    return result
 
 
 def build_race(roster: dict, race_id: str, *, reference: bool) -> dict:
@@ -131,6 +190,9 @@ def build_race(roster: dict, race_id: str, *, reference: bool) -> dict:
     auxiliary = assemble_auxiliary_animations(plan) if reference else {}
     blender_plan = write_blender_plan(plan, data_root, animations, auxiliary)
     summary = run_blender(blender_plan, (ROOT / race_glb).resolve())
+    summary["headPartAlphaModes"] = set_head_part_alpha_modes(
+        (ROOT / race_glb).resolve(), summary
+    )
     validate_facegen_summary(race_id, summary)
     if reference:
         write_runtime_manifest(plan, summary)

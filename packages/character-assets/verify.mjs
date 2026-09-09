@@ -104,7 +104,7 @@ function boundsCentre(bounds) {
  * skull above the neck and leaving the eyes and mouth behind. Prove the final
  * shipped geometry is one assembled face for every race.
  */
-async function assertAssembledFace(id, path) {
+async function assertAssembledFace(id, path, appearance) {
   const json = await readGltfJson(path);
   const meshNodes = (json.nodes ?? []).filter((node) => node.mesh !== undefined);
   const one = (label, predicate) => {
@@ -119,6 +119,21 @@ async function assertAssembledFace(id, path) {
   const head = meshBounds(json, one("FaceGen head", (node) => node.name?.includes("Head") && !node.name.includes("Hair")));
   const eyes = meshBounds(json, one("FaceGen eyes", (node) => node.name?.includes("Eyes")));
   const mouth = meshBounds(json, one("FaceGen mouth", (node) => node.name?.includes("Mouth")));
+
+  const hairTintMeshes = new Set(appearance?.hairMeshes ?? []);
+  for (const node of meshNodes.filter((candidate) => candidate.name?.startsWith("Brows"))) {
+    if (!hairTintMeshes.has(node.name)) {
+      throw new Error(`Race ${id} brow ${node.name} is missing from its HairTint meshes`);
+    }
+  }
+  for (const node of meshNodes.filter((candidate) => hairTintMeshes.has(candidate.name))) {
+    for (const primitive of json.meshes?.[node.mesh]?.primitives ?? []) {
+      const material = json.materials?.[primitive.material];
+      if (material?.alphaMode !== "MASK" || material.alphaCutoff !== 0.5) {
+        throw new Error(`Race ${id} HairTint head part ${node.name} is not a 0.5-cutoff alpha mask`);
+      }
+    }
+  }
 
   if (head.min[1] > body.max[1] + 0.02) {
     throw new Error(`Race ${id} FaceGen head floats ${Number(head.min[1] - body.max[1]).toFixed(3)} rig units above its body`);
@@ -197,7 +212,7 @@ const bodyTextureHashes = new Map();
 for (const [id, race] of races) {
   if (typeof race.asset !== "string") throw new Error(`Race ${id} is missing its asset path`);
   await assertMatchingGltf(race.asset, race.sha256);
-  bodyTextureHashes.set(id, await assertAssembledFace(id, race.asset));
+  bodyTextureHashes.set(id, await assertAssembledFace(id, race.asset, race.appearance));
 }
 for (const beast of ["khajiit", "argonian"]) {
   if (bodyTextureHashes.get(beast) === bodyTextureHashes.get("nord")) {
