@@ -74,16 +74,18 @@ left is a handover, not a loose end:
    do not move or relabel the huts to silence the finding. Keep these failures
    red until the physical compiler makes the authored cuts wet, labelled, deep and correctly
    current-bearing; do not lower hull classes or move fixed berths to hide them.
-2. **The falls' shape.** Their light is right now (they were being lit by the
-   aerial-haze feeds, at a tenth of the sky), but an agent reading our frames
-   against the owner's references calls the body a cream rectangle with
-   straight sides standing in a thin white stream: it flares two to three
-   times wider than the river feeding its lip, its edges end on a hard
-   silhouette instead of fraying into spray, and it reads warm ivory rather
-   than neutral white. The kit also takes no shadow at all (unlit, outside
-   CSM), so a fall on a shaded gorge floor is lit as if in open sun — which is
-   why the gorge fall measures ×2.10 of the water around it. All queued in the
-   polish backlog with the measurements.
+2. **The falls' shape** — partly closed 2026-09-09, three named things left.
+   Their light was wrong (the aerial-haze feeds, at a tenth of the sky) and
+   the sheet was a slab: flat 0.89–0.91 alpha across its middle, with the
+   streak noise that breaks up the strips moving it by 2 %. Both fixed — the
+   profile is derived from critical flow over the lip and the margins fizz
+   with the strips' own whiteness law — and the falls take shadow now (0.43 of
+   open sun at a quarter visibility). All five fall probe sites pass. What
+   remains is in the polish backlog with its measurements: the crest is a
+   straight terrain edge because that is the compiler's lip geometry; how wide
+   a fall is *drawn* is an owner call (the compiled width is right to ×1.00
+   against the stream feeding every fall); and the warm ivory is the world's
+   midday sun at the owner's locked `warmthBias = 1.0`, not the falls' albedo.
 3. ~~One hovering cell remains~~ **closed 2026-09-09.** `hoveringEdges` is 0
    with no pinned site. The cell at 113 E / 1201 S was not one flood step
    short: it is 6.74 m from a steep station (inside a 7.05 m half-width) and
