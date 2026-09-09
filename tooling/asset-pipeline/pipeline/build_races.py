@@ -63,6 +63,29 @@ def pack_asset_path(rig_output: str, pack_id: str) -> str:
     return str(rig.with_suffix("")) + f".{pack_id}.glb"
 
 
+def validate_facegen_summary(race_id: str, summary: dict) -> None:
+    """Reject an export that can regress to a detached or untinted head.
+
+    The Blender process is the only place that can inspect the assembled mesh,
+    so its measured seam and material facts are part of the build contract.
+    Keeping the check here makes every full or partial race build enforce it.
+    """
+    registration = summary.get("faceGenRegistration", {})
+    seam = summary.get("faceGenNeckSeam", {})
+    tint_bakes = summary.get("faceGenTintBakes", [])
+    failures = []
+    if registration.get("registrationVertices", 0) < 800:
+        failures.append("full-surface FaceGen registration is missing")
+    if seam.get("headVertices", 0) < 8 or seam.get("bodyVertices", 0) < 8:
+        failures.append("head/body neck loops were not stitched")
+    if seam.get("maxDistanceAfter", float("inf")) > 1e-5:
+        failures.append("head/body neck seam remains open")
+    if not any("head" in bake.get("mesh", "").lower() for bake in tint_bakes):
+        failures.append("FaceTint was not baked into the exported head")
+    if failures:
+        raise RuntimeError(f"{race_id} FaceGen export invalid: {'; '.join(failures)}")
+
+
 def build_race(roster: dict, race_id: str, *, reference: bool) -> dict:
     """Build one race, and on the reference race the shared rig as well."""
     race_glb = Path(roster["raceOutputDir"]) / f"{race_id}.glb"
@@ -108,6 +131,7 @@ def build_race(roster: dict, race_id: str, *, reference: bool) -> dict:
     auxiliary = assemble_auxiliary_animations(plan) if reference else {}
     blender_plan = write_blender_plan(plan, data_root, animations, auxiliary)
     summary = run_blender(blender_plan, (ROOT / race_glb).resolve())
+    validate_facegen_summary(race_id, summary)
     if reference:
         write_runtime_manifest(plan, summary)
     return summary

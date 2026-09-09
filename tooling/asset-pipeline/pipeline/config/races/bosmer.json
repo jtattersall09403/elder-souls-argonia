@@ -4,21 +4,21 @@
   "description": "Valenwood-born, small and quick.",
   "body": "male",
   "skinTint": [
-    0.5058823824,
-    0.4196078777,
-    0.3529411852
+    0.4352941513,
+    0.3372549117,
+    0.2431372702
   ],
   "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
-    0.546875,
-    0.5859375,
-    0.6640625
+    0.3671875,
+    0.3203125,
+    0.28125
   ],
   "heightScale": 0.98,
   "faceGen": {
     "plugin": "Skyrim.esm",
-    "formId": "00013480",
-    "editorId": "Faendal"
+    "formId": "0001C19C",
+    "editorId": "Enthir"
   },
-  "bodyWeight": 40
+  "bodyWeight": 10
 }

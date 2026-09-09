@@ -10,7 +10,7 @@
       "label": "Dunmer",
       "description": "Ash-grey and red-eyed. The old blood of Morrowind.",
       "asset": "races/dunmer.glb",
-      "sha256": "b3a62d8583a6935581d3b73898df9d9b686ea15620bdb4c1941e41ce0a5782d5",
+      "sha256": "0f16a5f0c6e93d22b8f99d34ed47ea720425c86ed638034c39d1941f3b5346f4",
       "meshBipedSlots": {
         "BrowsMaleHumanoid05": [
           32
@@ -36,6 +36,7 @@
         ],
         "MaleHeadDarkElf": [
           30,
+          32,
           43
         ],
         "MaleMouthHumanoidDefault": [
@@ -82,7 +83,7 @@
       "label": "Nord",
       "description": "Skyrim's own: pale, broad and made for cold.",
       "asset": "races/nord.glb",
-      "sha256": "cce460c77dee7aa74d9d46e26bf26d7bf3d1fb88d0af618884d36aff74aeca86",
+      "sha256": "9c225b67ac770c33c071e168194734fb8d94ed636b5968f3b1736821af6cf494",
       "meshBipedSlots": {
         "BrowsMaleHumanoid01": [
           32
@@ -90,22 +91,26 @@
         "FootMale_Big": [
           37
         ],
-        "HairLineMaleNord09": [
+        "HairLineMaleNord02": [
           31,
           41
         ],
-        "HairMaleNord09": [
+        "HairMaleNord02": [
           31,
           41
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleEyesHumanAmber": [
+        "HumanBeard06": [
+          30
+        ],
+        "MaleEyesHumanIceBlue": [
           32
         ],
         "MaleHeadNord": [
           30,
+          32,
           43
         ],
         "MaleMouthHumanoidDefault": [
@@ -130,9 +135,9 @@
         ],
         "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.203125,
-          0.21875,
-          0.21875
+          0.6328125,
+          0.6015625,
+          0.4453125
         ],
         "skinMeshes": [
           "FootMale_Big",
@@ -142,8 +147,9 @@
         ],
         "hairMeshes": [
           "BrowsMaleHumanoid01",
-          "HairLineMaleNord09",
-          "HairMaleNord09"
+          "HairLineMaleNord02",
+          "HairMaleNord02",
+          "HumanBeard06"
         ]
       }
     },
@@ -151,9 +157,9 @@
       "label": "Imperial",
       "description": "Cyrodiil-born, and it shows in the bearing.",
       "asset": "races/imperial.glb",
-      "sha256": "200b6a554d9d4d5bed1627ca3643890fa426069afcaa03c8d6fddeb0908079dd",
+      "sha256": "5e26e7e453469f7094cfb11f806ce3f7a54d8b045e8cd96f3ab606a4938f3f75",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid02": [
+        "BrowsMaleHumanoid04": [
           32
         ],
         "FootMale_Big": [
@@ -166,14 +172,12 @@
         "HandMaleBig3rd": [
           33
         ],
-        "HumanBeard02": [
-          30
-        ],
-        "MaleEyesHumanBrown": [
+        "MaleEyesHumanDarkBlue": [
           32
         ],
         "MaleHeadImperial": [
           30,
+          32,
           43
         ],
         "MaleMouthHumanoidDefault": [
@@ -192,79 +196,9 @@
       "heightScale": 1.0,
       "appearance": {
         "skinTint": [
-          0.4392157197,
-          0.3803921938,
-          0.3372549117
-        ],
-        "skinTintMode": "skyrim-rgb-tint",
-        "hairTint": [
-          0.546875,
-          0.5859375,
-          0.6640625
-        ],
-        "skinMeshes": [
-          "FootMale_Big",
-          "HandMaleBig3rd",
-          "MaleMouthHumanoidDefault",
-          "MaleUnderwearBody:0"
-        ],
-        "hairMeshes": [
-          "BrowsMaleHumanoid02",
-          "HairMaleImperial1",
-          "HumanBeard02"
-        ]
-      }
-    },
-    "breton": {
-      "label": "Breton",
-      "description": "High Rock stock, with a little elf far back.",
-      "asset": "races/breton.glb",
-      "sha256": "bfd1a7afc9a5c93db2d0101f844c69aa1802a1a6539fca0c5597d80497ee1e78",
-      "meshBipedSlots": {
-        "BrowsMaleHumanoid01": [
-          32
-        ],
-        "FootMale_Big": [
-          37
-        ],
-        "HairLineMaleElder6": [
-          31
-        ],
-        "HairMaleElder6": [
-          31
-        ],
-        "HandMaleBig3rd": [
-          33
-        ],
-        "HumanBeard13": [
-          30
-        ],
-        "MaleEyesHumanBrown": [
-          32
-        ],
-        "MaleHeadBreton": [
-          30,
-          43
-        ],
-        "MaleMouthHumanoidDefault": [
-          32
-        ],
-        "MaleUnderwear_1": [
-          32
-        ],
-        "MaleUnderwearBody:0": [
-          32,
-          34,
-          38
-        ]
-      },
-      "body": "male",
-      "heightScale": 1.0,
-      "appearance": {
-        "skinTint": [
-          0.7176470757,
-          0.611764729,
-          0.5686274767
+          0.5098039508,
+          0.4274510145,
+          0.3568627536
         ],
         "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
@@ -279,18 +213,16 @@
           "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "BrowsMaleHumanoid01",
-          "HairLineMaleElder6",
-          "HairMaleElder6",
-          "HumanBeard13"
+          "BrowsMaleHumanoid04",
+          "HairMaleImperial1"
         ]
       }
     },
-    "redguard": {
-      "label": "Redguard",
-      "description": "Yokudan blood. The finest swords in Tamriel came with it.",
-      "asset": "races/redguard.glb",
-      "sha256": "c6482a20fed92cb6c736e5fd361eaea6290fa2974777de8b7c3a4b2ce7917422",
+    "breton": {
+      "label": "Breton",
+      "description": "High Rock stock, with a little elf far back.",
+      "asset": "races/breton.glb",
+      "sha256": "6fcbe701019fc9df5641ab49ff86d171f168303f2efb0e7c31524d0a3746a891",
       "meshBipedSlots": {
         "BrowsMaleHumanoid06": [
           32
@@ -298,23 +230,97 @@
         "FootMale_Big": [
           37
         ],
-        "HairLineMaleRedguard6": [
+        "HairLineMaleNord07": [
+          31,
+          41
+        ],
+        "HairMaleNord07": [
+          31,
+          41
+        ],
+        "HandMaleBig3rd": [
+          33
+        ],
+        "MaleEyesHumanBrown": [
+          32
+        ],
+        "MaleHeadBreton": [
+          30,
+          32,
+          43
+        ],
+        "MaleMouthHumanoidDefault": [
+          32
+        ],
+        "MaleUnderwear_1": [
+          32
+        ],
+        "MaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ]
+      },
+      "body": "male",
+      "heightScale": 1.0,
+      "appearance": {
+        "skinTint": [
+          0.6549019814,
+          0.5254902244,
+          0.4784314036
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.4375,
+          0.4609375,
+          0.34375
+        ],
+        "skinMeshes": [
+          "FootMale_Big",
+          "HandMaleBig3rd",
+          "MaleMouthHumanoidDefault",
+          "MaleUnderwearBody:0"
+        ],
+        "hairMeshes": [
+          "BrowsMaleHumanoid06",
+          "HairLineMaleNord07",
+          "HairMaleNord07"
+        ]
+      }
+    },
+    "redguard": {
+      "label": "Redguard",
+      "description": "Yokudan blood. The finest swords in Tamriel came with it.",
+      "asset": "races/redguard.glb",
+      "sha256": "2d2c8b6daf0dbad849f6146c4ff41f5e38995bb3ca1445a116652e3f869fb1c6",
+      "meshBipedSlots": {
+        "BrowsMaleHumanoid05": [
+          32
+        ],
+        "FootMale_Big": [
+          37
+        ],
+        "HairLineMaleRedguard3": [
           31
         ],
-        "HairMaleRedguard6": [
+        "HairMaleRedguard3": [
           31
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "HumanBeard02": [
+        "HumanBeard40": [
           30
         ],
-        "MaleEyesHumanAmber": [
+        "HumanBeardLong01_1bit": [
+          30
+        ],
+        "MaleEyesHumanBrown": [
           32
         ],
         "MaleHeadRedguard": [
           30,
+          32,
           43
         ],
         "MaleMouthHumanoidDefault": [
@@ -328,7 +334,7 @@
           34,
           38
         ],
-        "MarksMaleHumanoid02LeftGash": [
+        "MarksMaleHumanoid09RightGash": [
           32
         ]
       },
@@ -336,9 +342,9 @@
       "heightScale": 1.005,
       "appearance": {
         "skinTint": [
-          0.3176470697,
-          0.2392157018,
-          0.2078431547
+          0.1764705926,
+          0.1294117719,
+          0.1176470667
         ],
         "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
@@ -353,10 +359,11 @@
           "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "BrowsMaleHumanoid06",
-          "HairLineMaleRedguard6",
-          "HairMaleRedguard6",
-          "HumanBeard02"
+          "BrowsMaleHumanoid05",
+          "HairLineMaleRedguard3",
+          "HairMaleRedguard3",
+          "HumanBeard40",
+          "HumanBeardLong01_1bit"
         ]
       }
     },
@@ -364,7 +371,7 @@
       "label": "Altmer",
       "description": "Tall, golden, and quietly certain of it.",
       "asset": "races/altmer.glb",
-      "sha256": "595b814723d675ad255022f32eb39016eaa9329843e2684f55f0c10a6232f7f5",
+      "sha256": "50795f32e0d507a80baf596403da6bcff894e3af4e033486d1650320c44c5709",
       "meshBipedSlots": {
         "FootMale_Big": [
           37
@@ -388,6 +395,7 @@
         ],
         "MaleHeadHighElf": [
           30,
+          32,
           43
         ],
         "MaleMouthHumanoidDefault": [
@@ -433,33 +441,34 @@
       "label": "Bosmer",
       "description": "Valenwood-born, small and quick.",
       "asset": "races/bosmer.glb",
-      "sha256": "6d0ba44a75338a922889acf7de43ef5d59440a39da52c23a2f304550c3980781",
+      "sha256": "46e0e54634b9107519b4fab5ceda9c46c86e53ba2ca2ec7b98ee1a3286b7b40d",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid04": [
+        "BrowsMaleHumanoid11": [
           32
         ],
         "FootMale_Big": [
           37
         ],
-        "HairLineMaleDarkElf09": [
+        "HairLineMaleDarkElf04": [
           31,
           41
         ],
-        "HairMaleDarkElf09": [
+        "HairMaleDarkElf04": [
           31
         ],
-        "HairShavedMaleDarkElf09": [
+        "HairShavedMaleDarkElf04": [
           31,
           41
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleEyesWoodElfDeepBrown": [
+        "MaleEyesWoodElfLightBrown": [
           32
         ],
         "MaleHeadWoodElf": [
           30,
+          32,
           43
         ],
         "MaleMouthHumanoidDefault": [
@@ -478,15 +487,15 @@
       "heightScale": 0.98,
       "appearance": {
         "skinTint": [
-          0.5058823824,
-          0.4196078777,
-          0.3529411852
+          0.4352941513,
+          0.3372549117,
+          0.2431372702
         ],
         "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.546875,
-          0.5859375,
-          0.6640625
+          0.3671875,
+          0.3203125,
+          0.28125
         ],
         "skinMeshes": [
           "FootMale_Big",
@@ -495,10 +504,10 @@
           "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "BrowsMaleHumanoid04",
-          "HairLineMaleDarkElf09",
-          "HairMaleDarkElf09",
-          "HairShavedMaleDarkElf09"
+          "BrowsMaleHumanoid11",
+          "HairLineMaleDarkElf04",
+          "HairMaleDarkElf04",
+          "HairShavedMaleDarkElf04"
         ]
       }
     },
@@ -506,7 +515,7 @@
       "label": "Orsimer",
       "description": "Orc, and unbothered by what that has cost.",
       "asset": "races/orsimer.glb",
-      "sha256": "92ef4edf9ba23aca2c318a07148314030b5627e624f850459f2a1afdc7e395fa",
+      "sha256": "7f8b8c518d9b29c49b4d23ef491b1c9ac258cfe5b192706685f16778682ffd20",
       "meshBipedSlots": {
         "BrowsMaleHumanoid06": [
           32
@@ -538,6 +547,7 @@
         ],
         "MaleHeadOrc": [
           30,
+          32,
           43
         ],
         "MaleMouthOrc1": [
@@ -586,7 +596,7 @@
       "label": "Khajiit",
       "description": "Elsweyr-born. Watches the room before it enters it.",
       "asset": "races/khajiit.glb",
-      "sha256": "8bc40ccee3e92ab85789940f839a73930e61335894c95fecf9b5b4c683ddc96b",
+      "sha256": "81ef99bf77c12e1ad1dfd29ce4cfe9ece2104ca9dd12d049e0c5d8cd1005f328",
       "meshBipedSlots": {
         "FootMale_Big": [
           37
@@ -608,6 +618,7 @@
         ],
         "MaleHeadKhajiit": [
           30,
+          32,
           43
         ],
         "MaleMouthKhajiit": [
@@ -639,7 +650,6 @@
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadKhajiit",
           "MaleUnderwearBody:0",
           "khajiitTailOUT"
         ],
@@ -653,7 +663,7 @@
       "label": "Argonian",
       "description": "Saxhleel. Black Marsh raised it, and Black Marsh is not gentle.",
       "asset": "races/argonian.glb",
-      "sha256": "09e8eb38511884d74308814951bf8c9c7d07822e3122af3952bc1510696833d0",
+      "sha256": "2a9d4fb054621b7fec77d3eaa9c747a1004e69c4f56f8685560762854c40ddf2",
       "meshBipedSlots": {
         "ArgonianTail": [
           40
@@ -674,7 +684,8 @@
           32
         ],
         "MaleHeadArgonian": [
-          30
+          30,
+          32
         ],
         "MaleMouthArgonian": [
           32

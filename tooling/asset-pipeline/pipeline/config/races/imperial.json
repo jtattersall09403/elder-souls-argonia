@@ -4,21 +4,21 @@
   "description": "Cyrodiil-born, and it shows in the bearing.",
   "body": "male",
   "skinTint": [
-    0.4392157197,
-    0.3803921938,
-    0.3372549117
+    0.5098039508,
+    0.4274510145,
+    0.3568627536
   ],
   "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
-    0.546875,
-    0.5859375,
-    0.6640625
+    0.3046875,
+    0.296875,
+    0.2734375
   ],
   "heightScale": 1.0,
   "faceGen": {
     "plugin": "Skyrim.esm",
-    "formId": "0001327E",
-    "editorId": "GeneralTullius"
+    "formId": "0001338C",
+    "editorId": "BrotherVerulus"
   },
-  "bodyWeight": 60
+  "bodyWeight": 15
 }

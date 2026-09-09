@@ -68,15 +68,25 @@ the head parts driven by HairTint remain dynamically tintable.
 FaceGen NIFs contain a mixture of head-local geometry and head parts with a
 separate NIF-node transform. The importer classifies those two spaces. Generated
 heads retain the vanilla base head's topology and vertex order, so the pipeline
-finds the open neck loop and rigidly registers it against Skyrim's support head,
-then snaps that boundary to the support ring. Other transformed head parts use
-the same solved registration; head-local eyes, mouths, brows and overlays
-receive the actual head-bone attachment. This derives the bind correction from
-Skyrim geometry instead of a race-specific offset. Without it, parts receive
-incompatible or repeated transforms: skulls float, eyes separate, and an open
-mouth exposes the empty scene. The mouth and eye meshes remain part of the
-complete assembly so open mouths are enclosed and eyes keep their Skyrim
-surfaces.
+rigidly registers the complete generated face surface against Skyrim's support
+head. Registering an arbitrarily chosen open-boundary component is unsafe: the
+support head's 12-vertex mouth opening was previously mistaken for its neck,
+which distorted the mouth and left the real neck detached. The weight-blended
+body's highest open boundary is now the authoritative neck. Generated-head
+boundary vertices close to that loop snap to its nearest edges, and inherit the
+same interpolated body skin weights. Matching the positions closes the bind
+pose; matching the weights keeps it closed through idle and combat animation.
+
+Other transformed head parts use the same solved full-surface registration;
+head-local eyes, mouths, brows and overlays receive the actual head-bone
+attachment. This derives the bind correction from Skyrim geometry instead of a
+race-specific offset. Without it, parts receive incompatible or repeated
+transforms: skulls float, eyes separate, and an open mouth exposes the empty
+scene. The mouth and eye meshes remain part of the complete assembly so open
+mouths are enclosed and eyes keep their Skyrim surfaces. Every race build now
+rejects a partial registration, an open neck, or a head without a FaceTint
+bake. Khajiit heads legitimately omit the humanoid detail map; their FaceTint
+still composites over the fur with a neutral detail term.
 
 The body also follows each NPC's `NAM7` weight. Skyrim supplies `_0` and `_1`
 body, hand and foot meshes; the build interpolates their vertices by that
@@ -96,12 +106,12 @@ The default roster now uses these vanilla Skyrim NPC FaceGen records:
 
 | Race | Source NPC | FormID | `NAM7` weight |
 | --- | --- | --- | ---: |
-| Nord | Addvar | `00013255` | 75 |
-| Imperial | General Tullius | `0001327E` | 60 |
-| Breton | Giraud Gemane | `00013281` | 20 |
-| Redguard | Ahtar | `0001325F` | 85 |
+| Nord | Ralof | `0002BF9D` | 75 |
+| Imperial | Brother Verulus | `0001338C` | 15 |
+| Breton | Adeber | `000661AD` | 55 |
+| Redguard | Nazir | `0001C3AB` | 40 |
 | Altmer | Quaranir | `0002BA3C` | 50 |
-| Bosmer | Faendal | `00013480` | 40 |
+| Bosmer | Enthir | `0001C19C` | 10 |
 | Dunmer | Dravin Llanith | `00013353` | 20 |
 | Orsimer | Kharag gro-Shurkul | `00013291` | 40 |
 | Khajiit | Mazaka | `00013298` | 50 |
@@ -110,6 +120,29 @@ The default roster now uses these vanilla Skyrim NPC FaceGen records:
 These are defaults, not race templates. Future presets can point at other
 FaceGen outputs, and full creation can generate a new output without changing
 the rendering contract. Every listed skin and hair colour is the selected NPC's
-authored `QNAM`/`HCLF` value. General Tullius replaces the former Imperial
-source because that source shared Addvar's exact skin colour; the ten defaults
-now have ten distinct Skyrim-authored skin colours.
+authored `QNAM`/`HCLF` value. The human defaults deliberately span Ralof's pale
+Nord tone, Adeber's light-medium Breton tone, Brother Verulus's medium Imperial
+tone and Nazir's dark Redguard tone. This is the same data-driven variation
+Skyrim uses; none of these values is a post-process brightness or colour grade.
+The ten defaults now have ten distinct Skyrim-authored skin colours.
+
+## Character-generation boundary and timing
+
+The current pipeline is already scalable for authored appearances: a config
+can select any complete Skyrim NPC FaceGen record, body weight, skin colour and
+hair colour, and the race build produces the same browser-ready asset. The
+second comparison sheet exercises that path with a fixed race-valid sample:
+Balgruuf, Sorex Vinius, Cosnach, Ahtar, Ancano, Faendal, Savos Aren, Burguk,
+Ma'iq and Jaree-Ra. It proves variation in morph geometry, head parts, eyes,
+hair, beards, marks, FaceTint and weight, including beast races.
+
+It is not yet a full Skyrim character generator. Randomly mixing only the
+existing JSON values would mismatch a baked FaceGeom NIF with its FaceTint and
+head parts. A correct generator must choose sex and race-valid head parts,
+apply race morph presets and sliders, compose ordered tint layers, blend body
+weight, then emit one matched FaceGeom/FaceTint result. That visual generator
+belongs in Phase 10b, alongside the portable actor-loading and character-view
+work it must serve. Phase 10c then connects the already designed attributes and
+progression rules, while MQ01 presents the player-facing creation flow. This
+order also lets the implementation cover both sexes and armour/body fitting
+instead of freezing a male-only JSON schema now.

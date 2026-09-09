@@ -4,9 +4,9 @@
   "description": "Yokudan blood. The finest swords in Tamriel came with it.",
   "body": "male",
   "skinTint": [
-    0.3176470697,
-    0.2392157018,
-    0.2078431547
+    0.1764705926,
+    0.1294117719,
+    0.1176470667
   ],
   "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
@@ -17,8 +17,8 @@
   "heightScale": 1.005,
   "faceGen": {
     "plugin": "Skyrim.esm",
-    "formId": "0001325F",
-    "editorId": "Ahtar"
+    "formId": "0001C3AB",
+    "editorId": "Nazir"
   },
-  "bodyWeight": 85
+  "bodyWeight": 40
 }

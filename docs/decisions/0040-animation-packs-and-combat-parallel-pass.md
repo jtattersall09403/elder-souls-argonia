@@ -1120,3 +1120,50 @@ missing-data handling and equipped-attack threat regressions pass. Root tests an
 an isolated checkout containing the combat changes and committed source only.
 Deployment uses that checked code; uncommitted water and placement work remains
 separately owned.
+
+# Round 14 (2026-09-09): FaceGen seam and race-variation acceptance
+
+The all-race review exposed a common white neck ring, a malformed default Nord
+mouth, malformed Breton facial hair, insufficient human skin-tone separation,
+and alternate beast appearances that did not vary enough. The root failure was
+in the shared FaceGen assembly rather than the individual race meshes.
+
+The assembler had selected the lowest open component of the generic support
+head as its neck landmark. That component was the 12-vertex mouth opening. It
+therefore distorted the mouth while the actual 29-vertex generated-head neck
+remained detached from the 26-vertex body opening. The corrected build fits the
+complete matching head topology to recover the NIF transform, finds the real
+head boundary by proximity to the weight-blended body's highest open loop,
+snaps it to body edges, and copies the interpolated skin weights at each snap.
+This closes the seam in the bind pose and keeps both sides under the same bone
+transforms during animation. Every race build now rejects an incomplete
+registration, an open stitched seam, or a missing head FaceTint bake.
+
+Khajiit exposed a separate material error: its generated head supplied
+FaceTint but no humanoid detail map, and the old condition skipped the entire
+tint bake. A neutral detail term now preserves the normal FaceTint blend. This
+makes Mazaka and Ma'iq visibly different while retaining their Skyrim-authored
+fur textures and head parts. Jaree-Ra likewise demonstrates an Argonian with a
+different FaceTint, eyes, weight and head spikes from Gulum-Ei.
+
+The defaults remain whole vanilla NPC appearances. Ralof replaces the malformed
+Nord source and supplies a pale, blond Nord; clean-shaven Adeber replaces the
+Breton with the broken beard. Brother Verulus, Nazir and Enthir broaden the
+human and elven tone range. Their `QNAM`, `HCLF`, `NAM7`, FaceGeom, FaceTint,
+eyes and head parts all come from their `Skyrim.esm` NPC records; there is no
+manual enemy recolour or post-process race grading.
+
+Visual acceptance uses two 3200×1480 sheets rendered through the game camera,
+each showing close face and unequipped full body for all ten races. The default
+sheet checks every neck, eye and mouth. The fixed alternate sample uses
+Balgruuf, Sorex Vinius, Cosnach, Ahtar, Ancano, Faendal, Savos Aren, Burguk,
+Ma'iq and Jaree-Ra. Balgruuf's long tied hair and Cosnach's short braided style
+replace the two earlier bald-looking candidates. Both sheets show closed necks,
+enclosed mouths, present eyes and distinct race-valid appearances.
+
+This work establishes a scalable preset pipeline, not the full character
+creator. Arbitrarily randomising the JSON would separate baked FaceGeom from
+its FaceTint and selected head parts. Phase 10b will implement the visual
+generator—sex, race-valid parts, morph presets/sliders, ordered tints and body
+weight—beside portable actor loading. Phase 10c connects attributes and
+progression; MQ01 hosts the player-facing creation sequence.

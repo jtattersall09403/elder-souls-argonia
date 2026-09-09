@@ -10,15 +10,15 @@
   ],
   "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
-    0.203125,
-    0.21875,
-    0.21875
+    0.6328125,
+    0.6015625,
+    0.4453125
   ],
   "heightScale": 1.03,
   "faceGen": {
     "plugin": "Skyrim.esm",
-    "formId": "00013255",
-    "editorId": "Addvar"
+    "formId": "0002BF9D",
+    "editorId": "Ralof"
   },
   "bodyWeight": 75
 }
