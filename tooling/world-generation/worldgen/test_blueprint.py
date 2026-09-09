@@ -141,6 +141,31 @@ def test_valid_blueprint_passes():
     assert blueprint.validate_blueprint(_bp(), KNOWN) == []
 
 
+def test_hand_edited_area_boundary_is_rejected_as_drift():
+    """B3: derived district/combat polygons must not be authorable by hand.
+
+    Every other fixture is canonicalised by ``apply_area_boundaries`` in ``_bp``,
+    so nothing else in this suite can see the drift guard fail. This one edits
+    the derived polygon after canonicalisation, in both derived classes.
+    """
+    for key in ("districts", "combatSpaces"):
+        bp = _bp()
+        area = bp[key][0]
+        assert area.get("boundary"), f"{key} fixture must carry a derived boundary"
+        drifted = [list(point) for point in area["boundary"]]
+        drifted[0] = [drifted[0][0] + 0.02, drifted[0][1] + 0.02]
+        area["boundary"] = drifted
+        errs = blueprint.validate_blueprint(bp, KNOWN)
+        assert [e for e in errs if "is not the derived polygon" in e], (key, errs)
+
+    # An extra vertex is drift too, not just a moved one.
+    bp = _bp()
+    district = bp["districts"][0]
+    district["boundary"] = [*[list(p) for p in district["boundary"]], [0.5, 0.5]]
+    assert [e for e in blueprint.validate_blueprint(bp, KNOWN)
+            if "is not the derived polygon" in e]
+
+
 def test_id_must_be_in_catalogue():
     errs = blueprint.validate_blueprint(_bp(id="place.testreg.ghost"), KNOWN)
     assert any("catalogue" in e for e in errs)
