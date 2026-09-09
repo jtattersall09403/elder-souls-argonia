@@ -7,13 +7,13 @@ grading. The shoulder is sized from the change the blend actually applies, so wh
 | class | ways | cap deg | max grad before | max grad after | metres graded | ford/bridge m |
 | --- | --- | --- | --- | --- | --- | --- |
 | boardwalk | 40 | n/a (not graded) | 68.3 | 68.3 | 0 | 0 |
-| causeway | 1 | 12 | 38.0 | 0.0 | 0 | 142 |
+| causeway | 1 | 12 | 38.0 | 2.7 | 4 | 142 |
 | footpath | 89 | 17 | 84.9 | 39.6 | 30947 | 7189 |
 | road | 7 | 8 | 59.1 | 8.5 | 20105 | 16246 |
 | track | 34 | 12 | 68.2 | 12.9 | 26717 | 15313 |
-| trunk_road | 3 | 8 | 69.4 | 7.8 | 9525 | 7782 |
+| trunk_road | 3 | 8 | 69.4 | 8.2 | 9532 | 7783 |
 
-Heightfield samples changed: 946208.
+Heightfield samples changed: 946276.
 
 Ways still over their cap: 3 of 134. Routing now holds the gradient itself — both solvers wall off any step over the class cap (`routes.grade_factor`), so a line climbs a spur by switchback or contour instead of head-on. What survives is not a line that could have gone round: it is ground that has to be climbed to reach the place at the end of it, and the honest remedy is authored geometry (a stair, a ramped terrace, a boardwalk or a bridge over the gap), not a deeper cut.
 
@@ -37,12 +37,14 @@ These ways were over the cap on the natural ground and are not any more: the cli
 | `route.road.gideon-blackwood-road` | trunk_road | 407 | 7.2 |
 | `route.road.gideon-soulrest` | road | 21 | 7.2 |
 | `route.road.gideon-stormhold` | road | 133 | 7.8 |
-| `route.road.stormhold-thorn` | trunk_road | 402 | 7.8 |
+| `route.road.stormhold-thorn` | trunk_road | 402 | 8.2 |
 | `route.road.thorn-tear-road` | trunk_road | 331 | 5.9 |
 | `track.dunmer-north.branchmont` | track | 38 | 11.3 |
+| `track.dunmer-north.crystalgate` | track | 737 | 10.7 |
 | `track.dunmer-north.cut-and-stack` | footpath | 34 | 6.1 |
 | `track.dunmer-north.hissmir` | track | 18 | 8.8 |
 | `track.dunmer-north.mazzatun` | track | 1223 | 10.4 |
+| `track.dunmer-north.nine-fords` | track | 42 | 6.3 |
 | `track.dunmer-north.nine-marks` | footpath | 784 | 6.8 |
 | `track.dunmer-north.saltmarch-village` | track | 551 | 12.0 |
 | `track.dunmer-north.silyanorn-diggings` | footpath | 1979 | 16.0 |
@@ -50,6 +52,7 @@ These ways were over the cap on the natural ground and are not any more: the cli
 | `track.dunmer-north.tearmouth` | track | 37 | 10.0 |
 | `track.dunmer-north.the-ash-causeway` | footpath | 19 | 12.8 |
 | `track.dunmer-north.the-diggings-ladder` | footpath | 1762 | 15.0 |
+| `track.dunmer-north.the-field-gate-garrison` | track | 1522 | 10.4 |
 | `track.dunmer-north.the-fish-boon-ground` | footpath | 19 | 6.1 |
 | `track.dunmer-north.the-last-landing` | footpath | 36 | 12.8 |
 | `track.dunmer-north.the-northern-rest` | footpath | 66 | 12.8 |
@@ -59,11 +62,14 @@ These ways were over the cap on the natural ground and are not any more: the cli
 | `track.hist-heartland.heretic-stone-restarted` | track | 535 | 11.8 |
 | `track.hist-heartland.porter-relay-poling` | footpath | 26 | 0.0 |
 | `track.imperial-fringe.bone-road-waystation` | footpath | 1069 | 16.9 |
+| `track.imperial-fringe.lowmere-raft-town` | causeway | 61 | 2.7 |
 | `track.imperial-fringe.marcians-terrace` | footpath | 654 | 17.0 |
 | `track.imperial-fringe.mile-house-of-the-eagle` | footpath | 18 | 6.8 |
 | `track.imperial-fringe.moonmarch-ground` | footpath | 21 | 7.9 |
+| `track.imperial-fringe.onkobra-kwama-mine` | footpath | 88 | 6.7 |
 | `track.imperial-fringe.reedcutters-toll` | footpath | 301 | 12.9 |
 | `track.imperial-fringe.stonefoot-terrace-village` | footpath | 285 | 12.5 |
+| `track.imperial-fringe.stonewastes` | track | 639 | 11.8 |
 | `track.imperial-fringe.swampmoth-town` | track | 2591 | 10.4 |
 | `track.imperial-fringe.the-hollow-pass-station` | footpath | 72 | 16.3 |
 | `track.imperial-fringe.the-pass-shelter` | footpath | 173 | 6.8 |
@@ -73,6 +79,7 @@ These ways were over the cap on the natural ground and are not any more: the cli
 | `track.mercantile-coast.lighter-flotilla` | footpath | 138 | 8.8 |
 | `track.mercantile-coast.moonmarch` | footpath | 18 | 6.4 |
 | `track.pirate-freeholds.chasecreek` | footpath | 18 | 10.8 |
+| `track.pirate-freeholds.dunmer-frontier-holding` | track | 662 | 11.8 |
 | `track.pirate-freeholds.rim-pass-station` | footpath | 59 | 14.8 |
 | `track.pirate-freeholds.rockpoint` | footpath | 18 | 13.3 |
 | `track.pirate-freeholds.trunk-road-tradehouse` | footpath | 308 | 12.0 |
@@ -93,8 +100,8 @@ These ways were over the cap on the natural ground and are not any more: the cli
 | `route.road.gideon-stormhold` | road | 22.8 | 7.9 | 6 | 865 → 899 |
 | `route.road.helstrom-blackrose` | road | 13.7 | 7.7 | 2 | 778 → 875 |
 | `route.road.soulrest-blackrose` | road | 10.2 | 7.1 | 1 | 428 → 432 |
-| `route.road.stormhold-thorn` | trunk_road | 22.1 | 10.1 | 8 | 1596 → 1841 |
-| `route.road.thorn-tear-road` | trunk_road | 38.8 | 38.8 | 1 | 270 → 313 |
+| `route.road.stormhold-thorn` | trunk_road | 22.1 | 10.1 | 8 | 1596 → 1839 |
+| `route.road.thorn-tear-road` | trunk_road | 38.8 | 38.8 | 1 | 270 → 314 |
 
 ## Worst ten remaining spots
 

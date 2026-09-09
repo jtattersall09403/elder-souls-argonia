@@ -1,6 +1,6 @@
 {
  "schemaVersion": 2,
- "sourceHeightSha256": "4504490ebe970817dd5dbdaef0db49ef89534144a1cae1fdcc0437c0ba646a82",
+ "sourceHeightSha256": "72d4fe44343fd2b27aa92f58b7675e3affd1e82553f16ca243244209f6997b68",
  "surface": {
   "file": "water-surface.png",
   "size": 2017,
@@ -76919,10 +76919,11 @@
   }
  ],
  "stats": {
-  "compileSeconds": 61.6,
-  "hoveringEdges": 1,
+  "compileSeconds": 70.2,
+  "hoveringEdges": 0,
   "cliffEdgeCells": 0,
   "brinkEdgeCells": 31,
+  "stripEdgeCells": 1,
   "boundHitCells": 0,
   "boundHitReaches": 0,
   "dryStations": 18,
@@ -76953,7 +76954,7 @@
    "lake": 0.1552,
    "marsh": 0.06188
   },
-  "depressions": 77331,
+  "depressions": 77332,
   "acceptedDepressions": 2547,
   "rescuedBasins": 189,
   "sheets": 1862,
@@ -76970,19 +76971,19 @@
   "pooledLevelLost": 3,
   "lostStations": 0,
   "lostReaches": 0,
-  "roadCellsInWater": 12136,
-  "roadCellsDeepInWater": 5854,
+  "roadCellsInWater": 12172,
+  "roadCellsDeepInWater": 5863,
   "roadCellsDeepBy": {
    "sea": 5654,
    "lake": 21,
-   "river": 179
+   "river": 188
   },
-  "trackCellsInWater": 21916,
-  "trackCellsDeepInWater": 12642,
+  "trackCellsInWater": 21952,
+  "trackCellsDeepInWater": 12741,
   "trackCellsDeepBy": {
-   "sea": 11296,
+   "sea": 11386,
    "lake": 273,
-   "river": 1073
+   "river": 1082
   }
  }
 }

@@ -1,6 +1,6 @@
 {
  "schemaVersion": 2,
- "sourceHeightSha256": "4e3c9ef0d16c193888113217478b786414153a8010a9b3160924a6158f591bd7",
+ "sourceHeightSha256": "194414b93b22c35f20614c4d456c1340052229f624792c6d3c811a4900fdba3c",
  "surface": {
   "file": "water-surface.png",
   "size": 2017,
@@ -76919,10 +76919,11 @@
   }
  ],
  "stats": {
-  "compileSeconds": 66.6,
-  "hoveringEdges": 1,
+  "compileSeconds": 60.1,
+  "hoveringEdges": 0,
   "cliffEdgeCells": 0,
   "brinkEdgeCells": 31,
+  "stripEdgeCells": 1,
   "boundHitCells": 0,
   "boundHitReaches": 0,
   "dryStations": 18,
@@ -76953,14 +76954,14 @@
    "lake": 0.15648,
    "marsh": 0.0619
   },
-  "depressions": 77201,
+  "depressions": 77203,
   "acceptedDepressions": 2570,
   "rescuedBasins": 193,
   "sheets": 1874,
   "roadCapped": 68,
   "roadRejected": 0,
   "nestedAccepted": 35,
-  "nestedCandidates": 6460,
+  "nestedCandidates": 6455,
   "bodies": 2684,
   "sheetBodies": 1895,
   "bodyCells": 589110,
@@ -76970,19 +76971,19 @@
   "pooledLevelLost": 3,
   "lostStations": 0,
   "lostReaches": 0,
-  "roadCellsInWater": 12306,
-  "roadCellsDeepInWater": 5870,
+  "roadCellsInWater": 12226,
+  "roadCellsDeepInWater": 5802,
   "roadCellsDeepBy": {
    "sea": 5650,
-   "lake": 23,
-   "river": 197
+   "lake": 54,
+   "river": 98
   },
-  "trackCellsInWater": 22078,
-  "trackCellsDeepInWater": 12631,
+  "trackCellsInWater": 21942,
+  "trackCellsDeepInWater": 12568,
   "trackCellsDeepBy": {
-   "sea": 11287,
-   "lake": 253,
-   "river": 1091
+   "sea": 11286,
+   "lake": 290,
+   "river": 992
   }
  }
 }

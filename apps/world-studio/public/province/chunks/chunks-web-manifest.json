@@ -23,7 +23,7 @@
   16,
   16
  ],
- "sourceSha256": "6bf71f58ef4c1e8685a127ea5d06c6ad154bfe27c69a99b398b0fd3648d4f1a5",
+ "sourceSha256": "013b3c2abd7c6b1b9262731d252567542466b44090a722e7d69f82ebe58e1c39",
  "chunks": [
   {
    "cx": 0,
@@ -8640,7 +8640,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -1.028,
+     "minM": -3.25,
      "maxM": 23.465
     },
     "2": {
@@ -8650,7 +8650,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -0.729,
+     "minM": -3.124,
      "maxM": 23.17
     },
     "4": {
@@ -8660,7 +8660,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -0.54,
+     "minM": -2.942,
      "maxM": 22.638
     }
    }

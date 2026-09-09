@@ -381,12 +381,12 @@
     11,
     12
    ],
-   "instances": 2023,
+   "instances": 2038,
    "tiers": {
-    "T1": 433,
-    "T2": 1590
+    "T1": 441,
+    "T2": 1597
    },
-   "perHectare": 92.4
+   "perHectare": 93.1
   },
   "15_0": {
    "chunk": [
@@ -536,12 +536,12 @@
     11,
     12
    ],
-   "instances": 2132,
+   "instances": 2136,
    "tiers": {
-    "T1": 742,
-    "T2": 1390
+    "T1": 743,
+    "T2": 1393
    },
-   "perHectare": 97.4
+   "perHectare": 97.6
   },
   "7_1": {
    "chunk": [
@@ -557,12 +557,12 @@
     11,
     12
    ],
-   "instances": 3258,
+   "instances": 3253,
    "tiers": {
-    "T1": 802,
+    "T1": 797,
     "T2": 2456
    },
-   "perHectare": 148.8
+   "perHectare": 148.6
   },
   "8_1": {
    "chunk": [
@@ -580,12 +580,12 @@
     11,
     12
    ],
-   "instances": 1603,
+   "instances": 1604,
    "tiers": {
-    "T1": 517,
+    "T1": 518,
     "T2": 1086
    },
-   "perHectare": 73.2
+   "perHectare": 73.3
   },
   "9_1": {
    "chunk": [
@@ -678,12 +678,12 @@
     11,
     12
    ],
-   "instances": 1818,
+   "instances": 1744,
    "tiers": {
-    "T1": 253,
-    "T2": 1565
+    "T1": 256,
+    "T2": 1488
    },
-   "perHectare": 83.0
+   "perHectare": 79.7
   },
   "14_1": {
    "chunk": [
@@ -701,12 +701,12 @@
     11,
     12
    ],
-   "instances": 1896,
+   "instances": 1861,
    "tiers": {
-    "T1": 326,
-    "T2": 1570
+    "T1": 325,
+    "T2": 1536
    },
-   "perHectare": 86.6
+   "perHectare": 85.0
   },
   "15_1": {
    "chunk": [
@@ -2455,12 +2455,12 @@
     12,
     14
    ],
-   "instances": 4104,
+   "instances": 4201,
    "tiers": {
-    "T1": 2536,
-    "T2": 1568
+    "T1": 2582,
+    "T2": 1619
    },
-   "perHectare": 187.4
+   "perHectare": 191.9
   },
   "12_7": {
    "chunk": [
@@ -2708,12 +2708,12 @@
     13,
     14
    ],
-   "instances": 2487,
+   "instances": 2480,
    "tiers": {
-    "T1": 692,
-    "T2": 1795
+    "T1": 688,
+    "T2": 1792
    },
-   "perHectare": 113.6
+   "perHectare": 113.3
   },
   "11_8": {
    "chunk": [
@@ -3716,8 +3716,8 @@
    ],
    "instances": 2881,
    "tiers": {
-    "T1": 575,
-    "T2": 2306
+    "T1": 577,
+    "T2": 2304
    },
    "perHectare": 131.6
   },
@@ -3940,12 +3940,12 @@
     12,
     14
    ],
-   "instances": 4719,
+   "instances": 4715,
    "tiers": {
-    "T1": 687,
-    "T2": 4032
+    "T1": 684,
+    "T2": 4031
    },
-   "perHectare": 215.5
+   "perHectare": 215.3
   },
   "8_13": {
    "chunk": [
@@ -3964,12 +3964,12 @@
     12,
     14
    ],
-   "instances": 1349,
+   "instances": 1045,
    "tiers": {
-    "T1": 771,
-    "T2": 578
+    "T1": 495,
+    "T2": 550
    },
-   "perHectare": 61.6
+   "perHectare": 47.7
   },
   "9_13": {
    "chunk": [
@@ -4172,12 +4172,12 @@
     11,
     14
    ],
-   "instances": 2035,
+   "instances": 1911,
    "tiers": {
-    "T1": 1163,
-    "T2": 872
+    "T1": 1057,
+    "T2": 854
    },
-   "perHectare": 92.9
+   "perHectare": 87.3
   },
   "8_14": {
    "chunk": [
@@ -4193,12 +4193,12 @@
     11,
     14
    ],
-   "instances": 17,
+   "instances": 7,
    "tiers": {
-    "T1": 7,
-    "T2": 10
+    "T1": 5,
+    "T2": 2
    },
-   "perHectare": 0.8
+   "perHectare": 0.3
   },
   "1_15": {
    "chunk": [

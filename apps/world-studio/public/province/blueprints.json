@@ -54,10 +54,10 @@
         ]
       ],
       "budget": {
-        "maxColliders": 96,
-        "maxInstances": 96,
+        "maxColliders": 104,
+        "maxInstances": 104,
         "maxTextureMB": 128,
-        "maxUniqueMaterials": 70
+        "maxUniqueMaterials": 85
       },
       "causalModel": {
         "founding": "The Xit-Xaht went on cutting stone after the Duskfall told every tribe to stop, on the order of a Hist they had bound with sap.",
@@ -166,32 +166,28 @@
           "notes": null,
           "polygon": [
             [
-              1982.329,
-              1328.715
-            ],
-            [
-              1978.247,
-              1329.373
+              1978.05,
+              1331.46
             ],
             [
               1977.274,
-              1329.802
+              1331.802
             ],
             [
               1975.542,
-              1330.569
+              1332.569
             ],
             [
               1974.039,
-              1332.539
+              1334.539
             ],
             [
-              1973.401,
-              1334.027
+              1973.388,
+              1336.058
             ],
             [
-              1975.644,
-              1354.915
+              1975.714,
+              1354.898
             ],
             [
               1994.453,
@@ -210,8 +206,8 @@
               1335.061
             ],
             [
-              1993.07,
-              1327.57
+              1992.746,
+              1327.444
             ]
           ],
           "why": "The stone rite of LV28 is put to a visitor before the statue wall; refusing it flips the place hostile and the shaper's watch comes down the terrace to this court."
@@ -354,36 +350,44 @@
           "notes": null,
           "polygon": [
             [
-              1987.983,
-              1349.709
+              1987.694,
+              1349.715
             ],
             [
-              1969.916,
-              1350.459
+              1976.373,
+              1351.839
             ],
             [
-              1968.048,
-              1351.245
+              1972.586,
+              1353.373
             ],
             [
-              1966.935,
-              1352.943
+              1968.78,
+              1354.981
             ],
             [
-              1966.013,
-              1357.031
+              1967.426,
+              1357.185
             ],
             [
-              1966.291,
-              1359.042
+              1967.509,
+              1359.214
             ],
             [
-              1967.917,
-              1360.864
+              1969.14,
+              1363.074
             ],
             [
-              1988.019,
-              1366.825
+              1970.536,
+              1364.548
+            ],
+            [
+              1972.007,
+              1364.878
+            ],
+            [
+              1988.358,
+              1366.844
             ],
             [
               1989.569,
@@ -534,8 +538,8 @@
         },
         {
           "centreM": [
-            1983.279,
-            1353.122
+            1984.499,
+            1351.008
           ],
           "cultureKit": "neutral-works",
           "id": "district.mazzatun.staging",
@@ -571,20 +575,12 @@
               1363.723
             ],
             [
-              1956.467,
-              1365.966
+              1956.507,
+              1365.975
             ],
             [
-              1975.246,
-              1366.868
-            ],
-            [
-              1975.435,
-              1366.876
-            ],
-            [
-              1989.392,
-              1366.882
+              1989.338,
+              1366.889
             ],
             [
               2049.943,
@@ -2734,7 +2730,7 @@
           "id": "parcel.mazzatun.scaffold-a",
           "interior": null,
           "notes": null,
-          "orientationWhy": "The scaffold's measured open side faces the terrace-head approach and its decks remain aligned with the western riser course they serve.",
+          "orientationWhy": "The scaffold bay turns its measured open working face toward the terrace-head approach while its decks continue to serve the western riser course.",
           "polygon": [
             [
               1954.931,
@@ -2801,8 +2797,8 @@
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
           "buildingFamily": "works-staging",
           "centreM": [
-            1975.4,
-            1357.0
+            1973.4,
+            1359.0
           ],
           "districtId": "district.mazzatun.staging",
           "entrance": null,
@@ -2810,61 +2806,61 @@
             "deg": 183.9,
             "evidence": "co-placement",
             "outside": true,
-            "worldDeg": 29.9
+            "worldDeg": 341.0
           },
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.scaffold-b",
           "interior": null,
           "notes": null,
-          "orientationWhy": "The scaffold's measured open side faces the terrace-head approach, with its decks set across the lower step beside the block face.",
+          "orientationWhy": "The four-sided base turns with the two-sided bay and stair as one measured assembly, keeping both connector joints closed while its open working face addresses the approach.",
           "polygon": [
             [
-              1976.157,
-              1358.893
+              1975.324,
+              1359.674
             ],
             [
-              1976.095,
-              1358.952
+              1975.328,
+              1359.76
             ],
             [
-              1976.01,
-              1358.966
+              1975.283,
+              1359.833
             ],
             [
-              1973.475,
-              1357.73
+              1972.685,
+              1360.93
             ],
             [
-              1973.434,
-              1357.654
+              1972.601,
+              1360.912
             ],
             [
-              1973.442,
-              1357.569
+              1972.542,
+              1360.85
             ],
             [
-              1974.643,
-              1355.107
+              1971.476,
+              1358.326
             ],
             [
-              1974.705,
-              1355.048
+              1971.472,
+              1358.24
             ],
             [
-              1974.79,
-              1355.034
+              1971.517,
+              1358.167
             ],
             [
-              1977.325,
-              1356.27
+              1974.115,
+              1357.07
             ],
             [
-              1977.366,
-              1356.346
+              1974.199,
+              1357.088
             ],
             [
-              1977.358,
-              1356.431
+              1974.258,
+              1357.15
             ]
           ],
           "spans": null,
@@ -2877,14 +2873,14 @@
             "whyNeighbours": "It stands between the hoist and the cutting floor.",
             "whySpot": "South of the yard road, west of the cutting floor."
           },
-          "yawDeg": 206.0
+          "yawDeg": 157.1
         },
         {
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
           "buildingFamily": "works-staging",
           "centreM": [
-            1971.849,
-            1356.199
+            1976.768,
+            1357.62
           ],
           "districtId": "district.mazzatun.staging",
           "entrance": null,
@@ -2893,55 +2889,55 @@
           "id": "parcel.mazzatun.scaffold-c",
           "interior": null,
           "notes": null,
-          "orientationWhy": "Two-sided bay laid on the four-sided base's west face, on the base's own bearing, because that is the face on which the stockade kit joins bays. Its open sides look down the yard road.",
+          "orientationWhy": "The two-sided bay turns with the complete scaffold assembly; its unrailed side remains locked to the four-sided base at the measured vanilla joint.",
           "polygon": [
             [
-              1970.677,
-              1354.53
+              1978.685,
+              1358.314
             ],
             [
-              1970.724,
-              1354.459
+              1978.688,
+              1358.4
             ],
             [
-              1970.803,
-              1354.425
+              1978.642,
+              1358.473
             ],
             [
-              1973.554,
-              1355.045
+              1976.033,
+              1359.543
             ],
             [
-              1973.612,
-              1355.109
+              1975.949,
+              1359.523
             ],
             [
-              1973.623,
-              1355.194
+              1975.891,
+              1359.46
             ],
             [
-              1973.021,
-              1357.867
+              1974.851,
+              1356.925
             ],
             [
-              1972.974,
-              1357.938
+              1974.849,
+              1356.84
             ],
             [
-              1972.895,
-              1357.972
+              1974.895,
+              1356.767
             ],
             [
-              1970.144,
-              1357.352
+              1977.504,
+              1355.697
             ],
             [
-              1970.087,
-              1357.288
+              1977.587,
+              1355.717
             ],
             [
-              1970.075,
-              1357.203
+              1977.646,
+              1355.779
             ]
           ],
           "spans": null,
@@ -2954,14 +2950,14 @@
             "whyNeighbours": "It stands between the half-cut blocks and the great stair.",
             "whySpot": "Joined to the four-sided base as one deck at the head of the yard, between the block pile and the great stair."
           },
-          "yawDeg": 12.7
+          "yawDeg": 157.7
         },
         {
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
           "buildingFamily": "works-staging",
           "centreM": [
-            1974.57,
-            1360.678
+            1971.97,
+            1355.511
           ],
           "districtId": "district.mazzatun.staging",
           "entrance": null,
@@ -2969,61 +2965,61 @@
             "deg": 271.9,
             "evidence": "co-placement",
             "outside": true,
-            "worldDeg": 22.9
+            "worldDeg": 339.6
           },
           "groundFit": "stilt",
           "id": "parcel.mazzatun.scaffold-stair",
           "interior": null,
           "notes": null,
-          "orientationWhy": "The measured open side faces the terrace-head approach, while the flight meets the four-sided base at the stockade kit's authored joint and rises against the fall.",
+          "orientationWhy": "The stair and its two scaffold bays are turned and moved as one measured assembly: the authored connector still joins the base while the open working face addresses the terrace-head approach.",
           "polygon": [
             [
-              1976.635,
-              1359.735
+              1972.827,
+              1353.409
             ],
             [
-              1976.708,
-              1359.795
+              1972.921,
+              1353.403
             ],
             [
-              1976.73,
-              1359.879
+              1972.994,
+              1353.449
             ],
             [
-              1975.598,
-              1362.829
+              1974.193,
+              1356.372
             ],
             [
-              1975.526,
-              1362.876
+              1974.174,
+              1356.456
             ],
             [
-              1975.431,
-              1362.872
+              1974.102,
+              1356.518
             ],
             [
-              1972.462,
-              1361.732
+              1971.16,
+              1357.725
             ],
             [
-              1972.389,
-              1361.672
+              1971.065,
+              1357.731
             ],
             [
-              1972.367,
-              1361.589
+              1970.992,
+              1357.685
             ],
             [
-              1973.5,
-              1358.639
+              1969.793,
+              1354.762
             ],
             [
-              1973.572,
-              1358.591
+              1969.813,
+              1354.678
             ],
             [
-              1973.666,
-              1358.595
+              1969.885,
+              1354.616
             ]
           ],
           "spans": null,
@@ -3036,7 +3032,7 @@
             "whyNeighbours": "It is built onto the south face of the four-sided base. The two-sided bay is on that base's west face, so stair and bay are one deck. The keeper watches the gate from the foot of the flight.",
             "whySpot": "Against the south side of the four-sided base, the flight facing the yard so the climb is seen from the road."
           },
-          "yawDeg": 111.0
+          "yawDeg": 67.7
         },
         {
           "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
@@ -3121,8 +3117,8 @@
           "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
           "buildingFamily": "xanmeer-stone-course",
           "centreM": [
-            1998.0,
-            1318.888
+            2001.797,
+            1319.257
           ],
           "districtId": "district.mazzatun.works",
           "entrance": null,
@@ -3141,116 +3137,116 @@
           "orientationWhy": "The covered flight stays on the fall line while its measured open mouth turns just far enough toward the pen lane and terrace junction to read from the approach.",
           "polygon": [
             [
-              1992.724,
-              1336.495
+              1996.214,
+              1336.768
             ],
             [
-              1992.751,
-              1336.408
+              1996.243,
+              1336.682
             ],
             [
-              1992.785,
-              1336.333
+              1996.279,
+              1336.608
             ],
             [
-              1994.137,
-              1333.835
+              1997.674,
+              1334.134
             ],
             [
-              1994.27,
-              1333.78
+              1997.808,
+              1334.081
             ],
             [
-              1995.88,
-              1334.093
+              1999.412,
+              1334.422
             ],
             [
-              1995.982,
-              1334.194
+              1999.513,
+              1334.525
             ],
             [
-              1996.3,
-              1337.016
+              1999.781,
+              1337.353
             ],
             [
-              1996.302,
-              1337.109
+              1999.782,
+              1337.445
             ],
             [
-              1996.297,
-              1337.189
+              1999.775,
+              1337.525
             ],
             [
-              1995.797,
-              1339.761
+              1999.23,
+              1340.088
             ],
             [
-              1995.739,
-              1340.004
+              1999.168,
+              1340.33
             ],
             [
-              1995.704,
-              1340.079
+              1999.132,
+              1340.405
             ],
             [
-              1995.567,
-              1340.368
+              1998.989,
+              1340.691
             ],
             [
-              1995.376,
-              1340.616
+              1998.794,
+              1340.936
             ],
             [
-              1995.149,
-              1340.837
+              1998.564,
+              1341.153
             ],
             [
-              1994.892,
-              1341.011
+              1998.303,
+              1341.322
             ],
             [
-              1994.612,
-              1341.14
+              1998.021,
+              1341.446
             ],
             [
-              1994.299,
-              1341.232
+              1997.706,
+              1341.533
             ],
             [
-              1993.062,
-              1340.992
+              1996.474,
+              1341.271
             ],
             [
-              1992.806,
-              1340.789
+              1996.222,
+              1341.064
             ],
             [
-              1992.595,
-              1340.565
+              1996.014,
+              1340.836
             ],
             [
-              1992.421,
-              1340.307
+              1995.845,
+              1340.575
             ],
             [
-              1992.293,
-              1340.017
+              1995.723,
+              1340.283
             ],
             [
-              1992.209,
-              1339.716
+              1995.644,
+              1339.98
             ],
             [
-              1992.19,
-              1339.396
+              1995.63,
+              1339.66
             ],
             [
-              1992.188,
-              1339.304
+              1995.63,
+              1339.568
             ],
             [
-              1992.224,
-              1339.066
+              1995.67,
+              1339.331
             ]
           ],
           "spans": null,
@@ -3270,7 +3266,7 @@
           "buildingFamily": "xanmeer-stone-course",
           "centreM": [
             1984.0,
-            1342.651
+            1344.651
           ],
           "districtId": "district.mazzatun.works",
           "entrance": null,
@@ -3283,99 +3279,99 @@
           "polygon": [
             [
               1977.49,
-              1334.641
+              1336.641
             ],
             [
               1977.52,
-              1334.571
+              1336.571
             ],
             [
               1978.1,
-              1333.811
+              1335.811
             ],
             [
               1978.6,
-              1333.591
+              1335.591
             ],
             [
               1978.89,
-              1333.461
+              1335.461
             ],
             [
               1979.19,
-              1333.331
+              1335.331
             ],
             [
               1979.39,
-              1333.241
+              1335.241
             ],
             [
               1982.86,
-              1332.681
+              1334.681
             ],
             [
               1984.0,
-              1332.581
+              1334.581
             ],
             [
               1985.14,
-              1332.681
+              1334.681
             ],
             [
               1988.61,
-              1333.241
+              1335.241
             ],
             [
               1988.81,
-              1333.331
+              1335.331
             ],
             [
               1989.11,
-              1333.461
+              1335.461
             ],
             [
               1989.4,
-              1333.591
+              1335.591
             ],
             [
               1989.9,
-              1333.811
+              1335.811
             ],
             [
               1990.48,
-              1334.571
+              1336.571
             ],
             [
               1990.51,
-              1334.641
+              1336.641
             ],
             [
               1990.32,
-              1335.081
+              1337.081
             ],
             [
               1990.24,
-              1335.111
+              1337.111
             ],
             [
               1989.29,
-              1335.191
+              1337.191
             ],
             [
               1978.71,
-              1335.191
+              1337.191
             ],
             [
               1977.76,
-              1335.111
+              1337.111
             ],
             [
               1977.68,
-              1335.081
+              1337.081
             ]
           ],
           "spans": null,
-          "use": "ritual",
+          "use": "ritual-wall",
           "why": {
             "microGeography": "Dug into the riser to the pens at about 205 m, the court in front of it flat to the track.",
             "playerPurpose": "The mark socket and the point at which the stone rite of LV28 is put to a visitor.",
@@ -3723,6 +3719,7 @@
       ],
       "scaleGrounding": {
         "buildingsPlanned": 27,
+        "densityForm": "works-yard",
         "households": 9,
         "loreSource": "UESP Lore:Xit-Xaht and Lore:Mazzatun (a tribe that raided neighbours for slave labour, under a Hist it bound); world/sources/lore/extrapolation/settlement-register.md section Mazzatun (stirring, building restarted); catalogue record place.dunmer-north.mazzatun (M3, few D3 builders, few taken labourers, one D4 shaper); docs/world/92-demographics.md",
         "npcsPlanned": 12,
@@ -3771,14 +3768,14 @@
         "districts": 3,
         "docks": 0,
         "doors": 4,
-        "fences": 6,
+        "fences": 17,
         "keptTrees": 3,
         "landmarks": 2,
         "networkTerminals": 1,
         "parcels": 29,
         "questSockets": 8,
         "sitingCandidates": 3,
-        "ways": 14
+        "ways": 25
       },
       "ways": [
         {
@@ -3832,12 +3829,12 @@
               1346.536
             ],
             [
-              1989.981,
-              1345.546
+              1990.245,
+              1344.1
             ],
             [
-              1997.036,
-              1339.095
+              1999.293,
+              1341.012
             ]
           ],
           "routing": "arc",
@@ -3901,35 +3898,399 @@
               1328.556
             ],
             [
-              1989.0,
-              1328.499
-            ],
-            [
-              1991.024,
-              1326.072
-            ],
-            [
-              2003.65,
-              1325.493
-            ],
-            [
-              2010.53,
-              1318.971
+              1964.623,
+              1328.548
             ]
           ],
-          "routing": "terrain",
+          "routing": "straight",
           "via": [
             [
               1953.0,
               1319.0
             ],
             [
-              2010.5,
-              1319.0
+              1953.62,
+              1322.099
+            ],
+            [
+              1960.56,
+              1328.556
+            ],
+            [
+              1964.623,
+              1328.548
             ]
           ],
           "waterOk": null,
-          "why": "The woven fence along the uphill side of the pens and down their east side to the lip, so the only way out of the pens is down the stair into the works or west along the lane. Its east side needs no leg, because the east shell and the east course close it.",
+          "why": "The woven fence climbs from the western shoulder to the first short contour run behind the pens; its east joint is the first vertical step between fence panels.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-10",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1999.441,
+              1325.686
+            ],
+            [
+              2003.65,
+              1325.493
+            ],
+            [
+              2007.09,
+              1322.232
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1999.441,
+              1325.686
+            ],
+            [
+              2003.65,
+              1325.493
+            ],
+            [
+              2007.09,
+              1322.232
+            ]
+          ],
+          "waterOk": null,
+          "why": "The tenth stepped run turns from the shelf edge and descends halfway to the east closure.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-11",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              2007.09,
+              1322.232
+            ],
+            [
+              2010.53,
+              1318.971
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              2007.09,
+              1322.232
+            ],
+            [
+              2010.53,
+              1318.971
+            ]
+          ],
+          "waterOk": null,
+          "why": "The final three-panel step reaches the lip where the east shell and stone course close the pens.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-2",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1964.623,
+              1328.548
+            ],
+            [
+              1968.686,
+              1328.54
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1964.623,
+              1328.548
+            ],
+            [
+              1968.686,
+              1328.54
+            ]
+          ],
+          "waterOk": null,
+          "why": "The second level fence run steps separately across the uneven uphill edge of the pens.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-3",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1968.686,
+              1328.54
+            ],
+            [
+              1972.749,
+              1328.532
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1968.686,
+              1328.54
+            ],
+            [
+              1972.749,
+              1328.532
+            ]
+          ],
+          "waterOk": null,
+          "why": "The third level fence run steps separately across the uneven uphill edge of the pens.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-4",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1972.749,
+              1328.532
+            ],
+            [
+              1976.812,
+              1328.523
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1972.749,
+              1328.532
+            ],
+            [
+              1976.812,
+              1328.523
+            ]
+          ],
+          "waterOk": null,
+          "why": "The fourth level fence run steps separately across the uneven uphill edge of the pens.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [
+            "route.mazzatun.works-store-path"
+          ],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-5",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1976.812,
+              1328.523
+            ],
+            [
+              1980.875,
+              1328.515
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1976.812,
+              1328.523
+            ],
+            [
+              1980.875,
+              1328.515
+            ]
+          ],
+          "waterOk": null,
+          "why": "The fifth level fence run carries the opening where the works-store path climbs through the pen edge.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-6",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1980.875,
+              1328.515
+            ],
+            [
+              1984.937,
+              1328.507
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1980.875,
+              1328.515
+            ],
+            [
+              1984.937,
+              1328.507
+            ]
+          ],
+          "waterOk": null,
+          "why": "The sixth level fence run steps separately across the uneven uphill edge of the pens.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-7",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1984.937,
+              1328.507
+            ],
+            [
+              1989.0,
+              1328.499
+            ],
+            [
+              1991.024,
+              1326.072
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1984.937,
+              1328.507
+            ],
+            [
+              1989.0,
+              1328.499
+            ],
+            [
+              1991.024,
+              1326.072
+            ]
+          ],
+          "waterOk": null,
+          "why": "The seventh level run reaches the eastern turn and ends at the next vertical panel joint.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-8",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1991.024,
+              1326.072
+            ],
+            [
+              1995.232,
+              1325.879
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1991.024,
+              1326.072
+            ],
+            [
+              1995.232,
+              1325.879
+            ]
+          ],
+          "waterOk": null,
+          "why": "The eighth three-panel fence run steps down separately along the eastern edge of the pens.",
+          "widthM": 0.3
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+          "endsAt": [],
+          "fenceClass": "fence",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.pen-step-9",
+          "kind": "fence",
+          "moduleM": 1.58,
+          "notes": null,
+          "points": [
+            [
+              1995.232,
+              1325.879
+            ],
+            [
+              1999.441,
+              1325.686
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1995.232,
+              1325.879
+            ],
+            [
+              1999.441,
+              1325.686
+            ]
+          ],
+          "waterOk": null,
+          "why": "The ninth three-panel fence run continues the separate stepped descent toward the east shell.",
           "widthM": 0.3
         },
         {
@@ -4053,7 +4414,7 @@
               1332.5
             ],
             [
-              1987.0,
+              1974.898,
               1332.5
             ]
           ],
@@ -4064,12 +4425,47 @@
               1332.5
             ],
             [
+              1974.898,
+              1332.5
+            ]
+          ],
+          "waterOk": null,
+          "why": "The western three-module retaining run under the pens riser, from the corner block to the first vertical step in the cut.",
+          "widthM": 6.4
+        },
+        {
+          "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
+          "endsAt": [],
+          "fenceClass": "curtain",
+          "gapAt": [],
+          "group": "fences",
+          "id": "fence.mazzatun.riser-upper-west-step",
+          "kind": "wall",
+          "moduleM": 6.38,
+          "notes": null,
+          "points": [
+            [
+              1974.898,
+              1332.5
+            ],
+            [
+              1987.0,
+              1332.5
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1974.898,
+              1332.5
+            ],
+            [
               1987.0,
               1332.5
             ]
           ],
           "waterOk": null,
-          "why": "The retaining course of quad blocks under the pens riser, from the corner block to the pens stair; the north course stands on it.",
+          "why": "The eastern two-module retaining run continues from the vertical step to the pens stair, carrying the north course above it.",
           "widthM": 6.4
         },
         {
@@ -4188,12 +4584,12 @@
               1339.5
             ],
             [
-              2020.0,
-              1345.0
+              2022.0,
+              1343.0
             ],
             [
-              2020.5,
-              1349.5
+              2022.5,
+              1347.5
             ],
             [
               2018.5,
@@ -4215,8 +4611,8 @@
               1300.0
             ],
             [
-              2020.0,
-              1345.0
+              2022.0,
+              1343.0
             ],
             [
               2010.0,
@@ -8507,7 +8903,9 @@
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
           "fenceClass": "ring-panel",
-          "gapAt": [],
+          "gapAt": [
+            "route.nine-trunks.spur"
+          ],
           "group": "fences",
           "id": "fence.nine-trunks.plug-220-r",
           "kind": "fence",
@@ -8770,8 +9168,12 @@
               3768.599
             ],
             [
-              4966.4,
+              4965.4,
               3768.4
+            ],
+            [
+              4958.4,
+              3761.4
             ],
             [
               4958.075,
@@ -9009,24 +9411,20 @@
               3778.4
             ],
             [
-              4950.4,
-              3767.4
+              4952.674,
+              3765.642
             ],
             [
-              4951.391,
-              3765.93
+              4952.4,
+              3759.4
             ],
             [
-              4951.4,
-              3760.4
+              4953.4,
+              3758.4
             ],
             [
-              4954.4,
-              3757.4
-            ],
-            [
-              4962.31,
-              3757.714
+              4959.274,
+              3758.58
             ]
           ],
           "routing": "terrain",
@@ -9052,12 +9450,12 @@
               3778.148
             ],
             [
-              4951.391,
-              3765.93
+              4952.674,
+              3765.642
             ],
             [
-              4960.018,
-              3749.679
+              4959.103,
+              3757.981
             ]
           ],
           "waterOk": null,
@@ -10581,24 +10979,14 @@
           "wayfinding": "Keep the pond on the left and hold the road's line through the arch to the lantern, then follow the track uphill with the pole ring on the left until the bell shows ahead."
         },
         {
-          "firstSeen": "parcel.lilmoth.tariff-bell",
-          "fromDirection": "east, from the roadstead in Oliis Bay",
-          "fromRouteId": null,
+          "firstSeen": "parcel.lilmoth.pus-tower",
+          "fromDirection": null,
+          "fromRouteId": "route.boat.lilmoth-archon",
           "id": "approach.lilmoth.roadstead",
           "mode": "boat",
           "notes": "The lighter takes the dredged line; a swimmer from the roadstead crosses the drowned quarter and reaches the diving stair first.",
-          "sequence": "From a lighter at the roadstead the bell kiosk on the lip of the bench reads first, 30 m above the water, with the quay lamp below it and the Hist crown behind and higher. Along the channel the ridge block breaks the water on the right hand and hides the lamp for a moment; then the pier head, the quay deck and the sheds along the lane come into view under the bluff.",
-          "wayfinding": "Steer for the upper lamp, keep the ridge block to starboard and come alongside at the pier head; the deck is the end of the pier and the stair up to the bell leaves from the lane behind it."
-        },
-        {
-          "firstSeen": "parcel.lilmoth.tariff-bell",
-          "fromDirection": "south, along the estuary shore from the high junction and the hist-less fringe",
-          "fromRouteId": null,
-          "id": "approach.lilmoth.shore",
-          "mode": "walk",
-          "notes": "The high junction tower at 3773, 6496 stands 15 m outside the pole wall and is the mid-way mark on this approach.",
-          "sequence": "From the flat to the south the bell kiosk stands over the bluff and the Hist crown behind it. The pole wall and the fishers’ roofs hide the bluff foot as the walker comes up the shore; the shore lane appears between the pole wall and the mangrove; at the corner of Pusbottom the tall block and the lanes are seen close under the bell.",
-          "wayfinding": "Walk the shore with the water on the right until the pole wall; the lane between the last fisher’s hut and the wall leads to the corner of the loop; the stair to the bell is at the far end of the west lane."
+          "sequence": "From a lighter at the roadstead the tall Pusbottom rooming house reads first above the mangrove, with the bell kiosk higher on the bench once the boat closes the channel. Along the channel the ridge block breaks the water on the right hand; then the pier head, the quay deck and the sheds along the lane come into view under the bluff.",
+          "wayfinding": "Steer left of the tall Pusbottom block, keep the ridge block to starboard and come alongside at the pier head; the deck is the end of the pier and the stair up to the bell leaves from the lane behind it."
         }
       ],
       "assetConstraints": [
@@ -10653,7 +11041,7 @@
         "maxColliders": 1800,
         "maxInstances": 2400,
         "maxTextureMB": 260,
-        "maxUniqueMaterials": 125
+        "maxUniqueMaterials": 155
       },
       "causalModel": {
         "founding": "Rebuilt after the Slaughter of 4E 48 on the best natural harbour of the south coast, smaller and lower than the city it replaced.",
@@ -10839,12 +11227,16 @@
           "notes": null,
           "polygon": [
             [
-              3916.772,
-              6385.59
+              3916.916,
+              6386.545
             ],
             [
-              3894.435,
-              6412.239
+              3915.314,
+              6387.15
+            ],
+            [
+              3894.446,
+              6412.25
             ],
             [
               3904.169,
@@ -10859,8 +11251,8 @@
               6388.125
             ],
             [
-              3944.834,
-              6383.116
+              3944.764,
+              6383.084
             ]
           ],
           "why": "The Second Room and Short of Divers put a predator in the drowned hall; the fight is underwater between the floor slab and the block."
@@ -10871,60 +11263,56 @@
           "notes": null,
           "polygon": [
             [
-              3585.136,
-              6377.472
+              3585.821,
+              6377.077
             ],
             [
-              3584.124,
-              6377.726
+              3584.724,
+              6377.383
             ],
             [
-              3582.867,
-              6378.323
+              3583.489,
+              6378.024
             ],
             [
-              3581.759,
-              6379.164
+              3582.438,
+              6378.865
             ],
             [
-              3580.867,
-              6380.172
+              3581.556,
+              6379.894
             ],
             [
-              3580.172,
-              6381.337
+              3580.887,
+              6381.098
             ],
             [
-              3579.718,
-              6382.636
+              3580.463,
+              6382.407
             ],
             [
-              3579.523,
-              6383.999
+              3580.312,
+              6383.755
             ],
             [
-              3579.603,
-              6385.353
+              3580.413,
+              6385.097
             ],
             [
-              3579.932,
-              6386.658
+              3580.787,
+              6386.437
             ],
             [
-              3580.529,
-              6387.915
+              3581.317,
+              6387.459
             ],
             [
-              3581.157,
-              6388.743
+              3587.59,
+              6397.569
             ],
             [
-              3588.18,
-              6397.599
-            ],
-            [
-              3618.0,
-              6404.281
+              3618.006,
+              6404.278
             ],
             [
               3620.848,
@@ -10975,8 +11363,8 @@
               6377.301
             ],
             [
-              3614.58,
-              6371.196
+              3614.597,
+              6371.205
             ]
           ],
           "why": "The council patrol holds the gate yard when the hostility flip to hunted closes the city; the yard between the arch and the lantern is the open ground for that fight."
@@ -11015,16 +11403,16 @@
               6436.0
             ],
             [
-              3833.031,
-              6429.483
+              3833.024,
+              6429.492
             ],
             [
-              3853.633,
-              6374.931
+              3853.889,
+              6375.167
             ],
             [
               3797.8,
-              6326.533
+              6326.532
             ]
           ],
           "why": "Pusbottom Remembers and the vault heist can turn to a fight in the lanes; the two-metre planks between huts are the tight class."
@@ -11035,56 +11423,48 @@
           "notes": null,
           "polygon": [
             [
-              3833.594,
-              6355.667
+              3833.6,
+              6355.623
             ],
             [
-              3833.133,
-              6358.995
+              3833.147,
+              6358.893
             ],
             [
-              3833.708,
-              6360.458
+              3838.414,
+              6374.486
             ],
             [
-              3844.315,
-              6377.691
+              3838.565,
+              6374.841
             ],
             [
-              3851.482,
-              6383.044
+              3841.404,
+              6381.491
             ],
             [
-              3853.045,
-              6383.044
+              3844.451,
+              6381.681
             ],
             [
-              3860.276,
-              6383.028
+              3849.432,
+              6380.577
             ],
             [
-              3861.641,
-              6380.298
+              3863.814,
+              6374.472
             ],
             [
-              3862.571,
-              6375.281
+              3864.887,
+              6371.818
             ],
             [
-              3862.571,
-              6360.983
+              3860.831,
+              6350.574
             ],
             [
-              3860.849,
-              6350.632
-            ],
-            [
-              3850.962,
-              6323.304
-            ],
-            [
-              3843.892,
-              6316.236
+              3846.266,
+              6311.113
             ]
           ],
           "why": "Cargo Off the Ledger and A Body in the Lot both end on the deck. The guarded flip puts the patrol here first."
@@ -11335,8 +11715,8 @@
         },
         {
           "centreM": [
-            3817.72,
-            6374.595
+            3814.405,
+            6379.74
           ],
           "cultureKit": "argonian-stilt",
           "id": "district.lilmoth.lighter-quay",
@@ -11344,8 +11724,8 @@
           "notes": "The water’s edge: the deck, the lamp, the licence house, the lighter shed, the divers’ shed and the salvage bench, with the pier and the stair.",
           "polygon": [
             [
-              3796.068,
-              6328.265
+              3796.072,
+              6328.261
             ],
             [
               3792.709,
@@ -11376,16 +11756,12 @@
               6436.0
             ],
             [
-              3908.323,
-              6367.909
+              3908.313,
+              6367.918
             ],
             [
-              3851.798,
-              6323.13
-            ],
-            [
-              3846.934,
-              6319.787
+              3847.862,
+              6319.764
             ]
           ],
           "wealth": "middling",
@@ -11399,8 +11775,8 @@
         },
         {
           "centreM": [
-            3605.994,
-            6391.948
+            3607.417,
+            6392.875
           ],
           "cultureKit": "imperial",
           "id": "district.lilmoth.north-gate",
@@ -11408,20 +11784,16 @@
           "notes": "What the water left standing: the arch across the road, the tower, two wall stubs and the rubble of the south tower. No new work is built into the masonry. Named for the road it faces (owner 2026-09-07); the district and socket ids keep the old survey name because ids are stable.",
           "polygon": [
             [
-              3580.367,
-              6371.632
+              3581.204,
+              6372.738
             ],
             [
-              3579.42,
-              6372.371
+              3579.035,
+              6376.733
             ],
             [
-              3576.761,
-              6375.182
-            ],
-            [
-              3568.455,
-              6401.211
+              3568.276,
+              6400.986
             ],
             [
               3576.249,
@@ -11500,12 +11872,12 @@
               6377.301
             ],
             [
-              3615.018,
-              6371.423
+              3615.006,
+              6371.417
             ],
             [
-              3582.01,
-              6370.878
+              3586.648,
+              6371.126
             ]
           ],
           "wealth": "middling",
@@ -12564,8 +12936,8 @@
           "id": "terminal.lilmoth.land-gate",
           "kind": "road",
           "positionM": [
-            3591.51,
-            6389.092
+            3592.619,
+            6390.233
           ],
           "routeId": "route.road.blackrose-lilmoth",
           "wayId": "route.lilmoth.gate-road",
@@ -14548,7 +14920,7 @@
             "deg": 343.7,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 42.4
+            "worldDeg": 227.2
           },
           "groundFit": "pad",
           "id": "parcel.lilmoth.gate-arch",
@@ -14556,39 +14928,39 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Set to 58.7°, square across the Blackwood-side road it spans, so the carriageway passes through the opening without a turn and the way picks the road up where it arrives. The front pass of 2026-09-07 turned it to 342.6° to show its detailed face outward; that laid the arch along its own carriageway. A gate is square to its road before it is anything else.",
+          "orientationWhy": "Turned square across the published land road while the gate's worked outer face still looks south-west across the country outside the boundary.",
           "polygon": [
             [
-              3589.576,
-              6386.008
+              3590.099,
+              6394.027
             ],
             [
-              3590.159,
-              6386.87
+              3589.591,
+              6393.118
             ],
             [
-              3592.86,
-              6391.313
+              3587.27,
+              6388.465
             ],
             [
-              3593.358,
-              6392.228
+              3586.851,
+              6387.512
             ],
             [
-              3590.435,
-              6394.005
+              3589.912,
+              6385.986
             ],
             [
-              3589.852,
-              6393.142
+              3590.42,
+              6386.894
             ],
             [
-              3587.151,
-              6388.699
+              3592.741,
+              6391.548
             ],
             [
-              3586.653,
-              6387.784
+              3593.16,
+              6392.501
             ]
           ],
           "spans": "route.lilmoth.gate-road",
@@ -14601,7 +14973,7 @@
             "whyNeighbours": "The guard tower adjoins its northern pier and the broken curtain runs on from both piers, so the gate reads as part of a wall rather than a lone arch.",
             "whySpot": "The arch sits on the 15 m saddle where the road leaves the wet ground west of the crest, the lowest dry crossing of the old wall line."
           },
-          "yawDeg": 58.7
+          "yawDeg": 243.5
         },
         {
           "assetRef": "composite:farmhouse/farmhouse01-with-door",
@@ -14750,8 +15122,8 @@
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
           "buildingFamily": "imperial-keep-tower",
           "centreM": [
-            3586.494,
-            6384.288
+            3587.283,
+            6383.879
           ],
           "districtId": "district.lilmoth.north-gate",
           "entrance": null,
@@ -14762,135 +15134,135 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The tower shares the arch's bearing and its east face is set on the arch's west pier, so the two stand as one piece of masonry. The piece has no doorway, so nothing here is turned to one.",
+          "orientationWhy": "The tower's measured south face is snapped to the arch's east connector; the solid square tower turns the old wall corner between the gate and the north curtain.",
           "polygon": [
             [
-              3584.956,
-              6381.759
+              3584.529,
+              6384.964
             ],
             [
-              3585.483,
-              6381.509
+              3584.372,
+              6384.402
             ],
             [
-              3586.041,
-              6381.369
+              3584.329,
+              6383.828
             ],
             [
-              3586.617,
-              6381.334
+              3584.393,
+              6383.255
             ],
             [
-              3587.194,
-              6381.417
+              3584.572,
+              6382.7
             ],
             [
-              3587.744,
-              6381.609
+              3584.856,
+              6382.191
             ],
             [
-              3588.24,
-              6381.904
+              3585.231,
+              6381.753
             ],
             [
-              3588.67,
-              6382.286
+              3585.681,
+              6381.393
             ],
             [
-              3589.023,
-              6382.751
+              3586.198,
+              6381.125
             ],
             [
-              3589.273,
-              6383.277
+              3586.76,
+              6380.968
             ],
             [
-              3589.414,
-              6383.836
+              3587.334,
+              6380.925
             ],
             [
-              3589.448,
-              6384.412
+              3587.907,
+              6380.989
             ],
             [
-              3589.366,
-              6384.988
+              3588.462,
+              6381.168
             ],
             [
-              3589.173,
-              6385.538
+              3588.971,
+              6381.451
             ],
             [
-              3588.878,
-              6386.034
+              3589.409,
+              6381.827
             ],
             [
-              3588.496,
-              6386.465
+              3589.769,
+              6382.276
             ],
             [
-              3588.032,
-              6386.818
+              3590.037,
+              6382.794
             ],
             [
-              3587.505,
-              6387.068
+              3590.194,
+              6383.356
             ],
             [
-              3586.947,
-              6387.208
+              3590.237,
+              6383.93
             ],
             [
-              3586.371,
-              6387.242
+              3590.173,
+              6384.503
             ],
             [
-              3585.794,
-              6387.16
+              3589.994,
+              6385.057
             ],
             [
-              3585.244,
-              6386.968
+              3589.711,
+              6385.567
             ],
             [
-              3584.748,
-              6386.672
+              3589.335,
+              6386.005
             ],
             [
-              3584.317,
-              6386.29
+              3588.886,
+              6386.364
             ],
             [
-              3583.965,
-              6385.826
+              3588.368,
+              6386.633
             ],
             [
-              3583.715,
-              6385.299
+              3587.806,
+              6386.79
             ],
             [
-              3583.574,
-              6384.741
+              3587.232,
+              6386.833
             ],
             [
-              3583.54,
-              6384.165
+              3586.659,
+              6386.769
             ],
             [
-              3583.622,
-              6383.588
+              3586.104,
+              6386.589
             ],
             [
-              3583.815,
-              6383.038
+              3585.595,
+              6386.306
             ],
             [
-              3584.11,
-              6382.543
+              3585.157,
+              6385.931
             ],
             [
-              3584.492,
-              6382.112
+              3584.797,
+              6385.481
             ]
           ],
           "spans": null,
@@ -14903,7 +15275,7 @@
             "whyNeighbours": "The arch is built into its south side and the broken curtain into its north. The tower is the joint between the gate and the wall.",
             "whySpot": "It stands on the north side of the arch, on the same shelf, where a watcher on its top sees the whole length of the road back to the pond."
           },
-          "yawDeg": 58.7
+          "yawDeg": 338.5
         },
         {
           "assetRef": "composite:stilt/bamboohut02-with-door",
@@ -17199,7 +17571,7 @@
             "deg": 226.4,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 226.4
+            "worldDeg": 293.4
           },
           "groundFit": "stilt",
           "id": "parcel.lilmoth.quay-deck",
@@ -17207,75 +17579,75 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The deck lies along the water line so the whole of its east side is quay.",
+          "orientationWhy": "Turned so the platform's open working side faces the lower spine while its outer edge remains the transfer side for the lighter pier.",
           "polygon": [
             [
-              3847.311,
-              6365.114
+              3852.829,
+              6362.557
             ],
             [
-              3847.311,
-              6361.304
+              3856.336,
+              6361.069
             ],
             [
-              3847.321,
-              6361.294
+              3856.349,
+              6361.074
             ],
             [
-              3847.331,
-              6361.294
+              3856.353,
+              6361.083
             ],
             [
-              3854.921,
-              6361.294
+              3859.318,
+              6368.07
             ],
             [
-              3858.551,
-              6361.294
+              3860.737,
+              6371.411
             ],
             [
-              3858.561,
-              6361.304
+              3860.732,
+              6371.424
             ],
             [
-              3858.571,
-              6361.314
+              3860.726,
+              6371.437
             ],
             [
-              3858.571,
-              6374.914
+              3848.207,
+              6376.751
             ],
             [
-              3857.811,
-              6379.014
+              3844.136,
+              6377.654
             ],
             [
-              3857.801,
-              6379.034
+              3844.114,
+              6377.652
             ],
             [
-              3853.041,
-              6379.044
+              3842.245,
+              6373.275
             ],
             [
-              3852.811,
-              6379.044
+              3842.155,
+              6373.063
             ],
             [
-              3852.801,
-              6379.034
+              3842.16,
+              6373.05
             ],
             [
-              3847.321,
-              6374.944
+              3843.784,
+              6366.407
             ],
             [
-              3847.311,
-              6374.924
+              3843.799,
+              6366.39
             ],
             [
-              3847.311,
-              6371.144
+              3847.278,
+              6364.913
             ]
           ],
           "spans": null,
@@ -17288,7 +17660,7 @@
             "whyNeighbours": "The spine, the loop and the quay lane all end on it; the pier leaves its east side.",
             "whySpot": "It stands where the tidal flat gives out into the shelf, the nearest point to the channel that a deck reaches on piles."
           },
-          "yawDeg": 0.0
+          "yawDeg": 67.0
         },
         {
           "assetRef": "composite:stilt/kiosk-with-access",
@@ -18339,8 +18711,8 @@
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
           "buildingFamily": "argonian-platform",
           "centreM": [
-            3713.47,
-            6320.66
+            3716.462,
+            6321.657
           ],
           "districtId": "district.lilmoth.council-crown",
           "entrance": null,
@@ -18348,7 +18720,7 @@
             "deg": 226.4,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 126.2
+            "worldDeg": 350.4
           },
           "groundFit": "stilt",
           "id": "parcel.lilmoth.upper-market-deck",
@@ -18356,75 +18728,75 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The deck lies along the walkway so stalls on it face the passing traffic.",
+          "orientationWhy": "Turned so the platform's open stall side faces the bench walk from which customers arrive.",
           "polygon": [
             [
-              3711.456,
-              6325.788
+              3721.481,
+              6319.385
             ],
             [
-              3707.706,
-              6326.462
+              3724.64,
+              6321.516
             ],
             [
-              3707.695,
-              6326.454
+              3724.642,
+              6321.53
             ],
             [
-              3707.693,
-              6326.444
+              3724.637,
+              6321.538
             ],
             [
-              3706.349,
-              6318.974
+              3720.392,
+              6327.83
             ],
             [
-              3705.706,
-              6315.402
+              3718.363,
+              6330.84
             ],
             [
-              3705.714,
-              6315.39
+              3718.349,
+              6330.843
             ],
             [
-              3705.722,
-              6315.379
+              3718.335,
+              6330.845
             ],
             [
-              3719.107,
-              6312.97
+              3707.06,
+              6323.24
             ],
             [
-              3723.277,
-              6312.992
+              3704.086,
+              6320.317
             ],
             [
-              3723.299,
-              6312.998
+              3704.075,
+              6320.298
             ],
             [
-              3724.151,
-              6317.681
+              3706.728,
+              6316.346
             ],
             [
-              3724.192,
-              6317.908
+              3706.857,
+              6316.156
             ],
             [
-              3724.184,
-              6317.919
+              3706.871,
+              6316.153
             ],
             [
-              3721.129,
-              6324.037
+              3713.326,
+              6313.897
             ],
             [
-              3721.111,
-              6324.05
+              3713.348,
+              6313.9
             ],
             [
-              3717.391,
-              6324.72
+              3716.482,
+              6316.013
             ]
           ],
           "spans": null,
@@ -18437,7 +18809,7 @@
             "whyNeighbours": "The hall faces it across the walkway; the elders’ house is the next building east.",
             "whySpot": "It is set south of the walkway where the bench begins to fall, so the deck stands level over the slope."
           },
-          "yawDeg": 259.8
+          "yawDeg": 124.0
         },
         {
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
@@ -18686,7 +19058,7 @@
             "deg": 257.4,
             "evidence": "asymmetry",
             "outside": true,
-            "worldDeg": 281.4
+            "worldDeg": 0.4
           },
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.villa-floor-south",
@@ -18694,39 +19066,39 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The southern rubble floor holds the same 24° street line, so the two floors read as one street across the channel cut.",
+          "orientationWhy": "Turned so the rubble floor's surviving open edge faces the lighter channel from which divers reach this first submerged landing.",
           "polygon": [
             [
-              3918.774,
-              6389.429
+              3924.255,
+              6391.927
             ],
             [
-              3924.219,
-              6391.853
+              3922.915,
+              6397.734
             ],
             [
-              3921.559,
-              6397.827
+              3916.542,
+              6396.263
             ],
             [
-              3921.179,
-              6398.556
+              3915.755,
+              6396.03
             ],
             [
-              3920.722,
-              6398.451
+              3915.77,
+              6395.561
             ],
             [
-              3919.278,
-              6397.786
+              3916.148,
+              6394.016
             ],
             [
-              3916.144,
-              6395.581
+              3917.714,
+              6390.519
             ],
             [
-              3916.114,
-              6395.403
+              3917.883,
+              6390.456
             ]
           ],
           "spans": null,
@@ -18739,7 +19111,7 @@
             "whyNeighbours": "The drowned hall is east of it and the diving stair inshore.",
             "whySpot": "It lies 20 m south of the channel on the old street line."
           },
-          "yawDeg": 24.0
+          "yawDeg": 103.0
         },
         {
           "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
@@ -18789,51 +19161,46 @@
           "yawDeg": 24.0
         },
         {
-          "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+          "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
           "buildingFamily": "imperial-keep-wall",
           "centreM": [
-            3583.059,
-            6378.524
+            3586.602,
+            6379.107
           ],
           "districtId": "district.lilmoth.north-gate",
           "entrance": null,
-          "front": {
-            "deg": 226.6,
-            "evidence": "asymmetry",
-            "outside": true,
-            "worldDeg": 285.3
-          },
+          "front": null,
           "groundFit": "pad",
           "id": "parcel.lilmoth.wall-stub-north",
           "interior": {
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "It carries the tower's bearing on from the tower's west face, so the curtain leaves the gate on one line and shows its finished face to the country outside.",
+          "orientationWhy": "Turned to split the narrow angle between the arriving gate-yard road and the country outside the boundary, with its measured south connector snapped to the tower's north face.",
           "polygon": [
             [
-              3582.459,
-              6375.073
+              3582.626,
+              6378.502
             ],
             [
-              3582.853,
-              6374.893
+              3583.929,
+              6376.103
             ],
             [
-              3586.411,
-              6380.746
+              3587.208,
+              6375.132
             ],
             [
-              3583.489,
-              6382.522
+              3588.722,
+              6380.242
             ],
             [
-              3580.294,
-              6377.267
+              3588.708,
+              6380.267
             ],
             [
-              3582.118,
-              6375.339
+              3583.598,
+              6381.781
             ]
           ],
           "spans": null,
@@ -18841,59 +19208,54 @@
           "why": {
             "microGeography": "Its base steps up 0.5 m along the shelf toward the crest.",
             "playerPurpose": "A climbable stub that gives a view over the pond and back along the road.",
-            "what": "A broken length of the Imperial curtain running north from the gate tower, its top fallen.",
+            "what": "The broken inner corner where the Imperial curtain turns north from the gate tower, its top fallen.",
             "whyHere": "The curtain ran from the gate up onto the crest; this is the piece that still stands next to the tower.",
             "whyNeighbours": "It is built into the tower on one side and runs on toward the standing west curtain on the other.",
             "whySpot": "It occupies the wall line immediately north of the tower, on the same shelf."
           },
-          "yawDeg": 58.7
+          "yawDeg": 343.5
         },
         {
-          "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+          "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
           "buildingFamily": "imperial-keep-wall",
           "centreM": [
-            3593.616,
-            6395.886
+            3593.288,
+            6394.348
           ],
           "districtId": "district.lilmoth.north-gate",
           "entrance": null,
-          "front": {
-            "deg": 226.6,
-            "evidence": "asymmetry",
-            "outside": true,
-            "worldDeg": 285.3
-          },
+          "front": null,
           "groundFit": "pad",
           "id": "parcel.lilmoth.wall-stub-south",
           "interior": {
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Turned from 71.9° to the gate's own 58.7° so that its west face lands on the arch's east pier, which is how the Imperial set joins a flanking curtain to its gate. Its finished face still looks south-west, out of the city, because the segment used here is the one whose show side falls on that hand at this bearing.",
+          "orientationWhy": "Turned with the gate so its measured east connector snaps onto the arch's west face and the flanking curtain presents south-west, out of the city.",
           "polygon": [
             [
-              3593.016,
-              6392.436
+              3593.381,
+              6398.368
             ],
             [
-              3593.409,
-              6392.255
+              3590.793,
+              6397.502
             ],
             [
-              3596.968,
-              6398.108
+              3589.267,
+              6394.442
             ],
             [
-              3594.046,
-              6399.885
+              3594.037,
+              6392.063
             ],
             [
-              3590.851,
-              6394.63
+              3594.064,
+              6392.072
             ],
             [
-              3592.674,
-              6392.702
+              3596.442,
+              6396.842
             ]
           ],
           "spans": null,
@@ -18901,12 +19263,12 @@
           "why": {
             "microGeography": "The ground under it falls 0.6 m southward toward the pond.",
             "playerPurpose": "It closes the gate yard on the south, so the road is the way into the city.",
-            "what": "A broken length of the Imperial curtain running south from the arch toward the pond, built into the gate's southern pier.",
+            "what": "The broken inner corner where the Imperial curtain leaves the arch toward the pond, built into the gate's southern pier.",
             "whyHere": "The curtain south of the gate ran down to the water; this is the piece that remains above ground.",
             "whyNeighbours": "It is joined to the arch on its north and ends at the rubble of the fallen south tower.",
             "whySpot": "It sits on the wall line south of the arch, where the shelf begins to fall toward the pond."
           },
-          "yawDeg": 58.7
+          "yawDeg": 243.5
         },
         {
           "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
@@ -18944,7 +19306,7 @@
             ]
           ],
           "spans": null,
-          "use": "shrine",
+          "use": "ruin",
           "why": {
             "microGeography": "The bed is 12 m down; the opening faces west toward the stair.",
             "playerPurpose": "The Offerings in the Mouth quest and the deepest dive from the city.",
@@ -19292,7 +19654,7 @@
         "dossier": "world/sources/sites/dossiers/lilmoth.json"
       },
       "summary": {
-        "approaches": 3,
+        "approaches": 2,
         "combatSpaces": 4,
         "districts": 7,
         "docks": 3,
@@ -19438,8 +19800,12 @@
           "notes": null,
           "points": [
             [
-              3858.571,
-              6368.004
+              3859.094,
+              6367.541
+            ],
+            [
+              3860.503,
+              6368.503
             ],
             [
               3902.001,
@@ -19649,12 +20015,8 @@
               6385.503
             ],
             [
-              3846.0,
-              6380.0
-            ],
-            [
-              3848.906,
-              6376.126
+              3849.149,
+              6376.351
             ]
           ],
           "routing": "terrain",
@@ -19742,27 +20104,31 @@
           "notes": null,
           "points": [
             [
-              3845.999,
+              3846.758,
               6323.999
             ],
             [
-              3847.503,
-              6325.503
+              3846.758,
+              6357.002
             ],
             [
-              3847.321,
-              6361.294
+              3848.996,
+              6364.184
             ]
           ],
-          "routing": "terrain",
+          "routing": "straight",
           "via": [
             [
-              3845.999,
+              3846.758,
               6323.999
             ],
             [
-              3845.999,
+              3846.758,
               6357.002
+            ],
+            [
+              3846.758,
+              6358.912
             ]
           ],
           "waterOk": null,
@@ -19924,8 +20290,8 @@
               6365.503
             ],
             [
-              3847.311,
-              6365.998
+              3845.804,
+              6365.539
             ]
           ],
           "routing": "terrain",
@@ -20050,19 +20416,27 @@
           "widthM": 0.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+          "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
           "fenceClass": "palisade",
           "gapAt": [],
           "group": "fences",
           "id": "fence.lilmoth.hist-court-ring",
           "kind": "palisade",
-          "moduleM": 0.23,
+          "moduleM": 1.58,
           "notes": null,
           "points": [
             [
               3648.728,
               6323.269
+            ],
+            [
+              3646.671,
+              6319.955
+            ],
+            [
+              3642.56,
+              6318.816
             ],
             [
               3640.503,
@@ -20093,6 +20467,14 @@
               6329.503
             ],
             [
+              3616.506,
+              6333.836
+            ],
+            [
+              3618.501,
+              6338.169
+            ],
+            [
               3617.503,
               6342.503
             ],
@@ -20109,27 +20491,67 @@
               6354.001
             ]
           ],
-          "routing": "terrain",
+          "routing": "straight",
           "via": [
             [
               3648.728,
               6323.269
             ],
             [
+              3646.671,
+              6319.955
+            ],
+            [
+              3642.56,
+              6318.816
+            ],
+            [
+              3640.503,
+              6315.503
+            ],
+            [
+              3637.503,
+              6315.503
+            ],
+            [
               3636.001,
               6317.996
+            ],
+            [
+              3631.503,
+              6317.503
+            ],
+            [
+              3625.503,
+              6323.503
             ],
             [
               3623.275,
               6323.269
             ],
             [
-              3618.003,
-              6336.003
+              3617.503,
+              6329.503
+            ],
+            [
+              3616.506,
+              6333.836
+            ],
+            [
+              3618.501,
+              6338.169
+            ],
+            [
+              3617.503,
+              6342.503
             ],
             [
               3623.275,
               6348.729
+            ],
+            [
+              3630.503,
+              6348.503
             ],
             [
               3636.001,
@@ -20137,7 +20559,7 @@
             ]
           ],
           "waterOk": null,
-          "why": "The ring of driven poles round the Hist court, closed on the north, west and south. It stands open to the spine on the east, as the city rule requires.",
+          "why": "The low ring of woven Argonian panels lashed between driven poles round the Hist court, closed on the north, west and south. It stands open to the spine on the east, as the city rule requires.",
           "widthM": 0.3
         },
         {
@@ -20156,12 +20578,56 @@
               6267.997
             ],
             [
-              3744.997,
-              6262.002
+              3694.171,
+              6273.581
             ],
             [
-              3800.003,
-              6252.004
+              3700.461,
+              6277.049
+            ],
+            [
+              3704.635,
+              6282.634
+            ],
+            [
+              3725.228,
+              6280.531
+            ],
+            [
+              3732.478,
+              6274.78
+            ],
+            [
+              3737.626,
+              6266.899
+            ],
+            [
+              3744.876,
+              6261.148
+            ],
+            [
+              3745.838,
+              6267.981
+            ],
+            [
+              3745.53,
+              6261.088
+            ],
+            [
+              3754.921,
+              6250.976
+            ],
+            [
+              3770.994,
+              6252.34
+            ],
+            [
+              3787.135,
+              6250.713
+            ],
+            [
+              3803.209,
+              6252.077
             ]
           ],
           "routing": "straight",
@@ -20171,12 +20637,56 @@
               6267.997
             ],
             [
-              3744.997,
-              6262.002
+              3694.171,
+              6273.581
             ],
             [
-              3800.003,
-              6252.004
+              3700.461,
+              6277.049
+            ],
+            [
+              3704.635,
+              6282.634
+            ],
+            [
+              3725.228,
+              6280.531
+            ],
+            [
+              3732.478,
+              6274.78
+            ],
+            [
+              3737.626,
+              6266.899
+            ],
+            [
+              3744.876,
+              6261.148
+            ],
+            [
+              3745.838,
+              6267.981
+            ],
+            [
+              3745.53,
+              6261.088
+            ],
+            [
+              3754.921,
+              6250.976
+            ],
+            [
+              3770.994,
+              6252.34
+            ],
+            [
+              3787.135,
+              6250.713
+            ],
+            [
+              3803.209,
+              6252.077
             ]
           ],
           "waterOk": null,
@@ -20199,12 +20709,36 @@
               6371.853
             ],
             [
-              3596.0,
-              6344.998
+              3588.662,
+              6366.527
             ],
             [
-              3599.997,
-              6320.002
+              3591.061,
+              6352.166
+            ],
+            [
+              3596.882,
+              6356.538
+            ],
+            [
+              3597.091,
+              6345.574
+            ],
+            [
+              3595.304,
+              6334.755
+            ],
+            [
+              3601.751,
+              6331.373
+            ],
+            [
+              3601.569,
+              6324.095
+            ],
+            [
+              3598.958,
+              6317.299
             ]
           ],
           "routing": "straight",
@@ -20214,12 +20748,36 @@
               6371.853
             ],
             [
-              3596.0,
-              6344.998
+              3588.662,
+              6366.527
             ],
             [
-              3599.997,
-              6320.002
+              3591.061,
+              6352.166
+            ],
+            [
+              3596.882,
+              6356.538
+            ],
+            [
+              3597.091,
+              6345.574
+            ],
+            [
+              3595.304,
+              6334.755
+            ],
+            [
+              3601.751,
+              6331.373
+            ],
+            [
+              3601.569,
+              6324.095
+            ],
+            [
+              3598.958,
+              6317.299
             ]
           ],
           "waterOk": null,
@@ -20553,8 +21111,8 @@
               6400.395
             ],
             [
-              3591.509,
-              6389.092
+              3591.581,
+              6389.221
             ]
           ],
           "routing": "straight",
@@ -20586,8 +21144,8 @@
           "notes": null,
           "points": [
             [
-              3591.509,
-              6389.092
+              3591.581,
+              6389.221
             ],
             [
               3614.014,
