@@ -151,7 +151,7 @@ WHY = {
  "route.road.alten-corimont-stormhold":
    "Mid-route the road crosses a rock sill between two basins. The sill is narrow. Cutting it would drain one basin into the other.",
  "route.road.blackrose-lilmoth":
-   "Near the junction the road lifts onto the causeway bank above the fen. For a kilometre either side, that bank is the dry ground.",
+   "Near the junction the road runs along a ridge of firm ground above the fen. For a kilometre either side, that ridge is the dry ground.",
  "route.road.gideon-blackwood-road":
    "The Blackwood road crosses the border ridge where the ridge is thinnest. Even there it is stone, so the trunk cap is held on built decks rather than by quarrying the crossing.",
  "route.road.gideon-stormhold":
@@ -349,7 +349,7 @@ WHY = {
  "route.road.helstrom-blackrose":
    "The road runs from the grove to the lake across the deep basin, where the firm going is hummocks and low rock in soft ground. The road climbs each rise where it stands. A bench cut level between the rises would stand under water for half the year.",
  "route.road.soulrest-blackrose":
-   "The road leaves the coastal terrace and falls into the lake basin. Eight metres of that fall are taken on embankment rather than in a trench, over a third of a kilometre. The ground below the terrace edge is fen that will not hold a cut face.",
+   "The road leaves the coastal terrace and falls into the lake basin. The steepest pitches of that fall are carried on stone spans, the longest of them a third of a kilometre. The ground below the terrace edge is fen that will not hold a cut face.",
  "track.dunmer-north.riverwalk":
    "Riverwalk is strung along its channel. The channel is the street and arrivals come by boat. The land approach runs the length of the channel bank and is built the whole way, because the river takes back what is cut into that bank.",
  "track.imperial-fringe.the-counted-dead":
@@ -361,15 +361,60 @@ WHY = {
 }
 
 
-def _why(way_id: str) -> str | None:
-    """The authored sentence for a way, or None when nobody has written it.
+#: What a piece is for, when nobody has written anything more interesting.
+#:
+#: OWNER RULING 2026-09-09: "I don't mind things like bridges and stairs not
+#: having a written prose reason to exist. It's generally pretty obvious why
+#: they exist — they're there to enable the road/path/way."
+#:
+#: That is right, and it retires a debt that could not be paid. An over-cap
+#: window is measured on the GRADED ground, so every regrade produces a
+#: different set, and a window is itself grading-exempt — so authoring one
+#: changes the ground and raises another somewhere else. Six ways were written
+#: and went green; the next pass produced forty on twenty-one other ways. A
+#: hand-maintained table cannot win that race, and it should not have to: a
+#: deck across a dip is not a mystery.
+#:
+#: So the default states the measured fact and nothing else — no history, no
+#: builder, no motive it cannot support (engineering standard 12). The authored
+#: sentences in `WHY` stay, because where somebody HAS looked at the ground the
+#: reason is better than the shape: a road climbing every hummock because a
+#: level bench would stand under water half the year is worth saying.
+#:
+#: NO EMBANKMENTS (owner, 2026-09-09): "Avoid embankments - that's more messing
+#: with the terrain and is probably going to cause other issues. I'm fine with
+#: spans." That is the right call and it generalises: a span is ADDITIVE
+#: geometry that changes no ground, while an embankment is terrain
+#: modification, and terrain modification is what drives every feedback loop
+#: this pipeline has. Placing a piece must stay a thing that cannot move the
+#: ground under anything else. Do not add an embankment kind.
+#:
+#: THE BOUNDARY, and it is narrow (owner, 2026-09-09, clarifying the ruling
+#: above): "only for the specific way-carrying structures! Almost all other
+#: buildings should have authored reasons still of course." This default is
+#: reachable ONLY from this module, which places the pieces that carry a way
+#: over ground it cannot cross on the level. Every parcel, landmark, district
+#: and dock still needs its six authored answers - what it is, why it is in
+#: this place, why this exact spot, why it sits with its neighbours, what it
+#: gives the player, how it uses the ground - and `blueprint.py` rejects a
+#: blueprint that omits one. Do not generalise this to anything a player walks
+#: into.
+def _default_why(way_id: str, kind: str) -> str:
+    carried = {"road": "road", "trunk_road": "road"}.get(
+        GRADIENT_CAP_KIND.get(way_id, ""), "way")
+    piece = {"bridge": "The span carries", "deck": "The deck carries",
+             "lip-step": "The step carries", "stair": "The flight carries",
+             "stepped-ascent": "The stepped ascent carries"}.get(kind, "The piece carries")
+    return f"{piece} the {carried} over ground it cannot cross on the level."
 
-    A way that reaches here without one is a defect, not a default: someone has
-    to look at the ground and write it. The miss does not stop the rebuild —
-    `author` emits the record marked `unauthored`, prints the whole set with
-    each way's measured shape, and the test gate keeps it red until the
-    sentences are written."""
-    return WHY.get(way_id)
+
+def _why(way_id: str, kind: str | None = None) -> str:
+    """The authored sentence for a way, or the plain default.
+
+    See `_default_why` for the owner ruling that makes a default the right
+    answer here rather than a debt to be chased.
+    """
+    return WHY.get(way_id) or _default_why(way_id, kind or "deck")
 
 
 def _mark(rec: dict) -> dict:
@@ -411,7 +456,7 @@ def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray) -> dict:
     out["family"] = fam
     out["pieceRef"] = (FAMILIES[fam][KIND_ROLE[out["kind"]]]["asset"]
                        if fam is not None else None)
-    out["why"] = _why(st["wayId"])          # the sentence is authored here, not stored
+    out["why"] = _why(st["wayId"], out["kind"])   # authored here, not stored
     out.pop("unauthored", None)
     return _mark(out)
 
@@ -715,7 +760,7 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
                 "capDeg": cap,
                 "pieceRef": (FAMILIES[fam][KIND_ROLE[kind]]["asset"]
                              if fam is not None else None),
-                "why": _why(wid),
+                "why": _why(wid, kind),
                 "sourcing": "kit",
             }))
     if vanished:

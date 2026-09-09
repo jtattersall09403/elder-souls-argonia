@@ -73,6 +73,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import shutil
 from pathlib import Path
 
@@ -468,7 +469,8 @@ def _water_fields(province: Path, shape) -> tuple[np.ndarray | None, np.ndarray 
 def grade(h: np.ndarray, ways_list: list[dict],
           level: np.ndarray | None = None, wet: np.ndarray | None = None,
           step: int = STEP,
-          spans: dict[str, list[tuple[float, float]]] | None = None
+          spans: dict[str, list[tuple[float, float]]] | None = None,
+          shape: bool = True
           ) -> tuple[np.ndarray, list[dict]]:
     """Return (graded heightfield, per-way stats). Pure: `h` is not modified.
 
@@ -480,6 +482,19 @@ def grade(h: np.ndarray, ways_list: list[dict],
     `spans` maps a way id to authored-structure chainage windows (metres). A
     window behaves exactly like a bridge: no height is written inside it, its
     landings are pinned, and it is excluded from the "after" gradient.
+
+    `shape=False` MEASURES and writes nothing. Every over-cap stretch is
+    reported for the structure author, and the heightfield comes back
+    untouched, so the province keeps its natural ground and a built piece
+    carries the way wherever the ground will not. That is the owner's
+    2026-09-09 question — "just always use built pieces wherever there is a
+    substantial enough bit of geography to require it" — made runnable, so it
+    can be walked and judged rather than argued about.
+
+    It matters because shaping is what makes this pipeline circular: grading
+    moves 1.58 M height samples (9.7 % of the province, up to 28.3 m), the
+    water solve then settles on the new ground, and places sited against the
+    old water stop being valid. Nothing else along a route writes terrain.
     """
     spans = spans or {}
     cur = h.astype(np.float32).copy()
@@ -532,7 +547,7 @@ def grade(h: np.ndarray, ways_list: list[dict],
             floor = np.where(here, np.maximum(floor, near + WATER_CLEARANCE_M), floor)
 
         g = z.copy()
-        i0 = 0
+        i0 = 0 if shape else len(pts)   # shape=False: measure only, cut nothing
         while i0 < len(pts):
             if skip[i0]:
                 i0 += 1
@@ -724,6 +739,13 @@ def grade(h: np.ndarray, ways_list: list[dict],
                           "frac": round(wi / max(len(slopes) - 1, 1), 3),
                           "overM": float(ds[over].sum()),
                           "lengthM": float(ds.sum())}
+    if not shape:
+        # Belt and braces. Skipping the profile loop already leaves the running
+        # surface where it was, but the shoulder blend, the fill ceiling and
+        # the waterline clamp all still touch `cur`, and "measure only" has to
+        # mean EXACTLY no terrain change - otherwise the thing being judged is
+        # not the thing that was asked for. Hand back the natural ground.
+        return h.astype(np.float32), stats
     return cur, stats
 
 
@@ -989,6 +1011,10 @@ def main() -> None:
     ap.add_argument("heights", nargs="?", default=str(DEFAULT_HEIGHTS))
     ap.add_argument("--province", default=str(PROVINCE))
     ap.add_argument("--dry-run", action="store_true", help="report only, write no rasters")
+    ap.add_argument("--no-shaping", action="store_true",
+                    help="measure where built pieces are needed and move NO terrain "
+                         "(owner trial 2026-09-09: always use built pieces rather than "
+                         "cutting the ground). ES_NO_SHAPING=1 sets it for a chain run.")
     ap.add_argument("--audit-rims", action="store_true",
                     help="print the province rim/fill numbers and exit without writing")
     args = ap.parse_args()
@@ -1006,9 +1032,13 @@ def main() -> None:
         ungraded, marker = snapshot_natural_state(height_path, province)
     h = np.load(ungraded)
     level, wet = _water_fields(province, h.shape)
+    shape = not (args.no_shaping or os.environ.get("ES_NO_SHAPING") == "1")
     graded, stats = grade(h, ways(province), level, wet,
-                          spans=load_structure_spans())
+                          spans=load_structure_spans(), shape=shape)
     cells = int((graded != h).sum())
+    if not shape:
+        print("grade_routes: NO SHAPING — measuring only; the province keeps its "
+              "natural ground and every over-cap stretch goes to a built piece")
     if args.audit_rims:
         print(json.dumps(audit_rims(h, graded, ways(province), stats), indent=2))
         return
