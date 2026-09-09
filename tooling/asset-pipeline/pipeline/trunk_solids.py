@@ -57,7 +57,13 @@ WOOD = (
 #: the cards somebody already walked into, and it missed `gkbbranch1/5/10`,
 #: `gkbjunglebranch2/3`, `datepalmbark7/8` and `tundradriftwoodbranches01`,
 #: which is what solidified the mangrove and jungle crowns (round 11).
-NOT_WOOD = ("leaf", "conifer", "maple", "moss", "comp", "frond", "valenwood")
+#:
+#: Round 12 dropped `comp` for the same reason, in the other direction: every
+#: `*branchcomp*` leaf card in the kit is already caught geometrically (ratios
+#: 3.4e-3 – 1.8e-2), while the bare substring also vetoed
+#: `gkbtreeaspenbarkcomp` — a genuine bark TUBE at 3.6e-4 — which is why a
+#: 10.6 m aspen was shipping with no fitted trunk at all.
+NOT_WOOD = ("leaf", "conifer", "maple", "moss", "frond", "valenwood")
 
 MIN_RADIUS_M = 0.11
 MIN_CLUSTER_POINTS = 14
@@ -447,10 +453,19 @@ def rewrite(manifest_path: Path) -> None:
                              f"{mean_area / limit:.1f}x the card limit)")
         capsules = fit_capsules(points, girth)
         if not capsules:
-            # No wood parts (single-texture shrubs): keep the plain capsule.
+            # NO WOOD, SO NO SOLID (round 12). The single `collisionCapsule`
+            # is measured over `solid_meshes or meshes` (blender/build_kit.py
+            # `trunk_capsule`), so for a species with no separable wood it is
+            # a SILHOUETTE of the whole plant — foliage included — never a
+            # bole. Standing that up as a collider is what put 118 invisible
+            # 0.26 m poles in a 12 m circle of bamboo at 3.62 km E · 6.26 km
+            # S. `collision` drops to `none`, which is the same answer the
+            # reeds and ferns already get; `collisionCapsule` stays for wind
+            # stiffness, which is what it is honestly good for.
             asset.pop("collisionSegments", None)
+            asset["collision"] = "none"
             asset["collisionFrame"] = "pivot-yup-v3"
-            print(f"[trunk-solids] {asset['id']}: no wood mesh, capsule fallback")
+            print(f"[trunk-solids] {asset['id']}: no wood mesh, WALK-THROUGH")
             continue
         asset["collisionSegments"] = capsules
         asset["collisionFrame"] = "pivot-yup-v3"

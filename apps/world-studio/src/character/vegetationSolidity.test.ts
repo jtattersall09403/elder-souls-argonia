@@ -310,6 +310,25 @@ describe("fitted capsules stay near the measured trunk girth", () => {
     expect(offenders, "capsules fitted over foliage, not wood").toEqual([]);
   });
 
+  it("no solid tree falls back to its SILHOUETTE capsule", () => {
+    // Round 12. The single `collisionCapsule` is measured over the whole
+    // plant when a species has no separable wood (`trunk_capsule` in
+    // blender/build_kit.py takes `solid_meshes or meshes`), so for a bamboo
+    // clump it is a 0.26 m bound on the FOLIAGE, not a cane. `collidersFor`
+    // falls back to it whenever `collisionSegments` is empty, which stood up
+    // 118 invisible poles in a 12 m circle at 3.62 km E / 6.26 km S. A
+    // species with no fitted wood must be walk-through, like the reeds and
+    // ferns it grows with — so nothing solid may reach that fallback.
+    const manifest = JSON.parse(
+      readFileSync(join(PUBLIC, "kits/flora-province-v1.kit.json"), "utf8"),
+    ) as { assets: FloraCollisionAsset[] };
+    const silhouetteOnly = manifest.assets
+      .filter((a) => a.collision === "trunk-capsule"
+        && (a.collisionSegments?.length ?? 0) === 0)
+      .map((a) => `${a.id} (girth ${a.collisionCapsule?.radiusM ?? 0} m)`);
+    expect(silhouetteOnly, "solid with no fitted wood").toEqual([]);
+  });
+
   it("the kit records that the trunk fitter ran over it", () => {
     // `trunk_solids.py` is a POST-pass: a plain `build_kit.py` run would ship
     // the unfitted fat capsules and every check above would still pass.

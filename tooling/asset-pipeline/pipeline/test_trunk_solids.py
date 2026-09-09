@@ -62,3 +62,28 @@ def test_nothing_survives_wider_than_the_clamp():
 def test_a_species_with_no_measured_height_is_never_called_a_card(height_m):
     # Better to fit something than to silently drop every wood primitive.
     assert not is_card(99.0, height_m)
+
+
+def test_the_comp_veto_no_longer_kills_bark_tubes():
+    # Round 12. `comp` was vetoing `gkbtreeaspenbarkcomp`, a genuine bark tube
+    # (3.6e-4 of height²), which is why a 10.6 m aspen shipped with no fitted
+    # trunk. Every `*branchcomp*` leaf card in the kit is caught geometrically
+    # instead, so the name veto was pure cost.
+    assert is_wood("gkbtreeaspenbarkcomp")
+    assert is_wood("gkbtreeaspenbranchcompgreen1dark")  # a card...
+    assert is_card(0.878, 10.6)                          # ...caught by geometry
+    assert not is_card(0.041, 10.6)                      # the bark tube survives
+
+
+def test_a_cane_clump_is_not_wood_and_so_gets_no_solid():
+    # The bamboo the owner walked into is one 1,440-triangle primitive
+    # textured `bamboo`. It matches no wood word, so the fitter finds no wood
+    # and `rewrite` must drop the species to `none` rather than stand up the
+    # silhouette capsule. Guarding the classifier here; the manifest-side gate
+    # lives in apps/world-studio/src/character/vegetationSolidity.test.ts.
+    assert not is_wood("bamboo")
+    assert not is_wood("banana_tree")
+    assert not is_wood("tropicalplant01")
+    # ...while the slender things that DO have boles stay wood.
+    assert is_wood("gkbtundradriftwoodbark01")
+    assert is_wood("palmbarknew14")

@@ -105,6 +105,107 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 12 (2026-09-09) — solid BAMBOO: a silhouette standing in for a bole
+>
+> Owner: "some tall reedy bamboo-y things are getting treated as solid even
+> though they are very thin… e.g. at 3.62 km E · 6.26 km S."
+>
+> **What is actually there.** Read from the shipped bundle, not from names:
+> within 12 m of that spot there are 127 instances and **118 are
+> `bmv:landscape/trees/bambooplant`** (chunk 7,13). Its manifest row is
+> `collision: "trunk-capsule"` with **zero `collisionSegments`**.
+>
+> **Root cause — not any of the three candidates.** Not the round-11 splay
+> split, not a missing girth floor. `bambooplant` is a single 1,440-triangle
+> primitive textured `bamboo`, which matches no word in `WOOD`, so the fitter
+> finds no wood, and `trunk_solids.rewrite` took the "no wood mesh, capsule
+> fallback" branch. `floraSolids.ts:143-144` then falls back to the single
+> `collisionCapsule` — and that capsule is built by `trunk_capsule` in
+> `blender/build_kit.py:651-659` over `solid_meshes or meshes`, i.e. over the
+> WHOLE PLANT when nothing is marked solid. So it is a **silhouette of the
+> foliage, 0.26 m by 3.0 m**, not a cane. 118 of those in a 12 m circle is
+> the field of invisible poles. The species reached the trunk path in the
+> first place because `_COLLISION_BY_CATEGORY["tree"]` is assigned by
+> CATEGORY (`build_kit.py:563`) and bamboo files under `landscape/trees/`.
+>
+> **Honest answer on round 11's part in it:** none, for the species the owner
+> hit. `bambooplant` had zero fitted capsules before round 11 and zero after;
+> the round-11 table shows it unchanged at `0.00 → 0.00`. The slender
+> stick-trees round 11 *did* slim (`gkbjungletreenewsticktree11` 2.81 → 0.23)
+> are not present at that coordinate at all. This defect predates round 11.
+>
+> **The rule, and why it is NOT a minimum girth.** The owner asked for a
+> girth cutoff justified from the histogram. The histogram refuses to give
+> one — measured girth across the 50 solid species runs
+> `0.15 ×5, 0.17, 0.22, 0.23, 0.25 ×8, 0.26, 0.27 ×6, 0.30, 0.35, 0.38 ×2`
+> and then jumps to 0.56. There is no gap in the thin band, and it mixes
+> bamboo (0.26) with `fanpalm1` (0.25, a 23 m palm nobody walks through) and
+> `beachpalm1` (0.25, 19 m). A girth floor would be the same mistake as an
+> absolute triangle-area cut in round 11. The property that DOES separate
+> cleanly is the one round 11 established: **does the asset have real tube
+> wood?** Fitted-capsule counts go `0, 0, 0, 0` and then `1, 6, 7, 8, 12,
+> 16, …` — the gap is at zero, and it is measured from the GLB. So: **no
+> fitted wood, no solid.** `collision` drops to `none` (what the reeds and
+> ferns already get); `collisionCapsule` stays for wind stiffness, which is
+> what a silhouette is honestly good for.
+>
+> **Second defect, opposite direction, same pass.** Auditing which assets the
+> rule would silence found `gkbtreeaspen05jungle` — a 10.6 m aspen — also
+> sitting at zero fitted capsules. Cause: `NOT_WOOD` contained the bare
+> substring `comp`, which vetoed `gkbtreeaspenbarkcomp`, **a genuine bark
+> tube** (3.6e-4 of height²). Every other `comp` texture in the kit is a
+> `*branchcomp*` leaf card at 3.4e-3 – 1.8e-2 and is already caught
+> geometrically by round 11's `is_card`. `comp` was pure cost and is gone.
+> The aspen now fits 7 capsules and stays solid on its own merit — which is
+> also what makes "no fitted wood, no solid" safe to apply.
+>
+> **Every asset that changes state, both directions (the complete list):**
+>
+> | asset | h | girth | before | after |
+> |---|---|---|---|---|
+> | `bambooplant` | 3.0 m | 0.26 | solid (silhouette) | **walk-through** |
+> | `tropicalplant01` | 1.3 m | 0.15 | solid (silhouette) | **walk-through** |
+> | `banana_tree` | 4.6 m | 0.15 | solid (silhouette) | **walk-through** |
+> | `gkbtreeaspen05jungle` | 10.6 m | 0.15 | solid (silhouette) | **solid, 7 fitted capsules** |
+>
+> Nothing else moves. The `banana_tree` call is the one worth a second look:
+> a 4.6 m plant with 3,888 triangles, no tube wood and a 0.23 m spread at
+> walking height. A banana pseudostem is soft and the mesh has no bole, so
+> walk-through is the honest reading — flagged for the owner rather than
+> buried. Solid species: 50 → 47. Worst radius/girth stays **1.50**, so the
+> K = 1.6 gate holds unchanged. Total fitted capsules 2,961 → 2,964 (the
+> three dropped species contributed none; the drift is the shared RNG stream
+> re-sequencing, and every value stays inside the clamp).
+>
+> **Budget — 3,600 should STAY (owner asked whether to hand it back).**
+> Measured over **11,722 sampled 20 m rings** across all 151 vegetated
+> chunks, cost in colliders:
+>
+> | manifest | p50 | p90 | p95 | p99 | rings over 2500 | over 3600 |
+> |---|---|---|---|---|---|---|
+> | pre-round-11 | 110 | 768 | 1242 | 3168 | 1.60 % | 0.88 % |
+> | round 11 | 160 | 1101 | 1728 | 4129 | 2.64 % | 1.31 % |
+> | round 12 | 130 | 1058 | 1716 | 4128 | **2.62 %** | **1.31 %** |
+>
+> Round 12 makes **49.9 %** of rings cheaper, but almost entirely at the
+> MEDIAN — bamboo and understory rings, 160 → 130 — and essentially nothing
+> at the tail, which is big fitted trees. The over-budget rate is unmoved
+> (1.31 %). Dropping back to 2,500 would double it to 2.62 %. Round 11's
+> "trees covered falls ~61 → ~42" was an arithmetic upper bound from mean
+> species cost, not a measured ring; at both the bamboo spot and the
+> round-10 jungle spot the ring covers the full 20 m at either budget. Keep
+> 3,600.
+>
+> **Gates (mutation-tested).**
+> - **Data gate**, `vegetationSolidity.test.ts`: no `trunk-capsule` asset may
+>   have zero `collisionSegments` — nothing solid may reach the silhouette
+>   fallback. Mutation: restoring the three species to `trunk-capsule` lists
+>   all three, red.
+> - **Source gates**, `pipeline/test_trunk_solids.py`: the `comp` veto must
+>   not kill bark tubes, and cane/banana/shrub textures must not read as
+>   wood. Mutations: putting `comp` back in `NOT_WOOD`, and adding `bamboo`
+>   to `WOOD`, each turn one red.
+>
 > ### Round 11 (2026-09-09) — solid LEAVES: a name blacklist standing in for a geometric property
 >
 > Owner: "some trees have *leaves* that I can't walk through, e.g. mangroves.
