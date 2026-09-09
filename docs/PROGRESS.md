@@ -74,34 +74,37 @@ visible to the owner. The owner's call (2026-09-09) was to leave them for this
 session rather than have the water session run them, because they may turn up
 work that belongs to this session's goal.
 
-1. **Finish the chain optimisation.** A one-dock edit cost a **461 s** full
-   province rebuild, and we paid it repeatedly last night. The fast path (patch
-   the graded heightfield with the local carves, rebuild only the tiles they
-   touch, `compile_water` stays whole at 68 s) and a **chain lock** are in
-   flight; the acceptance test is a **byte-identical diff against a full run**
-   for the same edit. Do this first because everything after it rebuilds.
-   Two more cases worth taking while you are there: a compile-only change (the
-   wetted width moved no ground yet still took a full chain) should not
-   invalidate the terrain, and grading is cumulative on the carve, so a grader
-   change needs `--from refine_province` when a stored pre-grade heightfield
-   would let it start at `grade_routes` and save 220 s.
-2. **Close the water leftovers** — [water-handoff.md](research/rendering/water-handoff.md)
-   § what is left. Falls' crest and drawn width are settled; open are the
-   6.5 km² of class raster that is dry in every season, 876 of 3,071 major-lane
-   cells under a canoe's 0.6 m, and the `CLASS_EXT_PX` radius question.
-3. **Phase 11's gap fill** — [phase11-gap-plan.md](research/phase11/phase11-gap-plan.md).
+1. **Run the held rollout first** (owner's call, 2026-09-09): `macro_plot
+   --resolve-all` + `apply_sitings`, then `compile_scatter` and the vegetation
+   export — in that order, because the plot moves records and the scatter must
+   follow. A dry run was clean at 580/580 with zero siting violations. This
+   turns the deploy green, and the owner chose it first *because* it is likely
+   to surface further work, which belongs to this session's goal rather than to
+   a later discovery.
+2. **Finish the chain optimisation.** A one-dock edit cost a **461 s** full
+   province rebuild and we paid it repeatedly. The fast path (patch the graded
+   heightfield with the local carves, rebuild only the tiles they touch;
+   `compile_water` stays whole at 68 s) and a **chain lock** are part-built; the
+   acceptance test is a **byte-identical diff against a full run** for the same
+   edit. Build the slow reference ONCE and restore from a copy — re-running it
+   per iteration is what made this expensive the first time. Do it before 3 and
+   4, both of which rebuild repeatedly.
+   Two more cases worth taking: a compile-only change (the wetted width moved no
+   ground yet still took a full chain) should not invalidate the terrain, and
+   grading is cumulative on the carve, so a grader change needs
+   `--from refine_province` where a stored pre-grade heightfield would let it
+   start at `grade_routes` and save 220 s.
+3. **Close the water leftovers** — [water-handoff.md](research/rendering/water-handoff.md)
+   § what is left: 6.5 km² of class raster dry in every season, 876 of 3,071
+   major-lane cells under a canoe's 0.6 m, and the `CLASS_EXT_PX` radius
+   question.
+4. **Phase 11's gap fill** — [phase11-gap-plan.md](research/phase11/phase11-gap-plan.md).
    **B13 carries the paused session's whole plan** (the per-consumer season
    design, the marsh-credit deletion, the single accessor, the D1 hostility
    floor, what is queued against water); **B12** is the grader change that was
-   reverted with its acceptance test.
-4. **The rollout that is held, in this order**: `macro_plot --resolve-all` +
-   `apply_sitings`, then `compile_scatter` and the vegetation export. The plot
-   moves records, so the scatter must follow.
-   `test_vegetation_ladder::test_delivered_ladder` is intentionally red until
-   it runs.
-5. **Place spacing and tree density** ride on 4 — both were re-based last night
-   (decision 0048, the flora kit 81 → 108 assets, groundcover 7 → 34) and are
-   waiting on the same rollout.
+   reverted, with its acceptance test.
+5. **Place spacing and tree density** settle out of step 1 and whatever it
+   surfaces.
 
 **Before splitting into two sessions again**, move to separate git worktrees:
 almost every collision was one session's *uncommitted* work breaking the
