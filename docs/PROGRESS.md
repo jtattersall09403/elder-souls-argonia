@@ -107,6 +107,19 @@ work that belongs to this session's goal.
    needs one control run: repeat the SLOW chain on unchanged sources and see
    whether those 36 move anyway.
 
+   **The trap in that reference, hit on 2026-09-09 — read this before using it.**
+   `/tmp/REF/` holds BOTH the repo's `public/province` and the **vault**
+   (`province-refined/`, `chain-stamps.json`). Restoring it puts the vault back
+   to the reference build while the repo's committed rasters are whatever was
+   committed since — and the water invariants compare the shipped PNGs against
+   the vault's full-resolution solution, so they fail spuriously with a
+   *scattered* set of failures that look like real defects. `git checkout` on
+   the repo data does NOT fix it, because the vault is not in git. The reference
+   predates the sap-tapping landing move. So: restore repo and vault together,
+   know which build the reference is, and if the water suite starts failing in
+   ways that make no sense, check that pairing first rather than debugging the
+   compiler.
+
    **A slow-build reference already exists — use it, do not rebuild it.**
    `/tmp/REF/` (741 MB) is a complete converged slow build: `studio-province/`,
    `province-refined/`, `chain-stamps.json`, with a 1809-file sha manifest at
