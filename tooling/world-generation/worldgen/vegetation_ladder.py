@@ -93,9 +93,30 @@ MEASURED_ATTENUATION: dict[int, float] = {
 }
 
 #: Classes whose region covers so little of the province that their per-pixel
-#: sample is thin (region area in hectares: 3 → 4, 5 → 10, 10 → 0.4, 4 → 17).
-#: Their attenuation is real but noisy; the gates widen for them.
+#: sample is thin. Their attenuation is real but noisy; the gates widen for
+#: them. Measured areas (2026-09-09, `region_area_ha`): 3 → 3.8 ha,
+#: 5 → 10.3 ha, 10 → 0.1 ha, 4 → 17.3 ha.
 THIN_SAMPLE_CLASSES = frozenset({3, 4, 5, 10})
+
+#: Below this the per-hectare sample cannot answer the question at all, and a
+#: wider tolerance is not the honest response — silence is, provided it is a
+#: NAMED silence.
+#:
+#: Derivation: the loose gate tests a delivered ratio to ±0.35, so the class
+#: needs enough instances that Poisson noise is smaller than that. At the
+#: 1/sqrt(n) relative error of a count, ±0.35 on a ratio near 1 needs n ≳ 8,
+#: and the thinnest classes deliver 12–74 stems per hectare, so one hectare is
+#: the floor at which the measure starts meaning anything. On the shipped bake
+#: exactly one class falls below it: **raised hammock (class 10) is 18 pixels,
+#: 0.1 ha of a 37 km² province**, delivering ~30 instances in total and reading
+#: 4× its target on a sample far too thin to act on. That is a hole in the
+#: region grammar rather than a vegetation defect, and it is queued in
+#: `docs/polish-backlog.md`.
+#:
+#: The gate REPORTS every class it excludes by name, in the same style as
+#: `conftest.py`'s KNOWN RED banner: a class must never leave the ladder
+#: quietly, which is how region 10's 4× overshoot went unnoticed.
+MIN_MEASURABLE_AREA_HA = 1.0
 
 #: Ladder tolerance. The re-base is linear in the authored count, but
 #: attenuation is not quite linear — clearance rejection eases as density
@@ -158,6 +179,36 @@ def multipliers() -> dict[int, float]:
 #: hydrology raster's metres-per-pixel this is a seam of real length, not the
 #: handful of stray pixels two classes trade where a third separates them.
 ADJACENCY_MIN_SHARED_EDGES = 250
+
+
+def _region_classes(province: Path = PROVINCE):
+    """The region raster decoded to class ids, 255 where no class matches."""
+    import numpy as np
+    from PIL import Image
+
+    from .regions import REGION_CLASSES
+
+    rgb = np.asarray(Image.open(province / "hydro-regions.png").convert("RGB"))
+    classes = np.full(rgb.shape[:2], 255, np.uint8)
+    for class_id, (_name, colour) in REGION_CLASSES.items():
+        classes[np.all(rgb == np.array(colour, np.uint8), axis=-1)] = class_id
+    return classes
+
+
+def region_area_ha(province: Path = PROVINCE) -> dict[int, float]:
+    """How much province each region class actually covers, in hectares.
+
+    Measured from the shipped raster, because a per-hectare density is only
+    as meaningful as the hectares under it and the region solve moves. This
+    is what decides whether a class can be held to the delivered ladder at
+    all (:data:`MIN_MEASURABLE_AREA_HA`).
+    """
+    from .scale import PROVINCE_EXTENT_M
+
+    classes = _region_classes(province)
+    cell_ha = (PROVINCE_EXTENT_M / classes.shape[0]) ** 2 / 10_000.0
+    return {int(c): float((classes == c).sum()) * cell_ha
+            for c in sorted(set(classes.flatten().tolist())) if c != 255}
 
 
 def region_adjacency(province: Path = PROVINCE) -> dict[int, set[int]]:

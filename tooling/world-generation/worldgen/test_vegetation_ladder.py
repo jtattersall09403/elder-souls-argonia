@@ -116,15 +116,32 @@ def test_delivered_ladder():
     delivered = vl.measure_delivered_by_region()
     reference = delivered.get(13, 0.0)
     assert reference > 0.0, "no tropical-jungle stems in the shipped bundles"
-    failures = []
+    area_ha = vl.region_area_ha()
+    failures, unmeasurable = [], []
     for region, target in sorted(vl.TARGET_RATIOS.items()):
-        if region == 0 or region in vl.THIN_SAMPLE_CLASSES:
+        if region == 0:
             continue
+        area = area_ha.get(region, 0.0)
         ratio = delivered.get(region, 0.0) / reference
-        if abs(ratio - target) > vl.RATIO_TOLERANCE:
+        if area < vl.MIN_MEASURABLE_AREA_HA:
+            # NAMED, never silent. Thin classes used to be skipped outright,
+            # which is how raised hammock came to deliver 4x its target with
+            # nothing to say so.
+            unmeasurable.append(
+                f"region {region}: {area:.2f} ha of province, below the "
+                f"{vl.MIN_MEASURABLE_AREA_HA:.1f} ha floor — delivered ratio "
+                f"{ratio:.2f} against target {target:.2f}, not tested")
+            continue
+        tolerance = (vl.THIN_RATIO_TOLERANCE if region in vl.THIN_SAMPLE_CLASSES
+                     else vl.RATIO_TOLERANCE)
+        if abs(ratio - target) > tolerance:
             failures.append(f"region {region}: delivered ratio {ratio:.2f}, "
                             f"target {target:.2f} "
-                            f"({delivered.get(region, 0.0):.1f}/ha)")
+                            f"({delivered.get(region, 0.0):.1f}/ha over "
+                            f"{area:.1f} ha, tolerance +/-{tolerance:.2f})")
+    if unmeasurable:
+        print("\nUNMEASURABLE — too little province to hold to the ladder:\n  "
+              + "\n  ".join(unmeasurable))
     assert not failures, (
         "the SHIPPED bundles do not carry the ladder:\n  "
         + "\n  ".join(failures)
@@ -133,6 +150,35 @@ def test_delivered_ladder():
           "`python3 -m worldgen.compile_scatter` to roll the change into the "
           "bundles. This test is the only thing that measures what actually "
           "ships.")
+
+
+def test_no_region_class_leaves_the_delivered_gate_silently():
+    """A class too thin to measure must be NAMED, not skipped.
+
+    `test_delivered_ladder` used to `continue` past every THIN_SAMPLE_CLASS,
+    so four of the fourteen classes were outside the only gate that measures
+    what ships — and raised hammock delivered 1.90 against a 0.45 target with
+    nothing to report it. Thin classes are now tested at the wider tolerance;
+    only a class with too little province to hold a sample at all is excused,
+    and the gate prints those by name.
+
+    MUTATION: restore the `region in vl.THIN_SAMPLE_CLASSES` skip — red.
+    """
+    area_ha = vl.region_area_ha()
+    excused = {r for r in vl.TARGET_RATIOS if r != 0
+               and area_ha.get(r, 0.0) < vl.MIN_MEASURABLE_AREA_HA}
+    tested = {r for r in vl.TARGET_RATIOS if r != 0} - excused
+    thin_but_tested = tested & vl.THIN_SAMPLE_CLASSES
+    assert thin_but_tested, (
+        "every thin-sample class is being excused by the area floor, so the "
+        "wider THIN_RATIO_TOLERANCE gates nothing. Either the floor is too "
+        "high or THIN_SAMPLE_CLASSES is stale.")
+    assert len(excused) <= 1, (
+        f"{len(excused)} region classes have too little province to be held "
+        f"to the delivered ladder: {sorted(excused)}. One (raised hammock, "
+        f"0.1 ha) is a recorded hole in the region grammar "
+        f"(docs/polish-backlog.md); more than one means the region solve has "
+        f"moved and the ladder is measuring a province that is not there.")
 
 
 # --- gate 3: understory and groundcover breadth ------------------------------
