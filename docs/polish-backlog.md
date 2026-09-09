@@ -296,7 +296,7 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   forbids — but the honest fix is for the pad grader to take the same exclusion
   windows the route grader takes. Cheap: it is the same window list, read from
   the same path.
-- **Two route ways cannot be closed by authoring, because the line is wrong,
+- **Three route ways cannot be closed by authoring, because the line is wrong,
   not the ground** (measured 2026-09-09, blocking
   `test_no_shipped_route_structure_is_unauthored`).
   * `track.dunmer-north.riverwalk` — the catalogue records Riverwalk as a
@@ -314,8 +314,17 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
     end-to-end rise (a "bridge" over 18 to 130 m of surface roughness). Twenty
     three spans on one trunk road is the "staircase province" the Phase 11 gap
     plan warned about; it wants a routing look, not 23 sentences.
-  The other 42 unauthored ways sit at 14–19% window coverage with 1–5
-  structures each and are ordinary authored geometry.
+  * `route.road.soulrest-blackrose` — the same fault on the same corridor: a
+    3,560 m trunk road between -4.8 m and 10.9 m with 62 of 1,680 samples over
+    the 8 deg road cap and 4 authored windows, one of them a 355 m "bridge"
+    carrying 8.4 m. Both Blackrose approaches fail the same way, which points at
+    the corridor rather than at either road.
+  The other 41 unauthored ways were authored on 2026-09-09 (sentences written
+  against their place catalogue records and reviewed by a separate agent under
+  the `text-review` skill); they sat at 14–19% window coverage with 1–5
+  structures each and are ordinary authored geometry. After that pass
+  `test_no_shipped_route_structure_is_unauthored` is red on **49 structures
+  across these 3 ways only**, down from 116 across 44.
 - **Gap plan B2's `MAX_FILL_M` hypothesis is measurably wrong — do not raise
   it.** B2 asked whether raising `grade_routes.MAX_FILL_M` from 6 m to 8 m
   would clear most over-cap windows before anyone authored them. Measured

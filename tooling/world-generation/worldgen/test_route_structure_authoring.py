@@ -12,13 +12,18 @@ agent, through the `text-review` skill. Nothing in the pipeline may invent it.
 """
 
 import json
+import math
 
 import numpy as np
 
 from .grade_routes import STRUCTURES_PATH
-from .author_route_structures import (_highest_suffix_by_way, _kind,
-                                      _reconcile_prior_windows,
+from .author_route_structures import (GRADIENT_CAP_KIND, _highest_suffix_by_way,
+                                      _kind, _reconcile_prior_windows, _refresh,
                                       _way_length_m, _window_rise)
+from .compile_route_structures import (RAMP_KINDS, RAMP_MAX_DEG,
+                                       compile_structure, measure_window,
+                                       ramp_ok)
+from .test_route_structures import _kit_stub, _slope_way
 
 
 def test_no_shipped_route_structure_is_unauthored():
@@ -73,6 +78,72 @@ def test_prior_windows_follow_a_rerouted_way_endpoint():
     assert kept[1]["toM"] == round(end_m, 2)
     assert [row[0]["id"] for row in dropped] == ["structure.past", "structure.missing"]
     assert [row[0]["id"] for row in clipped] == ["structure.crosses"]
+
+
+def test_author_cannot_choose_a_kind_the_compiler_would_refuse():
+    """The invariant that broke the deploy on 2026-09-09.
+
+    `_kind` picks the piece from a window's shape; `compile_structure` refuses a
+    deck, bridge or lip-step over RAMP_MAX_DEG. When the two measured the window
+    separately the author emitted four ramp kinds the compiler would not build
+    (worst: 12.2 deg over a 12 deg cap). They now share `measure_window`, so
+    every shape `_kind` can be handed must yield a kind `ramp_ok` accepts.
+
+    Pure arithmetic over the decision surface — no province rebuild, no
+    heightfield, milliseconds.
+    """
+    bad = []
+    for way_kind in ("trail", "track", "road", "trunk_road"):
+        for span in (0.5, 2.0, 9.8, 18.6, 21.1, 29.9, 30.0, 30.1, 60.0,
+                     119.9, 120.0, 120.1, 400.0, 2_000.0):
+            for rise in (0.0, 0.6, 2.4, 3.5, 4.0, 4.12, 8.0, 25.0, 300.0):
+                for signed in (rise, -rise):
+                    for worst in (0.0, 12.0, 27.9, 28.0, 45.0, 89.0):
+                        kind = _kind(span, signed, worst, way_kind)
+                        grade = math.degrees(math.atan(abs(signed) / max(span, 1e-6)))
+                        if not ramp_ok(kind, grade):
+                            bad.append((way_kind, span, signed, worst, kind,
+                                        round(grade, 2)))
+    assert not bad, (
+        f"_kind returned a level-surface kind over the {RAMP_MAX_DEG:.0f} deg deck "
+        f"cap for {len(bad)} shapes, e.g. {bad[:5]} — compile_route_structures "
+        "will raise on every one of them")
+
+
+def test_a_refreshed_record_compiles_on_the_ground_it_was_measured_on():
+    """Author and compiler must agree window for window, on real geometry.
+
+    The stored record here is stale in both ways that shipped: a `riseM` from an
+    older heightfield, and a `toM` past the way's current end. Refreshing must
+    hand the compiler something it can build.
+    """
+    way, heights = _slope_way(cells=240, rise_per_m=0.45)
+    end_m = _way_length_m(way)
+    GRADIENT_CAP_KIND[way["id"]] = way["kind"]
+    stored = {"id": "structure.dunmer-north-test.1", "wayId": way["id"],
+              "kind": "lip-step", "family": "dunmer-stone",
+              "fromM": end_m - 20.0, "toM": end_m + 40.0,
+              "riseM": 0.6, "worstDeg": 18.32}
+
+    refreshed = _refresh(stored, {way["id"]: way}, heights)
+
+    assert refreshed["toM"] == round(end_m, 2)          # clipped to real ground
+    assert refreshed["kind"] not in RAMP_KINDS          # 24 deg is a flight
+    placements, row = compile_structure(refreshed, way, heights, _kit_stub())
+    assert placements and row["pieces"] == len(placements)
+    # The two modules now read one number, not two.
+    assert row["toM"] == refreshed["toM"]
+    assert abs(row["riseM"] - refreshed["riseM"]) <= 0.01
+
+
+def test_measure_window_clips_to_the_route_end():
+    chain = np.array([0.0, 10.0, 20.0])
+    heights = np.array([0.0, 0.0, 5.0])
+
+    m = measure_window(chain, heights, 5.0, 500.0)
+
+    assert m["toM"] == 20.0 and m["spanM"] == 15.0 and m["riseM"] == 5.0
+    assert round(m["gradeDeg"], 2) == 18.43
 
 
 def test_new_ids_continue_past_the_highest_suffix_already_issued():

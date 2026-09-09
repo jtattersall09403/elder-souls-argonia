@@ -39,7 +39,8 @@ from pathlib import Path
 
 import numpy as np
 
-from .compile_route_structures import FAMILIES, KIND_ROLE
+from .compile_route_structures import (FAMILIES, KIND_ROLE, measure_window,
+                                       ramp_ok)
 from .grade_routes import (GRADIENT_CAP_DEG, STRETCHES_PATH, STRUCTURES_PATH,
                            resample, sample_bilinear, ways)
 from .scale import RAW_M
@@ -76,6 +77,13 @@ FAMILY_BY_REGION = {
     # puts both Imperial regions in the same kit set. A fort-wall variant of
     # `stone-civic` is where a future split belongs, not a new family.
     "imperial-penal-south": "stone-civic",
+    # Added 2026-09-09. Both are Argonian regions with no authored kit of their
+    # own, so they take the reasoning already recorded above for the mercantile
+    # coast: `root-timber` (the BM&V passerelle set) is the only authored
+    # free-standing Argonian piled walkway in FAMILIES. Each splits out cleanly
+    # if a deeps or a coast kit is ever sourced.
+    "naga-kur-deeps": "root-timber",
+    "saxhleel-coast": "root-timber",
 }
 ROAD_FAMILY = "stone-civic"
 
@@ -248,6 +256,92 @@ WHY = {
    "The cairns stand on the ridge end above the village, on dry ground with loose stone to hand. The path to the village runs down the length of that slope, built the whole way. A bench cut into the slope would take the cairns with it. Strangers have re-stacked the piles for six hundred years.",
  "track.imperial-penal-south.rose-supply-town":
    "Vaunting holds the last firm ground on the causeway road, with its walled magazine behind it. The barge landing sits below the causeway bank. The way down to it steps off that bank, which carries the road along which the Rose is supplied.",
+ # Written 2026-09-09 against the place catalogue records for the survivors of
+ # that day's re-carve. Each sentence is about the place and the ground it
+ # stands on, not about a measured stretch, so a re-grade that moves the window
+ # leaves the record true.
+ "track.dunmer-north.greylight-village":
+   "Greylight stands on a firm hummock in the Shadowfen channels, with no other hummock within half a day. The way in runs the length of the hummock's flank and steps up onto it at the edge. Cutting that edge back would take the dry ground on which the village sits.",
+ "track.dunmer-north.murkwater":
+   "Murkwater's Hist stands on a hummock with water approaches on every side. The one dry approach climbs the hummock's shoulder. It is built as a flight rather than trenched into the bank, which keeps the channel off the roots.",
+ "track.dunmer-north.the-black-stage":
+   "The causeway was built out to the channel and there it stopped, because the water is too deep to bridge in stone. The path down to the ferry drops off the finished causeway head. The gang maintains that head, so the drop is stepped rather than cut through it.",
+ "track.dunmer-north.the-freed-rows":
+   "The shelter grew on the bank below the road, a day south of the pen yard, where the first column halted. People still arrive on foot and often at night. The drop from the road to the rows is built the whole way for that reason.",
+ "track.dunmer-north.the-monsoon-boom":
+   "The boom is set at the lowest crossing of the terrace country, where the water backs up first. The road comes over the last terrace lip to reach it. Cutting that lip would let the monsoon past the barrier at the point that it is meant to close.",
+ "track.dunmer-north.the-ninth-chapel":
+   "The chapel stands on a stone footing that the mission found ready-made, the corner of something older, which they left undug. The path comes up onto the footing at its edge. It has not been dug since.",
+ "track.dunmer-north.the-north-cut":
+   "The cut was abandoned four kilometres in and is now a drainage channel. The villages quarry its metalling for their own yards and have taken it away in blocks. What is left where the path crosses is a step.",
+ "track.dunmer-north.the-pen-yard":
+   "The yard sits on the road below the pass, on the shelf where a column could be held overnight. Its walls stand on that shelf. The path comes up to the gate off the road below. A cut here would take the yard's own footing.",
+ "track.hist-heartland.alten-markmont":
+   "The station's landing was built on water deep enough for a hull, so the warehouses stand well above it on the bank. The way between the yard and the quay climbs that bank on built work. The quay face below it keeps the water alongside deep enough for a hull.",
+ "track.hist-heartland.artisan-chime-makers":
+   "The village is set beside a hero Hist for its wind. Every chime is tuned against the tree that will hang it. The path in crosses the tree's root ground on timber. Roots are not cut here.",
+ "track.hist-heartland.beast-offering-flood-staying":
+   "The shrine stands at the pinch where the flood enters the basin. The offerings are made to hold the water there. The path steps over the narrow lip rather than widening it.",
+ "track.hist-heartland.bereaved-mnemic":
+   "The tribe did not move when their Hist was killed, so the dead trunk is still the centre of the village and the Egg is kept inside it. The way in runs the long slope up to the trunk, built along its whole length. The roots under that slope are the tree's own.",
+ "track.hist-heartland.greenspring":
+   "Greenspring's water rises from a stone lip on the channel bank and can be drunk unboiled. Water that needs no boiling is rare enough here for a village to be founded on it. The path comes up over that lip. Breaking it would scatter the springs into the channel.",
+ "track.hist-heartland.hist-less-refuge-wild":
+   "The camp holds unclaimed ground, because no tree's roots reach it. The bank at its edge is where the roots stop. The path steps up that bank. The camp's right to its ground is disputed, so nothing here is dug.",
+ "track.hist-heartland.necropolis-dead-tenders":
+   "The tenders' village takes firm ground with landings, central to six tribes' pole fields and downwind of all of them. The ground is firm only where it has not been opened. The paths between the landings run on deck.",
+ "track.hist-heartland.nightbound-lightless":
+   "The village keeps no fire and no lamp. It stands under closed canopy where noon and midnight differ little. The climb up to it is built in flights at one rise per tread, so it can be walked by feel.",
+ "track.hist-heartland.sap-tapping-licensed":
+   "The stage is set on a tree designated by the assembly, one season and one tree at a time. The path to its foot steps up onto the root plate. A tapper who cuts the ground under a licensed tree loses the licence.",
+ "track.hist-heartland.xal-meeruth-station":
+   "The station is a stone quay, a walled yard and a magazine on firm ground, built of materials that the marsh cannot rot. The path comes up onto the quay at its edge. Squatters have kept the stonework whole for twenty years, since the stonework is the reason why the place is worth claiming.",
+ "track.imperial-fringe.cassian-farm":
+   "Cassian's fields sit on a loam shoulder above the flood line, with the barn on the shoulder's dry edge. The track steps up that edge. It is what has kept the barn dry since the family walked off the grant.",
+ "track.imperial-fringe.hangs-above-the-water":
+   "The chambers and galleries are cut and built into the gorge wall, above the worst water and below the wind. Anything that reaches them climbs the face. The village argues every year about cutting a stair.",
+ "track.imperial-fringe.the-empty-steading":
+   "The steading holds a firm bank at a channel junction, with its own landing, a walled yard and a well. The path up from the landing takes the bank in one step. The claim has been unsettled for four years and nothing has been dug.",
+ "track.imperial-fringe.the-vellum-estate":
+   "Vellum's land is drained river terrace held in one block. The drains run along the terrace edge and the track crosses them at the boundary. A cut there would put the river back into the fields.",
+ "track.imperial-penal-south.basin-sinkhole":
+   "The swallow is a collapse that takes a whole stream underground. Its rim is bare rock which the marsh has not filled. The path comes onto the rock and stops at the rim. The ground past the first ledge has already collapsed into the hole.",
+ "track.imperial-penal-south.blackrose-drowned-hist":
+   "The tree grew on the island's old shore and three centuries of raised lake have put six metres of water over its crown. The tenders go in from that same shore. The path down crosses the old bank, the last dry footing before the dive.",
+ "track.imperial-penal-south.flu-mass-grave":
+   "Blackrose buried the Knahaten dead here because the gravel terrace was dry enough to take that many graves at once. The graves fill the terrace. The path comes up its face rather than through it.",
+ "track.imperial-penal-south.intact-fort":
+   "Fort Cordon commands the narrows where the road and the water pass together. The ground in front of the wall was cut away to leave nothing standing on it. The road up to the gate takes that slope in a step. Whoever holds the fort this season keeps the slope bare.",
+ "track.imperial-penal-south.lake-divers-yard":
+   "The yard stands on the shore nearest the deep hole, with a crane frame and a drying floor above the water. Cargo comes up wet and heavy under the frame. The way down to the boats steps off the yard edge, which carries the frame's footing.",
+ "track.imperial-penal-south.saltrice-village":
+   "The village stood on flood-fed grassland and the flood has stopped receding. The grain barns' stone staddles are the last dry footing. The path climbs onto them, because the ground between them is under water.",
+ "track.imperial-penal-south.three-gate-toll":
+   "The toll town sits at the confluence of the three western waters, where a hull off any feeder must come past the quay. The quay stands the full height of the bank. Goods and travellers come up it at the gates. The toll families have kept that bank steep since before the current city government.",
+ "track.mercantile-coast.ashfield":
+   "Ashfield's ground is deep burn ash on a dry rise, with the coast road along the field edge. The road stands above the fields on the rise's lip. Ash will not hold a cut face, so the track steps up instead.",
+ "track.mercantile-coast.ashroot-village":
+   "Ashroot holds a rise that the peat fire did not cross. The tree's roots draw on water below the burn. The burnt ground around it is loose. The approach runs on deck across the burn and steps up onto the rise at its edge.",
+ "track.mercantile-coast.hammock-crown-murkmire":
+   "The crown is the highest dry ground in a wide floodplain and four villages bury in four sectors of it. Every part of the terrace belongs to one of the four. The way up comes over the crown's edge, since no village will yield an inch of its sector for a cut.",
+ "track.mercantile-coast.hereguard-plantation":
+   "Hereguard's rice ground is a river terrace that floods every year. The flooding suits rice; nothing else is grown on it. The bunds hold the water on the fields. The track runs along the bunds and steps down off the terrace where they end.",
+ "track.mercantile-coast.mirtis-plantation":
+   "Mirtis burned with its exports still in the yard and the great house has not been reoccupied. It stands on firm lowland above its river landing. The track drops off that bank to the water, where the estate's stone facing is still in the slope.",
+ "track.mercantile-coast.necropolis-village-murkmire":
+   "Xul-Vaat is built on peat firm enough to hold a driven pole. Pole-driving is its trade. The paths step up at the edges of that peat rather than cutting into it. Drained peat will not take one.",
+ "track.mercantile-coast.oliis-boardwalk":
+   "The village grew as a walkway first and the houses were hung off it afterwards, in a mangrove belt too soft for foundations and too dense for boats. There is no ground here to cut. Where the deck changes level it does so on built steps. Each household maintains its own span.",
+ "track.mercantile-coast.slaughter-memorial":
+   "The burial ground lies outside Lilmoth's rebuilt wall, on the firm ground large enough to hold it. The graves take the whole of that ground. The vigil path crosses it on deck rather than through the fill.",
+ "track.pirate-freeholds.bone-repatriation-waystation":
+   "The racks stand where the southbound road and the river both leave the freeholds, on the shoulder above the landing. Bones go down to the boats on the shoulder by hand. The whole descent is built, because a bearer under a bundle cannot take a loose slope.",
+ "track.pirate-freeholds.freehold-market":
+   "The stall row is level ground below the list board, one street up from the basin and clear of the wharf traffic. The step between the two keeps them clear of each other. Goods cross it on deck.",
+ "track.naga-kur-deeps.wamasu-pond-adult":
+   "The pond is deep still water a few hundred metres off the main poling line, held by one adult wamasu for years. The detour runs past it for its whole length. Where polers come ashore to leave offerings at the bank they climb it on built steps. They do not stay.",
+ "track.saxhleel-coast.coast-hist-less-refuge":
+   "Nothing-Planted holds firm ground on the city's landward fringe, deliberately outside its jurisdiction. The line between the two runs along the bank at the water narrows. The path steps up that bank.",
 }
 
 
@@ -275,16 +369,27 @@ def _mark(rec: dict) -> dict:
     return rec
 
 
-def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray) -> dict:
-    """Re-measure one authored window and re-choose its kind and piece."""
-    way = ways_by_id[st["wayId"]]
+def _chain_and_z(way: dict, heights: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """The way's chainage and ground profile, exactly as the compiler builds it."""
     pts = resample(way["px"])
     ds = np.maximum(np.hypot(*np.diff(pts, axis=0).T) * RAW_M, 1e-6)
     chain = np.concatenate([[0.0], np.cumsum(ds)])
-    z = sample_bilinear(heights, pts[:, 0], pts[:, 1])
+    return chain, sample_bilinear(heights, pts[:, 0], pts[:, 1])
+
+
+def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray) -> dict:
+    """Re-measure one authored window and re-choose its kind and piece.
+
+    The measurement is `compile_route_structures.measure_window`, the same call
+    the compiler makes, so the window's clipped end, its rise and its grade are
+    one number each rather than two per module.
+    """
+    chain, z = _chain_and_z(ways_by_id[st["wayId"]], heights)
+    m = measure_window(chain, z, st["fromM"], st["toM"])
     out = dict(st)
-    out["riseM"] = _window_rise(chain, z, st["fromM"], st["toM"])
-    out["kind"] = _kind(st["toM"] - st["fromM"], out["riseM"], st["worstDeg"],
+    out["toM"] = round(m["toM"], 2)
+    out["riseM"] = round(m["riseM"], 2)
+    out["kind"] = _kind(m["spanM"], m["riseM"], st["worstDeg"],
                         GRADIENT_CAP_KIND[st["wayId"]])
     fam = _family(st["wayId"])
     out["family"] = fam
@@ -302,11 +407,10 @@ def _window_rise(chain: np.ndarray, z: np.ndarray,
     The structure compiler interpolates the route profile at ``fromM`` and
     ``toM``.  Authoring must make its kind decision from those same heights;
     snapping forward to the next route sample can hide enough rise to approve
-    a lip-step that the compiler then correctly rejects.
+    a lip-step that the compiler then correctly rejects. It is the compiler's
+    own `measure_window`, so there is one implementation, not two.
     """
-    start_z = float(np.interp(from_m, chain, z))
-    end_z = float(np.interp(to_m, chain, z))
-    return round(end_z - start_z, 2)
+    return round(measure_window(chain, z, from_m, to_m)["riseM"], 2)
 
 
 def _family(way_id: str) -> str | None:
@@ -330,20 +434,30 @@ def _kind(length_m: float, rise_m: float, worst_deg: float, way_kind: str) -> st
     that (the Thorn-Tear climb is the only real case), the road is stepped:
     Imperial engineering does build a stepped ramp up a rock shoulder, and a
     stepped road stretch is the honest record of what a cart faces there.
+
+    `length_m` and `rise_m` must come from `measure_window` — the compiler's own
+    measurement of this window. The closing guard then makes the invariant
+    explicit: this function cannot return a kind that lays a level surface on a
+    grade the compiler will refuse. A preference table is not a proof, so the
+    proof is written down here rather than trusted to the thresholds above.
     """
     grade_deg = math.degrees(math.atan(abs(rise_m) / max(length_m, 1e-6)))
     deck = "bridge" if way_kind in ("road", "trunk_road") else "deck"
+    flight = "stepped-ascent" if length_m > 120.0 else "stair"
     if way_kind in ("road", "trunk_road"):
         if grade_deg >= DECK_MAX_GRADE_DEG:
-            return "stepped-ascent"
-        return "lip-step" if length_m <= 30.0 else deck
-    if length_m <= 30.0 and abs(rise_m) <= min(4.0, 0.19 * length_m):
-        return "lip-step"
-    if grade_deg >= DECK_MAX_GRADE_DEG or worst_deg >= 28.0:
-        return "stepped-ascent" if length_m > 120.0 else "stair"
-    if length_m > 120.0 and abs(rise_m) >= 8.0:
-        return "stepped-ascent"
-    return deck
+            kind = "stepped-ascent"
+        else:
+            kind = "lip-step" if length_m <= 30.0 else deck
+    elif length_m <= 30.0 and abs(rise_m) <= min(4.0, 0.19 * length_m):
+        kind = "lip-step"
+    elif grade_deg >= DECK_MAX_GRADE_DEG or worst_deg >= 28.0:
+        kind = flight
+    elif length_m > 120.0 and abs(rise_m) >= 8.0:
+        kind = "stepped-ascent"
+    else:
+        kind = deck
+    return kind if ramp_ok(kind, grade_deg) else flight
 
 
 def merged_stretches(way: dict, stretches: list[dict], cap: float,
@@ -363,13 +477,23 @@ def merged_stretches(way: dict, stretches: list[dict], cap: float,
             out.append({"fromM": s["fromM"], "toM": s["toM"], "worstDeg": s["worstDeg"]})
     if not out:
         return []
-    pts = resample(way["px"])
-    ds = np.maximum(np.hypot(*np.diff(pts, axis=0).T) * RAW_M, 1e-6)
-    chain = np.concatenate([[0.0], np.cumsum(ds)])
-    z = sample_bilinear(heights, pts[:, 0], pts[:, 1])
+    chain, z = _chain_and_z(way, heights)
+    # The grader's stretch chainage can run past a re-routed way's end, so the
+    # window is measured (and stored) clipped — the same clip the compiler makes.
+    kept = []
     for w in out:
-        w["riseM"] = _window_rise(chain, z, w["fromM"], w["toM"])
-    return out
+        m = measure_window(chain, z, w["fromM"], w["toM"])
+        if m["spanM"] <= CHAINAGE_TOLERANCE_M:
+            continue
+        w["toM"] = round(m["toM"], 2)
+        w["spanM"] = m["spanM"]
+        # `_kind` gets the unrounded rise the compiler will re-measure; the
+        # record carries the rounded one. Rounding the number the invariant is
+        # proved on would leave a hairline in which the two could disagree.
+        w["riseExactM"] = m["riseM"]
+        w["riseM"] = round(m["riseM"], 2)
+        kept.append(w)
+    return kept
 
 
 GRADIENT_CAP_KIND: dict[str, str] = {}      # wayId -> class, filled by author()
@@ -510,8 +634,7 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
                    for a, b in taken.get(wid, [])):
                 continue          # already carried by an authored structure
             counts[wid] = n = counts.get(wid, 0) + 1
-            length = w["toM"] - w["fromM"]
-            kind = _kind(length, w["riseM"], w["worstDeg"], entry["kind"])
+            kind = _kind(w["spanM"], w["riseExactM"], w["worstDeg"], entry["kind"])
             structures.append(_mark({
                 "id": f"structure.{slug}.{n}",
                 "wayId": wid,

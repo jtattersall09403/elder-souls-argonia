@@ -149,6 +149,10 @@ FAMILIES: dict[str, dict] = {
 KIND_ROLE = {"stair": "stair", "stepped-ascent": "stair",
              "deck": "deck", "bridge": "deck", "lip-step": "landing"}
 
+# The kinds that lay a level surface a cart crosses, and so answer to
+# RAMP_MAX_DEG rather than to a flight cap.
+RAMP_KINDS = frozenset({"deck", "bridge", "lip-step"})
+
 
 # --------------------------------------------------------------------------
 # kit validation
@@ -221,6 +225,39 @@ def _yaw_deg(chain, xs, zs, c: float, run: float) -> float:
     return round(math.degrees(math.atan2(z1 - z0, x1 - x0)), 2)
 
 
+def measure_window(chain: np.ndarray, hs: np.ndarray,
+                   from_m: float, to_m: float) -> dict:
+    """THE measurement of a structure window. One function, both modules.
+
+    `author_route_structures._kind` chooses the piece from a window's shape and
+    this module refuses a piece the shape cannot carry. When the two measured
+    the same window separately they disagreed — the author read a raw stored
+    `toM` and a rise taken on a different heightfield, the compiler clipped
+    `toM` to the current route end and read the rise on the current ground — so
+    the author emitted lip-steps the compiler then correctly refused (four of
+    them, 2026-09-09, one at 12.2 deg over a 12 deg cap). Both callers now take
+    the span, the rise and the grade from here, so a kind the author approves is
+    a kind this module can build.
+
+    `toM` is clipped to the route's current end: chainage past the end does not
+    name ground. Heights are interpolated at the exact endpoints, never snapped
+    to the nearest route sample.
+    """
+    end = float(chain[-1])
+    a = float(from_m)
+    b = min(float(to_m), end)
+    span = max(b - a, 0.0)
+    rise = float(np.interp(b, chain, hs)) - float(np.interp(a, chain, hs))
+    grade = math.degrees(math.atan(abs(rise) / max(span, 1e-6)))
+    return {"fromM": a, "toM": b, "spanM": span, "riseM": rise,
+            "gradeDeg": grade, "routeEndM": end}
+
+
+def ramp_ok(kind: str, grade_deg: float) -> bool:
+    """Whether a level-surface kind may sit on this grade (RAMP_MAX_DEG)."""
+    return kind not in RAMP_KINDS or grade_deg <= RAMP_MAX_DEG + 1e-6
+
+
 def compile_structure(st: dict, way: dict, heights: np.ndarray,
                       kit: dict) -> tuple[list[dict], dict]:
     """Placements for one structure, plus its summary row."""
@@ -228,24 +265,23 @@ def compile_structure(st: dict, way: dict, heights: np.ndarray,
     role = KIND_ROLE[st["kind"]]
     piece, landing = fam[role], fam["landing"]
     chain, xs, zs, hs = _profile(way, heights)
-    a, b = float(st["fromM"]), min(float(st["toM"]), float(chain[-1]))
-    span = max(b - a, 0.0)
+    m = measure_window(chain, hs, st["fromM"], st["toM"])
+    a, b, span, rise = m["fromM"], m["toM"], m["spanM"], m["riseM"]
     if span <= 0.05:
         raise ValueError(
             f"{st['id']}: authored window {a:.2f}-{float(st['toM']):.2f} m "
-            f"does not overlap the current {float(chain[-1]):.2f} m route; "
+            f"does not overlap the current {m['routeEndM']:.2f} m route; "
             "re-run author_route_structures against the current route geometry"
         )
-    _, _, ha = _at(chain, xs, zs, hs, a)
-    _, _, hb = _at(chain, xs, zs, hs, b)
-    rise = hb - ha
 
-    if st["kind"] in ("deck", "bridge", "lip-step"):
-        deg = math.degrees(math.atan(abs(rise) / max(span, 1e-6)))
-        if deg > RAMP_MAX_DEG + 1e-6:
-            raise ValueError(
-                f"{st['id']}: a {st['kind']} would grade {deg:.1f} deg over {span:.0f} m, "
-                f"over the {RAMP_MAX_DEG:.0f} deg deck cap — this window needs a flight")
+    if not ramp_ok(st["kind"], m["gradeDeg"]):
+        raise ValueError(
+            f"{st['id']}: a {st['kind']} would grade {m['gradeDeg']:.1f} deg over "
+            f"{span:.0f} m, over the {RAMP_MAX_DEG:.0f} deg deck cap — this window "
+            f"needs a flight. The record says riseM {float(st.get('riseM', 0.0)):.2f} m "
+            f"and this ground measures {rise:.2f} m, so the record was authored "
+            "against different heights: re-run author_route_structures "
+            "(worldgen._kind cannot choose this kind from this measurement)")
 
     placements: list[dict] = []
     c = a
@@ -293,7 +329,17 @@ def compile_all(structures: list[dict], ways_by_id: dict, heights: np.ndarray,
                 kit: dict) -> tuple[dict[str, dict], list[dict]]:
     by_way: dict[str, dict] = {}
     rows: list[dict] = []
+    familyless: list[str] = []
     for st in sorted(structures, key=lambda s: s["id"]):
+        # `author_route_structures` emits a survivor whose region has no family
+        # anyway, because the grader needs the exclusion window or its second
+        # pass cuts the hillside away. Nobody has said who builds there, so
+        # there is no kit to lay and nothing to compile — this used to be a bare
+        # KeyError: None. The debt is gated by
+        # test_route_structure_authoring.test_no_shipped_route_structure_is_unauthored.
+        if not st.get("family"):
+            familyless.append(st["id"])
+            continue
         way = ways_by_id[st["wayId"]]
         placements, row = compile_structure(st, way, heights, kit)
         doc = by_way.setdefault(st["wayId"], {
@@ -303,6 +349,10 @@ def compile_all(structures: list[dict], ways_by_id: dict, heights: np.ndarray,
         doc["structures"].append({k: v for k, v in st.items()})
         doc["placements"].extend(placements)
         rows.append(row)
+    if familyless:
+        print(f"[route-structures] {len(familyless)} authored structures name no "
+              f"family and cannot be built: {', '.join(sorted(familyless)[:6])}"
+              f"{' …' if len(familyless) > 6 else ''}")
     return by_way, rows
 
 
@@ -383,7 +433,8 @@ def studio_export(by_way: dict[str, dict], rows: list[dict]) -> dict:
     B's job — this is the 2D footprint only."""
     row_by_id = {r["structureId"]: r for r in rows}
     out = []
-    unplaced = []
+    unplaced: list[str] = []
+    unauthored: list[str] = []
     for wid in sorted(by_way):
         doc = by_way[wid]
         for st in doc["structures"]:
@@ -398,16 +449,27 @@ def studio_export(by_way: dict[str, dict], rows: list[dict]) -> dict:
             if not r["pieces"]:
                 unplaced.append(st["id"])
                 continue
+            # The studio labels a structure with its authored sentence, so a
+            # record without one has nothing to publish: shipping `why: null`
+            # puts an empty label on the map and breaks the feed's contract
+            # (apps/world-studio/src/routes/routesData.test.ts). The window
+            # stays in world/sources/routes/route-structures.json, which is
+            # where the authoring debt is carried and gated.
+            if not isinstance(st.get("why"), str) or not st["why"].strip():
+                unauthored.append(st["id"])
+                continue
             out.append({
                 "id": st["id"], "wayId": wid, "kind": st["kind"],
                 "family": st["family"], "pieces": r["pieces"],
                 "riseM": r["riseM"], "spanM": r["spanM"], "why": st["why"],
                 "pointsM": [[p["posM"][0], p["posM"][2]] for p in ps],
             })
-    if unplaced:
-        print(f"[route-structures] {len(unplaced)} authored structures place no "
-              f"piece and are not published: {', '.join(sorted(unplaced)[:6])}"
-              f"{' …' if len(unplaced) > 6 else ''}")
+    for label, ids in (("place no piece", unplaced),
+                       ("carry no authored `why`", unauthored)):
+        if ids:
+            print(f"[route-structures] {len(ids)} structures {label} and are not "
+                  f"published: {', '.join(sorted(ids)[:6])}"
+                  f"{' …' if len(ids) > 6 else ''}")
     return {"schemaVersion": SCHEMA_VERSION,
             "_": "Route structures for the studio routes layer, world metres "
                  "(X east, Z south). Written by worldgen.compile_route_structures. "

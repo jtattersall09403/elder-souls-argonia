@@ -123,6 +123,14 @@ STAGES=(
   "grade_routes"
   "author_route_structures"
   "grade_routes"
+  # The pieces are compiled HERE, between the second grade and the pads: the
+  # author runs between the two grades and its windows are grading-exempt, so
+  # pass 2 leaves the ground inside them alone, and this is the last point at
+  # which the author and the compiler provably see the same surface.
+  # `grade_settlement_pads` reads no structure spans, so it can move ground
+  # under a structure - compiling after it would reintroduce exactly the
+  # author/compiler divergence this stage exists to prevent.
+  "compile_route_structures"
   "grade_settlement_pads"
   "compile_chunks"
   "export_web_chunks"
@@ -151,6 +159,14 @@ FOOTPRINT_STAGES=(
   "grade_routes"
   "author_route_structures"
   "grade_routes"
+  # The pieces are compiled HERE, between the second grade and the pads: the
+  # author runs between the two grades and its windows are grading-exempt, so
+  # pass 2 leaves the ground inside them alone, and this is the last point at
+  # which the author and the compiler provably see the same surface.
+  # `grade_settlement_pads` reads no structure spans, so it can move ground
+  # under a structure - compiling after it would reintroduce exactly the
+  # author/compiler divergence this stage exists to prevent.
+  "compile_route_structures"
   "grade_settlement_pads"
   "compile_chunks"
   "export_web_chunks"
