@@ -103,7 +103,7 @@ export function NockedArrow({
       socket.getWorldQuaternion(tmp.current.desired);
       if (!tmp.current.grasp) {
         tmp.current.grasp = tmp.current.desired.clone().invert()
-          .multiply(new THREE.Quaternion().setFromUnitVectors(FORWARD, new THREE.Vector3(0, 1, 0)));
+          .multiply(new THREE.Quaternion().setFromUnitVectors(FORWARD, drawnFromQuiverDirection(aimDirection.current)));
       }
       tmp.current.desired.multiply(tmp.current.grasp);
     }
@@ -120,3 +120,30 @@ export function NockedArrow({
 }
 
 const FORWARD = new THREE.Vector3(0, 0, 1);
+const UP = new THREE.Vector3(0, 1, 0);
+
+/**
+ * Which way the arrowhead points in the moment the shaft leaves the quiver.
+ *
+ * The quiver rides the back with the arrows stored head-down; the hand goes
+ * over the shoulder, takes the fletched end and pulls up, so the shaft clears
+ * *head-down*, lying roughly in the plane of the quiver across the back —
+ * down, a little across the body, barely any of it forward. Anything else
+ * (notably straight up) reads as an arrow drawn point-first, which no archer
+ * does.
+ *
+ * Built in the body's frame rather than the world's: the aim direction is the
+ * one facing the actor is guaranteed to have while the bow is up, so the shaft
+ * stays put relative to the back whichever way the player is turned.
+ */
+function drawnFromQuiverDirection(aim: THREE.Vector3) {
+  const flatForward = new THREE.Vector3(aim.x, 0, aim.z);
+  if (flatForward.lengthSq() < 1e-6) flatForward.copy(FORWARD);
+  flatForward.normalize();
+  const bodyRight = new THREE.Vector3().crossVectors(flatForward, UP);
+  return new THREE.Vector3()
+    .addScaledVector(UP, -0.9)
+    .addScaledVector(bodyRight, -0.4)
+    .addScaledVector(flatForward, -0.15)
+    .normalize();
+}
