@@ -158,20 +158,200 @@ for mesh in PLAN["meshes"]:
     for name in {o.name for o in bpy.data.objects if o.type == "MESH"} - before:
         MESH_ROLES[name] = mesh["name"]
 meshes = [o for o in bpy.data.objects if o.type == "MESH"]
-# Skyrim head-part NIFs store their vertices in NPC Head bone-local space. The
-# game attaches that NIF root to the actor's head node; a body NIF instead stores
-# vertices in armature space. PyNifly imports both onto the shared armature but
-# does not perform that engine attachment step, so untreated FaceGen eyes,
-# mouth, hair and skin animate around the head while remaining at foot height.
-# Bake the missing bone-local -> armature-space transform before glTF computes
-# its inverse bind matrices. The generic chargen head is already authored in
-# full-body armature space, so it deliberately remains untouched.
+
+# Skyrim's body weight is a vertex blend between the matching _0 and _1 body,
+# hand and foot NIFs. The chosen FaceGen head was generated at the source NPC's
+# NAM7 weight already; blend the rest of the body to that same value so the
+# animated neck rings coincide instead of separating whenever the head turns.
+body_weight = float(PLAN.get("body_weight", 100.0)) / 100.0
+weight_zero_meshes = [
+    obj for obj in meshes
+    if MESH_ROLES.get(obj.name, "").endswith("-weight-zero")
+]
+weight_target_meshes = [obj for obj in meshes if obj not in weight_zero_meshes]
+
+
+def imported_base_name(name):
+    return re.sub(r"\.\d{3}$", "", name)
+
+
+for zero in weight_zero_meshes:
+    target_role = MESH_ROLES[zero.name].removesuffix("-weight-zero")
+    candidates = [
+        obj for obj in weight_target_meshes
+        if MESH_ROLES.get(obj.name) == target_role
+        and imported_base_name(obj.name) == imported_base_name(zero.name)
+        and len(obj.data.vertices) == len(zero.data.vertices)
+    ]
+    if len(candidates) != 1:
+        raise RuntimeError(
+            "body-weight source %s matched %d %s mesh(es)" %
+            (zero.name, len(candidates), target_role)
+        )
+    target = candidates[0]
+    for target_vertex, zero_vertex in zip(target.data.vertices, zero.data.vertices):
+        target_vertex.co = zero_vertex.co.lerp(target_vertex.co, body_weight)
+    target.data.update()
+for zero in weight_zero_meshes:
+    bpy.data.objects.remove(zero, do_unlink=True)
+SUMMARY["bodyWeight"] = body_weight * 100.0
+meshes = [o for o in bpy.data.objects if o.type == "MESH"]
+
+# A generated FaceGen NIF mixes coordinate spaces. Its resolved head, hair and
+# some beard shapes already carry full-body armature coordinates, while eyes,
+# mouths, brows and some overlays keep NPC Head bone-local coordinates because
+# Skyrim attaches those shapes to the head node at load time. PyNifly imports
+# both conventions onto the shared armature but does not perform that attachment.
+#
+# Applying the head transform to the whole NIF double-translates its skull and
+# hair while putting only the local eyes and mouth in the right place. The
+# result looks like a floating head with loose eyes and a hollow mouth. Detect
+# each imported shape's source space from the NIF-node origin retained by
+# PyNifly. This stays data-driven for future generated FaceGen output instead
+# of relying on Bethesda mesh names or a race-specific exception list.
 head_attachment = arm.data.bones.get("NPC Head [Head]")
 if head_attachment is None:
     raise RuntimeError("head attachment bone missing from humanoid rig")
-for obj in meshes:
-    if MESH_ROLES.get(obj.name) == "facegen":
+facegen_meshes = [
+    obj for obj in meshes
+    if MESH_ROLES.get(obj.name) == "facegen" and obj.data.vertices
+]
+# Already-attached shapes retain the non-zero transform of their FaceGen NIF
+# node; head-local shapes arrive at the NIF root. Compare within this one NIF so
+# the decision scales with the imported actor rather than baking in a distance.
+facegen_origin_offsets = {
+    obj.name: obj.matrix_world.translation.length for obj in facegen_meshes
+}
+largest_facegen_offset = max(facegen_origin_offsets.values(), default=0.0)
+facegen_attachment = {}
+support_heads = [obj for obj in meshes if MESH_ROLES.get(obj.name) == "support-head"]
+support_head_points = [
+    obj.matrix_world @ vertex.co
+    for obj in support_heads
+    for vertex in obj.data.vertices
+]
+if support_head_points:
+    SUMMARY["supportHeadBounds"] = {
+        "min": [round(min(point[axis] for point in support_head_points), 4) for axis in range(3)],
+        "max": [round(max(point[axis] for point in support_head_points), 4) for axis in range(3)],
+    }
+
+# Generated humanoid heads retain the exact base-head topology and vertex
+# order. Register that authored head against the vanilla support head with a
+# least-squares rigid transform. This recovers the NIF-node attachment from
+# Skyrim's own geometry and remains valid for every face morph: the residual is
+# the intentional facial shape, while the solved transform is the shared bind
+# space. It avoids a hand-tuned vertical offset and makes the neck rings agree.
+facegen_anchor = next((
+    obj for obj in facegen_meshes
+    if support_heads
+    and len(obj.data.vertices) == len(support_heads[0].data.vertices)
+    and "head" in obj.name.lower()
+    and "hair" not in obj.name.lower()
+), None)
+facegen_world_alignment = None
+facegen_neck_targets = {}
+if facegen_anchor is not None:
+    support_head = support_heads[0]
+    edge_uses = {}
+    for polygon in support_head.data.polygons:
+        vertices = list(polygon.vertices)
+        for index, start in enumerate(vertices):
+            edge = tuple(sorted((start, vertices[(index + 1) % len(vertices)])))
+            edge_uses[edge] = edge_uses.get(edge, 0) + 1
+    boundary_edges = [edge for edge, uses in edge_uses.items() if uses == 1]
+    boundary_neighbours = {}
+    for start, end in boundary_edges:
+        boundary_neighbours.setdefault(start, set()).add(end)
+        boundary_neighbours.setdefault(end, set()).add(start)
+    boundary_components = []
+    unseen = set(boundary_neighbours)
+    while unseen:
+        pending = [unseen.pop()]
+        component = set(pending)
+        while pending:
+            current = pending.pop()
+            for neighbour in boundary_neighbours[current]:
+                if neighbour in unseen:
+                    unseen.remove(neighbour)
+                    component.add(neighbour)
+                    pending.append(neighbour)
+        boundary_components.append(component)
+    if not boundary_components:
+        raise RuntimeError("support head has no open boundary for neck registration")
+    # Eye and mouth openings are boundary loops too. The neck loop is the one
+    # with the lowest mean point in the upright Blender bind pose.
+    neck_vertices = min(boundary_components, key=lambda component: sum(
+        (support_head.matrix_world @ support_head.data.vertices[index].co).z
+        for index in component
+    ) / len(component))
+    if len(neck_vertices) < 8:
+        raise RuntimeError("support-head neck boundary is too small to register")
+    registration_indices = sorted(neck_vertices)
+    facegen_neck_targets = {
+        index: support_head.matrix_world @ support_head.data.vertices[index].co
+        for index in registration_indices
+    }
+    source = np.array([
+        tuple(facegen_anchor.matrix_world @ facegen_anchor.data.vertices[index].co)
+        for index in registration_indices
+    ])
+    target = np.array([
+        tuple(support_head.matrix_world @ support_head.data.vertices[index].co)
+        for index in registration_indices
+    ])
+    source_mean = source.mean(axis=0)
+    target_mean = target.mean(axis=0)
+    covariance = (source - source_mean).T @ (target - target_mean)
+    left, _singular, right_transposed = np.linalg.svd(covariance)
+    rotation = right_transposed.T @ left.T
+    if np.linalg.det(rotation) < 0:
+        right_transposed[-1, :] *= -1
+        rotation = right_transposed.T @ left.T
+    translation = target_mean - rotation @ source_mean
+    facegen_world_alignment = Matrix((
+        (rotation[0, 0], rotation[0, 1], rotation[0, 2], translation[0]),
+        (rotation[1, 0], rotation[1, 1], rotation[1, 2], translation[1]),
+        (rotation[2, 0], rotation[2, 1], rotation[2, 2], translation[2]),
+        (0.0, 0.0, 0.0, 1.0),
+    ))
+    aligned = (source @ rotation.T) + translation
+    SUMMARY["faceGenRegistration"] = {
+        "anchor": facegen_anchor.name,
+        "support": support_head.name,
+        "neckVertices": len(registration_indices),
+        "rmsResidual": round(float(np.sqrt(np.mean(np.sum((aligned - target) ** 2, axis=1)))), 5),
+    }
+for obj in facegen_meshes:
+    centre = sum((vertex.co for vertex in obj.data.vertices), Vector()) / len(obj.data.vertices)
+    world_centre = obj.matrix_world @ centre
+    origin_offset = facegen_origin_offsets[obj.name]
+    already_attached = (
+        largest_facegen_offset > 1e-6
+        and origin_offset > largest_facegen_offset * 0.25
+    )
+    source_space = "armature" if already_attached else "head-local"
+    facegen_attachment[obj.name] = {
+        "sourceSpace": source_space,
+        "centre": [round(float(value), 4) for value in centre],
+        "worldCentre": [round(float(value), 4) for value in world_centre],
+        "originOffset": round(float(origin_offset), 4),
+    }
+    # Apply the geometry-derived registration to every pre-positioned part that
+    # shares the generated head's NIF-node space. Root-origin shapes instead
+    # need Skyrim's missing head-node attachment baked into their data.
+    if already_attached:
+        if facegen_world_alignment is None:
+            raise RuntimeError("generated FaceGen head has no support-head registration anchor")
+        obj.data.transform(obj.matrix_world.inverted() @ facegen_world_alignment @ obj.matrix_world)
+    else:
         obj.data.transform(head_attachment.matrix_local)
+    if obj is facegen_anchor:
+        to_object = obj.matrix_world.inverted()
+        for index, target in facegen_neck_targets.items():
+            obj.data.vertices[index].co = to_object @ target
+        obj.data.update()
+SUMMARY["faceGenAttachment"] = facegen_attachment
 
 VISIBLE_MESHES = [o for o in meshes if MESH_ROLES.get(o.name) != "support-head"]
 # The body proper: everything the character *is*, without the hairstyle.
@@ -416,6 +596,11 @@ def rebuild_materials():
             path = _image_path(diffuse) if diffuse else ""
             is_eye = "eye" in mat.name.lower() or "eye" in obj.name.lower() or "/eyes/" in path
             is_hair = _is_hair_mesh(obj)
+            # FaceGen marks/scars are separate decal shells. Their diffuse alpha
+            # cuts away the unused shell; exporting them opaque paints the whole
+            # overlay UV island across the face (especially obvious on Argonians).
+            is_face_overlay = obj.name.lower().startswith("marks")
+            uses_alpha = is_hair or is_face_overlay
             is_skin = tint is not None or (diffuse is not None and _is_skin(diffuse))
             bsdf.inputs["Roughness"].default_value = 0.22 if is_eye else 0.58 if is_skin else 0.62
             if is_eye and "Coat Weight" in bsdf.inputs:
@@ -436,7 +621,7 @@ def rebuild_materials():
                 # shipped at full white. Tinting in the game also happens to be
                 # what a character creator needs.
                 nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
-                if is_hair:
+                if uses_alpha:
                     nt.links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
             # Tangent-space `_n` maps translate directly. Skyrim's `_msn`
             # maps are model-space and cannot be connected to glTF's tangent
@@ -450,7 +635,7 @@ def rebuild_materials():
                 nt.links.new(normal_node.outputs["Normal"], bsdf.inputs["Normal"])
             if hasattr(mat, "blend_method"):
                 try:
-                    mat.blend_method = "HASHED" if is_hair else "OPAQUE"
+                    mat.blend_method = "HASHED" if uses_alpha else "OPAQUE"
                 except TypeError:
                     pass
             rebuilt.append((mat.name, diffuse.name if diffuse else None))

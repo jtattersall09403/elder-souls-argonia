@@ -8,7 +8,7 @@
     0.4431372881,
     0.360784322
   ],
-  "notes": "Default appearance is Skyrim's own generated FaceGen NIF for the named Skyrim.esm NPC. Body tint is that NPC's QNAM value; hair tint is its HCLF colour record with Skyrim's /128 shader normalisation. No hand-picked head parts, texture substitution, colour grade or brightness adjustment is used.",
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
     0.3359375,
     0.3828125,
@@ -19,5 +19,6 @@
     "plugin": "Skyrim.esm",
     "formId": "00013291",
     "editorId": "KharagGroShurkul"
-  }
+  },
+  "bodyWeight": 40
 }

@@ -20,13 +20,13 @@ it("faces a locked target from the actor centre independently of the drawing han
     expect(Math.abs(sight.yaw)).toBe(Math.PI);
   }
 });
-it("launches directly at the crosshair with the zero-degree setting", () => {
+it("launches five degrees above the crosshair ray", () => {
   const nock = { x: 0, y: 1.5, z: 0 };
   const point = { x: 0, y: 1.5, z: 20 };
   const sight = bowSight({ nock, point, actor, cameraYaw: 0 });
   expect(sight.direction.x).toBeCloseTo(0, 8);
-  expect(sight.direction.y).toBeCloseTo(0, 8);
-  expect(sight.direction.z).toBeCloseTo(1, 8);
+  expect(sight.direction.y).toBeCloseTo(Math.sin(BOW_SIGHT_ELEVATION_RADIANS), 8);
+  expect(sight.direction.z).toBeCloseTo(Math.cos(BOW_SIGHT_ELEVATION_RADIANS), 8);
   expect(sight.pitch).toBeCloseTo(BOW_SIGHT_ELEVATION_RADIANS, 8);
 });
 it("shares the accepted 2x gravity default between gameplay and the store", () => {

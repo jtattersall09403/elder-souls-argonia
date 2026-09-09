@@ -242,7 +242,6 @@ function PosedActor({
   animationCommandRef,
   equipped,
   equippedRef,
-  enemy = false,
   weaponRef,
   targetAnchorRef,
   hurtboxRef,
@@ -274,7 +273,6 @@ function PosedActor({
   animationCommandRef: MutableRefObject<AnimationCommand>;
   equipped: boolean;
   equippedRef?: MutableRefObject<boolean>;
-  enemy?: boolean;
   weaponRef?: MutableRefObject<THREE.Object3D | null>;
   /** Receives the mounted off-hand item, so a parry can use its own volume. */
   offHandRef?: MutableRefObject<THREE.Object3D | null>;
@@ -380,7 +378,7 @@ function PosedActor({
   const model = useMemo(() => {
     const instance = clone(gltf.scene);
     // SkeletonUtils intentionally shares materials. Give each fighter its own
-    // instances so the enemy/validation tint cannot leak onto the player.
+    // instances so an explicit visual-validation tint cannot leak onto another actor.
     instance.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
       object.material = Array.isArray(object.material)
@@ -568,16 +566,13 @@ function PosedActor({
     };
   }, [mixer]);
 
-  // Colour the body. Before the enemy tint below, which is a *validation*
-  // overlay on top of whatever the character actually looks like.
+  // Apply the race/NPC appearance before any explicit validation overlay.
   useLayoutEffect(() => {
     const touched = applyAppearance(model, resolvedAppearance);
     return () => clearAppearance(touched);
   }, [model, resolvedAppearance]);
 
-  // Every mesh casts/receives shadows regardless of side. This must not be
-  // folded into the enemy-tint effect below (that one is enemy-only), or the
-  // player silently never gets shadow flags set.
+  // Every mesh casts/receives shadows regardless of side.
   useLayoutEffect(() => {
     model.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
@@ -588,23 +583,21 @@ function PosedActor({
     });
   }, [model]);
 
-  // Enemy tint: recolour the skin/underwear so friend and foe read apart. A
-  // stronger per-actor tint makes recorded validation roles unambiguous even
-  // during dense paired-action or collision overlap.
+  // A visual scenario can explicitly colour actors to make paired roles clear.
+  // Ordinary enemies retain their authored race/NPC appearance exactly.
   useLayoutEffect(() => {
-    if (!enemy && validationTint === undefined) return;
-    const tint = new THREE.Color(validationTint ?? 0x7a241d);
-    const strength = validationTint === undefined ? 0.45 : 0.72;
+    if (validationTint === undefined) return;
+    const tint = new THREE.Color(validationTint);
     model.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
       const mats = Array.isArray(object.material) ? object.material : [object.material];
       for (const material of mats) {
         const standard = material as THREE.MeshStandardMaterial;
         if (!standard.color) continue;
-        standard.color.lerp(tint, strength);
+        standard.color.lerp(tint, 0.72);
       }
     });
-  }, [enemy, model, resolvedAppearance, validationTint]);
+  }, [model, resolvedAppearance, validationTint]);
 
   // The two sockets the sword can rigidly mount on: the hand (drawn) and the
   // hip sheath (stowed). Each keeps its own counter-scale + corrective

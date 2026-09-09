@@ -2,7 +2,7 @@
   "roster": "skyrim-playable",
   "rig": {
     "asset": "rig-skyrim-humanoid.glb",
-    "sha256": "a687c522c6068f81d90f3a294ff3ea33946ddd388c09c25809e1adff7bcfe908"
+    "sha256": "48d1636bd5d9eaf1fc4c70fad6c7a241716ff8357bf674c79db241968c845b04"
   },
   "referenceRace": "dunmer",
   "races": {
@@ -10,23 +10,36 @@
       "label": "Dunmer",
       "description": "Ash-grey and red-eyed. The old blood of Morrowind.",
       "asset": "races/dunmer.glb",
-      "sha256": "86d58c15d894ca002ff70d907973b39f33f019da969d50e71743daf7fb681e5f",
+      "sha256": "b3a62d8583a6935581d3b73898df9d9b686ea15620bdb4c1941e41ce0a5782d5",
       "meshBipedSlots": {
-        "EyesMale": [
+        "BrowsMaleHumanoid05": [
           32
         ],
         "FootMale_Big": [
           37
         ],
+        "HairLineMaleDarkElf03": [
+          31,
+          41
+        ],
+        "HairMaleDarkElf03": [
+          31
+        ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleDarkElfHair03": [
-          31
+        "HumanBeard28": [
+          30
         ],
-        "MaleHeadIMF": [
+        "MaleEyesHumanDemon": [
+          32
+        ],
+        "MaleHeadDarkElf": [
           30,
           43
+        ],
+        "MaleMouthHumanoidDefault": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -35,34 +48,33 @@
           32,
           34,
           38
-        ],
-        "MouthHuman": [
-          32
         ]
       },
       "body": "male",
       "heightScale": 1.0,
       "appearance": {
         "skinTint": [
-          0.55,
-          0.5,
-          0.51
+          0.3215686381,
+          0.3764706254,
+          0.4196078777
         ],
-        "skinTintMode": "colorize",
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.09,
-          0.09,
-          0.1
+          0.515625,
+          0.4140625,
+          0.3515625
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadIMF",
-          "MaleUnderwearBody:0",
-          "MouthHuman"
+          "MaleMouthHumanoidDefault",
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "MaleDarkElfHair03"
+          "BrowsMaleHumanoid05",
+          "HairLineMaleDarkElf03",
+          "HairMaleDarkElf03",
+          "HumanBeard28"
         ]
       }
     },
@@ -70,24 +82,34 @@
       "label": "Nord",
       "description": "Skyrim's own: pale, broad and made for cold.",
       "asset": "races/nord.glb",
-      "sha256": "4aaa224529098174fc8aaf29146d1855f28acadfa26135eebe95d226a88cff11",
+      "sha256": "cce460c77dee7aa74d9d46e26bf26d7bf3d1fb88d0af618884d36aff74aeca86",
       "meshBipedSlots": {
-        "EyesMale": [
+        "BrowsMaleHumanoid01": [
           32
         ],
         "FootMale_Big": [
           37
         ],
-        "Hair12": [
+        "HairLineMaleNord09": [
+          31,
+          41
+        ],
+        "HairMaleNord09": [
           31,
           41
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleHeadIMF": [
+        "MaleEyesHumanAmber": [
+          32
+        ],
+        "MaleHeadNord": [
           30,
           43
+        ],
+        "MaleMouthHumanoidDefault": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -96,59 +118,66 @@
           32,
           34,
           38
-        ],
-        "MouthHuman": [
-          32
         ]
       },
+      "body": "male",
+      "heightScale": 1.03,
       "appearance": {
         "skinTint": [
-          1.0,
-          0.94,
-          0.88
+          0.7764706612,
+          0.6901960969,
+          0.6588235497
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.44,
-          0.35,
-          0.24
+          0.203125,
+          0.21875,
+          0.21875
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadIMF",
-          "MaleUnderwearBody:0",
-          "MouthHuman"
+          "MaleMouthHumanoidDefault",
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "Hair12"
-        ],
-        "skinTintMode": "colorize"
-      },
-      "body": "male",
-      "heightScale": 1.03
+          "BrowsMaleHumanoid01",
+          "HairLineMaleNord09",
+          "HairMaleNord09"
+        ]
+      }
     },
     "imperial": {
       "label": "Imperial",
       "description": "Cyrodiil-born, and it shows in the bearing.",
       "asset": "races/imperial.glb",
-      "sha256": "d6e3708c14388f79285f38340fcd39b7b398d11e3894d98415f465d106400979",
+      "sha256": "200b6a554d9d4d5bed1627ca3643890fa426069afcaa03c8d6fddeb0908079dd",
       "meshBipedSlots": {
-        "EyesMale": [
+        "BrowsMaleHumanoid02": [
           32
         ],
         "FootMale_Big": [
           37
         ],
-        "Hair04": [
+        "HairMaleImperial1": [
           31,
           41
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleHeadIMF": [
+        "HumanBeard02": [
+          30
+        ],
+        "MaleEyesHumanBrown": [
+          32
+        ],
+        "MaleHeadImperial": [
           30,
           43
+        ],
+        "MaleMouthHumanoidDefault": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -157,59 +186,68 @@
           32,
           34,
           38
-        ],
-        "MouthHuman": [
-          32
         ]
       },
+      "body": "male",
+      "heightScale": 1.0,
       "appearance": {
         "skinTint": [
-          0.98,
-          0.9,
-          0.8
+          0.4392157197,
+          0.3803921938,
+          0.3372549117
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.24,
-          0.17,
-          0.12
+          0.546875,
+          0.5859375,
+          0.6640625
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadIMF",
-          "MaleUnderwearBody:0",
-          "MouthHuman"
+          "MaleMouthHumanoidDefault",
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "Hair04"
-        ],
-        "skinTintMode": "colorize"
-      },
-      "body": "male",
-      "heightScale": 1.0
+          "BrowsMaleHumanoid02",
+          "HairMaleImperial1",
+          "HumanBeard02"
+        ]
+      }
     },
     "breton": {
       "label": "Breton",
       "description": "High Rock stock, with a little elf far back.",
       "asset": "races/breton.glb",
-      "sha256": "cdff6c31b53a98581c466d31ef86338aefeeee125a3e4e9022c600987247067a",
+      "sha256": "bfd1a7afc9a5c93db2d0101f844c69aa1802a1a6539fca0c5597d80497ee1e78",
       "meshBipedSlots": {
-        "EyesMale": [
+        "BrowsMaleHumanoid01": [
           32
         ],
         "FootMale_Big": [
           37
         ],
-        "Hair09": [
-          31,
-          41
+        "HairLineMaleElder6": [
+          31
+        ],
+        "HairMaleElder6": [
+          31
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleHeadIMF": [
+        "HumanBeard13": [
+          30
+        ],
+        "MaleEyesHumanBrown": [
+          32
+        ],
+        "MaleHeadBreton": [
           30,
           43
+        ],
+        "MaleMouthHumanoidDefault": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -218,59 +256,69 @@
           32,
           34,
           38
-        ],
-        "MouthHuman": [
-          32
         ]
       },
+      "body": "male",
+      "heightScale": 1.0,
       "appearance": {
         "skinTint": [
-          1.0,
-          0.92,
-          0.85
+          0.7176470757,
+          0.611764729,
+          0.5686274767
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.36,
-          0.26,
-          0.17
+          0.3046875,
+          0.296875,
+          0.2734375
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadIMF",
-          "MaleUnderwearBody:0",
-          "MouthHuman"
+          "MaleMouthHumanoidDefault",
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "Hair09"
-        ],
-        "skinTintMode": "colorize"
-      },
-      "body": "male",
-      "heightScale": 1.0
+          "BrowsMaleHumanoid01",
+          "HairLineMaleElder6",
+          "HairMaleElder6",
+          "HumanBeard13"
+        ]
+      }
     },
     "redguard": {
       "label": "Redguard",
       "description": "Yokudan blood. The finest swords in Tamriel came with it.",
       "asset": "races/redguard.glb",
-      "sha256": "16653f6d0e42df936790c77a97f0fe17ef10ce48ecce7e7531c33ae16bd56653",
+      "sha256": "c6482a20fed92cb6c736e5fd361eaea6290fa2974777de8b7c3a4b2ce7917422",
       "meshBipedSlots": {
-        "EyesMale": [
+        "BrowsMaleHumanoid06": [
           32
         ],
         "FootMale_Big": [
           37
         ],
+        "HairLineMaleRedguard6": [
+          31
+        ],
+        "HairMaleRedguard6": [
+          31
+        ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleHeadIMF": [
+        "HumanBeard02": [
+          30
+        ],
+        "MaleEyesHumanAmber": [
+          32
+        ],
+        "MaleHeadRedguard": [
           30,
           43
         ],
-        "MaleRedGuardHair02": [
-          31,
-          41
+        "MaleMouthHumanoidDefault": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -280,58 +328,70 @@
           34,
           38
         ],
-        "MouthHuman": [
+        "MarksMaleHumanoid02LeftGash": [
           32
         ]
       },
+      "body": "male",
+      "heightScale": 1.005,
       "appearance": {
         "skinTint": [
-          0.52,
-          0.38,
-          0.29
+          0.3176470697,
+          0.2392157018,
+          0.2078431547
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.1,
-          0.08,
-          0.07
+          0.15625,
+          0.15625,
+          0.1875
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadIMF",
-          "MaleUnderwearBody:0",
-          "MouthHuman"
+          "MaleMouthHumanoidDefault",
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "MaleRedGuardHair02"
-        ],
-        "skinTintMode": "colorize"
-      },
-      "body": "male",
-      "heightScale": 1.005
+          "BrowsMaleHumanoid06",
+          "HairLineMaleRedguard6",
+          "HairMaleRedguard6",
+          "HumanBeard02"
+        ]
+      }
     },
     "altmer": {
       "label": "Altmer",
       "description": "Tall, golden, and quietly certain of it.",
       "asset": "races/altmer.glb",
-      "sha256": "90dbcfd58a529c247656f4859831c8fe0105a34743e5d41f47d87fe2874b9000",
+      "sha256": "595b814723d675ad255022f32eb39016eaa9329843e2684f55f0c10a6232f7f5",
       "meshBipedSlots": {
-        "EyesMale": [
-          32
-        ],
         "FootMale_Big": [
           37
         ],
-        "Hair14": [
+        "HairLineMaleDarkElf01": [
+          31,
+          41
+        ],
+        "HairMaleDarkElf01": [
           31,
           41
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleHeadIMF": [
+        "HumanBeard15": [
+          30
+        ],
+        "MaleEyesHighElfDarkYellow": [
+          32
+        ],
+        "MaleHeadHighElf": [
           30,
           43
+        ],
+        "MaleMouthHumanoidDefault": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -340,59 +400,70 @@
           32,
           34,
           38
-        ],
-        "MouthHuman": [
-          32
         ]
       },
+      "body": "male",
+      "heightScale": 1.08,
       "appearance": {
         "skinTint": [
-          0.93,
-          0.9,
-          0.66
+          0.6000000238,
+          0.5529412031,
+          0.3333333433
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.78,
-          0.7,
-          0.48
+          0.6328125,
+          0.6015625,
+          0.4453125
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadIMF",
-          "MaleUnderwearBody:0",
-          "MouthHuman"
+          "MaleMouthHumanoidDefault",
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "Hair14"
-        ],
-        "skinTintMode": "colorize"
-      },
-      "body": "male",
-      "heightScale": 1.08
+          "HairLineMaleDarkElf01",
+          "HairMaleDarkElf01",
+          "HumanBeard15"
+        ]
+      }
     },
     "bosmer": {
       "label": "Bosmer",
       "description": "Valenwood-born, small and quick.",
       "asset": "races/bosmer.glb",
-      "sha256": "71412c9d647ebb0250da5a2abe75095403a26e2c5df10a0752da07e22bcc333e",
+      "sha256": "6d0ba44a75338a922889acf7de43ef5d59440a39da52c23a2f304550c3980781",
       "meshBipedSlots": {
-        "EyesMale": [
+        "BrowsMaleHumanoid04": [
           32
         ],
         "FootMale_Big": [
           37
         ],
-        "Hair07": [
+        "HairLineMaleDarkElf09": [
+          31,
+          41
+        ],
+        "HairMaleDarkElf09": [
+          31
+        ],
+        "HairShavedMaleDarkElf09": [
           31,
           41
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleHeadIMF": [
+        "MaleEyesWoodElfDeepBrown": [
+          32
+        ],
+        "MaleHeadWoodElf": [
           30,
           43
+        ],
+        "MaleMouthHumanoidDefault": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -401,58 +472,76 @@
           32,
           34,
           38
-        ],
-        "MouthHuman": [
-          32
         ]
       },
+      "body": "male",
+      "heightScale": 0.98,
       "appearance": {
         "skinTint": [
-          0.8,
-          0.66,
-          0.48
+          0.5058823824,
+          0.4196078777,
+          0.3529411852
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.3,
-          0.22,
-          0.14
+          0.546875,
+          0.5859375,
+          0.6640625
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadIMF",
-          "MaleUnderwearBody:0",
-          "MouthHuman"
+          "MaleMouthHumanoidDefault",
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "Hair07"
-        ],
-        "skinTintMode": "colorize"
-      },
-      "body": "male",
-      "heightScale": 0.98
+          "BrowsMaleHumanoid04",
+          "HairLineMaleDarkElf09",
+          "HairMaleDarkElf09",
+          "HairShavedMaleDarkElf09"
+        ]
+      }
     },
     "orsimer": {
       "label": "Orsimer",
       "description": "Orc, and unbothered by what that has cost.",
       "asset": "races/orsimer.glb",
-      "sha256": "749cd4a5bc6b3ad9451e533ed29bcb85471bc5a6753eb5b937033581f09f7f02",
+      "sha256": "92ef4edf9ba23aca2c318a07148314030b5627e624f850459f2a1afdc7e395fa",
       "meshBipedSlots": {
-        "EyesMale": [
+        "BrowsMaleHumanoid06": [
           32
         ],
         "FootMale_Big": [
           37
         ],
+        "HairLineMaleOrc18": [
+          31
+        ],
+        "HairMaleOrc18": [
+          31
+        ],
+        "HairShavedMaleOrc25": [
+          31,
+          41
+        ],
         "HandMaleBig3rd": [
           33
         ],
-        "MaleHeadIMF": [
+        "HumanBeard38": [
+          30
+        ],
+        "HumanBeardMedium03_1bit": [
+          30
+        ],
+        "MaleEyesOrcYellow": [
+          32
+        ],
+        "MaleHeadOrc": [
           30,
           43
         ],
-        "MaleOrcHair04": [
-          31
+        "MaleMouthOrc1": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -461,66 +550,69 @@
           32,
           34,
           38
-        ],
-        "MouthHuman": [
-          32
         ]
       },
+      "body": "male",
+      "heightScale": 1.045,
       "appearance": {
         "skinTint": [
-          0.55,
-          0.62,
-          0.47
+          0.3490196168,
+          0.4431372881,
+          0.360784322
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.12,
-          0.11,
-          0.1
+          0.3359375,
+          0.3828125,
+          0.3984375
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
-          "MaleHeadIMF",
-          "MaleUnderwearBody:0",
-          "MouthHuman"
+          "MaleMouthOrc1",
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "MaleOrcHair04"
-        ],
-        "skinTintMode": "colorize"
-      },
-      "body": "male",
-      "heightScale": 1.045
+          "BrowsMaleHumanoid06",
+          "HairLineMaleOrc18",
+          "HairMaleOrc18",
+          "HairShavedMaleOrc25",
+          "HumanBeard38",
+          "HumanBeardMedium03_1bit"
+        ]
+      }
     },
     "khajiit": {
       "label": "Khajiit",
       "description": "Elsweyr-born. Watches the room before it enters it.",
       "asset": "races/khajiit.glb",
-      "sha256": "512beb1d692909156d0c54ac23b895e05c3663e56bb2fb7cbd5d531aaf9c022f",
+      "sha256": "8bc40ccee3e92ab85789940f839a73930e61335894c95fecf9b5b4c683ddc96b",
       "meshBipedSlots": {
-        "_Neutral": [
-          30,
-          43
-        ],
-        "_NeutralMouth": [
-          32
-        ],
-        "EyesKhajiit": [
-          32
-        ],
         "FootMale_Big": [
           37
         ],
         "HandMaleBig3rd": [
           33
         ],
-        "KhajiitMaleHair02": [
-          31,
+        "KhajiitBeard01Alpha": [
+          30
+        ],
+        "KhajiitBeard02": [
           32
         ],
         "khajiitTailOUT": [
           40
         ],
+        "MaleEyesKhajiitBase": [
+          32
+        ],
+        "MaleHeadKhajiit": [
+          30,
+          43
+        ],
+        "MaleMouthKhajiit": [
+          32
+        ],
         "MaleUnderwear_1": [
           32
         ],
@@ -530,55 +622,62 @@
           38
         ]
       },
+      "body": "male-khajiit",
+      "heightScale": 1.0,
       "appearance": {
         "skinTint": [
-          1,
-          1,
-          1
+          0.8313726187,
+          0.8313726187,
+          0.8313726187
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.35,
-          0.27,
-          0.16
+          0.703125,
+          0.7421875,
+          0.8203125
         ],
         "skinMeshes": [
           "FootMale_Big",
           "HandMaleBig3rd",
+          "MaleHeadKhajiit",
           "MaleUnderwearBody:0",
-          "_Neutral",
           "khajiitTailOUT"
         ],
         "hairMeshes": [
-          "KhajiitMaleHair02"
-        ],
-        "skinTintMode": "multiply"
-      },
-      "body": "male-khajiit",
-      "heightScale": 1.0
+          "KhajiitBeard01Alpha",
+          "KhajiitBeard02"
+        ]
+      }
     },
     "argonian": {
       "label": "Argonian",
       "description": "Saxhleel. Black Marsh raised it, and Black Marsh is not gentle.",
       "asset": "races/argonian.glb",
-      "sha256": "8720096c9858774f9292570a0c60d444437221a4cfe45136d0c23a28e3c72b86",
+      "sha256": "09e8eb38511884d74308814951bf8c9c7d07822e3122af3952bc1510696833d0",
       "meshBipedSlots": {
-        "_ArgonianMaleHead": [
-          30
-        ],
-        "ArgonianMaleHorns03": [
-          31
-        ],
         "ArgonianTail": [
           40
         ],
-        "EyesArgonian": [
-          32
+        "BrowsMaleArgonian01": [
+          41
         ],
         "FootMale_Big": [
           37
         ],
+        "HairArgonianMale02": [
+          31
+        ],
         "HandMaleBigArgonian3rd": [
           33
+        ],
+        "MaleEyesArgonianAmberRound": [
+          32
+        ],
+        "MaleHeadArgonian": [
+          30
+        ],
+        "MaleMouthArgonian": [
+          32
         ],
         "MaleUnderwear_1": [
           32
@@ -588,35 +687,35 @@
           34,
           38
         ],
-        "NeutralMouth": [
-          32
+        "MarksMaleArgonianScar03": [
+          30
         ]
       },
+      "body": "male-argonian",
+      "heightScale": 1.01,
       "appearance": {
         "skinTint": [
-          1,
-          1,
-          1
+          0.250980407,
+          0.2078431547,
+          0.1647058874
         ],
+        "skinTintMode": "skyrim-rgb-tint",
         "hairTint": [
-          0.32,
-          0.34,
-          0.26
+          0.28125,
+          0.1796875,
+          0.1796875
         ],
         "skinMeshes": [
           "ArgonianTail",
           "FootMale_Big",
           "HandMaleBigArgonian3rd",
-          "MaleUnderwearBody:0",
-          "_ArgonianMaleHead"
+          "MaleUnderwearBody:0"
         ],
         "hairMeshes": [
-          "ArgonianMaleHorns03"
-        ],
-        "skinTintMode": "multiply"
-      },
-      "body": "male-argonian",
-      "heightScale": 1.01
+          "BrowsMaleArgonian01",
+          "HairArgonianMale02"
+        ]
+      }
     }
   }
 }

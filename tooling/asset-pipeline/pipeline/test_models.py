@@ -8,6 +8,7 @@ from .models import (
     ExportedContinuityCheck,
     QuaternionKeyRemoval,
     facegen_mesh_path,
+    parse_body_weight,
     parse_curve_conditioning,
     resolve_character,
 )
@@ -139,6 +140,14 @@ class FaceGenSourceTests(unittest.TestCase):
         self.assertNotIn("eyes", names)
         self.assertNotIn("mouth", names)
         self.assertIsNone(plan.morph)
+        self.assertEqual(plan.body_weight, 75)
+        self.assertTrue({"body-weight-zero", "hands-weight-zero", "feet-weight-zero"}.issubset(names))
+
+    def test_body_weight_rejects_values_outside_skyrims_range(self):
+        for value in (-1, 101, float("nan"), True):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(ValueError, "bodyWeight"):
+                    parse_body_weight(value)
 
 
 if __name__ == "__main__":

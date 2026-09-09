@@ -265,6 +265,7 @@ def write_blender_plan(
             for aux_id, aux in plan.auxiliary_bones.items()
         },
         "skin_tint": list(plan.skin_tint),
+        "body_weight": plan.body_weight,
         "facegen_tint": to_windows(facegen_tint) if facegen_tint else None,
         "facegen_detail": to_windows(facegen_detail) if facegen_detail else None,
         "exports": [

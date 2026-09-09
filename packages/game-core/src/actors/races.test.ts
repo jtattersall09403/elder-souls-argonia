@@ -24,4 +24,9 @@ describe("playable race appearance", () => {
     expect(RACES.argonian.appearance.skinTintMode).toBe("skyrim-rgb-tint");
     expect(RACES.khajiit.appearance.skinTintMode).toBe("skyrim-rgb-tint");
   });
+
+  it("ships a distinct authored default skin tone for every playable race", () => {
+    const tones = Object.values(RACES).map((race) => race.appearance.skinTint.join(","));
+    expect(new Set(tones).size).toBe(tones.length);
+  });
 });
