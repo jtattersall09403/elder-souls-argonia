@@ -761,6 +761,7 @@ def _normalise_why(text: str) -> str:
 
 
 def _why_quality_warnings(bp: dict) -> list[str]:
+    bid = bp.get("id", "<missing id>")
     texts = _why_texts(bp, bid)
     warnings: list[str] = []
     short = [(where, t) for where, t in texts if len(t.strip()) < WHY_QUALITY_MIN_CHARS]
