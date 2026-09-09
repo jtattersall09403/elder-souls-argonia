@@ -94,17 +94,25 @@ def test_the_built_ground_is_what_stands_there_not_the_outer_boundary():
 
     path = ("world/sources/blueprints/"
             "place.hist-heartland.sap-tapping-licensed.json")
+    # The "before" revision is PINNED, not `HEAD`. The landing move is committed
+    # now, so `HEAD` and the working tree are the same 254.22 m boundary and the
+    # vacuity guard below could no longer fire — the test would have started
+    # passing for the wrong reason. `c37bc674` is the last revision before the
+    # move to the head of the tide blew the outer boundary out (31.83 m there,
+    # 254.22 m after). If it ever goes missing, the guard fails loudly.
+    BEFORE_THE_LANDING_MOVED = "c37bc674"
     live = json.loads((author_type_siting.REPO_ROOT / path).read_text())["blueprint"]
-    head = json.loads(subprocess.run(
-        ["git", "show", f"HEAD:{path}"], cwd=author_type_siting.REPO_ROOT,
+    before = json.loads(subprocess.run(
+        ["git", "show", f"{BEFORE_THE_LANDING_MOVED}:{path}"],
+        cwd=author_type_siting.REPO_ROOT,
         capture_output=True, text=True, check=True).stdout)["blueprint"]
-    for name, bp in (("working tree", live), ("HEAD", head)):
+    for name, bp in (("working tree", live), (BEFORE_THE_LANDING_MOVED, before)):
         built = circumradius(author_type_siting.built_ground_points(bp))
         assert 20.0 <= built <= 35.0, f"{name}: built ground reads {built:.1f} m"
     # ...and the two revisions' outer boundaries really are miles apart, so
     # this test would be vacuous if it were reading them.
     outer = [circumradius([(u * extent, v * extent) for u, v in bp["boundary"]])
-             for bp in (live, head)]
+             for bp in (live, before)]
     assert max(outer) - min(outer) > 100.0, outer
 
 
