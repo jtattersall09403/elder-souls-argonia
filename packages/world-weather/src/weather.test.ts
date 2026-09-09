@@ -264,9 +264,14 @@ describe("wetness and lightning", () => {
   });
 
   it("lightning only fires under storm states and is deterministic", () => {
+    // Sampled every 0.05 min, not every 0.01: a flash lasts far longer than
+    // either step, so the coarser scan finds the same flashes for a fifth of
+    // the work. At 0.01 this walked 1.44 M instants, took 1.5 s here and timed
+    // out at 5 s on CI's slower runner — a green gate that failed the deploy
+    // for reasons that had nothing to do with weather (2026-09-09).
     let flashes = 0;
     for (let day = 1; day <= 10; day += 1) {
-      for (let m = 0; m < MINUTES_PER_DAY; m += 0.01) {
+      for (let m = 0; m < MINUTES_PER_DAY; m += 0.05) {
         const e = at(5, day, 0) + m;
         const env = lightningAt(e);
         if (env > 0) {
