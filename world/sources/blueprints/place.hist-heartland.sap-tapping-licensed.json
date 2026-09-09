@@ -103,7 +103,7 @@
           "whyHere": "Sap is drawn where the tree stands; the stage is raised against the trunk and everything that serves it stays within a few paces.",
           "whyNeighbours": "It lies between the hut to the east and the landing to the north-west, so the crew walk through the works both to their beds and to their boat; the board stands at its water end, where a canoe reads it first.",
           "playerPurpose": "The climbable stage, the tapper and the graded stock; the licence board is read from the landing below.",
-          "microGeography": "The terrace here runs 29\u201330 m, a metre above the bank, with a 2 m fall under the stage that the scaffold posts take."
+          "microGeography": "The terrace here runs 29–30 m, a metre above the bank, with a 2 m fall under the stage that the scaffold posts take."
         }
       },
       {
@@ -207,14 +207,14 @@
             0.595714
           ],
           [
-            0.474238,
-            0.595131
+            0.4731,
+            0.5942
           ]
         ],
         "endsAt": [
           "parcel.sap-tapping-licensed.stage-stair"
         ],
-        "why": "The single worn line into the camp, worn from the west. The heartland network reaches the stage across the flat, so the track meets the camp at its lower head. It bends twice in the last 30 m, round the hut's door and past the mule line, to die at the foot of the stair.",
+        "why": "The single worn line into the camp, worn from the west. The heartland network reaches the stage across the flat, so the track meets the camp at its lower head. It bends round the hut and mule line, then hooks north-west to die squarely at the scaffold stair's measured open foot.",
         "points": [
           [
             0.475079,
@@ -229,8 +229,12 @@
             0.595714
           ],
           [
-            0.473924962,
-            0.594806839
+            0.473465189,
+            0.595287086
+          ],
+          [
+            0.473484775,
+            0.594598446
           ]
         ]
       },
@@ -694,7 +698,7 @@
           0.595606428
         ],
         "yawDeg": 113.0,
-        "orientationWhy": "The hut has one doorway. Turned to 113.0\u00b0, it looks out at 225\u00b0 onto the tent spur, the path the tapper walks twice a day.",
+        "orientationWhy": "The hut has one doorway. Turned to 113.0°, it looks out at 225° onto the tent spur, the path the tapper walks twice a day.",
         "footprint": [
           [
             0.475277599,
@@ -1425,12 +1429,12 @@
       ]
     },
     "scaleGrounding": {
-      "loreSource": "type recipe sap-tapping-camp (population 2\u20135, an elevated member on the stage, a mule line); Lore:Hist Sap; world/sources/lore/topics/hist-placement.md \u00a775 (a licence runs against the tree, for one season)",
+      "loreSource": "type recipe sap-tapping-camp (population 2–5, an elevated member on the stage, a mule line); Lore:Hist Sap; world/sources/lore/topics/hist-placement.md §75 (a licence runs against the tree, for one season)",
       "population": "3",
       "households": 1,
       "buildingsPlanned": 3,
       "npcsPlanned": 3,
-      "why": "A licence is one stage on one tree for one season. One stage needs a tapper on the deck and two hands on the ground. Three people share a hut, keep a mule line and fill a cart. Three things are BUILT here \u2014 the stage, its stair and the hut \u2014 and the mule line, the cart and the licence board are the dressing that says what the three are for (97 C5b)."
+      "why": "A licence is one stage on one tree for one season. One stage needs a tapper on the deck and two hands on the ground. Three people share a hut, keep a mule line and fill a cart. Three things are BUILT here — the stage, its stair and the hut — and the mule line, the cart and the licence board are the dressing that says what the three are for (97 C5b)."
     },
     "approaches": [
       {
