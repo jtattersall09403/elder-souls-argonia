@@ -26133,19 +26133,6 @@
      0.261
     ]
    },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.228,
-    "buryM": 0.08,
-    "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
    "collisionSegments": [
     {
      "radiusM": 0.145,
@@ -26238,7 +26225,20 @@
       0.666
      ]
     }
-   ]
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.228,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   },
   {
    "id": "bmv:landscape/trees/hodalder01gkb",
@@ -43252,6 +43252,1174 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    }
+  },
+  {
+   "id": "bmv:landscape/trees/reedlarge1",
+   "node": "es|32d92b63e2|bmv__landscape_trees_reedlarge1",
+   "category": "aquatic-plant",
+   "sizeM": [
+    8.268,
+    7.088,
+    2.807
+   ],
+   "originOffsetM": [
+    4.348,
+    3.497,
+    0.243
+   ],
+   "triangles": 12,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "reeds7.dds"
+   ],
+   "materials": [
+    "reedlarge1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.243,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/reedmed1",
+   "node": "es|ea8b68d845|bmv__landscape_trees_reedmed1",
+   "category": "aquatic-plant",
+   "sizeM": [
+    6.368,
+    5.973,
+    2.807
+   ],
+   "originOffsetM": [
+    3.398,
+    2.94,
+    0.243
+   ],
+   "triangles": 12,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "reeds7.dds"
+   ],
+   "materials": [
+    "reedmed1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.243,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/reedsmall1",
+   "node": "es|aeba006ec1|bmv__landscape_trees_reedsmall1",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.544,
+    1.301,
+    2.402
+   ],
+   "originOffsetM": [
+    0.912,
+    0.676,
+    0.216
+   ],
+   "triangles": 4,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "reeds4.dds",
+    "reeds6.dds"
+   ],
+   "materials": [
+    "reedsmall1.Mat",
+    "reedsmall1_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.216,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/reedsmall2",
+   "node": "es|cf685c888c|bmv__landscape_trees_reedsmall2",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.126,
+    1.301,
+    2.402
+   ],
+   "originOffsetM": [
+    0.68,
+    0.676,
+    0.216
+   ],
+   "triangles": 4,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "reeds4.dds",
+    "reeds6.dds"
+   ],
+   "materials": [
+    "reedsmall2.Mat",
+    "reedsmall2_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.216,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkblillipad",
+   "node": "es|861c16df30|bmv__landscape_trees_gkblillipad",
+   "category": "aquatic-plant",
+   "sizeM": [
+    0.938,
+    0.814,
+    2.334
+   ],
+   "originOffsetM": [
+    0.317,
+    0.362,
+    2.334
+   ],
+   "triangles": 6,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "lillipadreed.dds",
+    "lillipads2.dds"
+   ],
+   "materials": [
+    "lillipad.Mat.001",
+    "lillipad_1.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.334,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbraken01st",
+   "node": "es|88397b349c|bmv__landscape_plants_espfernbraken01st",
+   "category": "shrub",
+   "sizeM": [
+    0.98,
+    0.77,
+    0.914
+   ],
+   "originOffsetM": [
+    0.501,
+    0.392,
+    0.063
+   ],
+   "triangles": 6,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espfernbraken01.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat.007"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.063,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbraken02st",
+   "node": "es|7fcf128e67|bmv__landscape_plants_espfernbraken02st",
+   "category": "shrub",
+   "sizeM": [
+    0.676,
+    0.898,
+    1.097
+   ],
+   "originOffsetM": [
+    0.371,
+    0.381,
+    0.037
+   ],
+   "triangles": 48,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFern06:0 - L1_SwordFern06:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.037,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbraken03st",
+   "node": "es|2a7077ec79|bmv__landscape_plants_espfernbraken03st",
+   "category": "shrub",
+   "sizeM": [
+    0.981,
+    0.886,
+    1.446
+   ],
+   "originOffsetM": [
+    0.54,
+    0.493,
+    0.048
+   ],
+   "triangles": 100,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFern05:0 - L1_SwordFern05:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.048,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbraken04st",
+   "node": "es|eeffa9038b|bmv__landscape_plants_espfernbraken04st",
+   "category": "shrub",
+   "sizeM": [
+    1.769,
+    1.721,
+    0.978
+   ],
+   "originOffsetM": [
+    0.837,
+    0.943,
+    0.053
+   ],
+   "triangles": 240,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFern02:0 - L1_SwordFern02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbraken05st",
+   "node": "es|e89d8184dc|bmv__landscape_plants_espfernbraken05st",
+   "category": "shrub",
+   "sizeM": [
+    1.73,
+    1.676,
+    1.072
+   ],
+   "originOffsetM": [
+    0.825,
+    0.83,
+    0.059
+   ],
+   "triangles": 128,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFern01:0 - L1_SwordFern01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.059,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbraken06st",
+   "node": "es|c5f1ffa910|bmv__landscape_plants_espfernbraken06st",
+   "category": "shrub",
+   "sizeM": [
+    1.702,
+    1.884,
+    1.027
+   ],
+   "originOffsetM": [
+    0.901,
+    0.899,
+    0.057
+   ],
+   "triangles": 176,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFern04:0 - L1_SwordFern04:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.057,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbrakencluster01",
+   "node": "es|702f1fd143|_landscape_plants_espfernbrakencluster01",
+   "category": "shrub",
+   "sizeM": [
+    2.945,
+    2.745,
+    1.446
+   ],
+   "originOffsetM": [
+    1.742,
+    0.83,
+    0.087
+   ],
+   "triangles": 1424,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFernCluster01:0 - L1_SwordFernCluster01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.087,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbrakencluster02",
+   "node": "es|e7645c936d|_landscape_plants_espfernbrakencluster02",
+   "category": "shrub",
+   "sizeM": [
+    2.998,
+    3.297,
+    1.151
+   ],
+   "originOffsetM": [
+    1.027,
+    1.71,
+    0.149
+   ],
+   "triangles": 824,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFernCluster02:0 - L1_SwordFernCluster02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.149,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbrakencluster03",
+   "node": "es|7daebd73f5|_landscape_plants_espfernbrakencluster03",
+   "category": "shrub",
+   "sizeM": [
+    3.33,
+    1.952,
+    0.913
+   ],
+   "originOffsetM": [
+    1.985,
+    0.951,
+    0.086
+   ],
+   "triangles": 636,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFernCluster03:0 - L1_SwordFernCluster03:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.086,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbrakencluster04",
+   "node": "es|7a554ec100|_landscape_plants_espfernbrakencluster04",
+   "category": "shrub",
+   "sizeM": [
+    2.688,
+    1.247,
+    1.757
+   ],
+   "originOffsetM": [
+    1.531,
+    0.446,
+    0.059
+   ],
+   "triangles": 400,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFernCluster04:0 - L1_SwordFernCluster04:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.059,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbrakencluster05",
+   "node": "es|b1a75f6231|_landscape_plants_espfernbrakencluster05",
+   "category": "shrub",
+   "sizeM": [
+    3.115,
+    1.897,
+    1.169
+   ],
+   "originOffsetM": [
+    1.556,
+    0.943,
+    0.085
+   ],
+   "triangles": 544,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFernCluster05:0 - L1_SwordFernCluster05:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.085,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/espfernbrakencluster06",
+   "node": "es|7f76366045|_landscape_plants_espfernbrakencluster06",
+   "category": "shrub",
+   "sizeM": [
+    1.995,
+    1.56,
+    1.309
+   ],
+   "originOffsetM": [
+    0.899,
+    0.506,
+    0.044
+   ],
+   "triangles": 336,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "espbrakenfern02.dds"
+   ],
+   "materials": [
+    "L2_SwordFernCluster06:0 - L1_SwordFernCluster06:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.044,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/bigshrub-b(colorful)",
+   "node": "es|90744452ce|v__landscape_plants_bigshrub-b(colorful)",
+   "category": "shrub",
+   "sizeM": [
+    5.22,
+    5.35,
+    3.186
+   ],
+   "originOffsetM": [
+    2.583,
+    2.741,
+    0.434
+   ],
+   "triangles": 912,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "leafcol2.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat.008"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.434,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/bigshrub-c(colorful)",
+   "node": "es|f89ffcf52c|v__landscape_plants_bigshrub-c(colorful)",
+   "category": "shrub",
+   "sizeM": [
+    5.22,
+    5.35,
+    3.186
+   ],
+   "originOffsetM": [
+    2.583,
+    2.741,
+    0.434
+   ],
+   "triangles": 912,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "leafcol3.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat.009"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.434,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/watercoralgrass01",
+   "node": "es|d9e00cc7fa|bmv__landscape_grass_watercoralgrass01",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.416,
+    1.165,
+    1.257
+   ],
+   "originOffsetM": [
+    0.645,
+    0.495,
+    0.032
+   ],
+   "triangles": 10,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastcoralgrass01.dds"
+   ],
+   "materials": [
+    "coral:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.032,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "depths:landscape/grass/tbp_seaweed06",
+   "node": "es|473745bd3b|depths__landscape_grass_tbp_seaweed06",
+   "category": "aquatic-plant",
+   "sizeM": [
+    7.391,
+    6.744,
+    4.205
+   ],
+   "originOffsetM": [
+    3.695,
+    3.372,
+    0.973
+   ],
+   "triangles": 336,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "seaweed02.dds"
+   ],
+   "materials": [
+    "ShadowFoliage.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.973,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "depths:landscape/grass/tbp_seaweed06var1",
+   "node": "es|f6186873b7|epths__landscape_grass_tbp_seaweed06var1",
+   "category": "aquatic-plant",
+   "sizeM": [
+    7.391,
+    6.744,
+    4.205
+   ],
+   "originOffsetM": [
+    3.695,
+    3.372,
+    0.973
+   ],
+   "triangles": 667,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "seaweed08.dds"
+   ],
+   "materials": [
+    "ShadowFoliage.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.973,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "depths:landscape/grass/waterkelptall02",
+   "node": "es|72ccd49ee4|depths__landscape_grass_waterkelptall02",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.522,
+    1.425,
+    3.983
+   ],
+   "originOffsetM": [
+    0.751,
+    0.706,
+    0.09
+   ],
+   "triangles": 18,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "seaweed02.dds"
+   ],
+   "materials": [
+    "CoastKelpTall01:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.09,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "depths:landscape/grass/waterkelptall03",
+   "node": "es|86b35f9697|depths__landscape_grass_waterkelptall03",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.522,
+    1.425,
+    3.983
+   ],
+   "originOffsetM": [
+    0.751,
+    0.706,
+    0.801
+   ],
+   "triangles": 18,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "seaweed08.dds"
+   ],
+   "materials": [
+    "CoastKelpTall01:0.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.801,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:landscape/plants/kelpshortstatic01",
+   "node": "es|ef96d36562|illa__landscape_plants_kelpshortstatic01",
+   "category": "aquatic-plant",
+   "sizeM": [
+    0.731,
+    0.794,
+    1.36
+   ],
+   "originOffsetM": [
+    0.362,
+    0.33,
+    0.024
+   ],
+   "triangles": 25,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastkelpgrass01.dds"
+   ],
+   "materials": [
+    "L1_StaticKelpShort01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.024,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:plants/floraswampfungalpod01",
+   "node": "es|31f476b229|vanilla__plants_floraswampfungalpod01",
+   "category": "fungus",
+   "sizeM": [
+    1.374,
+    1.068,
+    0.433
+   ],
+   "originOffsetM": [
+    0.646,
+    0.566,
+    0.122
+   ],
+   "triangles": 2242,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "swampfungalpods01.dds"
+   ],
+   "materials": [
+    "FloraSwampfungalpod01:0 - L1_FloraSwampfungalpod01:0.Mat",
+    "FloraSwampfungalpod01_1:0 - L1_FloraSwampfungalpod02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.122,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:plants/floraswampfungalpod02",
+   "node": "es|220a54e7e0|vanilla__plants_floraswampfungalpod02",
+   "category": "fungus",
+   "sizeM": [
+    0.512,
+    0.647,
+    0.288
+   ],
+   "originOffsetM": [
+    0.277,
+    0.312,
+    0.082
+   ],
+   "triangles": 992,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "swampfungalpods01.dds"
+   ],
+   "materials": [
+    "FloraSwampfungalpod02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.082,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",
@@ -43281,6 +44449,7 @@
   "textures/landscape/dirt02.dds": "textures/texturepack/landscape/dirt02.dds",
   "textures/landscape/dirt02_n.dds": "textures/actors/dwarven centurion/land dreugh/mud/terrains/dirt02_n.dds",
   "textures/landscape/gkbbranch1.dds": "textures/landscape/trees/gkbbranch1.dds",
+  "textures/landscape/grass/coastcoralgrass01.dds": "textures/texturepack/landscape/grass/coastcoralgrass01.dds",
   "textures/landscape/grass/coastkelpgrass01.dds": "textures/texturepack/landscape/grass/coastkelpgrass01.dds",
   "textures/landscape/mountains/mountainslab01_n.dds": "textures/rocks/mountainslab01_n.dds",
   "textures/landscape/rocks01.dds": "textures/texturepack/landscape/rocks01.dds",
@@ -43296,6 +44465,8 @@
   "textures/plants/groundplants1/lily1.dds": "textures/actors/spriggan/cyrodiilian spriggan/lily1.dds",
   "textures/plants/groundplants1/lily2.dds": "textures/actors/spriggan/cyrodiilian spriggan/lily2.dds",
   "textures/plants/grplants2/leafcol.dds": "textures/landscape/plants/leafcol.dds",
+  "textures/plants/grplants2/leafcol2.dds": "textures/landscape/plants/leafcol2.dds",
+  "textures/plants/grplants2/leafcol3.dds": "textures/landscape/plants/leafcol3.dds",
   "textures/plants/grplants2/leafcol_n.dds": "textures/landscape/plants/leafcol_n.dds",
   "textures/plants/tamira/newplants/bamboo.dds": "textures/landscape/tamira/newplants/bamboo.dds",
   "textures/plants/tamira/newplants/bamboo_n.dds": "textures/landscape/tamira/newplants/bamboo_n.dds",
@@ -43305,10 +44476,12 @@
   "textures/plants/tamira/newplants/tropicalshrub01_n.dds": "textures/landscape/tamira/newplants/tropicalshrub01_n.dds",
   "textures/runs/plants/trees/banana_tree.dds": "textures/plants/trees/banana_tree.dds",
   "textures/runs/plants/trees/banana_tree_n.dds": "textures/plants/trees/banana_tree_n.dds",
-  "textures/vurt_shroomstem.dds": "textures/landscape/plants/vurt_shroomstem2.dds"
+  "textures/vurt_shroomstem.dds": "textures/landscape/plants/vurt_shroomstem2.dds",
+  "textures/landscape/grass/seaweed02.dds": "textures/dos/plants/seaweed02.dds",
+  "textures/landscape/grass/seaweed02_n.dds": "textures/dos/plants/seaweed02_n.dds"
  },
  "alphaModes": {
-  "MASK": 340,
+  "MASK": 371,
   "OPAQUE": 6
  },
  "trunkSolids": {

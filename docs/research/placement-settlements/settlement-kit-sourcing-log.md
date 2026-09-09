@@ -612,7 +612,7 @@ Xit-Xaht raid their Dunmer neighbours for labour, and the masonry across the
 road is taken the same way the people are. Reasoning and the old→new pieces are
 in the Mazzatun design record §13.
 
-## 2026-09-09 — flora kit: understory breadth (OPEN, blocker named)
+## 2026-09-09 — flora kit: understory breadth (CLOSED, kit rebuilt)
 
 Decision 0048 raised every region class to at least six distinct understory
 species, but could not give nine of fourteen classes a species of their *own*.
@@ -647,3 +647,57 @@ sequence with the scatter rollout, not a deferral of judgement.
 `worldgen/test_vegetation_ladder.py::test_palette_species_are_all_in_the_shipped_flora_kit`
 fails if a palette reaches for a species the kit does not carry, so this cannot
 be half-done by accident.
+
+### Closed the same day: the build supplied the measurements
+
+The circularity above resolved by building. The kit build is what measures a
+mesh, so the policies could be written straight off its output. The flora kit
+was rebuilt through `pipeline.build_kit` (Wine + Blender + PyNifly, ~10 min)
+from **81 to 108 assets**. Every measurement quoted below comes from that run
+rather than from a registry guess.
+
+Twenty-seven meshes went in and eight were rejected, on the geometry:
+
+* **Reeds.** `reedlarge1` (8.27 × 7.09 × 2.81 m, 12 tris), `reedmed1`
+  (6.37 × 5.97 × 2.81 m, 12), `reedsmall1` (1.54 × 1.30 × 2.40 m, 4),
+  `reedsmall2` (1.13 × 1.30 × 2.40 m, 4). Wide, near-free card beds. The
+  fringe marsh, the river corridor and the mangrove now each have their own,
+  so `vurt_reeds` is no longer every reed bed in Black Marsh.
+* **Bracken, all twelve.** Six single stands (0.68–1.88 m, 6–240 tris) and
+  six modelled clusters (2.0–3.3 m wide, 336–1424 tris). Taken on
+  the texture, not the name: the diffuse averages hue 101° and 94°, saturation
+  0.35–0.40, value 0.54 across its opaque texels. Those are live green
+  fronds, not the rust-brown of dead temperate bracken.
+* **Shrub colour variants** `bigshrub-b(colorful)` and `-c(colorful)`.
+  Identical 5.22 × 5.35 × 3.19 m geometry to the shrub in use, 912 tris.
+  They give variety of hue but not of silhouette. They are recorded as such.
+* **Aquatics.** `gkblillipad` (0.938 × 0.814 × 2.334 m, 6 tris, origin at the
+  top of the mesh: pads at the water plane with the stems trailing 2.334 m
+  below it. That is measured identical to the `gkblillipad2` already in use,
+  down to the origin offset. The difference is the pad texture, lillipads2
+  against lillipads3, so it is recorded as a hue variant and placed in the
+  same lilypad role),
+  `tbp_seaweed06` and `06var1` (7.39 × 6.74 × 4.21 m), `waterkelptall02/03`
+  (1.52 × 1.43 × 3.98 m), `kelpshortstatic01` (0.73 × 0.79 × 1.36 m),
+  `watercoralgrass01` (1.42 × 1.17 × 1.26 m).
+* **Fungi.** `floraswampfungalpod01` (1.37 × 1.07 × 0.43 m) and `02`
+  (0.51 × 0.65 × 0.29 m), on the marsh and swamp floor.
+
+**Rejected on measurement.** `tbp_seaweed01` (5.2 × 5.2 × **29.26 m**) and
+`tbp_seaweed02` (13.0 × 12.5 × **42.64 m**) are giant-kelp columns taller than
+our canopy, standing in water that the province does not carry.
+`floramushroom01–06` measure 2.6 × 2.0 × 0.55 m: flat sheets at 2.2–2.8 k tris
+apiece, drawing from `textures/architecture/farmhouse/`. That is a
+surface-applied shelf fungus rather than a free-standing floor plant, so it
+would lie on the ground like a decal.
+
+**Placement policy.** `flora-province-v1` carries the kit-level `direct`
+policy in `pipeline/config/placement-policies.json`. Every one of the 27 is a
+ground-contact plant that the policy already describes, so none needed a
+per-asset override. The manifest's `trunkSolids.fitter` provenance marker is
+intact and the round-11 collider gate is green.
+
+Credits: all three pools (`bmv`, `depths`, `vanilla`) were already credited in
+the root README and `worldgen.check_credits` passes, so this change needed no
+new credit row.
+

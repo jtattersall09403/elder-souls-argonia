@@ -149,6 +149,41 @@ def test_every_region_carries_a_real_understory():
         f"shrub.")
 
 
+#: Understory species each region must carry that NONE of the region classes
+#: it physically borders carries. Six species per region (decision 0048) still
+#: let every neighbour pair share all six, which is what the province did: the
+#: flora kit had 81 assets and the palettes placed 78, so there was nothing
+#: left to be exclusive with. Round 12 built the kit to 108.
+MIN_EXCLUSIVE_UNDERSTORY = 2
+
+
+@pytest.mark.skipif(not (vl.PROVINCE / "hydro-regions.png").exists(),
+                    reason="no region raster in this checkout")
+def test_each_region_has_exclusive_understory():
+    """Crossing a region boundary must show the player plants they have not
+    just been walking through. Adjacency is measured from the shipped region
+    raster (`vegetation_ladder.region_adjacency`), so this cannot be satisfied
+    by asserting a neighbour list that no longer matches the map."""
+    palettes = _palettes()
+    adjacency = vl.region_adjacency()
+    thin = {}
+    for region, entry in palettes.items():
+        neighbours = adjacency.get(int(region), set())
+        shared = set()
+        for other in neighbours:
+            other_entry = palettes.get(str(other))
+            if other_entry:
+                shared |= _understory(other_entry)
+        exclusive = _understory(entry) - shared
+        if len(exclusive) < MIN_EXCLUSIVE_UNDERSTORY:
+            thin[region] = sorted(s.rsplit("/", 1)[-1] for s in exclusive)
+    assert not thin, (
+        f"region classes with fewer than {MIN_EXCLUSIVE_UNDERSTORY} understory "
+        f"species their neighbours do not also carry: {thin}. The assignment "
+        f"lives in build_palettes.EXCLUSIVE_UNDERSTORY; adding one means "
+        f"adding the mesh to flora-province-v1 and rebuilding the kit.")
+
+
 def test_no_species_is_the_whole_understory_of_a_region():
     """A region whose understory is one species' worth of weight is a
     monoculture whatever the species count says."""

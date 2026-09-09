@@ -459,9 +459,51 @@
      "glade_response": 0.0,
      "clearance_radius_m": 9.0,
      "align_to_slope": 1.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbraken01st",
+     "tier": "T2",
+     "instances_per_hectare": 45.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.1
+     ],
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 6.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbraken02st",
+     "tier": "T2",
+     "instances_per_hectare": 35.0,
+     "role": "gap-thicket",
+     "glade_band": [
+      0.62,
+      1.0
+     ],
+     "glade_response": 0.0,
+     "clump_size_median": 6,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      -99.0,
+      0.1
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "slope_deg_max": 38.0
     }
    ],
-   "targetInstancesPerHectare": 327.2,
+   "targetInstancesPerHectare": 407.2,
    "authoredStemsPerHectare": 31.23,
    "ladderRatioTarget": 0.15,
    "ladderMultiplierApplied": 0.4592,
@@ -868,9 +910,51 @@
      "glade_response": 0.0,
      "clearance_radius_m": 9.0,
      "align_to_slope": 1.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbraken03st",
+     "tier": "T2",
+     "instances_per_hectare": 55.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.2
+     ],
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
+    },
+    {
+     "species": "bmv:landscape/plants/bigshrub-b(colorful)",
+     "tier": "T2",
+     "instances_per_hectare": 22.0,
+     "role": "gap-thicket",
+     "glade_band": [
+      0.62,
+      1.0
+     ],
+     "glade_response": 0.0,
+     "clump_size_median": 6,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      -99.0,
+      0.2
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "slope_deg_max": 40.0
     }
    ],
-   "targetInstancesPerHectare": 519.5,
+   "targetInstancesPerHectare": 596.5,
    "authoredStemsPerHectare": 105.52,
    "ladderRatioTarget": 0.6,
    "ladderMultiplierApplied": 0.7178,
@@ -1132,9 +1216,45 @@
      ],
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/grass/watercoralgrass01",
+     "tier": "T2",
+     "instances_per_hectare": 60.0,
+     "role": "aquatic-kelp",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      0.3,
+      2.5
+     ],
+     "depth_peak_m": 1.0,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ]
+    },
+    {
+     "species": "vanilla:landscape/plants/kelpshortstatic01",
+     "tier": "T2",
+     "instances_per_hectare": 70.0,
+     "role": "aquatic-kelp",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      0.5,
+      3.0
+     ],
+     "depth_peak_m": 1.4,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ]
     }
    ],
-   "targetInstancesPerHectare": 624.6,
+   "targetInstancesPerHectare": 754.6,
    "authoredStemsPerHectare": 114.61,
    "ladderRatioTarget": 0.45,
    "ladderMultiplierApplied": 0.6742,
@@ -1414,9 +1534,45 @@
      ],
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
+    },
+    {
+     "species": "depths:landscape/grass/tbp_seaweed06",
+     "tier": "T2",
+     "instances_per_hectare": 18.0,
+     "role": "aquatic-kelp",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      1.2,
+      6.0
+     ],
+     "depth_peak_m": 2.4,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.5,
+      0.9
+     ]
+    },
+    {
+     "species": "depths:landscape/grass/waterkelptall02",
+     "tier": "T2",
+     "instances_per_hectare": 55.0,
+     "role": "aquatic-kelp",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      1.0,
+      5.0
+     ],
+     "depth_peak_m": 2.0,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ]
     }
    ],
-   "targetInstancesPerHectare": 586.1,
+   "targetInstancesPerHectare": 659.1,
    "authoredStemsPerHectare": 66.1,
    "ladderRatioTarget": 0.35,
    "ladderMultiplierApplied": 0.1973,
@@ -1747,9 +1903,49 @@
      ],
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/trees/reedsmall1",
+     "tier": "T2",
+     "instances_per_hectare": 90.0,
+     "role": "aquatic-reeds",
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
+     "water_depth_m": [
+      -0.15,
+      0.7
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 0.8,
+     "shore_m": [
+      -30.0,
+      6.0
+     ],
+     "scale_range": [
+      1.0,
+      1.8
+     ]
+    },
+    {
+     "species": "depths:landscape/grass/waterkelptall03",
+     "tier": "T2",
+     "instances_per_hectare": 45.0,
+     "role": "aquatic-kelp",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      1.0,
+      4.5
+     ],
+     "depth_peak_m": 1.8,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ]
     }
    ],
-   "targetInstancesPerHectare": 769.6,
+   "targetInstancesPerHectare": 904.6,
    "authoredStemsPerHectare": 219.6,
    "ladderRatioTarget": 0.6,
    "ladderMultiplierApplied": 1.9949,
@@ -2120,9 +2316,46 @@
      ],
      "coast_boost_gain": -0.6,
      "coast_half_width_m": 700.0
+    },
+    {
+     "species": "vanilla:plants/floraswampfungalpod01",
+     "tier": "T2",
+     "instances_per_hectare": 40.0,
+     "role": "floor-fungi",
+     "clump_size_median": 5,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -99.0,
+      0.15
+     ],
+     "slope_deg_max": 22.0,
+     "scale_range": [
+      0.8,
+      1.6
+     ]
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbrakencluster01",
+     "tier": "T2",
+     "instances_per_hectare": 30.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.2
+     ],
+     "scale_range": [
+      0.7,
+      1.1
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
     }
    ],
-   "targetInstancesPerHectare": 540.7,
+   "targetInstancesPerHectare": 610.7,
    "authoredStemsPerHectare": 47.74,
    "ladderRatioTarget": 0.76,
    "ladderMultiplierApplied": 0.2562,
@@ -2700,9 +2933,46 @@
      ],
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
+    },
+    {
+     "species": "vanilla:plants/floraswampfungalpod02",
+     "tier": "T2",
+     "instances_per_hectare": 55.0,
+     "role": "floor-fungi",
+     "clump_size_median": 6,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -99.0,
+      0.15
+     ],
+     "slope_deg_max": 22.0,
+     "scale_range": [
+      0.9,
+      1.8
+     ]
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbrakencluster02",
+     "tier": "T2",
+     "instances_per_hectare": 35.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.25
+     ],
+     "scale_range": [
+      0.7,
+      1.1
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
     }
    ],
-   "targetInstancesPerHectare": 1169.3,
+   "targetInstancesPerHectare": 1259.3,
    "authoredStemsPerHectare": 44.26,
    "ladderRatioTarget": 0.67,
    "ladderMultiplierApplied": 0.219,
@@ -3028,9 +3298,53 @@
      ],
      "coast_boost_gain": -0.6,
      "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/reedlarge1",
+     "tier": "T2",
+     "instances_per_hectare": 120.0,
+     "role": "aquatic-reeds",
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
+     "water_depth_m": [
+      -0.15,
+      0.7
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 0.8,
+     "shore_m": [
+      -30.0,
+      6.0
+     ],
+     "scale_range": [
+      0.7,
+      1.1
+     ]
+    },
+    {
+     "species": "bmv:landscape/trees/reedmed1",
+     "tier": "T2",
+     "instances_per_hectare": 140.0,
+     "role": "aquatic-reeds",
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
+     "water_depth_m": [
+      -0.15,
+      0.7
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 0.8,
+     "shore_m": [
+      -30.0,
+      6.0
+     ],
+     "scale_range": [
+      0.7,
+      1.2
+     ]
     }
    ],
-   "targetInstancesPerHectare": 763.2,
+   "targetInstancesPerHectare": 1023.2,
    "authoredStemsPerHectare": 38.2,
    "ladderRatioTarget": 0.4,
    "ladderMultiplierApplied": 0.8117,
@@ -3274,9 +3588,51 @@
      ],
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbrakencluster03",
+     "tier": "T2",
+     "instances_per_hectare": 45.0,
+     "role": "gap-thicket",
+     "glade_band": [
+      0.62,
+      1.0
+     ],
+     "glade_response": 0.0,
+     "clump_size_median": 6,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      -99.0,
+      0.3
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "slope_deg_max": 30.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbraken04st",
+     "tier": "T2",
+     "instances_per_hectare": 40.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.3
+     ],
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
     }
    ],
-   "targetInstancesPerHectare": 434.5,
+   "targetInstancesPerHectare": 519.5,
    "authoredStemsPerHectare": 34.48,
    "ladderRatioTarget": 0.12,
    "ladderMultiplierApplied": 0.3065,
@@ -3525,9 +3881,49 @@
      ],
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbrakencluster04",
+     "tier": "T2",
+     "instances_per_hectare": 50.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      -0.1
+     ],
+     "scale_range": [
+      0.7,
+      1.1
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbraken05st",
+     "tier": "T2",
+     "instances_per_hectare": 45.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      -0.1
+     ],
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
     }
    ],
-   "targetInstancesPerHectare": 589.7,
+   "targetInstancesPerHectare": 684.7,
    "authoredStemsPerHectare": 99.72,
    "ladderRatioTarget": 0.45,
    "ladderMultiplierApplied": 0.9497,
@@ -3949,9 +4345,51 @@
      ],
      "coast_boost_gain": -0.6,
      "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbrakencluster05",
+     "tier": "T2",
+     "instances_per_hectare": 45.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.2
+     ],
+     "scale_range": [
+      0.7,
+      1.1
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
+    },
+    {
+     "species": "bmv:landscape/plants/bigshrub-c(colorful)",
+     "tier": "T2",
+     "instances_per_hectare": 20.0,
+     "role": "gap-thicket",
+     "glade_band": [
+      0.62,
+      1.0
+     ],
+     "glade_response": 0.0,
+     "clump_size_median": 6,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      -99.0,
+      0.2
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "slope_deg_max": 40.0
     }
    ],
-   "targetInstancesPerHectare": 648.7,
+   "targetInstancesPerHectare": 713.7,
    "authoredStemsPerHectare": 43.74,
    "ladderRatioTarget": 0.55,
    "ladderMultiplierApplied": 0.7953,
@@ -4175,9 +4613,50 @@
      "clearance_radius_m": 4.0,
      "coast_boost_gain": -0.6,
      "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkblillipad",
+     "tier": "T2",
+     "instances_per_hectare": 45.0,
+     "role": "aquatic-lilypads",
+     "clump_size_median": 8,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      0.4,
+      2.2
+     ],
+     "depth_peak_m": 1.0,
+     "depth_half_width_m": 0.8,
+     "shore_m": [
+      -22.0,
+      -3.0
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "tilt_deg_max": 0.0
+    },
+    {
+     "species": "depths:landscape/grass/tbp_seaweed06var1",
+     "tier": "T2",
+     "instances_per_hectare": 12.0,
+     "role": "aquatic-kelp",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      1.5,
+      6.0
+     ],
+     "depth_peak_m": 2.6,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.5,
+      0.9
+     ]
     }
    ],
-   "targetInstancesPerHectare": 450.4,
+   "targetInstancesPerHectare": 507.4,
    "authoredStemsPerHectare": 5.38,
    "ladderRatioTarget": 0.02,
    "ladderMultiplierApplied": 0.8966,
@@ -4728,9 +5207,49 @@
      "tilt_deg_max": 0.0,
      "coast_boost_gain": -0.85,
      "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbrakencluster06",
+     "tier": "T2",
+     "instances_per_hectare": 40.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.2
+     ],
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
+    },
+    {
+     "species": "bmv:landscape/plants/espfernbraken06st",
+     "tier": "T2",
+     "instances_per_hectare": 55.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.2
+     ],
+     "scale_range": [
+      0.9,
+      1.4
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
     }
    ],
-   "targetInstancesPerHectare": 1209.9,
+   "targetInstancesPerHectare": 1304.9,
    "authoredStemsPerHectare": 84.9,
    "ladderRatioTarget": 1.0,
    "ladderMultiplierApplied": 1.0,
@@ -5065,9 +5584,49 @@
      ],
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/trees/reedsmall2",
+     "tier": "T2",
+     "instances_per_hectare": 110.0,
+     "role": "aquatic-reeds",
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
+     "water_depth_m": [
+      -0.15,
+      0.7
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 0.8,
+     "shore_m": [
+      -30.0,
+      6.0
+     ],
+     "scale_range": [
+      1.0,
+      1.8
+     ]
+    },
+    {
+     "species": "depths:landscape/grass/waterkelptall03",
+     "tier": "T2",
+     "instances_per_hectare": 35.0,
+     "role": "aquatic-kelp",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      1.0,
+      4.0
+     ],
+     "depth_peak_m": 1.6,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ]
     }
    ],
-   "targetInstancesPerHectare": 437.8,
+   "targetInstancesPerHectare": 582.8,
    "authoredStemsPerHectare": 164.84,
    "ladderRatioTarget": 1.4,
    "ladderMultiplierApplied": 0.3663,

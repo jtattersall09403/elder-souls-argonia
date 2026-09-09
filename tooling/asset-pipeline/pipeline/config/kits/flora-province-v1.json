@@ -375,6 +375,87 @@
   },
   {
    "asset": "bmv:landscape/plants/water lily2"
+  },
+  {
+   "asset": "bmv:landscape/trees/reedlarge1"
+  },
+  {
+   "asset": "bmv:landscape/trees/reedmed1"
+  },
+  {
+   "asset": "bmv:landscape/trees/reedsmall1"
+  },
+  {
+   "asset": "bmv:landscape/trees/reedsmall2"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkblillipad"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbraken01st"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbraken02st"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbraken03st"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbraken04st"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbraken05st"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbraken06st"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbrakencluster01"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbrakencluster02"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbrakencluster03"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbrakencluster04"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbrakencluster05"
+  },
+  {
+   "asset": "bmv:landscape/plants/espfernbrakencluster06"
+  },
+  {
+   "asset": "bmv:landscape/plants/bigshrub-b(colorful)"
+  },
+  {
+   "asset": "bmv:landscape/plants/bigshrub-c(colorful)"
+  },
+  {
+   "asset": "bmv:landscape/grass/watercoralgrass01"
+  },
+  {
+   "asset": "depths:landscape/grass/tbp_seaweed06"
+  },
+  {
+   "asset": "depths:landscape/grass/tbp_seaweed06var1"
+  },
+  {
+   "asset": "depths:landscape/grass/waterkelptall02"
+  },
+  {
+   "asset": "depths:landscape/grass/waterkelptall03"
+  },
+  {
+   "asset": "vanilla:landscape/plants/kelpshortstatic01"
+  },
+  {
+   "asset": "vanilla:plants/floraswampfungalpod01"
+  },
+  {
+   "asset": "vanilla:plants/floraswampfungalpod02"
   }
  ],
  "textureAliases": {

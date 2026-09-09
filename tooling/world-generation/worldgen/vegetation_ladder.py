@@ -151,6 +151,49 @@ def multipliers() -> dict[int, float]:
     return out
 
 
+# --- region adjacency (understory exclusivity) -------------------------------
+
+#: A pair of region classes counts as adjacent once they share this many
+#: 4-neighbour cells on the shipped region raster. At 468 m/chunk and the
+#: hydrology raster's metres-per-pixel this is a seam of real length, not the
+#: handful of stray pixels two classes trade where a third separates them.
+ADJACENCY_MIN_SHARED_EDGES = 250
+
+
+def region_adjacency(province: Path = PROVINCE) -> dict[int, set[int]]:
+    """Which region classes physically touch, measured from the raster.
+
+    Exclusivity is a claim about what a player meets when they walk across a
+    boundary, so it has to be checked against the boundaries that exist —
+    not against a hand-written neighbour table that would go stale the next
+    time the regions are re-rastered.
+    """
+    import numpy as np
+    from PIL import Image
+
+    from .regions import REGION_CLASSES
+
+    rgb = np.asarray(Image.open(province / "hydro-regions.png").convert("RGB"))
+    classes = np.full(rgb.shape[:2], 255, np.uint8)
+    for class_id, (_name, colour) in REGION_CLASSES.items():
+        classes[np.all(rgb == np.array(colour, np.uint8), axis=-1)] = class_id
+    counts: dict[tuple[int, int], int] = {}
+    for a, b in ((classes[:, :-1], classes[:, 1:]),
+                 (classes[:-1], classes[1:])):
+        differs = a != b
+        for x, y in zip(a[differs].tolist(), b[differs].tolist()):
+            if x == 255 or y == 255:
+                continue
+            key = (min(x, y), max(x, y))
+            counts[key] = counts.get(key, 0) + 1
+    adjacency: dict[int, set[int]] = {c: set() for c in REGION_CLASSES}
+    for (x, y), shared in counts.items():
+        if shared >= ADJACENCY_MIN_SHARED_EDGES:
+            adjacency[x].add(y)
+            adjacency[y].add(x)
+    return adjacency
+
+
 # --- delivered measure (gate 2) ---------------------------------------------
 
 _BUNDLE_MAGIC = 0x45535647

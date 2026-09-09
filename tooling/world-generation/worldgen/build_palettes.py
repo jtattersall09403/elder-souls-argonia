@@ -158,6 +158,56 @@ S = {
     "banana": "bmv:plants/trees/banana_tree",                # 4.6 m
     "water_lily_a": "bmv:landscape/plants/water lily1",      # flowering pads (water-surface class)
     "water_lily_b": "bmv:landscape/plants/water lily2",
+    # ROUND 12 (decision 0048 addendum): region-EXCLUSIVE understory. Every
+    # size below is the metre bound the kit build measured (probe-understory,
+    # 2026-09-09), not a registry guess — several of these recorded 0,0,0
+    # before the build that measures them ran. Each is placed in a set of
+    # region classes that never touch on the shipped region raster, so a
+    # player crossing a boundary meets plants they have not seen.
+    "reed_large": "bmv:landscape/trees/reedlarge1",    # 8.27 × 7.09 × 2.81 m, 12 tris
+    "reed_med": "bmv:landscape/trees/reedmed1",        # 6.37 × 5.97 × 2.81 m, 12 tris
+    "reed_small_a": "bmv:landscape/trees/reedsmall1",  # 1.54 × 1.30 × 2.40 m, 4 tris
+    "reed_small_b": "bmv:landscape/trees/reedsmall2",  # 1.13 × 1.30 × 2.40 m, 4 tris
+    # Measured identical to the `lilypad` already in use — same 0.938 × 0.814
+    # × 2.334 m bounds, same 6 triangles, same origin at the TOP of the mesh
+    # (the pads sit at the water plane and the stems trail 2.33 m below it).
+    # The one difference is the pad texture: lillipads2 against lillipads3.
+    # A hue variant, therefore, and it is placed in the same lilypad role.
+    "pond_reedpad": "bmv:landscape/trees/gkblillipad",
+    # Bracken. Kept on the texture, not the name: the diffuse averages hue
+    # 101° / 94°, saturation 0.35–0.40 over its opaque texels — a live green
+    # frond, not the rust-brown of dead temperate bracken. Six single stands
+    # (6–240 tris) and six modelled clusters (336–1424 tris, ~3 m spread).
+    "brack_a": "bmv:landscape/plants/espfernbraken01st",  # 0.98 × 0.77 × 0.91 m
+    "brack_b": "bmv:landscape/plants/espfernbraken02st",  # 0.68 × 0.90 × 1.10 m
+    "brack_c": "bmv:landscape/plants/espfernbraken03st",  # 0.98 × 0.89 × 1.45 m
+    "brack_d": "bmv:landscape/plants/espfernbraken04st",  # 1.77 × 1.72 × 0.98 m
+    "brack_e": "bmv:landscape/plants/espfernbraken05st",  # 1.73 × 1.68 × 1.07 m
+    "brack_f": "bmv:landscape/plants/espfernbraken06st",  # 1.70 × 1.88 × 1.03 m
+    "brackclump_a": "bmv:landscape/plants/espfernbrakencluster01",  # 2.94 × 2.75 × 1.45 m
+    "brackclump_b": "bmv:landscape/plants/espfernbrakencluster02",  # 3.00 × 3.30 × 1.15 m
+    "brackclump_c": "bmv:landscape/plants/espfernbrakencluster03",  # 3.33 × 1.95 × 0.91 m
+    "brackclump_d": "bmv:landscape/plants/espfernbrakencluster04",  # 2.69 × 1.25 × 1.76 m
+    "brackclump_e": "bmv:landscape/plants/espfernbrakencluster05",  # 3.12 × 1.90 × 1.17 m
+    "brackclump_f": "bmv:landscape/plants/espfernbrakencluster06",  # 2.00 × 1.56 × 1.31 m
+    # Colour variants of the shrub already in use: same 5.22 × 5.35 × 3.19 m
+    # geometry, different foliage texture — variety of hue, not of silhouette.
+    "big_shrub_b": "bmv:landscape/plants/bigshrub-b(colorful)",
+    "big_shrub_c": "bmv:landscape/plants/bigshrub-c(colorful)",
+    "coral_grass": "bmv:landscape/grass/watercoralgrass01",     # 1.42 × 1.17 × 1.26 m
+    "seaweed_clump": "depths:landscape/grass/tbp_seaweed06",    # 7.39 × 6.74 × 4.21 m
+    "seaweed_clump_b": "depths:landscape/grass/tbp_seaweed06var1",
+    "wkelp_tall_b": "depths:landscape/grass/waterkelptall02",   # 1.52 × 1.43 × 3.98 m
+    "wkelp_tall_c": "depths:landscape/grass/waterkelptall03",
+    "kelp_short_b": "vanilla:landscape/plants/kelpshortstatic01",  # 0.73 × 0.79 × 1.36 m
+    "fungal_pod_a": "vanilla:plants/floraswampfungalpod01",     # 1.37 × 1.07 × 0.43 m
+    "fungal_pod_b": "vanilla:plants/floraswampfungalpod02",     # 0.51 × 0.65 × 0.29 m
+    # REJECTED on the same measurements: tbp_seaweed01 (29.3 m) and
+    # tbp_seaweed02 (42.7 m) are giant-kelp columns taller than our canopy,
+    # in water the province never carries; floramushroom01–06 measure
+    # 2.6 × 2.0 × 0.55 m flat sheets at 2.2–2.8 k tris and take their
+    # textures from textures/architecture/farmhouse — surface-applied shelf
+    # fungus, not a free-standing floor plant.
 }
 
 WADE = 0.35   # M1: terrestrial matrix runs this deep into the water
@@ -324,16 +374,17 @@ def dead_snag(species: str, per_ha: float, depth=(0.4, 3.0),
                  scale_range=list(scale), clearance_radius_m=3.0)
 
 
-def aquatic_reeds(per_ha: float, guild: str | None = None, **kw) -> dict:
+def aquatic_reeds(per_ha: float, guild: str | None = None,
+                  species: str = "reeds", scale=(1.0, 1.8), **kw) -> dict:
     """M1: reeds straddle the waterline into the shallows; M3: reed beds
     stand offshore AND fringe the bank — owner round 3: real water edges are
     densely vegetated, so the belt is wide and the clumps big enough to
     merge into continuous margins rather than spaced pom-poms."""
-    entry = layer("reeds", per_ha, role="aquatic-reeds",
+    entry = layer(species, per_ha, role="aquatic-reeds",
                   clump_size_median=18, clump_radius_m=9.5,
                   water_depth_m=[-0.15, 0.7], depth_peak_m=0.35,
                   depth_half_width_m=0.8, shore_m=[-30.0, 6.0],
-                  scale_range=[1.0, 1.8], **kw)
+                  scale_range=list(scale), **kw)
     if guild:
         # Round 4 (owner: edges must never be bare): the reed belt is the
         # BASELINE water margin — the guild only themes the extras. Where
@@ -358,12 +409,12 @@ def aquatic_lilypads(per_ha: float, guild: str | None = None,
 
 
 def aquatic_kelp(species: str, per_ha: float, depth=(1.0, 6.0), peak=1.8,
-                 guild: str | None = None, **kw) -> dict:
+                 guild: str | None = None, scale=(0.8, 1.3), **kw) -> dict:
     """M1: kelp is genuinely deep — median 1.6 m of standing water."""
     entry = layer(species, per_ha, role="aquatic-kelp",
                   clump_size_median=7, clump_radius_m=7.0,
                   water_depth_m=list(depth), depth_peak_m=peak,
-                  depth_half_width_m=2.0, scale_range=[0.8, 1.3], **kw)
+                  depth_half_width_m=2.0, scale_range=list(scale), **kw)
     if guild:
         entry["guild"] = guild
     return entry
@@ -1100,6 +1151,82 @@ def rebase_stems(region: int, layers: list[dict], factor: float) -> None:
         if is_stem_layer(entry):
             entry["instances_per_hectare"] = round(
                 entry["instances_per_hectare"] * factor, 3)
+
+
+# --- region-exclusive understory (round 12) ----------------------------------
+#
+# Decision 0048 lifted every region to six understory species but could not
+# make any of them EXCLUSIVE: the flora kit shipped 81 assets and the palettes
+# already placed 78. The kit now carries 108, and each region below takes two
+# species that no region it physically borders carries. Adjacency is measured
+# from `apps/world-studio/public/province/hydro-regions.png`, not asserted:
+# `vegetation_ladder.region_adjacency()` counts shared 4-neighbour raster
+# edges, and `test_vegetation_ladder.test_each_region_has_exclusive_understory`
+# fails if a pair here ever shares. Two entries are deliberately shared
+# between classes that never touch (region 5's tall waterweed also stands in
+# region 14) — exclusivity is against neighbours, not the whole province.
+EXCLUSIVE_UNDERSTORY: dict[int, list[dict]] = {
+    # Border mountains: green fern in the slope hollows, the one place on the
+    # ladder where the province stops being swamp.
+    1: [understory("brack_a", 45.0, depth=(-99.0, 0.1), scale=(0.8, 1.3),
+                   clump_radius_m=6.0),
+        gap_thicket("brack_b", 35.0, depth=(-99.0, 0.1), slope_deg_max=38.0)],
+    # Upland hills: fern with a second shrub hue, so the grassland north
+    # reads as its own country from the marsh edge.
+    2: [understory("brack_c", 55.0, depth=(-99.0, 0.2), scale=(0.8, 1.3)),
+        gap_thicket("big_shrub_b", 22.0, depth=(-99.0, 0.2))],
+    # Tidal delta: submerged coral grass and short kelp on the salt flats.
+    3: [aquatic_kelp("coral_grass", 60.0, depth=(0.3, 2.5), peak=1.0),
+        aquatic_kelp("kelp_short_b", 70.0, depth=(0.5, 3.0), peak=1.4)],
+    # Coastal lagoon: the big weed clumps and a taller stipe offshore.
+    4: [aquatic_kelp("seaweed_clump", 18.0, depth=(1.2, 6.0), peak=2.4,
+                     scale=(0.5, 0.9)),
+        aquatic_kelp("wkelp_tall_b", 55.0, depth=(1.0, 5.0), peak=2.0)],
+    # Deep river corridor: small bank reeds and a tall submerged waterweed.
+    5: [aquatic_reeds(90.0, species="reed_small_a"),
+        aquatic_kelp("wkelp_tall_c", 45.0, depth=(1.0, 4.5), peak=1.8)],
+    # Rootland deep marsh: fungal pods on the floor between the buttresses.
+    6: [layer("fungal_pod_a", 40.0, role="floor-fungi", clump_size_median=5,
+              clump_radius_m=5.0, water_depth_m=[-99.0, 0.15],
+              slope_deg_max=22.0, scale_range=[0.8, 1.6]),
+        understory("brackclump_a", 30.0, depth=(-99.0, 0.2), scale=(0.7, 1.1))],
+    # Interior swamp: the smaller pod, and a broader fern clump.
+    7: [layer("fungal_pod_b", 55.0, role="floor-fungi", clump_size_median=6,
+              clump_radius_m=5.0, water_depth_m=[-99.0, 0.15],
+              slope_deg_max=22.0, scale_range=[0.9, 1.8]),
+        understory("brackclump_b", 35.0, depth=(-99.0, 0.25), scale=(0.7, 1.1))],
+    # Fringe marsh: the reed flats the region is named for stop being one
+    # mesh. These two are the wide, 12-triangle beds — the cheapest way to
+    # make the open marsh read as reed country.
+    8: [aquatic_reeds(120.0, species="reed_large", scale=(0.7, 1.1)),
+        aquatic_reeds(140.0, species="reed_med", scale=(0.7, 1.2))],
+    # Seasonal floodplain: fern on the abrupt outer edge of the gallery.
+    9: [gap_thicket("brackclump_c", 45.0, depth=(-99.0, 0.3),
+                    slope_deg_max=30.0),
+        understory("brack_d", 40.0, depth=(-99.0, 0.3), scale=(0.8, 1.3))],
+    # Raised hammock: dry-crest fern under the palms.
+    10: [understory("brackclump_d", 50.0, depth=(-99.0, -0.1), scale=(0.7, 1.1)),
+         understory("brack_e", 45.0, depth=(-99.0, -0.1), scale=(0.8, 1.3))],
+    # Firm lowland: our largest lowland class, and the one that most needed
+    # something of its own at eye level.
+    11: [understory("brackclump_e", 45.0, depth=(-99.0, 0.2), scale=(0.7, 1.1)),
+         gap_thicket("big_shrub_c", 20.0, depth=(-99.0, 0.2))],
+    # Lake and standing water: a second pad hue at the margin, and a
+    # submerged weed clump off the bank.
+    12: [aquatic_lilypads(45.0, species="pond_reedpad"),
+         aquatic_kelp("seaweed_clump_b", 12.0, depth=(1.5, 6.0), peak=2.6,
+                      scale=(0.5, 0.9))],
+    # Tropical jungle: understory only — the ladder holds region 13's stems.
+    13: [understory("brackclump_f", 40.0, depth=(-99.0, 0.2), scale=(0.8, 1.2)),
+         understory("brack_f", 55.0, depth=(-99.0, 0.2), scale=(0.9, 1.4))],
+    # Mangrove forest: fine reeds in the root channels, and the tall
+    # waterweed it shares with the river corridor (they never meet).
+    14: [aquatic_reeds(110.0, species="reed_small_b"),
+         aquatic_kelp("wkelp_tall_c", 35.0, depth=(1.0, 4.0), peak=1.6)],
+}
+
+for _region, _layers in EXCLUSIVE_UNDERSTORY.items():
+    REGIONS[_region]["layers"].extend(_layers)
 
 
 def build() -> dict:

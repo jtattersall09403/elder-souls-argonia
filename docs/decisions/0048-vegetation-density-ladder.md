@@ -176,3 +176,43 @@ when the targets are set to what the bundles carry, so it measures rather than
 always failing. `report_flora_variety.py` no longer filters the aquatics out of
 its variety view — that filter is why a reed monoculture across eleven of
 fourteen palettes did not show up in the report we had.
+
+## Round 12 (2026-09-09): exclusive understory species
+
+Round 11 lifted every region to six understory species, but every species was
+shared with another region: the kit was full at 81 assets against 78 placed.
+The deferral said several candidates had no measured `sizeM`, so the policies
+could not be written until the build that measures them ran. That circularity
+resolves as soon as the build is run. The build has now been run.
+`flora-province-v1` is **108 assets**: 27 meshes were added and eight
+rejected on their measured geometry. Sizes, tri counts and the rejection
+reasons are in the sourcing log.
+
+**The standard.** Every region class now carries at least **two** understory
+species that no region class it physically borders carries. The assignment
+lives in one place, `build_palettes.EXCLUSIVE_UNDERSTORY`, so the next agent
+can change it without hunting through fourteen region tables.
+
+**Adjacency is measured, not asserted.** `vegetation_ladder.region_adjacency()`
+counts shared 4-neighbour cells on the shipped region raster and calls a pair
+adjacent at 250 shared edges or more. A hand-written neighbour table would go
+stale the next time the regions are re-rastered. The gate would then stop
+testing anything. Two species are shared between classes that do not border
+each other: region 5's tall waterweed also stands in region 14. Exclusivity
+is measured against neighbours, since that is what a player crossing a
+boundary sees, rather than against the whole province.
+
+One class is a special case. The raised hammock (region 10) is small enough
+that it shares no boundary with any other class above the 250-edge threshold,
+so the gate cannot bind on it. It was given two species of its own anyway.
+
+**New gate.** `test_each_region_has_exclusive_understory`. Mutation-tested:
+giving region 8's two reed beds to its neighbour region 11 turns it red with
+`{'8': []}`. Taking them back turns it green again.
+
+**The density ladder did not move.** Understory is not a stem layer, so
+`rebase_stems` never sees it: `authoredStemsPerHectare` and
+`ladderMultiplierApplied` are byte-identical for all fourteen classes before
+and after, region 13 included. The three ladder tests still pass; gate 2
+(`test_delivered_ladder`) remains red pending the scatter rollout, as designed.
+
