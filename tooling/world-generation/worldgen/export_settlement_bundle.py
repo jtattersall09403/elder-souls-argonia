@@ -21,6 +21,7 @@ import json
 import math
 import os
 import shutil
+import struct
 import sys
 import tempfile
 from pathlib import Path
@@ -37,6 +38,23 @@ from . import grade_settlement_pads
 
 SCHEMA_VERSION = 1
 COLLISION_FRAME = "settlement-pivot-yup-v1"
+
+# Hard ceiling on the collision parts the runtime will build for the settlement
+# the player is standing in. Every placement inside the authored boundary is a
+# resident (collisionResidency.ts: residency is by boundary, never by distance),
+# so this must cover the WHOLE of the largest settlement or the layer refuses to
+# draw anything at all.
+#
+# Derivation (2026-09-09): measured over the published bundle by summing, per
+# settlement, max(1, collision parts) for each placement that yields a solid —
+# the measured manifest proxy where present, otherwise the asset's LOD0 mesh
+# primitive count read from the kit GLB (that is what SettlementLayer.solidFrom
+# falls back to). Worst case Lilmoth 1033 parts (466 placements); next largest
+# Mazzatun 51, Nine-Trunks 48, Wamasu Pond 28, Sap-Tapping 2. 1600 is ~1.55x
+# the worst case, so Lilmoth can grow by half again before this re-trips.
+# The old value, 256, was a bare literal never calibrated against a real
+# settlement, and it silently blanked Lilmoth in the browser. See decision 0052.
+COLLIDER_PART_BUDGET = 1600
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SETTLEMENTS = Path(__file__).resolve().parents[1] / "output" / "settlements"
 DEFAULT_STRUCTURES = Path(__file__).resolve().parents[1] / "output" / "route-structures"
@@ -187,6 +205,226 @@ def _kit_assets(names: set[str], kits_dir: Path) -> tuple[dict, dict[tuple[str, 
             assets[key] = {"kit": name, **asset,
                            "_runtimeAnchor": anchor, "_placementPolicyId": policy_id}
     return kits, assets
+
+
+def _glb_document(path: Path) -> dict:
+    """Read the JSON chunk of a binary glTF without decoding any buffers."""
+    data = path.read_bytes()
+    offset = 12
+    while offset + 8 <= len(data):
+        length, chunk_type = struct.unpack_from("<II", data, offset)
+        if chunk_type == 0x4E4F534A:
+            return json.loads(data[offset + 8:offset + 8 + length])
+        offset += 8 + length + (-length % 4)
+    raise ValueError(f"{path}: no JSON chunk in GLB")
+
+
+def lod_chain_triangles(kit: str, kits_dir: Path = KITS) -> dict[str, list[int]]:
+    """Per-asset triangles at each LOD tier, exactly as the runtime counts them.
+
+    Mirrors buildArchitectureKit: level comes from the node's ``lod`` extra
+    (absent means 0), and a tier's triangle total is the sum over its meshes.
+    """
+    document = _glb_document(kits_dir / f"{kit}.glb")
+    nodes = document.get("nodes", [])
+    meshes = document.get("meshes", [])
+    accessors = document.get("accessors", [])
+    scene = document["scenes"][document.get("scene", 0)].get("nodes", [])
+    chains: dict[str, list[int]] = {}
+
+    def walk(index: int, tiers: dict[int, int]) -> None:
+        node = nodes[index]
+        if "mesh" in node:
+            level = (node.get("extras") or {}).get("lod", 0)
+            total = 0
+            for primitive in meshes[node["mesh"]].get("primitives", []):
+                accessor = (primitive["indices"] if "indices" in primitive
+                            else primitive["attributes"]["POSITION"])
+                total += accessors[accessor]["count"] // 3
+            tiers[level] = tiers.get(level, 0) + total
+        for child in node.get("children", []):
+            walk(child, tiers)
+
+    for index in scene:
+        asset_id = (nodes[index].get("extras") or {}).get("assetId")
+        if not isinstance(asset_id, str):
+            continue
+        tiers: dict[int, int] = {}
+        walk(index, tiers)
+        chains[asset_id] = [tiers.get(level, 0) for level in range(max(tiers, default=-1) + 1)]
+    return chains
+
+
+def lod_contract_errors(placements: list[dict], lod: dict,
+                        kits_dir: Path = KITS) -> list[str]:
+    """The offline form of the runtime's `validateLodTriangles` throw.
+
+    SettlementLayer validates the LOD chain of every asset it is about to draw
+    and throws when the chain is short or a tier fell below its absolute
+    triangle floor. That throw only happens once the player is close enough to
+    draw that one piece, so it can only be caught here: an asset that cannot
+    satisfy the runtime contract must never reach a published bundle.
+    """
+    floor = lod["absoluteTriangleFloor"]
+    chains: dict[str, dict[str, list[int]]] = {}
+    errors: list[str] = []
+    seen: set[tuple[str, str]] = set()
+    for placement in sorted(placements, key=lambda row: row["id"]):
+        key = (placement["kit"], placement["assetId"])
+        if key in seen:
+            continue
+        seen.add(key)
+        if placement["kit"] not in chains:
+            chains[placement["kit"]] = lod_chain_triangles(placement["kit"], kits_dir)
+        chain = chains[placement["kit"]].get(placement["assetId"])
+        if chain is None:
+            errors.append(f"{placement['kit']}/{placement['assetId']}: placed asset is "
+                          f"not in the built kit GLB (first placement {placement['id']})")
+        elif len(chain) < lod["tiers"]:
+            errors.append(
+                f"{placement['kit']}/{placement['assetId']}: LOD chain has "
+                f"{len(chain)} tier(s), not the {lod['tiers']} the runtime requires "
+                f"(first placement {placement['id']})")
+        elif (chain[1] < min(chain[0], floor[0]) or chain[2] < min(chain[0], floor[1])):
+            errors.append(
+                f"{placement['kit']}/{placement['assetId']}: LOD triangles {chain[:3]} "
+                f"fall below the absolute floor {list(floor)} "
+                f"(first placement {placement['id']})")
+    return errors
+
+
+def texture_cap_errors(kits: dict, lod: dict, kits_dir: Path = KITS) -> list[str]:
+    """The offline form of the runtime's `validateMaterialTextureCap` throw.
+
+    Same class of defect as the LOD contract: the runtime measures the texture
+    actually bound to a drawn material and throws over the cap, so an oversize
+    image in a published kit is invisible until a player walks up to the one
+    piece that uses it. Measured from the GLB image headers, not a manifest
+    claim — the same reason the runtime reads the decoded image.
+    """
+    cap = lod["atlasMaxSize"]
+    errors: list[str] = []
+    for kit in sorted(kits):
+        path = kits_dir / f"{kit}.glb"
+        data = path.read_bytes()
+        offset = 12
+        document: dict | None = None
+        binary = b""
+        while offset + 8 <= len(data):
+            length, chunk_type = struct.unpack_from("<II", data, offset)
+            payload = data[offset + 8:offset + 8 + length]
+            if chunk_type == 0x4E4F534A:
+                document = json.loads(payload)
+            else:
+                binary = payload
+            offset += 8 + length + (-length % 4)
+        if document is None:
+            raise ValueError(f"{path}: no JSON chunk in GLB")
+        for index, image in enumerate(document.get("images", [])):
+            view = document["bufferViews"][image["bufferView"]]
+            start = view.get("byteOffset", 0)
+            width, height = _image_size(binary[start:start + view["byteLength"]])
+            if width > cap or height > cap:
+                errors.append(f"{kit}: image {index} is {width}x{height}, over the "
+                              f"runtime texture cap of {cap}")
+    return errors
+
+
+def _image_size(blob: bytes) -> tuple[int, int]:
+    """PNG/JPEG dimensions from the header alone; no decode, no dependency."""
+    if blob[:8] == b"\x89PNG\r\n\x1a\n":
+        width, height = struct.unpack_from(">II", blob, 16)
+        return width, height
+    if blob[:2] == b"\xff\xd8":
+        offset = 2
+        while offset + 4 <= len(blob):
+            if blob[offset] != 0xFF:
+                break
+            marker = blob[offset + 1]
+            length = struct.unpack_from(">H", blob, offset + 2)[0]
+            if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+                height, width = struct.unpack_from(">HH", blob, offset + 5)
+                return width, height
+            offset += 2 + length
+    raise ValueError("kit texture is neither PNG nor JPEG; size cannot be measured")
+
+
+def lod0_part_counts(kit: str, kits_dir: Path = KITS) -> dict[str, int]:
+    """Per-asset LOD0 primitive count — the exact part list the runtime builds.
+
+    Mirrors buildArchitectureKit + solidFrom in packages/game-core: three.js
+    makes one Mesh (one collision part) per glTF primitive, and only level 0
+    meshes are used for collision.
+    """
+    document = _glb_document(kits_dir / f"{kit}.glb")
+    nodes = document.get("nodes", [])
+    meshes = document.get("meshes", [])
+    scene = document["scenes"][document.get("scene", 0)].get("nodes", [])
+    counts: dict[str, int] = {}
+
+    def walk(index: int) -> int:
+        node = nodes[index]
+        total = 0
+        if "mesh" in node and (node.get("extras") or {}).get("lod", 0) == 0:
+            total += len(meshes[node["mesh"]].get("primitives", []))
+        for child in node.get("children", []):
+            total += walk(child)
+        return total
+
+    for index in scene:
+        asset_id = (nodes[index].get("extras") or {}).get("assetId")
+        if isinstance(asset_id, str):
+            counts[asset_id] = walk(index)
+    return counts
+
+
+def resident_collision_parts(
+    settlements: list[dict], placements: list[dict], kits_dir: Path = KITS,
+) -> dict[str, int]:
+    """Collision parts the runtime must build for each settlement's residents."""
+    by_id = {placement["id"]: placement for placement in placements}
+    kit_counts: dict[str, dict[str, int]] = {}
+    totals: dict[str, int] = {}
+    for settlement in settlements:
+        total = 0
+        for placement_id in settlement["placementIds"]:
+            placement = by_id.get(placement_id)
+            if placement is None:
+                continue
+            collision = placement.get("collision") or {}
+            if collision.get("kind", "none") == "none":
+                continue
+            parts = collision.get("parts")
+            if parts:
+                total += max(1, len(parts))
+                continue
+            kit = placement["kit"]
+            if kit not in kit_counts:
+                kit_counts[kit] = lod0_part_counts(kit, kits_dir)
+            total += max(1, kit_counts[kit].get(placement["assetId"], 1))
+        totals[settlement["id"]] = total
+    return totals
+
+
+def collider_budget_errors(
+    settlements: list[dict], placements: list[dict], budget: int,
+    kits_dir: Path = KITS,
+) -> list[str]:
+    """The offline form of the runtime's resident-collision refusal.
+
+    SettlementLayer refuses to draw ANY settlement geometry when the residents
+    of the settlement the focus stands in exceed the part budget — a failure
+    that only appears at one position in the browser. Catch it at export.
+    """
+    errors = []
+    for settlement_id, parts in sorted(
+            resident_collision_parts(settlements, placements, kits_dir).items()):
+        if parts > budget:
+            errors.append(
+                f"{settlement_id}: {parts} resident collision parts exceed the "
+                f"runtime collider part budget of {budget}; the settlement layer "
+                f"would refuse to draw anything while the player stands inside it")
+    return errors
 
 
 def _bounds_footprint(
@@ -464,7 +702,11 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             overridden.extend(f"pad delivery: {e}" for e in pad_errors)
 
     compiled = []
-    kit_names: set[str] = {"route-structures-v1"}
+    # Route pieces come from TWO built kits since 2026-09-09 (decision 0051):
+    # the climbs from route-structures-v1 and the crossings from route-spans-v1.
+    # A placement names neither, so the kit is resolved per asset below and both
+    # manifests must be loaded.
+    kit_names: set[str] = {"route-structures-v1", "route-spans-v1"}
     for path in sorted(settlements_dir.glob("place.*.settlement.json")):
         doc = _read(path)
         if doc["id"].startswith("place.fixture."):
@@ -680,9 +922,14 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     route_count = 0
     for doc in route_docs:
         for raw in doc.get("placements", []):
-            asset = assets.get(("route-structures-v1", raw["assetId"]))
+            for route_kit in ("route-structures-v1", "route-spans-v1"):
+                asset = assets.get((route_kit, raw["assetId"]))
+                if asset is not None:
+                    break
             if asset is None:
-                raise ValueError(f"{raw['id']}: route asset absent from manifest")
+                raise ValueError(
+                    f"{raw['id']}: route asset {raw['assetId']} is in neither "
+                    f"route-structures-v1 nor route-spans-v1")
             footprint = []
             if asset["_runtimeAnchor"]["mode"] == "streamed-perimeter":
                 footprint = _bounds_footprint(
@@ -690,7 +937,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 )
             all_placements.append({
                 "id": raw["id"], "sourceId": doc["wayId"], "kind": "route-structure",
-                "assetId": raw["assetId"], "kit": "route-structures-v1",
+                "assetId": raw["assetId"], "kit": route_kit,
                 "positionM": raw["posM"], "yawDeg": raw.get("yawDeg", 0), "scale": 1,
                 "footprintM": footprint,
                 "anchor": _anchor_contract(asset, "direct"),
@@ -700,13 +947,39 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             route_count += 1
 
     all_placements.sort(key=lambda p: p["id"])
+
+    lod_contract = {"tiers": 3, "absoluteTriangleFloor": [120, 80],
+                    "distancePerFootprintDiagonal": [4.0, 12.0],
+                    "farMergeDistanceM": 900, "atlasMaxSize": 4096,
+                    "colliderRadiusM": 180,
+                    "colliderPartBudget": COLLIDER_PART_BUDGET}
+
+    lod_errors = lod_contract_errors(all_placements, lod_contract, kits_dir)
+    if lod_errors:
+        message = "placed asset cannot satisfy the runtime LOD contract: " + "; ".join(lod_errors)
+        if ship_with_errors is None:
+            raise ValueError(message)
+        overridden.extend(f"lod contract: {e}" for e in lod_errors)
+
+    cap_errors = texture_cap_errors(kits, lod_contract, kits_dir)
+    if cap_errors:
+        message = "published kit texture is over the runtime cap: " + "; ".join(cap_errors)
+        if ship_with_errors is None:
+            raise ValueError(message)
+        overridden.extend(f"texture cap: {e}" for e in cap_errors)
+
+    budget_errors = collider_budget_errors(
+        settlements, all_placements, COLLIDER_PART_BUDGET, kits_dir)
+    if budget_errors:
+        message = "settlement collider budget exceeded: " + "; ".join(budget_errors)
+        if ship_with_errors is None:
+            raise ValueError(message)
+        overridden.extend(f"collider budget: {e}" for e in budget_errors)
+
     return {
         "schemaVersion": SCHEMA_VERSION,
         "collisionFrame": COLLISION_FRAME,
-        "lod": {"tiers": 3, "absoluteTriangleFloor": [120, 80],
-                "distancePerFootprintDiagonal": [4.0, 12.0],
-                "farMergeDistanceM": 900, "atlasMaxSize": 4096,
-                "colliderRadiusM": 180, "colliderPartBudget": 256},
+        "lod": lod_contract,
         "kits": kits, "settlements": settlements,
         "knownRedWarnings": warning_register,
         "phase11ObligationReceipts": sorted(obligation_receipts,

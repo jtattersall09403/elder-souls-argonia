@@ -75,9 +75,42 @@ question is whether a road still reads as a road.
 **Named and not hidden**, all in the deployed build:
 - **Lilmoth's harbour channel is dry** — 0.0 m where it needs 0.6, visible from
   the quay. Water-owned, registered.
-- **Long spans are a chain of 4.2 m slabs with no piers.** The proper viaduct
-  kit is packaged (`route-spans-v1`) and being wired in; judge placement, not
-  the object.
+- ~~Long spans are a chain of 4.2 m slabs with no piers.~~ **Fixed and ready to
+  walk (2026-09-09).** `route-spans-v1` is wired in and the crossings are
+  rebuilt: 204 crossings, 4,531 pieces, **841 towers and bays, every one of
+  them standing on the ground beneath it**. No deck anywhere in the province
+  sits more than 19 cm below the terrain. No ground was moved. Six
+  exemplars, four of them beside a place exemplar so one trip checks both. All
+  in the deployed studio
+  (`https://jtattersall09403.github.io/elder-souls-argonia/studio/`):
+  - **Mazzatun, the short stone crossing**: `?view=character&x=1.947&z=1.367&t=12:00`.
+    A 48 m raised deck on the road below the ruin: nine slabs between two end
+    caps, one tower under it. *Wrong if* an end does not meet the road, or a
+    stretch of deck has no tower beneath it.
+  - **Lilmoth, the long low causeway**: `?view=character&x=3.474&z=6.380&t=12:00`.
+    71 m on the Blackrose road west of the city, thirteen slabs, no towers,
+    because the deck stays within 0.8 m of the ground here. *Wrong if* it reads
+    as a bridge over dry ground, or an end steps.
+  - **Nine-Trunks, the tall viaduct**: `?view=character&x=4.422&z=3.492&t=12:00`.
+    Look hardest at this one: 84 m of deck standing up to 8 m clear on four
+    towers, on the Archon–Gideon road. *Wrong if* a tower stops short of the
+    ground, or the deck dives into the hillside.
+  - **The Wamasu-pond road, the single arch**: `?view=character&x=2.150&z=3.909&t=12:00`.
+    One whole vanilla stone bridge, 42 m long, carrying its own arch, piers and
+    parapet over a 36 m rock sill. Three crossings get this; the rest fall too
+    much for a flat bridge. *Wrong if* it overhangs the gap, or an end is
+    buried.
+  - **Ashroot, the marsh boardwalk**: `?view=character&x=3.935&z=5.849&t=12:00`.
+    38 m of Argonian raised timber walkway on its own posts, east of Lilmoth.
+    *Wrong if* the posts do not reach the mud.
+  - **The veterans' holding, the timber trestle**: `?view=character&x=4.855&z=1.298&t=12:00`.
+    The rebuilt family: 112 m of railed plank deck on 39 stacked scaffold bays,
+    up to 6.3 m in the air. Its old deck used three planks that appear together
+    in no vanilla building; every join here is copied from vanilla's own
+    placements. *Wrong
+    if* a bay floats, or the handrail is missing along the high part.
+
+  Rules and rejects: [decision 0051](decisions/0051-route-span-systems.md).
 - **57 water crossings need ferries** (45 lake, 12 river), exposed when the two
   mechanisms that were flattening rivers under bridges were deleted.
 - Two placement checks are red behind a dated `continue-on-error` in

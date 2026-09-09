@@ -212,7 +212,7 @@ repaint still resolves from the BSA.
 This is a default and not a per-kit key because the per-kit key
 (`textureOverlayPools: ["tropical"]`) is exactly what let **seven of the
 twenty-two built kits ship un-tropicalised** — most visibly
-`route-structures-v1`, whose 4,147 placed pieces put Whiterun castle stairs and
+`route-structures-v1` and `route-spans-v1`, whose 11,298 placed pieces put Whiterun castle stairs and
 a Nordic grey stone bridge on graded roads across a tropical marsh. A kit keeps
 the un-tropicalised vanilla art **only** by declaring `untropicalisedReason`, a
 written reason of at least 40 characters; a reasonless opt-out raises, and the
@@ -228,7 +228,7 @@ replacer should touch — no interior kit needed an exception.
 Files Tropical does not cover are handled with the existing `textureAliases`
 key: `clutter/stockade` is the standing case, redirected to the tropicalised
 `farmhouse/woodwall01` and `woodpost02` in `works-v1`, `enclosure-v1`,
-`settlement-stilt-v1` and (added 2026-09-09) `route-structures-v1`.
+`settlement-stilt-v1` and (added 2026-09-09) `route-structures-v1` and `route-spans-v1`.
 `stockadeextra01` has no stand-in and stays vanilla. Tropical ships no
 `textures/effects/` at all, so `export_waterfall_fx_textures` is vanilla by
 necessity, and none of its 40 wild-fauna skins overlap the character or weapon
@@ -261,7 +261,8 @@ author intended; never interleave two sets piece-for-piece.
 | `underwater-v1` | — | neutral | **6** | sirenroot, depths | drowned dressing |
 | `works-v1` | 85 | neutral-works | **28** | vanilla, mudmother | forge/smelter/racks/carts/mine timbers/scaffold/water wheels — the whole works taxonomy branch |
 | `enclosure-v1` | 57 | multi (six never-mixed families) | **14** | bmv, vanilla, htbm, ayleidkit | the **enclosure vocabulary**: road-spanning gates, gate arches, curtain wall, palisade and field fence. The only 4.3 m-spine gates we hold are `bmv:…/newcastle/wall/1024/1024wallgate01` (5.52 m clear) and its free-standing arch `1024arch01` (8.96 m); `hlaalu:…/stonewallgatearc001` (4.53 m, in `hlaalu-domestic`) is the third. Measured apertures and the rejects are in the sourcing log |
-| `route-structures-v1` | 20 | mixed (five never-mixed families) | **37** | vanilla, bmv, hlaalu | the authored climbs and spans terrain grading cannot fix — stairs, ramps, landings and bridges, one family per culture a route passes through. **4,147 placed pieces province-wide**, the largest vanilla-backed placement we have |
+| `route-structures-v1` | 20 | mixed (five never-mixed families) | **37** | vanilla, bmv, hlaalu | the authored CLIMBS terrain grading cannot fix — stairs, stepped ascents, landings and lip-steps, one family per culture a route passes through. Crossings moved to `route-spans-v1` on 2026-09-09 |
+| `route-spans-v1` | 22 | mixed (four never-mixed span systems) | **33** | vanilla, bmv | the way-CARRYING half: `nordic-viaduct` (deck + pier + foot + abutment + approach flight), `stockade-trestle` (the one family whose every join, parapet included, is mined from vanilla), `root-passerelle` (self-supporting Bosmer walkway), `stone-arch` (four whole landscape bridges, one per crossing, never tiled) and the `marsh-timber` single span. Anchoring is declared per piece and checked against the manifest: the Nordic pier's pivot is at deck level with 21.848 m of shaft below it. **204 crossings, 4,531 pieces, 841 piers, none failing to reach the ground.** Rules and rejects in [decision 0051](../decisions/0051-route-span-systems.md) |
 | `watercraft-v1` | 45 | multi | **4** | canoe, ferryraft, ferries, rowboats, sailboats, sbot, bmv | the sailable/moored small-craft roster |
 | `xanmeer-interior-v1` | 68 | xanmeer-ancient | — | ayleidcc | walkable Xanmeer ruin interiors |
 | `flora-province-v1`, `groundcover-province-v1` | — | — | — | bmv, tropical, vanilla | Phase 10 vegetation |

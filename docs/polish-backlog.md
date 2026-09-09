@@ -467,9 +467,25 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   an undeclared gap.
 - **CORRECTION, and it matters for what may be built.** An earlier note here
   argued a long viaduct was implausible because "this province has no polity
-  that built one". That is wrong: Black Marsh **was an Imperial province**, and
+  that built one". That is wrong. Black Marsh **was an Imperial province**:
   the Blackwood Road, Fort Swampmoth, Blackrose prison and Lilmoth's own
   surviving Imperial gate are all in the records. Imperial engineering on this
-  scale is canon, and a ruined or half-drowned viaduct is good content. The case
+  scale is attested, so a ruined or half-drowned viaduct is good content. The case
   against the 390 m span is that the ROAD was routed badly, not that the empire
   could not have built it.
+- **A whole authored bridge cannot follow a slope, because the placement
+  contract carries yaw only.** `compile_route_structures` emits `posM` and
+  `yawDeg`; there is no pitch axis, so a vanilla landscape bridge can only be
+  laid flat. On today's 204 crossings that restricts the monolith rule to 3.
+  The median window fall is 3.9 m, so a flat deck would meet the lower road that
+  far in the air. Adding a `pitchDeg` to the placement record and honouring it
+  wherever route structures are rendered would make **~46** crossings a single
+  authored arch with its own parapet instead of a chain. Do the renderer and the
+  record together; a field no consumer reads is worse than none (standard 12).
+  Evidence is in decision 0051 call 4.
+- **One crossing has no piece to stand on.**
+  `structure.hist-heartland-alten-markmont.2` wants its deck 5.4 m above the
+  ground and the BM&V passerelle set ships posts 1.516 m long and no pier. It is
+  built and reported with `postShortfallM` in
+  `world/sources/sites/route-structures.md` rather than faked. Either source a
+  Bosmer/root pier, or re-author the window as a stepped ascent.

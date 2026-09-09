@@ -1,5 +1,6 @@
 import json
 import hashlib
+import struct
 
 import pytest
 import numpy as np
@@ -115,22 +116,33 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     route = {"id": "structure.a.1.p1", "assetId": "asset.bridge", "posM": [9, 2, 8],
              "fromM": 10, "toM": 20,
              "yawDeg": 90, "provenance": {"sourceStructureId": "structure.a.1"}}
+    span = {"id": "structure.a.1.p2", "assetId": "asset.viaduct", "posM": [9, 3, 9],
+            "fromM": 20, "toM": 30,
+            "yawDeg": 90, "provenance": {"sourceStructureId": "structure.a.1"}}
     _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [structure],
-                                         "placements": [route]})
+                                         "placements": [route, span]})
     manifests = (
         ("kit-a", "asset.house", _manifest_placement(
             "plinth", mode="streamed-origin", bury=.41, cap=.67, slope=.03)),
         ("route-structures-v1", "asset.bridge", _manifest_placement(
+            "route-structure", mode="streamed-perimeter", bury=.09, cap=.21, slope=.02)),
+        # Crossings come from the second route kit (decision 0051); the bundle
+        # must load both manifests and resolve each placement to the one that
+        # holds it.
+        ("route-spans-v1", "asset.viaduct", _manifest_placement(
             "route-structure", mode="streamed-perimeter", bury=.09, cap=.21, slope=.02)),
     )
     for kit, asset, placement_policy in manifests:
         _write(tmp_path / f"kits/{kit}.kit.json", {"kit": kit, "assets": [{
             "id": asset, "sizeM": [4, 6, 8], "originOffsetM": [2, 3, 1],
             "triangles": 500, "collision": "mesh", "placement": placement_policy}]})
+        # The collider-budget gate counts real LOD0 parts, so the kit GLB is an
+        # input to the export, not just an asset copied at publication time.
+        _fake_glb(tmp_path / f"kits/{kit}.glb", {asset: [2, 1, 1]})
     bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
                              tmp_path / "kits", _route_source(tmp_path, [structure]))
     assert bundle["stats"] == {"settlements": 1, "settlementPlacements": 1,
-                               "routeStructurePlacements": 1}
+                               "routeStructurePlacements": 2}
     house = next(p for p in bundle["placements"] if p["kind"] == "settlement")
     assert house["footprintM"][0] == [10.0, 20.0]
     assert house["anchor"]["mode"] == "streamed-origin"
@@ -141,7 +153,16 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     assert house["anchor"]["evidence"]["fitPolicy"].startswith(
         "authored placement-policies.json policy plinth:")
     assert house["collision"]["frame"] == ex.COLLISION_FRAME
-    route_placement = next(p for p in bundle["placements"] if p["kind"] == "route-structure")
+    route_placement = next(p for p in bundle["placements"]
+                           if p["kind"] == "route-structure"
+                           and p["assetId"] == "asset.bridge")
+    # Each route placement resolves to whichever of the two route kits holds it:
+    # a climb from route-structures-v1, a crossing from route-spans-v1. A single
+    # hard-coded kit name silently loses every span piece (decision 0051).
+    assert route_placement["kit"] == "route-structures-v1"
+    span_placement = next(p for p in bundle["placements"]
+                          if p["assetId"] == "asset.viaduct")
+    assert span_placement["kit"] == "route-spans-v1"
     assert route_placement["anchor"]["mode"] == "streamed-perimeter"
     assert route_placement["anchor"]["buryM"] == .09
     assert len(route_placement["footprintM"]) == 4
@@ -259,6 +280,10 @@ def test_refuses_compiler_errors(tmp_path, monkeypatch):
 def _warned_settlement(tmp_path, *, conforms=False):
     _write(tmp_path / "kits/route-structures-v1.kit.json",
            {"kit": "route-structures-v1", "assets": []})
+    _write(tmp_path / "kits/route-spans-v1.kit.json",
+           {"kit": "route-spans-v1", "assets": []})
+    for empty_kit in ("route-structures-v1", "route-spans-v1"):
+        _glb_with_images(tmp_path / f"kits/{empty_kit}.glb", [])
     bp = {"id": "place.a"}
     _write(tmp_path / "bp/place.a.json", {"blueprint": bp})
     _write(tmp_path / "sett/place.a.settlement.json", {
@@ -485,6 +510,10 @@ def _obligation_bundle_fixture(tmp_path):
     })
     _write(tmp_path / "kits/route-structures-v1.kit.json",
            {"kit": "route-structures-v1", "assets": []})
+    _write(tmp_path / "kits/route-spans-v1.kit.json",
+           {"kit": "route-spans-v1", "assets": []})
+    for empty_kit in ("route-structures-v1", "route-spans-v1"):
+        _glb_with_images(tmp_path / f"kits/{empty_kit}.glb", [])
     source = _route_source(tmp_path, [])
     return record, settlement_path, source, evidence
 
@@ -592,3 +621,170 @@ def test_pad_delivery_binds_current_blueprint_to_final_height():
     assert any("does not match" in error for error in
                ex.validate_applied_pad_grades(receipt, [document], moved))
     assert ex.validate_applied_pad_grades(None, [document], result)
+
+
+def _fake_glb(path, assets, triangles=None):
+    """Minimal GLB carrying the node/mesh graph the export's kit readers walk.
+
+    `assets` maps an asset id to its per-tier primitive count; `triangles` maps
+    it to per-tier triangle totals (a generous default that clears the floor).
+    """
+    nodes = []
+    meshes = []
+    accessors = []
+    roots = []
+    for asset_id, primitives_per_lod in assets.items():
+        children = []
+        tiers = (triangles or {}).get(asset_id) or [4000, 1400, 480][:len(primitives_per_lod)]
+        for lod, primitives in enumerate(primitives_per_lod):
+            per_primitive = tiers[lod] // max(1, primitives)
+            indices = []
+            for _ in range(primitives):
+                accessors.append({"count": per_primitive * 3})
+                indices.append({"indices": len(accessors) - 1})
+            meshes.append({"primitives": indices})
+            nodes.append({"mesh": len(meshes) - 1, "extras": {"lod": lod}})
+            children.append(len(nodes) - 1)
+        nodes.append({"extras": {"assetId": asset_id}, "children": children})
+        roots.append(len(nodes) - 1)
+    document = {"asset": {"version": "2.0"}, "scene": 0, "accessors": accessors,
+                "scenes": [{"nodes": roots}], "nodes": nodes, "meshes": meshes}
+    chunk = json.dumps(document).encode("utf-8")
+    chunk += b" " * (-len(chunk) % 4)
+    body = struct.pack("<II", len(chunk), 0x4E4F534A) + chunk
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(struct.pack("<III", 0x46546C67, 2, 12 + len(body)) + body)
+
+
+def test_lod0_part_counts_reads_only_level_zero_primitives(tmp_path):
+    _fake_glb(tmp_path / "kit-a.glb", {"asset:big": [7, 3, 2], "asset:small": [1, 1, 1]})
+    assert ex.lod0_part_counts("kit-a", tmp_path) == {"asset:big": 7, "asset:small": 1}
+
+
+def _budget_fixture(tmp_path):
+    _fake_glb(tmp_path / "kit-a.glb", {"asset:big": [7, 3, 2], "asset:small": [1, 1, 1]})
+    placements = [
+        {"id": "p.big", "kit": "kit-a", "assetId": "asset:big",
+         "collision": {"kind": "mesh"}},
+        {"id": "p.small", "kit": "kit-a", "assetId": "asset:small",
+         "collision": {"kind": "mesh"}},
+        {"id": "p.proxy", "kit": "kit-a", "assetId": "asset:big",
+         "collision": {"kind": "convex", "parts": [{}, {}]}},
+        {"id": "p.none", "kit": "kit-a", "assetId": "asset:big",
+         "collision": {"kind": "none"}},
+    ]
+    settlements = [{"id": "place.test.big",
+                    "placementIds": ["p.big", "p.small", "p.proxy", "p.none"]}]
+    return settlements, placements
+
+
+def test_resident_collision_parts_counts_real_parts_not_placements(tmp_path):
+    settlements, placements = _budget_fixture(tmp_path)
+    # 7 (mesh LOD0) + 1 (mesh LOD0) + 2 (measured proxy) + 0 (no collision).
+    assert ex.resident_collision_parts(settlements, placements, tmp_path) == {
+        "place.test.big": 10}
+
+
+def test_collider_budget_gate_fails_below_the_requirement_and_passes_above(tmp_path):
+    settlements, placements = _budget_fixture(tmp_path)
+    errors = ex.collider_budget_errors(settlements, placements, 9, tmp_path)
+    assert len(errors) == 1
+    assert "place.test.big" in errors[0] and "10" in errors[0] and "9" in errors[0]
+    assert ex.collider_budget_errors(settlements, placements, 10, tmp_path) == []
+
+
+def test_shipped_bundle_settlements_fit_the_shipped_collider_budget():
+    """The gate on the real data: Lilmoth is the settlement that broke this."""
+    bundle = json.loads(ex.OUT.read_text())
+    totals = ex.resident_collision_parts(
+        bundle["settlements"], bundle["placements"], ex.PUBLIC_KITS)
+    assert totals, "published bundle has no settlements"
+    assert bundle["lod"]["colliderPartBudget"] == ex.COLLIDER_PART_BUDGET
+    over = {name: parts for name, parts in totals.items()
+            if parts > ex.COLLIDER_PART_BUDGET}
+    assert not over, f"published settlements exceed the collider budget: {over}"
+
+
+_LOD_CONTRACT = {"tiers": 3, "absoluteTriangleFloor": [120, 80]}
+
+
+def test_lod_gate_refuses_a_two_tier_asset(tmp_path):
+    """The exact shipped defect: probe kits were built with one lodRatio, so
+    their assets reached the bundle with a two-tier chain and the runtime's
+    validateLodTriangles threw in the browser (2026-09-09)."""
+    _fake_glb(tmp_path / "probe-kit.glb", {"asset:short": [1, 1]},
+              triangles={"asset:short": [1084, 382]})
+    placements = [{"id": "p.1", "kit": "probe-kit", "assetId": "asset:short"}]
+    errors = ex.lod_contract_errors(placements, _LOD_CONTRACT, tmp_path)
+    assert len(errors) == 1
+    assert "asset:short" in errors[0] and "2 tier(s)" in errors[0] and "p.1" in errors[0]
+
+
+def test_lod_gate_refuses_a_tier_below_the_absolute_triangle_floor(tmp_path):
+    _fake_glb(tmp_path / "kit-b.glb", {"asset:thin": [1, 1, 1]},
+              triangles={"asset:thin": [4000, 90, 480]})
+    errors = ex.lod_contract_errors(
+        [{"id": "p.2", "kit": "kit-b", "assetId": "asset:thin"}], _LOD_CONTRACT, tmp_path)
+    assert len(errors) == 1 and "absolute floor" in errors[0]
+
+
+def test_lod_gate_refuses_a_placement_whose_asset_is_not_in_the_glb(tmp_path):
+    _fake_glb(tmp_path / "kit-c.glb", {"asset:present": [1, 1, 1]})
+    errors = ex.lod_contract_errors(
+        [{"id": "p.3", "kit": "kit-c", "assetId": "asset:absent"}], _LOD_CONTRACT, tmp_path)
+    assert len(errors) == 1 and "not in the built kit GLB" in errors[0]
+
+
+def test_lod_gate_passes_a_real_three_tier_chain(tmp_path):
+    _fake_glb(tmp_path / "kit-d.glb", {"asset:good": [2, 1, 1]},
+              triangles={"asset:good": [1084, 382, 304]})
+    assert ex.lod_contract_errors(
+        [{"id": "p.4", "kit": "kit-d", "assetId": "asset:good"}], _LOD_CONTRACT, tmp_path) == []
+
+
+def test_shipped_bundle_assets_all_satisfy_the_runtime_lod_contract():
+    """Every placed asset in the published bundle, measured from the shipped GLBs."""
+    bundle = json.loads(ex.OUT.read_text())
+    assert ex.lod_contract_errors(
+        bundle["placements"], bundle["lod"], ex.PUBLIC_KITS) == []
+
+
+def _png(width, height):
+    """A PNG header only — the gate reads dimensions, never pixels."""
+    import zlib
+    ihdr = struct.pack(">II", width, height) + b"\x08\x06\x00\x00\x00"
+    block = b"IHDR" + ihdr
+    return (b"\x89PNG\r\n\x1a\n" + struct.pack(">I", len(ihdr)) + block
+            + struct.pack(">I", zlib.crc32(block)))
+
+
+def _glb_with_images(path, images):
+    binary = b""
+    views = []
+    rows = []
+    for blob in images:
+        views.append({"buffer": 0, "byteOffset": len(binary), "byteLength": len(blob)})
+        rows.append({"bufferView": len(views) - 1, "mimeType": "image/png"})
+        binary += blob + b"\x00" * (-len(blob) % 4)
+    document = {"asset": {"version": "2.0"}, "scene": 0, "scenes": [{"nodes": []}],
+                "nodes": [], "meshes": [], "accessors": [],
+                "bufferViews": views, "images": rows,
+                "buffers": [{"byteLength": len(binary)}]}
+    chunk = json.dumps(document).encode("utf-8")
+    chunk += b" " * (-len(chunk) % 4)
+    body = (struct.pack("<II", len(chunk), 0x4E4F534A) + chunk
+            + struct.pack("<II", len(binary), 0x004E4942) + binary)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(struct.pack("<III", 0x46546C67, 2, 12 + len(body)) + body)
+
+
+def test_texture_cap_gate_measures_the_published_image_not_a_manifest_claim(tmp_path):
+    _glb_with_images(tmp_path / "kit-t.glb", [_png(1024, 1024), _png(8192, 512)])
+    errors = ex.texture_cap_errors({"kit-t": {}}, {"atlasMaxSize": 4096}, tmp_path)
+    assert len(errors) == 1 and "8192x512" in errors[0] and "4096" in errors[0]
+    assert ex.texture_cap_errors({"kit-t": {}}, {"atlasMaxSize": 8192}, tmp_path) == []
+
+
+def test_shipped_kit_textures_are_inside_the_runtime_cap():
+    bundle = json.loads(ex.OUT.read_text())
+    assert ex.texture_cap_errors(bundle["kits"], bundle["lod"], ex.PUBLIC_KITS) == []

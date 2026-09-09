@@ -925,3 +925,53 @@ pier exists in the vault. Whoever wires the family into
 `compile_route_structures.FAMILIES` should decide deliberately whether a trunk
 road's viaduct may be one cart wide, or whether the two-lane crossings drop to
 `stone-arch` singles at ≤52 m.
+
+### 2026-09-09 (2) — the span kit wired in, and what the measurements changed
+
+The inventory above closed the sourcing. This entry closes the wiring: the
+compiler now has a vocabulary for a pier, an abutment and a piece anchored to
+the deck line. The pieces are placed on the ground. Decision
+[0051](../../decisions/0051-route-span-systems.md) records the calls.
+
+**Two candidates the inventory recommended are rejected, on their own numbers.**
+`vanilla:architecture/windhelm/windhelmbridge2` and
+`vanilla:architecture/solitude/sbridge01` were held out as the pieces that would
+cover 185 of 204 crossings as one authored object. Their registry extents say
+otherwise: windhelmbridge2 is **145.127 m of span at 32.9 m wide**, sbridge01
+**92.442 m at 30.923 m**. Those are city bridges with towers and buildings on
+them, four to six times the 5.0 m running surface `grade_routes.FLAT_WIDTH_M`
+gives a trunk road. Neither is a road crossing and neither is packaged. The
+monolith ladder therefore stops where vanilla's free-standing landscape bridges
+stop, at 52.188 m.
+
+**One family was added, the best-evidenced in the kit.** The
+`stockade-trestle`: `stockadescaffoldbase4sided01` self-stacked in 2.731 m
+storeys (`vanilla:t0019`, n=28) and set side by side at 3.63 m (`t0159`, n=11);
+the plates `top0sided01` (`t0474`, n=6; `t0061`, n=17), `top2sided01`
+(`t0230`, n=9) and `top3sided01` (`t0475`, n=6) on the base at +2.73 m; plates
+tiled end to end at 3.64 m (`t0100`, n=14). Every join, parapet included, is
+vanilla's own. It replaces `stockadescaffoldbridge01/02/narrow` as the freehold
+deck: **no template in any mined set places any `stockadescaffoldbridge*`
+against a scaffold base or against another bridge piece**, so chaining them was
+a guessed combination. `route-spans-v1` is rebuilt at **22 assets, 13.4 MB GLB,
+33 co-placement and 56 bounds connectors**.
+
+**The same test caught a second guessed chain.** `dunmer-stone` was chaining
+`hlaalu:…/hammerfell/trgmbridge02` up to 29 pieces deep across a crossing. No
+mined template places two `trgmbridge` pieces end to end either. They stay as
+the family's flight landing, one piece at a time, which needs no pairing
+evidence. Dunmer-north crossings now use the same stone arch or viaduct as
+every other stone way.
+
+**What the province measures after the change** (`world/sources/sites/route-structures.md`,
+regenerate with `python3 -m worldgen.compile_route_structures`): 204 crossings,
+4,531 pieces, **841 piers, every one of them standing on the ground beneath
+it**, deepest trestle foundation buried 2.73 m, which is one storey by
+construction. No deck anywhere in the province sits more than 0.19 m under the
+ground, against 8.25 m before the deck line was changed from a chord to a taut
+profile.
+
+**Open, evidenced.** One crossing,
+`structure.hist-heartland-alten-markmont.2`, wants a deck 5.4 m above ground.
+The BM&V passerelle set ships no pier, only posts 1.516 m long. Recorded in the
+route-structures report and in the polish backlog.

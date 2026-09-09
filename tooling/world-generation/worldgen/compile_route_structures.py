@@ -52,7 +52,8 @@ from pathlib import Path
 
 import numpy as np
 
-from .grade_routes import STRUCTURES_PATH, resample, sample_bilinear, ways
+from .grade_routes import (FLAT_WIDTH_M, STRUCTURES_PATH, resample,
+                          sample_bilinear, ways)
 from .scale import RAW_M
 
 SCHEMA_VERSION = 1
@@ -60,8 +61,10 @@ GENERATOR_ID = "worldgen.compile_route_structures"
 GENERATOR_VERSION = 1
 
 KIT = "route-structures-v1"
-KIT_PATH = (Path(__file__).resolve().parents[2] / "asset-pipeline" / "output"
-            / "kits" / f"{KIT}.kit.json")
+SPAN_KIT = "route-spans-v1"
+_KIT_DIR = Path(__file__).resolve().parents[2] / "asset-pipeline" / "output" / "kits"
+KIT_PATH = _KIT_DIR / f"{KIT}.kit.json"
+SPAN_KIT_PATH = _KIT_DIR / f"{SPAN_KIT}.kit.json"
 OUT_DIR = Path(__file__).resolve().parents[1] / "output" / "route-structures"
 REPORT_PATH = (Path(__file__).resolve().parents[3] / "world" / "sources"
                / "sites" / "route-structures.md")
@@ -80,6 +83,10 @@ SIZE_TOLERANCE_M = 0.15        # how far a piece may drift before we refuse it
 FAMILIES: dict[str, dict] = {
     "stone-civic": {          # roads and trunk roads: Imperial engineering
         "culture": "imperial",
+        # A crossing is one authored bridge where one fits, and the Nordic
+        # viaduct where none does: the vanilla landscape bridges stop at
+        # 52.188 m and nothing in the vault chains them.
+        "span": {"monolith": "stone-arch", "chain": "nordic-viaduct"},
         "stair": {"asset": "vanilla:architecture/whiterun/wrterrain/wrcastlestairs01",
                   # sizeM [13.212, 18.652, 12.609]: run = y, rise = z, width = x
                   "runM": 18.652, "riseM": 12.609, "widthM": 13.212},
@@ -92,6 +99,7 @@ FAMILIES: dict[str, dict] = {
     },
     "stone-rural": {          # the Imperial fringe's farm-terrace stone
         "culture": "imperial-fringe",
+        "span": {"monolith": "stone-arch", "chain": "nordic-viaduct"},
         "stair": {"asset": "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01",
                   # sizeM [7.283, 8.232, 2.495]: run = y, rise = z -> 16.9 deg
                   "runM": 8.232, "riseM": 2.495, "widthM": 7.283},
@@ -104,6 +112,12 @@ FAMILIES: dict[str, dict] = {
     },
     "dunmer-stone": {         # the Dunmer north: Hlaalu Hammerfell masonry
         "culture": "dunmer",
+        # The Hlaalu trgmbridge pieces stay as FLIGHT landings only: no plugin
+        # in any mined set places two of them end to end, so there is no
+        # authored evidence they may be chained into a crossing (they were
+        # being chained, up to 29 deep). A Dunmer-north crossing is a stone
+        # arch or a viaduct, like every other stone way.
+        "span": {"monolith": "stone-arch", "chain": "nordic-viaduct"},
         "stair": {"asset": "hlaalu:hlaaluarchitecture/hammerfell/stairs01",
                   # sizeM [7.35, 6.064, 2.283]: run = y, rise = z -> 20.6 deg
                   "runM": 6.064, "riseM": 2.283, "widthM": 7.350},
@@ -117,6 +131,7 @@ FAMILIES: dict[str, dict] = {
     },
     "root-timber": {          # the Hist heartland: BM&V passerelle deck
         "culture": "argonian-root",
+        "span": {"chain": "root-passerelle"},
         "ladder": True,
         "stair": {"asset": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
                   # 128-unit run / 64-unit rise at 0.014224 m per unit (the
@@ -131,6 +146,7 @@ FAMILIES: dict[str, dict] = {
     },
     "scaffold-timber": {      # the pirate freeholds: lashed stockade scaffold
         "culture": "freehold",
+        "span": {"chain": "stockade-trestle"},
         "ladder": True,
         "stair": {"asset": "vanilla:clutter/stockade/stockadescaffoldstairs01",
                   # sizeM [3.583, 3.457, 3.448]: run = y, rise = z -> 44.9 deg,
@@ -145,6 +161,129 @@ FAMILIES: dict[str, dict] = {
     },
 }
 
+# --------------------------------------------------------------------------
+# SPAN SYSTEMS — the vocabulary a crossing needs, which the flight table above
+# does not have: a deck carried ABOVE the ground on piers, an abutment that
+# terminates the run, and a whole authored bridge that needs no chaining at all.
+#
+# Every offset here is the authors' own, mined into
+# `world/sources/placement/kit-assemblies-mined.json`, with the template id and
+# the number of times vanilla/BM&V placed it that way. Nothing is inferred from
+# a piece's name and nothing is jammed together because it sounds compatible.
+#
+# ANCHORING is the concept the flight table lacked. A flight is placed by its
+# FOOT: it stands on the ground. A viaduct deck, a pier and every one of the
+# vanilla landscape bridges are placed by their DECK LINE — their pivot is the
+# walking surface and the structure hangs below it (`nortmpextplattower01`
+# carries 21.848 m of shaft under its pivot; the landscape bridges carry 14.373
+# m of arch). Placed on the deck line they find their own springing and bury
+# nothing; placed on the foot line they would float the road 14–22 m in the air.
+# `anchor: "deck-line"` means EXACTLY that: do not subtract the piece's own
+# height, the ground is not where this piece begins.
+#
+# NO EMBANKMENTS (owner ruling 2026-09-09): a span is additive geometry and
+# changes no ground. The deck runs on the straight chord between the window's
+# two ground endpoints, so it meets the road at both ends and the gap under it
+# is bridged, never filled.
+DECK_LINE, FOOT, MID_PIVOT = "deck-line", "foot", "mid-pivot"
+
+# How far a whole authored bridge may be longer than the gap it is asked to
+# cross before it stops being the honest answer. Overhang lands the arch's
+# abutment on ground short of the gap, which is what an abutment is for; too
+# much of it and the deck runs 14 m above open hillside at the ends.
+MONOLITH_OVERHANG_MAX_M = 12.0
+# A whole authored bridge has a flat deck. Laid at the higher of the crossing's
+# two ends it buries nothing, but it meets the lower end this far above the
+# road, and past this the step is a wall rather than an abutment.
+MONOLITH_END_STEP_MAX_M = 2.0
+# A pier is only placed where the deck is clear of the ground by more than the
+# deck's OWN thickness — below that the deck module's underside is already on
+# the ground and a 26.8 m tower would be entirely buried under it. Each system
+# names its deck's measured thickness; this is the floor under all of them.
+PIER_MIN_DROP_M = 0.4
+
+SPAN_SYSTEMS: dict[str, dict] = {
+    # Whole vanilla landscape bridges: arch, piers, abutments and parapet all
+    # modelled in. `bridgeshort01`/`bridgenarrow01` are the same 23.435 m span
+    # at two widths. NOTHING here chains — no source plugin ever placed two of
+    # them end to end — so this system is one piece per crossing or nothing.
+    "stone-arch": {
+        "authoredSet": "vanilla:landscape/bridges",
+        "monoliths": [
+            {"asset": "vanilla:landscape/bridges/bridgenarrow01",
+             "runM": 23.435, "widthM": 4.832, "anchor": DECK_LINE},
+            {"asset": "vanilla:landscape/bridges/bridgeshort01",
+             "runM": 23.435, "widthM": 7.451, "anchor": DECK_LINE},
+            {"asset": "vanilla:landscape/bridges/bridge01",
+             "runM": 42.084, "widthM": 9.133, "anchor": DECK_LINE},
+            {"asset": "vanilla:landscape/bridges/bridgelong01",
+             "runM": 52.188, "widthM": 9.133, "anchor": DECK_LINE},
+        ],
+    },
+    # The Nordic temple-exterior platform tower: the only deck+pier system in
+    # the vault whose deck-to-deck AND deck-to-pier joins are both mined.
+    "nordic-viaduct": {
+        "authoredSet": "vanilla:dungeons/nordic/exterior",
+        "deck": {"asset": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01",
+                 # sizeM [2.873, 5.462, 1.479]; self-chains at 5.46 m
+                 "runM": 5.462, "widthM": 2.873, "anchor": DECK_LINE,
+                 "thicknessM": 1.479,
+                 "connector": "vanilla:t0029", "connectorCount": 25},
+        "pier": {"asset": "vanilla:dungeons/nordic/exterior/nortmpextplattower01",
+                 # sizeM [3.475, 5.047, 26.825], originOffsetM z 21.848 — the
+                 # pivot IS the deck level, 21.85 m of shaft below it
+                 "runM": 5.047, "widthM": 3.475, "anchor": DECK_LINE,
+                 "dropM": 21.848, "everyM": 5.462,
+                 "connector": "vanilla:t0038", "connectorCount": 22},
+        "abutment": {"asset": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01",
+                     # sizeM [2.788, 0.963, 1.366]; the deck's own 2.79 m width
+                     "runM": 0.963, "widthM": 2.788, "anchor": DECK_LINE},
+    },
+    # The lashed stockade scaffold. The ONE family in which every join,
+    # parapet included, is proven from vanilla's own templates.
+    "stockade-trestle": {
+        "authoredSet": "vanilla:clutter/stockade",
+        "deck": {"asset": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
+                 # sizeM [3.535, 3.739, 0.957]: a railed plate, rail 0.679 m
+                 # over the 0.278 m plate. Plates tile at 3.64 m (t0100, n=14).
+                 "runM": 3.641, "widthM": 3.535, "anchor": DECK_LINE,
+                 "thicknessM": 0.278,
+                 "connector": "vanilla:t0100", "connectorCount": 14},
+        "pier": {"asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+                 # sizeM [3.704, 3.843, 2.731], originOffsetM z 0 — foot-
+                 # anchored and stacked in 2.731 m storeys (t0019, n=28); the
+                 # plate goes on the top storey at +2.73 m (t0230, n=9).
+                 "runM": 3.843, "widthM": 3.704, "anchor": FOOT,
+                 "storeyM": 2.731, "everyM": 3.641,
+                 "connector": "vanilla:t0230", "connectorCount": 9},
+        "abutment": {"asset": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+                     # sizeM [3.535, 3.739, 0.278]: the plain plate, the piece
+                     # the run ends on where the deck meets the ground
+                     "runM": 3.739, "widthM": 3.535, "anchor": DECK_LINE},
+    },
+    # The BM&V Bosmer passerelle, which carries its own posts: an authored
+    # walkway chain (passl128 self-chained n=188), no separate pier.
+    "root-passerelle": {
+        "authoredSet": "bmv:architecture/citebosmer/passerelles",
+        # Both pieces have their pivot at mid-height (originOffsetM z 1.516 of
+        # a 3.031 m piece), so neither the deck line nor the foot is the pivot:
+        # the walk is 1.515 m above it (the piece's own top) and the posts run
+        # 1.516 m below. The posts are the support, so this system needs no
+        # separate pier — but they are only 1.516 m long, and a deck further
+        # than that above the ground is reported, never floated.
+        "deck": {"asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",
+                 # sizeM [3.803, 3.081, 3.031]; run is the author's 256-unit
+                 # contract at 0.014224 m/unit = 3.641 m
+                 "runM": 3.641, "widthM": 3.081, "anchor": MID_PIVOT,
+                 "deckOffsetM": 1.515, "dropM": 1.516,
+                 "connector": "bmv-valenwood:t0113", "connectorCount": 154},
+        "abutment": {"asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01",
+                     # sizeM [1.982, 3.081, 3.031]; the 128-unit segment
+                     "runM": 1.821, "widthM": 3.081, "anchor": MID_PIVOT,
+                     "deckOffsetM": 1.515, "dropM": 1.516},
+    },
+}
+
 # The piece each structure kind chains, by role.
 KIND_ROLE = {"stair": "stair", "stepped-ascent": "stair",
              "deck": "deck", "bridge": "deck", "lip-step": "landing"}
@@ -153,13 +292,31 @@ KIND_ROLE = {"stair": "stair", "stepped-ascent": "stair",
 # RAMP_MAX_DEG rather than to a flight cap.
 RAMP_KINDS = frozenset({"deck", "bridge", "lip-step"})
 
+# The kinds that CROSS a gap and so go through the span systems rather than
+# tiling a flight piece along the ground. `lip-step` is deliberately not one:
+# it is a single step over a terrace lip, not a crossing, and a 23 m stone
+# bridge is the wrong answer to a 2 m rise.
+SPAN_KINDS = frozenset({"deck", "bridge"})
+
 
 # --------------------------------------------------------------------------
 # kit validation
 # --------------------------------------------------------------------------
 def load_kit(path: Path | None = None) -> dict:
-    path = path or KIT_PATH
-    return {a["id"]: a for a in json.loads(path.read_text())["assets"]}
+    """Both built kits in one lookup.
+
+    A FAMILY still never mixes authored sets — that rule lives in the tables
+    below and in `validate` — but the pieces of one authored set are split
+    across two kit FILES (the flights are in route-structures-v1, the span
+    systems in route-spans-v1), so the manifest lookup spans both.
+    """
+    if path is not None:
+        return {a["id"]: a for a in json.loads(path.read_text())["assets"]}
+    out: dict = {}
+    for p in (KIT_PATH, SPAN_KIT_PATH):
+        if p.exists():
+            out.update({a["id"]: a for a in json.loads(p.read_text())["assets"]})
+    return out
 
 
 def validate(kit: dict, families: dict | None = None) -> None:
@@ -168,7 +325,7 @@ def validate(kit: dict, families: dict | None = None) -> None:
     for fam, spec in (families or FAMILIES).items():
         cap = LADDER_MAX_DEG if spec.get("ladder") else FLIGHT_MAX_DEG
         for role, piece in spec.items():
-            if not isinstance(piece, dict):
+            if role == "span" or not isinstance(piece, dict):
                 continue
             asset = kit.get(piece["asset"])
             if asset is None:
@@ -197,6 +354,112 @@ def validate(kit: dict, families: dict | None = None) -> None:
                     raise ValueError(
                         f"{fam}/{role}: {piece['asset']} climbs {deg:.1f} deg, over the "
                         f"{cap:.0f} deg cap for this family — it is not a walkable flight")
+    validate_spans(kit, families or FAMILIES)
+
+
+def validate_spans(kit: dict, families: dict | None = None,
+                   systems: dict | None = None) -> None:
+    """Hold the invariants the span vocabulary adds.
+
+    A family that carries a way over a gap must SAY how, and a span system must
+    be complete: a deck with nothing to terminate it leaves a slab hanging in
+    the air, which is the defect this whole kit exists to fix. Anchoring is
+    checked too — a `deck-line` piece whose manifest says its pivot is at its
+    own foot would be placed 22 m too high.
+
+    MUTATION: delete the abutment requirement and a chain system can ship a run
+    that ends in mid-air with nothing failing.
+    """
+    systems = SPAN_SYSTEMS if systems is None else systems
+    for fam, spec in (FAMILIES if families is None else families).items():
+        span = spec.get("span")
+        if not span:
+            raise ValueError(
+                f"{fam}: no `span` block. Every family must say how it carries a "
+                f"way over a gap; without one the compiler falls back to tiling a "
+                f"flight piece across open air, which is the defect route-spans-v1 "
+                f"was built to end")
+        for key in ("monolith", "chain"):
+            name = span.get(key)
+            if name is None:
+                continue
+            if name not in systems:
+                raise ValueError(f"{fam}/{key}: unknown span system {name!r}")
+        if not span.get("chain"):
+            raise ValueError(
+                f"{fam}: names no chain system, so a gap longer than its longest "
+                f"whole bridge could not be crossed at all")
+    for name, sysspec in systems.items():
+        monos = sysspec.get("monoliths") or []
+        pieces = [p for p in (sysspec.get(r) for r in ("deck", "pier", "abutment"))
+                  if p] + monos
+        if not pieces:
+            raise ValueError(f"span system {name}: no pieces")
+        if sysspec.get("deck") and not sysspec.get("abutment"):
+            raise ValueError(
+                f"span system {name}: declares a repeating deck but no abutment. "
+                f"A chained deck must be terminated at both ends or the run stops "
+                f"in mid-air")
+        if monos and (sysspec.get("deck") or sysspec.get("pier")):
+            raise ValueError(
+                f"span system {name}: mixes whole authored bridges with a chained "
+                f"deck. No plugin places a landscape bridge against a viaduct deck; "
+                f"a system is one or the other")
+        runs = [m["runM"] for m in monos]
+        if runs != sorted(runs):
+            raise ValueError(f"span system {name}: monoliths must be listed by "
+                             f"ascending runM so the smallest that fits is chosen")
+        for p in pieces:
+            asset = kit.get(p["asset"])
+            if asset is None:
+                raise ValueError(f"span system {name}: {p['asset']} is not in "
+                                 f"{KIT} or {SPAN_KIT}")
+            extents = [round(v, 3) for v in asset["sizeM"]]
+            if not any(abs(p["widthM"] - e) <= SIZE_TOLERANCE_M for e in extents):
+                raise ValueError(
+                    f"span system {name}: widthM={p['widthM']} is no longer an "
+                    f"extent of {p['asset']} (sizeM {extents}); re-measure the kit")
+            if p["anchor"] not in (DECK_LINE, FOOT, MID_PIVOT):
+                raise ValueError(f"span system {name}: unknown anchor {p['anchor']!r}")
+            off = asset.get("originOffsetM")
+            if off is None:
+                continue
+            vertical_pivot = round(float(off[2]), 3)
+            if p["anchor"] == MID_PIVOT:
+                # A piece whose pivot is neither its walking surface nor its
+                # foot must state, in measured metres, where each of those is.
+                for key in ("deckOffsetM", "dropM"):
+                    if key not in p:
+                        raise ValueError(
+                            f"span system {name}: {p['asset']} is {MID_PIVOT!r} "
+                            f"anchored and must declare {key}")
+                if p["deckOffsetM"] > extents[2] + SIZE_TOLERANCE_M:
+                    raise ValueError(
+                        f"span system {name}: deckOffsetM={p['deckOffsetM']} is "
+                        f"taller than the {extents[2]} m piece {p['asset']}")
+                if abs(p["dropM"] - vertical_pivot) > SIZE_TOLERANCE_M:
+                    raise ValueError(
+                        f"span system {name}: dropM={p['dropM']} does not match the "
+                        f"{vertical_pivot} m the manifest measures below "
+                        f"{p['asset']}'s pivot")
+                continue
+            if p["anchor"] == DECK_LINE and vertical_pivot < 0.2 * extents[2] - 1e-6:
+                raise ValueError(
+                    f"span system {name}: {p['asset']} is anchored {DECK_LINE!r} but "
+                    f"its pivot sits {vertical_pivot} m up a {extents[2]} m piece — "
+                    f"that is a foot-anchored piece and placing it on the deck line "
+                    f"would bury it")
+            if p["anchor"] == FOOT and vertical_pivot > 0.2 * extents[2] + 1e-6:
+                raise ValueError(
+                    f"span system {name}: {p['asset']} is anchored {FOOT!r} but its "
+                    f"pivot is {vertical_pivot} m up a {extents[2]} m piece — placed "
+                    f"on the ground it would float")
+            drop = p.get("dropM")
+            if drop is not None and abs(drop - vertical_pivot) > SIZE_TOLERANCE_M:
+                raise ValueError(
+                    f"span system {name}: pier dropM={drop} does not match the "
+                    f"{vertical_pivot} m of shaft the manifest measures below "
+                    f"{p['asset']}'s pivot")
 
 
 # --------------------------------------------------------------------------
@@ -258,6 +521,224 @@ def ramp_ok(kind: str, grade_deg: float) -> bool:
     return kind not in RAMP_KINDS or grade_deg <= RAMP_MAX_DEG + 1e-6
 
 
+def _piece_y(piece: dict, deck_y: float) -> float:
+    """Where a piece's PIVOT goes so its walking surface lands on `deck_y`."""
+    if piece["anchor"] == DECK_LINE:
+        return deck_y
+    if piece["anchor"] == FOOT:
+        return deck_y - piece.get("deckOffsetM", 0.0)
+    return deck_y - piece["deckOffsetM"]
+
+
+def _piece_bottom(piece: dict, deck_y: float) -> float:
+    """The lowest point of the piece once placed — what must reach the ground."""
+    return _piece_y(piece, deck_y) - piece.get("dropM", 0.0)
+
+
+def deck_profile(chain: np.ndarray, hs: np.ndarray, a: float, b: float,
+                 sample_m: float = 2.0) -> tuple[np.ndarray, np.ndarray]:
+    """The deck line of a crossing: a taut string from (a, ground) to (b, ground)
+    lying ON OR ABOVE the ground the whole way.
+
+    This is the upper convex hull of the ground profile inside the window, and
+    it is the one profile that satisfies all three of the rules a span must
+    obey at once. It meets the road at both ends (the endpoints are on the
+    ground); it never dips into the terrain (a straight chord does — measured
+    2026-09-09: on the shipped windows a chord buried the deck up to 8.25 m,
+    because an over-cap stretch is not a clean void and the hummocks inside it
+    rise above the line between its ends); and it moves no ground, which the
+    owner's no-embankment ruling requires. Its kinks are where the piers want
+    to be, exactly as a real viaduct is laid out.
+    """
+    n = max(int(math.ceil((b - a) / sample_m)) + 1, 2)
+    cs = np.linspace(a, b, n)
+    ys = np.interp(cs, chain, hs)
+    # Monotone-chain upper hull over (cs, ys), endpoints always kept.
+    hull: list[int] = []
+    for i in range(n):
+        while len(hull) >= 2:
+            i0, i1 = hull[-2], hull[-1]
+            cross = ((cs[i1] - cs[i0]) * (ys[i] - ys[i0])
+                     - (ys[i1] - ys[i0]) * (cs[i] - cs[i0]))
+            if cross > 0:            # i1 is below the line i0->i: drop it
+                hull.pop()
+            else:
+                break
+        hull.append(i)
+    return cs[hull], ys[hull]
+
+
+def choose_monolith(system: dict, span_m: float, need_width_m: float) -> dict | None:
+    """The smallest whole authored bridge that covers this gap at this width.
+
+    THE MONOLITH RULE (decision 0049). A crossing that one authored piece spans
+    is built as that piece: `bridgelong01` carries its own arch, piers,
+    abutments and parapet, and no chain of deck modules will ever look like a
+    bridge. So: take the SMALLEST monolith whose run covers the gap and whose
+    deck is at least as wide as the way's running surface, provided it overhangs
+    the gap by no more than MONOLITH_OVERHANG_MAX_M. Past that the bridge's ends
+    would sit 14 m above open hillside, and the honest answer is a viaduct that
+    puts piers on the ground it actually crosses.
+    """
+    for m in system.get("monoliths") or []:
+        if m["runM"] + 1e-6 < span_m:
+            continue
+        if m["widthM"] + 1e-6 < need_width_m:
+            continue
+        if m["runM"] - span_m > MONOLITH_OVERHANG_MAX_M:
+            break                     # ascending, so nothing longer fits either
+        return m
+    return None
+
+
+def compile_span(st: dict, fam: dict, chain, xs, zs, hs, m: dict,
+                 need_width_m: float) -> tuple[list[dict], dict]:
+    """Build one crossing: a whole bridge if one fits, otherwise a viaduct.
+
+    The deck runs on the straight chord between the window's two GROUND
+    endpoints, so it meets the road at both ends and changes no terrain (owner
+    ruling 2026-09-09: no embankments — a span is additive geometry).
+
+    Returns the placements and a measured `spanFacts` block: how far each end of
+    the deck is from the ground it lands on (0 = neither floating nor buried),
+    and for every pier whether its shaft reaches the ground under it.
+    """
+    span_spec = fam["span"]
+    a, b, span = m["fromM"], m["toM"], m["spanM"]
+    ya = float(np.interp(a, chain, hs))
+    yb = float(np.interp(b, chain, hs))
+    hull_c, hull_y = deck_profile(chain, hs, a, b)
+
+    def deck_y(c: float) -> float:
+        return float(np.interp(c, hull_c, hull_y))
+
+    placements: list[dict] = []
+    facts = {"spanM": round(span, 2), "endDropM": [0.0, 0.0]}
+
+    def emit(piece: dict, role: str, c: float, run: float, y: float,
+             surface: float | None = None, extra: dict | None = None) -> None:
+        x, z, _ = _at(chain, xs, zs, hs, c)
+        p = {
+            "id": f"{st['id']}.p{len(placements) + 1}",
+            "assetId": piece["asset"],
+            "role": role,
+            "posM": [round(x, 3), round(y, 3), round(z, 3)],
+            "yawDeg": _yaw_deg(chain, xs, zs, min(c + run * 0.5, b), max(run, 1.0)),
+            "fromM": round(c, 2), "toM": round(min(c + run, b), 2),
+            "anchor": piece["anchor"],
+            # The walking surface this piece carries, in world metres. Written
+            # so the proof "the deck meets the road and floats nowhere" is a
+            # subtraction anyone can redo against the heightfield, rather than a
+            # claim about a pivot that may sit anywhere inside the mesh.
+            "deckSurfaceM": round(surface if surface is not None else y, 3),
+            "provenance": {
+                "sourceStructureId": st["id"], "sourceWayId": st["wayId"],
+                "generatorId": GENERATOR_ID, "generatorVersion": GENERATOR_VERSION,
+                "seed": st["id"],
+                "ruleId": f"route-span/{st['kind']}/{st['family']}/{role}",
+                "assetId": piece["asset"], "sourceDataHashes": [],
+            },
+        }
+        if extra:
+            p.update(extra)
+        placements.append(p)
+
+    mono_system = SPAN_SYSTEMS.get(span_spec.get("monolith") or "", {})
+    mono = choose_monolith(mono_system, span, need_width_m)
+    if mono is not None:
+        # A whole authored bridge has a FLAT deck, so it can only be used where
+        # a level deck meeting both ends clears the ground the whole way. Where
+        # the ground humps up inside the window, a flat bridge would be buried
+        # in it and the chained viaduct — which follows the taut profile — is
+        # the honest answer.
+        level_flat = max(ya, yb)
+        if float(np.max(hull_y)) > level_flat + 0.05:
+            mono = None
+        elif abs(yb - ya) > MONOLITH_END_STEP_MAX_M:
+            mono = None
+    if mono is not None:
+        # One authored bridge, placed at the mid-point of the gap on the mean
+        # of the two ground endpoints, its arch finding its own springing.
+        c = 0.5 * (a + b)
+        level = level_flat
+        emit(mono, "bridge", c - 0.5 * mono["runM"], mono["runM"],
+             _piece_y(mono, level), level)
+        facts.update({"system": span_spec["monolith"], "arrangement": "monolith",
+                      "pieceRunM": mono["runM"], "pieceWidthM": mono["widthM"],
+                      "overhangM": round(mono["runM"] - span, 2),
+                      "piers": 0, "piersShort": 0,
+                      # A flat deck laid at the higher of the two ends buries
+                      # nothing, but it meets the lower end this far up. The
+                      # step is measured, never hidden.
+                      "endStepM": round(abs(yb - ya), 2)})
+        return placements, facts
+
+    system = SPAN_SYSTEMS[span_spec["chain"]]
+    deck, abut = system["deck"], system["abutment"]
+    pier = system.get("pier")
+    emit(abut, "abutment", a, abut["runM"], _piece_y(abut, ya), ya)
+    c = a + abut["runM"]
+    deck_end = b - abut["runM"]
+    n_deck = 0
+    while c < deck_end - 0.05 and n_deck < 400:
+        emit(deck, "deck", c, deck["runM"], _piece_y(deck, deck_y(c)), deck_y(c))
+        c += deck["runM"]
+        n_deck += 1
+    emit(abut, "abutment", deck_end, abut["runM"], _piece_y(abut, yb), yb)
+
+    piers = short = 0
+    if pier is not None:
+        pc = a + pier["everyM"]
+        min_drop = max(PIER_MIN_DROP_M, deck.get("thicknessM", 0.0))
+        while pc < deck_end - 0.05:
+            dy = deck_y(pc)
+            _, _, ground = _at(chain, xs, zs, hs, pc)
+            drop = dy - ground
+            if drop > min_drop:
+                if pier["anchor"] == FOOT:
+                    # A stacked trestle. The storeys are whole 2.731 m modules
+                    # and the ground is not, so the stack is built DOWNWARD from
+                    # the deck: the top storey's head is exactly at the deck
+                    # line and the bottom storey ends up to one storey below the
+                    # ground. Buried is right — that is a foundation — whereas
+                    # stacking upward from the ground leaves the plate floating
+                    # by whatever the drop is not a multiple of.
+                    storey = pier["storeyM"]
+                    n = max(int(math.ceil(drop / storey - 1e-6)), 1)
+                    for k in range(n):
+                        emit(pier, "pier", pc, pier["runM"],
+                             dy - (k + 1) * storey, dy,
+                             {"storey": k + 1, "storeysM": round(n * storey, 2)})
+                    piers += 1
+                    bottom = dy - n * storey
+                    facts["maxBuriedM"] = round(
+                        max(facts.get("maxBuriedM", 0.0), ground - bottom), 2)
+                    if bottom > ground + 0.05:
+                        short += 1
+                else:
+                    emit(pier, "pier", pc, pier["runM"], _piece_y(pier, dy), dy,
+                         {"shaftBottomM": round(_piece_bottom(pier, dy), 2),
+                          "groundM": round(ground, 2)})
+                    piers += 1
+                    if _piece_bottom(pier, dy) > ground + 0.05:
+                        short += 1
+            pc += pier["everyM"]
+    elif deck.get("dropM"):
+        # A self-supporting deck: its own posts are the only support, so a deck
+        # further above the ground than the posts are long is a finding.
+        worst = 0.0
+        cc = a
+        while cc < b:
+            _, _, g = _at(chain, xs, zs, hs, cc)
+            worst = max(worst, deck_y(cc) - g - deck["dropM"])
+            cc += deck["runM"]
+        facts["postShortfallM"] = round(max(worst, 0.0), 2)
+
+    facts.update({"system": span_spec["chain"], "arrangement": "chain",
+                  "decks": n_deck, "piers": piers, "piersShort": short})
+    return placements, facts
+
+
 def compile_structure(st: dict, way: dict, heights: np.ndarray,
                       kit: dict) -> tuple[list[dict], dict]:
     """Placements for one structure, plus its summary row."""
@@ -294,6 +775,17 @@ def compile_structure(st: dict, way: dict, heights: np.ndarray,
         st = dict(st, kind="stepped-ascent")
         role = KIND_ROLE[st["kind"]]
         piece, landing = fam[role], fam["landing"]
+
+    if st["kind"] in SPAN_KINDS:
+        placements, facts = compile_span(st, fam, chain, xs, zs, hs, m,
+                                         FLAT_WIDTH_M.get(way["kind"], 3.6))
+        row = {"structureId": st["id"], "wayId": st["wayId"], "kind": st["kind"],
+               "family": st["family"], "pieces": len(placements),
+               "spanM": round(span, 1), "riseM": round(rise, 2),
+               "fromM": round(a, 2), "toM": round(b, 2), "span": facts}
+        if corrected is not None:
+            row["kindCorrected"] = corrected
+        return placements, row
 
     placements: list[dict] = []
     c = a
@@ -417,10 +909,10 @@ def write_report(rows: list[dict], residual: dict[str, float], path: Path) -> st
         "",
         f"The {len(by_way)} ways that stayed over their gradient cap after "
         "grading are walked on built geometry instead of on a deeper cut: a flight, a "
-        "stepped ascent, a ramped deck, a span, or one step over a lip. The "
+        "stepped ascent, a ramped deck, a span or one step over a lip. The "
         "windows come from the grader's own measurement "
-        "(`output/route-grading-stretches.json`), the pieces from "
-        f"`{KIT}`, and each family uses one authored set only.",
+        "(`output/route-grading-stretches.json`) and the pieces from "
+        f"`{KIT}`. Each family uses one authored set only.",
         "",
         f"Caps: a flight may reach {FLIGHT_MAX_DEG:.0f} deg in masonry and "
         f"{LADDER_MAX_DEG:.0f} deg in lashed timber; a deck or span may grade "
@@ -441,6 +933,64 @@ def write_report(rows: list[dict], residual: dict[str, float], path: Path) -> st
         lines.append("| `{}` | {} | {} | {:.0f} | {:.0f} | {:.1f} | {} |".format(
             r["structureId"], r["kind"], r["family"], r["fromM"], r["toM"],
             r["riseM"], r["pieces"]))
+    spans = [r for r in rows if r.get("span")]
+    if spans:
+        mono = [r for r in spans if r["span"]["arrangement"] == "monolith"]
+        chained = [r for r in spans if r["span"]["arrangement"] == "chain"]
+        piers = sum(r["span"]["piers"] for r in chained)
+        short = sum(r["span"]["piersShort"] for r in chained)
+        buried = max([r["span"].get("maxBuriedM", 0.0) for r in chained] or [0.0])
+        by_sys: dict[str, int] = {}
+        for r in spans:
+            by_sys[r["span"]["system"]] = by_sys.get(r["span"]["system"], 0) + 1
+        lines += [
+            "", "## Crossings", "",
+            "A crossing is built as ONE whole authored bridge wherever a single "
+            "piece covers the gap at the way's running width, overhangs it by no "
+            f"more than {MONOLITH_OVERHANG_MAX_M:.0f} m and can lie flat over it "
+            f"without burying itself or meeting the road more than "
+            f"{MONOLITH_END_STEP_MAX_M:.0f} m up. Otherwise the family's "
+            "own viaduct is chained: an abutment at each end, a run of deck "
+            "modules and piers on the authored spacing.",
+            "",
+            "The deck line is a taut string from one end of the window to the "
+            "other, lying on or above the ground the whole way. It meets the "
+            "road at both ends, does not dip into the terrain and moves no "
+            "ground. A straight chord did dip, by up to 8.25 m, because an "
+            "over-cap stretch is a slope with hummocks in it.",
+            "",
+            "That is also why so few crossings are a single arch. The windows "
+            "come from the grader's over-cap stretches and their median fall is "
+            "3.9 m, so a flat vanilla bridge laid across one of those meets the "
+            "lower road several metres in the air. A chained viaduct steps down "
+            "with the ground, one module at a time.",
+            "",
+            f"* {len(spans)} crossings, {sum(r['pieces'] for r in spans)} pieces.",
+            f"* {len(mono)} are one authored bridge (worst overhang "
+            f"{max([r['span']['overhangM'] for r in mono] or [0.0]):.1f} m); "
+            f"{len(chained)} are chained.",
+            f"* {piers} piers placed, {short} that do not reach the ground under "
+            f"them; deepest foundation buried {buried:.2f} m (one trestle storey "
+            "is 2.731 m).",
+            "* systems: " + ", ".join(f"`{k}` {v}" for k, v in sorted(by_sys.items())) + ".",
+            "",
+            "| crossing | way | system | arrangement | span m | pieces | piers |",
+            "| --- | --- | --- | --- | --- | --- | --- |",
+        ]
+        for r in sorted(spans, key=lambda r: r["structureId"]):
+            f = r["span"]
+            lines.append("| `{}` | `{}` | {} | {} | {:.0f} | {} | {} |".format(
+                r["structureId"], r["wayId"], f["system"], f["arrangement"],
+                f["spanM"], r["pieces"], f["piers"]))
+        gaps = [r for r in spans if r["span"].get("postShortfallM", 0.0) > 0.1]
+        lines += ["", "Crossings whose deck stands higher above the ground "
+                  "than the length of the system's own posts, so that the "
+                  "system has no footing: " + ("none." if not gaps else ", ".join(
+                      f"`{r['structureId']}` ({r['span']['postShortfallM']:.1f} m)"
+                      for r in sorted(gaps, key=lambda r: r["structureId"]))
+                      + ". The BM&V passerelle set ships no pier. This is a "
+                        "recorded sourcing gap.")]
+
     left = {k: v for k, v in residual.items() if v > 0.0}
     lines += ["", "Ways with over-cap metres no structure covers: "
               + ("none." if not left else
