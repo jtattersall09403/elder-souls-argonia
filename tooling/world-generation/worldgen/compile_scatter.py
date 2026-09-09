@@ -41,6 +41,7 @@ from .routes_raster import corridor_masks
 from .scale import PROVINCE_EXTENT_M, RAW_M
 from .scatter import (ROUTE_CLEAR, ROUTE_THIN, Fields, Palette, clark_evans,
                       encode, scatter_chunk)
+from .settlement_clearance import keep_raster
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
@@ -134,6 +135,12 @@ class ProvinceFields:
         # raster) — sampling it with px_m read the wrong quadrant entirely.
         self.control_px_m = self.extent_m / control.shape[0]
 
+        # Settlement clearance (0041): built ground is bare, the worked fringe
+        # is graded, declared kept plants are protected. Shares the corridors'
+        # grid; 255 = untouched wild, 0 = built ground.
+        self.settlement_keep = keep_raster(
+            control.shape[:2], self.control_px_m, province=province)
+
     # -- sampling --
 
     def _pixel(self, array, x: float, z: float, px_m: float):
@@ -142,6 +149,28 @@ class ProvinceFields:
         if not (0 <= row < array.shape[0] and 0 <= col < array.shape[1]):
             return None
         return array[row, col]
+
+    def _keep_at(self, x: float, z: float, radius_m: float = 0.0) -> float:
+        """Settlement keep factor, tested over the plant's own EXTENT.
+
+        A canopy overhangs its trunk exactly as a fern's fronds overhang its
+        origin, and the modding scene's standing lesson (No Grass In Objects,
+        via research/rendering/building-placement-rendering-treatments.md §2.3)
+        is that an origin-only test leaves geometry poking through floors. So a
+        plant with reach is judged on the worst of its origin and four points
+        at its radius — invisible in the data if you get it wrong, obvious on
+        the ground.
+        """
+        keep = self._pixel(self.settlement_keep, x, z, self.control_px_m)
+        keep = 255 if keep is None else int(keep)
+        if radius_m > 0.0 and keep > 0:
+            for dx, dz in ((radius_m, 0.0), (-radius_m, 0.0),
+                           (0.0, radius_m), (0.0, -radius_m)):
+                v = self._pixel(self.settlement_keep, x + dx, z + dz,
+                                self.control_px_m)
+                if v is not None and int(v) < keep:
+                    keep = int(v)
+        return keep / 255.0
 
     def as_fields(self) -> Fields:
         return Fields(
@@ -160,6 +189,7 @@ class ProvinceFields:
                 v if (v := self._pixel(self.shore_m, x, z, self.px_m)) is not None else 9999.0),
             coast=lambda x, z: float(
                 v if (v := self._pixel(self.coast_m, x, z, self.region_px_m)) is not None else 99999.0),
+            settlement_keep=self._keep_at,
         )
 
     def chunk_grid(self) -> int:

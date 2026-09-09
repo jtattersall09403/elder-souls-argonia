@@ -28,6 +28,11 @@ import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { groundHeightM } from "./terrainHeight";
+import {
+  indexClearances,
+  survivesClearance,
+  type IndexedClearance,
+} from "@elder-souls/game-core/vegetation/settlementClearance";
 import type { WaterData } from "@elder-souls/game-core/water/index";
 import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
 
@@ -403,6 +408,7 @@ export function Groundcover({
   const [chunks, setChunks] = useState<ChunksManifest | null>(null);
   const [exclusions, setExclusions] = useState<Footprint[]>([]);
   const [foundationTreatments, setFoundationTreatments] = useState<FoundationTreatment[]>([]);
+  const [clearanceIndex, setClearanceIndex] = useState<IndexedClearance[]>([]);
   const radii = useRef(new Map<string, number>());
   const water = useRef<WaterData | null>(null);
   const store = sharedChunkStore(baseUrl);
@@ -435,6 +441,12 @@ export function Groundcover({
           setFoundationTreatments(treatments);
         }
       })
+      .catch(() => undefined);
+    // The settlements' clearance declarations ride on the blueprint bundle the
+    // studio already streams — five polygon sets, not another raster.
+    fetch(`${baseUrl}province/blueprints.json`)
+      .then((r) => r.ok ? r.json() : Promise.reject(new Error("no blueprints")))
+      .then((b) => { if (!cancelled) setClearanceIndex(indexClearances(b)); })
       .catch(() => undefined);
     sharedControlRaster(baseUrl)
       .then((c) => { if (!cancelled) setControl(c); })
@@ -578,7 +590,13 @@ export function Groundcover({
 
             const distance = Math.hypot(focus.x - x, focus.z - z);
             if (distance > ringRadiusM) continue;
-            if (excludedByFootprints(x, z, radii.current.get(plan.id) ?? 0, exclusions)) continue;
+            const speciesRadiusM = radii.current.get(plan.id) ?? 0;
+            if (excludedByFootprints(x, z, speciesRadiusM, exclusions)) continue;
+            // Settlement clearance (0041 gotcha (b)): the compiled tiers were
+            // cleared at compile time, but this layer is generated here and
+            // has to obey the same mask or grass grows through the floors.
+            if (!survivesClearance(x, z, speciesRadiusM, clearanceIndex,
+              u01(hash32(tx, tz, plan.index, k * 8 + 7)))) continue;
 
             const h = groundHeightM(store, chunks, x, z);
             if (h === null) continue;
@@ -710,7 +728,8 @@ export function Groundcover({
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
-  }, [kit, control, chunks, exclusions, foundationTreatments, revision, verticalScale,
+  }, [kit, control, chunks, exclusions, foundationTreatments, clearanceIndex,
+      revision, verticalScale,
       onStats, focusRef, store, ringRadiusM, maxInstances]);
 
   return <group ref={root} name="groundcover" />;

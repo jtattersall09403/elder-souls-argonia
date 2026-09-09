@@ -497,8 +497,24 @@ of 5–15 m; per-channel falloff radii differ (ground material 8 m, vegetation
 Hist, a shade tree, a reed bed at the piles); a farm's field has a hard edge,
 a camp's a soft one; attachment species are not free-standing. *E*
 (waterline is the densest band; composition rules C1–C5); *S*; *O* 0041 §
-Slopes. **Enforced by** the `clearance` block (`hardClear`/`thinned`/`kept`)
-consumed by `compile_scatter`; route corridor clearance in `routes_raster`.
+Slopes. **Enforced by** `worldgen/settlement_clearance.py`, one keep-factor
+rule (1 wild, 0 built ground) read by both halves of the vegetation. The
+compiler samples it as a raster in `compile_scatter.ProvinceFields`; the
+runtime groundcover ring evaluates the same rule in
+`packages/game-core/src/vegetation/settlementClearance.ts`. A fixture parity
+test holds the two together; without it one half can clear the trees while the
+other leaves the grass standing. The built edge is the `hardClear`
+union wobbled by a ±1.5 m sinusoidal jitter; the fringe grades from 25 % of
+wild growth at that edge to full wild over 15 m (C13's vegetation channel);
+weeds are *enriched* in the 1.2 m band at the wall foot; `kept` plants hold a
+protected disc (Hist 18 m, shade tree 8 m, reed bed 12 m) that clearing never
+touches. Every tier goes through one gate in `scatter.scatter_chunk`. A
+cleared plant still stamps its clearance radius, so the understory does not
+fill the space it left. A plant is judged over its own radius rather than its
+origin point, since a canopy overhangs its trunk. `fringeFalloffM` on a
+blueprint's clearance block is the per-place override: a farm's field takes a
+short falloff and a hard edge, a camp a long one. Route corridor clearance is
+in `routes_raster`.
 
 **C-stitch. The network into a place and the streets inside it are ONE
 network.** A blueprint declares `networkTerminals[]` — for each place the

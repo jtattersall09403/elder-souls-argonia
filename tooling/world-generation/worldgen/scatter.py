@@ -394,6 +394,12 @@ class Fields:
     coast: Callable[[float, float], float] = lambda x, z: 99999.0
     """Signed distance to the OCEAN, metres (+ inland, − at sea) — the salt-
     exposure field the coastal gradient reads (round 4)."""
+    settlement_keep: Callable[..., float] = lambda x, z, radius_m=0.0: 1.0
+    """Share of wild vegetation a settlement's clearance leaves standing here:
+    1.0 wild, 0.0 built ground, graded through the worked fringe. Fed by
+    `settlement_clearance.keep_raster` (decision 0041). `radius_m` is the
+    plant's own reach — the answer is the worst over that disc, because a
+    canopy overhangs its trunk."""
 
 
 HECTARE_M2 = 10_000.0
@@ -602,11 +608,28 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                         if not route_allows(layer, fields.route_corridor(px, pz),
                                             uniform_at(mkey, 7)):
                             continue
+                        # Settlement clearance: every tier, one graded roll on
+                        # its own stream so the pattern outside a town is
+                        # untouched by whether a town exists.
+                        keep = fields.settlement_keep(
+                            px, pz, layer.clearance_radius_m)
+                        cleared = keep < 1.0 and uniform_at(mkey, 8) >= keep
                         if layer.respects_clearance and _blocked(px, pz, stamps):
                             continue
 
                         lo, hi = layer.scale_range
                         scale = lo + (hi - lo) * uniform_at(mkey, 3)
+                        if cleared:
+                            # Felling a tree must not let the understory rush in
+                            # behind it. The plant still occupies its ground for
+                            # the competition pass; it simply is not there. Skip
+                            # this and the thinned band refills from below and
+                            # grades nothing (measured: 68 -> 63 instead of 68 ->
+                            # 24 in the 0.2-0.4 keep band).
+                            if layer.clearance_radius_m > 0:
+                                stamps.append(
+                                    (px, pz, layer.clearance_radius_m * scale))
+                            continue
                         yaw = (uniform_at(mkey, 4) * math.tau
                                if layer.yaw_random else 0.0)
                         tilt = math.radians(layer.tilt_deg_max)
