@@ -12,8 +12,8 @@ footprint, and a place whose whole identity is isolation could sit 96 m from a
 village.  Two typed fields fix that at the type level, where the evidence is:
 
 * ``footprintRadiusM`` — how much ground the type actually occupies.  DERIVED
-  from the authored blueprint boundary wherever one exists (geometry, not
-  labels — module 97 E2); banded from the type's own ``magnitude`` /
+  from the authored blueprint's BUILT GROUND wherever one exists (geometry,
+  not labels — module 97 E2); banded from the type's own ``magnitude`` /
   ``class`` / ``complexityBudget`` otherwise.
 * ``proximity`` — the type's own ``siting.neighbourRelation`` prose turned
   into distances the solver can obey.  Absent means NO constraint; that is the
@@ -35,6 +35,7 @@ import sys
 from pathlib import Path
 
 from . import catalogue
+from . import travel_cost
 from .scale import PROVINCE_EXTENT_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -46,8 +47,12 @@ BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
 # --------------------------------------------------------------------------- #
 # Settlement scale is the authored size axis (the recipe schema says magnitude
 # is "SETTLEMENT SCALE ONLY"), so magnitude sets the band where it exists.
-# Calibration: the five authored blueprint boundaries measure r = 273 (M5
-# city), 128 / 118 (M3 villages), 32 (M1 works), 280 (a held wamasu pond).
+# Calibration: the five authored blueprints' BUILT GROUND measures r = 226 (M5
+# city), 104 / 103 (M3 villages), 25 (M1 works), 175 (a wamasu pond).  The
+# bands are unchanged by the 2026-09-09 built-ground correction: they are
+# bands, not measurements, and they still bracket the measured places closely
+# (M5 230 vs 226; M3 115 vs 104/103).  Moving them would re-derive 345 recipes
+# that have no blueprint, which is a re-plot, not a derivation fix.
 MAGNITUDE_BASE_M = {"M5": 230.0, "M4": 140.0, "M3": 115.0, "M2": 65.0, "M1": 45.0}
 # Non-settlement types have no magnitude, so the size evidence is the type's
 # own authored production budget: complexityBudget is literally "how much
@@ -62,11 +67,13 @@ CLASS_FACTOR = {
     "transit": 0.8, "lone": 0.7,
 }
 FOOTPRINT_FLOOR_M = 20.0
-# ...and a ceiling. A derived boundary can enclose a place's whole hazard or
-# influence area rather than the ground it occupies (the wamasu pond boundary
-# is the held water villages route around, 280 m, wider than Lilmoth). No place
-# claims more exclusive ground than the province's largest city.
-FOOTPRINT_CEILING_M = MAGNITUDE_BASE_M["M5"]
+# There is deliberately NO ceiling. `FOOTPRINT_CEILING_M` used to cap the
+# derived radii at the M5 band because the derivation read the outer boundary
+# polygon, which encloses a place's approaches, water and hazard area as well
+# as its ground — the wamasu pond came out at 280 m, wider than Lilmoth. That
+# was a plaster on a wrong measurement. `built_ground_radii` measures the
+# ground now, and every authored place lands under the M5 band on its own
+# (226 / 175 / 104 / 103 / 25), so the cap has nothing left to do.
 
 # A type whose countBand tops out in double figures is by construction a small
 # repeated thing; one that is nearly unique is the province's big build.  This
@@ -82,12 +89,73 @@ def _count_nudge(count_band) -> float:
     return 1.0
 
 
-def blueprint_radii() -> dict[str, float]:
-    """Measured circumradius of each authored blueprint boundary, by TYPE.
+def _point_in_polygon(poly: list[tuple[float, float]], pt: tuple[float, float]) -> bool:
+    x, y = pt
+    inside = False
+    n = len(poly)
+    for i in range(n):
+        x1, y1 = poly[i]
+        x2, y2 = poly[(i + 1) % n]
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
+            inside = not inside
+    return inside
 
-    The boundary polygon is the truth about how much ground the place holds;
-    the radius is measured about the polygon's own centroid (the record's map
-    dot is not always its centre, and the footprint is a property of the
+
+def built_ground_points(bp: dict) -> list[tuple[float, float]]:
+    """Every metre point of a blueprint's BUILT GROUND.
+
+    WHY NOT THE BOUNDARY (owner ruling 2026-09-09, decision 0041 Part 3c).
+    `blueprint.boundary` is the outer polygon of the whole composition: it
+    legitimately encloses the approach, the water a landing sits in and the
+    yard nobody builds on. Deriving a footprint from it made a sap-tapping
+    works read 230 m across once its boat landing moved to the head of the
+    tide — a two-hut camp the size of Lilmoth. The footprint is the ground the
+    place OCCUPIES, so it is measured from what stands on it:
+
+    * every parcel's measured ground hull (`blueprint_footprints` derives
+      these from the asset geometry, so they are the real building outlines);
+    * the boundary of every district that HAS a parcel in it. B3 derives those
+      as the buffered hull of their members' parcel hulls, so they are built
+      ground by construction. A district with no parcel holds no structure —
+      it is marked water or marked approach (the wamasu pond's `landing`
+      district is 400 m of pole-marked channel) and it is not occupied ground;
+    * every landmark standing INSIDE one of those districts. A landmark
+      outside them all is approach furniture — a channel marker pole, a
+      roadstead mark, an outlying fish rack — not part of the place's ground.
+
+    All three tests are geometric, not by label (module 97 E2).
+    """
+    parcels = bp.get("parcels") or []
+    with_parcels = {p.get("districtId") for p in parcels}
+    districts: list[list[tuple[float, float]]] = []
+    pts: list[tuple[float, float]] = []
+    for d in bp.get("districts") or []:
+        if d.get("id") in with_parcels and d.get("boundary"):
+            poly = [(u * PROVINCE_EXTENT_M, v * PROVINCE_EXTENT_M) for u, v in d["boundary"]]
+            districts.append(poly)
+            pts.extend(poly)
+    for p in parcels:
+        hull = p.get("footprint")
+        if hull:
+            pts.extend((u * PROVINCE_EXTENT_M, v * PROVINCE_EXTENT_M) for u, v in hull)
+        elif p.get("centreUV"):
+            pts.append((p["centreUV"][0] * PROVINCE_EXTENT_M,
+                        p["centreUV"][1] * PROVINCE_EXTENT_M))
+    for lm in bp.get("landmarks") or []:
+        pos = lm.get("position")
+        if not pos:
+            continue
+        q = (pos[0] * PROVINCE_EXTENT_M, pos[1] * PROVINCE_EXTENT_M)
+        if any(_point_in_polygon(poly, q) for poly in districts):
+            pts.append(q)
+    return pts
+
+
+def built_ground_radii() -> dict[str, float]:
+    """Measured circumradius of each authored blueprint's built ground, by TYPE.
+
+    The radius is measured about the built ground's own centroid (the record's
+    map dot is not always its centre, and the footprint is a property of the
     place, not of where the dot landed)."""
     by_type: dict[str, float] = {}
     if not BLUEPRINT_DIR.exists():
@@ -98,11 +166,10 @@ def blueprint_radii() -> dict[str, float]:
             records[rec["id"]] = rec
     for path in sorted(BLUEPRINT_DIR.glob("place.*.json")):
         bp = json.loads(path.read_text()).get("blueprint") or {}
-        boundary = bp.get("boundary")
         rec = records.get(bp.get("id"))
-        if not boundary or rec is None:
+        pts = built_ground_points(bp) if rec is not None else []
+        if not pts:
             continue
-        pts = [(u * PROVINCE_EXTENT_M, v * PROVINCE_EXTENT_M) for u, v in boundary]
         cx = sum(p[0] for p in pts) / len(pts)
         cz = sum(p[1] for p in pts) / len(pts)
         r = max(math.hypot(x - cx, z - cz) for x, z in pts)
@@ -114,7 +181,7 @@ def blueprint_radii() -> dict[str, float]:
 def derive_footprint_m(recipe: dict, measured: dict[str, float]) -> tuple[int, str]:
     typ = recipe["type"]
     if typ in measured:
-        return int(round(min(measured[typ], FOOTPRINT_CEILING_M) / 5.0) * 5), "blueprint"
+        return int(round(measured[typ] / 5.0) * 5), "built-ground"
     mag = recipe.get("magnitude")
     if mag in MAGNITUDE_BASE_M:
         # Magnitude IS the authored size, calibrated against the measured
@@ -241,23 +308,16 @@ PROXIMITY_WHY_OVERRIDE = {
 # apply
 # --------------------------------------------------------------------------- #
 SCHEMA_NOTES = {
-    "footprintRadiusM": "how much ground the type occupies, metres. DERIVED from the "
-                        "authored blueprint boundary where one exists, else banded from "
-                        "magnitude / class / complexityBudget. The macro plot's collision "
-                        "floor for a pair is the SUM of the two radii.",
-    "proximity": "typed siting gates read from this type's own siting.neighbourRelation. "
-                 "minFromClassM = hard floor to every live record of that place class; "
-                 "maxFromM = hard ceiling to the nearest already-plotted record of that "
-                 "class ('route' = metres to the nearest route line); outOfSightOf = "
-                 "classes it must have no line of sight to; mayAbut = classes a RELATED "
-                 "neighbour may share ground with (max of the two radii, not the sum). "
-                 "ABSENT MEANS NO CONSTRAINT - that is the default, and prose that states "
-                 "no distance deliberately gets no block.",
+    # Reviewed prose (text-review skill, 2026-09-09). Keep the wording here:
+    # this module writes the schema block, so editing type-recipes.json by
+    # hand only fails the drift gate.
+    "footprintRadiusM": "how much ground the type occupies, metres. DERIVED from the authored blueprint's BUILT GROUND (parcel hulls, the districts that hold them and the landmarks standing inside those) where a blueprint exists, NOT from the outer boundary, which also encloses the approach, the water and the yard; else banded from magnitude / class / complexityBudget. The macro plot's collision floor for a pair is the SUM of the two radii.",
+    "proximity": "typed siting gates read from this type's own siting.neighbourRelation. minFromClassM = hard floor to every live record of that place class, measured in EQUIVALENT FLAT METRES of walking (Tobler travel cost, worldgen.travel_cost): on flat ground that is plan metres, while a climb counts for more, because the prose from which these floors come says the effort-to-reach is the design. Every other distance here is plan metres; maxFromM = hard ceiling to the nearest already-plotted record of that class ('route' = metres to the nearest route line); outOfSightOf = classes it must have no line of sight to; mayAbut = classes a RELATED neighbour may share ground with (max of the two radii, not the sum). ABSENT MEANS NO CONSTRAINT - that is the default, and prose that states no distance deliberately gets no block.",
 }
 
 
 def author(data: dict) -> dict:
-    measured = blueprint_radii()
+    measured = built_ground_radii()
     unknown = set(PROXIMITY) - {t["type"] for t in data["types"]}
     if unknown:
         raise SystemExit(f"PROXIMITY names types that do not exist: {sorted(unknown)}")
@@ -274,6 +334,10 @@ def author(data: dict) -> dict:
             recipe["type"],
             f"{PROXIMITY_WHY_FROM}: {(recipe.get('siting') or {}).get('neighbourRelation')}")
         recipe["proximity"] = dict(prox, why=why)
+        # The record states its own unit (standard 12): a floor is metres of
+        # WALKING, so the number cannot be read as plan distance by mistake.
+        if prox.get("minFromClassM"):
+            recipe["proximity"]["minFromClassMeasure"] = travel_cost.DISTANCE_UNIT
     return data
 
 

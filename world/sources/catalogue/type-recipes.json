@@ -87,8 +87,8 @@
     "assetGaps": "permanent no-Nexus-answer gaps. grave-stakes = build staked-dead fields from cairns, totems and stockade pikes; working-props = distinguish works sites by LAYOUT and dressing, never bespoke machinery.",
     "complexityBudget": "complex needs complexityJustification (Morrowind-level placement ceiling)",
     "countBand": "[min,max] expected instances province-wide, non-uniform by causal gradient",
-    "footprintRadiusM": "how much ground the type occupies, metres. DERIVED from the authored blueprint boundary where one exists, else banded from magnitude / class / complexityBudget. The macro plot's collision floor for a pair is the SUM of the two radii.",
-    "proximity": "typed siting gates read from this type's own siting.neighbourRelation. minFromClassM = hard floor to every live record of that place class; maxFromM = hard ceiling to the nearest already-plotted record of that class ('route' = metres to the nearest route line); outOfSightOf = classes it must have no line of sight to; mayAbut = classes a RELATED neighbour may share ground with (max of the two radii, not the sum). ABSENT MEANS NO CONSTRAINT - that is the default, and prose that states no distance deliberately gets no block."
+    "footprintRadiusM": "how much ground the type occupies, metres. DERIVED from the authored blueprint's BUILT GROUND (parcel hulls, the districts that hold them and the landmarks standing inside those) where a blueprint exists, NOT from the outer boundary, which also encloses the approach, the water and the yard; else banded from magnitude / class / complexityBudget. The macro plot's collision floor for a pair is the SUM of the two radii.",
+    "proximity": "typed siting gates read from this type's own siting.neighbourRelation. minFromClassM = hard floor to every live record of that place class, measured in EQUIVALENT FLAT METRES of walking (Tobler travel cost, worldgen.travel_cost): on flat ground that is plan metres, while a climb counts for more, because the prose from which these floors come says the effort-to-reach is the design. Every other distance here is plan metres; maxFromM = hard ceiling to the nearest already-plotted record of that class ('route' = metres to the nearest route line); outOfSightOf = classes it must have no line of sight to; mayAbut = classes a RELATED neighbour may share ground with (max of the two radii, not the sum). ABSENT MEANS NO CONSTRAINT - that is the default, and prose that states no distance deliberately gets no block."
   },
   "types": [
     {
@@ -520,7 +520,8 @@
         "minFromClassM": {
           "settlement": 450
         },
-        "why": "siting.neighbourRelation: on a pass or an upland route; isolated"
+        "why": "siting.neighbourRelation: on a pass or an upland route; isolated",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -683,7 +684,8 @@
         "maxFromM": {
           "settlement": 800
         },
-        "why": "siting.neighbourRelation: one per region packet, near but not in a settlement"
+        "why": "siting.neighbourRelation: one per region packet, near but not in a settlement",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -1604,8 +1606,8 @@
         3
       ],
       "lore": "Lore:Lilmoth; Lore:Umbriel; Lore:Ripper Eel; Lore:Pusbottom",
-      "footprintRadiusM": 230,
-      "footprintSource": "blueprint"
+      "footprintRadiusM": 225,
+      "footprintSource": "built-ground"
     },
     {
       "type": "terraced-river-city",
@@ -3240,8 +3242,8 @@
       ],
       "lore": "Lore:Mazzatun; Lore:Xit-Xaht; Lore:Duskfall",
       "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): the causes are different, not duplicated. Mazzatun builds because a sap-enslaved Hist will not stop giving the order; the interior's Restarted Work builds because a naheesh argued publicly that the Duskfall renunciation was a mistake. One is a tragedy, one is a heresy, and the province needs both for the taboo to read as contested rather than insane.",
-      "footprintRadiusM": 130,
-      "footprintSource": "blueprint"
+      "footprintRadiusM": 105,
+      "footprintSource": "built-ground"
     },
     {
       "type": "hist-village",
@@ -3322,8 +3324,8 @@
         14
       ],
       "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band",
-      "footprintRadiusM": 120,
-      "footprintSource": "blueprint"
+      "footprintRadiusM": 105,
+      "footprintSource": "built-ground"
     },
     {
       "type": "insular-village",
@@ -7109,13 +7111,14 @@
         3
       ],
       "lore": "Lore:Hist Sap (bloodlust hallucinogen to non-Argonians)",
-      "footprintRadiusM": 30,
-      "footprintSource": "blueprint",
+      "footprintRadiusM": 25,
+      "footprintSource": "built-ground",
       "proximity": {
         "minFromClassM": {
           "settlement": 400
         },
-        "why": "siting.neighbourRelation: at an isolated or rogue Hist, far from a village"
+        "why": "siting.neighbourRelation: at an isolated or rogue Hist, far from a village",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -7269,7 +7272,8 @@
         "outOfSightOf": [
           "settlement"
         ],
-        "why": "siting.neighbourRelation: beside a pass, out of sight of its post"
+        "why": "siting.neighbourRelation: beside a pass, out of sight of its post",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -11150,7 +11154,8 @@
         "minFromClassM": {
           "settlement": 600
         },
-        "why": "siting.neighbourRelation: deliberately far from any living settlement"
+        "why": "siting.neighbourRelation: deliberately far from any living settlement",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -11446,7 +11451,8 @@
         "outOfSightOf": [
           "settlement"
         ],
-        "why": "siting.neighbourRelation: a short walk from a village, out of its sight"
+        "why": "siting.neighbourRelation: a short walk from a village, out of its sight",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -12767,7 +12773,8 @@
         "maxFromM": {
           "settlement": 600
         },
-        "why": "siting.neighbourRelation: deliberately outside a village's normal ground"
+        "why": "siting.neighbourRelation: deliberately outside a village's normal ground",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -14316,7 +14323,8 @@
         "maxFromM": {
           "settlement": 600
         },
-        "why": "siting.neighbourRelation: 200-600 m outside an M3+ settlement"
+        "why": "siting.neighbourRelation: 200-600 m outside an M3+ settlement",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -15041,7 +15049,8 @@
         "minFromClassM": {
           "settlement": 350
         },
-        "why": "siting.neighbourRelation: deliberately near something interesting and far from help"
+        "why": "siting.neighbourRelation: deliberately near something interesting and far from help",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -16034,7 +16043,8 @@
         "maxFromM": {
           "route": 300
         },
-        "why": "siting.neighbourRelation: deliberately remote; an approach route exists and is maintained"
+        "why": "siting.neighbourRelation: deliberately remote; an approach route exists and is maintained",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -16472,7 +16482,8 @@
         "minFromClassM": {
           "settlement": 600
         },
-        "why": "siting.neighbourRelation: far from everything, by design"
+        "why": "siting.neighbourRelation: far from everything, by design",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -18910,7 +18921,8 @@
         "minFromClassM": {
           "settlement": 400
         },
-        "why": "macro_plot city-ring ruling: a hostile camp at a city gate is a mistake, not a challenge (was score-only until 2026-09-09)"
+        "why": "macro_plot city-ring ruling: a hostile camp at a city gate is a mistake, not a challenge (was score-only until 2026-09-09)",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -19226,7 +19238,8 @@
         "maxFromM": {
           "settlement": 600
         },
-        "why": "siting.neighbourRelation: just outside a village's watched ground"
+        "why": "siting.neighbourRelation: just outside a village's watched ground",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -21338,7 +21351,8 @@
         "minFromClassM": {
           "settlement": 500
         },
-        "why": "siting.neighbourRelation: deliberately isolated; the Orma left almost nothing"
+        "why": "siting.neighbourRelation: deliberately isolated; the Orma left almost nothing",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -22892,8 +22906,8 @@
         7
       ],
       "lore": "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)",
-      "footprintRadiusM": 230,
-      "footprintSource": "blueprint"
+      "footprintRadiusM": 175,
+      "footprintSource": "built-ground"
     },
     {
       "type": "wisp-lure",
@@ -24259,7 +24273,8 @@
         "minFromClassM": {
           "settlement": 300
         },
-        "why": "siting.neighbourRelation: hidden; discovered by exploring water"
+        "why": "siting.neighbourRelation: hidden; discovered by exploring water",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -24836,7 +24851,8 @@
         "minFromClassM": {
           "settlement": 600
         },
-        "why": "siting.neighbourRelation: deliberately far from everything; the effort-to-reach IS the design"
+        "why": "siting.neighbourRelation: deliberately far from everything; the effort-to-reach IS the design",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -25067,7 +25083,8 @@
         "minFromClassM": {
           "settlement": 600
         },
-        "why": "siting.neighbourRelation: the rim's signature dwelling; deliberately alone"
+        "why": "siting.neighbourRelation: the rim's signature dwelling; deliberately alone",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     },
     {
@@ -25985,7 +26002,8 @@
         "maxFromM": {
           "route": 1500
         },
-        "why": "siting.neighbourRelation: remote; deliberately far from every route"
+        "why": "siting.neighbourRelation: remote; deliberately far from every route",
+        "minFromClassMeasure": "equivalent-flat-metres"
       }
     }
   ],

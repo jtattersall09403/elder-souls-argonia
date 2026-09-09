@@ -2574,3 +2574,136 @@ timing (gap-plan B5) the re-solve runs against the FINAL water rasters, and
 `test_blueprint.py::test_live_dir_validates` was still red on the Sap-Tapping
 berth when this landed. The source fixes and the solver corrections are
 committed; the catalogue write is one command, recorded in the handover.
+
+## Part 3c — isolation is effort, a footprint is built ground (2026-09-09)
+
+Two measurements were wrong at the root. Both had been papered over.
+
+### Isolation is measured as effort, not as plan distance
+
+**The ruling.** The two `lone/snowline-hermitage` records could not both reach
+the type's 600 m floor; measured, the best each could do was 580 m and 309 m.
+The options were to cut one, to re-derive the floor, or to accept the miss.
+We re-derived, because the metric was wrong for the whole vocabulary, not just
+for one record. The type prose these floors were read from says
+"deliberately far from everything; the **effort-to-reach IS the design**".
+A hermitage 300 m from a village but 250 m above it up a rim face is isolated.
+A hut 700 m across flat marsh on a track is not. That is why the border-rim
+records failed while marsh records cleared their floors with room to spare.
+
+**The measure.** Tobler's hiking function, `W = 6·exp(−3.5·|S + 0.05|)` km/h
+(the standard slope-dependent travel cost in GIS least-cost work), sampled at
+the survey's own 5.48 m grid pitch on the natural height raster the solver
+already reads. Symmetrised (canonical endpoint order, mean of the two traverse
+directions), because a siting gate is a property of a pair. Clamped at a 100 %
+gradient, past which Tobler is extrapolation and explodes: one 67° rim face
+charged 778,920 m for 125 plan metres before the clamp. Sources, the rejected
+alternatives (Naismith, Irmischer–Clarke, a landcover difficulty factor) and
+the reasoning are in
+[research/phase11/travel-cost-isolation.md](../research/phase11/travel-cost-isolation.md).
+Implementation: `worldgen/travel_cost.py`, consumed by `macro_plot.separation_ok`,
+`macro_plot.typed_siting_violations` and `audit_place_semantics.check_type_proximity`.
+
+**The unit, stated rather than silently reinterpreted.** Cost is reported
+in **equivalent flat metres**, the distance a walker could have covered on
+the flat in the time the traverse takes. On flat ground that is plan metres
+exactly, so the authored floors keep both their number and the calibration
+with which they were written: a 600 m floor across flat marsh is as isolating
+today as it was yesterday. This is not a blanket loosening. It cannot become
+one, because effort is never below plan distance (asserted, with the
+gentle-downhill case where Tobler is faster than flat). Each recipe now carries
+`proximity.minFromClassMeasure = "equivalent-flat-metres"` so the record states
+its own unit (standard 12).
+
+**Before and after, over the shipped catalogue.** 31 isolation-floor breaches
+on plan distance; **21** of those are still breaches in walking. The ten that
+are not were never really breaches. They are places up a face or across a
+rim. Median distance to the binding neighbour, by type:
+
+| type | floor | records | plan breaches | effort breaches | median plan m | median effort m |
+|---|---|---|---|---|---|---|
+| air-pocket-grotto | 300 | 3 | 2 | 2 | 268 | 276 |
+| blackguard-hideout | 400 | 7 | 7 | 6 | 136 | 150 |
+| claimable-steading | 150 | 2 | 1 | 0 | 195 | 481 |
+| dream-wallow | 120 | 4 | 3 | 1 | 105 | 148 |
+| fallen-flier | 500 | 1 | 1 | 1 | 466 | 470 |
+| field-station | 350 | 1 | 1 | 0 | 250 | 561 |
+| hermit-hut | 600 | 3 | 3 | 2 | 125 | 569 |
+| orma-tactile-ruin | 500 | 1 | 1 | 1 | 68 | 199 |
+| poacher-camp | 150 | 4 | 0 | 0 | 256 | 335 |
+| prison-ruin | 600 | 1 | 1 | 1 | 256 | 451 |
+| refuge-station | 450 | 2 | 1 | 1 | 322 | 504 |
+| sap-tapping-camp | 400 | 1 | 0 | 0 | 552 | 674 |
+| smugglers-ledge | 250 | 3 | 2 | 0 | 234 | 1720 |
+| snowline-hermitage | 600 | 3 | 3 | 1 | 161 | 1612 |
+| upland-terrace-village | 450 | 3 | 1 | 1 | 522 | 2160 |
+| urn-vault | 150 | 3 | 1 | 1 | 283 | 708 |
+| wild-hist | 600 | 3 | 3 | 3 | 351 | 463 |
+
+**Both hermitages site.** A `--resolve-all` under the effort measure and the
+corrected footprints plots **580 of 580** live records with **zero** homeless
+and **zero** typed-siting violations, against 578/580 and one open violation
+before. Nearest-neighbour p5 71 m, median 132 m, p95 257 m. The catalogue
+write is still the planner's to sequence against the final water rasters; this
+was a `--dry-run`.
+
+### A footprint is the ground a place occupies, not the polygon round it
+
+`footprintRadiusM` was derived from `blueprint.boundary`. That polygon
+legitimately encloses the approach, the water a landing sits in and the yard.
+When the Sap-Tapping camp's boat landing moved to the head of the tide its
+boundary went 31.8 m → 254.2 m, which would have derived a two-hut works with
+a 230 m footprint, the size of Lilmoth. The same over-read had already
+happened on the wamasu pond, where it was capped with `FOOTPRINT_CEILING_M`
+rather than fixed.
+
+The derivation now reads the **built ground**: parcel hulls (measured off the
+asset geometry), the boundary of every district that *holds* a parcel and the
+landmarks standing inside those districts. A district with no parcel holds no
+structure (the wamasu pond's `landing` is 400 m of pole-marked channel).
+A landmark outside every district is approach furniture, a marker pole or a
+roadstead mark. All three tests are geometric, never by label (module 97 E2).
+
+| place | boundary measured | shipped before | built ground, shipped now |
+|---|---|---|---|
+| Lilmoth | 273.0 | 230 (capped) | **225** |
+| Mazzatun | 127.5 | 130 | **105** |
+| Nine Trunks | 118.0 | 120 | **105** |
+| sap-tapping camp | 31.8 committed / 254.2 in flight | 30 | **30 / 25** |
+| wamasu pond | 279.8 | 230 (capped) | **175** |
+
+**The ceiling is gone.** Every authored place now lands under the M5 band on
+its own measurement, so `FOOTPRINT_CEILING_M` had nothing left to do and was
+deleted. The magnitude bands are deliberately unchanged. They are bands rather
+than measurements and they still bracket the measured places (M5 230 vs 226; M3
+115 vs 104/103). Shipped overlapping pairs 426 → 415.
+
+**Robust to the water agent's landing, which is the acceptance test.** The sap
+camp's built ground measures 29.5 m against the committed blueprint and 25.4 m
+against the in-flight rewrite whose boundary is eight times larger, because
+the works did not move. Both revisions are asserted in
+`test_the_built_ground_is_what_stands_there_not_the_outer_boundary`.
+
+### Two ordering holes closed on the way
+
+* **Thomas parents.** `--resolve-all` failed on an "empty" parent in
+  `imperial-penal-south`. Every culture's `parentFloorM` (400–700 m) is below
+  twice the 300 m child radius, so kernels legitimately overlap; crediting
+  occupancy only to the *nearest* parent let a kernel full of children read as
+  empty because a neighbour 442 m away was marginally nearer to each of them.
+  Occupancy is now credited to every parent whose kernel holds the record.
+* **`maxFromM` ceilings.** `separation_ok` cannot judge a ceiling until
+  something of the target class is on the map, so three were missed by 0.3 m,
+  37 m and 201 m. A new `ceiling_repair_pass` lifts each offender off the
+  finished plot and re-solves it against everything, keeping the round only if
+  it leaves nobody homeless and strictly fewer violations. It runs in a
+  re-plot only: a seeded solve's contract is that a committed cell does not
+  move. Under the corrected footprints and effort floors one offender remained
+  (`the-tide-fair`, 582 m against a 350 m ceiling) and the pass cleared it.
+
+**Mutations** (each turned its test red, then green again): normalise by
+Tobler's peak speed instead of flat speed; `MAX_GRADIENT` 1.0 → 10; one-way
+Tobler cost; drop the canonical endpoint ordering; make `effort_or_plan`
+always walk; derive the footprint from `bp["boundary"]`; hand-edit
+`rebuilt-stilt-city` to 100 in `type-recipes.json`; credit Thomas occupancy to
+the nearest parent only; drop the ceiling-repair acceptance guard.

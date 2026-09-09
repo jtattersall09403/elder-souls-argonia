@@ -240,7 +240,7 @@ records with no collisions, no invalid sites, no navigability exceptions and
 no resiting pins. It wrote the catalogue and the edge-corrected Clark–Evans
 report (median R 0.838). The four authored exemplars remain blueprint-pinned.
 
-### B12 — Places have EXTENT: typed footprints + typed proximity — MECHANISM DONE 2026-09-09; RE-PLOT 578/580, OWNER CALL ON ONE TYPE
+### B12 — Places have EXTENT: typed footprints + typed proximity — DONE 2026-09-09 (580/580 in a dry run; the catalogue write waits on the final water rasters, B5)
 
 **Delivered.** Every one of the 350 type recipes now carries
 `footprintRadiusM` (derived by `worldgen.author_type_siting` from the authored
@@ -337,45 +337,46 @@ The footprint floor and the derived radii are untouched.
 Result: **578 of 580 plotted**, nearest-neighbour median 85 → **136 m**,
 p5 35 → **75 m**, p95 250 → 267 m.
 
-**OWNER CALL — the two snowline hermitages.** `rim-snowline-hermitage` and
-`the-snowline-cell` are the province's only two `snowline-hermitage` records.
-The type's own recipe prose is "the rim's signature dwelling; deliberately
-alone" and its floor is 600 m from any settlement. Measured, after every other
-authored gate, the best isolation either can reach is **580 m** (the cell,
-20 m short) and **309 m** (the rim hermitage). The border mountains are
-where the province's rim settlements are: 17.9 % of border-mountains ground
-is ≥600 m from every settlement, but each record also needs its own culture's
-slice of that rim. This is not a case for shrinking anything — it is a real
-finding about the province. Three honest options:
-1. cut or defer one of the two (they are near-duplicates: both M1 lone
-   dwellings of ascetics on the border rim, one imperial-fringe, one
-   pirate-freeholds);
-2. lower the type's floor to what the rim can deliver, recording that "alone"
-   on a mountain is a climb rather than a plan distance (their own prose says
-   "a full day's climb with no track", "the pass keeper below comes up once a
-   year with salt") — this needs a measured rule, not a fitted number;
-3. accept 578/580 and carry the two as deferred.
+**CLOSED 2026-09-09 (third pass): 580 of 580, zero typed-siting violations.**
+Both open measurements were wrong at the root. Fixing them resolved
+everything above. Full record in decision 0041 § Part 3c; the travel-cost
+research is in [travel-cost-isolation.md](travel-cost-isolation.md).
 
-Also still open at 578/580: one Thomas parent in `imperial-penal-south` has no
-child, and 3 `maxFromM` ceilings miss by 0.3 m, 37 m and 201 m — the known
-ordering hole where a ceiling is unjudgeable until something of that class is
-plotted. Both need the same treatment as the homeless batch: a repair pass
-rather than a post-hoc complaint.
+* **Isolation is effort, not plan distance.** The owner's ruling: the type
+  prose these floors come from says the effort-to-reach IS the design, so a
+  straight line on the map was the wrong measure and it is why the rim records
+  failed while marsh records passed easily. Floors are now judged with
+  Tobler's hiking function (`worldgen/travel_cost.py`), symmetrised, clamped
+  at a 100 % gradient, in **equivalent flat metres**, which on flat ground are
+  plan metres exactly, so the authored 600 m keeps its calibration and this is not a
+  loosening. Shipped isolation breaches 31 → **21**; per-type table in 0041.
+  **Both snowline hermitages site**, and so does everything else: a
+  `--resolve-all` dry run plots 580/580, zero homeless, zero typed-siting
+  violations, nearest-neighbour p5 71 / median 132 / p95 257 m. The owner
+  call above is therefore withdrawn; nothing needs cutting or deferring.
+* **A footprint is built ground.** `footprintRadiusM` was read off
+  `blueprint.boundary`, which also encloses approaches, water and yard; it now
+  measures parcel hulls, the districts that hold a parcel and the landmarks
+  inside those. Lilmoth 275 → 225, Mazzatun 130 → 105, Nine Trunks 120 → 105,
+  sap camp 30 → 25, wamasu pond 280-capped-230 → 175. `FOOTPRINT_CEILING_M`
+  is **deleted**; nothing is left for it to cap. Shipped overlapping pairs
+  426 → 415.
+* **The cross-agent hazard below is closed.** The sap camp's built ground
+  measures 29.5 m against the committed blueprint and 25.4 m against the water
+  agent's in-flight rewrite whose boundary is eight times larger, because the
+  works did not move. Both revisions are asserted in the tests, so the water
+  landing can no longer move the derived radius. The two derivation tests are
+  green and renamed to describe the correct basis.
+* **The empty Thomas parent** was an artefact of crediting occupancy to the
+  nearest parent only when kernels legitimately overlap; occupancy is now
+  credited to every parent whose kernel holds the record.
+* **The `maxFromM` ordering hole** has a repair pass (`ceiling_repair_pass`):
+  the offender is lifted off the finished plot and re-solved against
+  everything, rolled back unless nobody is homeless and violations strictly
+  fall. Re-plot only: a seeded solve may not move a committed cell.
 
-**CROSS-AGENT HAZARD (2026-09-09).** `author_type_siting.blueprint_radii()`
-derives `sap-tapping-camp`'s footprint from
-`world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json`,
-which the water agent is rewriting. Its boundary has gone from 31.8 m to
-254.2 m circumradius in the working tree, so `type_siting`'s two derivation
-tests are RED right now through no fault of the placement work, and when that
-blueprint lands the camp's footprint jumps 30 → 230 m — a works the size of
-Lilmoth, the same boundary-encloses-the-approach over-read that
-`FOOTPRINT_CEILING_M` was pasted over for the wamasu pond. Re-run
-`author_type_siting --apply` after the water work lands, and fix the
-derivation to measure ground held rather than the outer envelope.
-
-Until it lands, `test_type_siting.test_the_shipped_catalogue_does_not_get_worse`
-ratchets the shipped catalogue so it cannot regress.
+The catalogue write is still NOT committed: the re-solve runs against the
+final water rasters and is the planner's to sequence (B5).
 
 ### B6 — One province extent — DONE 2026-09-08
 

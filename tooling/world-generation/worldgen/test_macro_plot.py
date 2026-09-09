@@ -90,7 +90,7 @@ def test_the_solve_keeps_every_committed_cell(survey):
     The owner-approved full re-plot has removed the temporary water-rescue
     exemptions, so any invalid committed site is now a hard failure.
     Slow; shares the process-wide province survey with the water-role gate."""
-    _d, _f, _sc, _fr, result, unresolved, resite, pinned = macro_plot.solve(survey)
+    _d, _f, _sc, _fr, result, unresolved, resite, pinned, _cr = macro_plot.solve(survey)
     assert not unresolved
     assert not resite, (
         "records the current fields invalidate — re-run the full plot and record the moves: "

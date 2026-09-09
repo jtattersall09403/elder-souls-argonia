@@ -10,7 +10,7 @@ import math
 
 import pytest
 
-from . import author_type_siting, macro_plot
+from . import author_type_siting, travel_cost, macro_plot
 from .audit_place_semantics import CHECKS, Ctx, check_type_proximity
 
 
@@ -59,18 +59,53 @@ def test_every_type_carries_a_footprint_radius(recipes):
         r = recipe.get("footprintRadiusM")
         assert isinstance(r, int), f"{typ} has no integer footprintRadiusM"
         assert r >= author_type_siting.FOOTPRINT_FLOOR_M, typ
-        assert r <= author_type_siting.FOOTPRINT_CEILING_M, typ
 
 
-def test_footprints_are_derived_from_the_blueprint_boundaries_not_hand_typed(recipes):
+def test_footprints_are_derived_from_the_blueprints_built_ground_not_hand_typed(recipes):
     """MUTATION: change `rebuilt-stilt-city` to 100 in type-recipes.json — red
-    (the derivation says 275, measured off Lilmoth's authored boundary)."""
-    measured = author_type_siting.blueprint_radii()
-    assert measured, "no blueprint boundaries measured — the deriver is not reading them"
+    (the derivation says 225, measured off Lilmoth's built ground)."""
+    measured = author_type_siting.built_ground_radii()
+    assert measured, "no built ground measured — the deriver is not reading the blueprints"
     for typ, radius_m in measured.items():
-        expected = int(round(min(radius_m, author_type_siting.FOOTPRINT_CEILING_M) / 5.0) * 5)
+        expected = int(round(radius_m / 5.0) * 5)
         assert recipes[typ]["footprintRadiusM"] == expected, typ
-        assert recipes[typ]["footprintSource"] == "blueprint", typ
+        assert recipes[typ]["footprintSource"] == "built-ground", typ
+
+
+def test_the_built_ground_is_what_stands_there_not_the_outer_boundary():
+    """A footprint is the ground a place occupies, not the polygon drawn round it.
+
+    `blueprint.boundary` encloses the approach, the water a landing sits in and
+    the yard: the sap camp's boundary went from 32 m to 254 m when its boat
+    landing moved to the head of the tide, and the derivation followed it to a
+    two-hut works the size of Lilmoth. The built ground does not move, because
+    the works did not.
+
+    MUTATION: derive from `bp["boundary"]` instead — red on both revisions.
+    """
+    import math
+    import subprocess
+    from worldgen.scale import PROVINCE_EXTENT_M as extent
+
+    def circumradius(pts):
+        cx = sum(p[0] for p in pts) / len(pts)
+        cz = sum(p[1] for p in pts) / len(pts)
+        return max(math.hypot(x - cx, z - cz) for x, z in pts)
+
+    path = ("world/sources/blueprints/"
+            "place.hist-heartland.sap-tapping-licensed.json")
+    live = json.loads((author_type_siting.REPO_ROOT / path).read_text())["blueprint"]
+    head = json.loads(subprocess.run(
+        ["git", "show", f"HEAD:{path}"], cwd=author_type_siting.REPO_ROOT,
+        capture_output=True, text=True, check=True).stdout)["blueprint"]
+    for name, bp in (("working tree", live), ("HEAD", head)):
+        built = circumradius(author_type_siting.built_ground_points(bp))
+        assert 20.0 <= built <= 35.0, f"{name}: built ground reads {built:.1f} m"
+    # ...and the two revisions' outer boundaries really are miles apart, so
+    # this test would be vacuous if it were reading them.
+    outer = [circumradius([(u * extent, v * extent) for u, v in bp["boundary"]])
+             for bp in (live, head)]
+    assert max(outer) - min(outer) > 100.0, outer
 
 
 def test_the_authored_recipe_file_matches_its_deriver():
@@ -255,11 +290,22 @@ def test_the_semantic_audit_fails_a_record_that_contradicts_its_type_prose():
 # and docs/research/phase11/phase11-gap-plan.md. Until then this is a ratchet:
 # the shipped catalogue may not get WORSE, and when the re-plot lands these
 # numbers go to zero and the test becomes the clean assertion.
-SHIPPED_FOOTPRINT_OVERLAPS = 426
-SHIPPED_MIN_FROM_CLASS_VIOLATIONS = 31
+# 2026-09-09, second pass: the footprint derivation was corrected to read the
+# BUILT GROUND rather than the outer boundary (426 -> 415 overlapping pairs),
+# and the isolation floors are now judged in equivalent flat metres of walking
+# rather than plan metres (31 -> 21 breaches). Both are RATCHETS DOWN: the
+# numbers may only fall.
+SHIPPED_FOOTPRINT_OVERLAPS = 415
+SHIPPED_MIN_FROM_CLASS_VIOLATIONS = 21
 
 
-def _shipped_violations():
+@pytest.fixture(scope="module")
+def survey():
+    from worldgen.site_fields import ProvinceSurvey
+    return ProvinceSurvey()
+
+
+def _shipped_violations(s=None):
     from . import catalogue
     recipes = {t["type"]: t
                for t in json.loads(author_type_siting.RECIPES_PATH.read_text())["types"]}
@@ -275,22 +321,233 @@ def _shipped_violations():
                        ra["footprintRadiusM"] + rb["footprintRadiusM"])
             if (pa[0] - pb[0]) ** 2 + (pa[1] - pb[1]) ** 2 < need * need:
                 overlaps += 1
+    # Isolation floors are judged in effort, not plan distance. Effort is
+    # never below plan distance, so only a neighbour already inside the floor
+    # on the plan can be inside it in walking: that is the short-circuit, and
+    # `test_travel_cost` is what holds it up.
+    metric = None if s is None else travel_cost.EffortMetric(s)
     floors = 0
     for ida, _ca, ra, pa in rows:
         for cls, limit in ((ra.get("proximity") or {}).get("minFromClassM") or {}).items():
             if cls == "route":
                 continue
-            near = min((math.dist(pa, pb) for idb, cb, _rb, pb in rows
-                        if cb == cls and idb != ida), default=None)
-            if near is not None and near < limit:
+            inside = [(math.dist(pa, pb), pb) for idb, cb, _rb, pb in rows
+                      if cb == cls and idb != ida and math.dist(pa, pb) < limit]
+            if not inside:
+                continue
+            if metric is None:
+                floors += 1
+                continue
+            if min(metric(pa[0], pa[1], pb[0], pb[1]) for _d, pb in inside) < limit:
                 floors += 1
     return overlaps, floors
 
 
-def test_the_shipped_catalogue_does_not_get_worse():
-    overlaps, floors = _shipped_violations()
+def test_the_shipped_catalogue_does_not_get_worse(survey):
+    overlaps, floors = _shipped_violations(survey)
     assert overlaps <= SHIPPED_FOOTPRINT_OVERLAPS, (
         f"{overlaps} pairs now overlap footprints, up from {SHIPPED_FOOTPRINT_OVERLAPS}")
     assert floors <= SHIPPED_MIN_FROM_CLASS_VIOLATIONS, (
         f"{floors} records now sit inside their type's own isolation floor, "
         f"up from {SHIPPED_MIN_FROM_CLASS_VIOLATIONS}")
+
+
+# --------------------------------------------------------------------------- #
+# 5. isolation is measured as EFFORT, not as plan distance (2026-09-09)
+# --------------------------------------------------------------------------- #
+class RimStub:
+    """A survey stub with a real height grid: flat marsh, then a rim face.
+
+    Ground rises 1 m per metre east of x = 300, so a record placed up the face
+    is a climb away, not a stroll away."""
+
+    grid_px_m = 10.0
+    grid_n = 256
+    visible = False
+
+    def __init__(self, rise_from_m: float = 300.0, rise: float = 1.0):
+        import numpy as np
+        xs = np.arange(self.grid_n, dtype=np.float64) * self.grid_px_m
+        col = np.maximum(xs - rise_from_m, 0.0) * rise
+        self.height_grid = np.tile(col, (self.grid_n, 1))
+
+    def line_of_sight(self, ax, az, bx, bz):
+        return self.visible
+
+
+def test_an_isolation_floor_is_judged_on_the_climb_not_the_plan():
+    """The type prose says the effort-to-reach IS the design, so a hermitage
+    up a rim face clears a floor that the same plan distance across flat marsh
+    does not.
+
+    MUTATION: judge `minFromClassM` on `dist` again — red on the first case.
+    """
+    hermit = demand("place.dunmer-north.rim-hermitage", cls="lone",
+                    type_="snowline-hermitage", footprint=30.0, zone="dunmer-north",
+                    proximity={"minFromClassM": {"settlement": 600}})
+    village = demand("place.dunmer-north.village", cls="settlement", type_="v",
+                     footprint=120.0, zone="dunmer-north")
+    plotted = {village.id: (village, candidate("village-site", 200.0, 500.0))}
+    up_the_face = candidate("up-the-rim", 500.0, 500.0)
+    assert macro_plot.separation_ok(hermit, up_the_face, plotted, 1.0, RimStub())[0]
+    # ...and the same 300 m across the flat marsh is still far too close.
+    flat = candidate("across-the-marsh", 200.0, 800.0)
+    assert not macro_plot.separation_ok(hermit, flat, plotted, 1.0, RimStub())[0]
+
+
+def test_flat_ground_gates_are_unchanged_by_the_effort_measure():
+    """Not a blanket loosening: over flat marsh, equivalent flat metres ARE
+    metres, so every authored floor keeps the calibration it was written with.
+
+    MUTATION: normalise by TOBLER_PEAK_KMH instead of FLAT_SPEED_KMH — red
+    (a 620 m flat neighbour starts reading as 520 and fails)."""
+    hermit = demand("place.hist-heartland.hermit", cls="lone", type_="hermit-hut",
+                    footprint=30.0, proximity={"minFromClassM": {"settlement": 600}})
+    village = demand("place.hist-heartland.village", cls="settlement", type_="v",
+                     footprint=120.0)
+    plotted = {village.id: (village, candidate("village-site", 100.0, 100.0))}
+    flat = RimStub(rise_from_m=1e9)
+    assert not macro_plot.separation_ok(hermit, candidate("in", 690.0, 100.0),
+                                        plotted, 1.0, flat)[0]
+    assert macro_plot.separation_ok(hermit, candidate("out", 721.0, 100.0),
+                                    plotted, 1.0, flat)[0]
+
+
+def test_the_closing_pass_uses_the_same_effort_measure():
+    """MUTATION: leave `typed_siting_violations` on plan distance — red, the
+    closing pass would report a breach the solver deliberately admitted."""
+    hermit = demand("place.dunmer-north.rim-hermitage", cls="lone",
+                    type_="snowline-hermitage", footprint=30.0, zone="dunmer-north",
+                    proximity={"minFromClassM": {"settlement": 600}})
+    village = demand("place.dunmer-north.village", cls="settlement", type_="v",
+                     footprint=120.0, zone="dunmer-north")
+    result = {hermit.id: {"candidate": candidate("h", 500.0, 500.0)},
+              village.id: {"candidate": candidate("v", 200.0, 500.0)}}
+    assert not [r for r in macro_plot.typed_siting_violations(
+        [hermit, village], result, RimStub()) if r["gate"] == "minFromClassM"]
+    assert [r for r in macro_plot.typed_siting_violations(
+        [hermit, village], result, None) if r["gate"] == "minFromClassM"]
+
+
+def test_the_audit_reads_the_binding_neighbour_in_effort_not_on_the_plan():
+    """`check_type_proximity` used to take the nearest neighbour on the plan
+    and judge the floor on it. The binding neighbour is the one nearest in
+    WALKING.
+
+    MUTATION: go back to `nearest[cls]` and plan distance — red."""
+    def _EFFORT_DISTANCE(self, ax, az, bx, bz):
+        from . import travel_cost
+        return travel_cost.effort_distance_m(self, ax, az, bx, bz)
+
+    class Terrain(RimStub):
+        def terrain_at(self, x, z):
+            return {}
+
+        effort_distance = _EFFORT_DISTANCE
+
+    def rec(rid, cls, typ, pos):
+        return {"id": rid, "name": rid, "status": "active",
+                "classification": {"class": cls, "type": typ},
+                "positionM": pos}
+
+    hermit = rec("place.dunmer-north.rim-hermitage", "lone", "snowline-hermitage",
+                 [500.0, 500.0])
+    village = rec("place.dunmer-north.village", "settlement", "hist-village",
+                  [200.0, 500.0])
+    recipes = {"snowline-hermitage": {"type": "snowline-hermitage", "class": "lone",
+                                      "proximity": {"minFromClassM": {"settlement": 600},
+                                                    "why": "test"}},
+               "hist-village": {"type": "hist-village", "class": "settlement"}}
+    ctx = Ctx(records={r["id"]: r for r in (hermit, village)},
+              region_of={hermit["id"]: "dunmer-north", village["id"]: "dunmer-north"},
+              recipes=recipes, routes=[], terrain=Terrain())
+    assert not check_type_proximity(ctx, hermit)
+    # ...and this is not vacuous: on plan distance the same pair is a finding.
+    plain = Terrain()
+    del plain.__class__.effort_distance
+    try:
+        assert [f for f in check_type_proximity(
+            Ctx(records=ctx.records, region_of=ctx.region_of, recipes=recipes,
+                routes=[], terrain=plain), hermit)]
+    finally:
+        Terrain.effort_distance = _EFFORT_DISTANCE
+
+
+# --------------------------------------------------------------------------- #
+# 6. the two ordering holes the finished plot exposed (2026-09-09)
+# --------------------------------------------------------------------------- #
+def test_a_maxfrom_ceiling_missed_by_ordering_is_repaired_against_the_finished_plot():
+    """`separation_ok` admits a ceiling un-judged when nothing of the target
+    class is plotted yet. `ceiling_repair_pass` lifts the offender off the map
+    and re-solves it against everything.
+
+    MUTATION: drop the `len(after) < len(before)` guard — the rollback case
+    below goes red."""
+    fair = demand("place.dunmer-north.the-tide-fair", cls="civic",
+                  type_="market-fair-ground", footprint=45.0, zone="dunmer-north",
+                  proximity={"maxFromM": {"settlement": 350}})
+    village = demand("place.dunmer-north.village", cls="settlement", type_="v",
+                     footprint=120.0, zone="dunmer-north")
+    demands = [fair, village]
+    far = {fair.id: {"candidate": candidate("far", 900.0, 0)},
+           village.id: {"candidate": candidate("v", 0, 0)}}
+    assert [r for r in macro_plot.typed_siting_violations(demands, far) if r["gate"] == "maxFromM"]
+
+    def fake_assign(ds, cands, s, anchors, preplaced=None, thomas_prior=None):
+        out = dict(preplaced or {})
+        out[fair.id] = {"candidate": candidate("near", 300.0, 0)}
+        return out, []
+
+    result = dict(far)
+    trace = _run_repair(demands, result, fake_assign)
+    assert trace[0]["accepted"] and trace[0]["offenders"] == [fair.id]
+    assert not macro_plot.typed_siting_violations(demands, result)
+    assert result[fair.id]["candidate"].id == "near"
+
+
+def test_a_repair_that_would_leave_a_record_homeless_is_rolled_back():
+    fair = demand("place.dunmer-north.the-tide-fair", cls="civic",
+                  type_="market-fair-ground", footprint=45.0, zone="dunmer-north",
+                  proximity={"maxFromM": {"settlement": 350}})
+    village = demand("place.dunmer-north.village", cls="settlement", type_="v",
+                     footprint=120.0, zone="dunmer-north")
+    demands = [fair, village]
+    result = {fair.id: {"candidate": candidate("far", 900.0, 0)},
+              village.id: {"candidate": candidate("v", 0, 0)}}
+
+    def fake_assign(ds, cands, s, anchors, preplaced=None, thomas_prior=None):
+        return dict(preplaced or {}), [{"id": fair.id}]
+
+    trace = _run_repair(demands, result, fake_assign)
+    assert not trace[0]["accepted"]
+    assert result[fair.id]["candidate"].id == "far"
+
+
+def _run_repair(demands, result, fake_assign):
+    real = macro_plot.assign
+    macro_plot.assign = fake_assign
+    try:
+        class _Survey:
+            anchor_points_m = {}
+            height_grid = None
+        return macro_plot.ceiling_repair_pass(demands, result, [], _Survey(), {})
+    finally:
+        macro_plot.assign = real
+
+
+def test_a_thomas_parent_is_occupied_by_every_record_inside_its_kernel():
+    """Culture parent floors (400-700 m) are below 2 x the 300 m child radius,
+    so kernels overlap. Crediting only the NEAREST parent made a full kernel
+    read as empty and failed `--resolve-all` on imperial-penal-south.
+
+    MUTATION: credit `nearest` only — red."""
+    prior = {"dunmer-north": {"parentFloorM": 400.0, "sigmaM": 110.0, "childRadiusM": 300.0,
+                              "targetParents": 2, "parents": [(0.0, 0.0), (442.0, 0.0)]}}
+    ds = [demand(f"place.dunmer-north.r{i}", zone="dunmer-north") for i in range(3)]
+    for d in ds:
+        d.landforms = []
+    result = {d.id: {"candidate": candidate(f"c{i}", 200.0 + 10.0 * i, 0)}
+              for i, d in enumerate(ds)}
+    outcome, errors = macro_plot.thomas_outcome(prior, ds, result, [])
+    assert outcome["parentOccupancy"]["dunmer-north"] == [3, 3]
+    assert not outcome["emptyParents"] and not errors

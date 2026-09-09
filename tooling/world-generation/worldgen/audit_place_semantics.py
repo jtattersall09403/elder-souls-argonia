@@ -140,6 +140,9 @@ def clip(text: str, n: int = 90) -> str:
 class Terrain(Protocol):
     def terrain_at(self, x: float, z: float) -> dict: ...
     def line_of_sight(self, ax: float, az: float, bx: float, bz: float) -> bool: ...
+    # optional: effort_distance(ax, az, bx, bz) -> equivalent flat metres.
+    # Absent means "no terrain", and the isolation floors fall back to plan
+    # distance (see Ctx.effort).
 
 
 class SurveyTerrain:
@@ -150,6 +153,11 @@ class SurveyTerrain:
             from .site_fields import ProvinceSurvey
             survey = ProvinceSurvey()
         self.s = survey
+        from . import travel_cost
+        self._effort = travel_cost.EffortMetric(survey)
+
+    def effort_distance(self, ax: float, az: float, bx: float, bz: float) -> float:
+        return self._effort(ax, az, bx, bz)
 
     def terrain_at(self, x: float, z: float) -> dict:
         s = self.s
@@ -280,6 +288,18 @@ class Ctx:
         if pa is None or pb is None:
             return None
         return math.hypot(pa[0] - pb[0], pa[1] - pb[1])
+
+    def effort(self, a: dict, b: dict) -> float:
+        """Travel-cost distance between two records, in equivalent flat metres.
+
+        Falls back to plan distance when the context has no terrain (the unit
+        tests run that way)."""
+        pa, pb = self.pos(a), self.pos(b)
+        if pa is None or pb is None:
+            return float("inf")
+        plan = math.hypot(pa[0] - pb[0], pa[1] - pb[1])
+        walk = getattr(self.terrain, "effort_distance", None)
+        return plan if walk is None else walk(pa[0], pa[1], pb[0], pb[1])
 
     def nearest_route(self, x: float, z: float, major_only: bool) -> tuple[RouteLine | None, float]:
         best, bd = None, float("inf")
@@ -912,6 +932,7 @@ def check_type_proximity(ctx: Ctx, rec: dict) -> list[Finding]:
     region = ctx.region_of[rid]
     why = clip(prox.get("why") or f"type {rec['classification']['type']}")
     nearest: dict[str, tuple[float, dict]] = {}
+    by_class: dict[str, list[tuple[float, dict]]] = {}
     out: list[Finding] = []
     for oid, other in ctx.records.items():
         if oid == rid or other.get("status") not in LIVE_STATUSES:
@@ -920,16 +941,32 @@ def check_type_proximity(ctx: Ctx, rec: dict) -> list[Finding]:
         if d is None:
             continue
         ocls = other["classification"]["class"]
+        by_class.setdefault(ocls, []).append((d, other))
         if ocls not in nearest or d < nearest[ocls][0]:
             nearest[ocls] = (d, other)
+    # Isolation floors are judged in EQUIVALENT FLAT METRES (Tobler travel
+    # cost, `worldgen.travel_cost`), because the prose they come from says the
+    # effort-to-reach is the design. The binding neighbour is therefore the
+    # one that is nearest IN EFFORT, which is not always the nearest on the
+    # plan: a village 160 m off but 250 m below up a rim face is further away
+    # than one 500 m across the flat. Only neighbours already inside the floor
+    # on the plan can be inside it in effort (effort >= plan), so the walk is
+    # done for those alone.
     for cls, floor in (prox.get("minFromClassM") or {}).items():
         if cls == "route":
             continue
-        row = nearest.get(cls)
-        if row and row[0] < float(floor):
+        floor = float(floor)
+        inside = [(ctx.effort(rec, other), other)
+                  for d, other in by_class.get(cls, ()) if d < floor]
+        if not inside:
+            continue
+        eff, other = min(inside, key=lambda r: r[0])
+        if eff < floor:
+            plan = ctx.distance(rec, other) or eff
             out.append(Finding(rid, region, "type-proximity", "high", why,
-                               f"{row[1].get('name') or row[1]['id']} ({cls}) is "
-                               f"{row[0]:.0f} m away — inside the type's {floor:.0f} m floor",
+                               f"{other.get('name') or other['id']} ({cls}) is "
+                               f"{eff:.0f} m of walking away ({plan:.0f} m on the plan) "
+                               f"— inside the type's {floor:.0f} m floor",
                                "move"))
     for cls, ceiling in (prox.get("maxFromM") or {}).items():
         if cls == "route":

@@ -459,11 +459,18 @@ def thomas_outcome(prior: dict[str, dict], demands: list[Demand], result: dict[s
             continue
         cluster = prior[demand.zone]
         candidate = assignment["candidate"]
-        generic_distances = [math.hypot(candidate.x - x, candidate.z - z)
-                             for x, z in cluster["parents"]]
-        nearest = min(range(len(generic_distances)), key=generic_distances.__getitem__)
-        if generic_distances[nearest] <= float(cluster["childRadiusM"]) + 1e-6:
-            occupancy[demand.zone][nearest] += 1
+        # Occupancy is credited to EVERY parent whose kernel holds the record,
+        # not just the nearest one (fixed 2026-09-09). Every culture's
+        # `parentFloorM` (400-700 m) is below 2 x the 300 m child radius, so
+        # kernels legitimately overlap; crediting only the nearest parent let a
+        # parent whose kernel was full of children read as empty because a
+        # neighbour 442 m away was marginally nearer to each of them. That is
+        # an artefact of the attribution, not a hole in the plot, and it was
+        # failing `--resolve-all` on `imperial-penal-south` parent 0.
+        radius = float(cluster["childRadiusM"]) + 1e-6
+        for i, (x, z) in enumerate(cluster["parents"]):
+            if math.hypot(candidate.x - x, candidate.z - z) <= radius:
+                occupancy[demand.zone][i] += 1
         # A record that cannot be a clump child (`thomas_exempt`) still counts
         # towards parent occupancy when it happens to land in a kernel — it is
         # only the "child must be inside a kernel" rule it is exempt from.
@@ -1130,6 +1137,30 @@ def out_of_sight_binds(d: Demand, od: Demand, dist: float) -> bool:
     return False
 
 
+def effort_metric(s: "ProvinceSurvey | None"):
+    """The survey's cached Tobler effort metric (see `worldgen.travel_cost`).
+
+    Isolation floors are judged in EQUIVALENT FLAT METRES, not plan metres:
+    the type prose they come from says the effort-to-reach IS the design.
+    Without a survey there is no terrain, so the gates fall back to plan
+    distance — that is what the pure-unit tests exercise."""
+    if s is None or getattr(s, "height_grid", None) is None:
+        return None
+    m = getattr(s, "_effort_metric", None)
+    if m is None:
+        from . import travel_cost
+        m = travel_cost.EffortMetric(s)
+        s._effort_metric = m
+    return m
+
+
+def isolation_distance(metric, c_x: float, c_z: float, o_x: float, o_z: float,
+                       plan: float, floor: float) -> float:
+    """Distance an isolation floor is judged on: effort, short-circuited."""
+    from . import travel_cost
+    return travel_cost.effort_or_plan(metric, c_x, c_z, o_x, o_z, plan, floor)
+
+
 def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Candidate]],
                   factor: float = 1.0, s: "ProvinceSurvey | None" = None
                   ) -> tuple[bool, str | None]:
@@ -1148,6 +1179,10 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
     * **typed proximity**: `proximity.minFromClassM` / `maxFromM` /
       `outOfSightOf`, read from the type's own `neighbourRelation` prose. These
       used to be prose the solver never read; they are hard gates now.
+      `minFromClassM` is judged in EQUIVALENT FLAT METRES of walking (Tobler
+      travel cost) rather than plan metres — see `worldgen.travel_cost`. On
+      flat ground the two are identical, so the authored floors keep their
+      calibration; a rim face costs what it costs to climb.
     * **authored repetition**: same type / same type on one road.
 
     Only the repetition rules relax; footprints and proximity never do.
@@ -1157,6 +1192,7 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
     max_from = prox.get("maxFromM") or {}
     out_of_sight = set(prox.get("outOfSightOf") or ())
     nearest_by_class: dict[str, float] = {}
+    metric = effort_metric(s)
 
     for oid, (od, oc) in plotted_d.items():
         dist = math.hypot(c.x - oc.x, c.z - oc.z)
@@ -1184,8 +1220,9 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
         # so a village plotted later may not walk into it either.
         if not related:
             o_prox = od.proximity
-            if dist < max(min_from.get(od.cls) or 0.0,
-                          (o_prox.get("minFromClassM") or {}).get(d.cls) or 0.0):
+            floor = max(min_from.get(od.cls) or 0.0,
+                        (o_prox.get("minFromClassM") or {}).get(d.cls) or 0.0)
+            if floor and isolation_distance(metric, c.x, c.z, oc.x, oc.z, dist, floor) < floor:
                 return False, oid
             if s is not None and out_of_sight_binds(d, od, dist) \
                     and s.line_of_sight(c.x, c.z, oc.x, oc.z):
@@ -2117,6 +2154,7 @@ def typed_siting_violations(demands: list[Demand], result: dict[str, dict],
     empty list is the contract."""
     plotted = [(d, result[d.id]["candidate"]) for d in demands if d.id in result]
     out: list[dict] = []
+    metric = effort_metric(s)
     for i, (d, c) in enumerate(plotted):
         min_from = d.proximity.get("minFromClassM") or {}
         max_from = d.proximity.get("maxFromM") or {}
@@ -2135,9 +2173,12 @@ def typed_siting_violations(demands: list[Demand], result: dict[str, dict],
                             "distM": round(dist, 1), "needM": round(need, 1)})
             if not related:
                 floor = min_from.get(od.cls) or 0.0
-                if dist < floor:
+                effort = (isolation_distance(metric, c.x, c.z, oc.x, oc.z, dist, floor)
+                          if floor else dist)
+                if floor and effort < floor:
                     out.append({"id": d.id, "gate": "minFromClassM", "other": od.id,
-                                "distM": round(dist, 1), "needM": floor})
+                                "distM": round(dist, 1), "effortM": round(effort, 1),
+                                "needM": floor})
                 if out_of_sight and od.cls in out_of_sight and s is not None \
                         and out_of_sight_binds(d, od, dist) \
                         and s.line_of_sight(c.x, c.z, oc.x, oc.z):
@@ -2416,6 +2457,46 @@ def positions_by_zone(by_id, demands) -> dict[str, list[tuple[float, float]]]:
 # --------------------------------------------------------------------------- #
 # main
 # --------------------------------------------------------------------------- #
+def ceiling_repair_pass(demands: list[Demand], result: dict[str, dict], cands: list[Candidate],
+                        s: ProvinceSurvey, thomas_prior: dict[str, dict],
+                        rounds: int = 3) -> list[dict]:
+    """Close the ORDERING HOLE in the `maxFromM` ceilings.
+
+    `separation_ok` can only judge a ceiling against records already on the
+    map, so a record plotted before the nearest member of its target class
+    exists is admitted un-judged and may end up outside its own ceiling — the
+    2026-09-09 plot missed three by 0.3 m, 37 m and 201 m. Re-checking against
+    the finished plot (`typed_siting_violations`) finds them but cannot fix
+    them.
+
+    This pass lifts each offender off the map and re-solves it with every
+    other record fixed, so its ceiling is now judged against the whole plot.
+    A round is kept only if it leaves nobody homeless and strictly fewer
+    violations; otherwise the previous plot is restored. Deterministic:
+    `assign` is, and the offenders are taken in sorted order.
+    """
+    trace: list[dict] = []
+    for _ in range(rounds):
+        before = typed_siting_violations(demands, result, s)
+        offenders = sorted({v["id"] for v in before if v["gate"] == "maxFromM"})
+        if not offenders:
+            break
+        kept = {rid: row for rid, row in result.items() if rid not in offenders}
+        candidate_result, unresolved = assign(demands, cands, s, s.anchor_points_m,
+                                              preplaced=kept, thomas_prior=thomas_prior)
+        after = typed_siting_violations(demands, candidate_result, s)
+        accepted = not unresolved and len(after) < len(before)
+        trace.append({"offenders": offenders, "violationsBefore": len(before),
+                      "violationsAfter": len(after),
+                      "homeless": sorted(r["id"] for r in unresolved),
+                      "accepted": accepted})
+        if not accepted:
+            break
+        result.clear()
+        result.update(candidate_result)
+    return trace
+
+
 def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False):
     """The whole solve, for `run` and for the determinism test alike.
 
@@ -2454,13 +2535,20 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False
         # weakening any placement.
         result, unresolved = assign(demands, cands, s, s.anchor_points_m,
                                     preplaced=result, thomas_prior=thomas_prior)
-    return demands, files, scour, free, result, unresolved, resite, pinned
+    # Only in a re-plot. A seeded solve's whole contract is that a committed
+    # cell does not move (`test_the_solve_keeps_every_committed_cell`), and the
+    # shipped catalogue's ceiling breaches are exactly what the re-plot is for.
+    ceiling_trace = (ceiling_repair_pass(demands, result, cands, s, thomas_prior)
+                     if resolve_all else [])
+    return (demands, files, scour, free, result, unresolved, resite, pinned,
+            ceiling_trace)
 
 
 def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | None = None,
         resolve_all: bool = False) -> dict:
     s = ProvinceSurvey()
-    demands, files, scour, free, result, unresolved, resite, pinned = solve(s, seed, resolve_all=resolve_all)
+    (demands, files, scour, free, result, unresolved, resite, pinned,
+     ceiling_trace) = solve(s, seed, resolve_all=resolve_all)
     plotted = {did: (next(d for d in demands if d.id == did), r["candidate"]) for did, r in result.items()}
     apply_to_records(files, demands, result, s)
     rep = build_report(demands, result, unresolved, plotted, s, seed, len(scour), len(free))
@@ -2486,6 +2574,7 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
             for zone, row in prior.items()
         },
     }
+    rep["ceilingRepair"] = ceiling_trace
     rep["clusteringOutcome"], clustering_errors = thomas_outcome(
         prior, demands, result, unresolved)
     rep["clarkEvans"] = plot_stats.clark_evans(
