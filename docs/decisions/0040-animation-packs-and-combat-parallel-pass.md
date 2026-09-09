@@ -1167,3 +1167,29 @@ its FaceTint and selected head parts. Phase 10b will implement the visual
 generator—sex, race-valid parts, morph presets/sliders, ordered tints and body
 weight—beside portable actor loading. Phase 10c connects attributes and
 progression; MQ01 hosts the player-facing creation sequence.
+
+# Round 15 (2026-09-09): the arrow leaves the quiver head-down
+
+Owner report: the arrow appears in the drawing hand at the right moment but
+points up and to the wrong side, roughly 180° out.
+
+Root cause, `packages/character/src/NockedArrow.tsx`. While the shaft is in the
+hand and not yet on the string, the component freezes a *grasp* offset on the
+first visible frame, so the arrow then rides the hand's rotation. That offset
+was built to point the arrowhead along **world +Y** — head-up, an arrow drawn
+point-first — and being a world axis it also ignored which way the actor was
+facing, so the sideways skew varied with the player's yaw.
+
+The fix builds the same offset from a direction in the body's frame instead:
+mostly down, a little across the body, barely any of it forward — the shaft
+lying roughly in the plane of the quiver across the back, which is how one
+clears when the hand takes the fletched end over the shoulder. The body frame
+comes from the aim direction, which the actor is guaranteed to be holding while
+the bow is up. The on-string branch (shaft along the shot) is untouched, as is
+the nock position, `nockWorld` and the projectile.
+
+Same class of defect as the earlier held-object orientation bugs: an
+orientation written as a world axis where the correct one is anatomical.
+
+Gates: `npm run typecheck` 9/9. No unit test — the file is R3F frame code with
+no test harness in `packages/character`; owner visual check.
