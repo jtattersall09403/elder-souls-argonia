@@ -3,9 +3,11 @@ import { toEpochMinutes, MINUTES_PER_DAY } from "@elder-souls/world-time";
 import {
   clearCalmNightFactor,
   convectionFactor,
+  flashInstantsInSlot,
   lightningAt,
   rainWetness,
   spellsForYear,
+  SLOT_MINUTES,
   synopticAt,
   windDirAt,
 } from "./synoptic";
@@ -301,27 +303,31 @@ describe("round 2 gates (owner feedback 2026-08-29)", () => {
     }
   });
 
-  // 10 days x 1440 minutes at 0.01-minute resolution is 1.44 M instants. That
-  // fits inside vitest's 5 s default on a dev machine and does NOT on a shared
-  // CI runner, where it timed out and failed the whole deploy (run 34394992881,
-  // 2026-09-09). The sweep is the point of the test - lightning has to be gated
-  // at every flash instant, not at a sample of them - so the timeout moves and
-  // the coverage does not.
+  // EVERY flash, not a scan for them. This used to sweep 10 days at
+  // 0.01-minute resolution — 1.44 M instants — hunting for a 0.02-minute
+  // window. It timed out on CI and failed the deploy, and it was not even
+  // exhaustive: it stepped a whole minute forward after each hit, and a flash
+  // whose window fell between two samples was never tested at all.
+  //
+  // `flashInstantsInSlot` computes the instants from the same hash the sampler
+  // uses, so the test now visits each flash exactly once, by construction.
   it("no lightning without a storm deck (transition-in is gated)", () => {
-    for (let day = 1; day <= 10; day += 1) {
-      for (let m = 0; m < MINUTES_PER_DAY; m += 0.01) {
-        const e = at(5, day, 0) + m;
-        // lightningAt is cheap; only run the full sample at flash instants.
-        if (lightningAt(e) <= 0) continue;
+    const slot0 = Math.floor(at(5, 1, 0) / SLOT_MINUTES);
+    const slots = Math.ceil((10 * MINUTES_PER_DAY) / SLOT_MINUTES);
+    let checked = 0;
+    for (let i = 0; i <= slots; i += 1) {
+      for (const e of flashInstantsInSlot(slot0 + i)) {
         const wx = weatherSampleAt(e, LOCAL_BASIN);
+        checked += 1;
         if (wx.lightning > 0.05) {
           const mass = (wx.profile.cloudLow + wx.profile.cloudMid) * 0.5 * wx.profile.cloudDensity;
-          expect(mass, `day ${day} m ${m}`).toBeGreaterThan(0.5);
+          expect(mass, `flash at epoch ${e}`).toBeGreaterThan(0.5);
         }
-        m += 1;
       }
     }
-  }, 60_000);
+    // The sweep is worthless if the ten days happen to hold no storm at all.
+    expect(checked, "no flashes in the sampled fortnight — the gate proved nothing").toBeGreaterThan(0);
+  });
 
   it("coverage wanders within a fair-weather spell but never fully overcasts it", () => {
     // Force-state removes slot rolls; the wander alone must vary the deck.

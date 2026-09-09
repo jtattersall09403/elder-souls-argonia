@@ -376,6 +376,26 @@ export function rainWetness(epochMinutes: number): number {
 /** Lightning flash envelope 0..1 at this instant. Flash times are seeded per
  * slot; each flash is a ~1.2 s (0.02 world-minute) triangular pulse.
  * `forcedRate` (studio force-state preview) overrides the timeline's rate. */
+/** Every flash instant in a slot, exactly.
+ *
+ * `lightningAt` answers "is there a flash NOW", so a test that wants to check
+ * every flash had to scan for them — 1.44 M samples at 0.01-minute resolution
+ * to catch a 0.02-minute window, which timed out CI and could still miss a
+ * flash whose window straddled two samples. The instants are computable, so
+ * they are computed: same hash, same order, same arithmetic as the sampler
+ * below, which is why this lives beside it and not in the test.
+ */
+export function flashInstantsInSlot(slot: number, forcedRate?: number): number[] {
+  const rate = forcedRate ?? PROFILES[stateAtSlot(slot)].lightningPerMin;
+  if (rate <= 0) return [];
+  const n = Math.floor(rate * SLOT_MINUTES);
+  const out: number[] = [];
+  for (let k = 0; k < n; k += 1) {
+    out.push(slot * SLOT_MINUTES + hash01(slot, 77 + k) * SLOT_MINUTES);
+  }
+  return out;
+}
+
 export function lightningAt(epochMinutes: number, forcedRate?: number): number {
   const WIDTH = 0.02;
   let env = 0;
