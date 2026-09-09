@@ -105,6 +105,93 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 11 (2026-09-09) — solid LEAVES: a name blacklist standing in for a geometric property
+>
+> Owner: "some trees have *leaves* that I can't walk through, e.g. mangroves.
+> It should only be their *trunks* that are solid."
+>
+> **Root cause.** `trunk_solids.py` decided what was wood from TEXTURE NAMES.
+> `branch` counts as wood (mangrove prop roots ship under it), and three
+> cutout cards were vetoed by name — `palmmiddle`, `grandoak`,
+> `gkbbranch3dark`. A name list can only ever veto the cards somebody has
+> already walked into, and it missed `gkbbranch1/5/10`, `gkbjunglebranch2/3`,
+> `datepalmbark7/8` and `tundradriftwoodbranches01`. Sampling is
+> area-weighted, so on `mangrovereachtree0gkb8` the crown cards contributed
+> ~324 m² (~22,700 samples) against ~46 m² (~3,200) for the real wood: the
+> crown outvoted the trunk 7:1 and the p88 fit drew a 3.64 m capsule at
+> canopy height — 74 % of the crown's width. The runtime
+> (`floraSolids.ts`) was faithful throughout; the shipped data was wrong.
+>
+> **Defect (a): cards fitted as wood.** Replaced by the geometric property
+> the names stood in for. A card is a handful of huge quads; a tube is finely
+> segmented however big the tree is — so the discriminant is triangle size
+> RELATIVE TO THE TREE. An absolute cut cannot do it: the anvil canopy palm's
+> genuine 42 m trunk carries 0.67 m² triangles, LARGER than a mangrove crown
+> card's 0.56 m². Normalised by height², all 142 wood-matched primitives in
+> the kit separate: largest tube 1.44e-3, smallest card 2.49e-3, with the
+> body of the tube distribution at 1e-5–5e-4. `CARD_TRI_AREA_PER_HEIGHT2 =
+> 2.0e-3` sits ~25 % clear of both. The one borderline case, the man-fern's
+> lone `fernbark` stem at 2.41e-3, is kept by an explicit rule: cards are
+> rejected in favour of the TUBES THEY SURROUND, so a species with no other
+> wood primitive keeps what it has. Past `LONE_CARD_FAIL_FACTOR = 2.0` × the
+> threshold that is not borderline and the pass fails loudly.
+>
+> **Defect (b): the prop-root/multi-stem merge.** Cards alone still left
+> gkb8 at 2.77 m: `band_clusters`' 0.55 m flood fill merges a splayed
+> prop-root tangle into one cluster and p88 draws one disc across the splay
+> (without cards at all: `treewillow02a` 3.67 m against a 0.79 m bole,
+> `gkbjungletreenewsticktree11` 2.81 m against 0.15 m). Fixed with the
+> measured girth as the reference — `collisionCapsule.radiusM` is measured
+> independently of the fit. A band cluster wider than `SPLIT_RADIUS_FACTOR =
+> 1.3` × girth is split (recursion depth 3 → 5); whatever will not split is
+> clamped at `MAX_RADIUS_FACTOR = 1.5` × girth. Several slim capsules is also
+> the physically right answer: a mangrove's prop roots ARE walkable-between.
+>
+> **Defect (c), found while verifying (b).** The `MAX_CAPSULES = 96` cap
+> sorted FATTEST FIRST, so the slim base capsules the split produces were the
+> first dropped — the anvil canopy palm lost 96 of its 101 wood samples below
+> 2.2 m, i.e. exactly the height the player walks at. Now sorted lowest
+> first, then fattest. This alone is why the fix costs +45 % colliders and
+> not +90 %.
+>
+> **Result** (worst fitted radius, before → after, girth in brackets):
+> `gkbjungletreenew3` 10.93 → 2.02 (2.40); `gkbjungletreenew10` 6.29 → 0.45
+> (0.30); `anvil-emergent-giant` 5.73 → 2.47 (1.90); `treewillow02a` 3.67 →
+> 0.98 (0.79); `mangrovereachtree0gkb8` 3.64 → 1.05 (0.83); `…gkb3` 3.41 →
+> 0.83 (1.03); `…gkb2` 3.15 → 2.54 (1.98); `gkbjungletreenew1` 3.49 → 0.23
+> (0.15); `gkbjungletreenewsticktree11` 2.81 → 0.23 (0.15);
+> `anvil-canopy-tree` 3.09 → 1.72 (1.61); `dead_bc_tree_04` 2.77 → 0.96
+> (0.79); `treeofwolene4` 2.88 → 1.73 (1.40). Worst ratio to measured girth
+> across the kit falls from 23.3× to 1.50× (the clamp).
+>
+> **Budget.** Total capsules 2,039 → 2,961 (+45 %) across 50 solid species.
+> `VegetationColliders` budgets 2,500 COLLIDERS over a 20 m ring, so the mean
+> species cost rising 41 → 59 cuts the trees covered per ring from ~61 to
+> ~42; past that `coveredRadiusM` shrinks and the ring rebuilds sooner. That
+> file was outside this change's scope; raising `COLLIDER_BUDGET` to ~3,600
+> restores parity and is cheap (fixed bodies, broad-phase only, as its own
+> comment says). **Open for the next agent in that file.**
+>
+> **Anti-regression (nothing could catch this before).** `floraSolids.test.ts`
+> tested transform maths on hand-written fixtures;
+> `vegetationSolidity.test.ts` proved wood IS solid but never that air is
+> NOT, and its wood set included the cards, which inflated the denominator
+> and hid the gap. Now:
+> - **Data gate** (`vegetationSolidity.test.ts`) over the shipped manifest:
+>   every fitted capsule ≤ **1.6 ×** the species' measured girth. Post-fix
+>   worst is 1.50, so 6.7 % margin. Mutation-tested: restoring the pre-fix
+>   manifest lists 37 offenders; widening one capsule to 1.7× lists it.
+> - **Provenance gate**, same file: the manifest must carry
+>   `trunkSolids.fitter`. `build_kit.py` does already call the fitter, but a
+>   manifest produced any other way now fails loudly instead of shipping fat
+>   capsules that every other check would pass.
+> - **Source gates** (`pipeline/test_trunk_solids.py`): the card rule, its
+>   margin either side, the splay split and the clamp. Mutation-tested —
+>   stubbing `is_card`, the clamp or the split each turns one red.
+> - The coverage test's own wood set now applies the same card rule, so it
+>   measures cover of TUBE wood (743 samples at walking height, 0 uncovered;
+>   it was passing at 6.06 % uncovered on a card-inflated denominator).
+>
 > ### 2026-09-08 — province-wide rollout recorded; regional variety pass
 >
 > **What happened.** Vegetation scatter left the five exemplar rings and
