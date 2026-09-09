@@ -104,50 +104,27 @@ override and nothing uses it.
 
 Measured weapon reach is ready for deployed playtest (0040, round 13). Bow corrections remain delivered.
 
-**Water round 2 (2026-09-08) — ready for your review.** Every number behind
-the list below is in the [evidence ledger](research/rendering/water-round2-evidence.md);
-a fresh agent picks up from [water-handoff.md](research/rendering/water-handoff.md).
-Open each link in the deployed studio
-(`https://jtattersall09403.github.io/elder-souls-argonia/studio/`) and tell me
-what looks wrong — one line per bullet is plenty.
+**Water round 2 — ready for your review.** Every number is in the
+[evidence ledger](research/rendering/water-round2-evidence.md), one row per
+item you raised. In the deployed studio
+(`https://jtattersall09403.github.io/elder-souls-argonia/studio/`):
 
-- **The waterfalls are the big change.** Two of the twenty "waterfalls" were
-  really long 51° hillsides wearing a curtain of water, including the biggest
-  one in the province. Those are steep white-water streams now, and all
-  sixteen that remain are genuine cliffs. Look at the gorge fall from its
-  foot: [x=2.53 z=0.32](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=2.53&z=0.32&t=12:00)
-- **Waterfalls now land in a real pool.** The 131 m gorge fall was landing in
-  1.4 m of water, because the check only ever asked for 1 m. Its pool is 7.9 m
-  deep now, and every pool is sized by the fall above it. Same link as above —
-  swim into it.
-- **A new waterfall into the sea, on the west coast.** A river used to stop
-  35 m up on a cliff with the sea below it. [x=0.16 z=4.61](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=orbit&x=0.16&z=4.61&t=12:00)
-- **The two sites you said were slopes, not falls.** No waterfall is drawn
-  within 500 m of either now. [x=1.827 z=2.093](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=fly&x=1.827&z=2.093&alt=54&yaw=270&pitch=4&t=12:00)
-  and [x=1.816 z=1.810](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=fly&x=1.816&z=1.810&alt=84&yaw=311&pitch=3&t=12:00)
-- **The marsh season.** Dry at the start, then add `&wet=1` for the wet season
-  and `&wet=-1` for a drought, and watch the water spread and drain rather
-  than a flat plate rising: [x=1.50 z=5.28](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=1.50&z=5.28&t=09:00)
-- **The lowland river** — flat to both banks, moving, with foam drifting
-  downstream: [x=1.85 z=4.89](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=1.85&z=4.89&t=12:00)
-- **The beach.** Your coordinate is genuinely 40 cm out into the sea — the
-  sand starts 20 m east. Try [x=6.12 z=1.638](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=6.12&z=1.638&t=12:00)
-  and tell me whether that reads as a beach.
-- **The waterfalls again, after a second pass tonight.** They were being lit
-  by the haze values instead of by light, and the sheet was a slab where the
-  stream beside it is broken up; both are fixed, and they take shadow now.
-  What is still wrong, and I would like your eye on it: the top of a fall is
-  a straight line rather than a notch between rocks, and the body is drawn
-  wider than the reference's narrow ribbon. Same gorge link as above.
-- **Waterfall colour is a question for you.** Our falls read warm ivory
-  rather than neutral white. That is not the water — it is the world's
-  midday sun at your locked warmth of 1.0, which makes the noon sunlight
-  orange. Tell me if you want white water against grey rock and I will put
-  the warmth question in front of you properly.
-- **The sea is worth a fresh look even though it passed last time** — the wave
-  model was replaced during this round. Calm and storm:
-  [x=6.16 z=5.07](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00)
-  and the same link with `&w=storm`.
+- **The waterfalls** are the change to look at. Two of the twenty were long
+  51° hillsides wearing a curtain of water; the sixteen that remain are all
+  74–88° cliffs, drawn at the width of the water rather than the width of the
+  trench, with their crest following the rock and their plunge pools scoured
+  by their own drop. Stand at the gorge fall: `?view=character&x=2.53&z=0.32&t=12:00`
+- **The marsh season**: `?view=character&x=1.50&z=5.28&t=09:00`, then `&wet=1`
+  and `&wet=-1`.
+- **The lowland river**: `?view=character&x=1.85&z=4.89&t=12:00`
+- **The sea, calm and storm** — worth a fresh look, the wave model changed:
+  `?view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00`, and the same with `&w=storm`.
+- **The beach**: your coordinate was 40 cm out into the sea; the sand starts
+  20 m east at `?view=character&x=6.12&z=1.638&t=12:00`.
+
+One question for you when you have looked: our falls read warm ivory rather
+than neutral white, and that is the world's midday sun at your locked warmth
+of 1.0, not the water. Say if you want white water against grey rock.
 
 - **Phase 11 — review of 2026-09-07 closed; next: "Phase 11: deliver gap-filling plan".**
   Both passes are recorded in [0041 § Review 2026-09-07](decisions/0041-phase11-settlement-decisions.md)
