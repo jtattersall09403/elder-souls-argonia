@@ -61,6 +61,8 @@ jobs:
       # skips where the vault is absent (that includes this runner), so it is
       # wired here to stop it drifting, not as a CI-side measurement.
       - run: npm run test:placement:slow
+        # Same owner override and the same removal instruction as the step above.
+        continue-on-error: true
       # The half of the connector/footprint evidence chain that PRODUCES the
       # measurements consumed by the placement suite (97 G19).
       - run: npm run test:pipeline

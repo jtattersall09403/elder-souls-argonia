@@ -1,6 +1,11 @@
-numpy>=2.0,<3
 Pillow>=10,<13
+matplotlib>=3.8,<4
+numpy>=2.0,<3
 pytest>=8,<10
 scikit-image>=0.22,<1
 scipy>=1.13,<2
 shapely>=2,<3
+# render_blueprint draws the owner's review diagrams; test_render_blueprint and
+# test_export_blueprints import it, and without it BOTH error at collection and
+# fail the whole placement-slow job - which is what had been failing the deploy,
+# independently of any world defect (run 34394121081, 2026-09-09).
