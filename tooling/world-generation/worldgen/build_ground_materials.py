@@ -29,8 +29,11 @@ import numpy as np  # noqa: E402
 from PIL import Image  # noqa: E402
 from pipeline.bsa import BSAArchive  # noqa: E402
 
-# The asset vault is the sibling checkout; relative to this repo, never absolute.
-_VAULT_ROOT = Path(__file__).resolve().parents[3].parent / "elder-scrolls-asset-pipeline"
+# The asset vault: resolved by worldgen.vault, so ES_ASSET_PIPELINE_ROOT and
+# worktree checkouts work here exactly as they do in the terrain chain.
+from .vault import asset_pipeline_root  # noqa: E402
+
+_VAULT_ROOT = asset_pipeline_root()
 DEFAULT_DATA = _VAULT_ROOT / "skyrim-source" / "Data"
 MOD_SOURCES = _VAULT_ROOT / "skyrim-source" / "mod-sources"
 CC0_CACHE = MOD_SOURCES / "cc0-ground-textures"

@@ -382,10 +382,13 @@ from . import parcel_kinds as pk
 from . import province_network as pn
 from .player_purpose import QUEST_PURPOSE_KINDS
 from .catalogue import CATALOGUE_DIR, load_region_files
+# The carve stages read these three from `dock_spec`, a leaf module, so that
+# cutting a channel does not depend on the settlement stack (see dock_spec).
+from .dock_spec import (BLUEPRINT_DIR, DOCK_DEPTH_SAMPLE_M,  # noqa: F401
+                        HULL_CLASS_DEPTH_M)
 
 SCHEMA_VERSION = 1
 REPO_ROOT = Path(__file__).resolve().parents[3]
-BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
 
 # Kit SETS a district may be built from (Phase 11 Part 6, owner ruling
 # 2026-09-04 "kits only combine pieces designed to combine"): a district names
@@ -557,8 +560,6 @@ APPROACH_MODES = {"walk", "boat", "swim"}
 TERMINAL_KINDS = {"road", "track", "footpath", "boardwalk", "lane", "channel"}
 # 97 B5 / G9 — the depth a berth must carry for the deepest hull it serves,
 # sampled DOCK_DEPTH_SAMPLE_M off the dock along the route that serves it.
-HULL_CLASS_DEPTH_M = {"canoe": 0.6, "small-draft": 1.2, "keeled": 3.0}
-DOCK_DEPTH_SAMPLE_M = 100.0
 DOCK_DEPTH_SAMPLE_STEP_M = 5.0
 DOCK_TERMINAL_TOLERANCE_M = 10.0    # dock -> published water end
 DOCK_FIT_SEARCH_M = 150.0           # how far a channel may be re-ended to a berth

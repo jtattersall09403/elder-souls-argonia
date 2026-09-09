@@ -26,6 +26,7 @@ import tempfile
 from pathlib import Path
 
 import numpy as np
+from .npz_io import savez as _savez
 from PIL import Image
 from scipy import ndimage
 
@@ -235,7 +236,7 @@ def carve_to_profile(h, npz, save_path=None):
     if save_path is not None:
         local_dir = Path(save_path).parent
         np.save(local_dir / "refined-height-prelocal-f32.npy", h)
-        np.savez(local_dir / "local-carve-inputs.npz",
+        _savez(local_dir / "local-carve-inputs.npz", compressed=False,
                  level_with_sea=bodies.level_with_sea,
                  wet=bodies.wet | bodies.sea)
     h, authored_stats, dredge_stats, carve_boxes = apply_local_carves(

@@ -52,6 +52,7 @@ import time
 from pathlib import Path
 
 import numpy as np
+from .npz_io import savez as _savez
 from PIL import Image
 from scipy import ndimage
 
@@ -728,7 +729,7 @@ def main() -> None:
 
 def write_outputs(r: dict, vault: Path, *, source_height_sha256: str) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(
+    _savez(
         vault / "water-pass1.npz",
         w_full=r["W"].astype(np.float32), wet_full=r["wet"], owner_full=r["owner"],
         assigned_full=r["assigned"], chan_full=r["in_chan"],

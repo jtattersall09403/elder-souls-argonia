@@ -173,6 +173,66 @@ def is_fresh(stamp: dict, code: str, at: int = -1,
     return True
 
 
+
+# ------------------------------------------------- is this edit a local carve?
+
+#: The only source files whose change a LOCAL RE-CARVE can account for: a
+#: dock's promise (`dock_dredge`) and an authored minor waterway
+#: (`authored_waterways`). Both cut a bounded patch of ground and nothing else.
+LOCAL_CARVE_INPUTS = ("world/sources/blueprints/",
+                      "world/sources/routes/authored-minor-waterways.json")
+
+
+def local_carve_only() -> tuple[bool, str]:
+    """Can this run take the fast path? Returns (yes, why).
+
+    The fast path patches the graded heightfield with just the local carves
+    instead of re-deriving the whole province, so it is valid only when the
+    ONLY thing that changed is one of those carves. This is deliberately
+    CONSERVATIVE: any code change at all, any other changed input, or a
+    missing carve snapshot sends the run down the full chain. `recarve_local`
+    then checks the ground outside the last footprint for itself and refuses
+    to run if anything upstream moved, so a wrong answer here costs a failed
+    stage, never a wrong province.
+    """
+    book = _load()
+    key = next((k for k in book if k.endswith("-refine_province")
+                and not k.startswith("fp-")), None)
+    if key is None:
+        return False, "no full chain has run against this vault yet"
+    snapshot = HEIGHTFIELD_DIR / "province-refined" / "local-carve-inputs.npz"
+    if not snapshot.exists():
+        return False, "no local-carve snapshot: the fast path has nothing to restart from"
+    stamp = book[key]
+    if stamp.get("code") != _sha_sources(module_closure("refine_province")):
+        return False, "the terrain code changed; only a full re-derive can be trusted"
+    written_by = last_writers(book)
+    at = _position(key)
+    changed = []
+    for group in ("inputs", "outputs"):
+        for path, sha in stamp.get(group, {}).items():
+            if written_by.get(path, -1) > at:
+                continue          # downstream state, not this stage's input
+            if _sha_file(Path(path)) != sha:
+                changed.append(path)
+    if not changed:
+        return False, "nothing changed"
+    # A fast run does not update the full chain's refine stamp — it never runs
+    # refine. So the same carve would look "changed" for ever and be re-applied
+    # on every plain run. It is the RECARVE's own stamp that says whether these
+    # carves are already in the ground.
+    fp_key = next((k for k in book if k.endswith("-recarve_local")), None)
+    if fp_key is not None:
+        fp = book[fp_key]
+        if is_fresh(fp, _sha_sources(module_closure("recarve_local")),
+                    _position(fp_key), written_by):
+            return False, "the last fast run already applied these carves"
+    other = [c for c in changed if not any(m in c for m in LOCAL_CARVE_INPUTS)]
+    if other:
+        return False, f"{len(other)} changed file(s) the carve cannot account for, first: {other[0]}"
+    return True, f"only local carves changed ({len(changed)} file(s))"
+
+
 def _mtime(path: Path) -> int:
     try:
         return path.stat().st_mtime_ns
@@ -227,6 +287,10 @@ def main(argv: list[str] | None = None) -> None:
     args = list(argv if argv is not None else sys.argv[1:])
     force = "--force" in args
     args = [a for a in args if a != "--force"]
+    if args[:1] == ["local-carve-only"]:
+        ok, why = local_carve_only()
+        print(why)
+        raise SystemExit(0 if ok else 1)
     if len(args) < 3 or args[0] != "run":
         print(__doc__)
         raise SystemExit(2)

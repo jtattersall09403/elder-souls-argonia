@@ -63,7 +63,7 @@ import numpy as np
 from scipy import ndimage
 
 from .authored_waterways import _inside, connected_depth  # noqa: F401 — connected_depth is re-exported for tests
-from .blueprint import (
+from .dock_spec import (
     BLUEPRINT_DIR,
     DOCK_DEPTH_SAMPLE_M,
     HULL_CLASS_DEPTH_M,
