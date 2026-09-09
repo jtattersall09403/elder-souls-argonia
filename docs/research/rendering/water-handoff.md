@@ -74,13 +74,29 @@ left is a handover, not a loose end:
    do not move or relabel the huts to silence the finding. Keep these failures
    red until the physical compiler makes the authored cuts wet, labelled, deep and correctly
    current-bearing; do not lower hull classes or move fixed berths to hide them.
-2. **`npm run test:placement` fails on four `test_compile_settlement` tests on
-   a clean checkout of `main`.** They are not water's: they fail identically at
-   the commit before the province rebuild. They entered the CI gate when the
-   settlement workstream added their file to `test:placement`. Until they pass,
-   the Pages deploy is blocked for everyone.
+2. **The falls' shape.** Their light is right now (they were being lit by the
+   aerial-haze feeds, at a tenth of the sky), but an agent reading our frames
+   against the owner's references calls the body a cream rectangle with
+   straight sides standing in a thin white stream: it flares two to three
+   times wider than the river feeding its lip, its edges end on a hard
+   silhouette instead of fraying into spray, and it reads warm ivory rather
+   than neutral white. The kit also takes no shadow at all (unlit, outside
+   CSM), so a fall on a shaded gorge floor is lit as if in open sun — which is
+   why the gorge fall measures ×2.10 of the water around it. All queued in the
+   polish backlog with the measurements.
 3. One hovering cell remains, pinned by site in the invariant with its
    diagnosis (113 E / 1201 S, a 0.16 m step beside an 81° chute).
+4. `fall-20m-under` reports `|still − ground − depth| = 0.21 m`: the still
+   surface and the depth channel disagree at that point. Compiler-side, small,
+   and left failing rather than papered over.
+
+**CI is green and the round is deployed** (`04e78dd`, 2026-09-09 00:40 UTC).
+Two breakages found by CI on the way there, both fixed: the prose linter
+reached the route-structure sentences by importing a numpy-dependent module,
+which the Node build job cannot do, and the re-carve produced short over-cap
+windows no piece fits, so 38 structures shipped to the studio with zero
+pieces. Four settlement tests that need the gitignored asset-kit build output
+now skip on a clean checkout instead of failing it.
 
 ### How the compiler got there (2026-09-08 evening)
 
