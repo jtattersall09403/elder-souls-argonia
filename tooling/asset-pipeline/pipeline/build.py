@@ -32,6 +32,12 @@ from pathlib import Path
 from .bsa import BSAArchive
 from .models import ROOT, BuildPlan, resolve_character
 
+#: Tropical Skyrim (Nexus classic 33017), relative to the vault root: a full
+#: tropical repaint of the vanilla texture set **under vanilla filenames**.
+#: Every path in this pipeline that resolves a vanilla texture searches here
+#: first (owner ruling 2026-09-09) — see `build_kit.vanilla_texture_roots`.
+TROPICAL_TEXTURES = "skyrim-source/mod-sources/tropical-skyrim-33017/extracted"
+
 BLENDER_SCRIPT = Path(__file__).resolve().parent / "blender" / "build_character.py"
 TOOLCHAIN = json.loads((Path(__file__).resolve().parent / "config" / "toolchain.json").read_text())
 BUILD_DIR = ROOT / "build"
@@ -131,8 +137,25 @@ def assemble_data_root(plan: BuildPlan) -> Path:
 
     missing = [t for t in sorted(wanted) if not (dest / t).exists()]
     filled, absent = [], []
+    # Tropical Skyrim first, then the BSA (owner 2026-09-09: a vanilla asset
+    # resolves to its tropicalised version everywhere by default). It repaints
+    # under vanilla filenames, so this is a lookup order, not a substitution.
+    # It touches nothing the character/weapon builds pull today (measured:
+    # 0 of the 30 textures the Dunmer and weapon-clutter data-roots reference
+    # are in Tropical, which repaints landscape, architecture and WILD FAUNA,
+    # not bodies, armour or weapons) — it is here so the Phase 13 creature
+    # builds get the tropical skeever and mudcrab without anyone remembering.
+    tropical_dir = ROOT / TROPICAL_TEXTURES
+    tropicalised = []
     for tex in missing:
-        if texture_bsa.contains(tex):
+        source = tropical_dir / tex
+        if source.is_file():
+            target = dest / tex
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
+            filled.append(tex)
+            tropicalised.append(tex)
+        elif texture_bsa.contains(tex):
             texture_bsa.extract([tex], dest)
             filled.append(tex)
         else:
@@ -149,7 +172,10 @@ def assemble_data_root(plan: BuildPlan) -> Path:
         target.write_bytes(texture_bsa.read(source))
         substituted.append(f"{Path(source).name} -> {referenced.split('/')[-1]}")
 
+    for tex in tropicalised:
+        print(f"[data-root]   tropicalised: {tex}")
     print(f"[data-root] textures referenced={len(wanted)} filled={len(filled)} "
+          f"tropicalised={len(tropicalised)} "
           f"already-present={len(wanted) - len(missing)} unresolved={len(absent)} "
           f"substituted={len(substituted)}")
     for tex in absent:

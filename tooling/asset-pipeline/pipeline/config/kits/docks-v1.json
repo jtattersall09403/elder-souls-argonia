@@ -8,9 +8,6 @@
   0.12
  ],
  "textureMaxSize": 512,
- "textureOverlayPools": [
-  "tropical"
- ],
  "snapLogic": {
   "vanilla": "Bethesda harbour grid. `dockstrsol01` is the plain straight, `dockstrsol02` the wide straight, `dockstrent01-04` the four shore-entry variants, `dockstr4way01` the crossing and `dockcorsol01` the corner. `dockstepsdown01/02` (+`dockstepsdownend01`) drop to the waterline — these are the boat-boarding pieces. `dockcolstr01/02` are 10–11.5 m mooring columns (`dockcolstrsign01` is the signed one, with `dockcolstrsignrope01` its hanging rope); `dockropestr01/02` are 6.9 m slack mooring ropes strung between columns. Origins are at the deck plane, so a run is laid at one height and the columns are placed against it.",
   "dagonfel": "BM&V's Morrowind jetty system: `dockscentre` is the straight, `dockscentrealt` its variant, `dockscentresmall` the narrow straight and `dockscentrenopost` the post-free straight for running under a building; `docks3way`/`docks4way` are the junctions, `dockscorner` the turn, `docksend`/`docksendnopost` the terminations, `dockssteps` the water stair. `dockspilings` and `dockspilingsdamage` are the free-standing pile clusters (the damaged one is our ruined-jetty piece) and `cleat` the mooring cleat.",

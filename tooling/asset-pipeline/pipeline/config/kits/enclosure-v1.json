@@ -8,9 +8,6 @@
   0.12
  ],
  "textureMaxSize": 512,
- "textureOverlayPools": [
-  "tropical"
- ],
  "textureAliases": {
   "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
   "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",

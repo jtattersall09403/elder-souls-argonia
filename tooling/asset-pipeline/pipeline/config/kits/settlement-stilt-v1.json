@@ -1,6 +1,6 @@
 {
   "id": "settlement-stilt-v1",
-  "description": "Murkmire reed/stilt building culture \u2014 the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) \u2014 the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: `textureOverlayPools: [\"tropical\"]` puts Tropical Skyrim's retextures (vanilla filenames, architecture-TEXTURE-only \u2014 it ships no architecture meshes) ahead of the vanilla texture fallback, so the vanilla-backed pieces read hot and wet instead of Nordic grey. A pool's own textures still win, so the sourced-mod pieces keep their authored look. Drop the key to rebuild the un-overlaid variant.",
+  "description": "Murkmire reed/stilt building culture \u2014 the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) \u2014 the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: vanilla-backed textures resolve through Tropical Skyrim (vanilla filenames, texture-only \u2014 it ships no architecture meshes), so the vanilla-backed pieces read hot and wet instead of Nordic grey. That is the PIPELINE DEFAULT for every kit since 2026-09-09, not a key this config sets; a kit keeps the un-tropicalised vanilla art only by declaring `untropicalisedReason`.",
   "culture": "argonian-stilt",
   "output": "tooling/asset-pipeline/output/kits/settlement-stilt-v1.glb",
   "lodRatios": [
@@ -13,9 +13,6 @@
     "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01",
     "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
     "mudmother:gv_meshes/argoniannest/fishracksmall"
-  ],
-  "textureOverlayPools": [
-    "tropical"
   ],
   "textureAliases": {
     "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",

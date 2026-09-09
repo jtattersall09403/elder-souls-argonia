@@ -35,7 +35,8 @@ from pathlib import Path
 from typing import Iterable
 
 from .bsa import BSAArchive
-from .build import BUILD_DIR, TOOLCHAIN, _expand, _referenced_textures, to_windows
+from .build import (BUILD_DIR, TOOLCHAIN, TROPICAL_TEXTURES, _expand,
+                    _referenced_textures, to_windows)
 from .models import ROOT
 from .placement_metadata import apply_placement_metadata
 
@@ -225,10 +226,41 @@ class PoolSources:
     textures: list[Source]
 
 
-def pool_sources(pool: str, vault: Path) -> PoolSources:
-    vanilla_tex = BsaSource(vault / "skyrim-source/Data/Skyrim - Textures.bsa")
+VANILLA_TEXTURES = "skyrim-source/Data/Skyrim - Textures.bsa"
+
+
+def vanilla_texture_roots(vault: Path, tropical: bool = True) -> list[Path]:
+    """The vanilla texture fallback, **tropicalised by default**.
+
+    Owner ruling 2026-09-09: *if something ever calls for a vanilla asset, we
+    use the tropicalised version everywhere by default, unless there is an
+    explicit recorded reason not to.* Tropical Skyrim repaints the vanilla set
+    under vanilla filenames, so putting its directory ahead of the BSA in the
+    fallback makes every pool's vanilla-backed texture tropical — including
+    mod pools, whose meshes routinely reference vanilla texture paths. A
+    pool's OWN textures still sit ahead of both, so a sourced mod keeps its
+    authored look, and a file Tropical does not repaint still resolves from
+    the BSA. This is the pipeline default rather than a per-kit key precisely
+    because a per-kit key is what let seven kits ship un-tropicalised.
+
+    `tropical=False` is the opt-out, and it is reachable only through a kit
+    config that states a reason (`untropicalisedReason`).
+    """
+    vanilla = vault / VANILLA_TEXTURES
+    return [vault / TROPICAL_TEXTURES, vanilla] if tropical else [vanilla]
+
+
+def _vanilla_texture_sources(vault: Path, tropical: bool = True) -> list[Source]:
+    return [
+        DirSource(root) if root.is_dir() else BsaSource(root)
+        for root in vanilla_texture_roots(vault, tropical)
+    ]
+
+
+def pool_sources(pool: str, vault: Path, tropical: bool = True) -> PoolSources:
+    fallback = _vanilla_texture_sources(vault, tropical)
     bmv = REPO_ROOT / "tooling/asset-pipeline/black-marsh-mod-source"
-    tropical = vault / "skyrim-source/mod-sources/tropical-skyrim-33017/extracted"
+    tropical_dir = vault / TROPICAL_TEXTURES
     # Several pools bundle the same modder resources (both BM&V and Tropical
     # Skyrim ship Tamira's plants), and BM&V's texture archive is missing some
     # of the files its own meshes ask for. Searching the sibling pool before
@@ -238,16 +270,16 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
         return PoolSources(
             meshes=RarSource(bmv / "Data1.rar", bmv / "manifest-data1.txt"),
             textures=[RarSource(bmv / "Data2.rar", bmv / "manifest.txt"),
-                      DirSource(tropical), vanilla_tex],
+                      *fallback],
         )
     if pool == "vanilla":
         return PoolSources(
             meshes=BsaSource(vault / "skyrim-source/Data/Skyrim - Meshes.bsa"),
-            textures=[vanilla_tex],
+            textures=fallback,
         )
     if pool == "tropical":
-        return PoolSources(meshes=DirSource(tropical),
-                           textures=[DirSource(tropical), vanilla_tex])
+        return PoolSources(meshes=DirSource(tropical_dir),
+                           textures=[DirSource(tropical_dir), *fallback])
     # Plain extracted-directory pools: one line each, because every mod sourced
     # from Nexus lands the same way (archive -> `<slug>-<id>/extracted`, BSAs
     # unpacked in place). Keep this table in step with `POOLS` in
@@ -297,7 +329,7 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
             DirSource(vault / "skyrim-source/mod-sources" / dir_pools[s] / "extracted")
             for s in siblings.get(pool, ())
         ]
-        return PoolSources(meshes=source, textures=[source, *extra, vanilla_tex])
+        return PoolSources(meshes=source, textures=[source, *extra, *fallback])
     raise KeyError(f"unknown asset pool: {pool}")
 
 
@@ -322,6 +354,42 @@ def registry_index(pools: set[str]) -> dict[str, dict]:
 # --- build -------------------------------------------------------------------
 
 
+#: The shortest opt-out reason worth reading. A one-word "no" is the silent
+#: omission this key exists to prevent.
+OPT_OUT_REASON_MIN = 40
+
+
+def tropicalised(kit: dict) -> bool:
+    """Whether this kit resolves vanilla textures through Tropical Skyrim.
+
+    True unless the config carries `untropicalisedReason` — a written reason,
+    checked here so that a *reasonless* opt-out fails the build rather than
+    warning (owner 2026-09-09). Kits never opt out by omission: the default is
+    tropical and a new kit config inherits it without knowing it exists.
+    """
+    if "tropical" in (kit.get("textureOverlayPools") or []):
+        raise ValueError(
+            f"{kit['id']}: drop `textureOverlayPools: [\"tropical\"]` — tropical "
+            "is the pipeline default for every pool's vanilla fallback now, so "
+            "the key is redundant and reads as if the other kits opted out"
+        )
+    if "untropicalisedReason" not in kit:
+        return True
+    reason = kit["untropicalisedReason"]
+    if not isinstance(reason, str) or len(reason.strip()) < OPT_OUT_REASON_MIN:
+        raise ValueError(
+            f"{kit['id']}: untropicalisedReason must be a written reason of at "
+            f"least {OPT_OUT_REASON_MIN} characters saying WHY this kit keeps "
+            "the un-tropicalised vanilla textures"
+        )
+    if kit.get("textureOverlayPools"):
+        raise ValueError(
+            f"{kit['id']}: cannot opt out of tropical and declare "
+            "textureOverlayPools at the same time"
+        )
+    return False
+
+
 def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     """Extract every asset and texture the kit needs into one data root."""
     work = BUILD_DIR / "kits" / kit["id"]
@@ -340,7 +408,8 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         for source in _part_specs(e)
     }
     index = registry_index(pools)
-    sources = {pool: pool_sources(pool, vault) for pool in pools}
+    sources = {pool: pool_sources(pool, vault, tropical=tropicalised(kit))
+               for pool in pools}
     # Kit config `textureOverlayPools`: a *retexture* pool whose files sit at
     # the SAME relative paths as the pool being overlaid (Phase 11 vibe-sheet
     # audit, proposal T1). Tropical Skyrim ships no architecture meshes at

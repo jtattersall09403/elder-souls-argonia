@@ -1,6 +1,6 @@
 {
  "id": "settlement-imperial-v1",
- "description": "Imperial / foreign stone-timber fringe — farmhouse shells, the Solitude dock family and keeled small craft. The foreign layer of the province: west/north-west fringe, Topal ports and road corridors only. Second sourcing pass adds the two Cyrodiilic flat-bottomed ferries and rowboat from Ships and Boats of Tamriel — the foreign river traffic of the Topal ports. TROPICALISED: `textureOverlayPools: [\"tropical\"]` puts Tropical Skyrim's retextures (vanilla filenames, architecture-TEXTURE-only — it ships no architecture meshes) ahead of the vanilla texture fallback, so the vanilla-backed pieces read hot and wet instead of Nordic grey. A pool's own textures still win, so the sourced-mod pieces keep their authored look. Drop the key to rebuild the un-overlaid variant. Woven wattle fence panels (fencewoven01/02 — Bethesda's most-placed fence, and the closest vanilla read to Argonian reed weaving) added 2026-09-04 so the marsh-repair fencing on the sheets is an actual wattle panel.",
+ "description": "Imperial / foreign stone-timber fringe — farmhouse shells, the Solitude dock family and keeled small craft. The foreign layer of the province: west/north-west fringe, Topal ports and road corridors only. Second sourcing pass adds the two Cyrodiilic flat-bottomed ferries and rowboat from Ships and Boats of Tamriel — the foreign river traffic of the Topal ports. TROPICALISED: vanilla-backed textures resolve through Tropical Skyrim (vanilla filenames, texture-only — it ships no architecture meshes), so the vanilla-backed pieces read hot and wet instead of Nordic grey. That is the PIPELINE DEFAULT for every kit since 2026-09-09, not a key this config sets; a kit keeps the un-tropicalised vanilla art only by declaring `untropicalisedReason`. Woven wattle fence panels (fencewoven01/02 — Bethesda's most-placed fence, and the closest vanilla read to Argonian reed weaving) added 2026-09-04 so the marsh-repair fencing on the sheets is an actual wattle panel.",
  "culture": "imperial",
  "output": "tooling/asset-pipeline/output/kits/settlement-imperial-v1.glb",
  "lodRatios": [
@@ -13,9 +13,6 @@
   "vanilla:clutter/common/cratesmall01",
   "vanilla:clutter/firewood/firewoodpilesmall01",
   "vanilla:clutter/basket01"
- ],
- "textureOverlayPools": [
-  "tropical"
  ],
  "snapLogic": {
   "assemblies": "Composites in this kit: `composite:farmhouse/farmhouse01-with-door` and `-farmhouse02-with-door` hang `farmhouseldoor01` at the offsets vanilla uses (templates vanilla:t0173 and t0335) — the rule that a farmhouse shell ships without its leaf. `composite:farmhouse/stonewall-run-3` and `-run-5` are the farmyard wall with its end pillars, on vanilla's own 7.27 m pillar spacing (group on stonewall01, 43 placements; templates vanilla:t0002, t0004, t0003) — the rule that `stonewallendl01`/`endr01` are caps and are never placed alone. The farmhouse wall and roof MODULES are not composited yet: they are a tileset, and a shell built from them is a building design, not a kit rule. Every single piece stays in the kit."

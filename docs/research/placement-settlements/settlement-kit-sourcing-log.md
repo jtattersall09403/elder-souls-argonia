@@ -258,6 +258,76 @@ without `textureOverlayPools`** — i.e. it is a build variant, not an asset
 family. Add the alias only when a compiler actually needs to select between two
 built GLBs.
 
+### SUPERSEDED 2026-09-09 — the key became the default
+
+The per-kit key above is the mechanism that failed. An audit of all 22 built
+kit configs found **seven carrying vanilla-backed pieces with no overlay key**,
+including `route-structures-v1` — 4,147 placed pieces of Whiterun castle stair
+and Nordic stone bridge on graded roads across a tropical marsh. Two claims in
+the section above were also wrong when measured: `settlement-mud-v1` does carry
+a vanilla asset (`ruinswooddoorload01`) and the overlay changes **11** of its
+textures, because its Mud Mother meshes name vanilla texture paths; and
+`hlaalu-domestic`/`imperial-keep`, both "mod-pool only", change 10 and 2.
+
+Owner ruling 2026-09-09 — *"if something ever calls for a vanilla asset, we use
+the tropicalised versions everywhere by default, unless there is an explicit
+recorded reason not to"*. Delivered as:
+
+- `build_kit.vanilla_texture_roots()` — Tropical's directory sits ahead of
+  `Skyrim - Textures.bsa` in **every** pool's fallback, for every kit, with no
+  config key. `build.assemble_data_root` does the same for the character and
+  (Phase 13) creature builds.
+- `untropicalisedReason` — the only way out, a written reason of ≥40 chars;
+  a reasonless opt-out **raises**, and the kit must also be named in
+  `UNTROPICALISED` in `pipeline/test_tropical_default.py` (CI gate
+  `npm run test:pipeline`, "named, never silent"). The allowlist is currently
+  **empty**.
+- `textureOverlayPools: ["tropical"]` now **raises** — the general overlay
+  mechanism stays for other retexture pools, but naming tropical there reads as
+  if the kits without it opted out. The key was stripped from the five configs
+  that carried it; their builds are unchanged.
+
+**Interior kits: no exception was needed, and that is measured, not assumed.**
+Tropical repaints climate surfaces. Of the 13 textures the default changes in
+`mudmother-hut-int`, every one is structural (bark, wood post, river mud,
+Whiterun interior beam, Riften log detail, hearth clutter); not one is a sack,
+brazier or piece of woven furniture. `vanilla-imperial-int` and
+`bmv-treehouse-int` change **nothing** — Tropical repaints no Imperial dungeon
+interior stone at all.
+
+**What Tropical covers, per kit** (textures the default supplies; measured by
+resolving every kit's referenced textures against the pool search order):
+`route-structures-v1` 37, `works-v1` 28, `settlement-imperial-v1` 19,
+`enclosure-v1` 14, `mudmother-hut-int` 13, `settlement-mud-v1` 11,
+`vanilla-farmhouse-int` 11, `hlaalu-domestic` 10, `htbm-hut-int` 10,
+`settlement-stilt-v1` 7, `docks-v1` 6, `underwater-v1` 6, `dungeon-root-v1` 4,
+`flora-province-v1` 4, `watercraft-v1` 4, `imperial-keep` 2,
+`settlement-root-v1` 2; **zero** for `bmv-treehouse-int`,
+`groundcover-province-v1`, `ruin-monumental-v1`, `vanilla-imperial-int`,
+`xanmeer-interior-v1`.
+
+**Files Tropical does not repaint, named.** `clutter/stockade` (the standing
+case) — `route-structures-v1` gained the same `textureAliases` redirect
+`works-v1`, `enclosure-v1` and `settlement-stilt-v1` already used, so a
+scaffold on a route now reads like a scaffold in a works yard;
+`stockadeextra01` has no stand-in and stays vanilla. `farmhouse/rope01`,
+`stonewall02_n` (the diffuse *is* repainted — a normal map carries no colour),
+`clutter/containers/miscbag*`, `dungeons/ships/shipwood*`,
+`dungeons/nordic/ruinswooddoor01`, `plants/swampfungalpods01`,
+`landscape/grass/coastkelpgrass01`. Tropical ships no `textures/effects/` at
+all, so `export_waterfall_fx_textures` is vanilla by necessity. Its 40
+wild-fauna skins overlap the character and weapon builds by **0 of 30**
+referenced textures.
+
+**Open, needs an owner call:** `worldgen/build_ground_materials.py` slot
+`peat_slope` reads `textures/landscape/frozenmarshdirtslopes01.dds` from the
+vanilla BSA (`kind="bsa"`, the table's only such slot) and hue-shifts it with
+tint `(14, 1.08, 1.0)`. Tropical **does** ship that exact file. Switching the
+slot to `kind="ts"` and dropping the tint is the consistent answer, but the
+tint was tuned in an owner-reviewed round and the ground set is a visual
+decision, so it is queued rather than changed. Row in
+[docs/polish-backlog.md](../../polish-backlog.md).
+
 ## Still open from the audit
 
 - Red Cyrodiil pantile roofs (audit §4) — treat as a texture problem; Rally's

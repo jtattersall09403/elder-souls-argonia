@@ -197,16 +197,42 @@ gaps before hunting new mods.
 
 **Architecture is texture-only (Phase 11 audit).** Tropical ships **no
 architecture meshes at all** — its farmhouse/riften/solitude/whiterun/roads
-retextures sit under vanilla filenames. So tropicalising a settlement kit is a
-**build-config key, not a parallel kit family**: a kit declares
-`textureOverlayPools: ["tropical"]` and `pipeline/build_kit.py` inserts the
-overlay pool's texture directory ahead of the **vanilla fallback** in every
-pool's search order. A pool's own textures still win, so sourced mods keep
-their authored look; only vanilla-backed pieces change. Live on
-`settlement-imperial-v1`, `settlement-stilt-v1` and `works-v1`; the un-tropicalised
-"mountain" look is the same kit built **without** the key, not a second asset
-family. Files Tropical does not cover (`clutter/stockade`) are handled with the
-existing `textureAliases` key. See
+retextures sit under vanilla filenames. So tropicalising a kit is a **lookup
+order, not a parallel kit family**.
+
+**Tropical is the DEFAULT resolution for every vanilla texture (owner ruling
+2026-09-09).** `build_kit.vanilla_texture_roots` puts Tropical's directory
+ahead of `Skyrim - Textures.bsa` in **every** pool's fallback, and
+`build.assemble_data_root` does the same for the character/creature builds.
+A pool's own textures still win, so a sourced mod keeps its authored look;
+only the pieces that fall back on vanilla art change — including *mod* pieces,
+whose meshes routinely name vanilla texture paths. A file Tropical does not
+repaint still resolves from the BSA.
+
+This is a default and not a per-kit key because the per-kit key
+(`textureOverlayPools: ["tropical"]`) is exactly what let **seven of the
+twenty-two built kits ship un-tropicalised** — most visibly
+`route-structures-v1`, whose 4,147 placed pieces put Whiterun castle stairs and
+a Nordic grey stone bridge on graded roads across a tropical marsh. A kit keeps
+the un-tropicalised vanilla art **only** by declaring `untropicalisedReason`, a
+written reason of at least 40 characters; a reasonless opt-out raises, and the
+kit must also be named in `UNTROPICALISED` in
+`pipeline/test_tropical_default.py` (CI gate `npm run test:pipeline`). As of
+2026-09-09 that allowlist is **empty**, and measurably so: of the 13 textures
+the default changes inside `mudmother-hut-int`, every one is structural (bark,
+wood post, river mud, Whiterun interior beam, Riften log detail, hearth
+clutter) and not one is a sack, brazier or piece of woven furniture. Tropical
+repaints climate surfaces, so the default limits itself to the pieces a climate
+replacer should touch — no interior kit needed an exception.
+
+Files Tropical does not cover are handled with the existing `textureAliases`
+key: `clutter/stockade` is the standing case, redirected to the tropicalised
+`farmhouse/woodwall01` and `woodpost02` in `works-v1`, `enclosure-v1`,
+`settlement-stilt-v1` and (added 2026-09-09) `route-structures-v1`.
+`stockadeextra01` has no stand-in and stays vanilla. Tropical ships no
+`textures/effects/` at all, so `export_waterfall_fx_textures` is vanilla by
+necessity, and none of its 40 wild-fauna skins overlap the character or weapon
+builds (measured: 0 of 30). See
 [settlement-kit-sourcing-log.md](../research/placement-settlements/settlement-kit-sourcing-log.md)
 entry 2.
 
@@ -217,24 +243,27 @@ carries a `snapLogic` block recording **that set's own** grid/connector
 convention — package a mod's modular set intact and lay it out the way its
 author intended; never interleave two sets piece-for-piece.
 
-| Kit | Assets | Culture | Tropicalised | Pools | Delivers |
+| Kit | Assets | Culture | Tropical textures | Pools | Delivers |
 |---|---|---|---|---|---|
-| `settlement-mud-v1` | 33 | argonian-mud | no (no vanilla pieces) | bmv, mudmother | Shadowfen mud/wattle villages |
-| `settlement-stilt-v1` | 26+ | argonian-stilt | **yes** | bmv, vanilla, mudmother, htbm, ferries | Murkmire reed/stilt, passerelle subset |
-| `settlement-root-v1` | 140 | argonian-root | no | bmv, htbm, mudmother | grown-root canopy settlement: trunk-houses + the **complete** modular elevated walkway |
-| `dungeon-root-v1` | 124 | argonian-root | no | bmv, htbm, mudmother | walkable **root interiors** — `root-cavern`, `hist-sanctum` |
-| `settlement-imperial-v1` | 11 | imperial | **yes** | vanilla | Imperial stone-timber |
-| `vanilla-farmhouse-int` | 76 | imperial-colonial | no | vanilla | walkable **farmhouse interiors** — the linked inside for `vanilla:architecture/farmhouse/` shells (cottage, inn, longhouse, cellar) |
-| `vanilla-imperial-int` | 65 | imperial-colonial | no | vanilla | walkable **Imperial fort/keep interiors** — the linked inside for Imperial, `mwkeep` and `hlaalu` shells (rooms, halls, load doors) |
-| `bmv-treehouse-int` | 16 | bosmer-grown | no | bmv, vanilla | walkable **grown tree-house interiors** — the `CiteBosmer/Houses` `*int*` chamber, wall-arc and trunk modules that `Valenwood.esp`'s own load doors teleport into (cell `01treeint`), with the Telvanni interior connector that joins them |
-| `htbm-hut-int` | 15 | argonian-stilt | no | htbm | walkable **bamboo-hut interiors** — the HTBM `_Int` rooms authored to sit inside `bamboohut01/02` (and the Kothringi variant), the hut door leaf, the mod's wicker furniture and the vanilla hearth/hay/barrel dressing the mod's own hut cells place (mined 2026-09-07) |
-| `mudmother-hut-int` | 64 | argonian-mud | no | mudmother | walkable **mud-hut interior** — `mudhut01intnew`, the room authored to sit inside `mudhut01`, plus everything cell `00MudHut01` actually places: woven furniture, totem, shrine, fish rack, oven and the vanilla sacks, beams and hay the mod uses for dressing (mined 2026-09-07) |
-| `imperial-keep` | 88 | imperial | no | mwkeep | Imperial civic/military tier |
-| `hlaalu-domestic` | 68 | imperial | no | hlaalu, mwkeep | Morrowind-Imperial domestic tier |
-| `ruin-monumental-v1` | — | xanmeer-ancient | no | ayleidkit, ayleidcc | monumental dressed stone |
-| `underwater-v1` | — | neutral | no | sirenroot, depths | drowned dressing |
-| `works-v1` | 85 | neutral-works | **yes** | vanilla, mudmother | forge/smelter/racks/carts/mine timbers/scaffold/water wheels — the whole works taxonomy branch |
-| `enclosure-v1` | 57 | multi (six never-mixed families) | **yes** | bmv, vanilla, htbm, ayleidkit | the **enclosure vocabulary**: road-spanning gates, gate arches, curtain wall, palisade and field fence. The only 4.3 m-spine gates we hold are `bmv:…/newcastle/wall/1024/1024wallgate01` (5.52 m clear) and its free-standing arch `1024arch01` (8.96 m); `hlaalu:…/stonewallgatearc001` (4.53 m, in `hlaalu-domestic`) is the third. Measured apertures and the rejects are in the sourcing log |
+| `settlement-mud-v1` | 33 | argonian-mud | **11** | bmv, mudmother | Shadowfen mud/wattle villages |
+| `settlement-stilt-v1` | 26+ | argonian-stilt | **7** | bmv, vanilla, mudmother, htbm, ferries | Murkmire reed/stilt, passerelle subset |
+| `settlement-root-v1` | 140 | argonian-root | **2** | bmv, htbm, mudmother | grown-root canopy settlement: trunk-houses + the **complete** modular elevated walkway |
+| `dungeon-root-v1` | 124 | argonian-root | **4** | bmv, htbm, mudmother | walkable **root interiors** — `root-cavern`, `hist-sanctum` |
+| `settlement-imperial-v1` | 11 | imperial | **19** | vanilla | Imperial stone-timber |
+| `vanilla-farmhouse-int` | 76 | imperial-colonial | **11** | vanilla | walkable **farmhouse interiors** — the linked inside for `vanilla:architecture/farmhouse/` shells (cottage, inn, longhouse, cellar) |
+| `vanilla-imperial-int` | 65 | imperial-colonial | — | vanilla | walkable **Imperial fort/keep interiors** — the linked inside for Imperial, `mwkeep` and `hlaalu` shells (rooms, halls, load doors) |
+| `bmv-treehouse-int` | 16 | bosmer-grown | — | bmv, vanilla | walkable **grown tree-house interiors** — the `CiteBosmer/Houses` `*int*` chamber, wall-arc and trunk modules that `Valenwood.esp`'s own load doors teleport into (cell `01treeint`), with the Telvanni interior connector that joins them |
+| `htbm-hut-int` | 15 | argonian-stilt | **10** | htbm | walkable **bamboo-hut interiors** — the HTBM `_Int` rooms authored to sit inside `bamboohut01/02` (and the Kothringi variant), the hut door leaf, the mod's wicker furniture and the vanilla hearth/hay/barrel dressing the mod's own hut cells place (mined 2026-09-07) |
+| `mudmother-hut-int` | 64 | argonian-mud | **13** | mudmother | walkable **mud-hut interior** — `mudhut01intnew`, the room authored to sit inside `mudhut01`, plus everything cell `00MudHut01` actually places: woven furniture, totem, shrine, fish rack, oven and the vanilla sacks, beams and hay the mod uses for dressing (mined 2026-09-07) |
+| `imperial-keep` | 88 | imperial | **2** | mwkeep | Imperial civic/military tier |
+| `hlaalu-domestic` | 68 | imperial | **10** | hlaalu, mwkeep | Morrowind-Imperial domestic tier |
+| `ruin-monumental-v1` | — | xanmeer-ancient | — | ayleidkit, ayleidcc | monumental dressed stone |
+| `underwater-v1` | — | neutral | **6** | sirenroot, depths | drowned dressing |
+| `works-v1` | 85 | neutral-works | **28** | vanilla, mudmother | forge/smelter/racks/carts/mine timbers/scaffold/water wheels — the whole works taxonomy branch |
+| `enclosure-v1` | 57 | multi (six never-mixed families) | **14** | bmv, vanilla, htbm, ayleidkit | the **enclosure vocabulary**: road-spanning gates, gate arches, curtain wall, palisade and field fence. The only 4.3 m-spine gates we hold are `bmv:…/newcastle/wall/1024/1024wallgate01` (5.52 m clear) and its free-standing arch `1024arch01` (8.96 m); `hlaalu:…/stonewallgatearc001` (4.53 m, in `hlaalu-domestic`) is the third. Measured apertures and the rejects are in the sourcing log |
+| `route-structures-v1` | 20 | mixed (five never-mixed families) | **37** | vanilla, bmv, hlaalu | the authored climbs and spans terrain grading cannot fix — stairs, ramps, landings and bridges, one family per culture a route passes through. **4,147 placed pieces province-wide**, the largest vanilla-backed placement we have |
+| `watercraft-v1` | 45 | multi | **4** | canoe, ferryraft, ferries, rowboats, sailboats, sbot, bmv | the sailable/moored small-craft roster |
+| `xanmeer-interior-v1` | 68 | xanmeer-ancient | — | ayleidcc | walkable Xanmeer ruin interiors |
 | `flora-province-v1`, `groundcover-province-v1` | — | — | — | bmv, tropical, vanilla | Phase 10 vegetation |
 
 Not built, still a Part 6 prerequisite: **`settlement-dunmer-v1`** (288 BM&V
