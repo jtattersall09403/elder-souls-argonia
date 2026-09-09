@@ -9510,13 +9510,13 @@
       "approaches": [
         {
           "firstSeen": "landmark.sap-tapping-licensed.hist",
-          "fromDirection": "north-west, up the channel",
+          "fromDirection": "south-west, up the channel",
           "fromRouteId": null,
           "id": "approach.sap-tapping-licensed.channel-by-canoe",
           "mode": "boat",
-          "notes": "The channel bends before the landing so the board is read at 20 m and not from the far reach. The board stands on the bank because a licence hung to be read from the water is the place's whole signature.",
+          "notes": "The channel bends before the board so it is read at about 20 m and not from the far reach. The board stands on the bank 5.8 m below the landing because a licence hung to be read from the water is the place's whole signature.",
           "sequence": "The crown stands over the channel from a bend away; the reed margin hides the bank; the roof of the licence board shows over the reeds; the plank walk and the landing open up; last, the stage rail and the tap lines on the trunk.",
-          "wayfinding": "Pole up the channel toward the great tree and land where the board stands at the water's edge; the plank walk leads from the landing to the stage foot."
+          "wayfinding": "Pole up the channel toward the great tree and come alongside the piles at its head, past the board on the bank; the plank walk leads from the landing to the stage foot."
         },
         {
           "firstSeen": "landmark.sap-tapping-licensed.hist",
@@ -9524,33 +9524,33 @@
           "fromRouteId": "track.hist-heartland.sap-tapping-licensed",
           "id": "approach.sap-tapping-licensed.track-from-road",
           "mode": "walk",
-          "notes": "The last 27 m bend twice, round the hut and past the mule line, so the stage is seen, lost behind the trunk and re-found. The camp itself is hidden until 30 m by canopy closure 0.92; the tree, not the camp, is the beacon.",
-          "sequence": "The Hist's crown shows above the jungle canopy from the flat to the west, 870 m out along the worn line; the track goes under closed canopy and the crown is lost; the pale trunk reads between the other trunks at about 30 m; the hut's door and the mule line appear at the first bend; the stair and the stage come into frame at the second bend, with the water beyond them.",
-          "wayfinding": "Follow the one worn line east across the flat toward the great tree; it bends twice at the camp and ends at the foot of the stair."
+          "notes": "The last 27 m bend twice, round the hut and past the mule line, so the stage is seen, lost behind the trunk and re-found. Canopy closure over the camp is 1.00, but the dossier measures concealment at 0.74: the camp is in view from 26% of the route points within two kilometres, against a fourteenth at the terrace this place left. The walker steers by the tree, not by the camp.",
+          "sequence": "The Hist's crown shows above the jungle canopy from the low ground to the south-west, 530 m out along the worn line; the track goes under closed canopy and the crown is lost; it fords the channel's lower reach at about 120 m out; the pale trunk reads between the other trunks at about 30 m; the hut's door and the mule line appear at the first bend; the stair and the stage come into frame at the second bend, with the water beyond them.",
+          "wayfinding": "Follow the one worn line north-east off the road toward the great tree. Ford the channel's lower reach, then keep on until the line bends twice at the camp and ends at the foot of the stair."
         }
       ],
       "assetConstraints": [
-        "stockade-scaffold pieces at one side count (base3sided + stairs), per works-v1 snapLogic; the matching top3sided tier is not placed because the compiler has no stacking rule yet (recorded in the design record)",
+        "stockade-scaffold pieces at one side count (base3sided + stairs + top3sided), per works-v1 snapLogic; the top tier is placed as a stacked parcel on the footing",
         "no settlement-root dwelling pieces here: the smallest root house measures 24.6 x 24.6 m and 55.6 m tall",
         "the stage carries no metal fixings; hardwood pegs and withy only",
         "the licence board is bmv:advertising_board from works-v1, pane to the water; no other notice piece exists in the vault"
       ],
       "boundary": [
         [
-          3468.003,
-          4367.999
+          3413.003,
+          4456.799
         ],
         [
-          3513.999,
-          4367.999
+          3458.999,
+          4456.799
         ],
         [
-          3513.999,
-          4411.997
+          3458.999,
+          4500.797
         ],
         [
-          3468.003,
-          4411.997
+          3413.003,
+          4500.797
         ]
       ],
       "budget": {
@@ -9563,99 +9563,99 @@
         "founding": "The assembly designated this Hist for tapping and issued one licence against it: one stage, one season, one tree. The stage stands where the crew could raise it without cutting into the root flare.",
         "occupantsMotive": "A tapper and two crew whose licence is their livelihood. They keep the stage correct and police poachers themselves, because a district that cannot police itself loses its licences.",
         "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage last year. Night landings at the same channel are not the crew's work; the crew do not stop them either.",
-        "siteAdvantages": "A firm terrace 3.1 m above the water table, 16 m from a channel deep enough (0.9 m) to pole a loaded canoe, under closed canopy that hides the camp from the land side until the last thirty metres.",
+        "siteAdvantages": "A firm terrace at 30.7 to 31.4 m, standing a metre and a half above the channel and rising to the hut pad at 32.7 m. The landing lies 22.4 m off on bearing 327, out in the water itself, where the channel already carries 0.60 m and dredges to 0.85 m for a poled canoe. The canopy closes at 1.00 overhead; the road is 526 m to the south-west.",
         "wouldChangeIf": "A licence revoked would empty the stage within a season and make the same channel a poacher's road."
       },
       "clearance": {
         "hardClear": [
           [
             [
-              3486.297,
-              4379.597
+              3431.297,
+              4468.397
             ],
             [
-              3495.602,
-              4379.597
+              3440.602,
+              4468.397
             ],
             [
-              3495.602,
-              4387.598
+              3440.602,
+              4476.398
             ],
             [
-              3486.297,
-              4387.598
+              3431.297,
+              4476.398
             ]
           ],
           [
             [
-              3499.297,
-              4388.999
+              3444.297,
+              4477.799
             ],
             [
-              3508.897,
-              4388.999
+              3453.897,
+              4477.799
             ],
             [
-              3508.897,
-              4399.8
+              3453.897,
+              4488.6
             ],
             [
-              3499.297,
-              4399.8
+              3444.297,
+              4488.6
             ]
           ],
           [
             [
-              3486.5,
-              4388.3
+              3431.5,
+              4477.1
             ],
             [
-              3493.5,
-              4388.3
+              3438.5,
+              4477.1
             ],
             [
-              3493.5,
-              4397.0
+              3438.5,
+              4485.8
             ],
             [
-              3486.5,
-              4397.0
+              3431.5,
+              4485.8
             ]
           ],
           [
             [
-              3482.5,
-              4373.5
+              3416.3,
+              4462.0
             ],
             [
-              3486.0,
-              4373.5
+              3419.8,
+              4462.0
             ],
             [
-              3486.0,
-              4376.8
+              3419.8,
+              4465.3
             ],
             [
-              3482.5,
-              4376.8
+              3416.3,
+              4465.3
             ]
           ],
           [
             [
-              3489.0,
-              4400.0
+              3434.0,
+              4488.8
             ],
             [
-              3493.0,
-              4400.0
+              3438.0,
+              4488.8
             ],
             [
-              3493.0,
-              4405.0
+              3438.0,
+              4493.8
             ],
             [
-              3489.0,
-              4405.0
+              3434.0,
+              4493.8
             ]
           ]
         ],
@@ -9665,8 +9665,8 @@
             "kind": "hist-tree",
             "notes": null,
             "positionM": [
-              3496.598,
-              4390.001
+              3441.598,
+              4478.801
             ]
           },
           {
@@ -9674,8 +9674,8 @@
             "kind": "reed-bed",
             "notes": null,
             "positionM": [
-              3478.997,
-              4374.996
+              3423.997,
+              4463.796
             ]
           },
           {
@@ -9683,8 +9683,8 @@
             "kind": "shade",
             "notes": null,
             "positionM": [
-              3509.0,
-              4396.004
+              3454.0,
+              4484.804
             ]
           },
           {
@@ -9692,32 +9692,32 @@
             "kind": "shade",
             "notes": null,
             "positionM": [
-              3484.999,
-              4379.0
+              3429.999,
+              4467.8
             ]
           }
         ],
         "thinned": [
           [
             [
-              3478.0,
-              4376.0
+              3423.0,
+              4464.8
             ],
             [
-              3508.0,
-              4378.0
+              3453.0,
+              4466.8
             ],
             [
-              3510.0,
-              4400.0
+              3455.0,
+              4488.8
             ],
             [
-              3494.0,
-              4407.0
+              3439.0,
+              4495.8
             ],
             [
-              3486.0,
-              4404.0
+              3431.0,
+              4492.8
             ]
           ]
         ]
@@ -9729,60 +9729,60 @@
           "notes": null,
           "polygon": [
             [
-              3486.712,
-              4377.888
+              3431.712,
+              4466.688
             ],
             [
-              3485.053,
-              4379.551
+              3430.053,
+              4468.351
             ],
             [
-              3483.187,
-              4381.527
+              3428.187,
+              4470.327
             ],
             [
-              3484.715,
-              4399.37
+              3429.715,
+              4488.17
             ],
             [
-              3497.341,
-              4411.997
+              3442.341,
+              4500.797
             ],
             [
-              3507.193,
-              4411.997
+              3452.176,
+              4500.797
             ],
             [
-              3498.18,
-              4383.441
+              3443.539,
+              4472.181
             ],
             [
-              3495.21,
-              4380.31
+              3440.793,
+              4469.435
             ],
             [
-              3492.398,
-              4377.382
+              3437.319,
+              4466.133
             ],
             [
-              3489.447,
-              4375.541
+              3434.447,
+              4464.341
             ]
           ],
           "why": "MR04's night landing is watched from the reed margin; blown cover brings the woken crew down the stair to this ground. The licence-revoked flip makes the same crew hostile by day. The stage foot is the one patch wide enough for a fight; it is tight."
         }
       ],
       "contextM": {
-        "x0": 1908.003,
-        "x1": 5073.999,
-        "z0": 2807.0,
-        "z1": 5972.996
+        "x0": 1853.003,
+        "x1": 5018.999,
+        "z0": 2895.8,
+        "z1": 6061.796
       },
       "districts": [
         {
           "centreM": [
-            3503.841,
-            4390.045
+            3448.638,
+            4479.309
           ],
           "cultureKit": "argonian-mud",
           "id": "district.sap-tapping-licensed.camp",
@@ -9790,73 +9790,77 @@
           "notes": "One mud-hut dwelling behind the trunk, the crew's hearth clutter and the plank walk down to the landing. Mud-culture set only; never blended with the works props on the stage.",
           "polygon": [
             [
-              3501.964,
-              4384.878
+              3446.964,
+              4473.678
             ],
             [
-              3500.828,
-              4385.166
+              3445.828,
+              4473.966
             ],
             [
-              3498.182,
-              4385.982
+              3443.182,
+              4474.782
             ],
             [
-              3497.16,
-              4387.389
+              3442.16,
+              4476.189
             ],
             [
-              3496.957,
-              4387.767
+              3441.957,
+              4476.567
             ],
             [
-              3487.192,
-              4407.027
+              3434.484,
+              4491.307
             ],
             [
-              3506.117,
-              4398.19
+              3442.998,
+              4491.298
             ],
             [
-              3508.286,
-              4396.944
+              3451.206,
+              4486.939
             ],
             [
-              3509.824,
-              4394.637
+              3453.286,
+              4485.744
             ],
             [
-              3510.415,
-              4391.928
+              3454.824,
+              4483.437
             ],
             [
-              3509.779,
-              4389.4
+              3455.415,
+              4480.728
             ],
             [
-              3509.464,
-              4388.619
+              3454.779,
+              4478.2
             ],
             [
-              3508.017,
-              4386.666
+              3454.464,
+              4477.419
             ],
             [
-              3506.614,
-              4385.77
+              3453.017,
+              4475.466
             ],
             [
-              3506.234,
-              4385.549
+              3451.614,
+              4474.57
             ],
             [
-              3504.429,
-              4384.809
+              3451.234,
+              4474.349
+            ],
+            [
+              3449.429,
+              4473.609
             ]
           ],
           "wealth": "poor",
           "why": {
-            "microGeography": "The hut takes the flattest pad on the terrace, 32 m, with the ground falling west and north to the reed margin at the water's edge.",
+            "microGeography": "The hut takes the flattest pad on the terrace, at 32.7 m and the highest ground in the camp, with the ground falling west and north to the reed margin at the water's edge.",
             "playerPurpose": "The hut is the camp's only interior. The crew sleep in it through the night landing that MR04 stages at the water below.",
             "what": "The camp: one hut, its hearth clutter and the spur down from the track.",
             "whyHere": "A season's crew sleep beside their stage and land their canoe beside their stage, so the hut and the landing sit at the two ends of the works.",
@@ -9865,8 +9869,8 @@
         },
         {
           "centreM": [
-            3489.013,
-            4387.937
+            3431.022,
+            4473.911
           ],
           "cultureKit": "neutral-works",
           "id": "district.sap-tapping-licensed.stage",
@@ -9874,41 +9878,53 @@
           "notes": "The tapping stage on the Hist's channel face, its stair, the mule line, the season's stock and the licence board at the landing. Works set only (stockade scaffold at one side count, the BM&V notice board).",
           "polygon": [
             [
-              3479.718,
-              4373.411
+              3413.654,
+              4461.036
             ],
             [
-              3479.612,
-              4375.434
+              3413.357,
+              4463.861
             ],
             [
-              3483.475,
-              4406.284
+              3429.185,
+              4495.457
             ],
             [
-              3494.378,
-              4411.997
+              3439.378,
+              4500.797
             ],
             [
-              3507.193,
-              4411.997
+              3452.176,
+              4500.797
             ],
             [
-              3498.193,
-              4383.484
+              3443.539,
+              4472.181
             ],
             [
-              3486.422,
-              4370.53
+              3440.793,
+              4469.435
             ],
             [
-              3483.11,
-              4370.357
+              3437.319,
+              4466.133
+            ],
+            [
+              3436.605,
+              4465.687
+            ],
+            [
+              3418.707,
+              4458.934
+            ],
+            [
+              3416.533,
+              4458.705
             ]
           ],
           "wealth": "poor",
           "why": {
-            "microGeography": "The terrace here runs 29–30 m, a metre above the bank, with a 2 m fall under the stage that the scaffold posts take.",
+            "microGeography": "The terrace here runs 30.7 to 31.4 m, a metre and a half above the channel, with a 1.26 m fall under the stage that the scaffold posts take.",
             "playerPurpose": "The climbable stage, the tapper and the graded stock; the licence board is read from the landing below.",
             "what": "The works: the stage and its stair against the Hist's channel face, the mule line, the season's cart and the licence board at the water's edge.",
             "whyHere": "Sap is drawn where the tree stands; the stage is raised against the trunk and everything that serves it stays within a few paces.",
@@ -9919,19 +9935,19 @@
       "docks": [
         {
           "id": "dock.sap-tapping-licensed.landing",
-          "notes": "The landing faces bearing 138, back up the plank walk, so a poled canoe comes alongside with the channel's run and unloads toward the camp.",
+          "notes": "The landing faces bearing 138, back up the plank walk, so a canoe poling up the last leg on bearing 51 comes alongside and unloads toward the camp.",
           "piledToBed": true,
           "positionM": [
-            3478.5,
-            4373.0
+            3423.5,
+            4461.8
           ],
           "waterBodyId": "water.channel.licensed-stage",
           "why": {
-            "microGeography": "Piled to the bed at the lip of the channel, past the reed margin, where the water first reaches a canoe's draught.",
+            "microGeography": "Piled to the bed at the head of the reach, past the reed margin, standing in 0.60 m of water with the deck 11.9 m of plank walk out from the dry bank.",
             "playerPurpose": "The arrival point for a player who comes by canoe. It is the scene of the night landing in MR04.",
             "what": "The landing: a piled stage at the channel head where the crew's canoe lies.",
-            "whyHere": "Sap leaves by water when the track is watched. The assembly's inspection comes by water too, so the camp has a landing. The channel is drawn up to these piles rather than the piles moved out to it (fit `water-to-dock`): the stage stands where the bank carries a load, within reach of a poled canoe.",
-            "whyNeighbours": "The plank walk ends on it, the licence board stands on the bank beside it, with the poling line coming up to its head."
+            "whyHere": "Sap leaves by water when the track is watched. The assembly's inspection comes by water too, so the camp has a landing. The channel is drawn up to these piles rather than the piles moved out to it (fit `water-to-dock`): they stand in the head of the reach itself, in 0.60 m of water on a bed at 28.75 m, which the dredge cuts to 0.85 m so a loaded canoe is never poling on mud.",
+            "whyNeighbours": "The plank walk ends on it, the licence board stands on the bank 5.8 m down-channel, with the poling line coming up to its head."
           }
         }
       ],
@@ -9946,8 +9962,8 @@
           },
           "parcelId": "parcel.sap-tapping-licensed.dwelling",
           "thresholdM": [
-            3502.783,
-            4397.938
+            3447.783,
+            4486.738
           ]
         }
       ],
@@ -9959,16 +9975,16 @@
           "kind": "hist-tree",
           "notes": "The licensed tree. Measured bounds 64.0 x 45.3 m across the crown, 53.6 m tall, 17073 tris. The stage stands 9.8 m off the trunk centre on the channel face; trunk clearance is verified against the geometry at Round B before the stage is fixed. Yaw 121 lays the crown's long axis (64.0 m) on bearing 211, across the channel, so the deepest shade falls over the stage and the landing rather than along the water.",
           "positionM": [
-            3496.598,
-            4390.001
+            3441.598,
+            4478.801
           ],
           "why": {
-            "microGeography": "Rooted at 31 m on the terrace lip, with the crown's long axis laid across the channel so the deepest shade falls over the stage.",
+            "microGeography": "Rooted at 32.1 m on the terrace lip, with the crown's long axis laid across the channel so the deepest shade falls over the stage.",
             "playerPurpose": "The beacon: the crown shows above the canopy from the road and from the channel. It is the mark toward which the player walks and paddles.",
             "what": "The licensed Hist: the largest Hist mesh in the vault, 64 m across the crown and 53.6 m tall.",
             "whyHere": "The tree is the reason for the place; the assembly designated it and the licence runs against it.",
             "whyNeighbours": "The stage is raised on its channel face, the hut stands behind it, with the crown shading both the works and the landing.",
-            "whySpot": "It stands on the north bank of the channel at the head of the terrace, where its root plate is above the flood and its channel face is over deep water."
+            "whySpot": "It stands on the north-east bank of the channel at the head of the terrace, where its root plate is above the flood and its channel face looks down on the poling water."
           }
         },
         {
@@ -9977,8 +9993,8 @@
           "kind": "hist-tree",
           "notes": "Root flare from the same author's set, laid between the trunk and the stage footing; 9.56 x 2.54 m, 4.71 m high. Yaw 46 lays its 9.56 m axis on the trunk-to-stage line (bearing 136), which is the line that a flare out of the root plate would follow.",
           "positionM": [
-            3492.402,
-            4386.595
+            3437.402,
+            4475.395
           ],
           "why": {
             "microGeography": "4.7 m high and 9.6 m long, it lies along the fall so the ground on either side of it drains to the water.",
@@ -9995,19 +10011,19 @@
           "id": "terminal.sap-tapping-licensed.landing-channel",
           "kind": "channel",
           "positionM": [
-            3478.5,
-            4373.0
+            3423.5,
+            4461.8
           ],
           "routeId": "waterway.hist-heartland.sap-tapping-licensed.landing",
           "wayId": "canal.sap-tapping-licensed.channel",
-          "why": "The camp's water link is a poled channel off the heartland network. It ends at the landing below the camp; the plank walk carries the tins the rest of the way up."
+          "why": "The camp's water link is a poled channel off the heartland network, 849 m of it. It ends at the piles at the head of the reach, below the camp; the plank walk carries the tins the rest of the way up."
         },
         {
           "id": "terminal.sap-tapping-licensed.track-head",
           "kind": "footpath",
           "positionM": [
-            3502.998,
-            4411.997
+            3447.998,
+            4500.797
           ],
           "routeId": "track.hist-heartland.sap-tapping-licensed",
           "wayId": "route.sap-tapping-licensed.track",
@@ -10019,8 +10035,8 @@
           "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
           "buildingFamily": "argonian-mud-hut",
           "centreM": [
-            3502.897,
-            4391.708
+            3447.897,
+            4480.508
           ],
           "districtId": "district.sap-tapping-licensed.camp",
           "entrance": {
@@ -10029,8 +10045,8 @@
             "interiorRef": "mudmother-hut-int",
             "kind": "esp-door",
             "worldM": [
-              3502.783,
-              4397.938
+              3447.783,
+              4486.738
             ]
           },
           "front": null,
@@ -10043,114 +10059,114 @@
           "orientationWhy": "The hut has one doorway. Turned to 113.0°, it looks out at 225° onto the tent spur, the path the tapper walks twice a day.",
           "polygon": [
             [
-              3504.462,
-              4389.146
+              3449.462,
+              4477.946
             ],
             [
-              3504.532,
-              4389.186
+              3449.532,
+              4477.986
             ],
             [
-              3505.242,
-              4389.64
+              3450.242,
+              4478.44
             ],
             [
-              3505.946,
-              4390.59
+              3450.946,
+              4479.39
             ],
             [
-              3505.967,
-              4390.643
+              3450.967,
+              4479.443
             ],
             [
-              3506.307,
-              4391.993
+              3451.307,
+              4480.793
             ],
             [
-              3506.077,
-              4393.047
+              3451.077,
+              4481.847
             ],
             [
-              3505.478,
-              4393.944
+              3450.478,
+              4482.744
             ],
             [
-              3504.271,
-              4394.638
+              3449.271,
+              4483.438
             ],
             [
-              3504.219,
-              4394.659
+              3449.219,
+              4483.459
             ],
             [
-              3503.046,
-              4394.813
+              3448.046,
+              4483.613
             ],
             [
-              3502.227,
-              4394.617
+              3447.227,
+              4483.417
             ],
             [
-              3501.389,
-              4394.262
+              3446.389,
+              4483.062
             ],
             [
-              3500.596,
-              4393.393
+              3445.596,
+              4482.193
             ],
             [
-              3500.284,
-              4392.848
+              3445.284,
+              4481.648
             ],
             [
-              3500.222,
-              4392.712
+              3445.222,
+              4481.512
             ],
             [
-              3499.681,
-              4391.657
+              3444.681,
+              4480.457
             ],
             [
-              3499.704,
-              4391.526
+              3444.704,
+              4480.326
             ],
             [
-              3499.738,
-              4391.421
+              3444.738,
+              4480.221
             ],
             [
-              3500.504,
-              4389.617
+              3445.504,
+              4478.417
             ],
             [
-              3500.556,
-              4389.519
+              3445.556,
+              4478.319
             ],
             [
-              3500.635,
-              4389.411
+              3445.634,
+              4478.211
             ],
             [
-              3501.769,
-              4389.067
+              3446.769,
+              4477.867
             ],
             [
-              3501.909,
-              4389.018
+              3446.909,
+              4477.818
             ],
             [
-              3502.518,
-              4388.864
+              3447.518,
+              4477.664
             ],
             [
-              3503.695,
-              4388.831
+              3448.695,
+              4477.631
             ]
           ],
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "On a plinth over a 1.5 m fall, at 32 m, the highest ground in the camp.",
+            "microGeography": "On a plinth over a 0.71 m fall, at 32.7 m, the highest ground in the camp.",
             "playerPurpose": "The camp's only interior. It is the place where the crew sleep during the night landing that MR04 stages.",
             "what": "A woven Argonian hut for the tapper and two crew.",
             "whyHere": "A licence runs for a season, so the crew live under canvas, not in a hut that would say they come back every year.",
@@ -10163,8 +10179,8 @@
           "assetRef": "bmv:advertising_board",
           "buildingFamily": "works-notice-board",
           "centreM": [
-            3484.2,
-            4375.0
+            3418.0,
+            4463.5
           ],
           "districtId": "district.sap-tapping-licensed.stage",
           "entrance": null,
@@ -10175,59 +10191,59 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The pane stands parallel to the bank on bearing 48, so its face looks on bearing 318 straight down the channel; a canoe coming up the poling line reads it before it reads the stage.",
+          "orientationWhy": "The pane stands parallel to the bank on bearing 141, so its face looks on bearing 231 straight down the channel; a canoe poling up the last leg reads it three metres before it comes alongside the piles.",
           "polygon": [
             [
-              3483.626,
-              4375.289
+              3418.258,
+              4464.089
             ],
             [
-              3483.626,
-              4375.274
+              3418.244,
+              4464.087
             ],
             [
-              3484.555,
-              4374.438
+              3417.457,
+              4463.116
             ],
             [
-              3484.569,
-              4374.439
+              3417.459,
+              4463.102
             ],
             [
-              3484.83,
-              4374.729
+              3417.762,
+              4462.856
             ],
             [
-              3484.83,
-              4374.743
+              3417.776,
+              4462.858
             ],
             [
-              3483.901,
-              4375.579
+              3418.563,
+              4463.829
             ],
             [
-              3483.886,
-              4375.578
+              3418.561,
+              4463.843
             ]
           ],
           "spans": null,
           "use": "civic",
           "why": {
-            "microGeography": "Two posts driven into the lip of the bank at 30 m, each to its own depth over a 0.4 m fall, a hand above the channel's level.",
+            "microGeography": "Two posts driven into the lip of the bank at 28.6 m, each to its own depth over a 0.2 m fall, standing 0.39 m above the channel's surface.",
             "playerPurpose": "The evidence socket of MR04: the counter-signature that the player matches elsewhere, legible from a canoe and from the walk.",
             "what": "The licence board: a roofed notice pane on two posts, with the licence and its counter-signature pinned under the roof.",
             "whyHere": "The catalogue's signature: the licence is hung to be readable from the water, so the assembly's inspectors and the rival tribe's canoes can see the stage is lawful without landing.",
-            "whyNeighbours": "It stands between the landing and the stage, so a boat sees board then stage. A walker off the track sees stage then board.",
-            "whySpot": "At the water's edge beside the foot of the plank walk, 2.3 m clear of the boards, on the last dry ground before the reeds."
+            "whyNeighbours": "It stands below the landing and the landing stands below the stage, so a boat reads board, then landing, then stage. A walker off the track sees stage then board.",
+            "whySpot": "On the bank 5.8 m down-channel of the landing, three metres off the poling line, on the last dry ground before the reeds, so a boat comes to the board and then to the piles."
           },
-          "yawDeg": 318.0
+          "yawDeg": 231.0
         },
         {
           "assetRef": "vanilla:clutter/horsetrough/horsetrough01",
           "buildingFamily": "works-stock-line",
           "centreM": [
-            3487.514,
-            4402.802
+            3432.514,
+            4491.602
           ],
           "districtId": "district.sap-tapping-licensed.stage",
           "entrance": null,
@@ -10241,58 +10257,58 @@
           "orientationWhy": "The trough's long axis lies north to south, along the track's last stretch, so the mules stand beside the path and not across it.",
           "polygon": [
             [
-              3487.184,
-              4403.712
+              3432.184,
+              4492.512
             ],
             [
-              3487.174,
-              4402.032
+              3432.174,
+              4490.832
             ],
             [
-              3487.174,
-              4401.942
+              3432.174,
+              4490.742
             ],
             [
-              3487.184,
-              4401.892
+              3432.184,
+              4490.692
             ],
             [
-              3487.244,
-              4401.862
+              3432.244,
+              4490.662
             ],
             [
-              3487.734,
-              4401.862
+              3432.734,
+              4490.662
             ],
             [
-              3487.844,
-              4401.892
+              3432.844,
+              4490.692
             ],
             [
-              3487.844,
-              4401.902
+              3432.844,
+              4490.702
             ],
             [
-              3487.864,
-              4403.572
+              3432.864,
+              4492.372
             ],
             [
-              3487.864,
-              4403.652
+              3432.864,
+              4492.452
             ],
             [
-              3487.854,
-              4403.702
+              3432.854,
+              4492.502
             ],
             [
-              3487.844,
-              4403.712
+              3432.844,
+              4492.512
             ]
           ],
           "spans": null,
           "use": "work",
           "why": {
-            "microGeography": "On a gentle pad at 29-30 m, three metres above the water table, where the track straightens for its run to the stair.",
+            "microGeography": "On a gentle pad at 31.3 m, where the track straightens for its run to the stair.",
             "playerPurpose": "A tell for the player: mules at a camp with a landing mean that sap leaves by two routes.",
             "what": "A trough and the tie line for the two mules that carry the season's sap to the road.",
             "whyHere": "Sap goes out by mule when the channel is watched, so the crew keep the animals at the camp.",
@@ -10305,8 +10321,8 @@
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
           "buildingFamily": "works-tapping-stage",
           "centreM": [
-            3489.8,
-            4383.0
+            3434.8,
+            4471.8
           ],
           "districtId": "district.sap-tapping-licensed.stage",
           "entrance": null,
@@ -10320,58 +10336,58 @@
           "orientationWhy": "Turned so the scaffold's one unrailed face looks along bearing 136 to the Hist trunk, where the tap lines run. The three railed faces stand outward.",
           "polygon": [
             [
-              3487.762,
-              4383.063
+              3432.762,
+              4471.863
             ],
             [
-              3487.728,
-              4382.985
+              3432.728,
+              4471.785
             ],
             [
-              3487.744,
-              4382.9
+              3432.744,
+              4471.7
             ],
             [
-              3489.772,
-              4380.942
+              3434.772,
+              4469.742
             ],
             [
-              3489.857,
-              4380.929
+              3434.857,
+              4469.729
             ],
             [
-              3489.935,
-              4380.966
+              3434.935,
+              4469.766
             ],
             [
-              3491.838,
-              4382.937
+              3436.838,
+              4471.737
             ],
             [
-              3491.872,
-              4383.015
+              3436.872,
+              4471.815
             ],
             [
-              3491.856,
-              4383.1
+              3436.856,
+              4471.9
             ],
             [
-              3489.828,
-              4385.058
+              3434.828,
+              4473.858
             ],
             [
-              3489.743,
-              4385.071
+              3434.743,
+              4473.871
             ],
             [
-              3489.665,
-              4385.034
+              3434.665,
+              4473.834
             ]
           ],
           "spans": null,
           "use": "work",
           "why": {
-            "microGeography": "The ground under the footing falls 2.27 m toward the water, which is why it stands on its own posts rather than on a cut pad.",
+            "microGeography": "The ground under the footing falls 1.26 m toward the water, which is why it stands on its own posts rather than on a cut pad.",
             "playerPurpose": "The stage that MR04 asks the player to climb and search; the tapper stands above it by day.",
             "what": "The tapping stage: a three-sided stockade scaffold footing with its deck at 2.7 m, whose open face looks at the trunk.",
             "whyHere": "A tapping stage is the one structure the licence requires; the tap lines run from the tree to its deck.",
@@ -10384,8 +10400,8 @@
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
           "buildingFamily": "works-scaffold",
           "centreM": [
-            3489.8,
-            4383.0
+            3434.8,
+            4471.8
           ],
           "districtId": "district.sap-tapping-licensed.stage",
           "entrance": null,
@@ -10404,40 +10420,40 @@
           "orientationWhy": "Turned with its footing, so its three rails sit over the footing's three railed sides and the open side matches.",
           "polygon": [
             [
-              3487.325,
-              4382.971
+              3432.325,
+              4471.771
             ],
             [
-              3487.923,
-              4382.338
+              3432.923,
+              4471.138
             ],
             [
-              3489.133,
-              4381.128
+              3434.133,
+              4469.928
             ],
             [
-              3489.435,
-              4380.822
+              3434.435,
+              4469.622
             ],
             [
-              3489.823,
-              4380.49
+              3434.823,
+              4469.29
             ],
             [
-              3489.858,
-              4380.512
+              3434.858,
+              4469.312
             ],
             [
-              3492.316,
-              4383.072
+              3437.316,
+              4471.872
             ],
             [
-              3490.226,
-              4385.313
+              3435.226,
+              4474.113
             ],
             [
-              3489.895,
-              4385.633
+              3434.895,
+              4474.433
             ]
           ],
           "spans": null,
@@ -10456,8 +10472,8 @@
           "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
           "buildingFamily": "works-scaffold-stair",
           "centreM": [
-            3492.259,
-            4385.546
+            3437.259,
+            4474.346
           ],
           "districtId": "district.sap-tapping-licensed.stage",
           "entrance": null,
@@ -10476,58 +10492,58 @@
           "orientationWhy": "The flight is set with its west face on the stage's south face, so the stair is built into the stage. The climb still starts on the landward side at the head of the track, clear of the water.",
           "polygon": [
             [
-              3492.278,
-              4383.277
+              3437.277,
+              4472.077
             ],
             [
-              3492.363,
-              4383.236
+              3437.363,
+              4472.036
             ],
             [
-              3492.448,
-              4383.251
+              3437.448,
+              4472.051
             ],
             [
-              3494.643,
-              4385.524
+              3439.643,
+              4474.324
             ],
             [
-              3494.655,
-              4385.61
+              3439.655,
+              4474.41
             ],
             [
-              3494.612,
-              4385.694
+              3439.612,
+              4474.494
             ],
             [
-              3492.324,
-              4387.903
+              3437.324,
+              4476.703
             ],
             [
-              3492.238,
-              4387.944
+              3437.238,
+              4476.744
             ],
             [
-              3492.154,
-              4387.928
+              3437.154,
+              4476.728
             ],
             [
-              3489.959,
-              4385.655
+              3434.959,
+              4474.455
             ],
             [
-              3489.946,
-              4385.57
+              3434.946,
+              4474.37
             ],
             [
-              3489.99,
-              4385.486
+              3434.99,
+              4474.286
             ]
           ],
           "spans": null,
           "use": "work",
           "why": {
-            "microGeography": "The ground under the flight falls 2.08 m, so it stands on posts like the footing.",
+            "microGeography": "The ground under the flight falls 0.89 m, so it stands on posts like the footing.",
             "playerPurpose": "The visible means of ascent: from the last bend of the track the stair is in frame, so the player knows how to reach the deck.",
             "what": "The scaffold stair, 3.45 m of rise, that climbs to the deck from the landward side.",
             "whyHere": "A deck at 2.7 m needs a way up. The crew carry full vessels down it.",
@@ -10540,8 +10556,8 @@
           "assetRef": "vanilla:clutter/carts/handcart01",
           "buildingFamily": "works-graded-stock",
           "centreM": [
-            3489.5,
-            4393.5
+            3434.5,
+            4482.3
           ],
           "districtId": "district.sap-tapping-licensed.stage",
           "entrance": null,
@@ -10555,78 +10571,78 @@
           "orientationWhy": "The cart's shafts point on bearing 35 toward the track, so the season's stock is pulled out without turning it.",
           "polygon": [
             [
-              3489.0,
-              4393.064
+              3434.0,
+              4481.864
             ],
             [
-              3490.057,
-              4391.937
+              3435.057,
+              4480.737
             ],
             [
-              3490.079,
-              4391.94
+              3435.079,
+              4480.74
             ],
             [
-              3490.093,
-              4391.938
+              3435.093,
+              4480.738
             ],
             [
-              3490.765,
-              4392.408
+              3435.765,
+              4481.208
             ],
             [
-              3490.759,
-              4392.416
+              3435.759,
+              4481.216
             ],
             [
-              3490.77,
-              4392.436
+              3435.77,
+              4481.236
             ],
             [
-              3490.081,
-              4393.821
+              3435.081,
+              4482.621
             ],
             [
-              3490.0,
-              4393.936
+              3435.0,
+              4482.736
             ],
             [
-              3489.711,
-              4394.209
+              3434.711,
+              4483.009
             ],
             [
-              3489.53,
-              4394.241
+              3434.53,
+              4483.041
             ],
             [
-              3489.276,
-              4394.064
+              3434.276,
+              4482.864
             ],
             [
-              3488.957,
-              4393.84
+              3433.957,
+              4482.64
             ],
             [
-              3488.891,
-              4393.794
+              3433.891,
+              4482.594
             ],
             [
-              3488.785,
-              4393.719
+              3433.785,
+              4482.519
             ],
             [
-              3488.783,
-              4393.547
+              3433.783,
+              4482.347
             ],
             [
-              3488.919,
-              4393.179
+              3433.919,
+              4481.979
             ]
           ],
           "spans": null,
           "use": "storage",
           "why": {
-            "microGeography": "On a plinth at the edge of the level pad, above the wet-season line by 3 m.",
+            "microGeography": "On a plinth at the edge of the level pad, 31.2 m, two metres above the channel's wet-season line.",
             "playerPurpose": "The container socket of MR04 and the camp's one item of value.",
             "what": "The handcart that holds the season's packed and graded stock.",
             "whyHere": "The recipe's gated reward: sap sold by weight has to be graded and packed somewhere before it moves.",
@@ -10662,8 +10678,8 @@
           "ownerQuestTier": 2,
           "parcelId": "parcel.sap-tapping-licensed.stock",
           "positionM": [
-            3489.5,
-            4393.5
+            3434.5,
+            4482.3
           ],
           "questId": "quest.mr.mr04"
         },
@@ -10674,8 +10690,8 @@
           "ownerQuestTier": 2,
           "parcelId": "parcel.sap-tapping-licensed.licence-board",
           "positionM": [
-            3484.2,
-            4375.0
+            3418.0,
+            4463.5
           ],
           "questId": "quest.mr.mr04"
         },
@@ -10686,8 +10702,8 @@
           "ownerQuestTier": "tier-2",
           "parcelId": "parcel.sap-tapping-licensed.stage-deck",
           "positionM": [
-            3489.548,
-            4382.475
+            3434.548,
+            4471.275
           ],
           "questId": "quest.mr.mr04"
         },
@@ -10698,8 +10714,8 @@
           "ownerQuestTier": 2,
           "parcelId": null,
           "positionM": [
-            3481.5,
-            4376.5
+            3426.5,
+            4465.3
           ],
           "questId": null
         },
@@ -10710,8 +10726,8 @@
           "ownerQuestTier": 2,
           "parcelId": null,
           "positionM": [
-            3491.599,
-            4385.4
+            3436.599,
+            4474.2
           ],
           "questId": null
         }
@@ -10728,37 +10744,47 @@
       "siting": {
         "candidates": [
           {
-            "chosen": true,
+            "chosen": false,
             "id": "candidate.sap-tapping-licensed.a-north-bank",
             "positionM": [
               3490.6,
               4391.8
             ],
+            "rejectedBecause": "Measured against the compiled water that ships, the berth stands on dry terrace at 30.52 m and the nearest water carrying a canoe's 0.6 m is 104.4 m away. The ground between rises up to 1.48 m above the local water for 92 continuous metres, so no dredge can reach it. The berth published no connector and the network gate stayed red.",
+            "why": "The siting this place held until 2026-09-09, chosen on the macro hydrology raster, which reported a 0.9 m channel 16 m to the NNW."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.sap-tapping-licensed.e-reach118-bank",
+            "positionM": [
+              3435.6,
+              4480.6
+            ],
             "rejectedBecause": null,
-            "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330). Within 250 m this is the water along which a loaded canoe can be poled. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle."
+            "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc. The landing stands 22.4 m off on bearing 327 in the channel itself, on a bed at 28.75 m under 0.60 m of compiled water; `dock_dredge` reports it dredged, 172 m by 12 m, 617 m3, taking the approach from 0.04 m to 0.85 m with no blocked sample. Every parcel stands on dry compiled ground: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 28.63 m on the bank lip 0.39 m above the channel. Road 526 m to the south-west, forded once at the channel's lower reach. Canopy closure 1.00; concealment 0.74, weaker than the old terrace's 0.93."
           },
           {
             "chosen": false,
-            "id": "candidate.sap-tapping-licensed.c-east-shelf",
+            "id": "candidate.sap-tapping-licensed.f-south-shelf",
             "positionM": [
-              3580.6,
-              4361.8
+              3434.0,
+              4492.0
             ],
-            "rejectedBecause": "The water at 10 m measures 0.4 m deep: a wading margin, not a channel. A licence hung to be read from the water reads to nobody. The extraction route fails as well.",
-            "why": "Slope 2.75 deg, 10.3 m to shore, 3.98 m above the water table, canopy closure 0.99. This is the most concealed of the three and the closest to the plotted point (67 m)."
+            "rejectedBecause": "The berth it implies sits on an 11.0 deg bank 0.25 m above the surface, with the poling water 8.0 m off, which is beyond the reach of the 3.6 by 1.83 m dock piece, so the deck would end over mud. The camp would also stand 7.8 m above its water table, which makes the licence board a climb from the water rather than a thing read from it.",
+            "why": "The flattest ground on this bank: slope 4.94 deg at the dot, 5.88 m of relief across a 30 m disc, all of it dry."
           },
           {
             "chosen": false,
-            "id": "candidate.sap-tapping-licensed.d-west-flat",
+            "id": "candidate.sap-tapping-licensed.g-lower-bank",
             "positionM": [
-              3460.6,
-              4376.8
+              3430.0,
+              4480.0
             ],
-            "rejectedBecause": "Only 0.32 m above the water table. Canopy closure drops to 0.77. The season's stock would stand in a wet-season hazard. The camp would be visible on the open bank from both directions rather than from one track.",
-            "why": "The flattest ground in the neighbourhood (slope 0.90 deg, delta 1.9 m across 20 m) and 10.3 m from water on the far bank of the same channel system."
+            "rejectedBecause": "The licence board falls in 0.60 m of published water. The record's whole signature is a licence read from the water while standing on dry bank. The berth's own bank measures 7.5 deg, too steep for the piles to stand level.",
+            "why": "Two metres from the chosen point and slightly nearer the water: the berth would lie 4.53 m from 0.6 m water at 0.39 m above the surface."
           }
         ],
-        "dossier": "world/sources/sites/dossiers/licensed-stage.json"
+        "dossier": "world/sources/sites/dossiers/licensed-stage-reach118.json"
       },
       "summary": {
         "approaches": 2,
@@ -10772,7 +10798,7 @@
         "networkTerminals": 2,
         "parcels": 7,
         "questSockets": 5,
-        "sitingCandidates": 3,
+        "sitingCandidates": 4,
         "ways": 4
       },
       "ways": [
@@ -10790,23 +10816,23 @@
           "notes": null,
           "points": [
             [
-              3486.931,
-              4381.338
+              3431.931,
+              4470.138
             ],
             [
-              3478.5,
-              4373.0
+              3423.5,
+              4461.8
             ]
           ],
           "routing": "straight",
           "via": [
             [
-              3486.931,
-              4381.338
+              3431.931,
+              4470.138
             ],
             [
-              3478.5,
-              4373.0
+              3423.5,
+              4461.8
             ]
           ],
           "waterOk": null,
@@ -10827,43 +10853,39 @@
           "notes": null,
           "points": [
             [
-              3462.599,
-              4365.853
+              3394.5,
+              4471.0
             ],
             [
-              3467.099,
-              4370.353
+              3405.0,
+              4471.299
             ],
             [
-              3472.922,
-              4370.277
+              3414.0,
+              4462.299
             ],
             [
-              3476.099,
-              4373.353
-            ],
-            [
-              3478.5,
-              4373.0
+              3423.5,
+              4461.8
             ]
           ],
           "routing": "terrain",
           "via": [
             [
-              3462.599,
-              4365.853
+              3394.5,
+              4471.0
             ],
             [
-              3472.922,
-              4370.277
+              3409.1,
+              4467.4
             ],
             [
-              3478.5,
-              4373.0
+              3423.5,
+              4461.8
             ]
           ],
           "waterOk": null,
-          "why": "The last stretch of the poling channel, drawn where the camp keeps it: open water between the reed banks, dying at the landing piles.",
+          "why": "The last stretch of the poling channel, drawn where the camp keeps it: open water between the reed banks, ending at the landing piles in the head of the reach.",
           "widthM": 6.0
         },
         {
@@ -10880,27 +10902,27 @@
           "notes": null,
           "points": [
             [
-              3496.0,
-              4398.5
+              3441.0,
+              4487.3
             ],
             [
-              3500.099,
-              4394.353
+              3442.0,
+              4487.299
             ],
             [
-              3501.389,
-              4394.262
+              3446.389,
+              4483.062
             ]
           ],
           "routing": "terrain",
           "via": [
             [
-              3496.0,
-              4398.5
+              3441.0,
+              4487.3
             ],
             [
-              3499.6,
-              4397.2
+              3444.6,
+              4486.0
             ]
           ],
           "waterOk": null,
@@ -10921,43 +10943,47 @@
           "notes": null,
           "points": [
             [
-              3502.998,
-              4411.997
+              3447.998,
+              4500.797
             ],
             [
-              3488.576,
-              4397.574
+              3433.576,
+              4486.374
             ],
             [
-              3494.496,
-              4392.501
+              3440.0,
+              4480.299
             ],
             [
-              3491.099,
-              4389.353
+              3440.0,
+              4474.299
             ],
             [
-              3491.243,
-              4384.276
+              3438.0,
+              4472.299
+            ],
+            [
+              3436.243,
+              4473.076
             ]
           ],
           "routing": "terrain",
           "via": [
             [
-              3502.998,
-              4411.997
+              3447.998,
+              4500.797
             ],
             [
-              3488.576,
-              4397.574
+              3433.576,
+              4486.374
             ],
             [
-              3494.496,
-              4392.501
+              3439.496,
+              4481.301
             ],
             [
-              3488.406,
-              4381.338
+              3433.406,
+              4470.138
             ]
           ],
           "waterOk": null,
@@ -11391,16 +11417,20 @@
               6380.009
             ],
             [
-              3797.414,
-              6415.772
+              3797.423,
+              6415.791
             ],
             [
-              3807.528,
-              6436.0
+              3808.061,
+              6436.503
             ],
             [
-              3827.954,
-              6436.0
+              3825.157,
+              6436.503
+            ],
+            [
+              3828.415,
+              6435.408
             ],
             [
               3833.024,
@@ -11715,8 +11745,8 @@
         },
         {
           "centreM": [
-            3814.405,
-            6379.74
+            3815.48,
+            6384.907
           ],
           "cultureKit": "argonian-stilt",
           "id": "district.lilmoth.lighter-quay",
@@ -11744,16 +11774,20 @@
               6402.831
             ],
             [
-              3797.378,
-              6415.701
+              3797.387,
+              6415.721
             ],
             [
-              3807.528,
-              6436.0
+              3808.061,
+              6436.503
             ],
             [
-              3827.46,
-              6436.0
+              3825.157,
+              6436.503
+            ],
+            [
+              3827.995,
+              6435.55
             ],
             [
               3908.313,
@@ -11775,8 +11809,8 @@
         },
         {
           "centreM": [
-            3607.417,
-            6392.875
+            3608.56,
+            6393.606
           ],
           "cultureKit": "imperial",
           "id": "district.lilmoth.north-gate",
@@ -11784,16 +11818,12 @@
           "notes": "What the water left standing: the arch across the road, the tower, two wall stubs and the rubble of the south tower. No new work is built into the masonry. Named for the road it faces (owner 2026-09-07); the district and socket ids keep the old survey name because ids are stable.",
           "polygon": [
             [
-              3581.204,
-              6372.738
+              3580.206,
+              6373.46
             ],
             [
-              3579.035,
-              6376.733
-            ],
-            [
-              3568.276,
-              6400.986
+              3568.292,
+              6401.006
             ],
             [
               3576.249,
@@ -11872,12 +11902,12 @@
               6377.301
             ],
             [
-              3615.006,
-              6371.417
+              3615.011,
+              6371.419
             ],
             [
-              3586.648,
-              6371.126
+              3585.535,
+              6371.031
             ]
           ],
           "wealth": "middling",
@@ -12015,8 +12045,8 @@
         },
         {
           "centreM": [
-            3692.583,
-            6438.707
+            3685.367,
+            6438.194
           ],
           "cultureKit": "argonian-stilt",
           "id": "district.lilmoth.shore-quarter",
@@ -12072,16 +12102,12 @@
               6470.403
             ],
             [
-              3766.592,
-              6469.387
+              3766.646,
+              6469.37
             ],
             [
-              3801.907,
-              6446.713
-            ],
-            [
-              3815.034,
-              6435.326
+              3816.074,
+              6435.652
             ],
             [
               3611.555,
@@ -14554,7 +14580,7 @@
           "use": "dwelling",
           "why": {
             "microGeography": "The flat is 1.5–2 m and floods in the wet season.",
-            "playerPurpose": "The keeper of the pole wall, who knows the two places it can be crossed.",
+            "playerPurpose": "The keeper of the pole wall, who knows the shore-lane and reed-fringe passages at its open ends.",
             "what": "The easternmost fisher’s hut, nearest the pole wall.",
             "whyHere": "The household nearest the estuary keeps the pole wall in repair.",
             "whyNeighbours": "The pole wall is east of it and the third fisher’s hut west.",
@@ -19164,8 +19190,8 @@
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
           "buildingFamily": "imperial-keep-wall",
           "centreM": [
-            3586.602,
-            6379.107
+            3586.331,
+            6379.064
           ],
           "districtId": "district.lilmoth.north-gate",
           "entrance": null,
@@ -19176,31 +19202,31 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Turned to split the narrow angle between the arriving gate-yard road and the country outside the boundary, with its measured south connector snapped to the tower's north face.",
+          "orientationWhy": "Turned three degrees off the tower's square while its measured south connector remains snapped to the tower's north face; this lays the ruined corner along the buildable shelf instead of bridging the steeper cross-fall.",
           "polygon": [
             [
-              3582.626,
-              6378.502
+              3582.31,
+              6379.018
             ],
             [
-              3583.929,
-              6376.103
+              3583.266,
+              6376.461
             ],
             [
-              3587.208,
-              6375.132
+              3586.378,
+              6375.043
             ],
             [
-              3588.722,
-              6380.242
+              3588.588,
+              6379.893
             ],
             [
-              3588.708,
-              6380.267
+              3588.578,
+              6379.919
             ],
             [
-              3583.598,
-              6381.781
+              3583.728,
+              6382.13
             ]
           ],
           "spans": null,
@@ -19213,7 +19239,7 @@
             "whyNeighbours": "It is built into the tower on one side and runs on toward the standing west curtain on the other.",
             "whySpot": "It occupies the wall line immediately north of the tower, on the same shelf."
           },
-          "yawDeg": 343.5
+          "yawDeg": 335.5
         },
         {
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
@@ -19666,7 +19692,7 @@
         "parcels": 61,
         "questSockets": 24,
         "sitingCandidates": 3,
-        "ways": 26
+        "ways": 28
       },
       "ways": [
         {
@@ -19991,8 +20017,16 @@
               6422.0
             ],
             [
-              3810.0,
-              6432.0
+              3809.503,
+              6430.503
+            ],
+            [
+              3810.503,
+              6432.503
+            ],
+            [
+              3824.503,
+              6432.503
             ],
             [
               3826.0,
@@ -20108,19 +20142,63 @@
               6323.999
             ],
             [
+              3846.503,
+              6338.067
+            ],
+            [
+              3845.503,
+              6341.503
+            ],
+            [
+              3846.503,
+              6342.69
+            ],
+            [
+              3846.503,
+              6355.503
+            ],
+            [
               3846.758,
               6357.002
+            ],
+            [
+              3848.503,
+              6358.503
             ],
             [
               3848.996,
               6364.184
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               3846.758,
               6323.999
+            ],
+            [
+              3846.503,
+              6333.473
+            ],
+            [
+              3846.503,
+              6338.067
+            ],
+            [
+              3846.503,
+              6342.69
+            ],
+            [
+              3846.503,
+              6346.008
+            ],
+            [
+              3846.503,
+              6349.326
+            ],
+            [
+              3846.503,
+              6352.876
             ],
             [
               3846.758,
@@ -20153,11 +20231,11 @@
               6437.0
             ],
             [
-              3805.503,
-              6437.503
+              3798.503,
+              6436.503
             ],
             [
-              3799.503,
+              3791.503,
               6443.503
             ],
             [
@@ -20362,57 +20440,69 @@
           "notes": null,
           "points": [
             [
-              3818.002,
-              6442.97
+              3793.5,
+              6442.0
             ],
             [
-              3812.503,
-              6447.503
+              3782.5,
+              6452.5
             ],
             [
-              3812.503,
-              6463.503
+              3781.5,
+              6454.0
             ],
             [
-              3806.503,
-              6469.503
+              3782.5,
+              6456.5
             ],
             [
-              3806.503,
-              6481.503
+              3778.5,
+              6458.5
             ],
             [
-              3805.503,
-              6482.503
+              3779.0,
+              6462.0
             ],
             [
-              3801.503,
-              6482.503
-            ],
-            [
-              3801.78,
-              6481.312
+              3778.0,
+              6463.0
             ]
           ],
-          "routing": "terrain",
+          "routing": "straight",
           "via": [
             [
-              3818.002,
-              6442.97
+              3793.5,
+              6442.0
             ],
             [
-              3812.103,
-              6459.192
+              3782.5,
+              6452.5
             ],
             [
-              3801.78,
-              6481.312
+              3781.5,
+              6454.0
+            ],
+            [
+              3782.5,
+              6456.5
+            ],
+            [
+              3778.5,
+              6458.5
+            ],
+            [
+              3779.0,
+              6462.0
+            ],
+            [
+              3778.0,
+              6463.0
             ]
           ],
           "waterOk": {
             "maxDepthM": 1.1
           },
-          "why": "The Argonian wall facing the estuary: poles driven into the tidal flat off the fishers' quarter, standing in 0.6 to 1.1 m of water and taking the run of the flat's edge. The wall stands in the water through which the city is entered.",
+          "why": "The 29 m Argonian wall facing the estuary: 1.917 m poles driven into the surviving tidal fringe immediately east of the fishers, in 0.12 to 0.96 m of water on the final survey and landward of the 3 m dredged lane. It closes the quarter without crossing a way; its open north end is the shore-lane passage and its open south end is the reed-fringe passage, the two crossings its keeper tends.",
           "widthM": 0.3
         },
         {
@@ -20824,6 +20914,43 @@
         {
           "assetRef": null,
           "endsAt": [
+            "parcel.lilmoth.quay-boatwright"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.lilmoth.boatwright-door",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3846.503,
+              6352.876
+            ],
+            [
+              3850.2,
+              6352.775
+            ]
+          ],
+          "routing": "terrain",
+          "via": [
+            [
+              3846.503,
+              6352.876
+            ],
+            [
+              3850.703,
+              6352.876
+            ]
+          ],
+          "waterOk": null,
+          "why": "The short worn step across the compacted quay edge from the lane to the boatwright's west-facing door.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
             "landmark.lilmoth.third-hist"
           ],
           "fenceClass": null,
@@ -21166,6 +21293,43 @@
           "waterOk": null,
           "why": "The Imperial road inside the arch, running straight to the lantern at the foot of the crest, where Imperial Lilmoth ended and the Argonian track begins.",
           "widthM": 4.3
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.lilmoth.quay-lamp"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.lilmoth.quay-lamp-door",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3846.503,
+              6338.067
+            ],
+            [
+              3850.13,
+              6338.067
+            ]
+          ],
+          "routing": "terrain",
+          "via": [
+            [
+              3846.503,
+              6338.067
+            ],
+            [
+              3850.13,
+              6338.067
+            ]
+          ],
+          "waterOk": null,
+          "why": "The short worn step across the compacted quay edge from the lane to the lamp keeper's door.",
+          "widthM": 1.2
         },
         {
           "assetRef": null,

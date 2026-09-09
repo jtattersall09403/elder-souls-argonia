@@ -23766,22 +23766,22 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.4734,
-        "v": 0.59562
+        "u": 0.46594,
+        "v": 0.60766
       },
       "positionM": [
-        3490.6,
-        4391.8
+        3435.6,
+        4480.6
       ],
       "plotFacts": {
         "landform": "pinned (Part 6 meso siting)",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 596.9,
+        "distanceToRouteM": 524.8,
         "distanceToWaterM": 19.8,
         "score": null
       },
-      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330). Within 250 m this is the water along which a loaded canoe can be poled. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle.",
+      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc. The landing stands 22.4 m off on bearing 327 in the channel itself, on a bed at 28.75 m under 0.60 m of compiled water; `dock_dredge` reports it dredged, 172 m by 12 m, 617 m3, taking the approach from 0.04 m to 0.85 m with no blocked sample. Every parcel stands on dry compiled ground: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 28.63 m on the bank lip 0.39 m above the channel. Road 526 m to the south-west, forded once at the channel's lower reach. Canopy closure 1.00; concealment 0.74, weaker than the old terrace's 0.93.",
       "why": {
         "founding": "Licensed tapping done to the tree-minders' rule: one stage, one season, one tree.",
         "siteAdvantages": "On a tree designated for it by the assembly.",
