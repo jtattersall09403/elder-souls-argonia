@@ -161,20 +161,16 @@
         "wealth": "middling",
         "boundary": [
           [
-            0.485571844,
-            0.864125133
+            0.485685359,
+            0.864275111
           ],
           [
-            0.485443386,
-            0.864225251
+            0.485391168,
+            0.864816944
           ],
           [
-            0.485082755,
-            0.864606515
-          ],
-          [
-            0.483956269,
-            0.86813661
+            0.48393202,
+            0.868106047
           ],
           [
             0.485013275,
@@ -253,12 +249,12 @@
             0.864893949
           ],
           [
-            0.490271171,
-            0.86409669
+            0.490269585,
+            0.86409587
           ],
           [
-            0.485794577,
-            0.864022838
+            0.486423675,
+            0.864056412
           ]
         ],
         "notes": "What the water left standing: the arch across the road, the tower, two wall stubs and the rubble of the south tower. No new work is built into the masonry. Named for the road it faces (owner 2026-09-07); the district and socket ids keep the old survey name because ids are stable.",
@@ -565,8 +561,8 @@
         "wealth": "middling",
         "boundary": [
           [
-            0.51482536,
-            0.858243641
+            0.514825893,
+            0.858243104
           ],
           [
             0.514369737,
@@ -597,16 +593,12 @@
             0.87285472
           ],
           [
-            0.530049445,
-            0.863620179
+            0.530048049,
+            0.863621354
           ],
           [
-            0.522383414,
-            0.857547269
-          ],
-          [
-            0.521723822,
-            0.857093897
+            0.521849715,
+            0.8570907
           ]
         ],
         "notes": "The water’s edge: the deck, the lamp, the licence house, the lighter shed, the divers’ shed and the salvage bench, with the pier and the stair.",
@@ -766,8 +758,8 @@
           0.486879,
           0.866617
         ],
-        "yawDeg": 58.7,
-        "orientationWhy": "Set to 58.7°, square across the Blackwood-side road it spans, so the carriageway passes through the opening without a turn and the way picks the road up where it arrives. The front pass of 2026-09-07 turned it to 342.6° to show its detailed face outward; that laid the arch along its own carriageway. A gate is square to its road before it is anything else.",
+        "yawDeg": 243.5,
+        "orientationWhy": "Turned square across the published land road while the gate's worked outer face still looks south-west across the country outside the boundary.",
         "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
         "interior": {
           "kind": "none"
@@ -783,36 +775,36 @@
         "spans": "route.lilmoth.gate-road",
         "footprint": [
           [
-            0.486820693,
-            0.866074706
+            0.486891724,
+            0.867162271
           ],
           [
-            0.486899763,
-            0.866191701
+            0.486822721,
+            0.86703907
           ],
           [
-            0.487266142,
-            0.866794289
+            0.48650805,
+            0.866407938
           ],
           [
-            0.487333624,
-            0.866918329
+            0.486451185,
+            0.866278686
           ],
           [
-            0.486937307,
-            0.867159294
+            0.486866276,
+            0.866071729
           ],
           [
-            0.486858237,
-            0.867042299
+            0.486935279,
+            0.86619493
           ],
           [
-            0.486491858,
-            0.866439711
+            0.48724995,
+            0.866826062
           ],
           [
-            0.486424376,
-            0.866315671
+            0.487306815,
+            0.866955314
           ]
         ],
         "playerPurpose": [
@@ -831,11 +823,11 @@
         "buildingFamily": "imperial-keep-tower",
         "groundFit": "dug-in",
         "centreUV": [
-          0.486402753,
-          0.865841544
+          0.486509777,
+          0.865786007
         ],
-        "yawDeg": 58.7,
-        "orientationWhy": "The tower shares the arch's bearing and its east face is set on the arch's west pier, so the two stand as one piece of masonry. The piece has no doorway, so nothing here is turned to one.",
+        "yawDeg": 338.5,
+        "orientationWhy": "The tower's measured south face is snapped to the arch's east connector; the solid square tower turns the old wall corner between the gate and the north curtain.",
         "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
         "interior": {
           "kind": "none"
@@ -854,132 +846,132 @@
         "abutsWhy": "The Morrowind Imperial keep set is authored so a guard tower butts the pier of its wall gate. The tower's east face and the arch's west pier are the measured faces. Both are laid on the same line.",
         "footprint": [
           [
-            0.486194199,
-            0.865498532
+            0.486136273,
+            0.865933134
           ],
           [
-            0.486265638,
-            0.86546462
+            0.486115015,
+            0.865856965
           ],
           [
-            0.486341351,
-            0.865445568
+            0.486109128,
+            0.865779114
           ],
           [
-            0.486419474,
-            0.865440923
+            0.486117848,
+            0.86570134
           ],
           [
-            0.486497691,
-            0.865452094
+            0.486142169,
+            0.865626166
           ],
           [
-            0.486572273,
-            0.865478172
+            0.486180561,
+            0.865557111
           ],
           [
-            0.486639495,
-            0.865518248
+            0.486231494,
+            0.865497692
           ],
           [
-            0.486697946,
-            0.865570005
+            0.486292445,
+            0.865448903
           ],
           [
-            0.486745765,
-            0.86563299
+            0.48636265,
+            0.865412503
           ],
           [
-            0.486779677,
-            0.865704429
+            0.486438819,
+            0.865391245
           ],
           [
-            0.486798729,
-            0.865780142
+            0.48651667,
+            0.865385358
           ],
           [
-            0.486803374,
-            0.865858265
+            0.486594444,
+            0.865394078
           ],
           [
-            0.486792203,
-            0.865936482
+            0.486669618,
+            0.865418399
           ],
           [
-            0.486766125,
-            0.866011064
+            0.486738673,
+            0.865456791
           ],
           [
-            0.486726049,
-            0.866078286
+            0.486798092,
+            0.865507724
           ],
           [
-            0.486674292,
-            0.866136737
+            0.486846881,
+            0.865568675
           ],
           [
-            0.486611307,
-            0.866184556
+            0.486883281,
+            0.86563888
           ],
           [
-            0.486539868,
-            0.866218468
+            0.486904539,
+            0.865715049
           ],
           [
-            0.486464155,
-            0.86623752
+            0.486910426,
+            0.8657929
           ],
           [
-            0.486386032,
-            0.866242165
+            0.486901706,
+            0.865870674
           ],
           [
-            0.486307815,
-            0.866230994
+            0.486877385,
+            0.865945848
           ],
           [
-            0.486233233,
-            0.866204916
+            0.486838993,
+            0.866014903
           ],
           [
-            0.486166011,
-            0.86616484
+            0.48678806,
+            0.866074322
           ],
           [
-            0.48610756,
-            0.866113083
+            0.486727109,
+            0.866123111
           ],
           [
-            0.486059741,
-            0.866050098
+            0.486656904,
+            0.866159511
           ],
           [
-            0.486025829,
-            0.865978659
+            0.486580735,
+            0.866180769
           ],
           [
-            0.486006777,
-            0.865902946
+            0.486502884,
+            0.866186656
           ],
           [
-            0.486002132,
-            0.865824823
+            0.48642511,
+            0.866177936
           ],
           [
-            0.486013303,
-            0.865746606
+            0.486349936,
+            0.866153615
           ],
           [
-            0.486039381,
-            0.865672024
+            0.486280881,
+            0.866115223
           ],
           [
-            0.486079457,
-            0.865604802
+            0.486221462,
+            0.86606429
           ],
           [
-            0.486131214,
-            0.865546351
+            0.486172673,
+            0.866003339
           ]
         ]
       },
@@ -990,17 +982,17 @@
         "buildingFamily": "imperial-keep-wall",
         "groundFit": "pad",
         "centreUV": [
-          0.485936936,
-          0.865059746
+          0.486417451,
+          0.865138899
         ],
-        "yawDeg": 58.7,
-        "orientationWhy": "It carries the tower's bearing on from the tower's west face, so the curtain leaves the gate on one line and shows its finished face to the country outside.",
-        "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+        "yawDeg": 343.5,
+        "orientationWhy": "Turned to split the narrow angle between the arriving gate-yard road and the country outside the boundary, with its measured south connector snapped to the tower's north face.",
+        "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
         "interior": {
           "kind": "none"
         },
         "why": {
-          "what": "A broken length of the Imperial curtain running north from the gate tower, its top fallen.",
+          "what": "The broken inner corner where the Imperial curtain turns north from the gate tower, its top fallen.",
           "whyHere": "The curtain ran from the gate up onto the crest; this is the piece that still stands next to the tower.",
           "whySpot": "It occupies the wall line immediately north of the tower, on the same shelf.",
           "whyNeighbours": "It is built into the tower on one side and runs on toward the standing west curtain on the other.",
@@ -1010,31 +1002,31 @@
         "abuts": [
           "parcel.lilmoth.gate-tower"
         ],
-        "abutsWhy": "A curtain segment is authored to butt the tower face in the Imperial keep set; the stub's east face sits on the tower's west face.",
+        "abutsWhy": "The ruined inner-corner piece is authored to turn a curtain at a tower; the stub's measured south connector sits on the tower's north connector.",
         "footprint": [
           [
-            0.485855574,
-            0.864591784
+            0.485878254,
+            0.865056745
           ],
           [
-            0.485908926,
-            0.864567281
+            0.486054883,
+            0.864731435
           ],
           [
-            0.48639156,
-            0.865361075
+            0.486499605,
+            0.864599702
           ],
           [
-            0.485995243,
-            0.86560204
+            0.486704908,
+            0.865292793
           ],
           [
-            0.485561929,
-            0.864889364
+            0.486703078,
+            0.865296164
           ],
           [
-            0.485809267,
-            0.864627875
+            0.486009987,
+            0.865501467
           ]
         ]
       },
@@ -1045,17 +1037,17 @@
         "buildingFamily": "imperial-keep-wall",
         "groundFit": "pad",
         "centreUV": [
-          0.487368633,
-          0.867414474
+          0.48732412,
+          0.867205824
         ],
-        "yawDeg": 58.7,
-        "orientationWhy": "Turned from 71.9° to the gate's own 58.7° so that its west face lands on the arch's east pier, which is how the Imperial set joins a flanking curtain to its gate. Its finished face still looks south-west, out of the city, because the segment used here is the one whose show side falls on that hand at this bearing.",
-        "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+        "yawDeg": 243.5,
+        "orientationWhy": "Turned with the gate so its measured east connector snaps onto the arch's west face and the flanking curtain presents south-west, out of the city.",
+        "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
         "interior": {
           "kind": "none"
         },
         "why": {
-          "what": "A broken length of the Imperial curtain running south from the arch toward the pond, built into the gate's southern pier.",
+          "what": "The broken inner corner where the Imperial curtain leaves the arch toward the pond, built into the gate's southern pier.",
           "whyHere": "The curtain south of the gate ran down to the water; this is the piece that remains above ground.",
           "whySpot": "It sits on the wall line south of the arch, where the shelf begins to fall toward the pond.",
           "whyNeighbours": "It is joined to the arch on its north and ends at the rubble of the fallen south tower.",
@@ -1065,31 +1057,31 @@
         "abuts": [
           "parcel.lilmoth.gate-arch"
         ],
-        "abutsWhy": "A curtain segment is authored to butt the gate pier in the Imperial keep set; the stub's west face sits on the arch's east pier.",
+        "abutsWhy": "The ruined inner-corner piece is authored to turn a curtain from a gate pier; the stub's measured east connector sits on the arch's west connector.",
         "footprint": [
           [
-            0.487287271,
-            0.866946512
+            0.487336844,
+            0.867751095
           ],
           [
-            0.487340623,
-            0.866922009
+            0.486985806,
+            0.867633639
           ],
           [
-            0.487823257,
-            0.867715803
+            0.486778849,
+            0.867218548
           ],
           [
-            0.48742694,
-            0.867956768
+            0.48742576,
+            0.86689601
           ],
           [
-            0.486993626,
-            0.867244092
+            0.487429397,
+            0.866897228
           ],
           [
-            0.487240964,
-            0.866982603
+            0.487751935,
+            0.867544138
           ]
         ]
       },
@@ -1475,6 +1467,7 @@
         "id": "parcel.lilmoth.vigil-awning",
         "districtId": "district.lilmoth.hist-court",
         "use": "shrine",
+        "service": "shrine",
         "buildingFamily": "argonian-awning",
         "groundFit": "stilt",
         "centreUV": [
@@ -1923,11 +1916,11 @@
         "buildingFamily": "argonian-platform",
         "groundFit": "stilt",
         "centreUV": [
-          0.50362334,
-          0.85721223
+          0.504029184,
+          0.857347511
         ],
-        "yawDeg": 259.8,
-        "orientationWhy": "The deck lies along the walkway so stalls on it face the passing traffic.",
+        "yawDeg": 124.0,
+        "orientationWhy": "Turned so the platform's open stall side faces the bench walk from which customers arrive.",
         "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
         "interior": {
           "kind": "none"
@@ -1942,72 +1935,72 @@
         },
         "footprint": [
           [
-            0.503350227,
-            0.857907646
+            0.504709801,
+            0.857039365
           ],
           [
-            0.502841679,
-            0.857999148
+            0.505138177,
+            0.857328308
           ],
           [
-            0.502840104,
-            0.857998053
+            0.505138543,
+            0.857330191
           ],
           [
-            0.502839864,
-            0.857996719
+            0.505137784,
+            0.857331315
           ],
           [
-            0.50265758,
-            0.856983626
+            0.504562173,
+            0.858184694
           ],
           [
-            0.5025704,
-            0.856499104
+            0.504286881,
+            0.858592832
           ],
           [
-            0.502571495,
-            0.856497529
+            0.504284998,
+            0.858593198
           ],
           [
-            0.50257259,
-            0.856495954
+            0.504283115,
+            0.858593564
           ],
           [
-            0.504387881,
-            0.856169331
+            0.502754004,
+            0.857562165
           ],
           [
-            0.50495339,
-            0.856172307
+            0.502350659,
+            0.857165779
           ],
           [
-            0.5049563,
-            0.856173161
+            0.502349169,
+            0.857163137
           ],
           [
-            0.505071952,
-            0.856808273
+            0.502709034,
+            0.85662719
           ],
           [
-            0.505077476,
-            0.856838973
+            0.502726477,
+            0.85660133
           ],
           [
-            0.505076381,
-            0.856840548
+            0.502728359,
+            0.856600964
           ],
           [
-            0.504662069,
-            0.85767023
+            0.50360381,
+            0.856295
           ],
           [
-            0.504659639,
-            0.857672045
+            0.503606817,
+            0.856295393
           ],
           [
-            0.504155095,
-            0.857762827
+            0.50403182,
+            0.856582061
           ]
         ],
         "playerPurpose": [
@@ -4350,8 +4343,8 @@
           0.522411,
           0.863633
         ],
-        "yawDeg": 0.0,
-        "orientationWhy": "The deck lies along the water line so the whole of its east side is quay.",
+        "yawDeg": 67.0,
+        "orientationWhy": "Turned so the platform's open working side faces the lower spine while its outer edge remains the transfer side for the lighter pier.",
         "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
         "interior": {
           "kind": "none"
@@ -4366,72 +4359,72 @@
         },
         "footprint": [
           [
-            0.521774939,
-            0.863241056
+            0.522523257,
+            0.862894358
           ],
           [
-            0.521774939,
-            0.862724341
+            0.522998896,
+            0.862692462
           ],
           [
-            0.521776295,
-            0.862722985
+            0.523000674,
+            0.86269318
           ],
           [
-            0.521777651,
-            0.862722985
+            0.523001204,
+            0.862694428
           ],
           [
-            0.522807012,
-            0.862722985
+            0.523403407,
+            0.86364196
           ],
           [
-            0.523299315,
-            0.862722985
+            0.523595766,
+            0.864095128
           ],
           [
-            0.523300672,
-            0.862724341
+            0.523595047,
+            0.864096906
           ],
           [
-            0.523302028,
-            0.862725698
+            0.523594329,
+            0.864098684
           ],
           [
-            0.523302028,
-            0.864570139
+            0.521896511,
+            0.864819365
           ],
           [
-            0.523198956,
-            0.865126184
+            0.521344396,
+            0.864941751
           ],
           [
-            0.5231976,
-            0.865128896
+            0.521341369,
+            0.864941562
           ],
           [
-            0.522552046,
-            0.865130252
+            0.521087883,
+            0.864347856
           ],
           [
-            0.522520853,
-            0.865130252
+            0.521075695,
+            0.864319143
           ],
           [
-            0.522519497,
-            0.865128896
+            0.521076413,
+            0.864317365
           ],
           [
-            0.521776295,
-            0.864574208
+            0.521296615,
+            0.86341651
           ],
           [
-            0.521774939,
-            0.864571495
+            0.521298582,
+            0.863414202
           ],
           [
-            0.521774939,
-            0.864058849
+            0.521770475,
+            0.863213895
           ]
         ],
         "playerPurpose": [
@@ -4538,14 +4531,9 @@
         },
         "playerPurpose": [
           {
-            "kind": "service-station",
-            "tier": "major",
-            "note": "Lighter and diving licences are issued here, which is what opens the salvage work."
-          },
-          {
             "kind": "actionable-information",
             "tier": "medium",
-            "note": "The dues and lot prices are set at this counter."
+            "note": "Lighter and diving licences, dues and lot prices are issued at this counter; the licence opens the salvage work."
           },
           {
             "kind": "lock-target",
@@ -6078,8 +6066,8 @@
           0.531633,
           0.867159
         ],
-        "yawDeg": 24.0,
-        "orientationWhy": "The southern rubble floor holds the same 24° street line, so the two floors read as one street across the channel cut.",
+        "yawDeg": 103.0,
+        "orientationWhy": "Turned so the rubble floor's surviving open edge faces the lighter channel from which divers reach this first submerged landing.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01",
         "interior": {
           "kind": "none"
@@ -6094,36 +6082,36 @@
         },
         "footprint": [
           [
-            0.531466787,
-            0.866538682
+            0.532210207,
+            0.866877478
           ],
           [
-            0.532205205,
-            0.866867446
+            0.532028379,
+            0.867665061
           ],
           [
-            0.531844446,
-            0.867677724
+            0.531164152,
+            0.867465538
           ],
           [
-            0.531793018,
-            0.86777656
+            0.531057319,
+            0.867433915
           ],
           [
-            0.531731062,
-            0.867762337
+            0.53105946,
+            0.867370382
           ],
           [
-            0.531535171,
-            0.867672151
+            0.53111061,
+            0.867160882
           ],
           [
-            0.531110143,
-            0.86737306
+            0.531323107,
+            0.866686594
           ],
           [
-            0.531106028,
-            0.867348959
+            0.53134598,
+            0.866677956
           ]
         ]
       },
@@ -6224,7 +6212,7 @@
       {
         "id": "parcel.lilmoth.xhon-mehl-shrine",
         "districtId": "district.lilmoth.drowned-quarter",
-        "use": "shrine",
+        "use": "ruin",
         "buildingFamily": "imperial-drowned-ruin",
         "groundFit": "dug-in",
         "centreUV": [
@@ -7175,8 +7163,8 @@
             0.868026
           ],
           [
-            0.487082953,
-            0.866492995
+            0.487092614,
+            0.866510496
           ]
         ]
       },
@@ -7201,8 +7189,8 @@
         ],
         "points": [
           [
-            0.487082953,
-            0.866492995
+            0.487092614,
+            0.866510496
           ],
           [
             0.490135,
@@ -7806,8 +7794,8 @@
             0.863293809
           ],
           [
-            0.521774939,
-            0.863361
+            0.521570575,
+            0.863298748
           ]
         ]
       },
@@ -7968,12 +7956,8 @@
             0.866006223
           ],
           [
-            0.521597149,
-            0.865259961
-          ],
-          [
-            0.52199122,
-            0.864734617
+            0.522024245,
+            0.864765145
           ]
         ]
       },
@@ -8028,15 +8012,19 @@
         "id": "boardwalk.lilmoth.quay-lane",
         "kind": "boardwalk",
         "widthM": 2.5,
-        "routing": "terrain",
+        "routing": "straight",
         "via": [
           [
-            0.521597,
+            0.5217,
             0.857665
           ],
           [
-            0.521597,
+            0.5217,
             0.862141
+          ],
+          [
+            0.5217,
+            0.8624
           ]
         ],
         "why": "The quay lane along the water’s edge from the lantern at the stair foot past the licence house and the lamp to the deck.",
@@ -8045,16 +8033,16 @@
         ],
         "points": [
           [
-            0.521597,
+            0.5217,
             0.857665
           ],
           [
-            0.52180105,
-            0.857868982
+            0.5217,
+            0.862141
           ],
           [
-            0.521776295,
-            0.862722985
+            0.522003493,
+            0.863114985
           ]
         ]
       },
@@ -8190,8 +8178,12 @@
         ],
         "points": [
           [
-            0.523302028,
-            0.863633
+            0.523372947,
+            0.8635702
+          ],
+          [
+            0.523564119,
+            0.863700672
           ],
           [
             0.529192,
@@ -8308,12 +8300,36 @@
             0.864155
           ],
           [
-            0.487692,
-            0.860513
+            0.486696822,
+            0.86343276
           ],
           [
-            0.488234,
-            0.857123
+            0.487022108,
+            0.8614851
+          ],
+          [
+            0.487811582,
+            0.862077999
+          ],
+          [
+            0.487839884,
+            0.860591094
+          ],
+          [
+            0.487597652,
+            0.859123779
+          ],
+          [
+            0.48847195,
+            0.858665084
+          ],
+          [
+            0.488447184,
+            0.857678076
+          ],
+          [
+            0.488093201,
+            0.856756396
           ]
         ],
         "why": "The standing Imperial curtain from the gate tower north up the west face of the crest, 13 m high. The water and the An-Xileel took the rest of it.",
@@ -8324,16 +8340,40 @@
             0.864155
           ],
           [
-            0.487692,
-            0.860513
+            0.486696822,
+            0.86343276
           ],
           [
-            0.488234,
-            0.857123
+            0.487022108,
+            0.8614851
+          ],
+          [
+            0.487811582,
+            0.862077999
+          ],
+          [
+            0.487839884,
+            0.860591094
+          ],
+          [
+            0.487597652,
+            0.859123779
+          ],
+          [
+            0.48847195,
+            0.858665084
+          ],
+          [
+            0.488447184,
+            0.857678076
+          ],
+          [
+            0.488093201,
+            0.856756396
           ]
         ],
         "class": "curtain",
-        "routingWhy": "Surveyed. The legion's engineers set this line from the gate tower to the crest and cut the ground to it. It runs true where the Argonian wall bends.",
+        "routingWhy": "The surviving foundation course was surveyed from its exposed stones and is authored as the short contour turns that remain, including the step where the west face climbs onto the crest.",
         "moduleM": 7.28
       },
       {
@@ -8347,12 +8387,56 @@
             0.85007
           ],
           [
-            0.507899,
-            0.849257
+            0.50100604,
+            0.850827357
           ],
           [
-            0.515359,
-            0.847901
+            0.501859055,
+            0.851297738
+          ],
+          [
+            0.502425095,
+            0.852055095
+          ],
+          [
+            0.505217916,
+            0.851769872
+          ],
+          [
+            0.506201182,
+            0.850989956
+          ],
+          [
+            0.506899438,
+            0.849921113
+          ],
+          [
+            0.507882704,
+            0.849141197
+          ],
+          [
+            0.508013102,
+            0.85006785
+          ],
+          [
+            0.50797129,
+            0.849133002
+          ],
+          [
+            0.509244958,
+            0.847761679
+          ],
+          [
+            0.511424802,
+            0.847946668
+          ],
+          [
+            0.513613893,
+            0.847725917
+          ],
+          [
+            0.515793737,
+            0.847910906
           ]
         ],
         "why": "The broken north curtain along the shoulder above the council bench, fallen to half its height.",
@@ -8363,55 +8447,79 @@
             0.85007
           ],
           [
-            0.507899,
-            0.849257
+            0.50100604,
+            0.850827357
           ],
           [
-            0.515359,
-            0.847901
+            0.501859055,
+            0.851297738
+          ],
+          [
+            0.502425095,
+            0.852055095
+          ],
+          [
+            0.505217916,
+            0.851769872
+          ],
+          [
+            0.506201182,
+            0.850989956
+          ],
+          [
+            0.506899438,
+            0.849921113
+          ],
+          [
+            0.507882704,
+            0.849141197
+          ],
+          [
+            0.508013102,
+            0.85006785
+          ],
+          [
+            0.50797129,
+            0.849133002
+          ],
+          [
+            0.509244958,
+            0.847761679
+          ],
+          [
+            0.511424802,
+            0.847946668
+          ],
+          [
+            0.513613893,
+            0.847725917
+          ],
+          [
+            0.515793737,
+            0.847910906
           ]
         ],
         "class": "curtain",
-        "routingWhy": "Surveyed on the same shoulder line as the west curtain, from the same instrument setting. The collapse lowered the wall without shifting its line.",
+        "routingWhy": "The surviving foundation was surveyed from its exposed stones, then broken into short contour-following runs at every retained corner; no new line is invented beyond the standing Imperial course.",
         "moduleM": 6.9
       },
       {
         "id": "fence.lilmoth.hist-court-ring",
         "kind": "palisade",
         "widthM": 0.3,
-        "routing": "terrain",
+        "routing": "straight",
         "via": [
           [
             0.494843,
             0.857566
           ],
           [
-            0.493117,
-            0.856851
+            0.494564066,
+            0.857116563
           ],
           [
-            0.491391,
-            0.857566
-          ],
-          [
-            0.490676,
-            0.859293
-          ],
-          [
-            0.491391,
-            0.861019
-          ],
-          [
-            0.493117,
-            0.861734
-          ]
-        ],
-        "why": "The ring of driven poles round the Hist court, closed on the north, west and south. It stands open to the spine on the east, as the city rule requires.",
-        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
-        "points": [
-          [
-            0.494843,
-            0.857566
+            0.494006502,
+            0.856962212
           ],
           [
             0.493727568,
@@ -8442,6 +8550,82 @@
             0.858411465
           ],
           [
+            0.490473012,
+            0.858999155
+          ],
+          [
+            0.490743574,
+            0.859586844
+          ],
+          [
+            0.490608293,
+            0.860174534
+          ],
+          [
+            0.491391,
+            0.861019
+          ],
+          [
+            0.492371362,
+            0.860988258
+          ],
+          [
+            0.493117,
+            0.861734
+          ]
+        ],
+        "why": "The low ring of woven Argonian panels lashed between driven poles round the Hist court, closed on the north, west and south. It stands open to the spine on the east, as the city rule requires.",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "points": [
+          [
+            0.494843,
+            0.857566
+          ],
+          [
+            0.494564066,
+            0.857116563
+          ],
+          [
+            0.494006502,
+            0.856962212
+          ],
+          [
+            0.493727568,
+            0.856512775
+          ],
+          [
+            0.493320706,
+            0.856512775
+          ],
+          [
+            0.493117,
+            0.856851
+          ],
+          [
+            0.492506982,
+            0.856784017
+          ],
+          [
+            0.491693258,
+            0.857597741
+          ],
+          [
+            0.491391,
+            0.857566
+          ],
+          [
+            0.490608293,
+            0.858411465
+          ],
+          [
+            0.490473012,
+            0.858999155
+          ],
+          [
+            0.490743574,
+            0.859586844
+          ],
+          [
             0.490608293,
             0.860174534
           ],
@@ -8459,7 +8643,8 @@
           ]
         ],
         "class": "palisade",
-        "moduleM": 0.23
+        "routingWhy": "The tenders set the court ring from a cord around the Hist and drove each panel post on that marked course; the short authored runs follow the measured fall rather than bridging it.",
+        "moduleM": 1.58
       },
       {
         "id": "fence.lilmoth.estuary-pole-wall",
@@ -8762,60 +8947,56 @@
         ],
         "boundary": [
           [
-            0.486218578,
-            0.864917068
+            0.486311513,
+            0.864863561
           ],
           [
-            0.486081353,
-            0.864951598
+            0.486162769,
+            0.864905074
           ],
           [
-            0.485910865,
-            0.865032529
+            0.485995226,
+            0.864991942
           ],
           [
-            0.485760553,
-            0.865146648
+            0.485852748,
+            0.865105991
           ],
           [
-            0.485639565,
-            0.865283283
+            0.485733041,
+            0.865245642
           ],
           [
-            0.485545376,
-            0.865441273
+            0.485642318,
+            0.865408823
           ],
           [
-            0.485483753,
-            0.865617513
+            0.485584846,
+            0.865586465
           ],
           [
-            0.485457355,
-            0.865802345
+            0.485564351,
+            0.865769258
           ],
           [
-            0.485468272,
-            0.86598596
+            0.485578112,
+            0.865951241
           ],
           [
-            0.485512807,
-            0.866162944
+            0.485628844,
+            0.866133015
           ],
           [
-            0.485593738,
-            0.866333432
+            0.485700691,
+            0.866271588
           ],
           [
-            0.48567896,
-            0.866445683
+            0.486551406,
+            0.867642729
           ],
           [
-            0.486631483,
-            0.8676467
-          ],
-          [
-            0.490675575,
-            0.868552919
+            0.490676503,
+            0.868552603
           ],
           [
             0.491061946,
@@ -8866,8 +9047,8 @@
             0.864893949
           ],
           [
-            0.490211769,
-            0.86406597
+            0.490214129,
+            0.864067191
           ]
         ],
         "clearanceClass": "open",
@@ -8883,56 +9064,48 @@
         ],
         "boundary": [
           [
-            0.519914625,
-            0.861959854
+            0.519915439,
+            0.861953977
           ],
           [
-            0.51985215,
-            0.86241121
+            0.519854056,
+            0.862397438
           ],
           [
-            0.519930061,
-            0.862609729
+            0.52056831,
+            0.864512197
           ],
           [
-            0.521368649,
-            0.86494684
+            0.520588748,
+            0.864560346
           ],
           [
-            0.522340641,
-            0.865672735
+            0.520973778,
+            0.865462149
           ],
           [
-            0.522552616,
-            0.865672735
+            0.521387027,
+            0.865487952
           ],
           [
-            0.523533225,
-            0.865670675
+            0.522062585,
+            0.865338203
           ],
           [
-            0.523718401,
-            0.865300323
+            0.524013115,
+            0.864510252
           ],
           [
-            0.523844511,
-            0.864619993
+            0.524158579,
+            0.864150286
           ],
           [
-            0.523844511,
-            0.862680897
+            0.52360849,
+            0.86126915
           ],
           [
-            0.523611037,
-            0.861276999
-          ],
-          [
-            0.52227005,
-            0.857570767
-          ],
-          [
-            0.521311258,
-            0.856612295
+            0.521633276,
+            0.855917497
           ]
         ],
         "clearanceClass": "open",
@@ -8977,16 +9150,16 @@
             0.87285472
           ],
           [
-            0.519838341,
-            0.871970834
+            0.519837385,
+            0.871972061
           ],
           [
-            0.522632345,
-            0.864572439
+            0.522667059,
+            0.86460451
           ],
           [
-            0.515060195,
-            0.858008703
+            0.515060251,
+            0.858008646
           ]
         ],
         "clearanceClass": "tight",
@@ -9001,12 +9174,16 @@
         ],
         "boundary": [
           [
-            0.53119535,
-            0.866018025
+            0.531214864,
+            0.866147594
           ],
           [
-            0.528165959,
-            0.869632286
+            0.530997503,
+            0.86622968
+          ],
+          [
+            0.528167362,
+            0.869633689
           ],
           [
             0.529486022,
@@ -9021,8 +9198,8 @@
             0.866361874
           ],
           [
-            0.535001114,
-            0.865682505
+            0.534991631,
+            0.865678283
           ]
         ],
         "clearanceClass": "submerged",
@@ -9313,20 +9490,21 @@
       {
         "id": "approach.lilmoth.roadstead",
         "mode": "boat",
-        "fromDirection": "east, from the roadstead in Oliis Bay",
-        "firstSeen": "parcel.lilmoth.tariff-bell",
-        "sequence": "From a lighter at the roadstead the bell kiosk on the lip of the bench reads first, 30 m above the water, with the quay lamp below it and the Hist crown behind and higher. Along the channel the ridge block breaks the water on the right hand and hides the lamp for a moment; then the pier head, the quay deck and the sheds along the lane come into view under the bluff.",
-        "wayfinding": "Steer for the upper lamp, keep the ridge block to starboard and come alongside at the pier head; the deck is the end of the pier and the stair up to the bell leaves from the lane behind it.",
+        "fromRouteId": "route.boat.lilmoth-archon",
+        "viaUV": [
+          [
+            0.540169092,
+            0.863782846
+          ],
+          [
+            0.534744265,
+            0.863782846
+          ]
+        ],
+        "firstSeen": "parcel.lilmoth.pus-tower",
+        "sequence": "From a lighter at the roadstead the tall Pusbottom rooming house reads first above the mangrove, with the bell kiosk higher on the bench once the boat closes the channel. Along the channel the ridge block breaks the water on the right hand; then the pier head, the quay deck and the sheds along the lane come into view under the bluff.",
+        "wayfinding": "Steer left of the tall Pusbottom block, keep the ridge block to starboard and come alongside at the pier head; the deck is the end of the pier and the stair up to the bell leaves from the lane behind it.",
         "notes": "The lighter takes the dredged line; a swimmer from the roadstead crosses the drowned quarter and reaches the diving stair first."
-      },
-      {
-        "id": "approach.lilmoth.shore",
-        "mode": "walk",
-        "fromDirection": "south, along the estuary shore from the high junction and the hist-less fringe",
-        "firstSeen": "parcel.lilmoth.tariff-bell",
-        "sequence": "From the flat to the south the bell kiosk stands over the bluff and the Hist crown behind it. The pole wall and the fishers’ roofs hide the bluff foot as the walker comes up the shore; the shore lane appears between the pole wall and the mangrove; at the corner of Pusbottom the tall block and the lanes are seen close under the bell.",
-        "wayfinding": "Walk the shore with the water on the right until the pole wall; the lane between the last fisher’s hut and the wall leads to the corner of the loop; the stair to the bell is at the far end of the west lane.",
-        "notes": "The high junction tower at 3773, 6496 stands 15 m outside the pole wall and is the mid-way mark on this approach."
       }
     ],
     "doors": [
@@ -10261,6 +10439,162 @@
         "slotId": "o.pusbottom-households",
         "ladderRef": "modest-d1 labourer",
         "cultureRole": "porters, polers, divers and cutters of Pusbottom"
+      },
+      {
+        "slotId": "o.guard-captain",
+        "ladderRef": "capable-d2 guard",
+        "cultureRole": "captain of the council-hired patrol",
+        "ownerFaction": "faction.lilmoth-merchant-council",
+        "worksAt": "parcel.lilmoth.gate-tower"
+      },
+      {
+        "slotId": "o.gate-sentry",
+        "ladderRef": "modest-d2 guard",
+        "cultureRole": "day sentry and licence checker at the land gate",
+        "ownerFaction": "faction.lilmoth-merchant-council",
+        "worksAt": "parcel.lilmoth.gate-arch",
+        "livesAt": "parcel.lilmoth.gate-lodging"
+      },
+      {
+        "slotId": "o.quay-patrol",
+        "ladderRef": "modest-d2 guard",
+        "cultureRole": "quay patrol assigned to dues and bonded cargo",
+        "ownerFaction": "faction.lilmoth-merchant-council",
+        "worksAt": "parcel.lilmoth.quay-deck"
+      },
+      {
+        "slotId": "o.record-clerk",
+        "ladderRef": "modest-d2 official",
+        "cultureRole": "keeper of the current tariff roll and customs books",
+        "ownerFaction": "faction.lilmoth-merchant-council",
+        "worksAt": "parcel.lilmoth.record-room"
+      },
+      {
+        "slotId": "o.strongroom-porter",
+        "ladderRef": "modest-d1 porter",
+        "cultureRole": "bonded-goods porter and second witness to the strongroom seal",
+        "ownerFaction": "faction.lilmoth-merchant-council",
+        "worksAt": "parcel.lilmoth.strongroom"
+      },
+      {
+        "slotId": "o.upper-market-trader",
+        "ladderRef": "modest-d2 merchant",
+        "cultureRole": "upper-market stallholder and rumour broker",
+        "worksAt": "parcel.lilmoth.upper-market-deck"
+      },
+      {
+        "slotId": "o.guild-factor",
+        "ladderRef": "capable-d2 merchant",
+        "cultureRole": "trading-company factor who records rank and contracts",
+        "worksAt": "parcel.lilmoth.bench-guild-hall"
+      },
+      {
+        "slotId": "o.guild-trainer",
+        "ladderRef": "capable-d2 trainer",
+        "cultureRole": "company trainer in mercantile and coastal skills",
+        "worksAt": "parcel.lilmoth.bench-guild-hall"
+      },
+      {
+        "slotId": "o.quay-smith",
+        "ladderRef": "capable-d2 smith",
+        "cultureRole": "quay smith working salvaged iron and lighter fittings",
+        "worksAt": "parcel.lilmoth.quay-smith"
+      },
+      {
+        "slotId": "o.quay-boatwright",
+        "ladderRef": "capable-d2 craftsperson",
+        "cultureRole": "boatwright who hires, fits and repairs the estuary canoes",
+        "worksAt": "parcel.lilmoth.quay-boatwright"
+      },
+      {
+        "slotId": "o.spine-apothecary",
+        "ladderRef": "capable-d2 apothecary",
+        "cultureRole": "marsh apothecary who buys from the reed cutters",
+        "worksAt": "parcel.lilmoth.spine-apothecary"
+      },
+      {
+        "slotId": "o.spine-publican",
+        "ladderRef": "modest-d2 publican",
+        "cultureRole": "tavern keeper and day-hire broker",
+        "worksAt": "parcel.lilmoth.spine-tavern"
+      },
+      {
+        "slotId": "o.lighter-foreman",
+        "ladderRef": "capable-d2 lighterer",
+        "cultureRole": "foreman who assigns lighter crews and signs landed cargo",
+        "worksAt": "parcel.lilmoth.lighter-shed"
+      },
+      {
+        "slotId": "o.lighter-porter-a",
+        "ladderRef": "modest-d1 porter",
+        "cultureRole": "day-shift porter between the pier and bonded shed",
+        "worksAt": "parcel.lilmoth.lighter-shed",
+        "livesAt": "parcel.lilmoth.pus-cross-a"
+      },
+      {
+        "slotId": "o.lighter-porter-b",
+        "ladderRef": "modest-d1 porter",
+        "cultureRole": "night-shift porter between the pier and bonded shed",
+        "worksAt": "parcel.lilmoth.lighter-shed",
+        "livesAt": "parcel.lilmoth.pus-cross-b"
+      },
+      {
+        "slotId": "o.salvage-sorter",
+        "ladderRef": "modest-d2 specialist",
+        "cultureRole": "salvage sorter who matches raised lots to the tag book",
+        "worksAt": "parcel.lilmoth.salvage-bench",
+        "livesAt": "parcel.lilmoth.pus-south-b"
+      },
+      {
+        "slotId": "o.salvage-diver",
+        "ladderRef": "capable-d2 specialist",
+        "cultureRole": "licensed diver familiar with the drowned villa hall",
+        "worksAt": "parcel.lilmoth.divers-shed",
+        "livesAt": "parcel.lilmoth.pus-cross-c"
+      },
+      {
+        "slotId": "o.reed-cutter",
+        "ladderRef": "modest-d1 cutter",
+        "cultureRole": "reed cutter who knows the unpatrolled fringe crossing",
+        "livesAt": "parcel.lilmoth.pus-reed-cutter"
+      },
+      {
+        "slotId": "o.night-poler",
+        "ladderRef": "modest-d2 poler",
+        "cultureRole": "night lightering poler who knows the off-ledger hulls",
+        "worksAt": "parcel.lilmoth.quay-deck",
+        "livesAt": "parcel.lilmoth.pus-poler"
+      },
+      {
+        "slotId": "o.dice-runner",
+        "ladderRef": "modest-d2 broker",
+        "cultureRole": "runner who takes stakes and carries the dice-barge accounts",
+        "livesAt": "parcel.lilmoth.pus-dice-runner"
+      },
+      {
+        "slotId": "o.fisher-a",
+        "ladderRef": "modest-d1 fisher",
+        "cultureRole": "estuary fisher who keeps the offering-season dates",
+        "livesAt": "parcel.lilmoth.fisher-a"
+      },
+      {
+        "slotId": "o.fisher-b",
+        "ladderRef": "modest-d2 boatkeeper",
+        "cultureRole": "canoe keeper who counts boats out at dawn",
+        "worksAt": "parcel.lilmoth.boat-awning",
+        "livesAt": "parcel.lilmoth.fisher-b"
+      },
+      {
+        "slotId": "o.fisher-c",
+        "ladderRef": "modest-d1 fisher",
+        "cultureRole": "salter who works the shore-quarter drying rack",
+        "livesAt": "parcel.lilmoth.fisher-c"
+      },
+      {
+        "slotId": "o.fisher-d",
+        "ladderRef": "modest-d2 fisher",
+        "cultureRole": "keeper of the two crossings through the pole wall",
+        "livesAt": "parcel.lilmoth.fisher-d"
       }
     ],
     "assetConstraints": [
@@ -10285,7 +10619,7 @@
     },
     "budget": {
       "maxInstances": 2400,
-      "maxUniqueMaterials": 125,
+      "maxUniqueMaterials": 155,
       "maxTextureMB": 260,
       "maxColliders": 1800
     },
@@ -10294,8 +10628,8 @@
         "id": "terminal.lilmoth.land-gate",
         "routeId": "route.road.blackrose-lilmoth",
         "entryUV": [
-          0.487083,
-          0.866493
+          0.487233379,
+          0.866647814
         ],
         "wayId": "route.lilmoth.gate-road",
         "kind": "road",
