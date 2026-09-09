@@ -107,6 +107,14 @@ work that belongs to this session's goal.
    needs one control run: repeat the SLOW chain on unchanged sources and see
    whether those 36 move anyway.
 
+   **Six files are left dirty and they are the paused session's in-flight work**,
+   not a crash: `blueprint.py`, `compile_minor_routes.py`,
+   `compile_minor_waterways.py`, `hostility_frequency.py`, `site_fields.py`,
+   `street_router.py`. They all compile. They are the consumer batch described
+   in gap-plan B13 — the per-consumer season work and the marsh-credit deletion
+   — stopped part-way when the sessions were consolidated. Read B13 before
+   deciding whether to finish or discard them.
+
    **State of the tree at hand-over (2026-09-09 13:30).** The repo's
    `public/province` is the **verified-good build** (restored from git, water
    suite green when it was committed). The **vault's derived files are NOT** —
