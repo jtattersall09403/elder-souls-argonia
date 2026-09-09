@@ -3,7 +3,8 @@ import type { WaterMeta } from "../waterData";
 import type { WaterRuntime } from "./types";
 import { WATER_LAYER } from "./waterMaterial";
 import type { ChannelStrip } from "./ChannelStrips";
-import { WHITEWATER_GLSL, STREAK_LAYERS, streakSpeedGain } from "./whitewaterStreaks";
+import { WHITEWATER_GLSL, STREAK_LAYERS, streakSpeedGain,
+  FALLS_SHADOW_VERTEX_PARS, FALLS_SHADOW_VERTEX, FALLS_SHADOW_FRAGMENT_PARS } from "./whitewaterStreaks";
 import { PlungeBase, plungeBaseRadiusM } from "./PlungeBase";
 import { WaterfallMist, type WaterfallMistDiagnostics } from "./WaterfallMist";
 
@@ -77,6 +78,54 @@ export const SHEET_FOOT_DISSOLVE_M = 0.8;
  * streak-modulated `white`, so it is a property of the water, not of the noise.
  */
 export const SHEET_AERATED_OPACITY = 0.95;
+/**
+ * The jet's LATERAL profile — why the body stopped being a card.
+ *
+ * Measured before the change (twins, 25 m fall, mid-body): alpha was flat at
+ * 0.891–0.910 across the middle 40 % of the width, still 0.66 at 20 % in from
+ * either edge, and it moved by 2 % between streak noise 0.2 and 0.8. The
+ * strip a metre upstream swings 0.43 → 0.78 (81 %) over the same noise. Two
+ * surfaces of the same compiled width, one uniformly opaque and one broken
+ * up, read as very different widths: hence "a cream block two to three times
+ * wider than the river", with straight sides.
+ *
+ * The shape is not picked by eye. Flow leaving the lip is critical, so the
+ * discharge per unit width is q(u) ∝ h(u)^{3/2}; the transverse depth h across
+ * a channel falls to zero at the banks, which for the standard parabolic
+ * transverse profile gives h ∝ 1 − x² and hence q ∝ (1 − x²)^{3/2}. The
+ * falling jet's thickness is t = q / v, so it carries the same shape. Opacity
+ * is then Beer–Lambert on that thickness, `1 − exp(−K·t·aeration)`, with K set
+ * so a fully aerated core reaches `SHEET_AERATED_OPACITY` — not a flat floor.
+ *
+ * `SHEET_LIP_CONTRACTION`: the compiled width is the width at the FOOT (the
+ * mesh has to contain the widest part), so the jet is contracted to this
+ * fraction of it at the lip and spreads to full width as it aerates — the
+ * reference's "constrained at the lip, only slightly wider at the base".
+ * Mass conservation thins it by the same factor as it spreads.
+ *
+ * `SHEET_EDGE_BREAKUP`: a nappe's edges shear into filaments and droplets, so
+ * out there the coverage is fractional and time-varying — which is exactly
+ * what the streak field is. Its weight rides `1 − t`, so the core stays solid
+ * and the margins fizz at the strips' own amplitude.
+ */
+export const SHEET_OPTICAL_K = -Math.log(1 - SHEET_AERATED_OPACITY);
+export const SHEET_LIP_CONTRACTION = 0.7;
+export const SHEET_EDGE_BREAKUP = 1;
+/**
+ * Lateral twin of `aEndFade`: no drawn quad may END on a cut edge inside the
+ * jet. The stack already cross-fades along the ARC where pieces overlap; the
+ * same has to be true across the width, because a piece is only ever a lamina
+ * of the jet. Measured: the bright core layer (`SHEET_LAYERS[2]`,
+ * widthScale 0.55) stops at u = 0.775, where the jet profile is still 0.58
+ * thick — it drew its own hard-sided rectangle, inset a fifth of the width,
+ * as the BRIGHTEST layer. That is the straight vertical side. Each lamina now
+ * fades over the outer quarter of its own across-coordinate; the lateral
+ * copies overlap by 2x, so the plateau is unchanged where they add.
+ */
+export const SHEET_LATERAL_FADE = 0.25;
+/** The top edge of the sheet fades in over this much arc (it lies on the water
+ * `CREST_BACK_M` upstream of the lip), so the body has no straight top line. */
+export const SHEET_CREST_FEATHER_M = 0.6;
 /**
  * Aeration model (free flight). Air entrainment on a plunging jet grows with
  * how far the jet has travelled AND how fast it is going — the entrained
@@ -717,10 +766,39 @@ export function buildWaterfallSheetGeometry(
  * fragment shader compiles. Edit both or neither.
  * ------------------------------------------------------------------ */
 
-/** Across-width coverage: 1 down the middle, hard 0 at both edges. */
-export function sheetWidthProfile(u: number): number {
-  const x = Math.min(Math.max(u, 0), 1);
-  return smoothstep(0, 0.3, x) * smoothstep(1, 0.7, x);
+/** Jet width as a fraction of the compiled (foot) width: contracted at the
+ * lip, full width once aerated. */
+export function sheetJetSpread(aeration: number): number {
+  const t = clamp01((aeration - AERATION_LIP) / (AERATION_MAX - AERATION_LIP));
+  return SHEET_LIP_CONTRACTION + (1 - SHEET_LIP_CONTRACTION) * t;
+}
+
+/**
+ * Cross-stream jet thickness at across-coordinate `u`, normalised to 1 at the
+ * centre of an uncontracted jet: `(1 − x²)^{3/2}` over the jet's own width,
+ * thinned by the spread (mass conservation). Zero at and beyond the edges, so
+ * the mesh silhouette is never a cut line.
+ */
+export function sheetJetThickness(u: number, spread = 1): number {
+  const s = Math.max(spread, 1e-3);
+  const x = (clamp01(u) * 2 - 1) / s;
+  const h = 1 - x * x;
+  return h <= 0 ? 0 : Math.pow(Math.max(h, 0), 1.5) / s;
+}
+
+/**
+ * Optical coverage across the width: Beer–Lambert on the jet thickness, with
+ * the streak field weighted in as the thickness falls away (filament breakup).
+ */
+export function sheetCoverage(i: SheetSampleInput): number {
+  const remainM = i.remainM ?? SHEET_FOOT_FOAM_M;
+  const foot = 1 - smoothstep(SHEET_FOOT_DISSOLVE_M, SHEET_FOOT_FOAM_M, remainM);
+  const aeration = Math.max(sheetAeration(i), foot);
+  const t = sheetJetThickness(i.u, sheetJetSpread(aeration));
+  const noise = clamp01(i.noise ?? 0.5);
+  const breakup = clamp01(1 - t);
+  const texture = Math.max(1 + breakup * SHEET_EDGE_BREAKUP * (2 * noise - 1), 0);
+  return 1 - Math.exp(-SHEET_OPTICAL_K * t * aeration * texture);
 }
 
 function smoothstep(e0: number, e1: number, x: number): number {
@@ -754,6 +832,8 @@ export interface SheetSampleInput {
   opacity?: number;
   /** Metres of path left below this point (the foot dissolve); omitted = far from the foot. */
   remainM?: number;
+  /** Metres of arc from the top of the sheet (the crest feather); omitted = far from the crest. */
+  arcM?: number;
   /** Whiteness 0..1 (the shader's `white`); omitted = derived from the aeration. */
   white?: number;
 }
@@ -783,8 +863,13 @@ export function sheetAeration(i: Pick<SheetSampleInput, "free" | "speedMS" | "sl
 export function sheetWhiteness(i: SheetSampleInput): number {
   if (i.white !== undefined) return clamp01(i.white);
   const noise = clamp01(i.noise ?? 0.5);
-  const profile = sheetWidthProfile(i.u);
-  return clamp01(sheetAeration(i) * (0.85 + 0.15 * noise) * (0.92 + 0.08 * profile));
+  // Same material as the strips: at the core the streak field is texture on
+  // solid white water (0.85 + 0.15n), at the frayed margin it is the strips'
+  // own law (0.35 + 0.65n), blended by how thin the jet is here. Two surfaces
+  // that carry the same amplitude of the same noise read as one substance.
+  const breakup = clamp01(1 - sheetJetThickness(i.u, sheetJetSpread(sheetAeration(i))));
+  const streaked = (0.85 + 0.15 * noise) + breakup * ((0.35 + 0.65 * noise) - (0.85 + 0.15 * noise));
+  return clamp01(sheetAeration(i) * streaked);
 }
 
 /** Body albedo (linear RGB) at a whiteness: lit water → white as it aerates. */
@@ -814,19 +899,14 @@ export function sideStripPinchedU(u: number, frac: number): number {
 
 /** The fragment shader's alpha, minus tone mapping — the twin the tests read. */
 export function sheetAlpha(i: SheetSampleInput): number {
-  const profile = sheetWidthProfile(i.u);
-  const noise = clamp01(i.noise ?? 0.5);
   const l = Math.min(Math.max(Math.round(i.layer), 0), SHEET_LAYER_ALPHA.length - 1);
   const remainM = i.remainM ?? SHEET_FOOT_FOAM_M;
-  const foot = 1 - smoothstep(SHEET_FOOT_DISSOLVE_M, SHEET_FOOT_FOAM_M, remainM);
-  const aeration = sheetAeration(i);
-  // The opacity floor is a property of the WATER (how aerated it is), not of
-  // the animated noise: the old floor rode `white`, which is aeration knocked
-  // down by the streak term and the width profile, so a fully aerated body
-  // could sit at half opacity over the cliff.
-  let alpha = (i.opacity ?? 1) * profile * Math.max(0.55 + 0.45 * noise, SHEET_AERATED_OPACITY * aeration, foot)
-    * SHEET_LAYER_ALPHA[l];
+  // Opacity is Beer–Lambert on the jet's own cross-stream thickness — dense
+  // core, feathering to nothing at the edges — not a flat aeration floor
+  // spread edge to edge across the compiled width.
+  let alpha = (i.opacity ?? 1) * sheetCoverage(i) * SHEET_LAYER_ALPHA[l];
   alpha *= smoothstep(0, SHEET_FOOT_DISSOLVE_M, remainM);
+  if (i.arcM !== undefined) alpha *= smoothstep(0, SHEET_CREST_FEATHER_M, i.arcM);
   // faces seen edge-on fade out (no hard silhouette cut)
   alpha *= smoothstep(SHEET_FACING_FADE.start, SHEET_FACING_FADE.full, i.facing ?? 1);
   // Soft particle, but only where there IS air behind the sheet. Water running
@@ -844,9 +924,23 @@ function clamp01(v: number): number { return Math.min(Math.max(v, 0), 1); }
 
 /** Compiled into the fragment shader; twin of the functions above. */
 export const SHEET_PROFILE_GLSL = /* glsl */ `
-float esSheetWidthProfile(float u){
-  float x = clamp(u, 0.0, 1.0);
-  return smoothstep(0.0, 0.3, x) * smoothstep(1.0, 0.7, x);
+// KEEP IN LOCKSTEP with sheetJetSpread / sheetJetThickness / sheetCoverage
+float esSheetJetSpread(float aeration){
+  float t = clamp((aeration - ${AERATION_LIP.toFixed(2)})
+    / ${(AERATION_MAX - AERATION_LIP).toFixed(2)}, 0.0, 1.0);
+  return mix(${SHEET_LIP_CONTRACTION.toFixed(2)}, 1.0, t);
+}
+float esSheetJetThickness(float u, float spread){
+  float s = max(spread, 1e-3);
+  float x = (clamp(u, 0.0, 1.0) * 2.0 - 1.0) / s;
+  float h = 1.0 - x * x;
+  return h <= 0.0 ? 0.0 : pow(max(h, 0.0), 1.5) / s;
+}
+float esSheetCoverage(float u, float aeration, float noise){
+  float t = esSheetJetThickness(u, esSheetJetSpread(aeration));
+  float breakup = clamp(1.0 - t, 0.0, 1.0);
+  float texture_ = max(1.0 + breakup * ${SHEET_EDGE_BREAKUP.toFixed(2)} * (2.0 * clamp(noise, 0.0, 1.0) - 1.0), 0.0);
+  return 1.0 - exp(-${SHEET_OPTICAL_K.toFixed(4)} * t * aeration * texture_);
 }
 float esSheetAeration(float free, float speed, float fallenM, float slope){
   float jet = ${AERATION_LIP.toFixed(2)} + ${(AERATION_MAX - AERATION_LIP).toFixed(2)}
@@ -896,7 +990,7 @@ varying vec2 vPieceUv;
 varying float vEndFade;
 varying vec3 vWorldPos;
 uniform float uVerticalScale;
-#include <common>
+${FALLS_SHADOW_VERTEX_PARS}
 void main() {
   vSheetUv = aSheetUv;
   vPiece = aPiece;
@@ -909,8 +1003,9 @@ void main() {
   vAir = aAir;
   vSlope = aSlope;
   vec3 transformed = vec3(position.x, position.y * uVerticalScale, position.z);
-  #include <worldpos_vertex>
-  vWorldPos = (modelMatrix * vec4(transformed, 1.0)).xyz;
+  vec3 esShadowVertex = transformed;
+  ${FALLS_SHADOW_VERTEX}
+  vWorldPos = worldPosition.xyz;
   vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.0);
   gl_Position = projectionMatrix * mvPosition;
 }
@@ -942,6 +1037,7 @@ uniform float uOpacity;
 uniform float uUnderwater;
 uniform float uSurfaceY;
 #include <common>
+${FALLS_SHADOW_FRAGMENT_PARS}
 ${WHITEWATER_GLSL}
 ${SHEET_PROFILE_GLSL}
 
@@ -962,9 +1058,6 @@ void main() {
   float foam;
   float streak = esWhitewater(sideStrip ? u : vPieceUv.x, sideStrip ? arc : pieceArc, uTime + vPiece.z, gain, vFrac, foam);
 
-  // Across-width profile: opaque whitewater down the middle, smoothly gone at
-  // both edges. Colour AND alpha ride it.
-  float profile = esSheetWidthProfile(vSheetUv.x);
   // Aeration: free flight entrains air with the distance fallen; a chute is
   // aerated by local speed and steepness instead, so it stays white end to end.
   float freeHere = step(0.15, vAir);
@@ -974,12 +1067,19 @@ void main() {
   float aeration = esSheetAeration(freeHere, vSpeed, fallenM, vSlope);
   // crest wrap: foam to ~1 over the wrap and the first 1.5 m past the lip
   float crest = esSheetCrest(arc);
-  float white = clamp(aeration * (0.85 + 0.15 * streak) * mix(0.92, 1.0, profile), 0.0, 1.0);
-  white = max(white, crest * (0.75 + 0.25 * foam));
   // the impact zone: solid white over the last metres of arc (arc / frac = the whole path)
   float remainM = arc * (1.0 / max(vFrac, 1e-3) - 1.0);
   float foot = 1.0 - smoothstep(${SHEET_FOOT_DISSOLVE_M.toFixed(2)}, ${SHEET_FOOT_FOAM_M.toFixed(2)}, remainM);
-  white = max(white, foot);
+  aeration = max(aeration, foot);
+  // Cross-stream jet thickness: the body is a ribbon with a dense core that
+  // feathers to nothing at both edges, not a slab the full compiled width.
+  float jetT = esSheetJetThickness(vSheetUv.x, esSheetJetSpread(aeration));
+  float breakup = clamp(1.0 - jetT, 0.0, 1.0);
+  // Same material as the strips: streak texture on solid white at the core,
+  // the strips' own 0.35 + 0.65 amplitude out where the nappe frays.
+  float white = clamp(aeration * mix(0.85 + 0.15 * streak, 0.35 + 0.65 * streak, breakup), 0.0, 1.0);
+  white = max(white, crest * (0.75 + 0.25 * foam));
+  white = max(white, foot * (1.0 - breakup));
   // Unlit aerated shading (research §2.4): emissive white x1.0 in free fall,
   // x0.75 on a chute reach; no normal term, no refraction, no shore terms.
   // The sky + sun irradiance scales it so the HDR frame exposes it like foam.
@@ -993,17 +1093,25 @@ void main() {
   // Lit like the white water it is: the shared irradiance (whitewaterStreaks)
   // undoes the runtime's aerial feed scaling, so the fall, its pool foam, its
   // mist and the strip whitewater upstream all expose as one thing.
-  vec3 color = albedo * esFallsIrradiance(uAmbient, uSunLight, uSunDir);
+  // the fall takes the scene's own sun shadow (CSM cascades): a gorge fall is
+  // not lit as if it stood in open sun. upness 0 = a near-vertical body.
+  vec3 color = albedo * esFallsIrradianceG(uAmbient, uSunLight, uSunDir, 0.0, esFallsSunVisibility());
 
   float noise = clamp(streak + churn * 0.6, 0.0, 1.0);
-  // aerated water is opaque: the floor rides the AERATION (a property of the
-  // water), not white (which the streak field and the width profile knock down)
-  float alpha = uOpacity * profile * max(max(0.55 + 0.45 * noise, ${SHEET_AERATED_OPACITY.toFixed(2)} * aeration), foot)
-    * esSheetLayerAlpha(vLayer);
+  // Beer–Lambert on the jet's own thickness: an opaque core, feathering into
+  // spray at both margins where the streak field carries the coverage. A flat
+  // aeration floor across the compiled width is what made this read as a card.
+  float alpha = uOpacity * esSheetCoverage(vSheetUv.x, aeration, noise) * esSheetLayerAlpha(vLayer);
   // dissolve into the plunge over the last metres of arc, and cross-fade
   // across each piece overlap (a third of a piece) so the stack reads as one
   alpha *= smoothstep(0.0, ${SHEET_FOOT_DISSOLVE_M.toFixed(2)}, remainM);
+  // no straight top line: the sheet's top edge lies on the water upstream of
+  // the lip, so it fades in over its first metre of arc
+  alpha *= smoothstep(0.0, ${SHEET_CREST_FEATHER_M.toFixed(2)}, arc);
   alpha *= vEndFade;
+  // ...and its lateral twin: a lamina never ends on a cut edge inside the jet
+  // (not the spray strips: their inner edge abuts the sheet and must not gap)
+  if (!sideStrip) alpha *= smoothstep(0.0, ${SHEET_LATERAL_FADE.toFixed(2)}, min(vPieceUv.x, 1.0 - vPieceUv.x));
   // view-angle falloff (measured 0.42/0.09): edge-on faces fade instead of
   // showing the silhouette as a hard cut
   vec3 faceN = normalize(cross(dFdx(vWorldPos), dFdy(vWorldPos)));
@@ -1247,14 +1355,21 @@ export class WaterfallSheets {
       uStreakTex: { value: tex.sheet ?? null },
     };
     this.material = new THREE.ShaderMaterial({
-      uniforms: this.uniforms as unknown as Record<string, THREE.IUniform>,
+      // `lights: true` is what brings three's directional-light SHADOW block
+      // into an otherwise unlit shader: the kit does its own (aerated,
+      // normal-free) shading but reads the scene's CSM cascades for sun
+      // visibility, so a fall in a shaded gorge is shaded (whitewaterStreaks
+      // `FALLS_SHADOW_*`). No light chunk is evaluated.
+      uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.lights]) as Record<string, THREE.IUniform>,
       vertexShader: SHEET_VERTEX,
       fragmentShader: SHEET_FRAGMENT,
       defines: tex.sheet ? { ES_STREAK_TEX: 1 } : {},
+      lights: true,
       transparent: true,
       depthWrite: false,
       side: THREE.DoubleSide,
     });
+    Object.assign(this.material.uniforms, this.uniforms);
     applyAerial(this.material);
     this.material.customProgramCacheKey = () => `es-waterfall-sheet${tex.sheet ? "-tex" : ""}`;
     this.mesh = new THREE.Mesh(built.geometry, this.material);

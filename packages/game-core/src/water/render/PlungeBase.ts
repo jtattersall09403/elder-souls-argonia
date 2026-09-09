@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import type { WaterRuntime } from "./types";
 import { WATER_LAYER } from "./waterMaterial";
-import { WHITEWATER_GLSL } from "./whitewaterStreaks";
+import { WHITEWATER_GLSL, FALLS_SHADOW_VERTEX_PARS, FALLS_SHADOW_VERTEX,
+  FALLS_SHADOW_FRAGMENT_PARS } from "./whitewaterStreaks";
 
 /**
  * The base of a waterfall as GEOMETRY, not particles (research
@@ -178,12 +179,14 @@ varying vec2 vBaseFade;
 varying vec2 vLocal;
 uniform float uVerticalScale;
 uniform float uLift;
-#include <common>
+${FALLS_SHADOW_VERTEX_PARS}
 void main() {
   vBaseUv = aBaseUv;
   vBaseFade = aBaseFade;
   vLocal = aBaseLocal;
   vec3 transformed = vec3(position.x, (position.y + uLift) * uVerticalScale, position.z);
+  vec3 esShadowVertex = transformed;
+  ${FALLS_SHADOW_VERTEX}
   vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.0);
   gl_Position = projectionMatrix * mvPosition;
 }
@@ -206,6 +209,7 @@ uniform float uCamFar;
 uniform vec2 uResolution;
 uniform float uOpacity;
 #include <common>
+${FALLS_SHADOW_FRAGMENT_PARS}
 ${WHITEWATER_GLSL}
 void main() {
   // streaks scroll OUTWARD from the impact: aBaseUv.y is metres from it
@@ -231,7 +235,8 @@ void main() {
   }
   if (alpha < 0.004) discard;
   vec3 color = vec3(${BASE_EMISSIVE.toFixed(2)}) * (0.8 + 0.2 * foam)
-    * esFallsIrradiance(uAmbient, uSunLight, uSunDir);
+    // pool foam is a HORIZONTAL body (upness 1) and takes the scene's sun shadow
+    * esFallsIrradianceG(uAmbient, uSunLight, uSunDir, 1.0, esFallsSunVisibility());
   gl_FragColor = vec4(color, alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -272,7 +277,10 @@ export class PlungeBase {
       uStreakTex: { value: options.streakTexture ?? null },
     };
     this.material = new THREE.ShaderMaterial({
-      uniforms: this.uniforms,
+      // lights: true only to pull in three's directional SHADOW block — see
+      // whitewaterStreaks `FALLS_SHADOW_*`; no light chunk is evaluated.
+      uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.lights]) as Record<string, THREE.IUniform>,
+      lights: true,
       vertexShader: BASE_VERTEX,
       fragmentShader: BASE_FRAGMENT,
       defines: options.streakTexture ? { ES_STREAK_TEX: 1 } : {},
@@ -280,6 +288,7 @@ export class PlungeBase {
       depthWrite: false,
       side: THREE.DoubleSide,
     });
+    Object.assign(this.material.uniforms, this.uniforms);
     applyAerial(this.material);
     this.material.customProgramCacheKey = () => `es-plunge-base${options.streakTexture ? "-tex" : ""}`;
     this.mesh = new THREE.Mesh(built.geometry, this.material);

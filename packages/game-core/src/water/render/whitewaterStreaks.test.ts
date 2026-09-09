@@ -106,13 +106,27 @@ describe("whitewater streak layers (vault audit §4, research §2.3)", () => {
     const sun = [0.4, 0.36, 0.3];
     const e = fallsIrradiance(amb, sun, 1);
     for (let i = 0; i < 3; i++) {
-      expect(e[i]).toBeCloseTo((amb[i] / AERIAL_SKY_FEED_SCALE + sun[i] / AERIAL_SUN_FEED_SCALE) / Math.PI, 9);
-      // and it is several times what the raw feeds gave
+      // it is several times what the raw feeds gave
       expect(e[i]).toBeGreaterThan((amb[i] + sun[i]) * 2);
     }
+    // The LEVEL is the same one the flat 0.55 + 0.45 sunY form was calibrated
+    // to (the visible face of an optically thick multiple-scattering body);
+    // only the sun/sky BALANCE changed, so the luminance is preserved exactly.
+    const lum = (v: readonly number[]) => 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+    const flat = [0, 1, 2].map((i) => (amb[i] / AERIAL_SKY_FEED_SCALE + sun[i] / AERIAL_SUN_FEED_SCALE) / Math.PI);
+    expect(lum(e)).toBeCloseTo(lum(flat), 9);
+    // A vertical sheet sees the beam through cos(elevation) and half the sky,
+    // so at a high sun it is COOLER (less of the warm direct, relatively) than
+    // the flat form; the horizontal pool foam (upness 1) is not.
+    const chroma = (v: readonly number[]) => v[2] / v[0];
+    expect(chroma(e)).toBeGreaterThan(chroma(flat));
+    expect(chroma(fallsIrradiance(amb, sun, 1, 1))).toBeCloseTo(chroma(flat), 3);
+    // shadow darkens: a fall in a shaded gorge is not lit as if in open sun
+    expect(lum(fallsIrradiance(amb, sun, 1, 0, 0.25))).toBeLessThan(lum(e) * 0.6);
+    expect(fallsIrradiance(amb, sun, 1, 0, 0)[0]).toBeLessThan(e[0]);
     // night (sun below the horizon) still leaves the sky term
-    expect(fallsIrradiance(amb, [0, 0, 0], -1)[0]).toBeCloseTo(amb[0] / AERIAL_SKY_FEED_SCALE / Math.PI, 9);
-    expect(WHITEWATER_GLSL).toContain("vec3 esFallsIrradiance(");
+    expect(fallsIrradiance(amb, [0, 0, 0], -1)[0]).toBeGreaterThan(0);
+    expect(WHITEWATER_GLSL).toContain("vec3 esFallsIrradianceG(");
     expect(WHITEWATER_GLSL).toContain(`ambient / ${AERIAL_SKY_FEED_SCALE.toFixed(2)}`);
     expect(WHITEWATER_GLSL).toContain(`sunLight / ${AERIAL_SUN_FEED_SCALE.toFixed(2)}`);
   });

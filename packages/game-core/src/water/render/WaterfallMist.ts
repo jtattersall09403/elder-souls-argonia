@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import type { WaterRuntime } from "./types";
 import { WATER_LAYER } from "./waterMaterial";
-import { WHITEWATER_GLSL } from "./whitewaterStreaks";
+import { WHITEWATER_GLSL, FALLS_SHADOW_VERTEX_PARS, FALLS_SHADOW_VERTEX,
+  FALLS_SHADOW_FRAGMENT_PARS } from "./whitewaterStreaks";
 import { FOAM_FIELD_GLSL } from "./FoamField";
 import { plungeBaseRadiusM, type PlungeSite } from "./PlungeBase";
 
@@ -324,14 +325,16 @@ varying float vSize;
 varying vec3 vWorldPos;
 uniform float uVerticalScale;
 uniform float uLift;
-#include <common>
+${FALLS_SHADOW_VERTEX_PARS}
 void main() {
   vUvL = aMistUv;
   vKind = aMistKind;
   vFade = aMistFade;
   vSize = aMistSize;
   vec3 transformed = vec3(position.x, (position.y + uLift) * uVerticalScale, position.z);
-  vWorldPos = (modelMatrix * vec4(transformed, 1.0)).xyz;
+  vec3 esShadowVertex = transformed;
+  ${FALLS_SHADOW_VERTEX}
+  vWorldPos = worldPosition.xyz;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
 }
 `;
@@ -362,6 +365,7 @@ uniform sampler2D uMistTex;
 uniform sampler2D uSkirtTex;
 #endif
 #include <common>
+${FALLS_SHADOW_FRAGMENT_PARS}
 ${WHITEWATER_GLSL}
 ${FOAM_FIELD_GLSL}
 // the vanilla mist textures are greyscale with the cloud in ALPHA
@@ -440,7 +444,8 @@ void main() {
   }
   if (alpha < 0.004) discard;
   vec3 color = vec3(emissive) * (0.85 + 0.15 * cov)
-    * esFallsIrradiance(uAmbient, uSunLight, uSunDir);
+    // a drifting puff is neither a vertical sheet nor a flat pool (upness 0.5)
+    * esFallsIrradianceG(uAmbient, uSunLight, uSunDir, 0.5, esFallsSunVisibility());
   gl_FragColor = vec4(color, alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -494,7 +499,10 @@ export class WaterfallMist {
       uFoamFieldInfo: { value: new THREE.Vector4(0, 0, 512, 0) },
     };
     this.material = new THREE.ShaderMaterial({
-      uniforms: this.uniforms,
+      // lights: true only to pull in three's directional SHADOW block — see
+      // whitewaterStreaks `FALLS_SHADOW_*`; no light chunk is evaluated.
+      uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.lights]) as Record<string, THREE.IUniform>,
+      lights: true,
       vertexShader: MIST_VERTEX,
       fragmentShader: MIST_FRAGMENT,
       defines: this.defines(),
@@ -502,6 +510,7 @@ export class WaterfallMist {
       depthWrite: false,
       side: THREE.DoubleSide,
     });
+    Object.assign(this.material.uniforms, this.uniforms);
     applyAerial(this.material);
     this.material.customProgramCacheKey = () => this.cacheKey();
     this.mesh = new THREE.Mesh(built.geometry, this.material);

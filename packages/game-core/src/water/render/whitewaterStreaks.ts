@@ -127,28 +127,143 @@ export const AERIAL_SKY_FEED_SCALE = 0.1;
 export const AERIAL_SUN_FEED_SCALE = 0.06;
 
 /**
- * Irradiance for the aerated-white waterfall kit (TS twin of
- * `esFallsIrradiance`). The sun keeps the kit's existing elevation weight —
- * the body has no normal, so `0.55 + 0.45 * sunY` stands in for N·L on a
- * near-vertical sheet: full when the sun is overhead, never zero, because a
- * white body is lit by multiple scattering from every direction.
+ * Sun/sky BALANCE for the falls kit, and why it is not one number.
+ *
+ * The old form weighted the direct sun `0.55 + 0.45 * sunY` — MAXIMUM when
+ * the sun is overhead. For the pool foam (a horizontal surface) that is
+ * right. For the sheet, a near-vertical body, it is backwards: a vertical
+ * face sees the beam through cos(elevation), so at noon it receives least
+ * direct sun, not most. The sheet was therefore painted with the midday sun's
+ * own colour at full strength while the blue sky term contributed a tenth of
+ * the total — measured at noon (lightRig, warmthBias 1): sky illuminance
+ * [9.0k, 12.4k, 20.0k] against a direct [93.3k, 58.0k, 26.8k], giving the body
+ * a chromaticity of [1.00, 0.69, 0.46]. That is the cream/ivory the owner
+ * reported; the kit's own albedo is neutral white throughout.
+ *
+ * `upness` is the body's geometry, 0 = a vertical sheet, 1 = a horizontal
+ * pool. It selects three view factors:
+ *   - sky:    a vertical surface sees half the sky hemisphere, a horizontal
+ *             one all of it (0.5 → 1.0);
+ *   - sun:    a cloud of droplets is a sphere, so it intercepts E_n / 4 —
+ *             `sunLight` carries the HORIZONTAL direct illuminance E_n·sinAlt,
+ *             hence `0.25 / sunY`; a horizontal surface takes it as given;
+ *   - bounce: the half of a vertical body's view that is sunlit GROUND
+ *             returns the total horizontal illuminance times a rock/water
+ *             albedo; a horizontal body sees none of it.
+ *
+ * The MAGNITUDE is then renormalised to the level the old form produced,
+ * because that level is the calibrated exposure of an optically thick
+ * multiple-scattering body (the visible face of a whitewater curtain is
+ * brighter than any single-bounce Lambert term predicts, which is why a fall
+ * reads as bright as its own pool foam and not the ~0.4x that a flat vertical
+ * Lambertian would). Renormalising against the UNSHADOWED balance leaves
+ * `sunVisibility` free to darken a shaded fall.
  */
-export function fallsIrradiance(ambient: readonly number[], sunLight: readonly number[], sunDirY: number): [number, number, number] {
-  const sun = 0.55 + 0.45 * Math.min(Math.max(sunDirY, 0), 1);
-  return [0, 1, 2].map((i) =>
-    (ambient[i] / AERIAL_SKY_FEED_SCALE + (sunLight[i] / AERIAL_SUN_FEED_SCALE) * sun) / Math.PI,
-  ) as [number, number, number];
+export const FALLS_GROUND_ALBEDO = 0.22;
+export const FALLS_SPHERE_INTERCEPT = 0.25;
+/** Sun elevation floor for the sphere intercept — a grazing sun is not infinite. */
+export const FALLS_MIN_SUN_Y = 0.15;
+const LUM = [0.2126, 0.7152, 0.0722] as const;
+
+/**
+ * Irradiance for the aerated-white waterfall kit (TS twin of
+ * `esFallsIrradiance`). `upness` 0 = vertical sheet, 1 = horizontal pool foam;
+ * `sunVisibility` 0..1 is the shadow term (1 = open sun).
+ */
+export function fallsIrradiance(ambient: readonly number[], sunLight: readonly number[], sunDirY: number,
+  upness = 0, sunVisibility = 1): [number, number, number] {
+  const up = Math.min(Math.max(upness, 0), 1);
+  const vis = Math.min(Math.max(sunVisibility, 0), 1);
+  const sunY = Math.min(Math.max(sunDirY, FALLS_MIN_SUN_Y), 1);
+  const skyView = 0.5 + 0.5 * up;
+  const sunView = FALLS_SPHERE_INTERCEPT / sunY + (1 - FALLS_SPHERE_INTERCEPT / sunY) * up;
+  const bounce = (1 - up) * 0.5 * FALLS_GROUND_ALBEDO;
+  const sky = [0, 1, 2].map((i) => ambient[i] / AERIAL_SKY_FEED_SCALE);
+  const sun = [0, 1, 2].map((i) => sunLight[i] / AERIAL_SUN_FEED_SCALE);
+  const balance = (v: number) => [0, 1, 2].map((i) =>
+    sky[i] * skyView + sun[i] * sunView * v + (sky[i] + sun[i] * v) * bounce);
+  const flat = [0, 1, 2].map((i) => sky[i] + sun[i] * (0.55 + 0.45 * Math.min(Math.max(sunDirY, 0), 1)));
+  const full = balance(1);
+  const lum = (v: number[]) => LUM[0] * v[0] + LUM[1] * v[1] + LUM[2] * v[2];
+  const k = lum(flat) / Math.max(lum(full), 1e-4);
+  return balance(vis).map((v) => (v * k) / Math.PI) as [number, number, number];
 }
+
+/**
+ * CSM sun visibility for the falls kit.
+ *
+ * The kit is unlit `ShaderMaterial` outside CSM, so before this a fall at the
+ * bottom of a shaded gorge was lit as if it stood in open sun (probe: the
+ * `fall-gorge` body measured x2.10 of the water around it, which IS shadowed).
+ * `CSM.setupMaterial` cannot help — it patches `<lights_fragment_begin>`,
+ * a chunk an unlit shader does not have — but the shadow maps themselves are
+ * plain directional-light shadows in three's own uniform block, so the kit
+ * takes them directly: `lights: true` on the material, three's shadow chunks
+ * included, and the cascade chosen as the first one this fragment falls
+ * inside (self-contained: it needs none of CSM's private `CSM_cascades`).
+ */
+export const FALLS_SHADOW_VERTEX_PARS = /* glsl */ `
+#include <common>
+#include <shadowmap_pars_vertex>
+`;
+/** Call with the object-space vertex; declares `worldPosition` for the chunk. */
+export const FALLS_SHADOW_VERTEX = /* glsl */ `
+  vec4 worldPosition = modelMatrix * vec4(esShadowVertex, 1.0);
+  #include <shadowmap_vertex>
+`;
+export const FALLS_SHADOW_FRAGMENT_PARS = /* glsl */ `
+#include <packing>
+#include <shadowmap_pars_fragment>
+float esFallsSunVisibility(){
+  float esVis = 1.0;
+#if defined( USE_SHADOWMAP ) && NUM_DIR_LIGHT_SHADOWS > 0
+  // three unrolls this into straight-line code in ONE scope, so nothing may
+  // be declared inside the body; esDone keeps the first cascade that
+  // contains the fragment (the near cascade is first) instead of the last.
+  vec3 esSc;
+  float esDone = 0.0;
+  #pragma unroll_loop_start
+  for ( int i = 0; i < NUM_DIR_LIGHT_SHADOWS; i ++ ) {
+    esSc = vDirectionalShadowCoord[ i ].xyz / vDirectionalShadowCoord[ i ].w;
+    if ( esDone < 0.5 && all( greaterThanEqual( esSc, vec3( 0.0 ) ) ) && all( lessThanEqual( esSc, vec3( 1.0 ) ) ) ) {
+      esDone = 1.0;
+      esVis = getShadow( directionalShadowMap[ i ], directionalLightShadows[ i ].shadowMapSize,
+        directionalLightShadows[ i ].shadowIntensity, directionalLightShadows[ i ].shadowBias,
+        directionalLightShadows[ i ].shadowRadius, vDirectionalShadowCoord[ i ] );
+    }
+  }
+  #pragma unroll_loop_end
+#endif
+  return esVis;
+}
+`;
 
 /** Compiled into the sheet, base and strip fragment shaders. Twin of the
  * functions above: `esStreakUv(layer, u, arcM, t, gain, wobbleScale)`. */
 export const WHITEWATER_GLSL = /* glsl */ `
 #ifndef ES_WHITEWATER_GLSL
 #define ES_WHITEWATER_GLSL 1
+// KEEP IN LOCKSTEP with fallsIrradiance(): upness 0 = vertical sheet, 1 =
+// horizontal pool foam; vis = sun visibility (shadow), 1 = open sun.
+vec3 esFallsIrradianceG(vec3 ambient, vec3 sunLight, vec3 sunDir, float upness, float vis){
+  float up = clamp(upness, 0.0, 1.0);
+  float v = clamp(vis, 0.0, 1.0);
+  float sunY = clamp(sunDir.y, ${FALLS_MIN_SUN_Y.toFixed(2)}, 1.0);
+  float skyView = 0.5 + 0.5 * up;
+  float sunSphere = ${FALLS_SPHERE_INTERCEPT.toFixed(2)} / sunY;
+  float sunView = mix(sunSphere, 1.0, up);
+  float bounce = (1.0 - up) * 0.5 * ${FALLS_GROUND_ALBEDO.toFixed(2)};
+  vec3 sky = ambient / ${AERIAL_SKY_FEED_SCALE.toFixed(2)};
+  vec3 sun = sunLight / ${AERIAL_SUN_FEED_SCALE.toFixed(2)};
+  vec3 full = sky * skyView + sun * sunView + (sky + sun) * bounce;
+  vec3 lit  = sky * skyView + sun * sunView * v + (sky + sun * v) * bounce;
+  vec3 flat_ = sky + sun * (0.55 + 0.45 * clamp(sunDir.y, 0.0, 1.0));
+  const vec3 LUM = vec3(0.2126, 0.7152, 0.0722);
+  float k = dot(flat_, LUM) / max(dot(full, LUM), 1e-4);
+  return lit * k * RECIPROCAL_PI;
+}
 vec3 esFallsIrradiance(vec3 ambient, vec3 sunLight, vec3 sunDir){
-  float sun = 0.55 + 0.45 * clamp(sunDir.y, 0.0, 1.0);
-  return (ambient / ${AERIAL_SKY_FEED_SCALE.toFixed(2)}
-    + (sunLight / ${AERIAL_SUN_FEED_SCALE.toFixed(2)}) * sun) * RECIPROCAL_PI;
+  return esFallsIrradianceG(ambient, sunLight, sunDir, 0.0, 1.0);
 }
 const vec3 ES_STREAK_TILE = vec3(${STREAK_LAYERS.map((l) => l.tileM.toFixed(2)).join(", ")});
 const vec3 ES_STREAK_RATE = vec3(${STREAK_LAYERS.map((l) => l.rateMS.toFixed(2)).join(", ")});

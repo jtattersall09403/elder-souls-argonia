@@ -7,10 +7,10 @@ import {
   MAX_CHUTE_SPEED_MS, MAX_TRACE_RUN_M, MAX_TRACE_STEPS, MIN_LIP_SPEED_MS, MIN_QUAD_LENGTH_M, SHEET_DEPTH_FADE_M, SHEET_EMISSIVE,
   SHEET_FACING_FADE, SHEET_LAYERS, SHEET_PIECE_FAMILIES, SHEET_PIECE_OVERLAP, SIDE_STRIP_LAYER, WATERFALL_TEXTURE_ROLES,
   alignCascadeToStrips, buildWaterfallSheetGeometry, chuteStripFromPath, freeFlightSpanM, loadWaterfallTextures,
-  AERATION_LIP, AERATION_MAX, SHEET_AERATED_OPACITY, SHEET_WATER_ALBEDO,
+  AERATION_LIP, AERATION_MAX, SHEET_AERATED_OPACITY, SHEET_LIP_CONTRACTION, SHEET_WATER_ALBEDO,
   sheetAeration, sheetAlbedo, sheetAlpha, sheetCrestBoost, sheetEmissive, sheetLateralOffsets, sheetPieceFamily,
   sheetPieceSpans, sheetWhiteness,
-  sheetWidthProfile, sideStripPinchedU, traceCascades, traceWaterfallSheet, fallSiteMarks, type Cascade,
+  sheetJetThickness, sheetJetSpread, sideStripPinchedU, traceCascades, traceWaterfallSheet, fallSiteMarks, type Cascade,
 } from "./WaterfallSheets";
 import { Texture } from "three";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadeEmitterKit, cascadePathEmitters } from "./WaterCascadeSources";
@@ -392,24 +392,56 @@ describe("across-width profile", () => {
       depthDeltaM: GROUND_CLEARANCE_M },
   ] as const;
 
-  it("peaks in the middle and reaches zero at both edges", () => {
-    expect(sheetWidthProfile(0.5)).toBeCloseTo(1, 6);
-    expect(sheetWidthProfile(0)).toBe(0);
-    expect(sheetWidthProfile(1)).toBe(0);
+  it("is a jet: thickest at the centre, zero at the edges, contracted at the lip", () => {
+    expect(sheetJetThickness(0.5)).toBeCloseTo(1, 6);
+    expect(sheetJetThickness(0)).toBe(0);
+    expect(sheetJetThickness(1)).toBe(0);
     for (let u = 0; u <= 0.5; u += 0.05) {
-      expect(sheetWidthProfile(Math.min(u + 0.05, 0.5))).toBeGreaterThanOrEqual(sheetWidthProfile(u));
+      expect(sheetJetThickness(Math.min(u + 0.05, 0.5))).toBeGreaterThanOrEqual(sheetJetThickness(u));
     }
+    // the compiled width is the width at the FOOT; at the lip the jet is
+    // contracted to SHEET_LIP_CONTRACTION of it, and thicker for it
+    expect(sheetJetSpread(AERATION_LIP)).toBeCloseTo(SHEET_LIP_CONTRACTION, 9);
+    expect(sheetJetSpread(AERATION_MAX)).toBeCloseTo(1, 9);
+    expect(sheetJetThickness(0.5, SHEET_LIP_CONTRACTION)).toBeGreaterThan(sheetJetThickness(0.5, 1));
+    expect(sheetJetThickness(0.1, SHEET_LIP_CONTRACTION)).toBe(0);
+    expect(sheetJetThickness(0.1, 1)).toBeGreaterThan(0);
   });
 
   for (const kind of both) {
     it(`is opaque at the centre and transparent at the edge — ${kind.kind}`, () => {
       const at = (u: number) => sheetAlpha({ ...kind, u, layer: 0 });
-      expect(at(0.5)).toBeGreaterThan(at(0.02));
       expect(at(0.5)).toBeGreaterThan(0.5);
-      expect(at(0)).toBeLessThan(0.05);
-      expect(at(1)).toBeLessThan(0.05);
-      expect(at(0.02)).toBeLessThan(0.05);
-      expect(at(0.98)).toBeLessThan(0.05);
+      expect(at(0)).toBe(0);
+      expect(at(1)).toBe(0);
+      // FEATHERED, not cut: the Beer-Lambert jet profile falls monotonically
+      // from the core and is still coming down over the outer fifth of the
+      // width — the flat 0.95 aeration floor it replaced sat at 0.89 all the
+      // way to u = 0.2 and then dropped off a cliff, which is what read as a
+      // card with straight sides.
+      for (let u = 0.05; u <= 0.5; u += 0.05) {
+        expect(at(Math.min(u + 0.05, 0.5))).toBeGreaterThan(at(u) - 1e-9);
+      }
+      expect(at(0.02)).toBeLessThan(at(0.5) * 0.15);
+      expect(at(0.98)).toBeLessThan(at(0.5) * 0.15);
+      expect(at(0.2)).toBeLessThan(at(0.5) * 0.85);
+    });
+
+    it(`fizzes at the margins and holds solid at the core — ${kind.kind}`, () => {
+      // The strips' whitewater swings ~80 % over the streak field; the old
+      // sheet swung 2 % (measured), which is why one surface read as broken
+      // water and the other, at the SAME compiled width, as a block. The
+      // margins now carry the strips' amplitude; the core stays water.
+      const at = (u: number, noise: number) => sheetAlpha({ ...kind, u, layer: 0, noise });
+      expect(at(0.5, 0.8) / at(0.5, 0.2)).toBeLessThan(1.05);
+      // somewhere in the margin (wherever the jet's edge falls for this
+      // aeration) the swing reaches the strips' own amplitude
+      let widest = 1;
+      for (let u = 0.02; u < 0.5; u += 0.01) {
+        const lo = at(u, 0.2);
+        if (lo > 0.02) widest = Math.max(widest, at(u, 0.8) / lo);
+      }
+      expect(widest).toBeGreaterThan(1.6);
     });
   }
 

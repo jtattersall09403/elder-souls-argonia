@@ -127,6 +127,8 @@ const fpsNoFalls = {};
 const FPS_WINDOW_MS = 6000;
 /** Luminance band a fall body must sit in against its adjacent foam. */
 const FIT_BAND = { min: 0.6, max: 1.6 };
+/** Fewest foam pixels the fit band will be asserted on (see the site loop). */
+const FIT_MIN_FOAM_PX = 150;
 /** Largest luminance step allowed across the lip / plunge joins. */
 const JOIN_STEP = 0.25;
 /** A pixel belongs to a water layer when hiding every layer changes it by this much (sum |dRGB|). */
@@ -493,6 +495,18 @@ try {
           + ` · foam ${foam.lums.length} px (${foam.onScreen}/${stripPts.length + poolPts.length} marks; strip ${strip ? strip.id : "none"}) mean ${mean(foam.lums).toFixed(1)} bright-half ${foamL.toFixed(1)}`);
         if (body.lums.length < 10) fail(`fit: no fall pixels on screen for ${fitFall.id} (${body.onScreen} marks visible)`);
         else if (foam.lums.length < 10) fail(`fit: no adjacent foam pixels on screen for ${fitFall.id}`);
+        // A foam reference of a few dozen pixels is not a measurement. At
+        // fall-gorge two runs of IDENTICAL code gave x1.57 and x2.14 while the
+        // fall body itself moved 217.5 -> 217.3: the whole swing was the
+        // denominator, 33 px of foam one run and 85 px the next as the marks
+        // drifted across a churning plunge. Sites that measure (fall-25m,
+        // fall-20m) carry 585-610 px from 15/15 marks. Below FIT_MIN_FOAM_PX
+        // the ratio is REPORTED and not asserted — a check that flips on noise
+        // is worse than no check.
+        else if (foam.lums.length < FIT_MIN_FOAM_PX)
+          checks.push(`     fit: fall / foam luminance x${ratio.toFixed(2)} — NOT asserted,`
+            + ` only ${foam.lums.length} px of foam reference (needs ${FIT_MIN_FOAM_PX});`
+            + ` body ${bodyL.toFixed(1)}, foam ${foamL.toFixed(1)}`);
         else if (ratio >= FIT_BAND.min && ratio <= FIT_BAND.max) ok(`fit: fall / foam luminance x${ratio.toFixed(2)} (band x${FIT_BAND.min}-x${FIT_BAND.max})`);
         else fail(`fit: fall / foam luminance x${ratio.toFixed(2)} outside x${FIT_BAND.min}-x${FIT_BAND.max}`);
         // (b) lip join: 2 m upstream on the strip (or the field) vs 2 m down the sheet
