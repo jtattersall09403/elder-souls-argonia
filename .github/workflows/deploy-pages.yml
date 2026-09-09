@@ -26,7 +26,20 @@ jobs:
           cache: pip
           cache-dependency-path: tooling/world-generation/requirements-test.txt
       - run: python -m pip install -r tooling/world-generation/requirements-test.txt
+      # KNOWN RED on main: worldgen/test_blueprint.py::test_live_dir_validates and
+      # worldgen/test_minor_waterways.py::test_no_berth_is_refused_in_the_published_network
+      # both fail on the Sap-Tapping dry berth. That is water-owned and the owner
+      # has chosen (2026-09-09) to hold the deploy rather than move the gate — see
+      # docs/research/rendering/water-handoff.md. The suite is not broken; do not
+      # xfail, quarantine or weaken it. Deploy resumes when the berth is wet.
       - run: npm run test:placement
+      # The slow split re-grades the whole province from the vault rasters. It
+      # skips where the vault is absent (that includes this runner), so it is
+      # wired here to stop it drifting, not as a CI-side measurement.
+      - run: npm run test:placement:slow
+      # The half of the connector/footprint evidence chain that PRODUCES the
+      # measurements consumed by the placement suite (97 G19).
+      - run: npm run test:pipeline
 
   build:
     runs-on: ubuntu-latest
