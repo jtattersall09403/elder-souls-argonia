@@ -3,7 +3,7 @@
  "assets": [
   {
    "id": "bmv:landscape/grass/vurt_reeds",
-   "node": "bmv__landscape/grass/vurt_reeds",
+   "node": "es|fca79d0325|bmv__landscape_grass_vurt_reeds",
    "category": "aquatic-plant",
    "sizeM": [
     0.903,
@@ -26,11 +26,24 @@
    ],
    "materials": [
     "BSX.Mat"
-   ]
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.089,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   },
   {
    "id": "bmv:landscape/grass/esurosebaywillowherb01",
-   "node": "bmv__landscape/grass/esurosebaywillowherb01",
+   "node": "es|51f1933b0e|__landscape_grass_esurosebaywillowherb01",
    "category": "grass",
    "sizeM": [
     0.735,
@@ -53,11 +66,24 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat"
-   ]
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.039,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   },
   {
    "id": "tropical:landscape/grass/cattailgrass",
-   "node": "tropical__landscape/grass/cattailgrass",
+   "node": "es|2ffc951afc|tropical__landscape_grass_cattailgrass",
    "category": "aquatic-plant",
    "sizeM": [
     1.617,
@@ -79,12 +105,25 @@
     "grasscattails.dds"
    ],
    "materials": [
-    "SnowGrass01:0.001.Mat"
-   ]
+    "SnowGrass01:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.087,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   },
   {
    "id": "tropical:landscape/grass/ferngrass01",
-   "node": "tropical__landscape/grass/ferngrass01",
+   "node": "es|efee4a19a2|tropical__landscape_grass_ferngrass01",
    "category": "plant",
    "sizeM": [
     2.051,
@@ -107,11 +146,24 @@
    ],
    "materials": [
     "FernGrass01:0.Mat"
-   ]
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.005,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   },
   {
    "id": "tropical:landscape/grass/grassfern01",
-   "node": "tropical__landscape/grass/grassfern01",
+   "node": "es|6532d213b0|tropical__landscape_grass_grassfern01",
    "category": "plant",
    "sizeM": [
     1.297,
@@ -133,12 +185,25 @@
     "swordfern.dds"
    ],
    "materials": [
-    "FernGrass01:0.001.Mat"
-   ]
+    "FernGrass01:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.044,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   },
   {
    "id": "tropical:landscape/grass/grassplant01",
-   "node": "tropical__landscape/grass/grassplant01",
+   "node": "es|16b2dd15ce|tropical__landscape_grass_grassplant01",
    "category": "grass",
    "sizeM": [
     1.297,
@@ -160,12 +225,25 @@
     "grassplant01.dds"
    ],
    "materials": [
-    "FernGrass01:0.002.Mat"
-   ]
+    "FernGrass01:0.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.044,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   },
   {
    "id": "tropical:landscape/grass/marshgrassobj01",
-   "node": "tropical__landscape/grass/marshgrassobj01",
+   "node": "es|d736abb840|ropical__landscape_grass_marshgrassobj01",
    "category": "grass",
    "sizeM": [
     3.144,
@@ -188,15 +266,1115 @@
    ],
    "materials": [
     "MarshGrassObj01:0.Mat"
-   ]
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.096,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/solojunco",
+   "node": "es|4399f047ed|bmv__landscape_grass_solojunco",
+   "category": "grass",
+   "sizeM": [
+    1.86,
+    1.484,
+    1.715
+   ],
+   "originOffsetM": [
+    0.95,
+    0.746,
+    0.1
+   ],
+   "triangles": 12,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "solojunco.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.1,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_marshplant1",
+   "node": "es|78cfaaa5c8|bmv__landscape_grass_vurt_marshplant1",
+   "category": "grass",
+   "sizeM": [
+    0.956,
+    0.762,
+    0.881
+   ],
+   "originOffsetM": [
+    0.488,
+    0.383,
+    0.051
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_marshplant.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.051,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/ewpsea03",
+   "node": "es|96ed178750|bmv__landscape_grass_ewpsea03",
+   "category": "grass",
+   "sizeM": [
+    0.98,
+    0.782,
+    0.904
+   ],
+   "originOffsetM": [
+    0.501,
+    0.393,
+    0.053
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewpsea03.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.004"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/ewpsea06",
+   "node": "es|64c5c5a5cf|bmv__landscape_grass_ewpsea06",
+   "category": "grass",
+   "sizeM": [
+    0.98,
+    0.782,
+    0.904
+   ],
+   "originOffsetM": [
+    0.501,
+    0.393,
+    0.053
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewpsea06.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.005"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/ewpshore11",
+   "node": "es|9d7e78ee30|bmv__landscape_grass_ewpshore11",
+   "category": "grass",
+   "sizeM": [
+    0.98,
+    0.782,
+    0.904
+   ],
+   "originOffsetM": [
+    0.501,
+    0.393,
+    0.053
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewpshore11.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.006"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/ewpshore14",
+   "node": "es|60ea170876|bmv__landscape_grass_ewpshore14",
+   "category": "grass",
+   "sizeM": [
+    0.698,
+    0.557,
+    0.644
+   ],
+   "originOffsetM": [
+    0.357,
+    0.28,
+    0.037
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewpshore14.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.007"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.037,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/ewpshore03a",
+   "node": "es|f875256df6|bmv__landscape_grass_ewpshore03a",
+   "category": "grass",
+   "sizeM": [
+    0.776,
+    0.619,
+    0.716
+   ],
+   "originOffsetM": [
+    0.397,
+    0.312,
+    0.042
+   ],
+   "triangles": 12,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewpshore03.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.008"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.042,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:landscape/grass/ewpshore13",
+   "node": "es|336ad31feb|htbm__landscape_grass_ewpshore13",
+   "category": "grass",
+   "sizeM": [
+    0.98,
+    0.782,
+    0.904
+   ],
+   "originOffsetM": [
+    0.501,
+    0.393,
+    0.053
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewpshore13.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.009"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:landscape/grass/ewpshore16",
+   "node": "es|0672d62be3|htbm__landscape_grass_ewpshore16",
+   "category": "grass",
+   "sizeM": [
+    0.98,
+    0.782,
+    0.904
+   ],
+   "originOffsetM": [
+    0.501,
+    0.393,
+    0.053
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewpshore16.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.010"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/ewplake07",
+   "node": "es|8e7ab4b4aa|bmv__landscape_grass_ewplake07",
+   "category": "grass",
+   "sizeM": [
+    0.392,
+    0.313,
+    0.361
+   ],
+   "originOffsetM": [
+    0.2,
+    0.157,
+    0.021
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewplake07.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.011"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.021,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/rockgrasswater01",
+   "node": "es|d813285633|bmv__landscape_grass_rockgrasswater01",
+   "category": "grass",
+   "sizeM": [
+    0.898,
+    0.807,
+    0.204
+   ],
+   "originOffsetM": [
+    0.413,
+    0.408,
+    0.078
+   ],
+   "triangles": 40,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rocksgrasswater01.dds"
+   ],
+   "materials": [
+    "RocksGrassObj02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.078,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_greengrass",
+   "node": "es|b61c28bdd1|bmv__landscape_grass_vurt_greengrass",
+   "category": "grass",
+   "sizeM": [
+    0.98,
+    0.782,
+    0.904
+   ],
+   "originOffsetM": [
+    0.501,
+    0.393,
+    0.053
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_eriophorum.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.012"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_yelgrass",
+   "node": "es|e46d1a41aa|bmv__landscape_grass_vurt_yelgrass",
+   "category": "grass",
+   "sizeM": [
+    1.429,
+    1.476,
+    0.85
+   ],
+   "originOffsetM": [
+    0.668,
+    0.822,
+    0.13
+   ],
+   "triangles": 25,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_yelgrass.dds"
+   ],
+   "materials": [
+    "MarshGrassObj01:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.13,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_bentgrass",
+   "node": "es|44d82d18ba|bmv__landscape_grass_vurt_bentgrass",
+   "category": "grass",
+   "sizeM": [
+    1.586,
+    1.638,
+    0.944
+   ],
+   "originOffsetM": [
+    0.741,
+    0.912,
+    0.144
+   ],
+   "triangles": 25,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_bengrass.dds"
+   ],
+   "materials": [
+    "MarshGrassObj01:0.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.144,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/mixgrass01",
+   "node": "es|2f3192d0e2|bmv__landscape_grass_mixgrass01",
+   "category": "grass",
+   "sizeM": [
+    1.137,
+    1.236,
+    0.388
+   ],
+   "originOffsetM": [
+    0.557,
+    0.654,
+    0.1
+   ],
+   "triangles": 31,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "mixgrass02.dds"
+   ],
+   "materials": [
+    "ForestGrass01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.1,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/forestgrass01",
+   "node": "es|0ec26a7f18|bmv__landscape_grass_forestgrass01",
+   "category": "grass",
+   "sizeM": [
+    1.137,
+    1.236,
+    0.388
+   ],
+   "originOffsetM": [
+    0.557,
+    0.654,
+    0.057
+   ],
+   "triangles": 31,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "forestgrass01.dds"
+   ],
+   "materials": [
+    "ForestGrass01:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.057,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/forestgrass02",
+   "node": "es|35083b5ede|bmv__landscape_grass_forestgrass02",
+   "category": "grass",
+   "sizeM": [
+    1.186,
+    1.198,
+    0.479
+   ],
+   "originOffsetM": [
+    0.593,
+    0.599,
+    0.035
+   ],
+   "triangles": 21,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "forestgrass02.dds"
+   ],
+   "materials": [
+    "ForestGrass02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.035,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/ug_forestgroundcover02",
+   "node": "es|264178de40|__landscape_grass_ug_forestgroundcover02",
+   "category": "grass",
+   "sizeM": [
+    1.137,
+    1.236,
+    0.388
+   ],
+   "originOffsetM": [
+    0.557,
+    0.654,
+    0.057
+   ],
+   "triangles": 31,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ug_forestgroundcover02.dds"
+   ],
+   "materials": [
+    "ForestGrass01:0.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.057,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/weedygroundcover",
+   "node": "es|1883ea0f4d|bmv__landscape_grass_weedygroundcover",
+   "category": "grass",
+   "sizeM": [
+    1.137,
+    1.236,
+    0.388
+   ],
+   "originOffsetM": [
+    0.557,
+    0.654,
+    0.057
+   ],
+   "triangles": 31,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "weedygroundcover.dds"
+   ],
+   "materials": [
+    "ForestGrass01:0.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.057,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_bigfern",
+   "node": "es|547270f7c4|bmv__landscape_grass_vurt_bigfern",
+   "category": "plant",
+   "sizeM": [
+    0.774,
+    0.891,
+    0.971
+   ],
+   "originOffsetM": [
+    0.389,
+    0.357,
+    0.005
+   ],
+   "triangles": 84,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_fernatlas.dds"
+   ],
+   "materials": [
+    "VolcanicGrassObj02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.005,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_bigfern2",
+   "node": "es|697a706a48|bmv__landscape_grass_vurt_bigfern2",
+   "category": "plant",
+   "sizeM": [
+    0.807,
+    0.928,
+    1.012
+   ],
+   "originOffsetM": [
+    0.405,
+    0.372,
+    0.005
+   ],
+   "triangles": 84,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_fernatlasyellow.dds"
+   ],
+   "materials": [
+    "VolcanicGrassObj02:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.005,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_brownplants",
+   "node": "es|e74fc0736f|bmv__landscape_grass_vurt_brownplants",
+   "category": "grass",
+   "sizeM": [
+    0.735,
+    0.586,
+    0.678
+   ],
+   "originOffsetM": [
+    0.376,
+    0.295,
+    0.039
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_brownplants.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.013"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.039,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_strangeplant",
+   "node": "es|8e9a44c3fd|bmv__landscape_grass_vurt_strangeplant",
+   "category": "grass",
+   "sizeM": [
+    0.735,
+    0.586,
+    0.678
+   ],
+   "originOffsetM": [
+    0.376,
+    0.295,
+    0.039
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_strangeplant1.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.014"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.039,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_mgrass",
+   "node": "es|e8c6dc14b5|bmv__landscape_grass_vurt_mgrass",
+   "category": "grass",
+   "sizeM": [
+    1.111,
+    0.84,
+    0.91
+   ],
+   "originOffsetM": [
+    0.543,
+    0.502,
+    0.006
+   ],
+   "triangles": 3,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_mgrass.dds"
+   ],
+   "materials": [
+    "FieldGrass01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.006,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_greenyelplant",
+   "node": "es|42f6c5789c|bmv__landscape_grass_vurt_greenyelplant",
+   "category": "grass",
+   "sizeM": [
+    1.111,
+    0.84,
+    0.91
+   ],
+   "originOffsetM": [
+    0.543,
+    0.502,
+    0.006
+   ],
+   "triangles": 3,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_greenyelplant.dds"
+   ],
+   "materials": [
+    "FieldGrass01:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.006,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/fieldgrass01",
+   "node": "es|b15be62757|bmv__landscape_grass_fieldgrass01",
+   "category": "grass",
+   "sizeM": [
+    1.111,
+    0.84,
+    0.91
+   ],
+   "originOffsetM": [
+    0.543,
+    0.502,
+    0.006
+   ],
+   "triangles": 3,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fieldgrassobj01.dds"
+   ],
+   "materials": [
+    "FieldGrass01:0.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.006,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_mixedplants",
+   "node": "es|b8206265eb|bmv__landscape_grass_vurt_mixedplants",
+   "category": "grass",
+   "sizeM": [
+    0.98,
+    0.782,
+    0.904
+   ],
+   "originOffsetM": [
+    0.501,
+    0.393,
+    0.053
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_assortedplants.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat.015"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\groundcover-province-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [],
- "texturesSubstituted": {},
+ "texturesSubstituted": {
+  "textures/landscape/grass/rocksgrasswater01.dds": "textures/texturepack/landscape/grass/rocksgrasswater01.dds"
+ },
  "alphaModes": {
-  "MASK": 7,
+  "MASK": 34,
   "OPAQUE": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
  }
 }

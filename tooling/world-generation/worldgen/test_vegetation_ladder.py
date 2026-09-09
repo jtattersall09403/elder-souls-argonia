@@ -254,3 +254,100 @@ def test_palette_species_are_all_in_the_shipped_flora_kit():
     used = {layer["species"] for entry in palettes.values()
             for layer in entry["layers"]}
     assert used <= kit, f"not in flora-province-v1: {sorted(used - kit)}"
+
+
+# --- gate 4: the ground ring's own breadth -----------------------------------
+
+#: Distinct grass species a region must carry across the land covers it
+#: actually paints, capped by what the LTEX.GNAM limit physically allows
+#: (three per cover). Before round 13 the ring held seven meshes for the whole
+#: province and nine of fourteen regions carried four or fewer; the mangrove
+#: coast carried exactly one, so every mangrove mudflat in Black Marsh was the
+#: same plant. Raising this needs new meshes in groundcover-province-v1.
+MIN_GROUND_SPECIES = 6
+
+
+def _resolved_ground(data: dict, region: str) -> dict[str, list[str]]:
+    """Species -> the land covers it carries, for one region, after swaps.
+
+    Resolution is the rule `groundcover.json` states: a swap REPLACES the base
+    list for that one cover in that one region, and covers the region never
+    paints do not count at all (`regionCovers`, measured from the rasters)."""
+    covers = [str(c) for c in data["regionCovers"][region]]
+    swaps = data["byRegionClass"][region]["swaps"]
+    out: dict[str, list[str]] = collections.defaultdict(list)
+    for cover in covers:
+        for rule in swaps.get(cover) or data["byLandCover"][cover]["species"]:
+            out[rule["asset"]].append(cover)
+    return out
+
+
+def test_every_region_carries_a_real_ground_layer():
+    """T3 grass is the layer the player walks through constantly, so it is the
+    layer a thin species pool shows up in first."""
+    data = json.loads(GROUNDCOVER.read_text())
+    cap_per_cover = data["rules"]["maxSpeciesPerCover"]
+    thin = {}
+    for region in data["byRegionClass"]:
+        species = _resolved_ground(data, region)
+        # a region painting one cover can never hold more than the GNAM cap
+        floor = min(MIN_GROUND_SPECIES,
+                    cap_per_cover * len(data["regionCovers"][region]))
+        if len(species) < floor:
+            thin[region] = (len(species), floor)
+    assert not thin, (
+        f"region classes below their ground-species floor (species, floor): "
+        f"{thin}. The ring's pool is groundcover-province-v1; spreading it is "
+        f"byRegionClass.swaps in groundcover.json.")
+
+
+def test_no_ground_mesh_carries_three_land_covers():
+    """The defect this whole axis exists to kill, gated on the BASE table as
+    well as per region: `vurt_reeds` used to be MARSH_GRASS, SWAMP_GRASS and
+    SCUM at once, which made every reed bed in the province one plant. The
+    per-region form of this check lives in
+    `test_groundcover_has_a_region_axis`; this one catches a base table that
+    is over-spread before any region swaps it."""
+    data = json.loads(GROUNDCOVER.read_text())
+    limit = data["rules"]["maxCoversPerSpeciesPerRegion"]
+    spread: dict[str, list[str]] = collections.defaultdict(list)
+    for cover, entry in data["byLandCover"].items():
+        for rule in entry["species"]:
+            spread[rule["asset"]].append(cover)
+    over = {a.rsplit("/", 1)[-1]: c for a, c in spread.items() if len(c) > limit}
+    assert not over, (
+        f"base land-cover table: {over} — one mesh on more than {limit} land "
+        f"covers is a monoculture the region swaps cannot undo, because a "
+        f"region that swaps none of those covers inherits all of them.")
+
+
+def test_ground_ring_meshes_stay_inside_the_instancing_budget():
+    """The ring instances these in the tens of thousands inside ~75 m, so they
+    are budgeted differently from the flora kit: 128 triangles is the shipped
+    seven's own maximum (`grassfern01`) and 3.3 m the tallest of them
+    (`marshgrassobj01`). This reads the BUILT manifest, so it fails on what
+    actually ships rather than on what the config asked for."""
+    manifest = (REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
+                / "groundcover-province-v1.kit.json")
+    if not manifest.exists():
+        pytest.skip("no built ground-ring kit in this checkout")
+    assets = json.loads(manifest.read_text())["assets"]
+    heavy = {a["id"].rsplit("/", 1)[-1]: a["triangles"]
+             for a in assets if a["triangles"] > 128}
+    assert not heavy, f"over the ground-ring triangle budget: {heavy}"
+    big = {a["id"].rsplit("/", 1)[-1]: a["sizeM"]
+           for a in assets if max(a["sizeM"]) > 3.3}
+    assert not big, f"too large to read as ankle-height ground cover: {big}"
+
+
+def test_nothing_in_the_ground_ring_is_solid():
+    """Round-12 rule: no fitted wood, no solid. Grass has no wood, so a
+    collider here would be something the player cannot walk through."""
+    manifest = (REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
+                / "groundcover-province-v1.kit.json")
+    if not manifest.exists():
+        pytest.skip("no built ground-ring kit in this checkout")
+    data = json.loads(manifest.read_text())
+    solid = [a["id"] for a in data["assets"]
+             if a.get("collision") not in (None, "none")]
+    assert not solid, f"ground-ring assets with a collider: {solid}"

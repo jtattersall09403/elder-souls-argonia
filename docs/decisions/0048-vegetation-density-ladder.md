@@ -10,8 +10,8 @@ below an altitude threshold. It was correct. Two measurements of the shipped
 bundles, taken before this change, say so in different ways.
 
 By the 2026-09-08 audit's chunk view, tropical jungle sat at the **37th
-percentile of the province's own lowland chunks**, and firm lowland — the
-largest lowland class — read at 1.02× the jungle. That view attributes a
+percentile of the province's own lowland chunks**. Firm lowland, the largest
+lowland class, read at 1.02× the jungle. That view attributes a
 chunk's whole instance count to its dominant class, so it overstates a sparse
 class sitting next to a dense one. The per-region-pixel measure adopted below
 is stricter and still finds the same problem: firm lowland delivered 26.97
@@ -216,3 +216,79 @@ giving region 8's two reed beds to its neighbour region 11 turns it red with
 and after, region 13 included. The three ladder tests still pass; gate 2
 (`test_delivered_ladder`) remains red pending the scatter rollout, as designed.
 
+
+## Round 13 (2026-09-09): the ground ring gets a species pool
+
+The region axis landed one round before the meshes that fill it. Seven
+distinct grasses covered the whole province. `vurt_reeds` carried MARSH_GRASS,
+SWAMP_GRASS and SCUM at once. Nine of fourteen regions resolved to four
+species or fewer at ankle height. The kit `groundcover-province-v1` is now
+**34 meshes**. The ring data spreads them.
+
+**The budget, from the shipped seven.** A ground-ring mesh is instanced in the
+tens of thousands inside a ~75 m camera ring with no LOD chain in reserve, so
+it is budgeted far harder than a flora piece: **128 triangles**,
+which is `grassfern01`'s own count and the highest of the seven already
+shipping; **3.3 m** in any axis, which clears `marshgrassobj01` at 3.14 m.
+Every addition measures 3–84 triangles. The built GLB is 3.0 MB.
+
+**Chosen on the measurement, not the label.** 46 candidates were built into a
+throwaway probe kit and read off the manifest. Rejected: `vurt_fernfield` (336
+tris, a multi-plant clump card at 2.6× the ceiling); `floraspikygrass02` (2298
+tris), `floraspikygrass01` (788) and `spikygrass01` (450 tris on an 18 cm
+plant), which are harvestable flora props rather than ground cover;
+`tbpalgae01` (2.94 × 3.65 × 0.37 m, a flat seabed mat, on ground that Phase 9
+owns); `tbprockgrasswater03` (2.69 m against
+`rockgrasswater01`'s 0.90 m on the *same* diffuse, so an upscale rather than a
+species); `ewpshore07a`/`13a`/`16a` (12-triangle siblings sharing their base's
+diffuse); `vurt_eriophorum` (shares its diffuse with `vurt_greengrass`, which
+has the better card). `marshgrassobj01som` was rejected on its texture, not
+its name: it reads `frozenmarshgrassobj01.dds`, a snow variant. So were the
+temperate and volcanic shrubs that the earlier audit counted as unused stock.
+The `ejunipershrub*`, `eheathershrub*`, `espruceshrub*`, `gkbtundrashrub*`,
+`dlc02volcanicashgrass*` and `snowgrass`/`tundragrass` families are Skyrim's
+climate, not Black Marsh's. Two bog plants (`espbogbilberry01`,
+`espbogbean02leaves`) went the same way: holarctic bog species, wrong
+province.
+
+**A sourcing gap found and recorded.** `vurt_greengrass2` and
+`vurt_greengrass3` are good 25-triangle cards whose diffuse textures
+(`vurt_greengrass2.dds`, `vurt_grass3.dds`) are absent from the BMV archive.
+The pool ships the meshes without them, so they are left out rather than
+shipped untextured. `vurt_yelgrass` and `vurt_bentgrass` are the same card
+with textures that are present. They carry the sward instead.
+
+**What the spread bought.** Distinct species per region, resolved over the
+covers each region actually paints: before **1–7** (mean 4.6, the mangrove
+coast on one); after **3–18** (mean 11.6). No mesh carries more than two land
+covers in any region, or in the base table. The two regions holding a single
+land cover (deep river corridor, mangrove forest) carry three species each,
+which is the LTEX.GNAM ceiling and therefore everything the shipped-game rule
+allows. All 34 kit meshes are used.
+
+**New gates**, all four mutation-tested:
+
+* `test_every_region_carries_a_real_ground_layer`: six species per region,
+  floored at three per painted cover, so a one-cover region is held to what
+  GNAM permits rather than to an impossible number. Red when region 4's three
+  swaps are each cut to one species; green on restore.
+* `test_no_ground_mesh_carries_three_land_covers`: the missing half of the
+  per-region rule, on the base table, which a region that swaps no cover in
+  that set inherits whole. Red when one reed is written into covers 3, 9 and 11.
+* `test_ground_ring_meshes_stay_inside_the_instancing_budget`: reads the
+  **built** manifest, so it measures what ships. Red at 900 triangles and at a
+  29 m asset.
+* `test_nothing_in_the_ground_ring_is_solid`: round 12's rule, no fitted wood
+  and no solid. Red when one asset is given a mesh collider. All 34 assets
+  build with `collision: none`. `manifest.trunkSolids.fitter` remains
+  `pipeline.trunk_solids`.
+
+**The density ladder did not move.** Groundcover is a separate file from
+`palettes.json` and `rebase_stems` never reads it. `authoredStemsPerHectare`
+and `ladderMultiplierApplied` are byte-identical for all fourteen classes.
+Region 13 is held at ratio 1.000. Gate 2 (`test_delivered_ladder`) stays red
+pending the scatter rollout, as designed.
+
+**Credits.** The three pools on which this round draws (`bmv`, `tropical` and
+`htbm`) are already credited in root `README.md` (lines 98, 129, 162). There
+is no new pool, so there is no new `archiveSha256`.

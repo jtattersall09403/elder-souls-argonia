@@ -1,6 +1,6 @@
 {
   "id": "groundcover-province-v1",
-  "description": "The seven grass/fern/reed species world/sources/flora/groundcover.json binds to painted ground (T3 runtime ring, module 65 §110). Kept separate from flora-province-v1 so the ring renderer loads a few hundred KB, not the 12 MB tree kit, before the ground can dress. No LOD chain: these are 50–500-triangle alpha cards drawn only inside a ~75 m ring, so decimation would only shred the cutouts. Textures capped at 256 px like the flora kit (ships to GitHub Pages).",
+  "description": "The grass/fern/reed/rush species world/sources/flora/groundcover.json binds to painted ground (T3 runtime ring, module 65 \u00a7110). Kept separate from flora-province-v1 so the ring renderer loads a few hundred KB, not the 12 MB tree kit, before the ground can dress. No LOD chain: these are 3\u2013128-triangle alpha cards drawn only inside a ~75 m ring, so decimation would only shred the cutouts. Textures capped at 256 px like the flora kit (ships to GitHub Pages). Round 13 (decision 0048) took the ring from 7 meshes to 34 so no one mesh carries three land covers; the triangle ceiling of 128 is the shipped seven's own maximum and every addition measures at or under it.",
   "output": "tooling/asset-pipeline/output/kits/groundcover-province-v1.glb",
   "lodRatios": [],
   "textureMaxSize": 256,
@@ -25,6 +25,87 @@
     },
     {
       "asset": "tropical:landscape/grass/marshgrassobj01"
+    },
+    {
+      "asset": "bmv:landscape/grass/solojunco"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_marshplant1"
+    },
+    {
+      "asset": "bmv:landscape/grass/ewpsea03"
+    },
+    {
+      "asset": "bmv:landscape/grass/ewpsea06"
+    },
+    {
+      "asset": "bmv:landscape/grass/ewpshore11"
+    },
+    {
+      "asset": "bmv:landscape/grass/ewpshore14"
+    },
+    {
+      "asset": "bmv:landscape/grass/ewpshore03a"
+    },
+    {
+      "asset": "htbm:landscape/grass/ewpshore13"
+    },
+    {
+      "asset": "htbm:landscape/grass/ewpshore16"
+    },
+    {
+      "asset": "bmv:landscape/grass/ewplake07"
+    },
+    {
+      "asset": "bmv:landscape/grass/rockgrasswater01"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_greengrass"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_yelgrass"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_bentgrass"
+    },
+    {
+      "asset": "bmv:landscape/grass/mixgrass01"
+    },
+    {
+      "asset": "bmv:landscape/grass/forestgrass01"
+    },
+    {
+      "asset": "bmv:landscape/grass/forestgrass02"
+    },
+    {
+      "asset": "bmv:landscape/grass/ug_forestgroundcover02"
+    },
+    {
+      "asset": "bmv:landscape/grass/weedygroundcover"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_bigfern"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_bigfern2"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_brownplants"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_strangeplant"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_mgrass"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_greenyelplant"
+    },
+    {
+      "asset": "bmv:landscape/grass/fieldgrass01"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_mixedplants"
     }
   ]
 }
