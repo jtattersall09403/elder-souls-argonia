@@ -342,6 +342,22 @@ WHY = {
    "The pond is deep still water a few hundred metres off the main poling line, held by one adult wamasu for years. The detour runs past it for its whole length. Where polers come ashore to leave offerings at the bank they climb it on built steps. They do not stay.",
  "track.saxhleel-coast.coast-hist-less-refuge":
    "Nothing-Planted holds firm ground on the city's landward fringe, deliberately outside its jurisdiction. The line between the two runs along the bank at the water narrows. The path steps up that bank.",
+ # Written 2026-09-09 for the six ways left unauthored after the 1.2 m
+ # resolution noise floor retired the phantom structures. Each is written
+ # against the place records at the way's ends, so a re-grade that moves a
+ # window leaves the sentence true.
+ "route.road.helstrom-blackrose":
+   "The road runs from the grove to the lake across the deep basin, where the firm going is hummocks and low rock in soft ground. The road climbs each rise where it stands. A bench cut level between the rises would stand under water for half the year.",
+ "route.road.soulrest-blackrose":
+   "The road leaves the coastal terrace and falls into the lake basin. Eight metres of that fall are taken on embankment rather than in a trench, over a third of a kilometre. The ground below the terrace edge is fen that will not hold a cut face.",
+ "track.dunmer-north.riverwalk":
+   "Riverwalk is strung along its channel. The channel is the street and arrivals come by boat. The land approach runs the length of the channel bank and is built the whole way, because the river takes back what is cut into that bank.",
+ "track.imperial-fringe.the-counted-dead":
+   "The counting ground was cut into the slope rather than dug, with the earliest counts in a chamber beneath it. The road climbs to it and drops away beyond it on built steps. A cut at either end would open the chamber.",
+ "track.hist-heartland.insular-hereditary-watch":
+   "The wardens hold the ridge end above a sealed xanmeer and turn visitors back at it. The last hundred metres climb the ridge on built work. The approach is kept too narrow for a cart.",
+ "track.mercantile-coast.keel-sakka-stilts":
+   "The landing takes Lilmoth's freight off the road and onto the river. The channel edge is the deep-water face along which the boats lie, so the road reaches it without breaking it. The short rise from the water is built.",
 }
 
 
