@@ -8,6 +8,17 @@ water data). Emits one `vegetation-instances.bin` per chunk plus an index.
 Usage:
   python3 -m worldgen.compile_scatter --palettes world/sources/flora/palettes.json
   python3 -m worldgen.compile_scatter --chunk 8,8 --chunk 3,12 --report
+  python3 -m worldgen.compile_scatter --out <dir> --footprint chain-footprint.json
+
+INCREMENTAL. `--footprint` re-scatters only the chunks that intersect the
+changed region and merges them into the existing index in the full grid's
+order, so the index after an incremental run is the file a full run would have
+written. The changed region is the footprint UNIONED with what actually moved
+in this compiler's own inputs — the height, water and ground-control rasters
+are diffed against snapshots of the ones it last read, because a dredge moves
+the waterline, the waterline moves the shore field, and the shore field bands
+the reed belts a chunk or two further out than the cut itself. A missing
+snapshot means no measurement, and no measurement means every chunk.
 """
 
 from __future__ import annotations
@@ -339,6 +350,70 @@ def variation_probe(instances, size_m: float, cell_m: float = 58.0) -> dict:
     }
 
 
+# The rasters this compiler reads that the ground can move, and the snapshot
+# of each one it last read. Kept in the vault (never in the repo: they are
+# 4 k images, and a scratch copy of the vault keeps its own book).
+SCATTER_INPUTS = ("refined/height-rg.png", "water/water-surface.png",
+                  "refined/ground-control.png")
+
+
+def _snapshot_dir() -> Path:
+    from .compile_chunks import DEFAULT_HEIGHTS
+    return DEFAULT_HEIGHTS.parent / "scatter-input-snapshots"
+
+
+def record_inputs(province: Path = PROVINCE) -> None:
+    """Remember the rasters this run scattered from.
+
+    Written on EVERY run, incremental or not: the next run can only measure
+    what moved if the previous one left something to measure against, and a
+    full run that forgets to leave one silently costs the next edit a full
+    province.
+    """
+    snaps = _snapshot_dir()
+    snaps.mkdir(parents=True, exist_ok=True)
+    for rel in SCATTER_INPUTS:
+        source = province / rel
+        if source.exists():
+            np.save(snaps / (rel.replace("/", "_") + ".npy"),
+                    np.asarray(Image.open(source).convert("RGBA")))
+
+
+def changed_chunks(footprint_path, province: Path = PROVINCE,
+                   sample_rows: int | None = None) -> set | None:
+    """Chunks to re-scatter, or None for "all of them".
+
+    The footprint is in full-resolution sample coordinates; each input raster
+    has its own resolution, so a measured box is scaled by the row ratio
+    before it is unioned in.
+    """
+    from . import footprint as fp
+    boxes = fp.load_or_none(footprint_path)
+    if boxes is None:
+        return None
+    doc_shape = json.loads(Path(footprint_path).read_text()).get("gridShape")
+    rows = sample_rows or (doc_shape[0] if doc_shape else None)
+    snaps = _snapshot_dir()
+    snaps.mkdir(parents=True, exist_ok=True)
+    measured: list = []
+    for rel in SCATTER_INPUTS:
+        source = province / rel
+        if not source.exists():
+            return None
+        current = np.asarray(Image.open(source).convert("RGBA"))
+        snap = snaps / (rel.replace("/", "_") + ".npy")
+        previous = np.load(snap) if snap.exists() else None
+        found = fp.changed_boxes(current, previous)
+        np.save(snap, current)
+        if found is None or rows is None:
+            return None
+        ratio = rows / current.shape[0]
+        measured += [(int(y0 * ratio), int(np.ceil(y1 * ratio)),
+                      int(x0 * ratio), int(np.ceil(x1 * ratio)))
+                     for y0, y1, x0, x1 in found]
+    return fp.chunks(fp.union(boxes, measured), CHUNK_SAMPLES)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--palettes",
@@ -351,6 +426,9 @@ def main() -> None:
     ap.add_argument("--density-scale", type=float, default=None,
                     help="global multiplier on every layer's authored density "
                          "— the one knob the density decision turns")
+    ap.add_argument("--footprint", default=None,
+                    help="changed-region file: re-scatter only the chunks it "
+                         "touches and merge into the existing index")
     ap.add_argument("--report", action="store_true")
     args = ap.parse_args()
 
@@ -364,14 +442,36 @@ def main() -> None:
     print(f"density scale x{scale:g}")
     source = ProvinceFields()
     grid = source.chunk_grid()
+    all_cells = [(cx, cz) for cz in range(grid) for cx in range(grid)]
+    footprint_cells = None
+    if not args.footprint:
+        record_inputs()
+    else:
+        footprint_cells = changed_chunks(args.footprint)
+        if footprint_cells is None:
+            print("footprint: no usable measurement of what moved — "
+                  "compiling every chunk")
     if args.chunk:
         wanted = [tuple(int(v) for v in c.split(",")) for c in args.chunk]
+    elif footprint_cells is not None:
+        # Kept in the full grid's order, so the merged index below is byte for
+        # byte the file a whole-province run would write.
+        wanted = [cell for cell in all_cells if cell in footprint_cells]
+        print(f"footprint: {len(wanted)} of {len(all_cells)} chunks re-scattered")
     else:
-        wanted = [(cx, cz) for cz in range(grid) for cx in range(grid)]
+        wanted = all_cells
 
     out_dir = Path(args.out) if args.out else None
     if out_dir:
         out_dir.mkdir(parents=True, exist_ok=True)
+    # An incremental run keeps every record it did not recompute, in grid
+    # order: a partial index would delete the province's vegetation outside
+    # the edit.
+    carried: dict = {}
+    if out_dir and footprint_cells is not None and not args.chunk:
+        index_path = out_dir / "vegetation-index.json"
+        if index_path.exists():
+            carried = json.loads(index_path.read_text()).get("chunks", {})
 
     index = {}
     totals: Counter = Counter()
@@ -403,6 +503,17 @@ def main() -> None:
                 index[f"{cx}_{cz}"] = record
 
     if out_dir:
+        if carried:
+            recomputed, index = index, {}
+            for cx, cz in all_cells:
+                key = f"{cx}_{cz}"
+                if key in recomputed:
+                    index[key] = recomputed[key]
+                elif (cx, cz) not in footprint_cells and key in carried:
+                    index[key] = carried[key]
+                elif (cx, cz) in footprint_cells:
+                    # re-scattered and dressed nothing: its bundle is gone
+                    (out_dir / f"chunk_{cx}_{cz}_vegetation.bin").unlink(missing_ok=True)
         (out_dir / "vegetation-index.json").write_text(
             json.dumps({"seed": args.seed, "chunkMetres": round(CHUNK_M, 2),
                         "speciesOrder": species_order(palette),

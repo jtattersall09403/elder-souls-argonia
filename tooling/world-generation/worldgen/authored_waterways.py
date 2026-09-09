@@ -140,12 +140,19 @@ def connected_depth(h: np.ndarray, level: float, seed: np.ndarray) -> np.ndarray
 
 def carve_line(h: np.ndarray, samples_yx: np.ndarray, bed_m: float, mpp: float = RAW_M,
                half_width_m: float = CHANNEL_HALF_WIDTH_M,
-               shoulder_m: float = SHOULDER_M) -> tuple[np.ndarray, int]:
+               shoulder_m: float = SHOULDER_M) -> tuple[np.ndarray, int, tuple]:
     """Cut a flat-bedded trench to `bed_m` along sample-space points.
 
     Cells within `half_width_m` of the centreline go to the bed; between there
     and +`shoulder_m` the cut fades to nothing; beyond that the terrain is
     untouched (bit-identical), so no bank is re-graded.
+
+    Returns (heights, cells cut, window) where the window is the half-open
+    sample box ``(y0, y1, x0, x1)`` this carve could possibly have touched —
+    the FOOTPRINT the incremental chain reasons about (`worldgen.footprint`).
+    It is the whole search window, not the cut cells' bounding box: a box that
+    under-reports where an edit landed is worse than one that over-reports by
+    a shoulder's width.
     """
     reach = half_width_m + shoulder_m
     pad = int(np.ceil(reach / mpp)) + 2
@@ -166,7 +173,7 @@ def carve_line(h: np.ndarray, samples_yx: np.ndarray, bed_m: float, mpp: float =
     cut = target < win
     win[cut] = target[cut]
     h[y0:y1, x0:x1] = win
-    return h, int(cut.sum())
+    return h, int(cut.sum()), (y0, y1, x0, x1)
 
 
 def carve_authored(h: np.ndarray, level_with_sea: np.ndarray, wet: np.ndarray,
@@ -222,12 +229,12 @@ def carve_authored(h: np.ndarray, level_with_sea: np.ndarray, wet: np.ndarray,
         all_samples = np.concatenate([samples] + extra)
         govern = _governing_level(stations, all_samples, mpp, recv)
         bed = govern - need - DEPTH_MARGIN_M
-        h, cut = carve_line(h, all_samples, bed, mpp)
+        h, cut, window = carve_line(h, all_samples, bed, mpp)
         row = {"id": way["id"], "receivingLevelM": round(float(recv), 3),
                "governingLevelM": round(float(govern), 3),
                "bedM": round(float(bed), 3), "promisedDepthM": need,
                "hullClass": AUTHORED_HULL_CLASS, "samplesCut": cut,
-               "joins": len(joins)}
+               "joins": len(joins), "window": list(window)}
         if log is not None:
             log(f"authored waterway {way['id']}: level {recv:.2f} m, bed {bed:.2f} m, "
                 f"{cut} samples cut, {len(joins)} join(s)")

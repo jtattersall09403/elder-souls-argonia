@@ -10,6 +10,8 @@
 #   ./scripts/terrain-chain.sh --force         # rebuild every stage regardless
 #   ./scripts/terrain-chain.sh --from grade_routes    # resume at a stage
 #   ./scripts/terrain-chain.sh --list          # stages, in order
+#   ./scripts/terrain-chain.sh --footprint     # LOCAL edit fast path (below)
+#   ./scripts/terrain-chain.sh --steal-lock    # take a lock a dead run left
 #
 # Run from tooling/world-generation. A full forced rebuild is roughly six
 # minutes; a re-run with nothing changed is seconds.
@@ -25,6 +27,45 @@
 # `ES_VAULT_ROOT` points the whole chain at a different copy of the vault's
 # `argonia-heightfield` directory (a scratch copy for benchmarking, a second
 # worktree building at the same time). VAULT below follows it.
+#
+# --footprint: THE LOCAL-EDIT FAST PATH. Use it, and only it, when the ONLY
+# thing you changed is one of the two carves that touch a bounded patch of
+# ground:
+#
+#   * a blueprint dock's hullClass / position / networkTerminals entry
+#     (worldgen/dock_dredge.py), or
+#   * a line in world/sources/routes/authored-minor-waterways.json
+#     (worldgen/authored_waterways.py).
+#
+# It skips `refine_province` (which re-derives the whole 4033 x 4033 province
+# for a 172 m dredge), `reroute_majors` and `compile_minor_routes`, and instead
+# runs `recarve_local`: it restarts from the snapshot refine leaves at the
+# local-carve boundary, re-applies just those carves, and reports the changed
+# region. `compile_chunks`, `export_web_chunks` and `compile_scatter` then redo
+# only the tiles that intersect it. Everything else runs exactly as it does in
+# the full chain, in the same order, so grading, structures, pads and both
+# water solves see the same ground they always did.
+#
+# It is NOT valid for anything else, and it will not pretend otherwise:
+# `recarve_local` checks the snapshot against the refined heightfield outside
+# the last footprint and EXITS if anything upstream moved. Anything touching
+# the sculpt, the hydrology, the region or climate fields, the fluvial pass,
+# the typed terrain requests, the channel solve, the route networks or the
+# grader must take the slow path. When in doubt, take the slow path: it is six
+# minutes, and a wrong province is not.
+#
+# `compile_water` (a province-wide flood solve) and `rebake_landcover` (one
+# province-wide control raster off one rng stream) are whole-province in both
+# modes and are the floor on the fast path's cost — see their module docs.
+#
+# THE LOCK. Two agents share this working tree and both run this script. Two
+# chains writing `refined-height-f32.npy` and the water rasters at the same
+# time silently produce a province that is neither run's output, so a run
+# takes `chain.lock` in the vault heightfield directory (beside
+# `chain-stamps.json`) and releases it from the EXIT trap, including on
+# failure. A second run says who holds the lock and how long they have had it,
+# and stops. If a run died hard and left the lock behind, `--steal-lock` takes
+# it; nothing else does, on purpose.
 #
 # `grade_routes` runs twice on purpose: the first pass MEASURES the stretches
 # no 30 deg bench can carry, `author_route_structures` turns them into decks,
@@ -70,16 +111,73 @@ STAGES=(
   "compile_scatter"
 )
 
+# The fast path's stage list: the same chain with the province-wide re-derive
+# and the route solves elided, and the per-tile stages given the footprint.
+FOOTPRINT_FILE="$VAULT/province-refined/chain-footprint.json"
+FOOTPRINT_STAGES=(
+  "recarve_local"
+  "compile_water"
+  "grade_routes"
+  "author_route_structures"
+  "grade_routes"
+  "grade_settlement_pads"
+  "compile_chunks"
+  "export_web_chunks"
+  "compile_water"
+  "terrain_request_postconditions"
+  "rebake_landcover"
+  "compile_scatter"
+)
+
 from=""
 force=""
+footprint=""
+steal=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --list) printf '%s\n' "${STAGES[@]}"; exit 0 ;;
     --force) force="--force"; shift ;;
+    --footprint) footprint=1; shift ;;
+    --steal-lock) steal=1; shift ;;
     --from) from="${2:?--from needs a stage name}"; shift 2 ;;
-    *) echo "usage: $0 [--from <stage>] [--force] [--list]" >&2; exit 2 ;;
+    *) echo "usage: $0 [--from <stage>] [--force] [--footprint] [--steal-lock] [--list]" >&2; exit 2 ;;
   esac
 done
+
+if [[ -n "$footprint" ]]; then
+  STAGES=("${FOOTPRINT_STAGES[@]}")
+  # The footprint file is written by recarve_local at the head of this run.
+  STAGE_ARGS[compile_chunks]="--footprint|$FOOTPRINT_FILE"
+  STAGE_ARGS[export_web_chunks]="--changed"
+  STAGE_ARGS[compile_scatter]="--out|$REPO_ROOT/apps/world-studio/public/province/vegetation|--footprint|$FOOTPRINT_FILE"
+  # Every stage here reads ground the previous one just moved; the stamp book
+  # cannot see that a skipped refine changed the world, so the fast path never
+  # skips on stamps.
+  force="--force"
+fi
+
+# ---------------------------------------------------------------- the lock
+LOCK="$VAULT/chain.lock"
+mkdir -p "$VAULT"
+if [[ -n "$steal" ]]; then
+  rm -f "$LOCK"
+fi
+if ! (set -o noclobber; printf 'pid=%s host=%s started=%s mode=%s\n' \
+        "$$" "$(hostname)" "$(date -Is)" "${footprint:+footprint}${footprint:-full}" \
+        > "$LOCK") 2>/dev/null; then
+  held=$(( $(date +%s) - $(stat -c %Y "$LOCK") ))
+  # shellcheck disable=SC2016
+  holder=$(sed -n 's/.*pid=\([0-9]*\).*/\1/p' "$LOCK")
+  started=$(sed -n 's/.*started=\([^ ]*\).*/\1/p' "$LOCK")
+  mode=$(sed -n 's/.*mode=\([^ ]*\).*/\1/p' "$LOCK")
+  echo "Waiting: another session is already running the terrain chain in this tree." >&2
+  echo "  Process $holder started a $mode run at $started and has held it for $((held / 60))m $((held % 60))s." >&2
+  echo "  A full run takes about 8 minutes. Nothing is broken; try again when it finishes." >&2
+  echo "  If that run died and left the lock behind (no process $holder), take it with:" >&2
+  echo "    $0 --steal-lock ${*:-}" >&2
+  exit 3
+fi
+trap 'rm -f "$LOCK"' EXIT
 
 if [[ -n "$from" ]]; then
   printf '%s\n' "${STAGES[@]}" | grep -qx "$from" \
@@ -100,15 +198,20 @@ summary() {
   printf '%-26s %9s\n' "total" "$total"
   rm -f "$CHAIN_TIMES"
 }
-trap summary EXIT
+# Chained onto the lock's trap: the lock is released whatever happens, and the
+# timings still print for a chain that stopped on a failing stage.
+trap 'summary; rm -f "$LOCK"' EXIT
 
 started=0
 index=0
 for stage in "${STAGES[@]}"; do
   index=$((index + 1))
   # `grade_routes` appears twice with different inputs, so the stamp is keyed
-  # by position as well as name.
-  key=$(printf '%02d-%s' "$index" "$stage")
+  # by position as well as name — and the fast path's positions are its own,
+  # so its stamps live under an `fp-` prefix and cannot be mistaken for the
+  # full chain's. A full run after a fast one therefore rebuilds from the
+  # sculpt down, which is the conservative answer and the right one.
+  key=$(printf '%s%02d-%s' "${footprint:+fp-}" "$index" "$stage")
   if [[ -n "$from" && $started -eq 0 ]]; then
     [[ "$stage" == "$from" ]] && started=1 || continue
   fi

@@ -26,6 +26,7 @@ import tempfile
 from pathlib import Path
 
 import numpy as np
+from PIL import Image
 from scipy import ndimage
 
 from .condition import base_terrain
@@ -147,6 +148,40 @@ def carve_channels(h, rivers_up):
     return h, dist_all
 
 
+def apply_local_carves(h, level_with_sea, wet, stations, log=print):
+    """The two LOCAL carves, and exactly where on the province they landed.
+
+    `authored_waterways.carve_authored` and `dock_dredge.dredge_docks` are the
+    only edits in the whole refine that touch a bounded patch of ground: a
+    poling channel, a dredged dock approach. Everything before them re-derives
+    the province. Split out here because that boundary is the incremental
+    chain's boundary too — `worldgen.recarve_local` restarts from exactly this
+    point on the snapshot refine leaves behind, so a one-dock edit costs one
+    dock instead of a 4033² rebuild.
+
+    Returns (heights, authored stats, dredge stats, footprint boxes) — the
+    boxes in full-resolution sample coordinates (`worldgen.footprint`).
+    """
+    # Authored minor waterways are carved, not solved: they are not in the
+    # hydrology graph, so nothing else would ever cut them. Geometry and the
+    # promise come from world/sources/routes/authored-minor-waterways.json via
+    # hydrology_intent (pre-water intent, never a published raster).
+    from . import authored_waterways, dock_dredge, footprint
+    h, authored_stats = authored_waterways.carve_authored(
+        h, level_with_sea, wet, RAW_M, stations=stations, log=log)
+    # A dock declares the deepest hull it serves; a working port keeps the
+    # channel that serves it DUG. Every approach that does not already carry
+    # its hull class is dredged here, from the blueprints' own dock/terminal
+    # data — see worldgen/dock_dredge.py for the rule. It only ever cuts, and
+    # never touches ground standing above the waterline.
+    h, dredge_stats = dock_dredge.dredge_docks(
+        h, level_with_sea, RAW_M, stations=stations, log=log)
+    boxes = footprint.normalise(
+        row["window"] for row in (*authored_stats, *dredge_stats)
+        if row.get("window"))
+    return h, authored_stats, dredge_stats, boxes
+
+
 def carve_to_profile(h, npz, save_path=None):
     """Cut every river trench to the channel long profile (decision 0047).
 
@@ -192,22 +227,19 @@ def carve_to_profile(h, npz, save_path=None):
             body_level[np.isin(bodies.body, ids)] = -np.inf
     h, stats = channels.carve(h, sol, protect=collar, body_level=body_level)
     h, n_islands = sw.lower_islands(h, bodies)
-    # Authored minor waterways are carved, not solved: they are not in the
-    # hydrology graph, so nothing else would ever cut them. Geometry and the
-    # promise come from world/sources/routes/authored-minor-waterways.json via
-    # hydrology_intent (pre-water intent, never a published raster).
-    from . import authored_waterways
-    h, authored_stats = authored_waterways.carve_authored(
-        h, bodies.level_with_sea, bodies.wet | bodies.sea, RAW_M,
-        stations=(sol.y, sol.x, sol.L), log=print)
-    # A dock declares the deepest hull it serves; a working port keeps the
-    # channel that serves it DUG. Every approach that does not already carry
-    # its hull class is dredged here, from the blueprints' own dock/terminal
-    # data — see worldgen/dock_dredge.py for the rule. It only ever cuts, and
-    # never touches ground standing above the waterline.
-    from . import dock_dredge
-    h, dredge_stats = dock_dredge.dredge_docks(
-        h, bodies.level_with_sea, RAW_M, stations=(sol.y, sol.x, sol.L), log=print)
+    # THE INCREMENTAL BOUNDARY. Everything above re-derives the province;
+    # what follows is local, with a reported footprint. The snapshot and the
+    # inputs saved here are what `worldgen.recarve_local` restarts from — it
+    # is the same ground, so a fast re-carve and a full rebuild agree.
+    stations = (sol.y, sol.x, sol.L)
+    if save_path is not None:
+        local_dir = Path(save_path).parent
+        np.save(local_dir / "refined-height-prelocal-f32.npy", h)
+        np.savez(local_dir / "local-carve-inputs.npz",
+                 level_with_sea=bodies.level_with_sea,
+                 wet=bodies.wet | bodies.sea)
+    h, authored_stats, dredge_stats, carve_boxes = apply_local_carves(
+        h, bodies.level_with_sea, bodies.wet | bodies.sea, stations, log=print)
     # self-consistency report: the compiler floods THIS terrain and keeps the
     # profile above; a lake the trench breached, or a hollow the levee made
     # under a channel, shows here as a pooled station whose flood level moved
@@ -228,6 +260,12 @@ def carve_to_profile(h, npz, save_path=None):
     stats.update({k: v for k, v in pool_report.items() if not k.endswith("Sites")})
     stats["bodies"] = bodies.census
     if save_path is not None:
+        from . import footprint
+        # What the local carves touched THIS run. `recarve_local` unions it
+        # with the next run's boxes: undoing an old cut is as much a change as
+        # making the new one.
+        footprint.save(Path(save_path).with_name("local-carve-footprint.json"),
+                       carve_boxes, grid_shape=h.shape)
         sol.save(save_path)
         # the roads/places the pools were judged against: the compile must
         # judge them against the SAME snapshot, or a road re-routed through a
@@ -370,6 +408,55 @@ def resolve_portages(h, origin_full, rng, lanes_path=None):
     return h, features, track
 
 
+def write_height_raster(h):
+    """The studio's half-res RG16 height raster. Returns (lo, hi, image shape).
+
+    Half resolution, low-passed before decimation (naive [::2] aliased the
+    finest relief octave into moiré). Split out of `main` so the incremental
+    re-carve (`worldgen.recarve_local`) writes the identical file rather than
+    a second implementation of the same packing.
+    """
+    half = ndimage.gaussian_filter(h, 1.0)[::2, ::2]
+    lo, hi = float(half.min()), float(half.max())
+    q = np.round((half - lo) / (hi - lo) * 65535.0).astype(np.uint16)
+    rg = np.zeros((*q.shape, 3), dtype=np.uint8)
+    rg[..., 0] = q >> 8
+    rg[..., 1] = q & 0xFF
+    STUDIO_DIR.mkdir(parents=True, exist_ok=True)
+    Image.fromarray(rg).save(STUDIO_DIR / "height-rg.png")
+    return lo, hi, tuple(int(v) for v in q.shape)
+
+
+WET_RISE_M = 1.4
+
+
+def write_flood_states(h) -> None:
+    """Flood states (§36 FloodBasin + climatology) for the given ground.
+
+    Derived from the heightfield alone, so the incremental re-carve reproduces
+    it by calling this with the re-carved ground.
+    """
+    current_water = h < 0.05
+    below = h < 0.05 + WET_RISE_M
+    lbl, _ = ndimage.label(below)
+    wet_ids = np.unique(lbl[current_water])
+    inund = np.isin(lbl, wet_ids[wet_ids > 0])
+    newly = inund & ~current_water
+    del below, lbl, inund
+    STUDIO_DIR.mkdir(parents=True, exist_ok=True)
+    Image.fromarray((newly[::2, ::2] * 255).astype(np.uint8)).save(STUDIO_DIR / "flood-wet.png")
+    (STUDIO_DIR / "flood-states.json").write_text(json.dumps({
+        "basins": [{
+            "id": "province-fresh", "meanLevelM": 0.0,
+            "seasonalAmplitudeM": WET_RISE_M, "tidalAmplitudeM": 0.5,
+            "surgeProfile": "monsoon-pulse-lagged",
+            "inundationMask": "flood-wet.png",
+            "note": "flood pulse lags the rains 1-2 months (docs/research/world-terrain/black-marsh-climatology.md)",
+        }],
+        "wetSeasonNewlyFloodedFracOfLand": round(float(newly.sum() / max((~current_water).sum(), 1)), 4),
+    }, indent=1))
+
+
 def rasterize_roads(shape, origin_full):
     """Rasterize the Phase 4 road corridors (routes.json, macro [x, y] px)
     into a bool mask ~27 m wide. Water rules override later, so crossings
@@ -472,17 +559,7 @@ def main() -> None:
         _atomic_json(vault_dir / filename, document)
         _atomic_json(STUDIO_DIR / filename, document)
 
-    # studio raster at half resolution (RG 16-bit packing), low-passed before
-    # decimation (naive [::2] aliased the finest relief octave into moiré).
-    from PIL import Image
-    half = ndimage.gaussian_filter(h, 1.0)[::2, ::2]
-    lo, hi = float(half.min()), float(half.max())
-    q = np.round((half - lo) / (hi - lo) * 65535.0).astype(np.uint16)
-    rg = np.zeros((*q.shape, 3), dtype=np.uint8)
-    rg[..., 0] = q >> 8
-    rg[..., 1] = q & 0xFF
-    STUDIO_DIR.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(rg).save(STUDIO_DIR / "height-rg.png")
+    lo, hi, q_shape = write_height_raster(h)
 
     # Ground-material control map (0011) at full resolution, with the
     # northern palette zone driven by province latitude.
@@ -504,26 +581,7 @@ def main() -> None:
     (STUDIO_DIR / "portages.json").write_text(json.dumps(
         {"features": portage_features}, indent=1))
 
-    # Flood states (§36 FloodBasin + climatology).
-    WET_RISE_M = 1.4
-    current_water = h < 0.05
-    below = h < 0.05 + WET_RISE_M
-    lbl, _ = ndimage.label(below)
-    wet_ids = np.unique(lbl[current_water])
-    inund = np.isin(lbl, wet_ids[wet_ids > 0])
-    newly = inund & ~current_water
-    del below, lbl, inund
-    Image.fromarray((newly[::2, ::2] * 255).astype(np.uint8)).save(STUDIO_DIR / "flood-wet.png")
-    (STUDIO_DIR / "flood-states.json").write_text(json.dumps({
-        "basins": [{
-            "id": "province-fresh", "meanLevelM": 0.0,
-            "seasonalAmplitudeM": WET_RISE_M, "tidalAmplitudeM": 0.5,
-            "surgeProfile": "monsoon-pulse-lagged",
-            "inundationMask": "flood-wet.png",
-            "note": "flood pulse lags the rains 1-2 months (docs/research/world-terrain/black-marsh-climatology.md)",
-        }],
-        "wetSeasonNewlyFloodedFracOfLand": round(float(newly.sum() / max((~current_water).sum(), 1)), 4),
-    }, indent=1))
+    write_flood_states(h)
 
     # Macro climate tint — retuned at the gate (owner: stronger shift, coast
     # less orange / more tropical, inland greener and darker). The studio has
@@ -555,9 +613,9 @@ def main() -> None:
         "originFullPx": [0, 0],
         "originM": [0.0, 0.0],
         "metresPerPixel": RAW_M * 2,
-        "imageWidth": int(q.shape[1]), "imageHeight": int(q.shape[0]),
+        "imageWidth": int(q_shape[1]), "imageHeight": int(q_shape[0]),
         "heightMinMetres": lo, "heightMaxMetres": hi,
-        "extentKm": [round(q.shape[1] * RAW_M * 2 / 1000, 2), round(q.shape[0] * RAW_M * 2 / 1000, 2)],
+        "extentKm": [round(q_shape[1] * RAW_M * 2 / 1000, 2), round(q_shape[0] * RAW_M * 2 / 1000, 2)],
         "groundControl": "ground-control.png",
         "portages": {
             "canoeChannels": sum(1 for f in portage_features if f["mode"] == "canoe-channel"),

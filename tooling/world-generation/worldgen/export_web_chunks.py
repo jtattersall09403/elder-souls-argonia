@@ -11,7 +11,14 @@ Heights stay true metres (vertical scale, ×1 per decision 0015, applied where
 data becomes geometry/collision); sea level y = 0.
 
 Usage:
-  python3 -m worldgen.export_web_chunks [vault-chunks-dir]
+  python3 -m worldgen.export_web_chunks [vault-chunks-dir] [--changed]
+
+INCREMENTAL. With `--changed` only the chunk LODs `compile_chunks` actually
+re-cut this run (its `chunks-changed.json`) are re-encoded; every other PNG is
+left byte-for-byte as it is and its manifest entry is rebuilt from the range
+already recorded in the web manifest. The province-wide gradient texture is
+NOT incremental — it is one image over the whole heightfield, so it is
+re-encoded every run, and it is the floor on this stage's cost.
 """
 
 from __future__ import annotations
@@ -88,14 +95,37 @@ def _encode_one(job: tuple[str, str, str]) -> tuple[str, float, float, int]:
 
 
 def main() -> None:
-    chunks_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_HEIGHTS.parent / "chunks"
+    args = list(sys.argv[1:])
+    only_changed = "--changed" in args
+    args = [a for a in args if a != "--changed"]
+    chunks_dir = Path(args[0]) if args else DEFAULT_HEIGHTS.parent / "chunks"
     manifest = json.loads((chunks_dir / "chunks-manifest.json").read_text())
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    web_path = OUT_DIR / "chunks-web-manifest.json"
+    known: dict[str, tuple[float, float, int]] = {}
+    if only_changed and web_path.exists():
+        changed_path = chunks_dir / "chunks-changed.json"
+        changed = set(json.loads(changed_path.read_text())["chunks"]) \
+            if changed_path.exists() else None
+        if changed is not None:
+            for entry in json.loads(web_path.read_text())["chunks"]:
+                if f"{entry['cx']}_{entry['cy']}" in changed:
+                    continue
+                for lod, meta in entry["lods"].items():
+                    name = f"chunk_{entry['cx']}_{entry['cy']}_lod{lod}.png"
+                    if (OUT_DIR / name).exists():
+                        known[name] = (meta["minM"], meta["maxM"],
+                                       (OUT_DIR / name).stat().st_size)
+            print(f"changed set: {len(changed)} chunks re-encoded, "
+                  f"{len(known)} PNGs kept")
 
     jobs = []
     for entry in manifest["chunks"]:
         for lod, meta in entry["lods"].items():
             name = f"chunk_{entry['cx']}_{entry['cy']}_lod{lod}.png"
+            if name in known:
+                continue
             jobs.append((str(chunks_dir / meta["file"]), str(OUT_DIR / name), name))
     # The province-wide gradient texture is one 4k PNG and takes longer than
     # all the chunk tiles together, so it goes into the pool first and encodes
@@ -106,6 +136,10 @@ def main() -> None:
         encoded = {name: (lo, hi, size)
                    for name, lo, hi, size in pool.imap(_encode_one, jobs, chunksize=8)}
         gradients = pending_gradients.get()
+    # PNGs this run did not touch keep the range already published for them:
+    # re-deriving it would mean re-reading every chunk to learn what the
+    # manifest already records.
+    encoded.update(known)
 
     web_chunks = []
     total_bytes = 0

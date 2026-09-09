@@ -10,6 +10,23 @@ Differences vs the in-refine bake: a fresh rng(SEED) (noise fields re-draw —
 same character, different lattice) and portage boardwalk tracks are not
 painted (they return with the next full refine_province run).
 
+NOT INCREMENTAL, on purpose. The other per-tile stages take a `--footprint`
+and redo only the chunks a local edit touched; this one cannot, and pretending
+otherwise would ship a control map a full rebuild would not produce:
+
+* it writes two PROVINCE-WIDE files (`ground-control.png`,
+  `landcover-i16.npy`), not a tile per chunk, so there is no tile to skip;
+* `compile_ground_control` is global by construction — shoreline and channel
+  distance transforms, a nearest-wet-cell lookup and warped noise fields all
+  read the whole grid, and a windowed re-bake gives different values at the
+  window's edge; and
+* its noise is drawn from one `default_rng(SEED)` stream over the full raster,
+  so re-drawing a window is not the same draw.
+
+Its ~38 s is therefore a floor on any rebuild, alongside `compile_water`'s
+province-wide flood solve. Both are cheap next to the 153 s refine the
+footprint path removes.
+
 Usage: python3 -m worldgen.rebake_landcover
 """
 

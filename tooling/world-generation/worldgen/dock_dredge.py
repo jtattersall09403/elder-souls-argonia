@@ -366,7 +366,11 @@ def dredge_docks(h: np.ndarray, level_with_sea: np.ndarray,
                     f"wrong, and that is a placement call")
             continue
         h, stats = dredge_channel(h, cut_samples, bed, cut_levels, mpp, rec["halfWidthM"])
-        stats.pop("window", None)
+        # The window is kept, not dropped: it is this cut's FOOTPRINT, and the
+        # incremental chain (`worldgen.footprint`, `worldgen.recarve_local`)
+        # needs to know where on the province the edit landed to rebuild only
+        # the tiles that intersect it.
+        stats["window"] = list(stats["window"])
         rec.update(stats)
         after = _min_depth(h, samples[:promise_n], levels[:promise_n])
         rec["dredgedMinDepthM"] = round(after, 3)

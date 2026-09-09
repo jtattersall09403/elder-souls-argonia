@@ -16,6 +16,20 @@ a 256-sample chunk) so meshes and colliders stitch without seams.
 
 Usage:
   python3 -m worldgen.compile_chunks [refined-height-f32.npy]
+  python3 -m worldgen.compile_chunks --footprint chain-footprint.json
+
+INCREMENTAL. With `--footprint` only the chunks that intersect the changed
+region (`worldgen.footprint`) are re-cut; every other chunk file is left
+untouched on disk and its manifest entry is carried over unchanged. The
+footprint is not trusted blindly: the heights are diffed against the snapshot
+of what was last compiled (`chunks/compiled-height-f32.npy`), and the measured
+changed region is unioned in, so a footprint that under-reports widens rather
+than shipping a stale tile. No snapshot means no measurement, and no
+measurement means everything is recut.
+
+The manifest's `sha256` still covers every chunk of the province, read back
+from disk, so it means the same thing after an incremental run as after a full
+one.
 """
 
 from __future__ import annotations
@@ -51,14 +65,23 @@ DEFAULT_HEIGHTS = HEIGHTFIELD_DIR / "province-refined" / "refined-height-f32.npy
 META_PATH = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined" / "meta.json"
 
 
-def chunk_grid(h: np.ndarray):
+def chunk_grid(h: np.ndarray, wanted: set | None = None):
     """Yield (cx, cy, lod_arrays) for every chunk; each LOD includes the
-    +1 overlap row/column where available."""
+    +1 overlap row/column where available.
+
+    `wanted` restricts the yield to a set of (cx, cy). The LOD low-pass is
+    still taken over the WHOLE province — it is a couple of seconds, and
+    filtering a window instead would give a different answer at the window's
+    edge, which is exactly the kind of near-miss an incremental path must not
+    ship.
+    """
     ny = (h.shape[0] + CHUNK - 1) // CHUNK
     nx = (h.shape[1] + CHUNK - 1) // CHUNK
     smoothed = {f: (h if f == 1 else ndimage.gaussian_filter(h, f * 0.5)) for f in LODS}
     for cy in range(ny):
         for cx in range(nx):
+            if wanted is not None and (cx, cy) not in wanted:
+                continue
             y0, x0 = cy * CHUNK, cx * CHUNK
             y1 = min(y0 + CHUNK + 1, h.shape[0])
             x1 = min(x0 + CHUNK + 1, h.shape[1])
@@ -68,15 +91,50 @@ def chunk_grid(h: np.ndarray):
             yield cx, cy, lods
 
 
+def changed_chunks(h: np.ndarray, footprint_path, snapshot: Path) -> set | None:
+    """Which chunks an edit can have moved, or None for "all of them".
+
+    The footprint says where the edit landed; the snapshot of the heights this
+    compiler last cut says where the ground actually moved. The union is used,
+    because either alone can be short: the footprint is a claim, and the
+    snapshot is absent on a first run.
+    """
+    from . import footprint as fp
+    boxes = fp.load_or_none(footprint_path)
+    if boxes is None:
+        return None
+    old = np.load(snapshot) if snapshot.exists() else None
+    measured = fp.changed_boxes(h, old)
+    if measured is None:
+        return None
+    return fp.chunks(fp.union(boxes, measured), CHUNK)
+
+
 def main() -> None:
-    height_path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_HEIGHTS
+    args = [a for a in sys.argv[1:]]
+    footprint_path = None
+    if "--footprint" in args:
+        i = args.index("--footprint")
+        footprint_path = Path(args[i + 1])
+        del args[i:i + 2]
+    height_path = Path(args[0]) if args else DEFAULT_HEIGHTS
     h = np.load(height_path)
     out_dir = height_path.parent / "chunks"
     out_dir.mkdir(exist_ok=True)
+    snapshot = out_dir / "compiled-height-f32.npy"
+    manifest_path = out_dir / "chunks-manifest.json"
+    wanted = None
+    previous: dict = {}
+    if footprint_path is not None and manifest_path.exists():
+        wanted = changed_chunks(h, footprint_path, snapshot)
+        if wanted is not None:
+            previous = {(e["cx"], e["cy"]): e
+                        for e in json.loads(manifest_path.read_text())["chunks"]}
+            print(f"footprint: {len(wanted)} of {len(previous)} chunks re-cut")
     meta = json.loads(META_PATH.read_text())
     chunks = []
-    sha = hashlib.sha256()
-    for cx, cy, lods in chunk_grid(h):
+    fresh = {}
+    for cx, cy, lods in chunk_grid(h, wanted):
         entry = {"cx": cx, "cy": cy,
                  "originM": [round(meta["originM"][0] + cx * CHUNK * RAW_M, 1),
                              round(meta["originM"][1] + cy * CHUNK * RAW_M, 1)],
@@ -86,10 +144,28 @@ def main() -> None:
         for f, arr in lods.items():
             name = f"chunk_{cx}_{cy}_lod{f}.npy"
             np.save(out_dir / name, arr)
-            sha.update(arr.tobytes())
             entry["lods"][str(f)] = {"file": name, "shape": list(arr.shape),
                                      "metresPerSample": round(RAW_M * f, 3)}
-        chunks.append(entry)
+        fresh[(cx, cy)] = entry
+    if wanted is None:
+        chunks = [fresh[key] for key in sorted(fresh, key=lambda k: (k[1], k[0]))]
+    else:
+        # Manifest order is the full grid's order, never "changed ones first":
+        # a reordered manifest is a different file for the same province.
+        chunks = [fresh.get(key, previous.get(key))
+                  for key in sorted(set(previous) | set(fresh), key=lambda k: (k[1], k[0]))]
+        chunks = [entry for entry in chunks if entry is not None]
+    # The digest covers the whole province, read back from disk, so it means
+    # the same after an incremental run as after a full one.
+    sha = hashlib.sha256()
+    for entry in chunks:
+        for f in LODS:
+            sha.update(np.load(out_dir / entry["lods"][str(f)]["file"]).tobytes())
+    # What this run cut, so the next run can measure what moved.
+    np.save(snapshot, h)
+    changed_names = sorted(f"{cx}_{cy}" for cx, cy in fresh)
+    (out_dir / "chunks-changed.json").write_text(json.dumps(
+        {"schemaVersion": 1, "chunks": changed_names}, indent=1) + "\n")
     manifest = {
         "chunkSamples": CHUNK,
         "chunkMetres": round(CHUNK * RAW_M, 1),
