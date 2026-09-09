@@ -39,7 +39,24 @@ jobs:
       #   * test_water_invariants.py::…boat_lane_carries_a_hull… — 122 m of
       #     route.boat.blackrose-lilmoth crosses a marsh flat that is dry in BOTH
       #     seasons. Owner call: declare the carry or make the flat water.
+      # OWNER OVERRIDE, 2026-09-09, FOR THIS DEPLOY ONLY — REVERT AFTER.
+      # The owner authorised shipping over known, named gate failures so they
+      # can walk the province while the fixes land: "I am happy to override any
+      # 'gate' issues in the same way on this occasion (with things flagged to
+      # me appropriately and added to your list to fix if necessary)."
+      # The step still RUNS and still shows RED, so nothing is hidden; it just
+      # no longer stops the deploy. Four failures are outstanding:
+      #   * test_blueprint::test_live_dir_validates and
+      #     test_blueprint::test_door_must_sit_on_the_side_it_claims — two
+      #     Lilmoth doors whose piece entrance (260 deg) and parcel footprint
+      #     edge (153 deg) disagree by 107 deg. Real, being fixed.
+      #   * test_macro_plot::test_the_solve_keeps_every_committed_cell — the
+      #     plot/carve/flood loop; each rebuild invalidates a place or two.
+      #   * test_vegetation_ladder::test_delivered_ladder — the density ladder
+      #     against the newly scattered bundles.
+      # DELETE continue-on-error the moment those four are green.
       - run: npm run test:placement
+        continue-on-error: true
       # The slow split re-grades the whole province from the vault rasters. It
       # skips where the vault is absent (that includes this runner), so it is
       # wired here to stop it drifting, not as a CI-side measurement.

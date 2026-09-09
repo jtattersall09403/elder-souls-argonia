@@ -7224,8 +7224,12 @@
             0.864391989
           ],
           [
-            0.493863189,
-            0.864378775
+            0.490337051,
+            0.864107534
+          ],
+          [
+            0.49413443,
+            0.864107534
           ],
           [
             0.496304361,
@@ -9590,16 +9594,16 @@
         "notes": "The road arrives from the west-north-west; the city calls it the north gate because the road is the road north to Blackrose. The last 200 m bend twice, round the pond and over the shoulder.",
         "viaUV": [
           [
-            0.481022,
-            0.864155
+            0.490411046,
+            0.869732276
           ],
           [
-            0.482718,
-            0.864828
+            0.483763014,
+            0.866013882
           ],
           [
-            0.48462,
-            0.867615
+            0.484620227,
+            0.867614773
           ]
         ]
       },
@@ -9728,8 +9732,8 @@
         "parcelId": "parcel.lilmoth.tariff-bell",
         "facingDeg": 259.9,
         "thresholdUV": [
-          0.51049702,
-          0.854726708
+          0.510768486,
+          0.85471449
         ],
         "interiorClaim": {
           "sizeClass": "medium",
@@ -9968,8 +9972,8 @@
         "parcelId": "parcel.lilmoth.quay-lamp",
         "facingDeg": 268.0,
         "thresholdUV": [
-          0.522157215,
-          0.85957304
+          0.522427694,
+          0.859599194
         ],
         "interiorClaim": {
           "sizeClass": "medium",

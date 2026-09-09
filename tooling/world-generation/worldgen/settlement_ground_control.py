@@ -359,13 +359,17 @@ def main() -> int:
     parser.add_argument("--water-surface", type=Path, default=DEFAULT_WATER_SURFACE)
     parser.add_argument("--water-meta", type=Path, default=DEFAULT_WATER_META)
     parser.add_argument("--provenance", type=Path, default=DEFAULT_PROVENANCE)
+    parser.add_argument("--ship-with-errors", metavar="REASON", default=None,
+                        help="OWNER OVERRIDE, passed through to build_bundle: paint the "
+                             "ground for a bundle published with named known errors. Off "
+                             "by default; the errors are already recorded in the bundle.")
     args = parser.parse_args()
     try:
         # Import lazily: the pure raster helpers stay cheap and isolated in
         # tests, while the production command proves the exported bundle is
         # exactly the current compiler projection rather than trusting mtime.
         from .export_settlement_bundle import build_bundle
-        expected = build_bundle()
+        expected = build_bundle(ship_with_errors=args.ship_with_errors)
         result = process_files(args.bundle, args.ground_control, args.water_surface,
                                args.water_meta, args.provenance,
                                expected_bundle=expected)

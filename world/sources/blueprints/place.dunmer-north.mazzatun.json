@@ -284,8 +284,12 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.264629795,
-            0.182611209
+            0.266345642,
+            0.181589813
+          ],
+          [
+            0.264626751,
+            0.182613933
           ],
           [
             0.263611011,
@@ -332,8 +336,8 @@
             0.180767751
           ],
           [
-            0.276785808,
-            0.175612039
+            0.276786553,
+            0.175612909
           ]
         ],
         "notes": "The lower step and the stream lip, 196-203 m. Block face, hoist, scaffolds, gate and cart. The stockade scaffold family is placed per its own snap logic.",
@@ -526,8 +530,8 @@
         "routing": "straight",
         "via": [
           [
-            0.266848,
-            0.182502
+            0.266666215,
+            0.181990882
           ],
           [
             0.26811318,
@@ -538,15 +542,15 @@
           "parcel.mazzatun.gate-frontage",
           "parcel.mazzatun.shelf-gate"
         ],
-        "why": "The eleven metres between the shelf head and the gate: the ridge track's own line carried past the frontage dais to the gate that closes it, so the way in and the terrace inside are one track with one wall across it.",
+        "why": "The thirteen metres between the shelf head and the gate: the ridge track's own line carried past the frontage dais to the gate that closes it, so the way in and the terrace inside are one track with one wall across it.",
         "points": [
           [
-            0.266848078,
-            0.182501994
+            0.26661925,
+            0.182058266
           ],
           [
-            0.268296768,
-            0.183366615
+            0.267990761,
+            0.183136813
           ]
         ]
       },
@@ -584,8 +588,8 @@
         "why": "The terrace track along the works, from the shelf gate at the west end past the great stair head, the statue court and the throat door to the watch column at the lip. It is the way along the middle step. It begins on the gate's inner face so the ridge track runs on without a break.",
         "points": [
           [
-            0.268411586,
-            0.183082431
+            0.268551,
+            0.182958
           ],
           [
             0.269139246,
@@ -1539,8 +1543,8 @@
           0.269481222,
           0.179357402
         ],
-        "yawDeg": 30.8,
-        "orientationWhy": "Turned to 30.8°, its doorway on 143° onto the pen lane, so the second shell is entered off the same walk as the first.",
+        "yawDeg": 68.7,
+        "orientationWhy": "Turned to 68.7°, its doorway on 181° onto the pen lane, so the second shell is entered off the same walk as the first.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The middle pen, a mud shell for four or five taken labourers.",
@@ -1548,7 +1552,7 @@
           "whySpot": "The middle of the upper step, where the ground is flattest, so it is a pad and not a cut.",
           "whyNeighbours": "It sits between the first pen and the pens stair, so the gang that files down to the works each shift passes its door.",
           "playerPurpose": "The overseers watch this pen hardest. A shift spent inside it is how their rota is learnt.",
-          "microGeography": "Dug into the middle of the step at about 207 m, 4 m above the works terrace. Its door stands 1.7 m from the lane, its nearest wall 2.1 m."
+          "microGeography": "Dug into the middle of the step at about 207 m, 4 m above the works terrace. Its door stands 0.8 m from the lane, its nearest wall 2.4 m."
         },
         "interior": {
           "kind": "dwelling"
@@ -1565,111 +1569,111 @@
             "note": "The taken keep what they have palmed off the cutting floor under the sleeping mud."
           }
         ],
-        "notes": "Door side: the flat panel on the shell's local south face, turned by the yaw to bearing 157.",
+        "notes": "Door side: the flat panel on the shell's local south face, turned by the yaw to bearing 181.",
         "footprint": [
           [
-            0.269165794,
-            0.179099898
+            0.269390504,
+            0.178960447
           ],
           [
-            0.269172514,
-            0.179091273
+            0.269401105,
+            0.178957769
           ],
           [
-            0.269246461,
-            0.179004306
+            0.269512878,
+            0.178934569
           ],
           [
-            0.269387189,
-            0.178927149
+            0.26967132,
+            0.178960134
           ],
           [
-            0.269394627,
-            0.178925267
+            0.269678345,
+            0.178963217
           ],
           [
-            0.269582266,
-            0.178904496
+            0.269839168,
+            0.179062091
           ],
           [
-            0.269719638,
-            0.178954808
+            0.26991666,
+            0.179186176
           ],
           [
-            0.269829231,
-            0.179051716
+            0.269943609,
+            0.179329967
           ],
           [
-            0.269900205,
-            0.179226653
+            0.269892152,
+            0.179511605
           ],
           [
-            0.269902087,
-            0.17923409
+            0.269889069,
+            0.17951863
           ],
           [
-            0.269901151,
-            0.179394579
+            0.269789744,
+            0.179644694
           ],
           [
-            0.269859821,
-            0.17950099
+            0.269691765,
+            0.179703273
           ],
           [
-            0.269796628,
-            0.179606998
+            0.26957678,
+            0.179748104
           ],
           [
-            0.269665242,
-            0.179697618
+            0.269417439,
+            0.179738902
           ],
           [
-            0.269586252,
-            0.179729476
+            0.26933554,
+            0.179715518
           ],
           [
-            0.269566964,
-            0.179735346
+            0.269316715,
+            0.179708302
           ],
           [
-            0.269415236,
-            0.179788577
+            0.269164289,
+            0.179657101
           ],
           [
-            0.269398009,
-            0.179783044
+            0.269154094,
+            0.179642153
           ],
           [
-            0.2693845,
-            0.17977657
+            0.269147412,
+            0.179628746
           ],
           [
-            0.269156175,
-            0.179640461
+            0.269050853,
+            0.179381087
           ],
           [
-            0.269144055,
-            0.179631657
+            0.269046698,
+            0.179366696
           ],
           [
-            0.269130994,
-            0.179619135
+            0.269044084,
+            0.179348791
           ],
           [
-            0.269105653,
-            0.179460349
+            0.269121628,
+            0.17920793
           ],
           [
-            0.269101643,
-            0.179440591
+            0.269130601,
+            0.179189875
           ],
           [
-            0.269092097,
-            0.179355956
+            0.269175058,
+            0.179117227
           ],
           [
-            0.269109321,
-            0.179197281
+            0.26928612,
+            0.1790026
           ]
         ]
       },
@@ -3904,7 +3908,7 @@
           0.26811318,
           0.183292441
         ],
-        "yawDeg": 112.0,
+        "yawDeg": 141.811,
         "orientationWhy": "Set parallel to the ridge track's 292° bearing, modulo 180°, so the measured 7.3 m wall run stands square across the track it spans.",
         "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
         "why": {
@@ -3922,52 +3926,52 @@
         "notes": "No room here either; the shoulder falls away on both sides of the run.",
         "footprint": [
           [
-            0.268401219,
-            0.182876388
+            0.26856994,
+            0.18307464
           ],
           [
-            0.268411586,
-            0.183082431
+            0.268476502,
+            0.183258571
           ],
           [
-            0.268404473,
-            0.183100035
+            0.268461579,
+            0.18327031
           ],
           [
-            0.268189063,
-            0.183633195
+            0.268009618,
+            0.183625828
           ],
           [
-            0.26818195,
-            0.1836508
+            0.267994695,
+            0.183637567
           ],
           [
-            0.268031363,
-            0.183791814
+            0.267793932,
+            0.183685057
           ],
           [
-            0.267825141,
-            0.183708494
+            0.26765642,
+            0.183510242
           ],
           [
-            0.267814774,
-            0.183502451
+            0.267749858,
+            0.183326311
           ],
           [
-            0.267821887,
-            0.183484847
+            0.267764781,
+            0.183314572
           ],
           [
-            0.268037297,
-            0.182951687
+            0.268216742,
+            0.182959054
           ],
           [
-            0.26804441,
-            0.182934082
+            0.268231665,
+            0.182947315
           ],
           [
-            0.268194997,
-            0.182793068
+            0.268432428,
+            0.182899825
           ]
         ]
       },
@@ -4166,16 +4170,16 @@
             0.180991061
           ],
           [
-            0.267632188,
-            0.181197154
+            0.267621804,
+            0.181221379
           ],
           [
-            0.267947679,
-            0.183752142
+            0.268132276,
+            0.183590054
           ],
           [
-            0.270489126,
-            0.183140105
+            0.270476494,
+            0.183143263
           ],
           [
             0.272264624,
@@ -4276,8 +4280,8 @@
         ],
         "boundary": [
           [
-            0.2672913,
-            0.178572497
+            0.26729422,
+            0.178571939
           ],
           [
             0.2671421,
@@ -4340,12 +4344,16 @@
             0.179108599
           ],
           [
-            0.272260428,
-            0.179016761
+            0.272257156,
+            0.179015381
           ],
           [
-            0.26962434,
-            0.178355769
+            0.269777209,
+            0.17842772
+          ],
+          [
+            0.26953426,
+            0.17838852
           ]
         ],
         "clearanceClass": "cluttered",
@@ -4523,19 +4531,19 @@
         "viaUV": [
           [
             0.265351,
-            0.187549
+            0.187035201
           ],
           [
-            0.265172,
-            0.184855
+            0.265172151,
+            0.184854849
           ],
           [
-            0.263347,
+            0.26363411,
             0.181542
           ],
           [
-            0.263416,
-            0.180124
+            0.264005941,
+            0.180713941
           ]
         ]
       }
@@ -4559,10 +4567,10 @@
       {
         "id": "door.dunmer-north.mazzatun.3",
         "parcelId": "parcel.mazzatun.pen-b",
-        "facingDeg": 142.8,
+        "facingDeg": 180.7,
         "thresholdUV": [
-          0.270316168,
-          0.179859405
+          0.270060205,
+          0.17997288
         ],
         "interiorClaim": {
           "sizeClass": "small",
@@ -4821,8 +4829,8 @@
         "id": "terminal.mazzatun.terrace-head",
         "routeId": "track.dunmer-north.mazzatun",
         "entryUV": [
-          0.266848,
-          0.182502
+          0.266666215,
+          0.181990882
         ],
         "wayId": "route.mazzatun.terrace-head",
         "kind": "track",

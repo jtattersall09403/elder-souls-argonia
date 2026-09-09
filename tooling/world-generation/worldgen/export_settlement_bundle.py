@@ -412,9 +412,24 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  terrain_evidence: tuple[dict, dict, dict] | None = None,
                  pad_grade_receipt: dict | None = None,
                  final_height: np.ndarray | None = None,
-                 known_red_path: Path | None = None) -> dict:
+                 known_red_path: Path | None = None,
+                 ship_with_errors: str | None = None) -> dict:
+    """`ship_with_errors` is an OWNER OVERRIDE and takes their stated reason.
+
+    Fail-closed is the rule and stays the rule: a stale or simply absent place
+    must never quietly vanish from the world the player receives. But the owner
+    may decide they would rather SEE a province with named defects than wait for
+    a clean one, and that is their call to make, not a compiler's.
+
+    So the override never hides anything. Every error it ships over is printed
+    by name, and recorded in the bundle under `shippedWithKnownErrors` with the
+    owner's reason, so nothing downstream — and nobody reading the bundle later
+    — can mistake this build for a clean one. It is off by default, it is never
+    set in CI, and it must be asked for explicitly with a reason.
+    """
     survey = ProvinceSurvey()
     known_red = load_warning_known_red(known_red_path)
+    overridden: list[str] = []
     if catalogue_records_by_id is None:
         catalogue_records_by_id = {
             record["id"]: record
@@ -443,7 +458,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         pad_errors = validate_applied_pad_grades(
             pad_grade_receipt, [{"blueprint": bp} for bp in blueprint_by_id.values()], final_height)
         if pad_errors:
-            raise ValueError("settlement pad delivery is incomplete: " + "; ".join(pad_errors))
+            message = "settlement pad delivery is incomplete: " + "; ".join(pad_errors)
+            if ship_with_errors is None:
+                raise ValueError(message)
+            overridden.extend(f"pad delivery: {e}" for e in pad_errors)
 
     compiled = []
     kit_names: set[str] = {"route-structures-v1"}
@@ -452,8 +470,12 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         if doc["id"].startswith("place.fixture."):
             continue
         if doc.get("errors"):
-            raise ValueError(f"{doc['id']} has {len(doc['errors'])} compile errors; "
-                             "refusing to publish stale/incomplete massing")
+            message = (f"{doc['id']} has {len(doc['errors'])} compile errors; "
+                       "refusing to publish stale/incomplete massing")
+            if ship_with_errors is None:
+                raise ValueError(message)
+            for err in doc["errors"]:
+                overridden.append(f"{doc['id']}: {err}")
         flood_report = doc.get("floodBandReport")
         if not isinstance(flood_report, dict):
             raise ValueError(f"{doc['id']} has no floodBandReport; refusing unchecked section placement")
@@ -469,8 +491,15 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             raise ValueError(f"compiled settlement has no authored blueprint: {doc['id']}")
         expected_hash = blueprint_sha256(bp)
         if doc.get("sourceBlueprintSha256") != expected_hash:
-            raise ValueError(f"{doc['id']} sourceBlueprintSha256 does not match its authored blueprint; "
-                             "refusing to publish a stale successful compile")
+            message = (f"{doc['id']} sourceBlueprintSha256 does not match its authored blueprint; "
+                       "refusing to publish a stale successful compile")
+            if ship_with_errors is None:
+                raise ValueError(message)
+            # A stale compile is a DIFFERENT and more dangerous thing to ship
+            # than a compile with known errors: the geometry published is not
+            # the geometry the blueprint now describes. Name it as such.
+            overridden.append(f"{doc['id']}: STALE COMPILE — the published massing "
+                              f"is older than the blueprint it claims to be built from")
         for p in doc.get("placements", []):
             if p.get("kit"):
                 kit_names.add(p["kit"])
@@ -544,7 +573,14 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         if not isinstance(actual_objects, list):
             raise ValueError(f"{doc['id']} has no compiledObjects final-delivery record")
         if actual_objects != expected_objects:
-            raise ValueError(f"{doc['id']} compiledObjects do not match the exact compiler output")
+            message = f"{doc['id']} compiledObjects do not match the exact compiler output"
+            if ship_with_errors is None:
+                raise ValueError(message)
+            # The same fact as the stale-sha check states twice, so it rides the
+            # same override rather than needing its own: what is published for
+            # this place is not what its current blueprint compiles to.
+            overridden.append(f"{doc['id']}: published objects do not match a fresh "
+                              f"compile of its current blueprint")
         compiled_by_id = {obj["id"]: obj for obj in actual_objects}
         if len(compiled_by_id) != len(actual_objects):
             raise ValueError(f"{doc['id']} compiledObjects contain duplicate ids")
@@ -682,6 +718,12 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         "stats": {"settlements": len(settlements),
                   "settlementPlacements": sum(len(s["placementIds"]) for s in settlements),
                   "routeStructurePlacements": route_count},
+        # Present ONLY on an owner-overridden build, so its absence is the
+        # proof a bundle is clean. Never write an empty list here.
+        **({"shippedWithKnownErrors": {"reason": ship_with_errors,
+                                       "count": len(overridden),
+                                       "errors": sorted(overridden)}}
+           if ship_with_errors is not None and overridden else {}),
     }
 
 
@@ -748,15 +790,28 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--copy-assets", action="store_true")
+    ap.add_argument("--ship-with-errors", metavar="REASON", default=None,
+                    help="OWNER OVERRIDE: publish even where a place has compile "
+                         "errors, recording every one by name in the bundle and "
+                         "printing them here. Takes the owner's reason. Off by "
+                         "default and never set in CI: fail-closed is the rule, "
+                         "and this is the owner choosing to see a named-defective "
+                         "world rather than wait for a clean one.")
     args = ap.parse_args()
     try:
-        bundle = build_bundle()
+        bundle = build_bundle(ship_with_errors=args.ship_with_errors)
         if args.copy_assets:
             copy_assets(bundle)
         _atomic_json(args.out, bundle)
     except ValueError as exc:
         print(f"export_settlement_bundle: {exc}")
         return 1
+    shipped = bundle.get("shippedWithKnownErrors")
+    if shipped:
+        print(f"export_settlement_bundle: OWNER OVERRIDE — published with "
+              f"{shipped['count']} known error(s). Reason: {shipped['reason']}")
+        for err in shipped["errors"]:
+            print(f"    SHIPPED BROKEN: {err}")
     print(f"export_settlement_bundle: {args.out} — "
           f"{bundle['stats']['settlementPlacements']} settlement + "
           f"{bundle['stats']['routeStructurePlacements']} route pieces")
