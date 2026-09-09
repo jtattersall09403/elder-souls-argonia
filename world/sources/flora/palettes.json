@@ -40,34 +40,34 @@
    "14": 1.4
   },
   "measuredDeliveredPerHectare2026_09_09": {
-   "1": 12.74,
-   "2": 32.6,
-   "3": 26.03,
-   "4": 69.17,
-   "5": 11.73,
-   "6": 115.68,
-   "7": 119.32,
-   "8": 19.22,
-   "9": 15.27,
-   "11": 26.97,
-   "12": 0.87,
-   "13": 39.0,
-   "14": 149.06
+   "1": 13.44,
+   "2": 34.36,
+   "3": 36.18,
+   "4": 61.54,
+   "5": 8.53,
+   "6": 138.24,
+   "7": 133.45,
+   "8": 25.24,
+   "9": 25.52,
+   "11": 29.24,
+   "12": 0.69,
+   "13": 39.1,
+   "14": 159.63
   },
   "measuredAttenuation2026_09_09": {
-   "1": 0.187,
-   "2": 0.222,
-   "3": 0.153,
-   "4": 0.206,
-   "5": 0.107,
-   "6": 0.621,
-   "7": 0.59,
-   "8": 0.408,
-   "9": 0.136,
-   "11": 0.49,
-   "12": 0.144,
-   "13": 0.459,
-   "14": 0.331
+   "1": 0.198,
+   "2": 0.234,
+   "3": 0.213,
+   "4": 0.184,
+   "5": 0.077,
+   "6": 0.742,
+   "7": 0.66,
+   "8": 0.536,
+   "9": 0.227,
+   "11": 0.531,
+   "12": 0.115,
+   "13": 0.461,
+   "14": 0.355
   },
   "pending": "these ratios are DESIGN targets until compile_scatter re-runs; test_vegetation_ladder::test_delivered_ladder stays red until it does"
  },
@@ -78,7 +78,7 @@
     {
      "species": "bmv:landscape/trees/dwarfjunip05",
      "tier": "T1",
-     "instances_per_hectare": 14.694,
+     "instances_per_hectare": 13.965,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -110,7 +110,7 @@
     {
      "species": "bmv:landscape/trees/scottish-pine22",
      "tier": "T1",
-     "instances_per_hectare": 13.776,
+     "instances_per_hectare": 13.092,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -144,7 +144,7 @@
     {
      "species": "bmv:landscape/trees/cedartree3",
      "tier": "T1",
-     "instances_per_hectare": 2.755,
+     "instances_per_hectare": 2.618,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -500,10 +500,10 @@
      "slope_deg_max": 38.0
     }
    ],
-   "targetInstancesPerHectare": 407.2,
-   "authoredStemsPerHectare": 31.23,
+   "targetInstancesPerHectare": 405.7,
+   "authoredStemsPerHectare": 29.68,
    "ladderRatioTarget": 0.15,
-   "ladderMultiplierApplied": 0.4592,
+   "ladderMultiplierApplied": 0.4364,
    "note": "The sparse, dry proof (owner 0036 Q3): juniper scrub thinning with altitude, bare rock carrying the view. Trees stop at the high altitude band; scrub climbs a little further."
   },
   "2": {
@@ -512,7 +512,7 @@
     {
      "species": "bmv:landscape/trees/gkbtreeaspen02jungle",
      "tier": "T1",
-     "instances_per_hectare": 28.712,
+     "instances_per_hectare": 27.312,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -542,7 +542,7 @@
     {
      "species": "bmv:landscape/trees/gkbtreeaspen03jungle",
      "tier": "T1",
-     "instances_per_hectare": 25.123,
+     "instances_per_hectare": 23.898,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -572,7 +572,7 @@
     {
      "species": "bmv:landscape/trees/cedartree3",
      "tier": "T1",
-     "instances_per_hectare": 15.792,
+     "instances_per_hectare": 15.022,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -671,7 +671,7 @@
     {
      "species": "bmv:landscape/trees/hodalder01gkb",
      "tier": "T1",
-     "instances_per_hectare": 35.89,
+     "instances_per_hectare": 34.14,
      "role": "gallery",
      "shore_m": [
       0.0,
@@ -951,10 +951,10 @@
      "slope_deg_max": 40.0
     }
    ],
-   "targetInstancesPerHectare": 596.5,
-   "authoredStemsPerHectare": 105.52,
+   "targetInstancesPerHectare": 591.4,
+   "authoredStemsPerHectare": 100.37,
    "ladderRatioTarget": 0.6,
-   "ladderMultiplierApplied": 0.7178,
+   "ladderMultiplierApplied": 0.6828,
    "note": "Ecology 5a/5b mix: cedar hill forest in stands (high patchiness), thin-stem scrub between, grass via T3; rivers run OPEN (M2 inverted) but carry gallery ribbons where the land is otherwise bare."
   },
   "3": {
@@ -963,7 +963,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
      "tier": "T1",
-     "instances_per_hectare": 60.678,
+     "instances_per_hectare": 43.767,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -989,7 +989,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
      "tier": "T1",
-     "instances_per_hectare": 26.968,
+     "instances_per_hectare": 19.452,
      "role": "basin-mangrove",
      "clump_size_median": 5,
      "clump_radius_m": 9.0,
@@ -1012,7 +1012,7 @@
     {
      "species": "bmv:landscape/trees/flatpalm1",
      "tier": "T1",
-     "instances_per_hectare": 14.832,
+     "instances_per_hectare": 10.699,
      "role": "canopy",
      "water_depth_m": [
       -6.0,
@@ -1039,7 +1039,7 @@
     {
      "species": "bmv:landscape/trees/flatpalm2",
      "tier": "T1",
-     "instances_per_hectare": 12.136,
+     "instances_per_hectare": 8.753,
      "role": "canopy",
      "water_depth_m": [
       -6.0,
@@ -1251,10 +1251,10 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 754.6,
-   "authoredStemsPerHectare": 114.61,
+   "targetInstancesPerHectare": 722.7,
+   "authoredStemsPerHectare": 82.67,
    "ladderRatioTarget": 0.45,
-   "ladderMultiplierApplied": 0.6742,
+   "ladderMultiplierApplied": 0.4863,
    "note": "Reedier, muddier cousin of the lagoon: mangrove lines the channels, reeds carry the flats."
   },
   "4": {
@@ -1263,7 +1263,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
      "tier": "T1",
-     "instances_per_hectare": 25.649,
+     "instances_per_hectare": 28.912,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -1289,7 +1289,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb2",
      "tier": "T1",
-     "instances_per_hectare": 15.784,
+     "instances_per_hectare": 17.792,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -1315,7 +1315,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb2",
      "tier": "T1",
-     "instances_per_hectare": 13.811,
+     "instances_per_hectare": 15.568,
      "role": "basin-mangrove",
      "clump_size_median": 5,
      "clump_radius_m": 9.0,
@@ -1338,7 +1338,7 @@
     {
      "species": "bmv:landscape/trees/datepalm2",
      "tier": "T1",
-     "instances_per_hectare": 4.933,
+     "instances_per_hectare": 5.56,
      "role": "canopy",
      "water_depth_m": [
       -6.0,
@@ -1365,7 +1365,7 @@
     {
      "species": "bmv:landscape/trees/beachpalm5",
      "tier": "T1",
-     "instances_per_hectare": 5.919,
+     "instances_per_hectare": 6.672,
      "role": "canopy",
      "water_depth_m": [
       -6.0,
@@ -1569,10 +1569,10 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 659.1,
-   "authoredStemsPerHectare": 66.1,
+   "targetInstancesPerHectare": 667.5,
+   "authoredStemsPerHectare": 74.5,
    "ladderRatioTarget": 0.35,
-   "ladderMultiplierApplied": 0.1973,
+   "ladderMultiplierApplied": 0.2224,
    "note": "Ecology type 3: mangrove banding by shore distance (fringe densest at the waterline, basin behind, landward palms), salt pans bare by land cover. T3: salt-marsh grass covers."
   },
   "5": {
@@ -1581,7 +1581,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 0.16,
+     "instances_per_hectare": 0.22,
      "role": "landmark-giant",
      "clump_size_median": 1,
      "clump_size_tail": 0.0,
@@ -1606,7 +1606,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 79.796,
+     "instances_per_hectare": 110.012,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -1636,7 +1636,7 @@
     {
      "species": "bmv:landscape/trees/gkbcyrodilcypress1",
      "tier": "T1",
-     "instances_per_hectare": 55.857,
+     "instances_per_hectare": 77.008,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -1666,7 +1666,7 @@
     {
      "species": "bmv:landscape/trees/gkbcyrodilcypress2",
      "tier": "T1",
-     "instances_per_hectare": 43.888,
+     "instances_per_hectare": 60.507,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -1696,7 +1696,7 @@
     {
      "species": "bmv:landscape/trees/treewillow01a",
      "tier": "T1",
-     "instances_per_hectare": 39.898,
+     "instances_per_hectare": 55.006,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -1942,10 +1942,10 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 904.6,
-   "authoredStemsPerHectare": 219.6,
+   "targetInstancesPerHectare": 987.8,
+   "authoredStemsPerHectare": 302.75,
    "ladderRatioTarget": 0.6,
-   "ladderMultiplierApplied": 1.9949,
+   "ladderMultiplierApplied": 2.7503,
    "note": "A moving-water gallery: cypress walls on the banks (riparian boost), aquatics in the margins, open channel kept open."
   },
   "6": {
@@ -1954,7 +1954,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 0.038,
+     "instances_per_hectare": 0.032,
      "role": "landmark-giant",
      "clump_size_median": 1,
      "clump_size_tail": 0.0,
@@ -1979,7 +1979,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 2.562,
+     "instances_per_hectare": 2.15,
      "role": "emergent",
      "clump_size_median": 1,
      "singleton_share": 0.8,
@@ -2001,7 +2001,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 28.182,
+     "instances_per_hectare": 23.65,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2031,7 +2031,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 11.529,
+     "instances_per_hectare": 9.675,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2103,7 +2103,7 @@
     {
      "species": "bmv:vurt_shroom/vurt_shroom_big6",
      "tier": "T1",
-     "instances_per_hectare": 0.307,
+     "instances_per_hectare": 0.258,
      "role": "fungal-giant",
      "clump_size_median": 1,
      "singleton_share": 1.0,
@@ -2126,7 +2126,7 @@
     {
      "species": "bmv:trdata/mushrooms/tr_oth_tallmush01",
      "tier": "T1",
-     "instances_per_hectare": 3.074,
+     "instances_per_hectare": 2.58,
      "role": "fungal-floor",
      "clump_size_median": 3,
      "clump_radius_m": 6.0,
@@ -2146,7 +2146,7 @@
     {
      "species": "bmv:trdata/mushrooms/tr_oth_tallmush05",
      "tier": "T1",
-     "instances_per_hectare": 2.05,
+     "instances_per_hectare": 1.72,
      "role": "fungal-floor",
      "clump_size_median": 3,
      "clump_radius_m": 6.0,
@@ -2352,10 +2352,10 @@
      "slope_half_angle_deg": 28.0
     }
    ],
-   "targetInstancesPerHectare": 610.7,
-   "authoredStemsPerHectare": 47.74,
+   "targetInstancesPerHectare": 603.1,
+   "authoredStemsPerHectare": 40.06,
    "ladderRatioTarget": 0.76,
-   "ladderMultiplierApplied": 0.2562,
+   "ladderMultiplierApplied": 0.215,
    "note": "Ecology type 4 (dark deep swamp): few HUGE buttressed trunks, root-dominated ground, almost bare floor (\u00a74.3 \u2014 herbs <5%), moss on everything. Identity from mass and dark, not clutter. T3: MOSS/BC_MOSS covers only."
   },
   "7": {
@@ -2364,7 +2364,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 0.026,
+     "instances_per_hectare": 0.024,
      "role": "landmark-giant",
      "clump_size_median": 1,
      "clump_size_tail": 0.0,
@@ -2389,7 +2389,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 0.876,
+     "instances_per_hectare": 0.785,
      "role": "emergent",
      "clump_size_median": 1,
      "singleton_share": 0.8,
@@ -2411,7 +2411,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 8.76,
+     "instances_per_hectare": 7.852,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2441,7 +2441,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 12.045,
+     "instances_per_hectare": 10.796,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2471,7 +2471,7 @@
     {
      "species": "bmv:landscape/trees/gkbjungletreenew3",
      "tier": "T1",
-     "instances_per_hectare": 8.76,
+     "instances_per_hectare": 7.852,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2501,7 +2501,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
      "tier": "T1",
-     "instances_per_hectare": 5.256,
+     "instances_per_hectare": 4.711,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -2523,7 +2523,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 1.38,
+     "instances_per_hectare": 1.237,
      "role": "drowned-tree",
      "clump_size_median": 2,
      "clump_radius_m": 12.0,
@@ -2545,7 +2545,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 1.686,
+     "instances_per_hectare": 1.512,
      "role": "drowned-tree-dry",
      "clump_size_median": 3,
      "clump_radius_m": 13.0,
@@ -2566,7 +2566,7 @@
     {
      "species": "bmv:vurt/deadtrees/dead_bc_tree_01",
      "tier": "T1",
-     "instances_per_hectare": 0.876,
+     "instances_per_hectare": 0.785,
      "role": "drowned-tree",
      "clump_size_median": 1,
      "singleton_share": 0.85,
@@ -2589,7 +2589,7 @@
     {
      "species": "bmv:vurt/deadtrees/dead_bc_tree_02",
      "tier": "T1",
-     "instances_per_hectare": 0.657,
+     "instances_per_hectare": 0.589,
      "role": "drowned-tree",
      "clump_size_median": 1,
      "singleton_share": 0.85,
@@ -2612,7 +2612,7 @@
     {
      "species": "bmv:landscape/trees/treewillow01a",
      "tier": "T1",
-     "instances_per_hectare": 3.942,
+     "instances_per_hectare": 3.533,
      "role": "canopy",
      "water_depth_m": [
       -2.0,
@@ -2969,10 +2969,10 @@
      "slope_half_angle_deg": 28.0
     }
    ],
-   "targetInstancesPerHectare": 1259.3,
-   "authoredStemsPerHectare": 44.26,
+   "targetInstancesPerHectare": 1254.7,
+   "authoredStemsPerHectare": 39.68,
    "ladderRatioTarget": 0.67,
-   "ladderMultiplierApplied": 0.219,
+   "ladderMultiplierApplied": 0.1963,
    "note": "Ecology type 2 (flooded forest) on the reference watershed: wading cypress matrix, waterline mangrove, bimodal drowned cypress, pool guilds. T3: SWAMP_GRASS/MARSH_GRASS covers."
   },
   "8": {
@@ -2981,7 +2981,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 0.049,
+     "instances_per_hectare": 0.037,
      "role": "landmark-giant",
      "clump_size_median": 1,
      "clump_size_tail": 0.0,
@@ -3006,7 +3006,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 7.305,
+     "instances_per_hectare": 5.577,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3036,7 +3036,7 @@
     {
      "species": "bmv:landscape/trees/gkbjungletreenewsticktree11",
      "tier": "T1",
-     "instances_per_hectare": 11.364,
+     "instances_per_hectare": 8.676,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3066,7 +3066,7 @@
     {
      "species": "bmv:landscape/trees/gkbjungletreenewsticktree20v2",
      "tier": "T1",
-     "instances_per_hectare": 9.74,
+     "instances_per_hectare": 7.436,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3096,7 +3096,7 @@
     {
      "species": "bmv:landscape/trees/treewillow02a",
      "tier": "T1",
-     "instances_per_hectare": 9.74,
+     "instances_per_hectare": 7.436,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -3341,10 +3341,10 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 1023.2,
-   "authoredStemsPerHectare": 38.2,
+   "targetInstancesPerHectare": 1014.2,
+   "authoredStemsPerHectare": 29.16,
    "ladderRatioTarget": 0.4,
-   "ladderMultiplierApplied": 0.8117,
+   "ladderMultiplierApplied": 0.6197,
    "note": "Canopy 0.3 \u2014 genuinely open (the band the player crosses). Reed flats, scattered trees, thickets only at the water."
   },
   "9": {
@@ -3353,7 +3353,7 @@
     {
      "species": "bmv:landscape/trees/treewillow03a",
      "tier": "T1",
-     "instances_per_hectare": 21.455,
+     "instances_per_hectare": 12.873,
      "role": "gallery",
      "shore_m": [
       0.0,
@@ -3378,7 +3378,7 @@
     {
      "species": "bmv:landscape/trees/gkbtreeaspen05jungle",
      "tier": "T1",
-     "instances_per_hectare": 12.26,
+     "instances_per_hectare": 7.356,
      "role": "gallery",
      "shore_m": [
       0.0,
@@ -3403,7 +3403,7 @@
     {
      "species": "bmv:landscape/trees/gkbjungletreenew10",
      "tier": "T1",
-     "instances_per_hectare": 0.766,
+     "instances_per_hectare": 0.46,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3629,10 +3629,10 @@
      "slope_half_angle_deg": 28.0
     }
    ],
-   "targetInstancesPerHectare": 519.5,
-   "authoredStemsPerHectare": 34.48,
+   "targetInstancesPerHectare": 505.7,
+   "authoredStemsPerHectare": 20.69,
    "ladderRatioTarget": 0.12,
-   "ladderMultiplierApplied": 0.3065,
+   "ladderMultiplierApplied": 0.1839,
    "note": "Ecology 5c-adjacent: open grass (T3 carries it) + gallery ribbons along the channels with an abrupt outer edge (\u00a76.1). The flood takes free-standing trees; the ribbon survives."
   },
   "11": {
@@ -3641,7 +3641,7 @@
     {
      "species": "composite:jungle/anvil-emergent-giant",
      "tier": "T1",
-     "instances_per_hectare": 0.398,
+     "instances_per_hectare": 0.368,
      "role": "emergent",
      "clump_size_median": 1,
      "singleton_share": 1.0,
@@ -3664,7 +3664,7 @@
     {
      "species": "composite:jungle/anvil-canopy-tree",
      "tier": "T1",
-     "instances_per_hectare": 8.748,
+     "instances_per_hectare": 8.091,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3694,7 +3694,7 @@
     {
      "species": "bmv:landscape/trees/treeofwolene4",
      "tier": "T1",
-     "instances_per_hectare": 4.374,
+     "instances_per_hectare": 4.045,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3724,7 +3724,7 @@
     {
      "species": "bmv:landscape/trees/gkbjungletreenew30v3",
      "tier": "T1",
-     "instances_per_hectare": 2.386,
+     "instances_per_hectare": 2.207,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3754,7 +3754,7 @@
     {
      "species": "bmv:landscape/trees/fanpalm3",
      "tier": "T1",
-     "instances_per_hectare": 2.386,
+     "instances_per_hectare": 2.207,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3779,7 +3779,7 @@
     {
      "species": "bmv:landscape/trees/gkbtreeaspen02jungle",
      "tier": "T1",
-     "instances_per_hectare": 17.497,
+     "instances_per_hectare": 16.181,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3809,7 +3809,7 @@
     {
      "species": "bmv:landscape/trees/gkbjungletreenew1",
      "tier": "T1",
-     "instances_per_hectare": 7.953,
+     "instances_per_hectare": 7.355,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -4095,10 +4095,10 @@
      "slope_deg_max": 40.0
     }
    ],
-   "targetInstancesPerHectare": 713.7,
-   "authoredStemsPerHectare": 43.74,
+   "targetInstancesPerHectare": 710.5,
+   "authoredStemsPerHectare": 40.45,
    "ladderRatioTarget": 0.55,
-   "ladderMultiplierApplied": 0.7953,
+   "ladderMultiplierApplied": 0.7355,
    "note": "The drier ground BETWEEN waterways \u2014 still swamp-forest to the eye (owner 0036 Q4 reading), just with dry feet: jungle canopy at ~60% of the jungle target, bamboo brakes, gallery thickening along whatever water crosses it. Round 7: it carries the same tall tropical roof as region 13 at 60% density, so crossing between the two does not step out from under a 35 m canopy into a 12 m one."
   },
   "12": {
@@ -4278,7 +4278,7 @@
     {
      "species": "bmv:vurt/deadtrees/dead_bc_tree_04",
      "tier": "T1",
-     "instances_per_hectare": 2.69,
+     "instances_per_hectare": 3.4,
      "role": "drowned-tree",
      "clump_size_median": 1,
      "singleton_share": 0.85,
@@ -4301,7 +4301,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 2.69,
+     "instances_per_hectare": 3.4,
      "role": "drowned-tree",
      "clump_size_median": 2,
      "clump_radius_m": 12.0,
@@ -4362,10 +4362,10 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 507.4,
-   "authoredStemsPerHectare": 5.38,
+   "targetInstancesPerHectare": 508.8,
+   "authoredStemsPerHectare": 6.8,
    "ladderRatioTarget": 0.02,
-   "ladderMultiplierApplied": 0.8966,
+   "ladderMultiplierApplied": 1.1333,
    "note": "Open water: guild-themed aquatics near the shore, deep centre bare, drowned trees for silhouettes (M1 bimodal, deep mode)."
   },
   "13": {
@@ -4967,7 +4967,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
      "tier": "T1",
-     "instances_per_hectare": 62.271,
+     "instances_per_hectare": 58.293,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -4994,7 +4994,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb2",
      "tier": "T1",
-     "instances_per_hectare": 40.293,
+     "instances_per_hectare": 37.719,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -5021,7 +5021,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
      "tier": "T1",
-     "instances_per_hectare": 25.641,
+     "instances_per_hectare": 24.003,
      "role": "canopy",
      "clump_size_median": 5,
      "clump_radius_m": 10.0,
@@ -5051,7 +5051,7 @@
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb8",
      "tier": "T1",
-     "instances_per_hectare": 21.978,
+     "instances_per_hectare": 20.574,
      "role": "canopy",
      "clump_size_median": 5,
      "clump_radius_m": 10.0,
@@ -5120,7 +5120,7 @@
     {
      "species": "bmv:landscape/trees/fanpalm1",
      "tier": "T1",
-     "instances_per_hectare": 9.158,
+     "instances_per_hectare": 8.572,
      "role": "canopy",
      "water_depth_m": [
       -4.0,
@@ -5151,7 +5151,7 @@
     {
      "species": "bmv:landscape/trees/beachpalm2",
      "tier": "T1",
-     "instances_per_hectare": 5.495,
+     "instances_per_hectare": 5.143,
      "role": "canopy",
      "water_depth_m": [
       -4.0,
@@ -5332,10 +5332,10 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 582.8,
-   "authoredStemsPerHectare": 164.84,
+   "targetInstancesPerHectare": 572.3,
+   "authoredStemsPerHectare": 154.3,
    "ladderRatioTarget": 1.4,
-   "ladderMultiplierApplied": 0.3663,
+   "ladderMultiplierApplied": 0.3429,
    "note": "The canon Lilmoth mangrove wall (lore/regions/murkmire.md), built to real mangal structure (research/mangrove-coastal-ecology.md): dense Rhizophora-analogue fringe standing in the intertidal (the wall read from the sea), closed low-diversity interior over prop roots with a near-bare floor, landward palm/shrub transition. No lilypads \u2014 saline. Gaps come from the shared glade field at real dieback scale, left bare. Meshes: mangrove a/c/d here, b belongs to the tidal delta, so the three mangrove coasts are not one tree repeated."
   }
  },

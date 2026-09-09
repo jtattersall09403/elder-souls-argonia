@@ -11,8 +11,11 @@ Everything the ladder needs lives here so the generator, the tests and the
 next agent read the SAME numbers:
 
 * :data:`TARGET_RATIOS` — the delivered ladder, jungle = 1.00 (decision 0048).
-* :data:`MEASURED_DELIVERED_PER_HA` / :data:`MEASURED_ATTENUATION` — what the
-  shipped bundles actually carried on 2026-09-09, before the re-base.
+* :data:`MEASURED_DELIVERED_PER_HA` / :data:`MEASURED_ATTENUATION` — measured
+  from the shipped bundles, re-fitted 2026-09-09 against the first
+  post-re-base bake. Re-measure and re-fit them whenever the scatter, the
+  gates or the region raster move; they are a MEASUREMENT of what the world
+  does, never a knob to turn until a gate goes green.
 * :func:`multipliers` — authored re-base factors derived from those two.
 * :func:`authored_stem_density` / :func:`measure_delivered_by_region` — the
   one stem measure, used by both gates so they cannot disagree.
@@ -69,15 +72,41 @@ TARGET_RATIOS: dict[int, float] = {
     14: 1.40,  # mangrove forest — more STEMS, lower roof: a thicket
 }
 
-#: Delivered stems per hectare in the bundles shipped on 2026-09-09, measured
-#: PER REGION PIXEL (`measure_delivered_by_region`), not per dominant chunk.
-#: The per-pixel measure matters: the audit's dominant-chunk figures put the
-#: lake at 54.4/ha, which is its NEIGHBOURS' forest counted inside lake-
-#: dominated chunks. Measured per pixel the lake carries 0.87/ha, which is
-#: what open water should carry — the anomaly was attribution, not scatter.
+#: What the UNREBASED region tables in `build_palettes.REGIONS` deliver, in
+#: stems per hectare, measured PER REGION PIXEL (`measure_delivered_by_region`),
+#: not per dominant chunk. This is the denominator `multipliers()` divides
+#: into, so it must stay on the *base* authoring basis even after a re-base:
+#: it is re-fitted as `delivered_measured / ladderMultiplierApplied`.
+#:
+#: The per-pixel measure matters: the 2026-09-08 audit's dominant-chunk figures
+#: put the lake at 54.4/ha, which is its NEIGHBOURS' forest counted inside
+#: lake-dominated chunks. Measured per pixel the lake carries under 1/ha, which
+#: is what open water should carry — the anomaly was attribution, not scatter.
+#:
+#: Re-fitted 2026-09-09 (decision 0048 round 14) as the MEAN of four
+#: post-re-base bakes. The originals were fitted from the pre-re-base bake on
+#: the assumption that delivery is linear in the authored count; it is not
+#: quite, because clearance rejection eases as density falls, so the hard-cut
+#: classes came back above the linear prediction.
+#:
+#: WHY A MEAN, and not the last bake. A single bake is one draw. Re-fitting
+#: from one draw and re-baking is an undamped fixed-point iteration, and for
+#: the two densest/thinnest classes its gain exceeds one: mangrove forest (14)
+#: read 157.3, 154.9, 173.1, 153.2 across successive bakes and the delivered
+#: ratio swung 1.38 → 1.56 → 1.24 without settling; tidal delta (3), on 3.8 ha,
+#: swung as hard. The quantity is the same each time — D is normalised back to
+#: the base authoring basis — so the honest estimator of a noisy measurement is
+#: the mean of the draws, not the newest one. Averaging converged in one bake
+#: where chasing the last draw did not converge in three.
+#:
+#: RE-FITTING PROCEDURE for the next agent: run `build_palettes`, then
+#: `compile_scatter`, then `measure_delivered_by_region`; set
+#: D[r] = delivered[r] / palettes[r]["ladderMultiplierApplied"] and
+#: A[r] = delivered[r] / authored_stem_density(r); average over several bakes
+#: before writing them back. Never edit these to make a gate go green.
 MEASURED_DELIVERED_PER_HA: dict[int, float] = {
-    1: 12.74, 2: 32.60, 3: 26.03, 4: 69.17, 5: 11.73, 6: 115.68, 7: 119.32,
-    8: 19.22, 9: 15.27, 11: 26.97, 12: 0.87, 13: 39.00, 14: 149.06,
+    1: 13.44, 2: 34.36, 3: 36.18, 4: 61.54, 5: 8.53, 6: 138.24, 7: 133.45,
+    8: 25.24, 9: 25.52, 11: 29.24, 12: 0.69, 13: 39.10, 14: 159.63,
 }
 
 #: delivered / authored for the same shipping. This is the fraction of an
@@ -86,9 +115,15 @@ MEASURED_DELIVERED_PER_HA: dict[int, float] = {
 #: MEASURED for every class — including 3, 4, 5 and 9, which the earlier
 #: dominant-chunk audit could not see, because the per-pixel measure needs no
 #: chunk to be dominated by the class to count its instances.
+#:
+#: Re-fitted 2026-09-09 as the mean of four post-re-base bakes, at the authored
+#: levels the ladder now ships. Attenuation is mildly density-dependent
+#: (clearance rejection eases as density falls), so it is measured at the
+#: level it describes rather than carried over from the pre-re-base bake, and
+#: averaged for the reason given on MEASURED_DELIVERED_PER_HA above.
 MEASURED_ATTENUATION: dict[int, float] = {
-    1: 0.187, 2: 0.222, 3: 0.153, 4: 0.206, 5: 0.107, 6: 0.621, 7: 0.590,
-    8: 0.408, 9: 0.136, 11: 0.490, 12: 0.144, 13: 0.459, 14: 0.331,
+    1: 0.198, 2: 0.234, 3: 0.213, 4: 0.184, 5: 0.077, 6: 0.742, 7: 0.660,
+    8: 0.536, 9: 0.227, 11: 0.531, 12: 0.115, 13: 0.461, 14: 0.355,
 }
 
 #: Classes whose region covers so little of the province that their per-pixel

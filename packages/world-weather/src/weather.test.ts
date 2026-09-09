@@ -301,6 +301,12 @@ describe("round 2 gates (owner feedback 2026-08-29)", () => {
     }
   });
 
+  // 10 days x 1440 minutes at 0.01-minute resolution is 1.44 M instants. That
+  // fits inside vitest's 5 s default on a dev machine and does NOT on a shared
+  // CI runner, where it timed out and failed the whole deploy (run 34394992881,
+  // 2026-09-09). The sweep is the point of the test - lightning has to be gated
+  // at every flash instant, not at a sample of them - so the timeout moves and
+  // the coverage does not.
   it("no lightning without a storm deck (transition-in is gated)", () => {
     for (let day = 1; day <= 10; day += 1) {
       for (let m = 0; m < MINUTES_PER_DAY; m += 0.01) {
@@ -315,7 +321,7 @@ describe("round 2 gates (owner feedback 2026-08-29)", () => {
         m += 1;
       }
     }
-  });
+  }, 60_000);
 
   it("coverage wanders within a fair-weather spell but never fully overcasts it", () => {
     // Force-state removes slot rolls; the wander alone must vary the deck.

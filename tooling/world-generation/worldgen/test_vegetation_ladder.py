@@ -106,14 +106,22 @@ def test_authored_ladder_ordering():
 @pytest.mark.skipif(not (vl.VEGETATION / "vegetation-index.json").exists(),
                     reason="no compiled vegetation bundles in this checkout")
 def test_delivered_ladder():
-    """THIS TEST IS EXPECTED TO FAIL until the scatter rollout runs.
+    """GREEN since 2026-09-09 (decision 0048 round 14). Keep it that way.
 
-    The palettes were re-based on 2026-09-09; the bundles in
-    `apps/world-studio/public/province/vegetation/` are still the pre-re-base
-    compile. `python3 -m worldgen.compile_scatter` (after rebuilding the flora
-    kit) is what turns it green. That is the whole point of the test: the
-    ladder was allowed to drift for four rounds because nothing measured what
-    actually shipped.
+    This is the only gate that measures the vegetation the province ACTUALLY
+    ships, by decoding `apps/world-studio/public/province/vegetation/
+    chunk_*_vegetation.bin`. The ladder was allowed to drift for four
+    authoring rounds because nothing did that.
+
+    If it goes red after a palette change, the fix is the LOOP, not the
+    constants: re-run `python3 -m worldgen.build_palettes`, then
+    `python3 -m worldgen.compile_scatter --out
+    ../../apps/world-studio/public/province/vegetation`, then re-fit
+    `vegetation_ladder.MEASURED_DELIVERED_PER_HA` and `MEASURED_ATTENUATION`
+    from the new bundles by the procedure written on those constants (average
+    several bakes — a single-draw re-fit oscillates on regions 3 and 14).
+    Editing the constants until this passes turns a measurement into a knob
+    and this gate back into nothing.
     """
     delivered = vl.measure_delivered_by_region()
     reference = delivered.get(13, 0.0)
