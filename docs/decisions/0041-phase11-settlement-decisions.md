@@ -1802,7 +1802,7 @@ written).
 | Parcels are real hulls, not squares | P | parcels yes (2 of 115 axis-aligned, both real); **all 24 district and combat-space boundaries are hand-drawn boxes** (plan B3) |
 | Route grading + structures: 55→35→0 survivors, 162 structures | V numbers, F guarantee | the chain does cut the heightmap and it shipped; but the "no rim over 30°" guarantee was false (fills to 70 m, 21,688 rim cells made steeper) — grader fixed this session, rasters not yet rebuilt (plan B2); "survivors 0" is near-tautological (structures exempt their own windows) |
 | `apply_sitings` moves dot, paths, waterways, exports | P | four moves, not five (Lilmoth is an anchor); 115 m and 108 m, not 120 and 117; `export_blueprints` was not in the chain (added) |
-| Clark–Evans R ≈ 1.8, "more even than random" | P | numbers reproduce; the null in these thin masks is 1.07–1.36, so the excess is ~1.4; the `SEPARATION_M` floor guarantees R > 1 (plan B5) |
+| Clark–Evans R ≈ 1.8, "more even than random" | P | numbers reproduce; the null in these thin masks is 1.07–1.36, so the excess is ~1.4; the `SEPARATION_M` floor guaranteed R > 1 (plan B5). **`SEPARATION_M` no longer exists** — it was deleted when the Thomas prior landed, and since 2026-09-09 the only hard spacing is the typed footprint sum |
 | Module 97 §G rows CLOSED as claimed | V | no fabricated row; but no Python test runs in CI (plan B7) |
 | Standard 13 fails `npm test` when placement work changes without the playbook | F | it read `git status` only, so it passed vacuously on a clean tree and could never fire in CI — now unions the working tree with the commits since the merge-base and covers the kits/interiors/grading tools |
 | Prose linter is an `npm test` gate | F | nothing in `npm test` ran Python — `check.mjs` now runs `lint_prose --strict` (2 s) |
@@ -2409,3 +2409,107 @@ works store moved off a 1.3 m slot between two pens, the two stairs declared
 districts, 61 parcels, 17 sockets, the whole yaw column, the C7 deviation
 closed). `npm test`, `npm run typecheck`, the worldgen suite (453) and the
 asset-pipeline suite (111) are green; `lint_prose --strict` exits 0.
+
+## Places have EXTENT (owner ruling 2026-09-09)
+
+**The problem.** The macro plot treated every place as a POINT. `COLLISION_MIN_M`
+= 30 m was the entire physical gate, applied to every pair unconditionally, so
+a city and a cairn were the same dot. Measured on the shipped catalogue (580
+records): nearest-neighbour min 30 · p5 35 · median 85 · p95 249 m, 115
+records inside 50 m, and the 30 m floor binding exactly. `sacked-customs-suburb`
+sat inside Lilmoth's own boundary polygon; every M5 city had a neighbour at
+30–38 m, several of them unrelated (Helstrom 30 m from a wisp-lure lair,
+Stormhold 33 m from a listening post). Under the footprint model below, 426
+pairs overlap.
+
+Separately, `type-recipes.json` `siting.neighbourRelation` was prose the
+solver never read as a distance. 16 types carry explicit isolation language and
+**19 of their 22 records contradicted it** — the Two Lamps hermitage
+("deliberately far from everything") 96 m from a village, the rogue wild Hist
+("deliberately far from any living settlement") 137 m from a naga village —
+and every one passed the semantic audit clean, because `check_neighbour` only
+judges a claim the record itself names. That is a live engineering-standard-12
+failure: prose written against a record the typed fields cannot deliver.
+
+**The model.**
+
+1. **`footprintRadiusM` on every type.** Where a blueprint exists the radius is
+   DERIVED from its boundary polygon, not authored: geometry, not labels
+   (97 E2). Measured: Lilmoth (M5 rebuilt-stilt-city) 273 m, Mazzatun (M3)
+   128, Nine Trunks (M3) 118, the licensed sap camp (M1 works) 32, the adult
+   wamasu pond 280. Everything else is banded from the type's own record:
+   magnitude where it exists (M5 230 · M4 140 · M3 115 · M2 65 · M1 45,
+   calibrated on those measurements), else `complexityBudget` (trivial 25 /
+   simple 38 / standard 60 / complex 95 — the authored "how much place is
+   here") × a class factor (a ruin field and a lair spread, 1.3 and 1.15; a
+   hermitage and a road stage do not, 0.7 and 0.8) × a `countBand` nudge.
+   Floor 20 m, ceiling 230 m: no place claims more exclusive ground than the
+   province's largest city, which is what stops a pond's *hazard* boundary
+   being read as occupancy. The derivation lives in
+   `worldgen.author_type_siting` and is drift-checked, so the numbers can be
+   re-derived when a boundary moves rather than hand-maintained.
+
+   The pairwise floor becomes `max(COLLISION_MIN_M, r_a + r_b)`, immutable
+   across every relaxation stage exactly as the flat floor was. A related pair
+   whose type declares `proximity.mayAbut` for the other's class, or which is
+   `boundTo` the other, shares ground and clears only the SMALLER radius.
+   *(The brief proposed the larger. Measured, that is infeasible: it puts a
+   satellite at or beyond the city rim while `boundTo.maxM` and the types' own
+   `maxFromM` both say 250 m against a 230–275 m city radius, and it made 24
+   tier-0 satellites homeless. Smaller radius, same intent — an unrelated
+   lighthouse 38 m off the quay still fails.)*
+   Dead `RELATED_MIN_M` (declared, never referenced) deleted.
+
+2. **`proximity` on 72 types**, authored from each type's OWN
+   `neighbourRelation` and quoting it: `minFromClassM` (floor to every record
+   of a place class, plus the pseudo-class `route`), `maxFromM` (ceiling to
+   the nearest record of a class), `outOfSightOf` (reuses the survey's
+   `line_of_sight`), `mayAbut`. Hard gates in `separation_ok`, evaluated in
+   BOTH directions — a hermitage's floor is a property of the pair, so a
+   village plotted later may not walk into it. **An absent block means no
+   constraint, and that is the explicit default**: prose that states no
+   distance deliberately gets no block.
+
+3. **The audit catches it.** `audit_place_semantics.check_type_proximity` is a
+   new registered check that fails a record contradicting its own type prose.
+
+4. **A closing pass.** `separation_ok` only sees what is already plotted, so
+   `macro_plot.typed_siting_violations` re-checks every gate over the FINISHED
+   plot with no ordering at all. It is what the report and the tests assert on.
+
+**Three defects fixed en route.** `related_pair` was asymmetric (it read
+`bound_to` only off the record being placed, so which of a pair the solver
+reached first changed the gate). The relaxation-stage matrix had no stage that
+relaxed both the repetition spacing and the region wish, so a record whose only
+free ground was off-region and near a same-type neighbour had nowhere to go
+even when a valid cell existed. And `macro_plot.run` raised on a failed
+`--resolve-all` BEFORE writing the report that says why — the report is written
+first now. A new deterministic **eviction-repair** pass was added: a homeless
+record may take a movable peer's site if that peer can be honestly re-sited,
+rolled back unless both succeed, so it can only reduce the homeless batch.
+
+**Calibration is measured, not asserted.** 6.8 % of province land is ≥800 m
+from every settlement; 13.9 % is ≥600 m. The isolation floors are therefore
+600 m, not the 800 m first proposed — still 6× the violations they replace.
+
+**The re-plot is BLOCKED, and is not committed with this change.** A
+`--resolve-all` under the model leaves 6 of 580 records with no honest site
+(`horwalli-waterworks-deeps`, `dream-wallow-sap-pool`, `freehold-smithy`,
+`the-permit-dig`, `wamasu-pond-nest`, `rim-snowline-hermitage`). Measured
+route down: 44 → 30 → 19 → 13 → 7 → 6 (see gap-plan B12 for what each step
+was). Two of the six carry no `proximity` block at all, so proximity tuning
+cannot reach zero — the footprint model itself costs those records. **Owner
+call:** shrink the radii, cut/defer ~6 records, or raise supply. The prize is
+measured: median nearest-neighbour 85 → 131 m, p5 35 → 73, and zero typed-siting
+violations against 426 overlapping pairs and 31 isolation-floor breaches today.
+Until it lands, `test_type_siting.test_the_shipped_catalogue_does_not_get_worse`
+ratchets the catalogue so it cannot regress.
+
+**Also corrected 2026-09-09.** 97 §A5/A6 documented a `SEPARATION_M` constant
+and an M5 800 m floor that had not existed in `tooling/` since the Thomas prior
+landed (measured M5 nearest-neighbour was 30–38 m). All three doc references
+fixed. 97 §G6 recorded the hostile-or-clearable ≥55 % rule as a HARD floor and
+marked the gap CLOSED on it; the real gate is two-level —
+`HOSTILE_SHARE_HARD_FLOOR = 0.50` asserts, `HOSTILE_SHARE_FLOOR = 0.55` only
+warns — so the much-quoted "three records of headroom" was headroom against a
+warning. G6 is PART-CLOSED, and whether to make 55 % hard is an open owner call.

@@ -217,8 +217,9 @@ pins. The owner accepted the re-solve (2026-09-07) and its timing (2026-09-08): 
 
 Clark–Evans R per zone reproduces (1.44–2.28) but a Monte-Carlo null in the
 same thin masks scores 1.07–1.36, so the true excess is ~1.4, not 1.8, and
-the hard `SEPARATION_M` floor (150–800 m) in `macro_plot` *necessarily*
-gives R > 1. If the owner says re-solve: replace the fixed floor with a
+the hard `SEPARATION_M` floor (150–800 m) then in `macro_plot` *necessarily*
+gave R > 1. (`SEPARATION_M` has since been deleted; the Thomas prior replaced
+it, and 2026-09-09 added the typed footprint sum as the only hard spacing.) If the owner says re-solve: replace the fixed floor with a
 culture-specific clustering prior (Thomas process: parents at the floor,
 children clumped within 300 m), pins applied after the solve as now, then
 `apply_sitings` chain. Report R against the edge-corrected null. Alongside
@@ -238,6 +239,49 @@ promise that will create it. The full owner-approved solve placed 580/580
 records with no collisions, no invalid sites, no navigability exceptions and
 no resiting pins. It wrote the catalogue and the edge-corrected Clark–Evans
 report (median R 0.838). The four authored exemplars remain blueprint-pinned.
+
+### B12 — Places have EXTENT: typed footprints + typed proximity — MECHANISM DONE 2026-09-09, RE-PLOT BLOCKED
+
+**Delivered.** Every one of the 350 type recipes now carries
+`footprintRadiusM` (derived by `worldgen.author_type_siting` from the authored
+blueprint boundary where one exists, banded from magnitude / class /
+`complexityBudget` otherwise) and, where its own `siting.neighbourRelation`
+states a distance, a typed `proximity` block
+(`minFromClassM` / `maxFromM` / `outOfSightOf` / `mayAbut`, 72 rows).
+`macro_plot.separation_ok` clears the SUM of two footprints instead of a flat
+30 m, symmetrically, and never relaxes it; the proximity block is a hard gate
+in both directions; `typed_siting_violations` re-checks the finished plot with
+no ordering; `audit_place_semantics.check_type_proximity` fails a record that
+contradicts its own type prose (19 of 22 isolation records used to pass
+clean). `test_type_siting` covers all of it; all eight mutations went red.
+Dead `RELATED_MIN_M` deleted. Three fixed en route: `related_pair` was
+asymmetric (which of a pair the solver reached first changed the gate), the
+relaxation-stage matrix had no stage relaxing both spacing and region, and
+`macro_plot.run` raised on a failed `--resolve-all` BEFORE writing the report
+that says why.
+
+**BLOCKED.** The re-plot is not committed. A `--resolve-all` under the
+footprint model leaves **6 of 580** records with no honest site:
+`horwalli-waterworks-deeps`, `dream-wallow-sap-pool`, `freehold-smithy`,
+`the-permit-dig`, `wamasu-pond-nest`, `rim-snowline-hermitage`. Measured
+route to that number: 44 → 30 (bound satellites may abut) → 19 (Thomas
+children per parent 8 → 7, which is as far as the authored parent floors
+allow) → 13 (isolation floors calibrated 800 → 600 m against the measured
+land budget: only 6.8 % of province land is ≥800 m from every settlement,
+13.9 % at ≥600 m) → 7 (a new deterministic **eviction-repair** pass: a
+homeless record may take a movable peer's site if that peer can be re-sited,
+rolled back unless both succeed) → 6 (derived footprints capped at the M5
+band, so a wamasu pond's 280 m hazard boundary does not claim more exclusive
+ground than Lilmoth). Two of the six carry no `proximity` block at all, so no
+amount of proximity tuning reaches zero — the footprint model itself costs
+those records. **Owner call:** shrink the radii globally, cut/defer ~6
+records, or raise supply (the parent floors, or the honest-fit score bar).
+The committed spacing would go from median NN 85 m to **131 m** (p5 35 → 73,
+p95 249 → 240) with **zero** typed-siting violations, against 426 overlapping
+pairs and 31 isolation-floor breaches today.
+
+Until it lands, `test_type_siting.test_the_shipped_catalogue_does_not_get_worse`
+ratchets the shipped catalogue so it cannot regress.
 
 ### B6 — One province extent — DONE 2026-09-08
 

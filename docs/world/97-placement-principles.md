@@ -89,22 +89,64 @@ fight every 100–140 m of route in D3–D5); `macro_plot` layers (`landmark` /
 roads, rivers, coasts and resources; thin and meaningful in the deep wilds.**
 Cluster centres by minimum separation, members within a cluster clumped; even
 spacing alone reads procedural. *E* (hand placement is clustered, Clark–Evans
-R ≈ 0.5); *S*; *O* 2026-09-02. **Enforced by** `macro_plot` hinterland term
-(0.6 within 1.2 km of a city), city rings, the roadside lattice (110 m step,
-35/90 m offsets) and `SEPARATION_M`; the coverage report
-`world/sources/sites/macro-plot.md`. Within-cluster clumping is approximated
-by the lattice, not modelled — G3.
+R ≈ 0.5); *S*; *O* 2026-09-02. **Enforced by** `macro_plot`: the
+culture-specific **Thomas process** (`THOMAS_CULTURES` parent floors 400–700 m,
+sigma 110–180 m, `THOMAS_CHILD_RADIUS_M` 300 m — a HARD gate, `thomas_prior_score`
+returns None outside a parent's kernel at every relaxation stage), the
+hinterland term (0.6 within 1.2 km of a city), the city rings
+(`RING_EDGE_M` 350 / `RING_HINTERLAND_M` 1200 — SCORE, not gates), and the
+roadside lattice (110 m step, 35/90 m offsets); the coverage report
+`world/sources/sites/macro-plot.md` and the Clark–Evans figures in it.
+There is no general even-spacing floor and has not been since the Thomas
+prior landed: `SEPARATION_M` no longer exists anywhere in `tooling/`
+(corrected 2026-09-09). Within-cluster clumping is the prior's job — G3.
 
-**A6. Spacing and repetition are bounded by magnitude and by sight.** Minimum
-centre separation M5 800 m · M4 450 · M3 300 · M2 220 · M1 150; the same type
-never twice within 300 m (700 m for landmarks) and never twice in sight; no
-template above ~25 % of its family in a region; two instances of one template
-within 2 km differ on ≥3 axes; the same purpose not twice within 500 m
-along one road. *S* (anti-sameyness); *O* 0041 Part 3; *E* (the scour: median site
-sees 18 % of its 1.2 km surroundings, so marsh "in sight" is short).
-**Enforced by** `macro_plot` constants (`SEPARATION_M`, `SAME_TYPE_MIN_M`,
-`PURPOSE_REPEAT_*`) and its quota report. The ≥3-axes rule is reported, not
-gated — G4.
+**A6. A place has EXTENT, and its spacing follows from that extent and from
+sight.** Two places must clear the SUM of their typed `footprintRadiusM` —
+a real occupancy, derived from the authored blueprint boundary where one
+exists (Lilmoth 275 m, Mazzatun 130, Nine Trunks 120, the licensed sap camp
+30, a held wamasu pond 280 capped to 230) and banded from magnitude / class /
+`complexityBudget` otherwise (M5 230 · M4 140 · M3 115 · M2 65 · M1 45; a
+non-settlement type from its production budget × its class). The floor is
+IMMUTABLE: no relaxation stage touches it. A related pair whose type declares
+`proximity.mayAbut`, or which is `boundTo` the other, shares ground and clears
+only the smaller radius — that is how a city's own hist sits inside the city
+while an unrelated lighthouse 38 m off the quay still fails.
+On top of extent: the same type never twice within 300 m (700 m for
+landmarks, 900 m along one road) and never twice in sight; no template above
+~25 % of its family in a region; two instances of one template within 2 km
+differ on ≥3 axes; the same purpose not twice within 500 m along one road.
+*S* (anti-sameyness); *O* 0041 Part 3; *O* 2026-09-09 (extent); *E* (the five
+measured blueprint boundaries; the scour: median site sees 18 % of its 1.2 km
+surroundings, so marsh "in sight" is short). **Enforced by**
+`macro_plot.separation_ok` (footprint sum, `SAME_TYPE_MIN_M`,
+`SAME_TYPE_LANDMARK_MIN_M`, `ROUTE_REPEAT_MIN_M`, `PURPOSE_REPEAT_*`),
+`macro_plot.typed_siting_violations` (the same gates re-checked over the
+FINISHED plot, with no ordering), `worldgen.author_type_siting` (the
+derivation, drift-checked) and `test_type_siting`. The old per-magnitude
+`SEPARATION_M` floor (M5 800 m …) described here until 2026-09-09 had already
+been deleted from the code when the Thomas prior landed; it enforced nothing,
+and measured M5 nearest-neighbour was 30–38 m. The ≥3-axes rule is reported,
+not gated — G4.
+
+**A6b. A type's own siting prose is a typed distance the solver obeys.** Where
+`type-recipes.json` `siting.neighbourRelation` states a distance relation —
+"deliberately far from any living settlement", "far from help", "a short walk
+from a village, out of its sight", "always beside a ruin", "attached to a
+living settlement" — it is authored into a typed `proximity` block
+(`minFromClassM`, `maxFromM`, `outOfSightOf`, `mayAbut`; keys are place
+classes plus the pseudo-class `route`) and evaluated as a HARD gate, in both
+directions, alongside the footprint. An ABSENT block means no constraint; that
+is the explicit default, and prose that states no distance deliberately gets
+no block. *E* 2026-09-09: 19 of 22 records of the 16 isolation types
+contradicted their own type prose and passed the semantic audit clean (a
+standard 12 violation — prose written against a record the typed fields cannot
+deliver). **Enforced by** `macro_plot.separation_ok`,
+`audit_place_semantics.check_type_proximity` and `test_type_siting`. The
+numbers are calibrated against a dry-run solve, not asserted blind: the
+province holds 6.8 % of its land ≥800 m from every settlement and 13.9 % at
+≥600 m, so the isolation floors are 600 m, not the 800 m first proposed —
+G17.
 
 **A7. Danger is fixed by place and region and shapes what may sit where.**
 Lived-in classes sit within ±1 band of their ground, others ±2; D5 never
@@ -699,7 +741,7 @@ message, so a failure sends the reader to one rule above.
 | G3 | A5 | within-cluster clumping approximated by a lattice | measure Clark–Evans R on the plot per zone and report it (target < 1)  | **CLOSED (report)** — `worldgen.plot_stats` + `macro_plot --report-only`, in `macro-plot.md` and the report JSON. **Finding: R is 1.44–2.28 in every zone (median 1.78) — the plot is MORE regular than random, not clustered.** The lattice is the cause; closing the gap in the plot itself is a re-solve, not a report |
 | G4 | A6 | ≥3-axes-differ reported, not gated | make the quota report a `test_catalogue.py` soft ceiling  | **CLOSED (SOFT)** — `test_same_type_neighbours_differ_on_three_axes`: same-type pairs within 2 km differing on <3 vibe axes, ceiling 0, exception table `SAMEYNESS_EXCEPTIONS` (empty; 0 of 171 pairs in range fail) |
 | G5 | A8 | navigable depth for water roles checked only at meso | `macro_plot` `navigable` hint becomes a hard gate at `depth_m` ≥ the type's hull class  | **CLOSED (HARD)** — `macro_plot.navigable_violations` (hull ladder canoe 0.6 / small-draft 1.2 / keeled 3.0 m from B5, deepest published water within 150 m), `macro_plot --validate` + `test_navigable_roles_sit_on_navigable_water`. The full replot removed all temporary exceptions: a role must meet the measured depth or carry a typed terrain-cut promise that creates it. |
-| G6 | A10 | hostile/settlement shares reported only | two soft ceilings in `test_catalogue.py` (settlement+civic ≤ 22 %, hostile-or-clearable ≥ 55 %)  | **CLOSED** — `test_settlement_and_civic_share_is_under_the_ceiling` (SOFT ceiling, 21.2 % live) and `test_hostile_or_clearable_share_is_over_the_floor` (HARD floor per 0041 touchpoint ①, 55.5 % live — 3 records of headroom) |
+| G6 | A10 | hostile/settlement shares reported only | ceilings and floors in `test_catalogue.py` | **PART-CLOSED** — `test_settlement_and_civic_share_is_under_the_ceiling` (SOFT ceiling 22 %, 21.2 % live) and `test_hostile_or_clearable_share_is_over_the_floor`, which is **two-level**: `HOSTILE_SHARE_HARD_FLOOR = 0.50` is the assertion, `HOSTILE_SHARE_FLOOR = 0.55` only raises `warnings.warn` (owner 2026-09-07). Live 55.5 % of 580. Corrected 2026-09-09: this row read "HARD floor … 3 records of headroom", which was headroom against a WARNING, not a gate. Whether to make 55 % hard, or to lower it, is an OPEN owner call — do not treat G6 as closed on the warning |
 | G7 | B1 | `siting` optional | add `siting` to the validator's REQUIRED list for every blueprint of a plotted record  | **CLOSED** — `blueprint.validate_blueprint` requires `siting` on any blueprint of a catalogue record (HARD; the Part 0 fixture, compiled `--skip-catalogue`, details no record and is exempt) |
 | G8 | B4 | highest seasonal water and over-water share not measured | compiler reads the flood-band raster at each footprint; reports the over-water share per district against the culture band  | OPEN (needs a flood-band raster read) |
 | G9 | B5 | dock depth by hull class, and the dock ON the water that serves it | `blueprint._validate_docks`: `docks[].hullClass` (canoe 0.6 / small-draft 1.2 / keeled 3.0 m) sampled over the first 100 m of the serving route; a `networkTerminals[]` entry of kind lane/channel carrying `dockId`; the published water within 10 m of the berth; `docks[].fit` (`water-to-dock` re-ends the channel on the berth in `compile_minor_waterways`, `to-water` moves the berth to the channel end), derived when absent and reported with the metres | CLOSED 2026-09-08 |
@@ -710,6 +752,7 @@ message, so a failure sends the reader to one rule above.
 | G14 | C5 | 8 m nearest-neighbour floor | integration `parcel-gap` (centre distance ≥ 8 m unless `stacksOn`)  | **CLOSED** — `blueprint_integration` `parcel-gap` (8 m between centres, HARD), with the designed-contact exceptions `stacksOn`, `spans`, enclosure `use` plus the new parcel flag `abuts` + `abutsWhy` |
 | G15 | C6 | density band by magnitude | compiler report: parcels/ha of the BUILT HULL vs the magnitude band; warning outside it  | **CLOSED (WARN)** — `blueprint._placement_warnings` 97 C6: buildings and structures per hectare of `built_hull_area_ha` (the parcels' convex hull, buffered 15 m) against the size class's band, settlement records only, with the number |
 | G16 | C7 | `use` mix | compiler report of the `use` histogram per blueprint  | **CLOSED (WARN)** — `blueprint._placement_warnings` 97 C7: the `use` histogram of BUILDINGS against the band, once ≥8 are classified |
+| G17 | A6/A6b | the typed footprint and proximity gates are enforced on the SOLVER, but the SHIPPED catalogue predates them | commit a `macro_plot --resolve-all` under the new gates | **OPEN (BLOCKED, 2026-09-09)** — the gates, the derivation, the semantic-audit check and the mutation-tested suite have landed; the re-plot has not. A from-scratch solve under the footprint model leaves **6 of 580** records with no honest site (`horwalli-waterworks-deeps`, `dream-wallow-sap-pool`, `freehold-smithy`, `the-permit-dig`, `wamasu-pond-nest`, `rim-snowline-hermitage`); two of them carry no `proximity` block at all, so proximity tuning cannot reach zero and the footprint model itself costs those records. Owner call: shrink the radii, cut/defer ~6 records, or raise the solver's supply. Meanwhile `test_type_siting.test_the_shipped_catalogue_does_not_get_worse` is a ratchet at 426 overlapping pairs and 31 isolation-floor breaches |
 | G23 | C1a/C5b | props, structures and buildings were one undifferentiated "parcel", so a works yard was judged as a village | derive a `kind` per parcel from the interiors index and the measured mesh; the counting rules read it | **CLOSED** — `worldgen.parcel_kinds`; C1 kit-set membership is reported (WARN) with the dressing pool admitted everywhere |
 | G24 | C5a | "designed to touch" covered kit snaps only, so a hoist against its rock face had to be mis-declared as a snap | a second flag for trade contacts, with a clearance rather than a join | **CLOSED (HARD)** — `worksWith` + `worksWithWhy` (validator) and `parcel-gap`'s `WORKS_WITH_CLEAR_M` 0.5 m |
 | G17 | C8 | yaw diversity | validator: ≤10 % of a district's parcels within 5° of one yaw  | **CLOSED** — `blueprint.validate_blueprint` 97 C8 (HARD): at most max(2, 10 %) of a district's parcels within ±5° of one bearing, from 8 parcels up, unless the district declares `routing: "straight"` |
