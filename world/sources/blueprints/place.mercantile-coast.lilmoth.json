@@ -577,16 +577,20 @@
             0.868356306
           ],
           [
-            0.515003026,
-            0.870101707
+            0.515004211,
+            0.870104402
           ],
           [
-            0.516379531,
-            0.87285472
+            0.516451864,
+            0.872922878
           ],
           [
-            0.519082714,
-            0.87285472
+            0.518770429,
+            0.872922878
+          ],
+          [
+            0.519155236,
+            0.872793653
           ],
           [
             0.530048049,
@@ -661,16 +665,12 @@
             0.877520421
           ],
           [
-            0.510827785,
-            0.877382667
+            0.510835128,
+            0.877380323
           ],
           [
-            0.515617215,
-            0.874307613
-          ],
-          [
-            0.517397553,
-            0.872763327
+            0.51753859,
+            0.872807528
           ],
           [
             0.489801597,
@@ -5351,7 +5351,7 @@
           {
             "kind": "actionable-information",
             "tier": "medium",
-            "note": "The keeper of the pole wall knows the two places at which it can be crossed. She will name them for a favour."
+            "note": "The keeper of the pole wall knows its two passages: the shore-lane opening at the north end and the reed-fringe opening at the south. She will name them for a favour."
           },
           {
             "kind": "hiding-place",
@@ -5364,7 +5364,7 @@
           "whyHere": "The household nearest the estuary keeps the pole wall in repair.",
           "whySpot": "It is the last hut of the south row, 20 m from the water.",
           "whyNeighbours": "The pole wall is east of it and the third fisher’s hut west.",
-          "playerPurpose": "The keeper of the pole wall, who knows the two places it can be crossed.",
+          "playerPurpose": "The keeper of the pole wall, who knows the shore-lane and reed-fringe passages at its open ends.",
           "microGeography": "The flat is 1.5–2 m and floods in the wet season."
         },
         "footprint": [
@@ -7928,8 +7928,16 @@
             0.87095603
           ],
           [
-            0.516714804,
-            0.872312237
+            0.516647464,
+            0.872109154
+          ],
+          [
+            0.516783085,
+            0.872380395
+          ],
+          [
+            0.518681774,
+            0.872380395
           ],
           [
             0.518884735,
@@ -8103,11 +8111,11 @@
             0.87299034
           ],
           [
-            0.516104981,
-            0.873058499
+            0.515155636,
+            0.872922878
           ],
           [
-            0.515291257,
+            0.514206292,
             0.873872223
           ],
           [
@@ -8646,55 +8654,68 @@
         "id": "fence.lilmoth.estuary-pole-wall",
         "kind": "palisade",
         "widthM": 0.3,
-        "routing": "terrain",
+        "routing": "straight",
         "via": [
           [
-            0.5178,
-            0.8738
+            0.514477063,
+            0.873668444
           ],
           [
-            0.517,
-            0.876
+            0.512985236,
+            0.875092461
           ],
           [
-            0.5156,
-            0.879
+            0.512849615,
+            0.875295892
+          ],
+          [
+            0.512985236,
+            0.875634943
+          ],
+          [
+            0.512442753,
+            0.875906185
+          ],
+          [
+            0.512510563,
+            0.876380857
+          ],
+          [
+            0.512374943,
+            0.876516478
           ]
         ],
-        "why": "The Argonian wall facing the estuary: poles driven into the tidal flat off the fishers' quarter, standing in 0.6 to 1.1 m of water and taking the run of the flat's edge. The wall stands in the water through which the city is entered.",
+        "why": "The 29 m Argonian wall facing the estuary: 1.917 m poles driven into the surviving tidal fringe immediately east of the fishers, in 0.12 to 0.96 m of water on the final survey and landward of the 3 m dredged lane. It closes the quarter without crossing a way; its open north end is the shore-lane passage and its open south end is the reed-fringe passage, the two crossings its keeper tends.",
+        "routingWhy": "The fishers set the short wall from measured stakes along the surviving shallow shelf after the navigation lane was dredged; each bend is a surveyed edge of that shelf.",
         "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
         "points": [
           [
-            0.5178,
-            0.8738
+            0.514477063,
+            0.873668444
           ],
           [
-            0.517054326,
-            0.874414706
+            0.512985236,
+            0.875092461
           ],
           [
-            0.517054326,
-            0.876584636
+            0.512849615,
+            0.875295892
           ],
           [
-            0.516240602,
-            0.877398361
+            0.512985236,
+            0.875634943
           ],
           [
-            0.516240602,
-            0.879025809
+            0.512442753,
+            0.875906185
           ],
           [
-            0.516104981,
-            0.879161429
+            0.512510563,
+            0.876380857
           ],
           [
-            0.515562499,
-            0.879161429
-          ],
-          [
-            0.5156,
-            0.879
+            0.512374943,
+            0.876516478
           ]
         ],
         "class": "pole-wall",
@@ -9134,16 +9155,20 @@
             0.865261215
           ],
           [
-            0.515007858,
-            0.870111371
+            0.515009148,
+            0.870114015
           ],
           [
-            0.516379531,
-            0.87285472
+            0.516451864,
+            0.872922878
           ],
           [
-            0.5191498,
-            0.87285472
+            0.518770429,
+            0.872922878
+          ],
+          [
+            0.519212299,
+            0.87277449
           ],
           [
             0.519837385,
@@ -10589,7 +10614,7 @@
       {
         "slotId": "o.fisher-d",
         "ladderRef": "modest-d2 fisher",
-        "cultureRole": "keeper of the two crossings through the pole wall",
+        "cultureRole": "keeper of the shore-lane and reed-fringe passages at the pole wall's open ends",
         "livesAt": "parcel.lilmoth.fisher-d"
       }
     ],
