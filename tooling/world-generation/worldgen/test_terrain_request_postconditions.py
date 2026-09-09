@@ -3,6 +3,7 @@ import hashlib
 import json
 
 import numpy as np
+import pytest
 
 from . import terrain_request_postconditions as post
 from . import terrain_request_raster as raster
@@ -228,3 +229,58 @@ def test_three_sided_water_does_not_require_a_false_island_contract():
                    if row["field"] == "waterRelation")
     assert finding["status"] == "pass"
     assert finding["measured"] == {"wetSides": 3, "centreDry": True}
+
+
+# --- live wiring -----------------------------------------------------------
+# Everything above is synthetic. These tests bind the module to the records
+# refine_province actually publishes, so the module rotting is a test failure
+# rather than a silent one.
+
+PUBLISHED_PLAN = post.PUBLISHED_DIR / "terrain-request-plan.json"
+PUBLISHED_FULFILLMENT = post.PUBLISHED_DIR / "terrain-request-fulfillments.json"
+PUBLISHED_STATS = post.PUBLISHED_DIR / "terrain-request-stats.json"
+
+
+def _published(path):
+    if not path.exists():
+        pytest.skip(f"{path.name} not published yet")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def test_published_terrain_request_records_satisfy_the_real_manifest_check():
+    plan = _published(PUBLISHED_PLAN)
+    fulfillment = _published(PUBLISHED_FULFILLMENT)
+    stats = _published(PUBLISHED_STATS)
+    assert requests.verify_fulfillment_manifest(plan, fulfillment) == []
+    assert {row["id"] for row in plan["operations"]} == {row["operationId"] for row in stats}
+
+
+def test_known_red_register_names_only_live_published_requests():
+    """The water-owned red list cannot drift away from the published plan."""
+    plan = _published(PUBLISHED_PLAN)
+    known_red = post.load_known_red()
+    assert known_red, "the known-red register must exist and be non-empty while water is red"
+    live = {row["id"] for row in plan["requests"]}
+    assert set(known_red) <= live, sorted(set(known_red) - live)
+
+
+def test_final_water_postconditions_are_green_apart_from_the_known_red_water_rows():
+    """The real gate: rasters + published records, known-red reported not hidden."""
+    from .compile_chunks import DEFAULT_HEIGHTS
+
+    water_path = DEFAULT_HEIGHTS.parent.parent / "water-pass1.npz"
+    if not (DEFAULT_HEIGHTS.exists() and water_path.exists()):
+        pytest.skip("province rasters are vault-only; not available in this checkout")
+    plan = _published(PUBLISHED_PLAN)
+    fulfillment = _published(PUBLISHED_FULFILLMENT)
+    height = np.load(DEFAULT_HEIGHTS).astype(np.float32)
+    loaded = np.load(water_path)
+    water = {name: loaded[name] for name in loaded.files}
+    report = post.build_report(plan, fulfillment, height, water,
+                              artifact_hashes={}, water_height_sha256=None)
+    split = post.classify_report(report, post.load_known_red())
+    assert split["unexpectedFailures"] == []
+    assert split["missingFromReport"] == []
+    assert split["recoveredNoLongerRed"] == [], (
+        "these no longer fail — delete them from the known-red register")
+    assert split["knownRed"], "the water rows must still be visibly red, not silently green"

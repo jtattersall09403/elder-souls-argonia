@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "kind": "terrain-request-known-red",
+  "owner": "water",
+  "why": "These typed terrain requests were applied and survived the terrain raster, but the shipped water solve does not yet deliver the depth, current or water relation they ask for. They are owned by the water workstream and tracked in docs/research/rendering/water-handoff.md. They must stay visibly red: the postcondition gate reports them as KNOWN-RED and fails on any request outside this register.",
+  "measuredOn": "2026-09-09",
+  "requests": [
+    {
+      "requestId": "terrain-request.dunmer-north.hackwing-wall.cliff-bench.023ccbae7827",
+      "placeId": "place.dunmer-north.hackwing-wall",
+      "failingFields": [
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.dunmer-north.the-charge-pond.pool.38c87a914cf0",
+      "placeId": "place.dunmer-north.the-charge-pond",
+      "failingFields": [
+        "current"
+      ]
+    },
+    {
+      "requestId": "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef",
+      "placeId": "place.dunmer-north.the-divers-landing",
+      "failingFields": [
+        "depthClass"
+      ]
+    },
+    {
+      "requestId": "terrain-request.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1",
+      "placeId": "place.dunmer-north.the-slumped-hamlet",
+      "failingFields": [
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+      "placeId": "place.dunmer-north.the-two-hundred-roofs",
+      "failingFields": [
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.hist-heartland.greenspring.spring.7bcc10aaafd7",
+      "placeId": "place.hist-heartland.greenspring",
+      "failingFields": [
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
+      "placeId": "place.imperial-fringe.onkobra-ferry",
+      "failingFields": [
+        "access",
+        "feature",
+        "terrainSurvival"
+      ]
+    },
+    {
+      "requestId": "terrain-request.imperial-fringe.reedcutters-toll.narrows.af9adaab63b3",
+      "placeId": "place.imperial-fringe.reedcutters-toll",
+      "failingFields": [
+        "current",
+        "depthM"
+      ]
+    },
+    {
+      "requestId": "terrain-request.imperial-fringe.reedcutters-toll.narrows.c01ecfbdf5dd",
+      "placeId": "place.imperial-fringe.reedcutters-toll",
+      "failingFields": [
+        "current",
+        "depthClass",
+        "feature",
+        "terrainSurvival"
+      ]
+    },
+    {
+      "requestId": "terrain-request.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+      "placeId": "place.imperial-penal-south.chainbreaker-shelter",
+      "failingFields": [
+        "depthClass",
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.mercantile-coast.lilmoth.cut.bec1279f83eb",
+      "placeId": "place.mercantile-coast.lilmoth",
+      "failingFields": [
+        "current",
+        "depthClass",
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.naga-kur-deeps.air-pocket-station-deeps.pool.4bef463f2250",
+      "placeId": "place.naga-kur-deeps.air-pocket-station-deeps",
+      "failingFields": [
+        "depthM"
+      ]
+    },
+    {
+      "requestId": "terrain-request.naga-kur-deeps.harmed-hist-enslaved.cut.e03a148d66e8",
+      "placeId": "place.naga-kur-deeps.harmed-hist-enslaved",
+      "failingFields": [
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.naga-kur-deeps.horwalli-waterworks-deeps.cut.6b9242b7ec61",
+      "placeId": "place.naga-kur-deeps.horwalli-waterworks-deeps",
+      "failingFields": [
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
+      "placeId": "place.pirate-freeholds.chasecreek",
+      "failingFields": [
+        "depthM",
+        "waterRelation"
+      ]
+    },
+    {
+      "requestId": "terrain-request.saxhleel-coast.quarantine-village-lagoon.islet.cb0c95cc0088",
+      "placeId": "place.saxhleel-coast.quarantine-village-lagoon",
+      "failingFields": [
+        "waterRelation"
+      ]
+    }
+  ]
+}

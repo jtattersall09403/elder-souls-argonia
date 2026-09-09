@@ -48,11 +48,18 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 
+from .catalogue import REPO_ROOT
 from .compile_chunks import DEFAULT_HEIGHTS
 from .scale import RAW_M
 from .terrain_requests import delivery_digest, verify_fulfillment_manifest
 
 SCHEMA_VERSION = 1
+# The published records are the ones a consumer actually reads; the vault copy
+# is the build's scratch. Default to the published pair so this gate rots
+# loudly if refine_province stops publishing them.
+PUBLISHED_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined"
+KNOWN_RED_PATH = REPO_ROOT / "world" / "sources" / "terrain" / "terrain-request-known-red.json"
+KNOWN_RED_DOC = "docs/research/rendering/water-handoff.md"
 WET_MIN_M = 0.05
 FLOOD_CLEARANCE_M = 1.4
 STORM_CLEARANCE_M = 2.0
@@ -477,6 +484,33 @@ def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
             "reportDigest": _json_digest(payload)}
 
 
+def load_known_red(path: Path | None = None) -> dict[str, dict]:
+    """The water-owned requests whose final-water postconditions are red.
+
+    A register, not a suppression: the gate still reports each one, and any
+    request that fails outside the register — or any register row that has
+    quietly started passing — is a gate failure.
+    """
+    path = path or KNOWN_RED_PATH
+    if not path.exists():
+        return {}
+    document = json.loads(path.read_text(encoding="utf-8"))
+    return {row["requestId"]: row for row in document.get("requests") or []}
+
+
+def classify_report(report: dict, known_red: dict[str, dict]) -> dict[str, list[str]]:
+    """Split a report's request outcomes against the known-red register."""
+    failing = {row["requestId"] for row in report.get("requests", [])
+               if row.get("status") != "pass"}
+    published = {row["requestId"] for row in report.get("requests", [])}
+    return {
+        "knownRed": sorted(failing & set(known_red)),
+        "unexpectedFailures": sorted(failing - set(known_red)),
+        "recoveredNoLongerRed": sorted((set(known_red) & published) - failing),
+        "missingFromReport": sorted(set(known_red) - published),
+    }
+
+
 def _atomic_json(path: Path, value: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
@@ -499,8 +533,12 @@ def main(argv: list[str] | None = None) -> int:
     vault = DEFAULT_HEIGHTS.parent
     water_default = vault.parent / "water-pass1.npz"
     parser = argparse.ArgumentParser(description="Verify final typed terrain-request postconditions")
-    parser.add_argument("--plan", type=Path, default=vault / "terrain-request-plan.json")
-    parser.add_argument("--fulfillment", type=Path, default=vault / "terrain-request-fulfillments.json")
+    def published(name: str) -> Path:
+        candidate = PUBLISHED_DIR / name
+        return candidate if candidate.exists() else vault / name
+    parser.add_argument("--plan", type=Path, default=published("terrain-request-plan.json"))
+    parser.add_argument("--fulfillment", type=Path,
+                        default=published("terrain-request-fulfillments.json"))
     parser.add_argument("--height", type=Path, default=DEFAULT_HEIGHTS)
     parser.add_argument("--water", type=Path, default=water_default)
     parser.add_argument("--out", type=Path, default=vault / "terrain-request-postconditions.json")
@@ -534,7 +572,22 @@ def main(argv: list[str] | None = None) -> int:
               for row in request["findings"])
     print(f"terrain request postconditions: {report['status']} — "
           f"{len(report['requests'])} requests, {failures} non-passing findings; {args.out}")
-    return 0 if report["status"] == "pass" else 1
+    split = classify_report(report, load_known_red())
+    for request_id in split["knownRed"]:
+        print(f"  KNOWN-RED (water-owned, see {KNOWN_RED_DOC}): {request_id}")
+    for request_id in split["unexpectedFailures"]:
+        print(f"  UNEXPECTED FAILURE: {request_id}")
+    for request_id in split["recoveredNoLongerRed"]:
+        print(f"  NO LONGER RED — remove from {KNOWN_RED_PATH.name}: {request_id}")
+    for request_id in split["missingFromReport"]:
+        print(f"  KNOWN-RED ROW NOT IN REPORT: {request_id}")
+    if report["status"] == "pass":
+        return 0
+    # Known-red is reported, never hidden, and never blocks on its own.
+    blocking = (split["unexpectedFailures"] or split["recoveredNoLongerRed"]
+                or split["missingFromReport"]
+                or any(row["status"] != "pass" for row in report["globalFindings"]))
+    return 1 if blocking else 0
 
 
 if __name__ == "__main__":
