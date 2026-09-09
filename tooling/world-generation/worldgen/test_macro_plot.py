@@ -63,9 +63,15 @@ def test_positions_are_inside_the_province_and_in_the_report():
 
 
 def test_no_two_live_places_share_ground():
-    """Two dots closer than the tightest relaxed spacing is a solver bug."""
+    """Two dots closer than the immutable collision floor is a solver bug.
+
+    The floor a pair must ACTUALLY clear is the sum of their typed
+    `footprintRadiusM` (2026-09-09); that is asserted on the solver in
+    `test_type_siting`. This one is the absolute floor, and it holds over the
+    shipped catalogue whether or not the re-plot has run yet.
+    """
     pts = [(rec["id"], rec["positionM"]) for _z, rec in _live()]
-    floor = macro_plot.RELATED_MIN_M * 0.5 - 1e-6
+    floor = macro_plot.COLLISION_MIN_M - 1e-6
     for i in range(len(pts)):
         for j in range(i + 1, len(pts)):
             d = math.hypot(pts[i][1][0] - pts[j][1][0], pts[i][1][1] - pts[j][1][1])
