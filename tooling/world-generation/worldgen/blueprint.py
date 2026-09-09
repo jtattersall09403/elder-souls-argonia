@@ -2042,7 +2042,30 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         if not claim.get("sizeClass") or claim.get("culture") not in INTERIOR_CULTURES:
             fail(f"door {d.get('id')}: interiorClaim needs sizeClass + culture")
         parcel = parcels_by_id.get(d.get("parcelId"))
-        bearing = _door_edge_bearing(parcel, d.get("thresholdUV")) if parcel else None
+        # Which side the door opens on: the KIT's measured entrance is the
+        # authority where the pipeline mined one. `blueprint_footprints`
+        # derives `facingDeg` as the piece's `sideDeg` turned by the parcel's
+        # yaw, so that is what this check compares against. The
+        # nearest-footprint-edge proxy stays for pieces the pipeline derived no
+        # entrance for — it is a proxy, and on a composite hull it is a bad
+        # one: Lilmoth's kiosks carry their threshold ~0.3 m from the hull
+        # centre, where the nearest of eight edges (one of them a 0.7 m sliver)
+        # swings 68deg on a third of a metre of re-derivation and fails a door
+        # the kit itself placed.
+        measured = bi.entrance(interiors.get(parcel.get("assetRef"))) if (
+            interiors and parcel) else None
+        side = measured.get("sideDeg") if isinstance(measured, dict) else None
+        if isinstance(side, (int, float)) and isinstance(d.get("facingDeg"), (int, float)):
+            want = (float(side) + float(parcel.get("yawDeg") or 0.0)) % 360.0
+            off = _angle_delta(float(d["facingDeg"]), want)
+            if off > DOOR_FACING_TOLERANCE_DEG:
+                fail(f"door {d.get('id')}: facingDeg {d['facingDeg']:.0f}° is not the side its piece was "
+                     f"authored to open on ({parcel.get('assetRef')} measures {float(side):.0f}°, which at "
+                     f"yaw {float(parcel.get('yawDeg') or 0.0):.0f}° looks {want:.0f}°, {off:.0f}° away) — "
+                     f"re-derive with 'blueprint_footprints --doors'")
+            bearing = None
+        else:
+            bearing = _door_edge_bearing(parcel, d.get("thresholdUV")) if parcel else None
         if bearing is not None and isinstance(d.get("facingDeg"), (int, float)):
             off = _angle_delta(float(d["facingDeg"]), bearing)
             if off > DOOR_FACING_TOLERANCE_DEG:

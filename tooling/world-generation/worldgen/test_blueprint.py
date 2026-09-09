@@ -239,10 +239,16 @@ def test_apply_rewrites_the_footprint_from_the_measured_asset():
 
 
 def test_door_must_sit_on_the_side_it_claims():
+    """A door turned off its piece's authored side is rejected — by the kit's
+    own measured entrance where the pipeline mined one, and by the
+    nearest-footprint-edge proxy where it did not. Both messages are the same
+    finding, so the test accepts either and never both being absent."""
     bp = _bp()
     bp["doors"][0]["facingDeg"] = (bp["doors"][0]["facingDeg"] + 180) % 360
     errs = blueprint.validate_blueprint(bp, KNOWN)
-    assert any("faces away from the wall" in e for e in errs)
+    assert any("faces away from the wall" in e
+               or "is not the side its piece was authored to open on" in e
+               for e in errs), errs
 
 
 def test_part6_asset_ref_and_siting_block():

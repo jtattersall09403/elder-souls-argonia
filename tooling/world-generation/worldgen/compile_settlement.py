@@ -228,11 +228,24 @@ def compiled_terrain_objects(record: dict, *, plan: dict | None = None,
         return [], [f"{record['id']}: terrain delivery needs plan, fulfillment and final postconditions"]
     if not supplied:
         from .compile_chunks import DEFAULT_HEIGHTS
-        evidence_dir = DEFAULT_HEIGHTS.parent
+        from .terrain_request_postconditions import PUBLISHED_DIR
+        # The published copy under apps/world-studio/public/province/refined is
+        # the artefact every consumer reads and the only one the postcondition
+        # runner writes; the vault copy beside the heightfield is build scratch
+        # that goes stale the moment the register or the water solve moves.
+        # Read published-first (falling back to the vault only when a stage has
+        # not published that artefact yet) so this compiler judges the same
+        # evidence terrain_request_postconditions reported on.
+        vault_dir = DEFAULT_HEIGHTS.parent
+
+        def _evidence(name: str) -> Path:
+            candidate = PUBLISHED_DIR / name
+            return candidate if candidate.exists() else vault_dir / name
+
         paths = {
-            "plan": evidence_dir / "terrain-request-plan.json",
-            "fulfillment": evidence_dir / "terrain-request-fulfillments.json",
-            "postconditions": evidence_dir / "terrain-request-postconditions.json",
+            "plan": _evidence("terrain-request-plan.json"),
+            "fulfillment": _evidence("terrain-request-fulfillments.json"),
+            "postconditions": _evidence("terrain-request-postconditions.json"),
         }
         missing = [str(path) for path in paths.values() if not path.exists()]
         if missing:
