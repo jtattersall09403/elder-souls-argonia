@@ -1,0 +1,5612 @@
+{
+ "kit": "dungeon-root-v1",
+ "assets": [
+  {
+   "id": "bmv:architecture/philscaves/srooms/connect",
+   "node": "es|45dab569d3|__architecture_philscaves_srooms_connect",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    7.283,
+    3.889
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    1.941
+   ],
+   "triangles": 956,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Connector with tileset.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.941,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/cor01",
+   "node": "es|ad87e0168e|mv__architecture_philscaves_srooms_cor01",
+   "category": "architecture",
+   "sizeM": [
+    3.699,
+    3.645,
+    3.977
+   ],
+   "originOffsetM": [
+    1.821,
+    1.821,
+    0.131
+   ],
+   "triangles": 740,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Moldcave_SmallOpenRoom_CornerType1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.131,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/cor02",
+   "node": "es|d34951ffba|mv__architecture_philscaves_srooms_cor02",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    3.641,
+    3.906
+   ],
+   "originOffsetM": [
+    -0.0,
+    3.641,
+    0.103
+   ],
+   "triangles": 764,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Moldcave_SmallOpenRoom_CornerType2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.103,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/cor03",
+   "node": "es|68e75e3dd0|mv__architecture_philscaves_srooms_cor03",
+   "category": "architecture",
+   "sizeM": [
+    1.078,
+    1.078,
+    3.641
+   ],
+   "originOffsetM": [
+    -2.563,
+    1.078,
+    -0.0
+   ],
+   "triangles": 74,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Moldcave_SmallOpenRoom_CornerType3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/corc",
+   "node": "es|060c6acf60|bmv__architecture_philscaves_srooms_corc",
+   "category": "architecture",
+   "sizeM": [
+    2.856,
+    7.283,
+    3.728
+   ],
+   "originOffsetM": [
+    2.097,
+    3.641,
+    0.083
+   ],
+   "triangles": 992,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Moldcave_SmallOpenRoom_CornerCap.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.083,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/corc01",
+   "node": "es|4650c271ef|v__architecture_philscaves_srooms_corc01",
+   "category": "architecture",
+   "sizeM": [
+    0.067,
+    1.078,
+    1.128
+   ],
+   "originOffsetM": [
+    0.064,
+    1.078,
+    0.0
+   ],
+   "triangles": 151,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "CornerCapper01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/corc02",
+   "node": "es|213190134b|v__architecture_philscaves_srooms_corc02",
+   "category": "architecture",
+   "sizeM": [
+    0.067,
+    1.078,
+    1.128
+   ],
+   "originOffsetM": [
+    0.064,
+    1.091,
+    -0.0
+   ],
+   "triangles": 151,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "CornerCapper02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/corc03",
+   "node": "es|6c3b9a27c2|v__architecture_philscaves_srooms_corc03",
+   "category": "architecture",
+   "sizeM": [
+    0.066,
+    1.088,
+    2.255
+   ],
+   "originOffsetM": [
+    0.015,
+    1.078,
+    1.128
+   ],
+   "triangles": 458,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "CornerCapper03.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.128,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/corc04",
+   "node": "es|b6ddaf6e5b|v__architecture_philscaves_srooms_corc04",
+   "category": "architecture",
+   "sizeM": [
+    1.088,
+    0.066,
+    2.255
+   ],
+   "originOffsetM": [
+    -2.563,
+    3.656,
+    1.128
+   ],
+   "triangles": 458,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "CornerCapper04.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.128,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/mid01",
+   "node": "es|7acf59b212|mv__architecture_philscaves_srooms_mid01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.641,
+    4.004
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    0.179
+   ],
+   "triangles": 598,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Center Type-1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.179,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/mid02",
+   "node": "es|32079953da|mv__architecture_philscaves_srooms_mid02",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    3.641,
+    3.819
+   ],
+   "originOffsetM": [
+    1.821,
+    1.821,
+    0.083
+   ],
+   "triangles": 256,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Center Type-2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.083,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/mid03a",
+   "node": "es|1e06f87484|v__architecture_philscaves_srooms_mid03a",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.641,
+    4.725
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    0.91
+   ],
+   "triangles": 772,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Center Type-3A.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.91,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/mid03b",
+   "node": "es|a14b2df920|v__architecture_philscaves_srooms_mid03b",
+   "category": "architecture",
+   "sizeM": [
+    3.092,
+    2.09,
+    0.91
+   ],
+   "originOffsetM": [
+    1.16,
+    1.25,
+    -1.821
+   ],
+   "triangles": 142,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Center Type-3B.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -1.821,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/mid03c",
+   "node": "es|0fd14ee834|v__architecture_philscaves_srooms_mid03c",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.641,
+    4.792
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    0.24
+   ],
+   "triangles": 800,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Center Type-3C.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.24,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/mid04",
+   "node": "es|026cd8f1ad|mv__architecture_philscaves_srooms_mid04",
+   "category": "architecture",
+   "sizeM": [
+    7.587,
+    7.671,
+    11.371
+   ],
+   "originOffsetM": [
+    3.946,
+    5.462,
+    7.485
+   ],
+   "triangles": 5531,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Center Type-4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 7.485,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/mid05",
+   "node": "es|40a42dc24b|mv__architecture_philscaves_srooms_mid05",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    3.641,
+    15.339
+   ],
+   "originOffsetM": [
+    1.821,
+    1.821,
+    0.311
+   ],
+   "triangles": 349,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Center Type-5A.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.311,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/room01",
+   "node": "es|16a56e1b6f|v__architecture_philscaves_srooms_room01",
+   "category": "architecture",
+   "sizeM": [
+    17.0,
+    19.649,
+    11.546
+   ],
+   "originOffsetM": [
+    8.334,
+    8.725,
+    6.327
+   ],
+   "triangles": 9617,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Room Type-00.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 6.327,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/room02",
+   "node": "es|6a4c99cadc|v__architecture_philscaves_srooms_room02",
+   "category": "architecture",
+   "sizeM": [
+    20.633,
+    19.904,
+    36.646
+   ],
+   "originOffsetM": [
+    9.709,
+    10.924,
+    18.381
+   ],
+   "triangles": 5122,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Room Type-02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 18.381,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/room03",
+   "node": "es|e99e16de6c|v__architecture_philscaves_srooms_room03",
+   "category": "architecture",
+   "sizeM": [
+    21.848,
+    14.565,
+    19.534
+   ],
+   "originOffsetM": [
+    10.924,
+    7.283,
+    9.863
+   ],
+   "triangles": 7318,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Room Type-06.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 9.863,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/room04",
+   "node": "es|a2a68e9754|v__architecture_philscaves_srooms_room04",
+   "category": "architecture",
+   "sizeM": [
+    32.789,
+    38.647,
+    50.803
+   ],
+   "originOffsetM": [
+    16.779,
+    18.207,
+    8.74
+   ],
+   "triangles": 5100,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Room Type-04.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 8.74,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/room05",
+   "node": "es|4417250c72|v__architecture_philscaves_srooms_room05",
+   "category": "architecture",
+   "sizeM": [
+    32.772,
+    25.401,
+    17.267
+   ],
+   "originOffsetM": [
+    16.386,
+    10.924,
+    9.091
+   ],
+   "triangles": 9819,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Room Type-21.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 9.091,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/wall01",
+   "node": "es|67dd28928f|v__architecture_philscaves_srooms_wall01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.712,
+    3.9
+   ],
+   "originOffsetM": [
+    3.641,
+    1.892,
+    0.156
+   ],
+   "triangles": 954,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Wall Type-1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.156,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/wall02",
+   "node": "es|875c83dcae|v__architecture_philscaves_srooms_wall02",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.748,
+    3.773
+   ],
+   "originOffsetM": [
+    3.641,
+    1.927,
+    0.055
+   ],
+   "triangles": 1248,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Wall Type-2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.055,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/wall03",
+   "node": "es|7679a168c6|v__architecture_philscaves_srooms_wall03",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.727,
+    4.682
+   ],
+   "originOffsetM": [
+    3.641,
+    1.907,
+    0.91
+   ],
+   "triangles": 1120,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Wall Type-3A.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.91,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/wall04",
+   "node": "es|30d8bfe8cd|v__architecture_philscaves_srooms_wall04",
+   "category": "architecture",
+   "sizeM": [
+    5.608,
+    2.31,
+    0.91
+   ],
+   "originOffsetM": [
+    2.757,
+    0.908,
+    -1.821
+   ],
+   "triangles": 292,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Wall Type-3B.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -1.821,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/wall05",
+   "node": "es|be761acd43|v__architecture_philscaves_srooms_wall05",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.727,
+    4.679
+   ],
+   "originOffsetM": [
+    3.641,
+    1.907,
+    0.128
+   ],
+   "triangles": 1347,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Wall Type-3C.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.128,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/srooms/wall06",
+   "node": "es|6dacc5dff5|v__architecture_philscaves_srooms_wall06",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    3.76,
+    3.817
+   ],
+   "originOffsetM": [
+    1.821,
+    1.94,
+    0.082
+   ],
+   "triangles": 444,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Wall256.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.082,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/cap",
+   "node": "es|ff64705c1f|bmv__architecture_philscaves_small_cap",
+   "category": "architecture",
+   "sizeM": [
+    7.106,
+    0.695,
+    3.578
+   ],
+   "originOffsetM": [
+    3.553,
+    0.695,
+    1.789
+   ],
+   "triangles": 398,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "naturalcavernwall20.dds"
+   ],
+   "materials": [
+    "Cap.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.789,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/cor01",
+   "node": "es|77fc8e2f82|bmv__architecture_philscaves_small_cor01",
+   "category": "architecture",
+   "sizeM": [
+    10.852,
+    10.933,
+    3.91
+   ],
+   "originOffsetM": [
+    5.462,
+    5.471,
+    1.953
+   ],
+   "triangles": 1912,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Corner01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.953,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/cor02",
+   "node": "es|1edb14827b|bmv__architecture_philscaves_small_cor02",
+   "category": "architecture",
+   "sizeM": [
+    10.895,
+    10.925,
+    5.399
+   ],
+   "originOffsetM": [
+    5.462,
+    5.463,
+    3.61
+   ],
+   "triangles": 1880,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Corner02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.61,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/cor03",
+   "node": "es|0f08268677|bmv__architecture_philscaves_small_cor03",
+   "category": "architecture",
+   "sizeM": [
+    10.836,
+    10.917,
+    5.399
+   ],
+   "originOffsetM": [
+    5.374,
+    5.455,
+    3.61
+   ],
+   "triangles": 1880,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Corner03.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.61,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/cor04",
+   "node": "es|79f3fbb593|bmv__architecture_philscaves_small_cor04",
+   "category": "architecture",
+   "sizeM": [
+    10.995,
+    14.565,
+    3.944
+   ],
+   "originOffsetM": [
+    5.462,
+    9.103,
+    1.945
+   ],
+   "triangles": 2511,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Corner04.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.945,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/doorcaveb",
+   "node": "es|db1d3ae3a5|_architecture_philscaves_small_doorcaveb",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    4.886,
+    3.648
+   ],
+   "originOffsetM": [
+    3.641,
+    0.627,
+    1.827
+   ],
+   "triangles": 1876,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "naturalcavernwall20.dds.001",
+    "woodweathered01dirtyrings.dds",
+    "wrwoodbeam01.dds"
+   ],
+   "materials": [
+    "Moldcave, Doorjamb by Razorwing.Mat",
+    "Moldcave, Doorjamb by Razorwing_1.Mat",
+    "Moldcave, Doorjamb by Razorwing_2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.827,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/exit01",
+   "node": "es|865014a64a|mv__architecture_philscaves_small_exit01",
+   "category": "architecture",
+   "sizeM": [
+    7.244,
+    2.448,
+    3.616
+   ],
+   "originOffsetM": [
+    3.553,
+    0.627,
+    1.827
+   ],
+   "triangles": 304,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds",
+    "woodweathered01dirtyrings.dds",
+    "wrwoodbeam01.dds"
+   ],
+   "materials": [
+    "ExitCommon:1.Mat",
+    "ExitCommon:2.Mat",
+    "ExitCommon:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.827,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/exit02",
+   "node": "es|15cfa52fda|mv__architecture_philscaves_small_exit02",
+   "category": "architecture",
+   "sizeM": [
+    8.515,
+    4.384,
+    5.417
+   ],
+   "originOffsetM": [
+    4.369,
+    1.867,
+    2.069
+   ],
+   "triangles": 3193,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds",
+    "woodweathered01dirtyrings.dds",
+    "woodweathered03.dds"
+   ],
+   "materials": [
+    "ExitNatural:1.Mat",
+    "ExitNatural:2.Mat",
+    "ExitNatural:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.069,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/hall01",
+   "node": "es|b882f2acc1|mv__architecture_philscaves_small_hall01",
+   "category": "architecture",
+   "sizeM": [
+    7.156,
+    3.641,
+    3.727
+   ],
+   "originOffsetM": [
+    3.582,
+    1.821,
+    1.884
+   ],
+   "triangles": 1024,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Hall01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.884,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/hall02",
+   "node": "es|b03dc13c88|mv__architecture_philscaves_small_hall02",
+   "category": "architecture",
+   "sizeM": [
+    7.383,
+    3.641,
+    3.883
+   ],
+   "originOffsetM": [
+    3.693,
+    1.821,
+    1.926
+   ],
+   "triangles": 1020,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Hall02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.926,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/hall03",
+   "node": "es|1ab2217277|mv__architecture_philscaves_small_hall03",
+   "category": "architecture",
+   "sizeM": [
+    7.217,
+    3.641,
+    3.866
+   ],
+   "originOffsetM": [
+    3.606,
+    1.821,
+    1.946
+   ],
+   "triangles": 1066,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Hall03.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.946,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/hall04",
+   "node": "es|70568f3f33|mv__architecture_philscaves_small_hall04",
+   "category": "architecture",
+   "sizeM": [
+    7.718,
+    3.641,
+    4.165
+   ],
+   "originOffsetM": [
+    3.934,
+    1.821,
+    2.041
+   ],
+   "triangles": 1068,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Hall04.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.041,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/hall05",
+   "node": "es|c83152652b|mv__architecture_philscaves_small_hall05",
+   "category": "architecture",
+   "sizeM": [
+    7.389,
+    3.641,
+    5.289
+   ],
+   "originOffsetM": [
+    3.786,
+    1.821,
+    1.966
+   ],
+   "triangles": 981,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Hall05a.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.966,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/hall05_a",
+   "node": "es|3aa14d47bf|__architecture_philscaves_small_hall05_a",
+   "category": "architecture",
+   "sizeM": [
+    3.849,
+    2.151,
+    1.226
+   ],
+   "originOffsetM": [
+    1.258,
+    1.333,
+    -2.096
+   ],
+   "triangles": 52,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Hall05b.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -2.096,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/hall05_b",
+   "node": "es|f843ac2381|__architecture_philscaves_small_hall05_b",
+   "category": "architecture",
+   "sizeM": [
+    7.411,
+    3.641,
+    4.445
+   ],
+   "originOffsetM": [
+    3.684,
+    1.821,
+    -3.007
+   ],
+   "triangles": 952,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Hall05c.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -3.007,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/hallh01",
+   "node": "es|8dbecdcff3|v__architecture_philscaves_small_hallh01",
+   "category": "architecture",
+   "sizeM": [
+    7.244,
+    1.821,
+    3.601
+   ],
+   "originOffsetM": [
+    3.553,
+    0.91,
+    1.812
+   ],
+   "triangles": 230,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "HallHalf01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.812,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/small/ram01",
+   "node": "es|93e9228a19|bmv__architecture_philscaves_small_ram01",
+   "category": "architecture",
+   "sizeM": [
+    7.782,
+    3.641,
+    5.584
+   ],
+   "originOffsetM": [
+    3.881,
+    1.821,
+    3.61
+   ],
+   "triangles": 702,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02a.dds"
+   ],
+   "materials": [
+    "Ramp01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.61,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/cave2",
+   "node": "es|aad1d39dce|bmv__architecture_philscaves_cave2",
+   "category": "architecture",
+   "sizeM": [
+    21.848,
+    21.848,
+    7.689
+   ],
+   "originOffsetM": [
+    0.0,
+    7.283,
+    3.729
+   ],
+   "triangles": 1112,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02.dds"
+   ],
+   "materials": [
+    "cave2_06 0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.729,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/philscaves/cave3",
+   "node": "es|d63744b015|bmv__architecture_philscaves_cave3",
+   "category": "architecture",
+   "sizeM": [
+    11.255,
+    18.207,
+    12.216
+   ],
+   "originOffsetM": [
+    5.933,
+    -0.0,
+    9.114
+   ],
+   "triangles": 1159,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minerockwall02.dds"
+   ],
+   "materials": [
+    "cave 03.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 9.114,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintdooret01",
+   "node": "es|661b13f833|_citebosmer_houses_housetroncintdooret01",
+   "category": "architecture",
+   "sizeM": [
+    2.767,
+    4.508,
+    6.828
+   ],
+   "originOffsetM": [
+    1.311,
+    11.264,
+    0.389
+   ],
+   "triangles": 946,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds",
+    "porte01.dds"
+   ],
+   "materials": [
+    "Tri Tube.101 0.Mat",
+    "Tri Tube.101 1.Mat",
+    "Tri Tube.101 3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.389,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintdoorrc01",
+   "node": "es|b1d029f676|_citebosmer_houses_housetroncintdoorrc01",
+   "category": "architecture",
+   "sizeM": [
+    2.783,
+    2.401,
+    4.282
+   ],
+   "originOffsetM": [
+    1.327,
+    11.628,
+    0.715
+   ],
+   "triangles": 861,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds",
+    "porte01.dds"
+   ],
+   "materials": [
+    "Tri Tube.099 0.Mat",
+    "Tri Tube.099 1.Mat",
+    "Tri Tube.099 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.715,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintet001",
+   "node": "es|d36a37b9b7|ure_citebosmer_houses_housetroncintet001",
+   "category": "architecture",
+   "sizeM": [
+    23.028,
+    23.028,
+    8.272
+   ],
+   "originOffsetM": [
+    11.514,
+    11.514,
+    -3.024
+   ],
+   "triangles": 12928,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "CurveCircle.024.Mat",
+    "Cylinder.001.Mat",
+    "Cylinder.002.Mat",
+    "Cylinder.003.Mat",
+    "Cylinder.004.Mat",
+    "Cylinder.005.Mat",
+    "Cylinder.006.Mat",
+    "Cylinder.3049.Mat",
+    "Cylinder.3050.Mat",
+    "Cylinder.3051.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -3.024,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintet90v001",
+   "node": "es|b057c147fa|_citebosmer_houses_housetroncintet90v001",
+   "category": "architecture",
+   "sizeM": [
+    9.601,
+    17.024,
+    7.901
+   ],
+   "originOffsetM": [
+    -1.912,
+    6.698,
+    -3.395
+   ],
+   "triangles": 3232,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "CurveCircle.044.Mat",
+    "Cylinder.3148.Mat",
+    "Cylinder.3151.Mat",
+    "Liane.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -3.395,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintrc001",
+   "node": "es|9874d0edcb|ure_citebosmer_houses_housetroncintrc001",
+   "category": "architecture",
+   "sizeM": [
+    24.132,
+    24.132,
+    4.334
+   ],
+   "originOffsetM": [
+    12.066,
+    12.066,
+    0.643
+   ],
+   "triangles": 16892,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "CurveCircle.001.Mat",
+    "CurveCircle.002.Mat",
+    "CurveCircle.003.Mat",
+    "CurveCircle.004.Mat",
+    "CurveCircle.012.Mat",
+    "Cylinder.001.Mat.001",
+    "Cylinder.002.Mat.001",
+    "Cylinder.003.Mat.001",
+    "Cylinder.004.Mat.001",
+    "Cylinder.005.Mat.001",
+    "Cylinder.006.Mat.001",
+    "Cylinder.3025.Mat",
+    "Cylinder.3046.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.643,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintrc90v001",
+   "node": "es|9c370cbf2c|_citebosmer_houses_housetroncintrc90v001",
+   "category": "architecture",
+   "sizeM": [
+    10.154,
+    16.72,
+    4.334
+   ],
+   "originOffsetM": [
+    -1.912,
+    6.29,
+    0.643
+   ],
+   "triangles": 4223,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "CurveCircle.043.Mat",
+    "Cylinder.3147.Mat",
+    "Cylinder.3150.Mat",
+    "Liane.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.643,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001",
+   "node": "es|9264914cda|itebosmer_houses_housetroncintrcet90v001",
+   "category": "architecture",
+   "sizeM": [
+    9.827,
+    17.734,
+    11.939
+   ],
+   "originOffsetM": [
+    -1.912,
+    7.305,
+    0.643
+   ],
+   "triangles": 8209,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Cylinder.3149.Mat",
+    "Cylinder.3154.Mat",
+    "Cylinder.3155.Mat",
+    "murInterieur1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.643,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintss001",
+   "node": "es|fff08597fb|ure_citebosmer_houses_housetroncintss001",
+   "category": "architecture",
+   "sizeM": [
+    21.873,
+    21.873,
+    2.747
+   ],
+   "originOffsetM": [
+    10.937,
+    10.937,
+    2.763
+   ],
+   "triangles": 12416,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "CurveCircle.020.Mat",
+    "Cylinder.001.Mat.002",
+    "Cylinder.002.Mat.002",
+    "Cylinder.003.Mat.002",
+    "Cylinder.004.Mat.002",
+    "Cylinder.005.Mat.002",
+    "Cylinder.006.Mat.002",
+    "Cylinder.3047.Mat",
+    "Cylinder.3048.Mat",
+    "Cylinder.3052.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.763,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwallet001",
+   "node": "es|750c5a45b6|citebosmer_houses_housetroncintwallet001",
+   "category": "architecture",
+   "sizeM": [
+    6.595,
+    2.065,
+    6.784
+   ],
+   "originOffsetM": [
+    -4.967,
+    1.208,
+    0.127
+   ],
+   "triangles": 10386,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Cylinder.3165.Mat",
+    "murInterieur1.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.127,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwallet002",
+   "node": "es|d552407750|citebosmer_houses_housetroncintwallet002",
+   "category": "architecture",
+   "sizeM": [
+    6.595,
+    2.065,
+    6.784
+   ],
+   "originOffsetM": [
+    -4.967,
+    1.208,
+    0.127
+   ],
+   "triangles": 9040,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Liane.Mat.002",
+    "Plane.008.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.127,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwallet003",
+   "node": "es|a02157839d|citebosmer_houses_housetroncintwallet003",
+   "category": "architecture",
+   "sizeM": [
+    6.429,
+    2.028,
+    6.69
+   ],
+   "originOffsetM": [
+    -4.967,
+    1.208,
+    0.127
+   ],
+   "triangles": 5536,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Liane.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.127,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc001",
+   "node": "es|22b87dab8a|citebosmer_houses_housetroncintwallrc001",
+   "category": "architecture",
+   "sizeM": [
+    6.595,
+    0.738,
+    3.749
+   ],
+   "originOffsetM": [
+    -4.967,
+    0.42,
+    0.127
+   ],
+   "triangles": 8804,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Liane.Mat.004",
+    "Plane.009.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.127,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc002",
+   "node": "es|e472f095ea|citebosmer_houses_housetroncintwallrc002",
+   "category": "architecture",
+   "sizeM": [
+    6.595,
+    0.738,
+    3.749
+   ],
+   "originOffsetM": [
+    -4.967,
+    0.42,
+    0.127
+   ],
+   "triangles": 6964,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Liane.Mat.005",
+    "Plane.010.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.127,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc003",
+   "node": "es|b836ea5524|citebosmer_houses_housetroncintwallrc003",
+   "category": "architecture",
+   "sizeM": [
+    6.429,
+    0.735,
+    3.749
+   ],
+   "originOffsetM": [
+    -4.967,
+    0.327,
+    0.127
+   ],
+   "triangles": 3968,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Liane.Mat.006"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.127,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet001",
+   "node": "es|2ba90a3dc6|tebosmer_houses_housetroncintwindowet001",
+   "category": "architecture",
+   "sizeM": [
+    1.946,
+    1.126,
+    2.66
+   ],
+   "originOffsetM": [
+    5.31,
+    10.177,
+    -0.514
+   ],
+   "triangles": 180,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.244 0.Mat",
+    "Tri Tube.244 1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.514,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet002",
+   "node": "es|f66571b815|tebosmer_houses_housetroncintwindowet002",
+   "category": "architecture",
+   "sizeM": [
+    1.538,
+    1.278,
+    2.53
+   ],
+   "originOffsetM": [
+    2.659,
+    10.94,
+    -1.03
+   ],
+   "triangles": 89,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.239 1.Mat",
+    "Tri Tube.239 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -1.03,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet003",
+   "node": "es|eac0829adb|tebosmer_houses_housetroncintwindowet003",
+   "category": "architecture",
+   "sizeM": [
+    1.517,
+    1.152,
+    2.344
+   ],
+   "originOffsetM": [
+    1.595,
+    11.24,
+    -0.605
+   ],
+   "triangles": 89,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.242 1.Mat",
+    "Tri Tube.242 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.605,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc001",
+   "node": "es|b4e9f869ed|tebosmer_houses_housetroncintwindowrc001",
+   "category": "architecture",
+   "sizeM": [
+    1.131,
+    0.551,
+    2.556
+   ],
+   "originOffsetM": [
+    6.482,
+    10.0,
+    -0.403
+   ],
+   "triangles": 42,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.246 1.Mat",
+    "Tri Tube.246 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.403,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc002",
+   "node": "es|963aa8ae44|tebosmer_houses_housetroncintwindowrc002",
+   "category": "architecture",
+   "sizeM": [
+    1.366,
+    0.435,
+    2.554
+   ],
+   "originOffsetM": [
+    3.551,
+    11.285,
+    -0.403
+   ],
+   "triangles": 73,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.245 1.Mat",
+    "Tri Tube.245 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.403,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc003",
+   "node": "es|77cccfee0d|tebosmer_houses_housetroncintwindowrc003",
+   "category": "architecture",
+   "sizeM": [
+    1.573,
+    0.898,
+    2.183
+   ],
+   "originOffsetM": [
+    -1.487,
+    11.388,
+    -1.016
+   ],
+   "triangles": 89,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.247 1.Mat",
+    "Tri Tube.247 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -1.016,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampint001",
+   "node": "es|943973ec96|cture_citebosmer_houses_housechampint001",
+   "category": "architecture",
+   "sizeM": [
+    14.127,
+    11.536,
+    5.432
+   ],
+   "originOffsetM": [
+    7.088,
+    7.015,
+    0.992
+   ],
+   "triangles": 7866,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Cylinder.3079.Mat",
+    "Cylinder.3089.Mat",
+    "murInterieur2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.992,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintdoor01",
+   "node": "es|13f017f7d9|re_citebosmer_houses_housechampintdoor01",
+   "category": "architecture",
+   "sizeM": [
+    2.767,
+    6.568,
+    4.804
+   ],
+   "originOffsetM": [
+    1.311,
+    6.955,
+    0.389
+   ],
+   "triangles": 962,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds",
+    "porte01.dds"
+   ],
+   "materials": [
+    "Tri Tube.103 0.Mat",
+    "Tri Tube.103 1.Mat",
+    "Tri Tube.103 3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.389,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v001",
+   "node": "es|a73de82f38|tebosmer_houses_housechampintwalla15v001",
+   "category": "architecture",
+   "sizeM": [
+    0.738,
+    6.595,
+    4.393
+   ],
+   "originOffsetM": [
+    0.42,
+    10.684,
+    0.16
+   ],
+   "triangles": 7800,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Tri Cylinder.3180 0.Mat",
+    "Tri Cylinder.3180 1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.16,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v002",
+   "node": "es|3130413602|tebosmer_houses_housechampintwalla15v002",
+   "category": "architecture",
+   "sizeM": [
+    0.738,
+    6.595,
+    4.393
+   ],
+   "originOffsetM": [
+    0.42,
+    10.684,
+    0.16
+   ],
+   "triangles": 5972,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Tri Cylinder.3180 0.Mat.001",
+    "Tri Cylinder.3180 1.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.16,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v003",
+   "node": "es|80685d29dc|tebosmer_houses_housechampintwalla15v003",
+   "category": "architecture",
+   "sizeM": [
+    0.648,
+    6.452,
+    4.215
+   ],
+   "originOffsetM": [
+    0.358,
+    10.542,
+    0.16
+   ],
+   "triangles": 5080,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Cylinder.3180 0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.16,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v001",
+   "node": "es|9d65047572|tebosmer_houses_housechampintwalla45v001",
+   "category": "architecture",
+   "sizeM": [
+    0.738,
+    5.257,
+    4.393
+   ],
+   "originOffsetM": [
+    0.42,
+    9.346,
+    0.16
+   ],
+   "triangles": 6670,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Tri Cylinder.3180 0.Mat.002",
+    "Tri Cylinder.3180 1.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.16,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v002",
+   "node": "es|b773ae4b63|tebosmer_houses_housechampintwalla45v002",
+   "category": "architecture",
+   "sizeM": [
+    0.738,
+    5.257,
+    4.393
+   ],
+   "originOffsetM": [
+    0.42,
+    9.346,
+    0.16
+   ],
+   "triangles": 5886,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Tri Cylinder.3180 0.Mat.003",
+    "Tri Cylinder.3180 1.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.16,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v003",
+   "node": "es|7d8b9754e9|tebosmer_houses_housechampintwalla45v003",
+   "category": "architecture",
+   "sizeM": [
+    0.53,
+    5.238,
+    4.215
+   ],
+   "originOffsetM": [
+    0.291,
+    9.328,
+    0.16
+   ],
+   "triangles": 3880,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Cylinder.3180 0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.16,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwindow001",
+   "node": "es|300734d54f|citebosmer_houses_housechampintwindow001",
+   "category": "architecture",
+   "sizeM": [
+    1.331,
+    1.654,
+    1.523
+   ],
+   "originOffsetM": [
+    6.795,
+    0.745,
+    -0.943
+   ],
+   "triangles": 90,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.258 1.Mat",
+    "Tri Tube.258 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.943,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwindow002",
+   "node": "es|12a1cee194|citebosmer_houses_housechampintwindow002",
+   "category": "architecture",
+   "sizeM": [
+    1.327,
+    1.858,
+    2.361
+   ],
+   "originOffsetM": [
+    5.892,
+    4.347,
+    -0.4
+   ],
+   "triangles": 338,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.254 1.Mat",
+    "Tri Tube.254 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.4,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/housechampintwindow003",
+   "node": "es|103b69a255|citebosmer_houses_housechampintwindow003",
+   "category": "architecture",
+   "sizeM": [
+    1.77,
+    0.935,
+    2.252
+   ],
+   "originOffsetM": [
+    3.664,
+    6.187,
+    -0.125
+   ],
+   "triangles": 171,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.256 1.Mat",
+    "Tri Tube.256 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.125,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandint001",
+   "node": "es|8ccb4cead7|cture_citebosmer_houses_houseglandint001",
+   "category": "architecture",
+   "sizeM": [
+    7.493,
+    7.493,
+    12.439
+   ],
+   "originOffsetM": [
+    3.747,
+    3.747,
+    4.08
+   ],
+   "triangles": 13040,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "bark0143.dds"
+   ],
+   "materials": [
+    "CurveCircle.011.Mat",
+    "Cylinder.2988.Mat",
+    "Cylinder.2990.Mat",
+    "Cylinder.3011.Mat",
+    "Cylinder.3011_1.Mat",
+    "Cylinder.3012.Mat",
+    "Cylinder.3016.Mat",
+    "Cylinder.3017.Mat",
+    "Tube.041.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.08,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandintdoor001",
+   "node": "es|1b9fb8309e|e_citebosmer_houses_houseglandintdoor001",
+   "category": "architecture",
+   "sizeM": [
+    1.534,
+    0.808,
+    3.04
+   ],
+   "originOffsetM": [
+    0.672,
+    3.707,
+    -0.095
+   ],
+   "triangles": 325,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "porte01.dds"
+   ],
+   "materials": [
+    "Tri Tube.101 0.Mat.001",
+    "Tri Tube.101 1.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.095,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandinttrapetdn001",
+   "node": "es|b1a1f79da5|tebosmer_houses_houseglandinttrapetdn001",
+   "category": "architecture",
+   "sizeM": [
+    1.623,
+    1.806,
+    0.705
+   ],
+   "originOffsetM": [
+    0.811,
+    -1.461,
+    0.016
+   ],
+   "triangles": 182,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "boisebenenoir02.dds"
+   ],
+   "materials": [
+    "Tri Circle.542 0.Mat",
+    "Tri Circle.542 1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.016,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandinttraprcdn001",
+   "node": "es|5254c6702b|tebosmer_houses_houseglandinttraprcdn001",
+   "category": "architecture",
+   "sizeM": [
+    1.623,
+    1.874,
+    0.705
+   ],
+   "originOffsetM": [
+    0.811,
+    -1.805,
+    0.016
+   ],
+   "triangles": 182,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds",
+    "boisebenenoir02.dds"
+   ],
+   "materials": [
+    "Tri Circle.540 0.Mat",
+    "Tri Circle.540 1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.016,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandinttraprcup001",
+   "node": "es|fc4daff29c|tebosmer_houses_houseglandinttraprcup001",
+   "category": "architecture",
+   "sizeM": [
+    2.155,
+    2.329,
+    1.996
+   ],
+   "originOffsetM": [
+    1.077,
+    -1.435,
+    -1.638
+   ],
+   "triangles": 288,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds"
+   ],
+   "materials": [
+    "Circle.536 0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -1.638,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandinttrapssup001",
+   "node": "es|40a4336f98|tebosmer_houses_houseglandinttrapssup001",
+   "category": "architecture",
+   "sizeM": [
+    1.947,
+    1.832,
+    2.075
+   ],
+   "originOffsetM": [
+    0.974,
+    -1.778,
+    -1.559
+   ],
+   "triangles": 288,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0005.dds"
+   ],
+   "materials": [
+    "Circle.538 0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -1.559,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet001",
+   "node": "es|56f4df2d95|tebosmer_houses_houseglandintwindowet001",
+   "category": "architecture",
+   "sizeM": [
+    1.704,
+    2.332,
+    2.895
+   ],
+   "originOffsetM": [
+    1.566,
+    2.578,
+    -5.021
+   ],
+   "triangles": 101,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.103 1.Mat.001",
+    "Tri Tube.103 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -5.021,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet002",
+   "node": "es|bd7445da30|tebosmer_houses_houseglandintwindowet002",
+   "category": "architecture",
+   "sizeM": [
+    1.021,
+    1.683,
+    2.59
+   ],
+   "originOffsetM": [
+    0.342,
+    3.057,
+    -4.102
+   ],
+   "triangles": 105,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.102 1.Mat",
+    "Tri Tube.102 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -4.102,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet003",
+   "node": "es|44d16e2d80|tebosmer_houses_houseglandintwindowet003",
+   "category": "architecture",
+   "sizeM": [
+    1.286,
+    1.026,
+    2.122
+   ],
+   "originOffsetM": [
+    -1.058,
+    2.558,
+    -3.672
+   ],
+   "triangles": 185,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.100 1.Mat",
+    "Tri Tube.100 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -3.672,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/houses/houseglandintwindowrc001",
+   "node": "es|b480371b8f|tebosmer_houses_houseglandintwindowrc001",
+   "category": "architecture",
+   "sizeM": [
+    1.449,
+    0.66,
+    3.24
+   ],
+   "originOffsetM": [
+    0.505,
+    3.72,
+    -0.052
+   ],
+   "triangles": 449,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "vitre_verte.dds"
+   ],
+   "materials": [
+    "Tri Tube.099 1.Mat.001",
+    "Tri Tube.099 2.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.052,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_ext_root_01",
+   "node": "es|f33226671c|bmv__telvanni_tel_ext_root_01",
+   "category": "architecture",
+   "sizeM": [
+    28.708,
+    17.834,
+    23.666
+   ],
+   "originOffsetM": [
+    12.799,
+    12.072,
+    11.833
+   ],
+   "triangles": 578,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telbigroots01.dds"
+   ],
+   "materials": [
+    "Object001.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 11.833,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_ext_root_02",
+   "node": "es|64df930da7|bmv__telvanni_tel_ext_root_02",
+   "category": "architecture",
+   "sizeM": [
+    22.719,
+    8.379,
+    21.702
+   ],
+   "originOffsetM": [
+    11.359,
+    4.19,
+    10.851
+   ],
+   "triangles": 433,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telbigroots01.dds"
+   ],
+   "materials": [
+    "Object001.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 10.851,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_root_03",
+   "node": "es|db74fcb872|bmv__telvanni_tel_root_03",
+   "category": "architecture",
+   "sizeM": [
+    67.198,
+    58.173,
+    90.577
+   ],
+   "originOffsetM": [
+    27.975,
+    26.965,
+    46.295
+   ],
+   "triangles": 480,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telbigroots01.dds"
+   ],
+   "materials": [
+    "Cone004.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 46.295,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_int_connector_01",
+   "node": "es|362eb3448a|bmv__telvanni_tel_int_connector_01",
+   "category": "architecture",
+   "sizeM": [
+    3.898,
+    4.475,
+    3.378
+   ],
+   "originOffsetM": [
+    1.95,
+    0.721,
+    0.296
+   ],
+   "triangles": 1150,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telwoodendoor01.dds"
+   ],
+   "materials": [
+    "DLC2TelMithrynDoorFrame02:17.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.296,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_int_gourdhouse01",
+   "node": "es|c4cd517163|bmv__telvanni_tel_int_gourdhouse01",
+   "category": "architecture",
+   "sizeM": [
+    20.161,
+    14.811,
+    15.498
+   ],
+   "originOffsetM": [
+    7.189,
+    8.971,
+    0.254
+   ],
+   "triangles": 4359,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telbigroots01.dds",
+    "telgroundinterior01.dds",
+    "telinsidewalls01.dds",
+    "telroots01.dds",
+    "telwoodsmallroots01.dds"
+   ],
+   "materials": [
+    "DLC2TelvanniGourdHouseInt01:0.Mat",
+    "DLC2TelvanniGourdHouseInt01:15.Mat",
+    "DLC2TelvanniGourdHouseInt01:18.Mat",
+    "DLC2TelvanniGourdHouseInt01:5.Mat",
+    "DLC2TelvanniGourdHouseInt01:7.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.254,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_ramp_03",
+   "node": "es|f05f2ec692|bmv__telvanni_tel_ramp_03",
+   "category": "architecture",
+   "sizeM": [
+    70.646,
+    55.781,
+    74.595
+   ],
+   "originOffsetM": [
+    32.997,
+    19.443,
+    44.635
+   ],
+   "triangles": 480,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telbigroots01.dds",
+    "telstairs01.dds"
+   ],
+   "materials": [
+    "Cone004.Mat.001",
+    "Object002.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 44.635,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_stairs_01",
+   "node": "es|3f84a84d14|bmv__telvanni_tel_stairs_01",
+   "category": "architecture",
+   "sizeM": [
+    17.735,
+    35.111,
+    14.499
+   ],
+   "originOffsetM": [
+    8.926,
+    0.862,
+    12.616
+   ],
+   "triangles": 846,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telstairs01.dds",
+    "telwoodtile01.dds"
+   ],
+   "materials": [
+    "DLC2TelvanniGourdHouseRamp01:16.Mat",
+    "DLC2TelvanniGourdHouseRamp01:19.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 12.616,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_stairs_01b",
+   "node": "es|0887f6f97f|bmv__telvanni_tel_stairs_01b",
+   "category": "architecture",
+   "sizeM": [
+    12.132,
+    15.132,
+    10.012
+   ],
+   "originOffsetM": [
+    5.149,
+    0.862,
+    8.129
+   ],
+   "triangles": 678,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telstairs01.dds",
+    "telwoodtile01.dds"
+   ],
+   "materials": [
+    "DLC2TelvanniGourdHouseRamp01:16.Mat.001",
+    "DLC2TelvanniGourdHouseRamp01:19.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 8.129,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_ext_ramp_01",
+   "node": "es|b617dd7426|bmv__telvanni_tel_ext_ramp_01",
+   "category": "architecture",
+   "sizeM": [
+    12.226,
+    14.391,
+    10.015
+   ],
+   "originOffsetM": [
+    2.283,
+    3.305,
+    3.71
+   ],
+   "triangles": 588,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telbigroots01.dds",
+    "telstairs01.dds"
+   ],
+   "materials": [
+    "DLC2TelvanniRootBridge01:017.Mat",
+    "stairs001.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.71,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_pod_shelf_01",
+   "node": "es|e583c0079e|bmv__telvanni_tel_pod_shelf_01",
+   "category": "architecture",
+   "sizeM": [
+    29.25,
+    27.202,
+    12.709
+   ],
+   "originOffsetM": [
+    14.767,
+    13.848,
+    -3.891
+   ],
+   "triangles": 960,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telinsidewalls01.dds",
+    "telinsidewalls02.dds",
+    "telinsidewalls03b.dds",
+    "telmushroomtop01.dds",
+    "telvanni_bracket01.dds",
+    "telvanni_bracket02_trans.dds"
+   ],
+   "materials": [
+    "Object001.Mat.002",
+    "Object006.Mat",
+    "Object007.Mat",
+    "Object008.Mat",
+    "Object009.Mat",
+    "Sphere001.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -3.891,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_shelffungus_01",
+   "node": "es|8a648317df|bmv__telvanni_tel_shelffungus_01",
+   "category": "architecture",
+   "sizeM": [
+    29.25,
+    27.202,
+    6.757
+   ],
+   "originOffsetM": [
+    14.767,
+    13.848,
+    -9.843
+   ],
+   "triangles": 672,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telinsidewalls03b.dds",
+    "telvanni_bracket01.dds",
+    "telvanni_bracket02_trans.dds"
+   ],
+   "materials": [
+    "Object012.Mat",
+    "Object013.Mat",
+    "Object014.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -9.843,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "bmv:telvanni/tel_entrance_01",
+   "node": "es|7cb429aab2|bmv__telvanni_tel_entrance_01",
+   "category": "architecture",
+   "sizeM": [
+    7.388,
+    4.538,
+    6.859
+   ],
+   "originOffsetM": [
+    3.913,
+    2.148,
+    2.033
+   ],
+   "triangles": 1340,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "telcap01.dds",
+    "telmushroombot01.dds",
+    "telwoodtile01.dds"
+   ],
+   "materials": [
+    "Object002.Mat.001",
+    "Sphere002.Mat",
+    "Torus003.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.033,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/histroots01",
+   "node": "es|2bec9e6450|rs - curse of cipactli_trees_histroots01",
+   "category": "misc",
+   "sizeM": [
+    41.615,
+    21.263,
+    43.967
+   ],
+   "originOffsetM": [
+    0.636,
+    17.038,
+    39.602
+   ],
+   "triangles": 236,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist.dds",
+    "woodpostend01.dds"
+   ],
+   "materials": [
+    "Tri Tri arbreMere03 0 0.Mat",
+    "Tri Tri arbreMere03 0 1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 39.602,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
+   "node": "es|c279f7026e|rs - curse of cipactli_trees_histroots02",
+   "category": "misc",
+   "sizeM": [
+    14.433,
+    10.295,
+    6.201
+   ],
+   "originOffsetM": [
+    6.236,
+    1.845,
+    3.626
+   ],
+   "triangles": 1494,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist.dds"
+   ],
+   "materials": [
+    "WRTempleTree02Roots:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.626,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
+   "node": "es|5d58d6ef39|rs - curse of cipactli_trees_histroots03",
+   "category": "misc",
+   "sizeM": [
+    9.56,
+    2.538,
+    4.708
+   ],
+   "originOffsetM": [
+    8.833,
+    1.786,
+    0.05
+   ],
+   "triangles": 666,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist.dds"
+   ],
+   "materials": [
+    "WRTempleTree02RootAnim01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.05,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/histroots04",
+   "node": "es|974b074531|rs - curse of cipactli_trees_histroots04",
+   "category": "misc",
+   "sizeM": [
+    6.031,
+    19.058,
+    8.13
+   ],
+   "originOffsetM": [
+    3.115,
+    9.388,
+    4.97
+   ],
+   "triangles": 1240,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist.dds"
+   ],
+   "materials": [
+    "Cylinder.2839.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.97,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/histroots05",
+   "node": "es|a8da5ed30a|rs - curse of cipactli_trees_histroots05",
+   "category": "misc",
+   "sizeM": [
+    1.872,
+    0.93,
+    4.735
+   ],
+   "originOffsetM": [
+    0.916,
+    4.113,
+    0.826
+   ],
+   "triangles": 632,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist.dds"
+   ],
+   "materials": [
+    "Scene Root:7.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.826,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/histroots06",
+   "node": "es|a978a1869d|rs - curse of cipactli_trees_histroots06",
+   "category": "misc",
+   "sizeM": [
+    1.385,
+    1.549,
+    4.61
+   ],
+   "originOffsetM": [
+    -1.975,
+    3.146,
+    1.243
+   ],
+   "triangles": 632,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist.dds"
+   ],
+   "materials": [
+    "Scene Root:7.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.243,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/histramp",
+   "node": "es|52a0f5610e|sters - curse of cipactli_trees_histramp",
+   "category": "misc",
+   "sizeM": [
+    7.989,
+    7.958,
+    6.702
+   ],
+   "originOffsetM": [
+    0.086,
+    0.082,
+    1.541
+   ],
+   "triangles": 15532,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.754 0.Mat",
+    "Circle.759 1.Mat",
+    "Circle.760 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.541,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/histtree",
+   "node": "es|fbf98738b8|sters - curse of cipactli_trees_histtree",
+   "category": "misc",
+   "sizeM": [
+    64.004,
+    45.331,
+    53.633
+   ],
+   "originOffsetM": [
+    30.852,
+    27.0,
+    16.098
+   ],
+   "triangles": 17073,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist.dds",
+    "bark0143hist2.dds",
+    "deathbell01.dds",
+    "histfruit.dds",
+    "mp_valenwood_tree01.dds",
+    "woodpostend01.dds"
+   ],
+   "materials": [
+    "Cylinder.005.Mat.003",
+    "Cylinder.011.Mat",
+    "Cylinder.2959.Mat",
+    "Cylinder.2981.Mat",
+    "DeathBell01:0.Mat",
+    "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffTree0",
+    "ReachTree01:26.Mat",
+    "Scene Root:104.Mat",
+    "Scene Root:109.Mat",
+    "Scene Root:11.Mat",
+    "Scene Root:114.Mat",
+    "Scene Root:119.Mat",
+    "Scene Root:124.Mat",
+    "Scene Root:32.Mat",
+    "Scene Root:36.Mat",
+    "Scene Root:45.Mat",
+    "Scene Root:50.Mat",
+    "Scene Root:55.Mat",
+    "Scene Root:60.Mat",
+    "Scene Root:72.Mat",
+    "Scene Root:84.Mat",
+    "Scene Root:89.Mat",
+    "Scene Root:94.Mat",
+    "Scene Root:95.Mat",
+    "Scene Root:99.Mat",
+    "Tri arbreMere03.011 0.Mat",
+    "Tri arbreMere03.011 1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 16.098,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/treegiantrootbase01",
+   "node": "es|6e59a62751|se of cipactli_trees_treegiantrootbase01",
+   "category": "misc",
+   "sizeM": [
+    41.615,
+    21.263,
+    43.967
+   ],
+   "originOffsetM": [
+    0.636,
+    17.038,
+    39.602
+   ],
+   "triangles": 236,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0194.dds",
+    "woodpostend01.dds"
+   ],
+   "materials": [
+    "Tri Tri arbreMere03 0 0.Mat.001",
+    "Tri Tri arbreMere03 0 1.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 39.602,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/treeroots01",
+   "node": "es|c4cc96b5d6|rs - curse of cipactli_trees_treeroots01",
+   "category": "misc",
+   "sizeM": [
+    41.615,
+    21.263,
+    43.967
+   ],
+   "originOffsetM": [
+    0.636,
+    17.038,
+    39.602
+   ],
+   "triangles": 236,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds.001",
+    "woodpostend01.dds"
+   ],
+   "materials": [
+    "Tri Tri arbreMere03 0 0.Mat.002",
+    "Tri Tri arbreMere03 0 1.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 39.602,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/treeroots03",
+   "node": "es|c5a200f85a|rs - curse of cipactli_trees_treeroots03",
+   "category": "misc",
+   "sizeM": [
+    9.56,
+    2.538,
+    4.708
+   ],
+   "originOffsetM": [
+    8.833,
+    1.786,
+    0.05
+   ],
+   "triangles": 666,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds.001"
+   ],
+   "materials": [
+    "WRTempleTree02RootAnim01:5.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.05,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/trees/treeroottrap",
+   "node": "es|673b0a77dc|s - curse of cipactli_trees_treeroottrap",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    7.854,
+    5.721
+   ],
+   "originOffsetM": [
+    1.821,
+    5.462,
+    2.08
+   ],
+   "triangles": 1130,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143hist2.dds"
+   ],
+   "materials": [
+    "EditorMarker.Mat",
+    "Tentacle01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.08,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproot",
+   "node": "es|7a4ea22257|rse of cipactli_clutter_corruptedtaproot",
+   "category": "clutter",
+   "sizeM": [
+    0.221,
+    0.21,
+    0.407
+   ],
+   "originOffsetM": [
+    0.104,
+    0.123,
+    0.203
+   ],
+   "triangles": 308,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "taproot.dds"
+   ],
+   "materials": [
+    "Taproot:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.203,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist",
+   "node": "es|e6c324cd00|of cipactli_clutter_corruptedtaproothist",
+   "category": "clutter",
+   "sizeM": [
+    0.221,
+    0.21,
+    0.407
+   ],
+   "originOffsetM": [
+    0.104,
+    0.123,
+    0.203
+   ],
+   "triangles": 308,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "taproothist.dds"
+   ],
+   "materials": [
+    "Taproot:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.203,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/clutter/histfruit",
+   "node": "es|fa7da6def6|rs - curse of cipactli_clutter_histfruit",
+   "category": "clutter",
+   "sizeM": [
+    0.257,
+    0.258,
+    0.211
+   ],
+   "originOffsetM": [
+    0.136,
+    0.136,
+    0.064
+   ],
+   "triangles": 427,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "histfruit.dds"
+   ],
+   "materials": [
+    "SwampFungalPod02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.064,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/histtree",
+   "node": "es|8016fe8a59|dmother__gv_meshes_argoniannest_histtree",
+   "category": "misc",
+   "sizeM": [
+    26.971,
+    28.185,
+    22.115
+   ],
+   "originOffsetM": [
+    14.569,
+    13.23,
+    8.822
+   ],
+   "triangles": 5224,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "histtree.dds",
+    "histtreeleaves.dds"
+   ],
+   "materials": [
+    "Hist.Mat",
+    "L1_WRTempleTree02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 8.822,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/fxhistmist01",
+   "node": "es|0eefc2bbc8|her__gv_meshes_argoniannest_fxhistmist01",
+   "category": "misc",
+   "sizeM": [
+    12.87,
+    12.177,
+    2.526
+   ],
+   "originOffsetM": [
+    6.526,
+    5.941,
+    1.263
+   ],
+   "triangles": 217,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cloudtile.dds"
+   ],
+   "materials": [
+    "FXMistLow01HalfVis:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.263,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01",
+   "node": "es|d34a5f113b|_meshes_argoniannest_cavegbalconyshelf01",
+   "category": "misc",
+   "sizeM": [
+    4.408,
+    12.025,
+    2.979
+   ],
+   "originOffsetM": [
+    2.204,
+    6.012,
+    1.49
+   ],
+   "triangles": 888,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "mudhut01.dds"
+   ],
+   "materials": [
+    "CaveGBalconyShelf01:2.Mat",
+    "CaveGBalconyShelf01:3.Mat",
+    "CaveGBalconyShelf01:4.Mat",
+    "CaveGBalconyShelf01:9.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.49,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
+   "node": "es|93374190f9|er__gv_meshes_argoniannest_archwaysticks",
+   "category": "misc",
+   "sizeM": [
+    5.1,
+    4.603,
+    2.727
+   ],
+   "originOffsetM": [
+    9.615,
+    -4.184,
+    -3.995
+   ],
+   "triangles": 422,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "wovenfence01.dds"
+   ],
+   "materials": [
+    "WRTrellisArch01:1.Mat",
+    "WRTrellisArch01:10.Mat",
+    "WRTrellisArch01:23.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -3.995,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
+   "node": "es|1765a9eebc|v_meshes_argoniannest_argonianlanterns01",
+   "category": "misc",
+   "sizeM": [
+    1.164,
+    4.098,
+    4.511
+   ],
+   "originOffsetM": [
+    0.776,
+    1.073,
+    4.425
+   ],
+   "triangles": 3944,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "histtree.dds",
+    "rope01.dds"
+   ],
+   "materials": [
+    "DLC2DarkElfLantern01:0.Mat",
+    "DLC2DarkElfLantern01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.425,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "node": "es|9f8666c3c6|v_meshes_argoniannest_argonianlanterns03",
+   "category": "misc",
+   "sizeM": [
+    0.655,
+    0.639,
+    2.236
+   ],
+   "originOffsetM": [
+    0.317,
+    0.317,
+    2.149
+   ],
+   "triangles": 1248,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "histtree.dds",
+    "rope01.dds"
+   ],
+   "materials": [
+    "DLC2DarkElfLantern04:0.Mat",
+    "DLC2DarkElfLantern04:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.149,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
+   "node": "es|7325343106|her__gv_meshes_argoniannest_sithisshrine",
+   "category": "misc",
+   "sizeM": [
+    1.319,
+    1.126,
+    1.588
+   ],
+   "originOffsetM": [
+    0.652,
+    2.481,
+    -0.065
+   ],
+   "triangles": 1308,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "sithisegg.dds",
+    "sithisshrine.dds"
+   ],
+   "materials": [
+    "AmethystEgg.Mat",
+    "Serpent.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.065,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "node": "es|65817edfc1|__gv_meshes_argoniannest_argoniantotem01",
+   "category": "misc",
+   "sizeM": [
+    0.754,
+    0.492,
+    1.949
+   ],
+   "originOffsetM": [
+    0.392,
+    0.262,
+    -0.011
+   ],
+   "triangles": 836,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fence01.dds"
+   ],
+   "materials": [
+    "DLC2RieklingTotem02:0.Mat",
+    "DLC2RieklingTotem02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.011,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
+   "node": "es|c3f547f4d7|her__gv_meshes_argoniannest_roundfloor01",
+   "category": "misc",
+   "sizeM": [
+    43.282,
+    43.282,
+    3.002
+   ],
+   "originOffsetM": [
+    21.641,
+    21.641,
+    3.002
+   ],
+   "triangles": 1536,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dwemetalsheet01.dds",
+    "mudhut01.dds"
+   ],
+   "materials": [
+    "DLC2DweClutterPlatformGiant01:13.Mat",
+    "DLC2DweClutterPlatformGiant01:39.Mat",
+    "DLC2DweClutterPlatformGiant01:42.Mat",
+    "DLC2DweClutterPlatformGiant01:43.Mat",
+    "DLC2DweClutterPlatformGiant01:44.Mat",
+    "DLC2DweClutterPlatformGiant01:8.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.002,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/shellhalf",
+   "node": "es|be392bed31|mother__gv_meshes_argoniannest_shellhalf",
+   "category": "misc",
+   "sizeM": [
+    2.332,
+    1.92,
+    0.977
+   ],
+   "originOffsetM": [
+    1.084,
+    0.891,
+    -0.518
+   ],
+   "triangles": 254,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "crabcarapace01.dds"
+   ],
+   "materials": [
+    "crab.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.518,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\dungeon-root-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {
+  "textures/dlc02/architecture/telvannitower/telbigroots01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telbigroots01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telcap01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telcap01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telgroundinterior01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telgroundinterior01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls02.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls02_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroombot01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroombot01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomtop01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomtop01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telroots01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telroots01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telstairs01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telstairs01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodendoor01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodendoor01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodsmallroots01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodsmallroots01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodtile01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodtile01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/earrindo/telvanni/telinsidewalls03b.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/earrindo/telvanni/telinsidewalls03b_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/earrindo/telvanni/telvanni_bracket01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/earrindo/telvanni/telvanni_bracket02_trans.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/earrindo/telvanni/telvanni_bracket02_trans_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/st/woodweathered01dirtyrings.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/st/woodweathered01dirtyrings_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/st/woodweathered03.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/st/woodweathered03_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dungeons/mines/minerockwall02.dds": "textures/dungeons/mines/minerockwall02a.dds",
+  "textures/st/dungeons/naturalcavernwall20.dds": "textures/actors/dwarven centurion/land dreugh/mud/naturalcavernwall20.dds",
+  "textures/st/dungeons/naturalcavernwall20_n.dds": "textures/actors/dwarven centurion/land dreugh/mud/naturalcavernwall20_n.dds"
+ },
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 273
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ }
+}

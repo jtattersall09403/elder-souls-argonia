@@ -41,14 +41,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 6172.337,
-        "maxZM": 1977.475,
-        "minXM": 5732.337,
-        "minZM": 1537.475
+        "maxXM": 5985.935,
+        "maxZM": 1777.948,
+        "minXM": 5545.935,
+        "minZM": 1337.948
       },
       "centerM": [
-        5952.337,
-        1757.475
+        5765.935,
+        1557.948
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a braided reach with several gravel-bottomed crossings, so that losing one still leaves a way over",
@@ -73,14 +73,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 2493.672,
-        "maxZM": 1029.514,
-        "minXM": 2353.672,
-        "minZM": 889.514
+        "maxXM": 2924.137,
+        "maxZM": 1070.732,
+        "minXM": 2784.137,
+        "minZM": 930.732
       },
       "centerM": [
-        2423.672,
-        959.514
+        2854.137,
+        1000.732
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the channel pinches to its narrowest at the causeway's last span, which is why the span ends here",
@@ -105,14 +105,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 4981.903,
-        "maxZM": 249.734,
-        "minXM": 4871.903,
-        "minZM": 139.734
+        "maxXM": 4576.139,
+        "maxZM": 172.902,
+        "minXM": 4466.139,
+        "minZM": 62.902
       },
       "centerM": [
-        4926.903,
-        194.734
+        4521.139,
+        117.902
       ],
       "fulfillmentEvidence": {
         "authoredNote": "still water fed from below, three metres deep, ringed with dead standing timber",
@@ -139,14 +139,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 6149.484,
-        "maxZM": 495.922,
-        "minXM": 6029.484,
-        "minZM": 375.922
+        "maxXM": 6527.819,
+        "maxZM": 654.968,
+        "minXM": 6407.819,
+        "minZM": 534.968
       },
       "centerM": [
-        6089.484,
-        435.922
+        6467.819,
+        594.968
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the hammock crown the terrace stands on: the one ground on the island that the flood does not reach",
@@ -205,14 +205,14 @@
       "action": "carve",
       "axisResolver": "local-contour",
       "boundsM": {
-        "maxXM": 2465.943,
-        "maxZM": 793.485,
-        "minXM": 2375.943,
-        "minZM": 703.485
+        "maxXM": 6293.457,
+        "maxZM": 343.848,
+        "minXM": 6203.457,
+        "minZM": 253.848
       },
       "centerM": [
-        2420.943,
-        748.485
+        6248.457,
+        298.848
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a benched ledge line on the ravine wall, wide enough for a person and not a beast",
@@ -367,14 +367,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 6887.496,
-        "maxZM": 1645.228,
-        "minXM": 6607.496,
-        "minZM": 1365.228
+        "maxXM": 6914.925,
+        "maxZM": 1343.651,
+        "minXM": 6634.925,
+        "minZM": 1063.651
       },
       "centerM": [
-        6747.496,
-        1505.228
+        6774.925,
+        1203.651
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a cluster of low delta islets in open water, none of them big enough for a house",
@@ -401,14 +401,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 5855.502,
-        "maxZM": 1711.149,
-        "minXM": 5735.502,
-        "minZM": 1591.149
+        "maxXM": 5608.711,
+        "maxZM": 1539.937,
+        "minXM": 5488.711,
+        "minZM": 1419.937
       },
       "centerM": [
-        5795.502,
-        1651.149
+        5548.711,
+        1479.937
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a rock narrows with abutment ground on both banks, which is why the road crosses here",
@@ -433,14 +433,14 @@
       "action": "carve",
       "axisResolver": "nearest-water-path",
       "boundsM": {
-        "maxXM": 3340.146,
-        "maxZM": 799.015,
-        "minXM": 3250.146,
-        "minZM": 709.015
+        "maxXM": 2597.561,
+        "maxZM": 1138.933,
+        "minXM": 2507.561,
+        "minZM": 1048.933
       },
       "centerM": [
-        3295.146,
-        754.015
+        2552.561,
+        1093.933
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a channel arm reaching the village's landing steps, which the boat crews still use",
@@ -466,14 +466,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 5338.869,
-        "maxZM": 1834.905,
-        "minXM": 5238.869,
-        "minZM": 1734.905
+        "maxXM": 5196.265,
+        "maxZM": 1997.269,
+        "minXM": 5096.265,
+        "minZM": 1897.269
       },
       "centerM": [
-        5288.869,
-        1784.905
+        5146.265,
+        1947.269
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the hazard is the pinch: the channel must close to a width the wet-season flow can run lethal through",
@@ -530,14 +530,14 @@
       "action": "carve",
       "axisResolver": "local-gradient",
       "boundsM": {
-        "maxXM": 5592.029,
-        "maxZM": 1972.965,
-        "minXM": 5512.029,
-        "minZM": 1892.965
+        "maxXM": 4429.522,
+        "maxZM": 3530.249,
+        "minXM": 4349.522,
+        "minZM": 3450.249
       },
       "centerM": [
-        5552.029,
-        1932.965
+        4389.522,
+        3490.249
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the root-layer spring needs a drop to fall down and a chamber behind the curtain; the region has no natural relief",
@@ -660,14 +660,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 1712.993,
-        "maxZM": 4997.816,
-        "minXM": 1592.993,
-        "minZM": 4877.816
+        "maxXM": 1768.147,
+        "maxZM": 4981.447,
+        "minXM": 1648.147,
+        "minZM": 4861.447
       },
       "centerM": [
-        1652.993,
-        4937.816
+        1708.147,
+        4921.447
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a slack double bend narrow enough to pole across",
@@ -693,14 +693,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 1732.993,
-        "maxZM": 5017.816,
-        "minXM": 1572.993,
-        "minZM": 4857.816
+        "maxXM": 1788.147,
+        "maxZM": 5001.447,
+        "minXM": 1628.147,
+        "minZM": 4841.447
       },
       "centerM": [
-        1652.993,
-        4937.816
+        1708.147,
+        4921.447
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a slack double bend on the lower river, wide and deep enough that the crossing needs a punt, with both banks shelving",
@@ -729,14 +729,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 1067.175,
-        "maxZM": 3617.008,
-        "minXM": 967.175,
-        "minZM": 3517.008
+        "maxXM": 1646.364,
+        "maxZM": 4768.602,
+        "minXM": 1546.364,
+        "minZM": 4668.602
       },
       "centerM": [
-        1017.175,
-        3567.008
+        1596.364,
+        4718.602
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a slow shallow reach at least 1.5 m deep for the timber bridge to span and the reed beds to line",
@@ -762,14 +762,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 1057.175,
-        "maxZM": 3607.008,
-        "minXM": 977.175,
-        "minZM": 3527.008
+        "maxXM": 1636.364,
+        "maxZM": 4758.602,
+        "minXM": 1556.364,
+        "minZM": 4678.602
       },
       "centerM": [
-        1017.175,
-        3567.008
+        1596.364,
+        4718.602
       ],
       "fulfillmentEvidence": {
         "authoredNote": "shallow slow water the villagers can drive piles into",
@@ -830,14 +830,14 @@
       "action": "carve",
       "axisResolver": "nearest-water-path",
       "boundsM": {
-        "maxXM": 1866.804,
-        "maxZM": 4285.019,
-        "minXM": 1746.804,
-        "minZM": 4165.019
+        "maxXM": 2075.179,
+        "maxZM": 4526.354,
+        "minXM": 1955.179,
+        "minZM": 4406.354
       },
       "centerM": [
-        1806.804,
-        4225.019
+        2015.179,
+        4466.354
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the channel junction and the steading's own landing: navigable water up to the yard wall",
@@ -864,14 +864,14 @@
       "action": "carve",
       "axisResolver": "local-gradient",
       "boundsM": {
-        "maxXM": 1197.491,
-        "maxZM": 4942.789,
-        "minXM": 957.491,
-        "minZM": 4702.789
+        "maxXM": 1285.235,
+        "maxZM": 4937.259,
+        "minXM": 1045.235,
+        "minZM": 4697.259
       },
       "centerM": [
-        1077.491,
-        4822.789
+        1165.235,
+        4817.259
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the settlement is a bedding shelf on a gorge wall; without the gorge there is no street",
@@ -895,14 +895,14 @@
       "action": "raise",
       "axisResolver": "local-gradient",
       "boundsM": {
-        "maxXM": 1063.618,
-        "maxZM": 3690.282,
-        "minXM": 1003.618,
-        "minZM": 3630.282
+        "maxXM": 1760.046,
+        "maxZM": 3289.975,
+        "minXM": 1700.046,
+        "minZM": 3229.975
       },
       "centerM": [
-        1033.618,
-        3660.282
+        1730.046,
+        3259.975
       ],
       "fulfillmentEvidence": {
         "authoredNote": "a bench forty metres up a wall, reachable by climbing and no path",
@@ -930,14 +930,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 2866.251,
-        "maxZM": 6191.408,
-        "minXM": 2776.251,
-        "minZM": 6101.408
+        "maxXM": 2093.065,
+        "maxZM": 6814.395,
+        "minXM": 2003.065,
+        "minZM": 6724.395
       },
       "centerM": [
-        2821.251,
-        6146.408
+        2048.065,
+        6769.395
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A collapse throat wide enough to swallow a stream, with an undercut ledge below the rim; the record's whole identity is the hole.",
@@ -963,14 +963,14 @@
       "action": "carve",
       "axisResolver": "nearest-water-path",
       "boundsM": {
-        "maxXM": 1973.562,
-        "maxZM": 6991.012,
-        "minXM": 1793.562,
-        "minZM": 6811.012
+        "maxXM": 2258.696,
+        "maxZM": 6914.254,
+        "minXM": 2078.696,
+        "minZM": 6734.254
       },
       "centerM": [
-        1883.562,
-        6901.012
+        2168.696,
+        6824.254
       ],
       "fulfillmentEvidence": {
         "authoredNote": "Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line.",
@@ -999,14 +999,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 1891.432,
-        "maxZM": 6843.184,
-        "minXM": 1771.432,
-        "minZM": 6723.184
+        "maxXM": 2091.622,
+        "maxZM": 6939.039,
+        "minXM": 1971.622,
+        "minZM": 6819.039
       },
       "centerM": [
-        1831.432,
-        6783.184
+        2031.622,
+        6879.039
       ],
       "fulfillmentEvidence": {
         "authoredNote": "The last land narrows on the southern approach, where a cordon could be held with a fence and one gate.",
@@ -1030,14 +1030,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 2839.352,
-        "maxZM": 6496.832,
-        "minXM": 2759.352,
-        "minZM": 6416.832
+        "maxXM": 1693.288,
+        "maxZM": 5476.929,
+        "minXM": 1613.288,
+        "minZM": 5396.929
       },
       "centerM": [
-        2799.352,
-        6456.832
+        1653.288,
+        5436.929
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A karst shaft nine metres across dropping well below the lake bed — the record's entire identity; the plot found no natural sinkhole here.",
@@ -1064,14 +1064,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 2395.702,
-        "maxZM": 6590.49,
-        "minXM": 2325.702,
-        "minZM": 6520.49
+        "maxXM": 2274.998,
+        "maxZM": 6129.867,
+        "minXM": 2204.998,
+        "minZM": 6059.867
       },
       "centerM": [
-        2360.702,
-        6555.49
+        2239.998,
+        6094.867
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A low spoil-hidden rise above the marsh water table, enough to keep a shored shaft dry.",
@@ -1261,14 +1261,14 @@
       "action": "raise",
       "axisResolver": "local-contour",
       "boundsM": {
-        "maxXM": 4536.952,
-        "maxZM": 5743.331,
-        "minXM": 4296.952,
-        "minZM": 5503.331
+        "maxXM": 1087.773,
+        "maxZM": 6428.772,
+        "minXM": 847.773,
+        "minZM": 6188.772
       },
       "centerM": [
-        4416.952,
-        5623.331
+        967.773,
+        6308.772
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A bank the estate cuts to let the flood in and shut it out again.",
@@ -1292,14 +1292,14 @@
       "action": "carve",
       "axisResolver": "local-contour",
       "boundsM": {
-        "maxXM": 4576.952,
-        "maxZM": 5783.331,
-        "minXM": 4256.952,
-        "minZM": 5463.331
+        "maxXM": 1127.773,
+        "maxZM": 6468.772,
+        "minXM": 807.773,
+        "minZM": 6148.772
       },
       "centerM": [
-        4416.952,
-        5623.331
+        967.773,
+        6308.772
       ],
       "fulfillmentEvidence": {
         "authoredNote": "Stepped paddy terraces above the flood line.",
@@ -1369,14 +1369,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 3284.801,
-        "maxZM": 7068.368,
-        "minXM": 3004.801,
-        "minZM": 6788.368
+        "maxXM": 981.686,
+        "maxZM": 6832.563,
+        "minXM": 701.686,
+        "minZM": 6552.563
       },
       "centerM": [
-        3144.801,
-        6928.368
+        841.686,
+        6692.563
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A breaking shoal bar standing off the strand, with a beach behind it that nothing overlooks.",
@@ -1402,14 +1402,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 1456.181,
-        "maxZM": 6523.034,
-        "minXM": 1236.181,
-        "minZM": 6303.034
+        "maxXM": 765.284,
+        "maxZM": 5952.693,
+        "minXM": 545.284,
+        "minZM": 5732.693
       },
       "centerM": [
-        1346.181,
-        6413.034
+        655.284,
+        5842.693
       ],
       "fulfillmentEvidence": {
         "authoredNote": "Standing salt water over the hole, deep enough that the bottom is dark from the surface.",
@@ -1436,14 +1436,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 1391.181,
-        "maxZM": 6458.034,
-        "minXM": 1301.181,
-        "minZM": 6368.034
+        "maxXM": 700.284,
+        "maxZM": 5887.693,
+        "minXM": 610.284,
+        "minZM": 5797.693
       },
       "centerM": [
-        1346.181,
-        6413.034
+        655.284,
+        5842.693
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A drowned bay-floor sinkhole forty metres deep; the hole is the place.",
@@ -1530,14 +1530,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 687.854,
-        "maxZM": 5211.795,
-        "minXM": 567.854,
-        "minZM": 5091.795
+        "maxXM": 3232.23,
+        "maxZM": 5365.312,
+        "minXM": 3112.23,
+        "minZM": 5245.312
       },
       "centerM": [
-        627.854,
-        5151.795
+        3172.23,
+        5305.312
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A low raised knoll for the meer; surrounding marsh remains a siting preference, not a promise of an island.",
@@ -1561,14 +1561,14 @@
       "action": "carve",
       "axisResolver": "local-contour",
       "boundsM": {
-        "maxXM": 3724.32,
-        "maxZM": 6537.387,
-        "minXM": 3644.32,
-        "minZM": 6457.387
+        "maxXM": 3733.168,
+        "maxZM": 6688.765,
+        "minXM": 3653.168,
+        "minZM": 6608.765
       },
       "centerM": [
-        3684.32,
-        6497.387
+        3693.168,
+        6648.765
       ],
       "fulfillmentEvidence": {
         "authoredNote": "One ledge low enough to land a boat crew on.",
@@ -1594,14 +1594,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 3774.32,
-        "maxZM": 6587.387,
-        "minXM": 3594.32,
-        "minZM": 6407.387
+        "maxXM": 3783.168,
+        "maxZM": 6738.765,
+        "minXM": 3603.168,
+        "minZM": 6558.765
       },
       "centerM": [
-        3684.32,
-        6497.387
+        3693.168,
+        6648.765
       ],
       "fulfillmentEvidence": {
         "authoredNote": "Two rock stacks standing out of salt water, sheer on three sides.",
@@ -1630,14 +1630,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 636.626,
-        "maxZM": 5714.318,
-        "minXM": 476.626,
-        "minZM": 5554.318
+        "maxXM": 762.713,
+        "maxZM": 5505.942,
+        "minXM": 602.713,
+        "minZM": 5345.942
       },
       "centerM": [
-        556.626,
-        5634.318
+        682.713,
+        5425.942
       ],
       "fulfillmentEvidence": {
         "authoredNote": "The shrine door is an underwater entry: it needs standing water over the threshold, not a wet margin.",
@@ -1664,14 +1664,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 3076.972,
-        "maxZM": 4820.585,
-        "minXM": 2976.972,
-        "minZM": 4720.585
+        "maxXM": 2761.607,
+        "maxZM": 4719.199,
+        "minXM": 2661.607,
+        "minZM": 4619.199
       },
       "centerM": [
-        3026.972,
-        4770.585
+        2711.607,
+        4669.199
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the flooded shortcut needs six metres of standing water over the root chamber, or the dive is not a dive",
@@ -1699,14 +1699,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 3328.002,
-        "maxZM": 5902.019,
-        "minXM": 3148.002,
-        "minZM": 5722.019
+        "maxXM": 3470.605,
+        "maxZM": 5806.606,
+        "minXM": 3290.605,
+        "minZM": 5626.606
       },
       "centerM": [
-        3238.002,
-        5812.019
+        3380.605,
+        5716.606
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the tribe's seat stands on a rise with black water round three sides of it and one poling approach",
@@ -1734,14 +1734,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 2376.756,
-        "maxZM": 4904.689,
-        "minXM": 2256.756,
-        "minZM": 4784.689
+        "maxXM": 1965.535,
+        "maxZM": 4795.045,
+        "minXM": 1845.535,
+        "minZM": 4675.045
       },
       "centerM": [
-        2316.756,
-        4844.689
+        1905.535,
+        4735.045
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the single outlet of the inner swamp, pinched between two root walls, where the post-rain flood pulse becomes lethal",
@@ -1768,14 +1768,14 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 2346.756,
-        "maxZM": 4874.689,
-        "minXM": 2286.756,
-        "minZM": 4814.689
+        "maxXM": 1935.535,
+        "maxZM": 4765.045,
+        "minXM": 1875.535,
+        "minZM": 4705.045
       },
       "centerM": [
-        2316.756,
-        4844.689
+        1905.535,
+        4735.045
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the whole zone's outflow has to squeeze through here, so the channel must pinch between two root walls",
@@ -1801,14 +1801,14 @@
       "action": "carve",
       "axisResolver": "nearest-water-path",
       "boundsM": {
-        "maxXM": 2066.837,
-        "maxZM": 4671.455,
-        "minXM": 1886.837,
-        "minZM": 4491.455
+        "maxXM": 2659.003,
+        "maxZM": 4764.729,
+        "minXM": 2479.003,
+        "minZM": 4584.729
       },
       "centerM": [
-        1976.837,
-        4581.455
+        2569.003,
+        4674.729
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the sixty-metre channel between the caged tree and the bank its tribe camps on; without it there is no standoff",
@@ -1834,14 +1834,14 @@
       "action": "carve",
       "axisResolver": "nearest-water-path",
       "boundsM": {
-        "maxXM": 3539.263,
-        "maxZM": 4202.805,
-        "minXM": 3419.263,
-        "minZM": 4082.805
+        "maxXM": 2928.515,
+        "maxZM": 4570.226,
+        "minXM": 2808.515,
+        "minZM": 4450.226
       },
       "centerM": [
-        3479.263,
-        4142.805
+        2868.515,
+        4510.226
       ],
       "fulfillmentEvidence": {
         "authoredNote": "two channels close enough that cut stone could join them, which is the reason why the works were built here",
@@ -1868,13 +1868,13 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 2583.232,
+        "maxXM": 1163.021,
         "maxZM": 5429.184,
-        "minXM": 2423.232,
+        "minXM": 1003.021,
         "minZM": 5269.184
       },
       "centerM": [
-        2503.232,
+        1083.021,
         5349.184
       ],
       "fulfillmentEvidence": {
@@ -1903,14 +1903,14 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 2450.031,
-        "maxZM": 5114.963,
-        "minXM": 2370.031,
-        "minZM": 5034.963
+        "maxXM": 2438.97,
+        "maxZM": 5103.977,
+        "minXM": 2358.97,
+        "minZM": 5023.977
       },
       "centerM": [
-        2410.031,
-        5074.963
+        2398.97,
+        5063.977
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the place IS the hole: a round collapse in the root layer, flooded to within a metre of its rim",
@@ -1935,14 +1935,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 2607.104,
-        "maxZM": 5677.875,
-        "minXM": 2487.104,
-        "minZM": 5557.875
+        "maxXM": 1340.409,
+        "maxZM": 5573.687,
+        "minXM": 1220.409,
+        "minZM": 5453.687
       },
       "centerM": [
-        2547.104,
-        5617.875
+        1280.409,
+        5513.687
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the rice ground four villages still argue over sat on a rise, and the houses on it are standing yet",
@@ -2000,14 +2000,14 @@
       "action": "carve",
       "axisResolver": "local-gradient",
       "boundsM": {
-        "maxXM": 4202.805,
-        "maxZM": 934.572,
-        "minXM": 4082.805,
-        "minZM": 814.572
+        "maxXM": 3972.53,
+        "maxZM": 611.096,
+        "minXM": 3852.53,
+        "minZM": 491.096
       },
       "centerM": [
-        4142.805,
-        874.572
+        3912.53,
+        551.096
       ],
       "fulfillmentEvidence": {
         "authoredNote": "the ravine wall the chamber is cut into, above the flood and below the snow",
@@ -2064,14 +2064,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 5213.238,
-        "maxZM": 4727.25,
-        "minXM": 5123.238,
-        "minZM": 4637.25
+        "maxXM": 5167.228,
+        "maxZM": 4867.789,
+        "minXM": 5077.228,
+        "minZM": 4777.789
       },
       "centerM": [
-        5168.238,
-        4682.25
+        5122.228,
+        4822.789
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A lighthouse needs a foundation above storm water; the plot landed it on shallow marsh, so Part 6 raises a hard islet under the tower.",
@@ -2098,14 +2098,14 @@
       "action": "carve",
       "axisResolver": "local-contour",
       "boundsM": {
-        "maxXM": 5431.083,
-        "maxZM": 4164.389,
-        "minXM": 5311.083,
-        "minZM": 4044.389
+        "maxXM": 5099.276,
+        "maxZM": 5159.591,
+        "minXM": 4979.276,
+        "minZM": 5039.591
       },
       "centerM": [
-        5371.083,
-        4104.389
+        5039.276,
+        5099.591
       ],
       "fulfillmentEvidence": {
         "authoredNote": "The village type is a cliff-shelf village; the plot found flood-high ground, so Part 6 cuts the shelf the houses stand on.",
@@ -2129,14 +2129,14 @@
       "action": "raise",
       "axisResolver": "none",
       "boundsM": {
-        "maxXM": 4936.588,
-        "maxZM": 5156.024,
-        "minXM": 4796.588,
-        "minZM": 5016.024
+        "maxXM": 5265.668,
+        "maxZM": 4075.731,
+        "minXM": 5125.668,
+        "minZM": 3935.731
       },
       "centerM": [
-        4866.588,
-        5086.024
+        5195.668,
+        4005.731
       ],
       "fulfillmentEvidence": {
         "authoredNote": "The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet the record's identity depends on.",
@@ -2163,14 +2163,14 @@
       "action": "carve",
       "axisResolver": "local-contour",
       "boundsM": {
-        "maxXM": 4834.373,
-        "maxZM": 5152.393,
-        "minXM": 4734.373,
-        "minZM": 5052.393
+        "maxXM": 4852.955,
+        "maxZM": 4289.324,
+        "minXM": 4752.955,
+        "minZM": 4189.324
       },
       "centerM": [
-        4784.373,
-        5102.393
+        4802.955,
+        4239.324
       ],
       "fulfillmentEvidence": {
         "authoredNote": "A subsidence hamlet needs the slope it subsided down; the plot found flat firm ground.",
@@ -2194,7 +2194,7 @@
       "requestId": "terrain-request.saxhleel-coast.terrace-village-ridge.terrace.a577a9dbd934"
     }
   ],
-  "planDigest": "a89dc10a2ea6696c9b2e09598d6e643f16019562524c355234362a1f240fbb3a",
+  "planDigest": "fe5a09f793a2f40680f4f81e7db08ae6c9c09b382e2024e7cfc321bea5734966",
   "policyDigest": "ef00aaf06c34027814a16bf675e7960de1c5bafabb43a19435ba94a479134397",
   "requests": [
     {

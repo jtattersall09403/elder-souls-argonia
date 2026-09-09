@@ -1,0 +1,1006 @@
+{
+ "kit": "route-structures-v1",
+ "assets": [
+  {
+   "id": "vanilla:architecture/whiterun/wrterrain/wrcastlestairs01",
+   "node": "es|0dd7b1cfab|ture_whiterun_wrterrain_wrcastlestairs01",
+   "category": "architecture",
+   "sizeM": [
+    13.212,
+    18.652,
+    12.609
+   ],
+   "originOffsetM": [
+    6.782,
+    10.286,
+    0.318
+   ],
+   "triangles": 2639,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrcitywall01.dds",
+    "wrcitywalltopcap01.dds",
+    "wrdragoncarvings01.dds",
+    "wrslate02.dds",
+    "wrstoneblocks01.dds",
+    "wrstonemortar01.dds",
+    "wrtrims01.dds",
+    "wrwoodbeam01.dds"
+   ],
+   "materials": [
+    "WRCastleStairs01:1.Mat",
+    "WRCastleStairs01:10.Mat",
+    "WRCastleStairs01:13.Mat",
+    "WRCastleStairs01:31.Mat",
+    "WRCastleStairs01:47.Mat",
+    "WRCastleStairs01:48.Mat",
+    "WRCastleStairs01:49.Mat",
+    "WRCastleStairs01:56.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.318,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrterrain/wrstairsplatform01",
+   "node": "es|8642450718|re_whiterun_wrterrain_wrstairsplatform01",
+   "category": "architecture",
+   "sizeM": [
+    30.021,
+    29.632,
+    12.144
+   ],
+   "originOffsetM": [
+    15.284,
+    15.774,
+    -0.147
+   ],
+   "triangles": 5602,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds",
+    "rocks01.dds",
+    "wrcitywall01.dds",
+    "wrdragoncarvings01.dds",
+    "wrfieldgrass01.dds",
+    "wrslate02.dds",
+    "wrstonebase01.dds",
+    "wrstonebase02.dds",
+    "wrstoneblocks01.dds",
+    "wrstonefloor02.dds",
+    "wrstonemortar01.dds",
+    "wrtrims01.dds",
+    "wrwoodbeam01.dds"
+   ],
+   "materials": [
+    "WRStairsPlatform01:15.Mat",
+    "WRStairsPlatform01:27.Mat",
+    "WRStairsPlatform01:29.Mat",
+    "WRStairsPlatform01:31.Mat",
+    "WRStairsPlatform01:32.Mat",
+    "WRStairsPlatform01:37.Mat",
+    "WRStairsPlatform01:56.Mat",
+    "WRStairsPlatform01:58.Mat",
+    "WRStairsPlatform01:9.Mat",
+    "WRWallTotem02:1.Mat",
+    "WRWallTotem02:10.Mat",
+    "WRWallTotem02:13.Mat",
+    "WRWallTotem02:47.Mat",
+    "WRWallTotem02:48.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.147,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrterrain/wrbridgestone01",
+   "node": "es|46bf0dcc74|cture_whiterun_wrterrain_wrbridgestone01",
+   "category": "architecture",
+   "sizeM": [
+    4.216,
+    4.047,
+    1.302
+   ],
+   "originOffsetM": [
+    2.279,
+    13.399,
+    -0.377
+   ],
+   "triangles": 578,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrcitywall01.dds",
+    "wrslate02.dds",
+    "wrstonemortar01.dds",
+    "wrtrellisvines01.dds",
+    "wrtrims01.dds",
+    "wrwoodbeam01.dds",
+    "wrwoodplanks01.dds"
+   ],
+   "materials": [
+    "WRBridgeStone01:1.Mat",
+    "WRBridgeStone01:10.Mat",
+    "WRBridgeStone01:2.Mat",
+    "WRBridgeStone01:23.Mat",
+    "WRBridgeStone01:31.Mat",
+    "WRBridgeStone01:47.Mat",
+    "WRBridgeStone01:48.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.377,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01",
+   "node": "es|50e708b39e|house_stonewall_stonewallterracestairs01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    8.232,
+    2.495
+   ],
+   "originOffsetM": [
+    3.641,
+    4.591,
+    0.009
+   ],
+   "triangles": 3466,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fieldgrass02.dds",
+    "stonewall01.dds",
+    "stonewall02.dds"
+   ],
+   "materials": [
+    "StonewallTerraceStairs01:1.Mat",
+    "StonewallTerraceStairs01:2.Mat",
+    "StonewallTerraceStairs01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.009,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01",
+   "node": "es|6f61251ff6|house_stonewall_stonewallterracerampup01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    8.497,
+    3.355
+   ],
+   "originOffsetM": [
+    3.641,
+    4.856,
+    -0.0
+   ],
+   "triangles": 2599,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fieldgrass02.dds",
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "StonewallTerraceRampUp01:1.Mat",
+    "StonewallTerraceRampUp01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampdown01",
+   "node": "es|5af633d74c|use_stonewall_stonewallterracerampdown01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    8.602,
+    3.396
+   ],
+   "originOffsetM": [
+    3.641,
+    4.961,
+    -0.0
+   ],
+   "triangles": 2599,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fieldgrass02.dds",
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "StonewallTerraceRampDown01:1.Mat",
+    "StonewallTerraceRampDown01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/stonewall/stonewallterrace01",
+   "node": "es|6b42f304a1|e_farmhouse_stonewall_stonewallterrace01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    8.265,
+    2.486
+   ],
+   "originOffsetM": [
+    1.821,
+    4.624,
+    -0.0
+   ],
+   "triangles": 1390,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fieldgrass02.dds",
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "StonewallTerrace01:1.Mat",
+    "StonewallTerrace01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01",
+   "node": "es|14a1413638|aaluarchitecture_hammerfell_trgmstairs01",
+   "category": "misc",
+   "sizeM": [
+    4.478,
+    3.444,
+    3.728
+   ],
+   "originOffsetM": [
+    0.042,
+    1.816,
+    0.251
+   ],
+   "triangles": 251,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "StraightS02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.251,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/stairs01",
+   "node": "es|9c8dffe281|__hlaaluarchitecture_hammerfell_stairs01",
+   "category": "misc",
+   "sizeM": [
+    7.35,
+    6.064,
+    2.283
+   ],
+   "originOffsetM": [
+    3.588,
+    3.418,
+    0.15
+   ],
+   "triangles": 948,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Box01:1.Mat",
+    "Box01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.15,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01",
+   "node": "es|08dcf93e81|aaluarchitecture_hammerfell_trgmbridge01",
+   "category": "misc",
+   "sizeM": [
+    6.654,
+    3.03,
+    3.124
+   ],
+   "originOffsetM": [
+    3.327,
+    1.515,
+    0.411
+   ],
+   "triangles": 1248,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Circle.003.Mat",
+    "Circle.004.Mat",
+    "Circle.006.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.411,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
+   "node": "es|3b507a3a90|aaluarchitecture_hammerfell_trgmbridge02",
+   "category": "misc",
+   "sizeM": [
+    13.312,
+    3.11,
+    5.485
+   ],
+   "originOffsetM": [
+    6.656,
+    1.553,
+    2.772
+   ],
+   "triangles": 2302,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Circle.001.Mat",
+    "Circle.002.Mat",
+    "Circle.003.Mat.001",
+    "Circle.004.Mat.001",
+    "Cube.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.772,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
+   "node": "es|bf8cc46db5|er_passerelles_troncons_passesc128h64d01",
+   "category": "architecture",
+   "sizeM": [
+    1.982,
+    3.081,
+    4.033
+   ],
+   "originOffsetM": [
+    0.081,
+    1.541,
+    1.542
+   ],
+   "triangles": 2504,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Esc128h64D01 0.Mat",
+    "Esc128h64D01.002 1.Mat",
+    "Esc128h64D01.002 1_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.542,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01",
+   "node": "es|5951a411ff|smer_passerelles_troncons_passl128h64d01",
+   "category": "architecture",
+   "sizeM": [
+    1.982,
+    3.081,
+    4.033
+   ],
+   "originOffsetM": [
+    0.081,
+    1.541,
+    1.542
+   ],
+   "triangles": 2504,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Esc128h64D01 0.Mat.001",
+    "Esc128h64D01.002 1.Mat.001",
+    "Esc128h64D01.002 1_1.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.542,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01",
+   "node": "es|86c3e1afdc|ebosmer_passerelles_troncons_passl128d01",
+   "category": "architecture",
+   "sizeM": [
+    1.982,
+    3.081,
+    3.031
+   ],
+   "originOffsetM": [
+    0.991,
+    1.541,
+    1.516
+   ],
+   "triangles": 2504,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.366 1.Mat",
+    "Circle.366 1_1.Mat",
+    "Circle.366 1_5.Mat",
+    "Circle.369.Mat",
+    "Circle.369_4.Mat",
+    "Circle.370.Mat",
+    "Circle.371.Mat",
+    "Circle.371_2.Mat",
+    "Circle.373.Mat",
+    "Circle.381 0.Mat",
+    "Circle.381 0_3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.516,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",
+   "node": "es|46e427c1c8|ebosmer_passerelles_troncons_passl256d01",
+   "category": "architecture",
+   "sizeM": [
+    3.803,
+    3.081,
+    3.031
+   ],
+   "originOffsetM": [
+    1.901,
+    1.541,
+    1.516
+   ],
+   "triangles": 5006,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.001.Mat.001",
+    "Circle.369.Mat.001",
+    "liane.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.516,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01",
+   "node": "es|e1b758ea3e|passerelles_troncons_passl256h64startd01",
+   "category": "architecture",
+   "sizeM": [
+    3.842,
+    5.294,
+    3.51
+   ],
+   "originOffsetM": [
+    1.873,
+    2.647,
+    1.529
+   ],
+   "triangles": 4082,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Pass256DH64.006 2.Mat",
+    "Pass256DH64.007 1.Mat",
+    "liane.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.529,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldstairs01",
+   "node": "es|a1f0d93cdb|lutter_stockade_stockadescaffoldstairs01",
+   "category": "clutter",
+   "sizeM": [
+    3.583,
+    3.457,
+    3.448
+   ],
+   "originOffsetM": [
+    1.622,
+    1.728,
+    -0.0
+   ],
+   "triangles": 1084,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeScaffoldStairs01:0.Mat",
+    "StockadeScaffoldStairs01:1 - L1_Rail:1.Mat",
+    "StockadeScaffoldStairs01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldbridge01",
+   "node": "es|1ff98d8e82|lutter_stockade_stockadescaffoldbridge01",
+   "category": "clutter",
+   "sizeM": [
+    6.579,
+    3.798,
+    1.209
+   ],
+   "originOffsetM": [
+    3.268,
+    1.944,
+    0.546
+   ],
+   "triangles": 1064,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "L1_Ropes:6 - L2_Supports:6.Mat",
+    "StockadeScaffoldBridge01:0.Mat",
+    "StockadeScaffoldBridge01:1 - L1_Inside:1.Mat",
+    "StockadeScaffoldBridge01:2 - L1_Ropes:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.546,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldbridge02",
+   "node": "es|1272e8a71c|lutter_stockade_stockadescaffoldbridge02",
+   "category": "clutter",
+   "sizeM": [
+    9.31,
+    3.798,
+    1.431
+   ],
+   "originOffsetM": [
+    4.634,
+    1.944,
+    0.774
+   ],
+   "triangles": 1296,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "L2_Support:6 - L1_Ropes:6.Mat",
+    "StockadeScaffoldBridge02:0.Mat",
+    "StockadeScaffoldBridge02:1 - L1_Inside01:1.Mat",
+    "StockadeScaffoldBridge02:2 - L1_Ropes:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.774,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow",
+   "node": "es|eee42f4a5f|er_stockade_stockadescaffoldbridgenarrow",
+   "category": "clutter",
+   "sizeM": [
+    12.041,
+    1.997,
+    1.543
+   ],
+   "originOffsetM": [
+    5.999,
+    0.999,
+    0.877
+   ],
+   "triangles": 1780,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "L1_Ropes:6 - L2_Supports:6.Mat.001",
+    "StockadeScaffoldBridgeNarrow:0.Mat",
+    "StockadeScaffoldBridgeNarrow:1 - L1_Inside:1.Mat",
+    "StockadeScaffoldBridgeNarrow:2 - L1_Ropes:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.877,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-structures-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {
+  "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
+  "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
+  "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
+  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
+ },
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 87
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ }
+}

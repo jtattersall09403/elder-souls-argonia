@@ -1,0 +1,2848 @@
+{
+ "kit": "settlement-stilt-v1",
+ "assets": [
+  {
+   "id": "bmv:architecture/stilthouse/stilthouseext",
+   "node": "es|9e0d113608|v__architecture_stilthouse_stilthouseext",
+   "category": "architecture",
+   "sizeM": [
+    11.264,
+    17.752,
+    10.748
+   ],
+   "originOffsetM": [
+    4.695,
+    11.039,
+    8.472
+   ],
+   "triangles": 8196,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalplanks01.dds"
+   ],
+   "materials": [
+    "1.Mat",
+    "2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 8.472,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+   "node": "es|e0adb095e7|ebosmer_passerelles_troncons_passl128i01",
+   "category": "architecture",
+   "sizeM": [
+    4.007,
+    4.045,
+    3.031
+   ],
+   "originOffsetM": [
+    2.003,
+    2.023,
+    1.516
+   ],
+   "triangles": 2504,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.451 2.Mat",
+    "Circle.452 1.Mat",
+    "Circle.452 1_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.516,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01",
+   "node": "es|0e277cbc02|smer_passerelles_troncons_passl256h64i01",
+   "category": "architecture",
+   "sizeM": [
+    5.827,
+    5.866,
+    3.958
+   ],
+   "originOffsetM": [
+    2.914,
+    2.933,
+    1.98
+   ],
+   "triangles": 5006,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.366 1.Mat",
+    "Circle.369.Mat",
+    "liane.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.98,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01",
+   "node": "es|ae55eb0f4f|smer_passerelles_troncons_passl512h64i01",
+   "category": "architecture",
+   "sizeM": [
+    9.469,
+    9.507,
+    3.95
+   ],
+   "originOffsetM": [
+    4.734,
+    4.754,
+    1.975
+   ],
+   "triangles": 10012,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.366 1.001.Mat",
+    "Circle.368.Mat",
+    "liane.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.975,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
+   "node": "es|37128d7ecd|itebosmer_passerelles_troncons_passend01",
+   "category": "architecture",
+   "sizeM": [
+    1.602,
+    3.018,
+    3.031
+   ],
+   "originOffsetM": [
+    0.077,
+    1.515,
+    1.516
+   ],
+   "triangles": 3530,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.678 0.Mat",
+    "Circle.678 0_1.Mat",
+    "Circle.679 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.516,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
+   "node": "es|e1f8e47275|bosmer_passerelles_troncons_passjunctd01",
+   "category": "architecture",
+   "sizeM": [
+    3.803,
+    3.442,
+    3.789
+   ],
+   "originOffsetM": [
+    1.901,
+    1.901,
+    1.919
+   ],
+   "triangles": 5248,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.571.Mat",
+    "Circle.572.Mat",
+    "Circle.572_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.919,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01",
+   "node": "es|d379b3d121|bosmer_passerelles_troncons_passjuncxd01",
+   "category": "architecture",
+   "sizeM": [
+    3.803,
+    3.803,
+    3.789
+   ],
+   "originOffsetM": [
+    1.901,
+    1.901,
+    1.919
+   ],
+   "triangles": 5506,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.569 2.Mat",
+    "Circle.570 1.Mat",
+    "Circle.570 1_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.919,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01",
+   "node": "es|2a1a6d9134|erelles_troncons_passcirc90r448h256ldd01",
+   "category": "architecture",
+   "sizeM": [
+    7.989,
+    7.958,
+    6.702
+   ],
+   "originOffsetM": [
+    0.086,
+    0.082,
+    1.541
+   ],
+   "triangles": 15532,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.754 0.Mat",
+    "Circle.759 1.Mat",
+    "Circle.760 2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.541,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01",
+   "node": "es|cdb43d8f03|serelles_troncons_passcirc45r1280h0ldi01",
+   "category": "architecture",
+   "sizeM": [
+    13.925,
+    8.074,
+    3.031
+   ],
+   "originOffsetM": [
+    0.085,
+    1.532,
+    1.516
+   ],
+   "triangles": 20032,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "PassCirc256GDI.001.Mat",
+    "PassCirc256GDI.001_1.Mat",
+    "PassCirc256GDI.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.516,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
+   "node": "es|bf8cc46db5|er_passerelles_troncons_passesc128h64d01",
+   "category": "architecture",
+   "sizeM": [
+    1.982,
+    3.081,
+    4.033
+   ],
+   "originOffsetM": [
+    0.081,
+    1.541,
+    1.542
+   ],
+   "triangles": 2504,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Esc128h64D01 0.Mat",
+    "Esc128h64D01.002 1.Mat",
+    "Esc128h64D01.002 1_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.542,
+    "buryM": 0.06,
+    "buryCapM": 0.15,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
+   "node": "es|236c1655a1|e_citebosmer_passerelles_kiosque_kiosk01",
+   "category": "architecture",
+   "sizeM": [
+    8.569,
+    8.569,
+    20.743
+   ],
+   "originOffsetM": [
+    4.285,
+    4.285,
+    9.604
+   ],
+   "triangles": 14048,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.690.Mat",
+    "Circle.703.Mat",
+    "Circle.718 0.Mat",
+    "Cylinder.011.Mat",
+    "Cylinder.012.Mat",
+    "Cylinder.020.Mat",
+    "Cylinder.026.Mat",
+    "Tube.007.Mat",
+    "Tube.008.Mat",
+    "Tube.008_1.Mat",
+    "Tube.009.Mat",
+    "Tube.010.Mat",
+    "Tube.011.Mat",
+    "Tube.013.Mat",
+    "Tube.014.Mat",
+    "Tube.019.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 9.604,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01",
+   "node": "es|6a4d70679a|mer_passerelles_kiosque_kioskbarrierei01",
+   "category": "architecture",
+   "sizeM": [
+    1.484,
+    1.635,
+    1.227
+   ],
+   "originOffsetM": [
+    -1.904,
+    3.089,
+    0.154
+   ],
+   "triangles": 613,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds"
+   ],
+   "materials": [
+    "Scene Root.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.154,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackwalll01",
+   "node": "es|64d2450bc5|illa__architecture_shackkit_shackwalll01",
+   "category": "architecture",
+   "sizeM": [
+    0.104,
+    1.692,
+    4.588
+   ],
+   "originOffsetM": [
+    -1.768,
+    1.692,
+    0.0
+   ],
+   "triangles": 34,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "ShackWallL01:31.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackwallr01",
+   "node": "es|797ed1ff76|illa__architecture_shackkit_shackwallr01",
+   "category": "architecture",
+   "sizeM": [
+    0.104,
+    1.773,
+    4.345
+   ],
+   "originOffsetM": [
+    -1.768,
+    -0.0,
+    -0.0
+   ],
+   "triangles": 34,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "ShackWallR01:31.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackroofmid01",
+   "node": "es|56c1d99e2c|la__architecture_shackkit_shackroofmid01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    3.416,
+    0.051
+   ],
+   "originOffsetM": [
+    1.821,
+    1.712,
+    -4.537
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiproof01.dds"
+   ],
+   "materials": [
+    "ShackRoofMid01:32.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -4.537,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackroofcorner01",
+   "node": "es|2a966391aa|_architecture_shackkit_shackroofcorner01",
+   "category": "architecture",
+   "sizeM": [
+    1.934,
+    2.027,
+    1.881
+   ],
+   "originOffsetM": [
+    0.113,
+    0.158,
+    -2.707
+   ],
+   "triangles": 44,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiproof01.dds"
+   ],
+   "materials": [
+    "ShackRoofCorner01:32.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -2.707,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackframelmid01",
+   "node": "es|c82dbfd5af|__architecture_shackkit_shackframelmid01",
+   "category": "architecture",
+   "sizeM": [
+    3.834,
+    2.125,
+    4.713
+   ],
+   "originOffsetM": [
+    1.821,
+    2.004,
+    0.018
+   ],
+   "triangles": 280,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "ShackFrameLMid01:26.Mat",
+    "ShackFrameLMid01:30.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.018,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackframelend01",
+   "node": "es|fbb6495bd7|__architecture_shackkit_shackframelend01",
+   "category": "architecture",
+   "sizeM": [
+    4.061,
+    2.125,
+    4.713
+   ],
+   "originOffsetM": [
+    2.048,
+    2.004,
+    0.018
+   ],
+   "triangles": 508,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "ShackFrameLEnd01:26.Mat",
+    "ShackFrameLEnd01:30.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.018,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackbrokewall01",
+   "node": "es|484ed7ec73|__architecture_shackkit_shackbrokewall01",
+   "category": "architecture",
+   "sizeM": [
+    1.174,
+    0.096,
+    2.731
+   ],
+   "originOffsetM": [
+    -0.647,
+    -1.773,
+    -0.0
+   ],
+   "triangles": 96,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "ShackBrokeWall01:31.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackbrokepole01",
+   "node": "es|a9311d82e4|__architecture_shackkit_shackbrokepole01",
+   "category": "architecture",
+   "sizeM": [
+    0.385,
+    0.366,
+    1.897
+   ],
+   "originOffsetM": [
+    0.192,
+    0.183,
+    0.018
+   ],
+   "triangles": 56,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "ShackBrokePole01:26.Mat",
+    "ShackBrokePole01:30.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.018,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
+   "node": "es|314588c23d|er__gv_meshes_argoniannest_fishracksmall",
+   "category": "misc",
+   "sizeM": [
+    2.483,
+    2.647,
+    2.534
+   ],
+   "originOffsetM": [
+    1.241,
+    1.374,
+    -0.228
+   ],
+   "triangles": 1136,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "woodpost02.dds"
+   ],
+   "materials": [
+    "FishRack01:0.Mat",
+    "L2_Ropes.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.228,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "node": "es|65817edfc1|__gv_meshes_argoniannest_argoniantotem01",
+   "category": "misc",
+   "sizeM": [
+    0.754,
+    0.492,
+    1.949
+   ],
+   "originOffsetM": [
+    0.392,
+    0.262,
+    -0.011
+   ],
+   "triangles": 836,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fence01.dds"
+   ],
+   "materials": [
+    "DLC2RieklingTotem02:0.Mat",
+    "DLC2RieklingTotem02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.011,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
+   "node": "es|8026497855|v_meshes_argoniannest_argonianlanterns02",
+   "category": "misc",
+   "sizeM": [
+    0.655,
+    0.639,
+    2.714
+   ],
+   "originOffsetM": [
+    0.317,
+    0.317,
+    2.627
+   ],
+   "triangles": 1248,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "histtree.dds",
+    "rope01.dds"
+   ],
+   "materials": [
+    "DLC2DarkElfLantern03:0.Mat",
+    "DLC2DarkElfLantern03:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.627,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/histtree",
+   "node": "es|8016fe8a59|dmother__gv_meshes_argoniannest_histtree",
+   "category": "misc",
+   "sizeM": [
+    26.971,
+    28.185,
+    22.115
+   ],
+   "originOffsetM": [
+    14.569,
+    13.23,
+    8.822
+   ],
+   "triangles": 5224,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "histtree.dds",
+    "histtreeleaves.dds"
+   ],
+   "materials": [
+    "Hist.Mat",
+    "L1_WRTempleTree02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 8.822,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ferries:yamadori/ferries/plank_ferry_swamp_03",
+   "node": "es|8217834d83|s__yamadori_ferries_plank_ferry_swamp_03",
+   "category": "misc",
+   "sizeM": [
+    2.65,
+    3.557,
+    1.546
+   ],
+   "originOffsetM": [
+    2.139,
+    1.779,
+    0.764
+   ],
+   "triangles": 851,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [
+    {
+     "shape": "EditorMarker",
+     "offsetM": [
+      0.32,
+      52.11,
+      -0.01
+     ]
+    }
+   ],
+   "textures": [
+    "giantlichen01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "DLC1HouseIngrdGiantLichen01_1:0.Mat",
+    "EditorMarker.Mat",
+    "ShipOar01:5.Mat",
+    "ShipOar01:6.Mat",
+    "ShipWoodplanks04:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.764,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
+   "node": "es|0ec55d1bd1|_yamadori_ferries_rowboat_ferry_swamp_01",
+   "category": "misc",
+   "sizeM": [
+    2.771,
+    9.624,
+    2.185
+   ],
+   "originOffsetM": [
+    1.385,
+    4.945,
+    0.036
+   ],
+   "triangles": 3542,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [
+    {
+     "shape": "EditorMarker",
+     "offsetM": [
+      0.17,
+      48.16,
+      -0.05
+     ]
+    }
+   ],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "EditorMarker.Mat.001",
+    "L1_BoatDetails.Mat",
+    "ShipRowBoat01:3.Mat",
+    "ShipRowBoat01:5 - L1_BoatDetails:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.036,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+   "node": "es|485030ecb8|ping tree overhaul_ancient sleeping tree",
+   "category": "misc",
+   "sizeM": [
+    24.868,
+    27.118,
+    24.35
+   ],
+   "originOffsetM": [
+    12.863,
+    12.84,
+    1.418
+   ],
+   "triangles": 38018,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cluste_col.dds",
+    "crackedbark.dds",
+    "vinesb_col.dds"
+   ],
+   "materials": [
+    "Scene Root:0.Mat",
+    "Scene Root:16.Mat",
+    "cedartree1:0.Mat",
+    "cedartree1:1.Mat",
+    "cedartree1:2.Mat",
+    "cedartree1:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.418,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/histflower01",
+   "node": "es|1e981a0f36|fall_sleeping tree overhaul_histflower01",
+   "category": "misc",
+   "sizeM": [
+    1.164,
+    0.678,
+    3.459
+   ],
+   "originOffsetM": [
+    0.649,
+    0.25,
+    -5.854
+   ],
+   "triangles": 949,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "sanguinerose.dds"
+   ],
+   "materials": [
+    "Cylinder.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -5.854,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/histflower02",
+   "node": "es|0319c61670|fall_sleeping tree overhaul_histflower02",
+   "category": "misc",
+   "sizeM": [
+    0.647,
+    0.856,
+    4.295
+   ],
+   "originOffsetM": [
+    0.335,
+    0.378,
+    -6.009
+   ],
+   "triangles": 1006,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "sanguinerose.dds"
+   ],
+   "materials": [
+    "Cylinder.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -6.009,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
+   "node": "es|32a7108da7|yfall_sleeping tree overhaul_rockcairn01",
+   "category": "misc",
+   "sizeM": [
+    2.489,
+    2.514,
+    2.654
+   ],
+   "originOffsetM": [
+    1.247,
+    1.189,
+    0.001
+   ],
+   "triangles": 5642,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "largecarving.dds"
+   ],
+   "materials": [
+    "RockCairn01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.001,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/rockcairn02",
+   "node": "es|5100dbef30|yfall_sleeping tree overhaul_rockcairn02",
+   "category": "misc",
+   "sizeM": [
+    3.291,
+    2.836,
+    2.444
+   ],
+   "originOffsetM": [
+    1.657,
+    1.428,
+    0.029
+   ],
+   "triangles": 4321,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "largecarving.dds"
+   ],
+   "materials": [
+    "RockCairn02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.029,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
+   "node": "es|51b724dbce|yfall_sleeping tree overhaul_rockcairn03",
+   "category": "misc",
+   "sizeM": [
+    1.754,
+    2.602,
+    2.559
+   ],
+   "originOffsetM": [
+    0.803,
+    1.376,
+    0.077
+   ],
+   "triangles": 3802,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "largecarving.dds"
+   ],
+   "materials": [
+    "RockCairn03:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.077,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
+   "node": "es|5d10059a11|yfall_sleeping tree overhaul_rockcairn04",
+   "category": "misc",
+   "sizeM": [
+    1.387,
+    1.879,
+    2.564
+   ],
+   "originOffsetM": [
+    0.698,
+    0.939,
+    0.029
+   ],
+   "triangles": 2352,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "largecarving.dds"
+   ],
+   "materials": [
+    "RockCairn04:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.029,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/rune circle",
+   "node": "es|237967c8ff|yfall_sleeping tree overhaul_rune circle",
+   "category": "misc",
+   "sizeM": [
+    8.109,
+    9.011,
+    3.323
+   ],
+   "originOffsetM": [
+    4.077,
+    4.46,
+    0.606
+   ],
+   "triangles": 860,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "largecarving.dds"
+   ],
+   "materials": [
+    "MountainCliff01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.606,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
+   "node": "es|2b55a35198|ll_sleeping tree overhaul_windchimehavok",
+   "category": "misc",
+   "sizeM": [
+    0.295,
+    0.328,
+    2.241
+   ],
+   "originOffsetM": [
+    0.159,
+    0.178,
+    1.879
+   ],
+   "triangles": 1716,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "hanginganimals01.dds",
+    "windchime_bamboo.dds",
+    "windchime_top.dds"
+   ],
+   "materials": [
+    "Vert01:0.Mat",
+    "Vert02:0.Mat",
+    "Vert02:1.Mat",
+    "Vert02:3.Mat",
+    "Vert03:0.Mat",
+    "Vert03:1.Mat",
+    "Vert04:0.Mat",
+    "Vert04:1.Mat",
+    "Vert05:0.Mat",
+    "Vert05:1.Mat",
+    "Vert06:0.Mat",
+    "Vert06:1.Mat",
+    "Vert07:0.Mat",
+    "Vert07:1.Mat",
+    "Vert08:0.Mat",
+    "Vert08:1.Mat",
+    "Vert09:0.Mat",
+    "Vert09:1.Mat",
+    "Vert10:0.Mat",
+    "Vert10:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.879,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "canoe:actors/sfss/canoe/canoe1",
+   "node": "es|efc936a55b|canoe__actors_sfss_canoe_canoe1",
+   "category": "creature",
+   "sizeM": [
+    1.981,
+    6.762,
+    2.125
+   ],
+   "originOffsetM": [
+    0.99,
+    2.986,
+    0.166
+   ],
+   "triangles": 9788,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "albedo.dds",
+    "bucket01.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "cratewood03.dds",
+    "gray.dds",
+    "miscbag01.dds",
+    "miscbag02.dds",
+    "prisonercarriage01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Bucket01:0.Mat",
+    "CrateCommon:0.Mat",
+    "CrateCommon:2.Mat",
+    "CrateSmall02:004.Mat",
+    "CrateSmall02:005.Mat",
+    "CrateSmall02:1.Mat",
+    "CrateSmall02:3.Mat",
+    "MiscSack02Large01:0.Mat",
+    "MiscSack02Large01:002.Mat",
+    "MiscSack02Large01:1.Mat",
+    "Object006:1.Mat",
+    "Object006:2.Mat",
+    "Object007:1.001.Mat",
+    "Object007:1.002.Mat",
+    "Object007:1.Mat",
+    "Object007:2.Mat",
+    "Object008.Mat",
+    "Object009:1.Mat",
+    "Object009:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.166,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ferryraft:snt/ferry/ferryraft01",
+   "node": "es|6e446b2e65|ferryraft__snt_ferry_ferryraft01",
+   "category": "misc",
+   "sizeM": [
+    3.236,
+    4.104,
+    1.711
+   ],
+   "originOffsetM": [
+    1.59,
+    2.016,
+    0.473
+   ],
+   "triangles": 3592,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "candles01.dds",
+    "cratewood02.dds",
+    "diningset01.dds",
+    "lampgeneric01.dds",
+    "rottingwood01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "BasicTankard01:0.Mat",
+    "CandleLanternWithCandle:11.Mat",
+    "CandleLanternWithCandle:7.Mat",
+    "Crate.Mat",
+    "LongCrate.Mat",
+    "Oar02.Mat",
+    "OarDet02.Mat",
+    "ShipOar01.Mat",
+    "ShipOarDet01.Mat",
+    "planks01.Mat",
+    "planks02.Mat",
+    "planks03.Mat",
+    "planks04.Mat",
+    "planks05.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.473,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+   "node": "es|86510175a0|chitecture_villages_argonian_bamboohut01",
+   "category": "architecture",
+   "sizeM": [
+    8.166,
+    8.221,
+    5.834
+   ],
+   "originOffsetM": [
+    4.083,
+    3.842,
+    0.911
+   ],
+   "triangles": 7138,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bamboo01.dds",
+    "wicker03.dds",
+    "woodrough08.dds"
+   ],
+   "materials": [
+    "OrcAwningFull01:0.Mat",
+    "OrcAwningFull01:1.Mat",
+    "OrcAwningFull01:3.Mat",
+    "OrcAwningFull01:4.Mat",
+    "OrcAwningFull01:5.Mat",
+    "OrcAwningFull01:6.Mat",
+    "OrcAwningFull01:7.Mat",
+    "OrcAwningFull01:8.Mat",
+    "OrcAwningFull01:9.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.911,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+   "node": "es|1b371d60c2|chitecture_villages_argonian_bamboohut02",
+   "category": "architecture",
+   "sizeM": [
+    8.166,
+    8.221,
+    5.834
+   ],
+   "originOffsetM": [
+    4.083,
+    3.842,
+    0.911
+   ],
+   "triangles": 7138,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bamboo01.dds",
+    "thatch03.dds",
+    "woodrough08.dds"
+   ],
+   "materials": [
+    "OrcAwningFull01:0.Mat.001",
+    "OrcAwningFull01:1.Mat.001",
+    "OrcAwningFull01:3.Mat.001",
+    "OrcAwningFull01:4.Mat.001",
+    "OrcAwningFull01:5.Mat.001",
+    "OrcAwningFull01:6.Mat.001",
+    "OrcAwningFull01:7.Mat.001",
+    "OrcAwningFull01:8.Mat.001",
+    "OrcAwningFull01:9.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.911,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+   "node": "es|37086f25e3|ecture_villages_argonian_bamboohutdoor01",
+   "category": "architecture",
+   "sizeM": [
+    1.667,
+    0.159,
+    2.584
+   ],
+   "originOffsetM": [
+    0.819,
+    0.112,
+    -0.0
+   ],
+   "triangles": 1011,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "platedroof.dds",
+    "woodrough08.dds"
+   ],
+   "materials": [
+    "Door01:0.Mat",
+    "Door01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "node": "es|edba8a66b3|itecture_villages_argonian_wickerchair01",
+   "category": "architecture",
+   "sizeM": [
+    0.916,
+    0.923,
+    0.894
+   ],
+   "originOffsetM": [
+    0.451,
+    0.57,
+    -0.008
+   ],
+   "triangles": 1612,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fabricbrown01.dds",
+    "wicker01.dds",
+    "wicker02.dds"
+   ],
+   "materials": [
+    ":16.Mat",
+    ":20.Mat",
+    "cloth.Mat",
+    "wickerchair01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.008,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01",
+   "node": "es|34f8a73c50|itecture_villages_argonian_wickertable01",
+   "category": "architecture",
+   "sizeM": [
+    0.917,
+    1.355,
+    0.464
+   ],
+   "originOffsetM": [
+    0.456,
+    0.677,
+    -0.003
+   ],
+   "triangles": 1064,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wicker01.dds",
+    "wicker02.dds",
+    "wickertable01.dds"
+   ],
+   "materials": [
+    "wickertable01:11.Mat",
+    "wickertable01:15.Mat",
+    "wickertable01:20.Mat",
+    "wickertable01:7.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.003,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
+   "node": "es|e7a54f9fd3|tecture_villages_argonian_wickerbasket01",
+   "category": "architecture",
+   "sizeM": [
+    0.88,
+    0.789,
+    1.008
+   ],
+   "originOffsetM": [
+    0.434,
+    0.395,
+    -0.0
+   ],
+   "triangles": 590,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wicker01.dds"
+   ],
+   "materials": [
+    "wickerbasket:7.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01",
+   "node": "es|b8e9b951e5|itecture_villages_argonian_chestwicker01",
+   "category": "architecture",
+   "sizeM": [
+    1.483,
+    0.686,
+    0.715
+   ],
+   "originOffsetM": [
+    0.737,
+    0.345,
+    0.034
+   ],
+   "triangles": 494,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wickerchest01.dds"
+   ],
+   "materials": [
+    "Chest:29.Mat",
+    "Lid:21.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.034,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
+   "node": "es|017f889d9f|ecture_villages_argonian_orcawninghalf01",
+   "category": "architecture",
+   "sizeM": [
+    8.166,
+    5.02,
+    5.834
+   ],
+   "originOffsetM": [
+    4.083,
+    1.178,
+    0.911
+   ],
+   "triangles": 3635,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wicker03.dds",
+    "woodrough08.dds"
+   ],
+   "materials": [
+    "OrcAwningHalf01:0.Mat",
+    "OrcAwningHalf01:1.Mat",
+    "OrcAwningHalf01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.911,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
+   "node": "es|03fa74e18c|re_villages_kothringi_stilthouseplatform",
+   "category": "architecture",
+   "sizeM": [
+    11.264,
+    17.752,
+    11.198
+   ],
+   "originOffsetM": [
+    4.695,
+    11.039,
+    11.316
+   ],
+   "triangles": 3658,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalplanks01.dds"
+   ],
+   "materials": [
+    "1.Mat.001",
+    "2.Mat.001",
+    "3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 11.316,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+   "node": "es|c1fdc2cece|cture_villages_kothringi_tamu_wooddock01",
+   "category": "architecture",
+   "sizeM": [
+    3.649,
+    1.823,
+    1.963
+   ],
+   "originOffsetM": [
+    1.744,
+    0.928,
+    0.068
+   ],
+   "triangles": 4556,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "tamu_clutteratlas01.dds",
+    "tamu_wood01.dds"
+   ],
+   "materials": [
+    "TamuRope01.Mat",
+    "TamuWoodDock01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.068,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
+   "node": "es|dca2a8a564|cture_villages_kothringi_tamu_wooddock02",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    1.821,
+    2.121
+   ],
+   "originOffsetM": [
+    1.812,
+    0.892,
+    0.108
+   ],
+   "triangles": 4356,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "tamu_clutteratlas01.dds",
+    "tamu_wood01.dds"
+   ],
+   "materials": [
+    "TamuRope01.Mat.001",
+    "TamuWoodDock01.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.108,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
+   "node": "es|14aabf73b7|_villages_kothringi_tamu_wooddockshort01",
+   "category": "architecture",
+   "sizeM": [
+    1.935,
+    1.821,
+    2.121
+   ],
+   "originOffsetM": [
+    0.954,
+    0.892,
+    0.108
+   ],
+   "triangles": 3742,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "tamu_clutteratlas01.dds",
+    "tamu_wood01.dds"
+   ],
+   "materials": [
+    "TamuRope01.Mat.002",
+    "TamuWoodDock01.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.108,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01",
+   "node": "es|0653fd1fb2|ture_villages_kothringi_tamu_woodplank01",
+   "category": "architecture",
+   "sizeM": [
+    0.253,
+    1.649,
+    0.071
+   ],
+   "originOffsetM": [
+    0.113,
+    0.785,
+    0.042
+   ],
+   "triangles": 76,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "tamu_wood01.dds"
+   ],
+   "materials": [
+    "TamuWoodPlank:7.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.042,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01",
+   "node": "es|81918333db|illages_kothringi_tamu_woodplankbroken01",
+   "category": "architecture",
+   "sizeM": [
+    0.211,
+    0.992,
+    0.037
+   ],
+   "originOffsetM": [
+    0.11,
+    0.21,
+    0.01
+   ],
+   "triangles": 72,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "tamu_wood01.dds"
+   ],
+   "materials": [
+    "TamuWoodPlank:7.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.01,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+   "node": "es|3b5913b0e0|cture_villages_kothringi_tamu_woodpole01",
+   "category": "architecture",
+   "sizeM": [
+    0.228,
+    0.224,
+    1.917
+   ],
+   "originOffsetM": [
+    0.125,
+    0.099,
+    -0.0
+   ],
+   "triangles": 708,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "tamu_clutteratlas01.dds",
+    "tamu_wood01.dds"
+   ],
+   "materials": [
+    "TamuRope01.Mat.003",
+    "TamuWoodPole01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:stilt/bamboohut01-with-door",
+   "node": "es|db6074f75b|composite__stilt_bamboohut01-with-door",
+   "category": "architecture",
+   "sizeM": [
+    8.166,
+    8.221,
+    5.834
+   ],
+   "originOffsetM": [
+    4.083,
+    3.842,
+    0.911
+   ],
+   "triangles": 8149,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bamboo01.dds",
+    "platedroof.dds",
+    "wicker03.dds",
+    "woodrough08.dds"
+   ],
+   "materials": [
+    "Door01:0.Mat.001",
+    "Door01:4.Mat.001",
+    "OrcAwningFull01:0.Mat.002",
+    "OrcAwningFull01:1.Mat.002",
+    "OrcAwningFull01:3.Mat.002",
+    "OrcAwningFull01:4.Mat.002",
+    "OrcAwningFull01:5.Mat.002",
+    "OrcAwningFull01:6.Mat.002",
+    "OrcAwningFull01:7.Mat.002",
+    "OrcAwningFull01:8.Mat.002",
+    "OrcAwningFull01:9.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.911,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:stilt/bamboohut02-with-door",
+   "node": "es|abb3a81b5b|composite__stilt_bamboohut02-with-door",
+   "category": "architecture",
+   "sizeM": [
+    8.166,
+    8.221,
+    5.834
+   ],
+   "originOffsetM": [
+    4.083,
+    3.842,
+    0.911
+   ],
+   "triangles": 8149,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bamboo01.dds",
+    "platedroof.dds",
+    "thatch03.dds",
+    "woodrough08.dds"
+   ],
+   "materials": [
+    "Door01:0.Mat.002",
+    "Door01:4.Mat.002",
+    "OrcAwningFull01:0.Mat.003",
+    "OrcAwningFull01:1.Mat.003",
+    "OrcAwningFull01:3.Mat.003",
+    "OrcAwningFull01:4.Mat.003",
+    "OrcAwningFull01:5.Mat.003",
+    "OrcAwningFull01:6.Mat.003",
+    "OrcAwningFull01:7.Mat.003",
+    "OrcAwningFull01:8.Mat.003",
+    "OrcAwningFull01:9.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.911,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/stilthouse/stilthousedooranim",
+   "node": "es|e71201dd03|chitecture_stilthouse_stilthousedooranim",
+   "category": "architecture",
+   "sizeM": [
+    1.597,
+    0.091,
+    2.354
+   ],
+   "originOffsetM": [
+    0.806,
+    0.023,
+    -0.018
+   ],
+   "triangles": 560,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "iron01.dds",
+    "riftencanalplanks01.dds"
+   ],
+   "materials": [
+    "RiftenDoor02L01:37.Mat",
+    "RiftenDoor02L01:37_1.Mat",
+    "RiftenDoor02L02:37.001.Mat",
+    "RiftenDoor02L02:37.Mat",
+    "RiftenDoor02R01:37.Mat",
+    "RiftenDoor02R01:37_1.Mat",
+    "RiftenDoor02R02:37.001.Mat",
+    "RiftenDoor02R02:37.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.018,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01",
+   "node": "es|d94e565305|bosmer_passerelles_kiosque_kioskaccesd01",
+   "category": "architecture",
+   "sizeM": [
+    3.149,
+    0.514,
+    1.334
+   ],
+   "originOffsetM": [
+    1.536,
+    3.693,
+    0.327
+   ],
+   "triangles": 192,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.728 2.Mat",
+    "Circle.728 2_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.327,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01",
+   "node": "es|d76a7f5f75|bosmer_passerelles_kiosque_kioskaccesi01",
+   "category": "architecture",
+   "sizeM": [
+    2.544,
+    2.503,
+    1.342
+   ],
+   "originOffsetM": [
+    3.754,
+    3.754,
+    0.335
+   ],
+   "triangles": 236,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.731 2.Mat",
+    "Circle.732 1.Mat",
+    "Circle.732 1_1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.335,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:stilt/stilthouse-with-door",
+   "node": "es|b132c45d8a|composite__stilt_stilthouse-with-door",
+   "category": "architecture",
+   "sizeM": [
+    11.264,
+    17.752,
+    10.843
+   ],
+   "originOffsetM": [
+    4.695,
+    11.039,
+    8.472
+   ],
+   "triangles": 8756,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "iron01.dds",
+    "riftencanalplanks01.dds"
+   ],
+   "materials": [
+    "1.Mat.002",
+    "2.Mat.002",
+    "RiftenDoor02L01:37.Mat.001",
+    "RiftenDoor02L01:37_1.Mat.001",
+    "RiftenDoor02L02:37.001.Mat.001",
+    "RiftenDoor02L02:37.Mat.001",
+    "RiftenDoor02R01:37.Mat.001",
+    "RiftenDoor02R01:37_1.Mat.001",
+    "RiftenDoor02R02:37.001.Mat.001",
+    "RiftenDoor02R02:37.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 8.472,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:stilt/kiosk-with-access",
+   "node": "es|c9a2713458|composite__stilt_kiosk-with-access",
+   "category": "architecture",
+   "sizeM": [
+    8.569,
+    8.569,
+    20.743
+   ],
+   "originOffsetM": [
+    4.285,
+    4.285,
+    9.604
+   ],
+   "triangles": 14476,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "bark0143.dds",
+    "racine001.dds",
+    "solpasserelle0037.dds"
+   ],
+   "materials": [
+    "Circle.690.Mat.001",
+    "Circle.703.Mat.001",
+    "Circle.718 0.Mat.001",
+    "Circle.728 2.Mat.001",
+    "Circle.728 2_1.Mat.001",
+    "Circle.731 2.Mat.001",
+    "Circle.732 1.Mat.001",
+    "Circle.732 1_1.Mat.001",
+    "Cylinder.011.Mat.001",
+    "Cylinder.012.Mat.001",
+    "Cylinder.020.Mat.001",
+    "Cylinder.026.Mat.001",
+    "Tube.007.Mat.001",
+    "Tube.008.Mat.001",
+    "Tube.008_1.Mat.001",
+    "Tube.009.Mat.001",
+    "Tube.010.Mat.001",
+    "Tube.011.Mat.001",
+    "Tube.013.Mat.001",
+    "Tube.014.Mat.001",
+    "Tube.019.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 9.604,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [
+  "textures/cubemaps/shinydull.dds"
+ ],
+ "texturesSubstituted": {
+  "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
+  "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
+  "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
+  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds",
+  "textures/stroti/stilthouse/iron01.dds": "textures/architecture/stilthouse/iron01.dds",
+  "textures/stroti/stilthouse/iron01_n.dds": "textures/architecture/stilthouse/iron01_n.dds"
+ },
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 251
+ }
+}

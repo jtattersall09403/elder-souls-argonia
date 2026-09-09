@@ -1,0 +1,4301 @@
+{
+ "kit": "imperial-keep",
+ "assets": [
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01",
+   "node": "es|19ff6911cb|ture_keep_exterior_walls_mwimparchwall01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.528,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    -0.0
+   ],
+   "triangles": 1238,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWall01:0.Mat",
+    "MWImpArchWall01:1.Mat",
+    "MWImpArchWall01:2.Mat",
+    "MWImpArchWall01:3.Mat",
+    "MWImpArchWall01:4.Mat",
+    "MWImpArchWall01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+   "node": "es|022b12ef8b|xterior_walls_mwimparchwall01destroyed01",
+   "category": "architecture",
+   "sizeM": [
+    6.904,
+    3.528,
+    13.058
+   ],
+   "originOffsetM": [
+    3.263,
+    1.821,
+    0.0
+   ],
+   "triangles": 1672,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonerubble01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWall01Destroyed01:0.Mat",
+    "MWImpArchWall01Destroyed01:1.Mat",
+    "MWImpArchWall01Destroyed01:2.Mat",
+    "MWImpArchWall01Destroyed01:3.Mat",
+    "MWImpArchWall01Destroyed01:4.Mat",
+    "MWImpArchWall01Destroyed01:5.Mat",
+    "MWImpArchWall01Destroyed01:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
+   "node": "es|a1d2c14d3c|xterior_walls_mwimparchwall01destroyed02",
+   "category": "architecture",
+   "sizeM": [
+    6.919,
+    3.528,
+    13.061
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    0.004
+   ],
+   "triangles": 1695,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonerubble01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWall01Destroyed02:0.Mat",
+    "MWImpArchWall01Destroyed02:1.Mat",
+    "MWImpArchWall01Destroyed02:2.Mat",
+    "MWImpArchWall01Destroyed02:3.Mat",
+    "MWImpArchWall01Destroyed02:4.Mat",
+    "MWImpArchWall01Destroyed02:5.Mat",
+    "MWImpArchWall01Destroyed02:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.004,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01",
+   "node": "es|7d14cccca7|keep_exterior_walls_mwimparchwallcorin01",
+   "category": "architecture",
+   "sizeM": [
+    5.348,
+    5.348,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    1.707,
+    -0.0
+   ],
+   "triangles": 1221,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallCorIn01:0.Mat",
+    "MWImpArchWallCorIn01:1.Mat",
+    "MWImpArchWallCorIn01:2.Mat",
+    "MWImpArchWallCorIn01:3.Mat",
+    "MWImpArchWallCorIn01:4.Mat",
+    "MWImpArchWallCorIn01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
+   "node": "es|3c7744b77a|or_walls_mwimparchwallcorin01destroyed01",
+   "category": "architecture",
+   "sizeM": [
+    5.348,
+    5.348,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    1.707,
+    0.0
+   ],
+   "triangles": 1578,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonerubble01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallCorIn01Destroyed01:0.Mat",
+    "MWImpArchWallCorIn01Destroyed01:1.Mat",
+    "MWImpArchWallCorIn01Destroyed01:2.Mat",
+    "MWImpArchWallCorIn01Destroyed01:3.Mat",
+    "MWImpArchWallCorIn01Destroyed01:4.Mat",
+    "MWImpArchWallCorIn01Destroyed01:5.Mat",
+    "MWImpArchWallCorIn01Destroyed01:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01",
+   "node": "es|ae3f51f749|eep_exterior_walls_mwimparchwallcorout01",
+   "category": "architecture",
+   "sizeM": [
+    5.917,
+    5.917,
+    13.058
+   ],
+   "originOffsetM": [
+    2.276,
+    1.821,
+    -0.0
+   ],
+   "triangles": 2122,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallCorOut01:0.Mat",
+    "MWImpArchWallCorOut01:1.Mat",
+    "MWImpArchWallCorOut01:2.Mat",
+    "MWImpArchWallCorOut01:3.Mat",
+    "MWImpArchWallCorOut01:4.Mat",
+    "MWImpArchWallCorOut01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01",
+   "node": "es|a7a7b9d3d8|e_keep_exterior_walls_mwimparchwallent01",
+   "category": "architecture",
+   "sizeM": [
+    3.755,
+    3.869,
+    7.283
+   ],
+   "originOffsetM": [
+    2.845,
+    1.934,
+    3.641
+   ],
+   "triangles": 216,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWalEntl01:0.Mat",
+    "MWImpArchWalEntl01:1.Mat",
+    "MWImpArchWalEntl01:2.Mat",
+    "MWImpArchWalEntl01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
+   "node": "es|c5f3511cf0|_keep_exterior_walls_mwimparchwallgate01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.584,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    -0.0
+   ],
+   "triangles": 2606,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallGate01:0.Mat",
+    "MWImpArchWallGate01:1.Mat",
+    "MWImpArchWallGate01:2.Mat",
+    "MWImpArchWallGate01:3.Mat",
+    "MWImpArchWallGate01:4.Mat",
+    "MWImpArchWallGate01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01",
+   "node": "es|c4629fa234|ior_walls_mwimparchwallgate01destroyed01",
+   "category": "architecture",
+   "sizeM": [
+    3.687,
+    3.584,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    -0.0
+   ],
+   "triangles": 1447,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonerubble01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallGate01Destroyed01:0.Mat",
+    "MWImpArchWallGate01Destroyed01:1.Mat",
+    "MWImpArchWallGate01Destroyed01:2.Mat",
+    "MWImpArchWallGate01Destroyed01:3.Mat",
+    "MWImpArchWallGate01Destroyed01:4.Mat",
+    "MWImpArchWallGate01Destroyed01:5.Mat",
+    "MWImpArchWallGate01Destroyed01:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
+   "node": "es|8b8978eb0a|keep_exterior_walls_mwimparchwalltower01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    5.519,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    3.812,
+    0.0
+   ],
+   "triangles": 3086,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallTower01:0.Mat",
+    "MWImpArchWallTower01:1.Mat",
+    "MWImpArchWallTower01:2.Mat",
+    "MWImpArchWallTower01:3.Mat",
+    "MWImpArchWallTower01:4.Mat",
+    "MWImpArchWallTower01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01",
+   "node": "es|052b782190|eep_exterior_walls_mwimparchwallstairs01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.755,
+    16.699
+   ],
+   "originOffsetM": [
+    3.641,
+    1.878,
+    0.0
+   ],
+   "triangles": 3139,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallStairs01:0.Mat",
+    "MWImpArchWallStairs01:1.Mat",
+    "MWImpArchWallStairs01:2.Mat",
+    "MWImpArchWallStairs01:3.Mat",
+    "MWImpArchWallStairs01:4.Mat",
+    "MWImpArchWallStairs01:5.Mat",
+    "MWImpArchWallStairs01:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02",
+   "node": "es|35c7a28659|eep_exterior_walls_mwimparchwallstairs02",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.755,
+    16.699
+   ],
+   "originOffsetM": [
+    3.641,
+    1.878,
+    0.0
+   ],
+   "triangles": 3139,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallStairs02:0.Mat",
+    "MWImpArchWallStairs02:1.Mat",
+    "MWImpArchWallStairs02:2.Mat",
+    "MWImpArchWallStairs02:3.Mat",
+    "MWImpArchWallStairs02:4.Mat",
+    "MWImpArchWallStairs02:5.Mat",
+    "MWImpArchWallStairs02:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03",
+   "node": "es|8815b9d36c|eep_exterior_walls_mwimparchwallstairs03",
+   "category": "architecture",
+   "sizeM": [
+    13.029,
+    7.112,
+    12.572
+   ],
+   "originOffsetM": [
+    9.274,
+    3.641,
+    -0.0
+   ],
+   "triangles": 2395,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallStairs03:0.Mat",
+    "MWImpArchWallStairs03:1.Mat",
+    "MWImpArchWallStairs03:2.Mat",
+    "MWImpArchWallStairs03:3.Mat",
+    "MWImpArchWallStairs03:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04",
+   "node": "es|612b336f83|eep_exterior_walls_mwimparchwallstairs04",
+   "category": "architecture",
+   "sizeM": [
+    13.029,
+    7.112,
+    12.572
+   ],
+   "originOffsetM": [
+    9.217,
+    3.641,
+    0.0
+   ],
+   "triangles": 2395,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallStairs04:0.Mat",
+    "MWImpArchWallStairs04:1.Mat",
+    "MWImpArchWallStairs04:2.Mat",
+    "MWImpArchWallStairs04:3.Mat",
+    "MWImpArchWallStairs04:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01",
+   "node": "es|c47a3f3951|_keep_exterior_towers_mwimparchtowerbg01",
+   "category": "architecture",
+   "sizeM": [
+    7.51,
+    7.51,
+    3.641
+   ],
+   "originOffsetM": [
+    3.755,
+    3.755,
+    0.0
+   ],
+   "triangles": 112,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchTowerBg01:0.Mat",
+    "MWImpArchTowerBg01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01",
+   "node": "es|244f84cbac|p_exterior_towers_mwimparchtowerbgbase01",
+   "category": "architecture",
+   "sizeM": [
+    7.624,
+    7.624,
+    3.641
+   ],
+   "originOffsetM": [
+    3.812,
+    3.812,
+    3.641
+   ],
+   "triangles": 728,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchTowerBgBase01:0.Mat",
+    "MWImpArchTowerBgBase01:1.Mat",
+    "MWImpArchTowerBgBase01:2.Mat",
+    "MWImpArchTowerBgBase01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01",
+   "node": "es|ae28a2f330|ep_exterior_towers_mwimparchtowerbgtop01",
+   "category": "architecture",
+   "sizeM": [
+    8.193,
+    8.193,
+    5.988
+   ],
+   "originOffsetM": [
+    4.097,
+    4.097,
+    -0.0
+   ],
+   "triangles": 4026,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchTowerBgBaseTop01:0.Mat",
+    "MWImpArchTowerBgBaseTop01:1.Mat",
+    "MWImpArchTowerBgBaseTop01:2.Mat",
+    "MWImpArchTowerBgBaseTop01:3.Mat",
+    "MWImpArchTowerBgBaseTop01:4.Mat",
+    "MWImpArchTowerBgBaseTop01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02",
+   "node": "es|cbd2f46cbb|ep_exterior_towers_mwimparchtowerbgtop02",
+   "category": "architecture",
+   "sizeM": [
+    8.193,
+    8.193,
+    14.526
+   ],
+   "originOffsetM": [
+    4.097,
+    4.097,
+    -0.0
+   ],
+   "triangles": 1416,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchslateroof01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchTowerBgBaseTop02:0.Mat",
+    "MWImpArchTowerBgBaseTop02:1.Mat",
+    "MWImpArchTowerBgBaseTop02:2.Mat",
+    "MWImpArchTowerBgBaseTop02:3.Mat",
+    "MWImpArchTowerBgBaseTop02:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01",
+   "node": "es|1a99978606|_keep_exterior_towers_mwimparchtowersm01",
+   "category": "architecture",
+   "sizeM": [
+    3.869,
+    3.869,
+    3.641
+   ],
+   "originOffsetM": [
+    1.934,
+    1.934,
+    -0.0
+   ],
+   "triangles": 112,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchTowerSm01:0.Mat",
+    "MWImpArchTowerSm01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01",
+   "node": "es|66a3bbc1af|p_exterior_towers_mwimparchtowersmbase01",
+   "category": "architecture",
+   "sizeM": [
+    3.983,
+    3.983,
+    3.641
+   ],
+   "originOffsetM": [
+    1.991,
+    1.991,
+    3.641
+   ],
+   "triangles": 728,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchTowerSmBase01:0.Mat",
+    "MWImpArchTowerSmBase01:1.Mat",
+    "MWImpArchTowerSmBase01:2.Mat",
+    "MWImpArchTowerSmBase01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01",
+   "node": "es|76e0dedaef|ep_exterior_towers_mwimparchtowersmtop01",
+   "category": "architecture",
+   "sizeM": [
+    4.552,
+    4.552,
+    5.988
+   ],
+   "originOffsetM": [
+    2.276,
+    2.276,
+    -0.0
+   ],
+   "triangles": 2960,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchTowerSmBaseTop01:0.Mat",
+    "MWImpArchTowerSmBaseTop01:1.Mat",
+    "MWImpArchTowerSmBaseTop01:2.Mat",
+    "MWImpArchTowerSmBaseTop01:3.Mat",
+    "MWImpArchTowerSmBaseTop01:4.Mat",
+    "MWImpArchTowerSmBaseTop01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01",
+   "node": "es|fe5b42801a|chitecture_keep_exterior_mwimparchkeep01",
+   "category": "architecture",
+   "sizeM": [
+    12.062,
+    12.062,
+    16.685
+   ],
+   "originOffsetM": [
+    6.031,
+    6.031,
+    0.0
+   ],
+   "triangles": 8640,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchKeep01:0.Mat",
+    "MWImpArchKeep01:1.Mat",
+    "MWImpArchKeep01:2.Mat",
+    "MWImpArchKeep01:3.Mat",
+    "MWImpArchKeep01:4.Mat",
+    "MWImpArchKeep01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02",
+   "node": "es|9b45cce486|chitecture_keep_exterior_mwimparchkeep02",
+   "category": "architecture",
+   "sizeM": [
+    12.956,
+    12.956,
+    25.077
+   ],
+   "originOffsetM": [
+    6.478,
+    6.478,
+    3.641
+   ],
+   "triangles": 5420,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchslateroof01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchKeep02:0.Mat",
+    "MWImpArchKeep02:1.Mat",
+    "MWImpArchKeep02:2.Mat",
+    "MWImpArchKeep02:3.Mat",
+    "MWImpArchKeep02:4.Mat",
+    "MWImpArchKeep02:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01",
+   "node": "es|d98e194ad2|ecture_keep_exterior_mwimparchentrance01",
+   "category": "architecture",
+   "sizeM": [
+    3.302,
+    1.366,
+    3.692
+   ],
+   "originOffsetM": [
+    1.651,
+    0.91,
+    0.448
+   ],
+   "triangles": 839,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchEntrance01:0.Mat",
+    "MWImpArchEntrance01:1.Mat",
+    "MWImpArchEntrance01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.448,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02",
+   "node": "es|1394a6a09b|ecture_keep_exterior_mwimparchentrance02",
+   "category": "architecture",
+   "sizeM": [
+    2.731,
+    1.081,
+    3.703
+   ],
+   "originOffsetM": [
+    1.366,
+    0.626,
+    0.626
+   ],
+   "triangles": 529,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchEntrance02:0.Mat",
+    "MWImpArchEntrance02:1.Mat",
+    "MWImpArchEntrance02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.626,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
+   "node": "es|ba6dfc0a0e|ture_keep_exterior_mwimparchguardtower01",
+   "category": "architecture",
+   "sizeM": [
+    6.145,
+    6.145,
+    13.058
+   ],
+   "originOffsetM": [
+    3.072,
+    3.072,
+    0.0
+   ],
+   "triangles": 5608,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchGuardTower01:0.Mat",
+    "MWImpArchGuardTower01:1.Mat",
+    "MWImpArchGuardTower01:2.Mat",
+    "MWImpArchGuardTower01:3.Mat",
+    "MWImpArchGuardTower01:4.Mat",
+    "MWImpArchGuardTower01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01",
+   "node": "es|39eca9fb20|xterior_mwimparchguardtower01destroyed01",
+   "category": "architecture",
+   "sizeM": [
+    5.917,
+    5.917,
+    6.657
+   ],
+   "originOffsetM": [
+    2.959,
+    2.959,
+    0.0
+   ],
+   "triangles": 1819,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchGuardTower01Destroyed01:0.Mat",
+    "MWImpArchGuardTower01Destroyed01:1.Mat",
+    "MWImpArchGuardTower01Destroyed01:2.Mat",
+    "MWImpArchGuardTower01Destroyed01:3.Mat",
+    "MWImpArchGuardTower01Destroyed01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02",
+   "node": "es|f2d4d32331|ture_keep_exterior_mwimparchguardtower02",
+   "category": "architecture",
+   "sizeM": [
+    8.193,
+    8.193,
+    26.69
+   ],
+   "originOffsetM": [
+    4.097,
+    4.097,
+    7.283
+   ],
+   "triangles": 4960,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchslateroof01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchGuardTower02:0.Mat",
+    "MWImpArchGuardTower02:1.Mat",
+    "MWImpArchGuardTower02:2.Mat",
+    "MWImpArchGuardTower02:3.Mat",
+    "MWImpArchGuardTower02:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.283,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01",
+   "node": "es|f45a0ab9ac|ture_keep_exterior_mwimparchfoundation01",
+   "category": "architecture",
+   "sizeM": [
+    3.869,
+    7.51,
+    7.283
+   ],
+   "originOffsetM": [
+    1.934,
+    3.755,
+    0.0
+   ],
+   "triangles": 1828,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall01.dds"
+   ],
+   "materials": [
+    "MWImpArchFoundation01:0.Mat",
+    "MWImpArchFoundation01:1.Mat",
+    "MWImpArchFoundation01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02",
+   "node": "es|b1ea84ce24|ture_keep_exterior_mwimparchfoundation02",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    7.283,
+    7.283
+   ],
+   "originOffsetM": [
+    1.821,
+    3.641,
+    7.283
+   ],
+   "triangles": 1856,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonewall01.dds"
+   ],
+   "materials": [
+    "MWImpArchFoundation02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.283,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01",
+   "node": "es|3664ea6b17|ecture_keep_exterior_mwimparchfreeplat01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    7.283,
+    10.924
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    7.283
+   ],
+   "triangles": 104,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchFreePlat01:0.Mat",
+    "MWImpArchFreePlat01:1.Mat",
+    "MWImpArchFreePlat01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.283,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01",
+   "node": "es|1e493027f4|hitecture_keep_exterior_mwimparchplaza01",
+   "category": "architecture",
+   "sizeM": [
+    31.065,
+    22.19,
+    11.661
+   ],
+   "originOffsetM": [
+    15.533,
+    11.095,
+    7.283
+   ],
+   "triangles": 3024,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchPlaza01:0.Mat",
+    "MWImpArchPlaza01:1.Mat",
+    "MWImpArchPlaza01:2.Mat",
+    "MWImpArchPlaza01:3.Mat",
+    "MWImpArchPlaza01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.283,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01",
+   "node": "es|77f0bceb07|chitecture_keep_exterior_mwimparchpool01",
+   "category": "architecture",
+   "sizeM": [
+    11.407,
+    11.407,
+    4.834
+   ],
+   "originOffsetM": [
+    5.704,
+    5.704,
+    2.731
+   ],
+   "triangles": 3640,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchPool01:0.Mat",
+    "MWImpArchPool01:1.Mat",
+    "MWImpArchPool01:2.Mat",
+    "MWImpArchPool01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 2.731,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01",
+   "node": "es|5135d229db|cture_keep_exterior_mwimparcharrowslit01",
+   "category": "architecture",
+   "sizeM": [
+    0.454,
+    0.468,
+    1.138
+   ],
+   "originOffsetM": [
+    0.227,
+    0.468,
+    0.004
+   ],
+   "triangles": 62,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonewall01.dds"
+   ],
+   "materials": [
+    "MWImpArchArrowslit01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.004,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02",
+   "node": "es|ff552feff8|cture_keep_exterior_mwimparcharrowslit02",
+   "category": "architecture",
+   "sizeM": [
+    1.707,
+    0.91,
+    4.239
+   ],
+   "originOffsetM": [
+    0.853,
+    0.853,
+    1.934
+   ],
+   "triangles": 512,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchslateroof01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall01.dds"
+   ],
+   "materials": [
+    "MWImpArchArrowslit02:0.Mat",
+    "MWImpArchArrowslit02:1.Mat",
+    "MWImpArchArrowslit02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.934,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01",
+   "node": "es|02d9234f1c|_stonewalls_mwimparchstonewallstraight01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    0.797,
+    1.195
+   ],
+   "originOffsetM": [
+    1.821,
+    0.398,
+    -0.0
+   ],
+   "triangles": 28,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallStraight01:0.Mat",
+    "MWImpArchStoneWallStraight01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall",
+   "node": "es|080acd6803|newalls_mwimparchstonewallstraight01tall",
+   "category": "architecture",
+   "sizeM": [
+    3.646,
+    0.797,
+    4.836
+   ],
+   "originOffsetM": [
+    1.825,
+    0.398,
+    3.641
+   ],
+   "triangles": 32,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallStraight01Tall:0.Mat",
+    "MWImpArchStoneWallStraight01Tall:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble",
+   "node": "es|9239c20a53|walls_mwimparchstonewallstraight01rubble",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    0.797,
+    1.195
+   ],
+   "originOffsetM": [
+    1.821,
+    0.398,
+    -0.0
+   ],
+   "triangles": 140,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallStraight01Rubble:0.Mat",
+    "MWImpArchStoneWallStraight01Rubble:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02",
+   "node": "es|ecf73d8ace|_stonewalls_mwimparchstonewallstraight02",
+   "category": "architecture",
+   "sizeM": [
+    3.684,
+    0.797,
+    3.897
+   ],
+   "originOffsetM": [
+    1.821,
+    0.398,
+    -0.0
+   ],
+   "triangles": 1388,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallStraight02:0.Mat",
+    "MWImpArchStoneWallStraight02:1.Mat",
+    "MWImpArchStoneWallStraight02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall",
+   "node": "es|7aeaacaa2b|newalls_mwimparchstonewallstraight02tall",
+   "category": "architecture",
+   "sizeM": [
+    3.688,
+    0.797,
+    7.539
+   ],
+   "originOffsetM": [
+    1.825,
+    0.398,
+    3.641
+   ],
+   "triangles": 1392,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallStraight02Tall:0.Mat",
+    "MWImpArchStoneWallStraight02Tall:1.Mat",
+    "MWImpArchStoneWallStraight02Tall:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01",
+   "node": "es|0509b88cd0|ewalls_mwimparchstonewallstraightshort01",
+   "category": "architecture",
+   "sizeM": [
+    1.821,
+    0.797,
+    1.195
+   ],
+   "originOffsetM": [
+    0.91,
+    0.398,
+    -0.0
+   ],
+   "triangles": 28,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallStraightShort01:0.Mat",
+    "MWImpArchStoneWallStraightShort01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02",
+   "node": "es|c237fc101a|ewalls_mwimparchstonewallstraightshort02",
+   "category": "architecture",
+   "sizeM": [
+    1.863,
+    0.797,
+    3.897
+   ],
+   "originOffsetM": [
+    0.91,
+    0.398,
+    -0.0
+   ],
+   "triangles": 748,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallStraightShort02:0.Mat",
+    "MWImpArchStoneWallStraightShort02:1.Mat",
+    "MWImpArchStoneWallStraightShort02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01",
+   "node": "es|2e9d0b12e4|erior_stonewalls_mwimparchstonewallcor01",
+   "category": "architecture",
+   "sizeM": [
+    2.219,
+    2.219,
+    1.195
+   ],
+   "originOffsetM": [
+    1.309,
+    0.398,
+    -0.0
+   ],
+   "triangles": 106,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallCor01:0.Mat",
+    "MWImpArchStoneWallCor01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02",
+   "node": "es|b7f1ddcb0b|erior_stonewalls_mwimparchstonewallcor02",
+   "category": "architecture",
+   "sizeM": [
+    2.262,
+    2.219,
+    3.897
+   ],
+   "originOffsetM": [
+    1.309,
+    0.398,
+    -0.0
+   ],
+   "triangles": 1546,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallCor02:0.Mat",
+    "MWImpArchStoneWallCor02:1.Mat",
+    "MWImpArchStoneWallCor02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01",
+   "node": "es|dbad843029|rior_stonewalls_mwimparchstonewallpost01",
+   "category": "architecture",
+   "sizeM": [
+    1.024,
+    1.024,
+    1.477
+   ],
+   "originOffsetM": [
+    0.512,
+    0.512,
+    0.0
+   ],
+   "triangles": 110,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallPost01:0.Mat",
+    "MWImpArchStoneWallPost01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02",
+   "node": "es|2f3bf9552d|rior_stonewalls_mwimparchstonewallpost02",
+   "category": "architecture",
+   "sizeM": [
+    1.024,
+    1.024,
+    5.118
+   ],
+   "originOffsetM": [
+    0.512,
+    0.512,
+    3.641
+   ],
+   "triangles": 110,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallPost02:0.Mat",
+    "MWImpArchStoneWallPost02:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03",
+   "node": "es|00db58f796|rior_stonewalls_mwimparchstonewallpost03",
+   "category": "architecture",
+   "sizeM": [
+    1.024,
+    1.024,
+    3.897
+   ],
+   "originOffsetM": [
+    0.512,
+    0.512,
+    0.0
+   ],
+   "triangles": 246,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallPost03:0.Mat",
+    "MWImpArchStoneWallPost03:1.Mat",
+    "MWImpArchStoneWallPost03:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04",
+   "node": "es|c1852fdd45|rior_stonewalls_mwimparchstonewallpost04",
+   "category": "architecture",
+   "sizeM": [
+    1.024,
+    1.024,
+    7.539
+   ],
+   "originOffsetM": [
+    0.512,
+    0.512,
+    3.641
+   ],
+   "triangles": 246,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallPost03:0.Mat.001",
+    "MWImpArchStoneWallPost03:1.Mat.001",
+    "MWImpArchStoneWallPost03:2.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01",
+   "node": "es|aa7cb3f9ee|re_keep_exterior_ledges_mwimparchledge01",
+   "category": "architecture",
+   "sizeM": [
+    3.698,
+    7.283,
+    7.738
+   ],
+   "originOffsetM": [
+    3.698,
+    3.641,
+    -0.0
+   ],
+   "triangles": 32,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds"
+   ],
+   "materials": [
+    "MWImpArchLedge01:0.Mat",
+    "MWImpArchLedge01:1.Mat",
+    "MWImpArchLedge01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02",
+   "node": "es|dd54461603|re_keep_exterior_ledges_mwimparchledge02",
+   "category": "architecture",
+   "sizeM": [
+    3.812,
+    7.283,
+    8.02
+   ],
+   "originOffsetM": [
+    3.812,
+    3.641,
+    -0.0
+   ],
+   "triangles": 260,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchLedge02:0.Mat",
+    "MWImpArchLedge02:1.Mat",
+    "MWImpArchLedge02:2.Mat",
+    "MWImpArchLedge02:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01",
+   "node": "es|97d2339355|ep_exterior_ledges_mwimparchledgecorin01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    7.283,
+    8.02
+   ],
+   "originOffsetM": [
+    7.283,
+    -0.0,
+    -0.0
+   ],
+   "triangles": 251,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchLedgeCorIn01:0.Mat",
+    "MWImpArchLedgeCorIn01:1.Mat",
+    "MWImpArchLedgeCorIn01:2.Mat",
+    "MWImpArchLedgeCorIn01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01",
+   "node": "es|8c850e777c|p_exterior_ledges_mwimparchledgecorout01",
+   "category": "architecture",
+   "sizeM": [
+    3.812,
+    3.812,
+    8.02
+   ],
+   "originOffsetM": [
+    3.812,
+    -0.0,
+    -0.0
+   ],
+   "triangles": 253,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchLedgeCorOut01:0.Mat",
+    "MWImpArchLedgeCorOut01:1.Mat",
+    "MWImpArchLedgeCorOut01:2.Mat",
+    "MWImpArchLedgeCorOut01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01",
+   "node": "es|6112b7a044|keep_exterior_ledges_mwimparchledgemid01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    3.641,
+    0.0
+   ],
+   "originOffsetM": [
+    1.821,
+    1.821,
+    -0.0
+   ],
+   "triangles": 10,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds"
+   ],
+   "materials": [
+    "MWImpArchLedgeMid01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02",
+   "node": "es|1868658b51|keep_exterior_ledges_mwimparchledgemid02",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    7.283,
+    0.0
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    -0.0
+   ],
+   "triangles": 40,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds"
+   ],
+   "materials": [
+    "MWImpArchLedgeMid02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01",
+   "node": "es|89d81b81eb|p_exterior_ledges_mwimparchledgestairs01",
+   "category": "architecture",
+   "sizeM": [
+    6.315,
+    7.283,
+    8.02
+   ],
+   "originOffsetM": [
+    6.315,
+    3.641,
+    0.0
+   ],
+   "triangles": 1204,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchLedgeStairs01:0.Mat",
+    "MWImpArchLedgeStairs01:1.Mat",
+    "MWImpArchLedgeStairs01:2.Mat",
+    "MWImpArchLedgeStairs01:3.Mat",
+    "MWImpArchLedgeStairs01:4.Mat",
+    "MWImpArchLedgeStairs01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01",
+   "node": "es|6b88b75768|_exterior_ledges_mwimparchledgestairsl01",
+   "category": "architecture",
+   "sizeM": [
+    6.315,
+    3.641,
+    8.02
+   ],
+   "originOffsetM": [
+    6.315,
+    3.641,
+    0.0
+   ],
+   "triangles": 639,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchLedgeStairsL01:0.Mat",
+    "MWImpArchLedgeStairsL01:1.Mat",
+    "MWImpArchLedgeStairsL01:2.Mat",
+    "MWImpArchLedgeStairsL01:3.Mat",
+    "MWImpArchLedgeStairsL01:4.Mat",
+    "MWImpArchLedgeStairsL01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01",
+   "node": "es|8285dac51a|xterior_ledges_mwimparchledgestairsmid01",
+   "category": "architecture",
+   "sizeM": [
+    6.145,
+    3.641,
+    7.283
+   ],
+   "originOffsetM": [
+    6.145,
+    1.821,
+    -0.0
+   ],
+   "triangles": 74,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchLedgeStairsMid01:0.Mat",
+    "MWImpArchLedgeStairsMid01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01",
+   "node": "es|b998d6fba9|_exterior_ledges_mwimparchledgestairsr01",
+   "category": "architecture",
+   "sizeM": [
+    6.315,
+    3.641,
+    8.02
+   ],
+   "originOffsetM": [
+    6.315,
+    -0.0,
+    0.0
+   ],
+   "triangles": 639,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchLedgeStairsR01:0.Mat",
+    "MWImpArchLedgeStairsR01:1.Mat",
+    "MWImpArchLedgeStairsR01:2.Mat",
+    "MWImpArchLedgeStairsR01:3.Mat",
+    "MWImpArchLedgeStairsR01:4.Mat",
+    "MWImpArchLedgeStairsR01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01",
+   "node": "es|8087628b0d|_keep_exterior_bridges_mwimparchbridge01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    4.779,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    2.39,
+    3.641
+   ],
+   "triangles": 2440,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchBridge01:0.Mat",
+    "MWImpArchBridge01:1.Mat",
+    "MWImpArchBridge01:2.Mat",
+    "MWImpArchBridge01:3.Mat",
+    "MWImpArchBridge01:4.Mat",
+    "MWImpArchBridge01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02",
+   "node": "es|37d3d6360b|_keep_exterior_bridges_mwimparchbridge02",
+   "category": "architecture",
+   "sizeM": [
+    8.705,
+    4.893,
+    13.058
+   ],
+   "originOffsetM": [
+    5.064,
+    2.447,
+    3.641
+   ],
+   "triangles": 2307,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchBridge02:0.Mat",
+    "MWImpArchBridge02:1.Mat",
+    "MWImpArchBridge02:2.Mat",
+    "MWImpArchBridge02:3.Mat",
+    "MWImpArchBridge02:4.Mat",
+    "MWImpArchBridge02:5.Mat",
+    "MWImpArchBridge02:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01",
+   "node": "es|b52638e8b8|ture_keep_exterior_docks_mwimparchdock01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    4.665,
+    11.209
+   ],
+   "originOffsetM": [
+    3.641,
+    2.333,
+    -0.0
+   ],
+   "triangles": 1404,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchDock01:0.Mat",
+    "MWImpArchDock01:1.Mat",
+    "MWImpArchDock01:2.Mat",
+    "MWImpArchDock01:3.Mat",
+    "MWImpArchDock01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02",
+   "node": "es|47d48c8bfb|ture_keep_exterior_docks_mwimparchdock02",
+   "category": "architecture",
+   "sizeM": [
+    7.795,
+    4.893,
+    11.209
+   ],
+   "originOffsetM": [
+    4.153,
+    2.447,
+    0.0
+   ],
+   "triangles": 963,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonestairs01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchDock02:0.Mat",
+    "MWImpArchDock02:1.Mat",
+    "MWImpArchDock02:2.Mat",
+    "MWImpArchDock02:3.Mat",
+    "MWImpArchDock02:4.Mat",
+    "MWImpArchDock02:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01",
+   "node": "es|174f160842|_exterior_docks_mwimparchdockplatfront01",
+   "category": "architecture",
+   "sizeM": [
+    2.333,
+    7.283,
+    11.209
+   ],
+   "originOffsetM": [
+    2.333,
+    3.641,
+    10.924
+   ],
+   "triangles": 584,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchDockPlatFront01:0.Mat",
+    "MWImpArchDockPlatFront01:1.Mat",
+    "MWImpArchDockPlatFront01:2.Mat",
+    "MWImpArchDockPlatFront01:3.Mat",
+    "MWImpArchDockPlatFront01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 10.924,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01",
+   "node": "es|d96bb4ad00|ep_exterior_docks_mwimparchdockplatmid01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    3.641,
+    0.0
+   ],
+   "originOffsetM": [
+    1.821,
+    1.821,
+    -0.0
+   ],
+   "triangles": 10,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds"
+   ],
+   "materials": [
+    "MWImpArchDockPlatMid02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01",
+   "node": "es|953c113b4c|_exterior_docks_mwimparchdockplatcorin01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    3.641,
+    11.209
+   ],
+   "originOffsetM": [
+    3.641,
+    -0.0,
+    10.924
+   ],
+   "triangles": 337,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchDockPlatCorIn01:0.Mat",
+    "MWImpArchDockPlatCorIn01:1.Mat",
+    "MWImpArchDockPlatCorIn01:2.Mat",
+    "MWImpArchDockPlatCorIn01:3.Mat",
+    "MWImpArchDockPlatCorIn01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 10.924,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01",
+   "node": "es|8b885291d8|exterior_docks_mwimparchdockplatcorout01",
+   "category": "architecture",
+   "sizeM": [
+    2.333,
+    2.333,
+    11.209
+   ],
+   "originOffsetM": [
+    2.333,
+    0.0,
+    10.924
+   ],
+   "triangles": 389,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchDockPlatCorOut01:0.Mat",
+    "MWImpArchDockPlatCorOut01:1.Mat",
+    "MWImpArchDockPlatCorOut01:2.Mat",
+    "MWImpArchDockPlatCorOut01:3.Mat",
+    "MWImpArchDockPlatCorOut01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 10.924,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01",
+   "node": "es|50252106c3|terior_stables_mwimparchstablestraight01",
+   "category": "architecture",
+   "sizeM": [
+    4.552,
+    5.576,
+    5.464
+   ],
+   "originOffsetM": [
+    2.276,
+    5.576,
+    0.0
+   ],
+   "triangles": 1371,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchslateroof01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds",
+    "mwimparchwallplaster01.dds"
+   ],
+   "materials": [
+    "MWImpArchStableStraight01:0.Mat",
+    "MWImpArchStableStraight01:1.Mat",
+    "MWImpArchStableStraight01:2.Mat",
+    "MWImpArchStableStraight01:3.Mat",
+    "MWImpArchStableStraight01:4.Mat",
+    "MWImpArchStableStraight01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01",
+   "node": "es|f0e9baf884|p_exterior_stables_mwimparchstableendl01",
+   "category": "architecture",
+   "sizeM": [
+    5.007,
+    5.576,
+    5.464
+   ],
+   "originOffsetM": [
+    2.731,
+    5.576,
+    0.0
+   ],
+   "triangles": 1446,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchslateroof01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds",
+    "mwimparchwallplaster01.dds"
+   ],
+   "materials": [
+    "MWImpArchStableEndL01:0.Mat",
+    "MWImpArchStableEndL01:1.Mat",
+    "MWImpArchStableEndL01:2.Mat",
+    "MWImpArchStableEndL01:3.Mat",
+    "MWImpArchStableEndL01:4.Mat",
+    "MWImpArchStableEndL01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01",
+   "node": "es|a7c314d72a|p_exterior_stables_mwimparchstableendr01",
+   "category": "architecture",
+   "sizeM": [
+    5.007,
+    5.576,
+    5.464
+   ],
+   "originOffsetM": [
+    2.276,
+    5.576,
+    0.0
+   ],
+   "triangles": 1446,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchslateroof01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds",
+    "mwimparchwallplaster01.dds"
+   ],
+   "materials": [
+    "MWImpArchStableEndR01:0.Mat",
+    "MWImpArchStableEndR01:1.Mat",
+    "MWImpArchStableEndR01:2.Mat",
+    "MWImpArchStableEndR01:3.Mat",
+    "MWImpArchStableEndR01:4.Mat",
+    "MWImpArchStableEndR01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01",
+   "node": "es|0348af7e4e|rchitecture_keep_clutter_mwimparchwell01",
+   "category": "architecture",
+   "sizeM": [
+    5.462,
+    5.462,
+    1.587
+   ],
+   "originOffsetM": [
+    2.731,
+    2.731,
+    0.455
+   ],
+   "triangles": 1888,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall01.dds"
+   ],
+   "materials": [
+    "MWImpArchWell01:0.Mat",
+    "MWImpArchWell01:1.Mat",
+    "MWImpArchWell01:2.Mat",
+    "MWImpArchWell01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.455,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01",
+   "node": "es|b1b7ae9993|tecture_keep_clutter_mwimparchflagpole01",
+   "category": "architecture",
+   "sizeM": [
+    0.683,
+    2.041,
+    5.769
+   ],
+   "originOffsetM": [
+    0.341,
+    1.02,
+    0.085
+   ],
+   "triangles": 736,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds"
+   ],
+   "materials": [
+    "MWImpArchFlagPole01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.085,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01",
+   "node": "es|9d194dd2e0|tecture_keep_clutter_mwimparchpedestal01",
+   "category": "architecture",
+   "sizeM": [
+    1.366,
+    1.366,
+    0.91
+   ],
+   "originOffsetM": [
+    0.683,
+    0.683,
+    0.0
+   ],
+   "triangles": 326,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchwallplaster01.dds"
+   ],
+   "materials": [
+    "MWImpArchPedestal01:0.Mat",
+    "MWImpArchPedestal01:1.Mat",
+    "MWImpArchPedestal01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02",
+   "node": "es|e6e7b12988|tecture_keep_clutter_mwimparchpedestal02",
+   "category": "architecture",
+   "sizeM": [
+    2.276,
+    1.366,
+    0.91
+   ],
+   "originOffsetM": [
+    1.138,
+    0.683,
+    0.0
+   ],
+   "triangles": 326,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchwallplaster01.dds"
+   ],
+   "materials": [
+    "MWImpArchPedestal02:0.Mat",
+    "MWImpArchPedestal02:1.Mat",
+    "MWImpArchPedestal02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01",
+   "node": "es|59912269b8|itecture_keep_clutter_mwimparchplanter01",
+   "category": "architecture",
+   "sizeM": [
+    4.552,
+    2.276,
+    1.821
+   ],
+   "originOffsetM": [
+    2.276,
+    1.138,
+    0.91
+   ],
+   "triangles": 120,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall01.dds",
+    "sdirt01.dds"
+   ],
+   "materials": [
+    "MWmpArchPlanter01:0.Mat",
+    "MWmpArchPlanter01:1.Mat",
+    "MWmpArchPlanter01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.91,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01",
+   "node": "es|a30a66752d|itecture_keep_clutter_mwimparchmooring01",
+   "category": "architecture",
+   "sizeM": [
+    0.91,
+    0.976,
+    1.873
+   ],
+   "originOffsetM": [
+    0.455,
+    0.52,
+    -0.0
+   ],
+   "triangles": 488,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchMooring01:0.Mat",
+    "MWImpArchMooring01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01",
+   "node": "es|ef4c0b0d90|chitecture_keep_clutter_mwimparchsewer01",
+   "category": "architecture",
+   "sizeM": [
+    2.048,
+    2.048,
+    0.512
+   ],
+   "originOffsetM": [
+    1.024,
+    1.024,
+    0.164
+   ],
+   "triangles": 564,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchmetaldet01.dds",
+    "mwimparchstonewall01.dds"
+   ],
+   "materials": [
+    "MWImpArchSewer01:0.Mat",
+    "MWImpArchSewer01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.164,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01",
+   "node": "es|2ab5dcf1db|chitecture_keep_clutter_mwimparchaltar01",
+   "category": "architecture",
+   "sizeM": [
+    2.447,
+    1.536,
+    1.026
+   ],
+   "originOffsetM": [
+    1.223,
+    0.768,
+    -0.0
+   ],
+   "triangles": 944,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim01.dds",
+    "mwimparchwallplaster01.dds",
+    "rug05.dds"
+   ],
+   "materials": [
+    "MWImpArchAltar01:0.Mat",
+    "MWImpArchAltar01:1.Mat",
+    "MWImpArchAltar01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01",
+   "node": "es|e45db3da6c|cture_keep_rubbles_mwimparchrubblepile01",
+   "category": "architecture",
+   "sizeM": [
+    11.05,
+    10.708,
+    3.374
+   ],
+   "originOffsetM": [
+    5.589,
+    5.181,
+    -0.128
+   ],
+   "triangles": 640,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonerubble01.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchRubblePile01:0.Mat",
+    "MWImpArchRubblePile01:1.Mat",
+    "MWImpArchRubblePile01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.128,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02",
+   "node": "es|cf95fbdf44|cture_keep_rubbles_mwimparchrubblepile02",
+   "category": "architecture",
+   "sizeM": [
+    13.211,
+    12.695,
+    8.305
+   ],
+   "originOffsetM": [
+    6.642,
+    6.252,
+    0.043
+   ],
+   "triangles": 846,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonerubble01.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchRubblePile02:0.Mat",
+    "MWImpArchRubblePile02:1.Mat",
+    "MWImpArchRubblePile02:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.043,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03",
+   "node": "es|a542ad4aa9|cture_keep_rubbles_mwimparchrubblepile03",
+   "category": "architecture",
+   "sizeM": [
+    10.238,
+    7.875,
+    8.422
+   ],
+   "originOffsetM": [
+    5.641,
+    3.304,
+    0.171
+   ],
+   "triangles": 500,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonerubble01.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchRubblePile03:0.Mat",
+    "MWImpArchRubblePile03:1.Mat",
+    "MWImpArchRubblePile03:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.171,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01",
+   "node": "es|8cb53d8743|ture_keep_rubbles_mwimparchrubblepiece01",
+   "category": "architecture",
+   "sizeM": [
+    8.387,
+    2.551,
+    2.106
+   ],
+   "originOffsetM": [
+    4.193,
+    1.275,
+    1.053
+   ],
+   "triangles": 190,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchRubblePiece01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.053,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02",
+   "node": "es|8ea6493ba1|ture_keep_rubbles_mwimparchrubblepiece02",
+   "category": "architecture",
+   "sizeM": [
+    4.806,
+    2.661,
+    2.427
+   ],
+   "originOffsetM": [
+    2.406,
+    1.33,
+    1.478
+   ],
+   "triangles": 104,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchRubblePiece02:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.478,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03",
+   "node": "es|c0aaf9b018|ture_keep_rubbles_mwimparchrubblepiece03",
+   "category": "architecture",
+   "sizeM": [
+    4.643,
+    1.74,
+    2.46
+   ],
+   "originOffsetM": [
+    2.6,
+    0.87,
+    1.215
+   ],
+   "triangles": 104,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchRubblePiece03:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.215,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01",
+   "node": "es|32953cb3f1|cture_keep_rubbles_mwimparchfloorchunk01",
+   "category": "architecture",
+   "sizeM": [
+    7.639,
+    7.577,
+    0.279
+   ],
+   "originOffsetM": [
+    3.991,
+    3.505,
+    -0.0
+   ],
+   "triangles": 1735,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonerubble01.dds"
+   ],
+   "materials": [
+    "MWImpArchFloorChunk01:0.Mat",
+    "MWImpArchFloorChunk01:1.Mat",
+    "MWImpArchFloorChunk01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02",
+   "node": "es|08266469e7|cture_keep_rubbles_mwimparchfloorchunk02",
+   "category": "architecture",
+   "sizeM": [
+    7.639,
+    7.577,
+    0.23
+   ],
+   "originOffsetM": [
+    3.991,
+    3.505,
+    -0.0
+   ],
+   "triangles": 1697,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonerubble01.dds"
+   ],
+   "materials": [
+    "MWImpArchFloorChunk02:0.Mat",
+    "MWImpArchFloorChunk02:1.Mat",
+    "MWImpArchFloorChunk02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01",
+   "node": "es|b7c4a9e49f|tecture_keep_doors_mwimparchdoorsingle01",
+   "category": "architecture",
+   "sizeM": [
+    1.735,
+    0.156,
+    2.736
+   ],
+   "originOffsetM": [
+    -0.028,
+    -0.725,
+    -0.0
+   ],
+   "triangles": 1590,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchdoorsingle01.dds"
+   ],
+   "materials": [
+    "Object012ass002.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01",
+   "node": "es|202a9d00ea|hitecture_keep_doors_mwimparchdoorload01",
+   "category": "architecture",
+   "sizeM": [
+    1.863,
+    0.192,
+    2.731
+   ],
+   "originOffsetM": [
+    0.931,
+    0.056,
+    -0.0
+   ],
+   "triangles": 1326,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchdoor01.dds"
+   ],
+   "materials": [
+    "TM_MWDoor01LoadL:30.Mat",
+    "TM_MWDoor01LoadR:42.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01",
+   "node": "es|6f1a7b7c37|hitecture_keep_doors_mwimparchdoorjail01",
+   "category": "architecture",
+   "sizeM": [
+    1.735,
+    0.156,
+    2.736
+   ],
+   "originOffsetM": [
+    -0.028,
+    -0.725,
+    -0.0
+   ],
+   "triangles": 1520,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchdoorsingle01.dds"
+   ],
+   "materials": [
+    "Object017.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\imperial-keep.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 339
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ }
+}

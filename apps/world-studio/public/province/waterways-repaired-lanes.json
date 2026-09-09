@@ -8,22 +8,20 @@
   {
    "id": "route.boat.blackrose-lilmoth",
    "beforeOverlandM": [
-    122.0
+    140.0
    ],
-   "afterOverlandM": [
-    122.0
-   ],
+   "afterOverlandM": [],
    "pointsBefore": 372,
-   "pointsAfter": 372,
+   "pointsAfter": 390,
    "edits": [
     {
      "atM": [
-      3143.4,
-      6025.0
+      2684.2,
+      6138.8
      ],
-     "lengthM": 122.0,
-     "status": "unsolved",
-     "why": "no wet line inside a 90 px box"
+     "lengthM": 140.0,
+     "status": "rerouted",
+     "points": 18
     }
    ]
   }

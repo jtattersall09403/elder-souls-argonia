@@ -1,0 +1,1180 @@
+{
+ "kit": "settlement-imperial-v1",
+ "assets": [
+  {
+   "id": "vanilla:architecture/farmhouse/farmhouse01",
+   "node": "es|e2c9aa68fa|illa__architecture_farmhouse_farmhouse01",
+   "category": "architecture",
+   "sizeM": [
+    20.049,
+    10.035,
+    10.583
+   ],
+   "originOffsetM": [
+    10.024,
+    5.017,
+    1.821
+   ],
+   "triangles": 2376,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "farmhouse01.dds",
+    "farmwindowinterior01.dds",
+    "stonewall01.dds",
+    "thatch02.dds",
+    "thatch03.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "Farmhouse01:1.Mat",
+    "Farmhouse01:14.Mat",
+    "Farmhouse01:19.Mat",
+    "Farmhouse01:25.Mat",
+    "Farmhouse01:4.Mat",
+    "Farmhouse01:5.Mat",
+    "Farmhouse01:6.Mat",
+    "Farmhouse01:7.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/farmhouse02",
+   "node": "es|10023c39e5|illa__architecture_farmhouse_farmhouse02",
+   "category": "architecture",
+   "sizeM": [
+    15.532,
+    12.801,
+    14.224
+   ],
+   "originOffsetM": [
+    9.103,
+    7.909,
+    1.821
+   ],
+   "triangles": 7457,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "farmhouse01.dds",
+    "farmwindowinterior01.dds",
+    "rope01.dds",
+    "ropealpha01.dds",
+    "stonewall01.dds",
+    "thatch02.dds",
+    "thatch03.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "Farmhouse02:1.Mat",
+    "Farmhouse02:14.Mat",
+    "Farmhouse02:19 - L2_Rope:19 - L1_Posts:19.Mat",
+    "Farmhouse02:25.Mat",
+    "Farmhouse02:4.Mat",
+    "Farmhouse02:5 - L2_Rope:5 - L1_Posts:5.Mat",
+    "Farmhouse02:6.Mat",
+    "Farmhouse02:7.Mat",
+    "L2_Rope:18.Mat",
+    "L2_Rope:22.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/farmhouse01walkway",
+   "node": "es|e55e2d1670|rchitecture_farmhouse_farmhouse01walkway",
+   "category": "architecture",
+   "sizeM": [
+    15.128,
+    3.641,
+    3.727
+   ],
+   "originOffsetM": [
+    7.515,
+    1.821,
+    3.641
+   ],
+   "triangles": 1554,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ropealpha01.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds"
+   ],
+   "materials": [
+    "Farmhouse01Walkway:19 - L2_Posts:19.Mat",
+    "Farmhouse01Walkway:5 - L2_Posts:5.Mat",
+    "L2_Posts.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/docks/dockstrsol01",
+   "node": "es|8b408cad48|vanilla__architecture_docks_dockstrsol01",
+   "category": "architecture",
+   "sizeM": [
+    4.681,
+    7.294,
+    7.222
+   ],
+   "originOffsetM": [
+    2.382,
+    3.652,
+    6.233
+   ],
+   "triangles": 1476,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalplanks01.dds",
+    "riftencanalwood01.dds",
+    "sgrate.dds"
+   ],
+   "materials": [
+    "DockStrSol01:0.Mat",
+    "DockStrSol01:1.Mat",
+    "DockStrSol01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.233,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/docks/dockcorsol01",
+   "node": "es|6c9a059b2f|vanilla__architecture_docks_dockcorsol01",
+   "category": "architecture",
+   "sizeM": [
+    6.024,
+    6.024,
+    7.629
+   ],
+   "originOffsetM": [
+    2.382,
+    3.641,
+    6.218
+   ],
+   "triangles": 1682,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalplanks01.dds",
+    "riftencanalwood01.dds",
+    "sgrate.dds"
+   ],
+   "materials": [
+    "DockCorSol01:0.Mat",
+    "DockCorSol01:1.Mat",
+    "DockCorSol01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.218,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/docks/dockstr4way01",
+   "node": "es|ac79a2e6e3|anilla__architecture_docks_dockstr4way01",
+   "category": "architecture",
+   "sizeM": [
+    4.598,
+    7.294,
+    7.295
+   ],
+   "originOffsetM": [
+    2.3,
+    3.652,
+    6.157
+   ],
+   "triangles": 1248,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalplanks01.dds",
+    "riftencanalwood01.dds",
+    "sgrate.dds"
+   ],
+   "materials": [
+    "DockStr4way01:0.Mat",
+    "DockStr4way01:1.Mat",
+    "DockStr4way01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.157,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/docks/dockstepsdown01",
+   "node": "es|937911a192|illa__architecture_docks_dockstepsdown01",
+   "category": "architecture",
+   "sizeM": [
+    7.333,
+    4.382,
+    9.031
+   ],
+   "originOffsetM": [
+    3.671,
+    2.142,
+    6.317
+   ],
+   "triangles": 1624,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalplanks01.dds",
+    "riftencanalwood01.dds",
+    "sgrate.dds"
+   ],
+   "materials": [
+    "DockStepsDown01:0.Mat",
+    "DockStepsDown01:1.Mat",
+    "DockStepsDown01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.317,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/docks/dockcolstr01",
+   "node": "es|6d3001fd8c|vanilla__architecture_docks_dockcolstr01",
+   "category": "architecture",
+   "sizeM": [
+    0.463,
+    0.836,
+    11.538
+   ],
+   "originOffsetM": [
+    1.857,
+    4.39,
+    10.615
+   ],
+   "triangles": 342,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalwood01.dds",
+    "sgrate.dds"
+   ],
+   "materials": [
+    "DockColStr01:0.Mat",
+    "DockColStr01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 10.615,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/docks/dockropestr01",
+   "node": "es|5aea8e171f|anilla__architecture_docks_dockropestr01",
+   "category": "architecture",
+   "sizeM": [
+    0.128,
+    6.874,
+    0.24
+   ],
+   "originOffsetM": [
+    1.864,
+    3.211,
+    -0.464
+   ],
+   "triangles": 96,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "sgrate.dds"
+   ],
+   "materials": [
+    "DockRopeStr01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.464,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "rowboats:dungeons/ship/shiprowboat01",
+   "node": "es|37373f2335|rowboats__dungeons_ship_shiprowboat01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.495,
+    9.552,
+    1.681
+   ],
+   "originOffsetM": [
+    3.747,
+    4.882,
+    0.179
+   ],
+   "triangles": 5484,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rowboat.dds"
+   ],
+   "materials": [
+    "L1_BoatDetails.Mat",
+    "ShipRowBoat01:3.Mat",
+    "ShipRowBoat01:5 - L1_BoatDetails:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.179,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "rowboats:dungeons/clutter/shipoar01",
+   "node": "es|0a1bf82a90|rowboats__dungeons_clutter_shipoar01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    3.407,
+    0.416,
+    0.138
+   ],
+   "originOffsetM": [
+    1.673,
+    0.217,
+    0.071
+   ],
+   "triangles": 200,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rowboat.dds"
+   ],
+   "materials": [
+    "ShipOar01:7.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.071,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01",
+   "node": "es|562a6fe156|yrodiilicships_shipcyrodiiliccityferry01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    4.733,
+    8.494,
+    6.854
+   ],
+   "originOffsetM": [
+    2.419,
+    4.247,
+    0.507
+   ],
+   "triangles": 8058,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipcyrodiilicnavysails01.dds",
+    "shipcyrodiilicwood01.dds",
+    "shipcyrodiilicwoodside01.dds",
+    "shiphullweed01.dds",
+    "shipredguardshiprope01.dds",
+    "whlogend.dds"
+   ],
+   "materials": [
+    "Canopy.Mat",
+    "Flag.Mat",
+    "Impferrypontoon.Mat",
+    "Impferrypontoon001.Mat",
+    "pontoon ends001.Mat",
+    "shipwood.Mat",
+    "supersturecture rope.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.507,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01",
+   "node": "es|7d17dc15fc|rodiilicships_shipcyrodiilicriverferry01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    8.689,
+    10.39,
+    6.153
+   ],
+   "originOffsetM": [
+    4.272,
+    5.195,
+    0.583
+   ],
+   "triangles": 16645,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipcyrodiilicnavysails01.dds",
+    "shipcyrodiilicrope01_n.dds",
+    "shipcyrodiilicwood01.dds",
+    "shiphullweed01.dds",
+    "shipredguardshiprope01.dds",
+    "whlogend.dds"
+   ],
+   "materials": [
+    "Canopy.Mat.001",
+    "Flag.Mat.001",
+    "Pontoonalpha01.Mat",
+    "log ends.Mat",
+    "metal.Mat",
+    "ropes.Mat",
+    "shipwood.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.583,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01",
+   "node": "es|97e6a09ae2|_cyrodiilicships_shipcyrodiilicrowboat01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    2.604,
+    6.293,
+    1.626
+   ],
+   "originOffsetM": [
+    1.302,
+    3.135,
+    0.402
+   ],
+   "triangles": 3368,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipbsrope01.dds",
+    "shipcyrodiilicdeck01.dds",
+    "shipcyrodiilicwood01.dds",
+    "shipcyrodiilicwoodside01.dds"
+   ],
+   "materials": [
+    "planks.Mat",
+    "shiprope.Mat",
+    "shipwood.Mat.002",
+    "shipwoodside.Mat",
+    "trim.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.402,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/fencewoven01",
+   "node": "es|419da43fd3|lla__architecture_farmhouse_fencewoven01",
+   "category": "architecture",
+   "sizeM": [
+    4.107,
+    0.182,
+    1.53
+   ],
+   "originOffsetM": [
+    2.034,
+    0.09,
+    -0.0
+   ],
+   "triangles": 446,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "woodpost02.dds",
+    "wovenfence01.dds"
+   ],
+   "materials": [
+    "FenceWoven01:10 - L1_Posts02:10.Mat",
+    "L1_Posts02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/fencewoven02",
+   "node": "es|b1ab0337be|lla__architecture_farmhouse_fencewoven02",
+   "category": "architecture",
+   "sizeM": [
+    2.269,
+    0.185,
+    1.493
+   ],
+   "originOffsetM": [
+    1.106,
+    0.083,
+    -0.0
+   ],
+   "triangles": 258,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "woodpost02.dds",
+    "wovenfence01.dds"
+   ],
+   "materials": [
+    "FenceWoven02:10 - L1_Posts01:10.Mat",
+    "L1_Posts01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "node": "es|5e26e1a9a8|itecture_farmhouse_stonewall_stonewall01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    1.965,
+    2.486
+   ],
+   "originOffsetM": [
+    1.821,
+    0.983,
+    -0.0
+   ],
+   "triangles": 1054,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "Stonewall01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/stonewall/stonewall02",
+   "node": "es|bcbd9d5841|itecture_farmhouse_stonewall_stonewall02",
+   "category": "architecture",
+   "sizeM": [
+    3.677,
+    3.937,
+    2.457
+   ],
+   "originOffsetM": [
+    1.856,
+    1.925,
+    0.001
+   ],
+   "triangles": 1942,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fieldgrass02.dds",
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "Stonewall02:1.Mat",
+    "Stonewall02:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.001,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+   "node": "es|3986bfe5c5|ture_farmhouse_stonewall_stonewallendl01",
+   "category": "architecture",
+   "sizeM": [
+    3.166,
+    1.965,
+    2.445
+   ],
+   "originOffsetM": [
+    1.345,
+    0.983,
+    -0.0
+   ],
+   "triangles": 890,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "StonewallEndL01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+   "node": "es|14ebe754a0|ture_farmhouse_stonewall_stonewallendr01",
+   "category": "architecture",
+   "sizeM": [
+    3.505,
+    1.965,
+    2.486
+   ],
+   "originOffsetM": [
+    1.821,
+    0.983,
+    -0.0
+   ],
+   "triangles": 767,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "StonewallEndR01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:farmhouse/farmhouse01-with-door",
+   "node": "es|799902dd95|mposite__farmhouse_farmhouse01-with-door",
+   "category": "architecture",
+   "sizeM": [
+    20.049,
+    10.035,
+    10.583
+   ],
+   "originOffsetM": [
+    10.024,
+    5.017,
+    1.821
+   ],
+   "triangles": 2590,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "farmhouse01.dds",
+    "farmwindowinterior01.dds",
+    "stonewall01.dds",
+    "thatch02.dds",
+    "thatch03.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "Door:7.Mat",
+    "DoorBlack.Mat",
+    "Farmhouse01:1.Mat.001",
+    "Farmhouse01:14.Mat.001",
+    "Farmhouse01:19.Mat.001",
+    "Farmhouse01:25.Mat.001",
+    "Farmhouse01:4.Mat.001",
+    "Farmhouse01:5.Mat.001",
+    "Farmhouse01:6.Mat.001",
+    "Farmhouse01:7.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryM": 0.12,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:farmhouse/farmhouse02-with-door",
+   "node": "es|16a7066e71|mposite__farmhouse_farmhouse02-with-door",
+   "category": "architecture",
+   "sizeM": [
+    15.532,
+    12.801,
+    14.224
+   ],
+   "originOffsetM": [
+    9.103,
+    7.909,
+    1.821
+   ],
+   "triangles": 7671,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "farmhouse01.dds",
+    "farmwindowinterior01.dds",
+    "rope01.dds",
+    "ropealpha01.dds",
+    "stonewall01.dds",
+    "thatch02.dds",
+    "thatch03.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "Door:7.Mat.001",
+    "DoorBlack.Mat.001",
+    "Farmhouse02:1.Mat.001",
+    "Farmhouse02:14.Mat.001",
+    "Farmhouse02:19 - L2_Rope:19 - L1_Posts:19.Mat.001",
+    "Farmhouse02:25.Mat.001",
+    "Farmhouse02:4.Mat.001",
+    "Farmhouse02:5 - L2_Rope:5 - L1_Posts:5.Mat.001",
+    "Farmhouse02:6.Mat.001",
+    "Farmhouse02:7.Mat.001",
+    "L2_Rope:18.Mat.001",
+    "L2_Rope:22.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:farmhouse/stonewall-run-3",
+   "node": "es|e9af2ebe68|composite__farmhouse_stonewall-run-3",
+   "category": "architecture",
+   "sizeM": [
+    10.299,
+    1.965,
+    2.486
+   ],
+   "originOffsetM": [
+    4.975,
+    0.983,
+    -0.0
+   ],
+   "triangles": 2711,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "Stonewall01:1.Mat.001",
+    "StonewallEndL01:1.Mat.001",
+    "StonewallEndR01:1.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:farmhouse/stonewall-run-5",
+   "node": "es|ebf3a58d63|composite__farmhouse_stonewall-run-5",
+   "category": "architecture",
+   "sizeM": [
+    17.569,
+    1.965,
+    2.486
+   ],
+   "originOffsetM": [
+    4.975,
+    0.983,
+    -0.0
+   ],
+   "triangles": 4532,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "Stonewall01:1.Mat.002",
+    "Stonewall01:1.Mat.003",
+    "StonewallEndL01:1.Mat.002",
+    "StonewallEndR01:1.Mat.002",
+    "StonewallEndR01:1.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.25,
+    "buryCapM": 0.9,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [
+  "textures/bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrope01.dds"
+ ],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 98
+ }
+}

@@ -1,0 +1,3330 @@
+{
+ "kit": "probe-enclosure",
+ "assets": [
+  {
+   "id": "vanilla:dungeons/imperial/exterior/impextwallgate01",
+   "node": "es|1d86df87b7|geons_imperial_exterior_impextwallgate01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    5.5,
+    7.776,
+    8.117
+   ],
+   "originOffsetM": [
+    2.75,
+    3.888,
+    0.0
+   ],
+   "triangles": 1238,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextdecals01.dds",
+    "impextfloor01.dds",
+    "impextrubble01.dds",
+    "impextwall01.dds",
+    "impwall05.dds"
+   ],
+   "materials": [
+    "ImpExtWallGate01:12.Mat",
+    "ImpExtWallGate01:15.Mat",
+    "ImpExtWallGate01:16.Mat",
+    "ImpExtWallGate01:17.Mat",
+    "ImpExtWallGate01:18.Mat",
+    "ImpExtWallGate01:19.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/exterior/impextwall01",
+   "node": "es|0dcc54c407|_dungeons_imperial_exterior_impextwall01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    5.5,
+    7.776,
+    8.117
+   ],
+   "originOffsetM": [
+    2.75,
+    3.888,
+    0.0
+   ],
+   "triangles": 778,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextdecals01.dds",
+    "impextfloor01.dds",
+    "impextrubble01.dds",
+    "impextwall01.dds",
+    "impwall05.dds"
+   ],
+   "materials": [
+    "ImpExtWall01:12.Mat",
+    "ImpExtWall01:15.Mat",
+    "ImpExtWall01:16.Mat",
+    "ImpExtWall01:17.Mat",
+    "ImpExtWall01:18.Mat",
+    "ImpExtWall01:19.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/exterior/impextwalldivider01",
+   "node": "es|eaf9b1b74f|ns_imperial_exterior_impextwalldivider01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.301,
+    2.55,
+    7.617
+   ],
+   "originOffsetM": [
+    3.547,
+    1.134,
+    0.16
+   ],
+   "triangles": 476,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextdecals01.dds",
+    "impextfloor01.dds",
+    "impwall05.dds"
+   ],
+   "materials": [
+    "ImpExtWallDivider01:12.Mat",
+    "ImpExtWallDivider01:16.Mat",
+    "ImpExtWallDivider01:17.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.16,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/exterior/impexttower01",
+   "node": "es|e04f7cb71c|dungeons_imperial_exterior_impexttower01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    15.22,
+    15.22,
+    19.947
+   ],
+   "originOffsetM": [
+    7.549,
+    7.549,
+    0.155
+   ],
+   "triangles": 2512,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextdecals01.dds",
+    "impextfloor01.dds",
+    "impextrubble01.dds",
+    "impextwall01.dds",
+    "impwall05.dds",
+    "whwindowmaps.dds"
+   ],
+   "materials": [
+    "ImpExtTower01:12 - L1_Windows:12.Mat",
+    "ImpExtTower01:15.Mat",
+    "ImpExtTower01:16 - L1_Windows:16.Mat",
+    "ImpExtTower01:17.Mat",
+    "ImpExtTower01:18.Mat",
+    "L1_Windows.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.155,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/exteriorhelgen/impexthelgenwallgate01",
+   "node": "es|741b479ce6|al_exteriorhelgen_impexthelgenwallgate01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    5.5,
+    7.776,
+    8.117
+   ],
+   "originOffsetM": [
+    2.75,
+    3.888,
+    0.0
+   ],
+   "triangles": 692,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextfloor01.dds",
+    "impextrubble01.dds",
+    "impextwall01ice.dds",
+    "impwall05ice.dds"
+   ],
+   "materials": [
+    "ImpExtHelgenWallGate01:12.Mat",
+    "ImpExtHelgenWallGate01:15.Mat",
+    "ImpExtHelgenWallGate01:17.Mat",
+    "ImpExtHelgenWallGate01:19.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/exteriorhelgen/impexthelgenwall01",
+   "node": "es|46185925e6|perial_exteriorhelgen_impexthelgenwall01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    5.5,
+    7.776,
+    8.117
+   ],
+   "originOffsetM": [
+    2.75,
+    3.888,
+    0.0
+   ],
+   "triangles": 462,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextfloor01.dds",
+    "impextrubble01.dds",
+    "impextwall01ice.dds",
+    "impwall05ice.dds"
+   ],
+   "materials": [
+    "ImpExtHelgenWall01:12.Mat",
+    "ImpExtHelgenWall01:15.Mat",
+    "ImpExtHelgenWall01:17.Mat",
+    "ImpExtHelgenWall01:19.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/exteriorhelgen/impexthelgenwall02",
+   "node": "es|3f539b8189|perial_exteriorhelgen_impexthelgenwall02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    5.597,
+    7.99,
+    8.299
+   ],
+   "originOffsetM": [
+    2.798,
+    3.876,
+    0.162
+   ],
+   "triangles": 501,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextfloor01.dds",
+    "impextrubble01.dds",
+    "impextwall01ice.dds",
+    "impwall05ice.dds"
+   ],
+   "materials": [
+    "ImpExtHelgenWall02:12.Mat",
+    "ImpExtHelgenWall02:15.Mat",
+    "ImpExtHelgenWall02:17.Mat",
+    "ImpExtHelgenWall02:19.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.162,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/exteriorhelgen/impexthelgenwalldivider01",
+   "node": "es|16319a5dcb|exteriorhelgen_impexthelgenwalldivider01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.301,
+    2.55,
+    7.617
+   ],
+   "originOffsetM": [
+    3.547,
+    1.134,
+    0.16
+   ],
+   "triangles": 238,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextfloor01.dds",
+    "impwall05ice.dds"
+   ],
+   "materials": [
+    "ImpExtHelgenWallDivider01:12.Mat",
+    "ImpExtHelgenWallDivider01:17.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.16,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/portculliskit/portimpgate01",
+   "node": "es|47eff4717c|ons_imperial_portculliskit_portimpgate01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    1.26,
+    4.248,
+    5.405
+   ],
+   "originOffsetM": [
+    1.082,
+    2.113,
+    0.036
+   ],
+   "triangles": 2670,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "impextwall01.dds",
+    "impportgate01.dds"
+   ],
+   "materials": [
+    "Object03.Mat",
+    "PortGateBase07.Mat",
+    "PortGatePole01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.036,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:dungeons/imperial/stablekit/impstablegate01",
+   "node": "es|1b4b0ab616|geons_imperial_stablekit_impstablegate01",
+   "category": "door",
+   "sizeM": [
+    2.021,
+    0.102,
+    1.172
+   ],
+   "originOffsetM": [
+    0.057,
+    0.044,
+    -0.167
+   ],
+   "triangles": 140,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "Gate:26.Mat",
+    "ImpStableGate01:26.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.167,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01",
+   "node": "es|92d2132ebd|re_whiterun_wrfarmfence_wrfencestrgate01",
+   "category": "architecture",
+   "sizeM": [
+    0.238,
+    4.034,
+    1.512
+   ],
+   "originOffsetM": [
+    0.14,
+    1.806,
+    0.756
+   ],
+   "triangles": 270,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrtrims01.dds",
+    "wrwoodbeam01.dds",
+    "wrwoodplanks01.dds"
+   ],
+   "materials": [
+    "WRFenceStrGate01:1.Mat",
+    "WRFenceStrGate01:10.Mat",
+    "WRFenceStrGate01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.756,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01",
+   "node": "es|31ede931b5|terun_wrfarmfence_wrfencestrgate01door01",
+   "category": "door",
+   "sizeM": [
+    0.195,
+    1.127,
+    0.91
+   ],
+   "originOffsetM": [
+    0.132,
+    0.515,
+    0.357
+   ],
+   "triangles": 230,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "wrtrims01.dds",
+    "wrwoodbeam01.dds",
+    "wrwoodplanks01.dds"
+   ],
+   "materials": [
+    "Gate:1.Mat",
+    "Gate:10.Mat",
+    "Gate:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.357,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01",
+   "node": "es|3a3bf9a7ed|ecture_whiterun_wrfarmfence_wrfencestr01",
+   "category": "architecture",
+   "sizeM": [
+    0.253,
+    4.034,
+    1.512
+   ],
+   "originOffsetM": [
+    0.129,
+    1.806,
+    0.756
+   ],
+   "triangles": 194,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrtrims01.dds",
+    "wrwoodbeam01.dds",
+    "wrwoodplanks01.dds"
+   ],
+   "materials": [
+    "WRFenceStr01:1.Mat",
+    "WRFenceStr01:10.Mat",
+    "WRFenceStr01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.756,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01",
+   "node": "es|96c729bc7d|re_whiterun_wrfarmfence_wrfencebasestr01",
+   "category": "architecture",
+   "sizeM": [
+    1.043,
+    3.641,
+    1.977
+   ],
+   "originOffsetM": [
+    0.456,
+    1.821,
+    0.91
+   ],
+   "triangles": 96,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrcitywall01.dds",
+    "wrcitywalltopcap01.dds",
+    "wrstonemortar01.dds"
+   ],
+   "materials": [
+    "WRFenceBaseStr01:47.Mat",
+    "WRFenceBaseStr01:48.Mat",
+    "WRFenceBaseStr01:49.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.91,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01",
+   "node": "es|48771938d2|re_whiterun_wrfarmfence_wrfencebaseend01",
+   "category": "architecture",
+   "sizeM": [
+    2.612,
+    0.91,
+    2.002
+   ],
+   "originOffsetM": [
+    1.821,
+    0.455,
+    0.935
+   ],
+   "triangles": 114,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrcitywall01.dds",
+    "wrcitywalltopcap01.dds",
+    "wrstonemortar01.dds"
+   ],
+   "materials": [
+    "WRFenceBaseEnd01:47.Mat",
+    "WRFenceBaseEnd01:48.Mat",
+    "WRFenceBaseEnd01:49.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.935,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01",
+   "node": "es|7662465be3|re_whiterun_wrfarmfence_wrfencebasecor01",
+   "category": "architecture",
+   "sizeM": [
+    2.276,
+    2.276,
+    1.977
+   ],
+   "originOffsetM": [
+    0.455,
+    1.821,
+    0.91
+   ],
+   "triangles": 120,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrcitywall01.dds",
+    "wrcitywalltopcap01.dds",
+    "wrstonemortar01.dds"
+   ],
+   "materials": [
+    "WRFenceBaseCor01:47.Mat",
+    "WRFenceBaseCor01:48.Mat",
+    "WRFenceBaseCor01:49.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.91,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencecor01",
+   "node": "es|f80d004913|ecture_whiterun_wrfarmfence_wrfencecor01",
+   "category": "architecture",
+   "sizeM": [
+    2.352,
+    1.935,
+    1.512
+   ],
+   "originOffsetM": [
+    0.124,
+    1.806,
+    0.756
+   ],
+   "triangles": 194,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrtrims01.dds",
+    "wrwoodbeam01.dds",
+    "wrwoodplanks01.dds"
+   ],
+   "materials": [
+    "WRFenceCor01:1.Mat",
+    "WRFenceCor01:10.Mat",
+    "WRFenceCor01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.756,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrcitywalls/wrwallmaingate01",
+   "node": "es|98c77ad8f4|re_whiterun_wrcitywalls_wrwallmaingate01",
+   "category": "architecture",
+   "sizeM": [
+    10.808,
+    22.718,
+    26.087
+   ],
+   "originOffsetM": [
+    6.478,
+    9.803,
+    14.11
+   ],
+   "triangles": 7231,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrbasedirt01.dds",
+    "wrcitywall01.dds",
+    "wrcitywalltopcap01.dds",
+    "wrmossalpha01.dds",
+    "wrplasterdecals.dds",
+    "wrroofintdecal.dds",
+    "wrslate01.dds",
+    "wrslate02.dds",
+    "wrstonemortar01.dds",
+    "wrtrims01.dds",
+    "wrwindows01.dds",
+    "wrwoodbeam01.dds",
+    "wrwoodlattice01.dds",
+    "wrwoodplanks01.dds"
+   ],
+   "materials": [
+    "L2_GateParts:1.Mat",
+    "L2_GateParts:10.Mat",
+    "L2_GateParts:11.Mat",
+    "L2_GateParts:2.Mat",
+    "L2_GateParts:31.Mat",
+    "L2_GateParts:43.Mat",
+    "L2_GateParts:49.Mat",
+    "L2_GateParts:51.Mat",
+    "L2_GateParts:6.Mat",
+    "L2_GateParts:7.Mat",
+    "L2_GateParts:8.Mat",
+    "WRWallMainGate01:12 - L2_GateParts:12.Mat",
+    "WRWallMainGate01:47.Mat",
+    "WRWallMainGate01:48 - L2_GateParts:48.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 14.11,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wrcitywalls/wrwallstr01",
+   "node": "es|e2344288b6|tecture_whiterun_wrcitywalls_wrwallstr01",
+   "category": "architecture",
+   "sizeM": [
+    14.565,
+    3.003,
+    14.537
+   ],
+   "originOffsetM": [
+    7.283,
+    1.366,
+    11.052
+   ],
+   "triangles": 431,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "wrcitywall01.dds",
+    "wrcitywalltopcap01.dds",
+    "wrmossalpha01.dds"
+   ],
+   "materials": [
+    "Moss03:51.Mat",
+    "WRWallStr01:48.Mat",
+    "WRWallStr01:49.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 11.052,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadegate01",
+   "node": "es|2ea8de1a64|vanilla__clutter_stockade_stockadegate01",
+   "category": "door",
+   "sizeM": [
+    6.687,
+    2.497,
+    4.229
+   ],
+   "originOffsetM": [
+    3.349,
+    1.071,
+    0.499
+   ],
+   "triangles": 1040,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "L1_Supports.Mat",
+    "L1_Supports@#0.Mat",
+    "L1_Wood:0.Mat",
+    "L1_Wood:2.Mat",
+    "L2_Supports02.Mat",
+    "L2_Supports03.Mat",
+    "ShadowTrim01.Mat",
+    "ShadowTrim02.Mat",
+    "StockadeGate01_L:0.Mat",
+    "StockadeGate01_L:2.Mat",
+    "StockadeGate01_R:0.Mat",
+    "StockadeGate01_R:2.Mat",
+    "a_LeftDoor:0.Mat",
+    "a_RightDoor:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.499,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadewallstraight01",
+   "node": "es|99e5b49545|_clutter_stockade_stockadewallstraight01",
+   "category": "clutter",
+   "sizeM": [
+    6.013,
+    2.424,
+    4.187
+   ],
+   "originOffsetM": [
+    3.163,
+    1.227,
+    2.114
+   ],
+   "triangles": 667,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeWallStraight01:0 - L1_Wood09:0.Mat",
+    "StockadeWallStraight01:2 - L1_Wood09:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.114,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadewallcornerin01",
+   "node": "es|05bcd6b77d|_clutter_stockade_stockadewallcornerin01",
+   "category": "clutter",
+   "sizeM": [
+    5.352,
+    4.905,
+    4.221
+   ],
+   "originOffsetM": [
+    2.747,
+    2.273,
+    0.0
+   ],
+   "triangles": 713,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeWallCornerIn01:0 - L1_Wood12:0.Mat",
+    "StockadeWallCornerIn01:2 - L1_Wood12:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadewallcornerout01",
+   "node": "es|4ec53ad157|clutter_stockade_stockadewallcornerout01",
+   "category": "clutter",
+   "sizeM": [
+    5.552,
+    5.317,
+    4.252
+   ],
+   "originOffsetM": [
+    2.783,
+    2.592,
+    0.0
+   ],
+   "triangles": 614,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeWallCornerOut01:0 - L1_Wood11:0.Mat",
+    "StockadeWallCornerOut01:2 - L1_Wood11:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadewallwalkway01",
+   "node": "es|3efdd46d9f|__clutter_stockade_stockadewallwalkway01",
+   "category": "clutter",
+   "sizeM": [
+    6.023,
+    1.668,
+    2.682
+   ],
+   "originOffsetM": [
+    3.052,
+    0.503,
+    2.114
+   ],
+   "triangles": 423,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "L2_Accessories:0 - L1_Supports:0.Mat",
+    "StockadeWallWalkway01:1 - L2_Accessories:1.Mat",
+    "StockadeWallWalkway01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.114,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadetower01",
+   "node": "es|7b18acd989|anilla__clutter_stockade_stockadetower01",
+   "category": "clutter",
+   "sizeM": [
+    8.394,
+    7.341,
+    7.48
+   ],
+   "originOffsetM": [
+    3.858,
+    4.378,
+    0.0
+   ],
+   "triangles": 5982,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadeplanks01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeTower01:0 - Object14:0 - L1_Wood:0 - L2_Accessories01:0",
+    "StockadeTower01:1 - L1_Wood:1 - L2_Accessories01:1.Mat",
+    "StockadeTower01:2 - Object14:2 - L1_Wood:2 - L2_Accessories01:2"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadewall01",
+   "node": "es|2560f53f20|vanilla__clutter_stockade_stockadewall01",
+   "category": "clutter",
+   "sizeM": [
+    1.631,
+    0.916,
+    1.243
+   ],
+   "originOffsetM": [
+    0.819,
+    0.514,
+    0.0
+   ],
+   "triangles": 1456,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeWall01:0.Mat",
+    "StockadeWall01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01",
+   "node": "es|bfb84f14ea|de_stockadebarricade_stockadebarricade01",
+   "category": "clutter",
+   "sizeM": [
+    9.163,
+    1.99,
+    2.161
+   ],
+   "originOffsetM": [
+    7.312,
+    -0.945,
+    0.003
+   ],
+   "triangles": 3910,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds",
+    "woodedgetrim01.dds"
+   ],
+   "materials": [
+    "EdgeTrim.001.Mat",
+    "EdgeTrim.002.Mat",
+    "EdgeTrim.Mat",
+    "StockadeBarricade01-00:0.Mat",
+    "StockadeBarricade01-00:2.Mat",
+    "StockadeBarricade01-01:0.Mat",
+    "StockadeBarricade01-01:2.Mat",
+    "StockadeBarricade01-02:0.Mat",
+    "StockadeBarricade01-02:2.Mat",
+    "StockadeBarricade01-03:0.Mat",
+    "StockadeBarricade01-03:2.Mat",
+    "StockadeBarricade01-03:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.003,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadepike01",
+   "node": "es|d63f03f828|vanilla__clutter_stockade_stockadepike01",
+   "category": "clutter",
+   "sizeM": [
+    0.321,
+    0.338,
+    3.641
+   ],
+   "originOffsetM": [
+    0.161,
+    0.169,
+    0.0
+   ],
+   "triangles": 30,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadePike01:0.Mat",
+    "StockadePike01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01",
+   "node": "es|45dc4d8156|ure_farmhouse_walkway_walkwaycwallgate01",
+   "category": "architecture",
+   "sizeM": [
+    17.032,
+    5.178,
+    10.127
+   ],
+   "originOffsetM": [
+    7.606,
+    2.589,
+    1.821
+   ],
+   "triangles": 6290,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "roof01.dds",
+    "rope01.dds",
+    "ropealpha01.dds",
+    "stonewall01.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "L2_Rope:18.Mat",
+    "L2_Rope:22.Mat",
+    "WalkwayCWallGate01:1.Mat",
+    "WalkwayCWallGate01:19 - L1_Posts:19.Mat",
+    "WalkwayCWallGate01:20.Mat",
+    "WalkwayCWallGate01:5 - L1_Posts:5.Mat",
+    "WalkwayCWallGate01:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.821,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001",
+   "node": "es|4939f3b56d|ammerfell_misc walls_stonewallgatearc001",
+   "category": "misc",
+   "sizeM": [
+    9.103,
+    1.707,
+    8.004
+   ],
+   "originOffsetM": [
+    4.552,
+    0.853,
+    3.04
+   ],
+   "triangles": 336,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.001.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.04,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001",
+   "node": "es|8d8154bffa|cture_hammerfell_misc walls_stonewall001",
+   "category": "misc",
+   "sizeM": [
+    4.552,
+    1.707,
+    6.828
+   ],
+   "originOffsetM": [
+    2.276,
+    0.853,
+    3.04
+   ],
+   "triangles": 36,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.04,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002",
+   "node": "es|fac4c4d572|cture_hammerfell_misc walls_stonewall002",
+   "category": "misc",
+   "sizeM": [
+    6.828,
+    1.707,
+    6.828
+   ],
+   "originOffsetM": [
+    3.414,
+    0.853,
+    3.04
+   ],
+   "triangles": 54,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.003.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.04,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003",
+   "node": "es|a7f467ab9f|cture_hammerfell_misc walls_stonewall003",
+   "category": "misc",
+   "sizeM": [
+    9.103,
+    1.707,
+    7.067
+   ],
+   "originOffsetM": [
+    4.552,
+    0.853,
+    3.04
+   ],
+   "triangles": 54,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.004.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.04,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001",
+   "node": "es|ea2c85d420|hammerfell_misc walls_stonewallcorner001",
+   "category": "misc",
+   "sizeM": [
+    3.129,
+    3.129,
+    6.828
+   ],
+   "originOffsetM": [
+    0.0,
+    0.0,
+    3.04
+   ],
+   "triangles": 90,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.005.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.04,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001",
+   "node": "es|4aa39cca32|_hammerfell_misc walls_stonewallcurve001",
+   "category": "misc",
+   "sizeM": [
+    7.681,
+    7.681,
+    6.828
+   ],
+   "originOffsetM": [
+    7.681,
+    0.0,
+    3.04
+   ],
+   "triangles": 126,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.002.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.04,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001",
+   "node": "es|4d81ea33b5|merfell_misc walls_stonewallendpillar001",
+   "category": "misc",
+   "sizeM": [
+    2.025,
+    2.025,
+    8.278
+   ],
+   "originOffsetM": [
+    1.013,
+    1.013,
+    3.679
+   ],
+   "triangles": 136,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Cube.012.Mat",
+    "Tri Cube.016.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.679,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera",
+   "node": "es|3dc764dd0b|architecture_hammerfell_trgmlcwallentera",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    1.821,
+    0.404,
+    0.313
+   ],
+   "triangles": 152,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallHole01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.313,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb",
+   "node": "es|fed48d71ac|architecture_hammerfell_trgmlcwallenterb",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    1.821,
+    0.404,
+    0.313
+   ],
+   "triangles": 215,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallHole02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.313,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall",
+   "node": "es|71b3a7756c|hlaaluarchitecture_hammerfell_trgmlcwall",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    1.821,
+    0.404,
+    0.313
+   ],
+   "triangles": 22,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Wall01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.313,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend",
+   "node": "es|4209cb33be|aluarchitecture_hammerfell_trgmlcwallend",
+   "category": "misc",
+   "sizeM": [
+    1.911,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    -0.0,
+    0.404,
+    0.313
+   ],
+   "triangles": 50,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallEnd.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.313,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfence",
+   "node": "es|9629451e6a|_hlaaluarchitecture_hammerfell_trgmfence",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    0.654,
+    1.849
+   ],
+   "originOffsetM": [
+    1.821,
+    0.327,
+    0.142
+   ],
+   "triangles": 46,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Box06.Mat",
+    "Object02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.142,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend",
+   "node": "es|87658dd41b|aaluarchitecture_hammerfell_trgmfenceend",
+   "category": "misc",
+   "sizeM": [
+    1.966,
+    0.654,
+    1.849
+   ],
+   "originOffsetM": [
+    -0.0,
+    0.327,
+    0.142
+   ],
+   "triangles": 206,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "FenceSafecopy.Mat",
+    "Object04.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.142,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost",
+   "node": "es|b330da0b1b|aluarchitecture_hammerfell_trgmfencepost",
+   "category": "misc",
+   "sizeM": [
+    0.853,
+    0.853,
+    2.023
+   ],
+   "originOffsetM": [
+    0.427,
+    0.427,
+    0.142
+   ],
+   "triangles": 134,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Box08.Mat",
+    "Object03.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.142,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
+   "node": "es|c5f3511cf0|_keep_exterior_walls_mwimparchwallgate01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.584,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    -0.0
+   ],
+   "triangles": 2606,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallGate01:0.Mat",
+    "MWImpArchWallGate01:1.Mat",
+    "MWImpArchWallGate01:2.Mat",
+    "MWImpArchWallGate01:3.Mat",
+    "MWImpArchWallGate01:4.Mat",
+    "MWImpArchWallGate01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01",
+   "node": "es|19ff6911cb|ture_keep_exterior_walls_mwimparchwall01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    3.528,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    1.821,
+    -0.0
+   ],
+   "triangles": 1238,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWall01:0.Mat",
+    "MWImpArchWall01:1.Mat",
+    "MWImpArchWall01:2.Mat",
+    "MWImpArchWall01:3.Mat",
+    "MWImpArchWall01:4.Mat",
+    "MWImpArchWall01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01",
+   "node": "es|7d14cccca7|keep_exterior_walls_mwimparchwallcorin01",
+   "category": "architecture",
+   "sizeM": [
+    5.348,
+    5.348,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    1.707,
+    -0.0
+   ],
+   "triangles": 1221,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallCorIn01:0.Mat",
+    "MWImpArchWallCorIn01:1.Mat",
+    "MWImpArchWallCorIn01:2.Mat",
+    "MWImpArchWallCorIn01:3.Mat",
+    "MWImpArchWallCorIn01:4.Mat",
+    "MWImpArchWallCorIn01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01",
+   "node": "es|ae3f51f749|eep_exterior_walls_mwimparchwallcorout01",
+   "category": "architecture",
+   "sizeM": [
+    5.917,
+    5.917,
+    13.058
+   ],
+   "originOffsetM": [
+    2.276,
+    1.821,
+    -0.0
+   ],
+   "triangles": 2122,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallCorOut01:0.Mat",
+    "MWImpArchWallCorOut01:1.Mat",
+    "MWImpArchWallCorOut01:2.Mat",
+    "MWImpArchWallCorOut01:3.Mat",
+    "MWImpArchWallCorOut01:4.Mat",
+    "MWImpArchWallCorOut01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01",
+   "node": "es|a7a7b9d3d8|e_keep_exterior_walls_mwimparchwallent01",
+   "category": "architecture",
+   "sizeM": [
+    3.755,
+    3.869,
+    7.283
+   ],
+   "originOffsetM": [
+    2.845,
+    1.934,
+    3.641
+   ],
+   "triangles": 216,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWalEntl01:0.Mat",
+    "MWImpArchWalEntl01:1.Mat",
+    "MWImpArchWalEntl01:2.Mat",
+    "MWImpArchWalEntl01:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.641,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
+   "node": "es|8b8978eb0a|keep_exterior_walls_mwimparchwalltower01",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    5.519,
+    13.058
+   ],
+   "originOffsetM": [
+    3.641,
+    3.812,
+    0.0
+   ],
+   "triangles": 3086,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchfloor01.dds",
+    "mwimparchstonedet01.dds",
+    "mwimparchstonetrim01.dds",
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall01.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchWallTower01:0.Mat",
+    "MWImpArchWallTower01:1.Mat",
+    "MWImpArchWallTower01:2.Mat",
+    "MWImpArchWallTower01:3.Mat",
+    "MWImpArchWallTower01:4.Mat",
+    "MWImpArchWallTower01:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01",
+   "node": "es|02d9234f1c|_stonewalls_mwimparchstonewallstraight01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    0.797,
+    1.195
+   ],
+   "originOffsetM": [
+    1.821,
+    0.398,
+    -0.0
+   ],
+   "triangles": 28,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallStraight01:0.Mat",
+    "MWImpArchStoneWallStraight01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01",
+   "node": "es|dbad843029|rior_stonewalls_mwimparchstonewallpost01",
+   "category": "architecture",
+   "sizeM": [
+    1.024,
+    1.024,
+    1.477
+   ],
+   "originOffsetM": [
+    0.512,
+    0.512,
+    0.0
+   ],
+   "triangles": 110,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallPost01:0.Mat",
+    "MWImpArchStoneWallPost01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01",
+   "node": "es|2e9d0b12e4|erior_stonewalls_mwimparchstonewallcor01",
+   "category": "architecture",
+   "sizeM": [
+    2.219,
+    2.219,
+    1.195
+   ],
+   "originOffsetM": [
+    1.309,
+    0.398,
+    -0.0
+   ],
+   "triangles": 106,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "mwimparchstonetrim02.dds",
+    "mwimparchstonewall02.dds"
+   ],
+   "materials": [
+    "MWImpArchStoneWallCor01:0.Mat",
+    "MWImpArchStoneWallCor01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallarch01",
+   "node": "es|666b12e5d7|ecture_villages_argonian_stonewallarch01",
+   "category": "architecture",
+   "sizeM": [
+    4.612,
+    1.497,
+    5.39
+   ],
+   "originOffsetM": [
+    2.306,
+    0.778,
+    0.0
+   ],
+   "triangles": 2396,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "Archway.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01",
+   "node": "es|bd3927859a|cture_villages_argonian_stonewallcurve01",
+   "category": "architecture",
+   "sizeM": [
+    4.442,
+    4.367,
+    2.486
+   ],
+   "originOffsetM": [
+    1.821,
+    0.726,
+    -0.0
+   ],
+   "triangles": 2108,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "StonewallCurve01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve02",
+   "node": "es|8900827351|cture_villages_argonian_stonewallcurve02",
+   "category": "architecture",
+   "sizeM": [
+    5.133,
+    2.616,
+    2.486
+   ],
+   "originOffsetM": [
+    4.338,
+    0.795,
+    -0.0
+   ],
+   "triangles": 2108,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "StonewallCurve02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallpillar01",
+   "node": "es|259063b385|ture_villages_argonian_stonewallpillar01",
+   "category": "architecture",
+   "sizeM": [
+    1.506,
+    1.497,
+    4.02
+   ],
+   "originOffsetM": [
+    0.908,
+    0.79,
+    -0.0
+   ],
+   "triangles": 820,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonewall01.dds"
+   ],
+   "materials": [
+    "Pillar01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight",
+   "node": "es|765701a0f7|_architecture_ruins_xanmeer_wallstraight",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    1.927,
+    10.833
+   ],
+   "originOffsetM": [
+    3.913,
+    7.378,
+    4.567
+   ],
+   "triangles": 268,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "whoutwall.dds",
+    "whtrimstone1.dds",
+    "whtrimstone2.dds"
+   ],
+   "materials": [
+    "Object05:1.Mat",
+    "Object05:2.Mat",
+    "Object05:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.567,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01",
+   "node": "es|a7ed30d45f|_architecture_ruins_xanmeer_wallcorner01",
+   "category": "architecture",
+   "sizeM": [
+    6.733,
+    6.925,
+    10.886
+   ],
+   "originOffsetM": [
+    24.211,
+    -3.335,
+    4.621
+   ],
+   "triangles": 702,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "whoutwall.dds",
+    "whruinstonedark.dds",
+    "whtrimstone1.dds",
+    "whtrimstone2.dds"
+   ],
+   "materials": [
+    "Object424:1.Mat",
+    "Object424:16.Mat",
+    "Object424:2.Mat",
+    "Object424:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.621,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallfree01",
+   "node": "es|548d9903d8|li_architecture_ruins_xanmeer_wallfree01",
+   "category": "architecture",
+   "sizeM": [
+    1.286,
+    11.761,
+    6.953
+   ],
+   "originOffsetM": [
+    1.612,
+    -8.315,
+    7.665
+   ],
+   "triangles": 560,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "whoutwall.dds",
+    "whtrimstone1.dds",
+    "whtrimstone2.dds"
+   ],
+   "materials": [
+    "Object15:1.Mat",
+    "Object15:2.Mat",
+    "Object15:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 7.665,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
+   "node": "es|93374190f9|er__gv_meshes_argoniannest_archwaysticks",
+   "category": "misc",
+   "sizeM": [
+    5.1,
+    4.603,
+    2.727
+   ],
+   "originOffsetM": [
+    9.615,
+    -4.184,
+    -3.995
+   ],
+   "triangles": 422,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "wovenfence01.dds"
+   ],
+   "materials": [
+    "WRTrellisArch01:1.Mat",
+    "WRTrellisArch01:10.Mat",
+    "WRTrellisArch01:23.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -3.995,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argonianfence01",
+   "node": "es|75cca1d7d8|__gv_meshes_argoniannest_argonianfence01",
+   "category": "misc",
+   "sizeM": [
+    1.576,
+    0.289,
+    1.696
+   ],
+   "originOffsetM": [
+    1.489,
+    0.164,
+    0.05
+   ],
+   "triangles": 1084,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "argonianclutter.dds",
+    "fence01.dds"
+   ],
+   "materials": [
+    "DLC2RieklingFence01:0.Mat",
+    "DLC2RieklingFence01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.05,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
+   "node": "es|904d6b2358|__gv_meshes_argoniannest_argonianfence02",
+   "category": "misc",
+   "sizeM": [
+    0.886,
+    0.171,
+    1.64
+   ],
+   "originOffsetM": [
+    0.79,
+    0.086,
+    -0.016
+   ],
+   "triangles": 370,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "argonianclutter.dds",
+    "fence01.dds"
+   ],
+   "materials": [
+    "DLC2RieklingFence02:0.Mat",
+    "DLC2RieklingFence02:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.016,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
+   "node": "es|e93ad6ef23|_gv_meshes_argoniannest_argonianfenceend",
+   "category": "misc",
+   "sizeM": [
+    1.586,
+    0.21,
+    1.692
+   ],
+   "originOffsetM": [
+    1.54,
+    0.105,
+    0.046
+   ],
+   "triangles": 1035,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "argonianclutter.dds",
+    "fence01.dds"
+   ],
+   "materials": [
+    "DLC2RieklingFenceEnd01:0.Mat",
+    "DLC2RieklingFenceEnd01:1.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.046,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "node": "es|65817edfc1|__gv_meshes_argoniannest_argoniantotem01",
+   "category": "misc",
+   "sizeM": [
+    0.754,
+    0.492,
+    1.949
+   ],
+   "originOffsetM": [
+    0.392,
+    0.262,
+    -0.011
+   ],
+   "triangles": 836,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fence01.dds"
+   ],
+   "materials": [
+    "DLC2RieklingTotem02:0.Mat",
+    "DLC2RieklingTotem02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.011,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/stronghold/entrance",
+   "node": "es|ef8ce91a96|__architecture_phitt_stronghold_entrance",
+   "category": "architecture",
+   "sizeM": [
+    4.533,
+    5.915,
+    4.231
+   ],
+   "originOffsetM": [
+    2.505,
+    2.957,
+    1.821
+   ],
+   "triangles": 374,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "raggedroof01.dds",
+    "stonewall.dds",
+    "trim.dds",
+    "wallplain.dds",
+    "woodpost02.dds.001"
+   ],
+   "materials": [
+    "Objekt01:0.Mat",
+    "Objekt01:1.Mat",
+    "Objekt01:2.Mat",
+    "Objekt01:3.Mat",
+    "Objekt01:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.821,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/stronghold/pylon00",
+   "node": "es|e6ffb8b940|v__architecture_phitt_stronghold_pylon00",
+   "category": "architecture",
+   "sizeM": [
+    29.164,
+    76.468,
+    10.924
+   ],
+   "originOffsetM": [
+    14.565,
+    38.234,
+    5.462
+   ],
+   "triangles": 1606,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "block.dds",
+    "ground.dds",
+    "trimsmall.dds",
+    "trimwide.dds",
+    "wallpylon.dds"
+   ],
+   "materials": [
+    "Objekt01:1.Mat.001",
+    "Objekt01:2.Mat.001",
+    "Objekt01:3.Mat.001",
+    "Objekt01:4.Mat.001",
+    "Objekt02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 5.462,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/stronghold/pylon02",
+   "node": "es|f8fcd8027e|v__architecture_phitt_stronghold_pylon02",
+   "category": "architecture",
+   "sizeM": [
+    14.565,
+    76.468,
+    10.924
+   ],
+   "originOffsetM": [
+    5.462,
+    38.234,
+    5.462
+   ],
+   "triangles": 812,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "block.dds",
+    "ground.dds",
+    "trimsmall.dds",
+    "trimwide.dds",
+    "wallpylon.dds"
+   ],
+   "materials": [
+    "Objekt03:0.Mat",
+    "Objekt03:1.Mat",
+    "Objekt03:2.Mat",
+    "Objekt03:3.Mat",
+    "Objekt03:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 5.462,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/fence01",
+   "node": "es|d6a690e872|bmv__architecture_phitt_fence01",
+   "category": "architecture",
+   "sizeM": [
+    3.636,
+    0.241,
+    1.039
+   ],
+   "originOffsetM": [
+    1.893,
+    0.078,
+    0.166
+   ],
+   "triangles": 103,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "plank.dds"
+   ],
+   "materials": [
+    "CaveIIcicle02:18.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.166,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/fencepole",
+   "node": "es|682dd0d367|bmv__architecture_phitt_fencepole",
+   "category": "architecture",
+   "sizeM": [
+    0.399,
+    0.397,
+    3.255
+   ],
+   "originOffsetM": [
+    0.287,
+    0.249,
+    0.41
+   ],
+   "triangles": 13,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "plank.dds"
+   ],
+   "materials": [
+    "CaveIIcicle02:18.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.41,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/fenceplank",
+   "node": "es|641b5f05fe|bmv__architecture_phitt_fenceplank",
+   "category": "architecture",
+   "sizeM": [
+    6.539,
+    0.399,
+    0.684
+   ],
+   "originOffsetM": [
+    3.213,
+    0.031,
+    -0.896
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "plank.dds"
+   ],
+   "materials": [
+    "CaveIIcicle02:18.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.896,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/fencetop",
+   "node": "es|cb9cb27b2e|bmv__architecture_phitt_fencetop",
+   "category": "architecture",
+   "sizeM": [
+    6.467,
+    0.64,
+    0.567
+   ],
+   "originOffsetM": [
+    0.586,
+    0.175,
+    -2.487
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "plank.dds"
+   ],
+   "materials": [
+    "CaveIIcicle02:18.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -2.487,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/velothi/extentrance",
+   "node": "es|cc59cd29a6|__architecture_phitt_velothi_extentrance",
+   "category": "architecture",
+   "sizeM": [
+    7.468,
+    9.985,
+    6.468
+   ],
+   "originOffsetM": [
+    3.734,
+    5.007,
+    3.321
+   ],
+   "triangles": 920,
+   "lodRatios": [
+    0.35
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonetexture.dds",
+    "trimexterior.dds",
+    "trimexterior_dark.dds"
+   ],
+   "materials": [
+    "Objekt01:0.Mat.001",
+    "Objekt01:1.Mat.002",
+    "Objekt01:2.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.321,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\probe-enclosure.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [
+  "textures/sheogorad/velothi/trimexterior_dark_n.dds"
+ ],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 232
+ }
+}

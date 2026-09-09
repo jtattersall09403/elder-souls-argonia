@@ -18,32 +18,31 @@
   ],
   "groundControl": "ground-control.png",
   "portages": {
-    "canoeChannels": 4,
-    "portages": 6
+    "canoeChannels": 13,
+    "portages": 7
   },
   "channelCarve": {
     "stations": 31700,
     "reaches": 162,
-    "cellsLowered": 159991,
-    "cellsRaised": 21789,
-    "medianM": 0.721,
-    "p90M": 2.461,
+    "cellsLowered": 165270,
+    "cellsRaised": 22101,
+    "medianM": 0.755,
+    "p90M": 2.659,
     "maxM": 135.936,
     "maxRaiseM": 4.5,
     "trenchCells": 222849,
-    "pooledStations": 16619,
-    "shoreStations": 492,
-    "capturedStations": 735,
-    "fordStations": 1206,
+    "pooledStations": 16131,
+    "shoreStations": 498,
+    "capturedStations": 768,
     "fallStations": 24,
     "lostStations": 0,
-    "steepStations": 6302,
+    "steepStations": 6313,
     "falls": 16,
     "plungeBasins": 16,
-    "pooledLevelMoved": 777,
+    "pooledLevelMoved": 855,
     "pooledLevelMovedMaxM": 1.134,
     "pooledLevelLost": 114,
-    "islandsLowered": 1440,
+    "islandsLowered": 1385,
     "authoredWaterways": [
       {
         "id": "waterway.hist-heartland.nine-trunks",
@@ -59,6 +58,22 @@
           2142,
           2724,
           2762
+        ]
+      },
+      {
+        "id": "waterway.hist-heartland.sap-tapping-licensed.landing",
+        "receivingLevelM": 0.053,
+        "governingLevelM": 0.053,
+        "bedM": -0.797,
+        "promisedDepthM": 0.6,
+        "hullClass": "canoe",
+        "samplesCut": 1117,
+        "joins": 2,
+        "window": [
+          2627,
+          2752,
+          1802,
+          1833
         ]
       }
     ],
@@ -80,14 +95,8 @@
         "promisedDepthM": 0.6,
         "waterLevelAtBerthM": 0.053,
         "waterLevelAtReachEndM": 0.053,
-        "existingMinDepthM": -1.137,
-        "bedAtBerthM": -0.797,
-        "halfWidthM": 6.0,
-        "lengthM": 246.0,
-        "status": "blocked",
-        "blockedSamples": 14,
-        "blockedFirstAtM": 74.0,
-        "blockedHighestAboveWaterM": 1.137
+        "existingMinDepthM": 0.85,
+        "status": "already-deep"
       },
       {
         "dockId": "dock.lilmoth.lighter-quay",
@@ -96,19 +105,19 @@
         "promisedDepthM": 3.0,
         "waterLevelAtBerthM": 0.0,
         "waterLevelAtReachEndM": 0.0,
-        "existingMinDepthM": 1.18,
+        "existingMinDepthM": 1.176,
         "bedAtBerthM": -3.25,
         "halfWidthM": 15.0,
-        "lengthM": 366.0,
-        "cellsCut": 3375,
-        "areaM2": 11275.9,
-        "volumeM3": 26226.4,
-        "maxCutM": 3.25,
-        "protectedCoreCells": 302,
+        "lengthM": 100.0,
+        "cellsCut": 326,
+        "areaM2": 1089.2,
+        "volumeM3": 1580.8,
+        "maxCutM": 2.238,
+        "protectedCoreCells": 0,
         "window": [
           3468,
-          3643,
-          2001,
+          3538,
+          2088,
           2153
         ],
         "dredgedMinDepthM": 3.25,
@@ -131,15 +140,15 @@
         "promisedDepthM": 3.0,
         "waterLevelAtBerthM": 0.0,
         "waterLevelAtReachEndM": 0.0,
-        "existingMinDepthM": 0.864,
+        "existingMinDepthM": 0.889,
         "bedAtBerthM": -3.25,
         "halfWidthM": 15.0,
         "lengthM": 358.0,
-        "cellsCut": 2693,
-        "areaM2": 8997.3,
-        "volumeM3": 20380.8,
+        "cellsCut": 2743,
+        "areaM2": 9164.4,
+        "volumeM3": 20587.6,
         "maxCutM": 3.249,
-        "protectedCoreCells": 530,
+        "protectedCoreCells": 507,
         "window": [
           3337,
           3502,
@@ -195,29 +204,1092 @@
         "status": "dredged"
       }
     ],
+    "laneChannels": [
+      {
+        "routeId": "route.boat.alten-corimont-helstrom",
+        "promisedDepthM": 0.6,
+        "lengthM": 3620.0,
+        "existingMinDepthM": -8.561,
+        "shallowSamples": 314,
+        "portages": [
+          {
+            "atM": [
+              3835.7,
+              1143.3
+            ],
+            "lengthM": 28.0,
+            "highestAboveWaterM": 8.561
+          },
+          {
+            "atM": [
+              4004.3,
+              1062.4
+            ],
+            "lengthM": 6.0,
+            "highestAboveWaterM": 0.0
+          },
+          {
+            "atM": [
+              4696.6,
+              1823.3
+            ],
+            "lengthM": 22.0,
+            "highestAboveWaterM": 2.247
+          },
+          {
+            "atM": [
+              3493.0,
+              2571.8
+            ],
+            "lengthM": 58.0,
+            "highestAboveWaterM": 1.595
+          },
+          {
+            "atM": [
+              3424.5,
+              2634.8
+            ],
+            "lengthM": 24.0,
+            "highestAboveWaterM": 1.011
+          },
+          {
+            "atM": [
+              3405.3,
+              2659.5
+            ],
+            "lengthM": 10.0,
+            "highestAboveWaterM": 0.264
+          },
+          {
+            "atM": [
+              3383.3,
+              2681.4
+            ],
+            "lengthM": 20.0,
+            "highestAboveWaterM": 0.842
+          },
+          {
+            "atM": [
+              3369.6,
+              2700.6
+            ],
+            "lengthM": 22.0,
+            "highestAboveWaterM": 0.715
+          },
+          {
+            "atM": [
+              3401.2,
+              2787.0
+            ],
+            "lengthM": 22.0,
+            "highestAboveWaterM": 0.226
+          }
+        ],
+        "portageM": 212.0,
+        "overlandRuns": [],
+        "cellsCut": 1848,
+        "volumeM3": 2312.8,
+        "windows": [
+          [
+            602,
+            623,
+            2102,
+            2123
+          ],
+          [
+            598,
+            614,
+            2114,
+            2130
+          ],
+          [
+            597,
+            613,
+            2116,
+            2140
+          ],
+          [
+            595,
+            614,
+            2159,
+            2178
+          ],
+          [
+            574,
+            609,
+            2164,
+            2198
+          ],
+          [
+            567,
+            587,
+            2186,
+            2209
+          ],
+          [
+            926,
+            943,
+            2562,
+            2579
+          ],
+          [
+            948,
+            965,
+            2564,
+            2581
+          ],
+          [
+            960,
+            987,
+            2562,
+            2578
+          ],
+          [
+            988,
+            1005,
+            2562,
+            2578
+          ],
+          [
+            1001,
+            1018,
+            2558,
+            2576
+          ],
+          [
+            1002,
+            1019,
+            2549,
+            2567
+          ],
+          [
+            1005,
+            1023,
+            2539,
+            2560
+          ],
+          [
+            1008,
+            1025,
+            2533,
+            2553
+          ],
+          [
+            1015,
+            1034,
+            2519,
+            2540
+          ],
+          [
+            1020,
+            1043,
+            2498,
+            2531
+          ],
+          [
+            1049,
+            1072,
+            2394,
+            2429
+          ],
+          [
+            1058,
+            1075,
+            2364,
+            2381
+          ],
+          [
+            1398,
+            1428,
+            1904,
+            1935
+          ],
+          [
+            1401,
+            1421,
+            1868,
+            1891
+          ],
+          [
+            1444,
+            1463,
+            1856,
+            1875
+          ],
+          [
+            1451,
+            1475,
+            1844,
+            1868
+          ],
+          [
+            1505,
+            1526,
+            1840,
+            1862
+          ]
+        ],
+        "dredgedMinDepthM": 0.595,
+        "shallowSamplesAfter": 1,
+        "status": "blocked"
+      },
+      {
+        "routeId": "route.boat.archon-thorn",
+        "promisedDepthM": 0.6,
+        "lengthM": 5168.0,
+        "existingMinDepthM": -48.98,
+        "shallowSamples": 521,
+        "portages": [
+          {
+            "atM": [
+              5162.7,
+              4647.3
+            ],
+            "lengthM": 20.0,
+            "highestAboveWaterM": 1.79
+          },
+          {
+            "atM": [
+              6473.3,
+              1613.1
+            ],
+            "lengthM": 8.0,
+            "highestAboveWaterM": 0.004
+          },
+          {
+            "atM": [
+              6443.1,
+              1124.1
+            ],
+            "lengthM": 70.0,
+            "highestAboveWaterM": 48.98
+          },
+          {
+            "atM": [
+              6377.3,
+              1047.4
+            ],
+            "lengthM": 60.0,
+            "highestAboveWaterM": 4.52
+          },
+          {
+            "atM": [
+              6314.3,
+              993.4
+            ],
+            "lengthM": 14.0,
+            "highestAboveWaterM": 13.18
+          },
+          {
+            "atM": [
+              6260.8,
+              897.9
+            ],
+            "lengthM": 90.0,
+            "highestAboveWaterM": 13.688
+          },
+          {
+            "atM": [
+              6131.9,
+              711.5
+            ],
+            "lengthM": 18.0,
+            "highestAboveWaterM": 1.31
+          },
+          {
+            "atM": [
+              6174.4,
+              625.1
+            ],
+            "lengthM": 56.0,
+            "highestAboveWaterM": 2.47
+          }
+        ],
+        "portageM": 348.0,
+        "overlandRuns": [],
+        "cellsCut": 2643,
+        "volumeM3": 4617.3,
+        "windows": [
+          [
+            1928,
+            1949,
+            3091,
+            3113
+          ],
+          [
+            1732,
+            1749,
+            3123,
+            3139
+          ],
+          [
+            1235,
+            1277,
+            3199,
+            3233
+          ],
+          [
+            876,
+            929,
+            3534,
+            3550
+          ],
+          [
+            797,
+            887,
+            3534,
+            3568
+          ],
+          [
+            644,
+            771,
+            3554,
+            3574
+          ],
+          [
+            618,
+            635,
+            3528,
+            3545
+          ],
+          [
+            614,
+            632,
+            3524,
+            3542
+          ],
+          [
+            610,
+            628,
+            3521,
+            3538
+          ],
+          [
+            543,
+            559,
+            3452,
+            3469
+          ],
+          [
+            402,
+            418,
+            3354,
+            3373
+          ],
+          [
+            383,
+            403,
+            3345,
+            3362
+          ],
+          [
+            370,
+            388,
+            3348,
+            3366
+          ],
+          [
+            334,
+            386,
+            3350,
+            3387
+          ]
+        ],
+        "dredgedMinDepthM": 0.24,
+        "shallowSamplesAfter": 4,
+        "status": "blocked"
+      },
+      {
+        "routeId": "route.boat.blackrose-lilmoth",
+        "promisedDepthM": 0.6,
+        "lengthM": 2454.0,
+        "existingMinDepthM": -1.449,
+        "shallowSamples": 602,
+        "portages": [
+          {
+            "atM": [
+              2360.7,
+              6418.5
+            ],
+            "lengthM": 30.0,
+            "highestAboveWaterM": 1.449
+          },
+          {
+            "atM": [
+              2481.3,
+              6275.9
+            ],
+            "lengthM": 18.0,
+            "highestAboveWaterM": 0.408
+          },
+          {
+            "atM": [
+              2500.5,
+              6256.7
+            ],
+            "lengthM": 28.0,
+            "highestAboveWaterM": 1.065
+          },
+          {
+            "atM": [
+              2585.5,
+              6237.5
+            ],
+            "lengthM": 14.0,
+            "highestAboveWaterM": 0.509
+          },
+          {
+            "atM": [
+              2682.7,
+              6134.8
+            ],
+            "lengthM": 30.0,
+            "highestAboveWaterM": 0.628
+          },
+          {
+            "atM": [
+              2711.9,
+              6112.9
+            ],
+            "lengthM": 54.0,
+            "highestAboveWaterM": 0.838
+          },
+          {
+            "atM": [
+              2767.3,
+              6110.5
+            ],
+            "lengthM": 36.0,
+            "highestAboveWaterM": 0.381
+          },
+          {
+            "atM": [
+              3044.7,
+              6096.3
+            ],
+            "lengthM": 82.0,
+            "highestAboveWaterM": 1.425
+          },
+          {
+            "atM": [
+              3129.7,
+              6033.2
+            ],
+            "lengthM": 68.0,
+            "highestAboveWaterM": 1.06
+          },
+          {
+            "atM": [
+              3192.3,
+              6007.2
+            ],
+            "lengthM": 8.0,
+            "highestAboveWaterM": 0.235
+          },
+          {
+            "atM": [
+              3366.0,
+              6007.2
+            ],
+            "lengthM": 12.0,
+            "highestAboveWaterM": 0.099
+          },
+          {
+            "atM": [
+              3865.9,
+              6015.4
+            ],
+            "lengthM": 34.0,
+            "highestAboveWaterM": 1.222
+          }
+        ],
+        "portageM": 422.0,
+        "overlandRuns": [],
+        "cellsCut": 3320,
+        "volumeM3": 4862.0,
+        "windows": [
+          [
+            3489,
+            3508,
+            1281,
+            1297
+          ],
+          [
+            3427,
+            3444,
+            1348,
+            1365
+          ],
+          [
+            3416,
+            3435,
+            1357,
+            1376
+          ],
+          [
+            3405,
+            3421,
+            1371,
+            1396
+          ],
+          [
+            3405,
+            3421,
+            1382,
+            1414
+          ],
+          [
+            3387,
+            3416,
+            1412,
+            1441
+          ],
+          [
+            3350,
+            3384,
+            1444,
+            1475
+          ],
+          [
+            3338,
+            3355,
+            1470,
+            1487
+          ],
+          [
+            3335,
+            3351,
+            1503,
+            1522
+          ],
+          [
+            3335,
+            3351,
+            1525,
+            1563
+          ],
+          [
+            3328,
+            3352,
+            1628,
+            1673
+          ],
+          [
+            3293,
+            3320,
+            1690,
+            1721
+          ],
+          [
+            3279,
+            3295,
+            1734,
+            1754
+          ],
+          [
+            3279,
+            3295,
+            1769,
+            1821
+          ],
+          [
+            3279,
+            3295,
+            1814,
+            1849
+          ],
+          [
+            3279,
+            3295,
+            1840,
+            1935
+          ],
+          [
+            3279,
+            3295,
+            1972,
+            2018
+          ],
+          [
+            3279,
+            3295,
+            2016,
+            2055
+          ],
+          [
+            3279,
+            3299,
+            2103,
+            2123
+          ],
+          [
+            3294,
+            3326,
+            2121,
+            2154
+          ]
+        ],
+        "dredgedMinDepthM": 0.085,
+        "shallowSamplesAfter": 3,
+        "status": "blocked"
+      },
+      {
+        "routeId": "route.boat.lilmoth-archon",
+        "promisedDepthM": 0.6,
+        "lengthM": 2544.0,
+        "existingMinDepthM": -1.14,
+        "shallowSamples": 170,
+        "portages": [
+          {
+            "atM": [
+              5173.7,
+              4647.3
+            ],
+            "lengthM": 14.0,
+            "highestAboveWaterM": 1.14
+          }
+        ],
+        "portageM": 14.0,
+        "overlandRuns": [],
+        "cellsCut": 1405,
+        "volumeM3": 1868.7,
+        "windows": [
+          [
+            3036,
+            3077,
+            2661,
+            2677
+          ],
+          [
+            2898,
+            2921,
+            2706,
+            2722
+          ],
+          [
+            2794,
+            2834,
+            2744,
+            2781
+          ],
+          [
+            2762,
+            2792,
+            2777,
+            2807
+          ],
+          [
+            2692,
+            2768,
+            2801,
+            2830
+          ],
+          [
+            2588,
+            2607,
+            2820,
+            2837
+          ],
+          [
+            2582,
+            2601,
+            2823,
+            2840
+          ],
+          [
+            2535,
+            2551,
+            2824,
+            2841
+          ]
+        ],
+        "dredgedMinDepthM": 0.63,
+        "shallowSamplesAfter": 0,
+        "status": "portaged"
+      },
+      {
+        "routeId": "route.boat.soulrest-lilmoth",
+        "promisedDepthM": 0.6,
+        "lengthM": 4956.0,
+        "existingMinDepthM": -1.747,
+        "shallowSamples": 467,
+        "portages": [
+          {
+            "atM": [
+              518.2,
+              6533.6
+            ],
+            "lengthM": 54.0,
+            "highestAboveWaterM": 0.952
+          },
+          {
+            "atM": [
+              467.0,
+              6577.5
+            ],
+            "lengthM": 14.0,
+            "highestAboveWaterM": 0.095
+          },
+          {
+            "atM": [
+              344.1,
+              6598.0
+            ],
+            "lengthM": 38.0,
+            "highestAboveWaterM": 1.747
+          },
+          {
+            "atM": [
+              298.9,
+              6626.8
+            ],
+            "lengthM": 20.0,
+            "highestAboveWaterM": 1.543
+          },
+          {
+            "atM": [
+              646.1,
+              7071.0
+            ],
+            "lengthM": 10.0,
+            "highestAboveWaterM": 1.297
+          },
+          {
+            "atM": [
+              686.4,
+              7082.0
+            ],
+            "lengthM": 10.0,
+            "highestAboveWaterM": 0.906
+          },
+          {
+            "atM": [
+              936.8,
+              7082.0
+            ],
+            "lengthM": 38.0,
+            "highestAboveWaterM": 1.189
+          },
+          {
+            "atM": [
+              977.4,
+              7086.1
+            ],
+            "lengthM": 24.0,
+            "highestAboveWaterM": 1.572
+          },
+          {
+            "atM": [
+              1051.9,
+              7120.4
+            ],
+            "lengthM": 18.0,
+            "highestAboveWaterM": 1.118
+          },
+          {
+            "atM": [
+              1097.6,
+              7120.4
+            ],
+            "lengthM": 12.0,
+            "highestAboveWaterM": 0.781
+          },
+          {
+            "atM": [
+              3644.7,
+              6607.6
+            ],
+            "lengthM": 100.0,
+            "highestAboveWaterM": 1.599
+          }
+        ],
+        "portageM": 338.0,
+        "overlandRuns": [],
+        "cellsCut": 2132,
+        "volumeM3": 3325.7,
+        "windows": [
+          [
+            3586,
+            3607,
+            249,
+            273
+          ],
+          [
+            3590,
+            3623,
+            181,
+            259
+          ],
+          [
+            3609,
+            3626,
+            160,
+            180
+          ],
+          [
+            3632,
+            3661,
+            153,
+            169
+          ],
+          [
+            3744,
+            3763,
+            212,
+            232
+          ],
+          [
+            3847,
+            3872,
+            316,
+            341
+          ],
+          [
+            3861,
+            3878,
+            351,
+            368
+          ],
+          [
+            3867,
+            3883,
+            487,
+            514
+          ],
+          [
+            3867,
+            3883,
+            501,
+            520
+          ],
+          [
+            3875,
+            3903,
+            539,
+            567
+          ],
+          [
+            3888,
+            3904,
+            566,
+            583
+          ],
+          [
+            3888,
+            3904,
+            577,
+            595
+          ],
+          [
+            3627,
+            3662,
+            1883,
+            1922
+          ],
+          [
+            3621,
+            3641,
+            1910,
+            1941
+          ],
+          [
+            3608,
+            3629,
+            1964,
+            2001
+          ],
+          [
+            3562,
+            3615,
+            2032,
+            2087
+          ]
+        ],
+        "dredgedMinDepthM": 0.131,
+        "shallowSamplesAfter": 4,
+        "status": "blocked"
+      },
+      {
+        "routeId": "route.boat.stormhold-alten-corimont",
+        "promisedDepthM": 0.6,
+        "lengthM": 2454.0,
+        "existingMinDepthM": -8.561,
+        "shallowSamples": 216,
+        "portages": [
+          {
+            "atM": [
+              2656.8,
+              737.5
+            ],
+            "lengthM": 32.0,
+            "highestAboveWaterM": null
+          },
+          {
+            "atM": [
+              2697.9,
+              789.6
+            ],
+            "lengthM": 8.0,
+            "highestAboveWaterM": 1.428
+          },
+          {
+            "atM": [
+              2715.7,
+              807.4
+            ],
+            "lengthM": 82.0,
+            "highestAboveWaterM": 7.135
+          },
+          {
+            "atM": [
+              2818.5,
+              817.0
+            ],
+            "lengthM": 10.0,
+            "highestAboveWaterM": 0.205
+          },
+          {
+            "atM": [
+              2978.5,
+              710.1
+            ],
+            "lengthM": 8.0,
+            "highestAboveWaterM": 0.403
+          },
+          {
+            "atM": [
+              3076.3,
+              619.6
+            ],
+            "lengthM": 64.0,
+            "highestAboveWaterM": 1.855
+          },
+          {
+            "atM": [
+              3177.7,
+              556.6
+            ],
+            "lengthM": 70.0,
+            "highestAboveWaterM": 1.573
+          },
+          {
+            "atM": [
+              3201.5,
+              452.4
+            ],
+            "lengthM": 72.0,
+            "highestAboveWaterM": 4.397
+          },
+          {
+            "atM": [
+              4007.1,
+              1059.7
+            ],
+            "lengthM": 6.0,
+            "highestAboveWaterM": 0.0
+          },
+          {
+            "atM": [
+              3853.5,
+              1125.5
+            ],
+            "lengthM": 28.0,
+            "highestAboveWaterM": 8.561
+          }
+        ],
+        "portageM": 396.0,
+        "overlandRuns": [],
+        "cellsCut": 237,
+        "volumeM3": 358.0,
+        "windows": [
+          [
+            410,
+            428,
+            1454,
+            1472
+          ],
+          [
+            420,
+            437,
+            1464,
+            1481
+          ],
+          [
+            450,
+            466,
+            1514,
+            1535
+          ],
+          [
+            435,
+            452,
+            1538,
+            1555
+          ],
+          [
+            381,
+            398,
+            1619,
+            1637
+          ],
+          [
+            377,
+            395,
+            1625,
+            1643
+          ],
+          [
+            362,
+            380,
+            1643,
+            1661
+          ],
+          [
+            318,
+            335,
+            1703,
+            1720
+          ],
+          [
+            298,
+            317,
+            1731,
+            1747
+          ],
+          [
+            224,
+            241,
+            1773,
+            1789
+          ]
+        ],
+        "dredgedMinDepthM": 0.0,
+        "shallowSamplesAfter": 3,
+        "status": "blocked"
+      }
+    ],
     "forcedBasins": 1,
-    "neighbourCapturedStations": 544,
+    "neighbourCapturedStations": 567,
     "lostReaches": 0,
-    "cutBelowFloorP90M": 0.17,
-    "cutBelowFloorMaxM": 7.16,
+    "cutBelowFloorP90M": 0.22,
+    "cutBelowFloorMaxM": 7.75,
     "bodies": {
-      "depressions": 77240,
-      "acceptedDepressions": 2542,
-      "rescuedBasins": 194,
-      "sheets": 1865,
-      "roadCapped": 67,
-      "roadRejected": 0,
-      "nestedAccepted": 38,
-      "nestedCandidates": 6613,
-      "bodies": 2740,
-      "sheetBodies": 1917,
-      "bodyCells": 584251
+      "depressions": 77144,
+      "acceptedDepressions": 2518,
+      "rescuedBasins": 197,
+      "sheets": 1849,
+      "cappedBasins": 37,
+      "nestedAccepted": 39,
+      "nestedCandidates": 6633,
+      "bodies": 2695,
+      "sheetBodies": 1859,
+      "bodyCells": 554926
     }
   },
   "terrainRequests": {
     "requests": 66,
     "operations": 66,
-    "planDigest": "a89dc10a2ea6696c9b2e09598d6e643f16019562524c355234362a1f240fbb3a",
+    "planDigest": "fe5a09f793a2f40680f4f81e7db08ae6c9c09b382e2024e7cfc321bea5734966",
     "fulfillment": "terrain-request-fulfillments.json"
   },
   "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks",

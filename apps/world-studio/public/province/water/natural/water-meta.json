@@ -1,11 +1,11 @@
 {
  "schemaVersion": 2,
- "sourceHeightSha256": "a5d91732642d721ada9ab74dfcd6947eb1cfd0d13359bed5cab7e83386a87fb5",
+ "sourceHeightSha256": "bfa6af8b8414b9b9b53afa2e406467032a67046a3264d4ad9e3600fab432d46a",
  "surface": {
   "file": "water-surface.png",
   "size": 2017,
   "metresPerPixel": 3.65568,
-  "minM": -17.513669967651367,
+  "minM": -40.20902633666992,
   "maxM": 651.74609375,
   "encoding": "R,G = 16-bit W; B = signed depth: round((clamp(W - ground, -6, 24.6) + 6) / 0.12). Wet <=> depth > 0; table cells sit in (-2, 0]; buried ground <= -2.5.",
   "depthMinM": -6.0,
@@ -43,7 +43,11 @@
    "lake",
    "marsh"
   ],
-  "meaning": "TYPE label over a SUPERSET of the wet area, not a wetness mask. It says what kind of water a cell belongs to, over the water's SEASONAL reach. Wetness is signed depth in water-surface.png B plus the season lift: wet <=> depth + season.amplitudeM * seasonResponse > 0. Measured 2026-09-09 over 31.40 km2 of classed cells: 21.47 wet in the dry season, 24.90 at the seasonal maximum, 6.50 dry all year. A marsh channel that carries a canoe in the monsoon and is mud in the dry season is the world working, not a defect - so ask the depth AT THE SEASON THAT MATTERS, never whether a cell has a class."
+  "extPx": 5,
+  "extM": 27.42,
+  "extShaderBandM": 22.0,
+  "extRiseM": 2.0,
+  "meaning": "TYPE label over a SUPERSET of the wet area, not a wetness mask. It says what kind of water a cell belongs to, over the water's SEASONAL reach. Wetness is signed depth in water-surface.png B plus the season lift: wet <=> depth + season.amplitudeM * seasonResponse > 0. Measured 2026-09-09 over 31.40 km2 of classed cells: 21.47 wet in the dry season, 24.90 at the seasonal maximum, 6.50 dry all year. A marsh channel that carries a canoe in the monsoon and is mud in the dry season is the world working, not a defect - so ask the depth AT THE SEASON THAT MATTERS, never whether a cell has a class. The superset is BOUNDED: a cell with no water of its own is labelled only within extPx of water AND within extRiseM above that water's seasonal maximum, so the label never runs up a bank."
  },
  "channels": [
   {
@@ -479,8 +483,8 @@
     {
      "x": 4926.03,
      "z": 193.75,
-     "y": 118.179,
-     "bedY": 117.57,
+     "y": 121.179,
+     "bedY": 120.57,
      "halfWidthM": 2.93,
      "wettedHalfWidthM": 1.1,
      "speedMS": 2.3,
@@ -491,8 +495,8 @@
     {
      "x": 4925.43,
      "z": 192.02,
-     "y": 117.993,
-     "bedY": 117.42,
+     "y": 120.993,
+     "bedY": 120.42,
      "halfWidthM": 2.93,
      "wettedHalfWidthM": 1.1,
      "speedMS": 2.3,
@@ -503,8 +507,8 @@
     {
      "x": 4924.83,
      "z": 190.28,
-     "y": 117.828,
-     "bedY": 117.3,
+     "y": 120.828,
+     "bedY": 120.3,
      "halfWidthM": 2.93,
      "wettedHalfWidthM": 1.1,
      "speedMS": 2.3,
@@ -515,8 +519,8 @@
     {
      "x": 4924.21,
      "z": 188.56,
-     "y": 117.359,
-     "bedY": 116.82,
+     "y": 120.359,
+     "bedY": 119.82,
      "halfWidthM": 2.93,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -527,8 +531,8 @@
     {
      "x": 4923.59,
      "z": 186.83,
-     "y": 117.231,
-     "bedY": 116.69,
+     "y": 120.231,
+     "bedY": 119.69,
      "halfWidthM": 2.93,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -539,8 +543,8 @@
     {
      "x": 4923.02,
      "z": 185.09,
-     "y": 117.231,
-     "bedY": 116.66,
+     "y": 120.231,
+     "bedY": 119.66,
      "halfWidthM": 2.93,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -551,8 +555,8 @@
     {
      "x": 4922.49,
      "z": 183.33,
-     "y": 116.891,
-     "bedY": 116.23,
+     "y": 119.891,
+     "bedY": 119.23,
      "halfWidthM": 2.93,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -563,8 +567,8 @@
     {
      "x": 4922.04,
      "z": 181.55,
-     "y": 116.137,
-     "bedY": 115.47,
+     "y": 119.137,
+     "bedY": 118.47,
      "halfWidthM": 2.94,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -575,8 +579,8 @@
     {
      "x": 4921.63,
      "z": 179.77,
-     "y": 115.105,
-     "bedY": 114.5,
+     "y": 118.105,
+     "bedY": 117.5,
      "halfWidthM": 2.94,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -587,8 +591,8 @@
     {
      "x": 4921.24,
      "z": 177.98,
-     "y": 114.388,
-     "bedY": 113.77,
+     "y": 117.388,
+     "bedY": 116.77,
      "halfWidthM": 2.94,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -599,8 +603,8 @@
     {
      "x": 4920.92,
      "z": 176.17,
-     "y": 113.709,
-     "bedY": 113.14,
+     "y": 116.709,
+     "bedY": 116.14,
      "halfWidthM": 2.95,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -611,8 +615,8 @@
     {
      "x": 4920.54,
      "z": 174.38,
-     "y": 113.255,
-     "bedY": 112.64,
+     "y": 116.25,
+     "bedY": 115.63,
      "halfWidthM": 2.95,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -623,8 +627,8 @@
     {
      "x": 4920.09,
      "z": 172.6,
-     "y": 112.903,
-     "bedY": 112.31,
+     "y": 115.878,
+     "bedY": 115.26,
      "halfWidthM": 2.95,
      "wettedHalfWidthM": 1.11,
      "speedMS": 2.3,
@@ -635,8 +639,8 @@
     {
      "x": 4919.54,
      "z": 170.85,
-     "y": 112.541,
-     "bedY": 111.94,
+     "y": 115.464,
+     "bedY": 114.81,
      "halfWidthM": 2.98,
      "wettedHalfWidthM": 1.13,
      "speedMS": 2.3,
@@ -647,8 +651,8 @@
     {
      "x": 4918.92,
      "z": 169.12,
-     "y": 112.105,
-     "bedY": 111.56,
+     "y": 114.948,
+     "bedY": 114.29,
      "halfWidthM": 2.98,
      "wettedHalfWidthM": 1.13,
      "speedMS": 2.3,
@@ -659,8 +663,8 @@
     {
      "x": 4918.17,
      "z": 167.45,
-     "y": 112.105,
-     "bedY": 111.57,
+     "y": 114.782,
+     "bedY": 114.22,
      "halfWidthM": 2.98,
      "wettedHalfWidthM": 1.13,
      "speedMS": 2.3,
@@ -671,11 +675,11 @@
     {
      "x": 4917.33,
      "z": 165.83,
-     "y": 112.105,
-     "bedY": 111.58,
+     "y": 114.777,
+     "bedY": 114.22,
      "halfWidthM": 2.98,
-     "wettedHalfWidthM": 1.94,
-     "speedMS": 0.45,
+     "wettedHalfWidthM": 1.37,
+     "speedMS": 1.3,
      "season": 0.35,
      "kind": "join",
      "arcM": 29.33
@@ -3936,7 +3940,7 @@
      "x": 2570.67,
      "z": 366.76,
      "y": 2.649,
-     "bedY": 1.46,
+     "bedY": 1.37,
      "halfWidthM": 4.46,
      "wettedHalfWidthM": 1.97,
      "speedMS": 2.3,
@@ -3948,7 +3952,7 @@
      "x": 2571.77,
      "z": 368.22,
      "y": 1.159,
-     "bedY": 0.21,
+     "bedY": -0.31,
      "halfWidthM": 4.47,
      "wettedHalfWidthM": 1.97,
      "speedMS": 2.3,
@@ -3959,14 +3963,50 @@
     {
      "x": 2572.89,
      "z": 369.67,
-     "y": 0.111,
-     "bedY": -0.39,
+     "y": -0.233,
+     "bedY": -1.3,
      "halfWidthM": 4.47,
-     "wettedHalfWidthM": 4.47,
-     "speedMS": 0.45,
+     "wettedHalfWidthM": 1.97,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 16.46
+    },
+    {
+     "x": 2574.03,
+     "z": 371.1,
+     "y": -1.656,
+     "bedY": -2.55,
+     "halfWidthM": 4.47,
+     "wettedHalfWidthM": 1.97,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 18.28
+    },
+    {
+     "x": 2575.19,
+     "z": 372.51,
+     "y": -1.656,
+     "bedY": -2.4,
+     "halfWidthM": 4.47,
+     "wettedHalfWidthM": 1.97,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 20.11
+    },
+    {
+     "x": 2576.36,
+     "z": 373.92,
+     "y": -1.75,
+     "bedY": -2.29,
+     "halfWidthM": 4.47,
+     "wettedHalfWidthM": 2.39,
+     "speedMS": 1.3,
      "season": 0.35,
      "kind": "join",
-     "arcM": 16.46
+     "arcM": 21.94
     }
    ]
   },
@@ -4343,8 +4383,8 @@
     {
      "x": 4540.96,
      "z": 174.43,
-     "y": 126.674,
-     "bedY": 126.04,
+     "y": 126.662,
+     "bedY": 126.02,
      "halfWidthM": 3.32,
      "wettedHalfWidthM": 1.31,
      "speedMS": 2.3,
@@ -4355,8 +4395,8 @@
     {
      "x": 4541.39,
      "z": 172.64,
-     "y": 126.034,
-     "bedY": 125.5,
+     "y": 125.987,
+     "bedY": 125.44,
      "halfWidthM": 3.32,
      "wettedHalfWidthM": 1.31,
      "speedMS": 2.3,
@@ -4367,8 +4407,8 @@
     {
      "x": 4541.85,
      "z": 170.85,
-     "y": 125.289,
-     "bedY": 124.72,
+     "y": 125.205,
+     "bedY": 124.53,
      "halfWidthM": 3.32,
      "wettedHalfWidthM": 1.31,
      "speedMS": 2.3,
@@ -4379,8 +4419,8 @@
     {
      "x": 4542.34,
      "z": 169.08,
-     "y": 124.837,
-     "bedY": 124.23,
+     "y": 124.566,
+     "bedY": 123.93,
      "halfWidthM": 3.32,
      "wettedHalfWidthM": 1.31,
      "speedMS": 2.3,
@@ -4391,8 +4431,8 @@
     {
      "x": 4542.96,
      "z": 167.35,
-     "y": 124.837,
-     "bedY": 124.37,
+     "y": 124.566,
+     "bedY": 124.07,
      "halfWidthM": 3.32,
      "wettedHalfWidthM": 1.31,
      "speedMS": 2.3,
@@ -4403,11 +4443,11 @@
     {
      "x": 4543.62,
      "z": 165.63,
-     "y": 124.837,
-     "bedY": 124.34,
+     "y": 124.549,
+     "bedY": 124.02,
      "halfWidthM": 3.32,
-     "wettedHalfWidthM": 2.26,
-     "speedMS": 0.45,
+     "wettedHalfWidthM": 1.59,
+     "speedMS": 1.3,
      "season": 0.35,
      "kind": "join",
      "arcM": 40.47
@@ -4419,112 +4459,148 @@
    "band": 1,
    "points": [
     {
-     "x": 4567.76,
-     "z": 146.09,
-     "y": 122.758,
-     "bedY": 122.25,
-     "halfWidthM": 3.43,
-     "wettedHalfWidthM": 1.66,
+     "x": 4543.62,
+     "z": 165.63,
+     "y": 124.549,
+     "bedY": 124.02,
+     "halfWidthM": 3.32,
+     "wettedHalfWidthM": 1.59,
      "speedMS": 1.3,
      "season": 0.35,
      "kind": "join",
      "arcM": 0.0
     },
     {
-     "x": 4569.39,
-     "z": 145.27,
-     "y": 122.68,
-     "bedY": 122.24,
-     "halfWidthM": 3.43,
-     "wettedHalfWidthM": 1.37,
+     "x": 4544.36,
+     "z": 163.95,
+     "y": 124.549,
+     "bedY": 123.98,
+     "halfWidthM": 3.33,
+     "wettedHalfWidthM": 1.31,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 1.82
+     "arcM": 1.84
     },
     {
-     "x": 4570.73,
-     "z": 144.05,
-     "y": 122.68,
-     "bedY": 121.98,
-     "halfWidthM": 3.44,
-     "wettedHalfWidthM": 1.37,
+     "x": 4545.17,
+     "z": 162.3,
+     "y": 124.493,
+     "bedY": 123.74,
+     "halfWidthM": 3.33,
+     "wettedHalfWidthM": 1.31,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 3.64
+     "arcM": 3.67
     },
     {
-     "x": 4571.56,
-     "z": 142.42,
-     "y": 122.242,
-     "bedY": 121.39,
-     "halfWidthM": 3.44,
-     "wettedHalfWidthM": 1.37,
+     "x": 4546.01,
+     "z": 160.66,
+     "y": 123.736,
+     "bedY": 122.92,
+     "halfWidthM": 3.33,
+     "wettedHalfWidthM": 1.31,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 5.47
+     "arcM": 5.52
     },
     {
-     "x": 4571.81,
-     "z": 140.6,
-     "y": 121.56,
-     "bedY": 120.65,
-     "halfWidthM": 3.44,
-     "wettedHalfWidthM": 1.38,
+     "x": 4546.94,
+     "z": 159.07,
+     "y": 123.049,
+     "bedY": 122.45,
+     "halfWidthM": 3.34,
+     "wettedHalfWidthM": 1.32,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 7.3
+     "arcM": 7.36
     },
     {
-     "x": 4571.78,
-     "z": 138.76,
-     "y": 120.718,
-     "bedY": 119.88,
-     "halfWidthM": 3.44,
-     "wettedHalfWidthM": 1.38,
+     "x": 4547.9,
+     "z": 157.5,
+     "y": 122.63,
+     "bedY": 122.02,
+     "halfWidthM": 3.34,
+     "wettedHalfWidthM": 1.32,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 9.14
+     "arcM": 9.2
     },
     {
-     "x": 4571.54,
-     "z": 136.94,
-     "y": 119.929,
-     "bedY": 119.22,
-     "halfWidthM": 3.44,
-     "wettedHalfWidthM": 1.38,
+     "x": 4548.96,
+     "z": 156.0,
+     "y": 122.609,
+     "bedY": 122.05,
+     "halfWidthM": 3.34,
+     "wettedHalfWidthM": 1.32,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 10.98
+     "arcM": 11.04
     },
     {
-     "x": 4571.15,
-     "z": 135.15,
-     "y": 119.929,
-     "bedY": 119.34,
-     "halfWidthM": 3.44,
-     "wettedHalfWidthM": 1.38,
+     "x": 4550.09,
+     "z": 154.55,
+     "y": 122.537,
+     "bedY": 122.07,
+     "halfWidthM": 3.34,
+     "wettedHalfWidthM": 1.32,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 12.81
+     "arcM": 12.87
     },
     {
-     "x": 4570.77,
-     "z": 133.34,
-     "y": 119.929,
-     "bedY": 119.44,
-     "halfWidthM": 3.44,
-     "wettedHalfWidthM": 1.66,
+     "x": 4551.28,
+     "z": 153.14,
+     "y": 122.537,
+     "bedY": 121.99,
+     "halfWidthM": 3.34,
+     "wettedHalfWidthM": 1.32,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 14.72
+    },
+    {
+     "x": 4552.6,
+     "z": 151.86,
+     "y": 122.357,
+     "bedY": 121.89,
+     "halfWidthM": 3.34,
+     "wettedHalfWidthM": 1.32,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 16.56
+    },
+    {
+     "x": 4553.97,
+     "z": 150.64,
+     "y": 122.201,
+     "bedY": 121.72,
+     "halfWidthM": 3.34,
+     "wettedHalfWidthM": 1.32,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 18.39
+    },
+    {
+     "x": 4555.5,
+     "z": 149.62,
+     "y": 122.201,
+     "bedY": 121.73,
+     "halfWidthM": 3.35,
+     "wettedHalfWidthM": 1.61,
      "speedMS": 1.3,
      "season": 0.35,
      "kind": "join",
-     "arcM": 14.66
+     "arcM": 20.23
     }
    ]
   },
@@ -4535,8 +4611,8 @@
     {
      "x": 4570.77,
      "z": 133.34,
-     "y": 119.929,
-     "bedY": 119.44,
+     "y": 119.921,
+     "bedY": 119.43,
      "halfWidthM": 3.44,
      "wettedHalfWidthM": 1.66,
      "speedMS": 1.3,
@@ -4547,8 +4623,8 @@
     {
      "x": 4570.41,
      "z": 131.54,
-     "y": 119.929,
-     "bedY": 119.4,
+     "y": 119.921,
+     "bedY": 119.38,
      "halfWidthM": 3.44,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4559,8 +4635,8 @@
     {
      "x": 4570.05,
      "z": 129.74,
-     "y": 119.812,
-     "bedY": 119.19,
+     "y": 119.768,
+     "bedY": 119.13,
      "halfWidthM": 3.44,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4571,8 +4647,8 @@
     {
      "x": 4569.81,
      "z": 127.91,
-     "y": 119.267,
-     "bedY": 118.57,
+     "y": 119.205,
+     "bedY": 118.49,
      "halfWidthM": 3.44,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4583,8 +4659,8 @@
     {
      "x": 4569.63,
      "z": 126.08,
-     "y": 118.837,
-     "bedY": 118.08,
+     "y": 118.76,
+     "bedY": 117.99,
      "halfWidthM": 3.44,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4595,8 +4671,8 @@
     {
      "x": 4569.54,
      "z": 124.24,
-     "y": 118.442,
-     "bedY": 117.72,
+     "y": 118.353,
+     "bedY": 117.62,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4607,8 +4683,8 @@
     {
      "x": 4569.55,
      "z": 122.4,
-     "y": 118.084,
-     "bedY": 117.37,
+     "y": 117.989,
+     "bedY": 117.28,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4619,8 +4695,8 @@
     {
      "x": 4569.62,
      "z": 120.57,
-     "y": 117.772,
-     "bedY": 117.06,
+     "y": 117.677,
+     "bedY": 116.97,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4631,8 +4707,8 @@
     {
      "x": 4569.78,
      "z": 118.73,
-     "y": 117.461,
-     "bedY": 116.77,
+     "y": 117.373,
+     "bedY": 116.68,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4643,8 +4719,8 @@
     {
      "x": 4570.06,
      "z": 116.92,
-     "y": 117.069,
-     "bedY": 116.4,
+     "y": 116.995,
+     "bedY": 116.33,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4655,8 +4731,8 @@
     {
      "x": 4570.41,
      "z": 115.11,
-     "y": 116.778,
-     "bedY": 116.18,
+     "y": 116.716,
+     "bedY": 116.13,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -4667,8 +4743,8 @@
     {
      "x": 4570.87,
      "z": 113.33,
-     "y": 116.412,
-     "bedY": 115.87,
+     "y": 116.378,
+     "bedY": 115.84,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -4679,8 +4755,8 @@
     {
      "x": 4571.43,
      "z": 111.58,
-     "y": 116.412,
-     "bedY": 115.86,
+     "y": 116.378,
+     "bedY": 115.83,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -4691,8 +4767,8 @@
     {
      "x": 4572.05,
      "z": 109.84,
-     "y": 116.412,
-     "bedY": 115.89,
+     "y": 116.378,
+     "bedY": 115.86,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -4703,8 +4779,8 @@
     {
      "x": 4572.79,
      "z": 108.16,
-     "y": 116.412,
-     "bedY": 115.8,
+     "y": 116.378,
+     "bedY": 115.77,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -4715,7 +4791,7 @@
     {
      "x": 4573.56,
      "z": 106.49,
-     "y": 115.875,
+     "y": 115.874,
      "bedY": 115.19,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
@@ -4728,7 +4804,7 @@
      "x": 4574.38,
      "z": 104.84,
      "y": 114.948,
-     "bedY": 114.46,
+     "bedY": 114.47,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -10008,7 +10084,7 @@
      "x": 2294.33,
      "z": 1131.93,
      "y": 34.051,
-     "bedY": 33.74,
+     "bedY": 33.51,
      "halfWidthM": 5.05,
      "wettedHalfWidthM": 2.83,
      "speedMS": 1.3,
@@ -10020,7 +10096,7 @@
      "x": 2294.56,
      "z": 1133.74,
      "y": 33.991,
-     "bedY": 33.67,
+     "bedY": 33.42,
      "halfWidthM": 5.05,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10032,7 +10108,7 @@
      "x": 2294.77,
      "z": 1135.55,
      "y": 33.865,
-     "bedY": 33.55,
+     "bedY": 33.28,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10044,7 +10120,7 @@
      "x": 2295.26,
      "z": 1137.32,
      "y": 33.654,
-     "bedY": 33.35,
+     "bedY": 33.08,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10056,7 +10132,7 @@
      "x": 2295.88,
      "z": 1139.03,
      "y": 33.496,
-     "bedY": 33.19,
+     "bedY": 32.92,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10068,7 +10144,7 @@
      "x": 2296.63,
      "z": 1140.7,
      "y": 33.463,
-     "bedY": 33.17,
+     "bedY": 32.92,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10080,7 +10156,7 @@
      "x": 2297.58,
      "z": 1142.25,
      "y": 33.39,
-     "bedY": 33.1,
+     "bedY": 32.83,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10092,7 +10168,7 @@
      "x": 2298.58,
      "z": 1143.79,
      "y": 33.165,
-     "bedY": 32.93,
+     "bedY": 32.67,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10104,7 +10180,7 @@
      "x": 2299.74,
      "z": 1145.2,
      "y": 32.986,
-     "bedY": 32.76,
+     "bedY": 32.48,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10116,7 +10192,7 @@
      "x": 2300.91,
      "z": 1146.6,
      "y": 32.986,
-     "bedY": 32.65,
+     "bedY": 32.37,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10128,7 +10204,7 @@
      "x": 2302.13,
      "z": 1147.96,
      "y": 32.836,
-     "bedY": 32.51,
+     "bedY": 32.27,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -10140,7 +10216,7 @@
      "x": 2303.36,
      "z": 1149.32,
      "y": 32.611,
-     "bedY": 32.13,
+     "bedY": 32.09,
      "halfWidthM": 5.06,
      "wettedHalfWidthM": 2.34,
      "speedMS": 2.3,
@@ -14655,35 +14731,149 @@
    "band": 1,
    "points": [
     {
-     "x": 5433.54,
-     "z": 782.63,
-     "y": 222.232,
-     "bedY": 222.07,
-     "halfWidthM": 3.18,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
+     "x": 5367.16,
+     "z": 739.49,
+     "y": 217.765,
+     "bedY": 217.32,
+     "halfWidthM": 3.1,
+     "wettedHalfWidthM": 2.05,
+     "speedMS": 0.45,
      "season": 0.35,
      "kind": "join",
      "arcM": 0.0
     },
     {
-     "x": 5435.11,
-     "z": 781.7,
-     "y": 221.827,
-     "bedY": 221.62,
-     "halfWidthM": 3.18,
+     "x": 5367.63,
+     "z": 741.26,
+     "y": 217.765,
+     "bedY": 217.32,
+     "halfWidthM": 3.1,
+     "wettedHalfWidthM": 1.19,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 1.83
+    },
+    {
+     "x": 5367.97,
+     "z": 743.05,
+     "y": 217.765,
+     "bedY": 216.88,
+     "halfWidthM": 3.1,
+     "wettedHalfWidthM": 1.19,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 3.65
+    },
+    {
+     "x": 5368.33,
+     "z": 744.84,
+     "y": 217.057,
+     "bedY": 216.29,
+     "halfWidthM": 3.1,
+     "wettedHalfWidthM": 1.19,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 5.48
+    },
+    {
+     "x": 5368.72,
+     "z": 746.63,
+     "y": 216.86,
+     "bedY": 216.21,
+     "halfWidthM": 3.1,
+     "wettedHalfWidthM": 1.19,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 7.31
+    },
+    {
+     "x": 5369.17,
+     "z": 748.4,
+     "y": 216.731,
+     "bedY": 216.17,
+     "halfWidthM": 3.1,
+     "wettedHalfWidthM": 1.19,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 9.14
+    },
+    {
+     "x": 5369.65,
+     "z": 750.16,
+     "y": 216.454,
+     "bedY": 215.98,
+     "halfWidthM": 3.1,
+     "wettedHalfWidthM": 1.19,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 10.96
+    },
+    {
+     "x": 5370.18,
+     "z": 751.91,
+     "y": 216.454,
+     "bedY": 215.93,
+     "halfWidthM": 3.1,
+     "wettedHalfWidthM": 1.19,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 12.79
+    },
+    {
+     "x": 5370.78,
+     "z": 753.64,
+     "y": 216.454,
+     "bedY": 216.03,
+     "halfWidthM": 3.12,
+     "wettedHalfWidthM": 2.07,
+     "speedMS": 0.45,
+     "season": 0.35,
+     "kind": "join",
+     "arcM": 14.62
+    }
+   ]
+  },
+  {
+   "id": "strip-47",
+   "band": 1,
+   "points": [
+    {
+     "x": 5449.69,
+     "z": 774.28,
+     "y": 216.454,
+     "bedY": 216.02,
+     "halfWidthM": 3.19,
+     "wettedHalfWidthM": 2.14,
+     "speedMS": 0.45,
+     "season": 0.35,
+     "kind": "join",
+     "arcM": 0.0
+    },
+    {
+     "x": 5451.49,
+     "z": 773.91,
+     "y": 216.454,
+     "bedY": 215.94,
+     "halfWidthM": 3.19,
      "wettedHalfWidthM": 1.24,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 1.82
+     "arcM": 1.84
     },
     {
-     "x": 5436.66,
-     "z": 780.72,
-     "y": 221.721,
-     "bedY": 220.95,
-     "halfWidthM": 3.18,
+     "x": 5453.3,
+     "z": 773.69,
+     "y": 216.454,
+     "bedY": 215.69,
+     "halfWidthM": 3.2,
      "wettedHalfWidthM": 1.24,
      "speedMS": 2.3,
      "season": 0.35,
@@ -14691,148 +14881,28 @@
      "arcM": 3.66
     },
     {
-     "x": 5438.2,
-     "z": 779.74,
-     "y": 221.071,
-     "bedY": 220.41,
-     "halfWidthM": 3.18,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 5.48
-    },
-    {
-     "x": 5439.76,
-     "z": 778.79,
-     "y": 220.629,
-     "bedY": 219.91,
-     "halfWidthM": 3.18,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 7.31
-    },
-    {
-     "x": 5441.33,
-     "z": 777.84,
-     "y": 220.216,
-     "bedY": 219.61,
-     "halfWidthM": 3.18,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 9.15
-    },
-    {
-     "x": 5442.91,
-     "z": 776.93,
-     "y": 220.168,
-     "bedY": 219.41,
-     "halfWidthM": 3.19,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 10.97
-    },
-    {
-     "x": 5444.54,
-     "z": 776.1,
-     "y": 219.475,
-     "bedY": 218.73,
-     "halfWidthM": 3.19,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 12.8
-    },
-    {
-     "x": 5446.21,
-     "z": 775.36,
-     "y": 218.217,
-     "bedY": 217.82,
-     "halfWidthM": 3.19,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 14.62
-    },
-    {
-     "x": 5447.94,
-     "z": 774.78,
-     "y": 218.163,
-     "bedY": 217.46,
-     "halfWidthM": 3.19,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 16.45
-    },
-    {
-     "x": 5449.69,
-     "z": 774.28,
-     "y": 218.163,
-     "bedY": 217.39,
-     "halfWidthM": 3.19,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 18.27
-    },
-    {
-     "x": 5451.49,
-     "z": 773.91,
-     "y": 217.657,
-     "bedY": 216.69,
-     "halfWidthM": 3.19,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 20.11
-    },
-    {
-     "x": 5453.3,
-     "z": 773.69,
-     "y": 216.832,
-     "bedY": 215.78,
-     "halfWidthM": 3.2,
-     "wettedHalfWidthM": 1.24,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 21.93
-    },
-    {
      "x": 5455.12,
      "z": 773.53,
      "y": 216.05,
-     "bedY": 215.08,
+     "bedY": 215.18,
      "halfWidthM": 3.2,
      "wettedHalfWidthM": 1.24,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 23.76
+     "arcM": 5.49
     },
     {
      "x": 5456.94,
      "z": 773.44,
      "y": 215.51,
-     "bedY": 214.65,
+     "bedY": 214.68,
      "halfWidthM": 3.2,
      "wettedHalfWidthM": 1.24,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 25.58
+     "arcM": 7.31
     },
     {
      "x": 5458.77,
@@ -14844,7 +14914,7 @@
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 27.41
+     "arcM": 9.14
     },
     {
      "x": 5460.6,
@@ -14856,7 +14926,7 @@
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 29.24
+     "arcM": 10.97
     },
     {
      "x": 5462.43,
@@ -14868,7 +14938,7 @@
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 31.07
+     "arcM": 12.8
     },
     {
      "x": 5464.26,
@@ -14880,7 +14950,7 @@
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 32.9
+     "arcM": 14.63
     },
     {
      "x": 5466.08,
@@ -14892,7 +14962,7 @@
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 34.72
+     "arcM": 16.45
     },
     {
      "x": 5467.91,
@@ -14904,7 +14974,7 @@
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 36.55
+     "arcM": 18.28
     },
     {
      "x": 5469.74,
@@ -14916,7 +14986,7 @@
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 38.38
+     "arcM": 20.11
     },
     {
      "x": 5471.57,
@@ -14928,12 +14998,12 @@
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "lip",
-     "arcM": 40.21
+     "arcM": 21.94
     }
    ]
   },
   {
-   "id": "strip-47",
+   "id": "strip-48",
    "band": 1,
    "points": [
     {
@@ -15191,7 +15261,7 @@
    ]
   },
   {
-   "id": "strip-48",
+   "id": "strip-49",
    "band": 1,
    "points": [
     {
@@ -15377,7 +15447,7 @@
    ]
   },
   {
-   "id": "strip-49",
+   "id": "strip-50",
    "band": 1,
    "points": [
     {
@@ -15803,7 +15873,7 @@
    ]
   },
   {
-   "id": "strip-50",
+   "id": "strip-51",
    "band": 1,
    "points": [
     {
@@ -16013,7 +16083,7 @@
    ]
   },
   {
-   "id": "strip-51",
+   "id": "strip-52",
    "band": 1,
    "points": [
     {
@@ -16235,7 +16305,7 @@
    ]
   },
   {
-   "id": "strip-52",
+   "id": "strip-53",
    "band": 1,
    "points": [
     {
@@ -16721,7 +16791,7 @@
    ]
   },
   {
-   "id": "strip-53",
+   "id": "strip-54",
    "band": 1,
    "points": [
     {
@@ -17051,7 +17121,7 @@
    ]
   },
   {
-   "id": "strip-54",
+   "id": "strip-55",
    "band": 1,
    "points": [
     {
@@ -17165,7 +17235,7 @@
    ]
   },
   {
-   "id": "strip-55",
+   "id": "strip-56",
    "band": 1,
    "points": [
     {
@@ -17555,7 +17625,7 @@
    ]
   },
   {
-   "id": "strip-56",
+   "id": "strip-57",
    "band": 1,
    "points": [
     {
@@ -17825,7 +17895,7 @@
    ]
   },
   {
-   "id": "strip-57",
+   "id": "strip-58",
    "band": 1,
    "points": [
     {
@@ -18167,7 +18237,7 @@
    ]
   },
   {
-   "id": "strip-58",
+   "id": "strip-59",
    "band": 1,
    "points": [
     {
@@ -18305,7 +18375,7 @@
    ]
   },
   {
-   "id": "strip-59",
+   "id": "strip-60",
    "band": 1,
    "points": [
     {
@@ -18623,7 +18693,7 @@
    ]
   },
   {
-   "id": "strip-60",
+   "id": "strip-61",
    "band": 1,
    "points": [
     {
@@ -18821,7 +18891,7 @@
    ]
   },
   {
-   "id": "strip-61",
+   "id": "strip-62",
    "band": 1,
    "points": [
     {
@@ -18947,7 +19017,7 @@
    ]
   },
   {
-   "id": "strip-62",
+   "id": "strip-63",
    "band": 1,
    "points": [
     {
@@ -19014,7 +19084,7 @@
      "x": 6112.63,
      "z": 682.57,
      "y": 33.386,
-     "bedY": 32.85,
+     "bedY": 32.82,
      "halfWidthM": 4.72,
      "wettedHalfWidthM": 2.13,
      "speedMS": 2.3,
@@ -19026,7 +19096,7 @@
      "x": 6114.07,
      "z": 683.69,
      "y": 33.154,
-     "bedY": 32.86,
+     "bedY": 32.61,
      "halfWidthM": 4.72,
      "wettedHalfWidthM": 2.13,
      "speedMS": 2.3,
@@ -19038,7 +19108,7 @@
      "x": 6115.53,
      "z": 684.8,
      "y": 33.154,
-     "bedY": 32.87,
+     "bedY": 32.59,
      "halfWidthM": 4.72,
      "wettedHalfWidthM": 2.13,
      "speedMS": 2.3,
@@ -19050,7 +19120,7 @@
      "x": 6116.89,
      "z": 686.01,
      "y": 33.005,
-     "bedY": 32.66,
+     "bedY": 32.33,
      "halfWidthM": 4.72,
      "wettedHalfWidthM": 2.13,
      "speedMS": 2.3,
@@ -19062,7 +19132,7 @@
      "x": 6118.2,
      "z": 687.29,
      "y": 32.376,
-     "bedY": 32.09,
+     "bedY": 31.78,
      "halfWidthM": 4.72,
      "wettedHalfWidthM": 2.13,
      "speedMS": 2.3,
@@ -19074,7 +19144,7 @@
      "x": 6119.4,
      "z": 688.67,
      "y": 32.376,
-     "bedY": 32.09,
+     "bedY": 31.8,
      "halfWidthM": 4.72,
      "wettedHalfWidthM": 2.13,
      "speedMS": 2.3,
@@ -19086,7 +19156,7 @@
      "x": 6120.42,
      "z": 690.18,
      "y": 32.376,
-     "bedY": 32.08,
+     "bedY": 31.85,
      "halfWidthM": 4.92,
      "wettedHalfWidthM": 3.89,
      "speedMS": 0.45,
@@ -19097,7 +19167,7 @@
    ]
   },
   {
-   "id": "strip-63",
+   "id": "strip-64",
    "band": 2,
    "points": [
     {
@@ -19211,7 +19281,7 @@
    ]
   },
   {
-   "id": "strip-64",
+   "id": "strip-65",
    "band": 2,
    "points": [
     {
@@ -19349,7 +19419,7 @@
    ]
   },
   {
-   "id": "strip-65",
+   "id": "strip-66",
    "band": 2,
    "points": [
     {
@@ -19511,7 +19581,7 @@
    ]
   },
   {
-   "id": "strip-66",
+   "id": "strip-67",
    "band": 2,
    "points": [
     {
@@ -19649,7 +19719,7 @@
    ]
   },
   {
-   "id": "strip-67",
+   "id": "strip-68",
    "band": 1,
    "points": [
     {
@@ -19931,7 +20001,7 @@
    ]
   },
   {
-   "id": "strip-68",
+   "id": "strip-69",
    "band": 1,
    "points": [
     {
@@ -21461,7 +21531,7 @@
    ]
   },
   {
-   "id": "strip-69",
+   "id": "strip-70",
    "band": 1,
    "points": [
     {
@@ -21575,7 +21645,7 @@
    ]
   },
   {
-   "id": "strip-70",
+   "id": "strip-71",
    "band": 1,
    "points": [
     {
@@ -21857,7 +21927,7 @@
    ]
   },
   {
-   "id": "strip-71",
+   "id": "strip-72",
    "band": 1,
    "points": [
     {
@@ -23255,7 +23325,7 @@
    ]
   },
   {
-   "id": "strip-72",
+   "id": "strip-73",
    "band": 2,
    "points": [
     {
@@ -23381,14 +23451,14 @@
    ]
   },
   {
-   "id": "strip-73",
+   "id": "strip-74",
    "band": 2,
    "points": [
     {
      "x": 3046.23,
      "z": 653.15,
      "y": 11.655,
-     "bedY": 11.38,
+     "bedY": 10.47,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23400,7 +23470,7 @@
      "x": 3047.57,
      "z": 651.91,
      "y": 11.655,
-     "bedY": 11.35,
+     "bedY": 10.42,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23412,7 +23482,7 @@
      "x": 3048.91,
      "z": 650.66,
      "y": 11.576,
-     "bedY": 11.27,
+     "bedY": 10.31,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23424,7 +23494,7 @@
      "x": 3050.21,
      "z": 649.37,
      "y": 11.37,
-     "bedY": 11.05,
+     "bedY": 10.1,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23436,7 +23506,7 @@
      "x": 3051.5,
      "z": 648.08,
      "y": 11.25,
-     "bedY": 10.93,
+     "bedY": 9.98,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23448,7 +23518,7 @@
      "x": 3052.76,
      "z": 646.75,
      "y": 11.12,
-     "bedY": 10.82,
+     "bedY": 9.87,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23460,7 +23530,7 @@
      "x": 3054.01,
      "z": 645.41,
      "y": 11.056,
-     "bedY": 10.77,
+     "bedY": 9.83,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23472,7 +23542,7 @@
      "x": 3055.22,
      "z": 644.05,
      "y": 11.001,
-     "bedY": 10.69,
+     "bedY": 9.76,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23484,7 +23554,7 @@
      "x": 3056.42,
      "z": 642.66,
      "y": 10.928,
-     "bedY": 10.62,
+     "bedY": 9.7,
      "halfWidthM": 7.54,
      "wettedHalfWidthM": 3.04,
      "speedMS": 2.3,
@@ -23495,7 +23565,7 @@
    ]
   },
   {
-   "id": "strip-74",
+   "id": "strip-75",
    "band": 2,
    "points": [
     {
@@ -23609,7 +23679,7 @@
    ]
   },
   {
-   "id": "strip-75",
+   "id": "strip-76",
    "band": 2,
    "points": [
     {
@@ -23795,7 +23865,7 @@
    ]
   },
   {
-   "id": "strip-76",
+   "id": "strip-77",
    "band": 2,
    "points": [
     {
@@ -23862,7 +23932,7 @@
      "x": 3252.2,
      "z": 425.56,
      "y": 3.075,
-     "bedY": 1.22,
+     "bedY": 1.18,
      "halfWidthM": 7.92,
      "wettedHalfWidthM": 3.25,
      "speedMS": 2.3,
@@ -23874,7 +23944,7 @@
      "x": 3253.27,
      "z": 424.08,
      "y": 1.622,
-     "bedY": 0.06,
+     "bedY": -0.58,
      "halfWidthM": 7.92,
      "wettedHalfWidthM": 3.25,
      "speedMS": 2.3,
@@ -23886,7 +23956,7 @@
      "x": 3254.3,
      "z": 422.57,
      "y": 0.507,
-     "bedY": -0.98,
+     "bedY": -1.07,
      "halfWidthM": 7.92,
      "wettedHalfWidthM": 3.25,
      "speedMS": 2.3,
@@ -23909,7 +23979,7 @@
    ]
   },
   {
-   "id": "strip-77",
+   "id": "strip-78",
    "band": 1,
    "points": [
     {
@@ -24203,7 +24273,7 @@
    ]
   },
   {
-   "id": "strip-78",
+   "id": "strip-79",
    "band": 1,
    "points": [
     {
@@ -24725,7 +24795,7 @@
    ]
   },
   {
-   "id": "strip-79",
+   "id": "strip-80",
    "band": 1,
    "points": [
     {
@@ -25055,7 +25125,7 @@
    ]
   },
   {
-   "id": "strip-80",
+   "id": "strip-81",
    "band": 1,
    "points": [
     {
@@ -25445,7 +25515,7 @@
    ]
   },
   {
-   "id": "strip-81",
+   "id": "strip-82",
    "band": 2,
    "points": [
     {
@@ -25595,7 +25665,7 @@
    ]
   },
   {
-   "id": "strip-82",
+   "id": "strip-83",
    "band": 2,
    "points": [
     {
@@ -25817,7 +25887,7 @@
    ]
   },
   {
-   "id": "strip-83",
+   "id": "strip-84",
    "band": 2,
    "points": [
     {
@@ -26279,7 +26349,7 @@
    ]
   },
   {
-   "id": "strip-84",
+   "id": "strip-85",
    "band": 2,
    "points": [
     {
@@ -26885,7 +26955,7 @@
    ]
   },
   {
-   "id": "strip-85",
+   "id": "strip-86",
    "band": 2,
    "points": [
     {
@@ -27095,7 +27165,7 @@
    ]
   },
   {
-   "id": "strip-86",
+   "id": "strip-87",
    "band": 2,
    "points": [
     {
@@ -27329,7 +27399,7 @@
    ]
   },
   {
-   "id": "strip-87",
+   "id": "strip-88",
    "band": 1,
    "points": [
     {
@@ -27551,7 +27621,7 @@
    ]
   },
   {
-   "id": "strip-88",
+   "id": "strip-89",
    "band": 1,
    "points": [
     {
@@ -27677,7 +27747,7 @@
    ]
   },
   {
-   "id": "strip-89",
+   "id": "strip-90",
    "band": 1,
    "points": [
     {
@@ -27803,7 +27873,7 @@
    ]
   },
   {
-   "id": "strip-90",
+   "id": "strip-91",
    "band": 1,
    "points": [
     {
@@ -27989,7 +28059,7 @@
    ]
   },
   {
-   "id": "strip-91",
+   "id": "strip-92",
    "band": 1,
    "points": [
     {
@@ -28908,7 +28978,7 @@
      "x": 5556.71,
      "z": 1427.73,
      "y": 48.203,
-     "bedY": 47.01,
+     "bedY": 47.02,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
      "speedMS": 2.3,
@@ -28931,7 +29001,7 @@
     {
      "x": 5558.17,
      "z": 1431.09,
-     "y": 46.341,
+     "y": 46.344,
      "bedY": 45.46,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
@@ -28943,8 +29013,8 @@
     {
      "x": 5559.01,
      "z": 1432.71,
-     "y": 45.49,
-     "bedY": 44.57,
+     "y": 45.491,
+     "bedY": 44.59,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
      "speedMS": 2.3,
@@ -28967,8 +29037,8 @@
     {
      "x": 5560.93,
      "z": 1435.82,
-     "y": 43.573,
-     "bedY": 42.59,
+     "y": 43.705,
+     "bedY": 42.65,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
      "speedMS": 2.3,
@@ -28992,7 +29062,7 @@
      "x": 5563.11,
      "z": 1438.76,
      "y": 40.483,
-     "bedY": 39.65,
+     "bedY": 39.64,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
      "speedMS": 2.3,
@@ -29028,7 +29098,7 @@
      "x": 5566.72,
      "z": 1442.9,
      "y": 36.375,
-     "bedY": 35.49,
+     "bedY": 35.5,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
      "speedMS": 2.3,
@@ -29039,8 +29109,8 @@
     {
      "x": 5567.98,
      "z": 1444.23,
-     "y": 35.313,
-     "bedY": 33.93,
+     "y": 35.321,
+     "bedY": 33.94,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
      "speedMS": 2.3,
@@ -29051,8 +29121,8 @@
     {
      "x": 5569.23,
      "z": 1445.56,
-     "y": 33.961,
-     "bedY": 33.05,
+     "y": 33.968,
+     "bedY": 33.07,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
      "speedMS": 2.3,
@@ -29063,8 +29133,8 @@
     {
      "x": 5570.51,
      "z": 1446.86,
-     "y": 32.981,
-     "bedY": 32.0,
+     "y": 32.999,
+     "bedY": 32.04,
      "halfWidthM": 3.16,
      "wettedHalfWidthM": 1.23,
      "speedMS": 2.3,
@@ -29075,8 +29145,8 @@
     {
      "x": 5571.8,
      "z": 1448.17,
-     "y": 32.057,
-     "bedY": 31.13,
+     "y": 32.105,
+     "bedY": 31.19,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29087,8 +29157,8 @@
     {
      "x": 5573.08,
      "z": 1449.47,
-     "y": 31.494,
-     "bedY": 30.62,
+     "y": 31.541,
+     "bedY": 30.69,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29099,8 +29169,8 @@
     {
      "x": 5574.36,
      "z": 1450.78,
-     "y": 31.037,
-     "bedY": 30.04,
+     "y": 31.131,
+     "bedY": 30.17,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29111,8 +29181,8 @@
     {
      "x": 5575.64,
      "z": 1452.08,
-     "y": 30.497,
-     "bedY": 29.35,
+     "y": 30.614,
+     "bedY": 29.53,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29123,8 +29193,8 @@
     {
      "x": 5576.93,
      "z": 1453.39,
-     "y": 29.532,
-     "bedY": 27.98,
+     "y": 29.704,
+     "bedY": 28.3,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29135,8 +29205,8 @@
     {
      "x": 5578.19,
      "z": 1454.71,
-     "y": 28.16,
-     "bedY": 27.04,
+     "y": 28.493,
+     "bedY": 27.4,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29147,8 +29217,8 @@
     {
      "x": 5579.45,
      "z": 1456.04,
-     "y": 24.531,
-     "bedY": 23.8,
+     "y": 25.531,
+     "bedY": 24.45,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29159,8 +29229,8 @@
     {
      "x": 5580.69,
      "z": 1457.39,
-     "y": 23.975,
-     "bedY": 22.49,
+     "y": 24.29,
+     "bedY": 22.72,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29172,7 +29242,7 @@
      "x": 5581.92,
      "z": 1458.74,
      "y": 22.934,
-     "bedY": 21.8,
+     "bedY": 21.81,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29183,8 +29253,8 @@
     {
      "x": 5583.1,
      "z": 1460.14,
-     "y": 21.594,
-     "bedY": 20.4,
+     "y": 21.779,
+     "bedY": 20.66,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29195,8 +29265,8 @@
     {
      "x": 5584.23,
      "z": 1461.58,
-     "y": 20.028,
-     "bedY": 19.25,
+     "y": 20.783,
+     "bedY": 19.91,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29207,8 +29277,8 @@
     {
      "x": 5585.31,
      "z": 1463.06,
-     "y": 18.88,
-     "bedY": 18.2,
+     "y": 19.19,
+     "bedY": 18.62,
      "halfWidthM": 3.23,
      "wettedHalfWidthM": 1.26,
      "speedMS": 2.3,
@@ -29219,8 +29289,8 @@
     {
      "x": 5586.33,
      "z": 1464.57,
-     "y": 18.821,
-     "bedY": 18.21,
+     "y": 19.19,
+     "bedY": 18.54,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
@@ -29231,199 +29301,325 @@
     {
      "x": 5587.23,
      "z": 1466.17,
-     "y": 18.742,
-     "bedY": 18.26,
+     "y": 19.19,
+     "bedY": 18.69,
+     "halfWidthM": 3.24,
+     "wettedHalfWidthM": 2.18,
+     "speedMS": 0.45,
+     "season": 0.35,
+     "kind": "join",
+     "arcM": 188.48
+    }
+   ]
+  },
+  {
+   "id": "strip-93",
+   "band": 1,
+   "points": [
+    {
+     "x": 5588.07,
+     "z": 1467.79,
+     "y": 19.19,
+     "bedY": 18.7,
+     "halfWidthM": 3.24,
+     "wettedHalfWidthM": 1.53,
+     "speedMS": 1.3,
+     "season": 0.35,
+     "kind": "join",
+     "arcM": 0.0
+    },
+    {
+     "x": 5588.69,
+     "z": 1469.51,
+     "y": 19.19,
+     "bedY": 18.72,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 188.48
+     "arcM": 1.83
     },
     {
-     "x": 5588.07,
-     "z": 1467.79,
-     "y": 18.742,
+     "x": 5589.26,
+     "z": 1471.25,
+     "y": 18.99,
      "bedY": 18.45,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 190.3
-    },
-    {
-     "x": 5588.69,
-     "z": 1469.51,
-     "y": 18.586,
-     "bedY": 18.35,
-     "halfWidthM": 3.24,
-     "wettedHalfWidthM": 1.27,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 192.13
-    },
-    {
-     "x": 5589.26,
-     "z": 1471.25,
-     "y": 18.157,
-     "bedY": 17.92,
-     "halfWidthM": 3.24,
-     "wettedHalfWidthM": 1.27,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 193.96
+     "arcM": 3.66
     },
     {
      "x": 5589.75,
      "z": 1473.01,
-     "y": 17.435,
-     "bedY": 17.21,
+     "y": 18.686,
+     "bedY": 18.07,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 195.79
+     "arcM": 5.49
     },
     {
      "x": 5590.13,
      "z": 1474.8,
-     "y": 16.705,
-     "bedY": 16.47,
+     "y": 18.555,
+     "bedY": 17.85,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 197.62
+     "arcM": 7.32
     },
     {
      "x": 5590.5,
      "z": 1476.6,
-     "y": 15.962,
-     "bedY": 15.81,
+     "y": 17.949,
+     "bedY": 17.4,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 199.46
+     "arcM": 9.15
     },
     {
      "x": 5590.92,
      "z": 1478.38,
-     "y": 15.251,
-     "bedY": 15.11,
+     "y": 17.219,
+     "bedY": 16.7,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 201.29
+     "arcM": 10.98
     },
     {
      "x": 5591.38,
      "z": 1480.15,
-     "y": 15.239,
-     "bedY": 14.94,
+     "y": 17.175,
+     "bedY": 16.5,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 203.12
+     "arcM": 12.81
     },
     {
      "x": 5591.88,
      "z": 1481.91,
-     "y": 15.239,
-     "bedY": 14.92,
+     "y": 17.175,
+     "bedY": 16.5,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 204.94
+     "arcM": 14.64
     },
     {
      "x": 5592.5,
      "z": 1483.63,
-     "y": 14.769,
-     "bedY": 14.61,
+     "y": 16.71,
+     "bedY": 16.16,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 206.77
+     "arcM": 16.47
     },
     {
      "x": 5593.18,
      "z": 1485.33,
-     "y": 13.933,
-     "bedY": 13.78,
+     "y": 15.881,
+     "bedY": 15.33,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 208.6
+     "arcM": 18.3
     },
     {
      "x": 5593.91,
      "z": 1487.0,
-     "y": 13.162,
-     "bedY": 12.95,
+     "y": 15.012,
+     "bedY": 14.35,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 210.43
+     "arcM": 20.12
     },
     {
      "x": 5594.73,
      "z": 1488.64,
-     "y": 12.843,
-     "bedY": 12.56,
+     "y": 14.424,
+     "bedY": 13.62,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 212.26
+     "arcM": 21.96
     },
     {
      "x": 5595.56,
      "z": 1490.27,
-     "y": 12.843,
-     "bedY": 12.57,
+     "y": 14.128,
+     "bedY": 13.5,
      "halfWidthM": 3.24,
      "wettedHalfWidthM": 1.27,
      "speedMS": 2.3,
      "season": 0.35,
      "kind": "steep",
-     "arcM": 214.09
+     "arcM": 23.79
     },
     {
      "x": 5596.48,
      "z": 1491.86,
-     "y": 12.843,
-     "bedY": 12.39,
+     "y": 13.903,
+     "bedY": 13.3,
      "halfWidthM": 3.24,
-     "wettedHalfWidthM": 2.19,
-     "speedMS": 0.45,
+     "wettedHalfWidthM": 1.27,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 25.62
+    },
+    {
+     "x": 5597.42,
+     "z": 1493.42,
+     "y": 13.82,
+     "bedY": 13.16,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 27.44
+    },
+    {
+     "x": 5598.43,
+     "z": 1494.95,
+     "y": 13.57,
+     "bedY": 12.97,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 29.28
+    },
+    {
+     "x": 5599.49,
+     "z": 1496.44,
+     "y": 12.825,
+     "bedY": 12.31,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 31.11
+    },
+    {
+     "x": 5600.59,
+     "z": 1497.9,
+     "y": 12.719,
+     "bedY": 12.16,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 32.93
+    },
+    {
+     "x": 5601.73,
+     "z": 1499.33,
+     "y": 12.719,
+     "bedY": 12.16,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 34.76
+    },
+    {
+     "x": 5602.9,
+     "z": 1500.74,
+     "y": 12.497,
+     "bedY": 11.99,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 36.59
+    },
+    {
+     "x": 5604.1,
+     "z": 1502.12,
+     "y": 12.462,
+     "bedY": 11.94,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 38.42
+    },
+    {
+     "x": 5605.33,
+     "z": 1503.48,
+     "y": 12.322,
+     "bedY": 11.88,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 40.26
+    },
+    {
+     "x": 5606.56,
+     "z": 1504.83,
+     "y": 12.322,
+     "bedY": 11.83,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.3,
+     "speedMS": 2.3,
+     "season": 0.35,
+     "kind": "steep",
+     "arcM": 42.08
+    },
+    {
+     "x": 5607.78,
+     "z": 1506.19,
+     "y": 12.159,
+     "bedY": 11.64,
+     "halfWidthM": 3.3,
+     "wettedHalfWidthM": 1.57,
+     "speedMS": 1.3,
      "season": 0.35,
      "kind": "join",
-     "arcM": 215.93
+     "arcM": 43.91
     }
    ]
   },
   {
-   "id": "strip-92",
+   "id": "strip-94",
    "band": 1,
    "points": [
     {
@@ -29609,7 +29805,7 @@
    ]
   },
   {
-   "id": "strip-93",
+   "id": "strip-95",
    "band": 1,
    "points": [
     {
@@ -31499,7 +31695,7 @@
    ]
   },
   {
-   "id": "strip-94",
+   "id": "strip-96",
    "band": 1,
    "points": [
     {
@@ -31769,7 +31965,7 @@
    ]
   },
   {
-   "id": "strip-95",
+   "id": "strip-97",
    "band": 1,
    "points": [
     {
@@ -31895,7 +32091,7 @@
    ]
   },
   {
-   "id": "strip-96",
+   "id": "strip-98",
    "band": 1,
    "points": [
     {
@@ -32057,7 +32253,7 @@
    ]
   },
   {
-   "id": "strip-97",
+   "id": "strip-99",
    "band": 2,
    "points": [
     {
@@ -32687,7 +32883,7 @@
    ]
   },
   {
-   "id": "strip-98",
+   "id": "strip-100",
    "band": 2,
    "points": [
     {
@@ -32837,7 +33033,7 @@
    ]
   },
   {
-   "id": "strip-99",
+   "id": "strip-101",
    "band": 2,
    "points": [
     {
@@ -32987,7 +33183,7 @@
    ]
   },
   {
-   "id": "strip-100",
+   "id": "strip-102",
    "band": 1,
    "points": [
     {
@@ -33125,7 +33321,7 @@
    ]
   },
   {
-   "id": "strip-101",
+   "id": "strip-103",
    "band": 1,
    "points": [
     {
@@ -33359,7 +33555,7 @@
    ]
   },
   {
-   "id": "strip-102",
+   "id": "strip-104",
    "band": 1,
    "points": [
     {
@@ -33545,7 +33741,7 @@
    ]
   },
   {
-   "id": "strip-103",
+   "id": "strip-105",
    "band": 1,
    "points": [
     {
@@ -33851,7 +34047,7 @@
    ]
   },
   {
-   "id": "strip-104",
+   "id": "strip-106",
    "band": 1,
    "points": [
     {
@@ -33965,7 +34161,7 @@
    ]
   },
   {
-   "id": "strip-105",
+   "id": "strip-107",
    "band": 1,
    "points": [
     {
@@ -34199,7 +34395,7 @@
    ]
   },
   {
-   "id": "strip-106",
+   "id": "strip-108",
    "band": 1,
    "points": [
     {
@@ -35177,7 +35373,7 @@
    ]
   },
   {
-   "id": "strip-107",
+   "id": "strip-109",
    "band": 1,
    "points": [
     {
@@ -35699,7 +35895,7 @@
    ]
   },
   {
-   "id": "strip-108",
+   "id": "strip-110",
    "band": 1,
    "points": [
     {
@@ -37397,7 +37593,7 @@
    ]
   },
   {
-   "id": "strip-109",
+   "id": "strip-111",
    "band": 1,
    "points": [
     {
@@ -37523,7 +37719,7 @@
    ]
   },
   {
-   "id": "strip-110",
+   "id": "strip-112",
    "band": 2,
    "points": [
     {
@@ -37793,7 +37989,7 @@
    ]
   },
   {
-   "id": "strip-111",
+   "id": "strip-113",
    "band": 2,
    "points": [
     {
@@ -37991,7 +38187,7 @@
    ]
   },
   {
-   "id": "strip-112",
+   "id": "strip-114",
    "band": 2,
    "points": [
     {
@@ -38285,7 +38481,7 @@
    ]
   },
   {
-   "id": "strip-113",
+   "id": "strip-115",
    "band": 2,
    "points": [
     {
@@ -38783,7 +38979,7 @@
    ]
   },
   {
-   "id": "strip-114",
+   "id": "strip-116",
    "band": 1,
    "points": [
     {
@@ -39809,7 +40005,7 @@
    ]
   },
   {
-   "id": "strip-115",
+   "id": "strip-117",
    "band": 1,
    "points": [
     {
@@ -39947,7 +40143,7 @@
    ]
   },
   {
-   "id": "strip-116",
+   "id": "strip-118",
    "band": 1,
    "points": [
     {
@@ -40109,7 +40305,7 @@
    ]
   },
   {
-   "id": "strip-117",
+   "id": "strip-119",
    "band": 1,
    "points": [
     {
@@ -40787,7 +40983,7 @@
    ]
   },
   {
-   "id": "strip-118",
+   "id": "strip-120",
    "band": 1,
    "points": [
     {
@@ -41885,7 +42081,7 @@
    ]
   },
   {
-   "id": "strip-119",
+   "id": "strip-121",
    "band": 1,
    "points": [
     {
@@ -42167,7 +42363,7 @@
    ]
   },
   {
-   "id": "strip-120",
+   "id": "strip-122",
    "band": 1,
    "points": [
     {
@@ -42461,7 +42657,7 @@
    ]
   },
   {
-   "id": "strip-121",
+   "id": "strip-123",
    "band": 1,
    "points": [
     {
@@ -45707,7 +45903,7 @@
    ]
   },
   {
-   "id": "strip-122",
+   "id": "strip-124",
    "band": 1,
    "points": [
     {
@@ -47021,7 +47217,7 @@
    ]
   },
   {
-   "id": "strip-123",
+   "id": "strip-125",
    "band": 1,
    "points": [
     {
@@ -47159,14 +47355,14 @@
    ]
   },
   {
-   "id": "strip-124",
+   "id": "strip-126",
    "band": 1,
    "points": [
     {
      "x": 1936.75,
      "z": 2096.57,
      "y": 5.016,
-     "bedY": 4.75,
+     "bedY": 4.54,
      "halfWidthM": 4.67,
      "wettedHalfWidthM": 2.54,
      "speedMS": 1.3,
@@ -47178,7 +47374,7 @@
      "x": 1938.03,
      "z": 2097.88,
      "y": 4.984,
-     "bedY": 4.69,
+     "bedY": 4.46,
      "halfWidthM": 4.67,
      "wettedHalfWidthM": 2.1,
      "speedMS": 2.3,
@@ -47190,7 +47386,7 @@
      "x": 1939.29,
      "z": 2099.22,
      "y": 4.984,
-     "bedY": 4.67,
+     "bedY": 4.42,
      "halfWidthM": 4.67,
      "wettedHalfWidthM": 2.1,
      "speedMS": 2.3,
@@ -47202,7 +47398,7 @@
      "x": 1940.5,
      "z": 2100.6,
      "y": 4.797,
-     "bedY": 4.5,
+     "bedY": 4.24,
      "halfWidthM": 4.67,
      "wettedHalfWidthM": 2.1,
      "speedMS": 2.3,
@@ -47214,7 +47410,7 @@
      "x": 1941.66,
      "z": 2102.02,
      "y": 4.516,
-     "bedY": 4.23,
+     "bedY": 3.97,
      "halfWidthM": 4.67,
      "wettedHalfWidthM": 2.1,
      "speedMS": 2.3,
@@ -47226,7 +47422,7 @@
      "x": 1942.74,
      "z": 2103.5,
      "y": 4.51,
-     "bedY": 4.22,
+     "bedY": 3.97,
      "halfWidthM": 4.68,
      "wettedHalfWidthM": 2.1,
      "speedMS": 2.3,
@@ -47238,7 +47434,7 @@
      "x": 1943.79,
      "z": 2105.01,
      "y": 4.51,
-     "bedY": 4.21,
+     "bedY": 3.96,
      "halfWidthM": 4.68,
      "wettedHalfWidthM": 2.1,
      "speedMS": 2.3,
@@ -47250,7 +47446,7 @@
      "x": 1944.68,
      "z": 2106.61,
      "y": 4.363,
-     "bedY": 3.99,
+     "bedY": 3.75,
      "halfWidthM": 4.68,
      "wettedHalfWidthM": 2.1,
      "speedMS": 2.3,
@@ -47262,7 +47458,7 @@
      "x": 1945.51,
      "z": 2108.24,
      "y": 4.095,
-     "bedY": 3.82,
+     "bedY": 3.58,
      "halfWidthM": 4.68,
      "wettedHalfWidthM": 2.1,
      "speedMS": 2.3,
@@ -47274,7 +47470,7 @@
      "x": 1946.15,
      "z": 2109.96,
      "y": 4.095,
-     "bedY": 3.81,
+     "bedY": 3.59,
      "halfWidthM": 4.68,
      "wettedHalfWidthM": 2.11,
      "speedMS": 2.3,
@@ -47286,7 +47482,7 @@
      "x": 1946.72,
      "z": 2111.71,
      "y": 4.09,
-     "bedY": 3.73,
+     "bedY": 3.59,
      "halfWidthM": 4.68,
      "wettedHalfWidthM": 3.13,
      "speedMS": 0.7,
@@ -47297,7 +47493,7 @@
    ]
   },
   {
-   "id": "strip-125",
+   "id": "strip-127",
    "band": 1,
    "points": [
     {
@@ -47699,7 +47895,7 @@
    ]
   },
   {
-   "id": "strip-126",
+   "id": "strip-128",
    "band": 1,
    "points": [
     {
@@ -47933,7 +48129,7 @@
    ]
   },
   {
-   "id": "strip-127",
+   "id": "strip-129",
    "band": 1,
    "points": [
     {
@@ -48203,7 +48399,7 @@
    ]
   },
   {
-   "id": "strip-128",
+   "id": "strip-130",
    "band": 1,
    "points": [
     {
@@ -48485,7 +48681,7 @@
    ]
   },
   {
-   "id": "strip-129",
+   "id": "strip-131",
    "band": 1,
    "points": [
     {
@@ -48743,7 +48939,7 @@
    ]
   },
   {
-   "id": "strip-130",
+   "id": "strip-132",
    "band": 1,
    "points": [
     {
@@ -48893,7 +49089,7 @@
    ]
   },
   {
-   "id": "strip-131",
+   "id": "strip-133",
    "band": 1,
    "points": [
     {
@@ -49031,7 +49227,7 @@
    ]
   },
   {
-   "id": "strip-132",
+   "id": "strip-134",
    "band": 1,
    "points": [
     {
@@ -49445,7 +49641,7 @@
    ]
   },
   {
-   "id": "strip-133",
+   "id": "strip-135",
    "band": 1,
    "points": [
     {
@@ -50471,7 +50667,7 @@
    ]
   },
   {
-   "id": "strip-134",
+   "id": "strip-136",
    "band": 2,
    "points": [
     {
@@ -50681,7 +50877,7 @@
    ]
   },
   {
-   "id": "strip-135",
+   "id": "strip-137",
    "band": 2,
    "points": [
     {
@@ -51539,7 +51735,7 @@
    ]
   },
   {
-   "id": "strip-136",
+   "id": "strip-138",
    "band": 2,
    "points": [
     {
@@ -51797,7 +51993,7 @@
    ]
   },
   {
-   "id": "strip-137",
+   "id": "strip-139",
    "band": 2,
    "points": [
     {
@@ -51983,7 +52179,7 @@
    ]
   },
   {
-   "id": "strip-138",
+   "id": "strip-140",
    "band": 1,
    "points": [
     {
@@ -52337,7 +52533,7 @@
    ]
   },
   {
-   "id": "strip-139",
+   "id": "strip-141",
    "band": 1,
    "points": [
     {
@@ -52511,7 +52707,7 @@
    ]
   },
   {
-   "id": "strip-140",
+   "id": "strip-142",
    "band": 1,
    "points": [
     {
@@ -52793,7 +52989,7 @@
    ]
   },
   {
-   "id": "strip-141",
+   "id": "strip-143",
    "band": 1,
    "points": [
     {
@@ -53723,7 +53919,7 @@
    ]
   },
   {
-   "id": "strip-142",
+   "id": "strip-144",
    "band": 1,
    "points": [
     {
@@ -54390,7 +54586,7 @@
      "x": 335.34,
      "z": 2954.75,
      "y": 35.113,
-     "bedY": 34.76,
+     "bedY": 34.63,
      "halfWidthM": 3.65,
      "wettedHalfWidthM": 1.49,
      "speedMS": 2.3,
@@ -54401,14 +54597,14 @@
    ]
   },
   {
-   "id": "strip-143",
+   "id": "strip-145",
    "band": 1,
    "points": [
     {
      "x": 335.34,
      "z": 2954.75,
      "y": 35.113,
-     "bedY": 34.76,
+     "bedY": 34.63,
      "halfWidthM": 3.65,
      "wettedHalfWidthM": 1.49,
      "speedMS": 2.3,
@@ -54420,7 +54616,7 @@
      "x": 335.88,
      "z": 2956.5,
      "y": 35.113,
-     "bedY": 34.8,
+     "bedY": 34.55,
      "halfWidthM": 3.65,
      "wettedHalfWidthM": 1.49,
      "speedMS": 2.3,
@@ -54432,7 +54628,7 @@
      "x": 336.51,
      "z": 2958.21,
      "y": 35.055,
-     "bedY": 34.73,
+     "bedY": 34.49,
      "halfWidthM": 3.67,
      "wettedHalfWidthM": 1.51,
      "speedMS": 2.3,
@@ -54444,7 +54640,7 @@
      "x": 337.31,
      "z": 2959.86,
      "y": 34.791,
-     "bedY": 34.54,
+     "bedY": 34.3,
      "halfWidthM": 3.67,
      "wettedHalfWidthM": 1.51,
      "speedMS": 2.3,
@@ -54456,7 +54652,7 @@
      "x": 338.23,
      "z": 2961.43,
      "y": 34.657,
-     "bedY": 34.37,
+     "bedY": 34.12,
      "halfWidthM": 3.67,
      "wettedHalfWidthM": 1.51,
      "speedMS": 2.3,
@@ -54468,7 +54664,7 @@
      "x": 339.22,
      "z": 2962.97,
      "y": 34.65,
-     "bedY": 34.38,
+     "bedY": 34.15,
      "halfWidthM": 3.67,
      "wettedHalfWidthM": 1.51,
      "speedMS": 2.3,
@@ -54480,7 +54676,7 @@
      "x": 340.3,
      "z": 2964.44,
      "y": 34.65,
-     "bedY": 34.35,
+     "bedY": 34.1,
      "halfWidthM": 3.67,
      "wettedHalfWidthM": 1.51,
      "speedMS": 2.3,
@@ -54492,7 +54688,7 @@
      "x": 341.4,
      "z": 2965.9,
      "y": 34.465,
-     "bedY": 34.12,
+     "bedY": 33.88,
      "halfWidthM": 3.67,
      "wettedHalfWidthM": 1.51,
      "speedMS": 2.3,
@@ -54504,7 +54700,7 @@
      "x": 342.58,
      "z": 2967.3,
      "y": 34.223,
-     "bedY": 33.96,
+     "bedY": 33.73,
      "halfWidthM": 3.67,
      "wettedHalfWidthM": 1.51,
      "speedMS": 2.3,
@@ -54516,7 +54712,7 @@
      "x": 343.77,
      "z": 2968.69,
      "y": 34.223,
-     "bedY": 33.93,
+     "bedY": 33.71,
      "halfWidthM": 3.67,
      "wettedHalfWidthM": 1.82,
      "speedMS": 1.3,
@@ -54527,7 +54723,7 @@
    ]
   },
   {
-   "id": "strip-144",
+   "id": "strip-146",
    "band": 2,
    "points": [
     {
@@ -54665,7 +54861,7 @@
    ]
   },
   {
-   "id": "strip-145",
+   "id": "strip-147",
    "band": 2,
    "points": [
     {
@@ -54791,7 +54987,7 @@
    ]
   },
   {
-   "id": "strip-146",
+   "id": "strip-148",
    "band": 2,
    "points": [
     {
@@ -54941,7 +55137,7 @@
    ]
   },
   {
-   "id": "strip-147",
+   "id": "strip-149",
    "band": 1,
    "points": [
     {
@@ -55175,7 +55371,7 @@
    ]
   },
   {
-   "id": "strip-148",
+   "id": "strip-150",
    "band": 1,
    "points": [
     {
@@ -55301,7 +55497,7 @@
    ]
   },
   {
-   "id": "strip-149",
+   "id": "strip-151",
    "band": 1,
    "points": [
     {
@@ -55439,7 +55635,7 @@
    ]
   },
   {
-   "id": "strip-150",
+   "id": "strip-152",
    "band": 1,
    "points": [
     {
@@ -55494,7 +55690,7 @@
      "x": 1312.65,
      "z": 3086.66,
      "y": 53.317,
-     "bedY": 52.55,
+     "bedY": 52.5,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55506,7 +55702,7 @@
      "x": 1314.48,
      "z": 3086.66,
      "y": 52.937,
-     "bedY": 52.64,
+     "bedY": 52.3,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55518,7 +55714,7 @@
      "x": 1316.32,
      "z": 3086.66,
      "y": 52.69,
-     "bedY": 52.41,
+     "bedY": 52.14,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55530,7 +55726,7 @@
      "x": 1318.15,
      "z": 3086.66,
      "y": 52.595,
-     "bedY": 52.31,
+     "bedY": 52.1,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55542,7 +55738,7 @@
      "x": 1319.98,
      "z": 3086.66,
      "y": 52.595,
-     "bedY": 52.3,
+     "bedY": 52.13,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.67,
      "speedMS": 1.3,
@@ -55553,14 +55749,14 @@
    ]
   },
   {
-   "id": "strip-151",
+   "id": "strip-153",
    "band": 1,
    "points": [
     {
      "x": 1323.65,
      "z": 3086.66,
      "y": 52.595,
-     "bedY": 52.31,
+     "bedY": 52.09,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.67,
      "speedMS": 1.3,
@@ -55572,7 +55768,7 @@
      "x": 1325.49,
      "z": 3086.64,
      "y": 52.54,
-     "bedY": 52.24,
+     "bedY": 51.99,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55584,7 +55780,7 @@
      "x": 1327.32,
      "z": 3086.62,
      "y": 52.37,
-     "bedY": 52.07,
+     "bedY": 51.78,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55596,7 +55792,7 @@
      "x": 1329.16,
      "z": 3086.59,
      "y": 52.124,
-     "bedY": 51.83,
+     "bedY": 51.48,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55608,7 +55804,7 @@
      "x": 1330.99,
      "z": 3086.5,
      "y": 51.95,
-     "bedY": 51.59,
+     "bedY": 51.2,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55620,7 +55816,7 @@
      "x": 1332.82,
      "z": 3086.37,
      "y": 51.356,
-     "bedY": 50.99,
+     "bedY": 50.66,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55632,7 +55828,7 @@
      "x": 1334.64,
      "z": 3086.2,
      "y": 50.688,
-     "bedY": 50.34,
+     "bedY": 50.12,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55644,7 +55840,7 @@
      "x": 1336.44,
      "z": 3085.86,
      "y": 50.688,
-     "bedY": 50.41,
+     "bedY": 50.15,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -55656,7 +55852,7 @@
      "x": 1338.23,
      "z": 3085.44,
      "y": 50.688,
-     "bedY": 50.39,
+     "bedY": 50.16,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 2.38,
      "speedMS": 0.45,
@@ -55667,26 +55863,26 @@
    ]
   },
   {
-   "id": "strip-152",
+   "id": "strip-154",
    "band": 2,
    "points": [
     {
-     "x": 130.95,
-     "z": 3027.24,
-     "y": 27.223,
-     "bedY": 26.01,
+     "x": 132.77,
+     "z": 3027.0,
+     "y": 27.349,
+     "bedY": 26.14,
      "halfWidthM": 7.93,
-     "wettedHalfWidthM": 3.94,
-     "speedMS": 1.3,
+     "wettedHalfWidthM": 4.84,
+     "speedMS": 0.7,
      "season": 0.5,
      "kind": "join",
      "arcM": 0.0
     },
     {
-     "x": 129.12,
-     "z": 3027.43,
-     "y": 27.223,
-     "bedY": 25.87,
+     "x": 130.95,
+     "z": 3027.24,
+     "y": 27.349,
+     "bedY": 26.11,
      "halfWidthM": 7.93,
      "wettedHalfWidthM": 3.26,
      "speedMS": 2.3,
@@ -55695,28 +55891,40 @@
      "arcM": 1.84
     },
     {
-     "x": 127.3,
-     "z": 3027.63,
-     "y": 27.072,
-     "bedY": 25.55,
+     "x": 129.12,
+     "z": 3027.43,
+     "y": 27.337,
+     "bedY": 25.93,
      "halfWidthM": 7.93,
      "wettedHalfWidthM": 3.26,
      "speedMS": 2.3,
      "season": 0.5,
      "kind": "steep",
-     "arcM": 3.67
+     "arcM": 3.68
     },
     {
-     "x": 125.47,
-     "z": 3027.84,
-     "y": 26.932,
-     "bedY": 25.08,
+     "x": 127.3,
+     "z": 3027.63,
+     "y": 27.072,
+     "bedY": 25.53,
      "halfWidthM": 7.93,
      "wettedHalfWidthM": 3.26,
      "speedMS": 2.3,
      "season": 0.5,
      "kind": "steep",
      "arcM": 5.51
+    },
+    {
+     "x": 125.47,
+     "z": 3027.84,
+     "y": 26.932,
+     "bedY": 25.07,
+     "halfWidthM": 7.93,
+     "wettedHalfWidthM": 3.26,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 7.35
     },
     {
      "x": 123.65,
@@ -55728,7 +55936,7 @@
      "speedMS": 2.3,
      "season": 0.5,
      "kind": "steep",
-     "arcM": 7.35
+     "arcM": 9.18
     },
     {
      "x": 121.86,
@@ -55740,7 +55948,7 @@
      "speedMS": 2.3,
      "season": 0.5,
      "kind": "steep",
-     "arcM": 9.18
+     "arcM": 11.02
     },
     {
      "x": 120.09,
@@ -55752,7 +55960,7 @@
      "speedMS": 2.3,
      "season": 0.5,
      "kind": "steep",
-     "arcM": 11.02
+     "arcM": 12.85
     },
     {
      "x": 118.35,
@@ -55764,7 +55972,7 @@
      "speedMS": 2.3,
      "season": 0.5,
      "kind": "steep",
-     "arcM": 12.86
+     "arcM": 14.69
     },
     {
      "x": 116.69,
@@ -55776,7 +55984,7 @@
      "speedMS": 2.3,
      "season": 0.5,
      "kind": "steep",
-     "arcM": 14.69
+     "arcM": 16.53
     },
     {
      "x": 115.07,
@@ -55788,19 +55996,19 @@
      "speedMS": 2.3,
      "season": 0.5,
      "kind": "join",
-     "arcM": 16.52
+     "arcM": 18.36
     }
    ]
   },
   {
-   "id": "strip-153",
+   "id": "strip-155",
    "band": 1,
    "points": [
     {
      "x": 1493.15,
      "z": 2970.59,
      "y": 49.064,
-     "bedY": 48.77,
+     "bedY": 48.57,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.64,
      "speedMS": 1.3,
@@ -55812,7 +56020,7 @@
      "x": 1494.98,
      "z": 2970.6,
      "y": 49.064,
-     "bedY": 48.77,
+     "bedY": 48.54,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55824,7 +56032,7 @@
      "x": 1496.8,
      "z": 2970.6,
      "y": 48.981,
-     "bedY": 48.69,
+     "bedY": 48.43,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55836,7 +56044,7 @@
      "x": 1498.63,
      "z": 2970.6,
      "y": 48.782,
-     "bedY": 48.51,
+     "bedY": 48.22,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55848,7 +56056,7 @@
      "x": 1500.46,
      "z": 2970.6,
      "y": 48.589,
-     "bedY": 48.31,
+     "bedY": 48.02,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55860,7 +56068,7 @@
      "x": 1502.29,
      "z": 2970.6,
      "y": 48.418,
-     "bedY": 48.14,
+     "bedY": 47.86,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55872,7 +56080,7 @@
      "x": 1504.11,
      "z": 2970.61,
      "y": 48.283,
-     "bedY": 48.0,
+     "bedY": 47.72,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55884,7 +56092,7 @@
      "x": 1505.94,
      "z": 2970.62,
      "y": 48.155,
-     "bedY": 47.87,
+     "bedY": 47.57,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55896,7 +56104,7 @@
      "x": 1507.77,
      "z": 2970.65,
      "y": 47.976,
-     "bedY": 47.7,
+     "bedY": 47.37,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55908,7 +56116,7 @@
      "x": 1509.6,
      "z": 2970.73,
      "y": 47.668,
-     "bedY": 47.4,
+     "bedY": 47.05,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55920,7 +56128,7 @@
      "x": 1511.42,
      "z": 2970.85,
      "y": 47.322,
-     "bedY": 47.06,
+     "bedY": 46.71,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55932,7 +56140,7 @@
      "x": 1513.24,
      "z": 2971.02,
      "y": 47.017,
-     "bedY": 46.76,
+     "bedY": 46.38,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55944,7 +56152,7 @@
      "x": 1515.04,
      "z": 2971.34,
      "y": 46.891,
-     "bedY": 46.62,
+     "bedY": 46.26,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55956,7 +56164,7 @@
      "x": 1516.82,
      "z": 2971.75,
      "y": 46.238,
-     "bedY": 46.06,
+     "bedY": 45.72,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55968,7 +56176,7 @@
      "x": 1518.55,
      "z": 2972.32,
      "y": 46.238,
-     "bedY": 45.93,
+     "bedY": 45.55,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55980,7 +56188,7 @@
      "x": 1520.24,
      "z": 2973.02,
      "y": 46.065,
-     "bedY": 45.82,
+     "bedY": 45.48,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -55992,7 +56200,7 @@
      "x": 1521.88,
      "z": 2973.83,
      "y": 45.493,
-     "bedY": 45.41,
+     "bedY": 45.1,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -56004,7 +56212,7 @@
      "x": 1523.42,
      "z": 2974.8,
      "y": 45.479,
-     "bedY": 45.04,
+     "bedY": 44.86,
      "halfWidthM": 4.8,
      "wettedHalfWidthM": 2.18,
      "speedMS": 2.3,
@@ -56123,7 +56331,7 @@
    ]
   },
   {
-   "id": "strip-154",
+   "id": "strip-156",
    "band": 1,
    "points": [
     {
@@ -56273,14 +56481,14 @@
    ]
   },
   {
-   "id": "strip-155",
+   "id": "strip-157",
    "band": 1,
    "points": [
     {
      "x": 1561.75,
      "z": 2992.43,
      "y": 40.611,
-     "bedY": 40.3,
+     "bedY": 40.07,
      "halfWidthM": 4.83,
      "wettedHalfWidthM": 2.66,
      "speedMS": 1.3,
@@ -56292,7 +56500,7 @@
      "x": 1563.57,
      "z": 2992.43,
      "y": 40.566,
-     "bedY": 40.27,
+     "bedY": 40.0,
      "halfWidthM": 4.83,
      "wettedHalfWidthM": 2.2,
      "speedMS": 2.3,
@@ -56304,7 +56512,7 @@
      "x": 1565.4,
      "z": 2992.43,
      "y": 40.566,
-     "bedY": 40.14,
+     "bedY": 39.84,
      "halfWidthM": 4.83,
      "wettedHalfWidthM": 2.2,
      "speedMS": 2.3,
@@ -56316,7 +56524,7 @@
      "x": 1567.23,
      "z": 2992.43,
      "y": 40.244,
-     "bedY": 39.8,
+     "bedY": 39.49,
      "halfWidthM": 4.83,
      "wettedHalfWidthM": 2.2,
      "speedMS": 2.3,
@@ -56328,7 +56536,7 @@
      "x": 1569.06,
      "z": 2992.42,
      "y": 39.834,
-     "bedY": 39.55,
+     "bedY": 39.24,
      "halfWidthM": 4.83,
      "wettedHalfWidthM": 2.2,
      "speedMS": 2.3,
@@ -56340,7 +56548,7 @@
      "x": 1570.89,
      "z": 2992.42,
      "y": 39.823,
-     "bedY": 39.39,
+     "bedY": 39.22,
      "halfWidthM": 4.83,
      "wettedHalfWidthM": 2.2,
      "speedMS": 2.3,
@@ -56484,7 +56692,7 @@
      "x": 1592.82,
      "z": 2992.39,
      "y": 38.438,
-     "bedY": 37.91,
+     "bedY": 37.79,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.2,
      "speedMS": 2.3,
@@ -56496,7 +56704,7 @@
      "x": 1594.65,
      "z": 2992.38,
      "y": 38.276,
-     "bedY": 37.92,
+     "bedY": 37.62,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.2,
      "speedMS": 2.3,
@@ -56508,7 +56716,7 @@
      "x": 1596.48,
      "z": 2992.38,
      "y": 38.103,
-     "bedY": 37.74,
+     "bedY": 37.44,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56520,7 +56728,7 @@
      "x": 1598.3,
      "z": 2992.36,
      "y": 37.922,
-     "bedY": 37.56,
+     "bedY": 37.27,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56532,7 +56740,7 @@
      "x": 1600.13,
      "z": 2992.34,
      "y": 37.751,
-     "bedY": 37.4,
+     "bedY": 37.11,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56544,7 +56752,7 @@
      "x": 1601.96,
      "z": 2992.31,
      "y": 37.607,
-     "bedY": 37.25,
+     "bedY": 36.94,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56556,7 +56764,7 @@
      "x": 1603.78,
      "z": 2992.22,
      "y": 37.457,
-     "bedY": 37.07,
+     "bedY": 36.74,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56568,7 +56776,7 @@
      "x": 1605.61,
      "z": 2992.09,
      "y": 37.246,
-     "bedY": 36.82,
+     "bedY": 36.48,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56580,7 +56788,7 @@
      "x": 1607.43,
      "z": 2991.91,
      "y": 36.941,
-     "bedY": 36.51,
+     "bedY": 36.19,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56592,7 +56800,7 @@
      "x": 1609.22,
      "z": 2991.58,
      "y": 36.587,
-     "bedY": 36.31,
+     "bedY": 36.02,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56604,7 +56812,7 @@
      "x": 1611.0,
      "z": 2991.16,
      "y": 36.519,
-     "bedY": 36.25,
+     "bedY": 36.01,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56616,7 +56824,7 @@
      "x": 1612.73,
      "z": 2990.58,
      "y": 36.519,
-     "bedY": 36.19,
+     "bedY": 36.02,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.67,
      "speedMS": 1.3,
@@ -56627,14 +56835,14 @@
    ]
   },
   {
-   "id": "strip-156",
+   "id": "strip-158",
    "band": 1,
    "points": [
     {
      "x": 1620.6,
      "z": 2986.01,
      "y": 36.519,
-     "bedY": 36.22,
+     "bedY": 36.02,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 3.8,
      "speedMS": 0.45,
@@ -56646,7 +56854,7 @@
      "x": 1622.07,
      "z": 2984.92,
      "y": 36.519,
-     "bedY": 36.24,
+     "bedY": 36.0,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56658,7 +56866,7 @@
      "x": 1623.49,
      "z": 2983.76,
      "y": 36.519,
-     "bedY": 36.19,
+     "bedY": 35.94,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56670,7 +56878,7 @@
      "x": 1624.91,
      "z": 2982.62,
      "y": 36.184,
-     "bedY": 35.89,
+     "bedY": 35.6,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56682,7 +56890,7 @@
      "x": 1626.35,
      "z": 2981.5,
      "y": 36.083,
-     "bedY": 35.81,
+     "bedY": 35.53,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56694,7 +56902,7 @@
      "x": 1627.81,
      "z": 2980.39,
      "y": 35.846,
-     "bedY": 35.62,
+     "bedY": 35.25,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56706,7 +56914,7 @@
      "x": 1629.27,
      "z": 2979.3,
      "y": 35.846,
-     "bedY": 35.41,
+     "bedY": 34.94,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56718,7 +56926,7 @@
      "x": 1630.75,
      "z": 2978.22,
      "y": 35.058,
-     "bedY": 34.77,
+     "bedY": 34.29,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56730,7 +56938,7 @@
      "x": 1632.25,
      "z": 2977.17,
      "y": 34.075,
-     "bedY": 33.76,
+     "bedY": 33.27,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56742,7 +56950,7 @@
      "x": 1633.76,
      "z": 2976.15,
      "y": 33.807,
-     "bedY": 33.57,
+     "bedY": 33.16,
      "halfWidthM": 4.84,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56754,7 +56962,7 @@
      "x": 1635.29,
      "z": 2975.14,
      "y": 33.807,
-     "bedY": 33.48,
+     "bedY": 33.24,
      "halfWidthM": 4.85,
      "wettedHalfWidthM": 2.21,
      "speedMS": 2.3,
@@ -56766,7 +56974,7 @@
      "x": 1636.78,
      "z": 2974.08,
      "y": 33.807,
-     "bedY": 33.44,
+     "bedY": 33.29,
      "halfWidthM": 4.85,
      "wettedHalfWidthM": 3.81,
      "speedMS": 0.45,
@@ -56777,7 +56985,7 @@
    ]
   },
   {
-   "id": "strip-157",
+   "id": "strip-159",
    "band": 1,
    "points": [
     {
@@ -56915,7 +57123,7 @@
    ]
   },
   {
-   "id": "strip-158",
+   "id": "strip-160",
    "band": 1,
    "points": [
     {
@@ -57101,7 +57309,7 @@
    ]
   },
   {
-   "id": "strip-159",
+   "id": "strip-161",
    "band": 1,
    "points": [
     {
@@ -57287,7 +57495,7 @@
    ]
   },
   {
-   "id": "strip-160",
+   "id": "strip-162",
    "band": 1,
    "points": [
     {
@@ -57401,14 +57609,14 @@
    ]
   },
   {
-   "id": "strip-161",
+   "id": "strip-163",
    "band": 2,
    "points": [
     {
      "x": 436.44,
      "z": 3143.4,
      "y": 29.26,
-     "bedY": 28.97,
+     "bedY": 28.06,
      "halfWidthM": 6.62,
      "wettedHalfWidthM": 3.97,
      "speedMS": 0.6,
@@ -57420,7 +57628,7 @@
      "x": 435.14,
      "z": 3142.12,
      "y": 29.26,
-     "bedY": 28.96,
+     "bedY": 27.99,
      "halfWidthM": 6.62,
      "wettedHalfWidthM": 2.54,
      "speedMS": 2.3,
@@ -57432,7 +57640,7 @@
      "x": 433.84,
      "z": 3140.84,
      "y": 29.26,
-     "bedY": 28.75,
+     "bedY": 27.81,
      "halfWidthM": 6.62,
      "wettedHalfWidthM": 2.54,
      "speedMS": 2.3,
@@ -57444,7 +57652,7 @@
      "x": 432.53,
      "z": 3139.55,
      "y": 28.752,
-     "bedY": 28.46,
+     "bedY": 27.52,
      "halfWidthM": 6.62,
      "wettedHalfWidthM": 2.54,
      "speedMS": 2.3,
@@ -57456,7 +57664,7 @@
      "x": 431.23,
      "z": 3138.27,
      "y": 28.752,
-     "bedY": 28.43,
+     "bedY": 27.49,
      "halfWidthM": 6.84,
      "wettedHalfWidthM": 2.66,
      "speedMS": 2.3,
@@ -57468,7 +57676,7 @@
      "x": 429.93,
      "z": 3136.99,
      "y": 28.752,
-     "bedY": 28.39,
+     "bedY": 27.52,
      "halfWidthM": 6.84,
      "wettedHalfWidthM": 2.66,
      "speedMS": 2.3,
@@ -57480,7 +57688,7 @@
      "x": 428.63,
      "z": 3135.7,
      "y": 28.752,
-     "bedY": 28.36,
+     "bedY": 27.36,
      "halfWidthM": 6.84,
      "wettedHalfWidthM": 2.66,
      "speedMS": 2.3,
@@ -57492,7 +57700,7 @@
      "x": 427.32,
      "z": 3134.42,
      "y": 28.338,
-     "bedY": 27.65,
+     "bedY": 26.84,
      "halfWidthM": 6.84,
      "wettedHalfWidthM": 2.66,
      "speedMS": 2.3,
@@ -57503,8 +57711,8 @@
     {
      "x": 426.02,
      "z": 3133.14,
-     "y": 27.223,
-     "bedY": 26.94,
+     "y": 27.818,
+     "bedY": 26.5,
      "halfWidthM": 6.84,
      "wettedHalfWidthM": 6.84,
      "speedMS": 0.6,
@@ -57515,7 +57723,7 @@
    ]
   },
   {
-   "id": "strip-162",
+   "id": "strip-164",
    "band": 1,
    "points": [
     {
@@ -57653,7 +57861,7 @@
    ]
   },
   {
-   "id": "strip-163",
+   "id": "strip-165",
    "band": 1,
    "points": [
     {
@@ -57935,7 +58143,7 @@
    ]
   },
   {
-   "id": "strip-164",
+   "id": "strip-166",
    "band": 1,
    "points": [
     {
@@ -58073,14 +58281,14 @@
    ]
   },
   {
-   "id": "strip-165",
+   "id": "strip-167",
    "band": 1,
    "points": [
     {
      "x": 1607.87,
      "z": 3023.17,
      "y": 39.258,
-     "bedY": 38.94,
+     "bedY": 38.79,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.67,
      "speedMS": 1.3,
@@ -58092,7 +58300,7 @@
      "x": 1608.86,
      "z": 3021.63,
      "y": 39.258,
-     "bedY": 38.96,
+     "bedY": 38.72,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58104,7 +58312,7 @@
      "x": 1609.94,
      "z": 3020.16,
      "y": 39.064,
-     "bedY": 38.75,
+     "bedY": 38.52,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58116,7 +58324,7 @@
      "x": 1611.19,
      "z": 3018.82,
      "y": 38.902,
-     "bedY": 38.64,
+     "bedY": 38.42,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58128,7 +58336,7 @@
      "x": 1612.57,
      "z": 3017.63,
      "y": 38.902,
-     "bedY": 38.62,
+     "bedY": 38.36,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58140,7 +58348,7 @@
      "x": 1614.03,
      "z": 3016.51,
      "y": 38.902,
-     "bedY": 38.62,
+     "bedY": 38.34,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58152,7 +58360,7 @@
      "x": 1615.6,
      "z": 3015.57,
      "y": 38.452,
-     "bedY": 38.19,
+     "bedY": 37.88,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58164,7 +58372,7 @@
      "x": 1617.21,
      "z": 3014.7,
      "y": 38.194,
-     "bedY": 37.98,
+     "bedY": 37.67,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58176,7 +58384,7 @@
      "x": 1618.89,
      "z": 3013.98,
      "y": 38.011,
-     "bedY": 37.77,
+     "bedY": 37.47,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58188,7 +58396,7 @@
      "x": 1620.59,
      "z": 3013.3,
      "y": 37.923,
-     "bedY": 37.68,
+     "bedY": 37.46,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.38,
      "speedMS": 2.3,
@@ -58200,7 +58408,7 @@
      "x": 1622.3,
      "z": 3012.65,
      "y": 37.923,
-     "bedY": 37.66,
+     "bedY": 37.47,
      "halfWidthM": 3.45,
      "wettedHalfWidthM": 1.67,
      "speedMS": 1.3,
@@ -58211,14 +58419,14 @@
    ]
   },
   {
-   "id": "strip-166",
+   "id": "strip-168",
    "band": 1,
    "points": [
     {
      "x": 1625.76,
      "z": 3011.46,
      "y": 37.923,
-     "bedY": 37.64,
+     "bedY": 37.47,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.68,
      "speedMS": 1.3,
@@ -58230,7 +58438,7 @@
      "x": 1627.49,
      "z": 3010.85,
      "y": 37.923,
-     "bedY": 37.6,
+     "bedY": 37.34,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58242,7 +58450,7 @@
      "x": 1629.21,
      "z": 3010.21,
      "y": 37.796,
-     "bedY": 37.4,
+     "bedY": 37.1,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58254,7 +58462,7 @@
      "x": 1630.93,
      "z": 3009.59,
      "y": 37.456,
-     "bedY": 37.16,
+     "bedY": 36.88,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58266,7 +58474,7 @@
      "x": 1632.66,
      "z": 3008.99,
      "y": 37.249,
-     "bedY": 36.94,
+     "bedY": 36.64,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58278,7 +58486,7 @@
      "x": 1634.4,
      "z": 3008.41,
      "y": 37.066,
-     "bedY": 36.76,
+     "bedY": 36.47,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58290,7 +58498,7 @@
      "x": 1636.14,
      "z": 3007.84,
      "y": 36.966,
-     "bedY": 36.68,
+     "bedY": 36.44,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58302,7 +58510,7 @@
      "x": 1637.88,
      "z": 3007.26,
      "y": 36.778,
-     "bedY": 36.51,
+     "bedY": 36.28,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58314,7 +58522,7 @@
      "x": 1639.61,
      "z": 3006.68,
      "y": 36.778,
-     "bedY": 36.48,
+     "bedY": 36.26,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.68,
      "speedMS": 1.3,
@@ -58325,14 +58533,14 @@
    ]
   },
   {
-   "id": "strip-167",
+   "id": "strip-169",
    "band": 1,
    "points": [
     {
      "x": 1653.09,
      "z": 3000.95,
      "y": 35.841,
-     "bedY": 35.51,
+     "bedY": 35.4,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 2.4,
      "speedMS": 0.45,
@@ -58344,7 +58552,7 @@
      "x": 1654.76,
      "z": 3000.2,
      "y": 35.841,
-     "bedY": 35.57,
+     "bedY": 35.33,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58356,7 +58564,7 @@
      "x": 1656.44,
      "z": 2999.48,
      "y": 35.841,
-     "bedY": 35.43,
+     "bedY": 35.1,
      "halfWidthM": 3.46,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58368,7 +58576,7 @@
      "x": 1658.13,
      "z": 2998.78,
      "y": 35.34,
-     "bedY": 35.03,
+     "bedY": 34.72,
      "halfWidthM": 3.47,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58380,7 +58588,7 @@
      "x": 1659.86,
      "z": 2998.18,
      "y": 35.012,
-     "bedY": 34.75,
+     "bedY": 34.43,
      "halfWidthM": 3.47,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58392,7 +58600,7 @@
      "x": 1661.61,
      "z": 2997.64,
      "y": 34.84,
-     "bedY": 34.54,
+     "bedY": 34.25,
      "halfWidthM": 3.47,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58404,7 +58612,7 @@
      "x": 1663.38,
      "z": 2997.16,
      "y": 34.84,
-     "bedY": 34.56,
+     "bedY": 34.3,
      "halfWidthM": 3.47,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58416,7 +58624,7 @@
      "x": 1665.16,
      "z": 2996.74,
      "y": 34.72,
-     "bedY": 34.47,
+     "bedY": 34.23,
      "halfWidthM": 3.47,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58428,7 +58636,7 @@
      "x": 1666.95,
      "z": 2996.36,
      "y": 34.499,
-     "bedY": 34.24,
+     "bedY": 33.98,
      "halfWidthM": 3.47,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58440,7 +58648,7 @@
      "x": 1668.75,
      "z": 2996.02,
      "y": 34.365,
-     "bedY": 34.08,
+     "bedY": 33.83,
      "halfWidthM": 3.47,
      "wettedHalfWidthM": 1.39,
      "speedMS": 2.3,
@@ -58452,7 +58660,7 @@
      "x": 1670.52,
      "z": 2995.55,
      "y": 34.317,
-     "bedY": 33.99,
+     "bedY": 33.8,
      "halfWidthM": 3.47,
      "wettedHalfWidthM": 1.68,
      "speedMS": 1.3,
@@ -58463,14 +58671,14 @@
    ]
   },
   {
-   "id": "strip-168",
+   "id": "strip-170",
    "band": 1,
    "points": [
     {
      "x": 1674.0,
      "z": 2994.42,
      "y": 34.317,
-     "bedY": 33.97,
+     "bedY": 33.83,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 2.43,
      "speedMS": 0.45,
@@ -58482,7 +58690,7 @@
      "x": 1675.66,
      "z": 2993.65,
      "y": 34.317,
-     "bedY": 34.03,
+     "bedY": 33.81,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58494,7 +58702,7 @@
      "x": 1677.28,
      "z": 2992.8,
      "y": 34.317,
-     "bedY": 33.92,
+     "bedY": 33.7,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58506,7 +58714,7 @@
      "x": 1678.8,
      "z": 2991.77,
      "y": 33.986,
-     "bedY": 33.72,
+     "bedY": 33.51,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58518,7 +58726,7 @@
      "x": 1680.29,
      "z": 2990.7,
      "y": 33.986,
-     "bedY": 33.7,
+     "bedY": 33.46,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58530,7 +58738,7 @@
      "x": 1681.69,
      "z": 2989.53,
      "y": 33.986,
-     "bedY": 33.72,
+     "bedY": 33.49,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58542,7 +58750,7 @@
      "x": 1683.05,
      "z": 2988.31,
      "y": 33.986,
-     "bedY": 33.66,
+     "bedY": 33.38,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58554,7 +58762,7 @@
      "x": 1684.35,
      "z": 2987.01,
      "y": 33.535,
-     "bedY": 33.27,
+     "bedY": 33.01,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58566,7 +58774,7 @@
      "x": 1685.59,
      "z": 2985.67,
      "y": 33.275,
-     "bedY": 33.06,
+     "bedY": 32.8,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58578,7 +58786,7 @@
      "x": 1686.76,
      "z": 2984.26,
      "y": 33.275,
-     "bedY": 32.96,
+     "bedY": 32.71,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58590,7 +58798,7 @@
      "x": 1687.84,
      "z": 2982.78,
      "y": 33.275,
-     "bedY": 33.01,
+     "bedY": 32.73,
      "halfWidthM": 3.5,
      "wettedHalfWidthM": 1.41,
      "speedMS": 2.3,
@@ -58602,7 +58810,7 @@
      "x": 1688.87,
      "z": 2981.27,
      "y": 33.275,
-     "bedY": 32.98,
+     "bedY": 32.5,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.43,
      "speedMS": 2.3,
@@ -58614,7 +58822,7 @@
      "x": 1689.73,
      "z": 2979.66,
      "y": 32.574,
-     "bedY": 32.2,
+     "bedY": 31.69,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.43,
      "speedMS": 2.3,
@@ -58626,7 +58834,7 @@
      "x": 1690.52,
      "z": 2978.01,
      "y": 31.263,
-     "bedY": 31.21,
+     "bedY": 30.68,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.43,
      "speedMS": 2.3,
@@ -58638,7 +58846,7 @@
      "x": 1691.11,
      "z": 2976.27,
      "y": 30.671,
-     "bedY": 30.22,
+     "bedY": 30.05,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.43,
      "speedMS": 2.3,
@@ -58673,7 +58881,7 @@
    ]
   },
   {
-   "id": "strip-169",
+   "id": "strip-171",
    "band": 1,
    "points": [
     {
@@ -58871,7 +59079,7 @@
    ]
   },
   {
-   "id": "strip-170",
+   "id": "strip-172",
    "band": 1,
    "points": [
     {
@@ -59021,7 +59229,7 @@
    ]
   },
   {
-   "id": "strip-171",
+   "id": "strip-173",
    "band": 1,
    "points": [
     {
@@ -59159,7 +59367,7 @@
    ]
   },
   {
-   "id": "strip-172",
+   "id": "strip-174",
    "band": 1,
    "points": [
     {
@@ -59441,7 +59649,7 @@
    ]
   },
   {
-   "id": "strip-173",
+   "id": "strip-175",
    "band": 1,
    "points": [
     {
@@ -59603,14 +59811,14 @@
    ]
   },
   {
-   "id": "strip-174",
+   "id": "strip-176",
    "band": 1,
    "points": [
     {
      "x": 3487.34,
      "z": 3297.16,
      "y": 6.494,
-     "bedY": 6.21,
+     "bedY": 5.98,
      "halfWidthM": 3.59,
      "wettedHalfWidthM": 1.77,
      "speedMS": 1.3,
@@ -59622,7 +59830,7 @@
      "x": 3488.39,
      "z": 3295.66,
      "y": 6.483,
-     "bedY": 6.2,
+     "bedY": 6.01,
      "halfWidthM": 3.6,
      "wettedHalfWidthM": 1.46,
      "speedMS": 2.3,
@@ -59634,7 +59842,7 @@
      "x": 3489.4,
      "z": 3294.14,
      "y": 6.483,
-     "bedY": 6.19,
+     "bedY": 5.96,
      "halfWidthM": 3.6,
      "wettedHalfWidthM": 1.46,
      "speedMS": 2.3,
@@ -59646,7 +59854,7 @@
      "x": 3490.22,
      "z": 3292.5,
      "y": 6.369,
-     "bedY": 6.1,
+     "bedY": 5.87,
      "halfWidthM": 3.6,
      "wettedHalfWidthM": 1.46,
      "speedMS": 2.3,
@@ -59658,7 +59866,7 @@
      "x": 3490.98,
      "z": 3290.84,
      "y": 6.157,
-     "bedY": 5.94,
+     "bedY": 5.69,
      "halfWidthM": 3.6,
      "wettedHalfWidthM": 1.46,
      "speedMS": 2.3,
@@ -59670,7 +59878,7 @@
      "x": 3491.53,
      "z": 3289.1,
      "y": 6.036,
-     "bedY": 5.79,
+     "bedY": 5.51,
      "halfWidthM": 3.6,
      "wettedHalfWidthM": 1.47,
      "speedMS": 2.3,
@@ -59682,7 +59890,7 @@
      "x": 3491.93,
      "z": 3287.32,
      "y": 5.893,
-     "bedY": 5.53,
+     "bedY": 5.41,
      "halfWidthM": 3.6,
      "wettedHalfWidthM": 1.47,
      "speedMS": 2.3,
@@ -59885,7 +60093,7 @@
    ]
   },
   {
-   "id": "strip-175",
+   "id": "strip-177",
    "band": 1,
    "points": [
     {
@@ -60119,7 +60327,7 @@
    ]
   },
   {
-   "id": "strip-176",
+   "id": "strip-178",
    "band": 1,
    "points": [
     {
@@ -60329,7 +60537,7 @@
    ]
   },
   {
-   "id": "strip-177",
+   "id": "strip-179",
    "band": 1,
    "points": [
     {
@@ -60479,7 +60687,7 @@
    ]
   },
   {
-   "id": "strip-178",
+   "id": "strip-180",
    "band": 1,
    "points": [
     {
@@ -61121,7 +61329,7 @@
    ]
   },
   {
-   "id": "strip-179",
+   "id": "strip-181",
    "band": 1,
    "points": [
     {
@@ -61295,7 +61503,7 @@
    ]
   },
   {
-   "id": "strip-180",
+   "id": "strip-182",
    "band": 1,
    "points": [
     {
@@ -61613,7 +61821,7 @@
    ]
   },
   {
-   "id": "strip-181",
+   "id": "strip-183",
    "band": 1,
    "points": [
     {
@@ -61739,7 +61947,7 @@
    ]
   },
   {
-   "id": "strip-182",
+   "id": "strip-184",
    "band": 1,
    "points": [
     {
@@ -62021,7 +62229,7 @@
    ]
   },
   {
-   "id": "strip-183",
+   "id": "strip-185",
    "band": 1,
    "points": [
     {
@@ -63383,7 +63591,7 @@
    ]
   },
   {
-   "id": "strip-184",
+   "id": "strip-186",
    "band": 1,
    "points": [
     {
@@ -63701,7 +63909,7 @@
    ]
   },
   {
-   "id": "strip-185",
+   "id": "strip-187",
    "band": 1,
    "points": [
     {
@@ -63827,7 +64035,7 @@
    ]
   },
   {
-   "id": "strip-186",
+   "id": "strip-188",
    "band": 1,
    "points": [
     {
@@ -63953,7 +64161,7 @@
    ]
   },
   {
-   "id": "strip-187",
+   "id": "strip-189",
    "band": 1,
    "points": [
     {
@@ -64403,7 +64611,7 @@
    ]
   },
   {
-   "id": "strip-188",
+   "id": "strip-190",
    "band": 1,
    "points": [
     {
@@ -64529,7 +64737,7 @@
    ]
   },
   {
-   "id": "strip-189",
+   "id": "strip-191",
    "band": 1,
    "points": [
     {
@@ -64643,7 +64851,7 @@
    ]
   },
   {
-   "id": "strip-190",
+   "id": "strip-192",
    "band": 1,
    "points": [
     {
@@ -64757,7 +64965,7 @@
    ]
   },
   {
-   "id": "strip-191",
+   "id": "strip-193",
    "band": 1,
    "points": [
     {
@@ -64907,7 +65115,7 @@
    ]
   },
   {
-   "id": "strip-192",
+   "id": "strip-194",
    "band": 1,
    "points": [
     {
@@ -65141,7 +65349,7 @@
    ]
   },
   {
-   "id": "strip-193",
+   "id": "strip-195",
    "band": 2,
    "points": [
     {
@@ -65255,7 +65463,7 @@
    ]
   },
   {
-   "id": "strip-194",
+   "id": "strip-196",
    "band": 1,
    "points": [
     {
@@ -65849,7 +66057,7 @@
    ]
   },
   {
-   "id": "strip-195",
+   "id": "strip-197",
    "band": 1,
    "points": [
     {
@@ -66095,7 +66303,7 @@
    ]
   },
   {
-   "id": "strip-196",
+   "id": "strip-198",
    "band": 1,
    "points": [
     {
@@ -66209,7 +66417,7 @@
    ]
   },
   {
-   "id": "strip-197",
+   "id": "strip-199",
    "band": 1,
    "points": [
     {
@@ -66419,7 +66627,7 @@
    ]
   },
   {
-   "id": "strip-198",
+   "id": "strip-200",
    "band": 1,
    "points": [
     {
@@ -66545,7 +66753,7 @@
    ]
   },
   {
-   "id": "strip-199",
+   "id": "strip-201",
    "band": 2,
    "points": [
     {
@@ -67031,7 +67239,7 @@
    ]
   },
   {
-   "id": "strip-200",
+   "id": "strip-202",
    "band": 2,
    "points": [
     {
@@ -67349,7 +67557,121 @@
    ]
   },
   {
-   "id": "strip-201",
+   "id": "strip-203",
+   "band": 2,
+   "points": [
+    {
+     "x": 1752.52,
+     "z": 4350.81,
+     "y": 1.56,
+     "bedY": 0.32,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 2.7,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "join",
+     "arcM": 0.0
+    },
+    {
+     "x": 1751.28,
+     "z": 4352.15,
+     "y": 1.487,
+     "bedY": 0.24,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 2.7,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 1.83
+    },
+    {
+     "x": 1750.02,
+     "z": 4353.49,
+     "y": 1.415,
+     "bedY": 0.11,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 2.7,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 3.67
+    },
+    {
+     "x": 1748.76,
+     "z": 4354.81,
+     "y": 1.28,
+     "bedY": -0.04,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 2.7,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 5.49
+    },
+    {
+     "x": 1747.48,
+     "z": 4356.13,
+     "y": 1.078,
+     "bedY": -0.27,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 2.7,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 7.33
+    },
+    {
+     "x": 1746.23,
+     "z": 4357.46,
+     "y": 0.839,
+     "bedY": -0.48,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 2.7,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 9.15
+    },
+    {
+     "x": 1744.98,
+     "z": 4358.8,
+     "y": 0.489,
+     "bedY": -0.89,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 2.7,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 10.99
+    },
+    {
+     "x": 1743.75,
+     "z": 4360.15,
+     "y": 0.0,
+     "bedY": -1.27,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 2.7,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 12.81
+    },
+    {
+     "x": 1742.53,
+     "z": 4361.52,
+     "y": 0.0,
+     "bedY": -1.39,
+     "halfWidthM": 6.92,
+     "wettedHalfWidthM": 6.92,
+     "speedMS": 0.6,
+     "season": 0.5,
+     "kind": "join",
+     "arcM": 14.65
+    }
+   ]
+  },
+  {
+   "id": "strip-204",
    "band": 1,
    "points": [
     {
@@ -67607,7 +67929,7 @@
    ]
   },
   {
-   "id": "strip-202",
+   "id": "strip-205",
    "band": 1,
    "points": [
     {
@@ -67721,7 +68043,7 @@
    ]
   },
   {
-   "id": "strip-203",
+   "id": "strip-206",
    "band": 1,
    "points": [
     {
@@ -67871,7 +68193,7 @@
    ]
   },
   {
-   "id": "strip-204",
+   "id": "strip-207",
    "band": 1,
    "points": [
     {
@@ -68093,7 +68415,7 @@
    ]
   },
   {
-   "id": "strip-205",
+   "id": "strip-208",
    "band": 1,
    "points": [
     {
@@ -68603,7 +68925,7 @@
    ]
   },
   {
-   "id": "strip-206",
+   "id": "strip-209",
    "band": 1,
    "points": [
     {
@@ -68849,7 +69171,7 @@
    ]
   },
   {
-   "id": "strip-207",
+   "id": "strip-210",
    "band": 1,
    "points": [
     {
@@ -69011,7 +69333,7 @@
    ]
   },
   {
-   "id": "strip-208",
+   "id": "strip-211",
    "band": 1,
    "points": [
     {
@@ -69161,7 +69483,7 @@
    ]
   },
   {
-   "id": "strip-209",
+   "id": "strip-212",
    "band": 1,
    "points": [
     {
@@ -69383,7 +69705,7 @@
    ]
   },
   {
-   "id": "strip-210",
+   "id": "strip-213",
    "band": 1,
    "points": [
     {
@@ -69521,7 +69843,7 @@
    ]
   },
   {
-   "id": "strip-211",
+   "id": "strip-214",
    "band": 1,
    "points": [
     {
@@ -70283,7 +70605,7 @@
    ]
   },
   {
-   "id": "strip-212",
+   "id": "strip-215",
    "band": 1,
    "points": [
     {
@@ -70469,7 +70791,7 @@
    ]
   },
   {
-   "id": "strip-213",
+   "id": "strip-216",
    "band": 1,
    "points": [
     {
@@ -71291,7 +71613,7 @@
    ]
   },
   {
-   "id": "strip-214",
+   "id": "strip-217",
    "band": 1,
    "points": [
     {
@@ -71429,7 +71751,7 @@
    ]
   },
   {
-   "id": "strip-215",
+   "id": "strip-218",
    "band": 1,
    "points": [
     {
@@ -71759,7 +72081,7 @@
    ]
   },
   {
-   "id": "strip-216",
+   "id": "strip-219",
    "band": 1,
    "points": [
     {
@@ -72029,7 +72351,7 @@
    ]
   },
   {
-   "id": "strip-217",
+   "id": "strip-220",
    "band": 1,
    "points": [
     {
@@ -72191,7 +72513,7 @@
    ]
   },
   {
-   "id": "strip-218",
+   "id": "strip-221",
    "band": 1,
    "points": [
     {
@@ -72353,7 +72675,7 @@
    ]
   },
   {
-   "id": "strip-219",
+   "id": "strip-222",
    "band": 1,
    "points": [
     {
@@ -72539,7 +72861,7 @@
    ]
   },
   {
-   "id": "strip-220",
+   "id": "strip-223",
    "band": 1,
    "points": [
     {
@@ -72713,7 +73035,7 @@
    ]
   },
   {
-   "id": "strip-221",
+   "id": "strip-224",
    "band": 1,
    "points": [
     {
@@ -73235,7 +73557,7 @@
    ]
   },
   {
-   "id": "strip-222",
+   "id": "strip-225",
    "band": 1,
    "points": [
     {
@@ -73385,7 +73707,7 @@
    ]
   },
   {
-   "id": "strip-223",
+   "id": "strip-226",
    "band": 1,
    "points": [
     {
@@ -74327,7 +74649,7 @@
    ]
   },
   {
-   "id": "strip-224",
+   "id": "strip-227",
    "band": 1,
    "points": [
     {
@@ -74837,7 +75159,7 @@
    ]
   },
   {
-   "id": "strip-225",
+   "id": "strip-228",
    "band": 1,
    "points": [
     {
@@ -74975,7 +75297,7 @@
    ]
   },
   {
-   "id": "strip-226",
+   "id": "strip-229",
    "band": 1,
    "points": [
     {
@@ -75461,7 +75783,7 @@
    ]
   },
   {
-   "id": "strip-227",
+   "id": "strip-230",
    "band": 2,
    "points": [
     {
@@ -77532,7 +77854,7 @@
      "x": 1698.68,
      "z": 4357.45,
      "y": 1.675,
-     "bedY": 0.02,
+     "bedY": -0.0,
      "halfWidthM": 5.24,
      "wettedHalfWidthM": 1.84,
      "speedMS": 2.3,
@@ -77544,7 +77866,7 @@
      "x": 1700.47,
      "z": 4357.84,
      "y": 1.122,
-     "bedY": -0.42,
+     "bedY": -0.5,
      "halfWidthM": 5.24,
      "wettedHalfWidthM": 1.84,
      "speedMS": 2.3,
@@ -77555,19 +77877,55 @@
     {
      "x": 1702.25,
      "z": 4358.23,
-     "y": 0.615,
-     "bedY": -0.66,
+     "y": 0.612,
+     "bedY": -0.84,
      "halfWidthM": 5.24,
-     "wettedHalfWidthM": 5.24,
+     "wettedHalfWidthM": 1.84,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 318.16
+    },
+    {
+     "x": 1704.0,
+     "z": 4358.79,
+     "y": 0.127,
+     "bedY": -1.16,
+     "halfWidthM": 5.24,
+     "wettedHalfWidthM": 1.84,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 320.0
+    },
+    {
+     "x": 1705.67,
+     "z": 4359.51,
+     "y": 0.0,
+     "bedY": -1.26,
+     "halfWidthM": 5.24,
+     "wettedHalfWidthM": 1.84,
+     "speedMS": 2.3,
+     "season": 0.5,
+     "kind": "steep",
+     "arcM": 321.82
+    },
+    {
+     "x": 1707.25,
+     "z": 4360.43,
+     "y": 0.0,
+     "bedY": -1.18,
+     "halfWidthM": 5.25,
+     "wettedHalfWidthM": 5.25,
      "speedMS": 0.6,
      "season": 0.5,
      "kind": "join",
-     "arcM": 318.16
+     "arcM": 323.65
     }
    ]
   },
   {
-   "id": "strip-228",
+   "id": "strip-231",
    "band": 1,
    "points": [
     {
@@ -78065,7 +78423,7 @@
    ]
   },
   {
-   "id": "strip-229",
+   "id": "strip-232",
    "band": 1,
    "points": [
     {
@@ -78203,7 +78561,7 @@
    ]
   },
   {
-   "id": "strip-230",
+   "id": "strip-233",
    "band": 1,
    "points": [
     {
@@ -78965,7 +79323,7 @@
    ]
   },
   {
-   "id": "strip-231",
+   "id": "strip-234",
    "band": 1,
    "points": [
     {
@@ -79415,7 +79773,7 @@
    ]
   },
   {
-   "id": "strip-232",
+   "id": "strip-235",
    "band": 1,
    "points": [
     {
@@ -79854,7 +80212,7 @@
      "x": 3309.39,
      "z": 4805.83,
      "y": 1.175,
-     "bedY": 0.68,
+     "bedY": 0.5,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 1.3,
      "speedMS": 2.3,
@@ -79866,7 +80224,7 @@
      "x": 3309.38,
      "z": 4807.67,
      "y": 1.077,
-     "bedY": 0.57,
+     "bedY": -0.31,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 1.3,
      "speedMS": 2.3,
@@ -79878,7 +80236,7 @@
      "x": 3309.37,
      "z": 4809.5,
      "y": 0.96,
-     "bedY": 0.42,
+     "bedY": -0.8,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 1.3,
      "speedMS": 2.3,
@@ -79890,7 +80248,7 @@
      "x": 3309.37,
      "z": 4811.33,
      "y": 0.812,
-     "bedY": 0.21,
+     "bedY": -0.8,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 1.3,
      "speedMS": 2.3,
@@ -79902,7 +80260,7 @@
      "x": 3309.36,
      "z": 4813.16,
      "y": 0.548,
-     "bedY": -0.09,
+     "bedY": -0.8,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 1.3,
      "speedMS": 2.3,
@@ -79914,7 +80272,7 @@
      "x": 3309.35,
      "z": 4814.99,
      "y": 0.053,
-     "bedY": -0.48,
+     "bedY": -0.8,
      "halfWidthM": 3.3,
      "wettedHalfWidthM": 3.3,
      "speedMS": 0.45,
@@ -79925,7 +80283,7 @@
    ]
   },
   {
-   "id": "strip-233",
+   "id": "strip-236",
    "band": 1,
    "points": [
     {
@@ -80339,7 +80697,7 @@
    ]
   },
   {
-   "id": "strip-234",
+   "id": "strip-237",
    "band": 1,
    "points": [
     {
@@ -80561,7 +80919,7 @@
    ]
   },
   {
-   "id": "strip-235",
+   "id": "strip-238",
    "band": 1,
    "points": [
     {
@@ -80699,7 +81057,7 @@
    ]
   },
   {
-   "id": "strip-236",
+   "id": "strip-239",
    "band": 1,
    "points": [
     {
@@ -80945,7 +81303,7 @@
    ]
   },
   {
-   "id": "strip-237",
+   "id": "strip-240",
    "band": 1,
    "points": [
     {
@@ -81059,7 +81417,7 @@
    ]
   },
   {
-   "id": "strip-238",
+   "id": "strip-241",
    "band": 1,
    "points": [
     {
@@ -81305,7 +81663,7 @@
    ]
   },
   {
-   "id": "strip-239",
+   "id": "strip-242",
    "band": 1,
    "points": [
     {
@@ -81443,7 +81801,7 @@
    ]
   },
   {
-   "id": "strip-240",
+   "id": "strip-243",
    "band": 1,
    "points": [
     {
@@ -81557,7 +81915,7 @@
    ]
   },
   {
-   "id": "strip-241",
+   "id": "strip-244",
    "band": 1,
    "points": [
     {
@@ -81671,7 +82029,7 @@
    ]
   },
   {
-   "id": "strip-242",
+   "id": "strip-245",
    "band": 1,
    "points": [
     {
@@ -81797,7 +82155,7 @@
    ]
   },
   {
-   "id": "strip-243",
+   "id": "strip-246",
    "band": 1,
    "points": [
     {
@@ -81923,169 +82281,7 @@
    ]
   },
   {
-   "id": "strip-244",
-   "band": 1,
-   "points": [
-    {
-     "x": 625.45,
-     "z": 5616.1,
-     "y": 1.757,
-     "bedY": 1.3,
-     "halfWidthM": 3.58,
-     "wettedHalfWidthM": 1.76,
-     "speedMS": 1.3,
-     "season": 0.35,
-     "kind": "join",
-     "arcM": 0.0
-    },
-    {
-     "x": 623.62,
-     "z": 5616.17,
-     "y": 1.7,
-     "bedY": 1.23,
-     "halfWidthM": 3.58,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 1.83
-    },
-    {
-     "x": 621.79,
-     "z": 5616.22,
-     "y": 1.622,
-     "bedY": 1.13,
-     "halfWidthM": 3.58,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 3.66
-    },
-    {
-     "x": 619.95,
-     "z": 5616.23,
-     "y": 1.52,
-     "bedY": 1.02,
-     "halfWidthM": 3.58,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 5.5
-    },
-    {
-     "x": 618.12,
-     "z": 5616.24,
-     "y": 1.391,
-     "bedY": 0.88,
-     "halfWidthM": 3.58,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 7.33
-    },
-    {
-     "x": 616.29,
-     "z": 5616.24,
-     "y": 1.23,
-     "bedY": 0.71,
-     "halfWidthM": 3.59,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 9.16
-    },
-    {
-     "x": 614.46,
-     "z": 5616.17,
-     "y": 1.043,
-     "bedY": 0.51,
-     "halfWidthM": 3.59,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 10.99
-    },
-    {
-     "x": 612.63,
-     "z": 5616.08,
-     "y": 0.837,
-     "bedY": 0.3,
-     "halfWidthM": 3.59,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 12.83
-    },
-    {
-     "x": 610.8,
-     "z": 5615.95,
-     "y": 0.61,
-     "bedY": 0.08,
-     "halfWidthM": 3.59,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 14.66
-    },
-    {
-     "x": 608.99,
-     "z": 5615.69,
-     "y": 0.388,
-     "bedY": -0.15,
-     "halfWidthM": 3.59,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 16.49
-    },
-    {
-     "x": 607.18,
-     "z": 5615.36,
-     "y": 0.14,
-     "bedY": -0.39,
-     "halfWidthM": 3.59,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 18.33
-    },
-    {
-     "x": 605.4,
-     "z": 5614.94,
-     "y": 0.061,
-     "bedY": -0.47,
-     "halfWidthM": 3.59,
-     "wettedHalfWidthM": 1.46,
-     "speedMS": 2.3,
-     "season": 0.35,
-     "kind": "steep",
-     "arcM": 20.16
-    },
-    {
-     "x": 603.64,
-     "z": 5614.42,
-     "y": 0.0,
-     "bedY": -0.46,
-     "halfWidthM": 3.59,
-     "wettedHalfWidthM": 1.77,
-     "speedMS": 1.3,
-     "season": 0.35,
-     "kind": "join",
-     "arcM": 21.99
-    }
-   ]
-  },
-  {
-   "id": "strip-245",
+   "id": "strip-247",
    "band": 1,
    "points": [
     {
@@ -82199,14 +82395,14 @@
    ]
   },
   {
-   "id": "strip-246",
+   "id": "strip-248",
    "band": 1,
    "points": [
     {
      "x": 364.93,
      "z": 6596.29,
-     "y": 3.392,
-     "bedY": 2.86,
+     "y": 3.39,
+     "bedY": 2.39,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.72,
      "speedMS": 1.3,
@@ -82217,8 +82413,8 @@
     {
      "x": 363.11,
      "z": 6596.01,
-     "y": 3.307,
-     "bedY": 2.8,
+     "y": 3.305,
+     "bedY": 2.37,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.42,
      "speedMS": 2.3,
@@ -82229,8 +82425,8 @@
     {
      "x": 361.28,
      "z": 6595.85,
-     "y": 3.245,
-     "bedY": 2.74,
+     "y": 3.243,
+     "bedY": 2.29,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.42,
      "speedMS": 2.3,
@@ -82241,8 +82437,8 @@
     {
      "x": 359.44,
      "z": 6595.77,
-     "y": 3.179,
-     "bedY": 2.66,
+     "y": 3.177,
+     "bedY": 2.15,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.43,
      "speedMS": 2.3,
@@ -82253,8 +82449,8 @@
     {
      "x": 357.6,
      "z": 6595.78,
-     "y": 3.087,
-     "bedY": 2.51,
+     "y": 3.084,
+     "bedY": 1.92,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.43,
      "speedMS": 2.3,
@@ -82265,8 +82461,8 @@
     {
      "x": 355.77,
      "z": 6595.9,
-     "y": 2.837,
-     "bedY": 2.28,
+     "y": 2.834,
+     "bedY": 1.73,
      "halfWidthM": 3.53,
      "wettedHalfWidthM": 1.43,
      "speedMS": 2.3,
@@ -82277,8 +82473,8 @@
     {
      "x": 353.94,
      "z": 6596.11,
-     "y": 2.649,
-     "bedY": 2.1,
+     "y": 2.646,
+     "bedY": 1.6,
      "halfWidthM": 3.55,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82289,8 +82485,8 @@
     {
      "x": 352.14,
      "z": 6596.48,
-     "y": 2.547,
-     "bedY": 1.98,
+     "y": 2.543,
+     "bedY": 1.58,
      "halfWidthM": 3.55,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82301,8 +82497,8 @@
     {
      "x": 350.38,
      "z": 6596.99,
-     "y": 2.454,
-     "bedY": 1.95,
+     "y": 2.451,
+     "bedY": 1.53,
      "halfWidthM": 3.55,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82313,8 +82509,8 @@
     {
      "x": 348.64,
      "z": 6597.59,
-     "y": 2.386,
-     "bedY": 1.92,
+     "y": 2.382,
+     "bedY": 1.53,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82325,8 +82521,8 @@
     {
      "x": 346.99,
      "z": 6598.4,
-     "y": 2.386,
-     "bedY": 1.82,
+     "y": 2.382,
+     "bedY": 1.53,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82337,8 +82533,8 @@
     {
      "x": 345.38,
      "z": 6599.28,
-     "y": 2.281,
-     "bedY": 1.76,
+     "y": 2.276,
+     "bedY": 1.53,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82349,8 +82545,8 @@
     {
      "x": 343.83,
      "z": 6600.28,
-     "y": 2.059,
-     "bedY": 1.55,
+     "y": 2.054,
+     "bedY": 1.51,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82361,8 +82557,8 @@
     {
      "x": 342.32,
      "z": 6601.32,
-     "y": 2.044,
-     "bedY": 1.56,
+     "y": 2.04,
+     "bedY": 1.51,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82373,8 +82569,8 @@
     {
      "x": 340.82,
      "z": 6602.39,
-     "y": 2.044,
-     "bedY": 1.49,
+     "y": 2.04,
+     "bedY": 1.48,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82385,7 +82581,7 @@
     {
      "x": 339.37,
      "z": 6603.52,
-     "y": 1.924,
+     "y": 1.918,
      "bedY": 1.33,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
@@ -82397,8 +82593,8 @@
     {
      "x": 337.93,
      "z": 6604.66,
-     "y": 1.677,
-     "bedY": 1.17,
+     "y": 1.672,
+     "bedY": 1.16,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82409,7 +82605,7 @@
     {
      "x": 336.44,
      "z": 6605.74,
-     "y": 1.649,
+     "y": 1.642,
      "bedY": 1.11,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
@@ -82421,8 +82617,8 @@
     {
      "x": 334.95,
      "z": 6606.81,
-     "y": 1.582,
-     "bedY": 1.11,
+     "y": 1.576,
+     "bedY": 1.1,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82433,8 +82629,8 @@
     {
      "x": 333.4,
      "z": 6607.8,
-     "y": 1.582,
-     "bedY": 1.01,
+     "y": 1.576,
+     "bedY": 1.0,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82445,8 +82641,8 @@
     {
      "x": 331.83,
      "z": 6608.76,
-     "y": 1.307,
-     "bedY": 0.78,
+     "y": 1.299,
+     "bedY": 0.77,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82457,8 +82653,8 @@
     {
      "x": 330.17,
      "z": 6609.56,
-     "y": 1.203,
-     "bedY": 0.59,
+     "y": 1.195,
+     "bedY": 0.58,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82469,8 +82665,8 @@
     {
      "x": 328.47,
      "z": 6610.24,
-     "y": 1.086,
-     "bedY": 0.57,
+     "y": 1.079,
+     "bedY": 0.56,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82481,8 +82677,8 @@
     {
      "x": 326.72,
      "z": 6610.82,
-     "y": 0.982,
-     "bedY": 0.44,
+     "y": 0.974,
+     "bedY": 0.43,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82493,8 +82689,8 @@
     {
      "x": 324.93,
      "z": 6611.22,
-     "y": 0.87,
-     "bedY": 0.28,
+     "y": 0.862,
+     "bedY": 0.27,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82505,8 +82701,8 @@
     {
      "x": 323.12,
      "z": 6611.55,
-     "y": 0.755,
-     "bedY": 0.18,
+     "y": 0.747,
+     "bedY": 0.17,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82517,8 +82713,8 @@
     {
      "x": 321.3,
      "z": 6611.75,
-     "y": 0.634,
-     "bedY": 0.07,
+     "y": 0.626,
+     "bedY": 0.02,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82529,8 +82725,8 @@
     {
      "x": 319.47,
      "z": 6611.96,
-     "y": 0.508,
-     "bedY": -0.04,
+     "y": 0.499,
+     "bedY": -0.31,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82541,8 +82737,8 @@
     {
      "x": 317.64,
      "z": 6612.17,
-     "y": 0.38,
-     "bedY": -0.15,
+     "y": 0.37,
+     "bedY": -0.78,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82553,8 +82749,8 @@
     {
      "x": 315.81,
      "z": 6612.37,
-     "y": 0.244,
-     "bedY": -0.31,
+     "y": 0.235,
+     "bedY": -0.85,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 1.44,
      "speedMS": 2.3,
@@ -82566,7 +82762,7 @@
      "x": 314.01,
      "z": 6612.74,
      "y": 0.0,
-     "bedY": -0.52,
+     "bedY": -0.85,
      "halfWidthM": 3.56,
      "wettedHalfWidthM": 3.56,
      "speedMS": 0.45,
@@ -82577,7 +82773,7 @@
    ]
   },
   {
-   "id": "strip-247",
+   "id": "strip-249",
    "band": 1,
    "points": [
     {
@@ -83710,7 +83906,7 @@
   }
  ],
  "stats": {
-  "compileSeconds": 62.3,
+  "compileSeconds": 60.5,
   "hoveringEdges": 0,
   "cliffEdgeCells": 0,
   "brinkEdgeCells": 31,
@@ -83718,20 +83914,20 @@
   "boundHitCells": 0,
   "boundHitReaches": 0,
   "dryStations": 18,
-  "cliffFootCellsInWidth": 10803,
-  "sillStations": 463,
+  "cliffFootCellsInWidth": 10627,
+  "sillStations": 471,
   "dryCoarseRiverCells": 2,
   "liveCoarseRiverCells": 11997,
   "stations": 31700,
   "reaches": 162,
   "stationKinds": {
-   "field": 25374,
-   "steep": 6302,
+   "field": 25363,
+   "steep": 6313,
    "fall": 24,
    "lost": 0
   },
-  "stripCount": 248,
-  "stripKm": 11.08,
+  "stripCount": 250,
+  "stripKm": 11.1,
   "cascadeCount": 16,
   "wettedFracCascades": {
    "n": 16,
@@ -83740,53 +83936,56 @@
    "max": 0.578
   },
   "wettedFracStrips": {
-   "n": 6769,
+   "n": 6784,
    "min": 0.346,
    "median": 0.402,
    "max": 1.0
   },
-  "wetFrac": 0.4002,
-  "visibleWaterFrac2017": 0.3945,
-  "tableFrac2017": 0.1571,
+  "wetFrac": 0.3982,
+  "visibleWaterFrac2017": 0.3926,
+  "tableFrac2017": 0.1563,
   "maxDepthM": 98.28,
-  "ownerFrac": 0.001789,
+  "ownerFrac": 0.001798,
   "classFrac": {
-   "coast": 0.32136,
-   "estuary": 0.00732,
-   "river": 0.0308,
-   "lake": 0.15555,
-   "marsh": 0.06183
+   "coast": 0.32059,
+   "estuary": 0.00667,
+   "river": 0.02647,
+   "lake": 0.1537,
+   "marsh": 0.0578
   },
-  "depressions": 77323,
-  "acceptedDepressions": 2548,
-  "rescuedBasins": 189,
-  "sheets": 1863,
-  "roadCapped": 63,
-  "roadRejected": 0,
-  "nestedAccepted": 37,
-  "nestedCandidates": 6638,
-  "bodies": 2691,
-  "sheetBodies": 1915,
-  "bodyCells": 581825,
-  "forcedBasins": 11,
-  "pooledLevelMoved": 733,
+  "classExtPx": 5,
+  "classExtRiseM": 2.0,
+  "classExtCells": 265357,
+  "classExtRejectedByRise": 82813,
+  "depressions": 77292,
+  "acceptedDepressions": 2528,
+  "rescuedBasins": 191,
+  "sheets": 1846,
+  "cappedBasins": 32,
+  "nestedAccepted": 38,
+  "nestedCandidates": 6730,
+  "bodies": 2635,
+  "sheetBodies": 1856,
+  "bodyCells": 561897,
+  "forcedBasins": 10,
+  "pooledLevelMoved": 811,
   "pooledLevelMovedMaxM": 1.134,
   "pooledLevelLost": 3,
   "lostStations": 0,
   "lostReaches": 0,
-  "roadCellsInWater": 12253,
-  "roadCellsDeepInWater": 5832,
+  "roadCellsInWater": 13065,
+  "roadCellsDeepInWater": 7728,
   "roadCellsDeepBy": {
-   "sea": 5654,
-   "lake": 18,
-   "river": 160
+   "sea": 5726,
+   "lake": 581,
+   "river": 1421
   },
-  "trackCellsInWater": 19584,
-  "trackCellsDeepInWater": 9344,
+  "trackCellsInWater": 20357,
+  "trackCellsDeepInWater": 10616,
   "trackCellsDeepBy": {
-   "sea": 8364,
-   "lake": 265,
-   "river": 715
+   "sea": 6856,
+   "lake": 1219,
+   "river": 2541
   }
  }
 }

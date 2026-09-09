@@ -1,0 +1,2069 @@
+{
+ "kit": "ruin-monumental-v1",
+ "assets": [
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+   "node": "es|02800d0cb4|_dungeons_ayleidruins_exterior_arblock01",
+   "category": "ruin",
+   "sizeM": [
+    2.732,
+    2.731,
+    0.907
+   ],
+   "originOffsetM": [
+    1.366,
+    1.366,
+    0.44
+   ],
+   "triangles": 30,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Scene Root:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.44,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock02",
+   "node": "es|0a0538c3c9|_dungeons_ayleidruins_exterior_arblock02",
+   "category": "ruin",
+   "sizeM": [
+    2.732,
+    2.731,
+    0.907
+   ],
+   "originOffsetM": [
+    1.366,
+    1.366,
+    0.44
+   ],
+   "triangles": 30,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Scene Root:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.44,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock03",
+   "node": "es|77878b84c1|_dungeons_ayleidruins_exterior_arblock03",
+   "category": "ruin",
+   "sizeM": [
+    2.732,
+    2.731,
+    0.907
+   ],
+   "originOffsetM": [
+    1.366,
+    1.366,
+    0.44
+   ],
+   "triangles": 30,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Scene Root:0.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.44,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock05",
+   "node": "es|22b9714201|_dungeons_ayleidruins_exterior_arblock05",
+   "category": "ruin",
+   "sizeM": [
+    2.732,
+    1.552,
+    0.907
+   ],
+   "originOffsetM": [
+    1.366,
+    0.186,
+    0.44
+   ],
+   "triangles": 72,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Scene Root:0.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.44,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
+   "node": "es|e4a93135e0|geons_ayleidruins_exterior_arquadblock01",
+   "category": "ruin",
+   "sizeM": [
+    6.373,
+    6.372,
+    1.821
+   ],
+   "originOffsetM": [
+    3.186,
+    3.186,
+    0.91
+   ],
+   "triangles": 30,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "qblock whole.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.91,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02",
+   "node": "es|7c163ce2fc|geons_ayleidruins_exterior_arquadblock02",
+   "category": "ruin",
+   "sizeM": [
+    6.373,
+    6.372,
+    1.821
+   ],
+   "originOffsetM": [
+    3.186,
+    3.186,
+    0.91
+   ],
+   "triangles": 91,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "qblock whole.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.91,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick01",
+   "node": "es|8ea79eb0a9|_dungeons_ayleidruins_exterior_arbrick01",
+   "category": "ruin",
+   "sizeM": [
+    0.91,
+    1.821,
+    0.91
+   ],
+   "originOffsetM": [
+    -0.0,
+    1.821,
+    0.0
+   ],
+   "triangles": 44,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "abbrick.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick03",
+   "node": "es|77d832c8c2|_dungeons_ayleidruins_exterior_arbrick03",
+   "category": "ruin",
+   "sizeM": [
+    0.91,
+    1.821,
+    0.91
+   ],
+   "originOffsetM": [
+    -0.0,
+    1.821,
+    0.0
+   ],
+   "triangles": 44,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "abbrick.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick05",
+   "node": "es|575dc09fcb|_dungeons_ayleidruins_exterior_arbrick05",
+   "category": "ruin",
+   "sizeM": [
+    0.91,
+    1.118,
+    0.91
+   ],
+   "originOffsetM": [
+    -0.0,
+    1.118,
+    0.0
+   ],
+   "triangles": 126,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Object001.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs01",
+   "node": "es|b0bd61c279|dungeons_ayleidruins_exterior_arstairs01",
+   "category": "ruin",
+   "sizeM": [
+    5.744,
+    5.717,
+    2.014
+   ],
+   "originOffsetM": [
+    8.69,
+    8.83,
+    1.007
+   ],
+   "triangles": 282,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Norm.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.007,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs02",
+   "node": "es|ac9246bc40|dungeons_ayleidruins_exterior_arstairs02",
+   "category": "ruin",
+   "sizeM": [
+    10.112,
+    15.421,
+    6.043
+   ],
+   "originOffsetM": [
+    5.056,
+    20.631,
+    4.043
+   ],
+   "triangles": 822,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "abstrs.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.043,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
+   "node": "es|f0ed213bd5|ns_ayleidruins_exterior_arstairscenter01",
+   "category": "ruin",
+   "sizeM": [
+    3.641,
+    7.309,
+    4.747
+   ],
+   "originOffsetM": [
+    1.821,
+    22.639,
+    4.043
+   ],
+   "triangles": 584,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Object001.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.043,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairsside01",
+   "node": "es|ad3741319c|eons_ayleidruins_exterior_arstairsside01",
+   "category": "ruin",
+   "sizeM": [
+    4.515,
+    12.866,
+    5.293
+   ],
+   "originOffsetM": [
+    -2.53,
+    21.834,
+    4.055
+   ],
+   "triangles": 399,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Object002.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.055,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arspiralstairs01",
+   "node": "es|aa9d369887|ns_ayleidruins_exterior_arspiralstairs01",
+   "category": "ruin",
+   "sizeM": [
+    9.182,
+    9.182,
+    3.532
+   ],
+   "originOffsetM": [
+    4.591,
+    4.591,
+    1.777
+   ],
+   "triangles": 503,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Object001.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.777,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuebase01",
+   "node": "es|721be66c40|eons_ayleidruins_exterior_arstatuebase01",
+   "category": "ruin",
+   "sizeM": [
+    11.831,
+    11.831,
+    3.68
+   ],
+   "originOffsetM": [
+    5.915,
+    5.915,
+    -0.034
+   ],
+   "triangles": 1158,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Object001.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.034,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01",
+   "node": "es|8a0e9e0e74|eons_ayleidruins_exterior_arstatuewall01",
+   "category": "ruin",
+   "sizeM": [
+    13.024,
+    2.611,
+    7.84
+   ],
+   "originOffsetM": [
+    6.512,
+    -7.463,
+    0.0
+   ],
+   "triangles": 636,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Box002:1.Mat",
+    "Box002:2.Mat",
+    "Box002:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall02",
+   "node": "es|561d7c2c08|eons_ayleidruins_exterior_arstatuewall02",
+   "category": "ruin",
+   "sizeM": [
+    19.199,
+    13.874,
+    7.869
+   ],
+   "originOffsetM": [
+    9.6,
+    -7.463,
+    0.029
+   ],
+   "triangles": 884,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone01.dds",
+    "arstone02.dds",
+    "arstone03.dds"
+   ],
+   "materials": [
+    "Object007:1.Mat",
+    "Object007:2.Mat",
+    "Object007:3.Mat",
+    "Object007:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.029,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge01",
+   "node": "es|cad2261d32|dungeons_ayleidruins_exterior_arbridge01",
+   "category": "ruin",
+   "sizeM": [
+    12.753,
+    7.045,
+    8.914
+   ],
+   "originOffsetM": [
+    6.376,
+    3.523,
+    4.661
+   ],
+   "triangles": 1238,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone01.dds",
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Arledge:1.Mat",
+    "Arledge:2.Mat",
+    "Arledge:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.661,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge03",
+   "node": "es|cb0269a375|dungeons_ayleidruins_exterior_arbridge03",
+   "category": "ruin",
+   "sizeM": [
+    9.646,
+    7.045,
+    8.97
+   ],
+   "originOffsetM": [
+    6.376,
+    3.523,
+    4.717
+   ],
+   "triangles": 1133,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Arledge:1.Mat.001",
+    "Arledge:2.Mat.001",
+    "Arledge:3.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.717,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/artower01",
+   "node": "es|ff3859072c|_dungeons_ayleidruins_exterior_artower01",
+   "category": "ruin",
+   "sizeM": [
+    6.553,
+    6.553,
+    23.161
+   ],
+   "originOffsetM": [
+    0.0,
+    6.553,
+    9.246
+   ],
+   "triangles": 1568,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone01.dds",
+    "arstone02.dds",
+    "arstone03.dds"
+   ],
+   "materials": [
+    "Object002:1.Mat",
+    "Object002:2.Mat",
+    "Object002:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 9.246,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arcolumn02",
+   "node": "es|fb6f0270f9|dungeons_ayleidruins_exterior_arcolumn02",
+   "category": "ruin",
+   "sizeM": [
+    4.159,
+    4.159,
+    5.142
+   ],
+   "originOffsetM": [
+    2.08,
+    2.08,
+    -0.0
+   ],
+   "triangles": 328,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "ColBody.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararchcolumn02",
+   "node": "es|34c128ef03|eons_ayleidruins_exterior_ararchcolumn02",
+   "category": "ruin",
+   "sizeM": [
+    1.873,
+    6.334,
+    12.362
+   ],
+   "originOffsetM": [
+    0.992,
+    3.167,
+    0.879
+   ],
+   "triangles": 778,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds",
+    "arstone03.dds"
+   ],
+   "materials": [
+    "Arstone:1.Mat",
+    "Arstone:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.879,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringouterwall03",
+   "node": "es|9823972cbc|s_ayleidruins_exterior_arringouterwall03",
+   "category": "ruin",
+   "sizeM": [
+    11.203,
+    6.819,
+    7.865
+   ],
+   "originOffsetM": [
+    -9.178,
+    -22.146,
+    0.0
+   ],
+   "triangles": 536,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "wing.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringinnerwall02",
+   "node": "es|7cc940aeca|s_ayleidruins_exterior_arringinnerwall02",
+   "category": "ruin",
+   "sizeM": [
+    5.22,
+    1.337,
+    8.451
+   ],
+   "originOffsetM": [
+    2.61,
+    -14.78,
+    1.152
+   ],
+   "triangles": 442,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Object002.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.152,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/aroutercircle01",
+   "node": "es|2580e99c34|ons_ayleidruins_exterior_aroutercircle01",
+   "category": "ruin",
+   "sizeM": [
+    5.542,
+    8.497,
+    20.66
+   ],
+   "originOffsetM": [
+    11.284,
+    4.249,
+    0.35
+   ],
+   "triangles": 674,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone01.dds",
+    "arstone02.dds",
+    "arstone03.dds"
+   ],
+   "materials": [
+    "Object003:1.Mat",
+    "Object003:2.Mat",
+    "Object003:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.35,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding1",
+   "node": "es|62ad582ec3|tecture_ruins_xanmeer_1mjyaztecbuilding1",
+   "category": "architecture",
+   "sizeM": [
+    67.729,
+    65.141,
+    36.396
+   ],
+   "originOffsetM": [
+    14.66,
+    32.497,
+    7.27
+   ],
+   "triangles": 785,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "1mjydungeon4darker2.dds",
+    "fantasy1mjy3darker.dds"
+   ],
+   "materials": [
+    "SBardsCollegeTower_LOD:2.Mat",
+    "SBardsCollegeTower_LOD:5.Mat",
+    "SBardsCollegeTower_LOD:9.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.27,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding3redone",
+   "node": "es|30b16fd205|e_ruins_xanmeer_1mjyaztecbuilding3redone",
+   "category": "architecture",
+   "sizeM": [
+    69.483,
+    65.116,
+    31.997
+   ],
+   "originOffsetM": [
+    34.742,
+    32.559,
+    16.145
+   ],
+   "triangles": 1789,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "1mjydungeon4darker2.dds",
+    "fantasy1mjy3darker.dds"
+   ],
+   "materials": [
+    "SBardsCollege_LOD:0.Mat",
+    "SBardsCollege_LOD:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 16.145,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7",
+   "node": "es|190451f8a6|tecture_ruins_xanmeer_1mjyaztecbuilding7",
+   "category": "architecture",
+   "sizeM": [
+    33.873,
+    21.86,
+    13.126
+   ],
+   "originOffsetM": [
+    16.937,
+    9.109,
+    4.948
+   ],
+   "triangles": 1336,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "1mjydungeon21231.dds",
+    "1mjydungeon4darker2.dds",
+    "1mjydungeon6.dds",
+    "fantasy1mjy3darker.dds",
+    "fantasy3darker.dds",
+    "ingotobsidian01.dds"
+   ],
+   "materials": [
+    "SBryling House_LOD:0.Mat",
+    "SBryling House_LOD:13.Mat",
+    "SBryling House_LOD:17.Mat",
+    "SBryling House_LOD:2.Mat",
+    "SBryling House_LOD:21.Mat",
+    "SBryling House_LOD:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.948,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
+   "node": "es|de51da1073|tecture_ruins_xanmeer_serpentsigilstatue",
+   "category": "architecture",
+   "sizeM": [
+    1.376,
+    0.435,
+    0.634
+   ],
+   "originOffsetM": [
+    0.679,
+    0.429,
+    0.318
+   ],
+   "triangles": 2957,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "serpentsigilstone.dds"
+   ],
+   "materials": [
+    "SigilStone.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.318,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentstatue_feathered",
+   "node": "es|25f3c428a0|re_ruins_xanmeer_serpentstatue_feathered",
+   "category": "architecture",
+   "sizeM": [
+    1.201,
+    0.597,
+    0.683
+   ],
+   "originOffsetM": [
+    0.399,
+    0.195,
+    0.017
+   ],
+   "triangles": 6028,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "serpent_statue.dds"
+   ],
+   "materials": [
+    "plumes.Mat",
+    "serpent.Mat",
+    "wings.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.017,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/statuegoddess",
+   "node": "es|8f0dd9b617|architecture_ruins_xanmeer_statuegoddess",
+   "category": "architecture",
+   "sizeM": [
+    1.006,
+    0.92,
+    1.952
+   ],
+   "originOffsetM": [
+    0.503,
+    0.458,
+    -0.0
+   ],
+   "triangles": 2246,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "statuegoddess.dds"
+   ],
+   "materials": [
+    "statue.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/gargoyle01",
+   "node": "es|33541586db|li_architecture_ruins_xanmeer_gargoyle01",
+   "category": "architecture",
+   "sizeM": [
+    0.381,
+    0.891,
+    0.881
+   ],
+   "originOffsetM": [
+    0.191,
+    0.446,
+    -0.017
+   ],
+   "triangles": 1566,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "gargoyle01.dds"
+   ],
+   "materials": [
+    "Gargoyle:7.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.017,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone",
+   "node": "es|ab4fa31abb|li_architecture_ruins_xanmeer_runicstone",
+   "category": "architecture",
+   "sizeM": [
+    1.188,
+    0.645,
+    1.143
+   ],
+   "originOffsetM": [
+    0.594,
+    0.547,
+    0.061
+   ],
+   "triangles": 2028,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "runicstone.dds"
+   ],
+   "materials": [
+    "stone.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.061,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02",
+   "node": "es|50c684ef81|ctli_architecture_ruins_xanmeer_pillar02",
+   "category": "architecture",
+   "sizeM": [
+    1.717,
+    1.717,
+    9.305
+   ],
+   "originOffsetM": [
+    0.858,
+    0.858,
+    0.0
+   ],
+   "triangles": 78,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "pillar02.dds"
+   ],
+   "materials": [
+    "pillar_pyramid.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar05",
+   "node": "es|793253cb98|ctli_architecture_ruins_xanmeer_pillar05",
+   "category": "architecture",
+   "sizeM": [
+    0.986,
+    0.986,
+    3.129
+   ],
+   "originOffsetM": [
+    0.493,
+    0.493,
+    0.021
+   ],
+   "triangles": 1480,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "pillar05.dds"
+   ],
+   "materials": [
+    "pillar_twisted.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.021,
+    "buryM": 0.18,
+    "buryCapM": 0.5,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallfree01",
+   "node": "es|548d9903d8|li_architecture_ruins_xanmeer_wallfree01",
+   "category": "architecture",
+   "sizeM": [
+    1.286,
+    11.761,
+    6.953
+   ],
+   "originOffsetM": [
+    1.612,
+    -8.315,
+    7.665
+   ],
+   "triangles": 560,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "whoutwall.dds",
+    "whtrimstone1.dds",
+    "whtrimstone2.dds"
+   ],
+   "materials": [
+    "Object15:1.Mat",
+    "Object15:2.Mat",
+    "Object15:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.665,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01",
+   "node": "es|a7ed30d45f|_architecture_ruins_xanmeer_wallcorner01",
+   "category": "architecture",
+   "sizeM": [
+    6.733,
+    6.925,
+    10.886
+   ],
+   "originOffsetM": [
+    24.211,
+    -3.335,
+    4.621
+   ],
+   "triangles": 702,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "whoutwall.dds",
+    "whruinstonedark.dds",
+    "whtrimstone1.dds",
+    "whtrimstone2.dds"
+   ],
+   "materials": [
+    "Object424:1.Mat",
+    "Object424:16.Mat",
+    "Object424:2.Mat",
+    "Object424:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.621,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight",
+   "node": "es|765701a0f7|_architecture_ruins_xanmeer_wallstraight",
+   "category": "architecture",
+   "sizeM": [
+    7.283,
+    1.927,
+    10.833
+   ],
+   "originOffsetM": [
+    3.913,
+    7.378,
+    4.567
+   ],
+   "triangles": 268,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "whoutwall.dds",
+    "whtrimstone1.dds",
+    "whtrimstone2.dds"
+   ],
+   "materials": [
+    "Object05:1.Mat",
+    "Object05:2.Mat",
+    "Object05:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.567,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem01",
+   "node": "es|cbbfe3638e|actli_architecture_ruins_xanmeer_totem01",
+   "category": "architecture",
+   "sizeM": [
+    1.283,
+    0.748,
+    1.288
+   ],
+   "originOffsetM": [
+    0.556,
+    0.371,
+    0.022
+   ],
+   "triangles": 2152,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "totem01.dds"
+   ],
+   "materials": [
+    "totem.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.022,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02",
+   "node": "es|5feb2fd9c3|actli_architecture_ruins_xanmeer_totem02",
+   "category": "architecture",
+   "sizeM": [
+    0.395,
+    0.49,
+    2.065
+   ],
+   "originOffsetM": [
+    0.198,
+    0.245,
+    0.003
+   ],
+   "triangles": 4974,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "totem02.dds"
+   ],
+   "materials": [
+    "totem.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.003,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skeletontotem01",
+   "node": "es|0a062e5951|chitecture_ruins_xanmeer_skeletontotem01",
+   "category": "architecture",
+   "sizeM": [
+    0.756,
+    0.825,
+    1.395
+   ],
+   "originOffsetM": [
+    0.414,
+    0.2,
+    0.008
+   ],
+   "triangles": 13524,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds",
+    "skullpedestal.dds"
+   ],
+   "materials": [
+    "Base.Mat",
+    "Skeleton.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.008,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skullstack01",
+   "node": "es|f0f14e9c4b|_architecture_ruins_xanmeer_skullstack01",
+   "category": "architecture",
+   "sizeM": [
+    1.15,
+    0.886,
+    0.736
+   ],
+   "originOffsetM": [
+    0.573,
+    0.486,
+    0.011
+   ],
+   "triangles": 28500,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds"
+   ],
+   "materials": [
+    "Skulls.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.011,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/3mjyunderwaterruins8",
+   "node": "es|bc841b2fe6|cture_ruins_xanmeer_3mjyunderwaterruins8",
+   "category": "architecture",
+   "sizeM": [
+    12.486,
+    15.734,
+    31.457
+   ],
+   "originOffsetM": [
+    2.553,
+    7.741,
+    21.243
+   ],
+   "triangles": 2592,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "1mjydungeon21231.dds",
+    "1mjydungeon6.dds",
+    "fantasy3darker.dds"
+   ],
+   "materials": [
+    "SBardsCollege_LOD:0.Mat.001",
+    "SBardsCollege_LOD:2.Mat.001",
+    "SBardsCollege_LOD:3.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 21.243,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/blockslargepile",
+   "node": "es|4fa5acdac1|chitecture_ruins_xanmeer_blockslargepile",
+   "category": "architecture",
+   "sizeM": [
+    22.949,
+    4.661,
+    3.208
+   ],
+   "originOffsetM": [
+    6.374,
+    -2.739,
+    -1.657
+   ],
+   "triangles": 1728,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "whlargeloosestone.dds"
+   ],
+   "materials": [
+    "Object444:4.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -1.657,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:ayleid/arblock-mass-2x2x2",
+   "node": "es|0b36da74d7|composite__ayleid_arblock-mass-2x2x2",
+   "category": "ruin",
+   "sizeM": [
+    5.382,
+    5.381,
+    1.777
+   ],
+   "originOffsetM": [
+    1.366,
+    1.366,
+    0.44
+   ],
+   "triangles": 240,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Scene Root:0.Mat.004",
+    "Scene Root:0.Mat.005",
+    "Scene Root:0.Mat.006",
+    "Scene Root:0.Mat.007",
+    "Scene Root:0.Mat.008",
+    "Scene Root:0.Mat.009",
+    "Scene Root:0.Mat.010",
+    "Scene Root:0.Mat.011"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.44,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  },
+  {
+   "id": "composite:ayleid/arblock-mass-3x1x3",
+   "node": "es|993931dcd1|composite__ayleid_arblock-mass-3x1x3",
+   "category": "ruin",
+   "sizeM": [
+    8.032,
+    2.731,
+    2.647
+   ],
+   "originOffsetM": [
+    1.366,
+    1.366,
+    0.44
+   ],
+   "triangles": 270,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "arstone02.dds"
+   ],
+   "materials": [
+    "Scene Root:0.Mat.012",
+    "Scene Root:0.Mat.013",
+    "Scene Root:0.Mat.014",
+    "Scene Root:0.Mat.015",
+    "Scene Root:0.Mat.016",
+    "Scene Root:0.Mat.017",
+    "Scene Root:0.Mat.018",
+    "Scene Root:0.Mat.019",
+    "Scene Root:0.Mat.020"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.44,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\ruin-monumental-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {
+  "textures/actors/skeleton/skeleton.dds": "textures/here there be monsters - curse of cipactli/actors/ancient nordic sentinel/skeleton.dds",
+  "textures/actors/skeleton/skeleton_n.dds": "textures/here there be monsters - curse of cipactli/actors/ancient nordic sentinel/skeleton_n.dds",
+  "textures/here there be monsters - curse of cipactli/architecture/marble_n.dds": "textures/here there be monsters - curse of cipactli/architecture/xanmeer/marble_n.dds"
+ },
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 95
+ }
+}

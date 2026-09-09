@@ -1,18 +1,19 @@
 {
- "routesSha256": "9d53b02834634cea40f621233d2d447098d18b7af108c30f55e7c75bb40f4d2a",
+ "routesSha256": "1ccd450e3d7d3362fe9a1156f9a42251b34c2e23cdbf5f2955918dcef5d741ea",
  "naturalSha256": "0c3fb8323226b24d2fba9eaee3acd8c308fd46f45668cd7042be3ac28c846aad",
  "roads": [
   {
    "id": "route.road.soulrest-blackrose",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 10.23314654890804,
-   "afterDeg": 7.106705184146567,
-   "stretches": 1,
+   "beforeDeg": 23.331769560601735,
+   "afterDeg": 7.926857476514817,
+   "stretches": 6,
+   "authored": false,
    "pxBefore": 428,
-   "pxAfter": 434,
+   "pxAfter": 528,
    "worstKm": [
-    1.12,
+    2.4,
     6.75
    ],
    "atEnd": false
@@ -21,14 +22,15 @@
    "id": "route.road.blackrose-lilmoth",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 6.722366059092217,
-   "afterDeg": 6.722366059092217,
-   "stretches": 0,
+   "beforeDeg": 26.043826738139195,
+   "afterDeg": 6.444177055228656,
+   "stretches": 2,
+   "authored": false,
    "pxBefore": 189,
-   "pxAfter": 189,
+   "pxAfter": 306,
    "worstKm": [
-    3.56,
-    6.37
+    3.0,
+    6.2
    ],
    "atEnd": false
   },
@@ -36,14 +38,15 @@
    "id": "route.road.alten-corimont-stormhold",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 8.129096328869963,
-   "afterDeg": 7.920873253530958,
-   "stretches": 1,
+   "beforeDeg": 21.780756993922324,
+   "afterDeg": 7.958212214254739,
+   "stretches": 9,
+   "authored": false,
    "pxBefore": 484,
-   "pxAfter": 486,
+   "pxAfter": 586,
    "worstKm": [
-    3.15,
-    0.73
+    3.68,
+    1.23
    ],
    "atEnd": false
   },
@@ -51,14 +54,15 @@
    "id": "route.road.stormhold-thorn",
    "kind": "trunk_road",
    "cap": 8.0,
-   "beforeDeg": 22.072339947126128,
-   "afterDeg": 10.061005455798965,
-   "stretches": 9,
+   "beforeDeg": 22.093687235376734,
+   "afterDeg": 15.82546243812904,
+   "stretches": 18,
+   "authored": false,
    "pxBefore": 1596,
-   "pxAfter": 1833,
+   "pxAfter": 2243,
    "worstKm": [
-    6.19,
-    0.81
+    6.1,
+    1.51
    ],
    "atEnd": false
   },
@@ -66,14 +70,15 @@
    "id": "route.road.gideon-stormhold",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 22.82729503205791,
-   "afterDeg": 7.892268462719443,
-   "stretches": 6,
+   "beforeDeg": 20.653916875096815,
+   "afterDeg": 7.5620391812199115,
+   "stretches": 19,
+   "authored": false,
    "pxBefore": 865,
-   "pxAfter": 919,
+   "pxAfter": 1134,
    "worstKm": [
-    2.41,
-    1.09
+    2.28,
+    1.73
    ],
    "atEnd": false
   },
@@ -81,14 +86,15 @@
    "id": "route.road.gideon-soulrest",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 21.15875919641122,
-   "afterDeg": 7.983839654634931,
-   "stretches": 6,
+   "beforeDeg": 20.653916875096815,
+   "afterDeg": 7.976138435946858,
+   "stretches": 16,
+   "authored": false,
    "pxBefore": 745,
-   "pxAfter": 822,
+   "pxAfter": 1045,
    "worstKm": [
-    1.99,
-    3.37
+    2.04,
+    3.64
    ],
    "atEnd": false
   },
@@ -96,14 +102,15 @@
    "id": "route.road.gideon-blackwood-road",
    "kind": "trunk_road",
    "cap": 8.0,
-   "beforeDeg": 27.12750511213028,
-   "afterDeg": 11.419793950577473,
-   "stretches": 7,
+   "beforeDeg": 33.593324929019296,
+   "afterDeg": 12.68146332100662,
+   "stretches": 10,
+   "authored": false,
    "pxBefore": 445,
-   "pxAfter": 552,
+   "pxAfter": 485,
    "worstKm": [
-    0.75,
-    3.21
+    0.97,
+    3.18
    ],
    "atEnd": false
   },
@@ -111,14 +118,15 @@
    "id": "route.road.archon-gideon",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 21.15875919641122,
-   "afterDeg": 7.888272471328184,
-   "stretches": 3,
+   "beforeDeg": 20.653916875096815,
+   "afterDeg": 7.412542890845693,
+   "stretches": 18,
+   "authored": false,
    "pxBefore": 1018,
-   "pxAfter": 1050,
+   "pxAfter": 1166,
    "worstKm": [
-    3.69,
-    3.21
+    1.75,
+    2.9
    ],
    "atEnd": false
   },
@@ -126,14 +134,15 @@
    "id": "route.road.helstrom-blackrose",
    "kind": "road",
    "cap": 8.0,
-   "beforeDeg": 13.663832553222543,
-   "afterDeg": 7.679847798762093,
-   "stretches": 2,
+   "beforeDeg": 15.349421515541442,
+   "afterDeg": 7.390090192815876,
+   "stretches": 15,
+   "authored": false,
    "pxBefore": 778,
-   "pxAfter": 870,
+   "pxAfter": 951,
    "worstKm": [
-    3.43,
-    3.28
+    3.16,
+    5.11
    ],
    "atEnd": false
   },
@@ -141,11 +150,12 @@
    "id": "route.road.thorn-tear-road",
    "kind": "trunk_road",
    "cap": 8.0,
-   "beforeDeg": 38.7724922932517,
-   "afterDeg": 38.7724922932517,
+   "beforeDeg": 39.38411388949416,
+   "afterDeg": 39.38411388949416,
    "stretches": 1,
+   "authored": false,
    "pxBefore": 270,
-   "pxAfter": 314,
+   "pxAfter": 306,
    "worstKm": [
     6.54,
     0.5
