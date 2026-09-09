@@ -912,12 +912,42 @@ def water_identity_ok(d: Demand, c: Candidate, survey: ProvinceSurvey) -> bool:
     return True
 
 
+def terrain_promise_blockers(d: Demand, c: Candidate,
+                             survey: ProvinceSurvey | None) -> list[str]:
+    """Typed terrain promises this ground can never deliver (empty = fine).
+
+    A `terrainRequests[]` entry is a promise to CUT, so the gate credits the
+    operation's own executable magnitude before judging; what remains is what
+    no carve can manufacture — water where there is none, relief a raise
+    cannot reach, a river's speed. Cached per (record, candidate): the solver
+    scores the same pair many times."""
+    requests = d.record.get("terrainRequests") or []
+    if survey is None or not requests:
+        return []
+    key = (d.id, c.id)
+    cache = getattr(survey, "_terrain_promise_cache", None)
+    if cache is None:
+        cache = survey._terrain_promise_cache = {}
+    if key not in cache:
+        from .terrain_siting import gate_for
+        committed = d.record.get("positionM")
+        cache[key] = gate_for(survey).blockers(
+            requests, c.x, c.z, d.id,
+            (float(committed[0]), float(committed[1])) if committed else None)
+    return cache[key]
+
+
 def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
                relaxed: bool = False, survey: ProvinceSurvey | None = None,
                relax_region: bool = False, plotted_meta: dict[str, "Demand"] | None = None) -> tuple[float, dict[str, float]]:
     parts: dict[str, float] = {}
     if survey is not None and not water_identity_ok(d, c, survey):
         return -9.0, {"water-identity": -9.0}
+    # A record's typed terrain promise is a siting constraint, never a wish
+    # the compiler is left to discover it cannot keep. No relaxation stage
+    # weakens it: the owner's ruling is to cut a record rather than a promise.
+    if terrain_promise_blockers(d, c, survey):
+        return -9.0, {"terrain-promise": -9.0}
     # named constraints are HARD: "within sight of X" needs a real line of sight,
     # "inside / part of X" needs to be at X. (Plot review 2026-09-03, finding 1.)
     for ref in d.sightline_to:
@@ -1341,6 +1371,10 @@ def committed_invalid_reason(d: Demand, c: Candidate, plotted: dict[str, tuple[f
     Only the HARD constraints a terrain or water edit can break:
       * water: a submerged record must still have real depth, and a dry
         record must not now stand in open water at its own dot;
+      * the record's own typed TERRAIN promise: a forty-metre drowned
+        sinkhole whose bay is now 2 m deep has had its premise taken by the
+        same terrain and water edits, and belongs in the same check as the
+        water roles rather than waiting for a ten-minute terrain chain;
       * danger band and region class, if the RASTER has moved under the dot
         (not merely disagreed by a pixel) and the new value fails the gate;
       * sightline and bind gates, re-measured against the current terrain.
@@ -1349,6 +1383,9 @@ def committed_invalid_reason(d: Demand, c: Candidate, plotted: dict[str, tuple[f
     re-judging them against the whole committed plot would evict records the
     greedy solve legitimately placed."""
     row, col = s.grid_px(c.x, c.z)
+    blockers = terrain_promise_blockers(d, c, s)
+    if blockers:
+        return f"terrain promise no longer deliverable here: {', '.join(blockers)}"
     if d.hints.get("submerged"):
         if c.depth_m < SUBMERGED_MIN_DEPTH_M:
             return f"submerged record now in {c.depth_m:.1f} m of water"
@@ -2194,7 +2231,35 @@ def typed_siting_violations(demands: list[Demand], result: dict[str, dict],
             if near is None or near > limit:
                 out.append({"id": d.id, "gate": "maxFromM", "other": cls,
                             "distM": None if near is None else round(near, 1), "needM": limit})
+        for blocker in terrain_promise_blockers(d, c, s):
+            out.append({"id": d.id, "gate": "terrainPromise", "other": blocker,
+                        "distM": None, "needM": None})
     return sorted(out, key=lambda r: (r["id"], r["gate"], str(r["other"])))
+
+
+def terrain_promise_violations(s: ProvinceSurvey | None = None) -> list[dict]:
+    """The plot-time gate for typed terrain promises over the COMMITTED plot.
+
+    `terrain_request_postconditions` catches a broken promise only after a
+    full terrain+water chain. This asks the same question of the shipped
+    rasters in seconds, so a plot that promises a 40 m sinkhole in 2 m of
+    water is caught before anything is compiled."""
+    s = s or ProvinceSurvey()
+    from .terrain_siting import gate_for
+    gate = gate_for(s)
+    out: list[dict] = []
+    for rf in catalogue.load_region_files():
+        for rec in rf.places:
+            if rec.get("status") in {"cut", "deferred"}:
+                continue
+            requests = rec.get("terrainRequests") or []
+            position = rec.get("position")
+            if not requests or not isinstance(position, dict):
+                continue
+            x, z = s.uv_to_m(float(position["u"]), float(position["v"]))
+            for blocker in gate.blockers(requests, x, z, rec["id"], (x, z)):
+                out.append({"id": rec["id"], "blocker": blocker})
+    return sorted(out, key=lambda row: (row["id"], row["blocker"]))
 
 
 def build_report(demands: list[Demand], result: dict[str, dict], unresolved: list[dict],
@@ -2684,6 +2749,10 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--resolve-all", action="store_true",
                     help="owner's deliberate re-plot (decision 0041): solve from scratch instead of "
                          "seeding from the committed plot")
+    ap.add_argument("--check-terrain-promises", action="store_true",
+                    help="seconds-fast plot-time gate: every typed terrainRequests[] promise on the "
+                         "COMMITTED plot must be deliverable on the ground under its dot; "
+                         "exits non-zero on any blocker")
     ap.add_argument("--report-only", action="store_true",
                     help="97 G3: recompute the Clark-Evans clustering stats over the COMMITTED "
                          "plot and write them into the report; does not solve or move anything")
@@ -2695,6 +2764,12 @@ def main(argv: list[str] | None = None) -> None:
                   f"{v['depthM']} m within {NAVIGABLE_REACH_M:.0f} m, needs {v['needM']} m"
                   )
         print(f"[macro-plot] {len(bad)} navigable-depth violations")
+        raise SystemExit(1 if bad else 0)
+    if a.check_terrain_promises:
+        bad = terrain_promise_violations()
+        for row in bad:
+            print(f"[macro-plot] terrain promise {row['id']}: {row['blocker']}")
+        print(f"[macro-plot] {len(bad)} undeliverable terrain promises")
         raise SystemExit(1 if bad else 0)
     if a.report_only:
         stats = report_only()
