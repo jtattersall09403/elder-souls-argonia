@@ -65,6 +65,15 @@ Two sessions were running in one working copy and are now consolidated into
 one. Everything below is committed; nothing is half-written. Work it in this
 order — the reasons are dependencies, not preference.
 
+**The Pages deploy is red, and step 4 is what turns it green.** Two checks fail:
+`test_vegetation_ladder::test_delivered_ladder` (intentionally, until the
+scatter rollout runs) and `test_type_siting::test_the_built_ground_is_what_stands_there_not_the_outer_boundary`.
+Both belong to the paused Phase 11 work. Until they pass, the studio keeps
+serving the build from 2026-09-09 02:30, so none of the later waterfall work is
+visible to the owner. The owner's call (2026-09-09) was to leave them for this
+session rather than have the water session run them, because they may turn up
+work that belongs to this session's goal.
+
 1. **Finish the chain optimisation.** A one-dock edit cost a **461 s** full
    province rebuild, and we paid it repeatedly last night. The fast path (patch
    the graded heightfield with the local carves, rebuild only the tiles they
