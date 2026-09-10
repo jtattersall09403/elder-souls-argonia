@@ -8,4 +8,4 @@
 export * from "./states";
 export * from "./synoptic";
 export * from "./express";
-export { WEATHER_SEED } from "./hash";
+export { WEATHER_SEED, hash01 } from "./hash";

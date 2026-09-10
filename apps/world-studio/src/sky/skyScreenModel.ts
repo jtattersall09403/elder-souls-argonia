@@ -23,6 +23,15 @@ export function domeScreen(rig: LightRig, dir: Vec3): Vec3 {
   const c: Vec3 = [0, 0, 0];
   for (let i = 0; i < 3; i++) c[i] = Math.min(Math.max(raw[i], 0), 50) * rig.skyLuminance;
 
+  // Tropical twilight grade, part 1 — green-excess clamp (owner 2026-09-10).
+  // Lockstep with the same block in WorldSky.createSkyDome.
+  const hzW = Math.pow(1 - Math.min(Math.max(dir[1], 0), 1), 1.5);
+  const greenOver = Math.max(c[1] - Math.max(c[0], c[2]), 0) * hzW;
+  c[1] -= greenOver;
+  const recovered: Vec3 = [0.62, 0.0, 0.55];
+  for (let i = 0; i < 3; i++) c[i] += greenOver * recovered[i];
+  const greenExcess = greenOver * rig.twilightGrade;
+
   const altDeg = (rig.sun.altitude * 180) / Math.PI;
   const azLen = Math.max(Math.hypot(dir[0], dir[2]), 1e-4);
   const cosAz = Math.min(1, Math.max(-1, (dir[0] / azLen) * rig.dawnDir[0] + (dir[2] / azLen) * rig.dawnDir[1]));
@@ -46,13 +55,21 @@ export function domeScreen(rig: LightRig, dir: Vec3): Vec3 {
   const beltCol: Vec3 = [0.95, 0.45, 0.42];
 
   const az01 = cosAz * 0.5 + 0.5;
-  const dawn: Vec3 = [
-    1.0 * Math.pow(az01, 5) * 1.05 + 1.0 * Math.pow(az01, 2) * 0.55 + 0.55 * 0.2,
-    0.58 * Math.pow(az01, 5) * 1.05 + 0.45 * Math.pow(az01, 2) * 0.55 + 0.35 * 0.2,
-    0.28 * Math.pow(az01, 5) * 1.05 + 0.5 * Math.pow(az01, 2) * 0.55 + 0.62 * 0.2,
-  ];
+  const dawn: Vec3 = [0, 0, 0];
   for (let i = 0; i < 3; i++) {
-    c[i] = c[i] * shadowMul + beltCol[i] * rig.beltLum * wAnti * belt + rig.dawnLum * horiz * dawn[i];
+    dawn[i] =
+      rig.dawnCore[i] * Math.pow(az01, 5) * 1.05 +
+      rig.dawnSpread[i] * Math.pow(az01, 2) * 0.55 +
+      rig.dawnWash[i] * 0.2;
+  }
+  for (let i = 0; i < 3; i++) {
+    c[i] =
+      c[i] * shadowMul +
+      beltCol[i] * rig.beltLum * wAnti * belt +
+      rig.dawnLum * horiz * dawn[i] +
+      // Tropical twilight grade, part 2 — the clamped green returns as the
+      // authored palette (lockstep with WorldSky).
+      greenExcess * horiz * (rig.dawnSpread[i] * 0.8 + rig.dawnWash[i] * 0.4);
   }
 
   return [c[0] * rig.exposureTarget, c[1] * rig.exposureTarget, c[2] * rig.exposureTarget];

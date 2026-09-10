@@ -101,6 +101,91 @@ describe("screen-luminance envelope (owner round 5 — no whiteouts, no black ga
   });
 });
 
+describe("tropical twilight palette (owner 2026-09-10)", () => {
+  // The owner's report: sunrise starts pink/purple, then goes greenish just
+  // before the sun appears; sunset does the reverse. Measured with this same
+  // dome replica, the cross- and anti-solar horizon sky ran hue 46°→143°
+  // (yellow through green) over sun altitude 0°→+4°, green sitting up to
+  // +0.19 above the R/B midline. That is Preetham's horizon extinction, not
+  // the authored palette — and real air is never green. This test is the
+  // gate: no sky direction may land in the green wedge at any hour.
+  function rigAtAlt(targetAlt: number, humidity: number) {
+    let lo = 0;
+    let hi = 720;
+    for (let i = 0; i < 40; i++) {
+      const mid = (lo + hi) / 2;
+      const r = computeLightRig(100 * 1440 + mid, humidity, 0);
+      if ((r.sun.altitude * 180) / Math.PI < targetAlt) lo = mid;
+      else hi = mid;
+    }
+    return computeLightRig(100 * 1440 + (lo + hi) / 2, humidity, 0);
+  }
+
+  /** Hue in degrees of a screen-linear RGB triple. */
+  function hueOf([r, g, b]: [number, number, number]): number {
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const d = max - min;
+    if (d < 1e-9) return 0;
+    let h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    h *= 60;
+    return h < 0 ? h + 360 : h;
+  }
+
+  it("never renders a green sky, at any sun altitude or azimuth", () => {
+    const alts = [-16, -12, -9, -6, -4, -2, -1, 0, 1, 2, 3, 4, 6, 8, 12, 20, 40, 60];
+    for (const hum of [0.25, 0.86]) {
+      for (const alt of alts) {
+        const rig = rigAtAlt(alt, hum);
+        for (const elev of [4, 6, 10, 20, 45]) {
+          for (const dAz of [5, 45, 90, 135, 180]) {
+            const c = domeScreen(rig, envelopeDir(rig, elev, dAz));
+            const max = Math.max(...c);
+            const hue = hueOf(c);
+            // What makes a sky read green is GREEN BEING THE BRIGHTEST
+            // CHANNEL. Note the metric that does NOT work: "green above the
+            // R/B midline" is positive for any warm sky, because R>G>B bows
+            // upward — it flags a perfectly good sunset. Real air is warm
+            // (R≥G>B) or blue (B>G≥R); it never puts G on top of both.
+            // A 2%-of-max margin ignores the neutral pale-haze case where
+            // R and G are equal to within a rounding error.
+            const margin = 0.02 * max;
+            const green = c[1] > c[0] + margin && c[1] > c[2] + margin;
+            expect(
+              green,
+              `green sky: alt ${alt}° elev ${elev}° dAz ${dAz}° hum ${hum} → hue ${hue.toFixed(0)}° rgb ${c.map((v) => v.toFixed(3)).join(",")}`,
+            ).toBe(false);
+          }
+        }
+      }
+    }
+  });
+
+  it("re-rolls the twilight palette each day, inside the tropical family", () => {
+    const dayOf = (d: number) => computeLightRig(d * 1440 + 400, 0.6, 0);
+    const days = [100, 101, 102, 103, 104, 105, 106];
+    const cores = days.map((d) => dayOf(d).dawnCore);
+    // Deterministic: the same day is always the same sky.
+    expect(dayOf(100).dawnCore).toEqual(dayOf(100).dawnCore);
+    // Varied: consecutive days are not the same picture twice.
+    const distinct = new Set(cores.map((c) => c.join(","))).size;
+    expect(distinct).toBeGreaterThan(days.length - 2);
+    // But always the same family — warm, never crimson, never green.
+    for (const d of days) {
+      const rig = dayOf(d);
+      for (const [name, col] of [
+        ["core", rig.dawnCore],
+        ["spread", rig.dawnSpread],
+        ["wash", rig.dawnWash],
+      ] as const) {
+        const hue = hueOf(col as [number, number, number]);
+        const tropical = hue < 45 || hue > 250; // corals/golds, or violets
+        expect(tropical, `${name} day ${d} hue ${hue.toFixed(0)}°`).toBe(true);
+      }
+    }
+  });
+});
+
 describe("weathered light (Phase 8c, decision 0032)", () => {
   const weatherOf = (kind: WeatherKind): WeatherLightIn => {
     const p = PROFILES[kind];

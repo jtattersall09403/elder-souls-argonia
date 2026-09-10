@@ -4,6 +4,7 @@ import {
   type MoonState,
   type SunState,
 } from "@elder-souls/world-time";
+import { hash01 } from "@elder-souls/world-weather";
 import { preethamSky } from "./preethamCpu";
 
 /**
@@ -67,6 +68,15 @@ export interface LightRig {
   nightBoost: number;
   /** Belt-of-Venus additive luminance (nits, exposure-anchored). */
   beltLum: number;
+  /** Tropical twilight grade (owner 2026-09-10). `twilightGrade` is how much
+   * of the green-excess clamp + palette wash applies at this sun altitude
+   * (0..1, a bell over the low-sun band). `dawnCore`/`dawnSpread`/`dawnWash`
+   * are the three authored twilight colours, re-rolled once per day so no
+   * two dawns share the same combination. */
+  twilightGrade: number;
+  dawnCore: [number, number, number];
+  dawnSpread: [number, number, number];
+  dawnWash: [number, number, number];
   /** Weather (Phase 8c): cloud layer coverages low/mid/high 0..1. */
   cloudCov: [number, number, number];
   cloudDensity: number;
@@ -420,6 +430,55 @@ export function computeLightRig(
   const azLen = Math.hypot(sun.direction.x, sun.direction.z) || 1;
   const dawnDir: [number, number] = [sun.direction.x / azLen, sun.direction.z / azLen];
 
+  // ---- Tropical twilight grade (owner 2026-09-10) ----
+  // MEASURED DEFECT, not a taste tweak. Sweeping the CPU dome replica
+  // (skyScreenModel.domeScreen) at 6° elevation across sun altitude found the
+  // cross-solar and anti-solar sky — most of the sky the player is looking at
+  // — running through YELLOW-GREEN on its way between the night dome and full
+  // day: hue 46°→68°→102°→143° over sun altitude 0°→+4°, with the green
+  // channel sitting up to +0.19 above the R/B midline. Sunrise therefore goes
+  // pink → green → blue, and sunset the reverse, which is exactly the owner's
+  // report. The cause is Preetham's horizon term, not the authored palette:
+  // the model has no green in it, but at low sun its R and B extinguish at
+  // different rates and G is left standing proud of both. Real air never does
+  // this — a green sky is a model artefact.
+  //
+  // The fix is two-part and applies only inside the low-sun band:
+  //  1. clamp the green channel back toward the R/B midline (below), and
+  //  2. spend the removed energy on the authored tropical palette instead of
+  //     losing it, so the band reads coral/violet rather than merely grey.
+  // `twilightGrade` is the bell that gates both; at |alt| well away from the
+  // horizon it is ~0 and the dome is untouched, so noon and night cannot move.
+  const twilightGrade = Math.exp(-Math.pow((altDeg - 1.5) / 9.5, 2));
+
+  // Day-to-day palette variation (owner: "always a similar palette but a
+  // little bit different each time, like with real sunsets"). One hash per
+  // calendar day drives small excursions around the authored tropical
+  // anchors — never a different palette, just a different mix of the same
+  // family, and deterministic so a given day always looks the same.
+  const dayIndex = Math.floor(epochMinutes / 1440);
+  const vCore = hash01(dayIndex, 0x71ab);
+  const vSpread = hash01(dayIndex, 0x71ac);
+  const vWash = hash01(dayIndex, 0x71ad);
+  // Core: golden-peach → coral-orange. Never crimson (owner: "not too red").
+  const dawnCore: [number, number, number] = mix3(
+    [1.0, 0.62, 0.34],
+    [1.0, 0.50, 0.24],
+    vCore,
+  ) as [number, number, number];
+  // Spread: coral-pink → rose-magenta.
+  const dawnSpread: [number, number, number] = mix3(
+    [1.0, 0.48, 0.52],
+    [0.98, 0.40, 0.62],
+    vSpread,
+  ) as [number, number, number];
+  // Wash: lavender → violet-indigo, the anti-solar side of the gradient.
+  const dawnWash: [number, number, number] = mix3(
+    [0.58, 0.40, 0.68],
+    [0.46, 0.32, 0.72],
+    vWash,
+  ) as [number, number, number];
+
   // Ground bounce for the dome's lower hemisphere (marsh-earth albedo ≈ 0.22,
   // luminance = illuminance × albedo / π), on the same nit scale as the dome.
   const groundIll = sunIntensity * sinAlt + skyE + moonIntensity;
@@ -648,6 +707,10 @@ export function computeLightRig(
     horizonHaze,
     nightBoost,
     beltLum,
+    twilightGrade,
+    dawnCore,
+    dawnSpread,
+    dawnWash,
     cloudCov: [wx.cloudLow, wx.cloudMid, wx.cloudHigh],
     cloudDensity: wx.cloudDensity,
     cloudBright,

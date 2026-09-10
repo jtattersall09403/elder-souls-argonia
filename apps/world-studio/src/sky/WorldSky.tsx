@@ -119,6 +119,10 @@ interface SkyExtras {
   uHorizonLum: { value: THREE.Color };
   uDawnLum: { value: number };
   uDawnDir: { value: THREE.Vector2 };
+  uTwiGrade: { value: number };
+  uDawnCore: { value: THREE.Color };
+  uDawnSpread: { value: THREE.Color };
+  uDawnWash: { value: THREE.Color };
   /** Phase 8c weather clouds: colours (exposure-anchored nits, lightRig),
    * silver-lining glow light, lightning. Coverage/shape/scroll live in the
    * SHARED cloudUniforms; fog colours/densities live in the SHARED aerial
@@ -149,6 +153,10 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uHorizonLum: { value: new THREE.Color(0, 0, 0) },
     uDawnLum: { value: 0 },
     uDawnDir: { value: new THREE.Vector2(0, 1) },
+    uTwiGrade: { value: 0 },
+    uDawnCore: { value: new THREE.Color(1.0, 0.58, 0.28) },
+    uDawnSpread: { value: new THREE.Color(1.0, 0.45, 0.5) },
+    uDawnWash: { value: new THREE.Color(0.55, 0.35, 0.62) },
     uCloudBright: { value: new THREE.Color(0, 0, 0) },
     uCloudDark: { value: new THREE.Color(0, 0, 0) },
     uGlowDir: { value: new THREE.Vector3(0, 1, 0) },
@@ -164,7 +172,7 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
   Object.assign(mat.uniforms, extras, cloudUniforms, sharedAerialUniforms);
   mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform float uTwiGrade;\nuniform vec3 uDawnCore;\nuniform vec3 uDawnSpread;\nuniform vec3 uDawnWash;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
     AERIAL_DOME_PARS_GLSL +
     CLOUD_UNIFORMS_GLSL +
     cloudFieldGlsl() +
@@ -183,6 +191,27 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       texColor = min(max(texColor, vec3(0.0)), vec3(50.0));
       // Lift the Preetham dome's relative HDR onto the scene's lux scale.
       texColor *= uSkyLum;
+      // TROPICAL TWILIGHT GRADE, part 1 — kill the green (owner 2026-09-10).
+      // Measured: at low sun the cross-/anti-solar horizon sky runs through
+      // hue 46°→143° (yellow-green) with G up to +0.19 above the R/B midline.
+      // That green is Preetham's horizon extinction, not anything the real
+      // atmosphere does. Clamp G back toward the midline over the low-sun
+      // band only (uTwiGrade is a bell — zero at noon and deep night, so
+      // neither can shift), weighted to the horizon where the artefact lives.
+      // The energy removed is handed to the authored palette below rather
+      // than discarded, so the band reads coral/violet instead of grey.
+      // The clamp is ALWAYS ON, weighted to the horizon where the artefact
+      // lives: a green sky is never right at any hour, so gating this on
+      // twilight would just leave the same defect in the mid-morning. It is
+      // self-limiting — where the sky is properly warm or properly blue the
+      // green channel is not the maximum and this subtracts nothing.
+      float esHzW = pow(1.0 - clamp(direction.y, 0.0, 1.0), 1.5);
+      float esGreenOver = max(texColor.g - max(texColor.r, texColor.b), 0.0) * esHzW;
+      texColor.g -= esGreenOver;
+      // Hand it back as warm + violet, roughly luminance-preserving.
+      texColor += esGreenOver * vec3(0.62, 0.0, 0.55);
+      // Only the palette WASH below is twilight-gated.
+      float esGreenExcess = esGreenOver * uTwiGrade;
       // DIRECTIONAL twilight (research doc §8c): the anti-solar sky runs
       // ~3.5° "later" into dusk than the solar side, so night sweeps across
       // the dome from opposite the sunset instead of arriving as one rim.
@@ -220,11 +249,18 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
         float esHz = pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0);
         // Palette re-tuned round 6 to the owner's tropical references:
         // golden-peach core, coral-pink spread, lavender wash — pastel and
-        // light, never a saturated crimson band.
+        // light, never a saturated crimson band. The three colours now
+        // arrive as uniforms (owner 2026-09-10): the rig re-rolls them once
+        // per calendar day inside the same tropical family, so consecutive
+        // dawns share a look without being the same picture twice.
         texColor += uDawnLum * esHz * (
-            vec3(1.00, 0.58, 0.28) * pow(esAz, 5.0) * 1.05
-          + vec3(1.00, 0.45, 0.50) * pow(esAz, 2.0) * 0.55
-          + vec3(0.55, 0.35, 0.62) * 0.20);
+            uDawnCore * pow(esAz, 5.0) * 1.05
+          + uDawnSpread * pow(esAz, 2.0) * 0.55
+          + uDawnWash * 0.20);
+        // TROPICAL TWILIGHT GRADE, part 2 — spend the green the clamp above
+        // removed on the same palette, so the low-sun band gains coral and
+        // violet exactly where it used to gain green.
+        texColor += esGreenExcess * esHz * (uDawnSpread * 0.8 + uDawnWash * 0.4);
       }
       // Weather cloud layers (Phase 8c round 2): the SHARED cloud field
       // (cloudField.ts — the same functions the star shader and the CPU
@@ -316,10 +352,13 @@ function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky
   // Noise) AND the aerial fog uniforms (round 5: rasters, regime conditions,
   // fog colours, march camera) are SHARED objects between both dome
   // materials — no copy needed.
-  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum", "uFlash"]) {
+  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum", "uTwiGrade", "uFlash"]) {
     b[k].value = a[k].value;
   }
   (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
+  (b.uDawnCore.value as THREE.Color).copy(a.uDawnCore.value as THREE.Color);
+  (b.uDawnSpread.value as THREE.Color).copy(a.uDawnSpread.value as THREE.Color);
+  (b.uDawnWash.value as THREE.Color).copy(a.uDawnWash.value as THREE.Color);
   (b.uCloudBright.value as THREE.Color).copy(a.uCloudBright.value as THREE.Color);
   (b.uCloudDark.value as THREE.Color).copy(a.uCloudDark.value as THREE.Color);
   (b.uCloudSunset.value as THREE.Color).copy(a.uCloudSunset.value as THREE.Color);
@@ -958,6 +997,10 @@ void main() {
     extras.uHorizonLum.value.setRGB(...rig.horizonHaze);
     extras.uDawnLum.value = rig.dawnLum;
     extras.uDawnDir.value.set(rig.dawnDir[0], rig.dawnDir[1]);
+    extras.uTwiGrade.value = rig.twilightGrade;
+    extras.uDawnCore.value.setRGB(...rig.dawnCore);
+    extras.uDawnSpread.value.setRGB(...rig.dawnSpread);
+    extras.uDawnWash.value.setRGB(...rig.dawnWash);
     extras.uCloudBright.value.setRGB(...rig.cloudBright);
     extras.uCloudDark.value.setRGB(...rig.cloudDarkCol);
     extras.uGlowDir.value.set(...rig.cloudGlowDir);
