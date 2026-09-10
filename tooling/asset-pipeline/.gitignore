@@ -19,6 +19,9 @@ output/**/
 # Generated machine-readable sidecars (the human report is versioned in
 # world/sources/assets/, this is the queryable form).
 output/vault-inventory.json
+# Cached parse of Skyrim.esm's NPC records (Bethesda data; re-derive with
+# `python3 -m pipeline.npc_records --refresh`).
+output/npc-records.json
 
 # Keep the runtime animation manifest (metadata only, no Bethesda bytes)
 !output/
