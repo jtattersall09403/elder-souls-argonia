@@ -120,6 +120,11 @@ interface SkyExtras {
   uDawnLum: { value: number };
   uDawnDir: { value: THREE.Vector2 };
   uTwiGrade: { value: number };
+  uMoonGlowDirA: { value: THREE.Vector3 };
+  uMoonGlowDirB: { value: THREE.Vector3 };
+  uMoonGlowColA: { value: THREE.Color };
+  uMoonGlowColB: { value: THREE.Color };
+  uMoonGlowWide: { value: THREE.Vector2 };
   uDawnCore: { value: THREE.Color };
   uDawnSpread: { value: THREE.Color };
   uDawnWash: { value: THREE.Color };
@@ -154,6 +159,11 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uDawnLum: { value: 0 },
     uDawnDir: { value: new THREE.Vector2(0, 1) },
     uTwiGrade: { value: 0 },
+    uMoonGlowDirA: { value: new THREE.Vector3(0, -1, 0) },
+    uMoonGlowDirB: { value: new THREE.Vector3(0, -1, 0) },
+    uMoonGlowColA: { value: new THREE.Color(0, 0, 0) },
+    uMoonGlowColB: { value: new THREE.Color(0, 0, 0) },
+    uMoonGlowWide: { value: new THREE.Vector2(14, 20) },
     uDawnCore: { value: new THREE.Color(1.0, 0.58, 0.28) },
     uDawnSpread: { value: new THREE.Color(1.0, 0.45, 0.5) },
     uDawnWash: { value: new THREE.Color(0.55, 0.35, 0.62) },
@@ -172,7 +182,7 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
   Object.assign(mat.uniforms, extras, cloudUniforms, sharedAerialUniforms);
   mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform float uTwiGrade;\nuniform vec3 uDawnCore;\nuniform vec3 uDawnSpread;\nuniform vec3 uDawnWash;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform float uTwiGrade;\nuniform vec3 uDawnCore;\nuniform vec3 uDawnSpread;\nuniform vec3 uDawnWash;\nuniform vec3 uMoonGlowDirA;\nuniform vec3 uMoonGlowDirB;\nuniform vec3 uMoonGlowColA;\nuniform vec3 uMoonGlowColB;\nuniform vec2 uMoonGlowWide;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
     AERIAL_DOME_PARS_GLSL +
     CLOUD_UNIFORMS_GLSL +
     cloudFieldGlsl() +
@@ -261,6 +271,32 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
         // removed on the same palette, so the low-sun band gains coral and
         // violet exactly where it used to gain green.
         texColor += esGreenExcess * esHz * (uDawnSpread * 0.8 + uDawnWash * 0.4);
+      }
+      // MOON GLOW (owner 2026-09-10, Elysium reference). Drawn INTO the dome
+      // rather than as a sprite, which buys correct compositing for free:
+      // the dome is the farthest surface, so the moon's own disc (26 000,
+      // depth-writing) covers the glow's centre, and the cloud block BELOW
+      // this composites over it — so a moon behind thick cloud loses its
+      // halo without any extra occlusion test.
+      //
+      // Two terms, per the real thing: a tight aureole from aerosol forward-
+      // scatter hugging the disc, and a wide soft skirt. The 22-degree ice
+      // halo is a distinct ring rather than a gradient and is deliberately
+      // not modelled. uMoonGlowWide widens the skirt under thin cloud (which
+      // is what a cirrus veil actually does to moonlight); thick cloud kills
+      // the whole term via the CPU-side occlusion already in uMoonGlowCol.
+      {
+        float esAngA = acos(clamp(dot(direction, uMoonGlowDirA), -1.0, 1.0));
+        float esAngB = acos(clamp(dot(direction, uMoonGlowDirB), -1.0, 1.0));
+        vec3 esMoonGlow =
+            uMoonGlowColA * (exp(-esAngA * 55.0) * 0.60
+              + 1.0 / (1.0 + pow(esAngA * uMoonGlowWide.x, 2.2)) * 0.22)
+          + uMoonGlowColB * (exp(-esAngB * 75.0) * 0.45
+              + 1.0 / (1.0 + pow(esAngB * uMoonGlowWide.y, 2.2)) * 0.13);
+        // Two full moons close together would otherwise sum to a flat white
+        // patch; a Reinhard knee on this term alone lets the overlap
+        // saturate gracefully instead of clipping.
+        texColor += esMoonGlow / (1.0 + esMoonGlow);
       }
       // Weather cloud layers (Phase 8c round 2): the SHARED cloud field
       // (cloudField.ts — the same functions the star shader and the CPU
@@ -356,6 +392,11 @@ function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky
     b[k].value = a[k].value;
   }
   (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
+  (b.uMoonGlowDirA.value as THREE.Vector3).copy(a.uMoonGlowDirA.value as THREE.Vector3);
+  (b.uMoonGlowDirB.value as THREE.Vector3).copy(a.uMoonGlowDirB.value as THREE.Vector3);
+  (b.uMoonGlowColA.value as THREE.Color).copy(a.uMoonGlowColA.value as THREE.Color);
+  (b.uMoonGlowColB.value as THREE.Color).copy(a.uMoonGlowColB.value as THREE.Color);
+  (b.uMoonGlowWide.value as THREE.Vector2).copy(a.uMoonGlowWide.value as THREE.Vector2);
   (b.uDawnCore.value as THREE.Color).copy(a.uDawnCore.value as THREE.Color);
   (b.uDawnSpread.value as THREE.Color).copy(a.uDawnSpread.value as THREE.Color);
   (b.uDawnWash.value as THREE.Color).copy(a.uDawnWash.value as THREE.Color);
@@ -1163,10 +1204,33 @@ void main() {
       const horizonFade = THREE.MathUtils.smoothstep(m.altitude, -0.06, 0.06);
       const extinction = 0.3 + 0.7 * THREE.MathUtils.smoothstep(m.altitude, 0.0, 0.3);
       const moonOcc = cloudAlphaTowards([m.direction.x, m.direction.y, m.direction.z], cloudParams);
-      (moonMats[i].uniforms.uDayDim as { value: number }).value =
+      const dayDim =
         (1 - 0.88 * rig.skyFade) * horizonFade * extinction * Math.pow(1 - moonOcc, 1.6);
+      (moonMats[i].uniforms.uDayDim as { value: number }).value = dayDim;
       mesh.visible = m.altitude > -0.1;
+
+      // Halo (owner 2026-09-10). Rides the disc's own visibility term, so it
+      // cannot outlive the moon it belongs to, times the illuminated
+      // fraction — a new moon has no glow, which would otherwise read as a
+      // bug. Exposure-anchored like dawnLum/beltLum so its SCREEN brightness
+      // is the authored number rather than whatever the adaptation is doing.
+      // Masser is the larger, dimmer, rust-red body and Secunda the smaller,
+      // brighter, pale one, so they take different constants; one shared set
+      // makes them read as matched twins, which Tamriel's sky is not.
+      const glowK = i === 0 ? 0.34 : 0.2;
+      const amt = (glowK / rig.exposureTarget) * dayDim * m.illuminatedFraction;
+      const dirU = i === 0 ? extras.uMoonGlowDirA : extras.uMoonGlowDirB;
+      const colU = i === 0 ? extras.uMoonGlowColA : extras.uMoonGlowColB;
+      dirU.value.set(m.direction.x, m.direction.y, m.direction.z);
+      const tint = moonDefs[i].tint;
+      colU.value.setRGB(tint.r * amt, tint.g * amt, tint.b * amt);
     });
+    // Thin cloud spreads moonlight into a wider, softer ring (a cirrus veil
+    // genuinely does this); a clear sky keeps the halo tight. Smaller number
+    // = wider skirt. Thick cloud does not widen anything — it removes the
+    // glow through the occlusion term above.
+    const veil = Math.min(1, rig.cloudCov[2] + 0.6 * rig.cloudCov[1]);
+    extras.uMoonGlowWide.value.set(16 - 7 * veil, 23 - 9 * veil);
 
     // Exposure: ease toward the target (eye adaptation); snap when paused or
     // scrubbed so fixed-instant probes are deterministic.

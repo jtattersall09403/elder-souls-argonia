@@ -8,6 +8,16 @@ import { preethamSky, type Vec3 } from "./preethamCpu";
  * envelope test (lightRig.test.ts) that catches whiteouts and black gaps
  * numerically. KEEP IN LOCKSTEP with the shader — a divergence here makes
  * the envelope test lie.
+ *
+ * Deliberately NOT replicated: the moon halo (owner 2026-09-10), on the same
+ * grounds the cloud FBM is not replicated — it is bounded by construction
+ * rather than by sampling. Its amplitude is authored as `glowK /
+ * exposureTarget` and multiplied back by `exposureTarget` at the end, so it
+ * contributes a fixed SCREEN quantity: at most 0.34 (Masser) + 0.20
+ * (Secunda) even with two full moons superimposed, and only within a few
+ * degrees of a disc. It cannot reach the envelope's caps, and it is further
+ * knee'd by a Reinhard term. If that authored constant ever grows past ~1,
+ * this omission stops being safe and the term needs replicating here.
  */
 
 function smoothstep(a: number, b: number, x: number): number {
