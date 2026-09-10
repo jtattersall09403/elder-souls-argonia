@@ -54,8 +54,11 @@ varying vec3 vAxisW;
 void main() {
   // Soft across the shaft's width. uv.x runs 0..1 around the cone, so the
   // near and far walls both land at the same radial coordinate.
+  // Soft across the shaft's width. uv.x runs around the tube, so this is a
+  // fade around its circumference — the near and far walls both peak at the
+  // middle, which is where the eye looks through the most air.
   float r = abs(vUv.x - 0.5) * 2.0;
-  float radial = pow(1.0 - smoothstep(0.0, 1.0, r), 1.6);
+  float radial = pow(1.0 - smoothstep(0.0, 1.0, r), 1.2);
 
   // Fade at both ends: no hard rim where the cone starts or stops.
   float lenFade = smoothstep(0.0, 0.18, vUv.y) * (1.0 - smoothstep(0.6, 1.0, vUv.y));
@@ -65,11 +68,16 @@ void main() {
   // the shaft is where a real light shaft is most visible anyway.
   vec3 view = normalize(vWorld - uCam);
   float along = abs(dot(view, vAxisW));
-  float edgeOn = 1.0 - smoothstep(0.72, 0.97, along);
+  // Only the last few degrees, not a broad band. At 0.72 this removed the
+  // shaft for any camera looking DOWN at one that also points down — which
+  // is the default third-person view, so the shafts were being faded out
+  // exactly where they were meant to be seen.
+  float edgeOn = 1.0 - smoothstep(0.93, 0.995, along);
 
   // Never let a shaft sit on the lens: fade any the camera is inside or
   // nearly inside, or one can fill the screen as a wall.
-  float nearFade = smoothstep(2.0, 9.0, length(vWorld - uCam));
+  // The ring is only ~26 m wide, so a 9 m near fade was erasing most of it.
+  float nearFade = smoothstep(0.8, 3.5, length(vWorld - uCam));
 
   float a = radial * lenFade * edgeOn * nearFade * uIntensity;
   if (a <= 0.002) discard;
@@ -86,7 +94,7 @@ void main() {
 `;
 
 /** Screen brightness of a shaft at full strength. */
-const SHAFT_SCREEN = 0.16;
+const SHAFT_SCREEN = 0.30;
 
 export interface SunShaftConfig {
   /** How many shafts may exist at once. 20-40 is affordable; each is a few
@@ -163,7 +171,9 @@ export class SunShafts {
     for (let i = 0; i < config.count; i++) {
       const a = rand() * Math.PI * 2;
       const r = config.spread * Math.sqrt(rand());
-      this.offsets.push(new THREE.Vector3(Math.cos(a) * r, 6 + rand() * 9, Math.sin(a) * r));
+      // Horizontal placement only. The HEIGHT is derived per frame from the
+      // sun's altitude (see update): a fixed height floats the shaft.
+      this.offsets.push(new THREE.Vector3(Math.cos(a) * r, 0, Math.sin(a) * r));
       this.sizes.push({
         len: config.length[0] + rand() * (config.length[1] - config.length[0]),
         rad: config.radius[0] + rand() * (config.radius[1] - config.radius[0]),
@@ -212,10 +222,19 @@ export class SunShafts {
     const axis = this.pos.copy(sunDir).multiplyScalar(-1).normalize();
     this.q.setFromUnitVectors(this.up, axis);
 
+    // Height so the shaft ENDS near the ground instead of hanging in the air.
+    // A shaft leaves the canopy and travels down-sun; over its own length it
+    // descends by len * sin(altitude), so that is exactly how high its
+    // opening has to be. With a fixed height the low-morning sun — which is
+    // when shafts are wanted most — left them as near-horizontal tubes 6-15 m
+    // overhead, out of frame for anyone not looking up.
+    const sinAlt = Math.max(sunDir.y, 0.05);
     for (let i = 0; i < this.offsets.length; i++) {
       const o = this.offsets[i];
       const s = this.sizes[i];
       this.pos.copy(this.anchor).add(o);
+      // Land the far end around eye level, and never start below the eye.
+      this.pos.y += Math.min(s.len * sinAlt, 14) + 1.2;
       this.scale.set(s.rad, s.len, s.rad);
       this.m4.compose(this.pos, this.q, this.scale);
       this.mesh.setMatrixAt(i, this.m4);
