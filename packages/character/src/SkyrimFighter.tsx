@@ -262,6 +262,7 @@ function PosedActor({
   hidden = false,
   carriedHidden = false,
   buildId = DEFAULT_BUILD,
+  build,
   appearance,
   modelOffsetY = CHARACTER_MODEL_OFFSET,
   validationTint,
@@ -353,6 +354,12 @@ function PosedActor({
   carriedHidden?: boolean;
   /** Which body to mount on the shared rig. */
   buildId?: CharacterBuildId;
+  /**
+   * The already-resolved body, for one that the shipped roster does not hold.
+   * Only the portrait sheets pass it: their alternate donors are built for
+   * comparison and are never playable, so `buildId` cannot resolve them.
+   */
+  build?: CharacterBuild;
   /** Per-character overrides used by character creation and distinct NPCs. */
   appearance?: Appearance;
   modelOffsetY?: number;
@@ -370,7 +377,7 @@ function PosedActor({
    */
   visualSupportYRef?: MutableRefObject<number>;
 }) {
-  const race = characterBuild(buildId);
+  const race = build ?? characterBuild(buildId);
   const resolvedAppearance = appearance ?? race.appearance;
   // The pack list is fixed for this component's lifetime (the wrapper keys on
   // it), so this array-form load has a stable length even though its contents

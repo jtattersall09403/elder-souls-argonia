@@ -4283,6 +4283,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           firstPerson={aimingSnapshot && aimView === "eye"}
           hidden={firstPersonActive}
           buildId={playerBuild.id}
+          // The store's build, not a re-lookup of its id: a portrait sheet's
+          // alternate donor is not in the shipped roster.
+          build={playerBuild}
           speedMultiplierRef={portrait ? portraitFrozenSpeed : playerAnimationSpeed}
           modelOffsetY={CHARACTER_MODEL_OFFSET}
           equipped={equipped.current}

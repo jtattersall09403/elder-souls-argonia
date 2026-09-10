@@ -21,7 +21,7 @@ node scripts/render-character-sheet.mjs \
 | Flag | Meaning |
 | --- | --- |
 | `--roster playable` | The shipped roster, `packages/game-core/src/actors/generated/races.json` |
-| `--roster variants` | The sheet-only alternates in `tooling/asset-pipeline/output/sheet-variants/` |
+| `--roster variants` | The sheet-only alternates in `tooling/asset-pipeline/output/sheet-variants/` (manifest `roster.json`) |
 | `--sex male\|female\|both` | Which builds to card. Ten fit on a sheet |
 | `--title`, `--subtitle` | Override the header |
 | `--out` | Where the PNG goes. A `.json` of what was shot lands beside it |
@@ -30,6 +30,18 @@ node scripts/render-character-sheet.mjs \
 
 A run builds the app, serves it, drives twenty page loads and composes the grid
 with ffmpeg. Budget a few minutes.
+
+## How the alternates are shown without shipping them
+
+The alternate donors are evidence, not characters: their GLBs stay in the
+pipeline's output, out of `packages/character-assets/` and out of the roster the
+game imports, so nothing can select a body we do not ship. To card them the
+renderer copies that directory into the app's `dist/` for the length of the run
+and hands the page one roster entry per load
+(`window.__PORTRAIT_SHEET_BUILD__`). The portrait path resolves the body through
+`raceStore`'s `playerBuildOverride` — the same store the picker writes to, and
+null in the game. `visualScenarioFromSearch` takes the build lookup as an
+argument for the same reason: injected, so the game keeps one roster.
 
 ## When to re-shoot
 

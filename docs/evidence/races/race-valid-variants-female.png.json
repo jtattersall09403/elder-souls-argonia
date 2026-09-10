@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-09-10T18:18:45.144Z",
+  "roster": "variants",
+  "sexes": [
+    "female"
+  ],
+  "cards": [
+    {
+      "buildId": "dunmer-female-alt",
+      "donorFormId": "00013BB8",
+      "donorName": "Irileth",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female-alt",
+      "donorFormId": "0001336A",
+      "donorName": "Maven",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "imperial-female-alt",
+      "donorFormId": "00013267",
+      "donorName": "Safia",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "breton-female-alt",
+      "donorFormId": "0001338B",
+      "donorName": "Bothela",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "redguard-female-alt",
+      "donorFormId": "0006CD5A",
+      "donorName": "dun Ironbind Salma",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "altmer-female-alt",
+      "donorFormId": "0001326F",
+      "donorName": "Endarie",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "bosmer-female-alt",
+      "donorFormId": "0001336F",
+      "donorName": "Nivenor",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "orsimer-female-alt",
+      "donorFormId": "00013B7D",
+      "donorName": "Shel",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "khajiit-female-alt",
+      "donorFormId": "0001B1DA",
+      "donorName": "Atahba",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "argonian-female-alt",
+      "donorFormId": "00013382",
+      "donorName": "Wujeeta",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    }
+  ]
+}

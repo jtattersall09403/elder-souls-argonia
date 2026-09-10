@@ -141,20 +141,36 @@ export function buildId(race: RaceId, sex: Sex): CharacterBuildId {
   return `${race}-${sex}`;
 }
 
+export type RosterBuild = BuiltRoster["builds"][string];
+
+/**
+ * One roster entry as the runtime sees it.
+ *
+ * Exported because the shipped roster is not the only schema-2 roster the
+ * pipeline emits: the contact-sheet alternates
+ * (`tooling/asset-pipeline/output/sheet-variants/roster.json`) use the same
+ * shape and are never shipped as playable, so the sheet renderer hands one of
+ * their entries straight to the portrait path rather than a second, drifting
+ * copy of this mapping.
+ */
+export function characterBuildFromRoster(id: CharacterBuildId, build: RosterBuild): CharacterBuild {
+  return {
+    id,
+    race: build.race,
+    sex: build.sex as Sex,
+    asset: build.asset,
+    revision: build.sha256.slice(0, 16),
+    meshBipedSlots: build.meshBipedSlots ?? {},
+    appearance: build.appearance ?? NEUTRAL_APPEARANCE,
+    heightScale: build.heightScale ?? 1,
+    body: build.body ?? "male",
+    faceGen: build.faceGen,
+  };
+}
+
 export const CHARACTER_BUILDS: Readonly<Record<CharacterBuildId, CharacterBuild>> =
   Object.fromEntries(
-    Object.entries(ROSTER.builds).map(([id, build]) => [id, {
-      id,
-      race: build.race,
-      sex: build.sex as Sex,
-      asset: build.asset,
-      revision: build.sha256.slice(0, 16),
-      meshBipedSlots: build.meshBipedSlots ?? {},
-      appearance: build.appearance ?? NEUTRAL_APPEARANCE,
-      heightScale: build.heightScale ?? 1,
-      body: build.body ?? "male",
-      faceGen: build.faceGen,
-    }]),
+    Object.entries(ROSTER.builds).map(([id, build]) => [id, characterBuildFromRoster(id, build)]),
   );
 
 export const CHARACTER_BUILD_IDS: readonly CharacterBuildId[] = Object.keys(CHARACTER_BUILDS);

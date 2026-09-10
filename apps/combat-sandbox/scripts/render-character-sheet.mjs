@@ -51,7 +51,7 @@
  * visual scenario is running.
  */
 import { chromium } from "playwright";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { spawn, spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
@@ -83,6 +83,14 @@ const INK = "0xE8E1D2";
 const INK_QUIET = "0x9AA3AE";
 const FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf";
 const FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf";
+
+/**
+ * Where the sheet-only alternates live. They are deliberately not in
+ * `packages/character-assets/files/`: the game must not be able to load a body
+ * it does not ship, so the renderer serves them itself, out of `dist/`, for the
+ * length of the run.
+ */
+const VARIANT_DIRECTORY = "tooling/asset-pipeline/output/sheet-variants";
 
 const DEFAULT_TITLE = "Current race defaults: close face and full body";
 const DEFAULT_SUBTITLE = "Actual game renderer • vanilla Skyrim FaceGen, FaceTint, "
@@ -152,6 +160,9 @@ function cardsFromRoster(roster, source) {
         raceLabel: roster.races?.[build.race]?.label ?? build.race,
         sex: build.sex,
         donor: build.faceGen ?? null,
+        // Kept whole for the sheet-only roster, whose builds have to be handed
+        // to the page: they are not in the shipped one.
+        roster: build,
       });
     }
   }
@@ -175,8 +186,8 @@ async function readPlayableRoster() {
  * output rather than in `packages/character-assets/`.
  */
 async function readVariantRoster() {
-  const directory = join(repoRoot, "tooling/asset-pipeline/output/sheet-variants");
-  const candidates = ["races.json", "manifest.json"];
+  const directory = join(repoRoot, VARIANT_DIRECTORY);
+  const candidates = ["roster.json", "races.json", "manifest.json"];
   for (const name of candidates) {
     let raw;
     try {
@@ -300,6 +311,16 @@ if (!options.prebuilt) {
   if (built.status !== 0) throw new Error(`Sheet build failed: ${built.stderr || built.stdout}`);
 }
 
+// The alternates are served for this run only, from the same `dist/` the
+// preview serves, at the path their roster names (`sheet-variants/x.glb`).
+if (options.roster === "variants") {
+  await cp(
+    join(repoRoot, VARIANT_DIRECTORY),
+    join(root, "dist/sheet-variants"),
+    { recursive: true },
+  );
+}
+
 const vite = spawn(
   process.execPath,
   [viteBin, "preview", "--base", "/elder-souls-argonia/", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
@@ -327,6 +348,14 @@ try {
       const failures = [];
       page.on("pageerror", (error) => failures.push(`pageerror: ${error.message}`));
       await page.setViewportSize({ width: width * SUPERSAMPLE, height: height * SUPERSAMPLE });
+      if (options.roster === "variants") {
+        // Handed to the page rather than merged into the shipped roster: this
+        // body is evidence, not a character anyone can pick.
+        await page.addInitScript(
+          (build) => { window.__PORTRAIT_SHEET_BUILD__ = build; },
+          card.roster,
+        );
+      }
       const query = new URLSearchParams({ scenario: "portrait", build: card.buildId, shot });
       await page.goto(`${gameUrl}?${query}`, { waitUntil: "domcontentloaded" });
       await page.waitForFunction(

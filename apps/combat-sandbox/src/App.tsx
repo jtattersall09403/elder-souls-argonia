@@ -16,8 +16,30 @@ import { useGameStore } from "@elder-souls/game-core/core/store";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
 import { visualScenarioFromSearch } from "@elder-souls/game-core/validation/visualScenarios";
 import { useRaceStore } from "@elder-souls/game-core/actors/raceStore";
-import { CHARACTER_BUILDS } from "@elder-souls/game-core/actors/races";
+import {
+  CHARACTER_BUILDS,
+  characterBuildFromRoster,
+  type CharacterBuild,
+  type RosterBuild,
+} from "@elder-souls/game-core/actors/races";
 import { VISUAL_FRAME_MARKER_HEIGHT } from "@elder-souls/game-core/validation/visualFrameMarker";
+
+/**
+ * A contact-sheet alternate, injected by `scripts/render-character-sheet.mjs`
+ * before the page loads.
+ *
+ * The alternates are a second donor per race, built to show that the pipeline
+ * makes different people rather than one face per race. They are sheet-only:
+ * not in `packages/character-assets/`, not in the shipped roster, and never
+ * selectable. So the sheet hands one in per page load instead, and the portrait
+ * path renders it through the same body override the picker never touches.
+ * Debug entry point, app-side only — the game has one roster.
+ */
+function injectedSheetBuild(): CharacterBuild | null {
+  const raw = (window as { __PORTRAIT_SHEET_BUILD__?: RosterBuild & { id: string } })
+    .__PORTRAIT_SHEET_BUILD__;
+  return raw ? characterBuildFromRoster(raw.id, raw) : null;
+}
 
 /** Recorded-capture only: wall-clock dwell per 30 Hz pose, past presentation. */
 const RECORDER_POSE_HOLD_MS = 90;
@@ -30,7 +52,11 @@ export function App() {
   const patch = useGameStore((state) => state.patch);
   const inventoryOpen = useInventoryStore((state) => state.open);
   const setInventoryOpen = useInventoryStore((state) => state.setOpen);
-  const [visualScenario] = useState(() => visualScenarioFromSearch(window.location.search));
+  const [sheetBuild] = useState(injectedSheetBuild);
+  const [visualScenario] = useState(() => visualScenarioFromSearch(
+    window.location.search,
+    (id) => (sheetBuild?.id === id ? sheetBuild : CHARACTER_BUILDS[id]),
+  ));
   const [visualFast] = useState(() => new URLSearchParams(window.location.search).get("fast") === "1");
   const [visualRecording] = useState(() => new URLSearchParams(window.location.search).get("recording") === "1");
   const [quality] = useState(() => visualScenario ? 1 : window.matchMedia("(pointer: coarse)").matches ? 1.35 : 1.75);
@@ -56,11 +82,16 @@ export function App() {
   useEffect(() => {
     const portrait = visualScenario?.portrait;
     if (!portrait) return;
-    const selection = CHARACTER_BUILDS[portrait.buildId];
+    const selection = sheetBuild?.id === portrait.buildId
+      ? sheetBuild
+      : CHARACTER_BUILDS[portrait.buildId];
     if (!selection) throw new Error(`Portrait: unknown build "${portrait.buildId}"`);
     useRaceStore.getState().setPlayerRace(selection.race);
     useRaceStore.getState().setPlayerSex(selection.sex);
-  }, [visualScenario]);
+    useRaceStore.getState().setPlayerBuildOverride(
+      selection === sheetBuild ? selection : null,
+    );
+  }, [sheetBuild, visualScenario]);
 
   useEffect(() => {
     if (!visualScenario) return;

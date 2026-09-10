@@ -1273,12 +1273,18 @@ const PORTRAIT_SHOTS: Record<PortraitShot, Omit<PortraitStaging, "buildId" | "sh
 /** Simulated seconds before the shot: enough for load, warm-up and settle. */
 const PORTRAIT_DURATION_SECONDS = 1.5;
 
-export function portraitScenario(buildId: string, shot: PortraitShot): VisualScenario {
+export function portraitScenario(
+  buildId: string,
+  shot: PortraitShot,
+  build?: { heightScale: number },
+): VisualScenario {
   const framing = PORTRAIT_SHOTS[shot];
   // An Altmer stands 8% taller than a Dunmer, so a single eye height would put
   // four of the ten heads out of the face frame. The roster's own number is the
   // honest correction: deterministic, per build, and known before the run.
-  const scale = shot === "face" ? CHARACTER_BUILDS[buildId]?.heightScale ?? 1 : 1;
+  const scale = shot === "face"
+    ? (build ?? CHARACTER_BUILDS[buildId])?.heightScale ?? 1
+    : 1;
   const staging = {
     ...framing,
     camera: [framing.camera[0], framing.camera[1] * scale, framing.camera[2]] as const,
@@ -1298,14 +1304,22 @@ export function portraitScenario(buildId: string, shot: PortraitShot): VisualSce
   };
 }
 
-export function visualScenarioFromSearch(search: string): VisualScenario | null {
+/**
+ * `lookupBuild` is how a caller supplies a body the shipped roster does not
+ * hold — the contact-sheet alternates. Injected rather than read from a global
+ * so the game keeps exactly one roster.
+ */
+export function visualScenarioFromSearch(
+  search: string,
+  lookupBuild: (id: string) => { heightScale: number } | undefined = (id) => CHARACTER_BUILDS[id],
+): VisualScenario | null {
   const parameters = new URLSearchParams(search);
   const id = parameters.get("scenario");
   if (id === PORTRAIT_SCENARIO_ID) {
     const buildId = parameters.get("build");
     const shot = parameters.get("shot");
     if (!buildId || (shot !== "face" && shot !== "body")) return null;
-    return portraitScenario(buildId, shot);
+    return portraitScenario(buildId, shot, lookupBuild(buildId));
   }
   return id && VISUAL_SCENARIO_IDS.includes(id as VisualScenarioId)
     ? VISUAL_SCENARIOS[id as VisualScenarioId]
