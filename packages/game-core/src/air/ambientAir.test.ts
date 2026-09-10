@@ -46,6 +46,17 @@ describe("ambient air presence rules (owner 2026-09-10)", () => {
     expect(airAmounts(at({ sunAltDeg: 40 })).midges).toBeLessThan(0.05);
   });
 
+  it("flies dragonflies in the middle of a warm day, opposite the midges", () => {
+    const noon = at({ sunAltDeg: 40 });
+    expect(airAmounts(noon).dragonflies).toBeGreaterThan(0.5);
+    // They share the water with the midges but not the hour.
+    expect(airAmounts(at({ sunAltDeg: -1 })).dragonflies).toBe(0);
+    expect(airAmounts(noon).midges).toBeLessThan(0.05);
+    // Same wet-ground and calm-air requirements as everything else here.
+    expect(airAmounts({ ...noon, humidity: 0.2 }).dragonflies).toBe(0);
+    expect(airAmounts({ ...noon, windSpeed: 14 }).dragonflies).toBe(0);
+  });
+
   it("shows pollen only in daylight, and washes it out in rain", () => {
     const sunnyDay = at({ sunAltDeg: 35, cloud: 0.05, humidity: 0.6 });
     expect(airAmounts(sunnyDay).pollen).toBeGreaterThan(0.5);

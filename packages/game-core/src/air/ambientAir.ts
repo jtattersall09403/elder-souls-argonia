@@ -358,6 +358,36 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     backlight: 0,
   },
 
+  /**
+   * Dragonflies over standing water in the heat of the day. As iconic for a
+   * warm marsh as the fireflies are for its night, and mechanically the same
+   * thing with a different clock: fast, darting, tightly clumped, and gone
+   * the moment the wind gets up.
+   *
+   * These are specks of colour at speck scale, not modelled insects — if the
+   * province ever wants a dragonfly you can actually look at, that is a
+   * sourcing job (no-new-art rule), not a bigger sprite here.
+   */
+  dragonflies: {
+    id: "dragonflies",
+    count: 220,
+    box: [24, 5, 24],
+    yOffset: -0.6,
+    sizePx: 4,
+    colour: [0.45, 0.85, 0.8],
+    opacity: 0.7,
+    additive: false,
+    wander: [1.6, 0.5, 1.6],
+    // Fast and jittery — a dragonfly hovers then darts.
+    wanderHz: 2.4,
+    drift: [0, 0, 0],
+    windFollow: 0.1,
+    blink: [0, 0],
+    blinkDuty: 0,
+    clusterRadius: 6,
+    backlight: 2,
+  },
+
   /** Leaf fall under the canopy. Slow, heavy, wind-carried. */
   leaves: {
     id: "leaves",
@@ -444,9 +474,14 @@ export function airAmounts(c: AirConditions): Record<string, number> {
   // Direct sun — pollen needs a beam to be seen in, so overcast kills it.
   const sunny = day * (1 - band(c.cloud, 0.35, 0.8));
 
+  // Dragonflies want the middle of a warm day, not its edges — the opposite
+  // clock to the midges they share the water with.
+  const highDay = band(c.sunAltDeg, 12, 30);
+
   return {
     fireflies: low * night * wet * dry * calm,
     midges: low * twilight * wet * dry * calm * 0.85,
+    dragonflies: low * highDay * wet * dry * calm * 0.8,
     pollen: low * sunny * dry * (0.35 + 0.65 * band(c.humidity, 0.3, 0.7)),
     leaves: low * day * dry * band(c.windSpeed, 1.5, 7) * 0.7,
   };

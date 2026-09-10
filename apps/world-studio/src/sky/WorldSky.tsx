@@ -31,6 +31,8 @@ import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
+import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
+import { sunShaftIntensity } from "@elder-souls/game-core/air/sunShafts";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
 import { reapplySettlementSurface } from "@elder-souls/game-core/settlement/materials";
 
@@ -628,6 +630,12 @@ export interface SkyDebugState {
   camFog: number;
   /** Round 3: sunset cloud-light strength [deck, cirrus] (probe surface). */
   cloudSunsetAmt: [number, number];
+  /** Ambient air (owner 2026-09-10): canopy closure at the camera, the sun
+   * shaft strength, and how present each species is right now — so the layer
+   * can be checked by reading a number instead of squinting at the frame. */
+  canopyAtCamera: number;
+  sunShafts: number;
+  airAmounts: Record<string, number>;
 }
 
 declare global {
@@ -923,6 +931,10 @@ void main() {
   );
   const moonRefs = useRef<(THREE.Mesh | null)[]>([]);
   const airRef = useRef<AmbientAirConditions | null>(null);
+  // Probe surfaces for the air layer, so its behaviour can be READ rather
+  // than judged by eye (module 85: agents read measurements).
+  const lastAirAmounts = useRef<Record<string, number>>({});
+  const lastShaftAmount = useRef(0);
   const starsRef = useRef<THREE.Points>(null);
   const serpentRef = useRef<THREE.Points>(null);
   const hemiRef = useRef<THREE.HemisphereLight>(null);
@@ -1278,6 +1290,22 @@ void main() {
       a.windDirXZ = wx.windDirXZ;
       a.canopy = canopyAt(camera.position.x, camera.position.z, extentM);
       a.exposure = rig.exposureTarget;
+      lastAirAmounts.current = airAmounts({
+        sunAltDeg: a.sunAltDeg,
+        humidity: a.humidity,
+        rain: a.rain,
+        cloud: a.cloud,
+        windSpeed: a.windSpeed,
+        cameraY: camera.position.y,
+      });
+      lastShaftAmount.current = sunShaftIntensity({
+        sunAltDeg: a.sunAltDeg,
+        cloud: a.cloud,
+        rain: a.rain,
+        canopy: a.canopy,
+        humidity: a.humidity,
+        cameraY: camera.position.y,
+      });
     }
 
     // Exposure: ease toward the target (eye adaptation); snap when paused or
@@ -1355,6 +1383,9 @@ void main() {
       sunOcclusion,
       camFog: camFogNow,
       cloudSunsetAmt: rig.cloudSunsetAmt,
+      canopyAtCamera: airRef.current?.canopy ?? 0,
+      sunShafts: lastShaftAmount.current,
+      airAmounts: lastAirAmounts.current,
       triangles: gl.info.render.triangles,
       sunLightIntensity: csm.lights[0]?.intensity ?? 0,
       shadowMapEnabled: gl.shadowMap.enabled,
