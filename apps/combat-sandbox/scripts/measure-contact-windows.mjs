@@ -931,7 +931,10 @@ const overriddenManifest = GLB_OVERRIDE
   ))
   : null;
 const ARSENAL = JSON.parse(await readFile(ARSENAL_MANIFEST, "utf8"));
-const HURTBOX_SEGMENTS = manifest.hurtbox?.segments ?? [];
+// The fitted hurtbox is keyed by sex: male and female bodies are different
+// meshes and measure different capsules. Contact windows are measured against
+// the male reference body, which is the one the rig and its clips are built on.
+const HURTBOX_SEGMENTS = manifest.hurtbox?.male?.segments ?? [];
 const scale = manifest.rig.recommendedScale;
 const socketRotation = manifest.rig.socketRotation ?? [0, 0, 0, 1];
 

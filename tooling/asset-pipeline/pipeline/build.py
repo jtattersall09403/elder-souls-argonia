@@ -403,7 +403,74 @@ def _pack_id_of(plan: BuildPlan, export: dict) -> str:
     raise ValueError(f"export {export['path']} does not match any declared animation pack")
 
 
-def write_runtime_manifest(plan: BuildPlan, summary: dict) -> None:
+def scaled_hurtbox_segments(hurtbox_segments: list, recommended_scale: float) -> list:
+    """Fitted capsules in runtime units.
+
+    Endpoints stay in unscaled GLB units (the actor's own scale is inherited
+    through the bone); the radius and half-length are pre-scaled to metres.
+    """
+    return [
+        {
+            "bone": segment["bone"],
+            "from": [round(value, 6) for value in segment["from"]],
+            "to": [round(value, 6) for value in segment["to"]],
+            "radius": round(segment["radius"] * recommended_scale, 5),
+            "halfLength": round(segment["halfLength"] * recommended_scale, 5),
+        }
+        for segment in hurtbox_segments
+    ]
+
+
+def merge_hurtbox_for_sex(manifest_path: Path, sex: str, summary: dict) -> list:
+    """Add one sex's fitted hurtbox to an already-written manifest.
+
+    The rig GLB and its clips are emitted once, by the male reference, so the
+    manifest is written on that build. A female body is a different silhouette
+    and measures a different set of capsules (the torso differs by nearly a
+    fifth of its radius, in both directions, so no scalar reconciles them), and
+    the female reference is built afterwards. Rather than write a second
+    manifest, its measurement is merged into the one the runtime reads, keyed
+    by sex the way ``referenceBuilds`` is.
+
+    The conversion uses the manifest's own ``rig.recommendedScale`` — the shared
+    actor scale every build is rendered at — so the two sexes' radii are
+    expressed in the same units and remain directly comparable.
+    """
+    manifest = json.loads(manifest_path.read_text())
+    segments = scaled_hurtbox_segments(
+        validated_hurtbox_segments(summary), manifest["rig"]["recommendedScale"]
+    )
+    manifest.setdefault("hurtbox", {})[sex] = {"segments": segments}
+    manifest_path.write_text(json.dumps(manifest, indent=2))
+    print(f"[manifest] {manifest_path.name}: merged {len(segments)} {sex} hurtbox capsules")
+    return segments
+
+
+def validated_hurtbox_segments(summary: dict) -> list:
+    hurtbox_segments = summary.get("hurtboxSegments")
+    if (not isinstance(hurtbox_segments, list) or not hurtbox_segments
+            or any(
+                not isinstance(segment, dict)
+                or not isinstance(segment.get("bone"), str)
+                or not isinstance(segment.get("radius"), (int, float))
+                or isinstance(segment.get("radius"), bool)
+                or segment["radius"] <= 0
+                or not isinstance(segment.get("halfLength"), (int, float))
+                or isinstance(segment.get("halfLength"), bool)
+                or segment["halfLength"] < 0
+                or any(
+                    not isinstance(segment.get(end), list)
+                    or len(segment[end]) != 3
+                    or any(not isinstance(value, (int, float)) for value in segment[end])
+                    for end in ("from", "to")
+                )
+                for segment in hurtbox_segments
+            )):
+        raise ValueError("built hurtbox segments are missing or malformed")
+    return hurtbox_segments
+
+
+def write_runtime_manifest(plan: BuildPlan, summary: dict, sex: str = "male") -> None:
     durations = summary.get("durations", {})
     root_deltas = summary.get("rootMotionDeltas", {})
     support_envelopes = summary.get("supportEnvelopes", {})
@@ -484,26 +551,7 @@ def write_runtime_manifest(plan: BuildPlan, summary: dict) -> None:
                 f"{spec.semantic}: built support envelope is missing or does not "
                 f"match its configured {spec.support_sample_rate} Hz sample rate"
             )
-    hurtbox_segments = summary.get("hurtboxSegments")
-    if (not isinstance(hurtbox_segments, list) or not hurtbox_segments
-            or any(
-                not isinstance(segment, dict)
-                or not isinstance(segment.get("bone"), str)
-                or not isinstance(segment.get("radius"), (int, float))
-                or isinstance(segment.get("radius"), bool)
-                or segment["radius"] <= 0
-                or not isinstance(segment.get("halfLength"), (int, float))
-                or isinstance(segment.get("halfLength"), bool)
-                or segment["halfLength"] < 0
-                or any(
-                    not isinstance(segment.get(end), list)
-                    or len(segment[end]) != 3
-                    or any(not isinstance(value, (int, float)) for value in segment[end])
-                    for end in ("from", "to")
-                )
-                for segment in hurtbox_segments
-            )):
-        raise ValueError("built hurtbox segments are missing or malformed")
+    hurtbox_segments = validated_hurtbox_segments(summary)
 
     # bbox is Blender Z-up; glTF is exported Y-up so the up-axis maps Z -> height.
     bbox = summary.get("bboxSize", [0, 0, 0])
@@ -558,19 +606,11 @@ def write_runtime_manifest(plan: BuildPlan, summary: dict) -> None:
         # Skeleton-fitted combat volume. Each capsule is anchored to a bone and
         # expressed in that bone's local space, so the runtime follows the live
         # animated pose and an arbitrary new skeleton needs no hand authoring.
-        # Endpoints stay in unscaled GLB units (the actor's own scale is
-        # inherited through the bone); the radius is pre-scaled to metres.
+        # Keyed by sex, because the male and female bodies are different meshes
+        # and measure different capsules; other sexes are merged in afterwards
+        # by `merge_hurtbox_for_sex` from their own reference build.
         "hurtbox": {
-            "segments": [
-                {
-                    "bone": segment["bone"],
-                    "from": [round(value, 6) for value in segment["from"]],
-                    "to": [round(value, 6) for value in segment["to"]],
-                    "radius": round(segment["radius"] * recommended_scale, 5),
-                    "halfLength": round(segment["halfLength"] * recommended_scale, 5),
-                }
-                for segment in hurtbox_segments
-            ],
+            sex: {"segments": scaled_hurtbox_segments(hurtbox_segments, recommended_scale)},
         },
         "animations": {
             s.semantic: {

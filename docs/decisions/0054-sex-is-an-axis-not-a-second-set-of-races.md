@@ -97,6 +97,9 @@ skeleton is shared and the clips are sex-agnostic.
 Whether the runtime needs *two* envelope/hurtbox sets or can keep one is
 settled by measurement, not assertion — see the evidence note in
 [the FaceGen pipeline research](../research/combat-and-systems/skyrim-facegen-runtime-pipeline.md).
+Measured (2026-09-10): the **support envelope is shared**, the **fitted hurtbox
+is per sex** and the manifest carries it as `hurtbox.<sex>.segments`, keyed
+exactly like `referenceBuilds` above.
 
 ## Donor NPCs are selected from the plugin, not transcribed
 

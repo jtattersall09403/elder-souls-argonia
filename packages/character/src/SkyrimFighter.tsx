@@ -26,7 +26,7 @@ import {
 import {
   animationPackFiles,
   resolveAnimationPacks,
-  HURTBOX_SEGMENTS,
+  hurtboxSegments,
   sanitizeBoneName,
   CHARACTER_SCALE,
   AIRBORNE_IMPACT_PROXIMITY_METERS,
@@ -646,7 +646,7 @@ function PosedActor({
   // Endpoints stay in unscaled bone space; the actor's scale arrives through
   // the bone's own world matrix, exactly as the baked sole markers do.
   const hurtboxBones = useMemo<HurtboxBone[]>(
-    () => HURTBOX_SEGMENTS.flatMap((segment) => {
+    () => hurtboxSegments(race.sex).flatMap((segment) => {
       const bone = model.getObjectByName(sanitizeBoneName(segment.bone));
       return bone
         ? [{
@@ -659,7 +659,7 @@ function PosedActor({
         }]
         : [];
     }),
-    [model],
+    [model, race.sex],
   );
   const probeBones = useMemo(
     () => Object.entries(VISUAL_PROBE_BONES).map(([id, name]) => [id, model.getObjectByName(name) ?? null] as const),

@@ -178,7 +178,7 @@ import {
 import { createActorVisualProbe, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
 import { canBackstabState } from "@elder-souls/game-core/combat/backstab";
-import { FirstPersonBow, HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type FirstPersonBowState, type HurtboxBone, type SoleBoneRefs } from "@elder-souls/character";
+import { FirstPersonBow, hasSkeletalHurtbox, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type FirstPersonBowState, type HurtboxBone, type SoleBoneRefs } from "@elder-souls/character";
 import { Arena } from "./Arena";
 
 const UP = new THREE.Vector3(0, 1, 0);
@@ -1017,8 +1017,8 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
         <LockOnReticle visible={reticleVisible} anchor={runtime.targetAnchor} />
         <ActorHealthBar anchor={runtime.targetAnchor} read={readEnemyHealth} />
       </Ecctrl>
-      {HAS_SKELETAL_HURTBOX
-        ? <SkeletalHurtbox rig={runtime.hurtbox} name={runtime.hurtboxName} probe={validation} />
+      {hasSkeletalHurtbox(runtime.archetype.sex)
+        ? <SkeletalHurtbox rig={runtime.hurtbox} name={runtime.hurtboxName} sex={runtime.archetype.sex} probe={validation} />
         : <CapsuleHurtbox controller={runtime.handle} name={runtime.hurtboxName} />}
       <HeldObjectHitbox
         object={runtime.weapon}
@@ -4295,8 +4295,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         />
         </Suspense>
       </PlayerBody>
-      {HAS_SKELETAL_HURTBOX
-        ? <SkeletalHurtbox rig={playerHurtbox} name={PLAYER_HURTBOX_NAME} probe={Boolean(visualScenario)} />
+      {hasSkeletalHurtbox(playerBuild.sex)
+        ? <SkeletalHurtbox rig={playerHurtbox} name={PLAYER_HURTBOX_NAME} sex={playerBuild.sex} probe={Boolean(visualScenario)} />
         : <CapsuleHurtbox controller={player} name={PLAYER_HURTBOX_NAME} />}
       <HeldObjectHitbox
         object={playerWeaponObject}

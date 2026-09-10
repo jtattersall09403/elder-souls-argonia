@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { GUARD_BREAK_STUN_DURATION, RIPOSTE_WINDOW } from "../combat/tuning";
+import { SEXES } from "../actors/races";
 import {
   clipConfig,
   clipPlaybackDuration,
   clipPlaybackSourceSpan,
+  hasFittedHurtbox,
+  hurtboxSegments,
   transitionCrossFadeDuration,
 } from "./animationManifest";
 
@@ -148,5 +151,49 @@ describe("generated animation playback contract", () => {
     expect(riposted.crossFadeDuration).toBeCloseTo(0.08, 4);
     expect(riposted.crossFadeOutDuration).toBeCloseTo(0.2, 4);
     expect(clipConfig("BACKSTABBED").crossFadeOutDuration).toBeCloseTo(0.2, 4);
+  });
+});
+
+/**
+ * The fitted hurtbox is measured from posed, skinned geometry, and the male and
+ * female bodies are different meshes — not a scaled pair. Serving the male set
+ * to a female actor made her hittable by swings that should miss: measured on
+ * the reference builds the Spine0 capsule is 17.8% narrower and the pelvis 8.5%
+ * wider, differences that run in both directions and no scalar reconciles.
+ *
+ * These assertions fail if a sex ever silently falls back to another sex's set.
+ */
+describe("fitted hurtbox per sex", () => {
+  it("ships a distinct measured set for every sex the roster builds", () => {
+    for (const sex of SEXES) {
+      expect(hasFittedHurtbox(sex), sex).toBe(true);
+    }
+    const sets = SEXES.map((sex) => hurtboxSegments(sex));
+    for (let i = 0; i < sets.length; i += 1) {
+      for (let j = i + 1; j < sets.length; j += 1) {
+        expect(JSON.stringify(sets[i])).not.toBe(JSON.stringify(sets[j]));
+      }
+    }
+  });
+
+  it("fits the female torso to the female body, not the male one", () => {
+    const male = hurtboxSegments("male");
+    const female = hurtboxSegments("female");
+    expect(female).toHaveLength(male.length);
+    const radius = (set: readonly { bone: string; radius: number }[], bone: string) => {
+      const segment = set.find((entry) => entry.bone === bone);
+      if (!segment) throw new Error(`no fitted capsule for ${bone}`);
+      return segment.radius;
+    };
+    // Narrower across the shoulders and the upper torso...
+    expect(radius(female, "NPC Spine [Spn0]")).toBeLessThan(radius(male, "NPC Spine [Spn0]") * 0.95);
+    expect(radius(female, "NPC Clavicle [Clv].L")).toBeLessThan(radius(male, "NPC Clavicle [Clv].L") * 0.95);
+    // ...and wider at the pelvis. A single scalar cannot produce both.
+    expect(radius(female, "NPC Pelvis [Pelv]")).toBeGreaterThan(radius(male, "NPC Pelvis [Pelv]") * 1.05);
+  });
+
+  it("falls back to the navigation capsule for a sex with no measured set", () => {
+    expect(hurtboxSegments("unbuilt" as never)).toEqual([]);
+    expect(hasFittedHurtbox("unbuilt" as never)).toBe(false);
   });
 });

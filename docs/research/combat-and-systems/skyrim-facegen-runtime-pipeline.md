@@ -207,14 +207,31 @@ them. At the shipped character scale the spine capsule differs by roughly four
 centimetres of world radius, which is inside the range a Souls-like trades on:
 whether a swing that just misses a woman's shoulder connects.
 
-**Finding.** One shared support envelope is defensible and one shared hurtbox is
-not. The runtime animation manifest (`rig-skyrim-humanoid.animations.json`)
-currently carries a single `hurtbox` written by the male reference; it needs a
-per-sex hurtbox, keyed the way `referenceBuilds` is. `supportEnvelope` can stay
-shared, with the caveat that penetration-mode floor clips — `ROLL` above all —
-are measured 27 cm differently and should be re-checked if a female character
-ever looks sunk or floating mid-roll. This is recorded rather than implemented:
-the manifest shape is a runtime contract, not a pipeline-local choice.
+**Finding, and what was done (2026-09-10).** One shared support envelope is
+defensible and one shared hurtbox is not. The runtime animation manifest
+(`rig-skyrim-humanoid.animations.json`) now carries `hurtbox` **keyed by sex**,
+the way `referenceBuilds` is:
+
+```jsonc
+"hurtbox": { "male": { "segments": [...] }, "female": { "segments": [...] } }
+```
+
+The male set is byte-identical to what it was; the female set is the female
+reference's own measurement, which the build was already taking and throwing
+away. `pipeline/build.py` writes the rig-emitting reference's set and
+`merge_hurtbox_for_sex` merges each other reference's in afterwards, converting
+with the manifest's own `rig.recommendedScale` so both sexes' radii are in the
+same units. The runtime resolves by the actor's `CharacterBuild.sex`
+(`animationManifest.hurtboxSegments(sex)`); a sex with no measured set still
+falls back to the navigation capsule, and `animationManifest.test.ts` fails if
+one sex silently serves another's capsules.
+
+`supportEnvelope` stays **shared**, deliberately: `soleMarkerMinZ` is
+bit-identical between the sexes and it is the sole markers that grounding and
+the cross-fade margin read. The caveat to keep: the visible-surface floor
+`surfaceMinZ` differs most on `ROLL` (0.274) and the knockdown/death clips
+(~0.051), everything else under 0.05. If a female character ever appears sunk
+or floating mid-roll, that is the number to re-measure per sex first.
 
 ## Head parts are not torso: the biped-slot defect (2026-09-10)
 
@@ -237,7 +254,14 @@ Both are fixed in `build_character.py`: `vertex_weights` skips `SBP_*` groups,
 and `biped_slots` drops the torso slot from FaceGen head-part geometry. The
 `% 100` fold of section-cap partitions is replaced by an explicit table, because
 `% 100` also turned 230 (NECK) into 30 (HEAD). The head now reports `[30, 43]`
-and the head parts report no slot at all. **`pipeline/blender/build_armour.py`
-does the identical `% 100` fold on the armour side and has the same NECK/HEAD
-collision; that file belongs to another workstream and is reported, not
-changed.**
+and the head parts report no slot at all.
+
+**The armour side is fixed too (2026-09-10).** `build_armour.py` did the
+identical `% 100` fold. The table, the regex and the non-slot set now live in
+`pipeline/blender/biped_slots.py` and both builds import them, so the two
+answers the runtime compares against each other cannot drift apart. Rebuilding
+the whole armour set changed nothing: all 36 pieces report the same
+`coversBipedSlots` and every GLB came back byte-identical, because no vanilla
+piece in the set happens to declare a 130/141/230 partition. The defect was
+latent, not live — a future piece with a neck cap would have read as a head
+cover and hidden the wearer's face.

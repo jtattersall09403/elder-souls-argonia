@@ -20,8 +20,17 @@ import json
 import math
 import os
 import re
+import sys
 import numpy as np
 from mathutils import Matrix, Vector
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from biped_slots import (  # noqa: E402
+    BIPED_SLOT as _BIPED_SLOT,
+    TORSO_SLOT as _TORSO_SLOT,
+    fold_partitions,
+    raw_partitions,
+)
 
 PLAN = json.loads(open(os.environ["BUILD_PLAN"], "r", encoding="utf-8").read())
 SUMMARY = {"warnings": []}
@@ -287,30 +296,6 @@ def closest_point_on_segments(point, segments):
     return closest, closest_distance, closest_segment, closest_fraction
 
 
-#: pyNifly writes each BSDismemberSkinInstance partition as a vertex group named
-#: ``SBP_<raw id>_<NAME>``, using the raw id from the NIF.
-_BIPED_SLOT = re.compile(r"^SBP_(\d+)_", re.IGNORECASE)
-
-#: Skyrim's "section cap" partitions mark the same body region as their base
-#: slot: 130 caps the head, 141 the long hair, 143 the ears. Folding them onto
-#: the base slot is right; doing it with ``% 100`` was not. ``% 100`` also folded
-#: 230 (NECK) onto 30 (HEAD), and the head and the beard both carry 230, so a
-#: partition that is not a wearable slot at all was being reported as one.
-_SECTION_CAPS = {130: 30, 131: 31, 141: 41, 142: 42, 143: 43, 150: 50}
-
-#: Partitions that describe geometry rather than a slot anything can be worn in.
-#: 230 is the neck cap: no armour declares it, so reporting it would only let a
-#: hide rule match something no piece of art ever claims.
-_NON_SLOT_PARTITIONS = {230}
-
-#: The torso. pyNifly hands a shape with a plain ``NiSkinInstance`` — no
-#: dismember data at all — a synthetic ``SBP_32_BODY`` group, because 32 is
-#: nifly's Skyrim-era default. Skyrim's eyes, mouth and brow meshes are exactly
-#: that: unpartitioned. Reading their default back as "torso" is what made a
-#: cuirass hide a character's face.
-_TORSO_SLOT = 32
-
-
 def biped_slots(mesh):
     """The biped slots one mesh occupies, from its dismember partitions.
 
@@ -318,13 +303,7 @@ def biped_slots(mesh):
     be torso, so nifly's default is dropped there rather than shipped as a slot
     the armour system will honour.
     """
-    raw = {
-        int(match.group(1))
-        for group in mesh.vertex_groups
-        for match in [_BIPED_SLOT.match(group.name)] if match
-    }
-    slots = {_SECTION_CAPS.get(part, part)
-             for part in raw - _NON_SLOT_PARTITIONS}
+    slots = fold_partitions(raw_partitions(mesh.vertex_groups))
     if MESH_ROLES.get(mesh.name) == "facegen":
         slots.discard(_TORSO_SLOT)
     return sorted(slots)

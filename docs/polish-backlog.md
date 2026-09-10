@@ -530,15 +530,16 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   built and reported with `postShortfallM` in
   `world/sources/sites/route-structures.md` rather than faked. Either source a
   Bosmer/root pier, or re-author the window as a stepped ascent.
-- **Armour biped slots still fold partitions with `% 100`.**
-  `tooling/asset-pipeline/pipeline/blender/build_armour.py:341-345` normalises a
-  NIF dismember partition id onto a wearable slot by taking it modulo 100. That
-  turns 230 (NECK) into 30 (HEAD), which are different things, and it hides the
-  case where pyNifly hands an unpartitioned shape its synthetic `SBP_32_BODY`
-  default. The body side of the same defect is fixed — `build_character.py`
-  now uses an explicit section-cap table and drops the torso slot from FaceGen
-  head geometry — and the evidence is written up in
-  `docs/research/combat-and-systems/skyrim-facegen-runtime-pipeline.md`
-  § "Head parts are not torso". The armour file belongs to the armour
-  workstream, so it is queued here rather than changed. Fixing it means
-  reusing the same table, then rebuilding the armour GLB manifest.
+- **The character sheets label their donor NPCs with editor ids, because the
+  vault has no string tables.** `Skyrim.esm` is a localised plugin, so every
+  NPC's `FULL` field is a four-byte string id — Dravin's is 61944 — and
+  `Skyrim_English.STRINGS` and its `.DL`/`.IL` siblings are not in the asset
+  vault, nor is the `Skyrim - Interface.bsa` that would carry them. Measured
+  2026-09-10. So `apps/combat-sandbox/scripts/render-character-sheet.mjs` shows
+  `Kharag Gro Shurkul` where the game shows `Kharag gro-Shurkul`, and one donor
+  (`EncWarlockIce03BossHighElfM`) has no name at all. This is a **sourcing gap**:
+  the missing input is those three files from a Skyrim install. Once they are in
+  the vault the fix belongs in `pipeline/npc_records.py`, which already parses
+  the record — read `FULL`, resolve it, carry the name in the roster — and the
+  renderer labels the card from the roster. The format is a uint32 count, a
+  uint32 data size, then `(stringId, offset)` pairs into a null-terminated blob.

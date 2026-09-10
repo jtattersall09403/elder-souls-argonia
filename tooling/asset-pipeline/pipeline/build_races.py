@@ -223,8 +223,14 @@ def build_race(roster: dict, build_id: str, *, reference: bool, emit_rig: bool) 
         (ROOT / race_glb).resolve(), summary
     )
     validate_facegen_summary(build_id, summary)
+    sex = _appearance(build_id)["sex"]
     if emit_rig:
-        write_runtime_manifest(plan, summary)
+        write_runtime_manifest(plan, summary, sex=sex)
+    elif reference:
+        # A reference build that does not emit the rig still measured its own
+        # body. Merging its hurtbox is what stops a female character being hit
+        # by the male silhouette's capsules.
+        merge_hurtbox_for_sex((ROOT / roster["manifestOutput"]).resolve(), sex, summary)
     return summary
 
 

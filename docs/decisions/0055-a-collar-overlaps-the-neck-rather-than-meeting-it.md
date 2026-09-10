@@ -80,6 +80,9 @@ rather than asserted away, and it is the one cuirass still worth a visual check.
 
 - Weight-morphing armour between its own `_0`/`_1` NIFs per build would make the
   seam flush instead of overlapped, and would remove the constant above.
+- Done 2026-09-10: the biped-slot table the two builds both need now lives in
+  `pipeline/blender/biped_slots.py` and is imported by each, which is what
+  killed the armour side's `% 100` fold of partition 230.
 - `build_character.py` still carries its own copy of `mesh_boundary`,
   `closest_point_on_segments` and `vertex_weights`. Folding it onto
   `neck_seam.py` is mechanical and was deliberately left out of this change so

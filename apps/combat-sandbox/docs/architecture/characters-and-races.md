@@ -115,3 +115,13 @@ geometry, so one build has to provide it. Every race of a given sex shares the
 body, hands and feet meshes that determine the lowest visible surface — but the
 female set is different meshes from the male set, so the roster names one
 `referenceBuilds` entry **per sex** and `REFERENCE_BUILDS` exposes both.
+
+Which of those measurements is actually shared is settled by measurement, not
+by assumption. The **support envelope is shared** (`soleMarkerMinZ` is
+bit-identical between the sexes; the markers are read from the shared
+skeleton). The **fitted hurtbox is not** — it is keyed by sex in
+`rig-skyrim-humanoid.animations.json` and resolved at runtime from the actor's
+`CharacterBuild.sex` via `hurtboxSegments(sex)`. The evidence, and the one
+caveat still worth watching (`ROLL`'s surface floor), is in
+[the FaceGen pipeline research](../../../../docs/research/combat-and-systems/skyrim-facegen-runtime-pipeline.md)
+§ "Two sexes".

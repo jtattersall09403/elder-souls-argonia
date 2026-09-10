@@ -218,15 +218,3 @@ export function resolveBuild(race: RaceId, sex: Sex): CharacterBuild {
   return characterBuild(DEFAULT_BUILD);
 }
 
-/**
- * @deprecated Use `characterBuild(buildId(race, sex))`.
- *
- * A race no longer *has* an asset — a build does. This resolves a race id to
- * its default-sex build so that `tooling/asset-pipeline` (owned by another
- * workstream, and outside this change) keeps building; delete it once that
- * script names a build.
- */
-export function raceById(id: RaceId): CharacterBuild {
-  if (!(id in RACES)) throw new RangeError(`unknown race: ${id}`);
-  return resolveBuild(id, DEFAULT_SEX);
-}

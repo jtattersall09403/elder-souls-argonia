@@ -9,7 +9,7 @@
 export { SkyrimFighter, type SoleBoneRefs } from "./SkyrimFighter";
 export {
   SkeletalHurtbox,
-  HAS_SKELETAL_HURTBOX,
+  hasSkeletalHurtbox,
   type HurtboxBone,
   type HurtboxRigRef,
 } from "./SkeletalHurtbox";

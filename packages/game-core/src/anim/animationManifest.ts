@@ -1,3 +1,4 @@
+import type { Sex } from "../actors/races";
 import type { AnimationState } from "../core/types";
 import manifest from "./generated/rig-skyrim-humanoid.animations.json";
 
@@ -147,7 +148,7 @@ type CharacterManifest = {
     /** Legacy scalar-marker fallback; current manifests use bone-local 3D candidates instead. */
     crossFadeSoleSafetyMarginMeters?: number;
   };
-  hurtbox?: { segments: HurtboxSegment[] };
+  hurtbox?: Partial<Record<Sex, { segments: HurtboxSegment[] }>>;
   animations: Record<string, ClipConfig>;
 };
 
@@ -218,13 +219,24 @@ export const RIG_ROOT_BONE = RIG.rootBone;
 export const RIG_SOCKETS = RIG.sockets;
 
 /**
- * Skeleton-fitted combat volume, measured from this character's own skin by
- * the pipeline. A different skeleton or silhouette produces a different set
- * with no game-code change; an actor with no fitted hurtbox falls back to the
- * navigation capsule.
+ * Skeleton-fitted combat volume, measured from a body's own skin by the
+ * pipeline. A different skeleton or silhouette produces a different set with
+ * no game-code change; an actor whose sex has no fitted hurtbox falls back to
+ * the navigation capsule.
+ *
+ * Keyed by sex because the male and female bodies are different meshes, not a
+ * scaled pair: measured on the reference builds the female torso capsule is
+ * 17.8% narrower at Spine0 and 8.5% *wider* at the pelvis, so serving one set
+ * to both makes a woman hit by swings that should miss her.
  */
-export const HURTBOX_SEGMENTS: readonly HurtboxSegment[] =
-  CHARACTER_MANIFEST.hurtbox?.segments ?? [];
+export function hurtboxSegments(sex: Sex): readonly HurtboxSegment[] {
+  return CHARACTER_MANIFEST.hurtbox?.[sex]?.segments ?? [];
+}
+
+/** True when a body of this sex ships a pipeline-fitted hurtbox. */
+export function hasFittedHurtbox(sex: Sex): boolean {
+  return hurtboxSegments(sex).length > 0;
+}
 
 /**
  * three.js strips whitespace and reserved characters from Object3D names on

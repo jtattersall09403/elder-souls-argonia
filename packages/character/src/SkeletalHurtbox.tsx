@@ -2,7 +2,8 @@ import { useFrame } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, useRapier, type RapierRigidBody } from "@react-three/rapier";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
-import { HURTBOX_SEGMENTS } from "@elder-souls/game-core/anim/animationManifest";
+import { hasFittedHurtbox, hurtboxSegments } from "@elder-souls/game-core/anim/animationManifest";
+import type { Sex } from "@elder-souls/game-core/actors/races";
 import { VISUAL_FRAME_PHASE_PRIORITY } from "@elder-souls/game-core/validation/visualFrameMarker";
 import type { HurtboxRigRef } from "@elder-souls/game-core/combat/hurtbox";
 
@@ -22,20 +23,27 @@ const CAPSULE_AXIS = new THREE.Vector3(0, 1, 0);
  *
  * The segment list, radii and lengths are measured from the character's own
  * skin by the asset pipeline, so a new race, creature or silhouette needs no
- * game-code change and no hand-placed volumes. When a character ships without
- * a fitted hurtbox the caller falls back to its navigation capsule.
+ * game-code change and no hand-placed volumes. They are measured per *sex* —
+ * a female body is a different mesh, not a scaled male one — so the actor's
+ * own sex selects the set, and it must be the same sex `SkyrimFighter` bound
+ * its bones with. When a body's sex ships without a fitted hurtbox the caller
+ * falls back to its navigation capsule.
  */
 export function SkeletalHurtbox({
   rig,
   name,
+  sex,
   probe = false,
 }: {
   rig: HurtboxRigRef;
   name: string;
+  /** The sex of the body this volume wraps; selects the fitted capsule set. */
+  sex: Sex;
   /** Register on the validation frame phase so probes see the posed volume. */
   probe?: boolean;
 }) {
   const { rapier } = useRapier();
+  const segmentSet = hurtboxSegments(sex);
   const bodies = useRef<(RapierRigidBody | null)[]>([]);
   const from = useMemo(() => new THREE.Vector3(), []);
   const to = useMemo(() => new THREE.Vector3(), []);
@@ -45,7 +53,7 @@ export function SkeletalHurtbox({
 
   useFrame(() => {
     const segments = rig.current;
-    for (let index = 0; index < HURTBOX_SEGMENTS.length; index += 1) {
+    for (let index = 0; index < segmentSet.length; index += 1) {
       const body = bodies.current[index];
       if (!body) continue;
       const segment = segments?.[index];
@@ -69,7 +77,7 @@ export function SkeletalHurtbox({
 
   return (
     <>
-      {HURTBOX_SEGMENTS.map((segment, index) => (
+      {segmentSet.map((segment, index) => (
         <RigidBody
           key={segment.bone}
           ref={(body) => { bodies.current[index] = body; }}
@@ -89,5 +97,5 @@ export function SkeletalHurtbox({
   );
 }
 
-/** True when the loaded character ships a pipeline-fitted hurtbox. */
-export const HAS_SKELETAL_HURTBOX = HURTBOX_SEGMENTS.length > 0;
+/** True when a body of this sex ships a pipeline-fitted hurtbox. */
+export const hasSkeletalHurtbox = hasFittedHurtbox;

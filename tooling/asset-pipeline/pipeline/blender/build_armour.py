@@ -22,11 +22,15 @@ reference_bodies{}, items[], summary_json.
 import bpy
 import json
 import os
-import re
 import sys
 from mathutils import Vector
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from biped_slots import (  # noqa: E402
+    BIPED_SLOT as _BIPED_SLOT,
+    fold_partitions,
+    raw_partitions,
+)
 from neck_seam import (  # noqa: E402
     closest_point_on_segments, find_collar_rings, neck_axis, neck_polyline,
     polyline_radius, raise_polyline, ring_profile, snap_ring,
@@ -42,7 +46,6 @@ PLAN = json.loads(open(os.environ["BUILD_PLAN"], "r", encoding="utf-8").read())
 SUMMARY = {"items": {}, "warnings": []}
 
 _MAP_SUFFIXES = ("_n", "_msn", "_s", "_sk", "_g", "_m", "_em", "_e", "_b")
-_BIPED_SLOT = re.compile(r"^SBP_(\d+)_", re.IGNORECASE)
 ICON_SIZE = int(PLAN.get("icon_size", 160))
 
 
@@ -385,13 +388,14 @@ for item in PLAN["items"]:
     covered = set()
     unbound = set()
     for obj in pieces:
+        # Bethesda writes some partitions as 1xx and some as xx for the same
+        # slot; the shared section-cap table normalises them so a helmet and a
+        # cuirass are comparable, and drops the partitions (230, the neck cap)
+        # that are geometry rather than a wearable slot. `% 100` did neither:
+        # it mapped 230 onto 30 and made a neck cap read as a head cover.
+        covered |= fold_partitions(raw_partitions(obj.vertex_groups))
         for group in obj.vertex_groups:
-            match = _BIPED_SLOT.match(group.name)
-            if match:
-                # Bethesda writes some partitions as 1xx and some as xx for the
-                # same slot; normalise so a helmet and a cuirass are comparable.
-                covered.add(int(match.group(1)) % 100)
-            elif group.name not in RIG_BONE_SET:
+            if not _BIPED_SLOT.match(group.name) and group.name not in RIG_BONE_SET:
                 unbound.add(group.name)
     if unbound:
         warn("%s: skin groups outside the rig: %s" % (item["id"], sorted(unbound)))
