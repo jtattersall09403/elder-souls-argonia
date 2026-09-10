@@ -16,8 +16,31 @@ export type FirstPersonBowManifest = {
 export const FIRST_PERSON_BOW_MANIFEST = manifest as unknown as FirstPersonBowManifest;
 export type FirstPersonBowClip = keyof typeof manifest.clips;
 
-/** The arms GLB for a race's body, falling back to the human male build. */
+const warnedBodies = new Set<string>();
+
+/**
+ * The arms GLB for a build's body.
+ *
+ * The roster can name a body the first-person rig has not been built for yet
+ * (the female arms are a pipeline job). Rather than let `useGLTF` request a
+ * URL that 404s — which fails the whole scene, not just the arms — fall back
+ * to the same race's male arms, which share the skeleton and the clip set, and
+ * say so once. `female-argonian` -> `male-argonian`, `female` -> `male`.
+ */
 export function firstPersonBowAsset(body: string): string {
   const variants = FIRST_PERSON_BOW_MANIFEST.variants;
-  return (variants[body] ?? variants.male).asset;
+  const exact = variants[body];
+  if (exact) return exact.asset;
+
+  const sameRaceMale = body.startsWith("female") ? `male${body.slice("female".length)}` : "male";
+  const fallback = variants[sameRaceMale] ?? variants.male;
+  if (!warnedBodies.has(body)) {
+    warnedBodies.add(body);
+    console.warn(
+      `[first-person bow] no arms built for body "${body}"; using "${
+        variants[sameRaceMale] ? sameRaceMale : "male"
+      }" instead.`,
+    );
+  }
+  return fallback.asset;
 }

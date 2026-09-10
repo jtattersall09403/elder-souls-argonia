@@ -530,3 +530,15 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   built and reported with `postShortfallM` in
   `world/sources/sites/route-structures.md` rather than faked. Either source a
   Bosmer/root pier, or re-author the window as a stepped ascent.
+- **Armour biped slots still fold partitions with `% 100`.**
+  `tooling/asset-pipeline/pipeline/blender/build_armour.py:341-345` normalises a
+  NIF dismember partition id onto a wearable slot by taking it modulo 100. That
+  turns 230 (NECK) into 30 (HEAD), which are different things, and it hides the
+  case where pyNifly hands an unpartitioned shape its synthetic `SBP_32_BODY`
+  default. The body side of the same defect is fixed — `build_character.py`
+  now uses an explicit section-cap table and drops the torso slot from FaceGen
+  head geometry — and the evidence is written up in
+  `docs/research/combat-and-systems/skyrim-facegen-runtime-pipeline.md`
+  § "Head parts are not torso". The armour file belongs to the armour
+  workstream, so it is queued here rather than changed. Fixing it means
+  reusing the same table, then rebuilding the armour GLB manifest.

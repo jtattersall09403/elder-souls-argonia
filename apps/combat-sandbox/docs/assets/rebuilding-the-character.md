@@ -18,10 +18,17 @@ pack** (decision 0040), so there are several files to install, not one.
 
 ```bash
 cd tooling/asset-pipeline
-# Rebuilds the rig, every pack, and the races. `--only <race>` limits the race
-# skins; the rig and all packs are rebuilt regardless. About 3 minutes.
-python3 -m pipeline.build_races --roster skyrim-playable --only dunmer
+# Rebuilds the rig, every pack, and all twenty character builds (ten races on
+# two sexes, decision 0054). About 3 minutes per build.
+python3 -m pipeline.build_races --roster skyrim-playable
+# `--only <build> ...` limits which bodies are rebuilt; ids are `<race>-<sex>`.
+#   --skip-reference  reuse the rig AND skip the clip import (fast body-only)
+#   --reuse-rig       reuse the rig but still import clips for a reference
+#                     build, so its support envelope and hurtbox are measured
+python3 -m pipeline.build_races --only nord-female khajiit-female --skip-reference
 
+cp output/races/*.glb                         ../../packages/character-assets/files/races/
+cp output/races.json                          ../../packages/game-core/src/actors/generated/
 cp output/rig-skyrim-humanoid*.glb            ../../packages/character-assets/files/
 cp output/rig-skyrim-humanoid.animations.json ../../packages/game-core/src/anim/generated/
 ```
@@ -36,8 +43,9 @@ cp output/bow-rigs/*.glb        ../../packages/character-assets/files/bow-rigs/
 cp output/bow-rigs.items.json   ../../packages/game-core/src/equipment/generated/
 
 # The first-person bow rig (Skyrim's own arms for aiming), one GLB per body
-# the races stand on (male, male-argonian, male-khajiit). ~2 minutes each.
-python3 -m pipeline.build_first_person        # or --only male-argonian
+# the builds stand on: male, male-argonian, male-khajiit, female,
+# female-argonian, female-khajiit. ~2 minutes each.
+python3 -m pipeline.build_first_person        # or --only female-argonian
 cp output/rig-skyrim-first-person.bow.*.glb ../../packages/character-assets/files/
 cp output/rig-skyrim-first-person.bow.json  ../../packages/game-core/src/anim/generated/
 ```
@@ -104,3 +112,14 @@ particular, batch-audition candidates before touching the production manifest,
 then validate the shortlisted result through the real game path.
 
 See the pipeline's own `README.md` for the full data-driven config layout.
+
+## Comparison sheets
+
+`config/characters/sheet-variants.json` is a second roster of twenty
+appearances — a different `Skyrim.esm` donor per race and sex — built only to
+compare faces side by side. It is **never shipped as playable**: its GLBs go to
+`output/sheet-variants/` and are not copied into `packages/character-assets/`.
+
+```bash
+python3 -m pipeline.build_races --roster sheet-variants --skip-reference
+```

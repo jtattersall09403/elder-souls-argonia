@@ -1,29 +1,28 @@
 {
-  "id": "argonian",
-  "label": "Argonian",
-  "description": "Saxhleel. Black Marsh raised it, and Black Marsh is not gentle.",
+  "id": "argonian-male",
+  "race": "argonian",
+  "sex": "male",
   "body": "male-argonian",
   "skinTint": [
     0.250980407,
     0.2078431547,
     0.1647058874
   ],
-  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The shared mesh receives Skyrim's race-specific beast texture set plus that NPC's QNAM tint and NAM7 weight; hair uses HCLF. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
     0.28125,
     0.1796875,
     0.1796875
   ],
-  "heightScale": 1.01,
+  "bodyWeight": 30,
   "faceGen": {
     "plugin": "Skyrim.esm",
     "formId": "00013284",
     "editorId": "GulumEi"
   },
-  "bodyWeight": 30,
   "textureSubstitutions": {
     "textures/actors/character/male/malebody_1.dds": "textures/actors/character/argonianmale/argonianmalebody.dds",
     "textures/actors/character/male/malebody_1_msn.dds": "textures/actors/character/argonianmale/argonianmalebody_msn.dds",
     "textures/actors/character/male/malebody_1_s.dds": "textures/actors/character/argonianmale/argonianmalebody_s.dds"
-  }
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The shared mesh receives Skyrim's race-specific beast texture set plus that NPC's QNAM tint and NAM7 weight; hair uses HCLF. No custom colour grade, brightness change or enemy recolour is applied."
 }

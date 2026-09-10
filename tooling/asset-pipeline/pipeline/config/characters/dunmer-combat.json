@@ -1,7 +1,7 @@
 {
   "id": "dunmer-combat",
   "label": "Dunmer combat character",
-  "race": "dunmer",
+  "appearance": "dunmer-male",
   "body": "male",
   "rig": "skyrim-humanoid",
   "animations": "humanoid-1h-combat",

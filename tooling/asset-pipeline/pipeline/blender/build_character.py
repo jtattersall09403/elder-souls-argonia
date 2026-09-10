@@ -287,9 +287,64 @@ def closest_point_on_segments(point, segments):
     return closest, closest_distance, closest_segment, closest_fraction
 
 
+#: pyNifly writes each BSDismemberSkinInstance partition as a vertex group named
+#: ``SBP_<raw id>_<NAME>``, using the raw id from the NIF.
+_BIPED_SLOT = re.compile(r"^SBP_(\d+)_", re.IGNORECASE)
+
+#: Skyrim's "section cap" partitions mark the same body region as their base
+#: slot: 130 caps the head, 141 the long hair, 143 the ears. Folding them onto
+#: the base slot is right; doing it with ``% 100`` was not. ``% 100`` also folded
+#: 230 (NECK) onto 30 (HEAD), and the head and the beard both carry 230, so a
+#: partition that is not a wearable slot at all was being reported as one.
+_SECTION_CAPS = {130: 30, 131: 31, 141: 41, 142: 42, 143: 43, 150: 50}
+
+#: Partitions that describe geometry rather than a slot anything can be worn in.
+#: 230 is the neck cap: no armour declares it, so reporting it would only let a
+#: hide rule match something no piece of art ever claims.
+_NON_SLOT_PARTITIONS = {230}
+
+#: The torso. pyNifly hands a shape with a plain ``NiSkinInstance`` — no
+#: dismember data at all — a synthetic ``SBP_32_BODY`` group, because 32 is
+#: nifly's Skyrim-era default. Skyrim's eyes, mouth and brow meshes are exactly
+#: that: unpartitioned. Reading their default back as "torso" is what made a
+#: cuirass hide a character's face.
+_TORSO_SLOT = 32
+
+
+def biped_slots(mesh):
+    """The biped slots one mesh occupies, from its dismember partitions.
+
+    Head-part geometry (everything that arrived in the FaceGen NIF) can never
+    be torso, so nifly's default is dropped there rather than shipped as a slot
+    the armour system will honour.
+    """
+    raw = {
+        int(match.group(1))
+        for group in mesh.vertex_groups
+        for match in [_BIPED_SLOT.match(group.name)] if match
+    }
+    slots = {_SECTION_CAPS.get(part, part)
+             for part in raw - _NON_SLOT_PARTITIONS}
+    if MESH_ROLES.get(mesh.name) == "facegen":
+        slots.discard(_TORSO_SLOT)
+    return sorted(slots)
+
+
 def vertex_weights(obj, index):
+    """One vertex's *bone* weights.
+
+    ``SBP_*`` groups are not bones: pyNifly writes the NIF's dismember
+    partitions as vertex groups too. Including them used to do two wrong things
+    at once in the neck stitch below — it copied the body's ``SBP_32_BODY``
+    onto the FaceGen head, which then read back as "the face occupies the torso
+    slot" and made any cuirass hide the face; and it inflated the weight total
+    the real bone weights are normalised against, so stitched neck vertices
+    were stored at roughly half their intended weight.
+    """
     weights = {}
     for group in obj.vertex_groups:
+        if _BIPED_SLOT.match(group.name):
+            continue
         try:
             weight = group.weight(index)
         except RuntimeError:
@@ -421,6 +476,7 @@ for obj in facegen_meshes:
         snap_limit = neck_radius * 0.5
         to_object = obj.matrix_world.inverted()
         seam_before = []
+        snapped_indices = []
         snapped = 0
         for index in boundary_indices:
             point = obj.matrix_world @ obj.data.vertices[index].co
@@ -456,15 +512,30 @@ for obj in facegen_meshes:
                 if group is None:
                     group = obj.vertex_groups.new(name=name)
                 group.add([index], weight / total, "REPLACE")
+            snapped_indices.append(index)
             snapped += 1
         if snapped < 8:
             raise RuntimeError("FaceGen head found too few body-neck vertices to stitch")
         obj.data.update()
+        # Re-measure. The old code wrote a literal 0.0 here, which made the
+        # build gate that reads it (build_races.validate_facegen_summary)
+        # incapable of failing on its own defect (decision 0052): a snap that
+        # silently stopped moving vertices would still have reported a closed
+        # seam. Measure the same way the "before" distance was measured, from
+        # the mesh as it now stands.
+        seam_after = [
+            closest_point_on_segments(
+                obj.matrix_world @ obj.data.vertices[index].co, body_neck_segments
+            )[1]
+            for index in snapped_indices
+        ]
         SUMMARY["faceGenNeckSeam"] = {
             "headVertices": snapped,
             "bodyVertices": len(body_neck_vertices),
             "maxDistanceBefore": round(float(max(seam_before)), 5),
-            "maxDistanceAfter": 0.0,
+            # Not rounded: rounding a residual to five places is how a literal
+            # zero gets back in. The gate's threshold is 1e-5.
+            "maxDistanceAfter": float(max(seam_after)),
         }
 SUMMARY["faceGenAttachment"] = facegen_attachment
 
@@ -544,9 +615,19 @@ def _is_diffuse(img):
 #: Skin tint applies to bare flesh, not to eyes or worn things: tinting an iris
 #: or a loincloth with the body colour is how a tinted character stops looking
 #: like a person.
+#:
+#: Matched as a filename *prefix*, so "malebody" also catches "femalebody" only
+#: if listed — it does not, hence the explicit female entries. The Khajiit and
+#: Argonian trees name their files differently per sex ("bodymale" against
+#: "femalebody", "argonianmalehead" against "argonianfemalehead"), so both
+#: spellings are here. A miss means an untinted body, which is why this is a
+#: table and not a pattern.
 _SKIN_TEXTURES = ("malebody", "malehands", "malefeet", "malehead", "mouth", "orctusks",
                   "bodymale", "handsmale", "argonianmalebody", "argonianmalehands",
-                  "argonianmalehead", "khajiitmalehead")
+                  "argonianmalehead", "khajiitmalehead",
+                  "femalebody", "femalehands", "femalefeet", "femalehead",
+                  "argonianfemalebody", "argonianfemalehands", "argonianfemalehead",
+                  "khajiitfemalehead")
 SKIN_TINT = tuple(PLAN.get("skin_tint") or (1.0, 1.0, 1.0))
 
 
@@ -1729,13 +1810,8 @@ SUMMARY["browMeshes"] = sorted(
 # partitions. Armour reports the slots it covers the same way, so "does this
 # cuirass hide the torso" is answered by two pieces of art agreeing rather than
 # by a hand-written table of mesh names.
-_BIPED_SLOT = re.compile(r"^SBP_(\d+)_", re.IGNORECASE)
 SUMMARY["meshBipedSlots"] = {
-    mesh.name: sorted({
-        int(match.group(1)) % 100
-        for group in mesh.vertex_groups
-        for match in [_BIPED_SLOT.match(group.name)] if match
-    })
+    mesh.name: biped_slots(mesh)
     for mesh in VISIBLE_MESHES
 }
 SUMMARY["sockets"] = {}

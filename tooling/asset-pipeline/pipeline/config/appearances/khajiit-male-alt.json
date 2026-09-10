@@ -1,26 +1,24 @@
 {
-  "id": "khajiit",
-  "label": "Khajiit",
-  "description": "Elsweyr-born. Watches the room before it enters it.",
+  "id": "khajiit-male-alt",
+  "race": "khajiit",
+  "sex": "male",
   "body": "male-khajiit",
   "skinTint": [
-    0.8313726187,
-    0.8313726187,
-    0.8313726187
+    0.6039215922,
+    0.5176470876,
+    0.3490196168
   ],
-  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The shared mesh receives Skyrim's race-specific beast texture set plus that NPC's QNAM tint and NAM7 weight; hair uses HCLF. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
-    0.703125,
-    0.7421875,
-    0.8203125
+    0.3671875,
+    0.3203125,
+    0.28125
   ],
-  "heightScale": 1.0,
+  "bodyWeight": 20.0,
   "faceGen": {
     "plugin": "Skyrim.esm",
-    "formId": "00013298",
-    "editorId": "Mazaka"
+    "formId": "000954BF",
+    "editorId": "MaiqTheLiar"
   },
-  "bodyWeight": 50,
   "textureSubstitutions": {
     "textures/actors/character/male/malebody_1.dds": "textures/actors/character/khajiitmale/bodymale.dds",
     "textures/actors/character/male/malebody_1_msn.dds": "textures/actors/character/khajiitmale/bodymale_msn.dds",
@@ -28,5 +26,6 @@
     "textures/actors/character/male/malehands_1.dds": "textures/actors/character/khajiitmale/handsmale.dds",
     "textures/actors/character/male/malehands_1_msn.dds": "textures/actors/character/khajiitmale/handsmale_msn.dds",
     "textures/actors/character/male/malehands_1_s.dds": "textures/actors/character/khajiitmale/handsmale_s.dds"
-  }
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as khajiit-male; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
 }

@@ -1,0 +1,23 @@
+{
+  "id": "orsimer-male",
+  "race": "orsimer",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.3490196168,
+    0.4431372881,
+    0.360784322
+  ],
+  "hairTint": [
+    0.3359375,
+    0.3828125,
+    0.3984375
+  ],
+  "bodyWeight": 40,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013291",
+    "editorId": "KharagGroShurkul"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied."
+}

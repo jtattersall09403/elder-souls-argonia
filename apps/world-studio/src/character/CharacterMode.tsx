@@ -20,7 +20,7 @@ import {
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
 import { spawnBodyY } from "./spawnHeight";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
-import { RACE_IDS, type RaceId } from "@elder-souls/game-core/actors/races";
+import { DEFAULT_SEX, RACE_IDS, resolveBuild, type RaceId } from "@elder-souls/game-core/actors/races";
 import { sharedChunkStore, type ChunksManifest } from "./chunkStore";
 import { ChunkWorld } from "./chunkWorld";
 import { ChunkTerrain } from "./ChunkTerrain";
@@ -410,7 +410,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                   // around the province.
                   animationPacks={[]}
                   armour={armour}
-                  raceId={race}
+                  buildId={resolveBuild(race, DEFAULT_SEX).id}
                   modelOffsetY={CHARACTER_MODEL_OFFSET}
                   equipped={false}
                   visualSupportYRef={supportYRef}

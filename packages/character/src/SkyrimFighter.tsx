@@ -44,7 +44,7 @@ import { VISUAL_FRAME_PHASE_PRIORITY } from "@elder-souls/game-core/validation/v
 import { applyAppearance, clearAppearance } from "@elder-souls/game-core/actors/appearance";
 import { headMeshes } from "@elder-souls/game-core/actors/headMeshes";
 import { releaseMeshHiding, setMeshHidden } from "@elder-souls/game-core/actors/meshVisibility";
-import { DEFAULT_RACE, raceById, type Appearance, type RaceDefinition, type RaceId } from "@elder-souls/game-core/actors/races";
+import { DEFAULT_BUILD, characterBuild, type Appearance, type CharacterBuild, type CharacterBuildId } from "@elder-souls/game-core/actors/races";
 import type { ArmourDefinition } from "@elder-souls/game-core/equipment/armour";
 import type { MountedArmour } from "@elder-souls/game-core/actors/armourMounting";
 import { ArmourAttachments } from "./ArmourAttachments";
@@ -112,7 +112,7 @@ const AIM_PITCH_BONES: readonly { bone: string; share: number }[] = [
   { bone: "NPC Head [Head]", share: 0.15 },
 ];
 
-function raceUrl(race: RaceDefinition) {
+function raceUrl(race: CharacterBuild) {
   return assetUrl(`${race.asset}?v=${race.revision}`);
 }
 
@@ -221,7 +221,7 @@ export function SkyrimFighter({ animationPacks, ...props }: SkyrimFighterProps) 
   // through the (world-paused) inventory, so the remount is not visible.
   return (
     <PosedActor
-      key={`${props.raceId ?? DEFAULT_RACE}|${packs.join(",")}`}
+      key={`${props.buildId ?? DEFAULT_BUILD}|${packs.join(",")}`}
       packs={packs}
       {...props}
     />
@@ -260,7 +260,8 @@ function PosedActor({
   nockedArrow = null,
   firstPerson = false,
   hidden = false,
-  raceId = DEFAULT_RACE,
+  carriedHidden = false,
+  buildId = DEFAULT_BUILD,
   appearance,
   modelOffsetY = CHARACTER_MODEL_OFFSET,
   validationTint,
@@ -342,8 +343,16 @@ function PosedActor({
    * instead. Bones and mixer keep running, so hurtboxes and sockets stay live.
    */
   hidden?: boolean;
+  /**
+   * Hide the carried main-hand item without unmounting it.
+   *
+   * For the portrait sheets, which are evidence of the *body*: the loadout
+   * always resolves a weapon, so "no weapon" has to be said at the visual
+   * layer. The mount, its sockets and the hitbox measurements are untouched.
+   */
+  carriedHidden?: boolean;
   /** Which body to mount on the shared rig. */
-  raceId?: RaceId;
+  buildId?: CharacterBuildId;
   /** Per-character overrides used by character creation and distinct NPCs. */
   appearance?: Appearance;
   modelOffsetY?: number;
@@ -361,7 +370,7 @@ function PosedActor({
    */
   visualSupportYRef?: MutableRefObject<number>;
 }) {
-  const race = raceById(raceId);
+  const race = characterBuild(buildId);
   const resolvedAppearance = appearance ?? race.appearance;
   // The pack list is fixed for this component's lifetime (the wrapper keys on
   // it), so this array-form load has a stable length even though its contents
@@ -730,6 +739,10 @@ function PosedActor({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handSocket, sheathSocket, sword, weaponMount, weaponProfile, weaponRef]);
+
+  useLayoutEffect(() => {
+    weaponMount.visible = !carriedHidden;
+  }, [carriedHidden, weaponMount]);
 
   useLayoutEffect(() => {
     if (!handSocket) return;

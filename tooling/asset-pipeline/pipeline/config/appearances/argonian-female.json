@@ -1,0 +1,28 @@
+{
+  "id": "argonian-female",
+  "race": "argonian",
+  "sex": "female",
+  "body": "female-argonian",
+  "skinTint": [
+    0.6549019814,
+    0.6549019814,
+    0.6549019814
+  ],
+  "hairTint": [
+    0.28125,
+    0.1796875,
+    0.1796875
+  ],
+  "bodyWeight": 30.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013365",
+    "editorId": "Keerava"
+  },
+  "textureSubstitutions": {
+    "textures/actors/character/female/femalebody_1.dds": "textures/actors/character/argonianfemale/argonianfemalebody.dds",
+    "textures/actors/character/female/femalebody_1_msn.dds": "textures/actors/character/argonianfemale/argonianfemalebody_msn.dds",
+    "textures/actors/character/female/femalebody_1_s.dds": "textures/actors/character/argonianfemale/argonianfemalebody_s.dds"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The shared mesh receives Skyrim's race-specific beast texture set plus that NPC's QNAM tint and NAM7 weight; hair uses HCLF. No custom colour grade, brightness change or enemy recolour is applied."
+}

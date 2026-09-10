@@ -1,20 +1,75 @@
 {
+  "schemaVersion": 2,
   "roster": "skyrim-playable",
   "rig": {
     "asset": "rig-skyrim-humanoid.glb",
     "sha256": "48d1636bd5d9eaf1fc4c70fad6c7a241716ff8357bf674c79db241968c845b04"
   },
-  "referenceRace": "dunmer",
+  "sexes": [
+    "male",
+    "female"
+  ],
   "races": {
     "dunmer": {
+      "id": "dunmer",
       "label": "Dunmer",
-      "description": "Ash-grey and red-eyed. The old blood of Morrowind.",
-      "asset": "races/dunmer.glb",
+      "description": "Ash-grey and red-eyed. The old blood of Morrowind."
+    },
+    "nord": {
+      "id": "nord",
+      "label": "Nord",
+      "description": "Skyrim's own: pale, broad and made for cold."
+    },
+    "imperial": {
+      "id": "imperial",
+      "label": "Imperial",
+      "description": "Cyrodiil-born, and it shows in the bearing."
+    },
+    "breton": {
+      "id": "breton",
+      "label": "Breton",
+      "description": "High Rock stock, with a little elf far back."
+    },
+    "redguard": {
+      "id": "redguard",
+      "label": "Redguard",
+      "description": "Yokudan blood. The finest swords in Tamriel came with it."
+    },
+    "altmer": {
+      "id": "altmer",
+      "label": "Altmer",
+      "description": "Tall, golden, and quietly certain of it."
+    },
+    "bosmer": {
+      "id": "bosmer",
+      "label": "Bosmer",
+      "description": "Valenwood-born, small and quick."
+    },
+    "orsimer": {
+      "id": "orsimer",
+      "label": "Orsimer",
+      "description": "Orc, and unbothered by what that has cost."
+    },
+    "khajiit": {
+      "id": "khajiit",
+      "label": "Khajiit",
+      "description": "Elsweyr-born. Watches the room before it enters it."
+    },
+    "argonian": {
+      "id": "argonian",
+      "label": "Argonian",
+      "description": "Saxhleel. Black Marsh raised it, and Black Marsh is not gentle."
+    }
+  },
+  "builds": {
+    "dunmer-male": {
+      "id": "dunmer-male",
+      "race": "dunmer",
+      "sex": "male",
+      "asset": "races/dunmer-male.glb",
       "sha256": "e4748eb1253ea1699b58a47fc51b1944bc35a5414b2db6e8f4dd715ecf5f8ac4",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid05": [
-          32
-        ],
+        "BrowsMaleHumanoid05": [],
         "FootMale_Big": [
           37
         ],
@@ -31,17 +86,12 @@
         "HumanBeard28": [
           30
         ],
-        "MaleEyesHumanDemon": [
-          32
-        ],
+        "MaleEyesHumanDemon": [],
         "MaleHeadDarkElf": [
           30,
-          32,
           43
         ],
-        "MaleMouthHumanoidDefault": [
-          32
-        ],
+        "MaleMouthHumanoidDefault": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -77,17 +127,89 @@
           "HairMaleDarkElf03",
           "HumanBeard28"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00013353",
+        "editorId": "Dravin"
       }
     },
-    "nord": {
-      "label": "Nord",
-      "description": "Skyrim's own: pale, broad and made for cold.",
-      "asset": "races/nord.glb",
-      "sha256": "6b2d578205ed4e6f99c1d64348e638e01ece642650536840be26ae8595a793b0",
+    "dunmer-female": {
+      "id": "dunmer-female",
+      "race": "dunmer",
+      "sex": "female",
+      "asset": "races/dunmer-female.glb",
+      "sha256": "2296e8c7becf70ceea40dde0eb06d049279c62e1302180c146f95ef3989c5352",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid04": [
+        "FemaleBrowsHuman06": [],
+        "FemaleEyesDarkElfBlind": [],
+        "FemaleHeadDarkElf": [
+          30,
+          43
+        ],
+        "FemaleMouthHumanoidDefault": [],
+        "FemaleUnderwear": [
           32
         ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairFemaleDarkElf02": [
+          31
+        ],
+        "HairLineFemaleDarkElf02": [
+          31,
+          41
+        ],
+        "HandFemale3rd": [
+          33
+        ]
+      },
+      "body": "female",
+      "heightScale": 1.0,
+      "appearance": {
+        "skinTint": [
+          0.1058823615,
+          0.2078431547,
+          0.2274509966
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.515625,
+          0.4140625,
+          0.3515625
+        ],
+        "skinMeshes": [
+          "FemaleMouthHumanoidDefault",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd"
+        ],
+        "hairMeshes": [
+          "FemaleBrowsHuman06",
+          "HairFemaleDarkElf02",
+          "HairLineFemaleDarkElf02"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00019BFE",
+        "editorId": "AvrusaSarethi"
+      }
+    },
+    "nord-male": {
+      "id": "nord-male",
+      "race": "nord",
+      "sex": "male",
+      "asset": "races/nord-male.glb",
+      "sha256": "6b2d578205ed4e6f99c1d64348e638e01ece642650536840be26ae8595a793b0",
+      "meshBipedSlots": {
+        "BrowsMaleHumanoid04": [],
         "FootMale_Big": [
           37
         ],
@@ -101,17 +223,12 @@
         "HandMaleBig3rd": [
           33
         ],
-        "MaleEyesHumanIceBlue": [
-          32
-        ],
+        "MaleEyesHumanIceBlue": [],
         "MaleHeadNord": [
           30,
-          32,
           43
         ],
-        "MaleMouthHumanoidDefault": [
-          32
-        ],
+        "MaleMouthHumanoidDefault": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -120,12 +237,8 @@
           34,
           38
         ],
-        "MarksMaleHumanoid06LeftGash": [
-          32
-        ],
-        "MarksMaleHumanoid06RightGashR": [
-          32
-        ]
+        "MarksMaleHumanoid06LeftGash": [],
+        "MarksMaleHumanoid06RightGashR": []
       },
       "body": "male",
       "heightScale": 1.03,
@@ -152,17 +265,90 @@
           "HairLineMaleNord11",
           "HairMaleNord11"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00019FE8",
+        "editorId": "Golldir"
       }
     },
-    "imperial": {
-      "label": "Imperial",
-      "description": "Cyrodiil-born, and it shows in the bearing.",
-      "asset": "races/imperial.glb",
-      "sha256": "8deda695b74380ef3a5421c8dd808f6b1703dd426a91a2d41a768ebf831251bf",
+    "nord-female": {
+      "id": "nord-female",
+      "race": "nord",
+      "sex": "female",
+      "asset": "races/nord-female.glb",
+      "sha256": "46772d720ccb790ffba43a9b64d5829b88d0d7878525db48f8c3157680055a69",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid04": [
+        "FemaleBrowsHuman11": [],
+        "FemaleEyesHumanIceBlue": [],
+        "FemaleHeadNord": [
+          30,
+          43
+        ],
+        "FemaleMouthHumanoidDefault": [],
+        "FemaleUnderwear": [
           32
         ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairFemaleNord07": [
+          31,
+          41
+        ],
+        "HairLineFemaleNord07": [
+          31,
+          41
+        ],
+        "HandFemale3rd": [
+          33
+        ]
+      },
+      "body": "female",
+      "heightScale": 1.03,
+      "appearance": {
+        "skinTint": [
+          0.5607843399,
+          0.4470588565,
+          0.3960784674
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.515625,
+          0.4140625,
+          0.3515625
+        ],
+        "skinMeshes": [
+          "FemaleMouthHumanoidDefault",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd"
+        ],
+        "hairMeshes": [
+          "FemaleBrowsHuman11",
+          "HairFemaleNord07",
+          "HairLineFemaleNord07"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00013666",
+        "editorId": "Annekke"
+      }
+    },
+    "imperial-male": {
+      "id": "imperial-male",
+      "race": "imperial",
+      "sex": "male",
+      "asset": "races/imperial-male.glb",
+      "sha256": "8deda695b74380ef3a5421c8dd808f6b1703dd426a91a2d41a768ebf831251bf",
+      "meshBipedSlots": {
+        "BrowsMaleHumanoid04": [],
         "FootMale_Big": [
           37
         ],
@@ -173,17 +359,12 @@
         "HandMaleBig3rd": [
           33
         ],
-        "MaleEyesHumanDarkBlue": [
-          32
-        ],
+        "MaleEyesHumanDarkBlue": [],
         "MaleHeadImperial": [
           30,
-          32,
           43
         ],
-        "MaleMouthHumanoidDefault": [
-          32
-        ],
+        "MaleMouthHumanoidDefault": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -217,17 +398,90 @@
           "BrowsMaleHumanoid04",
           "HairMaleImperial1"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "0001338C",
+        "editorId": "BrotherVerulus"
       }
     },
-    "breton": {
-      "label": "Breton",
-      "description": "High Rock stock, with a little elf far back.",
-      "asset": "races/breton.glb",
-      "sha256": "97ad5a64f6df5a4c6ab78544818242bffb101f6a9e1ebd0e8e3b2d8727307961",
+    "imperial-female": {
+      "id": "imperial-female",
+      "race": "imperial",
+      "sex": "female",
+      "asset": "races/imperial-female.glb",
+      "sha256": "0ccc8bbde9df8dec0b13ced8c3c984d96702f074ec196b4fe0c51f03f7a8b90d",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid06": [
+        "FemaleBrowsHuman07": [],
+        "FemaleEyesHumanDarkBlue": [],
+        "FemaleHeadImperial": [
+          30,
+          43
+        ],
+        "FemaleMouthHumanoidDefault": [],
+        "FemaleUnderwear": [
           32
         ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairFemaleNord12": [
+          31,
+          41
+        ],
+        "HairLineFemaleNord12": [
+          31,
+          41
+        ],
+        "HandFemale3rd": [
+          33
+        ]
+      },
+      "body": "female",
+      "heightScale": 1.0,
+      "appearance": {
+        "skinTint": [
+          0.7254902124,
+          0.7019608021,
+          0.6666666865
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.203125,
+          0.21875,
+          0.21875
+        ],
+        "skinMeshes": [
+          "FemaleMouthHumanoidDefault",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd"
+        ],
+        "hairMeshes": [
+          "FemaleBrowsHuman07",
+          "HairFemaleNord12",
+          "HairLineFemaleNord12"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00013347",
+        "editorId": "Alessandra"
+      }
+    },
+    "breton-male": {
+      "id": "breton-male",
+      "race": "breton",
+      "sex": "male",
+      "asset": "races/breton-male.glb",
+      "sha256": "97ad5a64f6df5a4c6ab78544818242bffb101f6a9e1ebd0e8e3b2d8727307961",
+      "meshBipedSlots": {
+        "BrowsMaleHumanoid06": [],
         "FootMale_Big": [
           37
         ],
@@ -242,17 +496,12 @@
         "HandMaleBig3rd": [
           33
         ],
-        "MaleEyesHumanBrown": [
-          32
-        ],
+        "MaleEyesHumanBrown": [],
         "MaleHeadBreton": [
           30,
-          32,
           43
         ],
-        "MaleMouthHumanoidDefault": [
-          32
-        ],
+        "MaleMouthHumanoidDefault": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -287,17 +536,90 @@
           "HairLineMaleNord07",
           "HairMaleNord07"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "000661AD",
+        "editorId": "Adeber"
       }
     },
-    "redguard": {
-      "label": "Redguard",
-      "description": "Yokudan blood. The finest swords in Tamriel came with it.",
-      "asset": "races/redguard.glb",
-      "sha256": "f87a47377fae212f43ddd2dc532de2fd1014dd6099e5e87a145f4948fe0c905e",
+    "breton-female": {
+      "id": "breton-female",
+      "race": "breton",
+      "sex": "female",
+      "asset": "races/breton-female.glb",
+      "sha256": "66f1837926dd95f8b3d1879312a9b2781049abbe05f95298fcadca36a6e9fdfc",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid05": [
+        "FemaleBrowsHuman09": [],
+        "FemaleEyesHumanIceBlue": [],
+        "FemaleHeadBreton": [
+          30,
+          43
+        ],
+        "FemaleMouthHumanoidDefault": [],
+        "FemaleUnderwear": [
           32
         ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairFemaleNord15": [
+          31,
+          41
+        ],
+        "HairLineFemaleNord15": [
+          31,
+          41
+        ],
+        "HandFemale3rd": [
+          33
+        ]
+      },
+      "body": "female",
+      "heightScale": 0.95,
+      "appearance": {
+        "skinTint": [
+          0.6078431606,
+          0.5450980663,
+          0.5176470876
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.3046875,
+          0.296875,
+          0.2734375
+        ],
+        "skinMeshes": [
+          "FemaleMouthHumanoidDefault",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd"
+        ],
+        "hairMeshes": [
+          "FemaleBrowsHuman09",
+          "HairFemaleNord15",
+          "HairLineFemaleNord15"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "0001406B",
+        "editorId": "Muiri"
+      }
+    },
+    "redguard-male": {
+      "id": "redguard-male",
+      "race": "redguard",
+      "sex": "male",
+      "asset": "races/redguard-male.glb",
+      "sha256": "f87a47377fae212f43ddd2dc532de2fd1014dd6099e5e87a145f4948fe0c905e",
+      "meshBipedSlots": {
+        "BrowsMaleHumanoid05": [],
         "FootMale_Big": [
           37
         ],
@@ -316,17 +638,12 @@
         "HumanBeardLong01_1bit": [
           30
         ],
-        "MaleEyesHumanBrown": [
-          32
-        ],
+        "MaleEyesHumanBrown": [],
         "MaleHeadRedguard": [
           30,
-          32,
           43
         ],
-        "MaleMouthHumanoidDefault": [
-          32
-        ],
+        "MaleMouthHumanoidDefault": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -335,9 +652,7 @@
           34,
           38
         ],
-        "MarksMaleHumanoid09RightGash": [
-          32
-        ]
+        "MarksMaleHumanoid09RightGash": []
       },
       "body": "male",
       "heightScale": 1.005,
@@ -366,17 +681,90 @@
           "HumanBeard40",
           "HumanBeardLong01_1bit"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "0001C3AB",
+        "editorId": "Nazir"
       }
     },
-    "altmer": {
-      "label": "Altmer",
-      "description": "Tall, golden, and quietly certain of it.",
-      "asset": "races/altmer.glb",
-      "sha256": "b5aae15eb32dfec002fe33839c7f2a9f6c30c84c962df3284783a034aa4d6807",
+    "redguard-female": {
+      "id": "redguard-female",
+      "race": "redguard",
+      "sex": "female",
+      "asset": "races/redguard-female.glb",
+      "sha256": "ce46251fe91a3d439c44c573df8241900a4b81b6461a04f7cccdb8a94ed6c449",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid09": [
+        "FemaleBrowsHuman09": [],
+        "FemaleEyesHumanGreenHazel": [],
+        "FemaleHeadRedguard": [
+          30,
+          43
+        ],
+        "FemaleMouthHumanoidDefault": [],
+        "FemaleUnderwear": [
           32
         ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairFemaleNord14": [
+          31,
+          41
+        ],
+        "HairLineFemaleNord14": [
+          31,
+          41
+        ],
+        "HandFemale3rd": [
+          33
+        ]
+      },
+      "body": "female",
+      "heightScale": 1.0,
+      "appearance": {
+        "skinTint": [
+          0.2784313858,
+          0.2000000179,
+          0.1529411823
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.15625,
+          0.15625,
+          0.1875
+        ],
+        "skinMeshes": [
+          "FemaleMouthHumanoidDefault",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd"
+        ],
+        "hairMeshes": [
+          "FemaleBrowsHuman09",
+          "HairFemaleNord14",
+          "HairLineFemaleNord14"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00013BBE",
+        "editorId": "Ahlam"
+      }
+    },
+    "altmer-male": {
+      "id": "altmer-male",
+      "race": "altmer",
+      "sex": "male",
+      "asset": "races/altmer-male.glb",
+      "sha256": "b5aae15eb32dfec002fe33839c7f2a9f6c30c84c962df3284783a034aa4d6807",
+      "meshBipedSlots": {
+        "BrowsMaleHumanoid09": [],
         "FootMale_Big": [
           37
         ],
@@ -394,17 +782,12 @@
         "HumanBeard29": [
           30
         ],
-        "MaleEyesHighElfOrange": [
-          32
-        ],
+        "MaleEyesHighElfOrange": [],
         "MaleHeadHighElf": [
           30,
-          32,
           43
         ],
-        "MaleMouthHumanoidDefault": [
-          32
-        ],
+        "MaleMouthHumanoidDefault": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -440,17 +823,90 @@
           "HairMaleElf06",
           "HumanBeard29"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "000E101E",
+        "editorId": "EncWarlockIce03BossHighElfM"
       }
     },
-    "bosmer": {
-      "label": "Bosmer",
-      "description": "Valenwood-born, small and quick.",
-      "asset": "races/bosmer.glb",
-      "sha256": "5d763bf9557a1ba0c43cbbfce58fb6907cddf4750785d95c431d7f98fc2cd0c2",
+    "altmer-female": {
+      "id": "altmer-female",
+      "race": "altmer",
+      "sex": "female",
+      "asset": "races/altmer-female.glb",
+      "sha256": "0113909203fa76c91e25c51d4347a3b0e1c11ff37d984b455cd38efe148ffa92",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid10": [
+        "FemaleBrowsHuman07": [],
+        "FemaleEyesHighElfDarkYellow": [],
+        "FemaleHeadHighElf": [
+          30,
+          43
+        ],
+        "FemaleMouthHumanoidDefault": [],
+        "FemaleUnderwear": [
           32
         ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairFemaleElf06": [
+          31,
+          41
+        ],
+        "HairLineFemaleElf06": [
+          31,
+          41
+        ],
+        "HandFemale3rd": [
+          33
+        ]
+      },
+      "body": "female",
+      "heightScale": 1.08,
+      "appearance": {
+        "skinTint": [
+          0.5803921819,
+          0.5607843399,
+          0.3450980484
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.515625,
+          0.4140625,
+          0.3515625
+        ],
+        "skinMeshes": [
+          "FemaleMouthHumanoidDefault",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd"
+        ],
+        "hairMeshes": [
+          "FemaleBrowsHuman07",
+          "HairFemaleElf06",
+          "HairLineFemaleElf06"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00014123",
+        "editorId": "Niranye"
+      }
+    },
+    "bosmer-male": {
+      "id": "bosmer-male",
+      "race": "bosmer",
+      "sex": "male",
+      "asset": "races/bosmer-male.glb",
+      "sha256": "5d763bf9557a1ba0c43cbbfce58fb6907cddf4750785d95c431d7f98fc2cd0c2",
+      "meshBipedSlots": {
+        "BrowsMaleHumanoid10": [],
         "FootMale_Big": [
           37
         ],
@@ -465,17 +921,12 @@
         "HandMaleBig3rd": [
           33
         ],
-        "MaleEyesWoodElfDeepBrown": [
-          32
-        ],
+        "MaleEyesWoodElfDeepBrown": [],
         "MaleHeadWoodElf": [
           30,
-          32,
           43
         ],
-        "MaleMouthHumanoidDefault": [
-          32
-        ],
+        "MaleMouthHumanoidDefault": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -510,17 +961,90 @@
           "HairLineMaleElf07",
           "HairMaleElf07"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "001065EE",
+        "editorId": "WERoadCourierWoodElf"
       }
     },
-    "orsimer": {
-      "label": "Orsimer",
-      "description": "Orc, and unbothered by what that has cost.",
-      "asset": "races/orsimer.glb",
-      "sha256": "fde0d64bd9bda65f944aead899c4747e524839f1da96bf99f1272cea4b59e65d",
+    "bosmer-female": {
+      "id": "bosmer-female",
+      "race": "bosmer",
+      "sex": "female",
+      "asset": "races/bosmer-female.glb",
+      "sha256": "ddc6e6e7dc871af37ae7a7c7c63d4b35278be991f2f3872c4157131ec32a9695",
       "meshBipedSlots": {
-        "BrowsMaleHumanoid06": [
+        "FemaleBrowsHuman03": [],
+        "FemaleEyesWoodElfDeepViolet": [],
+        "FemaleHeadWoodElf": [
+          30,
+          43
+        ],
+        "FemaleMouthHumanoidDefault": [],
+        "FemaleUnderwear": [
           32
         ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairFemaleElf07": [
+          31,
+          41
+        ],
+        "HairLineFemaleElf07": [
+          31,
+          41
+        ],
+        "HandFemale3rd": [
+          33
+        ]
+      },
+      "body": "female",
+      "heightScale": 1.0,
+      "appearance": {
+        "skinTint": [
+          0.4549019933,
+          0.4274510145,
+          0.3372549117
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.203125,
+          0.21875,
+          0.21875
+        ],
+        "skinMeshes": [
+          "FemaleMouthHumanoidDefault",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd"
+        ],
+        "hairMeshes": [
+          "FemaleBrowsHuman03",
+          "HairFemaleElf07",
+          "HairLineFemaleElf07"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00069F38",
+        "editorId": "Brelas"
+      }
+    },
+    "orsimer-male": {
+      "id": "orsimer-male",
+      "race": "orsimer",
+      "sex": "male",
+      "asset": "races/orsimer-male.glb",
+      "sha256": "fde0d64bd9bda65f944aead899c4747e524839f1da96bf99f1272cea4b59e65d",
+      "meshBipedSlots": {
+        "BrowsMaleHumanoid06": [],
         "FootMale_Big": [
           37
         ],
@@ -543,17 +1067,12 @@
         "HumanBeardMedium03_1bit": [
           30
         ],
-        "MaleEyesOrcYellow": [
-          32
-        ],
+        "MaleEyesOrcYellow": [],
         "MaleHeadOrc": [
           30,
-          32,
           43
         ],
-        "MaleMouthOrc1": [
-          32
-        ],
+        "MaleMouthOrc1": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -591,12 +1110,90 @@
           "HumanBeard38",
           "HumanBeardMedium03_1bit"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00013291",
+        "editorId": "KharagGroShurkul"
       }
     },
-    "khajiit": {
-      "label": "Khajiit",
-      "description": "Elsweyr-born. Watches the room before it enters it.",
-      "asset": "races/khajiit.glb",
+    "orsimer-female": {
+      "id": "orsimer-female",
+      "race": "orsimer",
+      "sex": "female",
+      "asset": "races/orsimer-female.glb",
+      "sha256": "aae3efd850548a51d79855b54bb22d60451cd6aef9fa1a8f43ae843f0f39220d",
+      "meshBipedSlots": {
+        "FemaleBrowsHuman06": [],
+        "FemaleEyesOrcDarkGrey": [],
+        "FemaleHeadOrc": [
+          30,
+          43
+        ],
+        "FemaleMouthOrc": [],
+        "FemaleUnderwear": [
+          32
+        ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairFemaleOrc09": [
+          31
+        ],
+        "HairLineFemaleOrc09": [
+          31
+        ],
+        "HairShavedFemaleOrc01": [
+          31,
+          41
+        ],
+        "HandFemale3rd": [
+          33
+        ]
+      },
+      "body": "female",
+      "heightScale": 1.045,
+      "appearance": {
+        "skinTint": [
+          0.2392157018,
+          0.3215686381,
+          0.2862745225
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.3359375,
+          0.3828125,
+          0.3984375
+        ],
+        "skinMeshes": [
+          "FemaleMouthOrc",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd"
+        ],
+        "hairMeshes": [
+          "FemaleBrowsHuman06",
+          "HairFemaleOrc09",
+          "HairLineFemaleOrc09",
+          "HairShavedFemaleOrc01"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "0001339A",
+        "editorId": "GhorzaGraBagol"
+      }
+    },
+    "khajiit-male": {
+      "id": "khajiit-male",
+      "race": "khajiit",
+      "sex": "male",
+      "asset": "races/khajiit-male.glb",
       "sha256": "1cc71d640845085b61fd9520e1ef9480afdcf31f7a3f0feb7c78c7da1130e35d",
       "meshBipedSlots": {
         "FootMale_Big": [
@@ -608,23 +1205,16 @@
         "KhajiitBeard01Alpha": [
           30
         ],
-        "KhajiitBeard02": [
-          32
-        ],
+        "KhajiitBeard02": [],
         "khajiitTailOUT": [
           40
         ],
-        "MaleEyesKhajiitBase": [
-          32
-        ],
+        "MaleEyesKhajiitBase": [],
         "MaleHeadKhajiit": [
           30,
-          32,
           43
         ],
-        "MaleMouthKhajiit": [
-          32
-        ],
+        "MaleMouthKhajiit": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -658,12 +1248,90 @@
           "KhajiitBeard01Alpha",
           "KhajiitBeard02"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00013298",
+        "editorId": "Mazaka"
       }
     },
-    "argonian": {
-      "label": "Argonian",
-      "description": "Saxhleel. Black Marsh raised it, and Black Marsh is not gentle.",
-      "asset": "races/argonian.glb",
+    "khajiit-female": {
+      "id": "khajiit-female",
+      "race": "khajiit",
+      "sex": "female",
+      "asset": "races/khajiit-female.glb",
+      "sha256": "e350901559b2d646a1e6b6ae2b6617643f415671467ecc369d6236fe0d4a3d6f",
+      "meshBipedSlots": {
+        "FemaleEyesKhajiitBase": [],
+        "FemaleHeadKhajiit": [
+          30,
+          43
+        ],
+        "FemaleMouthKhajiit": [],
+        "FemaleUnderwear": [
+          32
+        ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairKhajiitFemale05": [
+          31
+        ],
+        "HairlineKhajiitFemale05": [
+          31
+        ],
+        "HandFemale3rd": [
+          33
+        ],
+        "KhajiitEarrings": [],
+        "khajiitTailOUT": [
+          40
+        ],
+        "MarksFemaleKhajiitScar09": [
+          30
+        ]
+      },
+      "body": "female-khajiit",
+      "heightScale": 0.95,
+      "appearance": {
+        "skinTint": [
+          0.392156899,
+          0.3019607961,
+          0.2235294282
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.3671875,
+          0.3203125,
+          0.28125
+        ],
+        "skinMeshes": [
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemale3rd",
+          "khajiitTailOUT"
+        ],
+        "hairMeshes": [
+          "HairKhajiitFemale05",
+          "HairlineKhajiitFemale05"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "0001B1D9",
+        "editorId": "Khayla"
+      }
+    },
+    "argonian-male": {
+      "id": "argonian-male",
+      "race": "argonian",
+      "sex": "male",
+      "asset": "races/argonian-male.glb",
       "sha256": "1c54a67d3696e3b8c1f2120cc1d67325c79a4bf5ab39867da295943943cd297c",
       "meshBipedSlots": {
         "ArgonianTail": [
@@ -681,16 +1349,11 @@
         "HandMaleBigArgonian3rd": [
           33
         ],
-        "MaleEyesArgonianAmberRound": [
-          32
-        ],
+        "MaleEyesArgonianAmberRound": [],
         "MaleHeadArgonian": [
-          30,
-          32
+          30
         ],
-        "MaleMouthArgonian": [
-          32
-        ],
+        "MaleMouthArgonian": [],
         "MaleUnderwear_1": [
           32
         ],
@@ -727,7 +1390,90 @@
           "BrowsMaleArgonian01",
           "HairArgonianMale02"
         ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00013284",
+        "editorId": "GulumEi"
+      }
+    },
+    "argonian-female": {
+      "id": "argonian-female",
+      "race": "argonian",
+      "sex": "female",
+      "asset": "races/argonian-female.glb",
+      "sha256": "bb7879b71b2608fb234d6fd377c250fc9c742b1b4f389b7982c5cc59c1ced739",
+      "meshBipedSlots": {
+        "BrowsFemaleArgonian02": [
+          41
+        ],
+        "FemaleArgonianTail": [
+          40
+        ],
+        "FemaleEyesArgonianBrown": [],
+        "FemaleHeadArgonian.001": [
+          30
+        ],
+        "FemaleMouthArgonian": [],
+        "FemaleUnderwear": [
+          32
+        ],
+        "FemaleUnderwearBody:0": [
+          32,
+          34,
+          38
+        ],
+        "FootFemale_Big": [
+          37
+        ],
+        "HairArgonianFemale04Hairline": [
+          31
+        ],
+        "HairArgonianFemale12": [
+          31
+        ],
+        "HandFemaleArgonian3rdperson": [
+          33
+        ],
+        "MarksFemaleArgonianScar06": [
+          30
+        ]
+      },
+      "body": "female-argonian",
+      "heightScale": 1.0,
+      "appearance": {
+        "skinTint": [
+          0.6549019814,
+          0.6549019814,
+          0.6549019814
+        ],
+        "skinTintMode": "skyrim-rgb-tint",
+        "hairTint": [
+          0.28125,
+          0.1796875,
+          0.1796875
+        ],
+        "skinMeshes": [
+          "FemaleArgonianTail",
+          "FemaleUnderwearBody:0",
+          "FootFemale_Big",
+          "HandFemaleArgonian3rdperson"
+        ],
+        "hairMeshes": [
+          "BrowsFemaleArgonian02",
+          "HairArgonianFemale04Hairline",
+          "HairArgonianFemale12"
+        ]
+      },
+      "faceGen": {
+        "plugin": "Skyrim.esm",
+        "formId": "00013365",
+        "editorId": "Keerava"
       }
     }
+  },
+  "referenceBuilds": {
+    "male": "dunmer-male",
+    "female": "dunmer-female"
   }
 }

@@ -5,7 +5,7 @@ import { AnimationMixer, Group, Vector3 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { ARSENAL_BLUEPRINT_WEAPONS } from "../../../packages/game-core/src/equipment/arsenalBlueprints";
 import { ANIMATION_PACKS, CHARACTER_SCALE, clipConfig } from "../../../packages/game-core/src/anim/animationManifest";
-import { DEFAULT_RACE, raceById } from "../../../packages/game-core/src/actors/races";
+import { DEFAULT_BUILD, characterBuild } from "../../../packages/game-core/src/actors/races";
 import { groundTrackAt, localMotionToWorld } from "../../../packages/game-core/src/locomotion/footAnchoredMotion";
 import { measureHeldObject, hitCapsuleFor } from "../../../packages/game-core/src/combat/hitVolume";
 import { capsulePlanarReach } from "../../../packages/game-core/src/combat/weaponReach";
@@ -34,7 +34,9 @@ async function load(asset: string) {
   return new GLTFLoader().parseAsync(JSON.stringify(json), "");
 }
 
-const race = raceById(DEFAULT_RACE);
+// A race carries no asset; a build does (decision 0054). Reach is measured
+// from the default build, which is the male reference the clips were posed on.
+const race = characterBuild(DEFAULT_BUILD);
 const rig = await load(race.asset);
 const root = new Group(); root.scale.setScalar(CHARACTER_SCALE); root.add(rig.scene);
 root.updateMatrixWorld(true);
@@ -105,7 +107,7 @@ for (const weapon of Object.values(ARSENAL_BLUEPRINT_WEAPONS)) {
 }
 const manifestBytes = await readFile(resolve(ROOT,"packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json"));
 const result = { schemaVersion: 1, method: "active-capsule-horizontal-extent-v1", sampleHz: HZ,
-  reference: { race: DEFAULT_RACE, characterScale: CHARACTER_SCALE, origin: "starting actor axis", targetRadius: 0,
+  reference: { build: DEFAULT_BUILD, race: race.race, characterScale: CHARACTER_SCALE, origin: "starting actor axis", targetRadius: 0,
     criticals: "stationary weapon extent; entry limits remain paired choreography" },
   provenance: { inputsSha256: digest(JSON.stringify(inputs)), animationManifestSha256: digest(manifestBytes), assets: hashes }, weapons };
 const serialized = JSON.stringify(result, null, 2) + "\n";

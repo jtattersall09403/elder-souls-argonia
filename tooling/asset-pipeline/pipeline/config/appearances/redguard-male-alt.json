@@ -1,0 +1,23 @@
+{
+  "id": "redguard-male-alt",
+  "race": "redguard",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.3176470697,
+    0.2392157018,
+    0.2078431547
+  ],
+  "hairTint": [
+    0.15625,
+    0.15625,
+    0.1875
+  ],
+  "bodyWeight": 85.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001325F",
+    "editorId": "Ahtar"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as redguard-male; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

@@ -1,6 +1,6 @@
 """Read NPC_ appearance records straight out of a vanilla Skyrim plugin.
 
-`pipeline/config/races/*.json` used to carry hand-transcribed magic numbers --
+`pipeline/config/appearances/*.json` used to carry hand-transcribed magic numbers --
 skin tint, hair tint, body weight, a FaceGen form id -- copied out of the
 Creation Kit by eye. That is fine for seven male exemplars and hopeless the
 moment we want to *select* appearances (female heads, race-valid candidates,
@@ -258,7 +258,7 @@ def _parse_npc(data: bytes) -> dict:
             out["hairColour"] = struct.unpack_from("<I", payload, 0)[0]
         elif sig == b"NAM7" and len(payload) >= 4:
             # NAM6 is height, NAM7 the 0-100 weight slider; confirmed against
-            # the seven exemplar NPCs already recorded in config/races/.
+            # the seven exemplar NPCs already recorded in config/appearances/.
             out["bodyWeight"] = _floats(payload, 1)[0]
         elif sig == b"PNAM" and len(payload) >= 4:
             out["headParts"].append(struct.unpack_from("<I", payload, 0)[0])

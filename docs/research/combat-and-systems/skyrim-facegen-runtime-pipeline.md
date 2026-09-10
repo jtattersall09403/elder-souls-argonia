@@ -139,11 +139,15 @@ The ten defaults now have ten distinct Skyrim-authored skin colours.
 
 The current pipeline is already scalable for authored appearances: a config
 can select any complete Skyrim NPC FaceGen record, body weight, skin colour and
-hair colour, and the race build produces the same browser-ready asset. The
-second comparison sheet exercises that path with a fixed race-valid sample:
-Alvor, Sorex Vinius, Cosnach, Ahtar, ice warlock 04 boss, Niruin, Savos Aren,
-Burguk, Ma'iq and Jaree-Ra. It proves variation in morph geometry, head parts, eyes,
-hair, beards, marks, FaceTint and weight, including beast races.
+hair colour, and the build produces the same browser-ready asset. The second
+comparison sheet exercises that path with a fixed race-valid sample. It is now a
+roster of its own, `config/characters/sheet-variants.json`, twenty alternates —
+one per race and sex — built to `output/sheet-variants/` and never shipped as
+playable. The male ten are Alvor, Sorex Vinius, Cosnach, Ahtar, the ice warlock
+04 High Elf boss, Niruin, Savos Aren, Burguk, Ma'iq and Jaree-Ra; the female ten
+are Maven, Safia, Bothela, Salma, Endarie, Nivenor, Irileth, Shel, Atahba and
+Wujeeta. They prove variation in morph geometry, head parts, eyes, hair, beards,
+marks, FaceTint and weight, including beast races and both sexes.
 
 The source NPC's race is audited before selection, as are its complete PNAM
 head parts. Editor IDs describe the reusable asset family rather than a race
@@ -151,7 +155,8 @@ restriction: vanilla Skyrim, for example, gives Breton NPCs race-valid
 `HairMaleNord*` parts and gives both Altmer and Bosmer race-valid
 `HairMaleElf*` parts. The accepted current/alternate pairs use `Elf06`/`Elf07`
 for Altmer and `Elf07`/`Elf04` for Bosmer. No Bosmer in either sheet uses a
-`DarkElf` hair part. `Elf01`, `Elf02`, `Elf03`, `Elf08` and `Elf09` were
+`DarkElf` hair part. The same rule is applied on the female side: Niranye takes
+`HairFemaleElf06` and Brelas `HairFemaleElf07`, alternates `Elf09` and `Elf03`. `Elf01`, `Elf02`, `Elf03`, `Elf08` and `Elf09` were
 visually rejected because they produce the bald-crown, long lower-fringe
 silhouette. Every accepted humanoid and mer appearance carries the brow chosen
 by that same NPC record; valid beast head parts remain species-specific.
@@ -166,3 +171,73 @@ work it must serve. Phase 10c then connects the already designed attributes and
 progression rules, while MQ01 presents the player-facing creation flow. This
 order also lets the implementation cover both sexes and armour/body fitting
 instead of freezing a male-only JSON schema now.
+
+
+## Two sexes: what actually had to be measured per sex (2026-09-10)
+
+Decision 0054 left one question open — whether the runtime needs one set of
+support envelopes and one fitted hurtbox, or a set per sex. It is settled by
+measurement, comparing the two reference builds (`dunmer-male`,
+`dunmer-female`) from the same build run.
+
+**Support envelopes: sex-invariant where it counts.** Across all 103 clips the
+per-clip `soleMarkerMinZ` values are **bit-identical** between the two builds —
+the sole markers are read from the skeleton, which is shared, so grounding and
+the cross-fade sole margin do not care about sex. The visible-surface floor
+`surfaceMinZ` does differ, because the female body, hands and feet are different
+meshes: mean absolute difference 0.021, worst 0.274 on `ROLL` (a clip whose
+whole silhouette is on the floor), next worst 0.051 on the three knockdown/death
+clips. Everything else is under 0.05.
+
+**The fitted hurtbox is not sex-invariant.** Per-bone capsule radii, fitted to
+posed skinned geometry:
+
+| bone | male r | female r | Δ |
+| --- | --- | --- | --- |
+| `NPC Spine [Spn0]` | 1.482 | 1.217 | −17.8% |
+| `NPC UpperArm [Uar].L` | 0.532 | 0.448 | −15.7% |
+| `NPC Clavicle [Clv].L/R` | 0.875 | 0.741 | −15.3% |
+| `NPC Thigh [Thg].R` | 1.207 | 1.035 | −14.3% |
+| `NPC Pelvis [Pelv]` | 1.379 | 1.496 | **+8.5%** |
+| `NPC Spine1 [Spn1]` | 1.470 | 1.564 | **+6.4%** |
+
+Shoulders and upper torso are narrower on the female body and the pelvis is
+wider — the differences run in *both* directions, so no single scalar reconciles
+them. At the shipped character scale the spine capsule differs by roughly four
+centimetres of world radius, which is inside the range a Souls-like trades on:
+whether a swing that just misses a woman's shoulder connects.
+
+**Finding.** One shared support envelope is defensible and one shared hurtbox is
+not. The runtime animation manifest (`rig-skyrim-humanoid.animations.json`)
+currently carries a single `hurtbox` written by the male reference; it needs a
+per-sex hurtbox, keyed the way `referenceBuilds` is. `supportEnvelope` can stay
+shared, with the caveat that penetration-mode floor clips — `ROLL` above all —
+are measured 27 cm differently and should be re-checked if a female character
+ever looks sunk or floating mid-roll. This is recorded rather than implemented:
+the manifest shape is a runtime contract, not a pipeline-local choice.
+
+## Head parts are not torso: the biped-slot defect (2026-09-10)
+
+The generated roster used to give `MaleEyesHumanDemon`,
+`MaleMouthHumanoidDefault` and `BrowsMaleHumanoid05` the biped slot `[32]` —
+the torso — so any cuirass declaring slot 32 would have hidden the character's
+eyes, mouth and brows. Read out of the NIFs directly, those three shapes carry a
+plain `NiSkinInstance` and **no dismember partitions at all**; pyNifly's C++
+layer hands an unpartitioned Skyrim-era shape a synthetic `SBP_32_BODY` group,
+because 32 is its default. The `[32]` was never in Bethesda's data.
+
+The FaceGen head's own `[30, 32, 43]` had a second, separate cause in our code:
+the neck stitch in `pipeline/blender/build_character.py` interpolated *every*
+vertex group of the body onto the head's neck vertices, including the body's
+`SBP_32_BODY` partition group, manufacturing one on the head. It also summed
+that group's 1.0 into the normalisation total, so stitched neck bone weights
+were stored at about half their intended magnitude.
+
+Both are fixed in `build_character.py`: `vertex_weights` skips `SBP_*` groups,
+and `biped_slots` drops the torso slot from FaceGen head-part geometry. The
+`% 100` fold of section-cap partitions is replaced by an explicit table, because
+`% 100` also turned 230 (NECK) into 30 (HEAD). The head now reports `[30, 43]`
+and the head parts report no slot at all. **`pipeline/blender/build_armour.py`
+does the identical `% 100` fold on the armour side and has the same NECK/HEAD
+collision; that file belongs to another workstream and is reported, not
+changed.**

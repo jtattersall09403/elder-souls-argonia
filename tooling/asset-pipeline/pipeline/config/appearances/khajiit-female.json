@@ -1,0 +1,31 @@
+{
+  "id": "khajiit-female",
+  "race": "khajiit",
+  "sex": "female",
+  "body": "female-khajiit",
+  "skinTint": [
+    0.392156899,
+    0.3019607961,
+    0.2235294282
+  ],
+  "hairTint": [
+    0.3671875,
+    0.3203125,
+    0.28125
+  ],
+  "bodyWeight": 100.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001B1D9",
+    "editorId": "Khayla"
+  },
+  "textureSubstitutions": {
+    "textures/actors/character/female/femalebody_1.dds": "textures/actors/character/khajiitfemale/femalebody.dds",
+    "textures/actors/character/female/femalebody_1_msn.dds": "textures/actors/character/khajiitfemale/femalebody_msn.dds",
+    "textures/actors/character/female/femalebody_1_s.dds": "textures/actors/character/khajiitfemale/femalebody_s.dds",
+    "textures/actors/character/female/femalehands_1.dds": "textures/actors/character/khajiitfemale/femalehands.dds",
+    "textures/actors/character/female/femalehands_1_msn.dds": "textures/actors/character/khajiitfemale/femalehands_msn.dds",
+    "textures/actors/character/female/femalehands_1_s.dds": "textures/actors/character/khajiitfemale/femalehands_s.dds"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The shared mesh receives Skyrim's race-specific beast texture set plus that NPC's QNAM tint and NAM7 weight; hair uses HCLF. No custom colour grade, brightness change or enemy recolour is applied."
+}

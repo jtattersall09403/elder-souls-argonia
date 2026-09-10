@@ -1,0 +1,28 @@
+{
+  "id": "argonian-male-alt",
+  "race": "argonian",
+  "sex": "male",
+  "body": "male-argonian",
+  "skinTint": [
+    0.764705956,
+    0.6196078658,
+    0.8039216399
+  ],
+  "hairTint": [
+    0.28125,
+    0.1796875,
+    0.1796875
+  ],
+  "bodyWeight": 80.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001328D",
+    "editorId": "JareeRa"
+  },
+  "textureSubstitutions": {
+    "textures/actors/character/male/malebody_1.dds": "textures/actors/character/argonianmale/argonianmalebody.dds",
+    "textures/actors/character/male/malebody_1_msn.dds": "textures/actors/character/argonianmale/argonianmalebody_msn.dds",
+    "textures/actors/character/male/malebody_1_s.dds": "textures/actors/character/argonianmale/argonianmalebody_s.dds"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as argonian-male; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

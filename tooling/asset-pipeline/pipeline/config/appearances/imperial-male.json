@@ -1,0 +1,23 @@
+{
+  "id": "imperial-male",
+  "race": "imperial",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.5098039508,
+    0.4274510145,
+    0.3568627536
+  ],
+  "hairTint": [
+    0.3046875,
+    0.296875,
+    0.2734375
+  ],
+  "bodyWeight": 15,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001338C",
+    "editorId": "BrotherVerulus"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied."
+}

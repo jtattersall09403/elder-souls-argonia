@@ -1,0 +1,23 @@
+{
+  "id": "breton-female-alt",
+  "race": "breton",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.8666667342,
+    0.8666667342,
+    0.8666667342
+  ],
+  "hairTint": [
+    0.546875,
+    0.5859375,
+    0.6640625
+  ],
+  "bodyWeight": 0.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001338B",
+    "editorId": "Bothela"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as breton-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

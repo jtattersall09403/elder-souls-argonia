@@ -3,9 +3,12 @@
 The config tree is intentionally split into orthogonal profiles so that adding a
 new humanoid race is *data*, not code:
 
-    characters/<id>.json  ->  race + body + rig + animations
-    races/<id>.json       ->  data root, head morph, material overrides
-    bodies/<id>.json      ->  shared humanoid mesh set
+    characters/<id>.json      ->  builds + rig + animations
+    races.json                ->  the ten lore races: label, description
+    appearances/<race>-<sex>.json
+                              ->  one built body: donor, tints, weight, data
+                                  root, head morph, material overrides
+    bodies/<id>.json          ->  shared mesh set (male, female-khajiit, ...)
     rigs/<id>.json        ->  skeleton + sockets + import settings
     animations/<id>.json  ->  semantic animation manifest
 
@@ -36,6 +39,16 @@ CORE_ANIMATION_PACK = "core"
 
 def _load(kind: str, name: str) -> dict:
     return json.loads((CONFIG / kind / f"{name}.json").read_text())
+
+
+def load_races(name: str = "skyrim-playable-races") -> dict:
+    """The lore-level race records: label and description, no assets.
+
+    A race is not a profile under a directory because there is exactly one
+    small table of them and every consumer wants the whole thing in order.
+    """
+    table = json.loads((CONFIG / f"{name}.json").read_text())
+    return table["races"]
 
 
 @dataclass
@@ -409,7 +422,10 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
     """
     char = dict(_load("characters", character_id))
     char.update(overrides or {})
-    race = _load("races", char["race"])
+    # `appearance` is a build id (`<race>-<sex>`), because that is the
+    # granularity at which a GLB exists (decision 0054). The race alone no
+    # longer names a profile: a Nord is two built bodies, not one.
+    race = _load("appearances", char["appearance"])
     body = _load("bodies", char.get("body") or race.get("body", "male"))
     rig = _load("rigs", char["rig"])
     anim = _load("animations", char["animations"])

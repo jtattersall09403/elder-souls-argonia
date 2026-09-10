@@ -1,0 +1,23 @@
+{
+  "id": "redguard-female",
+  "race": "redguard",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.2784313858,
+    0.2000000179,
+    0.1529411823
+  ],
+  "hairTint": [
+    0.15625,
+    0.15625,
+    0.1875
+  ],
+  "bodyWeight": 20.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013BBE",
+    "editorId": "Ahlam"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied."
+}

@@ -14,12 +14,14 @@ from pathlib import Path
 
 import pytest
 
-from pipeline import npc_records as nr
+from pipeline import build_races, npc_records as nr
 
-RACES = Path(__file__).resolve().parent / "config" / "races"
+APPEARANCES = Path(__file__).resolve().parent / "config" / "appearances"
 HAVE_VAULT = (nr.DATA / "Skyrim.esm").exists()
 
-#: formId -> body weight, as transcribed by hand into config/races/*.json.
+#: formId -> body weight, as originally transcribed by hand for the male
+#: appearances. The plugin is now the source; these stay as the fixed point that
+#: proves the reader still agrees with what shipped.
 KNOWN_WEIGHTS = {
     "00013284": 30,  # Gulum-Ei
     "0001c3ab": 40,  # Nazir
@@ -30,7 +32,16 @@ KNOWN_WEIGHTS = {
     "00013353": 20,  # Dravin Llanith
 }
 
-#: config/races/<id>.json -> the Skyrim RACE its heightScale was copied from.
+#: The ten male heightScale values that shipped in the roster while they were
+#: hand-transcribed. Now derived from the RACE record; kept here as the fixed
+#: point that proves the derivation reproduces what players already have.
+SHIPPED_MALE_HEIGHTS = {
+    "nord": 1.03, "imperial": 1.0, "breton": 1.0, "redguard": 1.005,
+    "altmer": 1.08, "bosmer": 0.98, "dunmer": 1.0, "orsimer": 1.045,
+    "khajiit": 1.0, "argonian": 1.01,
+}
+
+#: our race id -> the Skyrim RACE its heightScale comes from.
 CONFIG_RACES = {
     "nord": "NordRace",
     "imperial": "ImperialRace",
@@ -120,7 +131,7 @@ def test_acbs_female_bit():
 
 
 def test_cnam_normalises_to_the_recorded_argonian_hair_tint():
-    expected = json.loads((RACES / "argonian.json").read_text())["hairTint"]
+    expected = json.loads((APPEARANCES / "argonian-male.json").read_text())["hairTint"]
     # File-order bytes R=36, G=23, B=23 -> little-endian 0x00171724.
     assert nr.cnam_to_tint(0x00171724) == pytest.approx(expected)
 
@@ -198,32 +209,55 @@ def test_known_npcs_reproduce_their_transcribed_weights():
 
 
 @pytest.mark.skipif(not HAVE_VAULT, reason="Skyrim.esm not present")
-def test_male_heights_reproduce_every_transcribed_height_scale():
-    """The whole point of the RACE parse: the ten hand-typed heightScale values
-    must fall out of the plugin, or the offset is wrong."""
-    races = nr.load_races()
-    for config_id, race_id in CONFIG_RACES.items():
-        expected = json.loads((RACES / f"{config_id}.json").read_text())["heightScale"]
-        assert races[race_id].maleHeight == pytest.approx(expected, abs=1e-6), config_id
+def test_male_heights_reproduce_every_shipped_height_scale():
+    """The whole point of the RACE parse: the ten values that shipped in the
+    roster before heightScale was derived must fall out of the plugin, or the
+    offset is wrong."""
+    heights = build_races.height_scales()
+    for race, expected in SHIPPED_MALE_HEIGHTS.items():
+        assert heights[race]["male"] == pytest.approx(expected, abs=1e-6), race
 
 
 @pytest.mark.skipif(not HAVE_VAULT, reason="Skyrim.esm not present")
 def test_female_heights_are_plausible_body_scales():
-    """Female height has no counterpart in the repo to check against, so pin
-    the races where it *differs* from the male value -- if the offset were
-    wrong or aliased onto the male field these would collapse to equality."""
-    races = nr.load_races()
-    assert races["BretonRace"].femaleHeight == pytest.approx(0.95, abs=1e-6)
-    assert races["KhajiitRace"].femaleHeight == pytest.approx(0.95, abs=1e-6)
-    assert races["WoodElfRace"].femaleHeight == pytest.approx(1.0, abs=1e-6)
-    for race_id in nr.PLAYABLE_RACES:
-        assert 0.9 <= races[race_id].femaleHeight <= 1.1, race_id
+    """Female height has no shipped counterpart to check against, so pin the
+    races where it *differs* from the male value -- if the offset were wrong or
+    aliased onto the male field these would collapse to equality."""
+    heights = build_races.height_scales()
+    assert heights["breton"]["female"] == pytest.approx(0.95, abs=1e-6)
+    assert heights["khajiit"]["female"] == pytest.approx(0.95, abs=1e-6)
+    # Bosmer women are *taller* than Bosmer men in Skyrim's own record. This is
+    # not a transcription slip; it is what the plugin says.
+    assert heights["bosmer"]["male"] == pytest.approx(0.98, abs=1e-6)
+    assert heights["bosmer"]["female"] == pytest.approx(1.0, abs=1e-6)
+    for race in SHIPPED_MALE_HEIGHTS:
+        assert 0.9 <= heights[race]["female"] <= 1.1, race
+
+
+@pytest.mark.skipif(not HAVE_VAULT, reason="Skyrim.esm not present")
+def test_every_appearance_is_read_from_the_plugin_not_transcribed():
+    """Standard 12 in miniature: the tints and weight an appearance ships have
+    to be the donor NPC's own, for all forty configs (twenty playable, twenty
+    sheet alternates). A drift here is a character quietly recoloured."""
+    npcs = nr.load_npcs()
+    configs = sorted(APPEARANCES.glob("*.json"))
+    assert len(configs) == 40
+    for path in configs:
+        config = json.loads(path.read_text())
+        npc = npcs[config["faceGen"]["formId"].lower()]
+        assert npc.editorId == config["faceGen"]["editorId"], path.name
+        assert nr.is_donor_candidate(npc), path.name
+        assert npc.isFemale == (config["sex"] == "female"), path.name
+        assert npc.raceEditorId == CONFIG_RACES[config["race"]], path.name
+        assert npc.skinTint == pytest.approx(config["skinTint"], abs=1e-9), path.name
+        assert npc.hairTint == pytest.approx(config["hairTint"], abs=1e-9), path.name
+        assert npc.bodyWeight == pytest.approx(config["bodyWeight"]), path.name
 
 
 @pytest.mark.skipif(not HAVE_VAULT, reason="Skyrim.esm not present")
 def test_gulum_ei_matches_the_argonian_config():
     npc = nr.load_npcs()["00013284"]
-    config = json.loads((RACES / "argonian.json").read_text())
+    config = json.loads((APPEARANCES / "argonian-male.json").read_text())
     assert npc.editorId == config["faceGen"]["editorId"]
     assert npc.raceEditorId == "ArgonianRace"
     assert npc.skinTint == pytest.approx(config["skinTint"], abs=1e-6)

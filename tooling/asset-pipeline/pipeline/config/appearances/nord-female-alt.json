@@ -1,0 +1,23 @@
+{
+  "id": "nord-female-alt",
+  "race": "nord",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.7254902124,
+    0.7019608021,
+    0.6666666865
+  ],
+  "hairTint": [
+    0.15625,
+    0.15625,
+    0.1875
+  ],
+  "bodyWeight": 100.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001336A",
+    "editorId": "Maven"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as nord-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

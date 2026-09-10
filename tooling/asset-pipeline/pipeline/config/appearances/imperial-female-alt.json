@@ -1,0 +1,23 @@
+{
+  "id": "imperial-female-alt",
+  "race": "imperial",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.2549019754,
+    0.2117647231,
+    0.1960784495
+  ],
+  "hairTint": [
+    0.15625,
+    0.15625,
+    0.1875
+  ],
+  "bodyWeight": 50.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013267",
+    "editorId": "Safia"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as imperial-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

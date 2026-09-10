@@ -1,0 +1,23 @@
+{
+  "id": "breton-male-alt",
+  "race": "breton",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.5098039508,
+    0.4274510145,
+    0.3568627536
+  ],
+  "hairTint": [
+    0.4453125,
+    0.4296875,
+    0.3125
+  ],
+  "bodyWeight": 50.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013390",
+    "editorId": "Cosnach"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as breton-male; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

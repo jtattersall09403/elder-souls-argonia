@@ -1,0 +1,23 @@
+{
+  "id": "dunmer-female-alt",
+  "race": "dunmer",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.3333333433,
+    0.4627451301,
+    0.5333333611
+  ],
+  "hairTint": [
+    0.375,
+    0.2734375,
+    0.2578125
+  ],
+  "bodyWeight": 80.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013BB8",
+    "editorId": "Irileth"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as dunmer-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

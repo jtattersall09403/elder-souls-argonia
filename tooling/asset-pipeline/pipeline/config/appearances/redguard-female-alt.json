@@ -1,0 +1,23 @@
+{
+  "id": "redguard-female-alt",
+  "race": "redguard",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.1882353127,
+    0.1294117719,
+    0.0862745121
+  ],
+  "hairTint": [
+    0.15625,
+    0.15625,
+    0.1875
+  ],
+  "bodyWeight": 70.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0006CD5A",
+    "editorId": "dunIronbindSalma"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as redguard-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

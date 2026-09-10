@@ -76,6 +76,16 @@ export const COMBAT_SANDBOX_TEXT: readonly TextEntry[] = [
   { id: "text.sandbox.arrow-gravity", surface: "ui", text: "Arrow gravity" },
   { id: "text.sandbox.bow-nock-speed", surface: "ui", text: "Bow nocking speed" },
   { id: "text.sandbox.bow-draw-speed", surface: "ui", text: "Bow draw speed" },
+  {
+    id: "text.sandbox.character-prompt",
+    surface: "ui",
+    text: "Character",
+    note: "Heading over the sandbox's race and sex selection on the title screen.",
+  },
+  { id: "text.sandbox.character-sex", surface: "ui", text: "Sex" },
+  { id: "text.sandbox.character-race", surface: "ui", text: "Race" },
+  { id: "text.sandbox.sex-male", surface: "ui", text: "Male" },
+  { id: "text.sandbox.sex-female", surface: "ui", text: "Female" },
 ];
 
 export const EQUIPMENT_TEXT: readonly TextEntry[] = [

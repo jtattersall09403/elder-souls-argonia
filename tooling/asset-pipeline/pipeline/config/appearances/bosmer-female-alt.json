@@ -1,0 +1,23 @@
+{
+  "id": "bosmer-female-alt",
+  "race": "bosmer",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.5176470876,
+    0.4941176772,
+    0.4078431726
+  ],
+  "hairTint": [
+    0.203125,
+    0.21875,
+    0.21875
+  ],
+  "bodyWeight": 0.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001336F",
+    "editorId": "Nivenor"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as bosmer-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

@@ -1,25 +1,39 @@
 {
   "id": "skyrim-playable",
   "label": "Playable races on the Skyrim humanoid rig",
-  "description": "One roster instead of a character file per race. The rig and its animations are built once and shared; each race builds only its own skin. A new race is one entry here plus one races/<id>.json.",
+  "description": "One roster instead of a character file per build. The rig and its animations are built once and shared; each build carries only its own skin. A new race is one entry in config/skyrim-playable-races.json plus two appearances/<race>-<sex>.json.",
   "rig": "skyrim-humanoid",
   "animations": "humanoid-1h-combat",
-  "referenceRace": "dunmer",
+  "races": "skyrim-playable-races",
+  "referenceBuilds": {
+    "male": "dunmer-male",
+    "female": "dunmer-female"
+  },
+  "referenceNotes": "A reference build is the one whose meshes the support envelopes and the fitted hurtbox are measured from. There is one per sex because female bodies, hands and feet are different meshes from the male ones, so the lowest visible surface grounding and the hurtbox depend on is not shared across sexes (decision 0054). The rig GLB and its clips are emitted once, by the male reference: the skeleton is shared and the clips are sex-agnostic.",
   "rigOutput": "output/rig-skyrim-humanoid.glb",
   "manifestOutput": "output/rig-skyrim-humanoid.animations.json",
   "raceOutputDir": "output/races",
   "rosterOutput": "output/races.json",
-  "referenceNotes": "The reference race is the one whose meshes the support envelopes and fitted hurtbox are measured from. Every playable race here shares the same body, hands and feet meshes, so the lowest visible surface — which is what grounding and the hurtbox depend on — is identical across all of them. Change this only if that stops being true.",
-  "races": [
-    "nord",
-    "imperial",
-    "breton",
-    "redguard",
-    "altmer",
-    "bosmer",
-    "dunmer",
-    "orsimer",
-    "khajiit",
-    "argonian"
+  "builds": [
+    "dunmer-male",
+    "dunmer-female",
+    "nord-male",
+    "nord-female",
+    "imperial-male",
+    "imperial-female",
+    "breton-male",
+    "breton-female",
+    "redguard-male",
+    "redguard-female",
+    "altmer-male",
+    "altmer-female",
+    "bosmer-male",
+    "bosmer-female",
+    "orsimer-male",
+    "orsimer-female",
+    "khajiit-male",
+    "khajiit-female",
+    "argonian-male",
+    "argonian-female"
   ]
 }

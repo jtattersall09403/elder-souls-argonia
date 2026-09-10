@@ -1,0 +1,31 @@
+{
+  "id": "khajiit-male",
+  "race": "khajiit",
+  "sex": "male",
+  "body": "male-khajiit",
+  "skinTint": [
+    0.8313726187,
+    0.8313726187,
+    0.8313726187
+  ],
+  "hairTint": [
+    0.703125,
+    0.7421875,
+    0.8203125
+  ],
+  "bodyWeight": 50,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013298",
+    "editorId": "Mazaka"
+  },
+  "textureSubstitutions": {
+    "textures/actors/character/male/malebody_1.dds": "textures/actors/character/khajiitmale/bodymale.dds",
+    "textures/actors/character/male/malebody_1_msn.dds": "textures/actors/character/khajiitmale/bodymale_msn.dds",
+    "textures/actors/character/male/malebody_1_s.dds": "textures/actors/character/khajiitmale/bodymale_s.dds",
+    "textures/actors/character/male/malehands_1.dds": "textures/actors/character/khajiitmale/handsmale.dds",
+    "textures/actors/character/male/malehands_1_msn.dds": "textures/actors/character/khajiitmale/handsmale_msn.dds",
+    "textures/actors/character/male/malehands_1_s.dds": "textures/actors/character/khajiitmale/handsmale_s.dds"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The shared mesh receives Skyrim's race-specific beast texture set plus that NPC's QNAM tint and NAM7 weight; hair uses HCLF. No custom colour grade, brightness change or enemy recolour is applied."
+}

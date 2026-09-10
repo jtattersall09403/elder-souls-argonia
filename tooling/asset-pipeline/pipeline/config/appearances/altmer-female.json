@@ -1,0 +1,23 @@
+{
+  "id": "altmer-female",
+  "race": "altmer",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.5803921819,
+    0.5607843399,
+    0.3450980484
+  ],
+  "hairTint": [
+    0.515625,
+    0.4140625,
+    0.3515625
+  ],
+  "bodyWeight": 50.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00014123",
+    "editorId": "Niranye"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied."
+}

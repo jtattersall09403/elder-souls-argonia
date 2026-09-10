@@ -1,0 +1,23 @@
+{
+  "id": "altmer-male-alt",
+  "race": "altmer",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.4901961088,
+    0.4392157197,
+    0.2745098174
+  ],
+  "hairTint": [
+    0.4375,
+    0.4609375,
+    0.34375
+  ],
+  "bodyWeight": 50.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "000E1022",
+    "editorId": "EncWarlockIce04BossHighElfM"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as altmer-male; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

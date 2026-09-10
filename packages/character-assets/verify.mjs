@@ -206,16 +206,18 @@ const unpacked = Object.keys(animations.animations ?? {}).filter((clip) => !pack
 if (unpacked.length > 0) {
   throw new Error(`Animation manifest declares clips that ship in no pack: ${unpacked.join(", ")}`);
 }
-const races = Object.entries(roster.races ?? {});
-if (races.length === 0) throw new Error("Race roster declares no races");
+// Builds, not races: a race is lore and carries no asset (decision 0054).
+const races = Object.entries(roster.builds ?? {});
+if (races.length === 0) throw new Error("Race roster declares no character builds");
 const bodyTextureHashes = new Map();
 for (const [id, race] of races) {
   if (typeof race.asset !== "string") throw new Error(`Race ${id} is missing its asset path`);
   await assertMatchingGltf(race.asset, race.sha256);
   bodyTextureHashes.set(id, await assertAssembledFace(id, race.asset, race.appearance));
 }
-for (const beast of ["khajiit", "argonian"]) {
-  if (bodyTextureHashes.get(beast) === bodyTextureHashes.get("nord")) {
+for (const beast of Object.keys(roster.builds ?? {}).filter((id) => /^(khajiit|argonian)-/.test(id))) {
+  const human = `nord-${beast.split("-").slice(1).join("-")}`;
+  if (bodyTextureHashes.get(beast) === bodyTextureHashes.get(human)) {
     throw new Error(`Race ${beast} still ships the generic human body diffuse`);
   }
 }

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 /**
  * A character is two tracked binaries: one rig carrying the skeleton and every
- * clip, and one body per race. The animation manifest's support curves and
+ * clip, and one body per character build. The animation manifest's support curves and
  * fitted hurtbox were measured against exact bytes, so a working tree where the
  * manifest and the binaries disagree is a build that is subtly wrong rather
  * than obviously broken.
@@ -14,9 +14,9 @@ describe("tracked runtime character assets", () => {
     const roster = JSON.parse(await readFile(
       new URL("../actors/generated/races.json", import.meta.url),
       "utf8",
-    )) as { rig: { asset: string; sha256: string }; races: Record<string, { asset: string; sha256: string }> };
+    )) as { rig: { asset: string; sha256: string }; builds: Record<string, { asset: string; sha256: string }> };
 
-    const tracked = [roster.rig, ...Object.values(roster.races)];
+    const tracked = [roster.rig, ...Object.values(roster.builds)];
     expect(tracked.length).toBeGreaterThan(1);
     for (const entry of tracked) {
       expect(entry.sha256, entry.asset).toMatch(/^[a-f0-9]{64}$/);

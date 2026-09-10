@@ -1,0 +1,23 @@
+{
+  "id": "orsimer-female-alt",
+  "race": "orsimer",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.3686274588,
+    0.5411764979,
+    0.4862745404
+  ],
+  "hairTint": [
+    0.125,
+    0.140625,
+    0.140625
+  ],
+  "bodyWeight": 50.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013B7D",
+    "editorId": "Shel"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as orsimer-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

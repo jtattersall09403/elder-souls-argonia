@@ -1,0 +1,56 @@
+{
+  "id": "skyrim-playable-races",
+  "notes": "Lore level (decision 0054): a race owns the label, the description and later the stat table. Assets, tints and heightScale belong to a build (race x sex), not here.",
+  "races": {
+    "dunmer": {
+      "id": "dunmer",
+      "label": "Dunmer",
+      "description": "Ash-grey and red-eyed. The old blood of Morrowind."
+    },
+    "nord": {
+      "id": "nord",
+      "label": "Nord",
+      "description": "Skyrim's own: pale, broad and made for cold."
+    },
+    "imperial": {
+      "id": "imperial",
+      "label": "Imperial",
+      "description": "Cyrodiil-born, and it shows in the bearing."
+    },
+    "breton": {
+      "id": "breton",
+      "label": "Breton",
+      "description": "High Rock stock, with a little elf far back."
+    },
+    "redguard": {
+      "id": "redguard",
+      "label": "Redguard",
+      "description": "Yokudan blood. The finest swords in Tamriel came with it."
+    },
+    "altmer": {
+      "id": "altmer",
+      "label": "Altmer",
+      "description": "Tall, golden, and quietly certain of it."
+    },
+    "bosmer": {
+      "id": "bosmer",
+      "label": "Bosmer",
+      "description": "Valenwood-born, small and quick."
+    },
+    "orsimer": {
+      "id": "orsimer",
+      "label": "Orsimer",
+      "description": "Orc, and unbothered by what that has cost."
+    },
+    "khajiit": {
+      "id": "khajiit",
+      "label": "Khajiit",
+      "description": "Elsweyr-born. Watches the room before it enters it."
+    },
+    "argonian": {
+      "id": "argonian",
+      "label": "Argonian",
+      "description": "Saxhleel. Black Marsh raised it, and Black Marsh is not gentle."
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "khajiit-female-alt",
+  "race": "khajiit",
+  "sex": "female",
+  "body": "female-khajiit",
+  "skinTint": [
+    0.5647059083,
+    0.4117647409,
+    0.2980392277
+  ],
+  "hairTint": [
+    0.3671875,
+    0.3203125,
+    0.28125
+  ],
+  "bodyWeight": 0.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001B1DA",
+    "editorId": "Atahba"
+  },
+  "textureSubstitutions": {
+    "textures/actors/character/female/femalebody_1.dds": "textures/actors/character/khajiitfemale/femalebody.dds",
+    "textures/actors/character/female/femalebody_1_msn.dds": "textures/actors/character/khajiitfemale/femalebody_msn.dds",
+    "textures/actors/character/female/femalebody_1_s.dds": "textures/actors/character/khajiitfemale/femalebody_s.dds",
+    "textures/actors/character/female/femalehands_1.dds": "textures/actors/character/khajiitfemale/femalehands.dds",
+    "textures/actors/character/female/femalehands_1_msn.dds": "textures/actors/character/khajiitfemale/femalehands_msn.dds",
+    "textures/actors/character/female/femalehands_1_s.dds": "textures/actors/character/khajiitfemale/femalehands_s.dds"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as khajiit-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

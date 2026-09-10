@@ -1,0 +1,23 @@
+{
+  "id": "imperial-female",
+  "race": "imperial",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.7254902124,
+    0.7019608021,
+    0.6666666865
+  ],
+  "hairTint": [
+    0.203125,
+    0.21875,
+    0.21875
+  ],
+  "bodyWeight": 100.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013347",
+    "editorId": "Alessandra"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied."
+}

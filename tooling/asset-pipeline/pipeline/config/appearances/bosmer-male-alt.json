@@ -1,0 +1,23 @@
+{
+  "id": "bosmer-male-alt",
+  "race": "bosmer",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.5843137503,
+    0.5058823824,
+    0.4352941513
+  ],
+  "hairTint": [
+    0.375,
+    0.2734375,
+    0.2578125
+  ],
+  "bodyWeight": 0.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001CD91",
+    "editorId": "Niruin"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as bosmer-male; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

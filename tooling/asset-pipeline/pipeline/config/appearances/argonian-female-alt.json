@@ -1,0 +1,28 @@
+{
+  "id": "argonian-female-alt",
+  "race": "argonian",
+  "sex": "female",
+  "body": "female-argonian",
+  "skinTint": [
+    0.5647059083,
+    0.4117647409,
+    0.3019607961
+  ],
+  "hairTint": [
+    0.28125,
+    0.1796875,
+    0.1796875
+  ],
+  "bodyWeight": 80.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013382",
+    "editorId": "Wujeeta"
+  },
+  "textureSubstitutions": {
+    "textures/actors/character/female/femalebody_1.dds": "textures/actors/character/argonianfemale/argonianfemalebody.dds",
+    "textures/actors/character/female/femalebody_1_msn.dds": "textures/actors/character/argonianfemale/argonianfemalebody_msn.dds",
+    "textures/actors/character/female/femalebody_1_s.dds": "textures/actors/character/argonianfemale/argonianfemalebody_s.dds"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as argonian-female; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

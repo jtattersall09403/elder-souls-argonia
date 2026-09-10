@@ -1,5 +1,6 @@
 import { bowSight } from "@elder-souls/game-core/combat/bowSight";
 import { CATALOGUE, text } from "@elder-souls/text-catalogue";
+import { buildId } from "@elder-souls/game-core/actors/races";
 import { solveBowAim } from "@elder-souls/game-core/combat/solveBowAim";
 import { bowShoulderPosition } from "@elder-souls/game-core/camera/bowCamera";
 import { useFrame, useThree } from "@react-three/fiber";
@@ -76,7 +77,7 @@ import { totalArmourRating } from "@elder-souls/game-core/equipment/armour";
 import { clearArrows, fireArrow, useArrowStore } from "@elder-souls/game-core/combat/arrowStore";
 import { ActorHealthBar } from "./ActorHealthBar";
 import { Arrows, type ArrowHit } from "./Arrows";
-import { usePlayerRace } from "@elder-souls/game-core/actors/raceStore";
+import { usePlayerBuild } from "@elder-souls/game-core/actors/raceStore";
 import {
   DEFAULT_ENEMY_ARCHETYPE,
   type EnemyArchetype,
@@ -183,6 +184,8 @@ import { Arena } from "./Arena";
 const UP = new THREE.Vector3(0, 1, 0);
 const ENEMY_FELLED_MESSAGE_DURATION = 1.8;
 const PLAYER_HURTBOX_NAME = "player-hurtbox";
+/** Nothing worn. Frozen and shared so it never changes the actor's identity. */
+const NO_WORN_ARMOUR = Object.freeze([]) as readonly never[];
 
 /** Rotate a planted stance about its sole instead of dragging both feet in arcs. */
 function rotateBodyAroundSole(
@@ -985,7 +988,7 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
           offHandProfile={runtime.archetype.loadout.offHand?.visual ?? null}
           animationPacks={enemyAnimationPacks}
           armour={enemyArmour}
-          raceId={runtime.archetype.race}
+          buildId={buildId(runtime.archetype.race, runtime.archetype.sex)}
           speedMultiplierRef={runtime.animationSpeed}
           modelOffsetY={CHARACTER_MODEL_OFFSET}
           equipped
@@ -1075,7 +1078,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // The player's equipped kit. Every moveset, animation and socket the player
   // uses comes from here, so equipping something in the inventory swaps all of
   // them — including what a raised guard is made of.
-  const playerRace = usePlayerRace();
+  const playerBuild = usePlayerBuild();
+  // Evidence-only staging: a fixed camera and a stripped body, so a contact
+  // sheet re-shot after an appearance change is a real pixel diff.
+  const portrait = visualScenario?.portrait ?? null;
   const playerLoadout = useEquippedLoadout();
   const playerArmour = useWornArmour();
   const playerQuiver = useEquippedArrow();
@@ -4075,6 +4081,19 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     camera.position.copy(cameraPosition.current);
     camera.lookAt(cameraLook.current);
     bowAimSnapTarget.current = null;
+    if (portrait) {
+      // Overwrite the follow solve rather than skipping it: the follow camera
+      // owns state the rest of the frame reads, and a portrait is only ever
+      // the last word on where the lens ends up.
+      camera.position.set(...portrait.camera);
+      camera.lookAt(portrait.lookAt[0], portrait.lookAt[1], portrait.lookAt[2]);
+      if (camera instanceof THREE.PerspectiveCamera && camera.fov !== portrait.fieldOfView) {
+        camera.fov = portrait.fieldOfView;
+        camera.near = 0.05;
+        camera.updateProjectionMatrix();
+      }
+      return;
+    }
     if (camera instanceof THREE.PerspectiveCamera) {
       const wanted = THREE.MathUtils.lerp(
         BASE_FIELD_OF_VIEW,
@@ -4249,15 +4268,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           animationTimeRef={playerActionTime}
           animationPoseTimeRef={playerBowPoseTime}
           weaponProfile={playerWeapon.visual}
-          offHandProfile={playerLoadout.offHand?.visual ?? null}
+          offHandProfile={portrait ? null : playerLoadout.offHand?.visual ?? null}
           animationPacks={playerAnimationPacks}
-          armour={playerArmour}
-          quiver={playerQuiverMount}
-          nockedArrow={playerNockedArrow}
+          armour={portrait ? NO_WORN_ARMOUR : playerArmour}
+          quiver={portrait ? null : playerQuiverMount}
+          nockedArrow={portrait ? null : playerNockedArrow}
+          carriedHidden={Boolean(portrait)}
           bowDraw={playerBowDraw}
           firstPerson={aimingSnapshot && aimView === "eye"}
           hidden={firstPersonActive}
-          raceId={playerRace}
+          buildId={playerBuild.id}
           speedMultiplierRef={playerAnimationSpeed}
           modelOffsetY={CHARACTER_MODEL_OFFSET}
           equipped={equipped.current}
@@ -4305,7 +4325,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         <Suspense fallback={null}>
           <FirstPersonBow
             bow={playerWeapon.visual}
-            raceId={playerRace}
+            buildId={playerBuild.id}
             state={firstPersonState}
             bowDraw={playerBowDraw}
             nockedArrow={playerQuiver

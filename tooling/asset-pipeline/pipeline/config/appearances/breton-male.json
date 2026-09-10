@@ -1,0 +1,23 @@
+{
+  "id": "breton-male",
+  "race": "breton",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.6549019814,
+    0.5254902244,
+    0.4784314036
+  ],
+  "hairTint": [
+    0.4375,
+    0.4609375,
+    0.34375
+  ],
+  "bodyWeight": 55,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "000661AD",
+    "editorId": "Adeber"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied."
+}

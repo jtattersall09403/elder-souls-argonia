@@ -7,7 +7,7 @@ import { input } from "@elder-souls/game-core/io/input";
 import { menuForKey, uiMenuInput, type UiMenu } from "@elder-souls/game-core/io/uiMenus";
 import { useVisualViewportVariables } from "@elder-souls/game-core/hud/visualViewport";
 import { InventoryScreen } from "./ui/inventory/InventoryScreen";
-import { RacePicker } from "./ui/RacePicker";
+import { CharacterPicker } from "./ui/CharacterPicker";
 import { enterFullscreen, FullscreenButton } from "./components/FullscreenButton";
 import { Hud } from "./components/Hud";
 import { VisualFrameMarker } from "./components/VisualFrameMarker";
@@ -15,6 +15,8 @@ import { combatAudio } from "@elder-souls/game-core/fx/audio";
 import { useGameStore } from "@elder-souls/game-core/core/store";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
 import { visualScenarioFromSearch } from "@elder-souls/game-core/validation/visualScenarios";
+import { useRaceStore } from "@elder-souls/game-core/actors/raceStore";
+import { CHARACTER_BUILDS } from "@elder-souls/game-core/actors/races";
 import { VISUAL_FRAME_MARKER_HEIGHT } from "@elder-souls/game-core/validation/visualFrameMarker";
 
 /** Recorded-capture only: wall-clock dwell per 30 Hz pose, past presentation. */
@@ -47,6 +49,18 @@ export function App() {
       message: visualScenario.label,
     });
   }, [patch, visualScenario]);
+
+  // The portrait scenario asks for a specific build. It writes to `raceStore`,
+  // the state of record, exactly as the character picker does — this is a
+  // debug entry point into that store, not a second way to choose a character.
+  useEffect(() => {
+    const portrait = visualScenario?.portrait;
+    if (!portrait) return;
+    const selection = CHARACTER_BUILDS[portrait.buildId];
+    if (!selection) throw new Error(`Portrait: unknown build "${portrait.buildId}"`);
+    useRaceStore.getState().setPlayerRace(selection.race);
+    useRaceStore.getState().setPlayerSex(selection.sex);
+  }, [visualScenario]);
 
   useEffect(() => {
     if (!visualScenario) return;
@@ -198,7 +212,7 @@ export function App() {
       >
         <CombatScene visualScenario={visualScenario} />
       </Canvas>
-      <Hud visualScenario={visualScenario} />
+      {!visualScenario?.portrait && <Hud visualScenario={visualScenario} />}
       {started && !looking && !inventoryOpen && !visualScenario && (
         <button className="look-hint" onClick={requestMouseLook}>
           CLICK TO LOOK
@@ -211,7 +225,7 @@ export function App() {
           <div className="title-rule" />
           <p>AN ECCTRL COMBAT PROTOTYPE</p>
           <h1>Ecctrl Combat Sandbox</h1>
-          <RacePicker />
+          <CharacterPicker />
           <button onClick={begin}>ENTER THE ARENA</button>
           <FullscreenButton className="fullscreen-entry" />
           <small>Desktop · touch · GameSir X2s</small>

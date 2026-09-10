@@ -1,0 +1,42 @@
+{
+  "id": "female",
+  "label": "Female humanoid body",
+  "meshDir": "meshes/actors/character/character assets",
+  "meshes": [
+    {
+      "name": "body",
+      "file": "femalebody_1.nif"
+    },
+    {
+      "name": "hands",
+      "file": "femalehands_1.nif"
+    },
+    {
+      "name": "feet",
+      "file": "femalefeet_1.nif"
+    },
+    {
+      "name": "head",
+      "file": "femalehead.nif"
+    },
+    {
+      "name": "eyes",
+      "file": "eyesfemale.nif"
+    },
+    {
+      "name": "mouth",
+      "file": "mouth/mouthhuman.nif"
+    }
+  ],
+  "import": {
+    "create_bones": false,
+    "import_tris": false,
+    "import_animations": false,
+    "import_collisions": false,
+    "blender_xf": true,
+    "rotate_bones_pretty": false,
+    "rename_bones": true,
+    "rename_bones_niftools": true
+  },
+  "notes": "Sibling of the male profile: the same six roles, the female art. Mesh filenames are shared by every humanoid race; races differ by head morph, head normal, eye texture and skin tint."
+}

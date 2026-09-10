@@ -1,0 +1,23 @@
+{
+  "id": "bosmer-female",
+  "race": "bosmer",
+  "sex": "female",
+  "body": "female",
+  "skinTint": [
+    0.4549019933,
+    0.4274510145,
+    0.3372549117
+  ],
+  "hairTint": [
+    0.203125,
+    0.21875,
+    0.21875
+  ],
+  "bodyWeight": 30.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00069F38",
+    "editorId": "Brelas"
+  },
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The body uses that same NPC's QNAM tint and NAM7 weight; hair uses the NPC's HCLF colour. No custom colour grade, brightness change or enemy recolour is applied."
+}

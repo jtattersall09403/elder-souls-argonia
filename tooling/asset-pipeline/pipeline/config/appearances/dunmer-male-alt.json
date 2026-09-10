@@ -1,0 +1,23 @@
+{
+  "id": "dunmer-male-alt",
+  "race": "dunmer",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.3843137622,
+    0.4666666985,
+    0.482352972
+  ],
+  "hairTint": [
+    0.3359375,
+    0.3828125,
+    0.3984375
+  ],
+  "bodyWeight": 10.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001C19F",
+    "editorId": "SavosAren"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as dunmer-male; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

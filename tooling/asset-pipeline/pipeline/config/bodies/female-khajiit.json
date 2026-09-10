@@ -1,0 +1,46 @@
+{
+  "id": "female-khajiit",
+  "label": "Female Khajiit body",
+  "meshDir": "meshes/actors/character/character assets",
+  "meshes": [
+    {
+      "name": "body",
+      "file": "femalebody_1.nif"
+    },
+    {
+      "name": "hands",
+      "file": "femalehands_1.nif"
+    },
+    {
+      "name": "feet",
+      "file": "femalefeet_1.nif"
+    },
+    {
+      "name": "head",
+      "file": "femaleheadkhajiit.nif"
+    },
+    {
+      "name": "eyes",
+      "file": "eyeskhajiit.nif"
+    },
+    {
+      "name": "mouth",
+      "file": "mouth/mouthkhajiit.nif"
+    },
+    {
+      "name": "tail",
+      "file": "femaletailkhajiit.nif"
+    }
+  ],
+  "import": {
+    "create_bones": false,
+    "import_tris": false,
+    "import_animations": false,
+    "import_collisions": false,
+    "blender_xf": true,
+    "rotate_bones_pretty": false,
+    "rename_bones": true,
+    "rename_bones_niftools": true
+  },
+  "notes": "Khajiit share the humanoid female body, hands and feet meshes and differ in head, eyes and mouth. There is no femalehandskhajiit mesh, exactly as there is none on the male side, so the shared hands take Khajiit hand textures. The tail mesh binds to the rig's five auxiliary tail bones."
+}

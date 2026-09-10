@@ -3,8 +3,9 @@
 Vanilla Skyrim draws the player's own hands from a separate first-person
 skeleton with its own arm meshes and clip set (`meshes/actors/character/
 _1stperson/...`). This builds that rig for BOWS ONLY (owner 2026-09-05): the
-first-person skeleton, the male first-person body and hands, and the bow
-clips listed below, into one GLB plus a manifest the runtime reads.
+first-person skeleton, the first-person body and hands of each body the roster
+builds on, and the bow clips listed below, into one GLB per body plus a
+manifest the runtime reads.
 
 Usage:
     python -m pipeline.build_first_person                 # every body variant
@@ -33,10 +34,18 @@ ASSETS = "meshes/actors/character/character assets"
 #: the beast races substitute their own skin textures and, for Argonians, the
 #: clawed first-person hands. Khajiit use the human hand mesh with their own
 #: hand textures, as vanilla does.
+#:
+#: ``appearance`` names the build whose ``textureSubstitutions`` supply the
+#: beast skin; ``None`` means the human art is used as authored. It is a build
+#: id rather than a race because the substitution sources differ by sex
+#: (``khajiitmale/bodymale`` against ``khajiitfemale/femalebody``).
 VARIANTS = {
-    "male": {"meshes": [("body", f"{ASSETS}/1stpersonmalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonmalehands_1.nif")], "race": None},
-    "male-argonian": {"meshes": [("body", f"{ASSETS}/1stpersonmalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonmalehandsargonian_1.nif")], "race": "argonian"},
-    "male-khajiit": {"meshes": [("body", f"{ASSETS}/1stpersonmalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonmalehands_1.nif")], "race": "khajiit"},
+    "male": {"meshes": [("body", f"{ASSETS}/1stpersonmalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonmalehands_1.nif")], "appearance": None, "body": "male"},
+    "male-argonian": {"meshes": [("body", f"{ASSETS}/1stpersonmalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonmalehandsargonian_1.nif")], "appearance": "argonian-male", "body": "male"},
+    "male-khajiit": {"meshes": [("body", f"{ASSETS}/1stpersonmalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonmalehands_1.nif")], "appearance": "khajiit-male", "body": "male"},
+    "female": {"meshes": [("body", f"{ASSETS}/1stpersonfemalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonfemalehands_1.nif")], "appearance": None, "body": "female"},
+    "female-argonian": {"meshes": [("body", f"{ASSETS}/1stpersonfemalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonfemalehandsargonian_1.nif")], "appearance": "argonian-female", "body": "female"},
+    "female-khajiit": {"meshes": [("body", f"{ASSETS}/1stpersonfemalebody_1.nif"), ("hands", f"{ASSETS}/1stpersonfemalehands_1.nif")], "appearance": "khajiit-female", "body": "female"},
 }
 CLIP_DIR = "meshes/actors/character/_1stperson/animations"
 #: Semantic -> first-person HKX. The runtime's bow states map onto these.
@@ -85,8 +94,8 @@ def build_variant(variant: str, spec: dict) -> dict:
     # A beast race's skin arrives the way the body build does it: the archive's
     # file written into the path the NIF asks for.
     substituted = 0
-    if spec["race"]:
-        race = json.loads((CONFIG / "races" / f"{spec['race']}.json").read_text())
+    if spec["appearance"]:
+        race = json.loads((CONFIG / "appearances" / f"{spec['appearance']}.json").read_text())
         for referenced, source in race.get("textureSubstitutions", {}).items():
             if referenced not in wanted:
                 continue
@@ -109,7 +118,7 @@ def build_variant(variant: str, spec: dict) -> dict:
         clips[semantic] = to_windows(data_root / archive_path)
 
     rig = json.loads((CONFIG / "rigs" / "skyrim-humanoid.json").read_text())
-    body = json.loads((CONFIG / "bodies" / "male.json").read_text())
+    body = json.loads((CONFIG / "bodies" / f"{spec['body']}.json").read_text())
     output_glb = (ROOT / "output" / f"rig-skyrim-first-person.bow.{variant}.glb").resolve()
     summary_json = work / "summary.json"
     summary_json.unlink(missing_ok=True)
@@ -162,12 +171,23 @@ def build(only: list[str] | None = None) -> dict:
     manifest_path = (ROOT / "output" / "rig-skyrim-first-person.bow.json").resolve()
     previous = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     variants = dict(previous.get("variants", {}))
+    # A partial run merges into the previous manifest, which lives in the
+    # gitignored output tree. On a fresh checkout that tree is empty, so a
+    # `--only female` run would quietly ship a manifest naming three variants
+    # out of six and the game would silently fall back to male arms for every
+    # other body. Refuse instead.
+    if only and set(VARIANTS) - set(variants) - set(only):
+        raise RuntimeError(
+            "output/rig-skyrim-first-person.bow.json does not carry the variants this "
+            f"run is not building ({sorted(set(VARIANTS) - set(variants) - set(only))}). "
+            "Copy the installed manifest into output/, or build every variant."
+        )
     for variant, summary in summaries.items():
         variants[variant] = {"asset": summary["asset"], "meshes": [name for name, _ in VARIANTS[variant]["meshes"]]}
     reference = summaries.get("male") or next(iter(summaries.values()))
     manifest = {
         "schemaVersion": 2,
-        "source": "Skyrim vanilla _1stperson skeleton, 1stpersonmalebody/hands (+argonian hands, beast skin substitutions), bow_* first-person clips (locally regenerated authorized runtime build)",
+        "source": "Skyrim vanilla _1stperson skeleton, 1stperson{male,female}body/hands (+argonian hands, beast skin substitutions), bow_* first-person clips (locally regenerated authorized runtime build)",
         # One GLB per body the races are built on; `RaceDefinition.body` picks.
         "variants": variants,
         "bones": {"camera": "Camera1st [Cam1]", "weapon": "Weapon", "shield": "Shield", "rightHand": "NPC Hand [Hnd].R", "leftHand": "NPC Hand [Hnd].L"},

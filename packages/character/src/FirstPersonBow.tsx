@@ -9,7 +9,7 @@ import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 
 import { CHARACTER_SCALE, sanitizeBoneName } from "@elder-souls/game-core/anim/animationManifest";
 import { FIRST_PERSON_BOW_MANIFEST, firstPersonBowAsset, type FirstPersonBowClip } from "@elder-souls/game-core/anim/firstPersonBowManifest";
-import { DEFAULT_RACE, raceById, type RaceId } from "@elder-souls/game-core/actors/races";
+import { DEFAULT_BUILD, characterBuild, type CharacterBuildId } from "@elder-souls/game-core/actors/races";
 import { applyAppearance } from "@elder-souls/game-core/actors/appearance";
 import type { WeaponVisualProfile } from "@elder-souls/game-core/core/types";
 
@@ -64,7 +64,7 @@ function carryClip(drawn: boolean, move: { x: number; y: number }, magnitude: nu
 
 export function FirstPersonBow({
   bow,
-  raceId = DEFAULT_RACE,
+  buildId = DEFAULT_BUILD,
   state,
   bowDraw,
   nockedArrow,
@@ -74,7 +74,7 @@ export function FirstPersonBow({
   /** The held bow's visual profile (its rigged build mounts on the arms). */
   bow: WeaponVisualProfile;
   /** Picks the arms for the race's body and tints their skin as the body is. */
-  raceId?: RaceId;
+  buildId?: CharacterBuildId;
   state: MutableRefObject<FirstPersonBowState>;
   bowDraw: BowDrawRefs;
   nockedArrow: {
@@ -87,7 +87,7 @@ export function FirstPersonBow({
   cameraOut: MutableRefObject<THREE.Vector3>;
   visible: boolean;
 }) {
-  const race = raceById(raceId);
+  const race = characterBuild(buildId);
   const gltf = useGLTF(assetUrl(firstPersonBowAsset(race.body)));
   const model = useMemo(() => {
     const instance = clone(gltf.scene);

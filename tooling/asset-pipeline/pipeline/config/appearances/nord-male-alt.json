@@ -1,0 +1,23 @@
+{
+  "id": "nord-male-alt",
+  "race": "nord",
+  "sex": "male",
+  "body": "male",
+  "skinTint": [
+    0.7764706612,
+    0.6901960969,
+    0.6588235497
+  ],
+  "hairTint": [
+    0.4375,
+    0.4609375,
+    0.34375
+  ],
+  "bodyWeight": 100.0,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013475",
+    "editorId": "Alvor"
+  },
+  "notes": "Comparison-sheet alternate, never shipped as playable. Same body and texture set as nord-male; a different Skyrim.esm donor, chosen to look clearly unlike the default. Values read from the plugin, not transcribed."
+}

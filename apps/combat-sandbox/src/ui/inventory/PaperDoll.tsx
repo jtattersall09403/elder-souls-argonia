@@ -6,7 +6,7 @@ import { CHARACTER_MODEL_OFFSET } from "@elder-souls/game-core/physics/character
 import { SkyrimFighter } from "@elder-souls/character";
 import { loadoutAnimationPacks } from "@elder-souls/game-core/equipment/animationPacks";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
-import { usePlayerRace } from "@elder-souls/game-core/actors/raceStore";
+import { usePlayerBuild } from "@elder-souls/game-core/actors/raceStore";
 
 /**
  * The character panel: the real production actor, holding what is actually
@@ -19,7 +19,7 @@ import { usePlayerRace } from "@elder-souls/game-core/actors/raceStore";
 function Doll() {
   const loadout = useEquippedLoadout();
   const armour = useWornArmour();
-  const raceId = usePlayerRace();
+  const build = usePlayerBuild();
   const command = useRef(createAnimationCommand(loadout.mainHand.animations.combatIdle));
   const time = useRef(0);
   const equipped = useRef(true);
@@ -52,7 +52,7 @@ function Doll() {
       offHandProfile={loadout.offHand?.visual ?? null}
       animationPacks={packs}
       armour={armour}
-      raceId={raceId}
+      buildId={build.id}
       modelOffsetY={CHARACTER_MODEL_OFFSET}
       equipped
       equippedRef={equipped}

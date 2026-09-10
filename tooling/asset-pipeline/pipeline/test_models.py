@@ -128,9 +128,9 @@ class FaceGenSourceTests(unittest.TestCase):
     def test_resolved_facegen_replaces_generic_visible_head_parts(self):
         plan = resolve_character("skyrim-playable", {
             "id": "facegen-contract-test",
-            "race": "nord",
+            "appearance": "nord-male",
             "exports": [],
-            "output": "output/races/nord.glb",
+            "output": "output/races/nord-male.glb",
             "manifestOutput": "output/test.animations.json",
         })
         names = {mesh.name for mesh in plan.meshes}

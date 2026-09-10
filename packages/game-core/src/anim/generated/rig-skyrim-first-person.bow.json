@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "source": "Skyrim vanilla _1stperson skeleton, 1stpersonmalebody/hands (+argonian hands, beast skin substitutions), bow_* first-person clips (locally regenerated authorized runtime build)",
+  "source": "Skyrim vanilla _1stperson skeleton, 1stperson{male,female}body/hands (+argonian hands, beast skin substitutions), bow_* first-person clips (locally regenerated authorized runtime build)",
   "variants": {
     "male": {
       "asset": "rig-skyrim-first-person.bow.male.glb",
@@ -18,6 +18,27 @@
     },
     "male-khajiit": {
       "asset": "rig-skyrim-first-person.bow.male-khajiit.glb",
+      "meshes": [
+        "body",
+        "hands"
+      ]
+    },
+    "female": {
+      "asset": "rig-skyrim-first-person.bow.female.glb",
+      "meshes": [
+        "body",
+        "hands"
+      ]
+    },
+    "female-argonian": {
+      "asset": "rig-skyrim-first-person.bow.female-argonian.glb",
+      "meshes": [
+        "body",
+        "hands"
+      ]
+    },
+    "female-khajiit": {
+      "asset": "rig-skyrim-first-person.bow.female-khajiit.glb",
       "meshes": [
         "body",
         "hands"

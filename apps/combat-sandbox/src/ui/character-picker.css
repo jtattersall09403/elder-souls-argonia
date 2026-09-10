@@ -1,0 +1,100 @@
+/* Race and sex selection on the title screen. Shares the title screen's
+   restraint: a small segmented toggle, a fixed 5-column grid and one line of
+   flavour, nothing that competes with the title itself. Active state is the
+   title screen's gold fill. */
+
+.character-picker {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  max-width: 520px;
+  margin: 6px auto 12px;
+}
+
+.character-picker-prompt {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.character-picker-sex {
+  display: flex;
+  border: 1px solid #4a4231;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+/* The title screen sizes its own buttons for a single call to action; these are
+   the opposite shape, so they opt out of that width explicitly. */
+.title-screen .character-picker-segment,
+.title-screen .character-picker-cell,
+.character-picker-segment,
+.character-picker-cell {
+  min-width: 0;
+  font: inherit;
+  color: #cdc3ab;
+  background: rgba(12, 12, 11, 0.7);
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color 120ms, color 120ms, background 120ms;
+}
+
+.character-picker-segment {
+  padding: 5px 22px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+}
+
+.character-picker-segment + .character-picker-segment { border-left: 1px solid #4a4231; }
+
+.character-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 96px);
+  gap: 6px;
+}
+
+.character-picker-cell {
+  padding: 6px 4px;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  border: 1px solid #4a4231;
+  border-radius: 3px;
+}
+
+.character-picker-segment:hover,
+.character-picker-cell:hover { border-color: #8a7749; color: #efe4c6; }
+
+.character-picker-segment:focus-visible,
+.character-picker-cell:focus-visible {
+  outline: 1px solid #e2cf9a;
+  outline-offset: 2px;
+}
+
+.character-picker-segment[data-active],
+.character-picker-cell[data-active] {
+  color: #0d0c0a;
+  background: #cbb87f;
+  border-color: #e2cf9a;
+}
+
+.character-picker-identity {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c9b993;
+}
+
+.character-picker-flavour {
+  margin: 0;
+  min-height: 2.4em;
+  max-width: 46ch;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+  opacity: 0.7;
+}

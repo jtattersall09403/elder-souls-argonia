@@ -1,7 +1,7 @@
 import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import type { AnimationState } from "../core/types";
 import type { Loadout } from "../equipment/types";
-import { DEFAULT_RACE, type RaceId } from "./races";
+import { DEFAULT_RACE, DEFAULT_SEX, type RaceId, type Sex } from "./races";
 import { STRAIGHT_SWORD, shieldById, weaponById } from "../equipment/arsenal";
 import type { ShieldDefinition, WeaponDefinition } from "../equipment/types";
 
@@ -72,8 +72,9 @@ export type EnemyArchetype = {
   maxHealth: number;
   maxStamina: number;
   estus: number;
-  /** Which body this creature wears on the shared rig. */
+  /** Which body this creature wears on the shared rig: race and sex (0054). */
   race: RaceId;
+  sex: Sex;
   loadout: Loadout;
   /** Worn armour, by item id. Resolved at spawn so archetypes stay pure data. */
   armour: readonly string[];
@@ -95,6 +96,7 @@ export const HOLLOW_WARDEN: EnemyArchetype = {
   maxStamina: 100,
   estus: 1,
   race: DEFAULT_RACE,
+  sex: DEFAULT_SEX,
   loadout: { mainHand: STRAIGHT_SWORD, offHand: null },
   armour: ["iron-cuirass", "iron-gauntlets", "iron-boots"],
   locomotion: {
