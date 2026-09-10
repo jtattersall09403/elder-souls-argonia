@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./settlement/SettlementLayer": "./src/settlement/SettlementLayer.tsx",
+    "./air/AmbientAir": "./src/air/AmbientAir.tsx",
     "./water/render/WaterSurface": "./src/water/render/WaterSurface.tsx",
     "./water/render/WaterPipeline": "./src/water/render/WaterPipeline.tsx",
     "./*": "./src/*.ts"

@@ -30,6 +30,7 @@ import { waterTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
+import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
 import { reapplySettlementSurface } from "@elder-souls/game-core/settlement/materials";
 
@@ -103,6 +104,17 @@ function humidityAt(xM: number, zM: number, extentM: number): number {
   const px = Math.max(0, Math.min(airPixels.w - 1, Math.round((xM / extentM) * (airPixels.w - 1))));
   const py = Math.max(0, Math.min(airPixels.h - 1, Math.round((zM / extentM) * (airPixels.h - 1))));
   return airPixels.data[(py * airPixels.w + px) * 4] / 255;
+}
+/** Canopy closure 0..1 — the BLUE channel of the same climate-air raster
+ * humidityAt reads (see climateSampler's header). The sun shafts need to know
+ * whether there is a roof overhead; with no raster loaded yet the honest
+ * answer is "none", which keeps them off rather than hanging them in open
+ * sky. */
+function canopyAt(xM: number, zM: number, extentM: number): number {
+  if (!airPixels) return 0;
+  const px = Math.max(0, Math.min(airPixels.w - 1, Math.round((xM / extentM) * (airPixels.w - 1))));
+  const py = Math.max(0, Math.min(airPixels.h - 1, Math.round((zM / extentM) * (airPixels.h - 1))));
+  return airPixels.data[(py * airPixels.w + px) * 4 + 2] / 255;
 }
 
 // ---------- sky dome (Preetham day + authored night, one patched shader) ----------
@@ -910,6 +922,7 @@ void main() {
     [moonDefs],
   );
   const moonRefs = useRef<(THREE.Mesh | null)[]>([]);
+  const airRef = useRef<AmbientAirConditions | null>(null);
   const starsRef = useRef<THREE.Points>(null);
   const serpentRef = useRef<THREE.Points>(null);
   const hemiRef = useRef<THREE.HemisphereLight>(null);
@@ -1232,6 +1245,41 @@ void main() {
     const veil = Math.min(1, rig.cloudCov[2] + 0.6 * rig.cloudCov[1]);
     extras.uMoonGlowWide.value.set(16 - 7 * veil, 23 - 9 * veil);
 
+    // Ambient air conditions (owner 2026-09-10). Everything the fireflies,
+    // midges, pollen, leaf fall and sun shafts key on is already computed
+    // above for the sky and the weather, so the layer derives its own
+    // presence rules from world state rather than being switched on by hand.
+    // `canopy` is the one value the sky does not hold: without a vegetation
+    // density sample it stays 0 and the sun shafts stay off, which is the
+    // honest default — a shaft with no canopy casting it is a cone of fog.
+    if (!airRef.current) {
+      airRef.current = {
+        sunDir: new THREE.Vector3(),
+        sunAltDeg: 0,
+        sunColour: new THREE.Color(),
+        humidity: 0.6,
+        rain: 0,
+        cloud: 0,
+        windSpeed: 0,
+        windDirXZ: [1, 0],
+        canopy: 0,
+        exposure: 1,
+      };
+    }
+    {
+      const a = airRef.current;
+      a.sunDir.copy(sunDir);
+      a.sunAltDeg = sunAltDeg;
+      a.sunColour.setRGB(...rig.sunColor);
+      a.humidity = humidity;
+      a.rain = wx.rainIntensity;
+      a.cloud = Math.min(1, rig.cloudCov[0] + rig.cloudCov[1] + 0.5 * rig.cloudCov[2]);
+      a.windSpeed = wx.windSpeedMS;
+      a.windDirXZ = wx.windDirXZ;
+      a.canopy = canopyAt(camera.position.x, camera.position.z, extentM);
+      a.exposure = rig.exposureTarget;
+    }
+
     // Exposure: ease toward the target (eye adaptation); snap when paused or
     // scrubbed so fixed-instant probes are deterministic.
     const jumped =
@@ -1351,6 +1399,13 @@ void main() {
       <directionalLight ref={moonLightRef} intensity={0} />
       <primitive object={moonLightTarget} />
       <RainSystem count={rainBudget} extentM={extentM} />
+      {/* Ambient air (owner 2026-09-10): fireflies, midges, pollen, leaf
+          fall and sun shafts. Mounted HERE rather than in each mode's own
+          scene because WorldSky already holds every signal the layer is
+          keyed on, and both canvases wrap their world in it. Conditions go
+          by ref — they change every frame, and props would re-render the
+          React tree at frame rate. */}
+      <AmbientAir conditions={airRef} />
       {children}
     </SkyContext.Provider>
   );
