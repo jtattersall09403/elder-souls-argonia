@@ -123,3 +123,19 @@ compare faces side by side. It is **never shipped as playable**: its GLBs go to
 ```bash
 python3 -m pipeline.build_races --roster sheet-variants --skip-reference
 ```
+
+## Last step: re-shoot the evidence
+
+Changing an appearance is not finished until the contact sheet shows it. From
+`apps/combat-sandbox`:
+
+```bash
+node scripts/render-character-sheet.mjs \
+  --roster playable --sex male \
+  --out ../../docs/evidence/races/current-defaults.png
+```
+
+The renderer, what it pins and when a re-shoot is worth running are all in
+[`../validation/character-sheets.md`](../validation/character-sheets.md). Shoot
+to a scratch path first and compare, so the committed sheet moves only for the
+change you made.

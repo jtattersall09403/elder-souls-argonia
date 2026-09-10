@@ -3,6 +3,7 @@ import type { EnemyIntent } from "../ai/enemyAi";
 import type { InputAction, InputController } from "../io/input";
 import { CHARACTER_BODY_CENTER_HEIGHT } from "../physics/characterPhysics";
 import { COMBAT_TUNING } from "../combat/weapon";
+import { CHARACTER_BUILDS } from "../actors/races";
 
 export const VISUAL_SCENARIO_IDS = [
   "locomotion-free",
@@ -99,7 +100,7 @@ type EnemyCue = VisualScenarioEnemyCue & {
 };
 
 export type VisualScenario = {
-  id: VisualScenarioId;
+  id: VisualScenarioId | typeof PORTRAIT_SCENARIO_ID;
   label: string;
   warmup: number;
   duration: number;
@@ -155,6 +156,12 @@ export type VisualScenario = {
   };
   cues: readonly InputCue[];
   enemyCues?: readonly EnemyCue[];
+  /**
+   * Set only by the dev-only portrait scenario below. Its presence means: fixed
+   * camera, no armour, no carried weapons, no HUD — a contact-sheet shot, not a
+   * combat review.
+   */
+  portrait?: PortraitStaging;
 };
 
 const Y = CHARACTER_BODY_CENTER_HEIGHT;
@@ -1216,8 +1223,90 @@ export class VisualScenarioDriver {
   }
 }
 
+/**
+ * The dev-only portrait scenario, for the evidence contact sheets.
+ *
+ * It is a visual scenario like any other — same URL parameter, same driver,
+ * same readiness telemetry — and deliberately *not* a member of
+ * `VISUAL_SCENARIOS`, so it never joins the recorded animation suite and never
+ * needs an animation-run contract. It has no cues: the character stands in
+ * IDLE while the fixed-step clock advances, and the sheet renderer screenshots
+ * it when the driver reports done. Same step count every run, so the same
+ * IDLE phase every run.
+ *
+ * This is evidence tooling. The state of record for who the player is remains
+ * `raceStore`; the `build` parameter only writes to it, in the dev path.
+ */
+export const PORTRAIT_SCENARIO_ID = "portrait";
+export type PortraitShot = "face" | "body";
+
+export type PortraitStaging = {
+  buildId: string;
+  shot: PortraitShot;
+  /** Fixed world camera. Never follows, never blends, never shakes. */
+  camera: readonly [number, number, number];
+  lookAt: readonly [number, number, number];
+  fieldOfView: number;
+};
+
+/**
+ * Where the camera stands for each shot, in metres, with the character at the
+ * origin facing +Z (towards the camera).
+ *
+ * Fixed rather than fitted to the head bone on purpose: a frame that adapts to
+ * the build would hide exactly the differences the sheet exists to show, and
+ * would make two runs incomparable. A build that does not fit the frame is a
+ * result, not a framing bug.
+ */
+const PORTRAIT_SHOTS: Record<PortraitShot, Omit<PortraitStaging, "buildId" | "shot">> = {
+  // Head height measured off the body shot: the reference male stands 1.90 m,
+  // crown 1.90, chin 1.66. A level lens at 1.80 over a 0.46 m tall frame holds
+  // the whole head, with room for the Argonian and Khajiit muzzles, which sit
+  // higher on the skull than a human nose. The height rides the build's own
+  // `heightScale` (see `portraitScenario`), which is a roster constant, not a
+  // measurement of the running scene — so the frame is still fixed per build
+  // and two runs still diff.
+  face: { camera: [0, 1.8, 0.8], lookAt: [0, 1.8, 0], fieldOfView: 32 },
+  body: { camera: [0, 1.05, 4.1], lookAt: [0, 0.95, 0], fieldOfView: 34 },
+};
+
+/** Simulated seconds before the shot: enough for load, warm-up and settle. */
+const PORTRAIT_DURATION_SECONDS = 1.5;
+
+export function portraitScenario(buildId: string, shot: PortraitShot): VisualScenario {
+  const framing = PORTRAIT_SHOTS[shot];
+  // An Altmer stands 8% taller than a Dunmer, so a single eye height would put
+  // four of the ten heads out of the face frame. The roster's own number is the
+  // honest correction: deterministic, per build, and known before the run.
+  const scale = shot === "face" ? CHARACTER_BUILDS[buildId]?.heightScale ?? 1 : 1;
+  const staging = {
+    ...framing,
+    camera: [framing.camera[0], framing.camera[1] * scale, framing.camera[2]] as const,
+    lookAt: [framing.lookAt[0], framing.lookAt[1] * scale, framing.lookAt[2]] as const,
+  };
+  return {
+    id: PORTRAIT_SCENARIO_ID,
+    label: `Portrait · ${buildId} · ${shot}`,
+    warmup: 0,
+    duration: PORTRAIT_DURATION_SECONDS,
+    // Yaw is the bearing the actor faces, atan2(x, z). The camera sits on +Z,
+    // so a yaw of zero puts the face in the lens.
+    player: { position: [0, Y, 0], yaw: 0, equipped: false, emptyOffHand: true },
+    enemy: SOLO_ENEMY,
+    cues: [],
+    portrait: { buildId, shot, ...staging },
+  };
+}
+
 export function visualScenarioFromSearch(search: string): VisualScenario | null {
-  const id = new URLSearchParams(search).get("scenario");
+  const parameters = new URLSearchParams(search);
+  const id = parameters.get("scenario");
+  if (id === PORTRAIT_SCENARIO_ID) {
+    const buildId = parameters.get("build");
+    const shot = parameters.get("shot");
+    if (!buildId || (shot !== "face" && shot !== "body")) return null;
+    return portraitScenario(buildId, shot);
+  }
   return id && VISUAL_SCENARIO_IDS.includes(id as VisualScenarioId)
     ? VISUAL_SCENARIOS[id as VisualScenarioId]
     : null;

@@ -1158,6 +1158,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // clip faster and the actual travel speed slightly slower brings the visual
   // stride cadence and the physical ground speed back into rough agreement.
   const playerAnimationSpeed = useRef(1);
+  // A portrait holds the idle clip at its first frame. The mixer starts the
+  // moment the GLB finishes decoding, which is a variable number of frames
+  // before the scenario driver arms, so a *running* idle reaches a different
+  // point in its cycle on every run and two sheets could not be diffed.
+  const portraitFrozenSpeed = useRef(0);
   const playerMoveSpeed = useRef(0);
   const playerVisualProbe = useRef(createActorVisualProbe());
   const landingArmed = useRef(false);
@@ -4278,7 +4283,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           firstPerson={aimingSnapshot && aimView === "eye"}
           hidden={firstPersonActive}
           buildId={playerBuild.id}
-          speedMultiplierRef={playerAnimationSpeed}
+          speedMultiplierRef={portrait ? portraitFrozenSpeed : playerAnimationSpeed}
           modelOffsetY={CHARACTER_MODEL_OFFSET}
           equipped={equipped.current}
           equippedRef={equipped}

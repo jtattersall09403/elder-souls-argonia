@@ -532,14 +532,14 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   Bosmer/root pier, or re-author the window as a stepped ascent.
 - **The character sheets label their donor NPCs with editor ids, because the
   vault has no string tables.** `Skyrim.esm` is a localised plugin, so every
-  NPC's `FULL` field is a four-byte string id — Dravin's is 61944 — and
+  NPC's `FULL` field is a four-byte string id (Dravin's is 61944).
   `Skyrim_English.STRINGS` and its `.DL`/`.IL` siblings are not in the asset
   vault, nor is the `Skyrim - Interface.bsa` that would carry them. Measured
   2026-09-10. So `apps/combat-sandbox/scripts/render-character-sheet.mjs` shows
-  `Kharag Gro Shurkul` where the game shows `Kharag gro-Shurkul`, and one donor
+  `Kharag Gro Shurkul` where the game shows `Kharag gro-Shurkul`. One donor
   (`EncWarlockIce03BossHighElfM`) has no name at all. This is a **sourcing gap**:
   the missing input is those three files from a Skyrim install. Once they are in
   the vault the fix belongs in `pipeline/npc_records.py`, which already parses
-  the record — read `FULL`, resolve it, carry the name in the roster — and the
-  renderer labels the card from the roster. The format is a uint32 count, a
-  uint32 data size, then `(stringId, offset)` pairs into a null-terminated blob.
+  the record: read `FULL`, resolve it, carry the name in the roster. The renderer
+  then labels the card from the roster. The format is a uint32 count, a uint32
+  data size, then `(stringId, offset)` pairs into a null-terminated blob.

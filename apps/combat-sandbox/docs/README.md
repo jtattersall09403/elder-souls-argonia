@@ -38,6 +38,7 @@ view model are core, its stylesheet is not. See
 | [assets/rebuilding-the-character.md](assets/rebuilding-the-character.md) | Rebuild the character GLB from Skyrim source |
 | [assets/animation-source-audit.md](assets/animation-source-audit.md) | Selected Skyrim clips, external-source provenance, and audition results |
 | [validation/animation-recordings.md](validation/animation-recordings.md) | When to run the animation probes vs. record video for the owner to review |
+| [validation/character-sheets.md](validation/character-sheets.md) | Re-shooting the race contact sheets after an appearance change |
 
 ## Non-negotiables
 
