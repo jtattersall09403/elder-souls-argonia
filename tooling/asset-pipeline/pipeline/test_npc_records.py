@@ -30,6 +30,34 @@ KNOWN_WEIGHTS = {
     "00013353": 20,  # Dravin Llanith
 }
 
+#: config/races/<id>.json -> the Skyrim RACE its heightScale was copied from.
+CONFIG_RACES = {
+    "nord": "NordRace",
+    "imperial": "ImperialRace",
+    "breton": "BretonRace",
+    "redguard": "RedguardRace",
+    "altmer": "HighElfRace",
+    "bosmer": "WoodElfRace",
+    "dunmer": "DarkElfRace",
+    "orsimer": "OrcRace",
+    "khajiit": "KhajiitRace",
+    "argonian": "ArgonianRace",
+}
+
+
+def _npc(name: str, skin, hair, weight, facegen=True, parts=("HairX",)) -> nr.NpcRecord:
+    return nr.NpcRecord(
+        formId="00000001",
+        editorId=name,
+        isFemale=True,
+        raceEditorId="NordRace",
+        skinTint=skin,
+        hairTint=hair,
+        bodyWeight=weight,
+        headParts=parts,
+        hasFaceGen=facegen,
+    )
+
 
 def _sub(sig: bytes, payload: bytes) -> bytes:
     return sig + struct.pack("<H", len(payload)) + payload
@@ -117,6 +145,48 @@ def test_npc_subrecords_are_collected():
     assert npc["headParts"] == [1, 2]
 
 
+def test_race_data_yields_both_sexes_heights():
+    data = _sub(b"EDID", b"NordRace\x00") + _sub(
+        b"DATA", b"\x00" * nr._RACE_SCALES + struct.pack("<ffff", 1.03, 1.0, 1.0, 0.9) + b"\x00" * 96
+    )
+    race = nr._parse_race(0x13746, data)
+    assert (race.editorId, race.formId) == ("NordRace", "00013746")
+    assert (race.maleHeight, race.femaleHeight) == pytest.approx((1.03, 1.0))
+    assert (race.maleWeight, race.femaleWeight) == pytest.approx((1.0, 0.9))
+
+
+# -- donor selection --------------------------------------------------------
+
+
+def test_donor_candidate_requires_every_appearance_field():
+    good = _npc("Good", (0.5, 0.5, 0.5), (0.2, 0.2, 0.2), 40.0)
+    assert nr.is_donor_candidate(good)
+    from dataclasses import replace
+
+    assert not nr.is_donor_candidate(replace(good, hasFaceGen=False))
+    assert not nr.is_donor_candidate(replace(good, skinTint=None))
+    assert not nr.is_donor_candidate(replace(good, hairTint=None))
+    assert not nr.is_donor_candidate(replace(good, bodyWeight=None))
+    assert not nr.is_donor_candidate(replace(good, headParts=()))
+
+
+def test_most_distinct_drops_the_near_duplicate():
+    pale = _npc("Pale", (0.9, 0.9, 0.9), (0.9, 0.9, 0.9), 100.0)
+    twin = _npc("Twin", (0.9, 0.9, 0.9), (0.9, 0.9, 0.9), 99.0)
+    dark = _npc("Dark", (0.1, 0.1, 0.1), (0.1, 0.1, 0.1), 0.0)
+    picked = {n.editorId for n in nr.most_distinct([pale, twin, dark], 2)}
+    assert picked == {"Pale", "Dark"}
+    assert len(nr.most_distinct([pale, twin, dark], 9)) == 3
+
+
+def test_hair_and_brows_ignores_eyes_and_scars():
+    npc = _npc(
+        "N", (0.5,) * 3, (0.2,) * 3, 40.0,
+        parts=("MarksFemaleArgonianScar04", "FemaleEyesArgonianOlive", "HairArgonianFemale04"),
+    )
+    assert nr._hair_and_brows(npc) == "HairArgonianFemale04"
+
+
 # -- vault-dependent --------------------------------------------------------
 
 
@@ -125,6 +195,29 @@ def test_known_npcs_reproduce_their_transcribed_weights():
     npcs = nr.load_npcs()
     for form_id, weight in KNOWN_WEIGHTS.items():
         assert npcs[form_id].bodyWeight == pytest.approx(weight), form_id
+
+
+@pytest.mark.skipif(not HAVE_VAULT, reason="Skyrim.esm not present")
+def test_male_heights_reproduce_every_transcribed_height_scale():
+    """The whole point of the RACE parse: the ten hand-typed heightScale values
+    must fall out of the plugin, or the offset is wrong."""
+    races = nr.load_races()
+    for config_id, race_id in CONFIG_RACES.items():
+        expected = json.loads((RACES / f"{config_id}.json").read_text())["heightScale"]
+        assert races[race_id].maleHeight == pytest.approx(expected, abs=1e-6), config_id
+
+
+@pytest.mark.skipif(not HAVE_VAULT, reason="Skyrim.esm not present")
+def test_female_heights_are_plausible_body_scales():
+    """Female height has no counterpart in the repo to check against, so pin
+    the races where it *differs* from the male value -- if the offset were
+    wrong or aliased onto the male field these would collapse to equality."""
+    races = nr.load_races()
+    assert races["BretonRace"].femaleHeight == pytest.approx(0.95, abs=1e-6)
+    assert races["KhajiitRace"].femaleHeight == pytest.approx(0.95, abs=1e-6)
+    assert races["WoodElfRace"].femaleHeight == pytest.approx(1.0, abs=1e-6)
+    for race_id in nr.PLAYABLE_RACES:
+        assert 0.9 <= races[race_id].femaleHeight <= 1.1, race_id
 
 
 @pytest.mark.skipif(not HAVE_VAULT, reason="Skyrim.esm not present")
