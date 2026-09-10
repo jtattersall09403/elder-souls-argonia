@@ -302,11 +302,14 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       {
         float esAngA = acos(clamp(dot(direction, uMoonGlowDirA), -1.0, 1.0));
         float esAngB = acos(clamp(dot(direction, uMoonGlowDirB), -1.0, 1.0));
+        // Round 2: the first version was too tight to notice — the aureole
+        // was gone within 2-3 degrees of a disc that is itself about 1 wide.
+        // Slower exponents and a fatter skirt give a halo with some reach.
         vec3 esMoonGlow =
-            uMoonGlowColA * (exp(-esAngA * 55.0) * 0.60
-              + 1.0 / (1.0 + pow(esAngA * uMoonGlowWide.x, 2.2)) * 0.22)
-          + uMoonGlowColB * (exp(-esAngB * 75.0) * 0.45
-              + 1.0 / (1.0 + pow(esAngB * uMoonGlowWide.y, 2.2)) * 0.13);
+            uMoonGlowColA * (exp(-esAngA * 22.0) * 0.75
+              + 1.0 / (1.0 + pow(esAngA * uMoonGlowWide.x, 2.0)) * 0.45)
+          + uMoonGlowColB * (exp(-esAngB * 34.0) * 0.55
+              + 1.0 / (1.0 + pow(esAngB * uMoonGlowWide.y, 2.0)) * 0.28);
         // Two full moons close together would otherwise sum to a flat white
         // patch; a Reinhard knee on this term alone lets the overlap
         // saturate gracefully instead of clipping.
@@ -1242,7 +1245,7 @@ void main() {
       // Masser is the larger, dimmer, rust-red body and Secunda the smaller,
       // brighter, pale one, so they take different constants; one shared set
       // makes them read as matched twins, which Tamriel's sky is not.
-      const glowK = i === 0 ? 0.34 : 0.2;
+      const glowK = i === 0 ? 0.9 : 0.55;
       const amt = (glowK / rig.exposureTarget) * dayDim * m.illuminatedFraction;
       const dirU = i === 0 ? extras.uMoonGlowDirA : extras.uMoonGlowDirB;
       const colU = i === 0 ? extras.uMoonGlowColA : extras.uMoonGlowColB;
@@ -1255,7 +1258,7 @@ void main() {
     // = wider skirt. Thick cloud does not widen anything — it removes the
     // glow through the occlusion term above.
     const veil = Math.min(1, rig.cloudCov[2] + 0.6 * rig.cloudCov[1]);
-    extras.uMoonGlowWide.value.set(16 - 7 * veil, 23 - 9 * veil);
+    extras.uMoonGlowWide.value.set(7.5 - 3.0 * veil, 11 - 4.5 * veil);
 
     // Ambient air conditions (owner 2026-09-10). Everything the fireflies,
     // midges, pollen, leaf fall and sun shafts key on is already computed
@@ -1276,6 +1279,10 @@ void main() {
         windDirXZ: [1, 0],
         canopy: 0,
         exposure: 1,
+        hazeAmbient: [0, 0, 0],
+        hazeSunLight: [0, 0, 0],
+        visibilityM: 1200,
+        aboveGroundM: 2,
       };
     }
     {
@@ -1290,13 +1297,23 @@ void main() {
       a.windDirXZ = wx.windDirXZ;
       a.canopy = canopyAt(camera.position.x, camera.position.z, extentM);
       a.exposure = rig.exposureTarget;
+      // The same air-light feeds the aerial haze uses, so a lit mote is lit
+      // by the same air as the terrain behind it.
+      a.hazeAmbient = rig.hazeAmbient;
+      a.hazeSunLight = rig.hazeSunLight;
+      a.visibilityM = wx.visibilityM;
+      // Height above the GROUND, not above sea level. On foot the eye is a
+      // couple of metres up whatever the terrain's elevation; the flyover is
+      // a map tool and wants none of this. Gating on absolute altitude was a
+      // defect — it silenced the layer at any marsh above 140 m.
+      a.aboveGroundM = mode === "character" ? 2 : Math.max(120, camera.position.y);
       lastAirAmounts.current = airAmounts({
         sunAltDeg: a.sunAltDeg,
         humidity: a.humidity,
         rain: a.rain,
         cloud: a.cloud,
         windSpeed: a.windSpeed,
-        cameraY: camera.position.y,
+        aboveGroundM: a.aboveGroundM,
       });
       lastShaftAmount.current = sunShaftIntensity({
         sunAltDeg: a.sunAltDeg,
@@ -1304,7 +1321,7 @@ void main() {
         rain: a.rain,
         canopy: a.canopy,
         humidity: a.humidity,
-        cameraY: camera.position.y,
+        aboveGroundM: a.aboveGroundM,
       });
     }
 

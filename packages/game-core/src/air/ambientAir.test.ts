@@ -15,7 +15,7 @@ const MARSH_NIGHT: AirConditions = {
   rain: 0,
   cloud: 0.1,
   windSpeed: 1,
-  cameraY: 4,
+  aboveGroundM: 2,
 };
 
 const at = (over: Partial<AirConditions>): AirConditions => ({ ...MARSH_NIGHT, ...over });
@@ -28,6 +28,14 @@ describe("ambient air presence rules (owner 2026-09-10)", () => {
 
   it("grounds fireflies in rain and in wind", () => {
     expect(airAmounts(at({ rain: 1 })).fireflies).toBe(0);
+    // And in ORDINARY rain: local rain intensity rarely reaches 1 even under
+    // forced rain, so a plain (1 - rain) left them flying through a shower —
+    // which is exactly what the owner saw with w=rain.
+    expect(airAmounts(at({ rain: 0.3 })).fireflies).toBe(0);
+    // A drizzle thins them well before it clears them.
+    expect(airAmounts(at({ rain: 0.12 })).fireflies).toBeLessThan(
+      airAmounts(MARSH_NIGHT).fireflies * 0.7,
+    );
     expect(airAmounts(at({ windSpeed: 14 })).fireflies).toBe(0);
     // A stiff breeze thins them well before it clears them.
     expect(airAmounts(at({ windSpeed: 7 })).fireflies).toBeLessThan(
@@ -73,12 +81,15 @@ describe("ambient air presence rules (owner 2026-09-10)", () => {
     expect(airAmounts({ ...day, windSpeed: 8 }).leaves).toBeGreaterThan(0.5);
   });
 
-  it("fades everything out above the canopy", () => {
-    for (const [id, amount] of Object.entries(airAmounts(at({ cameraY: 400 })))) {
-      expect(amount, `${id} at 400 m`).toBe(0);
+  it("fades everything out above the canopy — measured from the GROUND", () => {
+    // The distinction is the bug this test now pins. Gating on height above
+    // SEA LEVEL switched the whole layer off at a marsh sitting 203 m up, in
+    // a province whose terrain reaches 651 m. Standing on that marsh, the eye
+    // is 2 m above the ground and everything should be flying.
+    for (const [id, amount] of Object.entries(airAmounts(at({ aboveGroundM: 120 })))) {
+      expect(amount, `${id} at 120 m up`).toBe(0);
     }
-    // And in fly-over, where the camera is far higher still.
-    expect(airAmounts(at({ cameraY: 2000 })).fireflies).toBe(0);
+    expect(airAmounts(at({ aboveGroundM: 2 })).fireflies).toBeGreaterThan(0.6);
   });
 
   it("never returns an amount outside 0..1", () => {
@@ -113,7 +124,7 @@ describe("sun shafts (owner 2026-09-10)", () => {
     rain: 0,
     canopy: 0.8,
     humidity: 0.8,
-    cameraY: 5,
+    aboveGroundM: 2,
   };
 
   it("wants raking light under a canopy on a clear day", () => {
@@ -148,7 +159,7 @@ describe("sun shafts (owner 2026-09-10)", () => {
       for (const cloud of [0, 0.5, 1]) {
         for (const canopy of [0, 0.5, 1]) {
           for (const cameraY of [0, 100, 3000]) {
-            const v = sunShaftIntensity({ sunAltDeg, cloud, rain: 0, canopy, humidity: 0.7, cameraY });
+            const v = sunShaftIntensity({ sunAltDeg, cloud, rain: 0, canopy, humidity: 0.7, aboveGroundM: cameraY });
             expect(Number.isFinite(v)).toBe(true);
             expect(v).toBeGreaterThanOrEqual(0);
             expect(v).toBeLessThanOrEqual(1);

@@ -67,11 +67,26 @@ void main() {
   float along = abs(dot(view, vAxisW));
   float edgeOn = 1.0 - smoothstep(0.72, 0.97, along);
 
-  float a = radial * lenFade * edgeOn * uIntensity;
+  // Never let a shaft sit on the lens: fade any the camera is inside or
+  // nearly inside, or one can fill the screen as a wall.
+  float nearFade = smoothstep(2.0, 9.0, length(vWorld - uCam));
+
+  float a = radial * lenFade * edgeOn * nearFade * uIntensity;
   if (a <= 0.002) discard;
+  // uColour is SCENE-LINEAR RADIANCE, anchored against exposure on the CPU.
+  // The two chunks below are the renderer's own tone map and output encode,
+  // which a ShaderMaterial does not get for free the way a built-in material
+  // does; omitting them renders a custom shader dark and muddy next to
+  // everything else in the frame.
   gl_FragColor = vec4(uColour, a);
+
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }
 `;
+
+/** Screen brightness of a shaft at full strength. */
+const SHAFT_SCREEN = 0.16;
 
 export interface SunShaftConfig {
   /** How many shafts may exist at once. 20-40 is affordable; each is a few
@@ -161,14 +176,29 @@ export class SunShafts {
    *   clearness and how much canopy is overhead. Zero removes the draw call.
    * @param sunDir unit vector TOWARD the sun.
    */
-  update(intensity: number, camera: THREE.Camera, sunDir: THREE.Vector3, colour: THREE.Color): void {
+  update(
+    intensity: number,
+    camera: THREE.Camera,
+    sunDir: THREE.Vector3,
+    colour: THREE.Color,
+    exposure: number,
+  ): void {
     const on = intensity > 0.004;
     this.mesh.visible = on;
     if (!on) return;
 
     (this.material.uniforms.uIntensity as { value: number }).value = intensity;
     (this.material.uniforms.uCam.value as THREE.Vector3).copy(camera.position);
-    (this.material.uniforms.uColour.value as THREE.Color).copy(colour);
+    // Exposure-anchored radiance. THE BUG THAT MADE THESE INVISIBLE was
+    // multiplying BY exposure at the call site: exposureTarget is a PHYSICAL
+    // exposure (~2e-4 in daylight), so the shafts were scaled down about
+    // 5000x exactly when they were supposed to show.
+    const k = SHAFT_SCREEN / Math.max(exposure, 1e-6);
+    (this.material.uniforms.uColour.value as THREE.Color).setRGB(
+      colour.r * k,
+      colour.g * k,
+      colour.b * k,
+    );
 
     // Re-anchor only when the camera has left the ring, so shafts stay put in
     // the world while you walk past them (a ring rigidly glued to the camera
@@ -221,8 +251,8 @@ export function sunShaftIntensity(input: {
   /** Air humidity 0..1: damp air scatters more, so shafts read stronger in
    * the marsh than on a dry ridge. */
   humidity: number;
-  /** Camera height above sea level, metres. */
-  cameraY: number;
+  /** Camera height ABOVE THE GROUND, metres (not above sea level). */
+  aboveGroundM: number;
 }): number {
   const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
   const band = (v: number, lo: number, hi: number) => clamp01((v - lo) / Math.max(1e-6, hi - lo));
@@ -230,9 +260,9 @@ export function sunShaftIntensity(input: {
   // Low enough to rake, high enough to reach the ground: a band, not a ramp.
   const raking = band(input.sunAltDeg, 4, 16) * (1 - band(input.sunAltDeg, 48, 72));
   const clear = 1 - band(input.cloud, 0.3, 0.75);
-  const dry = 1 - input.rain;
+  const dry = 1 - band(input.rain, 0.02, 0.25);
   const under = band(input.canopy, 0.25, 0.7);
   const damp = 0.45 + 0.55 * clamp01(input.humidity);
-  const low = 1 - band(input.cameraY, 70, 150);
+  const low = 1 - band(input.aboveGroundM, 30, 80);
   return raking * clear * dry * under * damp * low;
 }

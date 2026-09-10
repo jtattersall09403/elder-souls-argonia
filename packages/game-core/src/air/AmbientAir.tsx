@@ -9,6 +9,7 @@ import {
   type AirConditions,
 } from "./ambientAir";
 import { SunShafts, sunShaftIntensity } from "./sunShafts";
+import { waterParticleRadiance } from "../water/render/waterParticleLighting";
 
 /**
  * The ambient air layer: fireflies, midges, pollen, leaf fall and sun shafts
@@ -45,6 +46,16 @@ export interface AmbientAirConditions {
   /** Renderer exposure, so the layer tracks the rest of the scene rather
    * than blowing out at night or vanishing at noon. */
   exposure: number;
+  /** The sky's own HDR air-light feeds — isotropic sky inscatter and the
+   * direct sun/moon radiance reaching the haze. Lit particles are shaded
+   * from exactly these, through the same function the water spray uses, so
+   * a mote is lit by the same air as everything around it. */
+  hazeAmbient: [number, number, number];
+  hazeSunLight: [number, number, number];
+  /** Visibility distance in metres — how fast these fade into the haze. */
+  visibilityM: number;
+  /** Camera height above the GROUND (not above sea level). */
+  aboveGroundM: number;
 }
 
 declare global {
@@ -64,6 +75,7 @@ export function AmbientAir({
 }) {
   const { camera, gl } = useThree();
   const clock = useRef(0);
+  const litRadiance = useRef({ x: 0, y: 0, z: 0 });
 
   const swarms = useMemo(() => {
     // One fixed seed: the same swarm every session, on every machine.
@@ -99,10 +111,19 @@ export function AmbientAir({
       rain: c.rain,
       cloud: c.cloud,
       windSpeed: c.windSpeed,
-      cameraY: camera.position.y,
+      aboveGroundM: c.aboveGroundM,
     };
     const amounts = airAmounts(air);
     const pr = gl.getPixelRatio();
+    // Scene-linear radiance for the LIT species, from the sky's own light.
+    // Reusing the water spray's function rather than writing a second one
+    // keeps every small floating thing in this world lit the same way.
+    const lit = waterParticleRadiance(
+      { x: c.hazeAmbient[0], y: c.hazeAmbient[1], z: c.hazeAmbient[2] },
+      { x: c.hazeSunLight[0], y: c.hazeSunLight[1], z: c.hazeSunLight[2] },
+      c.sunDir.y,
+      litRadiance.current,
+    );
     for (const s of swarms) {
       s.update(
         (amounts[s.species.id] ?? 0) * gain,
@@ -112,6 +133,9 @@ export function AmbientAir({
         c.sunDir,
         c.windDirXZ,
         c.windSpeed,
+        lit,
+        c.exposure,
+        c.visibilityM,
       );
     }
 
@@ -121,14 +145,11 @@ export function AmbientAir({
       rain: c.rain,
       canopy: c.canopy,
       humidity: c.humidity,
-      cameraY: camera.position.y,
+      aboveGroundM: c.aboveGroundM,
     });
-    shafts.update(
-      shaftAmount * gain * 0.5 * Math.min(2, c.exposure),
-      camera,
-      c.sunDir,
-      c.sunColour,
-    );
+    // NOT multiplied by exposure — see SHAFT_SCREEN in sunShafts.ts. That
+    // multiply is what made the shafts invisible in daylight.
+    shafts.update(shaftAmount * gain, camera, c.sunDir, c.sunColour, c.exposure);
   });
 
   return (
