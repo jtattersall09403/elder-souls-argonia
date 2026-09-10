@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { setMeshHidden } from "./meshVisibility";
+import { headMeshes } from "./headMeshes";
+import { RIG_SOCKETS } from "../anim/animationManifest";
 
 /**
  * Wearing armour on a skinned actor.
@@ -29,6 +31,14 @@ export type ArmourPiece = {
 /** Biped slots, in Bethesda's numbering. */
 export const TORSO_BIPED_SLOT = 32;
 export const HANDS_BIPED_SLOT = 33;
+export const HEAD_BIPED_SLOT = 30;
+
+/**
+ * The head region of Bethesda's biped vocabulary: head, hair, long hair,
+ * circlet, ears and face/mouth. Everything a helmet or a hood may legitimately
+ * take off; nothing a cuirass ever reaches.
+ */
+const HEAD_REGION_BIPED_SLOTS: ReadonlySet<number> = new Set([30, 31, 41, 42, 43, 44]);
 
 export type MountedArmour = {
   /** Meshes now bound to the actor's skeleton, in mount order. */
@@ -94,6 +104,17 @@ export function mountArmour(
     slotsByMesh.set(THREE.PropertyBinding.sanitizeNodeName(name), slots);
   }
 
+  // Which of the actor's meshes are head parts, decided by *skinning* rather
+  // than by name or by roster slot — see `headMeshes` and `bodyMeshIsCovered`.
+  const headBone = RIG_SOCKETS.head
+    ? modelRoot.getObjectByName(THREE.PropertyBinding.sanitizeNodeName(RIG_SOCKETS.head)) ?? null
+    : null;
+  const headParts = new Set(
+    headMeshes(modelRoot, headBone).map(
+      (mesh) => THREE.PropertyBinding.sanitizeNodeName(mesh.name),
+    ),
+  );
+
   const covered = new Set<number>();
   for (const piece of pieces) {
     const mounted: THREE.SkinnedMesh[] = [];
@@ -151,7 +172,7 @@ export function mountArmour(
   for (const [name, slots] of slotsByMesh) {
     const mesh = findBodyMesh(modelRoot, name, result.meshes);
     if (!mesh) continue;
-    const isCovered = bodyMeshIsCovered(slots, covered);
+    const isCovered = bodyMeshIsCovered(slots, covered, headParts.has(name));
     // Armour speaks only for armour. The head is a body mesh in the roster
     // (slots 30 and 43), and a first-person camera hides it — so assigning
     // `visible` here would put the player back inside their own skull every
@@ -187,9 +208,31 @@ export function mountArmour(
  * The genuinely correct model is per-partition visibility, which is what Skyrim
  * does — but our meshes arrive from the pipeline as whole objects with a union
  * of slots, and hiding half an object is not something this data supports.
+ *
+ * **Head parts are exempt from the primary-slot rule.** The roster's slots come
+ * from the NIF's dismember partitions, and for eyes, mouth and brows several
+ * races record slot **32 — the torso**. Under the rule above their primary slot
+ * is therefore 32, so any cuirass hid them: that is the owner's screenshot of
+ * enemies with empty eye sockets and no mouth, the head's own boundary loops
+ * open straight through to the backdrop. `isHeadPart` comes from `headMeshes`,
+ * which decides by skinning (weighted wholly inside the head bone's subtree)
+ * rather than by name or by slot, so it holds for races not authored yet.
+ *
+ * A head part may only be hidden by a piece that covers the *head region* —
+ * head, hair, circlet, ears, face. This stays correct if the roster's slots are
+ * later fixed: eyes recorded as `[30, 43]` are still hidden by a helmet
+ * covering 30, and still not hidden by a cuirass.
  */
-function bodyMeshIsCovered(slots: readonly number[], covered: ReadonlySet<number>) {
+function bodyMeshIsCovered(
+  slots: readonly number[],
+  covered: ReadonlySet<number>,
+  isHeadPart: boolean,
+) {
   if (slots.length === 0) return false;
+  if (isHeadPart) {
+    if (covered.has(HEAD_BIPED_SLOT)) return true;
+    return slots.some((slot) => HEAD_REGION_BIPED_SLOTS.has(slot) && covered.has(slot));
+  }
   const primary = Math.min(...slots);
   return covered.has(primary) || slots.every((slot) => covered.has(slot));
 }

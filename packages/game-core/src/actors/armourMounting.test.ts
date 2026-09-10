@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 
 import { mountArmour, unmountArmour } from "./armourMounting";
+import { RIG_SOCKETS } from "../anim/animationManifest";
+
+const HEAD_BONE = THREE.PropertyBinding.sanitizeNodeName(RIG_SOCKETS.head ?? "NPC Head [Head]");
 
 /**
  * Rebinding is the one thing that has to be right about worn armour: a piece
@@ -10,7 +13,7 @@ import { mountArmour, unmountArmour } from "./armourMounting";
  * cheap to test without a renderer.
  */
 
-const BONE_NAMES = ["NPC Root", "NPC Spine", "NPC L Hand", "NPC R Hand"];
+const BONE_NAMES = ["NPC Root", "NPC Spine", "NPC L Hand", "NPC R Hand", HEAD_BONE];
 
 function buildSkeletonRoot() {
   const root = new THREE.Group();
@@ -24,10 +27,13 @@ function buildSkeletonRoot() {
   return { root, bones };
 }
 
-function buildSkinnedMesh(name: string, bones: THREE.Bone[]) {
+function buildSkinnedMesh(name: string, bones: THREE.Bone[], boneIndex = 0) {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const count = geometry.attributes.position.count;
-  geometry.setAttribute("skinIndex", new THREE.Uint16BufferAttribute(new Array(count * 4).fill(0), 4));
+  geometry.setAttribute("skinIndex", new THREE.Uint16BufferAttribute(
+    Array.from({ length: count * 4 }, (_, i) => (i % 4 === 0 ? boneIndex : 0)),
+    4,
+  ));
   geometry.setAttribute("skinWeight", new THREE.Float32BufferAttribute(
     Array.from({ length: count * 4 }, (_, i) => (i % 4 === 0 ? 1 : 0)),
     4,
@@ -39,12 +45,14 @@ function buildSkinnedMesh(name: string, bones: THREE.Bone[]) {
 }
 
 /** An actor: a skeleton plus body meshes hung beside it. */
-function buildActor(bodyMeshNames: string[]) {
+function buildActor(bodyMeshNames: string[], headPartNames: string[] = []) {
   const { root, bones } = buildSkeletonRoot();
   const holder = new THREE.Group();
   root.add(holder);
+  const headIndex = BONE_NAMES.indexOf(HEAD_BONE);
   const body = bodyMeshNames.map((name) => {
-    const mesh = buildSkinnedMesh(name, bones);
+    // A head part is skinned wholly to the head bone; the body is not.
+    const mesh = buildSkinnedMesh(name, bones, headPartNames.includes(name) ? headIndex : 0);
     holder.add(mesh);
     return mesh;
   });
@@ -149,6 +157,46 @@ describe("mounting armour on an actor", () => {
     // primary-slot rule only ever *adds* cases where the body stays visible.
     const actor = buildActor(["Calves"]);
     mountArmour(actor.root, [buildPiece("greaves", [38, 39])], { Calves: [38, 39] });
+    expect(actor.body[0].visible).toBe(false);
+  });
+
+  it("keeps the eyes, mouth and brows on under a cuirass", () => {
+    // The owner's screenshot: enemies in iron with empty eye sockets. The
+    // roster records MaleEyesHumanDemon, MaleMouthHumanoidDefault and
+    // BrowsMaleHumanoid05 in slot 32 — the *torso* — so the primary-slot rule
+    // let any cuirass hide them, opening the head's own boundary loops onto
+    // the backdrop. They are head parts by skinning, so no torso piece may.
+    const parts = ["MaleEyesHumanDemon", "MaleMouthHumanoidDefault", "BrowsMaleHumanoid05"];
+    const actor = buildActor(["MaleUnderwearBody0", ...parts], parts);
+    const slots = {
+      "MaleUnderwearBody:0": [32, 34, 38],
+      MaleEyesHumanDemon: [32],
+      MaleMouthHumanoidDefault: [32],
+      BrowsMaleHumanoid05: [32],
+    };
+    const mounted = mountArmour(actor.root, [buildPiece("iron-cuirass", [32, 34, 38])], slots);
+
+    expect(mounted.hidden.map((mesh) => mesh.name)).toEqual(["MaleUnderwearBody0"]);
+    expect(actor.body[0].visible).toBe(false);
+    for (const mesh of actor.body.slice(1)) expect(mesh.visible).toBe(true);
+  });
+
+  it("still lets a helmet take the head parts off", () => {
+    const parts = ["MaleHeadNord", "HairMaleNord11"];
+    const actor = buildActor(parts, parts);
+    const slots = { MaleHeadNord: [30, 43], HairMaleNord11: [31] };
+    mountArmour(actor.root, [buildPiece("iron-helmet", [30, 31])], slots);
+    expect(actor.body.map((mesh) => mesh.visible)).toEqual([false, false]);
+  });
+
+  it("stays correct if the roster's head-part slots are later corrected", () => {
+    // Same eyes, recorded as head/ears instead of torso: a cuirass still must
+    // not hide them, and a helmet covering 30 still must.
+    const actor = buildActor(["MaleEyesHumanDemon"], ["MaleEyesHumanDemon"]);
+    const slots = { MaleEyesHumanDemon: [30, 43] };
+    mountArmour(actor.root, [buildPiece("iron-cuirass", [32, 34, 38])], slots);
+    expect(actor.body[0].visible).toBe(true);
+    mountArmour(actor.root, [buildPiece("iron-helmet", [30])], slots);
     expect(actor.body[0].visible).toBe(false);
   });
 

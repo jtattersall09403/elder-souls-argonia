@@ -9,15 +9,34 @@ Each piece also reports which biped slots it occupies, read from the ``SBP_*``
 vertex groups Bethesda ships in the NIF. That is what tells the game which body
 meshes to hide, so coverage is never hand-declared and cannot drift from the art.
 
-Env: BUILD_PLAN -> json with keys skeleton, rig_import, mesh_import, items[],
-summary_json.
+A cuirass also has its **collar closed against the reference body's neck**. The
+head is already stitched onto that same polyline by the character build, so one
+shared loop closes head to body to armour. Without it the head hangs clear of
+the collar and the scene's clear colour shows through: the white ring at the
+base of an enemy's neck. See ``neck_seam.py``.
+
+Env: BUILD_PLAN -> json with keys skeleton, rig_import, mesh_import,
+reference_bodies{}, items[], summary_json.
 """
 
 import bpy
 import json
 import os
 import re
+import sys
 from mathutils import Vector
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from neck_seam import (  # noqa: E402
+    closest_point_on_segments, find_collar_rings, neck_axis, neck_polyline,
+    polyline_radius, raise_polyline, ring_profile, snap_ring,
+)
+
+#: How far the collar is lifted above the reference neck, as a share of the
+#: neck's radius. The roster's neck rings span 0.055 radii in height, so this
+#: clears the highest of them with room to spare while staying a few
+#: millimetres of overlap rather than a collar that swallows the neck.
+COLLAR_OVERLAP = 0.15
 
 PLAN = json.loads(open(os.environ["BUILD_PLAN"], "r", encoding="utf-8").read())
 SUMMARY = {"items": {}, "warnings": []}
@@ -213,6 +232,128 @@ def reunite_with_rig(objects, item_id):
     bpy.ops.object.mode_set(mode="OBJECT")
     log("%s: removed stray bones %s" % (item_id, strays))
 
+def load_reference_body(sex, entry):
+    """Import a reference body and take its neck polyline. Never exported.
+
+    The host side chooses the *weight-zero* body and says why: a collar wider
+    than the neck it is worn on leaves a hole, a narrower one is covered by
+    skin, and one armour GLB is worn over every build's own blended neck.
+    """
+    existing = set(bpy.data.objects)
+    bpy.ops.object.select_all(action="DESELECT")
+    arm.select_set(True)
+    bpy.context.view_layer.objects.active = arm
+    result = bpy.ops.import_scene.pynifly(filepath=entry["nif"], **entry["import"])
+    if "FINISHED" not in result:
+        raise RuntimeError("reference body %s failed to import (%s)" % (entry["id"], result))
+    meshes = [o for o in bpy.data.objects if o not in existing and o.type == "MESH"]
+    if not meshes:
+        raise RuntimeError("reference body %s produced no mesh" % entry["id"])
+    reunite_with_rig(meshes, "reference-body:" + entry["id"])
+    skin = max(meshes, key=lambda o: len(o.data.vertices))
+    segments, vertices = neck_polyline(skin)
+    if not segments:
+        raise RuntimeError("reference body %s has no open neck boundary" % entry["id"])
+    radius = polyline_radius(segments)
+    log("reference body %s (%s): neck ring %d verts, radius %.4f"
+        % (entry["id"], sex, len(vertices), radius))
+    return {"objects": meshes, "skin": skin, "segments": segments,
+            "vertices": vertices, "radius": radius, "id": entry["id"]}
+
+
+REFERENCE_BODIES = {
+    sex: load_reference_body(sex, entry)
+    for sex, entry in sorted(PLAN.get("reference_bodies", {}).items())
+}
+
+
+def close_neck_seam(pieces, item):
+    """Snap this piece's collar onto the reference neck, weights and all."""
+    sex = item.get("body_sex", "male")
+    body = REFERENCE_BODIES.get(sex) or REFERENCE_BODIES.get("male")
+    if body is None:
+        warn("%s: no reference body for sex %r; collar not closed" % (item["id"], sex))
+        return None
+    if sex not in REFERENCE_BODIES:
+        warn("%s: no %s reference body; collar closed against %s"
+             % (item["id"], sex, body["id"]))
+    # A sanity bound, not the discriminator: the encirclement test in
+    # `find_collar_rings` is what decides a ring is the collar, and a vanilla
+    # collar genuinely sits a long way out — steel's raised rim is 0.30 units
+    # from the neck, which is exactly the gap being complained about. This only
+    # refuses a ring so far from the neck that the encirclement test must have
+    # been fooled.
+    move_limit = body["radius"] * 1.5
+    # Snapped to the neck lifted by COLLAR_OVERLAP, so the rim ends *inside*
+    # the neck of every build rather than butting against one of them.
+    neck_centre, neck_radius = neck_axis(body["segments"])
+    target = raise_polyline(body["segments"], neck_radius * COLLAR_OVERLAP)
+    before, after, rings, near_misses, profiles = [], [], 0, [], []
+    for obj in pieces:
+        found, rejected = find_collar_rings(obj, body["segments"])
+        near_misses.extend(rejected)
+        if not found:
+            continue
+        # One collar per mesh: the innermost encircling ring, which is the one
+        # the head's neck meets. Outer concentric rings are the piece's own
+        # layers and are left exactly as authored.
+        ranked = []
+        for ring in found:
+            distances = [
+                closest_point_on_segments(
+                    obj.matrix_world @ obj.data.vertices[i].co, body["segments"])[1]
+                for i in ring
+            ]
+            ranked.append((sum(distances) / len(distances), max(distances), ring))
+        ranked.sort(key=lambda entry: entry[0])
+        mean_distance, max_distance, ring = ranked[0]
+        if max_distance > move_limit:
+            near_misses.append((len(ring), round(float(mean_distance), 4),
+                                round(float(max_distance), 4), -1))
+            continue
+        moved_before, moved_after = snap_ring(obj, ring, body["skin"], target)
+        before.extend(moved_before)
+        after.extend(moved_after)
+        profiles.append(ring_profile(obj, ring, neck_centre))
+        rings += 1
+    if not before:
+        # Not a failure by itself: elven and daedric are closed-neck designs
+        # with no opening at the neck at all. The near misses are the measured
+        # evidence for that, so the gate can tell "no collar" from "missed it".
+        log("%s: no ring encircles the neck; %d near miss(es) %s"
+            % (item["id"], len(near_misses), sorted(near_misses)[:6]))
+        return {"referenceBody": body["id"], "bodySex": sex, "rings": 0,
+                "snappedVertices": 0, "collar": "none",
+                "nearMisses": sorted(near_misses)[:12]}
+    seam = {
+        "collar": "stitched",
+        "referenceBody": body["id"],
+        "bodySex": sex,
+        "rings": rings,
+        "snappedVertices": len(before),
+        "bodyVertices": len(body["vertices"]),
+        "maxDistanceBefore": round(float(max(before)), 6),
+        "meanDistanceBefore": round(float(sum(before) / len(before)), 6),
+        # Measured again on the moved geometry, not asserted.
+        "maxDistanceAfter": round(float(max(after)), 8),
+    }
+    # The overlap, measured on the finished collar rather than assumed from the
+    # constant: its widest rim against the reference neck it must stay inside,
+    # and its lowest rim against the neck ring it must end above. These are what
+    # the host-side gate checks.
+    seam["referenceNeckRadius"] = round(float(neck_radius), 6)
+    seam["referenceNeckHeight"] = round(float(neck_centre.z), 6)
+    seam["collarRadius"] = round(float(max(radius for _c, radius in profiles)), 6)
+    seam["collarHeight"] = round(float(min(centre.z for centre, _r in profiles)), 6)
+    log("%s: collar stitched %d verts across %d ring(s), %.5f -> %.8f; "
+        "radius %.4f vs neck %.4f, height %.4f vs neck %.4f"
+        % (item["id"], seam["snappedVertices"], rings,
+           seam["maxDistanceBefore"], seam["maxDistanceAfter"],
+           seam["collarRadius"], seam["referenceNeckRadius"],
+           seam["collarHeight"], seam["referenceNeckHeight"]))
+    return seam
+
+
 for item in PLAN["items"]:
     before = set(bpy.data.objects)
     bpy.ops.object.select_all(action="DESELECT")
@@ -235,6 +376,9 @@ for item in PLAN["items"]:
                 pass
     rebuild_materials(pieces)
     reunite_with_rig(pieces, item["id"])
+    # After the rig reunion, so the weights copied off the body land in groups
+    # the exported skeleton actually has; before the export, obviously.
+    neck_seam = close_neck_seam(pieces, item) if item.get("close_neck_seam") else None
     bpy.ops.file.pack_all()
 
     # Which body parts this piece hides, straight out of the art.
@@ -279,6 +423,7 @@ for item in PLAN["items"]:
     SUMMARY["items"][item["id"]] = {
         "meshes": [o.name for o in pieces],
         "coversBipedSlots": sorted(covered),
+        "neckSeam": neck_seam,
         "sizeMeters": [round(high[0] - low[0], 5),
                        round(high[2] - low[2], 5),
                        round(high[1] - low[1], 5)],

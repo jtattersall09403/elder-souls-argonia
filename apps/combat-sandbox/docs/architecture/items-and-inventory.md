@@ -80,6 +80,21 @@ any skin partition the rig lacks, and Bethesda's meshes contain truncated names
 bones before the first import and folds strays back onto it, because a piece
 exported with a joint the actor's skeleton does not have cannot be worn at all.
 
+**Pipeline invariant:** a cuirass has its collar snapped onto the reference
+body's neck and its skin weights copied across that boundary, and the build
+gates on the measured result. Nothing in vanilla reconciles a cuirass's neck
+opening with the head's, so without it the head hangs clear of the collar and
+the scene's clear colour shows through as a white ring. The collar *overlaps*
+into the neck rather than meeting it flush, because one armour GLB is worn over
+ten differently weighted necks — [decision 0055](../../../../docs/decisions/0055-a-collar-overlaps-the-neck-rather-than-meeting-it.md).
+
+**Runtime invariant:** a torso piece never hides a head part. The roster records
+eyes, mouth and brows in slot 32 — the *torso* — so the primary-slot rule below
+had any cuirass hiding them, opening the head's own eye and mouth boundaries onto
+the backdrop. `armourMounting` decides "this is a head part" from the skinning
+(`headMeshes`: weighted wholly inside the head bone's subtree), never from the
+name or the slot, and only a piece covering the head region may hide one.
+
 ### Guard stability
 
 `stability` is the Souls stat: the share of a hit's stamina load a guard soaks.
