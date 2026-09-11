@@ -30,17 +30,15 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import math
 import json
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-import numpy as np
-from scipy import ndimage
-
-from . import channels
-from . import standing_water as sw
-from .channels import KIND_FALL, KIND_LOST, KIND_STEEP
+# numpy / scipy / the solvers are imported inside the functions that derive:
+# `check` and `report` read JSON only and must run where numpy is absent
+# (the CI Node job that runs `npm test`).
 from .scale import RAW_M
 
 SCHEMA_VERSION = 1
@@ -69,7 +67,7 @@ WATER_CLASSES = ("whitewater", "blackwater", "clearwater")
 MOUTH_KINDS = ("sea", "lake", "border", "sink")
 
 # --- classification thresholds (rulebook §1.2, §5; hydrology/channels constants) --
-RIFFLE_SLOPE = channels.STEEP_SLOPE      # 0.035: below this a reach is horizontal
+RIFFLE_SLOPE = 0.035                     # = channels.STEEP_SLOPE (asserted in test_hydrology_graph)
 RAPID_SLOPE = 0.065                      # MB97 cascade threshold
 CHUTE_SLOPE = 0.50                       # ~27 deg: a slide short of a fall (falls: 70 deg face)
 LAKE_MIN_M2 = 10_000.0                   # 1 ha: lake / tarn
@@ -90,7 +88,7 @@ PLUNGE_BODY_KINDS = ("plunge-pool", "lake-lowland", "tarn-upland", "pond", "lago
 MOUNTAIN_REGIONS = (1, 2)                # border mountains, upland hills
 PEAT_SOILS = (3, 4)                      # soft marsh, peat
 MARSH_REGIONS = (6, 7, 8)                # rootland deep marsh, interior swamp, fringe marsh: tannin sources
-HEART_REGIONS = sw.HEART_REGIONS         # marsh / swamp / jungle heartland: groundwater-fed creeks
+HEART_REGIONS = (6, 7, 8, 13)            # = standing_water.HEART_REGIONS (asserted in the test)
 REGION_BODY_KIND = {3: "mudflat", 4: "marsh-fringe", 6: "marsh-deep", 7: "swamp",
                     8: "marsh-fringe", 9: "backswamp"}
 
@@ -100,6 +98,7 @@ REGION_BODY_KIND = {3: "mudflat", 4: "marsh-fringe", 6: "marsh-deep", 7: "swamp"
 # ---------------------------------------------------------------------------
 
 def load_inputs(vault: Path = DEFAULT_VAULT):
+    import numpy as np
     height = vault / "heightfield-sculpted-f32.npy"
     g = np.load(height)
     npz = np.load(vault / "hydrology-pass1.npz")
@@ -110,6 +109,8 @@ def load_inputs(vault: Path = DEFAULT_VAULT):
 def solve(g: np.ndarray, npz, log=print):
     """The carve's own solvers, on the frozen base, with NO placement cap:
     places adapt to the water (Phase 16 ladder), never the reverse."""
+    from . import channels
+    from . import standing_water as sw
     bodies = sw.solve_bodies(g, npz, step=STEP, mpp=RAW_M, with_placement=False)
     sol = channels.solve(g, npz, step=STEP, mpp=RAW_M)
     pool_report = sw.pool_channels(sol, bodies, log=log)
@@ -121,7 +122,7 @@ def solve(g: np.ndarray, npz, log=print):
 # ---------------------------------------------------------------------------
 
 def _cell(x: float, y: float, shape) -> tuple[int, int]:
-    return (int(np.clip(round(float(x)), 0, shape[1] - 1)), int(np.clip(round(float(y)), 0, shape[0] - 1)))
+    return (min(max(round(float(x)), 0), shape[1] - 1), min(max(round(float(y)), 0), shape[0] - 1))
 
 
 def _coarse(x: float, y: float) -> tuple[int, int]:
@@ -132,10 +133,11 @@ def _r(v, nd=2):
     return round(float(v), nd)
 
 
-def _accumulate_upstream(flow_to: np.ndarray, ocean_flat: np.ndarray, values: np.ndarray) -> np.ndarray:
+def _accumulate_upstream(flow_to, ocean_flat, values):
     """Sum `values` (n_cells x k) over each cell's upstream tree, in a
     topological order derived from the flow graph itself (not from a height
     sort), so the answer does not depend on which surface routed the flow."""
+    import numpy as np
     n = flow_to.size
     ds = np.where((flow_to >= 0) & ~ocean_flat, flow_to, -1)
     indeg = np.bincount(ds[ds >= 0], minlength=n)
@@ -155,12 +157,13 @@ def _accumulate_upstream(flow_to: np.ndarray, ocean_flat: np.ndarray, values: np
     return acc
 
 
-def _water_class_raster(npz) -> np.ndarray:
+def _water_class_raster(npz):
     """Per coarse cell: 0 whitewater / 1 blackwater / 2 clearwater from the
     upstream composition (rulebook §2), as an int8 raster. The soil raster
     calls only 5 % of the province peat or soft marsh, so the tannin rule
     reads the marsh REGION classes as well (measured 2026-09-11: no river
     passed 50 % on soil alone; 12 of 46 lowland rivers do on marsh region)."""
+    import numpy as np
     regions = npz["regions"].reshape(-1)
     soil = npz["soil"].reshape(-1)
     ocean = npz["ocean"].reshape(-1)
@@ -181,7 +184,12 @@ def _water_class_raster(npz) -> np.ndarray:
 # the derivation
 # ---------------------------------------------------------------------------
 
-def build_graph(g: np.ndarray, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict:
+def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict:
+    import numpy as np
+    from scipy import ndimage
+    from . import channels
+    from . import standing_water as sw
+    from .channels import KIND_FALL, KIND_LOST, KIND_STEEP
     shape = g.shape
     n_r = len(sol.reach_start)
     mpp = float(sol.mpp)
@@ -929,6 +937,7 @@ SEASON_COLOUR = {"perennial": (60, 120, 240), "seasonal": (240, 150, 40), "ephem
 
 
 def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies=None, npz=None) -> dict:
+    import numpy as np
     from PIL import Image, ImageDraw
     h, w = coarse_shape
     mpp_c = RAW_M * STEP
@@ -1041,7 +1050,7 @@ def report(graph: dict, places_path: Path = PROVINCE_DIR / "places.json") -> str
     def nearest(e, s):
         if not places:
             return "-"
-        n, d = min(((n, np.hypot(x - e, z - s)) for n, x, z in places), key=lambda t: t[1])
+        n, d = min(((n, math.hypot(x - e, z - s)) for n, x, z in places), key=lambda t: t[1])
         return f"{n} ({d / 1000:.1f} km)"
 
     st = graph["stats"]

@@ -28,6 +28,24 @@ def graph() -> dict:
     return json.loads(hg.GRAPH_PATH.read_text(encoding="utf-8"))
 
 
+def test_thresholds_match_the_solvers():
+    """`check` must run without numpy, so the constants are literals here;
+    this pins them to the solver values they mirror."""
+    from . import channels, standing_water
+    assert hg.RIFFLE_SLOPE == channels.STEEP_SLOPE
+    assert hg.HEART_REGIONS == standing_water.HEART_REGIONS
+
+
+def test_check_runs_without_numpy(graph):
+    import subprocess, sys
+    code = ("import sys; sys.modules['numpy'] = None; sys.modules['scipy'] = None; "
+            "from worldgen import hydrology_graph as hg; import json; "
+            "print(len(hg.check(json.load(open(hg.GRAPH_PATH)))))")
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, cwd=hg.REPO_ROOT / "tooling" / "world-generation")
+    assert out.returncode == 0, out.stderr[-800:]
+    assert out.stdout.strip() == "0"
+
+
 def test_shipped_graph_is_green(graph):
     errs = hg.check(graph)
     assert not errs, errs[:10]
