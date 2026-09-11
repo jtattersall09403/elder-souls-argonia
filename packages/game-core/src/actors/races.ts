@@ -55,6 +55,16 @@ export type CharacterBuild = {
   heightScale: number;
   /** The mesh set (`male`, `male-argonian`, `female`, `female-khajiit`, …). */
   body: string;
+  /**
+   * Skyrim's `NAM7` body weight, 0–100, that this body was blended to between
+   * its `_0` and `_1` meshes.
+   *
+   * Published because armour ships as the same weight pair and has to be
+   * blended to the same number. A maximum-weight cuirass on a weight-20 woman
+   * stands clear of her neck by a visible margin, which is the defect decision
+   * 0056 removes.
+   */
+  bodyWeight: number;
   /** The `Skyrim.esm` NPC whose FaceGen head this build ships. */
   faceGen?: { plugin: string; formId: string; editorId: string };
 };
@@ -106,6 +116,7 @@ type BuiltRoster = {
     body?: string;
     heightScale?: number;
     meshBipedSlots?: Record<string, number[]>;
+    bodyWeight?: number;
     appearance?: Appearance;
     faceGen?: { plugin: string; formId: string; editorId: string };
   }>;
@@ -164,6 +175,9 @@ export function characterBuildFromRoster(id: CharacterBuildId, build: RosterBuil
     appearance: build.appearance ?? NEUTRAL_APPEARANCE,
     heightScale: build.heightScale ?? 1,
     body: build.body ?? "male",
+    // The roster's own value, clamped rather than defaulted: a build with no
+    // weight would silently blend every piece of armour it wears to maximum.
+    bodyWeight: Math.min(100, Math.max(0, build.bodyWeight ?? 100)),
     faceGen: build.faceGen,
   };
 }

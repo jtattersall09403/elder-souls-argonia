@@ -132,15 +132,19 @@ The build is data-driven. Adding a character is *configuration*, not code:
 
 | Config | Concept |
 | --- | --- |
-| `pipeline/config/characters/*.json` | binds race + body + rig + animation manifest |
-| `pipeline/config/races/*.json` | data root, head morph, material overrides |
-| `pipeline/config/bodies/*.json` | shared humanoid mesh set |
+| `pipeline/config/characters/*.json` | a roster: which builds, on which rig and animation manifest |
+| `pipeline/config/skyrim-playable-races.json` | the ten lore races: label, description, no assets |
+| `pipeline/config/appearances/<race>-<sex>.json` | one built body: donor NPC, tints, weight, texture substitutions |
+| `pipeline/config/bodies/*.json` | shared mesh set (`male`, `female`, `female-khajiit`, …) |
 | `pipeline/config/rigs/*.json` | skeleton, sockets, import settings |
 | `pipeline/config/animations/*.json` | semantic animation manifest (→ vanilla HKX) |
 | `pipeline/config/toolchain.json` | Wine/Blender/BSA locations |
 
-So a new humanoid race (Nord, Redguard, …) is a new `races/<id>.json` + curated
-texture tree, reusing the same body, rig and animation manifest.
+So a new humanoid race (Nord, Redguard, …) is a row in
+`skyrim-playable-races.json` plus one `appearances/<race>-<sex>.json` per sex,
+reusing the same body, rig and animation manifest. Race and sex are separate
+axes; what gets *built* is their product, a **build** with id `<race>-<sex>`,
+because that is the granularity at which a GLB exists (decision 0054).
 
 ## How it works
 

@@ -50,6 +50,27 @@ def _appearance(build_id: str) -> dict:
     return json.loads((CONFIG / "appearances" / f"{build_id}.json").read_text())
 
 
+def _body_weight(build_id: str, summary: dict) -> float:
+    """The NAM7 weight this body was blended to, as the build measured it.
+
+    Taken from the build summary rather than re-read from the appearance
+    config, so the number the runtime blends armour to is the number the body
+    was actually built at. The two disagreeing means a stale GLB, and the whole
+    point of publishing it is that a wearer and their cuirass agree.
+    """
+    weight = summary.get("bodyWeight")
+    if weight is None:
+        raise RuntimeError(
+            f"{build_id}: the build reported no bodyWeight; the roster cannot publish "
+            "a weight for the runtime to blend armour to")
+    declared = _appearance(build_id).get("bodyWeight")
+    if declared is not None and abs(float(declared) - float(weight)) > 1e-6:
+        raise RuntimeError(
+            f"{build_id}: built at body weight {weight} but the appearance declares "
+            f"{declared}")
+    return round(float(weight), 4)
+
+
 #: Our race id -> the Skyrim RACE editor id its body scale is read from. The
 #: pipeline's own race order and Skyrim's PLAYABLE_RACES order are the same
 #: list, so pairing them here keeps one table instead of two.
@@ -322,6 +343,12 @@ def build(
             # actor origin, so this alters silhouette without lifting or
             # burying the feet.
             "heightScale": heights[race_id][sex],
+            # Skyrim's NAM7 weight, 0-100, read back from the build that
+            # actually blended this body between its _0 and _1 meshes. The
+            # runtime needs it because armour ships as the same weight pair and
+            # has to be blended to the same number: a maximum-weight cuirass on
+            # a weight-20 Nord woman stands clear of her neck (decision 0056).
+            "bodyWeight": _body_weight(build_id, summaries[build_id]),
             # QNAM is Skyrim's own NPC body-tint colour and HCLF supplies the
             # HairTint colour. Keep both live for first-person arms and a later
             # character creator; the fixed head already carries FaceTint.

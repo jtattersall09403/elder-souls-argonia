@@ -1,3 +1,5 @@
+> **Superseded by [0056](0056-armour-is-blended-to-the-wearer-not-deformed-to-fit.md) (2026-09-11).** The snap and the lift are retired; armour is blended to the wearer's sex and weight instead. Left here as the record of what was tried and why it did not hold.
+
 # 0055 — A collar overlaps the neck rather than meeting it
 
 **Date:** 2026-09-10

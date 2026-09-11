@@ -103,6 +103,7 @@
       },
       "body": "male",
       "heightScale": 1.0,
+      "bodyWeight": 20.0,
       "appearance": {
         "skinTint": [
           0.3215686381,
@@ -172,6 +173,7 @@
       },
       "body": "female",
       "heightScale": 1.0,
+      "bodyWeight": 0.0,
       "appearance": {
         "skinTint": [
           0.1058823615,
@@ -242,6 +244,7 @@
       },
       "body": "male",
       "heightScale": 1.03,
+      "bodyWeight": 65.0,
       "appearance": {
         "skinTint": [
           0.7176470757,
@@ -311,6 +314,7 @@
       },
       "body": "female",
       "heightScale": 1.03,
+      "bodyWeight": 20.0,
       "appearance": {
         "skinTint": [
           0.5607843399,
@@ -376,6 +380,7 @@
       },
       "body": "male",
       "heightScale": 1.0,
+      "bodyWeight": 15.0,
       "appearance": {
         "skinTint": [
           0.5098039508,
@@ -444,6 +449,7 @@
       },
       "body": "female",
       "heightScale": 1.0,
+      "bodyWeight": 100.0,
       "appearance": {
         "skinTint": [
           0.7254902124,
@@ -513,6 +519,7 @@
       },
       "body": "male",
       "heightScale": 1.0,
+      "bodyWeight": 55.0,
       "appearance": {
         "skinTint": [
           0.6549019814,
@@ -582,6 +589,7 @@
       },
       "body": "female",
       "heightScale": 0.95,
+      "bodyWeight": 40.0,
       "appearance": {
         "skinTint": [
           0.6078431606,
@@ -656,6 +664,7 @@
       },
       "body": "male",
       "heightScale": 1.005,
+      "bodyWeight": 40.0,
       "appearance": {
         "skinTint": [
           0.1764705926,
@@ -727,6 +736,7 @@
       },
       "body": "female",
       "heightScale": 1.0,
+      "bodyWeight": 20.0,
       "appearance": {
         "skinTint": [
           0.2784313858,
@@ -799,6 +809,7 @@
       },
       "body": "male",
       "heightScale": 1.08,
+      "bodyWeight": 50.0,
       "appearance": {
         "skinTint": [
           0.4901961088,
@@ -869,6 +880,7 @@
       },
       "body": "female",
       "heightScale": 1.08,
+      "bodyWeight": 50.0,
       "appearance": {
         "skinTint": [
           0.5803921819,
@@ -938,6 +950,7 @@
       },
       "body": "male",
       "heightScale": 0.98,
+      "bodyWeight": 20.0,
       "appearance": {
         "skinTint": [
           0.5843137503,
@@ -1007,6 +1020,7 @@
       },
       "body": "female",
       "heightScale": 1.0,
+      "bodyWeight": 30.0,
       "appearance": {
         "skinTint": [
           0.4549019933,
@@ -1084,6 +1098,7 @@
       },
       "body": "male",
       "heightScale": 1.045,
+      "bodyWeight": 40.0,
       "appearance": {
         "skinTint": [
           0.3490196168,
@@ -1158,6 +1173,7 @@
       },
       "body": "female",
       "heightScale": 1.045,
+      "bodyWeight": 45.0,
       "appearance": {
         "skinTint": [
           0.2392157018,
@@ -1226,6 +1242,7 @@
       },
       "body": "male-khajiit",
       "heightScale": 1.0,
+      "bodyWeight": 50.0,
       "appearance": {
         "skinTint": [
           0.8313726187,
@@ -1298,6 +1315,7 @@
       },
       "body": "female-khajiit",
       "heightScale": 0.95,
+      "bodyWeight": 100.0,
       "appearance": {
         "skinTint": [
           0.392156899,
@@ -1368,6 +1386,7 @@
       },
       "body": "male-argonian",
       "heightScale": 1.01,
+      "bodyWeight": 30.0,
       "appearance": {
         "skinTint": [
           0.250980407,
@@ -1441,6 +1460,7 @@
       },
       "body": "female-argonian",
       "heightScale": 1.0,
+      "bodyWeight": 30.0,
       "appearance": {
         "skinTint": [
           0.6549019814,

@@ -88,6 +88,11 @@ def accessor(gltf, binary, index):
     acc = gltf["accessors"][index]
     fmt, size = COMPONENT_TYPES[acc["componentType"]]
     count = TYPE_COUNTS[acc["type"]]
+    if "bufferView" not in acc:
+        # glTF allows an accessor with no view: every element is zero. The
+        # exporter writes one for a morph target on a mesh the pair does not
+        # move, and reading it as a missing buffer loses the whole measurement.
+        return [(0,) * count] * acc["count"]
     view = gltf["bufferViews"][acc["bufferView"]]
     base = view.get("byteOffset", 0) + acc.get("byteOffset", 0)
     stride = view.get("byteStride") or size * count
@@ -533,10 +538,21 @@ def main() -> int:
                                  "bodyWeight": weight, "state": "UNKNOWN"})
                     continue
                 radial, vertical = clearance(collar, neck)
+                # A rim that lies *on* the neck is the best case there is, and
+                # the ray cannot see it: a ray leaving a vertex coincident with
+                # the surface hits nothing in front of it and then reports the
+                # far wall of the neck behind it, hundreds of millimetres away.
+                # Most vanilla cuirasses embed the body's neck-bearing part and
+                # copy its loop bit-for-bit, so this is the common case, not an
+                # edge one. Coincidence is read off the two radii instead.
+                coincident = abs(radial * MM) < 0.5 and abs(vertical * MM) < 0.5
+                if coincident:
+                    margin = 0.0
                 rows.append({
                     "cuirass": cuirass, "sex": sex, "build": build,
                     "bodyWeight": weight,
                     "state": "CLOSED" if margin >= 0 else "OPEN",
+                    "rimOnNeck": coincident,
                     "skinMarginMm": round(margin * MM, 2),
                     "insideOwnNeckMm": round(radial * MM, 2),
                     "aboveOwnNeckRingMm": round(vertical * MM, 2),

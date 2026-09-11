@@ -12,7 +12,7 @@
   },
   "provenance": {
     "inputsSha256": "1d731a5210e5a7d5a21d96fd2614c7542020e2c197e373009cd7184fca96fa3a",
-    "animationManifestSha256": "30824ab8bc93446ec063620125e52d708b55b119c690ac2833dc82ae8c1b8ad5",
+    "animationManifestSha256": "691e57223942267489062a6777b75a357687fb472343fc515eb36bdd571c231d",
     "assets": {
       "races/dunmer-male.glb": "e4748eb1253ea1699b58a47fc51b1944bc35a5414b2db6e8f4dd715ecf5f8ac4",
       "weapons/iron-dagger.glb": "d405a720f11bf7217ca7157ccc32b67ba8cbc94ba0f4b932cd4c1c54bfac6449",

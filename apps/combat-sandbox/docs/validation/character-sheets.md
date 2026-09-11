@@ -40,7 +40,10 @@ grid with ffmpeg. Budget a few minutes.
 [`docs/evidence/races/armour-neck-check.png`](../../../../docs/evidence/races/armour-neck-check.png)
 answers one question: does any cuirass leave a hole where it meets the neck and
 shoulders? Nine cuirasses on a Nord male and the same nine on a Nord female,
-eighteen cards, each framed on the collar.
+eighteen cards, each framed on the collar. Since decision 0056 each card wears
+**that build's own** cuirass — one mesh per sex, blended to the wearer's body
+weight — so the two rows are genuinely different garments, not one garment on
+two bodies.
 
 ```bash
 node scripts/render-character-sheet.mjs \

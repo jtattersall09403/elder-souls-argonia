@@ -1284,6 +1284,7 @@ function PosedActor({
         <Suspense fallback={null}>
           <ArmourAttachments
             model={model}
+            wearer={race}
             armour={armour}
             bodyMeshSlots={race.meshBipedSlots}
             // Worn armour stays on in the aim view. It used to be hidden

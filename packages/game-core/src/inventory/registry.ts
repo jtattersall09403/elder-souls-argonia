@@ -1,8 +1,9 @@
 import CLUTTER from "../equipment/generated/clutter.items.json";
-import { ARMOUR } from "../equipment/armour";
+import { ARMOUR, armourAsset } from "../equipment/armour";
 import { ARROWS } from "../equipment/arrows";
 import { ARSENAL_SHIELDS, ARSENAL_WEAPONS } from "../equipment/arsenal";
 import { WEAPON_CLASSES } from "../equipment/weaponClasses";
+import type { Sex } from "../actors/races";
 import type { EquipSlot, ItemDefinition } from "./types";
 
 /**
@@ -138,18 +139,21 @@ export function allItemIds(): string[] {
 }
 
 /**
- * The GLB an item renders as, or null for one with no mesh.
+ * The GLB an item renders as *on this wearer*, or null for one with no mesh.
  *
  * Exists so the game can warm its own cache: equipping something the browser
- * has never fetched suspends the actor holding it.
+ * has never fetched suspends the actor holding it. Armour takes the wearer's
+ * sex because it ships one mesh per sex — warming the male cuirass for a
+ * female player prefetches a file she will never load and leaves the blink the
+ * warmup exists to remove.
  */
-export function itemAsset(id: string): string | null {
+export function itemAsset(id: string, sex: Sex): string | null {
   const equip = tryItemById(id)?.equip;
   if (!equip) return null;
   switch (equip.kind) {
     case "weapon": return equip.weapon.visual.asset;
     case "shield": return equip.shield.visual.asset;
     case "ammunition": return equip.arrow.asset;
-    case "apparel": return equip.armour.asset;
+    case "apparel": return armourAsset(equip.armour, sex);
   }
 }

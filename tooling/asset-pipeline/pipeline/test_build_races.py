@@ -66,10 +66,6 @@ class FaceGenBuildContractTests(unittest.TestCase):
             validate_facegen_summary("nord", summary)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class RosterShapeTests(unittest.TestCase):
     """Decision 0054: ten races, two sexes, twenty builds -- and every build has
     a config to build it from. A roster naming a build with no appearance file
@@ -121,3 +117,10 @@ class RosterShapeTests(unittest.TestCase):
         summary["faceGenNeckSeam"]["maxDistanceAfter"] = 1.1e-5
         with self.assertRaisesRegex(RuntimeError, "seam remains open"):
             validate_facegen_summary("nord", summary)
+
+
+# At the end, and it has to be: running this module directly with the call
+# placed mid-file executed everything defined *above* it and silently skipped
+# the six tests defined below, reporting green.
+if __name__ == "__main__":
+    unittest.main()

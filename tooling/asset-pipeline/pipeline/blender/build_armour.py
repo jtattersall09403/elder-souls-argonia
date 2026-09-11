@@ -9,11 +9,16 @@ Each piece also reports which biped slots it occupies, read from the ``SBP_*``
 vertex groups Bethesda ships in the NIF. That is what tells the game which body
 meshes to hide, so coverage is never hand-declared and cannot drift from the art.
 
-A cuirass also has its **collar closed against the reference body's neck**. The
-head is already stitched onto that same polyline by the character build, so one
-shared loop closes head to body to armour. Without it the head hangs clear of
-the collar and the scene's clear colour shows through: the white ring at the
-base of an enemy's neck. See ``neck_seam.py``.
+Each piece is built **once per sex, at both weights**, exactly as Skyrim ships
+it: the GLB carries the ``_1`` geometry with ``_0`` as a glTF morph target, and
+the runtime sets ``morphTargetInfluences = 1 - weight`` for the wearer. A
+vanilla cuirass embeds the body's neck-bearing part, bit-for-bit, so blending
+to the right sex and weight makes the head-to-collar seam exact rather than
+tolerance-bounded — nothing here deforms authored art to fit (decision 0056).
+
+What is left of the old seam code is the **check**: each cuirass's own neck
+ring is measured against the reference body's, for both weights, and the host
+side rejects a ring wider than the neck it is worn on. See ``neck_seam.py``.
 
 Env: BUILD_PLAN -> json with keys skeleton, rig_import, mesh_import,
 reference_bodies{}, items[], summary_json.
@@ -33,14 +38,13 @@ from biped_slots import (  # noqa: E402
 )
 from neck_seam import (  # noqa: E402
     closest_point_on_segments, find_collar_rings, neck_axis, neck_polyline,
-    polyline_radius, raise_polyline, ring_profile, snap_ring,
+    polyline_radius,
 )
 
-#: How far the collar is lifted above the reference neck, as a share of the
-#: neck's radius. The roster's neck rings span 0.055 radii in height, so this
-#: clears the highest of them with room to spare while staying a few
-#: millimetres of overlap rather than a collar that swallows the neck.
-COLLAR_OVERLAP = 0.15
+#: The glTF morph target name the runtime looks for. One name, written here and
+#: read in `ArmourAttachments`: the influence is set by index, and a rebuild
+#: that silently reordered or renamed the target would blend towards nothing.
+MORPH_TARGET_NAME = "weight0"
 
 PLAN = json.loads(open(os.environ["BUILD_PLAN"], "r", encoding="utf-8").read())
 SUMMARY = {"items": {}, "warnings": []}
@@ -236,32 +240,47 @@ def reunite_with_rig(objects, item_id):
     log("%s: removed stray bones %s" % (item_id, strays))
 
 def load_reference_body(sex, entry):
-    """Import a reference body and take its neck polyline. Never exported.
+    """Import a reference body at both weights and take its neck rings.
 
-    The host side chooses the *weight-zero* body and says why: a collar wider
-    than the neck it is worn on leaves a hole, a narrower one is covered by
-    skin, and one armour GLB is worn over every build's own blended neck.
+    Never exported, and never touched by the build: this is the independent
+    reference the exported geometry is measured against. Both weights, because
+    both are shipped — the piece's ``_1`` geometry is checked against the ``_1``
+    body and its ``_0`` morph target against the ``_0`` body.
     """
-    existing = set(bpy.data.objects)
-    bpy.ops.object.select_all(action="DESELECT")
-    arm.select_set(True)
-    bpy.context.view_layer.objects.active = arm
-    result = bpy.ops.import_scene.pynifly(filepath=entry["nif"], **entry["import"])
-    if "FINISHED" not in result:
-        raise RuntimeError("reference body %s failed to import (%s)" % (entry["id"], result))
-    meshes = [o for o in bpy.data.objects if o not in existing and o.type == "MESH"]
-    if not meshes:
-        raise RuntimeError("reference body %s produced no mesh" % entry["id"])
-    reunite_with_rig(meshes, "reference-body:" + entry["id"])
-    skin = max(meshes, key=lambda o: len(o.data.vertices))
-    segments, vertices = neck_polyline(skin)
-    if not segments:
-        raise RuntimeError("reference body %s has no open neck boundary" % entry["id"])
-    radius = polyline_radius(segments)
-    log("reference body %s (%s): neck ring %d verts, radius %.4f"
-        % (entry["id"], sex, len(vertices), radius))
-    return {"objects": meshes, "skin": skin, "segments": segments,
-            "vertices": vertices, "radius": radius, "id": entry["id"]}
+    weights = {}
+    for weight, nif in sorted(entry["nifs"].items()):
+        existing = set(bpy.data.objects)
+        bpy.ops.object.select_all(action="DESELECT")
+        arm.select_set(True)
+        bpy.context.view_layer.objects.active = arm
+        result = bpy.ops.import_scene.pynifly(filepath=nif, **entry["import"])
+        if "FINISHED" not in result:
+            raise RuntimeError("reference body %s_%s failed to import (%s)"
+                               % (entry["id"], weight, result))
+        meshes = [o for o in bpy.data.objects if o not in existing and o.type == "MESH"]
+        if not meshes:
+            raise RuntimeError("reference body %s_%s produced no mesh" % (entry["id"], weight))
+        reunite_with_rig(meshes, "reference-body:%s_%s" % (entry["id"], weight))
+        skin = max(meshes, key=lambda o: len(o.data.vertices))
+        segments, vertices = neck_polyline(skin)
+        if not segments:
+            raise RuntimeError("reference body %s_%s has no open neck boundary"
+                               % (entry["id"], weight))
+        centre, radius = neck_axis(segments)
+        points = [point for segment in segments for point in segment[:2]]
+        weights[weight] = {"segments": segments, "vertices": vertices,
+                           "centre": centre, "radius": radius,
+                           # The widest the neck gets, which is the statistic a
+                           # ring's widest vertex has to be compared against.
+                           # Comparing a max against a mean is how a ring that
+                           # is a bit-for-bit copy of the neck reads as wider
+                           # than it.
+                           "maxRadius": max((point - centre).xy.length for point in points),
+                           "extent": polyline_radius(segments),
+                           "objects": meshes, "skin": skin}
+        log("reference body %s_%s (%s): neck ring %d verts, mean radius %.4f, height %.4f"
+            % (entry["id"], weight, sex, len(vertices), radius, centre.z))
+    return {"id": entry["id"], "weights": weights}
 
 
 REFERENCE_BODIES = {
@@ -270,91 +289,171 @@ REFERENCE_BODIES = {
 }
 
 
-def close_neck_seam(pieces, item):
-    """Snap this piece's collar onto the reference neck, weights and all."""
-    sex = item.get("body_sex", "male")
-    body = REFERENCE_BODIES.get(sex) or REFERENCE_BODIES.get("male")
+def ring_radius(points, axis):
+    """A ring's widest radius about the neck axis, and its mean height."""
+    widest = max((point - axis).xy.length for point in points)
+    height = sum(point.z for point in points) / len(points)
+    return widest, height
+
+
+def measure_neck_ring(pieces, item, shape_keys):
+    """Measure this piece's own neck opening against **every** reference body.
+
+    Nothing is moved. The ring is found geometrically (``find_collar_rings``)
+    and the one nearest the neck is taken — outer concentric rings are the
+    piece's own layers, and a layer standing proud of the skin is a pauldron,
+    not a hole.
+
+    The measurement is then taken against all four references (both sexes, both
+    weights), and the host side asserts the nearest one is the wearer this
+    build is *for*. That is the point: a radius compared against a single
+    reference cannot tell a well-fitted female collar from a male one, because
+    a neck tapers and two rings at different heights are not comparable. "Which
+    body is this shaped like?" is comparable, it is answered by geometry the
+    build never touched, and it is exactly the question a mis-sexed path or a
+    broken morph target gets wrong.
+
+    The ``_0`` figures are read straight off the shape key, so they measure the
+    morph target that actually shipped rather than a second import of it.
+    """
+    sex = item["sex"]
+    body = REFERENCE_BODIES.get(sex)
     if body is None:
-        warn("%s: no reference body for sex %r; collar not closed" % (item["id"], sex))
+        warn("%s: no reference body for sex %r; neck ring not measured"
+             % (item["id"], sex))
         return None
-    if sex not in REFERENCE_BODIES:
-        warn("%s: no %s reference body; collar closed against %s"
-             % (item["id"], sex, body["id"]))
-    # A sanity bound, not the discriminator: the encirclement test in
-    # `find_collar_rings` is what decides a ring is the collar, and a vanilla
-    # collar genuinely sits a long way out — steel's raised rim is 0.30 units
-    # from the neck, which is exactly the gap being complained about. This only
-    # refuses a ring so far from the neck that the encirclement test must have
-    # been fooled.
-    move_limit = body["radius"] * 1.5
-    # Snapped to the neck lifted by COLLAR_OVERLAP, so the rim ends *inside*
-    # the neck of every build rather than butting against one of them.
-    neck_centre, neck_radius = neck_axis(body["segments"])
-    target = raise_polyline(body["segments"], neck_radius * COLLAR_OVERLAP)
-    before, after, rings, near_misses, profiles = [], [], 0, [], []
+    reference = body["weights"]["1"]
+    near_misses, measured = [], {}
+    chosen = None
     for obj in pieces:
-        found, rejected = find_collar_rings(obj, body["segments"])
+        found, rejected = find_collar_rings(obj, reference["segments"])
         near_misses.extend(rejected)
         if not found:
             continue
-        # One collar per mesh: the innermost encircling ring, which is the one
-        # the head's neck meets. Outer concentric rings are the piece's own
-        # layers and are left exactly as authored.
         ranked = []
         for ring in found:
             distances = [
                 closest_point_on_segments(
-                    obj.matrix_world @ obj.data.vertices[i].co, body["segments"])[1]
+                    obj.matrix_world @ obj.data.vertices[i].co, reference["segments"])[1]
                 for i in ring
             ]
-            ranked.append((sum(distances) / len(distances), max(distances), ring))
+            ranked.append((sum(distances) / len(distances), max(distances), ring, obj))
         ranked.sort(key=lambda entry: entry[0])
-        mean_distance, max_distance, ring = ranked[0]
-        if max_distance > move_limit:
-            near_misses.append((len(ring), round(float(mean_distance), 4),
-                                round(float(max_distance), 4), -1))
-            continue
-        moved_before, moved_after = snap_ring(obj, ring, body["skin"], target)
-        before.extend(moved_before)
-        after.extend(moved_after)
-        profiles.append(ring_profile(obj, ring, neck_centre))
-        rings += 1
-    if not before:
-        # Not a failure by itself: elven and daedric are closed-neck designs
-        # with no opening at the neck at all. The near misses are the measured
-        # evidence for that, so the gate can tell "no collar" from "missed it".
+        if chosen is None or ranked[0][0] < chosen[0]:
+            chosen = ranked[0]
+    if chosen is None:
         log("%s: no ring encircles the neck; %d near miss(es) %s"
             % (item["id"], len(near_misses), sorted(near_misses)[:6]))
-        return {"referenceBody": body["id"], "bodySex": sex, "rings": 0,
-                "snappedVertices": 0, "collar": "none",
+        return {"collar": "none", "referenceBody": body["id"], "sex": sex,
                 "nearMisses": sorted(near_misses)[:12]}
-    seam = {
-        "collar": "stitched",
-        "referenceBody": body["id"],
-        "bodySex": sex,
-        "rings": rings,
-        "snappedVertices": len(before),
-        "bodyVertices": len(body["vertices"]),
-        "maxDistanceBefore": round(float(max(before)), 6),
-        "meanDistanceBefore": round(float(sum(before) / len(before)), 6),
-        # Measured again on the moved geometry, not asserted.
-        "maxDistanceAfter": round(float(max(after)), 8),
-    }
-    # The overlap, measured on the finished collar rather than assumed from the
-    # constant: its widest rim against the reference neck it must stay inside,
-    # and its lowest rim against the neck ring it must end above. These are what
-    # the host-side gate checks.
-    seam["referenceNeckRadius"] = round(float(neck_radius), 6)
-    seam["referenceNeckHeight"] = round(float(neck_centre.z), 6)
-    seam["collarRadius"] = round(float(max(radius for _c, radius in profiles)), 6)
-    seam["collarHeight"] = round(float(min(centre.z for centre, _r in profiles)), 6)
-    log("%s: collar stitched %d verts across %d ring(s), %.5f -> %.8f; "
-        "radius %.4f vs neck %.4f, height %.4f vs neck %.4f"
-        % (item["id"], seam["snappedVertices"], rings,
-           seam["maxDistanceBefore"], seam["maxDistanceAfter"],
-           seam["collarRadius"], seam["referenceNeckRadius"],
-           seam["collarHeight"], seam["referenceNeckHeight"]))
-    return seam
+    _mean, _max, ring, obj = chosen
+    key = shape_keys.get(obj.name)
+    for weight in sorted(body["weights"]):
+        if weight == "0" and key is None:
+            # No weight pair: one authored mesh serves every wearer, so the
+            # shipped geometry is the same at both ends of the blend and the
+            # reading at _1 has already covered it.
+            continue
+        if weight == "0":
+            points = [obj.matrix_world @ key.data[i].co for i in sorted(ring)]
+        else:
+            points = [obj.matrix_world @ obj.data.vertices[i].co for i in sorted(ring)]
+        against = {}
+        for other_sex, other in sorted(REFERENCE_BODIES.items()):
+            for other_weight, entry in sorted(other["weights"].items()):
+                distances = [closest_point_on_segments(point, entry["segments"])[1]
+                             for point in points]
+                against["%s_%s" % (other["id"], other_weight)] = {
+                    "mean": round(float(sum(distances) / len(distances)), 6),
+                    "max": round(float(max(distances)), 6),
+                }
+        entry = body["weights"][weight]
+        widest, height = ring_radius(points, entry["centre"])
+        measured[weight] = {
+            "referenceBody": "%s_%s" % (body["id"], weight),
+            "vertices": len(points),
+            "ringRadius": round(float(widest), 6),
+            "ringHeight": round(float(height), 6),
+            "neckRadius": round(float(entry["radius"]), 6),
+            "neckMaxRadius": round(float(entry["maxRadius"]), 6),
+            "maxDistance": against["%s_%s" % (body["id"], weight)]["max"],
+            # Distance to every reference, which is what makes this a check and
+            # not a restatement of the thing being checked.
+            "against": against,
+        }
+    return {"collar": "measured", "referenceBody": body["id"], "sex": sex,
+            "mesh": obj.name, "morphed": key is not None, "weights": measured}
+
+
+def _base_name(name):
+    """A Blender object name with its uniquifying ".001" suffix removed."""
+    head, _, tail = name.rpartition(".")
+    return head if head and tail.isdigit() and len(tail) == 3 else name
+
+
+def load_morph_target(item, pieces):
+    """Add the ``_0`` geometry to each piece as a shape key.
+
+    Skyrim's own model: an armour piece ships as a weight pair and the engine
+    averages the two by the wearer's ``NAM7``. glTF calls the same thing a morph
+    target, three.js drives it with ``morphTargetInfluences``, so the blend the
+    engine did per frame is the blend the browser does per frame.
+
+    Matched by mesh name, and the vertex counts are asserted equal: a pair whose
+    halves disagree is not a weight pair, and interpreting one as a morph target
+    would tear the mesh apart on a thin wearer.
+    """
+    keys = {}
+    if not item.get("morph_nif"):
+        return keys
+    existing = set(bpy.data.objects)
+    bpy.ops.object.select_all(action="DESELECT")
+    arm.select_set(True)
+    bpy.context.view_layer.objects.active = arm
+    result = bpy.ops.import_scene.pynifly(filepath=item["morph_nif"], **PLAN["mesh_import"])
+    if "FINISHED" not in result:
+        warn("%s: morph source failed to import (%s); shipping unblended" % (item["id"], result))
+        return keys
+    sources = [o for o in bpy.data.objects if o not in existing and o.type == "MESH"]
+    # The morph source is thrown away, but importing it adds bones to the shared
+    # armature for every skin partition the rig does not have, and those would
+    # be exported as real joints on a piece no actor could then rebind.
+    reunite_with_rig(sources, item["id"] + ":morph")
+    # Paired by import order, not by name. The two halves of a weight pair are
+    # authored with the same shape names in the same order, and Blender
+    # uniquifies a name that already exists in the scene — the reference bodies
+    # are permanently in it, so a cuirass's own "MaleUnderwearBody:0" arrives as
+    # "MaleUnderwearBody:0.002" and matches nothing. Order is what the NIF
+    # actually guarantees; the name is checked against it and reported.
+    if len(sources) != len(pieces):
+        warn("%s: %d shipped mesh(es) and %d in the morph source; shipping unblended"
+             % (item["id"], len(pieces), len(sources)))
+        for source in sources:
+            bpy.data.objects.remove(source, do_unlink=True)
+        return keys
+    for obj, source in zip(pieces, sources):
+        if _base_name(obj.name) != _base_name(source.name):
+            warn("%s: %r pairs with %r by order but not by name"
+                 % (item["id"], obj.name, source.name))
+        if len(source.data.vertices) != len(obj.data.vertices):
+            warn("%s: %r has %d vertices and its morph source %d; not a weight pair"
+                 % (item["id"], obj.name, len(obj.data.vertices), len(source.data.vertices)))
+            continue
+        if obj.data.shape_keys is None:
+            obj.shape_key_add(name="Basis", from_mix=False)
+        key = obj.shape_key_add(name=MORPH_TARGET_NAME, from_mix=False)
+        # Through world space: the two halves of a pair import with their own
+        # object transforms, and a shape key is stored in the target's local
+        # space. Copying raw coordinates would shift the morph by the
+        # difference between the two.
+        to_local = obj.matrix_world.inverted() @ source.matrix_world
+        for index, vertex in enumerate(source.data.vertices):
+            key.data[index].co = to_local @ vertex.co
+        key.value = 0.0
+        keys[obj.name] = key
+    for source in sources:
+        bpy.data.objects.remove(source, do_unlink=True)
+    return keys
 
 
 for item in PLAN["items"]:
@@ -379,9 +478,10 @@ for item in PLAN["items"]:
                 pass
     rebuild_materials(pieces)
     reunite_with_rig(pieces, item["id"])
-    # After the rig reunion, so the weights copied off the body land in groups
-    # the exported skeleton actually has; before the export, obviously.
-    neck_seam = close_neck_seam(pieces, item) if item.get("close_neck_seam") else None
+    # The morph source before the measurement, so the _0 figure is read off the
+    # shape key that actually ships rather than a separate import of it.
+    shape_keys = load_morph_target(item, pieces)
+    neck_ring = measure_neck_ring(pieces, item, shape_keys) if item.get("close_neck_seam") else None
     bpy.ops.file.pack_all()
 
     # Which body parts this piece hides, straight out of the art.
@@ -416,26 +516,33 @@ for item in PLAN["items"]:
         export_yup=True,
         export_apply=False,
         export_skins=True,
-        export_morph=False,
+        # The weight pair. Positions only: Skyrim's own weight morph is a
+        # vertex blend, and per-target normals would roughly double a file that
+        # now ships twice over (once per sex).
+        export_morph=True,
+        export_morph_normal=False,
+        export_morph_tangent=False,
         export_animations=False,
         export_image_format="JPEG",
         export_jpeg_quality=88,
     )
-    if PLAN.get("render_icons", True):
+    if PLAN.get("render_icons", True) and item.get("icon_png"):
         render_icon(pieces, item["icon_png"])
     low, high = world_bounds(pieces)
     SUMMARY["items"][item["id"]] = {
         "meshes": [o.name for o in pieces],
         "coversBipedSlots": sorted(covered),
-        "neckSeam": neck_seam,
+        "neckRing": neck_ring,
+        "morphTarget": MORPH_TARGET_NAME if shape_keys else None,
         "sizeMeters": [round(high[0] - low[0], 5),
                        round(high[2] - low[2], 5),
                        round(high[1] - low[1], 5)],
     }
-    log("%s meshes=%d slots=%s" % (item["id"], len(pieces), sorted(covered)))
+    log("%s meshes=%d slots=%s morphed=%d/%d"
+        % (item["id"], len(pieces), sorted(covered), len(shape_keys), len(pieces)))
     for obj in pieces:
         bpy.data.objects.remove(obj, do_unlink=True)
 
 open(PLAN["summary_json"], "w", encoding="utf-8").write(json.dumps(SUMMARY, indent=2))
-log("built %d pieces" % len(SUMMARY["items"]))
+log("built %d piece-sex builds" % len(SUMMARY["items"]))
 print("SUMMARY_WRITTEN")

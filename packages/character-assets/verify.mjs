@@ -254,24 +254,47 @@ const armoury = JSON.parse(await readFile(
 ));
 const pieces = Object.entries(armoury.items ?? {});
 if (pieces.length === 0) throw new Error("Armour manifest declares no pieces");
+if (armoury.schemaVersion !== 2) {
+  throw new Error(`Armour manifest is schemaVersion ${armoury.schemaVersion}, expected 2`);
+}
+// One GLB per sex, because Bethesda authored two and a woman in a man's cuirass
+// has a hole between her head and her collar (decision 0056). Both are checked,
+// and both against their recorded hash: a half-installed rebuild that leaves the
+// female half stale is exactly the failure the sexes were split to remove.
+let armourBuilds = 0;
 for (const [id, piece] of pieces) {
-  if (typeof piece.asset !== "string" || typeof piece.icon !== "string") {
-    throw new Error(`Armour piece ${id} is missing its asset or icon path`);
+  if (typeof piece.icon !== "string") {
+    throw new Error(`Armour piece ${id} is missing its icon path`);
   }
-  await assertBinaryGltf(piece.asset);
   await assertReadable(piece.icon);
-  // Mounting rebinds the piece onto the wearer's skeleton by bone name, so a
-  // joint the bodies do not have makes the piece unwearable — invisible in game
-  // and impossible to diagnose from the symptom. Importing an armour NIF adds
-  // bones for unknown skin partitions, and Bethesda ships truncated names, so
-  // this has happened and will happen again.
-  const { joints } = await readGltfNames(piece.asset);
-  const stray = [...joints].filter((joint) => !rigBones.has(joint));
-  if (stray.length > 0) {
+  const assets = Object.entries(piece.assets ?? {});
+  if (assets.length !== roster.sexes.length) {
     throw new Error(
-      `Armour piece ${id} is skinned to ${stray.join(", ")}, which no race body has. `
-      + "Rebuild it: pipeline/build_armour.py folds stray bones back onto the rig.",
+      `Armour piece ${id} ships ${assets.length} asset(s) for ${roster.sexes.length} sexes`,
     );
+  }
+  for (const [sex, asset] of assets) {
+    if (typeof asset !== "string") {
+      throw new Error(`Armour piece ${id} is missing its ${sex} asset path`);
+    }
+    await assertMatchingGltf(asset, piece.sha256?.[sex]);
+    if (!Array.isArray(piece.coversBipedSlots?.[sex])) {
+      throw new Error(`Armour piece ${id} declares no ${sex} biped coverage`);
+    }
+    armourBuilds += 1;
+    // Mounting rebinds the piece onto the wearer's skeleton by bone name, so a
+    // joint the bodies do not have makes the piece unwearable — invisible in
+    // game and impossible to diagnose from the symptom. Importing an armour NIF
+    // adds bones for unknown skin partitions, and Bethesda ships truncated
+    // names, so this has happened and will happen again.
+    const { joints } = await readGltfNames(asset);
+    const stray = [...joints].filter((joint) => !rigBones.has(joint));
+    if (stray.length > 0) {
+      throw new Error(
+        `Armour piece ${id} (${sex}) is skinned to ${stray.join(", ")}, which no race body `
+        + "has. Rebuild it: pipeline/build_armour.py folds stray bones back onto the rig.",
+      );
+    }
   }
 }
 
@@ -296,5 +319,5 @@ for (const [id, shaft] of shafts) {
 
 console.log(
   `verified ${packs.length} animation packs, ${races.length} race bodies, ${items.length} arsenal items, `
-  + `${pieces.length} armour pieces and ${shafts.length} arrows`,
+  + `${pieces.length} armour pieces (${armourBuilds} builds) and ${shafts.length} arrows`,
 );

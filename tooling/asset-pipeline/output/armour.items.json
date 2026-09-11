@@ -1,4 +1,5 @@
 {
+  "schemaVersion": 2,
   "set": "armour",
   "slots": {
     "cuirass": {
@@ -26,13 +27,27 @@
     "iron-cuirass": {
       "slot": "cuirass",
       "material": "iron",
-      "asset": "armour/iron-cuirass.glb",
+      "assets": {
+        "male": "armour/iron-cuirass-male.glb",
+        "female": "armour/iron-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "028a4501b1a13a162a138100ba80e8490c0543a691b2233accbd4b62cda12843",
+        "female": "50644c98f2cbaaa40a1a80d66d5a6d316a3a9c569fe363b0d76b9206ad6cb168"
+      },
       "icon": "armour-icons/iron-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          38
+        ],
+        "female": [
+          32,
+          34,
+          38
+        ]
+      },
       "sizeMeters": [
         5.8481,
         10.94258,
@@ -42,12 +57,25 @@
     "iron-gauntlets": {
       "slot": "gauntlets",
       "material": "iron",
-      "asset": "armour/iron-gauntlets.glb",
+      "assets": {
+        "male": "armour/iron-gauntlets-male.glb",
+        "female": "armour/iron-gauntlets-female.glb"
+      },
+      "sha256": {
+        "male": "a5e6384e6fa4dcf4ea42004ec3da3c788c3f895a0271f7aa59270e7b743b06ad",
+        "female": "5c63770d436f4a3317a5bbf343e06073f29adc24bb1e7d93c2dd81bbfdd48da1"
+      },
       "icon": "armour-icons/iron-gauntlets.png",
-      "coversBipedSlots": [
-        33,
-        34
-      ],
+      "coversBipedSlots": {
+        "male": [
+          33,
+          34
+        ],
+        "female": [
+          33,
+          34
+        ]
+      },
       "sizeMeters": [
         6.5919,
         2.94519,
@@ -57,12 +85,25 @@
     "iron-boots": {
       "slot": "boots",
       "material": "iron",
-      "asset": "armour/iron-boots.glb",
+      "assets": {
+        "male": "armour/iron-boots-male.glb",
+        "female": "armour/iron-boots-female.glb"
+      },
+      "sha256": {
+        "male": "1224e3a436402604b7f20c4c02353bd2c2b014a2632c2b5b594db4547d60839e",
+        "female": "fac6b4b2deb1b736d28eba30628315a68126eb89f8dc9846faf30935e9f99323"
+      },
       "icon": "armour-icons/iron-boots.png",
-      "coversBipedSlots": [
-        37,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          37,
+          38
+        ],
+        "female": [
+          37,
+          38
+        ]
+      },
       "sizeMeters": [
         3.83529,
         3.19365,
@@ -72,11 +113,23 @@
     "iron-helmet": {
       "slot": "helmet",
       "material": "iron",
-      "asset": "armour/iron-helmet.glb",
+      "assets": {
+        "male": "armour/iron-helmet-male.glb",
+        "female": "armour/iron-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "1812ba052b778bbbdc54c2092bbe569b46f9a62a006b707f5376baee4add9a8b",
+        "female": "ba74fed87ae11c73bc7efe50ea42049b9e1ca0f636fb37bef6d88e5cddaa9ddc"
+      },
       "icon": "armour-icons/iron-helmet.png",
-      "coversBipedSlots": [
-        31
-      ],
+      "coversBipedSlots": {
+        "male": [
+          31
+        ],
+        "female": [
+          31
+        ]
+      },
       "sizeMeters": [
         2.714,
         1.89574,
@@ -86,13 +139,26 @@
     "steel-cuirass": {
       "slot": "cuirass",
       "material": "steel",
-      "asset": "armour/steel-cuirass.glb",
+      "assets": {
+        "male": "armour/steel-cuirass-male.glb",
+        "female": "armour/steel-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "791f3c12b0ca4fa79164fa02d2612684b66bdf735f42a087dc13d61793670714",
+        "female": "759e9753a1580d8e016f6c656ceebb1810ec3fe9244bcb145ae5392f751ccdd4"
+      },
       "icon": "armour-icons/steel-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          38
+        ],
+        "female": [
+          32,
+          34
+        ]
+      },
       "sizeMeters": [
         5.8481,
         10.8481,
@@ -102,12 +168,25 @@
     "steel-gauntlets": {
       "slot": "gauntlets",
       "material": "steel",
-      "asset": "armour/steel-gauntlets.glb",
+      "assets": {
+        "male": "armour/steel-gauntlets-male.glb",
+        "female": "armour/steel-gauntlets-female.glb"
+      },
+      "sha256": {
+        "male": "2987904ae198e5439701b61e28fd10698840ec7c849034189e90c22fb0b6ad16",
+        "female": "9e6025c72d7848315402cd2841142807df5da239097539319255ecec1bfa825d"
+      },
       "icon": "armour-icons/steel-gauntlets.png",
-      "coversBipedSlots": [
-        33,
-        34
-      ],
+      "coversBipedSlots": {
+        "male": [
+          33,
+          34
+        ],
+        "female": [
+          33,
+          34
+        ]
+      },
       "sizeMeters": [
         6.70941,
         3.25061,
@@ -117,12 +196,25 @@
     "steel-boots": {
       "slot": "boots",
       "material": "steel",
-      "asset": "armour/steel-boots.glb",
+      "assets": {
+        "male": "armour/steel-boots-male.glb",
+        "female": "armour/steel-boots-female.glb"
+      },
+      "sha256": {
+        "male": "9dfdfbb7f899896eea1c6107063ed91e6754273d5881aa490212f44595950421",
+        "female": "ceb3cc16ff55e4d746b3253c37dd89e8f747fe88f4be80ff3287649c3c0f8e24"
+      },
       "icon": "armour-icons/steel-boots.png",
-      "coversBipedSlots": [
-        37,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          37,
+          38
+        ],
+        "female": [
+          37,
+          38
+        ]
+      },
       "sizeMeters": [
         3.78866,
         3.42619,
@@ -132,11 +224,23 @@
     "steel-helmet": {
       "slot": "helmet",
       "material": "steel",
-      "asset": "armour/steel-helmet.glb",
+      "assets": {
+        "male": "armour/steel-helmet-male.glb",
+        "female": "armour/steel-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "8844472dad93d94ab6ba415486bd503fdd73497f8d52b8b9726aacd12bebe4f7",
+        "female": "16e2bc08f6df393f34a9becc2f45428aa4a306a64182575c9af70886b79225e2"
+      },
       "icon": "armour-icons/steel-helmet.png",
-      "coversBipedSlots": [
-        31
-      ],
+      "coversBipedSlots": {
+        "male": [
+          31
+        ],
+        "female": [
+          31
+        ]
+      },
       "sizeMeters": [
         3.66718,
         2.88878,
@@ -146,13 +250,27 @@
     "elven-cuirass": {
       "slot": "cuirass",
       "material": "elven",
-      "asset": "armour/elven-cuirass.glb",
+      "assets": {
+        "male": "armour/elven-cuirass-male.glb",
+        "female": "armour/elven-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "592ecfbf9ef24ea9404b0c97b1a820e87186d63413b527631891afb853668759",
+        "female": "225a8cf32114e537ec2f11970293ce2ea3365a451458cf40d0522f9faadb88e2"
+      },
       "icon": "armour-icons/elven-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          38
+        ],
+        "female": [
+          32,
+          34,
+          38
+        ]
+      },
       "sizeMeters": [
         6.34316,
         11.40509,
@@ -162,12 +280,25 @@
     "elven-gauntlets": {
       "slot": "gauntlets",
       "material": "elven",
-      "asset": "armour/elven-gauntlets.glb",
+      "assets": {
+        "male": "armour/elven-gauntlets-male.glb",
+        "female": "armour/elven-gauntlets-female.glb"
+      },
+      "sha256": {
+        "male": "3ac2eaf09b26b555bcb96f2ba84a22a8edf08c405383a7a8d515a0c029e47e1f",
+        "female": "d82e6d29f0d6a5c627259bc2507a5705f4955de28f2c8a5c6f3e584019786048"
+      },
       "icon": "armour-icons/elven-gauntlets.png",
-      "coversBipedSlots": [
-        33,
-        34
-      ],
+      "coversBipedSlots": {
+        "male": [
+          33,
+          34
+        ],
+        "female": [
+          33,
+          34
+        ]
+      },
       "sizeMeters": [
         6.93969,
         3.36075,
@@ -177,12 +308,25 @@
     "elven-boots": {
       "slot": "boots",
       "material": "elven",
-      "asset": "armour/elven-boots.glb",
+      "assets": {
+        "male": "armour/elven-boots-male.glb",
+        "female": "armour/elven-boots-female.glb"
+      },
+      "sha256": {
+        "male": "a432cd537fe1e470f92a8458cfc434a30bf96fe42d8301ddcf56afde00593a2f",
+        "female": "3e8366ae11fbe932420a51dc7f42d816a3d7904b15e26b7edad875561dc4f6a2"
+      },
       "icon": "armour-icons/elven-boots.png",
-      "coversBipedSlots": [
-        37,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          37,
+          38
+        ],
+        "female": [
+          37,
+          38
+        ]
+      },
       "sizeMeters": [
         4.07415,
         3.95525,
@@ -192,11 +336,23 @@
     "elven-helmet": {
       "slot": "helmet",
       "material": "elven",
-      "asset": "armour/elven-helmet.glb",
+      "assets": {
+        "male": "armour/elven-helmet-male.glb",
+        "female": "armour/elven-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "59e27b9c9c26654e5680a3b71f6a5bcc766992d6b7b8354c5f74bf897ec95aca",
+        "female": "5795b1cca6862de7584393410fb9fe6c1b2dc2adf43eb193f7db38caab3a7925"
+      },
       "icon": "armour-icons/elven-helmet.png",
-      "coversBipedSlots": [
-        31
-      ],
+      "coversBipedSlots": {
+        "male": [
+          31
+        ],
+        "female": [
+          31
+        ]
+      },
       "sizeMeters": [
         1.74173,
         2.48056,
@@ -206,13 +362,27 @@
     "dwarven-cuirass": {
       "slot": "cuirass",
       "material": "dwarven",
-      "asset": "armour/dwarven-cuirass.glb",
+      "assets": {
+        "male": "armour/dwarven-cuirass-male.glb",
+        "female": "armour/dwarven-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "b4a5ef25affd2260fd5016688adc85c2a886111e4865e70ed9b690f7c0db9dd5",
+        "female": "ba7febf39e919e6c01c7eee6d43a52e5d2882e424f369c8e893afcd3c8ecd9b9"
+      },
       "icon": "armour-icons/dwarven-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          38
+        ],
+        "female": [
+          32,
+          34,
+          38
+        ]
+      },
       "sizeMeters": [
         6.3162,
         10.80957,
@@ -222,12 +392,25 @@
     "dwarven-boots": {
       "slot": "boots",
       "material": "dwarven",
-      "asset": "armour/dwarven-boots.glb",
+      "assets": {
+        "male": "armour/dwarven-boots-male.glb",
+        "female": "armour/dwarven-boots-female.glb"
+      },
+      "sha256": {
+        "male": "b4984bb786216f8749b9466adb0dea62846633b240c03d7f920632908d9ed152",
+        "female": "f4763024bdb7696362af320915420b137f70cafe14a427e3065b7d3d4fc2ea36"
+      },
       "icon": "armour-icons/dwarven-boots.png",
-      "coversBipedSlots": [
-        37,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          37,
+          38
+        ],
+        "female": [
+          37,
+          38
+        ]
+      },
       "sizeMeters": [
         4.33933,
         3.98817,
@@ -237,11 +420,23 @@
     "dwarven-helmet": {
       "slot": "helmet",
       "material": "dwarven",
-      "asset": "armour/dwarven-helmet.glb",
+      "assets": {
+        "male": "armour/dwarven-helmet-male.glb",
+        "female": "armour/dwarven-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "1f52e4654450d04dc1fc2f219a5e74d7e0a3219c0263bb1f7f3e7590a99e858d",
+        "female": "2df3a05b92844d80d04a99d5e0a703e7a12ebae276755d36e5f105e1ab5689c8"
+      },
       "icon": "armour-icons/dwarven-helmet.png",
-      "coversBipedSlots": [
-        30
-      ],
+      "coversBipedSlots": {
+        "male": [
+          30
+        ],
+        "female": [
+          30
+        ]
+      },
       "sizeMeters": [
         1.68409,
         3.68039,
@@ -251,74 +446,140 @@
     "orcish-cuirass": {
       "slot": "cuirass",
       "material": "orcish",
-      "asset": "armour/orcish-cuirass.glb",
+      "assets": {
+        "male": "armour/orcish-cuirass-male.glb",
+        "female": "armour/orcish-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "5208031ca6d2a0f6930b0112fdaba91e7fa697c491696dc6c4fc97f768cdce03",
+        "female": "529967d4543610af8538335bbd5b9fb27ef2a9d1ebd7de3561693ed8956ce689"
+      },
       "icon": "armour-icons/orcish-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          38
+        ],
+        "female": [
+          32,
+          34,
+          38
+        ]
+      },
       "sizeMeters": [
-        5.77137,
-        10.48067,
-        2.83424
+        6.02421,
+        10.96249,
+        3.64984
       ]
     },
     "orcish-gauntlets": {
       "slot": "gauntlets",
       "material": "orcish",
-      "asset": "armour/orcish-gauntlets.glb",
+      "assets": {
+        "male": "armour/orcish-gauntlets-male.glb",
+        "female": "armour/orcish-gauntlets-female.glb"
+      },
+      "sha256": {
+        "male": "66cad2829eca561f550c9134877c5d1a545b8480734d38af05685c0d20dee33d",
+        "female": "66e51e2392fc29087b5529896f644a346c9ea75d55dc7d9609ce3acad8352c8e"
+      },
       "icon": "armour-icons/orcish-gauntlets.png",
-      "coversBipedSlots": [
-        0,
-        33,
-        34
-      ],
+      "coversBipedSlots": {
+        "male": [
+          33,
+          34
+        ],
+        "female": [
+          0,
+          33,
+          34
+        ]
+      },
       "sizeMeters": [
-        6.77997,
-        3.19995,
-        2.15713
+        6.76868,
+        3.09013,
+        1.95219
       ]
     },
     "orcish-boots": {
       "slot": "boots",
       "material": "orcish",
-      "asset": "armour/orcish-boots.glb",
+      "assets": {
+        "male": "armour/orcish-boots-male.glb",
+        "female": "armour/orcish-boots-female.glb"
+      },
+      "sha256": {
+        "male": "f23d274a21d6670fc1add2847443c24b5c081d6c66c232360188c6988d4f6984",
+        "female": "0b80c993739b5c61fd085560a05c1ce857d1b591e19f23745890d71edd465253"
+      },
       "icon": "armour-icons/orcish-boots.png",
-      "coversBipedSlots": [
-        37,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          37,
+          38
+        ],
+        "female": [
+          37,
+          38
+        ]
+      },
       "sizeMeters": [
-        4.22675,
-        3.87664,
-        2.39473
+        4.10073,
+        3.76766,
+        2.28754
       ]
     },
     "orcish-helmet": {
       "slot": "helmet",
       "material": "orcish",
-      "asset": "armour/orcish-helmet.glb",
+      "assets": {
+        "male": "armour/orcish-helmet-male.glb",
+        "female": "armour/orcish-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "be514f014807c71f078de228a79128a8dae325f20bc2b777cead1c30c25bc42b",
+        "female": "3dc3308d7df3720d930945b4e80bff8f1c61eae7027427ac9f5cfeda7ad66f8b"
+      },
       "icon": "armour-icons/orcish-helmet.png",
-      "coversBipedSlots": [
-        31
-      ],
+      "coversBipedSlots": {
+        "male": [
+          31
+        ],
+        "female": [
+          31
+        ]
+      },
       "sizeMeters": [
-        2.2593,
+        2.24348,
         4.19424,
-        3.76111
+        3.3831
       ]
     },
     "ebony-cuirass": {
       "slot": "cuirass",
       "material": "ebony",
-      "asset": "armour/ebony-cuirass.glb",
+      "assets": {
+        "male": "armour/ebony-cuirass-male.glb",
+        "female": "armour/ebony-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "4692e9e7a147d6ba52a59200c3d8d26c4d23e7d4521cc16d8ed8fec1635d3c03",
+        "female": "4b259e24aa646c687595b1469909590236fa5e4a386014438b58340ca9224e09"
+      },
       "icon": "armour-icons/ebony-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          38
+        ],
+        "female": [
+          32,
+          34,
+          38
+        ]
+      },
       "sizeMeters": [
         6.34604,
         10.92656,
@@ -328,12 +589,25 @@
     "ebony-gauntlets": {
       "slot": "gauntlets",
       "material": "ebony",
-      "asset": "armour/ebony-gauntlets.glb",
+      "assets": {
+        "male": "armour/ebony-gauntlets-male.glb",
+        "female": "armour/ebony-gauntlets-female.glb"
+      },
+      "sha256": {
+        "male": "9cb3b113787a82a69ba456b340f86e24673c200e1fc5405ea47184c973f0b631",
+        "female": "b2bc815b5da9141473bb5b67ccbe41317692bb0ba8a3e970fbed7733ae7fbf9b"
+      },
       "icon": "armour-icons/ebony-gauntlets.png",
-      "coversBipedSlots": [
-        33,
-        34
-      ],
+      "coversBipedSlots": {
+        "male": [
+          33,
+          34
+        ],
+        "female": [
+          33,
+          34
+        ]
+      },
       "sizeMeters": [
         6.89866,
         3.88206,
@@ -343,12 +617,25 @@
     "ebony-boots": {
       "slot": "boots",
       "material": "ebony",
-      "asset": "armour/ebony-boots.glb",
+      "assets": {
+        "male": "armour/ebony-boots-male.glb",
+        "female": "armour/ebony-boots-female.glb"
+      },
+      "sha256": {
+        "male": "e5465b69a0ad77fdf88d53a19100bfff6d41757af5fe0b66212e89f0d5b90ada",
+        "female": "ae6494318b9580a05b395d893538bc1d32a5d82d0e030a2088d323ca39596a7f"
+      },
       "icon": "armour-icons/ebony-boots.png",
-      "coversBipedSlots": [
-        37,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          37,
+          38
+        ],
+        "female": [
+          37,
+          38
+        ]
+      },
       "sizeMeters": [
         4.14589,
         4.29814,
@@ -358,11 +645,23 @@
     "ebony-helmet": {
       "slot": "helmet",
       "material": "ebony",
-      "asset": "armour/ebony-helmet.glb",
+      "assets": {
+        "male": "armour/ebony-helmet-male.glb",
+        "female": "armour/ebony-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "0afb7b7b5b8ab509c7d4334a46c0046be68aa7e9a58132eb49e742270de1a3a8",
+        "female": "59188401fdec3d8270bbabc897b29998bc89d7747d564dab3063f3f499e2bc1b"
+      },
       "icon": "armour-icons/ebony-helmet.png",
-      "coversBipedSlots": [
-        30
-      ],
+      "coversBipedSlots": {
+        "male": [
+          30
+        ],
+        "female": [
+          30
+        ]
+      },
       "sizeMeters": [
         1.84252,
         2.83677,
@@ -372,13 +671,27 @@
     "glass-cuirass": {
       "slot": "cuirass",
       "material": "glass",
-      "asset": "armour/glass-cuirass.glb",
+      "assets": {
+        "male": "armour/glass-cuirass-male.glb",
+        "female": "armour/glass-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "befd7a7418d0339e0a01a32411d7d3b1b3bd1041ede469eb2822a5890e8a6153",
+        "female": "066e94efdc88e8e0b7bd19a17b17e0ded0f17298b4272a14d69867dc2a0bab6b"
+      },
       "icon": "armour-icons/glass-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          38
+        ],
+        "female": [
+          32,
+          34,
+          38
+        ]
+      },
       "sizeMeters": [
         6.08697,
         11.21925,
@@ -388,12 +701,25 @@
     "glass-gauntlets": {
       "slot": "gauntlets",
       "material": "glass",
-      "asset": "armour/glass-gauntlets.glb",
+      "assets": {
+        "male": "armour/glass-gauntlets-male.glb",
+        "female": "armour/glass-gauntlets-female.glb"
+      },
+      "sha256": {
+        "male": "8864f98bb221ee0d4bdc5fa669fb2060544d236dcbd29adfedf5d2ef71f4a589",
+        "female": "1cfa2d3d154bdce08162303fdb477c14fca125037726980b44d10f115407bb09"
+      },
       "icon": "armour-icons/glass-gauntlets.png",
-      "coversBipedSlots": [
-        33,
-        34
-      ],
+      "coversBipedSlots": {
+        "male": [
+          33,
+          34
+        ],
+        "female": [
+          33,
+          34
+        ]
+      },
       "sizeMeters": [
         6.57254,
         3.34373,
@@ -403,12 +729,25 @@
     "glass-boots": {
       "slot": "boots",
       "material": "glass",
-      "asset": "armour/glass-boots.glb",
+      "assets": {
+        "male": "armour/glass-boots-male.glb",
+        "female": "armour/glass-boots-female.glb"
+      },
+      "sha256": {
+        "male": "467dc268ce861c282e352c24065381f92aab772d02009f8cd05e7a4bcf06a824",
+        "female": "b52ae0acc3eba66f52e8be60e6886d758e6cac6b3b4b07522ce2ceb0b466660b"
+      },
       "icon": "armour-icons/glass-boots.png",
-      "coversBipedSlots": [
-        37,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          37,
+          38
+        ],
+        "female": [
+          37,
+          38
+        ]
+      },
       "sizeMeters": [
         4.04356,
         4.07836,
@@ -418,11 +757,23 @@
     "glass-helmet": {
       "slot": "helmet",
       "material": "glass",
-      "asset": "armour/glass-helmet.glb",
+      "assets": {
+        "male": "armour/glass-helmet-male.glb",
+        "female": "armour/glass-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "1a563179c4aa3bf262ad566a920880c821a80d56f977e716756795c8b7767884",
+        "female": "e079cec9e26e4245bb94c031be2cabdd94b8567bada9340b5dbef2290a7741cc"
+      },
       "icon": "armour-icons/glass-helmet.png",
-      "coversBipedSlots": [
-        31
-      ],
+      "coversBipedSlots": {
+        "male": [
+          31
+        ],
+        "female": [
+          31
+        ]
+      },
       "sizeMeters": [
         1.76709,
         2.36935,
@@ -432,42 +783,81 @@
     "daedric-cuirass": {
       "slot": "cuirass",
       "material": "daedric",
-      "asset": "armour/daedric-cuirass.glb",
+      "assets": {
+        "male": "armour/daedric-cuirass-male.glb",
+        "female": "armour/daedric-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "be1aac366199ab706e8d54b60064b43c08d385b120444fbc161c3cf54d2a5fb0",
+        "female": "75f02fea11751a0064cb846be15ddd47edd482e99ddde5010a4e52517a7b73da"
+      },
       "icon": "armour-icons/daedric-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          38
+        ],
+        "female": [
+          32,
+          34,
+          38
+        ]
+      },
       "sizeMeters": [
-        6.02617,
-        12.00729,
-        3.08549
+        6.13203,
+        12.64602,
+        3.40867
       ]
     },
     "daedric-gauntlets": {
       "slot": "gauntlets",
       "material": "daedric",
-      "asset": "armour/daedric-gauntlets.glb",
+      "assets": {
+        "male": "armour/daedric-gauntlets-male.glb",
+        "female": "armour/daedric-gauntlets-female.glb"
+      },
+      "sha256": {
+        "male": "7dba694c8e10d43f8c5aa2f562619a0458b785a38ee440417606bd8911cb16b1",
+        "female": "97ea56e770f21425dcf5946c0a650e179f2ec1c8dbf8039c84d45306f630ada5"
+      },
       "icon": "armour-icons/daedric-gauntlets.png",
-      "coversBipedSlots": [
-        33,
-        34
-      ],
+      "coversBipedSlots": {
+        "male": [
+          33,
+          34
+        ],
+        "female": [
+          33,
+          34
+        ]
+      },
       "sizeMeters": [
-        6.76125,
-        3.5281,
-        2.11624
+        7.13228,
+        3.55656,
+        2.16671
       ]
     },
     "daedric-boots": {
       "slot": "boots",
       "material": "daedric",
-      "asset": "armour/daedric-boots.glb",
+      "assets": {
+        "male": "armour/daedric-boots-male.glb",
+        "female": "armour/daedric-boots-female.glb"
+      },
+      "sha256": {
+        "male": "36e34f9f875f5857df223580cf6cc42d33105ebb659b9d38ca890e6ad67f353b",
+        "female": "a26a7afb430915052aa69f9dc1e28220fd6c08b46b56b45dd64cd4ffc1c9ae19"
+      },
       "icon": "armour-icons/daedric-boots.png",
-      "coversBipedSlots": [
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          38
+        ],
+        "female": [
+          38
+        ]
+      },
       "sizeMeters": [
         4.00947,
         4.05002,
@@ -477,11 +867,23 @@
     "daedric-helmet": {
       "slot": "helmet",
       "material": "daedric",
-      "asset": "armour/daedric-helmet.glb",
+      "assets": {
+        "male": "armour/daedric-helmet-male.glb",
+        "female": "armour/daedric-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "842d9e80bada3b55a025649b909a66f719002e5a71b642195abc51b753c1205c",
+        "female": "b83e02f7adcf21c3e62d45eddd5ad767d84d7d7abd6ab0530b33d87249acd3ab"
+      },
       "icon": "armour-icons/daedric-helmet.png",
-      "coversBipedSlots": [
-        30
-      ],
+      "coversBipedSlots": {
+        "male": [
+          30
+        ],
+        "female": [
+          30
+        ]
+      },
       "sizeMeters": [
         2.36344,
         3.9425,
@@ -491,14 +893,28 @@
     "studded-cuirass": {
       "slot": "cuirass",
       "material": "studded",
-      "asset": "armour/studded-cuirass.glb",
+      "assets": {
+        "male": "armour/studded-cuirass-male.glb",
+        "female": "armour/studded-cuirass-female.glb"
+      },
+      "sha256": {
+        "male": "882503629bad87fb70c9994ad734edc6d362b082e7fce4540542c215bee00078",
+        "female": "59b576e89275749caac9d96deea1fead4524d36a81b2bbbaf505ba6ba1a78be4"
+      },
       "icon": "armour-icons/studded-cuirass.png",
-      "coversBipedSlots": [
-        32,
-        34,
-        36,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32,
+          34,
+          36,
+          38
+        ],
+        "female": [
+          32,
+          34,
+          38
+        ]
+      },
       "sizeMeters": [
         5.8481,
         10.77292,
@@ -508,11 +924,24 @@
     "studded-gauntlets": {
       "slot": "gauntlets",
       "material": "studded",
-      "asset": "armour/studded-gauntlets.glb",
+      "assets": {
+        "male": "armour/studded-gauntlets-male.glb",
+        "female": "armour/studded-gauntlets-female.glb"
+      },
+      "sha256": {
+        "male": "f2d7f0d0a9dbf1553fcf677d4008a96014e1999ba68e066576dfee99cb87811d",
+        "female": "a44e292acfde777118606d2f7851252d2223ce9c078651a63c1a7df8f712ec5f"
+      },
       "icon": "armour-icons/studded-gauntlets.png",
-      "coversBipedSlots": [
-        32
-      ],
+      "coversBipedSlots": {
+        "male": [
+          32
+        ],
+        "female": [
+          33,
+          34
+        ]
+      },
       "sizeMeters": [
         6.46178,
         3.36167,
@@ -522,12 +951,25 @@
     "studded-boots": {
       "slot": "boots",
       "material": "studded",
-      "asset": "armour/studded-boots.glb",
+      "assets": {
+        "male": "armour/studded-boots-male.glb",
+        "female": "armour/studded-boots-female.glb"
+      },
+      "sha256": {
+        "male": "9a8880c13fb3390a5e8d02241cde1ce8e9c9d258e34a4bbacdb5065d23330df2",
+        "female": "27c7a7078f45443b4922bd0d3a7f3f4610830efaceec7d1cafe055b850fb5a63"
+      },
       "icon": "armour-icons/studded-boots.png",
-      "coversBipedSlots": [
-        37,
-        38
-      ],
+      "coversBipedSlots": {
+        "male": [
+          37,
+          38
+        ],
+        "female": [
+          37,
+          38
+        ]
+      },
       "sizeMeters": [
         4.1058,
         3.65414,
@@ -537,11 +979,23 @@
     "studded-helmet": {
       "slot": "helmet",
       "material": "studded",
-      "asset": "armour/studded-helmet.glb",
+      "assets": {
+        "male": "armour/studded-helmet-male.glb",
+        "female": "armour/studded-helmet-female.glb"
+      },
+      "sha256": {
+        "male": "29e448c6ee1043f0680ddbf780a2657a65e7cdd822f1605096a7fb54d7269a41",
+        "female": "51a35427a4a292a05aff3b16ee2e170f4bc854cf07cd221b22a50453d85c6806"
+      },
       "icon": "armour-icons/studded-helmet.png",
-      "coversBipedSlots": [
-        31
-      ],
+      "coversBipedSlots": {
+        "male": [
+          31
+        ],
+        "female": [
+          31
+        ]
+      },
       "sizeMeters": [
         1.96731,
         2.0162,

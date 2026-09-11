@@ -1,241 +1,946 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "metresPerUnit": 0.14224,
   "bodies": {
     "male": {
       "builds": 10,
       "narrowestNeckRadius": 0.483082,
-      "narrowestNeckRace": "imperial",
       "widestNeckRadius": 0.529079,
-      "highestNeckRingHeight": 11.187285,
-      "highestNeckRace": "nord",
       "unit": "source units of 0.142240 m"
     },
     "female": {
       "builds": 10,
       "narrowestNeckRadius": 0.344779,
-      "narrowestNeckRace": "dunmer",
       "widestNeckRadius": 0.386221,
-      "highestNeckRingHeight": 11.201099,
-      "highestNeckRace": "dunmer",
       "unit": "source units of 0.142240 m"
     }
   },
   "cuirasses": {
     "iron": {
       "male": {
-        "cuirass": "iron",
-        "sex": "male",
-        "state": "CLOSED",
-        "insideNarrowestNeckMm": 2.5,
-        "aboveHighestRingMm": 4.95,
-        "worstRadialMarginMm": -8.38,
-        "worstVerticalMarginMm": 6.91,
-        "worstBuild": "bosmer",
-        "collarVertices": 26
+        "imperial-male": {
+          "cuirass": "iron",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": 0.0,
+          "collarVertices": 26
+        },
+        "redguard-male": {
+          "cuirass": "iron",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": 0.0,
+          "collarVertices": 26
+        },
+        "nord-male": {
+          "cuirass": "iron",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": 0.0,
+          "collarVertices": 26
+        }
       },
       "female": {
-        "cuirass": "iron",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -17.71,
-        "aboveHighestRingMm": 2.99,
-        "worstRadialMarginMm": -23.4,
-        "worstVerticalMarginMm": -6.12,
-        "worstBuild": "dunmer",
-        "collarVertices": 26
+        "dunmer-female": {
+          "cuirass": "iron",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": -0.0,
+          "collarVertices": 26
+        },
+        "breton-female": {
+          "cuirass": "iron",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": 0.0,
+          "collarVertices": 26
+        },
+        "khajiit-female": {
+          "cuirass": "iron",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": -0.0,
+          "collarVertices": 26
+        }
       }
     },
     "steel": {
       "male": {
-        "cuirass": "steel",
-        "sex": "male",
-        "state": "CLOSED",
-        "insideNarrowestNeckMm": 1.45,
-        "aboveHighestRingMm": 17.3,
-        "worstRadialMarginMm": -7.37,
-        "worstVerticalMarginMm": 6.89,
-        "worstBuild": "bosmer",
-        "collarVertices": 14
+        "imperial-male": {
+          "cuirass": "steel",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -5.07,
+          "insideOwnNeckMm": -2.55,
+          "aboveOwnNeckRingMm": 3.92,
+          "collarVertices": 14
+        },
+        "redguard-male": {
+          "cuirass": "steel",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "CLOSED",
+          "rimOnNeck": false,
+          "skinMarginMm": 5.48,
+          "insideOwnNeckMm": -0.65,
+          "aboveOwnNeckRingMm": 1.82,
+          "collarVertices": 14
+        },
+        "nord-male": {
+          "cuirass": "steel",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -3.53,
+          "insideOwnNeckMm": 1.24,
+          "aboveOwnNeckRingMm": -0.26,
+          "collarVertices": 14
+        }
       },
       "female": {
-        "cuirass": "steel",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -17.39,
-        "aboveHighestRingMm": 15.33,
-        "worstRadialMarginMm": -22.61,
-        "worstVerticalMarginMm": -3.63,
-        "worstBuild": "redguard",
-        "collarVertices": 14
+        "dunmer-female": {
+          "cuirass": "steel",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -119.93,
+          "insideOwnNeckMm": 0.21,
+          "aboveOwnNeckRingMm": -19.18,
+          "collarVertices": 14
+        },
+        "breton-female": {
+          "cuirass": "steel",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "CLOSED",
+          "rimOnNeck": false,
+          "skinMarginMm": 2.27,
+          "insideOwnNeckMm": 2.83,
+          "aboveOwnNeckRingMm": -18.65,
+          "collarVertices": 14
+        },
+        "khajiit-female": {
+          "cuirass": "steel",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "CLOSED",
+          "rimOnNeck": false,
+          "skinMarginMm": 3.04,
+          "insideOwnNeckMm": 0.45,
+          "aboveOwnNeckRingMm": -17.86,
+          "collarVertices": 14
+        }
       }
     },
     "studded": {
       "male": {
-        "cuirass": "studded",
-        "sex": "male",
-        "state": "CLOSED",
-        "insideNarrowestNeckMm": 1.56,
-        "aboveHighestRingMm": 11.03,
-        "worstRadialMarginMm": -8.12,
-        "worstVerticalMarginMm": 6.91,
-        "worstBuild": "bosmer",
-        "collarVertices": 14
+        "imperial-male": {
+          "cuirass": "studded",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 24,
+              "offset": 0.417,
+              "radius": 0.6417,
+              "widestGapDegrees": 122
+            }
+          ]
+        },
+        "redguard-male": {
+          "cuirass": "studded",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 24,
+              "offset": 0.4433,
+              "radius": 0.6757,
+              "widestGapDegrees": 121
+            }
+          ]
+        },
+        "nord-male": {
+          "cuirass": "studded",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 24,
+              "offset": 0.4696,
+              "radius": 0.7099,
+              "widestGapDegrees": 121
+            }
+          ]
+        }
       },
       "female": {
-        "cuirass": "studded",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -18.15,
-        "aboveHighestRingMm": 9.07,
-        "worstRadialMarginMm": -169.95,
-        "worstVerticalMarginMm": -5.26,
-        "worstBuild": "dunmer",
-        "collarVertices": 14
+        "dunmer-female": {
+          "cuirass": "studded",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": -0.0,
+          "collarVertices": 26
+        },
+        "breton-female": {
+          "cuirass": "studded",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": -0.0,
+          "collarVertices": 26
+        },
+        "khajiit-female": {
+          "cuirass": "studded",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": -0.0,
+          "collarVertices": 26
+        }
       }
     },
     "daedric": {
       "male": {
-        "cuirass": "daedric",
-        "sex": "male",
-        "state": "CLOSED",
-        "insideNarrowestNeckMm": 3.26,
-        "aboveHighestRingMm": 13.43,
-        "worstRadialMarginMm": -6.34,
-        "worstVerticalMarginMm": 6.94,
-        "worstBuild": "bosmer",
-        "collarVertices": 20
+        "imperial-male": {
+          "cuirass": "daedric",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 12,
+              "offset": 0.023,
+              "radius": 0.989,
+              "widestGapDegrees": 38
+            },
+            {
+              "vertices": 24,
+              "offset": 0.3073,
+              "radius": 0.5003,
+              "widestGapDegrees": 122
+            }
+          ]
+        },
+        "redguard-male": {
+          "cuirass": "daedric",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 12,
+              "offset": 0.0404,
+              "radius": 1.0186,
+              "widestGapDegrees": 38
+            },
+            {
+              "vertices": 24,
+              "offset": 0.3047,
+              "radius": 0.4987,
+              "widestGapDegrees": 122
+            }
+          ]
+        },
+        "nord-male": {
+          "cuirass": "daedric",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 12,
+              "offset": 0.0577,
+              "radius": 1.0483,
+              "widestGapDegrees": 39
+            },
+            {
+              "vertices": 24,
+              "offset": 0.302,
+              "radius": 0.497,
+              "widestGapDegrees": 122
+            }
+          ]
+        }
       },
       "female": {
-        "cuirass": "daedric",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -16.44,
-        "aboveHighestRingMm": 11.46,
-        "worstRadialMarginMm": -22.28,
-        "worstVerticalMarginMm": -5.23,
-        "worstBuild": "dunmer",
-        "collarVertices": 20
+        "dunmer-female": {
+          "cuirass": "daedric",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 12,
+              "offset": 0.0957,
+              "radius": 1.0731,
+              "widestGapDegrees": 39
+            }
+          ]
+        },
+        "breton-female": {
+          "cuirass": "daedric",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 12,
+              "offset": 0.094,
+              "radius": 1.073,
+              "widestGapDegrees": 39
+            }
+          ]
+        },
+        "khajiit-female": {
+          "cuirass": "daedric",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 12,
+              "offset": 0.0914,
+              "radius": 1.0728,
+              "widestGapDegrees": 39
+            }
+          ]
+        }
       }
     },
     "dwarven": {
       "male": {
-        "cuirass": "dwarven",
-        "sex": "male",
-        "state": "CLOSED",
-        "insideNarrowestNeckMm": 0.03,
-        "aboveHighestRingMm": 11.78,
-        "worstRadialMarginMm": -7.88,
-        "worstVerticalMarginMm": 6.91,
-        "worstBuild": "bosmer",
-        "collarVertices": 21
+        "imperial-male": {
+          "cuirass": "dwarven",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 20,
+              "offset": 0.0448,
+              "radius": 0.9131,
+              "widestGapDegrees": 26
+            },
+            {
+              "vertices": 18,
+              "offset": 0.1117,
+              "radius": 1.0313,
+              "widestGapDegrees": 26
+            },
+            {
+              "vertices": 14,
+              "offset": 0.1802,
+              "radius": 0.5029,
+              "widestGapDegrees": 36
+            }
+          ]
+        },
+        "redguard-male": {
+          "cuirass": "dwarven",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 20,
+              "offset": 0.0472,
+              "radius": 0.9447,
+              "widestGapDegrees": 26
+            },
+            {
+              "vertices": 18,
+              "offset": 0.1155,
+              "radius": 1.0671,
+              "widestGapDegrees": 26
+            },
+            {
+              "vertices": 14,
+              "offset": 0.1906,
+              "radius": 0.5203,
+              "widestGapDegrees": 36
+            }
+          ]
+        },
+        "nord-male": {
+          "cuirass": "dwarven",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 20,
+              "offset": 0.0497,
+              "radius": 0.9764,
+              "widestGapDegrees": 26
+            },
+            {
+              "vertices": 18,
+              "offset": 0.1192,
+              "radius": 1.103,
+              "widestGapDegrees": 27
+            },
+            {
+              "vertices": 14,
+              "offset": 0.2011,
+              "radius": 0.5377,
+              "widestGapDegrees": 35
+            }
+          ]
+        }
       },
       "female": {
-        "cuirass": "dwarven",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -19.37,
-        "aboveHighestRingMm": 9.82,
-        "worstRadialMarginMm": -23.38,
-        "worstVerticalMarginMm": -5.01,
-        "worstBuild": "dunmer",
-        "collarVertices": 21
+        "dunmer-female": {
+          "cuirass": "dwarven",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -6.05,
+          "insideOwnNeckMm": -3.16,
+          "aboveOwnNeckRingMm": 3.16,
+          "collarVertices": 14
+        },
+        "breton-female": {
+          "cuirass": "dwarven",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -4.38,
+          "insideOwnNeckMm": -1.84,
+          "aboveOwnNeckRingMm": 3.74,
+          "collarVertices": 14
+        },
+        "khajiit-female": {
+          "cuirass": "dwarven",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "CLOSED",
+          "rimOnNeck": false,
+          "skinMarginMm": 1.04,
+          "insideOwnNeckMm": -2.54,
+          "aboveOwnNeckRingMm": 4.61,
+          "collarVertices": 14
+        }
       }
     },
     "ebony": {
       "male": {
-        "cuirass": "ebony",
-        "sex": "male",
-        "state": "CLOSED",
-        "insideNarrowestNeckMm": 2.5,
-        "aboveHighestRingMm": 4.95,
-        "worstRadialMarginMm": -8.38,
-        "worstVerticalMarginMm": 6.91,
-        "worstBuild": "bosmer",
-        "collarVertices": 26
+        "imperial-male": {
+          "cuirass": "ebony",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -246.65,
+          "insideOwnNeckMm": -10.7,
+          "aboveOwnNeckRingMm": -2.03,
+          "collarVertices": 26
+        },
+        "redguard-male": {
+          "cuirass": "ebony",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -256.59,
+          "insideOwnNeckMm": -7.65,
+          "aboveOwnNeckRingMm": -1.43,
+          "collarVertices": 26
+        },
+        "nord-male": {
+          "cuirass": "ebony",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -263.51,
+          "insideOwnNeckMm": -4.51,
+          "aboveOwnNeckRingMm": -0.84,
+          "collarVertices": 26
+        }
       },
       "female": {
-        "cuirass": "ebony",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -17.71,
-        "aboveHighestRingMm": 2.99,
-        "worstRadialMarginMm": -23.4,
-        "worstVerticalMarginMm": -6.12,
-        "worstBuild": "dunmer",
-        "collarVertices": 26
+        "dunmer-female": {
+          "cuirass": "ebony",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": -0.0,
+          "collarVertices": 26
+        },
+        "breton-female": {
+          "cuirass": "ebony",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.0,
+          "aboveOwnNeckRingMm": -0.0,
+          "collarVertices": 26
+        },
+        "khajiit-female": {
+          "cuirass": "ebony",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "CLOSED",
+          "rimOnNeck": true,
+          "skinMarginMm": 0.0,
+          "insideOwnNeckMm": -0.01,
+          "aboveOwnNeckRingMm": -0.01,
+          "collarVertices": 26
+        }
       }
     },
     "elven": {
       "male": {
-        "cuirass": "elven",
-        "sex": "male",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -7.56,
-        "aboveHighestRingMm": 56.48,
-        "worstRadialMarginMm": -29.2,
-        "worstVerticalMarginMm": 41.48,
-        "worstBuild": "bosmer",
-        "collarVertices": 10
+        "imperial-male": {
+          "cuirass": "elven",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -18.23,
+          "insideOwnNeckMm": -32.3,
+          "aboveOwnNeckRingMm": 37.93,
+          "collarVertices": 10
+        },
+        "redguard-male": {
+          "cuirass": "elven",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -13.38,
+          "insideOwnNeckMm": -29.1,
+          "aboveOwnNeckRingMm": 35.29,
+          "collarVertices": 10
+        },
+        "nord-male": {
+          "cuirass": "elven",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -11.55,
+          "insideOwnNeckMm": -25.91,
+          "aboveOwnNeckRingMm": 32.62,
+          "collarVertices": 10
+        }
       },
       "female": {
-        "cuirass": "elven",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -27.54,
-        "aboveHighestRingMm": 54.51,
-        "worstRadialMarginMm": -34.62,
-        "worstVerticalMarginMm": 45.46,
-        "worstBuild": "orsimer",
-        "collarVertices": 10
+        "dunmer-female": {
+          "cuirass": "elven",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -5.65,
+          "insideOwnNeckMm": -19.5,
+          "aboveOwnNeckRingMm": 47.56,
+          "collarVertices": 12
+        },
+        "breton-female": {
+          "cuirass": "elven",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -9.87,
+          "insideOwnNeckMm": -20.38,
+          "aboveOwnNeckRingMm": 50.72,
+          "collarVertices": 12
+        },
+        "khajiit-female": {
+          "cuirass": "elven",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "OPEN",
+          "rimOnNeck": false,
+          "skinMarginMm": -4.28,
+          "insideOwnNeckMm": -21.85,
+          "aboveOwnNeckRingMm": 55.55,
+          "collarVertices": 12
+        }
       }
     },
     "glass": {
       "male": {
-        "cuirass": "glass",
-        "sex": "male",
-        "state": "CLOSED",
-        "insideNarrowestNeckMm": 0.92,
-        "aboveHighestRingMm": 12.26,
-        "worstRadialMarginMm": -8.43,
-        "worstVerticalMarginMm": 6.91,
-        "worstBuild": "bosmer",
-        "collarVertices": 20
+        "imperial-male": {
+          "cuirass": "glass",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "CLOSED",
+          "rimOnNeck": false,
+          "skinMarginMm": 6.94,
+          "insideOwnNeckMm": -15.02,
+          "aboveOwnNeckRingMm": 59.87,
+          "collarVertices": 16
+        },
+        "redguard-male": {
+          "cuirass": "glass",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "CLOSED",
+          "rimOnNeck": false,
+          "skinMarginMm": 3.23,
+          "insideOwnNeckMm": -12.62,
+          "aboveOwnNeckRingMm": 56.82,
+          "collarVertices": 16
+        },
+        "nord-male": {
+          "cuirass": "glass",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "CLOSED",
+          "rimOnNeck": false,
+          "skinMarginMm": 11.97,
+          "insideOwnNeckMm": -10.21,
+          "aboveOwnNeckRingMm": 53.78,
+          "collarVertices": 16
+        }
       },
       "female": {
-        "cuirass": "glass",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -18.37,
-        "aboveHighestRingMm": 10.29,
-        "worstRadialMarginMm": -23.3,
-        "worstVerticalMarginMm": -5.95,
-        "worstBuild": "dunmer",
-        "collarVertices": 20
+        "dunmer-female": {
+          "cuirass": "glass",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 74,
+              "offset": 0.024,
+              "radius": 1.2044,
+              "widestGapDegrees": 14
+            },
+            {
+              "vertices": 16,
+              "offset": 0.1223,
+              "radius": 0.354,
+              "widestGapDegrees": 34
+            },
+            {
+              "vertices": 20,
+              "offset": 0.1449,
+              "radius": 0.9627,
+              "widestGapDegrees": 27
+            }
+          ]
+        },
+        "breton-female": {
+          "cuirass": "glass",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 74,
+              "offset": 0.0255,
+              "radius": 1.2348,
+              "widestGapDegrees": 15
+            },
+            {
+              "vertices": 16,
+              "offset": 0.126,
+              "radius": 0.3571,
+              "widestGapDegrees": 34
+            },
+            {
+              "vertices": 20,
+              "offset": 0.1805,
+              "radius": 1.0036,
+              "widestGapDegrees": 26
+            }
+          ]
+        },
+        "khajiit-female": {
+          "cuirass": "glass",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 74,
+              "offset": 0.0279,
+              "radius": 1.2805,
+              "widestGapDegrees": 15
+            },
+            {
+              "vertices": 16,
+              "offset": 0.1317,
+              "radius": 0.3618,
+              "widestGapDegrees": 34
+            },
+            {
+              "vertices": 20,
+              "offset": 0.234,
+              "radius": 1.0652,
+              "widestGapDegrees": 26
+            }
+          ]
+        }
       }
     },
     "orcish": {
       "male": {
-        "cuirass": "orcish",
-        "sex": "male",
-        "state": "CLOSED",
-        "insideNarrowestNeckMm": 3.75,
-        "aboveHighestRingMm": 3.44,
-        "worstRadialMarginMm": -7.45,
-        "worstVerticalMarginMm": 6.95,
-        "worstBuild": "bosmer",
-        "collarVertices": 34
+        "imperial-male": {
+          "cuirass": "orcish",
+          "sex": "male",
+          "build": "imperial-male",
+          "bodyWeight": 15.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 14,
+              "offset": 0.0737,
+              "radius": 0.8877,
+              "widestGapDegrees": 35
+            },
+            {
+              "vertices": 24,
+              "offset": 0.3547,
+              "radius": 0.4823,
+              "widestGapDegrees": 68
+            }
+          ]
+        },
+        "redguard-male": {
+          "cuirass": "orcish",
+          "sex": "male",
+          "build": "redguard-male",
+          "bodyWeight": 40.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 14,
+              "offset": 0.0651,
+              "radius": 0.9254,
+              "widestGapDegrees": 35
+            },
+            {
+              "vertices": 24,
+              "offset": 0.3715,
+              "radius": 0.4962,
+              "widestGapDegrees": 68
+            }
+          ]
+        },
+        "nord-male": {
+          "cuirass": "orcish",
+          "sex": "male",
+          "build": "nord-male",
+          "bodyWeight": 65.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 14,
+              "offset": 0.0565,
+              "radius": 0.9631,
+              "widestGapDegrees": 35
+            },
+            {
+              "vertices": 24,
+              "offset": 0.3882,
+              "radius": 0.5102,
+              "widestGapDegrees": 68
+            }
+          ]
+        }
       },
       "female": {
-        "cuirass": "orcish",
-        "sex": "female",
-        "state": "OPEN",
-        "insideNarrowestNeckMm": -16.74,
-        "aboveHighestRingMm": 1.48,
-        "worstRadialMarginMm": -167.66,
-        "worstVerticalMarginMm": -6.12,
-        "worstBuild": "dunmer",
-        "collarVertices": 34
+        "dunmer-female": {
+          "cuirass": "orcish",
+          "sex": "female",
+          "build": "dunmer-female",
+          "bodyWeight": 0.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 68,
+              "offset": 0.0666,
+              "radius": 1.0322,
+              "widestGapDegrees": 81
+            },
+            {
+              "vertices": 30,
+              "offset": 0.1472,
+              "radius": 1.1065,
+              "widestGapDegrees": 27
+            },
+            {
+              "vertices": 36,
+              "offset": 0.3132,
+              "radius": 0.3698,
+              "widestGapDegrees": 40
+            },
+            {
+              "vertices": 20,
+              "offset": 0.3163,
+              "radius": 0.3255,
+              "widestGapDegrees": 145
+            }
+          ]
+        },
+        "breton-female": {
+          "cuirass": "orcish",
+          "sex": "female",
+          "build": "breton-female",
+          "bodyWeight": 40.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 68,
+              "offset": 0.0525,
+              "radius": 1.06,
+              "widestGapDegrees": 82
+            },
+            {
+              "vertices": 30,
+              "offset": 0.1438,
+              "radius": 1.1456,
+              "widestGapDegrees": 26
+            },
+            {
+              "vertices": 36,
+              "offset": 0.3241,
+              "radius": 0.3845,
+              "widestGapDegrees": 39
+            },
+            {
+              "vertices": 20,
+              "offset": 0.3312,
+              "radius": 0.3401,
+              "widestGapDegrees": 146
+            }
+          ]
+        },
+        "khajiit-female": {
+          "cuirass": "orcish",
+          "sex": "female",
+          "build": "khajiit-female",
+          "bodyWeight": 100.0,
+          "state": "UNKNOWN",
+          "nearMisses": [
+            {
+              "vertices": 68,
+              "offset": 0.0313,
+              "radius": 1.1021,
+              "widestGapDegrees": 83
+            },
+            {
+              "vertices": 30,
+              "offset": 0.1387,
+              "radius": 1.2042,
+              "widestGapDegrees": 24
+            },
+            {
+              "vertices": 36,
+              "offset": 0.3405,
+              "radius": 0.4068,
+              "widestGapDegrees": 38
+            },
+            {
+              "vertices": 20,
+              "offset": 0.3535,
+              "radius": 0.362,
+              "widestGapDegrees": 147
+            }
+          ]
+        }
       }
     }
   }

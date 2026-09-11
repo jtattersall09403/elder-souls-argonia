@@ -1,11 +1,15 @@
 {
   "id": "armour",
-  "description": "Wearable armour. Adding a piece is one line here: its slot supplies the equip slot and the body parts it hides, its material supplies the stat tier. The builder reads which biped slots a mesh actually occupies out of the NIF itself, so nothing about coverage is hand-declared.",
+  "description": "Wearable armour. Adding a piece is one entry here: its slot supplies the equip slot and the body parts it hides, its material supplies the stat tier. The builder reads which biped slots a mesh actually occupies out of the NIF itself, so nothing about coverage is hand-declared. `meshes` gives one base path per sex WITHOUT the _0/_1 weight suffix: the builder ships _1 geometry with _0 as a morph target and the runtime blends by the wearer's body weight (decision 0056). The path is declared, never inferred — Bethesda uses four different conventions for the male/female split (iron/male + iron/f; studded/male + studded/female; elven/m + elven/f; steel root + steel/f; and bare suffixes for dwarven ...f, orcish cuirassm/cuirassf, daedric daedriccuirass/daedrictorsof). A base with no _0/_1 pair (both iron helmets, both orcish helmets) ships as a single mesh with no morph target.",
   "outputDir": "output/armour",
   "iconDir": "output/armour-icons",
   "manifestOutput": "output/armour.items.json",
   "rig": "skyrim-humanoid",
   "body": "male",
+  "bodies": [
+    "male",
+    "female"
+  ],
   "slots": {
     "cuirass": {
       "equipSlot": "chest",
@@ -33,211 +37,316 @@
       "id": "iron-cuirass",
       "slot": "cuirass",
       "material": "iron",
-      "nif": "meshes/armor/iron/male/cuirassheavy_1.nif"
+      "meshes": {
+        "male": "meshes/armor/iron/male/cuirassheavy",
+        "female": "meshes/armor/iron/f/cuirassheavy"
+      }
     },
     {
       "id": "iron-gauntlets",
       "slot": "gauntlets",
       "material": "iron",
-      "nif": "meshes/armor/iron/male/gauntlets_1.nif"
+      "meshes": {
+        "male": "meshes/armor/iron/male/gauntlets",
+        "female": "meshes/armor/iron/f/gauntlets"
+      }
     },
     {
       "id": "iron-boots",
       "slot": "boots",
       "material": "iron",
-      "nif": "meshes/armor/iron/male/boots_1.nif"
+      "meshes": {
+        "male": "meshes/armor/iron/male/boots",
+        "female": "meshes/armor/iron/f/boots"
+      }
     },
     {
       "id": "iron-helmet",
       "slot": "helmet",
       "material": "iron",
-      "nif": "meshes/armor/iron/male/helmet.nif"
+      "meshes": {
+        "male": "meshes/armor/iron/male/helmet",
+        "female": "meshes/armor/iron/f/helmet"
+      }
     },
     {
       "id": "steel-cuirass",
       "slot": "cuirass",
       "material": "steel",
-      "nif": "meshes/armor/steel/cuirass_1.nif"
+      "meshes": {
+        "male": "meshes/armor/steel/cuirass",
+        "female": "meshes/armor/steel/f/cuirass"
+      }
     },
     {
       "id": "steel-gauntlets",
       "slot": "gauntlets",
       "material": "steel",
-      "nif": "meshes/armor/steel/gauntlets_1.nif"
+      "meshes": {
+        "male": "meshes/armor/steel/gauntlets",
+        "female": "meshes/armor/steel/f/gauntlets"
+      }
     },
     {
       "id": "steel-boots",
       "slot": "boots",
       "material": "steel",
-      "nif": "meshes/armor/steel/boots_1.nif"
+      "meshes": {
+        "male": "meshes/armor/steel/boots",
+        "female": "meshes/armor/steel/f/boots"
+      }
     },
     {
       "id": "steel-helmet",
       "slot": "helmet",
       "material": "steel",
-      "nif": "meshes/armor/steel/helmet_1.nif"
+      "meshes": {
+        "male": "meshes/armor/steel/helmet",
+        "female": "meshes/armor/steel/f/helmet"
+      }
     },
     {
       "id": "elven-cuirass",
       "slot": "cuirass",
       "material": "elven",
-      "nif": "meshes/armor/elven/m/cuirass_1.nif"
+      "meshes": {
+        "male": "meshes/armor/elven/m/cuirass",
+        "female": "meshes/armor/elven/f/cuirass"
+      }
     },
     {
       "id": "elven-gauntlets",
       "slot": "gauntlets",
       "material": "elven",
-      "nif": "meshes/armor/elven/m/gauntlets_1.nif"
+      "meshes": {
+        "male": "meshes/armor/elven/m/gauntlets",
+        "female": "meshes/armor/elven/f/gauntlets"
+      }
     },
     {
       "id": "elven-boots",
       "slot": "boots",
       "material": "elven",
-      "nif": "meshes/armor/elven/m/boots_1.nif"
+      "meshes": {
+        "male": "meshes/armor/elven/m/boots",
+        "female": "meshes/armor/elven/f/boots"
+      }
     },
     {
       "id": "elven-helmet",
       "slot": "helmet",
       "material": "elven",
-      "nif": "meshes/armor/elven/m/helmet_1.nif"
+      "meshes": {
+        "male": "meshes/armor/elven/m/helmet",
+        "female": "meshes/armor/elven/f/helmet"
+      }
     },
     {
       "id": "dwarven-cuirass",
       "slot": "cuirass",
       "material": "dwarven",
-      "nif": "meshes/armor/dwarven/dwarvenarmor_1.nif"
+      "meshes": {
+        "male": "meshes/armor/dwarven/dwarvenarmor",
+        "female": "meshes/armor/dwarven/dwarvenarmorf"
+      }
     },
     {
       "id": "dwarven-boots",
       "slot": "boots",
       "material": "dwarven",
-      "nif": "meshes/armor/dwarven/dwarvenboots_1.nif"
+      "meshes": {
+        "male": "meshes/armor/dwarven/dwarvenboots",
+        "female": "meshes/armor/dwarven/dwarvenbootsf"
+      }
     },
     {
       "id": "dwarven-helmet",
       "slot": "helmet",
       "material": "dwarven",
-      "nif": "meshes/armor/dwarven/dwarvenhelmet_1.nif"
+      "meshes": {
+        "male": "meshes/armor/dwarven/dwarvenhelmet",
+        "female": "meshes/armor/dwarven/dwarvenhelmetf"
+      }
     },
     {
       "id": "orcish-cuirass",
       "slot": "cuirass",
       "material": "orcish",
-      "nif": "meshes/armor/orcish/cuirassf_1.nif"
+      "meshes": {
+        "male": "meshes/armor/orcish/cuirassm",
+        "female": "meshes/armor/orcish/cuirassf"
+      }
     },
     {
       "id": "orcish-gauntlets",
       "slot": "gauntlets",
       "material": "orcish",
-      "nif": "meshes/armor/orcish/gauntletsf_1.nif"
+      "meshes": {
+        "male": "meshes/armor/orcish/gauntletsm",
+        "female": "meshes/armor/orcish/gauntletsf"
+      }
     },
     {
       "id": "orcish-boots",
       "slot": "boots",
       "material": "orcish",
-      "nif": "meshes/armor/orcish/bootsf_1.nif"
+      "meshes": {
+        "male": "meshes/armor/orcish/bootsm",
+        "female": "meshes/armor/orcish/bootsf"
+      }
     },
     {
       "id": "orcish-helmet",
       "slot": "helmet",
       "material": "orcish",
-      "nif": "meshes/armor/orcish/helmetma_1.nif"
+      "meshes": {
+        "male": "meshes/armor/orcish/helmetm",
+        "female": "meshes/armor/orcish/helmetf"
+      }
     },
     {
       "id": "ebony-cuirass",
       "slot": "cuirass",
       "material": "ebony",
-      "nif": "meshes/armor/ebony/m/cuirass_1.nif"
+      "meshes": {
+        "male": "meshes/armor/ebony/m/cuirass",
+        "female": "meshes/armor/ebony/f/cuirass"
+      }
     },
     {
       "id": "ebony-gauntlets",
       "slot": "gauntlets",
       "material": "ebony",
-      "nif": "meshes/armor/ebony/m/gauntlets_1.nif"
+      "meshes": {
+        "male": "meshes/armor/ebony/m/gauntlets",
+        "female": "meshes/armor/ebony/f/gauntlets"
+      }
     },
     {
       "id": "ebony-boots",
       "slot": "boots",
       "material": "ebony",
-      "nif": "meshes/armor/ebony/m/boots_1.nif"
+      "meshes": {
+        "male": "meshes/armor/ebony/m/boots",
+        "female": "meshes/armor/ebony/f/boots"
+      }
     },
     {
       "id": "ebony-helmet",
       "slot": "helmet",
       "material": "ebony",
-      "nif": "meshes/armor/ebony/m/helmet_1.nif"
+      "meshes": {
+        "male": "meshes/armor/ebony/m/helmet",
+        "female": "meshes/armor/ebony/f/helmet"
+      }
     },
     {
       "id": "glass-cuirass",
       "slot": "cuirass",
       "material": "glass",
-      "nif": "meshes/armor/glass/m/cuirass_1.nif"
+      "meshes": {
+        "male": "meshes/armor/glass/m/cuirass",
+        "female": "meshes/armor/glass/f/cuirass"
+      }
     },
     {
       "id": "glass-gauntlets",
       "slot": "gauntlets",
       "material": "glass",
-      "nif": "meshes/armor/glass/m/gauntlets_1.nif"
+      "meshes": {
+        "male": "meshes/armor/glass/m/gauntlets",
+        "female": "meshes/armor/glass/f/gauntlets"
+      }
     },
     {
       "id": "glass-boots",
       "slot": "boots",
       "material": "glass",
-      "nif": "meshes/armor/glass/m/boots_1.nif"
+      "meshes": {
+        "male": "meshes/armor/glass/m/boots",
+        "female": "meshes/armor/glass/f/boots"
+      }
     },
     {
       "id": "glass-helmet",
       "slot": "helmet",
       "material": "glass",
-      "nif": "meshes/armor/glass/m/helmet_1.nif"
+      "meshes": {
+        "male": "meshes/armor/glass/m/helmet",
+        "female": "meshes/armor/glass/f/helmet"
+      }
     },
     {
       "id": "daedric-cuirass",
       "slot": "cuirass",
       "material": "daedric",
-      "nif": "meshes/armor/daedric/daedrictorsof_1.nif"
+      "meshes": {
+        "male": "meshes/armor/daedric/daedriccuirass",
+        "female": "meshes/armor/daedric/daedrictorsof"
+      }
     },
     {
       "id": "daedric-gauntlets",
       "slot": "gauntlets",
       "material": "daedric",
-      "nif": "meshes/armor/daedric/daedricglovesf_1.nif"
+      "meshes": {
+        "male": "meshes/armor/daedric/daedricgauntlets",
+        "female": "meshes/armor/daedric/daedricglovesf"
+      }
     },
     {
       "id": "daedric-boots",
       "slot": "boots",
       "material": "daedric",
-      "nif": "meshes/armor/daedric/daedricboots_1.nif"
+      "meshes": {
+        "male": "meshes/armor/daedric/daedricboots",
+        "female": "meshes/armor/daedric/daedricbootsf"
+      }
     },
     {
       "id": "daedric-helmet",
       "slot": "helmet",
       "material": "daedric",
-      "nif": "meshes/armor/daedric/daedrichelmet_1.nif"
+      "meshes": {
+        "male": "meshes/armor/daedric/daedrichelmet",
+        "female": "meshes/armor/daedric/daedrichelmetf"
+      }
     },
     {
       "id": "studded-cuirass",
       "slot": "cuirass",
       "material": "studded",
-      "nif": "meshes/armor/studded/male/body_1.nif"
+      "meshes": {
+        "male": "meshes/armor/studded/male/body",
+        "female": "meshes/armor/studded/female/body"
+      }
     },
     {
       "id": "studded-gauntlets",
       "slot": "gauntlets",
       "material": "studded",
-      "nif": "meshes/armor/studded/male/gloves_1.nif"
+      "meshes": {
+        "male": "meshes/armor/studded/male/gloves",
+        "female": "meshes/armor/studded/female/gloves"
+      }
     },
     {
       "id": "studded-boots",
       "slot": "boots",
       "material": "studded",
-      "nif": "meshes/armor/studded/male/boots_1.nif"
+      "meshes": {
+        "male": "meshes/armor/studded/male/boots",
+        "female": "meshes/armor/studded/female/boots"
+      }
     },
     {
       "id": "studded-helmet",
       "slot": "helmet",
       "material": "studded",
-      "nif": "meshes/armor/studded/male/helmet_1.nif"
+      "meshes": {
+        "male": "meshes/armor/studded/male/helmet",
+        "female": "meshes/armor/studded/female/helmet"
+      }
     }
   ]
 }

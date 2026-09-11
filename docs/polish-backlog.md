@@ -521,24 +521,32 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   the record: read `FULL`, resolve it, carry the name in the roster. The renderer
   then labels the card from the roster. The format is a uint32 count, a uint32
   data size, then `(stringId, offset)` pairs into a null-terminated blob.
-- **Evidence that the neck seam is open on every female build.** Measured on the
-  GLBs shipped at `34bec0ed` by `tooling/asset-pipeline/scripts/measure-neck-seam.py`:
-  the female neck ring is radius 0.345–0.386 source units against the male
-  0.483–0.529, and the one male-derived collar stands 16.4–27.5 mm outside the
-  narrowest female neck on all nine cuirasses — 9 of 9 female combinations OPEN,
-  9 of 9 male CLOSED except elven. Decision 0056 is the fix and is in flight;
-  this row is here so the numbers and the picture
-  (`docs/evidence/races/armour-neck-check.png`, `armour-neck-check.measured.json`)
-  can be re-run against the rebuilt GLBs and the row struck when they come back
-  closed for both sexes.
-- **The elven cuirass was recorded as a closed-neck design and is not one.**
-  Decision 0055 found no boundary encircling its neck, so nothing was stitched
-  and its GLB shipped unchanged. That shipped mesh has a ten-vertex open ring
-  concentric with the neck (offset 0.034), closing a full turn with a widest
-  angular gap of 41°, mean radius 0.535 at height 11.58. `find_collar_rings`
-  missed it, most likely on the one window elven is extreme in — its ring stands
-  0.42 units above the neck ring against that function's
-  `abs(own_centre.z - centre.z) <= radius * 1.5`. Its rim is 7.6 mm wider than
-  the narrowest male neck, so elven is the one cuirass open on males too. If
-  0056 keeps any part of that finder as a gate, this is the case that proves it
-  can miss a real ring.
+- **Elven, dwarven and ebony still read OPEN at the neck on the shipped GLBs.**
+  Struck for the other six: after decision 0056 rebuilt every piece per sex and
+  per weight, re-measured 2026-09-11 by
+  `tooling/asset-pipeline/scripts/measure-neck-seam.py` against three builds per
+  sex, iron, studded and ebony-female close **exactly** (rim on the neck to
+  0.00 mm, the embedded body loop), steel and glass close on every build but the
+  extremes, and dwarven closes at weight 100. What is left:
+  - **elven**, −18.2 mm (male, weight 15) to −4.3 mm (female, weight 100). Its
+    raised gorget is an authored opening that sits 33–56 mm *above* the neck
+    ring, so the head rather than the neck is what has to hide the rim. Nothing
+    magenta shows on the evidence sheet, so this is a margin, not a visible
+    hole — but it is the one cuirass that is negative on every build of both
+    sexes, and it is flagged on the sheet for eyes.
+  - **dwarven**, −6.1 mm to −4.4 mm on the two lighter female builds. This is
+    Bethesda's own fit, now restored: the male opening is 1.4 mm inside the
+    maximum-weight male neck by design. The residual is the female gorget at low
+    weight.
+  - **ebony male**, −10.7 mm at weight 15 falling to −4.5 mm at weight 65. A
+    vanilla asymmetry rather than a pipeline one: `ebony/f/cuirass_0` embeds
+    `femalebody_0`'s neck loop bit-for-bit, and `ebony/m/cuirass_1` embeds
+    `malebody_1`'s, but `ebony/m/cuirass_0` embeds neither — it measures 0.0618
+    off `malebody_0`, where every other exact pair measures 0.000002. Worth
+    confirming against a second copy of the archive before treating it as ours.
+
+  All three are authored-opening cases, which the build gate is deliberately
+  silent about (a neck tapers, so a wider ring higher up it fits; see
+  `validate_neck_rings`). The verdict for them is the line-of-sight measurement
+  above and the picture beside it: `docs/evidence/races/armour-neck-check.png`
+  and `armour-neck-check.measured.json`.
