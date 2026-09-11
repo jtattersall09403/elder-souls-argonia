@@ -4,13 +4,14 @@ from .landcover import (BC_ROAD, BLACK_MUD, MARSH_GRASS, MUCK, N_MATERIALS,
                         PATH, RIVER_MUD, SILT, SWAMP_GRASS, TRACK, TROP_GRASS,
                         compile_ground_control)
 
+from .position_noise import normal_field
+from .rebake_landcover import WINDOW_PAD_M, _bake
 from .scale import RAW_M
 
 M_PER_PX = RAW_M  # production full-res texel size (scale.py, 0015)
 
 
-def _fixture(seed=1, with_roads=False):
-    n = 200
+def _fixture(seed=1, with_roads=False, n=200):
     height = np.full((n, n), 3.0, dtype=np.float32)
     height[:12, :] = -1.0  # standing water strip along the top
     height[12:26, :] = np.linspace(0.1, 1.5, 14)[:, None]  # gradual shore
@@ -24,13 +25,12 @@ def _fixture(seed=1, with_roads=False):
     if with_roads:
         roads = np.zeros((n, n), dtype=bool)
         roads[148:151, :] = True                   # an east-west road
-    rng = np.random.default_rng(seed)
-    return height, region, rivers, slope, M_PER_PX, rng, roads
+    return height, region, rivers, slope, M_PER_PX, seed, roads
 
 
 def _compile(seed=1, with_roads=False):
-    h, reg, riv, slope, mpp, rng, roads = _fixture(seed, with_roads)
-    return compile_ground_control(h, reg, riv, slope, mpp, rng, roads=roads)
+    h, reg, riv, slope, mpp, seed, roads = _fixture(seed, with_roads)
+    return compile_ground_control(h, reg, riv, slope, mpp, seed=seed, roads=roads)
 
 
 def test_control_shape_ids_and_determinism():
@@ -88,8 +88,7 @@ def _mountain_fixture(seed=3):
     rivers = np.zeros((n, n), dtype=np.uint8)
     gy, gx = np.gradient(height, M_PER_PX)
     slope = np.hypot(gx, gy).astype(np.float32)
-    rng = np.random.default_rng(seed)
-    return compile_ground_control(height, region, rivers, slope, M_PER_PX, rng)
+    return compile_ground_control(height, region, rivers, slope, M_PER_PX, seed=seed)
 
 
 def test_scree_paints_the_debris_apron_not_the_crag_face():
@@ -104,3 +103,56 @@ def test_scree_paints_the_debris_apron_not_the_crag_face():
     assert (mat[slope_lf > SCREE_MAX_TAN * 1.3] == SCREE).mean() < 0.02
     # the steepest ground keeps bare mountain slab
     assert (mat[slope_lf > SCREE_MAX_TAN * 1.3] == MOUNTAIN_ROCK).mean() > 0.5
+
+
+def test_normal_field_window_equals_the_global_field():
+    whole = normal_field((600, 600), 12, "patch-broad")
+    win = normal_field((300, 300), 12, "patch-broad", origin=(120, 80))
+    assert np.allclose(win, whole[120:420, 80:380], atol=1e-4)
+
+
+def test_normal_field_salts_give_different_fields():
+    a = normal_field((128, 128), 6, "wear")
+    b = normal_field((128, 128), 6, "macro")
+    assert not np.allclose(a, b)
+
+
+def _world(n=400):
+    """A synthetic province: water strip, shore, channel, two regions."""
+    height, region, rivers, slope, mpp, seed, roads = _fixture(n=n)
+    fields = dict(
+        regions=region,
+        rivers=rivers,
+        salinity=np.zeros((n, n), dtype=np.float32),
+        twi=np.zeros((n, n), dtype=np.float32),
+        wetlands=np.zeros((n, n), dtype=bool),
+        v_frac=np.broadcast_to(
+            (np.arange(n, dtype=np.float32) / n)[:, None], (n, n)).copy(),
+    )
+    water = np.zeros((n, n), dtype=np.float32)
+    roads = np.zeros((n, n), dtype=bool)
+    roads[300:303, :] = True
+    minor = np.zeros((n, n), dtype=np.int8)
+    return height, fields, water, roads, minor
+
+
+def test_rebake_window_matches_global():
+    """A padded window bakes exactly what the whole-province bake gives it.
+
+    The window is kept clear of the fixture's water strip: the lake-area
+    label and the nearest-wet-cell lookup are global by nature and no pad
+    covers them (see rebake_landcover's docstring).
+    """
+    n = 400
+    h, fields, water, roads, minor = _world(n)
+    _, whole = _bake(h, fields, water, roads, minor, (0, 0))
+
+    pad = int(np.ceil(WINDOW_PAD_M / M_PER_PX))
+    y0, y1, x0, x1 = 200, 320, 160, 280
+    py0, py1 = max(0, y0 - pad), min(n, y1 + pad)
+    px0, px1 = max(0, x0 - pad), min(n, x1 + pad)
+    sl = (slice(py0, py1), slice(px0, px1))
+    _, part = _bake(h[sl], {k: v[sl] for k, v in fields.items()}, water[sl],
+                    roads[sl], minor[sl], (py0, px0))
+    inner = (slice(y0 - py0, y1 - py0), slice(x0 - px0, x1 - px0))
+    assert np.array_equal(part[inner], whole[y0:y1, x0:x1])

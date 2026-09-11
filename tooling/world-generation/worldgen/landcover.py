@@ -26,6 +26,7 @@ import numpy as np
 from scipy import ndimage
 
 from .fastfilter import gaussian
+from .position_noise import SEED_DEFAULT, normal_field
 from .scale import TUNE, TUNE_A, TUNE_S
 from .sculpt import TALUS_FULL_TAN, TALUS_TAN
 
@@ -36,7 +37,10 @@ from .sculpt import TALUS_FULL_TAN, TALUS_TAN
  BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK, BC_ROAD,
  MOUNTAIN_ROCK, BEACH_SAND, SEABED_SAND, PEBBLES, OCEAN_FLOOR,
  DIRT_CLIFF, SCREE) = range(38)
-N_MATERIALS = 38
+# Cliff materials (Phase 16b item 3): never painted on the control map — the
+# splat shader samples them on the triplanar SIDE projections.
+CLIFF_ROCK, CLIFF_DIRT = 38, 39
+N_MATERIALS = 40
 
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
@@ -98,11 +102,6 @@ SCREE_MIN_TAN = 0.8 * TALUS_TAN     # below this the slope holds soil/vegetation
 SCREE_MAX_TAN = TALUS_FULL_TAN      # above this loose debris cannot rest
 
 
-def _noise(shape, sigma, rng):
-    n = gaussian(rng.standard_normal(shape, dtype=np.float32), sigma)
-    return (n / max(n.std(), 1e-9)).astype(np.float32)
-
-
 def _region_map(region, slot):
     out = np.zeros(region.shape, dtype=np.int16)
     for rid, p in REGION_PALETTES.items():
@@ -110,27 +109,32 @@ def _region_map(region, slot):
     return out
 
 
-def _warp_regions(region, m_per_px, rng):
+def _warp_regions(region, m_per_px, origin=(0, 0), seed=SEED_DEFAULT):
     """Domain-warp the region raster so borders (including authored straight
     polygon edges) read as organic interdigitated ecotones."""
     shape = region.shape
     amp_px = 160.0 * TUNE / m_per_px       # ~160 m broad waves
     amp2_px = 45.0 * TUNE / m_per_px       # ~45 m fine fingers
-    dy = _noise(shape, 24, rng) * amp_px + _noise(shape, 5, rng) * amp2_px
-    dx = _noise(shape, 24, rng) * amp_px + _noise(shape, 5, rng) * amp2_px
+    dy = (normal_field(shape, 24, "region-warp-y-broad", origin, seed) * amp_px
+          + normal_field(shape, 5, "region-warp-y-fine", origin, seed) * amp2_px)
+    dx = (normal_field(shape, 24, "region-warp-x-broad", origin, seed) * amp_px
+          + normal_field(shape, 5, "region-warp-x-fine", origin, seed) * amp2_px)
     yy = np.arange(shape[0], dtype=np.float32)[:, None] + dy
     xx = np.arange(shape[1], dtype=np.float32)[None, :] + dx
     del dy, dx
     return ndimage.map_coordinates(region, [yy, xx], order=0, mode="nearest")
 
 
-def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
-                           salinity=None, twi=None, wetlands=None, roads=None,
+def compile_ground_control(height, region, rivers, slope, m_per_px,
+                           origin=(0, 0), seed=SEED_DEFAULT, salinity=None, twi=None, wetlands=None, roads=None,
                            minor_routes=None, v_frac=None, water_level=None):
     """Return (landcover material raster int16, control RGBA uint8).
 
     height: metres relative to sea level (water surface y=0); region: region
     class raster; rivers: river band raster (0/1/2/3); slope: rise/run;
+    origin/seed: absolute sample coordinate of this window's (0, 0) and the
+    noise seed — every noise field is position-seeded (position_noise), so a
+    window bakes the same numbers the whole-province bake would give it;
     salinity/twi/wetlands: optional macro fields, roads: optional bool mask;
     minor_routes: optional int8 raster of minor-route surface classes
     (routes_raster.MINOR_TRACK / MINOR_PATH) — the Part 3b tracks and
@@ -146,13 +150,13 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     """
     shape = height.shape
     rel = height if water_level is None else (height - water_level).astype(np.float32)
-    region = _warp_regions(region, m_per_px, rng)
+    region = _warp_regions(region, m_per_px, origin, seed)
 
     # Palette zone: northern regions bind land-cover slots to different
     # materials (NORTH_PALETTES); the boundary is noise-blended so the two
     # halves interdigitate over ~1.5 km instead of switching on a line.
     if v_frac is not None:
-        north = (v_frac + 0.06 * _noise(shape, 260.0 * TUNE / m_per_px, rng)) < NORTH_V
+        north = (v_frac + 0.06 * normal_field(shape, 260.0 * TUNE / m_per_px, "north-boundary", origin, seed)) < NORTH_V
     else:
         north = np.zeros(shape, dtype=bool)
 
@@ -187,9 +191,9 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         np.clip(1.0 - shore_d / (130.0 * TUNE), 0, 1)
         + np.clip(1.0 - chan_d / (110.0 * TUNE), 0, 1)
         + np.clip(slope_lf / (0.05 * TUNE_S), 0, 1), 0, 1).astype(np.float32)
-    broad = _noise(shape, 200.0 * TUNE / m_per_px, rng)  # ~200 m stable patches
-    patch = _noise(shape, 35.0 * TUNE / m_per_px, rng)   # ~35 m active patches
-    fine = _noise(shape, 14.0 * TUNE / m_per_px, rng)    # ~14 m speckle
+    broad = normal_field(shape, 200.0 * TUNE / m_per_px, "patch-broad", origin, seed)  # ~200 m stable patches
+    patch = normal_field(shape, 35.0 * TUNE / m_per_px, "patch-active", origin, seed)   # ~35 m active patches
+    fine = normal_field(shape, 14.0 * TUNE / m_per_px, "patch-fine", origin, seed)    # ~14 m speckle
     patch_mix = broad + patch * (0.25 + 0.75 * activity)
 
     # Wetness patches: TWI + wetlands push ground to each region's damp/wet
@@ -210,7 +214,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # cloud belt sits low (small coastal-adjacent ranges) per the research.
     mont = region == 1
     if mont.any():
-        belt_wob = 28.0 * _noise(shape, 320.0 * TUNE / m_per_px, rng)  # 6b: wobble scaled to the taller belts
+        belt_wob = 28.0 * normal_field(shape, 320.0 * TUNE / m_per_px, "belt-wobble", origin, seed)  # 6b: wobble scaled to the taller belts
         mat = np.where(mont & (height > MONT_FOREST_M + belt_wob), FOREST_FLOOR, mat)
         mat = np.where(mont & (height > MONT_CLOUD_M + belt_wob), BC_MOSS, mat)
         mat = np.where(mont & (height > MONT_CRAG_M + belt_wob), MOUNTAIN_ROCK, mat)
@@ -331,7 +335,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # dry ground — crossings over water/channel beds stay unpainted
     # (bridges/ferries/boardwalks are placed features, Phase 11+).
     if roads is not None:
-        wear = _noise(shape, 120.0 * TUNE / m_per_px, rng)   # ~120 m wear stretches
+        wear = normal_field(shape, 120.0 * TUNE / m_per_px, "wear", origin, seed)   # ~120 m wear stretches
         road_mat = np.full(shape, BC_ROAD, dtype=np.int16)
         road_mat[wear > 0.55] = PATH
         road_mat[(wet_score > 1.2) & (wear > 0.3)] = TRACK
@@ -380,7 +384,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     id1[swap] = id0[swap]
     id0[route] = mat[route].astype(np.uint8)
     blend[route] = np.minimum(blend[route], 0.25)
-    macro = _noise(shape, 40, rng).clip(-2, 2) / 4 + 0.5
+    macro = normal_field(shape, 40, "macro", origin, seed).clip(-2, 2) / 4 + 0.5
     control = np.stack([
         id0, id1,
         (blend * 255).astype(np.uint8),
