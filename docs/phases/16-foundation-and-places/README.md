@@ -386,6 +386,17 @@ Struck from `docs/phases/P-polish/backlog.md` and owned here:
 | prose gate does not lint `docs/`; sourcing log lint hits | 16a (docs hygiene, with the 0041 split) |
 | land beyond borders | 16d |
 
+**Deliberately not folded in (owner question, 2026-09-11):** the ambient-air
+particles (fireflies, midges, dragonflies, pollen, leaf fall —
+`packages/game-core/src/air/`). They are driven by the world clock, the
+weather and their own noise patches, and read no terrain, water or region
+raster, so Phase 16 neither depends on them nor can break them; they stay with
+the agent working on them (Phase P line, 8c's successor). One hook for later:
+their "over wet ground / over standing water" placement is noise today; once
+16c ships the read-only water and 16a the hydrology graph, the air layer can
+read real wetness for its density patches. That is a small follow-on after
+16c, not a chunk.
+
 Left in the backlog as genuine polish: sky palette, moon glow, weather rows,
 foliage translucency, combat rows, the female-character rows, the physics
 mass scale (Phase 9), region tooltip reclassification.
