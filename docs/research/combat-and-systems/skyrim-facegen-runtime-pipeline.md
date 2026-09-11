@@ -155,10 +155,23 @@ restriction: vanilla Skyrim, for example, gives Breton NPCs race-valid
 `HairMaleNord*` parts and gives both Altmer and Bosmer race-valid
 `HairMaleElf*` parts. The accepted current/alternate pairs use `Elf06`/`Elf07`
 for Altmer and `Elf07`/`Elf04` for Bosmer. No Bosmer in either sheet uses a
-`DarkElf` hair part. The same rule is applied on the female side: Niranye takes
-`HairFemaleElf06` and Brelas `HairFemaleElf07`, alternates `Elf09` and `Elf03`. `Elf01`, `Elf02`, `Elf03`, `Elf08` and `Elf09` were
-visually rejected because they produce the bald-crown, long lower-fringe
-silhouette. Every accepted humanoid and mer appearance carries the brow chosen
+`DarkElf` hair part. Among **`HairMaleElf*`**, `Elf01`, `Elf02`, `Elf03`,
+`Elf08` and `Elf09` were visually rejected because they produce the bald-crown,
+long lower-fringe silhouette.
+
+That reject list is **male parts only**, and does not carry to the female side:
+`HairFemaleElf*` are different meshes with different silhouettes, and a shared
+suffix is not a shared shape. The same *rule* is applied — no cross-race hair —
+so Niranye takes `HairFemaleElf06` and Brelas `HairFemaleElf07`, with
+`HairFemaleElf09` and `HairFemaleElf03` on the alternates sheet. **No female
+Elf part has been visually assessed yet**; the owner review of
+`docs/evidence/races/race-valid-variants-female.png` is what decides whether a
+female reject list is needed. Stated explicitly because an earlier revision of
+this paragraph put the male list directly after the female sentence, which read
+as though the female alternates had shipped against a standing rejection. They
+had not.
+
+Every accepted humanoid and mer appearance carries the brow chosen
 by that same NPC record; valid beast head parts remain species-specific.
 
 It is not yet a full Skyrim character generator. Randomly mixing only the

@@ -61,6 +61,33 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
+**Female characters are playable, 2026-09-10** ([0054](decisions/0054-sex-is-an-axis-not-a-second-set-of-races.md),
+[0055](decisions/0055-a-collar-overlaps-the-neck-rather-than-meeting-it.md)).
+Ten races x two sexes, twenty built bodies, all from vanilla assets. To judge:
+
+- **The ten default women** — [current-defaults-female.png](evidence/races/current-defaults-female.png).
+  Name any race whose face does not read as a believable person of that race.
+- **The ten alternates** — [race-valid-variants-female.png](evidence/races/race-valid-variants-female.png).
+  Not shipped; say if you prefer one to a default and it gets swapped.
+  **No female Elf hairstyle has ever been visually assessed** — the male reject
+  list does not carry across (different meshes). This sheet is what decides
+  whether a female list is needed.
+- **Fighting as a woman.** `npm run dev -w @elder-souls/combat-sandbox`. The
+  hit area now matches the female body (chest 17.8% narrower, hips 8.5% wider)
+  instead of reusing the male one. Male numbers are byte-identical, so male
+  feel cannot have moved. Nobody has swung at a female character yet.
+- **The picker.** Two open calls, both cheap now and annoying later:
+  should flipping male/female keep the same race, and should the grid show a
+  face rather than a name?
+
+**Known and not yet fixed — do not judge female characters in armour:** every
+armour piece is the **male, maximum-weight** mesh (`config/armour/armour.json`
+hardcodes `armor/<set>/male/..._1.nif`), while bodies *are* weight-blended and
+now come in two sexes. Skyrim ships `_0`/`_1` pairs and parallel male/female
+armour. So women wear men's armour, and 0055's collar margins were measured
+against the male neck only. Under investigation; the neck evidence shot is
+[armour-neck-check.png](evidence/races/armour-neck-check.png).
+
 **The province is deployed and walkable, 2026-09-09.** The full handoff — what
 changed, what to judge, and a studio URL per site — is
 [research/phase11/walkthrough-2026-09-09.md](research/phase11/walkthrough-2026-09-09.md).
