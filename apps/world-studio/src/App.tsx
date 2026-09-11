@@ -12,6 +12,7 @@ import { loadMinimapOverlay, type MinimapOverlay } from "./character/minimapOver
 import { encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
+import { buildHydrographIndex, describeHydrograph, type HydrographIndex } from "./map/hydrographIndex";
 import { decodeProvinceHeights, loadProvinceMeta, type ProvinceMapMeta } from "./map/provinceMap";
 import { TimePanel } from "./sky/TimePanel";
 import {
@@ -109,7 +110,8 @@ export function App() {
   // Mild is the owner-chosen conditioning (decision 0005, 2026-08-23 addendum).
   const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
-  const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(null);
+  const [tip, setTip] = useState<{ x: number; y: number; lines: string[] } | null>(null);
+  const hydroIndexRef = useRef<HydrographIndex | null>(null);
   const [view, setView] = useState<"map" | "fly3d" | "character">(
     urlParams.get("view") === "fly3d" ? "fly3d"
       : urlParams.get("view") === "character" ? "character"
@@ -419,6 +421,10 @@ export function App() {
         try {
           const hg = await (await fetch(`${base}province/hydrograph-meta.json`)).json();
           for (const [name, legend] of Object.entries(hg.legends ?? {})) collected[name] = legend as typeof collected[string];
+          const graph = await (await fetch(`${base}province/hydrology-graph.json`)).json();
+          hydroIndexRef.current = buildHydrographIndex(graph, m.imageWidth, m.imageHeight);
+          decode("hydrograph-bodies");
+          decode("hydrograph-falls");
         } catch { /* hydrology graph not derived yet */ }
         setLegends(collected);
         decode("regions");
@@ -557,10 +563,24 @@ export function App() {
     const climatePart = climate
       ? ` · humidity ${Math.round(climate.humidity * 100)}% · vis ~${climate.visibility} m`
       : "";
-    const info = waterPart + regionPart + lookup("danger") + lookup("cultures", " · hinterland") + climatePart;
-    const text = `${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m${info}`;
-    setReadout(text);
-    setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, text });
+    const strip = (v: string) => v.replace(/^ · /, "");
+    const lines = [`${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m`];
+    const land = [strip(regionPart), strip(lookup("danger")), strip(lookup("cultures", " · hinterland"))].filter(Boolean);
+    if (land.length) lines.push(`Land: ${land.join(" · ")}`);
+    if (climatePart) lines.push(`Climate: ${strip(climatePart)}`);
+    if (waterPart) lines.push(`Built water: ${waterPart.replace(" · water: ", "")}`);
+    const hi = hydroIndexRef.current;
+    if (hi) {
+      const i = (y * meta.imageWidth + x) * 4;
+      const bodyAlpha = decodedPxRef.current["hydrograph-bodies"]?.[i + 3] ?? 0;
+      const fallsAlpha = decodedPxRef.current["hydrograph-falls"]?.[i + 3] ?? 0;
+      const reach = hi.reachAt(x, y);
+      const body = hi.bodyAt(x, y, bodyAlpha);
+      lines.push(...describeHydrograph(hi, reach, body));
+      if (fallsAlpha > 0 && !reach?.fall) lines.push("Marker: a measured waterfall, plunge pool or possible waterfall site (see the legend)");
+    }
+    setReadout(lines[0] + (lines[1] ? ` · ${lines[1]}` : ""));
+    setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, lines });
   }
 
   function enterFly(xKm: number, zKm: number) {
@@ -824,10 +844,12 @@ export function App() {
           <div style={{
             position: "absolute", left: tip.x + 14, top: tip.y + 10, pointerEvents: "none",
             background: "rgba(10, 14, 20, 0.88)", color: "#e6ecf5", padding: "4px 8px",
-            borderRadius: 5, font: "12px system-ui", whiteSpace: "nowrap", zIndex: 2,
+            borderRadius: 5, font: "12px system-ui", lineHeight: "16px", maxWidth: 420, zIndex: 2,
             transform: tip.x > 560 ? "translateX(calc(-100% - 26px))" : undefined,
           }}>
-            {tip.text}
+            {tip.lines.map((l, i) => (
+              <div key={i} style={{ opacity: i === 0 ? 1 : 0.92, fontWeight: i === 0 ? 600 : 400 }}>{l}</div>
+            ))}
           </div>
         )}
         {showCatalogue && (

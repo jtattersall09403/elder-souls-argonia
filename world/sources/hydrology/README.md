@@ -101,7 +101,7 @@ band 1 perennial only inside the marsh/wetland heartland (groundwater-fed),
 else `seasonal`. This is the stored fact the runtime's arithmetic used to
 imply; the runtime keeps animating the level between the two stored extremes.
 
-**`fallProposals`** — on sloped reaches, the steepest 20 m window with a
+**`fallProposals`** (a *knickpoint* is the sudden step in a river bed where a fall or rapid forms) — on sloped reaches, the steepest 20 m window with a
 fall-sized drop (>= 3 m) that the base terrain does not present as a 70 deg
 face: where a knickpoint could be cut in 16b. Not entities; the owner picks.
 

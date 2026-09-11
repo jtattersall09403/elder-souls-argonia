@@ -60,6 +60,11 @@ pass; the graph's `drainageLoops` invariant holds it at zero.
 
 ## 4. The graph, as derived (report)
 
+A **knickpoint** is a sudden steepening in a river's bed, the step in the
+profile where a waterfall or rapid forms; "knickpoint proposal" means a spot
+where the base terrain already drops 3 m or more within 20 m as a slide, so
+cutting a 70-degree face there would make a waterfall.
+
 rivers 100 · reaches 889 · junctions 200 · bodies 406
 
 | Reach kind | count | km |

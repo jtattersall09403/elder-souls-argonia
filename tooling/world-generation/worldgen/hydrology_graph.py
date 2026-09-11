@@ -1025,13 +1025,16 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
             "hydrograph-bodies": {k: {"name": k, "rgb": list(v)} for k, v in BODY_COLOUR.items()},
             "hydrograph-season": {k: {"name": k, "rgb": list(v)} for k, v in SEASON_COLOUR.items()},
             "hydrograph-falls": {"fall": {"name": "waterfall (measured on the base)", "rgb": [255, 60, 60]},
-                                 "proposal": {"name": "knickpoint proposal (ring; big = band 2-3)", "rgb": [255, 170, 40]},
+                                 "proposal": {"name": "possible waterfall site: a 3 m+ drop within 20 m that is a slide today, not a 70 deg face (ring; big = band 2-3)", "rgb": [255, 170, 40]},
                                  "plunge": {"name": "plunge pool", "rgb": [120, 200, 255]}},
             "hydrograph-wetline": {"wet": {"name": "wet-season high-water extent (Phase 3 overlay)", "rgb": [90, 220, 255]}},
         },
         "stats": graph["stats"],
     }
     (out_dir / "hydrograph-meta.json").write_text(json.dumps(meta, indent=1) + "\n", encoding="utf-8")
+    # the studio's hover tooltip reads the graph itself (map/hydrographIndex.ts)
+    (out_dir / "hydrology-graph.json").write_text(
+        json.dumps(graph, separators=(",", ":")) + "\n", encoding="utf-8")
     return meta
 
 
