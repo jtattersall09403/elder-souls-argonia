@@ -433,12 +433,42 @@ function checkProse() {
     fail(8, "tooling/world-generation/worldgen/lint_prose.py", 0,
       `prose linter --strict failed (hard hits or a density ceiling): run it from tooling/world-generation for the report.\n${out}`);
   }
+  // Ratchet over docs/**/*.md: a doc's hard-hit count may fall, never rise
+  // (baseline: docs/standards/text/docs-lint-baseline.json).
+  try {
+    execSync("python3 -m worldgen.lint_prose --docs-gate --quiet", { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) {
+    if (e && e.code === "ENOENT") { note("prose: python3 unavailable; docs prose ratchet not run"); return; }
+    const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(-6).join("\n");
+    fail(8, "docs/standards/text/docs-lint-baseline.json", 0,
+      `a docs/ markdown file gained hard prose hits: fix the prose, or lower the bar with 'python3 -m worldgen.lint_prose --docs-gate --write-baseline' after improving it.\n${out}`);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Standard 14 (gates read shipped data) — the hydrology graph's invariants
+// ---------------------------------------------------------------------------
+// world/sources/hydrology/hydrology-graph.json is the frozen water record
+// every Phase 16 stage reads (decision 0058). `check` reads the committed
+// JSON only (no rasters, ~1 s); the failure demonstrations live in
+// worldgen/test_hydrology_graph.py.
+function checkHydrologyGraph() {
+  const cwd = join(ROOT, "tooling", "world-generation");
+  try {
+    execSync("python3 -m worldgen.hydrology_graph check", { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) {
+    if (e && e.code === "ENOENT") { note("hydrology graph: python3 unavailable; check not run"); return; }
+    const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(-8).join("\n");
+    fail(14, "world/sources/hydrology/hydrology-graph.json", 0,
+      `hydrology graph invariants failed (python3 -m worldgen.hydrology_graph check from tooling/world-generation).\n${out}`);
+  }
 }
 
 // ---------------------------------------------------------------------------
 
 checkDeterminism();
 checkProse();
+checkHydrologyGraph();
 checkSingletons();
 checkIds();
 checkSchemaVersions();

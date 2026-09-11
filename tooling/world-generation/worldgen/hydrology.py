@@ -215,7 +215,47 @@ def resolve_flats(filled: np.ndarray, ocean: np.ndarray, eps: float = 1e-5) -> n
     away = np.where(np.isfinite(away_higher), finite_max - away_higher, 0.0)
     toward = np.where(np.isfinite(toward_lower), toward_lower, finite_max)
     adjust = np.where(flat, 2.0 * toward + away, 0.0)
+    # The increment must stay under the smallest real drop between any two
+    # neighbouring cells, or a raised flat cell climbs above the non-flat
+    # cell that drained into it and turns that cell into a pit (Phase 16a:
+    # 223 residual pits and 390 two-cell flow loops in the shipped solve, 20
+    # of them on river cells, each ending a river on dry ground). Garbrecht &
+    # Martz assume exactly this ordering; here it is enforced.
+    positive = np.full((h, w), np.inf)
+    for dy, dx in NEIGHBOR_OFFSETS:
+        nb = pad[1 + dy : 1 + dy + h, 1 + dx : 1 + dx + w]
+        d = nb - filled
+        positive = np.where(d > tol, np.minimum(positive, d), positive)
+    min_drop = float(positive[np.isfinite(positive)].min()) if np.isfinite(positive).any() else eps
+    eps = min(eps, 0.5 * min_drop / max(float(adjust.max()), 1.0))
     return filled + adjust * eps
+
+
+def strict_descent(drain: np.ndarray, ocean: np.ndarray, step: float = 1e-7) -> np.ndarray:
+    """Epsilon priority-flood over an already flat-resolved surface: every
+    land cell ends strictly above the cell it was reached from, so D8 has a
+    strictly lower neighbour everywhere (no residual pit, no two-cell loop).
+    Run AFTER resolve_flats — the Garbrecht & Martz gradient still decides
+    where marsh flats converge; this only touches the handful of cells the
+    flat resolution leaves level (Phase 16a: 26 pits, 12 loops on the
+    shipped solve, three of them ending rivers on dry ground)."""
+    h, w = drain.shape
+    out = drain.astype(np.float64).copy()
+    visited = ocean.copy()
+    heap: list[tuple[float, int, int]] = []
+    for y, x in zip(*np.where(ocean_edge_and_border(drain, ocean))):
+        visited[y, x] = True
+        heapq.heappush(heap, (float(out[y, x]), int(y), int(x)))
+    while heap:
+        zc, y, x = heapq.heappop(heap)
+        for dy, dx in NEIGHBOR_OFFSETS:
+            ny, nx = y + dy, x + dx
+            if 0 <= ny < h and 0 <= nx < w and not visited[ny, nx]:
+                visited[ny, nx] = True
+                if out[ny, nx] <= zc:
+                    out[ny, nx] = zc + step
+                heapq.heappush(heap, (float(out[ny, nx]), ny, nx))
+    return out
 
 
 def ocean_edge_and_border(z: np.ndarray, ocean: np.ndarray) -> np.ndarray:
@@ -229,7 +269,10 @@ def ocean_edge_and_border(z: np.ndarray, ocean: np.ndarray) -> np.ndarray:
 def d8_flow(filled: np.ndarray, ocean: np.ndarray) -> np.ndarray:
     """Steepest-descent D8 downstream index per cell (flat), -1 at outlets."""
     h, w = filled.shape
-    pad = np.pad(filled, 1, constant_values=-1e9)  # off-map is a perfect sink
+    # off-map and the sea are perfect sinks: a shallow below-sea land cell
+    # beside an ocean cell at the same height must drain into it, not hunt
+    # for a land neighbour and loop (Phase 16a)
+    pad = np.pad(np.where(ocean, -1e9, filled), 1, constant_values=-1e9)
     best_drop = np.full((h, w), -np.inf, dtype=np.float32)
     flow_to = np.full((h, w), -1, dtype=np.int64)
     for dy, dx in NEIGHBOR_OFFSETS:
@@ -300,7 +343,7 @@ def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
     lakes = land & ((filled - z) > LAKE_MIN_DEPTH)
     # Routing runs on a noised copy so channels meander and converge.
     z_route = z + routing_noise(z.shape)
-    drain = resolve_flats(fill_depressions(z_route, ocean), ocean)
+    drain = strict_descent(resolve_flats(fill_depressions(z_route, ocean), ocean), ocean)
     flow_to = d8_flow(drain, ocean)
     accum = accumulate(drain, flow_to, ocean, cell_km2)
     rivers = np.zeros(z.shape, dtype=np.uint8)

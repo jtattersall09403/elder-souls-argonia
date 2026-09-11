@@ -64,3 +64,4 @@ A record stays under ~150 lines; round-by-round history goes to
 - [0055 — a collar overlaps the neck rather than meeting it (armour neck seam; why one GLB cannot sit flush on ten necks)](0055-a-collar-overlaps-the-neck-rather-than-meeting-it.md)
 - [0056 — armour is blended to the wearer, not deformed to fit (supersedes 0055)](0056-armour-is-blended-to-the-wearer-not-deformed-to-fit.md)
 - [0057 — Phase 16: terrain once, water once, places on a frozen world (supersedes the flood-first rules of 0047/0049 for terrain-moving consumers; re-sequences Phase 11/12/P work)](0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md)
+- [0058 — The hydrology graph is the water record (Phase 16a: rivers, reaches, bodies, seasons and terrain preconditions derived once with stable ids; the drainage-solver loop fix)](0058-the-hydrology-graph-is-the-water-record.md)

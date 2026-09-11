@@ -261,11 +261,30 @@ export function App() {
   }, []);
 
   // Reproducible URLs: keep view state in the query string.
+  // `?layer=a,b` turns overlays on by name; `?layer=hydrograph` turns on the
+  // whole Phase 16a hydrology-graph set (rivers by kind, bodies, season,
+  // falls and the wet-season line) over the base map, and hides the Phase 3
+  // river/wetland rasters so the two do not draw on top of each other.
+  const layerParam = (urlParams.get("layer") ?? "").split(",").map((v) => v.trim()).filter(Boolean);
+  const hydrographOn = layerParam.includes("hydrograph");
+  const [layers, setLayers] = useState<Record<string, boolean>>(() => {
+    const base: Record<string, boolean> = {
+      rivers: !hydrographOn, wetlands: !hydrographOn, routes: true, waterways: true, rootways: false,
+      danger: false, cultures: false, regions: false, mist: false, flood: false,
+      "flood-wet": false, soil: false, watersheds: false, salinity: false,
+      "hydrograph-bodies": hydrographOn, "hydrograph-rivers": hydrographOn, "hydrograph-season": false,
+      "hydrograph-falls": hydrographOn, "hydrograph-wetline": false,
+    };
+    for (const name of layerParam) if (name in base) base[name] = true;
+    return base;
+  });
   useEffect(() => {
     const q = new URLSearchParams();
     if (urlParams.get("waterDataset") === "preview") q.set("waterDataset", "preview");
     if (urlParams.has("wq")) q.set("wq", urlParams.get("wq")!);
     if (urlParams.get("hud") === "0") q.set("hud", "0");
+    const onLayers = Object.keys(layers).filter((k) => k.startsWith("hydrograph-") && layers[k]);
+    if (onLayers.length) q.set("layer", onLayers.join(","));
     if (urlParams.get("markers") === "0") q.set("markers", "0");
     if (view === "fly3d") {
       q.set("view", "fly3d");
@@ -319,14 +338,9 @@ export function App() {
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, flyAltM, flyAim, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, showBlueprints, blueprintUrl, timeVersion]);
+  }, [view, camMode, spawnKm, exaggeration, flyAltM, flyAim, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, showBlueprints, blueprintUrl, timeVersion, layers]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
-  const [layers, setLayers] = useState<Record<string, boolean>>({
-    rivers: true, wetlands: true, routes: true, waterways: true, rootways: false,
-    danger: false, cultures: false, regions: false, mist: false, flood: false,
-    "flood-wet": false, soil: false, watersheds: false, salinity: false,
-  });
   const climateRef = useRef<Record<string, { humidity: number; mist: number; rain: string; visibility: number }>>({});
   const [overlaysReady, setOverlaysReady] = useState(false);
   const [legends, setLegends] = useState<Record<string, Record<string, { name: string; rgb: number[] }>>>({});
@@ -365,6 +379,11 @@ export function App() {
         // Wet-season inundation (+1.4 m connected flood, refine_province):
         // the map-view twin of the 3D world's seasonal water level (§36).
         "flood-wet": "refined/flood-wet.png",
+        // The hydrology graph (Phase 16a, worldgen.hydrology_graph): drawn
+        // from world/sources/hydrology/hydrology-graph.json at derive time.
+        "hydrograph-rivers": "hydrograph-rivers.png", "hydrograph-bodies": "hydrograph-bodies.png",
+        "hydrograph-season": "hydrograph-season.png", "hydrograph-falls": "hydrograph-falls.png",
+        "hydrograph-wetline": "hydrograph-wetline.png",
       };
       await Promise.all(
         Object.entries(overlayFiles).map(async ([name, file]) => {
@@ -397,6 +416,10 @@ export function App() {
           collected.danger = socMeta.dangerLegend ?? {};
           collected.cultures = socMeta.cultureLegend ?? {};
         } catch { /* society pass not generated yet */ }
+        try {
+          const hg = await (await fetch(`${base}province/hydrograph-meta.json`)).json();
+          for (const [name, legend] of Object.entries(hg.legends ?? {})) collected[name] = legend as typeof collected[string];
+        } catch { /* hydrology graph not derived yet */ }
         setLegends(collected);
         decode("regions");
         decode("danger");
@@ -734,7 +757,8 @@ export function App() {
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <span>Layers:</span>
-        {(["rivers", "wetlands", "routes", "waterways", "rootways", "danger", "cultures", "regions", "mist", "flood", "soil", "watersheds", "salinity"] as const).map((name) => {
+        {(["rivers", "wetlands", "routes", "waterways", "rootways", "danger", "cultures", "regions", "mist", "flood", "soil", "watersheds", "salinity",
+           "hydrograph-rivers", "hydrograph-bodies", "hydrograph-season", "hydrograph-falls", "hydrograph-wetline"] as const).map((name) => {
           // Under the places layer the painted route/waterway rasters are
           // replaced by the clickable vector lines (same geometry, drawn
           // once) — the owner saw both and read them as duplicated roads.
@@ -777,7 +801,7 @@ export function App() {
           </button>
         ))}
       </div>
-      {(["regions", "danger", "cultures"] as const).map((layer) =>
+      {(["regions", "danger", "cultures", "hydrograph-rivers", "hydrograph-bodies", "hydrograph-season", "hydrograph-falls", "hydrograph-wetline"] as const).map((layer) =>
         layers[layer] && legends[layer] && Object.keys(legends[layer]).length > 0 ? (
           <div key={layer} style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", maxWidth: 860 }}>
             {Object.values(legends[layer]).filter((r) => r.name !== "ocean").map((r) => (

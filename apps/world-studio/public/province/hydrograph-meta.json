@@ -1,0 +1,335 @@
+{
+ "schemaVersion": 1,
+ "source": "world/sources/hydrology/hydrology-graph.json",
+ "contentSha256": "a70e6b3d3cc31b10b22df43bef3f2f55d3f82300076e22db3a3be76ab7bd3361",
+ "legends": {
+  "hydrograph-rivers": {
+   "horizontal-river": {
+    "name": "horizontal-river",
+    "rgb": [
+     40,
+     110,
+     230
+    ]
+   },
+   "horizontal-stream": {
+    "name": "horizontal-stream",
+    "rgb": [
+     80,
+     150,
+     235
+    ]
+   },
+   "horizontal-creek": {
+    "name": "horizontal-creek",
+    "rgb": [
+     130,
+     185,
+     240
+    ]
+   },
+   "horizontal-backwater": {
+    "name": "horizontal-backwater",
+    "rgb": [
+     90,
+     90,
+     200
+    ]
+   },
+   "horizontal-tidal": {
+    "name": "horizontal-tidal",
+    "rgb": [
+     60,
+     170,
+     170
+    ]
+   },
+   "sloped-riffle": {
+    "name": "sloped-riffle",
+    "rgb": [
+     240,
+     200,
+     60
+    ]
+   },
+   "sloped-rapid": {
+    "name": "sloped-rapid",
+    "rgb": [
+     245,
+     140,
+     40
+    ]
+   },
+   "sloped-chute": {
+    "name": "sloped-chute",
+    "rgb": [
+     230,
+     70,
+     30
+    ]
+   },
+   "vertical-fall": {
+    "name": "vertical-fall",
+    "rgb": [
+     255,
+     255,
+     255
+    ]
+   }
+  },
+  "hydrograph-bodies": {
+   "ocean": {
+    "name": "ocean",
+    "rgb": [
+     20,
+     45,
+     90
+    ]
+   },
+   "lagoon": {
+    "name": "lagoon",
+    "rgb": [
+     40,
+     120,
+     150
+    ]
+   },
+   "lake-lowland": {
+    "name": "lake-lowland",
+    "rgb": [
+     40,
+     90,
+     200
+    ]
+   },
+   "tarn-upland": {
+    "name": "tarn-upland",
+    "rgb": [
+     120,
+     160,
+     255
+    ]
+   },
+   "pond": {
+    "name": "pond",
+    "rgb": [
+     70,
+     130,
+     220
+    ]
+   },
+   "pool": {
+    "name": "pool",
+    "rgb": [
+     110,
+     160,
+     230
+    ]
+   },
+   "plunge-pool": {
+    "name": "plunge-pool",
+    "rgb": [
+     255,
+     255,
+     255
+    ]
+   },
+   "marsh-fringe": {
+    "name": "marsh-fringe",
+    "rgb": [
+     120,
+     190,
+     110
+    ]
+   },
+   "marsh-deep": {
+    "name": "marsh-deep",
+    "rgb": [
+     40,
+     120,
+     70
+    ]
+   },
+   "swamp": {
+    "name": "swamp",
+    "rgb": [
+     60,
+     150,
+     90
+    ]
+   },
+   "backswamp": {
+    "name": "backswamp",
+    "rgb": [
+     170,
+     200,
+     140
+    ]
+   },
+   "mudflat": {
+    "name": "mudflat",
+    "rgb": [
+     200,
+     180,
+     100
+    ]
+   }
+  },
+  "hydrograph-season": {
+   "perennial": {
+    "name": "perennial",
+    "rgb": [
+     60,
+     120,
+     240
+    ]
+   },
+   "seasonal": {
+    "name": "seasonal",
+    "rgb": [
+     240,
+     150,
+     40
+    ]
+   },
+   "ephemeral": {
+    "name": "ephemeral",
+    "rgb": [
+     200,
+     200,
+     200
+    ]
+   }
+  },
+  "hydrograph-falls": {
+   "fall": {
+    "name": "waterfall (measured on the base)",
+    "rgb": [
+     255,
+     60,
+     60
+    ]
+   },
+   "proposal": {
+    "name": "knickpoint proposal (ring; big = band 2-3)",
+    "rgb": [
+     255,
+     170,
+     40
+    ]
+   },
+   "plunge": {
+    "name": "plunge pool",
+    "rgb": [
+     120,
+     200,
+     255
+    ]
+   }
+  },
+  "hydrograph-wetline": {
+   "wet": {
+    "name": "wet-season high-water extent (Phase 3 overlay)",
+    "rgb": [
+     90,
+     220,
+     255
+    ]
+   }
+  }
+ },
+ "stats": {
+  "drainageLoops": 0,
+  "rivers": 100,
+  "reaches": 889,
+  "junctions": 200,
+  "bodies": 406,
+  "reachKinds": {
+   "horizontal-creek": 185,
+   "sloped-riffle": 62,
+   "sloped-rapid": 195,
+   "horizontal-tidal": 6,
+   "sloped-chute": 27,
+   "vertical-fall": 5,
+   "horizontal-backwater": 294,
+   "horizontal-stream": 75,
+   "horizontal-river": 40
+  },
+  "bodyKinds": {
+   "tarn-upland": 16,
+   "pond": 175,
+   "pool": 52,
+   "lake-lowland": 23,
+   "marsh-fringe": 71,
+   "marsh-deep": 51,
+   "backswamp": 4,
+   "swamp": 3,
+   "ocean": 1,
+   "lagoon": 9,
+   "plunge-pool": 1
+  },
+  "bodyOrigins": {
+   "measured": 405,
+   "promised": 1
+  },
+  "seasons": {
+   "reaches": {
+    "perennial": 584,
+    "seasonal": 305
+   },
+   "bodies": {
+    "perennial": 345,
+    "seasonal": 61
+   }
+  },
+  "waterClasses": {
+   "blackwater": 9,
+   "whitewater": 61,
+   "clearwater": 30
+  },
+  "mouths": {
+   "sea": 30,
+   "confluence": 70
+  },
+  "falls": 5,
+  "fallProposals": 131,
+  "fallProposalsByBand": {
+   "1": 105,
+   "2": 26
+  },
+  "riverTrappedDepressions": 0,
+  "lostStations": 4,
+  "lostSites": [
+   {
+    "reach": 2,
+    "eastM": 4881.7,
+    "southM": 107.4,
+    "stations": 2,
+    "band": 1
+   },
+   {
+    "reach": 33,
+    "eastM": 4310.9,
+    "southM": 1715.1,
+    "stations": 2,
+    "band": 3
+   }
+  ],
+  "gorgeStationsMeasured": 1972,
+  "gorgeStationsUnderResolved": 1197,
+  "wetSeasonLineCells": 188785,
+  "wetSeasonLineKm2": 5.68,
+  "standingWaterCensus": {
+   "depressions": 37308,
+   "acceptedDepressions": 395,
+   "rescuedBasins": 82,
+   "sheets": 163,
+   "cappedBasins": 0,
+   "nestedAccepted": 0,
+   "nestedCandidates": 1170,
+   "bodies": 395,
+   "sheetBodies": 129,
+   "bodyCells": 935347
+  }
+ }
+}

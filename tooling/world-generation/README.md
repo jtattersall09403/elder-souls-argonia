@@ -53,6 +53,7 @@ python3 -m worldgen.extract_province "<vault>/mod-sources/tamriel-worldspaces-11
 python3 -m worldgen.compile_hydrology "<...>/argonia-heightfield/heightfield-f32.npy"
 
 # 3. Phase 4: roads, boat lanes, danger, cultures + overlays (reads step 2's npz)
+python3 -m worldgen.hydrology_graph derive     # Phase 16a: the typed water graph (world/sources/hydrology/)
 python3 -m worldgen.compile_society "<...>/argonia-heightfield/hydrology-pass1.npz"
 
 # 4. Ground-material library (rerun only when the palette changes): CC0

@@ -44,6 +44,16 @@ Province-wide fields should include:
 13. Generate runtime water meshes, depth fields and flow maps.
 14. Validate every channel connection from headwater to receiving basin.
 
+**Phase 16a (decision 0058): steps 5–14 are frozen into the hydrology graph.**
+`world/sources/hydrology/hydrology-graph.json` ([schema](../../world/sources/hydrology/README.md))
+holds the rivers headwater to mouth, reaches typed horizontal / sloped /
+vertical, junctions, bodies typed by kind and altitude band, a stored season
+per entity and a terrain precondition per entity. It is derived once from the
+frozen sculpt; the terrain stage builds to it, the water compile puts water at
+its levels; no later stage re-floods terrain to find a level. Step 14 is
+its `check` gate. The Phase 3 wetlands + rivers + lakes overlay is the
+wet-season high-water extent (owner, 2026-09-11).
+
 The full province receives a coarse hydrological solution immediately. Detailed meshes and local refinements expand by watershed.
 
 ### 33.1 Climate, atmosphere and light

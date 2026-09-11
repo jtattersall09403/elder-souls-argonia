@@ -11,6 +11,13 @@ owner 2026-09-03; scope and rationale in decision
 | [review-process.md](review-process.md) | You are reviewing text, or you are a writer about to commit it |
 | `.claude/skills/text-review/SKILL.md` | **The review, packaged.** Invoke the `text-review` skill in a fresh agent on any new or edited text before commit (CLAUDE.md rule). It runs the linter and applies §3 of the review process, and writes the edits |
 
+**The docs ratchet.** `docs-lint-baseline.json` holds the hard prose hits each
+`docs/**/*.md` file carries today. `npm test` runs
+`python3 -m worldgen.lint_prose --docs-gate` (from `tooling/world-generation`):
+a file may only improve. Clear a file's hits, then lower its bar with
+`--docs-gate --write-baseline`. A file absent from the baseline must stay at
+zero, so a new doc is held to the style guide from its first commit.
+
 **Related, and not duplicated here:**
 
 - [quests/60 §45e](../../quests/60-writing-and-lore.md) — the owner's TES-voice

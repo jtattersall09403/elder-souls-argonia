@@ -11,3 +11,4 @@ All are `file:line` against commit `34bec0ed`; none of them changed anything.
 | [audit-chain-and-terrain.md](audit-chain-and-terrain.md) | The terrain chain's dependency graph and its feedback cycles, local patches, the border and the cliffs. | evidence |
 | [audit-settlements-delivered.md](audit-settlements-delivered.md) | The shipped settlements measured against the rules: hollow buildings, wrong kits, orientation, doors, floating pieces, missing paths. | evidence |
 | [audit-routers-and-context.md](audit-routers-and-context.md) | Whether the doc routers have broken and what important context sits unused; broken links across all 360 `.md` files. | evidence |
+| [16a-hydrology-graph-ledger.md](16a-hydrology-graph-ledger.md) | 16a's measurements: which base, August vs today, the drainage-solver defect, the graph report, the wet-season line, the pit list for ruling 2, the delta answer, the gates. | ledger |

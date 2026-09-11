@@ -242,6 +242,27 @@ enough; the point is that no round ends without its lesson written where the
 next agent reads it. **Checked mechanically** (`tooling/repo-standards/check.mjs`,
 standard 13, via `git status`).
 
+## 14. A gate reads shipped data and has been seen to fail
+
+Owner rulings 2026-09-07 and 2026-09-11 (Phase 16 plan §3): in one week three
+gates were found that could not fail on their own defect. So:
+
+- a gate reads the **shipped** artefact (the committed JSON, the published
+  raster, the built GLB), never a fixture that stands in for it;
+- the commit that adds a gate shows it **failing** on a real or injected
+  defect (a corrupted copy of the shipped data is fine) and the test file
+  keeps that demonstration;
+- probes **report** and tests **assert**; a probe that prints a number nobody
+  compares is not a gate;
+- agents ingest at most **six images per chunk**, only from tooling that
+  renders to a file, only for a check a number cannot express (plan §8);
+  every image ingested is listed in the chunk's report with what it decided.
+
+Checked mechanically where it can be: the hydrology graph (`worldgen
+.hydrology_graph check`, decision 0058) and the docs prose ratchet
+(`lint_prose --docs-gate`) run in `npm test`; their failure demonstrations are
+`test_hydrology_graph.py` and `test_lint_prose.py`.
+
 ## Running the checks
 
 ```

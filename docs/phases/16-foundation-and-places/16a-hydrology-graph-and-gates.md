@@ -73,6 +73,18 @@ owner ruling to start; it produces the evidence for rulings 1–6.
    ones). Update `world/50` §33–36 and `world/60` §38's `WaterBody` to the
    graph's vocabulary.
 
+## Status — delivered 2026-09-11, owner check pending
+
+Every item under Deliver is done. The evidence is
+[research/phase16/16a-hydrology-graph-ledger.md](../../research/phase16/16a-hydrology-graph-ledger.md),
+choices in decision 0058. Two findings change the questions for the owner:
+the vault's "today" sculpt IS the August array (ruling 1 therefore means a
+re-freeze on today's code's different output; the graph is derived on that).
+The base terrain has **no** river-trapped pits — the pits are made by the
+refine stages, so ruling 2 becomes "16b must not create them" plus any tarn
+the owner wants declared. The 2D map's hillshade is still the August terrain
+until 16b; the graph lines drawn over it are from today's code's base.
+
 ## Acceptance
 
 - `hydrology-graph.json` committed, schema-versioned, `python3 -m

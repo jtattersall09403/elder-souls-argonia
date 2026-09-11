@@ -88,3 +88,39 @@ def test_a_real_final_preposition_is_still_caught(tmp_path):
     res = lint_prose.LintResult()
     lint_prose.lint_markdown(res, doc)
     assert any(h.rule == "final-preposition" for h in res.hard_hits())
+
+
+_HARD_SENTENCE = ("The village is nestled under the scarp, and it is a "
+                  "testament to the masons.\n")
+
+
+def _docs_tree(tmp_path, monkeypatch):
+    monkeypatch.setattr(lint_prose.catalogue, "REPO_ROOT", tmp_path)
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "docs" / "a.md").write_text(_HARD_SENTENCE, encoding="utf-8")
+
+
+def test_docs_gate_fails_when_a_file_gets_worse(tmp_path, monkeypatch):
+    """The ratchet: a docs/ file with hits the baseline does not allow fails."""
+    _docs_tree(tmp_path, monkeypatch)
+    baseline = tmp_path / "baseline.json"
+    baseline.write_text('{"schemaVersion": 1, "rule": "r", "files": {}}', encoding="utf-8")
+    rc, msgs = lint_prose.docs_gate(baseline)
+    assert rc == 1, msgs
+    assert any("docs/a.md" in m for m in msgs), msgs
+
+
+def test_docs_gate_passes_at_baseline_and_notes_improvement(tmp_path, monkeypatch):
+    _docs_tree(tmp_path, monkeypatch)
+    baseline = tmp_path / "baseline.json"
+    # count the file's real hits, then hold the bar exactly there
+    lint_prose.docs_gate(baseline, write=True)
+    import json
+    n = json.loads(baseline.read_text())["files"]["docs/a.md"]
+    assert n >= 2, n
+    assert lint_prose.docs_gate(baseline) == (0, [])
+    baseline.write_text(json.dumps({"schemaVersion": 1, "rule": "r",
+                                    "files": {"docs/a.md": n + 1}}), encoding="utf-8")
+    rc, msgs = lint_prose.docs_gate(baseline)
+    assert rc == 0
+    assert any("improved" in m for m in msgs), msgs

@@ -158,7 +158,7 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 
 | Id | Chunk (brief) | Owner check | Needs owner rulings (§7) | Status |
 |---|---|---|---|---|
-| 16a | [Hydrology graph, gates policy, docs hygiene](16a-hydrology-graph-and-gates.md) — derive the typed water graph once; review it on the 2D map; the visual-ingestion proposal; split 0041; the gate policy | studio 2D layers: rivers, kinds, seasons, falls, pools | none (it *produces* the questions for 16b) | todo |
+| 16a | [Hydrology graph, gates policy, docs hygiene](16a-hydrology-graph-and-gates.md) — derive the typed water graph once; review it on the 2D map; the visual-ingestion proposal; split 0041; the gate policy | studio 2D layers: rivers, kinds, seasons, falls, pools | none (it *produces* the questions for 16b) | delivered 2026-09-11, owner check pending ([ledger](../../research/phase16/16a-hydrology-graph-ledger.md), [0058](../../decisions/0058-the-hydrology-graph-is-the-water-record.md)) |
 | 16b | [Terrain built once](16b-terrain-once.md) — re-freeze the sculpt, enable every water feature from the graph, cliffs, pits, deterracing, coast drama, chain reorder, local patches, freeze gate | walk the province: cliffs, fall sites, tarns, pits | 1–6 | todo |
 | 16c | [Water once](16c-water-once.md) — compile on the frozen base; fix the runtime (ocean, edges, seams, hover, falls); probes that fail | walk 14 water sites + beach + open sea | 7 | todo |
 | 16d | [Beyond-border apron and boundary](16d-border-apron-and-boundary.md) — stitched all-Tamriel slice, fade, wall, message | mountain viewpoint N, W, NW; walk to the edge | 8 | todo |
@@ -182,7 +182,11 @@ them where the blueprint put them.
 ## 5. What each chunk leaves behind (the shape of the repo afterwards)
 
 - `world/sources/hydrology/hydrology-graph.json` (+ schema doc) — the water
-  entities, read by carve, compile, scatter, routes, places.
+  entities, read by carve, compile, scatter, routes, places. **Delivered
+  (16a).** Note for 16b: the graph is solved on today's code's sculpt, not the
+  vault file (which is the August array); the drainage solver was fixed
+  (0058 choice 7), so 16b re-runs `compile_hydrology` and re-derives the
+  graph on its frozen base and must land on the same `sourceHeightSha256`.
 - `refined-height-frozen-f32.npy` + sha in the vault; `chain-manifest.sh`
   proving two forced runs identical; `terrain-chain.sh` in the §7 order of
   the chain audit.

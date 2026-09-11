@@ -111,10 +111,16 @@ Use it as a high-quality reference for Topal Bay and exposed coasts. Mobile and 
 
 ## 40. Water-body semantics
 
+Since Phase 16a the ids, kinds, levels and seasons come from the hydrology
+graph (decision 0058); this contract is the runtime view of a graph body.
+
 ```ts
 interface WaterBody {
   id: WaterBodyId;
-  kind: "river" | "creek" | "marsh" | "lake" | "estuary" | "coast";
+  kind: HydrologyBodyKind; // the graph's vocabulary (world/sources/hydrology/README.md):
+                           // ocean | lagoon | lake-lowland | tarn-upland | pond | pool |
+                           // plunge-pool | marsh-fringe | marsh-deep | swamp | backswamp | mudflat;
+                           // rivers are Reach entities (horizontal-* | sloped-* | vertical-fall)
   surfaceBase: number;
   depthField: FieldRef;
   flowField: FieldRef;
