@@ -8,7 +8,7 @@
   "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands (pieces of 10+ cells, about 300 m2), every river cell and every graph body. The raw coarse lake mask is NOT used: its 3,781 pieces were mostly one-cell pits along contours."
  },
  "source": "world/sources/hydrology/hydrology-graph.json",
- "contentSha256": "d0208a5be6a8504ba5cd46fff625272f5df65377ba28d73932185cd428db3ac2",
+ "contentSha256": "ff60e948fde8e6fa0a8a4c5f0f5874711083b561aa61fc9b04e0b2367c6898d0",
  "legends": {
   "hydrograph-rivers": {
    "horizontal-channel": {
@@ -265,16 +265,17 @@
    "horizontal-backwater": 294
   },
   "bodyKinds": {
-   "tarn-upland": 16,
-   "pond": 175,
-   "pool": 52,
-   "lake-lowland": 24,
-   "marsh-fringe": 71,
-   "marsh-deep": 51,
-   "backswamp": 4,
-   "swamp": 3,
+   "tarn-upland": 15,
+   "pond": 78,
+   "pool": 25,
+   "backswamp": 25,
+   "lake-lowland": 7,
+   "marsh-fringe": 38,
+   "marsh-deep": 109,
+   "swamp": 99,
+   "mudflat": 4,
    "ocean": 1,
-   "lagoon": 9,
+   "lagoon": 5,
    "plunge-pool": 1
   },
   "bodyOrigins": {
@@ -308,7 +309,7 @@
    "confluence": 70
   },
   "falls": 5,
-  "suspectFalls": 1,
+  "suspectFalls": 0,
   "riverTrappedDepressions": 0,
   "lostStations": 4,
   "lostSites": [

@@ -93,14 +93,20 @@ BLACKWATER_PEAT_FRAC = 0.50
 GORGE_RISE_M = 2.0                       # valley width measured to this rise above the floor
 GORGE_HALF_SPAN_M = 11.0                 # two coarse cells: narrower valleys are under-resolved
 LEVEL_PIN_TOL_M = 0.25                   # channels.py pins a tributary end / sea reach within this
-PLUNGE_BODY_KINDS = ("plunge-pool", "lake-lowland", "tarn-upland", "pond", "lagoon", "ocean")
+PLUNGE_BODY_KINDS = BODY_KINDS           # a fall may land in any standing water; a dry landing promises a plunge-pool
 
 MOUNTAIN_REGIONS = (1, 2)                # border mountains, upland hills
 PEAT_SOILS = (3, 4)                      # soft marsh, peat
 MARSH_REGIONS = (6, 7, 8)                # rootland deep marsh, interior swamp, fringe marsh: tannin sources
 HEART_REGIONS = (6, 7, 8, 13)            # = standing_water.HEART_REGIONS (asserted in the test)
 REGION_BODY_KIND = {3: "mudflat", 4: "marsh-fringe", 6: "marsh-deep", 7: "swamp",
-                    8: "marsh-fringe", 9: "backswamp"}
+                    8: "marsh-fringe", 9: "backswamp", 13: "swamp", 14: "swamp"}
+MARSH_FAMILY_REGIONS = (3, 4, 6, 7, 8, 9, 13, 14)   # region classes whose standing water is marsh, not lake
+MARSH_MAX_MEAN_DEPTH_M = 2.0             # a body shallower than this on average, in marsh country, is marsh
+MARSH_REGION_FRAC = 0.5                  # ...when at least this much of its shore country is marsh
+                                         # (the "lake & standing water" region class 12 is the water
+                                         # itself and does not count either way)
+BRACKISH_SALINITY = 0.15                 # sea-level water fresher than this is marsh or lake, not lagoon
 
 
 # ---------------------------------------------------------------------------
@@ -193,6 +199,34 @@ def _water_class_raster(npz):
 # ---------------------------------------------------------------------------
 # the derivation
 # ---------------------------------------------------------------------------
+
+def classify_body(area_m2: float, max_depth: float, mean_depth: float, sheet: bool,
+                  region_counts: dict, tidal: bool, band: str) -> str:
+    """One rule for every standing body, measured or at sea level.
+
+    Marsh country decides: a body that is a flat sheet, or that is shallow on
+    average (< MARSH_MAX_MEAN_DEPTH_M) with at least MARSH_REGION_FRAC of its
+    surrounding region classes in the marsh family, is a marsh kind named by
+    the dominant marsh region. Otherwise it is a lake / tarn / pond / pool by
+    area and altitude band. (Owner, 2026-09-11: the big interconnected
+    southern water is marsh, not one lake; the northern sea-level water is
+    marsh, not lagoon.)"""
+    land = {k: v for k, v in region_counts.items() if k not in (0, 12)}
+    tot = max(sum(land.values()), 1)
+    marsh = {k: v for k, v in land.items() if k in MARSH_FAMILY_REGIONS}
+    marsh_frac = sum(marsh.values()) / tot
+    if sheet or (mean_depth < MARSH_MAX_MEAN_DEPTH_M and marsh_frac >= MARSH_REGION_FRAC):
+        dom = max(marsh, key=marsh.get) if marsh else None
+        kind = REGION_BODY_KIND.get(dom, "marsh-deep" if max_depth >= MARSH_DEEP_MIN_DEPTH_M else "marsh-fringe")
+        if tidal and kind in ("marsh-fringe", "backswamp"):
+            kind = "mudflat"
+        return kind
+    if area_m2 >= LAKE_MIN_M2:
+        return "tarn-upland" if band in ("upland", "montane") else "lake-lowland"
+    if area_m2 >= POND_MIN_M2:
+        return "pond"
+    return "pool"
+
 
 def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict:
     import numpy as np
@@ -374,10 +408,21 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
     body_ids: list[str] = []
     body_rec: list[dict] = []
     deep_cells = []
+    reg_up = sw.upsample(reg_c, STEP, shape)
+    sal_up = sw.upsample(sal_c, STEP, shape)
     if nb:
         idx = np.arange(1, nb + 1)
         argmin = ndimage.minimum_position(g, body_lbl, idx)
         bbox = ndimage.find_objects(body_lbl)
+        lvl_cell = np.concatenate([[0.0], bodies.levels]).astype(np.float32)[body_lbl]
+        mean_depth = np.asarray(ndimage.mean(lvl_cell - g, body_lbl, idx), dtype=np.float64)
+        # region composition of each body: a histogram of region class x body
+        rc_hist = np.zeros((nb + 1, 16), dtype=np.int64)
+        np.add.at(rc_hist, (body_lbl.ravel(), np.minimum(reg_up.ravel(), 15)), 1)
+        # ...over the body's shore ring too (the water cells are class 12)
+        ring = ndimage.grey_dilation(body_lbl, size=5)
+        ring = np.where(body_lbl == 0, ring, 0)
+        np.add.at(rc_hist, (ring.ravel(), np.minimum(reg_up.ravel(), 15)), 1)
         for i in range(nb):
             dy, dx = argmin[i]
             deep_cells.append((int(dx), int(dy)))
@@ -390,7 +435,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
         depth = float(bodies.reliefs[i])
         sheet = bool(bodies.sheet[i])
         region = int(coarse_at(reg_c, dx, dy))
-        tidal = bool(coarse_at(tidal_c, dx, dy)) or (level <= 1.5 and float(coarse_at(sal_c, dx, dy)) > 0.15)
+        tidal = level <= 1.5 and float(coarse_at(sal_c, dx, dy)) >= BRACKISH_SALINITY
         if tidal:
             band = "tidal"
         elif level < LOWLAND_MAX_M:
@@ -399,16 +444,8 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
             band = "upland"
         else:
             band = "montane"
-        if sheet:
-            kind = REGION_BODY_KIND.get(region, "marsh-deep" if depth >= MARSH_DEEP_MIN_DEPTH_M else "marsh-fringe")
-            if tidal and kind in ("marsh-fringe", "backswamp"):
-                kind = "mudflat"
-        elif area >= LAKE_MIN_M2:
-            kind = "tarn-upland" if band in ("upland", "montane") else "lake-lowland"
-        elif area >= POND_MIN_M2:
-            kind = "pond"
-        else:
-            kind = "pool"
+        counts = {k: int(v) for k, v in enumerate(rc_hist[i + 1]) if v}
+        kind = classify_body(area, depth, float(mean_depth[i]), sheet, counts, tidal, band)
         rp = float(resp[i])
         amp = sw.SEASON_AMPLITUDE_M
         dry_drop = DRY_SEASON_FRACTION * amp * rp
@@ -422,7 +459,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
             "wetSeasonLevelM": _r(level + amp * rp), "drySeasonLevelM": _r(level - dry_drop),
             "deepestCell": [dx, dy],
             "bboxCells": [int(sx.start), int(sy.start), int(sx.stop), int(sy.stop)],
-            "region": region,
+            "region": region, "meanDepthM": _r(float(mean_depth[i])),
             "inflow": [], "outflow": None,
             "terrainPrecondition": {"kind": "bowl", "levelM": _r(level), "floorMaxM": _r(level - depth),
                                     "spillM": _r(level)},
@@ -441,6 +478,11 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
                  "terrainPrecondition": {"kind": "sea", "levelM": 0.0}}
     body_rec.append(ocean_rec)
     body_index[ocean_rec["id"]] = ocean_rec
+    # water at sea level that the coarse pass does not call ocean: an inland
+    # arm reaching the sea, or below-sea ground on the map border. Brackish
+    # (salinity >= BRACKISH_SALINITY at its deepest cell) = lagoon; fresh =
+    # an ordinary body at level 0, classified like every other (the north's
+    # sea-level marsh, owner 2026-09-11)
     lag = sea & ~ocean_up
     lag_lbl, n_lag = ndimage.label(lag, structure=sw.CONN8)
     lagoon_cell: dict[int, str] = {}
@@ -449,19 +491,41 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
         areas = np.bincount(lag_lbl.ravel(), minlength=n_lag + 1)[1:]
         pos = ndimage.minimum_position(g, lag_lbl, li)
         lag_boxes = ndimage.find_objects(lag_lbl)
+        mean_d = np.asarray(ndimage.mean(-g, lag_lbl, li), dtype=np.float64)
+        lag_hist = np.zeros((n_lag + 1, 16), dtype=np.int64)
+        np.add.at(lag_hist, (lag_lbl.ravel(), np.minimum(reg_up.ravel(), 15)), 1)
+        lring = np.where(lag_lbl == 0, ndimage.grey_dilation(lag_lbl, size=5), 0)
+        np.add.at(lag_hist, (lring.ravel(), np.minimum(reg_up.ravel(), 15)), 1)
+        gy_, gx_ = np.gradient(g, mpp)
+        slope_full = np.hypot(gy_, gx_)
+        mean_slope = np.asarray(ndimage.mean(slope_full, lag_lbl, li))
+        del gy_, gx_, slope_full
         for i in range(n_lag):
             if areas[i] * mpp * mpp < POND_MIN_M2:
                 continue
             dy, dx = pos[i]
             bid = f"body.{int(dx)}-{int(dy)}"
-            rec = {"id": bid, "kind": "lagoon", "origin": "measured", "levelM": 0.0, "altitudeBand": "tidal",
-                   "areaM2": _r(float(areas[i]) * mpp * mpp, 0), "maxDepthM": _r(-float(g[lag_lbl == i + 1].min())),
-                   "sheet": False, "season": "perennial", "seasonResponse": 0.0,
+            area = float(areas[i]) * mpp * mpp
+            max_depth = -float(g[lag_lbl == i + 1].min())
+            saline = float(coarse_at(sal_c, dx, dy)) >= BRACKISH_SALINITY
+            counts = {k: int(v) for k, v in enumerate(lag_hist[i + 1]) if v}
+            if saline:
+                kind, band = "lagoon", "tidal"
+                prec = {"kind": "sea", "levelM": 0.0}
+            else:
+                sheet = bool(mean_slope[i] < sw.SHEET_SLOPE)
+                band = "lowland"
+                kind = classify_body(area, max_depth, float(mean_d[i]), sheet, counts, False, band)
+                prec = {"kind": "bowl", "levelM": 0.0, "floorMaxM": _r(-max_depth), "spillM": 0.0}
+            rec = {"id": bid, "kind": kind, "origin": "measured", "levelM": 0.0, "altitudeBand": band,
+                   "areaM2": _r(area, 0), "maxDepthM": _r(max_depth), "meanDepthM": _r(float(mean_d[i])),
+                   "sheet": kind not in ("lagoon", "lake-lowland", "pond", "pool"),
+                   "season": "perennial", "seasonResponse": 0.0,
                    "wetSeasonLevelM": 0.0, "drySeasonLevelM": 0.0, "deepestCell": [int(dx), int(dy)],
                    "bboxCells": [int(lag_boxes[i][1].start), int(lag_boxes[i][0].start),
                                  int(lag_boxes[i][1].stop), int(lag_boxes[i][0].stop)],
                    "region": int(coarse_at(reg_c, dx, dy)), "inflow": [], "outflow": None,
-                   "terrainPrecondition": {"kind": "sea", "levelM": 0.0}}
+                   "terrainPrecondition": prec}
             body_rec.append(rec)
             body_index[bid] = rec
             lagoon_cell[i + 1] = bid
@@ -1092,6 +1156,7 @@ SEASON_COLOUR = {"perennial": (60, 120, 240), "seasonal": (240, 150, 40), "ephem
 def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies=None, npz=None) -> dict:
     import numpy as np
     from PIL import Image, ImageDraw
+    from . import standing_water as sw
     h, w = coarse_shape
     mpp_c = RAW_M * STEP
 
@@ -1111,7 +1176,6 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
     if bodies is not None:
         lbl = bodies.body[::STEP, ::STEP][:h, :w]
         sea = bodies.sea[::STEP, ::STEP][:h, :w]
-        ids = [b["id"] for b in graph["bodies"] if b["origin"] == "measured" and b["deepestCell"] is not None and b["kind"] not in ("lagoon",)]
         # label index -> body record via deepest cell
         lut_rgb = np.zeros((int(bodies.n) + 1, 4), dtype=np.uint8)
         lut_season = np.zeros((int(bodies.n) + 1, 4), dtype=np.uint8)
@@ -1127,7 +1191,19 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
         arr[sea] = (*BODY_COLOUR["ocean"], 120)
         if npz is not None:
             oc = npz["ocean"][:h, :w]
-            arr[sea & ~oc] = (*BODY_COLOUR["lagoon"], 200)
+            lag_c = (sea & ~oc)
+            # sea-level bodies are painted by THEIR kind (lagoon, marsh, lake)
+            from scipy import ndimage as _ndi
+            lbl_l, _n = _ndi.label(bodies.sea & ~sw.upsample(npz["ocean"], STEP, bodies.sea.shape), structure=sw.CONN8)
+            lbl_lc = lbl_l[::STEP, ::STEP][:h, :w]
+            kind_by_label: dict[int, str] = {}
+            for b in graph["bodies"]:
+                if b["levelM"] == 0.0 and b["origin"] == "measured" and b["deepestCell"] and b["kind"] != "ocean":
+                    dx, dy = b["deepestCell"]
+                    if lbl_l[dy, dx] > 0:
+                        kind_by_label[int(lbl_l[dy, dx])] = b["kind"]
+            for lab, kind in kind_by_label.items():
+                arr[lag_c & (lbl_lc == lab)] = (*BODY_COLOUR[kind], 200)
         body_img = Image.fromarray(arr, "RGBA")
         body_draw = ImageDraw.Draw(body_img)
         sarr = lut_season[lbl]

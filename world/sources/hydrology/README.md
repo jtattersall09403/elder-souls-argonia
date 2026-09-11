@@ -93,11 +93,12 @@ frozen terrain, so no polygon is stored). Kinds:
 | Kind | Rule |
 |---|---|
 | `ocean` | sea-connected water below 0 in the coarse ocean mask (one body) |
-| `lagoon` | sea-connected water below 0 the coarse pass does not call ocean (inland arms) |
-| `lake-lowland` / `tarn-upland` | >= 1 ha; by `altitudeBand` (tarn: upland or montane) |
-| `pond` / `pool` | >= 500 m2 / smaller |
+| `lagoon` | sea-level water outside the ocean mask that is brackish (salinity >= 0.15 at its deepest cell); fresh sea-level water is an ordinary body at level 0 |
+| marsh family (below) | a flat sheet, or a body shallower than 2 m on average with at least half of its shore country in the marsh region classes (tidal delta, coastal marsh, rootland deep marsh, interior swamp, fringe marsh, seasonal floodplain, jungle, mangrove); the region class "lake & standing water" counts neither way |
+| `lake-lowland` / `tarn-upland` | not marsh, >= 1 ha; by `altitudeBand` (tarn: upland or montane) |
+| `pond` / `pool` | not marsh; >= 500 m2 / smaller |
 | `plunge-pool` | the body a fall lands in; `causedBy: {fall}`; `origin: promised` when the base has no bowl yet (the terrain stage digs it to `terrainPrecondition`) |
-| `marsh-fringe`, `marsh-deep`, `swamp`, `backswamp`, `mudflat` | flat sheets, typed by the region class at the body (fringe marsh / rootland deep marsh / interior swamp / seasonal floodplain / tidal delta) |
+| `marsh-fringe`, `marsh-deep`, `swamp`, `backswamp`, `mudflat` | the marsh family, named by the dominant marsh region around the body (fringe or coastal marsh / rootland deep marsh / interior swamp, jungle, mangrove / seasonal floodplain / tidal delta when brackish) |
 
 Fields: `levelM`, `altitudeBand` (`tidal` <= 1.5 m and saline, `lowland`
 < 30 m, `upland` < 110 m, `montane`), `areaM2`, `maxDepthM`, `sheet`,
