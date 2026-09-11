@@ -26,10 +26,20 @@ export interface AirSpecies {
   id: string;
   /** Particles in the field. Fill-rate, not vertex count, is the limit. */
   count: number;
-  /** Half-extents of the wrap box (x, y, z). Wider than tall, always. */
+  /** Horizontal half-extents of the wrap box (x, z). The y entry is ignored:
+   * the band's vertical extent comes from `depthM` below. */
   box: [number, number, number];
-  /** Vertical offset of the box centre from the camera. */
-  yOffset: number;
+  /** How far BELOW THE CAMERA the band's top sits, metres, and how deep the
+   * band runs from there. Deliberately camera-relative rather than measured
+   * up from the ground: the renderer has no cheap, correct ground height at
+   * the camera (the province's height preview is the pre-sculpt one and is
+   * out by hundreds of metres), and it does not need one — particles
+   * depth-test against the terrain, so anything below the surface is hidden
+   * by the ground itself. Running the band deeper than the ground therefore
+   * costs nothing and makes the VISIBLE band "from the ground up to just
+   * under eye level" on flat ground and on a slope alike. */
+  topBelowCameraM: number;
+  depthM: number;
   /** Sprite size in pixels at 10 m. Big enough that the halo has pixels to
    * be soft in — a 3 px sprite can only ever be a dot. Clamped to 48 in the
    * shader, under the 64 some drivers impose on gl_PointSize. */
@@ -66,6 +76,15 @@ export interface AirSpecies {
   /** Clump radius. 0 scatters uniformly; >0 gathers particles into knots,
    * which is what stops a swarm reading as even fog. */
   clusterRadius: number;
+  /** Nothing renders closer to the camera than this. In third person the
+   * player stands a few metres ahead of the eye, and a particle nearer than
+   * that hangs between the camera and the character, which reads as being on
+   * the lens rather than in the world. */
+  nearClipM: number;
+  /** Size in metres of the WORLD-ANCHORED density patches: some ground holds
+   * a swarm and some holds almost none, so walking takes you through pockets
+   * instead of a uniform cloud. 0 disables and the field is even. */
+  patchM: number;
   /** Extra brightness between eye and sun — Mie forward scatter. For dust
    * and pollen this is most of their visibility, and it is what makes them
    * show in a shaft of light and near-vanish elsewhere. */
@@ -83,6 +102,8 @@ uniform vec3 uCam;
 uniform float uTime;
 uniform vec3 uBox;
 uniform float uYOffset;
+uniform float uNearClip;
+uniform float uPatchM;
 uniform float uSizePx;
 uniform float uPixelRatio;
 uniform vec3 uWander;
@@ -97,9 +118,25 @@ uniform float uVisibility;
 varying float vAlpha;
 varying float vBacklit;
 
+// Cheap value noise, for the world-anchored density patches.
+float esAirHash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+float esAirNoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(esAirHash(i), esAirHash(i + vec2(1.0, 0.0)), f.x),
+             mix(esAirHash(i + vec2(0.0, 1.0)), esAirHash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+
 void main() {
   float t = uTime;
-  vec3 inner = (aSeed - 0.5) * 2.0 * uClusterR;
+  // Clumps are HORIZONTAL. A spherical clump would throw particles several
+  // metres up through a band that is only a couple of metres deep, and the
+  // wrap would then fold them back in at the wrong height — so the vertical
+  // spread of a knot is capped by the band's own half-height.
+  vec3 clumpR = vec3(uClusterR, min(uClusterR, uBox.y), uClusterR);
+  vec3 inner = (aSeed - 0.5) * 2.0 * clumpR;
 
   vec3 w;
   w.x = sin(t * uWanderHz * (0.6 + aSeed.x) + aSeed.x * 6.283);
@@ -143,9 +180,27 @@ void main() {
   // air and fade with everything else; plus a near fade so a sprite never
   // balloons across the screen as the camera passes through the field.
   float haze = exp(-dist / max(uVisibility, 1.0));
-  float near = smoothstep(0.35, 2.0, dist);
+  // Near clip: keep the field off the lens, and in third person out of the
+  // gap between the camera and the character.
+  float near = smoothstep(uNearClip * 0.55, uNearClip, dist);
 
-  vAlpha = fade * blink * uAmount * haze * near;
+  // World-anchored patchiness. Sampled on the WRAPPED WORLD position, not on
+  // the particle's index, so the pockets belong to the ground and stay put
+  // as the camera moves through them — a real swarm is not spread evenly
+  // over a marsh, it gathers where the marsh suits it.
+  float patch = 1.0;
+  if (uPatchM > 0.0) {
+    // WRAP THE DOMAIN FIRST. World coordinates here are thousands of metres,
+    // and a sin-based hash fed inputs in the tens of thousands loses all its
+    // float32 precision and collapses to a constant — which switched the
+    // whole swarm off rather than making it patchy. Wrapping keeps the hash
+    // inputs small; the pattern repeats every 256 patches, far wider than
+    // the province.
+    vec2 esPatchUV = mod(world.xz / uPatchM, 256.0);
+    patch = smoothstep(0.10, 0.50, esAirNoise(esPatchUV));
+  }
+
+  vAlpha = fade * blink * uAmount * haze * near * patch;
   gl_PointSize = uSizePx * aScale * uPixelRatio * (10.0 / dist);
   float tiny = min(gl_PointSize, 1.0);
   vAlpha *= tiny * tiny;
@@ -210,7 +265,10 @@ export class AirSwarm {
     const phase = new Float32Array(n);
     const period = new Float32Array(n);
     const scale = new Float32Array(n);
-    const [bx, by, bz] = species.box;
+    const [bx, , bz] = species.box;
+    // The vertical half-extent IS the band's half depth; species declare the
+    // band by its top and depth so the two can never disagree.
+    const by = species.depthM / 2;
     for (let i = 0; i < n; i++) {
       base[i * 3] = (rand() * 2 - 1) * bx;
       base[i * 3 + 1] = (rand() * 2 - 1) * by;
@@ -245,7 +303,9 @@ export class AirSwarm {
         uCam: { value: new THREE.Vector3() },
         uTime: { value: 0 },
         uBox: { value: new THREE.Vector3(bx, by, bz) },
-        uYOffset: { value: species.yOffset },
+        uYOffset: { value: 0 },
+        uNearClip: { value: species.nearClipM },
+        uPatchM: { value: species.patchM },
         uSizePx: { value: species.sizePx },
         uPixelRatio: { value: 1 },
         uWander: { value: new THREE.Vector3(...species.wander) },
@@ -309,6 +369,10 @@ export class AirSwarm {
     (u.uPixelRatio as { value: number }).value = pixelRatio;
     (u.uSunDir.value as THREE.Vector3).copy(sunDir);
     (u.uVisibility as { value: number }).value = visibilityM;
+    // Band centre as an offset from the camera: down to the band's top, then
+    // half its depth further. `aboveGroundM` is not used for placement — the
+    // terrain's own depth buffer bounds the band from below.
+    (u.uYOffset as { value: number }).value = -(sp.topBelowCameraM + sp.depthM / 2);
 
     // THE COLOUR STEP THAT MATTERS. Both branches produce SCENE-LINEAR
     // RADIANCE, never a display colour — the fragment shader then runs the
@@ -368,9 +432,18 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     // enough to read as a swarm without returning to the "cloud of flashing
     // dots" the first version was. Adding more insects is the wrong lever if
     // they seem faint; make each one glow more (sizePx/halo) instead.
-    count: 480,
-    box: [30, 6, 30],
-    yOffset: -1.4,
+    // Owner round 3: fewer than the 480 that read as slightly too many at
+    // once. Patchiness below takes the AVERAGE to about 0.65 of this, so the
+    // densest pocket now sits a little under the old uniform field and the
+    // typical stretch well under it.
+    count: 400,
+    // A shallow slab, not a tall box: fireflies work the reeds and the wet
+    // ground, and the owner asked for them never much above head height. The
+    // band's top sits 1.2 m under the eye and runs 6 m down, so on flat ground
+    // and on a slope alike the visible part is "ground up to below eye level".
+    box: [30, 0, 30],
+    topBelowCameraM: 1.2,
+    depthM: 6.0,
     // Generous, because the glow is the point: a bigger sprite spends its
     // extra pixels on the soft halo, not on a bigger hard dot.
     sizePx: 22,
@@ -391,7 +464,20 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     // scene; the first version's 0.9-2.2 s read as a strobe. This, with the
     // asymmetric envelope and long dark gap, is the breathing cadence.
     blink: [2.6, 4.8],
-    clusterRadius: 5.5,
+    // Modest now that the world patches below supply the unevenness. Two
+    // clustering mechanisms stacked (tight knots INSIDE rare patches) put
+    // the whole swarm in one far-off clump — measured at 7 of 580 screen
+    // columns occupied. The patches choose WHERE; the knots only loosen the
+    // spacing within one.
+    clusterRadius: 2.5,
+    // In third person the character stands a few metres ahead of the eye; a
+    // firefly nearer than that hangs in the gap and reads as being on the
+    // lens rather than out in the marsh. Kept just past the character so the
+    // near ones — the big, bright, readable ones — are not all lost.
+    nearClipM: 3.2,
+    // Pockets a few tens of metres across, so walking takes you through
+    // dense patches and near-empty ground instead of one uniform cloud.
+    patchM: 34,
     backlight: 0,
   },
 
@@ -399,8 +485,10 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
   pollen: {
     id: "pollen",
     count: 500,
-    box: [20, 9, 20],
-    yOffset: 0.5,
+    // a column of lit air around the player
+    box: [20, 0, 20],
+    topBelowCameraM: -1.2,
+    depthM: 7.0,
     sizePx: 9,
     emissive: false,
     emissiveScreen: 0,
@@ -415,18 +503,22 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     windFollow: 0.5,
     blink: [0, 0],
     clusterRadius: 0,
-    // High on purpose: pollen should be near-invisible in flat light and
-    // flare when it is between you and the sun, which is what makes it read
-    // as motes in a beam rather than confetti hanging in the air.
-    backlight: 9,
+    nearClipM: 1.6,
+    patchM: 70,
+    // Strong, but not so strong that pollen only exists when you face the
+    // sun — at 9 it read as absent everywhere else. It still flares hard
+    // toward the beam; it just keeps a whisper of presence away from it.
+    backlight: 6,
   },
 
   /** Midge knots over water at dawn and dusk. Tight, fast, unlit. */
   midges: {
     id: "midges",
     count: 520,
-    box: [24, 4, 24],
-    yOffset: -0.8,
+    // low knots over the water
+    box: [24, 0, 24],
+    topBelowCameraM: 1.4,
+    depthM: 5.0,
     sizePx: 5,
     emissive: false,
     emissiveScreen: 0,
@@ -442,6 +534,8 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     blink: [0, 0],
     // Tight knots — a midge column is a clump, not a haze.
     clusterRadius: 1.1,
+    nearClipM: 3.5,
+    patchM: 22,
     backlight: 3,
   },
 
@@ -454,8 +548,10 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
   dragonflies: {
     id: "dragonflies",
     count: 180,
-    box: [22, 5, 22],
-    yOffset: -0.6,
+    // hunting height over open water
+    box: [22, 0, 22],
+    topBelowCameraM: 1.0,
+    depthM: 5.0,
     sizePx: 7,
     emissive: false,
     emissiveScreen: 0,
@@ -470,6 +566,11 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     windFollow: 0.1,
     blink: [0, 0],
     clusterRadius: 6,
+    // Owner: dragonflies should never pop up between the camera and the
+    // player — you meet them by walking into where they are hunting. Held
+    // well beyond the character, so a knot is something you approach.
+    nearClipM: 9.0,
+    patchM: 40,
     backlight: 4,
   },
 
@@ -477,8 +578,10 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
   leaves: {
     id: "leaves",
     count: 110,
-    box: [18, 11, 18],
-    yOffset: 2.0,
+    // from the canopy down to the floor
+    box: [18, 0, 18],
+    topBelowCameraM: -4.0,
+    depthM: 12.0,
     sizePx: 12,
     emissive: false,
     emissiveScreen: 0,
@@ -493,6 +596,8 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     windFollow: 0.8,
     blink: [0, 0],
     clusterRadius: 0,
+    nearClipM: 2.5,
+    patchM: 55,
     backlight: 2,
   },
 };

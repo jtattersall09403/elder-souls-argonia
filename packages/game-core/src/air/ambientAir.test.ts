@@ -109,6 +109,45 @@ describe("ambient air presence rules (owner 2026-09-10)", () => {
     }
   });
 
+  it("keeps fireflies low and lets the ground bound them from below", () => {
+    const ff = AIR_SPECIES.fireflies;
+    // Owner round 3: never much above head height. The band's TOP sits below
+    // the camera, so it cannot rise into the canopy.
+    expect(ff.topBelowCameraM, "firefly band top").toBeGreaterThan(0.5);
+    // And it must run deep enough to reach the ground on a slope — the
+    // terrain's depth buffer hides whatever falls below the surface, so extra
+    // depth is free and a shallow band would hover.
+    expect(ff.depthM, "firefly band depth").toBeGreaterThanOrEqual(4);
+    for (const sp of Object.values(AIR_SPECIES)) {
+      expect(sp.depthM, `${sp.id} depth`).toBeGreaterThan(0);
+    }
+  });
+
+  it("keeps particles out of the gap between the camera and the character", () => {
+    // In third person the player stands a few metres ahead of the eye. A
+    // particle nearer than that hangs in front of the character and reads as
+    // being on the lens, which the owner reported as distracting.
+    // Fireflies sit just past the character: far enough not to hang in the
+    // gap, near enough that the big readable ones are not all lost.
+    expect(AIR_SPECIES.fireflies.nearClipM).toBeGreaterThanOrEqual(3.0);
+    // Dragonflies are held much further out (owner): you should meet a knot
+    // by walking into it, never have one appear in front of the camera.
+    expect(AIR_SPECIES.dragonflies.nearClipM).toBeGreaterThanOrEqual(8.0);
+    for (const sp of Object.values(AIR_SPECIES)) {
+      expect(sp.nearClipM, `${sp.id} near clip`).toBeGreaterThan(0);
+    }
+  });
+
+  it("distributes unevenly rather than as one uniform cloud", () => {
+    // Every species carries a world-anchored patch scale, so walking takes
+    // you through dense pockets and near-empty ground.
+    for (const sp of Object.values(AIR_SPECIES)) {
+      expect(sp.patchM, `${sp.id} patch size`).toBeGreaterThan(5);
+      // Patches smaller than the clump radius would just fight the clumping.
+      expect(sp.patchM, `${sp.id} patch vs clump`).toBeGreaterThan(sp.clusterRadius);
+    }
+  });
+
   it("covers every declared species, so a new one cannot be silently unlit", () => {
     const amounts = airAmounts(MARSH_NIGHT);
     for (const id of Object.keys(AIR_SPECIES)) {
