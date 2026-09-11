@@ -45,17 +45,25 @@ The overall goal at this point is to build the province-scale world, in a way th
 
 - **Plan for scaling**. The game that we are building within this repo will be very big, with many systems, objects, playable races, animations, quests, factions, stats, UI screens, etc etc etc - on the scale of Skyrim or Morrowind. So whatever you are doing, do it in a way that will scale *effectively*, *efficiently* and with *minimal context bloat* for future agents. You may inherit poor previous decisions on this - you can fix them as you go. e.g. if you're working on weapons and you find that the current way of architecting weapons data will scale poorly to Morrowind/Skyrim level, don't just continue with it because it's there - rearchitect it and improve it as you go.
 - **Check the build-out skeleton/plan and make your work support it.** Look at the 'build out' skeleton, which is a rough outline for what we'll do after world build is complete, on the remaining systems we're going to build for the real game. (It's a start, it might be incomplete). Think about if there is anything you need to be doing/structuring/setting up data structures or contracts or anything else for in the work you're doing now, that will be important to make our lives easier later. We don't want to have to do any big refactors later on. There are usually sensible things we should be putting in place now that will later be extended/required by other systems/phases/whatever. I'm not sure what. Think about it and incorporate in your work (and record wherever sensible per the rest of CLAUDE.md and the docs).
-- **Model policy for agents (owner 2026-09-05, extended 2026-09-07).** Fable
-  5.1 is the planner and architect: it scopes, decides the high-level shape,
-  weighs breadth and interdependence, **finds root causes, spots the shared
-  cause behind a batch of symptoms and batches the fixes** (one elegant fix
-  over five patches), writes the briefs and judges the results. Delivery of
-  what Fable has scoped goes to **Opus 5 subagents at low effort** — use the
-  repo's agent definitions: `subagent_type: "deliver"` (implementation,
-  mechanical passes) and `"research"` (read-only audit, sourcing, mining) in
-  `.claude/agents/`. Fable subagents only for genuinely open design reasoning
-  the owner has asked for, and sparingly: the owner's subscription limit is
-  the constraint.
+- **Model policy for agents (owner 2026-09-05, extended 2026-09-07, tightened
+  2026-09-11).** Fable 5.1 is the planner and architect: it scopes, decides
+  the high-level shape, weighs breadth and interdependence, **finds root
+  causes, spots the shared cause behind a batch of symptoms and batches the
+  fixes** (one elegant fix over five patches), writes the briefs and judges
+  the results. **Opus 5 subagents at low effort** (`subagent_type: "deliver"`
+  for implementation and mechanical passes, `"research"` for read-only audit,
+  sourcing and mining, both in `.claude/agents/`) exist only to save cost on
+  work Fable has **already fully planned**: the brief names the files, the
+  mechanism, the numbers to hit and the checks to run, and every piece of
+  hard reasoning (root causes, design choices, what "right" looks like) is
+  done before the handoff. An Opus subagent never diagnoses, designs or
+  decides; if a job needs that, Fable (or a Fable subagent at low effort)
+  does it first. **Anything to do with water — hydrology data, the water
+  compile, the water renderer, water interaction, water probes — is always
+  done by Fable at low effort, never Opus** (owner 2026-09-11: Opus has never
+  handled it). Fable subagents beyond that only for genuinely open design
+  reasoning the owner has asked for, and sparingly: the owner's subscription
+  limit is the constraint.
 - **Plan for agentic coding.** Assume that this repo will be almost entirely coded by coding agents, most of whom will be starting from fresh context. It is essential that we make our repo(s) modular, easy and *efficient* to navigate for coding agents. This goes for **docs as well as code**. We need to ensure we don't have lots of clashing documents or instructions, and that agents neither need to read huge amounts of context to work effectively nor miss important context they genuinely need for their task. I don't know what else to think of so you should do the thinking - "how do I do my work in such a way as to maximise the chances that future work will be able to continue smoothly and efficiently for other agents picking up bits of this project?"
 - **Ground decisions in lore.** Any world/design decision (places, cultures, danger, routes, names, history) must be grounded in canon. Check the dossiers in `world/sources/lore/` first; if they're thin for your topic, extract more from the vault UESP extract (`../elder-scrolls-asset-pipeline/skyrim-source/mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`) or the UESP MediaWiki API (`en.uesp.net/w/api.php`, works with a project user-agent; plain page fetches get 403), and record a new dossier *before* deciding. Cite UESP page names; respect the era policy (decision 0002). Community/fan material is a prior, never canon.
 - **Estimate at agent speed, and never park a job behind a "holding position"** (owner 2026-09-07). A sourcing search, a kit build, a data mine or a re-author is minutes of agent time, not the hours a human would need; size every job that way before deciding to defer it. A holding position ("accept X for now, revisit later") is forbidden unless the owner has explicitly chosen it: it gets forgotten or read by a later agent as a locked decision. Do the proper thing in the same session, or record the exact blocker (a missing asset that exists nowhere, an owner call) with its evidence.

@@ -56,7 +56,7 @@ first, then open only the master-plan sections the active phase needs.
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
 | P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water round 2 ([0047](decisions/0047-water-one-physical-model.md), [evidence](research/archive/water-round-2-2026-09/water-round2-evidence.md)) delivered and deployed 2026-09-09; the owner's review found it visually regressed in places, so the water, terrain, chain, route and vegetation rows of [polish-backlog.md](phases/P-polish/backlog.md) are absorbed into Phase 16 (its plan §9 lists them). What remains in the backlog is genuine polish |
-| **16 — frozen foundation and place ladder** (0057; owner 2026-09-11) | **next: `deliver 16a`** | Plan: [phases/16-foundation-and-places/README.md](phases/16-foundation-and-places/README.md). Chunks 16a hydrology graph + gates + docs · 16b terrain once · 16c water once · 16d border apron · 16e routes/grading/spans/ferries · 16f vegetation · 16g macro plot (places adapt) · 16h settlement runtime + kit QA · 16i exemplars end to end · 16j rollout skill + trial packet. One fresh agent per chunk, owner check between. 16a needs no owner ruling; 16b needs rulings 1–6 (plan §7) |
+| **16 — frozen foundation and place ladder** (0057; owner 2026-09-11) | **in progress: 16a** | Plan: [phases/16-foundation-and-places/README.md](phases/16-foundation-and-places/README.md). **16a in progress 2026-09-11** (hydrology graph derived once from the frozen sculpt; 2D map layers; failable gates; gate policy standard 14; docs hygiene). Then 16b terrain once · 16c water once · 16d border apron · 16e routes/grading/spans/ferries · 16f vegetation · 16g macro plot (places adapt) · 16h settlement runtime + kit QA · 16i exemplars end to end · 16j rollout skill + trial packet. One fresh agent per chunk, owner check between. Rulings 1–13 given 2026-09-11 |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
@@ -64,9 +64,10 @@ first, then open only the master-plan sections the active phase needs.
 
 **Phase 16 is planned, 2026-09-11** ([plan](phases/16-foundation-and-places/README.md),
 [0057](decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md)).
-Start with `deliver 16a`. The thirteen rulings in the plan's §7 and the §8
+`deliver 16a` is running (2026-09-11). The thirteen rulings in the plan's §7 and the §8
 proposal were all approved on 2026-09-11 (with conditions recorded there), so
-nothing blocks 16b after 16a. The five audits behind the plan
+nothing blocks 16b after 16a; 16a's owner check (the map layers and the pit
+list) is what the next handoff will ask for. The five audits behind the plan
 are in `docs/research/phase16/`; the headline findings are in the plan's §1.
 
 **Female characters are playable, 2026-09-10** ([0054](decisions/0054-sex-is-an-axis-not-a-second-set-of-races.md),
