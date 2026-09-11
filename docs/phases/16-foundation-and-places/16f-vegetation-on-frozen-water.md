@@ -60,7 +60,21 @@ Needs ruling 10 (already given for 16b); no new ruling.
    place one as an exemplar if a site fits).
 4. **Thin classes**: apply the graph's answer from 16a to the tidal delta and
    deep river corridor ladders.
-5. Rebuild the bundles once on the frozen world (`compile_scatter` after
+5. Rebuild the bundles once on the frozen world (see 7).
+6. **Life over the water** (C10). `packages/game-core/src/air/ambientAir.ts`
+   chooses where fireflies, midges and dragonflies gather with value-noise
+   "world-anchored density patches" (its own comment says fireflies work wet
+   ground, midges and dragonflies standing water). Replace the noise with the
+   real thing: sample the shipped wetness (`ShippedWater`-equivalent on the
+   runtime side, the season-aware signed depth) and the graph's body kinds so
+   fireflies weight to marsh and wet ground at dusk, midges and dragonflies to
+   standing bodies, pollen and leaf fall to canopy from the land cover. Keep
+   the clock, weather and lighting behaviour the other agent has tuned; only
+   the *where* changes. Coordinate with that agent if their work is still
+   in flight (their files, their tuning). Test: every firefly patch centre
+   samples wet or marsh ground at the wet season; every dragonfly patch
+   centre is over a standing body; shown failing on the noise version.
+7. Rebuild the bundles once on the frozen world (`compile_scatter` after
    `settlement_ground_control`, per the chain order).
 
 ## Acceptance
@@ -79,6 +93,9 @@ Needs ruling 10 (already given for 16b); no new ruling.
 - Jungle `x=4.02&z=4.61`, mangrove `x=5.17&z=4.45`, floodplain `x=3.01&z=2.45`,
   rootland `x=2.84&z=3.02`, mountains `x=0.93&z=0.92`: any plants in rows;
   any hanging roots; is the upland less bare?
+- Marsh `x=1.50&z=5.28&t=20:00`: fireflies over the wet ground at dusk, and
+  dragonflies over the pond by day (`t=13:00`); none over dry high ground at
+  `x=0.93&z=0.92`.
 - Beach `x=6.12&z=1.638`: rocks in the surf with foam behind them?
 
 ## Gotchas

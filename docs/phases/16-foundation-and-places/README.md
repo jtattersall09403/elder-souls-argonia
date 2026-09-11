@@ -76,6 +76,7 @@ C5 Cliffs are too smooth; research how games do ledges and jagged faces and buil
 C6 Use Tropical Skyrim's better vertical-face textures.
 C7 Land beyond the W, NW and N borders continues from the Tamriel heightmap, fades into the distance, with an invisible wall and a message; test the "100 % below sea level" and "126×126 puzzle piece" claims; choose the simplest reliable approach.
 C8 No trees in rivers (wetland and drowned forest are fine).
+C10 Fireflies, midges and dragonflies gather over real standing water and marsh, not over noise, once the water is frozen (owner, 2026-09-11).
 C9 Ground cover (grass and the like) is far sparser in the deployed studio than before, e.g. in the jungle, and the denser version was better. Vary it sensibly: high density with taller, chunkier plants where that makes sense, and at least low grass nearly everywhere; find out how games usually do it. Bare textured heightfield does not look or feel good. (Owner, 2026-09-11, after the plan was written.)
 
 **D — Buildings and settlements**
@@ -223,6 +224,7 @@ them where the blueprint put them.
 | C6 | 16b | Tropical Skyrim vertical-face slots (audit §5 list) |
 | C7 | 16d | stitched all-Tamriel slice; both claims tested and answered in the chain audit §4 |
 | C8 | 16f | channel membership from the graph, a hard gate |
+| C10 | 16f | the air layer's density patches read the shipped wetness and body kinds (graph ids) instead of value noise; a test that a firefly patch centre stands over wet ground |
 | C9 | 16f | measured against the pre-0048 bundles in git; the density ladder is not retuned, but the groundcover layer is — coverage floor nearly everywhere, height and clump variation by land cover, distance fade the way shipped games do it |
 | D1 | 16h, 16i | composites per culture from the mined templates; connectors and fronts exported and checked on runtime transforms |
 | D2 | 16h, 16i | zero-composite exemplars rebuilt as assemblies |
@@ -386,16 +388,13 @@ Struck from `docs/phases/P-polish/backlog.md` and owned here:
 | prose gate does not lint `docs/`; sourcing log lint hits | 16a (docs hygiene, with the 0041 split) |
 | land beyond borders | 16d |
 
-**Deliberately not folded in (owner question, 2026-09-11):** the ambient-air
-particles (fireflies, midges, dragonflies, pollen, leaf fall —
-`packages/game-core/src/air/`). They are driven by the world clock, the
-weather and their own noise patches, and read no terrain, water or region
-raster, so Phase 16 neither depends on them nor can break them; they stay with
-the agent working on them (Phase P line, 8c's successor). One hook for later:
-their "over wet ground / over standing water" placement is noise today; once
-16c ships the read-only water and 16a the hydrology graph, the air layer can
-read real wetness for its density patches. That is a small follow-on after
-16c, not a chunk.
+**The ambient-air particles** (fireflies, midges, dragonflies, pollen, leaf
+fall — `packages/game-core/src/air/`) stay with the agent working on them
+now: they read no terrain, water or region raster, so Phase 16 cannot break
+them and their visibility fix is theirs. But their "over wet ground" placement
+is value noise today, and that is scheduled: **16f deliverable 6** re-points
+the density patches at the real wetness and channel data once 16c has shipped
+it (item C10 in the matrix).
 
 Left in the backlog as genuine polish: sky palette, moon glow, weather rows,
 foliage translucency, combat rows, the female-character rows, the physics
