@@ -273,7 +273,10 @@ npm run test:placement:slow  # the province-raster tests held out of the default
 ```
 
 Each check names the standard it enforces and prints the offending file and
-line. If a check is wrong, fix the check — do not add an exemption without
+line. Every CI job that runs a Python gate installs
+`tooling/world-generation/requirements-test.txt` first (deploy-pages.yml), so
+a gate may import anything listed there and nothing else; a new dependency
+goes into that file in the same change. If a check is wrong, fix the check — do not add an exemption without
 saying why in the allowlist file.
 
 `npm test` and `npm run typecheck` fan the per-workspace scripts out in

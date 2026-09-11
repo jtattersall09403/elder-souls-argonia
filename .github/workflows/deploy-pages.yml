@@ -104,6 +104,16 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # `npm test` runs Python gates (prose lint, the hydrology graph check,
+      # credits) through repo-standards. They get the SAME Python toolchain
+      # as the placement/water jobs, so a gate may import anything in
+      # requirements-test.txt; three deploys have failed on a missing module
+      # here (matplotlib 2026-09-09, numpy 2026-09-11) and this ends that.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -r tooling/world-generation/requirements-test.txt
       # A clean runner clone is also the proof that nothing depends on
       # sibling-repository paths or the local asset vault.
       - run: npm ci
