@@ -52,8 +52,6 @@ varying vec3 vWorld;
 varying vec3 vAxisW;
 
 void main() {
-  // Soft across the shaft's width. uv.x runs 0..1 around the cone, so the
-  // near and far walls both land at the same radial coordinate.
   // Soft across the shaft's width. uv.x runs around the tube, so this is a
   // fade around its circumference — the near and far walls both peak at the
   // middle, which is where the eye looks through the most air.
@@ -75,8 +73,8 @@ void main() {
   float edgeOn = 1.0 - smoothstep(0.93, 0.995, along);
 
   // Never let a shaft sit on the lens: fade any the camera is inside or
-  // nearly inside, or one can fill the screen as a wall.
-  // The ring is only ~26 m wide, so a 9 m near fade was erasing most of it.
+  // nearly inside, or one can fill the screen as a wall. Kept tight — the
+  // ring is only ~26 m wide, so a 9 m fade erased most of it.
   float nearFade = smoothstep(0.8, 3.5, length(vWorld - uCam));
 
   float a = radial * lenFade * edgeOn * nearFade * uIntensity;
