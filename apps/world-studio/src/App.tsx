@@ -562,9 +562,6 @@ export function App() {
     const regionPart = lookup("regions", " · ocean");
     const regionName = regionPart.replace(" · ", "");
     const climate = climateRef.current[regionName];
-    const climatePart = climate
-      ? ` · humidity ${Math.round(climate.humidity * 100)}% · vis ~${climate.visibility} m`
-      : "";
     const strip = (v: string) => v.replace(/^ · /, "");
     const sections: TipSection[] = [];
     const here: [string, string][] = [["position", `${km(x)} km E, ${km(y)} km S`], ["elevation", `${hgt.toFixed(1)} m`]];
@@ -849,8 +846,8 @@ export function App() {
         {tip && (
           <div style={{
             position: "absolute", left: tip.x + 14, top: tip.y + 10, pointerEvents: "none",
-            background: "rgba(10, 14, 20, 0.88)", color: "#e6ecf5", padding: "4px 8px",
-            borderRadius: 6, font: "12px system-ui", lineHeight: "16px", maxWidth: 440, zIndex: 2, padding: "6px 10px 2px",
+            background: "rgba(10, 14, 20, 0.88)", color: "#e6ecf5", padding: "6px 10px 2px",
+            borderRadius: 6, font: "12px system-ui", lineHeight: "16px", maxWidth: 440, zIndex: 2,
             transform: tip.x > 560 ? "translateX(calc(-100% - 26px))" : undefined,
           }}>
             {tip.sections.map((sec) => (
