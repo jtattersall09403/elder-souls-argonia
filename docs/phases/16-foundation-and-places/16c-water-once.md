@@ -26,7 +26,7 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
    graph id — stable across compiles). `patch_water` is its local twin.
    `sourceHeightSha256` must equal the frozen sha; the runtime validates
    `schemaVersion` (it does not today).
-2. **The sea** (A4, root causes 1–5): `rmsHeightM` from wind and fetch; an
+2. **The sea** (A4, root causes 1–5; ruling 7 sets the bar at the Water Pro ocean demo — swell, ripples on the swell, whitecaps, shoaling wave shapes, breaking waves and beach foam): `rmsHeightM` from wind and fetch; an
    unbounded coarse fetch channel (the 160 m cap goes); still-water drift
    from the weather wind at phase speed; whitecap threshold from the
    spectrum's crest statistic; horizon blend pushed out and capped; walk-mode

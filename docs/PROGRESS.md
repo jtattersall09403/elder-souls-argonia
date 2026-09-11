@@ -64,10 +64,9 @@ first, then open only the master-plan sections the active phase needs.
 
 **Phase 16 is planned, 2026-09-11** ([plan](phases/16-foundation-and-places/README.md),
 [0057](decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md)).
-Start with `deliver 16a` — it needs nothing from you. Before `deliver 16b`,
-give the thirteen rulings in the plan's §7 (each has a recommendation; "go
-with the recommendations" is a valid answer) and approve or amend the
-visual-ingestion and kit QA proposal in §8. The five audits behind the plan
+Start with `deliver 16a`. The thirteen rulings in the plan's §7 and the §8
+proposal were all approved on 2026-09-11 (with conditions recorded there), so
+nothing blocks 16b after 16a. The five audits behind the plan
 are in `docs/research/phase16/`; the headline findings are in the plan's §1.
 
 **Female characters are playable, 2026-09-10** ([0054](decisions/0054-sex-is-an-axis-not-a-second-set-of-races.md),

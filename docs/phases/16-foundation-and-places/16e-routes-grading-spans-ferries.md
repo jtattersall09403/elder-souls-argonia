@@ -5,7 +5,7 @@ water, grade them as a **patch stack** that cannot cross a channel or move a
 water level, author the spans that remain honestly and place the ferries
 that were decided but never built. Roads must read as roads.
 
-Needs ruling 9 (grade as patches; recommended yes) and ruling 6 (no dredging).
+Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over grading even at the cost of length, with gradient costs that make roads zigzag up long steep slopes; a graded patch only where it causes no other issue and no circular dependency. Ruling 6: no dredging.
 
 ## Read
 

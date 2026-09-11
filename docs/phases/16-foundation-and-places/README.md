@@ -76,6 +76,7 @@ C5 Cliffs are too smooth; research how games do ledges and jagged faces and buil
 C6 Use Tropical Skyrim's better vertical-face textures.
 C7 Land beyond the W, NW and N borders continues from the Tamriel heightmap, fades into the distance, with an invisible wall and a message; test the "100 % below sea level" and "126×126 puzzle piece" claims; choose the simplest reliable approach.
 C8 No trees in rivers (wetland and drowned forest are fine).
+C9 Ground cover (grass and the like) is far sparser in the deployed studio than before, e.g. in the jungle, and the denser version was better. Vary it sensibly: high density with taller, chunkier plants where that makes sense, and at least low grass nearly everywhere; find out how games usually do it. Bare textured heightfield does not look or feel good. (Owner, 2026-09-11, after the plan was written.)
 
 **D — Buildings and settlements**
 D1 The right kits, rules and snap points were not used.
@@ -222,6 +223,7 @@ them where the blueprint put them.
 | C6 | 16b | Tropical Skyrim vertical-face slots (audit §5 list) |
 | C7 | 16d | stitched all-Tamriel slice; both claims tested and answered in the chain audit §4 |
 | C8 | 16f | channel membership from the graph, a hard gate |
+| C9 | 16f | measured against the pre-0048 bundles in git; the density ladder is not retuned, but the groundcover layer is — coverage floor nearly everywhere, height and clump variation by land cover, distance fade the way shipped games do it |
 | D1 | 16h, 16i | composites per culture from the mined templates; connectors and fronts exported and checked on runtime transforms |
 | D2 | 16h, 16i | zero-composite exemplars rebuilt as assemblies |
 | D3 | 16h | the yaw sign; pivot plan offsets applied |
@@ -246,10 +248,27 @@ them where the blueprint put them.
 | G4 | done 2026-09-11 | router audit; index, rows and links repaired; 0041 split is 16a's |
 | H1–H3 | this file | — |
 
-## 7. Owner decisions (give these before `deliver 16b`)
+## 7. Owner decisions — ALL GIVEN 2026-09-11
 
-Each has a recommendation; saying "go with the recommendations" is a valid
-answer. They are numbered so a brief can say "ruling 4".
+The owner approved every recommendation below on 2026-09-11, with these
+additions, which are binding:
+
+- **7 (the sea):** make ours essentially the Three.js Water Pro ocean demo —
+  swell, noisy ripples riding on the swell, whitecaps, waves that change shape
+  as they approach the shore (as real waves do), waves breaking on the beach
+  with the foam that goes with it, "and all sorts of other things too". 16c's
+  bar is that demo, not "moving".
+- **8 (the apron):** stitched, on condition that the join is smooth — the
+  province's terrain edges continue into the beyond-border land with no jagged
+  edges, gaps or disconnects. 16d's acceptance test is that join.
+- **9 (roads):** *minimal* grading as patches. Prefer re-routing to grading
+  even when the road gets longer; use gradient costs so roads zigzag up long
+  steep slopes as real roads do. Small graded patches are fine only where they
+  cause no other issue and no circular dependency.
+- **10 (position-seeded land-cover noise):** approved for now; the owner may
+  re-rule once there is more to see.
+
+The numbered list is kept so briefs can cite "ruling N".
 
 1. **Which sculpt is the base?** Today's `sculpt.py` output differs from the
    August array the hydrology, routes and places were solved on (max 67.8 m,
@@ -327,6 +346,15 @@ cameras and a plan view, with the collider boxes drawn as wireframes. Then:
 
 This is the owner's "short iterative loop that yields principles or skills";
 it costs the owner two sheet reviews, not hundreds of approvals.
+
+**Owner amendments (2026-09-11), binding.** (a) Every image an agent renders
+for judgement must actually show the thing being judged, legibly, under the
+right conditions: framing, lighting, time of day and distance chosen so the
+question can be answered from the shot. A shot that is illegible for any of
+those reasons has spent budget on nothing and does not count as a check.
+(b) Ingesting a shot from a live browser walk is not forbidden; it is the last
+resort after the cheaper tooling renders, used when only the running scene
+can answer the question.
 
 ## 9. Polish backlog rows absorbed (G2)
 

@@ -5,7 +5,7 @@ into the distance, fading at the horizon, from the real all-Tamriel
 heightmap; the south and east stay sea; the character is stopped at the
 playable border by an invisible wall with a catalogue message.
 
-Needs ruling 8 (stitched vs procedural; recommended: stitched).
+Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth** — no jagged edge, gap or disconnect where the province meets the apron. That condition is the acceptance test.
 
 ## Read
 

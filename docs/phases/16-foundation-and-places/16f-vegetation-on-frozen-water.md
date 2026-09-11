@@ -21,6 +21,21 @@ Needs ruling 10 (already given for 16b); no new ruling.
 
 ## Deliver
 
+0. **Ground cover density and variety** (C9, owner 2026-09-11). Measure first:
+   the groundcover bundles now shipping against the pre-0048 bundles in git
+   history at the jungle site (`x=4.02&z=4.61`) and four other region sites —
+   instances per m², mean height, coverage fraction inside a 30 m ring. Then
+   research briefly how shipped open-world games do ground cover (near-camera
+   density, height and clump classes by land cover, distance fade and
+   impostor tiers) and record it in `research/vegetation/`. Deliver: a
+   coverage floor so low grass is present nearly everywhere the land cover
+   allows; tall, chunky classes where the ecology says so (jungle floor,
+   reed beds, floodplain); variation by land cover and wetness rather than one
+   density; the tiered fade tuned so the floor holds within the walking view.
+   The tree ladder (0048) is not retuned by this; the groundcover layer is.
+   Test: coverage fraction per region site at or above a stated floor, shown
+   failing on today's bundles.
+
 1. **Channel membership as a hard gate** (C8): `compile_scatter` reads the
    graph's reach centrelines and widths (or a reach-owner raster compiled by
    16c) and excludes trees and shrubs inside any `horizontal-river/stream`,
@@ -55,6 +70,8 @@ Needs ruling 10 (already given for 16b); no new ruling.
 
 ## Owner check
 
+- Jungle `?view=character&x=4.02&z=4.61&t=12:00` first: is the floor as dense
+  as you remember it, and denser than the open floodplain?
 - Lowland river `?view=character&x=1.85&z=4.89&t=12:00`: nothing growing in
   the channel; reeds at the margin still there?
 - Gorge fall `x=2.53&z=0.32`: rocks at the lip and sides, boulders in the
