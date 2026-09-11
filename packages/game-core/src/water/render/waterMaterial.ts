@@ -78,6 +78,11 @@ export const OVERLAY_LAYER = 4;
  * in pass 3 AFTER the water surface, depth-tested against the scene depth
  * the blit wrote, so it correctly appears in front of water it is in front
  * of and behind terrain it is behind.
+ *
+ * The ambient air layer (fireflies, midges, dragonflies, pollen, leaves, sun
+ * shafts) lives here too, for the same reason: it is transparent and depth-
+ * write free, and on layer 0 the water surface painted over every midge and
+ * dragonfly — the two species placed over open water (owner 2026-09-11).
  */
 export const PRECIP_LAYER = 5;
 export const MAX_CONTACT_BODIES = 8;

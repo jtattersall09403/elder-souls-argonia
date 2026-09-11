@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
 /**
  * Ambient air particles — fireflies, pollen, motes, midges (module 55 polish
@@ -342,6 +343,13 @@ export class AirSwarm {
     this.points = new THREE.Points(this.geometry, this.material);
     this.points.frustumCulled = false;
     this.points.renderOrder = 6;
+    // Drawn in the water pipeline's post-water pass, like rain: on layer 0
+    // the water surface, rendered later over the finished frame, painted
+    // over every particle in front of it — which is every midge and every
+    // dragonfly, since they live over open water. The camera has to have
+    // the layer enabled (AmbientAir does that), so a scene with no water
+    // pipeline still draws them in its ordinary render.
+    this.points.layers.set(PRECIP_LAYER);
     this.points.name = `air:${species.id}`;
     this.points.visible = false;
   }

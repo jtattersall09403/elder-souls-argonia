@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
 /**
  * Sun shafts under the canopy (module 55 polish tier, owner 2026-09-10).
@@ -162,6 +163,9 @@ export class SunShafts {
     this.mesh = new THREE.InstancedMesh(this.geometry, this.material, config.count);
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 5;
+    // Same post-water layer as the swarms (see AirSwarm): a shaft over water
+    // was otherwise painted out by the surface.
+    this.mesh.layers.set(PRECIP_LAYER);
     this.mesh.name = "air:sun-shafts";
     this.mesh.visible = false;
     this.mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);

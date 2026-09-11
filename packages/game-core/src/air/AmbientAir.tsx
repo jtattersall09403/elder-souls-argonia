@@ -8,6 +8,7 @@ import {
   seededRandom,
   type AirConditions,
 } from "./ambientAir";
+import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import { SunShafts, sunShaftIntensity } from "./sunShafts";
 import { waterParticleRadiance } from "../water/render/waterParticleLighting";
 
@@ -74,6 +75,12 @@ export function AmbientAir({
   enabled?: boolean;
 }) {
   const { camera, gl } = useThree();
+  // The swarms sit on the post-water layer (see AirSwarm); the camera must
+  // be able to see it, both for the water pipeline's pass and for a plain
+  // render where there is no water pipeline at all.
+  useEffect(() => {
+    camera.layers.enable(PRECIP_LAYER);
+  }, [camera]);
   const clock = useRef(0);
   const litRadiance = useRef({ x: 0, y: 0, z: 0 });
 

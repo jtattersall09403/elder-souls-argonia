@@ -33,6 +33,7 @@ import { parseWeatherParam, setWeatherOverride, weatherAt } from "./weather/weat
 import { PROVINCE_EXTENT_M } from "./provinceScale";
 import { waterParticleRadiance } from "@elder-souls/game-core/water/render/waterParticleLighting";
 import type { LightRig } from "./sky/lightRig";
+import { PRECIP_LAYER } from "@elder-souls/game-core/water/render/waterMaterial";
 
 declare global {
   interface Window {
@@ -92,6 +93,9 @@ function eyeCamera(): THREE.PerspectiveCamera {
   const camera = new THREE.PerspectiveCamera(60, 16 / 9, 0.3, 500);
   camera.position.set(xM, 3, zM);
   camera.lookAt(xM, 1, zM - 10);
+  // The swarms live on the post-water layer; a camera that cannot see it
+  // would report every species as drawing nothing.
+  camera.layers.enable(PRECIP_LAYER);
   camera.updateMatrixWorld();
   return camera;
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { AIR_SPECIES, AirSwarm, airAmounts, seededRandom, type AirConditions } from "./ambientAir";
-import { sunShaftIntensity } from "./sunShafts";
+import { SunShafts, sunShaftIntensity } from "./sunShafts";
+import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
 /**
  * The presence rules are the part of this layer worth testing: they are the
@@ -256,4 +257,16 @@ describe("air shaders use no GLSL reserved word as an identifier", () => {
       }
     });
   }
+});
+
+describe("the air layer draws after the water surface", () => {
+  // On layer 0 the water pass painted over every particle in front of water,
+  // which is every midge and dragonfly (owner 2026-09-11). Same fix as rain.
+  it("puts every swarm and the sun shafts on the post-water layer", () => {
+    for (const species of Object.values(AIR_SPECIES)) {
+      const swarm = new AirSwarm(species, seededRandom(3));
+      expect(swarm.points.layers.mask, species.id).toBe(1 << PRECIP_LAYER);
+    }
+    expect(new SunShafts(undefined, seededRandom(4)).mesh.layers.mask).toBe(1 << PRECIP_LAYER);
+  });
 });
