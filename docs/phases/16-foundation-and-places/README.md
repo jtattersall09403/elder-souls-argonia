@@ -127,6 +127,12 @@ H3 Slotted into the phase plan as the current work and integrated with the route
                               16i exemplars end to end ──► 16j rollout skill + trial packet
 ```
 
+- **The ladder is the owner's earlier write-up, applied.** Macro → meso →
+  micro is [world/97](../../world/97-placement-principles.md) Parts A–C
+  (province → place, place → ground, ground → layout), the multi-scale
+  pattern in [research/vegetation/openworld-vegetation-placement-architecture.md](../../research/vegetation/openworld-vegetation-placement-architecture.md)
+  and the siting rules in [research/placement-settlements/openworld-place-distribution-and-siting.md](../../research/placement-settlements/openworld-place-distribution-and-siting.md).
+  Phase 16 changes what those scales *read* (a frozen world), not the scales.
 - **A rung is frozen before the next starts.** Its output carries a content
   hash; the rung below reads it and never writes it. The freeze gate for the
   base terrain (end of 16b) is the one gate the owner signs by walking.
@@ -229,7 +235,7 @@ them where the blueprint put them.
 | D11 | 16h | the audit §1–7 findings beyond the owner's list (dressing = one chair, 15 kinds place nothing, route structures never ground-audited, stilt audit blind) |
 | D12 | 16h | answered in the audit: the rules were right and unfollowed at the runtime boundary (sign, boxes, anchoring) and unfollowed at compile (no composites outside Lilmoth) |
 | D13 | 16h | the off-world assembly renderer and the owner–agent loop that ends in a `kit-qa` skill (§8) |
-| D14 | 16i, 16j | end to end incl. interiors; the skill; the unattended trial packet |
+| D14 | 16i, 16j | end to end incl. interiors; the skill; the unattended trial packet. **Decided:** "later stuff" (Phase 13 fauna, encounters and loot; Phase 12b sound; 10c numbers) is *not* pulled into the exemplars — those compilers do not exist yet and 10b/10c must precede them (world/95 §86.0); the exemplars leave typed sockets and obligations for them instead |
 | E1 | every chunk | acceptance names the gates added and the defect each failed on first |
 | E2 | 16a, §8 | the proposal for the owner |
 | F1 | 16g | `designGroup` with Lost City + Made Ground first; quest-place map reviewed for more |
