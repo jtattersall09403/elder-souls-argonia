@@ -329,6 +329,49 @@ Deliverables:
   root-transit quests and rewards are finalized in the same packet's co-design
   loop.
 
+### Phase 16 — the frozen foundation and the place ladder (owner 2026-09-11)
+
+**Runs now, before Phase 12 proper, Phase 9 and Phase 14.** Phase 11's
+exemplar work, the water round-2 leftovers and the terrain/vegetation/route
+rows of the polish backlog are absorbed into one sequenced phase (decision
+[0057](../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md)).
+The plan, its chunks (16a–16j, one fresh agent each, owner check between),
+the coverage matrix and the owner decisions are in
+[../phases/16-foundation-and-places/README.md](../phases/16-foundation-and-places/README.md);
+this section only fixes what the phase ships.
+
+Deliverables:
+
+- a typed, committed **hydrology graph** (rivers end to end, reaches of kind
+  horizontal / sloped / vertical, junctions, bodies with kind, altitude band
+  and stored season) with stable geographic ids, reviewed on the 2D map
+  before any terrain moves;
+- the **base terrain built once** to enable every feature the graph names
+  (trenches, plunge bowls, knickpoints, tarn bowls, filled or accepted
+  erosion pits, cliff realism, smoother deterracing), frozen with a
+  content hash and a byte-identical two-run proof;
+- the **water compiled once** on that base, read-only to everything below,
+  with the runtime defects (muted swell, static detail normals, horizon
+  blend, hard discards, owner-mask gaps, LOD hover) fixed and the probes
+  that would have caught them;
+- the **beyond-border apron** stitched from the all-Tamriel heightmap, the
+  boundary wall and its catalogue message;
+- **routes, grading, spans and ferries** solved on the frozen world as a
+  patch stack with channel-crossing invariants;
+- **vegetation** that reads channel membership (no trees in rivers), rock
+  dressing at falls and cliffs, and the owner's grass/dressing questions
+  answered with measurements;
+- the **macro plot re-validated** against the frozen world, with the
+  place-count floor relaxed so records move, re-type or are cut rather than
+  the world re-carved; `designGroup`s for places built together (Lost City +
+  the Made Ground first);
+- the **settlement runtime made correct** (walk-through colliders, grounding,
+  doors, lamps mounted, stairs reachable, navigation consumed) and an
+  off-world **kit QA loop** that produces rules and a skill, not per-piece
+  approvals;
+- the **five exemplars end to end**, exterior and interior, then the
+  **rollout skill** proved on one unattended packet before Phase 15.
+
 ### Phase 12 — the dungeon and interior system (exemplar-first)
 
 **Same shape as Phase 11 and may interleave with it** (§85.4): build the

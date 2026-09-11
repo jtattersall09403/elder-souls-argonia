@@ -126,7 +126,9 @@ reproducible pipeline builds.
 8b water renderer · 8c weather/atmosphere · **then risk-first (owner
 re-sequencing 2026-08-29, decision 0034):**
 10 asset deep catalogue+kits+vegetation (incl. flora ecology) ·
-11 settlement system (exemplar-first) · 12 dungeon system (exemplar-first) ·
+11 settlement system (exemplar-first) · **16 frozen foundation + place
+ladder (now; absorbs 11's exemplars, water round 2 and the terrain rows of P;
+0057)** · 12 dungeon system (exemplar-first) ·
 9 swim/climb/boats · 10b full sandbox parity in studio (was 7b, 0017) ·
 10c stats+progression implementation (0019; design = workstream S) ·
 13 fauna ecology/encounters/loot (exemplar-first) ·

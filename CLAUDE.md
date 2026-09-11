@@ -16,8 +16,9 @@ The overall goal at this point is to build the province-scale world, in a way th
 
 1. Read [docs/PROGRESS.md](docs/PROGRESS.md) — small, always current. It shows
    the active phase, what's blocked on the user, and the update protocol.
-   For "continue water work", then read [the water handoff](docs/research/rendering/water-handoff.md):
-   full issue ledger, accepted inputs, next actions, verification and deployment state.
+   For "deliver 16x" (Phase 16: terrain once, water once, places on a
+   frozen world), read [docs/phases/16-foundation-and-places/README.md](docs/phases/16-foundation-and-places/README.md)
+   and then only the chunk brief it names.
 1b. The quest/narrative strategy lives in [docs/quests/](docs/quests/README.md);
    the world build must satisfy its per-quest world provisions — its
    `20-world-provisions.md` module is required reading when placing anything

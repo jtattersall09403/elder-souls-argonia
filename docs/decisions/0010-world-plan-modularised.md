@@ -11,7 +11,7 @@ grammar, the Part XI asset candidate lists, water-repo references) risked
 getting lost in the bulk.
 
 Mechanics: section numbering (§NN) is preserved inside modules and the README
-carries a §→module map; `docs/world-gen-master-plan.md` remains as a redirect
+carries a §→module map; the old `docs/world-gen-master-plan.md` redirect stub was removed 2026-09-11
 stub so existing references across decisions/dossiers/code comments resolve.
 Acceptance rules (old Part XIV) live in 00-core because they bind everything.
 The modules ARE the plan — same editing authority as before.

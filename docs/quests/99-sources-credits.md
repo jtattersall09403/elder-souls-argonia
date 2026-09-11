@@ -119,7 +119,7 @@ Gathered for the cast/fun/deliverability review that produced
 ## 76. Current project references
 
 - [Elder Souls: Argonia repository](https://github.com/jtattersall09403/elder-souls-argonia)
-- [World-generation master plan](https://github.com/jtattersall09403/elder-souls-argonia/blob/main/docs/world-gen-master-plan.md)
+- [World-generation master plan](https://github.com/jtattersall09403/elder-souls-argonia/blob/main/docs/world/README.md)
 - [Current progress](https://github.com/jtattersall09403/elder-souls-argonia/blob/main/docs/PROGRESS.md)
 - [Repository agent guidance](https://github.com/jtattersall09403/elder-souls-argonia/blob/main/CLAUDE.md)
 

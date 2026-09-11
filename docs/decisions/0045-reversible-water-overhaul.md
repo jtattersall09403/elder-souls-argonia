@@ -16,7 +16,7 @@ New compiled assets are isolated under `province/water/v2/`. `?water=legacy` sel
 
 The owner reopened the first candidate and explicitly commissioned deferred
 ocean/hero-pool improvements and high-framerate walk/fly delivery. The complete
-[acceptance ledger](../research/rendering/water-completion-audit.md) governs
+[acceptance ledger](../research/archive/water-overhaul-2026-09/water-completion-audit.md) governs
 closure; earlier minimum-film and point-only geometry gates are insufficient.
 Flowing reaches use their semantic depth targets subject to real pool/shore
 and bank constraints. A bank cap below the routed bed is an unresolved
@@ -29,7 +29,7 @@ native-ground/interactive-field GPU data atlas is being implemented to keep
 exact bank clipping without expanding province water into tens of millions of
 triangles. This is runtime data, not new bitmap art. Physical queries retain
 the same native terrain authority. Capacity bounds must not silently remove
-visible water. [Local fluid and GPU notes](../research/rendering/water-local-fluid-and-gpu-budgets.md)
+visible water. [Local fluid and GPU notes](../research/archive/water-overhaul-2026-09/water-local-fluid-and-gpu-budgets.md)
 record the optical/compatibility choices; final data, performance, visual and
 deployment gates remain open.
 
@@ -47,7 +47,7 @@ same maximum stage and an inaccessible access value above that maximum;
 the old fixed 2 m sentinel would incorrectly admit unreachable terrain when
 upper stages increased. No new amplitudes have been selected for production.
 
-The [bankfull investigation](../research/rendering/water-bankfull.md) separates
+The [bankfull investigation](../research/archive/water-overhaul-2026-09/water-bankfull.md) separates
 underfilled native channels from distance-only mud painting on valley sides.
 Final acceptance needs connected whole-area coverage, including standing water;
 river-station statistics alone cannot establish that result.

@@ -1,3 +1,11 @@
+> **Superseded 2026-09-11.** Water round 2 closed and deployed on 2026-09-09; the
+> owner's review found it visually regressed in places. The next water work is
+> Phase 16 chunks 16a–16c ([plan](../../phases/16-foundation-and-places/README.md));
+> the root causes are in [audit-water-runtime.md](../phase16/audit-water-runtime.md).
+> This file is the round-2 resume point kept as history. Note: its claim that the
+> shipped `klass` block lacks `extPx`/`extRiseM` is false against the deployed
+> `water-meta.json` (measured 2026-09-11).
+
 # Continue water work — resume point (water round 2, decision 0047)
 
 Read after `CLAUDE.md` and [decision 0047](../../decisions/0047-water-one-physical-model.md)
