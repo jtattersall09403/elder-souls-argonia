@@ -802,7 +802,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
             body_rec.append(rec); body_index[bid] = rec
 
     # ---- the wet-season line and the coarse-grid measurement
-    wetline = (npz["wetlands"] | (npz["rivers"] > 0) | npz["lakes"]) & ~npz["ocean"]
+    wetline = wet_season_line(npz, body_lbl)
     ft_flat = npz["flow_to"].reshape(-1).astype(np.int64)
     okf = ft_flat >= 0
     loops = np.zeros(ft_flat.size, dtype=bool)
@@ -881,6 +881,30 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
     }
     graph["contentSha256"] = content_hash(graph)
     return graph
+
+
+WETLINE_MIN_CELLS = 10                   # a wet-season sheet under ~300 m2 on the coarse grid is speckle
+
+
+def wet_season_line(npz, body_lbl):
+    """The wet-season high-water extent on the coarse grid: the Phase 3
+    wetlands (8-connected pieces of >= WETLINE_MIN_CELLS), every river cell,
+    and every accepted graph body — NOT the raw coarse `lakes` mask, whose
+    3,781 pieces are mostly one-cell pits along contours (owner, 2026-09-11:
+    "tiny bits that look like noise")."""
+    import numpy as np
+    from scipy import ndimage
+    ocean = npz["ocean"]
+    wet = npz["wetlands"] & ~ocean
+    lbl, n = ndimage.label(wet, structure=np.ones((3, 3), bool))
+    if n:
+        sz = np.bincount(lbl.ravel())
+        wet = wet & (sz[lbl] >= WETLINE_MIN_CELLS)
+    h, w = ocean.shape
+    bodies_c = (body_lbl[::STEP, ::STEP] > 0)[:h, :w]
+    out = np.zeros(ocean.shape, dtype=bool)
+    out[:bodies_c.shape[0], :bodies_c.shape[1]] = bodies_c
+    return (wet | (npz["rivers"] > 0) | out) & ~ocean
 
 
 def content_hash(graph: dict) -> str:
@@ -1026,10 +1050,10 @@ BODY_COLOUR = {
 ARROW_EVERY_M = 160.0
 LAYER_ABOUT = {
     "hydrograph-rivers": "Every river stretch from the hydrology graph, coloured by kind (flat / sloped / waterfall), width by size band (creek, stream, river); a channel or rapid shorter than 30 m is absorbed into its neighbour so seams stay few; white arrowheads point downstream, white dots are confluences, white rings are mouths.",
-    "hydrograph-bodies": "Standing water from the graph, coloured by kind: lakes, tarns, ponds, pools, plunge pools, and the marsh sheets.",
+    "hydrograph-bodies": "Standing water from the graph, coloured by kind: lakes, tarns, ponds, pools, plunge pools, the marsh sheets, and the lagoons (sea-level water winding inland).",
     "hydrograph-season": "Blue = holds water all year (perennial); orange = dries out in the dry season (seasonal). Once a river is perennial it stays so to its mouth.",
     "hydrograph-falls": "Waterfalls measured on the base terrain (red-ringed discs) and their plunge pools (blue dots).",
-    "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands + rivers + lakes footprint.",
+    "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands (pieces of 10+ cells, about 300 m2), every river cell and every graph body. The raw coarse lake mask is NOT used: its 3,781 pieces were mostly one-cell pits along contours.",
 }
 KIND_ABOUT = {
     "horizontal-channel": "A flat river stretch: the water level falls less than 3.5 cm per metre. Its size is the band (1 creek, 2 stream, 3 river, by catchment 1 / 4 / 15 km2), drawn as line width; one surface for the renderer whatever the band.",
@@ -1043,7 +1067,7 @@ KIND_ABOUT = {
 BODY_ABOUT = {
     "ocean": "Sea-connected water below sea level that the coarse pass calls open ocean.",
     "lagoon": "Sea-connected water below sea level that winds inland beyond the open-ocean reach.",
-    "lake-lowland": "Standing water of 1 hectare or more whose level is under 30 m.",
+    "lake-lowland": "Standing water of 1 hectare or more whose level is under 30 m. A dashed outline is a DECLARED lake the base does not hold yet (the Blackrose lake): 16b digs it, shapes an organic shore and raises the island ring.",
     "tarn-upland": "Standing water of 1 hectare or more whose level is 30 m or higher (an upland or mountain lake).",
     "pond": "Standing water between 500 m2 and 1 hectare.",
     "pool": "Standing water under 500 m2.",
@@ -1052,7 +1076,7 @@ BODY_ABOUT = {
     "marsh-deep": "A flat wet sheet in the rootland deep-marsh region class, or any sheet over 0.5 m deep.",
     "swamp": "A flat wet sheet in the interior-swamp region class (forested, seasonally flooded).",
     "backswamp": "A flat wet sheet on the seasonal floodplain, beyond a river's levee.",
-    "mudflat": "A flat tidal sheet in the delta region class.",
+    "mudflat": "A flat tidal sheet in the delta region class. None on this base: the tidal flats are a shore STATE the tide exposes (16c), not standing bodies, so the count is 0 by design.",
 }
 SEASON_ABOUT = {
     "perennial": "Holds water all year. A body is perennial unless the dry-season draw-down (a fifth of the 1.4 m season swing, scaled by the body's response) empties it; a river stretch is perennial from the first point its catchment reaches 4 km2 or it enters the marsh heartland, and stays so downstream.",
@@ -1098,6 +1122,9 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
                 lut_season[i] = (*SEASON_COLOUR[b["season"]], 170)
         arr = lut_rgb[lbl]
         arr[sea] = (*BODY_COLOUR["ocean"], 120)
+        if npz is not None:
+            oc = npz["ocean"][:h, :w]
+            arr[sea & ~oc] = (*BODY_COLOUR["lagoon"], 200)
         body_img = Image.fromarray(arr, "RGBA")
         body_draw = ImageDraw.Draw(body_img)
         sarr = lut_season[lbl]
@@ -1121,11 +1148,12 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
             if acc_d >= every and seg > 0:
                 acc_d = 0.0
                 ux, uy = (x1 - x0) / seg, (y1 - y0) / seg
-                L = 3.5 + wpx
+                # an open chevron ">" pointing downstream: unambiguous, unlike a triangle
+                L = 4.0 + wpx
                 tip = (x1, y1)
-                left = (x1 - ux * L - uy * L * 0.6, y1 - uy * L + ux * L * 0.6)
-                right = (x1 - ux * L + uy * L * 0.6, y1 - uy * L - ux * L * 0.6)
-                rivers_draw.polygon([tip, left, right], fill=(255, 255, 255, 230))
+                left = (x1 - ux * L - uy * L * 0.8, y1 - uy * L + ux * L * 0.8)
+                right = (x1 - ux * L + uy * L * 0.8, y1 - uy * L - ux * L * 0.8)
+                rivers_draw.line([left, tip, right], fill=(255, 255, 255, 240), width=max(1, wpx))
         season_draw.line(pts, fill=(*SEASON_COLOUR[r["season"]], 255), width=wpx)
         if r["kind"] == "vertical-fall":
             e, s = r["centreline"][0]
@@ -1136,8 +1164,19 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
             rx, ry = b["terrainPrecondition"]["radiiM"]
             x, y = b["deepestCell"][0] / STEP, b["deepestCell"][1] / STEP
             box = [x - rx / mpp_c, y - ry / mpp_c, x + rx / mpp_c, y + ry / mpp_c]
-            body_draw.ellipse(box, fill=(*BODY_COLOUR[b["kind"]], 200), outline=(255, 255, 255, 255), width=2)
-            season_draw.ellipse(box, fill=(*SEASON_COLOUR[b["season"]], 170))
+            # declared, not yet dug: a dashed outline (16b shapes the shore and
+            # raises the island), a faint fill, and the island ring
+            body_draw.ellipse(box, fill=(*BODY_COLOUR[b["kind"]], 90))
+            season_draw.ellipse(box, fill=(*SEASON_COLOUR[b["season"]], 90))
+            import math
+            n_dash = 40
+            for k in range(0, n_dash, 2):
+                a0, a1 = 360.0 * k / n_dash, 360.0 * (k + 1) / n_dash
+                body_draw.arc(box, a0, a1, fill=(255, 255, 255, 255), width=2)
+            isl = (b["terrainPrecondition"].get("island") or {}).get("radiusM")
+            if isl:
+                ri = isl / mpp_c
+                body_draw.ellipse([x - ri, y - ri, x + ri, y + ri], outline=(255, 255, 255, 200), width=1)
         if b["kind"] == "plunge-pool" and b["deepestCell"]:
             x, y = b["deepestCell"][0] / STEP, b["deepestCell"][1] / STEP
             falls_draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(120, 200, 255, 255))
@@ -1150,7 +1189,7 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
             rivers_draw.ellipse([x - 2.5, y - 2.5, x + 2.5, y + 2.5], outline=(255, 255, 255, 255), width=1)
     wet_img, _ = new()
     if npz is not None:
-        wl = (npz["wetlands"] | (npz["rivers"] > 0) | npz["lakes"]) & ~npz["ocean"]
+        wl = wet_season_line(npz, bodies.body) if bodies is not None else (npz["wetlands"] & ~npz["ocean"])
         arr = np.zeros((h, w, 4), dtype=np.uint8)
         arr[wl[:h, :w]] = (90, 220, 255, 110)
         wet_img = Image.fromarray(arr, "RGBA")
@@ -1172,7 +1211,7 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
             "hydrograph-season": legend(SEASON_COLOUR, SEASON_ABOUT),
             "hydrograph-falls": {"fall": {"name": "waterfall", "rgb": [255, 60, 60], "about": "A measured drop of 3 m or more where the ground face is steeper than 70 degrees, so water leaves the rock. Red ring, white disc."},
                                  "plunge": {"name": "plunge pool", "rgb": [120, 200, 255], "about": "The pool at the foot of a waterfall, dug by it; promised for 16b to dig where the base has none."}},
-            "hydrograph-wetline": {"wet": {"name": "wet-season high-water extent", "rgb": [90, 220, 255], "about": "The Phase 3 wetlands, rivers and lakes footprint, declared the wet-season high-water line (owner, 2026-09-11)."}},
+            "hydrograph-wetline": {"wet": {"name": "wet-season high-water extent", "rgb": [90, 220, 255], "about": "Wetlands (10+ coarse cells), river cells and graph bodies: the wet-season high-water line (owner, 2026-09-11). Speckle under 300 m2 is dropped."}},
         },
         "stats": graph["stats"],
     }

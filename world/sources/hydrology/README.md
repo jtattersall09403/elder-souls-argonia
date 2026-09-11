@@ -29,6 +29,11 @@ file's `contentSha256`.
 | `thresholds` | every number the classification used, so a reader never guesses |
 | `stats` | counts by kind, seasons, mouths, the coarse-grid measurements, the standing-water census, `drainageLoops` (must be 0) |
 
+**Wet-season line** (`hydrograph-wetline`): the Phase 3 wetlands in
+8-connected pieces of at least 10 coarse cells, every river cell and every
+graph body; the raw coarse `lakes` mask is excluded (3,781 pieces, mostly
+one-cell pits along contours). `stats.wetSeasonLineKm2` records it.
+
 The graph is a projection of the carve's own solvers — `standing_water.solve_bodies`
 (no placement cap: places adapt to water) and `channels.solve` +
 `standing_water.pool_channels` — so the trench the terrain stage cuts and the

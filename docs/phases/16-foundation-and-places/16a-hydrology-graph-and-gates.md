@@ -109,6 +109,11 @@ later chunk (one row per item, a status, a pointer).
 | Structured, readable tooltips | done | grouped label/value sections |
 | Keep water-type transitions few and semantic | done | one flat kind + size band; `surface` per reach; 30 m seam rule; `surfaceTransitions` in stats and a gate on avoidable short runs |
 | A way to make sure every list item is addressed | done | this table; the pattern is now part of every chunk's report |
+| Blackrose ellipse looks artificial; island missing | left to 16b, shown honestly | dashed outline + island ring = "declared, not dug"; 16b shapes the organic shore and raises the island (precondition `authored-bowl`) |
+| No mudflats or lagoons on the map | lagoons drawn; mudflats explained | the 9 lagoons (sea-level water winding inland) now draw in their colour; mudflats are a tidal shore state 16c exposes, not bodies, so 0 is by design |
+| Triangle arrowheads ambiguous | done | open chevrons pointing downstream |
+| The rogue "waterfall" at 4.29 E 1.80 S | explained | it sits where the river meets the head of the 123 ha lagoon (now visible); the base has a 7.8 m step there; too abrupt for a rapid by the rule, but a source-terrain terrace, flagged for 16b to smooth into a rapid |
+| Wet-season line full of tiny specks | fixed at the root | the raw coarse lake mask (3,781 pieces, most one cell) is no longer part of the line; wetland pieces under 10 cells dropped; hover says when a pixel is inside the extent |
 
 ## Acceptance
 

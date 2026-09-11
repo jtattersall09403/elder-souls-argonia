@@ -2,13 +2,13 @@
  "schemaVersion": 1,
  "layers": {
   "hydrograph-rivers": "Every river stretch from the hydrology graph, coloured by kind (flat / sloped / waterfall), width by size band (creek, stream, river); a channel or rapid shorter than 30 m is absorbed into its neighbour so seams stay few; white arrowheads point downstream, white dots are confluences, white rings are mouths.",
-  "hydrograph-bodies": "Standing water from the graph, coloured by kind: lakes, tarns, ponds, pools, plunge pools, and the marsh sheets.",
+  "hydrograph-bodies": "Standing water from the graph, coloured by kind: lakes, tarns, ponds, pools, plunge pools, the marsh sheets, and the lagoons (sea-level water winding inland).",
   "hydrograph-season": "Blue = holds water all year (perennial); orange = dries out in the dry season (seasonal). Once a river is perennial it stays so to its mouth.",
   "hydrograph-falls": "Waterfalls measured on the base terrain (red-ringed discs) and their plunge pools (blue dots).",
-  "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands + rivers + lakes footprint."
+  "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands (pieces of 10+ cells, about 300 m2), every river cell and every graph body. The raw coarse lake mask is NOT used: its 3,781 pieces were mostly one-cell pits along contours."
  },
  "source": "world/sources/hydrology/hydrology-graph.json",
- "contentSha256": "7b5498f8fedac4fb735dfc9df3635b45c894151639e545229545851c06199242",
+ "contentSha256": "3e7c6df4dc7c4632f6260696b041da1fbfac000174e39e67b3a6b193e86093db",
  "legends": {
   "hydrograph-rivers": {
    "horizontal-channel": {
@@ -101,7 +101,7 @@
      90,
      200
     ],
-    "about": "Standing water of 1 hectare or more whose level is under 30 m."
+    "about": "Standing water of 1 hectare or more whose level is under 30 m. A dashed outline is a DECLARED lake the base does not hold yet (the Blackrose lake): 16b digs it, shapes an organic shore and raises the island ring."
    },
    "tarn-upland": {
     "name": "tarn-upland",
@@ -182,7 +182,7 @@
      180,
      100
     ],
-    "about": "A flat tidal sheet in the delta region class."
+    "about": "A flat tidal sheet in the delta region class. None on this base: the tidal flats are a shore STATE the tide exposes (16c), not standing bodies, so the count is 0 by design."
    }
   },
   "hydrograph-season": {
@@ -242,7 +242,7 @@
      220,
      255
     ],
-    "about": "The Phase 3 wetlands, rivers and lakes footprint, declared the wet-season high-water line (owner, 2026-09-11)."
+    "about": "Wetlands (10+ coarse cells), river cells and graph bodies: the wet-season high-water line (owner, 2026-09-11). Speckle under 300 m2 is dropped."
    }
   }
  },
@@ -329,8 +329,8 @@
   ],
   "gorgeStationsMeasured": 2200,
   "gorgeStationsUnderResolved": 1271,
-  "wetSeasonLineCells": 188785,
-  "wetSeasonLineKm2": 5.68,
+  "wetSeasonLineCells": 173201,
+  "wetSeasonLineKm2": 5.21,
   "standingWaterCensus": {
    "depressions": 37308,
    "acceptedDepressions": 395,

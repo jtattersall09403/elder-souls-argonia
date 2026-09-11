@@ -427,6 +427,7 @@ export function App() {
           hydroIndexRef.current = buildHydrographIndex(graph, m.imageWidth, m.imageHeight);
           decode("hydrograph-bodies");
           decode("hydrograph-falls");
+          decode("hydrograph-wetline");
         } catch { /* hydrology graph not derived yet */ }
         setLegends(collected);
         decode("regions");
@@ -577,6 +578,8 @@ export function App() {
       const i = (y * meta.imageWidth + x) * 4;
       const bodyAlpha = decodedPxRef.current["hydrograph-bodies"]?.[i + 3] ?? 0;
       const fallsAlpha = decodedPxRef.current["hydrograph-falls"]?.[i + 3] ?? 0;
+      const wetAlpha = decodedPxRef.current["hydrograph-wetline"]?.[i + 3] ?? 0;
+      if (wetAlpha > 0) here.push(["wet season", "inside the high-water extent"]);
       const reach = hi.reachAt(x, y);
       const body = hi.bodyAt(x, y, bodyAlpha);
       sections.push(...describeHydrograph(hi, reach, body));

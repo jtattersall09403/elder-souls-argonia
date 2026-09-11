@@ -191,8 +191,10 @@ fall.
 
 ## 5. The wet-season line and the coarse grid (deliverable 2)
 
-The Phase 3 wetlands + rivers + lakes overlay is declared the wet-season
-high-water extent: 188,785 coarse cells, 5.68 km². Where the 1345 grid is too
+The wet-season high-water extent is the Phase 3 wetlands (pieces of 10+
+cells), every river cell and every graph body: 173,201 coarse cells,
+5.21 km². The raw coarse `lakes` mask was dropped from it on the owner's
+review (3,781 pieces, 3,045 of them under 4 cells: contour-edge pits). Where the 1345 grid is too
 coarse for small streams: of 1,972 steep and fall stations measured, 1,197
 (61 %) sit in a valley narrower than two coarse cells (a wall within 5.5 m
 either side). The 5.48 m raster cannot draw those; the graph's centrelines at
