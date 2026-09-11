@@ -5,7 +5,7 @@
 > so one area carries every system before rollout. Alten Corimont is not in
 > a vegetated chunk. The set chosen is **Lilmoth** (city), **Nine-Trunks**,
 > **Mazzatun**, **The Standing Charge** and **The Licensed Stage** — record
-> and reasons in [decision 0041 § Part 5 decision](../../decisions/0041-phase11-settlement-decisions.md).
+> and reasons in [decision 0041 § Part 5 decision](../../../decisions/0041-phase11-settlement-decisions.md).
 > The tables below are kept as the reasoning trail only.
 
 Decision 0041 Part 5: propose **one city plus a few contrasting places**

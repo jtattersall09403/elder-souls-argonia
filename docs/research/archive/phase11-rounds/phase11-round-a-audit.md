@@ -1,6 +1,6 @@
 # Phase 11 Round A — module 97 audit of the five exemplar blueprints
 
-Reviewer pass of 2026-09-05 applying [module 97](../../world/97-placement-principles.md)
+Reviewer pass of 2026-09-05 applying [module 97](../../../world/97-placement-principles.md)
 to the five exemplars in `world/sources/blueprints/`. Method: `blueprint --check`
 and `compile_settlement` per blueprint (the HARD and WARN checks §G lists),
 then the reviewer-judged principles of Parts B–F read against each design

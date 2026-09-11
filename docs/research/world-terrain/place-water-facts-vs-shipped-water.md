@@ -246,7 +246,7 @@ meets its 3.0 m hull promise on the shipped water, and the roadstead has
 9.6 m. What is true is that the catalogue *dot* — the owner-approved Phase 2
 anchor — is 292 m west of the quay on the promontory crest at 15.57 m
 elevation, and its `plotFacts` claim it is in the water. The
-[water handoff](../rendering/water-handoff.md) row that reads "Lilmoth's
+[water handoff](../archive/water-round-2-2026-09/water-handoff.md) row that reads "Lilmoth's
 lighter quay falls to 1.20 m / 0.84 m" is about the **lane approach** to the
 quay, not the berth, and predates `dock_dredge`.
 
@@ -455,7 +455,7 @@ Ranked by whether a player would notice, not by the size of the number.
 
 - Decisions [0047](../../decisions/0047-water-one-physical-model.md),
   [0049](../../decisions/0049-water-is-measured-and-has-a-season.md).
-- [Water handoff](../rendering/water-handoff.md) — the authored local
+- [Water handoff](../archive/water-round-2-2026-09/water-handoff.md) — the authored local
   hydrology gap (§ "Closed 2026-09-08 late evening" item 1) is the same root
   cause as §5.5 here.
 - This doc is not linked from `docs/research/README.md` or the docs router;

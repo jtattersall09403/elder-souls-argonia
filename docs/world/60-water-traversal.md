@@ -55,7 +55,7 @@ The advanced water repositories already contain valuable buoyancy, wake, interac
 > field references and flat/channel surface authority from compiled data;
 > unknown discharge or authored links are not invented. Bed caustics, bounded
 > interactive ripples and spray/foam are implemented. FFT (§39.4) is an optional
-> technique, not a quality gate. See the [quality contract and owner review](../research/rendering/water-quality.md).
+> technique, not a quality gate. See the [quality contract and owner review](../research/archive/water-round-2-2026-09/water-quality.md).
 
 ## 39. Rendering stack
 

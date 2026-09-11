@@ -137,7 +137,7 @@ by-product but are not the review medium.
   describing what a walking or paddling player sees, in order, from each
   direction, and a 16-item checklist with answers.
 - **The principles** these designs follow are now one document,
-  [world/97-placement-principles.md](../../world/97-placement-principles.md);
+  [world/97-placement-principles.md](../../../world/97-placement-principles.md);
   its closing list has fifteen decisions for your sense check. The audit of
   the five blueprints against it is
   [phase11-round-a-audit.md](phase11-round-a-audit.md).

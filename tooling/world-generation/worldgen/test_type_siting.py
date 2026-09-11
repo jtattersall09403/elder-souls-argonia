@@ -313,7 +313,7 @@ def test_the_semantic_audit_fails_a_record_that_contradicts_its_type_prose():
 # BLOCKED (2026-09-09): a `--resolve-all` under the footprint model leaves 6 of
 # 580 records with no honest site, so the solve cannot be committed. Evidence,
 # the six records and the decision the owner has to make are in decision 0041
-# and docs/research/phase11/phase11-gap-plan.md. Until then this is a ratchet:
+# and docs/research/archive/phase11-rounds/phase11-gap-plan.md. Until then this is a ratchet:
 # the shipped catalogue may not get WORSE, and when the re-plot lands these
 # numbers go to zero and the test becomes the clean assertion.
 # 2026-09-09, second pass: the footprint derivation was corrected to read the

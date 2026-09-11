@@ -1,6 +1,6 @@
 # Water quality contract and review guide
 
-Decision [0045](../../decisions/0045-reversible-water-overhaul.md), September 2026. Covers the water items in [the polish backlog](../../polish-backlog.md), plus the owner's broader request. Keep backlog items open until visual acceptance; automated tests do not certify that water looks natural.
+Decision [0045](../../../decisions/0045-reversible-water-overhaul.md), September 2026. Covers the water items in [the polish backlog](../../../polish-backlog.md), plus the owner's broader request. Keep backlog items open until visual acceptance; automated tests do not certify that water looks natural.
 
 ## What “first class” means here
 
@@ -54,18 +54,18 @@ stills. The current key sites are listed in [water-handoff.md](water-handoff.md)
 
 ## Research and implementation choices
 
-[Three.js water research](water-rendering-threejs.md),
-[shore waves/edges/wet sand/ripples](water-edges-and-shore-waves.md),
-[waterfalls](waterfalls-realtime.md). GPU Gems explains
+[Three.js water research](../../rendering/water-rendering-threejs.md),
+[shore waves/edges/wet sand/ripples](../../rendering/water-edges-and-shore-waves.md),
+[waterfalls](../../rendering/waterfalls-realtime.md). GPU Gems explains
 [analytic-wave steepness](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models)
 and [water caustics](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-2-rendering-water-caustics).
 Dan Greenheck's Water Pro is a comparison target only, licence-incompatible and
 never inspected; its techniques and our gaps against them are in
-[water-pro-greenheck-study.md](water-pro-greenheck-study.md).
+[water-pro-greenheck-study.md](../../rendering/water-pro-greenheck-study.md).
 
 ## Water compiler runbook
 
-The compile is decision [0047](../../decisions/0047-water-one-physical-model.md):
+The compile is decision [0047](../../../decisions/0047-water-one-physical-model.md):
 one physical model on the real 4033² terrain, one channel definition shared
 with the carve. Run from `tooling/world-generation`:
 

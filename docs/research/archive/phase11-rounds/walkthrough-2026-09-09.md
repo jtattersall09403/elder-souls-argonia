@@ -9,7 +9,7 @@ behind each claim is in the decision it cites.
 
 Append coordinates to that URL. Walk: `?view=character&x=3.61&z=6.38&t=12:00`.
 Overhead: `?view=fly3d&cam=orbit&x=…&z=…`. Season: add `&wet=1` for the flood or
-`&wet=-1` for the dry. Storm: `&w=storm`. Coordinates are kilometres; the
+`&wet=-1` for the dry. Weather: `&w=<kind>` with kind one of clear, fair, partly, broken, haze, overcast, rain, downpour, squall, thunderstorm. Coordinates are kilometres; the
 province is 7.37 km square.
 
 ## 1. Buildings are standing in the world

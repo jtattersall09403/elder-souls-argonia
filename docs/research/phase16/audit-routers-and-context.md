@@ -25,7 +25,7 @@ Directory links with no README: all ten folder rows in
 | `.claude/agents/deliver.md`, `research.md` | the mandated subagent definitions; named as backticks only — FIXED |
 | `packages/game-core/src/water/README.md`, `settlement/README.md`, `terrain/README.md` | runtime contracts a water / settlement / terrain agent needs; unreachable — FIXED (docs/README rows) |
 | `docs/research/placement-settlements/settlement-type-recipes.md` | per-type recipe digest; one backtick mention at `0041:1099` — FIXED (research README) |
-| `docs/research/phase11/promise-ledger-round-1.md`, `phase11-asset-gap-check.md`, `phase11-critique/README.md` + briefs | reachable only by listing the directory |
+| `docs/research/archive/phase11-rounds/promise-ledger-round-1.md`, `phase11-asset-gap-check.md`, `phase11-critique/README.md` + briefs | reachable only by listing the directory |
 | `docs/research/quests-and-cast/last-warden-boss-options.md`, `combat-and-systems/third-person-bow-aim-camera.md` | quest/asset and combat references, unlinked |
 | `tooling/asset-pipeline/prototypes/pynifly/README.md` | the proved headless NIF pipeline; unlinked |
 | `docs/world-gen-master-plan.md` | 14-line stub redirect since 0010 — deleted |
@@ -41,7 +41,7 @@ supersession marker although 0046/0047 retired that model. FIXED.
 | Router | Row | Why stale | Replacement |
 |---|---|---|---|
 | `docs/README.md:43` | water row → decision 0025 | 0025 is the retired 8b shape; 0047/0049 are current | point at 0047 + 0049, 0025 as history — FIXED |
-| `docs/research/rendering/water-handoff.md:15-29` | state table "2026-09-08 evening", two rows "in progress" | contradicted by the same file (probe fix applied, suites gate the deploy, hovering 0) | rewrite when 16c starts; the plan links the audit instead |
+| `docs/research/archive/water-round-2-2026-09/water-handoff.md:15-29` | state table "2026-09-08 evening", two rows "in progress" | contradicted by the same file (probe fix applied, suites gate the deploy, hovering 0) | rewrite when 16c starts; the plan links the audit instead |
 | `docs/README.md:67` | "Picking up Phase 11 … batches still open" | B3, G-items, B14 DONE; B1 delivered 2026-09-09 | rewritten to point at Phase 16 — FIXED |
 | `docs/PROGRESS.md` Phase 11 row | ~1,300-word round log in a status cell | history belongs in 0041 | pruned — FIXED |
 | `docs/PROGRESS.md` / `deploy-pages.yml:33-36` / handoff | "klass block carries no extPx / extRiseM" | false against the shipped `water-meta.json` | corrected in the plan; the workflow comment is 16c's |

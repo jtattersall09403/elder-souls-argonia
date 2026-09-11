@@ -48,7 +48,7 @@ an unrelated upper valley wall.
 - Adaptive water error bounds, the final confluence gate and native terrain
   shore protection consume the same independent extrema.
 - Deterministic, hash-checked read-only station diagnostic. Reproduction command
-  is in [the compiler handoff](../../../tooling/world-generation/worldgen/WATER_REPAIR_HANDOFF.md).
+  is in the compiler handoff (file removed with the overhaul, 0046).
 
 ## Verification
 

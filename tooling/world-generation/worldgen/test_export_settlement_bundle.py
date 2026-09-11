@@ -330,13 +330,13 @@ def test_a_registered_warning_is_reported_by_name_and_does_not_block(tmp_path, m
     _warned_settlement(tmp_path)
     _register(tmp_path, monkeypatch, [{
         "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
-        "owner": "water", "queuedIn": "docs/research/rendering/water-handoff.md",
+        "owner": "water", "queuedIn": "docs/research/archive/water-round-2-2026-09/water-handoff.md",
         "why": "two water layers disagree",
     }])
     bundle = _build(tmp_path)
     assert bundle["knownRedWarnings"] == [{
         "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
-        "owner": "water", "queuedIn": "docs/research/rendering/water-handoff.md",
+        "owner": "water", "queuedIn": "docs/research/archive/water-round-2-2026-09/water-handoff.md",
         "why": "two water layers disagree",
     }]
     assert "KNOWN-RED settlement warning (water-owned" in capsys.readouterr().out
@@ -347,7 +347,7 @@ def test_a_register_row_that_has_started_passing_blocks(tmp_path, monkeypatch):
     _warned_settlement(tmp_path, conforms=True)
     _register(tmp_path, monkeypatch, [{
         "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
-        "owner": "water", "queuedIn": "docs/research/rendering/water-handoff.md",
+        "owner": "water", "queuedIn": "docs/research/archive/water-round-2-2026-09/water-handoff.md",
         "why": "two water layers disagree",
     }])
     with pytest.raises(ValueError, match="NO LONGER RED"):
@@ -359,7 +359,7 @@ def test_a_register_row_whose_place_vanished_blocks(tmp_path, monkeypatch):
     _warned_settlement(tmp_path, conforms=True)
     _register(tmp_path, monkeypatch, [{
         "placeId": "place.gone", "subjectId": "parcel.x", "rule": "civic-sacred-dry",
-        "owner": "water", "queuedIn": "docs/research/rendering/water-handoff.md",
+        "owner": "water", "queuedIn": "docs/research/archive/water-round-2-2026-09/water-handoff.md",
         "why": "two water layers disagree",
     }])
     with pytest.raises(ValueError, match="NOT IN THE COMPILED SET"):

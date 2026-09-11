@@ -2,10 +2,10 @@
 
 Research only, 2026-09-03. **Nothing downloaded, no catalogue file edited.**
 Answers three questions raised at the Phase 11 touchpoint. Companions:
-[settlement-asset-inventory.md](../placement-settlements/settlement-asset-inventory.md) (what we hold),
-[settlement-kit-sourcing-log.md](../placement-settlements/settlement-kit-sourcing-log.md) (what 6b took
+[settlement-asset-inventory.md](../../placement-settlements/settlement-asset-inventory.md) (what we hold),
+[settlement-kit-sourcing-log.md](../../placement-settlements/settlement-kit-sourcing-log.md) (what 6b took
 and rejected — read its skip table before proposing any download),
-[mined-interior-assembly-and-settlement-form.md](../placement-settlements/mined-interior-assembly-and-settlement-form.md)
+[mined-interior-assembly-and-settlement-form.md](../../placement-settlements/mined-interior-assembly-and-settlement-form.md)
 (measured assembly rules).
 
 ---

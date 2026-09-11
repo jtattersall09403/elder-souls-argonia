@@ -119,15 +119,15 @@ every level a flood on the real terrain removes the class.
 ## Records
 
 Delivery: PROGRESS.md Phase P row; handoff in
-[research/rendering/water-handoff.md](../research/rendering/water-handoff.md);
-probe and runbook in [water-quality.md](../research/rendering/water-quality.md).
+[research/archive/water-round-2-2026-09/water-handoff.md](../research/archive/water-round-2-2026-09/water-handoff.md);
+probe and runbook in [water-quality.md](../research/archive/water-round-2-2026-09/water-quality.md).
 
 ## Addendum 2026-09-08 (evening) — four rules the model was missing
 
 Delivered after the round-2 compile was otherwise green. Each was found by
 measuring the shipped data, not by reading the code; the numbers and the
 owner-facing evidence are in
-[water-round2-evidence.md](../research/rendering/water-round2-evidence.md).
+[water-round2-evidence.md](../research/archive/water-round-2-2026-09/water-round2-evidence.md).
 
 1. **A river that drains to the sea reaches the sea.** `build_reaches` stopped
    a chain at the last cell that was itself a river cell, so the one outlet

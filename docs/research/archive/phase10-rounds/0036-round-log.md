@@ -1,0 +1,1140 @@
+# 0036 round log — Phase 10 vegetation/placement rounds (provenance)
+
+Moved out of `docs/decisions/0036-phase10-placement-decisions.md` 2026-09-11. History only; the run-book and the decided answers stay in 0036.
+
+### Round 12 (2026-09-09) — solid BAMBOO: a silhouette standing in for a bole
+
+Owner: "some tall reedy bamboo-y things are getting treated as solid even
+though they are very thin… e.g. at 3.62 km E · 6.26 km S."
+
+**What is actually there.** Read from the shipped bundle, not from names:
+within 12 m of that spot there are 127 instances and **118 are
+`bmv:landscape/trees/bambooplant`** (chunk 7,13). Its manifest row is
+`collision: "trunk-capsule"` with **zero `collisionSegments`**.
+
+**Root cause — not any of the three candidates.** Not the round-11 splay
+split, not a missing girth floor. `bambooplant` is a single 1,440-triangle
+primitive textured `bamboo`, which matches no word in `WOOD`, so the fitter
+finds no wood, and `trunk_solids.rewrite` took the "no wood mesh, capsule
+fallback" branch. `floraSolids.ts:143-144` then falls back to the single
+`collisionCapsule` — and that capsule is built by `trunk_capsule` in
+`blender/build_kit.py:651-659` over `solid_meshes or meshes`, i.e. over the
+WHOLE PLANT when nothing is marked solid. So it is a **silhouette of the
+foliage, 0.26 m by 3.0 m**, not a cane. 118 of those in a 12 m circle is
+the field of invisible poles. The species reached the trunk path in the
+first place because `_COLLISION_BY_CATEGORY["tree"]` is assigned by
+CATEGORY (`build_kit.py:563`) and bamboo files under `landscape/trees/`.
+
+**Honest answer on round 11's part in it:** none, for the species the owner
+hit. `bambooplant` had zero fitted capsules before round 11 and zero after;
+the round-11 table shows it unchanged at `0.00 → 0.00`. The slender
+stick-trees round 11 *did* slim (`gkbjungletreenewsticktree11` 2.81 → 0.23)
+are not present at that coordinate at all. This defect predates round 11.
+
+**The rule, and why it is NOT a minimum girth.** The owner asked for a
+girth cutoff justified from the histogram. The histogram refuses to give
+one — measured girth across the 50 solid species runs
+`0.15 ×5, 0.17, 0.22, 0.23, 0.25 ×8, 0.26, 0.27 ×6, 0.30, 0.35, 0.38 ×2`
+and then jumps to 0.56. There is no gap in the thin band, and it mixes
+bamboo (0.26) with `fanpalm1` (0.25, a 23 m palm nobody walks through) and
+`beachpalm1` (0.25, 19 m). A girth floor would be the same mistake as an
+absolute triangle-area cut in round 11. The property that DOES separate
+cleanly is the one round 11 established: **does the asset have real tube
+wood?** Fitted-capsule counts go `0, 0, 0, 0` and then `1, 6, 7, 8, 12,
+16, …` — the gap is at zero, and it is measured from the GLB. So: **no
+fitted wood, no solid.** `collision` drops to `none` (what the reeds and
+ferns already get); `collisionCapsule` stays for wind stiffness, which is
+what a silhouette is honestly good for.
+
+**Second defect, opposite direction, same pass.** Auditing which assets the
+rule would silence found `gkbtreeaspen05jungle` — a 10.6 m aspen — also
+sitting at zero fitted capsules. Cause: `NOT_WOOD` contained the bare
+substring `comp`, which vetoed `gkbtreeaspenbarkcomp`, **a genuine bark
+tube** (3.6e-4 of height²). Every other `comp` texture in the kit is a
+`*branchcomp*` leaf card at 3.4e-3 – 1.8e-2 and is already caught
+geometrically by round 11's `is_card`. `comp` was pure cost and is gone.
+The aspen now fits 7 capsules and stays solid on its own merit — which is
+also what makes "no fitted wood, no solid" safe to apply.
+
+**Every asset that changes state, both directions (the complete list):**
+
+| asset | h | girth | before | after |
+|---|---|---|---|---|
+| `bambooplant` | 3.0 m | 0.26 | solid (silhouette) | **walk-through** |
+| `tropicalplant01` | 1.3 m | 0.15 | solid (silhouette) | **walk-through** |
+| `banana_tree` | 4.6 m | 0.15 | solid (silhouette) | **walk-through** |
+| `gkbtreeaspen05jungle` | 10.6 m | 0.15 | solid (silhouette) | **solid, 7 fitted capsules** |
+
+Nothing else moves. The `banana_tree` call is the one worth a second look:
+a 4.6 m plant with 3,888 triangles, no tube wood and a 0.23 m spread at
+walking height. A banana pseudostem is soft and the mesh has no bole, so
+walk-through is the honest reading — flagged for the owner rather than
+buried. Solid species: 50 → 47. Worst radius/girth stays **1.50**, so the
+K = 1.6 gate holds unchanged. Total fitted capsules 2,961 → 2,964 (the
+three dropped species contributed none; the drift is the shared RNG stream
+re-sequencing, and every value stays inside the clamp).
+
+**Budget — 3,600 should STAY (owner asked whether to hand it back).**
+Measured over **11,722 sampled 20 m rings** across all 151 vegetated
+chunks, cost in colliders:
+
+| manifest | p50 | p90 | p95 | p99 | rings over 2500 | over 3600 |
+|---|---|---|---|---|---|---|
+| pre-round-11 | 110 | 768 | 1242 | 3168 | 1.60 % | 0.88 % |
+| round 11 | 160 | 1101 | 1728 | 4129 | 2.64 % | 1.31 % |
+| round 12 | 130 | 1058 | 1716 | 4128 | **2.62 %** | **1.31 %** |
+
+Round 12 makes **49.9 %** of rings cheaper, but almost entirely at the
+MEDIAN — bamboo and understory rings, 160 → 130 — and essentially nothing
+at the tail, which is big fitted trees. The over-budget rate is unmoved
+(1.31 %). Dropping back to 2,500 would double it to 2.62 %. Round 11's
+"trees covered falls ~61 → ~42" was an arithmetic upper bound from mean
+species cost, not a measured ring; at both the bamboo spot and the
+round-10 jungle spot the ring covers the full 20 m at either budget. Keep
+3,600.
+
+**Gates (mutation-tested).**
+- **Data gate**, `vegetationSolidity.test.ts`: no `trunk-capsule` asset may
+  have zero `collisionSegments` — nothing solid may reach the silhouette
+  fallback. Mutation: restoring the three species to `trunk-capsule` lists
+  all three, red.
+- **Source gates**, `pipeline/test_trunk_solids.py`: the `comp` veto must
+  not kill bark tubes, and cane/banana/shrub textures must not read as
+  wood. Mutations: putting `comp` back in `NOT_WOOD`, and adding `bamboo`
+  to `WOOD`, each turn one red.
+
+### Round 11 (2026-09-09) — solid LEAVES: a name blacklist standing in for a geometric property
+
+Owner: "some trees have *leaves* that I can't walk through, e.g. mangroves.
+It should only be their *trunks* that are solid."
+
+**Root cause.** `trunk_solids.py` decided what was wood from TEXTURE NAMES.
+`branch` counts as wood (mangrove prop roots ship under it), and three
+cutout cards were vetoed by name — `palmmiddle`, `grandoak`,
+`gkbbranch3dark`. A name list can only ever veto the cards somebody has
+already walked into, and it missed `gkbbranch1/5/10`, `gkbjunglebranch2/3`,
+`datepalmbark7/8` and `tundradriftwoodbranches01`. Sampling is
+area-weighted, so on `mangrovereachtree0gkb8` the crown cards contributed
+~324 m² (~22,700 samples) against ~46 m² (~3,200) for the real wood: the
+crown outvoted the trunk 7:1 and the p88 fit drew a 3.64 m capsule at
+canopy height — 74 % of the crown's width. The runtime
+(`floraSolids.ts`) was faithful throughout; the shipped data was wrong.
+
+**Defect (a): cards fitted as wood.** Replaced by the geometric property
+the names stood in for. A card is a handful of huge quads; a tube is finely
+segmented however big the tree is — so the discriminant is triangle size
+RELATIVE TO THE TREE. An absolute cut cannot do it: the anvil canopy palm's
+genuine 42 m trunk carries 0.67 m² triangles, LARGER than a mangrove crown
+card's 0.56 m². Normalised by height², all 142 wood-matched primitives in
+the kit separate: largest tube 1.44e-3, smallest card 2.49e-3, with the
+body of the tube distribution at 1e-5–5e-4. `CARD_TRI_AREA_PER_HEIGHT2 =
+2.0e-3` sits ~25 % clear of both. The one borderline case, the man-fern's
+lone `fernbark` stem at 2.41e-3, is kept by an explicit rule: cards are
+rejected in favour of the TUBES THEY SURROUND, so a species with no other
+wood primitive keeps what it has. Past `LONE_CARD_FAIL_FACTOR = 2.0` × the
+threshold that is not borderline and the pass fails loudly.
+
+**Defect (b): the prop-root/multi-stem merge.** Cards alone still left
+gkb8 at 2.77 m: `band_clusters`' 0.55 m flood fill merges a splayed
+prop-root tangle into one cluster and p88 draws one disc across the splay
+(without cards at all: `treewillow02a` 3.67 m against a 0.79 m bole,
+`gkbjungletreenewsticktree11` 2.81 m against 0.15 m). Fixed with the
+measured girth as the reference — `collisionCapsule.radiusM` is measured
+independently of the fit. A band cluster wider than `SPLIT_RADIUS_FACTOR =
+1.3` × girth is split (recursion depth 3 → 5); whatever will not split is
+clamped at `MAX_RADIUS_FACTOR = 1.5` × girth. Several slim capsules is also
+the physically right answer: a mangrove's prop roots ARE walkable-between.
+
+**Defect (c), found while verifying (b).** The `MAX_CAPSULES = 96` cap
+sorted FATTEST FIRST, so the slim base capsules the split produces were the
+first dropped — the anvil canopy palm lost 96 of its 101 wood samples below
+2.2 m, i.e. exactly the height the player walks at. Now sorted lowest
+first, then fattest. This alone is why the fix costs +45 % colliders and
+not +90 %.
+
+**Result** (worst fitted radius, before → after, girth in brackets):
+`gkbjungletreenew3` 10.93 → 2.02 (2.40); `gkbjungletreenew10` 6.29 → 0.45
+(0.30); `anvil-emergent-giant` 5.73 → 2.47 (1.90); `treewillow02a` 3.67 →
+0.98 (0.79); `mangrovereachtree0gkb8` 3.64 → 1.05 (0.83); `…gkb3` 3.41 →
+0.83 (1.03); `…gkb2` 3.15 → 2.54 (1.98); `gkbjungletreenew1` 3.49 → 0.23
+(0.15); `gkbjungletreenewsticktree11` 2.81 → 0.23 (0.15);
+`anvil-canopy-tree` 3.09 → 1.72 (1.61); `dead_bc_tree_04` 2.77 → 0.96
+(0.79); `treeofwolene4` 2.88 → 1.73 (1.40). Worst ratio to measured girth
+across the kit falls from 23.3× to 1.50× (the clamp).
+
+**Budget.** Total capsules 2,039 → 2,961 (+45 %) across 50 solid species.
+`VegetationColliders` budgets 2,500 COLLIDERS over a 20 m ring, so the mean
+species cost rising 41 → 59 cuts the trees covered per ring from ~61 to
+~42; past that `coveredRadiusM` shrinks and the ring rebuilds sooner. That
+file was outside this change's scope; raising `COLLIDER_BUDGET` to ~3,600
+restores parity and is cheap (fixed bodies, broad-phase only, as its own
+comment says). **Open for the next agent in that file.**
+
+**Anti-regression (nothing could catch this before).** `floraSolids.test.ts`
+tested transform maths on hand-written fixtures;
+`vegetationSolidity.test.ts` proved wood IS solid but never that air is
+NOT, and its wood set included the cards, which inflated the denominator
+and hid the gap. Now:
+- **Data gate** (`vegetationSolidity.test.ts`) over the shipped manifest:
+  every fitted capsule ≤ **1.6 ×** the species' measured girth. Post-fix
+  worst is 1.50, so 6.7 % margin. Mutation-tested: restoring the pre-fix
+  manifest lists 37 offenders; widening one capsule to 1.7× lists it.
+- **Provenance gate**, same file: the manifest must carry
+  `trunkSolids.fitter`. `build_kit.py` does already call the fitter, but a
+  manifest produced any other way now fails loudly instead of shipping fat
+  capsules that every other check would pass.
+- **Source gates** (`pipeline/test_trunk_solids.py`): the card rule, its
+  margin either side, the splay split and the clamp. Mutation-tested —
+  stubbing `is_card`, the clamp or the split each turns one red.
+- The coverage test's own wood set now applies the same card rule, so it
+  measures cover of TUBE wood (743 samples at walking height, 0 uncovered;
+  it was passing at 6.06 % uncovered on a card-inflated denominator).
+
+### 2026-09-09 — the between-region density ladder (decision 0048)
+
+The regional-variety pass below fixed *species*; it did not touch *density*,
+and the owner's next report ("everything below the mountains looks the same")
+was about density. Between-region comparison is no longer authored in the
+region tables at all: it lives in
+`worldgen/vegetation_ladder.TARGET_RATIOS`, is applied to the T1 non-rock
+stem layers by `build_palettes.rebase_stems`, and is gated by
+`worldgen/test_vegetation_ladder.py`. `groundcover.json` gained a region
+axis at the same time (schema v2). **Run-book change: after
+`build_palettes`, the flora kit must be current before `compile_scatter` —
+`test_palette_species_are_all_in_the_shipped_flora_kit` is what catches a
+palette reaching for a mesh the kit does not carry.** Full record:
+[0048](../../../decisions/0048-vegetation-density-ladder.md).
+
+### 2026-09-08 — province-wide rollout recorded; regional variety pass
+
+**What happened.** Vegetation scatter left the five exemplar rings and
+covered the province in commit `1b79517` (2026-09-07, "Carve river
+channels to their water profile…"), which added bundles for 151 chunks
+(48 → 199 chunks with plants, 9.3 MB of bundles). It was a **side effect,
+not a decision**: `scripts/terrain-chain.sh` (created in `98b26b7` the
+same day, per decision 0025's stage order) ends in `compile_scatter`, and
+`compile_scatter` with no `--chunk` flag compiles every chunk. No budget or
+FPS evidence was gathered at the time; the owner saw it on the deployed
+build and **accepted it (2026-09-08: "we were going to do it anyway")**.
+It stands as the Phase 15 roll-out step for vegetation done early: module
+95 §85.4 step 4 for this system is complete, region packet by region
+packet no longer applies to flora. Nothing remains exemplar-only in the
+vegetation layer; the T3 groundcover ring was always province-wide (it is
+generated at runtime from the land-cover raster).
+
+**Regional variety (owner 2026-09-08: "a little samey between regions").**
+Measured before the change: 39 woody/plant species province-wide; the
+firm lowland shared 90 % of its woody weight with the jungle, the lake
+100 % with the river corridor, the lagoon 100 % with the mangrove forest,
+and eight regions had only two tree species. The vault holds far more
+(BM&V `landscape/trees` alone: 936 meshes, 19 % ever used). Widened to
+**65 species** from pools already credited (no new mods): pine for the
+border mountains, slender "jungle aspen" stands, gorse and streamside
+alder for the upland hills, flat palms for the delta, date and coconut
+palms for the lagoon, tall columnar Cyrodiil cypress for the big rivers,
+giant fungi and tree ferns for the rootland, a broad rain tree plus dead
+snags for the interior swamp, stick trees for the fringe marsh, umbrella
+trees for the floodplain, banana and a broad fan palm for the hammocks,
+flowering water lilies for the lakes, two more mangrove meshes so the
+three mangrove coasts are not one tree repeated. Densities, machinery and
+collider budgets unchanged (delivered counts on the six exemplar chunks within ±10 % of the old palettes; the swamp's authored total rose to hold its count under a broader lead tree). Every
+region's dominant tree is now its own except the rootland's giant cypress,
+which is that region's identity by the owner's Q3 choice. Full tables,
+lore citations, the rejected meshes and the remaining accepted overlaps:
+[regional-variety-audit-2026-09-08.md](../../vegetation/regional-variety-audit-2026-09-08.md).
+Kit rebuilt to 81 assets (34 MB GLB); the province bundles are re-baked by
+the water agent's chain run, not here.
+
+### Round 10 (2026-09-02) — colliders moulded to the wood geometry; card audit; the FPS drop
+
+Owner, after round 9 (with screenshots at 4.12 km E · 4.51 km S): still
+inside large trunks and buttress roots; palms not solid at all; FPS down in
+tree-heavy areas even on Low; palms showing a conifer silhouette at
+distance; some big trees never switching to a far tier at all.
+
+**Colliders — the v2 tracked chain is GONE, replaced by geometry fitting.**
+Ground truth (sampling every tree's bark/wood mesh surfaces in the shipped
+GLB against its chain) showed the round-9 `trunk_chain` was wrong wherever
+a tree wasn't a single near-vertical stem: fanpalm6's whole sweeping trunk
+sat 8–16 m outside its one surviving capsule, the willows are multi-stemmed
+(one chain cannot cover them), and the anvil composites' wandering columns
+were missed above ~10 m. Fix: `pipeline/trunk_solids.py`, a kit POST-PASS
+(pure Python + numpy over the built GLB — no Blender) that samples the WOOD
+primitives (texture-name classifier; the big cutout cards — `palmmiddle`,
+`grandoak`, `gkbbranch3dark` — are vetoed or they solidify air), slices
+into height bands, grid-clusters each band in plan, ring-tests each cluster
+(wall samples bunch near the radius; sprays don't), 2-means-splits forks,
+and emits ORIENTED capsules (`{radiusM, aM, bM}` endpoints) under
+**`collisionFrame: pivot-yup-v3`**. Runs automatically at the end of
+`pipeline.build_kit`. Verified: worst species low-trunk p95 residual fell
+from +7…+16 m to ≤ +0.4 m (willow whip-curtains stay walk-through on
+purpose — matches the source games). Runtime: `floraSolids.ts` reads v3
+(quaternion per capsule, older frames get NOTHING), and
+`VegetationColliders` is now IMPERATIVE — it diffs fixed Rapier bodies
+between rebuilds instead of re-rendering up to 1,400 `<RigidBody>` React
+components per rebuild, which was the second half of the FPS drop.
+
+**Far tiers — every tree now has a correct card.** Root causes: (1) all
+BM&V tree cards UV one shared atlas path, but BM&V ships TWO atlases —
+palms/mangroves are only drawn in `tamrieltreelodtropical.dds`, and the
+build was binding the plain one (palms therefore sampled vanilla's pines:
+the owner's "conifer silhouette"). Kit config now has `textureAliases`
+binding the tropical atlas kit-wide (temperate rects are identical in
+both). (2) The three treewillows' own cards UV a crown chunk in every
+atlas (BM&V bug) — kit config `lodFlatFrom` lets a species borrow another's
+authored card, rescaled to its height in Blender: willows borrow the
+`gkbjungletreenew2xv2weeping` weeping-willow cards, cypress1/3 borrow
+`gkbcyrodilcypress1/2` (with per-species `lodFlatTexture` back to the plain
+atlas — their rects are empty in the tropical one), fanpalm6 borrows
+fanpalm4, mangrove gkb9 borrows gkb3's gnarled card, and the two anvil
+composites (5.2k/8.5k tris, NO far tier — 2.7 M of the 4.4 M triangles at
+the owner's coordinates, the main FPS regression) borrow the datepalm
+cards. Audit method: crop every card's UV rect out of the candidate
+atlases (`tmp/probe/*.png` collages, reproducible scripts). (3)
+`lodDistances` now returns THREE rings — full mesh capped at 150 m, then
+light decimation, then the previously-DEAD deep-decimation level, then the
+card; composites also decimate harder (`lodRatios [0.2, 0.06]`). Simulated
+triangle load at the owner's spot: 4.42 M → ~1.5 M.
+
+Probe scripts: `tmp/probe/trunk_coverage.py` (coverage numbers) and the
+collage generators in this session's history; `probe-cards*.json` kit
+configs audition donor cards.
+
+### Round 10b (2026-09-02) — the hovering man-fern, and the shapes the importer was silently mangling
+
+Owner (after the round-10 playtest passed): "hovering bushes, or short
+palms that should have a trunk and don't" — e.g. 4.10 km E · 4.21 km S.
+That species is `tropical:plants/tropical/manfern` (tree fern) and it was
+shipping as a crown of fronds with NO trunk. Root cause, found by
+bisection + instrumentation: in `import_nif_meshes`, the bake loop set
+`matrix_world = Identity` while the object was STILL PARENTED, then
+cleared the parent — Blender re-derives the world matrix as the parent's
+inverse, so any shape nested under a transformed NiNode kept correct
+mesh data but a corrupt object matrix (~116 m away), and `drop_strays`
+culled it. Fix: unparent BEFORE forcing identity (one-line order swap),
+plus `world_bounds` now measures VERTICES (never the cached `bound_box`)
+and every import namespaces the scene first (`es|` prefix — PyNifly
+de-duplicates by name, so a later asset could partially reuse an earlier
+one's already-baked objects; probe-verified both failure modes).
+Recovered geometry: the man-fern's trunk (now `trunk-capsule`, solid),
+and BOTH mangroves' stilt-root bark and driftwood limbs — they had been
+shipping HALF their triangles (1,960→4,039 and 1,439→3,518). Groundcover
+kit rebuilt and verified byte-identical. All other species unchanged.
+
+### Round 9 (2026-09-01) — trunk volumes, and the collider budget bug
+
+Owner, after round 8: still walking through the new trunks and the
+buttress roots. "Mould the collision capsule to the actual volume of the
+whole of their trunks (same for all trees). This will be very important
+for climbing later."
+
+**The dominant cause was not the shape at all — it was the budget.** The
+collider ring built the nearest **96 instances** within **45 m**. Measured
+against the densest jungle chunk, a point in the jungle has ~116 solids
+within 45 m and up to **1,411** in a thicket, so the budget ran out
+roughly 12 m from the player — while the rebuild only triggered after
+they had walked 12 m. The player therefore spent much of their time
+standing outside the set that had colliders at all, walking through
+everything. Three changes:
+
+- The budget is now counted in **colliders, not instances** (a chain of
+  sixteen capsules and a pebble are not the same cost): `RING_M` 45 -> 20,
+  `COLLIDER_BUDGET` 2,500, with a 1,400-body backstop that essentially
+  never binds.
+- `selectNearestSolids` returns `coveredRadiusM` — how far the cover
+  HONESTLY reaches, shrunk whenever either the budget or the backstop
+  binds — and the ring rebuilds once the player has crossed 55% of it
+  rather than a fixed 12 m. Cover is proportional to density, so the
+  trigger has to be too. Measured worst case: 8.3 m of cover, rebuilt
+  after 4.6 m, leaving ~3.7 m of margin — metres beyond arm's reach.
+  Typical case is the full 20 m ring for ~35 bodies.
+- A lower body cap was tried and REJECTED: a smaller set shrinks the
+  covered radius, which buys *more* frequent rebuilds, not fewer.
+
+**The shape, for every tree.** `trunk_chain` replaces the single
+chest-height capsule everywhere (round 8 only did composites). A tree mesh
+is mostly leaves, so slicing it in bands measures the crown; this TRACKS
+instead — seeded on `trunk_capsule`'s already-signed-off chest-height fit,
+then climbing in bands, each time keeping only vertices near the axis so
+far and letting that axis drift slowly. Foliage sits off-axis and is
+rejected; a leaning trunk drifts and is followed. Tuning that mattered:
+
+- Radius is a **high percentile of radial distance** (p90), which survives
+  both the Anvil column's dense centre cap (a low percentile called a 56 m
+  tree 17 cm thick) and stray leaf vertices inside the gate.
+- Radius may **shrink freely but barely grow** (x1.05/band, hard-capped at
+  1.3x the seed). Without it the gate widened with the radius and the two
+  ran away into the crown together — cedartree3's top capsule reached
+  7.7 m on a 0.34 m trunk.
+- Band height scales with the tree (`height/14`, 1-3 m), because the
+  runtime budget is in colliders: no species costs more than 16.
+- Result: base radii within a few cm of the fifty capsules the owner
+  already signed off, and 79-100% of trunk height covered on most species
+  (palms with very sparse trunk geometry reach 50-86%).
+
+**The buttress roots had no collider at all.** A composite measured
+collision from part 0 only. Parts may now be marked `"solid": true`; the
+giant's root flare is, so it is something you walk into rather than
+through. Crowns never are.
+
+Runtime: `collidersFor` returns the chain; one rigid body per instance
+carries every shape, each shape's offset a plain LOCAL position so a
+curved chain still follows the trunk once the instance is yawed.
+
+### Round 8 (2026-09-01) — the round-7 playtest fixes
+
+Owner: "new canopy is fantastic". Two defects, both in what round 7 added.
+
+- **S1 — you can walk through parts of the new trees' trunks.** The
+  collision model assumed a trunk is a POLE. `trunk_capsule` fits one
+  upright capsule at a chest-height slice, which is right for the fifty
+  species already signed off and wrong for the Anvil canopy tree, whose
+  trunk wanders ~14 m sideways over its 34 m — the cylinder at its base
+  covered the bottom and missed the rest.
+
+  Trunks can now be a CHAIN. `trunk_segments` walks the trunk in ~2 m
+  bands and emits a capsule per band following its axis
+  (`collisionSegments`, additive to the v2 frame; the single capsule stays
+  as the fallback). It runs **only where the trunk is its own mesh** —
+  i.e. composites. For an ordinary tree the upper bands are full of
+  canopy, so a band would measure the crown, which is precisely why the
+  single-slice fit exists. Verified: every pre-existing capsule is
+  byte-identical.
+
+  Two estimator traps, both from the source meshes being low-poly:
+  1. A vertex percentile reads *lateral drift within a band* as girth —
+     4 m bands gave the canopy tree a 3.2 m base radius against a true
+     ~1.5 m. Radius is now half the band's **smaller** horizontal extent:
+     purely geometric (so vertex density cannot fool it, which also
+     retires the reason for the `collisionRadiusM` override) and taking
+     the smaller axis keeps directional lean out of the girth.
+  2. `anvilgianttrunk` is 784 triangles over 56 m, so its vertex rings are
+     metres apart and a 2.35 m band catches *half a ring* — radii
+     alternated 5.3, 1.5, 4.0, 0.6 up a smooth column. Fixed with an
+     overlapping ±1-band window plus a median-of-three along the chain, in
+     both radius and axis. A trunk tapers; it does not jump.
+
+  Runtime: `collidersFor()` replaces `colliderFor()` as the entry point and
+  returns an array. One rigid body per instance now carries every shape,
+  with each shape's offset as a plain LOCAL position — which is what keeps
+  a curved chain following the trunk once the instance is yawed.
+
+- **S2 — thin trees (palms) sway too much, worst in light wind.** Round 7
+  let `windStiffness` scale thin trunks UP to ×2.2, and palms measure
+  0.25-0.27 m, so they landed near the ceiling and nearly doubled their
+  sway. The ceiling is now **1.0**: the term only ever stiffens relative to
+  the calibrated baseline. Fat trunks were the defect; slender ones were
+  never the problem and keep the amplitude that was already signed off.
+
+### Round 7 (2026-09-01) — the round-6 playtest fixes
+
+Owner: everything except the jungle roof, the wind and the hanging roots
+"looks good". Four items, each root-caused.
+
+- **R1 — "these look like oak trees; do we have specifically TROPICAL
+  tall jungle trees with wide canopies?"** They were oaks. A 102-mesh
+  probe of both pools, measured AND rendered, settled it: round 6's
+  wide-crowned picks are `gkbwrtempletree03` (a textbook English oak),
+  `cedartree5` (a cedar of Lebanon), `gkbtreeofwolene` (a bare gnarled
+  winter oak), `treeofwolene2`, and `giantredwood2` (a conifer). All
+  retired.
+
+  The harder finding, and the one to carry forward: **neither BM&V nor
+  Tropical Skyrim ships a 30-40 m broad-crowned rainforest tree.** They
+  have wide crowns at ~20 m (all temperate-looking) and tall narrow things
+  at 30-58 m (redwoods, palms, bare columns). The one genuinely tropical
+  giant is Tropical Skyrim's **Anvil tree**, and it ships as PARTS — a
+  34 m curved trunk, a 56 m column, 27 m fern-palm crowns and a buttress
+  root flare. Vurt places the trunks as whole trees (they replace vanilla
+  pines in `Tropical Skyrim.esp`); the crowns are unused.
+
+  So the kit builder learned to **compose**: a kit entry may carry
+  `compose.parts`, each a registry asset with `offsetM` (kit source space,
+  z-up), `yawDeg` and `scale`. Two composites now carry the roof —
+  `composite:jungle/anvil-canopy-tree` (42.4 m x 33.8 m crown, 5,252 tris)
+  and `composite:jungle/anvil-emergent-giant` (66.7 m x 36.7 m, 8,518
+  tris, with the buttress flare at its foot). This is sourcing, not
+  modelling: every triangle is Soolie's, only the arrangement is ours, and
+  the credit line says so.
+
+  Four traps found building it, all silent:
+  1. Importing the same NIF twice can hand back objects **sharing a mesh
+     datablock** — `data.transform()` then moves both. Single-user copy
+     first.
+  2. `mesh.transform()` leaves `object.bound_box` **cached**. Every part
+     but the last gets flushed by the next part's import, so the LAST part
+     of every composite measured at its untransformed position — one crown
+     read as if it sat at the tree's feet. `view_layer.update()` after the
+     loop; `trunk_capsule` now derives its own bounds from vertices rather
+     than trusting the cache.
+  3. A composite must measure its **trunk capsule off its first part
+     only**. Sampling the whole assembly takes the giant's 12 m buttress
+     flare for trunk width.
+  4. `trunk_capsule`'s vertex percentile assumes the trunk is where the
+     vertices are. The Anvil column is a smooth low-poly cylinder with a
+     dense cap of small triangles at its centre, so it returned a 17 cm
+     trunk. Fixed with an explicit `collisionRadiusM` on that one asset —
+     safer than retuning a heuristic that is right for the other fifty.
+
+- **R2 — the roof was at 18-28 m; the owner wants 30-40 m with 40-60 m
+  giants.** The composites are placed at ×0.75-0.95 (32-40 m) and
+  ×0.68-0.88 (45-59 m) — DOWNSCALES of their own meshes, which only ever
+  sharpens texel density. The two broadleaves that do read tropical
+  (`treeofwolene4`, `gkbjungletreenew30v3`) are upscaled ×1.5-2.4 into the
+  same band; scaling is uniform, so proportions are exact and only texel
+  density drops — invisible at 30 m overhead.
+
+- **R3 — "not enough 30 m+ trees, way too many shorter ones."** The
+  sub-canopy went from 145/ha of 10-17 m broadleaves to ~40/ha, and only
+  the ones that read tropical (the bushy fern-trees, the palms); the
+  generic broadleaves `jungle_mid`, `jungle_tree_hero` and
+  `jungle_tall_b` left region 13 entirely. The roof itself went to 18/ha
+  of the 33.8 m-crown composite plus 22/ha of the other tall species.
+  **Wide crowns are cheaper**: chunk 6,9 fell 13.8k -> 11.9k instances
+  while closure rose. Region 11 (firm-lowland) got the same roof at 60%,
+  so crossing between the two does not step out from under a 35 m canopy
+  into a 12 m one.
+
+- **R4 — hanging root decorations, gone entirely.** `root_cluster` and
+  both tramaroot species are out of the palette generator and out of the
+  kit. The mined rules in `composition-rules.json` are kept as a record of
+  what the sources do; nothing places them.
+
+- **R5 — wind: fat trunks swayed as much as thin ones.** True, and the
+  physics agrees: cantilever tip deflection goes as `q·H^4/(E·I)` with
+  `I ∝ r^4`, and wind load `q` grows with crown area (`∝ r^2` in tree
+  allometry), leaving deflection `∝ r^-2`. `windStiffness()` uses exactly
+  that exponent against a 0.36 m reference trunk, clamped to [0.18, 2.2],
+  read from the kit's own collision capsule radius AT INSTANCE SCALE.
+
+- **R6 — trunks appeared to sway at their base, "moving in the ground".**
+  The height weight was measured from the instance PIVOT, but terrain
+  species are deliberately sunk below the streamed ground, so the pivot is
+  underground and the trunk was already displaced where it met the soil.
+  Height is now measured from the ground line (`esRawHeight - esSink`).
+
+  Both R5 and R6 needed a per-instance channel. It is one `vec2` instanced
+  attribute, `esWindTune` = `(stiffness - 1, sink)` — **offsets from
+  neutral on purpose**, so a draw whose geometry lacks the attribute reads
+  WebGL's generic default `(0, 0)` and degrades to the old look rather
+  than silently switching wind off. The attribute is cached on the kit
+  geometry and grown in place; allocating a fresh one per rebuild strands
+  its GPU buffer, which at ~12k instances a rebuild adds up over a
+  session.
+
+- **New tool, kept:** `python3 -m pipeline.render_sheet --kit <id> --out
+  <dir>` renders one framed still per kit asset with a 1.8 m human bar for
+  scale, plus a `sheet.md` of the measurements. Choosing between fifty
+  candidate meshes is the real work in a never-make-art project, and the
+  manifest's numbers cannot tell you whether a tree reads as tropical or
+  as an oak. (Cycles on CPU — headless Wine has no GL and EEVEE segfaults;
+  `transparent_max_bounces` must be high or every crown renders BLACK.)
+
+### Round 6 (2026-09-01) — the round-5 playtest fixes
+
+Round-5 items 1 (cutouts), 2 (rocks), 3 (tramaroot), 5 (card brightness)
+and 9 (performance, all three settings) PASSED. The five defects, each
+root-caused before touching anything:
+
+- **C1, wind invisible even in a forced thunderstorm.** TWO independent
+  causes. (a) `CSM.setupMaterial` (WorldSky's ≤1 s `patchScene` pass)
+  OVERWRITES `onBeforeCompile` — the very trap the aerial patch already
+  re-applies around, but wind had no re-application, so every flora
+  material lost its sway hook ~1 s after load, permanently (the
+  idempotency guard blocked repair). Fix: `windSway.ts` now stores its
+  state on `material.userData`, exports `reapplyWindSway` (no-op unless
+  the live hook is not ours; chains whatever clobbered it), and WorldSky
+  calls it right after `setupMaterial` + the aerial re-apply. It also now
+  sets a chained `customProgramCacheKey` ("|es-wind") — without one, a
+  patched material silently shares an unpatched twin's compiled program
+  (the aerial patch keys everything to one constant string, so the
+  collision is real). (b) The amplitude weight `pow(h/10, 1.5)` gave every
+  sub-2 m plant millimetres of motion; exponent now 0.8 and the
+  oscillating share raised to half, so understory visibly moves in a
+  storm while trunks stay pinned. Plus: Vegetation and Groundcover each
+  ran their OWN uniform block over shared kit materials — now one shared
+  block (`vegetation/windUniforms.ts`) and `updateWindSway` takes absolute
+  elapsed time so double per-frame calls are harmless. All of this is
+  under test (`windSway.test.ts`) — round 5 shipped with zero coverage.
+- **C2, colliders not shaped to trunks/rocks.** The kit emitted capsule
+  offsets relative to the BBOX CENTRE in Blender z-up; the runtime read
+  them as pivot-relative y-up and assumed the pivot sat at the bbox
+  bottom (willow: 7 m lateral + 4 m vertical error), never yaw-rotated
+  the offset, dropped rock tilt, and measured the "trunk" radius on the
+  bottom 10 % of the whole tree (skirt cards → 1.3–5.3 m bollards).
+  Fix is a versioned contract: the kit builder now emits
+  `collisionFrame: "pivot-yup-v2"` with pivot-relative glTF-Y-up offsets
+  (capsule `baseOffsetM`, box `centreOffsetM`), trunk radius measured on
+  a 0.3–2 m slice about the MEDIAN centre at a low percentile;
+  `floraSolids.colliderFor` REFUSES untagged kits (misplaced colliders
+  are worse than none), and `VegetationColliders` rotates the offset by
+  the instance's full YXZ euler and tilts rock boxes with the mesh.
+- **C3, jungle canopy "short, not tropical, no wide crowns".** Round 5
+  fixed HEIGHT but picked narrow-crowned species. The tall-canopy probe
+  kit measured every plausible tree in the vault by height AND crown
+  width; the roof is rebuilt on wide-crowned picks (crown:height 0.9–1.7):
+  `gkbjungletreenew3` (34 m crown / 20 m, 924 tris) as the closure
+  workhorse, `gkbwrtempletree03`, `cedartree5`, `treeofwolene2`;
+  `gkbtreeofwolene` (33.7 m, 31 m crown) as the kapok-form emergent,
+  `giantredwood2` at ×0.55–0.68 as rare buttressed giants, `fanpalm3`
+  punching through. Round-5's 11–14 m species drop to the sub-canopy
+  tier they are actually the height of. Watch: chunk 6,9 is now 13.8 k
+  instances (was 12.0 k) — the owner's FPS read is the gate.
+- **C4, scree invisible.** The pipeline was CLEAN (raster deployed, 25–53 %
+  scree at every advertised viewpoint) — the TEXTURE was wrong:
+  volcanictundragravel01 is dark gravel under yellow-green lichen mottle,
+  luma-normalised within 4 of mountain_rock, i.e. indistinguishable from
+  more mossy rock, and the far field renders only per-material average
+  colours. Lesson recorded in `build_ground_materials.py`: the anisotropy
+  screen is necessary, not sufficient — LOOK at the candidate. Replaced
+  with ambientCG `Gravel015` (bare neutral grey, chroma 6, aniso 1.06),
+  12 m tile, luma 72 vs the rock's 62 so aprons read at distance.
+- **C5, hangers on leaves/air.** `spawn_attachments` used a ±0.5 m square
+  about the model PIVOT (willow trunk: 7 m away) and let shrubby
+  "/trees/" pseudo-trees host 2–6 m vines. Attachments now sit ON the
+  measured trunk: `composition.py` loads the kit's v2 capsules
+  (`load_trunk_capsules`), hosts require ≥6 m of measured trunk (which
+  also ADMITS the new canopy species the rules file never met), the vine
+  lands at a random angle 0.9×radius from the yaw-rotated trunk axis,
+  facing outward, clamped below 0.8× trunk height.
+
+Recompiled: six rings, 51 chunks, 186.1 k instances (attachments
+17.7 k → 15.8 k). Kit: 55 assets, 21.7 MB GLB, every asset on the v2
+collision frame, all seven new trees with billboards.
+
+### Round 5 (2026-08-31) — the round-4 feedback fixes + the rest of Phase 10
+
+Delivered against the "Round 5+" plan below, in one batch. Defect → root
+cause → fix:
+
+- **A1, flat leaf cutouts right beside the player** (uplands 1.59 E /
+  1.63 S). Reproduced by decoding the chunk-3,3 bundle at that coordinate:
+  the near field is `gkbfallforestshrub02`, a **273-triangle** shrub. TWO
+  independent causes, both fixed:
+  - `lodRatios` are PROPORTIONS. 0.12 of 273 tris is ~33 — a collapsed
+    cross-plane, so "upgrading" the LOD changed nothing visible. The kit
+    builder now applies an absolute floor (`MIN_LOD_TRIANGLES = 300`);
+    meshes at or below it keep full geometry at every level.
+  - `lodDistances` was `max(12, h×6)`: a 2.15 m shrub got 12.9 m of full
+    mesh and became a flat card at 33 m. Floor raised to 24 m
+    (`MIN_MESH_LOD_REACH_M`).
+- **A2, rocky volumes: open backs, nesting, no slope alignment.** Four
+  confirmed causes, all in the placement rules, none needing a per-spot
+  patch:
+  - the mesh is `moss_rockcliff01`, a 9.9 m **open-backed cliff-face
+    dressing shell** (doubleSided, collision `none`) used as a freestanding
+    boulder. Freestanding scatter now runs on **five closed vanilla
+    boulders** — `rockl04/rockl02/rockm03/rockm02/rocks03`, chosen by
+    building a throwaway probe kit and measuring them (convex collision,
+    single-sided, 1.47–5.96 m). The shell survives only as
+    `cliff_dressing()`: steep ground (new `Layer.slope_deg_min`, 28°),
+    laid into the hill.
+  - **no terrain alignment existed at all** — rocks took random yaw and a
+    ±4° tilt. New `Layer.align_to_slope` + `terrain_aim()` (finite
+    differences on `fields.height`, so every caller already supplies it):
+    yaw from the downhill azimuth, tilt toward the terrain normal.
+    **Trees must never get this** — they grow vertical, rocks lie with the
+    ground.
+  - rock layers stamped **no clearance**, hence the rock-inside-rock. The
+    new size ladder stamps big-to-small.
+  - rocks classed as *plants* in `composition.py`, so a 9.9 m shell got a
+    0.05 m sink. New `rock` size class + per-species depths (~12 % of mesh
+    height, measured).
+- **A3, the hovering spiky root.** Owner ruling overrides the mined
+  convention: tramaroot01/06 retagged **standalone, ground-anchored**,
+  removed from the attachment lists. Their pivot is at the arch CENTRE, so
+  the sink is deliberately small (0.10/0.15 m) — the class default would
+  swallow the arch whole. Also fixed the bug this exposed: `_hosts_for`
+  resolved the **`cliff-face` token to the TREE host list**, so anything
+  the sources hung on rock was silently hung on trees.
+- **A4, jungle reads open, not jungly.** Measured before tuning, as the
+  plan asked. The tall layers were not being filtered — **they did not
+  exist**: the region's tallest species was `gkbjungletreenew12v3` at
+  **7.91 m**, canopy-scaled to 4–9 m. There was no roof to be under.
+  Fixed by adding three genuinely tall species picked on measured heights
+  (probe kit again, not by name): `gkbjungletreenew17v2tropical` 14.41 m,
+  `19v3` 13.88 m, `21v3` 11.41 m — all with base pivots and billboards.
+  (`30v3` is taller at 15.95 m but its pivot sits 4.75 m above its base —
+  the "tiptoe tree" shape — so it was rejected.) The sub-canopy was trimmed
+  to hold the tier at the ecology target (~216/ha authored, was ~211), so
+  the roof is bought with HEIGHT, not with more instances. Delivered:
+  **11.1 k tall trees across the exemplar rings**, 22 % of all jungle
+  instances.
+- **A5, dark distant cards.** The documented lever pulled:
+  `BILLBOARD_BRIGHTNESS = 1.25` on the card material at kit load. One named
+  constant — the next tune is a one-line change. Owner judges the value.
+- **B1, wind.** `packages/game-core/src/fx/windSway.ts` (a package, not the
+  app — 0038 addendum), fed from the weather system's published
+  `windDirXZ`/`windSpeedMS`, so plants gust with the same air the sky, rain
+  and waves read. Height-weighted bend, per-instance phase, length-preserving
+  correction, distance fade, **no sway on the billboard tier**. The
+  shadow-sync trap is handled by `applyWindSwayWithShadow`, which patches the
+  colour material and its `customDepthMaterial` twin from ONE call site with
+  ONE shared uniform block — patch only the first and every shadow stands
+  still while its tree moves. Detail (per-leaf) bending is deliberately not
+  implemented: our meshes carry no authored vertex colours to drive it.
+- **B2, GPU micro-lab: CUT** per the owner. Module 65 rewritten: the M2 Air
+  playtest IS the budget measurement, and **every hand-off must now ask for
+  an FPS read** or the budget silently stops being measured.
+- **B3, solidity.** The kit had shipped `collisionCapsule` on all 17 trees
+  since round 1 with **nothing consuming it**. Rocks had no shape recorded
+  at all — the kit builder now emits a `collisionBox` proxy for
+  convex-collision assets. What is solid follows the source games and lives
+  in `packages/game-core/src/physics/floraSolids.ts` as pure functions over
+  the kit manifest (so a species added to a palette next month gets the
+  right answer without a hand-kept list): trunks, boulders and root arches
+  solid; reeds, ferns, grasses, mushrooms, lily pads, groundcover and the
+  open-backed shell walk-through. `VegetationColliders` spawns a moving
+  45 m / 96-body ring of fixed Rapier bodies — whole-chunk colliders would
+  be thousands of bodies for a forest crossed in a minute. Count is on the
+  HUD (`solid N`).
+- **B4, scree/gravel** (subagent): `volcanictundragravel01`, screened
+  NUMERICALLY against the owner's round-6 "stripy rock" warning (row/column
+  mean-std ratio 1.06, against 2.78 for the in-use slab and 4.85 for the
+  banned texture; threshold <1.5 recorded in the research doc). Driven off
+  Phase 6b's EXISTING talus signal rather than a new slope threshold —
+  `sculpt.py`'s repose constants are now named (`TALUS_TAN`,
+  `TALUS_FULL_TAN`) and imported by `landcover.py`; scree paints the
+  accumulation side (`prom < 0`) inside the repose window in regions 1–2.
+  Dominant on 3.3 % of the province, secondary on 6.3 %.
+- **B5, settlement/interior mining** (subagent) — see its research doc; the
+  Phase 11/12 prep tables live under `world/sources/placement/`.
+- **B6, `Skyrim.esm` cross-check** (subagent). The esm is in the vault and
+  the **vanilla pool is now registered** (0 → 8,620 rows with editor ids and
+  dimensions); credited in the root README. **Headline: vanilla REGN ships
+  EMPTY** — 317 regions, 69 with an object-generator block, every RDOT table
+  zero bytes, no region grass. Bethesda hand-places statics and runs grass
+  off painted textures only, which settles rule R11 and confirms module 65's
+  two-tier split. Deltas are RECORDED, NOT APPLIED (the plan's instruction),
+  and are the obvious next round's work; full list and confidences in
+  `docs/research/placement-settlements/vanilla-skyrim-esm-placement-crosscheck.md`. The three
+  worth acting on first: **(D1)** our zero-tilt/uniform-yaw habits are the
+  *mod's*, not Bethesda's (vanilla tilt median 5.8°, p95 28.7°) — this
+  round's rock alignment moves the right way and the same should reach
+  plants; **(D2)** the T3 grass ladder was measured off Tropical Skyrim's
+  retune, and the true vanilla spread is ~2.5×, not 12×; **(D3)** Bethesda
+  ships an **underwater groundcover tier** and we have none — a bigger gap
+  for a swimming-heavy province than it was for Skyrim.
+
+Recompiled: six rings, 51 chunks, **184.6 k instances** (round 4: 198 k —
+the drop is the tramaroots leaving the attachment pass, 29.2 k → 17.7 k
+attachments). Budget hot spot to watch: **chunk 6,9 at 12,017 instances**,
+and it is *pre-existing* dense understory (esloebush/braken/tropicalplant
+clump companions), not the new canopy.
+
+### Round 4 worldgen (2026-08-31) — rebalance applied; mangrove forest; coastal gradient; guild knob
+
+- **Region rebalance APPLIED to the deployed rasters** (8c closed, so the
+  Q4 gate lifted): `compile_hydrology` re-run against the RAW vault
+  `heightfield-f32.npy` (0032 warning — never `province-refined/`).
+  Verified with `report_regions` (its STEP was fixed 4→3 to match the
+  bake): **wetland 37.0 % of land, dry 55.2 %** (was 20.6/72.0). Scatter
+  recalibration on the exemplar rings: per-chunk totals within ±10 % of
+  the deployed round-3 build (179.2k→178.1k over the common 42 chunks) —
+  no generator retune needed. Jungle chunks still peak ~8.2k instances
+  (pre-existing; the module-65 budget probe remains the open risk).
+- **Mangrove forest = region class 14** (owner-approved; real-world rules
+  in [mangrove-coastal-ecology.md](../../world-terrain/mangrove-coastal-ecology.md),
+  canon wall near Lilmoth in lore/regions/murkmire.md): the flat
+  (<8°), strongly saline (≥0.30), SHELTERED (open-sea exposure < 0.55,
+  the 0032 storm construction), non-rock tidal fringe within 700 m of the
+  sea — and it extends ~60 m over the adjoining <2 m shallows, so the wall
+  stands IN the intertidal. 3.6 % of land incl. shallows (~0.9 % dry-land).
+  Palette 14 (`build_palettes.py`): waterline mangrove wall, closed
+  low-diversity interior over prop-root clusters, near-bare floor,
+  landward palm transition, brackish aquatics, **no lilypads** (saline).
+  Danger base 2.1 (society.py). **The wall lands on the Lilmoth approach:
+  best exemplar chunk 7,14 (29.6 % mangrove; centre ≈ 3.51 km E,
+  6.78 km S — 600 m from the Lilmoth anchor); densest overall is the
+  eastern estuary 11,7–11,9 (43–51 %, ≈ 5.38 km E, 3.5–4.5 km S).**
+- **Coastal influence is now a graded FACTOR** (research doc §4): new
+  compiler field `coast_m` (signed distance to the OCEAN, from the region
+  raster) + per-layer `coast_m` gate and `coast_boost_gain`/
+  `coast_half_width_m` response; `apply_coastal_gradient` in
+  `build_palettes.py` maps species → salt behaviour (strand/kelp/mangrove
+  mix in near any coast, freshwater forest fades over ~0.5–2 km, lilypads
+  nearly obligate-fresh). Beaches stay bare via ground-cover (R10), not
+  this gradient.
+- **Guild exclusivity softened — schema knob `guild_off_share`**
+  (round-3 owner steer landed: edges must never be bare). A losing guild
+  layer keeps that fraction as baseline instead of vanishing; reed layers
+  set 0.45, lilypad/kelp/drowned-thicket stay 0 (exclusive extras).
+  Owner's bare bank (~2.72 km E / 5.25 km S): chunk 5,12 reeds 8→209,
+  5,11 336→531.
+- **Composition passes (rules C1–C5) + bundle v2** (mining doc
+  [vegetation-composition-rules.md](../../vegetation/vegetation-composition-rules.md),
+  machine form `world/sources/placement/composition-rules.json`; new module
+  `worldgen/composition.py`, wired into `compile_scatter`):
+  - **Pivot anchoring + sink (C1/C2)** — bbox-min anchoring is dead. Per
+    instance the compiler bakes a sink (per-species mined p50 flat depth,
+    class slope term over 10°, ±50 % jitter, class cap) and the bundle is
+    now **v2**: 28-byte species header (`index,count,scaleLo,scaleHi,
+    sinkLo,sinkHi,anchorMode`, `<IIffffB3x`), 17-byte instances (`<3f5B`,
+    fifth byte = quantised sink). Anchor modes: 0 pivot-to-terrain
+    (renderer: `ground(x,z) − sink`, NO bbox lift), 1 water-surface
+    (`y` is the absolute water-surface elevation — do not re-ground,
+    lilypads), 2 attached (`y` absolute up a host — vines/moss/tramaroots).
+    **The studio renderer must be updated to v2 before recompiling into
+    `public/` — a v1 reader hard-fails on the version field.**
+  - **Attachments (C3) are ACCENTS** — hangingvines/moss/tramaroot layers
+    never free-scatter; they spawn on placed hosts (JSON host lists;
+    generic "tree-canopy" resolves to every real tree species) at mined
+    attach heights. The spawn is a per-host PROBABILITY, not the layer's
+    authored density: rates live in `composition-rules.json`
+    `attachmentSpawn.perHostProbability` (tramaroot01-on-tropicalplant01
+    0.4 = its mined co-occurrence; the zero-precedent vines/moss 8–12 %
+    defaults) × `regionHumidityMultiplier` (rootland/swamp 1.2–1.4, dry
+    uplands 0.15–0.25). No species dropped: all five zero-precedent
+    meshes have plausible host mappings (moss_rockcliff01 and manfern
+    stay standalone per the JSON).
+  - **Cluster-parts (C4)** — the seven mid-storey bush species spawn as
+    clump templates: anchor + 1–4 companions from the mined companion
+    sets within 2 m, sunk 0.5–1.6 m; layer densities pre-divided by the
+    mean 3.5 pieces so totals stay authored.
+  - Exemplar-ring compile (TEMP dir): **186.3k instances over 45 chunks
+    (+4.0 % on the 179.2k round-3 deployed)** — 45.7k clump companion
+    pieces, 29.2k attachments (vines1 6.2k, moss03 6.2k, moss02 5.0k,
+    tramaroot01 4.1k, tramaroot06 3.4k, vines2 2.2k). A density-driven
+    first cut over-delivered 96k attachments (+41 % total) and was
+    replaced by the per-host rates above; tune those, not code, if the
+    budget probe or the owner objects.
+- **Round 4 renderer/kit (same day)** — the round-3 leftover defects,
+  root-caused:
+  - **Solid grey slab billboards**: the `_lod_flat` cards all UV a tiny
+    rect of ONE shared `tamrieltreelod.dds` atlas — and the kit was baking
+    **vanilla Skyrim's 1024² atlas instead of BM&V's 4096²** (exact-path
+    texture resolution preferred vanilla's archive), then
+    `textureMaxSize: 256` shrank it to ~6–25 texels per species.
+    `build_kit.py` now tries each source pool fully before the next, and a
+    new `billboardTextureMaxSize` (1024) exempts billboard atlases.
+  - **Uplands slab that never resolved**: `vurt_shroom_big1`'s stem names
+    `vurt_shroomstem.dds`, which NO archive ships — untextured at every
+    LOD. New same-stem texture fallback binds the moss variant; the
+    rebuilt GLB has zero untextured primitives, and `vet_kit.py` now flags
+    texture-less primitives and non-MASK flat cards.
+  - **LOD downgrade**: confirmed working (the 48 m rebuild recomputes all
+    buckets from current distances) — no fix needed.
+  - **Stark dark distant trees**: dominated by the mushed atlas above;
+    plus cards no longer `receiveShadow` (a CSM cascade blacked whole
+    up-normal quads) and `floraKit.ts` drops any card whose material lost
+    its texture (falls back to the last decimated mesh). If cards still
+    read dark, the next lever is a brightness factor at kit load — owner
+    judges first.
+  - **Squared wet-ground edges** (`groundWetness.ts`): nearest-texel water
+    level vs vertex-interpolated height flipped whole far-LOD triangles;
+    now per-pixel bilinear decode + two-octave noise on the band.
+  - **Bundle v2 wired in the renderer** (`vegetationBundle.ts`,
+    `Vegetation.tsx`): per-species anchor mode — pivot-to-terrain species
+    place at `ground − sink` (bbox `anchorYM` lift removed from
+    `floraKit.ts`), water-surface and attached species keep their baked
+    absolute Y (never re-grounded).
+- Central recompile DONE (this round): six rings incl. mangrove **7,14**,
+  51 chunks dressed, 198k instances, mangrove forest 176/ha led by real
+  mangrove trees; gates green.
+
+### Round 3 (2026-08-30) — owner round-2 playtest feedback, all root-caused
+
+Density/haze/shadows/marsh-read all PASSED. The defect set and fixes:
+
+- **"Cardboard cutout" plants up close** (jungle 7,8; hills 3,4): THREE
+  stacked causes in `Vegetation.tsx`/`floraKit.ts` — (1) LOD was chosen per
+  468 m CHUNK from its centre, so whole chunks (including plants beside the
+  camera) ran on their `_lod_flat` cards → now per INSTANCE; (2) LOD froze
+  at chunk-arrival focus, so walking never upgraded it → rebuild every 48 m
+  of movement; (3) cards rendered black because a flat card's geometric
+  normal faces away from the sun half the time (research §4.1 cause 3) →
+  billboard normals bent straight up at kit load.
+- **Floating roots/plants** (tramaroots 5,11; manfern): the kit records
+  `originOffsetM = -bboxMin` (pivot height above base) and NOTHING consumed
+  it; plus baked Y comes from the compile raster which can sit ~1 m off the
+  rendered mesh on banks. Fix: renderer re-grounds each instance from the
+  streamed terrain (`terrainHeight.ts`, shared with Groundcover) and
+  bottom-anchors by `anchorYM` from the manifest. Species with garbage
+  bounds (algrass03b, geometry ~83 m from pivot) are skipped as `suspect` —
+  replacing them is a sourcing job. **New vetting tool**:
+  `pipeline/vet_kit.py` flags bad pivots/degenerate/stray bounds from a kit
+  manifest BEFORE a species is chosen for a palette — run it when
+  shortlisting.
+- **Reed mini-clusters / bare banks**: `aquatic_reeds()` shore band
+  −30..+6 m (was −25..+3), clumps 18 @ 9.5 m (was 10 @ 5 m), reed rates
+  ~1.6×; `RIPARIAN_WET` gain 1.1→1.35; `bank_wall()` ~1.4×; T3
+  `vurt_reeds` +30 %. Exemplars recompiled (reeds 2.1×, bank shrubs 3.1×
+  in 5,12+4,10). Guild exclusivity left hard (softening it needs a schema
+  knob — owner steer if edges still gappy in guild regions).
+- **Walk-mode lag**: first quality slice — `packages/game-core/src/core/
+  quality.ts` presets (low/med/high: veg draw scale + chunk ring, T3
+  radius/budget, dpr cap), injected as props (no globals); character view
+  defaults MEDIUM, HUD dropdown + `?q=`. Fly modes untouched.
+- **Minimap in walk mode**: `packages/game-core/src/hud/minimap.ts` (math)
+  + `character/Minimap.tsx` (blits the province map canvas); click toggles
+  local/province view.
+- Weather items fixed alongside (not vegetation): cap-cloud slab
+  (`WorldSky` read the ungated `whiteoutBase`), wider airmass wander +
+  stronger burn-off, moonless-night starlight floor (`lightRig.ts`).
+
+### Round 2 (2026-08-30) — what changed and what's still open
+
+Owner round-1 feedback (sparse jungle, plants missing on foot, no shadows,
+black distance blobs, no haze) was root-caused as SYSTEM defects; the fix
+set: character-mode mount, aerial-haze/CSM patch chain + instancing-aware
+fog, leaf-shaped shadow depth materials, texture RGB dilation + shader
+mip-alpha boost, **T3 groundcover ring** (`Groundcover.tsx` +
+groundcover-province-v1 kit), **T4 `_lod_flat` billboards + per-species
+draw-distance cull**, the **meso scene layer** in the compiler
+(shore-distance field, altitude/shore/glade bands, signed riparian boost,
+per-tile water guilds), a **double-rolled soft response** fixed in the
+sampler (density under-delivered ~2x), trunk-scale (not crown-scale)
+canopy clearance, and **evidence-based palettes v2 generated by
+`build_palettes.py`** from the three research docs.
+
+Calibration note: the mined CoV target (2.3–3.1) was reinterpreted — it
+came from a 100/ha placed-statics world with a bare-by-omission understory;
+at v2 densities the character comes from STRUCTURED variation (treefall
+gaps, green walls, guild patches, riparian bands), not raw noise. Judge
+variation by eye against those features, not by chasing CoV 3.
+
+Still open, in the order I would take it:
+
+1. **Wind** — one uniform block owned by the weather system (module 55
+   §98); 8c is closed, so this no longer collides. Remember the shadow
+   depth materials must mirror the vertex bend (research doc §c).
+2. **Budget measurement** — the dense-vegetation micro-lab (§85.3): v2
+   density × a real GPU / mid device has still never been measured.
+3. **Tree colliders in character mode** — the kit ships collision capsules;
+   the player currently walks through trunks (10b-adjacent).
+4. **Scree/gravel ground material** deferred from 6b; settlement/interior
+   mining for Phases 11–12 (same readers, `Plugin.interior_cells`).
+
+Also outstanding: the **scree/gravel ground material** deferred from 6b, and
+the settlement/interior mining for Phases 11–12 (same readers,
+`Plugin.interior_cells`).
+
+### Blocked, not forgotten
+
+- ~~The region rebalance is not applied to the deployed rasters~~ —
+  **APPLIED, round 4 worldgen (2026-08-31), see that section above.**
+- ~~`Skyrim.esm` is still not in the vault~~ — **owner downloaded it
+  2026-08-31** (to `elder-scrolls-asset-pipeline/skyrim-source/`); the
+  cross-check is item B6 of the Round 5+ delivery plan below.
+
+## Round 5+ — DELIVERY PLAN for the rest of Phase 10 (authored 2026-08-31)
+
+Written by the planning agent for the delivering agent. If you were told to
+"deliver the rest of Phase 10", this section is your work order. Read the
+RUN-BOOK box above first (the loop, the feedback table, the five traps), then
+work through Part A, then Part B. The root causes below were established by
+code reading on 2026-08-31; verify each briefly before building on it, but do
+not re-derive from scratch.
+
+**Delivery shape (owner ruling 2026-08-31): deliver EVERYTHING in one pass,
+then hand the owner ONE batched playtest checklist** in plain English (what
+to look at, where, how to feed back) — no intermediate playtest rounds.
+Small commits, gates green each commit, push when delivered; run `pytest`
+from `tooling/world-generation` and `tooling/asset-pipeline` whenever you
+touch the Python side.
+
+**Fan out subagents where it helps (owner-approved).** Spawn subagents at
+**low effort** for parallelisable or self-contained items — B5 (interior
+mining) is pure offline data work and should run in parallel with the
+rendering work from the start; B6 likewise; diagnosis reproductions (A1)
+and registry queries are also good candidates. Keep the tightly coupled
+renderer/kit work (A1/A5/B1 all touch `floraKit.ts`) in one pair of hands
+to avoid conflicts, and remember concurrent agents share this worktree —
+pathspec-only commits.
+
+### Part A — round-4 feedback fixes
+
+**A1 — plant cutouts that never upgrade near the player** (owner screenshot:
+flat dark leaf-shaped cutouts lying against the ground right beside the
+player at 1.59 km E · 1.63 km S, uplands — the owner was standing
+**directly next to them**, so a too-short LOD ring distance alone cannot
+explain it: at ~0 m the instance should select level 0). Diagnose first:
+reproduce at that coordinate (probe URL params in the run-book) and identify
+the species and level actually drawn. Candidate causes, in likely order:
+- **Level 0 itself is degenerate for that species** — kit-build side. The
+  decimation config (`lodRatios: [0.35, 0.12]` in
+  `tooling/asset-pipeline/pipeline/config/kits/flora-province-v1.json`) has
+  no minimum-triangle guard, and several plant sources are tiny (6–128
+  tris); check what the kit actually holds for the culprit species at every
+  level — if all levels collapsed to cross-planes, "upgrading" changes
+  nothing visible.
+- **It's the one non-tree billboard, `gkbfallforestshrub02`**, drawing its
+  flat card even up close (an eligibility/selection bug in
+  `Vegetation.tsx:237-283`), or its card reading as an unlit dark shape via
+  the bent-to-up normals on a bright slope.
+- **The LOD rebuild isn't firing** — rebuild triggers on ~48 m focus
+  movement (`Vegetation.tsx:127-131`); check the instance's assigned level
+  actually updates as the player approaches.
+Fix whatever the reproduction shows at the root (kit builder guard,
+selection logic, or rebuild trigger — not a per-spot patch), and take the
+cheap hardening anyway: minimum-triangle floor in the kit builder (small
+meshes just keep their full mesh at all levels) and a higher
+`lodDistances` floor for short species (`floraKit.ts:207`,
+`reach = max(12, h*6)` is only 12 m for a 1 m plant). Rebuild kit + bundles
+per the run-book. Success test: at the screenshot coordinate every plant is
+a real mesh well before you reach it, and degrades again as you leave.
+
+**A2 — rocky volumes in uplands: open backs, nesting, no slope alignment**
+(owner screenshot: looking *into* the hollow open side of a large rocky
+volume with a second one placed inside it). Root causes, all confirmed:
+- The mesh is `bmv:landscape/rocks/moss_rockcliff01` — a 22.7 m-tall
+  **open-backed cliff-face dressing shell** (doubleSided, collision "none"),
+  authored to be embedded in a cliff, being placed as a freestanding boulder.
+- Rocks get random yaw + ±4° random tilt only — `scatter.py:570-581` has
+  **no terrain-normal alignment at all**.
+- The rock layer sets no `clearance_radius_m`, so rocks freely
+  interpenetrate (the nested pair).
+- Rocks fall into the *plant* size class in `composition.py:_size_class`,
+  so a 22.7 m shell gets a 0.05 m sink.
+Fix as a placement-rules job: (1) query the asset registry for genuinely
+closed rock/boulder meshes in the vault (BM&V and vanilla ship many); use
+those for freestanding scatter, and restrict `moss_rockcliff01` to
+steep-slope placements where its open back faces INTO the hill — which needs
+(2) a slope-aware orientation option on `Layer` in `scatter.py` (yaw from
+the downhill azimuth + tilt toward the terrain normal), a mechanism trees
+must NOT get (trees grow vertical; rocks lie with the ground). (3) Give the
+rock layers a clearance radius so they stop nesting, (4) add a `rock` size
+class in `composition.py` with a sink proportional to mesh height (bury the
+base properly, more on slopes). Success test: the screenshot
+spot — no visible open backs, no rock-inside-rock, bases buried, long axes
+roughly following the slope.
+
+**A3 — the "big curved spiky root" (tramaroot) hovering in the air.** Owner
+is right about the cause: `tramaroot01`/`tramaroot06` are tagged
+`class: "attachment"` in `world/sources/placement/composition-rules.json`
+with `attachHeightM` up to ~10 m, so they get hung on host trees at height.
+Owner ruling (round-4 feedback): **the trunk base must always be
+ground-anchored** — it should read as growing out of the ground. Retag both
+as `standalone` with pivot-terrain anchoring and a modest mined sink; remove
+them from the attachment lists. While in there, fix the adjacent confirmed
+bug: `composition.py:_hosts_for` resolves the `cliff-face` host token to
+`self.tree_hosts` (trees!) — either implement real cliff-face hosting or
+drop the token from the data so nothing silently hangs on the wrong host.
+Recompile and eyeball via probe; success = every tramaroot base at terrain
+height.
+
+**A4 — tropical jungle reads open, not jungly.** The undergrowth and
+micro-variation are approved — do not touch them. What's missing is the
+**tall closed canopy overhead**: the region reads as clumps of small bushy
+trees + occasional palms, and the owner reports (2026-08-31) that exploring
+on foot they find **no tall trees or tall canopy anywhere in the region at
+all** — so before tuning densities, check whether the tall layers are even
+*delivering*: compare authored vs delivered per-species counts in
+`compile_scatter --report` for the jungle chunks (the emergent/canopy layers
+may be silently filtered — slope/clearance/water masks, species missing from
+the kit, or a species list that simply tops out short). Then work only in
+`REGIONS[13]` in
+`build_palettes.py:312-346`: strengthen the `emergent`/`canopy` archetype
+layers with genuinely tall species (query the registry for the tallest
+suitable jungle/tropical trees in the kit — add species and rebuild the kit
+if the current list tops out short), raise canopy density and scale toward
+closure, and check the strata targets in
+[tropical-vegetation-ecology-targets.md](../../vegetation/tropical-vegetation-ecology-targets.md)
+— the aim is undergrowth beneath a mostly-closed roof of tall trees, with
+the existing treefall-gap band providing the light wells. Watch the budget:
+jungle chunks already peak ~8.2k instances; prefer taller/larger canopy
+trees over more trees. Verify closure from the overhead jungle probe
+scenario (canopy coverage should visibly dominate) and report the per-chunk
+instance delta from `compile_scatter --report` in the hand-off.
+
+**A5 — distant cards still a touch dark in clear air: pull the lever.** The
+documented next lever (round 4, below): a brightness factor at kit load.
+Implement it in the `isBillboard(mesh)` branch of `buildFloraKit`
+(`floraKit.ts:122-138`): clone the material, scale `color` up by a named
+constant (start ~1.25; it multiplies the card's texture, which bakes in
+shadowed foliage — that's why cards read dark in bright air). Keep it one
+obvious constant with a comment naming the owner feedback that sets it, so
+the next tune is a one-line change. Owner judges the value on the deployed
+build.
+
+### Part B — the "left for Phase 10" items
+
+**B1 — wind sway.** Owner: yes. The weather system
+already publishes `windDirXZ` + `windSpeedMS`
+(`packages/world-weather/src/express.ts:112-113`). Recipe is already
+researched: [vegetation-scatter-instancing-threejs.md](../../rendering/vegetation-scatter-instancing-threejs.md)
+§wind (two sines + shared scrolling noise, amplitude by height above base so
+trunks stay planted, distance fade). Implement as a vertex-shader injection
+via `onBeforeCompile` — and **the shadow-sync trap is the whole game**:
+flora casts shadows through a separate `customDepthMaterial`
+(`floraKit.ts:156-168`), so the identical displacement, uniforms and clock
+must be injected into BOTH materials or shadows detach from their trees.
+Note `Vegetation.tsx`/`floraKit.ts` living app-side is recorded debt under
+the packages rule: if this work substantially rewrites them, extract to a
+package rather than growing them in place; if it's a light touch, a package
+module consumed by the app is enough. Billboards should not bend (they're
+distant; at most a
+subtle uniform sway — try none first). Groundcover (`Groundcover.tsx`) gets
+the same treatment but casts no shadows, so it's the easy half. Gate: no
+visual probe can judge motion — hand to the owner with "watch a tree in
+wind, then check its shadow moves with it; find a storm via the weather
+debug controls".
+
+**B2 — GPU micro-lab probe: CUT (owner decision, 2026-08-31).** The owner
+has been measuring the real thing — the deployed studio on an M2 MacBook
+Air (their feedback that the 'low' preset performs best IS the budget
+measurement, on real target hardware; a SwiftShader probe on this GPU-less
+VM predicts nothing). Do not build the probe. Instead: remove the micro-lab
+from module 65's open-risk note, record the M2-Air-playtest calibration as
+the budget evidence, and keep asking for an FPS-feel read in each playtest
+hand-off so the budget stays measured.
+
+**B3 — solidity: tree, rock and large-plant colliders.** The kit
+already ships `collisionCapsule` on all 17 tree assets; **nothing consumes
+them** (the only references are the writer in `build_kit.py:364` and the
+type in `floraKit.ts`). Build a per-instance collider spawner next to
+`ChunkColliders.tsx` using the same focus-ring pattern: nearest instances
+from the loaded bundles get fixed Rapier colliders (capsules for trunks),
+created/dropped as the ring moves — colliders for the few dozen nearby
+instances, never for whole chunks. What is solid follows the source games
+(reason from Skyrim/Morrowind, per the owner): tree trunks, rocks and
+boulders solid; shrubs, ferns, grasses, reeds, mushrooms, groundcover,
+lilypads walk-through; the tramaroot arches solid (they already carry
+`collision: "convex"` — a capsule approximation per arch is fine). Rocks
+need shapes added in the kit manifest first (the builder's dropped-shapes
+path is the place). Success:
+you can't walk through a trunk or a boulder, you CAN wade through reeds,
+and walking a dense exemplar stays smooth (report collider counts in the
+hand-off).
+
+**B4 — scree/gravel ground material.** Genuinely new — nothing
+parked, no TODO exists. Add a scree/gravel material in
+`build_ground_materials.py` (source a suitable texture from the vault —
+BM&V or vanilla; heed the owner's round-6 warning at `:122-123` about
+anisotropic "stripy" rock textures) and apply it where the terrain already
+says talus/steep-debris in the uplands/mountain belts. Modest scope: one
+material, sensibly mapped; it's a ground-truth read ("mountainsides stop
+being bare height-tint"), not a new system.
+
+**B5 — settlement/interior mining (prep for Phases 11–12; run in parallel
+via a subagent from the start).** Pure data work with the existing readers:
+`esp_index.interior_cells(with_refs=True)` plus the REFR machinery, over
+BM&V (and any settlement-relevant source mods in the vault). Mine what
+Phases 11/12 will actually ask for: per-interior kit-piece assembly stats
+(which STAT/furniture pieces co-occur, snap offsets/rotations between kit
+pieces, room dimensions, clutter density per room type) and
+settlement-level stats (building counts/spacing, orientation to roads and
+water). Deliverables: machine tables under `world/sources/placement/` (or a
+sibling), a `docs/research/` doc recording method + headline numbers, and
+pointers added where Phase 11 will look (module 70 / docs README router).
+No renderer work, no placement changes.
+
+**B6 — `Skyrim.esm` cross-check.** The owner ran the Steam download on
+2026-08-31, so the esm should now be at
+`~/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/`
+(verify; move/register it per the vault conventions). Mine REGN object
+tables + GRAS density params with `esp_index` as a cross-check against our
+mined rules, and record deltas worth acting on in the round record. Good
+subagent candidate, parallel with B5.
+
+### Wrap-up
+
+Record what shipped as a round section here (defect → root cause → fix,
+same style as rounds 1–4), keep PROGRESS.md's row and *Waiting on user*
+current per its protocol, update the docs the work touched (module 65
+budget note, docs README router if files were added), and leave ONE batched
+playtest checklist for the owner in PROGRESS covering everything above
+(including an FPS-feel ask, per B2). What remains of Phase 10 after this
+plan is owner sign-off; the phase closes on their say-so, with leftovers
+routed to [polish-backlog.md](../../../polish-backlog.md).
+

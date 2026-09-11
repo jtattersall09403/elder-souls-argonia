@@ -28,7 +28,7 @@ or, more readably, ``known_red.assert_clear(NODE_KEY, errs)``.
 """
 from __future__ import annotations
 
-KNOWN_RED_DOC = "docs/research/rendering/water-handoff.md"
+KNOWN_RED_DOC = "docs/research/archive/water-round-2-2026-09/water-handoff.md"
 
 #: test nodeid suffix -> the specific failing entries it is allowed to contain.
 #: Each row: ``match`` (a stable identifying substring of the failure text),

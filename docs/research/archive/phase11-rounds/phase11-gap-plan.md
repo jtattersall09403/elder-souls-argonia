@@ -16,7 +16,7 @@ owner's own ask list. The claim-by-claim ledger is in 0041 § Review
 file is only what is still open.
 
 **Running alongside the water agent (owner decision 2026-09-08).** The water
-round 2 ([0047](../../decisions/0047-water-one-physical-model.md)) is live in
+round 2 ([0047](../../../decisions/0047-water-one-physical-model.md)) is live in
 this tree. Its renderer half is committed; its compiler half is running the
 terrain chain. A Phase 11 agent may work now under these rules:
 - Do not edit `packages/game-core/src/water/**`, `apps/world-studio/src/water/**`,
@@ -45,7 +45,7 @@ changes, re-run.
 - **What**: `compile_settlement` output → 3D placed kit pieces in World
   Studio walk/fly mode (a `SettlementLayer` in `packages/game-core`, the
   studio only mounts it), against the 30-item checklist in
-  [research/rendering/building-placement-rendering-treatments.md](../rendering/building-placement-rendering-treatments.md) §3:
+  [research/rendering/building-placement-rendering-treatments.md](../../rendering/building-placement-rendering-treatments.md) §3:
   per-asset anchoring mode and depth, absolute LOD floors with matched
   atlases, fade with haze through `applyAerialPerspective`, CSM shadow pair
   in sync (the `onBeforeCompile` contract), contact AO/base skirt, collider
@@ -205,7 +205,7 @@ loudly instead of silently.
 
 ### B15 — Water facts: root causes fixed 2026-09-09, three things queued behind them
 
-Diagnosis: [place water facts vs the shipped water](../world-terrain/place-water-facts-vs-shipped-water.md).
+Diagnosis: [place water facts vs the shipped water](../../world-terrain/place-water-facts-vs-shipped-water.md).
 
 **Done in the same session.** `macro_plot.assign()` no longer builds the nine
 owner-approved anchors with literal `route_m=0.0, water_m=0.0`. It calls
@@ -569,7 +569,7 @@ p5 35 → **75 m**, p95 250 → 267 m.
 **CLOSED 2026-09-09 (third pass): 580 of 580, zero typed-siting violations.**
 Both open measurements were wrong at the root. Fixing them resolved
 everything above. Full record in decision 0041 § Part 3c; the travel-cost
-research is in [travel-cost-isolation.md](travel-cost-isolation.md).
+research is in [travel-cost-isolation.md](../../phase11/travel-cost-isolation.md).
 
 * **Isolation is effort, not plan distance.** The owner's ruling: the type
   prose these floors come from says the effort-to-reach IS the design, so a
@@ -981,7 +981,7 @@ that ends unhappy still leaves a written catalogue behind — check the homeless
 count in the report, do not trust the exit alone.
 
 **Rollout 2 — the vegetation scatter.** The density ladder of
-[0048](../../decisions/0048-vegetation-density-ladder.md) and the two rebuilt
+[0048](../../../decisions/0048-vegetation-density-ladder.md) and the two rebuilt
 kits are authored but not yet in the shipped bundles, so the world still carries
 the old, near-uniform tree density.
 `worldgen/test_vegetation_ladder.py::test_delivered_ladder` is deliberately red

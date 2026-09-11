@@ -59,7 +59,7 @@ SCHEMA_VERSION = 1
 # loudly if refine_province stops publishing them.
 PUBLISHED_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined"
 KNOWN_RED_PATH = REPO_ROOT / "world" / "sources" / "terrain" / "terrain-request-known-red.json"
-KNOWN_RED_DOC = "docs/research/rendering/water-handoff.md"
+KNOWN_RED_DOC = "docs/research/archive/water-round-2-2026-09/water-handoff.md"
 WET_MIN_M = 0.05
 FLOOD_CLEARANCE_M = 1.4
 STORM_CLEARANCE_M = 2.0

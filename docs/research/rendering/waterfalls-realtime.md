@@ -9,7 +9,7 @@ This doc is the primary-source answer to "how is this actually built", and then
 a decided recipe for our engine. Companion docs:
 [water-rendering-threejs](water-rendering-threejs.md),
 [water-edges-and-shore-waves](water-edges-and-shore-waves.md),
-[water-handoff](water-handoff.md).
+[water-handoff](../archive/water-round-2-2026-09/water-handoff.md).
 
 Everything in §2 was **measured on our own vault copies** on 2026-09-08 by
 parsing the NIF blocks directly (block table, `BSEffectShaderProperty`,

@@ -1,7 +1,7 @@
 // Water probe (decision 0047 item 8): ONE browser session, ONE page load,
 // against the BUILT
 // studio, served locally, low tier, 480x270, numeric assertions at the owner's
-// key sites (docs/research/rendering/water-handoff.md § Key sites) plus the
+// key sites (docs/research/archive/water-round-2-2026-09/water-handoff.md § Key sites) plus the
 // wet/dry season toggles at the marsh. No screenshot is ever read by an agent:
 // every pass/fail comes from `window.__STUDIO_WATER_PROBE__` (the CPU water
 // model: still surface, signed depth + lift, real chunk ground, class, speed)

@@ -6,7 +6,7 @@ description: Take a place from a macro-plot record to buildings standing in the 
 # Settlement build
 
 This is the repeatable path the five exemplars were used to develop
-(Phase 11 B1; owner ruling 2026-09-09, `docs/research/phase11/phase11-gap-plan.md`
+(Phase 11 B1; owner ruling 2026-09-09, `docs/research/archive/phase11-rounds/phase11-gap-plan.md`
 § "What follows gap closure"). Run it per place, in order. Every step either
 passes or fails loudly: **a produced record is not delivery until the next real
 consumer has accepted it, and the running scene has proved it.** Nothing here

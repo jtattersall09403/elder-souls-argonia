@@ -4,6 +4,9 @@ Short, numbered, immutable-ish records of decisions that aren't obvious from the
 code. One concern per file; a few paragraphs maximum. Supersede by adding a new
 record and marking the old one superseded — don't rewrite history.
 
+A record stays under ~150 lines; round-by-round history goes to
+`docs/research/archive/<topic>-rounds/` with a pointer here.
+
 - [0001 — migration sources and asset vault](0001-migration-sources-and-vault.md)
 - [0002 — era policy and source confidence](0002-era-and-source-confidence.md)
 - [0003 — coordinates and units](0003-coordinates-and-units.md)

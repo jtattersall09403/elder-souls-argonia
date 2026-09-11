@@ -1,7 +1,7 @@
 # Water round 2 — evidence ledger
 
 One row per item in the owner's round-2 review, with the measurement that
-proves it and where to look. Decision [0047](../../decisions/0047-water-one-physical-model.md)
+proves it and where to look. Decision [0047](../../../decisions/0047-water-one-physical-model.md)
 holds the model and the reasoning; this file holds the numbers.
 
 Regenerate the measurements with `python3 -m worldgen.water_report` from

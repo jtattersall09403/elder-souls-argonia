@@ -172,7 +172,7 @@ source4328 retains authored inflow into its receiving pool and backwaters.
 Use the durable reviewed orientation file, not raw local film heights.
 Routine cuts are bounded to3m; deeper indexed exceptions up to5m require the
 existing explicit reviewed exception manifest, never retaining-bank excavation.
-The [compiler repair handoff](../../../tooling/world-generation/worldgen/WATER_REPAIR_HANDOFF.md)
+The compiler repair handoff (file removed with the overhaul, 0046)
 contains exact rebuild commands. Durable inputs and hashes are under
 `tooling/world-generation/water-repair-inputs/`; large temporary caches are
 disposable and reconstructible. Never promote a diagnostic `/tmp` bundle.
@@ -249,7 +249,7 @@ fallback is geometrically exact before coarse geometry becomes resident.
 - Full suite last passed before these local geometry changes; rerun once the
   candidate is coherent. Earlier failed development budget runs are recorded
   in the checklist; do not raise caps or remove assertions to hide holes.
-- Use [CONFLUENCE_GATE.md](../../../packages/game-core/src/water/CONFLUENCE_GATE.md)
+- Use CONFLUENCE_GATE.md (file removed with the overhaul, 0046)
   with one matching final bundle. It tests actual interpolated
   mesh levels, native ground, five stages and named user neighbourhoods:
   (2370,190), (1960,220), (3840,1120). Excluded marine/falling cases are not passes.

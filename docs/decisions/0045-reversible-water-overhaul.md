@@ -2,7 +2,7 @@
 
 # 0045 — Reversible, terrain-constrained water
 
-2026-09-06. Owner commissioned a comprehensive water rework and allowed implementation choices to supersede earlier water prescriptions. The quality contract is [water-quality.md](../research/rendering/water-quality.md); this does not close the owner's visual review.
+2026-09-06. Owner commissioned a comprehensive water rework and allowed implementation choices to supersede earlier water prescriptions. The quality contract is [water-quality.md](../research/archive/water-round-2-2026-09/water-quality.md); this does not close the owner's visual review.
 
 “First class” means water belongs to its geography, reads coherently from walking height and underwater, responds proportionately to weather and contact, and agrees with physics. A feature checklist or a particular ocean algorithm is not the acceptance criterion. Preserve existing low-water limits, light-stack integration, reflections, light shafts and underwater surface optics. Owner correction (2026-09-06): upper tidal/seasonal limits may increase to fill the full terrain-authored water footprint at peak stage.
 

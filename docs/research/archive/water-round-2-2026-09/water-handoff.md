@@ -1,14 +1,14 @@
 > **Superseded 2026-09-11.** Water round 2 closed and deployed on 2026-09-09; the
 > owner's review found it visually regressed in places. The next water work is
-> Phase 16 chunks 16a–16c ([plan](../../phases/16-foundation-and-places/README.md));
-> the root causes are in [audit-water-runtime.md](../phase16/audit-water-runtime.md).
+> Phase 16 chunks 16a–16c ([plan](../../../phases/16-foundation-and-places/README.md));
+> the root causes are in [audit-water-runtime.md](../../phase16/audit-water-runtime.md).
 > This file is the round-2 resume point kept as history. Note: its claim that the
 > shipped `klass` block lacks `extPx`/`extRiseM` is false against the deployed
 > `water-meta.json` (measured 2026-09-11).
 
 # Continue water work — resume point (water round 2, decision 0047)
 
-Read after `CLAUDE.md` and [decision 0047](../../decisions/0047-water-one-physical-model.md)
+Read after `CLAUDE.md` and [decision 0047](../../../decisions/0047-water-one-physical-model.md)
 (root causes, the data contract v2, the vanilla-asset merge addendum). This
 file is the resume document: **everything a fresh agent needs to pick the
 round up after a cut-off.** Keep it short and current.
@@ -400,7 +400,7 @@ gate reads.
    message (the items are listed below because that file is temporary) with
    the measurement that proves it and the studio URL to look at.
 3. PROGRESS.md Phase P row + *Waiting on user* checklist (URLs, plain English);
-   tick B2 and unblock B5/B6/G8/G11 in `research/phase11/phase11-gap-plan.md`;
+   tick B2 and unblock B5/B6/G8/G11 in `research/archive/phase11-rounds/phase11-gap-plan.md`;
    review the water-driven place moves (gap plan B5) against the final rasters.
 4. Deploy (push; check the Pages action) and hand off.
 

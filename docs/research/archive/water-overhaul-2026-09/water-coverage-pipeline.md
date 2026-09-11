@@ -2,7 +2,7 @@
 
 Current implementation direction after the owner's2026-09-07 request and an
 independent read-only subagent review. This is unfinished work, not a coverage
-certificate. Main authority: [water-handoff.md](water-handoff.md).
+certificate. Main authority: [water-handoff.md](../water-round-2-2026-09/water-handoff.md).
 
 ## Review outcome
 

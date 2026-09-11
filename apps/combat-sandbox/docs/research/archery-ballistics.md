@@ -5,7 +5,7 @@ rarity multiplier and no range falloff curve. A draw stores energy, the bow give
 a share of it to the arrow, the arrow loses speed to drag, and whatever energy
 arrives is what hurts.
 
-Implementation: [`src/game/combat/ballistics.ts`](../../src/game/combat/ballistics.ts)
+Implementation: [`src/game/combat/ballistics.ts`](../../../../packages/game-core/src/combat/ballistics.ts)
 (pure functions, no renderer). Calibration tests: `ballistics.test.ts` — those
 tests pin the model to the real-world numbers below, so read them before changing
 any of this.

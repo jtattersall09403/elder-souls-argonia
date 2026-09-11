@@ -214,7 +214,7 @@ FACTION_PRESENCE_ROLES = {"seat", "chapter", "outpost", "office", "territory"}
 # said WHICH, so nothing could check that the blueprint built any of them
 # (owner finding 2026-09-05: Lilmoth's shops were planned and never placed).
 # Closed vocabulary; derived, not hand-authored — `worldgen.derive_services`
-# owns the rules and docs/research/phase11/promise-ledger-round-1.md the table.
+# owns the rules and docs/research/archive/phase11-rounds/promise-ledger-round-1.md the table.
 SERVICES = {"lodging", "trader", "smith", "apothecary", "temple", "shrine", "guild-hall",
             "council", "court", "market", "moneylender", "licence-office", "boatwright",
             "ferry", "stable", "tavern", "bathhouse", "healer", "scribe"}
