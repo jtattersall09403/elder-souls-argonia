@@ -52,6 +52,27 @@ Needs ruling 11 (the floor).
    design group whose members are further apart than the recipe allows; a
    co-siting relation whose measurement (sightline, same water) fails.
 
+
+### Added by 16a (2026-09-11) — naming the water and the land
+
+Rivers, streams, lakes, tarns, falls, bays, ridges and other landforms
+people would name get **names, not just ids** (owner, 2026-09-11), in this
+chunk because it is where the plot and the lore meet:
+
+1. Name every river of Strahler order ≥ 2 or catchment ≥ 4 km², every body
+   of ≥ 1 ha, every waterfall, the lagoons and bays, and the mountain
+   masses and passes the routes use. Smaller creeks and ponds are named
+   only where a place or quest refers to them.
+2. Grounding: the lore dossiers first (`world/sources/lore/`), then UESP for
+   canon names (the Onkobra, the Blackwood, Oliis Bay and the rest are
+   canon and must land on the right entity); extrapolated names follow the
+   culture registers and the same QA the place names went through
+   (`docs/standards/text/`, the `text-review` skill in a separate agent).
+3. Storage: text-catalogue keys on the graph entities' `name` fields
+   (`river.<id>` → `hydrology.name.<id>`), never literals; a register
+   `world/sources/hydrology/names.json` records the grounding per name
+   (canon page or extrapolation rule). The studio tooltip shows the name
+   when present.
 ## Acceptance
 
 - `catalogue --check`, `macro_plot`, `route_registry --check`, `quests --check`

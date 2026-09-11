@@ -66,6 +66,34 @@ Needs rulings 1, 2, 3, 5, 6, 10 (plan §7).
    the frozen base (ruling 1); do **not** re-plot — 16g does that on the
    frozen world.
 
+
+### Added by 16a (2026-09-11) — things 16b inherits, none of them optional
+
+- **The base.** The vault's `heightfield-sculpted-f32.npy` is the August
+  array; today's `sculpt_province` is deterministic and differs (max 92.5 m,
+  6.3 % of samples > 1 m). Re-freeze = run today's sculpt, then
+  `compile_hydrology` (the solver's loop fix is in), then
+  `hydrology_graph derive`, and the graph's `sourceHeightSha256` must equal
+  the frozen base's sha. The 16a graph was derived on exactly that output.
+- **Pits.** The base has no river-trapped depressions; the refine stages
+  make them. Freeze gate: `forcedBasins == 0` after the terrain stages, and
+  every accepted body corresponds to a graph body (measured, authored or
+  appended by the extension rule). No pit is filled by hand.
+- **Coastal terrace steps.** The graph flags falls with
+  `fall.suspect = "coastal-terrace-step"`: a low bank (< 15 m) dropping
+  straight into the sea or a lagoon, the source heightmap's quantised shelf,
+  not relief (e.g. `reach.2349-983` at 4.29 km E 1.80 km S: −0.05 m beside
+  13.5 m in one step). Deterrace those banks into a slope; the freeze gate
+  requires zero suspect falls on the re-derived graph. Only real relief
+  makes a waterfall; nothing is cut to add one (owner, 2026-09-11).
+- **Authored bodies.** `world/sources/hydrology/authored-bodies.json` (the
+  Blackrose lake) is dug to its `terrainPrecondition`; its three feeder
+  channels are authored waterways this chunk carves and appends to the graph
+  under the extension rule (`origin: "terrain-stage"`).
+- **Overlays.** After the freeze, regenerate the studio's `hydro-*.png` and
+  `refined/flood-wet.png` from the frozen pass, and the `hydrograph-*.png`
+  from the re-derived graph, in the same commit; the map's hillshade then
+  matches the graph lines.
 ## Acceptance
 
 - Freeze gate: precondition test green on the frozen array; two-run identity;

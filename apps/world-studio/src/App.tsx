@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D } from "./Fly3D";
@@ -12,7 +12,7 @@ import { loadMinimapOverlay, type MinimapOverlay } from "./character/minimapOver
 import { encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
-import { buildHydrographIndex, describeHydrograph, type HydrographIndex } from "./map/hydrographIndex";
+import { buildHydrographIndex, describeHydrograph, type HydrographIndex, type TipSection } from "./map/hydrographIndex";
 import { decodeProvinceHeights, loadProvinceMeta, type ProvinceMapMeta } from "./map/provinceMap";
 import { TimePanel } from "./sky/TimePanel";
 import {
@@ -110,7 +110,7 @@ export function App() {
   // Mild is the owner-chosen conditioning (decision 0005, 2026-08-23 addendum).
   const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
-  const [tip, setTip] = useState<{ x: number; y: number; lines: string[] } | null>(null);
+  const [tip, setTip] = useState<{ x: number; y: number; sections: TipSection[] } | null>(null);
   const hydroIndexRef = useRef<HydrographIndex | null>(null);
   const [view, setView] = useState<"map" | "fly3d" | "character">(
     urlParams.get("view") === "fly3d" ? "fly3d"
@@ -345,7 +345,8 @@ export function App() {
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const climateRef = useRef<Record<string, { humidity: number; mist: number; rain: string; visibility: number }>>({});
   const [overlaysReady, setOverlaysReady] = useState(false);
-  const [legends, setLegends] = useState<Record<string, Record<string, { name: string; rgb: number[] }>>>({});
+  const [legends, setLegends] = useState<Record<string, Record<string, { name: string; rgb: number[]; about?: string }>>>({});
+  const [layerAbout, setLayerAbout] = useState<Record<string, string>>({});
 
   function displayHeights(): Float32Array | null {
     const base = heightsRef.current;
@@ -421,6 +422,7 @@ export function App() {
         try {
           const hg = await (await fetch(`${base}province/hydrograph-meta.json`)).json();
           for (const [name, legend] of Object.entries(hg.legends ?? {})) collected[name] = legend as typeof collected[string];
+          setLayerAbout(hg.layers ?? {});
           const graph = await (await fetch(`${base}province/hydrology-graph.json`)).json();
           hydroIndexRef.current = buildHydrographIndex(graph, m.imageWidth, m.imageHeight);
           decode("hydrograph-bodies");
@@ -564,11 +566,15 @@ export function App() {
       ? ` · humidity ${Math.round(climate.humidity * 100)}% · vis ~${climate.visibility} m`
       : "";
     const strip = (v: string) => v.replace(/^ · /, "");
-    const lines = [`${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m`];
-    const land = [strip(regionPart), strip(lookup("danger")), strip(lookup("cultures", " · hinterland"))].filter(Boolean);
-    if (land.length) lines.push(`Land: ${land.join(" · ")}`);
-    if (climatePart) lines.push(`Climate: ${strip(climatePart)}`);
-    if (waterPart) lines.push(`Built water: ${waterPart.replace(" · water: ", "")}`);
+    const sections: TipSection[] = [];
+    const here: [string, string][] = [["position", `${km(x)} km E, ${km(y)} km S`], ["elevation", `${hgt.toFixed(1)} m`]];
+    const region = strip(regionPart), danger = strip(lookup("danger")), culture = strip(lookup("cultures", " · hinterland"));
+    if (region) here.push(["region", region]);
+    if (danger) here.push(["danger", danger]);
+    if (culture) here.push(["culture", culture]);
+    if (climate) here.push(["climate", `humidity ${Math.round(climate.humidity * 100)}%, visibility ~${climate.visibility} m`]);
+    if (waterPart) here.push(["built water", waterPart.replace(" · water: ", "")]);
+    sections.push({ title: "Here", rows: here });
     const hi = hydroIndexRef.current;
     if (hi) {
       const i = (y * meta.imageWidth + x) * 4;
@@ -576,11 +582,11 @@ export function App() {
       const fallsAlpha = decodedPxRef.current["hydrograph-falls"]?.[i + 3] ?? 0;
       const reach = hi.reachAt(x, y);
       const body = hi.bodyAt(x, y, bodyAlpha);
-      lines.push(...describeHydrograph(hi, reach, body));
-      if (fallsAlpha > 0 && !reach?.fall) lines.push("Marker: a measured waterfall, plunge pool or possible waterfall site (see the legend)");
+      sections.push(...describeHydrograph(hi, reach, body));
+      if (fallsAlpha > 0 && !reach?.fall) sections.push({ title: "Marker", rows: [["what", "a waterfall or plunge pool (see the legend)"]] });
     }
-    setReadout(lines[0] + (lines[1] ? ` · ${lines[1]}` : ""));
-    setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, lines });
+    setReadout(`${here[0][1]} · elevation ${hgt.toFixed(1)} m${region ? ` · ${region}` : ""}`);
+    setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, sections });
   }
 
   function enterFly(xKm: number, zKm: number) {
@@ -788,7 +794,7 @@ export function App() {
           const replaced = showCatalogue && (name === "routes" || name === "waterways");
           return (
             <label key={name} style={{ cursor: replaced ? "default" : "pointer", opacity: replaced ? 0.45 : 1 }}
-              title={replaced ? "drawn as clickable lines by the places layer" : undefined}>
+              title={replaced ? "drawn as clickable lines by the places layer" : layerAbout[name]}>
               <input type="checkbox" checked={layers[name] && !replaced} disabled={replaced}
                 onChange={(e) => setLayers({ ...layers, [name]: e.target.checked })} />{" "}
               {name}
@@ -828,7 +834,7 @@ export function App() {
         layers[layer] && legends[layer] && Object.keys(legends[layer]).length > 0 ? (
           <div key={layer} style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", maxWidth: 860 }}>
             {Object.values(legends[layer]).filter((r) => r.name !== "ocean").map((r) => (
-              <span key={r.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, font: "12px system-ui" }}>
+              <span key={r.name} title={r.about} style={{ display: "inline-flex", alignItems: "center", gap: 4, font: "12px system-ui", cursor: r.about ? "help" : undefined }}>
                 <span style={{ width: 11, height: 11, borderRadius: 2, background: `rgb(${r.rgb.join(",")})` }} />
                 {r.name}
               </span>
@@ -844,11 +850,21 @@ export function App() {
           <div style={{
             position: "absolute", left: tip.x + 14, top: tip.y + 10, pointerEvents: "none",
             background: "rgba(10, 14, 20, 0.88)", color: "#e6ecf5", padding: "4px 8px",
-            borderRadius: 5, font: "12px system-ui", lineHeight: "16px", maxWidth: 420, zIndex: 2,
+            borderRadius: 6, font: "12px system-ui", lineHeight: "16px", maxWidth: 440, zIndex: 2, padding: "6px 10px 2px",
             transform: tip.x > 560 ? "translateX(calc(-100% - 26px))" : undefined,
           }}>
-            {tip.lines.map((l, i) => (
-              <div key={i} style={{ opacity: i === 0 ? 1 : 0.92, fontWeight: i === 0 ? 600 : 400 }}>{l}</div>
+            {tip.sections.map((sec) => (
+              <div key={sec.title} style={{ marginBottom: 6 }}>
+                <div style={{ fontWeight: 600, marginBottom: 2, color: "#f4f7fb" }}>{sec.title}</div>
+                <div style={{ display: "grid", gridTemplateColumns: "max-content 1fr", columnGap: 10, rowGap: 1 }}>
+                  {sec.rows.map(([k, v]) => (
+                    <Fragment key={k}>
+                      <span style={{ opacity: 0.6 }}>{k}</span>
+                      <span>{v}</span>
+                    </Fragment>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         )}

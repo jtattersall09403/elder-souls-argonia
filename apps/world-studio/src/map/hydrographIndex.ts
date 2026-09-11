@@ -87,29 +87,55 @@ export function buildHydrographIndex(graph: HgGraph, width: number, height: numb
 
 const ha = (m2: number) => m2 >= 10000 ? `${(m2 / 10000).toFixed(1)} ha` : `${Math.round(m2)} m²`;
 
-/** Tooltip lines for what the index found (empty when nothing is under the pointer). */
-export function describeHydrograph(index: HydrographIndex, reach: HgReach | null, body: HgBody | null): string[] {
-  const lines: string[] = [];
+/** One block of the tooltip: a heading and label/value rows. */
+export interface TipSection { title: string; rows: [string, string][] }
+
+const KIND_WORDS: Record<string, string> = {
+  "horizontal-river": "flat river", "horizontal-stream": "flat stream", "horizontal-creek": "flat creek",
+  "horizontal-backwater": "through a lake or pond", "horizontal-tidal": "tidal reach",
+  "sloped-riffle": "riffle (gentle slope)", "sloped-rapid": "rapid", "sloped-chute": "chute (steep slide)",
+  "vertical-fall": "waterfall",
+};
+
+/** Tooltip sections for what the index found (empty when nothing is under the pointer). */
+export function describeHydrograph(index: HydrographIndex, reach: HgReach | null, body: HgBody | null): TipSection[] {
+  const out: TipSection[] = [];
   if (reach) {
     const river = index.river(reach.river);
     if (river) {
       const mouth = river.mouth.kind === "confluence"
         ? `joins ${river.mouth.river ?? river.tributaryOf?.river ?? "?"}`
-        : river.mouth.kind === "sea" ? `to the sea (${river.mouth.form ?? "estuary"})`
-        : river.mouth.kind === "lake" ? `into ${river.mouth.bodyId}` : `to the ${river.mouth.kind}`;
-      lines.push(`River ${river.id} · ${river.water} · order ${river.strahler} · ${river.accumKm2.toFixed(1)} km² · ${(river.lengthM / 1000).toFixed(1)} km · ${mouth}`);
+        : river.mouth.kind === "sea" ? `the sea (${river.mouth.form ?? "estuary"})`
+        : river.mouth.kind === "lake" ? `lake ${river.mouth.bodyId}` : `the ${river.mouth.kind}`;
+      out.push({ title: `River ${river.id}`, rows: [
+        ["water", river.water], ["order", String(river.strahler)],
+        ["catchment", `${river.accumKm2.toFixed(1)} km²`], ["length", `${(river.lengthM / 1000).toFixed(1)} km`],
+        ["ends at", mouth],
+      ] });
     }
-    const levels = `${reach.levelFromM.toFixed(1)}→${reach.levelToM.toFixed(1)} m`;
-    lines.push(`Reach ${reach.id} · ${reach.kind} · band ${reach.band} · ${Math.round(reach.lengthM)} m · level ${levels} · slope ${reach.slope} · ${reach.widthM} m wide · ${reach.season}`);
+    const rows: [string, string][] = [
+      ["kind", `${KIND_WORDS[reach.kind] ?? reach.kind} (${reach.kind})`], ["size band", String(reach.band)],
+      ["length", `${Math.round(reach.lengthM)} m`], ["level", `${reach.levelFromM.toFixed(1)} → ${reach.levelToM.toFixed(1)} m`],
+      ["slope", `${(reach.slope * 100).toFixed(1)} cm per m`], ["width", `${reach.widthM} m`], ["season", reach.season],
+    ];
     if (reach.fall) {
-      lines.push(`Waterfall · drop ${reach.fall.dropM} m · lip ${reach.fall.lipLevelM} m → plunge ${reach.fall.plungeLevelM} m into ${reach.fall.plungeBodyId}`);
+      rows.push(["waterfall drop", `${reach.fall.dropM} m (lip ${reach.fall.lipLevelM} m → ${reach.fall.plungeLevelM} m)`]);
+      rows.push(["lands in", reach.fall.plungeBodyId]);
+      const suspect = (reach.fall as { suspect?: string }).suspect;
+      if (suspect) rows.push(["flag", `${suspect}: a source-terrain step, 16b smooths it`]);
     }
+    out.push({ title: `Reach ${reach.id}`, rows });
     if (reach.bodyId && !body) body = index.body(reach.bodyId) ?? null;
   }
   if (body) {
-    const flow = `${body.inflow.length} in · ${body.outflow ? "outflow " + body.outflow : "no outflow"}`;
-    lines.push(`Body ${body.id} · ${body.kind}${body.origin !== "measured" ? ` (${body.origin})` : ""} · ${body.altitudeBand} · level ${body.levelM} m · ${ha(body.areaM2)} · max depth ${body.maxDepthM} m`);
-    lines.push(`Season ${body.season} · wet ${body.wetSeasonLevelM} m / dry ${body.drySeasonLevelM} m · ${flow}${body.causedBy ? ` · dug by ${body.causedBy.fall}` : ""}`);
+    const name = (body as { name?: string | null }).name;
+    out.push({ title: `${name ? name + " · " : ""}Body ${body.id}`, rows: [
+      ["kind", `${body.kind}${body.origin !== "measured" ? ` (${body.origin})` : ""}`], ["altitude", body.altitudeBand],
+      ["level", `${body.levelM} m`], ["area", ha(body.areaM2)], ["max depth", `${body.maxDepthM} m`],
+      ["season", `${body.season} (wet ${body.wetSeasonLevelM} m, dry ${body.drySeasonLevelM} m)`],
+      ["flow", `${body.inflow.length} in · ${body.outflow ? "out via " + body.outflow : "no outflow"}`],
+      ...(body.causedBy ? [["dug by", body.causedBy.fall] as [string, string]] : []),
+    ] });
   }
-  return lines;
+  return out;
 }

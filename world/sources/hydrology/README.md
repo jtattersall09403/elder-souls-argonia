@@ -93,17 +93,22 @@ Fields: `levelM`, `altitudeBand` (`tidal` <= 1.5 m and saline, `lowland`
 `season`, `seasonResponse`, `wetSeasonLevelM` (= level + 1.4 x response),
 `drySeasonLevelM` (= level - 0.2 x 1.4 x response, the runtime's dry-season
 draw-down), `inflow[]`, `outflow`, `sink` (inflow and no outflow), `region`,
-`deepestCell`, `bboxCells`, `origin: measured | promised`.
+`deepestCell`, `bboxCells`, `origin: measured | promised | authored`.
 
 **Season.** `perennial` unless the dry-season draw-down empties the body
 (`maxDepthM` <= dry drop), then `seasonal`. Reaches: bands 2–3 perennial;
 band 1 perennial only inside the marsh/wetland heartland (groundwater-fed),
-else `seasonal`. This is the stored fact the runtime's arithmetic used to
+else `seasonal` — and **perennial flows downstream**: once a river is
+perennial every reach below it is, and a body fed by a perennial reach is,
+so a river never dries in the middle and restarts. This is the stored fact the runtime's arithmetic used to
 imply; the runtime keeps animating the level between the two stored extremes.
 
-**`fallProposals`** (a *knickpoint* is the sudden step in a river bed where a fall or rapid forms) — on sloped reaches, the steepest 20 m window with a
-fall-sized drop (>= 3 m) that the base terrain does not present as a 70 deg
-face: where a knickpoint could be cut in 16b. Not entities; the owner picks.
+**Authored bodies** — `authored-bodies.json` declares lore-required standing
+water the base does not hold (the Blackrose lake); each becomes a body with
+`origin: "authored"` and an `authored-bowl` precondition the terrain stage
+digs. Only real relief makes a waterfall: nothing is cut to add one (owner,
+2026-09-11); a fall off a low bank into sea-level water is flagged
+`fall.suspect = "coastal-terrace-step"` for 16b to smooth away.
 
 ## Terrain preconditions (what 16b builds to; the freeze gate checks)
 

@@ -57,6 +57,26 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
    dredged — ruling 6), the class extension above its cap, the hero-pool /
    FFT / algae rows each get a mount-or-defer decision with a measurement.
 
+
+### Added by 16a (2026-09-11)
+
+- **A river through a body is the body.** Where a reach is
+  `horizontal-backwater` (inside a lake, pond or lagoon), the body's surface
+  owns the water: no channel ribbon, no ribbon edge, no separate level inside
+  the body's extent; the river's flow field continues through the body as a
+  velocity on the body surface, and the channel geometry starts again at the
+  body's outflow reach. This is the one rule for the "some of it river, some
+  of it lake" seams the owner sees; a probe that finds two surfaces in one
+  body's extent fails.
+- **Seasons come from the graph.** `season`, `wetSeasonLevelM` and
+  `drySeasonLevelM` per reach and body replace the per-cell response; a
+  seasonal reach dries only above the first perennial point (the graph
+  guarantees perennial flows downstream), so no river stops and restarts.
+- **Overlays retired.** The map's `flood` and `flood-wet` layers are
+  regenerated from the graph's levels (or removed if the season layer says
+  the same thing); the two river layers collapse to the hydrograph one.
+  Nothing the owner ticks on the 2D map may describe water the 3D world no
+  longer has.
 ## Acceptance
 
 - One `compile_water` run; `patch_water` proven local; graph ids in the meta;

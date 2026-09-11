@@ -77,7 +77,9 @@ UPLAND_MAX_M = 110.0                     # sculpt.BENCH_MIN_Z: cliff benching st
 MARSH_DEEP_MIN_DEPTH_M = 0.5
 MIN_RUN_STATIONS = 6                     # ~11 m: shorter horizontal sub-kind flips are merged
 DRY_SEASON_FRACTION = 0.2                # tide.ts seasonOffset: the dry season draws 0.2 x amplitude
-KNICKPOINT_WINDOW_M = 20.0               # a proposed fall: >= FALL_DROP_M over this window
+SUSPECT_FALL_LIP_M = 15.0                # a "fall" off a low lip into the sea or a lagoon is a
+                                         # coastal terrace step in the source data, flagged for 16b
+AUTHORED_BODIES_PATH = GRAPH_DIR / "authored-bodies.json"
 WHITEWATER_MOUNTAIN_FRAC = 0.20          # rulebook §2
 BLACKWATER_PEAT_FRAC = 0.50
 GORGE_RISE_M = 2.0                       # valley width measured to this rise above the floor
@@ -449,7 +451,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
     junctions: dict[str, dict] = {}
     first_reach_of_channel: dict[int, str] = {}
     last_reach_of_channel: dict[int, str] = {}
-    fall_proposals: list[dict] = []
+    suspect_falls = 0
     gorge_underresolved = 0
     gorge_stations = 0
     # cross-section half-width to GORGE_RISE_M for steep / fall stations
@@ -559,6 +561,11 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
                     rec["fall"] = {"dropM": _r(drop), "lipLevelM": _r(sol.L[lip_k]),
                                    "plungeLevelM": _r(sol.L[plunge_k]), "plungeBodyId": pb,
                                    "lipSpeedMS": _r(sol.speed[lip_k]), "origin": "terrain"}
+                    if float(sol.L[lip_k]) < SUSPECT_FALL_LIP_M and body_index[pb]["kind"] in ("ocean", "lagoon"):
+                        # a low bank dropping straight into sea-level water: the
+                        # source heightmap's quantised coastal shelf, not relief
+                        rec["fall"]["suspect"] = "coastal-terrace-step"
+                        suspect_falls += 1
                     rec["terrainPrecondition"] = {"kind": "fall-face", "lipLevelM": _r(sol.L[lip_k]),
                                                   "plungeLevelM": _r(sol.L[plunge_k]), "dropM": _r(drop),
                                                   "faceMinSlope": channels.FALL_FACE_SLOPE,
@@ -575,23 +582,6 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
                         "bedLevelToM": _r(L1 - float(sol.depth_cut[k1])),
                         "widthM": _r(width, 1), "shoulderCrestM": _r(L1 + channels.SHOULDER_RAISE_M),
                     }
-                    if kind.startswith("sloped"):
-                        # a knickpoint proposal: the steepest window with a fall-sized drop
-                        arc = sol.arc[st].astype(np.float64)
-                        Lr = sol.L[st].astype(np.float64)
-                        best = None
-                        for i in range(b - a):
-                            j = int(np.searchsorted(arc, arc[i] + KNICKPOINT_WINDOW_M, side="right")) - 1
-                            if j <= i:
-                                continue
-                            d = Lr[i] - Lr[j]
-                            if d >= channels.FALL_DROP_M and (best is None or d > best[0]):
-                                best = (d, i)
-                        if best is not None:
-                            d, i = best
-                            fall_proposals.append({"reach": rid, "band": band, "accumKm2": rec["accumKm2"],
-                                                   "eastM": _r(sol.x[a + i] * mpp, 1), "southM": _r(sol.y[a + i] * mpp, 1),
-                                                   "dropM": _r(d), "lipLevelM": _r(Lr[i])})
                 reaches.append(rec)
                 reach_index[rid] = rec
                 if prev_id:
@@ -741,6 +731,48 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
     for b in body_rec:
         b["sink"] = bool(b["inflow"]) and b["outflow"] is None and b["kind"] not in ("ocean", "lagoon")
 
+    # ---- season flows downstream: once a river is perennial it stays so to its
+    # mouth (water does not vanish mid-river), and a body fed by a perennial
+    # reach is perennial. Only headwater reaches above the first perennial one
+    # can be seasonal.
+    order = []
+    seen = set()
+    for rr in river_recs:
+        for x in rr["reaches"]:
+            if x not in seen:
+                seen.add(x); order.append(x)
+    changed = True
+    while changed:
+        changed = False
+        for rid in order:
+            x = reach_index[rid]
+            if x["season"] != "perennial" and any(reach_index[u]["season"] == "perennial" for u in x["upstream"]):
+                x["season"] = "perennial"; changed = True
+    for b in body_rec:
+        if b["season"] != "perennial" and any(reach_index[u]["season"] == "perennial" for u in b["inflow"] if u in reach_index):
+            b["season"] = "perennial"
+
+    # ---- authored bodies: lore-required standing water the base does not yet
+    # hold (the Blackrose lake); the terrain stage digs them to the precondition
+    if AUTHORED_BODIES_PATH.exists():
+        for a in json.loads(AUTHORED_BODIES_PATH.read_text(encoding="utf-8")).get("bodies", []):
+            cx, cy = int(a["centreCell"][0]), int(a["centreCell"][1])
+            bid = f"body.{cx}-{cy}"
+            level = float(a["levelM"]); bed = float(a["bedM"])
+            rx, ry = float(a["radiiM"][0]), float(a["radiiM"][1])
+            rec = {"id": bid, "kind": a["kind"], "origin": "authored",
+                   "levelM": _r(level), "altitudeBand": "lowland" if level < LOWLAND_MAX_M else "upland",
+                   "areaM2": _r(np.pi * rx * ry, 0), "maxDepthM": _r(level - bed), "sheet": False,
+                   "season": "perennial", "seasonResponse": 0.0,
+                   "wetSeasonLevelM": _r(level + sw.SEASON_AMPLITUDE_M * 0.2), "drySeasonLevelM": _r(level),
+                   "deepestCell": [cx, cy], "bboxCells": [int(cx - rx / mpp), int(cy - ry / mpp), int(cx + rx / mpp), int(cy + ry / mpp)],
+                   "region": int(coarse_at(reg_c, cx, cy)), "inflow": [], "outflow": None,
+                   "name": a.get("name"), "lore": a.get("lore"),
+                   "terrainPrecondition": {"kind": "authored-bowl", "levelM": _r(level), "bedM": _r(bed),
+                                           "radiiM": [rx, ry], "shoreline": a.get("shoreline", "organic"),
+                                           "island": a.get("island")}}
+            body_rec.append(rec); body_index[bid] = rec
+
     # ---- the wet-season line and the coarse-grid measurement
     wetline = (npz["wetlands"] | (npz["rivers"] > 0) | npz["lakes"]) & ~npz["ocean"]
     ft_flat = npz["flow_to"].reshape(-1).astype(np.int64)
@@ -759,8 +791,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
         "waterClasses": dict(Counter(r["water"] for r in river_recs)),
         "mouths": dict(Counter(r["mouth"]["kind"] for r in river_recs)),
         "falls": sum(1 for r in reaches if r["kind"] == "vertical-fall"),
-        "fallProposals": len(fall_proposals),
-        "fallProposalsByBand": dict(Counter(p["band"] for p in fall_proposals)),
+        "suspectFalls": suspect_falls,
         "riverTrappedDepressions": int(pool_report.get("forcedBasins", 0)),
         "lostStations": int(pool_report.get("lostStations", 0)),
         "lostSites": pool_report.get("lostSites", []),
@@ -781,7 +812,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
             "lakeMinM2": LAKE_MIN_M2, "pondMinM2": POND_MIN_M2,
             "lowlandMaxM": LOWLAND_MAX_M, "uplandMaxM": UPLAND_MAX_M,
             "seasonAmplitudeM": sw.SEASON_AMPLITUDE_M, "drySeasonFraction": DRY_SEASON_FRACTION,
-            "knickpointWindowM": KNICKPOINT_WINDOW_M,
+            "suspectFallLipM": SUSPECT_FALL_LIP_M,
         },
         "vocabulary": {"reachKinds": list(REACH_KINDS), "bodyKinds": list(BODY_KINDS), "seasons": list(SEASONS),
                        "altitudeBands": list(ALTITUDE_BANDS), "waterClasses": list(WATER_CLASSES),
@@ -791,7 +822,6 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
         "reaches": reaches,
         "junctions": sorted(junctions.values(), key=lambda j: j["id"]),
         "bodies": body_rec,
-        "fallProposals": fall_proposals,
     }
     graph["contentSha256"] = content_hash(graph)
     return graph
@@ -933,6 +963,44 @@ BODY_COLOUR = {
     "marsh-fringe": (120, 190, 110), "marsh-deep": (40, 120, 70), "swamp": (60, 150, 90),
     "backswamp": (170, 200, 140), "mudflat": (200, 180, 100),
 }
+ARROW_EVERY_M = 160.0
+LAYER_ABOUT = {
+    "hydrograph-rivers": "Every river stretch from the hydrology graph, coloured by kind (flat / sloped / waterfall), width by size; white arrowheads point downstream, white dots are confluences, white rings are mouths.",
+    "hydrograph-bodies": "Standing water from the graph, coloured by kind: lakes, tarns, ponds, pools, plunge pools, and the marsh sheets.",
+    "hydrograph-season": "Blue = holds water all year (perennial); orange = dries out in the dry season (seasonal). Once a river is perennial it stays so to its mouth.",
+    "hydrograph-falls": "Waterfalls measured on the base terrain (red-ringed discs) and their plunge pools (blue dots).",
+    "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands + rivers + lakes footprint.",
+}
+KIND_ABOUT = {
+    "horizontal-river": "A big flat river stretch: the water level falls less than 3.5 cm per metre and the catchment is at least 15 km2 (size band 3).",
+    "horizontal-stream": "A medium flat stretch: slope under 3.5 cm per metre, catchment 4 to 15 km2 (band 2).",
+    "horizontal-creek": "A small flat stretch: slope under 3.5 cm per metre, catchment 1 to 4 km2 (band 1).",
+    "horizontal-backwater": "The river passing through a lake or pond: these stations sit inside a standing body and take its level.",
+    "horizontal-tidal": "A flat stretch within reach of the tide: most of it lies in the tidal mask (under 1.5 m and salty).",
+    "sloped-riffle": "A gently sloping run: the water level falls 3.5 to 6.5 cm per metre. Fast, shallow, gravelly.",
+    "sloped-rapid": "A rapid: the level falls 6.5 to 50 cm per metre. Whitewater over boulders.",
+    "sloped-chute": "A steep slide: the level falls more than 50 cm per metre but the rock face is under 70 degrees, so the water runs on it rather than leaving it.",
+    "vertical-fall": "A waterfall: a drop of 3 m or more over a face steeper than 70 degrees.",
+}
+BODY_ABOUT = {
+    "ocean": "Sea-connected water below sea level that the coarse pass calls open ocean.",
+    "lagoon": "Sea-connected water below sea level that winds inland beyond the open-ocean reach.",
+    "lake-lowland": "Standing water of 1 hectare or more whose level is under 30 m.",
+    "tarn-upland": "Standing water of 1 hectare or more whose level is 30 m or higher (an upland or mountain lake).",
+    "pond": "Standing water between 500 m2 and 1 hectare.",
+    "pool": "Standing water under 500 m2.",
+    "plunge-pool": "The pool a waterfall lands in.",
+    "marsh-fringe": "A flat wet sheet in the fringe-marsh or coastal-marsh region classes.",
+    "marsh-deep": "A flat wet sheet in the rootland deep-marsh region class, or any sheet over 0.5 m deep.",
+    "swamp": "A flat wet sheet in the interior-swamp region class (forested, seasonally flooded).",
+    "backswamp": "A flat wet sheet on the seasonal floodplain, beyond a river's levee.",
+    "mudflat": "A flat tidal sheet in the delta region class.",
+}
+SEASON_ABOUT = {
+    "perennial": "Holds water all year. A body is perennial unless the dry-season draw-down (a fifth of the 1.4 m season swing, scaled by the body's response) empties it; a river stretch is perennial from the first point its catchment reaches 4 km2 or it enters the marsh heartland, and stays so downstream.",
+    "seasonal": "Dries out in the dry season: a shallow sheet the draw-down empties, or a headwater creek above the perennial point.",
+    "ephemeral": "Flows only after rain (not used on this province yet).",
+}
 SEASON_COLOUR = {"perennial": (60, 120, 240), "seasonal": (240, 150, 40), "ephemeral": (200, 200, 200)}
 
 
@@ -985,16 +1053,33 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
             pts = pts * 2
         wpx = {1: 1, 2: 2, 3: 3}[r["band"]]
         rivers_draw.line(pts, fill=(*KIND_COLOUR[r["kind"]], 255), width=wpx)
+        # flow direction: a small arrowhead every ~ARROW_EVERY_M along the
+        # centreline (the centreline is stored headwater -> mouth)
+        every = ARROW_EVERY_M / mpp_c
+        acc_d = every * 0.5
+        for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+            seg = ((x1 - x0) ** 2 + (y1 - y0) ** 2) ** 0.5
+            acc_d += seg
+            if acc_d >= every and seg > 0:
+                acc_d = 0.0
+                ux, uy = (x1 - x0) / seg, (y1 - y0) / seg
+                L = 3.5 + wpx
+                tip = (x1, y1)
+                left = (x1 - ux * L - uy * L * 0.6, y1 - uy * L + ux * L * 0.6)
+                right = (x1 - ux * L + uy * L * 0.6, y1 - uy * L - ux * L * 0.6)
+                rivers_draw.polygon([tip, left, right], fill=(255, 255, 255, 230))
         season_draw.line(pts, fill=(*SEASON_COLOUR[r["season"]], 255), width=wpx)
         if r["kind"] == "vertical-fall":
             e, s = r["centreline"][0]
             x, y = px(e, s)
             falls_draw.ellipse([x - 4, y - 4, x + 4, y + 4], outline=(255, 60, 60, 255), fill=(255, 255, 255, 255), width=2)
-    for p in graph["fallProposals"]:
-        x, y = px(p["eastM"], p["southM"])
-        rr = 4 if p["band"] >= 2 else 2
-        falls_draw.ellipse([x - rr, y - rr, x + rr, y + rr], outline=(255, 170, 40, 255), width=1)
     for b in graph["bodies"]:
+        if b["origin"] == "authored" and b["deepestCell"]:
+            rx, ry = b["terrainPrecondition"]["radiiM"]
+            x, y = b["deepestCell"][0] / STEP, b["deepestCell"][1] / STEP
+            box = [x - rx / mpp_c, y - ry / mpp_c, x + rx / mpp_c, y + ry / mpp_c]
+            body_draw.ellipse(box, fill=(*BODY_COLOUR[b["kind"]], 200), outline=(255, 255, 255, 255), width=2)
+            season_draw.ellipse(box, fill=(*SEASON_COLOUR[b["season"]], 170))
         if b["kind"] == "plunge-pool" and b["deepestCell"]:
             x, y = b["deepestCell"][0] / STEP, b["deepestCell"][1] / STEP
             falls_draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(120, 200, 255, 255))
@@ -1016,18 +1101,20 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
              "hydrograph-falls": falls_img, "hydrograph-wetline": wet_img}
     for name, img in files.items():
         img.save(out_dir / f"{name}.png", optimize=True)
+    def legend(colours, about):
+        return {k: {"name": k, "rgb": list(v), "about": about.get(k, "")} for k, v in colours.items()}
     meta = {
         "schemaVersion": 1,
+        "layers": LAYER_ABOUT,
         "source": "world/sources/hydrology/hydrology-graph.json",
         "contentSha256": graph["contentSha256"],
         "legends": {
-            "hydrograph-rivers": {k: {"name": k, "rgb": list(v)} for k, v in KIND_COLOUR.items()},
-            "hydrograph-bodies": {k: {"name": k, "rgb": list(v)} for k, v in BODY_COLOUR.items()},
-            "hydrograph-season": {k: {"name": k, "rgb": list(v)} for k, v in SEASON_COLOUR.items()},
-            "hydrograph-falls": {"fall": {"name": "waterfall (measured on the base)", "rgb": [255, 60, 60]},
-                                 "proposal": {"name": "possible waterfall site: a 3 m+ drop within 20 m that is a slide today, not a 70 deg face (ring; big = band 2-3)", "rgb": [255, 170, 40]},
-                                 "plunge": {"name": "plunge pool", "rgb": [120, 200, 255]}},
-            "hydrograph-wetline": {"wet": {"name": "wet-season high-water extent (Phase 3 overlay)", "rgb": [90, 220, 255]}},
+            "hydrograph-rivers": legend(KIND_COLOUR, KIND_ABOUT),
+            "hydrograph-bodies": legend(BODY_COLOUR, BODY_ABOUT),
+            "hydrograph-season": legend(SEASON_COLOUR, SEASON_ABOUT),
+            "hydrograph-falls": {"fall": {"name": "waterfall", "rgb": [255, 60, 60], "about": "A measured drop of 3 m or more where the ground face is steeper than 70 degrees, so water leaves the rock. Red ring, white disc."},
+                                 "plunge": {"name": "plunge pool", "rgb": [120, 200, 255], "about": "The pool at the foot of a waterfall, dug by it; promised for 16b to dig where the base has none."}},
+            "hydrograph-wetline": {"wet": {"name": "wet-season high-water extent", "rgb": [90, 220, 255], "about": "The Phase 3 wetlands, rivers and lakes footprint, declared the wet-season high-water line (owner, 2026-09-11)."}},
         },
         "stats": graph["stats"],
     }
@@ -1072,16 +1159,11 @@ def report(graph: dict, places_path: Path = PROVINCE_DIR / "places.json") -> str
     trib = Counter((r["tributaryOf"] or {}).get("river") for r in graph["rivers"])
     for r in sorted((r for r in graph["rivers"] if r["mouth"]["kind"] == "sea"), key=lambda r: -r["accumKm2"])[:25]:
         lines.append(f"| {r['id']} | {r['accumKm2']:.1f} | {r['strahler']} | {r['water']} | {r['mouth'].get('form')} | {trib[r['id']]} | {r['lengthM'] / 1000:.1f} |")
-    lines += ["", "## Waterfalls measured on the base", "", "| Reach | band | drop m | lip level m | plunge pool | nearest place |", "|---|---|---|---|---|---|"]
+    lines += ["", "## Waterfalls measured on the base", "", "| Reach | band | drop m | lip level m | plunge pool | suspect | nearest place |", "|---|---|---|---|---|---|---|"]
     for r in graph["reaches"]:
         if r["kind"] == "vertical-fall":
             e, s = r["centreline"][0]
-            lines.append(f"| {r['id']} | {r['band']} | {r['fall']['dropM']} | {r['fall']['lipLevelM']} | {r['fall']['plungeBodyId']} | {nearest(e, s)} |")
-    lines += ["", f"## Knickpoint proposals ({st['fallProposals']}; by band {st['fallProposalsByBand']})", "",
-              "Band 2–3 only (the owner's question: falls on big rivers):", "",
-              "| Reach | band | catchment km² | drop m over 20 m | east m | south m | nearest place |", "|---|---|---|---|---|---|---|"]
-    for p in sorted((p for p in graph["fallProposals"] if p["band"] >= 2), key=lambda p: -p["dropM"]):
-        lines.append(f"| {p['reach']} | {p['band']} | {p['accumKm2']} | {p['dropM']} | {p['eastM']} | {p['southM']} | {nearest(p['eastM'], p['southM'])} |")
+            lines.append(f"| {r['id']} | {r['band']} | {r['fall']['dropM']} | {r['fall']['lipLevelM']} | {r['fall']['plungeBodyId']} | {r['fall'].get('suspect', '-')} | {nearest(e, s)} |")
     lines += ["", "## Lakes and tarns (≥ 1 ha)", "", "| Body | kind | level m | area ha | max depth m | season | inflow | outflow | nearest place |", "|---|---|---|---|---|---|---|---|---|"]
     for b in sorted((b for b in graph["bodies"] if b["kind"] in ("lake-lowland", "tarn-upland")), key=lambda b: -b["areaM2"]):
         dc = b["deepestCell"]
