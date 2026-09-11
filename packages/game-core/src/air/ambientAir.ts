@@ -169,7 +169,10 @@ void main() {
   float d = length(gl_PointCoord - 0.5) * 2.0;
   float core = smoothstep(0.34, 0.0, d);
   float halo = smoothstep(1.0, 0.06, d);
-  float a = core + halo * 0.45;
+  // The halo carries most of the visible area; the core is only the hot
+  // centre. Weighting it too low leaves a small hard dot with nothing
+  // around it, which is the "flat dot" read.
+  float a = core + halo * 0.60;
   if (a <= 0.002 || vAlpha <= 0.002) discard;
 
   // uCore/uHalo arrive as SCENE-LINEAR RADIANCE, never display colours: the
@@ -360,10 +363,17 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
   /** Dusk and night over wet ground. The signature of a warm marsh. */
   fireflies: {
     id: "fireflies",
-    count: 420,
+    // Density is deliberately modest. Measured: the blink envelope has a 25%
+    // duty cycle, so 420 in this box puts roughly 19 lit in view at once —
+    // enough to read as a swarm without returning to the "cloud of flashing
+    // dots" the first version was. Adding more insects is the wrong lever if
+    // they seem faint; make each one glow more (sizePx/halo) instead.
+    count: 480,
     box: [30, 6, 30],
     yOffset: -1.4,
-    sizePx: 16,
+    // Generous, because the glow is the point: a bigger sprite spends its
+    // extra pixels on the soft halo, not on a bigger hard dot.
+    sizePx: 22,
     emissive: true,
     emissiveScreen: 0.95,
     // Hot near-white core inside a yellow-green glow — two colours, which is
