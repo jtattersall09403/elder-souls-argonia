@@ -118,15 +118,15 @@ uniform float uVisibility;
 varying float vAlpha;
 varying float vBacklit;
 
-// Cheap value noise, for the world-anchored density patches.
+// Cheap value noise, for the world-anchored density patches. Dave Hoskins'
+// hash12 rather than fract(sin(dot(p, big))): it never feeds sin() a large
+// argument, so it is exact at any input on any GPU.
 //
-// NOT the usual fract(sin(dot(p, big)) * 43758) hash. That one feeds sin()
-// an argument in the tens of thousands even on a wrapped domain (256 cells
-// times a 311 coefficient), and GPU sin() at that magnitude is garbage or a
-// constant — which read as noise < 0.10 everywhere, so the patch factor was
-// 0 and EVERY swarm was off on real hardware while the presence amounts said
-// 1.0. It only looked fine on a CPU rasteriser. This hash (Dave Hoskins'
-// hash12) never leaves the unit range, so it is exact at any input.
+// NAMING: patch and sample are reserved words in GLSL ES 3.00. A local
+// called patch shipped here on 2026-09-11 and the vertex shader failed to
+// compile on every real GPU, so no species drew at all while the presence
+// amounts still read 1.0. ambientAir.test.ts now refuses reserved words in
+// these shaders; keep the es prefix on shader-local names.
 float esAirHash(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * 0.1031);
   p3 += dot(p3, p3.yzx + 33.33);
@@ -198,17 +198,17 @@ void main() {
   // the particle's index, so the pockets belong to the ground and stay put
   // as the camera moves through them — a real swarm is not spread evenly
   // over a marsh, it gathers where the marsh suits it.
-  float patch = 1.0;
+  float esPatch = 1.0;
   if (uPatchM > 0.0) {
     // Wrap the domain so the hash input stays small in float32 (world
     // coordinates are thousands of metres); the pattern repeats every 256
     // patches, far wider than the province. See esAirHash for why the hash
     // itself must also be safe at these magnitudes.
     vec2 esPatchUV = mod(world.xz / uPatchM, 256.0);
-    patch = smoothstep(0.10, 0.50, esAirNoise(esPatchUV));
+    esPatch = smoothstep(0.10, 0.50, esAirNoise(esPatchUV));
   }
 
-  vAlpha = fade * blink * uAmount * haze * near * patch;
+  vAlpha = fade * blink * uAmount * haze * near * esPatch;
   gl_PointSize = uSizePx * aScale * uPixelRatio * (10.0 / dist);
   float tiny = min(gl_PointSize, 1.0);
   vAlpha *= tiny * tiny;

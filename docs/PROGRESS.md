@@ -101,8 +101,13 @@ hole; they are queued in the polish backlog with their causes.
 **Air polish round 3 is in, 2026-09-11.** Fireflies stay below eye level and
 gather in ground-anchored pockets; dragonflies are held 9 m out so a knot is
 something you walk into, never something that appears in front of the camera;
-pollen keeps a whisper of presence away from the sun. Judge it on a marsh walk
-at dusk and at noon.
+pollen keeps a whisper of presence away from the sun, and rain, heavy cloud
+or a storm ground every species. The first deploy of this round drew nothing
+on any GPU: the vertex shader used `patch`, a reserved word in the WebGL 2
+shading language, so it never compiled. Fixed; a test now refuses reserved
+words in these shaders, and `apps/world-studio/scripts/probe-air-fast.mjs`
+answers "should species X be here, and does it draw?" in under a second per
+site without loading the province.
 
 **The province is deployed and walkable, 2026-09-09.** The full handoff — what
 changed, what to judge, and a studio URL per site — is

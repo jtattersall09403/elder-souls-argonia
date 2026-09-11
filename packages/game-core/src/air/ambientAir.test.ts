@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AIR_SPECIES, airAmounts, seededRandom, type AirConditions } from "./ambientAir";
+import { AIR_SPECIES, AirSwarm, airAmounts, seededRandom, type AirConditions } from "./ambientAir";
 import { sunShaftIntensity } from "./sunShafts";
 
 /**
@@ -223,4 +223,37 @@ describe("the swarm is deterministic (standard 4)", () => {
     for (let i = 0; i < 20000; i++) buckets[Math.min(9, Math.floor(r() * 10))] += 1;
     for (const b of buckets) expect(b).toBeGreaterThan(1500);
   });
+});
+
+// GLSL ES 3.00 §3.7 keywords reserved for future use. Using one as an
+// identifier is a COMPILE error on every WebGL 2 driver, and a swarm whose
+// shader did not compile draws nothing while every number about it looks
+// fine. `patch` shipped in this file's vertex shader on 2026-09-11.
+const GLSL_RESERVED = [
+  "patch", "sample", "subroutine", "common", "partition", "active", "asm",
+  "class", "union", "enum", "typedef", "template", "this", "resource", "goto",
+  "inline", "noinline", "public", "static", "extern", "external", "interface",
+  "long", "short", "double", "half", "fixed", "unsigned", "superp", "input",
+  "output", "hvec2", "hvec3", "hvec4", "dvec2", "dvec3", "dvec4", "fvec2",
+  "fvec3", "fvec4", "sampler3DRect", "filter", "sizeof", "cast", "namespace",
+  "using",
+];
+
+describe("air shaders use no GLSL reserved word as an identifier", () => {
+  const swarm = new AirSwarm(AIR_SPECIES.fireflies, seededRandom(1));
+  const sources = [swarm.material.vertexShader, swarm.material.fragmentShader];
+  for (const word of GLSL_RESERVED) {
+    it(`never declares or assigns "${word}"`, () => {
+      for (const src of sources) {
+        // Strip comments, then look for the word used as a variable: declared
+        // with a type before it, assigned as a bare name, or read as the last
+        // factor of an expression.
+        const code = src.replace(/\/\/.*$/gm, "");
+        const used = new RegExp(
+          `(\\b(float|int|vec[234]|bool|mat[234])\\s+${word}\\b)|(\\b${word}\\s*=[^=])|([*+/-]\\s*${word}\\s*;)`,
+        );
+        expect(code, `${word} used as an identifier`).not.toMatch(used);
+      }
+    });
+  }
 });
