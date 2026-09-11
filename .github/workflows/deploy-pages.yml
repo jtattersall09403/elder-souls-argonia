@@ -113,6 +113,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: tooling/world-generation/requirements-test.txt
       - run: python -m pip install -r tooling/world-generation/requirements-test.txt
       # A clean runner clone is also the proof that nothing depends on
       # sibling-repository paths or the local asset vault.
