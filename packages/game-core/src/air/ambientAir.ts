@@ -119,8 +119,18 @@ varying float vAlpha;
 varying float vBacklit;
 
 // Cheap value noise, for the world-anchored density patches.
+//
+// NOT the usual fract(sin(dot(p, big)) * 43758) hash. That one feeds sin()
+// an argument in the tens of thousands even on a wrapped domain (256 cells
+// times a 311 coefficient), and GPU sin() at that magnitude is garbage or a
+// constant — which read as noise < 0.10 everywhere, so the patch factor was
+// 0 and EVERY swarm was off on real hardware while the presence amounts said
+// 1.0. It only looked fine on a CPU rasteriser. This hash (Dave Hoskins'
+// hash12) never leaves the unit range, so it is exact at any input.
 float esAirHash(vec2 p) {
-  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+  vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.x + p3.y) * p3.z);
 }
 float esAirNoise(vec2 p) {
   vec2 i = floor(p), f = fract(p);
@@ -190,12 +200,10 @@ void main() {
   // over a marsh, it gathers where the marsh suits it.
   float patch = 1.0;
   if (uPatchM > 0.0) {
-    // WRAP THE DOMAIN FIRST. World coordinates here are thousands of metres,
-    // and a sin-based hash fed inputs in the tens of thousands loses all its
-    // float32 precision and collapses to a constant — which switched the
-    // whole swarm off rather than making it patchy. Wrapping keeps the hash
-    // inputs small; the pattern repeats every 256 patches, far wider than
-    // the province.
+    // Wrap the domain so the hash input stays small in float32 (world
+    // coordinates are thousands of metres); the pattern repeats every 256
+    // patches, far wider than the province. See esAirHash for why the hash
+    // itself must also be safe at these magnitudes.
     vec2 esPatchUV = mod(world.xz / uPatchM, 256.0);
     patch = smoothstep(0.10, 0.50, esAirNoise(esPatchUV));
   }
