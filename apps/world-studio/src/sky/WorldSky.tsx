@@ -305,11 +305,14 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
         // Round 2: the first version was too tight to notice — the aureole
         // was gone within 2-3 degrees of a disc that is itself about 1 wide.
         // Slower exponents and a fatter skirt give a halo with some reach.
+        // Round 3 (owner: "looks great, reduce the halo size a bit") — the
+        // aureole exponents and the skirt widths are both tightened by about
+        // a third. Brightness is unchanged; only the reach comes in.
         vec3 esMoonGlow =
-            uMoonGlowColA * (exp(-esAngA * 22.0) * 0.75
-              + 1.0 / (1.0 + pow(esAngA * uMoonGlowWide.x, 2.0)) * 0.45)
-          + uMoonGlowColB * (exp(-esAngB * 34.0) * 0.55
-              + 1.0 / (1.0 + pow(esAngB * uMoonGlowWide.y, 2.0)) * 0.28);
+            uMoonGlowColA * (exp(-esAngA * 32.0) * 0.75
+              + 1.0 / (1.0 + pow(esAngA * uMoonGlowWide.x, 2.0)) * 0.40)
+          + uMoonGlowColB * (exp(-esAngB * 48.0) * 0.55
+              + 1.0 / (1.0 + pow(esAngB * uMoonGlowWide.y, 2.0)) * 0.25);
         // Two full moons close together would otherwise sum to a flat white
         // patch; a Reinhard knee on this term alone lets the overlap
         // saturate gracefully instead of clipping.
@@ -1258,7 +1261,7 @@ void main() {
     // = wider skirt. Thick cloud does not widen anything — it removes the
     // glow through the occlusion term above.
     const veil = Math.min(1, rig.cloudCov[2] + 0.6 * rig.cloudCov[1]);
-    extras.uMoonGlowWide.value.set(7.5 - 3.0 * veil, 11 - 4.5 * veil);
+    extras.uMoonGlowWide.value.set(11.5 - 4.0 * veil, 16.0 - 6.0 * veil);
 
     // Ambient air conditions (owner 2026-09-10). Everything the fireflies,
     // midges, pollen, leaf fall and sun shafts key on is already computed
