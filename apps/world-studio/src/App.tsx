@@ -455,7 +455,10 @@ export function App() {
     // Generated overlays under the anchors, in back-to-front order.
     for (const name of ["regions", "soil", "watersheds", "flood", "flood-wet", "salinity",
                         "danger", "cultures", "wetlands", "rivers", "waterways",
-                        "routes", "rootways", "mist"]) {
+                        "routes", "rootways", "mist",
+                        // the hydrology graph (Phase 16a) draws on top of the Phase 3 rasters
+                        "hydrograph-wetline", "hydrograph-bodies", "hydrograph-season",
+                        "hydrograph-rivers", "hydrograph-falls"]) {
       const img = overlaysRef.current[name];
       // routes/waterways are drawn as clickable vector lines under ?cat=1
       if (showCatalogue && (name === "routes" || name === "waterways")) continue;
