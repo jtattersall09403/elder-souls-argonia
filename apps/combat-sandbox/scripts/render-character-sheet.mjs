@@ -35,7 +35,11 @@
  *   are static constants in `CombatScene`. There is no time of day and no
  *   weather here, so there is nothing to freeze.
  * - **Kit.** Armour, off-hand, quiver, nocked arrow and the carried main-hand
- *   weapon are all hidden, which is what the sheet's subtitle promises.
+ *   weapon are all hidden by default, which is what the appearance sheets'
+ *   subtitle promises. `--armour` is the one exception: it puts exactly the
+ *   named pieces on, one per card, for a sheet that is judging how armour meets
+ *   the body rather than what the body looks like. See `--backdrop` and
+ *   `shot=neck` in `docs/validation/character-sheets.md`.
  *
  * ## Donor names
  *
@@ -58,29 +62,18 @@ import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import process from "node:process";
 
-const SHEET_WIDTH = 3200;
-const SHEET_HEIGHT = 1480;
 const HEADER_HEIGHT = 110;
-const COLUMNS = 5;
-const CARD_WIDTH = 640;
-const CARD_HEIGHT = 685;
-/** The card's panel: inset from its slot, so the grid reads as ten cards. */
+/** The card's panel: inset from its slot, so the grid reads as separate cards. */
 const CARD_INSET_X = 12;
 const CARD_INSET_Y = 8;
-const CARD_BOX_WIDTH = CARD_WIDTH - 2 * CARD_INSET_X;
-const CARD_BOX_HEIGHT = CARD_HEIGHT - 2 * CARD_INSET_Y;
-const PANEL_TOP = 130;
-const PANEL_HEIGHT = 500;
-const FACE_PANEL_X = 26;
-const FACE_PANEL_WIDTH = 310;
-const BODY_PANEL_X = 356;
-const BODY_PANEL_WIDTH = 230;
 const SUPERSAMPLE = 2;
 const BACKGROUND = "0x101418";
 const CARD_FILL = "0x1B2028";
 const CARD_EDGE = "0x2E3742";
+const CARD_EDGE_FLAGGED = "0xFFC63A";
 const INK = "0xE8E1D2";
 const INK_QUIET = "0x9AA3AE";
+const INK_FLAGGED = "0xFFC63A";
 const FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf";
 const FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf";
 
@@ -96,10 +89,43 @@ const DEFAULT_TITLE = "Current race defaults: close face and full body";
 const DEFAULT_SUBTITLE = "Actual game renderer • vanilla Skyrim FaceGen, FaceTint, "
   + "body tint and weight • armour and weapons hidden";
 
-const SHOTS = [
-  { shot: "face", width: FACE_PANEL_WIDTH, height: PANEL_HEIGHT, offsetX: FACE_PANEL_X, caption: "FACE" },
-  { shot: "body", width: BODY_PANEL_WIDTH, height: PANEL_HEIGHT, offsetX: BODY_PANEL_X, caption: "FULL BODY" },
-];
+/**
+ * The shots a card can hold, and the panel each one occupies.
+ *
+ * The framing itself is not here: it is declared once, per shot, in
+ * `PORTRAIT_SHOTS` in `visualScenarios.ts`, so the page and the sheet cannot
+ * disagree about what a shot is.
+ */
+const SHOT_SPECS = {
+  face: { width: 310, height: 500, caption: "FACE" },
+  body: { width: 230, height: 500, caption: "FULL BODY" },
+  neck: { width: 300, height: 300, caption: "NECK & SHOULDERS" },
+};
+
+/**
+ * Grids. One per kind of sheet, because a card holding two 500-tall panels and
+ * a card holding one 300 square are not the same card.
+ *
+ * `appearance` is the layout the two committed sheets were shot in; its numbers
+ * are the originals and must not drift, or the next re-shoot stops being a
+ * pixel diff of the old one.
+ */
+const LAYOUTS = {
+  appearance: {
+    columns: 5,
+    cardWidth: 640,
+    cardHeight: 685,
+    panelTop: 130,
+    panels: [{ shot: "face", offsetX: 26 }, { shot: "body", offsetX: 356 }],
+  },
+  neck: {
+    columns: 9,
+    cardWidth: 352,
+    cardHeight: 430,
+    panelTop: 104,
+    panels: [{ shot: "neck", offsetX: 14 }],
+  },
+};
 
 function parseArguments(argv) {
   const options = {
@@ -110,6 +136,12 @@ function parseArguments(argv) {
     out: null,
     headed: false,
     prebuilt: false,
+    // Armour mode. Empty by default, so the appearance sheets keep their bare
+    // bodies and their promise that no kit is in frame.
+    armour: "",
+    builds: "",
+    backdrop: "",
+    flag: "",
   };
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
@@ -130,8 +162,23 @@ function parseArguments(argv) {
     throw new Error(`--sex must be male, female or both (got "${options.sex}")`);
   }
   if (!options.out) throw new Error("--out is required");
+  if (options.backdrop && !/^[0-9a-fA-F]{6}$/.test(options.backdrop)) {
+    throw new Error(`--backdrop takes a bare six-digit hex triplet (got "${options.backdrop}")`);
+  }
+  if (options.flag && !options.armour) throw new Error("--flag only means something with --armour");
   return options;
 }
+
+/** `elven-cuirass` → `Elven cuirass`. Derived, so no table here can go stale. */
+function tidyItemId(itemId) {
+  const words = String(itemId).split("-");
+  return [
+    words[0].slice(0, 1).toUpperCase() + words[0].slice(1),
+    ...words.slice(1),
+  ].join(" ");
+}
+
+const commaList = (value) => value.split(",").map((entry) => entry.trim()).filter(Boolean);
 
 const options = parseArguments(process.argv.slice(2));
 const root = process.cwd();
@@ -140,6 +187,24 @@ const outPath = resolve(root, options.out);
 
 /** The sexes a run covers, in the order the cards are laid out. */
 const sexes = options.sex === "both" ? ["male", "female"] : [options.sex];
+/** Armour mode: one card per (build × piece), a single neck panel each. */
+const armourIds = commaList(options.armour);
+const buildFilter = commaList(options.builds);
+const flagged = new Set(commaList(options.flag));
+const layout = armourIds.length ? LAYOUTS.neck : LAYOUTS.appearance;
+const COLUMNS = layout.columns;
+const CARD_WIDTH = layout.cardWidth;
+const CARD_HEIGHT = layout.cardHeight;
+const CARD_BOX_WIDTH = CARD_WIDTH - 2 * CARD_INSET_X;
+const CARD_BOX_HEIGHT = CARD_HEIGHT - 2 * CARD_INSET_Y;
+const PANEL_TOP = layout.panelTop;
+const LABEL_X = layout.panels[0].offsetX;
+const SHOTS = layout.panels.map(({ shot, offsetX }) => ({
+  shot,
+  offsetX,
+  ...SHOT_SPECS[shot],
+}));
+const SHEET_WIDTH = COLUMNS * CARD_WIDTH;
 
 /**
  * Cards from a schema-2 roster: ten races, twenty builds, one GLB each. Both
@@ -155,7 +220,8 @@ function cardsFromRoster(roster, source) {
   for (const sex of sexes) {
     for (const build of Object.values(roster.builds ?? {})) {
       if (build.sex !== sex) continue;
-      cards.push({
+      if (buildFilter.length && !buildFilter.includes(build.id)) continue;
+      const base = {
         buildId: build.id,
         raceLabel: roster.races?.[build.race]?.label ?? build.race,
         sex: build.sex,
@@ -163,8 +229,21 @@ function cardsFromRoster(roster, source) {
         // Kept whole for the sheet-only roster, whose builds have to be handed
         // to the page: they are not in the shipped one.
         roster: build,
-      });
+      };
+      if (!armourIds.length) {
+        cards.push({ ...base, key: build.id, armourId: null });
+        continue;
+      }
+      // One card per piece on this build, in the order they were asked for, so
+      // the sheet reads as a row of materials per body.
+      for (const armourId of armourIds) {
+        cards.push({ ...base, key: `${build.id}__${armourId}`, armourId });
+      }
     }
+  }
+  if (buildFilter.length) {
+    const missing = buildFilter.filter((id) => !cards.some((card) => card.buildId === id));
+    if (missing.length) throw new Error(`${source} has no build called ${missing.join(", ")}`);
   }
   if (!cards.length) {
     throw new Error(
@@ -285,8 +364,14 @@ function waitForServer(url, child, listening, timeoutMs = 30_000) {
 }
 
 const cards = options.roster === "variants" ? await readVariantRoster() : await readPlayableRoster();
-if (cards.length > COLUMNS * 2) {
-  throw new Error(`The sheet holds ${COLUMNS * 2} cards; this roster asks for ${cards.length}`);
+const ROWS = Math.ceil(cards.length / COLUMNS);
+const SHEET_HEIGHT = HEADER_HEIGHT + ROWS * CARD_HEIGHT;
+// A grid with a ragged last row is a mis-specified run, not a sheet: the cards
+// exist to be compared column by column.
+if (cards.length % COLUMNS !== 0) {
+  throw new Error(
+    `The grid is ${COLUMNS} wide and this run asks for ${cards.length} cards, which does not fill its rows`,
+  );
 }
 
 // Same server spin-up as the visual-scenario capture: Vite resolved through
@@ -357,6 +442,8 @@ try {
         );
       }
       const query = new URLSearchParams({ scenario: "portrait", build: card.buildId, shot });
+      if (card.armourId) query.set("armour", card.armourId);
+      if (options.backdrop) query.set("bg", options.backdrop);
       await page.goto(`${gameUrl}?${query}`, { waitUntil: "domcontentloaded" });
       await page.waitForFunction(
         () => window.__COMBAT_VISUAL_SCENARIO__?.ready === true,
@@ -370,13 +457,13 @@ try {
         if (done) break;
         await page.waitForTimeout(50);
       }
-      if (!done) throw new Error(`${card.buildId} ${shot}: the portrait scenario never finished`);
-      const path = join(scratch, `${card.buildId}-${shot}.png`);
+      if (!done) throw new Error(`${card.key} ${shot}: the portrait scenario never finished`);
+      const path = join(scratch, `${card.key}-${shot}.png`);
       await page.screenshot({ path });
       await page.close();
-      if (failures.length) throw new Error(`${card.buildId} ${shot}: ${failures.join("; ")}`);
-      shots.push({ buildId: card.buildId, shot, path, width, height, offsetX });
-      process.stdout.write(`shot ${card.buildId} ${shot}\n`);
+      if (failures.length) throw new Error(`${card.key} ${shot}: ${failures.join("; ")}`);
+      shots.push({ key: card.key, shot, path, width, height, offsetX });
+      process.stdout.write(`shot ${card.key} ${shot}\n`);
     }
   }
 } finally {
@@ -397,27 +484,31 @@ const panelRectangles = [];
 const boxes = [];
 cards.forEach((card, index) => {
   const origin = cardOrigin(index);
+  // A flagged card gets a thick warm border, so the piece the owner was asked
+  // to look at is found without reading eighteen labels.
+  const isFlagged = card.armourId !== null && flagged.has(card.armourId);
   boxes.push(
     `drawbox=x=${origin.x + CARD_INSET_X}:y=${origin.y + CARD_INSET_Y}`
     + `:w=${CARD_BOX_WIDTH}:h=${CARD_BOX_HEIGHT}:color=${CARD_FILL}:t=fill`,
     `drawbox=x=${origin.x + CARD_INSET_X}:y=${origin.y + CARD_INSET_Y}`
-    + `:w=${CARD_BOX_WIDTH}:h=${CARD_BOX_HEIGHT}:color=${CARD_EDGE}:t=2`,
+    + `:w=${CARD_BOX_WIDTH}:h=${CARD_BOX_HEIGHT}`
+    + `:color=${isFlagged ? CARD_EDGE_FLAGGED : CARD_EDGE}:t=${isFlagged ? 5 : 2}`,
   );
 });
 filters.push(`[0:v]${boxes.join(",")}[bg]`);
 
 let stage = "[bg]";
 shots.forEach((shot, index) => {
-  const card = cards.findIndex((entry) => entry.buildId === shot.buildId);
+  const card = cards.findIndex((entry) => entry.key === shot.key);
   const origin = cardOrigin(card);
   const x = origin.x + CARD_INSET_X + shot.offsetX;
   const y = origin.y + CARD_INSET_Y + PANEL_TOP;
   // ffmpeg reads a NaN overlay coordinate as zero rather than failing, which
   // once put every panel off the sheet and still produced a plausible file.
   if (!Number.isInteger(x) || !Number.isInteger(y)) {
-    throw new Error(`${shot.buildId} ${shot.shot}: panel position is not a whole number (${x}, ${y})`);
+    throw new Error(`${shot.key} ${shot.shot}: panel position is not a whole number (${x}, ${y})`);
   }
-  panelRectangles.push({ buildId: shot.buildId, shot: shot.shot, x, y, width: shot.width, height: shot.height });
+  panelRectangles.push({ key: shot.key, shot: shot.shot, x, y, width: shot.width, height: shot.height });
   filters.push(`[${index + 1}:v]scale=${shot.width}:${shot.height}:flags=lanczos[p${index}]`);
   filters.push(`${stage}[p${index}]overlay=${x}:${y}[s${index}]`);
   stage = `[s${index}]`;
@@ -431,15 +522,37 @@ cards.forEach((card, index) => {
   const origin = cardOrigin(index);
   const left = origin.x + CARD_INSET_X;
   const top = origin.y + CARD_INSET_Y;
+  // Armour mode names the piece first — it is what varies across the row — and
+  // the build second, so every card still says whose body it is.
+  const isFlagged = card.armourId !== null && flagged.has(card.armourId);
   labels.push(drawText({
-    text: `${card.raceLabel} — ${card.sex}`,
-    x: left + FACE_PANEL_X, y: top + 22, size: 30, font: FONT_BOLD,
+    text: card.armourId ? tidyItemId(card.armourId) : `${card.raceLabel} — ${card.sex}`,
+    x: left + LABEL_X,
+    y: top + 22,
+    size: card.armourId ? 26 : 30,
+    font: FONT_BOLD,
+    colour: isFlagged ? INK_FLAGGED : INK,
   }));
   labels.push(drawText({
-    text: tidyEditorId(card.donor?.editorId),
-    x: left + FACE_PANEL_X, y: top + 62, size: 22, font: FONT, colour: INK_QUIET,
+    text: card.armourId
+      ? `${card.raceLabel} — ${card.sex}`
+      : tidyEditorId(card.donor?.editorId),
+    x: left + LABEL_X,
+    y: top + (card.armourId ? 58 : 62),
+    size: card.armourId ? 20 : 22,
+    font: FONT,
+    colour: isFlagged ? INK_FLAGGED : INK_QUIET,
   }));
-  for (const shot of SHOTS) {
+  if (isFlagged) {
+    labels.push(drawText({
+      text: "CHECK THIS ONE",
+      x: left + LABEL_X, y: top + 80, size: 18, font: FONT_BOLD, colour: INK_FLAGGED,
+    }));
+  }
+  // Panel captions only where a card holds more than one panel. On a one-panel
+  // card the caption says what the header already says, and it collides with
+  // the build line.
+  for (const shot of SHOTS.length > 1 ? SHOTS : []) {
     labels.push(drawText({
       text: shot.caption,
       x: left + shot.offsetX, y: top + PANEL_TOP - 30, size: 18, font: FONT_BOLD, colour: INK_QUIET,
@@ -488,7 +601,7 @@ for (const rectangle of panelRectangles) {
   // averages 47 luma over a range of 233.
   if (!(average > 20) || !(high - low > 60)) {
     throw new Error(
-      `${rectangle.buildId} ${rectangle.shot}: the panel at (${rectangle.x}, ${rectangle.y}) is flat `
+      `${rectangle.key} ${rectangle.shot}: the panel at (${rectangle.x}, ${rectangle.y}) is flat `
       + `(luma average ${average}, range ${low}–${high}) — nothing was drawn there`,
     );
   }
@@ -499,8 +612,11 @@ await writeFile(`${outPath}.json`, `${JSON.stringify({
   generatedAt: new Date().toISOString(),
   roster: options.roster,
   sexes,
+  armour: armourIds,
+  backdrop: options.backdrop ? `#${options.backdrop}` : null,
   cards: cards.map((card) => ({
     buildId: card.buildId,
+    armourItemId: card.armourId,
     donorFormId: card.donor?.formId ?? null,
     donorName: tidyEditorId(card.donor?.editorId),
     donorNameSource: "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)",

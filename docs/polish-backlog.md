@@ -543,3 +543,24 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   the record: read `FULL`, resolve it, carry the name in the roster. The renderer
   then labels the card from the roster. The format is a uint32 count, a uint32
   data size, then `(stringId, offset)` pairs into a null-terminated blob.
+- **Evidence that the neck seam is open on every female build.** Measured on the
+  GLBs shipped at `34bec0ed` by `tooling/asset-pipeline/scripts/measure-neck-seam.py`:
+  the female neck ring is radius 0.345–0.386 source units against the male
+  0.483–0.529, and the one male-derived collar stands 16.4–27.5 mm outside the
+  narrowest female neck on all nine cuirasses — 9 of 9 female combinations OPEN,
+  9 of 9 male CLOSED except elven. Decision 0056 is the fix and is in flight;
+  this row is here so the numbers and the picture
+  (`docs/evidence/races/armour-neck-check.png`, `armour-neck-check.measured.json`)
+  can be re-run against the rebuilt GLBs and the row struck when they come back
+  closed for both sexes.
+- **The elven cuirass was recorded as a closed-neck design and is not one.**
+  Decision 0055 found no boundary encircling its neck, so nothing was stitched
+  and its GLB shipped unchanged. That shipped mesh has a ten-vertex open ring
+  concentric with the neck (offset 0.034), closing a full turn with a widest
+  angular gap of 41°, mean radius 0.535 at height 11.58. `find_collar_rings`
+  missed it, most likely on the one window elven is extreme in — its ring stands
+  0.42 units above the neck ring against that function's
+  `abs(own_centre.z - centre.z) <= radius * 1.5`. Its rim is 7.6 mm wider than
+  the narrowest male neck, so elven is the one cuirass open on males too. If
+  0056 keeps any part of that finder as a gate, this is the case that proves it
+  can miss a real ring.

@@ -1,6 +1,6 @@
 import { bowSight } from "@elder-souls/game-core/combat/bowSight";
 import { CATALOGUE, text } from "@elder-souls/text-catalogue";
-import { buildId } from "@elder-souls/game-core/actors/races";
+import { buildId, type Sex } from "@elder-souls/game-core/actors/races";
 import { solveBowAim } from "@elder-souls/game-core/combat/solveBowAim";
 import { bowShoulderPosition } from "@elder-souls/game-core/camera/bowCamera";
 import { useFrame, useThree } from "@react-three/fiber";
@@ -1051,11 +1051,11 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
  * removes that entirely. Deliberately paced: firing fifty requests at once
  * would compete with whatever the scene still needs.
  */
-function useCarriedAssetWarmup(enabled: boolean) {
+function useCarriedAssetWarmup(enabled: boolean, sex: Sex) {
   const stacks = useInventoryStore((state) => state.inventory.stacks);
   useEffect(() => {
     if (!enabled) return undefined;
-    const urls = [...new Set(stacks.map((stack) => itemAsset(stack.itemId)).filter(Boolean))]
+    const urls = [...new Set(stacks.map((stack) => itemAsset(stack.itemId, sex)).filter(Boolean))]
       .map((asset) => `${import.meta.env.BASE_URL}${asset}`);
     let index = 0;
     let timer = 0;
@@ -1067,7 +1067,7 @@ function useCarriedAssetWarmup(enabled: boolean) {
     };
     timer = window.setTimeout(step, WARMUP_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, [enabled, stacks]);
+  }, [enabled, sex, stacks]);
 }
 
 const WARMUP_DELAY_MS = 2500;
@@ -1084,13 +1084,26 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const portrait = visualScenario?.portrait ?? null;
   const playerLoadout = useEquippedLoadout();
   const playerArmour = useWornArmour();
+  // A portrait wears nothing unless the shot asked for one piece by id — a seam
+  // sheet judges how a single cuirass meets the body, and the inventory the
+  // sandbox happens to start with would put four unasked-for pieces in frame.
+  const portraitArmour = useMemo(
+    () => {
+      if (!portrait?.armourItemId) return NO_WORN_ARMOUR;
+      const worn = wornArmourFor([portrait.armourItemId]);
+      // Silence here would ship a sheet of bare necks that looked like a pass.
+      if (!worn.length) throw new Error(`Portrait: "${portrait.armourItemId}" is not wearable armour`);
+      return worn;
+    },
+    [portrait?.armourItemId],
+  );
   const playerQuiver = useEquippedArrow();
   // The physics world, for the crosshair ray: where the sight line lands is
   // what the shot is aimed at.
   const { rapier, world, rigidBodyStates } = useRapier();
   // Validation runs a fixed, deterministic scene; background fetches would only
   // add noise to it.
-  useCarriedAssetWarmup(!visualScenario);
+  useCarriedAssetWarmup(!visualScenario, playerBuild.sex);
   const playerWeapon = playerLoadout.mainHand;
   const consumeArrow = useInventoryStore((state) => state.remove);
   const playerGuard = useMemo(() => activeGuardProfile(playerLoadout), [playerLoadout]);
@@ -4275,7 +4288,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           weaponProfile={playerWeapon.visual}
           offHandProfile={portrait ? null : playerLoadout.offHand?.visual ?? null}
           animationPacks={playerAnimationPacks}
-          armour={portrait ? NO_WORN_ARMOUR : playerArmour}
+          armour={portrait ? portraitArmour : playerArmour}
           quiver={portrait ? null : playerQuiverMount}
           nockedArrow={portrait ? null : playerNockedArrow}
           carriedHidden={Boolean(portrait)}
@@ -4374,10 +4387,14 @@ export function CombatScene({ visualScenario = null }: { visualScenario?: Visual
   // the solver rather than only the combat update is what keeps an actor from
   // sliding to a halt, or an arrow from landing, behind the panel.
   const paused = useInventoryStore((state) => state.open) && !visualScenario;
+  // The arena sky, unless an evidence shot asked for its own clear colour. The
+  // fog takes it too: otherwise the far arena would still fade to the old sky
+  // and the "backdrop" a gap shows through would be two different colours.
+  const backdrop = visualScenario?.portrait?.backdrop ?? "#dceff4";
   return (
     <>
-      <color attach="background" args={["#dceff4"]} />
-      <fog attach="fog" args={["#dceff4", 20, 46]} />
+      <color attach="background" args={[backdrop]} />
+      <fog attach="fog" args={[backdrop, 20, 46]} />
       <ambientLight intensity={0.9} color="#ffffff" />
       <hemisphereLight intensity={1.25} color="#f8fdff" groundColor="#b8c5c2" />
       <directionalLight

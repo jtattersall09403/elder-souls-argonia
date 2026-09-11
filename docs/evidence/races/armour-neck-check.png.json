@@ -1,0 +1,148 @@
+{
+  "generatedAt": "2026-09-11T08:01:39.246Z",
+  "roster": "playable",
+  "sexes": [
+    "male",
+    "female"
+  ],
+  "armour": [
+    "iron-cuirass",
+    "steel-cuirass",
+    "studded-cuirass",
+    "daedric-cuirass",
+    "dwarven-cuirass",
+    "ebony-cuirass",
+    "elven-cuirass",
+    "glass-cuirass",
+    "orcish-cuirass"
+  ],
+  "backdrop": "#FF00C8",
+  "cards": [
+    {
+      "buildId": "nord-male",
+      "armourItemId": "iron-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-male",
+      "armourItemId": "steel-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-male",
+      "armourItemId": "studded-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-male",
+      "armourItemId": "daedric-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-male",
+      "armourItemId": "dwarven-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-male",
+      "armourItemId": "ebony-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-male",
+      "armourItemId": "elven-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-male",
+      "armourItemId": "glass-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-male",
+      "armourItemId": "orcish-cuirass",
+      "donorFormId": "00019FE8",
+      "donorName": "Golldir",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "iron-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "steel-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "studded-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "daedric-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "dwarven-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "ebony-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "elven-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "glass-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    },
+    {
+      "buildId": "nord-female",
+      "armourItemId": "orcish-cuirass",
+      "donorFormId": "00013666",
+      "donorName": "Annekke",
+      "donorNameSource": "tidied editor id (Skyrim.esm FULL is a localised string id and the STRINGS tables are not in the vault)"
+    }
+  ]
+}

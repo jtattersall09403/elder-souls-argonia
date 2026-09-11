@@ -27,9 +27,46 @@ node scripts/render-character-sheet.mjs \
 | `--out` | Where the PNG goes. A `.json` of what was shot lands beside it |
 | `--prebuilt` | Reuse `dist/` instead of rebuilding first |
 | `--headed` | Watch the browser work |
+| `--builds a,b` | Card only these roster build ids, instead of every build of the chosen sex |
+| `--armour a,b` | **Armour mode.** One card per build × piece, each wearing exactly that one piece, framed on the neck |
+| `--flag <item id>` | Draw those cards with a warm border and a “check this one” label |
+| `--backdrop RRGGBB` | Scene clear colour (and fog colour) for the run. Default: the arena's own sky |
 
-A run builds the app, serves it, drives twenty page loads and composes the grid
-with ffmpeg. Budget a few minutes.
+A run builds the app, serves it, drives one page load per panel and composes the
+grid with ffmpeg. Budget a few minutes.
+
+## The armour neck-seam sheet
+
+[`docs/evidence/races/armour-neck-check.png`](../../../../docs/evidence/races/armour-neck-check.png)
+answers one question: does any cuirass leave a hole where it meets the neck and
+shoulders? Nine cuirasses on a Nord male and the same nine on a Nord female,
+eighteen cards, each framed on the collar.
+
+```bash
+node scripts/render-character-sheet.mjs \
+  --roster playable --sex both --builds nord-male,nord-female \
+  --armour iron-cuirass,steel-cuirass,studded-cuirass,daedric-cuirass,dwarven-cuirass,ebony-cuirass,elven-cuirass,glass-cuirass,orcish-cuirass \
+  --flag elven-cuirass --backdrop FF00C8 \
+  --title "..." --subtitle "..." \
+  --out ../../docs/evidence/races/armour-neck-check.png
+```
+
+Why it looks like that:
+
+- **The backdrop is deliberately garish.** The defect being judged is *you can
+  see the backdrop through the gap*, so the sky and the fog are both set to
+  magenta for the run: a hole reads as a magenta pixel on skin, not as a slightly
+  wrong shadow. It is a per-shot parameter, never the app's default.
+- **One piece at a time.** The portrait path wears nothing unless a shot names an
+  item id, so nothing but the cuirass under review is in frame. An id that is not
+  wearable armour throws rather than rendering a bare neck that would read as a
+  pass.
+- **Fixed neck framing.** `shot=neck` is a third entry in `PORTRAIT_SHOTS`: a
+  level lens 1.2 m out at shoulder height over a 30° frame, riding the build's
+  `heightScale` like the face shot. Same pinning as every other shot, so it
+  re-shoots as a diff.
+
+Re-shoot it when an armour mesh, its rig weighting or the body under it changes.
 
 ## How the alternates are shown without shipping them
 
@@ -77,7 +114,8 @@ re-shoot after an appearance change is a real diff rather than noise:
   constant known before the run, not a measurement of the running scene.
 - **Light.** The arena's ambient, hemisphere and directional lights are
   constants. The sandbox has no time of day and no weather.
-- **Kit.** Armour, off-hand, quiver, arrow and the carried weapon are hidden.
+- **Kit.** Armour, off-hand, quiver, arrow and the carried weapon are hidden,
+  unless the shot named one armour piece (`--armour`, below).
 
 The shots come out of the real renderer, as a Playwright screenshot of the
 running sandbox, because that is the thing being judged. An offline render would
@@ -95,8 +133,9 @@ rendered or landed in the wrong place stops the run.
 
 ## Reading the sheet by hand
 
-`?scenario=portrait&build=<build id>&shot=face|body` opens a single card in the
-dev server, which is the quickest way to look at one build closely. It is a
+`?scenario=portrait&build=<build id>&shot=face|body|neck` opens a single card in
+the dev server, which is the quickest way to look at one build closely.
+`&armour=<item id>` puts one piece on it and `&bg=RRGGBB` swaps the backdrop. It is a
 debug entry point. The state of record for the chosen character stays
 `raceStore`. The picker on the title screen sets it.
 

@@ -76,6 +76,30 @@ Elven is a **closed-neck design**: no boundary encircles the neck at all, so
 there is nothing to stitch. That is recorded with its near-miss measurements
 rather than asserted away, and it is the one cuirass still worth a visual check.
 
+## Correction, 2026-09-11
+
+Superseded by 0056. Two claims above are wrong, measured independently on the
+GLBs shipped at `34bec0ed` by
+`tooling/asset-pipeline/scripts/measure-neck-seam.py` (the table above was
+produced by throwaway code inside the Blender stage; this is the standalone
+tool, and it agrees with the table to about a millimetre on males).
+
+1. **The table holds for males only.** `reference_bodies` supports a list and
+   the config supplies `male`, so every collar is snapped to a male neck. The
+   female neck ring is radius 0.345–0.386 source units against the male
+   0.483–0.529, so the same rim that ends 0.03–3.8 mm *inside* the narrowest
+   male neck ends 16.4–27.5 mm *outside* the narrowest female one. All nine
+   cuirasses are open on all ten female builds. Female characters ship.
+2. **Elven is not a closed-neck design.** Its shipped mesh has a ten-vertex open
+   ring concentric with the neck (offset 0.034), closing a full turn with a
+   41° widest gap, mean radius 0.535 at height 11.58. `find_collar_rings` missed
+   it; elven's collar stands 0.42 units above the neck ring, which is the one
+   window it is extreme in.
+
+Both are queued in [`docs/polish-backlog.md`](../polish-backlog.md). The
+evidence sheet is `docs/evidence/races/armour-neck-check.png` and the numbers
+are beside it in `armour-neck-check.measured.json`.
+
 ## Follow-ups
 
 - Weight-morphing armour between its own `_0`/`_1` NIFs per build would make the

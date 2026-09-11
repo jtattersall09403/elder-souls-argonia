@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "metresPerUnit": 0.14224,
+  "bodies": {
+    "male": {
+      "builds": 10,
+      "narrowestNeckRadius": 0.483082,
+      "narrowestNeckRace": "imperial",
+      "widestNeckRadius": 0.529079,
+      "highestNeckRingHeight": 11.187285,
+      "highestNeckRace": "nord",
+      "unit": "source units of 0.142240 m"
+    },
+    "female": {
+      "builds": 10,
+      "narrowestNeckRadius": 0.344779,
+      "narrowestNeckRace": "dunmer",
+      "widestNeckRadius": 0.386221,
+      "highestNeckRingHeight": 11.201099,
+      "highestNeckRace": "dunmer",
+      "unit": "source units of 0.142240 m"
+    }
+  },
+  "cuirasses": {
+    "iron": {
+      "male": {
+        "cuirass": "iron",
+        "sex": "male",
+        "state": "CLOSED",
+        "insideNarrowestNeckMm": 2.5,
+        "aboveHighestRingMm": 4.95,
+        "worstRadialMarginMm": -8.38,
+        "worstVerticalMarginMm": 6.91,
+        "worstBuild": "bosmer",
+        "collarVertices": 26
+      },
+      "female": {
+        "cuirass": "iron",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -17.71,
+        "aboveHighestRingMm": 2.99,
+        "worstRadialMarginMm": -23.4,
+        "worstVerticalMarginMm": -6.12,
+        "worstBuild": "dunmer",
+        "collarVertices": 26
+      }
+    },
+    "steel": {
+      "male": {
+        "cuirass": "steel",
+        "sex": "male",
+        "state": "CLOSED",
+        "insideNarrowestNeckMm": 1.45,
+        "aboveHighestRingMm": 17.3,
+        "worstRadialMarginMm": -7.37,
+        "worstVerticalMarginMm": 6.89,
+        "worstBuild": "bosmer",
+        "collarVertices": 14
+      },
+      "female": {
+        "cuirass": "steel",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -17.39,
+        "aboveHighestRingMm": 15.33,
+        "worstRadialMarginMm": -22.61,
+        "worstVerticalMarginMm": -3.63,
+        "worstBuild": "redguard",
+        "collarVertices": 14
+      }
+    },
+    "studded": {
+      "male": {
+        "cuirass": "studded",
+        "sex": "male",
+        "state": "CLOSED",
+        "insideNarrowestNeckMm": 1.56,
+        "aboveHighestRingMm": 11.03,
+        "worstRadialMarginMm": -8.12,
+        "worstVerticalMarginMm": 6.91,
+        "worstBuild": "bosmer",
+        "collarVertices": 14
+      },
+      "female": {
+        "cuirass": "studded",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -18.15,
+        "aboveHighestRingMm": 9.07,
+        "worstRadialMarginMm": -169.95,
+        "worstVerticalMarginMm": -5.26,
+        "worstBuild": "dunmer",
+        "collarVertices": 14
+      }
+    },
+    "daedric": {
+      "male": {
+        "cuirass": "daedric",
+        "sex": "male",
+        "state": "CLOSED",
+        "insideNarrowestNeckMm": 3.26,
+        "aboveHighestRingMm": 13.43,
+        "worstRadialMarginMm": -6.34,
+        "worstVerticalMarginMm": 6.94,
+        "worstBuild": "bosmer",
+        "collarVertices": 20
+      },
+      "female": {
+        "cuirass": "daedric",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -16.44,
+        "aboveHighestRingMm": 11.46,
+        "worstRadialMarginMm": -22.28,
+        "worstVerticalMarginMm": -5.23,
+        "worstBuild": "dunmer",
+        "collarVertices": 20
+      }
+    },
+    "dwarven": {
+      "male": {
+        "cuirass": "dwarven",
+        "sex": "male",
+        "state": "CLOSED",
+        "insideNarrowestNeckMm": 0.03,
+        "aboveHighestRingMm": 11.78,
+        "worstRadialMarginMm": -7.88,
+        "worstVerticalMarginMm": 6.91,
+        "worstBuild": "bosmer",
+        "collarVertices": 21
+      },
+      "female": {
+        "cuirass": "dwarven",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -19.37,
+        "aboveHighestRingMm": 9.82,
+        "worstRadialMarginMm": -23.38,
+        "worstVerticalMarginMm": -5.01,
+        "worstBuild": "dunmer",
+        "collarVertices": 21
+      }
+    },
+    "ebony": {
+      "male": {
+        "cuirass": "ebony",
+        "sex": "male",
+        "state": "CLOSED",
+        "insideNarrowestNeckMm": 2.5,
+        "aboveHighestRingMm": 4.95,
+        "worstRadialMarginMm": -8.38,
+        "worstVerticalMarginMm": 6.91,
+        "worstBuild": "bosmer",
+        "collarVertices": 26
+      },
+      "female": {
+        "cuirass": "ebony",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -17.71,
+        "aboveHighestRingMm": 2.99,
+        "worstRadialMarginMm": -23.4,
+        "worstVerticalMarginMm": -6.12,
+        "worstBuild": "dunmer",
+        "collarVertices": 26
+      }
+    },
+    "elven": {
+      "male": {
+        "cuirass": "elven",
+        "sex": "male",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -7.56,
+        "aboveHighestRingMm": 56.48,
+        "worstRadialMarginMm": -29.2,
+        "worstVerticalMarginMm": 41.48,
+        "worstBuild": "bosmer",
+        "collarVertices": 10
+      },
+      "female": {
+        "cuirass": "elven",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -27.54,
+        "aboveHighestRingMm": 54.51,
+        "worstRadialMarginMm": -34.62,
+        "worstVerticalMarginMm": 45.46,
+        "worstBuild": "orsimer",
+        "collarVertices": 10
+      }
+    },
+    "glass": {
+      "male": {
+        "cuirass": "glass",
+        "sex": "male",
+        "state": "CLOSED",
+        "insideNarrowestNeckMm": 0.92,
+        "aboveHighestRingMm": 12.26,
+        "worstRadialMarginMm": -8.43,
+        "worstVerticalMarginMm": 6.91,
+        "worstBuild": "bosmer",
+        "collarVertices": 20
+      },
+      "female": {
+        "cuirass": "glass",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -18.37,
+        "aboveHighestRingMm": 10.29,
+        "worstRadialMarginMm": -23.3,
+        "worstVerticalMarginMm": -5.95,
+        "worstBuild": "dunmer",
+        "collarVertices": 20
+      }
+    },
+    "orcish": {
+      "male": {
+        "cuirass": "orcish",
+        "sex": "male",
+        "state": "CLOSED",
+        "insideNarrowestNeckMm": 3.75,
+        "aboveHighestRingMm": 3.44,
+        "worstRadialMarginMm": -7.45,
+        "worstVerticalMarginMm": 6.95,
+        "worstBuild": "bosmer",
+        "collarVertices": 34
+      },
+      "female": {
+        "cuirass": "orcish",
+        "sex": "female",
+        "state": "OPEN",
+        "insideNarrowestNeckMm": -16.74,
+        "aboveHighestRingMm": 1.48,
+        "worstRadialMarginMm": -167.66,
+        "worstVerticalMarginMm": -6.12,
+        "worstBuild": "dunmer",
+        "collarVertices": 34
+      }
+    }
+  }
+}

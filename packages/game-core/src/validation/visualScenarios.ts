@@ -1238,7 +1238,9 @@ export class VisualScenarioDriver {
  * `raceStore`; the `build` parameter only writes to it, in the dev path.
  */
 export const PORTRAIT_SCENARIO_ID = "portrait";
-export type PortraitShot = "face" | "body";
+export type PortraitShot = "face" | "body" | "neck";
+
+export const PORTRAIT_SHOT_IDS: readonly PortraitShot[] = ["face", "body", "neck"];
 
 export type PortraitStaging = {
   buildId: string;
@@ -1247,6 +1249,22 @@ export type PortraitStaging = {
   camera: readonly [number, number, number];
   lookAt: readonly [number, number, number];
   fieldOfView: number;
+  /**
+   * One worn armour piece, by item id, or null for the bare body.
+   *
+   * Default is null so the committed appearance sheets keep showing skin: they
+   * exist to prove the *character*, and their subtitle promises no kit. A sheet
+   * that is judging how armour meets the body asks for it explicitly.
+   */
+  armourItemId: string | null;
+  /**
+   * Scene clear colour for this shot, or null for the arena's own sky.
+   *
+   * A seam sheet wants a garish backdrop, because the defect being judged is
+   * "you can see the backdrop through the gap". Carried per shot rather than
+   * changed in the scene so the arena keeps one sky.
+   */
+  backdrop: string | null;
 };
 
 /**
@@ -1258,7 +1276,10 @@ export type PortraitStaging = {
  * would make two runs incomparable. A build that does not fit the frame is a
  * result, not a framing bug.
  */
-const PORTRAIT_SHOTS: Record<PortraitShot, Omit<PortraitStaging, "buildId" | "shot">> = {
+const PORTRAIT_SHOTS: Record<
+  PortraitShot,
+  Omit<PortraitStaging, "buildId" | "shot" | "armourItemId" | "backdrop">
+> = {
   // Head height measured off the body shot: the reference male stands 1.90 m,
   // crown 1.90, chin 1.66. A level lens at 1.80 over a 0.46 m tall frame holds
   // the whole head, with room for the Argonian and Khajiit muzzles, which sit
@@ -1268,6 +1289,12 @@ const PORTRAIT_SHOTS: Record<PortraitShot, Omit<PortraitStaging, "buildId" | "sh
   // and two runs still diff.
   face: { camera: [0, 1.8, 0.8], lookAt: [0, 1.8, 0], fieldOfView: 32 },
   body: { camera: [0, 1.05, 4.1], lookAt: [0, 0.95, 0], fieldOfView: 34 },
+  // Neck and shoulders. A level lens at 1.62, 1.5 m out over a 30° frame holds
+  // 1.22–2.02 vertically and the same 0.80 m across: jaw and skull base at the
+  // top, both shoulder points inside the edges, collar and upper chest below.
+  // Measured off a first pass at 1.2 m, which cropped the jaw. Rides
+  // `heightScale` like the face shot, for the same reason.
+  neck: { camera: [0, 1.62, 1.5], lookAt: [0, 1.62, 0], fieldOfView: 30 },
 };
 
 /** Simulated seconds before the shot: enough for load, warm-up and settle. */
@@ -1277,14 +1304,15 @@ export function portraitScenario(
   buildId: string,
   shot: PortraitShot,
   build?: { heightScale: number },
+  kit: { armourItemId?: string | null; backdrop?: string | null } = {},
 ): VisualScenario {
   const framing = PORTRAIT_SHOTS[shot];
   // An Altmer stands 8% taller than a Dunmer, so a single eye height would put
   // four of the ten heads out of the face frame. The roster's own number is the
   // honest correction: deterministic, per build, and known before the run.
-  const scale = shot === "face"
-    ? (build ?? CHARACTER_BUILDS[buildId])?.heightScale ?? 1
-    : 1;
+  const scale = shot === "body"
+    ? 1
+    : (build ?? CHARACTER_BUILDS[buildId])?.heightScale ?? 1;
   const staging = {
     ...framing,
     camera: [framing.camera[0], framing.camera[1] * scale, framing.camera[2]] as const,
@@ -1300,7 +1328,13 @@ export function portraitScenario(
     player: { position: [0, Y, 0], yaw: 0, equipped: false, emptyOffHand: true },
     enemy: SOLO_ENEMY,
     cues: [],
-    portrait: { buildId, shot, ...staging },
+    portrait: {
+      buildId,
+      shot,
+      ...staging,
+      armourItemId: kit.armourItemId ?? null,
+      backdrop: kit.backdrop ?? null,
+    },
   };
 }
 
@@ -1318,8 +1352,13 @@ export function visualScenarioFromSearch(
   if (id === PORTRAIT_SCENARIO_ID) {
     const buildId = parameters.get("build");
     const shot = parameters.get("shot");
-    if (!buildId || (shot !== "face" && shot !== "body")) return null;
-    return portraitScenario(buildId, shot, lookupBuild(buildId));
+    if (!buildId || !PORTRAIT_SHOT_IDS.includes(shot as PortraitShot)) return null;
+    // `bg` is given as a bare hex triplet so it survives a URL without escaping.
+    const backdrop = parameters.get("bg");
+    return portraitScenario(buildId, shot as PortraitShot, lookupBuild(buildId), {
+      armourItemId: parameters.get("armour"),
+      backdrop: backdrop && /^[0-9a-fA-F]{6}$/.test(backdrop) ? `#${backdrop}` : null,
+    });
   }
   return id && VISUAL_SCENARIO_IDS.includes(id as VisualScenarioId)
     ? VISUAL_SCENARIOS[id as VisualScenarioId]
