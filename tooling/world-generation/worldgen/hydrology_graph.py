@@ -448,6 +448,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
         li = np.arange(1, n_lag + 1)
         areas = np.bincount(lag_lbl.ravel(), minlength=n_lag + 1)[1:]
         pos = ndimage.minimum_position(g, lag_lbl, li)
+        lag_boxes = ndimage.find_objects(lag_lbl)
         for i in range(n_lag):
             if areas[i] * mpp * mpp < POND_MIN_M2:
                 continue
@@ -457,7 +458,9 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
                    "areaM2": _r(float(areas[i]) * mpp * mpp, 0), "maxDepthM": _r(-float(g[lag_lbl == i + 1].min())),
                    "sheet": False, "season": "perennial", "seasonResponse": 0.0,
                    "wetSeasonLevelM": 0.0, "drySeasonLevelM": 0.0, "deepestCell": [int(dx), int(dy)],
-                   "bboxCells": None, "region": int(coarse_at(reg_c, dx, dy)), "inflow": [], "outflow": None,
+                   "bboxCells": [int(lag_boxes[i][1].start), int(lag_boxes[i][0].start),
+                                 int(lag_boxes[i][1].stop), int(lag_boxes[i][0].stop)],
+                   "region": int(coarse_at(reg_c, dx, dy)), "inflow": [], "outflow": None,
                    "terrainPrecondition": {"kind": "sea", "levelM": 0.0}}
             body_rec.append(rec)
             body_index[bid] = rec

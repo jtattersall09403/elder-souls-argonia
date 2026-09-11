@@ -8,7 +8,7 @@
   "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands (pieces of 10+ cells, about 300 m2), every river cell and every graph body. The raw coarse lake mask is NOT used: its 3,781 pieces were mostly one-cell pits along contours."
  },
  "source": "world/sources/hydrology/hydrology-graph.json",
- "contentSha256": "3e7c6df4dc7c4632f6260696b041da1fbfac000174e39e67b3a6b193e86093db",
+ "contentSha256": "d0208a5be6a8504ba5cd46fff625272f5df65377ba28d73932185cd428db3ac2",
  "legends": {
   "hydrograph-rivers": {
    "horizontal-channel": {

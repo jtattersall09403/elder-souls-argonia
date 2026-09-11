@@ -78,7 +78,8 @@ export function buildHydrographIndex(graph: HgGraph, width: number, height: numb
         const area = (x1 - x0) * (y1 - y0);
         if (area < bestArea) { bestArea = area; best = b; }
       }
-      return best;
+      // painted water with no boxed body under it is the sea (the one body without a box)
+      return best ?? bodies.get("body.ocean") ?? null;
     },
     river: (id) => rivers.get(id),
     body: (id) => bodies.get(id),
