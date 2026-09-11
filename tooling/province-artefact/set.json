@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "root": "apps/world-studio/public/province",
+  "comment": "The generated province rasters. These are rebuild output, not source: they live in a rolling GitHub release (tag province-rasters) and are fetched, never committed. Everything else under province/ (the small overlay PNGs and all JSON) stays in git.",
+  "patterns": [
+    "chunks/**/*.png",
+    "refined/*.png",
+    "water/**/*.png",
+    "vegetation/**"
+  ]
+}

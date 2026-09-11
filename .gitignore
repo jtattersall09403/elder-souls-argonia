@@ -13,3 +13,13 @@ output/
 .codex-worktrees/
 .claude/settings.local.json
 .claude/worktrees/
+
+# Generated province rasters (~106 MB). Rebuild output, not source: they ship
+# as an asset of the rolling `province-rasters` GitHub release and are restored
+# with `npm run province:fetch`. The set is defined in
+# tooling/province-artefact/set.json; the committed manifest is
+# apps/world-studio/public/province/rasters-manifest.json.
+apps/world-studio/public/province/chunks/**/*.png
+apps/world-studio/public/province/refined/*.png
+apps/world-studio/public/province/water/**/*.png
+apps/world-studio/public/province/vegetation/**

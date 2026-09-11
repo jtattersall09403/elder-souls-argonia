@@ -465,8 +465,24 @@ function checkHydrologyGraph() {
 }
 
 // ---------------------------------------------------------------------------
+// The generated province rasters (~106 MB) live in a rolling GitHub release,
+// not in git; apps/world-studio/public/province/rasters-manifest.json is the
+// committed record of what they are. A tree whose rasters and manifest
+// disagree builds a province nobody can reproduce, so it fails here.
+function checkProvinceRasters() {
+  try {
+    execSync("node tooling/province-artefact/fetch.mjs --check", { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) {
+    const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(-4).join("\n");
+    fail(6, "apps/world-studio/public/province/rasters-manifest.json", 0, out ||
+      "province raster check failed (node tooling/province-artefact/fetch.mjs --check)");
+  }
+}
+
+// ---------------------------------------------------------------------------
 
 checkDeterminism();
+checkProvinceRasters();
 checkProse();
 checkHydrologyGraph();
 checkSingletons();

@@ -79,8 +79,9 @@ python3 -m worldgen.refine_province "<...>/heightfield-f32.npy" "<...>/hydrology
 python3 -m worldgen.compile_chunks
 
 # 7. Phase 7: encode chunks for the browser (RG16 PNGs + web manifest into
-#    apps/world-studio/public/province/chunks/ — committed, since CI/Pages
-#    never see the vault)
+#    apps/world-studio/public/province/chunks/ — shipped via the rasters
+#    release, since CI/Pages never see the vault; see "Generated rasters live
+#    in a release, not in git" below)
 python3 -m worldgen.export_web_chunks
 
 python3 -m pytest -q   # tests over the algorithmic cores
@@ -112,6 +113,26 @@ python3 -m worldgen.render_blueprint \
 Rerun 2 (then 3) after changing conditioning, thresholds or authored region
 overrides; rerun 3 alone after changing anchors, connections, danger or
 culture rules. Outputs are deterministic (fixed noise seed).
+
+## Generated rasters live in a release, not in git
+
+The big generated province rasters — `chunks/**.png`, `refined/*.png`,
+`water/**.png` and everything under `vegetation/` (about 106 MB, 984 files) —
+are rebuild output, not source. They are **gitignored**. What git carries is
+`apps/world-studio/public/province/rasters-manifest.json`: the sha256 of every
+file plus a combined sha, and the name of the release asset that holds them.
+The set is defined once, in `tooling/province-artefact/set.json`.
+
+- **After any chain run:** `npm run province:publish` (uploads the archive to
+  the rolling `province-rasters` GitHub release and rewrites the manifest),
+  then commit the manifest with the rest of the change.
+- **On a fresh checkout:** `npm run province:fetch` once — it downloads the
+  asset, verifies every file against the manifest before anything lands, and
+  extracts in place. It is also the first step of both Pages jobs.
+- **`npm test` refuses a tree whose rasters and manifest disagree.** If the
+  files are missing or stale it tells you to run `npm run province:fetch`; if
+  they differ from the manifest (a rebuild nobody published) it tells you to
+  run `npm run province:publish`. `npm run province:check` is that gate alone.
 
 ## Dependencies
 
