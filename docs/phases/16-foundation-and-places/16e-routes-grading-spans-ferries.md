@@ -52,6 +52,13 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
   `waterways` and `rootways` overlays are regenerated in the same commit.**
   Until then the 2D map's route layers describe the old water; that is
   stated in the layer's hover text until this chunk replaces them.
+- **Waterways are re-derived on the graph** (owner, 2026-09-11): a boat
+  lane, major or minor, follows graph reaches and bodies (channel reaches
+  whose `depthM` and `widthM` float the hull class, backwater reaches across
+  a body, lagoons and the sea) and never a raster class label; a lane that
+  needs water the graph does not have is a sourcing gap in the plot, not a
+  dredge. The published `waterways*.json` and the `waterways` overlay are
+  regenerated in the same commit.
 - Crossings read the graph: a ford is on a reach whose `depthM` allows it, a
   bridge or ferry per decision 0051; no route may cross a
   `horizontal-backwater` reach except by ferry or span.

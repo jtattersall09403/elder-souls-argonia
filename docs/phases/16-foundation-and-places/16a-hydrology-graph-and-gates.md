@@ -113,6 +113,8 @@ later chunk (one row per item, a status, a pointer).
 | No mudflats or lagoons on the map | lagoons drawn; mudflats explained | the 9 lagoons (sea-level water winding inland) now draw in their colour; mudflats are a tidal shore state 16c exposes, not bodies, so 0 is by design |
 | Triangle arrowheads ambiguous | done | open chevrons pointing downstream |
 | The rogue "waterfall" at 4.29 E 1.80 S | explained | it sits where the river meets the head of the 123 ha lagoon (now visible); the base has a 7.8 m step there; too abrupt for a rapid by the rule, but a source-terrain terrace, flagged for 16b to smooth into a rapid |
+| Waterways (major and minor) should follow the graph's rivers and sea | scheduled | 16e: lanes re-derived on graph reaches and bodies, overlay regenerated in the same commit |
+| Lagoons unnamed in the hover | done | lagoons carry a hover box; painted sea names itself as the ocean body |
 | Wet-season line full of tiny specks | fixed at the root | the raw coarse lake mask (3,781 pieces, most one cell) is no longer part of the line; wetland pieces under 10 cells dropped; hover says when a pixel is inside the extent |
 
 ## Acceptance
