@@ -109,8 +109,13 @@ or a storm ground every species. The first deploy of this round drew nothing
 on any GPU: the vertex shader used `patch`, a reserved word in the WebGL 2
 shading language, so it never compiled. Fixed; a test now refuses reserved
 words in these shaders; `apps/world-studio/scripts/probe-air-fast.mjs`
-answers "should species X be here? does it draw?" in under a second per
-site without loading the province.
+answers "should species X be here? does it draw? does it change pixels
+against a lit grey card?" in under a second per site without loading the
+province. Second deployed defect: midges and dragonflies, both placed over
+open water, were painted out by the water surface (drawn in a later pass,
+exactly as rain was in 8b round 4); the whole air layer now sits on the
+post-water layer. The harness cannot see that class of defect; only the
+deployed on/off probe (`probe-air-diff.mjs`, slow) or the owner's eyes can.
 
 **The province is deployed and walkable, 2026-09-09.** The full handoff — what
 changed, what to judge, and a studio URL per site — is
