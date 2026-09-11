@@ -91,7 +91,7 @@ const ha = (m2: number) => m2 >= 10000 ? `${(m2 / 10000).toFixed(1)} ha` : `${Ma
 export interface TipSection { title: string; rows: [string, string][] }
 
 const KIND_WORDS: Record<string, string> = {
-  "horizontal-river": "flat river", "horizontal-stream": "flat stream", "horizontal-creek": "flat creek",
+  "horizontal-channel": "flat channel",
   "horizontal-backwater": "through a lake or pond", "horizontal-tidal": "tidal reach",
   "sloped-riffle": "riffle (gentle slope)", "sloped-rapid": "rapid", "sloped-chute": "chute (steep slide)",
   "vertical-fall": "waterfall",
@@ -114,7 +114,8 @@ export function describeHydrograph(index: HydrographIndex, reach: HgReach | null
       ] });
     }
     const rows: [string, string][] = [
-      ["kind", `${KIND_WORDS[reach.kind] ?? reach.kind} (${reach.kind})`], ["size band", String(reach.band)],
+      ["kind", `${KIND_WORDS[reach.kind] ?? reach.kind} (${reach.kind})`],
+      ["size", `band ${reach.band} (${["", "creek", "stream", "river"][reach.band] ?? ""})`],
       ["length", `${Math.round(reach.lengthM)} m`], ["level", `${reach.levelFromM.toFixed(1)} → ${reach.levelToM.toFixed(1)} m`],
       ["slope", `${(reach.slope * 100).toFixed(1)} cm per m`], ["width", `${reach.widthM} m`], ["season", reach.season],
     ];

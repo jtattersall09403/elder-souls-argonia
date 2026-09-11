@@ -48,12 +48,12 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
 
 ### Added by 16a (2026-09-11)
 
-- **Routes are re-solved on the frozen water, and the map's `routes`,
+- **Routes are re-solved on the frozen water; the map's `routes`,
   `waterways` and `rootways` overlays are regenerated in the same commit.**
   Until then the 2D map's route layers describe the old water; that is
   stated in the layer's hover text until this chunk replaces them.
 - Crossings read the graph: a ford is on a reach whose `depthM` allows it, a
-  bridge or ferry per decision 0051, and no route may cross a
+  bridge or ferry per decision 0051; no route may cross a
   `horizontal-backwater` reach except by ferry or span.
 ## Acceptance
 

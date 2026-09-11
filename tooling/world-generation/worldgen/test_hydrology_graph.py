@@ -73,7 +73,7 @@ def test_every_river_must_reach_the_sea_a_lake_or_the_border(graph):
 
 
 def test_downstream_level_may_not_rise(graph):
-    r = _first(graph, "horizontal-river")["id"]
+    r = _first(graph, "horizontal-channel")["id"]
 
     def m(g):
         x = next(x for x in g["reaches"] if x["id"] == r)
@@ -94,7 +94,7 @@ def test_a_fall_needs_its_plunge_body(graph):
 
 def test_a_reach_is_not_both_sloped_and_flat(graph):
     s = _first(graph, "sloped")["id"]
-    h = _first(graph, "horizontal-creek")["id"]
+    h = _first(graph, "horizontal-channel")["id"]
 
     def m(g):
         for x in g["reaches"]:
@@ -128,6 +128,12 @@ def test_a_stale_content_hash_is_caught(graph):
     g = copy.deepcopy(graph)
     g["bodies"][0]["levelM"] += 0.5
     assert any("contentSha256" in e for e in hg.check(g))
+
+
+def test_a_short_channel_or_strip_run_fails_the_seam_budget(graph):
+    def m(g):
+        g["stats"]["shortChannelOrStripRuns"] = 2
+    assert any("seam budget" in e for e in _corrupt(graph, m))
 
 
 def test_drainage_loops_fail_the_gate(graph):

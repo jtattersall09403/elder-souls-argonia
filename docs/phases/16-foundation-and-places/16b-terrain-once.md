@@ -73,10 +73,10 @@ Needs rulings 1, 2, 3, 5, 6, 10 (plan §7).
   array; today's `sculpt_province` is deterministic and differs (max 92.5 m,
   6.3 % of samples > 1 m). Re-freeze = run today's sculpt, then
   `compile_hydrology` (the solver's loop fix is in), then
-  `hydrology_graph derive`, and the graph's `sourceHeightSha256` must equal
+  `hydrology_graph derive`; the graph's `sourceHeightSha256` must equal
   the frozen base's sha. The 16a graph was derived on exactly that output.
 - **Pits.** The base has no river-trapped depressions; the refine stages
-  make them. Freeze gate: `forcedBasins == 0` after the terrain stages, and
+  make them. Freeze gate: `forcedBasins == 0` after the terrain stages, with
   every accepted body corresponds to a graph body (measured, authored or
   appended by the extension rule). No pit is filled by hand.
 - **Coastal terrace steps.** The graph flags falls with
@@ -91,7 +91,7 @@ Needs rulings 1, 2, 3, 5, 6, 10 (plan §7).
   channels are authored waterways this chunk carves and appends to the graph
   under the extension rule (`origin: "terrain-stage"`).
 - **Overlays.** After the freeze, regenerate the studio's `hydro-*.png` and
-  `refined/flood-wet.png` from the frozen pass, and the `hydrograph-*.png`
+  `refined/flood-wet.png` from the frozen pass plus the `hydrograph-*.png`
   from the re-derived graph, in the same commit; the map's hillshade then
   matches the graph lines.
 ## Acceptance

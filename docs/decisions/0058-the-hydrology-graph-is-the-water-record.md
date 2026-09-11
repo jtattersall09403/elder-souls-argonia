@@ -57,6 +57,18 @@ geography-keyed ids. A second model would have been a second source of truth.
    invariant. The shipped Phase 3 rasters are unchanged until 16b re-runs
    the pass.
 
+8. **Owner review 2026-09-11, folded in.** (a) No waterfall is ever cut to
+   add one: only real relief makes a fall, so the knickpoint proposals were
+   dropped; a fall off a low bank into sea-level water is flagged
+   `coastal-terrace-step` for 16b to smooth. (b) Seasons flow downstream:
+   once perennial, a river stays perennial to its mouth, so no river dries
+   in the middle. (c) One flat kind, `horizontal-channel`, with the size as
+   `band`; every reach carries a `surface` (channel / strip / fall / body)
+   and a channel or strip shorter than 30 m is absorbed by its neighbour, so
+   the renderer's seams stay few and semantic. (d) Lore-required water the
+   base lacks is declared in `authored-bodies.json` (the Blackrose lake) and
+   dug by 16b. (e) A river through a body is the body (16c rule).
+
 **What it replaces.** The anonymous per-compile depression population of
 0045 (as the *record*; the flood solver still finds the bodies, once), the
 `reach-N`/`fall-N`/`strip-N` emit-order ids of the water compile (16c

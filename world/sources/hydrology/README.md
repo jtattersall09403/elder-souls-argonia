@@ -56,7 +56,7 @@ largest catchment at each junction.
 
 | Kind | Rule (from the reach's own water-level profile) |
 |---|---|
-| `horizontal-river` / `-stream` / `-creek` | profile slope < 0.035; band 3 / 2 / 1 (catchment >= 15 / 4 / 1 km2 x scale) |
+| `horizontal-channel` | profile slope < 0.035; the size is `band` 1 / 2 / 3 (creek / stream / river: catchment >= 1 / 4 / 15 km2 x scale) |
 | `horizontal-tidal` | as above, majority of stations in the tidal mask |
 | `horizontal-backwater` | inside a standing body (`bodyId`); the river passing through a lake |
 | `sloped-riffle` | 0.035 <= slope < 0.065 |
@@ -65,7 +65,13 @@ largest catchment at each junction.
 | `vertical-fall` | the carve's fall rule: >= 3 m at a face >= 70 deg; `fall: {dropM, lipLevelM, plungeLevelM, plungeBodyId, origin}` |
 
 Runs shorter than 6 stations (about 11 m) are merged into their neighbour so
-a reach is never a one-station flicker; falls are never merged. Other fields:
+a reach is never a one-station flicker, and a channel or strip surface
+shorter than 30 m is absorbed by its longer neighbour; falls and bodies are
+never merged. Each reach carries `surface` ∈ channel | strip | fall | body:
+the four things the renderer builds, so a seam only exists where the surface
+changes, never between a creek and a stream or a riffle and a rapid (owner,
+2026-09-11: keep transitions few and semantic). `stats.surfaceTransitions`
+counts them province-wide and `shortChannelOrStripRuns` must be 0. Other fields:
 `band`, `accumKm2`, `slope` (profile), `slopeMax` (station), `widthM`
 (hydraulic), `depthM` (centre), `lengthM`, `levelFromM`/`levelToM` (may rise
 by at most 0.25 m, the carve's junction pin), `speedMS`, `season`, `tidal`,

@@ -114,7 +114,7 @@ against a lit grey card?" in under a second per site without loading the
 province. Second deployed defect: midges and dragonflies, both placed over
 open water, were painted out by the water surface (drawn in a later pass,
 exactly as rain was in 8b round 4); the whole air layer now sits on the
-post-water layer. The harness cannot see that class of defect; only the
+post-water layer. The probe rig cannot see that class of defect; only the
 deployed on/off probe (`probe-air-diff.mjs`, slow) or the owner's eyes can.
 
 **The province is deployed and walkable, 2026-09-09.** The full handoff — what

@@ -60,30 +60,25 @@ pass; the graph's `drainageLoops` invariant holds it at zero.
 
 ## 4. The graph, as derived (report)
 
-A **knickpoint** is a sudden steepening in a river's bed, the step in the
-profile where a waterfall or rapid forms; "knickpoint proposal" means a spot
-where the base terrain already drops 3 m or more within 20 m as a slide, so
-cutting a 70-degree face there would make a waterfall.
+Re-derived 2026-09-11 after the owner's review: one flat channel kind with a size band, a 30 m seam rule, seasons flowing downstream, the Blackrose lake declared, no waterfall proposals.
 
-rivers 100 · reaches 889 · junctions 200 · bodies 406
+rivers 100 · reaches 678 · junctions 200 · bodies 407
 
 | Reach kind | count | km |
 |---|---|---|
-| horizontal-river | 40 | 2.0 |
-| horizontal-stream | 75 | 4.0 |
-| horizontal-creek | 185 | 10.5 |
+| horizontal-channel | 195 | 14.5 |
+| horizontal-tidal | 4 | 0.1 |
 | horizontal-backwater | 294 | 31.8 |
-| horizontal-tidal | 6 | 0.1 |
-| sloped-riffle | 62 | 1.9 |
-| sloped-rapid | 195 | 8.9 |
-| sloped-chute | 27 | 2.8 |
+| sloped-riffle | 50 | 3.3 |
+| sloped-rapid | 111 | 10.2 |
+| sloped-chute | 19 | 2.1 |
 | vertical-fall | 5 | 0.0 |
 
 | Body kind | count |
 |---|---|
 | ocean | 1 |
 | lagoon | 9 |
-| lake-lowland | 23 |
+| lake-lowland | 24 |
 | tarn-upland | 16 |
 | pond | 175 |
 | pool | 52 |
@@ -126,46 +121,13 @@ rivers 100 · reaches 889 · junctions 200 · bodies 406
 
 ## Waterfalls measured on the base
 
-| Reach | band | drop m | lip level m | plunge pool | nearest place |
-|---|---|---|---|---|---|
-| reach.2681-79 | 1 | 4.72 | 109.61 | body.2681-78 | Ash Holding (0.1 km) |
-| reach.90-2525 | 2 | 43.95 | 43.95 | body.ocean | Leaning Watch (0.1 km) |
-| reach.1393-181 | 1 | 24.74 | 24.74 | body.2442-1212 | Cut-In-The-Wall (0.0 km) |
-| reach.2349-983 | 3 | 7.83 | 7.83 | body.2442-1212 | The Break (0.1 km) |
-| reach.2590-659 | 1 | 122.31 | 122.31 | body.2442-1212 | The Poling Relay (0.0 km) |
-
-## Knickpoint proposals (131; by band {'1': 105, '2': 26})
-
-Band 2–3 only (the owner's question: falls on big rivers):
-
-| Reach | band | catchment km² | drop m over 20 m | east m | south m | nearest place |
+| Reach | band | drop m | lip level m | plunge pool | suspect | nearest place |
 |---|---|---|---|---|---|---|
-| reach.86-460 | 2 | 0.48 | 18.6 | 153.8 | 838.5 | Onkobra Divers' Yard (0.5 km) |
-| reach.115-474 | 2 | 0.479 | 17.53 | 191.1 | 861.2 | Onkobra Divers' Yard (0.5 km) |
-| reach.391-1602 | 2 | 0.603 | 17.28 | 719.7 | 2954.9 | The Stone Drop (0.1 km) |
-| reach.84-666 | 2 | 1.029 | 16.22 | 106.1 | 1205.6 | Onkobra Divers' Yard (0.2 km) |
-| reach.485-1501 | 2 | 0.462 | 15.62 | 877.3 | 2749.0 | Castle Giovesse (0.1 km) |
-| reach.913-1021 | 2 | 0.543 | 13.52 | 1793.6 | 1831.9 | The White Throat (0.0 km) |
-| reach.37-645 | 2 | 1.032 | 11.55 | 62.8 | 1176.8 | Onkobra Divers' Yard (0.3 km) |
-| reach.899-898 | 2 | 0.543 | 11.41 | 1711.8 | 1716.6 | Twyllbek Crown (0.1 km) |
-| reach.99-657 | 2 | 1.016 | 11.08 | 181.2 | 1201.2 | Onkobra Divers' Yard (0.2 km) |
-| reach.67-437 | 2 | 0.558 | 9.86 | 23.5 | 711.7 | Onkobra Divers' Yard (0.7 km) |
-| reach.767-2332 | 2 | 0.473 | 9.41 | 1488.6 | 4288.8 | The Silent Halls (0.1 km) |
-| reach.107-2464 | 2 | 0.451 | 9.32 | 178.1 | 4579.6 | Leaning Watch (0.0 km) |
-| reach.1027-1010 | 2 | 0.574 | 6.58 | 1944.5 | 1894.0 | The Topmost Chamber (0.0 km) |
-| reach.1238-999 | 2 | 0.474 | 6.37 | 2284.1 | 1866.2 | The Monsoon Boom (0.1 km) |
-| reach.1061-1506 | 2 | 0.837 | 5.59 | 1941.2 | 2751.1 | Rests-The-Walkers (0.1 km) |
-| reach.1789-234 | 2 | 1.517 | 5.39 | 3270.4 | 426.9 | Cut-And-Stack (0.1 km) |
-| reach.3380-466 | 2 | 0.644 | 5.05 | 6184.6 | 858.4 | The Waiting Hole (0.1 km) |
-| reach.387-1581 | 2 | 0.579 | 5.0 | 707.6 | 2899.8 | The Stone Drop (0.1 km) |
-| reach.1489-489 | 2 | 0.867 | 4.83 | 2720.9 | 893.2 | First-Counted (0.1 km) |
-| reach.1076-1079 | 2 | 0.622 | 4.68 | 1968.8 | 2000.2 | The Quiet Pit (0.1 km) |
-| reach.713-2309 | 2 | 0.456 | 4.34 | 1319.4 | 4224.9 | Door-That-Stayed-Shut (0.1 km) |
-| reach.360-1688 | 2 | 0.792 | 4.02 | 648.9 | 3094.4 | Cartwright's Cross (0.1 km) |
-| reach.3343-405 | 2 | 0.599 | 3.59 | 6111.1 | 740.7 | Thorn Terraces (0.1 km) |
-| reach.120-644 | 2 | 1.015 | 3.2 | 202.9 | 1181.6 | Onkobra Divers' Yard (0.2 km) |
-| reach.1256-1037 | 2 | 0.474 | 3.2 | 2296.0 | 1896.3 | The Monsoon Boom (0.1 km) |
-| reach.1002-1003 | 2 | 0.545 | 3.07 | 1833.2 | 1834.7 | Onkobra Kwama Mine (0.1 km) |
+| reach.2681-79 | 1 | 4.72 | 109.61 | body.2681-78 | - | Ash Holding (0.1 km) |
+| reach.90-2525 | 2 | 43.95 | 43.95 | body.ocean | - | Leaning Watch (0.1 km) |
+| reach.1393-181 | 1 | 24.74 | 24.74 | body.2442-1212 | - | Cut-In-The-Wall (0.0 km) |
+| reach.2349-983 | 3 | 7.83 | 7.83 | body.2442-1212 | coastal-terrace-step | The Break (0.1 km) |
+| reach.2590-659 | 1 | 122.31 | 122.31 | body.2442-1212 | - | The Poling Relay (0.0 km) |
 
 ## Lakes and tarns (≥ 1 ha)
 
@@ -176,6 +138,7 @@ Band 2–3 only (the owner's question: falls on big rivers):
 | body.200-770 | tarn-upland | 290.3 | 10.8 | 42.72 | perennial | 4 | reach.143-659 | Onkobra Divers' Yard (0.2 km) |
 | body.1787-344 | lake-lowland | 7.45 | 7.3 | 8.72 | perennial | 2 | reach.1747-270 | Guar Ground (0.1 km) |
 | body.1789-698 | lake-lowland | 1.09 | 7.0 | 2.49 | perennial | 2 | reach.1932-696 | Shoal Bank (0.1 km) |
+| body.1290-3508 | lake-lowland | 1.63 | 5.9 | 5.63 | perennial | 0 | - | Blackrose (0.0 km) |
 | body.973-3292 | lake-lowland | 1.52 | 4.7 | 4.68 | perennial | 1 | reach.878-3292 | The Potentate's Works (0.1 km) |
 | body.221-1650 | tarn-upland | 35.14 | 4.5 | 10.47 | perennial | 1 | reach.183-1668 | Bog Iron Workings (0.1 km) |
 | body.1999-999 | lake-lowland | 9.08 | 4.4 | 9.83 | perennial | 0 | reach.1953-1067 | Needle-Crown, the Agaceph Hist (0.2 km) |
@@ -212,15 +175,19 @@ Band 2–3 only (the owner's question: falls on big rivers):
 | body.2455-2973 | lake-lowland | 2.25 | 1.0 | 6.38 | perennial | 0 | reach.2503-2984 | Nothing-Planted (0.3 km) |
 
 Lost stations (coarse route climbs out by the wrong exit): 4 — sites: [{'reach': 2, 'eastM': 4881.7, 'southM': 107.4, 'stations': 2, 'band': 1}, {'reach': 33, 'eastM': 4310.9, 'southM': 1715.1, 'stations': 2, 'band': 3}]
-Steep/fall stations measured for valley width: 1972, under-resolved (< 2 coarse cells wide): 1197
+Steep/fall stations measured for valley width: 2200, under-resolved (< 2 coarse cells wide): 1271
 River-trapped depressions on the base: 0
 Wet-season line: 188785 coarse cells = 5.68 km²
 
 
-**Reading the numbers.** Five measured falls on the base, none on a band-3
-river except The Break (7.8 m); 26 band-2 knickpoint proposals are where 16b
-could cut one on a bigger river — the owner picks. "The Black Tarn" sits on a
-measured `tarn-upland`, a good sign the plot and the base agree.
+**Reading the numbers.** Five measured falls on the base; the one on a
+band-3 river (The Break, 7.8 m) is a coastal terrace step in the source data,
+flagged for 16b to smooth, so four real falls remain. Nothing is cut to add a
+waterfall (owner, 2026-09-11). "The Black Tarn" sits on a measured
+`tarn-upland`, a good sign the plot and the base agree. Seam budget: 396
+surface transitions province-wide over 62 km of river, no avoidable channel
+or strip shorter than 30 m; 61 short runs are pinned by a junction, body or
+fall.
 
 ## 5. The wet-season line and the coarse grid (deliverable 2)
 

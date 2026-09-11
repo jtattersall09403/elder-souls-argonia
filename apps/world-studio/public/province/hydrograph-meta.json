@@ -1,42 +1,24 @@
 {
  "schemaVersion": 1,
  "layers": {
-  "hydrograph-rivers": "Every river stretch from the hydrology graph, coloured by kind (flat / sloped / waterfall), width by size; white arrowheads point downstream, white dots are confluences, white rings are mouths.",
+  "hydrograph-rivers": "Every river stretch from the hydrology graph, coloured by kind (flat / sloped / waterfall), width by size band (creek, stream, river); a channel or rapid shorter than 30 m is absorbed into its neighbour so seams stay few; white arrowheads point downstream, white dots are confluences, white rings are mouths.",
   "hydrograph-bodies": "Standing water from the graph, coloured by kind: lakes, tarns, ponds, pools, plunge pools, and the marsh sheets.",
   "hydrograph-season": "Blue = holds water all year (perennial); orange = dries out in the dry season (seasonal). Once a river is perennial it stays so to its mouth.",
   "hydrograph-falls": "Waterfalls measured on the base terrain (red-ringed discs) and their plunge pools (blue dots).",
   "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands + rivers + lakes footprint."
  },
  "source": "world/sources/hydrology/hydrology-graph.json",
- "contentSha256": "6342e7872060908adc2652ecacc12cf01383c4efe9b499d33485b8b170bb825f",
+ "contentSha256": "7b5498f8fedac4fb735dfc9df3635b45c894151639e545229545851c06199242",
  "legends": {
   "hydrograph-rivers": {
-   "horizontal-river": {
-    "name": "horizontal-river",
+   "horizontal-channel": {
+    "name": "horizontal-channel",
     "rgb": [
-     40,
-     110,
-     230
-    ],
-    "about": "A big flat river stretch: the water level falls less than 3.5 cm per metre and the catchment is at least 15 km2 (size band 3)."
-   },
-   "horizontal-stream": {
-    "name": "horizontal-stream",
-    "rgb": [
-     80,
-     150,
+     60,
+     130,
      235
     ],
-    "about": "A medium flat stretch: slope under 3.5 cm per metre, catchment 4 to 15 km2 (band 2)."
-   },
-   "horizontal-creek": {
-    "name": "horizontal-creek",
-    "rgb": [
-     130,
-     185,
-     240
-    ],
-    "about": "A small flat stretch: slope under 3.5 cm per metre, catchment 1 to 4 km2 (band 1)."
+    "about": "A flat river stretch: the water level falls less than 3.5 cm per metre. Its size is the band (1 creek, 2 stream, 3 river, by catchment 1 / 4 / 15 km2), drawn as line width; one surface for the renderer whatever the band."
    },
    "horizontal-backwater": {
     "name": "horizontal-backwater",
@@ -265,21 +247,22 @@
   }
  },
  "stats": {
+  "surfaceTransitions": 396,
+  "shortChannelOrStripRuns": 0,
+  "shortRunsPinnedByJunctionBodyOrFall": 61,
   "drainageLoops": 0,
   "rivers": 100,
-  "reaches": 889,
+  "reaches": 678,
   "junctions": 200,
   "bodies": 407,
   "reachKinds": {
-   "horizontal-creek": 185,
-   "sloped-riffle": 62,
-   "sloped-rapid": 195,
-   "horizontal-tidal": 6,
-   "sloped-chute": 27,
+   "sloped-riffle": 50,
+   "horizontal-channel": 195,
+   "horizontal-tidal": 4,
+   "sloped-rapid": 111,
+   "sloped-chute": 19,
    "vertical-fall": 5,
-   "horizontal-backwater": 294,
-   "horizontal-stream": 75,
-   "horizontal-river": 40
+   "horizontal-backwater": 294
   },
   "bodyKinds": {
    "tarn-upland": 16,
@@ -299,10 +282,16 @@
    "promised": 1,
    "authored": 1
   },
+  "surfaceKm": {
+   "channel": 14.6,
+   "strip": 15.5,
+   "fall": 0.0,
+   "body": 31.8
+  },
   "seasons": {
    "reaches": {
-    "perennial": 641,
-    "seasonal": 248
+    "perennial": 516,
+    "seasonal": 162
    },
    "bodies": {
     "perennial": 350,
@@ -338,8 +327,8 @@
     "band": 3
    }
   ],
-  "gorgeStationsMeasured": 1972,
-  "gorgeStationsUnderResolved": 1197,
+  "gorgeStationsMeasured": 2200,
+  "gorgeStationsUnderResolved": 1271,
   "wetSeasonLineCells": 188785,
   "wetSeasonLineKm2": 5.68,
   "standingWaterCensus": {

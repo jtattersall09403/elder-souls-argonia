@@ -64,8 +64,8 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
   `horizontal-backwater` (inside a lake, pond or lagoon), the body's surface
   owns the water: no channel ribbon, no ribbon edge, no separate level inside
   the body's extent; the river's flow field continues through the body as a
-  velocity on the body surface, and the channel geometry starts again at the
-  body's outflow reach. This is the one rule for the "some of it river, some
+  velocity on the body surface; the channel geometry starts again at the
+  body's outflow reach. This single rule covers the "some of it river, some
   of it lake" seams the owner sees; a probe that finds two surfaces in one
   body's extent fails.
 - **Seasons come from the graph.** `season`, `wetSeasonLevelM` and

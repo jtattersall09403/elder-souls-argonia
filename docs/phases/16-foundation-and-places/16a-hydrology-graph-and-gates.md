@@ -85,6 +85,31 @@ refine stages, so ruling 2 becomes "16b must not create them" plus any tarn
 the owner wants declared. The 2D map's hillshade is still the August terrain
 until 16b; the graph lines drawn over it are from today's code's base.
 
+## Owner feedback of 2026-09-11 — every item and where it went
+
+The owner asked for a mechanism that guarantees nothing from a feedback
+list is dropped: this table is it; the same pattern applies to every
+later chunk (one row per item, a status, a pointer).
+
+| Item | Status | Where |
+|---|---|---|
+| Old map overlays retired or regenerated automatically, not from memory | scheduled | 16b (hydro + hydrograph PNGs regenerated at the freeze), 16c (flood layers from graph levels; river layers collapse), 16e (route layers) |
+| Rulings 1 and 2: anything for the owner? | handled, nothing to decide | 0058 choices 1 and 7; 16b inherits the base and the `forcedBasins == 0` gate; no pit kept as a lake unless the owner names one |
+| Do not create waterfalls artificially; few falls | done | proposals removed; 4 real falls + 1 flagged terrace step (16b smooths it) |
+| Pit list: spell out what is needed | nothing needed | default: none kept; the list stays in the ledger §6 for reference only |
+| Roads redrawn on the new water | scheduled | 16e (routes re-solved, overlays regenerated in the same commit) |
+| Plain-English hover text for categories | done | legend chips and layer boxes show `about` text from `hydrograph-meta.json` |
+| Flow-direction arrowheads | done | white arrowheads every 160 m on `hydrograph-rivers` |
+| The "waterfall" at 4.29 E 1.80 S | explained + scheduled | a −0.05 m to 13.5 m step in the source data beside a lagoon; flagged `coastal-terrace-step`; 16b smooths such banks |
+| Blackrose lake missing from bodies | done | declared in `authored-bodies.json`; drawn as an outlined ellipse; 16b digs it and carves its three feeders |
+| Rivers dry in the middle in the season layer | done | seasons flow downstream; seasonal only above a river's first perennial point |
+| Direction check on the map | owner | re-check with the arrows |
+| Rivers flowing through bodies: one elegant rule | scheduled | 16c: a river through a body is the body (no ribbon inside the extent, flow continues on the body surface) |
+| Names for rivers, lakes, landforms | scheduled | 16g deliverable "naming the water and the land" |
+| Structured, readable tooltips | done | grouped label/value sections |
+| Keep water-type transitions few and semantic | done | one flat kind + size band; `surface` per reach; 30 m seam rule; `surfaceTransitions` in stats and a gate on avoidable short runs |
+| A way to make sure every list item is addressed | done | this table; the pattern is now part of every chunk's report |
+
 ## Acceptance
 
 - `hydrology-graph.json` committed, schema-versioned, `python3 -m

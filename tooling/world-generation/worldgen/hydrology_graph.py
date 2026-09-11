@@ -52,11 +52,17 @@ STEP = 3
 
 # --- vocabularies --------------------------------------------------------------
 REACH_KINDS = (
-    "horizontal-river", "horizontal-stream", "horizontal-creek",
-    "horizontal-backwater", "horizontal-tidal",
+    "horizontal-channel", "horizontal-tidal", "horizontal-backwater",
     "sloped-riffle", "sloped-rapid", "sloped-chute",
     "vertical-fall",
 )
+# The renderer sees four SURFACES; every kind is a parameter set on one of
+# them. Seams (owner, 2026-09-11: keep transitions few and semantic) are
+# counted between surfaces, never between kinds: a river/stream/creek is
+# one channel surface with a size band, riffle/rapid/chute one strip surface
+# with a slope.
+SURFACE_OF = {"horizontal-channel": "channel", "horizontal-tidal": "channel", "horizontal-backwater": "body",
+              "sloped-riffle": "strip", "sloped-rapid": "strip", "sloped-chute": "strip", "vertical-fall": "fall"}
 BODY_KINDS = (
     "ocean", "lagoon", "lake-lowland", "tarn-upland", "pond", "pool", "plunge-pool",
     "marsh-fringe", "marsh-deep", "swamp", "backswamp", "mudflat",
@@ -75,7 +81,9 @@ POND_MIN_M2 = 500.0                      # pond; smaller is a pool
 LOWLAND_MAX_M = 30.0                     # altitude bands on the body's level
 UPLAND_MAX_M = 110.0                     # sculpt.BENCH_MIN_Z: cliff benching starts here
 MARSH_DEEP_MIN_DEPTH_M = 0.5
-MIN_RUN_STATIONS = 6                     # ~11 m: shorter horizontal sub-kind flips are merged
+MIN_RUN_STATIONS = 6                     # ~11 m: shorter class flickers are merged
+MIN_SURFACE_RUN_M = 30.0                 # a channel or strip surface shorter than this is absorbed by
+                                         # its neighbour: no seam for a 20 m rapid in a flat river
 DRY_SEASON_FRACTION = 0.2                # tide.ts seasonOffset: the dry season draws 0.2 x amplitude
 SUSPECT_FALL_LIP_M = 15.0                # a "fall" off a low lip into the sea or a lagoon is a
                                          # coastal terrace step in the source data, flagged for 16b
@@ -288,6 +296,27 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
                 del runs[max(idx, nb)]
                 changed = True
                 break
+        # second pass: a channel/strip run shorter than MIN_SURFACE_RUN_M is
+        # absorbed by its longer neighbour (falls and bodies are never touched)
+        changed = True
+        while changed and len(runs) > 1:
+            changed = False
+            for idx, run in enumerate(runs):
+                if run[2] != CLS_OTHER:
+                    continue
+                length = float(sol.arc[run[1] - 1] - sol.arc[run[0]]) + mpp
+                if length >= MIN_SURFACE_RUN_M:
+                    continue
+                cands = [k for k in (idx - 1, idx + 1) if 0 <= k < len(runs) and runs[k][2] == CLS_OTHER
+                         and (runs[k][1] == run[0] or runs[k][0] == run[1])]
+                if not cands:
+                    continue
+                nb = max(cands, key=lambda k: runs[k][1] - runs[k][0])
+                other = runs[nb]
+                runs[min(idx, nb)] = [min(run[0], other[0]), max(run[1], other[1]), CLS_OTHER]
+                del runs[max(idx, nb)]
+                changed = True
+                break
         return [tuple(x) for x in runs]
 
     def kind_of(a: int, b: int, c: int) -> str:
@@ -305,8 +334,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
             return "sloped-riffle"
         if np.mean(tidal_st[a:b]) > 0.5:
             return "horizontal-tidal"
-        band = int(np.max(sol.band[a:b]))
-        return {1: "horizontal-creek", 2: "horizontal-stream", 3: "horizontal-river"}[band]
+        return "horizontal-channel"
 
     ocean_c = npz["ocean"]
     flow_c = npz["flow_to"].reshape(-1)
@@ -497,7 +525,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
                 depth = float(np.max(sol.depth[st]))
                 width = float(np.mean(sol.width[st]))
                 rec = {
-                    "id": rid, "river": None, "kind": kind, "band": band,
+                    "id": rid, "river": None, "kind": kind, "surface": SURFACE_OF[kind], "band": band,
                     "upstream": [prev_id] if prev_id else [], "downstream": None,
                     "fromJunction": None, "toJunction": None,
                     "accumKm2": _r(np.max(sol.accum[st]), 3), "slope": _r(s_mean, 4),
@@ -779,13 +807,41 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
     okf = ft_flat >= 0
     loops = np.zeros(ft_flat.size, dtype=bool)
     loops[okf] = ft_flat[ft_flat[okf]] == np.flatnonzero(okf)
+    transitions = 0
+    short_runs = 0
+    short_pinned = 0
+    for rr in river_recs:
+        ids = rr["reaches"]
+        for a_, b_ in zip(ids, ids[1:]):
+            if reach_index[a_]["surface"] != reach_index[b_]["surface"]:
+                transitions += 1
+        for x in ids:
+            rx = reach_index[x]
+            if rx["surface"] not in ("channel", "strip") or rx["lengthM"] >= MIN_SURFACE_RUN_M:
+                continue
+            # avoidable = a like surface sits next to it with no junction, body
+            # or fall between; a short run pinned between two of those is the
+            # geometry's, not the derivation's
+            ups = [reach_index[u] for u in rx["upstream"] if u in reach_index]
+            dn = reach_index.get(rx["downstream"]) if rx["downstream"] else None
+            like_up = rx["fromJunction"] is None and len(ups) == 1 and ups[0]["surface"] in ("channel", "strip")
+            like_dn = rx["toJunction"] is None and dn is not None and dn["surface"] in ("channel", "strip")
+            if like_up or like_dn:
+                short_runs += 1
+            else:
+                short_pinned += 1
     stats = {
+        "surfaceTransitions": transitions,
+        "shortChannelOrStripRuns": short_runs,
+        "shortRunsPinnedByJunctionBodyOrFall": short_pinned,
         "drainageLoops": int(loops.sum()),
         "rivers": len(river_recs), "reaches": len(reaches), "junctions": len(junctions),
         "bodies": len(body_rec),
         "reachKinds": dict(Counter(r["kind"] for r in reaches)),
         "bodyKinds": dict(Counter(b["kind"] for b in body_rec)),
         "bodyOrigins": dict(Counter(b["origin"] for b in body_rec)),
+        "surfaceKm": {sf: _r(sum(r["lengthM"] for r in reaches if r["surface"] == sf) / 1000.0, 1)
+                      for sf in ("channel", "strip", "fall", "body")},
         "seasons": {"reaches": dict(Counter(r["season"] for r in reaches)),
                     "bodies": dict(Counter(b["season"] for b in body_rec))},
         "waterClasses": dict(Counter(r["water"] for r in river_recs)),
@@ -844,6 +900,8 @@ def check(graph: dict) -> list[str]:
         errs.append(f"schemaVersion {graph.get('schemaVersion')} != {SCHEMA_VERSION}")
     if graph.get("contentSha256") != content_hash(graph):
         errs.append("contentSha256 does not match the content")
+    if graph.get("stats", {}).get("shortChannelOrStripRuns", 1) != 0:
+        errs.append(f"{graph.get('stats', {}).get('shortChannelOrStripRuns')} channel/strip reaches shorter than {MIN_SURFACE_RUN_M} m (seam budget)")
     if graph.get("stats", {}).get("drainageLoops", 1) != 0:
         errs.append(f"drainage graph has {graph.get('stats', {}).get('drainageLoops')} two-cell loops")
     rivers = {r["id"]: r for r in graph.get("rivers", [])}
@@ -887,6 +945,8 @@ def check(graph: dict) -> list[str]:
     for x in reaches.values():
         if x["kind"] not in REACH_KINDS:
             errs.append(f"{x['id']}: kind {x['kind']}")
+        if x.get("surface") != SURFACE_OF.get(x["kind"]):
+            errs.append(f"{x['id']}: surface {x.get('surface')} does not match kind {x['kind']}")
         if x["river"] not in rivers:
             errs.append(f"{x['id']}: river {x['river']} unknown")
         if x["season"] not in SEASONS:
@@ -952,7 +1012,7 @@ def check(graph: dict) -> list[str]:
 # ---------------------------------------------------------------------------
 
 KIND_COLOUR = {
-    "horizontal-river": (40, 110, 230), "horizontal-stream": (80, 150, 235), "horizontal-creek": (130, 185, 240),
+    "horizontal-channel": (60, 130, 235),
     "horizontal-backwater": (90, 90, 200), "horizontal-tidal": (60, 170, 170),
     "sloped-riffle": (240, 200, 60), "sloped-rapid": (245, 140, 40), "sloped-chute": (230, 70, 30),
     "vertical-fall": (255, 255, 255),
@@ -965,16 +1025,14 @@ BODY_COLOUR = {
 }
 ARROW_EVERY_M = 160.0
 LAYER_ABOUT = {
-    "hydrograph-rivers": "Every river stretch from the hydrology graph, coloured by kind (flat / sloped / waterfall), width by size; white arrowheads point downstream, white dots are confluences, white rings are mouths.",
+    "hydrograph-rivers": "Every river stretch from the hydrology graph, coloured by kind (flat / sloped / waterfall), width by size band (creek, stream, river); a channel or rapid shorter than 30 m is absorbed into its neighbour so seams stay few; white arrowheads point downstream, white dots are confluences, white rings are mouths.",
     "hydrograph-bodies": "Standing water from the graph, coloured by kind: lakes, tarns, ponds, pools, plunge pools, and the marsh sheets.",
     "hydrograph-season": "Blue = holds water all year (perennial); orange = dries out in the dry season (seasonal). Once a river is perennial it stays so to its mouth.",
     "hydrograph-falls": "Waterfalls measured on the base terrain (red-ringed discs) and their plunge pools (blue dots).",
     "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands + rivers + lakes footprint.",
 }
 KIND_ABOUT = {
-    "horizontal-river": "A big flat river stretch: the water level falls less than 3.5 cm per metre and the catchment is at least 15 km2 (size band 3).",
-    "horizontal-stream": "A medium flat stretch: slope under 3.5 cm per metre, catchment 4 to 15 km2 (band 2).",
-    "horizontal-creek": "A small flat stretch: slope under 3.5 cm per metre, catchment 1 to 4 km2 (band 1).",
+    "horizontal-channel": "A flat river stretch: the water level falls less than 3.5 cm per metre. Its size is the band (1 creek, 2 stream, 3 river, by catchment 1 / 4 / 15 km2), drawn as line width; one surface for the renderer whatever the band.",
     "horizontal-backwater": "The river passing through a lake or pond: these stations sit inside a standing body and take its level.",
     "horizontal-tidal": "A flat stretch within reach of the tide: most of it lies in the tidal mask (under 1.5 m and salty).",
     "sloped-riffle": "A gently sloping run: the water level falls 3.5 to 6.5 cm per metre. Fast, shallow, gravelly.",
