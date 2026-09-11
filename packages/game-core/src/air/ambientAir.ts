@@ -527,13 +527,17 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     box: [24, 0, 24],
     topBelowCameraM: 1.4,
     depthM: 5.0,
-    sizePx: 5,
+    // Owner 2026-09-11: at 5 px and mid-grey they changed nothing on screen.
+    // A midge column reads as DARK specks against bright water and sky, so
+    // the body is near-black and the sprite big enough to survive the near
+    // fade; backlight still rims them when they sit between eye and sun.
+    sizePx: 9,
     emissive: false,
     emissiveScreen: 0,
-    core: [0.55, 0.5, 0.44],
-    halo: [0.42, 0.4, 0.36],
-    albedo: [0.4, 0.37, 0.33],
-    opacity: 0.75,
+    core: [1.0, 1.0, 1.0],
+    halo: [0.6, 0.6, 0.6],
+    albedo: [0.06, 0.055, 0.05],
+    opacity: 0.95,
     additive: false,
     wander: [0.35, 0.3, 0.35],
     wanderHz: 1.5,
@@ -544,7 +548,7 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     clusterRadius: 1.1,
     nearClipM: 3.5,
     patchM: 22,
-    backlight: 3,
+    backlight: 10,
   },
 
   /**
@@ -560,13 +564,16 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     box: [22, 0, 22],
     topBelowCameraM: 1.0,
     depthM: 5.0,
-    sizePx: 7,
+    // Owner 2026-09-11: at 7 px they changed 13 pixels of a daylight frame.
+    // Bigger, brighter than the water they hunt over, and a hard wing glint
+    // toward the sun.
+    sizePx: 14,
     emissive: false,
     emissiveScreen: 0,
-    core: [0.75, 1.0, 0.95],
-    halo: [0.5, 0.82, 0.86],
-    albedo: [0.55, 0.8, 0.75],
-    opacity: 0.85,
+    core: [0.9, 1.0, 0.95],
+    halo: [0.55, 0.9, 0.9],
+    albedo: [1.2, 1.5, 1.4],
+    opacity: 1.0,
     additive: false,
     wander: [1.6, 0.5, 1.6],
     wanderHz: 2.4,
@@ -579,7 +586,7 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     // well beyond the character, so a knot is something you approach.
     nearClipM: 9.0,
     patchM: 40,
-    backlight: 4,
+    backlight: 9,
   },
 
   /** Leaf fall under the canopy. Slow, heavy, wind-carried. */
