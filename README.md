@@ -98,7 +98,8 @@ asset registry.
 - **Tropical Skyrim — A Climate Overhaul** (Nexus classic Skyrim mod 33017,
   Soolie) — tropical landscape ground textures in the terrain material
   library (beach, ocean floor, river gravel/bed/mud, tropicalised moss
-  rocks + mountain slabs); grass and plant meshes/textures in the flora and
+  rocks + mountain slabs, marsh dirt slopes, and the cliff albedo + normal
+  maps sampled on the terrain's steep faces); grass and plant meshes/textures in the flora and
   groundcover kits (ferngrass, grassfern, grassplant, marsh grass, cattail,
   man fern — Phase 10); owner-preferred source for later tropical
   flora/creature needs (module 90 §74.1a). **Phase 10 round 7:** its Anvil

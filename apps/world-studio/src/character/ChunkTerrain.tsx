@@ -63,15 +63,22 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const { set, manifest: ground } = useGroundManifest(base, matSet);
   const images = useLoader(THREE.ImageLoader,
     ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
+  // The two cliff normal maps (rock, dirt) — the side-projection relief.
+  // An older set without `normalFile` rows simply ships no perturbation.
+  const cliffNrmFiles = ["cliff_rock", "cliff_dirt"]
+    .map((name) => ground.materials.find((m) => m.name === name)?.normalFile)
+    .filter((f): f is string => !!f);
+  const cliffNormals = useLoader(THREE.ImageLoader,
+    cliffNrmFiles.map((f) => `${base}textures/ground/${set}/${f}`));
   const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
   const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
   const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);
   const { csm } = useContext(SkyContext);
   const material = useMemo(
-    () => createGroundMaterial(images, ctrl, tintTex, gradTex, ground,
+    () => createGroundMaterial(images, cliffNormals, ctrl, tintTex, gradTex, ground,
       verticalScale ?? manifest.verticalScaleAtGeometry, sharedAerialUniforms, csm),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [images, ctrl, tintTex, gradTex, ground, csm],
+    [images, cliffNormals, ctrl, tintTex, gradTex, ground, csm],
   );
   const groundUniforms = material.userData.groundUniforms as GroundUniforms;
   useEffect(() => {
@@ -92,6 +99,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     });
     return () => {
       (material.userData.tex as THREE.DataArrayTexture).dispose();
+      (material.userData.cliffNrmTex as THREE.DataArrayTexture | null)?.dispose();
       material.dispose();
     };
   }, [material, csm]);

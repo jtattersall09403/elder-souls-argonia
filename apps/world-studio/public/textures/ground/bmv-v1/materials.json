@@ -10,7 +10,9 @@
     41,
     25
    ],
-   "source": "Tropical Skyrim (riverbottom.dds)"
+   "source": "Tropical Skyrim (riverbottom.dds)",
+   "cliff": "dirt",
+   "normalFile": "00-water_silt_n.png"
   },
   {
    "id": 1,
@@ -22,7 +24,9 @@
     51,
     35
    ],
-   "source": "Tropical Skyrim (rivermud.dds)"
+   "source": "Tropical Skyrim (rivermud.dds)",
+   "cliff": "dirt",
+   "normalFile": "01-river_mud_n.png"
   },
   {
    "id": 2,
@@ -34,7 +38,9 @@
     50,
     35
    ],
-   "source": "Tropical Skyrim (riverbededge.dds)"
+   "source": "Tropical Skyrim (riverbededge.dds)",
+   "cliff": "dirt",
+   "normalFile": "02-bank_wet_n.png"
   },
   {
    "id": 3,
@@ -46,7 +52,8 @@
     58,
     29
    ],
-   "source": "Aendemika of Vvardenfell (Tx_BC_scum.dds)"
+   "source": "Aendemika of Vvardenfell (Tx_BC_scum.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 4,
@@ -58,7 +65,8 @@
     49,
     35
    ],
-   "source": "ambientCG Ground051 (CC0)"
+   "source": "ambientCG Ground051 (CC0)",
+   "cliff": "dirt"
   },
   {
    "id": 5,
@@ -70,7 +78,8 @@
     61,
     46
    ],
-   "source": "ambientCG Ground050 (CC0)"
+   "source": "ambientCG Ground050 (CC0)",
+   "cliff": "dirt"
   },
   {
    "id": 6,
@@ -82,7 +91,8 @@
     66,
     50
    ],
-   "source": "ambientCG Ground026 (CC0)"
+   "source": "ambientCG Ground026 (CC0)",
+   "cliff": "dirt"
   },
   {
    "id": 7,
@@ -94,7 +104,8 @@
     52,
     39
    ],
-   "source": "Aendemika of Vvardenfell (Tx_BC_muck_01.dds)"
+   "source": "Aendemika of Vvardenfell (Tx_BC_muck_01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 8,
@@ -106,7 +117,8 @@
     53,
     43
    ],
-   "source": "Aendemika of Vvardenfell (Tx_BC_mud.dds)"
+   "source": "Aendemika of Vvardenfell (Tx_BC_mud.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 9,
@@ -118,7 +130,8 @@
     56,
     49
    ],
-   "source": "ambientCG Ground024 (CC0)"
+   "source": "ambientCG Ground024 (CC0)",
+   "cliff": "dirt"
   },
   {
    "id": 10,
@@ -130,7 +143,8 @@
     59,
     41
    ],
-   "source": "Black Marsh & Valenwood (fallforestdirt01.dds)"
+   "source": "Black Marsh & Valenwood (fallforestdirt01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 11,
@@ -142,7 +156,8 @@
     70,
     14
    ],
-   "source": "Black Marsh & Valenwood (fieldgrass01.dds)"
+   "source": "Black Marsh & Valenwood (fieldgrass01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 12,
@@ -154,7 +169,8 @@
     55,
     36
    ],
-   "source": "Aendemika of Vvardenfell (Tx_BC_undergrowth.dds)"
+   "source": "Aendemika of Vvardenfell (Tx_BC_undergrowth.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 13,
@@ -166,7 +182,8 @@
     61,
     35
    ],
-   "source": "Aendemika of Vvardenfell (Tx_BC_moss.dds)"
+   "source": "Aendemika of Vvardenfell (Tx_BC_moss.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 14,
@@ -178,7 +195,8 @@
     69,
     29
    ],
-   "source": "Black Marsh & Valenwood (reachmoss01.dds)"
+   "source": "Black Marsh & Valenwood (reachmoss01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 15,
@@ -190,7 +208,8 @@
     72,
     24
    ],
-   "source": "Black Marsh & Valenwood (fielddirtgrass01.dds)"
+   "source": "Black Marsh & Valenwood (fielddirtgrass01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 16,
@@ -202,7 +221,8 @@
     72,
     26
    ],
-   "source": "Black Marsh & Valenwood (tundra01.dds)"
+   "source": "Black Marsh & Valenwood (tundra01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 17,
@@ -214,7 +234,8 @@
     72,
     34
    ],
-   "source": "Black Marsh & Valenwood (reachgrass01.dds)"
+   "source": "Black Marsh & Valenwood (reachgrass01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 18,
@@ -226,7 +247,8 @@
     61,
     43
    ],
-   "source": "Aendemika of Vvardenfell (Tx_BC_scrub.dds)"
+   "source": "Aendemika of Vvardenfell (Tx_BC_scrub.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 19,
@@ -238,7 +260,8 @@
     48,
     30
    ],
-   "source": "Black Marsh & Valenwood (pineforest02.dds)"
+   "source": "Black Marsh & Valenwood (pineforest02.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 20,
@@ -250,7 +273,8 @@
     68,
     18
    ],
-   "source": "Black Marsh & Valenwood (pineforest03.dds)"
+   "source": "Black Marsh & Valenwood (pineforest03.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 21,
@@ -262,7 +286,8 @@
     54,
     44
    ],
-   "source": "Black Marsh & Valenwood (pineforest01.dds)"
+   "source": "Black Marsh & Valenwood (pineforest01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 22,
@@ -274,7 +299,9 @@
     57,
     46
    ],
-   "source": "Tropical Skyrim (reachmossyrocks01.dds)"
+   "source": "Tropical Skyrim (reachmossyrocks01.dds)",
+   "cliff": "rock",
+   "normalFile": "22-mossy_rock_n.png"
   },
   {
    "id": 23,
@@ -286,7 +313,8 @@
     66,
     22
    ],
-   "source": "Black Marsh & Valenwood (rocksgrasswater01.dds)"
+   "source": "Black Marsh & Valenwood (rocksgrasswater01.dds)",
+   "cliff": "rock"
   },
   {
    "id": 24,
@@ -298,7 +326,8 @@
     72,
     60
    ],
-   "source": "Black Marsh & Valenwood (coastbeach01.dds)"
+   "source": "Black Marsh & Valenwood (coastbeach01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 25,
@@ -310,7 +339,8 @@
     80,
     63
    ],
-   "source": "ambientCG Ground054 (CC0)"
+   "source": "ambientCG Ground054 (CC0)",
+   "cliff": "dirt"
   },
   {
    "id": 26,
@@ -322,7 +352,8 @@
     74,
     60
    ],
-   "source": "Poly Haven mud_cracked_dry_riverbed_002 (CC0)"
+   "source": "Poly Haven mud_cracked_dry_riverbed_002 (CC0)",
+   "cliff": "dirt"
   },
   {
    "id": 27,
@@ -334,7 +365,8 @@
     64,
     40
    ],
-   "source": "Project Rainforest SE (dirtpath01.dds)"
+   "source": "Project Rainforest SE (dirtpath01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 28,
@@ -343,10 +375,12 @@
    "tileM": 8.0,
    "avgColor": [
     50,
-    47,
+    46,
     37
    ],
-   "source": "Black Marsh & Valenwood (reachdirt01.dds)"
+   "source": "Tropical Skyrim (landscape/frozenmarshdirtslopes01.dds)",
+   "cliff": "dirt",
+   "normalFile": "28-peat_slope_n.png"
   },
   {
    "id": 29,
@@ -358,7 +392,8 @@
     54,
     50
    ],
-   "source": "Poly Haven aerial_mud_1 (CC0)"
+   "source": "Poly Haven aerial_mud_1 (CC0)",
+   "cliff": "dirt"
   },
   {
    "id": 30,
@@ -370,7 +405,8 @@
     78,
     66
    ],
-   "source": "Black Marsh & Valenwood (roads/road01fallforest01.dds)"
+   "source": "Black Marsh & Valenwood (roads/road01fallforest01.dds)",
+   "cliff": "dirt"
   },
   {
    "id": 31,
@@ -382,7 +418,8 @@
     64,
     61
    ],
-   "source": "Black Marsh & Valenwood (mountains/mountainslab01.dds)"
+   "source": "Black Marsh & Valenwood (mountains/mountainslab01.dds)",
+   "cliff": "rock"
   },
   {
    "id": 32,
@@ -394,7 +431,9 @@
     86,
     51
    ],
-   "source": "Tropical Skyrim (Beach.dds)"
+   "source": "Tropical Skyrim (Beach.dds)",
+   "cliff": "dirt",
+   "normalFile": "32-beach_sand_n.png"
   },
   {
    "id": 33,
@@ -406,7 +445,8 @@
     70,
     64
    ],
-   "source": "Poly Haven aerial_beach_01 (CC0)"
+   "source": "Poly Haven aerial_beach_01 (CC0)",
+   "cliff": "dirt"
   },
   {
    "id": 34,
@@ -418,7 +458,9 @@
     59,
     48
    ],
-   "source": "Tropical Skyrim (Tropical/RiverGravel.dds)"
+   "source": "Tropical Skyrim (Tropical/RiverGravel.dds)",
+   "cliff": "dirt",
+   "normalFile": "34-river_pebbles_n.png"
   },
   {
    "id": 35,
@@ -430,7 +472,9 @@
     71,
     43
    ],
-   "source": "Tropical Skyrim (CoastOceanFloor01.dds)"
+   "source": "Tropical Skyrim (CoastOceanFloor01.dds)",
+   "cliff": "dirt",
+   "normalFile": "35-ocean_floor_n.png"
   },
   {
    "id": 36,
@@ -442,7 +486,9 @@
     54,
     37
    ],
-   "source": "Tropical Skyrim (rocks01.dds)"
+   "source": "Tropical Skyrim (rocks01.dds)",
+   "cliff": "rock",
+   "normalFile": "36-trop_rocks_n.png"
   },
   {
    "id": 37,
@@ -454,7 +500,36 @@
     71,
     70
    ],
-   "source": "ambientCG Gravel015 (CC0)"
+   "source": "ambientCG Gravel015 (CC0)",
+   "cliff": "rock"
+  },
+  {
+   "id": 38,
+   "name": "cliff_rock",
+   "file": "38-cliff_rock.png",
+   "tileM": 14.0,
+   "avgColor": [
+    55,
+    41,
+    28
+   ],
+   "source": "Tropical Skyrim (mountains/mountainslab02.dds)",
+   "cliff": "rock",
+   "normalFile": "38-cliff_rock_n.png"
+  },
+  {
+   "id": 39,
+   "name": "cliff_dirt",
+   "file": "39-cliff_dirt.png",
+   "tileM": 10.0,
+   "avgColor": [
+    60,
+    41,
+    24
+   ],
+   "source": "Tropical Skyrim (dirtcliffs/dirtcliffs01.dds)",
+   "cliff": "rock",
+   "normalFile": "39-cliff_dirt_n.png"
   }
  ]
 }

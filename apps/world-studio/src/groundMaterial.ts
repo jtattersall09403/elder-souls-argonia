@@ -22,7 +22,13 @@ import { applyShoreWetness } from "./water/groundWetness";
  */
 
 export interface GroundManifest {
-  materials: { id: number; name: string; file: string; tileM: number; avgColor: number[] }[];
+  materials: {
+    id: number; name: string; file: string; tileM: number; avgColor: number[];
+    /** Tangent-space normal map beside the albedo, when the source ships one. */
+    normalFile?: string;
+    /** Which cliff texture this material's steep faces use (Phase 16b item 3). */
+    cliff?: "rock" | "dirt";
+  }[];
 }
 export interface GroundIndex { default: string; sets: Record<string, { label: string }> }
 
@@ -67,6 +73,7 @@ export interface GroundUniforms {
  * border. Chunk geometry therefore carries no normal attribute at all. */
 export function createGroundMaterial(
   images: HTMLImageElement[],
+  cliffNormals: HTMLImageElement[],
   ctrl: THREE.Texture,
   tintTex: THREE.Texture,
   gradTex: THREE.Texture,
@@ -93,6 +100,31 @@ export function createGroundMaterial(
   tex.generateMipmaps = true;
   tex.anisotropy = 4;
   tex.needsUpdate = true;
+
+  // Cliff materials (Phase 16b item 3): the two library slots the triplanar
+  // SIDE projections sample instead of the texel's own ground texture, so a
+  // steep face reads as rock or dirt cliff rather than a smeared top texture.
+  const cliffRock = manifest.materials.find((m) => m.name === "cliff_rock");
+  const cliffDirt = manifest.materials.find((m) => m.name === "cliff_dirt");
+  const hasCliff = !!cliffRock && !!cliffDirt;
+  const cliffNrmOk = hasCliff && cliffNormals.length === 2;
+  let cliffNrmTex: THREE.DataArrayTexture | null = null;
+  if (cliffNrmOk) {
+    const nData = new Uint8Array(size * size * 4 * 2);
+    cliffNormals.forEach((imgN, i) => {
+      g2d.clearRect(0, 0, size, size);
+      g2d.drawImage(imgN, 0, 0, size, size);
+      nData.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
+    });
+    cliffNrmTex = new THREE.DataArrayTexture(nData, size, size, 2);
+    cliffNrmTex.format = THREE.RGBAFormat;
+    cliffNrmTex.wrapS = cliffNrmTex.wrapT = THREE.RepeatWrapping;
+    cliffNrmTex.minFilter = THREE.LinearMipmapLinearFilter;
+    cliffNrmTex.magFilter = THREE.LinearFilter;
+    cliffNrmTex.generateMipmaps = true;
+    cliffNrmTex.anisotropy = 4;
+    cliffNrmTex.needsUpdate = true;
+  }
   // integer ids: never let the GPU filter or mip the control map
   ctrl.minFilter = THREE.NearestFilter;
   ctrl.magFilter = THREE.NearestFilter;
@@ -117,6 +149,11 @@ export function createGroundMaterial(
     uCtrlSize: { value: new THREE.Vector2(img.width, img.height) },
     uTileM: { value: new Float32Array(manifest.materials.map((m) => m.tileM)) },
     uAvgCol: { value: new Float32Array(manifest.materials.flatMap((m) => m.avgColor.map((c) => c / 255))) },
+    // per-material: 0 = rock cliff, 1 = dirt cliff
+    uCliffOf: { value: new Float32Array(manifest.materials.map((m) => (m.cliff === "rock" ? 0 : 1))) },
+    // albedo array layer indices of the two cliff slots (read by name)
+    uCliffLayer: { value: new THREE.Vector2(cliffRock?.id ?? 0, cliffDirt?.id ?? 0) },
+    uCliffNrm: { value: cliffNrmTex },
   };
 
   const material = new THREE.MeshStandardMaterial({ roughness: 1.0, metalness: 0.0 });
@@ -169,7 +206,15 @@ uniform float uCanopyStrength;
 uniform vec2 uCtrlSize;
 uniform float uTileM[ES_N];
 uniform vec3 uAvgCol[ES_N];
+uniform float uCliffOf[ES_N];
+uniform vec2 uCliffLayer;
+${cliffNrmOk ? "#define ES_CLIFF_NRM\nuniform highp sampler2DArray uCliffNrm;" : ""}
 vec3 esNrmW; // world-space gradient-map normal, shared by splat + lighting
+
+// The cliff albedo layer this material's steep faces use (rock or dirt).
+float esCliffLayer(int i) {
+  return uCliffOf[i] < 0.5 ? uCliffLayer.x : uCliffLayer.y;
+}
 
 // Triplanar sample (Phase 6b): planar top projection stretches to smears
 // on near-vertical faces, so blend the two side projections in by the
@@ -177,9 +222,20 @@ vec3 esNrmW; // world-space gradient-map normal, shared by splat + lighting
 // stays a single cheap top sample.
 vec3 esTriSample(int i, vec3 w, vec3 worldPos) {
   vec3 c = w.y * texture(uTex, vec3(worldPos.xz / uTileM[i], float(i))).rgb;
-  if (w.x > 0.004) c += w.x * texture(uTex, vec3(worldPos.zy / uTileM[i], float(i))).rgb;
-  if (w.z > 0.004) c += w.z * texture(uTex, vec3(worldPos.xy / uTileM[i], float(i))).rgb;
+  // Side projections take the CLIFF texture at ITS tile size, not material i:
+  // a steep face is a rock or dirt cliff, never the ground texture smeared
+  // down it (Phase 16b item 3).
+  float esCl = esCliffLayer(i);
+  float esClTile = uTileM[int(esCl)];
+  if (w.x > 0.004) c += w.x * texture(uTex, vec3(worldPos.zy / esClTile, esCl)).rgb;
+  if (w.z > 0.004) c += w.z * texture(uTex, vec3(worldPos.xy / esClTile, esCl)).rgb;
   return c;
+}
+// Far field: the flat average colours. Steep texels average toward the
+// cliff's colour by the same side weight, so distant cliffs stay cliff-
+// coloured once the tiled samples have faded out.
+vec3 esAvgCol(int i, vec3 w) {
+  return mix(uAvgCol[int(esCliffLayer(i))], uAvgCol[i], w.y);
 }
 // near: tiled texture of the texel's two materials; far: their flat
 // average colours (kills distant tiling, Frostbite near/far pattern)
@@ -188,7 +244,7 @@ vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
   int i0 = int(c.r * 255.0 + 0.5);
   int i1 = int(c.g * 255.0 + 0.5);
   vec3 near_ = mix(esTriSample(i0, w, worldPos), esTriSample(i1, w, worldPos), c.b);
-  vec3 far_ = mix(uAvgCol[i0], uAvgCol[i1], c.b);
+  vec3 far_ = mix(esAvgCol(i0, w), esAvgCol(i1, w), c.b);
   return mix(near_, far_, fade);
 }`,
       )
@@ -224,6 +280,31 @@ vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
   float esCanopy = texture2D(uClimateAir, vProvinceUv).b;
   esCol *= 1.0 - uCanopyStrength * esCanopy;
   diffuseColor.rgb = esCol;
+#ifdef ES_CLIFF_NRM
+  // Cliff relief: the gradient map is province-scale and knows nothing of a
+  // face's own strata, so perturb the normal on the SIDE projections with the
+  // cliff normal map. Tangent frames: X projection (u = world z, v = world y,
+  // face +-x), Z projection (u = world x, v = world y, face +-z).
+  {
+    ivec2 esCtc = clamp(ivec2(floor(esP)), ivec2(0), ivec2(uCtrlSize) - 1);
+    int esCi = int(texelFetch(uCtrl, esCtc, 0).r * 255.0 + 0.5);
+    float esClN = esCliffLayer(esCi);
+    float esClT = uTileM[int(esClN)];
+    float esSx = esNrmW.x < 0.0 ? -1.0 : 1.0;
+    float esSz = esNrmW.z < 0.0 ? -1.0 : 1.0;
+    vec3 esNx = esNrmW;
+    vec3 esNz = esNrmW;
+    if (esW.x > 0.004) {
+      vec3 t = texture(uCliffNrm, vec3(vEsWorldPos.zy / esClT, esClN)).rgb * 2.0 - 1.0;
+      esNx = normalize(vec3(esSx * t.z, t.y, t.x));
+    }
+    if (esW.z > 0.004) {
+      vec3 t = texture(uCliffNrm, vec3(vEsWorldPos.xy / esClT, esClN)).rgb * 2.0 - 1.0;
+      esNz = normalize(vec3(t.x, t.y, esSz * t.z));
+    }
+    esNrmW = normalize(esW.y * esNrmW + esW.x * esNx + esW.z * esNz);
+  }
+#endif
 }`,
       )
       .replace(
@@ -237,6 +318,8 @@ vec3 nonPerturbedNormal = normal;`,
       vertexNormal: shader.vertexShader.includes("esVG"),
       fragSplat: shader.fragmentShader.includes("esTexelCol"),
       fragNormal: shader.fragmentShader.includes("nonPerturbedNormal = normal;"),
+      cliffSides: hasCliff,
+      cliffNormalMap: cliffNrmOk,
       usesCsm: !!material.defines?.USE_CSM,
     });
   };
@@ -247,9 +330,10 @@ vec3 nonPerturbedNormal = normal;`,
   // The aerial term chains after the splat patch (it also declares
   // uClimateAir + vEsWorldPos, which the splat code above uses).
   applyAerialPerspective(material, aerialUniforms);
-  material.customProgramCacheKey = () => `es-ground-${n}`;
+  material.customProgramCacheKey = () => `es-ground-${n}-${cliffNrmOk ? 1 : 0}`;
 
   material.userData.tex = tex;
+  material.userData.cliffNrmTex = cliffNrmTex;
   material.userData.groundUniforms = groundUniforms;
   return material;
 }

@@ -141,7 +141,20 @@ MATERIALS = [
     # the brightness step is what makes an apron legible from a distance
     # (the far field renders only the per-material average colours).
     ("scree",         "acg", "Gravel015",                                   12.0, None, 72),
+    # slots 38-39 (Phase 16b item 3) — the CLIFF materials. These are never
+    # painted on the top projection by land cover: the splat shader samples
+    # them on the triplanar SIDE projections instead of the ground texture, so
+    # every steep face reads as rock or dirt cliff rather than a smeared top
+    # texture. Each ships its Tropical Skyrim tangent-space normal map beside
+    # the albedo (`NN-name_n.png`) for the side-projection normal perturbation.
+    ("cliff_rock",    "ts",  "mountains/mountainslab02.dds",                14.0, None, 42),
+    ("cliff_dirt",    "ts",  "dirtcliffs/dirtcliffs01.dds",                 10.0, None, 42),
 ]
+
+# Which cliff texture a material's steep faces use. Rock-family materials get
+# the rock cliff; everything else the dirt cliff.
+CLIFF_ROCK_NAMES = {"mossy_rock", "bc_rock", "mountain_rock", "scree",
+                    "trop_rocks", "cliff_rock", "cliff_dirt"}
 
 # bmv-v1: Black Marsh & Valenwood winners — contact-sheet ranked 2026-08-23,
 # then corrected against the mod's ACTUAL painting (worldgen.esp_landtex over
@@ -170,10 +183,10 @@ BMV_OVERRIDES = {
     "bc_rock":    ("bmv", "rocksgrasswater01.dds", 10.0, None, 52),
     "tidal_sand": ("bmv", "coastbeach01.dds",       8.0, None, 72),
     "salt_flat":  ("bmv", "mineralpoolterrace.dds", 9.0, None, 78),
-    # peat_slope was dirtcliffsroots01 — a CLIFF texture whose horizontal
-    # strata tiled as parallel stripes on the ground (the owner's persistent
-    # "stripes"; the terracing theories were wrong). reachdirt01 is isotropic.
-    "peat_slope": ("bmv", "reachdirt01.dds",        8.0, None, 45),
+    # peat_slope override REMOVED (owner ruling 2026-09-09, Phase 16b): the
+    # base table already ships Tropical Skyrim's own repaint of that slope
+    # texture; the BMV reachdirt01 override was silently undoing it for the
+    # default set, exactly as the bed/bank overrides did in round 6.
     "bc_road":    ("bmv", "roads/road01fallforest01.dds", 6.0, None, 74),
     # salt_flat: mineralpoolterrace's terraced look read as stripes from the
     # air (owner round 6) — use the flat CC0 tidal mud-sand in this set too
@@ -230,6 +243,19 @@ def _find(root: Path, name: str) -> Path:
     return hits[0]
 
 
+def _sibling_normal(kind: str, ref: str) -> Path | None:
+    """Path to the `<name>_n.dds` normal map beside a mod-sourced albedo."""
+    roots = {"ts": TS_DIR, "pr": PR_DIR, "aend": AEND_DIR, "bmv": BMV_DIR}
+    root = roots.get(kind)
+    if root is None:
+        return None
+    stem = ref.split("/")[-1].rsplit(".", 1)[0]
+    try:
+        return _find(root, f"{stem}_n.dds")
+    except FileNotFoundError:
+        return None
+
+
 def apply_tint(img: Image.Image, tint) -> Image.Image:
     hue_deg, sat_mul, val_mul = tint
     hsv = np.asarray(img.convert("HSV"), dtype=np.float32)
@@ -274,8 +300,19 @@ def build_set(set_name: str, label: str, materials, archive) -> None:
         out = out_dir / f"{idx:02d}-{name}.png"
         img.save(out)
         avg = [round(c) for c in np.asarray(img).reshape(-1, 3).mean(0)]
-        manifest.append({"id": idx, "name": name, "file": out.name,
-                         "tileM": tile_m, "avgColor": avg, "source": source})
+        row = {"id": idx, "name": name, "file": out.name,
+               "tileM": tile_m, "avgColor": avg, "source": source,
+               "cliff": "rock" if name in CLIFF_ROCK_NAMES else "dirt"}
+        # Tangent-space normal map, when the source ships one beside the
+        # albedo (`<name>_n.dds`). Never luma-normalised or tinted — it is a
+        # direction field, not colour.
+        nrm = _sibling_normal(kind, ref)
+        if nrm is not None:
+            nimg = Image.open(nrm).convert("RGB").resize((512, 512), Image.LANCZOS)
+            nout = out_dir / f"{idx:02d}-{name}_n.png"
+            nimg.save(nout)
+            row["normalFile"] = nout.name
+        manifest.append(row)
         print(f"{idx:2d} {name:14s} <- {source}")
     (out_dir / "materials.json").write_text(json.dumps({"materials": manifest}, indent=1))
     print(f"set '{set_name}' ({label}): {len(manifest)} materials -> {out_dir}")
