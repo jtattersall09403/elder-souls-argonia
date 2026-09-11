@@ -2,7 +2,7 @@
 
 Eleven standing rules that are **cheap to require now and brutal to retrofit**.
 Adopted by the owner 2026-09-01 (decision
-[0042](decisions/0042-buildout-steers-and-engineering-standards.md) §8) after
+[0042](../decisions/0042-buildout-steers-and-engineering-standards.md) §8) after
 the lesson of the renderer: the code that has to be true of *everything* must be
 made true from the first line, not converted later.
 
@@ -13,7 +13,7 @@ Enforcement is one of:
   (`tooling/repo-standards`); a violation fails the build;
 - **rule** — binding on agents, verified by review at the named phase kickoff;
 - **hook** — a contract or data field an owning phase must leave behind (these
-  also appear as rows in [game-buildout-register.md](game-buildout-register.md)).
+  also appear as rows in [game-buildout-register.md](../phases/buildout/README.md)).
 
 ---
 
@@ -30,7 +30,7 @@ custody, time or tier-lock gates. Content authored against ad-hoc prose
 conditions has to be hand-translated later, hundreds of times.
 
 **Enforcement.** rule. First cut authored:
-[quests/85-condition-vocabulary.md](quests/85-condition-vocabulary.md). It is a
+[quests/85-condition-vocabulary.md](../quests/85-condition-vocabulary.md). It is a
 living document — an author who needs a predicate that does not exist **adds it
 there** rather than inventing prose. The Q1 gate (quests 90) checks that every
 authored condition names a listed predicate.
@@ -190,7 +190,7 @@ world state they key off.
 validators, the voice review and the discovery feed all operate on one table.
 
 **Enforcement.** rule; the shape is defined in
-[quests/85 §C](quests/85-condition-vocabulary.md).
+[quests/85 §C](../quests/85-condition-vocabulary.md).
 
 **Owner.** Defined now; authored from Phase 11; runtime in build-out G2.
 
@@ -220,9 +220,9 @@ data unless writing it *starts* from the data and a check reads it back.
 names the fields it must be written against); mechanical where a lexicon
 exists — `worldgen.audit_place_semantics` (prose vs ground) and the
 built-form/creature noun scan of
-[research/placement-settlements/place-asset-deliverability-audit.md](research/placement-settlements/place-asset-deliverability-audit.md)
+[research/placement-settlements/place-asset-deliverability-audit.md](../research/placement-settlements/place-asset-deliverability-audit.md)
 (prose vs kits and registries), both run in the Phase 11 QA gate; the text
-review (docs/text/review-process.md §3) checks fact-against-record as its
+review (docs/standards/text/review-process.md §3) checks fact-against-record as its
 last step.
 
 **Owner.** Defined 2026-09-04; applied to the place catalogue in the same
@@ -236,7 +236,7 @@ Owner ruling 2026-09-05: the workflow record is kept by a mechanism, not by
 memory. If a blueprint, a design record or a placement tool
 (`blueprint*.py`, `compile_settlement.py`, `street_router.py`,
 `apply_sitings.py`, `export_blueprints.py`, `render_blueprint.py`) changes in
-the working tree and neither [world/96-placement-playbook.md](world/96-placement-playbook.md)
+the working tree and neither [world/96-placement-playbook.md](../world/96-placement-playbook.md)
 nor decision 0041 does, `npm test` fails. A one-line lesson or steer row is
 enough; the point is that no round ends without its lesson written where the
 next agent reads it. **Checked mechanically** (`tooling/repo-standards/check.mjs`,

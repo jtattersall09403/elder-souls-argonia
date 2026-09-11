@@ -24,7 +24,7 @@
     ]
   },
   "craft": {
-    "_": "Verified against the built kits on 2026-09-09, not chosen from filenames. `watercraft-v1` is built (45/45) but is NOT yet in any compiled settlement and its GLB is not yet deployed to apps/world-studio/public/kits - see docs/polish-backlog.md. Sizes are metres from the built kit manifests. Nothing was sourced for this work; every credit is already in README.md.",
+    "_": "Verified against the built kits on 2026-09-09, not chosen from filenames. `watercraft-v1` is built (45/45) but is NOT yet in any compiled settlement and its GLB is not yet deployed to apps/world-studio/public/kits - see docs/phases/P-polish/backlog.md. Sizes are metres from the built kit manifests. Nothing was sourced for this work; every credit is already in README.md.",
     "native-plank-ferry": {"pieceRef": "ferries:yamadori/ferries/plank_ferry_swamp_01", "sizeM": [2.65, 3.557, 1.546], "kit": "watercraft-v1"},
     "native-poled-raft": {"pieceRef": "ferryraft:snt/ferry/ferryraft01", "sizeM": [3.236, 4.104, 1.711], "kit": "watercraft-v1", "gangplank": "ferryraft:snt/ferry/norbridgewoodplanks01"},
     "swamp-rowboat-ferry": {"pieceRef": "ferries:yamadori/ferries/rowboat_ferry_swamp_01", "sizeM": [2.771, 9.624, 2.185], "kit": "watercraft-v1"},

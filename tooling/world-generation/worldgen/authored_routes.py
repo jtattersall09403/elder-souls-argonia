@@ -23,7 +23,7 @@ surface cannot hold: a road that must call at a shrine, a causeway that must
 follow a built embankment, an approach the lore fixes. It is NOT the remedy
 for a way whose over-cap windows are sub-metre surface roughness — measured
 2026-09-09, that is what the "badly routed" Blackrose roads turned out to be
-(see `docs/polish-backlog.md`), and hand-drawing the same corridor changes
+(see `docs/phases/P-polish/backlog.md`), and hand-drawing the same corridor changes
 nothing, because the router and the author both read the 5.48 m grid while the
 grader measures the full-resolution ground. Check which you have before
 authoring: if the line is right on the router's own height field, the fault is

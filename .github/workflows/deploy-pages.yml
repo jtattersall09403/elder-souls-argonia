@@ -27,7 +27,7 @@ jobs:
           cache-dependency-path: tooling/world-generation/requirements-test.txt
       - run: python -m pip install -r tooling/world-generation/requirements-test.txt
       # KNOWN RED on main, all water-owned, all held rather than moved out of the
-      # blocking job (owner, 2026-09-09) — see docs/research/rendering/water-handoff.md.
+      # blocking job (owner, 2026-09-09) — see docs/research/archive/water-round-2-2026-09/water-handoff.md.
       # The suites are not broken; do not xfail, quarantine or weaken them.
       #   * test_blueprint.py::test_live_dir_validates (and, on some builds,
       #     test_minor_waterways.py::test_no_berth_is_refused_in_the_published_network)
@@ -63,7 +63,7 @@ jobs:
       #     it: it needs authored water via hydrology_intent.py +
       #     authored-minor-waterways.json + `terrain-chain.sh --from
       #     refine_province`. Written up as B15 in
-      #     docs/research/phase11/phase11-gap-plan.md.
+      #     docs/research/archive/phase11-rounds/phase11-gap-plan.md.
       #     (The sibling giovesse-lines failure IS fixed: the sightline gate
       #     was sampling nearest-neighbour on a 5.48 m grid and calling a
       #     0.58 m blockage a 1.55 m one. It now samples bilinearly with a

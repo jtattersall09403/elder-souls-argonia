@@ -7,8 +7,8 @@ nobody will talk about."* Both read as machine voice.
 
 This doc is the evidence. The **rules** derived from it are binding elsewhere:
 banned rows in [quests/60 §45e.1](../../quests/60-writing-and-lore.md), the voice
-rules in [text/style-guide.md §2.4](../../text/style-guide.md), the reviewer's
-checks in [text/review-process.md §3](../../text/review-process.md).
+rules in [text/style-guide.md §2.4](../../standards/text/style-guide.md), the reviewer's
+checks in [text/review-process.md §3](../../standards/text/review-process.md).
 
 Sources are at the bottom. Caveat carried from nearly every source: **no single
 tell proves anything.** These are legitimate English constructions. What marks

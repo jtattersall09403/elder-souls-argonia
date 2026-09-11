@@ -212,7 +212,7 @@ binding:
    codenames). Saved to agent memory as well.
 9. **Text-quality workstream commissioned** (decision 0043): Morrowind
    voice/grammar/per-culture register research → binding style guide in
-   `docs/text/` + reviewer-agent process. Names and all player-visible
+   `docs/standards/text/` + reviewer-agent process. Names and all player-visible
    text get reviewed against it.
 10. **Reviews commissioned at this touchpoint — all three returned same day:**
     - **D4–D5 "landmark-heavy, quest-light": KEEP** (traceable to

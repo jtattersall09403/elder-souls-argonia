@@ -58,7 +58,7 @@ owner ruling to start; it produces the evidence for rulings 1–6.
    both `sloped` and flat; every body has a season. Each test shown failing
    on a deliberately corrupted graph before commit (memory: gates that
    cannot fail keep appearing).
-7. **Gate policy** (one page, `docs/engineering-standards.md` standard 14):
+7. **Gate policy** (one page, `docs/standards/engineering.md` standard 14):
    a gate reads shipped data, not fixtures; a gate is shown failing on a
    real or injected defect in the commit that adds it; probes report and
    assert separately; the six-image ingestion budget of plan §8. Confirm the

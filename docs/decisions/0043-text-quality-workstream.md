@@ -34,7 +34,7 @@ standard 4).
 
 ## What was delivered
 
-`docs/text/` — a four-file shelf with a router README:
+`docs/standards/text/` — a four-file shelf with a router README:
 
 | File | Owns |
 |---|---|

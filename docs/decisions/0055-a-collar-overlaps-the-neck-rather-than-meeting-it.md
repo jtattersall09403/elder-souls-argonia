@@ -98,7 +98,7 @@ tool, and it agrees with the table to about a millimetre on males).
    it; elven's collar stands 0.42 units above the neck ring, which is the one
    window it is extreme in.
 
-Both are queued in [`docs/polish-backlog.md`](../polish-backlog.md). The
+Both are queued in [`docs/phases/P-polish/backlog.md`](../phases/P-polish/backlog.md). The
 evidence sheet is `docs/evidence/races/armour-neck-check.png` and the numbers
 are beside it in `armour-neck-check.measured.json`.
 

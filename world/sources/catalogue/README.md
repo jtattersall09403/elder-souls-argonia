@@ -147,7 +147,7 @@ few families, and "The …" did the work of a register. Each region now has a
 **naming register** (the grammar its names obey) and a **signature pool** (the
 two or three asset families that are *disproportionately* its own, on top of
 the province-common base). Names follow the **region's dominant naming culture** while *speech* follows the
-layered speaker model in [docs/text/culture-registers.md](../../../docs/text/culture-registers.md)
+layered speaker model in [docs/standards/text/culture-registers.md](../../../docs/standards/text/culture-registers.md)
 (race + upbringing + region + faction), so a Khajiit in a verb-clause-named town
 still speaks as a Khajiit. Both are descriptive of what the eight files now
 contain — check against this table before adding a record, and if a new record

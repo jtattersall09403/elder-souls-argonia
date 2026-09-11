@@ -59,7 +59,7 @@ The overall goal at this point is to build the province-scale world, in a way th
 - **Plan for agentic coding.** Assume that this repo will be almost entirely coded by coding agents, most of whom will be starting from fresh context. It is essential that we make our repo(s) modular, easy and *efficient* to navigate for coding agents. This goes for **docs as well as code**. We need to ensure we don't have lots of clashing documents or instructions, and that agents neither need to read huge amounts of context to work effectively nor miss important context they genuinely need for their task. I don't know what else to think of so you should do the thinking - "how do I do my work in such a way as to maximise the chances that future work will be able to continue smoothly and efficiently for other agents picking up bits of this project?"
 - **Ground decisions in lore.** Any world/design decision (places, cultures, danger, routes, names, history) must be grounded in canon. Check the dossiers in `world/sources/lore/` first; if they're thin for your topic, extract more from the vault UESP extract (`../elder-scrolls-asset-pipeline/skyrim-source/mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`) or the UESP MediaWiki API (`en.uesp.net/w/api.php`, works with a project user-agent; plain page fetches get 403), and record a new dossier *before* deciding. Cite UESP page names; respect the era policy (decision 0002). Community/fan material is a prior, never canon.
 - **Estimate at agent speed, and never park a job behind a "holding position"** (owner 2026-09-07). A sourcing search, a kit build, a data mine or a re-author is minutes of agent time, not the hours a human would need; size every job that way before deciding to defer it. A holding position ("accept X for now, revisit later") is forbidden unless the owner has explicitly chosen it: it gets forgotten or read by a later agent as a locked decision. Do the proper thing in the same session, or record the exact blocker (a missing asset that exists nowhere, an owner call) with its evidence.
-- **A defect found is never "out of scope"** (owner 2026-09-07). If you find a bug, a wrong number, a stale doc or a check that cannot fail — in anything — either fix it now, or queue it where the next agent will act on it without the owner remembering: the chunk brief that owns it in the active phase plan (currently docs/phases/16-foundation-and-places/) or a row in docs/polish-backlog.md, with the file, the evidence and the mechanism. Logging a defect under a heading like "not fixed here" and moving on is a failure of the task.
+- **A defect found is never "out of scope"** (owner 2026-09-07). If you find a bug, a wrong number, a stale doc or a check that cannot fail — in anything — either fix it now, or queue it where the next agent will act on it without the owner remembering: the chunk brief that owns it in the active phase plan (currently docs/phases/16-foundation-and-places/) or a row in docs/phases/P-polish/backlog.md, with the file, the evidence and the mechanism. Logging a defect under a heading like "not fixed here" and moving on is a failure of the task.
 - **Fix root causes.** If you're fixing bugs, find the root cause and fix it, don't do sticking plasters.
 - **Prevent context bloat.** Read only what you need (the session-start read of docs/world/00-core.md is the deliberate exception); docs/ are modular so filenames are the map. Whatever you are doing, consider how to do it in a way that prevents context bloat and keeps future agents able to run in a token-efficient way, processing what they need and only what they need.
 - **We never make art. Ever.** No new 3D models, no new textures, **no new animations** — everything comes from vanilla Skyrim or from mods, chosen on
@@ -108,7 +108,7 @@ The overall goal at this point is to build the province-scale world, in a way th
   **not finished or frozen** — re-architect and extend them when the game needs
   it (see world module 75 §51.1), keeping the controller boundary and the
   package rule intact.
-- **Obey the thirteen engineering standards** ([docs/engineering-standards.md](docs/engineering-standards.md),
+- **Obey the thirteen engineering standards** ([docs/standards/engineering.md](docs/standards/engineering.md),
   decision 0042): stable IDs on everything placed; every player-visible string
   in `packages/text-catalogue`, never a literal; `schemaVersion` on runtime
   data; determinism in world building; no new module-level mutable singletons
@@ -122,7 +122,7 @@ The overall goal at this point is to build the province-scale world, in a way th
 - **All prose is reviewed by a separate agent before commit.** Any text a
   player reads or a world record carries (catalogue prose, quest rows,
   text-catalogue strings, dialogue) is written against
-  [docs/text/style-guide.md](docs/text/style-guide.md) and then reviewed by a
+  [docs/standards/text/style-guide.md](docs/standards/text/style-guide.md) and then reviewed by a
   fresh agent running the `text-review` skill (`.claude/skills/text-review/`).
   The prose linter is an `npm test` gate; the skill is the part a regex
   cannot do. Text that skipped review is a defect, not a shortcut.

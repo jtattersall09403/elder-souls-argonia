@@ -31,7 +31,7 @@ CLOSURE IS NOT GATED, and that is a recorded gap, not an oversight: crown
 diameter is not a field `palettes.json` carries, so canopy CLOSURE cannot be
 computed from the shipped record. Asserting it from stem counts would be
 standard-12 prose — a claim the typed fields cannot deliver. The backlog row
-(`docs/polish-backlog.md`, "vegetation crown diameters") is the fix.
+(`docs/phases/P-polish/backlog.md`, "vegetation crown diameters") is the fix.
 """
 
 from __future__ import annotations

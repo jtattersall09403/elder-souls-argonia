@@ -1,6 +1,6 @@
 # repo-standards
 
-The mechanical half of [docs/engineering-standards.md](../../docs/engineering-standards.md)
+The mechanical half of [docs/standards/engineering.md](../../docs/standards/engineering.md)
 (decision 0042 §8). Zero dependencies; runs as part of root `npm test`.
 
 ```

@@ -330,7 +330,7 @@ it costs the owner two sheet reviews, not hundreds of approvals.
 
 ## 9. Polish backlog rows absorbed (G2)
 
-Struck from `docs/polish-backlog.md` and owned here:
+Struck from `docs/phases/P-polish/backlog.md` and owned here:
 
 | Backlog row | Chunk |
 |---|---|

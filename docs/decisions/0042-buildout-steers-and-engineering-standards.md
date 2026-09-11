@@ -5,7 +5,7 @@ register and the [systems audit](../research/combat-and-systems/game-buildout-sy
 This record closes every item the register listed as *awaiting a ruling*, moves
 two pieces of work into named phases, and establishes eleven standing
 engineering standards (their live statement is
-[engineering-standards.md](../engineering-standards.md) — read that, not this).
+[engineering-standards.md](../standards/engineering.md) — read that, not this).
 
 ## 1. Hist-site communion powers — **KEPT**
 
@@ -133,7 +133,7 @@ token set is extracted *from*.
 
 The owner's instruction: *"make all 11 of these happen, with whatever
 checks/tests/hooks/rules are needed"*. They are stated, with their enforcement
-and their owning phase, in **[engineering-standards.md](../engineering-standards.md)**.
+and their owning phase, in **[engineering-standards.md](../standards/engineering.md)**.
 Summary of what shipped with this decision versus what is a scheduled hook:
 
 | # | Standard | Shipped now |

@@ -2,7 +2,7 @@
 
 The owner asked for every piece of prose in the place catalogue to be reviewed
 against the house style: it should read like Morrowind's own text (book and
-dialogue voice per [docs/text/style-guide.md](../../../text/style-guide.md)),
+dialogue voice per [docs/standards/text/style-guide.md](../../../standards/text/style-guide.md)),
 never like model-written prose. This is the 0043 review process applied to
 design text: the reviewer is always a different agent from the writer (the
 region repair agents wrote; you review), and the reviewer makes **the edit**,
@@ -10,12 +10,12 @@ not a critique.
 
 ## Read first (and only)
 
-1. `docs/text/style-guide.md` — §1 house rules, §2 the banned constructions
+1. `docs/standards/text/style-guide.md` — §1 house rules, §2 the banned constructions
    (and the table it points to in `docs/quests/60-writing-and-lore.md` §45e.1),
    the Morrowind voice section.
-2. Your region's row in `docs/text/culture-registers.md` and its naming
+2. Your region's row in `docs/standards/text/culture-registers.md` and its naming
    register row in `world/sources/catalogue/README.md`.
-3. `docs/text/review-process.md` §3 (what to check, in order).
+3. `docs/standards/text/review-process.md` §3 (what to check, in order).
 
 ## Scope — one region file per reviewer
 

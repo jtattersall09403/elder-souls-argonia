@@ -101,7 +101,7 @@ them; obey them. Canon shape, for reference:
   Fyr, Odral Helvi.
 
 **Place names** follow the per-region naming register in
-[world/sources/catalogue/README.md](../../world/sources/catalogue/README.md).
+[world/sources/catalogue/README.md](../../../world/sources/catalogue/README.md).
 A character's speech and their region's place names must sound like the same
 world: do not write a "Bundle Racks" pirate speaking in the Hist heartland's
 definite-article abstractions.
@@ -126,7 +126,7 @@ and idiom*, not by twisted syntax. When a line feels portentous, cut it in half;
 what remains is usually the line.
 
 The **banned-constructions table lives in [quests/60
-§45e.1](../quests/60-writing-and-lore.md)** — it is the enforcement surface and
+§45e.1](../../quests/60-writing-and-lore.md)** — it is the enforcement surface and
 it grows. Read it. Do not copy it here.
 
 ### 2.1 The five things Morrowind's dialogue actually does
@@ -240,7 +240,7 @@ it uses (quests 60 §45e.1).
 
 The banned-constructions table catches phrases. These catch the *shape*, and
 they are what a reviewer judges by eye. Evidence and worked examples:
-[docs/research/text-and-voice/ai-writing-tells.md](../research/text-and-voice/ai-writing-tells.md).
+[docs/research/text-and-voice/ai-writing-tells.md](../../research/text-and-voice/ai-writing-tells.md).
 
 - **Not every paragraph ends on a resonant line.** Most records should end on a
   plain fact. Aphoristic closers are the loudest structural tell we have.

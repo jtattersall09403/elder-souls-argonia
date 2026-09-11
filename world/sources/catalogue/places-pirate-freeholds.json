@@ -4373,7 +4373,7 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Jel",
-        "docs/game-buildout-register.md (courier/letter delivery spine)",
+        "docs/phases/buildout/README.md (courier/letter delivery spine)",
         "world/sources/catalogue/type-recipes.json#courier-relay",
         "lore: Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
       ],

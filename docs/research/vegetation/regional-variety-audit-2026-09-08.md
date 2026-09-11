@@ -174,7 +174,7 @@ kit in a minute):
   rewriting texture paths inside the NIF (a pipeline feature, not a data
   change); until then Tropical Skyrim's `manfern` is the province's tree fern.
   Same applies to the rest of the Berkian `landscaping/` set (cycads, giant
-  lilies, pitcher plants) — logged in `docs/polish-backlog.md`.
+  lilies, pitcher plants) — logged in `docs/phases/P-polish/backlog.md`.
 - `bmv:landscape/trees/ethas/paradise-b` (the author's "01Swamptree") and
   `bmv:landscape/trees/scottish-pine33` — both carry crossed flat LOD cards
   inside the L0 mesh, visible at the trunk base.

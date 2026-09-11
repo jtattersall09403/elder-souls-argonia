@@ -9,10 +9,10 @@ overused; *and* still stands where *but* is natural ("a millennium older than
 the Imperial work below and visibly better"); and the **flat and-pair** ("set
 the route each year and will not explain it") is used far too much.
 
-Read first, and only: `docs/text/style-guide.md` §1, §2.4–2.7 (2.6 is the
+Read first, and only: `docs/standards/text/style-guide.md` §1, §2.4–2.7 (2.6 is the
 diagnosis of the and-pair; 2.7 the seeding procedure); the banned table in
-`docs/quests/60-writing-and-lore.md` §45e.1; `docs/text/review-process.md` §3;
-your region's rows in `docs/text/culture-registers.md`; the region's naming
+`docs/quests/60-writing-and-lore.md` §45e.1; `docs/standards/text/review-process.md` §3;
+your region's rows in `docs/standards/text/culture-registers.md`; the region's naming
 register in `world/sources/catalogue/README.md`.
 
 ## Method

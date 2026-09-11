@@ -4,7 +4,7 @@ What the final game's systems need, and how the reference games do it. Designs l
 
 | File | What it answers | Status |
 | --- | --- | --- |
-| [game-buildout-systems-audit.md](game-buildout-systems-audit.md) | Everything the final game needs that the world build will not deliver — app/package architecture, quest runtime demands, stats, combat stack, unowned systems. Drives [../../game-buildout-register.md](../../game-buildout-register.md). | live design input |
+| [game-buildout-systems-audit.md](game-buildout-systems-audit.md) | Everything the final game needs that the world build will not deliver — app/package architecture, quest runtime demands, stats, combat stack, unowned systems. Drives [../../game-buildout-register.md](../../phases/buildout/README.md). | live design input |
 | [dark-souls-poise-mechanics.md](dark-souls-poise-mechanics.md) | The DS1 poise model at implementation level (pool, poise damage, regen) with DS3/ER deltas. Read by `packages/game-core/src/combat/poise.ts`. | live design input |
 | [skyrim-facegen-runtime-pipeline.md](skyrim-facegen-runtime-pipeline.md) | What a real Skyrim head/face pipeline is, and why the previous playable-race build produced near-identical grey heads. Read by `pipeline/npc_records.py`. | live design input |
 | [stats-progression-reference-games.md](stats-progression-reference-games.md) | Morrowind's actual formula constants and the mod-sourcing permission facts — the only record of them. Fed module 76. | live design input |

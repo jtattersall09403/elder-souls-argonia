@@ -1,7 +1,7 @@
 # 0026 — Main quest sharpened: visceral stakes, early villain, three endings, Morrowind length, co-design loop
 
 **Date:** 2026-08-26 · **Status:** accepted · **Scope:** `docs/quests/`,
-`docs/world/95-build-sequence.md`
+`docs/phases/README.md`
 
 Owner review of the main quest following decision 0018. Six directives, all
 applied. Content lives in the modules; this records what changed and why.

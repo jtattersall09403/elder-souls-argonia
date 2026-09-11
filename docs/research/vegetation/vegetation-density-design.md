@@ -25,7 +25,7 @@ it.[^lynch][^legibility]
 
 That is decisive for us rather than merely interesting. Our world is
 Morrowind-shaped: no quest markers, directions given in words, and a
-[diegetic discovery feed](../../world/95-build-sequence.md) that expects players
+[diegetic discovery feed](../../phases/README.md) that expects players
 to *find* things. Kevin Lynch's paths / edges / districts / nodes / landmarks
 are the vocabulary that navigation runs on, and vegetation is the main thing
 that can erase all five. So:

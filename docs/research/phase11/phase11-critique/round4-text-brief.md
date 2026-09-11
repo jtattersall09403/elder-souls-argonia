@@ -16,10 +16,10 @@ record's `occupants`/`contents`, a number, a direction, the actual goods, the
 actual neighbour. And **vary the fix** — if every "the only" becomes "where",
 "where" is the new tic.
 
-Read first, and only: `docs/text/style-guide.md` §1, §2.4–2.7;
+Read first, and only: `docs/standards/text/style-guide.md` §1, §2.4–2.7;
 `docs/quests/60-writing-and-lore.md` §45e.1 (banned table);
-`docs/text/review-process.md` §3; your region's rows in
-`docs/text/culture-registers.md`.
+`docs/standards/text/review-process.md` §3; your region's rows in
+`docs/standards/text/culture-registers.md`.
 
 ## Method
 

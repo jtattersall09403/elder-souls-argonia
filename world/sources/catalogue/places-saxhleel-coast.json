@@ -1000,7 +1000,7 @@
         "world/sources/lore/extrapolation/settlement-register.md §2 (Archon: small landward harbour tree)",
         "world/sources/lore/topics/hist-placement.md",
         "world/sources/catalogue/type-recipes.json#hero-hist-grove",
-        "docs/game-buildout-register.md (ten hero Hist: stable ID + power slot)"
+        "docs/phases/buildout/README.md (ten hero Hist: stable ID + power slot)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -4526,7 +4526,7 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Jel",
-        "docs/game-buildout-register.md (courier/letter delivery spine)",
+        "docs/phases/buildout/README.md (courier/letter delivery spine)",
         "world/sources/catalogue/type-recipes.json#courier-relay",
         "lore: Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
       ],

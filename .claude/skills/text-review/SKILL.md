@@ -6,17 +6,17 @@ description: Review and rewrite player-visible or world-record prose (place cata
 # Text review
 
 You are the reviewer, not the writer. A writer cannot hear its own register
-(docs/text/review-process.md). Your output is **edits applied to the files**,
+(docs/standards/text/review-process.md). Your output is **edits applied to the files**,
 plus a short report; never a critique without the replacement.
 
 ## 1. Read (once, in this order)
 
-1. `docs/text/style-guide.md` §1.2 (punctuation), §2.4–2.8 (the voice rules:
+1. `docs/standards/text/style-guide.md` §1.2 (punctuation), §2.4–2.8 (the voice rules:
    *but*, flat and-pair, seed from Morrowind, **trying too hard**, the
    reference register for place records).
 2. `docs/quests/60-writing-and-lore.md` §45e.1 — the banned-constructions
    table. Add a row when you find a new tell.
-3. `docs/text/review-process.md` §3 — the checklist and the reading tests.
+3. `docs/standards/text/review-process.md` §3 — the checklist and the reading tests.
 
 Do not read anything else unless a finding needs it (culture registers for a
 dialogue line's speaker; a lore dossier when a fact looks wrong).

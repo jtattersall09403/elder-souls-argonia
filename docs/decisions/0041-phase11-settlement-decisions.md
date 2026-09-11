@@ -6,7 +6,7 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 > ## RUN-BOOK — start here if you are delivering Phase 11
 >
 > Read this doc, then [00-core](../world/00-core.md), then the Phase 11
-> section of [95-build-sequence.md](../world/95-build-sequence.md) (§86,
+> section of [95-build-sequence.md](../phases/README.md) (§86,
 > "Phase 11" — the binding deliverable list), then
 > [40-causal-authoring.md](../world/40-causal-authoring.md) **§28b–32**
 > (§28b is the placement ladder — macro roster → type-siting grammars →
@@ -81,7 +81,7 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 >   and siblings are the still-render precedent for review artefacts.
 > ### Standards and kickoff hooks that bind this phase (added 2026-09-01, after 0042)
 >
-> Read [engineering-standards.md](../engineering-standards.md) (decision
+> Read [engineering-standards.md](../standards/engineering.md) (decision
 > [0042](0042-buildout-steers-and-engineering-standards.md)) before writing
 > the schema — most of the eleven bite here, several as mechanical `npm test`
 > checks: quest gates/conditions/rewards only in the typed vocabulary
@@ -94,7 +94,7 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 > format; letters/notes/rumours as typed content units (quests/85 §C).
 >
 > Also collect the **Phase 11 kickoff hooks** in
-> [game-buildout-register.md](../game-buildout-register.md) ("At Phase 11
+> [game-buildout-register.md](../phases/buildout/README.md) ("At Phase 11
 > kickoff" block + the Phase-11 rows): the `STATION` socket type, per-body
 > `WaterBody` records, timetable data + urban water-taxi edges on the
 > travel-service graph, the prior→roster demographic rule (92 §84), the

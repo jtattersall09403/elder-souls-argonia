@@ -132,7 +132,7 @@ ladder (now; absorbs 11's exemplars, water round 2 and the terrain rows of P;
 9 swim/climb/boats · 10b full sandbox parity in studio (was 7b, 0017) ·
 10c stats+progression implementation (0019; design = workstream S) ·
 13 fauna ecology/encounters/loot (exemplar-first) ·
-P general polish pass (rolling backlog, docs/polish-backlog.md) incl.
+P general polish pass (rolling backlog, docs/phases/P-polish/backlog.md) incl.
 12b province soundscape (polish-tier: after 13, before 14's budget lock) ·
 14 streaming+deploy · 15 rollout by region packet.
 Statuses live only in PROGRESS.md.

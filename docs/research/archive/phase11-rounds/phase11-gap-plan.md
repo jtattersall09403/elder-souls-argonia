@@ -756,7 +756,7 @@ hard-zero: future unlinked promises fail rather than joining an accepted
 backlog. The blueprint validator uses the same gate.
 Files: `worldgen/prose_links.py` (new),
 `blueprint.py` hook, `test_catalogue.py`, `lint_prose.py` (shares the
-surface list), docs/text/style-guide.md (one line: name a thing only if
+surface list), docs/standards/text/style-guide.md (one line: name a thing only if
 the record links it). Alongside water: yes.
 
 ### B8 — Smaller items (each one brief)

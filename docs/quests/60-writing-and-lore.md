@@ -24,7 +24,7 @@ races in the proportions in [world/92 §82](../world/92-demographics.md), and a
 Khajiit, a Dunmer or a Nord living in the marsh does **not** speak like a
 Saxhleel. Every speaker's voice is composed from four layers — race +
 upbringing + region + faction — per
-[text/culture-registers.md](../text/culture-registers.md) §0, which is the
+[text/culture-registers.md](../standards/text/culture-registers.md) §0, which is the
 binding model; this section is just its Argonian race row in full.
 
 Canon Argonian speech habits: the full set lives in the lore dossier — read it
@@ -108,8 +108,8 @@ the line.
 
 **All three stages below are now built** (decision
 [0043](../decisions/0043-text-quality-workstream.md), 2026-09-03): the research
-pass is done, the rulebook is [docs/text/](../text/README.md), and the reviewer's
-brief is [docs/text/review-process.md](../text/review-process.md). Writers read
+pass is done, the rulebook is [docs/standards/text/](../standards/text/README.md), and the reviewer's
+brief is [docs/standards/text/review-process.md](../standards/text/review-process.md). Writers read
 that shelf; **this section keeps the banned-constructions table below**, which is
 the single place new rows are added.
 
@@ -127,7 +127,7 @@ Three stages, and this is a *requirement on writing*, not a cleanup afterwards:
    written text against the rulebook and proposes the specific edit.
 
 Engineering standard 4 (one keyed text catalogue,
-[../engineering-standards.md](../engineering-standards.md)) is what makes stage
+[../engineering-standards.md](../standards/engineering.md)) is what makes stage
 3 mechanical: the reviewer sweeps one catalogue instead of hunting through code.
 
 ### 45e.1 Banned constructions (grows — add on sight)
@@ -206,7 +206,7 @@ provenance voice, hedged-adverb formulas — and counts the density of *the
 only*, *never*, the flat and-pair and the withheld-secret beat. It runs over
 the place catalogue in `npm test` (`--strict`) and over any markdown you pass
 with `--md`. It is a floor, not the review: the shape tests in
-[docs/text/review-process.md](../text/review-process.md) §3 still run by eye.
+[docs/standards/text/review-process.md](../standards/text/review-process.md) §3 still run by eye.
 
 ## 46. Dialogue model
 
@@ -240,7 +240,7 @@ Every C1 and C2 gets a one-page voice sheet before any dialogue is written,
 carrying exactly six things:
 
 1. **Their four layers, named explicitly** — **race**, **upbringing**,
-   **region** and **faction** ([text/culture-registers.md](../text/culture-registers.md)
+   **region** and **faction** ([text/culture-registers.md](../standards/text/culture-registers.md)
    §0). All four fields are mandatory, even when one is "none" (no faction) or
    "default for their race". A sheet missing a layer produces a character who
    defaults to the province's majority voice, which is the exact failure the

@@ -2,7 +2,7 @@
 
 > **A speaker's voice is composed, not looked up.** There is no "the register
 > of region X". Argonia holds all ten Tamrielic races in the proportions given
-> by [world/92 §82](../world/92-demographics.md), and they do not all talk like
+> by [world/92 §82](../../world/92-demographics.md), and they do not all talk like
 > Argonians. Read §0 (composition rule) plus **your speaker's four rows**:
 > one race row, one upbringing row, one region row, one faction row.
 > Universal rules are in [style-guide.md](style-guide.md); the individual is
@@ -11,7 +11,7 @@
 > **Why layered:** Morrowind's own dialogue engine filters every line by Race,
 > Class, Faction, Rank, Region/Cell and disposition at once — the game composes
 > a voice from conditions rather than storing one voice per town. Evidence and
-> quoted lines: [research/text-and-voice/speech-register-model-morrowind.md](../research/text-and-voice/speech-register-model-morrowind.md).
+> quoted lines: [research/text-and-voice/speech-register-model-morrowind.md](../../research/text-and-voice/speech-register-model-morrowind.md).
 
 ## 0. The composition rule
 
@@ -67,7 +67,7 @@ Applies to a speaker of that race *whatever* region or faction they are in.
 | **Altmer** | Precise diction, complete clauses, no contractions, condescension worn as courtesy; corrects the terms of a question before answering it | `LORE_INFERRED` (research §2) |
 
 Where a row is `LORE_INFERRED`, a better in-game line found later should replace
-it — record the page in [99-sources](../world/99-sources.md).
+it — record the page in [99-sources](../../world/99-sources.md).
 
 ---
 
@@ -91,7 +91,7 @@ Applies across race. This is the layer that stops "all Dunmer sound alike".
 ## 3. REGION layer — the eight zones, for anyone who lives there
 
 These are the same eight zones as the place catalogue's naming register
-([world/sources/catalogue/README.md](../../world/sources/catalogue/README.md)),
+([world/sources/catalogue/README.md](../../../world/sources/catalogue/README.md)),
 so how a place is *named* and what its people *talk about* stay in agreement.
 **A region row is idiom and subject matter, not a race.** An Imperial fisher in
 `saxhleel-coast` uses the coast's words; a Khajiit smuggler in

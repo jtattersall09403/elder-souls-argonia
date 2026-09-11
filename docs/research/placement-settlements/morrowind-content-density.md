@@ -6,7 +6,7 @@ POIs-per-km² and quests-per-city). Sources: UESP MediaWiki API category counts
 documentation, plus the Tamriel Rebuilt quest audit already cited in
 [../quests/00-overview.md](../../quests/00-overview.md) §2. This file is the
 evidence; the **binding targets** live in world plan
-[95-build-sequence](../../world/95-build-sequence.md) (Phase 11/13 density gates)
+[95-build-sequence](../../phases/README.md) (Phase 11/13 density gates)
 and quests [90 §65b](../../quests/90-production-sequence.md) (per-packet quotas).
 
 ## 1. Vvardenfell's size

@@ -15,7 +15,7 @@ region file repairs its records; the lead re-plots after.
    redefined, the sourcing shortlist).
 2. Your region's entries in `asset-deliverability.json` → `records`.
 3. `world/sources/catalogue/README.md` (schema v2, naming register, signature
-   pool) and `docs/text/style-guide.md` §1.2, §2.4–2.5 + the banned table in
+   pool) and `docs/standards/text/style-guide.md` §1.2, §2.4–2.5 + the banned table in
    docs/quests/60 §45e.1 (no em dashes, no AI tells, "but" where the sense is
    contrast) — you will be rewriting prose.
 4. `docs/research/phase11/phase11-critique/part4-step2-region-brief.md` § Hard rules

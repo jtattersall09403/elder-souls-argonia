@@ -79,4 +79,4 @@ and correctly so: they are transport failures, not data defects. The
 "references missing kit" fatal is impossible by construction — `bundle.kits` is
 built from the placed kit set. A GLB that is present, non-empty and *corrupt*
 would still only fail in the browser; `_stage_assets` checks existence and size,
-not integrity. Queued in `docs/polish-backlog.md`.
+not integrity. Queued in `docs/phases/P-polish/backlog.md`.

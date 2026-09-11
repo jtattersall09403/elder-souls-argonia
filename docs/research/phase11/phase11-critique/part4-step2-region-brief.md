@@ -13,8 +13,8 @@ eight report. Rulings and context: decision 0041 § Part 4 step 2.
    hinterland purpose coverage, rest-cadence gaps, hostile counts.
 4. `docs/research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md` §2–§6 (the
    vocabularies, the dungeon target per region, the hostility model).
-5. `docs/text/style-guide.md` §voice + your region's row in
-   `docs/text/culture-registers.md` — you are writing prose; write it in
+5. `docs/standards/text/style-guide.md` §voice + your region's row in
+   `docs/standards/text/culture-registers.md` — you are writing prose; write it in
    register, plainly, never in AI voice (banned constructions: quests 60 §45e.1).
 6. Lore: `world/sources/lore/` dossier for your region and cities; UESP via
    the API for gaps (cite page names).

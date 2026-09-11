@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Mechanical enforcement of the repo's engineering standards
- * (docs/engineering-standards.md, decision 0042 §8).
+ * (docs/standards/engineering.md, decision 0042 §8).
  *
  * A rule without a check rots — these are the standards cheap enough to
  * machine-check today. Each check prints the standard it enforces, the
@@ -419,7 +419,7 @@ function checkPlaybookMoves() {
 // ---------------------------------------------------------------------------
 // Standard 8 (prose) — the prose linter is a gate, not a report
 // ---------------------------------------------------------------------------
-// docs/text/style-guide.md's hard rules are checked by
+// docs/standards/text/style-guide.md's hard rules are checked by
 // tooling/world-generation/worldgen/lint_prose.py. It was documented as an
 // `npm test` gate but nothing ran it (review 2026-09-07); it runs here in
 // ~2 s. Python missing is a note, not a pass: CI installs it.
@@ -461,7 +461,7 @@ for (const f of failures) {
   );
 }
 console.error(
-  "\nThe standards are docs/engineering-standards.md. If a check is wrong, fix " +
+  "\nThe standards are docs/standards/engineering.md. If a check is wrong, fix " +
     "the check — do not add an exemption without a reason in its allowlist.\n",
 );
 process.exit(1);

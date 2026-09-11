@@ -524,7 +524,7 @@ job in the polish backlog, not a runtime rule.
 
 Also recorded this round: the inventory UI is a working draft, not a finalised
 exemplar (owner 2026-09-03) — noted on the HUD & UI row of
-[game-buildout-register.md](../game-buildout-register.md).
+[game-buildout-register.md](../phases/buildout/README.md).
 
 # Round 6 (2026-09-04) — the owner's round-5 playtest list
 

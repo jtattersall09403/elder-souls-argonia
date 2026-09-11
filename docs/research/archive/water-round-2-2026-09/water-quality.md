@@ -1,6 +1,6 @@
 # Water quality contract and review guide
 
-Decision [0045](../../../decisions/0045-reversible-water-overhaul.md), September 2026. Covers the water items in [the polish backlog](../../../polish-backlog.md), plus the owner's broader request. Keep backlog items open until visual acceptance; automated tests do not certify that water looks natural.
+Decision [0045](../../../decisions/0045-reversible-water-overhaul.md), September 2026. Covers the water items in [the polish backlog](../../../phases/P-polish/backlog.md), plus the owner's broader request. Keep backlog items open until visual acceptance; automated tests do not certify that water looks natural.
 
 ## What “first class” means here
 

@@ -3,7 +3,7 @@
 > Module of the quest/narrative master plan (see [README](README.md)).
 > Established by decision
 > [0042](../decisions/0042-buildout-steers-and-engineering-standards.md);
-> engineering standard 1 in [engineering-standards.md](../engineering-standards.md).
+> engineering standard 1 in [engineering-standards.md](../standards/engineering.md).
 
 **This is the only language a quest may gate or change the world in.** Every
 stage requirement, dialogue availability, faction check, reward grant, journal

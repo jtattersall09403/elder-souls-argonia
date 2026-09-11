@@ -7,7 +7,7 @@ architecture, (2) the quest plan's runtime demands, (3) the accepted stats
 design's demands, (4) the implemented combat/character stack, (5) a sweep of
 the world-plan modules for assumed-but-unowned systems.
 
-**How to use it:** [../game-buildout-register.md](../../game-buildout-register.md)
+**How to use it:** [../game-buildout-register.md](../../phases/buildout/README.md)
 is the live, lean summary (rows + hooks); this doc is the evidence and detail
 behind it, and the seed of the build-out master plan. Statuses here are a
 snapshot of 2026-08-30 — the register is maintained, this doc is not (except

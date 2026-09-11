@@ -9,7 +9,7 @@ cosmetic/feel work lives — do not park polish items in decision docs.
 
 The terrain, chain, water, vegetation, route, plot and settlement rows that
 used to sit in the table below are now owned by Phase 16's chunks; the list is
-[the plan's §9](phases/16-foundation-and-places/README.md), and the evidence
+[the plan's §9](../16-foundation-and-places/README.md), and the evidence
 behind each is in `docs/research/phase16/`. The bullet rounds further down
 ("Owner feedback round 2026-09-06", "Owner rulings 2026-09-09") are likewise
 absorbed except where a bullet is genuine polish (sky palette, moon glow,
@@ -260,7 +260,7 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
 - **One ground slot still reads the un-tropicalised vanilla texture.** From
   2026-09-09 every vanilla texture in the asset pipeline resolves through
   Tropical Skyrim by default (owner ruling; see
-  [90-asset-strategy §74.1a](world/90-asset-strategy.md)). The ground-material
+  [90-asset-strategy §74.1a](../../world/90-asset-strategy.md)). The ground-material
   table is the one place left that does not: `build_ground_materials.py` slot
   `peat_slope` pulls `textures/landscape/frozenmarshdirtslopes01.dds` from the
   vanilla BSA (`kind="bsa"` — the table's only such slot) and hue-shifts it

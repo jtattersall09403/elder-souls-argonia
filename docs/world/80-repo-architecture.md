@@ -55,7 +55,7 @@ when their phase needs them, not speculatively.
 > **`world-render`** at Phase 14, which is where the ~7,300 LOC of renderer
 > still living in `apps/world-studio/src` comes out (decision 0042 §3);
 > `narrative-core` in the build-out. Package rules and the standards that bind
-> every package are [../engineering-standards.md](../engineering-standards.md) —
+> every package are [../engineering-standards.md](../standards/engineering.md) —
 > note especially standard 8 (no new module-level mutable singletons), which is
 > the specific thing that made the renderer expensive to extract, and is now a
 > ratcheting check in `npm test`.

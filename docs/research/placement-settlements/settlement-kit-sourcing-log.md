@@ -326,7 +326,7 @@ tint `(14, 1.08, 1.0)`. Tropical **does** ship that exact file. Switching the
 slot to `kind="ts"` and dropping the tint is the consistent answer, but the
 tint was tuned in an owner-reviewed round and the ground set is a visual
 decision, so it is queued rather than changed. Row in
-[docs/polish-backlog.md](../../polish-backlog.md).
+[docs/phases/P-polish/backlog.md](../../phases/P-polish/backlog.md).
 
 ## Still open from the audit
 

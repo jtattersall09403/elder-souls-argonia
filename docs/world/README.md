@@ -25,7 +25,7 @@ across the repo resolve via the map below.
 | Studio modes, spawn, diagnostic layers, probes, visual evidence | [85-world-studio.md](85-world-studio.md) (§66–70) |
 | Finding/reusing assets: vanilla families + vetted mod candidates (architecture, flora, boats, creatures, ruins) + ingestion order | [90-asset-strategy.md](90-asset-strategy.md) (§71–80) — check before hunting new sources |
 | Populations, cultures mix, demographic priors | [92-demographics.md](92-demographics.md) (§81–84) — read when deciding how many people live in a settlement (Phase 11) |
-| Phase deliverables in detail, three-scales model, sequencing rationale | [95-build-sequence.md](95-build-sequence.md) (§85–87) |
+| Phase deliverables in detail, three-scales model, sequencing rationale, the phase plans | [../phases/README.md](../phases/README.md) (§85–87; was module 95, moved 2026-09-11) |
 | **Building a place** (Phase 11 Parts 6–8 and the Phase 15 long tail): the per-place loop, the write-back rule, lessons per round, the automation-readiness checklist | [96-placement-playbook.md](96-placement-playbook.md) |
 | **The rules for siting and laying out a place** (BINDING): province → place, place → ground, ground → layout, the walking player, integration, one grammar table per culture, the enforcement-gap table and the owner sense-check list | [97-placement-principles.md](97-placement-principles.md) |
 | Resolving [^..] citations from any module | [99-sources.md](99-sources.md) |
@@ -38,7 +38,7 @@ everything. The quest plan ([../quests/](../quests/README.md)) binds via its
 
 §1–10 → 10 · §11–16 → 20 · §17–27 → 30 · §28–32 → 40 · §33–37, §33.1 → 50 ·
 §38–46 → 60 · §47–50 → 70 · §51–57 → 75 · §58–65 → 80 · §66–70 → 85 ·
-§71–80 → 90 · §81–84 → 92 · §85–87 → 95 · §88–92 → 00-core (acceptance) ·
+§71–80 → 90 · §81–84 → 92 · §85–87 → phases/README (was 95) · §88–92 → 00-core (acceptance) ·
 §93–98, §98b → 55 (added 2026-08-25, decision 0016) · §100–104 → 76 (decision 0019) ·
 §105–108 → 57 · §109–112 → 65 · §113–115 → 72 (added 2026-08-26, decision 0022) ·
 §116–129 → 76, the decided stat design (added 2026-08-29, workstream S step 5).

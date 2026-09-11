@@ -24,7 +24,7 @@ phase builds it), and a **save/persistence layer** (save-on-rest is decided in
    stat hook, semantic authoring 76 §128, the quest condition vocabulary).
    Full systems belong to the next goal's master plan, drafted when the world
    build closes.
-2. **[docs/game-buildout-register.md](../game-buildout-register.md)** is the
+2. **[docs/phases/buildout/README.md](../phases/buildout/README.md)** is the
    single parking place for deferred game *systems* — the systems twin of
    polish-backlog.md — and the seed of the future build-out plan. Each row
    names the **hook** the owning world-build phase must leave; a phase that

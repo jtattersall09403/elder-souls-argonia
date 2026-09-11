@@ -1,7 +1,7 @@
 # 0027 — Content density matched to Morrowind; co-design loop hardened into a gate
 
 **Date:** 2026-08-26 · **Status:** accepted · **Scope:** `docs/quests/`,
-`docs/world/95-build-sequence.md`, `docs/research/placement-settlements/morrowind-content-density.md`
+`docs/phases/README.md`, `docs/research/placement-settlements/morrowind-content-density.md`
 
 ## 1. Density targets (owner directive: same quests/km², POIs/km² and quests-per-city as Morrowind)
 

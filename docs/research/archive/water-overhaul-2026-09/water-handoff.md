@@ -48,7 +48,7 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
   redefine the terrain-authored target masks or authorize water on dry uplands.
 - Stage explicit water-owned paths only. Concurrent settlement changes in
   `c4f5aaf` are independently owned and preserved in this deployment. Dirty
-  `docs/polish-backlog.md` and untracked `output/` remain outside water staging.
+  `docs/phases/P-polish/backlog.md` and untracked `output/` remain outside water staging.
 - Recheck remote/Actions before each push. `?water=legacy` is a renderer
   fallback, not a bit-exact rollback of shared physics changes.
 

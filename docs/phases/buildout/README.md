@@ -8,21 +8,21 @@ the quest plan's typed condition vocabulary). Everything past that line
 belongs to the **next goal** — building the world and its proven systems out
 into the full game — whose master plan will be drafted when the world build
 closes and the owner resets CLAUDE.md § GOAL. Policy: decision
-[0038](decisions/0038-world-build-vs-game-buildout-seam.md). Evidence base:
-the [build-out systems audit](research/combat-and-systems/game-buildout-systems-audit.md)
+[0038](../../decisions/0038-world-build-vs-game-buildout-seam.md). Evidence base:
+the [build-out systems audit](../../research/combat-and-systems/game-buildout-systems-audit.md)
 (2026-08-30) **plus the
-[Morrowind/Skyrim cross-check](research/combat-and-systems/source-game-systems-crosscheck.md)**
+[Morrowind/Skyrim cross-check](../../research/combat-and-systems/source-game-systems-crosscheck.md)**
 (triage + owner rulings: decision
-[0039](decisions/0039-source-game-crosscheck-triage.md) — **all steers RULED
+[0039](../../decisions/0039-source-game-crosscheck-triage.md) — **all steers RULED
 2026-08-30**; read its Rulings section before touching any cross-check item).
 
 **Hooks that apply to every row** are the eleven
-[engineering standards](engineering-standards.md) (decision 0042 §8) — stable
+[engineering standards](../../standards/engineering.md) (decision 0042 §8) — stable
 IDs, one text catalogue, `schemaVersion`, determinism, no new singletons, the
 typed condition vocabulary and the rest. Read those before adding a row; four
 of them are mechanical checks in `npm test`.
 
-This file is the systems twin of [polish-backlog.md](polish-backlog.md)
+This file is the systems twin of [polish-backlog.md](../P-polish/backlog.md)
 (cosmetic/feel leftovers for Phase P — not systems). One row per deferred
 system: what the world build already owns, what is deferred, and the
 **hook** — the contract or data the owning world-build phase must leave
@@ -68,7 +68,7 @@ will also use.
   consume it; **no phase owns it**. → 10b's enemies or 10c, before 13.
   Ready-made formulas: cross-check §4 (Skyrim's full model + Morrowind's
   direction multiplier).
-- **Shield parry ruling** — in [polish-backlog.md](polish-backlog.md) tagged
+- **Shield parry ruling** — in [polish-backlog.md](../P-polish/backlog.md) tagged
   `10b`.
 - **At Phase 11 kickoff:** **`owner`/`ownerFaction` + value tier on every
   placed interactable** (cross-check §1 — retrofit is the expensive
@@ -130,7 +130,7 @@ will also use.
 | **Crafting stations & resource nodes** (adopted, 0039) | `STATION` sockets + station/harvest placement (11/12/13); physical materials (10) | station interaction verbs (forge/temper/brew/cook/tan), resource-node yield tables, the pelts→leather and reeds/clay chains, container respawn + safe-storage policy | stations/nodes are placed data with vault meshes + use-animations; repair tools are consumable items |
 | **Character creation & onboarding** | races/birthsign slot/specialization data at 10c; birthsign *contents* deferred (76 §119.2) | chargen UI flow (diegetic class-quiz template, cross-check §1), intro sequence, tutorial-by-object-pickup, the 13 sign packages | 10c keeps race/sign/class fully data-driven |
 | **HUD & UI design system** (0042 §7) | the sandbox inventory UI is a **working draft, not a finalised exemplar** (owner ruling 2026-09-03: it is "OK for now", to be revisited when UI is done generally — do not extract a token set from it or copy its patterns to new screens without that review); the sandbox HUD is the second data point | one token set (colour/type/spacing/iconography), one component layer, one input model (mouse/touch/pad), one Morrowind-derived visual language — **defined before the second screen is built**, then every screen (journal, map, character sheet, barter, dialogue, menus) composes it | the design system is extracted *before* G1's first new screen, not after; every screen is pad- and touch-navigable by construction, never mouse-first with a pad bolted on |
-| **TES voice for all text** (0042 §6) | the voice rules and the growing banned-constructions list ([quests 60 §45e](quests/60-writing-and-lore.md)) | the corpus-derived rulebook (stage 1), and an **independent voice-review agent** separate from the writer (stage 3) | every player-visible string lives in `packages/text-catalogue` (engineering standard 4) so the review is one sweep, not a grep; system text (deaths, tutorials, item descriptions) is reviewed like dialogue |
+| **TES voice for all text** (0042 §6) | the voice rules and the growing banned-constructions list ([quests 60 §45e](../../quests/60-writing-and-lore.md)) | the corpus-derived rulebook (stage 1), and an **independent voice-review agent** separate from the writer (stage 3) | every player-visible string lives in `packages/text-catalogue` (engineering standard 4) so the review is one sweep, not a grep; system text (deaths, tutorials, item descriptions) is reviewed like dialogue |
 | **Hist communion powers** (0042 §1, KEPT) | Phase 11 places the ~10 hero Hist with a stable ID and a power slot | the powers themselves as effect-stack data (once-per-day semantics), plus the flavour/dream layer | race-neutral: anyone may drink; Argonians get flavour and a dream, never mechanics, and nothing is gated on race |
 | **Menus, settings, accessibility** | difficulty knob at 10c (76 §121.4 — a pure two-sided multiplier, cross-check §4) | main menu, settings/rebinding UI, accessibility, (localization: explicitly out unless the owner says otherwise) | input stays behind `PlayerMovementController`; bindings data-driven |
 | **Narrative tooling & QA** | studio shell + probe patterns exist | narrative debugger (quests 80 §64), validator suite + LLM-critic (§63/63b), headless ending simulation | quest runtime headlessly drivable from day one |
@@ -138,7 +138,7 @@ will also use.
 
 **Nothing is awaiting a ruling.** The 0039 steers were ruled 2026-08-30; the
 audit §4 ambitions batch and the Hist-powers slot were ruled 2026-09-01 in
-decision [0042](decisions/0042-buildout-steers-and-engineering-standards.md)
+decision [0042](../../decisions/0042-buildout-steers-and-engineering-standards.md)
 — read its §1–2 for the full table. Headlines: **Hist communion powers KEPT**
 (once-per-day powers on the existing effect stack, race-neutral, ~10 hero
 trees) · **CUT**: drifting settlements, wetland fire spread, river-pirate boat

@@ -1136,5 +1136,5 @@ budget note, docs README router if files were added), and leave ONE batched
 playtest checklist for the owner in PROGRESS covering everything above
 (including an FPS-feel ask, per B2). What remains of Phase 10 after this
 plan is owner sign-off; the phase closes on their say-so, with leftovers
-routed to [polish-backlog.md](../../../polish-backlog.md).
+routed to [polish-backlog.md](../../../phases/P-polish/backlog.md).
 

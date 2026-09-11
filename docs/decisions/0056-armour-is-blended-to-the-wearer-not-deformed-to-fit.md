@@ -172,5 +172,5 @@ outwards from every rim vertex:
 
 The full table, per build, is `docs/evidence/races/armour-neck-check.measured.json`.
 The remaining negatives are all authored-opening cases and are queued in
-[`docs/polish-backlog.md`](../polish-backlog.md) with their causes; the evidence
+[`docs/phases/P-polish/backlog.md`](../phases/P-polish/backlog.md) with their causes; the evidence
 sheet shows no magenta on any of the eighteen cards.

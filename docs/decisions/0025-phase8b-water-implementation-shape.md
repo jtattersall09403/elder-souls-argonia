@@ -3,7 +3,7 @@
 Date: 2026-08-26 · Status: **CLOSED** (owner closed the phase 2026-08-28
 after round 7 — accepted as good-enough, explicitly *not perfect*; a full
 water-systems re-review + polish is queued in
-[docs/polish-backlog.md](../polish-backlog.md) for Phase P)
+[docs/phases/P-polish/backlog.md](../phases/P-polish/backlog.md) for Phase P)
 Research: [docs/research/rendering/water-rendering-threejs.md](../research/rendering/water-rendering-threejs.md)
 Spec: module [60](../world/60-water-traversal.md) §38–42.
 
@@ -159,7 +159,7 @@ be disposed by effects with unstable deps; one physics for all water levels
 verified by contact sheet, not by slot name.
 
 **Open items at close** — all tracked in
-[docs/polish-backlog.md](../polish-backlog.md) (Phase P) except: per-body
+[docs/phases/P-polish/backlog.md](../phases/P-polish/backlog.md) (Phase P) except: per-body
 `WaterBody` records → Phase 11; physics mass-unit scale → Phase 9 boats.
 
 ## Decisions

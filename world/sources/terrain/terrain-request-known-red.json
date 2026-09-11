@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "kind": "terrain-request-known-red",
   "owner": "water",
-  "why": "These typed terrain requests were applied and survived the terrain raster, but the shipped water solve does not yet deliver the depth, current or water relation they ask for. They are owned by the water workstream and tracked in docs/research/rendering/water-handoff.md. They must stay visibly red: the postcondition gate reports them as KNOWN-RED and fails on any request outside this register.",
+  "why": "These typed terrain requests were applied and survived the terrain raster, but the shipped water solve does not yet deliver the depth, current or water relation they ask for. They are owned by the water workstream and tracked in docs/research/archive/water-round-2-2026-09/water-handoff.md. They must stay visibly red: the postcondition gate reports them as KNOWN-RED and fails on any request outside this register.",
   "measuredOn": "2026-09-09 final chain",
   "requests": [
     {
@@ -28,7 +28,7 @@
       ],
       "owner": "Phase 11 - plot/carve/flood convergence",
       "why": "Predicted by name before it appeared: the terrain-promise agent measured the rise's centre at 22.51 m against a lake surface the published water also puts at 22.51 m, with the two ground rasters agreeing to 0.07 m, and said it would surface as a new red row on the next postcondition run. It is the same convergence gap as the rows above - the plot sites on predicted carve delivery, the carve and the flood then settle, and a promise that cleared by centimetres no longer does. Closing it means re-solving the plot against the settled water.",
-      "queuedIn": "docs/polish-backlog.md",
+      "queuedIn": "docs/phases/P-polish/backlog.md",
       "flapping": true
     },
     {
@@ -60,7 +60,7 @@
       ],
       "owner": "Phase 11 - plot/carve/flood convergence",
       "why": "Went red when MIN_STRUCTURE_RISE_M retired 234 phantom route structures. A structure's window is grading-exempt, so removing one hands its ground back to the road grader; the grader cut it, and the flood solve on the new ground moved these narrows off their promised width or current. The structures were bridges over sub-metre roughness and had to go, so this is the cost of a correct fix showing up one stage downstream, not a regression to undo. Closing it means re-solving the plot against the settled water - the plot, the carve and the flood do not converge in one pass, which is the open loop this register keeps naming.",
-      "queuedIn": "docs/polish-backlog.md",
+      "queuedIn": "docs/phases/P-polish/backlog.md",
       "flapping": true
     },
     {
@@ -78,7 +78,7 @@
       ],
       "owner": "Phase 11 - plot/carve/flood convergence",
       "why": "Went red when MIN_STRUCTURE_RISE_M retired 234 phantom route structures. A structure's window is grading-exempt, so removing one hands its ground back to the road grader; the grader cut it, and the flood solve on the new ground moved these narrows off their promised width or current. The structures were bridges over sub-metre roughness and had to go, so this is the cost of a correct fix showing up one stage downstream, not a regression to undo. Closing it means re-solving the plot against the settled water - the plot, the carve and the flood do not converge in one pass, which is the open loop this register keeps naming.",
-      "queuedIn": "docs/polish-backlog.md",
+      "queuedIn": "docs/phases/P-polish/backlog.md",
       "flapping": true
     },
     {
@@ -89,7 +89,7 @@
       ],
       "owner": "Phase 11 - plot/carve/flood convergence",
       "why": "Went red when MIN_STRUCTURE_RISE_M retired 234 phantom route structures. A structure's window is grading-exempt, so removing one hands its ground back to the road grader; the grader cut it, and the flood solve on the new ground moved these narrows off their promised width or current. The structures were bridges over sub-metre roughness and had to go, so this is the cost of a correct fix showing up one stage downstream, not a regression to undo. Closing it means re-solving the plot against the settled water - the plot, the carve and the flood do not converge in one pass, which is the open loop this register keeps naming.",
-      "queuedIn": "docs/polish-backlog.md",
+      "queuedIn": "docs/phases/P-polish/backlog.md",
       "flapping": true
     },
     {
@@ -100,7 +100,7 @@
       ],
       "owner": "Phase 11 - plot/carve/flood convergence",
       "why": "One more instance of the loop this register keeps naming, and the clearest statement of it: the plot sites on ground the carve is predicted to make, the carve runs, the flood solve settles on the new ground, and a promise that cleared by centimetres no longer does. Each pass flips one to three requests, usually `narrows`, and usually not the same ones - which is why chasing them one pass at a time does not terminate. It needs the plot and the water solved together, or the plot re-solved against settled water and the carve then re-run until the set stops moving. Recorded as the top open item.",
-      "queuedIn": "docs/polish-backlog.md",
+      "queuedIn": "docs/phases/P-polish/backlog.md",
       "flapping": true
     },
     {
@@ -138,7 +138,7 @@
       ],
       "owner": "Phase 11 - macro plot terrain-promise gate",
       "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/phase11/phase11-gap-plan.md",
+      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
       "flapping": true
     },
     {
@@ -149,7 +149,7 @@
       ],
       "owner": "Phase 11 - plot/carve/flood convergence",
       "why": "Moved when the two water-suppressing mechanisms were deleted on the owner's ruling. standing_water had been capping every pool a way touched at 0.30 m and channels had been cutting bridged river sections to a 0.30 m ford, so the province's lakes and rivers were shallower than the solve says they should be; with that gone the water is deeper and truer, and three promises that cleared against the suppressed water no longer clear against the real one. The water is right and these three sites are now wrong for their records - the fix is to re-solve the plot against the settled water, not to put the suppression back.",
-      "queuedIn": "docs/polish-backlog.md",
+      "queuedIn": "docs/phases/P-polish/backlog.md",
       "flapping": true
     },
     {
@@ -161,7 +161,7 @@
       ],
       "owner": "Phase 11 - plot/carve/flood convergence",
       "why": "Moved when the two water-suppressing mechanisms were deleted on the owner's ruling. standing_water had been capping every pool a way touched at 0.30 m and channels had been cutting bridged river sections to a 0.30 m ford, so the province's lakes and rivers were shallower than the solve says they should be; with that gone the water is deeper and truer, and three promises that cleared against the suppressed water no longer clear against the real one. The water is right and these three sites are now wrong for their records - the fix is to re-solve the plot against the settled water, not to put the suppression back.",
-      "queuedIn": "docs/polish-backlog.md",
+      "queuedIn": "docs/phases/P-polish/backlog.md",
       "flapping": true
     },
     {
@@ -173,7 +173,7 @@
       ],
       "owner": "Phase 11 - macro plot terrain-promise gate",
       "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/phase11/phase11-gap-plan.md",
+      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
       "flapping": true
     },
     {
@@ -193,7 +193,7 @@
       ],
       "owner": "Phase 11 - macro plot terrain-promise gate",
       "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/phase11/phase11-gap-plan.md",
+      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
       "flapping": true
     },
     {
@@ -204,7 +204,7 @@
       ],
       "owner": "Phase 11 - macro plot terrain-promise gate",
       "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/phase11/phase11-gap-plan.md",
+      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
       "flapping": true
     },
     {
@@ -215,7 +215,7 @@
       ],
       "owner": "Phase 11 - plot/carve/flood convergence",
       "why": "Moved when the two water-suppressing mechanisms were deleted on the owner's ruling. standing_water had been capping every pool a way touched at 0.30 m and channels had been cutting bridged river sections to a 0.30 m ford, so the province's lakes and rivers were shallower than the solve says they should be; with that gone the water is deeper and truer, and three promises that cleared against the suppressed water no longer clear against the real one. The water is right and these three sites are now wrong for their records - the fix is to re-solve the plot against the settled water, not to put the suppression back.",
-      "queuedIn": "docs/polish-backlog.md",
+      "queuedIn": "docs/phases/P-polish/backlog.md",
       "flapping": true
     },
     {
@@ -227,7 +227,7 @@
       ],
       "owner": "Phase 11 - macro plot terrain-promise gate",
       "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/phase11/phase11-gap-plan.md",
+      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
       "flapping": true
     },
     {
@@ -239,7 +239,7 @@
       ],
       "owner": "Phase 11 - macro plot terrain-promise gate",
       "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/phase11/phase11-gap-plan.md",
+      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
       "flapping": true
     },
     {

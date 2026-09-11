@@ -1,7 +1,7 @@
 # Research — text and voice
 
 Evidence behind how the game's prose and dialogue sound. The binding rules live in
-[../../text/style-guide.md](../../text/style-guide.md) and [../../quests/60-writing-and-lore.md](../../quests/60-writing-and-lore.md).
+[../../text/style-guide.md](../../standards/text/style-guide.md) and [../../quests/60-writing-and-lore.md](../../quests/60-writing-and-lore.md).
 
 | File | What it answers | Status |
 | --- | --- | --- |

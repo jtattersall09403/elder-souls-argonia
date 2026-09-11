@@ -1,7 +1,7 @@
 # Text review process
 
 > Part of the text-quality workstream ([README](README.md), decision
-> [0043](../decisions/0043-text-quality-workstream.md)). The rules being
+> [0043](../../decisions/0043-text-quality-workstream.md)). The rules being
 > reviewed against are [style-guide.md](style-guide.md).
 
 The premise (quests 60 §45e, owner 2026-09-01): **a writer cannot catch its own
@@ -61,7 +61,7 @@ In order — stop-the-line failures first.
    adds new rows on sight** — the table is meant to grow.
 2. **AI voice — shape (qualitative).** Style guide §2.5. These are judged by
    eye, on a sample, with five tests (research:
-   [ai-writing-tells.md](../research/text-and-voice/ai-writing-tells.md) §5):
+   [ai-writing-tells.md](../../research/text-and-voice/ai-writing-tells.md) §5):
    - **Read the paragraph aloud.** Trailer voiceover = fail.
    - **The Morrowind test.** Would a Morrowind book or NPC end on that line?
      Morrowind ends on facts and shrugs, not epigrams.

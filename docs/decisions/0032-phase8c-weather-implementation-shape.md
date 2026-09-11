@@ -2,7 +2,7 @@
 
 Date: 2026-08-28 · Status: accepted · Owner review: **CLOSED 2026-08-30 after
 round 5** (good-enough, not perfect — the owner will record their remaining
-polish items in docs/polish-backlog.md for Phase P)
+polish items in docs/phases/P-polish/backlog.md for Phase P)
 Research: [docs/research/rendering/weather-clouds-rain-threejs.md](../research/rendering/weather-clouds-rain-threejs.md)
 · climate model: [black-marsh-climatology.md](../research/world-terrain/black-marsh-climatology.md)
 Spec: module [55](../world/55-light-sky-time.md) §97–98; deliverables module 95 §86.
@@ -10,7 +10,7 @@ Spec: module [55](../world/55-light-sky-time.md) §97–98; deliverables module 
 ## CONTINUING THIS PHASE — run-book for the next agent
 
 **State: PHASE CLOSED by the owner 2026-08-30 after round 5** (good-enough,
-not perfect — owner-recorded leftovers land in docs/polish-backlog.md,
+not perfect — owner-recorded leftovers land in docs/phases/P-polish/backlog.md,
 Phase P). If you are iterating on weather/atmosphere again (Phase P or a
 regression), the protocol still applies: read this file in full (Decisions +
 Implementation notes below are the design rationale); fix at root cause; log
