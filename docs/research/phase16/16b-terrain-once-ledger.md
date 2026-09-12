@@ -120,8 +120,8 @@ Two-run identity: §8, filled from the second forced ground-only run.
 ## 8. Gates and the ladder (audit 2026-09-12)
 
 An audit of every gate (`npm test`, the deploy workflow, all 90 Python
-suites) against the ladder found 19 probes red on the ground-only build,
-every one judging a layer a later chunk owns. They now SKIP, naming the
+suites) against the ladder found 19 probes red on the ground-only build;
+every one of them judges a layer that a later chunk owns. They now SKIP, naming the
 owner, through `worldgen/ladder.py` (`requires_layer`, `requires_stage`,
 reading `province/ladder.json`): water (8 `test_water_invariants`, 3
 `test_committed_water_facts`, 1 `test_water_fact_invariants`, 2
@@ -136,7 +136,7 @@ way. The deploy workflow's placement steps are blocking again (the
 2026-09-09 override is gone). Three real defects the audit found are fixed:
 a broken fixture of this chunk's (`test_shape_province`), the graph-size
 floors in `test_hydrology_graph` (re-based on the frozen graph with the
-measurement in the code), and `checkCredits` silently passing when its
+measurement in the code); `checkCredits` silently passing when its
 summary file is missing (now a standard-10 failure). Local: `test:water`
 77 passed / 27 skipped; `test:placement` 517 passed / 13 skipped; `npm test`
 8/8.
