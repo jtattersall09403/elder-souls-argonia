@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "frozen": {
+    "heightfield-sculpted-f32.npy": {
+      "sha256": "1083ba2cdf78f2882a72cf700c952edfaad5eb3b19bb872a60926c1fc564a41f",
+      "frozenOn": "2026-09-11",
+      "why": "the sculpted base: orogeny, benching, naturalness, coastal banks"
+    },
+    "heightfield-shaped-f32.npy": {
+      "sha256": "9303262e0d92482add4ececbe0981850d5fbdc5853b65cf4371f009edc73151d",
+      "frozenOn": "2026-09-11",
+      "why": "the shaped ground the hydrology graph is solved on: terrace, detail noise, the Blackrose lake and feeders, portages, shoreline smoothing, fluvial continuum"
+    },
+    "refined-height-frozen-f32.npy": {
+      "sha256": "ff7a122ddb3033250d6f44d6594d1bd5103f5a2983bc6b69dd2203a153689aad",
+      "frozenOn": "2026-09-11",
+      "why": "the frozen base: the shaped ground carved to the hydrology graph (trenches, weirs, plunge bowls, islets); patches only from here on"
+    }
+  },
+  "about": "Content hashes of the terrain arrays the province is built on. A chain stage refuses to overwrite a recorded array with different content unless ES_REFREEZE=1; see worldgen/freeze.py and decision 0059."
+}

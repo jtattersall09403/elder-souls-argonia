@@ -7,13 +7,23 @@
       "kind": "lake-lowland",
       "name": null,
       "lore": "Blackrose stands on a lake with three canon water approaches: rivers from the NE (Murkwood) and W (Blackwood) and the S outlet to Oliis Bay (world/sources/lore; refine_province.FEEDER_SECTORS).",
-      "centreCell": [1290, 3508],
-      "radiiM": [156.7, 120.0],
+      "centreCell": [
+        1290,
+        3508
+      ],
+      "radiiM": [
+        156.7,
+        120.0
+      ],
       "bedM": -4.0,
-      "levelM": 1.63,
+      "levelM": 0.0,
       "shoreline": "organic",
-      "island": {"radiusM": 63.3, "topM": 2.6, "note": "the city island, offset up to 20 m from centre"},
-      "source": "refine_province.impose_blackrose_lake (BLACKROSE_UV 0.32/0.87, LAKE_RADII_M, LAKE_BED_M, ISLAND_R_M, ISLAND_TOP_M); level measured on the shipped water 2026-09-11 (largest body in the lake window)"
+      "island": {
+        "radiusM": 63.3,
+        "topM": 2.6,
+        "note": "the city island, offset up to 20 m from centre"
+      },
+      "source": "shape_province.impose_blackrose_lake (BLACKROSE_UV 0.32/0.87, LAKE_RADII_M, LAKE_BED_M, ISLAND_R_M, ISLAND_TOP_M). Level 0.0: the S feeder is the lake's outlet to Oliis Bay and is carved below sea level (FEEDER_SECTORS s: bed -2.8 m), so the lake is a tidal arm of the bay, not a perched lake; the 1.63 m recorded on 2026-09-11 was the old shipped water, whose outlet had not reached the sea (Phase 16b measurement)."
     }
   ]
 }

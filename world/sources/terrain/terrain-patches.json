@@ -1,0 +1,2598 @@
+{
+ "schemaVersion": 1,
+ "about": "Typed local terrain patches applied to the frozen base in (order, id) order; see worldgen/terrain_patches.py for the six invariants each must pass.",
+ "patches": [
+  {
+   "id": "patch.poling.waterway.hist-heartland.nine-trunks",
+   "kind": "poling-channel",
+   "order": 0,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    4923.7,
+    3717.4,
+    5101.4,
+    3962.2
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.0,
+   "source": {
+    "waterway": "waterway.hist-heartland.nine-trunks",
+    "file": "world/sources/routes/authored-minor-waterways.json"
+   },
+   "params": {
+    "waterway": {
+     "id": "waterway.hist-heartland.nine-trunks",
+     "pointsM": [
+      [
+       5032.418,
+       3893.211
+      ],
+      [
+       5025.045,
+       3856.344
+      ],
+      [
+       5010.298,
+       3819.476
+      ],
+      [
+       4992.745,
+       3786.371
+      ]
+     ],
+     "terminalM": [
+      4992.745,
+      3786.371
+     ]
+    }
+   },
+   "why": "an authored poling channel to terminal.nine-trunks.landing-channel (canoe class, 0.6 m); joins the frozen water it ends in"
+  },
+  {
+   "id": "patch.poling.waterway.hist-heartland.sap-tapping-licensed.landing",
+   "kind": "poling-channel",
+   "order": 0,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    3239.0,
+    4746.0,
+    3404.8,
+    5082.8
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.0,
+   "source": {
+    "waterway": "waterway.hist-heartland.sap-tapping-licensed.landing",
+    "file": "world/sources/routes/authored-minor-waterways.json"
+   },
+   "params": {
+    "waterway": {
+     "id": "waterway.hist-heartland.sap-tapping-licensed.landing",
+     "pointsM": [
+      [
+       3310.218,
+       5013.765
+      ],
+      [
+       3310.218,
+       4999.142
+      ],
+      [
+       3310.218,
+       4980.864
+      ],
+      [
+       3317.53,
+       4962.586
+      ],
+      [
+       3324.841,
+       4944.307
+      ],
+      [
+       3335.808,
+       4929.684
+      ],
+      [
+       3335.808,
+       4911.406
+      ],
+      [
+       3335.808,
+       4893.128
+      ],
+      [
+       3321.185,
+       4874.849
+      ],
+      [
+       3313.874,
+       4856.571
+      ],
+      [
+       3308.0,
+       4838.0
+      ],
+      [
+       3308.5,
+       4828.0
+      ],
+      [
+       3309.4,
+       4815.0
+      ]
+     ],
+     "terminalM": [
+      3309.4,
+      4815.0
+     ]
+    }
+   },
+   "why": "an authored poling channel to terminal.sap-tapping-licensed.landing-channel (canoe class, 0.6 m); joins the frozen water it ends in"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.hackwing-wall",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    3196.4,
+    92.8,
+    3356.4,
+    252.8
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.55,
+   "source": {
+    "place": "place.dunmer-north.hackwing-wall",
+    "file": "world/sources/catalogue/",
+    "planDigest": "9ead05e8ab1a37b8599fef2948cf4b14d6fc2e28f409b549175682d72a2bb5f9"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.hackwing-wall",
+     "position": {
+      "u": 0.44435,
+      "v": 0.02343
+     },
+     "terrainRequests": [
+      {
+       "kind": "cliff-bench",
+       "radiusM": 80,
+       "delivery": {
+        "feature": "tiered-channel-wall",
+        "ledgeCount": 3,
+        "orientation": "south",
+        "waterRelation": "channel-edge",
+        "heightClass": "tiered-roosts"
+       },
+       "note": "a ledged south-facing wall standing directly over the channel, high enough for tiered roosts"
+      }
+     ]
+    }
+   },
+   "why": "cliff-bench: a ledged south-facing wall standing directly over the channel, high enough for tiered roosts"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.nine-fords",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    5545.9,
+    1337.9,
+    5985.9,
+    1777.9
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 1.05,
+   "source": {
+    "place": "place.dunmer-north.nine-fords",
+    "file": "world/sources/catalogue/",
+    "planDigest": "e74d185cfa68cc1c298e1174a99632c9f77e7cf207a79f41eebab8a5e6f9ba86"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.nine-fords",
+     "position": {
+      "u": 0.78198,
+      "v": 0.21129
+     },
+     "terrainRequests": [
+      {
+       "kind": "ford",
+       "radiusM": 220,
+       "delivery": {
+        "feature": "braided-ford",
+        "crossingsMin": 3
+       },
+       "note": "a braided reach with several gravel-bottomed crossings, so that losing one still leaves a way over"
+      }
+     ]
+    }
+   },
+   "why": "ford: a braided reach with several gravel-bottomed crossings, so that losing one still leaves a way over"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-black-stage",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    2784.1,
+    930.7,
+    2924.1,
+    1070.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.dunmer-north.the-black-stage",
+    "file": "world/sources/catalogue/",
+    "planDigest": "0d5c83f5c051e84663bf1de83d9b6e5ebc84c7b539b4961b285d102be9f583f1"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-black-stage",
+     "position": {
+      "u": 0.38708,
+      "v": 0.13572
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 70,
+       "delivery": {
+        "feature": "causeway-span-narrows",
+        "access": "causeway-only"
+       },
+       "note": "the channel pinches to its narrowest at the causeway's last span, which is why the span ends here"
+      }
+     ]
+    }
+   },
+   "why": "narrows: the channel pinches to its narrowest at the causeway's last span, which is why the span ends here"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-charge-pond",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    4466.1,
+    62.9,
+    4576.1,
+    172.9
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.05,
+   "source": {
+    "place": "place.dunmer-north.the-charge-pond",
+    "file": "world/sources/catalogue/",
+    "planDigest": "6177025fb6b8049b4e45b69299ce8f3e5be56e9e6fd47199240648e41a325420"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-charge-pond",
+     "position": {
+      "u": 0.61316,
+      "v": 0.01599
+     },
+     "terrainRequests": [
+      {
+       "kind": "pool",
+       "radiusM": 55,
+       "delivery": {
+        "feature": "pool",
+        "depthM": 3,
+        "current": "standing",
+        "waterRelation": "standing-water"
+       },
+       "note": "still water fed from below, three metres deep, ringed with dead standing timber"
+      }
+     ]
+    }
+   },
+   "why": "pool: still water fed from below, three metres deep, ringed with dead standing timber"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-crown-terrace",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    6407.8,
+    535.0,
+    6527.8,
+    655.0
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.55,
+   "source": {
+    "place": "place.dunmer-north.the-crown-terrace",
+    "file": "world/sources/catalogue/",
+    "planDigest": "490037f8cb02baeb60af997af25cd419ef2209b1a94eba1eec7aed08f85c7d0b"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-crown-terrace",
+     "position": {
+      "u": 0.87717,
+      "v": 0.08069
+     },
+     "terrainRequests": [
+      {
+       "kind": "dry-rise",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "dry-rise",
+        "waterRelation": "above-flood"
+       },
+       "note": "the hammock crown the terrace stands on: the one ground on the island that the flood does not reach"
+      }
+     ]
+    }
+   },
+   "why": "dry-rise: the hammock crown the terrace stands on: the one ground on the island that the flood does not reach"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-divers-landing",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    1708.5,
+    14.0,
+    1828.5,
+    134.0
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.55,
+   "source": {
+    "place": "place.dunmer-north.the-divers-landing",
+    "file": "world/sources/catalogue/",
+    "planDigest": "28da79327ccdcd9d43fa1db45157f093f6d8aba5ad8bb0cc6db67ba1c2d5e1e2"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-divers-landing",
+     "position": {
+      "u": 0.23984,
+      "v": 0.01004
+     },
+     "terrainRequests": [
+      {
+       "kind": "pool",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "off-bank-dive-pool",
+        "depthClass": "diving",
+        "orientation": "waterward",
+        "offsetBoatLengths": 2
+       },
+       "note": "deep water two boat-lengths off the bank, so the divers can go down from the landing itself"
+      }
+     ]
+    }
+   },
+   "why": "pool: deep water two boat-lengths off the bank, so the divers can go down from the landing itself"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-salt-ledge",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    6203.5,
+    253.8,
+    6293.5,
+    343.8
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.55,
+   "source": {
+    "place": "place.dunmer-north.the-salt-ledge",
+    "file": "world/sources/catalogue/",
+    "planDigest": "ffbd53587b0e8e74f32926026b6887d714fc06e67912a72b701053e0b7e9ade0"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-salt-ledge",
+     "position": {
+      "u": 0.84742,
+      "v": 0.04053
+     },
+     "terrainRequests": [
+      {
+       "kind": "cliff-bench",
+       "radiusM": 45,
+       "delivery": {
+        "feature": "ravine-wall-ledge",
+        "ledgeCount": 1,
+        "capacity": "person-only"
+       },
+       "note": "a benched ledge line on the ravine wall, wide enough for a person and not a beast"
+      }
+     ]
+    }
+   },
+   "why": "cliff-bench: a benched ledge line on the ravine wall, wide enough for a person and not a beast"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-shut-village",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    5288.2,
+    857.5,
+    5388.2,
+    957.5
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.55,
+   "source": {
+    "place": "place.dunmer-north.the-shut-village",
+    "file": "world/sources/catalogue/",
+    "planDigest": "ac49ebd27a39d8ce2586b438f18b1f2bb2f36c6e37e6e822bb82e49c3e5d0499"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-shut-village",
+     "position": {
+      "u": 0.72397,
+      "v": 0.12308
+     },
+     "terrainRequests": [
+      {
+       "kind": "dry-rise",
+       "radiusM": 50,
+       "delivery": {
+        "feature": "dry-rise",
+        "access": "causeway-only"
+       },
+       "note": "a rise in the reedbeds reached by one causeway, which is what made shutting possible"
+      }
+     ]
+    }
+   },
+   "why": "dry-rise: a rise in the reedbeds reached by one causeway, which is what made shutting possible"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-slumped-hamlet",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    5163.1,
+    946.2,
+    5283.1,
+    1066.2
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.55,
+   "source": {
+    "place": "place.dunmer-north.the-slumped-hamlet",
+    "file": "world/sources/catalogue/",
+    "planDigest": "f1b0a9dfd48508418c9e87460c06ac7d38fd910a45623a1ab7c3c1ed2e53cfdd"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-slumped-hamlet",
+     "position": {
+      "u": 0.70836,
+      "v": 0.13646
+     },
+     "terrainRequests": [
+      {
+       "kind": "hollow",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "settlement-floor-hollow",
+        "orientation": "downslope",
+        "waterRelation": "waterward-outlet"
+       },
+       "note": "the ground under the hamlet has dropped: tilted houses on a settling floor, a cracked spring head at the low side"
+      }
+     ]
+    }
+   },
+   "why": "hollow: the ground under the hamlet has dropped: tilted houses on a settling floor, a cracked spring head at the low side"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-stormhold-falls-chamber",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    2314.5,
+    570.8,
+    2494.5,
+    750.8
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 12.05,
+   "source": {
+    "place": "place.dunmer-north.the-stormhold-falls-chamber",
+    "file": "world/sources/catalogue/",
+    "planDigest": "085682e2a4f761a6a72e4da42f22d78e05060a048b5fea3e4a556144f73f37ea"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-stormhold-falls-chamber",
+     "position": {
+      "u": 0.3261,
+      "v": 0.08962
+     },
+     "terrainRequests": [
+      {
+       "kind": "gorge",
+       "radiusM": 90,
+       "delivery": {
+        "feature": "waterfall-ravine-step"
+       },
+       "note": "the ravine step under Stormhold that carries the fall"
+      },
+      {
+       "kind": "cave-mouth",
+       "radiusM": 25,
+       "delivery": {
+        "feature": "undercut-curtain-chamber",
+        "ledgeCount": 1,
+        "access": "climb-only"
+       },
+       "note": "the undercut chamber behind the sheet, reached along one ledge"
+      }
+     ]
+    }
+   },
+   "why": "gorge: the ravine step under Stormhold that carries the fall; cave-mouth: the undercut chamber behind the sheet, reached along one ledge"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-thousand-birds",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    6634.9,
+    1063.7,
+    6914.9,
+    1343.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.05,
+   "source": {
+    "place": "place.dunmer-north.the-thousand-birds",
+    "file": "world/sources/catalogue/",
+    "planDigest": "2511ad884cbebd7aab05fe0a97a69c056f73384941737553aa14c6550f85be0a"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-thousand-birds",
+     "position": {
+      "u": 0.91882,
+      "v": 0.16324
+     },
+     "terrainRequests": [
+      {
+       "kind": "islet",
+       "radiusM": 140,
+       "delivery": {
+        "feature": "delta-islet-cluster",
+        "isletCount": 3,
+        "waterRelation": "open-water",
+        "capacity": "sub-house"
+       },
+       "note": "a cluster of low delta islets in open water, none of them big enough for a house"
+      }
+     ]
+    }
+   },
+   "why": "islet: a cluster of low delta islets in open water, none of them big enough for a house"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-two-gate-bridge",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [
+    "patch.request.place.dunmer-north.nine-fords"
+   ],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    5488.7,
+    1419.9,
+    5608.7,
+    1539.9
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.dunmer-north.the-two-gate-bridge",
+    "file": "world/sources/catalogue/",
+    "planDigest": "75dd390090afa260e84aa4629dae7d15771f4a0f52dddbed56396ce59668c9f4"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-two-gate-bridge",
+     "position": {
+      "u": 0.75252,
+      "v": 0.20071
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "rock-narrows",
+        "sides": 2
+       },
+       "note": "a rock narrows with abutment ground on both banks, which is why the road crosses here"
+      }
+     ]
+    }
+   },
+   "why": "narrows: a rock narrows with abutment ground on both banks, which is why the road crosses here"
+  },
+  {
+   "id": "patch.request.place.dunmer-north.the-two-hundred-roofs",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    2507.6,
+    1048.9,
+    2597.6,
+    1138.9
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.dunmer-north.the-two-hundred-roofs",
+    "file": "world/sources/catalogue/",
+    "planDigest": "40aaaec85bfa67635ed349d82f334ca87bf2572a727f4d5724aa1da6731ec35a"
+   },
+   "params": {
+    "record": {
+     "id": "place.dunmer-north.the-two-hundred-roofs",
+     "position": {
+      "u": 0.34618,
+      "v": 0.14836
+     },
+     "terrainRequests": [
+      {
+       "kind": "cut",
+       "radiusM": 45,
+       "delivery": {
+        "feature": "channel-arm",
+        "waterRelation": "channel-linked",
+        "access": "boat-landing"
+       },
+       "note": "a channel arm reaching the village's landing steps, which the boat crews still use"
+      }
+     ]
+    }
+   },
+   "why": "cut: a channel arm reaching the village's landing steps, which the boat crews still use"
+  },
+  {
+   "id": "patch.request.place.hist-heartland.drowning-narrows-current",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    5096.3,
+    1897.3,
+    5196.3,
+    1997.3
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.hist-heartland.drowning-narrows-current",
+    "file": "world/sources/catalogue/",
+    "planDigest": "edba65b9114cd5146f7ae3a6554fbb1313e4db38066bbb3dda6e1f79338a6223"
+   },
+   "params": {
+    "record": {
+     "id": "place.hist-heartland.drowning-narrows-current",
+     "position": {
+      "u": 0.69794,
+      "v": 0.26409
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 50,
+       "delivery": {
+        "feature": "narrows",
+        "current": "lethal-wet-season"
+       },
+       "note": "the hazard is the pinch: the channel must close to a width the wet-season flow can run lethal through"
+      }
+     ]
+    }
+   },
+   "why": "narrows: the hazard is the pinch: the channel must close to a width the wet-season flow can run lethal through"
+  },
+  {
+   "id": "patch.request.place.hist-heartland.greenspring",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    4775.1,
+    1834.8,
+    4855.1,
+    1914.8
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 1.55,
+   "source": {
+    "place": "place.hist-heartland.greenspring",
+    "file": "world/sources/catalogue/",
+    "planDigest": "53a11db73b7f17c8af7909c5fe7af29ce1a634ffd7ac1bd61a167c5703669281"
+   },
+   "params": {
+    "record": {
+     "id": "place.hist-heartland.greenspring",
+     "position": {
+      "u": 0.65303,
+      "v": 0.25426
+     },
+     "terrainRequests": [
+      {
+       "kind": "spring",
+       "radiusM": 40,
+       "delivery": {
+        "feature": "drinkable-spring-head",
+        "waterRelation": "channel-edge"
+       },
+       "note": "The village exists because water rises here drinkable; the ground must give a spring head above the channel."
+      }
+     ]
+    }
+   },
+   "why": "spring: The village exists because water rises here drinkable; the ground must give a spring head above the channel."
+  },
+  {
+   "id": "patch.request.place.hist-heartland.waterfall-chamber-root-fall",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    4349.5,
+    3450.2,
+    4429.5,
+    3530.2
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 8.05,
+   "source": {
+    "place": "place.hist-heartland.waterfall-chamber-root-fall",
+    "file": "world/sources/catalogue/",
+    "planDigest": "fe8c5b8b57a2ca23c5e37c5d2f3c331b91edf5a2eb488154374c990ca797efc0"
+   },
+   "params": {
+    "record": {
+     "id": "place.hist-heartland.waterfall-chamber-root-fall",
+     "position": {
+      "u": 0.59531,
+      "v": 0.47335
+     },
+     "terrainRequests": [
+      {
+       "kind": "gorge",
+       "radiusM": 40,
+       "delivery": {
+        "feature": "waterfall-curtain-chamber"
+       },
+       "note": "the root-layer spring needs a drop to fall down and a chamber behind the curtain; the region has no natural relief"
+      }
+     ]
+    }
+   },
+   "why": "gorge: the root-layer spring needs a drop to fall down and a chamber behind the curtain; the region has no natural relief"
+  },
+  {
+   "id": "patch.request.place.imperial-fringe.hollow-arch-toll",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1985.4,
+    2182.7,
+    2105.4,
+    2302.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.05,
+   "source": {
+    "place": "place.imperial-fringe.hollow-arch-toll",
+    "file": "world/sources/catalogue/",
+    "planDigest": "eba69083bc32b88ee9b7b81cb6d4db1cd711b4a36bdb17bb3ca020fb9aa11b1b"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-fringe.hollow-arch-toll",
+     "position": {
+      "u": 0.2774,
+      "v": 0.30415
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 40.0,
+       "delivery": {
+        "feature": "paired-rock-noses",
+        "featureCount": 2,
+        "bank": "rock-nose",
+        "sides": 2
+       },
+       "note": "the single stone span needs a rock nose on each bank"
+      },
+      {
+       "kind": "narrows",
+       "radiusM": 60.0,
+       "delivery": {
+        "feature": "narrows",
+        "bank": "rock-nose",
+        "sides": 2
+       },
+       "note": "the Onkobra's narrowest reach: rock abutments both banks and a single span's width of water, or there is no arch to toll"
+      }
+     ]
+    }
+   },
+   "why": "narrows: the single stone span needs a rock nose on each bank; narrows: the Onkobra's narrowest reach: rock abutments both banks and a single span's width of water, or there is no arch to toll"
+  },
+  {
+   "id": "patch.request.place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1823.6,
+    2377.5,
+    1943.6,
+    2497.5
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
+    "file": "world/sources/catalogue/",
+    "planDigest": "55837a164efc3aea56831a39968153aca44dda255f3d8816a1a876534261d9fa"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
+     "position": {
+      "u": 0.25545,
+      "v": 0.33057
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 60.0,
+       "delivery": {
+        "feature": "river-choke",
+        "capacity": "sea-going-hull"
+       },
+       "note": "the river choke the lodge stands over: every boat going upstream passes within hail of the door"
+      }
+     ]
+    }
+   },
+   "why": "narrows: the river choke the lodge stands over: every boat going upstream passes within hail of the door"
+  },
+  {
+   "id": "patch.request.place.imperial-fringe.onkobra-ferry",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    1628.1,
+    4841.4,
+    1788.1,
+    5001.4
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 5.05,
+   "source": {
+    "place": "place.imperial-fringe.onkobra-ferry",
+    "file": "world/sources/catalogue/",
+    "planDigest": "91b4e89f07dc0f49e418bcbfdb0e7d7f65d3fc99399f509e7174c0ac79132e76"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-fringe.onkobra-ferry",
+     "position": {
+      "u": 0.23166,
+      "v": 0.66745
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 60.0,
+       "delivery": {
+        "feature": "double-bend-ferry-narrows",
+        "current": "slack",
+        "access": "poling"
+       },
+       "note": "a slack double bend narrow enough to pole across"
+      },
+      {
+       "kind": "pool",
+       "radiusM": 80.0,
+       "delivery": {
+        "feature": "double-bend-ferry-pool",
+        "featureCount": 2,
+        "bank": "shelving",
+        "current": "slack",
+        "sides": 2,
+        "capacity": "punt"
+       },
+       "note": "a slack double bend on the lower river, wide and deep enough that the crossing needs a punt, with both banks shelving"
+      }
+     ]
+    }
+   },
+   "why": "narrows: a slack double bend narrow enough to pole across; pool: a slack double bend on the lower river, wide and deep enough that the crossing needs a punt, with both banks shelving"
+  },
+  {
+   "id": "patch.request.place.imperial-fringe.reedcutters-toll",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1546.4,
+    4668.6,
+    1646.4,
+    4768.6
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.05,
+   "source": {
+    "place": "place.imperial-fringe.reedcutters-toll",
+    "file": "world/sources/catalogue/",
+    "planDigest": "11286b287d676bb8ee7e8d07c89e6142ecca6ac0a9fec08ea662c74d9b942225"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-fringe.reedcutters-toll",
+     "position": {
+      "u": 0.2165,
+      "v": 0.63994
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 40.0,
+       "delivery": {
+        "feature": "pile-driving-reach",
+        "depthClass": "shallow",
+        "current": "slow"
+       },
+       "note": "shallow slow water the villagers can drive piles into"
+      },
+      {
+       "kind": "narrows",
+       "radiusM": 50.0,
+       "delivery": {
+        "feature": "timber-bridge-reach",
+        "depthM": 1.5,
+        "current": "slow"
+       },
+       "note": "a slow shallow reach at least 1.5 m deep for the timber bridge to span and the reed beds to line"
+      }
+     ]
+    }
+   },
+   "why": "narrows: shallow slow water the villagers can drive piles into; narrows: a slow shallow reach at least 1.5 m deep for the timber bridge to span and the reed beds to line"
+  },
+  {
+   "id": "patch.request.place.imperial-fringe.the-drowned-furrow",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    451.2,
+    2145.7,
+    541.2,
+    2235.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.5,
+   "source": {
+    "place": "place.imperial-fringe.the-drowned-furrow",
+    "file": "world/sources/catalogue/",
+    "planDigest": "0fdd2f9907c11db7fbe4f13a4b5ac6df7689296191b0c768adfc4305fad88a70"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-fringe.the-drowned-furrow",
+     "position": {
+      "u": 0.0673,
+      "v": 0.2971
+     },
+     "terrainRequests": [
+      {
+       "kind": "pool",
+       "radiusM": 45.0,
+       "delivery": {
+        "feature": "flooded-house-basin",
+        "depthClass": "swimming",
+        "current": "standing",
+        "waterRelation": "water-over-threshold",
+        "access": "swimming"
+       },
+       "note": "the flood that never went back down: standing water over the house floor, deep enough to swim the rooms and enter under the sill"
+      }
+     ]
+    }
+   },
+   "why": "pool: the flood that never went back down: standing water over the house floor, deep enough to swim the rooms and enter under the sill"
+  },
+  {
+   "id": "patch.request.place.imperial-fringe.the-empty-steading",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1955.2,
+    4406.4,
+    2075.2,
+    4526.4
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 1.75,
+   "source": {
+    "place": "place.imperial-fringe.the-empty-steading",
+    "file": "world/sources/catalogue/",
+    "planDigest": "89ba3a151eed343a8dd40467d201a15c16ab8bb02b082ae7796044946e23b84f"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-fringe.the-empty-steading",
+     "position": {
+      "u": 0.2733,
+      "v": 0.60573
+     },
+     "terrainRequests": [
+      {
+       "kind": "cut",
+       "radiusM": 60.0,
+       "delivery": {
+        "feature": "yard-wall-channel-junction",
+        "waterRelation": "channel-linked",
+        "depthClass": "navigable",
+        "access": "boat-landing"
+       },
+       "note": "the channel junction and the steading's own landing: navigable water up to the yard wall"
+      }
+     ]
+    }
+   },
+   "why": "cut: the channel junction and the steading's own landing: navigable water up to the yard wall"
+  },
+  {
+   "id": "patch.request.place.imperial-fringe.the-ravine-doors",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1045.2,
+    4697.3,
+    1285.2,
+    4937.3
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 8.05,
+   "source": {
+    "place": "place.imperial-fringe.the-ravine-doors",
+    "file": "world/sources/catalogue/",
+    "planDigest": "b6b142a786326f3ac3fd88a31203f52b8dab987c855ac4516ac8351f8742eb81"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-fringe.the-ravine-doors",
+     "position": {
+      "u": 0.15803,
+      "v": 0.65332
+     },
+     "terrainRequests": [
+      {
+       "kind": "gorge",
+       "radiusM": 120.0,
+       "delivery": {
+        "feature": "gorge-wall-bedding-shelf"
+       },
+       "note": "the settlement is a bedding shelf on a gorge wall; without the gorge there is no street"
+      }
+     ]
+    }
+   },
+   "why": "gorge: the settlement is a bedding shelf on a gorge wall; without the gorge there is no street"
+  },
+  {
+   "id": "patch.request.place.imperial-fringe.the-two-lamps-hermitage",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1700.0,
+    3230.0,
+    1760.0,
+    3290.0
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 40.05,
+   "source": {
+    "place": "place.imperial-fringe.the-two-lamps-hermitage",
+    "file": "world/sources/catalogue/",
+    "planDigest": "96fd23e5768d66275d32b1dc6f156dee19dadc34365fc6ed16bb95541c3aabd5"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-fringe.the-two-lamps-hermitage",
+     "position": {
+      "u": 0.23463,
+      "v": 0.44212
+     },
+     "terrainRequests": [
+      {
+       "kind": "elevated-cliff-bench",
+       "radiusM": 30.0,
+       "delivery": {
+        "feature": "elevated-cliff-bench",
+        "heightM": 40,
+        "access": "climb-only"
+       },
+       "note": "a bench forty metres up a wall, reachable by climbing and no path"
+      }
+     ]
+    }
+   },
+   "why": "elevated-cliff-bench: a bench forty metres up a wall, reachable by climbing and no path"
+  },
+  {
+   "id": "patch.request.place.imperial-penal-south.basin-sinkhole",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    2003.1,
+    6724.4,
+    2093.1,
+    6814.4
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 9.05,
+   "source": {
+    "place": "place.imperial-penal-south.basin-sinkhole",
+    "file": "world/sources/catalogue/",
+    "planDigest": "d41933bef36733d4118d244ec32bb29d5e15da7815485e4ebe253203392b7b4e"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-penal-south.basin-sinkhole",
+     "position": {
+      "u": 0.27776,
+      "v": 0.91807
+     },
+     "terrainRequests": [
+      {
+       "kind": "sinkhole",
+       "radiusM": 45,
+       "delivery": {
+        "feature": "stream-swallowing-collapse",
+        "ledgeCount": 1,
+        "capacity": "stream"
+       },
+       "note": "A collapse throat wide enough to swallow a stream, with an undercut ledge below the rim; the record's whole identity is the hole."
+      }
+     ]
+    }
+   },
+   "why": "sinkhole: A collapse throat wide enough to swallow a stream, with an undercut ledge below the rim; the record's whole identity is the hole."
+  },
+  {
+   "id": "patch.request.place.imperial-penal-south.chainbreaker-shelter",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [
+    "patch.request.place.imperial-penal-south.basin-sinkhole"
+   ],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    2078.7,
+    6734.3,
+    2258.7,
+    6914.3
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 1.75,
+   "source": {
+    "place": "place.imperial-penal-south.chainbreaker-shelter",
+    "file": "world/sources/catalogue/",
+    "planDigest": "0007b63acb0246931d8863623926063aa60f14548ecf4373b61408be2e7037d0"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-penal-south.chainbreaker-shelter",
+     "position": {
+      "u": 0.29412,
+      "v": 0.92551
+     },
+     "terrainRequests": [
+      {
+       "kind": "cut",
+       "radiusM": 90,
+       "delivery": {
+        "feature": "screened-back-channels",
+        "featureCount": 2,
+        "waterRelation": "channel-linked",
+        "depthClass": "navigable",
+        "capacity": "poled-skiff",
+        "access": "poling"
+       },
+       "note": "Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line."
+      }
+     ]
+    }
+   },
+   "why": "cut: Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line."
+  },
+  {
+   "id": "patch.request.place.imperial-penal-south.flu-quarantine-village",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [
+    "patch.request.place.imperial-penal-south.chainbreaker-shelter"
+   ],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1971.6,
+    6819.0,
+    2091.6,
+    6939.0
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.imperial-penal-south.flu-quarantine-village",
+    "file": "world/sources/catalogue/",
+    "planDigest": "b94397a570bc543aba9485fe51e3c9d94ad2fc199d95c8395774fa5c40333e68"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-penal-south.flu-quarantine-village",
+     "position": {
+      "u": 0.27553,
+      "v": 0.93294
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "narrows"
+       },
+       "note": "The last land narrows on the southern approach, where a cordon could be held with a fence and one gate."
+      }
+     ]
+    }
+   },
+   "why": "narrows: The last land narrows on the southern approach, where a cordon could be held with a fence and one gate."
+  },
+  {
+   "id": "patch.request.place.imperial-penal-south.natural-dive-shaft",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    1613.3,
+    5396.9,
+    1693.3,
+    5476.9
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 18.05,
+   "source": {
+    "place": "place.imperial-penal-south.natural-dive-shaft",
+    "file": "world/sources/catalogue/",
+    "planDigest": "cf72597917f86669b6eb15ec14adb09d2ae24e5f4c1f258aaec33f6dbee0ed8b"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-penal-south.natural-dive-shaft",
+     "position": {
+      "u": 0.22422,
+      "v": 0.73736
+     },
+     "terrainRequests": [
+      {
+       "kind": "sinkhole",
+       "radiusM": 40,
+       "delivery": {
+        "feature": "karst-dive-shaft",
+        "widthM": 9,
+        "depthClass": "below-bed",
+        "waterRelation": "below-lake-bed"
+       },
+       "note": "A karst shaft nine metres across dropping well below the lake bed — the record's entire identity; the plot found no natural sinkhole here."
+      }
+     ]
+    }
+   },
+   "why": "sinkhole: A karst shaft nine metres across dropping well below the lake bed — the record's entire identity; the plot found no natural sinkhole here."
+  },
+  {
+   "id": "patch.request.place.imperial-penal-south.necromantic-dig",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    2205.0,
+    6059.9,
+    2275.0,
+    6129.9
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.05,
+   "source": {
+    "place": "place.imperial-penal-south.necromantic-dig",
+    "file": "world/sources/catalogue/",
+    "planDigest": "088479141b073f7ec8e02855dc3ce0b56ec35425c276526e39683a5bc8233170"
+   },
+   "params": {
+    "record": {
+     "id": "place.imperial-penal-south.necromantic-dig",
+     "position": {
+      "u": 0.30379,
+      "v": 0.82659
+     },
+     "terrainRequests": [
+      {
+       "kind": "dry-rise",
+       "radiusM": 35,
+       "delivery": {
+        "feature": "spoil-hidden-dry-rise",
+        "heightClass": "flood-free",
+        "waterRelation": "above-flood"
+       },
+       "note": "A low spoil-hidden rise above the marsh water table, enough to keep a shored shaft dry."
+      }
+     ]
+    }
+   },
+   "why": "dry-rise: A low spoil-hidden rise above the marsh water table, enough to keep a shored shaft dry."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.bramman-river-ferry",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    875.5,
+    6923.7,
+    1175.5,
+    7223.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.05,
+   "source": {
+    "place": "place.mercantile-coast.bramman-river-ferry",
+    "file": "world/sources/catalogue/",
+    "planDigest": "31cd1dbabf985d7606f200df07fbd271d52a063172344d26b4f1306491721c69"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.bramman-river-ferry",
+     "position": {
+      "u": 0.13908,
+      "v": 0.95934
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 80,
+       "delivery": {
+        "feature": "rope-ferry-narrows"
+       },
+       "note": "The channel must pinch here, or a rope ferry cannot be strung across it."
+      },
+      {
+       "kind": "narrows",
+       "radiusM": 150,
+       "delivery": {
+        "feature": "ferry-turn-narrows",
+        "bank": "firm",
+        "current": "slack",
+        "sides": 2
+       },
+       "note": "A ferry crossing needs a narrows with firm banks either side and slack water at the turn."
+      }
+     ]
+    }
+   },
+   "why": "narrows: The channel must pinch here, or a rope ferry cannot be strung across it.; narrows: A ferry crossing needs a narrows with firm banks either side and slack water at the turn."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.head-of-tide",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    546.3,
+    6921.5,
+    786.3,
+    7161.5
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.05,
+   "source": {
+    "place": "place.mercantile-coast.head-of-tide",
+    "file": "world/sources/catalogue/",
+    "planDigest": "8e8c1f2e83f5dc06f8a6204740da9833808b7378384972b80f7b801827f379e4"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.head-of-tide",
+     "position": {
+      "u": 0.09036,
+      "v": 0.95497
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 70,
+       "delivery": {
+        "feature": "tidal-draught-sill",
+        "capacity": "sea-going-hull"
+       },
+       "note": "The channel narrows at the sill, which is what stops a sea-going hull."
+      },
+      {
+       "kind": "ford",
+       "radiusM": 45,
+       "delivery": {
+        "feature": "gravel-draught-sill",
+        "depthClass": "shallow",
+        "access": "poling"
+       },
+       "note": "A gravel sill across the bed: deep water below it, poling water above it."
+      },
+      {
+       "kind": "ford",
+       "radiusM": 120,
+       "delivery": {
+        "feature": "gravel-draught-sill",
+        "depthClass": "shallow",
+        "capacity": "sea-going-hull",
+        "access": "poling"
+       },
+       "note": "A gravel sill across the channel: sea-going draught below it, poling water above it."
+      }
+     ]
+    }
+   },
+   "why": "narrows: The channel narrows at the sill, which is what stops a sea-going hull.; ford: A gravel sill across the bed: deep water below it, poling water above it.; ford: A gravel sill across the channel: sea-going draught below it, poling water above it."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.hereguard-plantation",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    807.8,
+    6148.8,
+    1127.8,
+    6468.8
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.05,
+   "source": {
+    "place": "place.mercantile-coast.hereguard-plantation",
+    "file": "world/sources/catalogue/",
+    "planDigest": "283e9fee0a24b390084d2e632a0a83c2b510ff9300fa926b7308fd1962f58fcd"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.hereguard-plantation",
+     "position": {
+      "u": 0.13125,
+      "v": 0.8556
+     },
+     "terrainRequests": [
+      {
+       "kind": "terrace",
+       "radiusM": 160,
+       "delivery": {
+        "feature": "paddy-terraces",
+        "featureCount": 3,
+        "waterRelation": "above-flood",
+        "heightClass": "flood-free"
+       },
+       "note": "Stepped paddy terraces above the flood line."
+      },
+      {
+       "kind": "levee",
+       "radiusM": 120,
+       "delivery": {
+        "feature": "controllable-flood-levee"
+       },
+       "note": "A bank the estate cuts to let the flood in and shut it out again."
+      }
+     ]
+    }
+   },
+   "why": "terrace: Stepped paddy terraces above the flood line.; levee: A bank the estate cuts to let the flood in and shut it out again."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.lilmoth",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    3540.8,
+    6314.7,
+    3680.8,
+    6454.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 1.75,
+   "source": {
+    "place": "place.mercantile-coast.lilmoth",
+    "file": "world/sources/catalogue/",
+    "planDigest": "974fe93445bcbe10590f7eddf8ed7bcc989d6013a4e0c304680b99d03be2817e"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.lilmoth",
+     "position": {
+      "u": 0.4897,
+      "v": 0.8659
+     },
+     "terrainRequests": [
+      {
+       "kind": "cut",
+       "radiusM": 70,
+       "delivery": {
+        "feature": "lighter-quay-channel",
+        "featureCount": 1,
+        "widthM": 12,
+        "lengthM": 100,
+        "orientation": "waterward",
+        "bank": "firm",
+        "current": "tidal",
+        "connectionCount": 1,
+        "waterRelation": "channel-linked",
+        "access": "boat-landing",
+        "depthClass": "navigable",
+        "capacity": "laden-landing"
+       },
+       "note": "Cut one compact, tidal lighter channel from the established Oliis Bay water to Lilmoth's lighter quay; the city remains inaccessible to sea-going hulls, whose cargo is lightered ashore."
+      }
+     ]
+    }
+   },
+   "why": "cut: Cut one compact, tidal lighter channel from the established Oliis Bay water to Lilmoth's lighter quay; the city remains inaccessible to sea-going hulls, whose cargo is lightered ashore."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.long-bar-wreckers",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    701.7,
+    6552.6,
+    981.7,
+    6832.6
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.05,
+   "source": {
+    "place": "place.mercantile-coast.long-bar-wreckers",
+    "file": "world/sources/catalogue/",
+    "planDigest": "5c8a4154e1559968ffdf7df99957740405414b876271c790de95fb6522e375b8"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.long-bar-wreckers",
+     "position": {
+      "u": 0.11415,
+      "v": 0.90765
+     },
+     "terrainRequests": [
+      {
+       "kind": "islet",
+       "radiusM": 140,
+       "delivery": {
+        "feature": "breaking-shoal-bar",
+        "isletCount": 1,
+        "waterRelation": "open-water"
+       },
+       "note": "A breaking shoal bar standing off the strand, with a beach behind it that nothing overlooks."
+      }
+     ]
+    }
+   },
+   "why": "islet: A breaking shoal bar standing off the strand, with a beach behind it that nothing overlooks."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.oliis-drake-deep",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    545.3,
+    5732.7,
+    765.3,
+    5952.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 46.05,
+   "source": {
+    "place": "place.mercantile-coast.oliis-drake-deep",
+    "file": "world/sources/catalogue/",
+    "planDigest": "a47da59a0c0a0ac3687ffa8c2517f95fd37cda2ce02afafb752cec6cfcce254e"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.oliis-drake-deep",
+     "position": {
+      "u": 0.08887,
+      "v": 0.79239
+     },
+     "terrainRequests": [
+      {
+       "kind": "sinkhole",
+       "radiusM": 45,
+       "delivery": {
+        "feature": "bay-floor-sinkhole",
+        "depthM": 40
+       },
+       "note": "A drowned bay-floor sinkhole forty metres deep; the hole is the place."
+      },
+      {
+       "kind": "pool",
+       "radiusM": 110,
+       "delivery": {
+        "feature": "dark-saltwater-pool",
+        "depthClass": "dark-from-surface",
+        "current": "standing",
+        "waterRelation": "open-water"
+       },
+       "note": "Standing salt water over the hole, deep enough that the bottom is dark from the surface."
+      }
+     ]
+    }
+   },
+   "why": "sinkhole: A drowned bay-floor sinkhole forty metres deep; the hole is the place.; pool: Standing salt water over the hole, deep enough that the bottom is dark from the surface."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.oliis-ferry-stage",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [
+    "patch.request.place.mercantile-coast.oliis-drake-deep"
+   ],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    148.2,
+    5730.4,
+    548.2,
+    6130.4
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.05,
+   "source": {
+    "place": "place.mercantile-coast.oliis-ferry-stage",
+    "file": "world/sources/catalogue/",
+    "planDigest": "4599b6aa93df36f6618db8b737306c74df86188be3e1ca107fb085ba6c8570a7"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.oliis-ferry-stage",
+     "position": {
+      "u": 0.04722,
+      "v": 0.80429
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 90,
+       "delivery": {
+        "feature": "estuary-ferry-narrows"
+       },
+       "note": "The estuary must pinch at the crossing, or the ferry has nothing to aim for."
+      },
+      {
+       "kind": "narrows",
+       "radiusM": 200,
+       "delivery": {
+        "feature": "estuary-road-ferry-narrows"
+       },
+       "note": "The estuary must pinch here, or the coast road has no crossing to be farmed out."
+      }
+     ]
+    }
+   },
+   "why": "narrows: The estuary must pinch at the crossing, or the ferry has nothing to aim for.; narrows: The estuary must pinch here, or the coast road has no crossing to be farmed out."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.sealed-meer-murkmire",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    3112.2,
+    5245.3,
+    3232.2,
+    5365.3
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.85,
+   "source": {
+    "place": "place.mercantile-coast.sealed-meer-murkmire",
+    "file": "world/sources/catalogue/",
+    "planDigest": "c0f1cc560331ccba8733adda54d0e6a419fc3c25639152ba0e0f69406d2bccd7"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.sealed-meer-murkmire",
+     "position": {
+      "u": 0.43022,
+      "v": 0.71951
+     },
+     "terrainRequests": [
+      {
+       "kind": "knoll",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "low-xanmeer-knoll",
+        "heightClass": "low"
+       },
+       "note": "A low raised knoll for the meer; surrounding marsh remains a siting preference, not a promise of an island."
+      }
+     ]
+    }
+   },
+   "why": "knoll: A low raised knoll for the meer; surrounding marsh remains a siting preference, not a promise of an island."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.wraxu-stacks",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    3603.2,
+    6558.8,
+    3783.2,
+    6738.8
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 5.55,
+   "source": {
+    "place": "place.mercantile-coast.wraxu-stacks",
+    "file": "world/sources/catalogue/",
+    "planDigest": "9fbded68fab537b0dc967106f50e24f313ef84bf79b60cd49a60c47e0f2a6104"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.wraxu-stacks",
+     "position": {
+      "u": 0.50087,
+      "v": 0.90171
+     },
+     "terrainRequests": [
+      {
+       "kind": "islet",
+       "radiusM": 90,
+       "delivery": {
+        "feature": "rock-stacks",
+        "featureCount": 2,
+        "isletCount": 2,
+        "bank": "steep",
+        "waterRelation": "open-water",
+        "sides": 3
+       },
+       "note": "Two rock stacks standing out of salt water, sheer on three sides."
+      },
+      {
+       "kind": "cliff-bench",
+       "radiusM": 40,
+       "delivery": {
+        "feature": "landing-ledge",
+        "ledgeCount": 1,
+        "access": "boat-landing"
+       },
+       "note": "One ledge low enough to land a boat crew on."
+      }
+     ]
+    }
+   },
+   "why": "islet: Two rock stacks standing out of salt water, sheer on three sides.; cliff-bench: One ledge low enough to land a boat crew on."
+  },
+  {
+   "id": "patch.request.place.mercantile-coast.xhon-mehl-shrine",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    602.7,
+    5345.9,
+    762.7,
+    5505.9
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.5,
+   "source": {
+    "place": "place.mercantile-coast.xhon-mehl-shrine",
+    "file": "world/sources/catalogue/",
+    "planDigest": "9ce411e3f1bcd062aa4ef06a1e10706855a3b62d19f9be851a14c01bfa058a6a"
+   },
+   "params": {
+    "record": {
+     "id": "place.mercantile-coast.xhon-mehl-shrine",
+     "position": {
+      "u": 0.09259,
+      "v": 0.73587
+     },
+     "terrainRequests": [
+      {
+       "kind": "pool",
+       "radiusM": 80,
+       "delivery": {
+        "feature": "submerged-threshold-pool",
+        "depthClass": "swimming",
+        "current": "standing",
+        "waterRelation": "underwater-entry"
+       },
+       "note": "The shrine door is an underwater entry: it needs standing water over the threshold, not a wet margin."
+      }
+     ]
+    }
+   },
+   "why": "pool: The shrine door is an underwater entry: it needs standing water over the threshold, not a wet margin."
+  },
+  {
+   "id": "patch.request.place.naga-kur-deeps.air-pocket-station-deeps",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    2661.6,
+    4619.2,
+    2761.6,
+    4719.2
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 6.05,
+   "source": {
+    "place": "place.naga-kur-deeps.air-pocket-station-deeps",
+    "file": "world/sources/catalogue/",
+    "planDigest": "97cbee94ba92c6a8b1506239bf64bf248c0b078f63fb658bb2f227a54a0d1e1f"
+   },
+   "params": {
+    "record": {
+     "id": "place.naga-kur-deeps.air-pocket-station-deeps",
+     "position": {
+      "u": 0.36775,
+      "v": 0.63324
+     },
+     "terrainRequests": [
+      {
+       "kind": "pool",
+       "radiusM": 50,
+       "delivery": {
+        "feature": "root-chamber-dive-pool",
+        "depthM": 6,
+        "current": "standing",
+        "waterRelation": "standing-water",
+        "access": "swimming"
+       },
+       "note": "the flooded shortcut needs six metres of standing water over the root chamber, or the dive is not a dive"
+      }
+     ]
+    }
+   },
+   "why": "pool: the flooded shortcut needs six metres of standing water over the root chamber, or the dive is not a dive"
+  },
+  {
+   "id": "patch.request.place.naga-kur-deeps.dead-water-village",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    3290.6,
+    5626.6,
+    3470.6,
+    5806.6
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.05,
+   "source": {
+    "place": "place.naga-kur-deeps.dead-water-village",
+    "file": "world/sources/catalogue/",
+    "planDigest": "5f877f2ea9f04a0f80b6f66c12189fc88aa9082f9196baccc7d834d17856d3e9"
+   },
+   "params": {
+    "record": {
+     "id": "place.naga-kur-deeps.dead-water-village",
+     "position": {
+      "u": 0.45848,
+      "v": 0.77529
+     },
+     "terrainRequests": [
+      {
+       "kind": "dry-rise",
+       "radiusM": 90,
+       "delivery": {
+        "feature": "three-sided-water-rise",
+        "waterRelation": "water-on-three-sides",
+        "access": "poling",
+        "sides": 3,
+        "heightClass": "flood-free"
+       },
+       "note": "the tribe's seat stands on a rise with black water round three sides of it and one poling approach"
+      }
+     ]
+    }
+   },
+   "why": "dry-rise: the tribe's seat stands on a rise with black water round three sides of it and one poling approach"
+  },
+  {
+   "id": "patch.request.place.naga-kur-deeps.drowning-narrows-tidal-gate",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1845.5,
+    4675.0,
+    1965.5,
+    4795.0
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.05,
+   "source": {
+    "place": "place.naga-kur-deeps.drowning-narrows-tidal-gate",
+    "file": "world/sources/catalogue/",
+    "planDigest": "fab1e0f0fb2c18a152e06b5226b13161746587c375db3b77168743fe175fac46"
+   },
+   "params": {
+    "record": {
+     "id": "place.naga-kur-deeps.drowning-narrows-tidal-gate",
+     "position": {
+      "u": 0.25843,
+      "v": 0.64217
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 30,
+       "delivery": {
+        "feature": "root-wall-outflow",
+        "bank": "root-walled",
+        "sides": 2
+       },
+       "note": "the whole zone's outflow has to squeeze through here, so the channel must pinch between two root walls"
+      },
+      {
+       "kind": "narrows",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "single-root-wall-outlet",
+        "bank": "root-walled",
+        "current": "lethal-wet-season",
+        "connectionCount": 1
+       },
+       "note": "the single outlet of the inner swamp, pinched between two root walls, where the post-rain flood pulse becomes lethal"
+      }
+     ]
+    }
+   },
+   "why": "narrows: the whole zone's outflow has to squeeze through here, so the channel must pinch between two root walls; narrows: the single outlet of the inner swamp, pinched between two root walls, where the post-rain flood pulse becomes lethal"
+  },
+  {
+   "id": "patch.request.place.naga-kur-deeps.harmed-hist-enslaved",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    2479.0,
+    4584.7,
+    2659.0,
+    4764.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.naga-kur-deeps.harmed-hist-enslaved",
+    "file": "world/sources/catalogue/",
+    "planDigest": "648ba786765fc7eecdd0686473e4d188becbf921d3ae82a4e7a97bf3fc738b86"
+   },
+   "params": {
+    "record": {
+     "id": "place.naga-kur-deeps.harmed-hist-enslaved",
+     "position": {
+      "u": 0.34841,
+      "v": 0.63399
+     },
+     "terrainRequests": [
+      {
+       "kind": "cut",
+       "radiusM": 90,
+       "delivery": {
+        "feature": "cut",
+        "lengthM": 60,
+        "waterRelation": "channel-linked"
+       },
+       "note": "the sixty-metre channel between the caged tree and the bank its tribe camps on; without it there is no standoff"
+      }
+     ]
+    }
+   },
+   "why": "cut: the sixty-metre channel between the caged tree and the bank its tribe camps on; without it there is no standoff"
+  },
+  {
+   "id": "patch.request.place.naga-kur-deeps.horwalli-waterworks-deeps",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    2808.5,
+    4450.2,
+    2928.5,
+    4570.2
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.naga-kur-deeps.horwalli-waterworks-deeps",
+    "file": "world/sources/catalogue/",
+    "planDigest": "2088aa46a25676277cb325f759feb8496414ffdcf11b38d38f5dbe8dbfaf9cf8"
+   },
+   "params": {
+    "record": {
+     "id": "place.naga-kur-deeps.horwalli-waterworks-deeps",
+     "position": {
+      "u": 0.38903,
+      "v": 0.61168
+     },
+     "terrainRequests": [
+      {
+       "kind": "cut",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "joinable-paired-channels",
+        "featureCount": 2,
+        "connectionCount": 2,
+        "waterRelation": "channel-linked"
+       },
+       "note": "two channels close enough that cut stone could join them, which is the reason why the works were built here"
+      }
+     ]
+    }
+   },
+   "why": "cut: two channels close enough that cut stone could join them, which is the reason why the works were built here"
+  },
+  {
+   "id": "patch.request.place.naga-kur-deeps.naga-village-settled",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1003.0,
+    5269.2,
+    1163.0,
+    5429.2
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.05,
+   "source": {
+    "place": "place.naga-kur-deeps.naga-village-settled",
+    "file": "world/sources/catalogue/",
+    "planDigest": "552ecc478b56ba8470b94518063940c42fe357f9ed9a230cc29e3cfa8b142b12"
+   },
+   "params": {
+    "record": {
+     "id": "place.naga-kur-deeps.naga-village-settled",
+     "position": {
+      "u": 0.14688,
+      "v": 0.72546
+     },
+     "terrainRequests": [
+      {
+       "kind": "dry-rise",
+       "radiusM": 80,
+       "delivery": {
+        "feature": "flood-free-trading-rise",
+        "bank": "steep",
+        "waterRelation": "above-flood",
+        "heightClass": "flood-free",
+        "capacity": "laden-landing"
+       },
+       "note": "firm ground above the flood for a hold that trades, with a bank steep enough for a laden landing"
+      }
+     ]
+    }
+   },
+   "why": "dry-rise: firm ground above the flood for a hold that trades, with a bank steep enough for a laden landing"
+  },
+  {
+   "id": "patch.request.place.naga-kur-deeps.sinkhole-mouth-deeps",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": true,
+   "bboxM": [
+    2359.0,
+    5024.0,
+    2439.0,
+    5104.0
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 9.05,
+   "source": {
+    "place": "place.naga-kur-deeps.sinkhole-mouth-deeps",
+    "file": "world/sources/catalogue/",
+    "planDigest": "6b3dfe9b913fd58ca85d4fc5a3271c21c7e31dd6ee5a85656a00816cfcd67c29"
+   },
+   "params": {
+    "record": {
+     "id": "place.naga-kur-deeps.sinkhole-mouth-deeps",
+     "position": {
+      "u": 0.32535,
+      "v": 0.68678
+     },
+     "terrainRequests": [
+      {
+       "kind": "sinkhole",
+       "radiusM": 40,
+       "delivery": {
+        "feature": "sinkhole",
+        "waterRelation": "flooded-to-rim"
+       },
+       "note": "the place IS the hole: a round collapse in the root layer, flooded to within a metre of its rim"
+      }
+     ]
+    }
+   },
+   "why": "sinkhole: the place IS the hole: a round collapse in the root layer, flooded to within a metre of its rim"
+  },
+  {
+   "id": "patch.request.place.naga-kur-deeps.umbriel-stripped-undead",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    1220.4,
+    5453.7,
+    1340.4,
+    5573.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.55,
+   "source": {
+    "place": "place.naga-kur-deeps.umbriel-stripped-undead",
+    "file": "world/sources/catalogue/",
+    "planDigest": "2c928a17181b5e14dbd639c93a141f2e97c9ccb90576287abce65615aec870af"
+   },
+   "params": {
+    "record": {
+     "id": "place.naga-kur-deeps.umbriel-stripped-undead",
+     "position": {
+      "u": 0.17365,
+      "v": 0.74777
+     },
+     "terrainRequests": [
+      {
+       "kind": "dry-rise",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "dry-rise"
+       },
+       "note": "the rice ground four villages still argue over sat on a rise, and the houses on it are standing yet"
+      }
+     ]
+    }
+   },
+   "why": "dry-rise: the rice ground four villages still argue over sat on a rise, and the houses on it are standing yet"
+  },
+  {
+   "id": "patch.request.place.pirate-freeholds.chasecreek",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    4029.9,
+    1430.7,
+    4189.9,
+    1590.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.pirate-freeholds.chasecreek",
+    "file": "world/sources/catalogue/",
+    "planDigest": "c2944c67bb73f9db212942f8ba3b748d784f5d05c3dcc59be5e913a0b4ace378"
+   },
+   "params": {
+    "record": {
+     "id": "place.pirate-freeholds.chasecreek",
+     "position": {
+      "u": 0.55739,
+      "v": 0.20488
+     },
+     "terrainRequests": [
+      {
+       "kind": "cut",
+       "radiusM": 80,
+       "delivery": {
+        "feature": "screened-hull-creek",
+        "waterRelation": "channel-linked",
+        "depthM": 2.0,
+        "capacity": "sea-going-hull"
+       },
+       "note": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel"
+      }
+     ]
+    }
+   },
+   "why": "cut: the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel"
+  },
+  {
+   "id": "patch.request.place.pirate-freeholds.rim-keystone-chamber",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    3852.5,
+    491.1,
+    3972.5,
+    611.1
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 8.05,
+   "source": {
+    "place": "place.pirate-freeholds.rim-keystone-chamber",
+    "file": "world/sources/catalogue/",
+    "planDigest": "37fee98ebbcd27469929be137876a85976a509356c606801f4d37bb0751ad481"
+   },
+   "params": {
+    "record": {
+     "id": "place.pirate-freeholds.rim-keystone-chamber",
+     "position": {
+      "u": 0.53062,
+      "v": 0.07474
+     },
+     "terrainRequests": [
+      {
+       "kind": "gorge",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "flood-high-ravine-wall",
+        "waterRelation": "above-flood"
+       },
+       "note": "the ravine wall the chamber is cut into, above the flood and below the snow"
+      }
+     ]
+    }
+   },
+   "why": "gorge: the ravine wall the chamber is cut into, above the flood and below the snow"
+  },
+  {
+   "id": "patch.request.place.pirate-freeholds.trunk-toll-bridge",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    3883.5,
+    1317.2,
+    3963.5,
+    1397.2
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.pirate-freeholds.trunk-toll-bridge",
+    "file": "world/sources/catalogue/",
+    "planDigest": "5b4831e05dd14f127debb7cfc50fc1ded8c20c9a0ffa4712f14829f836c80582"
+   },
+   "params": {
+    "record": {
+     "id": "place.pirate-freeholds.trunk-toll-bridge",
+     "position": {
+      "u": 0.53211,
+      "v": 0.18406
+     },
+     "terrainRequests": [
+      {
+       "kind": "narrows",
+       "radiusM": 40,
+       "delivery": {
+        "feature": "hard-banked-road-narrows",
+        "bank": "hard"
+       },
+       "note": "the hard-banked pinch the span crosses, the narrowest water on the Corimont road"
+      }
+     ]
+    }
+   },
+   "why": "narrows: the hard-banked pinch the span crosses, the narrowest water on the Corimont road"
+  },
+  {
+   "id": "patch.request.place.saxhleel-coast.archon-lighthouse",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    5077.2,
+    4777.8,
+    5167.2,
+    4867.8
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 4.55,
+   "source": {
+    "place": "place.saxhleel-coast.archon-lighthouse",
+    "file": "world/sources/catalogue/",
+    "planDigest": "32c63f7896febf8047ea6048784ec73aeb355c6b672ed2c0a18c70b4cbbb419c"
+   },
+   "params": {
+    "record": {
+     "id": "place.saxhleel-coast.archon-lighthouse",
+     "position": {
+      "u": 0.69468,
+      "v": 0.65407
+     },
+     "terrainRequests": [
+      {
+       "kind": "islet",
+       "radiusM": 45,
+       "delivery": {
+        "feature": "lighthouse-foundation-islet",
+        "isletCount": 1,
+        "waterRelation": "above-storm-water",
+        "heightClass": "storm-free"
+       },
+       "note": "A lighthouse needs a foundation above storm water; the plot landed it on shallow marsh, so Part 6 raises a hard islet under the tower."
+      }
+     ]
+    }
+   },
+   "why": "islet: A lighthouse needs a foundation above storm water; the plot landed it on shallow marsh, so Part 6 raises a hard islet under the tower."
+  },
+  {
+   "id": "patch.request.place.saxhleel-coast.portdun-mont",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    4979.3,
+    5039.6,
+    5099.3,
+    5159.6
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.55,
+   "source": {
+    "place": "place.saxhleel-coast.portdun-mont",
+    "file": "world/sources/catalogue/",
+    "planDigest": "99e030db1fc07c23aaaac9c10525c42246fbec0529d8263912edb581018836ab"
+   },
+   "params": {
+    "record": {
+     "id": "place.saxhleel-coast.portdun-mont",
+     "position": {
+      "u": 0.68343,
+      "v": 0.69161
+     },
+     "terrainRequests": [
+      {
+       "kind": "cliff-bench",
+       "radiusM": 60,
+       "delivery": {
+        "feature": "village-cliff-shelf"
+       },
+       "note": "The village type is a cliff-shelf village; the plot found flood-high ground, so Part 6 cuts the shelf the houses stand on."
+      }
+     ]
+    }
+   },
+   "why": "cliff-bench: The village type is a cliff-shelf village; the plot found flood-high ground, so Part 6 cuts the shelf the houses stand on."
+  },
+  {
+   "id": "patch.request.place.saxhleel-coast.quarantine-village-lagoon",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    5125.7,
+    3935.7,
+    5265.7,
+    4075.7
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 3.05,
+   "source": {
+    "place": "place.saxhleel-coast.quarantine-village-lagoon",
+    "file": "world/sources/catalogue/",
+    "planDigest": "b07577bf96e38a453c5d1d7aee5583263f14941bd5f8bcc0931d7de772dd5c55"
+   },
+   "params": {
+    "record": {
+     "id": "place.saxhleel-coast.quarantine-village-lagoon",
+     "position": {
+      "u": 0.70464,
+      "v": 0.54326
+     },
+     "terrainRequests": [
+      {
+       "kind": "islet",
+       "radiusM": 70,
+       "delivery": {
+        "feature": "cordon-islet",
+        "isletCount": 1,
+        "waterRelation": "ringed-by-water",
+        "access": "one-landing"
+       },
+       "note": "The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet the record's identity depends on."
+      }
+     ]
+    }
+   },
+   "why": "islet: The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet the record's identity depends on."
+  },
+  {
+   "id": "patch.request.place.saxhleel-coast.terrace-village-ridge",
+   "kind": "terrain-request",
+   "order": 1,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    4753.0,
+    4189.3,
+    4853.0,
+    4289.3
+   ],
+   "blendM": 0.0,
+   "maxDeltaM": 2.05,
+   "source": {
+    "place": "place.saxhleel-coast.terrace-village-ridge",
+    "file": "world/sources/catalogue/",
+    "planDigest": "ee577973bebbd16c37c6bd52592e361de825e943f3eeb32bcd90c0092057aa70"
+   },
+   "params": {
+    "record": {
+     "id": "place.saxhleel-coast.terrace-village-ridge",
+     "position": {
+      "u": 0.65138,
+      "v": 0.57494
+     },
+     "terrainRequests": [
+      {
+       "kind": "terrace",
+       "radiusM": 50,
+       "delivery": {
+        "feature": "subsidence-slope-terrace",
+        "bank": "firm",
+        "orientation": "downslope"
+       },
+       "note": "A subsidence hamlet needs the slope it subsided down; the plot found flat firm ground."
+      }
+     ]
+    }
+   },
+   "why": "terrace: A subsidence hamlet needs the slope it subsided down; the plot found flat firm ground."
+  }
+ ]
+}

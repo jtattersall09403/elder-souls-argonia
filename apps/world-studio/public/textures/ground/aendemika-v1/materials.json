@@ -525,11 +525,11 @@
    "file": "39-cliff_dirt.png",
    "tileM": 10.0,
    "avgColor": [
-    60,
-    41,
-    24
+    44,
+    42,
+    39
    ],
-   "source": "Tropical Skyrim (dirtcliffs/dirtcliffs01.dds)",
+   "source": "Tropical Skyrim (volcanictundradirt01.dds)",
    "cliff": "rock",
    "normalFile": "39-cliff_dirt_n.png"
   }

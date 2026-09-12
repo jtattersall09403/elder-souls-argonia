@@ -1,0 +1,12 @@
+{
+ "schemaVersion": 1,
+ "about": "Freeze-gate violations accepted by name at the 16b freeze, each with its cause and owner. The gate prints them as KNOWN and fails on anything else; remove a row when its cause is fixed.",
+ "known": [
+  {
+   "id": "reach.59-1203",
+   "check": "fall-face",
+   "owner": "16c",
+   "why": "A 3.03 m fall measured on the shaped ground's 15 m cliff; the channel profile runs 13 m under that ground (a canyon cut), so after the carve the face left below the trench is a 3 m step over 5.5 m (a chute, 29 deg). The derive's fall rule reads the terrain step, the carve realises the profile step; the two agree only where the profile follows the ground. 16c: demote a fall whose post-carve face slope is under channels.FALL_SLOPE to sloped-chute, or clamp the lip notch at a fall to the lip level."
+  }
+ ]
+}

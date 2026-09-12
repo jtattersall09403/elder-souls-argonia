@@ -1,14 +1,16 @@
 # The hydrology graph — `hydrology-graph.json` (schema v1)
 
 The province's water as **typed entities with stable ids**, derived once from
-the frozen base terrain and read by every later stage (carve, water compile,
+the frozen SHAPED terrain (`heightfield-shaped-f32.npy`: the sculpt with its
+valleys, lake, portages and fluvial pass — the ground the trenches are cut
+into; decision 0059) and read by every later stage (carve, water compile,
 scatter, routes, places). Nothing downstream re-solves it; a stage that needs
 a level, a channel, a lake or a season reads it here. Decision
 [0058](../../../docs/decisions/0058-the-hydrology-graph-is-the-water-record.md);
 Phase 16a brief in `docs/phases/16-foundation-and-places/`.
 
 ```
-python3 -m worldgen.hydrology_graph derive   # from the vault's sculpt + hydrology pass (~50 s)
+python3 -m worldgen.hydrology_graph derive   # from the vault's shaped ground + hydrology pass (~70 s); also saves the solvers' outputs beside it
 python3 -m worldgen.hydrology_graph check    # invariants over this file; an `npm test` gate
 python3 -m worldgen.hydrology_graph report   # the tables the ledger and the owner check use
 ```
@@ -23,7 +25,7 @@ file's `contentSha256`.
 
 | Field | Meaning |
 |---|---|
-| `sourceHeightSha256` | sha256 of `heightfield-sculpted-f32.npy`, the frozen base the graph was solved on |
+| `sourceHeightSha256` | sha256 of `heightfield-shaped-f32.npy`, the frozen shaped ground the graph was solved on (recorded in `world/sources/terrain/freeze.json`) |
 | `contentSha256` | sha256 of everything else in the file; `check` recomputes it |
 | `grid` | full-res 4033 samples at 1.828 m; coarse step 3 (the Phase 3 hydrology grid). `x` = column (east), `y` = row (south); metres = cell x metresPerSample |
 | `thresholds` | every number the classification used, so a reader never guesses |
@@ -116,9 +118,12 @@ so a river never dries in the middle and restarts. This is the stored fact the r
 imply; the runtime keeps animating the level between the two stored extremes.
 
 **Authored bodies** — `authored-bodies.json` declares lore-required standing
-water the base does not hold (the Blackrose lake); each becomes a body with
-`origin: "authored"` and an `authored-bowl` precondition the terrain stage
-digs. Only real relief makes a waterfall: nothing is cut to add one (owner,
+water (the Blackrose lake); the shape stage digs it, the derive measures it
+like any other body and cross-references the two (`realisedBy` on the
+authored record, `declaredBy` on the measured one); the `authored-bowl`
+precondition is what the freeze gate checks. Its level is 0: the southern
+feeder is its outlet to Oliis Bay and is cut below sea level, so the lake is
+a tidal arm of the bay. Only real relief makes a waterfall: nothing is cut to add one (owner,
 2026-09-11); a fall off a low bank into sea-level water is flagged
 `fall.suspect = "coastal-terrace-step"` for 16b to smooth away.
 
@@ -128,22 +133,34 @@ Every reach and body carries `terrainPrecondition`:
 
 | kind | fields | meaning |
 |---|---|---|
-| `trench` | `bedLevelFromM`, `bedLevelToM`, `widthM`, `shoulderCrestM` | the bed is at or below these along the centreline, inside the width; the shoulder seals at the crest |
-| `weir` | as trench | a lake outlet held at the lake level |
-| `fall-face` | `lipLevelM`, `plungeLevelM`, `dropM`, `faceMinSlope`, `widthM`, `lipNotch` | a face at >= 70 deg between the two levels |
+| `trench` | `bedLevelFromM`, `bedLevelToM`, `bedMaxM`, `widthM`, `shoulderCrestM`, `sealCapM` | the bed the carve cuts (L − depth × ramp) at the first and last station; the bed is at or below `bedMaxM` everywhere inside the width and at or below `bedLevelToM` at the end; the shoulder ring seals to the crest wherever the shaped ground lay within `sealCapM` of it (never inside standing water) |
+| `weir` | as trench | a lake outlet: the bed AT the lake level (`bedLevelFromM`) for the sill, never above it |
+| `captured` | `levelM`, `channelLevelM`, `floorMaxM` | a body a channel runs through below its own level: the carve drains it to the trench and the compile refills it at the river's level; its floor is under `channelLevelM` |
+| `fall-face` | `lipLevelM`, `plungeLevelM`, `dropM`, `faceMinSlope`, `widthM`, `lipNotch` | the face delivers at least 80 % of `dropM` at a mean slope of at least `faceMinSlope` (the fall rule's mean, `channels.FALL_SLOPE`; the carve notches the lip and digs the bowl but leaves the face) |
 | `in-body` | `bodyId`, `levelM` | the reach is inside the body |
 | `bowl` | `levelM`, `floorMaxM`, `spillM` | the body's floor is at or below `floorMaxM`; its spill is at `spillM` |
 | `plunge-bowl` | `levelM`, `depthM`, `radiusM`, `law` | dig this bowl at the plunge station |
 | `sea` | `levelM` | sea and lagoon: nothing to build |
 
-## Extension rule
+## Extension rule and the carve's reconciliation
 
-Bodies the terrain stage itself creates (oxbows, levee backswamp pools, wetland
-pools from the fluvial pass) are appended by that stage with `origin:
-"terrain-stage"`, keyed by their deepest cell like every other body, and the
-graph's `contentSha256` is re-recorded. The rivers, reaches and measured bodies
-above are never rewritten by a later stage; a stage that disagrees with them
-fails.
+`carve_province` re-solves the bodies on the frozen array after the cut and:
+
+* **re-measures** every measured body the frozen ground still holds (level,
+  area, depth, spill) — the carve's levees and trenches move a hollow's rim,
+  and the graph names the water the frozen world holds; a body whose level
+  moved by more than 0.05 m keeps its solve-time level in `preCarve`, and
+  `stats.bodiesMovedByCarve` counts them. A body a reach depends on (pooled
+  through, weired out of, fed by, a plunge body) may not move more than
+  0.10 m: the stage fails;
+* **appends** the bodies the carve itself made (a shoulder's backswamp, a
+  trench pool) with `origin: "terrain-stage"`, keyed by deepest cell;
+* **fails** on a graph body left dry (unless the sea, a captured body, one the
+  trench runs through, or a promised / authored body the freeze gate checks).
+
+The three Blackrose feeder channels the shape stage carves are appended by the
+derive as reaches with `origin: "terrain-stage"` and `river: null`. Rivers,
+reaches and junctions are never rewritten by a later stage.
 
 ## What the owner reviews (Phase 16a check)
 

@@ -1,0 +1,793 @@
+{
+  "applied": 6,
+  "frozenSha256": "ff7a122ddb3033250d6f44d6594d1bd5103f5a2983bc6b69dd2203a153689aad",
+  "naturalSha256": "3852377608f13bc4064f9bc83298b627e3c1fee56f1cf56198eb3fae553579a7",
+  "patches": [
+    {
+      "id": "patch.poling.waterway.hist-heartland.nine-trunks",
+      "kind": "poling-channel",
+      "maxAbsDeltaM": 1.819,
+      "reason": "water: body at 1.93 m gains 790 samples beyond the patch region; water: body at 1.93 m floods past the window edge (unbounded); water: body at 1.83 m gains 684 samples beyond the patch region; water: body at 1.83 m floods past the window edge (unbounded); water: body at 2.06 m gains 980 samples beyond the patch region; water: body at 2.06 m floods past the window edge (unbounded); water: body at 1.93 m gains 801 samples beyond the patch region; water: body at 1.93 m floods past the window edge (unbounded); water: body at 0.00 m gains 2 samples beyond the patch region",
+      "region": [
+        2033,
+        2169,
+        2693,
+        2792
+      ],
+      "samplesChanged": 746,
+      "status": "refused"
+    },
+    {
+      "id": "patch.poling.waterway.hist-heartland.sap-tapping-licensed.landing",
+      "kind": "poling-channel",
+      "maxAbsDeltaM": 3.483,
+      "reason": "water: body at 0.81 m gains 210 samples beyond the patch region; water: body at 0.81 m floods past the window edge (unbounded)",
+      "region": [
+        2596,
+        2782,
+        1772,
+        1864
+      ],
+      "samplesChanged": 1454,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.hackwing-wall",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.493,
+      "reason": "water: 43 samples of new depression (makesWater not declared); structures: crosses structure.dunmer-north-the-veterans-ridge.3 without declaring it",
+      "region": [
+        50,
+        140,
+        1748,
+        1838
+      ],
+      "samplesChanged": 2196,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.nine-fords",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 1.0,
+      "reason": "channels: 285 samples raised inside a channel or its shoulder; water: 23 frozen wet samples dried; water: 89 samples of new depression (makesWater not declared); structures: crosses structure.dunmer-north-nine-fords.1 without declaring it",
+      "region": [
+        731,
+        974,
+        3034,
+        3276
+      ],
+      "samplesChanged": 10307,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-black-stage",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.0,
+      "reason": "water: 3 frozen wet samples dried; water: 10 samples of new depression (makesWater not declared)",
+      "region": [
+        509,
+        587,
+        1523,
+        1601
+      ],
+      "samplesChanged": 419,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-charge-pond",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 3.0,
+      "reason": "channels: 400 samples lowered inside a channel or its shoulder by a non-channel kind",
+      "region": [
+        34,
+        96,
+        2443,
+        2505
+      ],
+      "samplesChanged": 3174,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-crown-terrace",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.5,
+      "reason": "water: 149 frozen wet samples dried; water: 72 samples of new depression (makesWater not declared); structures: crosses structure.road-thorn-tear-road.1 without declaring it",
+      "region": [
+        292,
+        360,
+        3505,
+        3573
+      ],
+      "samplesChanged": 3375,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-divers-landing",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 4.5,
+      "reason": "structures: crosses structure.dunmer-north-the-divers-landing.2 without declaring it",
+      "region": [
+        7,
+        75,
+        934,
+        1002
+      ],
+      "samplesChanged": 2377,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-salt-ledge",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.5,
+      "reason": "water: 12 samples of new depression (makesWater not declared)",
+      "region": [
+        138,
+        190,
+        3393,
+        3445
+      ],
+      "samplesChanged": 81,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-shut-village",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.5,
+      "reason": "water: 108 samples of new depression (makesWater not declared); structures: crosses structure.dunmer-north-the-shut-village.3 without declaring it",
+      "region": [
+        469,
+        525,
+        2893,
+        2949
+      ],
+      "samplesChanged": 516,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-slumped-hamlet",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.5,
+      "receipt": {},
+      "region": [
+        517,
+        585,
+        2824,
+        2892
+      ],
+      "samplesChanged": 3274,
+      "status": "applied"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-stormhold-falls-chamber",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 12.0,
+      "reason": "water: 104 samples of new depression (makesWater not declared)",
+      "region": [
+        312,
+        412,
+        1266,
+        1366
+      ],
+      "samplesChanged": 1748,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-thousand-birds",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.979,
+      "reason": "water: 37 frozen wet samples dried; water: body at 0.00 m gains 1 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 108 samples of new depression (makesWater not declared)",
+      "region": [
+        581,
+        737,
+        3629,
+        3785
+      ],
+      "samplesChanged": 7589,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-two-gate-bridge",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 1.999,
+      "reason": "channels: 244 samples raised inside a channel or its shoulder; water: 20 frozen wet samples dried; water: 185 samples of new depression (makesWater not declared); structures: crosses structure.dunmer-north-the-two-gate-bridge.1 without declaring it",
+      "region": [
+        776,
+        844,
+        3002,
+        3070
+      ],
+      "samplesChanged": 1419,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.dunmer-north.the-two-hundred-roofs",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.0,
+      "reason": "water: 5 samples of new depression (makesWater not declared)",
+      "region": [
+        573,
+        625,
+        1371,
+        1423
+      ],
+      "samplesChanged": 56,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.hist-heartland.drowning-narrows-current",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.0,
+      "reason": "water: 44 samples of new depression (makesWater not declared)",
+      "region": [
+        1038,
+        1094,
+        2788,
+        2844
+      ],
+      "samplesChanged": 641,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.hist-heartland.greenspring",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 1.5,
+      "receipt": {},
+      "region": [
+        1003,
+        1049,
+        2612,
+        2658
+      ],
+      "samplesChanged": 396,
+      "status": "applied"
+    },
+    {
+      "id": "patch.request.place.hist-heartland.waterfall-chamber-root-fall",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 8.0,
+      "reason": "water: 175 samples of new depression (makesWater not declared)",
+      "region": [
+        1887,
+        1933,
+        2379,
+        2425
+      ],
+      "samplesChanged": 346,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-fringe.hollow-arch-toll",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 3.271,
+      "reason": "water: 78 frozen wet samples dried; water: body at 1.28 m gains 9 samples beyond the patch region; water: body at 1.28 m floods past the window edge (unbounded); water: 29 samples of new depression (makesWater not declared)",
+      "region": [
+        1194,
+        1261,
+        1086,
+        1153
+      ],
+      "samplesChanged": 1301,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.0,
+      "reason": "water: 2 samples of new depression (makesWater not declared)",
+      "region": [
+        1300,
+        1368,
+        997,
+        1065
+      ],
+      "samplesChanged": 819,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-fringe.onkobra-ferry",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.58,
+      "receipt": {},
+      "region": [
+        2648,
+        2738,
+        890,
+        980
+      ],
+      "samplesChanged": 3266,
+      "status": "applied"
+    },
+    {
+      "id": "patch.request.place.imperial-fringe.reedcutters-toll",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 4.0,
+      "reason": "water: 56 frozen wet samples dried; water: 110 samples of new depression (makesWater not declared); structures: crosses structure.imperial-fringe-highwater-hamlet.2 without declaring it; structures: crosses structure.imperial-fringe-reedcutters-toll.1 without declaring it",
+      "region": [
+        2554,
+        2610,
+        846,
+        902
+      ],
+      "samplesChanged": 1226,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-fringe.the-drowned-furrow",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 3.45,
+      "receipt": {},
+      "region": [
+        1173,
+        1225,
+        246,
+        298
+      ],
+      "samplesChanged": 1182,
+      "status": "applied"
+    },
+    {
+      "id": "patch.request.place.imperial-fringe.the-empty-steading",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 1.7,
+      "reason": "water: 27 samples of new depression (makesWater not declared)",
+      "region": [
+        2410,
+        2478,
+        1069,
+        1137
+      ],
+      "samplesChanged": 118,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-fringe.the-ravine-doors",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 8.0,
+      "reason": "water: 4 samples of new depression (makesWater not declared); structures: crosses structure.imperial-fringe-the-ravine-doors.1 without declaring it",
+      "region": [
+        2569,
+        2703,
+        571,
+        705
+      ],
+      "samplesChanged": 3070,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-fringe.the-two-lamps-hermitage",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 40.0,
+      "receipt": {},
+      "region": [
+        1767,
+        1801,
+        930,
+        964
+      ],
+      "samplesChanged": 41,
+      "status": "applied"
+    },
+    {
+      "id": "patch.request.place.imperial-penal-south.basin-sinkhole",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 9.0,
+      "reason": "water: body at 4.21 m gains 213 samples beyond the patch region; water: body at 4.21 m floods past the window edge (unbounded)",
+      "region": [
+        3678,
+        3730,
+        1095,
+        1147
+      ],
+      "samplesChanged": 328,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-penal-south.chainbreaker-shelter",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 0.043,
+      "reason": "water: body at 0.00 m gains 6 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded)",
+      "region": [
+        3684,
+        3784,
+        1137,
+        1237
+      ],
+      "samplesChanged": 86,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-penal-south.flu-quarantine-village",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.0,
+      "reason": "water: 99 frozen wet samples dried; water: body at 0.00 m gains 20 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 15 samples of new depression (makesWater not declared)",
+      "region": [
+        3730,
+        3798,
+        1078,
+        1146
+      ],
+      "samplesChanged": 1414,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-penal-south.natural-dive-shaft",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 17.94,
+      "reason": "channels: 72 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 0.00 m gains 1 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded)",
+      "region": [
+        2952,
+        2998,
+        882,
+        928
+      ],
+      "samplesChanged": 152,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.imperial-penal-south.necromantic-dig",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 3.0,
+      "reason": "water: 45 frozen wet samples dried",
+      "region": [
+        3315,
+        3355,
+        1206,
+        1246
+      ],
+      "samplesChanged": 1150,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.bramman-river-ferry",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.419,
+      "reason": "channels: 1 samples raised inside a channel or its shoulder; water: 3298 frozen wet samples dried; water: 521 samples of new depression (makesWater not declared)",
+      "region": [
+        3787,
+        3954,
+        478,
+        645
+      ],
+      "samplesChanged": 10861,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.head-of-tide",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 3.037,
+      "reason": "water: 84 frozen wet samples dried; water: 216 samples of new depression (makesWater not declared); structures: crosses structure.mercantile-coast-head-of-tide.1 without declaring it",
+      "region": [
+        3786,
+        3920,
+        298,
+        432
+      ],
+      "samplesChanged": 1473,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.hereguard-plantation",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 1.341,
+      "reason": "water: body at 9.17 m gains 2589 samples beyond the patch region; water: body at 9.17 m floods past the window edge (unbounded); water: body at 6.98 m gains 32 samples beyond the patch region; water: body at 6.98 m floods past the window edge (unbounded); water: body at 10.16 m gains 3238 samples beyond the patch region; water: body at 10.16 m floods past the window edge (unbounded); water: body at 13.53 m gains 3609 samples beyond the patch region; water: body at 13.53 m floods past the window edge (unbounded); water: body at 13.73 m gains 3642 samples beyond the patch region; water: body at 13.73 m floods past the window edge (unbounded); water: body at 13.77 m gains 3646 samples beyond the patch region; water: body at 13.77 m floods past the window edge (unbounded); water: body at 13.92 m gains 3658 samples beyond the patch region; water: body at 13.92 m floods past the window edge (unbounded); water: body at 13.82 m gains 3653 samples beyond the patch region; water: body at 13.82 m floods past the window edge (unbounded); water: body at 14.20 m gains 3678 samples beyond the patch region; water: body at 14.20 m floods past the window edge (unbounded); water: body at 13.86 m gains 3654 samples beyond the patch region; water: body at 13.86 m floods past the window edge (unbounded); water: 180 samples of new depression (makesWater not declared)",
+      "region": [
+        3363,
+        3541,
+        441,
+        619
+      ],
+      "samplesChanged": 16996,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.lilmoth",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 1.68,
+      "reason": "water: 2 samples of new depression (makesWater not declared)",
+      "region": [
+        3454,
+        3533,
+        1937,
+        2015
+      ],
+      "samplesChanged": 2,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.long-bar-wreckers",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.997,
+      "reason": "water: 1526 frozen wet samples dried; water: 535 samples of new depression (makesWater not declared); structures: crosses structure.road-soulrest-blackrose.7 without declaring it",
+      "region": [
+        3584,
+        3740,
+        383,
+        539
+      ],
+      "samplesChanged": 18221,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.oliis-drake-deep",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 46.0,
+      "reason": "water: body at 1.41 m gains 1 samples beyond the patch region; water: body at 3.72 m gains 659 samples beyond the patch region; water: body at 3.72 m floods past the window edge (unbounded); water: body at 4.30 m gains 1484 samples beyond the patch region; water: body at 4.30 m floods past the window edge (unbounded); water: body at 3.07 m gains 509 samples beyond the patch region; water: body at 3.07 m floods past the window edge (unbounded); water: body at 3.56 m gains 605 samples beyond the patch region; water: body at 3.56 m floods past the window edge (unbounded); water: body at 4.25 m gains 1466 samples beyond the patch region; water: body at 4.25 m floods past the window edge (unbounded); water: body at 4.36 m gains 1493 samples beyond the patch region; water: body at 4.36 m floods past the window edge (unbounded); water: body at 4.25 m gains 1467 samples beyond the patch region; water: body at 4.25 m floods past the window edge (unbounded); water: body at 5.33 m gains 1647 samples beyond the patch region; water: body at 5.33 m floods past the window edge (unbounded); water: body at 3.72 m gains 660 samples beyond the patch region; water: body at 3.72 m floods past the window edge (unbounded); water: body at 3.83 m gains 759 samples beyond the patch region; water: body at 3.83 m floods past the window edge (unbounded); water: body at 4.35 m gains 1489 samples beyond the patch region; water: body at 4.35 m floods past the window edge (unbounded); water: body at 4.51 m gains 1507 samples beyond the patch region; water: body at 4.51 m floods past the window edge (unbounded); water: body at 5.08 m gains 1579 samples beyond the patch region; water: body at 5.08 m floods past the window edge (unbounded); water: body at 4.85 m gains 1538 samples beyond the patch region; water: body at 4.85 m floods past the window edge (unbounded); water: body at 3.79 m gains 691 samples beyond the patch region; water: body at 3.79 m floods past the window edge (unbounded); water: body at 6.34 m gains 2316 samples beyond the patch region; water: body at 6.34 m floods past the window edge (unbounded); water: body at 3.80 m gains 704 samples beyond the patch region; water: body at 3.80 m floods past the window edge (unbounded); water: body at 5.68 m gains 2113 samples beyond the patch region; water: body at 5.68 m floods past the window edge (unbounded); water: body at 6.18 m gains 2228 samples beyond the patch region; water: body at 6.18 m floods past the window edge (unbounded); water: body at 5.95 m gains 2161 samples beyond the patch region; water: body at 5.95 m floods past the window edge (unbounded); water: body at 5.89 m gains 2146 samples beyond the patch region; water: body at 5.89 m floods past the window edge (unbounded)",
+      "region": [
+        3136,
+        3258,
+        298,
+        420
+      ],
+      "samplesChanged": 12738,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.oliis-ferry-stage",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.236,
+      "reason": "channels: 738 samples raised inside a channel or its shoulder; water: 4567 frozen wet samples dried; water: 499 samples of new depression (makesWater not declared)",
+      "region": [
+        3135,
+        3355,
+        81,
+        301
+      ],
+      "samplesChanged": 18198,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.sealed-meer-murkmire",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.797,
+      "receipt": {},
+      "region": [
+        2869,
+        2937,
+        1702,
+        1770
+      ],
+      "samplesChanged": 3359,
+      "status": "applied"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.wraxu-stacks",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.957,
+      "reason": "water: 1343 frozen wet samples dried; water: body at 0.00 m gains 2 samples beyond the patch region; water: 135 samples of new depression (makesWater not declared)",
+      "region": [
+        3588,
+        3688,
+        1971,
+        2071
+      ],
+      "samplesChanged": 6171,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.mercantile-coast.xhon-mehl-shrine",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 3.45,
+      "reason": "channels: 73 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 10.34 m gains 1277 samples beyond the patch region; water: body at 10.34 m floods past the window edge (unbounded); water: body at 8.09 m gains 474 samples beyond the patch region; water: body at 8.09 m floods past the window edge (unbounded); water: body at 8.13 m gains 31 samples beyond the patch region; water: body at 8.13 m floods past the window edge (unbounded)",
+      "region": [
+        2924,
+        3014,
+        329,
+        419
+      ],
+      "samplesChanged": 6770,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.naga-kur-deeps.air-pocket-station-deeps",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 6.0,
+      "reason": "water: body at 1.47 m gains 70 samples beyond the patch region; water: body at 1.47 m floods past the window edge (unbounded); water: body at 3.75 m gains 904 samples beyond the patch region; water: body at 3.75 m floods past the window edge (unbounded); water: body at 3.80 m gains 914 samples beyond the patch region; water: body at 3.80 m floods past the window edge (unbounded); water: body at 0.00 m gains 80 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded)",
+      "region": [
+        2527,
+        2583,
+        1456,
+        1512
+      ],
+      "samplesChanged": 1513,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.naga-kur-deeps.dead-water-village",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.964,
+      "reason": "water: 699 frozen wet samples dried; water: body at 0.00 m gains 30 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 9 samples of new depression (makesWater not declared)",
+      "region": [
+        3078,
+        3178,
+        1800,
+        1900
+      ],
+      "samplesChanged": 3166,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.naga-kur-deeps.drowning-narrows-tidal-gate",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 3.957,
+      "reason": "water: 230 frozen wet samples dried; water: 13 samples of new depression (makesWater not declared)",
+      "region": [
+        2557,
+        2625,
+        1009,
+        1077
+      ],
+      "samplesChanged": 727,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.naga-kur-deeps.harmed-hist-enslaved",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.0,
+      "reason": "water: body at 1.81 m gains 14 samples beyond the patch region; water: body at 1.81 m floods past the window edge (unbounded); water: body at 1.47 m gains 46 samples beyond the patch region; water: body at 1.47 m floods past the window edge (unbounded); water: body at 0.00 m gains 79 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 137 samples of new depression (makesWater not declared)",
+      "region": [
+        2508,
+        2608,
+        1356,
+        1456
+      ],
+      "samplesChanged": 247,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.naga-kur-deeps.horwalli-waterworks-deeps",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 0.051,
+      "reason": "channels: 90 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 4.63 m gains 62 samples beyond the patch region; water: body at 4.63 m floods past the window edge (unbounded); water: body at 5.05 m gains 157 samples beyond the patch region; water: body at 5.05 m floods past the window edge (unbounded)",
+      "region": [
+        2434,
+        2502,
+        1536,
+        1604
+      ],
+      "samplesChanged": 329,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.naga-kur-deeps.naga-village-settled",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 3.0,
+      "reason": "water: 23 frozen wet samples dried; water: 53 samples of new depression (makesWater not declared)",
+      "region": [
+        2882,
+        2972,
+        548,
+        638
+      ],
+      "samplesChanged": 1558,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.naga-kur-deeps.sinkhole-mouth-deeps",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 9.0,
+      "reason": "water: body at 1.44 m gains 120 samples beyond the patch region; water: body at 1.44 m floods past the window edge (unbounded); water: body at 1.40 m gains 71 samples beyond the patch region; water: body at 1.40 m floods past the window edge (unbounded); water: body at 1.47 m gains 168 samples beyond the patch region; water: body at 1.47 m floods past the window edge (unbounded)",
+      "region": [
+        2748,
+        2794,
+        1290,
+        1336
+      ],
+      "samplesChanged": 1509,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.naga-kur-deeps.umbriel-stripped-undead",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.5,
+      "reason": "channels: 5 samples raised inside a channel or its shoulder; water: 1095 frozen wet samples dried; water: body at 1.77 m gains 1 samples beyond the patch region; water: 29 samples of new depression (makesWater not declared)",
+      "region": [
+        2983,
+        3051,
+        667,
+        735
+      ],
+      "samplesChanged": 3380,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.pirate-freeholds.chasecreek",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.0,
+      "reason": "structures: crosses structure.pirate-freeholds-chasecreek.2 without declaring it",
+      "region": [
+        782,
+        872,
+        2204,
+        2294
+      ],
+      "samplesChanged": 341,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.pirate-freeholds.rim-keystone-chamber",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 8.0,
+      "reason": "water: body at 0.88 m gains 5 samples beyond the patch region; water: 30 samples of new depression (makesWater not declared)",
+      "region": [
+        268,
+        336,
+        2107,
+        2175
+      ],
+      "samplesChanged": 770,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.pirate-freeholds.trunk-toll-bridge",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.0,
+      "reason": "water: 95 frozen wet samples dried; water: 3 samples of new depression (makesWater not declared)",
+      "region": [
+        720,
+        766,
+        2124,
+        2170
+      ],
+      "samplesChanged": 462,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.saxhleel-coast.archon-lighthouse",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 4.487,
+      "reason": "water: 680 frozen wet samples dried",
+      "region": [
+        2613,
+        2665,
+        2777,
+        2828
+      ],
+      "samplesChanged": 1889,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.saxhleel-coast.portdun-mont",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.5,
+      "reason": "water: body at 0.00 m gains 94 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 410 samples of new depression (makesWater not declared)",
+      "region": [
+        2757,
+        2824,
+        2724,
+        2791
+      ],
+      "samplesChanged": 1263,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.saxhleel-coast.quarantine-village-lagoon",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 2.983,
+      "reason": "water: 758 frozen wet samples dried",
+      "region": [
+        2153,
+        2231,
+        2804,
+        2882
+      ],
+      "samplesChanged": 1286,
+      "status": "refused"
+    },
+    {
+      "id": "patch.request.place.saxhleel-coast.terrace-village-ridge",
+      "kind": "terrain-request",
+      "maxAbsDeltaM": 1.333,
+      "reason": "channels: 44 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 0.00 m gains 31 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 94 samples of new depression (makesWater not declared)",
+      "region": [
+        2291,
+        2348,
+        2600,
+        2657
+      ],
+      "samplesChanged": 1428,
+      "status": "refused"
+    }
+  ],
+  "refused": 50,
+  "schemaVersion": 1
+}

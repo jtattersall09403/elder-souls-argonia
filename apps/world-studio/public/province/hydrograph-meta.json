@@ -8,7 +8,7 @@
   "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands (pieces of 10+ cells, about 300 m2), every river cell and every graph body. The raw coarse lake mask is NOT used: its 3,781 pieces were mostly one-cell pits along contours."
  },
  "source": "world/sources/hydrology/hydrology-graph.json",
- "contentSha256": "ff60e948fde8e6fa0a8a4c5f0f5874711083b561aa61fc9b04e0b2367c6898d0",
+ "contentSha256": "76f9eaef4caa6e77aa65b697a2fe52a93a615a05920c5632d5be351f713280b6",
  "legends": {
   "hydrograph-rivers": {
    "horizontal-channel": {
@@ -101,7 +101,7 @@
      90,
      200
     ],
-    "about": "Standing water of 1 hectare or more whose level is under 30 m. A dashed outline is a DECLARED lake the base does not hold yet (the Blackrose lake): 16b digs it, shapes an organic shore and raises the island ring."
+    "about": "Standing water of 1 hectare or more whose level is under 30 m. A dashed outline is the DECLARED Blackrose lake (authored-bodies.json), dug by the shape stage to its declared bed and island."
    },
    "tarn-upland": {
     "name": "tarn-upland",
@@ -247,102 +247,89 @@
   }
  },
  "stats": {
-  "surfaceTransitions": 396,
+  "surfaceTransitions": 226,
   "shortChannelOrStripRuns": 0,
-  "shortRunsPinnedByJunctionBodyOrFall": 61,
+  "shortRunsPinnedByJunctionBodyOrFall": 18,
   "drainageLoops": 0,
-  "rivers": 100,
-  "reaches": 678,
-  "junctions": 200,
-  "bodies": 407,
+  "rivers": 85,
+  "reaches": 484,
+  "junctions": 170,
+  "bodies": 2515,
   "reachKinds": {
-   "sloped-riffle": 50,
-   "horizontal-channel": 195,
-   "horizontal-tidal": 4,
-   "sloped-rapid": 111,
-   "sloped-chute": 19,
-   "vertical-fall": 5,
-   "horizontal-backwater": 294
+   "horizontal-channel": 133,
+   "horizontal-backwater": 178,
+   "sloped-rapid": 117,
+   "sloped-riffle": 35,
+   "sloped-chute": 11,
+   "vertical-fall": 10
   },
   "bodyKinds": {
-   "tarn-upland": 15,
-   "pond": 78,
+   "tarn-upland": 10,
+   "pond": 68,
+   "lake-lowland": 22,
    "pool": 25,
-   "backswamp": 25,
-   "lake-lowland": 7,
-   "marsh-fringe": 38,
-   "marsh-deep": 109,
-   "swamp": 99,
-   "mudflat": 4,
+   "marsh-fringe": 824,
+   "marsh-deep": 816,
+   "backswamp": 19,
+   "swamp": 661,
+   "mudflat": 44,
    "ocean": 1,
-   "lagoon": 5,
-   "plunge-pool": 1
+   "lagoon": 15,
+   "plunge-pool": 10
   },
   "bodyOrigins": {
-   "measured": 405,
-   "promised": 1,
-   "authored": 1
+   "measured": 2480,
+   "promised": 10,
+   "authored": 1,
+   "terrain-stage": 24
   },
   "surfaceKm": {
-   "channel": 14.6,
-   "strip": 15.5,
+   "channel": 11.9,
+   "strip": 14.9,
    "fall": 0.0,
-   "body": 31.8
+   "body": 20.1
   },
   "seasons": {
    "reaches": {
-    "perennial": 516,
-    "seasonal": 162
+    "perennial": 318,
+    "seasonal": 166
    },
    "bodies": {
-    "perennial": 350,
-    "seasonal": 57
+    "perennial": 1437,
+    "seasonal": 1078
    }
   },
   "waterClasses": {
-   "blackwater": 9,
-   "whitewater": 61,
-   "clearwater": 30
+   "blackwater": 10,
+   "whitewater": 42,
+   "clearwater": 33
   },
   "mouths": {
-   "sea": 30,
-   "confluence": 70
+   "sea": 39,
+   "confluence": 46
   },
-  "falls": 5,
+  "falls": 10,
   "suspectFalls": 0,
   "riverTrappedDepressions": 0,
-  "lostStations": 4,
-  "lostSites": [
-   {
-    "reach": 2,
-    "eastM": 4881.7,
-    "southM": 107.4,
-    "stations": 2,
-    "band": 1
-   },
-   {
-    "reach": 33,
-    "eastM": 4310.9,
-    "southM": 1715.1,
-    "stations": 2,
-    "band": 3
-   }
-  ],
-  "gorgeStationsMeasured": 2200,
-  "gorgeStationsUnderResolved": 1271,
-  "wetSeasonLineCells": 173201,
-  "wetSeasonLineKm2": 5.21,
+  "lostStations": 0,
+  "lostSites": [],
+  "gorgeStationsMeasured": 2105,
+  "gorgeStationsUnderResolved": 1358,
+  "wetSeasonLineCells": 184681,
+  "wetSeasonLineKm2": 5.55,
   "standingWaterCensus": {
-   "depressions": 37308,
-   "acceptedDepressions": 395,
-   "rescuedBasins": 82,
-   "sheets": 163,
+   "depressions": 79031,
+   "acceptedDepressions": 2416,
+   "rescuedBasins": 128,
+   "sheets": 1867,
    "cappedBasins": 0,
-   "nestedAccepted": 0,
-   "nestedCandidates": 1170,
-   "bodies": 395,
-   "sheetBodies": 129,
-   "bodyCells": 935347
-  }
+   "nestedAccepted": 36,
+   "nestedCandidates": 7260,
+   "bodies": 2452,
+   "sheetBodies": 1865,
+   "bodyCells": 928054
+  },
+  "bodiesMovedByCarve": 12,
+  "bodiesMovedByCarveMaxM": 0.38
  }
 }

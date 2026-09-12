@@ -1,36 +1,10 @@
 {
   "schemaVersion": 1,
   "kind": "terrain-request-known-red",
-  "owner": "water",
-  "why": "These typed terrain requests were applied and survived the terrain raster, but the shipped water solve does not yet deliver the depth, current or water relation they ask for. They are owned by the water workstream and tracked in docs/research/archive/water-round-2-2026-09/water-handoff.md. They must stay visibly red: the postcondition gate reports them as KNOWN-RED and fails on any request outside this register.",
-  "measuredOn": "2026-09-09 final chain",
+  "owner": "16g (places adapt to the frozen world, decision 0059)",
+  "why": "These typed terrain requests were APPLIED as terrain patches on the frozen base (Phase 16b) but the frozen water, or the route grading below the gate, does not deliver the depth, current, water relation or surviving shape they ask for. Under 0059 the water is not re-solved to meet a place: 16g re-sites, re-types or drops the request. Refused requests are not here: they are listed with their invariant in province/refined/terrain-patches-applied.json. The postcondition gate reports these as KNOWN-RED and fails on any request outside this register.",
+  "measuredOn": "2026-09-12 first production chain on the frozen base",
   "requests": [
-    {
-      "requestId": "terrain-request.dunmer-north.hackwing-wall.cliff-bench.023ccbae7827",
-      "placeId": "place.dunmer-north.hackwing-wall",
-      "failingFields": [
-        "waterRelation"
-      ]
-    },
-    {
-      "requestId": "terrain-request.dunmer-north.the-charge-pond.pool.38c87a914cf0",
-      "placeId": "place.dunmer-north.the-charge-pond",
-      "failingFields": [
-        "current"
-      ]
-    },
-    {
-      "requestId": "terrain-request.dunmer-north.the-crown-terrace.dry-rise.839abd972bc3",
-      "placeId": "place.dunmer-north.the-crown-terrace",
-      "failingFields": [
-        "waterRelation",
-        "heightClass"
-      ],
-      "owner": "Phase 11 - plot/carve/flood convergence",
-      "why": "Predicted by name before it appeared: the terrain-promise agent measured the rise's centre at 22.51 m against a lake surface the published water also puts at 22.51 m, with the two ground rasters agreeing to 0.07 m, and said it would surface as a new red row on the next postcondition run. It is the same convergence gap as the rows above - the plot sites on predicted carve delivery, the carve and the flood then settle, and a promise that cleared by centimetres no longer does. Closing it means re-solving the plot against the settled water.",
-      "queuedIn": "docs/phases/P-polish/backlog.md",
-      "flapping": true
-    },
     {
       "requestId": "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef",
       "placeId": "place.dunmer-north.the-divers-landing",
@@ -46,24 +20,6 @@
       ]
     },
     {
-      "requestId": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
-      "placeId": "place.dunmer-north.the-two-hundred-roofs",
-      "failingFields": [
-        "waterRelation"
-      ]
-    },
-    {
-      "requestId": "terrain-request.hist-heartland.drowning-narrows-current.narrows.f3471f587a97",
-      "placeId": "place.hist-heartland.drowning-narrows-current",
-      "failingFields": [
-        "narrows"
-      ],
-      "owner": "Phase 11 - plot/carve/flood convergence",
-      "why": "Went red when MIN_STRUCTURE_RISE_M retired 234 phantom route structures. A structure's window is grading-exempt, so removing one hands its ground back to the road grader; the grader cut it, and the flood solve on the new ground moved these narrows off their promised width or current. The structures were bridges over sub-metre roughness and had to go, so this is the cost of a correct fix showing up one stage downstream, not a regression to undo. Closing it means re-solving the plot against the settled water - the plot, the carve and the flood do not converge in one pass, which is the open loop this register keeps naming.",
-      "queuedIn": "docs/phases/P-polish/backlog.md",
-      "flapping": true
-    },
-    {
       "requestId": "terrain-request.hist-heartland.greenspring.spring.7bcc10aaafd7",
       "placeId": "place.hist-heartland.greenspring",
       "failingFields": [
@@ -71,190 +27,21 @@
       ]
     },
     {
-      "requestId": "terrain-request.imperial-fringe.hollow-arch-toll.narrows.4e254254a7e6",
-      "placeId": "place.imperial-fringe.hollow-arch-toll",
-      "failingFields": [
-        "narrows"
-      ],
-      "owner": "Phase 11 - plot/carve/flood convergence",
-      "why": "Went red when MIN_STRUCTURE_RISE_M retired 234 phantom route structures. A structure's window is grading-exempt, so removing one hands its ground back to the road grader; the grader cut it, and the flood solve on the new ground moved these narrows off their promised width or current. The structures were bridges over sub-metre roughness and had to go, so this is the cost of a correct fix showing up one stage downstream, not a regression to undo. Closing it means re-solving the plot against the settled water - the plot, the carve and the flood do not converge in one pass, which is the open loop this register keeps naming.",
-      "queuedIn": "docs/phases/P-polish/backlog.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.imperial-fringe.hollow-arch-toll.narrows.7fc0f9f610c0",
-      "placeId": "place.imperial-fringe.hollow-arch-toll",
-      "failingFields": [
-        "narrows"
-      ],
-      "owner": "Phase 11 - plot/carve/flood convergence",
-      "why": "Went red when MIN_STRUCTURE_RISE_M retired 234 phantom route structures. A structure's window is grading-exempt, so removing one hands its ground back to the road grader; the grader cut it, and the flood solve on the new ground moved these narrows off their promised width or current. The structures were bridges over sub-metre roughness and had to go, so this is the cost of a correct fix showing up one stage downstream, not a regression to undo. Closing it means re-solving the plot against the settled water - the plot, the carve and the flood do not converge in one pass, which is the open loop this register keeps naming.",
-      "queuedIn": "docs/phases/P-polish/backlog.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d",
-      "placeId": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
-      "failingFields": [
-        "narrows"
-      ],
-      "owner": "Phase 11 - plot/carve/flood convergence",
-      "why": "One more instance of the loop this register keeps naming, and the clearest statement of it: the plot sites on ground the carve is predicted to make, the carve runs, the flood solve settles on the new ground, and a promise that cleared by centimetres no longer does. Each pass flips one to three requests, usually `narrows`, and usually not the same ones - which is why chasing them one pass at a time does not terminate. It needs the plot and the water solved together, or the plot re-solved against settled water and the carve then re-run until the set stops moving. Recorded as the top open item.",
-      "queuedIn": "docs/phases/P-polish/backlog.md",
-      "flapping": true
-    },
-    {
       "requestId": "terrain-request.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
       "placeId": "place.imperial-fringe.onkobra-ferry",
       "failingFields": [
+        "terrainSurvival",
         "access",
-        "feature",
-        "terrainSurvival"
+        "feature"
       ]
     },
     {
-      "requestId": "terrain-request.imperial-fringe.reedcutters-toll.narrows.af9adaab63b3",
-      "placeId": "place.imperial-fringe.reedcutters-toll",
-      "failingFields": [
-        "current",
-        "depthM"
-      ]
-    },
-    {
-      "requestId": "terrain-request.imperial-fringe.reedcutters-toll.narrows.c01ecfbdf5dd",
-      "placeId": "place.imperial-fringe.reedcutters-toll",
-      "failingFields": [
-        "current",
-        "depthClass",
-        "feature",
-        "terrainSurvival"
-      ]
-    },
-    {
-      "requestId": "terrain-request.imperial-fringe.the-empty-steading.cut.58c9f7a9b888",
-      "placeId": "place.imperial-fringe.the-empty-steading",
-      "failingFields": [
-        "waterRelation"
-      ],
-      "owner": "Phase 11 - macro plot terrain-promise gate",
-      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7",
-      "placeId": "place.imperial-fringe.the-two-lamps-hermitage",
-      "failingFields": [
-        "heightM"
-      ],
-      "owner": "Phase 11 - plot/carve/flood convergence",
-      "why": "Moved when the two water-suppressing mechanisms were deleted on the owner's ruling. standing_water had been capping every pool a way touched at 0.30 m and channels had been cutting bridged river sections to a 0.30 m ford, so the province's lakes and rivers were shallower than the solve says they should be; with that gone the water is deeper and truer, and three promises that cleared against the suppressed water no longer clear against the real one. The water is right and these three sites are now wrong for their records - the fix is to re-solve the plot against the settled water, not to put the suppression back.",
-      "queuedIn": "docs/phases/P-polish/backlog.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.imperial-penal-south.natural-dive-shaft.sinkhole.89b743df7efe",
-      "placeId": "place.imperial-penal-south.natural-dive-shaft",
+      "requestId": "terrain-request.imperial-fringe.the-drowned-furrow.pool.589387107c40",
+      "placeId": "place.imperial-fringe.the-drowned-furrow",
       "failingFields": [
         "depthClass",
-        "waterRelation"
-      ],
-      "owner": "Phase 11 - plot/carve/flood convergence",
-      "why": "Moved when the two water-suppressing mechanisms were deleted on the owner's ruling. standing_water had been capping every pool a way touched at 0.30 m and channels had been cutting bridged river sections to a 0.30 m ford, so the province's lakes and rivers were shallower than the solve says they should be; with that gone the water is deeper and truer, and three promises that cleared against the suppressed water no longer clear against the real one. The water is right and these three sites are now wrong for their records - the fix is to re-solve the plot against the settled water, not to put the suppression back.",
-      "queuedIn": "docs/phases/P-polish/backlog.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.imperial-penal-south.necromantic-dig.dry-rise.63cbc58862be",
-      "placeId": "place.imperial-penal-south.necromantic-dig",
-      "failingFields": [
         "waterRelation",
-        "heightClass"
-      ],
-      "owner": "Phase 11 - macro plot terrain-promise gate",
-      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.mercantile-coast.lilmoth.cut.bec1279f83eb",
-      "placeId": "place.mercantile-coast.lilmoth",
-      "failingFields": [
-        "current",
-        "depthClass",
-        "waterRelation"
-      ]
-    },
-    {
-      "requestId": "terrain-request.mercantile-coast.oliis-drake-deep.pool.4bf87006bb64",
-      "placeId": "place.mercantile-coast.oliis-drake-deep",
-      "failingFields": [
-        "depthClass"
-      ],
-      "owner": "Phase 11 - macro plot terrain-promise gate",
-      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.mercantile-coast.oliis-drake-deep.sinkhole.0e781321e579",
-      "placeId": "place.mercantile-coast.oliis-drake-deep",
-      "failingFields": [
-        "depthM"
-      ],
-      "owner": "Phase 11 - macro plot terrain-promise gate",
-      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.naga-kur-deeps.air-pocket-station-deeps.pool.4bef463f2250",
-      "placeId": "place.naga-kur-deeps.air-pocket-station-deeps",
-      "failingFields": [
-        "depthM"
-      ],
-      "owner": "Phase 11 - plot/carve/flood convergence",
-      "why": "Moved when the two water-suppressing mechanisms were deleted on the owner's ruling. standing_water had been capping every pool a way touched at 0.30 m and channels had been cutting bridged river sections to a 0.30 m ford, so the province's lakes and rivers were shallower than the solve says they should be; with that gone the water is deeper and truer, and three promises that cleared against the suppressed water no longer clear against the real one. The water is right and these three sites are now wrong for their records - the fix is to re-solve the plot against the settled water, not to put the suppression back.",
-      "queuedIn": "docs/phases/P-polish/backlog.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.naga-kur-deeps.naga-village-settled.dry-rise.e3796dd374e1",
-      "placeId": "place.naga-kur-deeps.naga-village-settled",
-      "failingFields": [
-        "waterRelation",
-        "heightClass"
-      ],
-      "owner": "Phase 11 - macro plot terrain-promise gate",
-      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.naga-kur-deeps.umbriel-stripped-undead.dry-rise.7a0348023e4c",
-      "placeId": "place.naga-kur-deeps.umbriel-stripped-undead",
-      "failingFields": [
-        "waterRelation",
-        "heightClass"
-      ],
-      "owner": "Phase 11 - macro plot terrain-promise gate",
-      "why": "The plot's terrain-promise gate credits a carve with what it can deliver - a raise measures 0.71 of its asked magnitude as relief - and sites the record where that prediction clears the promise. On these six the delivered carve falls short of the prediction, so the record stands on ground the operation cannot quite make. This is the plot and the carve disagreeing about one number, not a defect in any record: the gate closed nine such failures on the day it landed and these six are what is left. Fix the credit model or strengthen the operation; do not move the records by hand.",
-      "queuedIn": "docs/research/archive/phase11-rounds/phase11-gap-plan.md",
-      "flapping": true
-    },
-    {
-      "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
-      "placeId": "place.pirate-freeholds.chasecreek",
-      "failingFields": [
-        "depthM",
-        "waterRelation"
-      ]
-    },
-    {
-      "requestId": "terrain-request.saxhleel-coast.quarantine-village-lagoon.islet.cb0c95cc0088",
-      "placeId": "place.saxhleel-coast.quarantine-village-lagoon",
-      "failingFields": [
-        "waterRelation"
+        "current"
       ]
     }
   ]

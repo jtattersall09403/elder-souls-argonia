@@ -6,22 +6,148 @@
  "portageMaxM": 100.0,
  "lanes": [
   {
-   "id": "route.boat.blackrose-lilmoth",
+   "id": "route.boat.soulrest-lilmoth",
    "beforeOverlandM": [
-    140.0
+    190.0
    ],
-   "afterOverlandM": [],
-   "pointsBefore": 372,
-   "pointsAfter": 390,
+   "afterOverlandM": [
+    190.0
+   ],
+   "pointsBefore": 773,
+   "pointsAfter": 773,
    "edits": [
     {
      "atM": [
-      2684.2,
-      6138.8
+      3216.1,
+      6851.7
      ],
-     "lengthM": 140.0,
+     "lengthM": 190.0,
      "status": "rerouted",
-     "points": 18
+     "points": 0
+    },
+    {
+     "atM": [
+      3216.1,
+      6851.7
+     ],
+     "lengthM": 190.0,
+     "status": "rerouted",
+     "points": 0
+    },
+    {
+     "atM": [
+      3216.1,
+      6851.7
+     ],
+     "lengthM": 190.0,
+     "status": "rerouted",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "id": "route.boat.archon-thorn",
+   "beforeOverlandM": [
+    138.0
+   ],
+   "afterOverlandM": [
+    138.0
+   ],
+   "pointsBefore": 787,
+   "pointsAfter": 787,
+   "edits": [
+    {
+     "atM": [
+      6325.2,
+      1006.2
+     ],
+     "lengthM": 138.0,
+     "status": "rerouted",
+     "points": 0
+    },
+    {
+     "atM": [
+      6325.2,
+      1006.2
+     ],
+     "lengthM": 138.0,
+     "status": "rerouted",
+     "points": 0
+    },
+    {
+     "atM": [
+      6325.2,
+      1006.2
+     ],
+     "lengthM": 138.0,
+     "status": "rerouted",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "id": "route.boat.stormhold-alten-corimont",
+   "beforeOverlandM": [
+    106.0
+   ],
+   "afterOverlandM": [
+    106.0
+   ],
+   "pointsBefore": 255,
+   "pointsAfter": 255,
+   "edits": [
+    {
+     "atM": [
+      3746.2,
+      1137.8
+     ],
+     "lengthM": 106.0,
+     "status": "unsolved",
+     "why": "no wet anchor on the lane"
+    }
+   ]
+  },
+  {
+   "id": "route.boat.alten-corimont-helstrom",
+   "beforeOverlandM": [
+    106.0,
+    126.0,
+    168.0
+   ],
+   "afterOverlandM": [
+    106.0,
+    126.0,
+    168.0
+   ],
+   "pointsBefore": 459,
+   "pointsAfter": 459,
+   "edits": [
+    {
+     "atM": [
+      3201.5,
+      2777.4
+     ],
+     "lengthM": 168.0,
+     "status": "unsolved",
+     "why": "no wet line inside a 90 px box"
+    },
+    {
+     "atM": [
+      3095.4,
+      1443.1
+     ],
+     "lengthM": 126.0,
+     "status": "unsolved",
+     "why": "no wet line inside a 90 px box"
+    },
+    {
+     "atM": [
+      3835.7,
+      1143.3
+     ],
+     "lengthM": 106.0,
+     "status": "unsolved",
+     "why": "no wet anchor on the lane"
     }
    ]
   }
