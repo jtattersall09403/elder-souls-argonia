@@ -14,14 +14,15 @@ JSONs) and cached full-resolution arrays stay in the vault next to the esp.
 ./scripts/terrain-chain.sh --list
 ```
 
-The script is the one place the stage ORDER lives (decision 0025 points at
-it). A full forced rebuild is about 5.5 minutes; a re-run with nothing changed
-is under 10 seconds, because `worldgen/chain_stages.py` fingerprints each
-stage's code (its module and every worldgen module it imports, walked from the
-source) and the files it actually read and wrote, and prints
-`skip (unchanged)` when all of them still match. The book is
-`chain-stamps.json` in the vault heightfield directory; it is never committed.
-Each stage prints its own seconds and the run closes with a table.
+The script is the one place the stage ORDER lives (decision 0059 points at
+it; the header of the script explains the ladder). A full forced rebuild is
+roughly ten minutes; a re-run with nothing changed is seconds, because
+`worldgen/chain_stages.py` fingerprints each stage's code (its module and
+every worldgen module it imports, walked from the source) and the files it
+actually read and wrote, and prints `skip (unchanged)` when all of them still
+match. The book is `chain-stamps.json` in the vault heightfield directory; it
+is never committed. Each stage prints its own seconds and the run closes with
+a table.
 
 `ES_VAULT_ROOT` points the whole chain at another copy of the vault's
 `argonia-heightfield` directory — a scratch copy for benchmarking, or a second
@@ -29,13 +30,37 @@ worktree building at the same time. Everything downstream follows it through
 `compile_chunks.HEIGHTFIELD_DIR`. (A git worktree cannot see the sibling asset
 vault at all without it, since the vault is resolved relative to the checkout.)
 
-Two things to know before trusting a rebuild:
+Things to know before trusting a rebuild (Phase 16b, decision 0059):
 
-- **The chain is not idempotent.** `sculpt_province` reads `routes.json`,
-  which `reroute_majors` rewrites five stages later, so two consecutive forced
-  runs produce different terrain. The skip check deliberately ignores files
-  whose last writer is a later stage, which reproduces the single-pass
-  behaviour the chain has always had rather than chasing a fixed point.
+- **The ladder: a plain run builds only what Phase 16 has delivered.** The
+  script carries, per chunk, the stages that chunk delivered (cumulative from
+  16b) and `DELIVERED_THROUGH`; stages a later chunk still owns are skipped
+  and printed, because they are the old code and are wrong on the frozen
+  world. `--through 16c` builds to a chunk; `--full` runs everything. A chunk
+  that lands adds its stages and bumps `DELIVERED_THROUGH` in the same commit
+  (Phase 16 plan §3). Published JSON of a skipped stage is stale.
+
+- **The base is frozen and content-addressed.** `sculpt_province`,
+  `shape_province` and `carve_province` refuse to replace an array recorded
+  in `world/sources/terrain/freeze.json` with different bytes unless the run
+  is `--refreeze` (`ES_REFREEZE=1`). A re-freeze is deliberate: run
+  `compile_society` and `python3 -m worldgen.carve_routes --promote`
+  afterwards so the roads are re-solved and carved for on the new ground,
+  and expect the owner to walk the result.
+- **Nothing above the freeze gate loops.** The sculpt's road corridors and the
+  portage lanes are frozen inputs under `province/carve-inputs/`; promoting
+  them is a decision (`carve_routes --promote`), never a side effect.
+- **After the gate the ground moves only by typed patches**
+  (`world/sources/terrain/terrain-patches.json`, authored by
+  `python3 -m worldgen.author_terrain_patches`, applied by
+  `apply_terrain_patches`, proved by `patch_water`). A refused patch is listed
+  in `province/refined/terrain-patches-applied.json` with the invariant it
+  broke; the place adapts. Settlement pads still grade the ground below the
+  gate until 16h makes them patches.
+- **The freeze gate** is `python3 -m worldgen.terrain_preconditions` (also
+  `test_terrain_preconditions.py`): the frozen array must keep every promise
+  the hydrology graph makes; named leftovers live in
+  `world/sources/terrain/freeze-gate-known.json`.
 - **`author_route_structures` stops the chain** whenever grading produces a
   road survivor with no authored `why` sentence. That is by design (the
   sentence is an authoring job, not a default), but it means the chain cannot
@@ -53,8 +78,10 @@ python3 -m worldgen.extract_province "<vault>/mod-sources/tamriel-worldspaces-11
 python3 -m worldgen.compile_hydrology "<...>/argonia-heightfield/heightfield-f32.npy"
 
 # 3. Phase 4: roads, boat lanes, danger, cultures + overlays (reads step 2's npz)
-python3 -m worldgen.hydrology_graph derive     # Phase 16a: the typed water graph (world/sources/hydrology/)
 python3 -m worldgen.compile_society "<...>/argonia-heightfield/hydrology-pass1.npz"
+python3 -m worldgen.shape_province "<...>/heightfield-f32.npy" "<...>/hydrology-pass1.npz"   # valleys, lake, portages, fluvial -> heightfield-shaped
+python3 -m worldgen.hydrology_graph derive     # Phase 16a/b: the typed water graph, solved on the shaped ground (world/sources/hydrology/)
+python3 -m worldgen.carve_province             # trenches, weirs, bowls to the graph -> refined-height-frozen (the freeze)
 
 # 4. Ground-material library (rerun only when the palette changes): CC0
 #    downloads (cached in vault) + vanilla BSA -> studio textures + manifest
@@ -68,12 +95,12 @@ python3 -m worldgen.sculpt_province "<...>/argonia-heightfield/heightfield-f32.n
 #    detail noise, channels carved to the water profile (0047), Blackrose
 #    lake, land cover 0011 w/ north zone + mountain belts + shoreline types,
 #    portages 0012, flood states, exports)
-python3 -m worldgen.refine_province "<...>/heightfield-f32.npy" "<...>/hydrology-pass1.npz"
+python3 -m worldgen.apply_terrain_patches        # frozen base + typed patches -> refined-height-f32 (the natural ground)
 
 # The full rebuild order (refine -> routes -> grading -> chunks -> water ->
 # landcover -> scatter) lives in ONE place: ./scripts/terrain-chain.sh
 # (decision 0025). `python3 -m worldgen.compile_water` alone needs the
-# channels solution refine_province writes beside the refined heights.
+# channels solution carve_province copies beside the refined heights.
 
 # 6. Phase 6: chunk the refined province for collision/LOD (Phase 7 consumes)
 python3 -m worldgen.compile_chunks
@@ -196,7 +223,7 @@ arrangement. None of it changes what any test asserts.
   levee over the ground beside it); falls (cliffs ≥ 3 m at ≥ 50°) as steps
   landing at the next station's level, steep strips, lake-outlet weirs, lost
   stretches, fords at road crossings, captured lakes, channels whose widths
-  touch sharing the lower level. `refine_province` carves the trench to it
+  touch sharing the lower level. `carve_province` carves the trench to it
   (`carve`: parabolic bed, chute notch, shoulder levee with per-kind caps,
   plunge bowls, brink notch, weirs) and saves the solution as
   `province-refined/channels-pass1.npz` beside `refined-height-precarve-f32.npy`;
@@ -223,14 +250,14 @@ arrangement. None of it changes what any test asserts.
   cost-distance fields.
 - `worldgen/routes_raster.py` — routes.json + routes-minor.json as rasters:
   the ONE source of both the road/track/footpath ground paint (consumed by
-  `refine_province` and `rebake_landcover`) and the vegetation clearance
+  `carve_province` and `rebake_landcover`) and the vegetation clearance
   corridors (consumed by `compile_scatter`). Widths in metres via `scale.py`.
   **Re-run `rebake_landcover` and then `compile_scatter` whenever either
   route file changes** — the minor network is derived from the plot, so a
   re-plot moves the paint.
 - `worldgen/society.py` — fixed danger (depth-into-marsh model, decision
   0004/0007) and lore-grounded culture territories.
-- `worldgen/refine_province.py` — Phase 6 province-wide refinement
+- `worldgen/shape_province.py` + `worldgen/carve_province.py` — the shaped ground and the frozen carve (Phase 16b; formerly refine_province)
   (de-terracing, detail noise, channel carving, authored Blackrose lake per
   Lore:Blackrose, portages 0012, flood states, land-cover + tint exports).
 - `worldgen/landcover.py` — semantic land cover × per-region material
@@ -263,4 +290,4 @@ arrangement. None of it changes what any test asserts.
   (gitignored — renders are derived). Fixture + tests in
   `worldgen/testdata/` (0041 Part 0 item 5).
 - `worldgen/compile_hydrology.py`, `worldgen/compile_society.py`,
-  `worldgen/refine_province.py` — the compile entry points above.
+  `worldgen/shape_province.py` / `worldgen/carve_province.py` — the compile entry points above.

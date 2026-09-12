@@ -1,15 +1,16 @@
 import numpy as np
 
-from .refine_province import (CHANNELS, LAKE_BED_M, RAW_M, TERRACE_FRAC,
-                               carve_channels, carve_polyline,
-                               carve_to_profile, detail_noise, _flow_vectors,
-                               impose_blackrose_lake)
+from .shape_province import (CHANNELS, LAKE_BED_M, RAW_M, TERRACE_FRAC,
+                             carve_channels, carve_polyline, detail_noise,
+                             impose_blackrose_lake)
 
 
 def test_d8_targets_decode_to_world_xz_unit_vectors():
     # 0 -> east, 1 -> south, 2 is outlet, 3 -> north-west.
-    flow = np.array([1, 3, -1, 0], dtype=np.int64)
-    vectors = _flow_vectors(flow, (2, 2))
+    from .terrain_patches import Context
+    ctx = Context(np.full((6, 6), -np.inf, np.float32), np.zeros((6, 6), bool), None,
+                  npz={"flow_to": np.array([1, 3, -1, 0], dtype=np.int64).reshape(2, 2)})
+    vectors = ctx.flow_vectors((6, 6))[::3, ::3]
     np.testing.assert_allclose(vectors[0, 0], [1.0, 0.0])
     np.testing.assert_allclose(vectors[0, 1], [0.0, 1.0])
     np.testing.assert_allclose(vectors[1, 0], [0.0, 0.0])
@@ -48,7 +49,8 @@ def test_blackrose_lake_bed_island_and_feeders():
     rivers = np.zeros((300, 300), dtype=np.uint8)
     rivers[20, :] = 2  # a river north of the lake for the NE feeder to find
     rng = np.random.default_rng(2)
-    out = impose_blackrose_lake(h.copy(), (oy, ox), rivers, rng)
+    out, feeders = impose_blackrose_lake(h.copy(), (oy, ox), rivers, rng)
+    assert len(feeders) == 3
     # island (offset + irregular) rises above water somewhere near the centre
     assert out[130:170, 130:170].max() > 0.0
     assert out[130:170, 130:170].min() < -2.0  # lake bed well below sea level
@@ -63,11 +65,13 @@ def test_carve_polyline_reaches_bed_level():
     assert out.min() >= -1.01        # never carves below the bed level
 
 
-def test_carve_to_profile_cuts_a_wet_monotone_bed_and_records_the_solution(tmp_path):
-    """The channel carve (decision 0047): the bed under every station ends
-    up the band's centre depth below a monotone long profile, only ever
-    lowered inside the trench, and the solution is saved for compile_water."""
-    from .channels import CENTRE_DEPTH, ChannelSolution, _sample
+def test_carve_cuts_a_wet_monotone_bed_to_the_graphs_solution():
+    """The channel carve (decision 0047, solved once for the graph in 16b):
+    the bed under every station ends up the band's centre depth below a
+    monotone long profile, only ever lowered inside the trench."""
+    from .carve_province import carve
+    from .channels import CENTRE_DEPTH, _sample
+    from .hydrology_graph import solve
 
     n_c = 24
     h = np.tile(np.linspace(60.0, 57.0, n_c * 3, dtype=np.float32)[:, None],
@@ -84,9 +88,9 @@ def test_carve_to_profile_cuts_a_wet_monotone_bed_and_records_the_solution(tmp_p
            "ocean": np.zeros((n_c, n_c), bool), "regions": np.zeros((n_c, n_c), np.uint8),
            "wetlands": np.zeros((n_c, n_c), bool), "flood": np.zeros((n_c, n_c), np.uint8),
            "lakes": np.zeros((n_c, n_c), bool)}
-    out, stats = carve_to_profile(h.copy(), npz, save_path=tmp_path / "channels.npz")
+    bodies, sol, _report = solve(h, npz, log=lambda *_: None)
+    out, stats = carve(h.copy(), bodies, sol, log=lambda *_: None)
     assert stats["cellsLowered"] > 0
-    sol = ChannelSolution.load(tmp_path / "channels.npz")
     sl = sol.stations_of(0)
     bed = _sample(out, sol.y[sl], sol.x[sl])
     assert (sol.L[sl] - bed >= CENTRE_DEPTH[2] - 0.05).all()   # a real column everywhere

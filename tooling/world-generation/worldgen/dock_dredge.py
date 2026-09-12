@@ -1,4 +1,13 @@
-"""Dredge a dock's approach so the water carries the hull the berth promises.
+"""RETIRED AS A TERRAIN STAGE (Phase 16b, plan §7 ruling 6, owner 2026-09-11):
+natural water is never dredged for a hull class — a berth goes where the
+frozen water already floats the hull, or the place's boats change. Nothing in
+the chain calls `dredge_docks` / `dredge_lanes` any more. The module stays for
+what it MEASURES: `dredge_docks` on a copy of the ground says whether a berth's
+approach carries its hull (`dredged` would have been needed / `blocked`), which
+the placement playbook uses as siting evidence, and `reroute_lanes` reads the
+lane depth constants. The original rule follows for the record.
+
+Dredge a dock's approach so the water carries the hull the berth promises.
 
 THE RULE (write it down once, here):
 
@@ -68,11 +77,11 @@ at or above its own water. Two outcomes, and no third:
 * **portage** — a run of the lane stands ABOVE the local water. Nothing is cut
   (half a trench would hide it) and the run is REPORTED with its length and
   position, because a boat route crossing dry ground is a portage: a real,
-  already-modelled world fact (``refine_province.resolve_portages``) that has
+  already-modelled world fact (``shape_province.resolve_portages``) that has
   to be DECLARED. A lane may not be quietly demoted, and its hull class may
   never be lowered to make the shallow water pass.
 
-Runs in :func:`worldgen.refine_province.carve_to_profile`, after
+Ran inside the refine (retired as a stage, see the top of this file), after
 ``authored_waterways.carve_authored``, on the same full-res sample grid.
 """
 
@@ -118,7 +127,7 @@ LANE_HALF_WIDTH_M = HULL_CHANNEL_HALF_WIDTH_M["canoe"]
 LANE_PORTAGE_MIN_M = 6.0
 # ...and beyond THIS a land crossing stops being a portage and becomes a
 # defect. Read off the province's own declared portages
-# (`refined/portages.json`, written by `refine_province.resolve_portages`):
+# (`refined/portages.json`, written by `shape_province.resolve_portages`):
 # they run 11-89 m. Nobody carries a coasting hull half a kilometre overland,
 # so a longer run is a lane routed across country and has to be re-solved or
 # re-typed — it is reported ``blocked``, never quietly carried.

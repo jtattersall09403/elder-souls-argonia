@@ -284,7 +284,7 @@ def navigable(s: ProvinceSurvey) -> np.ndarray:
     rasters and not one depth. That mask covers 23.42 km2 of which 3.24 km2
     (13.8%) is ground the water compiler publishes as dry, so it licensed
     lanes over dry land: 187 of the cells now published still sit inside it
-    while the depth reads dry. Nothing carves them — `refine_province` carves
+    while the depth reads dry. Nothing carves them — the `poling-channel` terrain patch carves
     the authored list only — so they are typed and listed instead.
     """
     return s.wet_grid

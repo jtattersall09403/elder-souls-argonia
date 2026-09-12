@@ -10,7 +10,7 @@ oxbow scars, wetlands get their dips deepened into real pools, and sheltered
 whitewater mouths get delta distributaries + a mudflat apron.
 
 All randomness draws from the rng PASSED IN (a separate stream from
-refine_province's) so the owner-approved 6b noise lattice is bit-identical.
+shape_province's) so the owner-approved 6b noise lattice is bit-identical.
 """
 
 from __future__ import annotations
@@ -200,7 +200,7 @@ def _condition_bed(h, rivers_coarse, flow_to, filled, step):
 def _delta(h, riv, area, salinity, rng):
     """Distributaries + mudflat apron at the largest sheltered whitewater
     mouth(s) (Galloway simplified, research §4.1)."""
-    from .refine_province import carve_polyline
+    from .shape_province import carve_polyline
     ocean = h <= -0.2
     if not ocean.any():
         return h, 0

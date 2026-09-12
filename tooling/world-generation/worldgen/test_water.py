@@ -383,7 +383,7 @@ def test_compiled_meta_carries_strips_and_cascades(province):
     assert meta["surface"]["ownerFile"] == "water-owner.png"
     assert meta["stats"]["stripCount"] == len(meta["channels"])
     assert meta["stats"]["cascadeCount"] == len(meta["cascades"])
-    assert meta["stats"]["compileSeconds"] < 180
+    assert "compileSeconds" not in meta["stats"], "a wall-clock number in a world record (standard 4)"
     for chn in meta["channels"]:
         kinds = [p["kind"] for p in chn["points"]]
         assert kinds[0] in ("join", "plunge") and kinds[-1] in ("join", "lip")

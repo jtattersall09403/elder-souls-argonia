@@ -21,7 +21,7 @@ refinement and chunking then consume (condition.base_terrain). Two jobs
    stays near-flat with subtle hummocks; mountains get crag, not swell).
    The waterline band |z| < COAST_GUARD_M is untouched (coastline stable),
    and authored/simulated channels are carved AFTER this stage by
-   refine_province, so they cannot be erased.
+   shape_province and carve_province, so they cannot be erased.
 
 Deterministic (fixed seed). All heights true metres, image orientation.
 
@@ -37,9 +37,10 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 
+from .carve_routes import carve_source
 from .condition import condition, interiorness
 from .fastfilter import gaussian
-from .hydrology import d8_flow, fill_depressions, ocean_mask, resolve_flats
+from .hydrology import d8_flow, fill_depressions, ocean_mask, resolve_flats, sea_connected
 from .scale import RAW_M
 
 SEED = 20260824
@@ -71,12 +72,21 @@ ANCHOR_CLEAR_M = 320.0
 # Structural benching (full res): strata bands on steep high faces.
 BENCH_BAND_M = 26.0           # vertical distance between cliff bands
 BENCH_STRENGTH = 0.34         # 0..~0.5: tread flattening / riser steepening
-BENCH_MIN_Z = 110.0           # no benching below (foothills stay fluid)
+BENCH_MIN_Z = 45.0            # no benching below (Phase 16b: was 110 — the
+                              # foothill faces between 45 and 110 m read as
+                              # smooth grey; C5 in the phase plan)
+BENCH_BAND_VARY = 0.40        # band spacing varies by +-this fraction over ~250 m
+BENCH_VARY_SIGMA = 140.0      # ...so ledges are not evenly spaced strata
 BENCH_MIN_SLOPE = 0.55        # only faces steeper than ~29 deg
 BENCH_WARP_M = 18.0           # strata surfaces undulate, not level planes
 # Full-res crag texture on steep mountain faces (ridged noise, metres).
 CRAG_AMP_M = 5.0
 CRAG_MIN_SLOPE = 0.35
+# Erosion pits (Phase 16b, ruling 2): above PIT_MIN_Z a closed depression
+# smaller than PIT_KEEP_AREA_M2 is filled to its spill; what survives is a
+# tarn the hydrology graph names (>= 1 ha, hydrology_graph.LAKE_MIN_M2).
+PIT_MIN_Z = 30.0              # = hydrology_graph.LOWLAND_MAX_M: lowland pools are marsh, not pits
+PIT_KEEP_AREA_M2 = 10_000.0
 
 # --- Naturalness -------------------------------------------------------------
 DETERRACE_ITERS = 4
@@ -89,9 +99,26 @@ UNDULATION = (                # (gaussian sigma px @ full res, amplitude m)
 )
 MARSH_UND_FRACTION = 0.15     # low flat ground keeps only hummock-scale swell
 COAST_GUARD_M = 0.8           # |z| below this: untouched (coastline stable)
+# Coastal shelf steps (Phase 16b). The source heightmap's quantised lowland
+# shelves meet the sea as a single-sample wall (-0.05 m beside 13.5 m at The
+# Break); the water graph then measures a "waterfall" wherever a creek drops
+# off one. Only real relief makes a fall (owner, 2026-09-11), so a low bank
+# that steps straight into sea-level water is ramped down to the shore at
+# COAST_BANK_GRADE. A bank taller than COAST_BANK_MAX_Z is a sea cliff and is
+# kept: that is the coast's drama, and a river over it is a real fall.
+COAST_BANK_MAX_Z = 15.0       # = hydrology_graph.SUSPECT_FALL_LIP_M
+COAST_BANK_STEP_M = 2.0       # a sample-to-sample drop into the sea taller than this
+COAST_BANK_GRADE = 0.35       # the ramp: rise over run (~19 deg, a steep beach)
+COAST_BANK_REACH_M = 60.0     # how far inland the ramp may reach from the step
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-ROUTES_JSON = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "routes.json"
+# The road corridors the uplift is suppressed along. A FROZEN input
+# (`carve-inputs/sculpt-corridors.json`, seeded once from the published
+# network and never re-promoted by `carve_routes --promote`): the published
+# `routes.json` is rewritten by `reroute_majors` from the ground this very
+# stage shapes, and reading it here was the chain's last live cycle (Phase 16b,
+# decision 0059). Re-seeding it is a deliberate act: delete the file, re-sculpt.
+SCULPT_CORRIDORS = "sculpt-corridors.json"
 ANCHORS_JSON = REPO_ROOT / "world" / "sources" / "anchors" / "settlement-anchors.json"
 
 
@@ -119,9 +146,10 @@ def corridor_and_anchor_mask(shape, m_per_px):
     """1 where uplift must stay suppressed (road corridors, anchors), feathered."""
     mask = np.zeros(shape, dtype=np.float32)
     half_px = max(int(CORRIDOR_HALF_W_M / m_per_px), 2)
-    if ROUTES_JSON.exists():
+    routes_json = carve_source(SCULPT_CORRIDORS)
+    if routes_json is not None:
         hard = np.zeros(shape, dtype=bool)
-        for route in json.loads(ROUTES_JSON.read_text()).get("routes", []):
+        for route in json.loads(routes_json.read_text()).get("routes", []):
             for (x0, y0), (x1, y1) in zip(route.get("px", []), route.get("px", [])[1:]):
                 n = int(max(abs(x1 - x0), abs(y1 - y0))) + 1
                 xs = np.clip(np.linspace(x0, x1, n).round().astype(int), 0, shape[1] - 1)
@@ -226,8 +254,10 @@ def bench(z, envelope_full, rng):
          * _smoothstep(BENCH_MIN_SLOPE, BENCH_MIN_SLOPE + 0.25, slope)
          * envelope_full * np.clip(strata_on, 0.0, 1.0))
     warp = BENCH_WARP_M * _noise(z.shape, 60.0, rng)
-    phase = (z + warp) / BENCH_BAND_M
-    push = -np.sin(2.0 * np.pi * phase) * (BENCH_BAND_M / (2.0 * np.pi))
+    # the vertical spacing between ledges wanders: real strata thin and thicken
+    band = BENCH_BAND_M * (1.0 + BENCH_BAND_VARY * np.clip(_noise(z.shape, BENCH_VARY_SIGMA, rng), -1.0, 1.0))
+    phase = (z + warp) / band
+    push = -np.sin(2.0 * np.pi * phase) * (band / (2.0 * np.pi))
     return (z + BENCH_STRENGTH * w * push).astype(np.float32), slope
 
 
@@ -240,6 +270,35 @@ def crag(z, envelope_full, slope, rng):
     return (z + CRAG_AMP_M * w * r).astype(np.float32)
 
 
+def coastal_banks(z, coast_ok, log=print):
+    """Ramp low quantised shelves that step straight into sea-level water.
+
+    Returns (z, step cells found, step cells left). A cell is a step when it
+    stands under COAST_BANK_MAX_Z, touches water below 0 and drops more than
+    COAST_BANK_STEP_M into it in one sample. Within COAST_BANK_REACH_M of a
+    step the ground is lowered to at most COAST_BANK_GRADE x its distance from
+    the water (only ever lowered, the coast guard band untouched), so the
+    shelf becomes a slope that meets the shore.
+    """
+    sea = sea_connected(z) & (z < 0.0)
+    lo = ndimage.minimum_filter(z, size=3)
+    touches = ndimage.binary_dilation(sea, iterations=1) & ~sea
+    step = touches & (z - lo > COAST_BANK_STEP_M) & (z < COAST_BANK_MAX_Z)
+    n_before = int(step.sum())
+    if not n_before:
+        return z, 0, 0
+    reach_px = max(int(round(COAST_BANK_REACH_M / RAW_M)), 1)
+    zone = ndimage.binary_dilation(step, iterations=reach_px) & ~sea & (z < COAST_BANK_MAX_Z + 1.0)
+    d_sea = (ndimage.distance_transform_edt(~sea) * RAW_M).astype(np.float32)
+    ramp = (COAST_BANK_GRADE * d_sea).astype(np.float32)
+    target = np.minimum(z, ramp)
+    z = np.where(zone, z + coast_ok * (target - z), z).astype(np.float32)
+    lo = ndimage.minimum_filter(z, size=3)
+    left = int((touches & (z - lo > COAST_BANK_STEP_M) & (z < COAST_BANK_MAX_Z)).sum())
+    log(f"  coastal banks: {n_before} shelf-step cells ramped over {int(zone.sum())} cells, {left} left")
+    return z, n_before, left
+
+
 def naturalness(z, envelope_full, rng, log=print):
     """De-terracing + region-proxy-weighted undulation, coast-guarded."""
     # LANDFORM slope (sigma 8 px ~ 15 m), not texture slope: fine steps and
@@ -249,6 +308,7 @@ def naturalness(z, envelope_full, rng, log=print):
     slope0 = np.hypot(gy, gx).astype(np.float32)
     del gy, gx
     coast_ok = _smoothstep(COAST_GUARD_M * 0.5, COAST_GUARD_M, np.abs(z))
+    z, _, _ = coastal_banks(z, coast_ok, log=log)
     # smoothing weight: strong on low, gentle ground; weak on steeps/mountains
     w_flat = (np.clip(1.0 - (z - 8.0) / 45.0, 0.25, 1.0)
               * _smoothstep(0.14, 0.04, slope0)
@@ -348,6 +408,14 @@ def sculpt(full_conditioned, rng, log=print):
     # never surface — the waterline cannot move.
     sea = full_conditioned < -0.05
     z[sea] = np.minimum(full_conditioned[sea] + np.clip(z[sea] - full_conditioned[sea], -2.5, 2.5), -0.05)
+    # The pit fill drains only to sea-CONNECTED water: the source has a
+    # below-sea data hole inside 97 m terrain by Zuuk (2654, 48), and calling
+    # it "sea" kept it out of the fill and shipped a 99 m deep pond (Phase 16b).
+    # Every other below-sea cell keeps its bathymetry as before (the lowland's
+    # sea-level marsh hollows are water, not land to be lifted).
+    from .pits import fill_small_high_pits
+    drain = sea_connected(full_conditioned) & sea
+    z, pit_report = fill_small_high_pits(z, drain, PIT_MIN_Z, PIT_KEEP_AREA_M2, RAW_M, log=log)
 
     report = {
         "summitM": round(float(z.max()), 1),
@@ -357,5 +425,6 @@ def sculpt(full_conditioned, rng, log=print):
             np.abs(z - full_conditioned)[env_full < 0.02].mean()), 3),
         "maxAbsDeltaOutsideEnvelopeM": round(float(
             np.abs(z - full_conditioned)[env_full < 0.02].max()), 2),
+        "pits": pit_report,
     }
     return z, report

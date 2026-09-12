@@ -33,20 +33,14 @@ standard 4) needs its inputs in the tree, not regenerated per machine.
 
 PROMOTING. When you deliberately want the terrain recarved for the networks as
 they now stand — a new road solved, a new minor network — run `--promote` and
-then the chain. That re-runs `refine_province` and everything below it, which
+then the chain. That re-runs `shape_province` and everything below it, which
 is the honest cost of moving a road, and it is a decision someone takes rather
 than a thing the chain does to itself every run. A plain chain run PRINTS the
 drift and carries on with the frozen ground.
 
-STILL OPEN — `sculpt.corridor_and_anchor_mask` (sculpt.py:113) reads
-`routes.json` for the same corridor suppression and carries the same bug. It
-is NOT fixed here on purpose: `sculpt_province` derives the base terrain the
-owner approved at the Phase 6b walk gate and must never re-run, and editing
-`sculpt.py` would change its code fingerprint and leave the chain permanently
-wanting to re-derive it. Make the change (`ROUTES_JSON` -> `carve_source`) in
-the same commit as the `--allow-sculpt` guard, the next time the sculpt is
-legitimately re-run. Until then the sculpt is inert — its output never moves —
-so the cycle is broken in practice.
+CLOSED 2026-09-11 (Phase 16b): `sculpt.corridor_and_anchor_mask` reads
+`carve-inputs/sculpt-corridors.json`, a FROZEN_ONCE input that `--promote`
+never touches, in the same change that re-froze the sculpt (decision 0059).
 """
 
 from __future__ import annotations
@@ -64,11 +58,23 @@ SNAP_DIR = "carve-inputs"
 SOURCES = {
     "routes.json": ("routes-natural.json", "routes.json"),
     "routes-minor.json": ("routes-minor.json",),
+    # the boat lanes `shape_province.resolve_portages` carves canoe channels
+    # for; the published `waterways.json` is rewritten in place by
+    # `reroute_lanes` from the water the carve makes (Phase 16b)
+    "waterways.json": ("waterways-natural.json", "waterways.json"),
+}
+# Frozen ONCE: seeded on first use and never re-promoted by `--promote`.
+# `sculpt.corridor_and_anchor_mask` reads its road corridors here; promoting
+# it would re-stale the sculpt after every society re-solve, which is the
+# cycle the freeze exists to end (Phase 16b, decision 0059). To re-seed it,
+# delete the file and re-sculpt on purpose.
+FROZEN_ONCE = {
+    "sculpt-corridors.json": ("routes.json", "routes-natural.json"),
 }
 
 
 def _published(province: Path, name: str) -> Path | None:
-    for candidate in SOURCES[name]:
+    for candidate in {**SOURCES, **FROZEN_ONCE}[name]:
         path = province / candidate
         if path.exists():
             return path
@@ -139,7 +145,7 @@ def main(argv: list[str] | None = None) -> None:
         done = promote()
         print("carve-inputs: already current" if not done
               else "carve-inputs promoted:\n  " + "\n  ".join(done)
-                   + "\n  Run the chain: refine_province and everything below it rebuilds.")
+                   + "\n  Run the chain: shape_province and everything below it rebuilds.")
         return
     moved = drift()
     print("carve-inputs: current — the terrain is carved for the published networks"

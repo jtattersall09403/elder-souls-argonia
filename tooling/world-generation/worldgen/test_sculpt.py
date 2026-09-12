@@ -54,9 +54,16 @@ def test_lowlands_contained(terrain):
     metre-plus quantisation walls (moves cells by up to ~half the tallest
     lowland riser); anything beyond that means an orogeny leak."""
     base, z, env, _ = terrain
-    outside = env < 0.02
+    # the coastal-bank ramp (Phase 16b) deliberately lowers quantised shelves
+    # by up to their whole height within COAST_BANK_REACH_M of the sea
+    from .hydrology import sea_connected
+    from .sculpt import COAST_BANK_REACH_M
+    sea = sea_connected(base) & (base < 0.0)
+    coast = ndimage.distance_transform_edt(~sea) * M_C <= COAST_BANK_REACH_M + M_C
+    outside = (env < 0.02) & ~coast
     delta = np.abs(z - base)[outside]
-    assert delta.mean() < 0.6, f"mean lowland delta {delta.mean():.2f} m"
+    # 0.60 before Phase 16b; the pit fill (ruling 2) raises ~110k cells to their spill
+    assert delta.mean() < 0.65, f"mean lowland delta {delta.mean():.2f} m"
     assert delta.max() < 9.0, f"max lowland delta {delta.max():.2f} m"
 
 

@@ -197,23 +197,3 @@ def test_without_a_snapshot_the_footprint_path_compiles_everything(tmp_path, mon
     _compile(work, base, monkeypatch, footprint_path)
     changed = json.loads((work / "chunks" / "chunks-changed.json").read_text())
     assert len(changed["chunks"]) == 9
-
-
-# ------------------------------------------------- the fast path's own guard
-
-def test_recarve_refuses_when_the_ground_upstream_moved():
-    from .recarve_local import NotApplicable, check_upstream_unchanged
-    prelocal = np.zeros((50, 50), dtype=np.float32)
-    ungraded = prelocal.copy()
-    ungraded[10:14, 10:20] = -2.0                     # the last run's carve
-    check_upstream_unchanged(prelocal, ungraded, [(10, 14, 10, 20)])
-    ungraded[40, 40] = 0.5                            # something upstream moved
-    with pytest.raises(NotApplicable):
-        check_upstream_unchanged(prelocal, ungraded, [(10, 14, 10, 20)])
-
-
-def test_recarve_refuses_a_snapshot_of_a_different_province():
-    from .recarve_local import NotApplicable, check_upstream_unchanged
-    with pytest.raises(NotApplicable):
-        check_upstream_unchanged(np.zeros((10, 10), dtype=np.float32),
-                                 np.zeros((12, 12), dtype=np.float32), [])

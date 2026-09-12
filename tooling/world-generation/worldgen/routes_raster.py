@@ -59,7 +59,7 @@ GROUNDED_KINDS = frozenset({"lip-step", "stair", "stepped-ascent"})
 # the erase is inset this far at each end and the last metres of paint run in
 # under the deck ends.
 ABUTMENT_INSET_M = 4.0
-# Erase width for the major-road stripe: `refine_province.rasterize_roads`
+# Erase width for the major-road stripe: `routes_raster.rasterize_roads`
 # dilates 2 iterations (~9 m); one iteration more, so the whole stripe goes even
 # where the frozen carve line and the published centreline the structures were
 # measured on have drifted by a texel.
@@ -275,3 +275,23 @@ def corridor_masks(shape, step: int, origin_full=(0, 0), province: Path | None =
             it = _iterations(width)
             target |= ndimage.binary_dilation(line, iterations=it) if it else line
     return trunk, ground
+
+
+def rasterize_roads(shape, origin_full=(0, 0), step: int = 3) -> np.ndarray:
+    """The FROZEN major-road corridors (macro [x, y] px) as a bool mask ~27 m
+    wide at full resolution. Water rules override later, so crossings stay
+    unpainted (bridges/ferries are placed features). Reads `carve_routes`'
+    frozen network, never the published `routes.json` that `reroute_majors`
+    rewrites from this very ground (the chain could not settle otherwise)."""
+    from .carve_routes import carve_polylines
+    mask = np.zeros(shape, dtype=bool)
+    for px in carve_polylines():
+        for (x0m, y0m), (x1m, y1m) in zip(px, px[1:]):
+            x0, y0 = x0m * step - origin_full[1], y0m * step - origin_full[0]
+            x1, y1 = x1m * step - origin_full[1], y1m * step - origin_full[0]
+            steps = int(max(abs(x1 - x0), abs(y1 - y0))) + 1
+            xs = np.linspace(x0, x1, steps).round().astype(int)
+            ys = np.linspace(y0, y1, steps).round().astype(int)
+            ok = (xs >= 0) & (xs < shape[1]) & (ys >= 0) & (ys < shape[0])
+            mask[ys[ok], xs[ok]] = True
+    return ndimage.binary_dilation(mask, iterations=2)

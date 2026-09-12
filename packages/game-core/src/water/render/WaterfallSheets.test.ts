@@ -583,7 +583,18 @@ describe("bounded builder on synthetic worst cases", () => {
   });
 });
 
-describe("shipped cascade geometry (smoke: whatever water-meta.json ships, v1 or v2)", () => {
+// The Phase 16 ladder (province/ladder.json): the shipped water is judged
+// only once its chunk (16c) has delivered it; until then the water layer is
+// hidden and the file on disk is the old compiler's output on new ground.
+function waterDelivered(): boolean {
+  try {
+    const ladder = JSON.parse(readFileSync(fileURLToPath(
+      new URL("../../../../../apps/world-studio/public/province/ladder.json", import.meta.url)), "utf8"));
+    return !(ladder.hiddenLayers ?? []).includes("water");
+  } catch { return true; }
+}
+
+describe.skipIf(!waterDelivered())("shipped cascade geometry (smoke: whatever water-meta.json ships, v1 or v2) [skipped until the ladder delivers water, 16c]", () => {
   // WATER_META_PATH lets a reviewer run this smoke against another export
   // (e.g. `git show HEAD:...water-meta.json > /tmp/v1.json`).
   const metaPath = process.env.WATER_META_PATH ?? fileURLToPath(

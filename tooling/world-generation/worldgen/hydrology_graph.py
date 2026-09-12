@@ -5,9 +5,16 @@ with stable ids (Phase 16a; decision 0058).
     python3 -m worldgen.hydrology_graph check  [PATH]
     python3 -m worldgen.hydrology_graph report [PATH]
 
-Inputs are the two FROZEN artefacts of the terrain stage: the sculpted base
-heightfield (`heightfield-sculpted-f32.npy`) and the coarse hydrology pass
-(`hydrology-pass1.npz`). Output is `world/sources/hydrology/hydrology-graph.json`
+Inputs are two FROZEN artefacts of the terrain stage: the SHAPED base
+(`heightfield-shaped-f32.npy`, the sculpt with its valleys, lake, portages
+and fluvial pass — `shape_province`, Phase 16b) and the coarse hydrology
+pass (`hydrology-pass1.npz`). The graph is solved on the shaped ground
+because that is the ground `carve_province` cuts the trenches into: a
+profile solved on the raw sculpt would put a river's level above a valley
+the fluvial pass has since lowered, and the carve would build it a dyke
+(decision 0059). `derive` also saves the solvers' outputs beside the graph
+(`hydrology-graph-solution.npz`, `hydrology-graph-bodies.npz`) so the carve
+realises exactly the curve the graph names. Output is `world/sources/hydrology/hydrology-graph.json`
 (schema in world/sources/hydrology/README.md) plus the 2D-map layers the
 owner reviews it on (`apps/world-studio/public/province/hydrograph-*.png`).
 
@@ -67,6 +74,7 @@ BODY_KINDS = (
     "ocean", "lagoon", "lake-lowland", "tarn-upland", "pond", "pool", "plunge-pool",
     "marsh-fringe", "marsh-deep", "swamp", "backswamp", "mudflat",
 )
+MARSH_KINDS = ("marsh-fringe", "marsh-deep", "swamp", "backswamp", "mudflat")
 SEASONS = ("perennial", "seasonal", "ephemeral")
 ALTITUDE_BANDS = ("tidal", "lowland", "upland", "montane")
 WATER_CLASSES = ("whitewater", "blackwater", "clearwater")
@@ -79,7 +87,7 @@ CHUTE_SLOPE = 0.50                       # ~27 deg: a slide short of a fall (fal
 LAKE_MIN_M2 = 10_000.0                   # 1 ha: lake / tarn
 POND_MIN_M2 = 500.0                      # pond; smaller is a pool
 LOWLAND_MAX_M = 30.0                     # altitude bands on the body's level
-UPLAND_MAX_M = 110.0                     # sculpt.BENCH_MIN_Z: cliff benching starts here
+UPLAND_MAX_M = 110.0                     # montane above this (the pre-16b benching floor)
 MARSH_DEEP_MIN_DEPTH_M = 0.5
 MIN_RUN_STATIONS = 6                     # ~11 m: shorter class flickers are merged
 MIN_SURFACE_RUN_M = 30.0                 # a channel or strip surface shorter than this is absorbed by
@@ -88,6 +96,7 @@ DRY_SEASON_FRACTION = 0.2                # tide.ts seasonOffset: the dry season 
 SUSPECT_FALL_LIP_M = 15.0                # a "fall" off a low lip into the sea or a lagoon is a
                                          # coastal terrace step in the source data, flagged for 16b
 AUTHORED_BODIES_PATH = GRAPH_DIR / "authored-bodies.json"
+AUTHORED_FEEDERS: Path | None = None      # tests point this at a fixture; None = the vault's file
 WHITEWATER_MOUNTAIN_FRAC = 0.20          # rulebook §2
 BLACKWATER_PEAT_FRAC = 0.50
 GORGE_RISE_M = 2.0                       # valley width measured to this rise above the floor
@@ -113,13 +122,46 @@ BRACKISH_SALINITY = 0.15                 # sea-level water fresher than this is 
 # inputs and the two solvers
 # ---------------------------------------------------------------------------
 
+SOLUTION_FILE = "hydrology-graph-solution.npz"   # channels.ChannelSolution, after pool_channels
+BODIES_FILE = "hydrology-graph-bodies.npz"       # level / sea / marshy rasters of standing_water.solve_bodies
+FEEDERS_FILE = "authored-feeders.json"           # written by shape_province: the Blackrose feeder carves
+
+
 def load_inputs(vault: Path = DEFAULT_VAULT):
     import numpy as np
-    height = vault / "heightfield-sculpted-f32.npy"
+    from .freeze import SHAPED
+    height = vault / SHAPED
+    if not height.exists():
+        raise SystemExit(f"{height} missing: run worldgen.shape_province first (the graph is solved on the shaped ground)")
     g = np.load(height)
     npz = np.load(vault / "hydrology-pass1.npz")
     sha = hashlib.sha256(g.tobytes()).hexdigest()
     return g, npz, sha
+
+
+def save_solution(vault: Path, bodies, sol) -> None:
+    """The solvers' outputs the carve reads back (decision 0059: solved once)."""
+    from .npz_io import savez
+    sol.save(vault / SOLUTION_FILE)
+    savez(vault / BODIES_FILE, compressed=False, level=bodies.level, sea=bodies.sea,
+          marshy=bodies.marshy, census=json.dumps(bodies.census))
+
+
+def load_solution(vault: Path, g):
+    """(bodies, sol) as `derive` left them, rebuilt on the shaped ground `g`."""
+    import numpy as np
+    from . import channels
+    from . import standing_water as sw
+    sol = channels.ChannelSolution.load(vault / SOLUTION_FILE)
+    z = np.load(vault / BODIES_FILE)
+    gy, gx = np.gradient(g, RAW_M)
+    slope = np.hypot(gy, gx).astype(np.float32)
+    del gy, gx
+    bodies = sw.BodySolution(g=g.astype(np.float32), sea=z["sea"], filled=None, slope=slope,
+                             census=json.loads(str(z["census"])), depression=None, n_depressions=0,
+                             marshy=z["marshy"], forced=[])
+    bodies.set_level(z["level"])
+    return bodies, sol
 
 
 def solve(g: np.ndarray, npz, log=print):
@@ -228,7 +270,80 @@ def classify_body(area_m2: float, max_depth: float, mean_depth: float, sheet: bo
     return "pool"
 
 
-def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict:
+def measure_bodies(g, bodies, reg_c, sal_c, resp, mpp: float) -> list[dict]:
+    """One record per accepted body of a `standing_water` solve on `g`, keyed
+    by its deepest cell. Used by the derive (measured bodies) and by the carve
+    stage's extension rule (bodies the carve itself made)."""
+    import numpy as np
+    from scipy import ndimage
+    from . import standing_water as sw
+    shape = g.shape
+    body_lbl = bodies.body
+    nb = int(bodies.n)
+    out: list[dict] = []
+    if not nb:
+        return out
+    reg_up = sw.upsample(reg_c, STEP, shape)
+
+    def coarse_at(arr, x, y):
+        return arr[min(int(y) // STEP, arr.shape[0] - 1), min(int(x) // STEP, arr.shape[1] - 1)]
+
+    idx = np.arange(1, nb + 1)
+    argmin = ndimage.minimum_position(g, body_lbl, idx)
+    bbox = ndimage.find_objects(body_lbl)
+    lvl_cell = np.concatenate([[0.0], bodies.levels]).astype(np.float32)[body_lbl]
+    mean_depth = np.asarray(ndimage.mean(lvl_cell - g, body_lbl, idx), dtype=np.float64)
+    # region composition of each body: a histogram of region class x body
+    rc_hist = np.zeros((nb + 1, 16), dtype=np.int64)
+    np.add.at(rc_hist, (body_lbl.ravel(), np.minimum(reg_up.ravel(), 15)), 1)
+    # ...over the body's shore ring too (the water cells are class 12)
+    ring = ndimage.grey_dilation(body_lbl, size=5)
+    ring = np.where(body_lbl == 0, ring, 0)
+    np.add.at(rc_hist, (ring.ravel(), np.minimum(reg_up.ravel(), 15)), 1)
+    for i in range(nb):
+        dy, dx = argmin[i]
+        dx, dy = int(dx), int(dy)
+        bid = f"body.{dx}-{dy}"
+        level = float(bodies.levels[i])
+        area = float(bodies.areas[i]) * mpp * mpp
+        depth = float(bodies.reliefs[i])
+        sheet = bool(bodies.sheet[i])
+        region = int(coarse_at(reg_c, dx, dy))
+        tidal = level <= 1.5 and float(coarse_at(sal_c, dx, dy)) >= BRACKISH_SALINITY
+        if tidal:
+            band = "tidal"
+        elif level < LOWLAND_MAX_M:
+            band = "lowland"
+        elif level < UPLAND_MAX_M:
+            band = "upland"
+        else:
+            band = "montane"
+        counts = {k: int(v) for k, v in enumerate(rc_hist[i + 1]) if v}
+        kind = classify_body(area, depth, float(mean_depth[i]), sheet, counts, tidal, band)
+        rp = float(resp[i])
+        amp = sw.SEASON_AMPLITUDE_M
+        dry_drop = DRY_SEASON_FRACTION * amp * rp
+        sy, sx = bbox[i]
+        out.append({
+            "id": bid, "kind": kind, "origin": "measured",
+            "levelM": _r(level), "altitudeBand": band,
+            "areaM2": _r(area, 0), "maxDepthM": _r(depth), "sheet": sheet,
+            "season": "perennial" if depth > dry_drop else "seasonal",
+            "seasonResponse": _r(rp, 3),
+            "wetSeasonLevelM": _r(level + amp * rp), "drySeasonLevelM": _r(level - dry_drop),
+            "deepestCell": [dx, dy],
+            "bboxCells": [int(sx.start), int(sy.start), int(sx.stop), int(sy.stop)],
+            "region": region, "meanDepthM": _r(float(mean_depth[i])),
+            "inflow": [], "outflow": None,
+            "terrainPrecondition": {"kind": "bowl", "levelM": _r(level), "floorMaxM": _r(level - depth),
+                                    "spillM": _r(level)},
+            "_label": i + 1,
+        })
+    return out
+
+
+def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
+                feeders_path: Path | None = None) -> dict:
     import numpy as np
     from scipy import ndimage
     from . import channels
@@ -370,7 +485,9 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
             return "horizontal-tidal"
         return "horizontal-channel"
 
-    ocean_c = npz["ocean"]
+    # the routing sink (every sea-connected coarse cell, Phase 16b); a river
+    # reaching it has reached the sea, whatever body stands there
+    ocean_c = npz["sea"] if "sea" in npz.files else npz["ocean"]
     flow_c = npz["flow_to"].reshape(-1)
 
     lakes_c = npz["lakes"]
@@ -388,7 +505,8 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
         i = cy * ocean_c.shape[1] + cx
         for _ in range(max_cells):
             if ocean_flat[i]:
-                return ("sea", None)
+                ly, lx = divmod(i, ocean_c.shape[1])
+                return ("sea", body_at(lx * STEP + 1, ly * STEP + 1))
             if lakes_flat[i]:
                 ly, lx = divmod(i, ocean_c.shape[1])
                 b = body_at(lx * STEP + 1, ly * STEP + 1)
@@ -404,67 +522,27 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
 
     # ---- bodies: ids and per-body facts (measured on the base)
     body_lbl = bodies.body
-    nb = int(bodies.n)
-    body_ids: list[str] = []
-    body_rec: list[dict] = []
-    deep_cells = []
+    body_rec = measure_bodies(g, bodies, reg_c, sal_c, resp, mpp)
+    body_ids = [b["id"] for b in body_rec]
     reg_up = sw.upsample(reg_c, STEP, shape)
     sal_up = sw.upsample(sal_c, STEP, shape)
-    if nb:
-        idx = np.arange(1, nb + 1)
-        argmin = ndimage.minimum_position(g, body_lbl, idx)
-        bbox = ndimage.find_objects(body_lbl)
-        lvl_cell = np.concatenate([[0.0], bodies.levels]).astype(np.float32)[body_lbl]
-        mean_depth = np.asarray(ndimage.mean(lvl_cell - g, body_lbl, idx), dtype=np.float64)
-        # region composition of each body: a histogram of region class x body
-        rc_hist = np.zeros((nb + 1, 16), dtype=np.int64)
-        np.add.at(rc_hist, (body_lbl.ravel(), np.minimum(reg_up.ravel(), 15)), 1)
-        # ...over the body's shore ring too (the water cells are class 12)
-        ring = ndimage.grey_dilation(body_lbl, size=5)
-        ring = np.where(body_lbl == 0, ring, 0)
-        np.add.at(rc_hist, (ring.ravel(), np.minimum(reg_up.ravel(), 15)), 1)
-        for i in range(nb):
-            dy, dx = argmin[i]
-            deep_cells.append((int(dx), int(dy)))
-    for i in range(nb):
-        dx, dy = deep_cells[i]
-        bid = f"body.{dx}-{dy}"
-        body_ids.append(bid)
-        level = float(bodies.levels[i])
-        area = float(bodies.areas[i]) * mpp * mpp
-        depth = float(bodies.reliefs[i])
-        sheet = bool(bodies.sheet[i])
-        region = int(coarse_at(reg_c, dx, dy))
-        tidal = level <= 1.5 and float(coarse_at(sal_c, dx, dy)) >= BRACKISH_SALINITY
-        if tidal:
-            band = "tidal"
-        elif level < LOWLAND_MAX_M:
-            band = "lowland"
-        elif level < UPLAND_MAX_M:
-            band = "upland"
-        else:
-            band = "montane"
-        counts = {k: int(v) for k, v in enumerate(rc_hist[i + 1]) if v}
-        kind = classify_body(area, depth, float(mean_depth[i]), sheet, counts, tidal, band)
-        rp = float(resp[i])
-        amp = sw.SEASON_AMPLITUDE_M
-        dry_drop = DRY_SEASON_FRACTION * amp * rp
-        sy, sx = bbox[i]
-        body_rec.append({
-            "id": bid, "kind": kind, "origin": "measured",
-            "levelM": _r(level), "altitudeBand": band,
-            "areaM2": _r(area, 0), "maxDepthM": _r(depth), "sheet": sheet,
-            "season": "perennial" if depth > dry_drop else "seasonal",
-            "seasonResponse": _r(rp, 3),
-            "wetSeasonLevelM": _r(level + amp * rp), "drySeasonLevelM": _r(level - dry_drop),
-            "deepestCell": [dx, dy],
-            "bboxCells": [int(sx.start), int(sy.start), int(sx.stop), int(sy.stop)],
-            "region": region, "meanDepthM": _r(float(mean_depth[i])),
-            "inflow": [], "outflow": None,
-            "terrainPrecondition": {"kind": "bowl", "levelM": _r(level), "floorMaxM": _r(level - depth),
-                                    "spillM": _r(level)},
-        })
     body_index = {b["id"]: b for b in body_rec}
+    # a body a channel runs THROUGH at a lower level is captured: the carve
+    # drains it to the trench and the compile refills it at the river's level
+    # (channels.capture_neighbours); its own spill is no longer a promise
+    cap = getattr(sol, "captured", None)
+    if cap is not None and np.any(cap):
+        cy = np.clip(np.round(sol.y[cap]).astype(int), 0, shape[0] - 1)
+        cx = np.clip(np.round(sol.x[cap]).astype(int), 0, shape[1] - 1)
+        for i in np.unique(body_lbl[cy, cx]):
+            if i <= 0:
+                continue
+            rec = body_rec[int(i) - 1]
+            here = body_lbl[cy, cx] == i
+            rec["captured"] = True
+            rec["terrainPrecondition"] = {"kind": "captured", "levelM": rec["levelM"],
+                                          "channelLevelM": _r(float(np.min(sol.L[cap][here]))),
+                                          "floorMaxM": rec["terrainPrecondition"]["floorMaxM"]}
 
     # the sea and the lagoons: sea-connected water below 0 that the coarse
     # ocean mask does not call ocean (inland arms) is a lagoon body
@@ -661,21 +739,39 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
                         # source heightmap's quantised coastal shelf, not relief
                         rec["fall"]["suspect"] = "coastal-terrace-step"
                         suspect_falls += 1
+                    # the face is the shaped ground's (the carve leaves it alone but
+                    # notches the lip and digs the bowl), so the promise is the
+                    # fall rule's MEAN slope over the face, not the per-station one
                     rec["terrainPrecondition"] = {"kind": "fall-face", "lipLevelM": _r(sol.L[lip_k]),
                                                   "plungeLevelM": _r(sol.L[plunge_k]), "dropM": _r(drop),
-                                                  "faceMinSlope": channels.FALL_FACE_SLOPE,
+                                                  "faceMinSlope": channels.FALL_SLOPE,
                                                   "widthM": _r(width, 1), "lipNotch": True}
                 elif kind == "horizontal-backwater":
                     bid = body_at(sol.x[k0 + (b - a) // 2], sol.y[k0 + (b - a) // 2]) or body_at(sol.x[k0], sol.y[k0])
                     rec["bodyId"] = bid
                     rec["terrainPrecondition"] = {"kind": "in-body", "bodyId": bid, "levelM": _r(L0)}
                 else:
-                    weir = bool(np.mean(sol.sill[st]) > 0.5)
+                    # a weir holds a lake ABOVE the sea; the carve never raises a
+                    # sill at 0 (a sea-level outlet is the sea), so it is no weir
+                    weir = bool(np.mean(sol.sill[st]) > 0.5) and L0 > 0.0
+                    # the bed the carve will cut: L - D x ramp (the ramp eases the
+                    # depth in past a lake outlet); a weir's bed IS the lake level
+                    ramp = sol.ramp if hasattr(sol, "ramp") else np.ones(sol.n, dtype=np.float32)
+                    beds = sol.L[st] - sol.depth_cut[st] * ramp[st]
                     rec["terrainPrecondition"] = {
                         "kind": "weir" if weir else "trench",
-                        "bedLevelFromM": _r(L0 - float(sol.depth_cut[k0])),
-                        "bedLevelToM": _r(L1 - float(sol.depth_cut[k1])),
-                        "widthM": _r(width, 1), "shoulderCrestM": _r(L1 + channels.SHOULDER_RAISE_M),
+                        "bedLevelFromM": _r(L0 if weir else float(beds[0])),
+                        "bedLevelToM": _r(L1 if weir else float(beds[-1])),
+                        # the highest promised bed anywhere on the reach (a sill's
+                        # ramp keeps the bed near the level): the bed is at or
+                        # below this everywhere, and at or below bedLevelToM at the end
+                        "bedMaxM": _r(L0 if weir else float(beds.max())),
+                        "widthM": _r(width, 1), "widthMaxM": _r(float(np.max(sol.width[st])), 1),
+                        "shoulderCrestM": _r(L1 + channels.SHOULDER_RAISE_M),
+                        # the shoulder seals to the crest wherever the shaped ground
+                        # lies within this of it (channels.SHOULDER_RAISE_CAP_M family)
+                        "sealCapM": channels.STEEP_RAISE_CAP_M if kind.startswith("sloped") else (
+                            channels.SILL_RAISE_CAP_M if weir else channels.SHOULDER_RAISE_CAP_M),
                     }
                 reaches.append(rec)
                 reach_index[rid] = rec
@@ -753,13 +849,15 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
             mouth = {"kind": "confluence", "river": river_ids[river["tributaryOf"]],
                      "junction": last["toJunction"] if last else None}
         elif bool(sol.to_sea[k_end]) or (mb and body_index[mb]["kind"] in ("ocean", "lagoon")):
-            mouth = {"kind": "sea", "bodyId": mb if (mb and body_index[mb]["kind"] in ("ocean", "lagoon")) else "body.ocean"}
+            # a sea mouth names the sea-level body it enters (ocean, lagoon or a
+            # sea-level marsh sheet): all of them stand at 0
+            mouth = {"kind": "sea", "bodyId": mb or "body.ocean"}
         elif mb is not None:
             mouth = {"kind": "lake", "bodyId": mb}
         else:
             term, tb = downstream_terminal(mx, my)
             if term == "sea":
-                mouth = {"kind": "sea", "bodyId": "body.ocean"}
+                mouth = {"kind": "sea", "bodyId": tb or "body.ocean"}
             elif term == "lake":
                 mouth = {"kind": "lake", "bodyId": tb}
             else:
@@ -866,7 +964,47 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
                    "terrainPrecondition": {"kind": "authored-bowl", "levelM": _r(level), "bedM": _r(bed),
                                            "radiiM": [rx, ry], "shoreline": a.get("shoreline", "organic"),
                                            "island": a.get("island")}}
+            # once shape_province has dug it the lake is also MEASURED: name the
+            # measured body it is realised by, so the two are one lake
+            # probe east of the centre, clear of the city island
+            px_ = min(cx + int(0.75 * rx / mpp), shape[1] - 1)
+            lbl_here = int(body_lbl[cy, px_]) if 0 <= cy < shape[0] else 0
+            if lbl_here > 0:
+                m = body_rec[lbl_here - 1]
+                rec["realisedBy"] = m["id"]
+                m["declaredBy"] = a["id"]
             body_rec.append(rec); body_index[bid] = rec
+
+    # ---- the Blackrose feeders: carved by shape_province before this solve,
+    # appended as terrain-stage reaches (extension rule); they belong to no
+    # river because the coarse pass never routed them
+    if AUTHORED_FEEDERS is not None:
+        feeders_path = AUTHORED_FEEDERS
+    if feeders_path is not None and feeders_path.exists():
+        fd = json.loads(feeders_path.read_text(encoding="utf-8"))
+        lake_id = next((b["id"] for b in body_rec if b["origin"] == "authored"), None)
+        lake_level = body_index[lake_id]["levelM"] if lake_id else 0.0
+        for f in fd.get("feeders", []):
+            (x0, y0), (x1, y1) = f["startPx"], f["endPx"]
+            cx, cy = _cell(x0, y0, shape)
+            rid = f"reach.{cx}-{cy}"
+            n = max(int(math.hypot(x1 - x0, y1 - y0) * mpp / (STEP * mpp)), 1)
+            line = [[_r(x0 * mpp + (x1 - x0) * mpp * t / n, 1), _r(y0 * mpp + (y1 - y0) * mpp * t / n, 1)] for t in range(n + 1)]
+            reaches.append({
+                "id": rid, "river": None, "origin": "terrain-stage", "feeder": f["sector"],
+                "kind": "horizontal-channel", "surface": "channel", "band": 3,
+                "upstream": [], "downstream": None, "fromJunction": None, "toJunction": None,
+                "accumKm2": 0.0, "slope": 0.0, "slopeMax": 0.0,
+                "widthM": _r(2.0 * float(f["halfWidthM"]), 1), "depthM": _r(lake_level - float(f["bedM"])),
+                "lengthM": _r(math.hypot(x1 - x0, y1 - y0) * mpp, 1),
+                "levelFromM": _r(lake_level), "levelToM": _r(lake_level), "speedMS": 0.3,
+                "season": "perennial", "tidal": False, "water": "blackwater", "bodyId": lake_id,
+                "centreline": line,
+                "terrainPrecondition": {"kind": "trench", "bedLevelFromM": _r(float(f["bedM"])),
+                                        "bedLevelToM": _r(float(f["bedM"])), "bedMaxM": _r(float(f["bedM"])),
+                                        "widthM": _r(2.0 * float(f["halfWidthM"]), 1), "shoulderCrestM": None},
+            })
+            reach_index[rid] = reaches[-1]
 
     # ---- the wet-season line and the coarse-grid measurement
     wetline = wet_season_line(npz, body_lbl)
@@ -924,6 +1062,8 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict) -> dict
         "wetSeasonLineKm2": _r(float(wetline.sum()) * (RAW_M * STEP / 1000.0) ** 2, 2),
         "standingWaterCensus": {k: v for k, v in bodies.census.items()},
     }
+    for b in body_rec:
+        b.pop("_label", None)
     graph = {
         "schemaVersion": SCHEMA_VERSION,
         "sourceHeightSha256": source_sha,
@@ -972,6 +1112,37 @@ def wet_season_line(npz, body_lbl):
     out = np.zeros(ocean.shape, dtype=bool)
     out[:bodies_c.shape[0], :bodies_c.shape[1]] = bodies_c
     return (wet | (npz["rivers"] > 0) | out) & ~ocean
+
+
+def save_graph(graph: dict, path: Path = GRAPH_PATH) -> None:
+    graph["contentSha256"] = content_hash(graph)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(graph, indent=None, separators=(",", ":"), sort_keys=False) + "\n", encoding="utf-8")
+
+
+def extend_bodies(graph: dict, records: list[dict]) -> dict:
+    """The extension rule: append bodies the terrain stage itself made
+    (`origin: "terrain-stage"`), keyed by deepest cell like every other body;
+    the measured entities are never rewritten. Recounts the stats and
+    re-records the content hash. A record whose id already exists FAILS: a
+    stage that disagrees with the graph does not overwrite it."""
+    have = {b["id"] for b in graph["bodies"]}
+    for rec in records:
+        if rec.get("origin") != "terrain-stage":
+            raise ValueError(f"{rec.get('id')}: extend_bodies only appends terrain-stage bodies")
+        if rec["id"] in have:
+            raise ValueError(f"{rec['id']}: already in the graph; the extension rule never rewrites")
+        graph["bodies"].append(rec)
+        have.add(rec["id"])
+    graph["bodies"] = [b for b in graph["bodies"] if b.get("origin") != "terrain-stage"] + \
+        sorted((b for b in graph["bodies"] if b.get("origin") == "terrain-stage"), key=lambda b: b["id"])
+    st = graph["stats"]
+    st["bodies"] = len(graph["bodies"])
+    st["bodyKinds"] = dict(Counter(b["kind"] for b in graph["bodies"]))
+    st["bodyOrigins"] = dict(Counter(b["origin"] for b in graph["bodies"]))
+    st["seasons"]["bodies"] = dict(Counter(b["season"] for b in graph["bodies"]))
+    graph["contentSha256"] = content_hash(graph)
+    return graph
 
 
 def content_hash(graph: dict) -> str:
@@ -1038,7 +1209,7 @@ def check(graph: dict) -> list[str]:
             errs.append(f"{x['id']}: kind {x['kind']}")
         if x.get("surface") != SURFACE_OF.get(x["kind"]):
             errs.append(f"{x['id']}: surface {x.get('surface')} does not match kind {x['kind']}")
-        if x["river"] not in rivers:
+        if x["river"] not in rivers and not (x["river"] is None and x.get("origin") == "terrain-stage"):
             errs.append(f"{x['id']}: river {x['river']} unknown")
         if x["season"] not in SEASONS:
             errs.append(f"{x['id']}: season {x['season']}")
@@ -1134,7 +1305,7 @@ KIND_ABOUT = {
 BODY_ABOUT = {
     "ocean": "Sea-connected water below sea level that the coarse pass calls open ocean.",
     "lagoon": "Sea-connected water below sea level that winds inland beyond the open-ocean reach.",
-    "lake-lowland": "Standing water of 1 hectare or more whose level is under 30 m. A dashed outline is a DECLARED lake the base does not hold yet (the Blackrose lake): 16b digs it, shapes an organic shore and raises the island ring.",
+    "lake-lowland": "Standing water of 1 hectare or more whose level is under 30 m. A dashed outline is the DECLARED Blackrose lake (authored-bodies.json), dug by the shape stage to its declared bed and island.",
     "tarn-upland": "Standing water of 1 hectare or more whose level is 30 m or higher (an upland or mountain lake).",
     "pond": "Standing water between 500 m2 and 1 hectare.",
     "pool": "Standing water under 500 m2.",
@@ -1357,12 +1528,12 @@ def report(graph: dict, places_path: Path = PROVINCE_DIR / "places.json") -> str
 
 def derive(vault: Path, out: Path, log=print) -> dict:
     g, npz, sha = load_inputs(vault)
-    log(f"base {vault / 'heightfield-sculpted-f32.npy'} sha256 {sha[:16]}…")
+    log(f"shaped base {vault} sha256 {sha[:16]}…")
     bodies, sol, pool_report = solve(g, npz, log=log)
-    graph = build_graph(g, npz, bodies, sol, sha, pool_report)
+    graph = build_graph(g, npz, bodies, sol, sha, pool_report, feeders_path=vault / FEEDERS_FILE)
     errs = check(graph)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(graph, indent=None, separators=(",", ":"), sort_keys=False) + "\n", encoding="utf-8")
+    save_graph(graph, out)
+    save_solution(vault, bodies, sol)
     write_layers(graph, npz["rivers"].shape, bodies=bodies, npz=npz)
     log(json.dumps(graph["stats"], indent=1))
     log(f"wrote {out} ({out.stat().st_size / 1e6:.1f} MB); check: {len(errs)} violations")

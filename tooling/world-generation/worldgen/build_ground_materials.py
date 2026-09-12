@@ -148,7 +148,12 @@ MATERIALS = [
     # texture. Each ships its Tropical Skyrim tangent-space normal map beside
     # the albedo (`NN-name_n.png`) for the side-projection normal perturbation.
     ("cliff_rock",    "ts",  "mountains/mountainslab02.dds",                14.0, None, 42),
-    ("cliff_dirt",    "ts",  "dirtcliffs/dirtcliffs01.dds",                 10.0, None, 42),
+    # Phase 16b audit (owner, 2026-09-12): dirtcliffs01 is the most directional
+    # earth texture in every pool (aniso 1.26) and does not tile top to bottom
+    # (seam 2.1), a mild cousin of the banned dirtcliffsroots01 strip (band
+    # 22.8). volcanictundradirt01 is the most even, seamless earth candidate
+    # (aniso 1.06, seams 1.06/0.86, band 1.09) and ships its own normal map.
+    ("cliff_dirt",    "ts",  "volcanictundradirt01.dds",                    10.0, None, 42),
 ]
 
 # Which cliff texture a material's steep faces use. Rock-family materials get

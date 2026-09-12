@@ -1,9 +1,9 @@
 """Phase 6b entry point: sculpt the province base terrain (see sculpt.py).
 
 Writes `heightfield-sculpted-f32.npy` (+ sculpt-meta.json) next to the raw
-heightfield in the vault. compile_hydrology / refine_province then consume it
+heightfield in the vault. compile_hydrology / shape_province then consume it
 automatically via condition.base_terrain. Rerun the downstream chain after
-this: compile_hydrology -> compile_society -> refine_province ->
+this: compile_hydrology -> compile_society -> shape_province -> hydrology_graph derive -> carve_province ->
 compile_chunks -> export_web_chunks.
 
 Usage:
@@ -19,8 +19,11 @@ from pathlib import Path
 
 import numpy as np
 
+from . import freeze
 from .condition import condition
 from .sculpt import SEED, sculpt
+
+FROZEN_ON = "2026-09-11"   # the day the record was last deliberately re-frozen (Phase 16b)
 
 
 def main() -> None:
@@ -29,8 +32,11 @@ def main() -> None:
     full = condition(np.flipud(np.load(height_path)))
     rng = np.random.default_rng(SEED)
     z, report = sculpt(full, rng)
-    out = height_path.parent / "heightfield-sculpted-f32.npy"
-    np.save(out, z)
+    out = height_path.parent / freeze.SCULPT
+    # CONTENT-ADDRESSED FREEZE (Phase 16b): refuses to replace a recorded base
+    # with different content unless ES_REFREEZE=1; records the sha otherwise.
+    report["sha256"] = freeze.save_frozen(
+        out, z, freeze.SCULPT, "the sculpted base: orogeny, benching, naturalness, coastal banks", FROZEN_ON)
     # How long it took is printed, never written: a wall-clock number in a
     # world-building record makes the file differ on every run, which breaks
     # determinism (engineering standard 4) and defeats the chain's

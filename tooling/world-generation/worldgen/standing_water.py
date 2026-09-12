@@ -15,7 +15,7 @@ depression is searched ONE level down: its watershed catchments filled to
 their own saddles are offered to the same rules (the lake inside a plateau
 the raster mistook for one basin).
 
-Shared by `refine_province` (islands, channel backwater) and
+Shared by `hydrology_graph` + `carve_province` (islands, channel backwater) and
 `compile_water` (the shipped W).
 """
 

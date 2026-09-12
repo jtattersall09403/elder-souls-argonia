@@ -175,7 +175,7 @@ def digest(res: dict) -> str:
         lines.append("")
     lines += ["## If a nudge is applied", "",
               "Edit `world/sources/anchors/settlement-anchors.json` (u, v), then re-run",
-              "`compile_society` (roads, lanes, danger, cultures) → `refine_province` (roads",
+              "`compile_society` (roads, lanes, danger, cultures) → `shape_province` + `carve_province` (roads",
               "are rasterised into the land cover) → `compile_chunks` → `export_web_chunks` →",
               "`compile_water` → `rebake_landcover` → `compile_scatter` for any exemplar chunk",
               "the road moved through → `macro_plot` → `compile_minor_routes` → `export_places`.",

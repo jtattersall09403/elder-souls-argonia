@@ -11,6 +11,7 @@ import { Groundcover } from "./vegetation/Groundcover";
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import { useHiddenLayers } from "./ladder";
 import { groundHeightM } from "./vegetation/terrainHeight";
 import { lastWeatherSample } from "./weather/weatherState";
 import { worldClock } from "./sky/timeState";
@@ -234,6 +235,7 @@ export function Fly3D(props: Fly3DProps) {
     ?? chunkManifest?.extentM ?? TERRAIN_SUPPORT_EXTENT_M;
   const authoredExtentM = chunkManifest?.authoredUvExtentM ?? AUTHORED_UV_EXTENT_M;
   const focusRef = useRef({ x: start[0], z: start[2] });
+  const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
   const markerGroundAt = useMemo(() => {
     const { heights, size, metresPerPixel, exaggeration } = props;
     return (xM: number, zM: number) => {
@@ -294,7 +296,7 @@ export function Fly3D(props: Fly3DProps) {
                 instanced from the compiled flora kit. Only the exemplar and
                 contrast areas are compiled so far (decision 0036 Q3), so most
                 of the province still has none. */}
-            {props.showVegetation !== false && (
+            {props.showVegetation !== false && !hiddenLayers.has("vegetation") && (
               <>
                 <Suspense fallback={null}>
                   <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
@@ -308,8 +310,10 @@ export function Fly3D(props: Fly3DProps) {
                 </Suspense>
               </>
             )}
-            <SettlementLayer baseUrl={import.meta.env.BASE_URL} focusRef={focusRef}
-              groundAt={settlementGroundAt} environment={settlementEnvironment} />
+            {!hiddenLayers.has("settlements") && (
+              <SettlementLayer baseUrl={import.meta.env.BASE_URL} focusRef={focusRef}
+                groundAt={settlementGroundAt} environment={settlementEnvironment} />
+            )}
           </>
         ) : (
           <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
@@ -322,7 +326,9 @@ export function Fly3D(props: Fly3DProps) {
         )}
         {/* Phase 8b water: rivers, lakes, marsh and sea from the compiled
             hydrology; tide + wet-season levels are world state (§36). */}
-        <StudioWater base={import.meta.env.BASE_URL} verticalScale={props.exaggeration} farExtentM={30000} />
+        {!hiddenLayers.has("water") && (
+          <StudioWater base={import.meta.env.BASE_URL} verticalScale={props.exaggeration} farExtentM={30000} />
+        )}
       </WorldSky>
       {props.mode === "fly" ? (
         <>

@@ -16,7 +16,7 @@ that stops short of the water is a dam and never fills.  Ground beyond the
 channel width plus a short shoulder is left exactly as it was: the bank the
 landing stands on is not re-graded.
 
-Runs in :func:`worldgen.refine_province.carve_to_profile`, after
+Applied as a `poling-channel` terrain PATCH on the frozen base (:mod:`worldgen.terrain_patches`, Phase 16b); formerly run inside the refine, after
 ``channels.carve`` and on the same full-res sample grid.
 """
 

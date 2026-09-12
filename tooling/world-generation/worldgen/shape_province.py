@@ -1,44 +1,54 @@
-"""Phase 6: high-detail terrain refinement for the WHOLE province.
+"""Shape the province: the ground the water graph is solved on (Phase 16b).
 
-Owner decision 2026-08-23 (extends decision 0008): with the Blackrose basin
-proven through its gate rounds, the same deterministic refinement now runs
-over the full province in one pass — sculpted base (6b), region-conditioned
-detail noise, channel carving, the authored Blackrose lake, portage
-resolution (0012), land cover (0011 — with northern palette zone, mountain
-belts and per-water-type shorelines), flood states, climate tint, and the
-production exports (refined heights, land-cover raster; chunks via
-worldgen.compile_chunks).
+Between the frozen sculpt and the frozen carve there is one deterministic
+pass that gives the province its valleys and its lowland character: the
+floodplain terrace under every coarse river, region-conditioned detail
+noise (faded to nothing on the river centrelines), the authored Blackrose
+lake and its three feeder channels, the boat-lane portages (canoe channels
+or drag paths), the shoreline smoothing and the fluvial continuum (levees,
+floodplains, oxbows, wetland pools, the delta). Nothing here reads a place,
+a blueprint or a published route: the only inputs are the sculpted base,
+the coarse hydrology pass and the FROZEN carve inputs.
+
+It writes `heightfield-shaped-f32.npy` beside the sculpt, content-addressed
+in `world/sources/terrain/freeze.json`. `hydrology_graph derive` then solves
+the water ON THIS GROUND (decision 0059: a profile solved on the raw sculpt
+would set a river's level above a valley the fluvial pass has since
+lowered, and the carve would build it a dyke), and `carve_province` cuts
+the trenches to that solution.
+
+Formerly `refine_province` (Phase 6), which also carved the channels,
+applied the catalogue's typed terrain requests and the dock/lane/poling
+dredges: the carve is now its own stage on the graph, the requests and the
+poling channels are terrain PATCHES (`terrain_patches`), and dredging
+natural water for a hull class is retired (plan §7 ruling 6).
 
 Heights stay TRUE metres (vertical scale applied only where terrain
-becomes geometry — ×1, decision 0015).
+becomes geometry — x1, decision 0015).
 
 Usage:
-  python3 -m worldgen.refine_province <heightfield-f32.npy> <hydrology-pass1.npz>
+  python3 -m worldgen.shape_province <heightfield-f32.npy> <hydrology-pass1.npz>
 """
 
 from __future__ import annotations
 
 import json
-import hashlib
-import os
 import sys
-import tempfile
 from pathlib import Path
 
 import numpy as np
-from .npz_io import savez as _savez
-from PIL import Image
 from scipy import ndimage
 
+from . import freeze
 from .carve_routes import carve_polylines, carve_source, warn_on_drift
 from .condition import base_terrain
-from .landcover import compile_ground_control
-from .routes_raster import major_spanning_mask, rasterize_minor_paint
 from .scale import RAW_M, TUNE
+
+FROZEN_ON = "2026-09-11"
 
 STEP = 3                               # macro rasters are 1/3 of full res
 SEED = 20260823
-
+PIT_MIN_Z = 12.0                       # new closed depressions above this (and off wet ground) are filled
 # Metre-denominated carve/tuning constants below were tuned at x3 and convert
 # via scale.TUNE so the approved pixel-space terrain survives rescales (0015).
 # Detail-noise amplitude (m) by region class id (vertical — no conversion).
@@ -74,21 +84,6 @@ FEEDER_START_FRAC = 0.55   # start radius as a fraction of the lake rim
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined"
-
-
-def _atomic_json(path: Path, value: dict | list) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, temp_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as handle:
-            json.dump(value, handle, indent=2, ensure_ascii=False, sort_keys=True)
-            handle.write("\n")
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temp_name, path)
-    finally:
-        if os.path.exists(temp_name):
-            os.unlink(temp_name)
 
 
 def _flow_vectors(flow_to: np.ndarray, shape: tuple[int, int]) -> np.ndarray:
@@ -150,140 +145,6 @@ def carve_channels(h, rivers_up):
     return h, dist_all
 
 
-def apply_local_carves(h, level_with_sea, wet, stations, log=print):
-    """The two LOCAL carves, and exactly where on the province they landed.
-
-    `authored_waterways.carve_authored` and `dock_dredge.dredge_docks` are the
-    only edits in the whole refine that touch a bounded patch of ground: a
-    poling channel, a dredged dock approach. Everything before them re-derives
-    the province. Split out here because that boundary is the incremental
-    chain's boundary too — `worldgen.recarve_local` restarts from exactly this
-    point on the snapshot refine leaves behind, so a one-dock edit costs one
-    dock instead of a 4033² rebuild.
-
-    Returns (heights, authored stats, dredge stats, footprint boxes) — the
-    boxes in full-resolution sample coordinates (`worldgen.footprint`).
-    """
-    # Authored minor waterways are carved, not solved: they are not in the
-    # hydrology graph, so nothing else would ever cut them. Geometry and the
-    # promise come from world/sources/routes/authored-minor-waterways.json via
-    # hydrology_intent (pre-water intent, never a published raster).
-    from . import authored_waterways, dock_dredge, footprint
-    h, authored_stats = authored_waterways.carve_authored(
-        h, level_with_sea, wet, RAW_M, stations=stations, log=log)
-    # A dock declares the deepest hull it serves; a working port keeps the
-    # channel that serves it DUG. Every approach that does not already carry
-    # its hull class is dredged here, from the blueprints' own dock/terminal
-    # data — see worldgen/dock_dredge.py for the rule. It only ever cuts, and
-    # never touches ground standing above the waterline.
-    h, dredge_stats = dock_dredge.dredge_docks(
-        h, level_with_sea, RAW_M, stations=stations, log=log)
-    # ...and the same rule along the WHOLE of every published boat lane, not
-    # just the 100 m a dock promises: a lane the catalogue and the quests send
-    # people down has to carry a hull for its whole length, or say where it
-    # does not. Never cuts above the waterline; an above-water run is reported
-    # as a portage, which is a real world fact and must be declared.
-    h, lane_stats = dock_dredge.dredge_lanes(
-        h, level_with_sea, RAW_M, stations=stations, log=log)
-    boxes = footprint.normalise(
-        [row["window"] for row in (*authored_stats, *dredge_stats) if row.get("window")]
-        + [win for row in lane_stats for win in row.get("windows", [])])
-    return h, authored_stats, dredge_stats, lane_stats, boxes
-
-
-def carve_to_profile(h, npz, save_path=None):
-    """Cut every river trench to the channel long profile (decision 0047).
-
-    `channels.solve` builds the smooth centrelines and the monotone profile
-    L(s) on THIS terrain (valley floor, bankfull bank, falls as steps);
-    `standing_water.pool_channels` backwaters it through the accepted lakes
-    (and accepts the hollows a river cannot leave); `channels.carve` cuts the
-    parabolic bed to L − D inside the water width, builds the shoulder to
-    L + 0.3 and digs the plunge basins. Islets under 12 samples inside a body
-    are sunk so pools do not read as speckle. The solution is saved next to the
-    heights and compile_water keeps ITS profile (it re-floods the bodies on the
-    shipped terrain but never re-solves L): a depression the carve itself made
-    (a levee's backswamp, a trench pool) is a body, never a lake that lifts
-    the river. A post-carve flood reports pooled stations whose level moved.
-
-    Runs LAST, after the fluvial continuum and the shoreline smoothing.
-    """
-    from . import channels
-    from . import standing_water as sw
-
-    placement = sw.placement_snapshot(h.shape, RAW_M)
-    if save_path is not None:
-        np.save(Path(save_path).with_name("refined-height-precarve-f32.npy"), h)
-    bodies = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, placement=placement)
-    sol = channels.solve(h, npz, step=STEP, mpp=RAW_M)
-    pool_report = sw.pool_channels(sol, bodies, log=print)
-    # never cut the rim of a standing body or the sea (a ring cut 6 m + w/2
-    # out from a channel that skirts a pool would lower its spill: protect
-    # ~16 m) and never raise a bed or a rim (a levee across an outlet dams it)
-    water = bodies.wet | bodies.sea
-    collar = ndimage.binary_dilation(water, iterations=9) & ~water
-    # a CAPTURED lake drains to the channel cut through it: its bed is not
-    # protected from the shoulder (the levee beside the channel must seal
-    # what will be dry ground)
-    body_level = bodies.level_with_sea.copy()
-    cap = sol.captured
-    if cap.any():
-        cy = np.clip(np.round(sol.y[cap]).astype(int), 0, h.shape[0] - 1)
-        cx = np.clip(np.round(sol.x[cap]).astype(int), 0, h.shape[1] - 1)
-        ids = np.unique(bodies.body[cy, cx])
-        ids = ids[ids > 0]
-        if len(ids):
-            body_level[np.isin(bodies.body, ids)] = -np.inf
-    h, stats = channels.carve(h, sol, protect=collar, body_level=body_level)
-    h, n_islands = sw.lower_islands(h, bodies)
-    # THE INCREMENTAL BOUNDARY. Everything above re-derives the province;
-    # what follows is local, with a reported footprint. The snapshot and the
-    # inputs saved here are what `worldgen.recarve_local` restarts from — it
-    # is the same ground, so a fast re-carve and a full rebuild agree.
-    stations = (sol.y, sol.x, sol.L)
-    if save_path is not None:
-        local_dir = Path(save_path).parent
-        np.save(local_dir / "refined-height-prelocal-f32.npy", h)
-        _savez(local_dir / "local-carve-inputs.npz", compressed=False,
-                 level_with_sea=bodies.level_with_sea,
-                 wet=bodies.wet | bodies.sea)
-    h, authored_stats, dredge_stats, lane_stats, carve_boxes = apply_local_carves(
-        h, bodies.level_with_sea, bodies.wet | bodies.sea, stations, log=print)
-    # self-consistency report: the compiler floods THIS terrain and keeps the
-    # profile above; a lake the trench breached, or a hollow the levee made
-    # under a channel, shows here as a pooled station whose flood level moved
-    bodies2 = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, placement=placement)
-    pooled = sol.pooled & ~sol.shore
-    iy = np.clip(np.round(sol.y[pooled]).astype(int), 0, h.shape[0] - 1)
-    ix = np.clip(np.round(sol.x[pooled]).astype(int), 0, h.shape[1] - 1)
-    lvl2 = np.nan_to_num(bodies2.level_with_sea[iy, ix], nan=-np.inf, neginf=-np.inf)
-    moved = np.abs(lvl2 - sol.pool[pooled]) > 0.1
-    stats["pooledLevelMoved"] = int(moved.sum())
-    stats["pooledLevelMovedMaxM"] = round(float(np.abs(lvl2 - sol.pool[pooled])[np.isfinite(lvl2)].max()), 3) if np.isfinite(lvl2).any() else 0.0
-    stats["pooledLevelLost"] = int((~np.isfinite(lvl2)).sum())
-    print(f"post-carve check: {int(moved.sum())} pooled stations whose flood level moved > 0.1 m, "
-          f"{int((~np.isfinite(lvl2)).sum())} with no body under them")
-    stats["islandsLowered"] = n_islands
-    stats["authoredWaterways"] = authored_stats
-    stats["dockApproaches"] = dredge_stats
-    stats["laneChannels"] = lane_stats
-    stats.update({k: v for k, v in pool_report.items() if not k.endswith("Sites")})
-    stats["bodies"] = bodies.census
-    if save_path is not None:
-        from . import footprint
-        # What the local carves touched THIS run. `recarve_local` unions it
-        # with the next run's boxes: undoing an old cut is as much a change as
-        # making the new one.
-        footprint.save(Path(save_path).with_name("local-carve-footprint.json"),
-                       carve_boxes, grid_shape=h.shape)
-        sol.save(save_path)
-        # the roads/places the pools were judged against: the compile must
-        # judge them against the SAME snapshot, or a road re-routed through a
-        # pool after the carve drops that pool from under its channel
-        sw.save_placement(placement, Path(save_path).with_name("placement-at-carve.npz"))
-    return h, stats
-
-
 def carve_polyline(h, p0, p1, half_w_m, bed_m, rng):
     """Carve a wiggly channel whose floor reaches bed_m along the line —
     to-a-level, not by-a-depth, so it stays wet through higher ground."""
@@ -339,6 +200,7 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
     sea_ang = np.degrees(np.arctan2(-(sea_ys - cy_full), sea_xs - cx_full)) % 360
     sea_dist = np.hypot(sea_ys - cy_full, sea_xs - cx_full) * RAW_M
     rim = np.array([LAKE_RADII_M[0], LAKE_RADII_M[1]]).mean() / RAW_M
+    feeders = []
     for name, (a0, a1, half_w, depth) in FEEDER_SECTORS.items():
         min_d = rim * RAW_M * 1.1
         sel = (ang >= a0) & (ang <= a1) & (dist > min_d) & (dist < 3000 * TUNE)
@@ -357,7 +219,10 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
         start = (cx_full + (target[0] - cx_full) * rim * FEEDER_START_FRAC / span,
                  cy_full + (target[1] - cy_full) * rim * FEEDER_START_FRAC / span)
         h = carve_polyline(h, start, target, half_w, depth, rng)
-    return h
+        feeders.append({"sector": name, "startPx": [float(start[0]), float(start[1])],
+                        "endPx": [float(target[0]), float(target[1])],
+                        "halfWidthM": float(half_w), "bedM": float(depth)})
+    return h, feeders
 
 
 # Portage resolution (module 60 §45, decision 0012): short boat-lane land
@@ -372,11 +237,13 @@ CANOE_BED_M = -1.2
 
 def resolve_portages(h, origin_full, rng, lanes_path=None):
     """Resolve waterway land hops. Returns (h, features, track_mask)."""
-    lanes_path = Path(lanes_path) if lanes_path is not None else REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "waterways.json"
+    # the FROZEN lanes (`carve-inputs/waterways.json`): the published file is
+    # rewritten in place by `reroute_lanes` from the water this ground makes
+    lanes_path = Path(lanes_path) if lanes_path is not None else carve_source("waterways.json")
     features = []
     track = np.zeros(h.shape, dtype=bool)
     canoe = np.zeros(h.shape, dtype=bool)
-    if not lanes_path.exists():
+    if lanes_path is None or not lanes_path.exists():
         return h, features, track
     for lane in json.loads(lanes_path.read_text()).get("lanes", []):
         px, land = lane["px"], lane["land"]
@@ -418,77 +285,6 @@ def resolve_portages(h, origin_full, rng, lanes_path=None):
     return h, features, track
 
 
-def write_height_raster(h):
-    """The studio's half-res RG16 height raster. Returns (lo, hi, image shape).
-
-    Half resolution, low-passed before decimation (naive [::2] aliased the
-    finest relief octave into moiré). Split out of `main` so the incremental
-    re-carve (`worldgen.recarve_local`) writes the identical file rather than
-    a second implementation of the same packing.
-    """
-    half = ndimage.gaussian_filter(h, 1.0)[::2, ::2]
-    lo, hi = float(half.min()), float(half.max())
-    q = np.round((half - lo) / (hi - lo) * 65535.0).astype(np.uint16)
-    rg = np.zeros((*q.shape, 3), dtype=np.uint8)
-    rg[..., 0] = q >> 8
-    rg[..., 1] = q & 0xFF
-    STUDIO_DIR.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(rg).save(STUDIO_DIR / "height-rg.png")
-    return lo, hi, tuple(int(v) for v in q.shape)
-
-
-WET_RISE_M = 1.4
-
-
-def write_flood_states(h) -> None:
-    """Flood states (§36 FloodBasin + climatology) for the given ground.
-
-    Derived from the heightfield alone, so the incremental re-carve reproduces
-    it by calling this with the re-carved ground.
-    """
-    current_water = h < 0.05
-    below = h < 0.05 + WET_RISE_M
-    lbl, _ = ndimage.label(below)
-    wet_ids = np.unique(lbl[current_water])
-    inund = np.isin(lbl, wet_ids[wet_ids > 0])
-    newly = inund & ~current_water
-    del below, lbl, inund
-    STUDIO_DIR.mkdir(parents=True, exist_ok=True)
-    Image.fromarray((newly[::2, ::2] * 255).astype(np.uint8)).save(STUDIO_DIR / "flood-wet.png")
-    (STUDIO_DIR / "flood-states.json").write_text(json.dumps({
-        "basins": [{
-            "id": "province-fresh", "meanLevelM": 0.0,
-            "seasonalAmplitudeM": WET_RISE_M, "tidalAmplitudeM": 0.5,
-            "surgeProfile": "monsoon-pulse-lagged",
-            "inundationMask": "flood-wet.png",
-            "note": "flood pulse lags the rains 1-2 months (docs/research/world-terrain/black-marsh-climatology.md)",
-        }],
-        "wetSeasonNewlyFloodedFracOfLand": round(float(newly.sum() / max((~current_water).sum(), 1)), 4),
-    }, indent=1))
-
-
-def rasterize_roads(shape, origin_full):
-    """Rasterize the Phase 4 road corridors (macro [x, y] px) into a bool mask
-    ~27 m wide. Water rules override later, so crossings stay unpainted
-    (bridges/ferries are placed features).
-
-    The polylines come from the FROZEN network (`carve_routes`), never the
-    published `routes.json` that `reroute_majors` rewrites from this very
-    carve — see that module for why the chain could not settle otherwise.
-    """
-    mask = np.zeros(shape, dtype=bool)
-    for px in carve_polylines():
-        for (x0m, y0m), (x1m, y1m) in zip(px, px[1:]):
-            x0, y0 = x0m * STEP - origin_full[1], y0m * STEP - origin_full[0]
-            x1, y1 = x1m * STEP - origin_full[1], y1m * STEP - origin_full[0]
-            steps = int(max(abs(x1 - x0), abs(y1 - y0))) + 1
-            xs = np.linspace(x0, x1, steps).round().astype(int)
-            ys = np.linspace(y0, y1, steps).round().astype(int)
-            ok = (xs >= 0) & (xs < shape[1]) & (ys >= 0) & (ys < shape[0])
-            mask[ys[ok], xs[ok]] = True
-    return ndimage.binary_dilation(mask, iterations=2)
-
-
 def main() -> None:
     warn_on_drift()
     height_path, npz_path = Path(sys.argv[1]), Path(sys.argv[2])
@@ -504,7 +300,7 @@ def main() -> None:
     h, channel_dist = carve_channels(h, rivers_up)
     h += detail_noise(h.shape, regions_up, channel_dist, rng)
     del channel_dist
-    h = impose_blackrose_lake(h, (0, 0), rivers_up, rng)
+    h, feeders = impose_blackrose_lake(h, (0, 0), rivers_up, rng)
     h, portage_features, portage_track = resolve_portages(h, (0, 0), rng)
     # shoreline smoothing — banks read as mud gradients, not noise spikes
     hs = ndimage.gaussian_filter(h, 2.5)
@@ -528,126 +324,32 @@ def main() -> None:
         rivers_coarse=rivers, flow_to=npz["flow_to"],
         filled=npz["filled"], step=STEP)
     print("fluvial:", fluvial_stats)
+    # closed depressions the shaping itself made on dry high ground are
+    # artefacts (detail noise on rough terrain), not water: filled to spill
+    from .hydrology import sea_connected
+    from .pits import fill_new_pits
+    sea = sea_connected(full) & (full < -0.05)
+    h, pit_stats = fill_new_pits(h, full, sea, PIT_MIN_Z, wet_mask=wet_mask)
 
-    # G11: the current macro plot is the authority for request positions. The
-    # typed, content-addressed operations run after general fluvial shaping so
-    # that broad noise cannot erase them, and before the shared channel profile
-    # makes the final water/terrain join. Final water-relative postconditions
-    # are checked downstream against the published water solve.
-    from . import catalogue as catalogue_mod, terrain_request_raster, terrain_requests
-    terrain_plan, terrain_errors = terrain_requests.build_plan(
-        [record for region in catalogue_mod.load_region_files() for record in region.places])
-    if terrain_errors:
-        raise ValueError("invalid terrain-request plan: " + "; ".join(terrain_errors))
-    coarse_flow = _flow_vectors(npz["flow_to"], rivers.shape)
-    flow_up = np.repeat(np.repeat(coarse_flow, STEP, 0), STEP, 1)[: h.shape[0], : h.shape[1]]
-    h, terrain_fulfillment, terrain_stats = terrain_request_raster.apply_plan(
-        h, terrain_plan, RAW_M, flow_vectors=flow_up, wet_mask=wet_mask)
-    terrain_applied_sha = hashlib.sha256(h.tobytes()).hexdigest()
-    del coarse_flow, flow_up
-    print("terrain requests:", len(terrain_stats), "typed operations")
-
-    # Channel bed LAST: cut to the water profile on the final terrain; the
-    # solution is saved so the compiler fills the very trench that was cut
-    # (owner permission 2026-09-07 to edit terrain for water; decision 0047).
-    vault_dir = height_path.parent / "province-refined"
-    vault_dir.mkdir(exist_ok=True)
-    h, channel_stats = carve_to_profile(h, npz, save_path=vault_dir / "channels-pass1.npz")
-    print("channel carve:", json.dumps(channel_stats))
-    np.save(vault_dir / "refined-height-f32.npy", h)
-    terrain_fulfillment["appliedHeightSha256"] = terrain_applied_sha
-    # This is an operation receipt, not a claim about the eventual terrain.
-    # Route grading still runs twice after refine. The postcondition stage
-    # content-addresses that genuinely final raster and proves every request
-    # survived it; naming this intermediate hash "final" made a correct chain
-    # fail as soon as grading changed any cell.
-    terrain_fulfillment["postRefineHeightSha256"] = hashlib.sha256(h.tobytes()).hexdigest()
-    terrain_artifacts = {
-        "terrain-request-plan.json": terrain_plan,
-        "terrain-request-fulfillments.json": terrain_fulfillment,
-        "terrain-request-stats.json": terrain_stats,
-    }
-    for filename, document in terrain_artifacts.items():
-        _atomic_json(vault_dir / filename, document)
-        _atomic_json(STUDIO_DIR / filename, document)
-
-    lo, hi, q_shape = write_height_raster(h)
-
-    # Ground-material control map (0011) at full resolution, with the
-    # northern palette zone driven by province latitude.
-    gy2, gx2 = np.gradient(h, RAW_M)
-    slope_f = np.hypot(gx2, gy2).astype(np.float32)
-    del gy2, gx2
-    v_frac = np.broadcast_to(
-        (np.arange(h.shape[0], dtype=np.float32) / h.shape[0])[:, None], h.shape)
-    # Ground carried clear by a bridge/deck gets no road surface painted on it.
-    roads = ((rasterize_roads(h.shape, (0, 0)) & ~major_spanning_mask(h.shape, STEP, (0, 0)))
-             | portage_track)
-    # Frozen network, not the published one this run's ground re-solves.
-    minor = rasterize_minor_paint(h.shape, STEP, (0, 0),
-                                  path=carve_source("routes-minor.json"))
-    landcover_mat, control = compile_ground_control(
-        h, regions_up, rivers_up, slope_f, RAW_M, rng,
-        salinity=up(npz["salinity"]), twi=up(npz["twi"]),
-        wetlands=up(npz["wetlands"]), roads=roads,
-        minor_routes=minor, v_frac=v_frac)
-    del slope_f, roads, minor
-    Image.fromarray(control, "RGBA").save(STUDIO_DIR / "ground-control.png")
-    np.save(vault_dir / "landcover-i16.npy", landcover_mat)
+    vault_dir = height_path.parent
+    sha = freeze.save_frozen(vault_dir / freeze.SHAPED, h, freeze.SHAPED,
+                             "the shaped ground the hydrology graph is solved on: terrace, detail noise, "
+                             "the Blackrose lake and feeders, portages, shoreline smoothing, fluvial continuum",
+                             FROZEN_ON)
+    STUDIO_DIR.mkdir(parents=True, exist_ok=True)
     (STUDIO_DIR / "portages.json").write_text(json.dumps(
         {"features": portage_features}, indent=1))
-
-    write_flood_states(h)
-
-    # Macro climate tint — retuned at the gate (owner: stronger shift, coast
-    # less orange / more tropical, inland greener and darker). The studio has
-    # a live strength slider on top of this map.
-    qstep = 4
-    hq = h[::qstep, ::qstep]
-
-    def qf(a):
-        return up(a)[::qstep, ::qstep][: hq.shape[0], : hq.shape[1]].astype(np.float32)
-
-    oc_q = qf(npz["ocean"]) > 0.5
-    twi_q = np.nan_to_num(qf(npz["twi"]))
-    wet_q = np.clip((twi_q - twi_q.mean()) / max(twi_q.std(), 1e-9) * 0.35 + 0.5, 0, 1)
-    coast = np.exp(-(ndimage.distance_transform_edt(~oc_q) * (RAW_M * qstep)).astype(np.float32) / (2500.0 * TUNE))
-    south = (np.arange(hq.shape[0], dtype=np.float32) / hq.shape[0])[:, None] * np.ones_like(hq)
-
-    def tnoise():
-        m = ndimage.gaussian_filter(rng.standard_normal(hq.shape, dtype=np.float32), 32)
-        return (m / max(m.std(), 1e-9)).astype(np.float32)
-
-    tr = 1.0 + 0.02 * coast + 0.06 * (1 - wet_q) - 0.05 * south + 0.06 * tnoise()
-    tg = 1.0 + 0.04 * coast + 0.10 * wet_q + 0.07 * south + 0.06 * tnoise()
-    tb = 1.0 + 0.03 * coast - 0.04 * wet_q + 0.05 * tnoise()
-    dark = 1.0 - 0.06 * wet_q - 0.05 * south + 0.04 * coast
-    tint = (np.stack([tr, tg, tb], -1) * dark[..., None]).clip(0.0, 2.0)
-    Image.fromarray((tint * 127.5).astype(np.uint8)).save(STUDIO_DIR / "ground-tint.png")
-
-    meta = {
-        "originFullPx": [0, 0],
-        "originM": [0.0, 0.0],
-        "metresPerPixel": RAW_M * 2,
-        "imageWidth": int(q_shape[1]), "imageHeight": int(q_shape[0]),
-        "heightMinMetres": lo, "heightMaxMetres": hi,
-        "extentKm": [round(q_shape[1] * RAW_M * 2 / 1000, 2), round(q_shape[0] * RAW_M * 2 / 1000, 2)],
-        "groundControl": "ground-control.png",
-        "portages": {
-            "canoeChannels": sum(1 for f in portage_features if f["mode"] == "canoe-channel"),
-            "portages": sum(1 for f in portage_features if f["mode"] == "portage"),
-        },
-        "channelCarve": channel_stats,
-        "terrainRequests": {
-            "requests": len(terrain_plan["requests"]),
-            "operations": len(terrain_stats),
-            "planDigest": terrain_plan["planDigest"],
-            "fulfillment": "terrain-request-fulfillments.json",
-        },
-        "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks",
-    }
-    (STUDIO_DIR / "meta.json").write_text(json.dumps(meta, indent=2))
-    print(json.dumps(meta, indent=2))
+    # the drag-path tracks the land-cover bake paints (rebake_landcover reads it)
+    np.save(vault_dir / "portage-track.npy", portage_track)
+    # the feeder polylines the Blackrose lake was carved with: the graph derive
+    # appends them as terrain-stage reaches (extension rule)
+    (vault_dir / "authored-feeders.json").write_text(json.dumps(
+        {"schemaVersion": 1, "body": "blackrose-lake", "feeders": feeders}, indent=1) + "\n")
+    report = {"shapedSha256": sha, "fluvial": fluvial_stats, "pits": pit_stats,
+              "portages": {"canoeChannels": sum(1 for f in portage_features if f["mode"] == "canoe-channel"),
+                           "portages": sum(1 for f in portage_features if f["mode"] == "portage")}}
+    (vault_dir / "shape-meta.json").write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps(report, indent=2))
 
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ import {
   type RoutesIndexBundle,
 } from "./routesData";
 import { hydroPixelCenterToUv } from "../provinceScale";
+import { loadLadder } from "../ladder";
 
 const VB = 1000;
 
@@ -65,7 +66,11 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
     const set = <T,>(f: (v: T) => void) => (v: T) => { if (alive) f(v); };
     loadRoutesIndex(baseUrl).then(set(setIndex)).catch(() => {});
     loadRoads(baseUrl).then(set(setRoads)).catch(() => {});
-    loadRouteStructures(baseUrl).then(set(setStructures)).catch(() => {});
+    // bridges and decks are drawn only if their stage ran on this ground (province/ladder.json)
+    loadLadder(baseUrl).then((l) => {
+      if (l?.hiddenLayers.includes("route-structures")) return;
+      loadRouteStructures(baseUrl).then(set(setStructures)).catch(() => {});
+    });
     return () => { alive = false; };
   }, [baseUrl]);
 

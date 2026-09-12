@@ -23,7 +23,7 @@ from PIL import Image
 from scipy import ndimage
 
 from .condition import base_terrain
-from .hydrology import compute
+from .hydrology import compute, sea_connected
 from .regions import CLIMATE, REGION_CLASSES, SOIL_CLASSES, compute_regions
 from .scale import HSCALE as SCALE, RAW_METRES_PER_SAMPLE
 
@@ -52,12 +52,21 @@ def main() -> None:
     z_full = base_terrain(grid_path)  # image orientation: row 0 = north; sculpted if present (6b)
     z = z_full[::STEP, ::STEP]
     metres_per_px = RAW_METRES_PER_SAMPLE * STEP * SCALE
-    result = compute(z, metres_per_px)
+    # the routing sink on the coarse grid is every coarse cell holding ANY
+    # full-res sea-connected sample, so a lagoon joined to the sea by a channel narrower than a
+    # coarse cell is still a sink (Phase 16b: the full-res standing-water
+    # solve puts such water at 0, and the coarse route must not run out of it)
+    sea_full = sea_connected(z_full)
+    hh, ww = sea_full.shape[0] // STEP * STEP, sea_full.shape[1] // STEP * STEP
+    sea_c = np.zeros(z.shape, dtype=bool)
+    sea_c[: hh // STEP, : ww // STEP] = sea_full[:hh, :ww].reshape(hh // STEP, STEP, ww // STEP, STEP).any(axis=(1, 3))
+    sea_c |= sea_full[::STEP, ::STEP]
+    result = compute(z, metres_per_px, sea=sea_c)
     reg = compute_regions(z, result, metres_per_px)
 
     _savez(
         grid_path.parent / "hydrology-pass1.npz",
-        conditioned=z, ocean=result.ocean, filled=result.filled.astype(np.float32),
+        conditioned=z, ocean=result.ocean, sea=result.sea, filled=result.filled.astype(np.float32),
         flow_to=result.flow_to.astype(np.int32), accum_km2=result.accum_km2,
         rivers=result.rivers, watersheds=result.watersheds, twi=result.twi,
         wetlands=result.wetlands, lakes=result.lakes, tidal=result.tidal,

@@ -65,7 +65,7 @@ from .scale import RAW_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water"
-CHANNELS_FILE = "channels-pass1.npz"      # written by refine_province next to the heights
+CHANNELS_FILE = "channels-pass1.npz"      # the graph's solution, copied by carve_province next to the heights
 
 STEP = 3                      # hydrology / flow / class grid: 4033 -> 1345
 WEB_STEP = 2                  # surface grid: 4033 -> 2017
@@ -364,7 +364,7 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
                    "pooledLevelLost": int((~np.isfinite(lvl)).sum()),
                    "lostStations": int(sol.lost.sum()),
                    "lostReaches": int(np.unique(sol.reach[sol.lost]).size)}
-    log(f"bodies {bodies.n} ({time.perf_counter() - t0:.0f} s); pooled stations whose level moved: "
+    log(f"bodies {bodies.n} ({time.perf_counter() - t0:.0f} s so far); pooled stations whose level moved: "
         f"{pool_report['pooledLevelMoved']} (max {pool_report['pooledLevelMovedMaxM']} m), "
         f"no body under {pool_report['pooledLevelLost']}")
 
@@ -696,7 +696,8 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
         })
 
     stats = {
-        "compileSeconds": round(time.perf_counter() - t0, 1),
+        # (the compile's seconds are PRINTED, never written: a wall-clock number
+        # in a world record makes two identical builds differ — standard 4)
         "hoveringEdges": hover,
         "cliffEdgeCells": int(cliff_edge[0]),
         "brinkEdgeCells": int(brink_cells),
@@ -744,14 +745,13 @@ def main() -> None:
     refined = np.load(DEFAULT_HEIGHTS)
     sol_path = DEFAULT_HEIGHTS.parent / CHANNELS_FILE
     if not sol_path.exists():
-        raise SystemExit(f"{sol_path} missing: run worldgen.refine_province first "
-                         "(it carves the channels and records their solution)")
+        raise SystemExit(f"{sol_path} missing: run worldgen.carve_province first "
+                         "(it carves the channels to the graph's solution and copies it here)")
     sol = ch.ChannelSolution.load(sol_path)
-    # the pools are judged against the roads/places the CARVE saw (a road
-    # re-routed through a pool afterwards is placement's problem, reported
-    # in stats.roadCellsInWater)
-    placement = sw.load_placement(sol_path.with_name("placement-at-carve.npz"))
-    r = compute(refined, npz, sol, placement=placement)
+    # NO placement cap (decision 0058 choice 2, Phase 16b): a lake is not
+    # rejected because a place was plotted in it; places adapt to the water.
+    # A road in water is still reported in stats.roadCellsInWater below.
+    r = compute(refined, npz, sol, with_placement=False)
     # roads never stand in open water except at a ford (<= 0.3 m); the split
     # says whose defect a remaining cell is: a river crossing is the carve's,
     # a lake is the pool acceptance's, the SEA is the route solver's (its

@@ -51,7 +51,8 @@ NEIGHBOR_OFFSETS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0)
 
 @dataclass
 class HydrologyResult:
-    ocean: np.ndarray          # bool
+    ocean: np.ndarray          # bool: the open sea (salinity model; OCEAN_REACH_M of deep water)
+    sea: np.ndarray            # bool: every sea-connected cell at or below 0 — the routing sink
     filled: np.ndarray         # float32, depression-filled surface
     lakes: np.ndarray          # bool, standing interior water
     flow_to: np.ndarray        # int32 flat index of downstream cell, -1 = outlet
@@ -81,6 +82,18 @@ SALT_SEARCH_MAX_M = 9000.0 * TUNE  # beyond this salinity is nil; bounds the sea
 LAND_SALT_PENALTY = 4.0   # salinity travels 4x slower over land than water
 
 
+def sea_connected(z: np.ndarray) -> np.ndarray:
+    """Water at or below sea level that reaches the east or south map edge
+    through water: every cell here stands at 0 whatever the coarse 'ocean'
+    label says, so it is where a river ENDS (Phase 16b: the routing sink).
+    Sea seeds only from the east/south edges (north and west are the
+    Morrowind/Cyrodiil land borders)."""
+    below = z <= SEA_LEVEL
+    lab, _ = ndimage.label(below)
+    border_labels = np.unique(np.concatenate([lab[-1], lab[:, -1]]))  # south, east
+    return below & np.isin(lab, border_labels[border_labels != 0])
+
+
 def ocean_mask(z: np.ndarray, metres_per_px: float) -> tuple[np.ndarray, np.ndarray]:
     """(ocean, sea_geodesic_m).
 
@@ -92,9 +105,7 @@ def ocean_mask(z: np.ndarray, metres_per_px: float) -> tuple[np.ndarray, np.ndar
     deep sea used for salinity.
     """
     below = z <= SEA_LEVEL
-    lab, _ = ndimage.label(below)
-    border_labels = np.unique(np.concatenate([lab[-1], lab[:, -1]]))  # south, east
-    sea = below & np.isin(lab, border_labels[border_labels != 0])
+    sea = sea_connected(z)
     deep = sea & (z < DEEP_SEA_M)
     if not deep.any():  # entirely shallow sea: treat all border sea as open
         deep = sea
@@ -334,23 +345,29 @@ def label_watersheds(filled: np.ndarray, flow_to: np.ndarray, ocean: np.ndarray,
     return out
 
 
-def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
+def compute(z: np.ndarray, metres_per_px: float, sea: np.ndarray | None = None) -> HydrologyResult:
     cell_km2 = (metres_per_px / 1000.0) ** 2
     ocean, sea_geodesic_m = ocean_mask(z, metres_per_px)
-    land = ~ocean
+    # THE ROUTING SINK is every sea-connected cell, not only the 'ocean' the
+    # salinity model names: a below-sea lagoon beyond OCEAN_REACH_M stands at
+    # 0 all the same (the full-res standing-water solve says so), and routing
+    # a river through it and out over its spill sent one uphill from a
+    # sea-level body into a lake at 0.6 m (Phase 16b, decision 0059).
+    sea = sea_connected(z) if sea is None else (sea | ocean)
+    land = ~sea
     # Lakes come from real depressions in the clean terrain.
-    filled = fill_depressions(z, ocean)
+    filled = fill_depressions(z, sea)
     lakes = land & ((filled - z) > LAKE_MIN_DEPTH)
     # Routing runs on a noised copy so channels meander and converge.
     z_route = z + routing_noise(z.shape)
-    drain = strict_descent(resolve_flats(fill_depressions(z_route, ocean), ocean), ocean)
-    flow_to = d8_flow(drain, ocean)
-    accum = accumulate(drain, flow_to, ocean, cell_km2)
+    drain = strict_descent(resolve_flats(fill_depressions(z_route, sea), sea), sea)
+    flow_to = d8_flow(drain, sea)
+    accum = accumulate(drain, flow_to, sea, cell_km2)
     rivers = np.zeros(z.shape, dtype=np.uint8)
     rivers[land & (accum >= RIVER_MINOR_KM2)] = 1
     rivers[land & (accum >= RIVER_MEDIUM_KM2)] = 2
     rivers[land & (accum >= RIVER_MAJOR_KM2)] = 3
-    watersheds = label_watersheds(drain, flow_to, ocean, accum, min_basin_km2=5.0 * TUNE_A, cell_km2=cell_km2)
+    watersheds = label_watersheds(drain, flow_to, sea, accum, min_basin_km2=5.0 * TUNE_A, cell_km2=cell_km2)
 
     gy, gx = np.gradient(filled, metres_per_px)
     slope = np.hypot(gx, gy)
@@ -402,5 +419,5 @@ def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
             "salinityDecayM": SALINITY_DECAY_M,
         },
     }
-    return HydrologyResult(ocean, filled, lakes, flow_to, accum, rivers,
+    return HydrologyResult(ocean, sea, filled, lakes, flow_to, accum, rivers,
                            watersheds, twi_smooth.astype(np.float32), wetlands, tidal, salinity, stats)

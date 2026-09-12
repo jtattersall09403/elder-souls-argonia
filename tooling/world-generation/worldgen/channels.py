@@ -7,7 +7,7 @@ cell centres (junction points and outlets pinned, so tributaries still meet
 their trunk), resampled at ~one full-res sample (1.83 m). Every station along
 a reach carries the river band, the hydraulic width, the centre depth, the
 valley floor and bank minimum measured on the PRE-carve terrain, and the
-monotone-downstream long profile L(s). `refine_province` cuts the bed to
+monotone-downstream long profile L(s). `carve_province` cuts the bed to
 L − D along these stations (`carve`) and `compile_water` puts water at L in
 the same cells (`raster_fields`), so the trench and the water that fills it
 are the same curve by construction, not by two copies of the arithmetic.
@@ -98,6 +98,7 @@ SHOULDER_RAISE_M = 0.3                   # shoulder crest = L + this, from the w
 SHOULDER_CREST_M = 3.5                   # ...out to here (>= one cell centre in every direction)
 SHOULDER_BLEND_M = 6.0                   # back to the original terrain by w/2 + this
 SHOULDER_CUT_CAP_M = 3.0                 # a hillside bank is never cut deeper than this
+BODY_NECK_M = 60.0                       # ...and never under the level of a standing body this close
 SHOULDER_RAISE_CAP_M = 2.5               # hard cap on any shoulder raise (field)...
 STEEP_RAISE_CAP_M = 4.5                  # ...beside a torrent (cell levels differ by ~1 m)...
 SILL_RAISE_CAP_M = 3.5                   # ...and the flank of a lake-outlet weir
@@ -324,7 +325,10 @@ def solve(terrain: np.ndarray, npz, pool_level: np.ndarray | None = None,
     rivers, flow_to, accum = npz["rivers"], npz["flow_to"], npz["accum_km2"]
     hc, wc = rivers.shape
     n_full = terrain.shape[0]
-    ocean = npz["ocean"] if "ocean" in getattr(npz, "files", npz) else None
+    # the routing sink: every sea-connected cell (`sea`, Phase 16b); older
+    # passes carry only the open-sea `ocean`
+    files = getattr(npz, "files", npz)
+    ocean = npz["sea"] if "sea" in files else (npz["ocean"] if "ocean" in files else None)
     half0 = (step - 1) / 2.0
     gy = np.clip(np.round(np.arange(hc) * step + half0).astype(int), 0, terrain.shape[0] - 1)
     gx = np.clip(np.round(np.arange(wc) * step + half0).astype(int), 0, terrain.shape[1] - 1)
@@ -580,7 +584,8 @@ def _running_min(v: np.ndarray, lost: np.ndarray, cap: float):
     return out
 
 
-def _backwater(v: np.ndarray, pooled: np.ndarray, lost: np.ndarray, pool: np.ndarray) -> np.ndarray:
+def _backwater(v: np.ndarray, pooled: np.ndarray, lost: np.ndarray, pool: np.ndarray,
+               arriving_pooled: bool = False, arriving_level: float = np.inf) -> np.ndarray:
     """Per pooled run: if the profile arrives at or above the lake (or less
     than BACKWATER_MAX_M under it — a shore dip), the run takes the lake
     level and the lake reaches upstream until the profile stands above it.
@@ -599,13 +604,22 @@ def _backwater(v: np.ndarray, pooled: np.ndarray, lost: np.ndarray, pool: np.nda
         while j + 1 < m and pooled[j + 1]:
             j += 1
         P = float(pool[k:j + 1].max())
-        arriving = float(v[k - 1]) if k > 0 else np.inf
-        if arriving >= P - BACKWATER_MAX_M:
+        arriving = float(v[k - 1]) if k > 0 else float(arriving_level)
+        # a river already standing in a lower body (the sea, a lower lake)
+        # does not rise into a higher one: that body drains to it instead
+        from_lower_pool = ((pooled[k - 1] if k > 0 else arriving_pooled)
+                           and arriving < P - 0.05)
+        if arriving >= P - BACKWATER_MAX_M and not from_lower_pool:
             v[k:j + 1] = P
             i = k - 1
             while i >= 0 and not pooled[i] and not lost[i] and v[i] < P:
                 v[i] = P
                 i -= 1
+            # the run may have been LOWERED to the lake (the profile arrived
+            # above it): everything downstream stays at or under the lake
+            # level, or the river would rise out of it (Phase 16b: a 0.76 m
+            # pool followed by a 0.93 m sill)
+            v[j + 1:] = np.minimum(v[j + 1:], P)
         else:
             pooled[k:j + 1] = False
         k = j + 1
@@ -679,6 +693,7 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
     incoming_end = np.full(n_r, np.inf, dtype=np.float32)
     incoming_since = np.full(n_r, np.inf, dtype=np.float32)
     incoming_P = np.full(n_r, -np.inf, dtype=np.float32)
+    incoming_pooled = np.zeros(n_r, dtype=bool)     # the upstream reach ENDED in a body (the sea, a lake)
     for r in order:
         sl = sol.stations_of(r)
         v = L[sl]
@@ -690,7 +705,7 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
         # section dips in — and must not carry that into the lake)
         pw = pooled[sl]
         if pw.any():
-            v = _backwater(v, pw, lost[sl], sol.pool[sl])   # may clear captured runs in pw
+            v = _backwater(v, pw, lost[sl], sol.pool[sl], bool(incoming_pooled[r]), float(incoming_end[r]))   # may clear captured runs in pw
         runs = _fall_runs(sol.floor[sl], sol.arc[sl])
         a0 = sl.start
         for a, b in runs:
@@ -722,6 +737,8 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
         pool_behind[sl] = P_here
         d = down[r]
         if d >= 0 and not lost[sl.stop - 1]:
+            if float(v[-1]) <= incoming_end[d]:
+                incoming_pooled[d] = bool(pw[-1])
             incoming_end[d] = min(incoming_end[d], float(v[-1]))
             if float(s[-1]) < incoming_since[d]:
                 incoming_since[d] = float(s[-1])
@@ -772,6 +789,17 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
     to_sea = getattr(sol, "to_sea", None)
     if to_sea is not None:
         L = np.where(to_sea & ~lost, np.maximum(L, 0.0), L)
+    # L is non-increasing downstream within a reach, whatever the pins, sills
+    # and backwaters above did to it (a station raised above the pooled run
+    # before it was the last of this family of defects, Phase 16b); lost
+    # stretches restart the profile and are skipped
+    for r in range(n_r):
+        sl = sol.stations_of(r)
+        v = L[sl]
+        ok = ~lost[sl]
+        if ok.any():
+            v[ok] = np.minimum.accumulate(v[ok])
+            L[sl] = v
     # a CAPTURED body: the river arrives under its level (more than
     # BACKWATER_MAX_M) and cuts on through — the body drains to the trench,
     # so its stations are ordinary channel, not pooled
@@ -813,9 +841,20 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
             # a fresh dry run after a pool starts here
             j = k
             end_sill = None
+            # the lake level the run leaves at, as finally solved (Pb was read
+            # before the junction pins and captures moved the profile)
+            P_now = float(L[sl.start + k - 1]) if k > 0 and pw[k - 1] else np.inf
+            bk = sol.bank_min[sl]
             while j < m and not pw[j] and not lo[j] and np.isfinite(sp[j]):
+                P_j = min(float(Pb[j]), P_now)
+                # the rim is crossed when the centreline has dropped under the
+                # lake AND the lower bank no longer stands over it: a notch
+                # through the neck with both flanks still above the lake is
+                # still the rim, and cutting the bed there opened a tarn's
+                # outlet 0.6 m under its level (Phase 16b)
                 if end_sill is None and sp[j] >= SILL_MIN_M and (
-                        nf[j] < Pb[j] - SILL_TOL_M or nf[j] >= Pb[j] + SILL_RIM_M
+                        (nf[j] < P_j - SILL_TOL_M and bk[j] < P_j + SILL_RIM_M)
+                        or nf[j] >= P_j + SILL_RIM_M
                         or sp[j] >= SILL_MAX_M):
                     end_sill = j
                 j += 1
@@ -824,7 +863,11 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
             sill[sl.start + k:sl.start + end_sill] = True
             ramp[sl.start + k:sl.start + end_sill] = 0.0
             seg = slice(sl.start + k, sl.start + end_sill)
-            L[seg] = np.maximum(L[seg], Pb[k:end_sill])
+            # the weir stands AT the lake level as finally solved: `pool_behind`
+            # was read before the junction pins and captures moved the profile,
+            # so it could name a level the pooled run no longer has (0.93 over a
+            # 0.76 pool: a river rising downstream, Phase 16b)
+            L[seg] = np.maximum(L[seg], np.minimum(Pb[k:end_sill], P_now))
             a0 = arc[end_sill] if end_sill < m else arc[-1] + 1e-3
             ramp[sl.start + end_sill:sl.start + j] = np.clip((arc[end_sill:j] - a0) / SILL_RAMP_M, 0.0, 1.0)
             k = j
@@ -1197,6 +1240,15 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
     del k0, cap
     if protect is not None:
         lo = np.where(protect, h, lo)          # never cut the rim of a standing body
+    if body_level is not None:
+        # ...nor cut the NECK beside one under its level: a shoulder that cut a
+        # tarn's outlet flank 24 m from its shore to the crest (0.6 m under the
+        # lake) opened a new spill (Phase 16b). Within BODY_NECK_M of a body no
+        # cell is cut below that body's level.
+        r_neck = int(np.ceil(BODY_NECK_M / sol.mpp))
+        near_level = ndimage.maximum_filter(np.where(np.isfinite(body_level) & (body_level > 0.0), body_level, -np.inf),
+                                            size=2 * r_neck + 1, mode="nearest")
+        lo = np.where(np.isfinite(near_level), np.maximum(lo, np.minimum(near_level, h)), lo)
     if body_level is not None:
         no_raise = np.isfinite(body_level) & (ref < body_level) \
             & ((body_level >= L - 0.05) | (body_level <= 0.0))

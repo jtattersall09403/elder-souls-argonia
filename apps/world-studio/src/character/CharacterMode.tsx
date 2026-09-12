@@ -39,6 +39,7 @@ import { CityMarkers } from "../CityMarkers";
 import { Vegetation } from "../vegetation/Vegetation";
 import { Groundcover } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import { useHiddenLayers } from "../ladder";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
 import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
@@ -116,6 +117,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const [hud, setHud] = useState<CharacterHudState | null>(null);
   const player = useRef<EcctrlHandle | null>(null);
   const focusRef = useRef({ x: spawnKm.x * 1000, z: spawnKm.z * 1000 });
+  const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
   const glRef = useRef<HTMLCanvasElement | null>(null);
   const [touch, setTouch] = useState(false);
   // On-foot render quality (module 65 first slice — owner: walking lags).
@@ -333,38 +335,46 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 flyover, following the walking character's focusRef. Omitting
                 it here was the "plants appear in fly mode but not on foot"
                 defect (owner, Phase 10 round 2). */}
-            <Vegetation
-              focusRef={focusRef}
-              baseUrl={import.meta.env.BASE_URL}
-              verticalScale={verticalScale}
-              quality={quality}
-              onSolids={handleSolids}
-            />
-            {/* T3 groundcover ring around the walking character — same
-                component and constants as the flyover. */}
-            <Groundcover
-              focusRef={focusRef}
-              baseUrl={import.meta.env.BASE_URL}
-              verticalScale={verticalScale}
-              quality={quality}
-            />
-            <SettlementLayer
-              baseUrl={base}
-              focusRef={focusRef}
-              groundAt={settlementGroundAt}
-              quality={quality}
-              environment={settlementEnvironment}
-              onSolids={handleSettlementSolids}
-            />
+            {!hiddenLayers.has("vegetation") && (
+              <>
+                <Vegetation
+                  focusRef={focusRef}
+                  baseUrl={import.meta.env.BASE_URL}
+                  verticalScale={verticalScale}
+                  quality={quality}
+                  onSolids={handleSolids}
+                />
+                {/* T3 groundcover ring around the walking character — same
+                    component and constants as the flyover. */}
+                <Groundcover
+                  focusRef={focusRef}
+                  baseUrl={import.meta.env.BASE_URL}
+                  verticalScale={verticalScale}
+                  quality={quality}
+                />
+              </>
+            )}
+            {!hiddenLayers.has("settlements") && (
+              <SettlementLayer
+                baseUrl={base}
+                focusRef={focusRef}
+                groundAt={settlementGroundAt}
+                quality={quality}
+                environment={settlementEnvironment}
+                onSolids={handleSettlementSolids}
+              />
+            )}
           </Suspense>
           {/* Phase 8b water: the compiled province surface + shared pipeline;
               the wading player feeds a churn ring for contact foam. */}
-          <StudioWater
-            base={import.meta.env.BASE_URL}
-            verticalScale={verticalScale}
-            farExtentM={3000}
-            surfaceFocus={waterSurfaceFocus}
-          />
+          {!hiddenLayers.has("water") && (
+            <StudioWater
+              base={import.meta.env.BASE_URL}
+              verticalScale={verticalScale}
+              farExtentM={3000}
+              surfaceFocus={waterSurfaceFocus}
+            />
+          )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
@@ -389,12 +399,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             {/* Solidity (Phase 10 round 5): trunks, boulders and root arches
                 stop the player; reeds and ferns do not. The kit has shipped
                 collision proxies since round 1 with nothing consuming them. */}
-            <VegetationColliders
-              solidsRef={floraSolidsRef}
-              focusRef={focusRef}
-              baseUrl={import.meta.env.BASE_URL}
-              onCount={setFloraColliderCount}
-            />
+            {!hiddenLayers.has("vegetation") && (
+              <VegetationColliders
+                solidsRef={floraSolidsRef}
+                focusRef={focusRef}
+                baseUrl={import.meta.env.BASE_URL}
+                onCount={setFloraColliderCount}
+              />
+            )}
             <SettlementColliders solidsRef={settlementSolidsRef} />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
               <Suspense fallback={null}>

@@ -81,7 +81,7 @@ def test_promote_is_the_only_way_the_carve_moves(tmp_path):
 
 def test_no_carve_stage_reads_a_published_route_file():
     """The carve reads `carve-inputs/`; the published files stay downstream."""
-    text = (PKG / "refine_province.py").read_text()
+    text = (PKG / "shape_province.py").read_text()
     for published in ('"routes.json"', '"routes-minor.json"', '"routes-natural.json"'):
         assert published not in text.replace('carve_source("routes-minor.json")', ""), \
             f"refine_province reads the published {published} again — the cycle is back"
@@ -94,3 +94,37 @@ def test_the_frozen_inputs_are_in_the_tree():
         assert (carve_routes.PROVINCE / carve_routes.SNAP_DIR / name).exists(), (
             f"province/carve-inputs/{name} is missing — run "
             f"`python3 -m worldgen.carve_routes --promote` and commit it")
+
+
+# ------------------------------------------------ Phase 16b: nothing above the gate loops
+
+def test_the_sculpt_reads_a_once_frozen_corridor_input(tmp_path):
+    """`sculpt.corridor_and_anchor_mask` reads `carve-inputs/sculpt-corridors.json`,
+    which `--promote` never rewrites: promoting the road network after a society
+    re-solve must not make the sculpt stale."""
+    p = _province(tmp_path)
+    first = carve_routes.carve_source("sculpt-corridors.json", p)
+    assert first is not None and first.exists()
+    before = first.read_bytes()
+    doc = json.loads((p / "routes.json").read_text())
+    doc["routes"][0]["px"] = _repaired(doc["routes"][0]["px"])
+    (p / "routes.json").write_text(json.dumps(doc))
+    (p / "routes-natural.json").write_text(json.dumps(doc))
+    carve_routes.promote(p)
+    assert first.read_bytes() == before, "promote rewrote the sculpt's once-frozen input"
+    assert "sculpt-corridors.json" not in carve_routes.drift(p)
+
+
+def test_no_stage_above_the_gate_reads_a_published_file_a_later_stage_writes():
+    for module in ("sculpt.py", "shape_province.py", "carve_province.py"):
+        text = (PKG / module).read_text()
+        for published in ('"routes.json"', '"routes-minor.json"', '"routes-natural.json"', '"waterways.json"'):
+            hits = [line for line in text.splitlines() if published in line and "carve_source" not in line
+                    and "carve-inputs" not in line and not line.strip().startswith("#")]
+            assert not hits, f"{module} reads the published {published}: {hits[0].strip()}"
+
+
+def test_the_portage_lanes_are_a_frozen_input():
+    assert "waterways.json" in carve_routes.SOURCES
+    assert (carve_routes.PROVINCE / carve_routes.SNAP_DIR / "waterways.json").exists()
+    assert (carve_routes.PROVINCE / carve_routes.SNAP_DIR / "sculpt-corridors.json").exists()

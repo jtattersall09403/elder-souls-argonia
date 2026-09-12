@@ -205,7 +205,7 @@ class ProvinceSurvey:
         # B = tannin (blackwater staining).
         self.water_season_response = _resample(self.water.season2, self.grid_n)
         self.water_tannin = _resample(self.water.tannin2, self.grid_n)
-        # wet-season newly-inundated mask (refine_province, half-res of refined)
+        # wet-season newly-inundated mask (apply_terrain_patches, half-res of refined)
         self.wet_season = np.asarray(
             Image.open(province / "refined" / "flood-wet.png")) > 127
 

@@ -66,7 +66,7 @@ Deterministic: no randomness, heap ties break on (cost, row, col).
 
 WHERE IT SITS
 -------------
-    compile_society -> **reroute_lanes** -> (terrain chain: refine_province ->
+    compile_society -> **reroute_lanes** -> (terrain chain: shape_province ->
     compile_water -> ...)
 
 It is the water counterpart of `reroute_majors`, and runs in the same place:

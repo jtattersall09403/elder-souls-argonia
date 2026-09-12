@@ -6,7 +6,7 @@ module never interprets the note: every request is resolved at its placed
 catalogue position and expanded through the closed ``KIND_SPECS`` vocabulary.
 
 The resulting operations deliberately stop short of editing a raster.  A later
-``refine_province`` integration consumes their bounds, action, profile and
+``terrain_patches`` (one `terrain-request` patch per place) consumes their bounds, action, profile and
 parameters, then emits a fulfillment manifest.  ``verify_fulfillment_manifest``
 makes omission, stale work and partial execution hard failures.
 

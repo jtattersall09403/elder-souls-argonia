@@ -15,7 +15,7 @@ blends back into the hillside without leaving a climbable-only rim.
 
 WHERE IT SITS IN THE CHAIN
 --------------------------
-    sculpt_province → refine_province → **grade_routes** → compile_chunks
+    sculpt_province → … → carve_province → apply_terrain_patches → **grade_routes** → compile_chunks
     → export_web_chunks → compile_water → rebake_landcover → compile_scatter
 
 It runs AFTER refinement (it needs the final channels, lake and detail noise)
@@ -25,7 +25,7 @@ land cover, scatter) — all of which must be regenerated after it.
 Idempotence: refinement's output is snapshotted once as
 `refined-height-ungraded-f32.npy`; every run reads that snapshot and rewrites
 `refined-height-f32.npy`, so grading twice gives the same file as grading
-once, and re-running `refine_province` refreshes the snapshot.
+once, and re-running `apply_terrain_patches` refreshes the snapshot.
 
 THE ALGORITHM (deterministic, no randomness)
 --------------------------------------------
@@ -981,13 +981,13 @@ def snapshot_natural_state(height_path: Path, province: Path) -> tuple[Path, Pat
     ground. Re-scoring siting on that surface is a feedback loop that quietly
     moves committed records, so the natural state is snapshotted once and the
     siting layer (`site_fields.ProvinceSurvey`) reads the snapshot. A fresh
-    `refine_province` run makes the refined heights newer than the snapshot,
+    `apply_terrain_patches` run makes the refined heights newer than the snapshot,
     which refreshes it.
     """
     ungraded = height_path.with_name("refined-height-ungraded-f32.npy")
     marker = height_path.with_name("refined-height-graded-by.json")
     # The snapshot is valid only while the refined heights are still the ones
-    # THIS tool last wrote. Anything else (a fresh refine_province) means the
+    # THIS tool last wrote. Anything else (a fresh apply_terrain_patches) means the
     # natural state moved on. An mtime test alone would be fatal here: our own
     # output is always newer than the snapshot it came from.
     fingerprint = {"size": height_path.stat().st_size,

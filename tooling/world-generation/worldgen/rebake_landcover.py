@@ -3,7 +3,7 @@
 Re-runs `compile_ground_control` over the refined terrain with the compiled
 water surface (`water-pass1.npz` w2) as the LOCAL water level, so mountain
 tarns, high rivers and marsh pools get silt/mud beds and shoreline grammar
-instead of dry-land paint. Standalone so the (slow) full refine_province run
+instead of dry-land paint. Standalone so the (slow) full shape + carve run
 isn't needed after a water recompile. It paints the portage drag-path tracks
 too, from the shape stage's `portage-track.npy` when the vault carries one.
 
@@ -31,6 +31,8 @@ Usage: python3 -m worldgen.rebake_landcover [--window y0 y1 x0 x1]
 from __future__ import annotations
 
 import argparse
+
+import os
 
 import numpy as np
 from PIL import Image
@@ -71,7 +73,16 @@ def main() -> None:
     vault_dir = DEFAULT_HEIGHTS.parent
     h = np.load(DEFAULT_HEIGHTS).astype(np.float32)
     npz_raw = np.load(vault_dir.parent / "hydrology-pass1.npz")
-    water = np.load(vault_dir.parent / "water-pass1.npz")
+    # The compiled water is the LOCAL water level for the shore grammar when
+    # the water stage is on the chain's ladder for this run (CHAIN_ENABLED,
+    # exported by terrain-chain.sh) and its file exists; otherwise the bake
+    # runs sea-level only, as it did before Phase 8b — a ground-only build
+    # (Phase 16b) paints no shoreline from water that was not compiled on it.
+    enabled = os.environ.get("CHAIN_ENABLED")
+    water_path = vault_dir.parent / "water-pass1.npz"
+    use_water = water_path.exists() and (enabled is None or "compile_water" in enabled.split())
+    water = np.load(water_path) if use_water else None
+    print("rebake: water-aware" if use_water else "rebake: sea level only (no compiled water on this ladder)")
 
     def up(a):
         return ndimage.zoom(a.astype(np.float32), h.shape[0] / a.shape[0], order=1)[: h.shape[0], : h.shape[1]]
@@ -85,7 +96,7 @@ def main() -> None:
         v_frac=np.broadcast_to(
             (np.arange(h.shape[0], dtype=np.float32) / h.shape[0])[:, None], h.shape).copy(),
     )
-    w4 = up(water["w2"])
+    w4 = up(water["w2"]) if water is not None else None
     # Ground carried clear by a bridge/deck gets no road surface painted on it.
     roads = rasterize_roads(h.shape, (0, 0)) & ~major_spanning_mask(h.shape, STEP, (0, 0))
     portage = vault_dir / "portage-track.npy"
@@ -97,7 +108,7 @@ def main() -> None:
         mat, control = _bake(h, fields, w4, roads, minor, (0, 0))
         Image.fromarray(control, "RGBA").save(STUDIO_DIR / "ground-control.png")
         np.save(vault_dir / "landcover-i16.npy", mat)
-        wet_frac = float((h < w4 + 0.05).mean())
+        wet_frac = float((h < (w4 if w4 is not None else 0.0) + 0.05).mean())
         print(f"rebaked ground-control (water-aware): wet frac {wet_frac:.3f}")
         return
 

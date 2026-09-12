@@ -7,7 +7,7 @@ hull-depth table, the depth sample distance and the blueprint directory — and
 importing `blueprint` for them dragged the whole settlement stack into their
 code fingerprint (`blueprint -> street_router -> site_fields -> compile_water`,
 42 modules). The effect was that editing the WATER COMPILER dirtied
-`refine_province`, and a compile-only change rebuilt the entire province: 451 s
+the refine (now `shape_province` + `carve_province`), and a compile-only change rebuilt the entire province: 451 s
 to move no ground at all.
 
 So the constants live here, in a leaf module that imports nothing from

@@ -56,7 +56,7 @@ from .terrain_requests import delivery_digest, verify_fulfillment_manifest
 SCHEMA_VERSION = 1
 # The published records are the ones a consumer actually reads; the vault copy
 # is the build's scratch. Default to the published pair so this gate rots
-# loudly if refine_province stops publishing them.
+# loudly if apply_terrain_patches stops publishing them.
 PUBLISHED_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined"
 KNOWN_RED_PATH = REPO_ROOT / "world" / "sources" / "terrain" / "terrain-request-known-red.json"
 KNOWN_RED_DOC = "docs/research/archive/water-round-2-2026-09/water-handoff.md"
