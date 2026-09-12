@@ -20,7 +20,7 @@ if (!url || !Number.isFinite(port)) {
 }
 await new Promise((resolve) => {
   const probe = createServer().once("error", () => {
-    console.error(`port ${port} is already in use: another dev server is running on the shared tunnel port; stop it first (find its PID with `ss -ltnp | grep :${port}`; never pkill -f).`);
+    console.error(`port ${port} is already in use: another dev server is running on the shared tunnel port; stop it first (find its PID with 'ss -ltnp | grep :${port}'; never pkill -f).`);
     process.exit(3);
   }).once("listening", () => probe.close(resolve)).listen(port, "0.0.0.0");
 });
