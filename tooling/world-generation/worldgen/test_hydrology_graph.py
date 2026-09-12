@@ -50,7 +50,12 @@ def test_shipped_graph_is_green(graph):
     errs = hg.check(graph)
     assert not errs, errs[:10]
     st = graph["stats"]
-    assert st["rivers"] > 50 and st["reaches"] > 500 and st["bodies"] > 200
+    # floors re-based on the frozen graph, 2026-09-12: 83 rivers, 489 reaches,
+    # 2,479 bodies (rivers now end where they meet sea-level water, so fewer
+    # and shorter than 16a's 100 / 678 on the raw sculpt; the marsh sheets of
+    # the shaped ground are recorded, so many more bodies) — a floor is a
+    # thinning alarm, not a target
+    assert st["rivers"] > 60 and st["reaches"] > 350 and st["bodies"] > 1500
     assert st["drainageLoops"] == 0
 
 

@@ -27,6 +27,7 @@ from .compile_route_structures import (RAMP_KINDS, RAMP_MAX_DEG, SPAN_KINDS,
                                        compile_structure, measure_window,
                                        ramp_ok)
 from .test_route_structures import _kit_stub, _slope_way
+from .ladder import requires_layer, requires_stage
 
 
 #: The most unauthored windows the province may carry. A RATCHET, and it is
@@ -55,6 +56,7 @@ from .test_route_structures import _kit_stub, _slope_way
 MAX_UNAUTHORED_WINDOWS = 0
 
 
+@requires_stage("compile_route_structures")
 def test_no_published_route_structure_is_unauthored():
     """HARD: nothing without a reason reaches the world. Never ratcheted."""
     structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
@@ -69,6 +71,7 @@ def test_no_published_route_structure_is_unauthored():
         f"the one thing this may never do: {', '.join(bad[:8])}")
 
 
+@requires_stage("compile_route_structures")
 def test_the_unauthored_debt_does_not_grow():
     """A ratchet on the churning half. Lower it as ways are authored."""
     structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
@@ -277,6 +280,7 @@ def test_a_measured_gap_is_never_answered_with_a_single_step():
     assert not bad, f"a measured gap was answered with a single step: {bad}"
 
 
+@requires_stage("compile_route_structures")
 def test_every_published_span_crosses_something():
     """THE invariant, on the shipped file. Never ratcheted, never waived."""
     structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
@@ -291,6 +295,7 @@ def test_every_published_span_crosses_something():
         f"to end: {', '.join(bridges_over_nothing[:8])}")
 
 
+@requires_stage("compile_route_structures")
 def test_a_trimmed_span_keeps_the_window_it_was_trimmed_from():
     """Without the source window the pass is not a fixed point: re-measuring a
     trimmed window lowers its own chord, finds a smaller drop, and retires the
@@ -309,6 +314,7 @@ def test_a_trimmed_span_keeps_the_window_it_was_trimmed_from():
     assert not outside, f"a trimmed span reaches outside its own window: {outside[:8]}"
 
 
+@requires_stage("compile_route_structures")
 def test_every_published_structure_stands_on_a_way_that_exists():
     """The staleness that shipped, and nothing caught it.
 

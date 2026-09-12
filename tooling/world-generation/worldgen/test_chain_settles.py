@@ -84,7 +84,7 @@ def test_no_carve_stage_reads_a_published_route_file():
     text = (PKG / "shape_province.py").read_text()
     for published in ('"routes.json"', '"routes-minor.json"', '"routes-natural.json"'):
         assert published not in text.replace('carve_source("routes-minor.json")', ""), \
-            f"refine_province reads the published {published} again — the cycle is back"
+            f"shape_province reads the published {published} again — the cycle is back"
 
 
 def test_the_frozen_inputs_are_in_the_tree():

@@ -31,6 +31,9 @@ import pytest
 from . import catalogue
 from .remeasure_plot_facts import PLOT_FACT_SEASON, measure
 from .site_fields import ProvinceSurvey
+from .ladder import requires_layer, requires_stage
+
+pytestmark = requires_layer("water")
 
 #: One surface texel of the compiled water. See the module docstring.
 WATER_FACT_TOL_M = 3.66

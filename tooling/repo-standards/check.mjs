@@ -287,7 +287,10 @@ function checkSchemaVersions() {
 function checkCredits() {
   const summaryPath = "world/sources/assets/registry-summary.json";
   const policyPath = "world/sources/assets/credit-hash-policy.json";
-  if (!existsSync(join(ROOT, summaryPath))) return;
+  if (!existsSync(join(ROOT, summaryPath))) {
+    fail(10, summaryPath, 0, "the asset registry summary is missing: standard 10 cannot be checked (a silent return here would let an uncredited asset ship)");
+    return;
+  }
   const readme = readFileSync(join(ROOT, "README.md"), "utf8");
   const haystack = readme.toLowerCase();
   const summary = readJson(summaryPath);

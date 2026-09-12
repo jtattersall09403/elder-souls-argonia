@@ -22,15 +22,16 @@ from .compile_water import (CHANNELS_FILE, DEPTH_QUANTUM_M, WEB_STEP,
                             decode_surface, export_index, hovering_edges,
                             sheet_corridor, strip_corridor)
 from .scale import RAW_M
+from .ladder import requires_layer, requires_stage
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 WATER_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water"
 VAULT = DEFAULT_HEIGHTS.parent.parent
 
-pytestmark = pytest.mark.skipif(
+pytestmark = [requires_layer("water"), pytest.mark.skipif(
     not ((WATER_DIR / "water-meta.json").exists() and (VAULT / "water-pass1.npz").exists()
          and (DEFAULT_HEIGHTS.parent / CHANNELS_FILE).exists()),
-    reason="compiled province water unavailable")
+    reason="compiled province water unavailable")]
 
 
 class Shipped:

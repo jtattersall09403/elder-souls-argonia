@@ -9,7 +9,8 @@ def test_d8_targets_decode_to_world_xz_unit_vectors():
     # 0 -> east, 1 -> south, 2 is outlet, 3 -> north-west.
     from .terrain_patches import Context
     ctx = Context(np.full((6, 6), -np.inf, np.float32), np.zeros((6, 6), bool), None,
-                  npz={"flow_to": np.array([1, 3, -1, 0], dtype=np.int64).reshape(2, 2)})
+                  npz={"flow_to": np.array([1, 3, -1, 0], dtype=np.int64),
+                       "rivers": np.zeros((2, 2), dtype=np.uint8)})
     vectors = ctx.flow_vectors((6, 6))[::3, ::3]
     np.testing.assert_allclose(vectors[0, 0], [1.0, 0.0])
     np.testing.assert_allclose(vectors[0, 1], [0.0, 1.0])

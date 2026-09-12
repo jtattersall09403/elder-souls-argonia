@@ -17,6 +17,7 @@ import json
 from pathlib import Path
 
 import pytest
+from .ladder import requires_layer, requires_stage
 
 from . import vegetation_ladder as vl
 
@@ -105,6 +106,7 @@ def test_authored_ladder_ordering():
 
 @pytest.mark.skipif(not (vl.VEGETATION / "vegetation-index.json").exists(),
                     reason="no compiled vegetation bundles in this checkout")
+@requires_layer("vegetation")
 def test_delivered_ladder():
     """GREEN since 2026-09-09 (decision 0048 round 14). Keep it that way.
 

@@ -117,13 +117,27 @@ Two-run identity: §8, filled from the second forced ground-only run.
 | `test_landcover.py` (+3, position-seeded noise) | a window not equal to the province's crop; the pad term |
 | `npm test` province-raster gate | a tree whose rasters and manifest disagree (both failure modes demonstrated) |
 
-## 8. Probes red on the handoff build, by owner (vault-only; CI skips them)
+## 8. Gates and the ladder (audit 2026-09-12)
 
-| Suite | Red | Owner |
-|---|---|---|
-| `test_water_invariants.py` | 8 (hovering edges, strips in trenches, cascades, class band, extension cells, boat lanes, two old-world site probes) | 16c — the old compiler on the frozen ground |
-| `test_committed_water_facts.py` | 3 (place water facts vs the shipped water; the nine anchors' distances) | 16g — places adapt |
-| `test_sculpt.py::test_road_grades_stay_traversable` | 1 (a 1.11 rise/run segment on the re-solved roads) | 16e |
-| `test_water.py::test_lowland_rivers_have_a_speed_floor` | goes green once the water is compiled on the new pass (it reads the shipped rasters) | — |
+An audit of every gate (`npm test`, the deploy workflow, all 90 Python
+suites) against the ladder found 19 probes red on the ground-only build,
+every one judging a layer a later chunk owns. They now SKIP, naming the
+owner, through `worldgen/ladder.py` (`requires_layer`, `requires_stage`,
+reading `province/ladder.json`): water (8 `test_water_invariants`, 3
+`test_committed_water_facts`, 1 `test_water_fact_invariants`, 2
+`test_terrain_request_postconditions`, 2 `test_macro_plot`, 1
+`test_blueprint::test_live_dir_validates`, the province half of
+`test_water.py`) → 16c; routes (`test_sculpt::test_road_grades_stay_traversable`,
+7 `test_grade_routes` province probes, 5 `test_route_structure_authoring`
+published-structure probes) → 16e; `test_vegetation_ladder::test_delivered_ladder`
+(it was green on the pre-16b bundles: false assurance) → 16f. The two
+studio/game-core tests that read shipped water and vegetation skip the same
+way. The deploy workflow's placement steps are blocking again (the
+2026-09-09 override is gone). Three real defects the audit found are fixed:
+a broken fixture of this chunk's (`test_shape_province`), the graph-size
+floors in `test_hydrology_graph` (re-based on the frozen graph with the
+measurement in the code), and `checkCredits` silently passing when its
+summary file is missing (now a standard-10 failure). Local: `test:water`
+77 passed / 27 skipped; `test:placement` 517 passed / 13 skipped; `npm test`
+8/8.
 
-Everything else in `test:water`, `test_terrain_*`, `test_freeze`, `test_chain_settles`, `test_shape_province`, `test_landcover`, `test_sculpt` is green.

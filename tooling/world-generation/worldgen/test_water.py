@@ -18,6 +18,7 @@ from . import standing_water as sw
 from .compile_chunks import DEFAULT_HEIGHTS
 from .compile_water import CLASSES, FLOW_MAX, compute, decode_surface, hovering_edges
 from .scale import RAW_M
+from .ladder import requires_layer, requires_stage
 
 VAULT = DEFAULT_HEIGHTS.parent.parent
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -340,6 +341,9 @@ def test_synth_signed_depth_and_classes(synth):
 
 @pytest.fixture(scope="module")
 def province():
+    from . import ladder as _ladder
+    if _ladder.layer_hidden("water"):
+        pytest.skip("the water layer is owned by 16c and was not rebuilt on this ground (province/ladder.json)")
     npz = np.load(VAULT / "water-pass1.npz")
     meta = json.loads((WATER_DIR / "water-meta.json").read_text())
     return npz, meta

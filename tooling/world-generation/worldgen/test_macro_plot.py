@@ -12,6 +12,7 @@ import json
 import math
 
 import pytest
+from .ladder import requires_layer, requires_stage
 
 from . import catalogue, macro_plot
 
@@ -84,6 +85,7 @@ def test_places_stay_within_spill_distance_of_their_zone():
         assert z["plotted"] == z["live"], zone
 
 
+@requires_layer("water")
 def test_the_solve_keeps_every_committed_cell(survey):
     """A normal run must prove every committed cell remains valid and stable.
 
@@ -149,6 +151,7 @@ def test_the_sightline_gate_fails_on_real_relief_and_not_on_sampler_noise(survey
         survey.__dict__["height_view"] = base
 
 
+@requires_layer("water")
 def test_navigable_roles_sit_on_navigable_water(survey):
     """97 A8 / G5: a record whose prose claims navigable water (`navigable`
     hint) must plot where the published depth within 150 m clears its hull

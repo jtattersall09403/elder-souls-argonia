@@ -32,58 +32,19 @@ jobs:
           cache: pip
           cache-dependency-path: tooling/world-generation/requirements-test.txt
       - run: python -m pip install -r tooling/world-generation/requirements-test.txt
-      # KNOWN RED on main, all water-owned, all held rather than moved out of the
-      # blocking job (owner, 2026-09-09) — see docs/research/archive/water-round-2-2026-09/water-handoff.md.
-      # The suites are not broken; do not xfail, quarantine or weaken them.
-      #   * test_blueprint.py::test_live_dir_validates (and, on some builds,
-      #     test_minor_waterways.py::test_no_berth_is_refused_in_the_published_network)
-      #     — the Sap-Tapping berth stands on dry ground in the published water.
-      #   * test_water_invariants.py::test_no_extension_cell_stands_above_its_own_water
-      #     — 80 942 cells (2.434 km2). The class raster on disk was baked before
-      #     `CLASS_EXT_RISE_M` existed (its `klass` meta has no `extRiseM`); it goes
-      #     green on the next `compile_water`.
-      #   * test_water_invariants.py::…boat_lane_carries_a_hull… — 122 m of
-      #     route.boat.blackrose-lilmoth crosses a marsh flat that is dry in BOTH
-      #     seasons. Owner call: declare the carry or make the flat water.
-      # OWNER OVERRIDE, 2026-09-09, FOR THIS DEPLOY ONLY — REVERT AFTER.
-      # The owner authorised shipping over known, named gate failures so they
-      # can walk the province while the fixes land: "I am happy to override any
-      # 'gate' issues in the same way on this occasion (with things flagged to
-      # me appropriately and added to your list to fix if necessary)."
-      # The step still RUNS and still shows RED, so nothing is hidden; it just
-      # no longer stops the deploy. Of the four failures first listed here,
-      # THREE ARE NOW GREEN (2026-09-09) and 529 of 530 pass:
-      #   * test_live_dir_validates / test_door_must_sit_on_the_side_it_claims
-      #     — the two "Lilmoth doors 107 deg out" were NEVER REAL. The autouse
-      #     `default_index` fixture installed a one-asset stub interiors index
-      #     and reached the gate that validates the five LIVE blueprints, so
-      #     all 174 entrance lookups returned None and the validator fell back
-      #     to a nearest-footprint-edge proxy that invented both errors.
-      #     Outside pytest the shipped data reported 0 errors all along.
-      #   * test_delivered_ladder — green since the ladder was re-based (0048).
-      # ONE failure is outstanding, and it is REAL:
-      #   * test_macro_plot::test_the_solve_keeps_every_committed_cell —
-      #     `place.hist-heartland.dive-shaft-xanmeer-well`, a dive shaft whose
-      #     record says submerged and whose cell measures 3.0 m of DRY floor,
-      #     with the nearest 0.8 m water 69.6 m away. No fact rewrite can clear
-      #     it: it needs authored water via hydrology_intent.py +
-      #     authored-minor-waterways.json + `terrain-chain.sh --from
-      #     refine_province`. Written up as B15 in
-      #     docs/research/archive/phase11-rounds/phase11-gap-plan.md.
-      #     (The sibling giovesse-lines failure IS fixed: the sightline gate
-      #     was sampling nearest-neighbour on a 5.48 m grid and calling a
-      #     0.58 m blockage a 1.55 m one. It now samples bilinearly with a
-      #     tolerance derived from local relief, and the scorer rewards
-      #     clearance so future plots stop settling on the knife edge.)
-      # DELETE continue-on-error the moment that last one is green.
+      # THE LADDER (Phase 16, plan §3, owner 2026-09-12). The province is
+      # rebuilt one chunk at a time on a frozen base; a gate that judges a
+      # layer a later chunk still owns (water 16c, routes/structures/grading
+      # 16e, vegetation 16f, settlements 16h) SKIPS with that chunk named,
+      # reading apps/world-studio/public/province/ladder.json
+      # (worldgen/ladder.py). So these steps are blocking again: a red here is
+      # a real defect in a delivered layer, never "known red by design". The
+      # province-level halves also skip without the asset vault (this runner).
       - run: npm run test:placement
-        continue-on-error: true
       # The slow split re-grades the whole province from the vault rasters. It
       # skips where the vault is absent (that includes this runner), so it is
       # wired here to stop it drifting, not as a CI-side measurement.
       - run: npm run test:placement:slow
-        # Same owner override and the same removal instruction as the step above.
-        continue-on-error: true
       # The half of the connector/footprint evidence chain that PRODUCES the
       # measurements consumed by the placement suite (97 G19).
       - run: npm run test:pipeline

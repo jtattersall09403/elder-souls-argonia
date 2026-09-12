@@ -32,6 +32,9 @@ import pytest
 
 from . import compile_minor_waterways as mw
 from .site_fields import ProvinceSurvey
+from .ladder import requires_layer, requires_stage
+
+pytestmark = requires_layer("water")
 
 @pytest.fixture(scope="module")
 def survey():

@@ -7,6 +7,7 @@ import math
 
 import numpy as np
 import pytest
+from .ladder import requires_layer, requires_stage
 
 from worldgen import grade_routes as gr
 from worldgen.scale import RAW_M
@@ -196,6 +197,7 @@ MAX_STEEPENED_FRACTION = 0.030
 MAX_RIM_P95_DEG = 47.0   # the un-benched grader left 47.6
 
 
+@requires_stage("grade_routes")
 @pytest.mark.slow
 def test_province_grading_fills_nothing_deeper_than_the_cap(tmp_path):
     h, graded, ways, stats = _province_grade(tmp_path)
@@ -204,6 +206,7 @@ def test_province_grading_fills_nothing_deeper_than_the_cap(tmp_path):
     assert int((fill > 10.0).sum()) == 0
 
 
+@requires_stage("grade_routes")
 @pytest.mark.slow
 def test_province_grading_leaves_no_unreported_wall(tmp_path):
     """Every face grading leaves steeper than 30 deg is either ground that was
@@ -249,6 +252,7 @@ def _water_faults(h, graded, level, wet):
     return raised, cut_under
 
 
+@requires_stage("grade_routes")
 @pytest.mark.slow
 def test_grading_never_fills_measured_open_water_or_cuts_under_the_waterline():
     h, graded, _, _, level, wet = _province_grade_cached()
@@ -259,6 +263,7 @@ def test_grading_never_fills_measured_open_water_or_cuts_under_the_waterline():
         f"(worst {float((level - graded)[cut_under].max()):.2f} m under)")
 
 
+@requires_stage("grade_routes")
 @pytest.mark.slow
 def test_grading_leaves_no_dry_neighbour_below_its_wet_neighbours_surface():
     """A hovering edge, stated as the grader's own contract and measured
@@ -285,6 +290,7 @@ def test_grading_leaves_no_dry_neighbour_below_its_wet_neighbours_surface():
         f"worst {float((near - graded)[bad].max()):.2f} m")
 
 
+@requires_stage("grade_routes")
 @pytest.mark.slow
 @pytest.mark.parametrize("x,z,what", REVERTED_FAILURE_SITES)
 def test_the_reverted_water_rewrite_failure_sites_are_clean(x, z, what):
@@ -297,6 +303,7 @@ def test_the_reverted_water_rewrite_failure_sites_are_clean(x, z, what):
     assert int(cut_under[sl].sum()) == 0, f"{what} at {x}/{z}: cut under the waterline"
 
 
+@requires_stage("grade_routes")
 def test_the_waterline_clamp_holds_on_the_shoulder_not_just_the_centreline():
     """The synthetic version of the same rule, so it runs where the province
     rasters do not (CI). A way graded ALONGSIDE a river pulls the bank down
@@ -321,6 +328,7 @@ def test_the_waterline_clamp_holds_on_the_shoulder_not_just_the_centreline():
     assert not np.any((graded > h + 1e-4) & wet), "open water was filled"
 
 
+@requires_stage("grade_routes")
 def test_marsh_is_gradeable_ground_but_still_obeys_the_waterline():
     """Marsh is wet GROUND: it is excluded from the no-write mask (so a marsh
     way is not chopped into graded and ungraded pieces), and it is NOT excluded

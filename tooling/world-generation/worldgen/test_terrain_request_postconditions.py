@@ -4,6 +4,7 @@ import json
 
 import numpy as np
 import pytest
+from .ladder import requires_layer, requires_stage
 
 from . import terrain_request_postconditions as post
 from . import terrain_request_raster as raster
@@ -255,6 +256,7 @@ def test_published_terrain_request_records_satisfy_the_real_manifest_check():
     assert {row["id"] for row in plan["operations"]} == {row["operationId"] for row in stats}
 
 
+@requires_stage("terrain_request_postconditions")
 def test_known_red_register_names_only_live_published_requests():
     """The water-owned red list cannot drift away from the published plan."""
     plan = _published(PUBLISHED_PLAN)
@@ -264,6 +266,7 @@ def test_known_red_register_names_only_live_published_requests():
     assert set(known_red) <= live, sorted(set(known_red) - live)
 
 
+@requires_stage("terrain_request_postconditions")
 def test_final_water_postconditions_are_green_apart_from_the_known_red_water_rows():
     """The real gate: rasters + published records, known-red reported not hidden."""
     from .compile_chunks import DEFAULT_HEIGHTS

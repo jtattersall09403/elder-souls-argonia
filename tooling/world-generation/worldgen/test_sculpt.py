@@ -17,6 +17,7 @@ from .compile_chunks import DEFAULT_HEIGHTS
 from .condition import condition
 from .scale import RAW_M
 from .sculpt import SUMMIT_TARGET_M, uplift_envelope
+from .ladder import requires_layer, requires_stage
 
 VAULT = DEFAULT_HEIGHTS.parent.parent   # .../argonia-heightfield
 RAW = VAULT / "heightfield-f32.npy"
@@ -130,6 +131,7 @@ def test_poi_shelves_exist(terrain):
     assert patches >= 25, f"only {patches} shelf patches"
 
 
+@requires_stage("grade_routes")
 @needs_vault
 def test_road_grades_stay_traversable(terrain):
     """The re-solved city roads never climb unwalkable sustained grades."""
