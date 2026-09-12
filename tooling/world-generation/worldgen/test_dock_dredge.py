@@ -1,4 +1,9 @@
-"""A dock's approach is dredged to the depth its hull class promises.
+"""RETIRED AS A TERRAIN STAGE (Phase 16b, ruling 6): the tests that asserted a
+dredge reshapes the ground are gone; what remains tests the MEASUREMENT the
+module still provides (a berth's water carries its hull, or is blocked) and
+that promises come from the blueprints.
+
+A dock's approach is dredged to the depth its hull class promises.
 
 Source-only: a synthetic shelf and deep water, no vault rasters.
 """
@@ -34,50 +39,6 @@ def _promise(need=3.0, hull="keeled"):
     }
 
 
-def test_approach_is_dredged_to_the_promised_depth():
-    h, level, wet = _shelf_and_deep()
-    before = h.copy()
-    row = _promise()
-    h, stats = dd.dredge_docks(h, level, mpp=1.0, promises=[row])
-    assert len(stats) == 1
-    rec = stats[0]
-    assert rec["status"] == "dredged", rec
-    assert rec["waterLevelAtBerthM"] == 2.0
-    assert rec["existingMinDepthM"] < 3.0
-    assert rec["dredgedMinDepthM"] >= 3.0, rec
-
-    # and the dredged water is CONNECTED to the deep water, not a pond
-    seed = np.zeros(h.shape, dtype=bool)
-    seed[:, :5] = True
-    depth = dd.connected_depth(h, 2.0, seed)
-    pts = dd.approach_points_m(row["pointsM"], row["berthM"])[:51]
-    for x, z in pts:
-        d = depth[int(round(z)), int(round(x))]
-        assert d >= row["needM"], f"({x:.0f},{z:.0f}) is {d:.2f} m, needs {row['needM']}"
-
-
-def test_ground_above_the_waterline_is_untouched_and_nothing_is_raised():
-    h, level, wet = _shelf_and_deep()
-    before = h.copy()
-    h, _ = dd.dredge_docks(h, level, mpp=1.0, promises=[_promise()])
-    above = before >= 2.0
-    assert np.array_equal(h[above], before[above]), "ground above the waterline was re-graded"
-    assert np.all(h <= before + 1e-6), "the dredge raised ground"
-
-
-def test_sides_are_sloped_not_a_slot():
-    h, level, wet = _shelf_and_deep()
-    h, stats = dd.dredge_docks(h, level, mpp=1.0, promises=[_promise()])
-    bed = stats[0]["bedAtBerthM"]
-    half = stats[0]["halfWidthM"]
-    row_z = 78
-    # walking out from the centreline the bed rises steadily to the old ground
-    profile = [float(h[row_z + off, 60]) for off in range(0, 30)]
-    assert profile[0] <= bed + 1e-3
-    assert profile[int(half)] <= profile[int(half) + 3] <= profile[int(half) + 6]
-    assert profile[-1] > bed + 1.0, "the cut never returns to the shelf: it is a slot"
-
-
 def test_a_bar_above_the_waterline_is_reported_not_forced():
     h, level, wet = _shelf_and_deep()
     h[70:90, 55:65] = 3.0        # an island across the channel, standing dry
@@ -88,14 +49,6 @@ def test_a_bar_above_the_waterline_is_reported_not_forced():
     assert stats[0]["status"] == "blocked", stats[0]
     assert stats[0]["blockedSamples"] > 0 and stats[0]["blockedFirstAtM"] > 0
     # nothing is dug at all: a half-dredged approach would hide the fault
-    assert np.array_equal(h, before)
-
-
-def test_already_deep_approach_is_left_alone():
-    h, level, wet = _shelf_and_deep()
-    before = h.copy()
-    h, stats = dd.dredge_docks(h, level, mpp=1.0, promises=[_promise(need=0.6, hull="canoe")])
-    assert stats[0]["status"] == "already-deep"
     assert np.array_equal(h, before)
 
 

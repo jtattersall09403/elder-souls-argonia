@@ -98,6 +98,15 @@ The overall goal at this point is to build the province-scale world, in a way th
   are made on the actual geometry** (owner ruling 2026-09-04): footprints,
   silhouettes, full 3D volumes with all their detail, and the authored
   snap/combination rules — never on a piece's label or description.
+- **Test locally; deploy only when the owner says so** (owner 2026-09-12).
+  Pushing to `main` deploys, so commit locally and do NOT push until the owner
+  asks for a deploy. For a check, run `npm run preflight` (every deploy gate,
+  in parallel), then `npm run studio` and hand the owner the local URL: the
+  server listens on `$ES_STUDIO_PORT` and is reached at `$ES_TUNNEL_URL`
+  (same `?view=character&x=..&z=..&t=..` parameters as the deployed studio).
+  Both values are ENVIRONMENT, never committed: they live in the gitignored
+  `.claude/settings.local.json` `env` block on this machine. One dev server
+  at a time on that port; never `pkill -f` to free it.
 - **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
 - **Controller-independent.** Combat/input/lock-on/animation depend on
   `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to
@@ -134,6 +143,15 @@ The overall goal at this point is to build the province-scale world, in a way th
   fresh agent running the `text-review` skill (`.claude/skills/text-review/`).
   The prose linter is an `npm test` gate; the skill is the part a regex
   cannot do. Text that skipped review is a defect, not a shortcut.
+- **Test locally; deploy only when the owner says so** (owner 2026-09-12).
+  Pushing to `main` deploys, so commit locally and do NOT push until the owner
+  asks for a deploy. For a check, run `npm run preflight` (every deploy gate,
+  in parallel), then `npm run studio` and hand the owner the local URL: the
+  server listens on `$ES_STUDIO_PORT` and is reached at `$ES_TUNNEL_URL`
+  (same `?view=character&x=..&z=..&t=..` parameters as the deployed studio).
+  Both values are ENVIRONMENT, never committed: they live in the gitignored
+  `.claude/settings.local.json` `env` block on this machine. One dev server
+  at a time on that port; never `pkill -f` to free it.
 - **Run `npm run preflight` once before every commit** (owner 2026-09-12): it
   runs every gate the deploy runs — `npm test`, typecheck, the placement,
   water and pipeline suites, the raster manifest — in parallel (~2 min) and
