@@ -38,6 +38,17 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
    (a `placeable-NPC` record type or a typed operator socket, `watercraft-v1`
    copied to the site, a hull at each berth of its declared class); the
    navigable check samples along the serving route, not a radial max.
+4b. **Travel services and the root-transit network** (Phase 11's
+   deliverable, homed here by decision 0061): the Morrowind-style
+   service graph — ferrymen, boat owners, rootworm Waykeepers; talk, pay,
+   arrive; no vessel simulation — as one typed record
+   (`world/sources/routes/travel-services.json`: stations, operator socket,
+   fares by band, the lane or rootway each hop follows), quests 20 FAST
+   nodes satisfied by id. The four-station rootworm network is a Pass-1
+   placeholder: re-author it here with Hist-node placement on the graph
+   (a rootway is a reach chain like a lane), the `rootways` overlay
+   regenerated in the same commit. Root-transit quest rewards stay with the
+   packet's co-design loop (15A).
 5. **Paint on the published line**: `routes_raster` and `rebake_landcover`
    read the published line that the character walks; `warn_on_drift` reports the
    geometric deviation.
@@ -84,6 +95,8 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
   Xul-Vaat walkway `x=1.203&z=5.730`: still standing, deck at road height?
 - One ford (from `water-crossings.md`) and one ferry (the Drowning Gate):
   can you wade the ford; is there a boat and someone to talk to at the ferry?
+- The 2D map's travel-service layer: do the ferry hops and the rootworm
+  stations join places a traveller would actually want joined?
 - A track junction that used to step (the-white-pans, glenbridge): smooth?
 
 ## Gotchas

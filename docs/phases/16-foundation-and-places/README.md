@@ -180,8 +180,8 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 | 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md) — channel membership, rocks at falls and cliffs, grass coverage, rows, hanging roots, bare rock, mountain dressing | five region sites + one river + one fall | 10 | todo |
 | 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md) — re-validate every record; move, re-type, cut; design groups; co-siting sets | the plot review report + the design-group list | 11 | todo |
 | 16h | [Settlement runtime and kit QA](16h-settlement-runtime-and-kit-qa.md) — yaw sign, real colliders, anchoring, pads as patches, mounts, nav, stairs, composites, renderable kinds; the off-world kit loop | Lilmoth gate walk-through; the kit sheets | 12 | todo |
-| 16i | [Exemplars end to end](16i-exemplars-end-to-end.md) — five places exterior + interior + approach + nav + dressing; owner walk; skill v2 | walk all five, inside and out | 13 | todo |
-| 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) — one region packet through the skill unattended; automation-readiness gate; hand to Phase 15 | walk the packet | — | todo |
+| 16i | [Exemplars end to end](16i-exemplars-end-to-end.md) — five places exterior + interior (builds the building-interior path; Phase 12 is dungeons only, 0061) + approach + nav + dressing; owner walk; skill v2 | walk all five, inside and out | 13 | todo |
+| 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) — one region packet through the skill unattended; automation-readiness gate; the packet roadmap; hands to Phase 15A (authoring pass, starts at once, unfrozen) | walk the packet | — | todo |
 
 **Why this order.** Water depends on terrain; routes and vegetation depend on
 water; places depend on all three; the settlement runtime must be correct
@@ -211,6 +211,10 @@ them where the blueprint put them.
 - A settlement runtime that rotates by +yaw, collides with real shapes,
   mounts dressing, places ways and reports navigation honestly.
 - `.claude/skills/settlement-build/` v2 and a `kit-qa` skill.
+- The building-interior path (portal + foundation records, interior cells
+  from plugin data, the door transition, the interior load contract in
+  `packages/`), the typed travel-service graph, the stronghold reservation
+  and the 15A packet roadmap — the seams into Phases 12 and 15 (0061).
 - Every absorbed polish-backlog row struck; the water handoff archived.
 
 ## 6. Coverage matrix (every item in §2 has a chunk)

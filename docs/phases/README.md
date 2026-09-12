@@ -14,16 +14,18 @@ are not phases — several phases each draw on one module.
 |---|---|---|---|
 | 0–8c | sources, monorepo, province ingest, hydrology, society, studio, terrain, character, light, water, weather | [§86.1](#861-done--phases-08c-summary-statuses-and-evidence-in-progressmd) (done) | decisions 0001–0032; round logs in [../research/archive/](../research/README.md) |
 | 10 | asset deep catalogue, kits, vegetation machinery | [§ Phase 10](#phase-10--asset-deep-catalogue-and-kit-compilers) (done) | [0036](../decisions/0036-phase10-placement-decisions.md), [0048](../decisions/0048-vegetation-density-ladder.md), archive `phase10-rounds/` |
-| 11 | settlement and location system, exemplar-first | [§ Phase 11](#phase-11--the-settlement-and-location-system-exemplar-first) — absorbed into 16 | [0041](../decisions/0041-phase11-settlement-decisions.md), archive `phase11-rounds/` |
+| 11 | settlement and location system, exemplar-first | [§ Phase 11](#phase-11--the-settlement-and-location-system-exemplar-first--absorbed-into-phase-16-2026-09-11-seams-re-cut-2026-09-12-decision-0061) — absorbed into 16; the table there says where each deliverable went | [0041](../decisions/0041-phase11-settlement-decisions.md), archive `phase11-rounds/` |
 | **16** | **terrain once, water once, places on a frozen world** (current) | [16-foundation-and-places/](16-foundation-and-places/README.md) — chunks 16a–16j | [0057](../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md); audits in [../research/phase16/](../research/phase16/README.md) |
-| 12 | dungeon and interior system, exemplar-first | [§ Phase 12](#phase-12--the-dungeon-and-interior-system-exemplar-first); its exemplar slice runs in chunk 16i | — |
+| 12 | dungeon system, exemplar-first (building interiors are 16i's, not this phase's) | [§ Phase 12](#phase-12--the-dungeon-system-exemplar-first) | [0061](../decisions/0061-phase-seams-after-16.md) |
+| 15A | see row below 14 — runs alongside 12, 9, 10b, 10c as the authoring pass | | |
 | 9 | swimming, climbing, boats | [§ Phase 9](#phase-9--swimming-climbing-and-boats) | research [swim-climb-boat](../research/combat-and-systems/swim-climb-boat-implementation.md) |
 | 10b | full sandbox parity in the studio | [§ Phase 10b](#phase-10b--full-portable-sandbox-parity-in-the-studio) | [0017](../decisions/0017-sandbox-parity-moved-to-phase-10b.md) |
 | 10c | stats and progression implementation | [§ Phase 10c](#phase-10c--stats-progression-and-character-systems-module-76) | [../world/76](../world/76-stats-progression.md), [0019](../decisions/0019-stats-system-workstream-and-placement.md) |
 | 13 | fauna ecology, encounters, fixed loot | [§ Phase 13](#phase-13--fauna-ecology-encounters-and-fixed-loot-exemplar-first) | — |
 | P (+12b) | rolling polish pass; the soundscape | [§ Phase P](#phase-p--general-polish-pass-rolling-including-phase-12b--the-soundscape) + [P-polish/backlog.md](P-polish/backlog.md) | [0023](../decisions/0023-soundscape-polish-tier-and-credits.md) |
 | 14 | streaming and deployment | [§ Phase 14](#phase-14--streaming-and-deployment) | — |
-| 15 | rollout by region packet | [§ Phase 15](#phase-15--rollout-by-region-packet) | [0034](../decisions/0034-build-sequence-rework.md) |
+| **15A** | rollout, authoring pass: settlements and POIs per packet, unfrozen — **starts when 16j closes**, in parallel with 12/9/10b/10c | [§ Phase 15](#phase-15--rollout-by-region-packet-two-passes-decision-0061) | [0034](../decisions/0034-build-sequence-rework.md), [0061](../decisions/0061-phase-seams-after-16.md) |
+| 15B | rollout, completion pass: dungeons, fauna, loot, freeze per packet — after 14 | same | same |
 | after | the game build-out (everything the final game needs beyond the world) | [buildout/](buildout/README.md) | [0038](../decisions/0038-world-build-vs-game-buildout-seam.md) |
 
 Parallel workstreams (L lore, N quest review, S stats design, T text, C combat)
@@ -114,7 +116,9 @@ out as data:
 3. validate on **2–3 contrasting instances** (different region class, culture,
    danger band) — the contrast set is where configurability is proven. Each
    placement phase opens by *proposing its contrast set* for owner sign-off;
-4. roll out as data, region packet by region packet (Phase 15), with owner
+4. roll out as data, region packet by region packet (Phase 15: 15A authors
+   settlements/POIs as soon as 16j proves the skill; 15B completes each
+   packet with dungeons, fauna and loot and freezes it), with owner
    gates at the exemplar and the contrast set, not per instance. **Done
    early for vegetation**: the terrain chain's final `compile_scatter` stage
    bakes every chunk, so flora has been province-wide since 2026-09-07
@@ -158,13 +162,16 @@ convenience and can be re-ordered by the owner.
 | 8a world clock | 8c weather, 13 ecology, 11+ quests | the season scalar `s(t)`, schedules and calendared events all read one clock |
 | 9 swim/climb/boats | 10b parity | the §53 orchestration extraction should merge once, against a character package that already has every movement mode |
 | 10 kits | 10b parity | combat-space probes measure against production geometry |
-| 10b parity | 11/12 **packet freeze** | a region packet freezes only after combat-space and critical-animation probes pass on its geometry (00-core acceptance). Exemplar *authoring* may start before 10b — a **freeze-gate, not a start-gate** (0034) |
-| **S** stats design | 10c, and 11/12 *authoring* | 10c implements what S decides; content is authored **semantically** against the S schema — ladder references ("strong D3, diseased") compiled to absolutes (0019 fourth amendment, module 76 §128) — so authoring needs the accepted schema, not the implemented system |
-| 10c stats | 11/12 **packet freeze**, **13** | compiled numbers, regenerated capability profiles and the balance harness must exist before authored content is balance-validated/frozen, and before Phase 13 authors encounters and loot |
+| 10b parity | 12 and **15B packet freeze** | a region packet freezes only after combat-space and critical-animation probes pass on its geometry (00-core acceptance). Exemplar *authoring* may start before 10b — a **freeze-gate, not a start-gate** (0034) |
+| **S** stats design | 10c, and 12/15A *authoring* | 10c implements what S decides; content is authored **semantically** against the S schema — ladder references ("strong D3, diseased") compiled to absolutes (0019 fourth amendment, module 76 §128) — so authoring needs the accepted schema, not the implemented system |
+| 10c stats | **15B packet freeze**, **13** | compiled numbers, regenerated capability profiles and the balance harness must exist before authored content is balance-validated/frozen, and before Phase 13 authors encounters and loot |
 | 3/4 climate fields | 8a haze, 8c weather, 13 ecology | one source of climate truth, many consumers (§33.1) |
 | 8a world clock | 12b soundscape | ambience beds crossfade on `dayPhase()` and season (§106) |
 | 13 ecology | 12b soundscape | creature calls and settlement/ecology ambience are authored **from** the ecology data *by the sound phase* — you can't place frog sounds until you know where the frogs are (0034). 12b sits in the Phase P polish tier and must land before Phase 14 locks performance budgets |
 | 10 vegetation renderer + scatter compiler (§109–112) | 11, 13 | places are dressed and judged at real vegetation density; Phase 13 authors against measured budgets |
+| **16 frozen base + water** | 12, 15A, 15B | nothing after 16b re-carves terrain or moves water; a packet's ground work is typed local patches that fail when they would (0057/0059). Phase 15's old "local hydrology/terrain refinement per packet" is gone |
+| 16i interior path + 16j skill | 15A | 15A authors settlements and their interiors through the proven path; it starts the moment 16j closes, unfrozen (0034's freeze-gate rule) |
+| 12, 10b, 10c, 13, 14 | 15B | dungeons, navmesh, compiled numbers, fauna/loot and locked budgets are what turns an authored 15A packet into a frozen one |
 | 10 kit collision | 10b nav bake (§114) | navmesh is generated from kit collision geometry; 10b's combat-space probes measure "enemy navigation access" on the baked data |
 
 The rows are hard constraints **except the two feeding 10b**, which are
@@ -222,9 +229,12 @@ landscape (90 §74.1b). Generalise it:
 Valenwood plus Bethesda's grass schema. The readers are
 `worldgen/esp_index.py` (base objects, worldspace cells, references, LAND
 painting, REGN object tables, GRAS), driven by `worldgen/mine_placement.py`
-and `worldgen/mine_groundcover.py`. **Still to mine, with the same readers:**
-settlement composition (Phase 11 — BM&V's Lilmoth-area cells) and interior /
-dungeon assembly (Phase 12 — `Plugin.interior_cells`).
+and `worldgen/mine_groundcover.py`. **Done for settlement
+composition and interior assembly (Phase 11, 2026-09-06):**
+[mined-interior-assembly-and-settlement-form.md](../research/placement-settlements/mined-interior-assembly-and-settlement-form.md)
+(`Plugin.interior_cells`, door teleports, co-placements). **Still to mine:**
+dungeon assembly by family (Phase 12, same readers) and habitat/encounter
+patterns (Phase 13).
 
 ### 86.1 Done — Phases 0–8c (summary; statuses and evidence in PROGRESS.md)
 
@@ -300,78 +310,37 @@ Deliverables:
 - LOD and collision generation;
 - source/credits reference check in CI.
 
-### Phase 11 — the settlement and location system (exemplar-first)
+### Phase 11 — the settlement and location system (exemplar-first) — ABSORBED INTO PHASE 16 (2026-09-11; seams re-cut 2026-09-12, decision 0061)
 
-**This phase builds the reusable settlement/POI system, not the province's
-settlements** (§85.4). Content is authored *semantically* against the
-accepted workstream-S schema; packets freeze only later, when the 10b
-combat-space probes and 10c compiled numbers validate them (freeze-gates,
-§86.0). Mass production of the remaining regions is Phase 15. Mine BM&V's
-Lilmoth-area composition and vanilla settlement data for composition rules
-before inventing them (§86.0b).
+Phase 11 built the settlement/POI *system* (causal-model schema, the
+blueprint→compiler path, the district/route/parcel compiler, the
+location-orphan validator, the macro plot) and delivered five exemplars
+that the owner's walk found wrong at the runtime boundary. The system
+survives; everything Phase 11 still owed now has a named home. Nothing is
+parked:
 
-Deliverables:
+| Phase 11 deliverable | Where it is delivered now |
+|---|---|
+| runtime correctness of what the compiler placed | 16h |
+| the five exemplars, exterior | 16i |
+| the **Hist-centred** and **Imperial-fringe settlement grammars** — in practice the type recipes (`type-recipes.json`) plus the mined kit-assembly templates | proven on the exemplars in 16i (Lilmoth is the Imperial-fringe city; Nine-Trunks and Mazzatun the Hist-centred pair), proven unattended in 16j; further recipes per packet in 15A |
+| "all settlement structures enterable": door, interior-claim record, door reachable every compile | 16h (door + reachability), 16i (the interior behind the door — see Phase 12 note) |
+| **D0 safe interiors** per settlement; Helstrom D0 with gates against the band-5 basin | the exemplars' in 16i; every other settlement's in its 15A packet; Helstrom is a city, owner-guided, in its packet |
+| **Morrowind-style travel services** (ferrymen, boat owners, rootworm Waykeepers: talk-pay-arrive over a geographically sensible service graph) and the **root-transit network re-authoring** with Hist-node placement | 16e (ferries placed, the typed service graph, the rootways re-lined on the graph) |
+| **player-stronghold site reservation** (quests 30 §24b.5; 0028) | 16g reserves the record and its design group; its interior is a Phase 12 family (a reoccupied xanmeer or a river station) |
+| **quest location roster** and the per-quest world provisions | re-validated in 16g against the frozen world; per packet in 15A |
+| **quest–world co-design loop** (quests 90 §65b, a completion gate per packet) | 16j runs it on the trial packet; 15A runs it per packet before the packet is handed to 15B |
+| **content-density budget** (18–22 named POIs/km² in D0–D3, 8–12 in D4–D5, something named within ≤300 m of every road and lane; reward coverage per 20 §12.3b) | 16g reports it per zone on the re-validated plot; 15A declares it per packet **as sited records** (dungeon and encounter sites count as reserved sites, not built places); 15B verifies it as built content at freeze |
 
-- causal-model schema;
-- agent blueprint workflow;
-- district/route/parcel compiler;
-- Hist-centred settlement grammar;
-- Imperial-fringe settlement grammar;
-- location-orphan validator;
-- **one retained exemplar settlement authored *through* the blueprint→compiler
-  path** (never hand placement — it becomes the compiler's first regression
-  fixture), then **2–3 contrasting instances** (different region class,
-  culture, danger band; the contrast set proposed to the owner at phase
-  start) proving the system doesn't over-fit;
-- **Morrowind-style travel services** (0034): ferrymen/boat owners/rootworm
-  Waykeepers as talk-pay-arrive instant travel over a defined, geographically
-  sensible service graph (Phase 4 lanes + this phase's docks; quests 20 FAST
-  nodes). NPC passengers are set dressing; no vessel simulation — this is
-  world content, not Phase 9 machinery;
-- **quest location roster**: the per-quest World-generation provisions in
-  docs/quests/ are the demand schedule — stable semantic IDs, approach
-  alternatives, scene/NPC/evidence/container sockets, and the
-  `QuestWorldProvision` packet per substantial location (quests 20 §13);
-- **quest–world co-design loop per region packet — a completion gate, not a
-  suggestion** (process: quests 90 §65b): after the settlement/POI draft, the
-  region's local-quest *briefs* are drafted and their requested placements
-  reconciled (a camp overlooking the route, a toll at the crossing, a flooded
-  cellar) before the packet freezes. **A region packet without its
-  quest-brief set and density budget is not done and must not be marked done
-  in PROGRESS.** A single phase agent may wear both hats (world-drafting then
-  brief-drafting, in that order) or spawn a subagent — what is mandatory is
-  the artifacts and the gate, not the org chart. The published
-  main-quest/faction provisions are confirmed in the same pass. **The
-  exemplar and contrast-set packets run the full loop too** — they are the
-  first live test of §65b (does brief-driven placement work?), not just of
-  the compilers;
-- **content-density budget** (numbers + evidence in
-  [../research/placement-settlements/morrowind-content-density.md](../research/placement-settlements/morrowind-content-density.md)):
-  match Morrowind — **18–22 named POIs per km²** of authored land in D0–D3
-  regions (8–12 in D4–D5, landmark-heavy and quest-light), **something named
-  within ≤300 m of travel along every road and boat lane**, quests per
-  settlement by magnitude class (M5 ≈ 35–60, M4 10–20, M3 3–8, M2 1–3), **all
-  settlement structures enterable and all settlement NPCs named** ("enterable"
-  = Phase 11 ships the door + interior-claim record and proves the door
-  *reachable* — approachable, steppable threshold, on the post-grade navmesh,
-  not facing a cliff — every compile; the interior itself is Phase 12 work,
-  verified at packet freeze after 12). Each region
-  packet declares its counts against this budget at review — **including its
-  reward coverage under module 20 §12.3b** (every notable hard-to-reach
-  landform in the packet carries a reward; owner directive 2026-09-01);
-- **D0 safe interiors** authored per settlement (quests 20 §12 mapping);
-  Helstrom interior D0 with gates against the band-5 basin;
-- **player-stronghold site reservation** — one reoccupied xanmeer or abandoned
-  river station, reserved in this phase (quests 30 §24b.5; decision 0028);
-  interiors are Phase 12 work;
-- **root-transit network re-authoring**: the compiled four-station rootworm
-  network is a Pass-1 placeholder — re-author it here with Hist-node placement;
-  root-transit quests and rewards are finalized in the same packet's co-design
-  loop.
+Decisions and history: [0041](../decisions/0041-phase11-settlement-decisions.md),
+[research/archive/phase11-rounds/](../research/archive/phase11-rounds/phase11-gap-plan.md).
+The mined composition rules (§86.0b) are in
+[mined-interior-assembly-and-settlement-form.md](../research/placement-settlements/mined-interior-assembly-and-settlement-form.md).
 
 ### Phase 16 — the frozen foundation and the place ladder (owner 2026-09-11)
 
-**Runs now, before Phase 12 proper, Phase 9 and Phase 14.** Phase 11's
+**Runs now, before Phase 12, Phase 9, 10b, 10c, 13, P and 14; Phase 15A
+opens the moment 16j closes.** Phase 11's
 exemplar work, the water round-2 leftovers and the terrain/vegetation/route
 rows of the polish backlog are absorbed into one sequenced phase (decision
 [0057](../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md)).
@@ -409,21 +378,34 @@ Deliverables:
   doors, lamps mounted, stairs reachable, navigation consumed) and an
   off-world **kit QA loop** that produces rules and a skill, not per-piece
   approvals;
-- the **five exemplars end to end**, exterior and interior, then the
-  **rollout skill** proved on one unattended packet before Phase 15.
+- the **five exemplars end to end**, exterior and interior — 16i builds the
+  **building-interior path** (portal and foundation data, the interior cell
+  behind each shell read from plugin data, the door transition, the
+  interior load contract) that Phase 12's dungeon families and Phase 15A
+  reuse; then the **rollout skill** proved on one unattended packet, whose
+  result is the first **Phase 15A** packet (authored, unfrozen — the gates
+  it still owes are listed in the 16j brief).
 
-### Phase 12 — the dungeon and interior system (exemplar-first)
+### Phase 12 — the dungeon system (exemplar-first)
 
-**Same shape as Phase 11 and may interleave with it** (§85.4): build the
-grammars and compilers, prove them on one retained exemplar per family
-started, validate on contrasting instances, and leave mass production to
-Phase 15. Authoring is semantic against the S schema; packets freeze after
-10b/10c validation (§86.0); the quest–world co-design loop (quests 90 §65b)
-applies to this phase's packets exactly as to Phase 11's. Interior navmesh
-bakes land with 10b's pipeline — author the geometry now, bake when the
-pipeline exists.
+**Scope after Phase 16 (decision 0061).** Chunk 16i built the
+**building-interior path** — portal and foundation data, the interior cell
+behind each enterable shell (read from the mod's plugin data, never
+guessed), the door transition and the interior load contract — and proved
+it on the five exemplars' buildings. Phase 15A uses that path for every
+settlement interior it authors. **This phase does not build interiors
+again.** It builds the **dungeon families**, which are places in their own
+right and not rooms behind a house door, on the same shape as every
+placement phase (§85.4): grammars and compilers, one retained exemplar per
+family, a contrast set proposed to the owner at phase start, mass
+production left to Phase 15B. Authoring is semantic against the S schema;
+packets freeze after 10b/10c validation (§86.0); the co-design loop (quests
+90 §65b) applies. Interior navmesh bakes land with 10b's pipeline — author
+the geometry, bake when the pipeline exists. Runs on the frozen world:
+a dungeon's exterior footprint is a typed local patch (16b) or nothing;
+underwater entrances read the hydrology graph and never move water.
 
-**Both phases consume the place-obligation contract.**
+**Both this phase and Phase 13 consume the place-obligation contract.**
 `worldgen.place_obligations` projects every delivery-bearing catalogue detail
 and every blueprint `playerPurpose` into stable typed obligations, preserving
 the originating catalogue path. Provenance and plot mechanics are explicitly
@@ -437,21 +419,25 @@ consumers replace it; it is not evidence that downstream content exists.
 
 Deliverables:
 
-- exterior portal and foundation data;
-- Xanmeer graph grammar;
+- Xanmeer graph grammar (this family also serves the **player stronghold**
+  reserved in 16g and the reoccupied-xanmeer places the plot carries);
 - cave/root/smuggler grammar;
-- underwater entrances;
+- underwater entrances, on the hydrology graph's reaches and bodies;
+- the exterior socket: how a dungeon's portal sits in the 16i portal and
+  foundation data, so a dungeon door and a house door are one mechanism;
 - interior navmesh bakes + per-cell acoustic/lighting profiles (§114, §106,
-  55 §96);
-- interior streaming contract;
-- **one full retained exemplar production dungeon authored through the
-  grammar→compiler path**, plus contrasting instances per §85.4 before the
-  family is declared rollout-ready;
+  55 §96) — bakes when 10b's pipeline exists, profiles now;
+- **one full retained exemplar production dungeon per family started,
+  authored through the grammar→compiler path**, plus the contrast set per
+  §85.4 before the family is declared rollout-ready; the family then joins
+  the automation-readiness checklist (world 96 §3) like a settlement type;
 - **quest dungeon reservations** (sites + causal records now, geometry per
   regional packet): the submerged Eye observatory, Blackrose prison
   archive/tunnels, Lilmoth Tidal Palace heist complex, the two optional
   Eye-route chains, and the **Lost City reserved in the deep basin beyond
-  Helstrom** (near-final D5 complex; quests 30).
+  Helstrom** (near-final D5 complex; quests 30) — the sites already exist as
+  records in the 16g plot; this phase gives them causal records and
+  grammar bindings.
 
 ### Phase 9 — swimming, climbing and boats
 
@@ -561,8 +547,9 @@ Deliverables:
   version pin asserted in CI — enemies in the studio path on baked data;
 - combat-space probes (§69) measured against production kits and collision,
   including "enemy navigation access" against the baked navmesh (§115);
-- **the freeze-gate closed**: those probes run over the Phase 11/12 exemplar
-  packets, which get frozen or fixed (§86.0).
+- **the freeze-gate opened for use**: those probes run over the 16i exemplars,
+  the Phase 12 exemplars and every 15A packet authored so far; freezing
+  itself is 15B's per-packet act (§86.0).
 
 Sequenced here because:
 
@@ -614,7 +601,7 @@ Deliverables:
   and playtested in the build-out and sets the pattern.
 
 Sequenced after 10b and **before Phase 13 and any packet freeze**: content in
-11/12 is *authored* semantically against the S schema and doesn't wait for
+12/15A is *authored* semantically against the S schema and doesn't wait for
 this phase (0034), but the compiled numbers, regenerated profiles and the
 balance harness must exist before that content is balance-validated/frozen
 and before Phase 13 writes encounters and loot. Fixed danger (0004) is
@@ -630,7 +617,7 @@ author later, in 12b, from this phase's data. What remains here is the
 genuinely needs 10b (enemies, nav) and 10c (compiled stats). Same
 exemplar-first shape (§85.4): build the habitat/encounter/loot systems, prove
 them on the exemplar areas and a contrast set, roll out per region packet in
-Phase 15. Authoring is semantic (ladder references, §86.0); mine the shipped
+Phase 15B. Authoring is semantic (ladder references, §86.0); mine the shipped
 games' data for habitat/encounter patterns where useful (§86.0b).
 
 **Both phases consume the place-obligation contract.** See the binding
@@ -722,7 +709,7 @@ streaming/LOD architecture as it lands — vegetation via module 65's tiers and
 budget probes, kits/interiors via the bundle contract (module 80 §63) — so
 nothing ever renders "everything at once". **Standing rule: the province must
 stay loadable and playable in the owner's browser at every phase gate.** If
-rollout scale (Phase 15) starts to strain that, pull Phase 14 items forward
+rollout scale (Phase 15A) starts to strain that, pull Phase 14 items forward
 into the packets (draw-distance rings, impostor distances, instance caps,
 texture compression) rather than waiting for this phase.
 
@@ -736,7 +723,7 @@ Deliverables:
   frame pipeline, weather expression, terrain streaming + the only
   `EnvironmentQuery` implementation, vegetation, ground splat material, the
   character driver, touch input. It is extracted here because this phase must
-  touch that code anyway, and because Phase 15 should author content for the
+  touch that code anyway, and because Phase 15B should complete content for the
   real game app rather than for a studio that is subsequently rewritten.
   Constraints from the audit (§1): extract as **one** package first — sky,
   water, weather and terrain are a five-way import cycle coupled by mutable
@@ -769,38 +756,61 @@ Deliverables:
   quest location: occupants, barricades, banners, clutter, ambience — the
   quest consequence budget, quests 20 §14; never terrain/hydrology).
 
-### Phase 15 — rollout by region packet
+### Phase 15 — rollout by region packet (two passes, decision 0061)
 
 The province-wide fields (terrain, hydrology, light, water, weather) already
-exist; what expands region-by-region is **content**. This phase is step 4 of
-§85.4 — the proven placement systems (11 settlements/POIs, 12
-dungeons/interiors, 13 fauna/encounters/loot, plus flora fill from 10's
-palettes) are rolled out across the province as data, packet by packet.
+exist and are **frozen** (Phase 16); what expands region-by-region is
+**content**, as data. Phase 15 runs as **two passes over the same packet
+list**, because the settlement/POI system is proven at the end of Phase 16
+while the dungeon, fauna and stats systems it also needs arrive later.
+Decision 0034 already made freezing a *freeze-gate, not a start-gate*: a
+packet may be authored long before it can be frozen.
 
-**The phase opens by drafting the packet roadmap** (the ordered list of
-region packets with rough scope — none exists yet) for owner sign-off.
+**15A — authoring pass (settlements and POIs).** Opens the moment 16j
+closes, from the packet roadmap 16j drafts. Runs the settlement-build skill
+v2 and the kit QA skill per packet, unattended except for cities and the
+opening-scene places (owner hands-on, 0041). Each 15A packet:
 
-Each region packet:
+1. **typed local patches only** where a pad or a way needs one (16b's
+   invariants: a patch that would move a water level, a body extent or a
+   channel fails; the frozen array is never re-carved and hydrology is never
+   "refined" per packet);
+2. author regional identity (region grammar §16 config, species palettes as
+   data on the 16f scatter);
+3. minor routes, ways and the travel-service graph densified through 16e's
+   stages and patch stack (never a fresh route solve);
+4. the causal location network for the packet from the 16g plot
+   (settlement/POI system, per-packet config), every settlement structure
+   enterable through the 16i interior path, D0 safe interiors per settlement;
+5. **quest-brief co-design pass** (quests 90 §65b — a completion gate,
+   0027: briefs drafted against the draft network, placements reconciled,
+   the density budget declared **as sited records** — dungeon, encounter and
+   loot sites count as reserved sites carrying typed obligations, not as
+   built content);
+6. compile, export, browser probe, orphan validator, the automation-readiness
+   checklist per type (96 §3);
+7. owner walk at packet level, not per instance (§85.4); steers become rules.
 
-1. local hydrology/terrain refinement where the packet needs it;
-2. author regional identity (region grammar §16 config, species palettes);
-3. compile routes and densify the transport network (module 60 §45), including
-   the Morrowind-style travel-service graph;
-4. establish the causal location network (settlement/POI system, per-packet
-   config);
-5. **quest-brief co-design pass** (quests 90 §65b — a completion gate, 0027:
-   briefs drafted against the draft network, placements reconciled, density
-   budget declared before freeze);
-6. agent-author hero locations and dungeons through the compilers;
-7. compile assets; fauna/encounters/loot per the Phase 13 systems;
-8. integrate gameplay;
-9. validate (probes, combat-space, density budget, orphan validator,
-   **streaming/performance budgets** — the packet must stream within budget
-   on the owner's browser, not just render in isolation);
-10. owner review — gates at packet level, not per instance (§85.4);
-11. approve world bundles.
+A 15A packet is **authored, not frozen**. It ships to the studio and the
+deployed build like the exemplars do, and it carries a typed list of what it
+still owes 15B.
 
-The province preview remains available throughout rollout.
+**15B — completion pass.** Runs after Phases 12, 9, 10b, 10c, 13 and 14, over
+the same packets in the same order. Each 15B packet:
+
+1. dungeons and hero interiors through the Phase 12 grammars at the sites
+   15A reserved;
+2. fauna, populations, encounters and fixed loot per the Phase 13 systems;
+3. gameplay integration; the sparse local-state variants (Phase 14);
+4. validate: combat-space probes on the baked navmesh (10b), balance against
+   compiled numbers (10c), the density budget **as built content**, the
+   delivery manifests against every obligation, **streaming/performance
+   budgets** — the packet must stream within budget on the owner's browser;
+5. owner review; **freeze**; approve world bundles.
+
+The province preview remains available throughout both passes. If rollout
+scale strains the browser before Phase 14, pull Phase 14 items into the
+packets (draw-distance rings, impostor distances, instance caps).
 
 ### Phase-ID history
 
@@ -808,8 +818,10 @@ IDs are stable and never renumbered; only the *order* and occasionally a
 phase's *name* change. The moves so far: **7b → 10b** (0017); **8d → 12b**
 (0023), then 12b into the P window (0034); **15** renamed from "expansion by
 watershed" to "rollout by region packet" (0034); the risk-first re-ordering,
-the flora/fauna ecology split and the Phase 9 scope trim are 0034. The
-pre-0034 layout of this file is in git history.
+the flora/fauna ecology split and the Phase 9 scope trim are 0034. **11
+absorbed into 16** (0057); **12 narrowed to dungeons** and **15 split into
+15A authoring / 15B completion** (0061, 2026-09-12). The pre-0034 layout of
+this file is in git history.
 
 ## 87. Why this sequence controls risk
 

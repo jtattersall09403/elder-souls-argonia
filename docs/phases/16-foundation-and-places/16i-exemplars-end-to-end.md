@@ -2,9 +2,11 @@
 
 **Goal.** Take Lilmoth, Nine-Trunks, Mazzatun, the licensed tapping camp and
 Wamasu Pond all the way: exterior as composites from the mined templates,
-interiors for the buildings that earn them (Phase 12's exemplar slice), the
-approach and reveal, doors that open onto ways, navigation that works,
-dressing that varies, ground patched where a pad needs it. The owner walks
+interiors for the buildings that earn them (**this chunk builds the
+building-interior path**; Phase 12 is dungeons only — decision 0061), the
+approach and reveal, doors that open onto ways, navigation reported
+honestly (the bake is 10b's), dressing that varies, ground patched where a
+pad needs it. The owner walks
 each; every steer becomes a rule; the settlement-build skill is rewritten
 to v2 from what was actually needed.
 
@@ -27,11 +29,25 @@ Needs ruling 13 (interior scope).
    is a composite from `kit-assemblies-mined.json` or a single piece the
    source authors use alone; the kit QA skill run on every assembly; the
    `assetPlan` corrected where the catalogue named a kit that cannot serve.
-2. **Interiors** (per ruling 13): the interior cell the plugin links for
-   each enterable shell, compiled through the Phase 12 grammar path as its
-   first exemplars (portal + foundation data, the interior kit, the door
-   transition), on the exemplars' own buildings; navmesh bakes wait for 10b
-   and the record says so.
+2. **Interiors — the building-interior path, built here** (per ruling 13;
+   nothing of it exists yet, so do not look for a Phase 12 path to reuse):
+   the interior cell the mod plugin links for each enterable shell
+   (`exterior-interior-links.json`, never guessed), compiled by a typed
+   **portal + foundation record** on the shell, the interior kit assembled
+   from the plugin's own cell, the **door transition** and an **interior
+   load contract** in `packages/` (how an interior cell is fetched and
+   entered through a door, through the bundle contract of world 80 §63, so
+   a house door and a later dungeon door are one mechanism). Mark the
+   **D0 safe interior** each settlement owes (quests 20 §12) on its record.
+   Interior navmesh bakes wait for 10b and the record says so; per-cell
+   acoustic/lighting profiles are Phase 12's. This path is what Phase 15A
+   uses for every settlement interior; Phase 12 hangs its dungeon portals
+   on the same records.
+2b. **The two settlement grammars are proven here, not re-invented**: the
+   Imperial-fringe recipe on Lilmoth, the Hist-centred recipe on
+   Nine-Trunks and Mazzatun (`type-recipes.json` plus the mined assembly
+   templates). A recipe that needed a hand decision is a gap in the recipe
+   and is closed in the recipe.
 3. **Approach, reveal, wayfinding**: the 16-item checklist answered on the
    ground for every approach; first-seen landmark, gate across the road,
    door visible from the way.
@@ -45,6 +61,10 @@ Needs ruling 13 (interior scope).
 7. **Skill v2**: rewrite `.claude/skills/settlement-build/` from the steps
    that were actually needed for the fifth place, including the kit QA and
    interior steps; delete what v1 says that is no longer true.
+8. **Type register**: record which place type each exemplar is
+   (`world/sources/catalogue/type-recipes.json`), because 16j's trial packet
+   picks types from this list and the automation checklist (96 §3) counts
+   exemplars per type.
 
 ## Acceptance
 

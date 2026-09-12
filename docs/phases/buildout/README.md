@@ -85,8 +85,8 @@ will also use.
   typed socket lists) · **the compiled settlement bundle format carries a
   `LocalStateVariant` overlay mechanism from v1** (quests 20 §14; else every
   bundle is rebuilt at 14) · **door + interior-claim records** on every
-  enterable structure (stable door ID = Phase 12's fill point *and* the
-  interior streaming boundary), with door *reachability* validated every
+  enterable structure (stable door ID = the fill point for 16i's building interiors and
+  Phase 12's dungeon portals, *and* the interior streaming boundary), with door *reachability* validated every
   compile. Full statements: decision 0041's forward-compatibility block.
 - **At the Phase 10 gate:** schedule or consciously re-defer the
   beyond-border land apron (55 §98b says "alongside Phase 10").

@@ -18,7 +18,10 @@ starts from the result.
 ## Deliver
 
 1. **Packet choice**: propose three candidate packets (region, places, types,
-   why) from the 16g plot; pick the one whose types the exemplars covered.
+   why) from the 16g plot; pick the one whose types the exemplars covered
+   (16i's type register). No city; no dungeon geometry (sites only).
+   The packet's places are the **second exemplar of their type** for the
+   automation checklist (96 §3) — one exemplar in 16i plus one here.
 2. **Run the skill unattended** (a `deliver` subagent per place, against the
    frozen world; freeze, fan out, reconcile, apply, build once — the 96
    lesson). Record every hand decision.
@@ -27,8 +30,11 @@ starts from the result.
 4. **Close the gaps** found in step 2 in the skills, not in the places.
 5. **Automation-readiness** checklist (96 §3) ticked per type with evidence;
    the agent-as-reviewer experiment run on one non-city place.
-6. **Hand-off**: PROGRESS Phase 15 row opens with the packet roadmap draft;
-   Phase 16 closes.
+6. **Hand-off**: the **packet roadmap** (ordered list of 15A packets with
+   rough scope and the types each needs, cities and opening-scene places
+   flagged owner-guided) drafted for owner sign-off; the trial packet's
+   owed-to-15B list written; PROGRESS row 15A opens `in progress` with the
+   roadmap, row 15B stays `todo`; Phase 16 closes.
 
 ## Acceptance
 
@@ -41,3 +47,5 @@ starts from the result.
 - Walk the packet's places (URLs in the packet record): do they read as
   places of their kind, sited for a reason, reachable, with something to do?
 - Did anything need you that the plan said would not?
+- The packet roadmap: is the order right? Are the right places marked as
+  yours to guide?

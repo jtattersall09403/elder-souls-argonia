@@ -39,6 +39,12 @@ Needs ruling 11 (the floor).
    every ferry pair and any two records within 150 m whose `prose_links`
    name each other. Reason about each: merge, co-site, or nothing, with the
    lore reason (dossiers first).
+3b. **The stronghold site** (quests 30 §24b.5,
+   decision 0028; homed here by 0061): one reoccupied xanmeer or abandoned
+   river station, reserved as a catalogue record with
+   `reservedFor: player-stronghold` and a design group, its terrain and
+   water facts measured like any other record's. Its interior is a Phase 12
+   dungeon-family job; this chunk reserves the ground and the lore reason.
 4. **The plot re-solve** (`macro_plot --resolve-all` under the seed rule, pins
    kept) — once, on the frozen world; the two backlog-red records
    (dive-shaft, Giovesse lines) resolved by the review, not the solver.

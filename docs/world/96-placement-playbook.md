@@ -136,11 +136,11 @@ sourcing rule); the register only records outcomes.
 | Gates 2026-09-09 | A known-red register keyed to a TEST absorbs every other failure that test can make: the live-blueprint gate carried a water reason while it was reporting two unrelated Lilmoth door errors. A register is keyed to the FINDING: registered ones report as known red and stay red, an unregistered one fails and is named first, a fixed one fails as NO LONGER RED | `worldgen/known_red.py`, `test_known_red.py`, decision 0053 |
 | Gates 2026-09-09 | An `autouse` fixture that installs synthetic data must not reach a test that measures the real committed data. A one-asset stub interiors index was applied to the live-blueprint gate, so every real kit piece looked entrance-less and the validator's nearest-edge proxy invented door errors that the shipped data does not have | `@pytest.mark.real_index` in `test_blueprint.py`; decision 0053 |
 
-## 3. Automation-readiness checklist (Phase 15 gate)
+## 3. Automation-readiness checklist (Phase 15A gate, per place type)
 
 A place type may be rolled out without an owner round when ALL of these hold:
 
-- [ ] two exemplars of the type have passed Round C with no steer that changed a rule;
+- [ ] two exemplars of the type have passed an owner round with no steer that changed a rule — the 16i exemplar and the 16j trial-packet instance count as the two (decision 0061); a type with a single exemplar stays owner-rounded until a 15A packet supplies its second;
 - [ ] every steer from its rounds is a rule in the Taste ledger or a compiler check, none is a one-off edit;
 - [ ] `apply_sitings` + compile + export run clean on the type's exemplars from the blueprint alone (the exemplar is a regression fixture);
 - [ ] the type's siting grammar (which candidates, how measured, what wins) is written in the recipe; the meso pass reproduces the exemplar's choice from it;
