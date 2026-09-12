@@ -1,0 +1,655 @@
+{
+ "schemaVersion": 1,
+ "about": "Approved (16a) bodies the 16b ground does not realise, waived by the owner so the freeze gate passes. Round 2 (2026-09-12) listed them for the owner's review: each row is a departure from the approved map, to be approved, or sent back as a 16c/16g task (dig it, re-site it, drop it). A body not in this file that the ground fails to realise fails the gate.",
+ "status": "AWAITING OWNER REVIEW (2026-09-12): listed by the round-2 build, not yet approved body by body",
+ "bodies": [
+  {
+   "id": "body.3044-420",
+   "kind": "pond",
+   "levelM": 175.0,
+   "areaM2": 1179.0,
+   "deepestCell": [
+    3044,
+    420
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1813-543",
+   "kind": "marsh-deep",
+   "levelM": 20.57,
+   "areaM2": 712.0,
+   "deepestCell": [
+    1813,
+    543
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.3372-629",
+   "kind": "marsh-fringe",
+   "levelM": 12.38,
+   "areaM2": 641.0,
+   "deepestCell": [
+    3372,
+    629
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1987-714",
+   "kind": "marsh-deep",
+   "levelM": 2.16,
+   "areaM2": 1393.0,
+   "deepestCell": [
+    1987,
+    714
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2057-834",
+   "kind": "marsh-deep",
+   "levelM": 18.91,
+   "areaM2": 1270.0,
+   "deepestCell": [
+    2057,
+    834
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1864-915",
+   "kind": "marsh-deep",
+   "levelM": 20.05,
+   "areaM2": 805.0,
+   "deepestCell": [
+    1864,
+    915
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1593-1015",
+   "kind": "marsh-deep",
+   "levelM": 15.13,
+   "areaM2": 665.0,
+   "deepestCell": [
+    1593,
+    1015
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1812-1058",
+   "kind": "pond",
+   "levelM": 10.47,
+   "areaM2": 1116.0,
+   "deepestCell": [
+    1812,
+    1058
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1348-1043",
+   "kind": "backswamp",
+   "levelM": 16.25,
+   "areaM2": 752.0,
+   "deepestCell": [
+    1348,
+    1043
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1595-1076",
+   "kind": "pond",
+   "levelM": 19.32,
+   "areaM2": 1303.0,
+   "deepestCell": [
+    1595,
+    1076
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1360-1084",
+   "kind": "marsh-deep",
+   "levelM": 3.37,
+   "areaM2": 1460.0,
+   "deepestCell": [
+    1360,
+    1084
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1664-1098",
+   "kind": "marsh-deep",
+   "levelM": 5.46,
+   "areaM2": 508.0,
+   "deepestCell": [
+    1664,
+    1098
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1988-1096",
+   "kind": "marsh-deep",
+   "levelM": 10.01,
+   "areaM2": 541.0,
+   "deepestCell": [
+    1988,
+    1096
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1379-1138",
+   "kind": "marsh-deep",
+   "levelM": 10.69,
+   "areaM2": 718.0,
+   "deepestCell": [
+    1379,
+    1138
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2790-1144",
+   "kind": "pond",
+   "levelM": 19.1,
+   "areaM2": 742.0,
+   "deepestCell": [
+    2790,
+    1144
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1975-1269",
+   "kind": "marsh-deep",
+   "levelM": 0.95,
+   "areaM2": 775.0,
+   "deepestCell": [
+    1975,
+    1269
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1164-1355",
+   "kind": "pond",
+   "levelM": 13.53,
+   "areaM2": 942.0,
+   "deepestCell": [
+    1164,
+    1355
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1368-1417",
+   "kind": "marsh-deep",
+   "levelM": 1.68,
+   "areaM2": 2011.0,
+   "deepestCell": [
+    1368,
+    1417
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1879-1524",
+   "kind": "marsh-deep",
+   "levelM": 0.55,
+   "areaM2": 2098.0,
+   "deepestCell": [
+    1879,
+    1524
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1292-1575",
+   "kind": "backswamp",
+   "levelM": 0.46,
+   "areaM2": 1797.0,
+   "deepestCell": [
+    1292,
+    1575
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2794-1618",
+   "kind": "pond",
+   "levelM": 5.77,
+   "areaM2": 1320.0,
+   "deepestCell": [
+    2794,
+    1618
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1937-1653",
+   "kind": "backswamp",
+   "levelM": 0.76,
+   "areaM2": 1356.0,
+   "deepestCell": [
+    1937,
+    1653
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2870-1644",
+   "kind": "marsh-fringe",
+   "levelM": 2.47,
+   "areaM2": 1069.0,
+   "deepestCell": [
+    2870,
+    1644
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1747-1685",
+   "kind": "marsh-deep",
+   "levelM": 1.28,
+   "areaM2": 6101.0,
+   "deepestCell": [
+    1747,
+    1685
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2943-1655",
+   "kind": "backswamp",
+   "levelM": 2.56,
+   "areaM2": 638.0,
+   "deepestCell": [
+    2943,
+    1655
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1417-1789",
+   "kind": "marsh-deep",
+   "levelM": 17.53,
+   "areaM2": 798.0,
+   "deepestCell": [
+    1417,
+    1789
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1557-1875",
+   "kind": "marsh-deep",
+   "levelM": 7.99,
+   "areaM2": 3705.0,
+   "deepestCell": [
+    1557,
+    1875
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2203-1865",
+   "kind": "backswamp",
+   "levelM": 30.2,
+   "areaM2": 1711.0,
+   "deepestCell": [
+    2203,
+    1865
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1536-2011",
+   "kind": "marsh-deep",
+   "levelM": 26.85,
+   "areaM2": 4009.0,
+   "deepestCell": [
+    1536,
+    2011
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2229-2024",
+   "kind": "swamp",
+   "levelM": 16.14,
+   "areaM2": 882.0,
+   "deepestCell": [
+    2229,
+    2024
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2068-2093",
+   "kind": "backswamp",
+   "levelM": 39.77,
+   "areaM2": 1420.0,
+   "deepestCell": [
+    2068,
+    2093
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1543-2103",
+   "kind": "marsh-deep",
+   "levelM": 24.05,
+   "areaM2": 605.0,
+   "deepestCell": [
+    1543,
+    2103
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2016-2170",
+   "kind": "swamp",
+   "levelM": 41.19,
+   "areaM2": 548.0,
+   "deepestCell": [
+    2016,
+    2170
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1294-2176",
+   "kind": "pond",
+   "levelM": 30.86,
+   "areaM2": 2172.0,
+   "deepestCell": [
+    1294,
+    2176
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2539-2247",
+   "kind": "swamp",
+   "levelM": 7.57,
+   "areaM2": 638.0,
+   "deepestCell": [
+    2539,
+    2247
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1348-2297",
+   "kind": "marsh-deep",
+   "levelM": 18.87,
+   "areaM2": 1069.0,
+   "deepestCell": [
+    1348,
+    2297
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2151-2463",
+   "kind": "swamp",
+   "levelM": 38.83,
+   "areaM2": 9782.0,
+   "deepestCell": [
+    2151,
+    2463
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2338-2414",
+   "kind": "swamp",
+   "levelM": 23.89,
+   "areaM2": 1066.0,
+   "deepestCell": [
+    2338,
+    2414
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1119-2423",
+   "kind": "marsh-deep",
+   "levelM": 15.56,
+   "areaM2": 571.0,
+   "deepestCell": [
+    1119,
+    2423
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2310-2427",
+   "kind": "swamp",
+   "levelM": 24.88,
+   "areaM2": 668.0,
+   "deepestCell": [
+    2310,
+    2427
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2430-2470",
+   "kind": "swamp",
+   "levelM": 21.87,
+   "areaM2": 2516.0,
+   "deepestCell": [
+    2430,
+    2470
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2199-2481",
+   "kind": "swamp",
+   "levelM": 38.7,
+   "areaM2": 862.0,
+   "deepestCell": [
+    2199,
+    2481
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2382-2532",
+   "kind": "swamp",
+   "levelM": 21.81,
+   "areaM2": 782.0,
+   "deepestCell": [
+    2382,
+    2532
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.890-2657",
+   "kind": "marsh-deep",
+   "levelM": 5.23,
+   "areaM2": 541.0,
+   "deepestCell": [
+    890,
+    2657
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1013-2666",
+   "kind": "marsh-deep",
+   "levelM": 1.47,
+   "areaM2": 5937.0,
+   "deepestCell": [
+    1013,
+    2666
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1749-2744",
+   "kind": "marsh-deep",
+   "levelM": 1.74,
+   "areaM2": 8633.0,
+   "deepestCell": [
+    1749,
+    2744
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2078-2851",
+   "kind": "swamp",
+   "levelM": 18.33,
+   "areaM2": 628.0,
+   "deepestCell": [
+    2078,
+    2851
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.2233-2920",
+   "kind": "swamp",
+   "levelM": 21.15,
+   "areaM2": 2078.0,
+   "deepestCell": [
+    2233,
+    2920
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1140-3341",
+   "kind": "swamp",
+   "levelM": 1.94,
+   "areaM2": 1356.0,
+   "deepestCell": [
+    1140,
+    3341
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.718-3467",
+   "kind": "marsh-fringe",
+   "levelM": 1.62,
+   "areaM2": 9361.0,
+   "deepestCell": [
+    718,
+    3467
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.415-3534",
+   "kind": "swamp",
+   "levelM": 10.96,
+   "areaM2": 5022.0,
+   "deepestCell": [
+    415,
+    3534
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.748-3532",
+   "kind": "marsh-fringe",
+   "levelM": 1.72,
+   "areaM2": 551.0,
+   "deepestCell": [
+    748,
+    3532
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.499-3729",
+   "kind": "marsh-fringe",
+   "levelM": 7.89,
+   "areaM2": 815.0,
+   "deepestCell": [
+    499,
+    3729
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  },
+  {
+   "id": "body.1949-3728",
+   "kind": "swamp",
+   "levelM": 1.56,
+   "areaM2": 1727.0,
+   "deepestCell": [
+    1949,
+    3728
+   ],
+   "why": "unrealised on the round-2 ground: the standing-water solve finds no body over its outline after the shaping's rim closure and depth restore",
+   "owner": "pending"
+  }
+ ]
+}

@@ -3,10 +3,22 @@
  "about": "Freeze-gate violations accepted by name at the 16b freeze, each with its cause and owner. The gate prints them as KNOWN and fails on anything else; remove a row when its cause is fixed.",
  "known": [
   {
-   "id": "reach.59-1203",
-   "check": "fall-face",
+   "id": "reach.2355-2094",
+   "check": "trench-bed",
    "owner": "16c",
-   "why": "A 3.03 m fall measured on the shaped ground's 15 m cliff; the channel profile runs 13 m under that ground (a canyon cut), so after the carve the face left below the trench is a 3 m step over 5.5 m (a chute, 29 deg). The derive's fall rule reads the terrain step, the carve realises the profile step; the two agree only where the profile follows the ground. 16c: demote a fall whose post-carve face slope is under channels.FALL_SLOPE to sloped-chute, or clamp the lip notch at a fall to the lip level."
+   "why": "Round-2 carve leftover (2026-09-12): trench bed 1.54 m above its promise -0.22 at point 26. 16c reads the graph's levels; fix at the carve (a rim-closure ring from the approved-body restore crossing this reach) or re-measure in the water compile."
+  },
+  {
+   "id": "reach.1150-3112",
+   "check": "shoulder-seal",
+   "owner": "16c",
+   "why": "Round-2 carve leftover (2026-09-12): shoulder -0.47 m sits under its seal (nearest water level 1.66) at point 328. 16c reads the graph's levels; fix at the carve (a rim-closure ring from the approved-body restore crossing this reach) or re-measure in the water compile."
+  },
+  {
+   "id": "reach.1815-1261",
+   "check": "in-body-ground",
+   "owner": "16c",
+   "why": "Round-2 carve leftover (2026-09-12): in body.1571-1249 but the ground 0.74 m stands over its level 0.66. 16c reads the graph's levels; fix at the carve (a rim-closure ring from the approved-body restore crossing this reach) or re-measure in the water compile."
   }
  ]
 }

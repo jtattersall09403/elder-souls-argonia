@@ -10,52 +10,52 @@
   "metresPerPixel": 3.65568,
   "imageWidth": 2017,
   "imageHeight": 2017,
-  "heightMinMetres": -85.68000030517578,
-  "heightMaxMetres": 654.1078491210938,
+  "heightMinMetres": -106.34916687011719,
+  "heightMaxMetres": 654.2904663085938,
   "extentKm": [
     7.37,
     7.37
   ],
   "groundControl": "ground-control.png",
   "frozen": {
-    "heightfield-sculpted-f32.npy": "1083ba2cdf78f2882a72cf700c952edfaad5eb3b19bb872a60926c1fc564a41f",
-    "heightfield-shaped-f32.npy": "9303262e0d92482add4ececbe0981850d5fbdc5853b65cf4371f009edc73151d",
-    "refined-height-frozen-f32.npy": "ff7a122ddb3033250d6f44d6594d1bd5103f5a2983bc6b69dd2203a153689aad"
+    "heightfield-sculpted-f32.npy": "7f59c47b20ecc64480dc6eba4ef0afa297fe5a4a66062ec792f4e311a7e82768",
+    "heightfield-shaped-f32.npy": "cd5de34a70148423a039049807c081be2ae6301a401989b0e7c541bc94662c27",
+    "refined-height-frozen-f32.npy": "90052f7fdd9731c6d490a72f2d8e3af51dd55c31ec2ed3755069666f321f3314"
   },
   "portages": {
-    "canoeChannels": 5,
-    "portages": 27
+    "canoeChannels": 4,
+    "portages": 28
   },
   "channelCarve": {
-    "stations": 25010,
-    "reaches": 131,
-    "cellsLowered": 129826,
-    "cellsRaised": 21844,
-    "medianM": 0.709,
-    "p90M": 2.432,
-    "maxM": 91.105,
-    "maxRaiseM": 7.267,
-    "trenchCells": 169114,
-    "pooledStations": 11244,
-    "shoreStations": 418,
-    "capturedStations": 385,
-    "fallStations": 15,
+    "stations": 33661,
+    "reaches": 168,
+    "cellsLowered": 125769,
+    "cellsRaised": 29320,
+    "medianM": 0.774,
+    "p90M": 2.566,
+    "maxM": 82.682,
+    "maxRaiseM": 5.838,
+    "trenchCells": 257964,
+    "pooledStations": 18009,
+    "shoreStations": 908,
+    "capturedStations": 4379,
+    "fallStations": 32,
     "lostStations": 0,
-    "steepStations": 5788,
-    "falls": 10,
-    "plungeBasins": 10,
-    "islandsLowered": 2215
+    "steepStations": 7405,
+    "falls": 18,
+    "plungeBasins": 18,
+    "islandsLowered": 1950
   },
-  "terrainStageBodies": 24,
+  "terrainStageBodies": 57,
   "patches": {
-    "applied": 6,
-    "refused": 50,
+    "applied": 8,
+    "refused": 48,
     "receipt": "terrain-patches-applied.json"
   },
   "terrainRequests": {
-    "requests": 7,
-    "operations": 7,
-    "planDigest": "882b6d8ea2579d6302ccf910f22159243d7e79a05b1cf972a7ec5a388fa3b270",
+    "requests": 8,
+    "operations": 8,
+    "planDigest": "64c53ab97c0c16660d3f7f11fb9221c50e5fe867d5372fdbc381c2cd84cb37b0",
     "fulfillment": "terrain-request-fulfillments.json"
   },
   "note": "whole province, true metres (x1 at geometry time, 0015); frozen base + typed patches; chunks via worldgen.compile_chunks"

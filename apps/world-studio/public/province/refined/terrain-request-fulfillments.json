@@ -1,17 +1,498 @@
 {
-  "appliedHeightSha256": "3852377608f13bc4064f9bc83298b627e3c1fee56f1cf56198eb3fae553579a7",
+  "appliedHeightSha256": "84697ab44c5ac18497d973d575f9086d6e331dd7125f2669d93adbc7f5fedca8",
   "fulfillments": [
     {
-      "deliverySha256": "2a485dd9bfd2ba9a279417132f4ad9abfc5633a36ce2afec959ed201bc28ad7a",
+      "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",
       "evidenceRefs": [
-        "terrain-operation-evidence.terrain-op.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1.sha256.6c9a714f234c545aee4d4251cd7c0280595c4ba1dbdca148314df161422c1899"
+        "terrain-operation-evidence.terrain-op.dunmer-north.the-divers-landing.pool.402e185fccef.sha256.ba57198fbb89a4a7118aee52869a48ccc0e377930b2ac9957390ef91ac943db8"
       ],
       "operationEvidence": [
         {
           "action": "carve",
           "axis": [
-            0.993589191,
-            -0.113050958
+            0.89400806,
+            0.448050878
+          ],
+          "axisSource": "nearest-water-path",
+          "coveredFields": [
+            "depthClass",
+            "feature",
+            "offsetBoatLengths",
+            "orientation"
+          ],
+          "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",
+          "deltaSha256": "ff265bbaca56bf400feae3bd6307e317802dd1b02484b0f85c7ee8693d219b2f",
+          "evidenceSha256": "ba57198fbb89a4a7118aee52869a48ccc0e377930b2ac9957390ef91ac943db8",
+          "operationId": "terrain-op.dunmer-north.the-divers-landing.pool.402e185fccef",
+          "profile": "radial-basin",
+          "witnesses": [
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 391.287628,
+              "operationDeltaM": -4.5,
+              "x": 975,
+              "z": 35
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 389.739227,
+              "operationDeltaM": -4.5,
+              "x": 973,
+              "z": 36
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 388.318878,
+              "operationDeltaM": -4.5,
+              "x": 979,
+              "z": 36
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 387.704041,
+              "operationDeltaM": -4.5,
+              "x": 972,
+              "z": 37
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 385.406006,
+              "operationDeltaM": -4.5,
+              "x": 971,
+              "z": 38
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 383.694061,
+              "operationDeltaM": -4.5,
+              "x": 970,
+              "z": 39
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 383.510925,
+              "operationDeltaM": -4.5,
+              "x": 969,
+              "z": 40
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 383.914429,
+              "operationDeltaM": -4.5,
+              "x": 975,
+              "z": 40
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 382.972443,
+              "operationDeltaM": -4.5,
+              "x": 969,
+              "z": 41
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 382.717804,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 42
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 382.126678,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 43
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 381.637726,
+              "operationDeltaM": -4.5,
+              "x": 979,
+              "z": 43
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 381.765564,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 44
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 381.497742,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 45
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 380.893127,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 46
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 382.205444,
+              "operationDeltaM": -4.5,
+              "x": 982,
+              "z": 46
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 379.91037,
+              "operationDeltaM": -4.5,
+              "x": 969,
+              "z": 47
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 379.492279,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 48
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 379.227936,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 49
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 379.255066,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 50
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 378.348877,
+              "operationDeltaM": -4.5,
+              "x": 971,
+              "z": 50
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 379.145966,
+              "operationDeltaM": -4.5,
+              "x": 968,
+              "z": 51
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 378.04248,
+              "operationDeltaM": -4.5,
+              "x": 969,
+              "z": 52
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 376.5672,
+              "operationDeltaM": -4.5,
+              "x": 970,
+              "z": 53
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 377.63266,
+              "operationDeltaM": -4.5,
+              "x": 975,
+              "z": 53
+            },
+            {
+              "appliedDeltaM": -4.5,
+              "baseHeightM": 374.682983,
+              "operationDeltaM": -4.5,
+              "x": 972,
+              "z": 54
+            },
+            {
+              "appliedDeltaM": -4.492493,
+              "baseHeightM": 391.094513,
+              "operationDeltaM": -4.492496,
+              "x": 977,
+              "z": 34
+            },
+            {
+              "appliedDeltaM": -4.486969,
+              "baseHeightM": 373.937286,
+              "operationDeltaM": -4.486958,
+              "x": 973,
+              "z": 55
+            },
+            {
+              "appliedDeltaM": -4.421906,
+              "baseHeightM": 392.953888,
+              "operationDeltaM": -4.421898,
+              "x": 978,
+              "z": 33
+            },
+            {
+              "appliedDeltaM": -4.405579,
+              "baseHeightM": 373.347076,
+              "operationDeltaM": -4.405572,
+              "x": 973,
+              "z": 56
+            },
+            {
+              "appliedDeltaM": -4.283295,
+              "baseHeightM": 394.784332,
+              "operationDeltaM": -4.283288,
+              "x": 978,
+              "z": 32
+            },
+            {
+              "appliedDeltaM": -4.256042,
+              "baseHeightM": 372.89566,
+              "operationDeltaM": -4.256042,
+              "x": 973,
+              "z": 57
+            },
+            {
+              "appliedDeltaM": -4.2005,
+              "baseHeightM": 373.975739,
+              "operationDeltaM": -4.200501,
+              "x": 975,
+              "z": 57
+            },
+            {
+              "appliedDeltaM": -4.108337,
+              "baseHeightM": 395.23233,
+              "operationDeltaM": -4.108347,
+              "x": 974,
+              "z": 32
+            },
+            {
+              "appliedDeltaM": -4.084442,
+              "baseHeightM": 396.442352,
+              "operationDeltaM": -4.084449,
+              "x": 978,
+              "z": 31
+            },
+            {
+              "appliedDeltaM": -4.046936,
+              "baseHeightM": 372.546417,
+              "operationDeltaM": -4.046937,
+              "x": 973,
+              "z": 58
+            },
+            {
+              "appliedDeltaM": -3.834351,
+              "baseHeightM": 397.677795,
+              "operationDeltaM": -3.834353,
+              "x": 978,
+              "z": 30
+            },
+            {
+              "appliedDeltaM": -3.791595,
+              "baseHeightM": 371.513397,
+              "operationDeltaM": -3.791601,
+              "x": 972,
+              "z": 59
+            },
+            {
+              "appliedDeltaM": -3.542633,
+              "baseHeightM": 398.646851,
+              "operationDeltaM": -3.542627,
+              "x": 978,
+              "z": 29
+            },
+            {
+              "appliedDeltaM": -3.498596,
+              "baseHeightM": 370.534485,
+              "operationDeltaM": -3.498587,
+              "x": 972,
+              "z": 60
+            },
+            {
+              "appliedDeltaM": -3.225189,
+              "baseHeightM": 399.948883,
+              "operationDeltaM": -3.225186,
+              "x": 979,
+              "z": 28
+            },
+            {
+              "appliedDeltaM": -3.175598,
+              "baseHeightM": 369.159607,
+              "operationDeltaM": -3.175586,
+              "x": 972,
+              "z": 61
+            },
+            {
+              "appliedDeltaM": -2.886383,
+              "baseHeightM": 400.26123,
+              "operationDeltaM": -2.886387,
+              "x": 979,
+              "z": 27
+            },
+            {
+              "appliedDeltaM": -2.832306,
+              "baseHeightM": 367.856964,
+              "operationDeltaM": -2.832304,
+              "x": 972,
+              "z": 62
+            },
+            {
+              "appliedDeltaM": -2.53537,
+              "baseHeightM": 400.808868,
+              "operationDeltaM": -2.53538,
+              "x": 979,
+              "z": 26
+            },
+            {
+              "appliedDeltaM": -2.478394,
+              "baseHeightM": 366.904205,
+              "operationDeltaM": -2.478394,
+              "x": 972,
+              "z": 63
+            },
+            {
+              "appliedDeltaM": -2.181488,
+              "baseHeightM": 400.930969,
+              "operationDeltaM": -2.181489,
+              "x": 979,
+              "z": 25
+            },
+            {
+              "appliedDeltaM": -2.127472,
+              "baseHeightM": 366.990326,
+              "operationDeltaM": -2.127484,
+              "x": 971,
+              "z": 64
+            },
+            {
+              "appliedDeltaM": -1.833313,
+              "baseHeightM": 400.554596,
+              "operationDeltaM": -1.833318,
+              "x": 980,
+              "z": 24
+            },
+            {
+              "appliedDeltaM": -1.781952,
+              "baseHeightM": 366.412231,
+              "operationDeltaM": -1.781965,
+              "x": 971,
+              "z": 65
+            },
+            {
+              "appliedDeltaM": -1.46225,
+              "baseHeightM": 399.793671,
+              "operationDeltaM": -1.462264,
+              "x": 980,
+              "z": 23
+            },
+            {
+              "appliedDeltaM": -1.404053,
+              "baseHeightM": 365.94455,
+              "operationDeltaM": -1.404059,
+              "x": 971,
+              "z": 66
+            },
+            {
+              "appliedDeltaM": -1.081787,
+              "baseHeightM": 398.238739,
+              "operationDeltaM": -1.081801,
+              "x": 980,
+              "z": 22
+            },
+            {
+              "appliedDeltaM": -1.024963,
+              "baseHeightM": 365.686646,
+              "operationDeltaM": -1.024966,
+              "x": 971,
+              "z": 67
+            },
+            {
+              "appliedDeltaM": -0.737732,
+              "baseHeightM": 396.086365,
+              "operationDeltaM": -0.737719,
+              "x": 980,
+              "z": 21
+            },
+            {
+              "appliedDeltaM": -0.688232,
+              "baseHeightM": 365.619751,
+              "operationDeltaM": -0.688229,
+              "x": 971,
+              "z": 68
+            },
+            {
+              "appliedDeltaM": -0.457703,
+              "baseHeightM": 393.472351,
+              "operationDeltaM": -0.457708,
+              "x": 980,
+              "z": 20
+            },
+            {
+              "appliedDeltaM": -0.421509,
+              "baseHeightM": 366.092377,
+              "operationDeltaM": -0.421506,
+              "x": 970,
+              "z": 69
+            },
+            {
+              "appliedDeltaM": -0.25296,
+              "baseHeightM": 390.491455,
+              "operationDeltaM": -0.252949,
+              "x": 981,
+              "z": 19
+            },
+            {
+              "appliedDeltaM": -0.229218,
+              "baseHeightM": 365.992706,
+              "operationDeltaM": -0.229215,
+              "x": 970,
+              "z": 70
+            },
+            {
+              "appliedDeltaM": -0.106262,
+              "baseHeightM": 366.003143,
+              "operationDeltaM": -0.106261,
+              "x": 970,
+              "z": 71
+            },
+            {
+              "appliedDeltaM": -0.04657,
+              "baseHeightM": 388.938538,
+              "operationDeltaM": -0.046572,
+              "x": 981,
+              "z": 17
+            },
+            {
+              "appliedDeltaM": -0.012787,
+              "baseHeightM": 387.999847,
+              "operationDeltaM": -0.012772,
+              "x": 981,
+              "z": 16
+            },
+            {
+              "appliedDeltaM": -0.009918,
+              "baseHeightM": 365.824738,
+              "operationDeltaM": -0.009928,
+              "x": 970,
+              "z": 73
+            }
+          ]
+        }
+      ],
+      "operationIds": [
+        "terrain-op.dunmer-north.the-divers-landing.pool.402e185fccef"
+      ],
+      "requestId": "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef"
+    },
+    {
+      "deliverySha256": "2a485dd9bfd2ba9a279417132f4ad9abfc5633a36ce2afec959ed201bc28ad7a",
+      "evidenceRefs": [
+        "terrain-operation-evidence.terrain-op.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1.sha256.4d471da4193bd5241524d46ae1b04b31fc8aea8fb87b4d3670fe6a11cf785474"
+      ],
+      "operationEvidence": [
+        {
+          "action": "carve",
+          "axis": [
+            0.990437119,
+            -0.1379649
           ],
           "axisSource": "authored-downslope",
           "coveredFields": [
@@ -21,454 +502,454 @@
           ],
           "deliverySha256": "2a485dd9bfd2ba9a279417132f4ad9abfc5633a36ce2afec959ed201bc28ad7a",
           "deltaSha256": "2fce96abdc9783cdf8973baecba79d4f757ddaf86d4035bb8e3a3f187a960498",
-          "evidenceSha256": "6c9a714f234c545aee4d4251cd7c0280595c4ba1dbdca148314df161422c1899",
+          "evidenceSha256": "4d471da4193bd5241524d46ae1b04b31fc8aea8fb87b4d3670fe6a11cf785474",
           "operationId": "terrain-op.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1",
           "profile": "radial-bowl",
           "witnesses": [
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 324.315704,
+              "baseHeightM": 323.071808,
               "operationDeltaM": -2.5,
               "x": 2854,
               "z": 542
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 325.556885,
+              "baseHeightM": 324.456299,
               "operationDeltaM": -2.5,
               "x": 2853,
               "z": 543
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 328.554047,
+              "baseHeightM": 326.630219,
               "operationDeltaM": -2.5,
               "x": 2852,
               "z": 544
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 314.106293,
+              "baseHeightM": 313.085266,
               "operationDeltaM": -2.5,
               "x": 2864,
               "z": 544
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 328.14447,
+              "baseHeightM": 326.095184,
               "operationDeltaM": -2.5,
               "x": 2853,
               "z": 545
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 334.832581,
+              "baseHeightM": 332.897888,
               "operationDeltaM": -2.5,
               "x": 2850,
               "z": 546
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 335.27713,
+              "baseHeightM": 333.290558,
               "operationDeltaM": -2.5,
               "x": 2850,
               "z": 547
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 337.025146,
+              "baseHeightM": 334.816681,
               "operationDeltaM": -2.5,
               "x": 2849,
               "z": 548
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 336.562683,
+              "baseHeightM": 334.312683,
               "operationDeltaM": -2.5,
               "x": 2849,
               "z": 549
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 318.72583,
+              "baseHeightM": 317.386414,
               "operationDeltaM": -2.5,
               "x": 2857,
               "z": 549
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 335.548004,
+              "baseHeightM": 333.277374,
               "operationDeltaM": -2.5,
               "x": 2849,
               "z": 550
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 334.129608,
+              "baseHeightM": 331.847137,
               "operationDeltaM": -2.5,
               "x": 2849,
               "z": 551
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 332.675629,
+              "baseHeightM": 330.333496,
               "operationDeltaM": -2.5,
               "x": 2849,
               "z": 552
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 331.435303,
+              "baseHeightM": 329.065155,
               "operationDeltaM": -2.5,
               "x": 2849,
               "z": 553
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 318.638916,
+              "baseHeightM": 317.392731,
               "operationDeltaM": -2.5,
               "x": 2858,
               "z": 553
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 328.628906,
+              "baseHeightM": 326.664246,
               "operationDeltaM": -2.5,
               "x": 2850,
               "z": 554
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 328.250244,
+              "baseHeightM": 326.361176,
               "operationDeltaM": -2.5,
               "x": 2850,
               "z": 555
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 326.027008,
+              "baseHeightM": 323.925507,
               "operationDeltaM": -2.5,
               "x": 2851,
               "z": 556
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 324.204956,
+              "baseHeightM": 321.813995,
               "operationDeltaM": -2.5,
               "x": 2852,
               "z": 557
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 306.113861,
+              "baseHeightM": 305.642639,
               "operationDeltaM": -2.5,
               "x": 2864,
               "z": 557
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 323.193481,
+              "baseHeightM": 320.4534,
               "operationDeltaM": -2.5,
               "x": 2853,
               "z": 558
             },
             {
               "appliedDeltaM": -2.5,
-              "baseHeightM": 320.590637,
+              "baseHeightM": 318.991547,
               "operationDeltaM": -2.5,
               "x": 2855,
               "z": 559
             },
             {
               "appliedDeltaM": -2.49881,
-              "baseHeightM": 320.462921,
+              "baseHeightM": 318.61084,
               "operationDeltaM": -2.498797,
               "x": 2858,
               "z": 541
             },
             {
               "appliedDeltaM": -2.498444,
-              "baseHeightM": 318.111023,
+              "baseHeightM": 317.001648,
               "operationDeltaM": -2.498455,
               "x": 2858,
               "z": 560
             },
             {
               "appliedDeltaM": -2.478149,
-              "baseHeightM": 319.688202,
+              "baseHeightM": 317.769073,
               "operationDeltaM": -2.47816,
               "x": 2858,
               "z": 540
             },
             {
               "appliedDeltaM": -2.476807,
-              "baseHeightM": 317.270081,
+              "baseHeightM": 315.943237,
               "operationDeltaM": -2.47681,
               "x": 2858,
               "z": 561
             },
             {
               "appliedDeltaM": -2.433655,
-              "baseHeightM": 319.359619,
+              "baseHeightM": 317.39502,
               "operationDeltaM": -2.433665,
               "x": 2858,
               "z": 539
             },
             {
               "appliedDeltaM": -2.431396,
-              "baseHeightM": 316.087097,
+              "baseHeightM": 314.727783,
               "operationDeltaM": -2.431399,
               "x": 2858,
               "z": 562
             },
             {
               "appliedDeltaM": -2.402832,
-              "baseHeightM": 313.797455,
+              "baseHeightM": 313.065125,
               "operationDeltaM": -2.40283,
               "x": 2861,
               "z": 539
             },
             {
               "appliedDeltaM": -2.367584,
-              "baseHeightM": 319.463928,
+              "baseHeightM": 317.521118,
               "operationDeltaM": -2.367569,
               "x": 2858,
               "z": 538
             },
             {
               "appliedDeltaM": -2.364471,
-              "baseHeightM": 314.685883,
+              "baseHeightM": 313.469116,
               "operationDeltaM": -2.364478,
               "x": 2858,
               "z": 563
             },
             {
               "appliedDeltaM": -2.358429,
-              "baseHeightM": 311.780731,
+              "baseHeightM": 310.714172,
               "operationDeltaM": -2.358443,
               "x": 2859,
               "z": 563
             },
             {
               "appliedDeltaM": -2.282135,
-              "baseHeightM": 319.730682,
+              "baseHeightM": 317.899445,
               "operationDeltaM": -2.282133,
               "x": 2858,
               "z": 537
             },
             {
               "appliedDeltaM": -2.27832,
-              "baseHeightM": 313.091217,
+              "baseHeightM": 312.097473,
               "operationDeltaM": -2.278308,
               "x": 2858,
               "z": 564
             },
             {
               "appliedDeltaM": -2.179626,
-              "baseHeightM": 318.763519,
+              "baseHeightM": 318.062012,
               "operationDeltaM": -2.179621,
               "x": 2858,
               "z": 536
             },
             {
               "appliedDeltaM": -2.17514,
-              "baseHeightM": 311.673492,
+              "baseHeightM": 310.855499,
               "operationDeltaM": -2.175153,
               "x": 2858,
               "z": 565
             },
             {
               "appliedDeltaM": -2.062286,
-              "baseHeightM": 318.33963,
+              "baseHeightM": 317.870056,
               "operationDeltaM": -2.062298,
               "x": 2858,
               "z": 535
             },
             {
               "appliedDeltaM": -2.057281,
-              "baseHeightM": 310.449005,
+              "baseHeightM": 309.741852,
               "operationDeltaM": -2.05728,
               "x": 2858,
               "z": 566
             },
             {
               "appliedDeltaM": -1.932434,
-              "baseHeightM": 317.877808,
+              "baseHeightM": 317.595001,
               "operationDeltaM": -1.932434,
               "x": 2858,
               "z": 534
             },
             {
               "appliedDeltaM": -1.926971,
-              "baseHeightM": 309.3638,
+              "baseHeightM": 308.726013,
               "operationDeltaM": -1.926957,
               "x": 2858,
               "z": 567
             },
             {
               "appliedDeltaM": -1.792297,
-              "baseHeightM": 317.260284,
+              "baseHeightM": 317.340546,
               "operationDeltaM": -1.792296,
               "x": 2858,
               "z": 533
             },
             {
               "appliedDeltaM": -1.786438,
-              "baseHeightM": 308.601166,
+              "baseHeightM": 308.038208,
               "operationDeltaM": -1.786451,
               "x": 2858,
               "z": 568
             },
             {
               "appliedDeltaM": -1.644165,
-              "baseHeightM": 317.090027,
+              "baseHeightM": 317.191071,
               "operationDeltaM": -1.644154,
               "x": 2858,
               "z": 532
             },
             {
               "appliedDeltaM": -1.638031,
-              "baseHeightM": 307.50473,
+              "baseHeightM": 306.720428,
               "operationDeltaM": -1.638034,
               "x": 2858,
               "z": 569
             },
             {
               "appliedDeltaM": -1.490265,
-              "baseHeightM": 316.877563,
+              "baseHeightM": 317.005127,
               "operationDeltaM": -1.490279,
               "x": 2858,
               "z": 531
             },
             {
               "appliedDeltaM": -1.483978,
-              "baseHeightM": 305.608154,
+              "baseHeightM": 304.734802,
               "operationDeltaM": -1.483975,
               "x": 2858,
               "z": 570
             },
             {
               "appliedDeltaM": -1.332947,
-              "baseHeightM": 316.717651,
+              "baseHeightM": 316.671661,
               "operationDeltaM": -1.33294,
               "x": 2858,
               "z": 530
             },
             {
               "appliedDeltaM": -1.326538,
-              "baseHeightM": 303.687805,
+              "baseHeightM": 302.967102,
               "operationDeltaM": -1.326544,
               "x": 2858,
               "z": 571
             },
             {
               "appliedDeltaM": -1.173828,
-              "baseHeightM": 316.563232,
+              "baseHeightM": 316.547668,
               "operationDeltaM": -1.173827,
               "x": 2858,
               "z": 529
             },
             {
               "appliedDeltaM": -1.167084,
-              "baseHeightM": 302.49118,
+              "baseHeightM": 302.042694,
               "operationDeltaM": -1.167077,
               "x": 2858,
               "z": 572
             },
             {
               "appliedDeltaM": -0.988525,
-              "baseHeightM": 316.755188,
+              "baseHeightM": 316.884094,
               "operationDeltaM": -0.988518,
               "x": 2858,
               "z": 528
             },
             {
               "appliedDeltaM": -0.980438,
-              "baseHeightM": 302.360809,
+              "baseHeightM": 302.114716,
               "operationDeltaM": -0.980441,
               "x": 2858,
               "z": 573
             },
             {
               "appliedDeltaM": -0.783661,
-              "baseHeightM": 317.569672,
+              "baseHeightM": 317.510406,
               "operationDeltaM": -0.783655,
               "x": 2858,
               "z": 527
             },
             {
               "appliedDeltaM": -0.77533,
-              "baseHeightM": 301.897675,
+              "baseHeightM": 301.518463,
               "operationDeltaM": -0.775328,
               "x": 2858,
               "z": 574
             },
             {
               "appliedDeltaM": -0.582886,
-              "baseHeightM": 318.575928,
+              "baseHeightM": 318.280487,
               "operationDeltaM": -0.582886,
               "x": 2858,
               "z": 526
             },
             {
               "appliedDeltaM": -0.575134,
-              "baseHeightM": 300.333588,
+              "baseHeightM": 299.866852,
               "operationDeltaM": -0.575131,
               "x": 2858,
               "z": 575
             },
             {
               "appliedDeltaM": -0.403442,
-              "baseHeightM": 319.627319,
+              "baseHeightM": 319.164612,
               "operationDeltaM": -0.403445,
               "x": 2858,
               "z": 525
             },
             {
               "appliedDeltaM": -0.39682,
-              "baseHeightM": 298.201965,
+              "baseHeightM": 297.598083,
               "operationDeltaM": -0.396821,
               "x": 2858,
               "z": 576
             },
             {
               "appliedDeltaM": -0.165955,
-              "baseHeightM": 325.674133,
+              "baseHeightM": 324.116882,
               "operationDeltaM": -0.165955,
               "x": 2851,
               "z": 524
             },
             {
               "appliedDeltaM": -0.141937,
-              "baseHeightM": 294.070374,
+              "baseHeightM": 292.837646,
               "operationDeltaM": -0.141927,
               "x": 2858,
               "z": 578
             },
             {
               "appliedDeltaM": -0.071198,
-              "baseHeightM": 317.388214,
+              "baseHeightM": 316.839874,
               "operationDeltaM": -0.071191,
               "x": 2858,
               "z": 522
             },
             {
               "appliedDeltaM": -0.068878,
-              "baseHeightM": 292.09494,
+              "baseHeightM": 290.760254,
               "operationDeltaM": -0.068883,
               "x": 2858,
               "z": 579
             },
             {
               "appliedDeltaM": -0.007416,
-              "baseHeightM": 315.063995,
+              "baseHeightM": 314.05661,
               "operationDeltaM": -0.00741,
               "x": 2858,
               "z": 520
             },
             {
               "appliedDeltaM": -0.006927,
-              "baseHeightM": 290.123566,
+              "baseHeightM": 289.151947,
               "operationDeltaM": -0.006939,
               "x": 2858,
               "z": 581
@@ -482,16 +963,496 @@
       "requestId": "terrain-request.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1"
     },
     {
-      "deliverySha256": "feeca3d7e62541698791c08b1fa3216b4a302587fbeb249d85bb9d7f90482117",
+      "deliverySha256": "cb07029d13bba0f39d2380c25de8fc6b06675eb6be3b1458d191dcc0fd8484d8",
       "evidenceRefs": [
-        "terrain-operation-evidence.terrain-op.hist-heartland.greenspring.spring.7bcc10aaafd7.sha256.29ab373f723a3cf5db4c855d6db67fea764d3bb52c0ccc7d0dfb4b0a877c47ba"
+        "terrain-operation-evidence.terrain-op.dunmer-north.the-two-hundred-roofs.cut.104b288cd667.sha256.78fada2b9d797ffd4123975c28fe9b1e69ff802fd1e6591f3ea16a7226c5bb5f"
       ],
       "operationEvidence": [
         {
           "action": "carve",
           "axis": [
-            -0.687073816,
-            -0.726587622
+            -0.999362854,
+            -0.035691531
+          ],
+          "axisSource": "nearest-water-path",
+          "coveredFields": [
+            "access",
+            "feature",
+            "waterRelation"
+          ],
+          "deliverySha256": "cb07029d13bba0f39d2380c25de8fc6b06675eb6be3b1458d191dcc0fd8484d8",
+          "deltaSha256": "828b135195e2236fd30792b2d0b5e468500374ecd830ac660096f96b8032fc2d",
+          "evidenceSha256": "78fada2b9d797ffd4123975c28fe9b1e69ff802fd1e6591f3ea16a7226c5bb5f",
+          "operationId": "terrain-op.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+          "profile": "channel-link",
+          "witnesses": [
+            {
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 31.82,
+              "operationDeltaM": -2.0,
+              "x": 1381,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 31.82,
+              "operationDeltaM": -2.0,
+              "x": 1382,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 31.82,
+              "operationDeltaM": -2.0,
+              "x": 1383,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 32.217583,
+              "operationDeltaM": -2.0,
+              "x": 1384,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 32.924187,
+              "operationDeltaM": -2.0,
+              "x": 1385,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 33.630539,
+              "operationDeltaM": -2.0,
+              "x": 1386,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 34.206402,
+              "operationDeltaM": -2.0,
+              "x": 1387,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 34.697334,
+              "operationDeltaM": -2.0,
+              "x": 1388,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.997807,
+              "baseHeightM": 35.238754,
+              "operationDeltaM": -1.997808,
+              "x": 1389,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.980764,
+              "baseHeightM": 31.341946,
+              "operationDeltaM": -1.980765,
+              "x": 1380,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.976723,
+              "baseHeightM": 36.019207,
+              "operationDeltaM": -1.976721,
+              "x": 1390,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.934975,
+              "baseHeightM": 37.115452,
+              "operationDeltaM": -1.934975,
+              "x": 1391,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.874672,
+              "baseHeightM": 38.477238,
+              "operationDeltaM": -1.874672,
+              "x": 1392,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.839495,
+              "baseHeightM": 30.466341,
+              "operationDeltaM": -1.839496,
+              "x": 1379,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.797916,
+              "baseHeightM": 40.057777,
+              "operationDeltaM": -1.797915,
+              "x": 1393,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.714645,
+              "baseHeightM": 47.984505,
+              "operationDeltaM": -1.714644,
+              "x": 1400,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -1.706806,
+              "baseHeightM": 41.682735,
+              "operationDeltaM": -1.706807,
+              "x": 1394,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.616795,
+              "baseHeightM": 47.764065,
+              "operationDeltaM": -1.616795,
+              "x": 1399,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -1.603451,
+              "baseHeightM": 43.17292,
+              "operationDeltaM": -1.603451,
+              "x": 1395,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.592438,
+              "baseHeightM": 29.71553,
+              "operationDeltaM": -1.592439,
+              "x": 1378,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.504433,
+              "baseHeightM": 47.435696,
+              "operationDeltaM": -1.504432,
+              "x": 1398,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -1.489952,
+              "baseHeightM": 44.365349,
+              "operationDeltaM": -1.489951,
+              "x": 1396,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.383766,
+              "baseHeightM": 47.023842,
+              "operationDeltaM": -1.383768,
+              "x": 1397,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -1.378757,
+              "baseHeightM": 48.143826,
+              "operationDeltaM": -1.378758,
+              "x": 1401,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -1.368408,
+              "baseHeightM": 46.14843,
+              "operationDeltaM": -1.368408,
+              "x": 1397,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.276506,
+              "baseHeightM": 29.357021,
+              "operationDeltaM": -1.276506,
+              "x": 1377,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.256905,
+              "baseHeightM": 46.181953,
+              "operationDeltaM": -1.256906,
+              "x": 1396,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -1.240929,
+              "baseHeightM": 47.792618,
+              "operationDeltaM": -1.240927,
+              "x": 1398,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -1.125946,
+              "baseHeightM": 44.677277,
+              "operationDeltaM": -1.125948,
+              "x": 1395,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -1.109612,
+              "baseHeightM": 47.986946,
+              "operationDeltaM": -1.10961,
+              "x": 1399,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.992996,
+              "baseHeightM": 43.095623,
+              "operationDeltaM": -0.992998,
+              "x": 1394,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.975601,
+              "baseHeightM": 47.968731,
+              "operationDeltaM": -0.9756,
+              "x": 1400,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.922476,
+              "baseHeightM": 31.417416,
+              "operationDeltaM": -0.922477,
+              "x": 1376,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.860157,
+              "baseHeightM": 41.204964,
+              "operationDeltaM": -0.860158,
+              "x": 1393,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.72953,
+              "baseHeightM": 39.2929,
+              "operationDeltaM": -0.729532,
+              "x": 1392,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.654644,
+              "baseHeightM": 47.92543,
+              "operationDeltaM": -0.654643,
+              "x": 1401,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.649029,
+              "baseHeightM": 48.406055,
+              "operationDeltaM": -0.649027,
+              "x": 1402,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.603222,
+              "baseHeightM": 37.491592,
+              "operationDeltaM": -0.603222,
+              "x": 1391,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.560165,
+              "baseHeightM": 30.735905,
+              "operationDeltaM": -0.560166,
+              "x": 1375,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.48333,
+              "baseHeightM": 36.193542,
+              "operationDeltaM": -0.483332,
+              "x": 1390,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.371964,
+              "baseHeightM": 35.219078,
+              "operationDeltaM": -0.371964,
+              "x": 1389,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.271221,
+              "baseHeightM": 34.476788,
+              "operationDeltaM": -0.271221,
+              "x": 1388,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.256561,
+              "baseHeightM": 48.047287,
+              "operationDeltaM": -0.256562,
+              "x": 1402,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.219339,
+              "baseHeightM": 29.196623,
+              "operationDeltaM": -0.21934,
+              "x": 1377,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.206987,
+              "baseHeightM": 31.304405,
+              "operationDeltaM": -0.206987,
+              "x": 1376,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.199654,
+              "baseHeightM": 29.708818,
+              "operationDeltaM": -0.199654,
+              "x": 1378,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.188465,
+              "baseHeightM": 29.635618,
+              "operationDeltaM": -0.188465,
+              "x": 1374,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.183208,
+              "baseHeightM": 33.826019,
+              "operationDeltaM": -0.183207,
+              "x": 1387,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.157619,
+              "baseHeightM": 30.269955,
+              "operationDeltaM": -0.15762,
+              "x": 1375,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.155548,
+              "baseHeightM": 30.486416,
+              "operationDeltaM": -0.155549,
+              "x": 1379,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.110023,
+              "baseHeightM": 33.205029,
+              "operationDeltaM": -0.110024,
+              "x": 1386,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.100004,
+              "baseHeightM": 31.258457,
+              "operationDeltaM": -0.100004,
+              "x": 1380,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.063683,
+              "baseHeightM": 29.210636,
+              "operationDeltaM": -0.063683,
+              "x": 1374,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.06147,
+              "baseHeightM": 48.85331,
+              "operationDeltaM": -0.06147,
+              "x": 1403,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.053776,
+              "baseHeightM": 32.628353,
+              "operationDeltaM": -0.053775,
+              "x": 1385,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.048113,
+              "baseHeightM": 31.489088,
+              "operationDeltaM": -0.048112,
+              "x": 1381,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.022228,
+              "baseHeightM": 48.488876,
+              "operationDeltaM": -0.022227,
+              "x": 1403,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.020191,
+              "baseHeightM": 28.910637,
+              "operationDeltaM": -0.020192,
+              "x": 1373,
+              "z": 598
+            },
+            {
+              "appliedDeltaM": -0.016563,
+              "baseHeightM": 32.100899,
+              "operationDeltaM": -0.016564,
+              "x": 1384,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -0.013395,
+              "baseHeightM": 31.606676,
+              "operationDeltaM": -0.013395,
+              "x": 1382,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.007593,
+              "baseHeightM": 28.547691,
+              "operationDeltaM": -0.007593,
+              "x": 1373,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -0.000492,
+              "baseHeightM": 31.82,
+              "operationDeltaM": -0.000493,
+              "x": 1383,
+              "z": 599
+            },
+            {
+              "appliedDeltaM": -7.8e-05,
+              "baseHeightM": 31.82,
+              "operationDeltaM": -7.8e-05,
+              "x": 1383,
+              "z": 597
+            },
+            {
+              "appliedDeltaM": -2e-06,
+              "baseHeightM": 28.42244,
+              "operationDeltaM": -3e-06,
+              "x": 1372,
+              "z": 598
+            }
+          ]
+        }
+      ],
+      "operationIds": [
+        "terrain-op.dunmer-north.the-two-hundred-roofs.cut.104b288cd667"
+      ],
+      "requestId": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667"
+    },
+    {
+      "deliverySha256": "feeca3d7e62541698791c08b1fa3216b4a302587fbeb249d85bb9d7f90482117",
+      "evidenceRefs": [
+        "terrain-operation-evidence.terrain-op.hist-heartland.greenspring.spring.7bcc10aaafd7.sha256.9eca34f49e0bb86009e40f883759511674b836d421885cfa724f7367c4f6148c"
+      ],
+      "operationEvidence": [
+        {
+          "action": "carve",
+          "axis": [
+            -0.920262754,
+            -0.391300989
           ],
           "axisSource": "local-gradient",
           "coveredFields": [
@@ -499,455 +1460,455 @@
             "waterRelation"
           ],
           "deliverySha256": "feeca3d7e62541698791c08b1fa3216b4a302587fbeb249d85bb9d7f90482117",
-          "deltaSha256": "aaed137200799ca4f71f815dd5881924e690eb96395fd7745ec59759aa6fa766",
-          "evidenceSha256": "29ab373f723a3cf5db4c855d6db67fea764d3bb52c0ccc7d0dfb4b0a877c47ba",
+          "deltaSha256": "847673e4bbd45389ffed6252eb899d5f602be090312d29a2383c441495eaaa38",
+          "evidenceSha256": "9eca34f49e0bb86009e40f883759511674b836d421885cfa724f7367c4f6148c",
           "operationId": "terrain-op.hist-heartland.greenspring.spring.7bcc10aaafd7",
           "profile": "spring-head-bowl",
           "witnesses": [
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 8.983289,
+              "baseHeightM": 10.917107,
               "operationDeltaM": -1.5,
               "x": 2633,
               "z": 1022
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 9.13062,
+              "baseHeightM": 11.229806,
+              "operationDeltaM": -1.5,
+              "x": 2635,
+              "z": 1022
+            },
+            {
+              "appliedDeltaM": -1.5,
+              "baseHeightM": 11.083478,
               "operationDeltaM": -1.5,
               "x": 2632,
               "z": 1023
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 11.875661,
+              "baseHeightM": 11.802176,
               "operationDeltaM": -1.5,
               "x": 2637,
               "z": 1023
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 9.226449,
+              "baseHeightM": 11.145074,
               "operationDeltaM": -1.5,
               "x": 2631,
               "z": 1024
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 11.855661,
+              "baseHeightM": 11.365169,
               "operationDeltaM": -1.5,
               "x": 2634,
               "z": 1024
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 12.391308,
+              "baseHeightM": 11.214598,
               "operationDeltaM": -1.5,
               "x": 2631,
               "z": 1025
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 12.088421,
+              "baseHeightM": 12.149112,
               "operationDeltaM": -1.5,
               "x": 2637,
               "z": 1025
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 12.3185,
+              "baseHeightM": 11.276775,
               "operationDeltaM": -1.5,
               "x": 2631,
               "z": 1026
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 11.867097,
+              "baseHeightM": 11.493143,
               "operationDeltaM": -1.5,
               "x": 2634,
               "z": 1026
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 12.058227,
+              "baseHeightM": 11.359979,
               "operationDeltaM": -1.5,
               "x": 2631,
               "z": 1027
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 12.16982,
+              "baseHeightM": 12.328936,
               "operationDeltaM": -1.5,
               "x": 2637,
               "z": 1027
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 12.084818,
+              "baseHeightM": 11.511959,
               "operationDeltaM": -1.5,
               "x": 2632,
               "z": 1028
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 11.973693,
+              "baseHeightM": 11.80189,
               "operationDeltaM": -1.5,
               "x": 2635,
               "z": 1028
             },
             {
               "appliedDeltaM": -1.5,
-              "baseHeightM": 12.134703,
+              "baseHeightM": 11.726714,
               "operationDeltaM": -1.5,
               "x": 2633,
               "z": 1029
             },
             {
               "appliedDeltaM": -1.499665,
-              "baseHeightM": 12.208355,
+              "baseHeightM": 11.698815,
               "operationDeltaM": -1.499665,
               "x": 2632,
               "z": 1029
             },
             {
               "appliedDeltaM": -1.488467,
-              "baseHeightM": 12.11407,
+              "baseHeightM": 11.916753,
               "operationDeltaM": -1.488467,
               "x": 2634,
               "z": 1030
             },
             {
-              "appliedDeltaM": -1.486432,
-              "baseHeightM": 9.179724,
-              "operationDeltaM": -1.486431,
-              "x": 2632,
-              "z": 1022
-            },
-            {
               "appliedDeltaM": -1.484866,
-              "baseHeightM": 12.238225,
+              "baseHeightM": 11.222578,
               "operationDeltaM": -1.484866,
               "x": 2630,
               "z": 1025
             },
             {
               "appliedDeltaM": -1.472121,
-              "baseHeightM": 12.491644,
+              "baseHeightM": 11.422873,
               "operationDeltaM": -1.472122,
               "x": 2630,
               "z": 1027
             },
             {
               "appliedDeltaM": -1.451141,
-              "baseHeightM": 11.998728,
+              "baseHeightM": 10.87826,
               "operationDeltaM": -1.451141,
               "x": 2634,
               "z": 1021
             },
             {
               "appliedDeltaM": -1.425789,
-              "baseHeightM": 8.989175,
+              "baseHeightM": 10.823106,
               "operationDeltaM": -1.425789,
               "x": 2633,
               "z": 1021
             },
             {
               "appliedDeltaM": -1.388709,
-              "baseHeightM": 11.9767,
+              "baseHeightM": 12.27771,
               "operationDeltaM": -1.388709,
               "x": 2637,
               "z": 1030
             },
             {
               "appliedDeltaM": -1.386588,
-              "baseHeightM": 8.005527,
+              "baseHeightM": 11.009318,
               "operationDeltaM": -1.386588,
               "x": 2630,
               "z": 1023
             },
             {
               "appliedDeltaM": -1.337146,
-              "baseHeightM": 12.162915,
+              "baseHeightM": 12.057893,
               "operationDeltaM": -1.337146,
               "x": 2634,
               "z": 1031
             },
             {
               "appliedDeltaM": -1.248306,
-              "baseHeightM": 12.249673,
+              "baseHeightM": 13.019137,
               "operationDeltaM": -1.248306,
               "x": 2640,
               "z": 1026
             },
             {
               "appliedDeltaM": -1.246062,
-              "baseHeightM": 8.933327,
+              "baseHeightM": 10.725741,
               "operationDeltaM": -1.246062,
               "x": 2634,
               "z": 1020
             },
             {
-              "appliedDeltaM": -1.237743,
-              "baseHeightM": 12.019014,
-              "operationDeltaM": -1.237743,
-              "x": 2635,
-              "z": 1020
-            },
-            {
               "appliedDeltaM": -1.235703,
-              "baseHeightM": 12.169739,
+              "baseHeightM": 12.856374,
               "operationDeltaM": -1.235703,
               "x": 2639,
               "z": 1029
             },
             {
               "appliedDeltaM": -1.182833,
-              "baseHeightM": 11.943233,
+              "baseHeightM": 12.451548,
               "operationDeltaM": -1.182833,
               "x": 2640,
               "z": 1024
             },
             {
+              "appliedDeltaM": -1.181277,
+              "baseHeightM": 11.201308,
+              "operationDeltaM": -1.181278,
+              "x": 2636,
+              "z": 1020
+            },
+            {
               "appliedDeltaM": -1.174333,
-              "baseHeightM": 12.00541,
+              "baseHeightM": 12.338809,
               "operationDeltaM": -1.174332,
               "x": 2637,
               "z": 1031
             },
             {
-              "appliedDeltaM": -1.173424,
-              "baseHeightM": 11.636047,
-              "operationDeltaM": -1.173424,
-              "x": 2639,
-              "z": 1022
-            },
-            {
-              "appliedDeltaM": -1.127719,
-              "baseHeightM": 12.550586,
+              "appliedDeltaM": -1.12772,
+              "baseHeightM": 11.915161,
               "operationDeltaM": -1.127719,
               "x": 2630,
               "z": 1030
             },
             {
               "appliedDeltaM": -1.08,
-              "baseHeightM": 8.948942,
+              "baseHeightM": 9.663407,
               "operationDeltaM": -1.08,
-              "x": 2626,
-              "z": 1017
+              "x": 2623,
+              "z": 1021
             },
             {
               "appliedDeltaM": -1.08,
-              "baseHeightM": 8.835077,
+              "baseHeightM": 10.201011,
               "operationDeltaM": -1.08,
-              "x": 2627,
-              "z": 1018
-            },
-            {
-              "appliedDeltaM": -1.08,
-              "baseHeightM": 8.652599,
-              "operationDeltaM": -1.08,
-              "x": 2628,
-              "z": 1019
-            },
-            {
-              "appliedDeltaM": -1.07596,
-              "baseHeightM": 8.964486,
-              "operationDeltaM": -1.07596,
               "x": 2625,
-              "z": 1016
+              "z": 1022
             },
             {
               "appliedDeltaM": -1.060851,
-              "baseHeightM": 12.298627,
+              "baseHeightM": 12.271522,
               "operationDeltaM": -1.060851,
               "x": 2634,
               "z": 1032
             },
             {
-              "appliedDeltaM": -0.970491,
-              "baseHeightM": 9.118661,
-              "operationDeltaM": -0.970491,
-              "x": 2624,
-              "z": 1015
-            },
-            {
-              "appliedDeltaM": -0.945045,
-              "baseHeightM": 8.548518,
-              "operationDeltaM": -0.945044,
-              "x": 2628,
+              "appliedDeltaM": -1.054261,
+              "baseHeightM": 9.234414,
+              "operationDeltaM": -1.054261,
+              "x": 2622,
               "z": 1020
             },
             {
               "appliedDeltaM": -0.939933,
-              "baseHeightM": 8.873322,
+              "baseHeightM": 10.65194,
               "operationDeltaM": -0.939933,
               "x": 2634,
               "z": 1019
             },
             {
               "appliedDeltaM": -0.926237,
-              "baseHeightM": 12.729718,
+              "baseHeightM": 11.472694,
               "operationDeltaM": -0.926237,
               "x": 2628,
               "z": 1028
             },
             {
-              "appliedDeltaM": -0.92141,
-              "baseHeightM": 8.72466,
-              "operationDeltaM": -0.92141,
-              "x": 2627,
-              "z": 1019
-            },
-            {
               "appliedDeltaM": -0.886394,
-              "baseHeightM": 12.690261,
+              "baseHeightM": 12.119752,
               "operationDeltaM": -0.886394,
               "x": 2630,
               "z": 1031
             },
             {
               "appliedDeltaM": -0.883719,
-              "baseHeightM": 12.112001,
+              "baseHeightM": 12.485332,
               "operationDeltaM": -0.883719,
               "x": 2637,
               "z": 1032
             },
             {
-              "appliedDeltaM": -0.870023,
-              "baseHeightM": 8.936053,
-              "operationDeltaM": -0.870023,
-              "x": 2625,
-              "z": 1017
+              "appliedDeltaM": -0.873993,
+              "baseHeightM": 9.444126,
+              "operationDeltaM": -0.873993,
+              "x": 2623,
+              "z": 1020
             },
             {
-              "appliedDeltaM": -0.826765,
-              "baseHeightM": 9.081748,
-              "operationDeltaM": -0.826765,
-              "x": 2624,
-              "z": 1014
+              "appliedDeltaM": -0.872436,
+              "baseHeightM": 11.037065,
+              "operationDeltaM": -0.872436,
+              "x": 2636,
+              "z": 1019
             },
             {
               "appliedDeltaM": -0.81246,
-              "baseHeightM": 12.263488,
+              "baseHeightM": 13.345394,
               "operationDeltaM": -0.81246,
               "x": 2641,
               "z": 1028
             },
             {
+              "appliedDeltaM": -0.789328,
+              "baseHeightM": 8.62547,
+              "operationDeltaM": -0.789328,
+              "x": 2620,
+              "z": 1019
+            },
+            {
+              "appliedDeltaM": -0.773359,
+              "baseHeightM": 9.238829,
+              "operationDeltaM": -0.77336,
+              "x": 2621,
+              "z": 1021
+            },
+            {
               "appliedDeltaM": -0.724346,
-              "baseHeightM": 12.443416,
+              "baseHeightM": 12.47561,
               "operationDeltaM": -0.724346,
               "x": 2634,
               "z": 1033
             },
             {
               "appliedDeltaM": -0.721711,
-              "baseHeightM": 8.095762,
+              "baseHeightM": 11.175451,
               "operationDeltaM": -0.721711,
               "x": 2627,
               "z": 1026
             },
             {
               "appliedDeltaM": -0.711115,
-              "baseHeightM": 11.543369,
+              "baseHeightM": 12.105096,
               "operationDeltaM": -0.711115,
               "x": 2640,
               "z": 1021
             },
             {
+              "appliedDeltaM": -0.684479,
+              "baseHeightM": 8.410547,
+              "operationDeltaM": -0.684479,
+              "x": 2619,
+              "z": 1019
+            },
+            {
               "appliedDeltaM": -0.658143,
-              "baseHeightM": 8.899642,
+              "baseHeightM": 10.898224,
               "operationDeltaM": -0.658143,
               "x": 2627,
               "z": 1024
             },
             {
+              "appliedDeltaM": -0.619846,
+              "baseHeightM": 12.357829,
+              "operationDeltaM": -0.619847,
+              "x": 2641,
+              "z": 1022
+            },
+            {
               "appliedDeltaM": -0.610769,
-              "baseHeightM": 12.793386,
+              "baseHeightM": 12.309725,
               "operationDeltaM": -0.610769,
               "x": 2630,
               "z": 1032
             },
             {
-              "appliedDeltaM": -0.608727,
-              "baseHeightM": 9.300792,
-              "operationDeltaM": -0.608727,
-              "x": 2623,
-              "z": 1013
-            },
-            {
               "appliedDeltaM": -0.603276,
-              "baseHeightM": 12.670713,
+              "baseHeightM": 12.485181,
               "operationDeltaM": -0.603276,
               "x": 2632,
               "z": 1033
             },
             {
               "appliedDeltaM": -0.597608,
-              "baseHeightM": 8.842558,
+              "baseHeightM": 10.573099,
               "operationDeltaM": -0.597607,
               "x": 2634,
               "z": 1018
             },
             {
+              "appliedDeltaM": -0.561752,
+              "baseHeightM": 10.372343,
+              "operationDeltaM": -0.561752,
+              "x": 2633,
+              "z": 1018
+            },
+            {
               "appliedDeltaM": -0.392586,
-              "baseHeightM": 12.481141,
+              "baseHeightM": 12.56557,
               "operationDeltaM": -0.392586,
               "x": 2634,
               "z": 1034
             },
             {
-              "appliedDeltaM": -0.364437,
-              "baseHeightM": 9.529965,
-              "operationDeltaM": -0.364437,
-              "x": 2622,
-              "z": 1012
+              "appliedDeltaM": -0.38715,
+              "baseHeightM": 7.96383,
+              "operationDeltaM": -0.38715,
+              "x": 2618,
+              "z": 1018
             },
             {
               "appliedDeltaM": -0.286466,
-              "baseHeightM": 12.025026,
+              "baseHeightM": 12.880278,
               "operationDeltaM": -0.286466,
               "x": 2639,
               "z": 1033
             },
             {
               "appliedDeltaM": -0.284081,
-              "baseHeightM": 8.853891,
+              "baseHeightM": 10.485588,
               "operationDeltaM": -0.284081,
               "x": 2634,
               "z": 1017
             },
             {
-              "appliedDeltaM": -0.2834,
-              "baseHeightM": 8.632211,
-              "operationDeltaM": -0.2834,
-              "x": 2627,
-              "z": 1021
-            },
-            {
               "appliedDeltaM": -0.271856,
-              "baseHeightM": 12.209401,
+              "baseHeightM": 12.729291,
               "operationDeltaM": -0.271857,
               "x": 2637,
               "z": 1034
             },
             {
+              "appliedDeltaM": -0.258357,
+              "baseHeightM": 10.233519,
+              "operationDeltaM": -0.258357,
+              "x": 2633,
+              "z": 1017
+            },
+            {
               "appliedDeltaM": -0.130616,
-              "baseHeightM": 12.453409,
+              "baseHeightM": 12.594245,
               "operationDeltaM": -0.130617,
               "x": 2634,
               "z": 1035
             },
             {
-              "appliedDeltaM": -0.110542,
-              "baseHeightM": 5.686406,
-              "operationDeltaM": -0.110542,
-              "x": 2621,
-              "z": 1011
+              "appliedDeltaM": -0.100728,
+              "baseHeightM": 7.815491,
+              "operationDeltaM": -0.100728,
+              "x": 2617,
+              "z": 1017
+            },
+            {
+              "appliedDeltaM": -0.06442,
+              "baseHeightM": 10.368971,
+              "operationDeltaM": -0.06442,
+              "x": 2634,
+              "z": 1016
             },
             {
               "appliedDeltaM": -0.024168,
-              "baseHeightM": 10.871418,
+              "baseHeightM": 12.84112,
               "operationDeltaM": -0.024168,
               "x": 2638,
               "z": 1035
@@ -961,972 +1922,488 @@
       "requestId": "terrain-request.hist-heartland.greenspring.spring.7bcc10aaafd7"
     },
     {
-      "deliverySha256": "116db0e08e72836b91b413bcd5909e853b8972a9533ca83726307b894b4ace72",
+      "deliverySha256": "d70e87bdf154b1c8101a44e978ac7974626b2f917e02e875873a77e05b73e445",
       "evidenceRefs": [
-        "terrain-operation-evidence.terrain-op.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5.sha256.a8681b008132c0889a24be446f5f7caaf62bd89da8d0f4fbab025dfdabf44349"
+        "terrain-operation-evidence.terrain-op.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d.sha256.a59a30481a82f68a5ed052dba96117b0c55f2f14650092fecfefd6299fb7c14d"
       ],
       "operationEvidence": [
         {
           "action": "raise",
           "axis": [
-            0.43831147,
-            0.89882315
+            0.677530844,
+            0.735494361
           ],
           "axisSource": "local-flow",
           "coveredFields": [
-            "access",
-            "current",
+            "capacity",
             "feature"
           ],
-          "deliverySha256": "116db0e08e72836b91b413bcd5909e853b8972a9533ca83726307b894b4ace72",
-          "deltaSha256": "f54a88d8a3f56cb469e9c30b26c95ee109373f45f7d637ffb89dd31f9595fbeb",
-          "evidenceSha256": "a8681b008132c0889a24be446f5f7caaf62bd89da8d0f4fbab025dfdabf44349",
-          "operationId": "terrain-op.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
+          "deliverySha256": "d70e87bdf154b1c8101a44e978ac7974626b2f917e02e875873a77e05b73e445",
+          "deltaSha256": "5d18b0aafbf4335cce59df6f546daee338108899642de5e42688a31419ddaa74",
+          "evidenceSha256": "a59a30481a82f68a5ed052dba96117b0c55f2f14650092fecfefd6299fb7c14d",
+          "operationId": "terrain-op.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d",
           "profile": "paired-channel-banks",
           "witnesses": [
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.706913,
+              "baseHeightM": 34.907829,
               "operationDeltaM": 2.0,
-              "x": 933,
-              "z": 2672
+              "x": 1024,
+              "z": 1314
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.736731,
+              "baseHeightM": 34.727467,
               "operationDeltaM": 2.0,
-              "x": 933,
-              "z": 2673
+              "x": 1025,
+              "z": 1315
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.717177,
+              "baseHeightM": 34.434353,
               "operationDeltaM": 2.0,
-              "x": 934,
-              "z": 2674
+              "x": 1026,
+              "z": 1316
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.722378,
+              "baseHeightM": 34.205471,
               "operationDeltaM": 2.0,
-              "x": 934,
-              "z": 2675
+              "x": 1027,
+              "z": 1317
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.674938,
+              "baseHeightM": 33.985748,
               "operationDeltaM": 2.0,
-              "x": 935,
-              "z": 2676
+              "x": 1028,
+              "z": 1318
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.657769,
+              "baseHeightM": 33.79491,
               "operationDeltaM": 2.0,
-              "x": 935,
-              "z": 2677
+              "x": 1029,
+              "z": 1319
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.719799,
+              "baseHeightM": 33.577702,
               "operationDeltaM": 2.0,
-              "x": 936,
-              "z": 2678
+              "x": 1030,
+              "z": 1320
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.299136,
+              "baseHeightM": 33.465,
               "operationDeltaM": 2.0,
-              "x": 920,
-              "z": 2679
+              "x": 1030,
+              "z": 1321
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.750866,
+              "baseHeightM": 33.119553,
               "operationDeltaM": 2.0,
-              "x": 937,
-              "z": 2679
+              "x": 1031,
+              "z": 1322
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.775986,
+              "baseHeightM": 32.810749,
               "operationDeltaM": 2.0,
-              "x": 937,
-              "z": 2680
+              "x": 1032,
+              "z": 1323
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.81474,
+              "baseHeightM": 32.370445,
               "operationDeltaM": 2.0,
-              "x": 937,
-              "z": 2681
+              "x": 1033,
+              "z": 1324
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.917384,
+              "baseHeightM": 37.473602,
               "operationDeltaM": 2.0,
-              "x": 921,
-              "z": 2682
+              "x": 1011,
+              "z": 1325
+            },
+            {
+              "appliedDeltaM": 2.000002,
+              "baseHeightM": 31.905912,
+              "operationDeltaM": 2.0,
+              "x": 1034,
+              "z": 1325
+            },
+            {
+              "appliedDeltaM": 2.000002,
+              "baseHeightM": 31.55776,
+              "operationDeltaM": 2.0,
+              "x": 1035,
+              "z": 1326
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.931861,
+              "baseHeightM": 36.805618,
               "operationDeltaM": 2.0,
-              "x": 921,
-              "z": 2683
+              "x": 1012,
+              "z": 1327
+            },
+            {
+              "appliedDeltaM": 1.999998,
+              "baseHeightM": 31.320299,
+              "operationDeltaM": 2.0,
+              "x": 1036,
+              "z": 1327
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.878796,
+              "baseHeightM": 35.961563,
               "operationDeltaM": 2.0,
-              "x": 938,
-              "z": 2683
+              "x": 1014,
+              "z": 1328
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.873948,
+              "baseHeightM": 35.737778,
               "operationDeltaM": 2.0,
-              "x": 939,
-              "z": 2684
+              "x": 1014,
+              "z": 1329
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.900613,
+              "baseHeightM": 30.927593,
               "operationDeltaM": 2.0,
-              "x": 923,
-              "z": 2685
+              "x": 1038,
+              "z": 1329
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.968774,
+              "baseHeightM": 35.372311,
               "operationDeltaM": 2.0,
-              "x": 923,
-              "z": 2686
+              "x": 1015,
+              "z": 1330
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.995662,
+              "baseHeightM": 35.084938,
               "operationDeltaM": 2.0,
-              "x": 923,
-              "z": 2687
+              "x": 1016,
+              "z": 1331
+            },
+            {
+              "appliedDeltaM": 1.999998,
+              "baseHeightM": 30.036242,
+              "operationDeltaM": 2.0,
+              "x": 1040,
+              "z": 1331
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.664806,
+              "baseHeightM": 34.416073,
               "operationDeltaM": 2.0,
-              "x": 940,
-              "z": 2687
+              "x": 1018,
+              "z": 1332
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.621845,
+              "baseHeightM": 34.3507,
               "operationDeltaM": 2.0,
-              "x": 941,
-              "z": 2688
+              "x": 1018,
+              "z": 1333
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 6.014511,
+              "baseHeightM": 29.734266,
               "operationDeltaM": 2.0,
-              "x": 924,
-              "z": 2689
+              "x": 1042,
+              "z": 1333
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.873758,
+              "baseHeightM": 29.703394,
               "operationDeltaM": 2.0,
-              "x": 925,
-              "z": 2690
+              "x": 1042,
+              "z": 1334
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.421878,
+              "baseHeightM": 33.658478,
               "operationDeltaM": 2.0,
-              "x": 925,
-              "z": 2691
+              "x": 1020,
+              "z": 1335
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.370089,
+              "baseHeightM": 29.477551,
               "operationDeltaM": 2.0,
-              "x": 942,
-              "z": 2691
+              "x": 1044,
+              "z": 1335
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.341147,
+              "baseHeightM": 29.331553,
               "operationDeltaM": 2.0,
-              "x": 943,
-              "z": 2692
+              "x": 1044,
+              "z": 1336
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 5.135169,
+              "baseHeightM": 33.056755,
               "operationDeltaM": 2.0,
-              "x": 926,
-              "z": 2693
+              "x": 1021,
+              "z": 1337
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.945524,
+              "baseHeightM": 28.869688,
               "operationDeltaM": 2.0,
-              "x": 927,
-              "z": 2694
+              "x": 1046,
+              "z": 1337
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.205804,
+              "baseHeightM": 28.877756,
               "operationDeltaM": 2.0,
-              "x": 944,
-              "z": 2694
+              "x": 1046,
+              "z": 1338
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.153275,
+              "baseHeightM": 32.35788,
               "operationDeltaM": 2.0,
-              "x": 944,
-              "z": 2695
+              "x": 1023,
+              "z": 1339
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.064205,
+              "baseHeightM": 28.587254,
               "operationDeltaM": 2.0,
-              "x": 945,
-              "z": 2696
+              "x": 1047,
+              "z": 1339
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.952132,
+              "baseHeightM": 28.278175,
               "operationDeltaM": 2.0,
-              "x": 928,
-              "z": 2697
+              "x": 1048,
+              "z": 1340
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.89942,
+              "baseHeightM": 32.161934,
               "operationDeltaM": 2.0,
-              "x": 929,
-              "z": 2698
+              "x": 1025,
+              "z": 1341
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 3.801249,
+              "baseHeightM": 27.962738,
               "operationDeltaM": 2.0,
-              "x": 946,
-              "z": 2698
+              "x": 1049,
+              "z": 1341
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 3.654166,
+              "baseHeightM": 27.663738,
               "operationDeltaM": 2.0,
-              "x": 946,
-              "z": 2699
+              "x": 1050,
+              "z": 1342
+            },
+            {
+              "appliedDeltaM": 2.000002,
+              "baseHeightM": 31.563932,
+              "operationDeltaM": 2.0,
+              "x": 1027,
+              "z": 1343
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.805302,
+              "baseHeightM": 31.316437,
               "operationDeltaM": 2.0,
-              "x": 930,
-              "z": 2700
+              "x": 1028,
+              "z": 1344
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.719689,
+              "baseHeightM": 31.017517,
               "operationDeltaM": 2.0,
-              "x": 930,
-              "z": 2701
+              "x": 1029,
+              "z": 1345
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.499912,
+              "baseHeightM": 30.628014,
               "operationDeltaM": 2.0,
-              "x": 931,
-              "z": 2702
+              "x": 1030,
+              "z": 1346
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 2.797092,
+              "baseHeightM": 30.264885,
               "operationDeltaM": 2.0,
-              "x": 947,
-              "z": 2702
+              "x": 1031,
+              "z": 1347
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 2.555155,
+              "baseHeightM": 29.918615,
               "operationDeltaM": 2.0,
-              "x": 948,
-              "z": 2703
+              "x": 1032,
+              "z": 1348
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.356678,
+              "baseHeightM": 29.767788,
               "operationDeltaM": 2.0,
-              "x": 932,
-              "z": 2704
+              "x": 1032,
+              "z": 1349
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.340909,
+              "baseHeightM": 29.345671,
               "operationDeltaM": 2.0,
-              "x": 932,
-              "z": 2705
+              "x": 1033,
+              "z": 1350
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 2.334878,
+              "baseHeightM": 28.850643,
               "operationDeltaM": 2.0,
-              "x": 949,
-              "z": 2705
+              "x": 1034,
+              "z": 1351
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 2.296032,
+              "baseHeightM": 28.559986,
               "operationDeltaM": 2.0,
-              "x": 949,
-              "z": 2706
+              "x": 1035,
+              "z": 1352
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 4.088728,
+              "baseHeightM": 28.478397,
               "operationDeltaM": 2.0,
-              "x": 933,
-              "z": 2708
+              "x": 1036,
+              "z": 1352
             },
             {
               "appliedDeltaM": 2.0,
-              "baseHeightM": 3.855782,
+              "baseHeightM": 27.993162,
               "operationDeltaM": 2.0,
-              "x": 934,
-              "z": 2709
+              "x": 1037,
+              "z": 1353
             },
             {
-              "appliedDeltaM": 2.0,
-              "baseHeightM": 3.649605,
-              "operationDeltaM": 2.0,
-              "x": 934,
-              "z": 2710
+              "appliedDeltaM": 1.998341,
+              "baseHeightM": 33.80687,
+              "operationDeltaM": 1.998339,
+              "x": 1029,
+              "z": 1320
             },
             {
-              "appliedDeltaM": 2.0,
-              "baseHeightM": 3.399181,
-              "operationDeltaM": 2.0,
-              "x": 935,
-              "z": 2711
+              "appliedDeltaM": 1.996372,
+              "baseHeightM": 35.199589,
+              "operationDeltaM": 1.996371,
+              "x": 1023,
+              "z": 1313
             },
             {
-              "appliedDeltaM": 2.0,
-              "baseHeightM": 3.264871,
-              "operationDeltaM": 2.0,
-              "x": 935,
-              "z": 2712
+              "appliedDeltaM": 1.906645,
+              "baseHeightM": 27.206997,
+              "operationDeltaM": 1.906645,
+              "x": 1051,
+              "z": 1344
             },
             {
-              "appliedDeltaM": 2.0,
-              "baseHeightM": 2.809934,
-              "operationDeltaM": 2.0,
-              "x": 936,
-              "z": 2713
+              "appliedDeltaM": 1.902992,
+              "baseHeightM": 38.161808,
+              "operationDeltaM": 1.902992,
+              "x": 1010,
+              "z": 1323
             },
             {
-              "appliedDeltaM": 1.994996,
-              "baseHeightM": 2.179968,
-              "operationDeltaM": 1.994996,
-              "x": 950,
-              "z": 2707
+              "appliedDeltaM": 1.873787,
+              "baseHeightM": 26.928381,
+              "operationDeltaM": 1.873787,
+              "x": 1039,
+              "z": 1355
             },
             {
-              "appliedDeltaM": 1.994265,
-              "baseHeightM": 4.717111,
-              "operationDeltaM": 1.994264,
-              "x": 932,
-              "z": 2671
+              "appliedDeltaM": 1.715179,
+              "baseHeightM": 35.881813,
+              "operationDeltaM": 1.715178,
+              "x": 1021,
+              "z": 1312
             },
             {
-              "appliedDeltaM": 1.992435,
-              "baseHeightM": 2.522242,
-              "operationDeltaM": 1.992435,
-              "x": 937,
-              "z": 2714
+              "appliedDeltaM": 1.605658,
+              "baseHeightM": 29.899965,
+              "operationDeltaM": 1.605657,
+              "x": 1033,
+              "z": 1347
             },
             {
-              "appliedDeltaM": 1.883552,
-              "baseHeightM": 4.690311,
-              "operationDeltaM": 1.883552,
-              "x": 935,
-              "z": 2674
+              "appliedDeltaM": 1.535286,
+              "baseHeightM": 26.526192,
+              "operationDeltaM": 1.535287,
+              "x": 1039,
+              "z": 1356
             },
             {
-              "appliedDeltaM": 1.847329,
-              "baseHeightM": 2.35627,
-              "operationDeltaM": 1.84733,
-              "x": 938,
-              "z": 2715
+              "appliedDeltaM": 1.065126,
+              "baseHeightM": 25.986132,
+              "operationDeltaM": 1.065126,
+              "x": 1040,
+              "z": 1357
             },
             {
-              "appliedDeltaM": 1.83319,
-              "baseHeightM": 4.665291,
-              "operationDeltaM": 1.83319,
-              "x": 931,
-              "z": 2670
+              "appliedDeltaM": 1.047192,
+              "baseHeightM": 35.598389,
+              "operationDeltaM": 1.047191,
+              "x": 1021,
+              "z": 1310
             },
             {
-              "appliedDeltaM": 1.636969,
-              "baseHeightM": 4.584808,
-              "operationDeltaM": 1.636968,
-              "x": 931,
-              "z": 2669
+              "appliedDeltaM": 0.595045,
+              "baseHeightM": 25.557566,
+              "operationDeltaM": 0.595045,
+              "x": 1040,
+              "z": 1358
             },
             {
-              "appliedDeltaM": 1.627432,
-              "baseHeightM": 2.437509,
-              "operationDeltaM": 1.627432,
-              "x": 938,
-              "z": 2716
+              "appliedDeltaM": 0.574944,
+              "baseHeightM": 35.570473,
+              "operationDeltaM": 0.574943,
+              "x": 1021,
+              "z": 1309
             },
             {
-              "appliedDeltaM": 1.476684,
-              "baseHeightM": 3.312407,
-              "operationDeltaM": 1.476684,
-              "x": 934,
-              "z": 2712
+              "appliedDeltaM": 0.180588,
+              "baseHeightM": 36.852711,
+              "operationDeltaM": 0.180587,
+              "x": 1018,
+              "z": 1308
             },
             {
-              "appliedDeltaM": 1.22665,
-              "baseHeightM": 2.441185,
-              "operationDeltaM": 1.22665,
-              "x": 939,
-              "z": 2717
-            },
-            {
-              "appliedDeltaM": 1.221894,
-              "baseHeightM": 4.513597,
-              "operationDeltaM": 1.221894,
-              "x": 930,
-              "z": 2668
-            },
-            {
-              "appliedDeltaM": 0.667896,
-              "baseHeightM": 4.494754,
-              "operationDeltaM": 0.667896,
-              "x": 929,
-              "z": 2667
-            },
-            {
-              "appliedDeltaM": 0.453639,
-              "baseHeightM": 2.260054,
-              "operationDeltaM": 0.453639,
-              "x": 940,
-              "z": 2719
-            },
-            {
-              "appliedDeltaM": 0.192086,
-              "baseHeightM": 4.53339,
-              "operationDeltaM": 0.192086,
-              "x": 929,
-              "z": 2665
-            },
-            {
-              "appliedDeltaM": 0.187642,
-              "baseHeightM": 2.244848,
-              "operationDeltaM": 0.187642,
-              "x": 940,
-              "z": 2720
+              "appliedDeltaM": 0.120073,
+              "baseHeightM": 24.647427,
+              "operationDeltaM": 0.120074,
+              "x": 1044,
+              "z": 1359
             }
           ]
         }
       ],
       "operationIds": [
-        "terrain-op.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5"
+        "terrain-op.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d"
       ],
-      "requestId": "terrain-request.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5"
-    },
-    {
-      "deliverySha256": "80521f41a6ff5ce0be8260c65e09e630b0ad9184d0b4c14d6662fe024b9146d0",
-      "evidenceRefs": [
-        "terrain-operation-evidence.terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096.sha256.7e9d0b9a464ce4992b4dcea7404ffd3a690f0cfc21003e0975a44e6fe1f93c9b"
-      ],
-      "operationEvidence": [
-        {
-          "action": "carve",
-          "axis": [
-            1.0,
-            0.0
-          ],
-          "axisSource": "none",
-          "coveredFields": [
-            "bank",
-            "capacity",
-            "current",
-            "feature",
-            "featureCount",
-            "sides"
-          ],
-          "deliverySha256": "80521f41a6ff5ce0be8260c65e09e630b0ad9184d0b4c14d6662fe024b9146d0",
-          "deltaSha256": "ef40045716d6e6bbb692d1762612059449a562b695cd0fa17bec531f33654480",
-          "evidenceSha256": "7e9d0b9a464ce4992b4dcea7404ffd3a690f0cfc21003e0975a44e6fe1f93c9b",
-          "operationId": "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-          "profile": "radial-basin",
-          "witnesses": [
-            {
-              "appliedDeltaM": -2.580286,
-              "baseHeightM": 4.197918,
-              "operationDeltaM": -2.580286,
-              "x": 935,
-              "z": 2702
-            },
-            {
-              "appliedDeltaM": -2.580211,
-              "baseHeightM": 4.173964,
-              "operationDeltaM": -2.580211,
-              "x": 934,
-              "z": 2702
-            },
-            {
-              "appliedDeltaM": -2.579366,
-              "baseHeightM": 5.019763,
-              "operationDeltaM": -2.579366,
-              "x": 935,
-              "z": 2683
-            },
-            {
-              "appliedDeltaM": -2.565304,
-              "baseHeightM": 5.22434,
-              "operationDeltaM": -2.565304,
-              "x": 935,
-              "z": 2682
-            },
-            {
-              "appliedDeltaM": -2.564001,
-              "baseHeightM": 4.092632,
-              "operationDeltaM": -2.564001,
-              "x": 935,
-              "z": 2703
-            },
-            {
-              "appliedDeltaM": -2.533074,
-              "baseHeightM": 6.829419,
-              "operationDeltaM": -2.533074,
-              "x": 939,
-              "z": 2683
-            },
-            {
-              "appliedDeltaM": -2.429502,
-              "baseHeightM": 4.312218,
-              "operationDeltaM": -2.429502,
-              "x": 935,
-              "z": 2701
-            },
-            {
-              "appliedDeltaM": -2.426404,
-              "baseHeightM": 5.013084,
-              "operationDeltaM": -2.426404,
-              "x": 935,
-              "z": 2684
-            },
-            {
-              "appliedDeltaM": -2.393341,
-              "baseHeightM": 5.61413,
-              "operationDeltaM": -2.393341,
-              "x": 935,
-              "z": 2681
-            },
-            {
-              "appliedDeltaM": -2.390099,
-              "baseHeightM": 4.101489,
-              "operationDeltaM": -2.390099,
-              "x": 935,
-              "z": 2704
-            },
-            {
-              "appliedDeltaM": -2.246925,
-              "baseHeightM": 4.638916,
-              "operationDeltaM": -2.246925,
-              "x": 928,
-              "z": 2704
-            },
-            {
-              "appliedDeltaM": -2.127982,
-              "baseHeightM": 4.44727,
-              "operationDeltaM": -2.127982,
-              "x": 934,
-              "z": 2700
-            },
-            {
-              "appliedDeltaM": -2.123126,
-              "baseHeightM": 5.022102,
-              "operationDeltaM": -2.123126,
-              "x": 934,
-              "z": 2685
-            },
-            {
-              "appliedDeltaM": -2.094804,
-              "baseHeightM": 6.068502,
-              "operationDeltaM": -2.094804,
-              "x": 935,
-              "z": 2680
-            },
-            {
-              "appliedDeltaM": -2.090162,
-              "baseHeightM": 4.350682,
-              "operationDeltaM": -2.090162,
-              "x": 935,
-              "z": 2705
-            },
-            {
-              "appliedDeltaM": -2.049069,
-              "baseHeightM": 6.502501,
-              "operationDeltaM": -2.049069,
-              "x": 925,
-              "z": 2685
-            },
-            {
-              "appliedDeltaM": -2.019383,
-              "baseHeightM": 4.38276,
-              "operationDeltaM": -2.019383,
-              "x": 945,
-              "z": 2681
-            },
-            {
-              "appliedDeltaM": -1.88277,
-              "baseHeightM": 4.786279,
-              "operationDeltaM": -1.88277,
-              "x": 948,
-              "z": 2700
-            },
-            {
-              "appliedDeltaM": -1.746624,
-              "baseHeightM": 6.705977,
-              "operationDeltaM": -1.746624,
-              "x": 928,
-              "z": 2699
-            },
-            {
-              "appliedDeltaM": -1.746624,
-              "baseHeightM": 6.036962,
-              "operationDeltaM": -1.746624,
-              "x": 931,
-              "z": 2699
-            },
-            {
-              "appliedDeltaM": -1.741353,
-              "baseHeightM": 5.580952,
-              "operationDeltaM": -1.741353,
-              "x": 928,
-              "z": 2686
-            },
-            {
-              "appliedDeltaM": -1.737004,
-              "baseHeightM": 4.519933,
-              "operationDeltaM": -1.737004,
-              "x": 943,
-              "z": 2686
-            },
-            {
-              "appliedDeltaM": -1.715956,
-              "baseHeightM": 6.462735,
-              "operationDeltaM": -1.715956,
-              "x": 935,
-              "z": 2679
-            },
-            {
-              "appliedDeltaM": -1.710592,
-              "baseHeightM": 4.792828,
-              "operationDeltaM": -1.710592,
-              "x": 935,
-              "z": 2706
-            },
-            {
-              "appliedDeltaM": -1.647254,
-              "baseHeightM": 4.851977,
-              "operationDeltaM": -1.647254,
-              "x": 930,
-              "z": 2706
-            },
-            {
-              "appliedDeltaM": -1.494119,
-              "baseHeightM": 4.447699,
-              "operationDeltaM": -1.494119,
-              "x": 943,
-              "z": 2679
-            },
-            {
-              "appliedDeltaM": -1.347816,
-              "baseHeightM": 5.137611,
-              "operationDeltaM": -1.347816,
-              "x": 925,
-              "z": 2698
-            },
-            {
-              "appliedDeltaM": -1.342502,
-              "baseHeightM": 7.578819,
-              "operationDeltaM": -1.342502,
-              "x": 925,
-              "z": 2687
-            },
-            {
-              "appliedDeltaM": -1.308723,
-              "baseHeightM": 6.651939,
-              "operationDeltaM": -1.308723,
-              "x": 935,
-              "z": 2678
-            },
-            {
-              "appliedDeltaM": -1.303324,
-              "baseHeightM": 5.246382,
-              "operationDeltaM": -1.303324,
-              "x": 935,
-              "z": 2707
-            },
-            {
-              "appliedDeltaM": -0.97089,
-              "baseHeightM": 6.795693,
-              "operationDeltaM": -0.970889,
-              "x": 914,
-              "z": 2698
-            },
-            {
-              "appliedDeltaM": -0.959775,
-              "baseHeightM": 5.128699,
-              "operationDeltaM": -0.959775,
-              "x": 924,
-              "z": 2697
-            },
-            {
-              "appliedDeltaM": -0.954795,
-              "baseHeightM": 8.033804,
-              "operationDeltaM": -0.954795,
-              "x": 924,
-              "z": 2688
-            },
-            {
-              "appliedDeltaM": -0.954585,
-              "baseHeightM": 7.531667,
-              "operationDeltaM": -0.954585,
-              "x": 923,
-              "z": 2688
-            },
-            {
-              "appliedDeltaM": -0.919935,
-              "baseHeightM": 6.657769,
-              "operationDeltaM": -0.919935,
-              "x": 935,
-              "z": 2677
-            },
-            {
-              "appliedDeltaM": -0.914884,
-              "baseHeightM": 5.589823,
-              "operationDeltaM": -0.914884,
-              "x": 935,
-              "z": 2708
-            },
-            {
-              "appliedDeltaM": -0.849422,
-              "baseHeightM": 5.170186,
-              "operationDeltaM": -0.849423,
-              "x": 929,
-              "z": 2677
-            },
-            {
-              "appliedDeltaM": -0.703547,
-              "baseHeightM": 2.056555,
-              "operationDeltaM": -0.703548,
-              "x": 944,
-              "z": 2708
-            },
-            {
-              "appliedDeltaM": -0.609962,
-              "baseHeightM": 5.315893,
-              "operationDeltaM": -0.609961,
-              "x": 923,
-              "z": 2696
-            },
-            {
-              "appliedDeltaM": -0.609962,
-              "baseHeightM": 4.543476,
-              "operationDeltaM": -0.609961,
-              "x": 936,
-              "z": 2696
-            },
-            {
-              "appliedDeltaM": -0.605667,
-              "baseHeightM": 7.314289,
-              "operationDeltaM": -0.605667,
-              "x": 923,
-              "z": 2689
-            },
-            {
-              "appliedDeltaM": -0.605667,
-              "baseHeightM": 4.765559,
-              "operationDeltaM": -0.605667,
-              "x": 938,
-              "z": 2689
-            },
-            {
-              "appliedDeltaM": -0.557475,
-              "baseHeightM": 6.674938,
-              "operationDeltaM": -0.557475,
-              "x": 935,
-              "z": 2676
-            },
-            {
-              "appliedDeltaM": -0.553074,
-              "baseHeightM": 5.730022,
-              "operationDeltaM": -0.553074,
-              "x": 935,
-              "z": 2709
-            },
-            {
-              "appliedDeltaM": -0.323126,
-              "baseHeightM": 5.608075,
-              "operationDeltaM": -0.323126,
-              "x": 922,
-              "z": 2695
-            },
-            {
-              "appliedDeltaM": -0.323001,
-              "baseHeightM": 5.660124,
-              "operationDeltaM": -0.323001,
-              "x": 921,
-              "z": 2695
-            },
-            {
-              "appliedDeltaM": -0.319821,
-              "baseHeightM": 6.042403,
-              "operationDeltaM": -0.319821,
-              "x": 922,
-              "z": 2690
-            },
-            {
-              "appliedDeltaM": -0.297891,
-              "baseHeightM": 4.013599,
-              "operationDeltaM": -0.297891,
-              "x": 952,
-              "z": 2690
-            },
-            {
-              "appliedDeltaM": -0.27907,
-              "baseHeightM": 6.698996,
-              "operationDeltaM": -0.27907,
-              "x": 935,
-              "z": 2675
-            },
-            {
-              "appliedDeltaM": -0.27611,
-              "baseHeightM": 5.604957,
-              "operationDeltaM": -0.27611,
-              "x": 935,
-              "z": 2710
-            },
-            {
-              "appliedDeltaM": -0.119566,
-              "baseHeightM": 5.822134,
-              "operationDeltaM": -0.119566,
-              "x": 921,
-              "z": 2694
-            },
-            {
-              "appliedDeltaM": -0.117485,
-              "baseHeightM": 5.958152,
-              "operationDeltaM": -0.117484,
-              "x": 921,
-              "z": 2691
-            },
-            {
-              "appliedDeltaM": -0.11117,
-              "baseHeightM": 6.573863,
-              "operationDeltaM": -0.11117,
-              "x": 935,
-              "z": 2674
-            },
-            {
-              "appliedDeltaM": -0.109612,
-              "baseHeightM": 5.399181,
-              "operationDeltaM": -0.109612,
-              "x": 935,
-              "z": 2711
-            },
-            {
-              "appliedDeltaM": -0.054888,
-              "baseHeightM": 7.745671,
-              "operationDeltaM": -0.054888,
-              "x": 907,
-              "z": 2694
-            },
-            {
-              "appliedDeltaM": -0.032708,
-              "baseHeightM": 6.174078,
-              "operationDeltaM": -0.032708,
-              "x": 935,
-              "z": 2673
-            },
-            {
-              "appliedDeltaM": -0.032095,
-              "baseHeightM": 5.264871,
-              "operationDeltaM": -0.032095,
-              "x": 935,
-              "z": 2712
-            },
-            {
-              "appliedDeltaM": -0.026774,
-              "baseHeightM": 3.962614,
-              "operationDeltaM": -0.026774,
-              "x": 966,
-              "z": 2691
-            },
-            {
-              "appliedDeltaM": -0.013684,
-              "baseHeightM": 5.908831,
-              "operationDeltaM": -0.013684,
-              "x": 921,
-              "z": 2693
-            },
-            {
-              "appliedDeltaM": -0.012974,
-              "baseHeightM": 6.109235,
-              "operationDeltaM": -0.012974,
-              "x": 930,
-              "z": 2692
-            },
-            {
-              "appliedDeltaM": -0.006132,
-              "baseHeightM": 5.563353,
-              "operationDeltaM": -0.006132,
-              "x": 935,
-              "z": 2672
-            },
-            {
-              "appliedDeltaM": -0.005971,
-              "baseHeightM": 5.011401,
-              "operationDeltaM": -0.005971,
-              "x": 935,
-              "z": 2713
-            },
-            {
-              "appliedDeltaM": -0.000524,
-              "baseHeightM": 4.980288,
-              "operationDeltaM": -0.000524,
-              "x": 935,
-              "z": 2671
-            },
-            {
-              "appliedDeltaM": -0.000503,
-              "baseHeightM": 4.39324,
-              "operationDeltaM": -0.000503,
-              "x": 935,
-              "z": 2714
-            }
-          ]
-        }
-      ],
-      "operationIds": [
-        "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096"
-      ],
-      "requestId": "terrain-request.imperial-fringe.onkobra-ferry.pool.5dc29c25d096"
+      "requestId": "terrain-request.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d"
     },
     {
       "deliverySha256": "107075717795ee555286efde63d096a559ac9fd81572cf0636d69820db2aff9d",
       "evidenceRefs": [
-        "terrain-operation-evidence.terrain-op.imperial-fringe.the-drowned-furrow.pool.589387107c40.sha256.bad2ba710410eb64dd537cd628a4e85ff6be11493a307751bd983df35692190a"
+        "terrain-operation-evidence.terrain-op.imperial-fringe.the-drowned-furrow.pool.589387107c40.sha256.ba159e07e4758ddb3d9824d29746946c966010c3bc083b644299a8ea4ec0ad61"
       ],
       "operationEvidence": [
         {
@@ -1945,454 +2422,454 @@
           ],
           "deliverySha256": "107075717795ee555286efde63d096a559ac9fd81572cf0636d69820db2aff9d",
           "deltaSha256": "2fe943ef556ef50aabf4e2b35d2a8716450facfc12158319a91a437e23b1e50e",
-          "evidenceSha256": "bad2ba710410eb64dd537cd628a4e85ff6be11493a307751bd983df35692190a",
+          "evidenceSha256": "ba159e07e4758ddb3d9824d29746946c966010c3bc083b644299a8ea4ec0ad61",
           "operationId": "terrain-op.imperial-fringe.the-drowned-furrow.pool.589387107c40",
           "profile": "radial-basin",
           "witnesses": [
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 421.190033,
+              "baseHeightM": 420.858307,
               "operationDeltaM": -3.45,
               "x": 268,
               "z": 1194
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 419.343109,
+              "baseHeightM": 417.820465,
               "operationDeltaM": -3.45,
               "x": 271,
               "z": 1194
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 420.121399,
+              "baseHeightM": 420.913727,
               "operationDeltaM": -3.45,
               "x": 266,
               "z": 1195
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 418.582703,
+              "baseHeightM": 420.37088,
               "operationDeltaM": -3.45,
               "x": 265,
               "z": 1196
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 420.306946,
+              "baseHeightM": 419.062744,
               "operationDeltaM": -3.45,
               "x": 270,
               "z": 1196
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 414.291351,
+              "baseHeightM": 416.193176,
               "operationDeltaM": -3.45,
               "x": 264,
               "z": 1197
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 408.316498,
+              "baseHeightM": 408.070465,
               "operationDeltaM": -3.45,
               "x": 279,
               "z": 1197
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 411.480591,
+              "baseHeightM": 413.57547,
               "operationDeltaM": -3.45,
               "x": 264,
               "z": 1198
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 417.704956,
+              "baseHeightM": 418.481323,
               "operationDeltaM": -3.45,
               "x": 268,
               "z": 1198
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 409.351959,
+              "baseHeightM": 411.596039,
               "operationDeltaM": -3.45,
               "x": 264,
               "z": 1199
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 411.702332,
+              "baseHeightM": 410.790344,
               "operationDeltaM": -3.45,
               "x": 275,
               "z": 1199
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 407.260712,
+              "baseHeightM": 409.933502,
               "operationDeltaM": -3.45,
               "x": 264,
               "z": 1200
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 406.994995,
+              "baseHeightM": 409.720001,
               "operationDeltaM": -3.45,
               "x": 265,
               "z": 1201
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 414.049652,
+              "baseHeightM": 413.515808,
               "operationDeltaM": -3.45,
               "x": 273,
               "z": 1201
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 407.076508,
+              "baseHeightM": 410.005676,
               "operationDeltaM": -3.45,
               "x": 266,
               "z": 1202
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 407.479675,
+              "baseHeightM": 410.768311,
               "operationDeltaM": -3.45,
               "x": 268,
               "z": 1203
             },
             {
               "appliedDeltaM": -3.450012,
-              "baseHeightM": 411.88797,
+              "baseHeightM": 411.820465,
               "operationDeltaM": -3.45,
               "x": 272,
               "z": 1203
             },
             {
               "appliedDeltaM": -3.43277,
-              "baseHeightM": 408.604645,
+              "baseHeightM": 410.505798,
               "operationDeltaM": -3.432771,
               "x": 271,
               "z": 1204
             },
             {
               "appliedDeltaM": -3.432495,
-              "baseHeightM": 419.344757,
+              "baseHeightM": 417.887115,
               "operationDeltaM": -3.432505,
               "x": 271,
               "z": 1193
             },
             {
               "appliedDeltaM": -3.409637,
-              "baseHeightM": 406.423126,
+              "baseHeightM": 409.029022,
               "operationDeltaM": -3.409623,
               "x": 263,
               "z": 1200
             },
             {
               "appliedDeltaM": -3.244354,
-              "baseHeightM": 407.492523,
+              "baseHeightM": 410.348328,
               "operationDeltaM": -3.244362,
               "x": 271,
               "z": 1205
             },
             {
               "appliedDeltaM": -3.2435,
-              "baseHeightM": 419.334625,
+              "baseHeightM": 418.009644,
               "operationDeltaM": -3.243514,
               "x": 271,
               "z": 1192
             },
             {
               "appliedDeltaM": -3.232605,
-              "baseHeightM": 409.089783,
+              "baseHeightM": 408.908234,
               "operationDeltaM": -3.232605,
               "x": 280,
               "z": 1195
             },
             {
               "appliedDeltaM": -3.12561,
-              "baseHeightM": 410.625366,
+              "baseHeightM": 410.760529,
               "operationDeltaM": -3.125595,
               "x": 275,
               "z": 1205
             },
             {
               "appliedDeltaM": -3.05365,
-              "baseHeightM": 405.122894,
+              "baseHeightM": 407.254517,
               "operationDeltaM": -3.05364,
               "x": 262,
               "z": 1202
             },
             {
               "appliedDeltaM": -2.889801,
-              "baseHeightM": 407.654449,
+              "baseHeightM": 409.985657,
               "operationDeltaM": -2.889806,
               "x": 271,
               "z": 1206
             },
             {
               "appliedDeltaM": -2.88855,
-              "baseHeightM": 419.037903,
+              "baseHeightM": 417.979736,
               "operationDeltaM": -2.888539,
               "x": 271,
               "z": 1191
             },
             {
               "appliedDeltaM": -2.83606,
-              "baseHeightM": 400.102875,
+              "baseHeightM": 399.4711,
               "operationDeltaM": -2.836049,
               "x": 283,
               "z": 1200
             },
             {
               "appliedDeltaM": -2.817474,
-              "baseHeightM": 420.671478,
+              "baseHeightM": 419.952484,
               "operationDeltaM": -2.817483,
               "x": 269,
               "z": 1191
             },
             {
               "appliedDeltaM": -2.816437,
-              "baseHeightM": 403.161835,
+              "baseHeightM": 402.765045,
               "operationDeltaM": -2.816447,
               "x": 282,
               "z": 1202
             },
             {
               "appliedDeltaM": -2.784088,
-              "baseHeightM": 422.501953,
+              "baseHeightM": 422.468353,
               "operationDeltaM": -2.784086,
               "x": 265,
               "z": 1192
             },
             {
               "appliedDeltaM": -2.760437,
-              "baseHeightM": 408.942657,
+              "baseHeightM": 408.832153,
               "operationDeltaM": -2.760443,
               "x": 280,
               "z": 1193
             },
             {
               "appliedDeltaM": -2.746246,
-              "baseHeightM": 407.736389,
+              "baseHeightM": 409.681976,
               "operationDeltaM": -2.746259,
               "x": 268,
               "z": 1206
             },
             {
               "appliedDeltaM": -2.551605,
-              "baseHeightM": 416.211456,
+              "baseHeightM": 416.280457,
               "operationDeltaM": -2.551602,
               "x": 260,
               "z": 1195
             },
             {
               "appliedDeltaM": -2.547943,
-              "baseHeightM": 411.31131,
+              "baseHeightM": 412.495697,
               "operationDeltaM": -2.547946,
               "x": 259,
               "z": 1197
             },
             {
               "appliedDeltaM": -2.544312,
-              "baseHeightM": 405.096222,
+              "baseHeightM": 406.932281,
               "operationDeltaM": -2.544297,
               "x": 262,
               "z": 1204
             },
             {
               "appliedDeltaM": -2.424561,
-              "baseHeightM": 407.559052,
+              "baseHeightM": 409.189728,
               "operationDeltaM": -2.42456,
               "x": 271,
               "z": 1207
             },
             {
               "appliedDeltaM": -2.423035,
-              "baseHeightM": 418.882233,
+              "baseHeightM": 418.242401,
               "operationDeltaM": -2.423045,
               "x": 271,
               "z": 1190
             },
             {
               "appliedDeltaM": -2.397522,
-              "baseHeightM": 417.449768,
+              "baseHeightM": 416.472046,
               "operationDeltaM": -2.397518,
               "x": 273,
               "z": 1190
             },
             {
               "appliedDeltaM": -2.289276,
-              "baseHeightM": 402.972717,
+              "baseHeightM": 402.497223,
               "operationDeltaM": -2.289277,
               "x": 282,
               "z": 1204
             },
             {
               "appliedDeltaM": -2.025543,
-              "baseHeightM": 419.441437,
+              "baseHeightM": 420.243896,
               "operationDeltaM": -2.025553,
               "x": 260,
               "z": 1193
             },
             {
               "appliedDeltaM": -1.904572,
-              "baseHeightM": 406.881927,
+              "baseHeightM": 408.255005,
               "operationDeltaM": -1.904586,
               "x": 271,
               "z": 1208
             },
             {
               "appliedDeltaM": -1.902985,
-              "baseHeightM": 419.107208,
+              "baseHeightM": 418.583527,
               "operationDeltaM": -1.902987,
               "x": 271,
               "z": 1189
             },
             {
               "appliedDeltaM": -1.832062,
-              "baseHeightM": 417.343231,
+              "baseHeightM": 416.464813,
               "operationDeltaM": -1.832061,
               "x": 274,
               "z": 1189
             },
             {
               "appliedDeltaM": -1.592957,
-              "baseHeightM": 391.468933,
+              "baseHeightM": 391.61087,
               "operationDeltaM": -1.592947,
               "x": 287,
               "z": 1198
             },
             {
               "appliedDeltaM": -1.573547,
-              "baseHeightM": 405.257416,
+              "baseHeightM": 406.969055,
               "operationDeltaM": -1.573534,
               "x": 263,
               "z": 1207
             },
             {
               "appliedDeltaM": -1.381531,
-              "baseHeightM": 406.185608,
+              "baseHeightM": 407.463989,
               "operationDeltaM": -1.381536,
               "x": 271,
               "z": 1209
             },
             {
               "appliedDeltaM": -1.379913,
-              "baseHeightM": 419.789856,
+              "baseHeightM": 419.022491,
               "operationDeltaM": -1.379928,
               "x": 271,
               "z": 1188
             },
             {
               "appliedDeltaM": -1.379669,
-              "baseHeightM": 418.676819,
+              "baseHeightM": 418.020813,
               "operationDeltaM": -1.379676,
               "x": 272,
               "z": 1188
             },
             {
               "appliedDeltaM": -1.10611,
-              "baseHeightM": 403.411774,
+              "baseHeightM": 403.388672,
               "operationDeltaM": -1.106103,
               "x": 280,
               "z": 1208
             },
             {
               "appliedDeltaM": -0.915558,
-              "baseHeightM": 399.722992,
+              "baseHeightM": 399.724213,
               "operationDeltaM": -0.915546,
               "x": 283,
               "z": 1207
             },
             {
               "appliedDeltaM": -0.815094,
-              "baseHeightM": 405.87146,
+              "baseHeightM": 406.895721,
               "operationDeltaM": -0.8151,
               "x": 271,
               "z": 1210
             },
             {
               "appliedDeltaM": -0.813446,
-              "baseHeightM": 421.35144,
+              "baseHeightM": 420.23288,
               "operationDeltaM": -0.813442,
               "x": 271,
               "z": 1187
             },
             {
               "appliedDeltaM": -0.773987,
-              "baseHeightM": 402.634583,
+              "baseHeightM": 402.702118,
               "operationDeltaM": -0.773972,
               "x": 279,
               "z": 1209
             },
             {
               "appliedDeltaM": -0.540802,
-              "baseHeightM": 427.809204,
+              "baseHeightM": 426.860992,
               "operationDeltaM": -0.540811,
               "x": 266,
               "z": 1187
             },
             {
               "appliedDeltaM": -0.350769,
-              "baseHeightM": 405.835236,
+              "baseHeightM": 406.515564,
               "operationDeltaM": -0.350782,
               "x": 271,
               "z": 1211
             },
             {
               "appliedDeltaM": -0.349701,
-              "baseHeightM": 422.12326,
+              "baseHeightM": 420.357117,
               "operationDeltaM": -0.349689,
               "x": 271,
               "z": 1186
             },
             {
               "appliedDeltaM": -0.282745,
-              "baseHeightM": 405.221649,
+              "baseHeightM": 405.962677,
               "operationDeltaM": -0.282744,
               "x": 268,
               "z": 1211
             },
             {
               "appliedDeltaM": -0.096191,
-              "baseHeightM": 405.709045,
+              "baseHeightM": 406.04718,
               "operationDeltaM": -0.096184,
               "x": 271,
               "z": 1212
             },
             {
               "appliedDeltaM": -0.095703,
-              "baseHeightM": 421.756775,
+              "baseHeightM": 419.720001,
               "operationDeltaM": -0.095717,
               "x": 271,
               "z": 1185
             },
             {
               "appliedDeltaM": -0.041443,
-              "baseHeightM": 428.433716,
+              "baseHeightM": 426.860626,
               "operationDeltaM": -0.041453,
               "x": 266,
               "z": 1185
             },
             {
               "appliedDeltaM": -0.016815,
-              "baseHeightM": 401.193146,
+              "baseHeightM": 400.886108,
               "operationDeltaM": -0.016827,
               "x": 279,
               "z": 1212
             },
             {
               "appliedDeltaM": -0.008575,
-              "baseHeightM": 423.794128,
+              "baseHeightM": 422.054749,
               "operationDeltaM": -0.00858,
               "x": 269,
               "z": 1184
             },
             {
               "appliedDeltaM": -0.006531,
-              "baseHeightM": 404.83313,
+              "baseHeightM": 403.903015,
               "operationDeltaM": -0.006521,
               "x": 275,
               "z": 1213
@@ -2408,14 +2885,14 @@
     {
       "deliverySha256": "a5a6fbb65dba0735671f29c82485b1f5612edb19594af236d503afb5991dc678",
       "evidenceRefs": [
-        "terrain-operation-evidence.terrain-op.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7.sha256.1993f6cfb60610c712341cab40ee11b6421da247ec4399ed2bf3d1e323772443"
+        "terrain-operation-evidence.terrain-op.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7.sha256.885da99351c8b7bc1954e195058438f1f539c4600d30b1c1afae004a162f94fe"
       ],
       "operationEvidence": [
         {
           "action": "raise",
           "axis": [
-            0.952920048,
-            -0.303221673
+            0.952529282,
+            -0.304446984
           ],
           "axisSource": "local-gradient",
           "coveredFields": [
@@ -2424,295 +2901,295 @@
             "heightM"
           ],
           "deliverySha256": "a5a6fbb65dba0735671f29c82485b1f5612edb19594af236d503afb5991dc678",
-          "deltaSha256": "a8aa9f6ffd57954cdf34689a413794aecc81eee4d5b0c7b6f043afda3f6df5b0",
-          "evidenceSha256": "1993f6cfb60610c712341cab40ee11b6421da247ec4399ed2bf3d1e323772443",
+          "deltaSha256": "70410da76ed0cc02e46b71441b49d61cb4dd19e6828017630ee04aadc8d5bea0",
+          "evidenceSha256": "885da99351c8b7bc1954e195058438f1f539c4600d30b1c1afae004a162f94fe",
           "operationId": "terrain-op.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7",
           "profile": "one-sided-cliff-bench",
           "witnesses": [
             {
               "appliedDeltaM": 40.0,
-              "baseHeightM": 67.775963,
+              "baseHeightM": 67.919678,
               "operationDeltaM": 40.0,
               "x": 948,
               "z": 1783
             },
             {
               "appliedDeltaM": 40.0,
-              "baseHeightM": 71.942818,
+              "baseHeightM": 72.168732,
               "operationDeltaM": 40.0,
               "x": 945,
               "z": 1784
             },
             {
               "appliedDeltaM": 40.0,
-              "baseHeightM": 76.185974,
+              "baseHeightM": 76.474243,
               "operationDeltaM": 40.0,
               "x": 941,
               "z": 1785
             },
             {
               "appliedDeltaM": 40.0,
-              "baseHeightM": 75.491974,
+              "baseHeightM": 75.729385,
               "operationDeltaM": 40.0,
               "x": 942,
               "z": 1785
             },
             {
               "appliedDeltaM": 40.0,
-              "baseHeightM": 78.23082,
+              "baseHeightM": 78.969269,
               "operationDeltaM": 40.0,
               "x": 938,
               "z": 1786
             },
             {
               "appliedDeltaM": 40.0,
-              "baseHeightM": 77.45295,
+              "baseHeightM": 78.152473,
               "operationDeltaM": 40.0,
               "x": 939,
               "z": 1786
             },
             {
               "appliedDeltaM": 40.0,
-              "baseHeightM": 83.168686,
+              "baseHeightM": 83.02179,
               "operationDeltaM": 40.0,
               "x": 935,
               "z": 1787
             },
             {
               "appliedDeltaM": 40.0,
-              "baseHeightM": 82.090286,
+              "baseHeightM": 81.854599,
               "operationDeltaM": 40.0,
               "x": 936,
               "z": 1787
             },
             {
-              "appliedDeltaM": 39.818428,
-              "baseHeightM": 72.881294,
-              "operationDeltaM": 39.818426,
+              "appliedDeltaM": 39.768181,
+              "baseHeightM": 73.105003,
+              "operationDeltaM": 39.768178,
               "x": 944,
               "z": 1784
             },
             {
-              "appliedDeltaM": 39.379463,
-              "baseHeightM": 70.680023,
-              "operationDeltaM": 39.379464,
+              "appliedDeltaM": 39.400284,
+              "baseHeightM": 70.880241,
+              "operationDeltaM": 39.400286,
               "x": 946,
               "z": 1784
             },
             {
-              "appliedDeltaM": 38.686539,
-              "baseHeightM": 69.029999,
-              "operationDeltaM": 38.686534,
+              "appliedDeltaM": 38.716713,
+              "baseHeightM": 69.225578,
+              "operationDeltaM": 38.716709,
               "x": 947,
               "z": 1783
             },
             {
-              "appliedDeltaM": 38.511307,
-              "baseHeightM": 66.765266,
-              "operationDeltaM": 38.511307,
+              "appliedDeltaM": 38.504486,
+              "baseHeightM": 66.774963,
+              "operationDeltaM": 38.504483,
               "x": 949,
               "z": 1783
             },
             {
-              "appliedDeltaM": 37.781403,
-              "baseHeightM": 74.61438,
-              "operationDeltaM": 37.7814,
+              "appliedDeltaM": 38.005142,
+              "baseHeightM": 74.861954,
+              "operationDeltaM": 38.005139,
               "x": 943,
               "z": 1785
             },
             {
-              "appliedDeltaM": 35.362457,
-              "baseHeightM": 77.095192,
-              "operationDeltaM": 35.362459,
+              "appliedDeltaM": 35.921516,
+              "baseHeightM": 77.649513,
+              "operationDeltaM": 35.921518,
               "x": 940,
               "z": 1786
             },
             {
-              "appliedDeltaM": 32.61824,
-              "baseHeightM": 86.19471,
-              "operationDeltaM": 32.618242,
+              "appliedDeltaM": 33.267738,
+              "baseHeightM": 80.725609,
+              "operationDeltaM": 33.267744,
+              "x": 937,
+              "z": 1787
+            },
+            {
+              "appliedDeltaM": 32.755623,
+              "baseHeightM": 86.242668,
+              "operationDeltaM": 32.755626,
               "x": 933,
               "z": 1788
             },
             {
-              "appliedDeltaM": 32.281754,
-              "baseHeightM": 80.971375,
-              "operationDeltaM": 32.281755,
-              "x": 937,
-              "z": 1787
-            },
-            {
-              "appliedDeltaM": 30.492279,
-              "baseHeightM": 84.187775,
-              "operationDeltaM": 30.492279,
-              "x": 934,
-              "z": 1787
-            },
-            {
-              "appliedDeltaM": 28.466911,
-              "baseHeightM": 85.003189,
-              "operationDeltaM": 28.466911,
+              "appliedDeltaM": 29.983955,
+              "baseHeightM": 85.003647,
+              "operationDeltaM": 29.983958,
               "x": 934,
               "z": 1788
             },
             {
-              "appliedDeltaM": 26.71244,
-              "baseHeightM": 79.158501,
-              "operationDeltaM": 26.712442,
+              "appliedDeltaM": 29.076172,
+              "baseHeightM": 84.184898,
+              "operationDeltaM": 29.076173,
+              "x": 934,
+              "z": 1787
+            },
+            {
+              "appliedDeltaM": 25.554214,
+              "baseHeightM": 79.904686,
+              "operationDeltaM": 25.554216,
               "x": 937,
               "z": 1786
             },
             {
-              "appliedDeltaM": 25.264275,
-              "baseHeightM": 65.900917,
-              "operationDeltaM": 25.264272,
+              "appliedDeltaM": 25.444855,
+              "baseHeightM": 65.723953,
+              "operationDeltaM": 25.444853,
               "x": 950,
               "z": 1782
             },
             {
-              "appliedDeltaM": 22.670876,
-              "baseHeightM": 76.621826,
-              "operationDeltaM": 22.670875,
+              "appliedDeltaM": 21.855499,
+              "baseHeightM": 76.989502,
+              "operationDeltaM": 21.855501,
               "x": 940,
               "z": 1785
             },
             {
-              "appliedDeltaM": 18.526695,
-              "baseHeightM": 73.738197,
-              "operationDeltaM": 18.526693,
+              "appliedDeltaM": 18.098358,
+              "baseHeightM": 73.950424,
+              "operationDeltaM": 18.098354,
               "x": 943,
               "z": 1784
             },
             {
-              "appliedDeltaM": 16.482292,
-              "baseHeightM": 69.238022,
-              "operationDeltaM": 16.482291,
+              "appliedDeltaM": 16.442055,
+              "baseHeightM": 69.386459,
+              "operationDeltaM": 16.442053,
               "x": 947,
               "z": 1784
             },
             {
-              "appliedDeltaM": 16.151329,
-              "baseHeightM": 65.308136,
-              "operationDeltaM": 16.151332,
+              "appliedDeltaM": 16.150208,
+              "baseHeightM": 64.996414,
+              "operationDeltaM": 16.150211,
               "x": 951,
               "z": 1782
             },
             {
-              "appliedDeltaM": 15.918732,
-              "baseHeightM": 65.934044,
-              "operationDeltaM": 15.918732,
+              "appliedDeltaM": 15.589767,
+              "baseHeightM": 65.783409,
+              "operationDeltaM": 15.589766,
               "x": 950,
               "z": 1783
             },
             {
-              "appliedDeltaM": 14.804619,
-              "baseHeightM": 87.199799,
-              "operationDeltaM": 14.804621,
+              "appliedDeltaM": 14.680344,
+              "baseHeightM": 87.351669,
+              "operationDeltaM": 14.680344,
               "x": 932,
               "z": 1788
             },
             {
-              "appliedDeltaM": 14.439011,
-              "baseHeightM": 70.411194,
-              "operationDeltaM": 14.43901,
+              "appliedDeltaM": 14.4011,
+              "baseHeightM": 70.595802,
+              "operationDeltaM": 14.401097,
               "x": 946,
               "z": 1783
             },
             {
-              "appliedDeltaM": 12.481659,
-              "baseHeightM": 73.574471,
-              "operationDeltaM": 12.481662,
+              "appliedDeltaM": 12.809334,
+              "baseHeightM": 73.853165,
+              "operationDeltaM": 12.809332,
               "x": 944,
               "z": 1785
             },
             {
-              "appliedDeltaM": 9.68692,
-              "baseHeightM": 66.676567,
-              "operationDeltaM": 9.686922,
+              "appliedDeltaM": 9.974098,
+              "baseHeightM": 66.683731,
+              "operationDeltaM": 9.974097,
               "x": 949,
               "z": 1782
             },
             {
-              "appliedDeltaM": 8.775566,
-              "baseHeightM": 76.890656,
-              "operationDeltaM": 8.775565,
+              "appliedDeltaM": 9.407372,
+              "baseHeightM": 77.260689,
+              "operationDeltaM": 9.40737,
               "x": 941,
               "z": 1786
             },
             {
-              "appliedDeltaM": 5.892387,
-              "baseHeightM": 64.77478,
-              "operationDeltaM": 5.892384,
-              "x": 952,
-              "z": 1782
-            },
-            {
-              "appliedDeltaM": 5.523117,
-              "baseHeightM": 78.582413,
-              "operationDeltaM": 5.523117,
+              "appliedDeltaM": 6.354492,
+              "baseHeightM": 79.757111,
+              "operationDeltaM": 6.354491,
               "x": 938,
               "z": 1787
             },
             {
-              "appliedDeltaM": 2.88343,
-              "baseHeightM": 83.784576,
-              "operationDeltaM": 2.883432,
+              "appliedDeltaM": 5.895042,
+              "baseHeightM": 64.437622,
+              "operationDeltaM": 5.895042,
+              "x": 952,
+              "z": 1782
+            },
+            {
+              "appliedDeltaM": 3.76902,
+              "baseHeightM": 83.794235,
+              "operationDeltaM": 3.769018,
               "x": 935,
               "z": 1788
             },
             {
-              "appliedDeltaM": 2.470337,
-              "baseHeightM": 85.173019,
-              "operationDeltaM": 2.470337,
+              "appliedDeltaM": 1.792,
+              "baseHeightM": 85.319298,
+              "operationDeltaM": 1.791999,
               "x": 933,
               "z": 1787
             },
             {
-              "appliedDeltaM": 1.816742,
-              "baseHeightM": 81.554199,
-              "operationDeltaM": 1.81674,
+              "appliedDeltaM": 1.265594,
+              "baseHeightM": 80.96286,
+              "operationDeltaM": 1.265594,
               "x": 936,
               "z": 1786
             },
             {
-              "appliedDeltaM": 0.607109,
-              "baseHeightM": 64.337196,
-              "operationDeltaM": 0.60711,
+              "appliedDeltaM": 0.656494,
+              "baseHeightM": 64.099731,
+              "operationDeltaM": 0.656492,
               "x": 952,
               "z": 1781
             },
             {
-              "appliedDeltaM": 0.407692,
-              "baseHeightM": 77.18129,
-              "operationDeltaM": 0.407689,
+              "appliedDeltaM": 0.223991,
+              "baseHeightM": 77.600006,
+              "operationDeltaM": 0.223988,
               "x": 939,
               "z": 1785
             },
             {
-              "appliedDeltaM": 0.168427,
-              "baseHeightM": 64.229424,
-              "operationDeltaM": 0.168426,
+              "appliedDeltaM": 0.163876,
+              "baseHeightM": 63.936611,
+              "operationDeltaM": 0.163875,
               "x": 953,
               "z": 1782
             },
             {
-              "appliedDeltaM": 0.054863,
-              "baseHeightM": 88.019043,
-              "operationDeltaM": 0.054864,
+              "appliedDeltaM": 0.02562,
+              "baseHeightM": 88.285019,
+              "operationDeltaM": 0.025623,
               "x": 931,
               "z": 1788
             },
             {
-              "appliedDeltaM": 0.036995,
-              "baseHeightM": 65.350792,
-              "operationDeltaM": 0.036995,
+              "appliedDeltaM": 0.015083,
+              "baseHeightM": 65.083908,
+              "operationDeltaM": 0.015083,
               "x": 951,
               "z": 1783
             },
             {
-              "appliedDeltaM": 0.002243,
-              "baseHeightM": 88.04039,
-              "operationDeltaM": 0.002241,
+              "appliedDeltaM": 0.0084,
+              "baseHeightM": 88.133003,
+              "operationDeltaM": 0.008397,
               "x": 932,
               "z": 1789
             }
@@ -2725,488 +3202,490 @@
       "requestId": "terrain-request.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7"
     },
     {
-      "deliverySha256": "144eeee8461df6d7135397874d36b73ec5958c093b6ccfd2ad05a75a6c9540d7",
+      "deliverySha256": "4dc5120d953a6e22054771ce0212bb0149e99ea38cc9b7b6fca42edff97f87cf",
       "evidenceRefs": [
-        "terrain-operation-evidence.terrain-op.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e.sha256.820747d5591f74894dc01943a1c15d51cd36a9269d0218680c4af006f07f2dc9"
+        "terrain-operation-evidence.terrain-op.pirate-freeholds.chasecreek.cut.6e10c2d1badb.sha256.f3121327c6ab477513070d366f5120935a2f1496d3b13fa02ac41391a052c484"
       ],
       "operationEvidence": [
         {
-          "action": "raise",
+          "action": "carve",
           "axis": [
-            1.0,
-            0.0
+            -0.49259822,
+            0.870256855
           ],
-          "axisSource": "none",
+          "axisSource": "nearest-water-path",
           "coveredFields": [
+            "capacity",
+            "depthM",
             "feature",
-            "heightClass"
+            "waterRelation"
           ],
-          "deliverySha256": "144eeee8461df6d7135397874d36b73ec5958c093b6ccfd2ad05a75a6c9540d7",
-          "deltaSha256": "7b8576bedd446e74423e9396673df0816db2ea444847f5ae908c0aa78aa70c97",
-          "evidenceSha256": "820747d5591f74894dc01943a1c15d51cd36a9269d0218680c4af006f07f2dc9",
-          "operationId": "terrain-op.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e",
-          "profile": "rounded-mound",
+          "deliverySha256": "4dc5120d953a6e22054771ce0212bb0149e99ea38cc9b7b6fca42edff97f87cf",
+          "deltaSha256": "2e78d627a7929e71d6b666f04b9e8fc30612432607c5025053ebc8b31dc351b3",
+          "evidenceSha256": "f3121327c6ab477513070d366f5120935a2f1496d3b13fa02ac41391a052c484",
+          "operationId": "terrain-op.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
+          "profile": "channel-link",
           "witnesses": [
             {
-              "appliedDeltaM": 2.797459,
-              "baseHeightM": 8.221593,
-              "operationDeltaM": 2.797459,
-              "x": 1736,
-              "z": 2903
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 53.62347,
+              "operationDeltaM": -2.0,
+              "x": 2251,
+              "z": 821
             },
             {
-              "appliedDeltaM": 2.797422,
-              "baseHeightM": 8.16588,
-              "operationDeltaM": 2.797422,
-              "x": 1736,
-              "z": 2902
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 53.617409,
+              "operationDeltaM": -2.0,
+              "x": 2251,
+              "z": 822
             },
             {
-              "appliedDeltaM": 2.787115,
-              "baseHeightM": 8.508884,
-              "operationDeltaM": 2.787115,
-              "x": 1736,
-              "z": 2904
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 53.578842,
+              "operationDeltaM": -2.0,
+              "x": 2250,
+              "z": 823
             },
             {
-              "appliedDeltaM": 2.787006,
-              "baseHeightM": 10.293917,
-              "operationDeltaM": 2.787006,
-              "x": 1736,
-              "z": 2901
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 53.504093,
+              "operationDeltaM": -2.0,
+              "x": 2250,
+              "z": 824
             },
             {
-              "appliedDeltaM": 2.776491,
-              "baseHeightM": 9.633419,
-              "operationDeltaM": 2.776491,
-              "x": 1734,
-              "z": 2901
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 53.270493,
+              "operationDeltaM": -2.0,
+              "x": 2249,
+              "z": 825
             },
             {
-              "appliedDeltaM": 2.76645,
-              "baseHeightM": 8.30841,
-              "operationDeltaM": 2.766449,
-              "x": 1736,
-              "z": 2905
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 53.059807,
+              "operationDeltaM": -2.0,
+              "x": 2249,
+              "z": 826
             },
             {
-              "appliedDeltaM": 2.766372,
-              "baseHeightM": 8.189153,
-              "operationDeltaM": 2.766372,
-              "x": 1735,
-              "z": 2905
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 52.611752,
+              "operationDeltaM": -2.0,
+              "x": 2248,
+              "z": 827
             },
             {
-              "appliedDeltaM": 2.766269,
-              "baseHeightM": 10.501077,
-              "operationDeltaM": 2.766269,
-              "x": 1736,
-              "z": 2900
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 52.190784,
+              "operationDeltaM": -2.0,
+              "x": 2247,
+              "z": 828
             },
             {
-              "appliedDeltaM": 2.735577,
-              "baseHeightM": 8.109481,
-              "operationDeltaM": 2.735577,
-              "x": 1736,
-              "z": 2906
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 52.030094,
+              "operationDeltaM": -2.0,
+              "x": 2247,
+              "z": 829
             },
             {
-              "appliedDeltaM": 2.735325,
-              "baseHeightM": 10.247929,
-              "operationDeltaM": 2.735325,
-              "x": 1736,
-              "z": 2899
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 51.692062,
+              "operationDeltaM": -2.0,
+              "x": 2246,
+              "z": 830
             },
             {
-              "appliedDeltaM": 2.694671,
-              "baseHeightM": 7.930303,
-              "operationDeltaM": 2.694671,
-              "x": 1736,
-              "z": 2907
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 51.49699,
+              "operationDeltaM": -2.0,
+              "x": 2246,
+              "z": 831
             },
             {
-              "appliedDeltaM": 2.694349,
-              "baseHeightM": 9.314657,
-              "operationDeltaM": 2.69435,
-              "x": 1736,
-              "z": 2898
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 50.802357,
+              "operationDeltaM": -2.0,
+              "x": 2245,
+              "z": 832
             },
             {
-              "appliedDeltaM": 2.643964,
-              "baseHeightM": 7.867568,
-              "operationDeltaM": 2.643964,
-              "x": 1736,
-              "z": 2908
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 51.180202,
+              "operationDeltaM": -2.0,
+              "x": 2246,
+              "z": 832
             },
             {
-              "appliedDeltaM": 2.643575,
-              "baseHeightM": 8.881373,
-              "operationDeltaM": 2.643574,
-              "x": 1736,
-              "z": 2897
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 50.428154,
+              "operationDeltaM": -2.0,
+              "x": 2245,
+              "z": 833
             },
             {
-              "appliedDeltaM": 2.583743,
-              "baseHeightM": 7.932031,
-              "operationDeltaM": 2.583743,
-              "x": 1736,
-              "z": 2909
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 49.846165,
+              "operationDeltaM": -2.0,
+              "x": 2244,
+              "z": 834
             },
             {
-              "appliedDeltaM": 2.583288,
-              "baseHeightM": 8.733553,
-              "operationDeltaM": 2.583289,
-              "x": 1736,
-              "z": 2896
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 49.378014,
+              "operationDeltaM": -2.0,
+              "x": 2243,
+              "z": 835
             },
             {
-              "appliedDeltaM": 2.514357,
-              "baseHeightM": 8.066725,
-              "operationDeltaM": 2.514357,
-              "x": 1736,
-              "z": 2910
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 49.144314,
+              "operationDeltaM": -2.0,
+              "x": 2243,
+              "z": 836
             },
             {
-              "appliedDeltaM": 2.51384,
-              "baseHeightM": 8.570745,
-              "operationDeltaM": 2.51384,
-              "x": 1736,
-              "z": 2895
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 48.606091,
+              "operationDeltaM": -2.0,
+              "x": 2242,
+              "z": 837
             },
             {
-              "appliedDeltaM": 2.493809,
-              "baseHeightM": 8.630331,
-              "operationDeltaM": 2.493809,
-              "x": 1730,
-              "z": 2897
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 48.227966,
+              "operationDeltaM": -2.0,
+              "x": 2242,
+              "z": 838
             },
             {
-              "appliedDeltaM": 2.43621,
-              "baseHeightM": 8.192281,
-              "operationDeltaM": 2.43621,
-              "x": 1736,
-              "z": 2911
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 47.307819,
+              "operationDeltaM": -2.0,
+              "x": 2241,
+              "z": 839
             },
             {
-              "appliedDeltaM": 2.435633,
-              "baseHeightM": 8.497514,
-              "operationDeltaM": 2.435633,
-              "x": 1736,
-              "z": 2894
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 46.766376,
+              "operationDeltaM": -2.0,
+              "x": 2241,
+              "z": 840
             },
             {
-              "appliedDeltaM": 2.378747,
-              "baseHeightM": 8.109235,
-              "operationDeltaM": 2.378747,
-              "x": 1742,
-              "z": 2909
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 45.942631,
+              "operationDeltaM": -2.0,
+              "x": 2240,
+              "z": 841
             },
             {
-              "appliedDeltaM": 2.349765,
-              "baseHeightM": 8.24587,
-              "operationDeltaM": 2.349765,
-              "x": 1736,
-              "z": 2912
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 45.683842,
+              "operationDeltaM": -2.0,
+              "x": 2240,
+              "z": 842
             },
             {
-              "appliedDeltaM": 2.349132,
-              "baseHeightM": 8.438504,
-              "operationDeltaM": 2.349132,
-              "x": 1736,
-              "z": 2893
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 45.188896,
+              "operationDeltaM": -2.0,
+              "x": 2239,
+              "z": 843
             },
             {
-              "appliedDeltaM": 2.255544,
-              "baseHeightM": 8.199277,
-              "operationDeltaM": 2.255543,
-              "x": 1736,
-              "z": 2913
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 44.649189,
+              "operationDeltaM": -2.0,
+              "x": 2238,
+              "z": 844
             },
             {
-              "appliedDeltaM": 2.254857,
-              "baseHeightM": 8.38414,
-              "operationDeltaM": 2.254857,
-              "x": 1736,
-              "z": 2892
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 44.267323,
+              "operationDeltaM": -2.0,
+              "x": 2238,
+              "z": 845
             },
             {
-              "appliedDeltaM": 2.154122,
-              "baseHeightM": 8.115826,
-              "operationDeltaM": 2.154123,
-              "x": 1736,
-              "z": 2914
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 43.449352,
+              "operationDeltaM": -2.0,
+              "x": 2237,
+              "z": 846
             },
             {
-              "appliedDeltaM": 2.153388,
-              "baseHeightM": 8.353198,
-              "operationDeltaM": 2.153388,
-              "x": 1736,
-              "z": 2891
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 42.947891,
+              "operationDeltaM": -2.0,
+              "x": 2237,
+              "z": 847
             },
             {
-              "appliedDeltaM": 2.099246,
-              "baseHeightM": 8.464868,
-              "operationDeltaM": 2.099246,
-              "x": 1739,
-              "z": 2891
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 42.066055,
+              "operationDeltaM": -2.0,
+              "x": 2236,
+              "z": 848
             },
             {
-              "appliedDeltaM": 2.04614,
-              "baseHeightM": 8.093571,
-              "operationDeltaM": 2.04614,
-              "x": 1736,
-              "z": 2915
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 42.49205,
+              "operationDeltaM": -2.0,
+              "x": 2237,
+              "z": 848
             },
             {
-              "appliedDeltaM": 2.045362,
-              "baseHeightM": 8.35572,
-              "operationDeltaM": 2.045362,
-              "x": 1736,
-              "z": 2890
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 41.715679,
+              "operationDeltaM": -2.0,
+              "x": 2236,
+              "z": 849
             },
             {
-              "appliedDeltaM": 2.03733,
-              "baseHeightM": 8.089993,
-              "operationDeltaM": 2.03733,
-              "x": 1737,
-              "z": 2915
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 41.07502,
+              "operationDeltaM": -2.0,
+              "x": 2235,
+              "z": 850
             },
             {
-              "appliedDeltaM": 1.932289,
-              "baseHeightM": 8.140661,
-              "operationDeltaM": 1.932289,
-              "x": 1736,
-              "z": 2916
+              "appliedDeltaM": -2.0,
+              "baseHeightM": 40.807777,
+              "operationDeltaM": -2.0,
+              "x": 2235,
+              "z": 851
             },
             {
-              "appliedDeltaM": 1.931473,
-              "baseHeightM": 8.359624,
-              "operationDeltaM": 1.931473,
-              "x": 1736,
-              "z": 2889
+              "appliedDeltaM": -1.999939,
+              "baseHeightM": 40.54398,
+              "operationDeltaM": -1.999939,
+              "x": 2234,
+              "z": 851
             },
             {
-              "appliedDeltaM": 1.813323,
-              "baseHeightM": 8.219966,
-              "operationDeltaM": 1.813323,
-              "x": 1736,
-              "z": 2917
+              "appliedDeltaM": -1.986271,
+              "baseHeightM": 45.453407,
+              "operationDeltaM": -1.986273,
+              "x": 2240,
+              "z": 843
             },
             {
-              "appliedDeltaM": 1.812473,
-              "baseHeightM": 8.305004,
-              "operationDeltaM": 1.812474,
-              "x": 1736,
-              "z": 2888
+              "appliedDeltaM": -1.979954,
+              "baseHeightM": 40.356949,
+              "operationDeltaM": -1.979953,
+              "x": 2234,
+              "z": 852
             },
             {
-              "appliedDeltaM": 1.690051,
-              "baseHeightM": 8.287296,
-              "operationDeltaM": 1.690051,
-              "x": 1736,
-              "z": 2918
+              "appliedDeltaM": -1.975788,
+              "baseHeightM": 53.59362,
+              "operationDeltaM": -1.97579,
+              "x": 2252,
+              "z": 821
             },
             {
-              "appliedDeltaM": 1.689175,
-              "baseHeightM": 8.177134,
-              "operationDeltaM": 1.689175,
-              "x": 1736,
-              "z": 2887
+              "appliedDeltaM": -1.933582,
+              "baseHeightM": 48.569065,
+              "operationDeltaM": -1.933582,
+              "x": 2243,
+              "z": 838
             },
             {
-              "appliedDeltaM": 1.563342,
-              "baseHeightM": 8.278281,
-              "operationDeltaM": 1.563342,
-              "x": 1736,
-              "z": 2919
+              "appliedDeltaM": -1.925049,
+              "baseHeightM": 40.052029,
+              "operationDeltaM": -1.92505,
+              "x": 2234,
+              "z": 853
             },
             {
-              "appliedDeltaM": 1.562445,
-              "baseHeightM": 8.049741,
-              "operationDeltaM": 1.562444,
-              "x": 1736,
-              "z": 2886
+              "appliedDeltaM": -1.875256,
+              "baseHeightM": 48.902943,
+              "operationDeltaM": -1.875255,
+              "x": 2242,
+              "z": 836
             },
             {
-              "appliedDeltaM": 1.43412,
-              "baseHeightM": 8.176746,
-              "operationDeltaM": 1.434121,
-              "x": 1736,
-              "z": 2920
+              "appliedDeltaM": -1.822891,
+              "baseHeightM": 53.167168,
+              "operationDeltaM": -1.822892,
+              "x": 2250,
+              "z": 826
             },
             {
-              "appliedDeltaM": 1.433209,
-              "baseHeightM": 7.990963,
-              "operationDeltaM": 1.433209,
-              "x": 1736,
-              "z": 2885
+              "appliedDeltaM": -1.782803,
+              "baseHeightM": 39.382015,
+              "operationDeltaM": -1.782803,
+              "x": 2233,
+              "z": 854
             },
             {
-              "appliedDeltaM": 1.299832,
-              "baseHeightM": 8.054114,
-              "operationDeltaM": 1.299833,
-              "x": 1736,
-              "z": 2921
+              "appliedDeltaM": -1.780033,
+              "baseHeightM": 53.585102,
+              "operationDeltaM": -1.780033,
+              "x": 2252,
+              "z": 820
             },
             {
-              "appliedDeltaM": 1.298807,
-              "baseHeightM": 8.014131,
-              "operationDeltaM": 1.298807,
-              "x": 1736,
-              "z": 2884
+              "appliedDeltaM": -1.766945,
+              "baseHeightM": 45.617855,
+              "operationDeltaM": -1.766945,
+              "x": 2239,
+              "z": 841
             },
             {
-              "appliedDeltaM": 1.140528,
-              "baseHeightM": 7.954893,
-              "operationDeltaM": 1.140528,
-              "x": 1736,
-              "z": 2922
+              "appliedDeltaM": -1.659046,
+              "baseHeightM": 38.991947,
+              "operationDeltaM": -1.659045,
+              "x": 2233,
+              "z": 855
             },
             {
-              "appliedDeltaM": 1.139339,
-              "baseHeightM": 8.060444,
-              "operationDeltaM": 1.13934,
-              "x": 1736,
-              "z": 2883
+              "appliedDeltaM": -1.633282,
+              "baseHeightM": 43.061359,
+              "operationDeltaM": -1.633283,
+              "x": 2236,
+              "z": 846
             },
             {
-              "appliedDeltaM": 0.965162,
-              "baseHeightM": 7.806508,
-              "operationDeltaM": 0.965162,
-              "x": 1736,
-              "z": 2923
+              "appliedDeltaM": -1.570564,
+              "baseHeightM": 40.231113,
+              "operationDeltaM": -1.570564,
+              "x": 2235,
+              "z": 853
             },
             {
-              "appliedDeltaM": 0.963909,
-              "baseHeightM": 8.067566,
-              "operationDeltaM": 0.96391,
-              "x": 1736,
-              "z": 2882
+              "appliedDeltaM": -1.442348,
+              "baseHeightM": 53.548183,
+              "operationDeltaM": -1.442348,
+              "x": 2252,
+              "z": 819
             },
             {
-              "appliedDeltaM": 0.786693,
-              "baseHeightM": 7.602895,
-              "operationDeltaM": 0.786693,
-              "x": 1736,
-              "z": 2924
+              "appliedDeltaM": -1.434864,
+              "baseHeightM": 38.327789,
+              "operationDeltaM": -1.434865,
+              "x": 2232,
+              "z": 856
             },
             {
-              "appliedDeltaM": 0.785459,
-              "baseHeightM": 8.008019,
-              "operationDeltaM": 0.785459,
-              "x": 1736,
-              "z": 2881
+              "appliedDeltaM": -1.336044,
+              "baseHeightM": 38.020084,
+              "operationDeltaM": -1.336045,
+              "x": 2231,
+              "z": 856
             },
             {
-              "appliedDeltaM": 0.615751,
-              "baseHeightM": 7.473732,
-              "operationDeltaM": 0.615751,
-              "x": 1736,
-              "z": 2925
+              "appliedDeltaM": -1.26952,
+              "baseHeightM": 37.935978,
+              "operationDeltaM": -1.269518,
+              "x": 2232,
+              "z": 857
             },
             {
-              "appliedDeltaM": 0.614602,
-              "baseHeightM": 7.963265,
-              "operationDeltaM": 0.614601,
-              "x": 1736,
-              "z": 2880
+              "appliedDeltaM": -1.010464,
+              "baseHeightM": 37.392723,
+              "operationDeltaM": -1.010465,
+              "x": 2231,
+              "z": 858
             },
             {
-              "appliedDeltaM": 0.460511,
-              "baseHeightM": 7.452841,
-              "operationDeltaM": 0.460511,
-              "x": 1736,
-              "z": 2926
+              "appliedDeltaM": -0.956356,
+              "baseHeightM": 37.457504,
+              "operationDeltaM": -0.956354,
+              "x": 2232,
+              "z": 858
             },
             {
-              "appliedDeltaM": 0.459494,
-              "baseHeightM": 7.925079,
-              "operationDeltaM": 0.459494,
-              "x": 1736,
-              "z": 2879
+              "appliedDeltaM": -0.906601,
+              "baseHeightM": 53.510803,
+              "operationDeltaM": -0.906599,
+              "x": 2252,
+              "z": 818
             },
             {
-              "appliedDeltaM": 0.326636,
-              "baseHeightM": 7.471388,
-              "operationDeltaM": 0.326637,
-              "x": 1736,
-              "z": 2927
+              "appliedDeltaM": -0.825237,
+              "baseHeightM": 36.667267,
+              "operationDeltaM": -0.825236,
+              "x": 2231,
+              "z": 859
             },
             {
-              "appliedDeltaM": 0.325783,
-              "baseHeightM": 7.87954,
-              "operationDeltaM": 0.325783,
-              "x": 1736,
-              "z": 2878
+              "appliedDeltaM": -0.564404,
+              "baseHeightM": 35.700054,
+              "operationDeltaM": -0.564403,
+              "x": 2230,
+              "z": 860
             },
             {
-              "appliedDeltaM": 0.217323,
-              "baseHeightM": 7.539569,
-              "operationDeltaM": 0.217323,
-              "x": 1736,
-              "z": 2928
+              "appliedDeltaM": -0.402779,
+              "baseHeightM": 53.388821,
+              "operationDeltaM": -0.40278,
+              "x": 2253,
+              "z": 817
             },
             {
-              "appliedDeltaM": 0.216647,
-              "baseHeightM": 7.82586,
-              "operationDeltaM": 0.216647,
-              "x": 1736,
-              "z": 2877
+              "appliedDeltaM": -0.348488,
+              "baseHeightM": 35.054031,
+              "operationDeltaM": -0.348488,
+              "x": 2230,
+              "z": 861
             },
             {
-              "appliedDeltaM": 0.084369,
-              "baseHeightM": 8.4252,
-              "operationDeltaM": 0.084369,
-              "x": 1729,
-              "z": 2876
+              "appliedDeltaM": -0.229053,
+              "baseHeightM": 36.542408,
+              "operationDeltaM": -0.229055,
+              "x": 2232,
+              "z": 860
             },
             {
-              "appliedDeltaM": 0.073691,
-              "baseHeightM": 7.875391,
-              "operationDeltaM": 0.073691,
-              "x": 1736,
-              "z": 2930
+              "appliedDeltaM": -0.145058,
+              "baseHeightM": 34.466064,
+              "operationDeltaM": -0.145059,
+              "x": 2230,
+              "z": 862
             },
             {
-              "appliedDeltaM": 0.035112,
-              "baseHeightM": 7.998577,
-              "operationDeltaM": 0.035112,
-              "x": 1736,
-              "z": 2931
+              "appliedDeltaM": -0.098965,
+              "baseHeightM": 53.364861,
+              "operationDeltaM": -0.098966,
+              "x": 2253,
+              "z": 816
             },
             {
-              "appliedDeltaM": 0.034907,
-              "baseHeightM": 7.417361,
-              "operationDeltaM": 0.034907,
-              "x": 1736,
-              "z": 2874
+              "appliedDeltaM": -0.065586,
+              "baseHeightM": 34.947781,
+              "operationDeltaM": -0.065586,
+              "x": 2231,
+              "z": 862
             },
             {
-              "appliedDeltaM": 0.003479,
-              "baseHeightM": 8.111544,
-              "operationDeltaM": 0.003479,
-              "x": 1736,
-              "z": 2933
+              "appliedDeltaM": -0.038898,
+              "baseHeightM": 33.641396,
+              "operationDeltaM": -0.038897,
+              "x": 2229,
+              "z": 863
             },
             {
-              "appliedDeltaM": 0.003439,
-              "baseHeightM": 7.432954,
-              "operationDeltaM": 0.003439,
-              "x": 1736,
-              "z": 2872
+              "appliedDeltaM": -0.00515,
+              "baseHeightM": 33.131721,
+              "operationDeltaM": -0.00515,
+              "x": 2229,
+              "z": 864
             }
           ]
         }
       ],
       "operationIds": [
-        "terrain-op.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e"
+        "terrain-op.pirate-freeholds.chasecreek.cut.6e10c2d1badb"
       ],
-      "requestId": "terrain-request.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e"
+      "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb"
     }
   ],
   "kind": "terrain-request-fulfillments",
-  "planDigest": "882b6d8ea2579d6302ccf910f22159243d7e79a05b1cf972a7ec5a388fa3b270",
-  "postRefineHeightSha256": "3852377608f13bc4064f9bc83298b627e3c1fee56f1cf56198eb3fae553579a7",
+  "planDigest": "64c53ab97c0c16660d3f7f11fb9221c50e5fe867d5372fdbc381c2cd84cb37b0",
+  "postRefineHeightSha256": "84697ab44c5ac18497d973d575f9086d6e331dd7125f2669d93adbc7f5fedca8",
   "schemaVersion": 2,
-  "sourceDigest": "827c4a79a67e9e33e1d81e667704ec95a667bf062683b63206f62eaac79de791"
+  "sourceDigest": "94dc09488ed74392297d9b7fcd397a856a57a9258789a2bf85b18be967564009"
 }

@@ -21,6 +21,20 @@ extra toggles). The PNGs and `hydrograph-meta.json` in
 `apps/world-studio/public/province/` are written by `derive` and carry this
 file's `contentSha256`.
 
+**The approved record (decision 0060 §7).** `approved-bodies.json` is the
+16a hydrograph the owner approved on 2026-09-11, regenerated from that
+commit: the river network the coarse pass takes as given, every body with
+its outline (in the vault's `approved-bodies-16a.npz`, sha recorded) and
+kind, and the falls. The build keeps it: the shaping restores an outline
+the ground lost, the derive gives a matched body its 16a id and kind
+(`body.approved`; `approved: null` marks a body the ground grew that the
+owner has not reviewed), and `stats.approvedBodies` / `stats.approvedFalls`
+list what was matched, what a tweak superseded and what is missing. The
+freeze gate fails on an approved body of 500 m² or more that nothing
+realises unless `approved-bodies-waived.json` names it (the owner's waiver,
+per body, with the reason); anything smaller is recorded, never gated. Change the approved record only with the
+owner; rebuild it with `python3 -m worldgen.approved_bodies build`.
+
 ## Inputs and provenance
 
 | Field | Meaning |
@@ -55,7 +69,7 @@ largest catchment at each junction.
 | `reaches` | reach ids headwater -> mouth; each reach's `downstream` is the next |
 | `tributaryOf` | `{river, junction}` or `null` |
 | `strahler` | stream order over the tributary tree |
-| `mouth` | `{kind: sea | lake | border | confluence, bodyId?, form?: delta | estuary}`; `sink` is a violation |
+| `mouth` | `{kind: sea | lake | border | confluence, bodyId?, through?, form?: delta | estuary}`; a `sea` mouth is the open sea (`body.ocean`), `through` names the sea-level shore body (marsh, lagoon) the last station stands in (decision 0060: inland sea-level water is crossed, never a mouth); `sink` is a violation |
 | `water` | `whitewater` (>= 20 % of the catchment in the mountain regions), else `blackwater` (>= 50 % marsh region or peat soil), else `clearwater` — rulebook §2 |
 | `accumKm2`, `lengthM`, `source*M`, `mouth*M` | measured |
 

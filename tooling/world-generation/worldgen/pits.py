@@ -6,10 +6,13 @@ artefacts — the erosion solver's pits, detail noise on rough ground, a
 fluvial cut that undershot — that rendered as deep mountain lakes. Two rules,
 one helper:
 
-* `fill_small_high_pits` (the sculpt, ruling 2): above `min_z` every closed
-  depression smaller than `keep_area_m2` is filled to its spill. What
-  survives is a tarn the graph can name (>= 1 ha); the owner reviewed those
-  on the 16a map.
+* `fill_erosion_pits` (the sculpt, ruling 2 AS WRITTEN): "near-sea-level
+  bowls inside high terrain that render as deep mountain lakes" — a closed
+  depression whose spill stands above `min_z` while its floor lies under
+  `floor_max_m` (a data hole in the source: 12 of the 16a bodies had floors
+  at 0 under 30-120 m rims) is filled to its spill. Nothing else is: round
+  1's "every depression under 1 ha above 30 m" filled ~100 mountain ponds
+  and pools the owner had approved on the 16a map (2026-09-12).
 * `fill_new_pits` (the shape stage): a depression that was NOT on the sculpt,
   above `min_z` and outside the wet ground where pools are meant, is an
   artefact of the shaping and is filled to its spill.
@@ -33,23 +36,24 @@ def depression_depth(z: np.ndarray, sea: np.ndarray) -> np.ndarray:
     return (priority_fill(z, sea) - z).astype(np.float32)
 
 
-def fill_small_high_pits(z: np.ndarray, sea: np.ndarray, min_z: float, keep_area_m2: float,
-                         mpp: float = RAW_M, log=print) -> tuple[np.ndarray, dict]:
+def fill_erosion_pits(z: np.ndarray, sea: np.ndarray, min_z: float, floor_max_m: float,
+                      mpp: float = RAW_M, log=print) -> tuple[np.ndarray, dict]:
     filled = priority_fill(z, sea)
     dep = (filled - z) > DEPRESSION_MIN_M
     lbl, n = ndimage.label(dep, structure=CONN8)
     if not n:
         return z, {"pitsFilled": 0, "pitsKept": 0}
     idx = np.arange(1, n + 1)
-    area = np.bincount(lbl.ravel(), minlength=n + 1)[1:] * mpp * mpp
     spill = np.asarray(ndimage.maximum(filled, lbl, idx))
-    small = (area < keep_area_m2) & (spill > min_z)
-    fill_mask = np.concatenate([[False], small])[lbl]
+    floor = np.asarray(ndimage.minimum(z, lbl, idx))
+    hole = (spill > min_z) & (floor < floor_max_m)
+    fill_mask = np.concatenate([[False], hole])[lbl]
     out = np.where(fill_mask, filled, z).astype(np.float32)
-    kept = int(((~small) & (spill > min_z)).sum())
-    log(f"  pits: {int(small.sum())} closed depressions above {min_z:.0f} m under {keep_area_m2:.0f} m2 filled "
-        f"({int(fill_mask.sum())} cells); {kept} tarn-sized kept")
-    return out, {"pitsFilled": int(small.sum()), "pitsKept": kept, "cellsFilled": int(fill_mask.sum())}
+    kept = int(((~hole) & (spill > min_z)).sum())
+    log(f"  pits: {int(hole.sum())} erosion pits (spill above {min_z:.0f} m, floor under {floor_max_m:.0f} m) filled "
+        f"({int(fill_mask.sum())} cells); {kept} other closed depressions above {min_z:.0f} m kept")
+    return out, {"pitsFilled": int(hole.sum()), "pitsKept": kept, "cellsFilled": int(fill_mask.sum()),
+                 "rule": f"spill > {min_z} m and floor < {floor_max_m} m (ruling 2)"}
 
 
 def fill_new_pits(z: np.ndarray, reference: np.ndarray, sea: np.ndarray, min_z: float,

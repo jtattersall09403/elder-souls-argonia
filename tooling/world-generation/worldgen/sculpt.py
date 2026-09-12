@@ -82,13 +82,17 @@ BENCH_WARP_M = 18.0           # strata surfaces undulate, not level planes
 # Full-res crag texture on steep mountain faces (ridged noise, metres).
 CRAG_AMP_M = 5.0
 CRAG_MIN_SLOPE = 0.35
-# Erosion pits (Phase 16b, ruling 2): above PIT_MIN_Z a closed depression
-# smaller than PIT_KEEP_AREA_M2 is filled to its spill; what survives is a
-# tarn the hydrology graph names (>= 1 ha, hydrology_graph.LAKE_MIN_M2).
+# Erosion pits (Phase 16b, ruling 2, as written: "near-sea-level bowls inside
+# high terrain that render as deep mountain lakes"): a closed depression whose
+# spill stands above PIT_MIN_Z while its floor lies under PIT_FLOOR_MAX_M is a
+# data hole and is filled to its spill. Every other hollow is kept: the
+# mountain ponds, pools and tarns the owner approved on the 16a map.
 PIT_MIN_Z = 30.0              # = hydrology_graph.LOWLAND_MAX_M: lowland pools are marsh, not pits
-PIT_KEEP_AREA_M2 = 10_000.0
+PIT_FLOOR_MAX_M = 5.0
 
 # --- Naturalness -------------------------------------------------------------
+SOURCE_QUANTUM_M = 2.97       # the source's vertical unit: below 40 m it holds 14 distinct
+                              # heights 2.856-2.971 m apart (measured 2026-09-12)
 DETERRACE_ITERS = 4
 DETERRACE_STEP_M = 0.34       # residuals below this are quantisation steps …
 DETERRACE_KEEP_M = 0.55       # … above this they are real banks: untouched
@@ -299,6 +303,38 @@ def coastal_banks(z, coast_ok, log=print):
     return z, n_before, left
 
 
+def deterrace_plateaus(z, weight, log=print):
+    """PLATEAU de-terracing. The source is a staircase: below 40 m it holds
+    14 distinct heights 2.86-2.97 m apart, bitwise-flat treads for tens of
+    metres broken by single-sample walls (measured 2026-09-12: 95.9 % of
+    lowland neighbour pairs identical, 4.1 % a wall over 0.6 m). Real
+    ground is never exactly flat, so exact-equality flatness IS the artefact
+    — detect the treads and ramp their risers over ~20 m (~35 m in the
+    marsh zone: a 3 m wall over 20 m is a 14 % grade that broke the wetland
+    classifier's slope limit). Amplitude rules cannot do this (a 2.9 m riser
+    looks like a real bank); the pattern can. `weight` (0..1) scales the
+    correction: the coast guard, and whatever the caller protects."""
+    flat3 = (np.abs(z - ndimage.uniform_filter(z, 3)) < 2e-3).astype(np.float32)
+    plateau = _smoothstep(0.25, 0.55, ndimage.uniform_filter(flat3, 9))
+    del flat3
+    target = gaussian(z, 6.0)
+    target_marsh = gaussian(z, 11.0)
+    marsh_zone = _smoothstep(10.0, 6.0, z)
+    target = target + marsh_zone * (target_marsh - target)
+    del target_marsh, marsh_zone
+    # the true surface lies within half a quantum of the quantised one: no
+    # cell moves further than that, so a single riser (one quantum) becomes a
+    # ramp while a real wall of several quanta (a 21 m cliff the owner walked
+    # as a waterfall) keeps its face, rounded by at most 1.5 m at lip and foot
+    target = np.clip(target, z - 0.5 * SOURCE_QUANTUM_M, z + 0.5 * SOURCE_QUANTUM_M)
+    # ...and never across the waterline: land stays land, sea stays sea (a
+    # lowest tread at 2.06 m beside the sea ramps down to the shore, not under it)
+    target = np.where(z > 0.0, np.maximum(target, 0.02), np.minimum(target, -0.02))
+    out = (z + (plateau * weight) * (target - z)).astype(np.float32)
+    log(f"  deterrace: plateau zone {float((plateau > 0.5).mean()) * 100:.1f}% of map")
+    return out
+
+
 def naturalness(z, envelope_full, rng, log=print):
     """De-terracing + region-proxy-weighted undulation, coast-guarded."""
     # LANDFORM slope (sigma 8 px ~ 15 m), not texture slope: fine steps and
@@ -313,25 +349,9 @@ def naturalness(z, envelope_full, rng, log=print):
     w_flat = (np.clip(1.0 - (z - 8.0) / 45.0, 0.25, 1.0)
               * _smoothstep(0.14, 0.04, slope0)
               * (1.0 - 0.8 * envelope_full) * coast_ok).astype(np.float32)
-    # PLATEAU de-terracing: the source lowland is bitwise-flat shelves for
-    # tens of metres broken by single-sample metre-plus walls. Real ground is
-    # never exactly flat, so exact-equality flatness IS the artefact — detect
-    # it and ramp the risers over ~20 m. Amplitude-based rules can't do this
-    # (a 2.8 m riser looks like a real bank); the pattern can.
-    flat3 = (np.abs(z - ndimage.uniform_filter(z, 3)) < 2e-3).astype(np.float32)
-    plateau = _smoothstep(0.25, 0.55, ndimage.uniform_filter(flat3, 9))
-    del flat3
-    # marsh zone ramps over ~2x the distance: a 3 m wall smoothed over ~20 m
-    # is a 14% grade that broke the wetland classifier's slope limit and
-    # fragmented the approved marsh — over ~35 m it stays classifier-wet
-    target = gaussian(z, 6.0)
-    target_marsh = gaussian(z, 11.0)
-    marsh_zone = _smoothstep(10.0, 6.0, z)
-    target = target + marsh_zone * (target_marsh - target)
-    del target_marsh, marsh_zone
-    z = (z + (plateau * w_flat) * (target - z)).astype(np.float32)
-    log(f"  naturalness: plateau zone {float((plateau > 0.5).mean()) * 100:.1f}% of map")
-    del plateau, target
+    # the plateau pass ran on the SOURCE before the orogeny (deterrace_plateaus,
+    # 2026-09-12); this second pass catches what the mountains left flat
+    z = deterrace_plateaus(z, w_flat, log=log)
     for _ in range(DETERRACE_ITERS):
         sm = gaussian(z, 2.0)
         resid = z - sm
@@ -360,6 +380,21 @@ def naturalness(z, envelope_full, rng, log=print):
 def sculpt(full_conditioned, rng, log=print):
     """Full pipeline: returns (sculpted full-res heights, report dict)."""
     hf, wf = full_conditioned.shape
+    # The staircase is ramped on the SOURCE, before the mountains are built on
+    # it (2026-09-12). Until then the plateau pass ran last, gated by the
+    # landform slope and the uplift envelope: a stepped hillside (2.9 m walls
+    # every 10-20 m reads as a 15-30 % landform slope) kept its stairs, and
+    # under the uplift the treads were no longer exactly flat, so the
+    # staircase stayed hidden beneath the benches. Here nothing is real yet
+    # but the staircase itself, so only the coast guard (the waterline) is
+    # protected; the pass ramps every tread edge, on hillsides too.
+    # ...and only LAND is ramped: the conditioning floors the source's data
+    # holes at -0.8 m, some of them thin threads joined to the sea, and a
+    # ramp that lifted one over the -0.05 m sea-floor guard let the orogeny
+    # raise it 15-95 m — 0.45 % of the coastline turned to land
+    coast_ok0 = _smoothstep(COAST_GUARD_M * 0.5, COAST_GUARD_M, np.abs(full_conditioned)) * (full_conditioned > 0.0)
+    full_conditioned = deterrace_plateaus(full_conditioned, coast_ok0, log=log)
+    del coast_ok0
     zc = full_conditioned[::STEP, ::STEP].copy()
     m_c = RAW_M * STEP
     ocean_c, _ = ocean_mask(zc, m_c)
@@ -413,9 +448,9 @@ def sculpt(full_conditioned, rng, log=print):
     # it "sea" kept it out of the fill and shipped a 99 m deep pond (Phase 16b).
     # Every other below-sea cell keeps its bathymetry as before (the lowland's
     # sea-level marsh hollows are water, not land to be lifted).
-    from .pits import fill_small_high_pits
+    from .pits import fill_erosion_pits
     drain = sea_connected(full_conditioned) & sea
-    z, pit_report = fill_small_high_pits(z, drain, PIT_MIN_Z, PIT_KEEP_AREA_M2, RAW_M, log=log)
+    z, pit_report = fill_erosion_pits(z, drain, PIT_MIN_Z, PIT_FLOOR_MAX_M, RAW_M, log=log)
 
     report = {
         "summitM": round(float(z.max()), 1),

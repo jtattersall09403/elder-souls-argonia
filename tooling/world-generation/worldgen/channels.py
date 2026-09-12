@@ -140,13 +140,34 @@ FALL_MIN_STEP_M = 2.5                    # the L step must keep at least this
 CANYON_MAX_M = 8.0                       # never cut deeper than this below the floor
 BACKWATER_MAX_M = 1.0                    # a lake may back water up this far over the approach
 LOST_EXIT_M = 1.0                        # a lost stretch ends this far below its crest
-PLUNGE_MIN_DEPTH_M = 1.5
-PLUNGE_SCOUR_PER_DROP = 0.06             # scour grows with head: bowl depth = min + this x the
-PLUNGE_MAX_DEPTH_M = 8.0                 # fall's drop, capped. Measured 2026-09-08: the 131 m
+PLUNGE_MIN_DEPTH_M = 2.0
+PLUNGE_SCOUR_PER_DROP = 0.08             # scour grows with head: bowl depth = min + this x the
+PLUNGE_MAX_DEPTH_M = 10.0                # fall's drop, capped. Measured 2026-09-08: the 131 m
                                          # gorge fall (fall-3, plunge 2524/317) had a 1.44 m max
                                          # pool over 63 wet cells (median 0.72) — the channel's
-                                         # own centre depth, whatever the fall above it.
+                                         # own centre depth, whatever the fall above it. Owner
+                                         # 2026-09-12: deeper, wider, a pool the river leaves
+                                         # over a lip, not a landing in a river.
 PLUNGE_FLOOR_ABOVE_M = 2.5               # the basin only deepens ground this close above its level
+LIP_SPEED_MS = 1.5                       # the sheet leaves the lip at about this and ARCS out
+                                         # (the waterfall kits are drawn arcing): it lands
+                                         # `plunge_throw` downstream of the face, and the bowl
+                                         # is centred there
+PLUNGE_THROW_MAX_M = 10.0
+PLUNGE_RADIUS_MIN_WIDTHS = 1.3           # bowl radius >= this x the channel width...
+PLUNGE_RADIUS_MARGIN_M = 2.0             # ...and >= half a width + the throw + this
+PLUNGE_HOLD_EXTRA_M = 4.0                # the level is held flat (the pool) from the plunge to
+                                         # the bowl's far rim plus this, where the bank can hold it
+# --- the long profile is graded, never a staircase (owner 2026-09-12) --------
+# L is a downstream running minimum of the valley floor, and a floor read off
+# quantised or noisy ground gives flat treads with a drop between each: the
+# carve then builds stairs. After the pins, an erosion pass on every free run
+# (not pooled, lost, a fall, a held pool or a reach end) replaces each tread's
+# upper corner with a ramp: L <- running-min(min(L, gaussian(L))), repeated.
+# Only ever LOWERS L (the bankfull cap stays met), never below a reach end
+# (junction pins stay met) nor more than CANYON_MAX_M under the floor.
+PROFILE_ERODE_SIGMA_M = 5.5
+PROFILE_ERODE_ITERS = 6
 # --- flow speed ---------------------------------------------------------------
 SPEED_FLOOR = {1: 0.45, 2: 0.60, 3: 0.75}   # m/s, so lowland rivers visibly move
 SPEED_BANDS = ((0.45, 0.30), (0.95, 0.70), (1.7, 1.30))  # (raw <, banded) ... else 2.3
@@ -313,6 +334,7 @@ class ChannelSolution:
         d.pop("ford", None)          # retired 2026-09-09; older solutions carry it
         d.setdefault("to_sea", np.zeros(len(d["x"]), dtype=bool))
         d.setdefault("captured", np.zeros(len(d["x"]), dtype=bool))
+        d.setdefault("held", np.zeros(len(d["x"]), dtype=bool))
         return cls(**d)
 
 
@@ -325,10 +347,11 @@ def solve(terrain: np.ndarray, npz, pool_level: np.ndarray | None = None,
     rivers, flow_to, accum = npz["rivers"], npz["flow_to"], npz["accum_km2"]
     hc, wc = rivers.shape
     n_full = terrain.shape[0]
-    # the routing sink: every sea-connected cell (`sea`, Phase 16b); older
-    # passes carry only the open-sea `ocean`
+    # where a river ends: the pass's `sink` (the open sea; decision 0060 —
+    # sea-level inland water conducts the river to the coast, it never ends
+    # it); a pass without one carries only the open-sea `ocean`
     files = getattr(npz, "files", npz)
-    ocean = npz["sea"] if "sea" in files else (npz["ocean"] if "ocean" in files else None)
+    ocean = npz["sink"] if "sink" in files else (npz["ocean"] if "ocean" in files else None)
     half0 = (step - 1) / 2.0
     gy = np.clip(np.round(np.arange(hc) * step + half0).astype(int), 0, terrain.shape[0] - 1)
     gx = np.clip(np.round(np.arange(wc) * step + half0).astype(int), 0, terrain.shape[1] - 1)
@@ -657,6 +680,56 @@ def capture_neighbours(sol: ChannelSolution, margin_m: float = 1.0) -> int:
     return changed
 
 
+def plunge_throw(drop_m: float, speed_ms: float = LIP_SPEED_MS) -> float:
+    """How far downstream of the face the sheet lands: a free arc from the
+    lip at `speed_ms`, capped."""
+    return float(min(speed_ms * np.sqrt(2.0 * max(drop_m, 0.0) / 9.81), PLUNGE_THROW_MAX_M))
+
+
+def plunge_geometry(width_m: float, drop_m: float, centre_depth_m: float = 0.0) -> dict:
+    """The plunge pool one fall digs — ONE law for the carve, the graph's
+    promise and the freeze gate. `throwM` downstream of the face is the bowl's
+    centre; `radiusM` its radius; `depthM` its depth under the pool level;
+    `holdM` how far from the plunge station the level is held flat."""
+    throw = plunge_throw(drop_m)
+    radius = max(PLUNGE_RADIUS_MIN_WIDTHS * width_m, 0.5 * width_m + throw + PLUNGE_RADIUS_MARGIN_M)
+    depth = max(centre_depth_m, PLUNGE_MIN_DEPTH_M,
+                min(PLUNGE_MIN_DEPTH_M + PLUNGE_SCOUR_PER_DROP * drop_m, PLUNGE_MAX_DEPTH_M))
+    return {"throwM": throw, "radiusM": radius, "depthM": depth,
+            "holdM": throw + radius + PLUNGE_HOLD_EXTRA_M}
+
+
+def _erode_profile(L: np.ndarray, free: np.ndarray, floor_cap: np.ndarray, spacing_m: float) -> np.ndarray:
+    """The erosion pass (PROFILE_ERODE_*): see the constants."""
+    sigma = PROFILE_ERODE_SIGMA_M / max(spacing_m, 1e-6)
+    out = L.astype(np.float64).copy()
+    n = len(out)
+    k = 0
+    while k < n:
+        if not free[k]:
+            k += 1
+            continue
+        j = k
+        while j < n and free[j]:
+            j += 1
+        if j - k >= 2:
+            # the fixed station on each side (a pin, a weir's end, a pool's
+            # lip) sits inside the window so the run ramps down FROM it and
+            # TO the next, instead of dropping onto it in one step
+            a, b = max(k - 1, 0), min(j + 1, n)
+            seg = out[a:b]
+            lo, hi = k - a, j - a
+            for _ in range(PROFILE_ERODE_ITERS):
+                sm = ndimage.gaussian_filter1d(seg, sigma, mode="nearest")
+                seg[lo:hi] = np.minimum(seg[lo:hi], sm[lo:hi])
+                seg[lo:hi] = np.minimum.accumulate(np.minimum(seg[lo:hi], seg[lo - 1] if lo > 0 else np.inf))
+                if hi < len(seg):
+                    seg[lo:hi] = np.maximum(seg[lo:hi], seg[hi])
+            out[k:j] = np.maximum(seg[lo:hi], floor_cap[k:j])
+        k = j
+    return out.astype(np.float32)
+
+
 def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> ChannelSolution:
     """Compute L, kinds and flags on `sol` in place (network-wide).
 
@@ -674,6 +747,7 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
     kind = np.zeros(n_st, dtype=np.uint8)
     pooled = np.isfinite(sol.pool) & (sol.pool >= sol.natural - POOL_TOL_M)
     lost = np.zeros(n_st, dtype=bool)
+    held = np.zeros(n_st, dtype=bool)                # in a plunge pool: level held flat past the bowl
     since_pool = np.full(n_st, np.inf, dtype=np.float32)   # metres since a pooled station
     pool_behind = np.full(n_st, -np.inf, dtype=np.float32)  # that station's level
 
@@ -724,6 +798,17 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
                 lip[a0 + a] = True
                 plunge[a0 + b] = True
                 kind[a0 + a + 1:a0 + b + 1] = KIND_FALL
+                # the plunge POOL: the level is held flat past the bowl's far
+                # rim (plunge_geometry.holdM) wherever the bank can hold it
+                # (`base` is the bankfull cap), so the river leaves the pool
+                # over a lip instead of the fall landing in a sloping channel
+                hold_m = plunge_geometry(float(sol.width[a0 + b]), float(fall_drop[a0 + b]))["holdM"]
+                arc_sl = sol.arc[sl]
+                held_here = (np.arange(len(v)) > b) & (arc_sl - arc_sl[b] <= hold_m) & ~pooled[sl] & ~lost[sl]
+                if held_here.any():
+                    v[held_here] = np.minimum(v[b], base[sl][held_here])
+                    v[b:] = np.minimum.accumulate(v[b:])
+                    held[a0 + np.flatnonzero(held_here)] = True
         L[sl] = v
         # arc since the last pooled station (lake-outlet sill + ramp)
         pw = pooled[sl]
@@ -809,6 +894,7 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
     sol.L = L.astype(np.float32)
     sol.lip, sol.plunge, sol.pooled, sol.lost, sol.captured = lip, plunge, pooled, lost, captured
     sol.fall_drop = fall_drop
+    sol.held = held
     # a SHORE station: its section dips into a body (so it takes the body's
     # level) but its own centre stands above the water — it still needs a
     # trench, or the river runs dry along the lakeshore
@@ -871,6 +957,18 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
             a0 = arc[end_sill] if end_sill < m else arc[-1] + 1e-3
             ramp[sl.start + end_sill:sl.start + j] = np.clip((arc[end_sill:j] - a0) / SILL_RAMP_M, 0.0, 1.0)
             k = j
+    # the erosion pass: a graded profile, never a staircase (PROFILE_ERODE_*).
+    # After the sills, so a run leaving a weir ramps down from it; the weir,
+    # every pooled, lost, held, lip, plunge and fall station and both ends
+    # of a reach stay fixed and bound the runs between them
+    free = ~pooled & ~lost & ~held & ~lip & ~plunge & ~sill & (kind != KIND_FALL)
+    free[sol.reach_start] = False
+    free[sol.reach_end - 1] = False
+    floor_cap = (sol.natural - CANYON_MAX_M).astype(np.float32)
+    for r in range(n_r):
+        sl = sol.stations_of(r)
+        if free[sl].any():
+            L[sl] = _erode_profile(L[sl], free[sl], floor_cap[sl], float(sol.spacing_m))
     sol.L = L.astype(np.float32)
     sol.sill = sill
     sol.ramp = ramp
@@ -1076,6 +1174,7 @@ def nearest_stations(sol: ChannelSolution, shape, select: np.ndarray):
 def carve(terrain: np.ndarray, sol: ChannelSolution,
           protect: np.ndarray | None = None,
           body_level: np.ndarray | None = None,
+          never_raise: np.ndarray | None = None,
           reference: np.ndarray | None = None) -> tuple[np.ndarray, dict]:
     """Cut the trench and build the shoulder (decision 0047).
 
@@ -1182,25 +1281,29 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
     bowl_cells = np.zeros(h.shape, dtype=bool)
     for k in np.flatnonzero(sol.plunge):
         P = float(sol.L[k]); w = float(sol.width[k])
-        # the bowl is sized by the fall that digs it, never shallower than the
-        # channel's own centre depth
+        # the bowl is sized by the fall that digs it (plunge_geometry: one
+        # law with the graph's promise and the gate), never shallower than the
+        # channel's own centre depth; its centre sits where the arcing sheet
+        # lands, `throwM` downstream of the face
         fd = float(getattr(sol, "fall_drop", np.zeros(sol.n))[k])
-        dp = max(float(depth[k]), PLUNGE_MIN_DEPTH_M,
-                 min(PLUNGE_MIN_DEPTH_M + PLUNGE_SCOUR_PER_DROP * fd, PLUNGE_MAX_DEPTH_M))
-        rr = int(np.ceil(w / sol.mpp)) + 1
+        geo = plunge_geometry(w, fd, float(depth[k]))
+        dp, rb, throw = geo["depthM"], geo["radiusM"], geo["throwM"]
+        bx = float(sol.x[k]) + float(sol.tx[k]) * throw / sol.mpp
+        by = float(sol.y[k]) + float(sol.ty[k]) * throw / sol.mpp
+        rr = int(np.ceil((rb + throw) / sol.mpp)) + 1
         cy, cx = int(round(float(sol.y[k]))), int(round(float(sol.x[k])))
         y0, y1 = max(cy - rr, 0), min(cy + rr + 1, h.shape[0])
         x0, x1 = max(cx - rr, 0), min(cx + rr + 1, h.shape[1])
         yy, xx = np.mgrid[y0:y1, x0:x1]
-        dd = np.hypot(yy - sol.y[k], xx - sol.x[k]) * sol.mpp
-        t = np.clip(dd / max(w, 1e-3), 0.0, 1.0)
+        dd = np.hypot(yy - by, xx - bx) * sol.mpp
+        t = np.clip(dd / max(rb, 1e-3), 0.0, 1.0)
         bowl = P - dp * (1.0 - t * t)
         # dig the floor around the plunge, never the wall behind it (the
         # face and the lip upstream: the pool's core is dug regardless only
-        # on the downstream side)
+        # on the downstream side of the face)
         along = (xx - sol.x[k]) * sol.tx[k] + (yy - sol.y[k]) * sol.ty[k]
         blk = h[y0:y1, x0:x1]
-        dig = (dd <= w) & ((blk <= P + PLUNGE_FLOOR_ABOVE_M) | ((dd <= 0.35 * w) & (along >= -0.5 * sol.mpp)))
+        dig = (dd <= rb) & (along >= -0.5 * sol.mpp) & ((blk <= P + PLUNGE_FLOOR_ABOVE_M) | (dd <= 0.5 * rb))
         h[y0:y1, x0:x1] = np.where(dig, np.minimum(blk, bowl), blk)
         footprint[y0:y1, x0:x1] |= dig
         bowl_cells[y0:y1, x0:x1] |= dig
@@ -1254,6 +1357,10 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
             & ((body_level >= L - 0.05) | (body_level <= 0.0))
         hi = np.where(no_raise, h, hi)         # never dam a body or raise its bed
         del no_raise
+    if never_raise is not None:
+        # the owner-approved (16a) bodies: their beds are never filled by a
+        # levee, whatever level the channel beside them runs at (0060 §7)
+        hi = np.where(never_raise, h, hi)
     target = np.clip(target, np.minimum(lo, h), np.maximum(hi, h))
     h = np.where(ring, target, h).astype(np.float32)
     h = np.where(brink_guard, np.maximum(h, brink_keep), h).astype(np.float32)

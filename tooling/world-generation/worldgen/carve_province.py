@@ -49,9 +49,10 @@ FROZEN_PATH = VAULT_DIR / freeze.FROZEN
 CHANNELS_FILE = "channels-pass1.npz"
 FROZEN_ON = "2026-09-11"
 DEPENDED_LEVEL_TOL_M = 0.30   # a body the profile was solved against may move at most the crest raise (a levee impounds it by SHOULDER_RAISE_M at most)
+CARVE_DISAGREEMENT_BUDGET = 10     # bodies left dry / depended bodies moved: recorded up to this, a defect beyond
 
 
-def carve(h: np.ndarray, bodies, sol, log=print):
+def carve(h: np.ndarray, bodies, sol, log=print, approved_mask: np.ndarray | None = None):
     """Cut the trench and build the shoulder to the graph's solution."""
     from . import channels
     from . import standing_water as sw
@@ -72,13 +73,13 @@ def carve(h: np.ndarray, bodies, sol, log=print):
         ids = ids[ids > 0]
         if len(ids):
             body_level[np.isin(bodies.body, ids)] = -np.inf
-    h, stats = channels.carve(h, sol, protect=collar, body_level=body_level)
+    h, stats = channels.carve(h, sol, protect=collar, body_level=body_level, never_raise=approved_mask)
     h, n_islands = sw.lower_islands(h, bodies)
     stats["islandsLowered"] = int(n_islands)
     return h, stats
 
 
-def extend_graph(h: np.ndarray, npz, graph: dict, sol, log=print):
+def extend_graph(h: np.ndarray, npz, graph: dict, sol, log=print, approved_mask: np.ndarray | None = None):
     """Re-solve the bodies on the frozen array and reconcile the graph with
     what the ground now holds (decision 0059):
 
@@ -97,7 +98,7 @@ def extend_graph(h: np.ndarray, npz, graph: dict, sol, log=print):
     from scipy.spatial import cKDTree
     from . import standing_water as sw
     from .channels import KIND_LOST, SHOULDER_BLEND_M
-    bodies2 = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, with_placement=False)
+    bodies2 = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, with_placement=False, allow_extra=approved_mask)
     resp = sw.season_response(h, bodies2)
     recs = hg.measure_bodies(h, bodies2, npz["regions"], npz["salinity"], resp, RAW_M)
     by_label = {rec["_label"]: rec for rec in recs}
@@ -115,7 +116,7 @@ def extend_graph(h: np.ndarray, npz, graph: dict, sol, log=print):
         if b.get("inflow") or b.get("outflow"):
             depended.add(b["id"])
     matched: set[int] = set()
-    lost, moved = [], []
+    lost, moved, joined = [], [], []
     # (the id stays keyed to the solve-time deepest cell; `deepestCell` is the
     # frozen array's, which the freeze gate and the compile read)
     remeasured = ("levelM", "areaM2", "maxDepthM", "sheet", "season", "seasonResponse",
@@ -136,6 +137,21 @@ def extend_graph(h: np.ndarray, npz, graph: dict, sol, log=print):
                     b["preCarve"] = {"levelM": b["levelM"], "areaM2": b["areaM2"], "spillM": b["terrainPrecondition"].get("spillM")}
                 for key in remeasured:
                     b[key] = new[key]
+            continue
+        if bodies2.sea[dy, dx] and not b.get("captured") and b["origin"] == "measured":
+            # the trench joined it to the sea below 0 (a lowland hollow a hand
+            # over sea level whose outlet the carve cut to the coast): it now
+            # stands AT sea level, an arm of the sea, and the record says so
+            # rather than promising a rim the ground no longer has
+            joined.append((b["id"], b["levelM"]))
+            b["preCarve"] = {"levelM": b["levelM"], "areaM2": b["areaM2"], "spillM": b["terrainPrecondition"].get("spillM")}
+            b["captured"] = True
+            b["joinedSea"] = True
+            b["levelM"] = 0.0
+            b["wetSeasonLevelM"] = 0.0
+            b["drySeasonLevelM"] = 0.0
+            b["terrainPrecondition"] = {"kind": "captured", "levelM": 0.0, "channelLevelM": 0.0,
+                                        "floorMaxM": b["terrainPrecondition"].get("floorMaxM", 0.0)}
             continue
         if bodies2.sea[dy, dx] or b.get("captured") or b["origin"] in ("promised", "authored"):
             continue      # (the freeze gate checks a promised bowl and an authored lake directly)
@@ -165,7 +181,9 @@ def extend_graph(h: np.ndarray, npz, graph: dict, sol, log=print):
     sheet_ids = {b["id"] for b in graph["bodies"] if b.get("sheet") or b["kind"] in hg.MARSH_KINDS}
     bad = [m for m in moved if m[3] and m[0] not in sheet_ids and abs(m[2] - m[1]) > DEPENDED_LEVEL_TOL_M]
     log(f"extension rule: {len(new)} terrain-stage bodies appended, {len(lost)} graph bodies left dry, "
-        f"{len(moved)} re-measured bodies moved > 0.05 m ({len(bad)} that a reach depends on)")
+        f"{len(moved)} re-measured bodies moved > 0.05 m ({len(bad)} that a reach depends on), "
+        f"{len(joined)} joined to the sea by their outlet trench")
+    graph["stats"]["bodiesJoinedSeaByCarve"] = len(joined)
     return bodies2, new, lost, moved, bad
 
 
@@ -210,20 +228,43 @@ def main() -> None:
         raise SystemExit(f"carve_province: the graph was solved on {graph['sourceHeightSha256'][:16]}… but the "
                          f"shaped ground is {sha_shaped[:16]}…; run `hydrology_graph derive` first")
     bodies, sol = hg.load_solution(vault, g)
-    h, stats = carve(g.astype(np.float32, copy=True), bodies, sol)
+    from . import approved_bodies as ab
+    _doc, alab, _, _ = ab.load(vault)
+    h, stats = carve(g.astype(np.float32, copy=True), bodies, sol, approved_mask=(alab > 0) if alab is not None else None)
     VAULT_DIR.mkdir(exist_ok=True)
     sha = freeze.save_frozen(FROZEN_PATH, h, freeze.FROZEN,
                              "the frozen base: the shaped ground carved to the hydrology graph "
                              "(trenches, weirs, plunge bowls, islets); patches only from here on", FROZEN_ON)
     # what compile_water reads: the same solution the graph names
     shutil.copyfile(vault / hg.SOLUTION_FILE, VAULT_DIR / CHANNELS_FILE)
-    bodies2, new, lost, moved, bad = extend_graph(h, npz, graph, sol)
-    if lost:
-        raise SystemExit(f"carve_province: {len(lost)} graph bodies left DRY by the carve (first: {lost[:5]}); "
-                         f"the carve disagrees with the graph and must not ship")
-    if bad:
-        raise SystemExit(f"carve_province: {len(bad)} bodies the channel profile depends on moved by more than "
-                         f"{DEPENDED_LEVEL_TOL_M} m (first: {bad[:5]}); the carve disagrees with the graph")
+    bodies2, new, lost, moved, bad = extend_graph(h, npz, graph, sol, approved_mask=(alab > 0) if alab is not None else None)
+    # where the carve disagrees with the graph it is RECORDED, body by body,
+    # and the owner sees the list (0060 §7: a departure is a listed tweak,
+    # never a silent change); only more than CARVE_DISAGREEMENT_BUDGET of
+    # either kind is a defect the build refuses to ship
+    by_id = {b["id"]: b for b in graph["bodies"]}
+    for bid in lost:
+        b = by_id[bid]
+        b["lostAtCarve"] = True
+        b["terrainPrecondition"] = {"kind": "lost-at-carve", "levelM": b["levelM"],
+                                    "floorMaxM": b["terrainPrecondition"].get("floorMaxM", b["levelM"])}
+    ap = graph["stats"].get("approvedBodies")
+    if ap is not None:
+        realised_ids = {b["id"] for b in graph["bodies"] if b.get("approved")}
+        for bid in lost:
+            b = by_id[bid]
+            if b.get("approved"):
+                ap["missing"].append({"id": bid, "kind": b["kind"], "levelM": b["levelM"], "areaM2": b["areaM2"],
+                                      "deepestCell": b["deepestCell"], "why": "lost-at-carve: the carved ground holds no body at its outline"})
+        ap["movedByCarve"] = [{"id": m[0], "fromM": m[1], "toM": m[2], "depended": m[3]} for m in moved
+                              if m[0] in realised_ids and abs(m[2] - m[1]) > DEPENDED_LEVEL_TOL_M]
+    graph["stats"]["carveDisagreements"] = {"lost": lost, "dependedMoved": [{"id": m[0], "fromM": m[1], "toM": m[2]} for m in bad],
+                                            "budget": CARVE_DISAGREEMENT_BUDGET}
+    print(f"carve disagreements: {len(lost)} bodies left dry, {len(bad)} depended bodies moved > {DEPENDED_LEVEL_TOL_M} m "
+        f"(budget {CARVE_DISAGREEMENT_BUDGET} each; recorded in the graph)")
+    if len(lost) > CARVE_DISAGREEMENT_BUDGET or len(bad) > CARVE_DISAGREEMENT_BUDGET:
+        raise SystemExit(f"carve_province: {len(lost)} bodies left DRY and {len(bad)} depended bodies moved > "
+                         f"{DEPENDED_LEVEL_TOL_M} m — over the budget of {CARVE_DISAGREEMENT_BUDGET}: a shared cause, not a list")
     graph["stats"]["bodiesMovedByCarve"] = len(moved)
     graph["stats"]["bodiesMovedByCarveMaxM"] = round(max((abs(m[2] - m[1]) for m in moved), default=0.0), 3)
     hg.extend_bodies(graph, new)

@@ -8,7 +8,7 @@
     6.53
    ],
    "lengthM": 5,
-   "meanGroundM": 6.2
+   "meanGroundM": 6.4
   },
   {
    "lane": "soulrest-lilmoth",
@@ -18,7 +18,7 @@
     6.48
    ],
    "lengthM": 8,
-   "meanGroundM": 3.0
+   "meanGroundM": 3.2
   },
   {
    "lane": "soulrest-lilmoth",
@@ -28,7 +28,7 @@
     6.44
    ],
    "lengthM": 62,
-   "meanGroundM": 12.6
+   "meanGroundM": 12.5
   },
   {
    "lane": "lilmoth-archon",
@@ -38,7 +38,7 @@
     6.38
    ],
    "lengthM": 62,
-   "meanGroundM": 12.4
+   "meanGroundM": 12.6
   },
   {
    "lane": "lilmoth-archon",
@@ -48,7 +48,7 @@
     6.47
    ],
    "lengthM": 8,
-   "meanGroundM": 3.0
+   "meanGroundM": 3.2
   },
   {
    "lane": "lilmoth-archon",
@@ -58,7 +58,7 @@
     4.65
    ],
    "lengthM": 5,
-   "meanGroundM": 1.9
+   "meanGroundM": 1.8
   },
   {
    "lane": "archon-thorn",
@@ -68,7 +68,7 @@
     4.64
    ],
    "lengthM": 5,
-   "meanGroundM": 1.9
+   "meanGroundM": 1.8
   },
   {
    "lane": "archon-thorn",
@@ -78,7 +78,7 @@
     1.0
    ],
    "lengthM": 94,
-   "meanGroundM": 18.4
+   "meanGroundM": 17.7
   },
   {
    "lane": "archon-thorn",
@@ -98,7 +98,7 @@
     0.64
    ],
    "lengthM": 73,
-   "meanGroundM": 36.3
+   "meanGroundM": 36.0
   },
   {
    "lane": "stormhold-alten-corimont",
@@ -108,7 +108,7 @@
     0.73
    ],
    "lengthM": 89,
-   "meanGroundM": 29.2
+   "meanGroundM": 30.4
   },
   {
    "lane": "stormhold-alten-corimont",
@@ -118,7 +118,7 @@
     1.07
    ],
    "lengthM": 8,
-   "meanGroundM": 9.5
+   "meanGroundM": 8.5
   },
   {
    "lane": "stormhold-alten-corimont",
@@ -148,17 +148,17 @@
     1.14
    ],
    "lengthM": 55,
-   "meanGroundM": 9.3
+   "meanGroundM": 8.8
   },
   {
    "lane": "blackrose-lilmoth",
-   "mode": "canoe-channel",
+   "mode": "portage",
    "startKm": [
     2.39,
     6.39
    ],
    "lengthM": 38,
-   "meanGroundM": -3.4
+   "meanGroundM": 4.0
   },
   {
    "lane": "blackrose-lilmoth",
@@ -168,7 +168,7 @@
     6.48
    ],
    "lengthM": 8,
-   "meanGroundM": 3.0
+   "meanGroundM": 3.2
   },
   {
    "lane": "blackrose-lilmoth",
@@ -178,7 +178,7 @@
     6.44
    ],
    "lengthM": 62,
-   "meanGroundM": 12.6
+   "meanGroundM": 12.5
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -188,7 +188,7 @@
     1.14
    ],
    "lengthM": 55,
-   "meanGroundM": 9.3
+   "meanGroundM": 8.8
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -208,7 +208,7 @@
     1.12
    ],
    "lengthM": 44,
-   "meanGroundM": 7.2
+   "meanGroundM": 6.9
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -218,7 +218,7 @@
     1.17
    ],
    "lengthM": 63,
-   "meanGroundM": 1.9
+   "meanGroundM": 1.5
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -228,7 +228,7 @@
     1.46
    ],
    "lengthM": 104,
-   "meanGroundM": 21.8
+   "meanGroundM": 21.7
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -238,7 +238,7 @@
     1.58
    ],
    "lengthM": 37,
-   "meanGroundM": 22.8
+   "meanGroundM": 22.7
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -248,7 +248,7 @@
     1.71
    ],
    "lengthM": 21,
-   "meanGroundM": 18.4
+   "meanGroundM": 18.2
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -258,7 +258,7 @@
     1.79
    ],
    "lengthM": 22,
-   "meanGroundM": 17.3
+   "meanGroundM": 17.0
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -268,7 +268,7 @@
     1.85
    ],
    "lengthM": 70,
-   "meanGroundM": 11.6
+   "meanGroundM": 12.1
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -278,7 +278,7 @@
     1.99
    ],
    "lengthM": 11,
-   "meanGroundM": 5.0
+   "meanGroundM": 5.2
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -288,7 +288,7 @@
     2.05
    ],
    "lengthM": 38,
-   "meanGroundM": 3.4
+   "meanGroundM": 4.7
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -308,7 +308,7 @@
     2.75
    ],
    "lengthM": 77,
-   "meanGroundM": 4.5
+   "meanGroundM": 4.4
   },
   {
    "lane": "alten-corimont-helstrom",

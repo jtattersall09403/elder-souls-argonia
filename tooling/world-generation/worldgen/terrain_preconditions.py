@@ -171,7 +171,7 @@ def violations(h: np.ndarray, graph: dict, sea: np.ndarray, mpp: float = RAW_M,
         pre_b = b.get("terrainPrecondition") or {}
         if pre_b.get("kind") == "plunge-bowl" and b.get("deepestCell"):
             x, y = int(b["deepestCell"][0]), int(b["deepestCell"][1])
-            rr = int(np.ceil(float(pre_b["radiusM"]) * 1.5 / mpp)) + 1
+            rr = int(np.ceil((float(pre_b["radiusM"]) * 1.5 + float(pre_b.get("throwM", 0.0))) / mpp)) + 1
             in_channel[max(y - rr, 0):y + rr + 1, max(x - rr, 0):x + rr + 1] = True
     for r in graph["reaches"]:
         pre = r.get("terrainPrecondition") or {}
@@ -263,8 +263,8 @@ def violations(h: np.ndarray, graph: dict, sea: np.ndarray, mpp: float = RAW_M,
         pre = b.get("terrainPrecondition") or {}
         kind = pre.get("kind")
         cell = b.get("deepestCell")
-        if kind == "sea" or cell is None:
-            continue
+        if kind in ("sea", "lost-at-carve") or cell is None:
+            continue          # (a lost-at-carve body is a recorded departure, listed for the owner)
         x, y = int(cell[0]), int(cell[1])
         if kind == "bowl":
             if h[y, x] > float(pre["floorMaxM"]) + FLOOR_TOL_M:
@@ -282,7 +282,10 @@ def violations(h: np.ndarray, graph: dict, sea: np.ndarray, mpp: float = RAW_M,
             if h[y, x] > max(float(pre["levelM"]), float(pre["channelLevelM"])) + FLOOR_TOL_M:
                 errs.append(f"{b['id']}: captured body's floor {h[y, x]:.2f} m raised above its level {pre['levelM']}")
         elif kind == "plunge-bowl":
-            floor = _disc_min(h, y, x, float(pre["radiusM"]) * 0.5, mpp)
+            # the bowl is centred `throwM` past the face (where the sheet
+            # lands), so its floor lies within throw + half the radius of the
+            # plunge station
+            floor = _disc_min(h, y, x, float(pre.get("throwM", 0.0)) + float(pre["radiusM"]) * 0.5, mpp)
             want = float(pre["levelM"]) - float(pre["depthM"])
             if floor > want + BED_TOL_M:
                 errs.append(f"{b['id']}: plunge bowl floor {floor:.2f} m above {want:.2f} (level {pre['levelM']} - depth {pre['depthM']})")
@@ -304,10 +307,23 @@ def violations(h: np.ndarray, graph: dict, sea: np.ndarray, mpp: float = RAW_M,
     st = graph.get("stats", {})
     if st.get("suspectFalls", 0):
         errs.append(f"graph: {st['suspectFalls']} suspect (coastal-terrace-step) falls remain")
+    # the owner-approved (16a) bodies: every one is realised, or superseded by a named tweak
+    # an approved body the ground does not realise fails the gate unless the
+    # owner has reviewed it: world/sources/hydrology/approved-bodies-waived.json
+    # (0060 §7; the round-2 list awaits the owner's decision per body)
+    waived = {}
+    if WAIVED_PATH.exists():
+        waived = {w["id"]: w for w in json.loads(WAIVED_PATH.read_text(encoding="utf-8")).get("bodies", [])}
+    for m in (st.get("approvedBodies") or {}).get("missing", []):
+        if m["why"].startswith("unrealised") and m["id"] not in waived:
+            errs.append(f"{m['id']}: approved {m['kind']} ({m['areaM2']:.0f} m2 at {m['levelM']} m) has no measured body on the ground and no owner waiver")
+    for m in (st.get("approvedFalls") or {}).get("missing", []):
+        errs.append(f"{m['reachId']}: approved fall ({m['dropM']} m) has no derived fall within 45 m of its plunge")
     return errs
 
 
 KNOWN_PATH = Path(__file__).resolve().parents[3] / "world" / "sources" / "terrain" / "freeze-gate-known.json"
+WAIVED_PATH = Path(__file__).resolve().parents[3] / "world" / "sources" / "hydrology" / "approved-bodies-waived.json"
 
 
 def known_leftovers() -> dict[str, str]:

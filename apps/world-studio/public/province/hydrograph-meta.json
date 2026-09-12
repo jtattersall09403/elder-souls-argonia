@@ -8,7 +8,7 @@
   "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands (pieces of 10+ cells, about 300 m2), every river cell and every graph body. The raw coarse lake mask is NOT used: its 3,781 pieces were mostly one-cell pits along contours."
  },
  "source": "world/sources/hydrology/hydrology-graph.json",
- "contentSha256": "76f9eaef4caa6e77aa65b697a2fe52a93a615a05920c5632d5be351f713280b6",
+ "contentSha256": "1464a4615970b63655d0a7401c43a076a1c5c50ab219e35b3f37d3283fb32d74",
  "legends": {
   "hydrograph-rivers": {
    "horizontal-channel": {
@@ -247,89 +247,2020 @@
   }
  },
  "stats": {
-  "surfaceTransitions": 226,
+  "approvedBodies": {
+   "total": 387,
+   "matched": 269,
+   "measuredPieces": 263,
+   "splitParts": 4,
+   "mergedIntoAnother": 1,
+   "kindKeptOverMeasured": 36,
+   "missing": [
+    {
+     "id": "body.1627-313",
+     "kind": "marsh-deep",
+     "levelM": 14.59,
+     "areaM2": 441.0,
+     "deepestCell": [
+      1627,
+      313
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.372-330",
+     "kind": "pool",
+     "levelM": 364.84,
+     "areaM2": 364.0,
+     "deepestCell": [
+      372,
+      330
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2406-416",
+     "kind": "pool",
+     "levelM": 202.1,
+     "areaM2": 324.0,
+     "deepestCell": [
+      2406,
+      416
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.3399-420",
+     "kind": "pool",
+     "levelM": 27.87,
+     "areaM2": 84.0,
+     "deepestCell": [
+      3399,
+      420
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.3044-420",
+     "kind": "pond",
+     "levelM": 175.0,
+     "areaM2": 1179.0,
+     "deepestCell": [
+      3044,
+      420
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.3420-495",
+     "kind": "pool",
+     "levelM": 15.33,
+     "areaM2": 94.0,
+     "deepestCell": [
+      3420,
+      495
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1813-543",
+     "kind": "marsh-deep",
+     "levelM": 20.57,
+     "areaM2": 712.0,
+     "deepestCell": [
+      1813,
+      543
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1303-604",
+     "kind": "backswamp",
+     "levelM": 33.39,
+     "areaM2": 327.0,
+     "deepestCell": [
+      1303,
+      604
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2022-615",
+     "kind": "marsh-deep",
+     "levelM": 8.05,
+     "areaM2": 90.0,
+     "deepestCell": [
+      2022,
+      615
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.3372-629",
+     "kind": "marsh-fringe",
+     "levelM": 12.38,
+     "areaM2": 641.0,
+     "deepestCell": [
+      3372,
+      629
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1987-714",
+     "kind": "marsh-deep",
+     "levelM": 2.16,
+     "areaM2": 1393.0,
+     "deepestCell": [
+      1987,
+      714
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2088-727",
+     "kind": "marsh-deep",
+     "levelM": 4.61,
+     "areaM2": 354.0,
+     "deepestCell": [
+      2088,
+      727
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1835-788",
+     "kind": "marsh-deep",
+     "levelM": 7.49,
+     "areaM2": 94.0,
+     "deepestCell": [
+      1835,
+      788
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.3294-822",
+     "kind": "pool",
+     "levelM": 9.42,
+     "areaM2": 160.0,
+     "deepestCell": [
+      3294,
+      822
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2057-834",
+     "kind": "marsh-deep",
+     "levelM": 18.91,
+     "areaM2": 1270.0,
+     "deepestCell": [
+      2057,
+      834
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1903-894",
+     "kind": "marsh-deep",
+     "levelM": 22.79,
+     "areaM2": 167.0,
+     "deepestCell": [
+      1903,
+      894
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1864-915",
+     "kind": "marsh-deep",
+     "levelM": 20.05,
+     "areaM2": 805.0,
+     "deepestCell": [
+      1864,
+      915
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.3263-956",
+     "kind": "marsh-fringe",
+     "levelM": 6.12,
+     "areaM2": 341.0,
+     "deepestCell": [
+      3263,
+      956
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1593-1015",
+     "kind": "marsh-deep",
+     "levelM": 15.13,
+     "areaM2": 665.0,
+     "deepestCell": [
+      1593,
+      1015
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1732-1012",
+     "kind": "marsh-deep",
+     "levelM": 20.95,
+     "areaM2": 110.0,
+     "deepestCell": [
+      1732,
+      1012
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1812-1058",
+     "kind": "pond",
+     "levelM": 10.47,
+     "areaM2": 1116.0,
+     "deepestCell": [
+      1812,
+      1058
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1348-1043",
+     "kind": "backswamp",
+     "levelM": 16.25,
+     "areaM2": 752.0,
+     "deepestCell": [
+      1348,
+      1043
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1263-1047",
+     "kind": "marsh-deep",
+     "levelM": 5.05,
+     "areaM2": 90.0,
+     "deepestCell": [
+      1263,
+      1047
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1217-1059",
+     "kind": "marsh-deep",
+     "levelM": 10.43,
+     "areaM2": 398.0,
+     "deepestCell": [
+      1217,
+      1059
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.3060-1063",
+     "kind": "marsh-fringe",
+     "levelM": 1.84,
+     "areaM2": 498.0,
+     "deepestCell": [
+      3060,
+      1063
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1256-1068",
+     "kind": "marsh-deep",
+     "levelM": 2.19,
+     "areaM2": 84.0,
+     "deepestCell": [
+      1256,
+      1068
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2760-1064",
+     "kind": "marsh-fringe",
+     "levelM": 19.2,
+     "areaM2": 160.0,
+     "deepestCell": [
+      2760,
+      1064
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1595-1076",
+     "kind": "pond",
+     "levelM": 19.32,
+     "areaM2": 1303.0,
+     "deepestCell": [
+      1595,
+      1076
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1360-1084",
+     "kind": "marsh-deep",
+     "levelM": 3.37,
+     "areaM2": 1460.0,
+     "deepestCell": [
+      1360,
+      1084
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1664-1098",
+     "kind": "marsh-deep",
+     "levelM": 5.46,
+     "areaM2": 508.0,
+     "deepestCell": [
+      1664,
+      1098
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1075-1093",
+     "kind": "marsh-deep",
+     "levelM": 7.87,
+     "areaM2": 157.0,
+     "deepestCell": [
+      1075,
+      1093
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1988-1096",
+     "kind": "marsh-deep",
+     "levelM": 10.01,
+     "areaM2": 541.0,
+     "deepestCell": [
+      1988,
+      1096
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1379-1138",
+     "kind": "marsh-deep",
+     "levelM": 10.69,
+     "areaM2": 718.0,
+     "deepestCell": [
+      1379,
+      1138
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2790-1144",
+     "kind": "pond",
+     "levelM": 19.1,
+     "areaM2": 742.0,
+     "deepestCell": [
+      2790,
+      1144
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1975-1269",
+     "kind": "marsh-deep",
+     "levelM": 0.95,
+     "areaM2": 775.0,
+     "deepestCell": [
+      1975,
+      1269
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2836-1340",
+     "kind": "marsh-fringe",
+     "levelM": 7.17,
+     "areaM2": 134.0,
+     "deepestCell": [
+      2836,
+      1340
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1819-1343",
+     "kind": "pool",
+     "levelM": 16.68,
+     "areaM2": 454.0,
+     "deepestCell": [
+      1819,
+      1343
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1164-1355",
+     "kind": "pond",
+     "levelM": 13.53,
+     "areaM2": 942.0,
+     "deepestCell": [
+      1164,
+      1355
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1057-1399",
+     "kind": "marsh-deep",
+     "levelM": 19.29,
+     "areaM2": 414.0,
+     "deepestCell": [
+      1057,
+      1399
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1368-1417",
+     "kind": "marsh-deep",
+     "levelM": 1.68,
+     "areaM2": 2011.0,
+     "deepestCell": [
+      1368,
+      1417
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2401-1451",
+     "kind": "backswamp",
+     "levelM": 1.05,
+     "areaM2": 411.0,
+     "deepestCell": [
+      2401,
+      1451
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1620-1457",
+     "kind": "backswamp",
+     "levelM": 11.73,
+     "areaM2": 488.0,
+     "deepestCell": [
+      1620,
+      1457
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2874-1515",
+     "kind": "marsh-fringe",
+     "levelM": 4.75,
+     "areaM2": 361.0,
+     "deepestCell": [
+      2874,
+      1515
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1331-1515",
+     "kind": "marsh-deep",
+     "levelM": 15.12,
+     "areaM2": 291.0,
+     "deepestCell": [
+      1331,
+      1515
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1879-1524",
+     "kind": "marsh-deep",
+     "levelM": 0.55,
+     "areaM2": 2098.0,
+     "deepestCell": [
+      1879,
+      1524
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1071-1533",
+     "kind": "marsh-deep",
+     "levelM": 7.76,
+     "areaM2": 117.0,
+     "deepestCell": [
+      1071,
+      1533
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1292-1575",
+     "kind": "backswamp",
+     "levelM": 0.46,
+     "areaM2": 1797.0,
+     "deepestCell": [
+      1292,
+      1575
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2573-1574",
+     "kind": "marsh-fringe",
+     "levelM": 2.04,
+     "areaM2": 204.0,
+     "deepestCell": [
+      2573,
+      1574
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2794-1618",
+     "kind": "pond",
+     "levelM": 5.77,
+     "areaM2": 1320.0,
+     "deepestCell": [
+      2794,
+      1618
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.39-1635",
+     "kind": "pool",
+     "levelM": 27.69,
+     "areaM2": 114.0,
+     "deepestCell": [
+      39,
+      1635
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1434-1639",
+     "kind": "marsh-deep",
+     "levelM": 1.18,
+     "areaM2": 354.0,
+     "deepestCell": [
+      1434,
+      1639
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1937-1653",
+     "kind": "backswamp",
+     "levelM": 0.76,
+     "areaM2": 1356.0,
+     "deepestCell": [
+      1937,
+      1653
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2870-1644",
+     "kind": "marsh-fringe",
+     "levelM": 2.47,
+     "areaM2": 1069.0,
+     "deepestCell": [
+      2870,
+      1644
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2525-1650",
+     "kind": "swamp",
+     "levelM": 5.25,
+     "areaM2": 214.0,
+     "deepestCell": [
+      2525,
+      1650
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1747-1685",
+     "kind": "marsh-deep",
+     "levelM": 1.28,
+     "areaM2": 6101.0,
+     "deepestCell": [
+      1747,
+      1685
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2943-1655",
+     "kind": "backswamp",
+     "levelM": 2.56,
+     "areaM2": 638.0,
+     "deepestCell": [
+      2943,
+      1655
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2675-1721",
+     "kind": "pool",
+     "levelM": 19.45,
+     "areaM2": 344.0,
+     "deepestCell": [
+      2675,
+      1721
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2707-1741",
+     "kind": "pool",
+     "levelM": 5.23,
+     "areaM2": 337.0,
+     "deepestCell": [
+      2707,
+      1741
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1290-1740",
+     "kind": "marsh-deep",
+     "levelM": 13.34,
+     "areaM2": 314.0,
+     "deepestCell": [
+      1290,
+      1740
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2486-1773",
+     "kind": "swamp",
+     "levelM": 22.62,
+     "areaM2": 184.0,
+     "deepestCell": [
+      2486,
+      1773
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1417-1789",
+     "kind": "marsh-deep",
+     "levelM": 17.53,
+     "areaM2": 798.0,
+     "deepestCell": [
+      1417,
+      1789
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2054-1802",
+     "kind": "pool",
+     "levelM": 22.21,
+     "areaM2": 221.0,
+     "deepestCell": [
+      2054,
+      1802
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1557-1875",
+     "kind": "marsh-deep",
+     "levelM": 7.99,
+     "areaM2": 3705.0,
+     "deepestCell": [
+      1557,
+      1875
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2203-1865",
+     "kind": "backswamp",
+     "levelM": 30.2,
+     "areaM2": 1711.0,
+     "deepestCell": [
+      2203,
+      1865
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1536-2011",
+     "kind": "marsh-deep",
+     "levelM": 26.85,
+     "areaM2": 4009.0,
+     "deepestCell": [
+      1536,
+      2011
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2229-2024",
+     "kind": "swamp",
+     "levelM": 16.14,
+     "areaM2": 882.0,
+     "deepestCell": [
+      2229,
+      2024
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2121-2037",
+     "kind": "swamp",
+     "levelM": 30.95,
+     "areaM2": 404.0,
+     "deepestCell": [
+      2121,
+      2037
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2068-2093",
+     "kind": "backswamp",
+     "levelM": 39.77,
+     "areaM2": 1420.0,
+     "deepestCell": [
+      2068,
+      2093
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1409-2082",
+     "kind": "marsh-deep",
+     "levelM": 23.1,
+     "areaM2": 134.0,
+     "deepestCell": [
+      1409,
+      2082
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1543-2103",
+     "kind": "marsh-deep",
+     "levelM": 24.05,
+     "areaM2": 605.0,
+     "deepestCell": [
+      1543,
+      2103
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1152-2115",
+     "kind": "marsh-deep",
+     "levelM": 17.78,
+     "areaM2": 374.0,
+     "deepestCell": [
+      1152,
+      2115
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1180-2160",
+     "kind": "marsh-deep",
+     "levelM": 17.49,
+     "areaM2": 244.0,
+     "deepestCell": [
+      1180,
+      2160
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2016-2170",
+     "kind": "swamp",
+     "levelM": 41.19,
+     "areaM2": 548.0,
+     "deepestCell": [
+      2016,
+      2170
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1294-2176",
+     "kind": "pond",
+     "levelM": 30.86,
+     "areaM2": 2172.0,
+     "deepestCell": [
+      1294,
+      2176
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1676-2215",
+     "kind": "swamp",
+     "levelM": 21.55,
+     "areaM2": 324.0,
+     "deepestCell": [
+      1676,
+      2215
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1527-2232",
+     "kind": "marsh-deep",
+     "levelM": 14.97,
+     "areaM2": 361.0,
+     "deepestCell": [
+      1527,
+      2232
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2539-2247",
+     "kind": "swamp",
+     "levelM": 7.57,
+     "areaM2": 638.0,
+     "deepestCell": [
+      2539,
+      2247
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1732-2269",
+     "kind": "swamp",
+     "levelM": 10.93,
+     "areaM2": 160.0,
+     "deepestCell": [
+      1732,
+      2269
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2477-2270",
+     "kind": "swamp",
+     "levelM": 4.56,
+     "areaM2": 97.0,
+     "deepestCell": [
+      2477,
+      2270
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1170-2288",
+     "kind": "marsh-deep",
+     "levelM": 20.7,
+     "areaM2": 401.0,
+     "deepestCell": [
+      1170,
+      2288
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1348-2297",
+     "kind": "marsh-deep",
+     "levelM": 18.87,
+     "areaM2": 1069.0,
+     "deepestCell": [
+      1348,
+      2297
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2529-2296",
+     "kind": "swamp",
+     "levelM": 1.76,
+     "areaM2": 87.0,
+     "deepestCell": [
+      2529,
+      2296
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1572-2343",
+     "kind": "swamp",
+     "levelM": 19.34,
+     "areaM2": 321.0,
+     "deepestCell": [
+      1572,
+      2343
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1982-2354",
+     "kind": "swamp",
+     "levelM": 48.88,
+     "areaM2": 304.0,
+     "deepestCell": [
+      1982,
+      2354
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2151-2463",
+     "kind": "swamp",
+     "levelM": 38.83,
+     "areaM2": 9782.0,
+     "deepestCell": [
+      2151,
+      2463
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2338-2414",
+     "kind": "swamp",
+     "levelM": 23.89,
+     "areaM2": 1066.0,
+     "deepestCell": [
+      2338,
+      2414
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1119-2423",
+     "kind": "marsh-deep",
+     "levelM": 15.56,
+     "areaM2": 571.0,
+     "deepestCell": [
+      1119,
+      2423
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2310-2427",
+     "kind": "swamp",
+     "levelM": 24.88,
+     "areaM2": 668.0,
+     "deepestCell": [
+      2310,
+      2427
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2430-2470",
+     "kind": "swamp",
+     "levelM": 21.87,
+     "areaM2": 2516.0,
+     "deepestCell": [
+      2430,
+      2470
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2074-2480",
+     "kind": "swamp",
+     "levelM": 40.55,
+     "areaM2": 187.0,
+     "deepestCell": [
+      2074,
+      2480
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2199-2481",
+     "kind": "swamp",
+     "levelM": 38.7,
+     "areaM2": 862.0,
+     "deepestCell": [
+      2199,
+      2481
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1988-2491",
+     "kind": "swamp",
+     "levelM": 32.9,
+     "areaM2": 471.0,
+     "deepestCell": [
+      1988,
+      2491
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1793-2513",
+     "kind": "swamp",
+     "levelM": 19.12,
+     "areaM2": 190.0,
+     "deepestCell": [
+      1793,
+      2513
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2382-2532",
+     "kind": "swamp",
+     "levelM": 21.81,
+     "areaM2": 782.0,
+     "deepestCell": [
+      2382,
+      2532
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2394-2545",
+     "kind": "swamp",
+     "levelM": 21.76,
+     "areaM2": 221.0,
+     "deepestCell": [
+      2394,
+      2545
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.890-2657",
+     "kind": "marsh-deep",
+     "levelM": 5.23,
+     "areaM2": 541.0,
+     "deepestCell": [
+      890,
+      2657
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1013-2666",
+     "kind": "marsh-deep",
+     "levelM": 1.47,
+     "areaM2": 5937.0,
+     "deepestCell": [
+      1013,
+      2666
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2259-2677",
+     "kind": "swamp",
+     "levelM": 13.01,
+     "areaM2": 324.0,
+     "deepestCell": [
+      2259,
+      2677
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1749-2744",
+     "kind": "marsh-deep",
+     "levelM": 1.74,
+     "areaM2": 8633.0,
+     "deepestCell": [
+      1749,
+      2744
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1986-2753",
+     "kind": "swamp",
+     "levelM": 15.71,
+     "areaM2": 364.0,
+     "deepestCell": [
+      1986,
+      2753
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2078-2851",
+     "kind": "swamp",
+     "levelM": 18.33,
+     "areaM2": 628.0,
+     "deepestCell": [
+      2078,
+      2851
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.716-2861",
+     "kind": "swamp",
+     "levelM": 5.14,
+     "areaM2": 194.0,
+     "deepestCell": [
+      716,
+      2861
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.710-2871",
+     "kind": "swamp",
+     "levelM": 5.02,
+     "areaM2": 114.0,
+     "deepestCell": [
+      710,
+      2871
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2233-2920",
+     "kind": "swamp",
+     "levelM": 21.15,
+     "areaM2": 2078.0,
+     "deepestCell": [
+      2233,
+      2920
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.2218-3023",
+     "kind": "swamp",
+     "levelM": 21.23,
+     "areaM2": 494.0,
+     "deepestCell": [
+      2218,
+      3023
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2302-3026",
+     "kind": "swamp",
+     "levelM": 24.94,
+     "areaM2": 244.0,
+     "deepestCell": [
+      2302,
+      3026
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.2140-3035",
+     "kind": "swamp",
+     "levelM": 16.66,
+     "areaM2": 87.0,
+     "deepestCell": [
+      2140,
+      3035
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.955-3236",
+     "kind": "swamp",
+     "levelM": 1.76,
+     "areaM2": 381.0,
+     "deepestCell": [
+      955,
+      3236
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1140-3341",
+     "kind": "swamp",
+     "levelM": 1.94,
+     "areaM2": 1356.0,
+     "deepestCell": [
+      1140,
+      3341
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.718-3467",
+     "kind": "marsh-fringe",
+     "levelM": 1.62,
+     "areaM2": 9361.0,
+     "deepestCell": [
+      718,
+      3467
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.415-3534",
+     "kind": "swamp",
+     "levelM": 10.96,
+     "areaM2": 5022.0,
+     "deepestCell": [
+      415,
+      3534
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.748-3532",
+     "kind": "marsh-fringe",
+     "levelM": 1.72,
+     "areaM2": 551.0,
+     "deepestCell": [
+      748,
+      3532
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1307-3582",
+     "kind": "pond",
+     "levelM": 19.53,
+     "areaM2": 715.0,
+     "deepestCell": [
+      1307,
+      3582
+     ],
+     "why": "authored-lake: under the Blackrose lake"
+    },
+    {
+     "id": "body.1252-3586",
+     "kind": "marsh-fringe",
+     "levelM": 17.01,
+     "areaM2": 438.0,
+     "deepestCell": [
+      1252,
+      3586
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1370-3596",
+     "kind": "marsh-fringe",
+     "levelM": 15.19,
+     "areaM2": 180.0,
+     "deepestCell": [
+      1370,
+      3596
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.499-3729",
+     "kind": "marsh-fringe",
+     "levelM": 7.89,
+     "areaM2": 815.0,
+     "deepestCell": [
+      499,
+      3729
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.1949-3728",
+     "kind": "swamp",
+     "levelM": 1.56,
+     "areaM2": 1727.0,
+     "deepestCell": [
+      1949,
+      3728
+     ],
+     "why": "unrealised: no measured body overlaps its outline"
+    },
+    {
+     "id": "body.895-3836",
+     "kind": "marsh-fringe",
+     "levelM": 4.17,
+     "areaM2": 224.0,
+     "deepestCell": [
+      895,
+      3836
+     ],
+     "why": "under-500-m2: recorded, not gated"
+    },
+    {
+     "id": "body.1789-698",
+     "kind": "marsh-deep",
+     "levelM": 1.19,
+     "areaM2": 59687.0,
+     "deepestCell": [
+      1753,
+      677
+     ],
+     "why": "lost-at-carve: the carved ground holds no body at its outline"
+    },
+    {
+     "id": "body.1464-2481",
+     "kind": "marsh-deep",
+     "levelM": 2.74,
+     "areaM2": 5613.0,
+     "deepestCell": [
+      1449,
+      2479
+     ],
+     "why": "lost-at-carve: the carved ground holds no body at its outline"
+    }
+   ],
+   "notCarried": 17,
+   "levelTweaks": [
+    {
+     "id": "body.1848-18",
+     "kind": "pond",
+     "approvedLevelM": 54.26,
+     "levelM": 60.11,
+     "areaM2": 5112.0
+    },
+    {
+     "id": "body.1253-59",
+     "kind": "pool",
+     "approvedLevelM": 366.47,
+     "levelM": 373.68,
+     "areaM2": 3582.0
+    },
+    {
+     "id": "body.1072-121",
+     "kind": "tarn-upland",
+     "approvedLevelM": 363.79,
+     "levelM": 339.43,
+     "areaM2": 19401.0
+    },
+    {
+     "id": "body.3364-188-p2",
+     "kind": "pond",
+     "approvedLevelM": 71.26,
+     "levelM": 74.74,
+     "areaM2": 555.0
+    },
+    {
+     "id": "body.2873-266",
+     "kind": "pond",
+     "approvedLevelM": 230.19,
+     "levelM": 232.59,
+     "areaM2": 5085.0
+    },
+    {
+     "id": "body.914-278",
+     "kind": "pond",
+     "approvedLevelM": 469.41,
+     "levelM": 468.26,
+     "areaM2": 1704.0
+    },
+    {
+     "id": "body.2879-340",
+     "kind": "tarn-upland",
+     "approvedLevelM": 229.48,
+     "levelM": 227.71,
+     "areaM2": 25793.0
+    },
+    {
+     "id": "body.1002-335",
+     "kind": "tarn-upland",
+     "approvedLevelM": 393.95,
+     "levelM": 378.96,
+     "areaM2": 18903.0
+    },
+    {
+     "id": "body.1571-570",
+     "kind": "lake-lowland",
+     "approvedLevelM": 8.57,
+     "levelM": 7.55,
+     "areaM2": 30888.0
+    },
+    {
+     "id": "body.1144-450",
+     "kind": "pond",
+     "approvedLevelM": 331.04,
+     "levelM": 327.01,
+     "areaM2": 8820.0
+    },
+    {
+     "id": "body.2877-449",
+     "kind": "pool",
+     "approvedLevelM": 250.3,
+     "levelM": 257.97,
+     "areaM2": 745.0
+    },
+    {
+     "id": "body.2454-459",
+     "kind": "pond",
+     "approvedLevelM": 243.08,
+     "levelM": 244.92,
+     "areaM2": 615.0
+    },
+    {
+     "id": "body.2926-515",
+     "kind": "pond",
+     "approvedLevelM": 222.52,
+     "levelM": 225.58,
+     "areaM2": 8035.0
+    },
+    {
+     "id": "body.173-485",
+     "kind": "pond",
+     "approvedLevelM": 275.13,
+     "levelM": 273.59,
+     "areaM2": 2750.0
+    },
+    {
+     "id": "body.583-532",
+     "kind": "pond",
+     "approvedLevelM": 443.53,
+     "levelM": 448.74,
+     "areaM2": 4256.0
+    },
+    {
+     "id": "body.805-583",
+     "kind": "tarn-upland",
+     "approvedLevelM": 459.87,
+     "levelM": 457.61,
+     "areaM2": 12936.0
+    },
+    {
+     "id": "body.1789-698-p2",
+     "kind": "marsh-deep",
+     "approvedLevelM": 1.09,
+     "levelM": 2.1,
+     "areaM2": 6585.0
+    },
+    {
+     "id": "body.995-684",
+     "kind": "pond",
+     "approvedLevelM": 314.07,
+     "levelM": 315.42,
+     "areaM2": 528.0
+    },
+    {
+     "id": "body.462-681",
+     "kind": "pond",
+     "approvedLevelM": 304.42,
+     "levelM": 303.38,
+     "areaM2": 3328.0
+    },
+    {
+     "id": "body.1696-704",
+     "kind": "pond",
+     "approvedLevelM": 7.41,
+     "levelM": 4.38,
+     "areaM2": 1677.0
+    },
+    {
+     "id": "body.414-711",
+     "kind": "pond",
+     "approvedLevelM": 303.94,
+     "levelM": 299.67,
+     "areaM2": 625.0
+    },
+    {
+     "id": "body.750-847",
+     "kind": "pond",
+     "approvedLevelM": 268.07,
+     "levelM": 269.48,
+     "areaM2": 1567.0
+    },
+    {
+     "id": "body.1685-858",
+     "kind": "marsh-deep",
+     "approvedLevelM": 19.63,
+     "levelM": 23.18,
+     "areaM2": 441.0
+    },
+    {
+     "id": "body.2081-878",
+     "kind": "marsh-deep",
+     "approvedLevelM": 20.48,
+     "levelM": 22.19,
+     "areaM2": 1346.0
+    },
+    {
+     "id": "body.61-1075",
+     "kind": "pond",
+     "approvedLevelM": 349.81,
+     "levelM": 351.0,
+     "areaM2": 3638.0
+    },
+    {
+     "id": "body.105-1143",
+     "kind": "pool",
+     "approvedLevelM": 330.63,
+     "levelM": 328.42,
+     "areaM2": 351.0
+    },
+    {
+     "id": "body.101-1182",
+     "kind": "pond",
+     "approvedLevelM": 307.51,
+     "levelM": 302.92,
+     "areaM2": 638.0
+    },
+    {
+     "id": "body.379-1186",
+     "kind": "pond",
+     "approvedLevelM": 290.13,
+     "levelM": 286.5,
+     "areaM2": 404.0
+    },
+    {
+     "id": "body.34-1253",
+     "kind": "tarn-upland",
+     "approvedLevelM": 235.18,
+     "levelM": 222.0,
+     "areaM2": 10210.0
+    },
+    {
+     "id": "body.160-1250",
+     "kind": "pond",
+     "approvedLevelM": 330.14,
+     "levelM": 327.64,
+     "areaM2": 635.0
+    },
+    {
+     "id": "body.472-1322",
+     "kind": "pond",
+     "approvedLevelM": 242.41,
+     "levelM": 244.06,
+     "areaM2": 7514.0
+    },
+    {
+     "id": "body.27-1393",
+     "kind": "pond",
+     "approvedLevelM": 208.53,
+     "levelM": 205.72,
+     "areaM2": 1129.0
+    },
+    {
+     "id": "body.501-1470",
+     "kind": "pond",
+     "approvedLevelM": 212.83,
+     "levelM": 206.65,
+     "areaM2": 321.0
+    },
+    {
+     "id": "body.635-1651",
+     "kind": "tarn-upland",
+     "approvedLevelM": 74.59,
+     "levelM": 72.63,
+     "areaM2": 12004.0
+    },
+    {
+     "id": "body.2473-1773",
+     "kind": "swamp",
+     "approvedLevelM": 22.67,
+     "levelM": 24.38,
+     "areaM2": 3247.0
+    },
+    {
+     "id": "body.1190-1860",
+     "kind": "backswamp",
+     "approvedLevelM": 24.37,
+     "levelM": 26.78,
+     "areaM2": 4637.0
+    },
+    {
+     "id": "body.1124-1869",
+     "kind": "marsh-deep",
+     "approvedLevelM": 27.7,
+     "levelM": 31.76,
+     "areaM2": 4644.0
+    },
+    {
+     "id": "body.1836-1881",
+     "kind": "marsh-deep",
+     "approvedLevelM": 13.1,
+     "levelM": 15.56,
+     "areaM2": 728.0
+    },
+    {
+     "id": "body.1061-2014",
+     "kind": "marsh-deep",
+     "approvedLevelM": 16.62,
+     "levelM": 18.54,
+     "areaM2": 388.0
+    },
+    {
+     "id": "body.260-2029",
+     "kind": "pond",
+     "approvedLevelM": 321.59,
+     "levelM": 325.63,
+     "areaM2": 1924.0
+    },
+    {
+     "id": "body.2079-2084",
+     "kind": "swamp",
+     "approvedLevelM": 39.34,
+     "levelM": 42.49,
+     "areaM2": 491.0
+    },
+    {
+     "id": "body.2486-2520",
+     "kind": "swamp",
+     "approvedLevelM": 20.65,
+     "levelM": 24.31,
+     "areaM2": 1126.0
+    },
+    {
+     "id": "body.2244-2971",
+     "kind": "swamp",
+     "approvedLevelM": 23.13,
+     "levelM": 24.18,
+     "areaM2": 3244.0
+    },
+    {
+     "id": "body.1284-3448",
+     "kind": "swamp",
+     "approvedLevelM": 2.53,
+     "levelM": 1.36,
+     "areaM2": 37042.0
+    }
+   ],
+   "new": {
+    "count": 1914,
+    "areaM2": 899104.0,
+    "over5000m2": 23
+   },
+   "seaLevelSheets": {
+    "approved": 9,
+    "matched": 9
+   },
+   "movedByCarve": [
+    {
+     "id": "body.1622-411",
+     "fromM": 13.23,
+     "toM": 12.42,
+     "depended": true
+    },
+    {
+     "id": "body.1564-441",
+     "fromM": 16.65,
+     "toM": 15.77,
+     "depended": true
+    },
+    {
+     "id": "body.1373-544",
+     "fromM": 31.82,
+     "toM": 30.71,
+     "depended": true
+    },
+    {
+     "id": "body.6-629",
+     "fromM": 211.89,
+     "toM": 210.77,
+     "depended": true
+    },
+    {
+     "id": "body.462-681",
+     "fromM": 303.38,
+     "toM": 302.98,
+     "depended": true
+    },
+    {
+     "id": "body.782-783",
+     "fromM": 257.42,
+     "toM": 257.02,
+     "depended": true
+    },
+    {
+     "id": "body.1571-1249",
+     "fromM": 1.24,
+     "toM": 0.66,
+     "depended": true
+    },
+    {
+     "id": "body.1218-1116",
+     "fromM": 1.96,
+     "toM": 1.51,
+     "depended": true
+    },
+    {
+     "id": "body.1104-1096",
+     "fromM": 2.84,
+     "toM": 1.96,
+     "depended": true
+    },
+    {
+     "id": "body.1144-1210",
+     "fromM": 2.39,
+     "toM": 1.96,
+     "depended": false
+    },
+    {
+     "id": "body.34-1253",
+     "fromM": 222.0,
+     "toM": 221.62,
+     "depended": true
+    },
+    {
+     "id": "body.1076-1499",
+     "fromM": 2.15,
+     "toM": 1.31,
+     "depended": true
+    },
+    {
+     "id": "body.1163-1544",
+     "fromM": 2.1,
+     "toM": 1.31,
+     "depended": true
+    },
+    {
+     "id": "body.43-1717",
+     "fromM": 24.35,
+     "toM": 25.27,
+     "depended": true
+    },
+    {
+     "id": "body.2436-2699",
+     "fromM": 1.62,
+     "toM": 1.03,
+     "depended": true
+    },
+    {
+     "id": "body.1785-2769",
+     "fromM": 1.9,
+     "toM": 1.54,
+     "depended": true
+    }
+   ]
+  },
+  "approvedFalls": {
+   "total": 4,
+   "matched": [
+    {
+     "approved": "reach.2681-79",
+     "derived": "reach.2681-79",
+     "dropM": 5.01,
+     "approvedDropM": 4.72,
+     "distanceM": 0.0
+    },
+    {
+     "approved": "reach.90-2525",
+     "derived": "reach.99-2504",
+     "dropM": 8.85,
+     "approvedDropM": 43.95,
+     "distanceM": 41.8
+    },
+    {
+     "approved": "reach.1393-181",
+     "derived": "reach.1392-180",
+     "dropM": 26.72,
+     "approvedDropM": 24.74,
+     "distanceM": 5.5
+    },
+    {
+     "approved": "reach.2590-659",
+     "derived": "reach.2590-659",
+     "dropM": 119.58,
+     "approvedDropM": 122.31,
+     "distanceM": 2356.9
+    }
+   ],
+   "missing": [],
+   "new": [
+    {
+     "reachId": "reach.57-1205",
+     "dropM": 15.21,
+     "plungeCell": [
+      56,
+      1206
+     ]
+    },
+    {
+     "reachId": "reach.2994-423",
+     "dropM": 20.31,
+     "plungeCell": [
+      2996,
+      423
+     ]
+    },
+    {
+     "reachId": "reach.363-591",
+     "dropM": 22.93,
+     "plungeCell": [
+      363,
+      592
+     ]
+    },
+    {
+     "reachId": "reach.59-659",
+     "dropM": 7.73,
+     "plungeCell": [
+      58,
+      659
+     ]
+    },
+    {
+     "reachId": "reach.495-1312",
+     "dropM": 13.12,
+     "plungeCell": [
+      472,
+      1322
+     ]
+    },
+    {
+     "reachId": "reach.1163-145",
+     "dropM": 18.84,
+     "plungeCell": [
+      1165,
+      145
+     ]
+    },
+    {
+     "reachId": "reach.1375-169",
+     "dropM": 79.33,
+     "plungeCell": [
+      1378,
+      171
+     ]
+    },
+    {
+     "reachId": "reach.950-322",
+     "dropM": 18.41,
+     "plungeCell": [
+      951,
+      323
+     ]
+    },
+    {
+     "reachId": "reach.1195-548",
+     "dropM": 40.5,
+     "plungeCell": [
+      1195,
+      552
+     ]
+    },
+    {
+     "reachId": "reach.1166-783",
+     "dropM": 13.79,
+     "plungeCell": [
+      1167,
+      783
+     ]
+    },
+    {
+     "reachId": "reach.794-765",
+     "dropM": 8.23,
+     "plungeCell": [
+      794,
+      766
+     ]
+    },
+    {
+     "reachId": "reach.835-840",
+     "dropM": 12.36,
+     "plungeCell": [
+      836,
+      841
+     ]
+    },
+    {
+     "reachId": "reach.615-1132",
+     "dropM": 7.67,
+     "plungeCell": [
+      616,
+      1133
+     ]
+    }
+   ]
+  },
+  "surfaceTransitions": 336,
   "shortChannelOrStripRuns": 0,
-  "shortRunsPinnedByJunctionBodyOrFall": 18,
+  "shortRunsPinnedByJunctionBodyOrFall": 52,
   "drainageLoops": 0,
-  "rivers": 85,
-  "reaches": 484,
-  "junctions": 170,
-  "bodies": 2515,
+  "rivers": 99,
+  "reaches": 611,
+  "junctions": 198,
+  "bodies": 2281,
   "reachKinds": {
-   "horizontal-channel": 133,
-   "horizontal-backwater": 178,
-   "sloped-rapid": 117,
-   "sloped-riffle": 35,
-   "sloped-chute": 11,
-   "vertical-fall": 10
+   "horizontal-channel": 137,
+   "sloped-riffle": 39,
+   "horizontal-backwater": 309,
+   "horizontal-tidal": 3,
+   "sloped-chute": 14,
+   "sloped-rapid": 91,
+   "vertical-fall": 18
   },
   "bodyKinds": {
-   "tarn-upland": 10,
-   "pond": 68,
-   "lake-lowland": 22,
-   "pool": 25,
-   "marsh-fringe": 824,
-   "marsh-deep": 816,
-   "backswamp": 19,
-   "swamp": 661,
-   "mudflat": 44,
+   "tarn-upland": 16,
+   "pond": 83,
+   "pool": 24,
+   "backswamp": 22,
+   "marsh-deep": 674,
+   "lake-lowland": 7,
+   "marsh-fringe": 735,
+   "swamp": 656,
+   "plunge-pool": 15,
+   "mudflat": 28,
    "ocean": 1,
-   "lagoon": 15,
-   "plunge-pool": 10
+   "lagoon": 20
   },
   "bodyOrigins": {
-   "measured": 2480,
-   "promised": 10,
+   "measured": 2209,
+   "promised": 14,
    "authored": 1,
-   "terrain-stage": 24
+   "terrain-stage": 57
   },
   "surfaceKm": {
-   "channel": 11.9,
-   "strip": 14.9,
-   "fall": 0.0,
-   "body": 20.1
+   "channel": 14.8,
+   "strip": 15.7,
+   "fall": 0.1,
+   "body": 32.0
   },
   "seasons": {
    "reaches": {
-    "perennial": 318,
-    "seasonal": 166
+    "perennial": 472,
+    "seasonal": 139
    },
    "bodies": {
-    "perennial": 1437,
-    "seasonal": 1078
+    "perennial": 1447,
+    "seasonal": 834
    }
   },
   "waterClasses": {
-   "blackwater": 10,
-   "whitewater": 42,
-   "clearwater": 33
+   "blackwater": 9,
+   "whitewater": 59,
+   "clearwater": 31
   },
   "mouths": {
-   "sea": 39,
-   "confluence": 46
+   "sea": 30,
+   "confluence": 69
   },
-  "falls": 10,
+  "falls": 18,
   "suspectFalls": 0,
   "riverTrappedDepressions": 0,
   "lostStations": 0,
   "lostSites": [],
-  "gorgeStationsMeasured": 2105,
-  "gorgeStationsUnderResolved": 1358,
-  "wetSeasonLineCells": 184681,
-  "wetSeasonLineKm2": 5.55,
+  "gorgeStationsMeasured": 2215,
+  "gorgeStationsUnderResolved": 926,
+  "wetSeasonLineCells": 190500,
+  "wetSeasonLineKm2": 5.73,
   "standingWaterCensus": {
-   "depressions": 79031,
-   "acceptedDepressions": 2416,
-   "rescuedBasins": 128,
-   "sheets": 1867,
+   "depressions": 46761,
+   "acceptedDepressions": 2141,
+   "rescuedBasins": 168,
+   "sheets": 1517,
    "cappedBasins": 0,
-   "nestedAccepted": 36,
-   "nestedCandidates": 7260,
-   "bodies": 2452,
-   "sheetBodies": 1865,
-   "bodyCells": 928054
+   "nestedAccepted": 34,
+   "nestedCandidates": 3712,
+   "bodies": 2177,
+   "sheetBodies": 1518,
+   "bodyCells": 1172841
   },
-  "bodiesMovedByCarve": 12,
-  "bodiesMovedByCarveMaxM": 0.38
+  "bodiesJoinedSeaByCarve": 36,
+  "carveDisagreements": {
+   "lost": [
+    "body.1789-698",
+    "body.1464-2481",
+    "body.2437-2687",
+    "body.2427-2723"
+   ],
+   "dependedMoved": [
+    {
+     "id": "body.1373-544",
+     "fromM": 31.82,
+     "toM": 30.71
+    },
+    {
+     "id": "body.6-629",
+     "fromM": 211.89,
+     "toM": 210.77
+    },
+    {
+     "id": "body.462-681",
+     "fromM": 303.38,
+     "toM": 302.98
+    },
+    {
+     "id": "body.782-783",
+     "fromM": 257.42,
+     "toM": 257.02
+    },
+    {
+     "id": "body.34-1253",
+     "fromM": 222.0,
+     "toM": 221.62
+    },
+    {
+     "id": "body.43-1717",
+     "fromM": 24.35,
+     "toM": 25.27
+    }
+   ],
+   "budget": 10
+  },
+  "bodiesMovedByCarve": 45,
+  "bodiesMovedByCarveMaxM": 1.13
  }
 }

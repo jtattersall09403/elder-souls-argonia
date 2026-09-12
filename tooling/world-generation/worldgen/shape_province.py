@@ -40,6 +40,7 @@ import numpy as np
 from scipy import ndimage
 
 from . import freeze
+from . import approved_bodies as ab
 from .carve_routes import carve_polylines, carve_source, warn_on_drift
 from .condition import base_terrain
 from .scale import RAW_M, TUNE
@@ -68,18 +69,34 @@ TERRACE_FRAC = 0.45
 CHANNEL_NOISE_FADE_M = 90.0 * TUNE   # detail noise fades within ~2 channel widths
 BLACKROSE_UV = (0.32, 0.87)
 LAKE_RADII_M = (470.0 * TUNE, 360.0 * TUNE)
-LAKE_BED_M = -4.0
+# The lake stands ABOVE the sea, on a sill (owner 2026-09-12; decision 0060).
+# Canon: Blackrose is "situated in a lake" joined to Topal Bay by a navigable
+# river (world/sources/lore/blackrose.md), a lake with an outlet, not a tidal
+# arm; and a lake cut to 0 and joined to the bay by a below-sea channel would
+# be sea-connected water, which the routing must not treat as land or lake.
+# The S outlet's bed falls from the lake level at the rim to the bay, so the
+# lake spills exactly there and the graph's outlet river grades down from it.
+LAKE_LEVEL_M = 1.6
+LAKE_BED_M = LAKE_LEVEL_M - 4.0
 ISLAND_R_M = 190.0 * TUNE  # enlarged at the gate: room for a walled island core;
 ISLAND_TOP_M = 2.6   # the city spreads over lake boardwalks + shore quarters
 # Feeder channels (a0, a1, half-width m, bed level m). Canon: rivers converge
 # from NE (Murkwood) and W (Blackwood); the S channel is the lake's outlet
 # into Oliis Bay. Feeders carve TO a bed level and START INSIDE the lake
 # (rim lip previously blocked two of the three — owner gate report).
+# (a0, a1, half-width m, depth under the lake level at the lake, bed at the
+# far end or None). Every feeder holds its lake-end bed out to the RIM and
+# grades linearly from there: an inflow rises to the river it meets (its
+# ground less FEEDER_END_UNDER_M, never under the lake level, so a canal cut
+# below the lake can never drain it — round 1's did, to 0.45 m); the S outlet
+# is AT the lake level over the rim (the lake spills exactly there) and falls
+# to the bay.
 FEEDER_SECTORS = {
-    "ne": (20, 80, 28.0 * TUNE, -2.2),
-    "w": (150, 225, 38.0 * TUNE, -1.8),
-    "s": (250, 300, 30.0 * TUNE, -2.8),
+    "ne": (20, 80, 28.0 * TUNE, 2.2, None),
+    "w": (150, 225, 38.0 * TUNE, 1.8, None),
+    "s": (250, 300, 30.0 * TUNE, 0.0, -1.0),
 }
+FEEDER_END_UNDER_M = 1.0
 FEEDER_START_FRAC = 0.55   # start radius as a fraction of the lake rim
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -145,9 +162,12 @@ def carve_channels(h, rivers_up):
     return h, dist_all
 
 
-def carve_polyline(h, p0, p1, half_w_m, bed_m, rng):
+def carve_polyline(h, p0, p1, half_w_m, bed_m, rng, grade_from: float = 0.0):
     """Carve a wiggly channel whose floor reaches bed_m along the line —
-    to-a-level, not by-a-depth, so it stays wet through higher ground."""
+    to-a-level, not by-a-depth, so it stays wet through higher ground.
+    `bed_m` may be a (start, end) pair: the bed then holds `start` until
+    fraction `grade_from` of the line and grades linearly to `end` at the
+    far end (a graded channel, never a flat canal)."""
     n = int(np.hypot(p1[0] - p0[0], p1[1] - p0[1])) * 2 + 2
     t = np.linspace(0, 1, n)
     wiggle = ndimage.gaussian_filter1d(rng.standard_normal(n), 8) * 6.0
@@ -157,9 +177,18 @@ def carve_polyline(h, p0, p1, half_w_m, bed_m, rng):
     xs = np.clip(xs.astype(int), 0, h.shape[1] - 1)
     ys = np.clip(ys.astype(int), 0, h.shape[0] - 1)
     mask[ys, xs] = True
-    d = (ndimage.distance_transform_edt(~mask) * RAW_M).astype(np.float32)
+    d, (iy, ix) = ndimage.distance_transform_edt(~mask, return_indices=True)
+    d = (d * RAW_M).astype(np.float32)
     w = np.exp(-((d / half_w_m) ** 2)).astype(np.float32)
-    return np.minimum(h, bed_m * w + h * (1 - w)).astype(np.float32)
+    if np.ndim(bed_m) == 0:
+        bed = np.float32(bed_m)
+    else:
+        b0, b1 = (float(v) for v in bed_m)
+        along = np.full(h.shape, np.nan, dtype=np.float32)
+        g0 = float(np.clip(grade_from, 0.0, 0.95))
+        along[ys, xs] = np.clip((t - g0) / (1.0 - g0), 0.0, 1.0).astype(np.float32)
+        bed = (b0 + (b1 - b0) * along[iy, ix]).astype(np.float32)   # nearest line point's bed
+    return np.minimum(h, bed * w + h * (1 - w)).astype(np.float32)
 
 
 def impose_blackrose_lake(h, origin_full, rivers_up, rng):
@@ -173,6 +202,7 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
     phases = rng.uniform(0, 2 * np.pi, 3).astype(np.float32)
     wobble = 1.0 + sum(a * np.sin(k * theta + p) for k, (a, p) in zip((2, 3, 5), zip(amps, phases)))
     r = np.sqrt((dx / LAKE_RADII_M[0]) ** 2 + (dy / LAKE_RADII_M[1]) ** 2) / wobble
+    lake_mask = r < 1.0
     # lake bed: flat centre blending up to original terrain at the rim
     t = np.clip((r - 0.55) / 0.45, 0.0, 1.0)
     blend = t * t * (3 - 2 * t)
@@ -201,7 +231,7 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
     sea_dist = np.hypot(sea_ys - cy_full, sea_xs - cx_full) * RAW_M
     rim = np.array([LAKE_RADII_M[0], LAKE_RADII_M[1]]).mean() / RAW_M
     feeders = []
-    for name, (a0, a1, half_w, depth) in FEEDER_SECTORS.items():
+    for name, (a0, a1, half_w, under, end_bed) in FEEDER_SECTORS.items():
         min_d = rim * RAW_M * 1.1
         sel = (ang >= a0) & (ang <= a1) & (dist > min_d) & (dist < 3000 * TUNE)
         sea_sel = (sea_ang >= a0) & (sea_ang <= a1) & (sea_dist > min_d) & (sea_dist < 4500 * TUNE)
@@ -218,11 +248,17 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
         span = max(np.hypot(target[0] - cx_full, target[1] - cy_full), 1e-9)
         start = (cx_full + (target[0] - cx_full) * rim * FEEDER_START_FRAC / span,
                  cy_full + (target[1] - cy_full) * rim * FEEDER_START_FRAC / span)
-        h = carve_polyline(h, start, target, half_w, depth, rng)
+        bed0 = LAKE_LEVEL_M - under
+        if end_bed is None:
+            tx, ty = int(np.clip(round(target[0]), 0, h.shape[1] - 1)), int(np.clip(round(target[1]), 0, h.shape[0] - 1))
+            end_bed = max(float(h[ty, tx]) - FEEDER_END_UNDER_M, LAKE_LEVEL_M)
+        # the rim is (1 - FEEDER_START_FRAC) x rim from the start along the line
+        t_rim = float((1.0 - FEEDER_START_FRAC) * rim / max(span - FEEDER_START_FRAC * rim, 1e-9))
+        h = carve_polyline(h, start, target, half_w, (bed0, float(end_bed)), rng, grade_from=t_rim)
         feeders.append({"sector": name, "startPx": [float(start[0]), float(start[1])],
                         "endPx": [float(target[0]), float(target[1])],
-                        "halfWidthM": float(half_w), "bedM": float(depth)})
-    return h, feeders
+                        "halfWidthM": float(half_w), "bedM": [bed0, float(end_bed)], "gradeFrom": t_rim})
+    return h, feeders, lake_mask
 
 
 # Portage resolution (module 60 §45, decision 0012): short boat-lane land
@@ -300,7 +336,6 @@ def main() -> None:
     h, channel_dist = carve_channels(h, rivers_up)
     h += detail_noise(h.shape, regions_up, channel_dist, rng)
     del channel_dist
-    h, feeders = impose_blackrose_lake(h, (0, 0), rivers_up, rng)
     h, portage_features, portage_track = resolve_portages(h, (0, 0), rng)
     # shoreline smoothing — banks read as mud gradients, not noise spikes
     hs = ndimage.gaussian_filter(h, 2.5)
@@ -324,11 +359,27 @@ def main() -> None:
         rivers_coarse=rivers, flow_to=npz["flow_to"],
         filled=npz["filled"], step=STEP)
     print("fluvial:", fluvial_stats)
+    # the Blackrose lake and its feeders come LAST among the edits (2026-09-12):
+    # the fluvial pass's levees and the shoreline smoothing were raising the
+    # feeder beds after they were cut (the W feeder stood 1.3 m over its
+    # promise and failed the freeze gate); nothing below this line raises ground
+    h, feeders, lake_mask = impose_blackrose_lake(h, (0, 0), rivers_up, rng)
+    from .hydrology import sea_connected
+    sea = sea_connected(full) & (full < -0.05)
+    # the owner-approved bodies (16a) are kept: inside each outline the ground
+    # is never above the 16a ground, and a breached rim is raised back (the
+    # authored lake supersedes what lies under it)
+    doc, ab_label, ab_heights, ab_fallwin = ab.load(height_path.parent)
+    restore_stats = None
+    if doc is not None:
+        # never touch the OPEN sea or the authored lake; an inland below-sea
+        # thread through an approved rim IS the breach to close (a sheet at
+        # 1.4 m whose rim the shaping cut under 0 became an arm of the sea)
+        ocean_up = up(npz["ocean"]).astype(bool)
+        h, restore_stats = ab.restore(h, doc, ab_label, ab_heights, ocean_up | lake_mask, fallwin=ab_fallwin)
     # closed depressions the shaping itself made on dry high ground are
     # artefacts (detail noise on rough terrain), not water: filled to spill
-    from .hydrology import sea_connected
     from .pits import fill_new_pits
-    sea = sea_connected(full) & (full < -0.05)
     h, pit_stats = fill_new_pits(h, full, sea, PIT_MIN_Z, wet_mask=wet_mask)
 
     vault_dir = height_path.parent
@@ -345,7 +396,7 @@ def main() -> None:
     # appends them as terrain-stage reaches (extension rule)
     (vault_dir / "authored-feeders.json").write_text(json.dumps(
         {"schemaVersion": 1, "body": "blackrose-lake", "feeders": feeders}, indent=1) + "\n")
-    report = {"shapedSha256": sha, "fluvial": fluvial_stats, "pits": pit_stats,
+    report = {"shapedSha256": sha, "fluvial": fluvial_stats, "pits": pit_stats, "approvedBodies": restore_stats,
               "portages": {"canoeChannels": sum(1 for f in portage_features if f["mode"] == "canoe-channel"),
                            "portages": sum(1 for f in portage_features if f["mode"] == "portage")}}
     (vault_dir / "shape-meta.json").write_text(json.dumps(report, indent=2) + "\n")

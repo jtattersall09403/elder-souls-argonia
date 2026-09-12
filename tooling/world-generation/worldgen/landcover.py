@@ -301,7 +301,11 @@ def compile_ground_control(height, region, rivers, slope, m_per_px,
     b1_salty = np.where(mangrove, BC_MUD, np.where(flat_pan, SALT, BEACH_SAND))
     b1 = np.where(near_salty, b1_salty, np.where(near_big, rmap("bank"), MUCK))
     mat = np.where(band1, b1, mat)
-    b0 = np.where(near_salty, np.where(mangrove, BLACK_MUD, SAND),
+    # the waterline of an exposed sandy coast is WET SAND (seabed_sand, the
+    # same sand the shallows show), not the pebble shore: `SAND` is vanilla
+    # coastbeach01, a shingle, and painted 13 m either side of the waterline
+    # it read as gravel where the map promised a beach (owner 2026-09-12)
+    b0 = np.where(near_salty, np.where(mangrove, BLACK_MUD, SEABED_SAND),
                   np.where(near_big, BANK_WET, BLACK_MUD))
     mat = np.where(band0, b0, mat)
     # rocky coves only where mountain spurs actually meet the sea — never on

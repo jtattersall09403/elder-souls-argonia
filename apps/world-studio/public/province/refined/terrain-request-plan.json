@@ -6,6 +6,40 @@
       "action": "carve",
       "axisResolver": "none",
       "boundsM": {
+        "maxXM": 1828.462,
+        "maxZM": 134.03,
+        "minXM": 1708.462,
+        "minZM": 14.03
+      },
+      "centerM": [
+        1768.462,
+        74.03
+      ],
+      "fulfillmentEvidence": {
+        "authoredNote": "deep water two boat-lengths off the bank, so the divers can go down from the landing itself",
+        "sourcePath": "terrainRequests[pool:402e185fccef]"
+      },
+      "id": "terrain-op.dunmer-north.the-divers-landing.pool.402e185fccef",
+      "parameters": {
+        "delivery": {
+          "depthClass": "diving",
+          "feature": "off-bank-dive-pool",
+          "offsetBoatLengths": 2,
+          "orientation": "waterward"
+        },
+        "deltaM": 4.5,
+        "falloffFraction": 0.35,
+        "floorRadiusFraction": 0.32
+      },
+      "placeId": "place.dunmer-north.the-divers-landing",
+      "profile": "radial-basin",
+      "radiusM": 60.0,
+      "requestId": "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef"
+    },
+    {
+      "action": "carve",
+      "axisResolver": "none",
+      "boundsM": {
         "maxXM": 5283.097,
         "maxZM": 1066.189,
         "minXM": 5163.097,
@@ -34,6 +68,39 @@
       "profile": "radial-bowl",
       "radiusM": 60.0,
       "requestId": "terrain-request.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1"
+    },
+    {
+      "action": "carve",
+      "axisResolver": "nearest-water-path",
+      "boundsM": {
+        "maxXM": 2597.561,
+        "maxZM": 1138.933,
+        "minXM": 2507.561,
+        "minZM": 1048.933
+      },
+      "centerM": [
+        2552.561,
+        1093.933
+      ],
+      "fulfillmentEvidence": {
+        "authoredNote": "a channel arm reaching the village's landing steps, which the boat crews still use",
+        "sourcePath": "terrainRequests[cut:104b288cd667]"
+      },
+      "id": "terrain-op.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+      "parameters": {
+        "bedWidthFraction": 0.12,
+        "delivery": {
+          "access": "boat-landing",
+          "feature": "channel-arm",
+          "waterRelation": "channel-linked"
+        },
+        "deltaM": 2.0,
+        "falloffFraction": 0.35
+      },
+      "placeId": "place.dunmer-north.the-two-hundred-roofs",
+      "profile": "channel-link",
+      "radiusM": 45.0,
+      "requestId": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667"
     },
     {
       "action": "carve",
@@ -71,70 +138,33 @@
       "action": "raise",
       "axisResolver": "local-flow",
       "boundsM": {
-        "maxXM": 1768.147,
-        "maxZM": 4981.447,
-        "minXM": 1648.147,
-        "minZM": 4861.447
+        "maxXM": 1943.562,
+        "maxZM": 2497.46,
+        "minXM": 1823.562,
+        "minZM": 2377.46
       },
       "centerM": [
-        1708.147,
-        4921.447
+        1883.562,
+        2437.46
       ],
       "fulfillmentEvidence": {
-        "authoredNote": "a slack double bend narrow enough to pole across",
-        "sourcePath": "terrainRequests[narrows:72acb2cb0ca5]"
+        "authoredNote": "the river choke the lodge stands over: every boat going upstream passes within hail of the door",
+        "sourcePath": "terrainRequests[narrows:0c48a22fc92d]"
       },
-      "id": "terrain-op.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
+      "id": "terrain-op.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d",
       "parameters": {
         "delivery": {
-          "access": "poling",
-          "current": "slack",
-          "feature": "double-bend-ferry-narrows"
+          "capacity": "sea-going-hull",
+          "feature": "river-choke"
         },
         "deltaM": 2.0,
         "falloffFraction": 0.25,
         "openWidthFraction": 0.22
       },
-      "placeId": "place.imperial-fringe.onkobra-ferry",
+      "placeId": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
       "profile": "paired-channel-banks",
       "radiusM": 60.0,
-      "requestId": "terrain-request.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5"
-    },
-    {
-      "action": "carve",
-      "axisResolver": "none",
-      "boundsM": {
-        "maxXM": 1788.147,
-        "maxZM": 5001.447,
-        "minXM": 1628.147,
-        "minZM": 4841.447
-      },
-      "centerM": [
-        1708.147,
-        4921.447
-      ],
-      "fulfillmentEvidence": {
-        "authoredNote": "a slack double bend on the lower river, wide and deep enough that the crossing needs a punt, with both banks shelving",
-        "sourcePath": "terrainRequests[pool:5dc29c25d096]"
-      },
-      "id": "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-      "parameters": {
-        "delivery": {
-          "bank": "shelving",
-          "capacity": "punt",
-          "current": "slack",
-          "feature": "double-bend-ferry-pool",
-          "featureCount": 2,
-          "sides": 2
-        },
-        "deltaM": 3.0,
-        "falloffFraction": 0.35,
-        "floorRadiusFraction": 0.32
-      },
-      "placeId": "place.imperial-fringe.onkobra-ferry",
-      "profile": "radial-basin",
-      "radiusM": 80.0,
-      "requestId": "terrain-request.imperial-fringe.onkobra-ferry.pool.5dc29c25d096"
+      "requestId": "terrain-request.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d"
     },
     {
       "action": "carve",
@@ -207,40 +237,59 @@
       "requestId": "terrain-request.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7"
     },
     {
-      "action": "raise",
-      "axisResolver": "none",
+      "action": "carve",
+      "axisResolver": "nearest-water-path",
       "boundsM": {
-        "maxXM": 3232.23,
-        "maxZM": 5365.312,
-        "minXM": 3112.23,
-        "minZM": 5245.312
+        "maxXM": 4189.919,
+        "maxZM": 1590.684,
+        "minXM": 4029.919,
+        "minZM": 1430.684
       },
       "centerM": [
-        3172.23,
-        5305.312
+        4109.919,
+        1510.684
       ],
       "fulfillmentEvidence": {
-        "authoredNote": "A low raised knoll for the meer; surrounding marsh remains a siting preference, not a promise of an island.",
-        "sourcePath": "terrainRequests[knoll:b436ffaaa94e]"
+        "authoredNote": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel",
+        "sourcePath": "terrainRequests[cut:6e10c2d1badb]"
       },
-      "id": "terrain-op.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e",
+      "id": "terrain-op.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
       "parameters": {
+        "bedWidthFraction": 0.12,
         "delivery": {
-          "feature": "low-xanmeer-knoll",
-          "heightClass": "low"
+          "capacity": "sea-going-hull",
+          "depthM": 2.0,
+          "feature": "screened-hull-creek",
+          "waterRelation": "channel-linked"
         },
-        "deltaM": 2.8,
-        "falloffFraction": 0.45
+        "deltaM": 2.0,
+        "falloffFraction": 0.35
       },
-      "placeId": "place.mercantile-coast.sealed-meer-murkmire",
-      "profile": "rounded-mound",
-      "radiusM": 60.0,
-      "requestId": "terrain-request.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e"
+      "placeId": "place.pirate-freeholds.chasecreek",
+      "profile": "channel-link",
+      "radiusM": 80.0,
+      "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb"
     }
   ],
-  "planDigest": "882b6d8ea2579d6302ccf910f22159243d7e79a05b1cf972a7ec5a388fa3b270",
+  "planDigest": "64c53ab97c0c16660d3f7f11fb9221c50e5fe867d5372fdbc381c2cd84cb37b0",
   "policyDigest": "ef00aaf06c34027814a16bf675e7960de1c5bafabb43a19435ba94a479134397",
   "requests": [
+    {
+      "authoredNote": "deep water two boat-lengths off the bank, so the divers can go down from the landing itself",
+      "delivery": {
+        "depthClass": "diving",
+        "feature": "off-bank-dive-pool",
+        "offsetBoatLengths": 2,
+        "orientation": "waterward"
+      },
+      "id": "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef",
+      "kind": "pool",
+      "operationIds": [
+        "terrain-op.dunmer-north.the-divers-landing.pool.402e185fccef"
+      ],
+      "placeId": "place.dunmer-north.the-divers-landing",
+      "sourcePath": "terrainRequests[pool:402e185fccef]"
+    },
     {
       "authoredNote": "the ground under the hamlet has dropped: tilted houses on a settling floor, a cracked spring head at the low side",
       "delivery": {
@@ -257,6 +306,21 @@
       "sourcePath": "terrainRequests[hollow:9f637d5b81a1]"
     },
     {
+      "authoredNote": "a channel arm reaching the village's landing steps, which the boat crews still use",
+      "delivery": {
+        "access": "boat-landing",
+        "feature": "channel-arm",
+        "waterRelation": "channel-linked"
+      },
+      "id": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+      "kind": "cut",
+      "operationIds": [
+        "terrain-op.dunmer-north.the-two-hundred-roofs.cut.104b288cd667"
+      ],
+      "placeId": "place.dunmer-north.the-two-hundred-roofs",
+      "sourcePath": "terrainRequests[cut:104b288cd667]"
+    },
+    {
       "authoredNote": "The village exists because water rises here drinkable; the ground must give a spring head above the channel.",
       "delivery": {
         "feature": "drinkable-spring-head",
@@ -271,37 +335,18 @@
       "sourcePath": "terrainRequests[spring:7bcc10aaafd7]"
     },
     {
-      "authoredNote": "a slack double bend narrow enough to pole across",
+      "authoredNote": "the river choke the lodge stands over: every boat going upstream passes within hail of the door",
       "delivery": {
-        "access": "poling",
-        "current": "slack",
-        "feature": "double-bend-ferry-narrows"
+        "capacity": "sea-going-hull",
+        "feature": "river-choke"
       },
-      "id": "terrain-request.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
+      "id": "terrain-request.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d",
       "kind": "narrows",
       "operationIds": [
-        "terrain-op.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5"
+        "terrain-op.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d"
       ],
-      "placeId": "place.imperial-fringe.onkobra-ferry",
-      "sourcePath": "terrainRequests[narrows:72acb2cb0ca5]"
-    },
-    {
-      "authoredNote": "a slack double bend on the lower river, wide and deep enough that the crossing needs a punt, with both banks shelving",
-      "delivery": {
-        "bank": "shelving",
-        "capacity": "punt",
-        "current": "slack",
-        "feature": "double-bend-ferry-pool",
-        "featureCount": 2,
-        "sides": 2
-      },
-      "id": "terrain-request.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-      "kind": "pool",
-      "operationIds": [
-        "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096"
-      ],
-      "placeId": "place.imperial-fringe.onkobra-ferry",
-      "sourcePath": "terrainRequests[pool:5dc29c25d096]"
+      "placeId": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
+      "sourcePath": "terrainRequests[narrows:0c48a22fc92d]"
     },
     {
       "authoredNote": "the flood that never went back down: standing water over the house floor, deep enough to swim the rooms and enter under the sill",
@@ -336,20 +381,22 @@
       "sourcePath": "terrainRequests[elevated-cliff-bench:da6758f57db7]"
     },
     {
-      "authoredNote": "A low raised knoll for the meer; surrounding marsh remains a siting preference, not a promise of an island.",
+      "authoredNote": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel",
       "delivery": {
-        "feature": "low-xanmeer-knoll",
-        "heightClass": "low"
+        "capacity": "sea-going-hull",
+        "depthM": 2.0,
+        "feature": "screened-hull-creek",
+        "waterRelation": "channel-linked"
       },
-      "id": "terrain-request.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e",
-      "kind": "knoll",
+      "id": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
+      "kind": "cut",
       "operationIds": [
-        "terrain-op.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e"
+        "terrain-op.pirate-freeholds.chasecreek.cut.6e10c2d1badb"
       ],
-      "placeId": "place.mercantile-coast.sealed-meer-murkmire",
-      "sourcePath": "terrainRequests[knoll:b436ffaaa94e]"
+      "placeId": "place.pirate-freeholds.chasecreek",
+      "sourcePath": "terrainRequests[cut:6e10c2d1badb]"
     }
   ],
   "schemaVersion": 2,
-  "sourceDigest": "827c4a79a67e9e33e1d81e667704ec95a667bf062683b63206f62eaac79de791"
+  "sourceDigest": "94dc09488ed74392297d9b7fcd397a856a57a9258789a2bf85b18be967564009"
 }

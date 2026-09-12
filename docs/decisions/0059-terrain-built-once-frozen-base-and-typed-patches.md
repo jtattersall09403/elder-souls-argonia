@@ -32,7 +32,7 @@ lives in `scripts/terrain-chain.sh`; decision 0025's order is superseded.
    society re-solve. The old `--allow-sculpt` hard-skip is gone: the sculpt
    re-runs when its code changes and REFUSES to replace the recorded array
    with different bytes unless `--refreeze`.
-3. **The routing sink is every sea-connected cell.** The coarse pass used the
+3. **The routing sink is every sea-connected cell** (SUPERSEDED by [0060](0060-rivers-reach-the-coast-profiles-are-graded.md) §1 the next day: only the open sea ends a river; sea-level inland water conducts it to the coast). The coarse pass used the
    salinity model's `ocean` (within 2.5 km of deep water) as the D8 sink, so a
    river was routed through a sea-level lagoon and out over its spill into a
    lake 0.6 m higher. The sink is now any coarse cell holding a full-res
@@ -57,7 +57,7 @@ lives in `scripts/terrain-chain.sh`; decision 0025's order is superseded.
    the carve fails. The freeze gate's bowl checks are therefore a check on
    every LATER stage; the trench, weir, fall, plunge-bowl and authored-
    lake checks are checks on the carve itself.
-7. **The Blackrose lake stands at sea level.** Its southern feeder is the
+7. **The Blackrose lake stands at sea level** (SUPERSEDED by [0060](0060-rivers-reach-the-coast-profiles-are-graded.md) §2: the lake stands on a sill at 1.6 m, its outlet graded to the bay). Its southern feeder is the
    outlet to Oliis Bay and is cut below 0, so the lake is a tidal arm; the
    1.63 m in the first authored record was the old shipped water, whose
    outlet had not reached the sea. Declared in `authored-bodies.json`; an

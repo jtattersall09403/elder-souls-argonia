@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "kind": "major-waterways-repair-marker",
+  "naturalSha256": "391bd711973f8cf94403ac17fd7469c5866076bce2bf7892ea43e1eb13e5bacc",
+  "fitInputsSha256": "a92968d9d14f9556f343def72d47a74aa2594c4964f8323b3a757cc97e1bbc14",
+  "publishedSha256": "74503e3ffc96a213aa0e083a825b4b550fa95bae3565fbe2588de535d9d3c10e",
+  "reason": "declared major-lane terminals fitted after the anchor-to-anchor solve"
+}

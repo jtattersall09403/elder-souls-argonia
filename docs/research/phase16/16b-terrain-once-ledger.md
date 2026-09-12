@@ -9,9 +9,9 @@ rather than trust this page.
 
 | Array | sha256 (first 16) | Stage | Seconds |
 |---|---|---|---|
-| `heightfield-sculpted-f32.npy` | `da63f2a09c757842` | `sculpt_province` | ~100 |
-| `heightfield-shaped-f32.npy` | `8afb88d66a7002b3` | `shape_province` | ~46 |
-| `refined-height-frozen-f32.npy` | `e86bb41c67facfe0` | `carve_province` | ~50 |
+| `heightfield-sculpted-f32.npy` | round 1 `1083ba2cdf78f288`; round 2 `7f59c47b20ec` (freeze.json) | `sculpt_province` | ~100 |
+| `heightfield-shaped-f32.npy` | round 1 `9303262e0d92482a`; round 2 `cd5de34a7014` | `shape_province` | ~60 |
+| `refined-height-frozen-f32.npy` | round 1 `ff7a122ddb303325`; round 2 `90052f7fdd97` | `carve_province` | ~50 |
 
 The vault's previous "today" sculpt was the August array (16a ledger §1).
 Today's code re-froze it with three deliberate changes (sculpt-meta.json):
@@ -24,7 +24,7 @@ province, median 2.2 m, all within 45 m of the sea); benching from 45 m with
 ±40 % band spacing. The shape stage filled 188 new closed depressions it had
 made above 12 m off wet ground (386 cells); fluvial: 23 oxbows, 2 deltas.
 
-## 2. The graph on the shaped ground (`hydrology_graph report`)
+## 2. The graph on the shaped ground (`hydrology_graph report`) — ROUND 1; superseded by §9
 
 | Measure | 16a (sculpt) | 16b (shaped, after the carve's reconciliation) |
 |---|---|---|
@@ -102,7 +102,7 @@ at the postcondition gate on the old known-red register, which was
 re-authored to the five applied-but-failing requests
 (`world/sources/terrain/terrain-request-known-red.json`, owner 16g).
 
-Two-run identity: §8, filled from the second forced ground-only run.
+Two-run identity: round 1 never ran it; round 2's result is in §9 (two forced runs, the three frozen shas compared).
 
 ## 7. Gates added, and the defect each was shown to fail on
 
@@ -141,3 +141,67 @@ summary file is missing (now a standard-10 failure). Local: `test:water`
 77 passed / 27 skipped; `test:placement` 517 passed / 13 skipped; `npm test`
 8/8.
 
+
+## 9. Round 2 (2026-09-12, after the owner's walk) — decision 0060
+
+Every number below is printed by the stage or script named; the graph's
+`stats.approvedBodies` / `stats.approvedFalls` / `stats.carveDisagreements`
+and `shape-meta.json.approvedBodies` are the primary record.
+
+**The owner's findings and the root causes.**
+
+| Finding (owner) | Root cause | Fix |
+|---|---|---|
+| rivers cut short at inland sea-level water (100 → 85 rivers, 62 → 46 km, every third-order river gone) | 0059 §3 made every sea-connected cell the routing sink | only the open sea ends a river; sea-level water conducts (`hydrology.routing_sink`, `water_reach`); then the 16a network is taken as given (`approved-routing-16a.npz`) |
+| channels stepped like stairs | the long profile is a running minimum of a quantised floor: flat treads with drops | the erosion pass `channels.PROFILE_ERODE_*` after the sills; free-run pairs with a drop over 1 m: 1,257 → 62 (above sea level; the rest are sills and chutes) |
+| falls land in a sloping river, not a pool | the bowl was centred on the face's foot and the level never held | `channels.plunge_geometry`: throw, radius, depth, held level (`sol.held`, 126 stations over 18 plunges) |
+| "steeply stepped terraced" ground | the source is a 2.97 m staircase (14 heights below 40 m); the plateau pass ran last, gated by slope | `sculpt.deterrace_plateaus` on the source before the orogeny, clamped to ±half a quantum, land only; lowland walls over 0.6 m 4.1 % → 1.6 % of neighbour pairs |
+| pebbles at the waterline | the waterline band was `SAND` = vanilla `coastbeach01`, a shingle | `SEABED_SAND` at the waterline (measured at 0.28 km E 6.50 km S: 44 of 60 cells at 0–0.5 m) |
+| the 16a water map overhauled | the pit rule filled ~100 approved ponds; benching moved rims; the shaping's noise cut sheets into ~1,800 pieces; the sink relabelled the north | the approved record (§below); `pits.fill_erosion_pits` fills 25 data holes (16,420 cells) and keeps 3,438 hollows above 30 m |
+| Blackrose lake at sea level | its S feeder was cut below 0 | level 1.6 m on a sill; graded outlet; the inflow canals rise to their rivers |
+
+**The approved record (0060 §7)** — `world/sources/hydrology/approved-bodies.json`,
+`<vault>/approved-bodies-16a.npz`, `approved-routing-16a.npz` (regenerated
+from the 16a commit `c2494a16` in a scratch checkout; its sculpt sha
+`936d0704a498a9c3` is not byte-identical to the 16a run's `ab76877cb344d253`,
+so 99 of the 100 rivers and 387 of 404 measured bodies carried: 12 data holes
+ruling 2 fills and 5 sheets under 500 m² with no outline are listed as not
+carried; 4 of 5 falls, the fifth a shelf step the owner ruled out).
+
+| Measure | 16a | round 2 |
+|---|---|---|
+| rivers / km / Strahler | 100 / 62.0 / 80·15·5 | 99 / 61.7 / 79·15·5 (the approved network, taken as given) |
+| sea mouths (all at the open sea) | 30 | 30 (8 through a shore marsh, `mouth.through`) |
+| falls | 5 | 4 of 4 approved realised (matched by river); 13 more the ground makes, listed |
+| approved bodies realised | — | 269 of 387 (263 measured pieces; 4 split, 1 merged); 36 keep their approved kind over the measured one |
+| realised more than 1 m from the 16a level | — | 44 (upland rims sit 2–5 m lower on the approved cliff work) |
+| captured / joined to the sea / lost at the carve | — | 22 / 11 / 4 |
+| not realised: under 500 m² (recorded, not gated) | — | 63 |
+| not realised: unrealised, ≥ 500 m², awaiting the owner (`approved-bodies-waived.json`) | — | 54 |
+| new bodies the ground grew (drawn faint) | — | 1,914 (23 over 0.5 ha) |
+| bodies ≥ 0.5 ha | 114 | 153; 91 at the 16a spot, 2 with a different kind |
+
+The shape stage's restore: 387 outlines realised relative to today's rims
+(`shape-meta.json`: cells lowered 551,882 max 47.97 m; raised 430,227 max
+9.9 m; rim raised on 134,975 cells, max 6 m, 40 at the cap; 34 bodies sit
+lower than approved because the rim was breached deeper than the cap).
+
+**Gates.** `hydrology_graph check`: 0 violations. Freeze gate: 0 unexpected,
+3 known (`freeze-gate-known.json`, 16c: a trench bed 1.5 m over its promise,
+a shoulder under its seal, ground over a body's level, each where a rim
+closure ring crosses a reach). `carveDisagreements`: 4 bodies left dry, 6
+depended bodies moved over 0.3 m (budget 10 each; recorded, listed).
+`npm run preflight`: typecheck, placement, water, pipeline, rasters green;
+`npm test` green after the prose fixes. New gate: `test_chain_stage_imports`
+(a missing symbol crashed the chain at stage two, three minutes into a run).
+
+**Two-run identity (brief item 7).** A second `terrain-chain.sh --force
+--refreeze` run on the same sources (497 s, nine stages) reproduced all three
+frozen arrays byte for byte: sculpted `7f59c47b20ec`, shaped `cd5de34a7014`,
+frozen `90052f7fdd97` (`freeze.json`). The 2D map's base
+(`province/height-rg.png`, 1345 px) is now written from the frozen ground by
+`apply_terrain_patches` (it was the August raw base since the extract).
+
+**Owner tradeoffs to approve** (the principle, or per body): the 44 lowered
+bodies; the 33 captured/joined; the 54 waived; the 13 new falls; the 1,914
+faint hollows; the lake at 1.6 m; the 3 known carve leftovers.

@@ -94,9 +94,13 @@ Needs rulings 1, 2, 3, 5, 6, 10 (plan §7).
   `refined/flood-wet.png` from the frozen pass plus the `hydrograph-*.png`
   from the re-derived graph, in the same commit; the map's hillshade then
   matches the graph lines.
-## Delivered (2026-09-12) — read this before 16c
+## Delivered (2026-09-12, round 2 the same day) — read this before 16c
 
-Decision [0059](../../decisions/0059-terrain-built-once-frozen-base-and-typed-patches.md);
+Decisions [0059](../../decisions/0059-terrain-built-once-frozen-base-and-typed-patches.md)
+and [0060](../../decisions/0060-rivers-reach-the-coast-profiles-are-graded.md)
+(round 2, after the owner's walk: only the open sea ends a river, graded
+profiles, plunge pools with a lip, the staircase ramped on the source, the
+Blackrose lake on a sill, wet sand at the waterline);
 ledger [research/phase16/16b-terrain-once-ledger.md](../../research/phase16/16b-terrain-once-ledger.md).
 The chain order is `scripts/terrain-chain.sh`; the frozen shas are in
 `world/sources/terrain/freeze.json`; the freeze gate is
@@ -104,16 +108,30 @@ The chain order is `scripts/terrain-chain.sh`; the frozen shas are in
 
 What later chunks inherit, none optional:
 
+- **Everyone: the 16a hydrograph is an approved record** (0060 §7):
+  `world/sources/hydrology/approved-bodies.json` carries the river network the owner approved,
+  every body's outline and kind, plus the falls. Body ids
+  in the graph are the 16a ids where matched (`body.approved`); a body with
+  `approved: null` is one the ground grew and the owner has not reviewed;
+  `stats.approvedBodies` and `stats.approvedFalls` list every departure
+  and why. Never re-route, re-label or drop an approved body to make a
+  stage pass: adapt the stage, or take the tweak to the owner.
+
 - **16c (water once).** Eight `test_water_invariants.py` probes are RED on the ground-only build (vault-only, not in CI): `no_wet_cell_has_a_lower_dry_neighbour`, `strip_points_sit_inside_their_trench`, `every_cascade_is_a_cliff_with_a_plunge_pool`, `class_covers_the_band_the_shore_shader_reads`, `no_extension_cell_stands_above_its_own_water`, `every_published_boat_lane_carries_a_hull_or_declares_a_portage`, plus the two site probes `site_1470_4130` / `site_2174_268`, which are pinned to the old world's coordinates and must be re-sited on the graph's ids. They are the old compiler on the frozen ground; the rewritten compiler must make them green or replace them with graph-keyed probes. `compile_water` still floods province-wide from
   `channels-pass1.npz` (the graph's own solution, copied by the carve) with
   NO placement cap; re-point it at the graph's ids. The graph's bodies are
   re-measured on the frozen array after the carve (`preCarve` where a level
-  moved); 6 bodies are `captured` (drained to the trench through them, to
-  be refilled at the river's level); 14 rivers end in a sea-level marsh or
-  lagoon body, not the open ocean. The one known freeze-gate leftover
-  (`freeze-gate-known.json`: a 3 m fall on a 13 m canyon cut) is 16c's:
-  demote it to a chute or clamp the lip notch. The Blackrose lake stands at
-  sea level (its southern outlet is cut below 0): an owner check item.
+  moved); `captured` bodies drained to the trench through them are refilled
+  at the river's level; a body the carve `joinedSea` (its outlet trench
+  reached the coast below 0) stands at 0. Every river's `mouth` is the open
+  sea (`body.ocean`); `mouth.through` names the shore marsh or lagoon its
+  last station stands in (0060 §1). A plunge pool is a `held` run of the
+  channel solution (`sol.held`): its level is flat from the plunge past the
+  bowl's far rim; the bowl is centred `throwM` past the face (0060 §4);
+  draw the sheet arcing to that point. The known freeze-gate leftover
+  (`freeze-gate-known.json`) is 16c's: demote it to a chute or clamp the lip
+  notch. The Blackrose lake stands at 1.6 m on a sill; its S outlet reach is
+  graded to the bay (0060 §2).
   `patch_water` proves the patches; a per-window re-flood of the shipped
   rasters is `compile_water` reading `chain-footprint.json`.
 - **16e (routes).** `test_sculpt.py::test_road_grades_stay_traversable` is RED on the re-solved roads: one segment of the published network climbs at 1.11 rise/run (the probe's bound is 0.9; p95 passes). The society solve ran on the new ground with the old cost surface; re-route it here (ruling 9: gradient costs, zigzags) and make the probe green. The 16b handoff build is `terrain-chain.sh --ground-only`: route repair, grading, structures, pads and the settlement compile are SKIPPED and their published JSON is stale against the frozen ground until this chunk (and 16h) re-run them. Grading and the route-structure windows become patch
@@ -147,19 +165,29 @@ What later chunks inherit, none optional:
 - The patch invariants proven failable; the converted carves applied.
 - Owner walk passes.
 
-## Owner check
+## Owner check (round 2, 2026-09-12)
 
-**What you will see at this check** (plan §3, build only what is delivered): the painted ground only: no water, no plants, no roads or bridges, no buildings (their layers are hidden until their chunks land). Judge the shape of the land and its cliff and bank surfaces.
+**What you will see**: the painted ground only (no water drawn in 3D yet:
+16c). On the 2D map: the frozen ground with the PROPOSED water (the
+graph's rivers, bodies and falls) on by default; the old routes and
+waterways are off (`?layer=legacy` brings them back).
 
-
-- Walk the province gate sites you signed off in 6b (`?view=character&x=0.93&z=0.92&t=12:00`
-  and your own favourites) — does the ground still feel right?
-- Stand under a cliff (the gorge at `x=2.53&z=0.32`): does the rock face
-  read as rock with ledges rather than smooth grey and is it darker than the
-  water in front of it?
-- Visit two fall sites the graph named and one tarn: is there a bowl, a lip,
-  a basin — before any water is drawn there?
-- The pits you kept: are they where you expected?
+- The 2D map (`?layer=hydrograph` is now the default): do the rivers run to
+  the coast as they did on the 16a map? Do the bodies and their kinds read
+  as the 16a map, allowing for the departures listed in ledger §9?
+- Departures to approve as a principle (or row by row):
+  `world/sources/hydrology/approved-bodies-waived.json` (54 unrealised) and
+  the graph's `stats.approvedBodies.levelTweaks` (44 sit 1–5 m lower on the
+  approved cliff work), `captured`/`joinedSea` bodies (33), the 13 new falls.
+- A channel on a slope (`?view=character&x=0.37&z=1.42`, the big tarn's
+  feeders; the gorge `x=2.53&z=0.32`): a graded bed, not stairs.
+- A fall site (`x=4.73&z=1.20`, the 100 m fall): a bowl past the foot of
+  the face and a flat pool, then the river continues.
+- The big tarn's outlet is on its north-west side (`x=0.25&z=1.20`).
+- A lowland hillside that was "steeply stepped" (`x=4.29&z=1.80`): ramps.
+- The waterline (`x=0.28&z=6.50`): wet sand at the water's edge, dry sand above.
+- The Blackrose lake (`x=2.36&z=6.41`): a basin 1.6 m above the sea with a
+  graded outlet south to the bay.
 
 ## Gotchas
 

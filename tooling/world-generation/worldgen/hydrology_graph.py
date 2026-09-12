@@ -90,6 +90,8 @@ LOWLAND_MAX_M = 30.0                     # altitude bands on the body's level
 UPLAND_MAX_M = 110.0                     # montane above this (the pre-16b benching floor)
 MARSH_DEEP_MIN_DEPTH_M = 0.5
 MIN_RUN_STATIONS = 6                     # ~11 m: shorter class flickers are merged
+APPROVED_GATE_MIN_M2 = 500.0             # an approved (16a) body at least this big must be realised or reasoned (0060 §7)
+APPROVED_LEVEL_TWEAK_M = 1.0             # ...and one realised more than this from its 16a level is a listed tweak
 MIN_SURFACE_RUN_M = 30.0                 # a channel or strip surface shorter than this is absorbed by
                                          # its neighbour: no seam for a 20 m rapid in a flat river
 DRY_SEASON_FRACTION = 0.2                # tide.ts seasonOffset: the dry season draws 0.2 x amplitude
@@ -164,12 +166,14 @@ def load_solution(vault: Path, g):
     return bodies, sol
 
 
-def solve(g: np.ndarray, npz, log=print):
+def solve(g: np.ndarray, npz, log=print, approved_mask: np.ndarray | None = None):
     """The carve's own solvers, on the frozen base, with NO placement cap:
-    places adapt to the water (Phase 16 ladder), never the reverse."""
+    places adapt to the water (Phase 16 ladder), never the reverse.
+    `approved_mask`: the owner-approved (16a) outlines, allowed standing
+    water whatever today's coarse pass says."""
     from . import channels
     from . import standing_water as sw
-    bodies = sw.solve_bodies(g, npz, step=STEP, mpp=RAW_M, with_placement=False)
+    bodies = sw.solve_bodies(g, npz, step=STEP, mpp=RAW_M, with_placement=False, allow_extra=approved_mask)
     sol = channels.solve(g, npz, step=STEP, mpp=RAW_M)
     pool_report = sw.pool_channels(sol, bodies, log=log)
     return bodies, sol, pool_report
@@ -343,7 +347,10 @@ def measure_bodies(g, bodies, reg_c, sal_c, resp, mpp: float) -> list[dict]:
 
 
 def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
-                feeders_path: Path | None = None) -> dict:
+                feeders_path: Path | None = None, approved=None) -> dict:
+    """`approved`: (register, outline label raster) from `approved_bodies.load`
+    — the owner's 16a bodies; a measured body that overlaps one takes its id
+    and kind, and the ones no body realises are listed (decision 0060 §7)."""
     import numpy as np
     from scipy import ndimage
     from . import channels
@@ -485,9 +492,9 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
             return "horizontal-tidal"
         return "horizontal-channel"
 
-    # the routing sink (every sea-connected coarse cell, Phase 16b); a river
-    # reaching it has reached the sea, whatever body stands there
-    ocean_c = npz["sea"] if "sea" in npz.files else npz["ocean"]
+    # where a river ends: the pass's `sink` (the open sea, decision 0060;
+    # sea-level inland water conducts a river to the coast, it never ends it)
+    ocean_c = npz["sink"] if "sink" in npz.files else npz["ocean"]
     flow_c = npz["flow_to"].reshape(-1)
 
     lakes_c = npz["lakes"]
@@ -523,6 +530,69 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
     # ---- bodies: ids and per-body facts (measured on the base)
     body_lbl = bodies.body
     body_rec = measure_bodies(g, bodies, reg_c, sal_c, resp, mpp)
+    approved_stats = None
+    if approved is not None and approved[0] is not None:
+        from . import approved_bodies as ab
+        doc, alab = approved[0], approved[1]
+        matches, missing = ab.match(body_lbl, doc, alab)
+        by_id = {b["id"]: b for b in body_rec}
+        kept_kind = 0
+        for rec in body_rec:
+            m = matches.get(int(rec["_label"]))
+            if m is None:
+                rec["approved"] = None
+                continue
+            a = m["approved"]
+            new_id = a["id"] if m["part"] == 1 else f"{a['id']}-p{m['part']}"
+            other = by_id.get(new_id)
+            if other is not None and other is not rec:
+                other["id"] = new_id + "-m"      # an unmatched body that happened to share the cell
+                by_id[other["id"]] = other
+            rec["approved"] = {"id": a["id"], "kind": a["kind"], "levelM": a["levelM"], "areaM2": a["areaM2"],
+                               "measuredKind": rec["kind"], "overlapOfApproved": m["overlapOfApproved"],
+                               "part": m["part"], "merged": [b["id"] for b in m["mergedApproved"]]}
+            if rec["kind"] != a["kind"]:
+                kept_kind += 1
+            rec["id"] = new_id
+            rec["kind"] = a["kind"]
+            by_id[rec["id"]] = rec
+        # an approved body the ground no longer holds: superseded by the
+        # authored lake, or MISSING (the freeze gate fails on it)
+        lake = None
+        if AUTHORED_BODIES_PATH.exists():
+            for a_ in json.loads(AUTHORED_BODIES_PATH.read_text(encoding="utf-8")).get("bodies", []):
+                lake = (a_["centreCell"], a_["radiiM"])
+        # the reason vocabulary (0060 §7): a body ≥ APPROVED_GATE_MIN_M2 that is
+        # not realised must carry one of these or the freeze gate fails;
+        # `unrealised` is the one that fails
+        lowered = {c["id"]: c for c in ((approved[2] or {}).get("levelChanges", []) if len(approved) > 2 else [])}
+        miss_out = []
+        for b in missing:
+            why = None
+            if lake is not None:
+                (lcx, lcy), (rx, ry) = lake
+                dx_, dy_ = b["deepestCell"]
+                if ((dx_ - lcx) * mpp / (1.15 * rx)) ** 2 + ((dy_ - lcy) * mpp / (1.15 * ry)) ** 2 <= 1.0:
+                    why = "authored-lake: under the Blackrose lake"
+            if why is None and b["areaM2"] < APPROVED_GATE_MIN_M2:
+                why = f"under-{int(APPROVED_GATE_MIN_M2)}-m2: recorded, not gated"
+            if why is None and b["id"] in lowered:
+                why = f"rim-lost-on-approved-sculpt: today's rim holds {lowered[b['id']]['levelM']} m, not {b['levelM']} m, and no body formed"
+            miss_out.append({"id": b["id"], "kind": b["kind"], "levelM": b["levelM"], "areaM2": b["areaM2"],
+                             "deepestCell": b["deepestCell"], "why": why or "unrealised: no measured body overlaps its outline"})
+        level_tweaks = [{"id": b["id"], "kind": b["kind"], "approvedLevelM": b["approved"]["levelM"], "levelM": b["levelM"],
+                         "areaM2": b["areaM2"]} for b in body_rec
+                        if b.get("approved") and abs(float(b["levelM"]) - float(b["approved"]["levelM"])) > APPROVED_LEVEL_TWEAK_M]
+        new_bodies = [b for b in body_rec if b.get("approved") is None]
+        split = sum(1 for v in matches.values() if v["part"] > 1)
+        merged = sum(len(v["mergedApproved"]) for v in matches.values())
+        approved_stats = {"total": len(doc["bodies"]), "matched": len(doc["bodies"]) - len(missing),
+                          "measuredPieces": len(matches), "splitParts": split, "mergedIntoAnother": merged,
+                          "kindKeptOverMeasured": kept_kind,
+                          "missing": miss_out, "notCarried": len(doc.get("notCarried", [])),
+                          "levelTweaks": level_tweaks,
+                          "new": {"count": len(new_bodies), "areaM2": _r(sum(b["areaM2"] for b in new_bodies), 0),
+                                  "over5000m2": sum(1 for b in new_bodies if b["areaM2"] >= 5000)}}
     body_ids = [b["id"] for b in body_rec]
     reg_up = sw.upsample(reg_c, STEP, shape)
     sal_up = sw.upsample(sal_c, STEP, shape)
@@ -564,6 +634,17 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
     lag = sea & ~ocean_up
     lag_lbl, n_lag = ndimage.label(lag, structure=sw.CONN8)
     lagoon_cell: dict[int, str] = {}
+    # the approved (16a) sea-level sheets: matched by outline like the bodies
+    lag_matches: dict[int, dict] = {}
+    lag_missing: list[dict] = []
+    if n_lag and approved is not None and approved[0] is not None:
+        from . import approved_bodies as ab
+        doc_, alab_ = approved[0], approved[1]
+        sea_labels = np.array([b["label"] for b in doc_["bodies"] if b.get("seaLevel")], dtype=np.int64)
+        if sea_labels.size:
+            alab_sea = np.where(np.isin(alab_, sea_labels), alab_, 0)
+            doc_sea = {"bodies": [b for b in doc_["bodies"] if b.get("seaLevel")]}
+            lag_matches, lag_missing = ab.match(lag_lbl, doc_sea, alab_sea)
     if n_lag:
         li = np.arange(1, n_lag + 1)
         areas = np.bincount(lag_lbl.ravel(), minlength=n_lag + 1)[1:]
@@ -604,9 +685,38 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
                                  int(lag_boxes[i][1].stop), int(lag_boxes[i][0].stop)],
                    "region": int(coarse_at(reg_c, dx, dy)), "inflow": [], "outflow": None,
                    "terrainPrecondition": prec}
+            m_ = lag_matches.get(i + 1)
+            if m_ is not None:
+                a_ = m_["approved"]
+                rec["approved"] = {"id": a_["id"], "kind": a_["kind"], "levelM": a_["levelM"], "areaM2": a_["areaM2"],
+                                   "measuredKind": rec["kind"], "overlapOfApproved": m_["overlapOfApproved"]}
+                new_id = a_["id"] if m_["part"] == 1 else f"{a_['id']}-p{m_['part']}"
+                rec["id"] = bid = new_id if new_id not in body_index else new_id + "-s"
+                rec["approved"]["part"] = m_["part"]
+                rec["approved"]["merged"] = [b["id"] for b in m_["mergedApproved"]]
+                rec["kind"] = a_["kind"]
+                if a_["kind"] != "lagoon":
+                    rec["altitudeBand"] = "lowland"
+                    rec["terrainPrecondition"] = {"kind": "bowl", "levelM": 0.0, "floorMaxM": _r(-max_depth), "spillM": 0.0}
+            elif lag_matches or lag_missing:
+                rec["approved"] = None
             body_rec.append(rec)
             body_index[bid] = rec
             lagoon_cell[i + 1] = bid
+    if approved_stats is not None:
+        realised_ids = {v["approved"]["id"] for v in lag_matches.values()} | \
+            {b["id"] for v in lag_matches.values() for b in v["mergedApproved"]}
+        # the body pass listed every sea-level sheet as missing (they are not in
+        # the body raster); the ones the lagoon pass realised come off the list
+        approved_stats["missing"] = [m for m in approved_stats["missing"] if m["id"] not in realised_ids]
+        approved_stats["matched"] += len(realised_ids)
+        approved_stats["kindKeptOverMeasured"] += sum(1 for v in lag_matches.values()
+                                                       if body_index.get(v["approved"]["id"], {}).get("approved", {}) and
+                                                       body_index[v["approved"]["id"]]["approved"]["measuredKind"] != v["approved"]["kind"])
+        approved_stats["missing"] += [{"id": b["id"], "kind": b["kind"], "levelM": b["levelM"], "areaM2": b["areaM2"],
+                                       "deepestCell": b["deepestCell"], "why": "missing: no sea-level sheet overlaps its outline"}
+                                      for b in lag_missing]
+        approved_stats["seaLevelSheets"] = {"approved": len(lag_missing) + len(lag_matches), "matched": len(lag_matches)}
 
     def body_at(x: float, y: float) -> str | None:
         cx, cy = _cell(x, y, shape)
@@ -619,6 +729,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
         return None
 
     # ---- reaches, junctions, falls
+    held_st = getattr(sol, "held", None)
     reaches: list[dict] = []
     reach_index: dict[str, dict] = {}
     junctions: dict[str, dict] = {}
@@ -671,6 +782,7 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
                 width = float(np.mean(sol.width[st]))
                 rec = {
                     "id": rid, "river": None, "kind": kind, "surface": SURFACE_OF[kind], "band": band,
+                    "plungePool": bool(held_st is not None and held_st[st].mean() > 0.5),
                     "upstream": [prev_id] if prev_id else [], "downstream": None,
                     "fromJunction": None, "toJunction": None,
                     "accumKm2": _r(np.max(sol.accum[st]), 3), "slope": _r(s_mean, 4),
@@ -702,18 +814,17 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
                     drop = max(float(sol.L[lip_k] - sol.L[plunge_k]),
                                float(getattr(sol, "fall_drop", np.zeros(sol.n))[plunge_k]))
                     pb = body_at(sol.x[plunge_k], sol.y[plunge_k])
-                    dp = max(depth, channels.PLUNGE_MIN_DEPTH_M,
-                             min(channels.PLUNGE_MIN_DEPTH_M + channels.PLUNGE_SCOUR_PER_DROP * drop,
-                                 channels.PLUNGE_MAX_DEPTH_M))
+                    geo = channels.plunge_geometry(float(sol.width[plunge_k]), drop, depth)
+                    dp = geo["depthM"]
                     if pb is None:
                         px, py = _cell(sol.x[plunge_k], sol.y[plunge_k], shape)
                         pb = f"body.{px}-{py}"
                         P = float(sol.L[plunge_k])
-                        w = float(sol.width[plunge_k])
+                        w = geo["radiusM"]
                         if pb not in body_index:
                             prec = {"id": pb, "kind": "plunge-pool", "origin": "promised",
                                     "levelM": _r(P), "altitudeBand": "lowland" if P < LOWLAND_MAX_M else ("upland" if P < UPLAND_MAX_M else "montane"),
-                                    "areaM2": _r(np.pi * w * w, 0), "maxDepthM": _r(dp), "sheet": False,
+                                    "areaM2": _r(np.pi * w * w + 2.0 * w * geo["holdM"], 0), "maxDepthM": _r(dp), "sheet": False,
                                     "season": "perennial", "seasonResponse": 0.0,
                                     "wetSeasonLevelM": _r(P), "drySeasonLevelM": _r(P),
                                     "deepestCell": [px, py], "bboxCells": None,
@@ -721,7 +832,8 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
                                     "inflow": [], "outflow": None, "causedBy": {"fall": rid},
                                     "terrainPrecondition": {"kind": "plunge-bowl", "levelM": _r(P),
                                                             "depthM": _r(dp), "radiusM": _r(w, 1),
-                                                            "law": "channels.PLUNGE_* (depth = min + 0.06 x drop, cap 8 m)"}}
+                                                            "throwM": _r(geo["throwM"], 1), "holdM": _r(geo["holdM"], 1),
+                                                            "law": "channels.plunge_geometry (depth = 2 + 0.08 x drop, cap 10 m; the bowl is centred where the sheet lands, throwM past the face; the level is held flat for holdM)"}}
                             body_rec.append(prec)
                             body_index[pb] = prec
                     else:
@@ -849,9 +961,14 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
             mouth = {"kind": "confluence", "river": river_ids[river["tributaryOf"]],
                      "junction": last["toJunction"] if last else None}
         elif bool(sol.to_sea[k_end]) or (mb and body_index[mb]["kind"] in ("ocean", "lagoon")):
-            # a sea mouth names the sea-level body it enters (ocean, lagoon or a
-            # sea-level marsh sheet): all of them stand at 0
-            mouth = {"kind": "sea", "bodyId": mb or "body.ocean"}
+            # a river that reaches the sink has reached the OPEN SEA (decision
+            # 0060): its mouth is the ocean, and the sea-level body its last
+            # station stands in (a shore marsh, a lagoon) is what it runs
+            # through, not where it ends
+            if bool(sol.to_sea[k_end]) and mb and body_index[mb]["kind"] != "ocean":
+                mouth = {"kind": "sea", "bodyId": "body.ocean", "through": mb}
+            else:
+                mouth = {"kind": "sea", "bodyId": mb or "body.ocean"}
         elif mb is not None:
             mouth = {"kind": "lake", "bodyId": mb}
         else:
@@ -986,6 +1103,16 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
         lake_level = body_index[lake_id]["levelM"] if lake_id else 0.0
         for f in fd.get("feeders", []):
             (x0, y0), (x1, y1) = f["startPx"], f["endPx"]
+            # a graded feeder (the S outlet) records a (start, end) bed: it
+            # falls from the lake's rim to the bay, so the reach's level ends
+            # at the sea and its trench promise is the bed at the lake end
+            graded = np.ndim(f["bedM"]) > 0
+            bed0 = float(f["bedM"][0]) if graded else float(f["bedM"])
+            bed1 = float(f["bedM"][1]) if graded else bed0
+            # the S outlet falls to the bay: its level ends at the sea; an
+            # inflow canal is the lake's backwater (its bed rises to the lake
+            # level at the river end), so its water IS the lake level throughout
+            level_to = 0.0 if f["sector"] == "s" else lake_level
             cx, cy = _cell(x0, y0, shape)
             rid = f"reach.{cx}-{cy}"
             n = max(int(math.hypot(x1 - x0, y1 - y0) * mpp / (STEP * mpp)), 1)
@@ -995,13 +1122,13 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
                 "kind": "horizontal-channel", "surface": "channel", "band": 3,
                 "upstream": [], "downstream": None, "fromJunction": None, "toJunction": None,
                 "accumKm2": 0.0, "slope": 0.0, "slopeMax": 0.0,
-                "widthM": _r(2.0 * float(f["halfWidthM"]), 1), "depthM": _r(lake_level - float(f["bedM"])),
+                "widthM": _r(2.0 * float(f["halfWidthM"]), 1), "depthM": _r(lake_level - bed0),
                 "lengthM": _r(math.hypot(x1 - x0, y1 - y0) * mpp, 1),
-                "levelFromM": _r(lake_level), "levelToM": _r(lake_level), "speedMS": 0.3,
+                "levelFromM": _r(lake_level), "levelToM": _r(level_to), "speedMS": 0.3,
                 "season": "perennial", "tidal": False, "water": "blackwater", "bodyId": lake_id,
                 "centreline": line,
-                "terrainPrecondition": {"kind": "trench", "bedLevelFromM": _r(float(f["bedM"])),
-                                        "bedLevelToM": _r(float(f["bedM"])), "bedMaxM": _r(float(f["bedM"])),
+                "terrainPrecondition": {"kind": "trench", "bedLevelFromM": _r(bed0),
+                                        "bedLevelToM": _r(bed1), "bedMaxM": _r(max(bed0, bed1)),
                                         "widthM": _r(2.0 * float(f["halfWidthM"]), 1), "shoulderCrestM": None},
             })
             reach_index[rid] = reaches[-1]
@@ -1024,6 +1151,8 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
             rx = reach_index[x]
             if rx["surface"] not in ("channel", "strip") or rx["lengthM"] >= MIN_SURFACE_RUN_M:
                 continue
+            if rx.get("plungePool"):
+                continue          # the held pool under a fall: a pool, not a seam (0060 §4)
             # avoidable = a like surface sits next to it with no junction, body
             # or fall between; a short run pinned between two of those is the
             # geometry's, not the derivation's
@@ -1035,7 +1164,40 @@ def build_graph(g, npz, bodies, sol, source_sha: str, pool_report: dict,
                 short_runs += 1
             else:
                 short_pinned += 1
+    approved_falls = None
+    if approved is not None and approved[0] is not None and approved[0].get("falls"):
+        from . import approved_bodies as ab
+        derived = []
+        for r in reaches:
+            f = r.get("fall")
+            if not f:
+                continue
+            pb = body_index.get(f.get("plungeBodyId"))
+            if pb and pb.get("deepestCell"):
+                derived.append((r["id"], pb["deepestCell"], f.get("dropM")))
+        matched_f, missing_f = [], []
+        used_d = set()
+        for af in approved[0]["falls"]:
+            ax, ay = af["plungeCell"]
+            best = None
+            for rid, (dx_, dy_), drop in derived:
+                d = float(np.hypot(dx_ - ax, dy_ - ay)) * mpp
+                # the routes are frozen, so a fall on the SAME reach is the
+                # same fall wherever its foot now lies (a 120 m face's foot
+                # moved 50 m along the river as the profile changed)
+                if (d <= ab.FALL_MATCH_M or rid == af["reachId"]) and (best is None or d < best[0]):
+                    best = (d, rid, drop)
+            if best is None:
+                missing_f.append({"reachId": af["reachId"], "dropM": af["dropM"], "plungeCell": af["plungeCell"],
+                                  "why": "missing: no derived fall within 45 m of the 16a plunge"})
+            else:
+                used_d.add(best[1])
+                matched_f.append({"approved": af["reachId"], "derived": best[1], "dropM": best[2], "approvedDropM": af["dropM"], "distanceM": _r(best[0], 1)})
+        new_f = [{"reachId": rid, "dropM": drop, "plungeCell": cell} for rid, cell, drop in derived if rid not in used_d]
+        approved_falls = {"total": len(approved[0]["falls"]), "matched": matched_f, "missing": missing_f, "new": new_f}
     stats = {
+        "approvedBodies": approved_stats,
+        "approvedFalls": approved_falls,
         "surfaceTransitions": transitions,
         "shortChannelOrStripRuns": short_runs,
         "shortRunsPinnedByJunctionBodyOrFall": short_pinned,
@@ -1356,8 +1518,11 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
             dx, dy = b["deepestCell"]
             i = int(bodies.body[dy, dx])
             if i > 0:
-                lut_rgb[i] = (*BODY_COLOUR[b["kind"]], 200)
-                lut_season[i] = (*SEASON_COLOUR[b["season"]], 170)
+                # an approved (16a) body draws as before; a body the ground grew
+                # that the owner has not reviewed draws faint
+                faint = "approved" in b and b["approved"] is None
+                lut_rgb[i] = (*BODY_COLOUR[b["kind"]], 70 if faint else 200)
+                lut_season[i] = (*SEASON_COLOUR[b["season"]], 60 if faint else 170)
         arr = lut_rgb[lbl]
         arr[sea] = (*BODY_COLOUR["ocean"], 120)
         if npz is not None:
@@ -1529,8 +1694,25 @@ def report(graph: dict, places_path: Path = PROVINCE_DIR / "places.json") -> str
 def derive(vault: Path, out: Path, log=print) -> dict:
     g, npz, sha = load_inputs(vault)
     log(f"shaped base {vault} sha256 {sha[:16]}…")
-    bodies, sol, pool_report = solve(g, npz, log=log)
-    graph = build_graph(g, npz, bodies, sol, sha, pool_report, feeders_path=vault / FEEDERS_FILE)
+    from . import approved_bodies as ab
+    doc, alab, _, _ = ab.load(vault)
+    bodies, sol, pool_report = solve(g, npz, log=log, approved_mask=(alab > 0) if alab is not None else None)
+    restore_stats = None
+    meta = vault / "shape-meta.json"
+    if meta.exists():
+        restore_stats = (json.loads(meta.read_text(encoding="utf-8")) or {}).get("approvedBodies")
+    graph = build_graph(g, npz, bodies, sol, sha, pool_report, feeders_path=vault / FEEDERS_FILE,
+                        approved=(doc, alab, restore_stats) if doc is not None else None)
+    af = graph["stats"].get("approvedFalls")
+    if af:
+        log(f"approved falls (16a): {len(af['matched'])}/{af['total']} realised; {len(af['missing'])} missing; {len(af['new'])} new falls the ground makes")
+    ap = graph["stats"].get("approvedBodies")
+    if ap:
+        unreal = [m for m in ap["missing"] if m["why"].startswith("unrealised")]
+        log(f"approved bodies (16a): {ap['matched']}/{ap['total']} realised ({ap['kindKeptOverMeasured']} keep their approved kind over the measured one; "
+            f"{len(ap['levelTweaks'])} sit more than {APPROVED_LEVEL_TWEAK_M} m from their 16a level: listed tweaks); "
+            f"{len(ap['missing'])} not realised, of which {len(unreal)} unrealised without a reason (the gate); "
+            f"{ap['new']['count']} new measured bodies ({ap['new']['over5000m2']} over 0.5 ha)")
     errs = check(graph)
     save_graph(graph, out)
     save_solution(vault, bodies, sol)

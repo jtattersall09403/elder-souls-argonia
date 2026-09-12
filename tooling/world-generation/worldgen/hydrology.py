@@ -52,7 +52,7 @@ NEIGHBOR_OFFSETS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0)
 @dataclass
 class HydrologyResult:
     ocean: np.ndarray          # bool: the open sea (salinity model; OCEAN_REACH_M of deep water)
-    sea: np.ndarray            # bool: every sea-connected cell at or below 0 — the routing sink
+    sea: np.ndarray            # bool: every sea-connected cell at or below 0 — WATER, not land
     filled: np.ndarray         # float32, depression-filled surface
     lakes: np.ndarray          # bool, standing interior water
     flow_to: np.ndarray        # int32 flat index of downstream cell, -1 = outlet
@@ -63,7 +63,9 @@ class HydrologyResult:
     wetlands: np.ndarray       # bool
     tidal: np.ndarray          # bool
     salinity: np.ndarray       # float32 0..1
-    stats: dict = field(default_factory=dict)
+    stats: dict
+    sink: np.ndarray | None = None   # bool: where a river ENDS — the open sea (and sea-level water that
+                                     # cannot reach it through water); sea-level inland water CONDUCTS = field(default_factory=dict)
 
 
 def routing_noise(shape: tuple[int, int], amp_m: float = ROUTING_NOISE_AMP_M,
@@ -85,13 +87,52 @@ LAND_SALT_PENALTY = 4.0   # salinity travels 4x slower over land than water
 def sea_connected(z: np.ndarray) -> np.ndarray:
     """Water at or below sea level that reaches the east or south map edge
     through water: every cell here stands at 0 whatever the coarse 'ocean'
-    label says, so it is where a river ENDS (Phase 16b: the routing sink).
-    Sea seeds only from the east/south edges (north and west are the
-    Morrowind/Cyrodiil land borders)."""
+    label says. It is WATER (never land, never a lake), but it is NOT the
+    sea: an inland sea-level marsh or lagoon conducts a river on to the
+    coast, it does not end it (owner 2026-09-12, decision 0060; the routing
+    sink is `routing_sink`). Sea seeds only from the east/south edges (north
+    and west are the Morrowind/Cyrodiil land borders)."""
     below = z <= SEA_LEVEL
     lab, _ = ndimage.label(below)
     border_labels = np.unique(np.concatenate([lab[-1], lab[:, -1]]))  # south, east
     return below & np.isin(lab, border_labels[border_labels != 0])
+
+
+CONDUCT_BASE_M = -8.0     # routing height of sea-level water at the open sea's edge...
+CONDUCT_RAMP_M = 3.0      # ...rising by this at the far end of the longest inland arm, so a
+                          # river routed through a lagoon runs down it to the coast; both stay
+                          # under any land cell even after the routing noise (std 1.2 m)
+
+
+def water_reach(ocean: np.ndarray, sea: np.ndarray, metres_per_px: float) -> np.ndarray:
+    """Distance from the open sea travelling only through sea-level water
+    (`sea`), in metres; inf where a sea-level cell cannot reach the ocean
+    through water (a below-sea marsh on the map border)."""
+    h, w = ocean.shape
+    dist = np.full((h, w), np.inf, dtype=np.float64)
+    heap: list[tuple[float, int, int]] = []
+    for y, x in zip(*np.where(ocean & sea)):
+        dist[y, x] = 0.0
+        heapq.heappush(heap, (0.0, int(y), int(x)))
+    while heap:
+        d, y, x = heapq.heappop(heap)
+        if d > dist[y, x]:
+            continue
+        for dy, dx in NEIGHBOR_OFFSETS:
+            ny, nx = y + dy, x + dx
+            if 0 <= ny < h and 0 <= nx < w and sea[ny, nx]:
+                nd = d + np.hypot(dy, dx) * metres_per_px
+                if nd < dist[ny, nx]:
+                    dist[ny, nx] = nd
+                    heapq.heappush(heap, (nd, ny, nx))
+    return dist
+
+
+def routing_sink(ocean: np.ndarray, sea: np.ndarray, reach: np.ndarray) -> np.ndarray:
+    """Where a river ends: the open sea, plus sea-level water that cannot
+    reach it through water (it drains off the map edge it touches). Every
+    other sea-level cell is a conductor: the river crosses it to the coast."""
+    return ocean | (sea & ~np.isfinite(reach))
 
 
 def ocean_mask(z: np.ndarray, metres_per_px: float) -> tuple[np.ndarray, np.ndarray]:
@@ -345,29 +386,51 @@ def label_watersheds(filled: np.ndarray, flow_to: np.ndarray, ocean: np.ndarray,
     return out
 
 
-def compute(z: np.ndarray, metres_per_px: float, sea: np.ndarray | None = None) -> HydrologyResult:
+def compute(z: np.ndarray, metres_per_px: float, sea: np.ndarray | None = None,
+            routing: dict | None = None) -> HydrologyResult:
+    """`routing`: the owner-approved coarse river network (rivers, flow_to,
+    accum_km2, watersheds, sink — `approved_bodies.load_routing`). When given
+    the D8 solve is skipped and the network is taken as approved: the rivers
+    the owner reviewed on the 16a map stay where they are through every later
+    ground tweak, and only their full-res profiles are re-solved on the actual
+    ground (decision 0060 §7)."""
     cell_km2 = (metres_per_px / 1000.0) ** 2
     ocean, sea_geodesic_m = ocean_mask(z, metres_per_px)
-    # THE ROUTING SINK is every sea-connected cell, not only the 'ocean' the
-    # salinity model names: a below-sea lagoon beyond OCEAN_REACH_M stands at
-    # 0 all the same (the full-res standing-water solve says so), and routing
-    # a river through it and out over its spill sent one uphill from a
-    # sea-level body into a lake at 0.6 m (Phase 16b, decision 0059).
-    sea = sea_connected(z) if sea is None else (sea | ocean)
+    # Sea-level water (`sea`) is water: never land, never a lake. But only the
+    # open sea ENDS a river (decision 0060, owner 2026-09-12: inland sea-level
+    # water is not the sea). A lagoon or sea-level marsh conducts the river
+    # on to the coast: for routing it is a shallow ramp falling toward the
+    # open sea through the water, so no river ends in it and none is routed
+    # out of it over a spill (the 0.6 m uphill exit that 0059 fixed by making
+    # every sea-level cell a sink, which cut 15 rivers short of the coast).
+    sea = sea_connected(z) if sea is None else (sea | sea_connected(z))
+    reach_m = water_reach(ocean, sea, metres_per_px)
+    sink = routing_sink(ocean, sea, reach_m)
     land = ~sea
     # Lakes come from real depressions in the clean terrain.
     filled = fill_depressions(z, sea)
     lakes = land & ((filled - z) > LAKE_MIN_DEPTH)
     # Routing runs on a noised copy so channels meander and converge.
-    z_route = z + routing_noise(z.shape)
-    drain = strict_descent(resolve_flats(fill_depressions(z_route, sea), sea), sea)
-    flow_to = d8_flow(drain, sea)
-    accum = accumulate(drain, flow_to, sea, cell_km2)
-    rivers = np.zeros(z.shape, dtype=np.uint8)
-    rivers[land & (accum >= RIVER_MINOR_KM2)] = 1
-    rivers[land & (accum >= RIVER_MEDIUM_KM2)] = 2
-    rivers[land & (accum >= RIVER_MAJOR_KM2)] = 3
-    watersheds = label_watersheds(drain, flow_to, sea, accum, min_basin_km2=5.0 * TUNE_A, cell_km2=cell_km2)
+    if routing is not None:
+        sink = routing["sink"].astype(bool)
+        flow_to = routing["flow_to"].reshape(-1).astype(np.int64)
+        accum = routing["accum_km2"].astype(np.float32)
+        rivers = routing["rivers"].astype(np.uint8)
+        watersheds = routing["watersheds"]
+    else:
+        z_route = z + routing_noise(z.shape)
+        conduct = sea & ~sink
+        if conduct.any():
+            far = max(float(reach_m[conduct].max()), 1e-9)
+            z_route[conduct] = CONDUCT_BASE_M + CONDUCT_RAMP_M * (reach_m[conduct] / far)
+        drain = strict_descent(resolve_flats(fill_depressions(z_route, sink), sink), sink)
+        flow_to = d8_flow(drain, sink)
+        accum = accumulate(drain, flow_to, sink, cell_km2)
+        rivers = np.zeros(z.shape, dtype=np.uint8)
+        rivers[~sink & (accum >= RIVER_MINOR_KM2)] = 1
+        rivers[~sink & (accum >= RIVER_MEDIUM_KM2)] = 2
+        rivers[~sink & (accum >= RIVER_MAJOR_KM2)] = 3
+        watersheds = label_watersheds(drain, flow_to, sink, accum, min_basin_km2=5.0 * TUNE_A, cell_km2=cell_km2)
 
     gy, gx = np.gradient(filled, metres_per_px)
     slope = np.hypot(gx, gy)
@@ -419,5 +482,8 @@ def compute(z: np.ndarray, metres_per_px: float, sea: np.ndarray | None = None) 
             "salinityDecayM": SALINITY_DECAY_M,
         },
     }
+    stats["riverCellsInSeaLevelWater"] = int(((rivers > 0) & sea).sum())
+    stats["routing"] = "approved (16a network)" if routing is not None else "solved"
     return HydrologyResult(ocean, sea, filled, lakes, flow_to, accum, rivers,
-                           watersheds, twi_smooth.astype(np.float32), wetlands, tidal, salinity, stats)
+                           watersheds, twi_smooth.astype(np.float32), wetlands, tidal, salinity, stats,
+                           sink=sink)

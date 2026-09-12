@@ -50,7 +50,7 @@ def test_blackrose_lake_bed_island_and_feeders():
     rivers = np.zeros((300, 300), dtype=np.uint8)
     rivers[20, :] = 2  # a river north of the lake for the NE feeder to find
     rng = np.random.default_rng(2)
-    out, feeders = impose_blackrose_lake(h.copy(), (oy, ox), rivers, rng)
+    out, feeders, _lake = impose_blackrose_lake(h.copy(), (oy, ox), rivers, rng)
     assert len(feeders) == 3
     # island (offset + irregular) rises above water somewhere near the centre
     assert out[130:170, 130:170].max() > 0.0

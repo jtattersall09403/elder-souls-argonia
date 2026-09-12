@@ -1,10 +1,39 @@
 [
   {
     "action": "carve",
+    "affectedSamples": 2464,
+    "axis": [
+      0.89400806,
+      0.448050878
+    ],
+    "axisSource": "nearest-water-path",
+    "delivery": {
+      "depthClass": "diving",
+      "feature": "off-bank-dive-pool",
+      "offsetBoatLengths": 2,
+      "orientation": "waterward"
+    },
+    "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",
+    "deltaSha256": "ff265bbaca56bf400feae3bd6307e317802dd1b02484b0f85c7ee8693d219b2f",
+    "maxDeltaM": -1.1011971155847964e-09,
+    "meanAbsDeltaM": 1.777067562699248,
+    "minDeltaM": -4.5,
+    "operationId": "terrain-op.dunmer-north.the-divers-landing.pool.402e185fccef",
+    "profile": "radial-basin",
+    "requestId": "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef",
+    "sampleBounds": {
+      "maxX": 1001,
+      "maxZ": 74,
+      "minX": 934,
+      "minZ": 7
+    }
+  },
+  {
+    "action": "carve",
     "affectedSamples": 3380,
     "axis": [
-      0.993589191,
-      -0.113050958
+      0.990437119,
+      -0.1379649
     ],
     "axisSource": "authored-downslope",
     "delivery": {
@@ -29,10 +58,38 @@
   },
   {
     "action": "carve",
-    "affectedSamples": 396,
+    "affectedSamples": 65,
     "axis": [
-      -0.687073816,
-      -0.726587622
+      -0.999362854,
+      -0.035691531
+    ],
+    "axisSource": "nearest-water-path",
+    "delivery": {
+      "access": "boat-landing",
+      "feature": "channel-arm",
+      "waterRelation": "channel-linked"
+    },
+    "deliverySha256": "cb07029d13bba0f39d2380c25de8fc6b06675eb6be3b1458d191dcc0fd8484d8",
+    "deltaSha256": "828b135195e2236fd30792b2d0b5e468500374ecd830ac660096f96b8032fc2d",
+    "maxDeltaM": -5.530619720132537e-08,
+    "meanAbsDeltaM": 0.9374005271897653,
+    "minDeltaM": -2.0,
+    "operationId": "terrain-op.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+    "profile": "channel-link",
+    "requestId": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+    "sampleBounds": {
+      "maxX": 1422,
+      "maxZ": 624,
+      "minX": 1371,
+      "minZ": 573
+    }
+  },
+  {
+    "action": "carve",
+    "affectedSamples": 397,
+    "axis": [
+      -0.920262754,
+      -0.391300989
     ],
     "axisSource": "local-gradient",
     "delivery": {
@@ -40,9 +97,9 @@
       "waterRelation": "channel-edge"
     },
     "deliverySha256": "feeca3d7e62541698791c08b1fa3216b4a302587fbeb249d85bb9d7f90482117",
-    "deltaSha256": "aaed137200799ca4f71f815dd5881924e690eb96395fd7745ec59759aa6fa766",
-    "maxDeltaM": -4.826081245211e-05,
-    "meanAbsDeltaM": 0.7114106878902858,
+    "deltaSha256": "847673e4bbd45389ffed6252eb899d5f602be090312d29a2383c441495eaaa38",
+    "maxDeltaM": -7.16134831154736e-06,
+    "meanAbsDeltaM": 0.7097375769332955,
     "minDeltaM": -1.5,
     "operationId": "terrain-op.hist-heartland.greenspring.spring.7bcc10aaafd7",
     "profile": "spring-head-bowl",
@@ -56,61 +113,29 @@
   },
   {
     "action": "raise",
-    "affectedSamples": 707,
+    "affectedSamples": 819,
     "axis": [
-      0.43831147,
-      0.89882315
+      0.677530844,
+      0.735494361
     ],
     "axisSource": "local-flow",
     "delivery": {
-      "access": "poling",
-      "current": "slack",
-      "feature": "double-bend-ferry-narrows"
+      "capacity": "sea-going-hull",
+      "feature": "river-choke"
     },
-    "deliverySha256": "116db0e08e72836b91b413bcd5909e853b8972a9533ca83726307b894b4ace72",
-    "deltaSha256": "f54a88d8a3f56cb469e9c30b26c95ee109373f45f7d637ffb89dd31f9595fbeb",
+    "deliverySha256": "d70e87bdf154b1c8101a44e978ac7974626b2f917e02e875873a77e05b73e445",
+    "deltaSha256": "5d18b0aafbf4335cce59df6f546daee338108899642de5e42688a31419ddaa74",
     "maxDeltaM": 2.0,
-    "meanAbsDeltaM": 0.9853968172781353,
-    "minDeltaM": 2.1732522141015903e-07,
-    "operationId": "terrain-op.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
+    "meanAbsDeltaM": 0.978842285598342,
+    "minDeltaM": 6.968435882920582e-06,
+    "operationId": "terrain-op.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d",
     "profile": "paired-channel-banks",
-    "requestId": "terrain-request.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
+    "requestId": "terrain-request.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d",
     "sampleBounds": {
-      "maxX": 968,
-      "maxZ": 2726,
-      "minX": 901,
-      "minZ": 2659
-    }
-  },
-  {
-    "action": "carve",
-    "affectedSamples": 3196,
-    "axis": [
-      1.0,
-      0.0
-    ],
-    "axisSource": "none",
-    "delivery": {
-      "bank": "shelving",
-      "capacity": "punt",
-      "current": "slack",
-      "feature": "double-bend-ferry-pool",
-      "featureCount": 2,
-      "sides": 2
-    },
-    "deliverySha256": "80521f41a6ff5ce0be8260c65e09e630b0ad9184d0b4c14d6662fe024b9146d0",
-    "deltaSha256": "ef40045716d6e6bbb692d1762612059449a562b695cd0fa17bec531f33654480",
-    "maxDeltaM": -3.6614961199956675e-09,
-    "meanAbsDeltaM": 0.6054045718689529,
-    "minDeltaM": -2.580285578911506,
-    "operationId": "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-    "profile": "radial-basin",
-    "requestId": "terrain-request.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-    "sampleBounds": {
-      "maxX": 979,
-      "maxZ": 2737,
-      "minX": 890,
-      "minZ": 2648
+      "maxX": 1064,
+      "maxZ": 1367,
+      "minX": 997,
+      "minZ": 1300
     }
   },
   {
@@ -147,8 +172,8 @@
     "action": "raise",
     "affectedSamples": 41,
     "axis": [
-      0.952920048,
-      -0.303221673
+      0.952529282,
+      -0.304446984
     ],
     "axisSource": "local-gradient",
     "delivery": {
@@ -157,10 +182,10 @@
       "heightM": 40
     },
     "deliverySha256": "a5a6fbb65dba0735671f29c82485b1f5612edb19594af236d503afb5991dc678",
-    "deltaSha256": "a8aa9f6ffd57954cdf34689a413794aecc81eee4d5b0c7b6f043afda3f6df5b0",
+    "deltaSha256": "70410da76ed0cc02e46b71441b49d61cb4dd19e6828017630ee04aadc8d5bea0",
     "maxDeltaM": 40.0,
-    "meanAbsDeltaM": 21.83357390040909,
-    "minDeltaM": 0.0022410411813086825,
+    "meanAbsDeltaM": 21.853087991818285,
+    "minDeltaM": 0.008396802369822785,
     "operationId": "terrain-op.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7",
     "profile": "one-sided-cliff-bench",
     "requestId": "terrain-request.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7",
@@ -172,30 +197,32 @@
     }
   },
   {
-    "action": "raise",
-    "affectedSamples": 3380,
+    "action": "carve",
+    "affectedSamples": 341,
     "axis": [
-      1.0,
-      0.0
+      -0.49259822,
+      0.870256855
     ],
-    "axisSource": "none",
+    "axisSource": "nearest-water-path",
     "delivery": {
-      "feature": "low-xanmeer-knoll",
-      "heightClass": "low"
+      "capacity": "sea-going-hull",
+      "depthM": 2.0,
+      "feature": "screened-hull-creek",
+      "waterRelation": "channel-linked"
     },
-    "deliverySha256": "144eeee8461df6d7135397874d36b73ec5958c093b6ccfd2ad05a75a6c9540d7",
-    "deltaSha256": "7b8576bedd446e74423e9396673df0816db2ea444847f5ae908c0aa78aa70c97",
-    "maxDeltaM": 2.797458760802832,
-    "meanAbsDeltaM": 0.8537318681589953,
-    "minDeltaM": 1.3684240788306913e-08,
-    "operationId": "terrain-op.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e",
-    "profile": "rounded-mound",
-    "requestId": "terrain-request.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e",
+    "deliverySha256": "4dc5120d953a6e22054771ce0212bb0149e99ea38cc9b7b6fca42edff97f87cf",
+    "deltaSha256": "2e78d627a7929e71d6b666f04b9e8fc30612432607c5025053ebc8b31dc351b3",
+    "maxDeltaM": -4.040738932541972e-07,
+    "meanAbsDeltaM": 0.9660335998459274,
+    "minDeltaM": -2.0,
+    "operationId": "terrain-op.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
+    "profile": "channel-link",
+    "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
     "sampleBounds": {
-      "maxX": 1769,
-      "maxZ": 2936,
-      "minX": 1702,
-      "minZ": 2869
+      "maxX": 2293,
+      "maxZ": 871,
+      "minX": 2204,
+      "minZ": 782
     }
   }
 ]

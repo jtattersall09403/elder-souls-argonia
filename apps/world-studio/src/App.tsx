@@ -263,15 +263,17 @@ export function App() {
   }, []);
 
   // Reproducible URLs: keep view state in the query string.
-  // `?layer=a,b` turns overlays on by name; `?layer=hydrograph` turns on the
-  // whole Phase 16a hydrology-graph set (rivers by kind, bodies, season,
-  // falls and the wet-season line) over the base map, and hides the Phase 3
-  // river/wetland rasters so the two do not draw on top of each other.
+  // The map opens on the PROPOSED water: the hydrology graph's rivers,
+  // bodies and falls over the frozen ground (owner 2026-09-12). The Phase 3
+  // river/wetland rasters and the old route and waterway networks (16e
+  // re-authors them) are off until asked for: `?layer=a,b` turns overlays
+  // on by name, `?layer=legacy` turns the old rasters on and the graph off.
   const layerParam = (urlParams.get("layer") ?? "").split(",").map((v) => v.trim()).filter(Boolean);
-  const hydrographOn = layerParam.includes("hydrograph");
+  const legacyOn = layerParam.includes("legacy");
+  const hydrographOn = !legacyOn || layerParam.includes("hydrograph");
   const [layers, setLayers] = useState<Record<string, boolean>>(() => {
     const base: Record<string, boolean> = {
-      rivers: !hydrographOn, wetlands: !hydrographOn, routes: true, waterways: true, rootways: false,
+      rivers: legacyOn, wetlands: legacyOn, routes: legacyOn, waterways: legacyOn, rootways: false,
       danger: false, cultures: false, regions: false, mist: false, flood: false,
       "flood-wet": false, soil: false, watersheds: false, salinity: false,
       "hydrograph-bodies": hydrographOn, "hydrograph-rivers": hydrographOn, "hydrograph-season": false,

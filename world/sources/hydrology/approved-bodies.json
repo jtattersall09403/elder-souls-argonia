@@ -1,0 +1,9370 @@
+{
+ "schemaVersion": 1,
+ "approvedBy": "16a (owner, 2026-09-11)",
+ "source": {
+  "graph": "world/sources/hydrology/hydrology-graph.json at c2494a16 (the 16a acceptance)",
+  "sculptSha256": "936d0704a498a9c3f8447e1b79a5321a2c1c8da76999f76ab4992c9c2d25ed38",
+  "outlinesSha256": "a81385a09338ec2eb7e0b014c48d9b9284f756643e4a2167db804db3e9ec8073",
+  "outlines": "approved-bodies-16a.npz",
+  "routing": "approved-routing-16a.npz",
+  "routingSha256": "d146b4d6d4fee6c37b459f22a30fc47327be7475903bc1daa09d68455514d51f",
+  "routingAbout": "the 16a coarse river network (rivers, flow_to, accum_km2, watersheds; sink = the 16a ocean mask), regenerated from the 16a commit's sculpt + compile_hydrology; compile_hydrology takes the network from here and recomputes everything else on the current ground"
+ },
+ "about": "The owner reviewed the 16a map's bodies \u2014 every lake, tarn, pond, pool,\nmarsh sheet and lagoon, with its kind \u2014 and approved them. 16b round 1 then\nrebuilt the ground and re-derived the graph on it, and the approved record\nwas overwritten by whatever the new ground happened to hold: a pit rule\nfilled ~100 approved mountain ponds, the bench pattern breached tarns, the\nshaping's noise erased marsh hollows, and the northern sea-level marsh was\nre-labelled. Owner 2026-09-12: nothing changes by accident; the approved\nversion is not substantially altered; tweaks that 16b's own goals need\n(the authored lake, plunge pools, ruling 2's data holes, a channel that\ncaptures or joins a body to the sea) are allowed and LISTED.",
+ "bodies": [
+  {
+   "id": "body.1178-42",
+   "kind": "tarn-upland",
+   "levelM": 364.87,
+   "maxDepthM": 32.02,
+   "areaM2": 17774.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    1178,
+    42
+   ],
+   "bboxCells": [
+    1101,
+    6,
+    1202,
+    84
+   ],
+   "region": 12,
+   "label": 1,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1848-18",
+   "kind": "pond",
+   "levelM": 54.26,
+   "maxDepthM": 7.06,
+   "areaM2": 1427.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1848,
+    18
+   ],
+   "bboxCells": [
+    1837,
+    16,
+    1871,
+    51
+   ],
+   "region": 12,
+   "label": 2,
+   "seaLevel": false
+  },
+  {
+   "id": "body.398-78",
+   "kind": "pond",
+   "levelM": 544.11,
+   "maxDepthM": 15.44,
+   "areaM2": 5813.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    398,
+    78
+   ],
+   "bboxCells": [
+    377,
+    41,
+    418,
+    106
+   ],
+   "region": 12,
+   "label": 3,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1253-59",
+   "kind": "pool",
+   "levelM": 366.47,
+   "maxDepthM": 4.72,
+   "areaM2": 494.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    1253,
+    59
+   ],
+   "bboxCells": [
+    1250,
+    46,
+    1271,
+    65
+   ],
+   "region": 12,
+   "label": 4,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1072-121",
+   "kind": "tarn-upland",
+   "levelM": 363.79,
+   "maxDepthM": 35.0,
+   "areaM2": 15770.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    1072,
+    121
+   ],
+   "bboxCells": [
+    974,
+    73,
+    1117,
+    140
+   ],
+   "region": 12,
+   "label": 5,
+   "seaLevel": false
+  },
+  {
+   "id": "body.824-179",
+   "kind": "tarn-upland",
+   "levelM": 507.22,
+   "maxDepthM": 10.25,
+   "areaM2": 11269.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    824,
+    179
+   ],
+   "bboxCells": [
+    750,
+    89,
+    830,
+    187
+   ],
+   "region": 12,
+   "label": 6,
+   "seaLevel": false
+  },
+  {
+   "id": "body.630-151",
+   "kind": "pond",
+   "levelM": 603.56,
+   "maxDepthM": 10.33,
+   "areaM2": 1119.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    630,
+    151
+   ],
+   "bboxCells": [
+    620,
+    139,
+    640,
+    160
+   ],
+   "region": 12,
+   "label": 7,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1197-147",
+   "kind": "pond",
+   "levelM": 283.22,
+   "maxDepthM": 8.84,
+   "areaM2": 976.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    1197,
+    147
+   ],
+   "bboxCells": [
+    1179,
+    141,
+    1218,
+    152
+   ],
+   "region": 12,
+   "label": 8,
+   "seaLevel": false
+  },
+  {
+   "id": "body.949-176",
+   "kind": "pond",
+   "levelM": 432.25,
+   "maxDepthM": 8.03,
+   "areaM2": 2502.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    949,
+    176
+   ],
+   "bboxCells": [
+    939,
+    159,
+    966,
+    204
+   ],
+   "region": 12,
+   "label": 9,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3364-188",
+   "kind": "pond",
+   "levelM": 71.26,
+   "maxDepthM": 15.68,
+   "areaM2": 6759.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    3364,
+    188
+   ],
+   "bboxCells": [
+    3318,
+    170,
+    3397,
+    226
+   ],
+   "region": 12,
+   "label": 10,
+   "seaLevel": false
+  },
+  {
+   "id": "body.483-206",
+   "kind": "pond",
+   "levelM": 406.49,
+   "maxDepthM": 12.1,
+   "areaM2": 2416.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    483,
+    206
+   ],
+   "bboxCells": [
+    469,
+    197,
+    500,
+    229
+   ],
+   "region": 12,
+   "label": 11,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3465-243",
+   "kind": "backswamp",
+   "levelM": 53.2,
+   "maxDepthM": 5.5,
+   "areaM2": 2830.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    3465,
+    243
+   ],
+   "bboxCells": [
+    3437,
+    209,
+    3486,
+    254
+   ],
+   "region": 12,
+   "label": 12,
+   "seaLevel": false
+  },
+  {
+   "id": "body.831-230",
+   "kind": "pool",
+   "levelM": 494.02,
+   "maxDepthM": 6.45,
+   "areaM2": 491.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    831,
+    230
+   ],
+   "bboxCells": [
+    819,
+    216,
+    837,
+    237
+   ],
+   "region": 12,
+   "label": 13,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2711-252",
+   "kind": "pond",
+   "levelM": 172.33,
+   "maxDepthM": 4.18,
+   "areaM2": 1126.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2711,
+    252
+   ],
+   "bboxCells": [
+    2696,
+    239,
+    2714,
+    275
+   ],
+   "region": 12,
+   "label": 14,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1787-344",
+   "kind": "lake-lowland",
+   "levelM": 7.45,
+   "maxDepthM": 8.72,
+   "areaM2": 73054.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1787,
+    344
+   ],
+   "bboxCells": [
+    1724,
+    247,
+    1967,
+    499
+   ],
+   "region": 12,
+   "label": 15,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2873-266",
+   "kind": "pond",
+   "levelM": 230.19,
+   "maxDepthM": 16.35,
+   "areaM2": 4383.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2873,
+    266
+   ],
+   "bboxCells": [
+    2860,
+    253,
+    2905,
+    303
+   ],
+   "region": 12,
+   "label": 16,
+   "seaLevel": false
+  },
+  {
+   "id": "body.914-278",
+   "kind": "pond",
+   "levelM": 469.41,
+   "maxDepthM": 12.11,
+   "areaM2": 1701.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    914,
+    278
+   ],
+   "bboxCells": [
+    897,
+    256,
+    927,
+    295
+   ],
+   "region": 12,
+   "label": 17,
+   "seaLevel": false
+  },
+  {
+   "id": "body.711-323",
+   "kind": "pond",
+   "levelM": 528.93,
+   "maxDepthM": 14.17,
+   "areaM2": 3141.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    711,
+    323
+   ],
+   "bboxCells": [
+    680,
+    292,
+    727,
+    343
+   ],
+   "region": 12,
+   "label": 18,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2879-340",
+   "kind": "tarn-upland",
+   "levelM": 229.48,
+   "maxDepthM": 32.68,
+   "areaM2": 26601.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2879,
+    340
+   ],
+   "bboxCells": [
+    2858,
+    294,
+    2958,
+    436
+   ],
+   "region": 12,
+   "label": 19,
+   "seaLevel": false
+  },
+  {
+   "id": "body.745-342",
+   "kind": "pond",
+   "levelM": 528.94,
+   "maxDepthM": 18.94,
+   "areaM2": 8944.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    745,
+    342
+   ],
+   "bboxCells": [
+    706,
+    297,
+    788,
+    369
+   ],
+   "region": 12,
+   "label": 20,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1627-313",
+   "kind": "marsh-deep",
+   "levelM": 14.59,
+   "maxDepthM": 0.71,
+   "areaM2": 441.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1627,
+    313
+   ],
+   "bboxCells": [
+    1615,
+    311,
+    1634,
+    330
+   ],
+   "region": 9,
+   "label": 21,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1002-335",
+   "kind": "tarn-upland",
+   "levelM": 393.95,
+   "maxDepthM": 44.23,
+   "areaM2": 15870.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    1002,
+    335
+   ],
+   "bboxCells": [
+    963,
+    315,
+    1059,
+    404
+   ],
+   "region": 12,
+   "label": 22,
+   "seaLevel": false
+  },
+  {
+   "id": "body.372-330",
+   "kind": "pool",
+   "levelM": 364.84,
+   "maxDepthM": 1.11,
+   "areaM2": 364.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    372,
+    330
+   ],
+   "bboxCells": [
+    361,
+    320,
+    378,
+    337
+   ],
+   "region": 12,
+   "label": 23,
+   "seaLevel": false
+  },
+  {
+   "id": "body.654-453",
+   "kind": "tarn-upland",
+   "levelM": 482.34,
+   "maxDepthM": 17.65,
+   "areaM2": 16401.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    654,
+    453
+   ],
+   "bboxCells": [
+    563,
+    393,
+    680,
+    478
+   ],
+   "region": 12,
+   "label": 24,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2641-407",
+   "kind": "pond",
+   "levelM": 257.6,
+   "maxDepthM": 12.74,
+   "areaM2": 728.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2641,
+    407
+   ],
+   "bboxCells": [
+    2633,
+    397,
+    2651,
+    416
+   ],
+   "region": 12,
+   "label": 25,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1144-450",
+   "kind": "pond",
+   "levelM": 331.04,
+   "maxDepthM": 13.94,
+   "areaM2": 9231.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    1144,
+    450
+   ],
+   "bboxCells": [
+    1089,
+    398,
+    1154,
+    468
+   ],
+   "region": 12,
+   "label": 26,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1622-411",
+   "kind": "backswamp",
+   "levelM": 13.13,
+   "maxDepthM": 0.95,
+   "areaM2": 144.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1622,
+    411
+   ],
+   "bboxCells": [
+    1611,
+    410,
+    1625,
+    414
+   ],
+   "region": 9,
+   "label": 27,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2406-416",
+   "kind": "pool",
+   "levelM": 202.1,
+   "maxDepthM": 5.12,
+   "areaM2": 324.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2406,
+    416
+   ],
+   "bboxCells": [
+    2400,
+    410,
+    2423,
+    421
+   ],
+   "region": 12,
+   "label": 28,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3399-420",
+   "kind": "pool",
+   "levelM": 27.87,
+   "maxDepthM": 1.08,
+   "areaM2": 84.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3399,
+    420
+   ],
+   "bboxCells": [
+    3392,
+    410,
+    3401,
+    422
+   ],
+   "region": 8,
+   "label": 29,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3044-420",
+   "kind": "pond",
+   "levelM": 175.0,
+   "maxDepthM": 1.71,
+   "areaM2": 1179.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    3044,
+    420
+   ],
+   "bboxCells": [
+    3028,
+    416,
+    3048,
+    444
+   ],
+   "region": 12,
+   "label": 30,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1571-570",
+   "kind": "lake-lowland",
+   "levelM": 8.57,
+   "maxDepthM": 9.84,
+   "areaM2": 27804.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1571,
+    570
+   ],
+   "bboxCells": [
+    1533,
+    420,
+    1706,
+    628
+   ],
+   "region": 12,
+   "label": 31,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2877-449",
+   "kind": "pool",
+   "levelM": 250.3,
+   "maxDepthM": 7.75,
+   "areaM2": 468.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2877,
+    449
+   ],
+   "bboxCells": [
+    2872,
+    435,
+    2886,
+    456
+   ],
+   "region": 12,
+   "label": 32,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1564-441",
+   "kind": "marsh-deep",
+   "levelM": 16.55,
+   "maxDepthM": 1.87,
+   "areaM2": 3308.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1564,
+    441
+   ],
+   "bboxCells": [
+    1516,
+    437,
+    1568,
+    473
+   ],
+   "region": 12,
+   "label": 33,
+   "seaLevel": false
+  },
+  {
+   "id": "body.866-443",
+   "kind": "pond",
+   "levelM": 466.71,
+   "maxDepthM": 9.3,
+   "areaM2": 752.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    866,
+    443
+   ],
+   "bboxCells": [
+    847,
+    439,
+    874,
+    460
+   ],
+   "region": 12,
+   "label": 34,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2454-459",
+   "kind": "pond",
+   "levelM": 243.08,
+   "maxDepthM": 7.79,
+   "areaM2": 718.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2454,
+    459
+   ],
+   "bboxCells": [
+    2445,
+    448,
+    2465,
+    468
+   ],
+   "region": 12,
+   "label": 35,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2926-515",
+   "kind": "pond",
+   "levelM": 222.52,
+   "maxDepthM": 12.85,
+   "areaM2": 7988.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2926,
+    515
+   ],
+   "bboxCells": [
+    2907,
+    459,
+    2962,
+    536
+   ],
+   "region": 12,
+   "label": 36,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1373-544",
+   "kind": "tarn-upland",
+   "levelM": 31.72,
+   "maxDepthM": 10.1,
+   "areaM2": 27406.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1373,
+    544
+   ],
+   "bboxCells": [
+    1310,
+    465,
+    1432,
+    631
+   ],
+   "region": 12,
+   "label": 37,
+   "seaLevel": false
+  },
+  {
+   "id": "body.173-485",
+   "kind": "pond",
+   "levelM": 275.13,
+   "maxDepthM": 14.84,
+   "areaM2": 4778.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    173,
+    485
+   ],
+   "bboxCells": [
+    132,
+    466,
+    196,
+    502
+   ],
+   "region": 12,
+   "label": 38,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3420-495",
+   "kind": "pool",
+   "levelM": 15.33,
+   "maxDepthM": 1.65,
+   "areaM2": 94.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3420,
+    495
+   ],
+   "bboxCells": [
+    3413,
+    487,
+    3423,
+    497
+   ],
+   "region": 8,
+   "label": 39,
+   "seaLevel": false
+  },
+  {
+   "id": "body.478-523",
+   "kind": "pond",
+   "levelM": 418.43,
+   "maxDepthM": 2.41,
+   "areaM2": 1734.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    478,
+    523
+   ],
+   "bboxCells": [
+    465,
+    493,
+    484,
+    537
+   ],
+   "region": 12,
+   "label": 40,
+   "seaLevel": false
+  },
+  {
+   "id": "body.507-510",
+   "kind": "pond",
+   "levelM": 424.49,
+   "maxDepthM": 1.4,
+   "areaM2": 638.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    507,
+    510
+   ],
+   "bboxCells": [
+    491,
+    502,
+    514,
+    520
+   ],
+   "region": 12,
+   "label": 41,
+   "seaLevel": false
+  },
+  {
+   "id": "body.583-532",
+   "kind": "pond",
+   "levelM": 443.53,
+   "maxDepthM": 14.56,
+   "areaM2": 4320.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    583,
+    532
+   ],
+   "bboxCells": [
+    544,
+    505,
+    605,
+    542
+   ],
+   "region": 12,
+   "label": 42,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1813-543",
+   "kind": "marsh-deep",
+   "levelM": 20.57,
+   "maxDepthM": 0.44,
+   "areaM2": 712.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1813,
+    543
+   ],
+   "bboxCells": [
+    1807,
+    518,
+    1819,
+    545
+   ],
+   "region": 11,
+   "label": 43,
+   "seaLevel": false
+  },
+  {
+   "id": "body.805-583",
+   "kind": "tarn-upland",
+   "levelM": 459.87,
+   "maxDepthM": 26.21,
+   "areaM2": 13909.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    805,
+    583
+   ],
+   "bboxCells": [
+    772,
+    519,
+    830,
+    637
+   ],
+   "region": 12,
+   "label": 44,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1052-567",
+   "kind": "pond",
+   "levelM": 309.45,
+   "maxDepthM": 11.14,
+   "areaM2": 4711.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    1052,
+    567
+   ],
+   "bboxCells": [
+    1040,
+    538,
+    1100,
+    591
+   ],
+   "region": 12,
+   "label": 45,
+   "seaLevel": false
+  },
+  {
+   "id": "body.200-770",
+   "kind": "tarn-upland",
+   "levelM": 290.3,
+   "maxDepthM": 42.72,
+   "areaM2": 107617.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    200,
+    770
+   ],
+   "bboxCells": [
+    130,
+    568,
+    420,
+    810
+   ],
+   "region": 12,
+   "label": 46,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3435-662",
+   "kind": "marsh-fringe",
+   "levelM": 11.66,
+   "maxDepthM": 3.25,
+   "areaM2": 7063.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3435,
+    662
+   ],
+   "bboxCells": [
+    3425,
+    592,
+    3460,
+    679
+   ],
+   "region": 12,
+   "label": 47,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1303-604",
+   "kind": "backswamp",
+   "levelM": 33.39,
+   "maxDepthM": 3.02,
+   "areaM2": 327.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1303,
+    604
+   ],
+   "bboxCells": [
+    1295,
+    597,
+    1313,
+    609
+   ],
+   "region": 12,
+   "label": 48,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2022-615",
+   "kind": "marsh-deep",
+   "levelM": 8.05,
+   "maxDepthM": 0.29,
+   "areaM2": 90.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2022,
+    615
+   ],
+   "bboxCells": [
+    2020,
+    609,
+    2029,
+    622
+   ],
+   "region": 6,
+   "label": 49,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1293-692",
+   "kind": "backswamp",
+   "levelM": 32.64,
+   "maxDepthM": 3.22,
+   "areaM2": 10337.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1293,
+    692
+   ],
+   "bboxCells": [
+    1236,
+    620,
+    1337,
+    734
+   ],
+   "region": 12,
+   "label": 50,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3372-629",
+   "kind": "marsh-fringe",
+   "levelM": 12.38,
+   "maxDepthM": 0.42,
+   "areaM2": 641.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3372,
+    629
+   ],
+   "bboxCells": [
+    3359,
+    620,
+    3380,
+    647
+   ],
+   "region": 12,
+   "label": 51,
+   "seaLevel": false
+  },
+  {
+   "id": "body.6-629",
+   "kind": "pool",
+   "levelM": 212.66,
+   "maxDepthM": 4.16,
+   "areaM2": 448.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    6,
+    629
+   ],
+   "bboxCells": [
+    1,
+    626,
+    14,
+    641
+   ],
+   "region": 12,
+   "label": 52,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1789-698",
+   "kind": "marsh-deep",
+   "levelM": 1.09,
+   "maxDepthM": 2.49,
+   "areaM2": 70208.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1789,
+    698
+   ],
+   "bboxCells": [
+    1468,
+    636,
+    1952,
+    829
+   ],
+   "region": 12,
+   "label": 53,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2222-663",
+   "kind": "pool",
+   "levelM": 12.78,
+   "maxDepthM": 12.83,
+   "areaM2": 418.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2222,
+    663
+   ],
+   "bboxCells": [
+    2211,
+    647,
+    2225,
+    667
+   ],
+   "region": 12,
+   "label": 54,
+   "seaLevel": false
+  },
+  {
+   "id": "body.995-684",
+   "kind": "pond",
+   "levelM": 314.07,
+   "maxDepthM": 5.21,
+   "areaM2": 748.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    995,
+    684
+   ],
+   "bboxCells": [
+    980,
+    676,
+    1010,
+    689
+   ],
+   "region": 12,
+   "label": 55,
+   "seaLevel": false
+  },
+  {
+   "id": "body.462-681",
+   "kind": "pond",
+   "levelM": 304.42,
+   "maxDepthM": 3.44,
+   "areaM2": 4200.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    462,
+    681
+   ],
+   "bboxCells": [
+    413,
+    677,
+    467,
+    719
+   ],
+   "region": 12,
+   "label": 56,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1696-704",
+   "kind": "pond",
+   "levelM": 7.41,
+   "maxDepthM": 7.46,
+   "areaM2": 1677.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1696,
+    704
+   ],
+   "bboxCells": [
+    1674,
+    687,
+    1714,
+    713
+   ],
+   "region": 11,
+   "label": 57,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1987-714",
+   "kind": "marsh-deep",
+   "levelM": 2.16,
+   "maxDepthM": 0.44,
+   "areaM2": 1393.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1987,
+    714
+   ],
+   "bboxCells": [
+    1972,
+    697,
+    2012,
+    727
+   ],
+   "region": 11,
+   "label": 58,
+   "seaLevel": false
+  },
+  {
+   "id": "body.414-711",
+   "kind": "pond",
+   "levelM": 303.94,
+   "maxDepthM": 11.4,
+   "areaM2": 798.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    414,
+    711
+   ],
+   "bboxCells": [
+    405,
+    702,
+    423,
+    720
+   ],
+   "region": 12,
+   "label": 59,
+   "seaLevel": false
+  },
+  {
+   "id": "body.525-732",
+   "kind": "pool",
+   "levelM": 350.21,
+   "maxDepthM": 3.27,
+   "areaM2": 434.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    525,
+    732
+   ],
+   "bboxCells": [
+    519,
+    717,
+    531,
+    738
+   ],
+   "region": 12,
+   "label": 60,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2088-727",
+   "kind": "marsh-deep",
+   "levelM": 4.61,
+   "maxDepthM": 0.22,
+   "areaM2": 354.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2088,
+    727
+   ],
+   "bboxCells": [
+    2083,
+    722,
+    2095,
+    735
+   ],
+   "region": 12,
+   "label": 61,
+   "seaLevel": false
+  },
+  {
+   "id": "body.541-766",
+   "kind": "pond",
+   "levelM": 358.13,
+   "maxDepthM": 13.4,
+   "areaM2": 6615.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    541,
+    766
+   ],
+   "bboxCells": [
+    511,
+    730,
+    562,
+    791
+   ],
+   "region": 12,
+   "label": 62,
+   "seaLevel": false
+  },
+  {
+   "id": "body.665-761",
+   "kind": "pool",
+   "levelM": 410.0,
+   "maxDepthM": 3.86,
+   "areaM2": 458.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    665,
+    761
+   ],
+   "bboxCells": [
+    659,
+    753,
+    670,
+    773
+   ],
+   "region": 12,
+   "label": 63,
+   "seaLevel": false
+  },
+  {
+   "id": "body.782-783",
+   "kind": "pond",
+   "levelM": 257.32,
+   "maxDepthM": 8.44,
+   "areaM2": 4303.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    782,
+    783
+   ],
+   "bboxCells": [
+    753,
+    771,
+    804,
+    811
+   ],
+   "region": 12,
+   "label": 64,
+   "seaLevel": false
+  },
+  {
+   "id": "body.650-784",
+   "kind": "pond",
+   "levelM": 410.56,
+   "maxDepthM": 6.49,
+   "areaM2": 591.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    650,
+    784
+   ],
+   "bboxCells": [
+    643,
+    776,
+    657,
+    795
+   ],
+   "region": 12,
+   "label": 65,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1277-865",
+   "kind": "lake-lowland",
+   "levelM": 29.38,
+   "maxDepthM": 7.63,
+   "areaM2": 35929.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1277,
+    865
+   ],
+   "bboxCells": [
+    1213,
+    784,
+    1354,
+    950
+   ],
+   "region": 12,
+   "label": 66,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1835-788",
+   "kind": "marsh-deep",
+   "levelM": 7.49,
+   "maxDepthM": 0.16,
+   "areaM2": 94.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1835,
+    788
+   ],
+   "bboxCells": [
+    1833,
+    784,
+    1836,
+    798
+   ],
+   "region": 11,
+   "label": 67,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3294-822",
+   "kind": "pool",
+   "levelM": 9.42,
+   "maxDepthM": 0.52,
+   "areaM2": 160.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3294,
+    822
+   ],
+   "bboxCells": [
+    3290,
+    812,
+    3304,
+    829
+   ],
+   "region": 8,
+   "label": 68,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1024-834",
+   "kind": "pond",
+   "levelM": 157.3,
+   "maxDepthM": 9.4,
+   "areaM2": 4704.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    1024,
+    834
+   ],
+   "bboxCells": [
+    1000,
+    820,
+    1050,
+    856
+   ],
+   "region": 12,
+   "label": 69,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2057-834",
+   "kind": "marsh-deep",
+   "levelM": 18.91,
+   "maxDepthM": 0.43,
+   "areaM2": 1270.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2057,
+    834
+   ],
+   "bboxCells": [
+    2022,
+    820,
+    2072,
+    841
+   ],
+   "region": 12,
+   "label": 70,
+   "seaLevel": false
+  },
+  {
+   "id": "body.750-847",
+   "kind": "pond",
+   "levelM": 268.07,
+   "maxDepthM": 5.38,
+   "areaM2": 1714.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    750,
+    847
+   ],
+   "bboxCells": [
+    732,
+    829,
+    759,
+    864
+   ],
+   "region": 12,
+   "label": 71,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1685-858",
+   "kind": "marsh-deep",
+   "levelM": 19.63,
+   "maxDepthM": 0.2,
+   "areaM2": 361.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1685,
+    858
+   ],
+   "bboxCells": [
+    1679,
+    852,
+    1691,
+    864
+   ],
+   "region": 12,
+   "label": 72,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1629-922",
+   "kind": "marsh-deep",
+   "levelM": 18.58,
+   "maxDepthM": 0.82,
+   "areaM2": 7798.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1629,
+    922
+   ],
+   "bboxCells": [
+    1619,
+    859,
+    1682,
+    951
+   ],
+   "region": 12,
+   "label": 73,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2081-878",
+   "kind": "marsh-deep",
+   "levelM": 20.48,
+   "maxDepthM": 0.67,
+   "areaM2": 1069.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2081,
+    878
+   ],
+   "bboxCells": [
+    2072,
+    861,
+    2090,
+    887
+   ],
+   "region": 12,
+   "label": 74,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1719-901",
+   "kind": "marsh-deep",
+   "levelM": 17.32,
+   "maxDepthM": 5.77,
+   "areaM2": 15536.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1719,
+    901
+   ],
+   "bboxCells": [
+    1666,
+    867,
+    1757,
+    998
+   ],
+   "region": 12,
+   "label": 75,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2039-884",
+   "kind": "marsh-deep",
+   "levelM": 23.79,
+   "maxDepthM": 0.38,
+   "areaM2": 615.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2039,
+    884
+   ],
+   "bboxCells": [
+    2033,
+    874,
+    2048,
+    892
+   ],
+   "region": 12,
+   "label": 76,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1903-894",
+   "kind": "marsh-deep",
+   "levelM": 22.79,
+   "maxDepthM": 0.92,
+   "areaM2": 167.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1903,
+    894
+   ],
+   "bboxCells": [
+    1898,
+    890,
+    1906,
+    900
+   ],
+   "region": 12,
+   "label": 77,
+   "seaLevel": false
+  },
+  {
+   "id": "body.195-908",
+   "kind": "pond",
+   "levelM": 415.2,
+   "maxDepthM": 5.11,
+   "areaM2": 558.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    195,
+    908
+   ],
+   "bboxCells": [
+    183,
+    898,
+    201,
+    913
+   ],
+   "region": 12,
+   "label": 78,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1864-915",
+   "kind": "marsh-deep",
+   "levelM": 20.05,
+   "maxDepthM": 0.29,
+   "areaM2": 805.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1864,
+    915
+   ],
+   "bboxCells": [
+    1848,
+    906,
+    1873,
+    927
+   ],
+   "region": 12,
+   "label": 79,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1999-999",
+   "kind": "lake-lowland",
+   "levelM": 9.08,
+   "maxDepthM": 9.83,
+   "areaM2": 44145.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1999,
+    999
+   ],
+   "bboxCells": [
+    1887,
+    917,
+    2036,
+    1069
+   ],
+   "region": 12,
+   "label": 80,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1458-964",
+   "kind": "backswamp",
+   "levelM": 13.19,
+   "maxDepthM": 5.27,
+   "areaM2": 9168.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1458,
+    964
+   ],
+   "bboxCells": [
+    1424,
+    937,
+    1494,
+    1012
+   ],
+   "region": 12,
+   "label": 81,
+   "seaLevel": false
+  },
+  {
+   "id": "body.471-960",
+   "kind": "pond",
+   "levelM": 483.59,
+   "maxDepthM": 9.51,
+   "areaM2": 919.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    471,
+    960
+   ],
+   "bboxCells": [
+    461,
+    950,
+    480,
+    978
+   ],
+   "region": 12,
+   "label": 82,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3263-956",
+   "kind": "marsh-fringe",
+   "levelM": 6.12,
+   "maxDepthM": 0.42,
+   "areaM2": 341.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3263,
+    956
+   ],
+   "bboxCells": [
+    3257,
+    952,
+    3269,
+    963
+   ],
+   "region": 12,
+   "label": 83,
+   "seaLevel": false
+  },
+  {
+   "id": "body.450-968",
+   "kind": "pool",
+   "levelM": 492.26,
+   "maxDepthM": 9.82,
+   "areaM2": 424.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    450,
+    968
+   ],
+   "bboxCells": [
+    445,
+    962,
+    458,
+    976
+   ],
+   "region": 12,
+   "label": 84,
+   "seaLevel": false
+  },
+  {
+   "id": "body.541-980",
+   "kind": "pond",
+   "levelM": 419.52,
+   "maxDepthM": 7.69,
+   "areaM2": 2646.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    541,
+    980
+   ],
+   "bboxCells": [
+    521,
+    964,
+    551,
+    1013
+   ],
+   "region": 12,
+   "label": 85,
+   "seaLevel": false
+  },
+  {
+   "id": "body.573-978",
+   "kind": "pond",
+   "levelM": 414.7,
+   "maxDepthM": 5.13,
+   "areaM2": 1366.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    573,
+    978
+   ],
+   "bboxCells": [
+    563,
+    976,
+    579,
+    1020
+   ],
+   "region": 12,
+   "label": 86,
+   "seaLevel": false
+  },
+  {
+   "id": "body.627-1030",
+   "kind": "pond",
+   "levelM": 421.96,
+   "maxDepthM": 10.15,
+   "areaM2": 4480.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    627,
+    1030
+   ],
+   "bboxCells": [
+    607,
+    996,
+    658,
+    1046
+   ],
+   "region": 12,
+   "label": 87,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1593-1015",
+   "kind": "marsh-deep",
+   "levelM": 15.13,
+   "maxDepthM": 0.67,
+   "areaM2": 665.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1593,
+    1015
+   ],
+   "bboxCells": [
+    1586,
+    1007,
+    1602,
+    1025
+   ],
+   "region": 12,
+   "label": 88,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1732-1012",
+   "kind": "marsh-deep",
+   "levelM": 20.95,
+   "maxDepthM": 0.14,
+   "areaM2": 110.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1732,
+    1012
+   ],
+   "bboxCells": [
+    1730,
+    1009,
+    1736,
+    1017
+   ],
+   "region": 6,
+   "label": 89,
+   "seaLevel": false
+  },
+  {
+   "id": "body.564-1042",
+   "kind": "tarn-upland",
+   "levelM": 407.87,
+   "maxDepthM": 19.13,
+   "areaM2": 12819.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    564,
+    1042
+   ],
+   "bboxCells": [
+    543,
+    1026,
+    610,
+    1186
+   ],
+   "region": 12,
+   "label": 90,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1812-1058",
+   "kind": "pond",
+   "levelM": 10.47,
+   "maxDepthM": 0.34,
+   "areaM2": 1116.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1812,
+    1058
+   ],
+   "bboxCells": [
+    1804,
+    1030,
+    1820,
+    1069
+   ],
+   "region": 12,
+   "label": 91,
+   "seaLevel": false
+  },
+  {
+   "id": "body.61-1075",
+   "kind": "pond",
+   "levelM": 349.81,
+   "maxDepthM": 16.11,
+   "areaM2": 3779.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    61,
+    1075
+   ],
+   "bboxCells": [
+    45,
+    1032,
+    85,
+    1087
+   ],
+   "region": 12,
+   "label": 92,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1348-1043",
+   "kind": "backswamp",
+   "levelM": 16.25,
+   "maxDepthM": 1.25,
+   "areaM2": 752.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1348,
+    1043
+   ],
+   "bboxCells": [
+    1340,
+    1034,
+    1357,
+    1052
+   ],
+   "region": 12,
+   "label": 93,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2848-1068",
+   "kind": "marsh-fringe",
+   "levelM": 3.75,
+   "maxDepthM": 1.62,
+   "areaM2": 13895.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2848,
+    1068
+   ],
+   "bboxCells": [
+    2848,
+    1036,
+    2928,
+    1125
+   ],
+   "region": 9,
+   "label": 94,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1571-1249",
+   "kind": "marsh-deep",
+   "levelM": 1.14,
+   "maxDepthM": 5.27,
+   "areaM2": 110868.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1571,
+    1249
+   ],
+   "bboxCells": [
+    1412,
+    1039,
+    1866,
+    1524
+   ],
+   "region": 12,
+   "label": 95,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1263-1047",
+   "kind": "marsh-deep",
+   "levelM": 5.05,
+   "maxDepthM": 0.67,
+   "areaM2": 90.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1263,
+    1047
+   ],
+   "bboxCells": [
+    1259,
+    1043,
+    1266,
+    1050
+   ],
+   "region": 6,
+   "label": 96,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1560-1051",
+   "kind": "marsh-deep",
+   "levelM": 7.74,
+   "maxDepthM": 0.18,
+   "areaM2": 444.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1560,
+    1051
+   ],
+   "bboxCells": [
+    1555,
+    1044,
+    1567,
+    1058
+   ],
+   "region": 6,
+   "label": 97,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1217-1059",
+   "kind": "marsh-deep",
+   "levelM": 10.43,
+   "maxDepthM": 0.16,
+   "areaM2": 398.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1217,
+    1059
+   ],
+   "bboxCells": [
+    1216,
+    1049,
+    1228,
+    1072
+   ],
+   "region": 6,
+   "label": 98,
+   "seaLevel": false
+  },
+  {
+   "id": "body.3060-1063",
+   "kind": "marsh-fringe",
+   "levelM": 1.84,
+   "maxDepthM": 0.74,
+   "areaM2": 498.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3060,
+    1063
+   ],
+   "bboxCells": [
+    3047,
+    1051,
+    3064,
+    1067
+   ],
+   "region": 12,
+   "label": 99,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2039-1060",
+   "kind": "backswamp",
+   "levelM": 9.16,
+   "maxDepthM": 4.25,
+   "areaM2": 5102.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2039,
+    1060
+   ],
+   "bboxCells": [
+    2001,
+    1054,
+    2060,
+    1103
+   ],
+   "region": 12,
+   "label": 100,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1256-1068",
+   "kind": "marsh-deep",
+   "levelM": 2.19,
+   "maxDepthM": 0.1,
+   "areaM2": 84.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1256,
+    1068
+   ],
+   "bboxCells": [
+    1253,
+    1057,
+    1262,
+    1076
+   ],
+   "region": 12,
+   "label": 101,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2760-1064",
+   "kind": "marsh-fringe",
+   "levelM": 19.2,
+   "maxDepthM": 0.23,
+   "areaM2": 160.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2760,
+    1064
+   ],
+   "bboxCells": [
+    2751,
+    1062,
+    2765,
+    1068
+   ],
+   "region": 8,
+   "label": 102,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1595-1076",
+   "kind": "pond",
+   "levelM": 19.32,
+   "maxDepthM": 0.76,
+   "areaM2": 1303.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1595,
+    1076
+   ],
+   "bboxCells": [
+    1588,
+    1064,
+    1611,
+    1093
+   ],
+   "region": 12,
+   "label": 103,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1937-1081",
+   "kind": "marsh-deep",
+   "levelM": 8.74,
+   "maxDepthM": 0.85,
+   "areaM2": 2178.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1937,
+    1081
+   ],
+   "bboxCells": [
+    1933,
+    1072,
+    1958,
+    1117
+   ],
+   "region": 12,
+   "label": 104,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1218-1116",
+   "kind": "marsh-deep",
+   "levelM": 1.86,
+   "maxDepthM": 3.13,
+   "areaM2": 24897.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1218,
+    1116
+   ],
+   "bboxCells": [
+    1140,
+    1083,
+    1308,
+    1194
+   ],
+   "region": 12,
+   "label": 105,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1360-1084",
+   "kind": "marsh-deep",
+   "levelM": 3.37,
+   "maxDepthM": 1.32,
+   "areaM2": 1460.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1360,
+    1084
+   ],
+   "bboxCells": [
+    1352,
+    1083,
+    1385,
+    1108
+   ],
+   "region": 6,
+   "label": 106,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1664-1098",
+   "kind": "marsh-deep",
+   "levelM": 5.46,
+   "maxDepthM": 0.11,
+   "areaM2": 508.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1664,
+    1098
+   ],
+   "bboxCells": [
+    1660,
+    1086,
+    1670,
+    1107
+   ],
+   "region": 6,
+   "label": 107,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1075-1093",
+   "kind": "marsh-deep",
+   "levelM": 7.87,
+   "maxDepthM": 0.15,
+   "areaM2": 157.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1075,
+    1093
+   ],
+   "bboxCells": [
+    1072,
+    1087,
+    1084,
+    1096
+   ],
+   "region": 6,
+   "label": 108,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1988-1096",
+   "kind": "marsh-deep",
+   "levelM": 10.01,
+   "maxDepthM": 1.06,
+   "areaM2": 541.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1988,
+    1096
+   ],
+   "bboxCells": [
+    1976,
+    1093,
+    1995,
+    1106
+   ],
+   "region": 12,
+   "label": 109,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1104-1096",
+   "kind": "marsh-deep",
+   "levelM": 2.74,
+   "maxDepthM": 0.69,
+   "areaM2": 1052.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1104,
+    1096
+   ],
+   "bboxCells": [
+    1078,
+    1096,
+    1118,
+    1123
+   ],
+   "region": 11,
+   "label": 110,
+   "seaLevel": false
+  },
+  {
+   "id": "body.78-1125",
+   "kind": "pond",
+   "levelM": 332.5,
+   "maxDepthM": 13.2,
+   "areaM2": 1356.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    78,
+    1125
+   ],
+   "bboxCells": [
+    70,
+    1111,
+    93,
+    1137
+   ],
+   "region": 12,
+   "label": 111,
+   "seaLevel": false
+  },
+  {
+   "id": "body.406-1130",
+   "kind": "pond",
+   "levelM": 329.85,
+   "maxDepthM": 12.13,
+   "areaM2": 1520.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    406,
+    1130
+   ],
+   "bboxCells": [
+    396,
+    1117,
+    421,
+    1140
+   ],
+   "region": 12,
+   "label": 112,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1379-1138",
+   "kind": "marsh-deep",
+   "levelM": 10.69,
+   "maxDepthM": 0.43,
+   "areaM2": 718.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1379,
+    1138
+   ],
+   "bboxCells": [
+    1368,
+    1132,
+    1389,
+    1155
+   ],
+   "region": 12,
+   "label": 113,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2790-1144",
+   "kind": "pond",
+   "levelM": 19.1,
+   "maxDepthM": 0.33,
+   "areaM2": 742.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2790,
+    1144
+   ],
+   "bboxCells": [
+    2749,
+    1133,
+    2800,
+    1152
+   ],
+   "region": 11,
+   "label": 114,
+   "seaLevel": false
+  },
+  {
+   "id": "body.105-1143",
+   "kind": "pool",
+   "levelM": 330.63,
+   "maxDepthM": 9.55,
+   "areaM2": 484.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    105,
+    1143
+   ],
+   "bboxCells": [
+    99,
+    1136,
+    112,
+    1150
+   ],
+   "region": 12,
+   "label": 115,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1069-1144",
+   "kind": "marsh-deep",
+   "levelM": 5.48,
+   "maxDepthM": 0.43,
+   "areaM2": 327.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1069,
+    1144
+   ],
+   "bboxCells": [
+    1053,
+    1139,
+    1071,
+    1150
+   ],
+   "region": 12,
+   "label": 116,
+   "seaLevel": false
+  },
+  {
+   "id": "body.381-1149",
+   "kind": "pond",
+   "levelM": 311.5,
+   "maxDepthM": 5.86,
+   "areaM2": 558.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    381,
+    1149
+   ],
+   "bboxCells": [
+    374,
+    1142,
+    387,
+    1162
+   ],
+   "region": 12,
+   "label": 117,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2102-1165",
+   "kind": "marsh-deep",
+   "levelM": 4.62,
+   "maxDepthM": 0.59,
+   "areaM2": 3211.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2102,
+    1165
+   ],
+   "bboxCells": [
+    2089,
+    1142,
+    2122,
+    1183
+   ],
+   "region": 12,
+   "label": 118,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1295-1196",
+   "kind": "marsh-deep",
+   "levelM": 1.79,
+   "maxDepthM": 3.06,
+   "areaM2": 6291.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1295,
+    1196
+   ],
+   "bboxCells": [
+    1272,
+    1143,
+    1313,
+    1225
+   ],
+   "region": 12,
+   "label": 119,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2651-1161",
+   "kind": "marsh-fringe",
+   "levelM": 25.76,
+   "maxDepthM": 1.05,
+   "areaM2": 5336.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2651,
+    1161
+   ],
+   "bboxCells": [
+    2649,
+    1143,
+    2701,
+    1191
+   ],
+   "region": 12,
+   "label": 120,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1110-1164",
+   "kind": "marsh-deep",
+   "levelM": 2.08,
+   "maxDepthM": 2.13,
+   "areaM2": 3889.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1110,
+    1164
+   ],
+   "bboxCells": [
+    1094,
+    1148,
+    1135,
+    1184
+   ],
+   "region": 12,
+   "label": 121,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1073-1179",
+   "kind": "marsh-deep",
+   "levelM": 2.96,
+   "maxDepthM": 0.84,
+   "areaM2": 234.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1073,
+    1179
+   ],
+   "bboxCells": [
+    1073,
+    1163,
+    1080,
+    1188
+   ],
+   "region": 12,
+   "label": 122,
+   "seaLevel": false
+  },
+  {
+   "id": "body.101-1182",
+   "kind": "pond",
+   "levelM": 307.51,
+   "maxDepthM": 5.74,
+   "areaM2": 712.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    101,
+    1182
+   ],
+   "bboxCells": [
+    89,
+    1179,
+    105,
+    1199
+   ],
+   "region": 12,
+   "label": 123,
+   "seaLevel": false
+  },
+  {
+   "id": "body.379-1186",
+   "kind": "pond",
+   "levelM": 290.13,
+   "maxDepthM": 7.85,
+   "areaM2": 705.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    379,
+    1186
+   ],
+   "bboxCells": [
+    369,
+    1180,
+    388,
+    1195
+   ],
+   "region": 12,
+   "label": 124,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1144-1210",
+   "kind": "marsh-deep",
+   "levelM": 2.29,
+   "maxDepthM": 2.34,
+   "areaM2": 2452.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1144,
+    1210
+   ],
+   "bboxCells": [
+    1120,
+    1187,
+    1157,
+    1221
+   ],
+   "region": 12,
+   "label": 125,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1998-1197",
+   "kind": "marsh-deep",
+   "levelM": 0.96,
+   "maxDepthM": 1.76,
+   "areaM2": 6308.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1998,
+    1197
+   ],
+   "bboxCells": [
+    1967,
+    1188,
+    2016,
+    1266
+   ],
+   "region": 12,
+   "label": 126,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1233-1215",
+   "kind": "marsh-deep",
+   "levelM": 1.57,
+   "maxDepthM": 2.21,
+   "areaM2": 4985.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1233,
+    1215
+   ],
+   "bboxCells": [
+    1200,
+    1195,
+    1266,
+    1261
+   ],
+   "region": 12,
+   "label": 127,
+   "seaLevel": false
+  },
+  {
+   "id": "body.34-1253",
+   "kind": "tarn-upland",
+   "levelM": 235.18,
+   "maxDepthM": 35.85,
+   "areaM2": 11389.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    34,
+    1253
+   ],
+   "bboxCells": [
+    1,
+    1211,
+    65,
+    1286
+   ],
+   "region": 12,
+   "label": 128,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2745-1227",
+   "kind": "pond",
+   "levelM": 13.03,
+   "maxDepthM": 8.15,
+   "areaM2": 8336.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2745,
+    1227
+   ],
+   "bboxCells": [
+    2727,
+    1212,
+    2810,
+    1287
+   ],
+   "region": 12,
+   "label": 129,
+   "seaLevel": false
+  },
+  {
+   "id": "body.160-1250",
+   "kind": "pond",
+   "levelM": 330.14,
+   "maxDepthM": 8.35,
+   "areaM2": 755.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    160,
+    1250
+   ],
+   "bboxCells": [
+    150,
+    1237,
+    168,
+    1259
+   ],
+   "region": 12,
+   "label": 130,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1975-1269",
+   "kind": "marsh-deep",
+   "levelM": 0.95,
+   "maxDepthM": 1.0,
+   "areaM2": 775.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1975,
+    1269
+   ],
+   "bboxCells": [
+    1968,
+    1264,
+    1989,
+    1281
+   ],
+   "region": 12,
+   "label": 131,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2327-1287",
+   "kind": "swamp",
+   "levelM": 4.38,
+   "maxDepthM": 0.44,
+   "areaM2": 2178.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2327,
+    1287
+   ],
+   "bboxCells": [
+    2319,
+    1273,
+    2348,
+    1302
+   ],
+   "region": 12,
+   "label": 132,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2245-1351",
+   "kind": "backswamp",
+   "levelM": 0.94,
+   "maxDepthM": 3.21,
+   "areaM2": 10397.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2245,
+    1351
+   ],
+   "bboxCells": [
+    2173,
+    1279,
+    2278,
+    1378
+   ],
+   "region": 12,
+   "label": 133,
+   "seaLevel": false
+  },
+  {
+   "id": "body.177-1309",
+   "kind": "pool",
+   "levelM": 259.51,
+   "maxDepthM": 10.95,
+   "areaM2": 461.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    177,
+    1309
+   ],
+   "bboxCells": [
+    169,
+    1300,
+    183,
+    1314
+   ],
+   "region": 12,
+   "label": 134,
+   "seaLevel": false
+  },
+  {
+   "id": "body.472-1322",
+   "kind": "pond",
+   "levelM": 242.41,
+   "maxDepthM": 16.0,
+   "areaM2": 2813.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    472,
+    1322
+   ],
+   "bboxCells": [
+    451,
+    1304,
+    486,
+    1343
+   ],
+   "region": 12,
+   "label": 135,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1562-1330",
+   "kind": "marsh-deep",
+   "levelM": 2.3,
+   "maxDepthM": 2.35,
+   "areaM2": 742.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1562,
+    1330
+   ],
+   "bboxCells": [
+    1553,
+    1309,
+    1578,
+    1333
+   ],
+   "region": 12,
+   "label": 136,
+   "seaLevel": false
+  },
+  {
+   "id": "body.169-1344",
+   "kind": "pond",
+   "levelM": 245.25,
+   "maxDepthM": 17.63,
+   "areaM2": 1637.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    169,
+    1344
+   ],
+   "bboxCells": [
+    153,
+    1331,
+    183,
+    1356
+   ],
+   "region": 12,
+   "label": 137,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2836-1340",
+   "kind": "marsh-fringe",
+   "levelM": 7.17,
+   "maxDepthM": 0.19,
+   "areaM2": 134.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2836,
+    1340
+   ],
+   "bboxCells": [
+    2832,
+    1337,
+    2845,
+    1348
+   ],
+   "region": 11,
+   "label": 138,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1819-1343",
+   "kind": "pool",
+   "levelM": 16.68,
+   "maxDepthM": 0.61,
+   "areaM2": 454.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1819,
+    1343
+   ],
+   "bboxCells": [
+    1814,
+    1338,
+    1827,
+    1354
+   ],
+   "region": 12,
+   "label": 139,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1164-1355",
+   "kind": "pond",
+   "levelM": 13.53,
+   "maxDepthM": 0.56,
+   "areaM2": 942.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1164,
+    1355
+   ],
+   "bboxCells": [
+    1162,
+    1339,
+    1179,
+    1367
+   ],
+   "region": 11,
+   "label": 140,
+   "seaLevel": false
+  },
+  {
+   "id": "body.603-1360",
+   "kind": "pond",
+   "levelM": 392.31,
+   "maxDepthM": 4.89,
+   "areaM2": 925.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    603,
+    1360
+   ],
+   "bboxCells": [
+    592,
+    1350,
+    609,
+    1373
+   ],
+   "region": 12,
+   "label": 141,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1117-1397",
+   "kind": "marsh-deep",
+   "levelM": 15.18,
+   "maxDepthM": 1.46,
+   "areaM2": 4410.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1117,
+    1397
+   ],
+   "bboxCells": [
+    1103,
+    1361,
+    1167,
+    1416
+   ],
+   "region": 12,
+   "label": 142,
+   "seaLevel": false
+  },
+  {
+   "id": "body.27-1393",
+   "kind": "pond",
+   "levelM": 208.53,
+   "maxDepthM": 12.38,
+   "areaM2": 1353.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    27,
+    1393
+   ],
+   "bboxCells": [
+    17,
+    1375,
+    35,
+    1405
+   ],
+   "region": 12,
+   "label": 143,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1057-1399",
+   "kind": "marsh-deep",
+   "levelM": 19.29,
+   "maxDepthM": 0.28,
+   "areaM2": 414.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1057,
+    1399
+   ],
+   "bboxCells": [
+    1053,
+    1393,
+    1078,
+    1409
+   ],
+   "region": 9,
+   "label": 144,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1368-1417",
+   "kind": "marsh-deep",
+   "levelM": 1.68,
+   "maxDepthM": 1.73,
+   "areaM2": 2011.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1368,
+    1417
+   ],
+   "bboxCells": [
+    1359,
+    1403,
+    1385,
+    1431
+   ],
+   "region": 12,
+   "label": 145,
+   "seaLevel": false
+  },
+  {
+   "id": "body.677-1422",
+   "kind": "pond",
+   "levelM": 340.08,
+   "maxDepthM": 6.19,
+   "areaM2": 859.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    677,
+    1422
+   ],
+   "bboxCells": [
+    665,
+    1409,
+    683,
+    1429
+   ],
+   "region": 12,
+   "label": 146,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2401-1451",
+   "kind": "backswamp",
+   "levelM": 1.05,
+   "maxDepthM": 1.1,
+   "areaM2": 411.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2401,
+    1451
+   ],
+   "bboxCells": [
+    2397,
+    1438,
+    2414,
+    1452
+   ],
+   "region": 9,
+   "label": 147,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1620-1457",
+   "kind": "backswamp",
+   "levelM": 11.73,
+   "maxDepthM": 0.8,
+   "areaM2": 488.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1620,
+    1457
+   ],
+   "bboxCells": [
+    1616,
+    1447,
+    1626,
+    1468
+   ],
+   "region": 12,
+   "label": 148,
+   "seaLevel": false
+  },
+  {
+   "id": "body.501-1470",
+   "kind": "pond",
+   "levelM": 212.83,
+   "maxDepthM": 0.63,
+   "areaM2": 585.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    501,
+    1470
+   ],
+   "bboxCells": [
+    490,
+    1468,
+    503,
+    1508
+   ],
+   "region": 12,
+   "label": 149,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1196-1493",
+   "kind": "marsh-deep",
+   "levelM": 1.85,
+   "maxDepthM": 5.62,
+   "areaM2": 9642.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1196,
+    1493
+   ],
+   "bboxCells": [
+    1169,
+    1474,
+    1263,
+    1571
+   ],
+   "region": 12,
+   "label": 150,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1854-1524",
+   "kind": "marsh-deep",
+   "levelM": 1.11,
+   "maxDepthM": 1.16,
+   "areaM2": 2315.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1854,
+    1524
+   ],
+   "bboxCells": [
+    1827,
+    1484,
+    1862,
+    1529
+   ],
+   "region": 12,
+   "label": 151,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1076-1499",
+   "kind": "marsh-deep",
+   "levelM": 2.05,
+   "maxDepthM": 2.85,
+   "areaM2": 3134.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1076,
+    1499
+   ],
+   "bboxCells": [
+    1068,
+    1491,
+    1124,
+    1526
+   ],
+   "region": 12,
+   "label": 152,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2874-1515",
+   "kind": "marsh-fringe",
+   "levelM": 4.75,
+   "maxDepthM": 0.1,
+   "areaM2": 361.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2874,
+    1515
+   ],
+   "bboxCells": [
+    2846,
+    1504,
+    2880,
+    1521
+   ],
+   "region": 11,
+   "label": 153,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1331-1515",
+   "kind": "marsh-deep",
+   "levelM": 15.12,
+   "maxDepthM": 0.2,
+   "areaM2": 291.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1331,
+    1515
+   ],
+   "bboxCells": [
+    1321,
+    1510,
+    1335,
+    1520
+   ],
+   "region": 12,
+   "label": 154,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1879-1524",
+   "kind": "marsh-deep",
+   "levelM": 0.55,
+   "maxDepthM": 0.6,
+   "areaM2": 2098.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1879,
+    1524
+   ],
+   "bboxCells": [
+    1869,
+    1516,
+    1901,
+    1542
+   ],
+   "region": 12,
+   "label": 155,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1071-1533",
+   "kind": "marsh-deep",
+   "levelM": 7.76,
+   "maxDepthM": 0.14,
+   "areaM2": 117.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1071,
+    1533
+   ],
+   "bboxCells": [
+    1067,
+    1522,
+    1074,
+    1536
+   ],
+   "region": 6,
+   "label": 156,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1163-1544",
+   "kind": "marsh-deep",
+   "levelM": 2.0,
+   "maxDepthM": 3.27,
+   "areaM2": 3735.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1163,
+    1544
+   ],
+   "bboxCells": [
+    1128,
+    1525,
+    1195,
+    1557
+   ],
+   "region": 12,
+   "label": 157,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1723-1586",
+   "kind": "marsh-deep",
+   "levelM": 1.59,
+   "maxDepthM": 1.93,
+   "areaM2": 6161.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1723,
+    1586
+   ],
+   "bboxCells": [
+    1705,
+    1530,
+    1739,
+    1610
+   ],
+   "region": 12,
+   "label": 158,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2665-1543",
+   "kind": "backswamp",
+   "levelM": 17.55,
+   "maxDepthM": 0.84,
+   "areaM2": 1049.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2665,
+    1543
+   ],
+   "bboxCells": [
+    2655,
+    1535,
+    2676,
+    1560
+   ],
+   "region": 12,
+   "label": 159,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1292-1575",
+   "kind": "backswamp",
+   "levelM": 0.46,
+   "maxDepthM": 0.51,
+   "areaM2": 1797.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1292,
+    1575
+   ],
+   "bboxCells": [
+    1271,
+    1568,
+    1301,
+    1600
+   ],
+   "region": 12,
+   "label": 160,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2573-1574",
+   "kind": "marsh-fringe",
+   "levelM": 2.04,
+   "maxDepthM": 2.17,
+   "areaM2": 204.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2573,
+    1574
+   ],
+   "bboxCells": [
+    2568,
+    1569,
+    2578,
+    1578
+   ],
+   "region": 12,
+   "label": 161,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2693-1583",
+   "kind": "marsh-fringe",
+   "levelM": 18.35,
+   "maxDepthM": 0.99,
+   "areaM2": 1440.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2693,
+    1583
+   ],
+   "bboxCells": [
+    2688,
+    1572,
+    2706,
+    1607
+   ],
+   "region": 12,
+   "label": 162,
+   "seaLevel": false
+  },
+  {
+   "id": "body.221-1650",
+   "kind": "tarn-upland",
+   "levelM": 35.14,
+   "maxDepthM": 10.47,
+   "areaM2": 44763.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    221,
+    1650
+   ],
+   "bboxCells": [
+    180,
+    1575,
+    316,
+    1791
+   ],
+   "region": 12,
+   "label": 163,
+   "seaLevel": false
+  },
+  {
+   "id": "body.635-1651",
+   "kind": "tarn-upland",
+   "levelM": 74.59,
+   "maxDepthM": 13.71,
+   "areaM2": 11907.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    635,
+    1651
+   ],
+   "bboxCells": [
+    611,
+    1592,
+    688,
+    1688
+   ],
+   "region": 12,
+   "label": 164,
+   "seaLevel": false
+  },
+  {
+   "id": "body.777-1621",
+   "kind": "backswamp",
+   "levelM": 53.0,
+   "maxDepthM": 2.04,
+   "areaM2": 2977.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    777,
+    1621
+   ],
+   "bboxCells": [
+    761,
+    1599,
+    806,
+    1654
+   ],
+   "region": 9,
+   "label": 165,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2084-1623",
+   "kind": "marsh-deep",
+   "levelM": 1.05,
+   "maxDepthM": 1.1,
+   "areaM2": 939.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2084,
+    1623
+   ],
+   "bboxCells": [
+    2079,
+    1602,
+    2100,
+    1627
+   ],
+   "region": 12,
+   "label": 166,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2794-1618",
+   "kind": "pond",
+   "levelM": 5.77,
+   "maxDepthM": 0.85,
+   "areaM2": 1320.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2794,
+    1618
+   ],
+   "bboxCells": [
+    2789,
+    1609,
+    2833,
+    1634
+   ],
+   "region": 12,
+   "label": 167,
+   "seaLevel": false
+  },
+  {
+   "id": "body.39-1635",
+   "kind": "pool",
+   "levelM": 27.69,
+   "maxDepthM": 1.38,
+   "areaM2": 114.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    39,
+    1635
+   ],
+   "bboxCells": [
+    32,
+    1623,
+    41,
+    1637
+   ],
+   "region": 6,
+   "label": 168,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1828-1638",
+   "kind": "marsh-deep",
+   "levelM": 1.23,
+   "maxDepthM": 1.28,
+   "areaM2": 3010.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1828,
+    1638
+   ],
+   "bboxCells": [
+    1794,
+    1628,
+    1832,
+    1656
+   ],
+   "region": 12,
+   "label": 169,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1011-1646",
+   "kind": "backswamp",
+   "levelM": 21.72,
+   "maxDepthM": 3.7,
+   "areaM2": 829.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1011,
+    1646
+   ],
+   "bboxCells": [
+    1006,
+    1632,
+    1024,
+    1653
+   ],
+   "region": 12,
+   "label": 170,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1434-1639",
+   "kind": "marsh-deep",
+   "levelM": 1.18,
+   "maxDepthM": 1.23,
+   "areaM2": 354.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1434,
+    1639
+   ],
+   "bboxCells": [
+    1434,
+    1633,
+    1443,
+    1649
+   ],
+   "region": 6,
+   "label": 171,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1937-1653",
+   "kind": "backswamp",
+   "levelM": 0.76,
+   "maxDepthM": 0.95,
+   "areaM2": 1356.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1937,
+    1653
+   ],
+   "bboxCells": [
+    1910,
+    1634,
+    1939,
+    1657
+   ],
+   "region": 5,
+   "label": 172,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2870-1644",
+   "kind": "marsh-fringe",
+   "levelM": 2.47,
+   "maxDepthM": 0.41,
+   "areaM2": 1069.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2870,
+    1644
+   ],
+   "bboxCells": [
+    2846,
+    1639,
+    2898,
+    1663
+   ],
+   "region": 12,
+   "label": 173,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1222-1643",
+   "kind": "marsh-deep",
+   "levelM": 1.62,
+   "maxDepthM": 2.42,
+   "areaM2": 6445.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1222,
+    1643
+   ],
+   "bboxCells": [
+    1181,
+    1643,
+    1276,
+    1679
+   ],
+   "region": 12,
+   "label": 174,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2525-1650",
+   "kind": "swamp",
+   "levelM": 5.25,
+   "maxDepthM": 0.33,
+   "areaM2": 214.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2525,
+    1650
+   ],
+   "bboxCells": [
+    2512,
+    1645,
+    2533,
+    1652
+   ],
+   "region": 12,
+   "label": 175,
+   "seaLevel": false
+  },
+  {
+   "id": "body.34-1661",
+   "kind": "backswamp",
+   "levelM": 25.17,
+   "maxDepthM": 3.19,
+   "areaM2": 2021.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    34,
+    1661
+   ],
+   "bboxCells": [
+    29,
+    1647,
+    67,
+    1684
+   ],
+   "region": 12,
+   "label": 176,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1747-1685",
+   "kind": "marsh-deep",
+   "levelM": 1.28,
+   "maxDepthM": 1.33,
+   "areaM2": 6101.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1747,
+    1685
+   ],
+   "bboxCells": [
+    1709,
+    1647,
+    1760,
+    1697
+   ],
+   "region": 12,
+   "label": 177,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2943-1655",
+   "kind": "backswamp",
+   "levelM": 2.56,
+   "maxDepthM": 0.5,
+   "areaM2": 638.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2943,
+    1655
+   ],
+   "bboxCells": [
+    2916,
+    1647,
+    2953,
+    1668
+   ],
+   "region": 12,
+   "label": 178,
+   "seaLevel": false
+  },
+  {
+   "id": "body.692-1779",
+   "kind": "tarn-upland",
+   "levelM": 53.36,
+   "maxDepthM": 6.93,
+   "areaM2": 18145.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    692,
+    1779
+   ],
+   "bboxCells": [
+    648,
+    1648,
+    764,
+    1821
+   ],
+   "region": 12,
+   "label": 179,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2856-1654",
+   "kind": "pool",
+   "levelM": 1.99,
+   "maxDepthM": 2.04,
+   "areaM2": 408.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2856,
+    1654
+   ],
+   "bboxCells": [
+    2854,
+    1651,
+    2866,
+    1667
+   ],
+   "region": 8,
+   "label": 180,
+   "seaLevel": false
+  },
+  {
+   "id": "body.118-1666",
+   "kind": "pond",
+   "levelM": 32.49,
+   "maxDepthM": 3.56,
+   "areaM2": 618.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    118,
+    1666
+   ],
+   "bboxCells": [
+    98,
+    1658,
+    142,
+    1670
+   ],
+   "region": 12,
+   "label": 181,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1074-1698",
+   "kind": "backswamp",
+   "levelM": 17.86,
+   "maxDepthM": 1.17,
+   "areaM2": 2442.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1074,
+    1698
+   ],
+   "bboxCells": [
+    1050,
+    1666,
+    1087,
+    1701
+   ],
+   "region": 12,
+   "label": 182,
+   "seaLevel": false
+  },
+  {
+   "id": "body.43-1717",
+   "kind": "pond",
+   "levelM": 24.25,
+   "maxDepthM": 24.3,
+   "areaM2": 5285.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    43,
+    1717
+   ],
+   "bboxCells": [
+    6,
+    1676,
+    62,
+    1737
+   ],
+   "region": 12,
+   "label": 183,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2269-1701",
+   "kind": "marsh-deep",
+   "levelM": 17.89,
+   "maxDepthM": 1.01,
+   "areaM2": 1988.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2269,
+    1701
+   ],
+   "bboxCells": [
+    2240,
+    1688,
+    2286,
+    1714
+   ],
+   "region": 12,
+   "label": 184,
+   "seaLevel": false
+  },
+  {
+   "id": "body.329-1716",
+   "kind": "backswamp",
+   "levelM": 35.86,
+   "maxDepthM": 5.31,
+   "areaM2": 992.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    329,
+    1716
+   ],
+   "bboxCells": [
+    309,
+    1703,
+    358,
+    1732
+   ],
+   "region": 12,
+   "label": 185,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2933-1712",
+   "kind": "swamp",
+   "levelM": 0.99,
+   "maxDepthM": 1.13,
+   "areaM2": 5038.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2933,
+    1712
+   ],
+   "bboxCells": [
+    2918,
+    1710,
+    2955,
+    1773
+   ],
+   "region": 12,
+   "label": 186,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2675-1721",
+   "kind": "pool",
+   "levelM": 19.45,
+   "maxDepthM": 0.5,
+   "areaM2": 344.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2675,
+    1721
+   ],
+   "bboxCells": [
+    2667,
+    1714,
+    2683,
+    1727
+   ],
+   "region": 12,
+   "label": 187,
+   "seaLevel": false
+  },
+  {
+   "id": "body.796-1761",
+   "kind": "backswamp",
+   "levelM": 50.39,
+   "maxDepthM": 3.27,
+   "areaM2": 5262.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    796,
+    1761
+   ],
+   "bboxCells": [
+    762,
+    1724,
+    825,
+    1790
+   ],
+   "region": 12,
+   "label": 188,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2707-1741",
+   "kind": "pool",
+   "levelM": 5.23,
+   "maxDepthM": 0.32,
+   "areaM2": 337.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2707,
+    1741
+   ],
+   "bboxCells": [
+    2701,
+    1736,
+    2717,
+    1757
+   ],
+   "region": 8,
+   "label": 189,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1290-1740",
+   "kind": "marsh-deep",
+   "levelM": 13.34,
+   "maxDepthM": 0.13,
+   "areaM2": 314.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1290,
+    1740
+   ],
+   "bboxCells": [
+    1284,
+    1738,
+    1298,
+    1749
+   ],
+   "region": 11,
+   "label": 190,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2473-1773",
+   "kind": "swamp",
+   "levelM": 22.67,
+   "maxDepthM": 1.01,
+   "areaM2": 1427.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2473,
+    1773
+   ],
+   "bboxCells": [
+    2459,
+    1765,
+    2485,
+    1786
+   ],
+   "region": 12,
+   "label": 191,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1258-1800",
+   "kind": "backswamp",
+   "levelM": 15.63,
+   "maxDepthM": 4.97,
+   "areaM2": 2305.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1258,
+    1800
+   ],
+   "bboxCells": [
+    1243,
+    1767,
+    1272,
+    1808
+   ],
+   "region": 12,
+   "label": 192,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2486-1773",
+   "kind": "swamp",
+   "levelM": 22.62,
+   "maxDepthM": 0.12,
+   "areaM2": 184.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2486,
+    1773
+   ],
+   "bboxCells": [
+    2486,
+    1772,
+    2495,
+    1783
+   ],
+   "region": 7,
+   "label": 193,
+   "seaLevel": false
+  },
+  {
+   "id": "body.444-1782",
+   "kind": "pond",
+   "levelM": 61.64,
+   "maxDepthM": 6.09,
+   "areaM2": 508.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    444,
+    1782
+   ],
+   "bboxCells": [
+    427,
+    1774,
+    451,
+    1787
+   ],
+   "region": 12,
+   "label": 194,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1417-1789",
+   "kind": "marsh-deep",
+   "levelM": 17.53,
+   "maxDepthM": 0.62,
+   "areaM2": 798.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1417,
+    1789
+   ],
+   "bboxCells": [
+    1406,
+    1777,
+    1431,
+    1798
+   ],
+   "region": 6,
+   "label": 195,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2909-1833",
+   "kind": "mudflat",
+   "levelM": 1.4,
+   "maxDepthM": 1.45,
+   "areaM2": 6244.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2909,
+    1833
+   ],
+   "bboxCells": [
+    2897,
+    1792,
+    2947,
+    1843
+   ],
+   "region": 12,
+   "label": 196,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2054-1802",
+   "kind": "pool",
+   "levelM": 22.21,
+   "maxDepthM": 0.45,
+   "areaM2": 221.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2054,
+    1802
+   ],
+   "bboxCells": [
+    2048,
+    1797,
+    2061,
+    1806
+   ],
+   "region": 11,
+   "label": 197,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2579-1814",
+   "kind": "swamp",
+   "levelM": 10.97,
+   "maxDepthM": 0.35,
+   "areaM2": 1006.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2579,
+    1814
+   ],
+   "bboxCells": [
+    2571,
+    1802,
+    2587,
+    1829
+   ],
+   "region": 12,
+   "label": 198,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1190-1860",
+   "kind": "backswamp",
+   "levelM": 24.37,
+   "maxDepthM": 3.73,
+   "areaM2": 3374.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1190,
+    1860
+   ],
+   "bboxCells": [
+    1172,
+    1833,
+    1225,
+    1869
+   ],
+   "region": 12,
+   "label": 199,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2966-1867",
+   "kind": "swamp",
+   "levelM": 1.03,
+   "maxDepthM": 1.17,
+   "areaM2": 6649.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2966,
+    1867
+   ],
+   "bboxCells": [
+    2941,
+    1837,
+    2991,
+    1893
+   ],
+   "region": 12,
+   "label": 200,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1557-1875",
+   "kind": "marsh-deep",
+   "levelM": 7.99,
+   "maxDepthM": 1.12,
+   "areaM2": 3705.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1557,
+    1875
+   ],
+   "bboxCells": [
+    1528,
+    1849,
+    1584,
+    1894
+   ],
+   "region": 12,
+   "label": 201,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1124-1869",
+   "kind": "marsh-deep",
+   "levelM": 27.7,
+   "maxDepthM": 0.78,
+   "areaM2": 1697.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1124,
+    1869
+   ],
+   "bboxCells": [
+    1113,
+    1856,
+    1135,
+    1900
+   ],
+   "region": 12,
+   "label": 202,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2203-1865",
+   "kind": "backswamp",
+   "levelM": 30.2,
+   "maxDepthM": 1.24,
+   "areaM2": 1711.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2203,
+    1865
+   ],
+   "bboxCells": [
+    2190,
+    1858,
+    2222,
+    1885
+   ],
+   "region": 12,
+   "label": 203,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1824-1881",
+   "kind": "marsh-deep",
+   "levelM": 12.39,
+   "maxDepthM": 0.24,
+   "areaM2": 1056.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1824,
+    1881
+   ],
+   "bboxCells": [
+    1814,
+    1863,
+    1830,
+    1893
+   ],
+   "region": 12,
+   "label": 204,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1836-1881",
+   "kind": "marsh-deep",
+   "levelM": 13.1,
+   "maxDepthM": 0.95,
+   "areaM2": 775.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1836,
+    1881
+   ],
+   "bboxCells": [
+    1836,
+    1865,
+    1857,
+    1884
+   ],
+   "region": 12,
+   "label": 205,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2643-1904",
+   "kind": "pond",
+   "levelM": 7.79,
+   "maxDepthM": 5.73,
+   "areaM2": 7390.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2643,
+    1904
+   ],
+   "bboxCells": [
+    2590,
+    1892,
+    2657,
+    1946
+   ],
+   "region": 12,
+   "label": 206,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2507-1964",
+   "kind": "swamp",
+   "levelM": 7.21,
+   "maxDepthM": 1.75,
+   "areaM2": 17430.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2507,
+    1964
+   ],
+   "bboxCells": [
+    2468,
+    1896,
+    2581,
+    1999
+   ],
+   "region": 12,
+   "label": 207,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1544-1945",
+   "kind": "marsh-deep",
+   "levelM": 26.59,
+   "maxDepthM": 0.66,
+   "areaM2": 909.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1544,
+    1945
+   ],
+   "bboxCells": [
+    1520,
+    1935,
+    1548,
+    1959
+   ],
+   "region": 6,
+   "label": 208,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2385-1966",
+   "kind": "swamp",
+   "levelM": 2.15,
+   "maxDepthM": 2.74,
+   "areaM2": 2626.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2385,
+    1966
+   ],
+   "bboxCells": [
+    2379,
+    1953,
+    2409,
+    1993
+   ],
+   "region": 13,
+   "label": 209,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1062-2011",
+   "kind": "marsh-deep",
+   "levelM": 18.76,
+   "maxDepthM": 0.43,
+   "areaM2": 1086.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1062,
+    2011
+   ],
+   "bboxCells": [
+    1051,
+    1970,
+    1070,
+    2032
+   ],
+   "region": 6,
+   "label": 210,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1228-1981",
+   "kind": "marsh-deep",
+   "levelM": 22.82,
+   "maxDepthM": 0.32,
+   "areaM2": 568.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1228,
+    1981
+   ],
+   "bboxCells": [
+    1220,
+    1973,
+    1238,
+    1988
+   ],
+   "region": 12,
+   "label": 211,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1189-2027",
+   "kind": "marsh-deep",
+   "levelM": 21.47,
+   "maxDepthM": 4.75,
+   "areaM2": 21790.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1189,
+    2027
+   ],
+   "bboxCells": [
+    1150,
+    1976,
+    1255,
+    2086
+   ],
+   "region": 12,
+   "label": 212,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2622-1997",
+   "kind": "swamp",
+   "levelM": 5.52,
+   "maxDepthM": 0.6,
+   "areaM2": 7484.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2622,
+    1997
+   ],
+   "bboxCells": [
+    2581,
+    1977,
+    2649,
+    2034
+   ],
+   "region": 12,
+   "label": 213,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2768-2033",
+   "kind": "marsh-fringe",
+   "levelM": 1.87,
+   "maxDepthM": 5.48,
+   "areaM2": 21225.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2768,
+    2033
+   ],
+   "bboxCells": [
+    2741,
+    1979,
+    2836,
+    2082
+   ],
+   "region": 12,
+   "label": 214,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2219-1990",
+   "kind": "swamp",
+   "levelM": 18.1,
+   "maxDepthM": 0.47,
+   "areaM2": 398.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2219,
+    1990
+   ],
+   "bboxCells": [
+    2213,
+    1984,
+    2226,
+    1998
+   ],
+   "region": 13,
+   "label": 215,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1061-2014",
+   "kind": "marsh-deep",
+   "levelM": 16.62,
+   "maxDepthM": 0.59,
+   "areaM2": 548.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1061,
+    2014
+   ],
+   "bboxCells": [
+    1048,
+    1993,
+    1070,
+    2042
+   ],
+   "region": 11,
+   "label": 216,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1536-2011",
+   "kind": "marsh-deep",
+   "levelM": 26.85,
+   "maxDepthM": 1.51,
+   "areaM2": 4009.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1536,
+    2011
+   ],
+   "bboxCells": [
+    1504,
+    1993,
+    1546,
+    2047
+   ],
+   "region": 12,
+   "label": 217,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2229-2024",
+   "kind": "swamp",
+   "levelM": 16.14,
+   "maxDepthM": 0.33,
+   "areaM2": 882.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2229,
+    2024
+   ],
+   "bboxCells": [
+    2221,
+    2017,
+    2244,
+    2043
+   ],
+   "region": 12,
+   "label": 218,
+   "seaLevel": false
+  },
+  {
+   "id": "body.260-2029",
+   "kind": "pond",
+   "levelM": 321.59,
+   "maxDepthM": 4.32,
+   "areaM2": 1741.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    260,
+    2029
+   ],
+   "bboxCells": [
+    237,
+    2025,
+    269,
+    2057
+   ],
+   "region": 12,
+   "label": 219,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2435-2152",
+   "kind": "swamp",
+   "levelM": 1.44,
+   "maxDepthM": 2.02,
+   "areaM2": 35141.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2435,
+    2152
+   ],
+   "bboxCells": [
+    2344,
+    2027,
+    2465,
+    2196
+   ],
+   "region": 12,
+   "label": 220,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2121-2037",
+   "kind": "swamp",
+   "levelM": 30.95,
+   "maxDepthM": 0.13,
+   "areaM2": 404.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2121,
+    2037
+   ],
+   "bboxCells": [
+    2116,
+    2032,
+    2133,
+    2049
+   ],
+   "region": 11,
+   "label": 221,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1062-2057",
+   "kind": "marsh-deep",
+   "levelM": 13.92,
+   "maxDepthM": 0.39,
+   "areaM2": 792.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1062,
+    2057
+   ],
+   "bboxCells": [
+    1052,
+    2040,
+    1068,
+    2097
+   ],
+   "region": 12,
+   "label": 222,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2667-2065",
+   "kind": "marsh-fringe",
+   "levelM": 3.07,
+   "maxDepthM": 0.16,
+   "areaM2": 1691.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2667,
+    2065
+   ],
+   "bboxCells": [
+    2647,
+    2056,
+    2681,
+    2077
+   ],
+   "region": 12,
+   "label": 223,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2587-2077",
+   "kind": "swamp",
+   "levelM": 4.87,
+   "maxDepthM": 1.91,
+   "areaM2": 16454.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2587,
+    2077
+   ],
+   "bboxCells": [
+    2516,
+    2058,
+    2611,
+    2136
+   ],
+   "region": 12,
+   "label": 224,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2079-2084",
+   "kind": "swamp",
+   "levelM": 39.34,
+   "maxDepthM": 0.58,
+   "areaM2": 478.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2079,
+    2084
+   ],
+   "bboxCells": [
+    2071,
+    2069,
+    2092,
+    2090
+   ],
+   "region": 13,
+   "label": 225,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2282-2109",
+   "kind": "swamp",
+   "levelM": 11.91,
+   "maxDepthM": 0.6,
+   "areaM2": 3575.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2282,
+    2109
+   ],
+   "bboxCells": [
+    2262,
+    2073,
+    2306,
+    2121
+   ],
+   "region": 12,
+   "label": 226,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2068-2093",
+   "kind": "backswamp",
+   "levelM": 39.77,
+   "maxDepthM": 1.04,
+   "areaM2": 1420.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2068,
+    2093
+   ],
+   "bboxCells": [
+    2048,
+    2074,
+    2080,
+    2110
+   ],
+   "region": 12,
+   "label": 227,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1409-2082",
+   "kind": "marsh-deep",
+   "levelM": 23.1,
+   "maxDepthM": 0.14,
+   "areaM2": 134.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1409,
+    2082
+   ],
+   "bboxCells": [
+    1406,
+    2080,
+    1418,
+    2085
+   ],
+   "region": 12,
+   "label": 228,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1475-2118",
+   "kind": "marsh-deep",
+   "levelM": 15.23,
+   "maxDepthM": 2.29,
+   "areaM2": 7143.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1475,
+    2118
+   ],
+   "bboxCells": [
+    1403,
+    2095,
+    1498,
+    2164
+   ],
+   "region": 12,
+   "label": 229,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1543-2103",
+   "kind": "marsh-deep",
+   "levelM": 24.05,
+   "maxDepthM": 1.32,
+   "areaM2": 605.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1543,
+    2103
+   ],
+   "bboxCells": [
+    1537,
+    2097,
+    1550,
+    2113
+   ],
+   "region": 12,
+   "label": 230,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1954-2136",
+   "kind": "swamp",
+   "levelM": 31.71,
+   "maxDepthM": 5.43,
+   "areaM2": 14333.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1954,
+    2136
+   ],
+   "bboxCells": [
+    1869,
+    2102,
+    1979,
+    2175
+   ],
+   "region": 12,
+   "label": 231,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1152-2115",
+   "kind": "marsh-deep",
+   "levelM": 17.78,
+   "maxDepthM": 0.17,
+   "areaM2": 374.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1152,
+    2115
+   ],
+   "bboxCells": [
+    1144,
+    2109,
+    1167,
+    2121
+   ],
+   "region": 9,
+   "label": 232,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2732-2124",
+   "kind": "marsh-fringe",
+   "levelM": 2.0,
+   "maxDepthM": 2.05,
+   "areaM2": 6989.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2732,
+    2124
+   ],
+   "bboxCells": [
+    2698,
+    2109,
+    2746,
+    2193
+   ],
+   "region": 12,
+   "label": 233,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2918-2111",
+   "kind": "mudflat",
+   "levelM": 1.38,
+   "maxDepthM": 1.43,
+   "areaM2": 611.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2918,
+    2111
+   ],
+   "bboxCells": [
+    2917,
+    2109,
+    2938,
+    2127
+   ],
+   "region": 12,
+   "label": 234,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2060-2154",
+   "kind": "swamp",
+   "levelM": 30.94,
+   "maxDepthM": 1.69,
+   "areaM2": 5914.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2060,
+    2154
+   ],
+   "bboxCells": [
+    2023,
+    2118,
+    2108,
+    2191
+   ],
+   "region": 12,
+   "label": 235,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1177-2156",
+   "kind": "marsh-deep",
+   "levelM": 16.55,
+   "maxDepthM": 1.43,
+   "areaM2": 718.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1177,
+    2156
+   ],
+   "bboxCells": [
+    1165,
+    2137,
+    1181,
+    2173
+   ],
+   "region": 12,
+   "label": 236,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1843-2180",
+   "kind": "swamp",
+   "levelM": 31.5,
+   "maxDepthM": 2.45,
+   "areaM2": 6408.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1843,
+    2180
+   ],
+   "bboxCells": [
+    1812,
+    2145,
+    1869,
+    2205
+   ],
+   "region": 12,
+   "label": 237,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1180-2160",
+   "kind": "marsh-deep",
+   "levelM": 17.49,
+   "maxDepthM": 0.14,
+   "areaM2": 244.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1180,
+    2160
+   ],
+   "bboxCells": [
+    1174,
+    2153,
+    1186,
+    2166
+   ],
+   "region": 6,
+   "label": 238,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2016-2170",
+   "kind": "swamp",
+   "levelM": 41.19,
+   "maxDepthM": 0.85,
+   "areaM2": 548.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2016,
+    2170
+   ],
+   "bboxCells": [
+    1999,
+    2161,
+    2027,
+    2175
+   ],
+   "region": 12,
+   "label": 239,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2569-2187",
+   "kind": "marsh-fringe",
+   "levelM": 11.6,
+   "maxDepthM": 0.54,
+   "areaM2": 1667.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2569,
+    2187
+   ],
+   "bboxCells": [
+    2544,
+    2174,
+    2577,
+    2199
+   ],
+   "region": 12,
+   "label": 240,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1294-2176",
+   "kind": "pond",
+   "levelM": 30.86,
+   "maxDepthM": 0.42,
+   "areaM2": 2172.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1294,
+    2176
+   ],
+   "bboxCells": [
+    1276,
+    2176,
+    1309,
+    2208
+   ],
+   "region": 9,
+   "label": 241,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1529-2187",
+   "kind": "marsh-deep",
+   "levelM": 15.84,
+   "maxDepthM": 0.44,
+   "areaM2": 905.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1529,
+    2187
+   ],
+   "bboxCells": [
+    1522,
+    2176,
+    1536,
+    2206
+   ],
+   "region": 12,
+   "label": 242,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1078-2190",
+   "kind": "marsh-deep",
+   "levelM": 10.8,
+   "maxDepthM": 0.28,
+   "areaM2": 1934.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1078,
+    2190
+   ],
+   "bboxCells": [
+    1064,
+    2179,
+    1094,
+    2205
+   ],
+   "region": 12,
+   "label": 243,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1437-2184",
+   "kind": "marsh-deep",
+   "levelM": 13.64,
+   "maxDepthM": 0.2,
+   "areaM2": 438.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1437,
+    2184
+   ],
+   "bboxCells": [
+    1431,
+    2180,
+    1447,
+    2193
+   ],
+   "region": 12,
+   "label": 244,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2473-2210",
+   "kind": "swamp",
+   "levelM": 1.34,
+   "maxDepthM": 1.74,
+   "areaM2": 434.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2473,
+    2210
+   ],
+   "bboxCells": [
+    2459,
+    2196,
+    2477,
+    2216
+   ],
+   "region": 12,
+   "label": 245,
+   "seaLevel": false
+  },
+  {
+   "id": "body.819-2283",
+   "kind": "lake-lowland",
+   "levelM": 17.65,
+   "maxDepthM": 18.92,
+   "areaM2": 17029.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    819,
+    2283
+   ],
+   "bboxCells": [
+    771,
+    2210,
+    868,
+    2331
+   ],
+   "region": 12,
+   "label": 246,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1676-2215",
+   "kind": "swamp",
+   "levelM": 21.55,
+   "maxDepthM": 0.2,
+   "areaM2": 324.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1676,
+    2215
+   ],
+   "bboxCells": [
+    1671,
+    2210,
+    1683,
+    2221
+   ],
+   "region": 13,
+   "label": 247,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1751-2231",
+   "kind": "swamp",
+   "levelM": 19.4,
+   "maxDepthM": 0.26,
+   "areaM2": 628.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1751,
+    2231
+   ],
+   "bboxCells": [
+    1722,
+    2214,
+    1755,
+    2240
+   ],
+   "region": 12,
+   "label": 248,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2508-2288",
+   "kind": "swamp",
+   "levelM": 1.24,
+   "maxDepthM": 5.01,
+   "areaM2": 15910.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2508,
+    2288
+   ],
+   "bboxCells": [
+    2455,
+    2215,
+    2626,
+    2297
+   ],
+   "region": 12,
+   "label": 249,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2929-2221",
+   "kind": "swamp",
+   "levelM": 0.69,
+   "maxDepthM": 0.74,
+   "areaM2": 1106.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2929,
+    2221
+   ],
+   "bboxCells": [
+    2927,
+    2218,
+    2949,
+    2240
+   ],
+   "region": 4,
+   "label": 250,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2353-2229",
+   "kind": "swamp",
+   "levelM": 9.82,
+   "maxDepthM": 0.13,
+   "areaM2": 428.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2353,
+    2229
+   ],
+   "bboxCells": [
+    2346,
+    2225,
+    2369,
+    2243
+   ],
+   "region": 13,
+   "label": 251,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1527-2232",
+   "kind": "marsh-deep",
+   "levelM": 14.97,
+   "maxDepthM": 0.13,
+   "areaM2": 361.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1527,
+    2232
+   ],
+   "bboxCells": [
+    1524,
+    2226,
+    1532,
+    2242
+   ],
+   "region": 6,
+   "label": 252,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2293-2252",
+   "kind": "swamp",
+   "levelM": 11.91,
+   "maxDepthM": 0.41,
+   "areaM2": 1650.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2293,
+    2252
+   ],
+   "bboxCells": [
+    2286,
+    2230,
+    2308,
+    2264
+   ],
+   "region": 12,
+   "label": 253,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2539-2247",
+   "kind": "swamp",
+   "levelM": 7.57,
+   "maxDepthM": 0.2,
+   "areaM2": 638.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2539,
+    2247
+   ],
+   "bboxCells": [
+    2520,
+    2237,
+    2547,
+    2250
+   ],
+   "region": 13,
+   "label": 254,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1461-2269",
+   "kind": "marsh-deep",
+   "levelM": 7.68,
+   "maxDepthM": 2.77,
+   "areaM2": 13548.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1461,
+    2269
+   ],
+   "bboxCells": [
+    1433,
+    2249,
+    1498,
+    2338
+   ],
+   "region": 12,
+   "label": 255,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1732-2269",
+   "kind": "swamp",
+   "levelM": 10.93,
+   "maxDepthM": 0.16,
+   "areaM2": 160.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1732,
+    2269
+   ],
+   "bboxCells": [
+    1726,
+    2254,
+    1733,
+    2280
+   ],
+   "region": 13,
+   "label": 256,
+   "seaLevel": false
+  },
+  {
+   "id": "body.924-2282",
+   "kind": "pond",
+   "levelM": 8.31,
+   "maxDepthM": 8.36,
+   "areaM2": 5860.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    924,
+    2282
+   ],
+   "bboxCells": [
+    895,
+    2261,
+    980,
+    2302
+   ],
+   "region": 12,
+   "label": 257,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1029-2301",
+   "kind": "marsh-deep",
+   "levelM": 3.14,
+   "maxDepthM": 0.84,
+   "areaM2": 16104.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1029,
+    2301
+   ],
+   "bboxCells": [
+    980,
+    2262,
+    1088,
+    2338
+   ],
+   "region": 12,
+   "label": 258,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1661-2338",
+   "kind": "swamp",
+   "levelM": 8.56,
+   "maxDepthM": 2.81,
+   "areaM2": 21082.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1661,
+    2338
+   ],
+   "bboxCells": [
+    1626,
+    2267,
+    1711,
+    2390
+   ],
+   "region": 12,
+   "label": 259,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2477-2270",
+   "kind": "swamp",
+   "levelM": 4.56,
+   "maxDepthM": 0.14,
+   "areaM2": 97.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2477,
+    2270
+   ],
+   "bboxCells": [
+    2468,
+    2268,
+    2480,
+    2275
+   ],
+   "region": 13,
+   "label": 260,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1170-2288",
+   "kind": "marsh-deep",
+   "levelM": 20.7,
+   "maxDepthM": 0.17,
+   "areaM2": 401.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1170,
+    2288
+   ],
+   "bboxCells": [
+    1165,
+    2277,
+    1173,
+    2299
+   ],
+   "region": 12,
+   "label": 261,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1348-2297",
+   "kind": "marsh-deep",
+   "levelM": 18.87,
+   "maxDepthM": 0.78,
+   "areaM2": 1069.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1348,
+    2297
+   ],
+   "bboxCells": [
+    1329,
+    2293,
+    1356,
+    2337
+   ],
+   "region": 12,
+   "label": 262,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2529-2296",
+   "kind": "swamp",
+   "levelM": 1.76,
+   "maxDepthM": 0.22,
+   "areaM2": 87.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2529,
+    2296
+   ],
+   "bboxCells": [
+    2525,
+    2294,
+    2537,
+    2299
+   ],
+   "region": 13,
+   "label": 263,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1852-2308",
+   "kind": "swamp",
+   "levelM": 30.95,
+   "maxDepthM": 0.33,
+   "areaM2": 1026.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1852,
+    2308
+   ],
+   "bboxCells": [
+    1840,
+    2296,
+    1859,
+    2321
+   ],
+   "region": 12,
+   "label": 264,
+   "seaLevel": false
+  },
+  {
+   "id": "body.895-2330",
+   "kind": "pond",
+   "levelM": 2.56,
+   "maxDepthM": 2.61,
+   "areaM2": 5085.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    895,
+    2330
+   ],
+   "bboxCells": [
+    874,
+    2311,
+    929,
+    2368
+   ],
+   "region": 12,
+   "label": 265,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2061-2336",
+   "kind": "swamp",
+   "levelM": 46.62,
+   "maxDepthM": 3.96,
+   "areaM2": 1072.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2061,
+    2336
+   ],
+   "bboxCells": [
+    2055,
+    2320,
+    2076,
+    2346
+   ],
+   "region": 12,
+   "label": 266,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1572-2343",
+   "kind": "swamp",
+   "levelM": 19.34,
+   "maxDepthM": 0.13,
+   "areaM2": 321.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1572,
+    2343
+   ],
+   "bboxCells": [
+    1569,
+    2329,
+    1578,
+    2347
+   ],
+   "region": 13,
+   "label": 267,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1982-2354",
+   "kind": "swamp",
+   "levelM": 48.88,
+   "maxDepthM": 0.21,
+   "areaM2": 304.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1982,
+    2354
+   ],
+   "bboxCells": [
+    1976,
+    2350,
+    1987,
+    2361
+   ],
+   "region": 13,
+   "label": 268,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2190-2370",
+   "kind": "swamp",
+   "levelM": 38.59,
+   "maxDepthM": 0.33,
+   "areaM2": 568.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2190,
+    2370
+   ],
+   "bboxCells": [
+    2183,
+    2354,
+    2199,
+    2371
+   ],
+   "region": 12,
+   "label": 269,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2151-2463",
+   "kind": "swamp",
+   "levelM": 38.83,
+   "maxDepthM": 2.43,
+   "areaM2": 9782.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2151,
+    2463
+   ],
+   "bboxCells": [
+    2126,
+    2363,
+    2197,
+    2500
+   ],
+   "region": 12,
+   "label": 270,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1893-2379",
+   "kind": "swamp",
+   "levelM": 31.1,
+   "maxDepthM": 1.29,
+   "areaM2": 1804.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1893,
+    2379
+   ],
+   "bboxCells": [
+    1882,
+    2367,
+    1906,
+    2398
+   ],
+   "region": 12,
+   "label": 271,
+   "seaLevel": false
+  },
+  {
+   "id": "body.935-2382",
+   "kind": "marsh-deep",
+   "levelM": 2.06,
+   "maxDepthM": 2.91,
+   "areaM2": 5543.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    935,
+    2382
+   ],
+   "bboxCells": [
+    930,
+    2368,
+    969,
+    2432
+   ],
+   "region": 12,
+   "label": 272,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1346-2411",
+   "kind": "marsh-deep",
+   "levelM": 10.02,
+   "maxDepthM": 0.28,
+   "areaM2": 2482.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1346,
+    2411
+   ],
+   "bboxCells": [
+    1333,
+    2391,
+    1373,
+    2425
+   ],
+   "region": 12,
+   "label": 273,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2338-2414",
+   "kind": "swamp",
+   "levelM": 23.89,
+   "maxDepthM": 0.32,
+   "areaM2": 1066.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2338,
+    2414
+   ],
+   "bboxCells": [
+    2326,
+    2395,
+    2346,
+    2422
+   ],
+   "region": 12,
+   "label": 274,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1879-2408",
+   "kind": "swamp",
+   "levelM": 29.9,
+   "maxDepthM": 0.18,
+   "areaM2": 678.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1879,
+    2408
+   ],
+   "bboxCells": [
+    1870,
+    2403,
+    1887,
+    2420
+   ],
+   "region": 13,
+   "label": 275,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1119-2423",
+   "kind": "marsh-deep",
+   "levelM": 15.56,
+   "maxDepthM": 0.26,
+   "areaM2": 571.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1119,
+    2423
+   ],
+   "bboxCells": [
+    1111,
+    2407,
+    1125,
+    2428
+   ],
+   "region": 11,
+   "label": 276,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1608-2422",
+   "kind": "marsh-deep",
+   "levelM": 5.45,
+   "maxDepthM": 0.21,
+   "areaM2": 4965.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1608,
+    2422
+   ],
+   "bboxCells": [
+    1559,
+    2410,
+    1631,
+    2453
+   ],
+   "region": 12,
+   "label": 277,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2310-2427",
+   "kind": "swamp",
+   "levelM": 24.88,
+   "maxDepthM": 0.32,
+   "areaM2": 668.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2310,
+    2427
+   ],
+   "bboxCells": [
+    2296,
+    2413,
+    2319,
+    2434
+   ],
+   "region": 12,
+   "label": 278,
+   "seaLevel": false
+  },
+  {
+   "id": "body.866-2426",
+   "kind": "pond",
+   "levelM": 3.77,
+   "maxDepthM": 3.82,
+   "areaM2": 1353.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    866,
+    2426
+   ],
+   "bboxCells": [
+    855,
+    2425,
+    887,
+    2444
+   ],
+   "region": 12,
+   "label": 279,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2311-2468",
+   "kind": "swamp",
+   "levelM": 23.58,
+   "maxDepthM": 0.78,
+   "areaM2": 6271.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2311,
+    2468
+   ],
+   "bboxCells": [
+    2289,
+    2429,
+    2374,
+    2491
+   ],
+   "region": 12,
+   "label": 280,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1970-2438",
+   "kind": "swamp",
+   "levelM": 32.8,
+   "maxDepthM": 0.67,
+   "areaM2": 444.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1970,
+    2438
+   ],
+   "bboxCells": [
+    1962,
+    2438,
+    1975,
+    2451
+   ],
+   "region": 12,
+   "label": 281,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2047-2456",
+   "kind": "swamp",
+   "levelM": 39.61,
+   "maxDepthM": 1.11,
+   "areaM2": 1500.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2047,
+    2456
+   ],
+   "bboxCells": [
+    2034,
+    2443,
+    2062,
+    2473
+   ],
+   "region": 12,
+   "label": 282,
+   "seaLevel": false
+  },
+  {
+   "id": "body.926-2458",
+   "kind": "marsh-deep",
+   "levelM": 1.83,
+   "maxDepthM": 2.65,
+   "areaM2": 24179.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    926,
+    2458
+   ],
+   "bboxCells": [
+    902,
+    2447,
+    978,
+    2627
+   ],
+   "region": 12,
+   "label": 283,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1824-2454",
+   "kind": "swamp",
+   "levelM": 22.96,
+   "maxDepthM": 0.2,
+   "areaM2": 875.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1824,
+    2454
+   ],
+   "bboxCells": [
+    1814,
+    2447,
+    1831,
+    2470
+   ],
+   "region": 12,
+   "label": 284,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1464-2481",
+   "kind": "marsh-deep",
+   "levelM": 2.64,
+   "maxDepthM": 0.44,
+   "areaM2": 5703.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1464,
+    2481
+   ],
+   "bboxCells": [
+    1425,
+    2462,
+    1483,
+    2544
+   ],
+   "region": 12,
+   "label": 285,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2430-2470",
+   "kind": "swamp",
+   "levelM": 21.87,
+   "maxDepthM": 0.62,
+   "areaM2": 2516.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2430,
+    2470
+   ],
+   "bboxCells": [
+    2419,
+    2463,
+    2457,
+    2503
+   ],
+   "region": 12,
+   "label": 286,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2074-2480",
+   "kind": "swamp",
+   "levelM": 40.55,
+   "maxDepthM": 0.25,
+   "areaM2": 187.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2074,
+    2480
+   ],
+   "bboxCells": [
+    2067,
+    2471,
+    2075,
+    2483
+   ],
+   "region": 13,
+   "label": 287,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2199-2481",
+   "kind": "swamp",
+   "levelM": 38.7,
+   "maxDepthM": 0.82,
+   "areaM2": 862.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2199,
+    2481
+   ],
+   "bboxCells": [
+    2186,
+    2473,
+    2210,
+    2496
+   ],
+   "region": 12,
+   "label": 288,
+   "seaLevel": false
+  },
+  {
+   "id": "body.923-2486",
+   "kind": "marsh-deep",
+   "levelM": 2.3,
+   "maxDepthM": 0.16,
+   "areaM2": 304.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    923,
+    2486
+   ],
+   "bboxCells": [
+    919,
+    2481,
+    928,
+    2494
+   ],
+   "region": 6,
+   "label": 289,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1988-2491",
+   "kind": "swamp",
+   "levelM": 32.9,
+   "maxDepthM": 0.62,
+   "areaM2": 471.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1988,
+    2491
+   ],
+   "bboxCells": [
+    1978,
+    2486,
+    1994,
+    2498
+   ],
+   "region": 12,
+   "label": 290,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1793-2513",
+   "kind": "swamp",
+   "levelM": 19.12,
+   "maxDepthM": 0.2,
+   "areaM2": 190.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1793,
+    2513
+   ],
+   "bboxCells": [
+    1779,
+    2509,
+    1819,
+    2520
+   ],
+   "region": 13,
+   "label": 291,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2486-2520",
+   "kind": "swamp",
+   "levelM": 20.65,
+   "maxDepthM": 0.3,
+   "areaM2": 1320.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2486,
+    2520
+   ],
+   "bboxCells": [
+    2476,
+    2510,
+    2499,
+    2532
+   ],
+   "region": 12,
+   "label": 292,
+   "seaLevel": false
+  },
+  {
+   "id": "body.795-2521",
+   "kind": "pond",
+   "levelM": 3.58,
+   "maxDepthM": 3.63,
+   "areaM2": 7888.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    795,
+    2521
+   ],
+   "bboxCells": [
+    790,
+    2514,
+    880,
+    2558
+   ],
+   "region": 12,
+   "label": 293,
+   "seaLevel": false
+  },
+  {
+   "id": "body.997-2534",
+   "kind": "marsh-deep",
+   "levelM": 2.09,
+   "maxDepthM": 2.14,
+   "areaM2": 715.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    997,
+    2534
+   ],
+   "bboxCells": [
+    989,
+    2525,
+    1009,
+    2540
+   ],
+   "region": 6,
+   "label": 294,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2382-2532",
+   "kind": "swamp",
+   "levelM": 21.81,
+   "maxDepthM": 0.25,
+   "areaM2": 782.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2382,
+    2532
+   ],
+   "bboxCells": [
+    2375,
+    2527,
+    2396,
+    2541
+   ],
+   "region": 12,
+   "label": 295,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2320-2549",
+   "kind": "swamp",
+   "levelM": 16.34,
+   "maxDepthM": 0.64,
+   "areaM2": 1286.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2320,
+    2549
+   ],
+   "bboxCells": [
+    2310,
+    2539,
+    2337,
+    2566
+   ],
+   "region": 12,
+   "label": 296,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2394-2545",
+   "kind": "swamp",
+   "levelM": 21.76,
+   "maxDepthM": 0.11,
+   "areaM2": 221.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2394,
+    2545
+   ],
+   "bboxCells": [
+    2391,
+    2540,
+    2399,
+    2553
+   ],
+   "region": 13,
+   "label": 297,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2707-2568",
+   "kind": "swamp",
+   "levelM": 1.42,
+   "maxDepthM": 1.59,
+   "areaM2": 5740.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2707,
+    2568
+   ],
+   "bboxCells": [
+    2685,
+    2545,
+    2728,
+    2629
+   ],
+   "region": 12,
+   "label": 298,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1157-2560",
+   "kind": "marsh-deep",
+   "levelM": 5.25,
+   "maxDepthM": 0.28,
+   "areaM2": 4437.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1157,
+    2560
+   ],
+   "bboxCells": [
+    1125,
+    2546,
+    1181,
+    2588
+   ],
+   "region": 12,
+   "label": 299,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1652-2565",
+   "kind": "marsh-deep",
+   "levelM": 2.56,
+   "maxDepthM": 2.61,
+   "areaM2": 5944.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1652,
+    2565
+   ],
+   "bboxCells": [
+    1622,
+    2548,
+    1690,
+    2592
+   ],
+   "region": 12,
+   "label": 300,
+   "seaLevel": false
+  },
+  {
+   "id": "body.835-2593",
+   "kind": "lake-lowland",
+   "levelM": 4.16,
+   "maxDepthM": 4.21,
+   "areaM2": 21275.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    835,
+    2593
+   ],
+   "bboxCells": [
+    782,
+    2554,
+    892,
+    2687
+   ],
+   "region": 12,
+   "label": 301,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2268-2610",
+   "kind": "swamp",
+   "levelM": 15.21,
+   "maxDepthM": 1.0,
+   "areaM2": 2299.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2268,
+    2610
+   ],
+   "bboxCells": [
+    2261,
+    2592,
+    2309,
+    2625
+   ],
+   "region": 12,
+   "label": 302,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1299-2644",
+   "kind": "marsh-deep",
+   "levelM": 2.22,
+   "maxDepthM": 0.19,
+   "areaM2": 14406.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1299,
+    2644
+   ],
+   "bboxCells": [
+    1246,
+    2603,
+    1347,
+    2682
+   ],
+   "region": 12,
+   "label": 303,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1209-3032",
+   "kind": "swamp",
+   "levelM": 1.44,
+   "maxDepthM": 7.65,
+   "areaM2": 1015176.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1209,
+    3032
+   ],
+   "bboxCells": [
+    729,
+    2604,
+    2186,
+    3428
+   ],
+   "region": 12,
+   "label": 304,
+   "seaLevel": false
+  },
+  {
+   "id": "body.988-2642",
+   "kind": "marsh-deep",
+   "levelM": 1.48,
+   "maxDepthM": 1.53,
+   "areaM2": 431.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    988,
+    2642
+   ],
+   "bboxCells": [
+    979,
+    2626,
+    993,
+    2643
+   ],
+   "region": 6,
+   "label": 305,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1583-2657",
+   "kind": "marsh-deep",
+   "levelM": 1.82,
+   "maxDepthM": 1.96,
+   "areaM2": 8139.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1583,
+    2657
+   ],
+   "bboxCells": [
+    1533,
+    2627,
+    1589,
+    2685
+   ],
+   "region": 9,
+   "label": 306,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1822-2663",
+   "kind": "swamp",
+   "levelM": 1.82,
+   "maxDepthM": 2.2,
+   "areaM2": 13815.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1822,
+    2663
+   ],
+   "bboxCells": [
+    1790,
+    2627,
+    1858,
+    2711
+   ],
+   "region": 12,
+   "label": 307,
+   "seaLevel": false
+  },
+  {
+   "id": "body.890-2657",
+   "kind": "marsh-deep",
+   "levelM": 5.23,
+   "maxDepthM": 0.45,
+   "areaM2": 541.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    890,
+    2657
+   ],
+   "bboxCells": [
+    882,
+    2633,
+    900,
+    2662
+   ],
+   "region": 6,
+   "label": 308,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2388-2649",
+   "kind": "swamp",
+   "levelM": 2.82,
+   "maxDepthM": 2.87,
+   "areaM2": 2987.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2388,
+    2649
+   ],
+   "bboxCells": [
+    2359,
+    2633,
+    2415,
+    2668
+   ],
+   "region": 12,
+   "label": 309,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1013-2666",
+   "kind": "marsh-deep",
+   "levelM": 1.47,
+   "maxDepthM": 1.52,
+   "areaM2": 5937.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1013,
+    2666
+   ],
+   "bboxCells": [
+    989,
+    2634,
+    1046,
+    2675
+   ],
+   "region": 12,
+   "label": 310,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2436-2699",
+   "kind": "swamp",
+   "levelM": 1.52,
+   "maxDepthM": 2.32,
+   "areaM2": 15816.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2436,
+    2699
+   ],
+   "bboxCells": [
+    2425,
+    2635,
+    2575,
+    2766
+   ],
+   "region": 12,
+   "label": 311,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1142-2677",
+   "kind": "marsh-deep",
+   "levelM": 2.43,
+   "maxDepthM": 0.13,
+   "areaM2": 1924.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1142,
+    2677
+   ],
+   "bboxCells": [
+    1111,
+    2664,
+    1154,
+    2686
+   ],
+   "region": 6,
+   "label": 312,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2555-2685",
+   "kind": "swamp",
+   "levelM": 1.29,
+   "maxDepthM": 1.34,
+   "areaM2": 1039.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2555,
+    2685
+   ],
+   "bboxCells": [
+    2537,
+    2667,
+    2565,
+    2691
+   ],
+   "region": 12,
+   "label": 313,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2259-2677",
+   "kind": "swamp",
+   "levelM": 13.01,
+   "maxDepthM": 0.13,
+   "areaM2": 324.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2259,
+    2677
+   ],
+   "bboxCells": [
+    2255,
+    2669,
+    2264,
+    2683
+   ],
+   "region": 13,
+   "label": 314,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2128-2685",
+   "kind": "swamp",
+   "levelM": 30.4,
+   "maxDepthM": 1.87,
+   "areaM2": 4397.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2128,
+    2685
+   ],
+   "bboxCells": [
+    2093,
+    2676,
+    2159,
+    2707
+   ],
+   "region": 12,
+   "label": 315,
+   "seaLevel": false
+  },
+  {
+   "id": "body.694-2721",
+   "kind": "pond",
+   "levelM": 7.3,
+   "maxDepthM": 7.35,
+   "areaM2": 568.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    694,
+    2721
+   ],
+   "bboxCells": [
+    693,
+    2703,
+    707,
+    2723
+   ],
+   "region": 11,
+   "label": 316,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1785-2769",
+   "kind": "swamp",
+   "levelM": 1.8,
+   "maxDepthM": 2.12,
+   "areaM2": 18646.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1785,
+    2769
+   ],
+   "bboxCells": [
+    1760,
+    2713,
+    1828,
+    2827
+   ],
+   "region": 12,
+   "label": 317,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1076-2743",
+   "kind": "marsh-deep",
+   "levelM": 2.19,
+   "maxDepthM": 2.24,
+   "areaM2": 5376.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1076,
+    2743
+   ],
+   "bboxCells": [
+    1059,
+    2719,
+    1098,
+    2773
+   ],
+   "region": 12,
+   "label": 318,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2132-2739",
+   "kind": "swamp",
+   "levelM": 30.22,
+   "maxDepthM": 0.33,
+   "areaM2": 852.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2132,
+    2739
+   ],
+   "bboxCells": [
+    2116,
+    2729,
+    2138,
+    2747
+   ],
+   "region": 12,
+   "label": 319,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1350-2745",
+   "kind": "marsh-deep",
+   "levelM": 1.99,
+   "maxDepthM": 2.53,
+   "areaM2": 3802.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1350,
+    2745
+   ],
+   "bboxCells": [
+    1330,
+    2737,
+    1367,
+    2780
+   ],
+   "region": 12,
+   "label": 320,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1749-2744",
+   "kind": "marsh-deep",
+   "levelM": 1.74,
+   "maxDepthM": 1.79,
+   "areaM2": 8633.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1749,
+    2744
+   ],
+   "bboxCells": [
+    1671,
+    2738,
+    1757,
+    2818
+   ],
+   "region": 12,
+   "label": 321,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1986-2753",
+   "kind": "swamp",
+   "levelM": 15.71,
+   "maxDepthM": 0.31,
+   "areaM2": 364.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1986,
+    2753
+   ],
+   "bboxCells": [
+    1974,
+    2752,
+    1992,
+    2761
+   ],
+   "region": 13,
+   "label": 322,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2483-2855",
+   "kind": "swamp",
+   "levelM": 2.11,
+   "maxDepthM": 2.72,
+   "areaM2": 6542.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2483,
+    2855
+   ],
+   "bboxCells": [
+    2479,
+    2812,
+    2584,
+    2864
+   ],
+   "region": 12,
+   "label": 323,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1592-2879",
+   "kind": "marsh-deep",
+   "levelM": 1.65,
+   "maxDepthM": 2.44,
+   "areaM2": 17878.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1592,
+    2879
+   ],
+   "bboxCells": [
+    1575,
+    2816,
+    1668,
+    2889
+   ],
+   "region": 12,
+   "label": 324,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2078-2851",
+   "kind": "swamp",
+   "levelM": 18.33,
+   "maxDepthM": 0.21,
+   "areaM2": 628.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2078,
+    2851
+   ],
+   "bboxCells": [
+    2078,
+    2844,
+    2088,
+    2866
+   ],
+   "region": 13,
+   "label": 325,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2609-2868",
+   "kind": "marsh-fringe",
+   "levelM": 1.93,
+   "maxDepthM": 1.98,
+   "areaM2": 5533.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2609,
+    2868
+   ],
+   "bboxCells": [
+    2598,
+    2844,
+    2645,
+    2894
+   ],
+   "region": 12,
+   "label": 326,
+   "seaLevel": false
+  },
+  {
+   "id": "body.716-2861",
+   "kind": "swamp",
+   "levelM": 5.14,
+   "maxDepthM": 0.14,
+   "areaM2": 194.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    716,
+    2861
+   ],
+   "bboxCells": [
+    711,
+    2857,
+    720,
+    2866
+   ],
+   "region": 7,
+   "label": 327,
+   "seaLevel": false
+  },
+  {
+   "id": "body.710-2871",
+   "kind": "swamp",
+   "levelM": 5.02,
+   "maxDepthM": 0.27,
+   "areaM2": 114.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    710,
+    2871
+   ],
+   "bboxCells": [
+    704,
+    2862,
+    726,
+    2875
+   ],
+   "region": 11,
+   "label": 328,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2299-2899",
+   "kind": "swamp",
+   "levelM": 19.45,
+   "maxDepthM": 1.22,
+   "areaM2": 5503.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2299,
+    2899
+   ],
+   "bboxCells": [
+    2286,
+    2879,
+    2336,
+    2933
+   ],
+   "region": 12,
+   "label": 329,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2183-2903",
+   "kind": "swamp",
+   "levelM": 21.29,
+   "maxDepthM": 4.74,
+   "areaM2": 2185.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2183,
+    2903
+   ],
+   "bboxCells": [
+    2175,
+    2894,
+    2209,
+    2923
+   ],
+   "region": 12,
+   "label": 330,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2665-2915",
+   "kind": "mudflat",
+   "levelM": 1.21,
+   "maxDepthM": 1.75,
+   "areaM2": 484.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2665,
+    2915
+   ],
+   "bboxCells": [
+    2649,
+    2905,
+    2669,
+    2920
+   ],
+   "region": 12,
+   "label": 331,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2233-2920",
+   "kind": "swamp",
+   "levelM": 21.15,
+   "maxDepthM": 1.92,
+   "areaM2": 2078.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2233,
+    2920
+   ],
+   "bboxCells": [
+    2214,
+    2908,
+    2252,
+    2931
+   ],
+   "region": 12,
+   "label": 332,
+   "seaLevel": false
+  },
+  {
+   "id": "body.643-2936",
+   "kind": "swamp",
+   "levelM": 2.94,
+   "maxDepthM": 0.29,
+   "areaM2": 3227.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    643,
+    2936
+   ],
+   "bboxCells": [
+    616,
+    2926,
+    671,
+    2951
+   ],
+   "region": 12,
+   "label": 333,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2455-2973",
+   "kind": "swamp",
+   "levelM": 2.25,
+   "maxDepthM": 6.38,
+   "areaM2": 10096.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2455,
+    2973
+   ],
+   "bboxCells": [
+    2431,
+    2943,
+    2505,
+    3000
+   ],
+   "region": 12,
+   "label": 334,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2244-2971",
+   "kind": "swamp",
+   "levelM": 23.13,
+   "maxDepthM": 1.11,
+   "areaM2": 3161.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2244,
+    2971
+   ],
+   "bboxCells": [
+    2214,
+    2959,
+    2258,
+    2990
+   ],
+   "region": 12,
+   "label": 335,
+   "seaLevel": false
+  },
+  {
+   "id": "body.385-2969",
+   "kind": "marsh-fringe",
+   "levelM": 8.21,
+   "maxDepthM": 0.56,
+   "areaM2": 525.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    385,
+    2969
+   ],
+   "bboxCells": [
+    384,
+    2963,
+    407,
+    2975
+   ],
+   "region": 9,
+   "label": 336,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2218-3023",
+   "kind": "swamp",
+   "levelM": 21.23,
+   "maxDepthM": 0.18,
+   "areaM2": 494.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2218,
+    3023
+   ],
+   "bboxCells": [
+    2215,
+    3010,
+    2227,
+    3028
+   ],
+   "region": 13,
+   "label": 337,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2302-3026",
+   "kind": "swamp",
+   "levelM": 24.94,
+   "maxDepthM": 0.19,
+   "areaM2": 244.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2302,
+    3026
+   ],
+   "bboxCells": [
+    2297,
+    3022,
+    2307,
+    3032
+   ],
+   "region": 12,
+   "label": 338,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2140-3035",
+   "kind": "swamp",
+   "levelM": 16.66,
+   "maxDepthM": 0.15,
+   "areaM2": 87.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2140,
+    3035
+   ],
+   "bboxCells": [
+    2139,
+    3030,
+    2150,
+    3050
+   ],
+   "region": 13,
+   "label": 339,
+   "seaLevel": false
+  },
+  {
+   "id": "body.699-3093",
+   "kind": "swamp",
+   "levelM": 4.06,
+   "maxDepthM": 1.54,
+   "areaM2": 6839.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    699,
+    3093
+   ],
+   "bboxCells": [
+    675,
+    3061,
+    726,
+    3119
+   ],
+   "region": 12,
+   "label": 340,
+   "seaLevel": false
+  },
+  {
+   "id": "body.234-3074",
+   "kind": "marsh-fringe",
+   "levelM": 1.71,
+   "maxDepthM": 1.76,
+   "areaM2": 1009.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    234,
+    3074
+   ],
+   "bboxCells": [
+    232,
+    3067,
+    250,
+    3092
+   ],
+   "region": 12,
+   "label": 341,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2357-3081",
+   "kind": "marsh-fringe",
+   "levelM": 23.31,
+   "maxDepthM": 0.17,
+   "areaM2": 1547.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2357,
+    3081
+   ],
+   "bboxCells": [
+    2335,
+    3072,
+    2369,
+    3094
+   ],
+   "region": 12,
+   "label": 342,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2084-3098",
+   "kind": "swamp",
+   "levelM": 4.25,
+   "maxDepthM": 1.02,
+   "areaM2": 4220.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2084,
+    3098
+   ],
+   "bboxCells": [
+    2061,
+    3081,
+    2106,
+    3118
+   ],
+   "region": 12,
+   "label": 343,
+   "seaLevel": false
+  },
+  {
+   "id": "body.775-3101",
+   "kind": "swamp",
+   "levelM": 3.18,
+   "maxDepthM": 0.76,
+   "areaM2": 4717.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    775,
+    3101
+   ],
+   "bboxCells": [
+    759,
+    3082,
+    799,
+    3138
+   ],
+   "region": 12,
+   "label": 344,
+   "seaLevel": false
+  },
+  {
+   "id": "body.361-3122",
+   "kind": "marsh-fringe",
+   "levelM": 2.29,
+   "maxDepthM": 0.14,
+   "areaM2": 8195.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    361,
+    3122
+   ],
+   "bboxCells": [
+    308,
+    3084,
+    393,
+    3140
+   ],
+   "region": 8,
+   "label": 345,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2407-3123",
+   "kind": "marsh-fringe",
+   "levelM": 17.83,
+   "maxDepthM": 3.04,
+   "areaM2": 3789.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2407,
+    3123
+   ],
+   "bboxCells": [
+    2372,
+    3104,
+    2417,
+    3153
+   ],
+   "region": 12,
+   "label": 346,
+   "seaLevel": false
+  },
+  {
+   "id": "body.837-3132",
+   "kind": "swamp",
+   "levelM": 2.27,
+   "maxDepthM": 0.2,
+   "areaM2": 2703.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    837,
+    3132
+   ],
+   "bboxCells": [
+    823,
+    3116,
+    860,
+    3150
+   ],
+   "region": 12,
+   "label": 347,
+   "seaLevel": false
+  },
+  {
+   "id": "body.531-3168",
+   "kind": "swamp",
+   "levelM": 3.17,
+   "maxDepthM": 0.96,
+   "areaM2": 8810.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    531,
+    3168
+   ],
+   "bboxCells": [
+    507,
+    3141,
+    573,
+    3201
+   ],
+   "region": 12,
+   "label": 348,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2121-3166",
+   "kind": "marsh-fringe",
+   "levelM": 4.0,
+   "maxDepthM": 1.27,
+   "areaM2": 6104.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2121,
+    3166
+   ],
+   "bboxCells": [
+    2104,
+    3159,
+    2172,
+    3198
+   ],
+   "region": 12,
+   "label": 349,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1262-3186",
+   "kind": "swamp",
+   "levelM": 1.53,
+   "maxDepthM": 1.58,
+   "areaM2": 408.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1262,
+    3186
+   ],
+   "bboxCells": [
+    1255,
+    3186,
+    1272,
+    3203
+   ],
+   "region": 12,
+   "label": 350,
+   "seaLevel": false
+  },
+  {
+   "id": "body.973-3292",
+   "kind": "marsh-fringe",
+   "levelM": 1.52,
+   "maxDepthM": 4.68,
+   "areaM2": 47462.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    973,
+    3292
+   ],
+   "bboxCells": [
+    877,
+    3202,
+    1101,
+    3356
+   ],
+   "region": 12,
+   "label": 351,
+   "seaLevel": false
+  },
+  {
+   "id": "body.486-3253",
+   "kind": "swamp",
+   "levelM": 3.1,
+   "maxDepthM": 1.06,
+   "areaM2": 19735.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    486,
+    3253
+   ],
+   "bboxCells": [
+    435,
+    3207,
+    534,
+    3292
+   ],
+   "region": 12,
+   "label": 352,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1853-3236",
+   "kind": "swamp",
+   "levelM": 2.11,
+   "maxDepthM": 2.16,
+   "areaM2": 1116.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1853,
+    3236
+   ],
+   "bboxCells": [
+    1843,
+    3224,
+    1864,
+    3246
+   ],
+   "region": 7,
+   "label": 353,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2211-3234",
+   "kind": "marsh-fringe",
+   "levelM": 2.59,
+   "maxDepthM": 0.25,
+   "areaM2": 1493.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2211,
+    3234
+   ],
+   "bboxCells": [
+    2198,
+    3224,
+    2225,
+    3250
+   ],
+   "region": 12,
+   "label": 354,
+   "seaLevel": false
+  },
+  {
+   "id": "body.955-3236",
+   "kind": "swamp",
+   "levelM": 1.76,
+   "maxDepthM": 1.81,
+   "areaM2": 381.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    955,
+    3236
+   ],
+   "bboxCells": [
+    940,
+    3230,
+    959,
+    3238
+   ],
+   "region": 5,
+   "label": 355,
+   "seaLevel": false
+  },
+  {
+   "id": "body.610-3266",
+   "kind": "swamp",
+   "levelM": 2.09,
+   "maxDepthM": 0.12,
+   "areaM2": 18730.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    610,
+    3266
+   ],
+   "bboxCells": [
+    559,
+    3249,
+    745,
+    3343
+   ],
+   "region": 7,
+   "label": 356,
+   "seaLevel": false
+  },
+  {
+   "id": "body.763-3395",
+   "kind": "marsh-fringe",
+   "levelM": 1.71,
+   "maxDepthM": 2.23,
+   "areaM2": 38906.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    763,
+    3395
+   ],
+   "bboxCells": [
+    631,
+    3261,
+    854,
+    3443
+   ],
+   "region": 5,
+   "label": 357,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1193-3286",
+   "kind": "swamp",
+   "levelM": 1.84,
+   "maxDepthM": 1.89,
+   "areaM2": 3688.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1193,
+    3286
+   ],
+   "bboxCells": [
+    1177,
+    3261,
+    1218,
+    3299
+   ],
+   "region": 12,
+   "label": 358,
+   "seaLevel": false
+  },
+  {
+   "id": "body.759-3294",
+   "kind": "swamp",
+   "levelM": 2.15,
+   "maxDepthM": 2.2,
+   "areaM2": 715.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    759,
+    3294
+   ],
+   "bboxCells": [
+    753,
+    3284,
+    768,
+    3304
+   ],
+   "region": 12,
+   "label": 359,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1140-3341",
+   "kind": "swamp",
+   "levelM": 1.94,
+   "maxDepthM": 1.99,
+   "areaM2": 1356.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1140,
+    3341
+   ],
+   "bboxCells": [
+    1128,
+    3324,
+    1148,
+    3352
+   ],
+   "region": 12,
+   "label": 360,
+   "seaLevel": false
+  },
+  {
+   "id": "body.824-3417",
+   "kind": "marsh-fringe",
+   "levelM": 1.15,
+   "maxDepthM": 1.64,
+   "areaM2": 7781.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    824,
+    3417
+   ],
+   "bboxCells": [
+    782,
+    3395,
+    837,
+    3466
+   ],
+   "region": 12,
+   "label": 361,
+   "seaLevel": false
+  },
+  {
+   "id": "body.844-3409",
+   "kind": "pool",
+   "levelM": 2.0,
+   "maxDepthM": 2.05,
+   "areaM2": 324.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    844,
+    3409
+   ],
+   "bboxCells": [
+    841,
+    3407,
+    850,
+    3421
+   ],
+   "region": 12,
+   "label": 362,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1284-3448",
+   "kind": "swamp",
+   "levelM": 2.53,
+   "maxDepthM": 0.52,
+   "areaM2": 9261.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1284,
+    3448
+   ],
+   "bboxCells": [
+    1248,
+    3407,
+    1343,
+    3473
+   ],
+   "region": 12,
+   "label": 363,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1701-3448",
+   "kind": "marsh-fringe",
+   "levelM": 2.13,
+   "maxDepthM": 0.12,
+   "areaM2": 9452.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1701,
+    3448
+   ],
+   "bboxCells": [
+    1658,
+    3419,
+    1729,
+    3480
+   ],
+   "region": 8,
+   "label": 364,
+   "seaLevel": false
+  },
+  {
+   "id": "body.718-3467",
+   "kind": "marsh-fringe",
+   "levelM": 1.62,
+   "maxDepthM": 1.69,
+   "areaM2": 9361.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    718,
+    3467
+   ],
+   "bboxCells": [
+    680,
+    3460,
+    763,
+    3519
+   ],
+   "region": 12,
+   "label": 365,
+   "seaLevel": false
+  },
+  {
+   "id": "body.805-3530",
+   "kind": "mudflat",
+   "levelM": 0.93,
+   "maxDepthM": 2.57,
+   "areaM2": 25265.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    805,
+    3530
+   ],
+   "bboxCells": [
+    765,
+    3463,
+    871,
+    3585
+   ],
+   "region": 12,
+   "label": 366,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1295-3508",
+   "kind": "marsh-fringe",
+   "levelM": 5.23,
+   "maxDepthM": 0.32,
+   "areaM2": 274.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1295,
+    3508
+   ],
+   "bboxCells": [
+    1287,
+    3500,
+    1306,
+    3509
+   ],
+   "region": 12,
+   "label": 367,
+   "seaLevel": false
+  },
+  {
+   "id": "body.415-3534",
+   "kind": "swamp",
+   "levelM": 10.96,
+   "maxDepthM": 0.75,
+   "areaM2": 5022.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    415,
+    3534
+   ],
+   "bboxCells": [
+    368,
+    3509,
+    434,
+    3554
+   ],
+   "region": 12,
+   "label": 368,
+   "seaLevel": false
+  },
+  {
+   "id": "body.748-3532",
+   "kind": "marsh-fringe",
+   "levelM": 1.72,
+   "maxDepthM": 1.77,
+   "areaM2": 551.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    748,
+    3532
+   ],
+   "bboxCells": [
+    737,
+    3525,
+    751,
+    3545
+   ],
+   "region": 12,
+   "label": 369,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1307-3582",
+   "kind": "pond",
+   "levelM": 19.53,
+   "maxDepthM": 0.51,
+   "areaM2": 715.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1307,
+    3582
+   ],
+   "bboxCells": [
+    1291,
+    3569,
+    1315,
+    3585
+   ],
+   "region": 12,
+   "label": 370,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1252-3586",
+   "kind": "marsh-fringe",
+   "levelM": 17.01,
+   "maxDepthM": 0.39,
+   "areaM2": 438.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1252,
+    3586
+   ],
+   "bboxCells": [
+    1244,
+    3580,
+    1259,
+    3591
+   ],
+   "region": 12,
+   "label": 371,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1370-3596",
+   "kind": "marsh-fringe",
+   "levelM": 15.19,
+   "maxDepthM": 0.15,
+   "areaM2": 180.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1370,
+    3596
+   ],
+   "bboxCells": [
+    1364,
+    3589,
+    1373,
+    3600
+   ],
+   "region": 11,
+   "label": 372,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1183-3666",
+   "kind": "marsh-fringe",
+   "levelM": 3.9,
+   "maxDepthM": 1.83,
+   "areaM2": 28843.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1183,
+    3666
+   ],
+   "bboxCells": [
+    1095,
+    3596,
+    1221,
+    3712
+   ],
+   "region": 12,
+   "label": 373,
+   "seaLevel": false
+  },
+  {
+   "id": "body.315-3637",
+   "kind": "marsh-fringe",
+   "levelM": 4.92,
+   "maxDepthM": 2.05,
+   "areaM2": 25158.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    315,
+    3637
+   ],
+   "bboxCells": [
+    261,
+    3606,
+    377,
+    3695
+   ],
+   "region": 12,
+   "label": 374,
+   "seaLevel": false
+  },
+  {
+   "id": "body.470-3631",
+   "kind": "swamp",
+   "levelM": 10.88,
+   "maxDepthM": 0.38,
+   "areaM2": 1186.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    470,
+    3631
+   ],
+   "bboxCells": [
+    465,
+    3624,
+    501,
+    3640
+   ],
+   "region": 12,
+   "label": 375,
+   "seaLevel": false
+  },
+  {
+   "id": "body.499-3729",
+   "kind": "marsh-fringe",
+   "levelM": 7.89,
+   "maxDepthM": 1.11,
+   "areaM2": 815.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    499,
+    3729
+   ],
+   "bboxCells": [
+    486,
+    3705,
+    502,
+    3736
+   ],
+   "region": 12,
+   "label": 376,
+   "seaLevel": false
+  },
+  {
+   "id": "body.1949-3728",
+   "kind": "swamp",
+   "levelM": 1.56,
+   "maxDepthM": 0.34,
+   "areaM2": 1727.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1949,
+    3728
+   ],
+   "bboxCells": [
+    1906,
+    3721,
+    1965,
+    3747
+   ],
+   "region": 11,
+   "label": 377,
+   "seaLevel": false
+  },
+  {
+   "id": "body.895-3836",
+   "kind": "marsh-fringe",
+   "levelM": 4.17,
+   "maxDepthM": 0.1,
+   "areaM2": 224.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    895,
+    3836
+   ],
+   "bboxCells": [
+    892,
+    3830,
+    909,
+    3837
+   ],
+   "region": 11,
+   "label": 378,
+   "seaLevel": false
+  },
+  {
+   "id": "body.2442-1212",
+   "kind": "marsh-deep",
+   "levelM": 0.0,
+   "maxDepthM": 9.21,
+   "areaM2": 1231031.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    2442,
+    1212
+   ],
+   "bboxCells": [
+    1271,
+    16,
+    2676,
+    1812
+   ],
+   "region": 12,
+   "label": 379,
+   "seaLevel": true
+  },
+  {
+   "id": "body.3525-81",
+   "kind": "swamp",
+   "levelM": 0.0,
+   "maxDepthM": 4.13,
+   "areaM2": 107938.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3525,
+    81
+   ],
+   "bboxCells": [
+    3445,
+    16,
+    3678,
+    537
+   ],
+   "region": 12,
+   "label": 380,
+   "seaLevel": true
+  },
+  {
+   "id": "body.4023-16",
+   "kind": "pond",
+   "levelM": 0.0,
+   "maxDepthM": 18.39,
+   "areaM2": 1534.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    4023,
+    16
+   ],
+   "bboxCells": [
+    3803,
+    16,
+    4033,
+    21
+   ],
+   "region": 11,
+   "label": 381,
+   "seaLevel": true
+  },
+  {
+   "id": "body.3433-520",
+   "kind": "lagoon",
+   "levelM": 0.0,
+   "maxDepthM": 0.05,
+   "areaM2": 2422.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    3433,
+    520
+   ],
+   "bboxCells": [
+    3423,
+    492,
+    3464,
+    555
+   ],
+   "region": 4,
+   "label": 382,
+   "seaLevel": true
+  },
+  {
+   "id": "body.2899-881",
+   "kind": "lagoon",
+   "levelM": 0.0,
+   "maxDepthM": 0.05,
+   "areaM2": 528.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2899,
+    881
+   ],
+   "bboxCells": [
+    2896,
+    873,
+    2909,
+    894
+   ],
+   "region": 4,
+   "label": 383,
+   "seaLevel": true
+  },
+  {
+   "id": "body.2834-1825",
+   "kind": "lagoon",
+   "levelM": 0.0,
+   "maxDepthM": 2.55,
+   "areaM2": 8085.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2834,
+    1825
+   ],
+   "bboxCells": [
+    2811,
+    1751,
+    2873,
+    1840
+   ],
+   "region": 3,
+   "label": 384,
+   "seaLevel": true
+  },
+  {
+   "id": "body.2811-2151",
+   "kind": "lagoon",
+   "levelM": 0.0,
+   "maxDepthM": 1.97,
+   "areaM2": 18182.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    2811,
+    2151
+   ],
+   "bboxCells": [
+    2782,
+    2095,
+    2881,
+    2245
+   ],
+   "region": 12,
+   "label": 385,
+   "seaLevel": true
+  },
+  {
+   "id": "body.930-3449",
+   "kind": "lagoon",
+   "levelM": 0.0,
+   "maxDepthM": 1.27,
+   "areaM2": 17874.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "tidal",
+   "deepestCell": [
+    930,
+    3449
+   ],
+   "bboxCells": [
+    909,
+    3371,
+    998,
+    3474
+   ],
+   "region": 12,
+   "label": 386,
+   "seaLevel": true
+  },
+  {
+   "id": "body.984-3515",
+   "kind": "backswamp",
+   "levelM": 0.0,
+   "maxDepthM": 0.77,
+   "areaM2": 10825.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    984,
+    3515
+   ],
+   "bboxCells": [
+    978,
+    3423,
+    1083,
+    3520
+   ],
+   "region": 9,
+   "label": 387,
+   "seaLevel": true
+  }
+ ],
+ "notCarried": [
+  {
+   "id": "body.2845-45",
+   "kind": "pond",
+   "levelM": 119.73,
+   "maxDepthM": 121.0,
+   "areaM2": 4133.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    2845,
+    45
+   ],
+   "bboxCells": [
+    2805,
+    16,
+    2902,
+    70
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.2627-23",
+   "kind": "pool",
+   "levelM": 94.56,
+   "maxDepthM": 94.61,
+   "areaM2": 364.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2627,
+    23
+   ],
+   "bboxCells": [
+    2623,
+    23,
+    2637,
+    37
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.2596-57",
+   "kind": "pond",
+   "levelM": 100.8,
+   "maxDepthM": 100.85,
+   "areaM2": 992.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2596,
+    57
+   ],
+   "bboxCells": [
+    2589,
+    33,
+    2602,
+    78
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.2665-59",
+   "kind": "pool",
+   "levelM": 104.88,
+   "maxDepthM": 104.93,
+   "areaM2": 368.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    2665,
+    59
+   ],
+   "bboxCells": [
+    2663,
+    59,
+    2681,
+    80
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.1962-161",
+   "kind": "pond",
+   "levelM": 59.13,
+   "maxDepthM": 59.18,
+   "areaM2": 628.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1962,
+    161
+   ],
+   "bboxCells": [
+    1954,
+    160,
+    1971,
+    175
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.3794-248",
+   "kind": "pond",
+   "levelM": 45.51,
+   "maxDepthM": 45.56,
+   "areaM2": 1109.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    3794,
+    248
+   ],
+   "bboxCells": [
+    3779,
+    227,
+    3799,
+    251
+   ],
+   "region": 11,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.3630-252",
+   "kind": "marsh-fringe",
+   "levelM": 16.75,
+   "maxDepthM": 0.15,
+   "areaM2": 190.0,
+   "sheet": true,
+   "season": "seasonal",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    3630,
+    252
+   ],
+   "bboxCells": [
+    3623,
+    249,
+    3632,
+    271
+   ],
+   "region": 12,
+   "why": "no outline in the regenerated 16a body raster"
+  },
+  {
+   "id": "body.1727-441",
+   "kind": "marsh-deep",
+   "levelM": 7.5,
+   "maxDepthM": 0.35,
+   "areaM2": 167.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1727,
+    441
+   ],
+   "bboxCells": [
+    1720,
+    430,
+    1733,
+    451
+   ],
+   "region": 11,
+   "why": "no outline in the regenerated 16a body raster"
+  },
+  {
+   "id": "body.3549-563",
+   "kind": "pond",
+   "levelM": 75.81,
+   "maxDepthM": 75.86,
+   "areaM2": 2302.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    3549,
+    563
+   ],
+   "bboxCells": [
+    3545,
+    539,
+    3573,
+    591
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.1468-604",
+   "kind": "pond",
+   "levelM": 54.64,
+   "maxDepthM": 54.69,
+   "areaM2": 3301.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1468,
+    604
+   ],
+   "bboxCells": [
+    1408,
+    578,
+    1479,
+    605
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.1510-648",
+   "kind": "pond",
+   "levelM": 75.93,
+   "maxDepthM": 75.98,
+   "areaM2": 3501.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    1510,
+    648
+   ],
+   "bboxCells": [
+    1485,
+    603,
+    1537,
+    650
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.1093-1110",
+   "kind": "marsh-deep",
+   "levelM": 2.74,
+   "maxDepthM": 2.79,
+   "areaM2": 491.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1093,
+    1110
+   ],
+   "bboxCells": [
+    1091,
+    1108,
+    1110,
+    1120
+   ],
+   "region": 6,
+   "why": "no outline in the regenerated 16a body raster"
+  },
+  {
+   "id": "body.678-1156",
+   "kind": "pool",
+   "levelM": 353.88,
+   "maxDepthM": 2.45,
+   "areaM2": 394.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "montane",
+   "deepestCell": [
+    678,
+    1156
+   ],
+   "bboxCells": [
+    674,
+    1153,
+    683,
+    1173
+   ],
+   "region": 12,
+   "why": "no outline in the regenerated 16a body raster"
+  },
+  {
+   "id": "body.1008-1557",
+   "kind": "marsh-deep",
+   "levelM": 15.53,
+   "maxDepthM": 0.36,
+   "areaM2": 107.0,
+   "sheet": true,
+   "season": "perennial",
+   "altitudeBand": "lowland",
+   "deepestCell": [
+    1008,
+    1557
+   ],
+   "bboxCells": [
+    993,
+    1552,
+    1011,
+    1559
+   ],
+   "region": 11,
+   "why": "no outline in the regenerated 16a body raster"
+  },
+  {
+   "id": "body.901-2254",
+   "kind": "pond",
+   "levelM": 31.24,
+   "maxDepthM": 31.29,
+   "areaM2": 778.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    901,
+    2254
+   ],
+   "bboxCells": [
+    895,
+    2238,
+    915,
+    2259
+   ],
+   "region": 11,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.715-2282",
+   "kind": "pond",
+   "levelM": 79.93,
+   "maxDepthM": 79.98,
+   "areaM2": 3719.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    715,
+    2282
+   ],
+   "bboxCells": [
+    671,
+    2262,
+    722,
+    2302
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  },
+  {
+   "id": "body.258-2581",
+   "kind": "tarn-upland",
+   "levelM": 62.61,
+   "maxDepthM": 63.88,
+   "areaM2": 32919.0,
+   "sheet": false,
+   "season": "perennial",
+   "altitudeBand": "upland",
+   "deepestCell": [
+    258,
+    2581
+   ],
+   "bboxCells": [
+    223,
+    2447,
+    326,
+    2718
+   ],
+   "region": 12,
+   "why": "ruling 2: floor near sea level under a high rim (a data hole in the source)"
+  }
+ ],
+ "falls": [
+  {
+   "reachId": "reach.2681-79",
+   "dropM": 4.72,
+   "lipLevelM": 109.61,
+   "plungeLevelM": 104.88,
+   "plungeCell": [
+    2681,
+    78
+   ],
+   "window": [
+    2664,
+    61,
+    2698,
+    95
+   ],
+   "label": 1
+  },
+  {
+   "reachId": "reach.90-2525",
+   "dropM": 43.95,
+   "lipLevelM": 43.95,
+   "plungeLevelM": 0.0,
+   "plungeCell": [
+    89,
+    2526
+   ],
+   "window": [
+    72,
+    2508,
+    107,
+    2543
+   ],
+   "label": 2
+  },
+  {
+   "reachId": "reach.1393-181",
+   "dropM": 24.74,
+   "lipLevelM": 24.74,
+   "plungeLevelM": 0.0,
+   "plungeCell": [
+    1394,
+    182
+   ],
+   "window": [
+    1376,
+    164,
+    1411,
+    198
+   ],
+   "label": 3
+  },
+  {
+   "reachId": "reach.2590-659",
+   "dropM": 122.31,
+   "lipLevelM": 122.31,
+   "plungeLevelM": 0.0,
+   "plungeCell": [
+    2590,
+    661
+   ],
+   "window": [
+    2573,
+    642,
+    2606,
+    677
+   ],
+   "label": 4
+  }
+ ],
+ "fallsNotCarried": [
+  {
+   "reachId": "reach.2349-983",
+   "dropM": 7.83,
+   "why": "coastal-terrace-step: a bank under 15 m into sea-level water (owner 2026-09-11)"
+  }
+ ]
+}

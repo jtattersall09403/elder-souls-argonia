@@ -56,7 +56,7 @@ first, then open only the master-plan sections the active phase needs.
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
 | P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water round 2 ([0047](decisions/0047-water-one-physical-model.md), [evidence](research/archive/water-round-2-2026-09/water-round2-evidence.md)) delivered and deployed 2026-09-09; the owner's review found it visually regressed in places, so the water, terrain, chain, route and vegetation rows of [polish-backlog.md](phases/P-polish/backlog.md) are absorbed into Phase 16 (its plan §9 lists them). What remains in the backlog is genuine polish |
-| **16 — frozen foundation and place ladder** (0057; owner 2026-09-11) | **16a accepted 2026-09-11; 16b delivered 2026-09-12, owner walk pending; next `deliver 16c` after the walk** | Plan: [phases/16-foundation-and-places/README.md](phases/16-foundation-and-places/README.md). **16a delivered 2026-09-11** ([0058](decisions/0058-the-hydrology-graph-is-the-water-record.md), [ledger](research/phase16/16a-hydrology-graph-ledger.md)): the hydrology graph (100 rivers, 889 typed reaches, 406 bodies with seasons and terrain preconditions, stable ids) derived once and gated in `npm test`; studio `?layer=hydrograph`; standard 14; docs prose ratchet; drainage-solver loop bug fixed at the root. Then 16b terrain once · 16c water once · 16d border apron · 16e routes/grading/spans/ferries · 16f vegetation · 16g macro plot · 16h settlement runtime + kit QA · 16i exemplars · 16j rollout. Rulings 1–13 given 2026-09-11 |
+| **16 — frozen foundation and place ladder** (0057; owner 2026-09-11) | **16a accepted 2026-09-11; 16b round 2 delivered 2026-09-12 (0060), owner walk + approval of the listed water departures pending; next `deliver 16c` after that** | Plan: [phases/16-foundation-and-places/README.md](phases/16-foundation-and-places/README.md). **16a delivered 2026-09-11** ([0058](decisions/0058-the-hydrology-graph-is-the-water-record.md), [ledger](research/phase16/16a-hydrology-graph-ledger.md)): the hydrology graph (100 rivers, 889 typed reaches, 406 bodies with seasons and terrain preconditions, stable ids) derived once and gated in `npm test`; studio `?layer=hydrograph`; standard 14; docs prose ratchet; drainage-solver loop bug fixed at the root. Then 16b terrain once · 16c water once · 16d border apron · 16e routes/grading/spans/ferries · 16f vegetation · 16g macro plot · 16h settlement runtime + kit QA · 16i exemplars · 16j rollout. Rulings 1–13 given 2026-09-11 |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
@@ -64,17 +64,21 @@ first, then open only the master-plan sections the active phase needs.
 
 **Phase 16 is planned, 2026-09-11** ([plan](phases/16-foundation-and-places/README.md),
 [0057](decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md)).
-**16b is delivered, 2026-09-12** ([0059](decisions/0059-terrain-built-once-frozen-base-and-typed-patches.md),
-[ledger](research/phase16/16b-terrain-once-ledger.md)). The ground is now
-built once and frozen with checksums; water promises are checked by a gate
-that was shown failing before it passed; places may only touch the ground
-through typed patches that refuse to move water. **What is deployed is the
-painted ground and nothing else**: water, vegetation, roads, bridges and
-buildings are hidden until their chunks (16c, 16e, 16f, 16h) deliver them
-(the ladder, plan §3). The handoff message lists the walk (cliffs, fall
-sites, tarns, the coast, the Blackrose lake basin) with studio URLs. Owner
-calls it raises: the lake's level (sea level), the 48 refused terrain
-requests (16g), the coastal shelf ramp. Then `deliver 16c`.
+**16b round 2 is delivered, 2026-09-12** ([0060](decisions/0060-rivers-reach-the-coast-profiles-are-graded.md),
+[ledger §9](research/phase16/16b-terrain-once-ledger.md)). After the owner's
+walk of round 1: rivers run to the open sea again on the 16a network, taken
+as given; river beds are graded, not stepped; a fall lands in a held pool
+with a lip; the source's 2.97 m staircase is ramped before the mountains;
+the Blackrose lake stands on a 1.6 m sill; the waterline is wet sand; ruling
+2 fills 25 data holes and nothing else. **The 16a hydrograph is an approved
+record** (`world/sources/hydrology/approved-bodies.json`): the ground is
+shaped to hold it; every departure is listed for the owner (44 bodies
+sit 1–5 m lower on the approved cliff work, 33 captured or joined to the sea
+by carved channels, 54 unrealised and waived pending review, 13 new falls,
+1,914 small new hollows drawn faint). The 2D map now opens on the frozen
+ground with the proposed water and the old routes/waterways off. **Owner:**
+walk the checklist in the handoff, then approve the departures as a
+principle or send rows back; then `deliver 16c`.
 
 **Female characters are playable, 2026-09-10** ([0054](decisions/0054-sex-is-an-axis-not-a-second-set-of-races.md),
 [0055](decisions/0055-a-collar-overlaps-the-neck-rather-than-meeting-it.md)).

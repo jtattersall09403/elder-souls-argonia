@@ -33,6 +33,17 @@ needs_vault = pytest.mark.skipif(not (RAW.exists() and SCULPTED.exists()),
 
 
 @pytest.fixture(scope="module")
+def ramped_base():
+    """The conditioned source with its staircase ramped, exactly as the
+    sculpt starts from it (sculpt.deterrace_plateaus, 2026-09-12): the
+    surface the orogeny's containment is measured against."""
+    from .sculpt import COAST_GUARD_M, _smoothstep, deterrace_plateaus
+    full = condition(np.flipud(np.load(RAW)))
+    guard = _smoothstep(COAST_GUARD_M * 0.5, COAST_GUARD_M, np.abs(full)) * (full > 0.0)
+    return deterrace_plateaus(full, guard, log=lambda *_: None)[::STEP, ::STEP]
+
+
+@pytest.fixture(scope="module")
 def terrain():
     base = condition(np.flipud(np.load(RAW)))[::STEP, ::STEP]
     z = np.load(SCULPTED)[::STEP, ::STEP]
@@ -49,12 +60,13 @@ def test_summit_hits_target(terrain):
 
 
 @needs_vault
-def test_lowlands_contained(terrain):
+def test_lowlands_contained(terrain, ramped_base):
     """Outside the uplift envelope only the bounded naturalness pass acts.
-    The max bound allows the plateau de-terracer to ramp the source's
-    metre-plus quantisation walls (moves cells by up to ~half the tallest
-    lowland riser); anything beyond that means an orogeny leak."""
+    Measured against the RAMPED source (the staircase is ramped before the
+    orogeny, by up to half a quantum per cell, everywhere: that is the
+    sculpt's input, not a leak); anything beyond the bound is an orogeny leak."""
     base, z, env, _ = terrain
+    base = ramped_base
     # the coastal-bank ramp (Phase 16b) deliberately lowers quantised shelves
     # by up to their whole height within COAST_BANK_REACH_M of the sea
     from .hydrology import sea_connected
@@ -70,8 +82,15 @@ def test_lowlands_contained(terrain):
 
 @needs_vault
 def test_coastline_stable(terrain):
+    """No land cell becomes sea and no SEA cell becomes land. A below-sea
+    hole inland (not connected to the sea) is not coastline: ruling 2 fills
+    it (Phase 16b round 2), and that is not a flip."""
+    from .hydrology import sea_connected
     base, z, _, _ = terrain
-    flipped = ((base > 0) != (z > 0)) & (np.abs(base) > 0.05)
+    # connectivity at full resolution: the coarse subsample joins inland
+    # data holes to the sea through cells they never touch
+    sea_base = sea_connected(condition(np.flipud(np.load(RAW))))[::STEP, ::STEP]
+    flipped = (((base > 0) & (z <= 0)) | (sea_base & (z > 0))) & (np.abs(base) > 0.05)
     assert flipped.mean() < 0.002, f"coastline flips {flipped.mean() * 100:.2f}%"
 
 

@@ -67,6 +67,22 @@ def write_height_raster(h: np.ndarray):
     rg[..., 1] = q & 0xFF
     STUDIO_DIR.mkdir(parents=True, exist_ok=True)
     Image.fromarray(rg).save(STUDIO_DIR / "height-rg.png")
+    # the 2D map's base (`province/height-rg.png`, 1345 px, the grid every
+    # overlay uses) is the SAME ground: until 2026-09-12 it was the August
+    # raw base the extract wrote once, so the map never showed the frozen
+    # terrain (owner). Same packing; `province/meta.json` carries the range.
+    third = ndimage.gaussian_filter(h, 1.5)[::3, ::3]
+    lo3, hi3 = float(third.min()), float(third.max())
+    q3 = np.round((third - lo3) / (hi3 - lo3) * 65535.0).astype(np.uint16)
+    rg3 = np.zeros((*q3.shape, 3), dtype=np.uint8)
+    rg3[..., 0] = q3 >> 8
+    rg3[..., 1] = q3 & 0xFF
+    Image.fromarray(rg3).save(STUDIO_DIR.parent / "height-rg.png")
+    meta_path = STUDIO_DIR.parent / "meta.json"
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    meta.update({"heightMinMetres": lo3, "heightMaxMetres": hi3, "imageWidth": int(q3.shape[1]), "imageHeight": int(q3.shape[0]),
+                 "heightSource": "refined-height-f32.npy (the frozen base plus its typed patches), low-passed and decimated by 3"})
+    meta_path.write_text(json.dumps(meta, indent=1) + "\n", encoding="utf-8")
     return lo, hi, tuple(int(v) for v in q.shape)
 
 

@@ -292,11 +292,15 @@ def load_placement(path) -> dict | None:
 
 def solve_bodies(g: np.ndarray, npz, step: int = 3, mpp: float = RAW_M,
                  sea: np.ndarray | None = None, with_placement: bool = True,
-                 placement: dict | None = None) -> BodySolution:
+                 placement: dict | None = None, allow_extra: np.ndarray | None = None) -> BodySolution:
     """Sea + accepted standing bodies on the full-res terrain `g`.
 
     `placement` is the built-cells snapshot (see `placement_snapshot`); when
-    None it is read from the repo exports if `with_placement`."""
+    None it is read from the repo exports if `with_placement`. `allow_extra`:
+    cells where standing water is allowed whatever the coarse pass says —
+    the owner-approved (16a) outlines (decision 0060 §7): a hollow the shape
+    stage restored is not a wetland, lake or river on TODAY'S coarse pass,
+    and the allowance rule was rejecting 100+ approved marsh sheets."""
     shape = g.shape
     g = g.astype(np.float32)
     if sea is None:
@@ -312,6 +316,8 @@ def solve_bodies(g: np.ndarray, npz, step: int = 3, mpp: float = RAW_M,
     heart = up(np.isin(npz["regions"], HEART_REGIONS))
     riv = ndimage.binary_dilation(up(npz["rivers"] > 0), iterations=2)
     allow = up(npz["wetlands"] | (npz["flood"] >= 1) | npz["lakes"]) | riv | heart
+    if allow_extra is not None:
+        allow = allow | allow_extra
     if placement is not None:
         occ = placement["occupied"]
     elif with_placement:
