@@ -153,7 +153,7 @@ so each NPC's `FULL` field is a four-byte string id. The tables those ids index
 `EncWarlockIce03BossHighElfM`, has no name at all and does not inherit one; in
 game it shows its race.
 
-Tracked in [`docs/polish-backlog.md`](../../../../docs/polish-backlog.md). When
+Tracked in [`docs/phases/P-polish/backlog.md`](../../../../docs/phases/P-polish/backlog.md). When
 those files land in the vault the fix is small and belongs in
 `pipeline/npc_records.py`, which already parses the record: read `FULL`, resolve
 it against the table, carry the name in the roster, then label the card from

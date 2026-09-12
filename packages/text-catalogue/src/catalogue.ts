@@ -1,7 +1,7 @@
 /**
  * The one catalogue of player-visible text.
  *
- * Engineering standard 4 (docs/engineering-standards.md): no player-visible
+ * Engineering standard 4 (docs/standards/engineering.md): no player-visible
  * string is a literal in a component or a data file. Everything the player can
  * read is registered here, keyed by a stable ID, with the surface it appears on
  * and the speaker where there is one.

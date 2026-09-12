@@ -4,7 +4,7 @@
  * Seeded with the system text that exists today. Everything player-visible
  * written from here on is registered in this file (or, once the volume
  * justifies it, in per-area files exported from here) — see
- * docs/engineering-standards.md standard 4.
+ * docs/standards/engineering.md standard 4.
  *
  * **Before writing a line, read quests 60 §45e** (TES voice and the AI-voice
  * failure mode) and its banned-constructions table. The short version: short
