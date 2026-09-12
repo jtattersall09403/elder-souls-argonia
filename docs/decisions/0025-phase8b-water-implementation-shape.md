@@ -1,5 +1,7 @@
 # 0025 — Phase 8b water: implementation shape
 
+> **Chain order superseded** by [0059](0059-terrain-built-once-frozen-base-and-typed-patches.md) (2026-09-11): the stage order now lives in `scripts/terrain-chain.sh` under the Phase 16 ladder.
+
 Date: 2026-08-26 · Status: **CLOSED** (owner closed the phase 2026-08-28
 after round 7 — accepted as good-enough, explicitly *not perfect*; a full
 water-systems re-review + polish is queued in

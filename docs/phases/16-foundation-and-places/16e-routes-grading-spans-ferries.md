@@ -64,11 +64,19 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
   `horizontal-backwater` reach except by ferry or span.
 ## Acceptance
 
+- **The chain ladder** (plan §3): this chunk's stages are `reroute_lanes`, `reroute_majors`, `compile_minor_routes`, `grade_routes` (as patches), `author_route_structures`, `compile_route_structures`, the second `compile_water`, `terrain_request_postconditions`, `ferry` placement. Add them
+  to the ladder in `scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
+  to this chunk in the delivering commit; until then a plain chain run skips
+  them and their published JSON is stale.
+
 - One route solve; grading fully expressed as patches; `route-structures.md`
   reconciled; all eight cities joined; span distribution reported before and
   after.
 
 ## Owner check
+
+**What you will see at this check** (plan §3, build only what is delivered): the ground, the water, plus the roads, tracks, bridges and ferries. No plants or buildings.
+
 
 - Walk `route.road.helstrom-blackrose` from Helstrom for ten minutes: does it
   read as a road (bench, surface, no 30° scramble)?

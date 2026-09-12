@@ -78,3 +78,12 @@ re-points `compile_water` at the graph); also the runtime-only season.
 (repo-standards, standard 14); `worldgen/test_hydrology_graph.py` shows every
 invariant failing on a corrupted copy of the shipped graph and proves id
 stability across two derivations of a synthetic world.
+
+**Addendum (Phase 16b, 2026-09-11, decision 0059).** The "frozen base" the
+graph is derived from is the SHAPED ground (`heightfield-shaped-f32.npy`),
+not the raw sculpt: a profile solved on the sculpt sat above valleys the
+fluvial pass had lowered and the carve would have built the river a dyke.
+`derive` also saves the solvers' outputs so the carve realises exactly the
+curve the graph names. The carve re-measures the bodies afterwards (rims
+move under levees), with `preCarve` recording the solve-time level.
+The routing sink is every sea-connected cell (0059 choice 3).

@@ -147,6 +147,20 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   chunk's acceptance names the tests and probes it adds, with the defect that each one
   was shown to catch. Agents do not ingest screenshots outside the budget
   in §8.
+- **Build only what is delivered (owner, 2026-09-12).** The chain
+  (`tooling/world-generation/scripts/terrain-chain.sh`) carries a LADDER: a
+  list, per chunk, of the stages that chunk has delivered, cumulative from
+  16b. A plain run builds `--through` the highest delivered chunk
+  (`DELIVERED_THROUGH` in the script) and SKIPS every stage a later chunk
+  still owns, because those stages are the old code and are known to be
+  wrong on the frozen world; running them only produces a build that is
+  wrong in ways nobody is checking. Some of them also move the ground under
+  the chunks being walked. When a chunk lands, its agent adds its stages to
+  the ladder and bumps `DELIVERED_THROUGH` in the same commit; `--full` runs
+  everything for someone who knows why. Published JSON a skipped stage would
+  have written (routes, structures, settlements, pad receipts) is STALE
+  against the current ground and is not judged at that chunk's check; the
+  chain prints the skipped stages so the handoff can say so.
 - **Owner check between chunks.** Every brief ends with a plain-English
   checklist with studio URLs. Nothing is marked done until that check passes
   or the owner explicitly accepts it as good enough.
@@ -158,8 +172,8 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 
 | Id | Chunk (brief) | Owner check | Needs owner rulings (§7) | Status |
 |---|---|---|---|---|
-| 16a | [Hydrology graph, gates policy, docs hygiene](16a-hydrology-graph-and-gates.md) — derive the typed water graph once; review it on the 2D map; the visual-ingestion proposal; split 0041; the gate policy | studio 2D layers: rivers, kinds, seasons, falls, pools | none (it *produces* the questions for 16b) | delivered 2026-09-11, owner check pending ([ledger](../../research/phase16/16a-hydrology-graph-ledger.md), [0058](../../decisions/0058-the-hydrology-graph-is-the-water-record.md)) |
-| 16b | [Terrain built once](16b-terrain-once.md) — re-freeze the sculpt, enable every water feature from the graph, cliffs, pits, deterracing, coast drama, chain reorder, local patches, freeze gate | walk the province: cliffs, fall sites, tarns, pits | 1–6 | todo |
+| 16a | [Hydrology graph, gates policy, docs hygiene](16a-hydrology-graph-and-gates.md) — derive the typed water graph once; review it on the 2D map; the visual-ingestion proposal; split 0041; the gate policy | studio 2D layers: rivers, kinds, seasons, falls, pools | none (it *produces* the questions for 16b) | accepted by the owner 2026-09-11 ([ledger](../../research/phase16/16a-hydrology-graph-ledger.md), [0058](../../decisions/0058-the-hydrology-graph-is-the-water-record.md)) |
+| 16b | [Terrain built once](16b-terrain-once.md) — re-freeze the sculpt, enable every water feature from the graph, cliffs, pits, deterracing, coast drama, chain reorder, local patches, freeze gate | walk the province: cliffs, fall sites, tarns, pits | 1–6 | delivered 2026-09-12, owner walk pending ([ledger](../../research/phase16/16b-terrain-once-ledger.md), [0059](../../decisions/0059-terrain-built-once-frozen-base-and-typed-patches.md)) |
 | 16c | [Water once](16c-water-once.md) — compile on the frozen base; fix the runtime (ocean, edges, seams, hover, falls); probes that fail | walk 14 water sites + beach + open sea | 7 | todo |
 | 16d | [Beyond-border apron and boundary](16d-border-apron-and-boundary.md) — stitched all-Tamriel slice, fade, wall, message | mountain viewpoint N, W, NW; walk to the edge | 8 | todo |
 | 16e | [Routes, grading, spans and ferries on the frozen world](16e-routes-grading-spans-ferries.md) — grading as a patch stack, span pips, paint on the published line, ferries placed | walk three roads, two crossings, one ferry | 9 | todo |

@@ -81,6 +81,9 @@ chunk because it is where the plot and the lore meet:
 
 ## Owner check
 
+**What you will see at this check** (plan §3, build only what is delivered): no new layer: the 2D plot review and the place records.
+
+
 - Read the plot review report's summary (moves / re-types / merges / cuts by
   region) and the design-group list: is there any merge or cut that you reject?
 - In the studio 2D map, look at the Lost City + Made Ground group and the

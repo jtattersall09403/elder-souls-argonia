@@ -45,9 +45,17 @@ Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth** — no
 
 ## Acceptance
 
+- **The chain ladder** (plan §3): this chunk's stages are `build_border_apron` (new). Add them
+  to the ladder in `scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
+  to this chunk in the delivering commit; until then a plain chain run skips
+  them and their published JSON is stale.
+
 - `npm test`, typecheck green; deployed and walkable.
 
 ## Owner check
+
+**What you will see at this check** (plan §3, build only what is delivered): the ground, the water and the beyond-border land. No plants, roads or buildings.
+
 
 - From the northern mountains (`?view=character&x=0.93&z=0.92&t=12:00`) look
   north and west: does the land go on into haze rather than ending in sea?

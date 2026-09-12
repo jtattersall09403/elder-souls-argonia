@@ -94,6 +94,51 @@ Needs rulings 1, 2, 3, 5, 6, 10 (plan §7).
   `refined/flood-wet.png` from the frozen pass plus the `hydrograph-*.png`
   from the re-derived graph, in the same commit; the map's hillshade then
   matches the graph lines.
+## Delivered (2026-09-12) — read this before 16c
+
+Decision [0059](../../decisions/0059-terrain-built-once-frozen-base-and-typed-patches.md);
+ledger [research/phase16/16b-terrain-once-ledger.md](../../research/phase16/16b-terrain-once-ledger.md).
+The chain order is `scripts/terrain-chain.sh`; the frozen shas are in
+`world/sources/terrain/freeze.json`; the freeze gate is
+`python3 -m worldgen.terrain_preconditions`.
+
+What later chunks inherit, none optional:
+
+- **16c (water once).** Eight `test_water_invariants.py` probes are RED on the ground-only build (vault-only, not in CI): `no_wet_cell_has_a_lower_dry_neighbour`, `strip_points_sit_inside_their_trench`, `every_cascade_is_a_cliff_with_a_plunge_pool`, `class_covers_the_band_the_shore_shader_reads`, `no_extension_cell_stands_above_its_own_water`, `every_published_boat_lane_carries_a_hull_or_declares_a_portage`, plus the two site probes `site_1470_4130` / `site_2174_268`, which are pinned to the old world's coordinates and must be re-sited on the graph's ids. They are the old compiler on the frozen ground; the rewritten compiler must make them green or replace them with graph-keyed probes. `compile_water` still floods province-wide from
+  `channels-pass1.npz` (the graph's own solution, copied by the carve) with
+  NO placement cap; re-point it at the graph's ids. The graph's bodies are
+  re-measured on the frozen array after the carve (`preCarve` where a level
+  moved); 6 bodies are `captured` (drained to the trench through them, to
+  be refilled at the river's level); 14 rivers end in a sea-level marsh or
+  lagoon body, not the open ocean. The one known freeze-gate leftover
+  (`freeze-gate-known.json`: a 3 m fall on a 13 m canyon cut) is 16c's:
+  demote it to a chute or clamp the lip notch. The Blackrose lake stands at
+  sea level (its southern outlet is cut below 0): an owner check item.
+  `patch_water` proves the patches; a per-window re-flood of the shipped
+  rasters is `compile_water` reading `chain-footprint.json`.
+- **16e (routes).** `test_sculpt.py::test_road_grades_stay_traversable` is RED on the re-solved roads: one segment of the published network climbs at 1.11 rise/run (the probe's bound is 0.9; p95 passes). The society solve ran on the new ground with the old cost surface; re-route it here (ruling 9: gradient costs, zigzags) and make the probe green. The 16b handoff build is `terrain-chain.sh --ground-only`: route repair, grading, structures, pads and the settlement compile are SKIPPED and their published JSON is stale against the frozen ground until this chunk (and 16h) re-run them. Grading and the route-structure windows become patch
+  kinds in `terrain-patches.json` with the same six invariants; the stale
+  `route-structures.json` from the old world refused one terrain request
+  (`chasecreek`) — regenerate it first. `carve_routes --promote` has been run
+  on the re-solved society networks; `reroute_lanes` remains the one admitted
+  edge below the gate.
+- **16g (macro plot).** Three `test_committed_water_facts.py` probes are RED on the ground-only build (vault-only): the committed place water facts no longer agree with the shipped water; the nine owner-approved anchors' measured distances are stale — re-measure every record against the frozen water (that is this chunk's job). `province/refined/terrain-patches-applied.json` lists
+  48 refused terrain requests (31 would move frozen water, 8 would raise or
+  cut a channel bed, 8 exceed their own amplitude) and 1 refused poling
+  channel (Nine-Trunks: opening it floods 781 samples beyond its region).
+  Each names the invariant and the numbers; the place adapts (moves, is
+  re-typed, drops the request or re-authors the line). Dock and lane dredging
+  is retired (ruling 6): `dock_dredge.dredge_docks` now only MEASURES whether
+  a berth's frozen water floats its hull; berths it reports `blocked` are
+  re-sited or re-classed here.
+- **16h (settlement runtime).** `grade_settlement_pads` is the one edit below
+  the gate that is not yet a patch: convert it to a `raise-pad` kind in
+  `terrain_patches` (bounded, `maxDeltaM` 2.0, no water change) and remove
+  the stage.
+- **Everyone.** After any chain run: `npm run province:publish`, then commit
+  `rasters-manifest.json`; `npm test` refuses a tree whose rasters and
+  manifest disagree.
+
 ## Acceptance
 
 - Freeze gate: precondition test green on the frozen array; two-run identity;
@@ -103,6 +148,9 @@ Needs rulings 1, 2, 3, 5, 6, 10 (plan §7).
 - Owner walk passes.
 
 ## Owner check
+
+**What you will see at this check** (plan §3, build only what is delivered): the painted ground only: no water, no plants, no roads or bridges, no buildings (their layers are hidden until their chunks land). Judge the shape of the land and its cliff and bank surfaces.
+
 
 - Walk the province gate sites you signed off in 6b (`?view=character&x=0.93&z=0.92&t=12:00`
   and your own favourites) — does the ground still feel right?

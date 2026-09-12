@@ -79,10 +79,18 @@ Needs ruling 10 (already given for 16b); no new ruling.
 
 ## Acceptance
 
+- **The chain ladder** (plan §3): this chunk's stages are `rebake_landcover` and `compile_scatter` (the rewritten scatter); they already run on the 16b ladder as the old code. Add them
+  to the ladder in `scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
+  to this chunk in the delivering commit; until then a plain chain run skips
+  them and their published JSON is stale.
+
 - Channel gate green and proven failable; rock kit credited and in the
   bundle; each dressing question has a number and a decision in the record.
 
 ## Owner check
+
+**What you will see at this check** (plan §3, build only what is delivered): the ground, the water, the routes and the vegetation. No buildings yet.
+
 
 - Jungle `?view=character&x=4.02&z=4.61&t=12:00` first: is the floor as dense
   as you remember it, and denser than the open floodplain?

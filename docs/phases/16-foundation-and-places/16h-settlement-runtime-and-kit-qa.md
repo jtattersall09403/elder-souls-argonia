@@ -67,11 +67,19 @@ Needs ruling 12 (the loop and its budget, plan §8).
 
 ## Acceptance
 
+- **The chain ladder** (plan §3): this chunk's stages are `grade_settlement_pads` (as patches), `rederive_blueprints`, `compile_settlement`, `export_settlement_bundle`, `settlement_ground_control`. Add them
+  to the ladder in `scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
+  to this chunk in the delivering commit; until then a plain chain run skips
+  them and their published JSON is stale.
+
 - Every test above green and proven failable; `export_settlement_bundle`
   runs with **no** `shippedWithKnownErrors`; probe-blueprints reports zero
   grounding findings on the real formula; `npm test`, typecheck green.
 
 ## Owner check
+
+**What you will see at this check** (plan §3, build only what is delivered): everything above plus the settlements, drawn by the corrected runtime.
+
 
 - Lilmoth gate `?view=character&x=3.61&z=6.38&t=12:00`: walk through the
   arch. Then through any open frame or doorway you find.

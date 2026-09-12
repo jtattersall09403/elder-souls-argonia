@@ -49,8 +49,12 @@ Province-wide fields should include:
 holds the rivers headwater to mouth, reaches typed horizontal / sloped /
 vertical, junctions, bodies typed by kind and altitude band, a stored season
 per entity and a terrain precondition per entity. It is derived once from the
-frozen sculpt; the terrain stage builds to it, the water compile puts water at
-its levels; no later stage re-floods terrain to find a level. Step 14 is
+frozen SHAPED ground: the sculpt with its valleys, lake, portages and fluvial
+pass, which is the ground that receives the trenches (decision 0059). The
+carve builds to it and re-measures the bodies it has moved; the water compile
+puts water at its levels; no later stage re-floods terrain to find a level.
+After the freeze gate the ground moves only by typed patches
+(`world/sources/terrain/terrain-patches.json`). Step 14 is
 its `check` gate. The Phase 3 wetlands + rivers + lakes overlay is the
 wet-season high-water extent (owner, 2026-09-11).
 

@@ -3,7 +3,7 @@
 **Goal.** Compile the water once on the frozen base from the graph, make it
 read-only to everything below and fix the runtime defects the owner saw:
 the muted sea, the jagged and hovering edges, the domes and gaps, the seams
-between water types and the unfinished falls. Probes that fail on these
+between water types, prevent any hard jarring edges, the issues with sections of water having sudden dry gaps in them, sections of water suddenly having a totally different block of water texture in a small disconnected-looking patch, strange visual artefacts like hovering 2d water surfaces above land (if any remain) and any other physical impossibilities, jagged bits of isolated water on land near the edges of rivers/streams disconnected from the main stream, plus the unfinished falls. Probes that fail on these
 defects ship with the fixes.
 
 Needs ruling 7 (sea energy) and 3–5 already given for 16b.
@@ -79,12 +79,20 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
   longer has.
 ## Acceptance
 
+- **The chain ladder** (plan §3): this chunk's stages are `compile_water` (the rewritten compiler) and `patch_water`; the ladder entry for 16c replaces the 16b water stage. Add them
+  to the ladder in `scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
+  to this chunk in the delivering commit; until then a plain chain run skips
+  them and their published JSON is stale.
+
 - One `compile_water` run; `patch_water` proven local; graph ids in the meta;
   every gate in item 7 green and proven failable; `npm run test:water` gates
   the deploy (it does; keep it so).
 - Owner walk passes at the 14 round-2 sites plus the beach and the open sea.
 
 ## Owner check
+
+**What you will see at this check** (plan §3, build only what is delivered): the ground plus the water: rivers, lakes, the sea, falls. Still no plants, roads, bridges or buildings.
+
 
 Walk each (`?view=character&…`) and say what is wrong in one line each:
 - beach `x=6.12&z=1.638`: is the sea moving: swell arriving, some
