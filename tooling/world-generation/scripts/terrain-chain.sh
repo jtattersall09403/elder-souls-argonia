@@ -252,6 +252,7 @@ export CHAIN_TIMES
 # Printed from the EXIT trap, so a chain that stops on a failing stage still
 # shows what ran and what it cost.
 summary() {
+  local status=$?
   printf '\n%-26s %9s  %s\n' "stage" "seconds" "state"
   local total=0
   while IFS='|' read -r name seconds state; do
@@ -260,7 +261,11 @@ summary() {
   done < "$CHAIN_TIMES"
   printf '%-26s %9s\n' "total" "$total"
   rm -f "$CHAIN_TIMES"
-  echo "Next: npm run province:publish (then commit rasters-manifest.json with the chain's JSON)."
+  if [[ "$status" -eq 0 ]]; then
+    echo "Next: npm run province:publish (then commit rasters-manifest.json with the chain's JSON)."
+  else
+    echo "CHAIN FAILED (exit $status): the stage above the table stopped it; nothing after it ran. Do NOT publish." >&2
+  fi
 }
 trap 'summary; rm -f "$LOCK"' EXIT
 
