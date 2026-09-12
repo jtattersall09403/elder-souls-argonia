@@ -278,6 +278,16 @@ def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text())
 
 
+def _ladder_skipped(repo_root) -> set[str]:
+    """Stages the last chain run skipped (apps/world-studio/public/province/ladder.json), or none."""
+    path = repo_root / "apps/world-studio/public/province/ladder.json"
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return set()
+    return set(doc.get("skipped", [])) if doc.get("schemaVersion") == 1 else set()
+
+
 def collect_used_asset_coverage(
     repo_root: Path = REPO_ROOT, inventory: dict[str, Any] | None = None,
 ) -> CoverageReport:
@@ -303,9 +313,14 @@ def collect_used_asset_coverage(
                     f"{route_source.relative_to(repo_root)}:structures.{index}.pieceRef",
                 )
 
+    # Compiled outputs count only when the ladder says their stage ran on the
+    # current ground (Phase 16, plan §3): tooling/world-generation/output/ is
+    # gitignored scratch, and a stale compile from an earlier build must not
+    # decide the coverage on one machine and not another.
+    skipped = _ladder_skipped(repo_root)
     settlements = repo_root / "tooling/world-generation/output/settlements"
     non_physical = inventory.get("nonPhysicalCompiledRefs", {})
-    for path in sorted(settlements.glob("place.*.settlement.json")):
+    for path in ([] if "compile_settlement" in skipped else sorted(settlements.glob("place.*.settlement.json"))):
         for index, row in enumerate(_read_json(path).get("placements", [])):
             ref = row.get("assetId")
             if not isinstance(ref, str):
@@ -316,7 +331,7 @@ def collect_used_asset_coverage(
                 _record(used, ref, f"{path.relative_to(repo_root)}:placements.{index}.assetId")
 
     route_outputs = repo_root / "tooling/world-generation/output/route-structures"
-    for path in sorted(route_outputs.glob("*.json")):
+    for path in ([] if "compile_route_structures" in skipped else sorted(route_outputs.glob("*.json"))):
         for index, row in enumerate(_read_json(path).get("placements", [])):
             ref = row.get("assetId")
             if isinstance(ref, str):

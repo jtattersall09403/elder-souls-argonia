@@ -134,6 +134,10 @@ The overall goal at this point is to build the province-scale world, in a way th
   fresh agent running the `text-review` skill (`.claude/skills/text-review/`).
   The prose linter is an `npm test` gate; the skill is the part a regex
   cannot do. Text that skipped review is a defect, not a shortcut.
+- **Run `npm run preflight` once before every commit** (owner 2026-09-12): it
+  runs every gate the deploy runs — `npm test`, typecheck, the placement,
+  water and pipeline suites, the raster manifest — in parallel (~2 min) and
+  lists every failure at once, so one wait replaces a fix-wait-fix loop.
 - **Don't over-validate.** `npm test` and `npm run typecheck` are the routine
   gates. If you touched animation/movement/physics/camera code, also run
   `npm run visual:check -- <group>` (fast, no video). Nothing else is required
