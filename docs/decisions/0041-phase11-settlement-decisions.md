@@ -6,7 +6,7 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 > ## RUN-BOOK — start here if you are delivering Phase 11
 >
 > Read this doc, then [00-core](../world/00-core.md), then the Phase 11
-> section of [95-build-sequence.md](../phases/README.md) (§86,
+> section of [docs/phases/README.md](../phases/README.md) (§86,
 > "Phase 11" — the binding deliverable list), then
 > [40-causal-authoring.md](../world/40-causal-authoring.md) **§28b–32**
 > (§28b is the placement ladder — macro roster → type-siting grammars →

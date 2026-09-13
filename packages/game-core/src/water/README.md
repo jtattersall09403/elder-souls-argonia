@@ -68,7 +68,7 @@ fallback. Pieces:
   (≥ 20 m: + one mid-sheet) or 4 (≥ 60 m: lip + two mid + cloud) emitters.
 - **Boulders** are a scatter-compiler job: `stripBoulderCandidates` (1 rock
   per 160 m² of bed, seeded by strip id) is the rule it consumes.
-- Not yet built (needs the FX textures): the 4–8 static mist cards within
+- `render/WaterfallMist.ts` carries the mist: the 4–8 static mist cards within
   12 m of the impact and the ground-mist discs the audit mined from the
   vanilla stacks. Flowing water (> 0.15 m/s) carries a travelling
 along-flow undulation (`flowWaveAt` ↔ `esFlowWave`) and sparse drifting flecks
@@ -94,7 +94,7 @@ on a 6 s transport cycle.
 `WorldWaterQuery`, never the renderer.
 
 Wave energy is JONSWAP-shaped: a 160 → 3 m band ladder around a 100 m peak,
-normalised to the reviewed 0.185 m rms, with each band fetch-limited at
+normalised to a 0.185 m rms — **the retired table's RMS and root cause 1 of the muted sea in research/phase16/audit-water-runtime.md; 16c replaces it with `rmsHeightM` from wind and fetch (ruling 7)** — with each band fetch-limited at
 2 × its wavelength (a 200 m lake carries chop, never swell) and blended
 toward a standing wave by class (lake 0.45, marsh 0.5, estuary 0.3). All
 frequencies sit on the 2π/8192 s grid so `WaterClock.phaseS` folds without

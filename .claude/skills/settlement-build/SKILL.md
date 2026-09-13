@@ -3,6 +3,8 @@ name: settlement-build
 description: Take a place from a macro-plot record to buildings standing in the running World Studio — blueprint, compile, publish, prove. Use when authoring or re-authoring any settlement blueprint, when a settlement compile is red, when the settlement bundle needs republishing, or when rolling out a region packet of places beyond the five exemplars.
 ---
 
+> **v1 — pre-16h runtime.** The runtime this path compiles for still has the defects 16h fixes (yaw sign, box colliders, anchoring, pads never shipped). Do not use it for exemplar work until 16h lands; 16i rewrites it to v2.
+
 # Settlement build
 
 This is the repeatable path the five exemplars were used to develop

@@ -133,7 +133,7 @@ crossed early.
    is a terrain query (local maxima, dead ends, enclosed clearings,
    off-route islands), not a vibe.
 2. The packet's density budget declares its reward coverage alongside its
-   POI budget (module 95, Phase 11 deliverables).
+   POI budget (docs/phases/README.md, Phase 11 deliverables).
 3. The orphan validator (module 40 §32) rejects both directions: a
    flagged hard-to-reach landform with nothing at it, and a rich reward
    with neither effort nor cause behind it.

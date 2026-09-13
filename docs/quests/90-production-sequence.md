@@ -4,7 +4,7 @@
 
 # Part XIII — Post-world-generation production sequence
 
-## 65b. QW — the quest–world co-design loop (runs *inside* world Phases 11–15, before the exit gate)
+## 65b. QW — the quest–world co-design loop (runs inside 16j and every Phase 15 packet, before the exit gate)
 
 *(Added 2026-08-26, owner directive. Quests and world-building feed each other:
 what settlements exist determines who can give quests; what quests need
@@ -15,8 +15,9 @@ directly. The gap is the 60–80 regional/local quests, most of which are not ye
 designed. This loop closes it, region by region, without pulling full quest
 production forward.)*
 
-For **every region packet** in world Phases 11 (settlements), 12 (dungeons),
-13 (ecology/loot) and each Phase 15 expansion cycle:
+For **every region packet** (the 16j trial packet and each Phase 15
+packet; Phase 12 interiors and Phase 13 populations answer the promises the
+packet's briefs make):
 
 1. **World drafts first.** The world agent drafts the region's settlement set,
    routes and POI skeleton from the lore registers and causal rules, as the
@@ -51,7 +52,7 @@ For **every region packet** in world Phases 11 (settlements), 12 (dungeons),
 the next phase" performs both roles in sequence (world drafting, then brief
 drafting) or spawns a subagent for the brief pass — either is fine. What is
 mandatory is the **artifacts and the gate**: a region packet without its
-quest-brief set is incomplete, and world plan 95 Phase 11 states this as a
+quest-brief set is incomplete, and the phases plan (docs/phases/README.md) Phase 11, absorbed into 16 states this as a
 completion gate.
 
 **Per-packet quotas** (owner directive 2026-08-26; derivation in

@@ -39,23 +39,25 @@ Rapier and gameplay systems use this CPU-accessible query. The renderer consumes
 
 The advanced water repositories already contain valuable buoyancy, wake, interaction and underwater techniques. Those algorithms can be adapted while Rapier remains the authoritative rigid-body system. This prevents duplicate object simulation and GPU-readback coupling.
 
-> **Current water architecture (Phase P, decision [0045](../decisions/0045-reversible-water-overhaul.md); supersedes the implementation shape in 0025):** `WorldWaterQuery` +
-> `WaterSample` live in `packages/contracts`; the CPU model (wave table with
-> GLSL twin, moon tide, season level, raster samplers, buoyancy) in
-> `packages/game-core/src/water/`; the compile in
-> `worldgen/compile_water.py` (native terrain-constrained standing surfaces,
-> channel ribbons, supported domains and a reversible bed overlay; probes in
-> `test_water_geometry.py`); the renderer in
-> `packages/game-core/src/water/render/` (ocean grid, body-isolated inland tiles and channel geometry,
-> `MeshPhysicalMaterial` + `onBeforeCompile` on the 8a CSM/PMREM/aerial
-> stack, scene-RT refraction/SSR, underwater blit pass, two quality tiers,
-> browser probes in `scripts/probe-water.mjs`). Deferred to later phases:
-> site-authored ecology/navigation links, swimming and boat controllers.
-> Physical `WaterBody` records (§40) now derive owner bounds, semantic classes,
-> field references and flat/channel surface authority from compiled data;
-> unknown discharge or authored links are not invented. Bed caustics, bounded
-> interactive ripples and spray/foam are implemented. FFT (§39.4) is an optional
-> technique, not a quality gate. See the [quality contract and owner review](../research/archive/water-round-2-2026-09/water-quality.md).
+> **Current water architecture (decisions [0046](../decisions/0046-water-overhaul-retired.md), [0047](../decisions/0047-water-one-physical-model.md), [0057](../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md), [0058](../decisions/0058-the-hydrology-graph-is-the-water-record.md); the 0045 terrain-constrained overhaul is retired and its documents are archive):**
+> the runtime is the **field water** of 0047: one signed-depth raster contract
+> (`water-surface.png`, wet ⇔ `signedDepth + seasonLift > 0`), one physical
+> model for every water level, a season lift from the graph. **Levels come
+> from the hydrology graph** (`world/sources/hydrology/hydrology-graph.json`,
+> 0058): the flood solver runs once inside `hydrology_graph derive`; the
+> compile (`worldgen/compile_water.py`, rewritten in chunk 16c) fills to the
+> graph's levels and never re-solves or re-floods the province; `patch_water`
+> re-floods only a typed patch's window. `WorldWaterQuery` + `WaterSample`
+> live in `packages/contracts`; the CPU model and the renderer in
+> `packages/game-core/src/water/` — that folder's README is the file-by-file
+> map of the renderer and the interaction stack. Terrain never moves for
+> water after the 16b freeze. The 16c brief and
+> [research/phase16/audit-water-runtime.md](../research/phase16/audit-water-runtime.md)
+> carry the defect ledger and the sea/edge/falls targets; the round-2
+> numeric baselines are in
+> [research/archive/water-round-2-2026-09/water-round2-evidence.md](../research/archive/water-round-2-2026-09/water-round2-evidence.md)
+> (kept as the keep-list reference, not as a rule set). Deferred to later
+> phases: swimming and boat controllers (Phase 9).
 
 ## 39. Rendering stack
 

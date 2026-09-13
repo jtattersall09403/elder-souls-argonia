@@ -5,7 +5,7 @@
 >
 > Companion: [75-combat-compatibility.md](75-combat-compatibility.md) (§51–57) — the
 > portability boundary and capability profiles this module feeds. Sequencing:
-> workstream **S** (design, parallel) → **Phase 10c** (implementation), Module 95 §86,
+> workstream **S** (design, parallel) → **Phase 10c** (implementation), docs/phases/README.md §86,
 > decision [0019](../decisions/0019-stats-system-workstream-and-placement.md).
 
 **Two halves.** §100–104 are the workstream: what exists, what binds the design,
@@ -225,7 +225,7 @@ consumed by both apps). Definitions land as **data files consumed like
 - **the simulation invariants become standing tests** (§103.1 step 7) so later
   tuning and content authoring cannot silently break the balance envelope;
 - the power ladder documented for Phase 13 authors (§128), **as five combat
-  bands D1–D5** — D0 is a safe-ground location property authored at Phase 11,
+  bands D1–D5** — D0 is a safe-ground location property authored with the places (16i, then each Phase 15 packet),
   never an enemy tier.
 
 Sequenced after 10b (parity) and **before Phase 11**: settlements, dungeons and

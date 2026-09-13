@@ -1,3 +1,5 @@
+> **Post-0059 note (2026-09-13):** the terrain is frozen; `refine_province` no longer exists. Anything here that says "sculpt step in refine_province" would today be a typed local patch or an owner-approved re-freeze.
+
 # Offshore islands: feasibility, realism and cost
 
 Owner question (2026-09-03, Phase 11 touchpoint ② feedback): *"Should we have
@@ -10,7 +12,9 @@ island, which our bathymetry and the 2.9 km of sea we own cannot honestly
 carry.** Do it as one deterministic sculpt step in `refine_province`, in the
 Part 6 window, not now.
 
-## 1. What the coast actually is (measured, not guessed)
+#> **Post-0059 note (2026-09-13):** the terrain is frozen; `refine_province` no longer exists. Anything here that says "sculpt step in refine_province" would today be a typed local patch or an owner-approved re-freeze.
+
+# 1. What the coast actually is (measured, not guessed)
 
 Measured off the committed rasters (`province/refined/height-rg.png` +
 `meta.json`, 2017² at 3.66 m/px; same numbers reproduce via
@@ -50,7 +54,9 @@ interfluves ([tropical-fluvial-geomorphology.md](tropical-fluvial-geomorphology.
 [mangrove-coastal-ecology.md](mangrove-coastal-ecology.md)). Islets there are
 free realism.
 
-## 2. Lore: canon already asks for offshore islands
+#> **Post-0059 note (2026-09-13):** the terrain is frozen; `refine_province` no longer exists. Anything here that says "sculpt step in refine_province" would today be a typed local patch or an owner-approved re-freeze.
+
+# 2. Lore: canon already asks for offshore islands
 
 All from existing dossiers (UESP pages verified live via the API, 2026-09-03).
 
@@ -72,13 +78,15 @@ Also note the "pirate-freeholds" culture zone is plotted in the **north**
 (Alten Corimont, Shadowfen), not Topal Bay — so "pirate island" content does
 not need a southern island.
 
-## 3. Where an island would be authored, and what re-runs
+#> **Post-0059 note (2026-09-13):** the terrain is frozen; `refine_province` no longer exists. Anything here that says "sculpt step in refine_province" would today be a typed local patch or an owner-approved re-freeze.
+
+# 3. Where an island would be authored, and what re-runs
 
 The pipeline (`tooling/world-generation/README.md`) has a clean insertion point.
 `refine_province.impose_blackrose_lake` already sculpts an authored lake **with
 an island in it**, deterministically, from a fixed seed, using `carve_polyline`
 for its channels. An `impose_coastal_islands(h, ...)` step next to it, reading a
-committed `world/sources/terrain/authored-islands.json` (id, centre uv, radii,
+committed `world/sources/terrain/authored-islands.json` (proposed here, never built) (id, centre uv, radii,
 crest height, shore profile, wobble seed), is the natural shape and satisfies
 the determinism + stable-ID standards.
 
@@ -108,7 +116,9 @@ The vault is present and intact
 source, sculpted, hydrology, water, province-refined), so nothing has to be
 re-downloaded or re-extracted.
 
-### The one integration gap
+##> **Post-0059 note (2026-09-13):** the terrain is frozen; `refine_province` no longer exists. Anything here that says "sculpt step in refine_province" would today be a typed local patch or an owner-approved re-freeze.
+
+# The one integration gap
 
 Phase 3's `ocean` mask is coarse and would still call the new island's footprint
 "ocean". That mask feeds `compile_water` (shore/class/surf), `landcover`'s coast
@@ -119,7 +129,9 @@ boat lanes (`waterways.json`) — cheap, contained, and testable. Do not skip it
 skipping it gives islands with the wrong shoreline material and boat lanes
 routed through solid ground.
 
-## 4. Options
+#> **Post-0059 note (2026-09-13):** the terrain is frozen; `refine_province` no longer exists. Anything here that says "sculpt step in refine_province" would today be a typed local patch or an owner-approved re-freeze.
+
+# 4. Options
 
 Effort is agent-hours including the pipeline re-run, verification and the
 catalogue/plot work.
@@ -133,7 +145,9 @@ catalogue/plot work.
 
 Option (b) is additive to (a), not an alternative: do (a) first regardless.
 
-## 5. Recommendation
+#> **Post-0059 note (2026-09-13):** the terrain is frozen; `refine_province` no longer exists. Anything here that says "sculpt step in refine_province" would today be a typed local patch or an owner-approved re-freeze.
+
+# 5. Recommendation
 
 1. **Now (Part 4/5, hours):** take option (a). Name and use the islands the
    province already has — bind the 26 ha east-coast island to **Arnesia's round

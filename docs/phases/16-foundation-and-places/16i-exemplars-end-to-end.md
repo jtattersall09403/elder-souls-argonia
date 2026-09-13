@@ -2,11 +2,12 @@
 
 **Goal.** Take Lilmoth, Nine-Trunks, Mazzatun, the licensed tapping camp and
 Wamasu Pond all the way: exterior as composites from the mined templates,
-interiors for the buildings that earn them (**this chunk builds the
-building-interior path**; Phase 12 is dungeons only — decision 0061), the
-approach and reveal, doors that open onto ways, navigation reported
-honestly (the bake is 10b's), dressing that varies, ground patched where a
-pad needs it. The owner walks
+the door transition and interior load contract, **tier A interiors**
+(furnished cells a mod plugin already links to the shell, copied verbatim)
+and a typed reserved state on every other door (decision 0062: assembled
+interiors are Phase 12's), the approach and reveal, doors that open onto
+ways, navigation reported honestly (the bake is 10b's), dressing that
+varies, ground patched where a pad needs it. The owner walks
 each; every steer becomes a rule; the settlement-build skill is rewritten
 to v2 from what was actually needed.
 
@@ -29,20 +30,30 @@ Needs ruling 13 (interior scope).
    is a composite from `kit-assemblies-mined.json` or a single piece the
    source authors use alone; the kit QA skill run on every assembly; the
    `assetPlan` corrected where the catalogue named a kit that cannot serve.
-2. **Interiors — the building-interior path, built here** (per ruling 13;
-   nothing of it exists yet, so do not look for a Phase 12 path to reuse):
-   the interior cell the mod plugin links for each enterable shell
-   (`exterior-interior-links.json`, never guessed), compiled by a typed
-   **portal + foundation record** on the shell, the interior kit assembled
-   from the plugin's own cell, the **door transition** and an **interior
-   load contract** in `packages/` (how an interior cell is fetched and
-   entered through a door, through the bundle contract of world 80 §63, so
-   a house door and a later dungeon door are one mechanism). Mark the
-   **D0 safe interior** each settlement owes (quests 20 §12) on its record.
-   Interior navmesh bakes wait for 10b and the record says so; per-cell
-   acoustic/lighting profiles are Phase 12's. This path is what Phase 15A
-   uses for every settlement interior; Phase 12 hangs its dungeon portals
-   on the same records.
+2. **Interiors, tier A, and the load contract** (per ruling 13 and decision
+   0062; nothing of it exists yet): a typed **portal + foundation record**
+   on every enterable shell; the **door transition** and an **interior load
+   contract** in `packages/` (how an interior cell is fetched and entered
+   through a door, through the bundle contract of world 80 §63, so a house
+   door and a later dungeon door are one mechanism); **interior lighting**
+   for a cell with no sun (local lights, fog colour, ambient: the first time
+   the renderer does this, so budget a round on it). **Tier A**: for each
+   exemplar shell that a plugin links to a furnished cell
+   (`exterior-interior-links.json`, 571 shells, never guessed), re-read the
+   cell's references with their transforms through `esp_index` and export
+   them as an interior bundle, furniture and clutter included; a base object
+   with no kit asset is listed as a gap, never faked; acceptance is
+   "reference count in the cell equals placements in the bundle minus the
+   listed gaps". Where the shell has no linked cell, apply relaxed
+   preference 1 (Phase 12 section of the phases README): a furnished vanilla
+   cell of the right size class and use, retextured, is acceptable behind an
+   Argonian shell; record the choice on the door's `interiorClaim`. **Every
+   remaining door** carries `interiorStatus: reserved`; it stays closed and
+   shows a text-catalogue message (text-reviewed) when used. Mark the **D0
+   safe interior** each settlement owes (quests 20 §12) on its record. Add
+   the per-cell `acousticProfile` / `lightingProfile` fields to the interior
+   record now (values are 12b's and Phase 12's). Interior navmesh bakes wait
+   for 10b and the record says so.
 2b. **The two settlement grammars are proven here, not re-invented**: the
    Imperial-fringe recipe on Lilmoth, the Hist-centred recipe on
    Nine-Trunks and Mazzatun (`type-recipes.json` plus the mined assembly

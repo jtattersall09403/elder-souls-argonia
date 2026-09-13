@@ -160,7 +160,7 @@ The world compile produces a **danger band field 1–5** (owner-approved;
 | Quest tier | World data |
 |---|---|
 | D1–D5 | danger bands 1–5 of the compiled field, directly |
-| **D0** | **not a field band** — an authored *location property* of settlement interiors and safe buildings, applied during Phase 11 city/settlement authoring (a "safe interior" flag over the local area) |
+| **D0** | **not a field band** — an authored *location property* of settlement interiors and safe buildings, applied during city/settlement authoring (16i, then each Phase 15 packet) (a "safe interior" flag over the local area) |
 
 Special case (canon + quest requirement): **Helstrom's interior is D0 while the
 field around it stays band 5** — the danger model deliberately gives Helstrom
@@ -210,7 +210,7 @@ extrapolation/quest-plan-deltas.md D8/D16.)
 
 **Root-transit network note.** The four-station rootworm network in the
 compiled data (helstrom, north-shadowfen, naga-deeps, east-estuary) is a
-**Pass-1 placeholder**: it is re-authored with Hist-node placement at Phase 11,
+**Pass-1 placeholder**: it is re-authored with Hist-node placement in chunk 16e,
 and quests and rewards touching root transit are finalized in that packet's
 co-design loop.
 

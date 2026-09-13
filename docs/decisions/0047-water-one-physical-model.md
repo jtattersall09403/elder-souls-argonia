@@ -120,7 +120,7 @@ every level a flood on the real terrain removes the class.
 
 Delivery: PROGRESS.md Phase P row; handoff in
 [research/archive/water-round-2-2026-09/water-handoff.md](../research/archive/water-round-2-2026-09/water-handoff.md);
-probe and runbook in [water-quality.md](../research/archive/water-round-2-2026-09/water-quality.md).
+probe and runbook: the live defect ledger is [research/phase16/audit-water-runtime.md](../research/phase16/audit-water-runtime.md) and the work is chunk 16c; the round-2 runbook and evidence are archived at [water-quality.md](../research/archive/water-round-2-2026-09/water-quality.md) and [water-round2-evidence.md](../research/archive/water-round-2-2026-09/water-round2-evidence.md) (the keep-list baselines).
 
 ## Addendum 2026-09-08 (evening) — four rules the model was missing
 

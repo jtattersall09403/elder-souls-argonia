@@ -273,7 +273,7 @@ wave celerity, animation rates — stays in real seconds, always.
 ## Tiers and sequencing
 
 Three deliberate tiers, so the useful part lands early and the expensive part
-lands once (phase numbering: Module 95 §86, statuses in PROGRESS.md):
+lands once (phase numbering: docs/phases/README.md §86, statuses in PROGRESS.md):
 
 **Tier 1 — Phase 8a, "natural light and sky" (before water).** The world clock
 and calendar package; ephemeris sun/moons; Preetham sky dome driven by climate

@@ -101,7 +101,10 @@ Owner rulings from the 16b walk of 2026-09-12 plus the defects the QA of
    authored lake); a body the carve captures or joins to the sea is a listed
    tweak; a body the ground grew that 16a did not have draws faint on the
    map. The river LEVELS are solved once at this freeze and frozen with the
-   ground; nothing below the gate re-solves.
+   ground; nothing below the gate re-solves. The owner corrects the network
+   by a row in `approved-routing-corrections.json` (first one 2026-09-13:
+   `river.1223-143` ran on 300 m through an inlet pocket the 2.5 km ocean
+   rule had called sea, to the inlet's real mouth at 6.57 E 0.96 S).
 
 **Measured after the rebuild** (ledger §9): see
 [research/phase16/16b-terrain-once-ledger.md](../research/phase16/16b-terrain-once-ledger.md).

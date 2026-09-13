@@ -45,6 +45,31 @@ Needs ruling 11 (the floor).
    `reservedFor: player-stronghold` and a design group, its terrain and
    water facts measured like any other record's. Its interior is a Phase 12
    dungeon-family job; this chunk reserves the ground and the lore reason.
+3c. **The promise vocabulary for dungeon-kind places** (decision 0062: the
+   insides are built in Phase 12 against promises made here, so the
+   vocabulary must be right before 16j and Phase 15 author more). Extend
+   the `interior` block with typed fields, migrated mechanically over all
+   327 dungeon-kind records with defaults from family, size band and
+   purpose, then reviewed: `roomFunctions[]` (entrance, gauntlet, cache,
+   boss, captive, shrine and the rest of the typed list), a typed loop/shortcut requirement, traversal
+   demands (swim length, dive depth, climb, breath gating), combat-space
+   intents (world 70 §49 scale and clearances), **anchor sockets**
+   (Boss / Boss-Chest / Captive, the buildout register's pull-in), a
+   `whereInInterior` class on every `contents` slot, a light regime and a
+   lock class, `verticalRelationship` and `schemaVersion` on every record.
+   **Realisation recipe rule (asset-aware):** every family maps to a recipe
+   backed by a kit that exists (`dungeon-root-v1` modular cave and its
+   water plane; `xanmeer-interior-v1`; imperial and hlaalu tilesets; a
+   verbatim vanilla cell); a record whose family has no recipe is re-typed
+   here (to a family that has one, or to an exterior ruin, camp, shrine or
+   landmark that needs no interior), never promised. Generalise
+   `place_obligations` to project **record-only** obligations (no blueprint
+   required, owner `interiors`) so `verify_delivery_manifest` can later
+   hold Phase 12 to every promise. Tests: a record with a family and no
+   recipe fails; a promise field outside the vocabulary fails.
+3d. **Wrecks and submerged ruins** are catalogue places with promises like
+   any other (decision 0062); confirm each sits on water the graph says is
+   deep enough and record its `underwaterAccess`.
 4. **The plot re-solve** (`macro_plot --resolve-all` under the seed rule, pins
    kept) — once, on the frozen world; the two backlog-red records
    (dive-shaft, Giovesse lines) resolved by the review, not the solver.

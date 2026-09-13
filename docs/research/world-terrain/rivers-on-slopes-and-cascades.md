@@ -1,5 +1,7 @@
 # Rivers on slopes & cascades — research for Phase 8b round 7
 
+> **Superseded in part (2026-09-13):** reach classification is the hydrology graph's (0058: horizontal / sloped / vertical reaches, falls ≥ 3 m over a face ≥ 70°) and the chain order is 0059's; the lip/step thresholds in Rec A2 and any 0025 chain reference below are history. Still live: the rendering recipe (A3, B4, B5).
+
 Research pass 2026-08-28. Problem (owner playtest, round 6): sloped
 stream/river beds render as (a) empty beds, (b) staircases of disconnected
 pond-blobs, (c) solid white foam crusts on steep reaches, (d) flow speed that

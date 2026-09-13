@@ -440,7 +440,7 @@ All of these are numeric and belong in the water probe / compiled-data tests:
 - **Registration**: every cascade's lip point sits within 0.5 m of its steep
   reach's last station, and its plunge point within 0.5 m of the next reach's
   first station. (Attempt 2's misalignment would have failed this.)
-- **Classification**: no cascade exists whose centreline slope is < 45° over
+- **Classification** (rule superseded 2026-09-08 by 0047 addendum 3 and the graph, 0058: a fall is ≥ 3 m over a face ≥ **70°**; the 45° figures below are the 8b-era proposal): no cascade exists whose centreline slope is < 45° over
   the steep contiguous part; no steep strip on slope < 0.035. Histogram the
   slope of every classified reach and assert the two populations do not
   overlap.

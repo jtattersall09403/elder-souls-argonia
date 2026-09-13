@@ -97,9 +97,10 @@ python3 -m worldgen.sculpt_province "<...>/argonia-heightfield/heightfield-f32.n
 #    portages 0012, flood states, exports)
 python3 -m worldgen.apply_terrain_patches        # frozen base + typed patches -> refined-height-f32 (the natural ground)
 
-# The full rebuild order (refine -> routes -> grading -> chunks -> water ->
-# landcover -> scatter) lives in ONE place: ./scripts/terrain-chain.sh
-# (decision 0025). `python3 -m worldgen.compile_water` alone needs the
+# The full rebuild order (frozen base -> graph -> carve -> patches -> chunks ->
+# water once -> routes as patches -> landcover -> scatter) lives in ONE
+# place: ./scripts/terrain-chain.sh (decision 0059; the ladder hides
+# undelivered chunks). `python3 -m worldgen.compile_water` alone needs the
 # channels solution carve_province copies beside the refined heights.
 
 # 6. Phase 6: chunk the refined province for collision/LOD (Phase 7 consumes)
@@ -231,7 +232,8 @@ arrangement. None of it changes what any test asserts.
 - `worldgen/standing_water.py` — sea + standing bodies by flooding the real
   full-res terrain (8-connected priority flood via
   `skimage.morphology.reconstruction`), the rounds-8-10 acceptance rules per
-  flood component (every body a major road crosses capped at road + 0.3 m),
+  flood component (the road cap on standing water was deleted 2026-09-09
+  and must not return),
   one level of nested sub-basins (watershed catchments to their saddles),
   river-trapped hollows accepted as lakes (replayed at the carve's level by
   the compile), per-body season response, islet lowering.

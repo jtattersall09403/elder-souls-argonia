@@ -71,11 +71,11 @@ default).
   their own layers (kelp/eelgrass analogues, coral-like growths from the
   sourced underwater pools, sunken debris, shell beds), gated by water class,
   depth and turbidity rather than the land region raster. Wrecks and sunken
-  structures are catalogue *places*, never scatter. **Built in Phase 9's swim
-  slice** (owner 2026-09-04: "is there a point when this gets *built*, not just
-  documented?" — yes: the underwater exemplar that proves swimming is where the
-  submerged band, the sunken-debris statics and the first wreck place are laid,
-  because swimming through bare sand proves nothing). Species mix is then
+  structures are catalogue *places*, never scatter. **Built in chunk 16f** (decision 0062, revising the owner's 2026-09-04
+  note: 16f owns the one scatter compiler, so the submerged band and the
+  sunken-debris statics are laid there with numeric acceptance; a wreck is a
+  catalogue place with promises; the owner *judges* them in the 9a swim
+  slice, because swimming through bare sand proves nothing). Species mix is then
   re-tuned from Phase 13's ecology; assets from module 90 §76.
 - **Every route is a corridor** (Phase 11): `worldgen/routes_raster.py` is the
   one source for both the ground paint and the clearance — major roads,
@@ -137,7 +137,7 @@ or the budget silently stops being measured. Agents keep reporting the numeric
 side — instances, draws, triangles, collider counts — from
 `__STUDIO_VEGETATION_DEBUG__`; the device side comes from the owner.
 
-- **Phase 10** builds the machinery against the reference watershed: scatter
+- **Phase 10** builds the machinery against the Phase 10 exemplar set: scatter
   compiler pass, T1/T2 renderers + LOD chains, T3 groundcover ring, wind
   uniforms, budget probes (visible instances, draw calls, overdraw estimate —
   §69 already reserves them). Budgets are proved by owner playtest on target
@@ -147,7 +147,7 @@ side — instances, draws, triangles, collider counts — from
   authors the flora ecology** — per-region ecology-driven species palettes
   and densities (region grammar §16), pulled forward from Phase 13 (owner
   split 2026-08-29, decision 0034), informed by mining vanilla/BM&V/Tropical
-  Skyrim placement data (module 95 §86.0b). Delivered province-wide: the
+  Skyrim placement data (docs/phases/README.md §86.0b). Delivered province-wide: the
   terrain chain re-bakes every chunk's bundle (decision 0036, 2026-09-08
   record), and each region class carries a signature species
   ([variety audit](../research/vegetation/regional-variety-audit-2026-09-08.md)).

@@ -33,7 +33,10 @@ list what was matched, what a tweak superseded and what is missing. The
 freeze gate fails on an approved body of 500 m² or more that nothing
 realises unless `approved-bodies-waived.json` names it (the owner's waiver,
 per body, with the reason); anything smaller is recorded, never gated. Change the approved record only with the
-owner; rebuild it with `python3 -m worldgen.approved_bodies build`.
+owner: a correction to the river network (a pocket that is not the sea, a
+mouth moved) is a row in `approved-routing-corrections.json`, applied by
+`compile_hydrology` on top of the frozen network; rebuild the record itself
+with `python3 -m worldgen.approved_bodies build`.
 
 ## Inputs and provenance
 
@@ -135,9 +138,8 @@ imply; the runtime keeps animating the level between the two stored extremes.
 water (the Blackrose lake); the shape stage digs it, the derive measures it
 like any other body and cross-references the two (`realisedBy` on the
 authored record, `declaredBy` on the measured one); the `authored-bowl`
-precondition is what the freeze gate checks. Its level is 0: the southern
-feeder is its outlet to Oliis Bay and is cut below sea level, so the lake is
-a tidal arm of the bay. Only real relief makes a waterfall: nothing is cut to add one (owner,
+precondition is what the freeze gate checks. Its level is **1.6 m on a sill** with a graded outlet to Oliis Bay
+(decision 0060 §2, superseding the round-1 "tidal arm at level 0"). Only real relief makes a waterfall: nothing is cut to add one (owner,
 2026-09-11); a fall off a low bank into sea-level water is flagged
 `fall.suspect = "coastal-terrace-step"` for 16b to smooth away.
 
@@ -166,7 +168,8 @@ Every reach and body carries `terrainPrecondition`:
   moved by more than 0.05 m keeps its solve-time level in `preCarve`, and
   `stats.bodiesMovedByCarve` counts them. A body a reach depends on (pooled
   through, weired out of, fed by, a plunge body) may not move more than
-  0.10 m: the stage fails;
+  0.30 m, with a budget of 10 such bodies per run, each recorded (0059 §6,
+  16b ledger §9): over that, the stage fails;
 * **appends** the bodies the carve itself made (a shoulder's backswamp, a
   trench pool) with `origin: "terrain-stage"`, keyed by deepest cell;
 * **fails** on a graph body left dry (unless the sea, a captured body, one the

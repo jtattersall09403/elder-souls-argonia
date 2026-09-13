@@ -109,7 +109,7 @@ PBR for our renderer), use #3/#4 where art direction should match remaining
 Bethesda assets, keep the vanilla wet/mossy set with tint shifts, treat #5/#7
 as references/gap-fillers with credits. Nexus downloads via the API key (see
 memory/asset-pipeline notes); record every acquired source in
-docs/CREDITS.md.
+the root README.md § Credits and third-party sources.
 
 ## Scree / talus (Phase 10 B4, 2026-08-31 — deferred from 6b)
 

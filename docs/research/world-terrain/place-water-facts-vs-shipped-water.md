@@ -359,7 +359,7 @@ Recommended, in order. **None of it moves an owner-approved place.**
 **Chain cost.** Items 1–4 need **no terrain chain at all**: they are
 world-generation code plus a `plotFacts` rewrite and a test. Item 3 costs one
 `apply_sitings` run (seconds). Item 5 is the only one that needs the chain —
-`./scripts/terrain-chain.sh --from refine_province`, ~**5.5 min** end to end
+`tooling/world-generation/scripts/terrain-chain.sh --from refine_province`, ~**5.5 min** end to end
 per the water handoff (11 s if nothing changed), then `apply_sitings`,
 `pytest -n auto`, `npm run test:placement`, plus `compile_settlement` /
 `export_settlement_bundle` for anything that reaches a settlement. Do **not**

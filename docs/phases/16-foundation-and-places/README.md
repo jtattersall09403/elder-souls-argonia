@@ -112,7 +112,7 @@ G4 Are the routers broken; is important context sitting unused?
 **H — Form of the deliverable**
 H1 A structured set of considerations, nothing left out (this section).
 H2 Decomposed into sequenced, manageable chunks, a fresh agent each, owner testing between (§4).
-H3 Slotted into the phase plan as the current work and integrated with the routers; a "deliver x" instruction (this file, PROGRESS.md, world/95 §86, CLAUDE.md step 1).
+H3 Slotted into the phase plan as the current work and integrated with the routers; a "deliver x" instruction (this file, PROGRESS.md, docs/phases/README.md §86, CLAUDE.md step 1).
 
 ## 3. The ladder (the rule every chunk obeys)
 
@@ -155,8 +155,10 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   still owns, because those stages are the old code and are known to be
   wrong on the frozen world; running them only produces a build that is
   wrong in ways nobody is checking. Some of them also move the ground under
-  the chunks being walked. When a chunk lands, its agent adds its stages to
-  the ladder and bumps `DELIVERED_THROUGH` in the same commit; `--full` runs
+  the chunks being walked. The script already lists each chunk's expected
+  stages; when a chunk lands, its agent *confirms* that row (renaming or
+  adding stages it actually delivered) and bumps `DELIVERED_THROUGH` in the
+  same commit; `--full` runs
   everything for someone who knows why. Published JSON a skipped stage would
   have written (routes, structures, settlements, pad receipts) is STALE
   against the current ground and is not judged at that chunk's check; the
@@ -177,11 +179,11 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 | 16c | [Water once](16c-water-once.md) — compile on the frozen base; fix the runtime (ocean, edges, seams, hover, falls); probes that fail | walk 14 water sites + beach + open sea | 7 | todo |
 | 16d | [Beyond-border apron and boundary](16d-border-apron-and-boundary.md) — stitched all-Tamriel slice, fade, wall, message | mountain viewpoint N, W, NW; walk to the edge | 8 | todo |
 | 16e | [Routes, grading, spans and ferries on the frozen world](16e-routes-grading-spans-ferries.md) — grading as a patch stack, span pips, paint on the published line, ferries placed | walk three roads, two crossings, one ferry | 9 | todo |
-| 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md) — channel membership, rocks at falls and cliffs, grass coverage, rows, hanging roots, bare rock, mountain dressing | five region sites + one river + one fall | 10 | todo |
-| 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md) — re-validate every record; move, re-type, cut; design groups; co-siting sets | the plot review report + the design-group list | 11 | todo |
+| 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md) — channel membership, rocks at falls and cliffs, grass coverage, rows, hanging roots, bare rock, mountain dressing, the submerged band and wreck statics (from Phase 9, 0062) | five region sites + one river + one fall | 10 | todo |
+| 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md) — re-validate every record; move, re-type, cut; design groups; co-siting sets; the promise vocabulary for dungeon-kind places and its migration (0062) | the plot review report + the design-group list | 11 | todo |
 | 16h | [Settlement runtime and kit QA](16h-settlement-runtime-and-kit-qa.md) — yaw sign, real colliders, anchoring, pads as patches, mounts, nav, stairs, composites, renderable kinds; the off-world kit loop | Lilmoth gate walk-through; the kit sheets | 12 | todo |
-| 16i | [Exemplars end to end](16i-exemplars-end-to-end.md) — five places exterior + interior (builds the building-interior path; Phase 12 is dungeons only, 0061) + approach + nav + dressing; owner walk; skill v2 | walk all five, inside and out | 13 | todo |
-| 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) — one region packet through the skill unattended; automation-readiness gate; the packet roadmap; hands to Phase 15A (authoring pass, starts at once, unfrozen) | walk the packet | — | todo |
+| 16i | [Exemplars end to end](16i-exemplars-end-to-end.md) — five places exterior + tier A interiors verbatim + the interior load contract + reserved doors (0062) + approach + nav + dressing; owner walk; skill v2 | walk all five, inside and out | 13 | todo |
+| 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) — one region packet through the skill unattended, dungeon sites with reserved doors included; automation-readiness gate; the packet roadmap and brief template; Phase 16 closes, 9a thin swim is next (0062) | walk the packet | — | todo |
 
 **Why this order.** Water depends on terrain; routes and vegetation depend on
 water; places depend on all three; the settlement runtime must be correct
@@ -211,10 +213,11 @@ them where the blueprint put them.
 - A settlement runtime that rotates by +yaw, collides with real shapes,
   mounts dressing, places ways and reports navigation honestly.
 - `.claude/skills/settlement-build/` v2 and a `kit-qa` skill.
-- The building-interior path (portal + foundation records, interior cells
-  from plugin data, the door transition, the interior load contract in
-  `packages/`), the typed travel-service graph, the stronghold reservation
-  and the 15A packet roadmap — the seams into Phases 12 and 15 (0061).
+- The interior load contract and portal records in `packages/`, tier A
+  interiors verbatim from plugin cells, the reserved-door state, the promise
+  vocabulary on every dungeon-kind record, the typed travel-service graph,
+  the stronghold reservation and the Phase 15 packet roadmap — the seams
+  into Phases 12 and 15 (0061, 0062).
 - Every absorbed polish-backlog row struck; the water handoff archived.
 
 ## 6. Coverage matrix (every item in §2 has a chunk)
@@ -261,7 +264,7 @@ them where the blueprint put them.
 | D11 | 16h | the audit §1–7 findings beyond the owner's list (dressing = one chair, 15 kinds place nothing, route structures never ground-audited, stilt audit blind) |
 | D12 | 16h | answered in the audit: the rules were right and unfollowed at the runtime boundary (sign, boxes, anchoring) and unfollowed at compile (no composites outside Lilmoth) |
 | D13 | 16h | the off-world assembly renderer and the owner–agent loop that ends in a `kit-qa` skill (§8) |
-| D14 | 16i, 16j | end to end incl. interiors; the skill; the unattended trial packet. **Decided:** "later stuff" (Phase 13 fauna, encounters and loot; Phase 12b sound; 10c numbers) is *not* pulled into the exemplars — those compilers do not exist yet and 10b/10c must precede them (world/95 §86.0); the exemplars leave typed sockets and obligations for them instead |
+| D14 | 16i, 16j | end to end incl. interiors; the skill; the unattended trial packet. **Decided:** "later stuff" (Phase 13 fauna, encounters and loot; Phase 12b sound; 10c numbers) is *not* pulled into the exemplars — those compilers do not exist yet and 10b/10c must precede them (docs/phases/README.md §86.0); the exemplars leave typed sockets and obligations for them instead |
 | E1 | every chunk | acceptance names the gates added and the defect each failed on first |
 | E2 | 16a, §8 | the proposal for the owner |
 | F1 | 16g | `designGroup` with Lost City + Made Ground first; quest-place map reviewed for more |

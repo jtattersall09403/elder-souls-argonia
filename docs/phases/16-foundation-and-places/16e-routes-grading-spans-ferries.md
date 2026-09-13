@@ -48,7 +48,11 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
    placeholder: re-author it here with Hist-node placement on the graph
    (a rootway is a reach chain like a lane), the `rootways` overlay
    regenerated in the same commit. Root-transit quest rewards stay with the
-   packet's co-design loop (15A).
+   packet's co-design loop (Phase 15). **"Someone to talk to" at a ferry
+   means, in this chunk, an operator NPC standing at a typed socket and a
+   minimal talk-to-service contract in `packages/` (a verb that opens a
+   service menu from the record: the buildout register's "talk → service
+   menu as a small contract"); the full dialogue system is build-out work.
 5. **Paint on the published line**: `routes_raster` and `rebake_landcover`
    read the published line that the character walks; `warn_on_drift` reports the
    geometric deviation.
@@ -75,7 +79,7 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
   `horizontal-backwater` reach except by ferry or span.
 ## Acceptance
 
-- **The chain ladder** (plan §3): this chunk's stages are `reroute_lanes`, `reroute_majors`, `compile_minor_routes`, `grade_routes` (as patches), `author_route_structures`, `compile_route_structures`, the second `compile_water`, `terrain_request_postconditions`, `ferry` placement. Add them
+- **The chain ladder** (plan §3): this chunk's stages are `reroute_lanes`, `reroute_majors`, `compile_minor_routes`, `grade_routes` (as patches), `author_route_structures`, `compile_route_structures`, `patch_water` over the grading patches (never a second `compile_water`: water is compiled once, 0057 §1), `terrain_request_postconditions`, `ferry` placement. Add them
   to the ladder in `scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
   to this chunk in the delivering commit; until then a plain chain run skips
   them and their published JSON is stale.

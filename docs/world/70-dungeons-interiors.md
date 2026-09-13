@@ -4,7 +4,7 @@
 > and [00-core.md](00-core.md) for the universal principles. Section numbers (§NN)
 > preserved from the original plan; cross-doc references resolve via the README map.
 
-> **Before authoring any interior or kit assembler (Phases 11–12), read the
+> **Before authoring any interior or kit assembler (16i for tier A building interiors, Phase 12 for every assembled interior), read the
 > measured evidence, not just this plan:**
 > [research/placement-settlements/mined-interior-assembly-and-settlement-form.md](../research/placement-settlements/mined-interior-assembly-and-settlement-form.md)
 > — per-kit snap module (128 units ≈ 1.82 m, but *statistical*: town kits lift

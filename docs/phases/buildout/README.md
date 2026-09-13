@@ -70,7 +70,7 @@ will also use.
   direction multiplier).
 - **Shield parry ruling** — in [polish-backlog.md](../P-polish/backlog.md) tagged
   `10b`.
-- **At Phase 11 kickoff:** **`owner`/`ownerFaction` + value tier on every
+- **Homed in Phase 16 (was "at Phase 11 kickoff"; 0062):** `owner`/`ownerFaction` + value tier, `STATION` sockets, per-body `WaterBody` records and the catalogue-as-registry rule are done (records carry them); the `LocalStateVariant` overlay in the bundle format and the door + interior-claim records are **16i**; timetable data, urban water-taxi edges and the travel-service graph are **16e**; the prior→roster demographic rule and the vastei tutorial scene flag are **16g** (the opening-scene places are owner-guided in every phase). Original list kept for the record: **`owner`/`ownerFaction` + value tier on every
   placed interactable** (cross-check §1 — retrofit is the expensive
   version) · `STATION` socket type (crafting stations; assets in vault) ·
   per-body `WaterBody` records (0025 deferred them *to* Phase 11) ·
@@ -90,8 +90,8 @@ will also use.
   compile. Full statements: decision 0041's forward-compatibility block.
 - **At the Phase 10 gate:** schedule or consciously re-defer the
   beyond-border land apron (55 §98b says "alongside Phase 10").
-- **At Phase 12:** dungeon **anchor sockets** (Boss/Boss-Chest/Captive) in
-  the socket vocabulary · underwater POI access-metadata schema (60 §44) ·
+- **At 16g (promise vocabulary) and Phase 12 (interiors), 0062:** dungeon **anchor sockets** (Boss/Boss-Chest/Captive) in
+  the socket vocabulary (16g) · underwater POI access-metadata schema (60 §44) ·
   artificial-light design (torch mechanics gift-wrapped in cross-check §4) ·
   the unpickable-lock class + spell-as-alternate-key pattern. **0039 S1 is
   RULED: levitation, Mark/Recall, shrine-network Intervention, water

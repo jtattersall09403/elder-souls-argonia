@@ -58,6 +58,16 @@ Needs ruling 10 (already given for 16b); no new ruling.
    mountain dressing palette from the vault: heather, scree, dead wood);
    lowland boulder regions (survey the map for two or three candidate sites;
    place one as an exemplar if a site fits).
+3b. **The submerged band and the wreck statics** (moved here from Phase 9
+   by decision 0062; this is the one scatter compiler and it is being
+   rewritten in this chunk): the depth-gated submerged scatter band of
+   world 65 (kelp and eelgrass analogues, shell beds, sunken debris) reading
+   the graph's bodies and the season-aware signed depth; the wreck and
+   submerged-ruin statics of world 60 and 90 §76 sourced from the vault
+   (`underwater-v1` holds 23 assets; gaps are sourcing jobs, credited in the
+   same change). The owner judges them in the 9a swim slice; here the
+   acceptance is numeric (instances per m² by depth band, zero above the
+   waterline, shown failing on today's bundles).
 4. **Thin classes**: apply the graph's answer from 16a to the tidal delta and
    deep river corridor ladders.
 5. Rebuild the bundles once on the frozen world (see 7).

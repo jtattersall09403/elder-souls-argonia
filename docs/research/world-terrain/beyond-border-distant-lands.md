@@ -25,7 +25,7 @@ The standard layered pattern (see sources):
 ## Plan for us (deferred; do when 8b/10 asset passes settle the look)
 
 Generate in the WORLD PIPELINE, not at studio runtime:
-- A **border-apron raster** (`province/border-apron.png` + mesh or a coarse
+- A **border-apron raster** (`province/border-apron.*` (a 16d deliverable, not yet shipped) + mesh or a coarse
   grid JSON): heights = province edge rows/cols extended outward with
   decaying continuation + authored ridge profiles per compass sector
   (lore: Morrowind mountains N/NW→NE, Cyrodiil Blackwood low hills W/SW,

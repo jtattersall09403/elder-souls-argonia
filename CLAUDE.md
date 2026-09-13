@@ -98,15 +98,6 @@ The overall goal at this point is to build the province-scale world, in a way th
   are made on the actual geometry** (owner ruling 2026-09-04): footprints,
   silhouettes, full 3D volumes with all their detail, and the authored
   snap/combination rules — never on a piece's label or description.
-- **Test locally; deploy only when the owner says so** (owner 2026-09-12).
-  Pushing to `main` deploys, so commit locally and do NOT push until the owner
-  asks for a deploy. For a check, run `npm run preflight` (every deploy gate,
-  in parallel), then `npm run studio` and hand the owner the local URL: the
-  server listens on `$ES_STUDIO_PORT` and is reached at `$ES_TUNNEL_URL`
-  (same `?view=character&x=..&z=..&t=..` parameters as the deployed studio).
-  Both values are ENVIRONMENT, never committed: they live in the gitignored
-  `.claude/settings.local.json` `env` block on this machine. One dev server
-  at a time on that port; never `pkill -f` to free it.
 - **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
 - **Controller-independent.** Combat/input/lock-on/animation depend on
   `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to
@@ -125,7 +116,7 @@ The overall goal at this point is to build the province-scale world, in a way th
   **not finished or frozen** — re-architect and extend them when the game needs
   it (see world module 75 §51.1), keeping the controller boundary and the
   package rule intact.
-- **Obey the thirteen engineering standards** ([docs/standards/engineering.md](docs/standards/engineering.md),
+- **Obey the fourteen engineering standards** ([docs/standards/engineering.md](docs/standards/engineering.md),
   decision 0042): stable IDs on everything placed; every player-visible string
   in `packages/text-catalogue`, never a literal; `schemaVersion` on runtime
   data; determinism in world building; no new module-level mutable singletons
@@ -133,7 +124,7 @@ The overall goal at this point is to build the province-scale world, in a way th
   in the typed vocabulary ([docs/quests/85](docs/quests/85-condition-vocabulary.md));
   prose written against the record it describes, never promising what the
   typed fields cannot deliver (standard 12).
-  Five are checked mechanically by `npm test` (incl. standard 13: placement
+  Seven are checked mechanically by `npm test` (incl. standard 13: placement
   work that changes without the placement playbook or decision 0041 moving
   fails the gate) — cheap now, brutal to retrofit.
 - **All prose is reviewed by a separate agent before commit.** Any text a
@@ -158,9 +149,9 @@ The overall goal at this point is to build the province-scale world, in a way th
   lists every failure at once, so one wait replaces a fix-wait-fix loop.
 - **Don't over-validate.** `npm test` and `npm run typecheck` are the routine
   gates. If you touched animation/movement/physics/camera code, also run
-  `npm run visual:check -- <group>` (fast, no video). Nothing else is required
+  `npm run visual:check -w @elder-souls/combat-sandbox -- <group>` (fast, no video). Nothing else is required
   and nothing visual gates CI or deploy.
-- **Don't do expensive ingestions unless explicitly told to**. e.g. don't natively ingest images or video unless the user has told to. For validating visual things, do what you can with tooling, measurements, data, probes etc. But do *not* run lots of slow probes - the user would prefer to do quick visual checks themselves rather than wait ages for slow probes/tests to run. As a rough rule of thumb, if a probe or suite of probes will take more than 15 minutes to run, ask the user to check visually instead. For things that need visually inspecting, batch them up and pause at sensible points to present them to the user, telling them what to playtest/check and how to feedback. If you come across something in the docs (e.g. the animation playbook or elsewhere) telling you to ingest things visually - don't; this rule wins out, ask the user to check instead (either checking in the game/sandbox/studio/whatever if appropriate, or looking at an image/gif/clip that you've created for them if more appropriate - perhaps when 'auditioning' amongst several viable-sounding animation candidates. You decide what method of visual checking will be most efficient at getting good results and achieving a smooth workflow between you and the user on your task).
+- **Don't do expensive ingestions unless explicitly told to**. e.g. don't natively ingest images or video unless the user has told to (Phase 16 chunks: at most six per chunk under the plan's §8 budget). For validating visual things, do what you can with tooling, measurements, data, probes etc. But do *not* run lots of slow probes - the user would prefer to do quick visual checks themselves rather than wait ages for slow probes/tests to run. As a rough rule of thumb, if a probe or suite of probes will take more than 15 minutes to run, ask the user to check visually instead. For things that need visually inspecting, batch them up and pause at sensible points to present them to the user, telling them what to playtest/check and how to feedback. If you come across something in the docs (e.g. the animation playbook or elsewhere) telling you to ingest things visually - don't; this rule wins out, ask the user to check instead (either checking in the game/sandbox/studio/whatever if appropriate, or looking at an image/gif/clip that you've created for them if more appropriate - perhaps when 'auditioning' amongst several viable-sounding animation candidates. You decide what method of visual checking will be most efficient at getting good results and achieving a smooth workflow between you and the user on your task).
 - **Get visual feedback from the user.** Ideally deliver the whole of the phase and have the user review at the end, unless there is a good reason to pause partway through and get feedback then (e.g. if something needs a steer based on a playtest/visual check that would be hard to change if reviewed at the end). Then hand off to the user, tell them what to do, what to check, and how to feed back, in plain english (especially non-technical language - the user is not an expert in game dev or technical concepts). List out everything to check in a structured bulleted list, one check per bullet. If, for your work, it makes sense to check specific sites or files, then with each bullet include specific urls for the user to go to (e.g. studio urls with arguments that take you to specific coordinates; or repo urls to specific files).
 - **Research known solutions.** We aren't working on something particularly unique or unusual. For any task, decide if it would be worth researching online to find if there are already known-good or proven solutions, or whether the thing you're doing is simple enough that you can just get straight to it. If it would be worth researching, first check the filenames in docs/ and it's sub-folders to see if any other agent has done the research already. If yes, read it, then think about whether further research is necessary or if you now have what you need. If you do need to do further online research, do it, and record key findings in docs/ . Use and create sub-directories as appropriate, and remember that future agents will go off filenames when deciding whether to read a doc you've written.
 **Update and improve the docs as you go along**. While you work, always think about whether something you're doing means the docs should be changed or updated. If you're editing a doc, don't think you have to just append - this will lead to context bloat. You can edit, delete and overwrite as well. Same goes for the structure of docs/ itself. You might be the first agent that has ever run in this folder or you might be the 100th - it doesn't matter, you should be thinking about how docs/ is structured, what's in the README, what's needed (including whether the file map needs to be updated in the README), what you've changed (if anything), and make fixes/improvements as required. This goes for the docs/world/ plan modules as well: you are a more capable model than the one that wrote that plan, and you may find flaws in it that need correcting; or as you work, you may make discoveries that mean something in it needs to be tweaked. Make those changes when needed. Similarly, you can update claude.md itself if necessary - but whilst being very conscious of the golden rule on preventing context bloat. Same goes for overall project README.

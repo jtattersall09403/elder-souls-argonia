@@ -25,7 +25,7 @@ vegetation exemplars span several areas of which Blackrose is only one;
 exemplars are chosen per system on contrast, not tied to one basin),
 (3) small disposable laboratories. **Placement systems
 (vegetation, settlements, dungeons, ecology) are built exemplar-first**
-(module 95 §85.4, decision 0029/0034): one retained exemplar authored
+(docs/phases/README.md §85.4, decision 0029/0034): one retained exemplar authored
 *through* the data format, validated on 2–3 contrasting instances, then
 rolled out as data per region packet — never whole-province hand authoring.
 
@@ -126,13 +126,16 @@ reproducible pipeline builds.
 8b water renderer · 8c weather/atmosphere · **then risk-first (owner
 re-sequencing 2026-08-29, decision 0034):**
 10 asset deep catalogue+kits+vegetation (incl. flora ecology) ·
-11 settlement system (exemplar-first) · **16 frozen foundation + place
-ladder (now; absorbs 11's exemplars, water round 2 and the terrain rows of P;
-0057)** · 12 dungeon system (exemplar-first) ·
-9 swim/climb/boats · 10b full sandbox parity in studio (was 7b, 0017) ·
-10c stats+progression implementation (0019; design = workstream S) ·
-13 fauna ecology/encounters/loot (exemplar-first) ·
-P general polish pass (rolling backlog, docs/phases/P-polish/backlog.md) incl.
-12b province soundscape (polish-tier: after 13, before 14's budget lock) ·
-14 streaming+deploy · 15 rollout by region packet.
+**16 frozen foundation + place ladder (now; absorbed Phase 11; 0057)** ·
+9 swim/climb/boats (thin swim first) · 10b full sandbox parity in studio
++ the renderer extraction (0017, 0062) · 10c stats+progression
+implementation (0019; design = workstream S) · 13 fauna
+ecology/encounters/loot (exemplar-first) · **12 interiors** (every
+assembled interior, dungeon or building, against promises authored with
+the places; 0062) · P general polish pass (rolling backlog,
+docs/phases/P-polish/backlog.md) incl. 12b province soundscape (after 12
+and 13, before 14's budget lock) · 14 streaming+deploy · 15 rollout by
+region packet, one pass per packet (0062). One queue, no parallel lines;
+the owner is hands-on for major cities and the opening-scene places
+throughout.
 Statuses live only in PROGRESS.md.

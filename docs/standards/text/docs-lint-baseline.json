@@ -2,7 +2,7 @@
  "schemaVersion": 1,
  "rule": "hard prose hits per docs/ markdown file may only fall; a file absent here must have zero",
  "files": {
-  "docs/PROGRESS.md": 16,
+  "docs/PROGRESS.md": 2,
   "docs/README.md": 2,
   "docs/decisions/0004-fixed-difficulty-constraint.md": 1,
   "docs/decisions/0005-province-heightfield-ingest.md": 3,
@@ -59,7 +59,7 @@
   "docs/phases/16-foundation-and-places/16f-vegetation-on-frozen-water.md": 2,
   "docs/phases/16-foundation-and-places/README.md": 3,
   "docs/phases/P-polish/backlog.md": 51,
-  "docs/phases/README.md": 41,
+  "docs/phases/README.md": 33,
   "docs/phases/buildout/README.md": 13,
   "docs/quests/00-overview.md": 60,
   "docs/quests/10-political-frame.md": 20,

@@ -46,7 +46,7 @@ Example:
 
 ```text
 /world-studio?x=42110&z=-18300&mode=character&profile=baselineArgonian
-  &flood=wet-season&bundle=helstrom-approach-v12&layers=water,collision
+  &wet=1&bundle=helstrom-approach-v12&layers=water,collision
 ```
 
 ## 68. Diagnostic map layers

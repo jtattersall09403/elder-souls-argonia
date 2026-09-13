@@ -1,6 +1,6 @@
 # Polish backlog (Phase P — plan §86)
 
-Rolling list for the general polish pass (module 95, "Phase P"). Add items
+Rolling list for the general polish pass (docs/phases/README.md, "Phase P"). Add items
 freely (owner or agents); one line each, with source and a concrete "done"
 test. Remove items when shipped. This file is the single place deferred
 cosmetic/feel work lives — do not park polish items in decision docs.
@@ -125,7 +125,7 @@ re-add an absorbed row here; act on it in its chunk.
   scaled cadence. Owner to judge which stays; if the slow one, sourcing faster
   strafe clips is the way to a quicker locked pace, not a speed number.
 
-## Owner feedback round (2026-09-06)
+## Owner feedback round (2026-09-06) — the water bullets below are absorbed into chunk 16c (plan §9); struck, kept for the record
 
 Sky, water, weather, geography, camera, terrain dressing and combat items the
 owner raised in one pass. Not triaged/sized yet — treat as raw backlog.

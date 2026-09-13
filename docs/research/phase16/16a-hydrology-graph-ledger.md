@@ -58,7 +58,7 @@ into them. Fix: bound the increment, then a strict-descent epsilon flood; the se
 becomes a D8 sink. The shipped rasters are untouched until 16b reruns the
 pass; the graph's `drainageLoops` invariant holds it at zero.
 
-## 4. The graph, as derived (report)
+## 4. The graph, as derived (report) — counts superseded by the 16b ledger §9 (the graph was re-derived on the frozen ground)
 
 Re-derived 2026-09-11 after the owner's review: one flat channel kind with a size band, a 30 m seam rule, seasons flowing downstream, the Blackrose lake declared, no waterfall proposals.
 
