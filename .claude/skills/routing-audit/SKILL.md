@@ -12,11 +12,19 @@ names kept alive after the phase was absorbed, and briefs that read as if
 the codebase were a blank slate. Standard 15 catches the mechanical part
 (links, retired words, research index). This skill is the judgement part.
 
-**When.** (1) The first step of any `deliver NNx` or phase start, by the
-delivering agent, before any code is read for building. (2) At a phase
-close, over the whole set the phase's briefs route to, by a fresh agent
-(Opus `research` for non-water topics; Fable for anything water). (3)
-Whenever a brief's Starting state is older than the last chain run.
+**Two modes, and the cheap one is the default.**
+
+- **Pre-build check** (the delivering agent, first step of any `deliver NNx`
+  or phase start; ten minutes, no write-up): run step 3 only — `ls`,
+  `git log -3` and the named gates against every claim in the brief's
+  Starting state and Read list. Report mismatches in a short list to the
+  owner before building; fix the brief's Starting state (replace it, never
+  append; keep it under twenty lines). Do not reconstruct the belief set;
+  that costs context the build needs.
+- **Phase-close audit** (a fresh agent: Opus `research` for non-water
+  topics, Fable for anything water; also whenever a brief's Starting state
+  is older than the last chain run): all five steps over the whole set the
+  phase's briefs route to.
 
 **Steps.**
 

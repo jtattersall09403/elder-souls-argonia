@@ -25,6 +25,7 @@
     "test:pipeline": "cd tooling/asset-pipeline && python3 -m pytest -q pipeline",
     "test:water": "cd tooling/world-generation && python3 -m pytest -q $(python3 -c \"import importlib.util;print('-n=auto' if importlib.util.find_spec('xdist') else '')\") worldgen/test_water.py worldgen/test_water_invariants.py worldgen/test_reroute_lanes.py worldgen/test_hydrology_graph.py worldgen/test_terrain_preconditions.py worldgen/test_terrain_patches.py worldgen/test_freeze.py worldgen/test_chain_settles.py worldgen/test_shape_province.py worldgen/test_sculpt.py",
     "preflight": "node tooling/repo-standards/preflight.mjs",
+    "facts": "node tooling/repo-standards/facts.mjs --write",
     "studio": "node tooling/repo-standards/studio-dev.mjs"
   },
   "devDependencies": {

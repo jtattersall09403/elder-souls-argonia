@@ -13,6 +13,7 @@ import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { computeFacts, renderFacts } from "./facts.mjs";
 
 const HERE = fileURLToPath(new URL(".", import.meta.url));
 const ROOT = join(HERE, "..", "..");
@@ -519,6 +520,43 @@ function checkDocsCurrent() {
         }
       }
     }
+  }
+
+  // (e) counts in live prose agree with the data (docs/FACTS.md is generated
+  // from the committed data; a live doc that states a different number next
+  // to a tracked noun fails unless the line is dated as history).
+  try {
+    const computed = computeFacts();
+    const factsPath = "docs/FACTS.md";
+    if (!existsSync(join(ROOT, factsPath)) || readFileSync(join(ROOT, factsPath), "utf8") !== renderFacts(computed)) {
+      fail(15, factsPath, 0, "docs/FACTS.md is stale: run `npm run facts` and commit it with the data change");
+    }
+    const words = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20 };
+    const toNum = (t) => (/^\d+$/.test(t.replace(/,/g, "")) ? Number(t.replace(/,/g, "")) : words[t.toLowerCase()]);
+    const dated = /\b20\d\d-\d\d-\d\d\b|\bround [0-9]\b|\bcommit\b|\bwas\b|\bhistory\b|FACTS\.md/i;
+    const defaultRoots = (cfg.factRoots ?? ["docs"]).map((x) => posix(x).replace(/\/$/, "") + "/");
+    for (const rule of cfg.facts ?? []) {
+      const re = new RegExp(rule.pattern, "gi");
+      const want = computed.facts[rule.key];
+      if (want === undefined) continue;
+      const factRoots = rule.roots ? rule.roots.map((x) => posix(x)) : defaultRoots;
+      for (const f of live) {
+        const r = rel(f);
+        if (!factRoots.some((x) => r === x || r.startsWith(x))) continue;
+        if ((cfg.exemptPrefixes ?? []).some((x) => r.startsWith(x))) continue;
+        if (r === factsPath) continue;
+        const ls = readFileSync(join(ROOT, f), "utf8").split("\n");
+        for (let i = 0; i < ls.length; i++) {
+          if (dated.test(ls[i])) continue;
+          for (const m of ls[i].matchAll(re)) {
+            const n = toNum(m.slice(1).find((g) => g !== undefined) ?? "");
+            if (n !== undefined && n !== want) { fail(15, r, i + 1, `"${m[0]}" disagrees with the data (${rule.key} = ${want}, docs/FACTS.md): link FACTS.md, or date the line as history`); break; }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    fail(15, "tooling/repo-standards/facts.mjs", 0, `facts could not be computed: ${e.message}`);
   }
   // (c) research docs indexed by their folder README.
   const researchRoot = join(ROOT, "docs", "research");

@@ -19,6 +19,7 @@ Five kinds of thing, one folder each. Nothing else lives at the root.
 | [research/](research/README.md) | knowledge | reusable findings in themed folders, each indexed; `archive/` is provenance only |
 | [evidence/](evidence/) | evidence | images written by tooling for owner review, linked from PROGRESS |
 | [PROGRESS.md](PROGRESS.md) | status | the only place status lives |
+| [FACTS.md](FACTS.md) | generated | the counts that the docs kept getting wrong, computed from the data (`npm run facts`); link it, never copy a number |
 
 ## Find context by task
 
@@ -82,22 +83,12 @@ touches something no row names, open the nearest folder README and judge.
   README next to the code. **Status** → PROGRESS.md only.
 - When you add a doc, add it to its folder README. When a doc goes stale,
   edit or delete it — pruning is part of the job.
-- **Reconcile before you write** (owner 2026-09-13, after three audits found
-  the same disease everywhere): before a new research doc, decision or plan
-  section, list the folder README and grep the topic's key terms; if a live
-  doc already covers it, **edit that doc** (or add a dated supersession
-  banner at its top and a note in the index) rather than writing a second
-  one. A decision that supersedes another edits the older record's Status
-  line in the same commit. Every research doc carries a status in its
-  folder README (`live design input`, `research reference`, `history`).
-  Numbers in live prose name the command that reproduces them; hashes are
-  read from the record file (`freeze.json`, the graph) and never copied
-  into prose unless the line is dated as history. Standard 15
-  checks the mechanical part (links resolve, retired vocabulary absent from
-  live docs, research docs indexed).
-- **The routing-audit step** (owner 2026-09-13): before any `deliver NNx`
-  or phase start, the agent walks its own read list as a fresh reader
-  would, checks the brief's Starting state against the tree (`git log`,
-  `ls`, the gates) and reports contradictions and stale claims to the
-  owner *before* building; a phase close runs the same audit over the
-  whole routed set (`.claude/skills/routing-audit/`).
+- **Reconcile before you write** (owner 2026-09-13): grep the topic and read
+  the folder README first; edit the live doc rather than adding a second;
+  a superseded decision gets its Status line changed in the same commit;
+  every research doc has a status in its folder README. Counts come from
+  [FACTS.md](FACTS.md) or name the command that produced them; hashes are
+  read from the record file. Standard 15 checks the mechanical part.
+- **Routing audit** (`.claude/skills/routing-audit/`): a delivering agent
+  checks its brief's Starting state against the tree before building (ten
+  minutes, no write-up); a phase close runs the full audit with a fresh agent.

@@ -175,8 +175,8 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   is the worked example: the code already adds yaw; the fix is to
   negate). No chunk starts from a blank slate. The section states,
   with file:line evidence, what exists, what is known broken, what is red
-  in the tests, what to keep and what to delete. It is a snapshot: when a
-  chunk closes, its agent writes its ledger's "ending state" into the
+  in the tests, what to keep and what to delete. It is a snapshot of at most twenty lines, **replaced, never appended**: when
+  a chunk closes, its agent writes its ledger's "ending state" into the
   **next** chunk's Starting state in the same commit; a brief whose
   Starting state is older than the last chain run is re-audited before
   work starts (the `routing-audit` step, docs/README.md § Where to record).

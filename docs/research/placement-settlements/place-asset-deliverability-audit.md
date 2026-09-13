@@ -115,7 +115,7 @@ them; they are not listed individually (see the JSON). Everything else:
 | **`root-cavern`** | deliverable-with-sourcing | **no kit** — needs `dungeon-root-v1` (philscaves/vanilla cave shell + HTBM histroots + Telvanni root pieces) |
 | **`hist-sanctum`** | deliverable-with-sourcing | same missing kit, plus the hero-Hist meshes for the centre |
 
-## 4. Records with undeliverable claims (all 818 catalogue records scanned)
+## 4. Records with undeliverable claims (all 818 catalogue records (the count at the time; current in docs/FACTS.md) scanned)
 
 96 records flagged. Per region (flagged / total):
 

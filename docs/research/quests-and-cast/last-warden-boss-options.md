@@ -9,7 +9,7 @@ A06, world 90 §78, lore topics/fauna-hazards.md.
 
 ## The chosen build (verified in-vault, nothing to source)
 
-- **Rig + moveset:** vanilla `werewolfbeast` — **121 clips** confirmed in the
+- **Rig + moveset:** vanilla `werewolfbeast` — **121 clips (the count at the time; current in docs/FACTS.md)** confirmed in the
   vault's `Skyrim - Animations.bsa`: left/right/fast/low attacks, power combos
   with backhand finishers, 8-direction run-attack syncs, all-fours sprint +
   sprint attacks, 3 howls (re-flavour: root-shaking call), combat idles,
@@ -22,7 +22,7 @@ A06, world 90 §78, lore topics/fauna-hazards.md.
   ancient-bound-guardian dress for free) + `dragman_swamp.nif`; 58 daedroth
   texture files in part2. Re-texture: Argonian scale + amber Hist-sap
   emissives, scaled up. Pure re-material class.
-- **Adds (optional):** vanilla spriggan rig (68 clips incl. `idle_kneel_loop`
+- **Adds (optional):** vanilla spriggan rig (68 clips (the count at the time; current in docs/FACTS.md) incl. `idle_kneel_loop`
   — a guardian *waiting* — and `ambush.hkx` rising from root cover); BM&V has
   `bottreant.nif`/AncientSpriggan variants on the rig.
 - **Freshness:** no werewolves exist anywhere in the plan, so the player has

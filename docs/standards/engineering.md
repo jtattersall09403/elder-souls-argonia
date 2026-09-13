@@ -287,7 +287,13 @@ is the mechanical half:
   match a hash in the record files named in `retired-terms.json`
   (`freeze.json`, the hydrology graph, `water-meta.json`, `ladder.json`) or
   sit on a line that dates it (a date, "round N", "commit" or "was").
-  Live prose names the record file; it does not copy the number.
+  Live prose names the record file; it does not copy the number;
+- **counts agree with the data**: `docs/FACTS.md` is generated from the
+  committed data (`npm run facts`) and must be current; a live doc that
+  states a different number next to a tracked noun (clips, standards, ferry
+  services, dungeon-kind records, rivers, reaches, built bodies, published
+  kits; the list is `retired-terms.json` `facts`) fails unless the line is
+  dated as history. Live prose links FACTS.md instead of copying a number.
 
 Checked mechanically by `npm test` (repo-standards `checkDocsCurrent`); the
 failure demonstrations are the 2026-09-13 run over the tree before the audit

@@ -1,5 +1,5 @@
 {
-  "$comment": "Standard 15: vocabulary that live docs must not use. Each entry: a JS regex (case-insensitive), why it is retired, what to say instead, and path prefixes that are exempt (history may quote it). Add a row in the same commit as the decision that retires a term. hashRecords: JSON files whose sha/hash fields are the current record; a 12+ hex hash quoted in a live doc must match one of them or sit on a dated line (a date, \"round N\", \"commit\" or \"was\").",
+  "$comment": "Standard 15: vocabulary that live docs must not use. Each entry: a JS regex (case-insensitive), why it is retired, what to say instead, and path prefixes that are exempt (history may quote it). Add a row in the same commit as the decision that retires a term. hashRecords: JSON files whose sha/hash fields are the current record; a 12+ hex hash quoted in a live doc must match one of them or sit on a dated line (a date, \"round N\", \"commit\" or \"was\"). facts: {key, pattern} \u2014 a number captured next to the noun in a live doc must equal the computed fact (docs/FACTS.md) unless the line is dated.",
   "liveRoots": [
     "docs",
     "world/sources/hydrology/README.md",
@@ -120,5 +120,43 @@
     "docs/phases/",
     "docs/research/phase16/",
     "world/sources/hydrology/README.md"
+  ],
+  "factRoots": [
+    "docs"
+  ],
+  "facts": [
+    {
+      "key": "animationClips",
+      "pattern": "\\b(\\d[\\d,]*|[a-z]+) (?:animation )?clips\\b"
+    },
+    {
+      "key": "engineeringStandards",
+      "pattern": "\\b(\\d+|[a-z]+) (?:standing rules|engineering standards)\\b",
+      "roots": [
+        "docs/standards/",
+        "CLAUDE.md",
+        ".claude/"
+      ]
+    },
+    {
+      "key": "ferryServices",
+      "pattern": "\\b(\\d+) ferry services\\b"
+    },
+    {
+      "key": "dungeonKindRecords",
+      "pattern": "\\b(\\d+) dungeon-kind records\\b"
+    },
+    {
+      "key": "catalogueRecords",
+      "pattern": "\\ball (\\d[\\d,]*) (?:catalogue|place) records\\b|\\b(\\d[\\d,]*) records in the catalogue\\b"
+    },
+    {
+      "key": "builtBodies",
+      "pattern": "\\b(\\d+) built bodies\\b"
+    },
+    {
+      "key": "publishedKits",
+      "pattern": "\\b(\\d+) published kits\\b"
+    }
   ]
 }
