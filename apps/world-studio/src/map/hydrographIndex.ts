@@ -29,7 +29,7 @@ interface HgGraph {
 
 export interface HydrographIndex {
   reachAt(px: number, py: number): HgReach | null;
-  bodyAt(px: number, py: number, bodyPixelAlpha: number): HgBody | null;
+  bodyAt(px: number, py: number, bodyPixelAlpha: number, elevationM?: number): HgBody | null;
   river(id: string): HgRiver | undefined;
   body(id: string): HgBody | undefined;
 }
@@ -67,7 +67,7 @@ export function buildHydrographIndex(graph: HgGraph, width: number, height: numb
       const id = cell.get(py * width + px) ?? near.get(py * width + px);
       return id ? reaches.get(id) ?? null : null;
     },
-    bodyAt(px, py, alpha) {
+    bodyAt(px, py, alpha, elevationM = 0) {
       if (alpha === 0) return null;
       const fx = px * step, fy = py * step;
       let best: HgBody | null = null;
@@ -78,8 +78,15 @@ export function buildHydrographIndex(graph: HgGraph, width: number, height: numb
         const area = (x1 - x0) * (y1 - y0);
         if (area < bestArea) { bestArea = area; best = b; }
       }
-      // painted water with no boxed body under it is the sea (the one body without a box)
-      return best ?? bodies.get("body.ocean") ?? null;
+      if (best) return best;
+      // a promised plunge pool has no box, only its cell: within three map pixels
+      for (const b of graph.bodies) {
+        if (b.bboxCells || !b.deepestCell) continue;
+        if (Math.abs(b.deepestCell[0] - fx) <= 3 * step && Math.abs(b.deepestCell[1] - fy) <= 3 * step) return b;
+      }
+      // painted water with no body under it is the sea only where the ground is at sea level:
+      // a marker on a 100 m hillside used to fall through to "body.ocean" (owner 2026-09-13)
+      return elevationM <= 0.5 ? bodies.get("body.ocean") ?? null : null;
     },
     river: (id) => rivers.get(id),
     body: (id) => bodies.get(id),

@@ -583,7 +583,7 @@ export function App() {
       const wetAlpha = decodedPxRef.current["hydrograph-wetline"]?.[i + 3] ?? 0;
       if (wetAlpha > 0) here.push(["wet season", "inside the high-water extent"]);
       const reach = hi.reachAt(x, y);
-      const body = hi.bodyAt(x, y, bodyAlpha);
+      const body = hi.bodyAt(x, y, bodyAlpha, hgt);
       sections.push(...describeHydrograph(hi, reach, body));
       if (fallsAlpha > 0 && !reach?.fall) sections.push({ title: "Marker", rows: [["what", "a waterfall or plunge pool (see the legend)"]] });
     }
