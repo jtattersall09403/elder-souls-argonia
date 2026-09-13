@@ -30,12 +30,23 @@ export type {
 /** Pixel side of the hydrology grid that routes.json / routes-minor.json index. */
 export const HYDRO_GRID_PX = HYDRO_GRID_SAMPLES;
 
-export async function loadPlaces(baseUrl: string): Promise<PlottedPlacesBundle> {
-  const r = await fetch(`${baseUrl}province/places.json`);
-  if (!r.ok) throw new Error(`places.json: HTTP ${r.status}`);
-  const data = (await r.json()) as PlottedPlacesBundle;
-  if (data.schemaVersion !== 2) throw new Error(`places.json schemaVersion ${data.schemaVersion} unsupported — re-run python3 -m worldgen.export_places`);
-  return data;
+const placesCache = new Map<string, Promise<PlottedPlacesBundle>>();
+
+/** One fetch of the 2.3 MB bundle per page, shared by every layer that reads it. */
+export function loadPlaces(baseUrl: string): Promise<PlottedPlacesBundle> {
+  let p = placesCache.get(baseUrl);
+  if (!p) {
+    p = (async () => {
+      const r = await fetch(`${baseUrl}province/places.json`);
+      if (!r.ok) throw new Error(`places.json: HTTP ${r.status}`);
+      const data = (await r.json()) as PlottedPlacesBundle;
+      if (data.schemaVersion !== 2) throw new Error(`places.json schemaVersion ${data.schemaVersion} unsupported — re-run python3 -m worldgen.export_places`);
+      return data;
+    })();
+    p.catch(() => placesCache.delete(baseUrl));
+    placesCache.set(baseUrl, p);
+  }
+  return p;
 }
 
 /** `null` when the file is absent (404) — the layer simply has nothing to draw. */

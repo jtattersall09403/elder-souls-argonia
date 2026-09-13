@@ -3,7 +3,7 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
-import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
+import { lodForDistance, type ChunkGrid, type ChunkStore, type ChunksManifest } from "./chunkStore";
 import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
 
 /**
@@ -18,13 +18,7 @@ import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeo
  * (decision 0046 retired the per-frame frustum residency and its rebuild loop).
  */
 
-const NEAR_RING = 1;  // Chebyshev chunk distance rendered at LOD 1
-const MID_RING = 3;   // … at LOD 2; beyond renders at LOD 4
-
-function desiredLod(dx: number, dy: number): string {
-  const d = Math.max(Math.abs(dx), Math.abs(dy));
-  return d <= NEAR_RING ? "1" : d <= MID_RING ? "2" : "4";
-}
+const desiredLod = lodForDistance;   // rings: 1 near (LOD 1), 3 mid (LOD 2), beyond LOD 4
 
 function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
   grid: ChunkGrid;
@@ -151,7 +145,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       requested.current.add(key);
       store.load(chunk.cx, chunk.cy, lod)
         .then(bump)
-        .catch(() => requested.current.delete(key));
+        .catch((e) => { console.warn(`chunk ${key} failed: ${String(e).slice(0, 200)}`); requested.current.delete(key); });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store, manifest, focusCell]);

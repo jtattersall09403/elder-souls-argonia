@@ -21,7 +21,7 @@ import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabil
 import { spawnBodyY } from "./spawnHeight";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
 import { DEFAULT_SEX, RACE_IDS, resolveBuild, type RaceId } from "@elder-souls/game-core/actors/races";
-import { sharedChunkStore, type ChunksManifest } from "./chunkStore";
+import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./chunkStore";
 import { ChunkWorld } from "./chunkWorld";
 import { ChunkTerrain } from "./ChunkTerrain";
 import { ChunkColliders } from "./ChunkColliders";
@@ -268,6 +268,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           }
         }
         await Promise.all(ring);
+        prefetchChunks(store, m, x, z);   // the rest of the province, without waiting for the textures
         if (cancelled) return;
         const ground = world.groundHeight(x, z) ?? 50;
         supportYRef.current = ground;

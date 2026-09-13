@@ -550,3 +550,5 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   `validate_neck_rings`). The verdict for them is the line-of-sight measurement
   above and the picture beside it: `docs/evidence/races/armour-neck-check.png`
   and `armour-neck-check.measured.json`.
+
+- **Studio load: the two 4033² ground rasters** (`refined/ground-control.png` 19.1 MB, `chunks/normal-grad.png` 17.8 MB) are the bulk of every 3D load. Measured 2026-09-13: lossless WebP is 14.5 / 13.7 MB (−24 %); a 2017² control map would be a quarter the size but changes the paint the owner reviewed. Mechanism: `rebake_landcover` / `compile_chunks` write WebP, `ChunkTerrain` loads it; check decode time in the browser before switching. The load-order fix of 2026-09-13 (tiles prefetched before the textures; character mode split out of the map/fly bundle; settlements and water not fetched while the ladder hides them) is in; this is the remaining size lever.

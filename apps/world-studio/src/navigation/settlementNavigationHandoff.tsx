@@ -97,6 +97,7 @@ export function SettlementNavigationHandoff({
   const [result, setResult] = useState<SettlementNavigationHandoffStatus>(LOADING);
 
   useEffect(() => {
+    if (!visible) return;   // a 10 MB bundle, read only when the toast can show
     let cancelled = false;
     fetch(`${baseUrl}province/settlements.json`)
       .then((response) => response.ok
@@ -112,7 +113,7 @@ export function SettlementNavigationHandoff({
         });
       });
     return () => { cancelled = true; };
-  }, [baseUrl]);
+  }, [visible, baseUrl]);
 
   useEffect(() => {
     window.__STUDIO_SETTLEMENT_NAVIGATION__ = result;

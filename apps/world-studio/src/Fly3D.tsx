@@ -2,7 +2,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
-import { sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
+import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
 import { CityMarkers } from "./CityMarkers";
 import { ChunkTerrain } from "./character/ChunkTerrain";
@@ -11,7 +11,7 @@ import { Groundcover } from "./vegetation/Groundcover";
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
-import { useHiddenLayers } from "./ladder";
+import { loadLadder, useHiddenLayers } from "./ladder";
 import { groundHeightM } from "./vegetation/terrainHeight";
 import { lastWeatherSample } from "./weather/weatherState";
 import { worldClock } from "./sky/timeState";
@@ -228,8 +228,17 @@ export function Fly3D(props: Fly3DProps) {
   // what the character walks on. LOD follows the camera.
   const store = useMemo(() => sharedChunkStore(import.meta.env.BASE_URL), []);
   const [chunkManifest, setChunkManifest] = useState<ChunksManifest | null>(null);
+  const [ladderReady, setLadderReady] = useState(false);
   useEffect(() => {
-    store.manifest().then(setChunkManifest).catch(() => setChunkManifest(null));
+    store.manifest().then((m) => {
+      // tiles start downloading now, not after the ground textures (see prefetchChunks)
+      prefetchChunks(store, m, start[0], start[2]);
+      setChunkManifest(m);
+    }).catch(() => setChunkManifest(null));
+    // the ladder says which layers this build has; a layer mounted before it
+    // arrives fetches its data (3 MB of water rasters) and is then unmounted
+    loadLadder(import.meta.env.BASE_URL).finally(() => setLadderReady(true));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store]);
   const terrainExtentM = chunkManifest?.terrainSupportExtentM
     ?? chunkManifest?.extentM ?? TERRAIN_SUPPORT_EXTENT_M;
@@ -277,7 +286,7 @@ export function Fly3D(props: Fly3DProps) {
           exposure and the aerial haze all come from WorldSky — the old fixed
           hemisphere+directional pair and hand-tuned fog are gone. */}
       <WorldSky mode="fly" extentM={authoredExtentM} verticalScale={props.exaggeration}>
-        {chunkManifest ? (
+        {chunkManifest && ladderReady ? (
           <>
             <FocusTracker focusRef={focusRef} />
             {/* Independent loading boundaries: a streaming flora asset must

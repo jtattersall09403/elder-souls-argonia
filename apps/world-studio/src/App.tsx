@@ -1,16 +1,20 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D } from "./Fly3D";
+import { loadLadder, useHiddenLayers } from "./ladder";
 import { PlacesLayer } from "./places/PlacesLayer";
 import { BlueprintView } from "./blueprints/BlueprintView";
 import { encodeBlueprintUrl, parseBlueprintUrl, type BlueprintUrlState } from "./blueprints/blueprintsData";
-import { encodePlacesUrl, parsePlacesUrl, type PlacesUrlState } from "./places/placesData";
+import { encodePlacesUrl, loadPlaces, parsePlacesUrl, type PlacesUrlState } from "./places/placesData";
 import { RoutesLayer } from "./routes/RoutesLayer";
 import { Minimap } from "./character/Minimap";
 import { loadMinimapOverlay, type MinimapOverlay } from "./character/minimapOverlay";
 import { encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
-import { CharacterMode } from "./character/CharacterMode";
+// Loaded on demand: the character mode pulls in the combat and animation
+// packages (a 10 MB animation table among them) that the map and the
+// flyover never need (2026-09-13).
+const CharacterMode = lazy(() => import("./character/CharacterMode").then((m) => ({ default: m.CharacterMode })));
 import { colour } from "./terrainColor";
 import { buildHydrographIndex, describeHydrograph, type HydrographIndex, type TipSection } from "./map/hydrographIndex";
 import { decodeProvinceHeights, loadProvinceMeta, type ProvinceMapMeta } from "./map/provinceMap";
@@ -171,14 +175,15 @@ export function App() {
   // Clickable road/lane/track lines and the waterways toggle (?water=1, ?route=)
   // — drawn under the places dots by RoutesLayer.
   const [routesUrl, setRoutesUrl] = useState<RoutesUrlState>(() => parseRoutesUrl(urlParams));
+  const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
+  const [ladderReady, setLadderReady] = useState(false);
+  useEffect(() => { loadLadder(import.meta.env.BASE_URL).finally(() => setLadderReady(true)); }, []);
   const [placeNames, setPlaceNames] = useState<Record<string, string>>({});
   const placeName = useCallback((id: string) => placeNames[id] ?? id.split(".").pop() ?? id, [placeNames]);
   useEffect(() => {
     if (!showCatalogue || Object.keys(placeNames).length) return;
-    fetch(`${import.meta.env.BASE_URL}province/places.json`)
-      .then((r) => r.json())
-      .then((b: { places?: { id: string; name: string }[] }) =>
-        setPlaceNames(Object.fromEntries((b.places ?? []).map((p) => [p.id, p.name]))))
+    loadPlaces(import.meta.env.BASE_URL)
+      .then((b) => setPlaceNames(Object.fromEntries((b.places ?? []).map((p) => [p.id, p.name]))))
       .catch(() => {});
   }, [showCatalogue, placeNames]);
   // The minimap's places + route network: loaded once, the first time a 3D
@@ -519,12 +524,15 @@ export function App() {
   // access. A separate legacy class raster labels dry banks as open water.
   const waterClassRef = useRef<WaterAssets | null>(null);
   useEffect(() => {
+    // ~7 MB of water rasters, only for the hover row; not while the ladder
+    // hides the water layer (its rasters are stale against this ground)
+    if (!ladderReady || hiddenLayers.has("water")) return;
     let alive = true;
     sharedWaterAssets(import.meta.env.BASE_URL).then(assets => {
       if (alive) waterClassRef.current = assets;
     }).catch(() => { /* Water data optional in the map view. */ });
     return () => { alive = false; };
-  }, []);
+  }, [ladderReady, hiddenLayers]);
 
   function onMove(e: React.PointerEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
@@ -643,6 +651,7 @@ export function App() {
   const extentKm = meta ? ((meta.imageWidth * meta.metresPerPixel) / 1000).toFixed(1) : "…";
 
   const characterOverlay = view === "character" ? (
+    <Suspense fallback={null}>
     <CharacterMode
       key={presetNonce}
       spawnKm={spawnKm}
@@ -660,6 +669,7 @@ export function App() {
       onExit={() => setView("map")}
       onFlyHere={(x, z) => enterFly(x, z)}
     />
+    </Suspense>
   ) : null;
 
   // ?hud=0 hides every overlay panel — probe screenshots must be able to
@@ -757,7 +767,7 @@ export function App() {
       {characterOverlay}
       {flyOverlay}
       <SettlementNavigationHandoff baseUrl={import.meta.env.BASE_URL}
-        visible={view !== "map" && !hudHidden} />
+        visible={view !== "map" && !hudHidden && ladderReady && !hiddenLayers.has("settlements")} />
       {blueprintOverlay}
       {view !== "map" && !hudHidden && <TimePanel onChanged={onTimeChanged} onPreset={onLightPreset} />}
       <h1 style={{ font: "600 18px system-ui", margin: 0 }}>Argonia province preview — Phase 2 source ingest</h1>
