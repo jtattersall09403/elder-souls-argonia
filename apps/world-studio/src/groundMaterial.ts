@@ -81,18 +81,34 @@ export function createGroundMaterial(
   verticalScale: number,
   aerialUniforms: AerialUniforms,
   csm?: CSM | null,
+  options: { shoreWetness?: boolean } = {},
 ): THREE.MeshStandardMaterial {
   const n = images.length;
   const size = 512;
-  const data = new Uint8Array(size * size * 4 * n);
+  // Cliff materials (Phase 16b item 3): the two library slots the triplanar
+  // SIDE projections sample instead of the texel's own ground texture, so a
+  // steep face reads as rock or dirt cliff rather than a smeared top texture.
+  const cliffRock = manifest.materials.find((m) => m.name === "cliff_rock");
+  const cliffDirt = manifest.materials.find((m) => m.name === "cliff_dirt");
+  const hasCliff = !!cliffRock && !!cliffDirt;
+  const cliffNrmOk = hasCliff && cliffNormals.length === 2;
+  // The two cliff NORMAL maps ride in the SAME array texture as the albedos,
+  // as layers n and n+1: a second sampler2DArray for them took the fragment
+  // shader to 17 texture units with the flyover's 3 shadow cascades, over the
+  // 16 most GPUs allow, so the ground material failed to compile and the
+  // flyover drew no terrain at all (owner's console, 2026-09-13). Character
+  // mode has 2 cascades, exactly 16, which is why it still worked.
+  const layers = n + (cliffNrmOk ? 2 : 0);
+  const data = new Uint8Array(size * size * 4 * layers);
   const canvas = document.createElement("canvas");
   canvas.width = canvas.height = size;
-  const g2d = canvas.getContext("2d")!;
-  images.forEach((img, i) => {
+  const g2d = canvas.getContext("2d", { willReadFrequently: true })!;
+  [...images, ...(cliffNrmOk ? cliffNormals : [])].forEach((img, i) => {
+    g2d.clearRect(0, 0, size, size);
     g2d.drawImage(img, 0, 0, size, size);
     data.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
   });
-  const tex = new THREE.DataArrayTexture(data, size, size, n);
+  const tex = new THREE.DataArrayTexture(data, size, size, layers);
   tex.format = THREE.RGBAFormat;
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
   tex.minFilter = THREE.LinearMipmapLinearFilter;
@@ -101,30 +117,6 @@ export function createGroundMaterial(
   tex.anisotropy = 4;
   tex.needsUpdate = true;
 
-  // Cliff materials (Phase 16b item 3): the two library slots the triplanar
-  // SIDE projections sample instead of the texel's own ground texture, so a
-  // steep face reads as rock or dirt cliff rather than a smeared top texture.
-  const cliffRock = manifest.materials.find((m) => m.name === "cliff_rock");
-  const cliffDirt = manifest.materials.find((m) => m.name === "cliff_dirt");
-  const hasCliff = !!cliffRock && !!cliffDirt;
-  const cliffNrmOk = hasCliff && cliffNormals.length === 2;
-  let cliffNrmTex: THREE.DataArrayTexture | null = null;
-  if (cliffNrmOk) {
-    const nData = new Uint8Array(size * size * 4 * 2);
-    cliffNormals.forEach((imgN, i) => {
-      g2d.clearRect(0, 0, size, size);
-      g2d.drawImage(imgN, 0, 0, size, size);
-      nData.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
-    });
-    cliffNrmTex = new THREE.DataArrayTexture(nData, size, size, 2);
-    cliffNrmTex.format = THREE.RGBAFormat;
-    cliffNrmTex.wrapS = cliffNrmTex.wrapT = THREE.RepeatWrapping;
-    cliffNrmTex.minFilter = THREE.LinearMipmapLinearFilter;
-    cliffNrmTex.magFilter = THREE.LinearFilter;
-    cliffNrmTex.generateMipmaps = true;
-    cliffNrmTex.anisotropy = 4;
-    cliffNrmTex.needsUpdate = true;
-  }
   // integer ids: never let the GPU filter or mip the control map
   ctrl.minFilter = THREE.NearestFilter;
   ctrl.magFilter = THREE.NearestFilter;
@@ -153,7 +145,7 @@ export function createGroundMaterial(
     uCliffOf: { value: new Float32Array(manifest.materials.map((m) => (m.cliff === "rock" ? 0 : 1))) },
     // albedo array layer indices of the two cliff slots (read by name)
     uCliffLayer: { value: new THREE.Vector2(cliffRock?.id ?? 0, cliffDirt?.id ?? 0) },
-    uCliffNrm: { value: cliffNrmTex },
+    uCliffNrmBase: { value: n },   // layer of the first cliff normal map in uTex (rock; dirt follows)
   };
 
   const material = new THREE.MeshStandardMaterial({ roughness: 1.0, metalness: 0.0 });
@@ -208,7 +200,7 @@ uniform float uTileM[ES_N];
 uniform vec3 uAvgCol[ES_N];
 uniform float uCliffOf[ES_N];
 uniform vec2 uCliffLayer;
-${cliffNrmOk ? "#define ES_CLIFF_NRM\nuniform highp sampler2DArray uCliffNrm;" : ""}
+${cliffNrmOk ? "#define ES_CLIFF_NRM\nuniform float uCliffNrmBase;" : ""}
 vec3 esNrmW; // world-space gradient-map normal, shared by splat + lighting
 
 // The cliff albedo layer this material's steep faces use (rock or dirt).
@@ -290,16 +282,17 @@ vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
     int esCi = int(texelFetch(uCtrl, esCtc, 0).r * 255.0 + 0.5);
     float esClN = esCliffLayer(esCi);
     float esClT = uTileM[int(esClN)];
+    float esClNrm = uCliffNrmBase + (esClN == uCliffLayer.x ? 0.0 : 1.0);   // its normal map's layer
     float esSx = esNrmW.x < 0.0 ? -1.0 : 1.0;
     float esSz = esNrmW.z < 0.0 ? -1.0 : 1.0;
     vec3 esNx = esNrmW;
     vec3 esNz = esNrmW;
     if (esW.x > 0.004) {
-      vec3 t = texture(uCliffNrm, vec3(vEsWorldPos.zy / esClT, esClN)).rgb * 2.0 - 1.0;
+      vec3 t = texture(uTex, vec3(vEsWorldPos.zy / esClT, esClNrm)).rgb * 2.0 - 1.0;
       esNx = normalize(vec3(esSx * t.z, t.y, t.x));
     }
     if (esW.z > 0.004) {
-      vec3 t = texture(uCliffNrm, vec3(vEsWorldPos.xy / esClT, esClN)).rgb * 2.0 - 1.0;
+      vec3 t = texture(uTex, vec3(vEsWorldPos.xy / esClT, esClNrm)).rgb * 2.0 - 1.0;
       esNz = normalize(vec3(t.x, t.y, esSz * t.z));
     }
     esNrmW = normalize(esW.y * esNrmW + esW.x * esNx + esW.z * esNz);
@@ -325,15 +318,17 @@ vec3 nonPerturbedNormal = normal;`,
   };
 
   // Shore wetness (8b round 2): darken + polish the swash band so retreating
-  // water leaves visibly wet ground. Chains between splat and aerial.
-  applyShoreWetness(material);
+  // water leaves visibly wet ground. Chains between splat and aerial. It
+  // costs four texture units; skipped while the ladder hides the water layer
+  // (no water to be wet from), which keeps the fragment shader well under
+  // the 16-unit limit: 4 splat + 3 climate + 3 shadow cascades.
+  if (options.shoreWetness !== false) applyShoreWetness(material);
   // The aerial term chains after the splat patch (it also declares
   // uClimateAir + vEsWorldPos, which the splat code above uses).
   applyAerialPerspective(material, aerialUniforms);
   material.customProgramCacheKey = () => `es-ground-${n}-${cliffNrmOk ? 1 : 0}`;
 
   material.userData.tex = tex;
-  material.userData.cliffNrmTex = cliffNrmTex;
   material.userData.groundUniforms = groundUniforms;
   return material;
 }

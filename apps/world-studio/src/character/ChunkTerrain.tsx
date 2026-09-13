@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import { lodForDistance, type ChunkGrid, type ChunkStore, type ChunksManifest } from "./chunkStore";
+import { useHiddenLayers } from "../ladder";
 import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
 
 /**
@@ -68,11 +69,13 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
   const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);
   const { csm } = useContext(SkyContext);
+  const hiddenLayers = useHiddenLayers(base);
+  const shoreWetness = !hiddenLayers.has("water");
   const material = useMemo(
     () => createGroundMaterial(images, cliffNormals, ctrl, tintTex, gradTex, ground,
-      verticalScale ?? manifest.verticalScaleAtGeometry, sharedAerialUniforms, csm),
+      verticalScale ?? manifest.verticalScaleAtGeometry, sharedAerialUniforms, csm, { shoreWetness }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [images, cliffNormals, ctrl, tintTex, gradTex, ground, csm],
+    [images, cliffNormals, ctrl, tintTex, gradTex, ground, csm, shoreWetness],
   );
   const groundUniforms = material.userData.groundUniforms as GroundUniforms;
   useEffect(() => {
@@ -93,7 +96,6 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     });
     return () => {
       (material.userData.tex as THREE.DataArrayTexture).dispose();
-      (material.userData.cliffNrmTex as THREE.DataArrayTexture | null)?.dispose();
       material.dispose();
     };
   }, [material, csm]);
