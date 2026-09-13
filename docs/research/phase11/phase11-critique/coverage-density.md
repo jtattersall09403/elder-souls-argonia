@@ -51,7 +51,7 @@ faked a spatial check.
 
 ### S1 — The province is 22 % over the real density ceiling; 0041's "600–740" sizing dropped the D4–D5 discount. **(critical)**
 
-Module 95 binds **18–22/km² in D0–D3** and **8–12/km² in D4–D5**. Applied to
+docs/phases/README.md binds **18–22/km² in D0–D3** and **8–12/km² in D4–D5**. Applied to
 the measured land split:
 
 | | land km² | rate | budget |
