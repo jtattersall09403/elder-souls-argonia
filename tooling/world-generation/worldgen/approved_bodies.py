@@ -357,6 +357,87 @@ def load_routing(vault: Path, register: Path = REGISTER_PATH):
     return {k: z[k] for k in z.files}
 
 
+CORRECTIONS_PATH = REPO_ROOT / "world" / "sources" / "hydrology" / "approved-routing-corrections.json"
+
+
+def apply_routing_corrections(routing: dict, z: np.ndarray, metres_per_px: float,
+                              corrections: Path = CORRECTIONS_PATH, log=print) -> dict:
+    """The owner's corrections to the approved network (CORRECTIONS_PATH):
+    each declares a box that is not the sea and re-routes one river's last
+    stretch from its recorded mouth to the open-sea cell nearest a point,
+    by the lowest path over the current coarse ground. Returns the routing
+    with `rivers`, `flow_to`, `accum_km2`, `sink` updated in place."""
+    if not corrections.exists():
+        return routing
+    doc = json.loads(corrections.read_text(encoding="utf-8"))
+    rows = doc.get("corrections", [])
+    if not rows:
+        return routing
+    H, W = z.shape
+    sink = routing["sink"].astype(bool).copy()
+    flow = routing["flow_to"].reshape(-1).astype(np.int64).copy()
+    rivers = routing["rivers"].astype(np.uint8).copy()
+    accum = routing["accum_km2"].astype(np.float32).copy()
+    for c in rows:
+        b = c["notSeaBox"]
+        x0, x1 = (int(v / metres_per_px) for v in b["eastM"]); y0, y1 = (int(v / metres_per_px) for v in b["southM"])
+        sink[y0:y1 + 1, x0:x1 + 1] = False
+        mx, my = (int(v / metres_per_px) for v in (c["fromMouth"]["eastM"], c["fromMouth"]["southM"]))
+        # the river's last cell: walk its recorded chain from the mouth cell back over river cells that flow into it... simpler: start AT the mouth cell
+        start = my * W + mx
+        tx, ty = int(c["mouthNear"]["eastM"] / metres_per_px), int(c["mouthNear"]["southM"] / metres_per_px)
+        # lowest path from the start to the nearest sink cell to the target: Dijkstra, cost = step x (1 + 20 x height above sea)
+        import heapq
+        cost = 1.0 + 20.0 * np.clip(z, 0.0, None)
+        dist = np.full(H * W, np.inf); prev = np.full(H * W, -1, dtype=np.int64)
+        dist[start] = 0.0; heap = [(0.0, start)]
+        best = None
+        while heap:
+            d, i = heapq.heappop(heap)
+            if d > dist[i]:
+                continue
+            y, x = divmod(i, W)
+            if sink[y, x] and i != start:
+                # first sink reached is the closest by cost; prefer one near the named point
+                if best is None or np.hypot(x - tx, y - ty) < np.hypot(best[1] % W - tx, best[1] // W - ty):
+                    best = (d, i)
+                if d > (best[0] + 40):
+                    break
+                continue
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    if not (dy or dx):
+                        continue
+                    ny, nx = y + dy, x + dx
+                    if 0 <= ny < H and 0 <= nx < W:
+                        j = ny * W + nx
+                        nd = d + float(np.hypot(dy, dx)) * float(cost[ny, nx])
+                        if nd < dist[j]:
+                            dist[j] = nd; prev[j] = i; heapq.heappush(heap, (nd, j))
+        if best is None:
+            log(f"routing correction {c['id']}: no path to the sea from the mouth cell")
+            continue
+        path = []
+        i = best[1]
+        while i != start and i >= 0:
+            path.append(i); i = prev[i]
+        path = path[::-1]
+        band = int(max(rivers.reshape(-1)[start], 1)); a0 = float(accum.reshape(-1)[start])
+        cur = start
+        for j in path:
+            flow[cur] = j
+            if not sink.reshape(-1)[j]:
+                rivers.reshape(-1)[j] = band
+                accum.reshape(-1)[j] = max(float(accum.reshape(-1)[j]), a0)
+            cur = j
+        ey, ex = divmod(path[-1], W)
+        log(f"routing correction {c['id']}: {c['river16a']} re-routed over {len(path)} coarse cells to the sea at "
+            f"{ex * metres_per_px / 1000:.2f} E {ey * metres_per_px / 1000:.2f} S")
+    routing = dict(routing)
+    routing.update({"sink": sink, "flow_to": flow.reshape(H, W), "rivers": rivers, "accum_km2": accum})
+    return routing
+
+
 def main(argv=None) -> int:
     import argparse
     ap = argparse.ArgumentParser(description="the owner-approved (16a) standing-water register")

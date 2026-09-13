@@ -19,32 +19,32 @@
   "groundControl": "ground-control.png",
   "frozen": {
     "heightfield-sculpted-f32.npy": "7f59c47b20ecc64480dc6eba4ef0afa297fe5a4a66062ec792f4e311a7e82768",
-    "heightfield-shaped-f32.npy": "cd5de34a70148423a039049807c081be2ae6301a401989b0e7c541bc94662c27",
-    "refined-height-frozen-f32.npy": "90052f7fdd9731c6d490a72f2d8e3af51dd55c31ec2ed3755069666f321f3314"
+    "heightfield-shaped-f32.npy": "4d81cdf865ed315f2347f86e9c332186c1e575686fff36718388260b0df9bef9",
+    "refined-height-frozen-f32.npy": "4a74a06bfa194834d620ba011fd5cf4dbfdd3f6689c0e25d2dc537900006500f"
   },
   "portages": {
     "canoeChannels": 4,
     "portages": 28
   },
   "channelCarve": {
-    "stations": 33661,
-    "reaches": 168,
-    "cellsLowered": 125769,
-    "cellsRaised": 29320,
+    "stations": 33810,
+    "reaches": 172,
+    "cellsLowered": 126465,
+    "cellsRaised": 29395,
     "medianM": 0.774,
-    "p90M": 2.566,
+    "p90M": 2.589,
     "maxM": 82.682,
     "maxRaiseM": 5.838,
-    "trenchCells": 257964,
-    "pooledStations": 18009,
-    "shoreStations": 908,
+    "trenchCells": 258900,
+    "pooledStations": 18149,
+    "shoreStations": 954,
     "capturedStations": 4379,
     "fallStations": 32,
     "lostStations": 0,
-    "steepStations": 7405,
+    "steepStations": 7404,
     "falls": 18,
     "plungeBasins": 18,
-    "islandsLowered": 1950
+    "islandsLowered": 1919
   },
   "terrainStageBodies": 57,
   "patches": {

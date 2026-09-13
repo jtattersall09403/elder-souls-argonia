@@ -1,0 +1,29 @@
+{
+ "schemaVersion": 1,
+ "about": "Owner corrections to the approved (16a) river network, applied by compile_hydrology on top of approved-routing-16a.npz (decision 0060 \u00a77). A row declares a box of coarse cells that is NOT the sea (it becomes sea-level water a river crosses) and re-routes one river's last stretch from its 16a mouth (`fromMouth`, a position: river ids are keyed by mouth cell and move with it) to the open-sea cell nearest the point named, by the lowest path over the current ground. Coordinates in metres east/south.",
+ "corrections": [
+  {
+   "id": "correction.river-1223-143-mouth",
+   "notSeaBox": {
+    "eastM": [
+     6660,
+     6810
+    ],
+    "southM": [
+     755,
+     845
+    ]
+   },
+   "mouthNear": {
+    "eastM": 6570,
+    "southM": 970
+   },
+   "why": "Owner 2026-09-13: the 16a mouth at 6.71 E 0.78 S sits in a pocket the 2.5 km ocean rule called sea; it is a cul-de-sac off the inlet, and the river should run on south to the inlet's real mouth near 6.57 E 0.97 S.",
+   "fromMouth": {
+    "eastM": 6710,
+    "southM": 790
+   },
+   "river16a": "river.1223-143"
+  }
+ ]
+}

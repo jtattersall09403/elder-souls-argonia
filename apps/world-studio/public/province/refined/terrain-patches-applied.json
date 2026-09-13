@@ -1,7 +1,7 @@
 {
   "applied": 8,
-  "frozenSha256": "90052f7fdd9731c6d490a72f2d8e3af51dd55c31ec2ed3755069666f321f3314",
-  "naturalSha256": "84697ab44c5ac18497d973d575f9086d6e331dd7125f2669d93adbc7f5fedca8",
+  "frozenSha256": "4a74a06bfa194834d620ba011fd5cf4dbfdd3f6689c0e25d2dc537900006500f",
+  "naturalSha256": "b7b57531db8b15ea5562f06f93b87f5d568d516c2234d68aa753cfc96be1d53d",
   "patches": [
     {
       "id": "patch.poling.waterway.hist-heartland.nine-trunks",
@@ -595,7 +595,7 @@
       "id": "patch.request.place.naga-kur-deeps.dead-water-village",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.964,
-      "reason": "water: 470 frozen wet samples dried; water: body at 0.84 m gains 41 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded); water: body at 0.84 m gains 41 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded); water: 15 samples of new depression (makesWater not declared)",
+      "reason": "water: 470 frozen wet samples dried; water: body at 0.84 m gains 40 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded); water: 15 samples of new depression (makesWater not declared)",
       "region": [
         3078,
         3178,

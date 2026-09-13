@@ -271,7 +271,7 @@
   "wetlandFraction": 0.054,
   "tidalFraction": 0.014,
   "riverCells": {
-    "minor": 5904,
+    "minor": 5950,
     "medium": 2253,
     "major": 1649
   },
@@ -289,7 +289,7 @@
     "tidalMaxElevM": 1.5,
     "salinityDecayM": 500.0
   },
-  "riverCellsInSeaLevelWater": 1962,
+  "riverCellsInSeaLevelWater": 2008,
   "routing": "approved (16a network)",
   "floodFractions": {
     "none": 0.913,

@@ -111,7 +111,7 @@ export function describeHydrograph(index: HydrographIndex, reach: HgReach | null
       out.push({ title: `River ${river.id}`, rows: [
         ["water", river.water], ["order", String(river.strahler)],
         ["catchment", `${river.accumKm2.toFixed(1)} km²`], ["length", `${(river.lengthM / 1000).toFixed(1)} km`],
-        ["ends at", mouth],
+        ["river ends downstream at", mouth],
       ] });
     }
     const rows: [string, string][] = [
@@ -122,7 +122,7 @@ export function describeHydrograph(index: HydrographIndex, reach: HgReach | null
     ];
     if (reach.fall) {
       rows.push(["waterfall drop", `${reach.fall.dropM} m (lip ${reach.fall.lipLevelM} m → ${reach.fall.plungeLevelM} m)`]);
-      rows.push(["lands in", reach.fall.plungeBodyId]);
+      rows.push(["fall lands in", reach.fall.plungeBodyId === "body.ocean" ? "the sea" : reach.fall.plungeBodyId]);
       const suspect = (reach.fall as { suspect?: string }).suspect;
       if (suspect) rows.push(["flag", `${suspect}: a source-terrain step, 16b smooths it`]);
     }

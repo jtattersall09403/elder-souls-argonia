@@ -8,7 +8,7 @@
   "hydrograph-wetline": "The wet-season high-water extent: the Phase 3 wetlands (pieces of 10+ cells, about 300 m2), every river cell and every graph body. The raw coarse lake mask is NOT used: its 3,781 pieces were mostly one-cell pits along contours."
  },
  "source": "world/sources/hydrology/hydrology-graph.json",
- "contentSha256": "1464a4615970b63655d0a7401c43a076a1c5c50ab219e35b3f37d3283fb32d74",
+ "contentSha256": "4e377e58b26fdc272895d674a51fa5d4d719edddde2265d09e621c5f5805ed99",
  "legends": {
   "hydrograph-rivers": {
    "horizontal-channel": {
@@ -253,7 +253,7 @@
    "measuredPieces": 263,
    "splitParts": 4,
    "mergedIntoAnother": 1,
-   "kindKeptOverMeasured": 36,
+   "kindKeptOverMeasured": 35,
    "missing": [
     {
      "id": "body.1627-313",
@@ -1557,21 +1557,10 @@
      "id": "body.1789-698",
      "kind": "marsh-deep",
      "levelM": 1.19,
-     "areaM2": 59687.0,
+     "areaM2": 59660.0,
      "deepestCell": [
       1753,
       677
-     ],
-     "why": "lost-at-carve: the carved ground holds no body at its outline"
-    },
-    {
-     "id": "body.1464-2481",
-     "kind": "marsh-deep",
-     "levelM": 2.74,
-     "areaM2": 5613.0,
-     "deepestCell": [
-      1449,
-      2479
      ],
      "why": "lost-at-carve: the carved ground holds no body at its outline"
     }
@@ -1888,8 +1877,8 @@
     }
    ],
    "new": {
-    "count": 1914,
-    "areaM2": 899104.0,
+    "count": 1913,
+    "areaM2": 897729.0,
     "over5000m2": 23
    },
    "seaLevelSheets": {
@@ -1982,6 +1971,12 @@
      "depended": true
     },
     {
+     "id": "body.1464-2481",
+     "fromM": 2.74,
+     "toM": 2.27,
+     "depended": true
+    },
+    {
      "id": "body.2436-2699",
      "fromM": 1.62,
      "toM": 1.03,
@@ -2017,14 +2012,14 @@
      "derived": "reach.1392-180",
      "dropM": 26.72,
      "approvedDropM": 24.74,
-     "distanceM": 5.5
+     "distanceM": 7.5
     },
     {
      "approved": "reach.2590-659",
      "derived": "reach.2590-659",
      "dropM": 119.58,
      "approvedDropM": 122.31,
-     "distanceM": 2356.9
+     "distanceM": 2355.9
     }
    ],
    "missing": [],
@@ -2137,16 +2132,16 @@
   },
   "surfaceTransitions": 336,
   "shortChannelOrStripRuns": 0,
-  "shortRunsPinnedByJunctionBodyOrFall": 52,
+  "shortRunsPinnedByJunctionBodyOrFall": 51,
   "drainageLoops": 0,
-  "rivers": 99,
-  "reaches": 611,
-  "junctions": 198,
-  "bodies": 2281,
+  "rivers": 101,
+  "reaches": 615,
+  "junctions": 202,
+  "bodies": 2280,
   "reachKinds": {
    "horizontal-channel": 137,
    "sloped-riffle": 39,
-   "horizontal-backwater": 309,
+   "horizontal-backwater": 313,
    "horizontal-tidal": 3,
    "sloped-chute": 14,
    "sloped-rapid": 91,
@@ -2154,7 +2149,7 @@
   },
   "bodyKinds": {
    "tarn-upland": 16,
-   "pond": 83,
+   "pond": 82,
    "pool": 24,
    "backswamp": 22,
    "marsh-deep": 674,
@@ -2167,7 +2162,7 @@
    "lagoon": 20
   },
   "bodyOrigins": {
-   "measured": 2209,
+   "measured": 2208,
    "promised": 14,
    "authored": 1,
    "terrain-stage": 57
@@ -2176,26 +2171,26 @@
    "channel": 14.8,
    "strip": 15.7,
    "fall": 0.1,
-   "body": 32.0
+   "body": 32.2
   },
   "seasons": {
    "reaches": {
-    "perennial": 472,
-    "seasonal": 139
+    "perennial": 473,
+    "seasonal": 142
    },
    "bodies": {
-    "perennial": 1447,
+    "perennial": 1446,
     "seasonal": 834
    }
   },
   "waterClasses": {
    "blackwater": 9,
-   "whitewater": 59,
+   "whitewater": 61,
    "clearwater": 31
   },
   "mouths": {
    "sea": 30,
-   "confluence": 69
+   "confluence": 71
   },
   "falls": 18,
   "suspectFalls": 0,
@@ -2204,25 +2199,24 @@
   "lostSites": [],
   "gorgeStationsMeasured": 2215,
   "gorgeStationsUnderResolved": 926,
-  "wetSeasonLineCells": 190500,
+  "wetSeasonLineCells": 190545,
   "wetSeasonLineKm2": 5.73,
   "standingWaterCensus": {
-   "depressions": 46761,
-   "acceptedDepressions": 2141,
+   "depressions": 46753,
+   "acceptedDepressions": 2140,
    "rescuedBasins": 168,
    "sheets": 1517,
    "cappedBasins": 0,
    "nestedAccepted": 34,
    "nestedCandidates": 3712,
-   "bodies": 2177,
+   "bodies": 2176,
    "sheetBodies": 1518,
-   "bodyCells": 1172841
+   "bodyCells": 1172818
   },
   "bodiesJoinedSeaByCarve": 36,
   "carveDisagreements": {
    "lost": [
     "body.1789-698",
-    "body.1464-2481",
     "body.2437-2687",
     "body.2427-2723"
    ],

@@ -7,12 +7,12 @@
       "why": "the sculpted base: orogeny, benching, naturalness, coastal banks"
     },
     "heightfield-shaped-f32.npy": {
-      "sha256": "cd5de34a70148423a039049807c081be2ae6301a401989b0e7c541bc94662c27",
+      "sha256": "4d81cdf865ed315f2347f86e9c332186c1e575686fff36718388260b0df9bef9",
       "frozenOn": "2026-09-11",
       "why": "the shaped ground the hydrology graph is solved on: terrace, detail noise, the Blackrose lake and feeders, portages, shoreline smoothing, fluvial continuum"
     },
     "refined-height-frozen-f32.npy": {
-      "sha256": "90052f7fdd9731c6d490a72f2d8e3af51dd55c31ec2ed3755069666f321f3314",
+      "sha256": "4a74a06bfa194834d620ba011fd5cf4dbfdd3f6689c0e25d2dc537900006500f",
       "frozenOn": "2026-09-11",
       "why": "the frozen base: the shaped ground carved to the hydrology graph (trenches, weirs, plunge bowls, islets); patches only from here on"
     }

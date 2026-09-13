@@ -23,7 +23,7 @@ from PIL import Image
 from scipy import ndimage
 
 from .condition import base_terrain
-from .approved_bodies import load_routing
+from .approved_bodies import apply_routing_corrections, load_routing
 from .hydrology import compute, sea_connected
 from .regions import CLIMATE, REGION_CLASSES, SOIL_CLASSES, compute_regions
 from .scale import HSCALE as SCALE, RAW_METRES_PER_SAMPLE
@@ -66,6 +66,8 @@ def main() -> None:
     # the owner-approved river network (16a): taken as given, not re-solved
     routing = load_routing(grid_path.parent)
     print("routing:", "approved 16a network" if routing is not None else "solved on this ground")
+    if routing is not None:
+        routing = apply_routing_corrections(routing, z, metres_per_px)
     result = compute(z, metres_per_px, sea=sea_c, routing=routing)
     reg = compute_regions(z, result, metres_per_px)
 
