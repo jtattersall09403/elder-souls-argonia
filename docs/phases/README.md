@@ -43,7 +43,10 @@ runs unattended on those, ever (world 96 §3).
 
 **Conventions.** A chunked phase is `NN-slug/README.md` (the plan: items,
 sequence, coverage, owner decisions) plus `NNx-chunk-slug.md` per chunk (goal,
-read list, deliverables, acceptance, owner check, gotchas). A phase gets a
+**a dated Starting state**: what exists, what is broken, what is red, what
+to keep; then read list, deliverables, acceptance, owner check, gotchas). The
+agent that closes a chunk rewrites the next chunk's Starting state from its
+ledger in the same commit; nobody starts from a blank slate. A phase gets a
 folder when it is broken into chunks, not before; until then its section
 below is its plan.
 
@@ -418,8 +421,11 @@ acoustic profiles and budgets read finished rooms. Rollout of its skill is Phase
 
 **The three findings the phase starts from** (2026-09-13, both reviews):
 
-- **Tier A is large and free.** 571 building shells in the mined plugins
-  link to a furnished interior cell (about 279,000 placed objects, roughly
+- **Tier A is large for vanilla shells, thin for ours.** 571 link records
+  over 330 shell models in the mined plugins tie a shell to a furnished
+  interior cell; 481 are vanilla Skyrim buildings and about 90 come from
+  our mod kits; none of our kit pieces has a `matched` interior of its
+  own (about 279,000 placed objects, roughly
   100,000 clutter and 12,000 furniture); the plugin reader already decodes
   every reference's transform. 16i ships these verbatim. Tropical Skyrim
   retextured the cave and town-kit texture sets those cells use.
@@ -458,7 +464,9 @@ Creation Kit data model, per §86.0b):** furniture records' NPC-use markers
 portals for occlusion; lighting templates and interior light placement
 (no sun, local lights, fog colour: the one genuinely new rendering job,
 forced early by 16i's tier A); locks, ownership, counts and enable-parents
-on references; levelled containers as the loot compiler's checklist;
+on references (a container record is read for what the container *is*: its
+mesh, lock and owner; **never its levelled list** — loot is authored per
+record and fixed, 00-core rule 9);
 static collections and copied reference groups as the mod authors'
 prefab idiom; **the furnishing mine**: room function inferred from the
 furniture mix per chamber, wall-relative positions and co-occurrence per
@@ -525,7 +533,7 @@ them where the game needs it (§51.1); what's protected is the calibrated
 *feel*, not the code.
 
 **Animation sourcing comes first, and it is sourcing — we never author
-animation** (CLAUDE.md; module 90 §71). The rig currently carries 51 clips
+animation** (CLAUDE.md; module 90 §71). The rig currently carries 103 clips (measured 2026-09-13 in the generated animation manifest; the "51" of the first plan is history)
 (locomotion, jump, one-handed and bow combat, guard, parry, rolls, criticals,
 deaths) — **none for swimming, climbing, wading, rowing or boarding**. Work the
 gap table in **module 90 §74.3**, which already names researched candidates:
@@ -553,6 +561,17 @@ a wreck is a catalogue place with promises like any other. The thin swim
 slice is where the owner *judges* them, because swimming through bare sand
 proves nothing.
 
+**Starting state (2026-09-13):** `PlayerMovementController` is a 60-line
+interface with no mode enum or state machine (the seam is designed here,
+not extended); capability profiles already carry `swimSpeed: 0` and
+`climbSpeed: 0`; `packages/game-core/src/water/` already holds buoyancy, a
+rigid-body water model, tide and flow contacts (part of the boat stack
+exists); the manifest has 103 clips and none for swim, climb, wade, row or
+board; no boat or climb asset is in the repo (sourcing jobs, candidates in
+90 §74.3); the water renderer and underwater blit are app-private in
+`apps/world-studio/src/water/` until 10b extracts them, so 9a puts its
+swim logic in `packages/` and touches the app-side blit as little as it can.
+
 **Phase 9 runs as chunks, in this order: 9a thin swim** (vanilla clips,
 the existing water query, Argonian breath, the thin stat hook; this is the
 first chunk after 16j because 52 places have underwater entrances that
@@ -570,8 +589,8 @@ at worst (owner tolerance, 0034).
 services and boat fast travel are **Morrowind-style** — speak to the
 ferryman, pay, arrive: instant travel over a defined, geographically sensible
 service graph, with NPC passengers as set dressing. No vessel simulation, no
-ride-along. Those services are *world content*, delivered with settlements
-(Phase 11 deliverable). Player-boat cargo storage, passenger carrying,
+ride-along. Those services are *world content*, delivered by 16e (ferries placed,
+the typed service graph, the rootways re-lined). Player-boat cargo storage, passenger carrying,
 repair/ownership and boat combat hooks are **deferred until a quest brief or
 playtest demands them** — nothing in the current quest plan does (module 60
 §45 tiers the list).
@@ -632,6 +651,12 @@ Deliverables:
   Phase 14 keeps budgets, the chunk format and the impostor audit;
 - **arrows and physical materials** for the bow (moved here from Phase 13:
   they are bow parity, not ecology);
+- **the minimal NPC detection service** (ratified 2026-09-13, owner
+  question on the NPC system; was the buildout register's "single most
+  load-bearing unowned system"): view cones plus seen/unseen as **one
+  service** consulted by every NPC (enemies, later sneak, crime and watcher
+  quests), formulas from the source-game cross-check §4; enemies in the
+  studio use it from this phase;
 - **navmesh bake pipeline + `NavService`** (module 72, §114): recast tiled
   bake from kit/terrain collision in the world compiler, two agent classes,
   version pin asserted in CI — enemies in the studio path on baked data;
@@ -671,6 +696,21 @@ Deliverables:
 
 - the accepted stat model implemented, with **baseline-equivalence tests**:
   at neutral stats, combat numbers match today's calibrated values;
+- **Starting state (2026-09-13):** the design is data already
+  (`tooling/stats-sim/data/`, 15 JSON files, plus `invariants.mjs`); this
+  phase is a port, not a design; `packages/game-core` has no stats module;
+  `combat/poise.ts` exists (check what it implements before "building"
+  poise); one enemy archetype exists in code against a worked set in
+  `stats-sim/data/enemies.json`; two race tables will exist (stats-sim vs
+  `actors/generated/races.json`) and reconciling them is this phase's work;
+  the preset-loadout picker does not exist;
+- **the decided-but-unlisted stats work, ratified here** (2026-09-13; a
+  holding position since S round 4): weapon poisons and oils, the
+  hand-to-hand fatigue-takedown finisher, the magic `StatEffect.field` enum
+  with the cast-interruption-vs-poise rule (13's casters need it), the
+  creature statblock class and `Fight/Flee/Alarm` on the actor schema
+  (part of the NPC record contract below), plus a `condition` slot on the
+  item schema;
 - **the semantic-authoring compiler** (0019 fourth amendment, module 76 §128):
   ladder references → fixed numbers, with the ±25 % band clamp and literal
   overrides for uniques — **extended to loot and traps**, which have no
@@ -678,6 +718,20 @@ Deliverables:
 - capability profiles (§52) regenerated *from* the stat system, with the
   world's traversal and spawn probes still green;
 - enemy archetypes restated on the new scale; character-sheet UI;
+- **the NPC record contract, defined once** (owner question 2026-09-13):
+  one typed `NpcRecord` schema in `packages/contracts` that every later
+  consumer extends rather than re-invents — identity and stable id, race
+  and sex (the 20 built bodies and `pipeline/npc_records.py` are the
+  generator for named NPCs from Skyrim data), statblock and archetype on
+  the D-ladder (module 76 §129, with the Spot-side stats), faction ids,
+  hostility and `Fight/Flee/Alarm`, home place and home socket, plus
+  empty-but-typed slots for what later phases fill: marks,
+  schedules and patrols (13), dialogue topics and services (build-out),
+  crime and standing (build-out). Phase 13 populates records; 10b's
+  enemies and AI read them; nothing downstream defines a second NPC shape.
+  **Named-NPC records:** 346 places carry `notableNpcSlots` against a
+  two-entry `npcs.json`; 16g's prior→roster rule (world 92 §84) generates
+  the roster records into that registry, this phase gives them statblocks; 13 and 15 populate them;
 - the power ladder documented for Phase 13 authors (what D0–D5 means
   numerically), and the birthsign hook left ready (module 55 gives a birth
   date its constellation for free);
@@ -722,8 +776,16 @@ its manifest answers the `contents`, `hostility`, `rewardProfile`,
 packet's quest-brief pass (quests 90 §65b; Phase 15 step 5) and this phase
 only consumes it; arrows and physical materials are 10b's; seasonal foliage
 response to `s(t)` is 16f's and Phase 10's; froxel fog and the calendared
-eclipse world states are Phase 14 quality-tier and Phase P work. What stays
-here is what needs species, territories and compiled numbers.
+eclipse world states are **cut** (owner 2026-09-13: the shipped mist, haze
+and fog are what we want; no eclipse events). What stays here is what needs
+species, territories and compiled numbers.
+
+**NPC dependency (owner question 2026-09-13):** encounters need enemies and
+AI (10b), numbers (10c) and the NPC record contract (10c), all before this
+phase in the queue. This phase adds the *population* layer to that record
+(marks, schedules, patrols, territories); it never builds a second NPC
+system. Dialogue, the factions runtime and crime are build-out work on the
+same record.
 
 **Chunking (0062):** the data-model chunk (habitat, territory, obligation
 fields, the 12b-facing schedule fields) is written now; the population,
@@ -731,6 +793,8 @@ encounter and loot chunks at 10c close, when the power ladder is numeric.
 
 Deliverables:
 
+- **the contrast set proposed to the owner at phase start** (§85.4: the
+  exemplar areas plus two or three contrasting regions and danger bands);
 - habitat and territory system (territories/leashes on the baked nav data,
   §113–115);
 - fixed creature/faction populations, with the Morrowind-leaning ambient
@@ -811,9 +875,6 @@ Deliverables:
 
 - (the renderer extraction moved to Phase 10b, decision 0062; the shell
   app, menus and deploy slice stay in the build-out);
-- **froxel fog on the high quality tier and the calendared eclipse world
-  states** (module 55 tier 3, moved from Phase 13: rendering and world
-  state, not ecology);
 - production chunk format;
 - dependency-aware streaming (nav tiles stream with chunks, §114);
 - LOD and instance batching; vegetation quality tiers locked as one
@@ -834,7 +895,9 @@ Deliverables:
 - compressed textures and geometry;
 - performance budgets by device class;
 - GitHub Pages build containing approved runtime content only;
-- **sparse local state variant support** in bundles (2–3 authored variants per
+- **sparse local state variants, consumed and budgeted** (the overlay
+  mechanism in the bundle format is 16i's, per the buildout register and
+  0062; this phase budgets it) — 2–3 authored variants per
   quest location: occupants, barricades, banners, clutter, ambience — the
   quest consequence budget, quests 20 §14; never terrain/hydrology).
 
@@ -842,8 +905,10 @@ Deliverables:
 
 The province-wide fields (terrain, hydrology, light, water, weather) exist
 and are **frozen** (Phase 16); what expands region-by-region is **content**,
-as data. This phase runs **once per packet, after every system it rolls
-out exists** (owner 2026-09-13, decision 0062, collapsing the 0061 two-pass
+as data. This phase runs **once per packet, after every world-build system it rolls
+out exists** (the 16j skill, 12 interiors, 13 ecology, 10b nav and probes,
+10c numbers, 14 budgets; build-out systems such as dialogue, crime and the
+factions runtime are hooks and data only) (owner 2026-09-13, decision 0062, collapsing the 0061 two-pass
 split): the settlement rollout skill proved in 16j, the interiors skill
 proved in Phase 12, the fauna/encounter/loot systems of 13, the navmesh
 and probes of 10b, the compiled numbers of 10c, the budgets of 14. The

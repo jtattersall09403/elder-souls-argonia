@@ -26,7 +26,7 @@ atmosphere, not by geometry. Two rules follow:
    and hour*. A material that reads right under a flat white hemisphere light
    and wrong under humid noon haze has not been approved. This is why the light
    stack lands **before** the asset catalogue (Phase 10) and settlement
-   authoring (Phase 11), not after.
+   authoring (16i, 16j and every Phase 15 packet), not after.
 
 Everything here obeys the fixed-difficulty rule (0004): weather, darkness and
 tides are **world state on a calendar**, never scaled to the player.
@@ -105,9 +105,9 @@ Binding requirements:
   phase, terminator and relative size are correct by construction from the sun
   direction. Moonlight is a real, weak directional light (see §96), not an
   ambient tint.
-- **Eclipses (Vampire Days)** occur several times a year, are on the calendar,
-  and are a world-state event (undead/spirit surge) — authored once, spawned by
-  date, never by player level.
+- ~~Eclipses (Vampire Days)~~ **cut by the owner 2026-09-13**: no calendared
+  eclipse events or eclipse world states; the calendar keeps its moons and
+  constellations only.
 - **Stars are authored, not random.** Thirteen canonical constellations rotate
   with the calendar; each month's constellation is up through its month; the
   three Guardians and their charges are placed as a coherent celestial sphere;
@@ -295,9 +295,11 @@ canopy were deferred with rationale**: no canopy geometry exists until
 Phase 10 places trees — nothing for shafts to pass through (polish backlog,
 with volumetric clouds, the rain-occlusion depth map and lens droplets).
 
-**Tier 3 — polish, folded into Phases 13/14.** Bioluminescent night ecology,
-volumetric (froxel) fog on the high tier, seasonal foliage response, lightning
-and weather audio, per-device-class quality budgets and performance gates.
+**Tier 3 — polish.** Bioluminescent night ecology (Phase 13, needs species),
+seasonal foliage response (16f / Phase 10), lightning and weather audio
+(12b), per-device-class quality budgets and performance gates (14).
+Volumetric (froxel) fog is **cut** (owner 2026-09-13: the shipped mist, haze
+and fog are what we want; no heavier fog technique).
 
 Tier-1 code: `packages/world-time` (clock/calendar/ephemeris),
 `apps/world-studio/src/sky/` (light rig, sky dome, stars/moons, aerial haze,
@@ -332,7 +334,10 @@ comparisons are lit identically every run.
 
 ---
 
-## §98b. Beyond-border horizon (deferred build item)
+## §98b. Beyond-border horizon (built in Phase 16 chunk 16d)
+
+> **Built in Phase 16 chunk 16d** (owner ruling 8, 2026-09-11): stitched from the all-Tamriel heightmap; spec in research/world-terrain/beyond-border-distant-lands.md. The "alongside Phase 10 / deferred build item" wording below is history.
+
 
 The world edge is currently veiled by the dome's sub-horizon haze band and
 the oversized sea plane (decision 0021 rounds 4–6). LAND horizons (N/NW

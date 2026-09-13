@@ -346,7 +346,7 @@ Record the source page and required author credits in the normal credits list; n
 
 ### 74.3 Character animation — what we have, what's missing, where to get it
 
-The shared rig currently carries **51 clips** (walk/run/sprint/strafe, jump and
+The shared rig currently carries **103 clips** (re-measured 2026-09-13; 51 was the first count) (walk/run/sprint/strafe, jump and
 landings, one-handed and bow combat, guard, parry, riposte, rolls, criticals,
 hits, deaths, equip/unequip, heal), sourced from vanilla Skyrim plus permitted
 mod HKX. Animation gaps are filled the same way as any other asset (§71) — by

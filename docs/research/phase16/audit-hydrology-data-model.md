@@ -61,7 +61,7 @@ the water handoff says cascade ids renumber every compile.
 ## 2. Where the water level comes from
 
 **No 2D map water or wetland raster is an input anywhere.** The chain's only
-terrain source is the vault heightfield (`scripts/terrain-chain.sh`); the
+terrain source is the vault heightfield (`tooling/world-generation/scripts/terrain-chain.sh`); the
 "2D map" water the owner sees in the studio is the Phase 3 hydrology pass
 *output*. The level is a mix of two flood solves and one profile:
 

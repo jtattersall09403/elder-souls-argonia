@@ -782,7 +782,7 @@ and writes the ledger there; `interiorRef` must be a BUILT kit; kits
 `htbm-hut-int` (9) and `mudmother-hut-int` (24) built and indexed;
 `grade_routes` rim fix (fill cap 6 m, cut before embankment, shoulder
 sized from the real relief, infeasible stretches handed to structures,
-`--audit-rims`), province-level tests, `scripts/terrain-chain.sh` as the
+`--audit-rims`), province-level tests, `tooling/world-generation/scripts/terrain-chain.sh` as the
 one place the chain order lives; prose rewrite of 35 short and 76
 duplicated why paragraphs with a text-review pass; five design records
 recounted against their JSON.

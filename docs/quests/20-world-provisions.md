@@ -169,7 +169,7 @@ Other major cities get their D0 interiors from the same authoring pass; their
 surrounding field already reads bands 1–2.
 
 The compiled band-1 field is deliberately thin (≈0.6% of land), so D1-tagged
-quest sites anchor to settlement aprons and guarded corridors, and Phase 11 may
+quest sites anchor to settlement aprons and guarded corridors, and 16g or a Phase 15 packet may
 author local band-1 halos around them by the same authored-property mechanism
 as D0 — quest D-tags need not retag.
 

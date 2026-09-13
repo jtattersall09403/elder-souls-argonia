@@ -29,7 +29,7 @@ exists to answer. Two rules, exactly parallel to light (§93):
 2. **But sound is fully polish-tier, not a gate** (owner, decision 0023;
    hardened by 0034, 2026-08-29): unlike light, nothing is blocked on it, and
    place approvals before Phase 12b may run silent. 12b runs in the Phase P
-   window **after Phase 13** — creature calls and settlement/ecology ambience
+   window **after Phase 13 and Phase 12** (the queue is 13 → 12 → 12b, 0062) — creature calls and settlement/ecology ambience
    are authored *by this system, from the ecology data* (species, territories,
    schedules), not by Phase 13 into pre-built tables. The only hard edges:
    it needs 8a's clock and 13's ecology data, and must land before Phase 14
@@ -107,7 +107,7 @@ gating and variant sets:
 ## 108. Tiers, sequencing, acceptance
 
 **Tier 1 — Phase 12b, machinery** (was 8d; polish-tier per 0023/0034 — runs
-in the Phase P window after Phase 13; needs only 8a's clock; may be pulled
+in the Phase P window after Phases 13 and 12; needs only 8a's clock; may be pulled
 earlier if the queue allows):
 AudioManager + buses + unlock; region ambience beds and detail tables for the
 existing region classes, driven by clock and climate fields; hydrology-derived

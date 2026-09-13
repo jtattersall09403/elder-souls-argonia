@@ -8,7 +8,7 @@ deliverable and isn't needed by the riskier stages they want to test next)
 The phase formerly called **7b — remaining character integration** (everything
 intended to be portable from the combat sandbox, usable by the player in the
 world studio) is resequenced to **Phase 10b**, running after the asset
-catalogue and kits (Phase 10) and before settlement authoring (Phase 11).
+catalogue and kits (Phase 10) and before the Phase 15 packet freezes (settlement *authoring* ran in 16g–16j, 0034/0062).
 Phase 7a (extraction of the portable *core* plus grounded movement) is
 unaffected and stays done. References to "Phase 7b" anywhere in the repo mean
 Phase 10b.
@@ -30,7 +30,7 @@ Phase 10b.
   clearance, roll corridors, weapon sweeps, paired-critical space, lock-on
   sight lines) run against Phase 10's production kits, materials and collision
   instead of placeholder ground.
-- **Hard floor at Phase 11.** It cannot slip further: settlement and dungeon
+- **Hard floor: the first Phase 15 packet freeze** (was "at Phase 11"; 0034 made it a freeze-gate, 0062 moved the freeze to Phase 15). It cannot slip further: settlement and dungeon
   authoring is gated on "combat spaces and critical-animation clearance
   validated" (00-core acceptance), and Phase 13 (fixed populations, encounter
   sockets, fixed loot, arrows) is impossible without enemies, targeting, bow

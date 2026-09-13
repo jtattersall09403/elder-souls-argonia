@@ -1,0 +1,124 @@
+{
+  "$comment": "Standard 15: vocabulary that live docs must not use. Each entry: a JS regex (case-insensitive), why it is retired, what to say instead, and path prefixes that are exempt (history may quote it). Add a row in the same commit as the decision that retires a term. hashRecords: JSON files whose sha/hash fields are the current record; a 12+ hex hash quoted in a live doc must match one of them or sit on a dated line (a date, \"round N\", \"commit\" or \"was\").",
+  "liveRoots": [
+    "docs",
+    "world/sources/hydrology/README.md",
+    "world/sources/catalogue/README.md",
+    "world/sources/placement/README.md",
+    ".claude",
+    "CLAUDE.md",
+    "README.md",
+    "tooling/world-generation/README.md",
+    "packages/game-core/src/water/README.md"
+  ],
+  "exemptPrefixes": [
+    "docs/decisions/",
+    "docs/research/archive/",
+    "docs/evidence/",
+    "docs/standards/text/docs-lint-baseline.json"
+  ],
+  "terms": [
+    {
+      "pattern": "\\bworld/95\\b|\\bmodule 95\\b|95-build-sequence\\.md",
+      "why": "module 95 moved to docs/phases/README.md on 2026-09-11",
+      "say": "docs/phases/README.md \u00a786",
+      "exempt": [
+        "docs/world/README.md",
+        "docs/phases/README.md"
+      ]
+    },
+    {
+      "pattern": "\\b15A\\b|\\b15B\\b",
+      "why": "the two-pass rollout of 0061 was collapsed by 0062",
+      "say": "Phase 15 (one pass per packet)",
+      "exempt": [
+        "docs/phases/README.md"
+      ]
+    },
+    {
+      "pattern": "refine_province",
+      "why": "deleted with the frozen base (0059)",
+      "say": "shape_province / apply_terrain_patches",
+      "exempt": [
+        "docs/research/phase16/",
+        "docs/research/world-terrain/README.md",
+        "docs/phases/16-foundation-and-places/",
+        "docs/research/world-terrain/",
+        "docs/research/world-terrain/offshore-islands-feasibility.md",
+        "docs/world/96-placement-playbook.md",
+        "docs/phases/P-polish/backlog.md"
+      ]
+    },
+    {
+      "pattern": "test_water_geometry\\.py",
+      "why": "a 0045-era probe that never existed after the retirement (0046)",
+      "say": "test_water_invariants.py / test_water.py",
+      "exempt": []
+    },
+    {
+      "pattern": "docs/CREDITS\\.md",
+      "why": "deleted by 0023; credits live in the root README",
+      "say": "README.md \u00a7 Credits and third-party sources",
+      "exempt": []
+    },
+    {
+      "pattern": "level(?:l)?ed (?:list|container|loot)",
+      "why": "loot is authored and fixed, never level-linked (00-core rule 9)",
+      "say": "authored, fixed contents per record",
+      "exempt": [
+        "docs/world/70-dungeons-interiors.md",
+        "docs/decisions/",
+        "docs/research/combat-and-systems/",
+        "docs/world/76-stats-progression.md",
+        "docs/phases/README.md",
+        "docs/standards/engineering.md",
+        "docs/world/00-core.md"
+      ]
+    },
+    {
+      "pattern": "froxel",
+      "why": "volumetric fog cut by the owner 2026-09-13",
+      "say": "the shipped mist, haze and fog",
+      "exempt": [
+        "docs/world/55-light-sky-time.md",
+        "docs/phases/README.md",
+        "docs/research/rendering/"
+      ]
+    },
+    {
+      "pattern": "\\bnext up\\b",
+      "why": "PROGRESS.md has no such section; the first todo row is next",
+      "say": "the first todo row in PROGRESS.md",
+      "exempt": [
+        "docs/PROGRESS.md"
+      ]
+    },
+    {
+      "pattern": "\\b(?:at|before|until|during|by) Phase 11\\b|Phase 11 (?:will|may|needs|must|ships|delivers|executes|kickoff|places)|\\bworld Phase 11\\b",
+      "why": "Phase 11 was absorbed into Phase 16 (0057); forward-looking references mislead",
+      "say": "the 16 chunk or Phase 15 that owns it (phases README, Phase 11 table)",
+      "exempt": [
+        "docs/phases/README.md",
+        "docs/phases/buildout/README.md",
+        "docs/research/",
+        "docs/quests/40-factions.md"
+      ]
+    }
+  ],
+  "hashRecords": [
+    "world/sources/terrain/freeze.json",
+    "world/sources/hydrology/hydrology-graph.json",
+    "apps/world-studio/public/province/water/water-meta.json",
+    "apps/world-studio/public/province/ladder.json"
+  ],
+  "hashExempt": [
+    "docs/research/archive/",
+    "docs/decisions/",
+    "docs/phases/P-polish/backlog.md"
+  ],
+  "hashRoots": [
+    "docs/phases/",
+    "docs/research/phase16/",
+    "world/sources/hydrology/README.md"
+  ]
+}

@@ -66,7 +66,7 @@ the symptom, the kit fixes the cause.
 **Sequencing:** the bake pipeline + `NavService` land in **Phase 10b**
 (enemies enter the studio there, and its combat-space probes need the data);
 interior navmeshes with **Phase 12**; territories, marks, patrols and the
-daily-band rotation with **Phase 13** (populations) and Phase 11 (settlement
+daily-band rotation with **Phase 13** (populations) and the Phase 15 packets (settlement
 marks). Data size is noise next to terrain (tens of KB/chunk compressed) —
 measured at first bake.
 

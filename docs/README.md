@@ -82,3 +82,22 @@ touches something no row names, open the nearest folder README and judge.
   README next to the code. **Status** → PROGRESS.md only.
 - When you add a doc, add it to its folder README. When a doc goes stale,
   edit or delete it — pruning is part of the job.
+- **Reconcile before you write** (owner 2026-09-13, after three audits found
+  the same disease everywhere): before a new research doc, decision or plan
+  section, list the folder README and grep the topic's key terms; if a live
+  doc already covers it, **edit that doc** (or add a dated supersession
+  banner at its top and a note in the index) rather than writing a second
+  one. A decision that supersedes another edits the older record's Status
+  line in the same commit. Every research doc carries a status in its
+  folder README (`live design input`, `research reference`, `history`).
+  Numbers in live prose name the command that reproduces them; hashes are
+  read from the record file (`freeze.json`, the graph) and never copied
+  into prose unless the line is dated as history. Standard 15
+  checks the mechanical part (links resolve, retired vocabulary absent from
+  live docs, research docs indexed).
+- **The routing-audit step** (owner 2026-09-13): before any `deliver NNx`
+  or phase start, the agent walks its own read list as a fresh reader
+  would, checks the brief's Starting state against the tree (`git log`,
+  `ls`, the gates) and reports contradictions and stale claims to the
+  owner *before* building; a phase close runs the same audit over the
+  whole routed set (`.claude/skills/routing-audit/`).

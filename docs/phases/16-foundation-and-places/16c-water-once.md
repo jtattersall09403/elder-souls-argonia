@@ -10,11 +10,20 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
 
 ## Starting state (read this before anything else; audit 2026-09-13)
 
+- **The graph is on the approved ground; do not re-derive it.** Its
+  `sourceHeightSha256` is the sha of `heightfield-shaped-f32.npy`, the
+  shaped ground that the graph is solved on (0059). It equals the value in
+  `world/sources/terrain/freeze.json` after the 2026-09-13 owner-corrections
+  run (`4d81cd…`). The carved frozen base has a different sha by
+  construction (`refined-height-frozen-f32.npy`, `4a74a0…` in freeze.json;
+  the 16b ledger's `90052f7…` is the 2026-09-12 round-2 value, before that
+  rerun). Read every sha from `freeze.json`, never from prose. The owner
+  has checked 16a and 16b and approved them: 16c delivers what they promise.
 - **Nothing has been compiled on the frozen ground.** `worldgen/compile_water.py`
   still reads `channels-pass1.npz` and re-runs `standing_water.solve_bodies`
   with a 200 m lateral flood; it never imports the graph. The tracked
   `water-meta.json` carries `sourceHeightSha256 3852377…` (round-1 ground),
-  not the frozen `90052f7…`; `ladder.json` hides water; an orphan
+  not the frozen sha in `freeze.json`; `ladder.json` hides water; an orphan
   `water/natural/water-meta.json` with a third sha has no reader (delete it).
 - **The flood-fill question, in one sentence:** the flood solver runs once,
   inside `hydrology_graph derive`; the compile fills to the graph's levels
@@ -116,6 +125,16 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
    tautological tests in `water.test.ts` (audit §5: lines 24–31, 44–48,
    205–207) rewritten against stated floors. Each shown failing on the
    pre-fix build.
+9. **Life over the water reads the water level** (owner 2026-09-13):
+   `packages/game-core/src/air/ambientAir.ts` places dragonflies and midge
+   clouds by height above *ground*; over a body they must hover by height
+   above the **water surface** (the season-aware signed depth this chunk
+   ships), so a cloud over a 2 m deep pond sits 0.5 m over the water, not
+   2.5 m up. Fix the sampling here, since this chunk owns the water query
+   the air layer reads; 16f moves the *where* (patch centres) and keeps the
+   *how high* from here. Test: every dragonfly and midge patch centre over a
+   standing body samples its height from the surface, shown failing on the
+   ground-based rule.
 8. The absorbed rows (plan §9; the backlog no longer carries them):
    `isReady` throw, the two overland lanes (re-lined on the graph in 16e's
    `reroute_lanes`, never dredged — ruling 6), the class extension above its
@@ -147,7 +166,7 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
 - **The chain ladder** (plan §3): this chunk's stages are `compile_water`
   (the rewritten compiler, ONE entry in the script) and
   `terrain_request_postconditions`; `patch_water` shipped in 16b and stays
-  on its row. Confirm the 16c row in `scripts/terrain-chain.sh` and bump
+  on its row. Confirm the 16c row in `tooling/world-generation/scripts/terrain-chain.sh` and bump
   `DELIVERED_THROUGH` to this chunk in the delivering commit; until then a
   plain chain run skips them and their published JSON is stale.
 

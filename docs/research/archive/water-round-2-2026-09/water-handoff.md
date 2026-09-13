@@ -28,7 +28,7 @@ continue from the repo alone at any moment, with nothing to be explained.
 | Waterfall mist cards, basin ground-mist discs, skirts | `render/WaterfallMist.ts` (+ test) | done, committed `4be351a` |
 | Numeric waterfall fit checks in the probe (fall/foam luminance band, ≤ 25 % join steps, submerged, frame rate with vs without the falls layer) | `apps/world-studio/scripts/probe-water.mjs` | done, committed `287e474`; not yet re-run on the final data |
 | Water Pro transfers: flow-advected foam energy field, depth-range shore froth, JONSWAP spectrum + standing waves (CPU twin), rain rings, sparkle + crest SSS, horizon blend, meniscus, 8192 s time fold, swept-path contacts, one foam texture family | `render/FoamField.ts`, `waves.ts`, `waterMaterial.ts`, study §6 | done, committed |
-| Terrain chain 13.7 → 5.5 min, unchanged rerun 11 s, per-stage timings, stage skipping | `scripts/terrain-chain.sh`, `worldgen/chain_stages.py`, `fastfilter.py` | done (idempotency gap queued in the backlog) |
+| Terrain chain 13.7 → 5.5 min, unchanged rerun 11 s, per-stage timings, stage skipping | `tooling/world-generation/scripts/terrain-chain.sh`, `worldgen/chain_stages.py`, `fastfilter.py` | done (idempotency gap queued in the backlog) |
 | Vegetation rollout recorded; palettes widened 39 → 65 species | decision 0036 addendum, `build_palettes.py` | done; bundles rebuild with the chain |
 | Dev-loop speed: parallel workspace gates + incremental `tsc` landed `e7e34ac` — `npm run typecheck` 93 s → ~10 s, `npm test` 36 s → ~15 s | root `package.json`, `tooling/repo-standards/run-workspaces.mjs` | done, committed |
 | Probe boots once and teleports between sites (a fresh browser context per site costs 4–5 min of software-GL shader compilation on every flyover site) | `App.tsx`, `Fly3D.tsx`, `probe-water.mjs` | in progress |
@@ -69,7 +69,7 @@ continue from the repo alone at any moment, with nothing to be explained.
    and the longest deck piece runs 13.3 m. Those 57 crossings need authoring —
    as ferries, declared fords, or spans from a kit that can reach across
    them — and that is the job, not driving a statistic down.
-3. Rebuild: `./scripts/terrain-chain.sh --from refine_province` (never let
+3. Rebuild: `./tooling/world-generation/scripts/terrain-chain.sh --from refine_province` (never let
    `sculpt_province` re-run — polish backlog; `compile_water` runs twice by
    design — before grading so the road grader sees the channels, and last on
    the graded ground that ships), then `python3 -m worldgen.apply_sitings`,

@@ -23,8 +23,9 @@ opening-scene places.
   interior block, entrance type, underwater access, purpose, slots and
   sockets; `worldgen.place_obligations` already projects delivery-bearing
   fields into typed obligations with an owner and a later manifest check.
-- 571 building shells in the mined plugins link to a furnished interior
-  cell (about 279,000 references; roughly 100,000 clutter, 12,000
+- 571 link records over 330 shell models in the mined plugins tie a shell
+  to a furnished interior cell (481 vanilla; about 90 from our mod kits;
+  none of our own kit pieces has a matched interior) (about 279,000 references; roughly 100,000 clutter, 12,000
   furniture); `esp_index` decodes every reference's transform. 481 are
   vanilla Skyrim buildings. No Argonian interior ships anywhere; the
   xanmeer tileset has zero placed examples.
@@ -34,8 +35,8 @@ opening-scene places.
 - Tropical Skyrim ships retextures for the cave and town-kit texture sets.
 - Bethesda's interior authoring is a 3D grid of 128-unit modules with 90°
   yaw and local snap-to-reference frames; furniture records carry NPC-use
-  markers; room bounds, lighting templates, locks, ownership and levelled
-  containers are plugin data. Room-function furnishing rules are minable
+  markers; room bounds, lighting templates, locks and ownership are plugin data (Skyrim's levelled
+  lists are never adopted: loot is authored and fixed, 00-core rule 9). Room-function furnishing rules are minable
   and were named as the undone follow-up of the interior mining research.
 
 ## Decisions

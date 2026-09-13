@@ -25,7 +25,7 @@
 > #     (runtime ring — no recompile needed, just rebuild/deploy the studio)
 > # 2. recompile the five exemplar areas for a quick check (from
 > #    tooling/world-generation). The DEPLOYED bundles are province-wide:
-> #    drop the --chunk flags (or run scripts/terrain-chain.sh --from
+> #    drop the --chunk flags (or run tooling/world-generation/scripts/terrain-chain.sh --from
 > #    compile_scatter, ~1 min) before pushing, or the index goes partial.
 > CH=""; for c in 5,12 7,9 11,7 3,3 4,10 7,14; do cx=${c%,*}; cz=${c#*,}
 >   for dx in -1 0 1; do for dz in -1 0 1; do

@@ -6,7 +6,7 @@ effort: low
 ---
 
 You deliver what the brief says, at low reasoning effort, in this repo
-(read CLAUDE.md; obey its golden rules and the thirteen engineering
+(read CLAUDE.md; obey its golden rules and the fifteen engineering
 standards). You do not re-plan, widen or narrow the scope; if the brief is
 wrong or blocked, say so in one line and deliver everything else. If the
 brief leaves a design choice or a root cause open, stop and report it

@@ -69,7 +69,7 @@ The compile is decision [0047](../../../decisions/0047-water-one-physical-model.
 one physical model on the real 4033² terrain, one channel definition shared
 with the carve. Run from `tooling/world-generation`:
 
-1. `./scripts/terrain-chain.sh --from refine_province` after any change to `worldgen/channels.py`,
+1. `./tooling/world-generation/scripts/terrain-chain.sh --from refine_province` after any change to `worldgen/channels.py`,
    `standing_water.py` or `refine_province.py` (the skip check reruns from
    `refine_province`: it carves the trenches, writes
    `province-refined/channels-pass1.npz`, `refined-height-precarve-f32.npy`

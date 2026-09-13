@@ -332,7 +332,7 @@ compile_society persists lane paths in `waterways.json` — ending at the berths
 declared in `world/sources/routes/lane-terminals.json`, with the
 anchor-to-anchor solve kept beside it as `waterways-natural.json` for siting
 (decision 0025);
-`refine_watershed.resolve_portages` applies decision 0012 and records
+`refine_watershed.resolve_portages` (retired with the frozen base, 0059; portages are re-derived from the hydrology graph in 16e's waterway re-lining) applied decision 0012 and recorded
 outcomes in the basin's `portages.json` for Phase 11 feature placement.)
 
 ## 46. Climbing and world generation

@@ -1,6 +1,6 @@
 # Engineering standards
 
-Fourteen standing rules that are **cheap to require now and brutal to retrofit**.
+Fifteen standing rules that are **cheap to require now and brutal to retrofit**.
 Adopted by the owner 2026-09-01 (decision
 [0042](../decisions/0042-buildout-steers-and-engineering-standards.md) §8) after
 the lesson of the renderer: the code that has to be true of *everything* must be
@@ -20,7 +20,7 @@ Enforcement is one of:
 ## 1. The typed condition/action vocabulary exists before content is authored
 
 **What.** Every quest gate, faction check, reward grant and world-state change is
-written in one typed vocabulary. It is authored *before* Phase 11 places
+written in one typed vocabulary. It was authored *before* the places were sited (Phase 11, now 16g–16j) and
 anything.
 
 **Why.** This is the packages mistake about to repeat. The vocabulary is
@@ -35,7 +35,7 @@ living document — an author who needs a predicate that does not exist **adds i
 there** rather than inventing prose. The Q1 gate (quests 90) checks that every
 authored condition names a listed predicate.
 
-**Owner.** Authored now; extended by Phase 11/12 authoring; implemented in
+**Owner.** Authored now; extended by place and interior authoring (16g–16j, Phase 12, Phase 15); implemented in
 build-out G2 (`narrative-core`).
 
 ## 2. Stable IDs, and a registry, from the first placed object
@@ -66,7 +66,7 @@ field is optional, but the *opportunity* to set it is not deferred.
 **Why.** Retrofitting "who owns this crate" across a province is the expensive
 version; the Morrowind-visibility theft model (0039) depends on it.
 
-**Enforcement.** hook (Phase 11 kickoff, already a register row).
+**Enforcement.** hook (homed in 16i by 0062; already a register row).
 
 ## 4. One text catalogue; every player-visible string has an ID
 
@@ -262,6 +262,37 @@ Checked mechanically where it can be: the hydrology graph (`worldgen
 .hydrology_graph check`, decision 0058) and the docs prose ratchet
 (`lint_prose --docs-gate`) run in `npm test`; their failure demonstrations are
 `test_hydrology_graph.py` and `test_lint_prose.py`.
+
+## 15. Live documents are current: links resolve, retired words are gone, research is indexed
+
+Owner 2026-09-13, after three read-only audits found the same disease across
+the docs: a router row pointing at a description of a retired system, a
+deleted script still recommended, three counts for one list, phase names
+kept alive after the phase was absorbed. The judgement half of the cure is
+the `routing-audit` step (docs/README.md § Where to record); this standard
+is the mechanical half:
+
+- every relative markdown link in `docs/`, `world/`, `.claude/` and the root
+  resolves to a file or folder (`tooling/repo-standards/check_links.mjs`);
+- **retired vocabulary** does not appear in live docs. The list is
+  `tooling/repo-standards/retired-terms.json` (term, why it is retired, what
+  to say instead, which paths are exempt: decisions and archives may quote
+  history); a term is added there in the same commit as the decision that
+  retires it;
+- every `docs/research/**/*.md` outside `archive/` is linked from its
+  folder's README (the index is the status register);
+- **a content hash quoted in a live doc is current or dated** (owner
+  2026-09-13, after the 16b ledger's round-2 shas went stale when the next
+  chain run refreshed `freeze.json`): any 12+ hex hash under `docs/` must
+  match a hash in the record files named in `retired-terms.json`
+  (`freeze.json`, the hydrology graph, `water-meta.json`, `ladder.json`) or
+  sit on a line that dates it (a date, "round N", "commit" or "was").
+  Live prose names the record file; it does not copy the number.
+
+Checked mechanically by `npm test` (repo-standards `checkDocsCurrent`); the
+failure demonstrations are the 2026-09-13 run over the tree before the audit
+fixes landed (the check found leftovers the audits had listed) and a
+throwaway doc quoting `deadbeef…`, which the hash rule rejected.
 
 ## Running the checks
 

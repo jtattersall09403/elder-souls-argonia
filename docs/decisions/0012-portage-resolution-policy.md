@@ -8,7 +8,7 @@ refinement)
 
 When a Phase 4 boat lane crosses land inside a refined watershed, the
 refinement pass resolves the hop deterministically
-(`worldgen.refine_watershed.resolve_portages`, fed by the ordered lane paths
+(originally `worldgen.refine_watershed.resolve_portages`, a module retired by 0059; since 16a/16e the policy is applied on the hydrology graph's reaches when lanes are re-lined — fed by the ordered lane paths
 compile_society now persists in `waterways.json`):
 
 - **Hop ≤ 450 m with mean ground < 3 m above water → carved canoe channel**

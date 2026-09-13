@@ -167,7 +167,7 @@ declare -A LADDER=(
   [16c]="compile_water terrain_request_postconditions"
   # 16d: the beyond-border apron (a new stage, added when delivered).
   [16d]=""
-  # 16e: routes, grading as patches, spans, ferries; the second water compile.
+  # 16e: routes, grading as patches, spans, ferries; patch_water over the grading patches (16c removes the second compile_water: water is compiled once, 0057 §1).
   [16e]=""
   # 16f: vegetation on the frozen water.
   [16f]="compile_scatter"

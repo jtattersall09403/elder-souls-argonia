@@ -1,7 +1,7 @@
 # What the shipped worlds actually do: mined placement rules
 
 **Phase 10, 2026-08-30.** The measurable half of "mine the shipped worlds for
-rules" (module 95 §86.0b). We never lift another team's authored places
+rules" (docs/phases/README.md §86 §86.0b). We never lift another team's authored places
 (00-core rule 6) — this document records *statistics* about how professionals
 dressed a swamp and a forest, and turns each into a rule our scatter compiler
 and flora palettes can be built from.
@@ -338,4 +338,4 @@ budget by 3×, which is the case the dense-vegetation micro-lab must measure.
   cells (`Plugin.interior_cells`), and BM&V's interior `CELL` group alone is
   1.17 MB — that is Phase 12's mining job, not Phase 10's.
 - **Settlement composition is unmined** — Phase 11's job, same reader
-  (BM&V's Lilmoth-area cells; module 95 Phase 11 already calls for it).
+  (BM&V's Lilmoth-area cells; docs/phases/README.md §86 Phase 11 already calls for it).

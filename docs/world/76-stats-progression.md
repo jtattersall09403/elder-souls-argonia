@@ -228,7 +228,7 @@ consumed by both apps). Definitions land as **data files consumed like
   bands D1–D5** — D0 is a safe-ground location property authored with the places (16i, then each Phase 15 packet),
   never an enemy tier.
 
-Sequenced after 10b (parity) and **before Phase 11**: settlements, dungeons and
+Sequenced after 10b (parity) and **before Phase 13 and the first Phase 15 packet freeze** (Phase 11 is absorbed into 16): settlements, dungeons and
 especially Phase 13 author absolute numbers, and re-authoring that content
 against a scale invented afterwards is the expensive mistake this ordering
 avoids.

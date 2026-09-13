@@ -77,7 +77,7 @@ default).
   catalogue place with promises; the owner *judges* them in the 9a swim
   slice, because swimming through bare sand proves nothing). Species mix is then
   re-tuned from Phase 13's ecology; assets from module 90 §76.
-- **Every route is a corridor** (Phase 11): `worldgen/routes_raster.py` is the
+- **Every route is a corridor** (built in Phase 11, re-solved in 16e): `worldgen/routes_raster.py` is the
   one source for both the ground paint and the clearance — major roads,
   tracks, footpaths and boardwalks stamp a trunk-clear mask (14/8/4/3 m) and a
   groundcover-thinning mask, and `scatter.route_allows` drops woody layers and

@@ -449,6 +449,98 @@ function checkProse() {
 }
 
 // ---------------------------------------------------------------------------
+// Standard 15 (live documents are current) — links resolve, retired words are
+// gone from live docs, research docs are indexed. The judgement half is the
+// routing-audit step; this is the half a script can do.
+// ---------------------------------------------------------------------------
+function checkDocsCurrent() {
+  // (a) relative links resolve — reuse the standalone checker.
+  try {
+    execSync(`node ${JSON.stringify(join(HERE, "check_links.mjs"))} ${JSON.stringify(ROOT)}`, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) {
+    const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(0, 12).join("\n");
+    fail(15, "docs/", 0, `broken relative markdown links (node tooling/repo-standards/check_links.mjs):\n${out}`);
+  }
+  // (b) retired vocabulary in live docs.
+  const cfgPath = "tooling/repo-standards/retired-terms.json";
+  if (!existsSync(join(ROOT, cfgPath))) { fail(15, cfgPath, 0, "retired-terms.json is missing: standard 15 cannot be checked"); return; }
+  const cfg = readJson(cfgPath);
+  // `walk` takes and returns ROOT-relative paths; keep everything relative.
+  const live = [];
+  for (const r of cfg.liveRoots) {
+    const p = join(ROOT, r);
+    if (!existsSync(p)) continue;
+    if (statSync(p).isDirectory()) walk(r, [".md"], live); else live.push(r);
+  }
+  const rel = (f) => posix(f);
+  for (const term of cfg.terms) {
+    const re = new RegExp(term.pattern, "i");
+    for (const f of live) {
+      const r = rel(f);
+      if ((cfg.exemptPrefixes ?? []).some((x) => r.startsWith(x))) continue;
+      if ((term.exempt ?? []).some((x) => r.startsWith(x))) continue;
+      const ls = readFileSync(join(ROOT, f), "utf8").split("\n");
+      for (let i = 0; i < ls.length; i++) {
+        if (re.test(ls[i])) { fail(15, r, i + 1, `retired vocabulary /${term.pattern}/ (${term.why}); say: ${term.say}`); break; }
+      }
+    }
+  }
+
+  // (d) content hashes quoted in live docs are current or dated. The 16b ledger
+  // quoted the round-2 shas in prose; the next chain run refreshed freeze.json
+  // and the graph, and the prose silently went stale (owner, 2026-09-13).
+  const current = new Set();
+  const harvest = (v) => {
+    if (typeof v === "string") { if (/^[0-9a-f]{40,64}$/.test(v)) current.add(v); }
+    else if (Array.isArray(v)) v.forEach(harvest);
+    else if (v && typeof v === "object") for (const k of Object.keys(v)) { if (/sha|hash/i.test(k) || typeof v[k] === "object") harvest(v[k]); }
+  };
+  for (const rec of cfg.hashRecords ?? []) { if (existsSync(join(ROOT, rec))) { try { harvest(readJson(rec)); } catch { /* unreadable: the schema gates cover it */ } } }
+  if (current.size > 0) {
+    const hexRe = /\b[0-9a-f]{12,64}\b/g;
+    const dated = /\b20\d\d-\d\d-\d\d\b|\bround [0-9]\b|\bcommit\b|\bwas\b/i;
+    const hashRoots = (cfg.hashRoots ?? ["docs"]).map((x) => posix(x).replace(/\/$/, "") + "/");
+    for (const f of live) {
+      const r = rel(f);
+      if (!hashRoots.some((x) => r.startsWith(x))) continue;
+      if ((cfg.exemptPrefixes ?? []).some((x) => r.startsWith(x))) continue;
+      if ((cfg.hashExempt ?? []).some((x) => r.startsWith(x))) continue;
+      const ls = readFileSync(join(ROOT, f), "utf8").split("\n");
+      for (let i = 0; i < ls.length; i++) {
+        const line = ls[i];
+        if (dated.test(line)) continue;
+        for (const m of line.matchAll(hexRe)) {
+          const h = m[0];
+          if (/^\d+$/.test(h)) continue;
+          if (![...current].some((c) => c.startsWith(h))) {
+            fail(15, r, i + 1, `hash \`${h.slice(0, 12)}…\` is not a current record hash (freeze.json / hydrology-graph.json / water-meta.json): read it from the record or date the line as history`);
+            break;
+          }
+        }
+      }
+    }
+  }
+  // (c) research docs indexed by their folder README.
+  const researchRoot = join(ROOT, "docs", "research");
+  if (existsSync(researchRoot)) {
+    for (const folder of readdirSync(researchRoot, { withFileTypes: true })) {
+      if (!folder.isDirectory() || folder.name === "archive") continue;
+      const dir = join(researchRoot, folder.name);
+      const readme = join(dir, "README.md");
+      if (!existsSync(readme)) { fail(15, rel(dir), 0, "research folder has no README.md index"); continue; }
+      const idx = readFileSync(readme, "utf8");
+      const docs = [];
+      walk(dir, [".md"], docs);
+      for (const d of docs) {
+        const name = relative(dir, d).split(sep).join("/");
+        if (name === "README.md") continue;
+        if (!idx.includes(name) && !idx.includes(name.split("/")[0] + "/")) fail(15, rel(d), 0, `research doc is not linked from ${rel(readme)} (standard 15: the folder README is the status register)`);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Standard 14 (gates read shipped data) — the hydrology graph's invariants
 // ---------------------------------------------------------------------------
 // world/sources/hydrology/hydrology-graph.json is the frozen water record
@@ -488,6 +580,7 @@ checkDeterminism();
 checkProvinceRasters();
 checkProse();
 checkHydrologyGraph();
+checkDocsCurrent();
 checkSingletons();
 checkIds();
 checkSchemaVersions();

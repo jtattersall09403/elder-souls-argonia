@@ -7,6 +7,8 @@ rather than trust this page.
 
 ## 1. The frozen base (`world/sources/terrain/freeze.json`)
 
+> **The shas below are the 2026-09-12 round-2 values.** The 2026-09-13 owner-corrections run (commit 69ce565d) re-froze the shaped and carved arrays; `freeze.json` is the record of the current shas (shaped `4d81cd…`, frozen `4a74a0…`) and the graph's `sourceHeightSha256` equals its shaped sha. Never compare a graph against a sha quoted in prose.
+
 | Array | sha256 (first 16) | Stage | Seconds |
 |---|---|---|---|
 | `heightfield-sculpted-f32.npy` | round 1 `1083ba2cdf78f288`; round 2 `7f59c47b20ec` (freeze.json) | `sculpt_province` | ~100 |
@@ -163,7 +165,7 @@ and `shape-meta.json.approvedBodies` are the primary record.
 **The approved record (0060 §7)** — `world/sources/hydrology/approved-bodies.json`,
 `<vault>/approved-bodies-16a.npz`, `approved-routing-16a.npz` (regenerated
 from the 16a commit `c2494a16` in a scratch checkout; its sculpt sha
-`936d0704a498a9c3` is not byte-identical to the 16a run's `ab76877cb344d253`,
+`936d0704a498a9c3` (round 1, 2026-09-12) is not byte-identical to the 16a run's `ab76877cb344d253` (2026-09-11),
 so 99 of the 100 rivers and 387 of 404 measured bodies carried: 12 data holes
 ruling 2 fills and 5 sheets under 500 m² with no outline are listed as not
 carried; 4 of 5 falls, the fifth a shelf step the owner ruled out).
@@ -195,10 +197,12 @@ depended bodies moved over 0.3 m (budget 10 each; recorded, listed).
 `npm test` green after the prose fixes. New gate: `test_chain_stage_imports`
 (a missing symbol crashed the chain at stage two, three minutes into a run).
 
-**Two-run identity (brief item 7).** A second `terrain-chain.sh --force
---refreeze` run on the same sources (497 s, nine stages) reproduced all three
-frozen arrays byte for byte: sculpted `7f59c47b20ec`, shaped `cd5de34a7014`,
-frozen `90052f7fdd97` (`freeze.json`). The 2D map's base
+**Two-run identity (brief item 7; round 2, 2026-09-12 — the shas were
+refreshed by the 2026-09-13 corrections run, see §1).** A second
+`terrain-chain.sh --force --refreeze` run on the same sources (2026-09-12) (497 s, nine stages) reproduced all three
+frozen arrays byte for byte (2026-09-12 values): sculpted `7f59c47b20ec`,
+shaped `cd5de34a7014`, frozen `90052f7fdd97` (2026-09-12; `freeze.json`
+holds the current shas). The 2D map's base
 (`province/height-rg.png`, 1345 px) is now written from the frozen ground by
 `apply_terrain_patches` (it was the August raw base since the extract).
 

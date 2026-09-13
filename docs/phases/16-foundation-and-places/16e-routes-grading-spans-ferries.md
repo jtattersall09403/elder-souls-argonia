@@ -2,10 +2,50 @@
 
 **Goal.** Solve the road and lane networks once on the frozen terrain and
 water, grade them as a **patch stack** that cannot cross a channel or move a
-water level, author the spans that remain honestly and place the ferries
-that were decided but never built. Roads must read as roads.
+water level, author the spans that remain honestly and place the six active ferry
+services decided in `ferry-crossings.json` (the seventh is `deferred`). Roads must read as roads.
 
 Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over grading even at the cost of length, with gradient costs that make roads zigzag up long steep slopes; a graded patch only where it causes no other issue and no circular dependency. Ruling 6: no dredging.
+
+## Starting state (2026-09-13; the closing 16d agent rewrites this)
+
+- **The route stack is built, not blank.** All nine modules the Read list
+  names exist with tests beside them (eleven route test modules). They
+  already sit in the chain in the intended order:
+  `reroute_lanes → reroute_majors → compile_minor_routes → grade_routes →
+  author_route_structures → grade_routes (pass 2) → compile_route_structures`.
+  **Both grade passes stay** (the author/compiler shared-surface guarantee,
+  script lines ~134–137); both emit patches. This chunk *confirms* the
+  `[16e]` ladder row; it does not invent the order.
+- **Every route probe is SKIPPED today, not passing** (16b ledger §8):
+  `test_sculpt::test_road_grades_stay_traversable`, seven `test_grade_routes`
+  province probes and five `test_route_structure_authoring` probes skip via
+  `worldgen/ladder.py`. Turning them green and removing the skips is part
+  of acceptance.
+- **The published route JSON is stale by construction** (`ladder.json`
+  `skipped` lists every route stage; `route-structures` is a hidden layer):
+  `routes.json`, `routes-minor.json`, `route-structures.json` describe the
+  pre-16b ground. `rebake_landcover` already ran in 16b with no routes, so
+  road paint is absent, not wrong.
+- **The span pip is measured and the obvious fix is disproved**:
+  `docs/phases/P-polish/backlog.md` rows ~290–334 and ~469–475 (1 m pips make
+  bridges; raising `MAX_FILL_M` 6→8 is measurably wrong; 211 spanning
+  structures, median 70 m). Read them before touching the grader.
+- **Ferries are recorded and validated, not placed**: `ferry-crossings.json`
+  holds seven services (six `active`, one `deferred`), each with `craft`,
+  `operatorModel` and `policy`; `ferry_crossings.py` checks ids, catalogue
+  keys, quest predicates and kit refs against `watercraft-v1`. The missing
+  thing is placement in the world.
+- **Travel services and rootways are blank slate**: no
+  `travel-services.json` exists; the rootworm network is only a preview
+  painter (`compile_society.py` ~308–318, hard-coded points) with no record
+  behind it. `derive_services.py` is per-place service promises, a
+  different thing.
+- `warn_on_drift` exists (`carve_routes.py` ~120, called from
+  `shape_province.py`); item 5 extends it.
+- Water: `compile_water` appears twice in the chain script and its 16e row
+  comment says "the second water compile"; that is 16c's to remove (water
+  is compiled once, 0057 §1); this chunk's water stage is `patch_water`.
 
 ## Read
 
@@ -28,7 +68,8 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
    (bench, fill, cut) with the 16b invariants — no patch inside a channel or
    its shoulder, no level moves — and `patch_water` follows. The frozen array
    is untouched. `grade_settlement_pads` takes the same exclusion windows.
-3. **Spans**: the resolution-mismatch pip (backlog) fixed in
+3. **Spans**: the resolution-mismatch pip (`docs/phases/P-polish/backlog.md`
+   rows ~290–334: the measurement and the disproved lever) fixed in
    `author_route_structures` with a minimum sustained rise; the `MAX_FILL_M`
    lever unchanged, since the measurement showed it is the wrong lever; a `pitchDeg` on the placement record
    and honoured in the renderer so ~46 crossings become one authored arch;
@@ -44,8 +85,10 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
    arrive; no vessel simulation — as one typed record
    (`world/sources/routes/travel-services.json`: stations, operator socket,
    fares by band, the lane or rootway each hop follows), quests 20 FAST
-   nodes satisfied by id. The four-station rootworm network is a Pass-1
-   placeholder: re-author it here with Hist-node placement on the graph
+   nodes satisfied by id. The four-station rootworm network exists only as
+   hard-coded preview points in `compile_society.py`: author it here for the
+   first time as a record, with Hist-node placement on the graph; delete
+   the hard-coded painter when the record lands
    (a rootway is a reach chain like a lane), the `rootways` overlay
    regenerated in the same commit. Root-transit quest rewards stay with the
    packet's co-design loop (Phase 15). **"Someone to talk to" at a ferry
@@ -79,8 +122,8 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
   `horizontal-backwater` reach except by ferry or span.
 ## Acceptance
 
-- **The chain ladder** (plan §3): this chunk's stages are `reroute_lanes`, `reroute_majors`, `compile_minor_routes`, `grade_routes` (as patches), `author_route_structures`, `compile_route_structures`, `patch_water` over the grading patches (never a second `compile_water`: water is compiled once, 0057 §1), `terrain_request_postconditions`, `ferry` placement. Add them
-  to the ladder in `scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
+- **The chain ladder** (plan §3): this chunk's stages are `reroute_lanes`, `reroute_majors`, `compile_minor_routes`, `grade_routes` (as patches), `author_route_structures`, `compile_route_structures`, `patch_water` over the grading patches (never a second `compile_water`: water is compiled once, 0057 §1), `ferry` placement. (`terrain_request_postconditions` is 16c's stage, per `ladder.py`.) Add them
+  to the ladder in `tooling/world-generation/scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
   to this chunk in the delivering commit; until then a plain chain run skips
   them and their published JSON is stale.
 

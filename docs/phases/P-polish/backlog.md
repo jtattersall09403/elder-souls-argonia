@@ -163,7 +163,7 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   mountain geography.
 - **Weather should be local, not province-wide** (clouds, rain) — owner isn't
   sure this is actually needed; flag for a design call before building it.
-- **Land beyond the province's north/west borders is empty.** Continue the
+- **~~Land beyond the province's north/west borders is empty~~ → absorbed into 16d.** Continue the
   all-Tamriel heightmap past our edges so terrain reads as continuing
   smoothly into the distance (fading/hazing over a horizon distance), while
   still hard-blocking the player from walking past the province boundary

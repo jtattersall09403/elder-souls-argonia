@@ -687,7 +687,7 @@ linked interior kit; the door teleports the player into that kit's interior
 (the Morrowind/Skyrim model). No door mesh is placed: the door is part of the
 building assembly or a measured opening on the shell; the blueprint only
 records by which doorway the player enters and where it leads.** *O*
-2026-09-05. **Enforced by** the interiors index (`interiors_index.py`: enclosure
+2026-09-05. **Enforced by** the interiors index (`tooling/asset-pipeline/pipeline/interiors_index.py`: enclosure
 needs front-facing walls, so hollow props are masses; doorways from the
 opening, an open front, a baked leaf, a mined placement or a composed door
 part; every `tileset` resolves to a built kit — 49 of 49 buildings) and the

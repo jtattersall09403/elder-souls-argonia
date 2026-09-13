@@ -14,6 +14,32 @@ Phase 15 still owes it — assembled interiors at its reserved doors (Phase
 Phase 16 closes with this chunk; the next chunk in the queue is 9a, the
 thin swim slice.
 
+## Starting state (2026-09-13; the closing 16i agent rewrites this)
+
+- Everything this chunk consumes is produced by 16h and 16i. If their
+  PROGRESS rows are not `done`, stop: skill v2 and `.claude/skills/kit-qa/`
+  do not exist today; settlement-build v1 carries a banner forbidding
+  its use for exemplar work.
+- `docs/phases/15-rollout/` does not exist; this chunk creates `roadmap.md`
+  and `packet-template.md`.
+- The checklist you tick is world 96 §3, six boxes per place type; box 1
+  counts the 16i exemplar plus your packet instance (0061 §6, which 0062
+  did not supersede).
+- The type register is 16i deliverable 8 (`type-recipes.json`); if it was
+  not written, the packet choice has no basis and that is 16i's gap.
+- The chain ladder's `LADDER_ORDER` had no 16g/16i/16j rows on 2026-09-13;
+  16g extends it. Confirm `DELIVERED_THROUGH` reaches 16i before you
+  publish, or your packet ships onto 16b ground.
+- Dungeon-kind records already carry typed interior blocks (327 of 827) and
+  `place_obligations` already projects them; reuse 16g's vocabulary, never a
+  second one.
+- **Phase 15 is one pass** (0062); 0061's two-pass split is retired. The packet is
+  authored here and completed in Phase 15.
+- The placement suite being green is not evidence the packet is right; the
+  evidence is the record of hand decisions in step 2.
+- Major cities and the opening-scene places carry `ownerGuided: true`
+  (16g) and are excluded from any unattended run.
+
 ## Read
 
 - README.md §3; `world/96` §3 (the automation-readiness checklist);

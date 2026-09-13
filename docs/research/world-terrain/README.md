@@ -14,3 +14,5 @@ Evidence and rules for the shape of the province: relief, rivers, coast, climate
 | [route-spans-and-crossing-costs.md](route-spans-and-crossing-costs.md) | Why bridges are long — measured: the routers are not the cause, `author_route_structures` is. Read before changing any routing cost. | evidence |
 | [rivers-on-slopes-and-cascades.md](rivers-on-slopes-and-cascades.md) | How shipped games build sloped river surfaces, and the Phase 8b fix for bed staircases and foam crusts on our one-heightfield architecture. | research reference |
 | [offshore-islands-feasibility.md](offshore-islands-feasibility.md) | Whether to add offshore islands: yes for estuary/lagoon islets, no for a barrier chain, measured against our bathymetry. | research reference |
+
+> **Note (2026-09-13):** several docs here predate the frozen base (0059) and name the retired refine step (`refine_province`); read those passages as history — today the ground is `shape_province` → `carve_province` → typed patches.

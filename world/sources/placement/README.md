@@ -1,6 +1,6 @@
 # Mined placement statistics
 
-Machine-readable output of the **mine-the-shipped-worlds** rule (module 95
+Machine-readable output of the **mine-the-shipped-worlds** rule (docs/phases/README.md §86
 §86.0b). These files record *what other teams measurably did* — densities,
 water/slope tolerances, clumping, jitter — never their authored places
 (00-core rule 6). They are inputs to the scatter compiler's defaults and to

@@ -11,3 +11,10 @@ file:line and command output. Mark each claim you were asked to check as
 VERIFIED, PARTIAL or FALSE with the measurement that decides it. For lore,
 dossiers in `world/sources/lore/` first, UESP for gaps, cite page names,
 respect era 4E 201 (decision 0002). Report tersely, findings first.
+
+When the research is about a topic the repo already documents, your report
+opens with a **reconciliation block**: which live docs already cover it
+(folder README rows, file:section), which of their claims your findings
+confirm, contradict or supersede, and which single live doc the writer
+should edit. Never propose a new file where an existing one can be edited;
+never leave two live docs saying different things about one fact.

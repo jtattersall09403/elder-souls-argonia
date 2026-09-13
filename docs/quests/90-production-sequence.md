@@ -52,7 +52,7 @@ packet's briefs make):
 the next phase" performs both roles in sequence (world drafting, then brief
 drafting) or spawns a subagent for the brief pass — either is fine. What is
 mandatory is the **artifacts and the gate**: a region packet without its
-quest-brief set is incomplete, and the phases plan (docs/phases/README.md) Phase 11, absorbed into 16 states this as a
+quest-brief set is incomplete, and the phases plan (docs/phases/README.md, the absorbed Phase 11 table and Phase 15) states this as a
 completion gate.
 
 **Per-packet quotas** (owner directive 2026-08-26; derivation in

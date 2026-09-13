@@ -13,7 +13,7 @@ Needs rulings 1, 2, 3, 5, 6, 10 (plan §7).
 - README.md §3, §7; decision 0057.
 - [research/phase16/audit-chain-and-terrain.md](../../research/phase16/audit-chain-and-terrain.md)
   §1–3, §5–7 in full.
-- `scripts/terrain-chain.sh` (the order), `worldgen/sculpt.py`,
+- `tooling/world-generation/scripts/terrain-chain.sh` (the order), `worldgen/sculpt.py`,
   `refine_province.py` (`carve_to_profile`, `apply_local_carves`),
   `recarve_local.py`, `footprint.py`, `grade_settlement_pads.py`,
   `rebake_landcover.py`, `carve_routes.py`; polish-backlog rows this chunk
@@ -102,7 +102,7 @@ and [0060](../../decisions/0060-rivers-reach-the-coast-profiles-are-graded.md)
 profiles, plunge pools with a lip, the staircase ramped on the source, the
 Blackrose lake on a sill, wet sand at the waterline);
 ledger [research/phase16/16b-terrain-once-ledger.md](../../research/phase16/16b-terrain-once-ledger.md).
-The chain order is `scripts/terrain-chain.sh`; the frozen shas are in
+The chain order is `tooling/world-generation/scripts/terrain-chain.sh`; the frozen shas are in
 `world/sources/terrain/freeze.json`; the freeze gate is
 `python3 -m worldgen.terrain_preconditions`.
 

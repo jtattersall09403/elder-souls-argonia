@@ -12,7 +12,7 @@ by `apply_terrain_patches` under six invariants that refuse (never clamp);
 `test_terrain_preconditions.py`: it reads the frozen array and the graph and
 fails on any promise the ground does not keep. It was shown failing on
 each kind of broken promise before the province passed it. The chain order
-lives in `scripts/terrain-chain.sh`; decision 0025's order is superseded.
+lives in `tooling/world-generation/scripts/terrain-chain.sh`; decision 0025's order is superseded.
 
 **Non-obvious choices.**
 

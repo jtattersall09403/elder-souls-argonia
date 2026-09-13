@@ -259,7 +259,7 @@ arrangement. None of it changes what any test asserts.
   re-plot moves the paint.
 - `worldgen/society.py` — fixed danger (depth-into-marsh model, decision
   0004/0007) and lore-grounded culture territories.
-- `worldgen/shape_province.py` + `worldgen/carve_province.py` — the shaped ground and the frozen carve (Phase 16b; formerly refine_province)
+- `worldgen/shape_province.py` + `worldgen/carve_province.py` — the shaped ground and the frozen carve (Phase 16b; formerly the refine step, retired by 0059)
   (de-terracing, detail noise, channel carving, authored Blackrose lake per
   Lore:Blackrose, portages 0012, flood states, land-cover + tint exports).
 - `worldgen/landcover.py` — semantic land cover × per-region material

@@ -3,6 +3,8 @@
 Read-only audit for the Phase 16 plan. Evidence is `file:line` on the tree at
 `34bec0ed`; the stage order is `tooling/world-generation/scripts/terrain-chain.sh`.
 
+> **Note (2026-09-13):** §6–§8 (the proposed chain order, `refine_province_base` and the patch design) are superseded by decisions 0059/0060 and the shipped `tooling/world-generation/scripts/terrain-chain.sh`; §2–§5 (the measurements) stay live.
+
 ## 1. The dependency graph and its feedback edges
 
 `chain_stages` records outputs by observing mtimes and **exempts files whose

@@ -163,6 +163,23 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   have written (routes, structures, settlements, pad receipts) is STALE
   against the current ground and is not judged at that chunk's check; the
   chain prints the skipped stages so the handoff can say so.
+- **Every brief carries a dated "Starting state" section; the delivering
+  agent replaces the next brief's one** (owner 2026-09-13).
+  **Phase 16 is a rework, not a first build.** Every chunk from 16e on
+  touches code and data that already ship: ~1,650 lines of settlement
+  runtime, 4,958 placements in a 10 MB bundle dated 2026-09-09, five
+  authored blueprints, 43 published kit files, nine route modules with
+  eleven test files, plus 517 green placement tests that pass through every
+  known defect. If a brief's instruction describes something the code
+  already appears to do, **measure before agreeing with it** (the yaw sign
+  is the worked example: the code already adds yaw; the fix is to
+  negate). No chunk starts from a blank slate. The section states,
+  with file:line evidence, what exists, what is known broken, what is red
+  in the tests, what to keep and what to delete. It is a snapshot: when a
+  chunk closes, its agent writes its ledger's "ending state" into the
+  **next** chunk's Starting state in the same commit; a brief whose
+  Starting state is older than the last chain run is re-audited before
+  work starts (the `routing-audit` step, docs/README.md § Where to record).
 - **Owner check between chunks.** Every brief ends with a plain-English
   checklist with studio URLs. Nothing is marked done until that check passes
   or the owner explicitly accepts it as good enough.

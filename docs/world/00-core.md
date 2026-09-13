@@ -73,6 +73,11 @@ rolled out as data per region packet — never whole-province hand authoring.
    `tooling/world-generation/worldgen/scale.py`); heights stored in true
    metres always; deterministic compilers with fixed seeds; stable semantic
    IDs for everything quests or code may reference.
+9. **Loot, enemies and containers are authored and fixed — never levelled**
+   (owner golden rule, restated 2026-09-13; fixed danger is 0004). Every
+   container's contents are a record; nothing in the world reads
+   character level; Skyrim's levelled lists are read only as a schema
+   checklist for *what a container is*, never adopted as a mechanism.
 9. **Agents read measurements; the owner is the visual authority.** Validate
    with probes/stats/screenshots-by-tooling; pause at studio gates for owner
    review (Module 85). **Terrain scale/relief/exaggeration is judged and
@@ -117,7 +122,7 @@ semantic kits and deterministic compilers; simple source-and-credits records,
 kept up-front in the root README's Credits section (decision 0023);
 reproducible pipeline builds.
 
-## Phases at a glance (status: docs/PROGRESS.md; detail: Module 95)
+## Phases at a glance (status: docs/PROGRESS.md; detail: docs/phases/README.md)
 
 0 sources/era/credits · 1 monorepo+contracts · 2 province ingest ·
 3 hydrology+regions · 4 danger/cultures/transport · 5 World Studio ·

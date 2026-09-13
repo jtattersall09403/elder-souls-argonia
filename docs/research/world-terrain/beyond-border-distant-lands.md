@@ -1,7 +1,7 @@
 # Beyond-border distant lands (world-edge horizon)
 
 Round-6 research (2026-08-26). Owner rejected the quick procedural ring
-(round 5's `DistantLands.tsx`, since REMOVED): it didn't continue from the
+(round 5's `DistantLands.tsx` (removed in commit 6bcf4172; nothing of it remains), since REMOVED): it didn't continue from the
 real border terrain, left a sea gap, read as flat grey, and stopped short of
 the horizon. This doc records how it's actually done and the plan.
 

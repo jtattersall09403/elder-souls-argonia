@@ -15,6 +15,8 @@ docs don't cover: the macro→meso→micro pattern, and the specific rendering
 fixes for foliage going dark at distance and shadows on alpha-tested
 instanced meshes.
 
+> **Note (2026-09-13):** "Phase 11" below is the settlement phase absorbed into Phase 16 (0057); read it as 16g–16j and the Phase 15 packets.
+
 ## 1. The common pattern: three scales, negotiated downward
 
 Every shipped system surveyed converges on the same three-level shape, whatever

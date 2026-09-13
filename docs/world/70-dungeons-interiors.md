@@ -85,7 +85,9 @@ interface InteriorProgram {
 
 Exterior generation creates foundations, doors, cave mouths, wells, drains and underwater portals consistent with the programme. Interior geometry can be compiled in a later pass after the relevant kits and gameplay have matured.
 
-The runtime supports:
+The runtime **must** support (nothing below exists yet: 16i builds the load
+contract, Phase 12 the rest; AI-state preservation across portals is
+build-out work):
 
 - streamed interior cells for large buildings and dungeons;
 - seamless small huts and open structures;
@@ -116,6 +118,11 @@ interface CombatSpaceBlueprint {
 Tight spaces remain available when deliberately specified.
 
 ## 50. Encounter placement follows ecology and motive
+
+**Loot and enemies are authored per record and fixed — never a levelled list,
+never a container whose contents depend on character level** (00-core rule 9, decision
+0004). Every encounter socket names a fixed group; every container names
+its contents.
 
 An encounter socket needs:
 

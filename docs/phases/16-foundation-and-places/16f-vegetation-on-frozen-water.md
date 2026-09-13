@@ -8,6 +8,49 @@ regions) are answered with measurements and delivered where the answer is yes.
 
 Needs ruling 10 (already given for 16b); no new ruling.
 
+## Starting state (2026-09-13; the closing 16e agent rewrites this)
+
+- **Ground cover is a runtime ring, not a bundle** (world 65 §T3):
+  `apps/world-studio/src/vegetation/Groundcover.tsx` (736 lines) regenerates
+  it from the land-cover raster within a 75 m ring, reading
+  `world/sources/flora/groundcover.json` (density in instances per hectare,
+  a survival rule and a `maxInstances` cap). Deliverable 0 changes that
+  file, the table and `mine_groundcover.py`, not `compile_scatter`; there
+  are no "groundcover bundles in git history" to diff — measure by sampling
+  the ring's placement function at each site against the pre-0048 table.
+  The file is app-private (0038); do not grow it, 10b extracts it.
+- **The graph's reach vocabulary** (0058, commit 443c33fb) is
+  `horizontal-channel | horizontal-tidal | horizontal-backwater |
+  sloped-riffle | sloped-rapid | sloped-chute | vertical-fall`; bodies are
+  `ocean, lagoon, lake-lowland, tarn-upland, pond, pool, plunge-pool,
+  marsh-fringe, marsh-deep, swamp, backswamp, mudflat`. There is no
+  `horizontal-river`, `horizontal-stream` or `drowned-forest`. Every reach
+  (615) carries `centreline`, `widthM`, `depthM`, `season`, `band`; no
+  reach-owner raster is needed.
+- **The gate is missing, not broken**: `scatter.Layer.gate` reads region,
+  water depth, slope and land cover only; `compile_scatter.ProvinceFields`
+  decodes only `water-surface.png`; `SCATTER_INPUTS` names no graph file
+  (root cause: audit-hydrology-data-model §5).
+- **`stripBoulderCandidates` is TypeScript in the water renderer**
+  (`packages/game-core/src/water/render/ChannelStrips.ts`, 1 boulder per
+  160 m² of wetted bed), not a compiler export; reimplement the rule
+  deterministically in Python from `water-meta` channels with that file as
+  the spec; give the constant one home.
+- **No rock kit exists** (31 kit configs, none `rocks-v1`); the vault rock
+  candidates are world 90 §76, not the chain audit §5 (which is cliffs).
+  `underwater-v1` holds 23 assets.
+- **The delta and corridor answer is written** (16a ledger §"thin
+  classes": one delta, `river.889-484`; corridor classes follow band-3
+  channel reaches); deliverable 4 applies it.
+- **Ladder rows exist**: `[16f]="compile_scatter"` and `rebake_landcover`
+  on 16b's row; confirm, never duplicate; bump `DELIVERED_THROUGH`.
+- **`test_vegetation_ladder.py` is green today** (wired into
+  `test:placement`); 0048's "stays red pending the rollout" is history.
+  Inherited red, not yours: four catalogue-export tests owned by 16g.
+- **The committed vegetation bundles are stale**: `ladder.json` ran through
+  16b and skipped `compile_scatter` and `compile_water`; "shown failing on
+  today's bundles" measures a pre-freeze world — say so or rebake first.
+
 ## Read
 
 - [research/phase16/audit-hydrology-data-model.md](../../research/phase16/audit-hydrology-data-model.md) §5.
@@ -16,8 +59,7 @@ Needs ruling 10 (already given for 16b); no new ruling.
   (macro → meso → micro; water-margin dressing);
   `research/rendering/waterfalls-realtime.md` §6 (rock recipe at falls).
 - `worldgen/scatter.py`, `compile_scatter.py`, `world/sources/flora/palettes.json`
-  (the WADING rule M1), `groundcover.json`; the chain audit §5 (rock meshes
-  in the vault; no rock kit exists).
+  (the WADING rule M1), `groundcover.json`; world 90 §76 (rock meshes in the vault; no rock kit exists).
 
 ## Deliver
 
@@ -37,17 +79,19 @@ Needs ruling 10 (already given for 16b); no new ruling.
    failing on today's bundles.
 
 1. **Channel membership as a hard gate** (C8): `compile_scatter` reads the
-   graph's reach centrelines and widths (or a reach-owner raster compiled by
-   16c) and excludes trees and shrubs inside any `horizontal-river/stream`,
-   `sloped-*` or `vertical-fall` reach and its wetted margin; marsh, backwater
-   and drowned-forest bodies keep their flora; a `season` argument is passed
+   graph's reach centrelines and widths and excludes trees and shrubs inside any reach of kind `horizontal-channel`,
+   `horizontal-tidal`, `sloped-riffle | sloped-rapid | sloped-chute` or
+   `vertical-fall` and its wetted margin (`widthM` plus a margin);
+   `horizontal-backwater` reaches and `marsh-fringe`, `marsh-deep`,
+   `swamp` and `backswamp` bodies keep their flora (a filter that names a
+   kind the vocabulary lacks matches nothing and is a gate that cannot fail); a `season` argument is passed
    (the wet-season extent decides). Test: zero trunks inside any reach polygon
    on the shipped bundles, shown failing on today's bundles first.
 2. **A rock kit** (sourcing job, not art): build `rocks-v1` from vanilla
    `landscape/rocks/` and `landscape/mountains/` (Tropical Skyrim retextures),
    measured footprints and ground fit, credited; then scatter on cliff bands
    (16b's band raster), along every strip and at every fall lip and side
-   (`stripBoulderCandidates` already exported by the runtime) and in surf
+   (the `stripBoulderCandidates` rule, ported from the water renderer) and in surf
    zones at the reviewed beach.
 3. **The owner's dressing questions**, each measured then delivered or
    recorded as "no" with the number: grass coverage per region against the
@@ -80,7 +124,7 @@ Needs ruling 10 (already given for 16b); no new ruling.
    fireflies weight to marsh and wet ground at dusk, midges and dragonflies to
    standing bodies, pollen and leaf fall to canopy from the land cover. Keep
    the clock, weather and lighting behaviour the other agent has tuned; only
-   the *where* changes. Coordinate with that agent if their work is still
+   the *where* changes (the height-above-water rule is 16c's item 9). Coordinate with that agent if their work is still
    in flight (their files, their tuning). Test: every firefly patch centre
    samples wet or marsh ground at the wet season; every dragonfly patch
    centre is over a standing body; shown failing on the noise version.
@@ -89,8 +133,8 @@ Needs ruling 10 (already given for 16b); no new ruling.
 
 ## Acceptance
 
-- **The chain ladder** (plan §3): this chunk's stages are `rebake_landcover` and `compile_scatter` (the rewritten scatter); they already run on the 16b ladder as the old code. Add them
-  to the ladder in `scripts/terrain-chain.sh` and bump `DELIVERED_THROUGH`
+- **The chain ladder** (plan §3): this chunk's stages are `rebake_landcover` and `compile_scatter` (the rewritten scatter); they already run on the 16b ladder as the old code and both rows are
+  already written. Confirm them in `tooling/world-generation/scripts/terrain-chain.sh` (never duplicate `rebake_landcover` into the 16f row) and bump `DELIVERED_THROUGH`
   to this chunk in the delivering commit; until then a plain chain run skips
   them and their published JSON is stale.
 

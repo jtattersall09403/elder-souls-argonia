@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-02 · **Critic:** adversarial, dimension = coverage/density/distribution ·
 **Scope:** the 729 records in `world/sources/catalogue/places-*.json` against the
-module 95 Phase 11 density budget, decision 0041 and
+docs/phases/README.md §86 Phase 11 density budget, decision 0041 and
 [morrowind-content-density.md](../../placement-settlements/morrowind-content-density.md).
 **Read-only pass** — nothing outside this file was touched.
 
@@ -158,7 +158,7 @@ fixes counts and variety in one move.
 
 ### S4 — Quest-carrying capacity is asserted, not evidenced: 93 % of M3 and 58 % of M4 settlements carry zero quest hooks. **(major)**
 
-Against the module 95 ladder (M5 35–60 quests, M4 10–20, M3 3–8, M2 1–3,
+Against the docs/phases/README.md §86 ladder (M5 35–60 quests, M4 10–20, M3 3–8, M2 1–3,
 M1 0–2):
 
 | mag | settlements | provisions total | mean | zero-hook | zero-socket |

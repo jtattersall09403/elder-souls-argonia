@@ -7,7 +7,7 @@ across the repo resolve via the map below.
 
 | Your task touches… | Module (sections) |
 |---|---|
-| Design judgement — "would Morrowind do it this way?" | [10-vvardenfell-lessons.md](10-vvardenfell-lessons.md) (§1–10) — the Morrowind models: §4 transport graphs, §5 settlement causation (Phase 11), §8 dungeon graph grammars (Phase 12); §9: terrain identity comes from placed assets, not heightfield detail |
+| Design judgement — "would Morrowind do it this way?" | [10-vvardenfell-lessons.md](10-vvardenfell-lessons.md) (§1–10) — the Morrowind models: §4 transport graphs, §5 settlement causation (built in Phase 11, now 16g–16j and Phase 15), §8 dungeon graph grammars (Phase 12); §9: terrain identity comes from placed assets, not heightfield detail |
 | Province macro structure, danger/access philosophy, era, settlement anchors, region taxonomy | [20-province-design.md](20-province-design.md) (§11–16) — §16 region grammar is the semantic backbone |
 | Turning lore into systems: infrastructure decay, drifting settlements, rootworms, Hist, tribes, pirates, disease, fauna, ecology | [30-lore-systems.md](30-lore-systems.md) (§17–27) — §26 disease/toxins/insects and §27 deep-marsh biology are the Phase 13 ecology source |
 | Causal location records, agent blueprints, review loop, orphan validation | [40-causal-authoring.md](40-causal-authoring.md) (§28–32) |

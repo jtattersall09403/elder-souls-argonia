@@ -211,7 +211,7 @@ palette reaching for a mesh the kit does not carry.** Full record:
 covered the province in commit `1b79517` (2026-09-07, "Carve river
 channels to their water profile…"), which added bundles for 151 chunks
 (48 → 199 chunks with plants, 9.3 MB of bundles). It was a **side effect,
-not a decision**: `scripts/terrain-chain.sh` (created in `98b26b7` the
+not a decision**: `tooling/world-generation/scripts/terrain-chain.sh` (created in `98b26b7` the
 same day, per decision 0025's stage order) ends in `compile_scatter`, and
 `compile_scatter` with no `--chunk` flag compiles every chunk. No budget or
 FPS evidence was gathered at the time; the owner saw it on the deployed

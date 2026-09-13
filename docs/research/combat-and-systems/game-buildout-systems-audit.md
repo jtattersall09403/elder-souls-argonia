@@ -20,6 +20,8 @@ browser-played, GitHub Pages, no new art ever, no level scaling ever, text-led
 
 ---
 
+> **Re-measured 2026-09-13:** `apps/combat-sandbox/src/components/CombatScene.tsx` is 4,417 lines (was 2,801 here); `apps/world-studio/src` is 14,658 lines (was ~9,100); `apps/game/src/main.ts` is 5 lines. The §1 numbers below are the 2026-08-30 snapshot; size the 10b extraction from these.
+
 ## 1. Architecture: how the studio becomes the game
 
 **Verdict: a medium-large port, front-loaded with package extraction, not new
@@ -83,7 +85,7 @@ with a register row) · **UNOWNED** (nobody) · **CUT** (recorded cut).
 Terrain/hydrology/regions/climate BUILT · light/sky/time BUILT · water
 render+query BUILT · weather BUILT · vegetation machinery phase 10 (in
 progress) · navmesh/NavService phase 10b · streaming hardening phase 14 ·
-**renderer package extraction UNOWNED (→ register, architecture row)** ·
+**renderer package extraction → Phase 10b (decision 0062, 2026-09-13; was UNOWNED)** ·
 volumetrics/god-rays/water-hero-tiers backlog (P) · beyond-border land apron
 **UNOWNED** (55 §98b says "alongside Phase 10"; Phase 10's list omits it) ·
 artificial/carried light (torches, forge, magic light) **UNOWNED** (55 §96
@@ -173,7 +175,7 @@ the repo.** · full stealth stack (stimuli, alert→search, distractions)
 REGISTER · richer combat AI/bosses/morale/aquatic actions REGISTER · NPC
 hearing ("what hears the player", 57 §105) rides the same service · creature
 boat/tree use + amphibious traversal + moving root barriers UNOWNED (§4) ·
-prior→roster demographic generation rule UNOWNED (Phase 11 will need a
+prior→roster demographic generation rule → 16g (decision 0062; was UNOWNED; Phase 11 was going to need a
 working rule even if simple).
 
 ### H. Narrative runtime (the biggest build-out pillar)
@@ -275,7 +277,7 @@ build-out plan is drafted.
     route designs assume it. → keep/cut call, then Phase 11/12 authoring
     vocabulary if kept.
 11. **`WaterBody` per-body records** — 0025 deferred them *to* Phase 11;
-    Phase 11's list omits them. → add at Phase 11 kickoff.
+    the old Phase 11 list omitted them. → homed 2026-09-13: detection service at 10b, actor-schema NPC fields at 10c (phases README).
 12. **Beyond-border land apron** — 55 §98b wants it "alongside Phase 10".
     → schedule or consciously re-defer at the Phase 10 gate.
 13. **Artificial light sources** (torch/lantern/magelight) — dungeons phase
@@ -283,7 +285,7 @@ build-out plan is drafted.
     → design with 12's interiors; implementation likely build-out.
 14. **Timetable data model** (boats/tides as queryable schedules) — → Phase
     11 ships schedule *data* with the service graph; runtime later.
-15. **Prior→roster generation rule** — → Phase 11 kickoff (simple rule ok).
+15. **Prior→roster generation rule** — → 16g (decision 0062; it produces the named-NPC roster records that 13 and 15 populate).
 16. **AI-state across interior portals** — → with 10b nav/orchestration
     design notes; implementation build-out.
 

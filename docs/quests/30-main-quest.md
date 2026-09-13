@@ -530,7 +530,7 @@ gift is the one that **opens the map**. No companions anywhere in this track.
 | 1 | First Hist community helped (MQ04) | **Adoption by a village**: free lodging, food and healing; merchants price you as kin |
 | 2 | Standing 30+ | Province-wide village welcome; **gifts** of potions and rare reagents; tribal **alchemy recipes** |
 | 3 | Standing 45+ | **Canon field kit** given freely — repellent emollient, depth sticks, purifying flower buds, pahnjees — the difference between surviving the interior and not. Tribal craft gear: bone, chitin and **wamasu-hide** (canon materials; armour base V05 re-materials with wamasu-hide texture variants, weapons A04), light and quiet |
-| 4 | Standing 65+ **and accepting a village's adoption rite** (the opt-in lock act, binding rule 4) | **Root-tunnel routes**: access to the **restricted Waykeeper network beyond the semi-public Helstrom hub**, and guides through country that has no road. *(The root network is provisional until world Phase 11 re-authors it; quests and rewards touching it are finalized then.)* *Locks other tracks' tiers 4–5* |
+| 4 | Standing 65+ **and accepting a village's adoption rite** (the opt-in lock act, binding rule 4) | **Root-tunnel routes**: access to the **restricted Waykeeper network beyond the semi-public Helstrom hub**, and guides through country that has no road. *(The root network is provisional until chunk 16e re-authors it; quests and rewards touching it are finalized then.)* *Locks other tracks' tiers 4–5* |
 | 5 | MEND ending / Root Talk recognition | **The clean blessing** — the un-costed mirror of the cult's rite (a real buff, no drain) — plus village services everywhere and a Hist's own gift |
 
 ### 24b.4 Yourself — the artifact and the crown
