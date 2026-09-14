@@ -30,6 +30,7 @@ than trust this page.
 | Terrain calls (dry beds, perched channels) | `levee` and `bed-cut` patches authored from the census | 0065 §6; round-1 ledger §4 |
 | The chain does not run end to end | Fixed; see round-1 ledger §7 | [16c-water-once-ledger.md §7](16c-water-once-ledger.md) |
 | "The compiler shouldn't be re-deriving classification" | The full audit of what round 1 re-derived, with the replacement rules | [0065](../../decisions/0065-the-compile-realises-the-graphs-classification.md) |
+| "Check all of the water classification types for what behaviour you've given them" | The per-class table in §2b. It found one defect: the tide was inferred from the Phase 3 salinity field, so 3,592 texels of open sea never moved with it. The tide now reads the class | §2b; the tidal-class gate in `water.test.ts` |
 | "Why bother having the browser probes at all" | Kept: the probe is what caught a duplicated shader uniform this round, which stopped the water material compiling altogether — no measurement over the rasters can see that. It is a pre-deploy check, not a per-commit gate | §5 |
 | "Two place terrain requests" — expected to wait | No action: the places adapt to the frozen world in 16g; the postcondition stays known-red until then | §5 |
 
