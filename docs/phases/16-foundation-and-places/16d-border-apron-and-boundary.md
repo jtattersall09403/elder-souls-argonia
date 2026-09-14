@@ -60,6 +60,30 @@ Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth** — no
 
 ## Deliver
 
+0. **The chain runs from the freeze gate** (decision 0066; owner 2026-09-14:
+   layers are added onto what is built, never rebuilt from the sculpt). In
+   `tooling/world-generation/scripts/terrain-chain.sh`: a plain run starts at
+   `apply_terrain_patches`; before it, a `verify_freeze` step hashes the three
+   frozen arrays and `hydrology-graph.json` against
+   `world/sources/terrain/freeze.json` (seconds) and refuses on any
+   mismatch; the six stages above the gate run only under `--refreeze`
+   (which then walks the whole chain and re-records the shas). The
+   fingerprint skip (`chain_stages.py`) stays for every stage below the gate.
+   Delete the header's "edit `sculpt.py` and everything does" sentence; a
+   frozen stage's code changing is caught at the next deliberate refreeze,
+   which is the point. Test: a plain run with a deliberately edited
+   `compile_hydrology.py` runs nothing above the gate and passes
+   `verify_freeze`; a plain run against a vault array with one changed
+   sample refuses at `verify_freeze`. The 16c ledger §7 drift (three river
+   cells, fixed 2026-09-14) is the defect this closes for good.
+
+## Record reads (decision 0066)
+
+The apron reads the frozen edge rows and the registered raster; it derives
+no class. Its one record decision (sea to the south and east) is the
+measured edge fraction in the chain audit §4 — cite it, do not re-measure.
+Nothing on the apron reads the graph and nothing should.
+
 1. **`worldgen/build_border_apron.py`**: cut the neighbour slice from the
    all-Tamriel raster around the registered match, out to ≥ 40 km, fit scale
    and offset **on the shared border ring** (not globally), C0-join to the

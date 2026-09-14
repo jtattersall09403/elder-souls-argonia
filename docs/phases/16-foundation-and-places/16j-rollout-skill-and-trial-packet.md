@@ -49,6 +49,17 @@ thin swim slice.
 
 ## Deliver
 
+## Record reads (decision 0066)
+
+The unattended run is where the class would come back silently: a `deliver`
+subagent that cannot find a value in the record will re-derive one. The
+skill v2 and the packet template therefore state, per field, which record
+it is read from (graph id, `water-meta` id, route line, `designedSinkM`,
+plugin link), and the packet's acceptance runs every chunk's provenance
+gate (16e, 16f, 16g, 16h) over the packet's places. A hand decision that
+turned out to be a missing record field is closed in the record's schema,
+not in the skill's prose.
+
 1. **Packet choice**: propose three candidate packets (region, places, types,
    why) from the 16g plot; pick the one whose types the exemplars covered
    (16i's type register). No major city and no opening-scene place (those

@@ -147,6 +147,21 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   chunk's acceptance names the tests and probes it adds, with the defect that each one
   was shown to catch. Agents do not ingest screenshots outside the budget
   in §8.
+- **Read the record; never re-solve it (owner 2026-09-14, decision
+  [0066](../../decisions/0066-downstream-stages-read-the-signed-record-never-re-solve-it.md)).**
+  16c round 1 re-derived the sea by connectivity although the graph the
+  owner signed names every body's kind; every stage below the gate had the
+  same shape (zero graph reads, dozens of raster and connectivity reads).
+  So: kinds, ids, levels, seasons, names and ground fits come from the
+  reviewed record (the graph, the compiled `water-meta` ids, the route
+  lines, the plot, plugin-mined kit data); a compiled raster is sampled only
+  for a measurement. Each chunk ships a **provenance gate**: every output
+  field of that sort carries the id it was read from and a test joins it
+  back to the record, shown failing first on the raster-derived code it
+  replaces. Each brief's "Record reads" block names the modules and the
+  count of graph reads they start from (all zero on 2026-09-14). The chain
+  runs from the freeze gate (16d deliverable 0): frozen rungs are inputs
+  verified by hash, not stages re-executed.
 - **Build only what is delivered (owner, 2026-09-12).** The chain
   (`tooling/world-generation/scripts/terrain-chain.sh`) carries a LADDER: a
   list, per chunk, of the stages that chunk has delivered, cumulative from

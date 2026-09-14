@@ -71,6 +71,21 @@ Needs ruling 12 (the loop and its budget, plan §8).
   `research/placement-settlements/kit-assemblies-evidence.md`, `piece-front-derivation.md`;
   decision 0052; `.claude/skills/settlement-build/SKILL.md`.
 
+## Record reads (decision 0066) — the gate this chunk must add
+
+On 2026-09-14 `compile_settlement`, `blueprint`, `grade_settlement_pads`
+and `settlement_ground_control` read the graph **zero** times;
+`compile_settlement` alone reads sea and flood rasters 33 times for
+`waterOk`, the door-on-land test, the stilt over-water share, the flood
+band per section (97 B4) and dock depth (B5). All of that describes the
+pre-16c water. Every such check reads the compiled water by `water-meta`
+id (kind from the graph, depth from the signed-depth raster at that id's
+extent) and a parcel's `waterOk` reason names the body or reach; the
+**provenance gate** joins every blueprint water fact and every over-water
+placement to its id and fails on a missing id or disagreeing kind, shown
+failing first on the five shipped blueprints. Ground contact is the second
+record read: deliverable 3.
+
 ## Deliver (in this order — each with the audit's proving test, shown failing first)
 
 1. **The yaw sign**: **negate** the runtime rotation — `setFromAxisAngle(+yaw)`
@@ -85,9 +100,26 @@ Needs ruling 12 (the loop and its budget, plan §8).
    `SettlementColliders` gains a convex/trimesh path and builds what the
    parts say (today it emits cuboids only). Test: a ray through the
    Lilmoth gate's archway passes; no `mesh` placement without parts.
-3. **Anchoring per ground fit**: dug-in and pad to min/mean, direct to a
-   bounded compromise, stilt measured (exemption removed), route structures
-   included in the ground audit. Test: shipped-bundle replay, floats > 0.3 m == 0.
+3. **Anchoring by designed ground contact, per asset** (owner 2026-09-14,
+   decision 0066): most building exteriors were modelled to sit partly in
+   the ground (a door sill half-way up the mesh, a foundation course meant
+   to vanish), and today they are sunk by a per-class table
+   (`placement-policies.json`: direct 0.08 m, dug-in 0.35 m, "reviewed"
+   guesses), which is class-4 re-derivation. Replace it: for every kit
+   asset, measure how its makers placed it — every reference to the base
+   object in Skyrim.esm and the source mod's plugin, pivot z minus
+   `height_at` (`esp_index`, the method `mine_placement.py` already uses for
+   flora) — and record `designedSinkM` (p50, p25, p75, a slope term) on the
+   kit manifest with the sample count as evidence. Where an asset has no
+   placements (a mod kit with no worldspace), measure the mesh: the lowest
+   door sill or floor plane relative to the pivot is the ground line, with
+   evidence `mesh-sill`. `anchoring.ts` then sinks by the asset's value; the
+   class table survives only as a bound (`buryCapM`) and a fallback that
+   the export lists as a gap. Stilt measured (exemption removed); route
+   structures in the ground audit. Tests: every kit asset carries
+   `designedSinkM` with evidence; a `mesh-sill` value that puts the sill
+   above or below the ground line by more than 0.1 m fails; shipped-bundle
+   replay, floats > 0.3 m == 0 and sills within 0.15 m of the ground.
 4. **Pads as patches** (D9): `grade_settlement_pads` emits
    `terrain-patches` (16b's stage) instead of writing the heightfield; the
    patches are applied and shipped; the waiver removed. Test: the pad receipt
