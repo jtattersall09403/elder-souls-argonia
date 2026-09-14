@@ -10,6 +10,7 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
 
 ## Starting state (read this before anything else; audit 2026-09-13)
 
+- **Round 2 (2026-09-14): decision [0065](../../decisions/0065-the-compile-realises-the-graphs-classification.md) — the compile realises the graph's classification; round-1 rasters re-derived the sea by connectivity. Read 0065 before touching `compile_water.py`.**
 - **The graph is on the approved ground; do not re-derive it.** Its
   `sourceHeightSha256` is the sha of `heightfield-shaped-f32.npy`, the
   shaped ground that the graph is solved on (0059). It equals the value in
@@ -199,16 +200,20 @@ Needs ruling 7 (sea energy) and 3–5 already given for 16b.
 
 Walk each (`?view=character&…`) and say what is wrong in one line each:
 - beach `x=6.12&z=1.638`: is the sea moving: swell arriving, some
-  whitecaps, waves breaking on the sand, foam at the edge? Try `&w=storm`.
+  whitecaps, waves breaking on the sand, foam at the edge?
+- beach in a storm `x=6.12&z=1.638&w=storm`: waves arrive obliquely and break
+  bigger; the sea never foams all at once.
 - fly `?view=fly3d&cam=orbit&x=6.16&z=5.07`: does the sea reach the horizon
   without a hard ring or a flat grey plate?
 - lowland river `x=1.85&z=4.89`: clean banks, flow, foam drifting downstream?
-- marsh `x=1.50&z=5.28&t=09:00` with `&wet=1` and `&wet=-1`: level rises and
-  falls with no floating plates or domes?
-- gorge fall `x=2.53&z=0.32`: one fall, a deep pool, mist, no flat sheet?
-- mountain stream `?view=fly3d&cam=orbit&x=1.75&z=1.74`: white water down the
-  slope, no floating patches, no gap ring around the stream?
-- mountain lake `orbit x=0.38&z=1.44`: flat, clean edges, no belts?
+- seasonal swamp `x=3.11&z=5.61&t=09:00` with `&wet=-1`: the water drops
+  0.28 m and exposes a band of mud; `&wet=1` is the line.
+- inland pool `x=1.83&z=4.84`: a still swamp at 0.84 m, no swell, no tide.
+- gorge fall `x=2.53&z=0.32`: a kit-built fall with a crest, a skirt, mist and
+  spray; the pool has a surface.
+- sloped stream `?view=fly3d&cam=orbit&x=1.75&z=1.74`: it fills its channel
+  bank to bank, one continuous surface; walking into it makes ripples.
+- mountain lake `orbit x=0.38&z=1.44`: flat, clean edges, no belts.
 - the old hovering-water site `x=4.57&z=3.87&t=10:00`: dry mud, no sheet.
 
 ## Gotchas

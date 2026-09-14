@@ -11,8 +11,8 @@ import { WaterInteractionStream } from "./interactionStream";
 import { WaterDisplacementRegistry } from "./displacementRegistry";
 import type { LocalWaterPatch } from "./LocalWaterPatch";
 import type { WaterData } from "./waterData";
-import { FLOW_WAVE_MIN_SPEED_MS, fetchExposure, flowWaveAt, seaRmsHeightM, shoreSwellAt, standingWaveRatio,
-  surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
+import { FLOW_WAVE_MIN_SPEED_MS, alongShorePhase, fetchExposure, flowWaveAt, seaRmsHeightM, shoreSwellAt,
+  standingWaveRatio, surfEnergyScale, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
 
 export interface WaterWorldOptions {
   /** FloodBasin amplitudes (province `refined/flood-states.json`). */
@@ -108,8 +108,19 @@ export class WaterWorld implements WorldWaterQuery {
     let surf = 0;
     if (s.shoreDistM < 90) {
       const fetch = fetchExposure(s.fetchM, s.turbidity);
-      surf = swashAt(s.shoreDistM, fetch, waveTime)
-        + shoreSwellAt(s.shoreDistM, Math.max(s.depthProxy, 0), fetch, waveTime);
+      // THE surf energy knob: the sea's rms for this wind and this shore's
+      // fetch (16c round 2) — the vertex stage's esSurfEnergy(uWindMS, esFetchM)
+      const energy = surfEnergyScale(windMS, s.fetchM);
+      // shore frame: shoreward = −∇(shore distance), forward differences two
+      // texels wide — the vertex stage's esShoreDir, term for term
+      const eG = this.data.meta.surface.metresPerPixel * 2;
+      const gx = (this.data.sample(position.x + eG, position.z).shoreDistM - s.shoreDistM) / eG;
+      const gz = (this.data.sample(position.x, position.z + eG).shoreDistM - s.shoreDistM) / eG;
+      const gl = Math.hypot(gx, gz);
+      const along = gl > 0.05 ? alongShorePhase(position.x, position.z, -gx / gl, -gz / gl, waveTime)
+        : alongShorePhase(position.x, position.z, 0, 0, waveTime);
+      surf = swashAt(s.shoreDistM, fetch, waveTime, energy, along)
+        + shoreSwellAt(s.shoreDistM, Math.max(s.depthProxy, 0), fetch, waveTime, energy, along);
     }
     // Along-flow travelling undulation on moving water (decision 0047 item 6)
     // — the GLSL vertex twin is `esFlowWave`; buoyancy rides the same crests.

@@ -3,6 +3,7 @@ import { WaterData, assertWaterSchema, decodeDepthByte, type WaterMeta } from ".
 import { WaterWorld } from "../waterWorld";
 import type { WaterAssets } from "./types";
 import { loadWaterfallTextures, type WaterfallTextureSlot } from "./WaterfallSheets";
+import { loadWaterfallKit } from "./WaterfallKit";
 
 /**
  * Loads + decodes the compiled water rasters (worldgen/compile_water.py,
@@ -26,7 +27,9 @@ export interface LoadWaterAssetsOptions {
   waveTimeS?: () => number;
   /** Waterfall FX texture URLs by shader slot (the app composes them from the
    * kit manifest via `WATERFALL_TEXTURE_ROLES`); missing = procedural. */
-  waterfallTextureUrls?: Partial<Record<WaterfallTextureSlot, string>>;
+  waterfallTextureUrls?: Partial<Record<WaterfallTextureSlot, string>> & Record<string, string | undefined>;
+  /** The waterfall FX kit GLB (`kits/waterfall-fx-v1.glb`); missing = falls undrawn. */
+  waterfallKitUrl?: string;
   /** The weather's wind speed (m/s) for the sea's energy; 0 = the swell floor. */
   windSpeedMS?: () => number;
 }
@@ -95,10 +98,11 @@ export function decodeWaterRasters(meta: WaterMeta, surfaceRgba: Uint8ClampedArr
 export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<WaterAssets> {
   const base = options.baseUrl;
   const waterBase = `${base}${options.waterPath ?? "province/water"}/`;
-  const [meta, floodStates, waterfallTextures] = await Promise.all([
+  const [meta, floodStates, waterfallTextures, waterfallKit] = await Promise.all([
     fetch(`${waterBase}water-meta.json`).then((r) => r.json() as Promise<WaterMeta>),
     fetch(`${base}province/refined/flood-states.json`).then((r) => r.json()).catch(() => null),
     options.waterfallTextureUrls ? loadWaterfallTextures(options.waterfallTextureUrls) : Promise.resolve(undefined),
+    options.waterfallKitUrl ? loadWaterfallKit(options.waterfallKitUrl) : Promise.resolve(null),
   ]);
   assertWaterSchema(meta);
   const ownerFile = meta.surface.ownerFile;
@@ -154,5 +158,6 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     tidalAmplitudeM,
     seasonalAmplitudeM,
     waterfallTextures,
+    waterfallKit,
   };
 }

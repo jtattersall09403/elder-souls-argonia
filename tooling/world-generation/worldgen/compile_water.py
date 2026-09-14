@@ -14,11 +14,14 @@ curve the carve cut, decision 0047's one definition):
 - rivers: every cell inside a station's width at that station's L; a steep
   (strip) station wets only its WETTED width, because the ribbon is the water
   there and the rest of the notch is dry bed;
-- standing bodies: the connected cells under the body's level around its
-  deepest cell — the extent the graph defines (README "Body") — flooded on
-  THIS ground; a promised plunge pool and a captured body are filled by the
-  channel that owns them; the authored lake by the measured body it is
-  realised by;
+- standing bodies: the extent is READ from the graph's own rasters
+  (`hydrology-graph-bodies.npz`: `level` per cell, `sea` with its lagoons),
+  never re-flooded here — the compile realises the graph's classification
+  and re-derives none of it (owner 2026-09-14). The raster gives the
+  extent, the record gives the level, and this frozen ground decides which
+  of those cells are wet; a promised plunge pool and a captured body are
+  filled by the channel that owns them; the authored lake by the measured
+  body it is realised by;
 - a river through a body is the body (16a rule): inside a body's extent the
   body's level and id own the cell, no channel level survives there;
 - a bounded lateral flood carries a FIELD station's level over lower ground
@@ -52,8 +55,11 @@ Writes (schema 3):
                        DRAW-DOWN response (× amplitudeM = metres the dry
                        season lowers this water), B tannin
     water-flow.png     1345² RGB: R,G = dir·speed (v/flowMax·0.5+0.5),
-                       B = sqrt(fetch / fetchMaxM) — the open-water fetch
-                       the wave spectrum reads (unbounded, 0..fetchMaxM)
+                       B = sqrt(fetch / fetchMaxM) — the sea is fully
+                       developed (fetchMaxM); inland water reads the open
+                       water upwind along the prevailing wind within its own
+                       water (a diagonal march); a mouth or lagoon does not
+                       inherit the sea's fetch
     water-class.png    1345² RGB: R class idx, G turbidity, B salinity
     water-owner.png    2017² L: 0 field / 128 strip / 255 fall footprint
     water-id.png       2017² RGB: R,G = 16-bit entity label (0 none, else
@@ -79,6 +85,7 @@ from scipy import ndimage
 
 from . import channels as ch
 from . import freeze
+from . import hydrology_graph as hg
 from . import standing_water as sw
 from .compile_chunks import DEFAULT_HEIGHTS
 from .export_web_chunks import encode_rg16
@@ -113,7 +120,30 @@ SEASON_TAPER_M = 60.0                              # a river's response ramps to
 STRIP_JOIN_BLEND_M = 6.0                           # a strip's level ramps from the field's L to its own over this
 BODY_CAP_CELLS = 2                                 # a lateral flood within this many cells of a body never stands above it
 BODY_LEVEL_EPS_M = 0.005                           # half the graph's 0.01 m level rounding: the spill cell stays dry
-BODY_CHANNEL_TOL_M = 0.05                          # a channel this close to a body's level is pooled in it
+IN_BOX_CHANNEL_TOL_M = 0.3                         # in-box flood: a river up to this far under the level still runs THROUGH the body
+GROUND_CAP_TOL_M = 0.7                             # drawn width: ground this far over a station's level still counts as under the water.
+                                                   # The cap exists to stop the ribbon being drawn INTO ROCK, not to re-measure the
+                                                   # trench. The carved parabola bed(t) = L - D*ramp*(1 - t^2) meets the level AT the
+                                                   # trench edge, so on a 1.83 m sample grid a ~3.2 m half-width is two or three
+                                                   # samples and a tighter tolerance caps on the bank's own sampling noise
+                                                   # (measured 2026-09-14: 0.15 m capped 9,897 stations, median ratio 0.864).
+                                                   # 0.7 m is the tolerance test_strip_points_sit_inside_their_trench uses at
+                                                   # 0.7 x the half-width, for exactly this reason.
+MIN_DRAWN_HALF_WIDTH_M = 0.5                       # ...and the drawn half-width never falls under this (a river is never a line)
+RIM_LEAK_TOL_M = 0.01                              # rim leak census: under test_no_body_stands_above_its_rim's own tolerance (6 mm for the record's rounding), so the census covers everything that gate measures
+FLOOD_PAD_CELLS = 8                                # a body's flood window: the graph's bbox plus this (~15 m); the
+FLOOD_WINDOW_GROWTHS = 0                           # box IS the extent (the graph flooded it on the shaped ground); a
+                                                   # flood reaching the window is leaking through a carved outlet: what
+                                                   # lies outside the box is then eroded back from its leak (dry_leaks)
+# --- the graph is the classification; the compile re-derives none of it (owner 2026-09-14) ---
+SEA_LEVEL_TOL_M = 0.05        # a station or body this close to 0 stands in the sea's water
+LEAK_TOL_M = 0.05             # a lateral sheet cell over a dry neighbour this far under its W would drain: dried
+SPECK_MIN_CELLS = 6           # a lateral sheet under this many full-res cells (~20 m²) is not the map's water
+HOLLOW_GROWTH_MAX = 2.0       # `flood_carve_hollows`: a body gaining more than this multiple of its recorded area is skipped
+MOUTH_RAMP_M = 40.0           # a river's level ramps down to a lower receiving body's over this much arc
+PERCHED_DROP_M = 0.3          # a channel bank standing this far over lower dry ground is perched (a levee patch seals it)
+CLEAR_WATER_FACTOR = 0.35     # turbidity factor for upland/montane bodies and whitewater/clearwater reaches above the lowland
+CLEAR_LOWLAND_FACTOR = 0.6    # ...and for clearwater reaches in the lowland
 FLOW_MAX = 3.0
 SHORE_MAX_M = 160.0
 FETCH_MAX_M = 60000.0         # open-water fetch cap: Topal Bay opens to the ocean (waves.ts SEA.fetchMaxM twin)
@@ -134,6 +164,8 @@ PROFILE_PAST_M = 25.0
 CLASSES = ["none", "coast", "estuary", "river", "lake", "marsh"]
 LAKE_KINDS = ("lake-lowland", "tarn-upland", "pond", "pool", "plunge-pool")
 MARSH_KINDS = ("marsh-fringe", "marsh-deep", "swamp", "backswamp", "mudflat")
+LAGOON_KINDS = ("lagoon",)                       # sea-level, brackish, tidal: rendered as the estuary class
+CLEAR_BANDS = ("upland", "montane")
 REGION_SILT = np.array(
     [0.12, 0.05, 0.45, 0.65, 0.30, 0.55, 0.15, 0.20, 0.25, 0.50, 0.30, 0.40, 0.20, 0.30],
     dtype=np.float32)
@@ -426,25 +458,30 @@ class BodyFlood:
         return cls(bodies.g, bodies.sea, bodies.level, bodies.body, recs, dict(bodies.census))
 
 
-def flood_bodies(g: np.ndarray, sea: np.ndarray, graph: dict, chan_level: np.ndarray | None = None,
-                 log=print) -> BodyFlood:
+def flood_bodies(g: np.ndarray, exclude: np.ndarray, graph: dict, chan_level: np.ndarray | None = None,
+                 chan_pooled: np.ndarray | None = None, log=print) -> BodyFlood:
     """Realise every graph body on `g`: the connected cells under its level
     (less half the record's rounding, so the spill cell stays dry and the
-    flood never crosses the saddle) around its deepest cell, the sea and any
-    channel standing more than BODY_CHANNEL_TOL_M LOWER excluded (a lake
-    outlet: the body ends where the river leaves it). Skipped, because
-    another owner fills them: the ocean; a captured body and a promised
-    plunge pool (the channel); the authored lake (its measured twin);
-    a body lost at the carve. Where two floods overlap the higher level
-    wins and the overlap is counted."""
+    flood never crosses the saddle) around its deepest cell, `exclude` (the
+    ocean's seed) and any channel standing more than IN_BOX_CHANNEL_TOL_M
+    LOWER excluded (a lake outlet: the body ends where the river leaves it;
+    a POOLED station's cells are never excluded — a river through a body
+    is the body, whatever its profile said before the carve). Skipped,
+    because another owner fills them: the ocean; a promised plunge pool (the
+    channel); the authored lake (its measured twin); a body lost at the
+    carve. Since 2026-09-14 this runs only over the handful of bodies the
+    graph's rasters do not carry (`graph_bodies`). A CAPTURED body (a channel runs through it below its level) is
+    flooded like any other, to its recorded level: the 16c round-1 skip
+    left 75 of them to the channel, and the sea mask then drew 16 of them
+    at 0. Where two floods overlap the higher level wins and the overlap is
+    counted."""
     n = g.shape[0]
     level = np.full(g.shape, -np.inf, dtype=np.float32)
     lbl = np.zeros(g.shape, dtype=np.int32)
     records: list[dict] = []
     census = {"dry": [], "overlaps": 0, "overlapCells": 0, "windowsGrown": 0, "openWindows": 0,
-              "skipped": {"captured": 0, "promised": 0, "authored": 0, "lostAtCarve": 0, "ocean": 0},
-              "areaRatio": []}
-    chan_block = None
+              "skipped": {"promised": 0, "authored": 0, "lostAtCarve": 0, "ocean": 0},
+              "areaRatio": [], "captured": 0}
     for b in graph["bodies"]:
         if b["kind"] == "ocean" or b.get("deepestCell") is None:
             census["skipped"]["ocean"] += 1
@@ -452,28 +489,30 @@ def flood_bodies(g: np.ndarray, sea: np.ndarray, graph: dict, chan_level: np.nda
         if b.get("lostAtCarve"):
             census["skipped"]["lostAtCarve"] += 1
             continue
-        if b.get("captured"):
-            census["skipped"]["captured"] += 1
-            continue
         if b["origin"] == "promised":
             census["skipped"]["promised"] += 1
             continue
         if b["origin"] == "authored":
             census["skipped"]["authored"] += 1
             continue
+        if b.get("captured"):
+            census["captured"] += 1
         dx, dy = int(b["deepestCell"][0]), int(b["deepestCell"][1])
         L = float(b["levelM"])
         bb = b.get("bboxCells") or [dx - 20, dy - 20, dx + 21, dy + 21]
         x0, y0, x1, y1 = (int(v) for v in bb)
-        pad = 24
-        for attempt in range(8):
+        pad = FLOOD_PAD_CELLS
+        for attempt in range(FLOOD_WINDOW_GROWTHS + 1):
             X0, Y0 = max(x0 - pad, 0), max(y0 - pad, 0)
             X1, Y1 = min(x1 + pad, n), min(y1 + pad, n)
             gw = g[Y0:Y1, X0:X1]
-            cand = (gw < L - BODY_LEVEL_EPS_M) & ~sea[Y0:Y1, X0:X1]
+            cand = (gw < L - BODY_LEVEL_EPS_M) & ~exclude[Y0:Y1, X0:X1]
             if chan_level is not None:
                 cw = chan_level[Y0:Y1, X0:X1]
-                cand &= ~(np.isfinite(cw) & (cw < L - BODY_CHANNEL_TOL_M))
+                outlet = np.isfinite(cw) & (cw < L - IN_BOX_CHANNEL_TOL_M)
+                if chan_pooled is not None:
+                    outlet &= ~chan_pooled[Y0:Y1, X0:X1]
+                cand &= ~outlet
             if not cand[dy - Y0, dx - X0]:
                 census["dry"].append({"id": b["id"], "kind": b["kind"], "levelM": L,
                                       "groundM": round(float(g[dy, dx]), 2), "areaM2": b.get("areaM2")})
@@ -482,7 +521,7 @@ def flood_bodies(g: np.ndarray, sea: np.ndarray, graph: dict, chan_level: np.nda
             comp = comp_lbl == comp_lbl[dy - Y0, dx - X0]
             touches_window = ((X0 > 0 and comp[:, 0].any()) or (Y0 > 0 and comp[0].any())
                               or (X1 < n and comp[:, -1].any()) or (Y1 < n and comp[-1].any()))
-            if touches_window and attempt < 7:
+            if touches_window and attempt < FLOOD_WINDOW_GROWTHS:
                 pad *= 2
                 census["windowsGrown"] += 1
                 continue
@@ -509,7 +548,413 @@ def flood_bodies(g: np.ndarray, sea: np.ndarray, graph: dict, chan_level: np.nda
     log(f"bodies: {len(records)} realised from the graph, {len(census['dry'])} dry on this ground, "
         f"{census['overlaps']} overlaps ({census['overlapCells']} cells), area ratio median "
         f"{census['areaRatio']['median']} p95 {census['areaRatio']['p95']} max {census['areaRatio']['max']}")
-    return BodyFlood(g, sea, level, lbl, records, census)
+    return BodyFlood(g, exclude, level, lbl, records, census)
+
+
+def graph_bodies(g: np.ndarray, graph: dict, rasters: dict, ocean_up: np.ndarray,
+                 log=print) -> tuple[BodyFlood, list[dict]]:
+    """Read every standing body's EXTENT from the graph's own rasters
+    (`hydrology_graph.BODIES_FILE`: `level`, the graph's flood level per
+    cell on the shaped ground, and `sea`, the graph's ocean mask with its
+    lagoons) — nothing is flooded here (owner 2026-09-14: the compile
+    realises the graph's classification and never re-derives it).
+
+    A body whose `deepestCell` is finite in `level` takes the 8-connected
+    piece of cells at that same level around it; one that is not, but that
+    stands in `sea`, takes the piece of `sea & ~ocean_up` around it (a
+    lagoon, a sea-level marsh joined to the sea). The record's `levelM` is
+    the level — the raster gives the extent, the record gives the height.
+    A body in neither raster (a promised plunge pool's twin, a body the
+    graph never rasterised) is returned in the second value for the old
+    in-box flood. Wet = the extent's cells that this frozen ground holds
+    under that level; where two extents overlap the higher level wins."""
+    sea_all = rasters["sea"]
+    lv = rasters["level"]
+    n = g.shape[0]
+    lv_finite = np.isfinite(lv)
+    sea_only = sea_all & ~ocean_up
+    level = np.full(g.shape, -np.inf, dtype=np.float32)
+    lbl = np.zeros(g.shape, dtype=np.int32)
+    records: list[dict] = []
+    census = {"dry": [], "overlaps": 0, "overlapCells": 0, "extentCellsDry": 0,
+              "skipped": {"promised": 0, "authored": 0, "ocean": 0},
+              "fromRaster": 0, "fromSeaRaster": 0, "floodedInBox": [], "submerged": []}
+    in_box: list[dict] = []
+    diff_n, diff_max = 0, 0.0
+    # the deepest cells whose record level the raster CONFIRMS: a component
+    # holding one of these is that body's extent, not a disagreeing body's
+    agrees = np.zeros(g.shape, dtype=bool)
+    for b in graph["bodies"]:
+        if b["kind"] == "ocean" or b.get("deepestCell") is None or b["origin"] in ("promised", "authored"):
+            continue
+        dx0, dy0 = int(b["deepestCell"][0]), int(b["deepestCell"][1])
+        if np.isfinite(lv[dy0, dx0]) and abs(float(lv[dy0, dx0]) - float(b["levelM"])) <= 0.006:
+            agrees[dy0, dx0] = True
+    for b in graph["bodies"]:
+        if b["kind"] == "ocean" or b.get("deepestCell") is None:
+            census["skipped"]["ocean"] += 1
+            continue
+        if b["origin"] == "promised":
+            census["skipped"]["promised"] += 1
+            continue
+        if b["origin"] == "authored":
+            census["skipped"]["authored"] += 1
+            continue
+        dx, dy = int(b["deepestCell"][0]), int(b["deepestCell"][1])
+        L = float(b["levelM"])
+        bb = b.get("bboxCells") or [dx - 40, dy - 40, dx + 41, dy + 41]
+        x0, y0, x1, y1 = (int(v) for v in bb)
+        X0, Y0 = min(max(x0 - 2, 0), dx), min(max(y0 - 2, 0), dy)
+        X1, Y1 = max(min(x1 + 3, n), dx + 1), max(min(y1 + 3, n), dy + 1)
+        lvd = lv[dy, dx]
+        if np.isfinite(lvd):
+            d = abs(float(lvd) - L)
+            if d > 0.05:
+                diff_n += 1
+                diff_max = max(diff_max, d)
+            cand = lv_finite[Y0:Y1, X0:X1] & (np.abs(lv[Y0:Y1, X0:X1] - lvd) < 0.006)
+            src = "fromRaster"
+            disagrees = d > 0.05
+        elif sea_all[dy, dx] and sea_only[dy, dx]:
+            cand = sea_only[Y0:Y1, X0:X1]
+            src = "fromSeaRaster"
+            disagrees = False
+        else:
+            in_box.append(b)
+            census["floodedInBox"].append(b["id"])
+            continue
+        if not cand[dy - Y0, dx - X0]:
+            in_box.append(b)
+            census["floodedInBox"].append(b["id"])
+            continue
+        comp_lbl, _nc = ndimage.label(cand, structure=_BOX)
+        comp = comp_lbl == comp_lbl[dy - Y0, dx - X0]
+        # This body's record disagrees with the raster under it. If the
+        # component it sits in is ANOTHER body's extent — one whose record
+        # the raster confirms — then this body is inside that body's flood
+        # and IS that body's water: skipped. Otherwise the component is
+        # this body's own extent and the record was simply adjusted after
+        # the raster was written (body.1002-335, the deepest graph lake:
+        # record 378.77 against the raster's 378.955), so it is realised
+        # here at the RECORD's level.
+        if disagrees and (comp & agrees[Y0:Y1, X0:X1]).any():
+            census["submerged"].append(b["id"])
+            continue
+        wet_cells = comp & (g[Y0:Y1, X0:X1] < L - BODY_LEVEL_EPS_M)
+        census["extentCellsDry"] += int(comp.sum() - wet_cells.sum())
+        if not wet_cells[dy - Y0, dx - X0]:
+            census["dry"].append({"id": b["id"], "kind": b["kind"], "levelM": L,
+                                  "groundM": round(float(g[dy, dx]), 2), "areaM2": b.get("areaM2")})
+            continue
+        sub_l = level[Y0:Y1, X0:X1]
+        sub_b = lbl[Y0:Y1, X0:X1]
+        over = wet_cells & (sub_b > 0)
+        if over.any():
+            census["overlaps"] += 1
+            census["overlapCells"] += int(over.sum())
+        take = wet_cells & (L > sub_l)
+        records.append(b)
+        sub_l[take] = L
+        sub_b[take] = len(records)
+        census[src] += 1
+    census["realised"] = len(records)
+    census["levelDiffersFromRaster"] = {"n": diff_n, "maxM": round(diff_max, 3)}
+    log(f"bodies: {len(records)} realised from the graph's rasters "
+        f"({census['fromRaster']} level, {census['fromSeaRaster']} sea), {len(in_box)} flooded in box, "
+        f"{len(census['dry'])} dry on this ground, {census['overlaps']} overlaps "
+        f"({census['overlapCells']} cells), {census['extentCellsDry']} extent cells dry")
+    return BodyFlood(g, sea_all, level, lbl, records, census), in_box
+
+
+def merge_floods(a: BodyFlood, b: BodyFlood, sea: np.ndarray) -> BodyFlood:
+    """One flood from two (the second pass over the sea-level bodies the
+    sea did not reach): labels of `b` follow `a`'s, the higher level wins
+    where they overlap; `sea` becomes the flood's sea."""
+    level = np.maximum(a.level, b.level)
+    take_b = b.body > 0
+    both = take_b & (a.body > 0)
+    take_b &= ~(both & (a.level >= b.level))
+    body = np.where(take_b, b.body + a.n, a.body).astype(np.int32)
+    census = dict(a.census)
+    census["secondPass"] = {"realised": b.n, "dry": len(b.census["dry"])}
+    census["dry"] = list(a.census["dry"]) + list(b.census["dry"])
+    return BodyFlood(a.g, sea, level, body, list(a.records) + list(b.records), census)
+
+
+def dry_leaks(W: np.ndarray, g: np.ndarray, lateral: np.ndarray, tol: float = LEAK_TOL_M,
+              max_iters: int = 400) -> tuple[np.ndarray, int]:
+    """A lateral sheet cell standing over a dry 8-neighbour whose ground is
+    under its own level would drain there, so it is dried — and again,
+    until no cell leaks: the sheet erodes back to the ground that holds
+    it. Only lateral cells (`lateral`: never a body, a channel or the sea)
+    are dried. This is the hovering-shard rule: the 16c round-1 rasters
+    held 4,240 wet texels standing over half a metre above a dry
+    neighbour's ground (1,309 over two metres), each drawn by the field as
+    a flat plate hanging in the air off a bank ("tonnes of isolated
+    hovering shards", owner 2026-09-14)."""
+    W = W.copy()
+    dried = 0
+    for _ in range(max_iters):
+        wet = np.isfinite(W) & (W > g)
+        low = ndimage.minimum_filter(np.where(wet, np.inf, g).astype(np.float32), size=3, mode="nearest")
+        leak = wet & lateral & (low < W - tol)
+        k = int(leak.sum())
+        if not k:
+            break
+        W[leak] = -np.inf
+        dried += k
+    return W, dried
+
+
+def dry_specks(W: np.ndarray, g: np.ndarray, lateral: np.ndarray, min_cells: int = SPECK_MIN_CELLS) -> tuple[np.ndarray, int]:
+    """A lateral sheet smaller than `min_cells` (a dip on a bank, one or two
+    samples wide) is not the map's water: dried."""
+    wet = np.isfinite(W) & (W > g) & lateral
+    lbl, n = ndimage.label(wet, structure=_BOX)
+    if not n:
+        return W, 0
+    sizes = ndimage.sum(wet, lbl, np.arange(1, n + 1))
+    small = np.isin(lbl, np.flatnonzero(sizes < min_cells) + 1)
+    W = W.copy()
+    W[small] = -np.inf
+    return W, int(small.sum())
+
+
+def _shift(a: np.ndarray, dy: int, dx: int, fill):
+    """`out[i, j] = a[i + dy, j + dx]`, `fill` off the grid."""
+    out = np.full(a.shape, fill, dtype=a.dtype)
+    n, m = a.shape
+    out[max(0, -dy):n + min(0, -dy), max(0, -dx):m + min(0, -dx)] = \
+        a[max(0, dy):n + min(0, dy), max(0, dx):m + min(0, dx)]
+    return out
+
+
+_OFFSETS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+
+def backwater_body_cells(sol: ch.ChannelSolution, near: np.ndarray, in_chan: np.ndarray,
+                        reach_ids, reach_rec: dict, bodies: BodyFlood) -> tuple[np.ndarray, int]:
+    """Per channel cell, the LABEL of the body its `horizontal-backwater`
+    reach names (-1 the ocean, 0 none) — the mapping `join_carve_cuts` needs
+    to let a backwater's trench join the body it runs through (0063 §2).
+
+    Returns (per-cell labels, count of backwater stations whose `bodyId` is
+    neither a realised body nor the sea)."""
+    label_of = {rec["id"]: i + 1 for i, rec in enumerate(bodies.records)}
+    st = np.zeros(sol.n, dtype=np.int32)
+    unrealised = 0
+    for k in range(sol.n):
+        rid = reach_ids[k] if reach_ids is not None else None
+        rr = reach_rec.get(rid) if rid is not None else None
+        if rr is None or rr.get("kind") != "horizontal-backwater":
+            continue
+        bid = rr.get("bodyId")
+        if bid == "body.ocean":
+            st[k] = -1
+        elif bid in label_of:
+            st[k] = label_of[bid]
+        else:
+            unrealised += 1
+    out = np.zeros(in_chan.shape, dtype=np.int32)
+    ok = in_chan & (near >= 0)
+    out[ok] = st[near[ok]]
+    return out, unrealised
+
+
+def join_carve_cuts(bodies: BodyFlood, sea: np.ndarray, g: np.ndarray, shaped: np.ndarray,
+                    in_chan: np.ndarray, backwater_of: np.ndarray | None = None,
+                    max_iters: int = 400) -> tuple[BodyFlood, np.ndarray, int]:
+    """The carve's cuts join the water they touch. A cell the carve LOWERED
+    (`shaped > g + 0.05`) that is dry, outside every channel corridor, and
+    8-adjacent to standing water whose level is above this cell's frozen
+    ground is part of that water: it takes its neighbour's level and id (the
+    sea's 0 and its mask). Grown until nothing more joins.
+
+    This is what the round-2 rim failures were: a sea-level body sitting
+    beside dry ground at -1.45 m that the carve had cut away beneath it
+    (label 2109, 2.80 km E 2.71 km S), counted as a rim the body
+    "overtopped" when in truth the water simply runs into the cut.
+
+    A backwater reach's trench is the body's water (0063 §2: a river through
+    a body IS the body). `backwater_of` carries, per cell, the LABEL of the
+    body whose `horizontal-backwater` reach owns that channel cell (-1 the
+    ocean, 0 none); such a cell is allowed to join THAT body (or the sea)
+    even though it lies inside a channel corridor. 400 of the 546 cells the
+    round-2 compile left hovering were exactly these."""
+    level = bodies.level.copy()
+    lbl = bodies.body.copy()
+    sea = sea.copy()
+    wet = sea | (lbl > 0)
+    bw = (np.zeros(g.shape, dtype=np.int32) if backwater_of is None
+          else np.asarray(backwater_of, dtype=np.int32))
+    cand = (shaped > g + 0.05) & ~wet & (~in_chan | (bw != 0))
+    added = 0
+    added_bw = 0
+    for _ in range(max_iters):
+        if not cand.any():
+            break
+        level_w = np.where(wet, np.where(sea, np.float32(0.0), level), np.float32(-np.inf)).astype(np.float32)
+        lbl_ext = np.where(sea, np.int32(-1), lbl).astype(np.int32)
+        best_l = np.full(g.shape, -np.inf, dtype=np.float32)
+        best_k = np.zeros(g.shape, dtype=np.int32)
+        for dy, dx in _OFFSETS:
+            sl = _shift(level_w, dy, dx, np.float32(-np.inf))
+            sk = _shift(lbl_ext, dy, dx, np.int32(0))
+            better = sl > best_l
+            best_l = np.where(better, sl, best_l)
+            best_k = np.where(better, sk, best_k)
+        take = cand & np.isfinite(best_l) & (best_l > g) & (~in_chan | (best_k == bw))
+        k = int(take.sum())
+        added_bw += int((take & in_chan).sum())
+        if not k:
+            break
+        to_sea = take & (best_k < 0)
+        to_body = take & (best_k > 0)
+        sea[to_sea] = True
+        level[to_body] = best_l[to_body]
+        lbl[to_body] = best_k[to_body]
+        wet |= take
+        cand &= ~take
+        added += k
+    census = dict(bodies.census)
+    census["carveJoinedCells"] = added
+    census["carveJoinedBackwaterCells"] = added_bw
+    return BodyFlood(bodies.g, sea, level, lbl, bodies.records, census), sea, added
+
+
+def flood_carve_hollows(bodies: BodyFlood, sea: np.ndarray, g: np.ndarray, in_chan: np.ndarray,
+                        chan_level: np.ndarray, mpp: float, max_iters: int = 400) -> BodyFlood:
+    """The carve's cut joins the hollow behind it, not only the cut itself. The
+    graph solved a body's extent on the SHAPED ground, and a reach running
+    THROUGH that body then had its trench cut across ground that had separated
+    a hollow from the body; on the frozen ground that hollow lies below the
+    body's level and is connected to it through the cut, so the body's water
+    stands in it, and a compile that absorbs only the cut cells leaves the
+    trench's water hanging over dry lower ground beside it (373 of the 534
+    hovering edges measured 2026-09-14 sit under a `horizontal-backwater`).
+    This realises the record on the frozen ground rather than re-deriving it
+    (decision 0065): the level, the identity and the bounding box all come
+    from the graph — the flood only ever absorbs DRY cells inside that body's
+    own `bboxCells` (padded by 2), under its recorded level, that are neither
+    the sea, nor another body, nor a channel carrying its own higher water.
+
+    Guarded: a body that would gain more than `HOLLOW_GROWTH_MAX` times its
+    recorded `areaM2` is skipped whole and its id censused — a body with a
+    huge box must not swallow its box."""
+    level = bodies.level.copy()
+    lbl = bodies.body.copy()
+    n = g.shape[0]
+    cell_m2 = float(mpp) * float(mpp)
+    chan_level = np.asarray(chan_level, dtype=np.float32)
+    added_total = 0
+    bodies_grown = 0
+    skipped: list[str] = []
+    cap_hit = 0
+    for i, rec in enumerate(bodies.records):
+        k = i + 1
+        L = float(rec["levelM"])
+        bb = rec.get("bboxCells")
+        if not bb:
+            continue
+        x0, y0, x1, y1 = (int(v) for v in bb)
+        X0, Y0 = max(x0 - 2, 0), max(y0 - 2, 0)
+        X1, Y1 = min(x1 + 3, n), min(y1 + 3, n)
+        if X1 <= X0 or Y1 <= Y0:
+            continue
+        sub_l = level[Y0:Y1, X0:X1]
+        sub_b = lbl[Y0:Y1, X0:X1]
+        sub_g = g[Y0:Y1, X0:X1]
+        sub_sea = sea[Y0:Y1, X0:X1]
+        sub_chan = in_chan[Y0:Y1, X0:X1]
+        sub_cl = chan_level[Y0:Y1, X0:X1]
+        mine = sub_b == k
+        if not mine.any():
+            continue
+        # a DRY cell the graph's box allows, under this body's level, that is
+        # neither the sea, nor another body, nor a channel standing higher
+        cand = (~sub_sea & (sub_b == 0) & (sub_g < L - BODY_LEVEL_EPS_M)
+                & ~(sub_chan & np.isfinite(sub_cl) & (sub_cl > L)))
+        if not cand.any():
+            continue
+        grown = mine.copy()
+        gained = np.zeros_like(mine)
+        area_cap = HOLLOW_GROWTH_MAX * float(rec.get("areaM2") or 0.0)
+        over = False
+        it = 0
+        for it in range(1, max_iters + 1):
+            nb = ndimage.binary_dilation(grown, structure=_BOX) & cand & ~grown
+            if not nb.any():
+                break
+            grown |= nb
+            gained |= nb
+            if area_cap > 0.0 and float(gained.sum()) * cell_m2 > area_cap:
+                over = True
+                break
+        else:
+            cap_hit += 1
+        if over:
+            skipped.append(rec["id"])
+            continue
+        c = int(gained.sum())
+        if not c:
+            continue
+        sub_l[gained] = np.float32(L)
+        sub_b[gained] = np.int32(k)
+        added_total += c
+        bodies_grown += 1
+    census = dict(bodies.census)
+    census["carveFloodedHollowCells"] = added_total
+    census["carveFloodedHollowBodies"] = bodies_grown
+    census["carveFloodedHollowSkipped"] = skipped
+    census["carveFloodedHollowIterCapHit"] = cap_hit
+    return BodyFlood(bodies.g, sea, level, lbl, bodies.records, census)
+
+
+def ramp_mouths(sol: ch.ChannelSolution, bodies: BodyFlood, sea: np.ndarray, ramp_m: float = MOUTH_RAMP_M) -> dict:
+    """Where a river enters a body (or the sea) standing LOWER than its last
+    free stations, the level ramps down to the body's over `ramp_m` of arc
+    (never under the station's natural level), so no wall of water stands
+    at the mouth. The profile was graded to the body's 16a level; the
+    body the ground holds can sit lower (44 realised over 1 m from the 16a
+    level, 16b ledger §9), and the step then showed as a hard edge where a
+    riffle met its lake (0.11 km E 3.04 km S, 0.52 m, owner 2026-09-14).
+    Edits `sol.L` in place; returns the census."""
+    n = sol.shape[0]
+    iy = np.clip(np.round(sol.y).astype(int), 0, n - 1)
+    ix = np.clip(np.round(sol.x).astype(int), 0, n - 1)
+    lbl = bodies.body[iy, ix]
+    inb = lbl > 0
+    target = np.where(inb, bodies.levels[np.maximum(lbl - 1, 0)], np.where(sea[iy, ix], 0.0, np.nan)).astype(np.float32)
+    # never under the frozen bed at the station plus a film (the carve cut
+    # the bed to the old profile; a level under it would be a dry station)
+    floor = np.maximum(sol.natural, bodies.g[iy, ix] + 0.15).astype(np.float32)
+    moved = 0
+    max_move = 0.0
+    for r in range(len(sol.reach_start)):
+        sl = sol.stations_of(r)
+        inside = np.isfinite(target[sl])
+        if not inside.any() or inside.all():
+            continue
+        arc = sol.arc[sl]
+        L = sol.L[sl].copy()
+        nat = floor[sl]
+        tb = target[sl]
+        last_arc, last_t = np.inf, np.nan
+        for i in range(len(arc) - 1, -1, -1):
+            if inside[i]:
+                last_arc, last_t = arc[i], tb[i]
+                continue
+            d = last_arc - arc[i]
+            if d > ramp_m or not np.isfinite(last_t) or L[i] <= last_t + 0.01:
+                continue
+            t = d / ramp_m
+            new = max(last_t + (L[i] - last_t) * t, float(nat[i]))
+            if new < L[i] - 1e-3:
+                max_move = max(max_move, float(L[i] - new))
+                L[i] = new
+                moved += 1
+        sol.L[sl] = L.astype(np.float32)
+    return {"stations": moved, "maxMoveM": round(max_move, 3)}
 
 
 # ---------------------------------------------------------------------------
@@ -639,8 +1084,19 @@ def station_reach_ids(sol: ch.ChannelSolution, graph: dict, feeder_names: dict[i
     return out
 
 
-def _sea_mask(g: np.ndarray, npz, step: int) -> np.ndarray:
-    return sw.sea_mask(g, npz["ocean"], step)
+def wetline_coarse(npz) -> np.ndarray:
+    """The wet-season line's WETLAND part on the coarse grid, by the graph's
+    own rule (`hydrology_graph.wet_season_line`: the Phase 3 wetlands in
+    8-connected pieces of at least WETLINE_MIN_CELLS, the ocean excluded);
+    the river cells and the bodies are realised by the channel and body
+    floods themselves."""
+    from .hydrology_graph import WETLINE_MIN_CELLS
+    wet = npz["wetlands"] & ~npz["ocean"]
+    lbl, n = ndimage.label(wet, structure=_BOX)
+    if n:
+        sz = np.bincount(lbl.ravel())
+        wet = wet & (sz[lbl] >= WETLINE_MIN_CELLS)
+    return wet
 
 
 # ---------------------------------------------------------------------------
@@ -648,36 +1104,79 @@ def _sea_mask(g: np.ndarray, npz, step: int) -> np.ndarray:
 # ---------------------------------------------------------------------------
 
 def strip_levels(sol: ch.ChannelSolution, wetted: np.ndarray, mpp: float) -> np.ndarray:
-    """The water level at every station as DRAWN: a field station is bankfull
-    at L; a steep station carries a thin flow in the bottom of its notch, so
-    its surface is where the parabolic bed the carve cut meets the wetted
-    edge, `L − D·ramp·(1 − r²)` for r = wetted / hydraulic width (the ribbon
-    then touches the bed at both edges instead of hanging over it). The
-    strip's level ramps from the field's L over STRIP_JOIN_BLEND_M at each
-    end of a steep run; a lip or plunge station keeps L (the sheet launches
-    and lands there)."""
-    L = sol.L.astype(np.float32).copy()
-    steep = sol.kind == ch.KIND_STEEP
-    if not steep.any():
-        return L
-    r = np.clip(wetted / np.maximum(sol.width, 1e-3), 0.0, 1.0)
-    own = sol.L - sol.depth_cut * sol.ramp * (1.0 - r * r)
-    for a, b in ch.steep_runs(sol):
-        arc = sol.arc[a:b + 1]
-        t0 = np.clip((arc - arc[0]) / STRIP_JOIN_BLEND_M, 0.0, 1.0)
-        t1 = np.clip((arc[-1] - arc) / STRIP_JOIN_BLEND_M, 0.0, 1.0)
-        t = np.minimum(t0, t1)
-        seg = sol.L[a:b + 1] * (1.0 - t) + own[a:b + 1] * t
-        seg = np.where(sol.lip[a:b + 1] | sol.plunge[a:b + 1], sol.L[a:b + 1], seg)
-        L[a:b + 1] = np.minimum.accumulate(np.minimum(seg, sol.L[a:b + 1]))
-    return L.astype(np.float32)
+    """The water level at every station as DRAWN: the profile level L,
+    bankfull, steep stations included. The compiled line is the HIGH-WATER
+    line (decision 0063 §5), and at high water a mountain stream fills the
+    channel the carve cut for it: the level plane meets the parabolic bed
+    exactly at the trench's edges (`bed(±w/2) = L`). The 16c round-1 rule
+    that drew a steep station as a thin flow in the bottom of its notch
+    (`L − D·ramp·(1 − r²)` over the wetted width) was retired by the owner
+    on 2026-09-14: it read as a ribbon hugging the floor of an empty
+    channel, broke into pieces wherever the ground poked through, dipped
+    below the lip before every fall, and left the strip's raster cells too
+    thin for the interaction stack. `wetted` is kept in the signature for
+    the callers; it no longer changes the drawn level."""
+    del wetted, mpp
+    return sol.L.astype(np.float32).copy()
+
+
+def ground_capped_half_width(sol: ch.ChannelSolution, g: np.ndarray, mpp: float) -> tuple[np.ndarray, dict]:
+    """The drawn half-width: bankfull, capped by the GROUND (owner 2026-09-14).
+
+    16c round 2 made the drawn water fill its trench (0063 §5). Where the
+    frozen ground inside the trench stands higher than the station's level —
+    a chute cut on a hillside, a bank the refine left proud — bank-to-bank
+    water then stands in the air: 85 strip points read up to 1.84 m of ground
+    inside the drawn edge.
+
+    So march out from the centreline in `RAW_M * 0.5` steps to the trench
+    half-width on BOTH sides, sampling the frozen ground bilinearly, and take
+    the drawn half-width as the largest offset whose whole run in from the
+    centreline stands at or under `L + GROUND_CAP_TOL_M` on both sides. Never
+    under `MIN_DRAWN_HALF_WIDTH_M`, never over the trench.
+
+    Returns (half-width per station, census)."""
+    half = (sol.width * 0.5).astype(np.float64)
+    if not sol.n:
+        return half.astype(np.float32), {"groundCappedStations": 0}
+    at = _terrain_sampler(g, mpp)
+    step = float(mpp) * 0.5
+    ns = max(1, int(np.ceil(float(np.nanmax(half)) / step)) + 1)
+    offs = (np.arange(1, ns + 1, dtype=np.float64) * step)
+    nx = -sol.ty.astype(np.float64)
+    ny = sol.tx.astype(np.float64)
+    xs = sol.x.astype(np.float64) * mpp
+    zs = sol.y.astype(np.float64) * mpp
+    lim = sol.L.astype(np.float64) + GROUND_CAP_TOL_M
+    ok = np.ones((sol.n, ns), dtype=bool)
+    for sgn in (1.0, -1.0):
+        px = xs[:, None] + sgn * nx[:, None] * offs[None, :]
+        pz = zs[:, None] + sgn * ny[:, None] * offs[None, :]
+        gh = at(px.ravel(), pz.ravel()).reshape(sol.n, ns)
+        ok &= gh <= lim[:, None]
+    run = np.logical_and.accumulate(ok, axis=1).sum(axis=1).astype(np.float64) * step
+    capped = np.minimum(np.maximum(run, MIN_DRAWN_HALF_WIDTH_M), half)
+    live = ~sol.lost
+    ratio = np.where(half > 0, capped / np.maximum(half, 1e-9), 1.0)[live]
+    census = {
+        "groundCappedStations": int(((capped < half - 1e-6) & live).sum()),
+        "groundCapMedianRatio": round(float(np.median(ratio)), 4) if ratio.size else 1.0,
+        "groundCapMinRatio": round(float(ratio.min()), 4) if ratio.size else 1.0,
+    }
+    cr = np.where(half > 0, capped / np.maximum(half, 1e-9), 1.0)[(capped < half - 1e-6) & live]
+    census["groundCappedBelowHalf"] = int((cr < 0.5).sum())
+    census["groundCapP05Ratio"] = round(float(np.percentile(cr, 5)), 4) if cr.size else 1.0
+    return capped.astype(np.float32), census
 
 
 def channel_raster(g: np.ndarray, sol: ch.ChannelSolution, wetted: np.ndarray, level: np.ndarray, mpp: float):
     """Every cell inside a live station's width at that station's level
-    (interpolated along the reach), a steep station over its WETTED width
-    only at its strip level, the plunge bowls at the held level. Returns
-    (w_chan, in_chan, fall_foot, near, dist, cliff_cells)."""
+    (interpolated along the reach), steep stations over their FULL width
+    (bankfull, see `strip_levels`), the plunge bowls at the held level.
+    Returns (w_chan, in_chan, fall_foot, near, dist, cliff_cells, bowl):
+    `fall_foot` is the fall's own cells (its face and the bowl), `bowl` the
+    plunge bowl alone — the field surface draws the bowl (it is the pool's
+    water), so the owner raster must never stamp it as a fall footprint."""
     n = g.shape[0]
     saved_L = sol.L
     sol.L = level
@@ -693,9 +1192,11 @@ def channel_raster(g: np.ndarray, sol: ch.ChannelSolution, wetted: np.ndarray, l
     fall_foot = np.zeros(g.shape, dtype=bool)
     cliff_cells = 0
     w_dry = np.full(g.shape, np.inf, dtype=np.float32)
+    del steep
+    bowl = np.zeros(g.shape, dtype=bool)
+    half_drawn = np.asarray(wetted, dtype=np.float32)
     for b, nb, d, inside, lvl in fld["bands"]:
-        ok = inside & valid_st[nb]
-        ok &= ~steep[nb] | (d <= wetted[nb] * 0.5 + 0.5 * mpp)
+        ok = inside & valid_st[nb] & (d <= half_drawn[nb] + 0.5 * mpp)
         deep = ok & (g < lvl - depth_cut[nb] - CLIFF_DROP_M)
         cliff_cells += int(deep.sum())
         ok &= ~deep
@@ -720,12 +1221,15 @@ def channel_raster(g: np.ndarray, sol: ch.ChannelSolution, wetted: np.ndarray, l
         y0, y1 = max(cy - rr, 0), min(cy + rr + 1, n); x0, x1 = max(cx - rr, 0), min(cx + rr + 1, n)
         yy, xx = np.mgrid[y0:y1, x0:x1]
         along = (xx - sol.x[k]) * sol.tx[k] + (yy - sol.y[k]) * sol.ty[k]
-        disc = (np.hypot(yy - by, xx - bx) * mpp <= rb) & (along >= -0.5 * mpp) \
-            & ~in_chan[y0:y1, x0:x1] & (g[y0:y1, x0:x1] < sol.L[k])
+        pool = (np.hypot(yy - by, xx - bx) * mpp <= rb) & (along >= -0.5 * mpp) & (g[y0:y1, x0:x1] < sol.L[k])
+        disc = pool & ~in_chan[y0:y1, x0:x1]
         w_chan[y0:y1, x0:x1] = np.where(disc, np.minimum(w_chan[y0:y1, x0:x1], sol.L[k]), w_chan[y0:y1, x0:x1])
         in_chan[y0:y1, x0:x1] |= disc
         fall_foot[y0:y1, x0:x1] |= disc
-    return w_chan, in_chan, fall_foot, near, dist, cliff_cells
+        # the whole bowl (the face's foot cells under the landing sheet
+        # included) is the pool's water: the field draws it
+        bowl[y0:y1, x0:x1] |= pool
+    return w_chan, in_chan, fall_foot, near, dist, cliff_cells, bowl
 
 
 def reconcile_pooled(sol: ch.ChannelSolution, bodies: BodyFlood, sea: np.ndarray, reach_ids, reach_rec: dict,
@@ -756,7 +1260,10 @@ def reconcile_pooled(sol: ch.ChannelSolution, bodies: BodyFlood, sea: np.ndarray
         if b.get("joinedSea"):
             target[k] = 0.0; cause[k] = "joined-sea"
         elif b.get("captured"):
-            target[k] = float(b["terrainPrecondition"].get("channelLevelM", b["levelM"])); cause[k] = "captured"
+            # the body is flooded to its recorded level (a river through a
+            # body is the body); a pooled station its flood did not reach
+            # on this ground takes that level, never the pre-carve channel's
+            target[k] = float(b["levelM"]); cause[k] = "captured"
         elif b.get("lostAtCarve"):
             cause[k] = "lost-at-carve"
     # never under the station's own natural level (its floor plus the
@@ -802,16 +1309,20 @@ def reconcile_pooled(sol: ch.ChannelSolution, bodies: BodyFlood, sea: np.ndarray
 
 
 def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | None = None,
-            step: int = STEP, mpp: float = RAW_M, log=print, bodies: BodyFlood | None = None) -> dict:
-    """Realise the water. `graph` is the hydrology graph (the province);
-    `bodies` may be given instead (the synthetic tests: a solver's bodies as
-    a flood, no graph)."""
+            step: int = STEP, mpp: float = RAW_M, log=print, bodies: BodyFlood | None = None,
+            graph_rasters: dict | None = None) -> dict:
+    """Realise the water. `graph` is the hydrology graph (the province), and
+    with it `graph_rasters` — `{"level", "sea"}` from the graph's own
+    `hydrology_graph.BODIES_FILE`, which give every standing body its
+    EXTENT (owner 2026-09-14: the compile realises the graph's
+    classification, it never re-derives one). `bodies` may be given instead
+    (the synthetic tests: a solver's bodies as a flood, no graph)."""
     t0 = time.perf_counter()
     g = refined.astype(np.float32)
     n = g.shape[0]
     n2 = -(-n // WEB_STEP)
     mpp2 = mpp * WEB_STEP
-    sea = _sea_mask(g, npz, step)
+    ocean_up = sw.upsample(npz["ocean"], step, g.shape)
     feeder_names: dict[int, str] = {}
     if graph is not None:
         sol, feeder_names = append_feeders(sol, graph, g)
@@ -825,8 +1336,11 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     wetted = ch.wetted_width(sol)
     depth_cut = sol.depth_cut
     steep = sol.kind == ch.KIND_STEEP
-    strip_level = strip_levels(sol, wetted, mpp)
-    w_chan, in_chan, fall_foot, near, dist, cliff_cells = channel_raster(g, sol, wetted, strip_level, mpp)
+    del wetted
+    # the drawn width is bankfull, capped by the ground (owner 2026-09-14)
+    drawn_half, ground_cap = ground_capped_half_width(sol, g, mpp)
+    strip_level = strip_levels(sol, drawn_half, mpp)
+    w_chan, in_chan, fall_foot, near, dist, cliff_cells, bowl = channel_raster(g, sol, drawn_half, strip_level, mpp)
     chan_level = np.where(in_chan & (w_chan > g), w_chan, np.float32(-np.inf)).astype(np.float32)
     log(f"channels: {int(in_chan.sum())} cells inside a width, {cliff_cells} cliff-foot cells excluded "
         f"({time.perf_counter() - t0:.0f} s)")
@@ -835,7 +1349,55 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     if bodies is None:
         if graph is None:
             raise ValueError("compute needs the graph or a BodyFlood")
-        bodies = flood_bodies(g, sea, graph, chan_level=chan_level, log=log)
+        if graph_rasters is None:
+            from .hydrology_graph import BODIES_FILE
+            raise ValueError("compute needs graph_rasters={'level':…, 'sea':…} from the graph's own "
+                             f"<vault>/{BODIES_FILE} when it is given the graph: the body extents are "
+                             "READ from the graph's rasters, never re-flooded (owner 2026-09-14)")
+        # a river through a body is the body: a POOLED station's cells never
+        # cut a body's flood, whatever level the pre-carve profile gave them
+        # a captured body's river runs THROUGH it: its captured stations must
+        # never cut the body's flood either
+        sol_captured = getattr(sol, "captured", np.zeros(sol.n, bool))
+        chan_pooled = (near >= 0) & (sol.pooled | sol.shore | sol_captured)[np.maximum(near, 0)]
+        sea_all = graph_rasters["sea"]
+        bodies, in_box = graph_bodies(g, graph, graph_rasters, ocean_up, log=log)
+        # the few bodies the graph's rasters do not carry are flooded in their box
+        if in_box:
+            second = flood_bodies(g, ocean_up | sea_all, {"bodies": in_box}, chan_level=chan_level,
+                                  chan_pooled=chan_pooled, log=log)
+            bodies = merge_floods(bodies, second, sea_all)
+        # SUBMERGED, second source: a realised body whose own deepest cell
+        # now carries ANOTHER body's label had its cells taken by a higher
+        # body — it IS that body's water. Labels are never renumbered; the
+        # id is simply censused (owner 2026-09-14).
+        for i, rec in enumerate(bodies.records):
+            dx_s, dy_s = int(rec["deepestCell"][0]), int(rec["deepestCell"][1])
+            if int(bodies.body[dy_s, dx_s]) not in (0, i + 1):
+                bodies.census["submerged"].append(rec["id"])
+        # the sea is the graph's own sea mask less the cells a lagoon or a
+        # sea-level body owns (owner 2026-09-14)
+        sea = sea_all & ~(bodies.body > 0)
+        bodies.sea = sea
+        # the carve's cuts join the water they touch (owner 2026-09-14), and a
+        # backwater reach's trench joins the body its reach names (0063 §2)
+        if graph_rasters.get("shaped") is not None:
+            backwater_of, bw_unrealised = backwater_body_cells(sol, near, in_chan, reach_ids, reach_rec, bodies)
+            bodies, sea, joined = join_carve_cuts(bodies, sea, g, graph_rasters["shaped"], in_chan, backwater_of)
+            bodies.census["backwaterStationsWithoutRealisedBody"] = bw_unrealised
+            log(f"carve cuts joined to the water they touch: {joined} cells "
+                f"({bodies.census.get('carveJoinedBackwaterCells', 0)} backwater-trench cells)")
+            # ...and the hollow BEHIND the cut is the same water (0065)
+            bodies = flood_carve_hollows(bodies, sea, g, in_chan, chan_level, mpp)
+            log(f"carve hollows flooded to their bodies: {bodies.census['carveFloodedHollowCells']} cells "
+                f"in {bodies.census['carveFloodedHollowBodies']} bodies "
+                f"({len(bodies.census['carveFloodedHollowSkipped'])} skipped by the growth guard, "
+                f"{bodies.census['carveFloodedHollowIterCapHit']} at the iteration cap)")
+            sea = bodies.sea
+            del backwater_of
+        del chan_pooled, sea_all
+    else:
+        sea = bodies.sea
     lbl_body = bodies.body
     in_body = lbl_body > 0
 
@@ -848,11 +1410,14 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     # weir cut at the old level) keep theirs: the step is counted, never
     # hidden by a dry sill.
     reconciled = reconcile_pooled(sol, bodies, sea, reach_ids, reach_rec, body_rec)
-    if reconciled["stations"]:
-        strip_level = strip_levels(sol, wetted, mpp)
-        w_chan, in_chan, fall_foot, near, dist, cliff_cells = channel_raster(g, sol, wetted, strip_level, mpp)
+    ramped = ramp_mouths(sol, bodies, sea)
+    if reconciled["stations"] or ramped["stations"]:
+        drawn_half, ground_cap = ground_capped_half_width(sol, g, mpp)
+        strip_level = strip_levels(sol, drawn_half, mpp)
+        w_chan, in_chan, fall_foot, near, dist, cliff_cells, bowl = channel_raster(g, sol, drawn_half, strip_level, mpp)
         log(f"reconciled {reconciled['stations']} pooled stations to their bodies "
-            f"(max move {reconciled['maxMoveM']} m; {reconciled['byCause']}); channels re-rastered")
+            f"(max move {reconciled['maxMoveM']} m; {reconciled['byCause']}); "
+            f"{ramped['stations']} mouth stations ramped (max {ramped['maxMoveM']} m); channels re-rastered")
     # a river through a body is the body: inside the extent the body's level
     # owns the cell, and the channel level is forgotten there
     W = np.where(in_chan, w_chan, np.float32(-np.inf))
@@ -873,7 +1438,12 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     # chute backs up into the notch above it because the notch's cells are
     # under the pool's level (the old field-only rule left a hole there:
     # 315 hovering edges of 5-7 m at chute feet, 2026-09-13)
-    lat_ok = near_ok & (dist <= LATERAL_MAX_M) & ~in_body & ~sea
+    # ...and only inside the wet-season line the owner approved on the 2D map
+    # (the Phase 3 wetlands in pieces of at least WETLINE_MIN_COARSE_CELLS,
+    # exactly the graph's `hydrograph-wetline`): the compile realises the
+    # map's water, it does not invent floodplain sheets beside every river
+    wetline = sw.upsample(wetline_coarse(npz), step, g.shape)
+    lat_ok = near_ok & (dist <= LATERAL_MAX_M) & ~in_body & ~sea & wetline
     # beside a body the flood never stands above it: the level of any body
     # (or the sea) within BODY_CAP_CELLS caps the lateral level there
     # Beside a LOWER body the record is inconsistent with itself (a river
@@ -894,13 +1464,30 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     # up to 10 m down long valleys (2026-09-13). The sheet's connected cells
     # relax to their minimum, and the ground that then stands above it dries.
     W, drained = relax_lateral(W, g, in_chan | in_body | sea)
-    perched_cell = in_chan & ~in_body & ~sea & np.isfinite(W) & (body_cap < W - 0.3)
+    # ...and a sheet holds only where the ground holds it: a cell that would
+    # drain into a lower dry neighbour is dried, and a sheet too small to be
+    # the map's water is dried (the hovering shards, see `dry_leaks`)
+    lateral_cells = ~in_chan & ~in_body & ~sea
+    W, leaked = dry_leaks(W, g, lateral_cells)
+    W, specks = dry_specks(W, g, lateral_cells)
+    del lateral_cells, wetline
     del body_lvl, body_cap
     hi, _lo = _neighbour_levels(W)
     bound_hit = ~np.isfinite(W) & np.isfinite(hi) & lat_ok & (g < np.minimum(hi, near_L))
     bound_reaches = np.unique(sol.reach[near[bound_hit]]) if bound_hit.any() else np.zeros(0, int)
     del hi, lat_ok
     wet = np.isfinite(W) & (W > g)
+    # PERCHED: a channel cell (outside any body and the sea) whose water
+    # stands over PERCHED_DROP_M above a dry 8-neighbour's ground — the
+    # bank the carve could not raise to the profile (SHOULDER_RAISE_CAP_M),
+    # beside a lower marsh or beside plain lower ground. Measured
+    # 2026-09-14 on the frozen ground: 46 % of the free lowland stations
+    # have a shoulder under their level 3 m out, 2,600 by over a metre; the
+    # round-1 lateral sheets hid it by flooding the ground beside every
+    # river to the river's level. The owner's call (b): the rim is raised
+    # as a typed `levee` patch (16b machinery), authored from this census.
+    low_dry = ndimage.minimum_filter(np.where(wet, np.inf, g).astype(np.float32), size=3, mode="nearest")
+    perched_cell = in_chan & ~in_body & ~sea & wet & np.isfinite(low_dry) & (low_dry < W - PERCHED_DROP_M)
     # every cell inside a station's width, the body it may run through
     # included: what a consumer asking "is there a river here" reads
     # (`chan_full`, terrain_request_postconditions); the renderer's class and
@@ -920,6 +1507,58 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     W = np.where(assigned, W, buried).astype(np.float32)
     del lvl, local_min, buried
 
+    # --- 5b. the BODY RIM LEAK census ---------------------------------------
+    # The body-side twin of the perched channel stations: a realised body
+    # whose ring of dry ground carries cells UNDER its level — the water
+    # stands over ground it should have flooded or been held by, and its
+    # edge hovers. The ring excludes the water's own ways out (a fall's
+    # footprint and the channel) exactly as test_no_body_stands_above_its_rim
+    # does. The owner's call (b): these rims are raised as typed `levee`
+    # patches (16b machinery), authored from this census.
+    body_rim_leaks: list[dict] = []
+    # a leak cell the GRAPH's own level raster holds as water is not a rim to
+    # raise: it is a WALL between two graph waters standing at different
+    # levels — the graph's own inconsistency, 16a's to resolve, never a patch
+    _graph_water = None
+    if graph_rasters is not None and graph_rasters.get("level") is not None:
+        _gl = graph_rasters["level"]
+        if np.shape(_gl) == np.shape(g):
+            _graph_water = np.isfinite(_gl)
+    if bodies.n:
+        _brink = ndimage.binary_dilation(fall_foot, iterations=2)
+        _ring_mask = (lbl_body == 0) & ~wet & ~chan_all & ~_brink
+        _ring = np.where(_ring_mask, ndimage.grey_dilation(lbl_body, size=3), 0)
+        for i, rec in enumerate(bodies.records):
+            L_b = float(rec["levelM"])
+            leak = (_ring == i + 1) & (g < L_b - RIM_LEAK_TOL_M)
+            n_leak = int(leak.sum())
+            if not n_leak:
+                continue
+            wall = leak & _graph_water if _graph_water is not None else np.zeros_like(leak)
+            patchable = leak & ~wall
+            n_wall = int(wall.sum())
+            n_patch = int(patchable.sum())
+            ys_l, xs_l = np.nonzero(leak)
+            ys_p, xs_p = np.nonzero(patchable)
+            ring_i = _ring == i + 1
+            body_rim_leaks.append({
+                "body": rec["id"], "kind": rec["kind"], "levelM": round(L_b, 2),
+                "cells": n_leak,
+                "cellsPatchable": n_patch,
+                "cellsGraphWater": n_wall,
+                "minRimM": round(float(g[ring_i].min()), 2),
+                "eastM": round(float(xs_l.mean() * mpp)),
+                "southM": round(float(ys_l.mean() * mpp)),
+                # the levee authoring reads cellsM: the PATCHABLE cells only
+                "cellsM": [[round(float(x * mpp)), round(float(y * mpp))]
+                           for x, y in zip(xs_p[:400], ys_p[:400])],
+            })
+        del _brink, _ring_mask, _ring
+    del _graph_water
+    log(f"body rim leaks: {len(body_rim_leaks)} bodies, "
+        f"{sum(r['cellsPatchable'] for r in body_rim_leaks)} patchable cells, "
+        f"{sum(r['cellsGraphWater'] for r in body_rim_leaks)} graph-wall cells")
+
     # --- 6. entity labels: bodies, then the channel's reach ------------------
     # label 1 = the ocean; 2.. = bodies in flood order; then the graph reaches
     entities: list[dict] = [{"id": "body.ocean", "kind": "ocean", "levelM": 0.0}]
@@ -927,6 +1566,14 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     for i, rec in enumerate(bodies.records):
         entities.append({"id": rec["id"], "kind": rec["kind"], "levelM": rec["levelM"]})
     ent_lbl = np.where(in_body & wet, lbl_body + 1, ent_lbl)
+    # the lagoons and the sea-level bodies are ordinary records now: their
+    # extent came from the graph's own sea raster (owner 2026-09-14)
+    tidal_labels = {1}
+    lagoon_labels: set[int] = set()
+    for i, rec in enumerate(bodies.records):
+        if rec["kind"] in LAGOON_KINDS:
+            lagoon_labels.add(i + 2)
+            tidal_labels.add(i + 2)
     reach_label: dict[str, int] = {}
     st_ent = np.zeros(sol.n, dtype=np.int32)
     for k in range(sol.n):
@@ -941,6 +1588,36 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     chan_ent = np.where(near_ok, st_ent[np.maximum(near, 0)], 0)
     ent_lbl = np.where(wet & (ent_lbl == 0), chan_ent, ent_lbl)
     del chan_ent
+    # per entity, from the graph's own records: is it tidal (the ocean, a
+    # lagoon, a tidal reach — the only water that carries salinity and the
+    # tide), and how clear is it (an upland or montane body, a whitewater or
+    # clearwater reach: the region's silt scaled down, so a mountain lake is
+    # seen through and a blackwater swamp is not)
+    lowland_max = float((graph or {}).get("thresholds", {}).get("lowlandMaxM", 30.0))
+    ent_tidal = np.zeros(len(entities) + 1, dtype=bool)
+    ent_lagoon = np.zeros(len(entities) + 1, dtype=bool)
+    ent_clear = np.ones(len(entities) + 1, dtype=np.float32)
+    for label in tidal_labels:
+        ent_tidal[label] = True
+    for label in lagoon_labels:
+        ent_lagoon[label] = True
+    for label, e in enumerate(entities, start=1):
+        rec = body_rec.get(e["id"])
+        if rec is not None:
+            if rec.get("altitudeBand") in CLEAR_BANDS:
+                ent_clear[label] = CLEAR_WATER_FACTOR
+            continue
+        rr = reach_rec.get(e["id"])
+        if rr is None:
+            continue
+        if rr.get("tidal"):
+            ent_tidal[label] = True
+        water = rr.get("water")
+        high = float(rr.get("levelFromM") or 0.0) > lowland_max
+        if water in ("whitewater", "clearwater") and high:
+            ent_clear[label] = CLEAR_WATER_FACTOR
+        elif water == "clearwater":
+            ent_clear[label] = CLEAR_LOWLAND_FACTOR
 
     # --- 7. invariants census at full res -----------------------------------
     cliff_edge: list = []
@@ -971,7 +1648,9 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
         dry_runs.append({"reach": reach_ids[ks[0]], "stations": int(len(ks)),
                          "eastM": round(float(sol.x[ks[0]] * mpp)), "southM": round(float(sol.y[ks[0]] * mpp)),
                          "bedOverLevelM": round(float((g[iy, ix] - sol.L)[ks].max()), 2), "band": int(sol.band[ks[0]])})
-    perched_st = live & perched_cell[iy, ix]
+    perched_st = np.zeros(sol.n, dtype=bool)
+    perched_st[np.unique(near[perched_cell & near_ok])] = True
+    perched_st &= live & ~sol.pooled
     perched_runs = []
     for r in np.unique(sol.reach[perched_st]):
         sl = sol.stations_of(int(r))
@@ -988,9 +1667,14 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
 
     # --- 8. owner and the season draw-down ----------------------------------
     owner = np.zeros(g.shape, dtype=np.uint8)
-    strip_cell = in_chan & wet & near_ok & steep[np.maximum(near, 0)]
+    # (the plunge bowl is the pool's water, never a strip's: the ribbon
+    # starts at the plunge point but the bowl is wider than the ribbon)
+    strip_cell = in_chan & wet & near_ok & steep[np.maximum(near, 0)] & ~bowl
     owner[strip_cell] = 128
-    owner[fall_foot] = 255
+    # the fall's face only: the plunge bowl is the pool's water and the field
+    # draws it (stamped as footprint in round 1, the pool had no surface
+    # seen from outside — owner 2026-09-14, image copy 6)
+    owner[fall_foot & ~bowl] = 255
     # per station: the metres the dry season lowers this water, as a response
     # against SEASON_AMPLITUDE_M. A perennial reach: the band rule. A seasonal
     # reach: to its bed. Near a body it ramps to the body's own draw-down.
@@ -1075,16 +1759,25 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
             lake_lbl[i + 1] = True
     body_marsh3 = blk(marsh_lbl[lbl_body])
     body_lake3 = blk(lake_lbl[lbl_body])
-    salinity = npz["salinity"].astype(np.float32)[:n3, :n3]
+    # the entity under each class texel (any wet entity in the block)
+    ent3 = ndimage.maximum_filter(ent_lbl, size=step)[np.ix_(i3, i3)]
+    tidal3 = ent_tidal[ent3]
+    lagoon3 = ent_lagoon[ent3]
+    # salinity (the runtime's tide response, waterData.tideResponseOf) only
+    # on the graph's tidal water: the ocean, a lagoon, a tidal reach
+    salinity = np.where(tidal3, npz["salinity"].astype(np.float32)[:n3, :n3], np.float32(0.0)).astype(np.float32)
     wetlands = npz["wetlands"][:n3, :n3]
     cls = np.zeros((n3, n3), dtype=np.uint8)
+    # the sea is coast, or estuary where a river freshens it — NEVER lake
+    # (round 1 classed fresh sea cells as lake, which gave them the lake's
+    # standing-wave blend: the whole sea rose, fell and foamed in unison)
     cls[wet3 & sea3 & (salinity >= 0.3)] = CLASSES.index("coast")
-    cls[wet3 & sea3 & (salinity < 0.3) & (salinity >= 0.05)] = CLASSES.index("estuary")
-    cls[wet3 & sea3 & (salinity < 0.05)] = CLASSES.index("lake")
-    cls[wet3 & ~sea3 & chan3] = CLASSES.index("river")
+    cls[wet3 & sea3 & (salinity < 0.3)] = CLASSES.index("estuary")
+    cls[wet3 & lagoon3] = CLASSES.index("estuary")
+    cls[wet3 & ~sea3 & ~lagoon3 & chan3] = CLASSES.index("river")
     # a river through a body is the body: the body's kind names the class
-    cls[wet3 & ~sea3 & body_lake3] = CLASSES.index("lake")
-    cls[wet3 & ~sea3 & body_marsh3] = CLASSES.index("marsh")
+    cls[wet3 & ~sea3 & ~lagoon3 & body_lake3] = CLASSES.index("lake")
+    cls[wet3 & ~sea3 & ~lagoon3 & body_marsh3] = CLASSES.index("marsh")
     cls[wet3 & (cls == 0) & wetlands] = CLASSES.index("marsh")
     cls[wet3 & (cls == 0)] = CLASSES.index("marsh")
     regions = np.clip(npz["regions"][:n3, :n3], 0, len(REGION_SILT) - 1)
@@ -1094,18 +1787,36 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
     tannin = np.clip(ndimage.gaussian_filter(tannin, 1.5), 0.0, 1.0)
     ww = ndimage.binary_dilation(npz["rivers"][:n3, :n3] >= 2, iterations=2) & (tannin < 0.5)
     turb[ww] = np.maximum(turb[ww], 0.58)
+    turb *= ent_clear[ent3]
     turb = np.clip(ndimage.gaussian_filter(turb, 1.5), 0.0, 1.0)
-    # the fetch: unbounded open-water distance to the shore on the class grid
-    # (the wave spectrum's per-band fetch limit reads it; the 160 m shore
-    # raster is the surf band, never the fetch cap — audit root cause 4)
-    fetch3 = np.clip(ndimage.distance_transform_edt(wet3) * (mpp * step), 0.0, FETCH_MAX_M).astype(np.float32)
-    # ...and beyond the province the sea is fully developed: a wet cell on
-    # the map border reads the cap, not its distance from the border
-    border = np.zeros((n3, n3), dtype=bool)
-    border[0] = border[-1] = True; border[:, 0] = border[:, -1] = True
-    if (border & wet3 & sea3).any():
-        d_border = ndimage.distance_transform_edt(~(border & wet3 & sea3)) * (mpp * step)
-        fetch3 = np.where(wet3 & sea3, np.maximum(fetch3, np.clip(FETCH_MAX_M - d_border, 0.0, FETCH_MAX_M)), fetch3)
+    # the FETCH: the open water upwind of every cell along the prevailing SE
+    # trade (decision 0063 §6). WAVES.windDir = (0.66, -0.75) in world (x, z);
+    # on the raster x = column and z = row, so the wind blows toward +col and
+    # -row and the UPWIND neighbour of (r, c) is (r + 1, c - 1). One diagonal
+    # run-length march up the grid: a cell's fetch is its upwind neighbour's
+    # plus the diagonal step. It runs over the INLAND wet cells only — the sea
+    # is fully developed and a mouth or lagoon never inherits its fetch.
+    del ent3, tidal3, lagoon3
+    # The open sea is FULLY DEVELOPED everywhere: its swell arrives from
+    # storms beyond the province, so it is never glassy and a single
+    # prevailing direction must not make every east-facing beach a lee
+    # shore. The sea is therefore set at the cap OUTRIGHT, and the inland
+    # march never touches it: a mouth or a lagoon reads only the open water
+    # upwind WITHIN ITS OWN WATER and does not inherit the sea's fetch.
+    L_step = float(mpp * step) * math.sqrt(2.0)
+    fetch3 = np.zeros((n3, n3), dtype=np.float32)
+    sea_wet3 = wet3 & sea3
+    inl3 = wet3 & ~sea3
+    # an inland wet cell whose upwind neighbour is sea or off the grid starts
+    # at one step
+    fetch3[n3 - 1] = np.where(inl3[n3 - 1], np.float32(L_step), 0.0)
+    for r in range(n3 - 2, -1, -1):
+        fetch3[r, 0] = L_step if inl3[r, 0] else 0.0
+        up = np.where(inl3[r + 1, :-1], fetch3[r + 1, :-1] + L_step, np.float32(L_step))
+        fetch3[r, 1:] = np.where(inl3[r, 1:], up, 0.0)
+    fetch3[sea_wet3] = FETCH_MAX_M
+    fetch3 = np.clip(fetch3, 0.0, FETCH_MAX_M).astype(np.float32)
+    del sea_wet3
     # the class extension past the shoreline: lateral bound = the shader's
     # band, vertical bound = CLASS_EXT_RISE_M above the water (the high-water
     # line IS the seasonal maximum now). Computed from the EXPORTED surface
@@ -1164,7 +1875,9 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
                 "y": round(float(y), 3),
                 "bedY": round(float(terrain_at(x_m[k], z_m[k])[0]), 2),
                 "halfWidthM": round(float(sol.width[k] * 0.5), 2),
-                "wettedHalfWidthM": round(float(wetted[k] * 0.5), 2),
+                # bankfull (owner 2026-09-14), capped by the ground inside
+                # the trench (`ground_capped_half_width`)
+                "wettedHalfWidthM": round(float(drawn_half[k]), 2),
                 "speedMS": round(float(sol.speed[k]), 2),
                 "season": round(float(st_resp[k]), 3),
                 "kind": kind}
@@ -1239,7 +1952,7 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
             "plunge": {"x": round(px, 2), "y": round(float(sol.L[b]), 3), "z": round(pz, 2)},
             "direction": {"x": round(dx, 4), "y": 0, "z": round(dz, 4)},
             "widthM": round(float(sol.width[a]), 2),
-            "wettedWidthM": round(float(wetted[a]), 2),
+            "wettedWidthM": round(float(drawn_half[a] * 2.0), 2),
             "dropM": round(drop, 3),
             "throwM": round(float(geo["throwM"]), 2), "bowlRadiusM": round(float(geo["radiusM"]), 2),
             "holdM": round(float(geo["holdM"]), 2),
@@ -1248,13 +1961,45 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
             "lipSpeedMS": round(float(sol.speed[a]), 2),
         })
 
+    # the shipped texels as the field draws them: a wet texel standing over
+    # half a metre above a dry 8-neighbour's ground is a plate in the air
+    # (round 1: 4,240); a wet piece of four texels or fewer is a speck
+    gmin2 = ndimage.minimum_filter(np.where(wet2, np.inf, g2).astype(np.float32), size=3, mode="nearest")
+    hover2 = wet2 & np.isfinite(gmin2) & (W2 - gmin2 > 0.5)
+    comp2, ncomp2 = ndimage.label(wet2, structure=_BOX)
+    sizes2 = ndimage.sum(wet2, comp2, np.arange(1, ncomp2 + 1)) if ncomp2 else np.zeros(0)
+    del gmin2, comp2
+    # graph bodies above the sea's level whose deepest cell the sea claims:
+    # the round-1 defect (17 bodies, 1.3 km²); zero by construction now
+    # (a captured body whose river through it is at the sea's level is the
+    # sea's water by the graph's own record: listed apart, never a defect)
+    drawn_as_sea, captured_at_sea = [], []
+    for b in (graph["bodies"] if graph else []):
+        if b.get("deepestCell") is None or b["kind"] == "ocean" or b.get("lostAtCarve") \
+                or float(b["levelM"]) <= SEA_LEVEL_TOL_M \
+                or not sea[int(b["deepestCell"][1]), int(b["deepestCell"][0])]:
+            continue
+        if b.get("captured") and float(b["terrainPrecondition"].get("channelLevelM", 1e9)) <= SEA_LEVEL_TOL_M:
+            captured_at_sea.append(b["id"])
+        else:
+            drawn_as_sea.append(b["id"])
     stats = {
         # (the compile's seconds are PRINTED, never written: a wall-clock
         # number in a world record makes two identical builds differ)
         "hoveringEdges": hover,
+        "hoveringTexels2017": int(hover2.sum()),
+        "speckPieces2017": int((sizes2 <= 4).sum()),
+        "lateralLeaksDried": leaked,
+        "lateralSpecksDried": specks,
+        "mouthStationsRamped": ramped,
+        "bodiesDrawnAsSea": drawn_as_sea,
+        "capturedBodiesAtSeaLevel": captured_at_sea,
         "cliffEdgeCells": int(cliff_edge[0]),
         "brinkEdgeCells": int(brink_cells),
         "stripEdgeCells": int(strip_cells),
+        "bodyRimLeaks": body_rim_leaks,
+        "bodyRimLeakCells": int(sum(r["cellsPatchable"] for r in body_rim_leaks)),
+        "bodyRimLeakGraphWallBodies": [r["body"] for r in body_rim_leaks if r["cellsPatchable"] == 0],
         "waterStepCells": step_cells,
         "waterStepSites": step_sites,
         "boundHitCells": int(bound_hit.sum()),
@@ -1282,6 +2027,7 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, graph: dict | Non
         "wettedFracCascades": _ratio_census([(c["wettedWidthM"], c["widthM"]) for c in cascades]),
         "wettedFracStrips": _ratio_census([(p["wettedHalfWidthM"], p["halfWidthM"])
                                            for s in strips for p in s["points"]]),
+        **ground_cap,
         "wetFrac": round(float(wet.mean()), 4),
         "visibleWaterFrac2017": round(float(wet2.mean()), 4),
         "tableFrac2017": round(float(table2.mean()), 4),
@@ -1355,7 +2101,10 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit(f"compile_water: the graph was solved on {graph['sourceHeightSha256'][:12]}… but freeze.json's "
                          f"shaped ground is {prov['shapedSha256'][:12]}…; run `hydrology_graph derive` and the carve first")
     t0 = time.perf_counter()
-    r = compute(refined, npz, sol, graph=graph)
+    z = np.load(vault / hg.BODIES_FILE)
+    shaped = np.load(vault / "heightfield-shaped-f32.npy")
+    r = compute(refined, npz, sol, graph=graph,
+                graph_rasters={"level": z["level"], "sea": z["sea"], "shaped": shaped})
     print(f"compiled in {time.perf_counter() - t0:.0f} s")
     if a.footprint is not None:
         prove_local(r, vault, a.footprint)
@@ -1475,7 +2224,9 @@ def write_outputs(r: dict, vault: Path, *, provenance: dict, graph: dict | None 
         "flow": {"file": "water-flow.png", "size": int(n3), "metresPerPixel": RAW_M * STEP,
                  "flowMax": FLOW_MAX, "shoreMaxM": SHORE_MAX_M,
                  "fetchMaxM": FETCH_MAX_M,
-                 "fetchEncoding": "B = sqrt(fetch / fetchMaxM): the open-water distance to shore, uncapped by the surf band"},
+                 "fetchEncoding": "B = sqrt(fetch / fetchMaxM): the sea is fully developed (fetchMaxM); "
+                                  "inland water reads the open water upwind along the prevailing wind "
+                                  "(a diagonal march), seeded from the sea"},
         "klass": {"file": "water-class.png", "size": int(n3), "metresPerPixel": RAW_M * STEP,
                   "classes": CLASSES,
                   "extPx": CLASS_EXT_PX,

@@ -1,34 +1,30 @@
 {
-  "applied": 8,
+  "applied": 102,
   "frozenSha256": "4a74a06bfa194834d620ba011fd5cf4dbfdd3f6689c0e25d2dc537900006500f",
-  "naturalSha256": "b7b57531db8b15ea5562f06f93b87f5d568d516c2234d68aa753cfc96be1d53d",
+  "naturalSha256": "3646995c57f224820c6af2b5e01f0075361f50923d815422c80dcc19c808d7ac",
   "patches": [
     {
       "id": "patch.poling.waterway.hist-heartland.nine-trunks",
       "kind": "poling-channel",
-      "maxAbsDeltaM": 2.134,
-      "reason": "water: body at 1.97 m gains 314 samples beyond the patch region; water: body at 1.97 m floods past the window edge (unbounded); water: body at 1.79 m gains 14 samples beyond the patch region; water: body at 1.79 m floods past the window edge (unbounded); water: body at 2.31 m gains 2 samples beyond the patch region; water: body at 2.05 m gains 412 samples beyond the patch region; water: body at 2.05 m floods past the window edge (unbounded); water: body at 2.43 m gains 958 samples beyond the patch region; water: body at 2.43 m floods past the window edge (unbounded)",
+      "reason": "cannot apply: too many values to unpack (expected 5)",
       "region": [
         2033,
         2169,
         2693,
         2792
       ],
-      "samplesChanged": 675,
       "status": "refused"
     },
     {
       "id": "patch.poling.waterway.hist-heartland.sap-tapping-licensed.landing",
       "kind": "poling-channel",
-      "maxAbsDeltaM": 1.17,
-      "reason": "water: body at 1.92 m gains 362 samples beyond the patch region; water: body at 1.92 m floods past the window edge (unbounded); water: body at 2.22 m gains 17 samples beyond the patch region; water: body at 2.22 m floods past the window edge (unbounded)",
+      "reason": "cannot apply: too many values to unpack (expected 5)",
       "region": [
         2596,
         2782,
         1772,
         1864
       ],
-      "samplesChanged": 542,
       "status": "refused"
     },
     {
@@ -63,7 +59,7 @@
       "id": "patch.request.place.dunmer-north.the-black-stage",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.0,
-      "reason": "water: body at 7.55 m gains 1 samples beyond the patch region; water: 37 samples of new depression (makesWater not declared)",
+      "reason": "water: 37 samples of new depression (makesWater not declared)",
       "region": [
         509,
         587,
@@ -175,7 +171,7 @@
       "id": "patch.request.place.dunmer-north.the-thousand-birds",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.979,
-      "reason": "water: 40 frozen wet samples dried; water: body at 0.00 m gains 1 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 29 samples of new depression (makesWater not declared)",
+      "reason": "water: 40 frozen wet samples dried; water: 29 samples of new depression (makesWater not declared)",
       "region": [
         581,
         737,
@@ -259,7 +255,7 @@
       "id": "patch.request.place.imperial-fringe.hollow-arch-toll",
       "kind": "terrain-request",
       "maxAbsDeltaM": 3.271,
-      "reason": "water: 71 frozen wet samples dried; water: body at 2.39 m gains 56 samples beyond the patch region; water: body at 2.39 m floods past the window edge (unbounded); water: body at 1.96 m gains 52 samples beyond the patch region; water: body at 1.96 m floods past the window edge (unbounded)",
+      "reason": "water: 71 frozen wet samples dried",
       "region": [
         1194,
         1261,
@@ -287,7 +283,7 @@
       "id": "patch.request.place.imperial-fringe.onkobra-ferry",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.58,
-      "reason": "water: body at 7.39 m gains 1545 samples beyond the patch region; water: body at 7.39 m floods past the window edge (unbounded)",
+      "reason": "water: body at 7.39 m gains 2134 samples beyond the patch region; water: body at 7.39 m floods past the window edge (unbounded)",
       "region": [
         2648,
         2738,
@@ -301,7 +297,7 @@
       "id": "patch.request.place.imperial-fringe.reedcutters-toll",
       "kind": "terrain-request",
       "maxAbsDeltaM": 4.0,
-      "reason": "channels: 301 samples raised inside a channel or its shoulder; water: 40 frozen wet samples dried; water: body at 3.29 m gains 13 samples beyond the patch region; water: body at 3.29 m floods past the window edge (unbounded); water: 237 samples of new depression (makesWater not declared)",
+      "reason": "channels: 301 samples raised inside a channel or its shoulder; water: 40 frozen wet samples dried; water: 237 samples of new depression (makesWater not declared)",
       "region": [
         2554,
         2610,
@@ -371,7 +367,7 @@
       "id": "patch.request.place.imperial-penal-south.basin-sinkhole",
       "kind": "terrain-request",
       "maxAbsDeltaM": 9.0,
-      "reason": "water: body at 4.12 m gains 155 samples beyond the patch region; water: body at 4.12 m floods past the window edge (unbounded); water: body at 4.16 m gains 182 samples beyond the patch region; water: body at 4.16 m floods past the window edge (unbounded)",
+      "reason": "water: body at 4.12 m gains 507 samples beyond the patch region; water: body at 4.12 m floods past the window edge (unbounded); water: body at 4.16 m gains 567 samples beyond the patch region; water: body at 4.16 m floods past the window edge (unbounded)",
       "region": [
         3678,
         3730,
@@ -385,7 +381,7 @@
       "id": "patch.request.place.imperial-penal-south.chainbreaker-shelter",
       "kind": "terrain-request",
       "maxAbsDeltaM": 0.043,
-      "reason": "water: body at 0.00 m gains 3 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded)",
+      "receipt": {},
       "region": [
         3684,
         3784,
@@ -393,13 +389,13 @@
         1237
       ],
       "samplesChanged": 87,
-      "status": "refused"
+      "status": "applied"
     },
     {
       "id": "patch.request.place.imperial-penal-south.flu-quarantine-village",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.0,
-      "reason": "water: 62 frozen wet samples dried; water: body at 0.00 m gains 38 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 3 samples of new depression (makesWater not declared); structures: crosses structure.road-soulrest-blackrose.5 without declaring it",
+      "reason": "water: 62 frozen wet samples dried; water: 3 samples of new depression (makesWater not declared); structures: crosses structure.road-soulrest-blackrose.5 without declaring it",
       "region": [
         3730,
         3798,
@@ -413,7 +409,7 @@
       "id": "patch.request.place.imperial-penal-south.natural-dive-shaft",
       "kind": "terrain-request",
       "maxAbsDeltaM": 17.94,
-      "reason": "channels: 97 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 0.84 m gains 17 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded)",
+      "reason": "channels: 97 samples lowered inside a channel or its shoulder by a non-channel kind",
       "region": [
         2952,
         2998,
@@ -469,7 +465,7 @@
       "id": "patch.request.place.mercantile-coast.hereguard-plantation",
       "kind": "terrain-request",
       "maxAbsDeltaM": 1.345,
-      "reason": "water: 1 frozen wet samples dried; water: body at 9.19 m gains 2441 samples beyond the patch region; water: body at 9.19 m floods past the window edge (unbounded); water: body at 9.06 m gains 2432 samples beyond the patch region; water: body at 9.06 m floods past the window edge (unbounded); water: body at 9.11 m gains 2435 samples beyond the patch region; water: body at 9.11 m floods past the window edge (unbounded); water: body at 9.14 m gains 2437 samples beyond the patch region; water: body at 9.14 m floods past the window edge (unbounded); water: body at 1.29 m gains 1 samples beyond the patch region; water: body at 7.01 m gains 171 samples beyond the patch region; water: body at 7.01 m floods past the window edge (unbounded); water: body at 10.18 m gains 3046 samples beyond the patch region; water: body at 10.18 m floods past the window edge (unbounded); water: body at 13.83 m gains 3463 samples beyond the patch region; water: body at 13.83 m floods past the window edge (unbounded); water: body at 13.52 m gains 3424 samples beyond the patch region; water: body at 13.52 m floods past the window edge (unbounded); water: body at 13.77 m gains 3459 samples beyond the patch region; water: body at 13.77 m floods past the window edge (unbounded); water: body at 13.84 m gains 3464 samples beyond the patch region; water: body at 13.84 m floods past the window edge (unbounded); water: body at 13.86 m gains 3466 samples beyond the patch region; water: body at 13.86 m floods past the window edge (unbounded); water: body at 13.92 m gains 3472 samples beyond the patch region; water: body at 13.92 m floods past the window edge (unbounded); water: body at 13.93 m gains 3473 samples beyond the patch region; water: body at 13.93 m floods past the window edge (unbounded); water: 316 samples of new depression (makesWater not declared)",
+      "reason": "water: 1 frozen wet samples dried; water: body at 9.19 m gains 2936 samples beyond the patch region; water: body at 9.19 m floods past the window edge (unbounded); water: body at 9.06 m gains 2927 samples beyond the patch region; water: body at 9.06 m floods past the window edge (unbounded); water: body at 9.11 m gains 2930 samples beyond the patch region; water: body at 9.11 m floods past the window edge (unbounded); water: body at 9.14 m gains 2932 samples beyond the patch region; water: body at 9.14 m floods past the window edge (unbounded); water: body at 7.01 m gains 335 samples beyond the patch region; water: body at 7.01 m floods past the window edge (unbounded); water: body at 10.18 m gains 3541 samples beyond the patch region; water: body at 10.18 m floods past the window edge (unbounded); water: body at 13.83 m gains 3958 samples beyond the patch region; water: body at 13.83 m floods past the window edge (unbounded); water: body at 13.52 m gains 3919 samples beyond the patch region; water: body at 13.52 m floods past the window edge (unbounded); water: body at 13.77 m gains 3954 samples beyond the patch region; water: body at 13.77 m floods past the window edge (unbounded); water: body at 13.84 m gains 3959 samples beyond the patch region; water: body at 13.84 m floods past the window edge (unbounded); water: body at 13.86 m gains 3961 samples beyond the patch region; water: body at 13.86 m floods past the window edge (unbounded); water: body at 13.92 m gains 3967 samples beyond the patch region; water: body at 13.92 m floods past the window edge (unbounded); water: body at 13.93 m gains 3968 samples beyond the patch region; water: body at 13.93 m floods past the window edge (unbounded); water: 316 samples of new depression (makesWater not declared)",
       "region": [
         3363,
         3541,
@@ -511,7 +507,7 @@
       "id": "patch.request.place.mercantile-coast.oliis-drake-deep",
       "kind": "terrain-request",
       "maxAbsDeltaM": 46.0,
-      "reason": "water: body at 2.39 m gains 247 samples beyond the patch region; water: body at 2.39 m floods past the window edge (unbounded); water: body at 2.04 m gains 154 samples beyond the patch region; water: body at 2.04 m floods past the window edge (unbounded); water: body at 2.31 m gains 219 samples beyond the patch region; water: body at 2.31 m floods past the window edge (unbounded); water: body at 2.73 m gains 366 samples beyond the patch region; water: body at 2.73 m floods past the window edge (unbounded); water: body at 4.09 m gains 1360 samples beyond the patch region; water: body at 4.09 m floods past the window edge (unbounded); water: body at 2.84 m gains 383 samples beyond the patch region; water: body at 2.84 m floods past the window edge (unbounded); water: body at 3.38 m gains 508 samples beyond the patch region; water: body at 3.38 m floods past the window edge (unbounded); water: body at 4.34 m gains 1426 samples beyond the patch region; water: body at 4.34 m floods past the window edge (unbounded); water: body at 3.62 m gains 598 samples beyond the patch region; water: body at 3.62 m floods past the window edge (unbounded); water: body at 3.78 m gains 703 samples beyond the patch region; water: body at 3.78 m floods past the window edge (unbounded); water: body at 5.03 m gains 1517 samples beyond the patch region; water: body at 5.03 m floods past the window edge (unbounded); water: body at 4.56 m gains 1484 samples beyond the patch region; water: body at 4.56 m floods past the window edge (unbounded); water: body at 4.59 m gains 1484 samples beyond the patch region; water: body at 4.59 m floods past the window edge (unbounded); water: body at 5.08 m gains 1522 samples beyond the patch region; water: body at 5.08 m floods past the window edge (unbounded); water: body at 3.82 m gains 1131 samples beyond the patch region; water: body at 3.82 m floods past the window edge (unbounded); water: body at 5.40 m gains 1612 samples beyond the patch region; water: body at 5.40 m floods past the window edge (unbounded); water: body at 3.85 m gains 1174 samples beyond the patch region; water: body at 3.85 m floods past the window edge (unbounded); water: body at 5.59 m gains 2107 samples beyond the patch region; water: body at 5.59 m floods past the window edge (unbounded); water: body at 6.03 m gains 2223 samples beyond the patch region; water: body at 6.03 m floods past the window edge (unbounded); water: body at 6.20 m gains 2281 samples beyond the patch region; water: body at 6.20 m floods past the window edge (unbounded)",
+      "reason": "water: body at 2.39 m gains 427 samples beyond the patch region; water: body at 2.39 m floods past the window edge (unbounded); water: body at 2.04 m gains 310 samples beyond the patch region; water: body at 2.04 m floods past the window edge (unbounded); water: body at 2.31 m gains 632 samples beyond the patch region; water: body at 2.31 m floods past the window edge (unbounded); water: body at 2.73 m gains 779 samples beyond the patch region; water: body at 2.73 m floods past the window edge (unbounded); water: body at 4.09 m gains 1790 samples beyond the patch region; water: body at 4.09 m floods past the window edge (unbounded); water: body at 2.84 m gains 796 samples beyond the patch region; water: body at 2.84 m floods past the window edge (unbounded); water: body at 3.38 m gains 921 samples beyond the patch region; water: body at 3.38 m floods past the window edge (unbounded); water: body at 4.34 m gains 1856 samples beyond the patch region; water: body at 4.34 m floods past the window edge (unbounded); water: body at 3.62 m gains 1011 samples beyond the patch region; water: body at 3.62 m floods past the window edge (unbounded); water: body at 3.78 m gains 1116 samples beyond the patch region; water: body at 3.78 m floods past the window edge (unbounded); water: body at 5.03 m gains 1959 samples beyond the patch region; water: body at 5.03 m floods past the window edge (unbounded); water: body at 4.56 m gains 1926 samples beyond the patch region; water: body at 4.56 m floods past the window edge (unbounded); water: body at 4.59 m gains 1926 samples beyond the patch region; water: body at 4.59 m floods past the window edge (unbounded); water: body at 5.08 m gains 1964 samples beyond the patch region; water: body at 5.08 m floods past the window edge (unbounded); water: body at 3.82 m gains 1556 samples beyond the patch region; water: body at 3.82 m floods past the window edge (unbounded); water: body at 5.40 m gains 2054 samples beyond the patch region; water: body at 5.40 m floods past the window edge (unbounded); water: body at 3.85 m gains 1601 samples beyond the patch region; water: body at 3.85 m floods past the window edge (unbounded); water: body at 5.59 m gains 2549 samples beyond the patch region; water: body at 5.59 m floods past the window edge (unbounded); water: body at 6.03 m gains 2665 samples beyond the patch region; water: body at 6.03 m floods past the window edge (unbounded); water: body at 6.20 m gains 2723 samples beyond the patch region; water: body at 6.20 m floods past the window edge (unbounded)",
       "region": [
         3136,
         3258,
@@ -525,7 +521,7 @@
       "id": "patch.request.place.mercantile-coast.oliis-ferry-stage",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.281,
-      "reason": "channels: 704 samples raised inside a channel or its shoulder; water: 3963 frozen wet samples dried; water: body at 1.08 m gains 1 samples beyond the patch region; water: 328 samples of new depression (makesWater not declared)",
+      "reason": "channels: 704 samples raised inside a channel or its shoulder; water: 3963 frozen wet samples dried; water: 328 samples of new depression (makesWater not declared)",
       "region": [
         3135,
         3355,
@@ -567,7 +563,7 @@
       "id": "patch.request.place.mercantile-coast.xhon-mehl-shrine",
       "kind": "terrain-request",
       "maxAbsDeltaM": 3.45,
-      "reason": "channels: 9 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 16.42 m gains 1565 samples beyond the patch region; water: body at 16.42 m floods past the window edge (unbounded); water: body at 9.11 m gains 768 samples beyond the patch region; water: body at 9.11 m floods past the window edge (unbounded)",
+      "reason": "channels: 9 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 16.42 m gains 1662 samples beyond the patch region; water: body at 16.42 m floods past the window edge (unbounded); water: body at 9.11 m gains 807 samples beyond the patch region; water: body at 9.11 m floods past the window edge (unbounded)",
       "region": [
         2924,
         3014,
@@ -581,7 +577,7 @@
       "id": "patch.request.place.naga-kur-deeps.air-pocket-station-deeps",
       "kind": "terrain-request",
       "maxAbsDeltaM": 6.0,
-      "reason": "water: body at 0.84 m gains 31 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded)",
+      "reason": "water: body at 0.84 m gains 154 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded); water: body at 0.84 m gains 99 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded)",
       "region": [
         2527,
         2583,
@@ -595,7 +591,7 @@
       "id": "patch.request.place.naga-kur-deeps.dead-water-village",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.964,
-      "reason": "water: 470 frozen wet samples dried; water: body at 0.84 m gains 40 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded); water: 15 samples of new depression (makesWater not declared)",
+      "reason": "water: 470 frozen wet samples dried; water: 15 samples of new depression (makesWater not declared)",
       "region": [
         3078,
         3178,
@@ -609,7 +605,7 @@
       "id": "patch.request.place.naga-kur-deeps.drowning-narrows-tidal-gate",
       "kind": "terrain-request",
       "maxAbsDeltaM": 3.994,
-      "reason": "channels: 265 samples raised inside a channel or its shoulder; water: 217 frozen wet samples dried; water: body at 1.54 m gains 17 samples beyond the patch region; water: body at 1.54 m floods past the window edge (unbounded); water: 3 samples of new depression (makesWater not declared)",
+      "reason": "channels: 265 samples raised inside a channel or its shoulder; water: 217 frozen wet samples dried; water: 3 samples of new depression (makesWater not declared)",
       "region": [
         2557,
         2625,
@@ -623,7 +619,7 @@
       "id": "patch.request.place.naga-kur-deeps.harmed-hist-enslaved",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.0,
-      "reason": "water: body at 0.84 m gains 9 samples beyond the patch region; water: body at 0.84 m floods past the window edge (unbounded); water: body at 2.74 m gains 615 samples beyond the patch region; water: body at 2.74 m floods past the window edge (unbounded); water: 133 samples of new depression (makesWater not declared)",
+      "reason": "water: 133 samples of new depression (makesWater not declared)",
       "region": [
         2508,
         2608,
@@ -637,7 +633,7 @@
       "id": "patch.request.place.naga-kur-deeps.horwalli-waterworks-deeps",
       "kind": "terrain-request",
       "maxAbsDeltaM": 0.051,
-      "reason": "channels: 122 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 5.55 m gains 555 samples beyond the patch region; water: body at 5.55 m floods past the window edge (unbounded)",
+      "reason": "channels: 122 samples lowered inside a channel or its shoulder by a non-channel kind",
       "region": [
         2434,
         2502,
@@ -665,7 +661,7 @@
       "id": "patch.request.place.naga-kur-deeps.sinkhole-mouth-deeps",
       "kind": "terrain-request",
       "maxAbsDeltaM": 9.0,
-      "reason": "water: body at 2.09 m gains 749 samples beyond the patch region; water: body at 2.09 m floods past the window edge (unbounded); water: body at 1.50 m gains 114 samples beyond the patch region; water: body at 1.50 m floods past the window edge (unbounded); water: body at 1.50 m gains 123 samples beyond the patch region; water: body at 1.50 m floods past the window edge (unbounded); water: body at 1.56 m gains 189 samples beyond the patch region; water: body at 1.56 m floods past the window edge (unbounded); water: body at 1.59 m gains 233 samples beyond the patch region; water: body at 1.59 m floods past the window edge (unbounded)",
+      "reason": "water: body at 2.09 m gains 966 samples beyond the patch region; water: body at 2.09 m floods past the window edge (unbounded); water: body at 1.41 m gains 23 samples beyond the patch region; water: body at 1.41 m floods past the window edge (unbounded); water: body at 1.50 m gains 204 samples beyond the patch region; water: body at 1.50 m floods past the window edge (unbounded); water: body at 1.50 m gains 282 samples beyond the patch region; water: body at 1.50 m floods past the window edge (unbounded); water: body at 1.56 m gains 363 samples beyond the patch region; water: body at 1.56 m floods past the window edge (unbounded); water: body at 1.59 m gains 407 samples beyond the patch region; water: body at 1.59 m floods past the window edge (unbounded)",
       "region": [
         2748,
         2794,
@@ -721,7 +717,7 @@
       "id": "patch.request.place.pirate-freeholds.trunk-toll-bridge",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.0,
-      "reason": "channels: 142 samples raised inside a channel or its shoulder; water: 132 frozen wet samples dried; water: body at 0.00 m gains 8 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 1 samples of new depression (makesWater not declared)",
+      "reason": "channels: 142 samples raised inside a channel or its shoulder; water: 132 frozen wet samples dried; water: 1 samples of new depression (makesWater not declared)",
       "region": [
         720,
         766,
@@ -749,7 +745,7 @@
       "id": "patch.request.place.saxhleel-coast.portdun-mont",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.5,
-      "reason": "water: body at 0.20 m gains 48 samples beyond the patch region; water: body at 0.20 m floods past the window edge (unbounded); water: body at 0.00 m gains 2 samples beyond the patch region; water: body at 0.42 m gains 150 samples beyond the patch region; water: body at 0.42 m floods past the window edge (unbounded); water: 298 samples of new depression (makesWater not declared)",
+      "reason": "water: body at 0.20 m gains 1137 samples beyond the patch region; water: body at 0.20 m floods past the window edge (unbounded); water: body at 0.00 m gains 96 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: body at 0.42 m gains 1488 samples beyond the patch region; water: body at 0.42 m floods past the window edge (unbounded); water: 298 samples of new depression (makesWater not declared)",
       "region": [
         2757,
         2824,
@@ -777,7 +773,7 @@
       "id": "patch.request.place.saxhleel-coast.terrace-village-ridge",
       "kind": "terrain-request",
       "maxAbsDeltaM": 1.333,
-      "reason": "channels: 24 samples lowered inside a channel or its shoulder by a non-channel kind; water: body at 0.00 m gains 25 samples beyond the patch region; water: body at 0.00 m floods past the window edge (unbounded); water: 137 samples of new depression (makesWater not declared)",
+      "reason": "channels: 24 samples lowered inside a channel or its shoulder by a non-channel kind; water: 137 samples of new depression (makesWater not declared)",
       "region": [
         2291,
         2348,
@@ -786,8 +782,1432 @@
       ],
       "samplesChanged": 1430,
       "status": "refused"
+    },
+    {
+      "id": "patch.bed-cut.site-1702-4367",
+      "kind": "bed-cut",
+      "maxAbsDeltaM": 0.18,
+      "receipt": {
+        "samplesCut": 25
+      },
+      "region": [
+        2382,
+        2396,
+        924,
+        939
+      ],
+      "samplesChanged": 25,
+      "status": "applied"
+    },
+    {
+      "id": "patch.bed-cut.site-2277-2815",
+      "kind": "bed-cut",
+      "maxAbsDeltaM": 4.182,
+      "receipt": {
+        "samplesCut": 37
+      },
+      "region": [
+        1534,
+        1547,
+        1239,
+        1253
+      ],
+      "samplesChanged": 37,
+      "status": "applied"
+    },
+    {
+      "id": "patch.bed-cut.site-2389-6485",
+      "kind": "bed-cut",
+      "maxAbsDeltaM": 0.949,
+      "receipt": {
+        "samplesCut": 280
+      },
+      "region": [
+        3540,
+        3610,
+        1299,
+        1337
+      ],
+      "samplesChanged": 280,
+      "status": "applied"
+    },
+    {
+      "id": "patch.bed-cut.site-2454-6296",
+      "kind": "bed-cut",
+      "maxAbsDeltaM": 0.767,
+      "receipt": {
+        "samplesCut": 75
+      },
+      "region": [
+        3436,
+        3453,
+        1335,
+        1352
+      ],
+      "samplesChanged": 75,
+      "status": "applied"
+    },
+    {
+      "id": "patch.bed-cut.site-4409-3923",
+      "kind": "bed-cut",
+      "maxAbsDeltaM": 2.49,
+      "receipt": {
+        "samplesCut": 43
+      },
+      "region": [
+        2140,
+        2155,
+        2405,
+        2419
+      ],
+      "samplesChanged": 43,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1015-1489",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.759,
+      "receipt": {},
+      "region": [
+        1484,
+        1513,
+        1038,
+        1061
+      ],
+      "samplesChanged": 83,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1035-1008",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.254,
+      "receipt": {},
+      "region": [
+        1005,
+        1109,
+        1045,
+        1092
+      ],
+      "samplesChanged": 315,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1039-1527",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.356,
+      "receipt": {},
+      "region": [
+        1506,
+        1529,
+        1037,
+        1060
+      ],
+      "samplesChanged": 25,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1057-1510",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.203,
+      "receipt": {},
+      "region": [
+        1492,
+        1558,
+        1059,
+        1208
+      ],
+      "samplesChanged": 54,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1078-739",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.972,
+      "receipt": {},
+      "region": [
+        732,
+        874,
+        1071,
+        1223
+      ],
+      "samplesChanged": 348,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1120-1435",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.258,
+      "receipt": {},
+      "region": [
+        1424,
+        1448,
+        1113,
+        1150
+      ],
+      "samplesChanged": 79,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1130-1533",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.0,
+      "receipt": {},
+      "region": [
+        1540,
+        1558,
+        1190,
+        1208
+      ],
+      "samplesChanged": 1,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1149-145",
+      "kind": "levee",
+      "maxAbsDeltaM": 5.357,
+      "receipt": {},
+      "region": [
+        137,
+        186,
+        1164,
+        1397
+      ],
+      "samplesChanged": 264,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1150-3112",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.325,
+      "receipt": {},
+      "region": [
+        3125,
+        3415,
+        747,
+        1113
+      ],
+      "samplesChanged": 231,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.116-665",
+      "kind": "levee",
+      "maxAbsDeltaM": 5.195,
+      "receipt": {},
+      "region": [
+        630,
+        675,
+        5,
+        121
+      ],
+      "samplesChanged": 430,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1203-1195",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.585,
+      "receipt": {},
+      "region": [
+        1189,
+        1216,
+        1200,
+        1230
+      ],
+      "samplesChanged": 130,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1246-1540",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.243,
+      "receipt": {},
+      "region": [
+        1558,
+        1587,
+        1273,
+        1305
+      ],
+      "samplesChanged": 122,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1247-947",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.881,
+      "reason": "amplitude: |delta| 1.881 m exceeds maxDeltaM 0.798",
+      "region": [
+        1002,
+        1018,
+        1234,
+        1251
+      ],
+      "samplesChanged": 27,
+      "status": "refused"
+    },
+    {
+      "id": "patch.levee.reach.1258-931",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.646,
+      "receipt": {},
+      "region": [
+        938,
+        1060,
+        1232,
+        1275
+      ],
+      "samplesChanged": 264,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1264-1693",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.489,
+      "receipt": {},
+      "region": [
+        1674,
+        1701,
+        1257,
+        1272
+      ],
+      "samplesChanged": 61,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1306-3547",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.0,
+      "receipt": {},
+      "region": [
+        3588,
+        3646,
+        1317,
+        1354
+      ],
+      "samplesChanged": 0,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1417-511",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.919,
+      "receipt": {},
+      "region": [
+        401,
+        509,
+        1424,
+        1638
+      ],
+      "samplesChanged": 143,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1422-2337",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.564,
+      "receipt": {},
+      "region": [
+        2346,
+        2362,
+        1422,
+        1438
+      ],
+      "samplesChanged": 7,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1555-448",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.0,
+      "receipt": {},
+      "region": [
+        401,
+        448,
+        1558,
+        1637
+      ],
+      "samplesChanged": 0,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1567-2680",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.557,
+      "receipt": {},
+      "region": [
+        2681,
+        2695,
+        1558,
+        1572
+      ],
+      "samplesChanged": 16,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1747-253",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.779,
+      "receipt": {},
+      "region": [
+        225,
+        259,
+        1740,
+        1782
+      ],
+      "samplesChanged": 92,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1749-2242",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.573,
+      "reason": "amplitude: |delta| 1.573 m exceeds maxDeltaM 0.25",
+      "region": [
+        2251,
+        2266,
+        1725,
+        1740
+      ],
+      "samplesChanged": 24,
+      "status": "refused"
+    },
+    {
+      "id": "patch.levee.reach.1780-1154",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.471,
+      "receipt": {},
+      "region": [
+        1180,
+        1267,
+        1779,
+        1825
+      ],
+      "samplesChanged": 58,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1810-2515",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.04,
+      "reason": "amplitude: |delta| 2.040 m exceeds maxDeltaM 0.25",
+      "region": [
+        2511,
+        2527,
+        1802,
+        1817
+      ],
+      "samplesChanged": 19,
+      "status": "refused"
+    },
+    {
+      "id": "patch.levee.reach.1813-2176",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.062,
+      "receipt": {},
+      "region": [
+        2166,
+        2469,
+        1505,
+        1822
+      ],
+      "samplesChanged": 235,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1879-2437",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.04,
+      "receipt": {},
+      "region": [
+        2445,
+        2551,
+        1791,
+        1844
+      ],
+      "samplesChanged": 101,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.191-1674",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.362,
+      "receipt": {},
+      "region": [
+        1654,
+        1673,
+        167,
+        185
+      ],
+      "samplesChanged": 7,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1951-1142",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.5,
+      "receipt": {},
+      "region": [
+        1146,
+        1164,
+        1956,
+        1972
+      ],
+      "samplesChanged": 47,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.1957-2629",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.137,
+      "receipt": {},
+      "region": [
+        2631,
+        2670,
+        1888,
+        1956
+      ],
+      "samplesChanged": 63,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.202-2203",
+      "kind": "levee",
+      "maxAbsDeltaM": 5.689,
+      "receipt": {},
+      "region": [
+        2255,
+        2528,
+        83,
+        193
+      ],
+      "samplesChanged": 1047,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.203-3610",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.099,
+      "receipt": {},
+      "region": [
+        3611,
+        3625,
+        166,
+        182
+      ],
+      "samplesChanged": 26,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2233-2233",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.022,
+      "receipt": {},
+      "region": [
+        2227,
+        2240,
+        2227,
+        2240
+      ],
+      "samplesChanged": 24,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2302-2110",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.4,
+      "receipt": {},
+      "region": [
+        2087,
+        2101,
+        2344,
+        2359
+      ],
+      "samplesChanged": 30,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2315-2654",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.239,
+      "receipt": {},
+      "region": [
+        2643,
+        2657,
+        2317,
+        2331
+      ],
+      "samplesChanged": 10,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2329-2635",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.13,
+      "receipt": {},
+      "region": [
+        2628,
+        2650,
+        2322,
+        2337
+      ],
+      "samplesChanged": 33,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2329-2647",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.873,
+      "receipt": {},
+      "region": [
+        2642,
+        2672,
+        2349,
+        2441
+      ],
+      "samplesChanged": 95,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2347-2224",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.771,
+      "receipt": {},
+      "region": [
+        2215,
+        2232,
+        2340,
+        2356
+      ],
+      "samplesChanged": 88,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.238-799",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.428,
+      "receipt": {},
+      "region": [
+        792,
+        806,
+        229,
+        246
+      ],
+      "samplesChanged": 36,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2423-2658",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.0,
+      "receipt": {},
+      "region": [
+        2656,
+        2672,
+        2425,
+        2441
+      ],
+      "samplesChanged": 3,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.244-1417",
+      "kind": "levee",
+      "maxAbsDeltaM": 6.511,
+      "receipt": {},
+      "region": [
+        1429,
+        1660,
+        170,
+        240
+      ],
+      "samplesChanged": 436,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2473-124",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.204,
+      "receipt": {},
+      "region": [
+        0,
+        132,
+        2466,
+        2546
+      ],
+      "samplesChanged": 540,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2573-545",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.439,
+      "reason": "amplitude: |delta| 3.439 m exceeds maxDeltaM 1.846",
+      "region": [
+        560,
+        648,
+        2569,
+        2599
+      ],
+      "samplesChanged": 85,
+      "status": "refused"
+    },
+    {
+      "id": "patch.levee.reach.2578-520",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.878,
+      "receipt": {},
+      "region": [
+        513,
+        645,
+        2569,
+        2599
+      ],
+      "samplesChanged": 234,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2695-106",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.864,
+      "receipt": {},
+      "region": [
+        0,
+        114,
+        2665,
+        2703
+      ],
+      "samplesChanged": 429,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2960-432",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.228,
+      "receipt": {},
+      "region": [
+        367,
+        439,
+        2961,
+        3355
+      ],
+      "samplesChanged": 1474,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.2968-700",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.627,
+      "receipt": {},
+      "region": [
+        693,
+        878,
+        2961,
+        3110
+      ],
+      "samplesChanged": 381,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.3055-34",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.377,
+      "receipt": {},
+      "region": [
+        0,
+        42,
+        3048,
+        3069
+      ],
+      "samplesChanged": 173,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.3368-445",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.036,
+      "receipt": {},
+      "region": [
+        456,
+        496,
+        3371,
+        3421
+      ],
+      "samplesChanged": 208,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.3385-271",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.02,
+      "receipt": {},
+      "region": [
+        265,
+        322,
+        3367,
+        3392
+      ],
+      "samplesChanged": 295,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.372-331",
+      "kind": "levee",
+      "maxAbsDeltaM": 7.779,
+      "reason": "amplitude: |delta| 7.779 m exceeds maxDeltaM 3.92",
+      "region": [
+        362,
+        506,
+        28,
+        356
+      ],
+      "samplesChanged": 295,
+      "status": "refused"
+    },
+    {
+      "id": "patch.levee.reach.382-1251",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.805,
+      "receipt": {},
+      "region": [
+        1251,
+        1295,
+        381,
+        454
+      ],
+      "samplesChanged": 253,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.430-268",
+      "kind": "levee",
+      "maxAbsDeltaM": 6.248,
+      "receipt": {},
+      "region": [
+        260,
+        506,
+        0,
+        439
+      ],
+      "samplesChanged": 1060,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.439-1715",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.223,
+      "receipt": {},
+      "region": [
+        1698,
+        1713,
+        354,
+        370
+      ],
+      "samplesChanged": 11,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.482-1351",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.372,
+      "receipt": {},
+      "region": [
+        1358,
+        1704,
+        347,
+        513
+      ],
+      "samplesChanged": 1019,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.489-1496",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.77,
+      "receipt": {},
+      "region": [
+        1490,
+        1690,
+        360,
+        497
+      ],
+      "samplesChanged": 97,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.508-1291",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.257,
+      "receipt": {},
+      "region": [
+        1291,
+        1317,
+        492,
+        514
+      ],
+      "samplesChanged": 108,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.520-745",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.498,
+      "receipt": {},
+      "region": [
+        679,
+        751,
+        401,
+        533
+      ],
+      "samplesChanged": 261,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.521-715",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.0,
+      "receipt": {},
+      "region": [
+        682,
+        710,
+        403,
+        474
+      ],
+      "samplesChanged": 0,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.549-418",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.75,
+      "reason": "amplitude: |delta| 4.750 m exceeds maxDeltaM 1.952",
+      "region": [
+        413,
+        474,
+        484,
+        548
+      ],
+      "samplesChanged": 118,
+      "status": "refused"
+    },
+    {
+      "id": "patch.levee.reach.564-430",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.75,
+      "receipt": {},
+      "region": [
+        413,
+        516,
+        475,
+        571
+      ],
+      "samplesChanged": 542,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.580-2263",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.848,
+      "receipt": {},
+      "region": [
+        2255,
+        2371,
+        572,
+        872
+      ],
+      "samplesChanged": 1381,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.610-1129",
+      "kind": "levee",
+      "maxAbsDeltaM": 5.365,
+      "receipt": {},
+      "region": [
+        1122,
+        1205,
+        603,
+        917
+      ],
+      "samplesChanged": 1383,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.667-1677",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.589,
+      "receipt": {},
+      "region": [
+        1679,
+        1696,
+        680,
+        731
+      ],
+      "samplesChanged": 161,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.70-1177",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.123,
+      "receipt": {},
+      "region": [
+        1170,
+        1199,
+        59,
+        78
+      ],
+      "samplesChanged": 79,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.766-1948",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.109,
+      "receipt": {},
+      "region": [
+        1941,
+        2046,
+        759,
+        1066
+      ],
+      "samplesChanged": 1347,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.775-2680",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.904,
+      "receipt": {},
+      "region": [
+        2538,
+        2678,
+        782,
+        920
+      ],
+      "samplesChanged": 57,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.794-765",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.79,
+      "reason": "amplitude: |delta| 4.790 m exceeds maxDeltaM 3.067",
+      "region": [
+        759,
+        1005,
+        785,
+        1002
+      ],
+      "samplesChanged": 457,
+      "status": "refused"
+    },
+    {
+      "id": "patch.levee.reach.794-767",
+      "kind": "levee",
+      "maxAbsDeltaM": 5.194,
+      "reason": "amplitude: |delta| 5.194 m exceeds maxDeltaM 3.067",
+      "region": [
+        759,
+        978,
+        786,
+        977
+      ],
+      "samplesChanged": 316,
+      "status": "refused"
+    },
+    {
+      "id": "patch.levee.reach.796-760",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.439,
+      "receipt": {},
+      "region": [
+        752,
+        1004,
+        785,
+        1002
+      ],
+      "samplesChanged": 972,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.799-1628",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.776,
+      "receipt": {},
+      "region": [
+        1579,
+        1646,
+        812,
+        952
+      ],
+      "samplesChanged": 317,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.811-1735",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.489,
+      "receipt": {},
+      "region": [
+        1588,
+        1733,
+        816,
+        952
+      ],
+      "samplesChanged": 252,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.817-188",
+      "kind": "levee",
+      "maxAbsDeltaM": 5.286,
+      "receipt": {},
+      "region": [
+        183,
+        633,
+        806,
+        1327
+      ],
+      "samplesChanged": 824,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.913-1021",
+      "kind": "levee",
+      "maxAbsDeltaM": 5.172,
+      "receipt": {},
+      "region": [
+        993,
+        1029,
+        906,
+        999
+      ],
+      "samplesChanged": 510,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.95-1657",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.519,
+      "receipt": {},
+      "region": [
+        1648,
+        1733,
+        0,
+        73
+      ],
+      "samplesChanged": 38,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.976-2536",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.595,
+      "receipt": {},
+      "region": [
+        2625,
+        2690,
+        1002,
+        1031
+      ],
+      "samplesChanged": 406,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.reach.985-3526",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.22,
+      "receipt": {},
+      "region": [
+        3519,
+        3534,
+        975,
+        992
+      ],
+      "samplesChanged": 17,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1036-1540",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.268,
+      "receipt": {},
+      "region": [
+        1522,
+        1533,
+        1029,
+        1050
+      ],
+      "samplesChanged": 55,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1061-2014",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.845,
+      "receipt": {},
+      "region": [
+        2017,
+        2030,
+        1056,
+        1067
+      ],
+      "samplesChanged": 15,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1078-2190",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.741,
+      "receipt": {},
+      "region": [
+        2198,
+        2211,
+        1052,
+        1068
+      ],
+      "samplesChanged": 49,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1096-3812",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.595,
+      "receipt": {},
+      "region": [
+        3793,
+        3808,
+        1102,
+        1117
+      ],
+      "samplesChanged": 16,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1159-1462",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.479,
+      "receipt": {},
+      "region": [
+        1470,
+        1477,
+        1174,
+        1181
+      ],
+      "samplesChanged": 9,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1277-865",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.247,
+      "receipt": {},
+      "region": [
+        944,
+        952,
+        1248,
+        1256
+      ],
+      "samplesChanged": 15,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1295-1196",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.925,
+      "receipt": {},
+      "region": [
+        1219,
+        1230,
+        1277,
+        1288
+      ],
+      "samplesChanged": 39,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1862-2994",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.349,
+      "receipt": {},
+      "region": [
+        2987,
+        2998,
+        1850,
+        1858
+      ],
+      "samplesChanged": 18,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1877-3003",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.396,
+      "receipt": {},
+      "region": [
+        2997,
+        3009,
+        1866,
+        1880
+      ],
+      "samplesChanged": 13,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.240-1400",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.451,
+      "receipt": {},
+      "region": [
+        1390,
+        1419,
+        224,
+        255
+      ],
+      "samplesChanged": 78,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.2442-1212",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.746,
+      "receipt": {},
+      "region": [
+        680,
+        1794,
+        1292,
+        2580
+      ],
+      "samplesChanged": 545,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.2598-2135",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.369,
+      "receipt": {},
+      "region": [
+        2096,
+        2162,
+        2553,
+        2629
+      ],
+      "samplesChanged": 154,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.2822-1398",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.317,
+      "receipt": {},
+      "region": [
+        1379,
+        1386,
+        2793,
+        2800
+      ],
+      "samplesChanged": 8,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.2834-1825",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.43,
+      "receipt": {},
+      "region": [
+        1685,
+        1698,
+        2849,
+        2902
+      ],
+      "samplesChanged": 19,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.3009-1891",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.403,
+      "receipt": {},
+      "region": [
+        1884,
+        1891,
+        3004,
+        3011
+      ],
+      "samplesChanged": 5,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.34-1661",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.867,
+      "receipt": {},
+      "region": [
+        1671,
+        1743,
+        3,
+        66
+      ],
+      "samplesChanged": 301,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.763-3395",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.497,
+      "receipt": {},
+      "region": [
+        3402,
+        3409,
+        768,
+        776
+      ],
+      "samplesChanged": 4,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.773-3343",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.471,
+      "receipt": {},
+      "region": [
+        3340,
+        3353,
+        754,
+        763
+      ],
+      "samplesChanged": 30,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.794-3309",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.624,
+      "receipt": {},
+      "region": [
+        3244,
+        3346,
+        755,
+        819
+      ],
+      "samplesChanged": 229,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.919-2408",
+      "kind": "levee",
+      "maxAbsDeltaM": 0.543,
+      "receipt": {},
+      "region": [
+        2401,
+        2413,
+        913,
+        929
+      ],
+      "samplesChanged": 35,
+      "status": "applied"
     }
   ],
-  "refused": 48,
+  "refused": 55,
   "schemaVersion": 1
 }

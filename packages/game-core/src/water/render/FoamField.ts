@@ -137,7 +137,9 @@ export function foamFieldFragment(opts: FoamFieldOptions): string {
   uniform sampler2D uPrev;
   uniform vec2 uShift;
   uniform vec4 uField;        // centre x, centre z, world size (m), dt (s)
-  uniform vec2 uWindDir;
+  // (uWindDir and uWindMS come with the shared SAMPLER_GLSL block below; a
+  // second declaration here was a GLSL redefinition that stopped this pass
+  // compiling at all until 2026-09-14)
   uniform vec4 uFoamLaw;      // crestEq, windwardEq, decaySea, decaySlow
   uniform vec3 uFoamLaw2;     // surfEq, decayDry, windwardSlope
   uniform vec4 uInjectA[${MAX_FOAM_INJECTIONS}];   // x0, z0, x1, z1
@@ -198,7 +200,8 @@ export function foamFieldFragment(opts: FoamFieldOptions): string {
     }
     if (ss.x < 90.0 && depth > -0.5) {
       float fetch = esFetchExp(fetchM, turb);
-      float windAmp = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
+      // the one surf-energy knob (waves.ts surfEnergyScale, 16c round 2)
+      float windAmp = esSurfEnergy(uWindMS, fetchM);
       float bn = esFbm(wp * 0.16, 3);
       float surfE = esSurfFoam(ss.x + bn * 4.0, fetch, uWaveTime, windAmp) * esShoreFrothBand(depth, bn);
       eq += uFoamLaw2.x * surfE * (1.0 - 0.75 * clamp(turb, 0.0, 1.0));

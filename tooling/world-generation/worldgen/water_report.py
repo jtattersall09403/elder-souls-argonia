@@ -21,7 +21,7 @@ from PIL import Image
 from scipy import ndimage
 
 from .compile_chunks import DEFAULT_HEIGHTS
-from .compile_water import WEB_STEP, decode_surface, export_index
+from .compile_water import WEB_STEP, decode_ids, decode_surface, export_index
 from .scale import RAW_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -41,6 +41,16 @@ class ShippedWater:
         self.shore2 = shore[..., 0].astype(np.float32) / 255.0 * float(self.meta["surface"]["shoreMaxM"])
         self.season2 = shore[..., 1].astype(np.float32) / 255.0
         self.owner2 = np.asarray(Image.open(water_dir / "water-owner.png").convert("L"))
+        # The graph key. Every downstream stage that needs a water *kind* joins
+        # through this, never through a re-derivation of its own (0066).
+        # The entity raster arrived with schema 3 (16c). A bundle without one
+        # (an older publish, a snapshot another stage copied aside) still
+        # loads: `ids` is None and `entity_at` answers None, so a caller that
+        # needs the graph's answer gets nothing rather than a wrong id.
+        id_path = water_dir / "water-id.png"
+        self.ids = (decode_ids(np.asarray(Image.open(id_path).convert("RGB")))
+                    if id_path.exists() else None)
+        self.entities = self.meta["entities"]
         klass = np.asarray(Image.open(water_dir / "water-class.png").convert("RGB"))
         self.cls = klass[..., 0]
         self.mppc = float(self.meta["klass"]["metresPerPixel"])
@@ -124,6 +134,19 @@ class ShippedWater:
             "class": CLASS_NAMES[int(self._tex(self.cls, x, z, self.mppc))],
             "flowMS": float(self._tex(self.flow, x, z, self.mppf)),
         }
+
+    def entity_at(self, x_m: float, z_m: float) -> dict | None:
+        """The graph entity whose compiled extent covers a world point, or None.
+
+        `water-id.png` stores `0 none, else 1 + index into entities[]` on the
+        surface grid, so this is the one join from a coordinate to the record
+        the owner signed off (0065/0066). None when the bundle ships no
+        entity raster (see `ids`).
+        """
+        if self.ids is None:
+            return None
+        label = int(self._tex(self.ids, x_m, z_m, self.mpp2))
+        return self.entities[label - 1] if label > 0 else None
 
     def disc(self, x: float, z: float, radius_m: float):
         """(slice, mask) over the surface grid within `radius_m` of a point."""

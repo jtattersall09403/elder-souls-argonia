@@ -47,20 +47,23 @@ export function waterGroundHeight(x: number, z: number): number | null {
   return groundHeightFn?.(x, z) ?? chunkGround?.(x, z) ?? null;
 }
 
-/** The vanilla waterfall FX kit: URLs by shader slot, read from the kit's
- * manifest by role (decision 0047 addendum: textures + stack rules inside our
- * shader, never mounted as meshes). Missing manifest = procedural fallback. */
+/** The vanilla waterfall FX kit (decision 0064): the texture PNGs by shader
+ * slot (read from the manifest by role) AND by id (every texture the kit's
+ * shape roles bind), plus the piece geometry GLB `WATERFALL_GEOMETRY`.
+ * Missing manifest = procedural fallback for the slots, no fall bodies. */
 const WATERFALL_KIT = "kits/waterfall-fx-textures";
-async function waterfallTextureUrls(base: string): Promise<Partial<Record<WaterfallTextureSlot, string>>> {
+const WATERFALL_GEOMETRY = "kits/waterfall-fx-v1.glb";
+async function waterfallTextureUrls(base: string): Promise<Partial<Record<WaterfallTextureSlot, string>> & Record<string, string | undefined>> {
   try {
     const res = await fetch(`${base}${WATERFALL_KIT}/manifest.json`);
     if (!res.ok) return {};
-    const manifest = (await res.json()) as { textures?: { role: string; file: string }[] };
-    const urls: Partial<Record<WaterfallTextureSlot, string>> = {};
+    const manifest = (await res.json()) as { textures?: { id: string; role: string; file: string }[] };
+    const urls: Partial<Record<WaterfallTextureSlot, string>> & Record<string, string | undefined> = {};
     for (const [slot, role] of Object.entries(WATERFALL_TEXTURE_ROLES) as [WaterfallTextureSlot, string][]) {
       const entry = manifest.textures?.find((t) => t.role === role);
       if (entry) urls[slot] = `${base}${WATERFALL_KIT}/${entry.file}`;
     }
+    for (const t of manifest.textures ?? []) if (t.id && !(t.id in urls)) urls[t.id] = `${base}${WATERFALL_KIT}/${t.file}`;
     return urls;
   } catch {
     return {};
@@ -79,6 +82,7 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
     waveTimeS: waterTimeS,
     windSpeedMS: () => lastWeatherSample()?.windSpeedMS ?? 0,
     waterfallTextureUrls,
+    waterfallKitUrl: `${base}${WATERFALL_GEOMETRY}`,
   })).then((assets) => {
     // the terrain wet band samples the same rasters
     primeWetnessUniforms(assets);

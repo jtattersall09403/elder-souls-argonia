@@ -1,5 +1,5 @@
 {
-  "appliedHeightSha256": "b7b57531db8b15ea5562f06f93b87f5d568d516c2234d68aa753cfc96be1d53d",
+  "appliedHeightSha256": "3646995c57f224820c6af2b5e01f0075361f50923d815422c80dcc19c808d7ac",
   "fulfillments": [
     {
       "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",
@@ -3202,6 +3202,489 @@
       "requestId": "terrain-request.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7"
     },
     {
+      "deliverySha256": "7295301d5f880242a2fa72281da872df8c76ecd73fa87a8ab7deeae237822119",
+      "evidenceRefs": [
+        "terrain-operation-evidence.terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297.sha256.1273fa77135fe30830bb3c0310a6a295f9859c913e219c8e73a9defc8337493c"
+      ],
+      "operationEvidence": [
+        {
+          "action": "carve",
+          "axis": [
+            0.908021287,
+            0.41892403
+          ],
+          "axisSource": "local-gradient-fallback",
+          "coveredFields": [
+            "access",
+            "capacity",
+            "depthClass",
+            "feature",
+            "featureCount",
+            "waterRelation"
+          ],
+          "deliverySha256": "7295301d5f880242a2fa72281da872df8c76ecd73fa87a8ab7deeae237822119",
+          "deltaSha256": "2477b44b83b34db54982d12d2b8cccb069fa48a089e80732d94e3af731466371",
+          "evidenceSha256": "1273fa77135fe30830bb3c0310a6a295f9859c913e219c8e73a9defc8337493c",
+          "operationId": "terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+          "profile": "channel-link",
+          "witnesses": [
+            {
+              "appliedDeltaM": -0.043,
+              "baseHeightM": 3.797015,
+              "operationDeltaM": -0.043001,
+              "x": 1182,
+              "z": 3731
+            },
+            {
+              "appliedDeltaM": -0.042997,
+              "baseHeightM": 2.766858,
+              "operationDeltaM": -0.042997,
+              "x": 1195,
+              "z": 3737
+            },
+            {
+              "appliedDeltaM": -0.042985,
+              "baseHeightM": 1.302118,
+              "operationDeltaM": -0.042985,
+              "x": 1208,
+              "z": 3743
+            },
+            {
+              "appliedDeltaM": -0.042367,
+              "baseHeightM": 1.83864,
+              "operationDeltaM": -0.042367,
+              "x": 1204,
+              "z": 3742
+            },
+            {
+              "appliedDeltaM": -0.042269,
+              "baseHeightM": 2.96215,
+              "operationDeltaM": -0.042269,
+              "x": 1191,
+              "z": 3736
+            },
+            {
+              "appliedDeltaM": -0.041734,
+              "baseHeightM": 3.903665,
+              "operationDeltaM": -0.041734,
+              "x": 1180,
+              "z": 3731
+            },
+            {
+              "appliedDeltaM": -0.041608,
+              "baseHeightM": 2.901922,
+              "operationDeltaM": -0.041608,
+              "x": 1193,
+              "z": 3737
+            },
+            {
+              "appliedDeltaM": -0.041457,
+              "baseHeightM": 1.579392,
+              "operationDeltaM": -0.041457,
+              "x": 1206,
+              "z": 3743
+            },
+            {
+              "appliedDeltaM": -0.040983,
+              "baseHeightM": 0.83867,
+              "operationDeltaM": -0.040983,
+              "x": 1217,
+              "z": 3748
+            },
+            {
+              "appliedDeltaM": -0.039269,
+              "baseHeightM": 1.477402,
+              "operationDeltaM": -0.039269,
+              "x": 1206,
+              "z": 3742
+            },
+            {
+              "appliedDeltaM": -0.039153,
+              "baseHeightM": 3.635224,
+              "operationDeltaM": -0.039153,
+              "x": 1184,
+              "z": 3732
+            },
+            {
+              "appliedDeltaM": -0.03893,
+              "baseHeightM": 2.686991,
+              "operationDeltaM": -0.03893,
+              "x": 1197,
+              "z": 3738
+            },
+            {
+              "appliedDeltaM": -0.038701,
+              "baseHeightM": 1.254161,
+              "operationDeltaM": -0.038701,
+              "x": 1210,
+              "z": 3744
+            },
+            {
+              "appliedDeltaM": -0.036113,
+              "baseHeightM": 0.945751,
+              "operationDeltaM": -0.036113,
+              "x": 1215,
+              "z": 3747
+            },
+            {
+              "appliedDeltaM": -0.035831,
+              "baseHeightM": 2.125957,
+              "operationDeltaM": -0.035831,
+              "x": 1202,
+              "z": 3741
+            },
+            {
+              "appliedDeltaM": -0.035545,
+              "baseHeightM": 2.879633,
+              "operationDeltaM": -0.035545,
+              "x": 1189,
+              "z": 3735
+            },
+            {
+              "appliedDeltaM": -0.035105,
+              "baseHeightM": 0.731061,
+              "operationDeltaM": -0.035105,
+              "x": 1219,
+              "z": 3749
+            },
+            {
+              "appliedDeltaM": -0.034559,
+              "baseHeightM": 0.83987,
+              "operationDeltaM": -0.034559,
+              "x": 1219,
+              "z": 3748
+            },
+            {
+              "appliedDeltaM": -0.033077,
+              "baseHeightM": 3.702926,
+              "operationDeltaM": -0.033077,
+              "x": 1182,
+              "z": 3732
+            },
+            {
+              "appliedDeltaM": -0.032701,
+              "baseHeightM": 2.739996,
+              "operationDeltaM": -0.032701,
+              "x": 1195,
+              "z": 3738
+            },
+            {
+              "appliedDeltaM": -0.032319,
+              "baseHeightM": 1.384142,
+              "operationDeltaM": -0.032319,
+              "x": 1208,
+              "z": 3744
+            },
+            {
+              "appliedDeltaM": -0.031195,
+              "baseHeightM": 4.087692,
+              "operationDeltaM": -0.031195,
+              "x": 1178,
+              "z": 3730
+            },
+            {
+              "appliedDeltaM": -0.031044,
+              "baseHeightM": 0.743119,
+              "operationDeltaM": -0.031044,
+              "x": 1221,
+              "z": 3749
+            },
+            {
+              "appliedDeltaM": -0.029432,
+              "baseHeightM": 3.413903,
+              "operationDeltaM": -0.029432,
+              "x": 1186,
+              "z": 3733
+            },
+            {
+              "appliedDeltaM": -0.029084,
+              "baseHeightM": 2.536843,
+              "operationDeltaM": -0.029084,
+              "x": 1199,
+              "z": 3739
+            },
+            {
+              "appliedDeltaM": -0.028734,
+              "baseHeightM": 1.172862,
+              "operationDeltaM": -0.028734,
+              "x": 1212,
+              "z": 3745
+            },
+            {
+              "appliedDeltaM": -0.02773,
+              "baseHeightM": 1.820804,
+              "operationDeltaM": -0.02773,
+              "x": 1204,
+              "z": 3741
+            },
+            {
+              "appliedDeltaM": -0.027426,
+              "baseHeightM": 0.938011,
+              "operationDeltaM": -0.027426,
+              "x": 1217,
+              "z": 3747
+            },
+            {
+              "appliedDeltaM": -0.027289,
+              "baseHeightM": 2.961188,
+              "operationDeltaM": -0.027289,
+              "x": 1191,
+              "z": 3735
+            },
+            {
+              "appliedDeltaM": -0.025111,
+              "baseHeightM": 1.085221,
+              "operationDeltaM": -0.025111,
+              "x": 1213,
+              "z": 3746
+            },
+            {
+              "appliedDeltaM": -0.024747,
+              "baseHeightM": 2.399384,
+              "operationDeltaM": -0.024747,
+              "x": 1200,
+              "z": 3740
+            },
+            {
+              "appliedDeltaM": -0.024382,
+              "baseHeightM": 3.199497,
+              "operationDeltaM": -0.024382,
+              "x": 1187,
+              "z": 3734
+            },
+            {
+              "appliedDeltaM": -0.021735,
+              "baseHeightM": 0.622334,
+              "operationDeltaM": -0.021735,
+              "x": 1221,
+              "z": 3750
+            },
+            {
+              "appliedDeltaM": -0.020765,
+              "baseHeightM": 0.655006,
+              "operationDeltaM": -0.020765,
+              "x": 1223,
+              "z": 3750
+            },
+            {
+              "appliedDeltaM": -0.017611,
+              "baseHeightM": 4.157274,
+              "operationDeltaM": -0.01761,
+              "x": 1178,
+              "z": 3729
+            },
+            {
+              "appliedDeltaM": -0.017389,
+              "baseHeightM": 1.256609,
+              "operationDeltaM": -0.017389,
+              "x": 1210,
+              "z": 3745
+            },
+            {
+              "appliedDeltaM": -0.016749,
+              "baseHeightM": 1.0481,
+              "operationDeltaM": -0.016749,
+              "x": 1214,
+              "z": 3746
+            },
+            {
+              "appliedDeltaM": -0.013295,
+              "baseHeightM": 1.219178,
+              "operationDeltaM": -0.013295,
+              "x": 1211,
+              "z": 3745
+            },
+            {
+              "appliedDeltaM": -0.012577,
+              "baseHeightM": 1.017304,
+              "operationDeltaM": -0.012577,
+              "x": 1215,
+              "z": 3746
+            },
+            {
+              "appliedDeltaM": -0.009956,
+              "baseHeightM": 0.59795,
+              "operationDeltaM": -0.009956,
+              "x": 1225,
+              "z": 3751
+            },
+            {
+              "appliedDeltaM": -0.009628,
+              "baseHeightM": 4.237442,
+              "operationDeltaM": -0.009628,
+              "x": 1176,
+              "z": 3729
+            },
+            {
+              "appliedDeltaM": -0.008201,
+              "baseHeightM": 0.523887,
+              "operationDeltaM": -0.008201,
+              "x": 1223,
+              "z": 3751
+            },
+            {
+              "appliedDeltaM": -0.006583,
+              "baseHeightM": 0.94071,
+              "operationDeltaM": -0.006583,
+              "x": 1216,
+              "z": 3747
+            },
+            {
+              "appliedDeltaM": -0.005868,
+              "baseHeightM": 0.556766,
+              "operationDeltaM": -0.005868,
+              "x": 1224,
+              "z": 3751
+            },
+            {
+              "appliedDeltaM": -0.005647,
+              "baseHeightM": 0.52998,
+              "operationDeltaM": -0.005647,
+              "x": 1226,
+              "z": 3752
+            },
+            {
+              "appliedDeltaM": -0.004372,
+              "baseHeightM": 1.310352,
+              "operationDeltaM": -0.004372,
+              "x": 1209,
+              "z": 3744
+            },
+            {
+              "appliedDeltaM": -0.00397,
+              "baseHeightM": 3.364543,
+              "operationDeltaM": -0.00397,
+              "x": 1186,
+              "z": 3734
+            },
+            {
+              "appliedDeltaM": -0.003648,
+              "baseHeightM": 2.462403,
+              "operationDeltaM": -0.003648,
+              "x": 1199,
+              "z": 3740
+            },
+            {
+              "appliedDeltaM": -0.003337,
+              "baseHeightM": 1.132492,
+              "operationDeltaM": -0.003337,
+              "x": 1212,
+              "z": 3746
+            },
+            {
+              "appliedDeltaM": -0.002858,
+              "baseHeightM": 0.63611,
+              "operationDeltaM": -0.002858,
+              "x": 1222,
+              "z": 3750
+            },
+            {
+              "appliedDeltaM": -0.002237,
+              "baseHeightM": 0.599873,
+              "operationDeltaM": -0.002237,
+              "x": 1227,
+              "z": 3752
+            },
+            {
+              "appliedDeltaM": -0.001672,
+              "baseHeightM": 0.573683,
+              "operationDeltaM": -0.001672,
+              "x": 1228,
+              "z": 3753
+            },
+            {
+              "appliedDeltaM": -0.001112,
+              "baseHeightM": 4.317858,
+              "operationDeltaM": -0.001113,
+              "x": 1175,
+              "z": 3728
+            },
+            {
+              "appliedDeltaM": -0.000935,
+              "baseHeightM": 0.838261,
+              "operationDeltaM": -0.000935,
+              "x": 1218,
+              "z": 3748
+            },
+            {
+              "appliedDeltaM": -0.000881,
+              "baseHeightM": 1.115808,
+              "operationDeltaM": -0.000881,
+              "x": 1213,
+              "z": 3745
+            },
+            {
+              "appliedDeltaM": -0.000876,
+              "baseHeightM": 0.467544,
+              "operationDeltaM": -0.000876,
+              "x": 1225,
+              "z": 3752
+            },
+            {
+              "appliedDeltaM": -0.000797,
+              "baseHeightM": 0.676353,
+              "operationDeltaM": -0.000797,
+              "x": 1228,
+              "z": 3752
+            },
+            {
+              "appliedDeltaM": -0.000273,
+              "baseHeightM": 1.408991,
+              "operationDeltaM": -0.000272,
+              "x": 1207,
+              "z": 3743
+            },
+            {
+              "appliedDeltaM": -0.00026,
+              "baseHeightM": 0.735779,
+              "operationDeltaM": -0.00026,
+              "x": 1220,
+              "z": 3749
+            },
+            {
+              "appliedDeltaM": -0.000255,
+              "baseHeightM": 0.646913,
+              "operationDeltaM": -0.000255,
+              "x": 1226,
+              "z": 3751
+            },
+            {
+              "appliedDeltaM": -0.000101,
+              "baseHeightM": 0.665016,
+              "operationDeltaM": -0.000101,
+              "x": 1229,
+              "z": 3753
+            },
+            {
+              "appliedDeltaM": -6.3e-05,
+              "baseHeightM": 0.748378,
+              "operationDeltaM": -6.3e-05,
+              "x": 1230,
+              "z": 3753
+            },
+            {
+              "appliedDeltaM": -3.1e-05,
+              "baseHeightM": 0.650815,
+              "operationDeltaM": -3.1e-05,
+              "x": 1230,
+              "z": 3754
+            },
+            {
+              "appliedDeltaM": 0.0,
+              "baseHeightM": 0.729297,
+              "operationDeltaM": -0.0,
+              "x": 1231,
+              "z": 3754
+            }
+          ]
+        }
+      ],
+      "operationIds": [
+        "terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297"
+      ],
+      "requestId": "terrain-request.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297"
+    },
+    {
       "deliverySha256": "4dc5120d953a6e22054771ce0212bb0149e99ea38cc9b7b6fca42edff97f87cf",
       "evidenceRefs": [
         "terrain-operation-evidence.terrain-op.pirate-freeholds.chasecreek.cut.6e10c2d1badb.sha256.f3121327c6ab477513070d366f5120935a2f1496d3b13fa02ac41391a052c484"
@@ -3684,8 +4167,8 @@
     }
   ],
   "kind": "terrain-request-fulfillments",
-  "planDigest": "64c53ab97c0c16660d3f7f11fb9221c50e5fe867d5372fdbc381c2cd84cb37b0",
-  "postRefineHeightSha256": "b7b57531db8b15ea5562f06f93b87f5d568d516c2234d68aa753cfc96be1d53d",
+  "planDigest": "9542351e3292bd84531f1f4ec5ec8e4fb83053cedea6360bbc3be18294318a9c",
+  "postRefineHeightSha256": "3646995c57f224820c6af2b5e01f0075361f50923d815422c80dcc19c808d7ac",
   "schemaVersion": 2,
-  "sourceDigest": "94dc09488ed74392297d9b7fcd397a856a57a9258789a2bf85b18be967564009"
+  "sourceDigest": "5d4e91385a888babeb8aef808db7b5e10ca6c36b6741d5957fc5c9b13ba49c38"
 }

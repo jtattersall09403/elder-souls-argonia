@@ -198,6 +198,37 @@
   },
   {
     "action": "carve",
+    "affectedSamples": 88,
+    "axis": [
+      0.908021287,
+      0.41892403
+    ],
+    "axisSource": "local-gradient-fallback",
+    "delivery": {
+      "access": "poling",
+      "capacity": "poled-skiff",
+      "depthClass": "navigable",
+      "feature": "screened-back-channels",
+      "featureCount": 2,
+      "waterRelation": "channel-linked"
+    },
+    "deliverySha256": "7295301d5f880242a2fa72281da872df8c76ecd73fa87a8ab7deeae237822119",
+    "deltaSha256": "2477b44b83b34db54982d12d2b8cccb069fa48a089e80732d94e3af731466371",
+    "maxDeltaM": -1.499767793243147e-09,
+    "meanAbsDeltaM": 0.017509183904182726,
+    "minDeltaM": -0.04300056084951512,
+    "operationId": "terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+    "profile": "channel-link",
+    "requestId": "terrain-request.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+    "sampleBounds": {
+      "maxX": 1236,
+      "maxZ": 3783,
+      "minX": 1137,
+      "minZ": 3684
+    }
+  },
+  {
+    "action": "carve",
     "affectedSamples": 341,
     "axis": [
       -0.49259822,

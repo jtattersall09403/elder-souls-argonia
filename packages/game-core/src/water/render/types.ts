@@ -7,6 +7,7 @@ import type { WaterEffectsDiagnostics } from "./WaterEffects";
 import type { UnderwaterBubbleDiagnostics } from "./UnderwaterBubbles";
 import type { UnderwaterBubblePassDiagnostics } from "./UnderwaterBubblePass";
 import type { WaterfallDiagnostics, WaterfallTextureSet } from "./WaterfallSheets";
+import type { WaterfallKit } from "./WaterfallKit";
 
 export interface WaterAssets {
   data: WaterData;
@@ -29,6 +30,9 @@ export interface WaterAssets {
   /** The vanilla waterfall FX textures (kit `waterfall-fx-textures`), by
    * shader slot; absent or null slots keep the procedural streak field. */
   waterfallTextures?: WaterfallTextureSet;
+  /** The vanilla waterfall FX kit geometry (`waterfall-fx-v1.glb`, decision
+   * 0064), parsed by piece; null/absent = falls are not drawn (ramps still are). */
+  waterfallKit?: WaterfallKit | null;
 }
 
 export interface LocalWaterSurfaceState {
@@ -59,7 +63,10 @@ export interface WaterRuntime {
   /** Player/interaction focus in TRUE metres; absent in a free camera view. */
   surfaceFocus?(): Vec3 | null;
   applyAerial(material: THREE.Material): void;
-  onLevels(tide: number, season: number, wind: number): void;
+  /** `wind` is the wave-energy scale (`getWindWaveScale`); `windMS` is the
+   * weather's 10 m wind in m/s, which the terrain's wet-shore band needs for
+   * the one surf-energy knob (`surfEnergyScale`, 16c round 2). */
+  onLevels(tide: number, season: number, wind: number, windMS: number): void;
   onLocalSurface?(state: LocalWaterSurfaceState | null): void;
   sunDirection: { value: THREE.Vector3 };
   /** HDR aerial-light feeds: sky irradiance×0.1 and direct irradiance×haze scatter. */

@@ -85,9 +85,10 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
     waterLayers: () => parseWaterLayers(
       window.__STUDIO_WATER_LAYERS__ !== undefined ? window.__STUDIO_WATER_LAYERS__ : INITIAL_WATER_LAYERS),
     onLocalSurface: state => updateGroundLocalWater(wetnessUniforms, state),
-    onLevels: (tide, season, wind) => {
+    onLevels: (tide, season, wind, windMS) => {
       wetnessUniforms.uWetLevels.value.set(tide, season);
       wetnessUniforms.uWetWind.value = wind;
+      wetnessUniforms.uWetWindMS.value = windMS;
       wetnessUniforms.uWetTime.value = waterTimeS();
       wetnessUniforms.uWetSun.value.copy(sharedAerialUniforms.uSunDirW.value);
       wetnessUniforms.uWetCausticDebug.value = Number.isFinite(window.__STUDIO_CAUSTICS__)

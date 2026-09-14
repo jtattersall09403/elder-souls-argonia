@@ -5,13 +5,13 @@
    "source": "https://www.moddb.com/mods/black-marsh-valenwood",
    "credit": "Black Marsh & Valenwood (ModDB), bundling many credited modder resources",
    "meshesSeen": 12798,
-   "registered": 12001,
+   "registered": 12016,
    "skippedNonContent": {
     "lod": 690,
-    "effect": 107
+    "effect": 92
    },
    "categories": {
-    "architecture": 3103,
+    "architecture": 3137,
     "creature": 2245,
     "clutter": 1629,
     "tree": 932,
@@ -25,31 +25,32 @@
     "grass": 250,
     "ruin": 244,
     "shrub": 198,
-    "fungus": 131,
     "weapon": 99,
+    "fungus": 97,
     "terrain-feature": 86,
     "furniture": 78,
     "deadfall": 43,
     "aquatic-plant": 31,
     "root": 15,
+    "effect": 15,
     "door": 4,
     "ice": 2,
     "vehicle": 2
    },
    "withLodVariant": 634,
    "withDimensions": 860,
-   "observedPlaced": 180
+   "observedPlaced": 191
   },
   "vanilla": {
    "label": "Vanilla Skyrim (Bethesda)",
    "source": "Skyrim - Meshes.bsa (owner's copy of the game)",
    "credit": "Skyrim vanilla assets (Bethesda)",
    "meshesSeen": 17216,
-   "registered": 14974,
+   "registered": 15045,
    "skippedNonContent": {
-    "lod": 843,
+    "lod": 840,
     "marker": 284,
-    "effect": 941,
+    "effect": 873,
     "sky": 154,
     "water": 20
    },
@@ -67,6 +68,7 @@
     "terrain-feature": 98,
     "container": 91,
     "trap": 91,
+    "effect": 68,
     "rock": 68,
     "tree": 47,
     "ice": 46,
@@ -78,11 +80,12 @@
     "root": 16,
     "aquatic-plant": 5,
     "bridge": 4,
+    "lod": 3,
     "light": 1
    },
    "withLodVariant": 52,
-   "withDimensions": 8620,
-   "observedPlaced": 677
+   "withDimensions": 8685,
+   "observedPlaced": 696
   },
   "tropical": {
    "label": "Tropical Skyrim \u2014 A Climate Overhaul",

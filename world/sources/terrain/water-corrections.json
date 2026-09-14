@@ -1,0 +1,27 @@
+{
+ "schemaVersion": 1,
+ "about": "The terrain corrections the owner approved against the 16c water ledger (docs/research/phase16/16c-water-once-ledger.md section 4) on 2026-09-14. This file is the AUTHORING INPUT of `python3 -m worldgen.author_terrain_patches water-corrections`, which reads it with the compiler's own census (the vault's water-pass1.npz, the published water-meta.json) and the vault's channel solution and writes the `bed-cut` and `levee` patches into terrain-patches.json. Re-run it after every water compile: the perched set moves with the compiler. Only the sites listed here are ever cut; a bed-over-level run the census reports elsewhere is printed as unapproved and left alone.",
+ "bedCuts": {
+  "decision": "owner 2026-09-14: 'Four small terrain fixes (dry gaps in rivers) - I approve all four'",
+  "rule": "along each run of stations whose bed stands above its promise (plus one station either side) lower the ground to the promised bed: the station's profile level minus its cut depth (the vault channel solution; a weir station is floored AT its level), a terrain-stage feeder to min(level, the graph's bedMaxM); parabolic across the water width, a 2 m taper past it; never raising anything",
+  "siteRadiusM": 150,
+  "sites": [
+   {"id": "site-2277-2815", "eastM": 2277, "southM": 2815, "reaches": ["reach.1176-1475", "reach.1200-1548"],
+    "why": "the last station of a band-2 river at the sea: the coast bank stands 2.93 m over the level, the trench never cut the sea's protected collar"},
+   {"id": "site-4409-3923", "eastM": 4409, "southM": 3923, "reaches": ["reach.2416-2126", "reach.2355-2094"],
+    "why": "two band-1 creeks at a junction, 4 stations each, up to 1.26 m over: an approved-body rim ring (body.2435-2152, captured) crossing the channels; the freeze gate's reach.2355-2094 leftover"},
+   {"id": "site-1702-4367", "eastM": 1702, "southM": 4367, "reaches": ["reach.948-2365", "reach.926-2382"],
+    "why": "a lake outlet's weir lip 0.18 m above the lake at the junction cell"},
+   {"id": "site-2454-6296", "eastM": 2454, "southM": 6296, "reaches": ["reach.1317-3476"],
+    "why": "the Blackrose lake's north-east feeder where it meets the creek: its end stations stand up to 0.47 m over the 1.6 m level"},
+   {"id": "site-2389-6485", "eastM": 2389, "southM": 6485, "reaches": ["reach.1306-3547"],
+    "why": "the Blackrose lake's south outlet: single-station bumps 0.06-0.65 m above the 1.6 m sill along its first 120 m; cut to the graded outlet profile so the lake spills at 1.6 m (decision 0060 section 2)"}
+  ]
+ },
+ "levees": {
+  "decision": "owner 2026-09-14: 'Rivers running beside a lower marsh - b please' (raise the sheet's rim as a patch so a shoulder seals between the channel and the lower body)",
+  "runs": "all-perched",
+  "rule": "for every perched station of the census (a free channel station whose water stands more than 0.3 m over a dry cell beside it, compile_water.PERCHED_DROP_M), raise the shoulder band from the water's edge to the edge + 6 m, both sides, to max(ground, station level + 0.3 m), tapered 2 m outward, never inside any water width; a lower body's fringe in the band dries, its level and deepest cell stay. A station whose band would need a raise over 4.5 m (the carve's own largest shoulder cap: the ground beside it drops away, a cliff edge) or whose crest stands over 4.5 m above a neighbouring station's within the band (a chute step) is listed unsealable: no bank seals those",
+  "maxRaiseM": 4.5
+ }
+}

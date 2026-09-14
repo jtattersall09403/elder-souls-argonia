@@ -5,7 +5,7 @@ import { WAVES, waveBands } from "../waves";
 import { SHORE_FROTH } from "./shoreFroth";
 import { FOAM_TEX } from "./waterMaterial";
 import {
-  BURIED_GUARD, CONTACT_FOAM_M, EDGE_FADE_M, FIELD_SLOPE_FADE, FLECK, FOAM_CYCLE_S, OWNER_DILATE_M,
+  BURIED_GUARD, CONTACT_FOAM_M, EDGE_FADE_M, FIELD_SLOPE_FADE, FLECK, FOAM_CYCLE_S, OWNER_DILATE_M, RUSH,
   STRIP_AERATION_GLSL, STRIP_WHITE, createWaterMaterial, createWaterUniforms,
   stripAeration, stripAlbedo, stripBankProfile, stripStreakGain, stripStreakPhase, stripWhitewaterBlend, WATER_TIERS,
 } from "./waterMaterial";
@@ -149,7 +149,7 @@ describe("flowing water (decision 0047 item 6)", () => {
     expect(frag).not.toContain("dot(vEsWorldPos.xz, esFDirN)");
     expect(frag).toContain("esG -= esFDirN * dot(esG, esFDirN) * (1.0 - 1.0 / esStretch);");
     // waves and surf stay on the wave clock
-    expect(code(compile("field").shader.vertexShader)).toContain("esSwash(esShore, esFetch, uWaveTime, esSurfWind)");
+    expect(code(compile("field").shader.vertexShader)).toContain("esSwash(esShore, esFetch, uWaveTime, esSurfE, esAlong)");
   });
 
   it("draws river flecks only on flowing river-class water, advected 1:1", () => {
@@ -290,7 +290,10 @@ describe("whitewater strips (decision 0047 item 4)", () => {
     expect(frag).not.toContain("exp(-esAbsorb");
     expect(frag).not.toContain("esSurfFoam(esShoreD");
     expect(frag).not.toContain("esPlungeFoam(vEsWorldPos");
-    expect(frag).not.toContain("esContactFoam(vEsWorldPos");
+    // (the player's own wake — esContactFoam and the ripple crest — IS carried
+    // here: it is not a shoreline/surf term, and excluding it left wading into
+    // a chute with no effect at all. See the interaction test below; owner
+    // 2026-09-14, 16c round 2.)
     expect(frag).not.toContain("#define ES_SSR");
     expect(frag).not.toContain("uRefractStrength *");
     // bank overlap is the only fade
@@ -331,6 +334,22 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     for (const b of waveBands()) expect(vert).toContain(`clamp(fetchM / ${b.fetchM}`);
   });
 
+  it("shore surf round 2: one energy knob from wind and fetch, an oblique phase, shared by geometry and foam (16c)", () => {
+    // the vertex computes the energy and the along-shore phase once and
+    // hands both to the swash, the shore swell and (as a varying) the foam
+    expect(vert).toContain("float esSurfE = esSurfEnergy(uWindMS, esFetchM);");
+    expect(vert).toContain("float esAlong = esAlongPhase(esRestW.xz, esShoreDir, uWaveTime);");
+    expect(vert).toContain("esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfE, esAlong, esSwellDHdd)");
+    expect(vert).toContain("vEsSurf = vec4(esFetch, esShoreDir, esSurfE);");
+    expect(frag).toContain("esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, vEsSurf.w,");
+    expect(frag).toContain("esAlongPhase(vEsWorldPos.xz, vEsSurf.yz, uWaveTime)");
+    // the old wave-scale power is gone from both stages: one knob
+    for (const src of [vert, frag]) {
+      expect(src).not.toContain("pow(uWindWave, 0.8)");
+      expect(src).not.toContain("esSurfWind");
+    }
+  });
+
   it("the wave clock only ever feeds periodic functions (the 8192 s fold is pop-free)", () => {
     // every remaining uWaveTime use is inside a snapped-frequency closed form
     // (waves.ts) — no drift, no sin of an unsnapped rate, no shimmer scroll
@@ -343,7 +362,7 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     const waveUses = frag.match(/uWaveTime/g) ?? [];
     // surf closed forms (esSurfFoam/esSwash) and uniform declaration only
     for (const line of frag.split("\n").filter((l) => l.includes("uWaveTime"))) {
-      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
+      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
     }
     expect(waveUses.length).toBeGreaterThan(0);
   });
@@ -422,6 +441,40 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     expect(frag).toContain("esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uRainRipple, esDist);");
     expect(frag).toContain("vec2 esRainRings(vec2 wp, float t, float intensity, float dist)");
     expect(code(compile("strip").shader.fragmentShader)).not.toContain("esRainRings(");
+  });
+
+  it("wading into a chute churns it: the strip carries the contact rings and the ripple crest too", () => {
+    // 16c round 2 (owner: "interaction effects between player and these kinds
+    // of sloped water also don't seem to be working (no effects at all)").
+    // The strip branch REPLACES the field's foam block, so before this it
+    // used neither term although both were in scope.
+    const stripFrag = code(compile("strip").shader.fragmentShader);
+    expect(stripFrag).toContain("esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5");
+    // ...folded into the whitewater, never a second foam family on the ribbon
+    expect(stripFrag).toContain("esWhite = clamp(esWhite + (esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5 + esRush) * (1.0 - esWhite), 0.0, 1.0);");
+    // ...and after the slope/speed gate, so a slow clear film still shows a wake
+    expect(stripFrag.indexOf("esWhite *= mix(0.15, 1.0, esBlend);"))
+      .toBeLessThan(stripFrag.indexOf("esWhite = clamp(esWhite + (esContactFoam"));
+    // the field keeps its own copy of the same two terms
+    expect(frag).toContain("esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;");
+  });
+
+  it("fast water churns around a body standing still in it: a bow wave upstream, a wake downstream", () => {
+    // owner 2026-09-14: "even if you're standing still in sloped, fast flowing
+    // water it is rushing around and splashing off the player's body".
+    // esContactFoam alone needs the body to MOVE; this term needs only the flow.
+    const stripFrag = code(compile("strip").shader.fragmentShader);
+    for (const src of [stripFrag, frag]) {
+      expect(src).toContain("float esContactRush(vec2 wp, vec2 dir, float speed){");
+      // gated on the flow's speed, so a still pond gains nothing
+      expect(src).toContain(`float gain = smoothstep(${RUSH.speedFromMS.toFixed(2)}, ${RUSH.speedFullMS.toFixed(2)}, speed);`);
+      // the bow sits on the UPSTREAM side (negative along the flow direction)
+      expect(src).toContain("(1.0 - smoothstep(-0.7, 0.2, along))");
+      // ...and the wake spreads downstream
+      expect(src).toContain("smoothstep(0.0, 0.4, along) * (1.0 - smoothstep(0.5, 4.0, along))");
+    }
+    expect(stripFrag).toContain("float esRush = esContactRush(vEsWorldPos.xz, esRushDir, esSpeed);");
+    expect(frag).toContain("esFoamE += esContactRush(vEsWorldPos.xz, vEsFlow.xy / max(esSpeed, 1e-3), esSpeed);");
   });
 
   it("meniscus: normal tilt in both variants and a rim in both lighting stages", () => {

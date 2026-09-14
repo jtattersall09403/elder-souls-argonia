@@ -105,20 +105,27 @@ def save_frozen(path: Path, arr: np.ndarray, name: str, why: str, frozen_on: str
     return sha
 
 
-def main() -> int:
+def vault_copy(name: str) -> Path | None:
+    """Where the vault keeps a frozen array: the heightfield dir, then province-refined."""
     from .vault import HEIGHTFIELD_DIR
+    for cand in (HEIGHTFIELD_DIR / name, HEIGHTFIELD_DIR / "province-refined" / name):
+        if cand.exists():
+            return cand
+    return None
+
+
+def main() -> int:
     doc = load()
     rc = 0
     for name, rec in doc["frozen"].items():
-        for cand in (HEIGHTFIELD_DIR / name, HEIGHTFIELD_DIR / "province-refined" / name):
-            if cand.exists():
-                sha = sha256_of(np.load(cand, mmap_mode="r"))
-                state = "ok" if sha == rec["sha256"] else "DIFFERS"
-                rc |= state != "ok"
-                print(f"{name}: recorded {rec['sha256'][:16]}… vault {sha[:16]}… {state} ({rec['frozenOn']})")
-                break
-        else:
+        cand = vault_copy(name)
+        if cand is None:
             print(f"{name}: recorded {rec['sha256'][:16]}… not in the vault")
+            continue
+        sha = sha256_of(np.load(cand, mmap_mode="r"))
+        state = "ok" if sha == rec["sha256"] else "DIFFERS"
+        rc |= state != "ok"
+        print(f"{name}: recorded {rec['sha256'][:16]}… vault {sha[:16]}… {state} ({rec['frozenOn']})")
     return rc
 
 

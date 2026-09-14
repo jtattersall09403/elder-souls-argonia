@@ -240,6 +240,42 @@
       "action": "carve",
       "axisResolver": "nearest-water-path",
       "boundsM": {
+        "maxXM": 2258.696,
+        "maxZM": 6914.254,
+        "minXM": 2078.696,
+        "minZM": 6734.254
+      },
+      "centerM": [
+        2168.696,
+        6824.254
+      ],
+      "fulfillmentEvidence": {
+        "authoredNote": "Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line.",
+        "sourcePath": "terrainRequests[cut:ae26262e8297]"
+      },
+      "id": "terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+      "parameters": {
+        "bedWidthFraction": 0.12,
+        "delivery": {
+          "access": "poling",
+          "capacity": "poled-skiff",
+          "depthClass": "navigable",
+          "feature": "screened-back-channels",
+          "featureCount": 2,
+          "waterRelation": "channel-linked"
+        },
+        "deltaM": 1.7,
+        "falloffFraction": 0.35
+      },
+      "placeId": "place.imperial-penal-south.chainbreaker-shelter",
+      "profile": "channel-link",
+      "radiusM": 90.0,
+      "requestId": "terrain-request.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297"
+    },
+    {
+      "action": "carve",
+      "axisResolver": "nearest-water-path",
+      "boundsM": {
         "maxXM": 4189.919,
         "maxZM": 1590.684,
         "minXM": 4029.919,
@@ -271,7 +307,7 @@
       "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb"
     }
   ],
-  "planDigest": "64c53ab97c0c16660d3f7f11fb9221c50e5fe867d5372fdbc381c2cd84cb37b0",
+  "planDigest": "9542351e3292bd84531f1f4ec5ec8e4fb83053cedea6360bbc3be18294318a9c",
   "policyDigest": "ef00aaf06c34027814a16bf675e7960de1c5bafabb43a19435ba94a479134397",
   "requests": [
     {
@@ -381,6 +417,24 @@
       "sourcePath": "terrainRequests[elevated-cliff-bench:da6758f57db7]"
     },
     {
+      "authoredNote": "Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line.",
+      "delivery": {
+        "access": "poling",
+        "capacity": "poled-skiff",
+        "depthClass": "navigable",
+        "feature": "screened-back-channels",
+        "featureCount": 2,
+        "waterRelation": "channel-linked"
+      },
+      "id": "terrain-request.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+      "kind": "cut",
+      "operationIds": [
+        "terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297"
+      ],
+      "placeId": "place.imperial-penal-south.chainbreaker-shelter",
+      "sourcePath": "terrainRequests[cut:ae26262e8297]"
+    },
+    {
       "authoredNote": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel",
       "delivery": {
         "capacity": "sea-going-hull",
@@ -398,5 +452,5 @@
     }
   ],
   "schemaVersion": 2,
-  "sourceDigest": "94dc09488ed74392297d9b7fcd397a856a57a9258789a2bf85b18be967564009"
+  "sourceDigest": "5d4e91385a888babeb8aef808db7b5e10ca6c36b6741d5957fc5c9b13ba49c38"
 }

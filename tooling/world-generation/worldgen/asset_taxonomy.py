@@ -41,6 +41,30 @@ SCATTER_CATEGORIES = frozenset({
 #: completeness counts but not worth a registry row.
 NON_CONTENT_CATEGORIES = frozenset({"lod", "marker", "sky", "effect", "water"})
 
+#: Effects meshes that ARE world content (decision 0064): the vanilla
+#: waterfall / rapids / mist kit, placed by the water runtime along every
+#: compiled cascade the way Bethesda stacked it. They keep the `effect`
+#: category (an unlit FX plane is not a rock) but earn registry rows like any
+#: static, so kit builds resolve them and the credits check sees them.
+CONTENT_EFFECT_PREFIXES = (
+    "meshes/effects/fxwaterfall",
+    "meshes/effects/fxrapids",
+    "meshes/effects/fxsplashlargechurn",
+    "meshes/effects/ambient/fxmistlow",
+    "meshes/lod/waterfalls/",
+)
+
+
+def is_content_effect(path: str) -> bool:
+    """True for an FX mesh the world places as content (see above)."""
+    return normalise(path).startswith(CONTENT_EFFECT_PREFIXES)
+
+
+def is_non_content(category: str, path: str) -> bool:
+    """Plumbing the registry skips: a non-content category, unless the path
+    is one of the FX meshes the world actually places."""
+    return category in NON_CONTENT_CATEGORIES and not is_content_effect(path)
+
 
 @dataclass(frozen=True)
 class Classification:

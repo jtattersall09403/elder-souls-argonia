@@ -35,7 +35,8 @@ realises unless `approved-bodies-waived.json` names it (the owner's waiver,
 per body, with the reason); anything smaller is recorded, never gated. Change the approved record only with the
 owner: a correction to the river network (a pocket that is not the sea, a
 mouth moved) is a row in `approved-routing-corrections.json`, applied by
-`compile_hydrology` on top of the frozen network; rebuild the record itself
+`compile_hydrology` on top of the frozen network (its `fromMouth` position
+is snapped to the river's actual last cell and checked against the river id); rebuild the record itself
 with `python3 -m worldgen.approved_bodies build`.
 
 ## Inputs and provenance

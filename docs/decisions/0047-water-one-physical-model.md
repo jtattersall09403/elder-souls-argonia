@@ -159,7 +159,13 @@ would ever cut, joined to the water it is authored to meet. Publishing that
 line instead of a routed one is the placement side's half of the contract and
 is not done.
 
-## Addendum 2026-09-08 — vanilla waterfall assets: merge, do not mount
+## Addendum 2026-09-08 — vanilla waterfall assets: merge, do not mount — SUPERSEDED by [0064](0064-waterfalls-are-the-vanilla-kit.md)
+
+> **Superseded 2026-09-14.** The owner's ruling is the opposite of this
+> addendum: a waterfall IS the vanilla FX kit's meshes, stacked the way
+> Bethesda stacked them, re-shaded by our own material. The text below is
+> kept as the record of what was decided on 2026-09-08 and why it was wrong
+> (the "foreign object" worry is answered by shading, not by not mounting).
 
 The vault audit ([waterfall-assets-vault-audit.md](../research/rendering/waterfall-assets-vault-audit.md))
 found the whole vanilla waterfall kit in the vault, converting cleanly, with

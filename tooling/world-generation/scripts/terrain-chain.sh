@@ -1,22 +1,33 @@
 #!/usr/bin/env bash
-# The terrain rebuild chain — THE single place the stage order lives.
+# The terrain build chain — THE single place the stage order lives.
 #
-# Any worldgen change that moves the ground moves everything derived from it
-# (routes, structures, chunks, water, land cover, scatter). The order below is
-# the one decision 0059 (Phase 16b) records; if it changes, change it HERE and
-# point at this script, so a doc and a run cannot drift apart.
+# It BUILDS ON the frozen ground; it does not rebuild it. No flag below except
+# --refreeze can re-run the six rungs above the freeze gate.
 #
-#   ./scripts/terrain-chain.sh                 # whole chain, skipping what is unchanged
-#   ./scripts/terrain-chain.sh --force         # rebuild every stage regardless
+# THE FREEZE GATE (decision 0066, owner 2026-09-14: layers are added onto what
+# is built, never rebuilt from the sculpt). A routine run does NOT re-execute
+# the six rungs above the gate. It starts at `apply_terrain_patches`, and
+# before it `verify_freeze` checks the three frozen arrays against
+# world/sources/terrain/freeze.json and hydrology-graph.json against its
+# recorded source and content shas (seconds), refusing on any mismatch. The
+# rungs above the gate are rebuilt only under `--refreeze`, which walks the
+# whole chain and re-records the shas (the owner walks the result). The order
+# below is the one decision 0059 (Phase 16b) records; if it changes, change it
+# HERE and point at this script, so a doc and a run cannot drift apart.
+#
+#   ./scripts/terrain-chain.sh                 # verify_freeze, then build from apply_terrain_patches down, skipping what is unchanged
+#   ./scripts/terrain-chain.sh --force         # re-run every stage BELOW the gate, ignoring the unchanged-stage skip (the frozen rungs still do not run)
 #   ./scripts/terrain-chain.sh --from grade_routes    # resume at a stage
 #   ./scripts/terrain-chain.sh --list          # stages, in order
 #   ./scripts/terrain-chain.sh --refreeze      # let the frozen base be re-derived (rare, deliberate)
 #   ./scripts/terrain-chain.sh --through 16b  # build only the stages delivered up to a chunk (default: DELIVERED_THROUGH)
-#   ./scripts/terrain-chain.sh --full          # every stage, whatever the ladder says (you know why)
+#   ./scripts/terrain-chain.sh --full          # every stage the LADDER hides, whatever chunk owns it (still not the frozen rungs)
 #   ./scripts/terrain-chain.sh --steal-lock    # take a lock a dead run left
 #
-# Run from tooling/world-generation. A full forced rebuild is roughly ten
-# minutes; a re-run with nothing changed is seconds.
+# Run from tooling/world-generation. A forced re-run of everything below the
+# gate is roughly ten minutes; a run with nothing changed is seconds; a
+# --refreeze, which rebuilds the frozen ground itself, is the rare deliberate
+# case the owner walks afterwards.
 #
 # THE LADDER (Phase 16b, decision 0059): terrain once, water once, places on a
 # frozen world.
@@ -27,7 +38,9 @@
 #   shape_province       valleys, detail noise, the Blackrose lake, portages, fluvial -> FROZEN
 #   hydrology_graph      the water solved ONCE on the shaped ground: rivers, reaches, bodies, promises
 #   carve_province       trenches, weirs, plunge bowls cut to the graph            -> FROZEN
-#   ---- the freeze gate: test_terrain_preconditions.py reads the frozen array and the graph ----
+#   ---- the freeze gate: a run CHECKS the six rungs above by hash
+#        (`python3 -m worldgen.verify_freeze`) and starts below it;
+#        test_terrain_preconditions.py reads the frozen array and the graph ----
 #   apply_terrain_patches   the typed patches (poling channels, terrain requests; pads and grading later)
 #   patch_water             proves no patch moved a water level or a body's extent
 #   compile_water           the water realised ONCE from the graph on the natural ground (16c)
@@ -111,6 +124,10 @@ declare -A STAGE_ARGS=(
   [compile_settlement]="--all"
   [export_settlement_bundle]="--copy-assets"
 )
+
+# The six rungs above the freeze gate (decision 0066). A routine run checks
+# them with `worldgen.verify_freeze` and skips them; only `--refreeze` rebuilds.
+ABOVE_GATE=(sculpt_province compile_hydrology compile_society shape_province hydrology_graph carve_province)
 
 STAGES=(
   "sculpt_province"
@@ -249,6 +266,18 @@ trap 'rm -f "$LOCK"' EXIT
 if [[ -n "$from" ]]; then
   printf '%s\n' "${STAGES[@]}" | grep -qx "$from" \
     || { echo "unknown stage: $from" >&2; exit 2; }
+  if [[ -z "${ES_REFREEZE:-}" ]] && printf '%s\n' "${ABOVE_GATE[@]}" | grep -qx "$from"; then
+    echo "$from is above the freeze gate; pass --refreeze to rebuild the frozen rungs (they are re-recorded in freeze.json and the owner walks the result)" >&2
+    exit 2
+  fi
+fi
+
+# The freeze gate: check what is built instead of rebuilding it (decision 0066).
+if [[ -z "${ES_REFREEZE:-}" ]]; then
+  echo "=== verify_freeze ==="
+  python3 -m worldgen.verify_freeze
+else
+  echo "=== verify_freeze === skipped (--refreeze: the frozen rungs will be rebuilt and re-recorded)"
 fi
 
 CHAIN_TIMES="$(mktemp)"
@@ -290,6 +319,11 @@ for stage in "${STAGES[@]}"; do
       if [[ -z "$full" ]] && ! printf '%s\n' $ENABLED | grep -qx "$stage"; then SKIPPED_STAGES+=("$stage"); fi
       continue
     fi
+  fi
+  if [[ -z "${ES_REFREEZE:-}" ]] && printf '%s\n' "${ABOVE_GATE[@]}" | grep -qx "$stage"; then
+    echo "=== $stage === skipped (above the freeze gate; --refreeze to rebuild)"
+    SKIPPED_STAGES+=("$stage")
+    continue
   fi
   if [[ -z "$full" ]] && ! printf '%s\n' $ENABLED | grep -qx "$stage"; then
     echo "=== $stage === skipped (ladder: not delivered through $through)"

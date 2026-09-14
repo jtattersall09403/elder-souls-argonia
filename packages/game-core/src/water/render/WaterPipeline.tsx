@@ -266,17 +266,21 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     bu.uCamPos.value.copy(camPos);
     bu.uInvProjView.value.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse).invert();
     bu.uUwSurfaceY.value = camSample.surfaceHeight * verticalScale;
+    // Underwater visibility by clarity (16c round 2): the floor is clear
+    // water (turbidity 0 sees ~20 m — an upland lake), the turbidity term
+    // takes a silt river to ~3 m at 0.5. The old floor (0.10, 0.055, 0.04)
+    // made every lake a murk regardless of the compiled clarity.
     const turb = camSample.turbidity;
     bu.uUwAbsorb.value.set(
-      0.10 + 0.55 * turb,
-      0.055 + 0.75 * turb,
-      0.04 + 1.1 * turb,
+      0.045 + 0.6 * turb,
+      0.028 + 0.8 * turb,
+      0.022 + 1.15 * turb,
     );
     const amb = runtime.ambient.value;
     const tint = new THREE.Vector3(
-      0.035 + 0.05 * turb,
-      0.115 - 0.06 * turb,
-      0.10 - 0.075 * turb,
+      0.035 + 0.055 * turb,
+      0.115 - 0.064 * turb,
+      0.10 - 0.078 * turb,
     );
     bu.uUwFog.value.set(
       Math.max(amb.x, 1e-4) * tint.x * 24.0,

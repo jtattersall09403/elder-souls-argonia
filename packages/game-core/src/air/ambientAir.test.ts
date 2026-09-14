@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { AIR_SPECIES, AirSwarm, airAmounts, airHoverFloorY, seededRandom, type AirConditions } from "./ambientAir";
+import { AIR_PATCH_BAND, AIR_SPECIES, AIR_WATER_MIN_DEPTH_M, AirSwarm, airAmounts, airHoverFloorY, airPatchBand,
+  airWaterGate, seededRandom, type AirConditions } from "./ambientAir";
 import { SunShafts, sunShaftIntensity } from "./sunShafts";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
@@ -314,5 +315,46 @@ describe("over water the band hovers from the SURFACE, not the ground (owner 202
       depthSpanM: 30.6, buriedM: -2.5, liftM: () => 0 });
     expect((pollen.material.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(0);
     sw.dispose(); pollen.dispose();
+  });
+});
+
+describe("hover species exist only over standing water, in localised knots (owner 2026-09-14, 16c round 2)", () => {
+  it("a dry cell draws nothing; a wet cell draws — and the lift counts", () => {
+    // before the gate a dry lowland cell got alpha 1 (nothing in vAlpha read
+    // the water at all: the floor only lifted the band where there WAS water)
+    expect(airWaterGate(-3, 0)).toBe(0);          // buried ground
+    expect(airWaterGate(-0.5, 0)).toBe(0);        // a dry, floodable table cell
+    expect(airWaterGate(0.05, 0)).toBe(0);        // a damp film is not standing water
+    expect(airWaterGate(0.4, 0)).toBe(1);
+    expect(airWaterGate(AIR_WATER_MIN_DEPTH_M, 0)).toBe(1);
+    // a dry-season draw-down empties a shallow pool of its midges
+    expect(airWaterGate(0.4, -0.3)).toBe(0);
+  });
+
+  it("the vertex stage gates alpha on the same texel it takes the floor from", () => {
+    const sw = new AirSwarm(AIR_SPECIES.dragonflies, seededRandom(1));
+    const vert = sw.material.vertexShader;
+    expect(vert).toContain("float esWaterGate = esAirWaterGate(world.xz);");
+    expect(vert).toContain(`return step(${AIR_WATER_MIN_DEPTH_M.toFixed(2)}, depth);`);
+    expect(vert).toContain("vAlpha = fade * blink * uAmount * haze * near * esPatch * esWaterGate;");
+    // without a bound surface nothing is gated (a scene with no water rasters)
+    expect(vert).toContain("if (uAirWaterDepth.w < 0.5) return 1.0;");
+    sw.dispose();
+  });
+
+  it("hover species use the high patch band so most of the water is empty; the ground species keep the broad one", () => {
+    for (const id of ["midges", "dragonflies"]) {
+      expect(airPatchBand(AIR_SPECIES[id])).toEqual(AIR_PATCH_BAND.water);
+      // knots tens of metres apart, wider than the clump
+      expect(AIR_SPECIES[id].patchM).toBeGreaterThanOrEqual(40);
+      const sw = new AirSwarm(AIR_SPECIES[id], seededRandom(2));
+      expect((sw.material.uniforms.uPatchBand.value as THREE.Vector2).toArray()).toEqual([...AIR_PATCH_BAND.water]);
+      sw.dispose();
+    }
+    for (const id of ["fireflies", "pollen", "leaves"]) expect(airPatchBand(AIR_SPECIES[id])).toEqual(AIR_PATCH_BAND.ground);
+    expect(AIR_PATCH_BAND.water[0]).toBeGreaterThan(AIR_PATCH_BAND.ground[1] * 0.75);
+    const sw = new AirSwarm(AIR_SPECIES.fireflies, seededRandom(3));
+    expect(sw.material.vertexShader).toContain("smoothstep(uPatchBand.x, uPatchBand.y, esAirNoise(esPatchUV))");
+    sw.dispose();
   });
 });

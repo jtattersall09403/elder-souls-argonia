@@ -28,6 +28,20 @@ the model was made physical on the real terrain by
 - **Strips** sit at the notch level (`compile_water.strip_levels`): the
   ribbon touches the parabolic bed at its wetted edges.
 - **Bundles of another schema are refused** at load (`assertWaterSchema`).
+- **Round 2 (2026-09-14).** Sea classes travel: `STANDING_BY_CLASS` estuary
+  0.3 → 0 (a standing share pulses the whole sea's whitecap fraction in
+  unison; lake/marsh keep theirs). Shore surf: ONE energy knob
+  `surfEnergyScale(wind, fetch)` / `esSurfEnergy` (the sea's rms over
+  0.22 m, clamped 0.6–3.5) replaces `surfWindScale`; an along-shore phase
+  `alongShorePhase` / `esAlongPhase` (75 m, 0.9 rad, drifting) makes crests
+  arrive obliquely; the shore swell's profile is Stokes-like
+  (`shoreSwellProfile`) and the swash skew grows with the energy
+  (`swashSkew`). `vEsSurf` is vec4 (fetch, shoreDir, energy);
+  `esSurfFoam` keeps a 4-arg overload for the foam field. Ground band
+  (`groundWetness.ts`): not-buried level weighting in `esWetSampleSurface`
+  (`uWetBuried`), the compiled band fades 350–1200 m from the camera, its
+  lift reads `uWetWindMS` (wire it from the wind speed). Underwater absorb
+  floor (0.045, 0.028, 0.022): turbidity 0 sees ~20 m, 0.5 ~3 m.
 
 ## The 0047 contract in one paragraph
 
@@ -50,52 +64,56 @@ one uniform speed per ribbon, drawn at the full compiled width with only the
 0.6 m bank margin dissolving, clear/tannin tint toward white, no
 shoreline/surf/SSR terms).
 
-## Waterfalls and steep whitewater (research `waterfalls-realtime.md` §4 + the vault audit)
+## Waterfalls (decision 0064: the vanilla kit, stacked Bethesda's way, shaded by us)
 
-One shared streak field, `render/whitewaterStreaks.ts` (GLSL + TS twins):
-three layers at Bethesda's measured rates — 0.313 t/s body on a 4 m tile,
-0.857 t/s sheet foam on 2.6 m, 0.075 t/s slow accent on 8 m — plus a 0.030 t/s
-U drift and a 1.00→1.05→1.00 U-scale breathe over 8.33 s, always scrolled
-along the piece's own arc in metres. `uStreakTex` + `#define ES_STREAK_TEX`
-is the slot for the sourced FX texture; procedural value noise is the shipped
-fallback. Pieces:
+A fall is the vanilla Skyrim FX kit's own meshes — `apps/world-studio/public/
+kits/waterfall-fx-v1.glb` (26 pieces, geometry + UVs) with its textures as
+PNGs in `kits/waterfall-fx-textures/` — placed the way Skyrim.esm places them
+and drawn by our shader. Never a procedural ribbon.
 
-- **Fall body** (`WaterfallSheets.ts`): the ballistic tracer's path cut into
-  vanilla-sized PIECES (families 7.5 / 29 / 44 / 58 m by drop, stacked at 2/3
-  of a piece height so neighbours overlap by a third, lateral copies half a
-  piece apart for wide falls; each copy has its own 0..1 `aPieceUv`
-  rectangle, scroll phase and overlap cross-fade), three body layers per
-  piece + two mirrored side strips pinched at the lip, crest wrap 2.5 m back
-  over the lip with foam boosted 3 m past it, unlit white ×1.0 (free fall) /
-  ×0.75 (bed contact), edge-on fade cos 0.26→0.09, soft depth fade 0.57 m
-  (sheets) / 1.07 m (side strips) only where there is air behind.
-- **Textures**: the vanilla FX kit `apps/world-studio/public/kits/
-  waterfall-fx-textures/` (manifest roles) binds by slot — `sheet` =
-  `sheet-main`, `ring` = `plunge-ring`, `skirt` = `mist-cloud-strip`, `mist` =
-  `mist-cloud` (`WATERFALL_TEXTURE_ROLES`). The app composes the URLs from
-  the manifest (`loadWaterAssets({ waterfallTextureUrls })` →
-  `assets.waterfallTextures`); the shader samples the coverage from ALPHA
-  (the textures are greyscale) and any missing slot keeps the procedural
-  field. Textures + stack rules live inside our shader, lit by our rig —
-  never mounted as meshes (0047 addendum).
-- **Classification guard**: a path is a fall only with ≥ 0.5 m of air over a
-  contiguous ≥ 3 m; every other cascade is a *ramp* and comes back as
-  `chuteStrips` for the ES_STRIP ribbon mesh (`WaterSurface` merges them into
-  the channel strips). Sheets snap to a strip's `lip`/`plunge` end within 3 m
-  (`alignCascadeToStrips`), so the v2 data's strips and sheets meet exactly.
-- **Plunge base** (`PlungeBase.ts`): 12–19 flat 2.9–5.7 m quads per fall on
-  the pool, fanned downstream, scrolled outward at the ring's +0.375 t/s,
-  0.6 m soft depth fade, one merged draw as a child of the sheet mesh. The
-  field's `esPlungeFoam` disc + an eased 2.67 s expanding ring stay under it.
-- **Particles are the accent**: `cascadeEmitterKit` gives a fall 1 (cloud), 2
-  (≥ 20 m: + one mid-sheet) or 4 (≥ 60 m: lip + two mid + cloud) emitters.
-- **Boulders** are a scatter-compiler job: `stripBoulderCandidates` (1 rock
-  per 160 m² of bed, seeded by strip id) is the rule it consumes.
-- `render/WaterfallMist.ts` carries the mist: the 4–8 static mist cards within
-  12 m of the impact and the ground-mist discs the audit mined from the
-  vanilla stacks. Flowing water (> 0.15 m/s) carries a travelling
-along-flow undulation (`flowWaveAt` ↔ `esFlowWave`) and sparse drifting flecks
-on a 6 s transport cycle.
+- **Spine** (`render/WaterfallSheets.ts`): the ballistic tracer from the lip
+  at `lipSpeedMS`, bed-hugging where the arc meets rock, ramp-vs-fall
+  classification (≥ 0.5 m of air over a contiguous ≥ 3 m), strip alignment
+  at the lip/plunge ends, the brink measured across the lip. Ramps come back
+  as `chuteStrips` for the ES_STRIP ribbon. It draws nothing.
+- **Kit** (`render/WaterfallKit.ts`): parses the GLB by `assetId` /
+  `pynNodeName` extras into pieces and shapes, and holds the ROLE table —
+  per shape: texture id, the UV-scroll rates the export dropped (audit §4),
+  second layer, breathe, emissive, alpha, soft depth, upness. Editor helpers
+  (`EditorMarker`, `boundPush`, `CurrentPlane*`) are never drawn.
+- **Stack** (`render/WaterfallKitStack.ts`, pure, tested): body family by
+  width (`bodytall` / `bodytall02`; thin sheets under 4 m) uniformly scaled so
+  the piece's top width is the water's width at the lip (`cascade.widthM`,
+  bankfull), inside Bethesda's 0.35–2.28; pieces stacked at ⅔ height down the
+  path, the last lifted to the plunge, each tilted in the fall's plane so its
+  authored foot bulge lands on the chord of its span (the lean with the arc);
+  lateral copies half a piece apart; the crest line with its scrolling end
+  1 m past the lip; the skirt 2.5 m upstream of the impact; the ring on the
+  pool; 4–8 mist cards within 12 m; 10–40 ground-mist discs over the bowl.
+- **Material** (`render/WaterfallKitMaterial.ts`): one ShaderMaterial per
+  shape role, one InstancedMesh each (≈ 15 draws for all 18 falls), shared
+  frame uniforms. Alpha blend, no depth write, double-sided, edge-on fade
+  cos 0.26 → 0.09, per-layer soft depth, pool-level fade, nothing under
+  water, lit by the shared falls irradiance under the CSM shadow; the bodies'
+  inner shell is the one lit surface (albedo + scrolling normal highlight).
+- **Mist** (`render/WaterfallMistVolume.ts` + research
+  `waterfall-mist-and-spray.md`): a ray-marched local volume per fall — a cone
+  fanning down the fall plus a dome over the pool, 20 jittered steps clamped
+  to the scene depth, noise drifting up and downstream, HG forward scatter,
+  within 150 m. A per-fall local volume, not the weather fog the owner cut:
+  a bounded box per cascade.
+- **Spray and splash** (`render/WaterCascadeSources.ts`): an emitter every
+  ~6 m of drop (rates rising with the distance fallen), the lip on tall
+  falls, the plunge cloud, and `cascadeImpactBursts` for discrete impact
+  splashes (crowns) — on the nearest two falls.
+- **Gate**: `WaterfallSheets.test.ts` "the lip seam" — body top at the
+  strip's last station within 0.25 m, body ≥ 0.8 × `widthM` at the lip, a
+  crest over every lip, on the shipped data.
+- **Boulders** stay a scatter-compiler job (`stripBoulderCandidates`).
+
+Steep streams are the strips (`ChannelStrips.ts`), whitewater-shaded by the
+shared streak field (`whitewaterStreaks.ts`: 0.313 / 0.857 / 0.075 t/s, U
+drift, breathe), always scrolled along the ribbon's own arc.
 
 ## CPU model (the `WorldWaterQuery` authority)
 
@@ -132,9 +150,9 @@ a pop. Technique sources: [water-pro-greenheck-study.md](../../../../docs/resear
 | `waterMaterial.ts` | The water shader patch (terrain-cut shoreline with vertical fade, surf, whitecaps, foam, flecks, SSR, refraction, ripples) + tiers/layers, the buried/cliff/owner guards, and the `ES_STRIP` whitewater variant. Composes the study terms: the foam field sample ahead of the dissolve, the depth-range froth, rain rings, sparkle + crest scatter after the specular, the horizon blend before the aerial term, the meniscus in both variants; `ES_FOAM_TEX` swaps the fbm foam mask for the vanilla `foamtile01` (kit slot `foam`, remapped onto the fbm moments — `FOAM_TEX`). Twins: `stripAeration`, `stripAlbedo`, `stripStreakPhase`, `FLECK`. |
 | `ChannelStrips.ts` | Ribbon meshes along the compiled `channels[]` (and the ramps `WaterfallSheets` hands back) — per-vertex hydraulics plus the ribbon UV (`aSideM`, `aArc`, `aScroll`, `aEdge`); `stripBoulderCandidates` for the scatter compiler. |
 | `whitewaterStreaks.ts` | The shared three-layer streak field (measured rates, U drift, breathe) — GLSL + TS twins, `uStreakTex` slot. |
-| `PlungeBase.ts` | 12–19 flat foam quads per fall on the receiving pool (Bethesda's `CurrentPlane` set), one merged draw. |
 | `waterProbe.ts` | `createWaterProbe`: the numeric dev hook the studio exposes as `window.__STUDIO_WATER_PROBE__` for `apps/world-studio/scripts/probe-water.mjs`. |
-| `WaterfallSheets.ts` | Ballistic sheet tracer + fall/ramp classification, strip alignment, the sheet mesh (body layers, side strips, crest wrap) and its unlit whitewater material; owns the `PlungeBase`. |
+| `WaterfallSheets.ts` | Ballistic tracer + fall/ramp classification, strip alignment, the brink; mounts the kit stack and the mist volume; diagnostics + probe marks. |
+| `WaterfallKit.ts`, `WaterfallKitStack.ts`, `WaterfallKitMaterial.ts`, `WaterfallMistVolume.ts` | The vanilla FX kit: parser + role table, Bethesda's placement rules on the traced path, the one piece material, the ray-marched per-fall mist. |
 | `WaterSurface.tsx` | The camera-following province grid, contact bodies (swept-path stamps into ripple sim + foam field every 0.12 s), splash/plunge deposits into the field, the field's construction by tier, particle stack. |
 | `WaterPipeline.tsx` | The three-pass frame (opaques→HDR RT, tone-mapped blit with underwater fog/god rays/bubbles, water+precip+overlay); steps the ripple sim and the foam field first. |
 | `RippleSim.ts` (+ `rippleAdvection`, `rippleIsolation`) | Body-isolating interactive ripple patch; `addPath` stamps a swept footprint. |

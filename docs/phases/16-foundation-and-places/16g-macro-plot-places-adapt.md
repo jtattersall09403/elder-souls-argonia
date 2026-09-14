@@ -63,21 +63,6 @@ Needs ruling 11 (the floor).
 
 ## Deliver
 
-## Record reads (decision 0066) — deliverable 0: the code you inherit is wrong here, and fixing it is your job
-
-`macro_plot`, `audit_place_semantics`, `site_dossier`, `terrain_scour` and
-`hostility_frequency` are rows in `worldgen/record-reads-allowlist.json`
-(`remeasure_plot_facts` reads no water at all, which is its own defect):
-"on water", "flood band", "wet" and "navigable" all come from the coarse
-Phase 3 flood band, so every water fact on the 827 records describes a
-guess the owner's graph replaced. That is a bug, not a convention. Port
-each to the record reader, delete the reads and the rows. A record's water
-facts become `{reachId | bodyId, kind, levelM, season}` copied from the
-record; the navigable check reads `reaches[].depthM` along the serving
-route; the plot re-solve's water costs read the record. A test joins every
-record's water facts back to the graph and fails on a missing id or
-disagreeing kind, shown failing on the 827 records as they stand.
-
 1. **Schema**: `designGroup` (one blueprint, one build) and `coSitedWith[]`
    (separate blueprints, one design pass, a typed relation: `sightline`,
    `same-water`, `approach-through`, `satellite`, `ferry-pair`) on catalogue
@@ -193,6 +178,21 @@ chunk because it is where the plot and the lore meet:
    `world/sources/hydrology/names.json` records the grounding per name
    (UESP page or extrapolation rule). The studio tooltip shows the name
    when present.
+## Record reads (decision 0066) — deliverable 0: the code you inherit is wrong here, and fixing it is your job
+
+`macro_plot`, `audit_place_semantics`, `site_dossier`, `terrain_scour` and
+`hostility_frequency` are rows in `worldgen/record-reads-allowlist.json`
+(`remeasure_plot_facts` reads no water at all, which is its own defect):
+"on water", "flood band", "wet" and "navigable" all come from the coarse
+Phase 3 flood band, so every water fact on the 827 records describes a
+guess the owner's graph replaced. That is a bug, not a convention. Port
+each to the record reader, delete the reads and the rows. A record's water
+facts become `{reachId | bodyId, kind, levelM, season}` copied from the
+record; the navigable check reads `reaches[].depthM` along the serving
+route; the plot re-solve's water costs read the record. A test joins every
+record's water facts back to the graph and fails on a missing id or
+disagreeing kind, shown failing on the 827 records as they stand.
+
 ## Acceptance
 
 - **The chain ladder**: `LADDER_ORDER` in `tooling/world-generation/scripts/terrain-chain.sh`

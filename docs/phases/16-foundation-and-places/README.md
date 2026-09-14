@@ -164,10 +164,11 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   water raster or a pre-graph classification itself, unless it is a row in
   `worldgen/record-reads-allowlist.json` owned by the chunk that ports it;
   a row whose module is clean also fails, so the list only shrinks
-  (thirteen modules on 2026-09-14). The one way to read water below the
-  gate is the record reader 16d adds to `site_fields.ProvinceSurvey`. The
-  chain runs from the freeze gate (16d deliverable 0): frozen rungs are
-  inputs verified by hash, not stages re-executed.
+  (thirteen modules on 2026-09-14). Below the gate, water is read through
+  the record reader 16d adds to `site_fields.ProvinceSurvey`, never any
+  other way. A plain chain run starts at the freeze gate (delivered by 16c,
+  2026-09-14): the frozen rungs are inputs verified by hash, never stages
+  re-executed. Only `--refreeze` rebuilds them.
 - **Build only what is delivered (owner, 2026-09-12).** The chain
   (`tooling/world-generation/scripts/terrain-chain.sh`) carries a LADDER: a
   list, per chunk, of the stages that chunk has delivered, cumulative from

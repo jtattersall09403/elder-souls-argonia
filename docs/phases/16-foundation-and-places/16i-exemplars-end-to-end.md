@@ -63,19 +63,6 @@ Needs ruling 13 (interior scope).
 
 ## Deliver
 
-## Record reads (decision 0066)
-
-This chunk is the class done right on interiors (the cell behind a door is
-read from the plugin's own links, never guessed) — hold the same line on
-the ground: every exemplar's water facts come from 16g's graph-keyed
-record, every piece's sink from 16h's per-asset `designedSinkM`, and the
-kit QA sheets draw the designed ground line on each piece so the owner can
-see a sill sitting on it. A steer that a piece "looks sunk wrong" is
-answered by re-measuring that asset's placements, never by a per-place
-offset. The interior fit rule for unlinked shells is a heuristic by
-necessity; the record says `evidence: fit-rule` on those claims so Phase 12
-can tell them from tier A.
-
 1. **Exteriors as assemblies**: every building in the four built exemplars
    is a composite from `kit-assemblies-mined.json` or a single piece the
    source authors use alone; the kit QA skill run on every assembly; the
@@ -141,6 +128,19 @@ can tell them from tier A.
    (`world/sources/catalogue/type-recipes.json`), because 16j's trial packet
    picks types from this list and the automation checklist (96 §3) counts
    exemplars per type.
+
+## Record reads (decision 0066)
+
+This chunk is the class done right on interiors (the cell behind a door is
+read from the plugin's own links, never guessed) — hold the same line on
+the ground: every exemplar's water facts come from 16g's graph-keyed
+record. Every piece's sink comes from 16h's per-asset `designedSinkM`. The
+kit QA sheets draw the designed ground line on each piece, so the owner can
+see a sill sitting on it. A steer that a piece "looks sunk wrong" is
+answered by re-measuring that asset's placements, never by a per-place
+offset. The interior fit rule for unlinked shells is a heuristic by
+necessity; the record says `evidence: fit-rule` on those claims so Phase 12
+can tell them from tier A.
 
 ## Acceptance
 

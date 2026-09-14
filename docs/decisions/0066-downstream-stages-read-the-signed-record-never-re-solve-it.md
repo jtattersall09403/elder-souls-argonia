@@ -39,17 +39,17 @@ already states.* Its forms, all seen in this repo:
   and must take every *class* from the record by id.
 - **Provenance gate, per chunk.** Every output field that names a water kind,
   a water level, a crossing, an over-water share, a shore class or a ground
-  fit carries the id of the record it was read from, and a test joins the
-  output back to the record and fails on any disagreement or any field
-  without an id. Shown failing first on the current raster-derived code.
+  fit carries the id of its source record. A test joins the output back to
+  that record and fails on any disagreement. A field carrying no id at all
+  fails it too. Shown failing first on the current raster-derived code.
 - **The chain runs from the freeze gate.** A plain `terrain-chain.sh` run
   starts at `apply_terrain_patches` and verifies the frozen arrays and the
   graph against `freeze.json` by hash (seconds) instead of re-executing the
   frozen stages; the frozen stages run only under `--refreeze`. The
   fingerprint skip stays for the stages below the gate. (16d deliverable 0.)
 - **Designed ground contact is read from the authors** (owner 2026-09-14): a
-  building, rock, landmark tree or route piece is sunk by the depth its
-  makers placed it at, measured per asset from plugin placements (as the
+  building, rock, landmark tree or route piece is sunk to the depth chosen
+  by its makers, measured per asset from plugin placements (as the
   flora rules already are, `research/vegetation/vegetation-composition-rules.md`
   C1–C2), or from the mesh's own floor and door sill where no placements
   exist; never by a per-class table. (16h deliverable 3, 16f for rocks and
@@ -58,8 +58,8 @@ already states.* Its forms, all seen in this repo:
 - **Mechanically enforced.** `worldgen/test_record_reads.py` (in
   `npm run test:placement`) fails any module below the gate that opens a
   water raster or a pre-graph classification itself unless it is a row in
-  `worldgen/record-reads-allowlist.json` owned by the chunk that ports it,
-  and fails a row whose module is clean; thirteen rows on 2026-09-14,
+  `worldgen/record-reads-allowlist.json` owned by the chunk that ports it.
+  A row whose module is clean fails too; thirteen rows on 2026-09-14,
   shown failing on a planted read. The record reader is
   `site_fields.ProvinceSurvey` once 16d gives it graph-keyed accessors and
   deletes its Phase 3 `flood` / `tidal` / `salinity` fields.

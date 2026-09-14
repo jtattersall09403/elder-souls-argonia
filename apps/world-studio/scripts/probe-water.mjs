@@ -16,7 +16,7 @@
 //       pixel attribution at the strip-64 chute (field/strips/falls/effects)
 //   WATER_REUSE_SERVER=1 WATER_PORT=4323 ...                  # server already up
 //
-// Waterfall fit (decision 0047 addendum, `fit:` sites): with the layer
+// Waterfall fit (decision 0064, `fit:` sites): with the layer
 // toggles, the fall body's pixel luminance is compared against the adjacent
 // foam (strip whitewater within 10 m of the lip, plunge foam in the pool) in
 // the same lighting; the lip and plunge joins are sampled 2 m either side in
@@ -472,32 +472,35 @@ try {
         else fail(`strips not drawn: ${JSON.stringify(dbg.strips)}`);
       }
       if (s.falls) {
-        if (dbg.falls && dbg.falls.count >= 1 && dbg.falls.triangles >= 50) ok(`sheets drawn: ${dbg.falls.count} falls, ${dbg.falls.triangles} tris, ${dbg.falls.freeFlightCount} free-flight`);
-        else fail(`sheets not drawn: ${JSON.stringify(dbg.falls)}`);
-        // fall geometry kit: every sheet is free flight (ramps went to the strip
-        // mesh), each fall has 12-19 base quads, side strips exist
-        if (dbg.falls && dbg.falls.baseQuadsPerFall) {
-          const q = dbg.falls.baseQuadsPerFall;
-          if (dbg.falls.freeFlightCount === dbg.falls.count && q.min >= 12 && q.max <= 19 && dbg.falls.sideStrips >= 2)
-            ok(`fall kit: ${dbg.falls.chuteStrips} ramps as chute strips, base quads ${q.min}-${q.max}/fall (${dbg.falls.baseQuads} total), ${dbg.falls.sideStrips} side strips`);
-          else fail(`fall kit out of spec: ${JSON.stringify({ ...dbg.falls, perFall: undefined, sites: undefined })}`);
-        }
-        // mist kit + triangle budget per family (the integration pass's numbers)
+        if (dbg.falls && dbg.falls.kit && dbg.falls.count >= 1 && dbg.falls.triangles >= 50)
+          ok(`falls drawn from the vanilla kit: ${dbg.falls.count} falls, ${dbg.falls.pieces} pieces in ${dbg.falls.draws} draws, ${dbg.falls.triangles} tris`);
+        else fail(`falls not drawn from the kit: ${JSON.stringify({ ...dbg.falls, perFall: undefined, sites: undefined })}`);
+        // the stack (decision 0064): every fall is free flight (ramps went to
+        // the strip mesh), a crest, a skirt, a ring, 4-8 mist cards and 10-40
+        // ground-mist discs per fall, the whole province in a handful of draws
         if (dbg.falls && dbg.falls.perFall) {
-          const byFamily = {};
-          for (const b of Object.values(dbg.falls.perFall)) {
-            const f = byFamily[b.familyM] ??= { falls: 0, tris: [], cards: [], discs: [] };
-            f.falls++; f.tris.push(b.totalTriangles); f.cards.push(b.mistCards); f.discs.push(b.groundMist);
+          const per = Object.values(dbg.falls.perFall);
+          const byBody = {};
+          for (const b of per) {
+            const f = byBody[b.body] ??= { falls: 0, scale: [], spans: [], tris: [] };
+            f.falls++; f.scale.push(b.bodyScale); f.spans.push(b.bodySpans); f.tris.push(b.triangles);
           }
-          const m = dbg.falls.mist;
-          checks.push(`     mist kit: ${m.cards} cards, ${m.discs} ground-mist discs, ${m.skirts} skirts, ${m.triangles} tris over ${dbg.falls.count} falls`);
-          for (const [fam, f] of Object.entries(byFamily).sort((a, b) => Number(a[0]) - Number(b[0]))) {
-            checks.push(`     family ${fam} m: ${f.falls} falls, sheet+base+mist tris mean ${Math.round(mean(f.tris))} max ${Math.max(...f.tris)},`
-              + ` cards ${Math.min(...f.cards)}-${Math.max(...f.cards)}, discs ${Math.min(...f.discs)}-${Math.max(...f.discs)}`);
+          for (const [body, f] of Object.entries(byBody)) {
+            checks.push(`     body ${body}: ${f.falls} falls, scale ${Math.min(...f.scale).toFixed(2)}-${Math.max(...f.scale).toFixed(2)},`
+              + ` ${Math.min(...f.spans)}-${Math.max(...f.spans)} stacked, tris mean ${Math.round(mean(f.tris))} max ${Math.max(...f.tris)}`);
           }
-          const cardsOk = Object.values(dbg.falls.perFall).every((b) => b.mistCards >= 4 && b.mistCards <= 8 && b.groundMist >= 10 && b.groundMist <= 40);
-          if (cardsOk) ok("mist counts 4-8 cards and 10-40 discs on every fall");
-          else fail("mist counts out of the audit's 4-8 / 10-40 range");
+          checks.push(`     mist volume: ${dbg.falls.mist.count} falls x ${dbg.falls.mist.steps} steps`);
+          const kitOk = per.every((b) => b.counts.crest >= 1 && b.counts.skirt === 1 && b.counts.ring === 1
+            && b.counts.mistCard >= 4 && b.counts.mistCard <= 8 && b.counts.groundMist >= 10 && b.counts.groundMist <= 40
+            && b.bodyScale >= 0.35 && b.bodyScale <= 2.28);
+          if (dbg.falls.freeFlightCount === dbg.falls.count && kitOk && dbg.falls.draws <= 24)
+            ok(`fall kit in spec: ${dbg.falls.chuteStrips} ramps as chute strips, crest/skirt/ring on every fall, 4-8 cards, 10-40 discs, ${dbg.falls.draws} draws`);
+          else fail(`fall kit out of spec: ${JSON.stringify({ ...dbg.falls, perFall: undefined, sites: undefined })}`);
+          // the lip seam, on the fall the site looks at: body top at the lip, body as wide as the water
+          const seam = Object.entries(dbg.falls.perFall).filter(([id, b]) =>
+            !(Math.abs(b.bodyTopY - (dbg.falls.sites[id]?.lip[1] ?? b.bodyTopY)) <= 0.25 && b.bodyTopWidthM >= 0.8 * b.widthM));
+          if (seam.length === 0) ok("lip seam: every fall's body top is at its lip and >= 0.8 x widthM wide");
+          else fail(`lip seam: ${seam.length} falls off the lip or too narrow`);
         }
         if (dbg.effects && dbg.effects.active) checks.push(`     particles active: ${JSON.stringify(dbg.effects.active)}`);
       }
@@ -609,8 +612,8 @@ try {
         {
           // The fall is drawn as wide as its WATER, not as wide as its trench.
           const b = dbg?.falls?.perFall?.[fitFall.id];
-          if (b) checks.push(`     fit: drawn (wetted) width ${b.widthM.toFixed(2)} m of a ${b.trenchWidthM.toFixed(2)} m trench`
-            + ` (x${(b.widthM / Math.max(b.trenchWidthM, 1e-6)).toFixed(2)})`
+          if (b) checks.push(`     fit: water ${b.widthM.toFixed(2)} m wide at the lip; body ${b.body} x${b.bodyScale.toFixed(2)},`
+            + ` ${b.bodySpans} stacked x ${b.bodyLateral} across, top edge ${b.bodyTopWidthM.toFixed(2)} m wide at y ${b.bodyTopY.toFixed(2)}`
             + `; rock relief across the lip ${b.brinkRangeM === undefined ? "not sampled" : `${b.brinkRangeM.toFixed(2)} m`}`);
         }
         const cam = dbg.camera;

@@ -1,5 +1,7 @@
 # 0063 — Water once: the compile realises the graph, the line is high water, the sea's energy is the wind's (Phase 16c, 2026-09-13)
 
+Amended by [0065](0065-the-compile-realises-the-graphs-classification.md).
+
 Amends [0047](0047-water-one-physical-model.md) (the runtime's season and
 fetch arithmetic) and [0049](0049-water-is-measured-and-has-a-season.md)
 (the season's direction); keeps [0058](0058-the-hydrology-graph-is-the-water-record.md)

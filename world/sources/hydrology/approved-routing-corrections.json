@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "about": "Owner corrections to the approved (16a) river network, applied by compile_hydrology on top of approved-routing-16a.npz (decision 0060 \u00a77). A row declares a box of coarse cells that is NOT the sea (it becomes sea-level water a river crosses) and re-routes one river's last stretch from its 16a mouth (`fromMouth`, a position: river ids are keyed by mouth cell and move with it) to the open-sea cell nearest the point named, by the lowest path over the current ground. Coordinates in metres east/south.",
+ "about": "Owner corrections to the approved (16a) river network, applied by compile_hydrology on top of approved-routing-16a.npz (decision 0060 §7). A row declares a box of coarse cells that is NOT the sea (it becomes sea-level water a river crosses) and re-routes one river's last stretch from its 16a mouth to the open-sea cell nearest the point named, by the lowest path over the current ground. `fromMouth` is a position (river ids are keyed by mouth cell and move with it): the compiler snaps it to the river's actual last cell within 3 coarse cells (approved_bodies.resolve_mouth) and refuses if that cell disagrees with `river16a`. Coordinates in metres east/south.",
  "corrections": [
   {
    "id": "correction.river-1223-143-mouth",

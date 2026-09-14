@@ -63,40 +63,6 @@ Needs ruling 10 (already given for 16b); no new ruling.
 
 ## Deliver
 
-## Record reads (decision 0066) — deliverable 00: the code you inherit is wrong here, and fixing it is your job
-
-`compile_scatter` and `rebake_landcover` are rows in
-`worldgen/record-reads-allowlist.json`: the land-cover bake paints shore
-and wet classes from the coarse salinity and its own height-at-zero test
-(an inland sea-level marsh paints as beach), and the scatter decodes the
-water-surface image alone. Both are bugs of the 16c round-1 kind, not
-conventions. Port both to the record reader, delete the raster reads and
-the rows. Every shore, wet and marsh paint class and every scatter
-exclusion then comes from a body or reach id and its recorded kind
-(`swamp` paints swamp margin, `ocean` paints beach), with depth the only
-sampled value. The rock kit and every landmark tree (Hist trees, the Anvil
-composite) carry a per-asset designed ground contact measured from the
-source plugin's placements with `mine_placement.py`'s pivot-minus-`height_at`
-method (the flora C1–C2 rule), stored on the kit manifest with evidence —
-never a class default (16h deliverable 3 does the same for buildings). A
-test joins every water-derived paint class and exclusion to its id and
-fails on a missing id or disagreeing kind, shown failing on today's bundles.
-
-0. **Ground cover density and variety** (C9, owner 2026-09-11). Measure first:
-   the groundcover bundles now shipping against the pre-0048 bundles in git
-   history at the jungle site (`x=4.02&z=4.61`) and four other region sites —
-   instances per m², mean height, coverage fraction inside a 30 m ring. Then
-   research briefly how shipped open-world games do ground cover (near-camera
-   density, height and clump classes by land cover, distance fade and
-   impostor tiers) and record it in `research/vegetation/`. Deliver: a
-   coverage floor so low grass is present nearly everywhere the land cover
-   allows; tall, chunky classes where the ecology says so (jungle floor,
-   reed beds, floodplain); variation by land cover and wetness rather than one
-   density; the tiered fade tuned so the floor holds within the walking view.
-   The tree ladder (0048) is not retuned by this; the groundcover layer is.
-   Test: coverage fraction per region site at or above a stated floor, shown
-   failing on today's bundles.
-
 1. **Channel membership as a hard gate** (C8): `compile_scatter` reads the
    graph's reach centrelines and widths and excludes trees and shrubs inside any reach of kind `horizontal-channel`,
    `horizontal-tidal`, `sloped-riffle | sloped-rapid | sloped-chute` or
@@ -149,6 +115,40 @@ fails on a missing id or disagreeing kind, shown failing on today's bundles.
    centre is over a standing body; shown failing on the noise version.
 7. Rebuild the bundles once on the frozen world (`compile_scatter` after
    `settlement_ground_control`, per the chain order).
+
+## Record reads (decision 0066) — deliverable 00: the code you inherit is wrong here, and fixing it is your job
+
+`compile_scatter` and `rebake_landcover` are rows in
+`worldgen/record-reads-allowlist.json`: the land-cover bake paints shore
+and wet classes from the coarse salinity and its own height-at-zero test
+(an inland sea-level marsh paints as beach). The scatter decodes the
+water-surface image alone. Both are bugs of the 16c round-1 kind, not
+conventions. Port both to the record reader, delete the raster reads and
+the rows. Every shore, wet and marsh paint class and every scatter
+exclusion then comes from a body or reach id and its recorded kind
+(`swamp` paints swamp margin, `ocean` paints beach), with depth the only
+sampled value. The rock kit and every landmark tree (Hist trees, the Anvil
+composite) carry a per-asset designed ground contact measured from the
+source plugin's placements with `mine_placement.py`'s pivot-minus-`height_at`
+method (the flora C1–C2 rule), stored on the kit manifest with evidence —
+never a class default (16h deliverable 3 does the same for buildings). A
+test joins every water-derived paint class and exclusion to its id and
+fails on a missing id or disagreeing kind, shown failing on today's bundles.
+
+0. **Ground cover density and variety** (C9, owner 2026-09-11). Measure first:
+   the groundcover bundles now shipping against the pre-0048 bundles in git
+   history at the jungle site (`x=4.02&z=4.61`) and four other region sites —
+   instances per m², mean height, coverage fraction inside a 30 m ring. Then
+   research briefly how shipped open-world games do ground cover (near-camera
+   density, height and clump classes by land cover, distance fade and
+   impostor tiers) and record it in `research/vegetation/`. Deliver: a
+   coverage floor so low grass is present nearly everywhere the land cover
+   allows; tall, chunky classes where the ecology says so (jungle floor,
+   reed beds, floodplain); variation by land cover and wetness rather than one
+   density; the tiered fade tuned so the floor holds within the walking view.
+   The tree ladder (0048) is not retuned by this; the groundcover layer is.
+   Test: coverage fraction per region site at or above a stated floor, shown
+   failing on today's bundles.
 
 ## Acceptance
 

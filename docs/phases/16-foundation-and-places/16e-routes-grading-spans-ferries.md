@@ -59,25 +59,6 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
 
 ## Deliver
 
-## Record reads (decision 0066) — deliverable 0: the code you inherit is wrong here, and fixing it is your job
-
-Six of this chunk's modules are rows in `worldgen/record-reads-allowlist.json`
-(`routes`, `compile_minor_routes`, `compile_minor_waterways`,
-`reroute_lanes`, `grade_routes`, `water_crossings`, plus the span author's
-flood reads): they decide fords, bridges, lane depth and channel windows
-from the coarse Phase 3 flood band and sampled rasters. That is a bug —
-16c round 1's mistake in route vocabulary — not a convention to keep. Port
-each to the record reader (16d's `ProvinceSurvey.water_at` / `reach` /
-`body`), delete its raster reads and its allowlist row; `test_record_reads`
-fails if any come back. Concretely: a crossing carries the graph `reach` id
-it crosses and takes its kind (ford / bridge / ferry / forbidden on
-`horizontal-backwater`) from that reach's `kind`, `depthM`, `widthM`; a
-lane's floating depth is the reach or body record per hull class; the
-grading exclusion window is the reach polygon (centreline ± `widthM`/2 +
-shoulder). A test joins every crossing and lane hop back to its reach id
-and fails on a missing id or a disagreeing kind, shown failing on today's
-records first.
-
 1. **Routes on the frozen world**: `compile_society` / `reroute_majors` read
    the frozen base and the graph (a river is a known crossing, not a cost
    surprise); the router prefers the long way round over a long span (owner
@@ -139,6 +120,25 @@ records first.
 - Crossings read the graph: a ford is on a reach whose `depthM` allows it, a
   bridge or ferry per decision 0051; no route may cross a
   `horizontal-backwater` reach except by ferry or span.
+## Record reads (decision 0066) — deliverable 0: the code you inherit is wrong here, and fixing it is your job
+
+Six of this chunk's modules are rows in `worldgen/record-reads-allowlist.json`
+(`routes`, `compile_minor_routes`, `compile_minor_waterways`,
+`reroute_lanes`, `grade_routes`, `water_crossings`, plus the span author's
+flood reads): they decide fords, bridges, lane depth and channel windows
+from the coarse Phase 3 flood band and sampled rasters. That is a bug —
+16c round 1's mistake in route vocabulary — not a convention to keep. Port
+each to the record reader (16d's `ProvinceSurvey.water_at` / `reach` /
+`body`), delete its raster reads and its allowlist row; `test_record_reads`
+fails if any come back. Concretely: a crossing carries the graph `reach` id
+it crosses and takes its kind (ford / bridge / ferry / forbidden on
+`horizontal-backwater`) from that reach's `kind`, `depthM`, `widthM`; a
+lane's floating depth is the reach or body record per hull class; the
+grading exclusion window is the reach polygon (centreline ± `widthM`/2 +
+shoulder). A test joins every crossing and lane hop back to its reach id
+and fails on a missing id or a disagreeing kind, shown failing on today's
+records first.
+
 ## Acceptance
 
 - **The chain ladder** (plan §3): this chunk's stages are `reroute_lanes`, `reroute_majors`, `compile_minor_routes`, `grade_routes` (as patches), `author_route_structures`, `compile_route_structures`, `patch_water` over the grading patches (never a second `compile_water`: water is compiled once, 0057 §1), `ferry` placement. (`terrain_request_postconditions` is 16c's stage, per `ladder.py`.) Add them

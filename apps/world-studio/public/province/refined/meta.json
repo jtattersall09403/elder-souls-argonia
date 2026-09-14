@@ -48,14 +48,14 @@
   },
   "terrainStageBodies": 57,
   "patches": {
-    "applied": 8,
-    "refused": 48,
+    "applied": 102,
+    "refused": 55,
     "receipt": "terrain-patches-applied.json"
   },
   "terrainRequests": {
-    "requests": 8,
-    "operations": 8,
-    "planDigest": "64c53ab97c0c16660d3f7f11fb9221c50e5fe867d5372fdbc381c2cd84cb37b0",
+    "requests": 9,
+    "operations": 9,
+    "planDigest": "9542351e3292bd84531f1f4ec5ec8e4fb83053cedea6360bbc3be18294318a9c",
     "fulfillment": "terrain-request-fulfillments.json"
   },
   "note": "whole province, true metres (x1 at geometry time, 0015); frozen base + typed patches; chunks via worldgen.compile_chunks"

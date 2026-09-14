@@ -188,13 +188,21 @@ export function snapOmega(omega: number): number {
 /**
  * Standing-wave ratio by water class (Water Pro's `standingWaveRatio`, the
  * documented recipe for harbours and lakes; study §4 (1)). Sheltered water
- * bobs in place instead of marching: lakes, marsh basins and estuaries blend
- * each band toward `cos(k·x)·cos(ωt)`; coast and rivers travel. Very large
+ * bobs in place instead of marching: lakes and marsh basins blend each band
+ * toward `cos(k·x)·cos(ωt)`; coast, estuary and rivers travel. Very large
  * lakes still march a little in their middles (shore distance term).
+ *
+ * The standing share of a band is `sin(k·x)·cos(ωt)`: its envelope rises and
+ * falls IN UNISON over the whole field, so any standing share on open water
+ * makes the sea breathe — the whitecap fraction (mesh crest > 0.16 m)
+ * pulsed ×1.35 every two seconds at 0.3 and ×1.62 at 0.45 against ×1.13
+ * travelling (16c round 2, the owner's "whole ocean foams at once"). The
+ * estuary is open sea water and travels; the pulse is kept for the small,
+ * sheltered lake the owner likes.
  * KEEP IN LOCKSTEP with `standingRatioGlsl()`.
  */
 export const STANDING_BY_CLASS: Readonly<Record<string, number>> = {
-  none: 0, coast: 0, estuary: 0.3, river: 0, lake: 0.45, marsh: 0.5,
+  none: 0, coast: 0, estuary: 0, river: 0, lake: 0.45, marsh: 0.5,
 };
 export function standingWaveRatio(className: string, shoreDistM: number): number {
   const base = STANDING_BY_CLASS[className] ?? 0;
@@ -221,9 +229,9 @@ export function standingRatioGlsl(classes: readonly string[]): string {
  * machine maps wind speed quadratically onto ~0.8 (calm) … 6 (squall coast).
  * Round 3: range widened 0.7–2.4 → 0.35–6 (owner: waves must span a much,
  * much wider spectrum — the old cap made a squall barely rougher than calm).
- * The same value derives the wave SPEED factor and the shore-surf energy
- * below, so storm seas are bigger, faster AND break harder — one knob,
- * CPU = GPU by construction.
+ * The same value derives the wave SPEED factor below. (The shore surf's
+ * energy no longer reads it: since 16c round 2 that is `surfEnergyScale`,
+ * from the wind speed and the compiled fetch.)
  */
 let windWaveScale = 1;
 export function setWindWaveScale(v: number): void {
@@ -242,12 +250,46 @@ export function windWaveSpeed(scale: number = windWaveScale): number {
   return Math.pow(Math.min(6, Math.max(0.35, scale)), 0.45);
 }
 
-/** Shore-surf energy factor from the same knob: bigger seas break harder on
- * the beach (swash runs higher, swell shoals taller, bores foam stronger).
- * Sub-linear so the calm end still laps. KEEP IN LOCKSTEP with the GLSL
- * `esSurfWind` expression in waterMaterial.ts. */
-export function surfWindScale(scale: number = windWaveScale): number {
-  return Math.min(3.2, Math.max(0.6, Math.pow(scale, 0.8)));
+/**
+ * THE shore-surf energy knob (16c round 2): the sea's rms height for the
+ * weather wind and the compiled fetch at that shore, over the calm open sea's
+ * 0.22 m — so the swash, the shore swell and the surf foam scale with the
+ * same sea the swell is drawn from (1.0 at the floor wind on Topal Bay, ~1.4
+ * at 10 m/s, ~2.4 at 17 m/s; a lee shore stays at the floor). Replaces the
+ * old `surfWindScale` (a power of the wave-scale knob, blind to the fetch).
+ * KEEP IN LOCKSTEP with the GLSL `esSurfEnergy` in `surfGlsl()`.
+ */
+export const SURF_ENERGY = { refRmsM: 0.22, min: 0.6, max: 3.5 } as const;
+export function surfEnergyScale(windMS: number, fetchM: number): number {
+  return Math.min(SURF_ENERGY.max, Math.max(SURF_ENERGY.min, seaRmsHeightM(windMS, fetchM) / SURF_ENERGY.refRmsM));
+}
+
+/**
+ * Along-shore phase (16c round 2): the swash and the shore swell used to be
+ * functions of shore distance only, so the whole waterline rose and fell as
+ * one and the owner saw "the sea level breathing, no waves". A slow sinusoid
+ * along the beach (`s` = the position projected on the shore tangent) shifts
+ * the crest phase by up to `amp` radians every `wavelengthM`, so crests
+ * arrive obliquely and run along the beach; `driftOmega` (on the loop grid)
+ * walks the pattern so it never freezes. KEEP IN LOCKSTEP with `esAlongPhase`.
+ */
+export const ALONG_SHORE = { wavelengthM: 75.0, amp: 0.9, driftOmega: 0.045 } as const;
+export const ALONG_DRIFT_OMEGA = snapOmega(ALONG_SHORE.driftOmega);
+export const ALONG_K = (2 * Math.PI) / ALONG_SHORE.wavelengthM;
+/** `shoreDir` is the unit SHOREWARD direction (−∇ shore distance), or (0, 0)
+ * where the raster has no gradient — then the phase is 0 (the |dir|² gate)
+ * and the closed forms fall back to shore distance alone. */
+export function alongShorePhase(x: number, z: number, shoreDirX: number, shoreDirZ: number, timeS: number): number {
+  const s = -x * shoreDirZ + z * shoreDirX;
+  return ALONG_SHORE.amp * Math.sin(ALONG_K * s + ALONG_DRIFT_OMEGA * timeS)
+    * (shoreDirX * shoreDirX + shoreDirZ * shoreDirZ);
+}
+
+/** The swash's uprush/backwash asymmetry grows with the sea's energy (a
+ * storm's bore is steeper), capped so the oscillator stays single-valued.
+ * KEEP IN LOCKSTEP with `esSwashSkew`. */
+export function swashSkew(energy: number): number {
+  return Math.min(SWASH.skewMax, Math.max(SWASH.skewMin, SWASH.skew + SWASH.skewPerEnergy * (energy - 1)));
 }
 
 export interface WaveSample {
@@ -292,7 +334,10 @@ export const SWASH = {
   bandM: 26.0, // swash influence fades out this far from shore
   omega: 0.9, // rad/s (shared with the swell so one wave feeds one uprush)
   k: 0.35, // rad/m of shore distance (bands travel shoreward)
-  skew: 0.6, // asymmetric oscillator: fast uprush, slow gravity backwash
+  skew: 0.6, // asymmetric oscillator at unit energy: fast uprush, slow gravity backwash
+  skewPerEnergy: 0.25, // …steeper as the sea's energy grows (swashSkew)
+  skewMin: 0.35,
+  skewMax: 0.9,
   phase: 0.8, // uprush peaks just after the swell crest arrives at d=0
   groupOmega: 0.15, // surf-beat: wave sets, one wave runs visibly farther
   groupK: 0.06,
@@ -312,6 +357,11 @@ export const SHORE_SWELL = {
    * surf builds to full: a 5 km bay breaks on its windward beach, a 150 m
    * pond laps at a quarter of that, the lee of a headland stays quiet. */
   fetchM: 600.0,
+  /** Stokes-like steepening: in-phase 2nd and 3rd harmonics sharpen the
+   * crest and flatten the trough (16c round 2, a breaking front rather
+   * than a sine). */
+  harmonic2: 0.3,
+  harmonic3: 0.12,
 } as const;
 
 
@@ -330,33 +380,44 @@ export function fetchExposure(fetchM: number, turbidity = 0): number {
 }
 
 /** Asymmetric swash height offset (m) — the moving waterline itself.
- * Wind-scaled (round 3): storm seas run visibly higher up the beach. */
-export function swashAt(shoreDistM: number, fetchExp: number, timeS: number): number {
+ * @param energy `surfEnergyScale(wind, fetch)`: a storm sea runs higher up
+ *   the beach and its uprush is steeper (`swashSkew`).
+ * @param along `alongShorePhase(...)`: the crest's phase shift along the
+ *   beach, so the waterline runs obliquely instead of rising as one. */
+export function swashAt(shoreDistM: number, fetchExp: number, timeS: number, energy = 1, along = 0): number {
   const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * clamp01(fetchExp * 1.6);
   if (envelope <= 0) return 0;
-  const th = SWASH_OMEGA * timeS - SWASH.k * shoreDistM - SWASH.phase;
-  const skewed = Math.cos(th - SWASH.skew * Math.sin(th));
-  return (skewed * 0.5 + 0.25) * SWASH.amplitudeM * surfWindScale() * envelope * surfGroup(shoreDistM, timeS);
+  const th = SWASH_OMEGA * timeS - SWASH.k * shoreDistM - SWASH.phase + along;
+  const skewed = Math.cos(th - swashSkew(energy) * Math.sin(th));
+  return (skewed * 0.5 + 0.25) * SWASH.amplitudeM * energy * envelope * surfGroup(shoreDistM, timeS);
 }
 
 /** Max swash lift (for the terrain wet band: recent waterline = W + this). */
-export function swashMax(shoreDistM: number, fetchExp: number): number {
+export function swashMax(shoreDistM: number, fetchExp: number, energy = 1): number {
   const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * clamp01(fetchExp * 1.6);
-  return 0.75 * SWASH.amplitudeM * surfWindScale() * envelope;
+  return 0.75 * SWASH.amplitudeM * energy * envelope;
+}
+
+/** The shore swell's crest profile: a Stokes-like sum whose harmonics sit in
+ * phase with the fundamental (sharp crest, flat trough). KEEP IN LOCKSTEP
+ * with the GLSL `esShoreSwell`. */
+export function shoreSwellProfile(th: number): number {
+  return Math.cos(th) + SHORE_SWELL.harmonic2 * Math.cos(2 * th) + SHORE_SWELL.harmonic3 * Math.cos(3 * th);
 }
 
 /** Shoaling shore swell height (m): fronts parallel to the waterline,
  * amplitude grows as depth shrinks (Green's law, capped), collapses in the
- * break zone where its energy becomes foam + swash. Wind-scaled (round 3). */
-export function shoreSwellAt(shoreDistM: number, depthM: number, fetchExp: number, timeS: number): number {
+ * break zone where its energy becomes foam + swash. `energy` and `along` as
+ * in `swashAt`. */
+export function shoreSwellAt(shoreDistM: number, depthM: number, fetchExp: number, timeS: number,
+  energy = 1, along = 0): number {
   const env = (1 - sstep(SHORE_SWELL.buildNearM, SHORE_SWELL.buildFarM, shoreDistM))
     * (0.3 + 0.7 * sstep(SHORE_SWELL.breakInnerM, SHORE_SWELL.breakOuterM, shoreDistM))
     * clamp01(fetchExp * 2.0);
   if (env <= 0) return 0;
   const shoal = Math.min(Math.max(Math.pow(Math.max(depthM, 0.3) / 2.0, -0.25), 1.0), 1.8);
-  const th = SHORE_SWELL.k * shoreDistM + SWASH_OMEGA * timeS;
-  return SHORE_SWELL.amplitudeM * surfWindScale() * env * shoal
-    * (Math.cos(th) + 0.3 * Math.cos(2.0 * th + 0.5)) * surfGroup(shoreDistM, timeS);
+  const th = SHORE_SWELL.k * shoreDistM + SWASH_OMEGA * timeS + along;
+  return SHORE_SWELL.amplitudeM * energy * env * shoal * shoreSwellProfile(th) * surfGroup(shoreDistM, timeS);
 }
 
 /** Exact port of WaterThreeJS's GLSL hash21 (per-band angle/phase; the
@@ -612,8 +673,10 @@ export function flowWaveGlsl(): string {
  * swashAt / shoreSwellAt). Included by BOTH the water vertex stage (geometry)
  * and the fragment stage (surf foam) — constants baked from the same tables.
  * `esShoreSwell` also returns dH/d(shoreDist) for the vertex normal tilt.
- * `windAmp` is surfWindScale() evaluated shader-side from uWindWave (round
- * 3): storm seas break harder — pass 1.0 for the calibrated default.
+ * `energy` is `esSurfEnergy(uWindMS, fetchM)` (the CPU's surfEnergyScale);
+ * `along` is `esAlongPhase(pos, shoreDir, t)`. `esSurfFoam` keeps a
+ * four-argument overload (along = 0) for the persistent foam field, which
+ * has no shore frame.
  */
 export function surfGlsl(): string {
   return /* glsl */ `
@@ -625,42 +688,64 @@ export function surfGlsl(): string {
     return clamp(fetchM / ${f(SHORE_SWELL.fetchM)}, 0.0, 1.0)
          * (1.0 - 0.85 * clamp(turb, 0.0, 1.0));
   }
+  // KEEP IN LOCKSTEP with surfEnergyScale(): THE surf energy knob — the
+  // sea's rms height (seaRmsHeightM, inlined: the fragment stage has no
+  // esSeaRms) for the wind and the compiled fetch over the calm sea's rms.
+  float esSurfEnergy(float windMS, float fetchM) {
+    float u = max(${f(SEA.swellFloorWindMS)}, windMS);
+    float hs = min(0.0016 * u * sqrt(max(fetchM, 0.0) / 9.81), 0.21 * u * u / 9.81);
+    return clamp(hs * 0.25 / ${f(SURF_ENERGY.refRmsM)}, ${f(SURF_ENERGY.min)}, ${f(SURF_ENERGY.max)});
+  }
+  // KEEP IN LOCKSTEP with alongShorePhase(): crests arrive obliquely.
+  float esAlongPhase(vec2 pos, vec2 shoreDir, float t) {
+    float s = dot(pos, vec2(-shoreDir.y, shoreDir.x));
+    return ${f(ALONG_SHORE.amp)} * sin(${f(ALONG_K)} * s + ${f(ALONG_DRIFT_OMEGA)} * t) * dot(shoreDir, shoreDir);
+  }
+  // KEEP IN LOCKSTEP with swashSkew().
+  float esSwashSkew(float energy) {
+    return clamp(${f(SWASH.skew)} + ${f(SWASH.skewPerEnergy)} * (energy - 1.0), ${f(SWASH.skewMin)}, ${f(SWASH.skewMax)});
+  }
   // KEEP IN LOCKSTEP with swashAt() — the moving waterline itself.
-  float esSwash(float d, float fetchExp, float t, float windAmp) {
+  float esSwash(float d, float fetchExp, float t, float energy, float along) {
     float envelope = max(1.0 - d / ${f(SWASH.bandM)}, 0.0) * clamp(fetchExp * 1.6, 0.0, 1.0);
     if (envelope <= 0.0) return 0.0;
-    float th = ${f(SWASH_OMEGA)} * t - ${f(SWASH.k)} * d - ${f(SWASH.phase)};
-    float skewed = cos(th - ${f(SWASH.skew)} * sin(th));
-    return (skewed * 0.5 + 0.25) * ${f(SWASH.amplitudeM)} * windAmp * envelope * esSurfGroup(d, t);
+    float th = ${f(SWASH_OMEGA)} * t - ${f(SWASH.k)} * d - ${f(SWASH.phase)} + along;
+    float skewed = cos(th - esSwashSkew(energy) * sin(th));
+    return (skewed * 0.5 + 0.25) * ${f(SWASH.amplitudeM)} * energy * envelope * esSurfGroup(d, t);
   }
-  // KEEP IN LOCKSTEP with shoreSwellAt().
-  float esShoreSwell(float d, float depthM, float fetchExp, float t, float windAmp, out float dHdd) {
+  // KEEP IN LOCKSTEP with shoreSwellAt() / shoreSwellProfile().
+  float esShoreSwell(float d, float depthM, float fetchExp, float t, float energy, float along, out float dHdd) {
     float env = (1.0 - smoothstep(${f(SHORE_SWELL.buildNearM)}, ${f(SHORE_SWELL.buildFarM)}, d))
               * (0.3 + 0.7 * smoothstep(${f(SHORE_SWELL.breakInnerM)}, ${f(SHORE_SWELL.breakOuterM)}, d))
               * clamp(fetchExp * 2.0, 0.0, 1.0);
     dHdd = 0.0;
     if (env <= 0.0) return 0.0;
     float shoal = clamp(pow(max(depthM, 0.3) / 2.0, -0.25), 1.0, 1.8);
-    float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH_OMEGA)} * t;
+    float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH_OMEGA)} * t + along;
     float grp = esSurfGroup(d, t);
-    float a = ${f(SHORE_SWELL.amplitudeM)} * windAmp * env * shoal * grp;
-    dHdd = a * (-sin(th) - 0.6 * sin(2.0 * th + 0.5)) * ${f(SHORE_SWELL.k)};
-    return a * (cos(th) + 0.3 * cos(2.0 * th + 0.5));
+    float a = ${f(SHORE_SWELL.amplitudeM)} * energy * env * shoal * grp;
+    // shoreward slope only: the along-shore phase gradient is a sixth of
+    // the shoreward one and is left out of the normal tilt
+    dHdd = a * (-sin(th) - ${f(2 * SHORE_SWELL.harmonic2)} * sin(2.0 * th) - ${f(3 * SHORE_SWELL.harmonic3)} * sin(3.0 * th)) * ${f(SHORE_SWELL.k)};
+    return a * (cos(th) + ${f(SHORE_SWELL.harmonic2)} * cos(2.0 * th) + ${f(SHORE_SWELL.harmonic3)} * cos(3.0 * th));
   }
   // Surf foam energy: a bore riding each arriving crest (peaking in the
   // break zone, where the swell's energy goes) + backwash remnants after
   // the crest passes. Same phase family as the swell — foam and geometry
   // arrive together; storm seas foam harder (sqrt so calm still laps white).
-  float esSurfFoam(float d, float fetchExp, float t, float windAmp) {
+  float esSurfFoam(float d, float fetchExp, float t, float energy, float along) {
     float env = (1.0 - smoothstep(2.0, ${f(SWASH.bandM)}, d)) * clamp(fetchExp * 1.8, 0.0, 1.0)
-              * clamp(sqrt(windAmp), 0.7, 1.9);
+              * clamp(sqrt(energy), 0.7, 1.9);
     if (env <= 0.0) return 0.0;
-    float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH_OMEGA)} * t;
-    float crest = cos(th - ${f(SWASH.skew)} * sin(th));
+    float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH_OMEGA)} * t + along;
+    float crest = cos(th - esSwashSkew(energy) * sin(th));
     float grp = esSurfGroup(d, t);
     float bore = smoothstep(0.45, 0.92, crest) * (0.5 + 0.5 * grp);
     float back = smoothstep(0.2, 0.8, -crest) * 0.22 * grp;
     return (bore + back) * env;
+  }
+  float esSurfFoam(float d, float fetchExp, float t, float energy) {
+    return esSurfFoam(d, fetchExp, t, energy, 0.0);
   }
   `;
 }

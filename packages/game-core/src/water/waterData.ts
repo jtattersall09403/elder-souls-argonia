@@ -51,7 +51,11 @@ export interface WaterMeta {
      * builder needs them to tell a free cliff from a ramp it must hug. */
     profile?: number[]; profileStepM?: number; profileStartM?: number;
     /** Compiled flow speed at the lip (m/s) — the sheet's launch speed. */
-    lipSpeedMS?: number }[];
+    lipSpeedMS?: number;
+    /** 16c: the ballistic throw (m), the plunge bowl's radius (m) and the
+     * held pool depth (m) the compile dug — the kit stack and the mist
+     * volume size the base from them. */
+    throwM?: number; bowlRadiusM?: number; holdM?: number }[];
   /** Steep-reach channel strips (decision 0046 item 4): the renderer draws
    * explicit strip meshes along these and masks the field surface out where
    * `ownerFile` says a strip/fall owns the cell. `join` points overlap the

@@ -1,7 +1,10 @@
 """Compile first-pass province hydrology and studio overlay rasters.
 
 Usage:
-  python3 -m worldgen.compile_hydrology <path-to-heightfield-f32.npy>
+  python3 -m worldgen.compile_hydrology <path-to-heightfield-f32.npy> [--out DIR]
+
+`--out DIR` writes the npz, the PNGs and the meta into DIR instead of the
+vault and the studio (a scratch run to compare against the record).
 
 Reads the raw stitched heightfield from the vault, applies the owner-chosen
 mild conditioning (decision 0005) and the world scale from scale.py (decision 0015),
@@ -44,12 +47,20 @@ def rgba(shape) -> np.ndarray:
     return np.zeros((*shape, 4), dtype=np.uint8)
 
 
-def save(img: np.ndarray, name: str) -> None:
-    Image.fromarray(img).save(PREVIEW_DIR / name)
+def save(img: np.ndarray, name: str, out_dir: Path = PREVIEW_DIR) -> None:
+    Image.fromarray(img).save(out_dir / name)
 
 
-def main() -> None:
-    grid_path = Path(sys.argv[1])
+def main(argv: list[str] | None = None) -> None:
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    ap.add_argument("heightfield", type=Path)
+    ap.add_argument("--out", type=Path, default=None, help="scratch output directory (npz + PNGs + meta) instead of the vault and the studio")
+    args = ap.parse_args(argv)
+    grid_path = args.heightfield
+    npz_dir = args.out or grid_path.parent
+    preview_dir = args.out or PREVIEW_DIR
+    preview_dir.mkdir(parents=True, exist_ok=True)
     z_full = base_terrain(grid_path)  # image orientation: row 0 = north; sculpted if present (6b)
     z = z_full[::STEP, ::STEP]
     metres_per_px = RAW_METRES_PER_SAMPLE * STEP * SCALE
@@ -72,7 +83,7 @@ def main() -> None:
     reg = compute_regions(z, result, metres_per_px)
 
     _savez(
-        grid_path.parent / "hydrology-pass1.npz",
+        npz_dir / "hydrology-pass1.npz",
         conditioned=z, ocean=result.ocean, sea=result.sea, sink=result.sink, filled=result.filled.astype(np.float32),
         flow_to=result.flow_to.astype(np.int32), accum_km2=result.accum_km2,
         rivers=result.rivers, watersheds=result.watersheds, twi=result.twi,
@@ -94,12 +105,12 @@ def main() -> None:
             m = ndimage.binary_dilation(m, iterations=widen)
         rivers[m] = (*colour, alpha)
     rivers[result.lakes] = (60, 130, 215, 210)
-    save(rivers, "hydro-rivers.png")
+    save(rivers, "hydro-rivers.png", preview_dir)
 
     wet = rgba(shape)
     wet[result.wetlands] = (60, 200, 140, 110)
     wet[result.tidal & ~result.ocean] = (170, 205, 130, 110)
-    save(wet, "hydro-wetlands.png")
+    save(wet, "hydro-wetlands.png", preview_dir)
 
     sheds = rgba(shape)
     ids = np.unique(result.watersheds[result.watersheds > 0])
@@ -107,7 +118,7 @@ def main() -> None:
     top = sorted(areas, key=areas.get, reverse=True)[:len(WATERSHED_PALETTE)]
     for rank, basin in enumerate(top):
         sheds[result.watersheds == basin] = (*WATERSHED_PALETTE[rank], 90)
-    save(sheds, "hydro-watersheds.png")
+    save(sheds, "hydro-watersheds.png", preview_dir)
 
     sal = rgba(shape)
     s = np.clip(result.salinity, 0, 1)
@@ -116,25 +127,25 @@ def main() -> None:
     sal[m, 1] = (60 + 80 * s[m]).astype(np.uint8)
     sal[m, 2] = (160 - 60 * s[m]).astype(np.uint8)
     sal[m, 3] = (60 + 140 * s[m]).astype(np.uint8)
-    save(sal, "hydro-salinity.png")
+    save(sal, "hydro-salinity.png", preview_dir)
 
     flood = rgba(shape)
     for band, colour, alpha in ((1, (120, 170, 220), 60), (2, (80, 140, 220), 110), (3, (50, 100, 210), 160)):
         flood[reg.flood == band] = (*colour, alpha)
-    save(flood, "hydro-flood.png")
+    save(flood, "hydro-flood.png", preview_dir)
 
     soil = rgba(shape)
     for cid, colour in ((1, (135, 135, 145)), (2, (165, 150, 105)), (3, (95, 140, 85)),
                         (4, (80, 60, 40)), (5, (150, 110, 70))):
         soil[reg.soil == cid] = (*colour, 110)
-    save(soil, "hydro-soil.png")
+    save(soil, "hydro-soil.png", preview_dir)
 
     regions_img = rgba(shape)
     for cid, (_, colour) in REGION_CLASSES.items():
         if cid == 0:
             continue
         regions_img[reg.regions == cid] = (*colour, 120)
-    save(regions_img, "hydro-regions.png")
+    save(regions_img, "hydro-regions.png", preview_dir)
 
     # Macro mist/steaminess field (plan §33.1): per-region mist propensity,
     # smoothed so it reads as air, not class boundaries.
@@ -147,7 +158,7 @@ def main() -> None:
     mist_img[..., 1] = 232
     mist_img[..., 2] = 238
     mist_img[..., 3] = (mist * 150).astype(np.uint8)
-    save(mist_img, "hydro-mist.png")
+    save(mist_img, "hydro-mist.png", preview_dir)
 
     # Province "air" raster (Phase 8a, module 55 §97): data channels for the
     # studio's aerial-perspective haze shader. R humidity, G mist propensity,
@@ -174,7 +185,7 @@ def main() -> None:
     air[..., 0] = np.round(humidity * 255).astype(np.uint8)
     air[..., 1] = np.round(np.clip(mist, 0.0, 1.0) * 255).astype(np.uint8)
     air[..., 2] = np.round(canopy * 255).astype(np.uint8)
-    save(air, "climate-air.png")
+    save(air, "climate-air.png", preview_dir)
 
     # Province weather raster (Phase 8c, module 55 §98, decision 0032): the
     # spatial fields the weather machine's LOCAL EXPRESSION reads. Formulas
@@ -220,7 +231,7 @@ def main() -> None:
     weather_img[..., 0] = np.round(rain_amp * 255).astype(np.uint8)
     weather_img[..., 1] = np.round(storm_x * 255).astype(np.uint8)
     weather_img[..., 2] = np.round(sea_fog * 255).astype(np.uint8)
-    save(weather_img, "climate-weather.png")
+    save(weather_img, "climate-weather.png", preview_dir)
 
     # Province visibility/fog-locality raster (Phase 8c round 3, module 55
     # §97; NOT in an alpha channel — canvas decode premultiplies alpha and
@@ -248,7 +259,7 @@ def main() -> None:
     vis_img = np.zeros((*shape, 3), dtype=np.uint8)
     vis_img[..., 0] = np.round(belt_mask * 255).astype(np.uint8)
     vis_img[..., 1] = np.round(np.clip(beta_region / 0.02, 0.0, 1.0) * 255).astype(np.uint8)
-    save(vis_img, "climate-vis.png")
+    save(vis_img, "climate-vis.png", preview_dir)
 
     meta = {
         "metresPerPixel": metres_per_px,
@@ -294,7 +305,7 @@ def main() -> None:
         **result.stats,
         **reg.stats,
     }
-    (PREVIEW_DIR / "hydrology-meta.json").write_text(json.dumps(meta, indent=2))
+    (preview_dir / "hydrology-meta.json").write_text(json.dumps(meta, indent=2))
     print(json.dumps(meta, indent=2))
 
 

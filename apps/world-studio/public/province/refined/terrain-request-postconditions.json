@@ -1,16 +1,16 @@
 {
   "artifactSha256": {
-    "fulfillment": "26a6be8943a03d33786b08c7595899cdd0fb5e564928d402d3dd691f3b5e2dd4",
-    "height": "65df8bb69cbcc8a8103b2f641466b03c1e8e0558641a3c0e9160c24aa10fddde",
-    "plan": "dc5a29df45f14e34ec2ea2c46b97118a0fc8b9b7256ee0cf522a131dc61ab711",
-    "water": "90c24046c8d7d5353f496c6eeef1aebb56626fc4ea14b2d73de6d6c09a1ae19c"
+    "fulfillment": "070b105f4a6993129d7b800840cc3793986485adfbf57eaad8defa84af9a6266",
+    "height": "ebdf4105ad5814b109c1b36ef95d81210d5f477ffee10286be48596d210bb1f0",
+    "plan": "054c0aaea94fe1ecca4e498d95ce934a3f89893fa3729a805dfd4da5189dd306",
+    "water": "6968aced681934b1690605ee472e245360018abb54f5425e83d2367a5a59c078"
   },
-  "finalHeightSha256": "b7b57531db8b15ea5562f06f93b87f5d568d516c2234d68aa753cfc96be1d53d",
+  "finalHeightSha256": "3646995c57f224820c6af2b5e01f0075361f50923d815422c80dcc19c808d7ac",
   "globalFindings": [
     {
       "detail": "postcondition report binds the exact final terrain raster",
       "field": "finalHeightSha256",
-      "measured": "b7b57531db8b15ea5562f06f93b87f5d568d516c2234d68aa753cfc96be1d53d",
+      "measured": "3646995c57f224820c6af2b5e01f0075361f50923d815422c80dcc19c808d7ac",
       "status": "pass"
     },
     {
@@ -20,8 +20,8 @@
     }
   ],
   "kind": "terrain-request-postconditions",
-  "planDigest": "64c53ab97c0c16660d3f7f11fb9221c50e5fe867d5372fdbc381c2cd84cb37b0",
-  "reportDigest": "ef9898e1f348fdde5607750bba223637626f6970d4769838dbd1c4ffa183276d",
+  "planDigest": "9542351e3292bd84531f1f4ec5ec8e4fb83053cedea6360bbc3be18294318a9c",
+  "reportDigest": "f94e9684d28f5331ed369d2a255857d2e6ef877321684cc2dcbf29c30fd05d47",
   "requests": [
     {
       "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",
@@ -392,6 +392,104 @@
       "status": "pass"
     },
     {
+      "deliverySha256": "7295301d5f880242a2fa72281da872df8c76ecd73fa87a8ab7deeae237822119",
+      "findings": [
+        {
+          "detail": "at least 80% of witnesses and median signed signal must retain >= 20% of the operation",
+          "field": "terrainSurvival",
+          "measured": {
+            "medianSignedRatio": 1.0,
+            "retainedFraction": 1.0,
+            "witnessSamples": 63
+          },
+          "status": "pass"
+        },
+        {
+          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
+          "field": "access",
+          "measured": {
+            "operations": [
+              {
+                "axis": [
+                  0.908021287,
+                  0.41892403
+                ],
+                "axisSource": "local-gradient-fallback",
+                "operationId": "terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+                "profile": "channel-link"
+              }
+            ],
+            "value": "poling"
+          },
+          "status": "pass"
+        },
+        {
+          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
+          "field": "capacity",
+          "measured": {
+            "operations": [
+              {
+                "axis": [
+                  0.908021287,
+                  0.41892403
+                ],
+                "axisSource": "local-gradient-fallback",
+                "operationId": "terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+                "profile": "channel-link"
+              }
+            ],
+            "value": "poled-skiff"
+          },
+          "status": "pass"
+        },
+        {
+          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
+          "field": "featureCount",
+          "measured": {
+            "operations": [
+              {
+                "axis": [
+                  0.908021287,
+                  0.41892403
+                ],
+                "axisSource": "local-gradient-fallback",
+                "operationId": "terrain-op.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+                "profile": "channel-link"
+              }
+            ],
+            "value": 2
+          },
+          "status": "pass"
+        },
+        {
+          "detail": "feature identity is bound to the kind-specific profile and surviving witnesses",
+          "field": "feature",
+          "measured": "screened-back-channels",
+          "status": "pass"
+        },
+        {
+          "detail": "final water must satisfy 'navigable' depth",
+          "field": "depthClass",
+          "measured": {
+            "maxDepthM": 3.861,
+            "minimumM": 0.6
+          },
+          "status": "pass"
+        },
+        {
+          "detail": "channel-linked requires a final labelled wet channel in support",
+          "field": "waterRelation",
+          "measured": {
+            "wetChannelSamples": 119
+          },
+          "status": "pass"
+        }
+      ],
+      "placeId": "place.imperial-penal-south.chainbreaker-shelter",
+      "requestId": "terrain-request.imperial-penal-south.chainbreaker-shelter.cut.ae26262e8297",
+      "status": "pass"
+    },
+    {
       "deliverySha256": "4dc5120d953a6e22054771ce0212bb0149e99ea38cc9b7b6fca42edff97f87cf",
       "findings": [
         {
@@ -452,7 +550,7 @@
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "94dc09488ed74392297d9b7fcd397a856a57a9258789a2bf85b18be967564009",
+  "sourceDigest": "5d4e91385a888babeb8aef808db7b5e10ca6c36b6741d5957fc5c9b13ba49c38",
   "status": "fail",
   "thresholdsSha256": "6c341a70713e0417d5395a209524ad6975dec93aa8ef2b2d683e486ca1870a80"
 }

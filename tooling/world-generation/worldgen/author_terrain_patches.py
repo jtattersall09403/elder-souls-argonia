@@ -1,9 +1,11 @@
 """Author `terrain-patches.json` from the sources that still shape ground (Phase 16b).
 
-    python3 -m worldgen.author_terrain_patches            # rewrite the file
+    python3 -m worldgen.author_terrain_patches            # rewrite the file from the two place sources
     python3 -m worldgen.author_terrain_patches --check    # exit 1 if it would change
+    python3 -m worldgen.author_terrain_patches water-corrections            # re-author the bed-cut / levee patches
+    python3 -m worldgen.author_terrain_patches water-corrections --prove DIR/refined-height-f32.npy
 
-Two sources become patches, deterministically:
+Three sources become patches, deterministically:
 
 * `world/sources/routes/authored-minor-waterways.json` -> one `poling-channel`
   patch per line (ruling 6: poling channels are patches; dock and lane
@@ -16,6 +18,14 @@ Two sources become patches, deterministically:
   Kinds that ask for water (`pool`, `sinkhole`, `hollow`, `spring`) declare
   `makesWater`; the rest do not, and a request that would move frozen water
   is REFUSED by `apply_terrain_patches` — the place adapts (16g).
+
+* `world/sources/terrain/water-corrections.json` (the owner's approved 16c
+  rows) with the compiler's census -> `bed-cut` and `levee` patches
+  (`water_correction_patches`). These need the vault, so the plain run keeps
+  the ones in the file and only the `water-corrections` subcommand rewrites
+  them; run it after every water compile. That authoring is CUMULATIVE (the
+  census is measured on the ground the patches already moved): pass `--prune`
+  to drop a correction the current census no longer asks for.
 
 Grading (16e) and settlement pads (16h) author their own kinds into the same
 file with the same contract. Run this after editing either source and commit
@@ -83,21 +93,47 @@ def request_patches() -> list[dict]:
     return out
 
 
-def author() -> list[dict]:
-    patches = poling_patches() + request_patches()
-    # overlapping regions must declare an order: later id waits for the earlier
-    # (deterministic, and the applier then runs them in that order)
+WATER_KINDS_AUTHORED = ("bed-cut", "levee")
+
+
+def author(water_corrections: list[dict] | None = None) -> list[dict]:
+    """All patches in (order, id) order. `water_corrections` replaces the
+    bed-cut / levee patches; None keeps the ones already in the file."""
+    if water_corrections is None:
+        water_corrections = [p for p in tp.load() if p["kind"] in WATER_KINDS_AUTHORED]
+    patches = tp.ordered(poling_patches() + request_patches() + water_corrections)
+    # overlapping regions must declare an order: the later in (order, id)
+    # waits for the earlier (deterministic, and the applier runs them so);
+    # recomputed from scratch, so nothing stale survives a re-author
     boxes = {p["id"]: tp.region_box(p, (4033, 4033)) for p in patches}
+    for p in patches:
+        p["after"] = []
     for i, a in enumerate(patches):
         for b in patches[i + 1:]:
             if tp._intersects(boxes[a["id"]], boxes[b["id"]]):
-                if a["id"] not in b["after"]:
-                    b["after"].append(a["id"])
+                b["after"].append(a["id"])
     return patches
 
 
 def main(argv: list[str] | None = None) -> int:
     args = list(argv if argv is not None else sys.argv[1:])
+    if args and args[0] == "water-corrections":
+        from . import water_correction_patches as wc
+        from .vault import HEIGHTFIELD_DIR
+        if "--prove" in args:
+            from pathlib import Path
+            ground = Path(args[args.index("--prove") + 1])
+            wc.prove(ground, HEIGHTFIELD_DIR, [p for p in tp.load() if p["kind"] in WATER_KINDS_AUTHORED])
+            return 0
+        patches = author(wc.author(HEIGHTFIELD_DIR, prune="--prune" in args))
+        errs = tp.validate(patches)
+        if errs:
+            print("\n".join(errs))
+            return 1
+        tp.save(patches)
+        print(f"terrain-patches.json: {len(patches)} patches "
+              f"({sum(1 for p in patches if p['kind'] == 'bed-cut')} bed-cuts, {sum(1 for p in patches if p['kind'] == 'levee')} levees)")
+        return 0
     patches = author()
     errs = tp.validate(patches)
     if errs:
@@ -110,7 +146,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if same else 1
     tp.save(patches)
     print(f"terrain-patches.json: {len(patches)} patches ({sum(1 for p in patches if p['kind'] == 'poling-channel')} poling channels, "
-          f"{sum(1 for p in patches if p['kind'] == 'terrain-request')} places' terrain requests)")
+          f"{sum(1 for p in patches if p['kind'] == 'terrain-request')} places' terrain requests, "
+          f"{sum(1 for p in patches if p['kind'] in WATER_KINDS_AUTHORED)} water corrections kept)")
     return 0
 
 

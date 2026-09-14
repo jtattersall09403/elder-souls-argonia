@@ -103,7 +103,7 @@ than inherit as a guess: deliverable 3.
 3. **Anchoring by designed ground contact, per asset** (owner 2026-09-14,
    decision 0066): most building exteriors were modelled to sit partly in
    the ground (a door sill half-way up the mesh, a foundation course meant
-   to vanish), and today they are sunk by a per-class table
+   to vanish). Today they are sunk by a per-class table
    (`placement-policies.json`: direct 0.08 m, dug-in 0.35 m, "reviewed"
    guesses), which is class-4 re-derivation. Replace it: for every kit
    asset, measure how its makers placed it — every reference to the base

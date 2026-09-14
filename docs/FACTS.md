@@ -16,6 +16,6 @@ live doc that states a different number next to one of these nouns.
 | hydrologyBodies | 2280 | world/sources/hydrology/hydrology-graph.json stats |
 | hydrologyFalls | 18 | world/sources/hydrology/hydrology-graph.json stats |
 | ferryServices | 7 | world/sources/routes/ferry-crossings.json |
-| publishedKits | 21 | apps/world-studio/public/kits/*.kit.json |
+| publishedKits | 22 | apps/world-studio/public/kits/*.kit.json |
 | builtBodies | 20 | packages/character-assets/files/races/*.glb |
 | engineeringStandards | 15 | docs/standards/engineering.md `## N.` headings |

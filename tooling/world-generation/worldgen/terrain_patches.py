@@ -20,10 +20,36 @@ six invariants and FAILS — is refused, never clamped — on any of them:
                    name it in `crosses`
 
 Kinds today: `poling-channel` (an authored minor waterway carved to its
-receiving water; ruling 6) and `terrain-request` (one place's typed
-catalogue requests, `terrain_requests`). Dock and lane DREDGES are retired
-(ruling 6: a berth goes where the water floats the hull). Grading (16e) and
-settlement pads (16h) add their kinds here with the same contract.
+receiving water; ruling 6), `terrain-request` (one place's typed
+catalogue requests, `terrain_requests`), and the two water corrections the
+owner approved on 2026-09-14 (16c ledger §4, authored by
+`author_terrain_patches water-corrections` from the compiler's own census):
+
+  `bed-cut`  channel-class: LOWERS the ground along a run of stations whose
+             bed the carve left above its promise (the coast collar at a
+             mouth, a body's rim ring across a creek, a bare weir lip, the
+             Blackrose sill) to the promised bed — the parabola
+             `bed(t) = level − (level − bedM)·(1 − t²)` across the water
+             width, a weir station flooring the cut AT its level — with a
+             BED_CUT_BLEND_M taper outside the width. It may never RAISE.
+  `levee`    RAISES the shoulder band (the water's edge .. edge +
+             SHOULDER_BLEND_M, both sides) of a perched station — one whose
+             water stands over PERCHED_DROP_M above dry ground beside it — to
+             the crest (station level + LEVEE_FREEBOARD_M, the carve's own
+             shoulder promise), tapered LEVEE_BLEND_M outward; never inside
+             any channel's water width, never lowering. It declares
+             `driesBodyCells`: a lower body's fringe cells inside the band
+             dry, only inside the patch region, and the body's level and
+             deepest cell are checked unchanged. A levee whose `params` hold
+             `cells` instead of `stations` is a BODY RIM levee
+             (`apply_rim_levee`, `stats.bodyRimLeaks`): the dry ring cells
+             under a realised body's level rise to level + LEVEE_FREEBOARD_M,
+             never a wet cell and never a channel width, and it dries nothing
+             (`driesBodyCells: false`).
+
+Dock and lane DREDGES are retired (ruling 6: a berth goes where the water
+floats the hull). Grading (16e) and settlement pads (16h) add their kinds
+here with the same contract.
 
 Patch record (metres, province frame; `bboxM` = [x0, z0, x1, z1]):
 
@@ -46,8 +72,20 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 PATCHES_PATH = REPO_ROOT / "world" / "sources" / "terrain" / "terrain-patches.json"
 STRUCTURES_PATH = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "route-structures.json"
 SCHEMA_VERSION = 1
-KINDS = ("poling-channel", "terrain-request")
-CHANNEL_CLASS_KINDS = ("poling-channel",)    # may LOWER ground inside a channel or its shoulder
+KINDS = ("poling-channel", "terrain-request", "bed-cut", "levee")
+CHANNEL_CLASS_KINDS = ("poling-channel", "bed-cut")    # may LOWER ground inside a channel or its shoulder
+SHOULDER_RAISE_KINDS = ("levee",)             # may RAISE ground in a channel's shoulder (never its width)
+BED_CUT_BLEND_M = 2.0                         # a bed-cut tapers back to the bank over this past the width
+LEVEE_FREEBOARD_M = 0.3                       # = channels.SHOULDER_RAISE_M: crest over the station level
+LEVEE_EDGE_GAP_M = 0.0                        # the levee starts AT the water's edge (the nominal half-width, as the
+                                              # carve's own crest zone does). Measured 2026-09-14 with a 0.5 m gap:
+                                              # the compile counts cells out to half-width + 0.5 sample as the width,
+                                              # and the dry low cells its perched rule sees were the gap ring's
+                                              # (836 of 1235 residual neighbours), so a gap leaves the run perched
+LEVEE_BLEND_M = 2.0                           # ...and tapers to the ground over this past its band
+BODY_CAP_CELLS = 2                            # = compile_water.BODY_CAP_CELLS (copied: importing the compile
+                                              # drags the whole water build in): a body within this many
+                                              # cells of a channel cell caps the lateral level there
 DEPRESSION_MIN_M = 0.15                       # a hollow deeper than this holds water
 STRUCTURE_HALF_W_M = 6.0
 WINDOW_PAD_PX = 6
@@ -131,7 +169,7 @@ class Context:
     def __init__(self, level_with_sea: np.ndarray, sea: np.ndarray, stations, npz=None, structures=None):
         self.level = level_with_sea            # float32, -inf where dry, 0 on the sea
         self.sea = sea
-        self.stations = stations               # (y, x, L, width, live) arrays in sample coords
+        self.stations = stations               # (y, x, L, width, live[, band]) arrays in sample coords
         self.npz = npz
         self.structures = structures if structures is not None else load_structures()
         self._flow = None
@@ -142,24 +180,34 @@ class Context:
         return np.isfinite(self.level)
 
     def channel_masks(self, box: Box, mpp: float = RAW_M):
-        """(inside width, inside width + shoulder) over the box, from the
-        nearest live station."""
+        """(inside a water width, inside a width + shoulder) over the box.
+        Per band, from the nearest live station OF THAT BAND (the union over
+        bands, as the compile's `chan_all`: at a junction a cell inside the
+        trunk's width is inside even where a tributary's station is nearer)."""
         from scipy.spatial import cKDTree
         from .channels import SHOULDER_BLEND_M
         y0, y1, x0, x1 = box
-        ys, xs, _L, w, live = self.stations
+        ys, xs, _L, w, live = self.stations[:5]
+        band = self.stations[5] if len(self.stations) > 5 else np.ones(len(ys), dtype=np.int8)
         reach = float(w.max()) * 0.5 + SHOULDER_BLEND_M if len(w) else 0.0
         pad = reach / mpp + 1
-        sel = live & (ys >= y0 - pad) & (ys < y1 + pad) & (xs >= x0 - pad) & (xs < x1 + pad)
         h = (y1 - y0, x1 - x0)
-        if not sel.any():
-            return np.zeros(h, bool), np.zeros(h, bool)
-        tree = cKDTree(np.stack([ys[sel], xs[sel]], 1))
+        inside = np.zeros(h, bool)
+        shoulder = np.zeros(h, bool)
+        near = live & (ys >= y0 - pad) & (ys < y1 + pad) & (xs >= x0 - pad) & (xs < x1 + pad)
+        if not near.any():
+            return inside, shoulder
         gy, gx = np.mgrid[y0:y1, x0:x1]
-        d, i = tree.query(np.stack([gy.ravel(), gx.ravel()], 1))
-        d = d.reshape(h) * mpp
-        half = (w[sel][i].reshape(h) * 0.5)
-        return d <= half, d <= half + SHOULDER_BLEND_M
+        pts = np.stack([gy.ravel(), gx.ravel()], 1)
+        for b in np.unique(band[near]):
+            sel = near & (band == b)
+            tree = cKDTree(np.stack([ys[sel], xs[sel]], 1))
+            d, i = tree.query(pts)
+            d = d.reshape(h) * mpp
+            half = (w[sel][i].reshape(h) * 0.5)
+            inside |= d <= half
+            shoulder |= d <= half + SHOULDER_BLEND_M
+        return inside, shoulder
 
     def flow_vectors(self, shape):
         if self._flow is None:
@@ -194,16 +242,48 @@ def load_structures(path: Path = STRUCTURES_PATH) -> list[dict]:
     return [{"id": s["id"], "pointsM": s["pointsM"]} for s in doc.get("structures", []) if s.get("pointsM")]
 
 
-def context_from_vault(vault: Path) -> Context:
-    """The frozen water and channels as `hydrology_graph derive` left them."""
+def feeder_stations(graph: dict, mpp: float = RAW_M):
+    """The terrain-stage reaches (the Blackrose feeders, `origin:
+    terrain-stage`) as stations: (y, x, L, width, live, band) in sample
+    coordinates, one per sample along the centreline — the widths the
+    invariants must see even though the vault solution has no station there."""
+    ys, xs, Ls, ws, bands = [], [], [], [], []
+    for f in graph.get("reaches", []):
+        if f.get("origin") != "terrain-stage" or not f.get("centreline"):
+            continue
+        pts = np.asarray(f["centreline"], dtype=np.float64) / mpp
+        if len(pts) < 2:
+            continue
+        seg = np.hypot(*(pts[1:] - pts[:-1]).T)
+        arc = np.concatenate([[0.0], np.cumsum(seg)])
+        s = np.linspace(0.0, float(arc[-1]), max(int(np.floor(arc[-1])) + 1, 2))
+        xs.append(np.interp(s, arc, pts[:, 0])); ys.append(np.interp(s, arc, pts[:, 1]))
+        Ls.append(np.full(len(s), float(f["levelFromM"]))); ws.append(np.full(len(s), float(f["widthM"])))
+        bands.append(np.full(len(s), int(f.get("band") or 3)))
+    if not xs:
+        return None
+    n = sum(len(v) for v in xs)
+    return (np.concatenate(ys).astype(np.float32), np.concatenate(xs).astype(np.float32),
+            np.concatenate(Ls).astype(np.float32), np.concatenate(ws).astype(np.float32),
+            np.ones(n, bool), np.concatenate(bands).astype(np.int8))
+
+
+def context_from_vault(vault: Path, graph_path: Path | None = None) -> Context:
+    """The frozen water and channels as `hydrology_graph derive` left them,
+    plus the graph's terrain-stage feeders (their widths are channels too)."""
     from . import hydrology_graph as hg
     from .channels import KIND_LOST
     z = np.load(vault / hg.BODIES_FILE)
     level = np.where(z["sea"], np.float32(0.0), z["level"]).astype(np.float32)
     s = np.load(vault / hg.SOLUTION_FILE)
     live = s["kind"] != KIND_LOST
-    stations = (s["y"], s["x"], s["L"], s["width"], live)
-    return Context(level, z["sea"], stations, npz=np.load(vault / "hydrology-pass1.npz"))
+    stations = [s["y"], s["x"], s["L"], s["width"], live, s["band"].astype(np.int8)]
+    gp = graph_path or (REPO_ROOT / "world" / "sources" / "hydrology" / "hydrology-graph.json")
+    if gp.exists():
+        extra = feeder_stations(json.loads(gp.read_text(encoding="utf-8")))
+        if extra is not None:
+            stations = [np.concatenate([a, b]) for a, b in zip(stations, extra)]
+    return Context(level, z["sea"], tuple(stations), npz=np.load(vault / "hydrology-pass1.npz"))
 
 
 # --------------------------------------------------------------- the kinds
@@ -231,10 +311,233 @@ def apply_kind(h: np.ndarray, patch: dict, ctx: Context, mpp: float = RAW_M) -> 
         out, manifest, stats = trr.apply_plan(out, plan, mpp, flow_vectors=ctx.flow_vectors(h.shape),
                                               wet_mask=ctx.wet_mask(h.shape))
         return out.astype(np.float32), {"plan": plan, "manifest": manifest, "stats": stats}
+    if kind == "bed-cut":
+        return apply_bed_cut(out, patch, mpp)
+    if kind == "levee":
+        if "cells" in patch.get("params", {}):
+            return apply_rim_levee(out, patch, ctx, mpp)
+        return apply_levee(out, patch, ctx, mpp)
     raise ValueError(f"unknown kind {kind}")
 
 
+def _smoothstep(t: np.ndarray) -> np.ndarray:
+    t = np.clip(t, 0.0, 1.0)
+    return t * t * (3.0 - 2.0 * t)
+
+
+def _station_fields(stations: list[dict], box: Box, mpp: float):
+    """Per cell of `box`: index of the nearest station, its distance (m) and
+    the signed side of the cell against that station's tangent (+1 left of
+    the downstream direction in sample coordinates, -1 right)."""
+    from scipy.spatial import cKDTree
+    y0, y1, x0, x1 = box
+    pts = np.array([[st["y"], st["x"]] for st in stations], dtype=np.float64)
+    tree = cKDTree(pts)
+    gy, gx = np.mgrid[y0:y1, x0:x1]
+    d, i = tree.query(np.stack([gy.ravel(), gx.ravel()], 1))
+    h = (y1 - y0, x1 - x0)
+    i = i.reshape(h)
+    d = (d.reshape(h) * mpp).astype(np.float32)
+    tx = np.array([st.get("tx", 0.0) for st in stations], dtype=np.float32)[i]
+    ty = np.array([st.get("ty", 0.0) for st in stations], dtype=np.float32)[i]
+    side = np.sign(tx * (gy - pts[i, 0]) - ty * (gx - pts[i, 1])).astype(np.int8)
+    return i, d, side
+
+
+def apply_bed_cut(h: np.ndarray, patch: dict, mpp: float = RAW_M) -> tuple[np.ndarray, dict]:
+    """Lower the ground along the patch's stations to the promised bed.
+    `params.stations`: [{x, y (sample coords), halfWidthM, levelM, bedM,
+    weir}] — inside a station's half-width the target is the parabola from
+    `bedM` at the centre to `levelM` at the edge (the carve's section); a
+    weir station floors the cut at its level across its width; past the
+    width the cut CONTINUES the nearest inside cell's own cut, tapering to
+    nothing over BED_CUT_BLEND_M (a bank is never cut down toward the level
+    by the blend — that would gouge a hillside). `params.bankM`: ground
+    standing above it inside the width is the trench's BANK (the carve's
+    trench is narrower than the graph's width there), not a bump in the bed,
+    and is left alone. Only ever lowers."""
+    stations = patch["params"]["stations"]
+    if not stations:
+        raise ValueError("bed-cut has no stations")
+    blend = float(patch.get("params", {}).get("blendM", BED_CUT_BLEND_M))
+    box = region_box(patch, h.shape, mpp)
+    y0, y1, x0, x1 = box
+    win = h[y0:y1, x0:x1]
+    gy, gx = np.mgrid[y0:y1, x0:x1]
+    cut = np.full(win.shape, np.inf, dtype=np.float32)
+    weir = np.full(win.shape, -np.inf, dtype=np.float32)
+    inside_any = np.zeros(win.shape, bool)
+    for st in stations:
+        r = max(float(st["halfWidthM"]), 1e-3)
+        d = np.hypot(gy - float(st["y"]), gx - float(st["x"])) * mpp
+        L, bed = float(st["levelM"]), float(st["bedM"])
+        inside = d <= r
+        t = np.clip(d / r, 0.0, 1.0)
+        parab = L - (L - bed) * (1.0 - t * t)
+        cut = np.where(inside, np.minimum(cut, parab), cut)
+        inside_any |= inside
+        if st.get("weir"):
+            weir = np.where(inside, np.maximum(weir, L), weir)
+    target = np.where(inside_any, np.maximum(cut, weir), np.inf)
+    bank = float(patch["params"].get("bankM", np.inf))
+    inside_any &= win <= bank
+    target = np.where(inside_any, target, np.inf)
+    new = np.minimum(win, target).astype(np.float32)
+    if blend > 0 and inside_any.any():
+        dist, (ky, kx) = ndimage.distance_transform_edt(~inside_any, return_indices=True)
+        dist = dist * mpp
+        ring = ~inside_any & (dist <= blend)
+        edge_delta = (new - win)[ky, kx]                       # the cut at the nearest inside cell (<= 0)
+        new = np.where(ring, win + edge_delta * (1.0 - _smoothstep(dist / blend)), new).astype(np.float32)
+    out = h.copy()
+    out[y0:y1, x0:x1] = new
+    delta = new - win
+    return out, {"samplesCut": int((delta < 0).sum()), "maxCutM": round(float(-delta.min()), 3) if (delta < 0).any() else 0.0}
+
+
+def apply_levee(h: np.ndarray, patch: dict, ctx: "Context", mpp: float = RAW_M) -> tuple[np.ndarray, dict]:
+    """Raise the shoulder band beside the patch's stations to their crest.
+    `params.stations`: [{x, y, tx, ty (sample coords, downstream tangent),
+    halfWidthM, crestM}]. The band is edge + edgeGapM .. edge + bandM from
+    the nearest station, on both sides (a side already at the crest moves
+    nothing); every band cell rises to max(ground, crest) where the crest is
+    the highest of the stations whose band reaches the cell; past the band the
+    raise CONTINUES the nearest band cell's own raise, tapering to nothing
+    over blendM (a cliff below the band is never filled by the blend);
+    nothing inside any live channel's water width (`ctx`) or inside the gap
+    moves. A pocket the bank newly closes behind it (judged on the window
+    invariant 4 reads, the region padded) is lifted to its spill: a levee
+    makes no water. Only ever raises."""
+    from .channels import SHOULDER_BLEND_M
+    stations = patch["params"]["stations"]
+    if not stations:
+        raise ValueError("levee has no stations")
+    p = patch["params"]
+    gap = float(p.get("edgeGapM", LEVEE_EDGE_GAP_M))
+    band = float(p.get("bandM", SHOULDER_BLEND_M))
+    blend = float(p.get("blendM", LEVEE_BLEND_M))
+    ry0, ry1, rx0, rx1 = region_box(patch, h.shape, mpp)
+    y0, y1 = max(ry0 - WINDOW_PAD_PX, 0), min(ry1 + WINDOW_PAD_PX, h.shape[0])
+    x0, x1 = max(rx0 - WINDOW_PAD_PX, 0), min(rx1 + WINDOW_PAD_PX, h.shape[1])
+    box = (y0, y1, x0, x1)
+    win = h[y0:y1, x0:x1]
+    in_region = np.zeros(win.shape, bool)
+    in_region[ry0 - y0:ry1 - y0, rx0 - x0:rx1 - x0] = True
+    i, d, _side = _station_fields(stations, box, mpp)
+    r = np.array([float(st["halfWidthM"]) for st in stations], dtype=np.float32)[i]
+    crest = np.array([float(st["crestM"]) for st in stations], dtype=np.float32)[i]
+    # the crest follows the HIGHEST station whose band reaches the cell, not
+    # the nearest: on a steep reach the cell beside station k is nearest to
+    # k+1 a metre lower and k's water would hang (the carve's own rule,
+    # channels.CREST_REACH_M caps how far above the nearest it may go)
+    from .channels import CREST_REACH_M
+    gy, gx = np.mgrid[y0:y1, x0:x1]
+    high = crest.copy()
+    for st in stations:
+        rr = float(st["halfWidthM"]) + band
+        dd = np.hypot(gy - float(st["y"]), gx - float(st["x"])) * mpp
+        high = np.where(dd <= rr, np.maximum(high, float(st["crestM"])), high)
+    crest = np.minimum(high, crest + CREST_REACH_M).astype(np.float32)
+    inside_any, _sh = ctx.channel_masks(box, mpp)
+    allowed = in_region & ~inside_any & (d >= r + gap)
+    core = allowed & (d <= r + band)
+    if not core.any():
+        raise ValueError("the levee band holds no cells")
+    need = np.maximum(crest - win, 0.0).astype(np.float32)
+    raise_ = np.where(core, need, 0.0).astype(np.float32)
+    if blend > 0:
+        dist, (ky, kx) = ndimage.distance_transform_edt(~core, return_indices=True)
+        dist = dist * mpp
+        ring = allowed & ~core & (dist <= blend)
+        carried = raise_[ky, kx] * (1.0 - _smoothstep(dist / blend))
+        raise_ = np.where(ring, np.minimum(carried, need), raise_).astype(np.float32)
+    new = (win + raise_).astype(np.float32)
+    # a bank can trap a pocket behind it (a cell that drained to the channel
+    # now sits between the levee and higher ground): a levee makes no water,
+    # so every hollow it newly closes is lifted to its spill (a raise, inside
+    # the region; one that reaches past the region is refused by invariant 4)
+    filled = 0
+    dep_old = (_fill_window(win) - win) > DEPRESSION_MIN_M
+    fillable = in_region & ~inside_any                # the gap ring too; never the water width
+    for _ in range(3):
+        fill = _fill_window(new)
+        pocket = ((fill - new) > DEPRESSION_MIN_M) & ~dep_old & fillable
+        if not pocket.any():
+            break
+        new = np.where(pocket, fill, new).astype(np.float32)
+        filled += int(pocket.sum())
+    raise_ = new - win
+    out = h.copy()
+    out[y0:y1, x0:x1] = new
+    return out, {"samplesRaised": int((raise_ > 0).sum()), "maxRaiseM": round(float(raise_.max()), 3),
+                 "bandCells": int(core.sum()), "bandMinOverCrestM": round(float((new - crest)[core].min()), 3),
+                 "pocketCellsFilled": filled}
+
+
 # ----------------------------------------------------------- the invariants
+
+def apply_rim_levee(h: np.ndarray, patch: dict, ctx: "Context", mpp: float = RAW_M) -> tuple[np.ndarray, dict]:
+    """Raise a realised body's leaking dry rim to its freeboard.
+    `params`: `levelM` (the body's level), `cells` [[y, x], ...] (sample
+    coords: the compile's `stats.bodyRimLeaks` cells, dry ring cells
+    8-adjacent to the body whose ground lies under its level) and `blendM`.
+    Every listed cell and its dry 8-neighbours under the level rise to
+    `max(ground, levelM + LEVEE_FREEBOARD_M)`, tapering outward over
+    `blendM`; never a wet cell (the body itself), never inside a channel's
+    water width. Only ever raises; it dries nothing, so the patch declares
+    `driesBodyCells: false`."""
+    cells = patch["params"]["cells"]
+    if not cells:
+        raise ValueError("rim levee has no cells")
+    level = float(patch["params"]["levelM"])
+    crest = level + LEVEE_FREEBOARD_M
+    blend = float(patch["params"].get("blendM", LEVEE_BLEND_M))
+    ry0, ry1, rx0, rx1 = region_box(patch, h.shape, mpp)
+    y0, y1 = max(ry0 - WINDOW_PAD_PX, 0), min(ry1 + WINDOW_PAD_PX, h.shape[0])
+    x0, x1 = max(rx0 - WINDOW_PAD_PX, 0), min(rx1 + WINDOW_PAD_PX, h.shape[1])
+    box = (y0, y1, x0, x1)
+    win = h[y0:y1, x0:x1]
+    in_region = np.zeros(win.shape, bool)
+    in_region[ry0 - y0:ry1 - y0, rx0 - x0:rx1 - x0] = True
+    seed = np.zeros(win.shape, bool)
+    for cy, cx in cells:
+        iy, ix = int(cy) - y0, int(cx) - x0
+        if 0 <= iy < win.shape[0] and 0 <= ix < win.shape[1]:
+            seed[iy, ix] = True
+    inside_any, _sh = ctx.channel_masks(box, mpp)
+    wet = ctx.wet[y0:y1, x0:x1]
+    allowed = in_region & ~inside_any & ~wet
+    # the listed cells plus their dry 8-neighbours that stand under the level
+    core = (seed | (ndimage.binary_dilation(seed, np.ones((3, 3), bool)) & (win < level))) & allowed
+    if not core.any():
+        raise ValueError("the rim levee band holds no cells")
+    need = np.maximum(crest - win, 0.0).astype(np.float32)
+    raise_ = np.where(core, need, 0.0).astype(np.float32)
+    if blend > 0:
+        dist, (ky, kx) = ndimage.distance_transform_edt(~core, return_indices=True)
+        dist = dist * mpp
+        ring = allowed & ~core & (dist <= blend)
+        carried = raise_[ky, kx] * (1.0 - _smoothstep(dist / blend))
+        raise_ = np.where(ring, np.minimum(carried, need), raise_).astype(np.float32)
+    new = (win + raise_).astype(np.float32)
+    # as apply_levee: a rim bank makes no water, so a hollow it newly closes
+    # is lifted to its spill inside the region
+    filled = 0
+    dep_old = (_fill_window(win) - win) > DEPRESSION_MIN_M
+    fillable = in_region & ~inside_any & ~wet
+    for _ in range(3):
+        fill = _fill_window(new)
+        pocket = ((fill - new) > DEPRESSION_MIN_M) & ~dep_old & fillable
+        if not pocket.any():
+            break
+        new = np.where(pocket, fill, new).astype(np.float32)
+        filled += int(pocket.sum())
+    out = h.copy()
+    out[y0:y1, x0:x1] = new
+    d = new - win
+    return out, {"samplesRaised": int((d > 0).sum()), "maxRaiseM": round(float(d.max()), 3) if (d > 0).any() else 0.0,
+                 "rimCells": int(core.sum()), "pocketsFilled": filled}
+
 
 def check_invariants(before: np.ndarray, after: np.ndarray, patch: dict, ctx: Context,
                      mpp: float = RAW_M) -> list[str]:
@@ -267,9 +570,15 @@ def check_invariants(before: np.ndarray, after: np.ndarray, patch: dict, ctx: Co
     a = after[wy0:wy1, wx0:wx1]
     # 3. channels
     inside, shoulder = ctx.channel_masks(win, mpp)
-    raised_in = shoulder & (d > 1e-4)
+    kind = patch["kind"]
+    raised_in = (inside if kind in SHOULDER_RAISE_KINDS else shoulder) & (d > 1e-4)
     if raised_in.any():
-        errs.append(f"channels: {int(raised_in.sum())} samples raised inside a channel or its shoulder")
+        where = "a channel's water width" if kind in SHOULDER_RAISE_KINDS else "a channel or its shoulder"
+        errs.append(f"channels: {int(raised_in.sum())} samples raised inside {where}")
+    if kind == "bed-cut" and (d > 1e-4).any():
+        errs.append(f"bed-cut: {int((d > 1e-4).sum())} samples raised (a bed-cut only lowers)")
+    if kind == "levee" and (d < -1e-4).any():
+        errs.append(f"levee: {int((d < -1e-4).sum())} samples lowered (a levee only raises)")
     if patch["kind"] not in CHANNEL_CLASS_KINDS:
         lowered_in = shoulder & (d < -1e-4)
         if lowered_in.any():
@@ -277,7 +586,9 @@ def check_invariants(before: np.ndarray, after: np.ndarray, patch: dict, ctx: Co
     # 4. water: the bounded re-flood at the frozen levels
     errs += water_violations(b, a, lvl_window=ctx.level[wy0:wy1, wx0:wx1],
                              region=(ry0 - wy0, ry1 - wy0, rx0 - wx0, rx1 - wx0),
-                             makes_water=bool(patch.get("makesWater")))
+                             makes_water=bool(patch.get("makesWater")),
+                             dries_body_cells=dries_body_cells(patch),
+                             channel_width=inside if kind in CHANNEL_CLASS_KINDS + SHOULDER_RAISE_KINDS else None)
     # 6. structures
     for s in ctx.structures:
         if s["id"] in patch.get("crosses", []):
@@ -300,23 +611,47 @@ def check_invariants(before: np.ndarray, after: np.ndarray, patch: dict, ctx: Co
     return errs
 
 
-def water_violations(b: np.ndarray, a: np.ndarray, lvl_window: np.ndarray, region: Box,
-                     makes_water: bool) -> list[str]:
+def dries_body_cells(patch: dict) -> bool:
+    """Only a levee may dry a body's fringe, and only by saying so."""
+    return patch.get("kind") in SHOULDER_RAISE_KINDS and bool(patch.get("driesBodyCells"))
+
+
+def water_violations(b: np.ndarray, a: np.ndarray, lvl_window: np.ndarray, region,
+                     makes_water: bool, dries_body_cells: bool = False,
+                     channel_width: np.ndarray | None = None) -> list[str]:
     """Invariant 4 over one window: `b`/`a` the ground before/after, `lvl_window`
     the frozen flood level (-inf dry, 0 sea), `region` the patch region in
     window coordinates. Flood from every frozen wet component at its own
-    level: no frozen wet cell may dry, no body may gain a cell beyond the
-    region or reach the window edge, and no new closed depression may
-    appear unless the patch makes water (and then only inside the region)."""
+    level over the ground BEFORE and AFTER: no frozen wet cell may dry, the
+    body may gain no cell beyond the region nor newly reach the window edge
+    that it did not already reach on the frozen ground (the frozen raster is
+    not a closed flat flood everywhere — a body beside a trench, a captured
+    body at its old level — so a patch is judged by what it CHANGES, not by
+    the raster's own leaks; before 2026-09-14 a no-op was refused there), and
+    no new closed depression may appear unless the patch makes water (and
+    then only inside the region). A patch that `dries_body_cells` (a levee)
+    may dry wet cells inside the region only, and every body it touches keeps
+    its level: its deepest cell unmoved and still under the level for a body
+    whose extent the window holds whole, and never dried entirely — it seals
+    a fringe, never drains. `channel_width` (a channel-class kind or a levee)
+    marks the cells inside a channel's water width: a hollow a bed-cut
+    deepens there, or a trench a levee's bank newly closes, is the river's
+    own bed, not new water."""
     errs: list[str] = []
-    ry0, ry1, rx0, rx1 = region
     lvl = lvl_window
     old_wet = np.isfinite(lvl)
+    if isinstance(region, np.ndarray):
+        in_region = region.astype(bool)             # a mask (the gate: the union of the applied regions)
+    else:
+        ry0, ry1, rx0, rx1 = region
+        in_region = np.zeros(a.shape, bool)
+        in_region[ry0:ry1, rx0:rx1] = True
     dried = old_wet & (a >= lvl - 1e-4) & (b < lvl - 1e-4)
     if dried.any():
-        errs.append(f"water: {int(dried.sum())} frozen wet samples dried")
-    in_region = np.zeros(a.shape, bool)
-    in_region[ry0:ry1, rx0:rx1] = True
+        if not dries_body_cells:
+            errs.append(f"water: {int(dried.sum())} frozen wet samples dried")
+        elif (dried & ~in_region).any():
+            errs.append(f"water: {int((dried & ~in_region).sum())} frozen wet samples dried beyond the patch region")
     if old_wet.any():
         lbl, n = ndimage.label(old_wet, structure=np.ones((3, 3), bool))
         levels = ndimage.maximum(np.where(old_wet, lvl, -np.inf), lbl, np.arange(1, n + 1))
@@ -324,11 +659,16 @@ def water_violations(b: np.ndarray, a: np.ndarray, lvl_window: np.ndarray, regio
         edge[0, :] = edge[-1, :] = edge[:, 0] = edge[:, -1] = True
         for i, L in enumerate(np.atleast_1d(levels), start=1):
             seed = lbl == i
-            cand = (a < L - 1e-4) | seed
-            comp, _ = ndimage.label(cand, structure=np.ones((3, 3), bool))
-            ids = np.unique(comp[seed])
-            flood = np.isin(comp, ids[ids > 0])
-            new = flood & ~old_wet
+            if dries_body_cells and (dried & seed).any():
+                if not (seed & edge).any():
+                    deep = np.flatnonzero(seed.ravel())[np.argmin(b.ravel()[seed.ravel()])]
+                    if a.ravel()[deep] != b.ravel()[deep] or a.ravel()[deep] >= L - 1e-4:
+                        errs.append(f"water: the body at {float(L):.2f} m had its deepest cell moved by the levee")
+                if not ((a < L - 1e-4) & seed).any():
+                    errs.append(f"water: the body at {float(L):.2f} m was dried entirely")
+            flood_b = _flood(b, L, seed)
+            flood_a = _flood(a, L, seed)
+            new = flood_a & ~flood_b
             if not new.any():
                 continue
             if (new & ~in_region).any():
@@ -338,12 +678,22 @@ def water_violations(b: np.ndarray, a: np.ndarray, lvl_window: np.ndarray, regio
     dep_a = (_fill_window(a) - a) > DEPRESSION_MIN_M
     dep_b = (_fill_window(b) - b) > DEPRESSION_MIN_M
     new_dep = dep_a & ~dep_b & ~old_wet
+    if channel_width is not None:
+        new_dep &= ~channel_width
     if new_dep.any():
         if not makes_water:
             errs.append(f"water: {int(new_dep.sum())} samples of new depression (makesWater not declared)")
         elif (new_dep & ~in_region).any():
             errs.append(f"water: new depression reaches {int((new_dep & ~in_region).sum())} samples beyond the region")
     return errs
+
+
+def _flood(g: np.ndarray, L: float, seed: np.ndarray) -> np.ndarray:
+    """The flat flood at `L` from `seed` over ground `g` (8-connected)."""
+    cand = (g < L - 1e-4) | seed
+    comp, _ = ndimage.label(cand, structure=np.ones((3, 3), bool))
+    ids = np.unique(comp[seed])
+    return np.isin(comp, ids[ids > 0])
 
 
 def _fill_window(a: np.ndarray) -> np.ndarray:

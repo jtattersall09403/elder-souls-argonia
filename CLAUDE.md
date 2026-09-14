@@ -59,9 +59,12 @@ The overall goal at this point is to build the province-scale world, in a way th
   done before the handoff. An Opus subagent never diagnoses, designs or
   decides; if a job needs that, Fable (or a Fable subagent at low effort)
   does it first. **Anything to do with water — hydrology data, the water
-  compile, the water renderer, water interaction, water probes — is always
-  done by Fable at low effort, never Opus** (owner 2026-09-11: Opus has never
-  handled it). Fable subagents beyond that only for genuinely open design
+  compile, the water renderer, water interaction, water probes — is done by
+  Fable at low effort, never Opus, unless the owner explicitly allows Opus
+  for it** (owner 2026-09-11: Opus has never handled it; 2026-09-14: the owner
+  may lift this for a session, e.g. when Fable usage is near its limit, and
+  a brief that quotes that authorisation is enough for the Opus agent; the
+  design still comes fully specified from Fable). Fable subagents beyond that only for genuinely open design
   reasoning the owner has asked for, and sparingly: the owner's subscription
   limit is the constraint.
 - **Plan for agentic coding.** Assume that this repo will be almost entirely coded by coding agents, most of whom will be starting from fresh context. It is essential that we make our repo(s) modular, easy and *efficient* to navigate for coding agents. This goes for **docs as well as code**. We need to ensure we don't have lots of clashing documents or instructions, and that agents neither need to read huge amounts of context to work effectively nor miss important context they genuinely need for their task. I don't know what else to think of so you should do the thinking - "how do I do my work in such a way as to maximise the chances that future work will be able to continue smoothly and efficiently for other agents picking up bits of this project?"

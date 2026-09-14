@@ -9,7 +9,10 @@ Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth** — no
 
 ## Starting state (2026-09-14, written by the closing 16c agent)
 
-- **16c is delivered** (decision 0063, `research/phase16/16c-water-once-ledger.md`):
+- **16c round 2 is delivered** (decisions [0063](../../decisions/0063-water-once-the-line-is-high-water.md),
+  [0064](../../decisions/0064-waterfalls-are-the-vanilla-kit.md),
+  [0065](../../decisions/0065-the-compile-realises-the-graphs-classification.md);
+  [round-2 ledger](../../research/phase16/16c-round-2-ledger.md)):
   `DELIVERED_THROUGH="16c"`; the chain's water stages are `compile_water`
   (once) and `terrain_request_postconditions`. Water schema 3: the compiled
   level is the high-water line, the tide and season only fall from it, the
@@ -17,14 +20,30 @@ Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth** — no
   the raster the water rasters CLAMP TO THEIR EDGE (a sea border carries the
   sea outward, a land border buried ground) — the apron meets that, never a
   hard plane at y = 0.
-- **The chain does not run end to end today** (ledger §7): `compile_hydrology`
-  drifts by 3 river cells from the pass on which the shaped ground was
-  frozen, so `shape_province` refuses; run `terrain-chain.sh --from compile_water` (or
-  from your new stage) until that root cause is found. Find it first: it
-  is a 16b hygiene defect. Never `--refreeze`.
-- **The owner's 16c batch is open**: dry beds at 5 sites and 90 perched
-  channels (ledger §4) may become typed terrain patches; if they land before
-  16d, `apply_terrain_patches` + `compile_water --footprint` re-run.
+- **A routine chain run starts at the freeze gate. That is now the
+  script's own behaviour** (decision 0066; delivered by 16c, so the
+  deliverable that asked for it is struck from §Deliver below). A plain
+  `./scripts/terrain-chain.sh` runs `verify_freeze` (under a second: the
+  three frozen arrays and `hydrology-graph.json` against
+  `world/sources/terrain/freeze.json`) and then starts at
+  `apply_terrain_patches`; the six rungs above the gate print
+  `skipped (above the freeze gate)` and rebuild only under `--refreeze`,
+  which re-records the shas and which the owner walks. `--from` naming an
+  above-gate stage is refused. Your apron stage goes below the gate like
+  every other; add it to `STAGES` and to the `[16d]` ladder row.
+- **The 16c ledger §7 drift is fixed** (a routing correction was snapped to
+  the grid row beside the river's last cell): `compile_hydrology` reproduces
+  the frozen pass byte for byte again, proven by re-deriving and comparing
+  the shas. You do not need `--from` to work around it. You do not need
+  to re-run it at all — the gate checks it by hash.
+- **The owner's 16c terrain batch is closed, as typed patches**
+  (`world/sources/terrain/terrain-patches.json`, authored by
+  `python3 -m worldgen.author_terrain_patches water-corrections`, which is
+  cumulative and must stay so): five `bed-cut` patches for the approved dry
+  beds and `levee` patches for the perched channel banks and body rims. The
+  census that authors them is measured on the PATCHED ground, so re-author
+  after any run that moves the water and let it converge; never author from
+  a single pass's census alone (it drops the patches that already worked).
 - **Nothing of the apron exists**: no `build_border_apron` module, no
   `province/border-apron.*`. A procedural ring (`DistantLands.tsx`, commit
   6bcf4172) was built and deleted for a sea gap and flat grey
@@ -60,22 +79,68 @@ Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth** — no
 
 ## Deliver
 
-0. **The chain runs from the freeze gate** (decision 0066; owner 2026-09-14:
-   layers are added onto what is built, never rebuilt from the sculpt). In
-   `tooling/world-generation/scripts/terrain-chain.sh`: a plain run starts at
-   `apply_terrain_patches`; before it, a `verify_freeze` step hashes the three
-   frozen arrays and `hydrology-graph.json` against
-   `world/sources/terrain/freeze.json` (seconds) and refuses on any
-   mismatch; the six stages above the gate run only under `--refreeze`
-   (which then walks the whole chain and re-records the shas). The
-   fingerprint skip (`chain_stages.py`) stays for every stage below the gate.
-   Delete the header's "edit `sculpt.py` and everything does" sentence; a
-   frozen stage's code changing is caught at the next deliberate refreeze,
-   which is the point. Test: a plain run with a deliberately edited
-   `compile_hydrology.py` runs nothing above the gate and passes
-   `verify_freeze`; a plain run against a vault array with one changed
-   sample refuses at `verify_freeze`. The 16c ledger §7 drift (three river
-   cells, fixed 2026-09-14) is the defect this closes for good.
+0. ~~The chain runs from the freeze gate~~ — **delivered by 16c**
+   (2026-09-14): `worldgen/verify_freeze.py` plus the gate handling in
+   `scripts/terrain-chain.sh`, proved by a plain run over a deliberately
+   edited `compile_hydrology.py` that ran nothing above the gate and left
+   `hydrology-pass1.npz` untouched. Nothing to do here; the Starting state
+   above records the behaviour you inherit.
+
+0b. **The record reader every later chunk ports to** (decision
+   [0066](../../decisions/0066-downstream-stages-read-the-signed-record-never-re-solve-it.md)).
+   *(Reconstructed 2026-09-14 by the closing 16c agent: commit a7a5ed16
+   deleted this brief's Deliver content while rewriting the other chunks.
+   16e, 16f and 16g already cite this reader by name, so the work was
+   orphaned. The scope below is that commit's own message — "16d builds the
+   graph-keyed record reader on ProvinceSurvey and deletes its
+   flood/tidal/salinity fields" — plus the reader those briefs
+   already cite. If anything here surprises you, put it to the owner first.)*
+   One shared answer to "what water is at this point", keyed to the graph:
+   `ProvinceSurvey.water_at(eastM, southM)` returning the body or reach id,
+   its recorded `kind`, `levelM` and `season`, plus `reach(id)` and
+   `body(id)` accessors; depth is the only value still sampled, from the
+   compiled signed-depth raster at that id's extent. `water_report.ShippedWater`
+   already loads `water-id.png` and `entities[]` and has `entity_at` — build
+   on it rather than a second loader. Then DELETE `ProvinceSurvey.flood`,
+   `.tidal` and `.salinity` (`worldgen/site_fields.py`) and the
+   `hydro-flood` / `hydro-wetlands` / `hydro-salinity` PNG reads behind them,
+   so every module still taking its water from the pre-graph Phase 3 pass
+   breaks at once rather than carrying on with the wrong water. 16d does NOT empty
+   `worldgen/record-reads-allowlist.json` (13 rows today; each chunk deletes
+   its own rows as it ports — 16j requires it empty); 16d only provides the
+   reader for their port. A row naming a module 16d itself touches
+   goes in this chunk. Test: `test_record_reads` still passes, the reader
+   answers the graph's kind at a body cell, a reach cell and dry ground. A
+   module that reads a deleted field must fail to import.
+
+1. **`worldgen/build_border_apron.py`**: cut the neighbour slice from the
+   all-Tamriel raster around the registered match, out to ≥ 40 km, fit scale
+   and offset **on the shared border ring** (not globally), C0-join to the
+   frozen edge rows (sample our real edge heights), decay authored ridge
+   profiles only where the raster itself ends, keep the sea to the south and
+   east. Output a coarse height raster + a low-res mesh per mode
+   (`province/border-apron.*`), vertex-coloured by the same gradient method,
+   never a flat material. The 671 MB source PNG never enters the repo.
+2. **Runtime**: one static mesh per mode, `castShadow/receiveShadow = false`,
+   with the shared aerial haze, no colliders, a separate draw outside the province chunks; a fade so
+   there is no visible far edge.
+3. **The boundary**: an invisible wall at the playable border in the
+   character mode (Rapier) and the message from `packages/text-catalogue`
+   (style-guided, text-reviewed) when the character reaches it; the same
+   boundary exported as a typed constant that `apps/game` reuses.
+4. **Credits**: the all-Tamriel heightmap (Nexus 573) is already credited in
+   the root README; add the source PNG's SHA-256 to that line in the same
+   change (no second credit block).
+5. Tests: the apron's edge ring equals the frozen edge heights within 0.5 m;
+   the apron carries no colliders; the message key exists; the wall stops a
+   probe walk. The equality test shown failing on an unjoined apron first.
+
+## Record reads (decision 0066)
+
+The apron reads the frozen edge rows and the registered raster; it derives
+no class. Its one record decision (sea to the south and east) is the
+measured edge fraction in the chain audit §4 — cite it, do not re-measure.
+Nothing on the apron reads the graph and nothing should.
 
 ## Acceptance
 

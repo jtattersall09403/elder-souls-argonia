@@ -27,7 +27,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .asset_taxonomy import NON_CONTENT_CATEGORIES, classify, normalise
+from .asset_taxonomy import classify, is_non_content, normalise
 from .esp_index import UNITS_PER_METRE, Plugin
 from .vault import asset_pipeline_root
 
@@ -409,7 +409,7 @@ def build(vault: Path = DEFAULT_VAULT) -> dict:
         for path in sorted(set(paths)):
             norm = normalise(path)
             info = classify(norm)
-            if info.category in NON_CONTENT_CATEGORIES:
+            if is_non_content(info.category, norm):
                 skipped[info.category] += 1
                 continue
             row = {

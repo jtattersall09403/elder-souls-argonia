@@ -328,6 +328,46 @@
    "pngBytes": 396557
   },
   {
+   "id": "fxfogheavy",
+   "file": "fxfogheavy.png",
+   "role": "skirt-fog",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxfogheavy.dds",
+   "sha256Dds": "32c338913be92ba6602939f24731efa1584b705eca7cd211c5a42fb166919f6c",
+   "ddsBytes": 87536,
+   "sourcePx": [
+    256,
+    256
+   ],
+   "px": [
+    256,
+    256
+   ],
+   "tiles": true,
+   "scroll": "skirt foam/fog planes (fxwaterfallskirt*); -0.545 x2 down, +0.362 up",
+   "pngBytes": 81673
+  },
+  {
+   "id": "cloudtile",
+   "file": "cloudtile.png",
+   "role": "ground-mist",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/cloudtile.dds",
+   "sha256Dds": "165d6e4aa683d292f17fae35592e4ee10cf76baef385e585c36181f27e14f143",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "fxmistlow01 ground-mist disc; U +0.030 / V -0.017 on 34 s / 60 s loops",
+   "pngBytes": 302543
+  },
+  {
    "id": "foamtile01",
    "file": "foamtile01.png",
    "role": "foam-tile",

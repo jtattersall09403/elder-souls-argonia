@@ -6,10 +6,9 @@ import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
 import { ALL_WATER_LAYERS, type WaterAssets, type WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
 import { UnderwaterBubbles } from "./UnderwaterBubbles";
-import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadePathEmitters } from "./WaterCascadeSources";
+import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadeImpactBursts, cascadePathEmitters } from "./WaterCascadeSources";
 import { buildChannelStripGeometry, stripBoulderCandidates } from "./ChannelStrips";
 import { WaterfallSheets } from "./WaterfallSheets";
-import { plungeBaseRadiusM } from "./PlungeBase";
 import { FoamField } from "./FoamField";
 import { WaterFlowContacts } from "../flowContacts";
 import {
@@ -132,7 +131,7 @@ export interface WaterSurfaceHandle {
   mesh: THREE.Mesh;
   /** Every mesh in the water pass — field grid, strip ribbons, fall sheets.
    * Capture and underwater visibility must treat them as one surface. */
-  meshes: THREE.Mesh[];
+  meshes: THREE.Object3D[];
   materials: { above: THREE.MeshPhysicalMaterial; below: THREE.MeshPhysicalMaterial };
   /** Swaps every surface mesh between the above/below shader variants. */
   setUnderwater(underwater: boolean): void;
@@ -176,7 +175,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const cascades = assets.meta.cascades ?? [];
     return cascades.length
       ? new WaterfallSheets(cascades, runtime.applyAerial,
-        { channels: assets.meta.channels ?? [], textures: assets.waterfallTextures,
+        { channels: assets.meta.channels ?? [], textures: assets.waterfallTextures, kit: assets.waterfallKit,
           // The rock the crest leaves: the compiled surface raster carries the
           // still-water level W and the signed depth W − ground, so ground is
           // W − depth everywhere, wet or dry (dry cells store W = ground −
@@ -262,7 +261,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const mesh = meshRef.current;
     if (mesh) {
       mesh.layers.set(WATER_LAYER);
-      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh, falls.base.mesh, falls.mist.mesh] : [])];
+      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh] : [])];
       onReadyRef.current?.({
         uniforms, mesh, meshes, materials, effects, bubbles, falls, foam,
         stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0,
@@ -310,17 +309,20 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     uniforms.uWindWave.value = getWindWaveScale();
     // the weather's wind, for the sea's energy, the still-water drift and the
     // whitecap density (the CPU query reads the same speed through the runtime)
+    const wv = runtime.windVelocity();
+    const windMS = Math.hypot(wv.x, wv.z);
     {
-      const wv = runtime.windVelocity();
-      const speed = Math.hypot(wv.x, wv.z);
-      uniforms.uWindMS.value = speed;
-      if (speed > 0.05) uniforms.uWindDir.value.set(wv.x / speed, wv.z / speed);
-      uniforms.uCapThreshold.value = whitecapThreshold(speed);
+      uniforms.uWindMS.value = windMS;
+      if (windMS > 0.05) uniforms.uWindDir.value.set(wv.x / windMS, wv.z / windMS);
+      uniforms.uCapThreshold.value = whitecapThreshold(windMS);
     }
     const offsets = assets.world.levelOffsets(epoch);
     uniforms.uLevelTide.value = offsets.tide;
     uniforms.uLevelSeason.value = offsets.season;
-    runtime.onLevels(offsets.tide, offsets.season, getWindWaveScale());
+    // the wind speed goes with the levels: the terrain's wet-shore band runs
+    // the same surf-energy knob as the water (16c round 2), so a storm widens
+    // the run-up band on the sand instead of leaving it at the calm width
+    runtime.onLevels(offsets.tide, offsets.season, getWindWaveScale(), windMS);
     uniforms.uVerticalScale.value = verticalScale;
     // sun/sky feeds for the sparkle, crest scatter and meniscus rim
     uniforms.uWaterSunDir.value.copy(runtime.sunDirection.value);
@@ -442,6 +444,8 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
       for (const e of cascadePathEmitters(fall, path.points, assets.world, epoch)) {
         effects.emitContinuous(e.id, e.event, e.ratePerSecond, dt, { mist: e.mist, fallFrom: e.fallFrom });
       }
+      // the impact itself: discrete splashes (crown + droplets) at the plunge
+      for (const b of cascadeImpactBursts(fall, assets.world, epoch, nowS - dt, nowS)) effects.emit(b, { mist: 0.3 });
     }
     let plunges = 0;
     for (const fall of cascadeSources.nearby(focus, 300, MAX_PLUNGE_SOURCES)) {
@@ -455,7 +459,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
       // equilibrium (rate x the pool's ~3 s decay) is the base's own
       // strength, so the pool looks fed and its foam drifts out on the
       // current; the instantaneous disc/ring above stays as the floor
-      foam.inject(fall.plunge.x, fall.plunge.z, plungeBaseRadiusM(fall.widthM, fall.dropM) * 0.8,
+      foam.inject(fall.plunge.x, fall.plunge.z, Math.max(fall.bowlRadiusM ?? fall.widthM, fall.widthM * 0.9, 4) * 0.8,
         (strength / 3.0) * dt);
     }
     uniforms.uPlungeCount.value = plunges;
@@ -465,7 +469,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     {
       const first = cascadeSources.nearby(focus, 300, 1)[0];
       const resp = first ? assets.data.sample(first.plunge.x, first.plunge.z).seasonResponse : 0;
-      falls?.update(runtime, nowS, verticalScale, offsets.season * resp, { texture: foam.texture, info: foam.info });
+      falls?.update(runtime, nowS, verticalScale, offsets.season * resp);
     }
     effects.setIllumination(runtime.ambient.value, runtime.sunLight.value,
       runtime.sunDirection.value.y, gl.toneMappingExposure);

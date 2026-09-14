@@ -360,13 +360,61 @@ def load_routing(vault: Path, register: Path = REGISTER_PATH):
 CORRECTIONS_PATH = REPO_ROOT / "world" / "sources" / "hydrology" / "approved-routing-corrections.json"
 
 
+MOUTH_SNAP_CELLS = 3   # a correction's `fromMouth` position must lie within this of the river's last cell
+
+
+def resolve_mouth(routing: dict, mx: int, my: int, river_id: str | None,
+                  snap_cells: int = MOUTH_SNAP_CELLS) -> int:
+    """The flat index of the river's ACTUAL last cell for a correction whose
+    `fromMouth` is the position (mx, my) in coarse cells.
+
+    A position typed at 10 m precision converts to a grid cell that may sit
+    beside the river rather than on it (2026-09-13: 790 S landed one row
+    south of the mouth at row 143, on a cell that was never river). The
+    re-route must begin where the river ends, so the start is the river cell
+    nearest the position whose recorded flow_to is a sink cell (or the map
+    edge), within `snap_cells`; and when the row names the river by its 16a
+    id (`river.<x>-<y>`, keyed by the mouth cell — hydrology_graph) the two
+    must agree, or the network under the row has moved and the row is stale."""
+    rivers = np.asarray(routing["rivers"]); flow = np.asarray(routing["flow_to"]).reshape(-1)
+    sink = np.asarray(routing["sink"]).astype(bool).reshape(-1)
+    H, W = rivers.shape
+    best = None
+    for yy in range(max(0, my - snap_cells), min(H, my + snap_cells + 1)):
+        for xx in range(max(0, mx - snap_cells), min(W, mx + snap_cells + 1)):
+            i = yy * W + xx
+            if rivers[yy, xx] == 0:
+                continue
+            j = int(flow[i])
+            if j >= 0 and not sink[j]:
+                continue
+            d = (yy - my) ** 2 + (xx - mx) ** 2
+            if best is None or d < best[0] or (d == best[0] and i < best[1]):
+                best = (d, i)
+    if best is None:
+        raise SystemExit(f"routing correction: no river mouth within {snap_cells} cells of "
+                         f"({mx} E, {my} S) — the position does not name a river's last cell")
+    start = best[1]
+    if river_id and river_id.startswith("river."):
+        try:
+            idx, idy = (int(v) for v in river_id[len("river."):].split("-")[:2])
+        except ValueError:
+            idx = idy = None
+        if idx is not None and start != idy * W + idx:
+            raise SystemExit(f"routing correction: {river_id} names the mouth cell ({idx} E, {idy} S) but the river "
+                             f"nearest fromMouth ends at ({start % W} E, {start // W} S) — the network has moved "
+                             f"under the row; re-author it")
+    return start
+
+
 def apply_routing_corrections(routing: dict, z: np.ndarray, metres_per_px: float,
                               corrections: Path = CORRECTIONS_PATH, log=print) -> dict:
     """The owner's corrections to the approved network (CORRECTIONS_PATH):
     each declares a box that is not the sea and re-routes one river's last
-    stretch from its recorded mouth to the open-sea cell nearest a point,
-    by the lowest path over the current coarse ground. Returns the routing
-    with `rivers`, `flow_to`, `accum_km2`, `sink` updated in place."""
+    stretch from its recorded mouth (`resolve_mouth`) to the open-sea cell
+    nearest a point, by the lowest path over the current coarse ground.
+    Returns the routing with `rivers`, `flow_to`, `accum_km2`, `sink`
+    updated in place. Deterministic: pure Dijkstra over a fixed cost."""
     if not corrections.exists():
         return routing
     doc = json.loads(corrections.read_text(encoding="utf-8"))
@@ -379,12 +427,11 @@ def apply_routing_corrections(routing: dict, z: np.ndarray, metres_per_px: float
     rivers = routing["rivers"].astype(np.uint8).copy()
     accum = routing["accum_km2"].astype(np.float32).copy()
     for c in rows:
+        mx, my = (int(v / metres_per_px) for v in (c["fromMouth"]["eastM"], c["fromMouth"]["southM"]))
+        start = resolve_mouth(routing, mx, my, c.get("river16a"))   # on the 16a sink, before the box clears it
         b = c["notSeaBox"]
         x0, x1 = (int(v / metres_per_px) for v in b["eastM"]); y0, y1 = (int(v / metres_per_px) for v in b["southM"])
         sink[y0:y1 + 1, x0:x1 + 1] = False
-        mx, my = (int(v / metres_per_px) for v in (c["fromMouth"]["eastM"], c["fromMouth"]["southM"]))
-        # the river's last cell: walk its recorded chain from the mouth cell back over river cells that flow into it... simpler: start AT the mouth cell
-        start = my * W + mx
         tx, ty = int(c["mouthNear"]["eastM"] / metres_per_px), int(c["mouthNear"]["southM"] / metres_per_px)
         # lowest path from the start to the nearest sink cell to the target: Dijkstra, cost = step x (1 + 20 x height above sea)
         import heapq
@@ -431,7 +478,8 @@ def apply_routing_corrections(routing: dict, z: np.ndarray, metres_per_px: float
                 accum.reshape(-1)[j] = max(float(accum.reshape(-1)[j]), a0)
             cur = j
         ey, ex = divmod(path[-1], W)
-        log(f"routing correction {c['id']}: {c['river16a']} re-routed over {len(path)} coarse cells to the sea at "
+        log(f"routing correction {c['id']}: {c.get('river16a', 'river')} from its mouth cell ({start % W} E, {start // W} S) "
+            f"re-routed over {len(path)} coarse cells to the sea at "
             f"{ex * metres_per_px / 1000:.2f} E {ey * metres_per_px / 1000:.2f} S")
     routing = dict(routing)
     routing.update({"sink": sink, "flow_to": flow.reshape(H, W), "rivers": rivers, "accum_km2": accum})

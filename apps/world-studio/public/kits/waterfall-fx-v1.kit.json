@@ -1,0 +1,1119 @@
+{
+ "kit": "waterfall-fx-v1",
+ "assets": [
+  {
+   "id": "vanilla:effects/fxwaterfallbodytall",
+   "node": "es|80710dbcc4|vanilla__effects_fxwaterfallbodytall",
+   "category": "effect",
+   "sizeM": [
+    13.171,
+    12.987,
+    16.009
+   ],
+   "originOffsetM": [
+    6.649,
+    8.94,
+    14.927
+   ],
+   "triangles": 1500,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxfluidtile01.dds",
+    "fxwatertile01.dds",
+    "fxwhitewater01.dds"
+   ],
+   "materials": [
+    "FXWaterfallBodyTallFoam.Mat",
+    "FXWaterfallBodyTallInner01.Mat",
+    "L2_whiteCrossStream03.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 14.927,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallbodytall02",
+   "node": "es|1e4ef14f13|vanilla__effects_fxwaterfallbodytall02",
+   "category": "effect",
+   "sizeM": [
+    15.598,
+    19.413,
+    39.374
+   ],
+   "originOffsetM": [
+    7.728,
+    15.372,
+    38.293
+   ],
+   "triangles": 1658,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxfluidtile01.dds",
+    "fxwatertile01.dds",
+    "fxwhitewater01.dds",
+    "vaportile01.dds"
+   ],
+   "materials": [
+    "FXWaterfallBodyTallFoam01.Mat",
+    "FXWaterfallBodyTallInner02.Mat",
+    "L2_whiteCrossStream05.Mat",
+    "jet01:0.Mat",
+    "jet11:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 38.293,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallbodyslope",
+   "node": "es|7381471fc1|vanilla__effects_fxwaterfallbodyslope",
+   "category": "effect",
+   "sizeM": [
+    12.493,
+    21.007,
+    10.195
+   ],
+   "originOffsetM": [
+    6.632,
+    16.036,
+    8.118
+   ],
+   "triangles": 1050,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxfluidtile01.dds",
+    "fxwatertile01.dds",
+    "fxwhitewater01.dds"
+   ],
+   "materials": [
+    "FXWaterfallBodySlopeFoam.Mat",
+    "FXWaterfallBodySlopeMesh01.Mat",
+    "L2_whiteCrossStream04.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 8.118,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallthin512x128",
+   "node": "es|0ccd860c57|vanilla__effects_fxwaterfallthin512x128",
+   "category": "effect",
+   "sizeM": [
+    2.352,
+    2.021,
+    7.513
+   ],
+   "originOffsetM": [
+    1.187,
+    1.601,
+    7.325
+   ],
+   "triangles": 412,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxfluidtile01.dds"
+   ],
+   "materials": [
+    "Object02.Mat",
+    "fallsMesh.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 7.325,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallthin2048x128",
+   "node": "es|0ea133444f|vanilla__effects_fxwaterfallthin2048x128",
+   "category": "effect",
+   "sizeM": [
+    5.662,
+    8.124,
+    33.032
+   ],
+   "originOffsetM": [
+    2.818,
+    5.789,
+    32.574
+   ],
+   "triangles": 566,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxfluidtile01.dds",
+    "vaportile01.dds"
+   ],
+   "materials": [
+    "fallsCrossMesh01.Mat",
+    "fallsMesh02.Mat",
+    "jet07:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 32.574,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallthin2048x512",
+   "node": "es|7c6757aa0d|vanilla__effects_fxwaterfallthin2048x512",
+   "category": "effect",
+   "sizeM": [
+    12.337,
+    11.051,
+    32.908
+   ],
+   "originOffsetM": [
+    5.936,
+    7.285,
+    32.254
+   ],
+   "triangles": 566,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxfluidtile01.dds",
+    "vaportile01.dds"
+   ],
+   "materials": [
+    "fallsCrossMesh06.Mat",
+    "fallsMesh11.Mat",
+    "jet12:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 32.254,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallthin4096x256",
+   "node": "es|dede9f4276|vanilla__effects_fxwaterfallthin4096x256",
+   "category": "effect",
+   "sizeM": [
+    11.324,
+    16.276,
+    66.078
+   ],
+   "originOffsetM": [
+    5.636,
+    12.461,
+    65.162
+   ],
+   "triangles": 566,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxfluidtile01.dds",
+    "vaportile01.dds"
+   ],
+   "materials": [
+    "fallsCrossMesh03.Mat",
+    "fallsMesh04.Mat",
+    "jet10:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 65.162,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallthinsheet",
+   "node": "es|2892a58fe3|vanilla__effects_fxwaterfallthinsheet",
+   "category": "effect",
+   "sizeM": [
+    9.454,
+    1.336,
+    12.975
+   ],
+   "originOffsetM": [
+    4.706,
+    0.909,
+    11.187
+   ],
+   "triangles": 320,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cloudtileflat_n.dds",
+    "fxfluidtile01.dds"
+   ],
+   "materials": [
+    "Warp.Mat",
+    "fallsCrossMesh05.Mat",
+    "fallsMesh06.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 11.187,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallthinspray2048",
+   "node": "es|f5db16b02b|anilla__effects_fxwaterfallthinspray2048",
+   "category": "effect",
+   "sizeM": [
+    17.887,
+    14.633,
+    30.388
+   ],
+   "originOffsetM": [
+    8.218,
+    11.844,
+    28.837
+   ],
+   "triangles": 420,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxfluidtile01.dds",
+    "vaportile01.dds"
+   ],
+   "materials": [
+    "Cylinder02.Mat",
+    "fallsMesh03.Mat",
+    "jet08:0.Mat",
+    "jet09:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 28.837,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallskirttallfront",
+   "node": "es|31a209a625|nilla__effects_fxwaterfallskirttallfront",
+   "category": "effect",
+   "sizeM": [
+    17.133,
+    12.714,
+    47.075
+   ],
+   "originOffsetM": [
+    8.73,
+    13.192,
+    -0.147
+   ],
+   "triangles": 408,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxcloudroundtile.dds",
+    "fxcloudroundtilestrip.dds",
+    "fxfogheavy.dds"
+   ],
+   "materials": [
+    "L2_FXWaterfallSkirtFillMesh01.Mat",
+    "L2_Object04.Mat",
+    "L2_jet03:0.Mat",
+    "newFog.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.147,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallskirtslope",
+   "node": "es|72defa5cd2|vanilla__effects_fxwaterfallskirtslope",
+   "category": "effect",
+   "sizeM": [
+    14.991,
+    11.776,
+    50.202
+   ],
+   "originOffsetM": [
+    8.018,
+    9.513,
+    0.693
+   ],
+   "triangles": 274,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxcloudroundtile.dds",
+    "fxfogheavy.dds"
+   ],
+   "materials": [
+    "FXWaterfallSkirtFillMesh02.Mat",
+    "foam.Mat",
+    "foam01.Mat",
+    "newFog01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.693,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallskirtslopenomist",
+   "node": "es|d16fc64f76|lla__effects_fxwaterfallskirtslopenomist",
+   "category": "effect",
+   "sizeM": [
+    15.169,
+    11.776,
+    51.221
+   ],
+   "originOffsetM": [
+    7.843,
+    9.513,
+    0.693
+   ],
+   "triangles": 274,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxcloudroundtile.dds",
+    "fxfogheavy.dds"
+   ],
+   "materials": [
+    "FXWaterfallSkirtFillMesh03.Mat",
+    "foam02.Mat",
+    "foam03.Mat",
+    "newFog04.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.693,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallmistblast",
+   "node": "es|39e87efc5d|vanilla__effects_fxwaterfallmistblast",
+   "category": "effect",
+   "sizeM": [
+    0.124,
+    10.413,
+    6.899
+   ],
+   "originOffsetM": [
+    0.055,
+    10.307,
+    1.752
+   ],
+   "triangles": 84,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxcloudroundtilestrip.dds"
+   ],
+   "materials": [
+    "jet05:0.Mat",
+    "jet06:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.752,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxwaterfallmistblastlite",
+   "node": "es|5f5f1b822b|anilla__effects_fxwaterfallmistblastlite",
+   "category": "effect",
+   "sizeM": [
+    0.105,
+    10.494,
+    5.871
+   ],
+   "originOffsetM": [
+    0.036,
+    10.315,
+    1.08
+   ],
+   "triangles": 42,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxcloudroundtilestrip.dds"
+   ],
+   "materials": [
+    "jet07:0.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.08,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxrapids",
+   "node": "es|b13d7faa02|vanilla__effects_fxrapids",
+   "category": "effect",
+   "sizeM": [
+    7.476,
+    12.198,
+    0.235
+   ],
+   "originOffsetM": [
+    3.013,
+    6.18,
+    0.004
+   ],
+   "triangles": 131,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxwhitewater01.dds",
+    "fxwhitewater02.dds"
+   ],
+   "materials": [
+    "Plane07.Mat",
+    "Plane08.Mat",
+    "Plane09.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.004,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxrapidsbig01",
+   "node": "es|f5ef19f8c4|vanilla__effects_fxrapidsbig01",
+   "category": "effect",
+   "sizeM": [
+    24.281,
+    40.229,
+    0.0
+   ],
+   "originOffsetM": [
+    12.533,
+    20.044,
+    0.208
+   ],
+   "triangles": 815,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxwhitewater01.dds"
+   ],
+   "materials": [
+    "BIGwHITEWATER01.Mat",
+    "BIGwHITEWATER03.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.208,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxrapidsfallsline01",
+   "node": "es|308ad1ad9a|vanilla__effects_fxrapidsfallsline01",
+   "category": "effect",
+   "sizeM": [
+    5.11,
+    16.063,
+    0.534
+   ],
+   "originOffsetM": [
+    2.791,
+    6.106,
+    0.065
+   ],
+   "triangles": 204,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxwhitewater01.dds",
+    "fxwhitewater02.dds"
+   ],
+   "materials": [
+    "FXrapidsFallsTop06.Mat",
+    "FXrapidsFallsTop08.Mat",
+    "FXrapidsFallsTop09.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.065,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxrapidsfallstop",
+   "node": "es|cc5df9e914|vanilla__effects_fxrapidsfallstop",
+   "category": "effect",
+   "sizeM": [
+    31.964,
+    34.082,
+    0.67
+   ],
+   "originOffsetM": [
+    16.793,
+    15.742,
+    0.19
+   ],
+   "triangles": 1100,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxwhitewater01.dds",
+    "fxwhitewater02.dds"
+   ],
+   "materials": [
+    "FXrapidsFallsTop01.Mat",
+    "FXrapidsFallsTop02.Mat",
+    "FXrapidsFallsTop03.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.19,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxrapidsringheavy",
+   "node": "es|04031ae94e|vanilla__effects_fxrapidsringheavy",
+   "category": "effect",
+   "sizeM": [
+    20.616,
+    15.738,
+    0.029
+   ],
+   "originOffsetM": [
+    10.295,
+    7.766,
+    -0.007
+   ],
+   "triangles": 384,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxcloudroundtile.dds",
+    "fxwhitewater.dds"
+   ],
+   "materials": [
+    "jetPuffs.Mat",
+    "ripplesBig.Mat",
+    "ripplesSmall.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.007,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/fxsplashlargechurnnorapids",
+   "node": "es|25c6b64192|illa__effects_fxsplashlargechurnnorapids",
+   "category": "effect",
+   "sizeM": [
+    4.313,
+    4.313,
+    13.757
+   ],
+   "originOffsetM": [
+    1.999,
+    2.116,
+    0.018
+   ],
+   "triangles": 52,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fluiddrops02.dds"
+   ],
+   "materials": [
+    "EditorMarker.Mat",
+    "boundPush.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.018,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:lod/waterfalls/fxwaterfallbodytall_lod",
+   "node": "es|7e22f1bc2b|__lod_waterfalls_fxwaterfallbodytall_lod",
+   "category": "lod",
+   "sizeM": [
+    13.776,
+    9.308,
+    15.53
+   ],
+   "originOffsetM": [
+    7.08,
+    5.376,
+    14.927
+   ],
+   "triangles": 84,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxwatertile01lod.dds"
+   ],
+   "materials": [
+    "FXWaterfallBodyTallInner01.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 14.927,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:lod/waterfalls/fxwaterfallbodytall02_lod",
+   "node": "es|c1ef9e0e5d|lod_waterfalls_fxwaterfallbodytall02_lod",
+   "category": "lod",
+   "sizeM": [
+    14.544,
+    12.023,
+    33.874
+   ],
+   "originOffsetM": [
+    7.488,
+    8.179,
+    33.271
+   ],
+   "triangles": 58,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxwatertile01lod.dds"
+   ],
+   "materials": [
+    "FXWaterfallBodyTallInner02.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 33.271,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:lod/waterfalls/fxwaterfallbodyslope_lod",
+   "node": "es|34d81b45f5|_lod_waterfalls_fxwaterfallbodyslope_lod",
+   "category": "lod",
+   "sizeM": [
+    12.149,
+    19.027,
+    9.195
+   ],
+   "originOffsetM": [
+    6.512,
+    14.192,
+    8.114
+   ],
+   "triangles": 70,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fxwatertile01lod.dds"
+   ],
+   "materials": [
+    "FXWaterfallBodySlopeMesh01.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 8.114,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01",
+   "node": "es|39bd19ea46|hiterun_wreffects_wrstairsstreamrapids01",
+   "category": "architecture",
+   "sizeM": [
+    12.416,
+    16.196,
+    0.176
+   ],
+   "originOffsetM": [
+    6.208,
+    8.098,
+    0.088
+   ],
+   "triangles": 60,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fxwhitewater01.dds"
+   ],
+   "materials": [
+    "WRStairsStreamRapids01Foam.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.088,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01foam",
+   "node": "es|397d83aa14|run_wreffects_wrstairsstreamrapids01foam",
+   "category": "architecture",
+   "sizeM": [
+    12.416,
+    16.196,
+    0.176
+   ],
+   "originOffsetM": [
+    6.208,
+    8.098,
+    0.088
+   ],
+   "triangles": 60,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fxwhitewater01.dds"
+   ],
+   "materials": [
+    "WRStairsStreamRapids01Foam:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.088,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  },
+  {
+   "id": "vanilla:effects/ambient/fxmistlow01",
+   "node": "es|c2a0f43bb2|vanilla__effects_ambient_fxmistlow01",
+   "category": "effect",
+   "sizeM": [
+    12.87,
+    12.615,
+    2.526
+   ],
+   "originOffsetM": [
+    6.526,
+    6.164,
+    1.263
+   ],
+   "triangles": 345,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cloudtile.dds"
+   ],
+   "materials": [
+    "EditorMarker.Mat.001",
+    "FXMistLow01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.263,
+    "buryM": 0.0,
+    "buryCapM": 0.0,
+    "slopeBuryPerM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   }
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\apps\\world-studio\\public\\kits\\waterfall-fx-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 67,
+  "OPAQUE": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ }
+}

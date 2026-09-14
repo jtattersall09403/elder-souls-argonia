@@ -6,7 +6,9 @@ at falls/steep reaches failed (attempt 1: the terrain-following raster stretched
 into static flat sheets down cliffs; attempt 2: strips rendered brown and
 straight, sheets declared on ordinary slopes and misaligned with their strips).
 This doc is the primary-source answer to "how is this actually built", and then
-a decided recipe for our engine. Companion docs:
+a decided recipe for our engine (§4.1 re-decided by
+[0064](../../decisions/0064-waterfalls-are-the-vanilla-kit.md) on 2026-09-14:
+the vanilla kit's meshes are the fall). Companion docs:
 [water-rendering-threejs](water-rendering-threejs.md),
 [water-edges-and-shore-waves](water-edges-and-shore-waves.md),
 [water-handoff](../archive/water-round-2-2026-09/water-handoff.md).
@@ -333,81 +335,64 @@ runtime already has `ChannelStrips.ts` (ribbon mesh in the carved trench, with
 lip→plunge tracer producing a 3-layer sheet). Both are the right *shape*. What
 follows changes what they draw, not the model underneath.
 
-### 4.1 A waterfall = our ribbon, Skyrim's textures, Bethesda's numbers
+### 4.1 A waterfall = the vanilla kit, stacked Bethesda's way, shaded by us (decision 0064)
 
-**Do not** snap a Skyrim body NIF to the lip. Reason: those meshes are fixed
-16 m / 34 m curved sheets with a specific plan-curve and a 26° chute shape;
-snapping one to an arbitrary compiled lip→plunge path means either scaling it
-non-uniformly (which shears the authored curve and breaks its UV rate) or
-accepting that the geometry does not meet our terrain — that is exactly the
-"pieces jammed together that were not designed to combine" failure the owner
-ruled against, and it is what attempt 2's misalignment looked like. Our
-ballistic tracer already produces a sheet that provably starts at the lip and
-ends in the plunge pool.
+> **Rewritten 2026-09-14.** The 2026-09-08 version of this section said "do
+> not snap a Skyrim body NIF to the lip … procedural ribbon, sourced textures,
+> measured parameters", and the runtime that followed it drew a ~2 m opaque
+> ribbon for an 8.7 m, 79 m fall with no mist and no spray. The owner's
+> ruling ([0064](../../decisions/0064-waterfalls-are-the-vanilla-kit.md))
+> is the opposite, and it is what the code now does. The measured numbers
+> in §2 and the vault audit stay the source of every rate and offset.
 
-So: **procedural ribbon, sourced textures, measured parameters.**
+**The fall body is the kit's geometry.** The pieces (§2.1, audit §2) are
+authored to tile and stack — the plugin data proves it (audit §5: 389
+same-family neighbour pairs of the 7.5 m thin sheet within 22 m, ⅔-height
+vertical overlap, ½-width lateral spacing, uniform scale 0.35–2.28) — so
+placing them along our own traced path is using pieces the way their authors
+intended, not jamming strangers together.
 
-1. **Geometry** (extend `buildWaterfallSheetGeometry`): keep the traced path.
-   Tessellate ~1 station per 0.75 m of arc and 8–12 across (Bethesda's body is
-   276 verts for 16 m; `fallsCrossMesh` 720 for 30 m — we are in range). Add
-   the two pieces we lack:
-   - **Crest wrap**: extrude the top edge *back over the lip* by
-     `CREST_BACK_M` (already 2 m) and bevel it, Cyanilux-style, so there is no
-     seam where the field surface ends. RWT's own fix was a dedicated crest
-     foam gradient — boost foam to ~1.0 over the first 1.5 m of arc.
-   - **Side strips**: mirrored edge ribbons ~0.6 m wide with their UVs
-     **pinched in toward the top** (Taiji). Plus the view-angle fade from §2.4
-     so the silhouette does not cut.
-2. **UV**: `u` = normalised across-width, `v` = **arc length in metres / tileM**
-   with `tileM = 4` (so one texture tile is 4 m of fall — matches the body NIF:
-   3 V-tiles over 16 m ≈ 5.3 m/tile, and the thin falls 2 tiles/… scaled by
-   drop). Never world-XZ, never world-time × world-position.
-3. **Scroll**: three layers, in **metres per second along arc**, converted to
-   UV by `/tileM`:
-   - L0 body `FXWhiteWater01`, tile 4 m, **1.7 m/s** (= 0.42 UV/s, the slope
-     body's rate),
-   - L1 foam `FXfluidTile01`, tile 2.6 m, **3.4 m/s** (0.86 UV/s, the thin-fall
-     rate) — deliberately a **2×** spread, and add a third accent layer at
-     **0.3 UV/s** for the 6.7× spread Bethesda uses on rapids,
-   - all three additionally scaled by `min(1, v_local / 6 m/s)` so a small fall
-     is slower than a gorge fall (§2.3 finding 2).
-   - **U drift 0.030 UV/s** and **U-Scale breathing 1.00→1.05→1.00 over
-     8.33 s** on every layer, phase-offset per layer. These two are the
-     conveyor-belt cure and cost two `sin()`s.
-   - Wobble: sine on U, frequency 12 per sheet width, amplitude 0.05 UV
-     (Cyanilux), amplitude scaled by `frac` down the fall.
-4. **Shading**: unlit/emissive aerated path, **no refraction, no Beer–Lambert,
-   no shore terms**. Emissive `(1,1,1)` × 1.0 for a free fall, × 0.75 for a
-   chute (§2.4). Alpha blend `SRC_ALPHA/INV_SRC_ALPHA`; one additive accent
-   layer at ~0.25 weight for the crest line (Bethesda's `0x100d` layer).
-   Soft depth fade **0.07 m** on the main layer, **0.14 m** on foam.
-5. **Base kit** — this is the part we are missing and it is cheap:
-   - **12–19 flat quads** lying on the plunge pool, 2.9–5.7 m across, spreading
-     outward from the impact point, foam texture, alpha-blended, soft depth
-     fade 0.5 m. Bethesda's `CurrentPlane` set, exactly. One `InstancedMesh`
-     for all sites.
-   - **1 mist emitter** per site (2 for a fall over 20 m), soft particles, slow
-     rise, lighting baked into the texture, cap live instances globally.
-   - **1 expanding ring** on the pool, eased 0→1 over 2.67 s
-     (`fxrapidsringheavy`'s `jetPuffs` curve), reusing our existing foam-ring
-     shader term.
-   - Spray emitters at the lip and wherever the traced path re-contacts rock,
-     rate growing with distance fallen (Varden).
-6. **Sides**: a scatter rule that puts boulders tight against both edges of the
-   sheet for its full drop — a Phase 10 scatter job, using the existing boulder
-   kits, keyed off the compiled cascade record. Without it the ends show.
-7. **Textures to convert** (§2.2): `FXWhiteWater01`, `FXWhiteWater02`,
-   `FXfluidTile01`, `FXSteamThinAnim`, `FXCloudRoundTileStrip`,
-   `GradWhiteWater`, `GradWhiteWaterMedSoft`, `GradSteamThin`. Eight files,
-   DDS → KTX2. Credit them in root `README.md` § Credits in the same change.
-   The greyscale-LUT trick collapses to a smoothstep in our shader.
-
-**Where a Skyrim mesh *does* earn its place**: `fxrapidsrocks01.nif` — as a
-*kit for the scatter compiler*, i.e. take its six boulder meshes (they are lit
-meshes with havok hulls, ordinary statics) and its whitewater plane, and let
-the scatter place them in the bed. That is using pieces the way their author
-intended. Likewise `fxrapidsringheavy`'s ripple planes as our plunge-ring
-geometry if the procedural ring disappoints.
+1. **Spine.** The ballistic tracer (`WaterfallSheets.ts`
+   `traceWaterfallSheet`) still decides the path: free flight from the lip at
+   the compiled `lipSpeedMS`, bed-hugging where the arc meets rock, ramp vs
+   fall classification, strip alignment at the lip and plunge, the brink
+   measured across the lip. It draws nothing.
+2. **Body stack** (`WaterfallKitStack.ts`). Family by width: the curved body
+   (`fxwaterfallbodytall`, 13.2 × 16 m; `…02`, 15.6 × 34 m for tall stacks)
+   uniformly scaled so its width matches the water's width at the lip
+   (`cascade.widthM`, bankfull), clamped to Bethesda's range; the thin sheet
+   family (`thin512x128` 2.4 × 7.5 m, `thin2048x128` 5.7 × 29 m) for narrow
+   falls. Vertical count = ceil((arc − H·s) / (⅔·H·s)) + 1, each piece's top
+   at its span start on the traced path, its down axis along the chord of
+   its span (that is the lean with the arc), yaw along the path; lateral
+   copies half a piece apart when the scaled piece is narrower than the
+   water. Per-instance UV phase so copies never scroll in lockstep.
+3. **Crest** `fxrapidsfallsline01` laid flat on the water at the lip, yawed
+   to the flow, uniformly scaled to the width (median 1.18 in vanilla), its
+   upstream half on the strip and its downstream half over the first body
+   piece: this is the lip wrap no vanilla body provides.
+4. **Base** `fxwaterfallskirttallfront` at the plunge (its visible foam is
+   the bottom 3.5 m; the fill column runs 47 m up behind the fall, so one
+   skirt serves any drop to ~50 m — two stacked beyond), `fxrapidsringheavy`
+   on the pool at the plunge scaled 0.6–1.2 to the width.
+5. **Mist cards** `fxwaterfallmistblastlite` 4–8 per fall within 12 m of the
+   impact, scale 0.2–0.5, pitched −10° … 135°; **ground mist** `fxmistlow01`
+   10–40 over the plunge basin, level, random yaw. Both are geometry, as in
+   vanilla.
+6. **Material** (`WaterfallKitMaterial.ts`): one unlit whitewater shader for
+   every piece kind. UV scroll at the §2.3 / audit §4 rates on the piece's own
+   UV space (the rates are tiles per second of the authored UV, so uniform
+   scale does not change them), two layers at near-but-unequal rates plus the
+   U drift and the U-scale breathe, alpha blend, depth-write off, double-
+   sided, soft depth 0.57 / 1.07 / 0.60 m by kind, the cos 0.26 → 0.09
+   edge-on fade, emissive grey 0.70 × 0.75 for mist and unit white at
+   alpha 0.8 for whitewater, all multiplied by the shared falls irradiance
+   (`whitewaterStreaks.ts`), shadowed by the CSM, faded out under water.
+7. **What we still build ourselves**: the lip wrap (item 3), ramps (§4.2
+   chute strips), a per-fall ray-marched mist volume and the spray / splash
+   particles — [waterfall-mist-and-spray.md](waterfall-mist-and-spray.md).
+8. **Textures** ship as the PNG kit `kits/waterfall-fx-textures/`; the GLB
+   carries 16 px stubs so it stays under a megabyte.
 
 ### 4.2 A steep stream = the ribbon we already build, shaded as whitewater
 
@@ -440,6 +425,10 @@ All of these are numeric and belong in the water probe / compiled-data tests:
 - **Registration**: every cascade's lip point sits within 0.5 m of its steep
   reach's last station, and its plunge point within 0.5 m of the next reach's
   first station. (Attempt 2's misalignment would have failed this.)
+- **The lip seam** (0064, `WaterfallSheets.test.ts` "the lip seam"): the top
+  edge of the first body piece is at the strip's last station level within
+  0.25 m, and the body's width at the lip is ≥ 0.8 × `widthM`. The 2026-09-14
+  ribbon failed the width check at 0.31 ×.
 - **Classification** (rule superseded 2026-09-08 by 0047 addendum 3 and the graph, 0058: a fall is ≥ 3 m over a face ≥ **70°**; the 45° figures below are the 8b-era proposal): no cascade exists whose centreline slope is < 45° over
   the steep contiguous part; no steep strip on slope < 0.035. Histogram the
   slope of every classified reach and assert the two populations do not
@@ -456,8 +445,9 @@ All of these are numeric and belong in the water probe / compiled-data tests:
   and assert no peak above 0.9 at any lag < 20 s (the conveyor-belt signature).
 - **Budget**: total live mist instances ≤ cap; base quads per site ≤ 20;
   draw calls added by the whole waterfall system ≤ 3.
-- **Geometry sanity**: every sheet quad has area > 0 and the sheet's width at
-  the lip equals the channel width there within 10%.
+- **Geometry sanity**: every placed piece has a finite transform and uniform
+  scale inside Bethesda's range; the stack's top is the lip and its foot is
+  the plunge.
 
 ### 4.4 What NOT to do (from the two failures)
 
@@ -476,14 +466,16 @@ All of these are numeric and belong in the water probe / compiled-data tests:
    ≥ 45°, contiguous.
 5. **Do not emit both a strip and a sheet over the same span.** One reach, one
    piece; the strip ends at the lip and resumes at the plunge.
-6. **Do not snap an authored Skyrim body NIF to an arbitrary computed path.**
-   Its curve, its width and its UV rate are all authored for its own shape.
-   Use its *textures* and its *numbers*; use its *meshes* only where the piece
-   is a genuine standalone prop (the rapids boulders).
+6. ~~Do not snap an authored Skyrim body NIF to an arbitrary computed path.~~
+   **Superseded by 0064**: the pieces ARE snapped to the traced path, but
+   only with uniform scale, stacked at Bethesda's overlaps, and re-shaded by
+   our material. What stays forbidden is non-uniform scaling and a single
+   stretched piece.
 7. **Do not use one noise layer, or two layers at nearly the same speed.**
    Bethesda's spread is up to 6.7×. Equal-ish speeds read as one belt.
-8. **Do not put the base read in particles.** A dozen flat quads spreading out
-   on the pool is what actually sells it; particles are the accent.
+8. **Do not put the base read in particles alone.** The skirt, the ring and
+   the pool surface are the base; the mist volume and the splash particles
+   are on top of them, never instead of them.
 
 ---
 

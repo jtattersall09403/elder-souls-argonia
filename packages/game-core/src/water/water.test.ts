@@ -4,10 +4,11 @@ import { WaterWorld } from "./waterWorld";
 import { computeBuoyancy } from "./buoyancy";
 import { SEMIDIURNAL_MINUTES, tideOffset, seasonOffset } from "./tide";
 import { SEA, CREST_NOISE, seaRmsHeightM, whitecapCoverage, whitecapThreshold, stillWaterDriftMS, whitecapDriftMS } from "./waves";
-import { FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, GROUP_OMEGA, OMEGA_QUANTUM, SHORE_SWELL, STANDING_BY_CLASS, SWASH,
-  SWASH_OMEGA, WAVES, fetchExposure, flowWaveAt, flowWaveGlsl, flowWaveOmega, gerstnerAt, gerstnerGlsl, hash21,
-  jonswapShape, shoreSwellAt, snapOmega, standingRatioGlsl, standingWaveRatio, surfGlsl, surfGroup, surfaceWaveAt,
-  swashAt, waveBands, waveExposure } from "./waves";
+import { ALONG_DRIFT_OMEGA, ALONG_K, ALONG_SHORE, FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, GROUP_OMEGA, OMEGA_QUANTUM,
+  SHORE_SWELL, STANDING_BY_CLASS, SURF_ENERGY, SWASH, SWASH_OMEGA, WAVES, alongShorePhase, fetchExposure, flowWaveAt,
+  flowWaveGlsl, flowWaveOmega, gerstnerAt, gerstnerGlsl, hash21, jonswapShape, shoreSwellAt, shoreSwellProfile,
+  snapOmega, standingRatioGlsl, standingWaveRatio, surfEnergyScale, surfGlsl, surfGroup, surfaceWaveAt, swashAt,
+  swashMax, swashSkew, waveBands, waveExposure } from "./waves";
 
 // ---------------------------------------------------------------------------
 // Waves — the CPU/GLSL lockstep model
@@ -207,8 +208,10 @@ describe("waves", () => {
     }
   });
 
-  it("standing ratio by class: lakes and marsh bob, coast and rivers march, big lakes ease off", () => {
+  it("standing ratio by class: lakes and marsh bob, coast, estuary and rivers march, big lakes ease off", () => {
     expect(standingWaveRatio("coast", 1000)).toBe(0);
+    expect(standingWaveRatio("coast", 20)).toBe(0);
+    expect(standingWaveRatio("estuary", 20)).toBe(0);
     expect(standingWaveRatio("river", 5)).toBe(0);
     expect(standingWaveRatio("lake", 50)).toBeCloseTo(STANDING_BY_CLASS.lake, 9);
     expect(standingWaveRatio("marsh", 20)).toBeCloseTo(STANDING_BY_CLASS.marsh, 9);
@@ -297,7 +300,7 @@ describe("waves", () => {
     // bounded everywhere
     for (let d = 0; d < 100; d += 1.7) {
       const h = shoreSwellAt(d, Math.max(d * 0.05, 0.2), 1, t);
-      expect(Math.abs(h)).toBeLessThan(SHORE_SWELL.amplitudeM * 1.8 * 1.3 + 1e-6);
+      expect(Math.abs(h)).toBeLessThan(SHORE_SWELL.amplitudeM * 1.8 * (1 + SHORE_SWELL.harmonic2 + SHORE_SWELL.harmonic3) + 1e-6);
     }
     // deep offshore water far beyond the build zone: no shore swell at all
     expect(shoreSwellAt(SHORE_SWELL.buildFarM + 10, 8, 1, t)).toBe(0);
@@ -320,9 +323,54 @@ describe("waves", () => {
     const glsl = surfGlsl();
     expect(glsl).toContain(String(SWASH.omega));
     expect(glsl).toContain(String(SHORE_SWELL.k));
-    expect(glsl).toContain("esSwash");
-    expect(glsl).toContain("esShoreSwell");
-    expect(glsl).toContain("esSurfFoam");
+    expect(glsl).toContain("float esSwash(float d, float fetchExp, float t, float energy, float along)");
+    expect(glsl).toContain("float esShoreSwell(float d, float depthM, float fetchExp, float t, float energy, float along, out float dHdd)");
+    expect(glsl).toContain("float esSurfFoam(float d, float fetchExp, float t, float energy, float along)");
+    // the persistent foam field keeps the four-argument form (no shore frame)
+    expect(glsl).toContain("float esSurfFoam(float d, float fetchExp, float t, float energy) {\n    return esSurfFoam(d, fetchExp, t, energy, 0.0);");
+  });
+
+  // 16c round 2 (owner: "the whole ocean cycles between foamy and not,
+  // following the swell"): a travelling sea's whitecap fraction is steady
+  // from one instant to the next; a standing share makes it breathe. With
+  // the estuary at 0.3 the fraction of a 300 m coast grid over the 0.16 m
+  // crest floor swung ×1.35 in two seconds (×1.62 at the lake's 0.45, ×3.66
+  // fully standing) against ×1.13 travelling; the sea classes are 0 now.
+  it("the open sea travels: the whitecap fraction never pulses in unison (16c round 2)", () => {
+    const amp = seaRmsHeightM(10, SEA.fetchMaxM);
+    const fraction = (t: number, standing: number) => {
+      let n = 0;
+      let c = 0;
+      for (let x = 0; x <= 300; x += 5) {
+        for (let z = 0; z <= 300; z += 5) {
+          n += 1;
+          if (gerstnerAt(x, z, t, amp, out, SEA.fetchMaxM, standing).height > 0.16) c += 1;
+        }
+      }
+      return c / n;
+    };
+    const std = (a: number[]) => {
+      const m = a.reduce((s, v) => s + v, 0) / a.length;
+      return Math.sqrt(a.reduce((s, v) => s + (v - m) ** 2, 0) / a.length);
+    };
+    for (const cls of ["coast", "estuary"]) {
+      const standing = standingWaveRatio(cls, 20);
+      let worst = 1;
+      for (const t of [0, 3, 7, 11, 17, 23, 31, 45]) {
+        const a = fraction(t, standing);
+        const b = fraction(t + 2, standing);
+        expect(a, `${cls}: some of the sea whitecaps at t=${t}`).toBeGreaterThan(0.1);
+        worst = Math.max(worst, Math.max(a, b) / Math.min(a, b));
+      }
+      expect(worst, `${cls}: whitecap fraction pulse over 2 s`).toBeLessThan(1.25);
+      // a travelling field, not a breathing plate: the spread across the
+      // grid at one instant is as wide as the spread at one point over time
+      const spatial: number[] = [];
+      for (let x = 0; x <= 300; x += 5) for (let z = 0; z <= 300; z += 5) spatial.push(gerstnerAt(x, z, 7, amp, out, SEA.fetchMaxM, standing).height);
+      const temporal: number[] = [];
+      for (let t = 0; t < 120; t += 0.25) temporal.push(gerstnerAt(150, 150, t, amp, out, SEA.fetchMaxM, standing).height);
+      expect(std(spatial), `${cls}: spatial vs temporal std`).toBeGreaterThan(0.6 * std(temporal));
+    }
   });
 
   it("GLSL twin bakes the same constants as the CPU table", () => {
@@ -343,6 +391,88 @@ describe("waves", () => {
     expect(glsl).toContain("float dd = tr * cS * cT - sS * sT;");
     // low tier truncates
     expect(gerstnerGlsl(WAVES.lowTierBands).match(/esWaveBand\(pos/g)?.length).toBe(WAVES.lowTierBands);
+  });
+});
+
+describe("shore surf round 2: one energy knob, oblique crests, a breaking front (16c)", () => {
+  it("the surf's energy is the sea's rms for the wind and the fetch, clamped, never the wave-scale knob", () => {
+    // the calm open sea is the unit: the floor wind on Topal Bay's 60 km
+    expect(surfEnergyScale(0, SEA.fetchMaxM)).toBeCloseTo(seaRmsHeightM(SEA.swellFloorWindMS, SEA.fetchMaxM) / SURF_ENERGY.refRmsM, 6);
+    expect(surfEnergyScale(0, SEA.fetchMaxM)).toBeGreaterThan(0.95);
+    expect(surfEnergyScale(0, SEA.fetchMaxM)).toBeLessThan(1.05);
+    // a storm breaks harder; a lee shore (short fetch) stays at the floor
+    expect(surfEnergyScale(17, SEA.fetchMaxM)).toBeGreaterThan(2.2);
+    expect(surfEnergyScale(40, SEA.fetchMaxM)).toBe(SURF_ENERGY.max);
+    expect(surfEnergyScale(17, 100)).toBe(SURF_ENERGY.min);
+    // the swash and the shore swell scale with it; the ground band's lift too
+    const e = surfEnergyScale(12, SEA.fetchMaxM);
+    expect(swashMax(1, 1, e)).toBeCloseTo(swashMax(1, 1, 1) * e, 9);
+    let hiCalm = 0;
+    let hiStorm = 0;
+    for (let t = 0; t < 60; t += 0.2) {
+      hiCalm = Math.max(hiCalm, swashAt(0.5, 1, t, 1, 0));
+      hiStorm = Math.max(hiStorm, swashAt(0.5, 1, t, e, 0));
+    }
+    expect(hiStorm).toBeGreaterThan(hiCalm * 1.3);
+    // the uprush steepens with the energy, capped
+    expect(swashSkew(1)).toBeCloseTo(SWASH.skew, 9);
+    expect(swashSkew(e)).toBeGreaterThan(SWASH.skew);
+    expect(swashSkew(10)).toBe(SWASH.skewMax);
+    expect(swashSkew(0)).toBe(SWASH.skewMin);
+    // the GLSL twin bakes the same law (the fragment has no esSeaRms)
+    const glsl = surfGlsl();
+    expect(glsl).toContain("float esSurfEnergy(float windMS, float fetchM)");
+    expect(glsl).toContain(`clamp(hs * 0.25 / ${SURF_ENERGY.refRmsM}, ${SURF_ENERGY.min}, ${SURF_ENERGY.max})`);
+    expect(glsl).toContain(`float u = max(${SEA.swellFloorWindMS.toFixed(1)}, windMS);`);
+    expect(glsl).toContain(`clamp(${SWASH.skew} + ${SWASH.skewPerEnergy} * (energy - 1.0), ${SWASH.skewMin}, ${SWASH.skewMax})`);
+    expect(glsl).not.toContain("pow(uWindWave");
+  });
+
+  it("crests arrive obliquely: two points on one shore contour are out of phase along the beach", () => {
+    // a straight east-west beach: shoreward is +z
+    const shoreDir = [0, 1] as const;
+    const at = (x: number, t: number) => swashAt(2, 1, t, 1, alongShorePhase(x, 500, shoreDir[0], shoreDir[1], t));
+    // before round 2 every point at shore distance 2 rose and fell together;
+    // now the crest's timing walks along the beach
+    let maxDiff = 0;
+    for (let t = 0; t < 40; t += 0.25) maxDiff = Math.max(maxDiff, Math.abs(at(0, t) - at(ALONG_SHORE.wavelengthM / 2, t)));
+    expect(maxDiff).toBeGreaterThan(0.05);
+    // …by up to ALONG_SHORE.amp radians, and the phase itself drifts on the loop grid
+    expect(Math.abs(alongShorePhase(ALONG_SHORE.wavelengthM / 4, 0, 0, 1, 0))).toBeCloseTo(ALONG_SHORE.amp, 6);
+    expect(alongShorePhase(0, 0, 0, 1, 0)).toBeCloseTo(0, 9);
+    expect(Math.round(ALONG_DRIFT_OMEGA / OMEGA_QUANTUM) * OMEGA_QUANTUM).toBeCloseTo(ALONG_DRIFT_OMEGA, 9);
+    // the same crest along the SHOREWARD axis is unchanged (s is the tangent coordinate)
+    expect(alongShorePhase(0, 123, 0, 1, 5)).toBeCloseTo(alongShorePhase(0, 456, 0, 1, 5), 9);
+    // no shore gradient: no along-shore term, the closed forms fall back to shore distance
+    expect(alongShorePhase(30, 40, 0, 0, 5)).toBe(0);
+    // the shore swell takes the same phase
+    const d = 15;
+    expect(shoreSwellAt(d, 1, 1, 3, 1, 0.7)).toBeCloseTo(
+      SHORE_SWELL.amplitudeM * (1 - 0) * (0.3 + 0.7) * 1
+        * Math.min(Math.max(Math.pow(1 / 2, -0.25), 1), 1.8)
+        * shoreSwellProfile(SHORE_SWELL.k * d + SWASH_OMEGA * 3 + 0.7) * surfGroup(d, 3), 9);
+    // GLSL twin: the same tangent projection and the same baked constants
+    const glsl = surfGlsl();
+    expect(glsl).toContain("float esAlongPhase(vec2 pos, vec2 shoreDir, float t)");
+    expect(glsl).toContain("float s = dot(pos, vec2(-shoreDir.y, shoreDir.x));");
+    expect(glsl).toContain(`${ALONG_SHORE.amp} * sin(${ALONG_K} * s + ${ALONG_DRIFT_OMEGA} * t) * dot(shoreDir, shoreDir)`);
+    expect(glsl).toContain(`- ${SWASH.phase} + along;`);
+    expect(glsl).toContain(`+ ${SWASH_OMEGA} * t + along;`);
+  });
+
+  it("the breaking front is Stokes-like: sharp crest, flat trough, in-phase harmonics on both sides", () => {
+    let crest = -Infinity;
+    let trough = Infinity;
+    for (let th = 0; th < 2 * Math.PI; th += 0.01) {
+      crest = Math.max(crest, shoreSwellProfile(th));
+      trough = Math.min(trough, shoreSwellProfile(th));
+    }
+    expect(crest).toBeCloseTo(1 + SHORE_SWELL.harmonic2 + SHORE_SWELL.harmonic3, 6);
+    expect(Math.abs(trough)).toBeLessThan(crest * 0.85);
+    const glsl = surfGlsl();
+    expect(glsl).toContain(`cos(th) + ${SHORE_SWELL.harmonic2} * cos(2.0 * th) + ${SHORE_SWELL.harmonic3} * cos(3.0 * th)`);
+    expect(glsl).toContain(`-sin(th) - ${2 * SHORE_SWELL.harmonic2} * sin(2.0 * th) - ${3 * SHORE_SWELL.harmonic3} * sin(3.0 * th)`);
+    expect(glsl).not.toContain("cos(2.0 * th + 0.5)");
   });
 });
 

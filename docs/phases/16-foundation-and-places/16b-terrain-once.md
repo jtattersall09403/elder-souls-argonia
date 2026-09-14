@@ -50,7 +50,20 @@ Needs rulings 1, 2, 3, 5, 6, 10 (plan §7).
    `export_web_chunks --changed` wired; the six invariants as tests, each
    **failing** on an injected bad patch. Grading (16e) and pads (16h) will
    use this stage; here it ships with the dock/poling/typed-request carves
-   converted to patches and applied once.
+   converted to patches and applied once. 16c's owner-approved water
+   corrections add two kinds (`water_correction_patches`, re-authored after
+   every water compile by `author_terrain_patches water-corrections`):
+   `bed-cut`, a channel-class kind that may only LOWER ground inside a
+   channel, its shoulder and the sea's protected collar, cutting a run of
+   stations to the promised bed of the channel solution; and `levee`, the
+   only kind that may RAISE ground in a channel's shoulder band (never
+   inside a water width), raising a perched station's shoulder to its level
+   + 0.3 m and declaring `driesBodyCells` for the body fringe it dries
+   inside its own region (the body's level and deepest cell unchanged). A
+   levee carrying `cells` instead of `stations` is a body RIM levee: the dry
+   ring cells the compile lists in `stats.bodyRimLeaks` rise to the body's
+   level + 0.3 m, never a wet cell and never a channel width, so it dries
+   nothing (`driesBodyCells: false`).
 5. **Deterracing and coast** (backlog rows): measure the remaining terrace
    steps and report; coastal drama is a bounded sculpt pass on the shore band
    with the same freeze — do it here or record the owner's "not now".

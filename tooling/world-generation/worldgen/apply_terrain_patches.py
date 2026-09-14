@@ -1,6 +1,7 @@
 """Apply the typed terrain patches to the frozen base (Phase 16b).
 
     python3 -m worldgen.apply_terrain_patches
+    python3 -m worldgen.apply_terrain_patches --out DIR    # dry run: everything into DIR, vault and studio untouched
 
 Reads `refined-height-frozen-f32.npy` (never written after the freeze gate),
 `world/sources/terrain/terrain-patches.json` and the frozen water the graph
@@ -134,13 +135,20 @@ def merged_request_documents(receipts: list[dict]) -> tuple[dict, dict, list]:
     return plan, manifest, stats
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--out", type=Path, default=None,
+                    help="dry run: write the natural ground, receipts and footprint into this directory "
+                         "and touch neither the vault nor the studio (the gate reads it with patch_water --in)")
+    ap.add_argument("--patches", type=Path, default=tp.PATCHES_PATH, help="an alternative terrain-patches.json")
+    args = ap.parse_args(argv)
     frozen = np.load(FROZEN_PATH)
     sha = freeze.sha256_of(frozen)
     if freeze.recorded(freeze.FROZEN) != sha:
         raise SystemExit(f"apply_terrain_patches: {FROZEN_PATH.name} is {sha[:16]}… but the record says "
                          f"{(freeze.recorded(freeze.FROZEN) or '?')[:16]}…; the frozen base has moved")
-    patches = tp.load()
+    patches = tp.load(args.patches)
     ctx = tp.context_from_vault(HEIGHTFIELD_DIR)
     h, receipts, boxes = tp.apply_all(frozen, patches, ctx)
     by_id = {p["id"]: p for p in patches}
@@ -152,6 +160,21 @@ def main() -> None:
     previous = np.load(DEFAULT_HEIGHTS) if DEFAULT_HEIGHTS.exists() else None
     measured = fp.changed_boxes(h, previous)
     footprint = fp.union(boxes, measured if measured is not None else [(0, h.shape[0], 0, h.shape[1])])
+    if args.out is not None:
+        out = args.out
+        out.mkdir(parents=True, exist_ok=True)
+        freeze.atomic_save(out / DEFAULT_HEIGHTS.name, h)
+        fp.save(out / CHAIN_FOOTPRINT.name, footprint, grid_shape=h.shape)
+        public = [{k: v for k, v in r.items() if not k.startswith("_")} for r in receipts]
+        _atomic_json(out / "terrain-patches-applied.json",
+                     {"schemaVersion": 1, "frozenSha256": sha, "naturalSha256": freeze.sha256_of(h),
+                      "patchesFile": str(args.patches), "dryRun": True,
+                      "applied": sum(1 for r in public if r["status"] == "applied"),
+                      "refused": sum(1 for r in public if r["status"] == "refused"), "patches": public})
+        print(f"dry run -> {out}: {sum(1 for r in public if r['status'] == 'applied')} applied, "
+              f"{sum(1 for r in public if r['status'] == 'refused')} refused; "
+              f"footprint {len(footprint)} box(es) over {fp.cells(footprint, h.shape) * 100.0 / h.size:.2f}% of the province")
+        return
     freeze.atomic_save(DEFAULT_HEIGHTS, h)
     fp.save(CHAIN_FOOTPRINT, footprint, grid_shape=h.shape)
 

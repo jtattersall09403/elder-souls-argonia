@@ -6,6 +6,10 @@ Every number is printed by `python3 -m worldgen.compile_water` (its stats
 land in `water-meta.json`) or by the gate named; re-run them rather than
 trust this page.
 
+**Round 2 (2026-09-14) is a separate page:**
+[16c-round-2-ledger.md](16c-round-2-ledger.md) (owner feedback, the round-2
+compile numbers, the renderer changes; decisions 0064 and 0065).
+
 ## 1. The keep-list run (brief item 1 and 5)
 
 The OLD compiler, run once on the frozen ground before the rewrite
@@ -74,28 +78,50 @@ Every row is a terrain edit after the freeze (a typed patch), so it is the
 owner's call. None of them is hidden: the compile counts them and the gates
 hold the counts.
 
-1. **Beds above their promise (dry gaps), 25 stations, 5 sites.**
-   - 2277 E / 2815 S: the last station of a band-2 river at the sea: the
-     coast bank stands 2.93 m over the level — the trench never cut the
-     sea's protected collar. A 2 m dam between the river and the sea.
-   - 4407–4411 E / 3922 S: two band-1 creeks at a junction, 4 stations each,
-     up to 1.26 m over (the freeze gate's `reach.2355-2094` leftover: an
-     approved-body rim ring crossing the channel). A 7 m dry bump.
-   - 1702 E / 4367 S: a lake outlet's weir 0.18 m above the lake (one
-     station). A bare lip.
-   - 2454 E / 6296 S and 2389 E / 6485 S: the Blackrose lake's south outlet:
-     its sill stands 0.06–0.28 m ABOVE the lake's 1.6 m for the first ~50 m,
-     so the lake cannot spill and the outlet's first 20 m are dry
-     (`reach.1306-3547`, 10 stations, 0.65 m at worst; the outlet's water
-     hugs the graded bed from there down to the bay).
-2. **Channels perched above a sheet they touch, 582 stations in 90 runs**
-   (`perchedRuns` in `water-meta.json`): a river runs beside a marsh sheet
-   or pond that the graph holds 0.3–1.3 m lower, with no shoulder between
-   them (the carve never raises a body's bed). The compile keeps both
-   levels and the wall of water between them (13,439 cells). Physically the
-   two should be one level. There are three possible fixes: re-pooling those
-   reaches to the sheet (a graph rule, 16a's), raising the sheet's rim as a
-   patch, or accepting the walls at 90 sites.
+1. **Beds above their promise (dry gaps) — approved, patched: 5 `bed-cut`
+   patches, 460 samples cut, deepest cut 4.18 m; bed-over-level at all five
+   sites is 0 after the patch** (the census re-run on the patched ground,
+   `author_terrain_patches water-corrections --prove`). Each run (plus one
+   station either side) is cut to the promised bed of the channel solution
+   (`bed(t) = L − D·ramp·(1 − t²)`, a weir floored at its level), 2 m taper:
+   - 2277 E / 2815 S: the coast bank 2.93 m over the level at a band-2
+     river's mouth — the trench never cut the sea's protected collar
+     (37 samples, 4.18 m).
+   - 4407–4411 E / 3922 S: two band-1 creeks at a junction, up to 1.26 m
+     over, an approved-body rim ring crossing them (43 samples, 2.49 m).
+   - 1702 E / 4367 S: a lake outlet's weir lip 0.18 m above the lake
+     (25 samples, 0.18 m).
+   - 2454 E / 6296 S and 2389 E / 6485 S: the Blackrose lake's outlet sill
+     above the lake's 1.6 m, so the lake could not spill (355 samples,
+     0.95 m) — cut to the graded outlet profile (decision 0060 §2).
+2. **Channels perched above a sheet they touch — approved (option b: raise
+   the sheet's rim), patched: 62 `levee` patches covering 2,104 of the
+   census's 2,886 perched stations in 63 perched runs (one run is unsealable
+   throughout); 19,150 samples raised, the tallest 4.50 m.** Each perched station's shoulder (the water's edge out
+   to edge + 6 m, both sides) is raised to `level + 0.3 m` with a 2 m outward
+   taper, never inside any water width; a levee declares `driesBodyCells`
+   and the invariant checks the dried body keeps its level and its deepest
+   cell. After the patch the census's perched count falls from 2,886 to 988:
+   1,787 of the 2,104 patched stations are sealed. What a bank cannot seal:
+   - 782 stations were not attempted — 4.5 m is the carve's own largest
+     shoulder cap, so a band needing more stands on a cliff edge. The rest
+     have a crest more than `CREST_REACH_M` above a run neighbour's in the same
+     band is a chute step; no bank the ground can grow closes either.
+   - 317 patched stations are still perched: for about nine in ten the low
+     dry cell lies inside ANOTHER channel's water width (a confluence or a
+     parallel channel), where invariant 3 forbids a levee to raise; the rest
+     have a band cell at the crest yet still more than 0.3 m under a
+     neighbouring station's water surface, or their dry cell beyond the 6 m
+     shoulder band (measured 286 / 25 / 2 on the previous census of the same
+     rule).
+   - **Body-side rim leaks** (`stats.bodyRimLeaks`): 20 realised bodies list
+     414 dry ring cells standing under their own level. 11 are patched by a
+     rim `levee` (`patch.levee.rim.<bodyId>`, `driesBodyCells: false`): 494
+     rim cells raised to level + 0.3 m, 907 samples moved, tallest 1.87 m.
+     The other 9 this rule cannot seal: every cell they list is WET in the
+     frozen water raster the invariants read, so raising it would dry frozen
+     water. Only a `driesBodyCells` levee may do that, never at a body's
+     own level.
 3. **Hovering edges, 161** (`test_water_invariants` floor 200): lateral
    sheets meeting ground a station downstream owns lower, the biggest
    2–5 m at unclassified short drops.
@@ -130,11 +156,38 @@ hold the counts.
   ships (0047 addendum).
 - caustics, mist, barcode foam: the owner's check (§7 of the brief).
 
-## 7. Drift found (not this chunk's)
+## 7. Drift found closing 16c — fixed 2026-09-14
 
-`compile_hydrology` no longer reproduces the pass on which the shaped
-ground was frozen: 3 minor river cells differ (`hydrology-meta.json` 5950 → 5953),
-so `shape_province` refuses with a different sha and the chain cannot run
-end to end without `--from`. The frozen arrays are intact; the vault's
-`hydrology-pass1.npz` was overwritten by the drifted run on 2026-09-14.
-Root cause not found here; queued in the backlog for 16d's start.
+**What it was, in plain English.** The coarse river pass stopped giving the
+same answer it gave on 2026-09-13, the day the shaped ground was frozen on
+it: three small river cells moved, so the next stage saw a different input,
+produced a different shaped ground; the freeze guard (rightly) refused
+to overwrite the recorded one — the chain could only run past that stage
+with `--from`.
+
+**Why.** The owner's one routing correction (river 1223-143 runs on to the
+inlet's real mouth) names where the river ends as a position typed to 10 m
+(6710 E, 790 S). Turned into a grid cell that is (col 1223, row 144) — one
+row south of the river's actual last cell (row 143; the river's own id,
+`river.1223-143`, names that cell). The run the ground was frozen on began
+the re-route at the river's last cell; the committed code began it at the
+typed cell, which was never river. In flat water every route costs the
+same, so a start one row over picks a different equal-cost line: 49 new
+cells instead of 46, with knock-on differences in `flow_to`, `accum_km2`,
+`twi`, `salinity`, `hand`, `flood` and `regions`. Not nondeterminism: two
+runs of either version are byte-identical.
+
+**Fix.** `approved_bodies.resolve_mouth`: a correction's `fromMouth` is
+snapped to the river's actual last cell (a river cell whose recorded
+`flow_to` is a sink, within 3 coarse cells) and must agree with the
+`river16a` id, or the compile refuses. `compile_hydrology --out DIR` writes
+a scratch pass for comparisons. Tests in
+`worldgen/test_routing_corrections.py` (snap, id disagreement, two applies
+identical).
+
+**Proof.** The fixed pass: `riverCells.minor` 5950, `riverCellsInSeaLevelWater`
+2008; `hydrology-meta.json` and all eleven committed hydro/climate rasters
+byte-identical to HEAD; `shape_province` run on it without writing gives
+`4d81cdf865ed315f…`, the frozen record. On 2026-09-14 the vault's
+`hydrology-pass1.npz` was restored from that run (file sha `d424684d4bcb0ffc…`);
+the drifted file it replaced was `9eb354788cd289d8…` (2026-09-14 00:49).

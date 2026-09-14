@@ -128,6 +128,32 @@ export function airHoverFloorY(species: AirSpecies, waterSurfaceY: number | null
   return waterSurfaceY + species.hoverAboveWaterM + Math.min(Math.max(bandFrac, 0), 1) * (species.hoverBandM ?? 0);
 }
 
+/**
+ * Standing water under a hover species (owner 2026-09-14, 16c round 2): a
+ * midge column or a dragonfly knot exists ONLY over water at least this deep
+ * after the tide/season lift. Before this gate the hover floor only lifted
+ * the band where there was water and every dry lowland cell still drew the
+ * species at full alpha ("they are everywhere in the lowlands, not just
+ * over water"). CPU twin of the vertex stage's `esAirWaterGate`; returns the
+ * alpha factor, 1 or 0.
+ */
+export const AIR_WATER_MIN_DEPTH_M = 0.15;
+export function airWaterGate(signedDepthM: number, liftM: number): number {
+  return signedDepthM + liftM >= AIR_WATER_MIN_DEPTH_M ? 1 : 0;
+}
+
+/**
+ * World-anchored density patches, as a smoothstep band on the value noise:
+ * a species is drawn where the noise clears the band. Hover species use a
+ * high band so roughly a third of the water carries a knot and the rest is
+ * empty (localised groups, not an even haze); the ground species keep the
+ * broad band. The GLSL reads these through `uPatchBand`.
+ */
+export const AIR_PATCH_BAND = { ground: [0.10, 0.50], water: [0.40, 0.62] } as const;
+export function airPatchBand(species: AirSpecies): readonly [number, number] {
+  return species.hoverAboveWaterM !== undefined ? AIR_PATCH_BAND.water : AIR_PATCH_BAND.ground;
+}
+
 const VERTEX = /* glsl */ `
 attribute vec3 aBase;
 attribute vec3 aSeed;
@@ -141,6 +167,7 @@ uniform vec3 uBox;
 uniform float uYOffset;
 uniform float uNearClip;
 uniform float uPatchM;
+uniform vec2 uPatchBand;
 uniform float uSizePx;
 uniform float uPixelRatio;
 uniform vec3 uWander;
@@ -160,17 +187,30 @@ uniform vec3 uAirHover;        // hover above water (m), hover band (m), lift (m
 varying float vAlpha;
 varying float vBacklit;
 
+// The compiled surface texel under xz (nearest): W16 in RG, signed depth in B.
+vec4 esAirWaterTexel(vec2 xz) {
+  vec2 f = clamp(xz / uAirWaterInfo.y - 0.5, vec2(0.0), vec2(uAirWaterInfo.x - 1.001));
+  return texelFetch(uAirWaterTex, ivec2(f + 0.5), 0);
+}
 // KEEP IN LOCKSTEP with airHoverFloorY(): the floor over water, or a huge
 // negative where the texel under the particle is dry ground.
 float esAirFloor(vec2 xz, float bandFrac) {
   if (uAirWaterDepth.w < 0.5) return -1.0e9;
-  vec2 f = clamp(xz / uAirWaterInfo.y - 0.5, vec2(0.0), vec2(uAirWaterInfo.x - 1.001));
-  ivec2 i = ivec2(f + 0.5);
-  vec4 t = texelFetch(uAirWaterTex, i, 0);
+  vec4 t = esAirWaterTexel(xz);
   float w = uAirWaterInfo.z + ((t.r * 255.0 * 256.0 + t.g * 255.0) / 65535.0) * uAirWaterInfo.w;
   float depth = t.b * uAirWaterDepth.y + uAirWaterDepth.x + uAirHover.z;
   if (depth <= max(uAirWaterDepth.z, 0.0)) return -1.0e9;
   return w + uAirHover.z + uAirHover.x + bandFrac * uAirHover.y;
+}
+// KEEP IN LOCKSTEP with airWaterGate(): a hover species draws ONLY over
+// standing water (signed depth + lift >= 0.15 m). Without a bound surface
+// (the species has no hover height, or the scene has no water rasters) the
+// ground bounds the band as before and nothing is gated.
+float esAirWaterGate(vec2 xz) {
+  if (uAirWaterDepth.w < 0.5) return 1.0;
+  vec4 t = esAirWaterTexel(xz);
+  float depth = t.b * uAirWaterDepth.y + uAirWaterDepth.x + uAirHover.z;
+  return step(${AIR_WATER_MIN_DEPTH_M.toFixed(2)}, depth);
 }
 
 // Cheap value noise, for the world-anchored density patches. Dave Hoskins'
@@ -218,6 +258,8 @@ void main() {
   // over standing water the band's floor is the WATER SURFACE, never the
   // ground under it (Phase 16c): a species with a hover height rises to it
   world.y = max(world.y, esAirFloor(world.xz, aSeed.y));
+  // …and a hover species exists only over standing water (16c round 2)
+  float esWaterGate = esAirWaterGate(world.xz);
 
   vec3 edge = 1.0 - smoothstep(vec3(0.62), vec3(1.0), abs(rel) / uBox);
   float fade = edge.x * edge.y * edge.z;
@@ -263,10 +305,10 @@ void main() {
     // patches, far wider than the province. See esAirHash for why the hash
     // itself must also be safe at these magnitudes.
     vec2 esPatchUV = mod(world.xz / uPatchM, 256.0);
-    esPatch = smoothstep(0.10, 0.50, esAirNoise(esPatchUV));
+    esPatch = smoothstep(uPatchBand.x, uPatchBand.y, esAirNoise(esPatchUV));
   }
 
-  vAlpha = fade * blink * uAmount * haze * near * esPatch;
+  vAlpha = fade * blink * uAmount * haze * near * esPatch * esWaterGate;
   gl_PointSize = uSizePx * aScale * uPixelRatio * (10.0 / dist);
   float tiny = min(gl_PointSize, 1.0);
   vAlpha *= tiny * tiny;
@@ -372,6 +414,7 @@ export class AirSwarm {
         uYOffset: { value: 0 },
         uNearClip: { value: species.nearClipM },
         uPatchM: { value: species.patchM },
+        uPatchBand: { value: new THREE.Vector2(...airPatchBand(species)) },
         uSizePx: { value: species.sizePx },
         uPixelRatio: { value: 1 },
         uWander: { value: new THREE.Vector3(...species.wander) },
@@ -631,7 +674,9 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     // Tight knots — a midge column is a clump, not a haze.
     clusterRadius: 1.1,
     nearClipM: 3.5,
-    patchM: 22,
+    // Knots every few tens of metres of water, most of it empty (the high
+    // patch band, airPatchBand): a column here, none there.
+    patchM: 44,
     backlight: 10,
     // over water the column hovers a hand above the surface (16c)
     hoverAboveWaterM: 0.3,
@@ -672,7 +717,7 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     // player — you meet them by walking into where they are hunting. Held
     // well beyond the character, so a knot is something you approach.
     nearClipM: 9.0,
-    patchM: 40,
+    patchM: 48,
     backlight: 9,
     // hunting height: half a metre over the water, up to two above it
     hoverAboveWaterM: 0.5,

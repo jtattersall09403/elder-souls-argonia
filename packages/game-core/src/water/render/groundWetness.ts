@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { SWASH } from "../waves";
-import type { WaterMeta } from "../waterData";
+import { SEA, SURF_ENERGY, SWASH } from "../waves";
+import { buriedThresholdM, type WaterMeta } from "../waterData";
 import { WATER_CAUSTICS_GLSL } from "./caustics";
 import { CONNECTED_STAGE_GLSL } from "./connectedStage";
 import { LOCAL_WATER_EDGE_M, LOCAL_WATER_SURFACE_GLSL } from "../localPatchPresentation";
@@ -41,6 +41,9 @@ export function createGroundWetnessUniforms() {
     /** Signed-depth decode of the surface B channel (decision 0047). */
     uWetDepthMin: { value: 0 },
     uWetDepthSpan: { value: 25.5 },
+    /** Signed depth above which a texel's level counts (waterData
+     * buriedThresholdM): buried texels never weigh into the wet band's level. */
+    uWetBuried: { value: 0.001 },
     /** Class texture size, metres per sample and grid origin in metres. */
     uWetKlassParams: { value: new THREE.Vector3(1, 1, 0) },
     uWetShoreMax: { value: 160 },
@@ -48,7 +51,12 @@ export function createGroundWetnessUniforms() {
     uWetHasCharacter: { value: 0 },
     uWetLevels: { value: new THREE.Vector2(0, 0) },
     uRainWet: { value: 0 },
+    /** Wave-scale knob (caustic wind only). */
     uWetWind: { value: 1 },
+    /** The weather's 10 m wind (m/s): the beach band's surf energy, the same
+     * knob as the water surface's (waves.ts surfEnergyScale). 0 = the floor
+     * wind, a calm sea. */
+    uWetWindMS: { value: 0 },
     uWetTime: { value: 0 },
     /** Dev-only A/B scalar on the caustic terms only (1 = shipped look). */
     uWetCausticDebug: { value: 1 },
@@ -84,6 +92,7 @@ export function primeGroundWetnessUniforms(uniforms: GroundWetnessUniforms, asse
   uniforms.uWetOrigin.value = surface.gridOriginM ?? surface.metresPerPixel * 0.5;
   uniforms.uWetDepthMin.value = surface.depthMinM ?? 0;
   uniforms.uWetDepthSpan.value = surface.depthSpanM ?? 25.5;
+  uniforms.uWetBuried.value = buriedThresholdM(assets.meta);
   uniforms.uWetKlassParams.value.set(klass.size, klass.metresPerPixel, klass.gridOriginM ?? klass.metresPerPixel * 0.5);
   uniforms.uWetShoreMax.value = surface.shoreMaxM ?? 160;
 }
@@ -99,6 +108,7 @@ uniform vec4 uWetParams;
 uniform float uWetOrigin;
 uniform float uWetDepthMin;
 uniform float uWetDepthSpan;
+uniform float uWetBuried;
 uniform vec3 uWetKlassParams;
 uniform float uWetShoreMax;
 uniform float uWetHasSupport;
@@ -106,6 +116,7 @@ uniform float uWetHasCharacter;
 uniform vec2 uWetLevels;
 uniform float uRainWet;
 uniform float uWetWind;
+uniform float uWetWindMS;
 uniform float uWetTime;
 uniform vec3 uWetSun;
 uniform float uWetCausticDebug;
@@ -140,6 +151,14 @@ vec2 esWetLevelDepth(ivec2 texel) {
   float level = (sampleValue.r * 255.0 * 256.0 + sampleValue.g * 255.0) / 65535.0;
   return vec2(uWetParams.x + level * uWetParams.y, sampleValue.b * uWetDepthSpan + uWetDepthMin);
 }
+// NOT-BURIED level weighting (KEEP IN LOCKSTEP with waterMaterial.ts
+// esSurfaceAt and WaterData.surfaceBase): a buried texel carries
+// W = ground − 3 m, and a plain bilinear mixed that into the level, so the
+// band's threshold H − W walked 3 m across every last wet texel and the band
+// edge staircased at texel resolution (16c round 2: the owner's straight,
+// saw-toothed wet edges). Only texels whose signed depth is above the buried
+// threshold weigh into the level; the depth keeps the plain bilinear. The
+// native-coverage path is owner-weighted already (esOwnedRaster).
 vec2 esWetSampleSurface(vec2 worldXZ) {
   if (!esWetInsideProvince(worldXZ)) return vec2(0.0, 25.5);
   if (uWetNativeCoverage > 0.5) {
@@ -150,8 +169,28 @@ vec2 esWetSampleSurface(vec2 worldXZ) {
   vec2 pixel = clamp((worldXZ - uWetOrigin) / uWetParams.w, vec2(0.0), vec2(uWetParams.z - 1.0));
   ivec2 corner = ivec2(floor(pixel));
   vec2 f = fract(pixel);
-  return mix(mix(esWetLevelDepth(corner), esWetLevelDepth(corner + ivec2(1, 0)), f.x),
-             mix(esWetLevelDepth(corner + ivec2(0, 1)), esWetLevelDepth(corner + ivec2(1, 1)), f.x), f.y);
+  vec2 s00 = esWetLevelDepth(corner);
+  vec2 s10 = esWetLevelDepth(corner + ivec2(1, 0));
+  vec2 s01 = esWetLevelDepth(corner + ivec2(0, 1));
+  vec2 s11 = esWetLevelDepth(corner + ivec2(1, 1));
+  vec4 bw = vec4((1.0 - f.x) * (1.0 - f.y), f.x * (1.0 - f.y), (1.0 - f.x) * f.y, f.x * f.y);
+  vec4 wet = vec4(step(uWetBuried, s00.y), step(uWetBuried, s10.y), step(uWetBuried, s01.y), step(uWetBuried, s11.y));
+  vec4 ww = bw * wet;
+  float wsum = ww.x + ww.y + ww.z + ww.w;
+  vec2 plain = mix(mix(s00, s10, f.x), mix(s01, s11, f.x), f.y);
+  float level = wsum > 0.0
+    ? (ww.x * s00.x + ww.y * s10.x + ww.z * s01.x + ww.w * s11.x) / wsum
+    : plain.x;
+  return vec2(level, plain.y);
+}
+// KEEP IN LOCKSTEP with waves.ts surfEnergyScale(wind, SEA.fetchMaxM): THE
+// surf energy knob, on the ocean's fetch (the ground shader has no fetch
+// raster; a coast/estuary shore is the open sea's, see the class note in
+// SURFACE_WETNESS_GLSL).
+float esWetSurfEnergy(float windMS) {
+  float u = max(${SEA.swellFloorWindMS.toFixed(1)}, windMS);
+  float hs = min(0.0016 * u * sqrt(${SEA.fetchMaxM.toFixed(1)} / 9.81), 0.21 * u * u / 9.81);
+  return clamp(hs * 0.25 / ${SURF_ENERGY.refRmsM.toFixed(2)}, ${SURF_ENERGY.min.toFixed(1)}, ${SURF_ENERGY.max.toFixed(1)});
 }
 float esWetShoreAt(vec2 worldXZ) {
   return texture2D(uWetShore, esWetSurfaceUv(worldXZ)).r * uWetShoreMax;
@@ -211,9 +250,23 @@ export function waterReceiverLight(position: string, normal: string, verticalSca
 #include <opaque_fragment>`;
 }
 
+/** The minimum HEIGHT the wet-shore band fades over (m). The swash run-up sets
+ * how far up a beach the band reaches, but it falls to 0.08 m where there is
+ * no surf, and a band that fades over 8 cm of height is an iso-contour of the
+ * compiled level: a straight line with the raster's own steps and bilinear
+ * facets in it (owner 2026-09-14). 0.35 m is a hand's depth of damp sand — at
+ * a beach's slope a couple of metres of ground, at a river bank a few
+ * centimetres of bank, and never a drawn line. */
+export const WET_BAND_SOFT_M = 0.35;
+
 export const SURFACE_WETNESS_GLSL = /* glsl */`
 float esWetTotal = 0.0;
-if (uWetParams.z > 0.5) {
+// The compiled band is a 22 m strip that darkens the ground by 45 %: from
+// the air it projected to a one-pixel black line tracing every coast at any
+// distance (16c round 2). It fades out with camera distance; rain wetness
+// below is unaffected.
+float esWetFade = 1.0 - smoothstep(350.0, 1200.0, distance(cameraPosition.xz, vEsWorldPos.xz));
+if (uWetParams.z > 0.5 && esWetFade > 0.0) {
   vec2 esWetXZ = vEsWorldPos.xz;
   float esWetExtent = uWetParams.z * uWetParams.w;
   bool esWetInside = all(greaterThanEqual(esWetXZ, vec2(0.0))) && all(lessThan(esWetXZ, vec2(esWetExtent)));
@@ -243,22 +296,38 @@ if (uWetParams.z > 0.5) {
       if (esWetClass > 0.5 && esWetClass < 2.5) {
         esWetFetch = 1.0 - 0.85 * clamp(max(esWetK.g, esWetSS.b), 0.0, 1.0);
       }
-      float esWetLift = ${(0.75 * SWASH.amplitudeM).toFixed(6)} * clamp(pow(uWetWind, 0.8), 0.6, 3.2)
+      // KEEP IN LOCKSTEP with waves.ts swashMax(): the recent waterline
+      float esWetLift = ${(0.75 * SWASH.amplitudeM).toFixed(6)} * esWetSurfEnergy(uWetWindMS)
         * max(1.0 - esWetShore / ${SWASH.bandM.toFixed(1)}, 0.0) * clamp(esWetFetch * 1.6, 0.0, 1.0) + 0.08;
+      // How much HEIGHT the band fades over. The run-up lift alone bottoms out
+      // at 0.08 m where there is no surf (a river bank, a lee shore), and an
+      // 8 cm window over a smooth field prints a razor-thin iso-contour: the
+      // owner's "unpleasant sharp edges. The lines themselves are too straight
+      // and you can see those jagged triangular spiky edge effect things along
+      // the edges" (2026-09-14, tmp/image.png, and the same at every river).
+      // The floor below is the softness, never the position: the run-up still
+      // decides how far UP the beach the band reaches.
+      float esWetSoft = max(esWetLift, ${WET_BAND_SOFT_M.toFixed(2)});
       float esWetN = 0.65 * esWetNoise(esWetXZ * 0.35) + 0.35 * esWetNoise(esWetXZ * 1.7);
-      float esAbove = esWetH - esWetW + (esWetN - 0.5) * esWetLift * 0.9;
-      float esWet = (1.0 - smoothstep(esWetLift * 0.55, esWetLift * 1.65, esAbove))
+      // ...and the contour is broken by the same noise, at the softness scale,
+      // so the edge wanders like a tide line instead of tracing the raster.
+      float esAbove = esWetH - esWetW + (esWetN - 0.5) * esWetSoft * 0.9;
+      float esWet = (1.0 - smoothstep(esWetSoft * 0.55, esWetSoft * 1.65, esAbove))
         * (1.0 - smoothstep(14.0, 22.0, esWetShore)) * (0.8 + 0.4 * esWetN);
-      if (uWetAccessParams.x > 0.5) esWet *= 1.0 - smoothstep(esWetLift, esWetLift * 1.65,
+      if (uWetAccessParams.x > 0.5) esWet *= 1.0 - smoothstep(esWetSoft, esWetSoft * 1.65,
         esWetStageValue.x - esWetOffset);
       // Signed depth distinguishes genuinely reachable dry shore from dry
       // terrain that merely sits near a body's raster level (a bundle with a
       // support raster, or any signed-depth bundle: decision 0047 v2 ships
-      // depthMinM < 0). Allow quantisation headroom (0.1-0.12 m steps).
+      // depthMinM < 0). The depth raster is quantised at 0.12 m, so this
+      // window is FIVE quanta wide and noise-broken: a 0.2 m window over a
+      // 0.12 m quantum was the staircase and the triangular facets along the
+      // waterline (bilinear interpolation of a quantised field, 2026-09-14).
       if (uWetHasSupport > 0.5 || uWetDepthMin < -0.5)
-        esWet *= 1.0 - smoothstep(esWetLift * 1.65 + 0.1, esWetLift * 1.65 + 0.3, -esWetDepth);
+        esWet *= 1.0 - smoothstep(esWetSoft * 1.65 + 0.15, esWetSoft * 1.65 + 0.75,
+          -esWetDepth + (esWetN - 0.5) * 0.25);
       esWet *= smoothstep(0.78, 0.9, normalize(esNrmW).y);
-      esWetTotal = clamp(esWet * 0.85, 0.0, 1.0);
+      esWetTotal = clamp(esWet * 0.85, 0.0, 1.0) * esWetFade;
     }
   }
 }
@@ -293,6 +362,6 @@ export function applyGroundWetness(material: THREE.Material, uniforms: GroundWet
       .replace("#include <opaque_fragment>", waterReceiverLight('vEsWorldPos', 'esNrmW', 'uVerticalScale'));
   };
   const previousKey = material.customProgramCacheKey;
-  material.customProgramCacheKey = () => `${previousKey.call(material)}|water-ground-wetness-v4`;
+  material.customProgramCacheKey = () => `${previousKey.call(material)}|water-ground-wetness-v5`;
   material.needsUpdate = true;
 }

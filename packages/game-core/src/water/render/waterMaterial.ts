@@ -464,6 +464,11 @@ export const FIELD_SLOPE_FADE = { start: 0.5, full: 1.0 } as const;
 export const EDGE_FADE_M = 0.15;
 /** Vertical thickness (m) under which the contact-foam line draws. */
 export const CONTACT_FOAM_M = 0.12;
+/** The flow's own churn around a body standing in it (`esContactRush`): off
+ * in a still pond, full in a torrent. `speedFullMS` is a wading pace — a
+ * mountain stream runs 1.5 m/s (the round-2 evidence) — and `wake` is the
+ * downstream tail's weight against the upstream bow's. Owner 2026-09-14. */
+export const RUSH = { speedFromMS: 0.35, speedFullMS: 1.6, wake: 0.75 } as const;
 const FLOW_WAVE_MIN_GLSL = FLOW_WAVE_MIN_SPEED_MS.toFixed(2);
 /** River foam flecks: fbm (2 octaves, `scale` cycles/m) thresholded between
  * lo..hi — tuned so the dual-phase mix covers ≈ 3–6 % of a river (the test
@@ -563,7 +568,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
   varying vec4 vEsKlass;  // turbidity(silt), salinity, tannin, class index
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
   varying vec3 vEsNormalW; // world-space wave normal
-  varying vec3 vEsSurf;   // fetch exposure, shoreward dir (xz)
+  varying vec4 vEsSurf;   // fetch exposure, shoreward dir (xz), surf energy
 
   float esEyeDepth(vec2 uv){
     float d = texture2D(uSceneDepth, uv).x;
@@ -582,6 +587,36 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
       c += ring * B.w * 0.6;
     }
     return min(c, 0.65);
+  }
+
+  /** Fast water piling on whatever stands in it: a bow wave hugging the
+   * UPSTREAM face and a white wake tearing away downstream. The ring above is
+   * a still-water splash and needs the body to move; this is the flow's own,
+   * so standing still in a torrent is not glassy (owner 2026-09-14: "even if
+   * you're standing still in sloped, fast flowing water it is rushing around
+   * and splashing off the player's body"). Visual only — no CPU twin, because
+   * nothing reads it back; the physical side is the contact emitter, which
+   * already rates its spray on the speed RELATIVE to the flow.
+   * dir is the unit flow direction, speed its magnitude in m/s. */
+  float esContactRush(vec2 wp, vec2 dir, float speed){
+    float gain = smoothstep(${RUSH.speedFromMS.toFixed(2)}, ${RUSH.speedFullMS.toFixed(2)}, speed);
+    if (gain <= 0.001) return 0.0;
+    float c = 0.0;
+    for (int i = 0; i < ${MAX_CONTACT_BODIES}; i++){
+      if (i >= uBodyCount) break;
+      vec4 B = uBodies[i];
+      if (B.w < 0.01) continue;
+      vec2 d = (wp - B.xy) / max(B.z, 0.1);
+      float along = dot(d, dir);                       // + is downstream
+      float across = abs(dot(d, vec2(-dir.y, dir.x)));
+      // the bow: a crescent tight to the upstream face
+      float bow = (1.0 - smoothstep(0.8, 1.7, length(d))) * (1.0 - smoothstep(-0.7, 0.2, along));
+      // the wake: a tail that spreads and fades downstream
+      float wake = smoothstep(0.0, 0.4, along) * (1.0 - smoothstep(0.5, 4.0, along))
+                 * (1.0 - smoothstep(0.45 + along * 0.35, 1.1 + along * 0.5, across));
+      c += (bow + wake * ${RUSH.wake.toFixed(2)}) * B.w;
+    }
+    return clamp(c * gain, 0.0, 1.0);
   }
 
   /** Plunge-pool foam: a churning disc plus an expanding RING, spreading OUT
@@ -705,7 +740,7 @@ varying vec4 vEsData;
 varying vec4 vEsKlass;
 varying vec3 vEsFlow;
 varying vec3 vEsNormalW;
-varying vec3 vEsSurf;
+varying vec4 vEsSurf;
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands)}
 ${standingRatioGlsl(classes)}
@@ -753,13 +788,16 @@ if (esShore < 90.0) {
 // the waterline itself TRAVELS: asymmetric swash + shoaling shore swell,
 // added BEFORE the depth proxy so the advancing tongue renders on the
 // beach face instead of being discarded as buried (research doc §5).
-// esSurfWind: KEEP IN LOCKSTEP with game-core surfWindScale() — storm seas
-// break harder on the beach (round 3).
-float esSurfWind = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
+// THE surf energy knob (16c round 2): the sea's rms for the weather wind
+// and this shore's compiled fetch — CPU twin surfEnergyScale() in
+// waterWorld.sample. The along-shore phase makes the crests arrive
+// obliquely instead of the whole waterline rising as one (alongShorePhase).
+float esSurfE = esSurfEnergy(uWindMS, esFetchM);
+float esAlong = esAlongPhase(esRestW.xz, esShoreDir, uWaveTime);
 float esSwellDHdd = 0.0;
 #ifndef ES_STRIP
-esStill += esSwash(esShore, esFetch, uWaveTime, esSurfWind);
-esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfWind, esSwellDHdd);
+esStill += esSwash(esShore, esFetch, uWaveTime, esSurfE, esAlong);
+esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfE, esAlong, esSwellDHdd);
 #endif
 // SIGNED depth + lift (decision 0047): wet ⇔ > 0. Dry vertices stay
 // negative until fragment interpolation; the fragment's buried guard and the
@@ -811,7 +849,7 @@ if (esFlowSp > ${FLOW_WAVE_MIN_GLSL}) {
   vec2 esSlope = esW.normal.xz / max(esW.normal.y, 1e-3) + (esFlowN.xz / max(esFlowN.y, 1e-3)) * esFlowFade;
   esW.normal = normalize(vec3(esSlope.x, 1.0, esSlope.y));
 }`}
-vEsSurf = vec3(esFetch, esShoreDir);
+vEsSurf = vec4(esFetch, esShoreDir, esSurfE);
 vEsData = vec4(esStill, esVDepth, esExposure, esShore);
 vEsKlass = vec4(esKl.g, esKl.b, esSS.z, esKl.r * 255.0);   // turbidity, salinity, tannin, class
 // surface drop along the current → cascades/rapids where water descends
@@ -1015,6 +1053,21 @@ float esStreak = esWhitewater(esStripU, vEsStrip.y, uTransportTime, esStripGain(
 float esWhite = clamp(esAer * (0.35 + 0.65 * esStreak), 0.0, 1.0);
 // below the slope x speed threshold the film stays clear (no white streaks)
 esWhite *= mix(0.15, 1.0, esBlend);
+// The player and the floating bodies churn a steep stream too. The contact
+// rings and the ripple-sim crest reach the FIELD fragment only (they are
+// added into esFoamE there), and this branch replaces that block wholesale,
+// so wading into a chute showed nothing at all (owner 2026-09-14:
+// "interaction effects between player and these kinds of sloped water also
+// don't seem to be working (no effects at all)"). Both terms are already in
+// scope: esContactFoam is in the shared prelude and esRipCrest in the shared
+// normal block, which the ribbon's normal already uses. Added AFTER the
+// slope/speed gate so a slow clear film still shows a wake.
+// ...and the flow's own churn: a bow wave on the upstream face of anything
+// standing in the torrent and a wake tearing away downstream, so a player who
+// is standing STILL in fast water still has water rushing off them.
+vec2 esRushDir = vEsFlow.xy / max(esSpeed, 1e-3);
+float esRush = esContactRush(vEsWorldPos.xz, esRushDir, esSpeed);
+esWhite = clamp(esWhite + (esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5 + esRush) * (1.0 - esWhite), 0.0, 1.0);
 // clear / tannin tint only — NEVER the silt-tan river albedo, no Beer–Lambert
 // brown (TS twin: stripAlbedo)
 vec3 esAlbClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), esSal);
@@ -1084,8 +1137,10 @@ float esFoamE;
 // move together; per-pixel phase jitter breaks the parallel-band look
 {
   float bn = esFbm(vEsWorldPos.xz * 0.16, 3);
-  float esSurfWindF = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
-  esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, esSurfWindF) * 0.85;
+  // the vertex stage's energy and shore frame (vEsSurf.w, .yz): foam and
+  // geometry share one knob and one oblique phase
+  esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, vEsSurf.w,
+    esAlongPhase(vEsWorldPos.xz, vEsSurf.yz, uWaveTime)) * 0.85;
 }
 // 3. whitecaps on genuinely exposed water, never in the far shimmer zone
 // The mesh crest alone thins out with vertex LOD, so whitecaps vanish at
@@ -1111,6 +1166,10 @@ esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD
 esFoamE += esCascade * 0.55;
 // 5. player/crate/splash rings + sim crests + plunge pools
 esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;
+// a flowing river churns around a wader the same way a chute does (the strip
+// variant carries the twin of this line)
+if (esSpeed > ${RUSH.speedFromMS.toFixed(2)})
+  esFoamE += esContactRush(vEsWorldPos.xz, vEsFlow.xy / max(esSpeed, 1e-3), esSpeed);
 esFoamE += esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy);
 // 5b. shoreline depth-range froth (study §4 (2)): a wider, lower,
 // noise-broken band over ~1.8 m of vertical depth behind the contact line

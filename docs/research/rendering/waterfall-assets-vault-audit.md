@@ -24,6 +24,12 @@ sheet (the quoted 66 m box includes its spray fan).
 
 ## 1. Verdict up front
 
+- **Ruling (decision [0064](../../decisions/0064-waterfalls-are-the-vanilla-kit.md),
+  2026-09-14): these meshes ARE the runtime waterfall.** The kit is built and
+  shipped as `apps/world-studio/public/kits/waterfall-fx-v1.glb` (+ `.kit.json`)
+  and stacked by `game-core/src/water/render/WaterfallKit*.ts` per §5/§7;
+  §7(a)'s "procedural sheet (recommended)" and §6's "not committed" are
+  superseded by that decision.
 - **The whole vanilla waterfall kit is present, complete, and converts
   cleanly.** 26/26 assets exported, 31 textures resolved, 0 missing, 0
   substituted. Geometry, UVs and texture bindings all survive.
@@ -281,8 +287,12 @@ Kit config: kept out of the repo (decision 0047 addendum: the meshes are never m
 capped at 512 px), contact sheet at `output/sheets/waterfall-fx-v1/`
 (26 PNGs + `sheet.md`, each with a 1.8 m human bar).
 
-**Not committed** — it is an audit artefact. Rebuild with the driver used here
-if it is wanted again (see the "registry" caveat below).
+**Committed since 0064** (2026-09-14): config
+`tooling/asset-pipeline/pipeline/config/kits/waterfall-fx-v1.json`, output
+`apps/world-studio/public/kits/waterfall-fx-v1.glb` (geometry + UVs, texture
+stubs at 16 px; the real textures are the PNG kit), placement policy
+`water-zero`. The registry caveat (item 5 below) is closed by
+`asset_taxonomy.CONTENT_EFFECT_PREFIXES`.
 
 What survives:
 
@@ -335,7 +345,7 @@ options:
   Needs: a per-fall count = ceil(drop / (0.66 × pieceHeight)), a lateral count
   = ceil(width / (0.5 × pieceWidth)), a per-instance UV phase offset so the
   copies do not scroll in lockstep, and per-instance yaw following the path.
-- *Procedural sheet* (recommended): generate one ribbon along the traced
+- *Procedural sheet* (was recommended here; **rejected by 0064**): generate one ribbon along the traced
   ballistic path, width from the compiled width, and use only the **textures**
   (`FXfluidTile01` + `FXfluidSub01` + `GradWhiteWater`) and the §4 rates. This
   is what waterfalls-realtime §1 says everyone ships, it removes the uniform-

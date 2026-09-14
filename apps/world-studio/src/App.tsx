@@ -16,7 +16,7 @@ import { encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/r
 // flyover never need (2026-09-13).
 const CharacterMode = lazy(() => import("./character/CharacterMode").then((m) => ({ default: m.CharacterMode })));
 import { colour } from "./terrainColor";
-import { buildHydrographIndex, describeHydrograph, type HydrographIndex, type TipSection } from "./map/hydrographIndex";
+import { buildHydrographIndex, describeHydrograph, type EntitySource, type HydrographIndex, type TipSection } from "./map/hydrographIndex";
 import { decodeProvinceHeights, loadProvinceMeta, type ProvinceMapMeta } from "./map/provinceMap";
 import { TimePanel } from "./sky/TimePanel";
 import {
@@ -148,17 +148,16 @@ export function App() {
   // Ground-material set (?mats=): A/B palette comparison + instant revert.
   const [matSet, setMatSet] = useState<string>(urlParams.get("mats") || "");
   const [matSets, setMatSets] = useState<Record<string, { label: string }>>({});
-  // Water season (round 2): "auto" follows the CALENDAR season scalar —
-  // the shipped behaviour; water rises toward flood peak and draws down in
-  // the dry months (§36, asymmetric response in game-core tide.ts). Wet/dry
-  // pin s = ±1 for preview (?wet=1 / ?wet=-1).
+  // Water season: "auto" follows the CALENDAR season scalar — the shipped
+  // behaviour. The compiled level IS the wet season's line and the dry
+  // months only draw down from it (decision 0063, game-core tide.ts).
+  // Wet/dry pin s = ±1 for preview (?wet=1 / ?wet=-1).
   const [wetSeason, setWetSeason] = useState<"auto" | "wet" | "dry">(
     urlParams.get("wet") === "1" ? "wet" : urlParams.get("wet") === "-1" ? "dry" : "auto",
   );
   useEffect(() => {
     setWetSeasonOverride(wetSeason === "wet" ? 1 : wetSeason === "dry" ? -1 : null);
   }, [wetSeason]);
-  const [wetAmplitude, setWetAmplitude] = useState(1.4);
   // Live tuning knobs (owner): climate-tint strength; boat-lane overlay.
   const [tintStrength, setTintStrength] = useState(Number(urlParams.get("tint") ?? 1));
   const [showLanes, setShowLanes] = useState(urlParams.get("lanes") !== "0");
@@ -254,12 +253,6 @@ export function App() {
   }, [gotoSite]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}province/refined/flood-states.json`)
-      .then((r) => r.json())
-      .then((j) => setWetAmplitude(j.basins?.[0]?.seasonalAmplitudeM ?? 1.4))
-      .catch(() => {});
-  }, []);
-  useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}textures/ground/index.json`)
       .then((r) => r.json())
       .then((j) => { setMatSets(j.sets); if (!urlParams.get("mats")) setMatSet(j.default); })
@@ -273,9 +266,13 @@ export function App() {
   // river/wetland rasters and the old route and waterway networks (16e
   // re-authors them) are off until asked for: `?layer=a,b` turns overlays
   // on by name, `?layer=legacy` turns the old rasters on and the graph off.
+  // `?layer=none` turns every overlay off. The default-on set is never
+  // written back into the URL (owner 2026-09-14: every reload was growing a
+  // `layer=hydrograph-…` it had not been given); only a set that differs
+  // from the default is.
   const layerParam = (urlParams.get("layer") ?? "").split(",").map((v) => v.trim()).filter(Boolean);
   const legacyOn = layerParam.includes("legacy");
-  const hydrographOn = !legacyOn || layerParam.includes("hydrograph");
+  const hydrographOn = (!legacyOn && !layerParam.includes("none")) || layerParam.includes("hydrograph");
   const [layers, setLayers] = useState<Record<string, boolean>>(() => {
     const base: Record<string, boolean> = {
       rivers: legacyOn, wetlands: legacyOn, routes: legacyOn, waterways: legacyOn, rootways: false,
@@ -292,8 +289,9 @@ export function App() {
     if (urlParams.get("waterDataset") === "preview") q.set("waterDataset", "preview");
     if (urlParams.has("wq")) q.set("wq", urlParams.get("wq")!);
     if (urlParams.get("hud") === "0") q.set("hud", "0");
-    const onLayers = Object.keys(layers).filter((k) => k.startsWith("hydrograph-") && layers[k]);
-    if (onLayers.length) q.set("layer", onLayers.join(","));
+    const onLayers = Object.keys(layers).filter((k) => k.startsWith("hydrograph-") && layers[k]).sort();
+    const defaultOn = ["hydrograph-bodies", "hydrograph-falls", "hydrograph-rivers"];
+    if (onLayers.join(",") !== defaultOn.join(",")) q.set("layer", onLayers.length ? onLayers.join(",") : "none");
     if (urlParams.get("markers") === "0") q.set("markers", "0");
     if (view === "fly3d") {
       q.set("view", "fly3d");
@@ -428,7 +426,37 @@ export function App() {
           for (const [name, legend] of Object.entries(hg.legends ?? {})) collected[name] = legend as typeof collected[string];
           setLayerAbout(hg.layers ?? {});
           const graph = await (await fetch(`${base}province/hydrology-graph.json`)).json();
-          hydroIndexRef.current = buildHydrographIndex(graph, m.imageWidth, m.imageHeight);
+          // The compiled water's own record of what stands where (decision 0066:
+          // read the signed record, never re-solve it). Missing rasters just mean
+          // the map falls back to the graph bboxes.
+          let entitySource: EntitySource | undefined;
+          try {
+            const wMeta = await (await fetch(`${base}province/water/water-meta.json`)).json();
+            const ids = new Image();
+            ids.src = `${base}province/water/water-id.png`;
+            await ids.decode();
+            const size: number = wMeta.surface.size;
+            const idCanvas = document.createElement("canvas");
+            idCanvas.width = size; idCanvas.height = size;
+            const idCtx = idCanvas.getContext("2d", { willReadFrequently: true })!;
+            idCtx.drawImage(ids, 0, 0);
+            const idPx = idCtx.getImageData(0, 0, size, size).data;
+            const mppW: number = wMeta.surface.metresPerPixel;
+            const rows: { id: string }[] = wMeta.entities ?? [];
+            entitySource = {
+              labelAt(eastM, southM) {
+                // registration: texel i = world (i + 0.5) * metresPerPixel
+                const ex = Math.floor(eastM / mppW), sy = Math.floor(southM / mppW);
+                if (ex < 0 || sy < 0 || ex >= size || sy >= size) return null;
+                const i = (sy * size + ex) * 4;
+                const label = idPx[i] * 256 + idPx[i + 1];
+                return label === 0 ? null : rows[label - 1]?.id ?? null;
+              },
+            };
+          } catch {
+            console.warn("[map] compiled water id raster unavailable; hover falls back to graph bounding boxes");
+          }
+          hydroIndexRef.current = buildHydrographIndex(graph, m.imageWidth, m.imageHeight, entitySource);
           decode("hydrograph-bodies");
           decode("hydrograph-falls");
           decode("hydrograph-wetline");
@@ -589,7 +617,8 @@ export function App() {
       if (wetAlpha > 0) here.push(["wet season", "inside the high-water extent"]);
       const reach = hi.reachAt(x, y);
       const body = hi.bodyAt(x, y, bodyAlpha, hgt);
-      sections.push(...describeHydrograph(hi, reach, body));
+      const entityId = hi.entityIdAt(x, y);
+      sections.push(...describeHydrograph(hi, reach, body, entityId === null));
       if (fallsAlpha > 0 && !reach?.fall) sections.push({ title: "Marker", rows: [["what", "a waterfall or plunge pool (see the legend)"]] });
     }
     setReadout(`${here[0][1]} · elevation ${hgt.toFixed(1)} m${region ? ` · ${region}` : ""}`);
@@ -729,8 +758,8 @@ export function App() {
         <label>water{" "}
           <select value={wetSeason} onChange={(e) => setWetSeason(e.target.value as "auto" | "wet" | "dry")}>
             <option value="auto">season: auto (calendar)</option>
-            <option value="wet">season: wet (+{wetAmplitude} m)</option>
-            <option value="dry">season: dry (drawdown)</option>
+            <option value="wet">season: wet (the map's line)</option>
+            <option value="dry">season: dry (draw-down)</option>
           </select>
         </label>
         <label>tint ×{tintStrength.toFixed(1)}{" "}
