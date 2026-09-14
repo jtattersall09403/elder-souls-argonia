@@ -90,6 +90,42 @@ export interface AirSpecies {
    * and pollen this is most of their visibility, and it is what makes them
    * show in a shaft of light and near-vanish elsewhere. */
   backlight: number;
+  /** Over standing water the band's FLOOR is the water surface plus this
+   * (metres), never the ground under it (owner 2026-09-13, Phase 16c): a
+   * midge column over a 2 m pond hovers a hand above the water, not 2 m up.
+   * The species spreads from that floor up through `hoverBandM`. Omitted:
+   * the ground bounds the band (the terrain's own depth buffer). */
+  hoverAboveWaterM?: number;
+  hoverBandM?: number;
+}
+
+/** The compiled water surface the air layer reads (the province rasters the
+ * water runtime already holds): the still-water texture and its decode. */
+export interface AirWaterSurface {
+  /** RGBA8 of water-surface.png: R,G = 16-bit W, B = signed depth. */
+  texture: THREE.Texture;
+  size: number;
+  metresPerPixel: number;
+  minM: number;
+  spanM: number;
+  depthMinM: number;
+  depthSpanM: number;
+  /** Signed depth at or below which the texel is dry ground (no floor). */
+  buriedM: number;
+  /** Tide + season lift (m) near the camera this frame (≤ 0 since 16c). */
+  liftM: () => number;
+}
+
+/**
+ * The floor a particle over water hovers from: the water surface (still
+ * level plus the lift) plus the species' hover height, or null where there
+ * is no water under it (dry ground: the terrain bounds the band). CPU twin
+ * of the vertex stage's `esAirFloor`; `bandFrac` (0..1, per particle) spreads
+ * the swarm up through the hover band so it never sits on one plane.
+ */
+export function airHoverFloorY(species: AirSpecies, waterSurfaceY: number | null, bandFrac: number): number | null {
+  if (species.hoverAboveWaterM === undefined || waterSurfaceY === null) return null;
+  return waterSurfaceY + species.hoverAboveWaterM + Math.min(Math.max(bandFrac, 0), 1) * (species.hoverBandM ?? 0);
 }
 
 const VERTEX = /* glsl */ `
@@ -115,9 +151,27 @@ uniform float uAmount;
 uniform vec3 uSunDir;
 uniform float uBacklight;
 uniform float uVisibility;
+// The compiled water surface (Phase 16c): W16 in RG, signed depth in B.
+uniform sampler2D uAirWaterTex;
+uniform vec4 uAirWaterInfo;    // size, metresPerPixel, minM, spanM
+uniform vec4 uAirWaterDepth;   // depthMinM, depthSpanM, buriedM, enabled (0/1)
+uniform vec3 uAirHover;        // hover above water (m), hover band (m), lift (m)
 
 varying float vAlpha;
 varying float vBacklit;
+
+// KEEP IN LOCKSTEP with airHoverFloorY(): the floor over water, or a huge
+// negative where the texel under the particle is dry ground.
+float esAirFloor(vec2 xz, float bandFrac) {
+  if (uAirWaterDepth.w < 0.5) return -1.0e9;
+  vec2 f = clamp(xz / uAirWaterInfo.y - 0.5, vec2(0.0), vec2(uAirWaterInfo.x - 1.001));
+  ivec2 i = ivec2(f + 0.5);
+  vec4 t = texelFetch(uAirWaterTex, i, 0);
+  float w = uAirWaterInfo.z + ((t.r * 255.0 * 256.0 + t.g * 255.0) / 65535.0) * uAirWaterInfo.w;
+  float depth = t.b * uAirWaterDepth.y + uAirWaterDepth.x + uAirHover.z;
+  if (depth <= max(uAirWaterDepth.z, 0.0)) return -1.0e9;
+  return w + uAirHover.z + uAirHover.x + bandFrac * uAirHover.y;
+}
 
 // Cheap value noise, for the world-anchored density patches. Dave Hoskins'
 // hash12 rather than fract(sin(dot(p, big))): it never feeds sin() a large
@@ -161,6 +215,9 @@ void main() {
   vec3 rel = pos - centre;
   rel = mod(rel + uBox, uBox * 2.0) - uBox;
   vec3 world = centre + rel;
+  // over standing water the band's floor is the WATER SURFACE, never the
+  // ground under it (Phase 16c): a species with a hover height rises to it
+  world.y = max(world.y, esAirFloor(world.xz, aSeed.y));
 
   vec3 edge = 1.0 - smoothstep(vec3(0.62), vec3(1.0), abs(rel) / uBox);
   float fade = edge.x * edge.y * edge.z;
@@ -326,6 +383,10 @@ export class AirSwarm {
         uBacklight: { value: species.backlight },
         uBacklitGain: { value: species.backlight },
         uVisibility: { value: 1200 },
+        uAirWaterTex: { value: null },
+        uAirWaterInfo: { value: new THREE.Vector4(1, 1, 0, 1) },
+        uAirWaterDepth: { value: new THREE.Vector4(0, 1, -2.5, 0) },
+        uAirHover: { value: new THREE.Vector3(species.hoverAboveWaterM ?? 0, species.hoverBandM ?? 0, 0) },
         // Scene-linear radiance, written every frame by update().
         uCore: { value: new THREE.Color(0, 0, 0) },
         uHalo: { value: new THREE.Color(0, 0, 0) },
@@ -352,6 +413,21 @@ export class AirSwarm {
     this.points.layers.set(PRECIP_LAYER);
     this.points.name = `air:${species.id}`;
     this.points.visible = false;
+  }
+
+  /** Bind (or clear) the compiled water surface this swarm hovers over. Only
+   * a species with a hover height reads it; the others keep the ground. */
+  setWater(water: AirWaterSurface | null): void {
+    const u = this.material.uniforms;
+    const on = water !== null && this.species.hoverAboveWaterM !== undefined;
+    (u.uAirWaterTex as { value: THREE.Texture | null }).value = on ? water!.texture : null;
+    if (on) {
+      (u.uAirWaterInfo.value as THREE.Vector4).set(water!.size, water!.metresPerPixel, water!.minM, water!.spanM);
+      (u.uAirWaterDepth.value as THREE.Vector4).set(water!.depthMinM, water!.depthSpanM, water!.buriedM, 1);
+      (u.uAirHover.value as THREE.Vector3).z = water!.liftM();
+    } else {
+      (u.uAirWaterDepth.value as THREE.Vector4).w = 0;
+    }
   }
 
   /**
@@ -557,6 +633,9 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     nearClipM: 3.5,
     patchM: 22,
     backlight: 10,
+    // over water the column hovers a hand above the surface (16c)
+    hoverAboveWaterM: 0.3,
+    hoverBandM: 1.5,
   },
 
   /**
@@ -595,6 +674,9 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
     nearClipM: 9.0,
     patchM: 40,
     backlight: 9,
+    // hunting height: half a metre over the water, up to two above it
+    hoverAboveWaterM: 0.5,
+    hoverBandM: 1.5,
   },
 
   /** Leaf fall under the canopy. Slow, heavy, wind-carried. */

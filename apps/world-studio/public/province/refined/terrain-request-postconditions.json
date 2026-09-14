@@ -1,16 +1,16 @@
 {
   "artifactSha256": {
-    "fulfillment": "4a97bfd31a9ca66dfce67d69fbf0a2df5e97d17366e5024f79dcd09e0d0aac8a",
-    "height": "2ba19c1174eb28a2cd0ae3db737fbee2aaa81d4f1e653ca291b9d54f515f435f",
-    "plan": "7fdfd8a30c9661fcaaddc856effedeb038e98f1e721377f8f8be3a2aec35ad5f",
-    "water": "3788f2945e5855f9deaf2053f85f2fd894c32ab3943a643c46dbb026faf4abd3"
+    "fulfillment": "26a6be8943a03d33786b08c7595899cdd0fb5e564928d402d3dd691f3b5e2dd4",
+    "height": "65df8bb69cbcc8a8103b2f641466b03c1e8e0558641a3c0e9160c24aa10fddde",
+    "plan": "dc5a29df45f14e34ec2ea2c46b97118a0fc8b9b7256ee0cf522a131dc61ab711",
+    "water": "90c24046c8d7d5353f496c6eeef1aebb56626fc4ea14b2d73de6d6c09a1ae19c"
   },
-  "finalHeightSha256": "04b6e344b785936b5f46682ef13578513b3e44a43cad48fd17bd04167b82fe9a",
+  "finalHeightSha256": "b7b57531db8b15ea5562f06f93b87f5d568d516c2234d68aa753cfc96be1d53d",
   "globalFindings": [
     {
       "detail": "postcondition report binds the exact final terrain raster",
       "field": "finalHeightSha256",
-      "measured": "04b6e344b785936b5f46682ef13578513b3e44a43cad48fd17bd04167b82fe9a",
+      "measured": "b7b57531db8b15ea5562f06f93b87f5d568d516c2234d68aa753cfc96be1d53d",
       "status": "pass"
     },
     {
@@ -20,8 +20,8 @@
     }
   ],
   "kind": "terrain-request-postconditions",
-  "planDigest": "94e2b6fbe35e27777ebdc8e0e20b5e1066774eb060d78a2dae1e93d371630ef1",
-  "reportDigest": "53e1badf1c2e3bfb162a5148916ee6f1bbee74ab751cc9e7053a9a3151ca4cd2",
+  "planDigest": "64c53ab97c0c16660d3f7f11fb9221c50e5fe867d5372fdbc381c2cd84cb37b0",
+  "reportDigest": "ef9898e1f348fdde5607750bba223637626f6970d4769838dbd1c4ffa183276d",
   "requests": [
     {
       "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",
@@ -43,8 +43,8 @@
             "operations": [
               {
                 "axis": [
-                  0.847314318,
-                  0.53109175
+                  0.89400806,
+                  0.448050878
                 ],
                 "axisSource": "nearest-water-path",
                 "operationId": "terrain-op.dunmer-north.the-divers-landing.pool.402e185fccef",
@@ -62,8 +62,8 @@
             "operations": [
               {
                 "axis": [
-                  0.847314318,
-                  0.53109175
+                  0.89400806,
+                  0.448050878
                 ],
                 "axisSource": "nearest-water-path",
                 "operationId": "terrain-op.dunmer-north.the-divers-landing.pool.402e185fccef",
@@ -114,8 +114,8 @@
             "operations": [
               {
                 "axis": [
-                  0.993589191,
-                  -0.113050958
+                  0.990437119,
+                  -0.1379649
                 ],
                 "axisSource": "authored-downslope",
                 "operationId": "terrain-op.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1",
@@ -146,14 +146,65 @@
       "status": "fail"
     },
     {
+      "deliverySha256": "cb07029d13bba0f39d2380c25de8fc6b06675eb6be3b1458d191dcc0fd8484d8",
+      "findings": [
+        {
+          "detail": "at least 80% of witnesses and median signed signal must retain >= 20% of the operation",
+          "field": "terrainSurvival",
+          "measured": {
+            "medianSignedRatio": 1.0,
+            "retainedFraction": 1.0,
+            "witnessSamples": 64
+          },
+          "status": "pass"
+        },
+        {
+          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
+          "field": "access",
+          "measured": {
+            "operations": [
+              {
+                "axis": [
+                  -0.999362854,
+                  -0.035691531
+                ],
+                "axisSource": "nearest-water-path",
+                "operationId": "terrain-op.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+                "profile": "channel-link"
+              }
+            ],
+            "value": "boat-landing"
+          },
+          "status": "pass"
+        },
+        {
+          "detail": "feature identity is bound to the kind-specific profile and surviving witnesses",
+          "field": "feature",
+          "measured": "channel-arm",
+          "status": "pass"
+        },
+        {
+          "detail": "channel-linked requires a final labelled wet channel in support",
+          "field": "waterRelation",
+          "measured": {
+            "wetChannelSamples": 0
+          },
+          "status": "fail"
+        }
+      ],
+      "placeId": "place.dunmer-north.the-two-hundred-roofs",
+      "requestId": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+      "status": "fail"
+    },
+    {
       "deliverySha256": "feeca3d7e62541698791c08b1fa3216b4a302587fbeb249d85bb9d7f90482117",
       "findings": [
         {
           "detail": "at least 80% of witnesses and median signed signal must retain >= 20% of the operation",
           "field": "terrainSurvival",
           "measured": {
-            "medianSignedRatio": 0.902,
-            "retainedFraction": 0.938,
+            "medianSignedRatio": 1.0,
+            "retainedFraction": 1.0,
             "witnessSamples": 64
           },
           "status": "pass"
@@ -178,61 +229,7 @@
       "status": "fail"
     },
     {
-      "deliverySha256": "116db0e08e72836b91b413bcd5909e853b8972a9533ca83726307b894b4ace72",
-      "findings": [
-        {
-          "detail": "at least 80% of witnesses and median signed signal must retain >= 20% of the operation",
-          "field": "terrainSurvival",
-          "measured": {
-            "medianSignedRatio": 0.669,
-            "retainedFraction": 0.734,
-            "witnessSamples": 64
-          },
-          "status": "fail"
-        },
-        {
-          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
-          "field": "access",
-          "measured": {
-            "operations": [
-              {
-                "axis": [
-                  0.43831147,
-                  0.89882315
-                ],
-                "axisSource": "local-flow",
-                "operationId": "terrain-op.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
-                "profile": "paired-channel-banks"
-              }
-            ],
-            "value": "poling"
-          },
-          "status": "fail"
-        },
-        {
-          "detail": "feature identity is bound to the kind-specific profile and surviving witnesses",
-          "field": "feature",
-          "measured": "double-bend-ferry-narrows",
-          "status": "fail"
-        },
-        {
-          "detail": "final current must satisfy 'slack'",
-          "field": "current",
-          "measured": {
-            "classes": [
-              "lake"
-            ],
-            "medianSpeedMS": 0.0
-          },
-          "status": "pass"
-        }
-      ],
-      "placeId": "place.imperial-fringe.onkobra-ferry",
-      "requestId": "terrain-request.imperial-fringe.onkobra-ferry.narrows.72acb2cb0ca5",
-      "status": "fail"
-    },
-    {
-      "deliverySha256": "80521f41a6ff5ce0be8260c65e09e630b0ad9184d0b4c14d6662fe024b9146d0",
+      "deliverySha256": "d70e87bdf154b1c8101a44e978ac7974626b2f917e02e875873a77e05b73e445",
       "findings": [
         {
           "detail": "at least 80% of witnesses and median signed signal must retain >= 20% of the operation",
@@ -246,101 +243,32 @@
         },
         {
           "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
-          "field": "bank",
-          "measured": {
-            "operations": [
-              {
-                "axis": [
-                  1.0,
-                  0.0
-                ],
-                "axisSource": "none",
-                "operationId": "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-                "profile": "radial-basin"
-              }
-            ],
-            "value": "shelving"
-          },
-          "status": "pass"
-        },
-        {
-          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
           "field": "capacity",
           "measured": {
             "operations": [
               {
                 "axis": [
-                  1.0,
-                  0.0
+                  0.677530844,
+                  0.735494361
                 ],
-                "axisSource": "none",
-                "operationId": "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-                "profile": "radial-basin"
+                "axisSource": "local-flow",
+                "operationId": "terrain-op.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d",
+                "profile": "paired-channel-banks"
               }
             ],
-            "value": "punt"
-          },
-          "status": "pass"
-        },
-        {
-          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
-          "field": "featureCount",
-          "measured": {
-            "operations": [
-              {
-                "axis": [
-                  1.0,
-                  0.0
-                ],
-                "axisSource": "none",
-                "operationId": "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-                "profile": "radial-basin"
-              }
-            ],
-            "value": 2
-          },
-          "status": "pass"
-        },
-        {
-          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
-          "field": "sides",
-          "measured": {
-            "operations": [
-              {
-                "axis": [
-                  1.0,
-                  0.0
-                ],
-                "axisSource": "none",
-                "operationId": "terrain-op.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
-                "profile": "radial-basin"
-              }
-            ],
-            "value": 2
+            "value": "sea-going-hull"
           },
           "status": "pass"
         },
         {
           "detail": "feature identity is bound to the kind-specific profile and surviving witnesses",
           "field": "feature",
-          "measured": "double-bend-ferry-pool",
-          "status": "pass"
-        },
-        {
-          "detail": "final current must satisfy 'slack'",
-          "field": "current",
-          "measured": {
-            "classes": [
-              "lake",
-              "marsh"
-            ],
-            "medianSpeedMS": 0.0
-          },
+          "measured": "river-choke",
           "status": "pass"
         }
       ],
-      "placeId": "place.imperial-fringe.onkobra-ferry",
-      "requestId": "terrain-request.imperial-fringe.onkobra-ferry.pool.5dc29c25d096",
+      "placeId": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
+      "requestId": "terrain-request.imperial-fringe.keepers-lodge-of-the-lower-onkobra.narrows.0c48a22fc92d",
       "status": "pass"
     },
     {
@@ -432,8 +360,8 @@
             "operations": [
               {
                 "axis": [
-                  0.952920048,
-                  -0.303221673
+                  0.952529282,
+                  -0.304446984
                 ],
                 "axisSource": "local-gradient",
                 "operationId": "terrain-op.imperial-fringe.the-two-lamps-hermitage.elevated-cliff-bench.da6758f57db7",
@@ -454,7 +382,7 @@
           "detail": "centre-to-support-minimum relief must be >= 40.00 m",
           "field": "heightM",
           "measured": {
-            "relativeHeightM": 53.521
+            "relativeHeightM": 53.93
           },
           "status": "pass"
         }
@@ -464,7 +392,7 @@
       "status": "pass"
     },
     {
-      "deliverySha256": "144eeee8461df6d7135397874d36b73ec5958c093b6ccfd2ad05a75a6c9540d7",
+      "deliverySha256": "4dc5120d953a6e22054771ce0212bb0149e99ea38cc9b7b6fca42edff97f87cf",
       "findings": [
         {
           "detail": "at least 80% of witnesses and median signed signal must retain >= 20% of the operation",
@@ -477,27 +405,54 @@
           "status": "pass"
         },
         {
-          "detail": "feature identity is bound to the kind-specific profile and surviving witnesses",
-          "field": "feature",
-          "measured": "low-xanmeer-knoll",
+          "detail": "typed value is bound to resolved operation geometry and surviving terrain witnesses",
+          "field": "capacity",
+          "measured": {
+            "operations": [
+              {
+                "axis": [
+                  -0.49259822,
+                  0.870256855
+                ],
+                "axisSource": "nearest-water-path",
+                "operationId": "terrain-op.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
+                "profile": "channel-link"
+              }
+            ],
+            "value": "sea-going-hull"
+          },
           "status": "pass"
         },
         {
-          "detail": "low rise must sit 0..5.0 m above support median",
-          "field": "heightClass",
-          "measured": {
-            "relativeHeightM": 2.985
-          },
+          "detail": "feature identity is bound to the kind-specific profile and surviving witnesses",
+          "field": "feature",
+          "measured": "screened-hull-creek",
           "status": "pass"
+        },
+        {
+          "detail": "maximum wet depth must be >= 2.00 m",
+          "field": "depthM",
+          "measured": {
+            "maxDepthM": 0.0
+          },
+          "status": "fail"
+        },
+        {
+          "detail": "channel-linked requires a final labelled wet channel in support",
+          "field": "waterRelation",
+          "measured": {
+            "wetChannelSamples": 0
+          },
+          "status": "fail"
         }
       ],
-      "placeId": "place.mercantile-coast.sealed-meer-murkmire",
-      "requestId": "terrain-request.mercantile-coast.sealed-meer-murkmire.knoll.b436ffaaa94e",
-      "status": "pass"
+      "placeId": "place.pirate-freeholds.chasecreek",
+      "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
+      "status": "fail"
     }
   ],
   "schemaVersion": 1,
-  "sourceDigest": "493a1803ec7731c64ad98f7bea3a4beec5bc2ce3e934a33d42047fc9007f09c7",
+  "sourceDigest": "94dc09488ed74392297d9b7fcd397a856a57a9258789a2bf85b18be967564009",
   "status": "fail",
   "thresholdsSha256": "6c341a70713e0417d5395a209524ad6975dec93aa8ef2b2d683e486ca1870a80"
 }

@@ -10,11 +10,16 @@
  * TS twin ↔ `HORIZON_BLEND_GLSL`. Edit both or neither.
  */
 export const HORIZON = {
-  startM: 1500,
-  endM: 3500,
-  /** Never a full replacement: the last few percent keep the swell's
-   * specular alive on the horizon line. */
-  maxBlend: 0.92,
+  /** From here the far sea starts to take the sky's colour… (audit
+   * root cause 3: at 1.5 km / 92 % the blend erased the sea from the
+   * flyover; the swell must read all the way out) */
+  startM: 4000,
+  /** …reaching `maxBlend` here. The walk-mode grid must extend at least
+   * this far (WaterSurface `farExtentM`), or the sea ends mid-blend. */
+  endM: 12000,
+  /** Never a full replacement: the swell's specular and its shading stay
+   * alive on the horizon line. */
+  maxBlend: 0.6,
 } as const;
 
 export function horizonBlendWeight(distM: number): number {

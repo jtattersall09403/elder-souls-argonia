@@ -372,7 +372,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             <StudioWater
               base={import.meta.env.BASE_URL}
               verticalScale={verticalScale}
-              farExtentM={3000}
+              farExtentM={12000}
               surfaceFocus={waterSurfaceFocus}
             />
           )}

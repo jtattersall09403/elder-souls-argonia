@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useRef } from "react";
+import { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
@@ -31,6 +31,9 @@ import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
+import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
+import { buriedThresholdM } from "@elder-souls/game-core/water/index";
+import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import { sunShaftIntensity } from "@elder-souls/game-core/air/sunShafts";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
@@ -937,6 +940,23 @@ void main() {
   );
   const moonRefs = useRef<(THREE.Mesh | null)[]>([]);
   const airRef = useRef<AmbientAirConditions | null>(null);
+  // The compiled water surface, so the over-water species hover from the
+  // water, never the bed under it (Phase 16c): the same rasters the water
+  // runtime holds, bound once the assets are decoded.
+  const [airWater, setAirWater] = useState<AirWaterSurface | null>(null);
+  useEffect(() => {
+    let alive = true;
+    sharedWaterAssets(base).then((a) => {
+      if (!alive) return;
+      const m = a.meta.surface;
+      setAirWater({
+        texture: a.surfaceTex, size: m.size, metresPerPixel: m.metresPerPixel, minM: m.minM, spanM: m.maxM - m.minM,
+        depthMinM: m.depthMinM ?? 0, depthSpanM: m.depthSpanM ?? 25.5, buriedM: buriedThresholdM(a.meta),
+        liftM: () => { const o = a.world.levelOffsets(worldClock.epochMinutes()); return o.season * 0.2 + o.tide * 0.5; },
+      });
+    }).catch(() => setAirWater(null));
+    return () => { alive = false; };
+  }, [base]);
   // Probe surfaces for the air layer, so its behaviour can be READ rather
   // than judged by eye (module 85: agents read measurements).
   const lastAirAmounts = useRef<Record<string, number>>({});
@@ -1456,7 +1476,7 @@ void main() {
           keyed on, and both canvases wrap their world in it. Conditions go
           by ref — they change every frame, and props would re-render the
           React tree at frame rate. */}
-      <AmbientAir conditions={airRef} />
+      <AmbientAir conditions={airRef} water={airWater} />
       {children}
     </SkyContext.Provider>
   );

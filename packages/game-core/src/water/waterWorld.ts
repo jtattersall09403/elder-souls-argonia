@@ -11,7 +11,7 @@ import { WaterInteractionStream } from "./interactionStream";
 import { WaterDisplacementRegistry } from "./displacementRegistry";
 import type { LocalWaterPatch } from "./LocalWaterPatch";
 import type { WaterData } from "./waterData";
-import { FLOW_WAVE_MIN_SPEED_MS, fetchExposure, flowWaveAt, getWindWaveScale, shoreSwellAt, standingWaveRatio,
+import { FLOW_WAVE_MIN_SPEED_MS, fetchExposure, flowWaveAt, seaRmsHeightM, shoreSwellAt, standingWaveRatio,
   surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
 
 export interface WaterWorldOptions {
@@ -28,6 +28,10 @@ export interface WaterWorldOptions {
    * the renderer's uWaveTime uses, keeping buoyancy and pixels in lockstep.
    * Defaults to world-clock seconds. */
   waveTimeS?: () => number;
+  /** The weather's 10 m wind speed (m/s): sets the sea's energy with the
+   * compiled fetch (`seaRmsHeightM`); the renderer reads the same value into
+   * `uWindMS`, so the swell you float on is the swell you see. */
+  windSpeedMS?: () => number;
 }
 
 const CLASS_TEMPERATURE: Record<string, number> = {
@@ -88,29 +92,22 @@ export class WaterWorld implements WorldWaterQuery {
       };
     }
 
-    const exposure = waveExposure(s.shoreDistM, depth, s.turbidity) * getWindWaveScale();
+    // the sea's energy from the wind and the compiled fetch (ruling 7), the
+    // local exposure on top: the vertex stage's arithmetic, term for term
+    const windMS = this.opts.windSpeedMS?.() ?? 0;
+    const exposure = waveExposure(s.shoreDistM, depth, s.turbidity) * seaRmsHeightM(windMS, s.fetchM);
     const waveTime = this.opts.waveTimeS?.() ?? epochMinutes * 60;
     // per-band fetch limit + class standing ratio: the vertex stage's
     // esWaveSampleEx call, argument for argument
     const w = surfaceWaveAt(position.x, position.z, waveTime, exposure, this.scratch,
-      s.shoreDistM, standingWaveRatio(s.className, s.shoreDistM));
-    // Shore surf (round 7) — mirrors the vertex shader exactly: fetch is
-    // sampled ~30 m seaward via the shore-distance gradient, then the
-    // asymmetric swash + shoaling swell ride on the still level.
+      s.fetchM, standingWaveRatio(s.className, s.shoreDistM));
+    // Shore surf (round 7) — mirrors the vertex shader exactly: the surf's
+    // energy is the compiled directional fetch at the point (a windward
+    // beach breaks, a lee shore and a pond lap), then the asymmetric swash
+    // + shoaling swell ride on the still level.
     let surf = 0;
     if (s.shoreDistM < 90) {
-      const eG = 8;
-      const dx = this.data.sample(position.x + eG, position.z).shoreDistM - s.shoreDistM;
-      const dz = this.data.sample(position.x, position.z + eG).shoreDistM - s.shoreDistM;
-      const gl = Math.hypot(dx, dz) / eG;
-      let seaward = s.shoreDistM;
-      if (gl > 0.05) {
-        seaward = this.data.sample(
-          position.x + (dx / (gl * eG)) * 30,
-          position.z + (dz / (gl * eG)) * 30,
-        ).shoreDistM;
-      }
-      const fetch = fetchExposure(Math.max(seaward, s.shoreDistM), s.turbidity);
+      const fetch = fetchExposure(s.fetchM, s.turbidity);
       surf = swashAt(s.shoreDistM, fetch, waveTime)
         + shoreSwellAt(s.shoreDistM, Math.max(s.depthProxy, 0), fetch, waveTime);
     }
@@ -132,7 +129,9 @@ export class WaterWorld implements WorldWaterQuery {
     }
     const surface = still + w.height + surf + flowH;
     return {
-      waterBodyId: s.className,
+      // the graph's stable id (a body or a reach, decision 0058) where the
+      // id raster names one; the class name otherwise
+      waterBodyId: s.entityId ?? s.className,
       surfaceHeight: surface,
       surfaceNormal: { x: nx, y: ny, z: nz },
       flowVelocity: { x: s.flowX, y: 0, z: s.flowZ },

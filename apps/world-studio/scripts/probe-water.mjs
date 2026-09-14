@@ -1,7 +1,7 @@
 // Water probe (decision 0047 item 8): ONE browser session, ONE page load,
 // against the BUILT
-// studio, served locally, low tier, 480x270, numeric assertions at the owner's
-// key sites (docs/research/archive/water-round-2-2026-09/water-handoff.md § Key sites) plus the
+// studio, served locally, 480x270, numeric assertions at the owner's key
+// sites (docs/phases/16-foundation-and-places/16c-water-once.md § Acceptance) plus the
 // wet/dry season toggles at the marsh. No screenshot is ever read by an agent:
 // every pass/fail comes from `window.__STUDIO_WATER_PROBE__` (the CPU water
 // model: still surface, signed depth + lift, real chunk ground, class, speed)
@@ -36,7 +36,16 @@ const PORT = Number(process.env.WATER_PORT ?? 4323);
 const BASE = `http://127.0.0.1:${PORT}/elder-souls-argonia/studio/`;
 const W = 480;
 const H = 270;
-const COMMON = "ex=1&d=8-17&wq=low&smsize=512&w=clear&lanes=0&markers=0&hud=0";
+// The tier is RECORDED per site, never forced (16c): the owner's machine
+// runs high; `wq=` in a site's own query picks its tier, else the device's.
+const COMMON = "ex=1&d=8-17&smsize=512&w=clear&lanes=0&markers=0&hud=0";
+/** Two frames a second apart over the sea must differ by at least this mean
+ * |dRGB| over the water's own pixels: a static ocean (audit A4) fails. */
+const MOTION_FLOOR = 1.5;
+/** The waterline is one soft edge: along a column crossing it the water's
+ * ownership flips at most this many times (a jagged or dithered shore, audit
+ * A5 mechanism 1, flips many). */
+const EDGE_FLIPS_MAX = 3;
 /** Frames to wait for before judging a site (software GL: a few seconds). */
 const SETTLE_FRAMES = 6;
 const SITE_TIMEOUT_MS = 90_000;
@@ -52,7 +61,13 @@ const TELEPORT_SETTLE_TIMEOUT_MS = 60_000;
 const SITES = [
   { id: "dry-site", q: "view=character&x=4.57&z=3.87&t=10:00", expect: "dry" },
   { id: "lowland-river", q: "view=character&x=1.85&z=4.89&t=12:00", expect: "wet", flowing: true },
-  { id: "bay", q: "view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00", expect: "wet" },
+  { id: "bay", q: "view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00", expect: "wet", motion: true },
+  // the same water on the HIGH tier (the owner's machine; SSR, 10 bands)
+  { id: "bay-high", q: "view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00&wq=high", expect: "wet", tier: "high", motion: true },
+  // the open-coast beach: swell arriving, waves breaking, foam at the edge,
+  // and ONE soft waterline
+  { id: "beach", q: "view=character&x=6.12&z=1.638&t=12:00", expect: "any", motion: true, edge: true },
+  { id: "beach-storm", q: "view=character&x=6.12&z=1.638&t=12:00&w=storm", expect: "any", motion: true },
   // 8 m under the bay: compiles and runs the `below` field/strip variants
   { id: "bay-underwater", q: "view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00&alt=-8", expect: "wet", underwater: true },
   { id: "tarn", q: "view=fly3d&cam=orbit&x=0.38&z=1.44&t=12:00", expect: "wet" },
@@ -447,7 +462,7 @@ try {
     if (dbg) {
       ok(`frames advancing (${dbg.frames} frames, tier ${dbg.tier}, ${dbg.contextLost ? "CONTEXT LOST" : "context ok"})`);
       if (dbg.contextLost) fail("WebGL context lost");
-      if (dbg.tier !== "low") fail(`tier ${dbg.tier} != low`);
+      if (s.tier && dbg.tier !== s.tier) fail(`tier ${dbg.tier} != ${s.tier}`);
       if (s.underwater !== undefined) {
         if (dbg.underwater === s.underwater) ok(`underwater=${dbg.underwater} (camera depth ${dbg.cameraDepthM.toFixed(1)} m)`);
         else fail(`underwater ${dbg.underwater}, expected ${s.underwater}`);
@@ -791,6 +806,52 @@ try {
       const stripsOwn = diff(frames.all, frames["no-strips"]);
       if (stripsOwn > 0.05) ok(`strips change the frame (mean ΔRGB ${stripsOwn.toFixed(2)})`);
       else fail(`hiding the strips changes nothing at the chute (ΔRGB ${stripsOwn.toFixed(2)})`);
+    }
+
+    // ---- motion (audit A4): the sea moves ------------------------------------
+    if (s.motion && dbg) {
+      try {
+        const none = await grab("none");
+        const a = await grab("field,strips,falls,effects");
+        await page.waitForTimeout(1000);
+        const b = await grab("field,strips,falls,effects");
+        await page.evaluate(() => { window.__STUDIO_WATER_LAYERS__ = undefined; });
+        let d = 0, n = 0;
+        for (let i = 0; i < a.length; i += 4) {
+          const own = Math.abs(a[i] - none[i]) + Math.abs(a[i + 1] - none[i + 1]) + Math.abs(a[i + 2] - none[i + 2]);
+          if (own < OWNED_DELTA) continue;
+          d += Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]);
+          n++;
+        }
+        const motion = n ? d / n / 3 : 0;
+        const line = `motion: mean |dRGB| ${motion.toFixed(2)} over ${n} water pixels, two frames 1 s apart`;
+        if (n < 500) fail(`${line} — too few water pixels to judge`);
+        else if (motion >= MOTION_FLOOR) ok(`${line} (>= ${MOTION_FLOOR})`);
+        else fail(`${line} < ${MOTION_FLOOR}: the water is static`);
+        // ---- edge (audit A5): one soft waterline, never a dithered one -----
+        if (s.edge) {
+          let flipsTotal = 0, cols = 0;
+          for (let x = 0; x < W; x += 4) {
+            let prev = null, flips = 0, seen = false;
+            for (let y = 0; y < H; y++) {
+              const i = (y * W + x) * 4;
+              const own = Math.abs(a[i] - none[i]) + Math.abs(a[i + 1] - none[i + 1]) + Math.abs(a[i + 2] - none[i + 2]) >= OWNED_DELTA;
+              if (prev !== null && own !== prev) flips++;
+              if (own) seen = true;
+              prev = own;
+            }
+            if (seen) { flipsTotal += flips; cols++; }
+          }
+          const mean = cols ? flipsTotal / cols : 0;
+          const eline = `edge: ${mean.toFixed(2)} ownership flips per column across ${cols} water columns`;
+          if (!cols) fail(`${eline} — no water in frame`);
+          else if (mean <= EDGE_FLIPS_MAX) ok(`${eline} (<= ${EDGE_FLIPS_MAX}: one edge)`);
+          else fail(`${eline} > ${EDGE_FLIPS_MAX}: a jagged or dithered waterline`);
+        }
+      } catch (e) {
+        fail(`motion capture failed: ${String(e).slice(0, 200)}`);
+        try { await page.evaluate(() => { window.__STUDIO_WATER_LAYERS__ = undefined; }); } catch { /* ignore */ }
+      }
     }
 
     // A site that failed may have left its page in an unknown state: the next

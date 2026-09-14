@@ -89,7 +89,7 @@ describe("foam energy field (study §3.1 (1))", () => {
     expect(frag).toContain("float tau = mix(uFoamLaw.w, uFoamLaw.z, expo01);");
     expect(frag).toContain("float keep = exp(-dt / tau);");
     expect(frag).toContain("E += eq * (1.0 - keep);");
-    expect(frag).toContain("esWaveSampleEx(wp, exposure, ss.x, standing, uWaveTime)");
+    expect(frag).toContain("esWaveSampleEx(wp, exposure, fetchM, standing, uWaveTime)");
     expect(frag).toContain("float fold = smoothstep(0.16, 0.34, w.height);");
     expect(frag).toContain("dot(w.normal.xz, -uWindDir)");
     expect(frag).toContain("esSurfFoam(");

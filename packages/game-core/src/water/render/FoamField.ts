@@ -165,16 +165,15 @@ export function foamFieldFragment(opts: FoamFieldOptions): string {
     vec2 dUv = clamp(wp / uFlowExtentM, vec2(0.0), vec2(1.0));
     vec4 kl = texture2D(uKlassTex, dUv);
     vec4 fl = texture2D(uFlowTex, dUv);
-    if (wp.x < 0.0 || wp.y < 0.0 || wp.x >= uFlowExtentM || wp.y >= uFlowExtentM) {
-      kl = vec4(0.0, 0.25, 1.0, 1.0);
-      fl = vec4(0.5, 0.5, 0.0, 1.0);
-    }
+    float fetchM = esFetchAt(fl);
     vec3 ss = esShoreAt(wp);
     float still = surf.x + uLevelTide * esTideResponse(kl.b) + uLevelSeason * ss.y;
     float depth = surf.y + (still - surf.x);
     float turb = max(kl.g, ss.z);
-    float exposure = esWaveExposure(ss.x, depth, turb) * uWindWave;
-    float expo01 = clamp(exposure, 0.0, 1.0);
+    // the vertex stage's amplitude (metres); the crest-fold source below
+    // reads the swell at that amplitude, the decay law a 0..1 exposure
+    float expo01 = esWaveExposure(ss.x, depth, turb);
+    float exposure = expo01 * esSeaRms(uWindMS, fetchM);
     vec2 flow = (fl.xy - 0.5) * 2.0 * uFlowMax;
     // ---- 1. history: recentre shift + semi-Lagrangian back-trace along the flow
     vec2 prevUv = vUv + uShift - flow * dt / uField.z;
@@ -191,19 +190,14 @@ export function foamFieldFragment(opts: FoamFieldOptions): string {
     float eq = 0.0;
     if (exposure > 0.002) {
       float standing = esStandingRatio(kl.r * 255.0, ss.x);
-      EsWave w = esWaveSampleEx(wp, exposure, ss.x, standing, uWaveTime);
+      EsWave w = esWaveSampleEx(wp, exposure, fetchM, standing, uWaveTime);
       float fold = smoothstep(0.16, 0.34, w.height);
       float windward = clamp(dot(w.normal.xz, -uWindDir) / uFoamLaw2.z, 0.0, 1.0);
       float gust = clamp(uWindWave - 0.8, 0.0, 2.0) * 0.5;
       eq += (uFoamLaw.x * fold + uFoamLaw.y * windward * gust) * expo01;
     }
     if (ss.x < 90.0 && depth > -0.5) {
-      // fetch ~30 m seaward (the vertex stage's shore frame)
-      float eG = uSurfMpp * 2.0;
-      vec2 gradD = vec2(esShoreAt(wp + vec2(eG, 0.0)).x - ss.x, esShoreAt(wp + vec2(0.0, eG)).x - ss.x) / eG;
-      float gl = length(gradD);
-      float seaD = gl > 0.05 ? esShoreAt(wp + gradD / gl * 30.0).x : ss.x;
-      float fetch = esFetchExp(max(seaD, ss.x), turb);
+      float fetch = esFetchExp(fetchM, turb);
       float windAmp = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
       float bn = esFbm(wp * 0.16, 3);
       float surfE = esSurfFoam(ss.x + bn * 4.0, fetch, uWaveTime, windAmp) * esShoreFrothBand(depth, bn);

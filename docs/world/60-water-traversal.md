@@ -41,13 +41,20 @@ The advanced water repositories already contain valuable buoyancy, wake, interac
 
 > **Current water architecture (decisions [0046](../decisions/0046-water-overhaul-retired.md), [0047](../decisions/0047-water-one-physical-model.md), [0057](../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md), [0058](../decisions/0058-the-hydrology-graph-is-the-water-record.md); the 0045 terrain-constrained overhaul is retired and its documents are archive):**
 > the runtime is the **field water** of 0047: one signed-depth raster contract
-> (`water-surface.png`, wet ⇔ `signedDepth + seasonLift > 0`), one physical
-> model for every water level, a season lift from the graph. **Levels come
-> from the hydrology graph** (`world/sources/hydrology/hydrology-graph.json`,
-> 0058): the flood solver runs once inside `hydrology_graph derive`; the
-> compile (`worldgen/compile_water.py`, rewritten in chunk 16c) fills to the
-> graph's levels and never re-solves or re-floods the province; `patch_water`
-> re-floods only a typed patch's window. `WorldWaterQuery` + `WaterSample`
+> (`water-surface.png` schema 3, wet ⇔ `signedDepth + lift > 0`), one physical
+> model for every water level. **Levels come from the hydrology graph**
+> (`world/sources/hydrology/hydrology-graph.json`, 0058): the flood solver
+> runs once inside `hydrology_graph derive`; the compile
+> (`worldgen/compile_water.py`, rewritten in 16c, decision
+> [0063](../decisions/0063-water-once-the-line-is-high-water.md)) REALISES
+> the graph on the frozen ground — each body flooded from its deepest cell to
+> its recorded level, each reach at its profile, a river through a body IS
+> the body — and never re-solves or re-floods the province; `patch_water`
+> proves a typed patch moved no water. **The compiled level is the
+> high-water line** (owner 2026-09-13): the season and the tide only draw the
+> water DOWN from it. The sea's energy comes from the weather's wind and the
+> compiled directional fetch (`waves.ts` `seaRmsHeightM`, ruling 7); every
+> wet texel names its graph entity (`water-id.png`). `WorldWaterQuery` + `WaterSample`
 > live in `packages/contracts`; the CPU model and the renderer in
 > `packages/game-core/src/water/` — that folder's README is the file-by-file
 > map of the renderer and the interaction stack. Terrain never moves for

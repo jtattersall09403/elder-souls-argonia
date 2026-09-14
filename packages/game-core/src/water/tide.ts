@@ -26,21 +26,27 @@ export function springFactor(epochMinutes: number): number {
   return s / wsum;
 }
 
-/** Tide level offset (m) for a surface with tide response 1. */
+/**
+ * Tide level offset (m) for a surface with tide response 1: NEVER positive.
+ * The compiled sea plane (y = 0) is the HIGH-water line (owner 2026-09-13:
+ * the water on the 2D map is the height of the wet season and, where
+ * relevant, the tide); the tide only falls from it, by up to twice the
+ * amplitude at springs, and returns to it.
+ */
 export function tideOffset(epochMinutes: number, tidalAmplitudeM: number): number {
   const amp = tidalAmplitudeM * (0.5 + 0.5 * springFactor(epochMinutes));
-  return amp * Math.sin((epochMinutes / SEMIDIURNAL_MINUTES) * 2 * Math.PI);
+  return amp * (Math.sin((epochMinutes / SEMIDIURNAL_MINUTES) * 2 * Math.PI) - 1);
 }
 
 /**
- * Seasonal level offset (m) for a surface with season response 1. The wet
- * season raises fresh lowland water toward `seasonalAmplitudeM` (the
- * flood-states compile validated inundation at that level); the dry season
- * draws it slightly down, exposing mudflats without stranding the shorelines
- * the land-cover grammar painted at y≈0.
+ * Seasonal level offset (m) for a surface with draw-down response 1: NEVER
+ * positive. The compiled level is the wet-season high-water line; the
+ * season only lowers it, to `−amplitude` at the dry-season trough (s = −1)
+ * and back to the line at the wet-season peak (s = 1). The per-texel
+ * response (`water-shore.png` G) scales it: a marsh sheet by 0.2, a lake by
+ * a few centimetres, a seasonal creek down to its bed.
  */
 export function seasonOffset(seasonScalar: number, seasonalAmplitudeM: number): number {
-  return seasonScalar >= 0
-    ? seasonScalar * seasonalAmplitudeM
-    : seasonScalar * 0.2 * seasonalAmplitudeM;
+  const s = Math.min(Math.max(seasonScalar, -1), 1);
+  return -seasonalAmplitudeM * (1 - s) / 2;
 }

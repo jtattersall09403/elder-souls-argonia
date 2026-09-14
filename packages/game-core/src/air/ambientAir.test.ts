@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { AIR_SPECIES, AirSwarm, airAmounts, seededRandom, type AirConditions } from "./ambientAir";
+import * as THREE from "three";
+import { AIR_SPECIES, AirSwarm, airAmounts, airHoverFloorY, seededRandom, type AirConditions } from "./ambientAir";
 import { SunShafts, sunShaftIntensity } from "./sunShafts";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
@@ -268,5 +269,50 @@ describe("the air layer draws after the water surface", () => {
       expect(swarm.points.layers.mask, species.id).toBe(1 << PRECIP_LAYER);
     }
     expect(new SunShafts(undefined, seededRandom(4)).mesh.layers.mask).toBe(1 << PRECIP_LAYER);
+  });
+});
+
+describe("over water the band hovers from the SURFACE, not the ground (owner 2026-09-13, Phase 16c)", () => {
+  it("midges and dragonflies carry a hover height; the floor is the water surface plus it", () => {
+    for (const id of ["midges", "dragonflies"]) {
+      const sp = AIR_SPECIES[id];
+      expect(sp.hoverAboveWaterM, `${id} hover`).toBeGreaterThan(0);
+      expect(sp.hoverBandM, `${id} band`).toBeGreaterThan(0);
+      // a 2 m deep pond whose surface is at 12.0: the cloud sits just over
+      // the water, never 2 m up from the bed (the ground-based rule gave
+      // ground + hover = 10.0 + hover, under the surface)
+      const surfaceY = 12.0;
+      const bedY = 10.0;
+      const floor = airHoverFloorY(sp, surfaceY, 0);
+      expect(floor).toBeCloseTo(surfaceY + sp.hoverAboveWaterM!, 9);
+      expect(floor!).toBeGreaterThan(bedY + sp.hoverAboveWaterM!);
+      // the band spreads up from the floor, never below it
+      expect(airHoverFloorY(sp, surfaceY, 1)).toBeCloseTo(surfaceY + sp.hoverAboveWaterM! + sp.hoverBandM!, 9);
+      expect(airHoverFloorY(sp, surfaceY, 0.5)!).toBeGreaterThan(floor!);
+    }
+    // dry ground: no floor (the terrain bounds the band), and a species
+    // without a hover height never reads the water
+    expect(airHoverFloorY(AIR_SPECIES.midges, null, 0)).toBeNull();
+    expect(airHoverFloorY(AIR_SPECIES.fireflies, 12.0, 0)).toBeNull();
+  });
+
+  it("the vertex stage applies the same floor from the compiled surface raster", () => {
+    const sw = new AirSwarm(AIR_SPECIES.midges, seededRandom(1));
+    const vert = sw.material.vertexShader;
+    expect(vert).toContain("world.y = max(world.y, esAirFloor(world.xz, aSeed.y));");
+    expect(vert).toContain("return w + uAirHover.z + uAirHover.x + bandFrac * uAirHover.y;");
+    // binding the surface enables it; clearing it hands the band back to the ground
+    sw.setWater({ texture: new THREE.Texture(), size: 4, metresPerPixel: 10, minM: -10, spanM: 20, depthMinM: -6,
+      depthSpanM: 30.6, buriedM: -2.5, liftM: () => -0.2 });
+    expect((sw.material.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(1);
+    expect((sw.material.uniforms.uAirHover.value as THREE.Vector3).z).toBeCloseTo(-0.2, 9);
+    sw.setWater(null);
+    expect((sw.material.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(0);
+    // pollen has no hover height: binding does nothing
+    const pollen = new AirSwarm(AIR_SPECIES.pollen, seededRandom(2));
+    pollen.setWater({ texture: new THREE.Texture(), size: 4, metresPerPixel: 10, minM: -10, spanM: 20, depthMinM: -6,
+      depthSpanM: 30.6, buriedM: -2.5, liftM: () => 0 });
+    expect((pollen.material.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(0);
+    sw.dispose(); pollen.dispose();
   });
 });

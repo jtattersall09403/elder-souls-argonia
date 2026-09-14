@@ -33,23 +33,28 @@ open only the plan sections the active phase needs.
 | L, N, T, S, C — lore, quest review, text, stats design, combat workstreams | done | 0018/0026/0030 (N), 0043 (T), 0031–0037 (S), 0040/0054–0056 (C: 20 built bodies, female review sheets and the armour collar sheet still open for the owner's look) |
 | 10 — asset deep catalogue, kits, vegetation machinery | done | owner CLOSED 2026-09-04; [0036](decisions/0036-phase10-placement-decisions.md); density ladder [0048](decisions/0048-vegetation-density-ladder.md) |
 | 11 — settlement/location system | absorbed into 16 (0057, 0061) | where each deliverable went: phases README § Phase 11; history [0041](decisions/0041-phase11-settlement-decisions.md) |
-| **16 — frozen foundation and place ladder** | **in progress: 16a accepted 2026-09-11; 16b round 2 delivered 2026-09-12 (0060), owner walk pending; next `deliver 16c`** | [plan](phases/16-foundation-and-places/README.md); 16a [0058](decisions/0058-the-hydrology-graph-is-the-water-record.md); 16b [0059](decisions/0059-terrain-built-once-frozen-base-and-typed-patches.md), [0060](decisions/0060-rivers-reach-the-coast-profiles-are-graded.md), [ledger](research/phase16/16b-terrain-once-ledger.md); then 16c water · 16d apron · 16e routes/ferries · 16f vegetation (+ submerged band) · 16g plot (+ promise vocabulary) · 16h runtime + kit QA · 16i exemplars (tier A interiors) · 16j rollout skill + trial packet |
+| **16 — frozen foundation and place ladder** | **in progress: 16a accepted 2026-09-11; 16b round 2 delivered 2026-09-12 (0060); 16c delivered 2026-09-14 ([0063](decisions/0063-water-once-the-line-is-high-water.md), [ledger](research/phase16/16c-water-once-ledger.md)), owner walk + batch of terrain calls pending; next `deliver 16d`** | [plan](phases/16-foundation-and-places/README.md); 16a [0058](decisions/0058-the-hydrology-graph-is-the-water-record.md); 16b [0059](decisions/0059-terrain-built-once-frozen-base-and-typed-patches.md), [0060](decisions/0060-rivers-reach-the-coast-profiles-are-graded.md), [ledger](research/phase16/16b-terrain-once-ledger.md); then 16c water · 16d apron · 16e routes/ferries · 16f vegetation (+ submerged band) · 16g plot (+ promise vocabulary) · 16h runtime + kit QA · 16i exemplars (tier A interiors) · 16j rollout skill + trial packet |
 | 9 — swimming, climbing, boats (movement only) | todo | chunks 9a thin swim (first after 16j), 9b boats, 9c climb; briefs written by the "chunk Phase 9" job at 16j close (0062) |
 | 10b — sandbox parity in the studio + the renderer extraction | todo | scene orchestration and `packages/world-render` extracted in one pass (0062); navmesh chunk may run as soon as 16h lands; shared-internals fixes per the owner's kickoff list (0017) |
 | 10c — stats and progression implementation | todo | implements workstream S in `packages/game-core` incl. the semantic compiler (0019); chunk briefs written at 10b close |
 | 13 — fauna ecology, encounters, fixed loot | todo | data-model chunk written now; the rest at 10c close (0062) |
 | 12 — interiors: research, the furnishing mine, the skill proved on exemplars | todo | every assembled interior (dungeons and tier B buildings) against the promises 16g/16j/15 author with the places (0062); research chunk written first |
-| 12b — province soundscape | todo | after 12 and 13, before 14 locks budgets (0023, 0034); infrastructure chunks may fill the P window |
+| 12b — province soundscape | todo | after 12 and 13, before 14 locks budgets (0023, 0034); supporting chunks may fill the P window |
 | P — general polish pass (rolling) | in progress | [backlog](phases/P-polish/backlog.md); the terrain/water/vegetation/route/settlement rows were absorbed into 16 (0057) |
 | 14 — streaming and deployment (budgets, chunk format, impostor audit) | todo | the renderer extraction moved to 10b (0062) |
 | 15 — rollout by region packet, one pass per packet | todo | opens from the roadmap 16j drafts (`docs/phases/15-rollout/`); the 16j trial packet is packet one; major cities and the opening-scene places are owner-guided (0062) |
 
 ## Waiting on user
 
+- **16c** ([0063](decisions/0063-water-once-the-line-is-high-water.md),
+  [ledger §4](research/phase16/16c-water-once-ledger.md)): walk the brief's
+  owner check (beach calm and storm, the open sea, the fourteen sites), pick
+  the calm-sea level (ruling 7), decide the batch of terrain calls the
+  ledger lists (dry beds at 5 sites, 90 perched channels). Say whether
+  seasons stay as the draw-down or go; then `deliver 16d`.
 - **16b round 2** ([0060](decisions/0060-rivers-reach-the-coast-profiles-are-graded.md),
-  [ledger §9](research/phase16/16b-terrain-once-ledger.md)): walk the checklist
-  in the handoff, approve the listed water departures as a principle or send
-  rows back; then `deliver 16c`.
+  [ledger §9](research/phase16/16b-terrain-once-ledger.md)): the listed water
+  departures still want a principle or rows sent back.
 - **Female characters and armour** ([0054](decisions/0054-sex-is-an-axis-not-a-second-set-of-races.md),
   [0056](decisions/0056-armour-is-blended-to-the-wearer-not-deformed-to-fit.md)):
   the two female sheets in `docs/evidence/races/`, the picker's two open calls

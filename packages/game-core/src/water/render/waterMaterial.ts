@@ -2,8 +2,9 @@ import * as THREE from "three";
 import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
 import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { FLOW_WAVE_MIN_SPEED_MS, WAVES, flowWaveGlsl, gerstnerGlsl, standingRatioGlsl, surfGlsl } from "@elder-souls/game-core/water/index";
-import { OPEN_SEA_DEPTH_M, buriedThresholdM } from "../waterData";
+import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, standingRatioGlsl, surfGlsl,
+  whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
+import { buriedThresholdM } from "../waterData";
 
 import type { WaterAssets } from "./types";
 import { RIPPLE_PATCH_M } from "./RippleSim";
@@ -95,6 +96,15 @@ export interface WaterUniforms extends FoamFieldUniforms {
   uTransportTime: { value: number };
   /** Weather wind → wave-energy scale (game-core setWindWaveScale twin). */
   uWindWave: { value: number };
+  /** The weather's 10 m wind: speed (m/s) sets the sea's rms height with the
+   * compiled fetch (`esSeaRms`); the unit direction drifts the still-water
+   * detail and the whitecap pattern (audit root causes 1, 2, 5). */
+  uWindMS: { value: number };
+  uWindDir: { value: THREE.Vector2 };
+  /** Crest-noise threshold above which a pixel whitecaps (`whitecapThreshold`). */
+  uCapThreshold: { value: number };
+  /** Open-water fetch cap the flow raster's B is encoded against (m). */
+  uFetchMax: { value: number };
   uLevelTide: { value: number };
   uLevelSeason: { value: number };
   uVerticalScale: { value: number };
@@ -155,6 +165,10 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uWaveTime: { value: 0 },
     uTransportTime: { value: 0 },
     uWindWave: { value: 1 },
+    uWindMS: { value: 0 },
+    uWindDir: { value: new THREE.Vector2(WAVES.windDir[0], WAVES.windDir[1]) },
+    uCapThreshold: { value: whitecapThreshold(0) },
+    uFetchMax: { value: m.flow.fetchMaxM ?? SEA.fetchMaxM },
     uLevelTide: { value: 0 },
     uLevelSeason: { value: 0 },
     uVerticalScale: { value: 1 },
@@ -270,6 +284,10 @@ export const SAMPLER_GLSL = /* glsl */ `
   uniform float uWaveTime;
   uniform float uTransportTime;
   uniform float uWindWave;
+  uniform float uWindMS;
+  uniform vec2 uWindDir;
+  uniform float uCapThreshold;
+  uniform float uFetchMax;
 
   // KEEP IN LOCKSTEP with waterData.tideResponseOf().
   float esTideResponse(float salinity){
@@ -282,12 +300,12 @@ export const SAMPLER_GLSL = /* glsl */ `
     return vec2(w, t.b * uSurfDepthSpan + uSurfDepthMin);
   }
 
-  // Manual bilinear over the 16-bit W raster (height, signed depth).
+  // Manual bilinear over the 16-bit W raster (height, signed depth). Beyond
+  // the province the EDGE texel continues (clamp-to-edge): a sea border
+  // carries the sea outward, a land border carries buried ground, so the
+  // raster's edge is never a seam against a hard plane (audit mechanism 5).
+  // KEEP IN LOCKSTEP with WaterData.surfaceBase / depthProxy.
   vec2 esSurfaceAt(vec2 wpos){
-    float extent = uSurfSize * uSurfMpp;
-    if (wpos.x < 0.0 || wpos.y < 0.0 || wpos.x >= extent || wpos.y >= extent) {
-      return vec2(0.0, ${OPEN_SEA_DEPTH_M.toFixed(1)}); // beyond the province: open sea
-    }
     vec2 f = clamp(wpos / uSurfMpp - 0.5, vec2(0.0), vec2(uSurfSize - 1.001));
     ivec2 i0 = ivec2(f);
     vec2 t = f - vec2(i0);
@@ -320,11 +338,12 @@ export const SAMPLER_GLSL = /* glsl */ `
   // (Data never rides PNG alpha — canvas premultiply corrupts it.)
   vec3 esShoreAt(vec2 wpos){
     float extent = uSurfSize * uSurfMpp;
-    if (wpos.x < 0.0 || wpos.y < 0.0 || wpos.x >= extent || wpos.y >= extent) {
-      return vec3(uSurfShoreMax, 0.0, 0.0);
-    }
-    vec3 s = texture2D(uSurfShore, wpos / extent).rgb;
+    vec3 s = texture2D(uSurfShore, clamp(wpos / extent, vec2(0.0), vec2(1.0))).rgb;
     return vec3(s.r * uSurfShoreMax, s.g, s.b);
+  }
+  // The compiled open-water fetch (m) at wpos (flow raster B, sqrt-encoded).
+  float esFetchAt(vec4 flowTexel){
+    return flowTexel.z * flowTexel.z * uFetchMax;
   }
 `;
 
@@ -435,14 +454,16 @@ export const FOAM_CYCLE_S = 6;
 /** Buried guard: a field fragment discards only where the raster's signed
  * depth + lift is below this (relaxed with distance, never below the floor).
  * Everything else is cut by the terrain under the hardware depth test. */
-export const BURIED_GUARD = { nearM: -0.35, perMetre: 0.002, floorM: -2.0 } as const;
+export const BURIED_GUARD = { nearM: -0.35, perMetre: 0.0005, floorM: -0.7, fadeM: 0.2 } as const;
+/** The field is dissolved where the compiled still surface is steeper than
+ * this (metres per metre, read from the raster's own gradient — never the
+ * screen-space derivative, whose far-grid step opened holes and domes,
+ * audit mechanism 2): a sheet, not a field, carries a drop. */
+export const FIELD_SLOPE_FADE = { start: 0.5, full: 1.0 } as const;
 /** Vertical thickness (m) over which the surface fades in at the shoreline. */
 export const EDGE_FADE_M = 0.15;
 /** Vertical thickness (m) under which the contact-foam line draws. */
 export const CONTACT_FOAM_M = 0.12;
-/** A field surface is never a cliff: fragments whose still-surface metric
- * slope exceeds this are discarded (falls are sheets). */
-export const FIELD_MAX_SLOPE = 1.0;
 const FLOW_WAVE_MIN_GLSL = FLOW_WAVE_MIN_SPEED_MS.toFixed(2);
 /** River foam flecks: fbm (2 octaves, `scale` cycles/m) thresholded between
  * lo..hi — tuned so the dual-phase mix covers ≈ 3–6 % of a river (the test
@@ -470,9 +491,12 @@ export const FOAM_TEX = { tileM: 3.0, mean: 0.152, std: 0.195, fbmMean: 0.436, f
  */
 export const OWNER_DILATE_M = 1.2;
 
-/** Dilated owner-mask test, compiled into the FIELD fragment shader. */
+/** Dilated owner-mask coverage (0 = the field owns this pixel, 1 = a strip
+ * or sheet does), compiled into the FIELD fragment shader. The share of the
+ * five taps that are owned, so the field dissolves under a ribbon over
+ * OWNER_DILATE_M instead of ending on a texel edge (audit mechanism 1). */
 const OWNER_MASK_GLSL = /* glsl */ `
-bool esOwnedNearby(vec2 wpos){
+float esOwnedFrac(vec2 wpos){
   float e = ${OWNER_DILATE_M.toFixed(2)};
   vec2 taps[5];
   taps[0] = wpos;
@@ -480,12 +504,13 @@ bool esOwnedNearby(vec2 wpos){
   taps[2] = wpos - vec2(e, 0.0);
   taps[3] = wpos + vec2(0.0, e);
   taps[4] = wpos - vec2(0.0, e);
+  float owned = 0.0;
   for (int i = 0; i < 5; i++) {
     vec2 uv = taps[i] / max(uSurfExtentM, 1.0);
     if (all(greaterThanEqual(uv, vec2(0.0))) && all(lessThan(uv, vec2(1.0)))
-        && texture2D(uOwnerTex, uv).r > 0.25) return true;
+        && texture2D(uOwnerTex, uv).r > 0.25) owned += 1.0;
   }
-  return false;
+  return owned / 5.0;
 }
 `;
 
@@ -698,13 +723,11 @@ vec2 esSurf = vec2(aStill, max(aBedDepth, 0.0));
 #else
 vec2 esSurf = esSurfaceAt(esRestW.xz);
 #endif
+// (beyond the raster every texture clamps to its edge texel: no override)
 vec2 esDataUv = clamp(esRestW.xz / uFlowExtentM, vec2(0.0), vec2(1.0));
 vec4 esKl = texture2D(uKlassTex, esDataUv);
 vec4 esFl = texture2D(uFlowTex, esDataUv);
-float esOutside = (esRestW.x < 0.0 || esRestW.z < 0.0
-  || esRestW.x >= uFlowExtentM || esRestW.z >= uFlowExtentM) ? 1.0 : 0.0;
-esKl = mix(esKl, vec4(0.0, 0.25, 1.0, 1.0), esOutside);
-esFl = mix(esFl, vec4(0.5, 0.5, 0.0, 1.0), esOutside);
+float esFetchM = esFetchAt(esFl);
 vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
 #ifdef ES_STRIP
 // no tide response inland on a steep reach; season rides the attribute
@@ -714,11 +737,10 @@ float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.b) + uLevelSeason * 
 #endif
 float esShore = esSS.x;
 float esTurbV = max(esKl.g, esSS.z);
-// shore frame: seaward = +grad(shoreDist); fetch is sampled ~30 m SEAWARD
-// so the beach edge of a big bay keeps the bay's wave energy (waves.ts
-// gating lesson — waveExposure's depth term is 0 exactly at the waterline,
-// which silently muted all lapping in rounds 2-6)
-float esFetch;
+// shore frame: shoreward = -grad(shoreDist), for the swell's normal tilt.
+// The surf's energy is the COMPILED directional fetch at the point (waves.ts
+// gating lesson: never the depth term, which is 0 exactly at the waterline)
+float esFetch = esFetchExp(esFetchM, esTurbV);
 vec2 esShoreDir = vec2(0.0);
 if (esShore < 90.0) {
   float eG = uSurfMpp * 2.0;
@@ -726,12 +748,7 @@ if (esShore < 90.0) {
     esShoreAt(esRestW.xz + vec2(eG, 0.0)).x - esShore,
     esShoreAt(esRestW.xz + vec2(0.0, eG)).x - esShore) / eG;
   float esGL = length(esGradD);
-  vec2 esSeaDir = esGL > 0.05 ? esGradD / esGL : vec2(0.0);
-  esShoreDir = -esSeaDir;
-  float esSeaD = esGL > 0.05 ? esShoreAt(esRestW.xz + esSeaDir * 30.0).x : esShore;
-  esFetch = esFetchExp(max(esSeaD, esShore), esTurbV);
-} else {
-  esFetch = esFetchExp(esShore, esTurbV);
+  esShoreDir = esGL > 0.05 ? -esGradD / esGL : vec2(0.0);
 }
 // the waterline itself TRAVELS: asymmetric swash + shoaling shore swell,
 // added BEFORE the depth proxy so the advancing tongue renders on the
@@ -756,15 +773,15 @@ float esExposure = 0.05;
 float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
 #endif
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
-// distance fade relaxed 0.0006 -> 0.0003 (Water Pro transfer): the 100-160 m
-// JONSWAP swell is what makes the far sea read as sea, and the far grid
-// carries it (cells there are tens of metres, the swell a hundred)
-float esWaveAmp = esExposure * uWindWave * exp(-esCamDist * 0.0003);
+// the sea's rms height from the wind and the fetch (ruling 7), the local
+// exposure on top; no distance fade (the far grid carries the swell, and
+// the horizon blend is what the far sea meets) — CPU twin: waterWorld.sample
+float esWaveAmp = esExposure * esSeaRms(uWindMS, esFetchM);
 EsWave esW;
-if (esWaveAmp > 0.002) {
+if (esWaveAmp > 0.0005) {
   // per-band fetch (long swell needs long fetch) + the class standing ratio
   // (lakes/marsh bob, coast marches) — CPU twin: waterWorld.sample
-  esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esShore, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime);
+  esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime);
 } else {
   esW.disp = vec3(0.0);
   esW.normal = vec3(0.0, 1.0, 0.0);
@@ -847,31 +864,38 @@ uniform float uVerticalScale;`,
       .replace(
         "void main() {",
         /* glsl */ `void main() {
+  float esGuard = 1.0;
   ${strip ? "" : /* glsl */ `
   {
     // Decision 0047: the raster no longer cuts the shoreline. It only guards
-    // against drawing BURIED surface (signed depth + lift well below zero,
-    // relaxed with distance so far LOD triangles never open holes); the
-    // visible edge is the plane meeting the terrain mesh under the hardware
-    // depth test against the blit-written scene depth.
+    // against drawing BURIED surface (signed depth + lift below the floor);
+    // the visible edge is the plane meeting the terrain mesh under the
+    // hardware depth test against the blit-written scene depth. Phase 16c:
+    // the three guards are COVERAGE terms folded into esCover, never a hard
+    // discard on an unsampled target (audit mechanism 1), and the floor is
+    // tight at every distance (a relaxed floor drew the dry table band as a
+    // sheet over far shores, mechanism 4).
     vec2 esFS = esSurfaceAt(vEsWorldPos.xz);
     float esLift = vEsData.x - esFS.x;   // tide + season + surf at this pixel
     float esGuardDist = distance(cameraPosition, vEsWorldPos);
-    if (esFS.y + esLift < max(${BURIED_GUARD.nearM.toFixed(2)} - ${BURIED_GUARD.perMetre.toFixed(3)} * esGuardDist,
-                              ${BURIED_GUARD.floorM.toFixed(1)})) discard;
-    // A field surface is never a cliff: where the STILL surface's metric
-    // slope exceeds 1.0 the raster is bridging a drop the compiler owns as a
-    // sheet (or, on v1 data, a cliff foot carrying the lip's level). Not
-    // multiplied by uVerticalScale — the exaggeration is display only.
-    vec2 esDW = vec2(dFdx(vEsData.x), dFdy(vEsData.x));
-    vec2 esDP = vec2(length(vec2(dFdx(vEsWorldPos.x), dFdx(vEsWorldPos.z))),
-                     length(vec2(dFdy(vEsWorldPos.x), dFdy(vEsWorldPos.z))));
-    if (length(esDW / max(esDP, vec2(1e-4))) > ${FIELD_MAX_SLOPE.toFixed(1)}) discard;
+    float esFloor = max(${BURIED_GUARD.nearM.toFixed(2)} - ${BURIED_GUARD.perMetre.toFixed(4)} * esGuardDist,
+                        ${BURIED_GUARD.floorM.toFixed(2)});
+    esGuard *= smoothstep(esFloor - ${BURIED_GUARD.fadeM.toFixed(2)}, esFloor, esFS.y + esLift);
+    // A field surface is never a cliff: where the compiled STILL surface's
+    // slope, read from the RASTER's own gradient, exceeds FIELD_SLOPE_FADE
+    // the raster is bridging a drop the compiler owns as a sheet
+    // (mechanism 2: the screen-space derivative on a far grid cell read a
+    // step as a ramp and drew a dome, or a hole).
+    float esGe = uSurfMpp;
+    vec2 esGW = vec2(esSurfaceAt(vEsWorldPos.xz + vec2(esGe, 0.0)).x - esSurfaceAt(vEsWorldPos.xz - vec2(esGe, 0.0)).x,
+                     esSurfaceAt(vEsWorldPos.xz + vec2(0.0, esGe)).x - esSurfaceAt(vEsWorldPos.xz - vec2(0.0, esGe)).x)
+                / (2.0 * esGe);
+    esGuard *= 1.0 - smoothstep(${FIELD_SLOPE_FADE.start.toFixed(2)}, ${FIELD_SLOPE_FADE.full.toFixed(2)}, length(esGW));
     // The field never shows under a compiled strip or waterfall sheet: those
     // draw the same water from their own geometry (decision 0046 item 4).
-    // DILATED by OWNER_DILATE_M: the mask is a 3.66 m raster and a chute is
-    // ~3 m wide, so a nearest-texel test left a live field fringe either side.
-    if (uHasOwner > 0.5 && esOwnedNearby(vEsWorldPos.xz)) discard;
+    // Dilated by OWNER_DILATE_M and dissolved, never cut (mechanism 3).
+    if (uHasOwner > 0.5) esGuard *= 1.0 - esOwnedFrac(vEsWorldPos.xz);
+    if (esGuard <= 0.003) discard;
   }`}
   vec2 esScreenUV = gl_FragCoord.xy / uResolution;
   ${variant === "above" ? /* glsl */ `
@@ -899,9 +923,10 @@ float esDetStrength = (0.10 + 0.10 * vEsData.z + 0.05 * min(esSpeed, 1.0))
 // flow advection (Water2 dual-phase); still water gets a gentle wobble, not
 // a stream (round 2: 'flowing' foam on static pools)
 bool esFlowing = esSpeed > ${FLOW_WAVE_MIN_GLSL};
-vec2 esDrift = esSpeed > 0.05
-  ? vEsFlow.xy
-  : vec2(sin(uTransportTime * 0.13), cos(uTransportTime * 0.11)) * 0.03;
+// still water: the fine ripples travel downwind at their own phase speed
+// (audit root cause 2: a fixed 3 cm/s wander read as a static sea)
+float esStillDrift = clamp(0.15 + 0.06 * uWindMS, 0.5, 1.5);
+vec2 esDrift = esSpeed > 0.05 ? vEsFlow.xy : uWindDir * esStillDrift;
 // Transport (foam/normal advection) runs on the TRANSPORT clock on a
 // ${FOAM_CYCLE_S} s dual-phase cycle: the scroll distance per cycle is speed x cycle, so
 // 1 m/s of current moves foam exactly 1 m/s whatever the wind or preview
@@ -932,7 +957,7 @@ if (esDetFade > 0.02) {
     esGF = mix(esDetailGrad(esQ1, vec2(0.0)), esDetailGrad(esQ2, vec2(0.0)), esPhB) * esDetFade * 0.5;
   } else {
     // transport clock: uWaveTime folds every 8192 s and this drift is not periodic
-    esGF = esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, vec2(0.11, 0.07) * uTransportTime) * esDetFade * 0.5;
+    esGF = esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, -uWindDir * esStillDrift * 0.6 * uTransportTime) * esDetFade * 0.5;
   }
 }
 vec2 esRip = vec2(0.0);
@@ -1069,12 +1094,17 @@ float esFoamE;
 float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
 float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
 float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
+// whitecap density from the wind (waves.ts whitecapCoverage: 2 % of the sea
+// at the swell floor, 6 % at 12 m/s, 12 % in a squall): the crest noise
+// thresholds at the matching quantile (uCapThreshold, TS twin
+// whitecapThreshold), and the pattern rides downwind at the peak band's
+// group speed (audit root cause 5)
 {
-  vec2 esCP = vEsWorldPos.xz * 0.085 - esDrift * uTransportTime * 0.05;
+  vec2 esCP = (vEsWorldPos.xz - uWindDir * ${whitecapDriftMS().toFixed(2)} * uTransportTime) * 0.085;
   float esCn = esFbm(esCP, 3) * 0.5 + esFbm(esCP * 2.7 + 11.0, 2) * 0.5;
-  esCrest = max(esCrest, (esCn - 0.62) * 1.6 * clamp(uWindWave, 0.0, 2.0));
+  esCrest = max(esCrest, 0.16 + smoothstep(uCapThreshold - 0.01, uCapThreshold + 0.02, esCn) * 0.3);
 }
-esFoamE += smoothstep(0.16, 0.34, esCrest) * esExpo * 0.8 * esCrestFade;
+esFoamE += smoothstep(0.16, 0.34, esCrest) * clamp(esExpo * 4.0, 0.0, 1.0) * 0.8 * esCrestFade;
 // 4. rapids churn near banks + aerated cascades wherever water descends
 // (coverage CAPPED — a saturated threshold was the round-6 solid crust)
 esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD)) * 0.5;
@@ -1198,7 +1228,7 @@ outgoingLight = outgoingLight - reflectedLight.indirectSpecular + esSpecEnv + es
 // where the terrain cuts it (decision 0047) — no raster, no ripple texel, no
 // view-angle dependence in the waterline; foam may stand on the line itself
 float esEdgeSoft = smoothstep(0.0, ${EDGE_FADE_M.toFixed(2)}, esTv);
-float esCover = max(esEdgeSoft, esFoam);
+float esCover = max(esEdgeSoft, esFoam) * esGuard;
 // ---- Water Pro transfers (study §3.1 (4), (5), (7), (8)) ---------------
 // sparkle: a dedicated sun glint with its own 8-500 m window, added AFTER
 // the specular and deliberately outside the roughness distance-LOD above

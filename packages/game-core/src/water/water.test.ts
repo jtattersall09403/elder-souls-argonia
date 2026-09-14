@@ -3,6 +3,7 @@ import { WaterData, type WaterMeta } from "./waterData";
 import { WaterWorld } from "./waterWorld";
 import { computeBuoyancy } from "./buoyancy";
 import { SEMIDIURNAL_MINUTES, tideOffset, seasonOffset } from "./tide";
+import { SEA, CREST_NOISE, seaRmsHeightM, whitecapCoverage, whitecapThreshold, stillWaterDriftMS, whitecapDriftMS } from "./waves";
 import { FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, GROUP_OMEGA, OMEGA_QUANTUM, SHORE_SWELL, STANDING_BY_CLASS, SWASH,
   SWASH_OMEGA, WAVES, fetchExposure, flowWaveAt, flowWaveGlsl, flowWaveOmega, gerstnerAt, gerstnerGlsl, hash21,
   jonswapShape, shoreSwellAt, snapOmega, standingRatioGlsl, standingWaveRatio, surfGlsl, surfGroup, surfaceWaveAt,
@@ -14,6 +15,8 @@ import { FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, GROUP_OMEGA, OMEGA_QUANTUM, SHORE_S
 
 describe("waves", () => {
   const out = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
+  /** A real open-sea amplitude: the unit-rms table is scaled by this (the floor wind, full fetch). */
+  const FULL = seaRmsHeightM(SEA.swellFloorWindMS, SEA.fetchMaxM);
 
   it("zero exposure means dead calm", () => {
     surfaceWaveAt(10, 20, 1234, 0, out);
@@ -24,13 +27,13 @@ describe("waves", () => {
   it("height stays inside the spectrum's amplitude budget", () => {
     const maxAmp = waveBands().reduce((s, b) => s + b.amp, 0);
     for (let i = 0; i < 200; i++) {
-      surfaceWaveAt(i * 13.7, i * 7.1, i * 97.3, 1, out);
-      expect(Math.abs(out.height)).toBeLessThan(maxAmp + 1e-6);
+      surfaceWaveAt(i * 13.7, i * 7.1, i * 97.3, FULL, out);
+      expect(Math.abs(out.height)).toBeLessThan(maxAmp * FULL + 1e-6);
       expect(out.ny).toBeGreaterThan(0.3); // no folded/degenerate normals
     }
   });
 
-  it("JONSWAP bands: real swell at the peak, rms energy equal to the retired table", () => {
+  it("JONSWAP bands: real swell at the peak, a UNIT-rms table scaled by wind and fetch", () => {
     const bands = waveBands();
     expect(bands.length).toBe(WAVES.bands);
     // longest band is genuine swell, shortest still resolvable by the grid
@@ -40,24 +43,93 @@ describe("waves", () => {
     const peakBand = bands.reduce((best, b) =>
       Math.abs(Math.log(b.wavelengthM / WAVES.peakWavelengthM)) < Math.abs(Math.log(best.wavelengthM / WAVES.peakWavelengthM)) ? b : best);
     expect(Math.max(...bands.map((b) => b.amp))).toBe(peakBand.amp);
-    // Σ a²/2 = rms² — the owner-calibrated energy of the 0.17 m × 0.76ⁱ table
+    // Σ a²/2 = 1 m²: the table carries unit rms; the metres come from the sea
     const rms = Math.sqrt(bands.reduce((s, b) => s + b.amp * b.amp, 0) / 2);
-    expect(rms).toBeCloseTo(WAVES.rmsHeightM, 6);
-    let oldSq = 0;
-    for (let i = 0, a = 0.17; i < 10; i++, a *= 0.76) oldSq += a * a;
-    expect(rms).toBeCloseTo(Math.sqrt(oldSq / 2), 2);
+    expect(rms).toBeCloseTo(1, 6);
     // deep-water dispersion, on the loop grid
     for (const b of bands) {
       expect(b.phaseSpeed).toBeCloseTo(Math.sqrt(9.81 * b.freq), 2);
       expect(b.phaseSpeed / OMEGA_QUANTUM).toBeCloseTo(Math.round(b.phaseSpeed / OMEGA_QUANTUM), 9);
       // per-band fetch: long swell needs long fetch, short chop the base 60 m
-      expect(b.fetchM).toBeCloseTo(Math.max(WAVES.fetchSaturationM, WAVES.fetchPerWavelength * b.wavelengthM), 9);
+      expect(b.fetchM).toBeCloseTo(Math.max(WAVES.fetchMinM, WAVES.fetchPerWavelength * b.wavelengthM), 9);
     }
     // JONSWAP shape: peaked at ωp, γ-enhanced above a Pierson–Moskowitz sea
     const wp = 0.8;
     expect(jonswapShape(wp, wp)).toBeGreaterThan(jonswapShape(wp * 0.8, wp));
     expect(jonswapShape(wp, wp)).toBeGreaterThan(jonswapShape(wp * 1.25, wp));
     expect(jonswapShape(wp, wp, 3.3) / jonswapShape(wp, wp, 1)).toBeCloseTo(3.3, 6);
+  });
+
+  it("the sea's energy comes from the wind and the fetch (ruling 7), never a fixed number", () => {
+    // JONSWAP fetch-limited growth under the Pierson–Moskowitz cap, Hs / 4
+    expect(seaRmsHeightM(7, 60000)).toBeCloseTo(0.0016 * 7 * Math.sqrt(60000 / 9.81) / 4, 6);
+    // the swell floor: a glassy weather day still carries the far storms' swell
+    expect(seaRmsHeightM(0, 60000)).toBe(seaRmsHeightM(SEA.swellFloorWindMS, 60000));
+    expect(seaRmsHeightM(2, 60000)).toBe(seaRmsHeightM(7, 60000));
+    // grows with wind, and with fetch until fully developed
+    expect(seaRmsHeightM(12, 60000)).toBeGreaterThan(seaRmsHeightM(7, 60000) * 1.5);
+    expect(seaRmsHeightM(12, 300)).toBeLessThan(seaRmsHeightM(12, 60000) * 0.1);
+    expect(seaRmsHeightM(30, 1e9)).toBeCloseTo(0.21 * 900 / 9.81 / 4, 6);
+    // the calm sea is not muted (audit root cause 1): mean surface slope of
+    // a 400 m open-water patch at the floor wind is a real swell's
+    let slope = 0, n = 0;
+    const rms = seaRmsHeightM(7, 60000);
+    for (let z = 0; z < 400; z += 7.3) for (let x = 0; x < 400; x += 7.1) {
+      gerstnerAt(x, z, 31.7, rms, out, 60000);
+      slope += Math.hypot(out.nx, out.nz) / Math.max(out.ny, 1e-6); n++;
+    }
+    expect(slope / n).toBeGreaterThan(0.02);   // ~1.1°, the old table's 100 m band gave a third of that
+    expect(rms).toBeGreaterThan(0.15);
+  });
+
+  it("whitecaps: 2–6 % of the sea from the floor wind to a storm, more in a squall, pattern and ripples drift downwind", () => {
+    expect(whitecapCoverage(0)).toBeCloseTo(SEA.whitecap.calmCoverage, 9);
+    expect(whitecapCoverage(7)).toBeCloseTo(0.02, 9);
+    expect(whitecapCoverage(12)).toBeGreaterThan(0.05);
+    expect(whitecapCoverage(12)).toBeLessThan(0.065);
+    expect(whitecapCoverage(17)).toBeGreaterThan(0.1);
+    expect(whitecapCoverage(40)).toBe(SEA.whitecap.maxCoverage);
+    // the threshold is the matching upper quantile of the crest noise; the
+    // noise's moments are re-measured here by porting the fragment's fbm
+    const fract = (v: number) => v - Math.floor(v);
+    const h21 = (px: number, py: number) => hash21(px, py);
+    const noised = (x: number, y: number) => {
+      const px = Math.floor(x), py = Math.floor(y);
+      const fx = x - px, fy = y - py;
+      const ux = fx * fx * fx * (fx * (fx * 6 - 15) + 10), uy = fy * fy * fy * (fy * (fy * 6 - 15) + 10);
+      const a = h21(px, py), b = h21(px + 1, py), c = h21(px, py + 1), d = h21(px + 1, py + 1);
+      return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+    };
+    const fbm = (x: number, y: number, oct: number) => {
+      let amp = 0.5, sum = 0;
+      for (let i = 0; i < oct; i++) {
+        sum += amp * noised(x, y);
+        const nx = 1.6 * x - 1.2 * y, ny = 1.2 * x + 1.6 * y;   // mat2(1.6, 1.2, -1.2, 1.6) column-major
+        x = nx; y = ny; amp *= 0.5;
+      }
+      return sum;
+    };
+    void fract;
+    const vals: number[] = [];
+    for (let z = 0; z < 600; z += 1.7) for (let x = 0; x < 600; x += 1.9) {
+      const px = x * 0.085, py = z * 0.085;
+      vals.push(fbm(px, py, 3) * 0.5 + fbm(px * 2.7 + 11, py * 2.7 + 11, 2) * 0.5);
+    }
+    const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const std = Math.sqrt(vals.reduce((a, b) => a + (b - mean) ** 2, 0) / vals.length);
+    expect(mean).toBeCloseTo(CREST_NOISE.mean, 1);
+    expect(std).toBeCloseTo(CREST_NOISE.std, 1);
+    // ...and the threshold covers what it says: the share above it ≈ the coverage
+    for (const wind of [7, 12]) {
+      const thr = whitecapThreshold(wind);
+      const share = vals.filter((v) => v > thr).length / vals.length;
+      expect(share).toBeGreaterThan(whitecapCoverage(wind) * 0.5);
+      expect(share).toBeLessThan(whitecapCoverage(wind) * 2.0);
+    }
+    // ripples on still water travel at their own phase speed, never 3 cm/s
+    expect(stillWaterDriftMS(0)).toBeGreaterThanOrEqual(0.5);
+    expect(stillWaterDriftMS(20)).toBeLessThanOrEqual(1.5);
+    expect(whitecapDriftMS()).toBeGreaterThan(4);
   });
 
   it("directional spread is narrow at the peak and broad at the shortest band", () => {
@@ -91,8 +163,8 @@ describe("waves", () => {
     const n = 400;
     for (let i = 0; i < n; i++) {
       const x = i * 3.71, z = i * 1.93, t = i * 0.37;
-      gerstnerAt(x, z, t, 1, out); openRms += out.height * out.height;
-      gerstnerAt(x, z, t, 1, out, 80); lakeRms += out.height * out.height;
+      gerstnerAt(x, z, t, FULL, out); openRms += out.height * out.height;
+      gerstnerAt(x, z, t, FULL, out, 80); lakeRms += out.height * out.height;
     }
     expect(Math.sqrt(lakeRms / n)).toBeLessThan(Math.sqrt(openRms / n) * 0.8);
     // marsh/river amplitude stays tiny: exposure (turbidity, fetch, depth)
@@ -106,28 +178,28 @@ describe("waves", () => {
   it("standing waves: nodes stay put, s = 0 is the travelling form, normals stay analytic", () => {
     // s = 0 reproduces the plain travelling sum bit-for-bit
     const a = { ...out }, b = { ...out };
-    gerstnerAt(31, 77, 12.5, 1, a);
-    gerstnerAt(31, 77, 12.5, 1, a, Infinity, 0);
-    gerstnerAt(31, 77, 12.5, 1, b);
+    gerstnerAt(31, 77, 12.5, FULL, a);
+    gerstnerAt(31, 77, 12.5, FULL, a, Infinity, 0);
+    gerstnerAt(31, 77, 12.5, FULL, b);
     expect(a.height).toBe(b.height);
     // s = 1: every band is a·sin(argS)·cos(ωt) — its time average is zero
     // everywhere and a single-band node never moves
     let mean = 0;
-    for (let t = 0; t < 400; t += 0.25) mean += gerstnerAt(10, 20, t, 1, a, Infinity, 1).height;
+    for (let t = 0; t < 400; t += 0.25) mean += gerstnerAt(10, 20, t, FULL, a, Infinity, 1).height;
     expect(Math.abs(mean / 1600)).toBeLessThan(0.01);
     // standing motion has less horizontal sweep than travelling motion
     let swTr = 0, swSt = 0;
     for (let t = 0; t < 60; t += 0.1) {
-      swTr += Math.abs(gerstnerAt(10, 20, t, 1, a, Infinity, 0).dx);
-      swSt += Math.abs(gerstnerAt(10, 20, t, 1, a, Infinity, 1).dx);
+      swTr += Math.abs(gerstnerAt(10, 20, t, FULL, a, Infinity, 0).dx);
+      swSt += Math.abs(gerstnerAt(10, 20, t, FULL, a, Infinity, 1).dx);
     }
     expect(swSt).toBeLessThan(swTr);
     // the analytic normal matches a finite difference of the height at s = 0.4
     const e = 1e-3;
     for (const [x, z, t] of [[12, 40, 5], [300.2, 71.9, 33]]) {
-      gerstnerAt(x, z, t, 1, a, Infinity, 0.4);
-      const hx = (gerstnerAt(x + e, z, t, 1, b, Infinity, 0.4).height - gerstnerAt(x - e, z, t, 1, b, Infinity, 0.4).height) / (2 * e);
-      const hz = (gerstnerAt(x, z + e, t, 1, b, Infinity, 0.4).height - gerstnerAt(x, z - e, t, 1, b, Infinity, 0.4).height) / (2 * e);
+      gerstnerAt(x, z, t, FULL, a, Infinity, 0.4);
+      const hx = (gerstnerAt(x + e, z, t, FULL, b, Infinity, 0.4).height - gerstnerAt(x - e, z, t, FULL, b, Infinity, 0.4).height) / (2 * e);
+      const hz = (gerstnerAt(x, z + e, t, FULL, b, Infinity, 0.4).height - gerstnerAt(x, z - e, t, FULL, b, Infinity, 0.4).height) / (2 * e);
       // Gerstner normals are exact for the displaced surface; at these slopes
       // the rest-position gradient agrees to a few percent
       expect(-a.nx / a.ny).toBeCloseTo(hx, 1);
@@ -156,8 +228,8 @@ describe("waves", () => {
     expect(snapOmega(1e-9)).toBe(OMEGA_QUANTUM);
     const a = { ...out }, b = { ...out };
     for (const [x, z, t] of [[100, 50, 60.3], [2000, 3000, 7200.7], [512.3, 991.7, 8191.9]]) {
-      surfaceWaveAt(x, z, t, 1, a, 500, 0.3);
-      surfaceWaveAt(x, z, t + T, 1, b, 500, 0.3);
+      surfaceWaveAt(x, z, t, FULL, a, 500, 0.3);
+      surfaceWaveAt(x, z, t + T, FULL, b, 500, 0.3);
       expect(b.height).toBeCloseTo(a.height, 6);
       expect(b.nx).toBeCloseTo(a.nx, 6);
       flowWaveAt(x, z, 0.6, 0.8, 0.7, t, a);
@@ -171,80 +243,39 @@ describe("waves", () => {
     expect(GROUP_OMEGA).toBeCloseTo(SWASH.groupOmega, 3);
   });
 
-  it("crest statistic: whitecap density and storm growth stay in the reviewed range", () => {
-    // The fragment's whitecap term is smoothstep(0.16, 0.34, height - still)
-    // × exposure. Measure its mean over space/time for the retired geometric
-    // table (34 m / 0.17 m / 0.76 / 1.31 / spread 0.9) and the JONSWAP set,
-    // at calm (1), fresh (2) and squall (6) wind-wave scales.
-    const sstep = (e0: number, e1: number, v: number) => {
-      const t = Math.min(Math.max((v - e0) / (e1 - e0), 0), 1);
-      return t * t * (3 - 2 * t);
-    };
-    const oldBands: { dx: number; dz: number; k: number; a: number; w: number; q: number; p0: number }[] = [];
-    {
-      const base = Math.atan2(WAVES.windDir[1], WAVES.windDir[0]);
-      let k = (2 * Math.PI) / 34, a = 0.17;
-      for (let i = 0; i < 10; i++) {
-        const ang = base + (hash21(i, 1.7) * 2 - 1) * 0.9;
-        oldBands.push({ dx: Math.cos(ang), dz: Math.sin(ang), k, a, w: Math.sqrt(9.81 * k), q: 0.62 / (k * a * 10), p0: hash21(i, 9.1) * 6.2831853 });
-        k *= 1.31; a *= 0.76;
-      }
-    }
-    const oldHeight = (x: number, z: number, t: number, exposure: number) => {
-      let h = 0;
-      for (const b of oldBands) h += b.a * exposure * Math.sin(b.k * (b.dx * x + b.dz * z) + t * b.w + b.p0);
-      return h;
-    };
-    const stat = (height: (x: number, z: number, t: number) => number) => {
-      let s = 0, n = 0;
-      for (let t = 0; t < 64; t += 1.7) for (let z = 0; z < 400; z += 9.3) for (let x = 0; x < 400; x += 9.7) {
-        s += sstep(0.16, 0.34, height(x, z, t)); n++;
-      }
-      return s / n;
-    };
-    const rows: string[] = [];
-    for (const wind of [1, 2, 6]) {
-      const before = stat((x, z, t) => oldHeight(x, z, t, wind));
-      const after = stat((x, z, t) => gerstnerAt(x, z, t, wind, out).height);
-      rows.push(`wind ${wind}: before ${before.toFixed(4)} after ${after.toFixed(4)}`);
-      // same order of magnitude at every wind; monotone growth with wind
-      expect(after).toBeGreaterThan(before * 0.5);
-      expect(after).toBeLessThan(before * 2.0 + 0.002);
-    }
-    const afterCalm = stat((x, z, t) => gerstnerAt(x, z, t, 1, out).height);
-    const afterStorm = stat((x, z, t) => gerstnerAt(x, z, t, 6, out).height);
-    expect(afterStorm).toBeGreaterThan(afterCalm * 3);
-    console.info("[waves] crest statistic (mean whitecap weight) " + rows.join("; "));
-  });
 
   it("fixed-point inversion converges: rendered surface above (x,z) matches", () => {
     // sample the wave at the resolved rest position; its displaced x/z must
     // land back on the query point within a few cm
     for (const [x, z, t] of [[100, 50, 60], [2000, 3000, 7200], [512.3, 991.7, 300]]) {
-      surfaceWaveAt(x, z, t, 1, out);
+      surfaceWaveAt(x, z, t, FULL, out);
       // re-run the forward map from the rest position the inversion found
       const rx = x - out.dx;
       const rz = z - out.dz;
       const fwd = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
       // forward sample at the rest position must displace back to ≈ (x, z)
-      gerstnerAt(rx, rz, t, 1, fwd);
+      gerstnerAt(rx, rz, t, FULL, fwd);
       expect(Math.abs(rx + fwd.dx - x)).toBeLessThan(0.05);
       expect(Math.abs(rz + fwd.dz - z)).toBeLessThan(0.05);
     }
   });
 
-  it("exposure model gates by fetch and depth", () => {
+  it("exposure model: the swell hands over to the shore swell at the waterline and dies in the shallows", () => {
     expect(waveExposure(0, 5)).toBe(0);
     expect(waveExposure(500, 0)).toBe(0);
     expect(waveExposure(500, 5)).toBe(1);
-    expect(waveExposure(WAVES.fetchSaturationM / 2, 5)).toBeCloseTo(0.5);
+    expect(waveExposure((WAVES.handoverNearM + WAVES.handoverFarM) / 2, 5)).toBeCloseTo(0.5);
+    // the fetch is a per-band limit, not an exposure term: 80 m of fetch
+    // keeps the ripples and cuts the swell (see the sheltered-water test)
+    expect(fetchExposure(SHORE_SWELL.fetchM, 0)).toBe(1);
+    expect(fetchExposure(150, 0)).toBeCloseTo(0.25);
   });
 
   it("shore surf is gated by FETCH, not wave exposure (the round-7 lesson)", () => {
     // at the waterline itself (shoreDist ≈ 0, depth ≈ 0) waveExposure is 0 —
     // but with a big bay seaward, the swash must still move the waterline
     expect(waveExposure(0.5, 0.02)).toBeLessThan(0.01);
-    const fetch = fetchExposure(200, 0);
+    const fetch = fetchExposure(SHORE_SWELL.fetchM, 0);
     expect(fetch).toBe(1);
     let hi = -Infinity;
     let lo = Infinity;
@@ -297,13 +328,14 @@ describe("waves", () => {
   it("GLSL twin bakes the same constants as the CPU table", () => {
     const glsl = gerstnerGlsl();
     expect(glsl.match(/esWaveBand\(pos/g)?.length).toBe(WAVES.bands);
-    expect(glsl).toContain(`${WAVES.fetchSaturationM.toFixed(1)}`);
+    expect(glsl).toContain(`${WAVES.handoverNearM.toFixed(1)}`);
+    expect(glsl).toContain(`${SEA.swellFloorWindMS.toFixed(1)}`);
     // every band's wavenumber, amplitude, snapped frequency and fetch appear verbatim
     for (const b of waveBands()) {
       expect(glsl).toContain(`${b.freq}, ${b.amp}, ${b.phaseSpeed}, ${b.q}, ${b.phase0}`);
-      expect(glsl).toContain(`clamp(shoreDist / ${b.fetchM}`);
+      expect(glsl).toContain(`clamp(fetchM / ${b.fetchM}`);
     }
-    expect(glsl).toContain("EsWave esWaveSampleEx(vec2 pos, float exposure, float shoreDist, float standing, float t)");
+    expect(glsl).toContain("EsWave esWaveSampleEx(vec2 pos, float exposure, float fetchM, float standing, float t)");
     expect(glsl).toContain("EsWave esWaveSample(vec2 pos, float exposure, float t)");
     expect(glsl).toContain(`floor(omega / ${OMEGA_QUANTUM} + 0.5)) * ${OMEGA_QUANTUM}`);
     // the standing blend is the same algebra as gerstnerAt
@@ -386,24 +418,27 @@ describe("flow waves (decision 0047 item 6)", () => {
 // ---------------------------------------------------------------------------
 
 describe("tide", () => {
-  it("oscillates on the semidiurnal period within amplitude bounds", () => {
+  it("falls from the high-water line on the semidiurnal period and never rises above it", () => {
     let min = Infinity;
     let max = -Infinity;
     for (let m = 0; m < SEMIDIURNAL_MINUTES * 4; m += 15) {
       const t = tideOffset(m, 0.5);
       min = Math.min(min, t);
       max = Math.max(max, t);
-      expect(Math.abs(t)).toBeLessThanOrEqual(0.5 + 1e-9);
+      expect(t).toBeLessThanOrEqual(1e-9);
+      expect(t).toBeGreaterThanOrEqual(-1.0 - 1e-9);
     }
-    expect(max).toBeGreaterThan(0.15);
-    expect(min).toBeLessThan(-0.15);
+    expect(max).toBeGreaterThan(-0.05);
+    expect(min).toBeLessThan(-0.6);
   });
 
-  it("wet season raises, dry season draws down gently", () => {
-    expect(seasonOffset(1, 1.4)).toBeCloseTo(1.4);
-    expect(seasonOffset(-1, 1.4)).toBeCloseTo(-0.28);
-    expect(seasonOffset(0, 1.4)).toBe(0);
+  it("the season only draws the water DOWN from the line (owner 2026-09-13)", () => {
+    expect(seasonOffset(1, 1.4)).toBeCloseTo(0, 9);
+    expect(seasonOffset(-1, 1.4)).toBeCloseTo(-1.4);
+    expect(seasonOffset(0, 1.4)).toBeCloseTo(-0.7);
+    expect(seasonOffset(2, 1.4)).toBeCloseTo(0, 9);
   });
+
 });
 
 // ---------------------------------------------------------------------------
@@ -492,7 +527,7 @@ describe("wet-aware surface interpolation", () => {
   function signed(eastDepth: number, eastW: number) {
     const size = 2;
     const meta: WaterMeta = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       surface: { file: "", size, metresPerPixel: 10, minM: -10, maxM: 10, buryM: 3, depthMinM: -6, depthSpanM: 30.6 },
       flow: { file: "", size, metresPerPixel: 10, flowMax: 3, shoreMaxM: 160 },
       klass: { file: "", size, metresPerPixel: 10, classes: ["none", "lake"] },

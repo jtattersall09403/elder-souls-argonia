@@ -605,7 +605,7 @@ describe.skipIf(!waterDelivered())("shipped cascade geometry (smoke: whatever wa
   it("has cascades to build, in a schema the builder reads", () => {
     // v1 (96 cascades, many long slope "falls") and v2 (fewer, cliff-classified)
     // share the cascade record shape; the builder must take either.
-    expect([1, 2]).toContain(meta.schemaVersion);
+    expect([1, 2, 3]).toContain(meta.schemaVersion);
     expect(cascades.length).toBeGreaterThan(0);
     for (const c of cascades) {
       expect(typeof c.id).toBe("string");

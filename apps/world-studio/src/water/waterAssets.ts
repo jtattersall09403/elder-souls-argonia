@@ -4,6 +4,7 @@ import { worldClock } from "../sky/timeState";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { groundHeightM } from "../vegetation/terrainHeight";
 import { waterTimeS } from "./waterClock";
+import { lastWeatherSample } from "../weather/weatherState";
 import { primeWetnessUniforms } from "./groundWetness";
 import type { WaterAssets } from "@elder-souls/game-core/water/render/types";
 export type { WaterAssets } from "@elder-souls/game-core/water/render/types";
@@ -76,6 +77,7 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
     groundHeight: waterGroundHeight,
     seasonScalar: effectiveSeasonScalar,
     waveTimeS: waterTimeS,
+    windSpeedMS: () => lastWeatherSample()?.windSpeedMS ?? 0,
     waterfallTextureUrls,
   })).then((assets) => {
     // the terrain wet band samples the same rasters

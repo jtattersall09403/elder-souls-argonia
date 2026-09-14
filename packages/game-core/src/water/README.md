@@ -6,6 +6,29 @@ terrain-constrained overhaul was retired by
 the model was made physical on the real terrain by
 [decision 0047](../../../../docs/decisions/0047-water-one-physical-model.md).
 
+## Phase 16c (decision 0063): schema 3, the line, the sea
+
+- **The compiled level is the high-water line.** `tide.ts` offsets are never
+  positive: `seasonOffset(s) = −amp·(1 − s)/2` (s = 1 the wet season = the
+  line, s = −1 the dry trough) and `tideOffset` falls from 0 to −2·amplitude
+  at springs. `water-shore.png` G is the per-texel DRAW-DOWN response.
+- **The sea's energy is the wind's and the fetch's** (`waves.ts` `SEA`,
+  `seaRmsHeightM`): the band table is unit-rms, scaled per vertex by the
+  JONSWAP fetch-limited height (PM-capped) for the weather wind (never under
+  `SEA.swellFloorWindMS`, the owner's calm-sea knob) and the compiled
+  directional fetch (`water-flow.png` B). Whitecap density, still-water
+  ripple drift and the whitecap pattern's drift follow the wind too.
+- **The field's three guards are coverage terms** (`waterMaterial.ts`
+  `esGuard`): buried, cliff (the raster's own gradient) and owner dissolve;
+  one discard where all are gone. The raster clamps to its edge beyond the
+  province (no hard sea plane). Horizon blend 4–12 km, 60 % max; walk-mode
+  grid 12 km.
+- **Entities.** `water-id.png` labels every wet texel with its graph body or
+  reach (`meta.entities[]`); `WaterSample.waterBodyId` is that id.
+- **Strips** sit at the notch level (`compile_water.strip_levels`): the
+  ribbon touches the parabolic bed at its wetted edges.
+- **Bundles of another schema are refused** at load (`assertWaterSchema`).
+
 ## The 0047 contract in one paragraph
 
 `water-surface.png` B is **signed depth** `W − ground` (`depth = B/255 ·
@@ -94,9 +117,10 @@ on a 6 s transport cycle.
 `WorldWaterQuery`, never the renderer.
 
 Wave energy is JONSWAP-shaped: a 160 → 3 m band ladder around a 100 m peak,
-normalised to a 0.185 m rms — **the retired table's RMS and root cause 1 of the muted sea in research/phase16/audit-water-runtime.md; 16c replaces it with `rmsHeightM` from wind and fetch (ruling 7)** — with each band fetch-limited at
-2 × its wavelength (a 200 m lake carries chop, never swell) and blended
-toward a standing wave by class (lake 0.45, marsh 0.5, estuary 0.3). All
+unit-rms and scaled by `seaRmsHeightM(wind, fetch)` (16c, ruling 7), with
+each band fetch-limited at 2 × its wavelength on the compiled directional
+fetch (a 200 m lake carries chop, never swell) and blended toward a standing
+wave by class (lake 0.45, marsh 0.5, estuary 0.3). All
 frequencies sit on the 2π/8192 s grid so `WaterClock.phaseS` folds without
 a pop. Technique sources: [water-pro-greenheck-study.md](../../../../docs/research/rendering/water-pro-greenheck-study.md).
 

@@ -143,10 +143,13 @@ Dynamic changes should be bounded, readable and reproducible from world state.
 **Phase 8b note (owner question 2026-08-23, answered):** the wet/dry season
 transition needs no re-authored textures — the land-cover water-edge gradient
 already encodes the progression (silt → shallows → wet bank → mud → damp
-fringe), so the renderer animates the *water level* (flood-states data) and
-adds a shader "wetness band" that darkens/wets the strip between the current
-and recent waterline, sampling the same flood data. Seasonal texture
-*swapping* is not planned; seasonal vegetation states are Phase 13.
+fringe), so the renderer animates the *water level* and adds a shader
+"wetness band" that darkens/wets the strip between the current and recent
+waterline. **Owner 2026-09-13 (16c, decision 0063): the compiled level is
+the wet-season HIGH-water line; the dry season only draws the water down
+(marsh sheets ~0.3 m, lakes centimetres, seasonal creeks to their beds) and
+nothing ever rises above the line.** Seasonal texture *swapping* is not
+planned; seasonal vegetation states are Phase 13.
 
 ## 37. Routes follow hydrology
 

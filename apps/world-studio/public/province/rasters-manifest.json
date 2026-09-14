@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "sha256": "043a5cbe5d35425cb02ecc6ca25cc5c149a10391ecd0783d2c706670e90e1495",
-  "sizeBytes": 103069167,
+  "sha256": "840da5143a46adbb4298a87a6e3e91f3d7a3f393331b2d197c73c6a3c15eed1c",
+  "sizeBytes": 103889933,
   "release": {
     "tag": "province-rasters",
-    "asset": "province-rasters-043a5cbe5d35.tar.gz"
+    "asset": "province-rasters-840da5143a46.tar.gz"
   },
   "files": [
     {
@@ -3853,14 +3853,9 @@
       "bytes": 17791205
     },
     {
-      "path": "refined/flood-wet.png",
-      "sha256": "6ee1c7bc7d0b71cc782512294119d98b9659ac26bd7bae0dc739545bb6d7219e",
-      "bytes": 78609
-    },
-    {
       "path": "refined/ground-control.png",
-      "sha256": "57851c685ce4c8c079ec0f55a10cc8b79b59fb3e48c2cd5dac07a2e040f46d2c",
-      "bytes": 19076116
+      "sha256": "b9c891424cb7ab1eae99c954f4cdbb8e863670fdfab71cab1e1d6701528da601",
+      "bytes": 19700209
     },
     {
       "path": "refined/ground-tint.png",
@@ -4904,28 +4899,33 @@
     },
     {
       "path": "water/water-class.png",
-      "sha256": "fc1e69c98c2b537ea9aac5f9edddc8070c2210116376c694b957f0d6d2483179",
-      "bytes": 570994
+      "sha256": "8f196b9e6f44ede7c8e31c9bf4d218b93659ea0dc78a73a369352268761afde7",
+      "bytes": 604857
     },
     {
       "path": "water/water-flow.png",
-      "sha256": "75eeb51fa3f96ad0e3c1cd93a9c6775f462cddb393259f117da12d472e69fa1a",
-      "bytes": 153788
+      "sha256": "a1f2d1e15e43ada0bb1e4eed101cda5a5f42707c48b697bdfe66bd24cb47b09e",
+      "bytes": 261376
+    },
+    {
+      "path": "water/water-id.png",
+      "sha256": "c6a7178d504367f1c14bc5e903e73175611fad6bd614e786b89c270e5947ea48",
+      "bytes": 200642
     },
     {
       "path": "water/water-owner.png",
-      "sha256": "2db0044d4177b791fc5c1db1c855ca5b376ae7e7a16b4aa27ce9ed869c8aaba8",
-      "bytes": 12192
+      "sha256": "6d9e23aa4d7a4dc5ba41fe7775cb479ecc47c99bac2624e3dcdae008dbb012bd",
+      "bytes": 10103
     },
     {
       "path": "water/water-shore.png",
-      "sha256": "7b2cb28fca69464d035b2361fe98f9128cae28dde26011189d8f4d4fd2e76f68",
-      "bytes": 1935899
+      "sha256": "47cd28edd24b338f7f3213acba330770744a757103a25cc880f117ca588ae6bb",
+      "bytes": 2011646
     },
     {
       "path": "water/water-surface.png",
-      "sha256": "0e8c562b51303c4a1d33d20028f09767fb07c5bad20c8a9ea30f59b940f21818",
-      "bytes": 3211111
+      "sha256": "8e0f53b7b2ceb94d1efe1835f7d4c5a33866a1021add2a70160ac0577ac3b01e",
+      "bytes": 3070642
     }
   ]
 }

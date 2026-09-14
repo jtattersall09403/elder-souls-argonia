@@ -28,6 +28,10 @@ export interface WaterProbeRow {
   className: string;
   speedMS: number;
   shoreDistM: number;
+  /** The compiled open-water fetch (m) at the point (schema 3). */
+  fetchM: number;
+  /** The graph entity owning the point (schema 3), else null. */
+  entityId: string | null;
   seasonResponse: number;
   tideResponse: number;
 }
@@ -65,7 +69,8 @@ export function createWaterProbe(assets: WaterAssets, options: {
         x, z, stillM: still, depthM: depth, rawDepthM: s.depthProxy, groundM: ground,
         physicalDepthM: ground === null ? null : still - ground,
         wet: depth > 0, className: s.className, speedMS: Math.hypot(s.flowX, s.flowZ),
-        shoreDistM: s.shoreDistM, seasonResponse: s.seasonResponse, tideResponse: s.tideResponse,
+        shoreDistM: s.shoreDistM, fetchM: s.fetchM, entityId: s.entityId,
+        seasonResponse: s.seasonResponse, tideResponse: s.tideResponse,
       };
     });
     return {

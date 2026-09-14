@@ -16,7 +16,7 @@ import pytest
 from . import channels as ch
 from . import standing_water as sw
 from .compile_chunks import DEFAULT_HEIGHTS
-from .compile_water import CLASSES, FLOW_MAX, compute, decode_surface, hovering_edges
+from .compile_water import CLASSES, FLOW_MAX, BodyFlood, compute, decode_surface, hovering_edges
 from .scale import RAW_M
 from .ladder import requires_layer, requires_stage
 
@@ -297,7 +297,7 @@ def synth():
     sol = ch.solve(h, npz, step=STEP, mpp=MPP)
     sw.pool_channels(sol, bodies, log=lambda *a: None)
     carved, _ = ch.carve(h, sol)
-    r = compute(carved, npz, sol, step=STEP, mpp=MPP, with_placement=False, log=lambda *a: None)
+    r = compute(carved, npz, sol, step=STEP, mpp=MPP, log=lambda *a: None, bodies=BodyFlood.from_solution(bodies))
     return carved, npz, r
 
 
@@ -360,7 +360,7 @@ def test_province_visible_water_fraction_sane(province):
 def test_shipped_rasters_decode_to_vault_and_ride_no_alpha(province):
     from PIL import Image
     npz, meta = province
-    assert meta["schemaVersion"] == 2
+    assert meta["schemaVersion"] == 3
     m = meta["surface"]
     img = Image.open(WATER_DIR / m["file"])
     assert img.mode == "RGB"

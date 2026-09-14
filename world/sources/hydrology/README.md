@@ -121,18 +121,28 @@ frozen terrain, so no polygon is stored). Kinds:
 
 Fields: `levelM`, `altitudeBand` (`tidal` <= 1.5 m and saline, `lowland`
 < 30 m, `upland` < 110 m, `montane`), `areaM2`, `maxDepthM`, `sheet`,
-`season`, `seasonResponse`, `wetSeasonLevelM` (= level + 1.4 x response),
-`drySeasonLevelM` (= level - 0.2 x 1.4 x response, the runtime's dry-season
-draw-down), `inflow[]`, `outflow`, `sink` (inflow and no outflow), `region`,
-`deepestCell`, `bboxCells`, `origin: measured | promised | authored`.
+`season`, `seasonResponse`, `wetSeasonLevelM`, `drySeasonLevelM`
+(= level - 0.2 x 1.4 x response, the dry-season draw-down), `inflow[]`,
+`outflow`, `sink` (inflow and no outflow), `region`, `deepestCell`,
+`bboxCells`, `origin: measured | promised | authored`.
+
+**`levelM` is the high-water line** (owner 2026-09-13, decision 0063): the
+water drawn on the 2D map and the extent 16b carved for is the wet-season
+level, and nothing ever rises above it. The water compile ships `levelM`
+as the level and `levelM − drySeasonLevelM` as the dry-season draw-down;
+`wetSeasonLevelM` (a 16a rise above the line) is recorded but NOT realised
+by any stage, and a consumer that needs the worst case for a hull or a
+ford reads `drySeasonLevelM`.
 
 **Season.** `perennial` unless the dry-season draw-down empties the body
 (`maxDepthM` <= dry drop), then `seasonal`. Reaches: bands 2–3 perennial;
 band 1 perennial only inside the marsh/wetland heartland (groundwater-fed),
 else `seasonal` — and **perennial flows downstream**: once a river is
 perennial every reach below it is, and a body fed by a perennial reach is,
-so a river never dries in the middle and restarts. This is the stored fact the runtime's arithmetic used to
-imply; the runtime keeps animating the level between the two stored extremes.
+so a river never dries in the middle and restarts. The runtime animates
+the level between the line and the dry-season level (a seasonal reach down
+to its bed); the compile writes the per-texel draw-down (`compile_water.py`,
+`water-shore.png` G).
 
 **Authored bodies** — `authored-bodies.json` declares lore-required standing
 water (the Blackrose lake); the shape stage digs it, the derive measures it

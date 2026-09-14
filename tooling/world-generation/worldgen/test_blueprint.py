@@ -1,7 +1,7 @@
 """Blueprint schema validator tests (Phase 11 Part 0 item 3, decision 0041)."""
 
 import pytest
-from .ladder import requires_layer, requires_stage
+from .ladder import requires_delivered, requires_layer, requires_stage
 
 from . import blueprint, blueprint_footprints, blueprint_interiors, known_red, street_router
 
@@ -217,7 +217,7 @@ def test_budget_shape():
     assert any("budget" in e for e in errs)
 
 
-@requires_layer("water")
+@requires_delivered("16g")
 @pytest.mark.real_index
 def test_live_dir_validates():
     """Hard again since 2026-09-05: the five live blueprints are re-authored

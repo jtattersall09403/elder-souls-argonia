@@ -280,7 +280,7 @@ export function App() {
     const base: Record<string, boolean> = {
       rivers: legacyOn, wetlands: legacyOn, routes: legacyOn, waterways: legacyOn, rootways: false,
       danger: false, cultures: false, regions: false, mist: false, flood: false,
-      "flood-wet": false, soil: false, watersheds: false, salinity: false,
+      soil: false, watersheds: false, salinity: false,
       "hydrograph-bodies": hydrographOn, "hydrograph-rivers": hydrographOn, "hydrograph-season": false,
       "hydrograph-falls": hydrographOn, "hydrograph-wetline": false,
     };
@@ -386,9 +386,6 @@ export function App() {
         danger: "soc-danger.png", cultures: "soc-cultures.png",
         waterways: "soc-waterways.png", rootways: "soc-rootways.png",
         mist: "hydro-mist.png",
-        // Wet-season inundation (+1.4 m connected flood, refine_province):
-        // the map-view twin of the 3D world's seasonal water level (§36).
-        "flood-wet": "refined/flood-wet.png",
         // The hydrology graph (Phase 16a, worldgen.hydrology_graph): drawn
         // from world/sources/hydrology/hydrology-graph.json at derive time.
         "hydrograph-rivers": "hydrograph-rivers.png", "hydrograph-bodies": "hydrograph-bodies.png",
@@ -469,7 +466,7 @@ export function App() {
     ctx.putImageData(out, 0, 0);
 
     // Generated overlays under the anchors, in back-to-front order.
-    for (const name of ["regions", "soil", "watersheds", "flood", "flood-wet", "salinity",
+    for (const name of ["regions", "soil", "watersheds", "flood", "salinity",
                         "danger", "cultures", "wetlands", "rivers", "waterways",
                         "routes", "rootways", "mist",
                         // the hydrology graph (Phase 16a) draws on top of the Phase 3 rasters

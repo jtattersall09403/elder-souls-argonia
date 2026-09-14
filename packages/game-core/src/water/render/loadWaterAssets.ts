@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { WaterData, decodeDepthByte, type WaterMeta } from "../waterData";
+import { WaterData, assertWaterSchema, decodeDepthByte, type WaterMeta } from "../waterData";
 import { WaterWorld } from "../waterWorld";
 import type { WaterAssets } from "./types";
 import { loadWaterfallTextures, type WaterfallTextureSlot } from "./WaterfallSheets";
@@ -27,6 +27,15 @@ export interface LoadWaterAssetsOptions {
   /** Waterfall FX texture URLs by shader slot (the app composes them from the
    * kit manifest via `WATERFALL_TEXTURE_ROLES`); missing = procedural. */
   waterfallTextureUrls?: Partial<Record<WaterfallTextureSlot, string>>;
+  /** The weather's wind speed (m/s) for the sea's energy; 0 = the swell floor. */
+  windSpeedMS?: () => number;
+}
+
+/** Entity labels from the raw RGBA bytes of water-id.png (R·256 + G). */
+export function decodeWaterIds(size: number, rgba: Uint8ClampedArray | Uint8Array): Uint16Array {
+  const out = new Uint16Array(size * size);
+  for (let i = 0; i < size * size; i++) out[i] = rgba[i * 4] * 256 + rgba[i * 4 + 1];
+  return out;
 }
 
 async function fetchImageData(url: string): Promise<ImageData> {
@@ -91,13 +100,16 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     fetch(`${base}province/refined/flood-states.json`).then((r) => r.json()).catch(() => null),
     options.waterfallTextureUrls ? loadWaterfallTextures(options.waterfallTextureUrls) : Promise.resolve(undefined),
   ]);
+  assertWaterSchema(meta);
   const ownerFile = meta.surface.ownerFile;
-  const [surfImg, flowImg, klassImg, shoreImg, ownerImg] = await Promise.all([
+  const idFile = meta.surface.idFile;
+  const [surfImg, flowImg, klassImg, shoreImg, ownerImg, idImg] = await Promise.all([
     fetchImageData(`${waterBase}${meta.surface.file}`),
     fetchImageData(`${waterBase}${meta.flow.file}`),
     fetchImageData(`${waterBase}${meta.klass.file}`),
     fetchImageData(`${waterBase}${meta.surface.shoreFile ?? "water-shore.png"}`),
     ownerFile ? fetchImageData(`${waterBase}${ownerFile}`) : Promise.resolve(null),
+    idFile ? fetchImageData(`${waterBase}${idFile}`) : Promise.resolve(null),
   ]);
 
   // Dequantise W + signed depth + shore distance for the CPU samplers.
@@ -110,6 +122,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     new Uint8ClampedArray(klassImg.data),
     shore,
     season,
+    idImg ? decodeWaterIds(meta.surface.size, idImg.data) : undefined,
   );
 
   const basin = (floodStates?.basins?.[0] ?? {}) as {
@@ -124,6 +137,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     groundHeight: (x, z) => options.groundHeight?.(x, z) ?? null,
     seasonScalar: options.seasonScalar,
     waveTimeS: options.waveTimeS,
+    windSpeedMS: options.windSpeedMS,
   });
 
   return {

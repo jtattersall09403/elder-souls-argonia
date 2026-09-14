@@ -52,6 +52,34 @@ def requires_layer(layer: str):
                f"ground (province/ladder.json: through {doc.get('through') if doc else '?'})")
 
 
+LADDER_ORDER = ("16b", "16c", "16d", "16e", "16f", "16g", "16h")
+
+
+def chunk_delivered(chunk: str) -> bool:
+    """Has the ladder been built through `chunk` (or `full`)?"""
+    doc = load()
+    if not doc:
+        return True
+    through = doc.get("through")
+    if through == "full":
+        return True
+    try:
+        return LADDER_ORDER.index(str(through)) >= LADDER_ORDER.index(chunk)
+    except ValueError:
+        return True
+
+
+def requires_delivered(chunk: str):
+    """`@requires_delivered("16g")`: skip until that chunk has delivered — for
+    a gate that judges a record a later chunk re-authors on this ground (the
+    macro plot against the frozen water is 16g's)."""
+    doc = load()
+    return pytest.mark.skipif(
+        not chunk_delivered(chunk),
+        reason=f"judges a record that {chunk} re-authors on this ground; the ladder is through "
+               f"{doc.get('through') if doc else '?'}")
+
+
 def requires_stage(stage: str):
     """`@requires_stage("grade_routes")`: skip until the ladder runs the stage."""
     doc = load()

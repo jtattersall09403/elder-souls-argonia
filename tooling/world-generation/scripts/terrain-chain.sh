@@ -30,7 +30,8 @@
 #   ---- the freeze gate: test_terrain_preconditions.py reads the frozen array and the graph ----
 #   apply_terrain_patches   the typed patches (poling channels, terrain requests; pads and grading later)
 #   patch_water             proves no patch moved a water level or a body's extent
-#   compile_water ... compile_scatter   the rest, exactly as before, on the natural ground
+#   compile_water           the water realised ONCE from the graph on the natural ground (16c)
+#   reroute_lanes ... compile_scatter   the rest on that water
 #
 # The three frozen arrays are content-addressed in world/sources/terrain/freeze.json.
 # A stage that would overwrite a recorded array with different content REFUSES
@@ -142,7 +143,8 @@ STAGES=(
   "grade_settlement_pads"
   "compile_chunks"
   "export_web_chunks"
-  "compile_water"
+  # Water is compiled ONCE (16c, 0057 §1): the entry above grading is the
+  # shipped one; `reroute_lanes` re-lines the boat lanes on it (16e).
   "reroute_lanes"
   "terrain_request_postconditions"
   "rebake_landcover"
@@ -156,18 +158,20 @@ STAGES=(
   "compile_scatter"
 )
 
-DELIVERED_THROUGH="16b"
+DELIVERED_THROUGH="16c"
 declare -A LADDER=(
   # 16b: the frozen base and its patches, the chunks and the land-cover bake
   # (sea-level shorelines only: no water is compiled on this ladder). The
   # owner walks the painted ground with nothing on it.
   [16b]="sculpt_province compile_hydrology compile_society shape_province hydrology_graph carve_province apply_terrain_patches patch_water compile_chunks export_web_chunks rebake_landcover"
-  # 16c: the water compiled once from the graph; the request postconditions
-  # that read it.
+  # 16c (delivered 2026-09-13): the water compiled once from the graph, and
+  # the request postconditions that read it.
   [16c]="compile_water terrain_request_postconditions"
   # 16d: the beyond-border apron (a new stage, added when delivered).
   [16d]=""
-  # 16e: routes, grading as patches, spans, ferries; patch_water over the grading patches (16c removes the second compile_water: water is compiled once, 0057 §1).
+  # 16e: routes, grading as patches, spans, ferries; patch_water over the
+  # grading patches; reroute_lanes on the compiled water (never a second
+  # water compile: water is compiled once, 0057 §1).
   [16e]=""
   # 16f: vegetation on the frozen water.
   [16f]="compile_scatter"
@@ -273,11 +277,19 @@ started=0
 index=0
 for stage in "${STAGES[@]}"; do
   index=$((index + 1))
-  # `grade_routes`, `compile_water` and `reroute_lanes` appear twice with
-  # different inputs, so the stamp is keyed by position as well as name.
+  # `grade_routes` and `reroute_lanes` appear twice with different inputs,
+  # so the stamp is keyed by position as well as name.
   key=$(printf '%02d-%s' "$index" "$stage")
   if [[ -n "$from" && $started -eq 0 ]]; then
-    [[ "$stage" == "$from" ]] && started=1 || continue
+    if [[ "$stage" == "$from" ]]; then
+      started=1
+    else
+      # a stage before the start is not run here; if the ladder would skip it
+      # anyway, record it as skipped so ladder.json hides its layer as a plain
+      # run would (a `--from` run must never un-hide a stale layer)
+      if [[ -z "$full" ]] && ! printf '%s\n' $ENABLED | grep -qx "$stage"; then SKIPPED_STAGES+=("$stage"); fi
+      continue
+    fi
   fi
   if [[ -z "$full" ]] && ! printf '%s\n' $ENABLED | grep -qx "$stage"; then
     echo "=== $stage === skipped (ladder: not delivered through $through)"
@@ -285,12 +297,6 @@ for stage in "${STAGES[@]}"; do
     continue
   fi
   RAN_STAGES+=("$stage")
-  # Water and lanes run twice in the full chain (before and after grading);
-  # without grading on the ladder the first water compile is the one that ships.
-  if [[ -z "$full" && "$stage" == "compile_water" && $index -gt 12 ]] && ! printf '%s\n' $ENABLED | grep -qx "grade_routes"; then
-    echo "=== $stage === skipped (ladder: no grading yet, the first compile is the shipped one)"
-    continue
-  fi
   echo "=== $stage ==="
   args=()
   if [[ -n "${STAGE_ARGS[$stage]:-}" ]]; then

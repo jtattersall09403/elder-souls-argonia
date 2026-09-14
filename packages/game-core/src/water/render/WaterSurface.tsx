@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { getWindWaveScale } from "@elder-souls/game-core/water/index";
+import { getWindWaveScale, whitecapThreshold } from "@elder-souls/game-core/water/index";
 import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
 import { ALL_WATER_LAYERS, type WaterAssets, type WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
@@ -308,6 +308,15 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     // Weather wind scales wave energy — same value the CPU water query uses
     // (game-core setWindWaveScale, written by WorldSky each frame).
     uniforms.uWindWave.value = getWindWaveScale();
+    // the weather's wind, for the sea's energy, the still-water drift and the
+    // whitecap density (the CPU query reads the same speed through the runtime)
+    {
+      const wv = runtime.windVelocity();
+      const speed = Math.hypot(wv.x, wv.z);
+      uniforms.uWindMS.value = speed;
+      if (speed > 0.05) uniforms.uWindDir.value.set(wv.x / speed, wv.z / speed);
+      uniforms.uCapThreshold.value = whitecapThreshold(speed);
+    }
     const offsets = assets.world.levelOffsets(epoch);
     uniforms.uLevelTide.value = offsets.tide;
     uniforms.uLevelSeason.value = offsets.season;
@@ -450,10 +459,14 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
         (strength / 3.0) * dt);
     }
     uniforms.uPlungeCount.value = plunges;
-    // the plunge base and mist ride the pool, which the season floods: same
-    // lift the field applies at full season response; the ground mist reads
-    // the foam field under it
-    falls?.update(runtime, nowS, verticalScale, offsets.season, { texture: foam.texture, info: foam.info });
+    // the plunge base and mist ride the pool, which the season draws down by
+    // the pool's OWN response (a perennial plunge pool barely moves); the
+    // ground mist reads the foam field under it
+    {
+      const first = cascadeSources.nearby(focus, 300, 1)[0];
+      const resp = first ? assets.data.sample(first.plunge.x, first.plunge.z).seasonResponse : 0;
+      falls?.update(runtime, nowS, verticalScale, offsets.season * resp, { texture: foam.texture, info: foam.info });
+    }
     effects.setIllumination(runtime.ambient.value, runtime.sunLight.value,
       runtime.sunDirection.value.y, gl.toneMappingExposure);
     effects.setView(undefined, verticalScale);

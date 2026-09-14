@@ -7,11 +7,24 @@ playable border by an invisible wall with a catalogue message.
 
 Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth** — no jagged edge, gap or disconnect where the province meets the apron. That condition is the acceptance test.
 
-## Starting state (2026-09-13; the closing 16c agent rewrites this)
+## Starting state (2026-09-14, written by the closing 16c agent)
 
-- **Not next:** 16c must land first; the apron is judged against a world
-  with compiled water. `DELIVERED_THROUGH` is in
-  `tooling/world-generation/scripts/terrain-chain.sh`.
+- **16c is delivered** (decision 0063, `research/phase16/16c-water-once-ledger.md`):
+  `DELIVERED_THROUGH="16c"`; the chain's water stages are `compile_water`
+  (once) and `terrain_request_postconditions`. Water schema 3: the compiled
+  level is the high-water line, the tide and season only fall from it, the
+  sea's energy comes from wind and the compiled directional fetch. Beyond
+  the raster the water rasters CLAMP TO THEIR EDGE (a sea border carries the
+  sea outward, a land border buried ground) — the apron meets that, never a
+  hard plane at y = 0.
+- **The chain does not run end to end today** (ledger §7): `compile_hydrology`
+  drifts by 3 river cells from the pass on which the shaped ground was
+  frozen, so `shape_province` refuses; run `terrain-chain.sh --from compile_water` (or
+  from your new stage) until that root cause is found. Find it first: it
+  is a 16b hygiene defect. Never `--refreeze`.
+- **The owner's 16c batch is open**: dry beds at 5 sites and 90 perched
+  channels (ledger §4) may become typed terrain patches; if they land before
+  16d, `apply_terrain_patches` + `compile_water --footprint` re-run.
 - **Nothing of the apron exists**: no `build_border_apron` module, no
   `province/border-apron.*`. A procedural ring (`DistantLands.tsx`, commit
   6bcf4172) was built and deleted for a sea gap and flat grey

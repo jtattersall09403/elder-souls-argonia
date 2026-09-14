@@ -5,7 +5,7 @@ import { WAVES, waveBands } from "../waves";
 import { SHORE_FROTH } from "./shoreFroth";
 import { FOAM_TEX } from "./waterMaterial";
 import {
-  BURIED_GUARD, CONTACT_FOAM_M, EDGE_FADE_M, FIELD_MAX_SLOPE, FLECK, FOAM_CYCLE_S, OWNER_DILATE_M,
+  BURIED_GUARD, CONTACT_FOAM_M, EDGE_FADE_M, FIELD_SLOPE_FADE, FLECK, FOAM_CYCLE_S, OWNER_DILATE_M,
   STRIP_AERATION_GLSL, STRIP_WHITE, createWaterMaterial, createWaterUniforms,
   stripAeration, stripAlbedo, stripBankProfile, stripStreakGain, stripStreakPhase, stripWhitewaterBlend, WATER_TIERS,
 } from "./waterMaterial";
@@ -82,24 +82,24 @@ describe("signed depth in the shader (decision 0047)", () => {
     expect(vert).not.toContain("max(esSurf.y + (esStill - esSurf.x), 0.0)");
   });
 
-  it("discards the field only as a buried guard, a cliff guard and the owner mask", () => {
+  it("the field's three guards are coverage terms, one discard where all of them are gone (16c)", () => {
     const frag = code(compile("field").shader.fragmentShader);
     const discards = frag.match(/discard;/g) ?? [];
-    expect(discards).toHaveLength(3);
-    expect(frag).toContain(`${BURIED_GUARD.nearM.toFixed(2)} - ${BURIED_GUARD.perMetre.toFixed(3)} * esGuardDist`);
-    expect(frag).toContain(`${BURIED_GUARD.floorM.toFixed(1)})) discard;`);
-    expect(BURIED_GUARD.nearM).toBeLessThan(0);
-    expect(BURIED_GUARD.floorM).toBeGreaterThan(BURIED_DEPTH_M);
-    expect(frag).toContain(`> ${FIELD_MAX_SLOPE.toFixed(1)}) discard;`);
-    expect(frag).toContain("if (uHasOwner > 0.5 && esOwnedNearby(vEsWorldPos.xz)) discard;");
-    expect(frag).toContain(`float e = ${OWNER_DILATE_M.toFixed(2)};`);
-    expect(OWNER_DILATE_M).toBeLessThan(2 * STRIP_BANK_M + 1);
-    // the old per-fragment raster wetness cut and manual occlusion are gone
+    expect(discards).toHaveLength(1);
+    expect(frag).toContain("if (esGuard <= 0.003) discard;");
+    // buried: a smooth fade over the floor, tight at every distance
+    expect(frag).toContain(`esGuard *= smoothstep(esFloor - ${BURIED_GUARD.fadeM.toFixed(2)}, esFloor, esFS.y + esLift);`);
+    expect(BURIED_GUARD.floorM).toBeGreaterThan(-1.0);
+    // cliff: the raster's own gradient, never dFdx
+    expect(frag).toContain(`smoothstep(${FIELD_SLOPE_FADE.start.toFixed(2)}, ${FIELD_SLOPE_FADE.full.toFixed(2)}, length(esGW))`);
+    expect(frag).not.toContain("dFdx(vEsData.x)");
+    // owner: a dissolve over the dilation, never a bool
+    expect(frag).toContain("esGuard *= 1.0 - esOwnedFrac(vEsWorldPos.xz);");
+    expect(frag).not.toContain("esOwnedNearby");
+    expect(frag).toContain("float esCover = max(esEdgeSoft, esFoam) * esGuard;");
+    // the old raster shoreline cut is gone for good
     expect(frag).not.toContain("if (vEsData.y <= 0.004) discard;");
     expect(frag).not.toContain(".y <= 0.004) discard;");
-    expect(frag).not.toContain("esSceneEye < esFragEye - 0.02");
-    // and no falling-water shading on the field (falls are sheets)
-    expect(frag).not.toContain("esFall");
     // strips discard nothing at all
     expect(code(compile("strip").shader.fragmentShader)).not.toContain("discard");
   });
@@ -144,7 +144,7 @@ describe("flowing water (decision 0047 item 6)", () => {
     expect(frag).toContain("float esAdv = min(esSpeed, 2.5) * esCycle;");
     // detail ripple follows esDrift on flowing water; the fixed drift is still-water only
     expect(frag).toContain("vec2 esQ1 = (vEsWorldPos.xz - esDrift * esPh1 * esCycle) * 2.3 + 17.0;");
-    expect(frag).toMatch(/else \{\s*esGF = esDetailGrad\(vEsWorldPos\.xz \* 2\.3 \+ 17\.0, vec2\(0\.11, 0\.07\) \* uTransportTime\)/);
+    expect(frag).toMatch(/else \{\s*esGF = esDetailGrad\(vEsWorldPos\.xz \* 2\.3 \+ 17\.0, -uWindDir \* esStillDrift \* 0\.6 \* uTransportTime\)/);
     // barcode guards stay
     expect(frag).not.toContain("dot(vEsWorldPos.xz, esFDirN)");
     expect(frag).toContain("esG -= esFDirN * dot(esG, esFDirN) * (1.0 - 1.0 / esStretch);");
@@ -320,13 +320,15 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     return code(shader.fragmentShader);
   })();
 
-  it("vertex: JONSWAP bands with per-band fetch and the class standing ratio, relaxed distance fade", () => {
-    expect(vert).toContain("esWaveSampleEx(esRestW.xz, esWaveAmp, esShore, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime)");
+  it("vertex: the sea's rms from wind and the compiled fetch, per-band fetch, the class standing ratio, no distance fade", () => {
+    expect(vert).toContain("esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime)");
+    expect(vert).toContain("float esWaveAmp = esExposure * esSeaRms(uWindMS, esFetchM);");
+    expect(vert).toContain("float esFetchM = esFetchAt(esFl);");
     expect(vert).not.toContain("esWaveSample(esRestW.xz");
-    expect(vert).toContain("exp(-esCamDist * 0.0003)");
+    expect(vert).not.toContain("exp(-esCamDist * 0.0003)");
     expect(vert).toContain("float esStandingRatio(float classIndex, float shoreDist)");
     expect(vert.match(/esWaveBand\(pos/g)?.length).toBe(WAVES.bands);
-    for (const b of waveBands()) expect(vert).toContain(`clamp(shoreDist / ${b.fetchM}`);
+    for (const b of waveBands()) expect(vert).toContain(`clamp(fetchM / ${b.fetchM}`);
   });
 
   it("the wave clock only ever feeds periodic functions (the 8192 s fold is pop-free)", () => {

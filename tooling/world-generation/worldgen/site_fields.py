@@ -205,9 +205,11 @@ class ProvinceSurvey:
         # B = tannin (blackwater staining).
         self.water_season_response = _resample(self.water.season2, self.grid_n)
         self.water_tannin = _resample(self.water.tannin2, self.grid_n)
-        # wet-season newly-inundated mask (apply_terrain_patches, half-res of refined)
-        self.wet_season = np.asarray(
-            Image.open(province / "refined" / "flood-wet.png")) > 127
+        # the wet season's own band (16c): the compiled level is the high-water
+        # line, so the ground wet at the line and dry at the calendar mean is
+        # what the wet season floods (was `refined/flood-wet.png`, a +1.4 m
+        # flood of the ground the runtime no longer performs)
+        self.wet_season = self.water.wet_grid("wet") & ~self.water.wet_grid("base")
 
         # -- routes, lanes, anchors ----------------------------------------
         self.anchors = json.loads(ANCHORS_PATH.read_text())

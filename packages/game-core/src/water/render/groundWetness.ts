@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { SHORE_SWELL, SWASH } from "../waves";
+import { SWASH } from "../waves";
 import type { WaterMeta } from "../waterData";
 import { WATER_CAUSTICS_GLSL } from "./caustics";
 import { CONNECTED_STAGE_GLSL } from "./connectedStage";
@@ -234,17 +234,14 @@ if (uWetParams.z > 0.5) {
       float esWetW = esWetSurface.x + esWetOffset;
       float esWetDepth = esWetSurface.y + esWetOffset;
       float esWetH = vEsWorldPos.y / uVerticalScale;
-      // Match the surface's coastal fetch/shelter gate. Inland lakes and
-      // rivers keep a damp contact edge but cannot inherit beach run-up.
+      // The beach run-up band belongs to the sea: a coast or estuary class
+      // is the open sea's shore, whose fetch is the ocean's (the ground
+      // shader has no texture unit left for the compiled fetch raster, and
+      // needs none: the class already says which shores the surf reaches).
+      // Inland lakes and rivers keep a damp contact edge, never run-up.
       float esWetFetch = 0.0;
       if (esWetClass > 0.5 && esWetClass < 2.5) {
-        float esWetStep = uWetParams.w * 2.0;
-        vec2 esWetGradient = vec2(esWetShoreAt(esWetXZ + vec2(esWetStep, 0.0)), esWetShoreAt(esWetXZ + vec2(0.0, esWetStep))) - esWetShore;
-        float esWetGradientLength = length(esWetGradient);
-        float esWetSeaward = esWetGradientLength > 0.05 * esWetStep
-          ? esWetShoreAt(esWetXZ + esWetGradient / esWetGradientLength * 30.0) : esWetShore;
-        esWetFetch = clamp(max(esWetShore, esWetSeaward) / ${SHORE_SWELL.fetchM.toFixed(1)}, 0.0, 1.0)
-          * (1.0 - 0.85 * clamp(max(esWetK.g, esWetSS.b), 0.0, 1.0));
+        esWetFetch = 1.0 - 0.85 * clamp(max(esWetK.g, esWetSS.b), 0.0, 1.0);
       }
       float esWetLift = ${(0.75 * SWASH.amplitudeM).toFixed(6)} * clamp(pow(uWetWind, 0.8), 0.6, 3.2)
         * max(1.0 - esWetShore / ${SWASH.bandM.toFixed(1)}, 0.0) * clamp(esWetFetch * 1.6, 0.0, 1.0) + 0.08;

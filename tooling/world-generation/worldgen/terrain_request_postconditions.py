@@ -59,7 +59,7 @@ SCHEMA_VERSION = 1
 # loudly if apply_terrain_patches stops publishing them.
 PUBLISHED_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined"
 KNOWN_RED_PATH = REPO_ROOT / "world" / "sources" / "terrain" / "terrain-request-known-red.json"
-KNOWN_RED_DOC = "docs/research/archive/water-round-2-2026-09/water-handoff.md"
+KNOWN_RED_DOC = "docs/phases/P-polish/backlog.md"
 WET_MIN_M = 0.05
 FLOOD_CLEARANCE_M = 1.4
 STORM_CLEARANCE_M = 2.0

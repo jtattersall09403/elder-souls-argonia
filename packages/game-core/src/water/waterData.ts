@@ -8,8 +8,34 @@
  * texel centre sits at world (mpp/2, mpp/2) of the province's NW corner.
  */
 
+/** The compiled water schema this runtime reads (compile_water.py). A
+ * bundle of another version is refused at load, never quietly decoded. */
+export const WATER_SCHEMA_VERSION = 3;
+
+/** Throws when `meta` is not the schema this runtime was written for. */
+export function assertWaterSchema(meta: WaterMeta): void {
+  if (meta.schemaVersion !== WATER_SCHEMA_VERSION) {
+    throw new Error(`water-meta.json schemaVersion ${String(meta.schemaVersion)}: this runtime reads schema `
+      + `${WATER_SCHEMA_VERSION} (re-run worldgen.compile_water, or npm run province:fetch)`);
+  }
+}
+
+/** One graph entity the id raster names: a body or a reach (schema 3). */
+export interface WaterEntity {
+  id: string;
+  kind: string;
+  levelM: number | null;
+  season?: string;
+  drySeasonLevelM?: number | null;
+  origin?: string;
+}
+
 export interface WaterMeta {
   schemaVersion?: number;
+  /** Schema 3: the graph entities the id raster's labels index (label = 1 + index). */
+  entities?: WaterEntity[];
+  /** Schema 3: the season is a DRAW-DOWN from the compiled high-water line. */
+  season?: { amplitudeM: number; model?: string };
   /** Compiled physical descent sites (cascade lips) — optional; the field
    * compiler emits none yet, the particle stack consumes them when it does. */
   cascades?: { id: string; lip: { x: number; y: number; z: number };
@@ -66,8 +92,12 @@ export interface WaterMeta {
     shoreMaxM?: number;
     /** 8-bit owner mask on the surface grid: 0 field, 128 strip, 255 fall. */
     ownerFile?: string;
+    /** Schema 3: 16-bit entity label per texel (R,G), 0 = none. */
+    idFile?: string;
   };
-  flow: { file: string; size: number; metresPerPixel: number; flowMax: number; shoreMaxM: number; gridOriginM?: number };
+  flow: { file: string; size: number; metresPerPixel: number; flowMax: number; shoreMaxM: number; gridOriginM?: number;
+    /** Schema 3: B = sqrt(fetch / fetchMaxM), the open-water directional fetch. */
+    fetchMaxM?: number };
   klass: { file: string; size: number; metresPerPixel: number; classes: string[]; gridOriginM?: number };
   stats?: Record<string, unknown>;
 }
@@ -84,11 +114,18 @@ export interface WaterStaticSample {
   flowX: number;
   flowZ: number;
   shoreDistM: number;
+  /** Open-water fetch (m) the waves reaching this point have crossed (the
+   * compiled directional fetch, schema 3); the shore distance on older data. */
+  fetchM: number;
+  /** The graph id of the body or reach owning this point (schema 3), else null. */
+  entityId: string | null;
   classIndex: number;
   className: string;
   turbidity: number;
   salinity: number;
-  /** 1 where the wet season raises this surface (fresh lowland). */
+  /** DRAW-DOWN response 0..1: the dry season lowers this surface by
+   * `season.amplitudeM × seasonResponse` (schema 3; the compiled level is
+   * the high-water line and nothing ever rises above it). */
   seasonResponse: number;
   /** 1 where the tide moves this surface. Derived from salinity
    * (smoothstep 0.02→0.15) so the GPU can compute the identical value —
@@ -146,8 +183,21 @@ export class WaterData {
      * channel — canvas decoding premultiplies and destroys the RGB (the
      * round-3 tide bug). */
     private readonly season?: Float32Array,
+    /** Entity label per texel (water-id.png, schema 3), surface.size². */
+    private readonly ids?: Uint16Array,
   ) {
     this.buriedBelow = buriedThresholdM(meta);
+  }
+
+  /** The graph entity (body or reach) owning world (x, z), or null. */
+  entityAt(x: number, z: number): WaterEntity | null {
+    if (!this.ids || !this.meta.entities || this.outside(x, z)) return null;
+    const size = this.meta.surface.size;
+    const mpp = this.meta.surface.metresPerPixel;
+    const ix = Math.min(Math.max(Math.round(x / mpp - 0.5), 0), size - 1);
+    const iz = Math.min(Math.max(Math.round(z / mpp - 0.5), 0), size - 1);
+    const label = this.ids[iz * size + ix];
+    return label > 0 ? this.meta.entities[label - 1] ?? null : null;
   }
 
   private bilinear(a: Float32Array, size: number, mpp: number, x: number, z: number): number {
@@ -196,15 +246,17 @@ export class WaterData {
     return x < 0 || z < 0 || x >= extent || z >= extent;
   }
 
-  /** Still-water surface height (m) — open sea (0) outside the province. */
+  /** Still-water surface height (m). Beyond the raster the EDGE texel
+   * continues (clamp-to-edge, the GLSL twin's rule): a sea border carries
+   * the sea outward, a land border carries buried ground, so the province
+   * edge is never a seam between the raster and a hard plane (audit
+   * mechanism 5). */
   surfaceBase(x: number, z: number): number {
-    if (this.outside(x, z)) return 0;
     return this.bilinearWet(this.surface, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
   }
 
-  /** Signed compiled depth (m), bilinear; open sea beyond the province. */
+  /** Signed compiled depth (m), bilinear; the edge texel beyond the raster. */
   depthProxy(x: number, z: number): number {
-    if (this.outside(x, z)) return OPEN_SEA_DEPTH_M;
     return this.bilinear(this.depth, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
   }
 
@@ -221,13 +273,6 @@ export class WaterData {
   }
 
   sample(x: number, z: number): WaterStaticSample {
-    if (this.outside(x, z)) {
-      return {
-        surfaceBase: 0, depthProxy: OPEN_SEA_DEPTH_M, flowX: 0, flowZ: 0,
-        shoreDistM: this.meta.flow.shoreMaxM, classIndex: 1, className: "coast",
-        turbidity: 0.25, salinity: 1, seasonResponse: 0, tideResponse: tideResponseOf(1),
-      };
-    }
     const fm = this.meta.flow;
     const fx = Math.min(Math.max(Math.round(x / fm.metresPerPixel - 0.5), 0), fm.size - 1);
     const fz = Math.min(Math.max(Math.round(z / fm.metresPerPixel - 0.5), 0), fm.size - 1);
@@ -238,6 +283,8 @@ export class WaterData {
     const shoreDistM = this.shore
       ? this.bilinear(this.shore, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)
       : (this.flow[fi + 3] / 255) * fm.shoreMaxM;
+    // schema 3: the open-water fetch rides the flow raster's B (sqrt-encoded)
+    const fetchM = fm.fetchMaxM !== undefined ? (this.flow[fi + 2] / 255) ** 2 * fm.fetchMaxM : shoreDistM;
     const km = this.meta.klass;
     const kx = Math.min(Math.max(Math.round(x / km.metresPerPixel - 0.5), 0), km.size - 1);
     const kz = Math.min(Math.max(Math.round(z / km.metresPerPixel - 0.5), 0), km.size - 1);
@@ -250,6 +297,8 @@ export class WaterData {
       flowX,
       flowZ,
       shoreDistM,
+      fetchM,
+      entityId: this.entityAt(x, z)?.id ?? null,
       classIndex,
       className,
       turbidity: this.klass[ki + 1] / 255,

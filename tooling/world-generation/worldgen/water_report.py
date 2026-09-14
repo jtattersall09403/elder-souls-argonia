@@ -65,37 +65,40 @@ class ShippedWater:
 
     # --- season -----------------------------------------------------------
     #
-    # THE province has a wet and a dry season and the bake publishes both, so
-    # "is there water here" is not a question with one answer. Every consumer
-    # asks it through `signed_depth_m(season)` / `wet_grid(season)` and has to
-    # name the season it means; nothing else may open these PNGs. The names
-    # are the two ends of the runtime rule in `water-meta.json`
-    # (`season.runtime`), evaluated at seasonWetness 0 and 1.
-    SEASONS = {"dry": 0.0, "base": 0.0, "wet": 1.0}
+    # THE province has a wet and a dry season, so "is there water here" is not
+    # a question with one answer. Every consumer asks it through
+    # `signed_depth_m(season)` / `wet_grid(season)` and has to name the season
+    # it means; nothing else may open these PNGs. Since 16c (owner 2026-09-13)
+    # the compiled level IS the wet-season high-water line and the season only
+    # draws it DOWN: the names are the season scalar s of the runtime rule in
+    # `water-meta.json` (`season.runtime`): wet = 1 (the line), base = 0 (the
+    # calendar mean, half the draw-down), dry = -1 (the full draw-down).
+    SEASONS = {"dry": -1.0, "base": 0.0, "wet": 1.0}
 
     def season_wetness(self, season: str | float) -> float:
-        """Resolve a season name (or a raw 0..1 wetness) to a wetness."""
+        """Resolve a season name (or a raw -1..1 scalar) to the season scalar."""
         if isinstance(season, (int, float)):
-            return float(np.clip(float(season), 0.0, 1.0))
+            return float(np.clip(float(season), -1.0, 1.0))
         try:
             return self.SEASONS[season]
         except KeyError:
             raise ValueError(
                 f"unknown season {season!r}; use one of {sorted(self.SEASONS)} "
-                f"or a wetness in 0..1") from None
+                f"or a season scalar in -1..1") from None
 
     def signed_depth_m(self, season: str | float) -> np.ndarray:
         """Signed depth over the surface grid at a named season, metres.
 
         Negative is dry ground above the local water table. At `wet` this is
-        the seasonal maximum: base depth lifted by the per-body response in
-        `water-shore.png` G times `season.amplitudeM`.
+        the compiled depth (the high-water line); at `dry` the line drawn
+        down by the per-texel response in `water-shore.png` G times
+        `season.amplitudeM`; `base` is halfway.
         """
-        wetness = self.season_wetness(season)
-        if wetness == 0.0:
+        s = self.season_wetness(season)
+        if s >= 1.0:
             return self.depth2
         amplitude = float(self.meta["season"]["amplitudeM"])
-        return (self.depth2 + amplitude * self.season2 * wetness).astype(np.float32)
+        return (self.depth2 - amplitude * self.season2 * (1.0 - s) / 2.0).astype(np.float32)
 
     def wet_grid(self, season: str | float) -> np.ndarray:
         """MEASURED standing water at a named season: signed depth > 0."""

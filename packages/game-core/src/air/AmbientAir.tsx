@@ -7,6 +7,7 @@ import {
   airAmounts,
   seededRandom,
   type AirConditions,
+  type AirWaterSurface,
 } from "./ambientAir";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import { SunShafts, sunShaftIntensity } from "./sunShafts";
@@ -70,9 +71,13 @@ declare global {
 export function AmbientAir({
   conditions,
   enabled = true,
+  water = null,
 }: {
   conditions: RefObject<AmbientAirConditions | null>;
   enabled?: boolean;
+  /** The compiled water surface (from the water assets) the over-water
+   * species hover above; null = the ground bounds every band. */
+  water?: AirWaterSurface | null;
 }) {
   const { camera, gl } = useThree();
   // The swarms sit on the post-water layer (see AirSwarm); the camera must
@@ -132,6 +137,7 @@ export function AmbientAir({
       litRadiance.current,
     );
     for (const s of swarms) {
+      s.setWater(water);
       s.update(
         (amounts[s.species.id] ?? 0) * gain,
         camera,

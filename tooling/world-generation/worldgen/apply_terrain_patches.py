@@ -87,24 +87,23 @@ def write_height_raster(h: np.ndarray):
 
 
 def write_flood_states(h: np.ndarray) -> None:
-    """Flood states (§36 FloodBasin + climatology) for the given ground."""
-    current_water = h < 0.05
-    below = h < 0.05 + WET_RISE_M
-    lbl, _ = ndimage.label(below)
-    wet_ids = np.unique(lbl[current_water])
-    inund = np.isin(lbl, wet_ids[wet_ids > 0])
-    newly = inund & ~current_water
+    """Flood states (§36 FloodBasin + climatology) for the given ground: the
+    amplitudes the water runtime scales its offsets by. Since 16c (owner
+    2026-09-13) the compiled water level is the high-water line and both
+    offsets only FALL from it (`seasonalAmplitudeM` is the full draw-down at
+    the dry-season trough for a unit response, `tidalAmplitudeM` half the
+    spring range); the old `flood-wet.png` (+1.4 m flood of the ground) is
+    gone, because nothing rises above the line."""
+    del h
     STUDIO_DIR.mkdir(parents=True, exist_ok=True)
-    Image.fromarray((newly[::2, ::2] * 255).astype(np.uint8)).save(STUDIO_DIR / "flood-wet.png")
     (STUDIO_DIR / "flood-states.json").write_text(json.dumps({
         "basins": [{
             "id": "province-fresh", "meanLevelM": 0.0,
             "seasonalAmplitudeM": WET_RISE_M, "tidalAmplitudeM": 0.5,
             "surgeProfile": "monsoon-pulse-lagged",
-            "inundationMask": "flood-wet.png",
+            "model": "draw-down from the compiled high-water line (16c)",
             "note": "flood pulse lags the rains 1-2 months (docs/research/world-terrain/black-marsh-climatology.md)",
         }],
-        "wetSeasonNewlyFloodedFracOfLand": round(float(newly.sum() / max((~current_water).sum(), 1)), 4),
     }, indent=1))
 
 

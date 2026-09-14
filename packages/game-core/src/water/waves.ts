@@ -53,9 +53,10 @@ export const WAVES = {
   bandRatio: 1.55,
   /** JONSWAP peak-enhancement γ (3.3 is the North Sea mean). */
   gamma: 3.3,
-  /** RMS surface height (m) at full exposure and calibrated wind — equal to
-   * the retired geometric table (0.17 m × 0.76ⁱ, ten bands: 0.185 m). */
-  rmsHeightM: 0.185,
+  /** The band table is normalised to a UNIT rms (1 m); the metres come from
+   * `seaRmsHeightM(wind, fetch)` at sample time (Phase 16c, ruling 7: the
+   * energy is set by the wind and the fetch, never a fixed number). */
+  rmsHeightM: 1.0,
   /** Horizontal sharpening 0..1 (bounded per-band as in GPU Gems 1). */
   choppy: 0.62,
   /** Directional spread (half-width, rad): narrow at the peak, broad at the
@@ -63,15 +64,22 @@ export const WAVES = {
   spreadPeak: 0.45,
   spreadShort: 1.3,
   /** Fetch limit per band: a band is fully developed only beyond
-   * `fetchPerWavelength × λ` of shore distance (never under
-   * `fetchSaturationM`), so a 200 m lake carries chop, never 100 m swell. */
+   * `fetchPerWavelength × λ` of open-water FETCH (the compiled directional
+   * fetch raster, `water-flow.png` B), so a 200 m lake carries chop, never
+   * 100 m swell. */
   fetchPerWavelength: 2.0,
+  /** Shortest per-band fetch limit (m): the ripple bands develop within this. */
+  fetchMinM: 60.0,
   /** Prevailing wind (unit): south-easterly trade off Topal Bay. */
   windDir: [0.66, -0.75] as const,
   /** Global time scale for the deep-water dispersion phase speed. */
   speed: 1.0,
-  /** Exposure model: fetch saturates over this shore distance (m)… */
-  fetchSaturationM: 60.0,
+  /** Exposure model: the deep-water swell hands over to the shore swell
+   * across this band of shore distance (m) — it is 0 at the waterline, where
+   * the shoaling shore swell and the swash carry the motion, and 1 beyond
+   * `handoverFarM` (= SHORE_SWELL.buildFarM, so the two systems cross-fade). */
+  handoverNearM: 30.0,
+  handoverFarM: 70.0,
   /** …and waves die below this water depth (m). */
   depthSaturationM: 1.2,
   /** Wave time loops on this period (s): every angular frequency in this
@@ -79,6 +87,95 @@ export const WAVES = {
    * its phase clock and the field never pops (study §1.2, item 8). */
   timePeriodS: 8192,
 } as const;
+
+/**
+ * The sea's energy from the wind and the fetch (Phase 16c, plan §7 ruling 7).
+ *
+ * Significant wave height from the JONSWAP fetch-limited growth law,
+ * `Hs = 0.0016 · U · sqrt(F / g)` (Hasselmann et al. 1973; SPM 1984), capped
+ * by the fully developed Pierson–Moskowitz sea `Hs = 0.21 · U² / g`; the rms
+ * surface height is `Hs / 4`. `U` is the 10 m wind (m/s) but never under
+ * `swellFloorWindMS`: the open sea is never glassy, because swell arrives
+ * from storms far beyond the province — THIS is the owner's calm-sea knob.
+ * `F` is the compiled directional fetch (m). At the province's 60 km open
+ * fetch: 7 m/s → Hs 0.87 m (rms 0.22), 12 m/s → 1.5 m, 17 m/s → 2.1 m.
+ */
+export const SEA = {
+  swellFloorWindMS: 7.0,
+  /** Fetch beyond the raster (open sea), m; the compile's own cap. */
+  fetchMaxM: 60000.0,
+  /** Whitecap coverage: `calmCoverage · (U / refWindMS)²`, clamped. At the
+   * floor wind that is 2 % of the sea, at 12 m/s 6 %, at 17 m/s 12 %. */
+  whitecap: { calmCoverage: 0.02, refWindMS: 7.0, minCoverage: 0.004, maxCoverage: 0.14 },
+} as const;
+
+export function seaWindMS(windMS: number): number {
+  return Math.max(SEA.swellFloorWindMS, Number.isFinite(windMS) ? windMS : 0);
+}
+
+/** rms surface height (m) of the open-water spectrum for a 10 m wind and a
+ * fetch. KEEP IN LOCKSTEP with the GLSL `esSeaRms`. */
+export function seaRmsHeightM(windMS: number, fetchM: number): number {
+  const g = 9.81;
+  const u = seaWindMS(windMS);
+  const f = Math.max(fetchM, 0);
+  const hsFetch = 0.0016 * u * Math.sqrt(f / g);
+  const hsFull = (0.21 * u * u) / g;
+  return Math.min(hsFetch, hsFull) / 4;
+}
+
+export function whitecapCoverage(windMS: number): number {
+  const u = seaWindMS(windMS);
+  const w = SEA.whitecap;
+  return clamp01(Math.min(Math.max(w.calmCoverage * (u / w.refWindMS) ** 2, w.minCoverage), w.maxCoverage));
+}
+
+/**
+ * The crest noise the field fragment thresholds for whitecaps:
+ * `esFbm(p, 3) · 0.5 + esFbm(p · 2.7 + 11, 2) · 0.5` at 0.085 cycles/m.
+ * Its moments were measured by porting the noise (water.test.ts, which
+ * re-measures them); a coverage becomes a threshold at the matching
+ * upper quantile of a normal with these moments.
+ */
+export const CREST_NOISE = { mean: 0.4051, std: 0.0907 } as const;
+
+/** Inverse normal CDF (Acklam's rational approximation, |err| < 1e-9). */
+export function inverseNormal(p: number): number {
+  const q = Math.min(Math.max(p, 1e-9), 1 - 1e-9);
+  const a = [-3.969683028665376e1, 2.209460984245205e2, -2.759285104469687e2, 1.383577518672690e2, -3.066479806614716e1, 2.506628277459239];
+  const b = [-5.447609879822406e1, 1.615858368580409e2, -1.556989798598866e2, 6.680131188771972e1, -1.328068155288572e1];
+  const c = [-7.784894002430293e-3, -3.223964580411365e-1, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
+  const d = [7.784695709041462e-3, 3.224671290700398e-1, 2.445134137142996, 3.754408661907416];
+  const lo = 0.02425;
+  if (q < lo) {
+    const t = Math.sqrt(-2 * Math.log(q));
+    return (((((c[0] * t + c[1]) * t + c[2]) * t + c[3]) * t + c[4]) * t + c[5]) / ((((d[0] * t + d[1]) * t + d[2]) * t + d[3]) * t + 1);
+  }
+  if (q > 1 - lo) {
+    const t = Math.sqrt(-2 * Math.log(1 - q));
+    return -(((((c[0] * t + c[1]) * t + c[2]) * t + c[3]) * t + c[4]) * t + c[5]) / ((((d[0] * t + d[1]) * t + d[2]) * t + d[3]) * t + 1);
+  }
+  const t = q - 0.5;
+  const r = t * t;
+  return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * t
+    / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+}
+
+/** The crest-noise threshold above which a pixel whitecaps, for a wind. */
+export function whitecapThreshold(windMS: number): number {
+  return CREST_NOISE.mean + inverseNormal(1 - whitecapCoverage(windMS)) * CREST_NOISE.std;
+}
+
+/** Drift of the fine detail normals on still water (m/s), along the wind:
+ * the ripples travel at their own phase speed, never a fixed 3 cm/s. */
+export function stillWaterDriftMS(windMS: number): number {
+  return Math.min(Math.max(0.5, 0.15 + 0.06 * Math.max(windMS, 0)), 1.5);
+}
+
+/** Whitecap pattern advection (m/s): the group speed of the peak band. */
+export function whitecapDriftMS(): number {
+  return 0.5 * Math.sqrt((9.81 * WAVES.peakWavelengthM) / (2 * Math.PI));
+}
 
 /** Angular-frequency quantum: every wave in this module beats on a multiple. */
 export const OMEGA_QUANTUM = (2 * Math.PI) / WAVES.timePeriodS;
@@ -167,13 +264,16 @@ export interface WaveSample {
 }
 
 /** Exposure 0..1 from shore distance, depth and turbidity — MUST match the
- * GLSL below. Turbid (marsh/blackwater) surfaces sit nearly still: reeds,
- * canopy shelter and organic load kill wind chop (owner round 2: whitecaps
- * were appearing on marsh flats far from "shore"). */
+ * GLSL below. The deep-water swell fades out over the handover band at the
+ * shore (the shore swell takes over there) and below the depth floor. Turbid
+ * (marsh/blackwater) surfaces sit nearly still: reeds, canopy shelter and
+ * organic load kill wind chop (owner round 2: whitecaps were appearing on
+ * marsh flats far from "shore"). The FETCH is a separate, per-band limit
+ * (`gerstnerAt`'s `fetchM`), never folded in here. */
 export function waveExposure(shoreDistM: number, depthM: number, turbidity = 0): number {
-  const fetch = Math.min(Math.max(shoreDistM / WAVES.fetchSaturationM, 0), 1);
+  const shore = sstep(WAVES.handoverNearM, WAVES.handoverFarM, shoreDistM);
   const deep = Math.min(Math.max(depthM / WAVES.depthSaturationM, 0), 1);
-  return fetch * deep * (1 - 0.85 * Math.min(Math.max(turbidity, 0), 1));
+  return shore * deep * (1 - 0.85 * Math.min(Math.max(turbidity, 0), 1));
 }
 
 /** Shore surf system (round 7; research doc §5): the waterline must visibly
@@ -208,7 +308,10 @@ export const SHORE_SWELL = {
   buildFarM: 70.0,
   breakInnerM: 3.0, // …and collapses (−70 %) inside the break zone
   breakOuterM: 9.0,
-  fetchM: 60.0,
+  /** Open-water fetch (m, the compiled directional fetch) over which the
+   * surf builds to full: a 5 km bay breaks on its windward beach, a 150 m
+   * pond laps at a quarter of that, the lee of a headland stays quiet. */
+  fetchM: 600.0,
 } as const;
 
 
@@ -218,10 +321,12 @@ export function surfGroup(shoreDistM: number, timeS: number): number {
   return 0.55 + 0.45 * Math.sin(GROUP_OMEGA * timeS - SWASH.groupK * shoreDistM);
 }
 
-/** Fetch-only exposure for shore effects — pass the shore distance sampled
- * ~30 m SEAWARD of the point (see gating lesson above). */
-export function fetchExposure(seawardShoreDistM: number, turbidity = 0): number {
-  return clamp01(seawardShoreDistM / SHORE_SWELL.fetchM) * (1 - 0.85 * clamp01(turbidity));
+/** Fetch-only exposure for shore effects: the compiled directional fetch at
+ * the point (metres of open water the waves have crossed to get here — see
+ * the gating lesson above: never the depth term, which is 0 at the
+ * waterline). */
+export function fetchExposure(fetchM: number, turbidity = 0): number {
+  return clamp01(fetchM / SHORE_SWELL.fetchM) * (1 - 0.85 * clamp01(turbidity));
 }
 
 /** Asymmetric swash height offset (m) — the moving waterline itself.
@@ -326,7 +431,7 @@ export function waveBands(): WaveBand[] {
       phaseSpeed: snapOmega(b.omega),
       q: WAVES.choppy / Math.max(b.k * amp * WAVES.bands, 1e-3),
       phase0: hash21(i, 9.1) * 6.2831853,
-      fetchM: Math.max(WAVES.fetchSaturationM, WAVES.fetchPerWavelength * b.lambda),
+      fetchM: Math.max(WAVES.fetchMinM, WAVES.fetchPerWavelength * b.lambda),
       wavelengthM: b.lambda,
     };
   });
@@ -336,15 +441,18 @@ export function waveBands(): WaveBand[] {
 
 /**
  * Gerstner sum at a REST position (the same math the vertex shader runs).
- * @param shoreDistM per-band fetch limit (long swell needs long fetch);
- *   Infinity = fully developed.
+ * @param exposure the amplitude scale in METRES: the sea's rms height
+ *   (`seaRmsHeightM`) times the local exposure (`waveExposure`); the band
+ *   table is unit-rms.
+ * @param fetchM the open-water fetch (m): the per-band limit (long swell
+ *   needs long fetch); Infinity = fully developed.
  * @param standing 0 travelling … 1 standing (`cos(k·x)·cos(ωt)`), blended
  *   per band with the horizontal displacement and normal derived
  *   consistently (a standing wave is the mean of two opposite travelling
  *   waves).
  */
 export function gerstnerAt(x: number, z: number, timeS: number, exposure: number, out: WaveSample,
-  shoreDistM: number = Infinity, standing: number = 0): WaveSample {
+  fetchM: number = Infinity, standing: number = 0): WaveSample {
   let dx = 0;
   let dz = 0;
   let h = 0;
@@ -355,7 +463,7 @@ export function gerstnerAt(x: number, z: number, timeS: number, exposure: number
     const s = clamp01(standing);
     const tr = 1 - s;
     for (const b of waveBands()) {
-      const a = b.amp * exposure * clamp01(shoreDistM / b.fetchM);
+      const a = b.amp * exposure * clamp01(fetchM / b.fetchM);
       if (a <= 0) continue;
       const argS = b.freq * (b.dirX * x + b.dirZ * z) + b.phase0;
       const tau = timeS * b.phaseSpeed;
@@ -391,15 +499,15 @@ export function gerstnerAt(x: number, z: number, timeS: number, exposure: number
  * iterations before the final sample (WaterThreeJS `surfaceSample`).
  */
 export function surfaceWaveAt(x: number, z: number, timeS: number, exposure: number, out: WaveSample,
-  shoreDistM: number = Infinity, standing: number = 0): WaveSample {
+  fetchM: number = Infinity, standing: number = 0): WaveSample {
   let rx = x;
   let rz = z;
   for (let i = 0; i < 3; i++) {
-    gerstnerAt(rx, rz, timeS, exposure, out, shoreDistM, standing);
+    gerstnerAt(rx, rz, timeS, exposure, out, fetchM, standing);
     rx = x - out.dx;
     rz = z - out.dz;
   }
-  return gerstnerAt(rx, rz, timeS, exposure, out, shoreDistM, standing);
+  return gerstnerAt(rx, rz, timeS, exposure, out, fetchM, standing);
 }
 
 /**
@@ -512,8 +620,9 @@ export function surfGlsl(): string {
   float esSurfGroup(float d, float t) {
     return 0.55 + 0.45 * sin(${f(GROUP_OMEGA)} * t - ${f(SWASH.groupK)} * d);
   }
-  float esFetchExp(float seawardD, float turb) {
-    return clamp(seawardD / ${f(SHORE_SWELL.fetchM)}, 0.0, 1.0)
+  // KEEP IN LOCKSTEP with fetchExposure(): the compiled directional fetch.
+  float esFetchExp(float fetchM, float turb) {
+    return clamp(fetchM / ${f(SHORE_SWELL.fetchM)}, 0.0, 1.0)
          * (1.0 - 0.85 * clamp(turb, 0.0, 1.0));
   }
   // KEEP IN LOCKSTEP with swashAt() — the moving waterline itself.
@@ -568,17 +677,28 @@ export function gerstnerGlsl(bandCount: number = WAVES.bands): string {
   const rows = bands
     .map(
       (b) =>
-        `w = esWaveBand(pos, exposure * clamp(shoreDist / ${f(b.fetchM)}, 0.0, 1.0), standing, t, ` +
+        `w = esWaveBand(pos, exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0), standing, t, ` +
         `vec2(${f(b.dirX)}, ${f(b.dirZ)}), ${f(b.freq)}, ${f(b.amp)}, ${f(b.phaseSpeed)}, ${f(b.q)}, ${f(b.phase0)}, w);`,
     )
     .join("\n    ");
   return /* glsl */ `
   struct EsWave { vec3 disp; vec3 normal; float height; };
 
+  // KEEP IN LOCKSTEP with waveExposure(): the swell hands over to the shore
+  // swell across the handover band; the fetch is a separate per-band limit.
   float esWaveExposure(float shoreDistM, float depthM, float turbidity) {
-    return clamp(shoreDistM / ${f(WAVES.fetchSaturationM)}, 0.0, 1.0)
+    return smoothstep(${f(WAVES.handoverNearM)}, ${f(WAVES.handoverFarM)}, shoreDistM)
          * clamp(depthM / ${f(WAVES.depthSaturationM)}, 0.0, 1.0)
          * (1.0 - 0.85 * clamp(turbidity, 0.0, 1.0));
+  }
+
+  // KEEP IN LOCKSTEP with seaRmsHeightM(): JONSWAP fetch-limited growth
+  // under the Pierson-Moskowitz cap, a wind floor for the ever-present swell.
+  float esSeaRms(float windMS, float fetchM) {
+    float u = max(${f(SEA.swellFloorWindMS)}, windMS);
+    float hsFetch = 0.0016 * u * sqrt(max(fetchM, 0.0) / 9.81);
+    float hsFull = 0.21 * u * u / 9.81;
+    return min(hsFetch, hsFull) * 0.25;
   }
 
   // KEEP IN LOCKSTEP with snapOmega(): the loop grid of the folded wave clock.
@@ -602,7 +722,7 @@ export function gerstnerGlsl(bandCount: number = WAVES.bands): string {
     return w;
   }
 
-  EsWave esWaveSampleEx(vec2 pos, float exposure, float shoreDist, float standing, float t) {
+  EsWave esWaveSampleEx(vec2 pos, float exposure, float fetchM, float standing, float t) {
     EsWave w;
     w.disp = vec3(0.0);
     w.normal = vec3(0.0, 1.0, 0.0);

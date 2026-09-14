@@ -49,10 +49,13 @@ describe("horizon convergence (study §3.1 (7))", () => {
   it("blends toward the sky over 1.5–3.5 km, never fully", () => {
     expect(horizonBlendWeight(500)).toBe(0);
     expect(horizonBlendWeight(HORIZON.startM)).toBe(0);
-    expect(horizonBlendWeight(2500)).toBeGreaterThan(0.3);
-    expect(horizonBlendWeight(2500)).toBeLessThan(0.7);
-    expect(horizonBlendWeight(10000)).toBe(HORIZON.maxBlend);
-    expect(HORIZON.maxBlend).toBeLessThan(1);
+    // audit root cause 3: the blend erased the sea from 1.5 km; now the
+    // swell reads to 2 km at least, and the sky never wholly replaces it
+    expect(horizonBlendWeight(2000)).toBeLessThan(0.2);
+    expect(horizonBlendWeight(8000)).toBeGreaterThan(0.2);
+    expect(horizonBlendWeight(8000)).toBeLessThan(HORIZON.maxBlend);
+    expect(horizonBlendWeight(20000)).toBe(HORIZON.maxBlend);
+    expect(HORIZON.maxBlend).toBeLessThanOrEqual(0.7);
     const glsl = code(HORIZON_BLEND_GLSL);
     expect(glsl).toContain(`smoothstep(${HORIZON.startM.toFixed(1)}, ${HORIZON.endM.toFixed(1)}, dist) * ${HORIZON.maxBlend.toFixed(2)}`);
   });
