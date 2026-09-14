@@ -159,9 +159,15 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   field of that sort carries the id it was read from and a test joins it
   back to the record, shown failing first on the raster-derived code it
   replaces. Each brief's "Record reads" block names the modules and the
-  count of graph reads they start from (all zero on 2026-09-14). The chain
-  runs from the freeze gate (16d deliverable 0): frozen rungs are inputs
-  verified by hash, not stages re-executed.
+  modules it must port. **Mechanically enforced:** `worldgen/test_record_reads.py`
+  (in `npm run test:placement`) fails any module below the gate that opens a
+  water raster or a pre-graph classification itself, unless it is a row in
+  `worldgen/record-reads-allowlist.json` owned by the chunk that ports it;
+  a row whose module is clean also fails, so the list only shrinks
+  (thirteen modules on 2026-09-14). The one way to read water below the
+  gate is the record reader 16d adds to `site_fields.ProvinceSurvey`. The
+  chain runs from the freeze gate (16d deliverable 0): frozen rungs are
+  inputs verified by hash, not stages re-executed.
 - **Build only what is delivered (owner, 2026-09-12).** The chain
   (`tooling/world-generation/scripts/terrain-chain.sh`) carries a LADDER: a
   list, per chunk, of the stages that chunk has delivered, cumulative from

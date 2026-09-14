@@ -63,20 +63,20 @@ Needs ruling 11 (the floor).
 
 ## Deliver
 
-## Record reads (decision 0066) — the gate this chunk must add
+## Record reads (decision 0066) — deliverable 0: the code you inherit is wrong here, and fixing it is your job
 
-On 2026-09-14 `macro_plot`, `remeasure_plot_facts`, `audit_place_semantics`
-and `blueprint` read the graph **zero** times and take "on water", "sea",
-"flood band", "navigable" and "over water" from flood and sea rasters
-(fifteen reads between them). Every water fact on a record therefore names
-the pre-16c water. Before the review in deliverable 2: the water facts on a
-record are `{reachId | bodyId, kind, levelM, season}` copied from the graph
-and `water-meta`, the navigable check reads `reaches[].depthM` along the
-serving route, and the density budget counts kinds from the record; the
-**provenance gate** joins every record's water facts back to the graph and
-fails on a missing id or a disagreeing kind, shown failing first on the
-827 records as they stand. The plot re-solve (deliverable 4) must show it
-reads the graph, not the flood raster, for its water costs.
+`macro_plot`, `audit_place_semantics`, `site_dossier`, `terrain_scour` and
+`hostility_frequency` are rows in `worldgen/record-reads-allowlist.json`
+(`remeasure_plot_facts` reads no water at all, which is its own defect):
+"on water", "flood band", "wet" and "navigable" all come from the coarse
+Phase 3 flood band, so every water fact on the 827 records describes a
+guess the owner's graph replaced. That is a bug, not a convention. Port
+each to the record reader, delete the reads and the rows. A record's water
+facts become `{reachId | bodyId, kind, levelM, season}` copied from the
+record; the navigable check reads `reaches[].depthM` along the serving
+route; the plot re-solve's water costs read the record. A test joins every
+record's water facts back to the graph and fails on a missing id or
+disagreeing kind, shown failing on the 827 records as they stand.
 
 1. **Schema**: `designGroup` (one blueprint, one build) and `coSitedWith[]`
    (separate blueprints, one design pass, a typed relation: `sightline`,

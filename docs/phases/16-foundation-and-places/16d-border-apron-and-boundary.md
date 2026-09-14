@@ -77,35 +77,6 @@ Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth** — no
    sample refuses at `verify_freeze`. The 16c ledger §7 drift (three river
    cells, fixed 2026-09-14) is the defect this closes for good.
 
-## Record reads (decision 0066)
-
-The apron reads the frozen edge rows and the registered raster; it derives
-no class. Its one record decision (sea to the south and east) is the
-measured edge fraction in the chain audit §4 — cite it, do not re-measure.
-Nothing on the apron reads the graph and nothing should.
-
-1. **`worldgen/build_border_apron.py`**: cut the neighbour slice from the
-   all-Tamriel raster around the registered match, out to ≥ 40 km, fit scale
-   and offset **on the shared border ring** (not globally), C0-join to the
-   frozen edge rows (sample our real edge heights), decay authored ridge
-   profiles only where the raster itself ends, keep the sea to the south and
-   east. Output a coarse height raster + a low-res mesh per mode
-   (`province/border-apron.*`), vertex-coloured by the same gradient method,
-   never a flat material. The 671 MB source PNG never enters the repo.
-2. **Runtime**: one static mesh per mode, `castShadow/receiveShadow = false`,
-   with the shared aerial haze, no colliders, a separate draw outside the province chunks; a fade so
-   there is no visible far edge.
-3. **The boundary**: an invisible wall at the playable border in the
-   character mode (Rapier) and the message from `packages/text-catalogue`
-   (style-guided, text-reviewed) when the character reaches it; the same
-   boundary exported as a typed constant that `apps/game` reuses.
-4. **Credits**: the all-Tamriel heightmap (Nexus 573) is already credited in
-   the root README; add the source PNG's SHA-256 to that line in the same
-   change (no second credit block).
-5. Tests: the apron's edge ring equals the frozen edge heights within 0.5 m;
-   the apron carries no colliders; the message key exists; the wall stops a
-   probe walk. The equality test shown failing on an unjoined apron first.
-
 ## Acceptance
 
 - **The chain ladder** (plan §3): this chunk's stages are `build_border_apron` (new). Add them

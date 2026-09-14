@@ -56,7 +56,8 @@ subagent that cannot find a value in the record will re-derive one. The
 skill v2 and the packet template therefore state, per field, which record
 it is read from (graph id, `water-meta` id, route line, `designedSinkM`,
 plugin link), and the packet's acceptance runs every chunk's provenance
-gate (16e, 16f, 16g, 16h) over the packet's places. A hand decision that
+gate (16e, 16f, 16g, 16h) over the packet's places; `test_record_reads`
+must be green with an empty allowlist before the unattended run starts. A hand decision that
 turned out to be a missing record field is closed in the record's schema,
 not in the skill's prose.
 

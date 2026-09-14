@@ -71,20 +71,20 @@ Needs ruling 12 (the loop and its budget, plan §8).
   `research/placement-settlements/kit-assemblies-evidence.md`, `piece-front-derivation.md`;
   decision 0052; `.claude/skills/settlement-build/SKILL.md`.
 
-## Record reads (decision 0066) — the gate this chunk must add
+## Record reads (decision 0066) — deliverable 0: the code you inherit is wrong here, and fixing it is your job
 
-On 2026-09-14 `compile_settlement`, `blueprint`, `grade_settlement_pads`
-and `settlement_ground_control` read the graph **zero** times;
-`compile_settlement` alone reads sea and flood rasters 33 times for
-`waterOk`, the door-on-land test, the stilt over-water share, the flood
-band per section (97 B4) and dock depth (B5). All of that describes the
-pre-16c water. Every such check reads the compiled water by `water-meta`
-id (kind from the graph, depth from the signed-depth raster at that id's
-extent) and a parcel's `waterOk` reason names the body or reach; the
-**provenance gate** joins every blueprint water fact and every over-water
-placement to its id and fails on a missing id or disagreeing kind, shown
-failing first on the five shipped blueprints. Ground contact is the second
-record read: deliverable 3.
+`compile_settlement` and `settlement_ground_control` are rows in
+`worldgen/record-reads-allowlist.json` (with `blueprint`'s flood reads):
+`waterOk`, the door-on-land test, the stilt over-water share, the flood band
+per section (97 B4) and dock depth (B5) all read the coarse flood band or
+decode the water image themselves, so every blueprint describes the
+pre-16c water. That is a bug, not a convention. Port them to the record
+reader, delete the reads and the rows; a parcel's `waterOk` reason names
+the body or reach id and its kind. A test joins every blueprint water fact
+and over-water placement to its id and fails on a missing id or
+disagreeing kind, shown failing on the five shipped blueprints. Ground
+contact is the second thing this chunk must read from its source rather
+than inherit as a guess: deliverable 3.
 
 ## Deliver (in this order — each with the audit's proving test, shown failing first)
 

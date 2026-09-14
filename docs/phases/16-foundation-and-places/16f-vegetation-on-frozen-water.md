@@ -63,30 +63,24 @@ Needs ruling 10 (already given for 16b); no new ruling.
 
 ## Deliver
 
-## Record reads (decision 0066) — the gate this chunk must add
+## Record reads (decision 0066) — deliverable 00: the code you inherit is wrong here, and fixing it is your job
 
-On 2026-09-14 `compile_scatter` and `rebake_landcover` read the graph
-**zero** times. `rebake_landcover` paints shore and wet classes from height
-≤ 0 and its own water test ("sea-level shorelines only") — an inland
-sea-level marsh paints as beach, the exact 16c round-1 error in ground
-paint. `compile_scatter` decodes `water-surface.png` alone. Before any
-dressing work:
-
-- `rebake_landcover` takes every shore, wet and marsh paint class from the
-  compiled water's class raster keyed to `water-meta` body kinds (a
-  `swamp` body paints swamp margin, an `ocean` body paints beach), and its
-  16b-ladder fallback is named as such in `ladder.json`, never silent;
-- the channel gate (deliverable 1) and the submerged band (3b) take kinds
-  from graph ids and only *depth* from the signed-depth raster;
-- the rock kit and any landmark tree (Hist trees, the Anvil composite)
-  carry a **per-asset designed ground contact** measured from the source
-  plugin's placements with `mine_placement.py`'s pivot-minus-`height_at`
-  method (the flora C1–C2 rule), stored on the kit manifest with evidence,
-  not a class default (16h deliverable 3 does the same for buildings);
-- **provenance gate:** every scatter exclusion and every land-cover paint
-  class that came from water names the body or reach id; a test joins them
-  back and fails on a missing id or a disagreeing kind, shown failing first
-  on today's bundles.
+`compile_scatter` and `rebake_landcover` are rows in
+`worldgen/record-reads-allowlist.json`: the land-cover bake paints shore
+and wet classes from the coarse salinity and its own height-at-zero test
+(an inland sea-level marsh paints as beach), and the scatter decodes the
+water-surface image alone. Both are bugs of the 16c round-1 kind, not
+conventions. Port both to the record reader, delete the raster reads and
+the rows. Every shore, wet and marsh paint class and every scatter
+exclusion then comes from a body or reach id and its recorded kind
+(`swamp` paints swamp margin, `ocean` paints beach), with depth the only
+sampled value. The rock kit and every landmark tree (Hist trees, the Anvil
+composite) carry a per-asset designed ground contact measured from the
+source plugin's placements with `mine_placement.py`'s pivot-minus-`height_at`
+method (the flora C1–C2 rule), stored on the kit manifest with evidence —
+never a class default (16h deliverable 3 does the same for buildings). A
+test joins every water-derived paint class and exclusion to its id and
+fails on a missing id or disagreeing kind, shown failing on today's bundles.
 
 0. **Ground cover density and variety** (C9, owner 2026-09-11). Measure first:
    the groundcover bundles now shipping against the pre-0048 bundles in git

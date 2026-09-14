@@ -59,28 +59,24 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
 
 ## Deliver
 
-## Record reads (decision 0066) — the gate this chunk must add
+## Record reads (decision 0066) — deliverable 0: the code you inherit is wrong here, and fixing it is your job
 
-On 2026-09-14 `routes`, `reroute_majors`, `reroute_lanes`, `grade_routes`,
-`author_route_structures` and `compile_route_structures` read
-`hydrology-graph.json` **zero** times; between them they read sea, flood and
-water-depth rasters and the region raster about twenty times and decide
-crossings, fords and lane depth from those. That is 16c round 1's mistake in
-route vocabulary (0065 §2). Before any routing work:
-
-- every crossing record (`route-structures.json`, `water-crossings.md`'s
-  typed successor) carries the graph `reach` id it crosses and takes its
-  kind (ford / bridge / ferry / forbidden on `horizontal-backwater`) from
-  that reach's `kind`, `depthM` and `widthM`, never from a sampled raster;
-- a lane's floating depth is `reaches[].depthM` / a body's `levelM` minus
-  bed, per hull class, never `water-depth.png` sampled along the line
-  (the raster is for the *drawn* line's geometry only);
-- the channel-exclusion window in `grade_routes` is the reach polygon
-  (centreline ± `widthM`/2 + shoulder), not a wet-texel test;
-- **provenance gate:** a test joins every crossing and every lane hop back
-  to its reach id and fails on a missing id or a kind that disagrees with
-  the graph; shown failing first on today's raster-derived records (all of
-  them). `warn_on_drift` reports geometry, never class.
+Six of this chunk's modules are rows in `worldgen/record-reads-allowlist.json`
+(`routes`, `compile_minor_routes`, `compile_minor_waterways`,
+`reroute_lanes`, `grade_routes`, `water_crossings`, plus the span author's
+flood reads): they decide fords, bridges, lane depth and channel windows
+from the coarse Phase 3 flood band and sampled rasters. That is a bug —
+16c round 1's mistake in route vocabulary — not a convention to keep. Port
+each to the record reader (16d's `ProvinceSurvey.water_at` / `reach` /
+`body`), delete its raster reads and its allowlist row; `test_record_reads`
+fails if any come back. Concretely: a crossing carries the graph `reach` id
+it crosses and takes its kind (ford / bridge / ferry / forbidden on
+`horizontal-backwater`) from that reach's `kind`, `depthM`, `widthM`; a
+lane's floating depth is the reach or body record per hull class; the
+grading exclusion window is the reach polygon (centreline ± `widthM`/2 +
+shoulder). A test joins every crossing and lane hop back to its reach id
+and fails on a missing id or a disagreeing kind, shown failing on today's
+records first.
 
 1. **Routes on the frozen world**: `compile_society` / `reroute_majors` read
    the frozen base and the graph (a river is a known crossing, not a cost
