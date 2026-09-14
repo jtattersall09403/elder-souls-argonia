@@ -59,6 +59,33 @@ Measured on the final chain run of 2026-09-14, on the patched ground.
 | drawn width vs the trench (strip points, median) | 0.40 | 0.992 |
 | compile time | n/a | about 220 s |
 
+## 2b. What each water class does, and where that comes from
+
+The owner asked for this directly: "check all of the water classification
+types for what behaviour you've given them". Every row is read from the
+graph's classification, never inferred (0065, 0066).
+
+| Class | What it is | Swell | Tide | Salinity | Turbidity |
+|---|---|---|---|---|---|
+| coast | the graph's ocean | travels (standing 0), whitecaps by wind, full 60 km fetch | yes | the Phase 3 field | region silt |
+| estuary | a brackish inlet or a lagoon of the graph's | travels (standing 0) | yes | the field, on tidal entities only | region silt + 0.15 |
+| river | a reach outside any body | ripples and the along-flow undulation, no swell | no | none | silt, x0.35 upland whitewater or clearwater, x0.6 lowland clearwater |
+| lake | a lake, tarn, pond, pool or plunge pool | bobs in place (standing 0.45), chop only on its own fetch | no | none | as river; an upland lake is clear enough to see the bed |
+| marsh | a marsh, swamp, backswamp or mudflat | bobs in place (standing 0.5) | no | none | region silt, tannin-darkened |
+
+Two behaviours are per texel rather than per class: the season's draw-down
+(`water-shore.png` G, from each body's or reach's own record) and the flow
+undulation (any water over 0.15 m/s). Round 1 classed fresh sea cells as
+lake, which is what made the whole sea rise, fall and foam together.
+
+**One defect this audit found. It is fixed.** The tide response was read from
+the Phase 3 salinity field. That field is near zero in brackish inlets, so
+3,592 texels of open sea never moved with the tide while the coast beside
+them fell a metre at springs — a wall of water at river mouths at low water.
+It now comes from the class (`tideResponseOfClass`, `tideResponseGlsl`). The
+measured seam falls from 8,539 texels to 3,153, all of them at the real
+sea-to-fresh boundary. Salinity stays chemistry: colour and surf.
+
 ## 3. Gates added this round
 
 Each gate was run with `ES_WATER_DIR` pointing at a scratch re-run of the

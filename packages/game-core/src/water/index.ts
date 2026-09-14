@@ -1,6 +1,6 @@
 export { WAVES, SEA, CREST_NOISE, SWASH, SHORE_SWELL, FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, OMEGA_QUANTUM, STANDING_BY_CLASS, flowWaveAt, flowWaveGlsl, flowWaveOmega, gerstnerAt, surfaceWaveAt, swashAt, swashMax, surfGroup, fetchExposure, shoreSwellAt, waveExposure, waveBands, gerstnerGlsl, surfGlsl, standingRatioGlsl, standingWaveRatio, snapOmega, jonswapShape, hash21, setWindWaveScale, getWindWaveScale, windWaveSpeed, surfEnergyScale, swashSkew, shoreSwellProfile, alongShorePhase, SURF_ENERGY, ALONG_SHORE, seaWindMS, seaRmsHeightM, whitecapCoverage, whitecapThreshold, inverseNormal, stillWaterDriftMS, whitecapDriftMS } from "./waves";
 export type { WaveSample, WaveBand } from "./waves";
-export { WaterData, WATER_SCHEMA_VERSION, assertWaterSchema, BURIED_DEPTH_M, OPEN_SEA_DEPTH_M, buriedThresholdM, decodeDepthByte, tideResponseOf } from "./waterData";
+export { WaterData, WATER_SCHEMA_VERSION, assertWaterSchema, BURIED_DEPTH_M, OPEN_SEA_DEPTH_M, buriedThresholdM, decodeDepthByte, tideResponseOfClass, TIDAL_CLASSES } from "./waterData";
 export type { WaterMeta, WaterStaticSample, WaterEntity } from "./waterData";
 export { tideOffset, seasonOffset, springFactor, SEMIDIURNAL_MINUTES } from "./tide";
 export { WaterWorld } from "./waterWorld";

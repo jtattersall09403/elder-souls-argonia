@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { WAVES, gerstnerGlsl, standingRatioGlsl, surfGlsl } from "../waves";
+import { tideResponseGlsl } from "../waterData";
 import { SHORE_FROTH_GLSL } from "./shoreFroth";
 
 /**
@@ -150,6 +151,7 @@ export function foamFieldFragment(opts: FoamFieldOptions): string {
   ${gerstnerGlsl(opts.waveBands ?? WAVES.bands)}
   ${surfGlsl()}
   ${standingRatioGlsl(opts.classes)}
+  ${tideResponseGlsl(opts.classes)}
   ${SHORE_FROTH_GLSL}
 
   float esSegmentDist(vec2 p, vec2 a, vec2 b){
@@ -169,7 +171,7 @@ export function foamFieldFragment(opts: FoamFieldOptions): string {
     vec4 fl = texture2D(uFlowTex, dUv);
     float fetchM = esFetchAt(fl);
     vec3 ss = esShoreAt(wp);
-    float still = surf.x + uLevelTide * esTideResponse(kl.b) + uLevelSeason * ss.y;
+    float still = surf.x + uLevelTide * esTideResponse(kl.r * 255.0) + uLevelSeason * ss.y;
     float depth = surf.y + (still - surf.x);
     float turb = max(kl.g, ss.z);
     // the vertex stage's amplitude (metres); the crest-fold source below

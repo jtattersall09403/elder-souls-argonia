@@ -14,6 +14,37 @@ import { ALONG_DRIFT_OMEGA, ALONG_K, ALONG_SHORE, FLOW_WAVES, FLOW_WAVE_MIN_SPEE
 // Waves — the CPU/GLSL lockstep model
 // ---------------------------------------------------------------------------
 
+import { TIDAL_CLASSES, tideResponseGlsl, tideResponseOfClass } from "./waterData";
+
+describe("the tide moves the water the graph calls tidal (16c round 2)", () => {
+  const classes = ["none", "coast", "estuary", "river", "lake", "marsh"];
+  it("moves the sea's classes and nothing else", () => {
+    // Read from the CLASS, which the compile takes from the graph. Reading the
+    // Phase 3 salinity field instead left 3,592 texels of open sea standing
+    // still while the coast beside them fell a metre at springs, and measured
+    // 8,539 texels at a tide step against 3,153 for this rule (2026-09-14).
+    for (const name of TIDAL_CLASSES) {
+      expect(tideResponseOfClass(classes.indexOf(name), classes)).toBe(1);
+    }
+    for (const name of ["none", "river", "lake", "marsh"]) {
+      expect(tideResponseOfClass(classes.indexOf(name), classes)).toBe(0);
+    }
+    // an index off the end of the table never invents a tide
+    expect(tideResponseOfClass(99, classes)).toBe(0);
+  });
+
+  it("bakes the same table into the shader", () => {
+    const glsl = tideResponseGlsl(classes);
+    expect(glsl).toContain("float esTideResponse(float classIndex)");
+    for (const name of TIDAL_CLASSES) expect(glsl).toContain(`ci == ${classes.indexOf(name)}`);
+    for (const name of ["river", "lake", "marsh"]) {
+      expect(glsl).not.toContain(`ci == ${classes.indexOf(name)}`);
+    }
+    // salinity is chemistry now, never the tidal test
+    expect(glsl).not.toContain("smoothstep(0.02, 0.15");
+  });
+});
+
 describe("waves", () => {
   const out = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
   /** A real open-sea amplitude: the unit-rms table is scaled by this (the floor wind, full fetch). */

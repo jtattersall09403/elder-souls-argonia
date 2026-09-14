@@ -131,15 +131,46 @@ export interface WaterStaticSample {
    * `season.amplitudeM × seasonResponse` (schema 3; the compiled level is
    * the high-water line and nothing ever rises above it). */
   seasonResponse: number;
-  /** 1 where the tide moves this surface. Derived from salinity
-   * (smoothstep 0.02→0.15) so the GPU can compute the identical value —
-   * KEEP IN LOCKSTEP with the water material's esTideResponse(). */
+  /** 1 where the tide moves this surface: the sea's own classes, which the
+   * compile takes from the graph (coast, and estuary for a brackish inlet or
+   * a lagoon). KEEP IN LOCKSTEP with the water material's esTideResponse(). */
   tideResponse: number;
 }
 
-export function tideResponseOf(salinity: number): number {
-  const t = Math.min(Math.max((salinity - 0.02) / (0.15 - 0.02), 0), 1);
-  return t * t * (3 - 2 * t);
+/** The tide moves the water the graph calls tidal, read from the CLASS.
+ *
+ * It used to be read from the Phase 3 salinity field (smoothstep 0.02→0.15).
+ * That field is near zero in brackish inlets, so 3,592 texels of open sea sat
+ * still while the coast beside them fell a metre at springs — a wall of water
+ * at river mouths at low tide, and the measured seam was 8,539 texels against
+ * 3,153 for this rule (2026-09-14). Salinity stays what it is: chemistry for
+ * colour and surf, not a proxy for whether a surface is tidal (0065/0066:
+ * read the record, do not infer it). Class order is `meta.klass.classes`.
+ */
+export const TIDAL_CLASSES = ["coast", "estuary"] as const;
+
+export function tideResponseOfClass(classIndex: number, classes: readonly string[]): number {
+  const name = classes[Math.round(classIndex)];
+  return name !== undefined && (TIDAL_CLASSES as readonly string[]).includes(name) ? 1 : 0;
+}
+
+/** GLSL twin of `tideResponseOfClass`, baked over the compiled class table
+ * (index order from `water-meta.json` `klass.classes`). */
+export function tideResponseGlsl(classes: readonly string[]): string {
+  const tidal = classes
+    .map((name, i) => ((TIDAL_CLASSES as readonly string[]).includes(name) ? i : -1))
+    .filter((i) => i >= 0);
+  const test = tidal.length
+    ? tidal.map((i) => `ci == ${i}`).join(" || ")
+    : "false";
+  return `
+  // KEEP IN LOCKSTEP with tideResponseOfClass(): the tide moves the classes
+  // the graph calls tidal (${TIDAL_CLASSES.join(", ")}), never a salinity proxy.
+  float esTideResponse(float classIndex){
+    int ci = int(classIndex + 0.5);
+    return (${test}) ? 1.0 : 0.0;
+  }
+  `;
 }
 
 /** Signed depth at or below which a texel is BURIED (truly dry ground,
@@ -310,7 +341,7 @@ export class WaterData {
       seasonResponse: this.season
         ? this.bilinear(this.season, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)
         : 0,
-      tideResponse: tideResponseOf(this.klass[ki + 2] / 255),
+      tideResponse: tideResponseOfClass(this.klass[ki], this.meta.klass.classes ?? []),
     };
   }
 }

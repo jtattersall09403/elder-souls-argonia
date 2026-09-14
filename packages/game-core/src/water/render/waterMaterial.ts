@@ -4,7 +4,7 @@ import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, standingRatioGlsl, surfGlsl,
   whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
-import { buriedThresholdM } from "../waterData";
+import { buriedThresholdM, tideResponseGlsl } from "../waterData";
 
 import type { WaterAssets } from "./types";
 import { RIPPLE_PATCH_M } from "./RippleSim";
@@ -288,11 +288,6 @@ export const SAMPLER_GLSL = /* glsl */ `
   uniform vec2 uWindDir;
   uniform float uCapThreshold;
   uniform float uFetchMax;
-
-  // KEEP IN LOCKSTEP with waterData.tideResponseOf().
-  float esTideResponse(float salinity){
-    return smoothstep(0.02, 0.15, salinity);
-  }
 
   // KEEP IN LOCKSTEP with waterData.decodeDepthByte(): B is SIGNED depth.
   vec2 esDecodeSurf(vec4 t){
@@ -744,6 +739,7 @@ varying vec4 vEsSurf;
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands)}
 ${standingRatioGlsl(classes)}
+${tideResponseGlsl(classes)}
 ${surfGlsl()}
 ${flowWaveGlsl()}`,
       )
@@ -768,7 +764,7 @@ vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
 // no tide response inland on a steep reach; season rides the attribute
 float esStill = esSurf.x + uLevelSeason * aSeason;
 #else
-float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.b) + uLevelSeason * esSS.y;
+float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.r * 255.0) + uLevelSeason * esSS.y;
 #endif
 float esShore = esSS.x;
 float esTurbV = max(esKl.g, esSS.z);
