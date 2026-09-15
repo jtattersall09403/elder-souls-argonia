@@ -41,23 +41,23 @@ Measured on the final chain run of 2026-09-14, on the patched ground.
 | Measure | round 1 | round 2 |
 |---|---|---|
 | bodies realised (from the graph's rasters) / dry / flooded in box / second pass | 2,185 / 1 / n/a / n/a | 2,224 (2,193 level + 31 sea) / 4 / 28 / 28 |
-| hovering edges | 161 | 429 |
-| hovering texels (over 0.5 m above a dry neighbour) | 4,240 | 1,240 |
+| hovering edges | 161 | 436 |
+| hovering texels (over 0.5 m above a dry neighbour) | 4,240 | 1,183 |
 | speck pieces | n/a | 1,050 |
 | lateral leaks dried / specks dried | n/a | 3,221 / 648 |
 | graph extent cells dry on the frozen ground | n/a | 26,631 |
 | carve cuts joined / of them a backwater trench | n/a | 6,023 / 4,463 |
 | hollows the carve connected, flooded to the body's level | n/a | 10,149 over 76 bodies |
 | mouth stations ramped | n/a | 380 (max 1.587 m) |
-| walls where two waters meet (`waterStepCells`) | 13,439 | 2,863 |
-| perched stations / runs | 582 / 90 | 973 / 40 |
+| walls where two waters meet (`waterStepCells`) | 13,439 | 2,869 |
+| perched stations / runs | 582 / 90 | 945 / 39 |
 | stations with a bed above their promise | 25 at 5 sites | 0 |
 | bodies drawn as sea | 17 | 0 |
 | wet fraction | n/a | 0.4251 |
 | fetch median over the sea | n/a | 60 km |
 | class fractions | n/a | coast 32.0% · estuary 0.9% · river 1.6% · lake 2.4% · marsh 19.4% |
 | strips / cascades | n/a | 149 / 18 |
-| drawn width vs the trench (strip points, median) | 0.40 | 0.992 |
+| drawn width vs the trench (strip points, median) | 0.40 | 0.966 |
 | compile time | n/a | about 220 s |
 
 ## 2b. What each water class does, and where that comes from
@@ -86,6 +86,29 @@ them fell a metre at springs — a wall of water at river mouths at low water.
 It now comes from the class (`tideResponseOfClass`, `tideResponseGlsl`). The
 measured seam falls from 8,539 texels to 3,153, all of them at the real
 sea-to-fresh boundary. Salinity stays chemistry: colour and surf.
+
+### The owner's terrain batch, as applied
+
+All 110 approved patches apply: 5 `bed-cut` and 105 `levee` (bank and rim).
+Three defects had to be fixed before they all would, each found by the owner
+walking the result rather than by a gate:
+
+1. **A cut bed was shaved flat to the water's level.** A sill station's
+   promised bed IS its level, so the Blackrose lake's south outlet was cut flat
+   to 1.60 m for 60 m and drew dry — "the southern channel out of the
+   blackrose lake is still dry". A cut now goes `CUT_MIN_DEPTH_M` (0.15 m)
+   under its level: deep enough to hold water past the depth raster's 0.12 m
+   quantum, shallow enough not to drop a sill below a neighbouring body and
+   let THAT body drain along it. A 0.40 m cut did just that, so the invariant
+   refused the patch. The outlet now runs wet for all 157 of its stations.
+2. **A patch was sized against the wrong ground.** The authoring measured each
+   patch on the already-patched ground while `apply_terrain_patches` applies
+   from the frozen base, so wherever an earlier pass had raised a bank the
+   declared `maxDeltaM` was the residual, not the whole raise. Sizing now
+   reads the frozen base.
+3. **A kept patch was never re-sized.** The cumulative merge returned a patch
+   the census no longer named untouched, stale cap and all. Seven levees were
+   refused on their own declared amplitude until the merge re-sized them too.
 
 ## 3. Gates added this round
 

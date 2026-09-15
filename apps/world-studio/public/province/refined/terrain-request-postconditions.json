@@ -1,16 +1,16 @@
 {
   "artifactSha256": {
-    "fulfillment": "070b105f4a6993129d7b800840cc3793986485adfbf57eaad8defa84af9a6266",
-    "height": "ebdf4105ad5814b109c1b36ef95d81210d5f477ffee10286be48596d210bb1f0",
+    "fulfillment": "6b7cf3608b62834da1759cc3b6a7d33252472be366c44b1e3226a21430a7afcb",
+    "height": "e6faec72f4da766f5e78cdf83503c595646e729c6713318418a6d9a709fd724d",
     "plan": "054c0aaea94fe1ecca4e498d95ce934a3f89893fa3729a805dfd4da5189dd306",
-    "water": "6968aced681934b1690605ee472e245360018abb54f5425e83d2367a5a59c078"
+    "water": "de7076531e65636180ba1ed2e58a8e53145867628dfcf00d84f3e2fe4cb26012"
   },
-  "finalHeightSha256": "3646995c57f224820c6af2b5e01f0075361f50923d815422c80dcc19c808d7ac",
+  "finalHeightSha256": "02488c6dbbb19de6b7cd3e39bc5953862ff96f99008bd0668b053119918597c4",
   "globalFindings": [
     {
       "detail": "postcondition report binds the exact final terrain raster",
       "field": "finalHeightSha256",
-      "measured": "3646995c57f224820c6af2b5e01f0075361f50923d815422c80dcc19c808d7ac",
+      "measured": "02488c6dbbb19de6b7cd3e39bc5953862ff96f99008bd0668b053119918597c4",
       "status": "pass"
     },
     {
@@ -21,7 +21,7 @@
   ],
   "kind": "terrain-request-postconditions",
   "planDigest": "9542351e3292bd84531f1f4ec5ec8e4fb83053cedea6360bbc3be18294318a9c",
-  "reportDigest": "f94e9684d28f5331ed369d2a255857d2e6ef877321684cc2dcbf29c30fd05d47",
+  "reportDigest": "7a2088ebab511156a71b5c7d256d5f4102d65a2ea944cc79d8e261e135d5357a",
   "requests": [
     {
       "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",

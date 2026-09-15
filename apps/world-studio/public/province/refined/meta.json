@@ -48,8 +48,8 @@
   },
   "terrainStageBodies": 57,
   "patches": {
-    "applied": 102,
-    "refused": 55,
+    "applied": 119,
+    "refused": 47,
     "receipt": "terrain-patches-applied.json"
   },
   "terrainRequests": {

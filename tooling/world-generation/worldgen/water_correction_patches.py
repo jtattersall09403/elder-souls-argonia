@@ -46,7 +46,10 @@ CORRECTIONS_PATH = tp.REPO_ROOT / "world" / "sources" / "terrain" / "water-corre
 WATER_META_PATH = tp.REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water" / "water-meta.json"
 BED_OVER_TOL_M = 0.01           # compile_water: `g > sol.L + 0.01`
 PERCHED_OVER_M = 0.3            # compile_water.PERCHED_DROP_M: `low_dry < W - 0.3`
-AMPLITUDE_MARGIN_M = 0.25       # maxDeltaM = the measured need on the natural ground plus this
+CUT_MIN_DEPTH_M = 0.15          # a cut bed sits this far under its level: enough to hold water (the depth
+                                # raster quantises at 0.12 m), shallow enough not to drop a sill below a
+                                # neighbouring body and let THAT body drain along it (owner 2026-09-14)
+AMPLITUDE_MARGIN_M = 0.25       # maxDeltaM = the measured need on the FROZEN base plus this
 ORDER = 2                       # after the poling channels (0) and the places' requests (1)
 LEVEE_MAX_RAISE_M = STEEP_RAISE_CAP_M   # 4.5 m, the carve's own largest shoulder cap: a bank taller than this
                                         # is a dam, and a station whose band needs more stands on a cliff
@@ -65,7 +68,15 @@ class Census:
         sol = ch.ChannelSolution.load(VAULT_DIR / "channels-pass1.npz")
         self.n_vault = sol.n
         self.graph = json.loads((graph_path or GRAPH_PATH).read_text(encoding="utf-8"))
-        self.ground = np.load(DEFAULT_HEIGHTS)
+        # Size every patch against the FROZEN base, because that is what
+        # `apply_terrain_patches` starts from. Measuring against the natural
+        # (already-patched) ground under-declared `maxDeltaM` wherever an
+        # earlier pass had already raised a bank: the authoring saw only the
+        # residual need, the apply needed the whole raise, and the amplitude
+        # invariant refused 8 of 96 levees (2026-09-14).
+        from . import freeze as _freeze
+        frozen = DEFAULT_HEIGHTS.parent / _freeze.FROZEN
+        self.ground = np.load(frozen if frozen.exists() else DEFAULT_HEIGHTS)
         sol, feeder_names = append_feeders(sol, self.graph, self.ground)
         self.sol = sol
         self.reach_ids = station_reach_ids(sol, self.graph, feeder_names)
@@ -152,9 +163,17 @@ def _station_record(c: Census, k: int, mpp: float) -> dict:
         L = L_census
         weir = False
         bed = min(L, float(pre.get("bedMaxM", L)))
+    # A cut bed must carry water. A sill station's ramp is 0, so its promised
+    # bed IS its level, and cutting a dam away to exactly the level leaves a
+    # flat shelf with zero depth that draws dry — the owner found 60 m of that
+    # at the Blackrose lake's south outlet (2026-09-14), which is the "dry
+    # stretch" 0063 §3 says a sill must never become. A cut therefore goes at
+    # least CUT_MIN_DEPTH_M under the level. This cannot drain the lake: every
+    # level comes from the graph record, never from the ground.
+    bed = min(bed, L - CUT_MIN_DEPTH_M)
     return {"k": int(k), "x": round(float(sol.x[k]), 2), "y": round(float(sol.y[k]), 2),
             "halfWidthM": round(float(sol.width[k]) * 0.5, 2), "levelM": round(L, 3),
-            "bedM": round(min(bed, L), 3), "weir": weir,
+            "bedM": round(bed, 3), "weir": weir,
             "groundM": round(float(c.ground[c.iy[k], c.ix[k]]), 3)}
 
 
@@ -389,8 +408,15 @@ def _size(patch: dict, ground: np.ndarray, mpp: float, c: Census) -> None:
         patch["maxDeltaM"] = 99.0
         errs = [e for e in tp.check_invariants(ground, out, patch, c.ctx, mpp) if not e.startswith("structures")]
         # a bank can close a pocket just past the region (the pocket drained
-        # through the band): widen the region so the levee fills it
-        if patch["kind"] == "levee" and any("new depression" in e for e in errs) and attempt < 3:
+        # through the band): widen the region so the levee fills it. A bed-cut
+        # that re-waters a dry outlet does the mirror image — the water it
+        # restores reaches a little past the box the stations drew — so it
+        # widens on the same rule (owner 2026-09-14: the Blackrose south
+        # outlet still ran dry because both its cuts were refused for exactly
+        # this, after the cut was deepened enough to carry water at last).
+        widen = ("new depression" in e for e in errs) if patch["kind"] == "levee" \
+            else ("beyond the patch region" in e for e in errs)
+        if patch["kind"] in ("levee", "bed-cut") and any(widen) and attempt < 3:
             x0, z0, x1, z1 = patch["bboxM"]
             patch["bboxM"] = [round(x0 - 4.0, 1), round(z0 - 4.0, 1), round(x1 + 4.0, 1), round(z1 + 4.0, 1)]
             continue
@@ -431,6 +457,14 @@ def _merge_patch(new: dict | None, old: dict | None, c: Census, mpp: float) -> d
     if old is None:
         return new
     if new is None:
+        # A patch the census no longer names is KEPT, but it is re-sized all
+        # the same: its `maxDeltaM` was measured against whatever ground the
+        # pass that wrote it saw, and `apply_terrain_patches` always applies
+        # from the frozen base. Returning it untouched left 7 levees declaring
+        # a cap smaller than the raise they actually needed, and the amplitude
+        # invariant refused every one of them (owner 2026-09-14).
+        if getattr(c, "ground", None) is not None:
+            _size(old, c.ground, mpp, c)
         return old
     if "cells" in new["params"]:
         cells = sorted({(int(y), int(x)) for y, x in new["params"]["cells"]}

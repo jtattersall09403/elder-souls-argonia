@@ -1,7 +1,7 @@
 {
-  "applied": 102,
+  "applied": 119,
   "frozenSha256": "4a74a06bfa194834d620ba011fd5cf4dbfdd3f6689c0e25d2dc537900006500f",
-  "naturalSha256": "3646995c57f224820c6af2b5e01f0075361f50923d815422c80dcc19c808d7ac",
+  "naturalSha256": "02488c6dbbb19de6b7cd3e39bc5953862ff96f99008bd0668b053119918597c4",
   "patches": [
     {
       "id": "patch.poling.waterway.hist-heartland.nine-trunks",
@@ -818,9 +818,9 @@
     {
       "id": "patch.bed-cut.site-2389-6485",
       "kind": "bed-cut",
-      "maxAbsDeltaM": 0.949,
+      "maxAbsDeltaM": 1.087,
       "receipt": {
-        "samplesCut": 280
+        "samplesCut": 341
       },
       "region": [
         3540,
@@ -828,15 +828,15 @@
         1299,
         1337
       ],
-      "samplesChanged": 280,
+      "samplesChanged": 341,
       "status": "applied"
     },
     {
       "id": "patch.bed-cut.site-2454-6296",
       "kind": "bed-cut",
-      "maxAbsDeltaM": 0.767,
+      "maxAbsDeltaM": 0.819,
       "receipt": {
-        "samplesCut": 75
+        "samplesCut": 78
       },
       "region": [
         3436,
@@ -844,7 +844,7 @@
         1335,
         1352
       ],
-      "samplesChanged": 75,
+      "samplesChanged": 78,
       "status": "applied"
     },
     {
@@ -930,7 +930,7 @@
         1071,
         1223
       ],
-      "samplesChanged": 348,
+      "samplesChanged": 401,
       "status": "applied"
     },
     {
@@ -969,10 +969,10 @@
       "region": [
         137,
         186,
-        1164,
+        1160,
         1397
       ],
-      "samplesChanged": 264,
+      "samplesChanged": 321,
       "status": "applied"
     },
     {
@@ -1000,7 +1000,7 @@
         5,
         121
       ],
-      "samplesChanged": 430,
+      "samplesChanged": 443,
       "status": "applied"
     },
     {
@@ -1034,21 +1034,21 @@
     {
       "id": "patch.levee.reach.1247-947",
       "kind": "levee",
-      "maxAbsDeltaM": 1.881,
-      "reason": "amplitude: |delta| 1.881 m exceeds maxDeltaM 0.798",
+      "maxAbsDeltaM": 2.646,
+      "receipt": {},
       "region": [
-        1002,
-        1018,
-        1234,
-        1251
+        992,
+        1060,
+        1231,
+        1275
       ],
-      "samplesChanged": 27,
-      "status": "refused"
+      "samplesChanged": 321,
+      "status": "applied"
     },
     {
       "id": "patch.levee.reach.1258-931",
       "kind": "levee",
-      "maxAbsDeltaM": 2.646,
+      "maxAbsDeltaM": 0.799,
       "receipt": {},
       "region": [
         938,
@@ -1056,7 +1056,7 @@
         1232,
         1275
       ],
-      "samplesChanged": 264,
+      "samplesChanged": 45,
       "status": "applied"
     },
     {
@@ -1161,7 +1161,7 @@
       "id": "patch.levee.reach.1749-2242",
       "kind": "levee",
       "maxAbsDeltaM": 1.573,
-      "reason": "amplitude: |delta| 1.573 m exceeds maxDeltaM 0.25",
+      "receipt": {},
       "region": [
         2251,
         2266,
@@ -1169,27 +1169,27 @@
         1740
       ],
       "samplesChanged": 24,
-      "status": "refused"
+      "status": "applied"
     },
     {
       "id": "patch.levee.reach.1780-1154",
       "kind": "levee",
-      "maxAbsDeltaM": 2.471,
+      "maxAbsDeltaM": 2.613,
       "receipt": {},
       "region": [
         1180,
         1267,
-        1779,
+        1778,
         1825
       ],
-      "samplesChanged": 58,
+      "samplesChanged": 74,
       "status": "applied"
     },
     {
       "id": "patch.levee.reach.1810-2515",
       "kind": "levee",
       "maxAbsDeltaM": 2.04,
-      "reason": "amplitude: |delta| 2.040 m exceeds maxDeltaM 0.25",
+      "receipt": {},
       "region": [
         2511,
         2527,
@@ -1197,7 +1197,7 @@
         1817
       ],
       "samplesChanged": 19,
-      "status": "refused"
+      "status": "applied"
     },
     {
       "id": "patch.levee.reach.1813-2176",
@@ -1210,13 +1210,13 @@
         1505,
         1822
       ],
-      "samplesChanged": 235,
+      "samplesChanged": 221,
       "status": "applied"
     },
     {
       "id": "patch.levee.reach.1879-2437",
       "kind": "levee",
-      "maxAbsDeltaM": 2.04,
+      "maxAbsDeltaM": 1.537,
       "receipt": {},
       "region": [
         2445,
@@ -1224,7 +1224,7 @@
         1791,
         1844
       ],
-      "samplesChanged": 101,
+      "samplesChanged": 95,
       "status": "applied"
     },
     {
@@ -1280,7 +1280,7 @@
         83,
         193
       ],
-      "samplesChanged": 1047,
+      "samplesChanged": 1200,
       "status": "applied"
     },
     {
@@ -1415,12 +1415,12 @@
       "maxAbsDeltaM": 6.511,
       "receipt": {},
       "region": [
-        1429,
+        1426,
         1660,
         170,
-        240
+        244
       ],
-      "samplesChanged": 436,
+      "samplesChanged": 468,
       "status": "applied"
     },
     {
@@ -1432,16 +1432,16 @@
         0,
         132,
         2466,
-        2546
+        2547
       ],
-      "samplesChanged": 540,
+      "samplesChanged": 602,
       "status": "applied"
     },
     {
       "id": "patch.levee.reach.2573-545",
       "kind": "levee",
       "maxAbsDeltaM": 3.439,
-      "reason": "amplitude: |delta| 3.439 m exceeds maxDeltaM 1.846",
+      "receipt": {},
       "region": [
         560,
         648,
@@ -1449,12 +1449,12 @@
         2599
       ],
       "samplesChanged": 85,
-      "status": "refused"
+      "status": "applied"
     },
     {
       "id": "patch.levee.reach.2578-520",
       "kind": "levee",
-      "maxAbsDeltaM": 3.878,
+      "maxAbsDeltaM": 3.453,
       "receipt": {},
       "region": [
         513,
@@ -1462,7 +1462,7 @@
         2569,
         2599
       ],
-      "samplesChanged": 234,
+      "samplesChanged": 166,
       "status": "applied"
     },
     {
@@ -1476,7 +1476,7 @@
         2665,
         2703
       ],
-      "samplesChanged": 429,
+      "samplesChanged": 464,
       "status": "applied"
     },
     {
@@ -1487,10 +1487,10 @@
       "region": [
         367,
         439,
-        2961,
+        2959,
         3355
       ],
-      "samplesChanged": 1474,
+      "samplesChanged": 1702,
       "status": "applied"
     },
     {
@@ -1500,11 +1500,11 @@
       "receipt": {},
       "region": [
         693,
-        878,
+        879,
         2961,
-        3110
+        3111
       ],
-      "samplesChanged": 381,
+      "samplesChanged": 446,
       "status": "applied"
     },
     {
@@ -1527,12 +1527,12 @@
       "maxAbsDeltaM": 4.036,
       "receipt": {},
       "region": [
-        456,
+        451,
         496,
-        3371,
+        3370,
         3421
       ],
-      "samplesChanged": 208,
+      "samplesChanged": 272,
       "status": "applied"
     },
     {
@@ -1553,7 +1553,7 @@
       "id": "patch.levee.reach.372-331",
       "kind": "levee",
       "maxAbsDeltaM": 7.779,
-      "reason": "amplitude: |delta| 7.779 m exceeds maxDeltaM 3.92",
+      "receipt": {},
       "region": [
         362,
         506,
@@ -1561,7 +1561,7 @@
         356
       ],
       "samplesChanged": 295,
-      "status": "refused"
+      "status": "applied"
     },
     {
       "id": "patch.levee.reach.382-1251",
@@ -1574,13 +1574,13 @@
         381,
         454
       ],
-      "samplesChanged": 253,
+      "samplesChanged": 272,
       "status": "applied"
     },
     {
       "id": "patch.levee.reach.430-268",
       "kind": "levee",
-      "maxAbsDeltaM": 6.248,
+      "maxAbsDeltaM": 4.954,
       "receipt": {},
       "region": [
         260,
@@ -1588,7 +1588,7 @@
         0,
         439
       ],
-      "samplesChanged": 1060,
+      "samplesChanged": 883,
       "status": "applied"
     },
     {
@@ -1644,7 +1644,7 @@
         492,
         514
       ],
-      "samplesChanged": 108,
+      "samplesChanged": 113,
       "status": "applied"
     },
     {
@@ -1679,7 +1679,7 @@
       "id": "patch.levee.reach.549-418",
       "kind": "levee",
       "maxAbsDeltaM": 4.75,
-      "reason": "amplitude: |delta| 4.750 m exceeds maxDeltaM 1.952",
+      "receipt": {},
       "region": [
         413,
         474,
@@ -1687,20 +1687,20 @@
         548
       ],
       "samplesChanged": 118,
-      "status": "refused"
+      "status": "applied"
     },
     {
       "id": "patch.levee.reach.564-430",
       "kind": "levee",
-      "maxAbsDeltaM": 4.75,
+      "maxAbsDeltaM": 3.86,
       "receipt": {},
       "region": [
-        413,
+        412,
         516,
         475,
         571
       ],
-      "samplesChanged": 542,
+      "samplesChanged": 585,
       "status": "applied"
     },
     {
@@ -1714,7 +1714,7 @@
         572,
         872
       ],
-      "samplesChanged": 1381,
+      "samplesChanged": 1499,
       "status": "applied"
     },
     {
@@ -1726,9 +1726,9 @@
         1122,
         1205,
         603,
-        917
+        918
       ],
-      "samplesChanged": 1383,
+      "samplesChanged": 1439,
       "status": "applied"
     },
     {
@@ -1737,18 +1737,18 @@
       "maxAbsDeltaM": 2.589,
       "receipt": {},
       "region": [
-        1679,
+        1677,
         1696,
-        680,
+        673,
         731
       ],
-      "samplesChanged": 161,
+      "samplesChanged": 194,
       "status": "applied"
     },
     {
       "id": "patch.levee.reach.70-1177",
       "kind": "levee",
-      "maxAbsDeltaM": 4.123,
+      "maxAbsDeltaM": 4.188,
       "receipt": {},
       "region": [
         1170,
@@ -1756,7 +1756,7 @@
         59,
         78
       ],
-      "samplesChanged": 79,
+      "samplesChanged": 81,
       "status": "applied"
     },
     {
@@ -1766,11 +1766,11 @@
       "receipt": {},
       "region": [
         1941,
-        2046,
+        2048,
         759,
         1066
       ],
-      "samplesChanged": 1347,
+      "samplesChanged": 1431,
       "status": "applied"
     },
     {
@@ -1791,7 +1791,7 @@
       "id": "patch.levee.reach.794-765",
       "kind": "levee",
       "maxAbsDeltaM": 4.79,
-      "reason": "amplitude: |delta| 4.790 m exceeds maxDeltaM 3.067",
+      "receipt": {},
       "region": [
         759,
         1005,
@@ -1799,26 +1799,26 @@
         1002
       ],
       "samplesChanged": 457,
-      "status": "refused"
+      "status": "applied"
     },
     {
       "id": "patch.levee.reach.794-767",
       "kind": "levee",
-      "maxAbsDeltaM": 5.194,
-      "reason": "amplitude: |delta| 5.194 m exceeds maxDeltaM 3.067",
+      "maxAbsDeltaM": 3.018,
+      "receipt": {},
       "region": [
         759,
         978,
         786,
         977
       ],
-      "samplesChanged": 316,
-      "status": "refused"
+      "samplesChanged": 14,
+      "status": "applied"
     },
     {
       "id": "patch.levee.reach.796-760",
       "kind": "levee",
-      "maxAbsDeltaM": 4.439,
+      "maxAbsDeltaM": 4.135,
       "receipt": {},
       "region": [
         752,
@@ -1826,7 +1826,7 @@
         785,
         1002
       ],
-      "samplesChanged": 972,
+      "samplesChanged": 740,
       "status": "applied"
     },
     {
@@ -1854,7 +1854,7 @@
         816,
         952
       ],
-      "samplesChanged": 252,
+      "samplesChanged": 254,
       "status": "applied"
     },
     {
@@ -1868,7 +1868,7 @@
         806,
         1327
       ],
-      "samplesChanged": 824,
+      "samplesChanged": 917,
       "status": "applied"
     },
     {
@@ -1882,7 +1882,7 @@
         906,
         999
       ],
-      "samplesChanged": 510,
+      "samplesChanged": 520,
       "status": "applied"
     },
     {
@@ -1998,17 +1998,45 @@
       "status": "applied"
     },
     {
+      "id": "patch.levee.rim.body.1222-1643",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.02,
+      "receipt": {},
+      "region": [
+        1637,
+        1670,
+        1275,
+        1283
+      ],
+      "samplesChanged": 93,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1259-1545",
+      "kind": "levee",
+      "maxAbsDeltaM": 2.03,
+      "receipt": {},
+      "region": [
+        1540,
+        1547,
+        1268,
+        1275
+      ],
+      "samplesChanged": 11,
+      "status": "applied"
+    },
+    {
       "id": "patch.levee.rim.body.1277-865",
       "kind": "levee",
-      "maxAbsDeltaM": 1.247,
+      "maxAbsDeltaM": 1.774,
       "receipt": {},
       "region": [
         944,
-        952,
-        1248,
-        1256
+        957,
+        1238,
+        1264
       ],
-      "samplesChanged": 15,
+      "samplesChanged": 93,
       "status": "applied"
     },
     {
@@ -2018,11 +2046,25 @@
       "receipt": {},
       "region": [
         1219,
-        1230,
-        1277,
+        1232,
+        1273,
         1288
       ],
-      "samplesChanged": 39,
+      "samplesChanged": 77,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.1787-344",
+      "kind": "levee",
+      "maxAbsDeltaM": 4.998,
+      "receipt": {},
+      "region": [
+        234,
+        255,
+        1731,
+        1786
+      ],
+      "samplesChanged": 84,
       "status": "applied"
     },
     {
@@ -2082,6 +2124,20 @@
       "status": "applied"
     },
     {
+      "id": "patch.levee.rim.body.2508-2288",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.64,
+      "receipt": {},
+      "region": [
+        2269,
+        2284,
+        2626,
+        2633
+      ],
+      "samplesChanged": 58,
+      "status": "applied"
+    },
+    {
       "id": "patch.levee.rim.body.2598-2135",
       "kind": "levee",
       "maxAbsDeltaM": 0.369,
@@ -2124,6 +2180,20 @@
       "status": "applied"
     },
     {
+      "id": "patch.levee.rim.body.2953-433",
+      "kind": "levee",
+      "maxAbsDeltaM": 3.051,
+      "receipt": {},
+      "region": [
+        432,
+        439,
+        2962,
+        2969
+      ],
+      "samplesChanged": 12,
+      "status": "applied"
+    },
+    {
       "id": "patch.levee.rim.body.3009-1891",
       "kind": "levee",
       "maxAbsDeltaM": 0.403,
@@ -2149,6 +2219,34 @@
         66
       ],
       "samplesChanged": 301,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.462-681",
+      "kind": "levee",
+      "maxAbsDeltaM": 9.401,
+      "receipt": {},
+      "region": [
+        674,
+        689,
+        407,
+        417
+      ],
+      "samplesChanged": 61,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.501-1470",
+      "kind": "levee",
+      "maxAbsDeltaM": 5.3,
+      "receipt": {},
+      "region": [
+        1494,
+        1508,
+        484,
+        491
+      ],
+      "samplesChanged": 13,
       "status": "applied"
     },
     {
@@ -2206,8 +2304,36 @@
       ],
       "samplesChanged": 35,
       "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.926-2458",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.358,
+      "receipt": {},
+      "region": [
+        2548,
+        2634,
+        896,
+        965
+      ],
+      "samplesChanged": 42,
+      "status": "applied"
+    },
+    {
+      "id": "patch.levee.rim.body.992-2622",
+      "kind": "levee",
+      "maxAbsDeltaM": 1.89,
+      "receipt": {},
+      "region": [
+        2635,
+        2642,
+        994,
+        1039
+      ],
+      "samplesChanged": 151,
+      "status": "applied"
     }
   ],
-  "refused": 55,
+  "refused": 47,
   "schemaVersion": 1
 }
