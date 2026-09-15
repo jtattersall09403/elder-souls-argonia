@@ -21,6 +21,10 @@ export interface LoadWaterAssetsOptions {
   baseUrl: string;
   /** Province-relative water bundle directory. */
   waterPath?: string;
+  /** The apron manifest (`province/apron/apron-manifest.json`, 16d). When
+   * given and present, the sea beyond the border is drawn over the apron's
+   * `ring2` tile; a 404 or a missing tile leaves the edge-texel rule. */
+  apronManifestUrl?: string;
   /** Accurate terrain height where chunks are loaded; null = use the proxy. */
   groundHeight?: (x: number, z: number) => number | null;
   seasonScalar: () => number;
@@ -95,6 +99,50 @@ export function decodeWaterRasters(meta: WaterMeta, surfaceRgba: Uint8ClampedArr
   return { surface, depth, shore, season };
 }
 
+interface ApronTile {
+  file: string; originM: [number, number]; shape: [number, number]; metresPerSample: number; minM: number; maxM: number;
+}
+
+/** The apron's far tile as `WaterAssets.apron`, or undefined when the
+ * manifest or its tile cannot be read. Never throws: the sea must still draw
+ * on a build without the apron (the ladder hides it, or an older publish). */
+async function loadApron(manifestUrl: string, base: string, klass: Uint8ClampedArray, klassSize: number,
+  classes: readonly string[]): Promise<WaterAssets["apron"]> {
+  try {
+    const res = await fetch(manifestUrl);
+    if (!res.ok) return undefined;
+    const manifest = await res.json() as { tiles?: ApronTile[] };
+    const tile = manifest.tiles?.find((t) => (t as { id?: string }).id === "ring2") ?? manifest.tiles?.at(-1);
+    if (!tile) return undefined;
+    const dir = manifestUrl.slice(0, manifestUrl.lastIndexOf("/") + 1);
+    const img = await fetchImageData(`${dir}${tile.file}`);
+    const [ny, nx] = tile.shape;
+    if (img.width !== nx || img.height !== ny) return undefined;
+    const heights = new Float32Array(nx * ny);
+    const span = tile.maxM - tile.minM;
+    for (let i = 0; i < heights.length; i++) {
+      heights[i] = tile.minM + ((img.data[i * 4] * 256 + img.data[i * 4 + 1]) / 65535) * span;
+    }
+    // The coast's own turbidity and salinity, read from the class raster's
+    // coast texels (the record), never guessed.
+    const coast = Math.max(0, classes.indexOf("coast"));
+    const turb: number[] = []; const sal: number[] = [];
+    for (let i = 0; i < klassSize * klassSize; i += 7) {
+      if (klass[i * 4] === coast) { turb.push(klass[i * 4 + 1]); sal.push(klass[i * 4 + 2]); }
+    }
+    const median = (v: number[]) => (v.length ? v.sort((a, b) => a - b)[v.length >> 1] / 255 : 0);
+    return {
+      ground: { heights, nx, ny, originM: tile.originM, metresPerSample: tile.metresPerSample },
+      tex: dataTexture(img, THREE.NearestFilter),
+      minM: tile.minM, maxM: tile.maxM,
+      coastClassIndex: coast, coastTurbidity: median(turb), coastSalinity: sal.length ? median(sal) : 1,
+    };
+  } catch {
+    void base;
+    return undefined;
+  }
+}
+
 export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<WaterAssets> {
   const base = options.baseUrl;
   const waterBase = `${base}${options.waterPath ?? "province/water"}/`;
@@ -129,6 +177,11 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     idImg ? decodeWaterIds(meta.surface.size, idImg.data) : undefined,
   );
 
+  const apron = options.apronManifestUrl
+    ? await loadApron(options.apronManifestUrl, base, new Uint8ClampedArray(klassImg.data), meta.klass.size, meta.klass.classes)
+    : undefined;
+  data.attachApron(apron?.ground ?? null);
+
   const basin = (floodStates?.basins?.[0] ?? {}) as {
     tidalAmplitudeM?: number;
     seasonalAmplitudeM?: number;
@@ -157,6 +210,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     ownerTex: ownerImg ? dataTexture(ownerImg, THREE.NearestFilter) : null,
     tidalAmplitudeM,
     seasonalAmplitudeM,
+    apron,
     waterfallTextures,
     waterfallKit,
   };

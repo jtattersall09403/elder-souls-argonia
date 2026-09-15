@@ -1,4 +1,5 @@
 import { loadWaterAssets } from "@elder-souls/game-core/water/render/loadWaterAssets";
+import { loadLadder } from "../ladder";
 import { WATERFALL_TEXTURE_ROLES, type WaterfallTextureSlot } from "@elder-souls/game-core/water/render/WaterfallSheets";
 import { worldClock } from "../sky/timeState";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
@@ -75,8 +76,13 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
   const cached = cache.get(base);
   if (cached) return cached;
   ensureChunkGround(base);
-  const pending = waterfallTextureUrls(base).then((waterfallTextureUrls) => loadWaterAssets({
+  // The sea beyond the border is drawn over the apron's ground (16d) only
+  // when the ladder says the apron was built on this ground.
+  const apronUrl = loadLadder(base).then((ladder) =>
+    (ladder && ladder.hiddenLayers.includes("apron")) ? undefined : `${base}province/apron/apron-manifest.json`);
+  const pending = Promise.all([waterfallTextureUrls(base), apronUrl]).then(([waterfallTextureUrls, apronManifestUrl]) => loadWaterAssets({
     baseUrl: base,
+    apronManifestUrl,
     groundHeight: waterGroundHeight,
     seasonScalar: effectiveSeasonScalar,
     waveTimeS: waterTimeS,

@@ -824,3 +824,47 @@ describe("buoyancy", () => {
     expect(r.relativeSpeed).toBeGreaterThan(1.5);
   });
 });
+
+describe("beyond the border the water is the open sea over the apron ground (16d, decision 0067)", () => {
+  // A 4×4 water raster (7.3 m extent) whose east edge column is a river at
+  // 200 m, and an apron tile around it: land at +30 m to the east, sea floor
+  // at −12 m to the north.
+  const size = 4;
+  const mpp = 1.828;
+  const meta = {
+    schemaVersion: 3,
+    surface: { file: "s.png", size, metresPerPixel: mpp, minM: 0, maxM: 300, depthMinM: -6, depthSpanM: 30.6, buryM: 3 },
+    flow: { file: "f.png", size, metresPerPixel: mpp, flowMax: 3, fetchMaxM: 60000 },
+    klass: { file: "k.png", size, metresPerPixel: mpp, classes: ["none", "coast", "estuary", "river", "lake", "marsh"] },
+    season: { amplitudeM: 1.4 },
+  } as unknown as WaterMeta;
+  const surface = new Float32Array(size * size).fill(200);
+  const depth = new Float32Array(size * size).fill(1.5);   // wet everywhere at 200 m
+  const flow = new Uint8ClampedArray(size * size * 4);
+  const klass = new Uint8ClampedArray(size * size * 4);
+  const data = new WaterData(meta, surface, depth, flow, klass);
+  const extent = size * mpp;
+
+  it("without an apron the edge texel continues outward (the pre-16d rule)", () => {
+    expect(data.surfaceBase(extent + 50, 3)).toBeCloseTo(200, 3);
+    expect(data.depthProxy(extent + 50, 3)).toBeCloseTo(1.5, 3);
+  });
+
+  it("with an apron the surface beyond the border is 0 and the depth is the sea over the apron ground", () => {
+    // 3 × 3 tile, 100 m pitch, origin (−100, −100): row 0 (north) is sea floor
+    // at −12, the rest is land at +30.
+    const heights = new Float32Array([-12, -12, -12, 30, 30, 30, 30, 30, 30]);
+    data.attachApron({ heights, nx: 3, ny: 3, originM: [-100, -100], metresPerSample: 100 });
+    // east of the border, on land: dry (the 200 m river ends at the border)
+    expect(data.surfaceBase(extent + 50, 100)).toBe(0);
+    expect(data.depthProxy(extent + 50, 100)).toBeCloseTo(-30, 3);
+    expect(data.isWet(extent + 50, 100)).toBe(false);
+    // north of the border, over the sea floor: wet, 12 m deep
+    expect(data.depthProxy(50, -100)).toBeCloseTo(12, 3);
+    expect(data.isWet(50, -100)).toBe(true);
+    // inside the province nothing changes
+    expect(data.surfaceBase(3, 3)).toBeCloseTo(200, 3);
+    expect(data.depthProxy(3, 3)).toBeCloseTo(1.5, 3);
+    data.attachApron(null);
+  });
+});

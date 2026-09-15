@@ -130,6 +130,18 @@ export interface WaterUniforms extends FoamFieldUniforms {
   uKlassTex: { value: THREE.Texture };
   uFlowExtentM: { value: number };
   uFlowMax: { value: number };
+  /** 16d (0067): beyond the province the water is the open sea at y = 0
+   * over the apron's ground (`uApronTex`, RG16 heights, row 0 = north).
+   * `uHasApron` 0 keeps the edge-texel rule for a build without the apron. */
+  uHasApron: { value: number };
+  uApronTex: { value: THREE.Texture | null };
+  uApronMin: { value: number };
+  uApronSpan: { value: number };
+  uApronOrigin: { value: THREE.Vector2 };
+  uApronMpp: { value: number };
+  uApronSize: { value: THREE.Vector2 };
+  /** Class index / turbidity / salinity of the coast, for the sea beyond. */
+  uApronCoast: { value: THREE.Vector3 };
   uSsrStrength: { value: number };
   uRefractStrength: { value: number };
   uRipple: { value: THREE.Texture | null };
@@ -192,6 +204,14 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uKlassTex: { value: assets.klassTex },
     uFlowExtentM: { value: m.flow.size * m.flow.metresPerPixel },
     uFlowMax: { value: m.flow.flowMax },
+    uHasApron: { value: assets.apron ? 1 : 0 },
+    uApronTex: { value: assets.apron?.tex ?? null },
+    uApronMin: { value: assets.apron?.minM ?? 0 },
+    uApronSpan: { value: assets.apron ? assets.apron.maxM - assets.apron.minM : 1 },
+    uApronOrigin: { value: new THREE.Vector2(assets.apron?.ground.originM[0] ?? 0, assets.apron?.ground.originM[1] ?? 0) },
+    uApronMpp: { value: assets.apron?.ground.metresPerSample ?? 1 },
+    uApronSize: { value: new THREE.Vector2(assets.apron?.ground.nx ?? 1, assets.apron?.ground.ny ?? 1) },
+    uApronCoast: { value: new THREE.Vector3(assets.apron?.coastClassIndex ?? 1, assets.apron?.coastTurbidity ?? 0, assets.apron?.coastSalinity ?? 1) },
     uSsrStrength: { value: 0.85 },
     uRefractStrength: { value: 0.35 },
     uRipple: { value: null },
@@ -288,6 +308,14 @@ export const SAMPLER_GLSL = /* glsl */ `
   uniform vec2 uWindDir;
   uniform float uCapThreshold;
   uniform float uFetchMax;
+  uniform float uHasApron;
+  uniform sampler2D uApronTex;
+  uniform float uApronMin;
+  uniform float uApronSpan;
+  uniform vec2 uApronOrigin;
+  uniform float uApronMpp;
+  uniform vec2 uApronSize;
+  uniform vec3 uApronCoast;
 
   // KEEP IN LOCKSTEP with waterData.decodeDepthByte(): B is SIGNED depth.
   vec2 esDecodeSurf(vec4 t){
@@ -295,12 +323,35 @@ export const SAMPLER_GLSL = /* glsl */ `
     return vec2(w, t.b * uSurfDepthSpan + uSurfDepthMin);
   }
 
+  // Outside the province square (the water raster's own extent).
+  bool esOutside(vec2 wpos){
+    float extent = uSurfSize * uSurfMpp;
+    return wpos.x < 0.0 || wpos.y < 0.0 || wpos.x >= extent || wpos.y >= extent;
+  }
+  // The apron ground (m) beyond the border: manual bilinear over the RG16
+  // tile, clamped to its edge. KEEP IN LOCKSTEP with WaterData.apronHeight().
+  float esApronTexel(ivec2 i){
+    vec4 t = texelFetch(uApronTex, i, 0);
+    return uApronMin + ((t.r * 255.0 * 256.0 + t.g * 255.0) / 65535.0) * uApronSpan;
+  }
+  float esApronGround(vec2 wpos){
+    vec2 f = clamp((wpos - uApronOrigin) / uApronMpp, vec2(0.0), uApronSize - 1.001);
+    ivec2 i0 = ivec2(f);
+    vec2 t = f - vec2(i0);
+    ivec2 i1 = min(i0 + 1, ivec2(uApronSize) - 1);
+    return mix(mix(esApronTexel(i0), esApronTexel(ivec2(i1.x, i0.y)), t.x),
+               mix(esApronTexel(ivec2(i0.x, i1.y)), esApronTexel(i1), t.x), t.y);
+  }
+
   // Manual bilinear over the 16-bit W raster (height, signed depth). Beyond
-  // the province the EDGE texel continues (clamp-to-edge): a sea border
-  // carries the sea outward, a land border carries buried ground, so the
-  // raster's edge is never a seam against a hard plane (audit mechanism 5).
+  // the province the water is the OPEN SEA at y = 0 over the apron ground
+  // (16d, decision 0067): a river or lake on the border ends at the border,
+  // the sea and the canon inlets continue. Without an apron the EDGE texel
+  // continues (clamp-to-edge): a sea border carries the sea outward, a land
+  // border carries buried ground (audit mechanism 5).
   // KEEP IN LOCKSTEP with WaterData.surfaceBase / depthProxy.
   vec2 esSurfaceAt(vec2 wpos){
+    if (uHasApron > 0.5 && esOutside(wpos)) return vec2(0.0, -esApronGround(wpos));
     vec2 f = clamp(wpos / uSurfMpp - 0.5, vec2(0.0), vec2(uSurfSize - 1.001));
     ivec2 i0 = ivec2(f);
     vec2 t = f - vec2(i0);
@@ -758,8 +809,17 @@ vec2 esSurf = esSurfaceAt(esRestW.xz);
 vec2 esDataUv = clamp(esRestW.xz / uFlowExtentM, vec2(0.0), vec2(1.0));
 vec4 esKl = texture2D(uKlassTex, esDataUv);
 vec4 esFl = texture2D(uFlowTex, esDataUv);
-float esFetchM = esFetchAt(esFl);
 vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
+#ifndef ES_STRIP
+if (uHasApron > 0.5 && esOutside(esRestW.xz)) {
+  // beyond the border: the coast's class, no current, the open sea's fetch,
+  // far from any shore, no season response, no tannin (16d, 0067)
+  esKl = vec4(uApronCoast.x / 255.0, uApronCoast.y, uApronCoast.z, 1.0);
+  esFl = vec4(0.5, 0.5, 1.0, 1.0);
+  esSS = vec3(uSurfShoreMax, 0.0, 0.0);
+}
+#endif
+float esFetchM = esFetchAt(esFl);
 #ifdef ES_STRIP
 // no tide response inland on a steep reach; season rides the attribute
 float esStill = esSurf.x + uLevelSeason * aSeason;

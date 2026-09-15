@@ -1,6 +1,6 @@
 import type * as THREE from "three";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import type { WaterData, WaterMeta } from "../waterData";
+import type { ApronGround, WaterData, WaterMeta } from "../waterData";
 import type { WaterWorld } from "../waterWorld";
 import type { Vec3 } from "@elder-souls/contracts";
 import type { WaterEffectsDiagnostics } from "./WaterEffects";
@@ -27,6 +27,20 @@ export interface WaterAssets {
   ownerTex: THREE.DataTexture | null;
   tidalAmplitudeM: number;
   seasonalAmplitudeM: number;
+  /** The beyond-border ground (16d): the apron's coarse height tile as the
+   * RG16 texture the shader decodes, its decode range and frame, and the
+   * coast class' index / turbidity / salinity the sea beyond the border
+   * takes (measured from the class raster's own coast texels). Absent when
+   * the apron is not delivered on this ladder. */
+  apron?: {
+    ground: ApronGround;
+    tex: THREE.DataTexture;
+    minM: number;
+    maxM: number;
+    coastClassIndex: number;
+    coastTurbidity: number;
+    coastSalinity: number;
+  };
   /** The vanilla waterfall FX textures (kit `waterfall-fx-textures`), by
    * shader slot; absent or null slots keep the procedural streak field. */
   waterfallTextures?: WaterfallTextureSet;

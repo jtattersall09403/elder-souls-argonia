@@ -198,8 +198,24 @@ export function decodeDepthByte(b: number, meta: WaterMeta): number {
     + (meta.surface.depthMinM ?? DEPTH_MIN_DEFAULT_M);
 }
 
+/** The ground beyond the province's four edges (16d, decision 0067): the
+ * apron's coarse height tile, row 0 = north, in true metres. Beyond the
+ * province the water is the open sea at y = 0 over this ground, so a river
+ * or upland lake on the border ends at the border instead of running out as
+ * a ribbon at its own level, and the canon inlets north and west are sea. */
+export interface ApronGround {
+  /** Heights (m), `ny` rows of `nx`, row 0 = north. */
+  heights: Float32Array;
+  nx: number;
+  ny: number;
+  /** World metres (east, south) of sample (0, 0). */
+  originM: [number, number];
+  metresPerSample: number;
+}
+
 export class WaterData {
   private readonly buriedBelow: number;
+  private apron: ApronGround | null = null;
 
   constructor(
     readonly meta: WaterMeta,
@@ -281,17 +297,46 @@ export class WaterData {
     return x < 0 || z < 0 || x >= extent || z >= extent;
   }
 
-  /** Still-water surface height (m). Beyond the raster the EDGE texel
-   * continues (clamp-to-edge, the GLSL twin's rule): a sea border carries
-   * the sea outward, a land border carries buried ground, so the province
-   * edge is never a seam between the raster and a hard plane (audit
-   * mechanism 5). */
+  /** Attach the beyond-border ground (16d). Until it is attached the edge
+   * texel continues outward (the pre-16d rule), which is right for the sea
+   * and wrong for a river on the border. */
+  attachApron(apron: ApronGround | null): void {
+    this.apron = apron;
+  }
+
+  get apronGround(): ApronGround | null { return this.apron; }
+
+  /** Apron ground height (m) at world (x, z), bilinear, clamped to the
+   * tile's edge. KEEP IN LOCKSTEP with the GLSL esApronGround(). */
+  apronHeight(x: number, z: number): number {
+    const a = this.apron;
+    if (!a) return Number.NaN;
+    const fx = Math.min(Math.max((x - a.originM[0]) / a.metresPerSample, 0), a.nx - 1.001);
+    const fz = Math.min(Math.max((z - a.originM[1]) / a.metresPerSample, 0), a.ny - 1.001);
+    const x0 = Math.floor(fx);
+    const z0 = Math.floor(fz);
+    const tx = fx - x0;
+    const tz = fz - z0;
+    const i = z0 * a.nx + x0;
+    const top = a.heights[i] * (1 - tx) + a.heights[i + 1] * tx;
+    const bot = a.heights[i + a.nx] * (1 - tx) + a.heights[i + a.nx + 1] * tx;
+    return top * (1 - tz) + bot * tz;
+  }
+
+  /** Still-water surface height (m). Beyond the province the water is the
+   * open sea at y = 0 over the apron ground (16d, 0067) — when no apron is
+   * attached the EDGE texel continues (clamp-to-edge): a sea border carries
+   * the sea outward, a land border buried ground (audit mechanism 5).
+   * KEEP IN LOCKSTEP with the GLSL esSurfaceAt(). */
   surfaceBase(x: number, z: number): number {
+    if (this.apron && this.outside(x, z)) return 0;
     return this.bilinearWet(this.surface, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
   }
 
-  /** Signed compiled depth (m), bilinear; the edge texel beyond the raster. */
+  /** Signed compiled depth (m), bilinear; beyond the province the sea's depth
+   * over the apron ground (0 − ground), else the edge texel. */
   depthProxy(x: number, z: number): number {
+    if (this.apron && this.outside(x, z)) return -this.apronHeight(x, z);
     return this.bilinear(this.depth, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
   }
 
