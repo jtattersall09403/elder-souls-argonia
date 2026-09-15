@@ -23,6 +23,13 @@ export const SYSTEM_TEXT: readonly TextEntry[] = [
       "Shown when the player kills a tier-protected character. All NPCs are killable and none are flagged invincible (quests 40 §30b), so this message is the whole protection — it must be plain and instantly actionable. Earlier drafts reached for gravitas ('a root the story grew along is severed', then 'a root is severed'); system text carries no imagery, so it states the cause and the remedy (style guide §3). Owner 2026-09-04: the wording is open to reviewer improvement, not pinned.",
   },
   {
+    id: "text.system.province-edge",
+    surface: "system",
+    text: "You have reached the edge of Black Marsh. You can go no further.",
+    note:
+      "Shown once when the character reaches the invisible wall at the edge of the built province (16d). States the fact and stops; the land the player can see beyond the border is scenery, and the line must not promise it. Reviewer: the wording is open, the plainness is not.",
+  },
+  {
     id: "text.system.player-died",
     surface: "system",
     text: "You have died.",

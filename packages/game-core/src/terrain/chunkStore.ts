@@ -19,6 +19,9 @@ export interface ChunkMeta {
   cy: number;
   originM: [number, number]; // NW corner, metres east/south of province origin
   lods: Record<string, ChunkLodMeta>;
+  /** Directory the tiles live in, relative to `baseUrl`. Absent for the
+   * province's own chunks, which are always `province/chunks/`. */
+  dir?: string;
 }
 export interface ChunksManifest {
   chunkSamples: number;
@@ -91,30 +94,51 @@ export class ChunkStore {
     return pending;
   }
 
+  /** Register chunks that live somewhere other than `province/chunks/`
+   * (16d: the apron's ring 0). They are keyed by cell like any other chunk, so
+   * `chunkAt`/`load` serve them through the same cache; their tiles are
+   * fetched from `dir`. Province cells are never overwritten. */
+  register(chunks: ChunkMeta[], dir: string): void {
+    for (const chunk of chunks) {
+      const key = `${chunk.cx},${chunk.cy}`;
+      if (this.byCell.has(key)) continue;
+      this.byCell.set(key, { ...chunk, dir });
+    }
+  }
+
   private async decode(cx: number, cy: number, lod: string): Promise<ChunkGrid> {
     await this.manifest();
     const meta = this.chunkAt(cx, cy), lodMeta = meta?.lods[lod];
     if (!meta || !lodMeta) throw new Error(`No chunk ${cx},${cy} LOD ${lod}`);
-    const response = await fetch(`${this.baseUrl}province/chunks/${lodMeta.file}`);
+    const dir = meta.dir ?? "province/chunks/";
+    const response = await fetch(`${this.baseUrl}${dir}${lodMeta.file}`);
     if (!response.ok) throw new Error(`Terrain chunk ${lodMeta.file}: HTTP ${response.status}`);
-    const bitmap = await createImageBitmap(await response.blob(), { premultiplyAlpha: "none", colorSpaceConversion: "none" });
-    const [ny, nx] = lodMeta.shape;
-    let canvas: OffscreenCanvas | undefined;
-    try {
-      if (bitmap.width !== nx || bitmap.height !== ny) throw new Error(`Terrain chunk ${lodMeta.file}: unexpected raster dimensions`);
-      canvas = new OffscreenCanvas(nx, ny);
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
-      if (!ctx) throw new Error("Terrain raster decoding context unavailable");
-      ctx.drawImage(bitmap, 0, 0);
-      const px = ctx.getImageData(0, 0, nx, ny).data;
-      const heights = new Float32Array(nx * ny);
-      const span = lodMeta.maxM - lodMeta.minM;
-      // 16-bit quantised height: R = high byte, G = low byte.
-      for (let i = 0; i < heights.length; i++) heights[i] = lodMeta.minM + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
-      return { meta, lod, heights, nx, ny, metresPerSample: lodMeta.metresPerSample };
-    } finally {
-      bitmap.close();
-      if (canvas) { canvas.width = 1; canvas.height = 1; }
-    }
+    const heights = await decodeHeightPng(await response.blob(), lodMeta);
+    return { meta, lod, heights, nx: lodMeta.shape[1], ny: lodMeta.shape[0], metresPerSample: lodMeta.metresPerSample };
+  }
+}
+
+/** Decode one RG16 height raster to true metres, row-major [z][x].
+ * R is the high byte and G the low byte of a 16-bit quantisation between
+ * `minM` and `maxM` (`worldgen.export_web_chunks.encode_rg16`). Shared by the
+ * chunk store and the border apron's standalone tiles (16d). */
+export async function decodeHeightPng(blob: Blob, lodMeta: ChunkLodMeta): Promise<Float32Array> {
+  const bitmap = await createImageBitmap(blob, { premultiplyAlpha: "none", colorSpaceConversion: "none" });
+  const [ny, nx] = lodMeta.shape;
+  let canvas: OffscreenCanvas | undefined;
+  try {
+    if (bitmap.width !== nx || bitmap.height !== ny) throw new Error(`Terrain raster ${lodMeta.file}: unexpected raster dimensions`);
+    canvas = new OffscreenCanvas(nx, ny);
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) throw new Error("Terrain raster decoding context unavailable");
+    ctx.drawImage(bitmap, 0, 0);
+    const px = ctx.getImageData(0, 0, nx, ny).data;
+    const heights = new Float32Array(nx * ny);
+    const span = lodMeta.maxM - lodMeta.minM;
+    for (let i = 0; i < heights.length; i++) heights[i] = lodMeta.minM + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
+    return heights;
+  } finally {
+    bitmap.close();
+    if (canvas) { canvas.width = 1; canvas.height = 1; }
   }
 }

@@ -5,13 +5,14 @@ import * as THREE from "three";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
 import { CityMarkers } from "./CityMarkers";
-import { ChunkTerrain } from "./character/ChunkTerrain";
+import { ApronTerrain } from "./ApronTerrain";
 import { Vegetation, type VegetationStats } from "./vegetation/Vegetation";
 import { Groundcover } from "./vegetation/Groundcover";
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import { loadLadder, useHiddenLayers } from "./ladder";
+import { useApronManifest } from "./apronMaterials";
 import { groundHeightM } from "./vegetation/terrainHeight";
 import { lastWeatherSample } from "./weather/weatherState";
 import { worldClock } from "./sky/timeState";
@@ -245,6 +246,9 @@ export function Fly3D(props: Fly3DProps) {
   const authoredExtentM = chunkManifest?.authoredUvExtentM ?? AUTHORED_UV_EXTENT_M;
   const focusRef = useRef({ x: start[0], z: start[2] });
   const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
+  // The land beyond the border (16d). Hidden by the ladder on a build whose
+  // apron stage has not run on this ground.
+  const apronManifest = useApronManifest(import.meta.env.BASE_URL, ladderReady && !hiddenLayers.has("apron"));
   const markerGroundAt = useMemo(() => {
     const { heights, size, metresPerPixel, exaggeration } = props;
     return (xM: number, zM: number) => {
@@ -295,7 +299,8 @@ export function Fly3D(props: Fly3DProps) {
               <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
                 textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />
             }>
-              <ChunkTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
+              <ApronTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
+                apron={apronManifest}
                 matSet={props.matSet} tintStrength={props.tintStrength}
                 verticalScale={props.exaggeration}
                 loadingFallback={<Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}

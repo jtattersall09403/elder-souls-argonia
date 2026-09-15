@@ -3,7 +3,7 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
-import { lodForDistance, type ChunkGrid, type ChunkStore, type ChunksManifest } from "./chunkStore";
+import { lodForDistance, type ChunkGrid, type ChunkMeta, type ChunkStore, type ChunksManifest } from "./chunkStore";
 import { useHiddenLayers } from "../ladder";
 import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
 
@@ -21,15 +21,16 @@ import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeo
 
 const desiredLod = lodForDistance;   // rings: 1 near (LOD 1), 3 mid (LOD 2), beyond LOD 4
 
-function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
+function ChunkMesh({ grid, material, verticalScale, uvExtentM, uvOriginM }: {
   grid: ChunkGrid;
   material: THREE.Material;
   verticalScale: number;
   uvExtentM: number;
+  uvOriginM?: [number, number];
 }) {
   const geometry = useMemo(
-    () => buildTerrainGridGeometry(grid, verticalScale, uvExtentM),
-    [grid, verticalScale, uvExtentM],
+    () => buildTerrainGridGeometry(grid, verticalScale, uvExtentM, uvOriginM ?? [0, 0]),
+    [grid, verticalScale, uvExtentM, uvOriginM],
   );
   useEffect(() => () => geometry.dispose(), [geometry]);
   // ONLY the near ring casts sun shadows: the character-mode shadow frustum
@@ -39,9 +40,14 @@ function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
   return <mesh geometry={geometry} material={material} castShadow={casts} receiveShadow />;
 }
 
-export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap, loadingFallback }: {
+export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap, loadingFallback, apron, onGroundMaterial }: {
   store: ChunkStore;
   manifest: ChunksManifest;
+  /** The border apron's ring-0 chunks (16d): ordinary chunk tiles registered
+   * on the same store, drawn in this loop with the same LOD rule and skirt but
+   * the apron's material and its own UV frame. */
+  apron?: { chunks: ChunkMeta[]; material: THREE.Material; uvOriginM: [number, number]; uvExtentM: number };
+
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   matSet?: string;
   tintStrength?: number;
@@ -53,6 +59,9 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   onLodMap?: (focusCell: [number, number]) => void;
   /** Keep the caller's macro/loading terrain visible until detail chunks exist. */
   loadingFallback?: React.ReactNode;
+  /** The built ground material, once it exists: the apron's materials borrow
+   * its albedo array rather than allocating a second one (16d). */
+  onGroundMaterial?: (material: THREE.MeshStandardMaterial) => void;
 }) {
   const base = import.meta.env.BASE_URL;
   const { set, manifest: ground } = useGroundManifest(base, matSet);
@@ -82,6 +91,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     groundUniforms.uVerticalScale.value =
       verticalScale ?? manifest.verticalScaleAtGeometry;
   }, [groundUniforms, verticalScale, manifest]);
+  useEffect(() => { onGroundMaterial?.(material); }, [material, onGroundMaterial]);
   useEffect(() => {
     // Probe/diagnostics hook: exposes what the material patch actually did.
     const w = window as unknown as {
@@ -95,7 +105,9 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       type: material.type,
     });
     return () => {
-      (material.userData.tex as THREE.DataArrayTexture).dispose();
+      // Only the owner disposes the albedo array: the apron's materials borrow
+      // this one (16d, `sharedArrayTexture`).
+      if (material.userData.ownsTex !== false) (material.userData.tex as THREE.DataArrayTexture).dispose();
       material.dispose();
     };
   }, [material, csm]);
@@ -140,7 +152,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   };
   useEffect(() => () => { if (bumpTimer.current !== null) window.clearTimeout(bumpTimer.current); }, []);
   useEffect(() => {
-    for (const chunk of manifest.chunks) {
+    for (const chunk of [...manifest.chunks, ...(apron?.chunks ?? [])]) {
       const lod = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
       const key = `${chunk.cx},${chunk.cy},${lod}`;
       if (requested.current.has(key)) continue;
@@ -150,9 +162,15 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
         .catch((e) => { console.warn(`chunk ${key} failed: ${String(e).slice(0, 200)}`); requested.current.delete(key); });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store, manifest, focusCell]);
+  }, [store, manifest, focusCell, apron]);
 
-  const meshes = manifest.chunks.map((chunk) => {
+  // Province chunks and the apron's ring 0 go through one loop: same LOD rule,
+  // same skirt, same store — only the material and UV frame differ (16d).
+  const drawn: { chunk: ChunkMeta; apron: boolean }[] = [
+    ...manifest.chunks.map((chunk) => ({ chunk, apron: false })),
+    ...(apron?.chunks ?? []).map((chunk) => ({ chunk, apron: true })),
+  ];
+  const meshes = drawn.map(({ chunk, apron: isApron }) => {
     const want = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
     // Render the desired LOD if decoded; otherwise the best fallback we have.
     const grid = store.loaded(chunk.cx, chunk.cy, want)
@@ -165,14 +183,16 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       <ChunkMesh
         key={`${chunk.cx},${chunk.cy},${grid.lod}`}
         grid={grid}
-        material={material}
+        material={isApron && apron ? apron.material : material}
         verticalScale={scale}
-        uvExtentM={uvExtentM}
+        uvExtentM={isApron && apron ? apron.uvExtentM : uvExtentM}
+        uvOriginM={isApron && apron ? apron.uvOriginM : undefined}
       />
     );
   });
-  // Keep the caller's macro terrain visible until the first chunk decodes,
-  // but never draw it beneath detail meshes.
-  if (!meshes.some((mesh) => mesh !== null)) return <>{loadingFallback ?? null}</>;
+  // Keep the caller's macro terrain visible until the first PROVINCE chunk
+  // decodes (an apron tile is not the ground the player stands on), but never
+  // draw it beneath detail meshes.
+  if (!meshes.slice(0, manifest.chunks.length).some((mesh) => mesh !== null)) return <>{loadingFallback ?? null}</>;
   return <group>{meshes}</group>;
 }

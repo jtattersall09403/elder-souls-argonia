@@ -63,7 +63,9 @@ export interface GroundUniforms {
 }
 
 /** Builds the splat material. The caller owns disposal of the material and of
- * `material.userData.tex` (the albedo array texture). Live-tunable uniforms
+ * `material.userData.tex` (the albedo array texture) when
+ * `material.userData.ownsTex` is true; a material given a shared array borrows
+ * it and disposes nothing. Live-tunable uniforms
  * are exposed on `material.userData.groundUniforms`.
  *
  * The surface normal comes from one province-wide slope-gradient texture
@@ -82,6 +84,10 @@ export function createGroundMaterial(
   aerialUniforms: AerialUniforms,
   csm?: CSM | null,
   options: { shoreWetness?: boolean } = {},
+  /** Reuse another material's albedo array instead of building a second one
+   * (16d: the apron's two materials share the province's ~40 MB array). The
+   * borrower sets `userData.ownsTex = false` and must not dispose it. */
+  sharedArrayTexture?: THREE.DataArrayTexture,
 ): THREE.MeshStandardMaterial {
   const n = images.length;
   const size = 512;
@@ -99,23 +105,27 @@ export function createGroundMaterial(
   // flyover drew no terrain at all (owner's console, 2026-09-13). Character
   // mode has 2 cascades, exactly 16, which is why it still worked.
   const layers = n + (cliffNrmOk ? 2 : 0);
-  const data = new Uint8Array(size * size * 4 * layers);
-  const canvas = document.createElement("canvas");
-  canvas.width = canvas.height = size;
-  const g2d = canvas.getContext("2d", { willReadFrequently: true })!;
-  [...images, ...(cliffNrmOk ? cliffNormals : [])].forEach((img, i) => {
-    g2d.clearRect(0, 0, size, size);
-    g2d.drawImage(img, 0, 0, size, size);
-    data.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
-  });
-  const tex = new THREE.DataArrayTexture(data, size, size, layers);
-  tex.format = THREE.RGBAFormat;
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.minFilter = THREE.LinearMipmapLinearFilter;
-  tex.magFilter = THREE.LinearFilter;
-  tex.generateMipmaps = true;
-  tex.anisotropy = 4;
-  tex.needsUpdate = true;
+  const ownsTex = !sharedArrayTexture;
+  let tex = sharedArrayTexture;
+  if (!tex) {
+    const data = new Uint8Array(size * size * 4 * layers);
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = size;
+    const g2d = canvas.getContext("2d", { willReadFrequently: true })!;
+    [...images, ...(cliffNrmOk ? cliffNormals : [])].forEach((img, i) => {
+      g2d.clearRect(0, 0, size, size);
+      g2d.drawImage(img, 0, 0, size, size);
+      data.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
+    });
+    tex = new THREE.DataArrayTexture(data, size, size, layers);
+    tex.format = THREE.RGBAFormat;
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = true;
+    tex.anisotropy = 4;
+    tex.needsUpdate = true;
+  }
 
   // integer ids: never let the GPU filter or mip the control map
   ctrl.minFilter = THREE.NearestFilter;
@@ -329,6 +339,7 @@ vec3 nonPerturbedNormal = normal;`,
   material.customProgramCacheKey = () => `es-ground-${n}-${cliffNrmOk ? 1 : 0}`;
 
   material.userData.tex = tex;
+  material.userData.ownsTex = ownsTex;
   material.userData.groundUniforms = groundUniforms;
   return material;
 }

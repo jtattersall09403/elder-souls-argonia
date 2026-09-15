@@ -19,6 +19,22 @@ export interface Vec3 {
 
 export const SEA_LEVEL_Y = 0;
 
+/**
+ * The square of built ground and the wall that closes it (16d).
+ *
+ * `extentM` is the chunk manifest's `terrainSupportExtentM` — the first-to-last
+ * terrain-vertex span, (4033 − 1) × 1.82784 m. The runtime prefers the loaded
+ * manifest's value and falls back to this constant; there is no second name
+ * for this number (`provinceScale.TERRAIN_SUPPORT_EXTENT_M` re-exports it).
+ * The wall spans `wallBottomY … wallTopY` in true metres: the top clears the
+ * 655 m summit with room to spare, the bottom stops a diver passing under.
+ */
+export const PROVINCE_BOUNDARY = {
+  extentM: 7369.85088,
+  wallTopY: 1100,
+  wallBottomY: -200,
+} as const;
+
 // ---------------------------------------------------------------------------
 // Source provenance (master plan §13; docs/decisions/0002)
 // ---------------------------------------------------------------------------

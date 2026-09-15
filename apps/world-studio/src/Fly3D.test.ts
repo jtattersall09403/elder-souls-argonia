@@ -14,9 +14,9 @@ it("loads terrain independently of either vegetation asset and retains a ground 
     }
     if (ts.isJsxSelfClosingElement(node)) {
       const name = node.tagName.getText(source);
-      if(name==="ChunkTerrain")asyncFallback=node.attributes.properties.find(
+      if(name==="ApronTerrain")asyncFallback=node.attributes.properties.find(
         attribute=>ts.isJsxAttribute(attribute)&&attribute.name.getText(source)==="loadingFallback");
-      if (["ChunkTerrain", "Vegetation", "Groundcover"].includes(name) && boundary) {
+      if (["ApronTerrain", "Vegetation", "Groundcover"].includes(name) && boundary) {
         boundaries.set(name, boundary);
       }
     }
@@ -25,7 +25,7 @@ it("loads terrain independently of either vegetation asset and retains a ground 
   visit(source);
   expect(boundaries.size).toBe(3);
   expect(new Set(boundaries.values()).size).toBe(3);
-  const terrain = boundaries.get("ChunkTerrain")!;
+  const terrain = boundaries.get("ApronTerrain")!;
   const fallback = terrain.openingElement.attributes.properties.find(
     attribute => ts.isJsxAttribute(attribute) && attribute.name.getText(source) === "fallback");
   expect(fallback?.getText(source)).toContain("<Terrain ");
@@ -34,8 +34,8 @@ it("loads terrain independently of either vegetation asset and retains a ground 
 
 it('retains macro terrain until an actual detail mesh exists, then excludes macro from the detail group', () => {
   const source = readFileSync(new URL('./character/ChunkTerrain.tsx', import.meta.url), 'utf8');
-  const built = source.indexOf('const meshes = manifest.chunks.map');
-  const gate = source.indexOf("if (!meshes.some((mesh) => mesh !== null)) return <>{loadingFallback ?? null}</>;");
+  const built = source.indexOf('const meshes = drawn.map(');
+  const gate = source.indexOf("if (!meshes.slice(0, manifest.chunks.length).some((mesh) => mesh !== null)) return <>{loadingFallback ?? null}</>;");
   const detailed = source.indexOf('return <group>{meshes}</group>;');
   expect(built).toBeGreaterThan(0); expect(gate).toBeGreaterThan(built); expect(detailed).toBeGreaterThan(gate);
   // The checked array is the actual render output, not a count of requested

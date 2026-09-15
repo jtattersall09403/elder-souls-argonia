@@ -23,7 +23,7 @@ import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/invent
 import { DEFAULT_SEX, RACE_IDS, resolveBuild, type RaceId } from "@elder-souls/game-core/actors/races";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./chunkStore";
 import { ChunkWorld } from "./chunkWorld";
-import { ChunkTerrain } from "./ChunkTerrain";
+import { ApronTerrain } from "../ApronTerrain";
 import { ChunkColliders } from "./ChunkColliders";
 import { VegetationColliders } from "./VegetationColliders";
 import type { SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
@@ -40,7 +40,10 @@ import { Vegetation } from "../vegetation/Vegetation";
 import { Groundcover } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import { useHiddenLayers } from "../ladder";
-import { PROVINCE_EXTENT_M } from "../provinceScale";
+import { useApronManifest } from "../apronMaterials";
+import { BoundaryWalls } from "@elder-souls/game-core/boundary/BoundaryWalls";
+import { useBoundaryMessage } from "@elder-souls/game-core/boundary/useBoundaryMessage";
+import { PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M } from "../provinceScale";
 import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
 import { lastWeatherSample } from "../weather/weatherState";
@@ -118,6 +121,11 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const player = useRef<EcctrlHandle | null>(null);
   const focusRef = useRef({ x: spawnKm.x * 1000, z: spawnKm.z * 1000 });
   const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
+  const apronManifest = useApronManifest(import.meta.env.BASE_URL, !hiddenLayers.has("apron"));
+  // The square of built ground the boundary wall closes (16d): the manifest's
+  // own value when it is loaded, the contract's otherwise.
+  const terrainExtentM = manifest?.terrainSupportExtentM ?? TERRAIN_SUPPORT_EXTENT_M;
+  const [edgeMessage, setEdgeMessage] = useState<string | null>(null);
   const glRef = useRef<HTMLCanvasElement | null>(null);
   const [touch, setTouch] = useState(false);
   // On-foot render quality (module 65 first slice — owner: walking lags).
@@ -258,8 +266,12 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       try {
         const m = await store.manifest();
         await world.init(matSet ?? "bmv-v1", verticalScaleRef.current);
-        const x = spawnKm.x * 1000;
-        const z = spawnKm.z * 1000;
+        // Never spawn on or beyond the boundary wall (16d): a URL can name
+        // any coordinate, and two metres inside the extent is ground.
+        const extent = m.terrainSupportExtentM ?? TERRAIN_SUPPORT_EXTENT_M;
+        const inside = (v: number) => Math.max(2, Math.min(extent - 2, v));
+        const x = inside(spawnKm.x * 1000);
+        const z = inside(spawnKm.z * 1000);
         const [cx, cy] = world.chunkCellAt(x, z);
         const ring: Promise<unknown>[] = [];
         for (let dy = -1; dy <= 1; dy++) {
@@ -324,9 +336,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               flyover — WorldSky replaces the old per-mode light sets. */}
           <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale}>
           <Suspense fallback={null}>
-            <ChunkTerrain
+            <ApronTerrain
               store={store}
               manifest={manifest}
+              apron={apronManifest}
               focusRef={focusRef}
               matSet={matSet}
               tintStrength={tintStrength}
@@ -409,6 +422,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               />
             )}
             <SettlementColliders solidsRef={settlementSolidsRef} />
+            {/* The edge of the world (16d): four invisible walls on the border
+                of the built ground, and the one line the player gets there. */}
+            <BoundaryWalls extentM={terrainExtentM} verticalScale={verticalScale} />
+            <BoundaryMessage positionRef={focusRef} extentM={terrainExtentM} onMessage={setEdgeMessage} />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
               <Suspense fallback={null}>
                 <SkyrimFighter
@@ -440,6 +457,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               speedMultiplierRef={speedMultiplierRef}
               supportYRef={supportYRef}
               focusRef={focusRef}
+              extentM={terrainExtentM}
               onHud={setHud}
               onWaterContact={onWaterContact}
               onPositionKm={onPositionKm}
@@ -492,6 +510,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <span title="Solid plants and rocks around you (trunks and boulders are solid; reeds and ferns are not)">
           solid {floraColliderCount}
         </span>
+        {edgeMessage && <span style={{ color: "#ffd9a0" }}>{edgeMessage}</span>}
         {hud && (
           <span style={{ opacity: 0.9 }}>
             {hud.xKm.toFixed(2)} km E · {hud.zKm.toFixed(2)} km S · alt {hud.altM.toFixed(1)} m
@@ -566,7 +585,20 @@ declare global {
   }
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, onHud, onPositionKm, onWaterContact }: {
+/** The boundary line, raised inside the canvas (it needs the frame loop) and
+ * shown on the HUD line outside it. The game routes the same catalogue key
+ * through its own system-message surface. */
+function BoundaryMessage({ positionRef, extentM, onMessage }: {
+  positionRef: React.MutableRefObject<{ x: number; z: number }>;
+  extentM: number;
+  onMessage: (message: string | null) => void;
+}) {
+  const message = useBoundaryMessage(positionRef, extentM);
+  useEffect(() => { onMessage(message); }, [message, onMessage]);
+  return null;
+}
+
+function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   world: ChunkWorld;
   /** Colliders mounted AND rendering warm — physics steps only when true. */
@@ -577,6 +609,8 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   speedMultiplierRef: React.MutableRefObject<number>;
   supportYRef: React.MutableRefObject<number>;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
+  /** The square of built ground; the safety net never sets the player outside it. */
+  extentM: number;
   onHud: (state: CharacterHudState) => void;
   onPositionKm: (xKm: number, zKm: number) => void;
   /** Live water contact for churn foam + splash events (Phase 8b). */
@@ -718,7 +752,10 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       const support = rapier.world.castRay(ray, 150, true);
       if (!support || position.y < -600) {
         netTimer.current = 1.5;
-        adapter.teleport({ x: position.x, y: (groundBelow ?? 100) + CHARACTER_BODY_CENTER_HEIGHT + 1, z: position.z });
+        // Set back onto BUILT ground: past the boundary wall there is only
+        // apron scenery with no collider under it (16d).
+        const inside = (v: number) => Math.max(2, Math.min(extentM - 2, v));
+        adapter.teleport({ x: inside(position.x), y: (groundBelow ?? 100) + CHARACTER_BODY_CENTER_HEIGHT + 1, z: inside(position.z) });
       }
     }
 
