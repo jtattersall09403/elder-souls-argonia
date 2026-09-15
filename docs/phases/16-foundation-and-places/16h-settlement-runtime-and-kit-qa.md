@@ -10,6 +10,19 @@ Needs ruling 12 (the loop and its budget, plan §8).
 
 ## Starting state (2026-09-13; the closing 16g agent rewrites this)
 
+- **Tests gated by 16d's purge (`@requires_delivered`), yours to un-gate as
+  you port** (decision 0067; the reader is `ProvinceSurvey.water_at / reach /
+  body`; the survey's `flood/tidal/salinity/wetlands/lakes/river_band` and the
+  `riverBand/onLake/wetland/tidal/floodBand/salinity` sample keys no longer
+  exist — a consumer raises `AttributeError`/`KeyError` until ported): nine tests in `test_compile_settlement.py` (`test_ground_fit_ladder_rejects_underdeclared_fits`,
+  `test_corrected_blueprint_compiles_clean`, `test_deterministic`,
+  `test_landmark_carries_its_authored_ground_fit`,
+  `test_dock_without_a_built_asset_cannot_emit_a_placeholder`,
+  `test_budget_enforced`, `test_pad_grades_emitted_only_for_pad`,
+  `test_pad_grade_carries_the_authored_tilt_axis`,
+  `test_physical_dock_asset_ref_becomes_runtime_geometry`) —
+  `compile_settlement.py:597` reads `survey.flood`. The suite is 517-green
+  MINUS these until you port; develop your fix list knowing that.
 - **The runtime exists and renders**: `packages/game-core/src/settlement/`
   is ~1,650 lines over nine files (`SettlementLayer.tsx`, `anchoring.ts`,
   `collisionResidency.ts`, `lod.ts`, `materials.ts`, `kit.ts`, `types.ts`,
@@ -51,9 +64,9 @@ Needs ruling 12 (the loop and its budget, plan §8).
   class threads from there through the kit manifest.
 - `.claude/skills/kit-qa/` does not exist; `render_sheet.py` (91 lines)
   renders single pieces; the assembly renderer is new.
-- **The chain ladder**: `LADDER_ORDER` in `tooling/world-generation/scripts/terrain-chain.sh`
-  is `16b 16c 16d 16e 16f 16h` — 16g, 16i and 16j are absent; 16g adds
-  itself before this chunk runs (its brief says so).
+- **The chain ladder** has one declaration (`worldgen/ladder.py`, all nine
+  chunks, since 16d); the `[16h]` row in `terrain-chain.sh` is empty and
+  waits for this chunk's stage names.
 - Keep: `settlement-warning-known-red.json`, the `COMPATIBLE_ASSET_GROUND_FITS`
   shelf, the three non-waivable 0052 gates, collision residency by authored
   boundary.

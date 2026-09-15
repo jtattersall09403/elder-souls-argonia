@@ -583,7 +583,10 @@ risk — no ready-made wall-climb loops exist, but two sourceable pools do
 SkyParkour mod-authored clip set — module 90 §74.3); Phase 10b needs the
 movement-mode *contracts* in place, not final climb polish, so a hard climb
 problem must not block the chain. Boats may slip past 10b, and are droppable
-at worst (owner tolerance, 0034).
+at worst (owner tolerance, 0034). **The province boundary** (16d): four
+fixed cuboid colliders stand just outside the built ground
+(`packages/game-core/src/boundary/`, `PROVINCE_BOUNDARY` in contracts);
+9c's climb-surface detection must exclude them; 9b's boats stop at them as the character does.
 
 **Scope rule (0034): Phase 9 covers the player's own craft only.** Ferry
 services and boat fast travel are **Morrowind-style** — speak to the

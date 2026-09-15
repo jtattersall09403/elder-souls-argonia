@@ -9,7 +9,7 @@ import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeo
 
 /**
  * Chunked terrain renderer: every province chunk is its own mesh, LOD chosen
- * by chunk distance from the player (LOD 1 ≈5.5 m near, 2 mid, 4 far),
+ * by chunk distance from the player (LOD 1 = 1.83 m near, 2 mid, 4 far),
  * textured by the shared splat material. Near geometry is the SAME LOD-1 grid
  * the Rapier colliders use, so feet and ground agree exactly. Each mesh gets a
  * short dropped skirt to hide hairline gaps at LOD borders.

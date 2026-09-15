@@ -334,17 +334,10 @@ comparisons are lit identically every run.
 
 ---
 
-## §98b. Beyond-border horizon (built in Phase 16 chunk 16d)
+## §98b. Beyond-border horizon (built in 16d)
 
-> **Built in Phase 16 chunk 16d** (owner ruling 8, 2026-09-11): stitched from the all-Tamriel heightmap; spec in research/world-terrain/beyond-border-distant-lands.md. The "alongside Phase 10 / deferred build item" wording below is history.
+Built in Phase 16 chunk 16d (decision 0067): the all-Tamriel heightmap
+continued 1:1 beyond the province to the map's edge, the sea drawn over it
+below sea level, the aerial haze (which saturates by ~10 km) doing the fade.
+No shadows, no colliders, no vegetation on it.
 
-
-The world edge is currently veiled by the dome's sub-horizon haze band and
-the oversized sea plane (decision 0021 rounds 4–6). LAND horizons (N/NW
-Morrowind, W Blackwood) still need real continuation terrain — a
-pipeline-baked border apron continuing the province heightmap outward with
-lore-shaped ridges, coloured like the province, no shadows/colliders.
-Research + full spec: [docs/research/world-terrain/beyond-border-distant-lands.md]
-(../research/world-terrain/beyond-border-distant-lands.md). Schedule alongside the Phase
-10 asset/kit passes (it is scenery, not simulation); a quick round-5
-procedural ring was rejected by the owner and removed.

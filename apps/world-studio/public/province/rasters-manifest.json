@@ -1,12 +1,1072 @@
 {
   "schemaVersion": 1,
-  "sha256": "25b1eb5650f9297ab2c1ecf0e0c5bf326d0d1d01a0cd96fcaea96c3e2b90e566",
-  "sizeBytes": 97952180,
+  "sha256": "b6e5b8c70684f628a921a790d4b9794f50468ca58c121f63c90238836032a188",
+  "sizeBytes": 112444678,
   "release": {
     "tag": "province-rasters",
-    "asset": "province-rasters-25b1eb5650f9.tar.gz"
+    "asset": "province-rasters-b6e5b8c70684.tar.gz"
   },
   "files": [
+    {
+      "path": "apron/far-control.png",
+      "sha256": "f39d3ba6ef6cfef2d58199bcc28167b4e9eabb9902f3c655e6b88cd64e18ec96",
+      "bytes": 76834
+    },
+    {
+      "path": "apron/far-grad.png",
+      "sha256": "6a2610894bd122824a0031c9f2c6599b5afe6fa82d72d95412352897c82025b5",
+      "bytes": 102442
+    },
+    {
+      "path": "apron/far-tint.png",
+      "sha256": "4f03ba118ec70622e8a59feb9042b9522a7a2b3bc106b6f65835b045950a0a2f",
+      "bytes": 10056
+    },
+    {
+      "path": "apron/near-control.png",
+      "sha256": "959467c2e1a7513d1b1be31a490bf376e80deb9f4668ceb34e178d55229cedf9",
+      "bytes": 2908157
+    },
+    {
+      "path": "apron/near-grad.png",
+      "sha256": "e26a7c8b3744e7cd7064ca25fd5e7b7093c901ff5a01db9e6379584e1e3b29f9",
+      "bytes": 2211406
+    },
+    {
+      "path": "apron/near-tint.png",
+      "sha256": "ca8052e27e680b1be15c9bd907fe71d6d30cbf1f8bc94e6be227d601f9bd90fe",
+      "bytes": 536671
+    },
+    {
+      "path": "apron/ring0/chunk_-1_-1_lod1.png",
+      "sha256": "1009a1178e2dd7943469322e1aecc6647d23b93b4656c10aa7fdd7be40ef4e99",
+      "bytes": 92863
+    },
+    {
+      "path": "apron/ring0/chunk_-1_-1_lod2.png",
+      "sha256": "c129d8d7dde218864407a9217d9a3bc281dc58c05495bccbe31a73e6d72b4e42",
+      "bytes": 28832
+    },
+    {
+      "path": "apron/ring0/chunk_-1_-1_lod4.png",
+      "sha256": "429c59bac5c3e1470d78640020183326c76edfcb464d5311c24331a60e372ac6",
+      "bytes": 8305
+    },
+    {
+      "path": "apron/ring0/chunk_-1_0_lod1.png",
+      "sha256": "352ae801f4ba675098142d27654605c136c399a56082668991f5f5af85bd3197",
+      "bytes": 91411
+    },
+    {
+      "path": "apron/ring0/chunk_-1_0_lod2.png",
+      "sha256": "228ca3cac114f29b780351ce407923d088654d0c66055a32260b159d9d64f901",
+      "bytes": 27922
+    },
+    {
+      "path": "apron/ring0/chunk_-1_0_lod4.png",
+      "sha256": "d468eb9a10c637895c1a60cdc6a809996cf02a327e9df8af45084a3a5159e018",
+      "bytes": 8030
+    },
+    {
+      "path": "apron/ring0/chunk_-1_10_lod1.png",
+      "sha256": "4236dc57e21b946e333701045ad5e3780db7cd1d777e2106837081baff016378",
+      "bytes": 92147
+    },
+    {
+      "path": "apron/ring0/chunk_-1_10_lod2.png",
+      "sha256": "36418705e88aa6d4f5c3ce71e074dfc1133a975c2f26c1d58195599306a745cc",
+      "bytes": 30180
+    },
+    {
+      "path": "apron/ring0/chunk_-1_10_lod4.png",
+      "sha256": "7f0974d9c491bd40cc0d790267837630bc924741f9dd0ed1f8cea20af6f9cc61",
+      "bytes": 8585
+    },
+    {
+      "path": "apron/ring0/chunk_-1_11_lod1.png",
+      "sha256": "137046ab4685021b5bc776621cde6183393256aec5c87d66fad1eca2ab0186dd",
+      "bytes": 86824
+    },
+    {
+      "path": "apron/ring0/chunk_-1_11_lod2.png",
+      "sha256": "fbed58ef2bbae58e90dfd39a903b6b2b7d69159e6a4939b96de7a11cd4c8ff60",
+      "bytes": 31771
+    },
+    {
+      "path": "apron/ring0/chunk_-1_11_lod4.png",
+      "sha256": "70bb4dbd5622d0293b3511a96b0c46754edfe06a21a9899e1be3a8bda83c0c9a",
+      "bytes": 8817
+    },
+    {
+      "path": "apron/ring0/chunk_-1_12_lod1.png",
+      "sha256": "8dc467320a7ce082c1ddd93ae66f2e36d2968976e3ec06d535a1ba15be1aaef4",
+      "bytes": 94820
+    },
+    {
+      "path": "apron/ring0/chunk_-1_12_lod2.png",
+      "sha256": "e377b2c17dd6894f93e2153cd03ed8c723bee57732516ad0b00a92e8974d3afe",
+      "bytes": 32156
+    },
+    {
+      "path": "apron/ring0/chunk_-1_12_lod4.png",
+      "sha256": "cc4b817601996886ea55de84ecdfcbacba4379ff35ea845b3dad6f4f6ab4bec5",
+      "bytes": 8774
+    },
+    {
+      "path": "apron/ring0/chunk_-1_13_lod1.png",
+      "sha256": "ed85ba3e57fdcef3663a8902bf8ef5f04aaa3184dc2bc5c2d9d51ee6a2e7aa32",
+      "bytes": 92129
+    },
+    {
+      "path": "apron/ring0/chunk_-1_13_lod2.png",
+      "sha256": "341c105e99d7af68d9b73e6364e4fbc252c8793f82c19a2a7c0433202c510b8c",
+      "bytes": 31484
+    },
+    {
+      "path": "apron/ring0/chunk_-1_13_lod4.png",
+      "sha256": "885181d9adf1788f5bdc1d1b0fbb85c5ce6278ce5e1800ff8c2e9fc53fbc328d",
+      "bytes": 8668
+    },
+    {
+      "path": "apron/ring0/chunk_-1_14_lod1.png",
+      "sha256": "f64d6f0db424ebe0a1f7571dda701a8a1de27969cfae434fd3c749f87972d0ef",
+      "bytes": 93763
+    },
+    {
+      "path": "apron/ring0/chunk_-1_14_lod2.png",
+      "sha256": "bdd7d7fc3a9e234fdceb133fa61cb8b76eb21da3cc622fa40074bf0b896c9046",
+      "bytes": 30728
+    },
+    {
+      "path": "apron/ring0/chunk_-1_14_lod4.png",
+      "sha256": "850d3a630017ce02f06f3223691e44e5a4c46be6337f68efbe6fa4bb54554a83",
+      "bytes": 8524
+    },
+    {
+      "path": "apron/ring0/chunk_-1_15_lod1.png",
+      "sha256": "5d6e11e95309ccdc34366e0fd74228a7c6020e6d17fd292db07822d4d8c39bb7",
+      "bytes": 62166
+    },
+    {
+      "path": "apron/ring0/chunk_-1_15_lod2.png",
+      "sha256": "dfaf5ef5fdb8808135fa4757a7562d8280f18ebead71f99ac7c767015ed46102",
+      "bytes": 23535
+    },
+    {
+      "path": "apron/ring0/chunk_-1_15_lod4.png",
+      "sha256": "1df4507b941c2ce588139727c7af5671abe1d6ea1b38d83eb7a9834639682a2b",
+      "bytes": 6532
+    },
+    {
+      "path": "apron/ring0/chunk_-1_16_lod1.png",
+      "sha256": "8bf40953d81a1212466770a3a60bd721a53e79fbf03802687e35a8e6fa06b300",
+      "bytes": 57798
+    },
+    {
+      "path": "apron/ring0/chunk_-1_16_lod2.png",
+      "sha256": "e693ff00b8a8f6934e19b08ca0822bd8a63bffb6dd41d05224b4dc37235c1178",
+      "bytes": 30149
+    },
+    {
+      "path": "apron/ring0/chunk_-1_16_lod4.png",
+      "sha256": "22b1603374509b7429be6502a3291777f5d26a24df7c13405a36c78da3ded838",
+      "bytes": 8453
+    },
+    {
+      "path": "apron/ring0/chunk_-1_1_lod1.png",
+      "sha256": "9c60e8609542be99be6de5969c5a01a20a7cb3db181a2459938182c567ca92e3",
+      "bytes": 84326
+    },
+    {
+      "path": "apron/ring0/chunk_-1_1_lod2.png",
+      "sha256": "f5a8697f553f5406f6324911487771cc9ade92f0cbf6f74827969aeebf566ae0",
+      "bytes": 26339
+    },
+    {
+      "path": "apron/ring0/chunk_-1_1_lod4.png",
+      "sha256": "a1fdfebfd053a187bf9aadaa00581c9a918f484cd2d9facfeaae291abb2695f8",
+      "bytes": 7455
+    },
+    {
+      "path": "apron/ring0/chunk_-1_2_lod1.png",
+      "sha256": "80ea02a249e21b14bc00209333282fca3050be8906c03783e4b9fa630308a275",
+      "bytes": 98330
+    },
+    {
+      "path": "apron/ring0/chunk_-1_2_lod2.png",
+      "sha256": "6bb8b87733dbf382aed91ecab45bbe529b5d8f7d32e5aa2239f55383004ed1a2",
+      "bytes": 28577
+    },
+    {
+      "path": "apron/ring0/chunk_-1_2_lod4.png",
+      "sha256": "43b8d134923b0e0cc048631ab3213482b85c3f2111e5e771b2994cc74d6081bc",
+      "bytes": 8078
+    },
+    {
+      "path": "apron/ring0/chunk_-1_3_lod1.png",
+      "sha256": "9a9a6fc8c93786aa669f2246d8cc6d94a9e4fd7deeb946c99ae94c1a5d9e371b",
+      "bytes": 88512
+    },
+    {
+      "path": "apron/ring0/chunk_-1_3_lod2.png",
+      "sha256": "dc2ae803a6e82736fc6071ad38ecd4fca2b1ee9de9f1b4f1bb71337c9e7a2d0c",
+      "bytes": 25957
+    },
+    {
+      "path": "apron/ring0/chunk_-1_3_lod4.png",
+      "sha256": "4c9f182a331089b23f2471f6dc3a481777f374b02881efdc9f32950c921f770c",
+      "bytes": 7350
+    },
+    {
+      "path": "apron/ring0/chunk_-1_4_lod1.png",
+      "sha256": "842b495a25f268c3e51434b5ff299b8681bd5130b930c829060b640451ad6092",
+      "bytes": 93731
+    },
+    {
+      "path": "apron/ring0/chunk_-1_4_lod2.png",
+      "sha256": "4b1f8e2bfa071536b15162b5bdbddc0e33fffda40354a6b2dbf381ab56b26eb6",
+      "bytes": 26926
+    },
+    {
+      "path": "apron/ring0/chunk_-1_4_lod4.png",
+      "sha256": "e3fab35addb4d5b5ae82d0714a65bf52a33d0636ab763f3c38bf10155912bb97",
+      "bytes": 7888
+    },
+    {
+      "path": "apron/ring0/chunk_-1_5_lod1.png",
+      "sha256": "817362582b361e8014f12ae87add00ba37db8f9851698e3cdf5e7fdf4b43fb94",
+      "bytes": 90210
+    },
+    {
+      "path": "apron/ring0/chunk_-1_5_lod2.png",
+      "sha256": "a2fe6b97a7ed634e627ec103072b4f242d72878e51965cf8aa7d24dd61743616",
+      "bytes": 26541
+    },
+    {
+      "path": "apron/ring0/chunk_-1_5_lod4.png",
+      "sha256": "69c137fe7a2c441245fbd7995d0745ddb4541710caf02f6fa77ff9a3cf8764f0",
+      "bytes": 7594
+    },
+    {
+      "path": "apron/ring0/chunk_-1_6_lod1.png",
+      "sha256": "67909c25501f24274ed2ea4cc160646c9ea0f4e0746b942a79455ce18711302a",
+      "bytes": 93394
+    },
+    {
+      "path": "apron/ring0/chunk_-1_6_lod2.png",
+      "sha256": "34ae6baf923c21cf747dddeae5aee04d2b91ce34fc1379830df8ed0be9553270",
+      "bytes": 28177
+    },
+    {
+      "path": "apron/ring0/chunk_-1_6_lod4.png",
+      "sha256": "db262bf1c9dc7b6b3313e13b2443b10dc4f960beafece2958b8d1029e16fcd0b",
+      "bytes": 8092
+    },
+    {
+      "path": "apron/ring0/chunk_-1_7_lod1.png",
+      "sha256": "3b1d549c1e4b8cc932d2eab17d20d2d31e584459cc58c3567a78cc7d49df620d",
+      "bytes": 76034
+    },
+    {
+      "path": "apron/ring0/chunk_-1_7_lod2.png",
+      "sha256": "72063e9cb8ea89f47efddd94fbf118f15f0d26b0b84fc3d0384fb1a5da3c70a9",
+      "bytes": 25253
+    },
+    {
+      "path": "apron/ring0/chunk_-1_7_lod4.png",
+      "sha256": "1386c74834503f50f736f9bff27a4909dd5b8e9683b126f35ba4e88e212bc192",
+      "bytes": 7096
+    },
+    {
+      "path": "apron/ring0/chunk_-1_8_lod1.png",
+      "sha256": "bc1b42200414962295b5f2ba9233abbf813b56587dccaa1a3399e8588d453030",
+      "bytes": 87541
+    },
+    {
+      "path": "apron/ring0/chunk_-1_8_lod2.png",
+      "sha256": "9bf6a2b2ea9f56fc35a524f68d7b1753a1a1897bf72485b38d8e16d2f441d5d9",
+      "bytes": 26663
+    },
+    {
+      "path": "apron/ring0/chunk_-1_8_lod4.png",
+      "sha256": "c7320bf7609d266408aa11142656a13f615176fb74a87407382dfd2262d511f6",
+      "bytes": 7566
+    },
+    {
+      "path": "apron/ring0/chunk_-1_9_lod1.png",
+      "sha256": "5f8609789192c60fe7959e50d910322108689b7c74af845ae4c0a91341645c79",
+      "bytes": 62394
+    },
+    {
+      "path": "apron/ring0/chunk_-1_9_lod2.png",
+      "sha256": "8379012b4f3b3f1fbff338b58f6c9f629b7249b6b2d4e2cfb670c267d03d33fe",
+      "bytes": 24190
+    },
+    {
+      "path": "apron/ring0/chunk_-1_9_lod4.png",
+      "sha256": "a61bf6c675778b3670a696afe8c67dbf76023bd66b321a269727653703039f0f",
+      "bytes": 6843
+    },
+    {
+      "path": "apron/ring0/chunk_0_-1_lod1.png",
+      "sha256": "37dfa62a2fea80355dd991ae2c9919f1407572000d414c7cb8a2e638db318571",
+      "bytes": 89351
+    },
+    {
+      "path": "apron/ring0/chunk_0_-1_lod2.png",
+      "sha256": "fe8b2cc23f286fd317f3ce2970ae1e7aef439b4ebe6c9484b5de16833bbc8992",
+      "bytes": 25646
+    },
+    {
+      "path": "apron/ring0/chunk_0_-1_lod4.png",
+      "sha256": "421d8f82b0d89c1563bd4d203e196a29735bd336a4236f5b261cf3fd05c0fd7d",
+      "bytes": 7259
+    },
+    {
+      "path": "apron/ring0/chunk_0_16_lod1.png",
+      "sha256": "7d67fe3aa53b62800315820674517c9e0f358d2cccfec0c11f8092a5bd55bc2b",
+      "bytes": 88016
+    },
+    {
+      "path": "apron/ring0/chunk_0_16_lod2.png",
+      "sha256": "a574b73eb7fa02e8e83b27054c13a4c3f1950bfb42f8724edc37468fdb05e0c0",
+      "bytes": 29913
+    },
+    {
+      "path": "apron/ring0/chunk_0_16_lod4.png",
+      "sha256": "c3514a18c017e313d958e3f6a14bb9b65694b4411b12660dda45e0a787bdd076",
+      "bytes": 8428
+    },
+    {
+      "path": "apron/ring0/chunk_10_-1_lod1.png",
+      "sha256": "bd8c9205e7eb0b63566b9023e43dec0a892f8404643019ea92a4069bf28a5633",
+      "bytes": 103910
+    },
+    {
+      "path": "apron/ring0/chunk_10_-1_lod2.png",
+      "sha256": "54884b6e43fe2d97405203906d490da78d68ac0c821440b9dce4a80f17af673e",
+      "bytes": 30608
+    },
+    {
+      "path": "apron/ring0/chunk_10_-1_lod4.png",
+      "sha256": "1164e619d2aef0607950974b271d5e81a67e049e1d3b62523acecc0fa0eccd15",
+      "bytes": 8650
+    },
+    {
+      "path": "apron/ring0/chunk_10_16_lod1.png",
+      "sha256": "f97959855c7c7100175a97e1d70c6d3b977adf57ae7c8648fbb40acaed64d467",
+      "bytes": 86792
+    },
+    {
+      "path": "apron/ring0/chunk_10_16_lod2.png",
+      "sha256": "4a6f7d721f77756bf1e3010918b20e540e3740edaf2ec697e93792ced074813a",
+      "bytes": 30849
+    },
+    {
+      "path": "apron/ring0/chunk_10_16_lod4.png",
+      "sha256": "69975ba3492c6bf1ee647b1e916caeba0fcea49e44de2bb0415698ac8a8f9ab7",
+      "bytes": 8504
+    },
+    {
+      "path": "apron/ring0/chunk_11_-1_lod1.png",
+      "sha256": "3c87ff23d203c9543f90b97994f638e635a8a0cf9368b61cd7636836392e0b25",
+      "bytes": 93663
+    },
+    {
+      "path": "apron/ring0/chunk_11_-1_lod2.png",
+      "sha256": "250f7f2450e5f916de9c174478307bb9f7e4bfbfb1666c6d01d68be7719e573f",
+      "bytes": 28151
+    },
+    {
+      "path": "apron/ring0/chunk_11_-1_lod4.png",
+      "sha256": "04b3fd17a62f0fce2907340228db5bb0bdc17b554a7be91051b49d812d154480",
+      "bytes": 8144
+    },
+    {
+      "path": "apron/ring0/chunk_11_16_lod1.png",
+      "sha256": "e7fa33637e588503ba7d3246ec8463896066f3eb706557e9fd26bb03d8302fed",
+      "bytes": 88165
+    },
+    {
+      "path": "apron/ring0/chunk_11_16_lod2.png",
+      "sha256": "c8770a1a7bc7ffda323b874eb2d0dca1a1a97752f973ec6ff3a8dcfa13e810d3",
+      "bytes": 30848
+    },
+    {
+      "path": "apron/ring0/chunk_11_16_lod4.png",
+      "sha256": "c767d240ce71f3a9710d8b9ad17529f3e695da8bee4d3e6397d314dbe6be648c",
+      "bytes": 8491
+    },
+    {
+      "path": "apron/ring0/chunk_12_-1_lod1.png",
+      "sha256": "fa976c9217a8d5c325c837e8ca90e0527da4f09fd98156c1420cb44bb94c2a41",
+      "bytes": 89395
+    },
+    {
+      "path": "apron/ring0/chunk_12_-1_lod2.png",
+      "sha256": "d1ff61dbf21ec6fa7c2c899dc970d9b5924b524a51cfed4eb1e2cfbbe55f375e",
+      "bytes": 28027
+    },
+    {
+      "path": "apron/ring0/chunk_12_-1_lod4.png",
+      "sha256": "3349163b0a7d5b41edf5764d4d99cf17bf0657ee4a3b19410dffbe881789dfac",
+      "bytes": 7977
+    },
+    {
+      "path": "apron/ring0/chunk_12_16_lod1.png",
+      "sha256": "ae5bd3b25fc0ab6b97396f65ca3b3d34d1b4ff21b867cd2bd8bebf754d190e6d",
+      "bytes": 83841
+    },
+    {
+      "path": "apron/ring0/chunk_12_16_lod2.png",
+      "sha256": "3e4808416f1a2fb7d05c2b1dc19d8513afa81afce06cf70e06c67b7683b3ad36",
+      "bytes": 27858
+    },
+    {
+      "path": "apron/ring0/chunk_12_16_lod4.png",
+      "sha256": "05083e8b4015fe572c9bbfed27157e914e56b2a2d652e541b2c29525bfcda77f",
+      "bytes": 8038
+    },
+    {
+      "path": "apron/ring0/chunk_13_-1_lod1.png",
+      "sha256": "75a91472723f9436bb92a5ee928ce7aa06eeb79416961cef79b5ab73a2a723ed",
+      "bytes": 85681
+    },
+    {
+      "path": "apron/ring0/chunk_13_-1_lod2.png",
+      "sha256": "53d3897ef8ab627b14122f2815f5f9b02c98bda77f721373ca3affd1abd6f393",
+      "bytes": 25950
+    },
+    {
+      "path": "apron/ring0/chunk_13_-1_lod4.png",
+      "sha256": "db8d8b36f0df8a09da86748ffe93eb3e325a0ab64abba6a947515ab6c46e0d37",
+      "bytes": 7261
+    },
+    {
+      "path": "apron/ring0/chunk_13_16_lod1.png",
+      "sha256": "d8f8f73bbfcf8a7ac9168a9dedca0a1b616e98e0d94fed77830c1768c41a7a44",
+      "bytes": 77077
+    },
+    {
+      "path": "apron/ring0/chunk_13_16_lod2.png",
+      "sha256": "68f294f971c73ad29740659f55ce233f72c033aed5137945d493bc3e60bb2b5c",
+      "bytes": 28258
+    },
+    {
+      "path": "apron/ring0/chunk_13_16_lod4.png",
+      "sha256": "ede66f9cd6daa867b1afd2adc00bb567f8640fe79eeac082ac42e9d9723cda2a",
+      "bytes": 8116
+    },
+    {
+      "path": "apron/ring0/chunk_14_-1_lod1.png",
+      "sha256": "bb3c6682652fc09e8e838b538e8b011e3507c6b9aa5d78a0f6f3e13d0107f10e",
+      "bytes": 91832
+    },
+    {
+      "path": "apron/ring0/chunk_14_-1_lod2.png",
+      "sha256": "f161add0292e663a8228faa1a35b837b32adc2bc0dd37c041e09511528efae21",
+      "bytes": 27374
+    },
+    {
+      "path": "apron/ring0/chunk_14_-1_lod4.png",
+      "sha256": "79fcabf4058582c29db3c2f36b86735f044142205febc8e4fd93d937c4339af0",
+      "bytes": 7800
+    },
+    {
+      "path": "apron/ring0/chunk_14_16_lod1.png",
+      "sha256": "0e36201b223bf590605f92a3c6b9fb5b3bd4015783c022da7a9b4dcf67a4cfa0",
+      "bytes": 83280
+    },
+    {
+      "path": "apron/ring0/chunk_14_16_lod2.png",
+      "sha256": "1df244b5190ad8940ed3adc88eb428fdc046aee057803544d921b3188fab5277",
+      "bytes": 27275
+    },
+    {
+      "path": "apron/ring0/chunk_14_16_lod4.png",
+      "sha256": "621b33219b3bdaa8e8f6f4211d7aa654af8b8f1b2242b92a32b5f0c947c23b88",
+      "bytes": 7795
+    },
+    {
+      "path": "apron/ring0/chunk_15_-1_lod1.png",
+      "sha256": "9bf4fcf285b6e5864f25d5460d98cb9142a4f1dbcad912c77fe3208b17f9861b",
+      "bytes": 63660
+    },
+    {
+      "path": "apron/ring0/chunk_15_-1_lod2.png",
+      "sha256": "0876b41ec820049827a1b5cf0e2613ad55c512bd304f861f114b46f5be8e6fb6",
+      "bytes": 22907
+    },
+    {
+      "path": "apron/ring0/chunk_15_-1_lod4.png",
+      "sha256": "e0627a07f3e2efeef9cef1d8dda76779ebefb3a2ca82f9658badf59180c4e561",
+      "bytes": 6421
+    },
+    {
+      "path": "apron/ring0/chunk_15_16_lod1.png",
+      "sha256": "d377632952c90fe8572658028be1bf08881761134ddc826410a74612097a2e20",
+      "bytes": 65734
+    },
+    {
+      "path": "apron/ring0/chunk_15_16_lod2.png",
+      "sha256": "136433164a6741a8f17ffc7bf21bcdc8738dcb1ed50f58cf39915af8034f3fbb",
+      "bytes": 21506
+    },
+    {
+      "path": "apron/ring0/chunk_15_16_lod4.png",
+      "sha256": "66b8cc9db0d92885bf514be9188db22fd8199abbbe7592ee7b3edd78910bbfb3",
+      "bytes": 6203
+    },
+    {
+      "path": "apron/ring0/chunk_16_-1_lod1.png",
+      "sha256": "29cd76388b05f981f8b7703531eb54c8b928497742b521258e34b221f212f7c3",
+      "bytes": 69039
+    },
+    {
+      "path": "apron/ring0/chunk_16_-1_lod2.png",
+      "sha256": "93d82170fc42a85c45fb114eebf3c13d0df913048a2cf388bb94a7466cd9129b",
+      "bytes": 28976
+    },
+    {
+      "path": "apron/ring0/chunk_16_-1_lod4.png",
+      "sha256": "91d30f9bbb8919b27672c0b6b92dca9082120d75f32dadf8b730e655f286221e",
+      "bytes": 8182
+    },
+    {
+      "path": "apron/ring0/chunk_16_0_lod1.png",
+      "sha256": "403b45aa709d1175e9d8dc069e3bbba2f5e0f2d61527b0f9cec58d7bd3633cf0",
+      "bytes": 79132
+    },
+    {
+      "path": "apron/ring0/chunk_16_0_lod2.png",
+      "sha256": "d5092a1a0942d888ca22b5353127b4d41a1b8a71926cf117cf5d561094a08029",
+      "bytes": 26949
+    },
+    {
+      "path": "apron/ring0/chunk_16_0_lod4.png",
+      "sha256": "6b955ca48023dbc2e499568b816badcab2eadf7a6ee7653e63ccd483f7152bbb",
+      "bytes": 7745
+    },
+    {
+      "path": "apron/ring0/chunk_16_10_lod1.png",
+      "sha256": "e4d8399284964288294aaa48941c21e99ba765e4e6035a3f21b023aadaa7e9df",
+      "bytes": 84860
+    },
+    {
+      "path": "apron/ring0/chunk_16_10_lod2.png",
+      "sha256": "6dacc1f003ba13e421eef31a79109d1fb2c39aa4d205ca588cbf3b1b116e1fd7",
+      "bytes": 29479
+    },
+    {
+      "path": "apron/ring0/chunk_16_10_lod4.png",
+      "sha256": "ae8ca36771ab4dd5e19221d9523112af6ae6d127980b373370fb63f042deae4b",
+      "bytes": 8337
+    },
+    {
+      "path": "apron/ring0/chunk_16_11_lod1.png",
+      "sha256": "f43af2ef2f1daccdc2c99342f2b169914253d78ce7ab249e975a98a13d140156",
+      "bytes": 81266
+    },
+    {
+      "path": "apron/ring0/chunk_16_11_lod2.png",
+      "sha256": "6aba526ce915eb85213e85b11978cd9404688285329fbc37c615c17cf1f1d03e",
+      "bytes": 27408
+    },
+    {
+      "path": "apron/ring0/chunk_16_11_lod4.png",
+      "sha256": "bac73ea6ccd208c4971f5bc63a7841c4011148cf82856de59fe76e8ba4d6659d",
+      "bytes": 7937
+    },
+    {
+      "path": "apron/ring0/chunk_16_12_lod1.png",
+      "sha256": "24d09b56e7126e0e06ba3b8697b645b9316a0e85683cc75e658a7c410b4250f9",
+      "bytes": 86256
+    },
+    {
+      "path": "apron/ring0/chunk_16_12_lod2.png",
+      "sha256": "7d9b5819ce7b32ddf2f083441a48eeb26d23424690546e5b0635872b7ea6925d",
+      "bytes": 29042
+    },
+    {
+      "path": "apron/ring0/chunk_16_12_lod4.png",
+      "sha256": "e5ec59588a8e0a7776896da1d3345fee5e62f97c109405f126792514e3771098",
+      "bytes": 8229
+    },
+    {
+      "path": "apron/ring0/chunk_16_13_lod1.png",
+      "sha256": "e73ddeb3a1312c83f57228a3d244b4ed185a48c2696e9a9f2f89fcbe8f5c64b6",
+      "bytes": 89493
+    },
+    {
+      "path": "apron/ring0/chunk_16_13_lod2.png",
+      "sha256": "9c747ba163faec5328849d8364ea42ff6c5ae4df8c69cee3a58269991c7128cd",
+      "bytes": 29914
+    },
+    {
+      "path": "apron/ring0/chunk_16_13_lod4.png",
+      "sha256": "87c963cf52ef50d86caf0ae7edb12d382ce134bc655648d0bf6eaf8c1f65716c",
+      "bytes": 8451
+    },
+    {
+      "path": "apron/ring0/chunk_16_14_lod1.png",
+      "sha256": "bc400ed2411cbc8f46f0151fd71c143a82b3e91d75df800e3f4e7872d4ccc962",
+      "bytes": 83301
+    },
+    {
+      "path": "apron/ring0/chunk_16_14_lod2.png",
+      "sha256": "ccb498855003a95901dec7221c56128343f9911683399fcd68c271c15559767b",
+      "bytes": 29595
+    },
+    {
+      "path": "apron/ring0/chunk_16_14_lod4.png",
+      "sha256": "2ced0f056f30c37b902bb3aaa5d1b4d8fd06cd25e70a35869004fb7da6b6dbe9",
+      "bytes": 8459
+    },
+    {
+      "path": "apron/ring0/chunk_16_15_lod1.png",
+      "sha256": "103c47bc2d9966efc8e1d260b1b363f4d107192aba5c32d67070bebac2f29e31",
+      "bytes": 64110
+    },
+    {
+      "path": "apron/ring0/chunk_16_15_lod2.png",
+      "sha256": "89ceae89640c4abf07bce675783778518c968162c1488c77985f8246a3a7a2e7",
+      "bytes": 21473
+    },
+    {
+      "path": "apron/ring0/chunk_16_15_lod4.png",
+      "sha256": "8a2eba61d960e4ae4d5e047e5622a38dbc47e6ac7a65e1c59f87c26731805164",
+      "bytes": 6185
+    },
+    {
+      "path": "apron/ring0/chunk_16_16_lod1.png",
+      "sha256": "419de5d723d7c6e1f71893f60dee53f185bbcca1acbf484bfe51e6048093eff4",
+      "bytes": 74727
+    },
+    {
+      "path": "apron/ring0/chunk_16_16_lod2.png",
+      "sha256": "909a4a28d6d17e3e2bd47a8245d6fe1c35849033a8a946df67ee640bf4bbd9d5",
+      "bytes": 29316
+    },
+    {
+      "path": "apron/ring0/chunk_16_16_lod4.png",
+      "sha256": "948547783a5ea0a9e067d640ca88f97cafd3763596dbd49fd41757480a8b22d0",
+      "bytes": 8184
+    },
+    {
+      "path": "apron/ring0/chunk_16_1_lod1.png",
+      "sha256": "8195dabec425934661d2373b834011c0ec0cae015c95322de43b692c8a495baf",
+      "bytes": 84273
+    },
+    {
+      "path": "apron/ring0/chunk_16_1_lod2.png",
+      "sha256": "ad4413f035ba4ae2fcb650b745b5444820c382b7f54483bdc5204be266e8b912",
+      "bytes": 27476
+    },
+    {
+      "path": "apron/ring0/chunk_16_1_lod4.png",
+      "sha256": "25c4e1fc629007b58579a918eb2e462919f7af39194c315fd15b39cd913761c5",
+      "bytes": 7929
+    },
+    {
+      "path": "apron/ring0/chunk_16_2_lod1.png",
+      "sha256": "f57efb67c687f6fbbd330284f038ffc10fcf3da0df7defd5ae47d795234fc82a",
+      "bytes": 89393
+    },
+    {
+      "path": "apron/ring0/chunk_16_2_lod2.png",
+      "sha256": "a6f098aba9fa5a052ec3cc42a4e000a7fc5627e9437025c344521f8e98d78ca2",
+      "bytes": 28821
+    },
+    {
+      "path": "apron/ring0/chunk_16_2_lod4.png",
+      "sha256": "ab9778a8ade6f3bdaa52a82f128c2ad73f0938773c31abe80aa3e22f34ce9505",
+      "bytes": 8210
+    },
+    {
+      "path": "apron/ring0/chunk_16_3_lod1.png",
+      "sha256": "3e5ef424ad94cbfd9ab20dbf2f8f0239708cea2e73f4891afe508eba346b1af7",
+      "bytes": 93162
+    },
+    {
+      "path": "apron/ring0/chunk_16_3_lod2.png",
+      "sha256": "23136067fdd1d3de8b0d0bb0fd99cf69ff8aecbe0ea1c3c69389c60ea260a988",
+      "bytes": 29262
+    },
+    {
+      "path": "apron/ring0/chunk_16_3_lod4.png",
+      "sha256": "cbaff8c9335a5b480bf9765b0195d178682ec2abb06223b4e9af26fa2b9a40a3",
+      "bytes": 8337
+    },
+    {
+      "path": "apron/ring0/chunk_16_4_lod1.png",
+      "sha256": "da1e83625205712fc6dcdb0de16d6b011e5823e009efed59d8ae1d5a6afd17c1",
+      "bytes": 95527
+    },
+    {
+      "path": "apron/ring0/chunk_16_4_lod2.png",
+      "sha256": "05596b27e90d850bf96af5f6e785e800743707d09bcca6ed8724c33e8d5ba2e0",
+      "bytes": 30277
+    },
+    {
+      "path": "apron/ring0/chunk_16_4_lod4.png",
+      "sha256": "1b80121f09839ba9310adacad99f655b39519c3163f30bef099d60ef2456cc07",
+      "bytes": 8457
+    },
+    {
+      "path": "apron/ring0/chunk_16_5_lod1.png",
+      "sha256": "4170fcbeb2c1ff7c79201fb54934c9076fbc0edd48153bb0a3010f6a9d1a0238",
+      "bytes": 92732
+    },
+    {
+      "path": "apron/ring0/chunk_16_5_lod2.png",
+      "sha256": "268fa6ed442d9b4b8dbe86ea3c5558978019d9686b04b1e2b800e7b7b00a3707",
+      "bytes": 28943
+    },
+    {
+      "path": "apron/ring0/chunk_16_5_lod4.png",
+      "sha256": "7b5bd2d2532c40eaa1753b7779cc6e51ffe0c98a8d20b72b835e030b5678b8fb",
+      "bytes": 8299
+    },
+    {
+      "path": "apron/ring0/chunk_16_6_lod1.png",
+      "sha256": "de87429578e9e81ca9bf94303b802bf13fe15646de6ca4ed30e8178dc82429ad",
+      "bytes": 84099
+    },
+    {
+      "path": "apron/ring0/chunk_16_6_lod2.png",
+      "sha256": "90df4c18ff5e8854dc96cfcf5e2f8c4c808a9806efef68a2d1213af185796289",
+      "bytes": 29496
+    },
+    {
+      "path": "apron/ring0/chunk_16_6_lod4.png",
+      "sha256": "22b0594605cf3ed83c834c85dc57eb584e3a38d5b1e4db3f1bb3b06697071153",
+      "bytes": 8243
+    },
+    {
+      "path": "apron/ring0/chunk_16_7_lod1.png",
+      "sha256": "c451883ea3bde21dc370babc5b86f9340d4c270cf9ff28a2cce79c635b7e96a6",
+      "bytes": 99269
+    },
+    {
+      "path": "apron/ring0/chunk_16_7_lod2.png",
+      "sha256": "e6b7bed85c59abeac86c7877fc2b7f1fd46bbfd830dd4f897310e9e30099dca7",
+      "bytes": 31227
+    },
+    {
+      "path": "apron/ring0/chunk_16_7_lod4.png",
+      "sha256": "28a9a75b7101e219e37318e89e0ec9f7ce3ba2bbdd7faca630b7b68f39ace598",
+      "bytes": 8623
+    },
+    {
+      "path": "apron/ring0/chunk_16_8_lod1.png",
+      "sha256": "9c19b1923273085987f62214b1525242e98154ba811e88cf4ce8a2928c043f6e",
+      "bytes": 96414
+    },
+    {
+      "path": "apron/ring0/chunk_16_8_lod2.png",
+      "sha256": "47bd114888cbcb14b59cba890f3f02031d370fd06b684c82601a92ca93ab9983",
+      "bytes": 29826
+    },
+    {
+      "path": "apron/ring0/chunk_16_8_lod4.png",
+      "sha256": "5a0639d54031d8f5f3240a3582c10727a061554b1f40ac8e39bec418d2cc45d7",
+      "bytes": 8309
+    },
+    {
+      "path": "apron/ring0/chunk_16_9_lod1.png",
+      "sha256": "b68bca35c38e5586c0a80d23b4a29510b6bbc1f039b94bdd3ea014a0a23ce797",
+      "bytes": 83352
+    },
+    {
+      "path": "apron/ring0/chunk_16_9_lod2.png",
+      "sha256": "cfb0dd438e3360d64ff24a225b5cbdccf2d79ba3c652db53c222747b5406318e",
+      "bytes": 28216
+    },
+    {
+      "path": "apron/ring0/chunk_16_9_lod4.png",
+      "sha256": "73563ea47d5a6edcb6eb89fae337fd5585c2d84eaf9ac46a46e202a9f5135500",
+      "bytes": 8149
+    },
+    {
+      "path": "apron/ring0/chunk_1_-1_lod1.png",
+      "sha256": "2d83cc2ee2f17f57211ec200a019825d953ff4b614e364a9ad1cf4edce015bfd",
+      "bytes": 99638
+    },
+    {
+      "path": "apron/ring0/chunk_1_-1_lod2.png",
+      "sha256": "c3857de5155acae1074756173d0483ad4cc9029623973dcbbd70bbf853a46a8c",
+      "bytes": 27771
+    },
+    {
+      "path": "apron/ring0/chunk_1_-1_lod4.png",
+      "sha256": "040616dc48f2dd66b45140439b18bbbc18c7e9160be720c80df09bd98027013e",
+      "bytes": 8058
+    },
+    {
+      "path": "apron/ring0/chunk_1_16_lod1.png",
+      "sha256": "1afb290d37ce4906e927618209570fbec6dfedc9ccd85398866a848cf840c70d",
+      "bytes": 85317
+    },
+    {
+      "path": "apron/ring0/chunk_1_16_lod2.png",
+      "sha256": "0f7cb3316a7d64c1b9a15e0721aec027e446bdfb72519d801f8603124833e709",
+      "bytes": 29551
+    },
+    {
+      "path": "apron/ring0/chunk_1_16_lod4.png",
+      "sha256": "6eee84df3267bf81476fcfc792276c9b9904a0e1c217c45c20a6508e5fd2173e",
+      "bytes": 8420
+    },
+    {
+      "path": "apron/ring0/chunk_2_-1_lod1.png",
+      "sha256": "d66912fc90f8c3effb1abfe6e3107bfd769253a28e0f5fb83fefb39550c410f6",
+      "bytes": 98542
+    },
+    {
+      "path": "apron/ring0/chunk_2_-1_lod2.png",
+      "sha256": "3662d3d0897d81ffb29ffc4862d37c4c115cc858249279c6e00035cfb705f58a",
+      "bytes": 27742
+    },
+    {
+      "path": "apron/ring0/chunk_2_-1_lod4.png",
+      "sha256": "cb5531383d16d26e19896da45a33c89ff64dd3dca911cb511512150400cb6a68",
+      "bytes": 7896
+    },
+    {
+      "path": "apron/ring0/chunk_2_16_lod1.png",
+      "sha256": "4149b3cdc812082f0dc480896ccfa56b481acafb118bf3b33b9e925a0313d46a",
+      "bytes": 88416
+    },
+    {
+      "path": "apron/ring0/chunk_2_16_lod2.png",
+      "sha256": "bfe0e8e83a2a084fb604466795580709e924834683cff8a0e24d14cc3ce566f2",
+      "bytes": 28707
+    },
+    {
+      "path": "apron/ring0/chunk_2_16_lod4.png",
+      "sha256": "6bbf2c040737f0dc12ca9fc21778787c8606df9125800edf62460dfed4b3881b",
+      "bytes": 8192
+    },
+    {
+      "path": "apron/ring0/chunk_3_-1_lod1.png",
+      "sha256": "22fed32c603587c19abd5bf4beb57a8be1b53d09518169d33b0c5c1785040ce7",
+      "bytes": 92958
+    },
+    {
+      "path": "apron/ring0/chunk_3_-1_lod2.png",
+      "sha256": "b538a0989a5cb6bcec0b69d5135800b6f8c2aaa6e06aa1b367fc5f59a12b28e2",
+      "bytes": 26498
+    },
+    {
+      "path": "apron/ring0/chunk_3_-1_lod4.png",
+      "sha256": "f14d7b9510a3d8bdb107a064aebd5f6b10857f4ee1801012de05fd04ce20db84",
+      "bytes": 7487
+    },
+    {
+      "path": "apron/ring0/chunk_3_16_lod1.png",
+      "sha256": "9a2073dc92cb354658bf396018ecbff9c53aca918229f76a929ee0909f06615e",
+      "bytes": 93643
+    },
+    {
+      "path": "apron/ring0/chunk_3_16_lod2.png",
+      "sha256": "71aa0bccc36b9852b0190d6ab2e46559a36836cdc3868104302277b5951de2c7",
+      "bytes": 29826
+    },
+    {
+      "path": "apron/ring0/chunk_3_16_lod4.png",
+      "sha256": "729e5e5e36d56a065109c592f875a07393f1da351a248ae2e405add589ca137e",
+      "bytes": 8424
+    },
+    {
+      "path": "apron/ring0/chunk_4_-1_lod1.png",
+      "sha256": "f2db36aa7a116625972e0d490d2a91b8e28f006d8ac1b52557a07df14d87575f",
+      "bytes": 100441
+    },
+    {
+      "path": "apron/ring0/chunk_4_-1_lod2.png",
+      "sha256": "a42b3276294a146d3dbe8b1c66128b1c557eeaa775d0cbd3b97465e0a95d29b6",
+      "bytes": 28583
+    },
+    {
+      "path": "apron/ring0/chunk_4_-1_lod4.png",
+      "sha256": "c5449036f71a117118d9ddedb59b7a26cce1ffcefcac9c705382075183afe561",
+      "bytes": 8231
+    },
+    {
+      "path": "apron/ring0/chunk_4_16_lod1.png",
+      "sha256": "7e79fd585a1f90d055c54d48efc0b1c8dc4ec73d09ac875d5d7f45f00c884f80",
+      "bytes": 90763
+    },
+    {
+      "path": "apron/ring0/chunk_4_16_lod2.png",
+      "sha256": "cec9b0e1a03dd24206c414a5b0ca66e1b041a6116040dd5a8c725869d05264ad",
+      "bytes": 29009
+    },
+    {
+      "path": "apron/ring0/chunk_4_16_lod4.png",
+      "sha256": "82c447bfd66b7a693cac97da14d4e1dd217efaf9f485ef7f9ea46f17a75cd566",
+      "bytes": 8370
+    },
+    {
+      "path": "apron/ring0/chunk_5_-1_lod1.png",
+      "sha256": "044315889d550761ee719f713d4ee9bad33ba538823b2c9f5bb37fc84e840e51",
+      "bytes": 87395
+    },
+    {
+      "path": "apron/ring0/chunk_5_-1_lod2.png",
+      "sha256": "c3e4df4805b6fe77a803f916434cbd0273db114c161b6e05756489188361e9d4",
+      "bytes": 25726
+    },
+    {
+      "path": "apron/ring0/chunk_5_-1_lod4.png",
+      "sha256": "d2eb90a045bd59fbdc3b2c6f6fd47db3eced11298ac003ec99ff2d0e3f90c33c",
+      "bytes": 7209
+    },
+    {
+      "path": "apron/ring0/chunk_5_16_lod1.png",
+      "sha256": "a8c2abe763d0c5359eab940a8620d944a9116e7688f7dc7d9238f317d5598593",
+      "bytes": 83238
+    },
+    {
+      "path": "apron/ring0/chunk_5_16_lod2.png",
+      "sha256": "e80cbc6a809b3f8ef2f643b14c796f6b6f81e9f601cf836021a94e65a8341ebe",
+      "bytes": 29134
+    },
+    {
+      "path": "apron/ring0/chunk_5_16_lod4.png",
+      "sha256": "97de2eafbc5fd29ab44234765374c399c6c2daf60302e4ae86f378572857642c",
+      "bytes": 8291
+    },
+    {
+      "path": "apron/ring0/chunk_6_-1_lod1.png",
+      "sha256": "3c50483934d1d37d6290554a0614eba1a9b51523ba2dcca370ffa38f2291ec84",
+      "bytes": 79986
+    },
+    {
+      "path": "apron/ring0/chunk_6_-1_lod2.png",
+      "sha256": "37d1966f549c6bf0a9b006374a034f48cf72b44d6ca2afc150c6056b4533f01f",
+      "bytes": 25463
+    },
+    {
+      "path": "apron/ring0/chunk_6_-1_lod4.png",
+      "sha256": "c8c870ee13a75b46494584a450fdfb79b531450bb1c094372d3738c4b534cb2e",
+      "bytes": 7222
+    },
+    {
+      "path": "apron/ring0/chunk_6_16_lod1.png",
+      "sha256": "f4b84d3380b7a91de624aefba31b12966bba07f5b9f3bf2a7ebe7c7d7cfe1e12",
+      "bytes": 89882
+    },
+    {
+      "path": "apron/ring0/chunk_6_16_lod2.png",
+      "sha256": "6d0e5cf432f6c14d8e2bcb87735a4da28371624f61637f6b6be5e24b31c73608",
+      "bytes": 28686
+    },
+    {
+      "path": "apron/ring0/chunk_6_16_lod4.png",
+      "sha256": "9ff164234d3c5100f7087416608049a41af778173aa4a52fa2d8838de47056bd",
+      "bytes": 8142
+    },
+    {
+      "path": "apron/ring0/chunk_7_-1_lod1.png",
+      "sha256": "53f34283caf0d6216ca87c74abe5bae3ff3036a9c4f4f42ce2ba44d979be89d1",
+      "bytes": 92555
+    },
+    {
+      "path": "apron/ring0/chunk_7_-1_lod2.png",
+      "sha256": "a2826547d59ee075b24371a419aab4cf16d95d9a8510862aa758aa8fa07161e3",
+      "bytes": 27522
+    },
+    {
+      "path": "apron/ring0/chunk_7_-1_lod4.png",
+      "sha256": "310342e23d412eb9daadf0dcd33d6181dbc27c3f728cdfbe768331a756bdd4d4",
+      "bytes": 7929
+    },
+    {
+      "path": "apron/ring0/chunk_7_16_lod1.png",
+      "sha256": "c5e3ed83e519456cb4612e1a1a600d2274b9382250e6db994476b237476c9961",
+      "bytes": 82807
+    },
+    {
+      "path": "apron/ring0/chunk_7_16_lod2.png",
+      "sha256": "47cade523c7b57098765a6619c028056f13add1c33c8eea1ba37dadce2c150f0",
+      "bytes": 30033
+    },
+    {
+      "path": "apron/ring0/chunk_7_16_lod4.png",
+      "sha256": "24e9f449cf98a6d37225091bb91df25452445e2aa701359c71ee9c8eaa699317",
+      "bytes": 8393
+    },
+    {
+      "path": "apron/ring0/chunk_8_-1_lod1.png",
+      "sha256": "6c05d1641bdc542b229f58b0ea7b405c54c1d0a23eeb633e9281b03a3b76290c",
+      "bytes": 94067
+    },
+    {
+      "path": "apron/ring0/chunk_8_-1_lod2.png",
+      "sha256": "6ed739297002a4fda28a963ae17d595449628577ff6ee0c0875e8ad95fae732f",
+      "bytes": 28491
+    },
+    {
+      "path": "apron/ring0/chunk_8_-1_lod4.png",
+      "sha256": "8131f714e58e6a9bd3fa39912d1d55cb7b10c2451bc04635bad657616659930e",
+      "bytes": 8124
+    },
+    {
+      "path": "apron/ring0/chunk_8_16_lod1.png",
+      "sha256": "c20066501d0023e64eb85e4ab6b059b112efbe7a201e1170475f31c6e1ea686d",
+      "bytes": 86822
+    },
+    {
+      "path": "apron/ring0/chunk_8_16_lod2.png",
+      "sha256": "49f45fb48deef13b36df4bf308fea58175188fb6b35edc3ec7c50a2e0de7bd5b",
+      "bytes": 29225
+    },
+    {
+      "path": "apron/ring0/chunk_8_16_lod4.png",
+      "sha256": "f7904c3b482f08b79140438a194fb4af7e025df782c1c24abf8e405688b0e009",
+      "bytes": 8333
+    },
+    {
+      "path": "apron/ring0/chunk_9_-1_lod1.png",
+      "sha256": "999219e03bbbf20d97b559e2164fae4f566aa8c3475a2d37f76f15b4531f4117",
+      "bytes": 84071
+    },
+    {
+      "path": "apron/ring0/chunk_9_-1_lod2.png",
+      "sha256": "d368925292869534dafb1768288b5bf32febdf2caf3a675b5ef67c5231728535",
+      "bytes": 26075
+    },
+    {
+      "path": "apron/ring0/chunk_9_-1_lod4.png",
+      "sha256": "282cf1f1e8adb5a4294f588dbc8385251c6f602f69503c62020de7bc0141859f",
+      "bytes": 7473
+    },
+    {
+      "path": "apron/ring0/chunk_9_16_lod1.png",
+      "sha256": "cc7c58dad5e6fd529b5320ae919e0a41d440d4d8172f39f628a927f23938ef76",
+      "bytes": 74835
+    },
+    {
+      "path": "apron/ring0/chunk_9_16_lod2.png",
+      "sha256": "a6a77901a98ae30771c53dc42b4695e14e5d73c500432560a1269ea994c4c35e",
+      "bytes": 28207
+    },
+    {
+      "path": "apron/ring0/chunk_9_16_lod4.png",
+      "sha256": "ffd0bb6648db1a7bdd9a1926fab81e7c053656e60fba4e1d22d4ec9d9d39b763",
+      "bytes": 8132
+    },
+    {
+      "path": "apron/ring1-height.png",
+      "sha256": "116af2513095d6dc240a94a7cb1d459233245a0e87ad45919e7e3bcd402d5be6",
+      "bytes": 181249
+    },
+    {
+      "path": "apron/ring2-height.png",
+      "sha256": "dd1dbaee2dc996efe93434acd22002fd793ff3b00e5dc1908ec8462cdd88ea48",
+      "bytes": 146289
+    },
     {
       "path": "chunks/chunk_0_0_lod1.png",
       "sha256": "b1e7d0cec40adb5cb15af10af7e484eb314c1ebb54ced4913abeedc8312adc1d",

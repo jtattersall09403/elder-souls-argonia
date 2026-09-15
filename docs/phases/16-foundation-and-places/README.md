@@ -27,8 +27,9 @@ are the evidence behind every chunk here:
   depth only.
 - [chain and terrain](../../research/phase16/audit-chain-and-terrain.md) — ten
   feedback edges; the local-patch machinery half exists; the "north border is
-  below sea level" claim is false (north 99.7 % land); the all-Tamriel
-  heightmap in the vault registers to our province at r = 0.83.
+  below sea level" claim is false (north 99.7 % land); its all-Tamriel
+  registration (r = 0.83) was itself wrong — the province is a 1:1 cut of
+  that map (16d, decision 0067).
 - [delivered settlements](../../research/phase16/audit-settlements-delivered.md)
   — the runtime rotates by **−yaw** (median 93° heading error); every piece
   collides as full bounding boxes (the invisible gate); anchoring to the
@@ -249,7 +250,7 @@ them where the blueprint put them.
   + `patch_water` stages with failing invariants.
 - `province/border-apron.*` and the boundary message in `packages/text-catalogue`.
 - A `designGroup` field in the place catalogue and the design-group register.
-- A settlement runtime that rotates by +yaw, collides with real shapes,
+- A settlement runtime that rotates by −yaw (the compile convention; 16h), collides with real shapes,
   mounts dressing, places ways and reports navigation honestly.
 - `.claude/skills/settlement-build/` v2 and a `kit-qa` skill.
 - The interior load contract and portal records in `packages/`, tier A

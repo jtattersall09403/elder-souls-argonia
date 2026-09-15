@@ -1,9 +1,10 @@
 {
  "schemaVersion": 1,
  "about": "Written by scripts/terrain-chain.sh: the Phase 16 ladder this build was made through. A studio layer whose producing stage was skipped is hidden: it was not rebuilt on this ground (plan 16 \u00a73).",
- "through": "16c",
+ "through": "16d",
  "ran": [
   "apply_terrain_patches",
+  "build_border_apron",
   "compile_chunks",
   "compile_water",
   "export_web_chunks",

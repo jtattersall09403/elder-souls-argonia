@@ -26,14 +26,8 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
   const manifest: ChunksManifest = terrain.manifest;
   useEffect(() => {
     if (!apron) return;
-    // The apron build has written tile paths relative to `province/apron/`
-    // while naming `province/apron/ring0/` as the directory; accept either, so
-    // one convention in the data cannot 404 every ring-0 tile.
-    const dir = apron.ring0.dir;
-    const leaf = dir.replace(/\/$/, "").split("/").pop() ?? "";
-    const doubled = leaf !== "" && apron.ring0.chunks.every(
-      (c) => Object.values(c.lods).every((l) => l.file.startsWith(`${leaf}/`)));
-    store.register(apron.ring0.chunks, doubled ? dir.replace(new RegExp(`${leaf}/$`), "") : dir);
+    // tile files are relative to `ring0.dir` (build_border_apron writes both)
+    store.register(apron.ring0.chunks, apron.ring0.dir);
   }, [store, apron, manifest]);
   const scale = terrain.verticalScale ?? manifest.verticalScaleAtGeometry;
   const nearFrame = apron?.paint.near;

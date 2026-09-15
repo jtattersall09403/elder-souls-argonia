@@ -85,10 +85,13 @@ asset registry.
 - **Backstab animation for sneak killmove SE** (Nexus SSE mod 74453, Ichaflash
   original / rhonjhonson uploader, v1) — source of `BACKSTAB`/`BACKSTABBED`.
 - **Tamriel Worldspaces — Argonia worldspace** (Nexus SSE mod 118678, author
-  SqueeblySplat; derived from Transbot9's heightmap) — province macro terrain
-  prior.
+  SqueeblySplat; a 1:1 cut of Transbot9's heightmap at PNG row 3393, col
+  11788, 32 px per cell — measured 2026-09-15, decision 0067) — province
+  macro terrain prior.
 - **Transbot9 — All Tamriel Heightmap** Beta06 (Nexus SSE mod 573, CC BY-NC
-  4.0) — cross-border context terrain.
+  4.0; `TamrielBeta_10_2016_01_prepped.png` SHA-256
+  `20c01d6cb35131da3f4d0cbdbf3f529d273f25b89d6df07bacd53ed05b1fa9fc`) — the
+  land beyond the province border (16d).
 - **ambientCG** (ambientcg.com, CC0) — ground textures in the terrain
   material library (Ground024/025/026/040/050/051/054).
 - **Poly Haven** (polyhaven.com, CC0) — ground textures in the terrain

@@ -34,7 +34,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import time
 from pathlib import Path
 
 import numpy as np
@@ -74,7 +73,6 @@ def main() -> None:
     ap.add_argument("--png", type=Path, default=asset_pipeline_root() / PNG_REL)
     args = ap.parse_args()
 
-    t0 = time.time()
     if not args.png.exists():
         raise SystemExit(f"all-Tamriel heightmap PNG not found at {args.png}; "
                          "extract it from the vault's 7z first (brief 16d, Starting state)")
@@ -84,7 +82,7 @@ def main() -> None:
                          "below is measured on the expected file")
     Image.MAX_IMAGE_PIXELS = None
     u = np.asarray(Image.open(args.png), dtype=np.uint16)
-    print(f"decoded {u.shape[1]}x{u.shape[0]} u16 in {time.time() - t0:.1f}s")
+    print(f"decoded {u.shape[1]}x{u.shape[0]} u16")
     if u.shape != (16384, 20480):
         raise SystemExit(f"unexpected PNG shape {u.shape}")
     a, b = UNIT_TO_METRES
@@ -129,7 +127,7 @@ def main() -> None:
     }
     META_PATH.write_text(json.dumps(meta, indent=1) + "\n")
     print(f"wrote {NEAR_PATH.name}, {FAR_PATH.name}, {META_PATH.name} "
-          f"({(~valid).sum()} nodata far blocks) in {time.time() - t0:.1f}s")
+          f"({(~valid).sum()} nodata far blocks)")
 
 
 if __name__ == "__main__":

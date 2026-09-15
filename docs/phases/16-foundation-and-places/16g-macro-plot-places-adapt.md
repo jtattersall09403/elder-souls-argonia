@@ -4,13 +4,21 @@
 water, routes and vegetation and make the places fit the world rather than
 the world fit the places: move at macro or meso level, re-type, rewrite, merge
 or cut, under the relaxed floor. Introduce design groups (places built as one)
-and co-siting sets (designed together), starting with Lost City + the Made
+and co-siting sets (designed together), including (importantly) the Lost City + the Made
 Ground.
 
 Needs ruling 11 (the floor).
 
 ## Starting state (2026-09-13; the closing 16f agent rewrites this)
 
+- **Tests gated by 16d's purge (`@requires_delivered`), yours to un-gate as
+  you port** (decision 0067; the reader is `ProvinceSurvey.water_at / reach /
+  body`; the survey's `flood/tidal/salinity/wetlands/lakes/river_band` and the
+  `riverBand/onLake/wetland/tidal/floodBand/salinity` sample keys no longer
+  exist — a consumer raises `AttributeError`/`KeyError` until ported): `test_site_survey.py::test_dossier_has_every_section_and_is_deterministic`,
+  `::test_scour_is_deterministic_and_ids_are_well_formed`,
+  `::test_scour_sites_sit_where_their_landform_should` (site_dossier:148,
+  terrain_scour:142 read `river_band`). Whole modules are silent until then.
 - **827 records in eight `places-*.json` files**; `schemaVersion` is
   file-level. Status: 429 active, 244 deferred, 66 ruined, 45 abandoned,
   22 drowned, 12 seasonal, 6 contested, 3 cut. **Only 580 are sited**
@@ -68,10 +76,10 @@ Needs ruling 11 (the floor).
    `same-water`, `approach-through`, `satellite`, `ferry-pair`) on catalogue
    records, validated by `catalogue --check`; the register
    `world/sources/catalogue/design-groups.json`.
-2. **The review of all 827 records** against the frozen world: water facts
+2. **The review of all records** against the frozen world: water facts
    re-measured from the graph (teach `remeasure_plot_facts.py`, 165 lines
    and raster-only today, to key water facts to graph reach and body ids), terrain promises, sightlines, navigable water sampled along
-   the serving route. Every failing record receives one remedy: macro move, meso
+   the serving route. Every failing record receives a remedy: macro move, meso
    move (`apply_sitings`), re-type (a recipe the ground supports), prose
    rewrite (text-reviewed), merge into a design group, or cut — recorded per
    record with the measurement and the province's density budget recomputed
@@ -99,7 +107,7 @@ Needs ruling 11 (the floor).
    (85 already carry `verticalRelationship`, 12 `interior.schemaVersion`;
    `schemaVersion` is file-level today; moving it per record is a
    schema change to decide and record), then reviewed: `roomFunctions[]` (entrance, gauntlet, cache,
-   boss, captive, shrine and the rest of the typed list), a typed loop/shortcut requirement, traversal
+   boss, captive, shrine and the rest of the typed list - plus anything else you think should be on it in order to enable the breadth of dungeon experiences our game should have - you can extend the typed list), a typed loop/shortcut requirement, traversal
    demands (swim length, dive depth, climb, breath gating), combat-space
    intents (world 70 §49 scale and clearances), **anchor sockets**
    (Boss / Boss-Chest / Captive, the buildout register's pull-in), a
@@ -114,14 +122,14 @@ Needs ruling 11 (the floor).
    promises come from the quest plan**: the per-quest provisions in
    `docs/quests/20-world-provisions.md` and the quest-place map (25) are
    read into the vocabulary as typed sockets and slots (evidence, scene,
-   captive, boss, station, the named item or enemy type a quest needs), so
+   captive, boss, station, the named item or enemy type a quest needs, whatever else might be required - you must check), so
    a dungeon that a quest needs promises exactly what its brief asks; the
    per-packet co-design loop (quests 90 §65b) adds local-quest promises the
    same way in 16j and Phase 15. Generalise
    `place_obligations` to project **record-only** obligations (no blueprint
    required, owner `interiors`) so `verify_delivery_manifest` can later
    hold Phase 12 to every promise. Tests: a record with a family and no
-   recipe fails; a promise field outside the vocabulary fails.
+   recipe fails; a promise field outside the vocabulary fails. By the way we've referenced 'captive' above a lot, do not take this to mean that every dungeon must have a captive! same for othe other promises too, these are things that they *can* have, what they actually *do* have is to be authored (including the quest tie ins as described above); we want a broad variety of dungeons across the province and no two that are functionally identical.
 3f. **The prior→roster rule** (world 92 §84; homed here by the buildout
    register and 0062): generate the named-NPC roster records for every
    `notableNpcSlots` entry (346 places; `npcs.json` holds two today) into
@@ -195,11 +203,11 @@ disagreeing kind, shown failing on the 827 records as they stand.
 
 ## Acceptance
 
-- **The chain ladder**: `LADDER_ORDER` in `tooling/world-generation/scripts/terrain-chain.sh`
-  lists `16b 16c 16d 16e 16f 16h` — add `16g`, `16i` and `16j` in order in
-  this chunk (the plot re-solve's `macro_plot`/`apply_sitings` stages are
-  the `[16g]` row), so 16h and 16j are not asked to insert rows after a
-  chunk that the array does not know.
+- **The chain ladder** (plan §3): the order is declared once in
+  `worldgen/ladder.py` (all nine chunks, since 16d) and the empty `[16g]`
+  row exists in `tooling/world-generation/scripts/terrain-chain.sh`; this
+  chunk fills it (the plot re-solve's `macro_plot`/`apply_sitings` stages)
+  and bumps `DELIVERED_THROUGH`.
 
 - `catalogue --check`, `macro_plot`, `route_registry --check`, `quests --check`
   green; a plot review report listing every move, re-type, merge and cut with

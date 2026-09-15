@@ -92,7 +92,7 @@ keeps [0058](0058-the-hydrology-graph-is-the-water-record.md) and
    by over a metre; the round-1 sheets were hiding it. The owner's option (b)
    for the 90 sites (raise the rim as a patch) is therefore applied to every
    such bank, as a typed `levee` patch on the 16b patch machinery, authored
-   from the census by `worldgen.author_terrain_patches`. The four approved
+   from the census by `worldgen.author_terrain_patches`. The five approved
    dry-bed fixes are `bed-cut` patches.
 
 7. **The plunge bowl is the pool's water.** The owner raster never stamps a

@@ -2,13 +2,32 @@
 
 **Goal.** Solve the road and lane networks once on the frozen terrain and
 water, grade them as a **patch stack** that cannot cross a channel or move a
-water level, author the spans that remain honestly and place the six active ferry
-services decided in `ferry-crossings.json` (the seventh is `deferred`). Roads must read as roads.
+water level, author the spans that remain honestly. Check the six active ferry
+services decided in `ferry-crossings.json` (the seventh is `deferred` - check whether it should be) - ferry crossings should be placed where required by the road and lane networks. Once confirmed, place them. Roads must read as roads.fn
 
 Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over grading even at the cost of length, with gradient costs that make roads zigzag up long steep slopes; a graded patch only where it causes no other issue and no circular dependency. Ruling 6: no dredging.
 
-## Starting state (2026-09-13; the closing 16d agent rewrites this)
+## Starting state (2026-09-15, written by the closing 16d agent)
 
+- **The record reader exists** (16d, decision 0067):
+  `water_report.ShippedWater.water_at(east_m, south_m)` returns the graph
+  record (id, kind, levelM, season, band, widthM, depthM and the rest) merged with the
+  compiled entity plus `depthM`; `reach(id)` / `body(id)` index
+  `hydrology-graph.json`; `ProvinceSurvey.water_at / reach / body`
+  delegate to it. `ProvinceSurvey.flood / tidal / salinity / wetlands /
+  lakes / river_band` are **deleted**; `sample()["hydrology"]` carries a
+  `record` block instead of `riverBand/onLake/wetland/tidal/floodBand/salinity`.
+  `compile_minor_routes` and `compile_minor_waterways` therefore raise
+  `AttributeError` until you port them (`test_minor_waterways.py::test_recompile_is_deterministic_and_shares_one_step_graph_per_run`
+  is gated `@requires_delivered("16e")`; un-gate it as you port). Note
+  `water_at`'s merged dict keeps the graph's channel design depth as
+  `designDepthM` and reports the measured wet-season depth as `depthM`;
+  `reach(id)` returns the raw graph record, where `depthM` is the design
+  depth. The chain
+  ladder is declared once in `worldgen/ladder.py`; fill the `[16e]` row.
+- **The apron** (16d) draws the land beyond the border and the sea over it;
+  nothing of yours touches it, but `build_border_apron` re-runs after your
+  grading moves `DEFAULT_HEIGHTS` (a minute; expected).
 - **The route stack is built, not blank.** All nine modules the Read list
   names exist with tests beside them (eleven route test modules). They
   already sit in the chain in the intended order:
@@ -67,7 +86,7 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
 2. **Grading as patches**: `grade_routes` emits typed `terrain-patches`
    (bench, fill, cut) with the 16b invariants — no patch inside a channel or
    its shoulder, no level moves — and `patch_water` follows. The frozen array
-   is untouched. `grade_settlement_pads` takes the same exclusion windows.
+   is untouched. `grade_settlement_pads` takes the same exclusion windows. Check whether those terrain patch types are sufficient. Would a 'ramp' be sensible, for example, for helping routes go up short steep terraces?
 3. **Spans**: the resolution-mismatch pip (`docs/phases/P-polish/backlog.md`
    rows ~290–334: the measurement and the disproved lever) fixed in
    `author_route_structures` with a minimum sustained rise; the `MAX_FILL_M`
@@ -80,7 +99,7 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
    copied to the site, a hull at each berth of its declared class); the
    navigable check samples along the serving route, not a radial max.
 4b. **Travel services and the root-transit network** (Phase 11's
-   deliverable, homed here by decision 0061): the Morrowind-style
+   deliverable, homed here by decision 0061. But check whether this is the right place. 16g will create the macro plot of places and will need to solve the minor waterway network, which itself will define which places connect through fast-travel. So you should plan how much of this section to do now at 16e and what, if anything, should be done instead in 16g; update that brief and this one accordingly): the Morrowind-style
    service graph — ferrymen, boat owners, rootworm Waykeepers; talk, pay,
    arrive; no vessel simulation — as one typed record
    (`world/sources/routes/travel-services.json`: stations, operator socket,
@@ -116,16 +135,16 @@ Ruling 9 (2026-09-11): **minimal** grading as patches; prefer re-routing over gr
   a body, lagoons and the sea) and never a raster class label; a lane that
   needs water the graph does not have is a sourcing gap in the plot, not a
   dredge. The published `waterways*.json` and the `waterways` overlay are
-  regenerated in the same commit.
+  regenerated in the same commit. 16e owns major waterways between the already-anchored major places. Minor waterways will come later at 16g. Check that the 16g brief covers this sufficiently.
 - Crossings read the graph: a ford is on a reach whose `depthM` allows it, a
   bridge or ferry per decision 0051; no route may cross a
   `horizontal-backwater` reach except by ferry or span.
 ## Record reads (decision 0066) — deliverable 0: the code you inherit is wrong here, and fixing it is your job
 
-Six of this chunk's modules are rows in `worldgen/record-reads-allowlist.json`
-(`routes`, `compile_minor_routes`, `compile_minor_waterways`,
-`reroute_lanes`, `grade_routes`, `water_crossings`, plus the span author's
-flood reads): they decide fords, bridges, lane depth and channel windows
+Three of this chunk's modules are rows in `worldgen/record-reads-allowlist.json`
+(`compile_minor_routes`, `compile_minor_waterways`, `water_crossings`;
+`routes`, `reroute_lanes`, `grade_routes` and the span author read only
+compiled water or none and have no row): they decide fords, bridges, lane depth and channel windows
 from the coarse Phase 3 flood band and sampled rasters. That is a bug —
 16c round 1's mistake in route vocabulary — not a convention to keep. Port
 each to the record reader (16d's `ProvinceSurvey.water_at` / `reach` /

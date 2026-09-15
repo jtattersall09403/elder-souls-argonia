@@ -27,9 +27,9 @@ thin swim slice.
   did not supersede).
 - The type register is 16i deliverable 8 (`type-recipes.json`); if it was
   not written, the packet choice has no basis and that is 16i's gap.
-- The chain ladder's `LADDER_ORDER` had no 16g/16i/16j rows on 2026-09-13;
-  16g extends it. Confirm `DELIVERED_THROUGH` reaches 16i before you
-  publish, or your packet ships onto 16b ground.
+- The chain ladder is declared once in `worldgen/ladder.py` (all nine
+  chunks). Confirm `DELIVERED_THROUGH` reaches 16i before you publish, or
+  your packet ships onto 16b ground.
 - Dungeon-kind records already carry typed interior blocks (327 of 827) and
   `place_obligations` already projects them; reuse 16g's vocabulary, never a
   second one.

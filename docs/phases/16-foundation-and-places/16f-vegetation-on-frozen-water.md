@@ -80,23 +80,23 @@ Needs ruling 10 (already given for 16b); no new ruling.
    zones at the reviewed beach.
 3. **The owner's dressing questions**, each measured then delivered or
    recorded as "no" with the number: grass coverage per region against the
-   Skyrim.esm cross-check; ordered-row artefacts (a nearest-neighbour angle
+   Skyrim.esm cross-check (with grass type varying sensibly by geography and region); ordered-row artefacts (a nearest-neighbour angle
    histogram; jitter where it fails); hanging-root decorations still
    appearing (find the placement rule and remove it); ground under trees on
    bare rock (a land-cover class under canopy on rock); bare uplands (a
-   mountain dressing palette from the vault: heather, scree, dead wood);
+   mountain dressing palette from the vault: heather, scree, dead wood, anything else that you can find in the vault that would be good; get ideas by mining esm files);
    lowland boulder regions (survey the map for two or three candidate sites;
    place one as an exemplar if a site fits).
 3b. **The submerged band and the wreck statics** (moved here from Phase 9
    by decision 0062; this is the one scatter compiler and it is being
    rewritten in this chunk): the depth-gated submerged scatter band of
-   world 65 (kelp and eelgrass analogues, shell beds, sunken debris) reading
+   world 65 (kelp and eelgrass analogues, shell beds, sunken debris, anything else that you think would be good from the mods and other assets we have) reading
    the graph's bodies and the season-aware signed depth; the wreck and
    submerged-ruin statics of world 60 and 90 §76 sourced from the vault
    (`underwater-v1` holds 23 assets; gaps are sourcing jobs, credited in the
    same change). The owner judges them in the 9a swim slice; here the
    acceptance is numeric (instances per m² by depth band, zero above the
-   waterline, shown failing on today's bundles).
+   waterline, shown failing on today's bundles). Like with buildings (and trees), many assets are designed to be sunk into terrain - figure this out and apply it correctly, deriving/mining what you need to from skyrim and mods.
 4. **Thin classes**: apply the graph's answer from 16a to the tidal delta and
    deep river corridor ladders.
 5. Rebuild the bundles once on the frozen world (see 7).
@@ -117,6 +117,16 @@ Needs ruling 10 (already given for 16b); no new ruling.
    `settlement_ground_control`, per the chain order).
 
 ## Record reads (decision 0066) — deliverable 00: the code you inherit is wrong here, and fixing it is your job
+
+**Two things 16d left for this chunk (2026-09-15).** (a) `landcover.py` itself
+has no allowlist row and matches no gate pattern: its water re-derivations
+(0066 appendix) are reached only through `rebake_landcover`'s row, so when you
+delete that row `test_record_reads` goes green with the re-derivation intact.
+Treat `landcover.py` as a module to port. (b) `worldgen/build_border_apron.py`
+(16d) calls `landcover.compile_ground_control` on the beyond-border ground
+with height, region, slope and `v_frac` only; `test_border_apron.py` checks the apron's paint agrees with the province's edge texels; keep that
+call working when you change the signature; re-run the apron stage (the
+chain does it: `ground-control.png` is one of its inputs).
 
 `compile_scatter` and `rebake_landcover` are rows in
 `worldgen/record-reads-allowlist.json`: the land-cover bake paints shore
@@ -144,7 +154,7 @@ fails on a missing id or disagreeing kind, shown failing on today's bundles.
    impostor tiers) and record it in `research/vegetation/`. Deliver: a
    coverage floor so low grass is present nearly everywhere the land cover
    allows; tall, chunky classes where the ecology says so (jungle floor,
-   reed beds, floodplain); variation by land cover and wetness rather than one
+   reed beds, floodplain, any others - find out from the ecology); variation by land cover and wetness rather than one
    density; the tiered fade tuned so the floor holds within the walking view.
    The tree ladder (0048) is not retuned by this; the groundcover layer is.
    Test: coverage fraction per region site at or above a stated floor, shown

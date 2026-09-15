@@ -9,7 +9,7 @@ that, this chunk ships the graph-keyed water reader every later chunk ports to
 (decision 0066) and deletes the pre-graph water fields it replaces.
 
 Ruling 8 (2026-09-11): stitched, **on condition that the join is smooth**. The
-owner restated it 2026-09-14: the border is a square, and the land beyond must
+owner restated it 2026-09-14: the border is a square; the land beyond must
 continue from our built terrain with no gap. Owner decisions of 2026-09-14 that
 still bind: purge all six pre-graph survey fields; the wall stands on the edge
 of the built ground on all four sides, unclimbable by construction; the join is
@@ -48,8 +48,8 @@ before) and "Opus on water" (the water part is small and Fable does it).
   that difference out over 6 km.
 - **The PNG is extracted** to the vault at
   `mod-sources/all-tamriel-heightmap-573/extracted/TamrielBeta_10_2016_01_prepped.png`
-  (SHA-256 `20c01d6cb35131da3f4d0cbdbf3f529d273f25b89d6df07bacd53ed05b1fa9fc`,
-  671,225,605 B; `py7zr` with `targets=[…]`, 18 s). PIL needs
+  (671,225,605 B; its SHA-256 is the root README credit line and
+  `apron-manifest.json` `sourceSha256`; `py7zr` with `targets=[…]`, 18 s). PIL needs
   `Image.MAX_IMAGE_PIXELS = None`; decode is 23 s and 670 MB. Nothing else of
   the apron exists: no `worldgen/build_border_apron.py`, no `province/apron/`,
   no `[16d]` stage, no boundary wall, no message.
@@ -60,7 +60,7 @@ before) and "Opus on water" (the water part is small and Fable does it).
 - **The province's wet edge texels**, from the shipped water (`water-id.png`):
   south 100 % and east 99.7 % `body.ocean` at 0 m (plus a 3-texel pond at the
   NE corner); west 39.8 %: the bay `body.ocean` from z = 4,522 m south, three
-  short ocean runs at 4,471–4,500 m, and **five upland waters at 170–222 m**
+  short ocean runs at 4,471–4,500 m, plus **five upland waters at 170–222 m**
   (`reach.10-79`, `reach.34-422`, `body.6-629`, `body.34-1253`) plus a 23.5 m
   backwater (`reach.50-1684`); north 0.25 %: three `sloped-rapid` texels at
   79–85 m. The water renderer carries an edge texel outward unchanged
@@ -72,7 +72,7 @@ before) and "Opus on water" (the water part is small and Fable does it).
   the focus cell and gives every chunk mesh a 2.5 m skirt
   (`buildTerrainGridGeometry`, no normals — lighting comes from `gradTex`);
   `ChunkColliders.tsx` builds Rapier heightfields for the 3×3 chunks around
-  the player through `store.chunkAt`. Chunk LODs are **low-passed then
+  the character through `store.chunkAt`. Chunk LODs are **low-passed then
   subsampled** (`compile_chunks.chunk_grid`: gaussian σ = f/2), not pure
   subsamples. `Fly3D.test.ts:37` asserts on `ChunkTerrain`'s source text
   (`const meshes = manifest.chunks.map`).
@@ -206,14 +206,13 @@ fit above, flips to north-up (`np.flipud`) and writes two float32 arrays to
   zero (a `.npz` with `height` and `valid`).
 
 Asserts: the central 4033² of the near crop matches the raw ESP heightfield
-(`$VAULT/heightfield-f32.npy`, flipped) with rmse < 4 m and r > 0.99, and
-prints both. Records the PNG's SHA-256, the match coordinates, the fit and
+(`$VAULT/heightfield-f32.npy`, flipped) with rmse < 4 m and r > 0.99; prints both. Records the PNG's SHA-256, the match coordinates, the fit and
 the two output SHA-256s into `$VAULT/province-refined/apron-source.json`.
 Idempotent; about a minute; the PNG never enters the repo.
 
 ### B2. `worldgen/build_border_apron.py` — the chain stage (argparse; runs in seconds to a minute)
 
-**Inputs**: `DEFAULT_HEIGHTS` (frozen + patches, the ground the player walks),
+**Inputs**: `DEFAULT_HEIGHTS` (frozen + patches, the ground the character walks),
 the two crops, the province's exported border chunks
 (`province/chunks/chunk_{0|15}_*` and `chunk_*_{0|15}`, decoded with
 `export_web_chunks.decode_rg16` at every LOD), `province/refined/ground-control.png`,
@@ -231,8 +230,7 @@ w(d)         = 1 − smoothstep(0, 6000 m, d),   d = distance to the province sq
 ```
 
 `canon` is the crop; `Δ` is taken from the nearest border cell (the north row
-for points north of the square, the west column for points west, and so on;
-corners use the corner cell). Inside the square `h_apron` is unused. No fit,
+for points north of the square, the west column for points west, the same on the other sides; corners use the corner cell). Inside the square `h_apron` is unused. No fit,
 no scale search, no per-side rules: the wet edge columns, the ocean edges and
 the mountain edge all go through the same line. Where the far crop is
 `nodata`, `h_apron` = −40 m (seabed; it is only ever beyond the sea).
@@ -266,7 +264,7 @@ ordinary chunk seam:
 **Ring 1 — one square tile at 29.25 m**: origin (−1169.82, −1169.82) m,
 333 × 333 samples (every 16th sample of the ring-1 box; the inner 285²
 covering ring 0 and the province is present in the PNG but masked). Its inner
-edge (the ring-0 outer square) is the knot values ring 0 was linearised to;
+edge (the ring-0 outer square) is the knots of ring 0's linearisation;
 its outer row/column is linearised between every 4th sample (116.98 m). One
 RG16 PNG `ring1-height.png`.
 
@@ -336,7 +334,7 @@ the ledger, not the runtime.
 - Tests (`worldgen/test_border_apron.py`, in `test:placement`), each shown
   failing first on a deliberately broken build: (1) every ring-0 chunk's inner
   edge decodes equal to the province chunk's edge at the same LOD within the
-  sum of the two RG16 half-steps, and its pre-encode LOD-1 edge equals
+  sum of the two RG16 half-steps; its pre-encode LOD-1 edge equals
   `DEFAULT_HEIGHTS` exactly; (2) ring 0's outer edge, ring 1's inner edge and
   ring 1's outer edge / ring 2's inner edge coincide at every knot at every
   LOD; (3) `h_apron` at d = 0 equals the edge and at d ≥ 6 km equals the crop;
@@ -401,14 +399,12 @@ store, pass `apron` to `ChunkTerrain` and mount `<BorderApron>` beside it.
   `text.system.province-edge` in `packages/text-catalogue/src/entries.ts`
   (`surface: "system"`, with a `note`), written against the style guide and
   reviewed by a separate `text-review` agent before commit (E2). Display it
-  in the character HUD line (`CharacterMode.tsx` ~495) for 4 s; the game will
-  route it through its own system-message surface.
-- Spawn clamp: `x`/`z` from the studio URL clamp to `[2, extentM − 2]`, and the
-  fall-through safety net (`CharacterMode.tsx:706-723`) teleports to the
+  in the character HUD line (`CharacterMode.tsx` ~495) for 4 s; `apps/game` routes it through its own system-message surface.
+- Spawn clamp: `x`/`z` from the studio URL clamp to `[2, extentM − 2]`; the fall-through safety net (`CharacterMode.tsx:706-723`) teleports to the
   clamped position.
 - Add `@elder-souls/text-catalogue` to `apps/world-studio/package.json`.
 - Tests (vitest in `packages/game-core`): the four cuboids' inner faces sit at
-  `extentM`, span the two heights, and a segment from any interior point to any
+  `extentM`, span the two heights; a segment from any interior point to any
   exterior point crosses one of them on all four sides; the message key
   resolves; the hook fires once per approach. `BorderApron` builds every tile
   from a fixture manifest with the masked quads absent from the index.
@@ -419,7 +415,7 @@ store, pass `apron` to `ChunkTerrain` and mount `<BorderApron>` beside it.
 
 Today the water rasters clamp to their edge texel beyond the province. That
 was written for the sea and is right for it; for a river or upland lake on
-the edge it draws a ribbon at 200 m over Cyrodiil, and for the canon inlets
+the edge it draws a ribbon at 200 m over Cyrodiil; for the map's inlets
 north and west it draws nothing where there should be sea. **Rule: beyond the
 province the water is the open sea at level 0 over the apron's ground.**
 
@@ -459,7 +455,7 @@ error, which is right). The per-chunk stage lists stay in bash.
 - `text-review` on the message in a separate agent.
 - `npm run preflight`; then `./scripts/terrain-chain.sh` (no flags): expect
   `verify_freeze` green, the six frozen rungs skipped, `build_border_apron`
-  run, 16e+ skipped, and **`province/water/*.png` and `water-meta.json` shas
+  run, 16e+ skipped; **`province/water/*.png` and `water-meta.json` shas
   unchanged** (compare before and after; if they moved, stop). Then
   `npm run province:publish`, commit the manifests. Do not push.
 - Root `README.md:90-91`: add the PNG's SHA-256 to the mod-573 credit line;
@@ -494,7 +490,7 @@ error, which is right). The per-chunk stage lists stay in bash.
 
 ## Owner check (after E2; studio on `$ES_TUNNEL_URL`)
 
-**What you will see**: the ground, the water, and the land beyond the border.
+**What you will see**: the ground, the water and the land beyond the border.
 No plants, roads or buildings anywhere.
 
 - Northern mountains, `?view=character&x=0.93&z=0.92&t=12:00`, looking north
@@ -517,12 +513,12 @@ Part A has nothing to see; it is proved by tests.
 - Do not fit, search or "re-verify" the registration: it is 1:1 and exact;
   B1 asserts it.
 - Do not extend the apron past the map (no procedural ridges, no extrapolation,
-  no fade): nothing past 10 km is visible, and ruling 8 chose stitched.
+  no fade): nothing past 10 km is visible; ruling 8 chose stitched.
 - Do not pin ring 0 to a single pitch with a deep skirt: the border is drawn at
-  LOD 1, 2 or 4 depending on where the player stands; only a chunk with the
+  LOD 1, 2 or 4 depending on where the character stands; only a chunk with the
   same LOD rule matches it in every view.
 - Do not drop undersea quads or clip at the waterline: the sea covers them
-  (Part D), the haze covers the rest, and a clipped shelf is the hole that
+  (Part D), the haze covers the rest; a clipped shelf is the hole that
   ruling 8 forbids.
 - Do not carry a river's edge texel outward (the old clamp) or forbid patches
   on the border rows: four shipped levees already cross them.

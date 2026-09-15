@@ -38,7 +38,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import time
 from pathlib import Path
 
 import numpy as np
@@ -264,7 +263,6 @@ class Paint:
              pitch_m: float, origin: tuple[int, int]) -> dict:
         """Bake one paint set over `h` at fine coordinates (rows, cols) [2-D], then
         dither/blend its border toward the province's edge texels."""
-        t0 = time.time()
         ridx = np.clip(np.rint(rows / ((N - 1) / (HYDRO_N - 1))), 0, HYDRO_N - 1).astype(np.int64)
         cidx = np.clip(np.rint(cols / ((N - 1) / (HYDRO_N - 1))), 0, HYDRO_N - 1).astype(np.int64)
         region = self.region[ridx, cidx]
@@ -303,14 +301,13 @@ class Paint:
         save_png(Image.fromarray(tint, "RGB"), OUT_DIR / files["tint"])
         save_png(Image.fromarray(grad_rgb, "RGB"), OUT_DIR / files["grad"])
         print(f"paint {name}: {h.shape[1]}x{h.shape[0]} at {pitch_m:.2f} m, "
-              f"dithered {int(take.sum())} texels, {time.time() - t0:.1f}s")
+              f"dithered {int(take.sum())} texels, ")
         return files
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.parse_args()
-    t_start = time.time()
 
     for path in (NEAR_PATH, FAR_PATH, SOURCE_META_PATH):
         if not path.exists():
@@ -329,9 +326,8 @@ def main() -> None:
     RING0_DIR.mkdir(parents=True, exist_ok=True)
 
     rows_n, cols_n, h_full, edge_delta = near_box(heights, near)
-    print(f"h_apron on the near box in {time.time() - t_start:.1f}s")
+    print(f"h_apron on the near box")
 
-    t0 = time.time()
     ring0_entries = []
     triangles = 0
     for cx, cy, lods in ring0_arrays(h_full, heights, web):
@@ -346,7 +342,7 @@ def main() -> None:
             if f == 1:
                 triangles += (arr.shape[0] - 1) * (arr.shape[1] - 1) * 2
         ring0_entries.append(entry)
-    print(f"ring 0: {len(ring0_entries)} chunks x {len(LODS)} LODs in {time.time() - t0:.1f}s")
+    print(f"ring 0: {len(ring0_entries)} chunks x {len(LODS)} LODs")
     seam_max = 0.0
 
     # Seam report: the shipped ring-0 inner edge against the shipped province edge.
@@ -368,7 +364,6 @@ def main() -> None:
             seam_max = max(seam_max, float(np.abs(mine - theirs).max()))
 
     # ---- Ring 1: every 16th sample of the near box; outer edge linear between every 4th.
-    t0 = time.time()
     ring1 = np.ascontiguousarray(h_full[::R1_STEP, ::R1_STEP], dtype=np.float32)
     n1 = ring1.shape[0]
     assert n1 == 333, n1
@@ -394,7 +389,7 @@ def main() -> None:
     r2_min, r2_max = float(ring2.min()), float(ring2.max())
     save_png(encode_rg16(ring2, r2_min, r2_max), OUT_DIR / "ring2-height.png")
     triangles += ((R2_NY - 1) * (R2_NX - 1) - (R2_INNER - 1) ** 2) * 2
-    print(f"ring 1 ({n1}²) and ring 2 ({R2_NX}x{R2_NY}) in {time.time() - t0:.1f}s")
+    print(f"ring 1 ({n1}²) and ring 2 ({R2_NX}x{R2_NY})")
 
     # ---- Paint: the province's rules over the near and far sets.
     paint = Paint()
@@ -444,7 +439,7 @@ def main() -> None:
     }
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=1) + "\n")
     print(json.dumps(manifest["report"], indent=1))
-    print(f"apron built in {time.time() - t_start:.1f}s -> {OUT_DIR}")
+    print(f"apron built -> {OUT_DIR}")
 
 
 if __name__ == "__main__":
