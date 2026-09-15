@@ -45,7 +45,9 @@ before) and "Opus on water" (the water part is small and Fable does it).
   east** of the border (rows 0 and 16383, cols 0 and 20479 of the PNG). The
   province's own sculpt raised the north edge ~180 m above the map
   (`DEFAULT_HEIGHTS` north row mean 214 m; the raw's 31 m); the join blends
-  that difference out over 6 km.
+  that difference out over 1.2 km (an escarpment where the mountains meet
+  Morrowind's coast; 6 km, the first cut, extruded our bay and our mountain
+  edge for kilometres before the map showed through).
 - **The PNG is extracted** to the vault at
   `mod-sources/all-tamriel-heightmap-573/extracted/TamrielBeta_10_2016_01_prepped.png`
   (671,225,605 B; its SHA-256 is the root README credit line and
@@ -226,7 +228,7 @@ message naming B1 if a crop is missing.
 ```
 h_apron(x, z) = canon(x, z) + Δ(edge nearest to (x, z)) · w(d)
 Δ(edge cell) = DEFAULT_HEIGHTS(edge cell) − canon(edge cell)
-w(d)         = 1 − smoothstep(0, 6000 m, d),   d = distance to the province square
+w(d)         = 1 − smoothstep(0, 1200 m, d),   d = distance to the province square
 ```
 
 `canon` is the crop; `Δ` is taken from the nearest border cell (the north row
@@ -286,9 +288,10 @@ border.
   clamped to 0/1 outside. No salinity, twi, wetlands, roads, water level.
 - **far set** at 116.98 m over the ring-2 box (320 × 256): the same call with `origin=(−139, −184)`.
 - **Seam blend, so the paint at the border is the province's by construction**
-  (owner decision 6): within `d < 1,500 m` replace each apron texel's control
+  (owner decision 6): within `d < 100 m` replace each apron texel's control
   with the province control's nearest edge texel with probability
-  `1 − smoothstep(0, 1500, d)` (position-seeded hash, `position_noise`); the
+  `1 − smoothstep(0, 100, d)` (1.5 km, the first cut, striped the whole near
+  ring with the border's colours) (position-seeded hash, `position_noise`); the
   tint (`ground-tint.png` resampled nearest) and the gradient (recomputed from
   `h` at the set's pitch, `GRADIENT_CLAMP`, signed-sqrt as
   `export_gradients` does — do **not** call `export_gradients`, it writes the
@@ -304,7 +307,7 @@ not):
 { "schemaVersion": 1,
   "sourceSha256": "<PNG sha>", "sourceCropSha256": {"near": "…", "far": "…"},
   "registration": {"pngRow": 3393, "pngCol": 11788, "metresPerPx": 1.82784, "unitToMetres": [0.017093, -91.745]},
-  "blendM": 6000, "paintBlendM": 1500,
+  "blendM": 1200, "paintBlendM": 100,
   "ring0": { "dir": "province/apron/ring0/", "chunks": [ <ChunkMeta as in chunks-web-manifest.json> ] },
   "tiles": [
     { "id": "ring1", "file": "ring1-height.png", "originM": [-1169.82, -1169.82], "shape": [333, 333],
@@ -394,12 +397,12 @@ store, pass `apron` to `ChunkTerrain` and mount `<BorderApron>` beside it.
   collision-group scheme (nothing inside the square can start a ray inside a
   wall). `docs/phases/README.md` § Phase 9 gets one line: the climb system
   must ignore these four colliders (E2).
-- `packages/game-core/src/boundary/useBoundaryMessage.ts`: fires once when the
-  character comes within 8 m of a wall, re-arms beyond 40 m; the text is
+- `packages/game-core/src/boundary/useBoundaryMessage.ts`: fires when the
+  character comes within 8 m of a wall, stays while there, re-arms beyond 10 m; the text is
   `text.system.province-edge` in `packages/text-catalogue/src/entries.ts`
   (`surface: "system"`, with a `note`), written against the style guide and
   reviewed by a separate `text-review` agent before commit (E2). Display it
-  in the character HUD line (`CharacterMode.tsx` ~495) for 4 s; `apps/game` routes it through its own system-message surface.
+  as a centred banner in the character view; `apps/game` routes it through its own system-message surface.
 - Spawn clamp: `x`/`z` from the studio URL clamp to `[2, extentM − 2]`; the fall-through safety net (`CharacterMode.tsx:706-723`) teleports to the
   clamped position.
 - Add `@elder-souls/text-catalogue` to `apps/world-studio/package.json`.
@@ -419,12 +422,14 @@ the edge it draws a ribbon at 200 m over Cyrodiil; for the map's inlets
 north and west it draws nothing where there should be sea. **Rule: beyond the
 province the water is the open sea at level 0 over the apron's ground.**
 
-- `waterMaterial.ts`: a new uniform `uApronTex` (ring 2's height PNG,
-  `minM/maxM`, origin, pitch) and `esSurfaceAt` returns `(0, −h_apron)` when
+- `waterMaterial.ts`: ring 2's height PNG rides in the spare rows of
+  `uSurfTex` (the shader is at the flyover GPU's 16-sampler limit; a new
+  sampler broke it), and `esSurfaceAt` returns `(0, −h_apron)` when
   `wpos` lies outside `[0, extent]²`; in the vertex stage, when outside,
-  `esKl` becomes the ocean class with the salinity/turbidity the class table
-  gives the coast (`meta.klass`), `esFl` zero flow at the fetch cap, `esSS`
-  shore distance = `uSurfShoreMax`, season response 0, tannin 0. Every
+  and the clamped edge texel is not a sea class, `esKl` becomes the coast
+  class with the coast's median turbidity and salinity, `esFl` zero flow at
+  the fetch cap, `esSS` shore distance = `uSurfShoreMax`, season response 0,
+  tannin 0; past a sea edge texel the clamped values stay (continuity). Every
   fragment-stage caller of `esSurfaceAt` (the buried guard, the gradients)
   inherits the rule.
 - `waterData.ts`: `surfaceBase`/`depthProxy` mirror it (0 and `−h_apron`

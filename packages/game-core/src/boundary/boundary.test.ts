@@ -63,7 +63,7 @@ describe("the boundary message", () => {
     expect(distanceToBoundary(2000, E - 4, E)).toBeCloseTo(4, 9);
   });
 
-  it("fires once per approach and re-arms only well back inside", () => {
+  it("fires once per approach and re-arms a few metres back inside", () => {
     let state = { armed: true };
     const fires: number[] = [];
     // Walk in to the wall, hover along it, step back a little, return.
@@ -73,7 +73,9 @@ describe("the boundary message", () => {
       state = step.state;
       if (step.fire) fires.push(d);
     }
-    expect(fires).toEqual([BOUNDARY_NEAR_M]);
+    // 20 and 30 are past the re-arm distance, so the walk back in (5) fires again;
+    // 2, 1, 3, 7 are one stay at the wall and never re-fire.
+    expect(fires).toEqual([BOUNDARY_NEAR_M, 5]);
     // Beyond the re-arm distance, the next approach fires again.
     state = boundaryMessageStep(state, BOUNDARY_REARM_M + 5, 2000, E).state;
     expect(boundaryMessageStep(state, 2, 2000, E).fire).toBe(true);

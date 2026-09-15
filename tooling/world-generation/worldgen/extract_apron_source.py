@@ -51,7 +51,8 @@ PNG_COL_SW = 11788         # PNG col of the province's south-west sample
 METRES_PER_PX = 1.82784
 UNIT_TO_METRES = (0.017093, -91.745)   # metres = a * u + b
 PROVINCE_SAMPLES = 4033
-NEAR_PAD = 640             # ring-1 reach in samples (1169.82 m)
+NEAR_PAD = 2176            # ring-1 reach in samples (3976.8 m): 256 (ring 0) + 120 x 16;
+                           # (4032 + 2 * NEAR_PAD) must divide by 64 (the far pitch)
 FAR_BLOCK = 64             # far crop block size in px (116.98 m)
 
 OUT_DIR = HEIGHTFIELD_DIR / "province-refined"

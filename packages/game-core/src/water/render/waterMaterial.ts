@@ -134,7 +134,10 @@ export interface WaterUniforms extends FoamFieldUniforms {
    * over the apron's ground (`uApronTex`, RG16 heights, row 0 = north).
    * `uHasApron` 0 keeps the edge-texel rule for a build without the apron. */
   uHasApron: { value: number };
-  uApronTex: { value: THREE.Texture | null };
+  /** First row of `uSurfTex` that holds the apron tile (the province's rows
+   * end at `uSurfSize`); no extra sampler — the water shader already uses
+   * every texture unit the flyover's GPU budget allows. */
+  uApronRow0: { value: number };
   uApronMin: { value: number };
   uApronSpan: { value: number };
   uApronOrigin: { value: THREE.Vector2 };
@@ -205,7 +208,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uFlowExtentM: { value: m.flow.size * m.flow.metresPerPixel },
     uFlowMax: { value: m.flow.flowMax },
     uHasApron: { value: assets.apron ? 1 : 0 },
-    uApronTex: { value: assets.apron?.tex ?? null },
+    uApronRow0: { value: assets.apron?.atlasRow0 ?? 0 },
     uApronMin: { value: assets.apron?.minM ?? 0 },
     uApronSpan: { value: assets.apron ? assets.apron.maxM - assets.apron.minM : 1 },
     uApronOrigin: { value: new THREE.Vector2(assets.apron?.ground.originM[0] ?? 0, assets.apron?.ground.originM[1] ?? 0) },
@@ -309,7 +312,7 @@ export const SAMPLER_GLSL = /* glsl */ `
   uniform float uCapThreshold;
   uniform float uFetchMax;
   uniform float uHasApron;
-  uniform sampler2D uApronTex;
+  uniform float uApronRow0;
   uniform float uApronMin;
   uniform float uApronSpan;
   uniform vec2 uApronOrigin;
@@ -331,7 +334,7 @@ export const SAMPLER_GLSL = /* glsl */ `
   // The apron ground (m) beyond the border: manual bilinear over the RG16
   // tile, clamped to its edge. KEEP IN LOCKSTEP with WaterData.apronHeight().
   float esApronTexel(ivec2 i){
-    vec4 t = texelFetch(uApronTex, i, 0);
+    vec4 t = texelFetch(uSurfTex, ivec2(i.x, int(uApronRow0) + i.y), 0);
     return uApronMin + ((t.r * 255.0 * 256.0 + t.g * 255.0) / 65535.0) * uApronSpan;
   }
   float esApronGround(vec2 wpos){
@@ -811,9 +814,12 @@ vec4 esKl = texture2D(uKlassTex, esDataUv);
 vec4 esFl = texture2D(uFlowTex, esDataUv);
 vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
 #ifndef ES_STRIP
-if (uHasApron > 0.5 && esOutside(esRestW.xz)) {
-  // beyond the border: the coast's class, no current, the open sea's fetch,
-  // far from any shore, no season response, no tannin (16d, 0067)
+if (uHasApron > 0.5 && esOutside(esRestW.xz) && esTideResponse(esKl.r * 255.0) < 0.5) {
+  // beyond the border, past a LAND or inland-water edge texel: the coast's
+  // class, no current, the open sea's fetch, far from any shore, no season
+  // response, no tannin (16d, 0067). Past a SEA edge texel the clamped values
+  // already are the sea's, and keeping them is what makes the surface
+  // continuous across the border (the owner's seam, 2026-09-15).
   esKl = vec4(uApronCoast.x / 255.0, uApronCoast.y, uApronCoast.z, 1.0);
   esFl = vec4(0.5, 0.5, 1.0, 1.0);
   esSS = vec3(uSurfShoreMax, 0.0, 0.0);

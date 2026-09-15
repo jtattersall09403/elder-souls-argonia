@@ -44,6 +44,19 @@ so (stale plot facts and exports: `test_committed_water_facts`,
 16g's, none in the deploy gates. Found in passing: tarn `body.200-770` compiles
 at `levelM` 289.71 while the graph's `wetSeasonLevelM` is 290.2 (backlog).
 
+## Owner round 1 (2026-09-15, same day)
+
+The apron loaded but drew nothing: the ground material's program-cache key
+omitted its shore-wetness option, so the dry apron materials ran the wet
+program (texture slots mismatched; "two textures of different types use the
+same sampler location"). The paint striped: a 1.5 km dither band copied the
+border texel over the whole near ring; now 100 m. The bay and the mountain
+edge extruded straight out: a 6 km height blend; now 1.2 km. The water
+shader hit 17 samplers in the flyover: the apron tile now rides in the
+surface texture's spare rows. The sea beyond a sea edge texel keeps the
+edge's own class, fetch and shore values (a hard seam between two models
+otherwise). The edge line is a centred banner shown on every approach.
+
 ## Part C and D
 
 Four cuboid walls outside `[0, 7369.85]²`, from −200 m to 1100 m, 50 m thick; the message

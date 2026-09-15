@@ -20,8 +20,9 @@ p95 2 km).
 
 1. **The apron is the map continued, unfitted.** `h_apron = canon + Δ·w(d)`
    with Δ the province edge minus the map at the same cell and `w` a
-   6 km smoothstep; the sculpt's ~180 m of extra northern relief slopes down
-   to the map over that distance. No scale search, no per-side rule, no
+   1.2 km smoothstep, so the join ends inside the near ring: the sculpt's
+   extra northern relief falls to Morrowind's coast as an escarpment. (A 6 km
+   blend extruded our coastline and mountain edge for kilometres.) No scale search, no per-side rule, no
    extrapolation past the map, no fade (the haze is the fade). "Reach ~60 km"
    (owner 2026-09-14) is superseded by the map's own extent.
 2. **The innermost 468 m is ordinary terrain chunks** (68 tiles, LOD 1/2/4,
@@ -40,7 +41,7 @@ p95 2 km).
    only for a build without the apron.
 4. **The paint is the province's rules on the apron's ground**
    (`compile_ground_control` on height, region, slope and latitude
-   only, at 7.31 m near and 116.98 m far); within 1.5 km of the border the
+   only, at 7.31 m near and 116.98 m far); within 100 m of the border the
    control ids are dithered to the province's own edge texels and the tint
    and gradient blended, so the border shows no colour change by
    construction.

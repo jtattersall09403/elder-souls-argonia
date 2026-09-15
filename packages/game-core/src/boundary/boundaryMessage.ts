@@ -1,14 +1,16 @@
 /**
  * The one message the player gets at the edge of the world (16d).
  *
- * It fires once when the character comes within `NEAR_M` of a wall and re-arms
- * only after they are `REARM_M` back inside, so walking along the border does
- * not repeat it. Pure state machine: the hook in `useBoundaryMessage.ts` holds
+ * It fires when the character comes within `NEAR_M` of a wall and re-arms once
+ * they are `REARM_M` back inside, so every approach shows it once. Pure state machine: the hook in `useBoundaryMessage.ts` holds
  * it in a ref and the tests drive it directly.
  */
 export const BOUNDARY_MESSAGE_ID = "text.system.province-edge";
 export const BOUNDARY_NEAR_M = 8;
-export const BOUNDARY_REARM_M = 40;
+/** Re-arms as soon as the character is this far back inside (a little
+ * hysteresis past NEAR_M): every walk into the wall shows the line again, and
+ * it never fires while it is already on screen. */
+export const BOUNDARY_REARM_M = 10;
 /** Seconds the line stays on screen. */
 export const BOUNDARY_MESSAGE_SECONDS = 4;
 

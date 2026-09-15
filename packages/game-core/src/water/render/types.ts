@@ -34,7 +34,8 @@ export interface WaterAssets {
    * the apron is not delivered on this ladder. */
   apron?: {
     ground: ApronGround;
-    tex: THREE.DataTexture;
+    /** The tile rides in `surfaceTex`'s rows from `atlasRow0` (no new sampler). */
+    atlasRow0: number;
     minM: number;
     maxM: number;
     coastClassIndex: number;

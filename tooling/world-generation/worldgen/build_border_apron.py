@@ -20,7 +20,7 @@ The apron height is one line everywhere (brief 16d, Part B):
 
     h_apron(x, z) = canon(x, z) + delta(nearest border cell) * w(d)
     delta(cell)   = DEFAULT_HEIGHTS(cell) - canon(cell)
-    w(d)          = 1 - smoothstep(0, 6000 m, d),  d = distance to the square
+    w(d)          = 1 - smoothstep(0, 1200 m, d),  d = distance to the square
 
 so the join is by construction (h_apron = DEFAULT_HEIGHTS at d = 0) and the
 map's own ground is reached 6 km out. Seams between rings are exact by
@@ -72,8 +72,28 @@ BAKE_STEP = 4                    # near paint pitch in samples (7.31 m)
 R1_PITCH_M = R1_STEP * RAW_M
 R2_PITCH_M = R2_STEP * RAW_M
 BAKE_PITCH_M = BAKE_STEP * RAW_M
-BLEND_M = 6000.0
-PAINT_BLEND_M = 1500.0
+# The join: our edge minus the map at the same cell, decayed over BLEND_M.
+# 6 km (the first cut) shifted the map's own coastline by the whole difference
+# for kilometres — Topal Bay read as our bay extruded in a straight line, the
+# northern mountains as a plateau. 1.2 km ends the join inside ring 1: the
+# mountains fall to Morrowind's coast as an escarpment (up to ~24°), which is
+# what a range ending at a lowland looks like.
+BLEND_M = 2500.0
+# The join is split in two: the ALONG-BORDER-SMOOTH part of the difference
+# (gaussian, SMOOTH_M) decays over BLEND_M and carries the map's relief with
+# it; the fine residual (our edge's own bumps) dies within FINE_BLEND_M. A
+# per-column difference extruded every bump of our edge outward as a stripe
+# (owner round 1, 2026-09-15).
+SMOOTH_M = 150.0
+FINE_BLEND_M = 60.0
+# The paint seam: within PAINT_BLEND_M the control ids are dithered to the
+# province's edge texel. 1.5 km (the first cut) covered the whole near set,
+# so every column repeated its border colour outward as a stripe; 100 m is a
+# dozen near texels — a soft seam, never a streak.
+PAINT_BLEND_M = 100.0
+# The first PAINT_HOLD_M are the province edge texels exactly (the seam is
+# the province's by construction); the dither fades over the rest.
+PAINT_HOLD_M = 30.0
 NODATA_M = -40.0                 # seabed where the map has no data
 NEUTRAL_TINT = 127               # the province tint writes 1.0 as 127
 HYDRO_N = 1345                   # region raster texels per axis
@@ -82,9 +102,10 @@ HYDRO_N = 1345                   # region raster texels per axis
 MAP_ROWS = 16384
 PROV_ROW0 = (MAP_ROWS - 1 - PNG_ROW_SW) - LAST     # 8958
 PROV_COL0 = PNG_COL_SW                             # 11788
-# Ring 2: 320 x 256 samples on the far pitch, west 174 / north 129 of ring 1.
-R2_WEST, R2_NORTH = 174, 129
-R2_NX, R2_NY = 320, 256
+# Ring 2: 319 x 255 samples on the far pitch, west 150 / north 105 of ring 1
+# (to the map's edge: (available px - NEAR_PAD) // 64 per side; east 38, south 19).
+R2_WEST, R2_NORTH = 150, 105
+R2_NX, R2_NY = 319, 255
 R2_INNER = NEAR_N // R2_STEP + 1                    # 84 samples cover ring 1
 R2_ROW0 = PROV_ROW0 - NEAR_PAD - R2_NORTH * R2_STEP  # 62, map row of ring 2 sample 0
 R2_COL0 = PROV_COL0 - NEAR_PAD - R2_WEST * R2_STEP   # 12
@@ -104,15 +125,31 @@ def square_distance_m(rows: np.ndarray, cols: np.ndarray) -> np.ndarray:
     return np.hypot(dr, dc) * RAW_M
 
 
+def edge_deltas(heights: np.ndarray, near: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """(raw, smooth): our ground minus the map at the same cell, and the same
+    with the four border rows/columns low-passed ALONG the border (SMOOTH_M)."""
+    raw = heights.astype(np.float64) - near[NEAR_PAD:NEAR_PAD + N, NEAR_PAD:NEAR_PAD + N]
+    smooth = raw.copy()
+    sigma = SMOOTH_M / RAW_M
+    for sl in ((0, slice(None)), (LAST, slice(None)), (slice(None), 0), (slice(None), LAST)):
+        smooth[sl] = ndimage.gaussian_filter1d(raw[sl], sigma, mode="nearest")
+    return raw, smooth
+
+
 def apron_height(canon: np.ndarray, rows: np.ndarray, cols: np.ndarray,
-                 heights: np.ndarray, near: np.ndarray) -> np.ndarray:
-    """h_apron at fine coordinates (rows, cols): canon + delta(nearest border cell) * w(d)."""
+                 deltas: tuple[np.ndarray, np.ndarray]) -> np.ndarray:
+    """h_apron at fine coordinates (rows, cols):
+    canon + smooth(nearest border cell) * w1(d) + (raw - smooth)(nearest border cell) * w2(d)."""
+    raw, smooth = deltas
     rc = np.clip(np.rint(rows), 0, LAST).astype(np.int64)
     cc = np.clip(np.rint(cols), 0, LAST).astype(np.int64)
-    delta = heights[rc, cc].astype(np.float64) - near[rc + NEAR_PAD, cc + NEAR_PAD]
-    w = 1.0 - smoothstep(0.0, BLEND_M, square_distance_m(rows, cols))
+    d = square_distance_m(rows, cols)
+    w1 = 1.0 - smoothstep(0.0, BLEND_M, d)
+    w2 = 1.0 - smoothstep(0.0, FINE_BLEND_M, d)
+    s = smooth[rc, cc]
+    f = raw[rc, cc] - s
     # float64 so that canon + (heights - canon) * 1 is heights exactly at d = 0.
-    return (canon.astype(np.float64) + delta * w).astype(np.float32)
+    return (canon.astype(np.float64) + s * w1 + f * w2).astype(np.float32)
 
 
 def linearised(edge: np.ndarray, knot_step: int, lod: int) -> np.ndarray:
@@ -160,7 +197,8 @@ def near_box(heights: np.ndarray, near: np.ndarray):
     per-side delta = DEFAULT_HEIGHTS - canon along the border."""
     rows, cols = np.meshgrid(np.arange(NEAR_N, dtype=np.float64) - NEAR_PAD,
                              np.arange(NEAR_N, dtype=np.float64) - NEAR_PAD, indexing="ij")
-    h_full = apron_height(near, rows, cols, heights, near)
+    deltas = edge_deltas(heights, near)
+    h_full = apron_height(near, rows, cols, deltas)
     h_full[NEAR_PAD:NEAR_PAD + N, NEAR_PAD:NEAR_PAD + N] = heights
     edge_delta = {
         "north": heights[0, :] - near[NEAR_PAD, NEAR_PAD:NEAR_PAD + N],
@@ -276,8 +314,8 @@ class Paint:
 
         # Seam blend: within PAINT_BLEND_M the categorical ids are dithered to the
         # province's nearest edge texel, the continuous channels mixed, with the
-        # same weight w = 1 - smoothstep(0, 1500 m, d).
-        w = (1.0 - smoothstep(0.0, PAINT_BLEND_M, square_distance_m(rows, cols))).astype(np.float32)
+        # same weight w = 1 - smoothstep(PAINT_HOLD_M, PAINT_BLEND_M, d).
+        w = (1.0 - smoothstep(PAINT_HOLD_M, PAINT_BLEND_M, square_distance_m(rows, cols))).astype(np.float32)
         fr = np.clip(np.rint(rows), 0, LAST).astype(np.int64)
         fc = np.clip(np.rint(cols), 0, LAST).astype(np.int64)
         u = ndtr(white_field(h.shape, "apron-seam-dither", origin, SEED))
@@ -319,7 +357,7 @@ def main() -> None:
     assert near.shape == (NEAR_N, NEAR_N), near.shape
     far_npz = np.load(FAR_PATH)
     far = np.where(far_npz["valid"], far_npz["height"], np.float32(NODATA_M)).astype(np.float32)
-    assert far.shape == (R2_NY, R2_NX), far.shape
+    assert far.shape == (MAP_ROWS // FAR_BLOCK, 20480 // FAR_BLOCK), far.shape   # the whole map in blocks
     source_meta = json.loads(SOURCE_META_PATH.read_text())
     web = load_web_manifest()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -366,7 +404,7 @@ def main() -> None:
     # ---- Ring 1: every 16th sample of the near box; outer edge linear between every 4th.
     ring1 = np.ascontiguousarray(h_full[::R1_STEP, ::R1_STEP], dtype=np.float32)
     n1 = ring1.shape[0]
-    assert n1 == 333, n1
+    assert n1 == (NEAR_N - 1) // R1_STEP + 1, n1
     for sl in ((0, slice(None)), (-1, slice(None)), (slice(None), 0), (slice(None), -1)):
         ring1[sl] = linearised(ring1[sl], R2_STEP // R1_STEP, 1)
     r1_min, r1_max = float(ring1.min()), float(ring1.max())
@@ -383,7 +421,7 @@ def main() -> None:
                                           (map_cols - (R2_STEP - 1) / 2) / R2_STEP],
                                     order=1, mode="nearest").astype(np.float32)
     rows2, cols2 = map_rows - PROV_ROW0, map_cols - PROV_COL0
-    ring2 = apron_height(canon, rows2, cols2, heights, near)
+    ring2 = apron_height(canon, rows2, cols2, edge_deltas(heights, near))
     z0, x0 = R2_NORTH, R2_WEST
     ring2[z0:z0 + R2_INNER, x0:x0 + R2_INNER] = h_full[::R2_STEP, ::R2_STEP]
     r2_min, r2_max = float(ring2.min()), float(ring2.max())

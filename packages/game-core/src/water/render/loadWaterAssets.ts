@@ -107,7 +107,7 @@ interface ApronTile {
  * manifest or its tile cannot be read. Never throws: the sea must still draw
  * on a build without the apron (the ladder hides it, or an older publish). */
 async function loadApron(manifestUrl: string, base: string, klass: Uint8ClampedArray, klassSize: number,
-  classes: readonly string[]): Promise<WaterAssets["apron"]> {
+  classes: readonly string[], atlasRow0: number): Promise<{ apron: NonNullable<WaterAssets["apron"]>; img: ImageData } | undefined> {
   try {
     const res = await fetch(manifestUrl);
     if (!res.ok) return undefined;
@@ -131,12 +131,12 @@ async function loadApron(manifestUrl: string, base: string, klass: Uint8ClampedA
       if (klass[i * 4] === coast) { turb.push(klass[i * 4 + 1]); sal.push(klass[i * 4 + 2]); }
     }
     const median = (v: number[]) => (v.length ? v.sort((a, b) => a - b)[v.length >> 1] / 255 : 0);
-    return {
+    return { img, apron: {
       ground: { heights, nx, ny, originM: tile.originM, metresPerSample: tile.metresPerSample },
-      tex: dataTexture(img, THREE.NearestFilter),
+      atlasRow0,
       minM: tile.minM, maxM: tile.maxM,
       coastClassIndex: coast, coastTurbidity: median(turb), coastSalinity: sal.length ? median(sal) : 1,
-    };
+    } };
   } catch {
     void base;
     return undefined;
@@ -177,10 +177,27 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     idImg ? decodeWaterIds(meta.surface.size, idImg.data) : undefined,
   );
 
-  const apron = options.apronManifestUrl
-    ? await loadApron(options.apronManifestUrl, base, new Uint8ClampedArray(klassImg.data), meta.klass.size, meta.klass.classes)
+  const loaded = options.apronManifestUrl
+    ? await loadApron(options.apronManifestUrl, base, new Uint8ClampedArray(klassImg.data), meta.klass.size,
+      meta.klass.classes, meta.surface.size)
     : undefined;
+  const apron = loaded?.apron;
   data.attachApron(apron?.ground ?? null);
+  // The apron tile rides below the province's rows in the surface texture:
+  // the water shader is at the GPU's 16-sampler limit in the flyover, so the
+  // beyond-border ground cannot be a texture of its own. Every province read
+  // clamps to `uSurfSize`, so the extra rows are only reached by esApronTexel.
+  const surfaceAtlas = loaded
+    ? (() => {
+      const w = meta.surface.size, h = meta.surface.size + loaded.img.height;
+      const buf = new Uint8ClampedArray(w * h * 4);
+      buf.set(surfImg.data.subarray(0, w * meta.surface.size * 4));
+      for (let row = 0; row < loaded.img.height; row++) {
+        buf.set(loaded.img.data.subarray(row * loaded.img.width * 4, (row + 1) * loaded.img.width * 4), (meta.surface.size + row) * w * 4);
+      }
+      return new ImageData(buf, w, h);
+    })()
+    : surfImg;
 
   const basin = (floodStates?.basins?.[0] ?? {}) as {
     tidalAmplitudeM?: number;
@@ -201,7 +218,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     data,
     world,
     meta,
-    surfaceTex: dataTexture(surfImg, THREE.NearestFilter),
+    surfaceTex: dataTexture(surfaceAtlas, THREE.NearestFilter),
     flowTex: dataTexture(flowImg, THREE.LinearFilter),
     klassTex: dataTexture(klassImg, THREE.LinearFilter),
     shoreTex: dataTexture(shoreImg, THREE.LinearFilter),

@@ -163,29 +163,30 @@ def test_ring1_outer_edge_lies_on_the_line_between_ring2_samples(manifest):
                             f"ring 2's inner-edge samples (tolerance {tol:.4f} m)")
 
 
-# (3) h_apron: the edge at d = 0, the crop at d >= 6 km ----------------------------
+# (3) h_apron: the edge at d = 0, the crop beyond BLEND_M ----------------------------
 
 def test_h_apron_is_the_edge_at_zero_and_the_crop_beyond_six_km(inputs):
     heights, near = inputs
     n, pad, last = apron.N, apron.NEAR_PAD, apron.LAST
+    deltas = apron.edge_deltas(heights, near)
     cols = np.arange(n, dtype=np.float64)
     for side, rows, canon, want in (
         ("north", np.zeros(n), near[pad, pad:pad + n], heights[0, :]),
         ("south", np.full(n, float(last)), near[pad + last, pad:pad + n], heights[-1, :]),
     ):
-        got = apron.apron_height(canon, rows, cols, heights, near)
+        got = apron.apron_height(canon, rows, cols, deltas)
         assert np.array_equal(got, want), f"h_apron on the {side} edge is not DEFAULT_HEIGHTS"
     for side, rows, want in (("west", cols, heights[:, 0]), ("east", cols, heights[:, -1])):
         c = np.zeros(n) if side == "west" else np.full(n, float(last))
         canon = near[pad:pad + n, pad] if side == "west" else near[pad:pad + n, pad + last]
-        got = apron.apron_height(canon, rows, c, heights, near)
+        got = apron.apron_height(canon, rows, c, deltas)
         assert np.array_equal(got, want), f"h_apron on the {side} edge is not DEFAULT_HEIGHTS"
-    far_rows = np.full(n, -apron.BLEND_M / apron.RAW_M - 1.0)     # just past 6 km north
+    far_rows = np.full(n, -apron.BLEND_M / apron.RAW_M - 1.0)     # just past BLEND_M north
     canon = np.linspace(-200.0, 300.0, n, dtype=np.float32)
-    got = apron.apron_height(canon, far_rows, cols, heights, near)
-    assert np.array_equal(got, canon), "h_apron beyond 6 km is not the crop"
-    mid = apron.apron_height(canon, far_rows / 2.0, cols, heights, near)
-    assert not np.array_equal(mid, canon), "h_apron at 3 km should still carry some delta"
+    got = apron.apron_height(canon, far_rows, cols, deltas)
+    assert np.array_equal(got, canon), "h_apron beyond BLEND_M is not the crop"
+    mid = apron.apron_height(canon, far_rows / 2.0, cols, deltas)
+    assert not np.array_equal(mid, canon), "h_apron halfway through the blend should still carry some delta"
 
 
 # (4) the paint at the border is the province's ----------------------------------
@@ -197,9 +198,12 @@ def test_near_control_innermost_apron_ring_is_the_province_edge(manifest):
     step, pad = apron.BAKE_STEP, apron.NEAR_PAD
     i0 = pad // step                    # bake index of province fine sample 0
     i1 = i0 + apron.LAST // step        # bake index of province fine sample 4032
-    fine = np.clip(np.arange(control.shape[0]) * step - pad, 0, apron.LAST)
-    ring = np.concatenate([control[i0 - 1, :, :2], control[i1 + 1, :, :2],
-                           control[:, i0 - 1, :2], control[:, i1 + 1, :2]])
+    # Only the span of the border itself: past the corners the apron texels
+    # are beyond PAINT_BLEND_M from the square and carry the map's own paint.
+    span = slice(i0, i1 + 1)
+    fine = np.arange(i0, i1 + 1) * step - pad
+    ring = np.concatenate([control[i0 - 1, span, :2], control[i1 + 1, span, :2],
+                           control[span, i0 - 1, :2], control[span, i1 + 1, :2]])
     edge = np.concatenate([prov[0, fine, :2], prov[-1, fine, :2], prov[fine, 0, :2], prov[fine, -1, :2]])
     agree = float(np.all(ring == edge, axis=-1).mean())
     assert agree >= 0.95, f"innermost apron paint ring matches the province edge ids on {agree:.1%} of texels (need >= 95 %)"
