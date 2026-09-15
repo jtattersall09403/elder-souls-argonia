@@ -13,6 +13,7 @@ from . import blueprint as blueprint_schema
 from . import place_obligations
 from . import terrain_requests
 from .site_fields import ProvinceSurvey
+from .ladder import requires_delivered
 
 FIXTURE = Path(__file__).parent / "testdata" / "place.fixture.mire-landing.json"
 
@@ -126,12 +127,17 @@ def _underdeclared(bp):
     return bad
 
 
+# compile_settlement.py still reads the survey's deleted Phase 3 `flood` field
+# (record-reads-allowlist.json: ported by 16h); until then these tests would
+# execute a consumer of a field 16d removed (decision 0066).
+@requires_delivered("16h")
 def test_ground_fit_ladder_rejects_underdeclared_fits(survey, shelf):
     result = cs.compile_blueprint(_underdeclared(_blueprint()), survey, shelf)
     assert any("exceeds groundFit 'direct'" in e for e in result["errors"])
     assert any("unreachable" in e for e in result["errors"])
 
 
+@requires_delivered("16h")
 def test_corrected_blueprint_compiles_clean(compile_survey, shelf):
     result = cs.compile_blueprint(_corrected(_blueprint()), compile_survey, shelf)
     assert result["errors"] == []
@@ -159,6 +165,7 @@ def test_corrected_blueprint_compiles_clean(compile_survey, shelf):
     assert compiled["fence.mire-landing.yard"]["placementIds"]
 
 
+@requires_delivered("16h")
 def test_deterministic(survey, shelf):
     a = cs.compile_blueprint(_corrected(_blueprint()), survey, shelf)
     b = cs.compile_blueprint(_corrected(_blueprint()), survey, shelf)
@@ -169,6 +176,7 @@ def test_deterministic(survey, shelf):
     assert cs.blueprint_sha256(changed) != a["sourceBlueprintSha256"]
 
 
+@requires_delivered("16h")
 def test_landmark_carries_its_authored_ground_fit(compile_survey, shelf):
     bp = _corrected(_blueprint())
     bp["landmarks"][0]["groundFit"] = "dug-in"
@@ -313,6 +321,7 @@ def test_asset_bearing_object_is_not_compiled_without_a_physical_placement(key, 
     assert any("no matching physical placement" in error for error in errors)
 
 
+@requires_delivered("16h")
 def test_dock_without_a_built_asset_cannot_emit_a_placeholder(compile_survey, shelf):
     bp = _corrected(_blueprint())
     bp["docks"] = [{
@@ -325,6 +334,7 @@ def test_dock_without_a_built_asset_cannot_emit_a_placeholder(compile_survey, sh
     assert any("physical dock assetRef" in error for error in result["errors"])
 
 
+@requires_delivered("16h")
 def test_budget_enforced(survey, shelf):
     bp = _corrected(_blueprint())
     bp["budget"]["maxInstances"] = 0
@@ -333,6 +343,7 @@ def test_budget_enforced(survey, shelf):
     assert any("budget exceeded" in e for e in result["errors"])
 
 
+@requires_delivered("16h")
 def test_pad_grades_emitted_only_for_pad(survey, shelf):
     bp = _corrected(_blueprint())
     result = cs.compile_blueprint(bp, survey, shelf)
@@ -340,6 +351,7 @@ def test_pad_grades_emitted_only_for_pad(survey, shelf):
     assert result["clearance"]["affectedChunks"]  # clearing touches chunks
 
 
+@requires_delivered("16h")
 def test_pad_grade_carries_the_authored_tilt_axis(compile_survey, shelf):
     bp = _corrected(_blueprint())
     parcel = bp["parcels"][0]
@@ -350,6 +362,7 @@ def test_pad_grade_carries_the_authored_tilt_axis(compile_survey, shelf):
     assert grade["tiltBearingDeg"] == parcel["yawDeg"]
 
 
+@requires_delivered("16h")
 def test_physical_dock_asset_ref_becomes_runtime_geometry(compile_survey, shelf):
     bp = _corrected(_blueprint())
     dock = bp["docks"][0]

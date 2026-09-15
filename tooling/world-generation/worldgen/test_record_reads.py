@@ -10,14 +10,17 @@ failing build:
 
 * a module below the gate that opens a pre-graph classification or decodes a
   water raster directly, or reads the survey's classification fields
-  (`flood`, `tidal`, `salinity`, `floodBand`), FAILS unless it is listed in
+  (`flood`, `tidal`, `salinity`, `wetlands`, `lakes`, `river_band`, or the
+  `floodBand` / `riverBand` / `onLake` / `wetland` sample keys — all deleted
+  in 16d), FAILS unless it is listed in
   `record-reads-allowlist.json` with the chunk that ports it;
 * an allowlisted module that no longer has any such read FAILS too — the row
   is stale and must be deleted (the known-red pattern), so the allowlist can
   only shrink;
-* the record reader itself (`site_fields.ProvinceSurvey`, once 16d gives it
-  graph-keyed accessors) and the stages above the gate and the water compile,
-  which realise the graph by design, are exempt by name below.
+* the record reader itself (`site_fields.ProvinceSurvey.water_at / reach /
+  body`, delegating to `water_report.ShippedWater`), the stages above the
+  gate and the water compile, which realise the graph by design, are exempt
+  by name below.
 
 Ported modules read water through the record reader only: body or reach id,
 kind, level, season from `hydrology-graph.json` / `water-meta.json`, depth
@@ -42,6 +45,10 @@ EXEMPT = {
     "author_terrain_patches", "chain_stages", "ladder", "site_fields", "npz_io",
     "regions", "reclassify_regions", "report_regions", "terrain_preconditions",
     "water_correction_patches", "water_report",
+    # samples compile_water's own `water-pass1.npz` for a MEASUREMENT of the
+    # ground it just built (0066 permits sampling a compiled raster for a
+    # measurement; every class it reports comes from the graph by id)
+    "terrain_request_postconditions",
 }
 
 # What a re-derivation looks like in source. Kept deliberately literal.
@@ -51,8 +58,11 @@ PATTERNS = [
     re.compile(r"hydro-flood\.png"),
     re.compile(r"hydro-salinity\.png"),
     re.compile(r"water-(surface|class|depth|shore)\.png"),
-    re.compile(r"\.(flood|tidal|salinity|water_salinity)\b(?!\s*=\s*)"),
-    re.compile(r"\[\s*[\"'](floodBand|tidal|salinity|waterSalinity)[\"']\s*\]"),
+    # `water_salinity` / `waterSalinity` are NOT here: they are the compiled
+    # class raster's B channel (site_fields.py, the compiled side), a
+    # realisation of the graph, not a pre-graph classification.
+    re.compile(r"\.(flood|tidal|salinity|wetlands|lakes|river_band)\b(?!\s*=\s*)"),
+    re.compile(r"\[\s*[\"'](floodBand|tidal|salinity|riverBand|onLake|wetland)[\"']\s*\]"),
 ]
 
 

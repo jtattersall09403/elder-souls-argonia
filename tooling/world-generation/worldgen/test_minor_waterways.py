@@ -9,6 +9,7 @@ import numpy as np
 import pytest
 
 from . import catalogue, compile_minor_waterways as mw, known_red
+from .ladder import requires_delivered
 
 
 class _TargetSurvey:
@@ -231,6 +232,9 @@ def test_boat_stations_are_channelled_or_explained():
     assert served == expected
 
 
+# compile_minor_waterways.run() still reads the deleted `lakes` / `river_band` /
+# `tidal` / `wetlands` fields (allowlist: ported by 16e).
+@requires_delivered("16e")
 def test_recompile_is_deterministic_and_shares_one_step_graph_per_run(monkeypatch):
     real = mw.StepGraph
     builds = 0

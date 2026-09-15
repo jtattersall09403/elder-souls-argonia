@@ -11,6 +11,7 @@ import pytest
 
 from . import site_dossier, terrain_scour
 from .site_fields import ProvinceSurvey
+from .ladder import requires_delivered
 
 ID_SHAPE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*){2,}$")
 
@@ -42,13 +43,93 @@ def test_area_report_partitions_the_province(survey):
 
 def test_decoded_fields_have_plausible_ranges(survey):
     assert survey.danger.max() <= 5 and survey.danger.max() >= 4
-    assert set(np.unique(survey.flood)) <= {0, 1, 2, 3}
-    assert 0.0 <= survey.salinity.min() and survey.salinity.max() <= 1.0
     assert survey.region_grid.max() <= 14
+    assert 0.0 <= survey.marsh_grid.min() and survey.marsh_grid.max() <= 1.0
     # every published raster decodes onto the same analysis grid
-    for a in (survey.danger, survey.culture, survey.flood, survey.soil,
-              survey.salinity, survey.humidity, survey.height_grid):
+    for a in (survey.danger, survey.culture, survey.soil, survey.humidity,
+              survey.height_grid, survey.marsh_grid):
         assert a.shape == (survey.grid_n, survey.grid_n)
+    # the pre-graph classifications are gone, not shimmed (16d, decision 0066)
+    for gone in ("flood", "tidal", "salinity", "wetlands", "lakes", "river_band"):
+        assert not hasattr(survey, gone), gone
+
+
+# --- the record reader (decision 0066; 16d part A) -------------------------
+
+MARSH_KINDS = {"marsh-fringe", "marsh-deep", "swamp", "backswamp"}
+
+
+def _first_texel_of_kind(survey, predicate):
+    """World (x, z) of the first compiled entity texel whose kind satisfies
+    `predicate`, walking the surface grid coarsely so the search is cheap."""
+    w = survey.water
+    for i, e in enumerate(w.entities, 1):
+        if not predicate(e["kind"]):
+            continue
+        rows, cols = np.nonzero(w.ids[::4, ::4] == i)
+        if rows.size:
+            return (float(cols[0] * 4 + 0.5) * w.mpp2, float(rows[0] * 4 + 0.5) * w.mpp2)
+    raise AssertionError("no compiled texel of that kind")
+
+
+def test_water_at_returns_the_graphs_kind_at_a_body_and_a_reach(survey):
+    graph = survey.water._graph_index
+    reach_kinds = {r["kind"] for r in graph[0].values()}
+    body_kinds = {b["kind"] for b in graph[1].values()}
+    x, z = _first_texel_of_kind(survey, lambda k: k in body_kinds)
+    rec = survey.water_at(x, z)
+    assert rec is not None and rec["kind"] == survey.body(rec["id"])["kind"]
+    assert rec["kind"] in body_kinds and rec["depthM"] > 0.0
+    x, z = _first_texel_of_kind(survey, lambda k: k in reach_kinds)
+    rec = survey.water_at(x, z)
+    assert rec is not None and rec["kind"] == survey.reach(rec["id"])["kind"]
+    assert rec["kind"] in reach_kinds and "levelM" in rec and "season" in rec
+    assert rec["depthM"] > 0.0 and rec["designDepthM"] > 0.0
+
+
+def test_water_at_is_none_on_dry_ground(survey):
+    # a montane summit: the scour's summits are dry by definition
+    w = survey.water
+    rows, cols = np.nonzero(w.ids[::8, ::8] == 0)
+    x, z = float(cols[0] * 8 + 0.5) * w.mpp2, float(rows[0] * 8 + 0.5) * w.mpp2
+    assert survey.water_at(x, z) is None
+    s = survey.sample(x, z)
+    assert s["hydrology"]["record"] == {"id": None, "kind": None, "levelM": None,
+                                        "season": None, "depthM": None}
+
+
+def test_every_compiled_entity_resolves_in_the_graph_and_the_graph_is_larger(survey):
+    w = survey.water
+    reaches, bodies = w._graph_index
+    graph_ids = set(reaches) | set(bodies)
+    compiled_ids = {e["id"] for e in w.entities}
+    assert compiled_ids <= graph_ids, sorted(compiled_ids - graph_ids)[:5]
+    # membership the other way: records the compile realised nowhere are
+    # still answered by reach()/body(), with the fields the graph has
+    unrealised = sorted(graph_ids - compiled_ids)
+    assert unrealised, "the graph has records the compile does not realise"
+    for gid in unrealised:
+        rec = w.reach(gid) or w.body(gid)
+        assert rec is not None and rec["id"] == gid and "kind" in rec
+    # and every kind the compile ships is the graph's own vocabulary
+    for e in w.entities:
+        assert e["kind"] == (w.reach(e["id"]) or w.body(e["id"]))["kind"]
+
+
+def test_sample_record_block_is_the_reader(survey):
+    x, z = survey.anchor_points_m["lilmoth"]
+    h = survey.sample(x, z)["hydrology"]
+    assert set(h["record"]) == {"id", "kind", "levelM", "season", "depthM"}
+    for gone in ("riverBand", "onLake", "wetland", "tidal", "floodBand", "salinity"):
+        assert gone not in h, gone
+    rec = survey.water_at(x, z)
+    assert h["record"]["id"] == (rec["id"] if rec else None)
+
+
+def test_marsh_grid_is_the_graphs_marsh_kinds(survey):
+    w = survey.water
+    lut = np.array([False] + [e["kind"] in MARSH_KINDS for e in w.entities])
+    assert int(lut[w.ids].sum()) == int(w.kind_grid(MARSH_KINDS).sum()) > 0
 
 
 def test_sample_is_self_consistent(survey):
@@ -66,6 +147,9 @@ def test_line_of_sight_is_reciprocal(survey):
     assert survey.line_of_sight(*a, *b) == survey.line_of_sight(*b, *a)
 
 
+# site_dossier.py and terrain_scour.py still read the deleted `river_band` /
+# `wetlands` / `flood` fields (allowlist: ported by 16g).
+@requires_delivered("16g")
 def test_dossier_has_every_section_and_is_deterministic(survey):
     x, z = survey.anchor_points_m["stormhold"]
     first = site_dossier.build_dossier(survey, "stormhold", x, z, 300.0, 4000.0, 0)
@@ -91,6 +175,7 @@ def test_harvest_respects_spacing_and_cap():
             assert (r1 - r2) ** 2 + (c1 - c2) ** 2 >= (50.0 / 5.0) ** 2
 
 
+@requires_delivered("16g")
 def test_scour_is_deterministic_and_ids_are_well_formed(survey):
     classes = ["summit", "cove"]
     a = terrain_scour.sweep(survey, classes, seed=1109, do_viewshed=False)
@@ -104,6 +189,7 @@ def test_scour_is_deterministic_and_ids_are_well_formed(survey):
         assert site_id.startswith("site.scour.")
 
 
+@requires_delivered("16g")
 def test_scour_sites_sit_where_their_landform_should(survey):
     result = terrain_scour.sweep(survey, ["summit", "cove"], 1109, False)
     summits = [s for s in result["sites"] if s["landform"] == "summit"]

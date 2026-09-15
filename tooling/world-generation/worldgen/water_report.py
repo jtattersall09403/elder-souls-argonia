@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import sys
+from functools import cached_property
 from pathlib import Path
 
 import numpy as np
@@ -21,18 +22,23 @@ from PIL import Image
 from scipy import ndimage
 
 from .compile_chunks import DEFAULT_HEIGHTS
-from .compile_water import WEB_STEP, decode_ids, decode_surface, export_index
+from .compile_water import GRAPH_PATH, WEB_STEP, decode_ids, decode_surface, export_index
 from .scale import RAW_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 WATER_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water"
 CLASS_NAMES = ("none", "coast", "estuary", "river", "lake", "marsh")
+# The graph's body kinds that are marsh: shallow standing water that is waded,
+# poled and built on (`hydrology-graph.json` vocabulary.bodyKinds).
+MARSH_KINDS = frozenset({"marsh-fringe", "marsh-deep", "swamp", "backswamp"})
 
 
 class ShippedWater:
     """The compiled water as it ships, on its own grids."""
 
-    def __init__(self, water_dir: Path = WATER_DIR, heights: Path = DEFAULT_HEIGHTS):
+    def __init__(self, water_dir: Path = WATER_DIR, heights: Path = DEFAULT_HEIGHTS,
+                 graph_path: Path = GRAPH_PATH):
+        self.graph_path = Path(graph_path)
         self.meta = json.loads((water_dir / "water-meta.json").read_text())
         rgb = np.asarray(Image.open(water_dir / self.meta["surface"]["file"]).convert("RGB"))
         self.w2, self.depth2 = decode_surface(rgb, self.meta)
@@ -147,6 +153,72 @@ class ShippedWater:
             return None
         label = int(self._tex(self.ids, x_m, z_m, self.mpp2))
         return self.entities[label - 1] if label > 0 else None
+
+    # --- the record (decision 0066) --------------------------------------
+    #
+    # Kinds, ids, levels and seasons come from the signed-off graph; the
+    # compiled rasters realise it. A downstream stage asks `water_at` and
+    # reads the record's fields; it never decides "river", "lake" or "marsh"
+    # from a raster of its own.
+
+    @cached_property
+    def _graph_index(self) -> tuple[dict[str, dict], dict[str, dict]]:
+        """(reaches by id, bodies by id) from the hydrology graph, loaded on
+        first use so a caller that only wants depths never pays for it."""
+        graph = json.loads(self.graph_path.read_text(encoding="utf-8"))
+        return ({r["id"]: r for r in graph["reaches"]},
+                {b["id"]: b for b in graph["bodies"]})
+
+    def reach(self, entity_id: str) -> dict | None:
+        """The graph's reach record for an id, or None."""
+        return self._graph_index[0].get(entity_id)
+
+    def body(self, entity_id: str) -> dict | None:
+        """The graph's body record for an id, or None."""
+        return self._graph_index[1].get(entity_id)
+
+    def record(self, entity_id: str) -> dict | None:
+        """Reach or body record for an id, whichever the graph holds."""
+        rec = self.reach(entity_id)
+        return rec if rec is not None else self.body(entity_id)
+
+    def water_at(self, east_m: float, south_m: float) -> dict | None:
+        """The water record at a world point: the compiled entity merged with
+        its graph record, plus the measured `depthM` at the texel.
+
+        Graph fields win on conflict; the compiled `levelM` survives as
+        `compiledLevelM` only where it differs from the graph's by more than
+        1 cm. An id present in one set and not the other is returned with the
+        fields it has. Two arguments only: the compiled level IS the
+        wet-season line (16c) and the record's own `season` field says how
+        it behaves; there is no season to choose here. None on dry ground or
+        when the bundle ships no entity raster.
+        """
+        compiled = self.entity_at(east_m, south_m)
+        if compiled is None:
+            return None
+        graph = self.record(compiled["id"]) or {}
+        out = {**compiled, **graph}
+        if "levelM" in graph and "levelM" in compiled \
+                and abs(float(graph["levelM"]) - float(compiled["levelM"])) > 0.01:
+            out["compiledLevelM"] = compiled["levelM"]
+        # A reach record carries the channel's designed `depthM`; the measured
+        # depth at this texel takes the name, the design depth keeps its value.
+        if "depthM" in graph:
+            out["designDepthM"] = graph["depthM"]
+        out["depthM"] = float(self._tex(self.signed_depth_m("wet"), east_m, south_m, self.mpp2))
+        return out
+
+    def kind_grid(self, kinds) -> np.ndarray | None:
+        """Boolean surface-grid mask of the texels whose entity kind is in
+        `kinds`, read through the id raster; None without one."""
+        if self.ids is None:
+            return None
+        wanted = frozenset(kinds)
+        lut = np.zeros(len(self.entities) + 1, dtype=bool)
+        for i, e in enumerate(self.entities, 1):
+            lut[i] = e.get("kind") in wanted
+        return lut[self.ids]
 
     def disc(self, x: float, z: float, radius_m: float):
         """(slice, mask) over the surface grid within `radius_m` of a point."""

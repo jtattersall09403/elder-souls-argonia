@@ -144,23 +144,13 @@ class ProvinceSurvey:
         self.grid_n = int(self.hydro_meta["imageWidth"])           # 1345
 
         # -- hydrology stack (1345) ---------------------------------------
-        self.flood = _classify(_rgba(province / "hydro-flood.png"),
-                               {1: (120, 170, 220), 2: (80, 140, 220), 3: (50, 100, 210)})
+        # Water kinds, ids, levels and seasons are NOT decoded here: they are
+        # read from the signed-off graph through `water_at` / `reach` / `body`
+        # (decision 0066). The pre-graph Phase 3 flood / wetlands / tidal /
+        # salinity / lakes / river-band masks were deleted in 16d.
         self.soil = _classify(_rgba(province / "hydro-soil.png"),
                               {1: (135, 135, 145), 2: (165, 150, 105), 3: (95, 140, 85),
                                4: (80, 60, 40), 5: (150, 110, 70)})
-        rivers = _rgba(province / "hydro-rivers.png")
-        self.river_band = _classify(rivers, {1: (95, 172, 235), 2: (70, 150, 230),
-                                             3: (45, 115, 225)})
-        self.lakes = np.all(rivers[..., :3] == np.array((60, 130, 215), np.uint8), axis=-1) \
-            & (rivers[..., 3] > 0)
-        wet = _rgba(province / "hydro-wetlands.png")
-        self.wetlands = np.all(wet[..., :3] == np.array((60, 200, 140), np.uint8), axis=-1)
-        self.tidal = np.all(wet[..., :3] == np.array((170, 205, 130), np.uint8), axis=-1)
-        # salinity writer: R = 40 + 180 s, only where s > 0.02
-        sal = _rgba(province / "hydro-salinity.png").astype(np.float32)
-        self.salinity = np.where(sal[..., 3] > 0,
-                                 np.clip((sal[..., 0] - 40.0) / 180.0, 0, 1), 0.0).astype(np.float32)
 
         # -- society stack (1345) -----------------------------------------
         self.danger = _classify(_rgba(province / "soc-danger.png"),
@@ -403,6 +393,31 @@ class ProvinceSurvey:
                 * self.grid_px_m).astype(np.float32)
 
     @cached_property
+    def marsh_grid(self) -> np.ndarray:
+        """Fraction (0..1) of each analysis cell whose water entity is one of
+        the graph's marsh body kinds (`water_report.MARSH_KINDS`), read through
+        the entity raster and resampled from the surface grid."""
+        from .water_report import MARSH_KINDS
+        grid = self.water.kind_grid(MARSH_KINDS)
+        if grid is None:
+            return np.zeros((self.grid_n, self.grid_n), np.float32)
+        return _resample(grid.astype(np.float32), self.grid_n)
+
+    # ------------------------------------------------------------------ #
+    # the record (decision 0066): kinds, ids, levels, seasons by graph id
+    # ------------------------------------------------------------------ #
+    def water_at(self, east_m: float, south_m: float) -> dict | None:
+        """The water record under a point: compiled entity merged with its
+        graph record, plus the measured depth; None on dry ground."""
+        return self.water.water_at(east_m, south_m)
+
+    def reach(self, entity_id: str) -> dict | None:
+        return self.water.reach(entity_id)
+
+    def body(self, entity_id: str) -> dict | None:
+        return self.water.body(entity_id)
+
+    @cached_property
     def anchor_points_m(self) -> dict[str, tuple[float, float]]:
         return {a["id"]: self.uv_to_m(a["u"], a["v"]) for a in self.anchors["anchors"]}
 
@@ -424,7 +439,9 @@ class ProvinceSurvey:
         ocean = deep & (reg == OCEAN_REGION)
         lake = deep & (reg == 12)
         river_open = deep & (~ocean) & (~lake)
-        marsh_shallow = (~deep) & (self.wetlands | (reg == 14))
+        # Marsh is what the graph calls marsh (its marsh body kinds, read by id
+        # through the entity raster), not a region-raster class of our own.
+        marsh_shallow = (~deep) & (self.marsh_grid > 0.5)
         authored = self.land
         intent_only = self.water_intent & ~deep
         return {
@@ -684,6 +701,12 @@ class ProvinceSurvey:
         wrow, wcol = self._px(x, z, self.height_px_m, self.water_level_m.shape[0])
         region = int(self.region_grid[row, col])
         culture = int(self.culture[row, col])
+        # the graph's record under the point (0066): id, kind, level, season,
+        # measured depth; a null id on dry ground
+        rec = self.water_at(x, z) or {}
+        record = {"id": rec.get("id"), "kind": rec.get("kind"),
+                  "levelM": rec.get("levelM"), "season": rec.get("season"),
+                  "depthM": round(float(rec["depthM"]), 2) if "depthM" in rec else None}
         return {
             "worldM": [round(x, 1), round(z, 1)],
             "uv": [round(x / self.extent_m, 5), round(z / self.extent_m, 5)],
@@ -703,15 +726,10 @@ class ProvinceSurvey:
                     float(self.fields.height_m[hrow, hcol] - self.water_level_m[wrow, wcol]), 2),
                 "shoreDistanceM": round(float(self.fields.shore_m[hrow, hcol]), 1),
                 "coastDistanceM": round(float(self.fields.coast_m[row, col]), 1),
-                "riverBand": int(self.river_band[row, col]),
-                "onLake": bool(self.lakes[row, col]),
-                "wetland": bool(self.wetlands[row, col]),
-                "tidal": bool(self.tidal[row, col]),
-                "floodBand": int(self.flood[row, col]),
+                "record": record,
                 "wetSeasonInundated": bool(
                     self.wet_season[self._px(x, z, self.extent_m / self.wet_season.shape[0],
                                              self.wet_season.shape[0])]),
-                "salinity": round(float(self.salinity[row, col]), 3),
                 "waterSalinity": round(float(self.water_salinity[row, col]), 3),
                 "turbidity": round(float(self.water_turbidity[row, col]), 3),
                 "tannin": round(float(self.water_tannin[row, col]), 3),

@@ -42,10 +42,6 @@
    "portedBy": "16g",
    "why": "flood = s.flood[sl][mask]"
   },
-  "terrain_request_postconditions": {
-   "portedBy": "16d",
-   "why": "water_default = vault.parent / \"water-pass1.npz\""
-  },
   "terrain_scour": {
    "portedBy": "16g",
    "why": "wet=(s.wetlands | (s.flood >= 2)"
