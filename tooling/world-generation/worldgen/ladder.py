@@ -52,21 +52,29 @@ def requires_layer(layer: str):
                f"ground (province/ladder.json: through {doc.get('through') if doc else '?'})")
 
 
-LADDER_ORDER = ("16b", "16c", "16d", "16e", "16f", "16g", "16h")
+# The ONE declaration of the chunk order; scripts/terrain-chain.sh reads it.
+LADDER_ORDER = ("16b", "16c", "16d", "16e", "16f", "16g", "16h", "16i", "16j")
 
 
 def chunk_delivered(chunk: str) -> bool:
-    """Has the ladder been built through `chunk` (or `full`)?"""
+    """Has the ladder been built through `chunk` (or `full`)?
+
+    Raises on a chunk id outside LADDER_ORDER, whether it is the decorator's
+    argument (a programming error) or `through` from a hand-edited
+    `ladder.json` (a collection error is the right outcome: a gate that
+    answered True for an unknown chunk would run tests against a world nobody
+    built)."""
+    if chunk not in LADDER_ORDER:
+        raise ValueError(f"unknown chunk {chunk!r}; ladder is {LADDER_ORDER}")
     doc = load()
     if not doc:
         return True
     through = doc.get("through")
     if through == "full":
         return True
-    try:
-        return LADDER_ORDER.index(str(through)) >= LADDER_ORDER.index(chunk)
-    except ValueError:
-        return True
+    if through not in LADDER_ORDER:
+        raise ValueError(f"province/ladder.json says through={through!r}, not a chunk in {LADDER_ORDER}")
+    return LADDER_ORDER.index(through) >= LADDER_ORDER.index(chunk)
 
 
 def requires_delivered(chunk: str):

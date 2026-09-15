@@ -194,8 +194,21 @@ declare -A LADDER=(
   [16f]="compile_scatter"
   # 16h: pads as patches, the settlement compile and publish.
   [16h]=""
+  # 16g: the plot re-solve; 16i: exemplars; 16j: the trial packet (stage names
+  # are written by the chunk that delivers them).
+  [16g]=""
+  [16i]=""
+  [16j]=""
 )
-LADDER_ORDER=(16b 16c 16d 16e 16f 16h)
+# The chunk ORDER has one home, worldgen/ladder.py (the tests skip by it too);
+# bash reads it so the two can never disagree (16d, decision 0067).
+LADDER_ORDER=($(PYTHONPATH="$REPO_ROOT/tooling/world-generation" python3 -c 'from worldgen.ladder import LADDER_ORDER; print(*LADDER_ORDER)'))
+for chunk in "${LADDER_ORDER[@]}"; do
+  [[ -v "LADDER[$chunk]" ]] || { echo "ladder.py names chunk $chunk but LADDER has no row for it" >&2; exit 2; }
+done
+for chunk in "${!LADDER[@]}"; do
+  printf '%s\n' "${LADDER_ORDER[@]}" | grep -qx "$chunk" || { echo "LADDER row $chunk is not in ladder.py's LADDER_ORDER" >&2; exit 2; }
+done
 # The studio layer each stage produces. A skipped stage's layer is HIDDEN by
 # the studio (it reads province/ladder.json, written at the end of every run):
 # a layer is shown only if it was rebuilt on the current ground.
