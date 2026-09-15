@@ -165,6 +165,10 @@ STAGES=(
   "reroute_lanes"
   "terrain_request_postconditions"
   "rebake_landcover"
+  # The beyond-border apron (16d) reads the province's border chunks and the
+  # land-cover bake it just wrote, and runs in seconds: the 670 MB heightmap
+  # decode lives in `extract_apron_source` (run once by hand, never here).
+  "build_border_apron"
   # The settlement ground paint sits BETWEEN the land-cover bake and the
   # scatter, and it has to: `rebake_landcover` rewrites `ground-control.png`
   # from scratch, `compile_scatter` reads it and the settlement clearance.
@@ -175,7 +179,7 @@ STAGES=(
   "compile_scatter"
 )
 
-DELIVERED_THROUGH="16c"
+DELIVERED_THROUGH="16d"
 declare -A LADDER=(
   # 16b: the frozen base and its patches, the chunks and the land-cover bake
   # (sea-level shorelines only: no water is compiled on this ladder). The
@@ -184,8 +188,9 @@ declare -A LADDER=(
   # 16c (delivered 2026-09-13): the water compiled once from the graph, and
   # the request postconditions that read it.
   [16c]="compile_water terrain_request_postconditions"
-  # 16d: the beyond-border apron (a new stage, added when delivered).
-  [16d]=""
+  # 16d (delivered 2026-09-15): the beyond-border apron, rings 0-2 and their
+  # paint, from the all-Tamriel heightmap crops and the frozen ground.
+  [16d]="build_border_apron"
   # 16e: routes, grading as patches, spans, ferries; patch_water over the
   # grading patches; reroute_lanes on the compiled water (never a second
   # water compile: water is compiled once, 0057 §1).
@@ -217,6 +222,7 @@ declare -A LAYER_OF=(
   [compile_route_structures]="route-structures"
   [compile_scatter]="vegetation"
   [compile_water]="water"
+  [build_border_apron]="apron"
 )
 RAN_STAGES=()
 SKIPPED_STAGES=()

@@ -6,6 +6,7 @@
     "chunks/**/*.png",
     "refined/*.png",
     "water/**/*.png",
-    "vegetation/**"
+    "vegetation/**",
+    "apron/**/*.png"
   ]
 }
