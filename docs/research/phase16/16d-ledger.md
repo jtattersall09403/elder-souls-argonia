@@ -46,7 +46,7 @@ at `levelM` 289.71 while the graph's `wetSeasonLevelM` is 290.2 (backlog).
 
 ## Part C and D
 
-Four cuboid walls outside `[0, 7369.85]²`, −200…1100 m, 50 m thick; the message
+Four cuboid walls outside `[0, 7369.85]²`, from −200 m to 1100 m, 50 m thick; the message
 `text.system.province-edge` reviewed by a separate agent (unchanged). The water
 renderer and its CPU twin draw the sea at y = 0 over the apron's far tile
 beyond the province; the pre-16d edge-texel rule stays for a build without an
