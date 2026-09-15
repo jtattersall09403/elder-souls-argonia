@@ -5,7 +5,9 @@ import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import {
   BOUNDARY_MESSAGE_ID,
   BOUNDARY_MESSAGE_SECONDS,
+  BOUNDARY_NEAR_M,
   boundaryMessageStep,
+  distanceToBoundary,
   type BoundaryMessageState,
 } from "./boundaryMessage";
 
@@ -28,6 +30,9 @@ export function useBoundaryMessage(
     if (step.fire) {
       until.current = BOUNDARY_MESSAGE_SECONDS;
       setMessage(text(CATALOGUE, BOUNDARY_MESSAGE_ID));
+    } else if (distanceToBoundary(x, z, extentM) <= BOUNDARY_NEAR_M && until.current > 0) {
+      // still at the wall: the line stays up (it only counts down once you step back)
+      until.current = BOUNDARY_MESSAGE_SECONDS;
     } else if (until.current > 0) {
       until.current -= delta;
       if (until.current <= 0) setMessage(null);

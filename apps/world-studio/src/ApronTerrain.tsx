@@ -30,6 +30,16 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
     store.register(apron.ring0.chunks, apron.ring0.dir);
   }, [store, apron, manifest]);
   const scale = terrain.verticalScale ?? manifest.verticalScaleAtGeometry;
+  useEffect(() => {
+    // Probe/diagnostics hook (the __GROUND_DEBUG__ pattern): what the apron mount has.
+    const w = window as unknown as { __APRON_DEBUG__?: () => unknown };
+    w.__APRON_DEBUG__ = () => ({
+      manifest: !!apron, ring0Chunks: apron?.ring0.chunks.length ?? 0, tiles: apron?.tiles.length ?? 0,
+      groundMaterial: !!ground, sharedArray: !!(ground?.userData.tex), materials: !!materials,
+      ring0Registered: !!apron && !!store.chunkAt(-1, -1),
+    });
+    return () => { delete w.__APRON_DEBUG__; };
+  }, [apron, ground, materials, store]);
   const nearFrame = apron?.paint.near;
   return (
     <>

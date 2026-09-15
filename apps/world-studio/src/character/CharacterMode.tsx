@@ -510,7 +510,6 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <span title="Solid plants and rocks around you (trunks and boulders are solid; reeds and ferns are not)">
           solid {floraColliderCount}
         </span>
-        {edgeMessage && <span style={{ color: "#ffd9a0" }}>{edgeMessage}</span>}
         {hud && (
           <span style={{ opacity: 0.9 }}>
             {hud.xKm.toFixed(2)} km E · {hud.zKm.toFixed(2)} km S · alt {hud.altM.toFixed(1)} m
@@ -534,6 +533,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           ? "Left stick to move · drag right side to look · buttons to sprint/jump"
           : "Click to capture the mouse (Esc releases) · WASD move · hold Space to sprint · J jumps · gamepad supported"}
       </div>
+      {edgeMessage && (
+        <div role="status" data-edge-message style={{
+          position: "absolute", top: "38%", left: "50%", transform: "translate(-50%, -50%)",
+          background: "rgba(10,14,20,0.8)", padding: "14px 26px", borderRadius: 10,
+          font: "22px system-ui", color: "#ffd9a0", whiteSpace: "nowrap", pointerEvents: "none",
+        }}>
+          {edgeMessage}
+        </div>
+      )}
       {hud && mapCanvas && mapMeta && (
         <Minimap
           mapCanvas={mapCanvas}

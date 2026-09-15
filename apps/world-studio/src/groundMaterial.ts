@@ -336,7 +336,12 @@ vec3 nonPerturbedNormal = normal;`,
   // The aerial term chains after the splat patch (it also declares
   // uClimateAir + vEsWorldPos, which the splat code above uses).
   applyAerialPerspective(material, aerialUniforms);
-  material.customProgramCacheKey = () => `es-ground-${n}-${cliffNrmOk ? 1 : 0}`;
+  // The key must name EVERY option that changes the shader: a material built
+  // without shore wetness given the wet program's texture slots drew nothing
+  // ("two textures of different types use the same sampler location", the
+  // apron's first mount, 16d).
+  material.customProgramCacheKey = () =>
+    `es-ground-${n}-${cliffNrmOk ? 1 : 0}-${options.shoreWetness !== false ? "wet" : "dry"}`;
 
   material.userData.tex = tex;
   material.userData.ownsTex = ownsTex;
