@@ -1,6 +1,6 @@
 # 0061 — The seams after Phase 16: 12 is dungeons only, 15 runs as two passes, Phase 11's leftovers have homes
 
-**Date:** 2026-09-12. **Superseded in part by [0062](0062-dungeons-are-places-interiors-are-a-late-phase.md) (2026-09-13):** decisions 1, 2 and 5 below (Phase 12 "dungeons only", the 15A/15B split, the double density declaration) no longer hold; 3, 4 and 6 stand. **Owner:** accepted the recommendations in full
+**Date:** 2026-09-12. **Superseded in part by [0062](0062-dungeons-are-places-interiors-are-a-late-phase.md) (2026-09-13):** decisions 1, 2 and 5 below (Phase 12 "dungeons only", the 15A/15B split, the double density declaration) no longer hold; 3, 4 and 6 stand. **Addendum 2026-09-15 ([0068](0068-routes-below-the-gate-records-here-realised-in-16h.md)):** decision 4's "root-transit re-authoring in 16e" moved to 16g; 16e records the services. **Owner:** accepted the recommendations in full
 ("happy to go with your recommendations and decisions on everything").
 
 ## Problem

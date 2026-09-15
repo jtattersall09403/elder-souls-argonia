@@ -3,7 +3,7 @@
 **Goal.** Fix the runtime boundary where the well-written placement rules
 were silently discarded: the yaw sign, the bounding-box colliders, the
 anchoring rule, the unshipped pads, the missing mount rule, the compiled
-kinds that place nothing and the navigation that nothing consumes. Then run
+kinds that place nothing and the navigation that nothing consumes - there may be other things as well, investigate. Then run
 the off-world kit QA loop with the owner and package it as a skill.
 
 Needs ruling 12 (the loop and its budget, plan §8).
@@ -105,7 +105,8 @@ than inherit as a guess: deliverable 3.
    in three.js is the compile convention's R(−θ) (audit §5), so
    `finalPlacementTransform` (`anchoring.ts`) and `solidFrom`
    (`SettlementLayer.tsx`) rotate by −yawDeg; plan pivot offsets
-   `originOffsetM[0..1]` applied. Do not read the existing `+yawDeg` as
+   `originOffsetM[0..1]` applied; the `pitchDeg` 16e puts on span placements
+   honoured in the same transform. Do not read the existing `+yawDeg` as
    "already done". Test: LOD0 corners via `Matrix4` equal the export's footprint
    within 0.05 m on every shipped placement.
 2. **Real collision**: `mesh` pieces export convex parts or a trimesh index
@@ -116,7 +117,7 @@ than inherit as a guess: deliverable 3.
 3. **Anchoring by designed ground contact, per asset** (owner 2026-09-14,
    decision 0066): most building exteriors were modelled to sit partly in
    the ground (a door sill half-way up the mesh, a foundation course meant
-   to vanish). Today they are sunk by a per-class table
+   to vanish, various other things). Today they are sunk by a per-class table
    (`placement-policies.json`: direct 0.08 m, dug-in 0.35 m, "reviewed"
    guesses), which is class-4 re-derivation. Replace it: for every kit
    asset, measure how its makers placed it — every reference to the base
@@ -124,8 +125,8 @@ than inherit as a guess: deliverable 3.
    `height_at` (`esp_index`, the method `mine_placement.py` already uses for
    flora) — and record `designedSinkM` (p50, p25, p75, a slope term) on the
    kit manifest with the sample count as evidence. Where an asset has no
-   placements (a mod kit with no worldspace), measure the mesh: the lowest
-   door sill or floor plane relative to the pivot is the ground line, with
+   placements (a mod kit with no worldspace), consider whether a different asset that *does* have placements could be swapped in without sacrificing anytyhing (e.g. one type of local lore-consistent hut or fence piece for another, or similar straight swaps). If you can't safely swap in a different asset, measure the mesh: the lowest
+   door sill, floor plane, bottom step of a staircase (etc - there may be many different potential 'tells' for different asset types - figure this out) relative to the pivot is the ground line, with
    evidence `mesh-sill`. `anchoring.ts` then sinks by the asset's value; the
    class table survives only as a bound (`buryCapM`) and a fallback that
    the export lists as a gap. Stilt measured (exemption removed); route
@@ -137,13 +138,19 @@ than inherit as a guess: deliverable 3.
    `terrain-patches` (16b's stage) instead of writing the heightfield; the
    patches are applied and shipped; the waiver removed. Test: the pad receipt
    test reads the shipped raster.
-5. **Mount rule** (D10): anchor class `ground / wall / ceiling / deck` and a
+5. **Mount rule** (D10): anchor class `ground / wall / ceiling / deck / water` and a
    `parentPlacementId` carried from `placement_metadata.py` to the manifest and
-   the bundle; the layer positions a child from its parent. Test: no asset
-   whose geometry hangs below its pivot is grounded by the ground rule.
+   the bundle; the layer positions a child from its parent. As one small example, we should have no hanging lanterns that aren't in fact hanging off anything. You must also carefully derive (ideally from esm files) exactly how these mounted assets are intended to be mounted: which parent asset carries each one and which specific part or point of that parent takes the attachment; then ensure ours are mounted in the same way. Test: no asset
+   whose geometry hangs below its pivot is grounded by the ground rule. Plus other tests that you design to ensure that what we've described above is made true. `water` is the class for a hull: it sits on the recorded level of the
+   reach or body its berth names (16e's ferry record), sunk by a designed
+   waterline measured the same way as `designedSinkM` (the source plugin's
+   placements over water), never on the ground under the water. Test: every
+   hull's waterline is within 0.1 m of its berth's recorded level.
 6. **Renderable kinds place geometry** (D6): a declared renderable-kind list
    (ways, boardwalks, canals, approaches, docks, doors as threshold pieces
-   where the kit ships one); a hard export error for a renderable kind with
+   where the kit ships one, ferry landings and the hull at each berth from
+   16e's service record, the operator socket as a stand-in marker until an
+   NPC runtime exists, anything else required - find out); a hard export error for a renderable kind with
    no placements; ways painted and, where the culture builds them, laid as
    boardwalk pieces. Test: each renderable kind owns ≥ 1 placement.
 7. **Connectors, fronts and doorways in the bundle** and `check_abuts_snap`
@@ -151,7 +158,7 @@ than inherit as a guess: deliverable 3.
 8. **Navigation** (D6, D8): a real stair or ramp piece placed per deck link
    and referenced by it; the character path given a step height and slope
    limit; the handoff widget reports what is consumed, not a hard-coded
-   "blocked"; the province navmesh remains Phase 10b's and the record says so.
+   "blocked"; the province navmesh remains Phase 10b's and the record says so. Some decks and stilt type assets come with a partial or complete staircase built-in. Some of these reach the ground by sinking stilts into terrain, some may be designed to have extra stairs or ramps or ways attached to their bottom step - figure all of this out.
    Test: collider top within step height of the deck, base within step
    height of the ground.
 9. **Dressing vocabulary** (D11): per-rule draws with a distinct-asset floor;
@@ -188,6 +195,11 @@ than inherit as a guess: deliverable 3.
 - Nine-Trunks `x=4.97&z=3.76`: climb the stair onto a stilt deck.
 - Mazzatun `x=1.99&z=1.34`: are the terraces on the ground, faced the way
   the blueprint view (`?bp=1`) shows, with no piece floating?
+- The route layer drawn for the first time by the corrected runtime (16e's
+  records; the layer was hidden until this chunk): the Nine-Trunks viaduct
+  `x=4.517&z=3.608` and the Xul-Vaat walkway `x=1.203&z=5.730` standing with
+  the deck at road height; the Drowning Gate ferry `x=0.458&z=3.132` with a
+  boat at each landing, sitting on the water.
 - The two contact sheets from the kit loop: right or wrong, one line each.
 
 ## Gotchas

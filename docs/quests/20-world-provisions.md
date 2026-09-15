@@ -210,9 +210,10 @@ extrapolation/quest-plan-deltas.md D8/D16.)
 
 **Root-transit network note.** The four-station rootworm network in the
 compiled data (helstrom, north-shadowfen, naga-deeps, east-estuary) is a
-**Pass-1 placeholder**: it is re-authored with Hist-node placement in chunk 16e,
-and quests and rewards touching root transit are finalized in that packet's
-co-design loop.
+**Pass-1 placeholder**: 16e carries it into the travel-service record as
+`status: placeholder`; it is re-authored with Hist-node placement in chunk 16g
+(decision 0068), and quests and rewards touching root transit are finalized
+in the packet co-design loop (16j, then Phase 15).
 
 ## 13. Quest-ready location packet
 

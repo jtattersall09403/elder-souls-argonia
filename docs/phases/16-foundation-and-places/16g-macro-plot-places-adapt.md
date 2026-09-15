@@ -149,9 +149,17 @@ Needs ruling 11 (the floor).
 4. **The plot re-solve** (`macro_plot --resolve-all` under the seed rule, pins
    kept) — once, on the frozen world; the two backlog-red records
    (dive-shaft, Giovesse lines) resolved by the review, not the solver.
-5. **Minor routes and waterways** re-derived from the new plot (16e's stage,
-   re-run once), the licensed camp track head moved to where the road reaches
-   the camp.
+5. **Minor routes and waterways** solved on the new plot (`compile_minor_routes`
+   and `compile_minor_waterways`, ported by 16e and on this chunk's ladder
+   row; run once). Minor routes get **no grading** (owner 2026-09-15), so
+   the solver carries the same gradient cost as 16e's major router and a
+   track never needs one. The licensed camp track head moved to where the
+   road reaches the camp. Then `travel_services` re-run (16e's stage): minor-station hops
+   follow the new minor waterways; the four rootworm stations 16e carries
+   as `status: placeholder` are re-authored here at the hero Hist nodes this
+   chunk places (the Hist communion slot, buildout register), with the
+   quests 20 root-transit note updated; a service whose station this review
+   moves or cuts is re-derived, never left pointing at old ground.
 6b. **Empty `terrain-request-known-red.json`**: every registered request
    is re-sited, re-typed or dropped; the register dies with its last row.
 6c. **One density vocabulary**: state in world 97 §75 how the catalogue's
@@ -173,8 +181,8 @@ people would name get **names, not just ids** (owner, 2026-09-11), in this
 chunk because it is where the plot and the lore meet:
 
 1. Name every river of Strahler order ≥ 2 or catchment ≥ 4 km², every body
-   of ≥ 1 ha, every waterfall, the lagoons and bays, plus the mountain
-   masses and passes the routes use. Smaller creeks and ponds are named
+   of ≥ 1 ha, every waterfall, the lagoons and bays, the mountain
+   peaks (make sensible choices about what constitutes a 'peak that should have a name') and the mountain passes the routes use. Smaller creeks and ponds are named
    only where a place or quest refers to them.
 2. Grounding: the lore dossiers first (`world/sources/lore/`), then UESP for
    established names (the Onkobra, the Blackwood, Oliis Bay and the rest

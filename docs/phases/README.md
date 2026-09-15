@@ -342,7 +342,7 @@ parked:
 | the **Hist-centred** and **Imperial-fringe settlement grammars** — in practice the type recipes (`type-recipes.json`) plus the mined kit-assembly templates | proven on the exemplars in 16i (Lilmoth is the Imperial-fringe city; Nine-Trunks and Mazzatun the Hist-centred pair), proven unattended in 16j; further recipes per packet in 15 |
 | "all settlement structures enterable": door, interior-claim record, door reachable every compile | 16h (door + reachability), 16i (tier A interiors and the reserved-door state), Phase 12 (assembled interiors) |
 | **D0 safe interiors** per settlement; Helstrom D0 with gates against the band-5 basin | the exemplars' in 16i; every other settlement's in its Phase 15 packet (tier A verbatim where a linked cell exists, else assembled by the Phase 12 skill); Helstrom is a city, owner-guided, in its packet |
-| **Morrowind-style travel services** (ferrymen, boat owners, rootworm Waykeepers: talk-pay-arrive over a geographically sensible service graph) and the **root-transit network re-authoring** with Hist-node placement | 16e (ferries placed, the typed service graph, the rootways re-lined on the graph) |
+| **Morrowind-style travel services** (ferrymen, boat owners, rootworm Waykeepers: talk-pay-arrive over a geographically sensible service graph) and the **root-transit network re-authoring** with Hist-node placement | 16e (the typed service graph as one record with ferries, boat services and a talk-pay-arrive contract; ferry landings and berths recorded on the graph); 16h draws the hulls and landings; 16g re-authors the rootworm stations at the hero Hist nodes it places (0068) |
 | **player-stronghold site reservation** (quests 30 §24b.5; 0028) | 16g reserves the record and its design group; its interior is a Phase 12 family (a reoccupied xanmeer or a river station) |
 | **quest location roster** and the per-quest world provisions | re-validated in 16g against the frozen world; per packet in 15 |
 | **quest–world co-design loop** (quests 90 §65b, a completion gate per packet) | 16j runs it on the trial packet; Phase 15 runs it per packet before freeze |
@@ -592,8 +592,8 @@ fixed cuboid colliders stand just outside the built ground
 services and boat fast travel are **Morrowind-style** — speak to the
 ferryman, pay, arrive: instant travel over a defined, geographically sensible
 service graph, with NPC passengers as set dressing. No vessel simulation, no
-ride-along. Those services are *world content*, delivered by 16e (ferries placed,
-the typed service graph, the rootways re-lined). Player-boat cargo storage, passenger carrying,
+ride-along. Those services are *world content*: 16e records the service graph and makes it
+usable, 16h draws the boats, 16g re-authors the rootworm stations (0068). Player-boat cargo storage, passenger carrying,
 repair/ownership and boat combat hooks are **deferred until a quest brief or
 playtest demands them** — nothing in the current quest plan does (module 60
 §45 tiers the list).
@@ -934,8 +934,9 @@ Each packet:
    "refined" per packet);
 2. regional identity as data (region grammar §16 config, species palettes on
    the 16f scatter);
-3. minor routes, ways and the travel-service graph densified through 16e's
-   stages and patch stack (never a fresh route solve);
+3. minor routes, ways and the travel-service graph densified through the
+   minor-route and service stages (16e's code, on 16g's ladder row; never a
+   fresh major-route solve, and minor routes are never graded);
 4. the causal location network for the packet from the 16g plot: settlements
    and POIs through the settlement skill, every dungeon-kind record's
    promises checked against a realisation recipe that exists, tier A
