@@ -27,7 +27,7 @@ export const SYSTEM_TEXT: readonly TextEntry[] = [
     surface: "system",
     text: "You have reached the edge of Black Marsh. You can go no further.",
     note:
-      "Shown once when the character reaches the invisible wall at the edge of the built province (16d). States the fact and stops; the land the player can see beyond the border is scenery, and the line must not promise it. Reviewer: the wording is open, the plainness is not.",
+      "Shown once at the invisible wall on the province border (16d). The land visible beyond the border is scenery, so the line states the stop and promises nothing else. Reviewed 2026-09-15: text unchanged.",
   },
   {
     id: "text.system.player-died",
