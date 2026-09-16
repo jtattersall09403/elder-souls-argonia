@@ -123,7 +123,7 @@ MAGNITUDE_RANK = {"M5": 5, "M4": 4, "M3": 3, "M2": 2, "M1": 1}
 
 # per-metre relative costs (cf. routes.cost_surface, adapted to the published rasters)
 COST_WETLAND = 3.0
-COST_FLOOD = 1.8
+COST_WET_SEASON = 1.8
 COST_MOUNTAIN = 2.5       # above 40 m
 COST_RIVER = 9.0          # a crossing
 COST_DEEP = 60.0          # open water: effectively forbidden for a land path
@@ -135,7 +135,6 @@ COST_JUNGLE = 1.8
 # minor way then comes out walkable. Routed on the NATURAL heights, which is
 # what `ProvinceSurvey` reads and what `grade_routes` grades from.
 ROUTING_CAP_DEG = 12.0
-MARSH_REGIONS = (3, 4, 6, 7, 14)   # tidal delta, lagoon/salt marsh, rootland, interior swamp, mangrove
 # Which terminal a derived path aims at when a blueprint declares several: the
 # highest-class WALKABLE entrance (a lane terminal is a boat landing, not the
 # end of a track).
@@ -174,9 +173,9 @@ def cost_surface(s: ProvinceSurvey) -> np.ndarray:
     # measured shallow standing water — ground you wade, not ground you sail
     wet = s.wet_grid & ~s.open_water
     cost = np.where(wet, cost * COST_WETLAND, cost)
-    cost = np.where(s.flood >= 2, cost * COST_FLOOD, cost)
+    cost = np.where(s.wet_season_grid & ~s.wet_grid, cost * COST_WET_SEASON, cost)   # analysis grid; `wet_season` is the surface grid
     cost = np.where(s.height_grid > 40.0, cost * COST_MOUNTAIN, cost)
-    cost = np.where(s.river_band >= 2, cost * COST_RIVER, cost)
+    cost = np.where(s.reach_band_grid >= 2, cost * COST_RIVER, cost)
     cost = np.where(s.region_grid == 13, cost * COST_JUNGLE, cost)
     cost = np.where(s.open_water, cost * COST_DEEP, cost)
     # keep paths off the map rim, as the road compiler does (routes.EDGE_*)
@@ -195,7 +194,7 @@ def rasterise_routes(s: ProvinceSurvey) -> np.ndarray:
     mask = np.zeros((n, n), dtype=bool)
     # The PUBLISHED geometry, not `s.routes`: that one is the natural-state
     # snapshot siting reads (site_fields), and a track has to meet the road
-    # the world actually carries — the one `reroute_majors` repaired.
+    # the world actually carries — the one `solve_major_routes` published.
     ways = [r["px"] for r in json.loads((s.province / "routes.json").read_text())["routes"]]
     ways += [lane["px"] for lane in json.loads((s.province / "waterways.json").read_text())["lanes"]]
     for px in ways:
@@ -337,7 +336,7 @@ def _classify_ground(s: ProvinceSurvey, path: list[tuple[int, int]], magnitude: 
     A BOARDWALK is a deck standing over water: it is earned where the way
     crosses ground that measurably holds water now (`wet_grid`) or goes under
     in the wet season (`wet_season`, the refined inundation mask). The old test
-    was `region in MARSH_REGIONS or wetlands`, both authored classes, so a way
+    was `region in marsh regions or wetlands`, both authored classes, so a way
     over permanently dry marsh-labelled ground was decked.
     """
     cells = np.array([(r, c) for c, r in path])
@@ -347,10 +346,10 @@ def _classify_ground(s: ProvinceSurvey, path: list[tuple[int, int]], magnitude: 
     wr = np.clip((rows * scale).astype(int), 0, wet_n - 1)
     wc = np.clip((cols * scale).astype(int), 0, wet_n - 1)
     under_water = float((s.wet_grid[rows, cols] | s.wet_season[wr, wc]).mean())
-    flood = float((s.flood[rows, cols] >= 2).mean())
+    seasonal = float(s.wet_season[wr, wc].mean())
     if under_water >= 0.5:
         return "boardwalk"
-    if flood >= 0.5:
+    if seasonal >= 0.5:
         return "causeway"
     if cls == "settlement" and MAGNITUDE_RANK.get(magnitude or "", 0) >= 3:
         return "track"
@@ -480,7 +479,7 @@ def run(write: bool = True) -> dict:
     doc = {"schemaVersion": SCHEMA_VERSION, "kind": "minor-routes",
            "generatedBy": "worldgen.compile_minor_routes (Phase 11 Part 3b, decision 0041)",
            "grid": {"size": w, "metresPerPixel": px_m},
-           "costs": {"wetland": COST_WETLAND, "flood": COST_FLOOD, "mountain": COST_MOUNTAIN,
+           "costs": {"wetland": COST_WETLAND, "wetSeason": COST_WET_SEASON, "mountain": COST_MOUNTAIN,
                      "river": COST_RIVER, "openWater": COST_DEEP, "jungle": COST_JUNGLE},
            "arrivalM": ARRIVAL_M, "maxTrackM": MAX_TRACK_M,
            "summary": {"tracks": len(tracks), "onRoadAlready": on_road, "unconnected": len(unconnected),

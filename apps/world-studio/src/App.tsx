@@ -10,7 +10,7 @@ import { encodePlacesUrl, loadPlaces, parsePlacesUrl, type PlacesUrlState } from
 import { RoutesLayer } from "./routes/RoutesLayer";
 import { Minimap } from "./character/Minimap";
 import { loadMinimapOverlay, type MinimapOverlay } from "./character/minimapOverlay";
-import { encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
+import { ROUTE_SUB_LAYERS, encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
 // Loaded on demand: the character mode pulls in the combat and animation
 // packages (a 10 MB animation table among them) that the map and the
 // flyover never need (2026-09-13).
@@ -276,6 +276,7 @@ export function App() {
   const [layers, setLayers] = useState<Record<string, boolean>>(() => {
     const base: Record<string, boolean> = {
       rivers: legacyOn, wetlands: legacyOn, routes: legacyOn, waterways: legacyOn, rootways: false,
+      junctions: false,
       danger: false, cultures: false, regions: false, mist: false, flood: false,
       soil: false, watersheds: false, salinity: false,
       "hydrograph-bodies": hydrographOn, "hydrograph-rivers": hydrographOn, "hydrograph-season": false,
@@ -383,6 +384,7 @@ export function App() {
         salinity: "hydro-salinity.png", routes: "soc-routes.png",
         danger: "soc-danger.png", cultures: "soc-cultures.png",
         waterways: "soc-waterways.png", rootways: "soc-rootways.png",
+        junctions: "soc-junctions.png",
         mist: "hydro-mist.png",
         // The hydrology graph (Phase 16a, worldgen.hydrology_graph): drawn
         // from world/sources/hydrology/hydrology-graph.json at derive time.
@@ -824,7 +826,7 @@ export function App() {
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <span>Layers:</span>
-        {(["rivers", "wetlands", "routes", "waterways", "rootways", "danger", "cultures", "regions", "mist", "flood", "soil", "watersheds", "salinity",
+        {(["rivers", "wetlands", "routes", "waterways", "rootways", "junctions", "danger", "cultures", "regions", "mist", "flood", "soil", "watersheds", "salinity",
            "hydrograph-rivers", "hydrograph-bodies", "hydrograph-season", "hydrograph-falls", "hydrograph-wetline"] as const).map((name) => {
           // Under the places layer the painted route/waterway rasters are
           // replaced by the clickable vector lines (same geometry, drawn
@@ -911,14 +913,30 @@ export function App() {
             <RoutesLayer baseUrl={import.meta.env.BASE_URL} showWater={routesUrl.showWater}
               showTracks={placesUrl.showTracks} selectedKey={routesUrl.selectedKey}
               onSelectedKey={(selectedKey) => setRoutesUrl((r) => ({ ...r, selectedKey }))}
-              placeName={placeName} />
+              placeName={placeName} subLayers={routesUrl.subLayers} />
             <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
               onUrlState={setPlacesUrl} onFly={flyToFraction}
               controls={(
-                <label style={{ cursor: "pointer" }}>
-                  <input type="checkbox" checked={routesUrl.showWater}
-                    onChange={(e) => setRoutesUrl((r) => ({ ...r, showWater: e.target.checked }))} /> waterways
-                </label>
+                <>
+                  <label style={{ cursor: "pointer" }}>
+                    <input type="checkbox" checked={routesUrl.showWater}
+                      onChange={(e) => setRoutesUrl((r) => ({ ...r, showWater: e.target.checked }))} /> waterways
+                  </label>
+                  {/* The four route sub-layers (16e deliverable 8): each one
+                      independent, all off by default, round-tripped as
+                      ?routeLayers=spans,grades,crossings,services. */}
+                  {ROUTE_SUB_LAYERS.map((n) => (
+                    <label key={n} style={{ cursor: "pointer" }}>
+                      <input type="checkbox" checked={routesUrl.subLayers.includes(n)}
+                        onChange={(e) => setRoutesUrl((r) => ({
+                          ...r,
+                          subLayers: e.target.checked
+                            ? [...r.subLayers, n]
+                            : r.subLayers.filter((x) => x !== n),
+                        }))} /> {n}
+                    </label>
+                  ))}
+                </>
               )} />
           </>
         )}

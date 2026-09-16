@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "_": "Where named major roads MEET, as a record (decision 0068): `solve_major_routes` routes every road listed on a junction through its position, so a crossroads is a design fact and not an accident of two independent solves. `positionM` is metres [east, south] in the province frame. Each entry carries a lore `why`. Add a junction only where the meeting point is itself a world fact (a crossroads settlement, a toll point, a pass); two roads that merely share a corridor need no entry.",
+  "junctions": [
+    {
+      "id": "junction.hist-heartland.crossroads",
+      "positionM": [3200.0, 3590.0],
+      "roads": ["route.road.archon-gideon", "route.road.helstrom-blackrose"],
+      "why": "The owner-specified west-east trunk (Archon-Gideon) and the heartland-to-south chain (Helstrom-Blackrose) cross here on dry, slightly higher ground; all Archon-Helstrom and Gideon-Helstrom travel runs through this junction and no direct road exists (owner decisions 2026-08-22 and 2026-09-15; settlement-anchors.json notes). The community map's 'Crossroads' settlement is a prior for a place here, to be decided in the 16g plot.",
+      "confidence": "OWNER_DECISION"
+    }
+  ]
+}

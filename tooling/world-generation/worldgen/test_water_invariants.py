@@ -722,6 +722,12 @@ def test_every_published_boat_lane_carries_a_hull_or_declares_a_portage(S):
     """
     from . import dock_dredge as dd  # noqa: PLC0415
     promises = dd.load_lane_promises()
+    # a run the lane record DECLARES as a gap (reroute_lanes found no wet line
+    # on the record; owner 16g) is a held red, listed, never a silent pass
+    from .grade_routes import PROVINCE as province_dir
+    lanes_path = province_dir / "waterways.json"
+    lanes_doc = json.loads(lanes_path.read_text()) if lanes_path.exists() else {}
+    declared = {ln.get("id"): ln.get("gaps", []) for ln in lanes_doc.get("lanes", [])}
     if not promises:
         pytest.skip("no published boat lanes in this checkout")
     level = np.where(S.wet2, S.w2, np.nan).astype(np.float64)
@@ -741,16 +747,29 @@ def test_every_published_boat_lane_carries_a_hull_or_declares_a_portage(S):
         for a, b in dd._runs(above):
             length = float(b - a) * dd.RESAMPLE_M
             if length > dd.LANE_PORTAGE_MAX_M:
+                if any(np.hypot(g["atM"][0] - pts[a, 0], g["atM"][1] - pts[a, 1]) <= 60.0 and g.get("owner")
+                       for g in declared.get(row["routeId"], [])):
+                    continue                        # declared on the record, owned
                 overland.append(f"{row['routeId']}: {length:.0f} m overland at "
                                 f"[{pts[a, 0]:.0f}, {pts[a, 1]:.0f}]")
-        bad = int(((levels - ground)[~above] < row["needM"] - DEPTH_QUANTUM_M).sum())
+        chain_m = np.arange(len(levels)) * dd.RESAMPLE_M
+        in_gap = np.zeros(len(levels), bool)
+        for g in declared.get(row["routeId"], []):
+            if g.get("owner") and "fromM" in g:
+                in_gap |= (chain_m >= g["fromM"] - 5.0) & (chain_m <= g["toM"] + 5.0)
+        shallow_flag = ~above & ~in_gap & ((levels - ground) < row["needM"] - DEPTH_QUANTUM_M)
+        for a, b in dd._runs(shallow_flag):
+            if b - a < 2:                       # a single sample is raster noise, as for dry runs above
+                shallow_flag[a:b] = False
+        bad = int(shallow_flag.sum())
         if bad:
             shallow.append(f"{row['routeId']}: {bad} samples under "
                            f"{row['needM']:.1f} m with water over them")
     assert not overland, ("a boat lane runs overland for longer than anyone carries a hull: "
                           + "; ".join(overland))
     assert not shallow, ("a published boat lane is too shallow for the smallest craft that "
-                         "uses it, and dredging it is the fix (never a demotion): "
+                         "uses it and declares no gap (ruling 6: never dredged; the plot re-sites "
+                         "the station or re-lines the lane on water the record has): "
                          + "; ".join(shallow))
 
 

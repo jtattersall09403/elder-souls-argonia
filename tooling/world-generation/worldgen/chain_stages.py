@@ -158,7 +158,7 @@ def is_fresh(stamp: dict, code: str, at: int = -1,
 
     That exemption is a licence for in-place mutation, NOT for feeding a stage
     its own output. The chain used to do the latter: the terrain was carved
-    along the PUBLISHED route files, which `reroute_majors` and
+    along the PUBLISHED route files, which the major-road stage and
     `compile_minor_routes` then rewrote from that terrain. Two identical
     `--force` runs moved 147 of the 1,809 files the chain publishes.
     `worldgen.carve_routes` fixed it by freezing the carve's road inputs. If

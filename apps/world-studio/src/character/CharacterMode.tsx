@@ -49,6 +49,7 @@ import { SettlementColliders } from "./SettlementColliders";
 import { lastWeatherSample } from "../weather/weatherState";
 import { headingOf } from "../compass";
 import { Minimap } from "./Minimap";
+import { TravelSockets } from "../travel/TravelSockets";
 import type { MinimapOverlay } from "./minimapOverlay";
 import { parseQuality, QUALITY_PRESETS, type QualitySettings } from "@elder-souls/game-core/core/quality";
 import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
@@ -135,6 +136,17 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     parseQuality(new URLSearchParams(window.location.search).get("q"), "medium"));
   // Settlement beacons in walk mode (owner round 6): on by default.
   const [showMarkers, setShowMarkers] = useState(true);
+  // Travel sockets (16e deliverable 7): the studio owns the body, so it
+  // hands the sockets component a teleport instead of a handle. The adapter
+  // is the controller boundary — nothing here touches ecctrl directly.
+  const travelAdapter = useMemo(() => new EcctrlAdapter(player), [player]);
+  const teleportTo = useCallback((xM: number, zM: number) => {
+    const ground = world.groundHeight(xM, zM);
+    travelAdapter.teleport({ x: xM, y: (ground ?? 100) + CHARACTER_BODY_CENTER_HEIGHT + 1, z: zM });
+    // Stream the chunks around the arrival immediately.
+    focusRef.current.x = xM;
+    focusRef.current.z = zM;
+  }, [travelAdapter, world]);
   const settlementGroundAt = useMemo(
     () => (x: number, z: number) => world.groundHeight(x, z),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -422,6 +434,13 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               />
             )}
             <SettlementColliders solidsRef={settlementSolidsRef} />
+            {/* 16e: operator sockets, the talk prompt and the travel menu. */}
+            <TravelSockets
+              positionRef={focusRef}
+              groundAt={settlementGroundAt}
+              teleportTo={teleportTo}
+              baseUrl={base}
+            />
             {/* The edge of the world (16d): four invisible walls on the border
                 of the built ground, and the one line the player gets there. */}
             <BoundaryWalls extentM={terrainExtentM} verticalScale={verticalScale} />

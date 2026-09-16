@@ -34,19 +34,19 @@ def _province(tmp_path: Path) -> Path:
     return p
 
 
-def _repaired(px):
-    """What `reroute_majors` does to a road: bend it round steep ground."""
+def _resolved(px):
+    """What `solve_major_routes` does to a road: bend it round steep ground."""
     return [[x + 1, y] for x, y in px]
 
 
 def test_carve_is_deaf_to_the_roads_it_causes(tmp_path):
-    """`reroute_majors` rewriting `routes.json` must not move the next carve."""
+    """`solve_major_routes` writing `routes.json` must not move the next carve."""
     p = _province(tmp_path)
     before = carve_routes.carve_polylines(p)
     assert before, "fixture produced no polylines"
 
     doc = json.loads((p / "routes.json").read_text())
-    doc["routes"][0]["px"] = _repaired(doc["routes"][0]["px"])
+    doc["routes"][0]["px"] = _resolved(doc["routes"][0]["px"])
     (p / "routes.json").write_text(json.dumps(doc))
 
     assert carve_routes.carve_polylines(p) == before
@@ -107,7 +107,7 @@ def test_the_sculpt_reads_a_once_frozen_corridor_input(tmp_path):
     assert first is not None and first.exists()
     before = first.read_bytes()
     doc = json.loads((p / "routes.json").read_text())
-    doc["routes"][0]["px"] = _repaired(doc["routes"][0]["px"])
+    doc["routes"][0]["px"] = _resolved(doc["routes"][0]["px"])
     (p / "routes.json").write_text(json.dumps(doc))
     (p / "routes-natural.json").write_text(json.dumps(doc))
     carve_routes.promote(p)
@@ -128,3 +128,19 @@ def test_the_portage_lanes_are_a_frozen_input():
     assert "waterways.json" in carve_routes.SOURCES
     assert (carve_routes.PROVINCE / carve_routes.SNAP_DIR / "waterways.json").exists()
     assert (carve_routes.PROVINCE / carve_routes.SNAP_DIR / "sculpt-corridors.json").exists()
+
+
+# ------------------------------------------------ Phase 16e: the major solve reads the NATURAL ground
+
+def test_the_major_solve_never_reads_the_graded_heights():
+    """`solve_major_routes` costs roads on the NATURAL height array
+    (`compile_chunks.NATURAL_HEIGHTS`), never the graded one a road's own
+    grading wrote: costing on `DEFAULT_HEIGHTS` would let a road re-route
+    itself onto the cut it caused, and the chain would stop settling."""
+    from . import compile_chunks
+    assert compile_chunks.NATURAL_HEIGHTS.name == "refined-height-natural-f32.npy"
+    text = (PKG / "solve_major_routes.py").read_text()
+    for banned in ("DEFAULT_HEIGHTS", "refined-height-f32.npy"):
+        assert banned not in text, (
+            f"solve_major_routes references {banned} — the major solve must cost "
+            f"on compile_chunks.NATURAL_HEIGHTS")

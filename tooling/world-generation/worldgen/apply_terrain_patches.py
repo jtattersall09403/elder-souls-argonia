@@ -8,8 +8,9 @@ Reads `refined-height-frozen-f32.npy` (never written after the freeze gate),
 derive left beside it, applies every patch in (order, id) order through
 `terrain_patches.apply_all` — refusing any that fails an invariant — and
 writes the NATURAL ground the rest of the chain builds on:
-`refined-height-f32.npy` (route grading and pads then edit that file as
-they always did), the studio's half-res height raster, the flood states,
+`refined-height-natural-f32.npy` (`apply_route_patches` (16e) writes
+`refined-height-f32.npy` from it by adding the route grading), the studio's
+half-res height raster, the flood states,
 `meta.json`, the terrain-request plan / fulfilments / stats for
 `terrain_request_postconditions` (over the APPLIED requests; refused ones are
 listed in `terrain-patches-applied.json` for 16g), and `chain-footprint.json`
@@ -34,12 +35,16 @@ from . import footprint as fp
 from . import freeze
 from . import terrain_patches as tp
 from .carve_province import FROZEN_PATH, VAULT_DIR
-from .compile_chunks import DEFAULT_HEIGHTS
+from .compile_chunks import NATURAL_HEIGHTS
 from .scale import RAW_M
 from .shape_province import STUDIO_DIR
 from .vault import HEIGHTFIELD_DIR
 
-CHAIN_FOOTPRINT = VAULT_DIR / "chain-footprint.json"
+# The changed region of the NATURAL ground. `apply_route_patches` (16e) reads
+# it and writes `chain-footprint.json` (natural + route-grade regions), the
+# file the tile stages read; two stages never write the same file, or the
+# chain's fingerprints would make each re-run the other.
+CHAIN_FOOTPRINT = VAULT_DIR / "chain-footprint-natural.json"
 WET_RISE_M = 1.4
 
 
@@ -82,7 +87,7 @@ def write_height_raster(h: np.ndarray):
     meta_path = STUDIO_DIR.parent / "meta.json"
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     meta.update({"heightMinMetres": lo3, "heightMaxMetres": hi3, "imageWidth": int(q3.shape[1]), "imageHeight": int(q3.shape[0]),
-                 "heightSource": "refined-height-f32.npy (the frozen base plus its typed patches), low-passed and decimated by 3"})
+                 "heightSource": "refined-height-natural-f32.npy (the frozen base plus its typed patches), low-passed and decimated by 3"})
     meta_path.write_text(json.dumps(meta, indent=1) + "\n", encoding="utf-8")
     return lo, hi, tuple(int(v) for v in q.shape)
 
@@ -157,13 +162,13 @@ def main(argv: list[str] | None = None) -> None:
 
     # the changed region: the applied patches, widened by what actually moved
     # against the ground the last run left (a re-frozen base moves everything)
-    previous = np.load(DEFAULT_HEIGHTS) if DEFAULT_HEIGHTS.exists() else None
+    previous = np.load(NATURAL_HEIGHTS) if NATURAL_HEIGHTS.exists() else None
     measured = fp.changed_boxes(h, previous)
     footprint = fp.union(boxes, measured if measured is not None else [(0, h.shape[0], 0, h.shape[1])])
     if args.out is not None:
         out = args.out
         out.mkdir(parents=True, exist_ok=True)
-        freeze.atomic_save(out / DEFAULT_HEIGHTS.name, h)
+        freeze.atomic_save(out / NATURAL_HEIGHTS.name, h)
         fp.save(out / CHAIN_FOOTPRINT.name, footprint, grid_shape=h.shape)
         public = [{k: v for k, v in r.items() if not k.startswith("_")} for r in receipts]
         _atomic_json(out / "terrain-patches-applied.json",
@@ -175,7 +180,7 @@ def main(argv: list[str] | None = None) -> None:
               f"{sum(1 for r in public if r['status'] == 'refused')} refused; "
               f"footprint {len(footprint)} box(es) over {fp.cells(footprint, h.shape) * 100.0 / h.size:.2f}% of the province")
         return
-    freeze.atomic_save(DEFAULT_HEIGHTS, h)
+    freeze.atomic_save(NATURAL_HEIGHTS, h)
     fp.save(CHAIN_FOOTPRINT, footprint, grid_shape=h.shape)
 
     plan, manifest, stats = merged_request_documents(receipts)

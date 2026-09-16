@@ -1,0 +1,1514 @@
+{
+  "craft": {
+    "dugout-canoe": {
+      "kit": "watercraft-v1",
+      "pieceRef": "canoe:actors/sfss/canoe/canoe1",
+      "sizeM": [
+        1.981,
+        6.762,
+        2.125
+      ]
+    },
+    "landing-argonian": {
+      "kit": "docks-v1",
+      "mooringPost": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+      "pieceRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+      "sizeM": [
+        3.649,
+        1.823,
+        1.963
+      ]
+    },
+    "landing-steps": {
+      "kit": "docks-v1",
+      "pieceRef": "bmv:sheogorad/dagon fel/dockssteps",
+      "sizeM": [
+        2.453,
+        2.188,
+        2.22
+      ]
+    },
+    "native-plank-ferry": {
+      "kit": "watercraft-v1",
+      "pieceRef": "ferries:yamadori/ferries/plank_ferry_swamp_01",
+      "sizeM": [
+        2.65,
+        3.557,
+        1.546
+      ]
+    },
+    "native-poled-raft": {
+      "gangplank": "ferryraft:snt/ferry/norbridgewoodplanks01",
+      "kit": "watercraft-v1",
+      "pieceRef": "ferryraft:snt/ferry/ferryraft01",
+      "sizeM": [
+        3.236,
+        4.104,
+        1.711
+      ]
+    },
+    "swamp-rowboat-ferry": {
+      "kit": "watercraft-v1",
+      "pieceRef": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
+      "sizeM": [
+        2.771,
+        9.624,
+        2.185
+      ]
+    }
+  },
+  "rootways": [
+    {
+      "from": "root-node.helstrom",
+      "id": "rootway.helstrom-north-shadowfen",
+      "status": "placeholder",
+      "to": "root-node.north-shadowfen"
+    },
+    {
+      "from": "root-node.helstrom",
+      "id": "rootway.helstrom-naga-deeps",
+      "status": "placeholder",
+      "to": "root-node.naga-deeps"
+    },
+    {
+      "from": "root-node.helstrom",
+      "id": "rootway.helstrom-east-estuary",
+      "status": "placeholder",
+      "to": "root-node.east-estuary"
+    }
+  ],
+  "schemaVersion": 1,
+  "services": [
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.alten-corimont-helstrom"
+          },
+          "from": "station.pirate-freeholds.alten-corimont",
+          "lengthM": 1699.5,
+          "to": "station.hist-heartland.helstrom"
+        }
+      ],
+      "id": "boat.alten-corimont-helstrom",
+      "operator": {
+        "nearestPlaceId": "place.pirate-freeholds.alten-corimont",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.alten-corimont-helstrom.owner",
+        "socket": {
+          "stationId": "station.pirate-freeholds.alten-corimont"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.pirate-freeholds.alten-corimont",
+        "station.hist-heartland.helstrom"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.alten-corimont-helstrom.hail",
+        "name": "text.boat.alten-corimont-helstrom.name"
+      },
+      "why": "The registry lane `route.boat.alten-corimont-helstrom` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.archon-estuary"
+          },
+          "from": "station.saxhleel-coast.archon",
+          "lengthM": 2504.9,
+          "to": "station.hist-heartland.helstrom"
+        }
+      ],
+      "id": "boat.archon-helstrom",
+      "operator": {
+        "nearestPlaceId": "place.saxhleel-coast.archon",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.archon-helstrom.owner",
+        "socket": {
+          "stationId": "station.saxhleel-coast.archon"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.saxhleel-coast.archon",
+        "station.hist-heartland.helstrom"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.archon-helstrom.hail",
+        "name": "text.boat.archon-helstrom.name"
+      },
+      "why": "The registry lane `route.boat.archon-estuary` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.archon-thorn"
+          },
+          "from": "station.saxhleel-coast.archon",
+          "lengthM": 4184.7,
+          "to": "station.dunmer-north.thorn"
+        }
+      ],
+      "id": "boat.archon-thorn",
+      "operator": {
+        "nearestPlaceId": "place.saxhleel-coast.archon",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.archon-thorn.owner",
+        "socket": {
+          "stationId": "station.saxhleel-coast.archon"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.saxhleel-coast.archon",
+        "station.dunmer-north.thorn"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.archon-thorn.hail",
+        "name": "text.boat.archon-thorn.name"
+      },
+      "why": "The registry lane `route.boat.archon-thorn` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.blackrose-lilmoth"
+          },
+          "from": "station.imperial-penal-south.blackrose",
+          "lengthM": 1251.7,
+          "to": "station.mercantile-coast.lilmoth"
+        }
+      ],
+      "id": "boat.blackrose-lilmoth",
+      "operator": {
+        "nearestPlaceId": "place.imperial-penal-south.blackrose",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.blackrose-lilmoth.owner",
+        "socket": {
+          "stationId": "station.imperial-penal-south.blackrose"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.imperial-penal-south.blackrose",
+        "station.mercantile-coast.lilmoth"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.blackrose-lilmoth.hail",
+        "name": "text.boat.blackrose-lilmoth.name"
+      },
+      "why": "The registry lane `route.boat.blackrose-lilmoth` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.gideon-onkobra"
+          },
+          "from": "station.imperial-fringe.gideon",
+          "lengthM": 2158.6,
+          "to": "station.hist-heartland.helstrom"
+        }
+      ],
+      "id": "boat.gideon-helstrom",
+      "operator": {
+        "nearestPlaceId": "place.imperial-fringe.gideon",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.gideon-helstrom.owner",
+        "socket": {
+          "stationId": "station.imperial-fringe.gideon"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.imperial-fringe.gideon",
+        "station.hist-heartland.helstrom"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.gideon-helstrom.hail",
+        "name": "text.boat.gideon-helstrom.name"
+      },
+      "why": "The registry lane `route.boat.gideon-onkobra` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.blackrose-lake-ferry"
+          },
+          "from": "station.imperial-penal-south.lake-ferry-stage",
+          "lengthM": 285.3,
+          "to": "station.imperial-penal-south.blackrose"
+        }
+      ],
+      "id": "boat.lake-ferry-stage-blackrose",
+      "operator": {
+        "nearestPlaceId": "place.imperial-penal-south.lake-ferry-stage",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.lake-ferry-stage-blackrose.owner",
+        "socket": {
+          "stationId": "station.imperial-penal-south.lake-ferry-stage"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.imperial-penal-south.lake-ferry-stage",
+        "station.imperial-penal-south.blackrose"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.lake-ferry-stage-blackrose.hail",
+        "name": "text.boat.lake-ferry-stage-blackrose.name"
+      },
+      "why": "The registry lane `route.boat.blackrose-lake-ferry` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.lilmoth-archon"
+          },
+          "from": "station.mercantile-coast.lilmoth",
+          "lengthM": 2330.3,
+          "to": "station.saxhleel-coast.archon"
+        }
+      ],
+      "id": "boat.lilmoth-archon",
+      "operator": {
+        "nearestPlaceId": "place.mercantile-coast.lilmoth",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.lilmoth-archon.owner",
+        "socket": {
+          "stationId": "station.mercantile-coast.lilmoth"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.mercantile-coast.lilmoth",
+        "station.saxhleel-coast.archon"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.lilmoth-archon.hail",
+        "name": "text.boat.lilmoth-archon.name"
+      },
+      "why": "The registry lane `route.boat.lilmoth-archon` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.lilmoth-anchorage"
+          },
+          "from": "station.mercantile-coast.lilmoth",
+          "lengthM": 3266.6,
+          "to": "station.mercantile-coast.lighter-flotilla"
+        }
+      ],
+      "id": "boat.lilmoth-lighter-flotilla",
+      "operator": {
+        "nearestPlaceId": "place.mercantile-coast.lilmoth",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.lilmoth-lighter-flotilla.owner",
+        "socket": {
+          "stationId": "station.mercantile-coast.lilmoth"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.mercantile-coast.lilmoth",
+        "station.mercantile-coast.lighter-flotilla"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.lilmoth-lighter-flotilla.hail",
+        "name": "text.boat.lilmoth-lighter-flotilla.name"
+      },
+      "why": "The registry lane `route.boat.lilmoth-anchorage` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.oliis-crossing"
+          },
+          "from": "station.mercantile-coast.oliis-ferry-stage",
+          "lengthM": 95.7,
+          "to": "station.mercantile-coast.oliis-boardwalk"
+        }
+      ],
+      "id": "boat.oliis-ferry-stage-oliis-boardwalk",
+      "operator": {
+        "nearestPlaceId": "place.mercantile-coast.oliis-ferry-stage",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.oliis-ferry-stage-oliis-boardwalk.owner",
+        "socket": {
+          "stationId": "station.mercantile-coast.oliis-ferry-stage"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.mercantile-coast.oliis-ferry-stage",
+        "station.mercantile-coast.oliis-boardwalk"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.oliis-ferry-stage-oliis-boardwalk.hail",
+        "name": "text.boat.oliis-ferry-stage-oliis-boardwalk.name"
+      },
+      "why": "The registry lane `route.boat.oliis-crossing` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.soulrest-blackrose"
+          },
+          "from": "station.mercantile-coast.soulrest",
+          "lengthM": 1844.7,
+          "to": "station.imperial-penal-south.blackrose"
+        }
+      ],
+      "id": "boat.soulrest-blackrose",
+      "operator": {
+        "nearestPlaceId": "place.mercantile-coast.soulrest",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.soulrest-blackrose.owner",
+        "socket": {
+          "stationId": "station.mercantile-coast.soulrest"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.mercantile-coast.soulrest",
+        "station.imperial-penal-south.blackrose"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.soulrest-blackrose.hail",
+        "name": "text.boat.soulrest-blackrose.name"
+      },
+      "why": "The registry lane `route.boat.soulrest-blackrose` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.soulrest-lilmoth"
+          },
+          "from": "station.mercantile-coast.soulrest",
+          "lengthM": 3095.8,
+          "to": "station.mercantile-coast.lilmoth"
+        }
+      ],
+      "id": "boat.soulrest-lilmoth",
+      "operator": {
+        "nearestPlaceId": "place.mercantile-coast.soulrest",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.soulrest-lilmoth.owner",
+        "socket": {
+          "stationId": "station.mercantile-coast.soulrest"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.mercantile-coast.soulrest",
+        "station.mercantile-coast.lilmoth"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.soulrest-lilmoth.hail",
+        "name": "text.boat.soulrest-lilmoth.name"
+      },
+      "why": "The registry lane `route.boat.soulrest-lilmoth` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.stormhold-alten-corimont"
+          },
+          "from": "station.dunmer-north.stormhold",
+          "lengthM": 1247.4,
+          "to": "station.pirate-freeholds.alten-corimont"
+        }
+      ],
+      "id": "boat.stormhold-alten-corimont",
+      "operator": {
+        "nearestPlaceId": "place.dunmer-north.stormhold",
+        "ownerFaction": null,
+        "role": "boat owner",
+        "slotId": "boat-slot.stormhold-alten-corimont.owner",
+        "socket": {
+          "stationId": "station.dunmer-north.stormhold"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "boat",
+      "stations": [
+        "station.dunmer-north.stormhold",
+        "station.pirate-freeholds.alten-corimont"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.boat.stormhold-alten-corimont.hail",
+        "name": "text.boat.stormhold-alten-corimont.name"
+      },
+      "why": "The registry lane `route.boat.stormhold-alten-corimont` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
+    },
+    {
+      "available": [],
+      "craft": "native-poled-raft",
+      "crossing": {
+        "entityId": "reach.1890-1832",
+        "entityKind": "sloped-riffle",
+        "id": "crossing.major.083",
+        "maxDepthM": 0.46,
+        "spanM": 4.7
+      },
+      "fare": {
+        "freeIf": [
+          {
+            "is": "friendly",
+            "place": "place.hist-heartland.root-gallery-helstrom-underway",
+            "predicate": "placeStanceIs"
+          }
+        ],
+        "gold": 3
+      },
+      "form": "road-crossing",
+      "hops": [
+        {
+          "follows": {
+            "road": "route.road.helstrom-blackrose"
+          },
+          "from": "ferry-landing.underway-basin.north",
+          "lengthM": 6.3,
+          "to": "ferry-landing.underway-basin.south"
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "ferry.hist-heartland.underway-basin",
+      "landings": [
+        "ferry-landing.underway-basin.north",
+        "ferry-landing.underway-basin.south"
+      ],
+      "measured": {
+        "maxDepthM": 0.46,
+        "source": "world/sources/routes/water-crossings.json",
+        "spanM": 4.7
+      },
+      "operator": {
+        "nearestPlaceId": "place.hist-heartland.root-gallery-helstrom-underway",
+        "ownerFaction": null,
+        "role": "village poler",
+        "slotId": "ferry-slot.underway-basin.poler",
+        "socket": {
+          "stationId": "ferry-landing.underway-basin.north"
+        }
+      },
+      "questUse": "The only lawful surface crossing on the Helstrom-Blackrose trunk. Closing it forces the Underway, which is a Hist interior.",
+      "refusedIf": [
+        {
+          "is": "storm",
+          "predicate": "weatherIs"
+        }
+      ],
+      "serviceKind": "ferry",
+      "severs": [
+        "route.road.helstrom-blackrose",
+        "route.road.archon-gideon"
+      ],
+      "status": "unmatched",
+      "text": {
+        "hail": "text.ferry.underway-basin.hail",
+        "name": "text.ferry.underway-basin.name",
+        "refusal": "text.ferry.refused-weather"
+      },
+      "unmatchedWhy": "berth at ferry-landing.underway-basin.south reaches 0.48 m within 30 m; hull class canoe needs 0.6 m — change the craft or move the landing (the Alten Corimont precedent, ruling 6: no dredging)",
+      "water": {
+        "class": "lake",
+        "name": "the basin under Helstrom"
+      },
+      "why": "Two trunk roads walk into the same 160 m of open basin 70 m apart, and the catalogue already answers why neither bridges it: the Underway, the trunk root under Helstrom, is 'opened and kept as a road because the surface route crosses the deep basin'. The root gallery is the Argonian way through. The raft is for everything that will not go under Helstrom - cargo too tall for the root, Imperial couriers who will not walk inside a Hist, anyone the gallery's keepers have turned back. One stage serves both roads because it is one lake."
+    },
+    {
+      "available": [
+        {
+          "is": "wet",
+          "predicate": "seasonIs"
+        }
+      ],
+      "craft": "native-plank-ferry",
+      "crossing": {
+        "entityId": "body.221-1650",
+        "entityKind": "tarn-upland",
+        "id": "crossing.major.001",
+        "maxDepthM": 6.84,
+        "spanM": 411.3
+      },
+      "fare": {
+        "freeIf": [],
+        "gold": 15
+      },
+      "form": "road-crossing",
+      "hops": [
+        {
+          "follows": {
+            "road": "route.road.gideon-blackwood-road"
+          },
+          "from": "ferry-landing.drowning-gate.east",
+          "lengthM": 228.5,
+          "to": "ferry-landing.drowning-gate.west"
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "ferry.imperial-fringe.drowning-gate",
+      "landings": [
+        "ferry-landing.drowning-gate.east",
+        "ferry-landing.drowning-gate.west"
+      ],
+      "measured": {
+        "maxDepthM": 6.84,
+        "source": "world/sources/routes/water-crossings.json",
+        "spanM": 411.3
+      },
+      "operator": {
+        "nearestPlaceId": "place.imperial-fringe.the-drowning-gate",
+        "ownerFaction": null,
+        "role": "barrier keeper",
+        "slotId": "ferry-slot.drowning-gate.barrier-family",
+        "socket": {
+          "stationId": "ferry-landing.drowning-gate.east"
+        }
+      },
+      "questUse": "The province's canon western exit. Seasonal availability gives a quest a hard reason a route is shut without moving any terrain.",
+      "refusedIf": [],
+      "serviceKind": "ferry",
+      "severs": [
+        "route.road.gideon-blackwood-road"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.ferry.drowning-gate.hail",
+        "name": "text.ferry.drowning-gate.name",
+        "refusal": "text.ferry.drowning-gate.refusal"
+      },
+      "water": {
+        "class": "river",
+        "name": "the western road's flood reach"
+      },
+      "why": "The Drowning Gate is a monsoon barrier 108 m up the road: 'the western road closes every monsoon at this point', and 'two families are paid by Gideon to swing the barrier and to argue with whoever wants it opened anyway'. They already stand at a shut road with a crowd of people who want past. The ferry is what they sell when the gate is down, and it is the only way onto the Blackwood Road out of the province in the wet season. In the dry season the gate is open and the reach is a ford, so the service is seasonal and the fare is what a monopoly charges."
+    },
+    {
+      "available": [],
+      "craft": "swamp-rowboat-ferry",
+      "crossing": {
+        "entityId": "body.692-1779",
+        "entityKind": "tarn-upland",
+        "id": "crossing.major.025",
+        "maxDepthM": 2.75,
+        "spanM": 54.1
+      },
+      "fare": {
+        "freeIf": [],
+        "gold": 10
+      },
+      "form": "road-crossing",
+      "hops": [
+        {
+          "follows": {
+            "road": "route.road.archon-gideon"
+          },
+          "from": "ferry-landing.onkobra-bond.town",
+          "lengthM": 49.1,
+          "to": "ferry-landing.onkobra-bond.far"
+        }
+      ],
+      "hullClass": "small-draft",
+      "id": "ferry.imperial-fringe.onkobra-bond",
+      "landings": [
+        "ferry-landing.onkobra-bond.town",
+        "ferry-landing.onkobra-bond.far"
+      ],
+      "measured": {
+        "maxDepthM": 2.75,
+        "source": "world/sources/routes/water-crossings.json",
+        "spanM": 54.1
+      },
+      "operator": {
+        "nearestPlaceId": "place.imperial-fringe.bonded-shed-of-the-onkobra",
+        "ownerFaction": null,
+        "role": "customs boatman",
+        "slotId": "ferry-slot.onkobra-bond.clerk",
+        "socket": {
+          "stationId": "ferry-landing.onkobra-bond.town"
+        }
+      },
+      "questUse": "A customs choke on every road out of Gideon. `carriedValueAtLeast` refuses the boat, which pushes the player to the ford and into the Owing ledger.",
+      "refusedIf": [
+        {
+          "predicate": "carriedValueAtLeast",
+          "value": 400
+        }
+      ],
+      "serviceKind": "ferry",
+      "severs": [
+        "route.road.archon-gideon",
+        "route.road.gideon-soulrest",
+        "route.road.gideon-stormhold"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.ferry.onkobra-bond.hail",
+        "name": "text.ferry.onkobra-bond.name",
+        "refusal": "text.ferry.onkobra-bond.refusal"
+      },
+      "water": {
+        "class": "river",
+        "name": "the lower Onkobra"
+      },
+      "why": "Three trunk roads out of Gideon meet the Onkobra on the same reach, and Gideon's bonded warehouse stands 24 m from the wider of the two crossings: 'goods declared but not yet taxed have to sit somewhere lockable. Gideon's court is their lawful holder.' The water is half a metre deep, so the ferry is not there because the river cannot be waded. It is there because the county has put a boat and a clerk on the only crossing its roads use, and everything that steps off the boat has been looked at. Wading is faster. Wading is also smuggling."
+    },
+    {
+      "available": [],
+      "craft": "swamp-rowboat-ferry",
+      "fare": {
+        "freeIf": [],
+        "gold": 8
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lane": "route.boat.blackrose-lake-ferry"
+          },
+          "from": "station.imperial-penal-south.blackrose",
+          "lengthM": 285.3,
+          "to": "station.imperial-penal-south.lake-ferry-stage"
+        },
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.imperial-penal-south.lake-ferry-stage",
+          "lengthM": 430.1,
+          "to": "station.imperial-penal-south.lake-boardwalk-village",
+          "unresolved": true
+        },
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.imperial-penal-south.lake-boardwalk-village",
+          "lengthM": 492.7,
+          "to": "station.imperial-penal-south.longmont",
+          "unresolved": true
+        },
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.imperial-penal-south.longmont",
+          "lengthM": 867.2,
+          "to": "station.imperial-penal-south.three-gate-toll",
+          "unresolved": true
+        }
+      ],
+      "hullClass": "small-draft",
+      "id": "ferry.imperial-penal-south.blackrose-lake",
+      "measured": null,
+      "operator": {
+        "nearestPlaceId": "place.imperial-penal-south.lake-ferry-stage",
+        "ownerFaction": null,
+        "role": "stage keeper",
+        "slotId": "ferry-slot.blackrose-lake.stage-keeper",
+        "socket": {
+          "stationId": "station.imperial-penal-south.blackrose"
+        }
+      },
+      "questUse": "Blackrose is a prison. The refusal predicate is the escape problem stated in data.",
+      "refusedIf": [
+        {
+          "predicate": "owingAtLeast",
+          "region": "region.imperial-penal-south",
+          "value": 500
+        }
+      ],
+      "serviceKind": "ferry",
+      "severs": [],
+      "stations": [
+        "station.imperial-penal-south.blackrose",
+        "station.imperial-penal-south.lake-ferry-stage",
+        "station.imperial-penal-south.lake-boardwalk-village",
+        "station.imperial-penal-south.longmont",
+        "station.imperial-penal-south.three-gate-toll"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.ferry.stage-generic.hail",
+        "name": "text.ferry.blackrose-lake.name",
+        "refusal": "text.ferry.refused-owing"
+      },
+      "water": {
+        "class": "lake",
+        "name": "the Blackrose lake"
+      },
+      "why": "The five lake stations already declare `ferry` in `travelStation.modes` and already name each other as destinations. This edge only writes down the network they imply, so the travel system reads one graph. A prison lake is the one place a ferry checks who is getting on."
+    },
+    {
+      "available": [],
+      "craft": "swamp-rowboat-ferry",
+      "fare": {
+        "freeIf": [],
+        "gold": 5
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.mercantile-coast.bramman-river-ferry",
+          "lengthM": 1328.9,
+          "to": "station.mercantile-coast.oliis-ferry-stage",
+          "unresolved": true
+        }
+      ],
+      "hullClass": "small-draft",
+      "id": "ferry.mercantile-coast.bramman-oliis",
+      "measured": null,
+      "operator": {
+        "nearestPlaceId": "place.mercantile-coast.bramman-river-ferry",
+        "ownerFaction": null,
+        "role": "ferryman",
+        "slotId": "ferry-slot.bramman-oliis.ferryman",
+        "socket": {
+          "stationId": "station.mercantile-coast.bramman-river-ferry"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "ferry",
+      "severs": [],
+      "stations": [
+        "station.mercantile-coast.bramman-river-ferry",
+        "station.mercantile-coast.oliis-ferry-stage"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.ferry.stage-generic.hail",
+        "name": "text.ferry.bramman-oliis.name",
+        "refusal": "text.ferry.refused-weather"
+      },
+      "water": {
+        "class": "river",
+        "name": "the Bramman"
+      },
+      "why": "Bramman River Ferry is a road crossing the catalogue already solved: 'the coast road crosses the river south of Soulrest where it is too deep to bridge'. It pairs with the Oliis stage, and the Oliis ferry 'is older than the rebuilt city'. Recorded as a station run because both ends are catalogued stations, not bare landings."
+    },
+    {
+      "available": [],
+      "craft": "swamp-rowboat-ferry",
+      "fare": {
+        "freeIf": [],
+        "gold": 20
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.saxhleel-coast.archon",
+          "lengthM": 5011.0,
+          "to": "station.mercantile-coast.soulrest",
+          "unresolved": true
+        },
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.mercantile-coast.soulrest",
+          "lengthM": 4741.8,
+          "to": "station.saxhleel-coast.portdun-mont",
+          "unresolved": true
+        }
+      ],
+      "hullClass": "small-draft",
+      "id": "ferry.saxhleel-coast.estuary-run",
+      "measured": null,
+      "operator": {
+        "nearestPlaceId": "place.saxhleel-coast.archon",
+        "ownerFaction": null,
+        "role": "ferry master",
+        "slotId": "ferry-slot.estuary-run.master",
+        "socket": {
+          "stationId": "station.saxhleel-coast.archon"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [
+        {
+          "is": "storm",
+          "predicate": "weatherIs"
+        }
+      ],
+      "serviceKind": "ferry",
+      "severs": [],
+      "stations": [
+        "station.saxhleel-coast.archon",
+        "station.mercantile-coast.soulrest",
+        "station.saxhleel-coast.portdun-mont"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.ferry.stage-generic.hail",
+        "name": "text.ferry.estuary-run.name",
+        "refusal": "text.ferry.refused-weather"
+      },
+      "water": {
+        "class": "estuary",
+        "name": "the Saxhleel estuary"
+      },
+      "why": "Archon and Soulrest are two of the three major seaports (Lore:Sea Transportation) and both already declare `ferry`. The long open-water leg is the one run in the province that a storm can stop, which is what the refusal predicate is for."
+    },
+    {
+      "available": [],
+      "craft": "native-plank-ferry",
+      "deferredWhy": "Both `place.saxhleel-coast.jungle-ferry-stage` and `place.saxhleel-coast.estuary-ferry-stage` are `status: deferred` in the catalogue. The edge is written now so that promoting either record is a one-line status flip and not a rediscovery.",
+      "fare": {
+        "freeIf": [],
+        "gold": 6
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.saxhleel-coast.archon",
+          "lengthM": null,
+          "to": "station.saxhleel-coast.jungle-ferry-stage",
+          "unresolved": true
+        },
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.saxhleel-coast.jungle-ferry-stage",
+          "lengthM": null,
+          "to": "station.mercantile-coast.soulrest",
+          "unresolved": true
+        },
+        {
+          "follows": {
+            "reaches": []
+          },
+          "from": "station.mercantile-coast.soulrest",
+          "lengthM": null,
+          "to": "station.saxhleel-coast.estuary-ferry-stage",
+          "unresolved": true
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "ferry.saxhleel-coast.jungle-stage",
+      "measured": null,
+      "operator": {
+        "nearestPlaceId": "place.saxhleel-coast.archon",
+        "ownerFaction": null,
+        "role": "village poler",
+        "slotId": "ferry-slot.jungle-stage.poler",
+        "socket": {
+          "stationId": "station.saxhleel-coast.archon"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "ferry",
+      "severs": [],
+      "stations": [
+        "station.saxhleel-coast.archon",
+        "station.saxhleel-coast.jungle-ferry-stage",
+        "station.mercantile-coast.soulrest",
+        "station.saxhleel-coast.estuary-ferry-stage"
+      ],
+      "status": "deferred",
+      "text": {
+        "hail": "text.ferry.stage-generic.hail",
+        "name": "text.ferry.jungle-stage.name",
+        "refusal": "text.ferry.refused-weather"
+      },
+      "water": {
+        "class": "estuary",
+        "name": "the Saxhleel estuary"
+      },
+      "why": "Two deferred stages that Archon and Soulrest already name as ferry destinations. Reserved, not live."
+    },
+    {
+      "available": [],
+      "fare": {
+        "freeIf": [],
+        "gold": 0
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "rootway": "rootway.helstrom-north-shadowfen"
+          },
+          "from": "root-node.helstrom",
+          "lengthM": 1042.8,
+          "to": "root-node.north-shadowfen"
+        },
+        {
+          "follows": {
+            "rootway": "rootway.helstrom-naga-deeps"
+          },
+          "from": "root-node.helstrom",
+          "lengthM": 2064.6,
+          "to": "root-node.naga-deeps"
+        },
+        {
+          "follows": {
+            "rootway": "rootway.helstrom-east-estuary"
+          },
+          "from": "root-node.helstrom",
+          "lengthM": 1165.9,
+          "to": "root-node.east-estuary"
+        }
+      ],
+      "id": "rootworm.underground-express",
+      "operator": {
+        "nearestPlaceId": null,
+        "ownerFaction": null,
+        "role": "Waykeeper",
+        "slotId": "rootworm-slot.underground-express.waykeeper",
+        "socket": {
+          "stationId": "root-node.helstrom"
+        }
+      },
+      "placeholderWhy": "Pass-1 network; re-authored at the hero Hist nodes in 16g (decision 0068)",
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "rootworm",
+      "stations": [
+        "root-node.helstrom",
+        "root-node.north-shadowfen",
+        "root-node.naga-deeps",
+        "root-node.east-estuary"
+      ],
+      "status": "placeholder",
+      "text": {
+        "hail": "text.rootworm.underground-express.hail",
+        "name": "text.rootworm.underground-express.name"
+      },
+      "why": "Pass-1 speculative network for the canonical rootworm 'Underground Express' (The Argonian Account, master plan §19). Canon gives the mechanism and its deep-marsh association, not station positions: these are placed where Hist/root density is generated (rootland classes) and will be re-authored with Hist-node placement in Phase 11. Deliberately unreachable-by-road deep-marsh points — the network bypasses surface danger for those granted access. (MQ05's early Stormhold/AC->Helstrom protected travel is an escorted BOAT convoy on the waterway network, owner decision 2026-08-23 - not rootworm; this network is the deeper restricted system.)"
+    }
+  ],
+  "stations": [
+    {
+      "berth": {
+        "depthM": 2.4,
+        "entityId": "body.221-1650",
+        "entityKind": "tarn-upland",
+        "floats": true,
+        "hullClass": "canoe",
+        "jettyM": 1.0,
+        "positionM": [
+          351.0,
+          3044.7
+        ]
+      },
+      "id": "ferry-landing.drowning-gate.east",
+      "kind": "ferry-landing",
+      "piece": "landing-argonian",
+      "positionM": [
+        350.2,
+        3044.1
+      ],
+      "status": "active"
+    },
+    {
+      "berth": {
+        "depthM": 2.04,
+        "entityId": "body.221-1650",
+        "entityKind": "tarn-upland",
+        "floats": true,
+        "hullClass": "canoe",
+        "jettyM": 1.0,
+        "positionM": [
+          524.1,
+          3190.8
+        ]
+      },
+      "id": "ferry-landing.drowning-gate.west",
+      "kind": "ferry-landing",
+      "piece": "landing-argonian",
+      "positionM": [
+        524.9,
+        3191.4
+      ],
+      "status": "active"
+    },
+    {
+      "berth": {
+        "depthM": 1.2,
+        "entityId": "body.692-1779",
+        "entityKind": "tarn-upland",
+        "floats": true,
+        "hullClass": "small-draft",
+        "jettyM": 1.0,
+        "positionM": [
+          1379.4,
+          3064.0
+        ]
+      },
+      "id": "ferry-landing.onkobra-bond.far",
+      "kind": "ferry-landing",
+      "piece": "landing-steps",
+      "positionM": [
+        1380.3,
+        3063.7
+      ],
+      "status": "active"
+    },
+    {
+      "berth": {
+        "depthM": 1.92,
+        "entityId": "body.692-1779",
+        "entityKind": "tarn-upland",
+        "floats": true,
+        "hullClass": "small-draft",
+        "jettyM": 5.0,
+        "positionM": [
+          1338.8,
+          3078.5
+        ]
+      },
+      "id": "ferry-landing.onkobra-bond.town",
+      "kind": "ferry-landing",
+      "piece": "landing-steps",
+      "positionM": [
+        1334.1,
+        3080.2
+      ],
+      "status": "active"
+    },
+    {
+      "berth": {
+        "depthM": 0.48,
+        "entityId": "reach.1890-1832",
+        "entityKind": "sloped-riffle",
+        "floats": false,
+        "hullClass": "canoe",
+        "jettyM": null,
+        "positionM": [
+          3480.7,
+          3202.4
+        ]
+      },
+      "id": "ferry-landing.underway-basin.north",
+      "kind": "ferry-landing",
+      "piece": "landing-argonian",
+      "positionM": [
+        3479.7,
+        3202.4
+      ],
+      "status": "unmatched"
+    },
+    {
+      "berth": {
+        "depthM": 0.48,
+        "entityId": "reach.1890-1832",
+        "entityKind": "sloped-riffle",
+        "floats": false,
+        "hullClass": "canoe",
+        "jettyM": null,
+        "positionM": [
+          3485.0,
+          3202.4
+        ]
+      },
+      "id": "ferry-landing.underway-basin.south",
+      "kind": "ferry-landing",
+      "piece": "landing-argonian",
+      "positionM": [
+        3486.0,
+        3202.4
+      ],
+      "status": "unmatched"
+    },
+    {
+      "id": "root-node.east-estuary",
+      "kind": "root-node",
+      "notes": "Toward Archon's estuary that feeds the provincial centre (Lore:Archon).",
+      "positionM": [
+        4424.1,
+        3465.5
+      ],
+      "status": "placeholder"
+    },
+    {
+      "id": "root-node.helstrom",
+      "kind": "root-node",
+      "notes": "Hub beneath the heart city.",
+      "positionM": [
+        3465.5,
+        2801.9
+      ],
+      "status": "placeholder"
+    },
+    {
+      "id": "root-node.naga-deeps",
+      "kind": "root-node",
+      "notes": "Inner southern swamps, Naga-Kur country.",
+      "positionM": [
+        3465.5,
+        4866.5
+      ],
+      "status": "placeholder"
+    },
+    {
+      "id": "root-node.north-shadowfen",
+      "kind": "root-node",
+      "notes": "Deep marsh between Helstrom and Alten Corimont; access-restricted Waykeeper station (not the MQ05 convoy route).",
+      "positionM": [
+        3613.0,
+        1769.6
+      ],
+      "status": "placeholder"
+    },
+    {
+      "id": "station.dunmer-north.stormhold",
+      "kind": "place",
+      "placeId": "place.dunmer-north.stormhold",
+      "positionM": [
+        2654.5,
+        737.4
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.dunmer-north.thorn",
+      "kind": "place",
+      "placeId": "place.dunmer-north.thorn",
+      "positionM": [
+        6193.7,
+        589.9
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.hist-heartland.helstrom",
+      "kind": "place",
+      "placeId": "place.hist-heartland.helstrom",
+      "positionM": [
+        3465.5,
+        2801.9
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.imperial-fringe.gideon",
+      "kind": "place",
+      "placeId": "place.imperial-fringe.gideon",
+      "positionM": [
+        1327.2,
+        3096.9
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.imperial-penal-south.blackrose",
+      "kind": "place",
+      "placeId": "place.imperial-penal-south.blackrose",
+      "positionM": [
+        2359.5,
+        6415.0
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.imperial-penal-south.lake-boardwalk-village",
+      "kind": "place",
+      "placeId": "place.imperial-penal-south.lake-boardwalk-village",
+      "positionM": [
+        2552.6,
+        6067.5
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.imperial-penal-south.lake-ferry-stage",
+      "kind": "place",
+      "placeId": "place.imperial-penal-south.lake-ferry-stage",
+      "positionM": [
+        2634.8,
+        6489.7
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.imperial-penal-south.longmont",
+      "kind": "place",
+      "placeId": "place.imperial-penal-south.longmont",
+      "positionM": [
+        2081.0,
+        5924.9
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.imperial-penal-south.three-gate-toll",
+      "kind": "place",
+      "placeId": "place.imperial-penal-south.three-gate-toll",
+      "positionM": [
+        1620.4,
+        6659.7
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.bramman-river-ferry",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.bramman-river-ferry",
+      "positionM": [
+        1025.5,
+        7073.7
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.lighter-flotilla",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.lighter-flotilla",
+      "positionM": [
+        507.2,
+        5365.6
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.lilmoth",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.lilmoth",
+      "positionM": [
+        3610.8,
+        6384.7
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.oliis-boardwalk",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.oliis-boardwalk",
+      "positionM": [
+        260.5,
+        5968.8
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.oliis-ferry-stage",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.oliis-ferry-stage",
+      "positionM": [
+        348.2,
+        5930.4
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.soulrest",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.soulrest",
+      "positionM": [
+        518.4,
+        6530.0
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.pirate-freeholds.alten-corimont",
+      "kind": "place",
+      "placeId": "place.pirate-freeholds.alten-corimont",
+      "positionM": [
+        3834.2,
+        1142.9
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.saxhleel-coast.archon",
+      "kind": "place",
+      "placeId": "place.saxhleel-coast.archon",
+      "positionM": [
+        5161.5,
+        4645.3
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.saxhleel-coast.estuary-ferry-stage",
+      "kind": "place",
+      "placeId": "place.saxhleel-coast.estuary-ferry-stage",
+      "positionM": null,
+      "status": "deferred"
+    },
+    {
+      "id": "station.saxhleel-coast.jungle-ferry-stage",
+      "kind": "place",
+      "placeId": "place.saxhleel-coast.jungle-ferry-stage",
+      "positionM": null,
+      "status": "deferred"
+    },
+    {
+      "id": "station.saxhleel-coast.portdun-mont",
+      "kind": "place",
+      "placeId": "place.saxhleel-coast.portdun-mont",
+      "positionM": [
+        5039.3,
+        5099.6
+      ],
+      "status": "active"
+    }
+  ],
+  "vocabulary": {
+    "hopFollows": [
+      "lane",
+      "reaches",
+      "rootway",
+      "road"
+    ],
+    "kinds": [
+      "ferry",
+      "boat",
+      "rootworm",
+      "guide",
+      "cart",
+      "porter"
+    ],
+    "stationKinds": [
+      "place",
+      "ferry-landing",
+      "root-node"
+    ]
+  },
+  "source": "world/sources/routes/travel-services.json via worldgen.export_routes"
+}

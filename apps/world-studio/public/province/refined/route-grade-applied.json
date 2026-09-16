@@ -1,0 +1,1917 @@
+{
+  "_": "frozenSha256 is the NATURAL array this stage started from and naturalSha256 the graded array it wrote: the same key names as terrain-patches-applied.json so patch_water --graded reads both.",
+  "applied": 136,
+  "base": "refined-height-natural-f32.npy",
+  "frozenSha256": "02488c6dbbb19de6b7cd3e39bc5953862ff96f99008bd0668b053119918597c4",
+  "naturalSha256": "3a767991a84d876832684bd28e7751321b1af8e0444733a2562d4e0988adf686",
+  "output": "refined-height-f32.npy",
+  "patches": [
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.000",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.439,
+      "receipt": {},
+      "region": [
+        627,
+        643,
+        1841,
+        1865
+      ],
+      "samplesChanged": 68,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.001",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.832,
+      "receipt": {},
+      "region": [
+        636,
+        653,
+        1784,
+        1802
+      ],
+      "samplesChanged": 94,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.002",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.301,
+      "receipt": {},
+      "region": [
+        752,
+        802,
+        1665,
+        1736
+      ],
+      "samplesChanged": 225,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.003",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.481,
+      "receipt": {},
+      "region": [
+        899,
+        923,
+        1596,
+        1613
+      ],
+      "samplesChanged": 56,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.004",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.667,
+      "receipt": {},
+      "region": [
+        922,
+        943,
+        1557,
+        1585
+      ],
+      "samplesChanged": 198,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.006",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.891,
+      "receipt": {},
+      "region": [
+        918,
+        955,
+        1473,
+        1520
+      ],
+      "samplesChanged": 309,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.007",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.25,
+      "receipt": {},
+      "region": [
+        915,
+        925,
+        1456,
+        1468
+      ],
+      "samplesChanged": 65,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.008",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.91,
+      "receipt": {},
+      "region": [
+        898,
+        919,
+        1413,
+        1426
+      ],
+      "samplesChanged": 142,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.010",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.738,
+      "receipt": {},
+      "region": [
+        884,
+        892,
+        1394,
+        1411
+      ],
+      "samplesChanged": 73,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.011",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.155,
+      "receipt": {},
+      "region": [
+        866,
+        889,
+        1344,
+        1394
+      ],
+      "samplesChanged": 357,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.014",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.219,
+      "receipt": {},
+      "region": [
+        803,
+        857,
+        1349,
+        1366
+      ],
+      "samplesChanged": 75,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.015",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.187,
+      "receipt": {},
+      "region": [
+        769,
+        784,
+        1326,
+        1339
+      ],
+      "samplesChanged": 18,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.016",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.702,
+      "receipt": {},
+      "region": [
+        713,
+        753,
+        1320,
+        1333
+      ],
+      "samplesChanged": 175,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.017",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.928,
+      "receipt": {},
+      "region": [
+        573,
+        588,
+        1309,
+        1321
+      ],
+      "samplesChanged": 71,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-alten-corimont-stormhold.019",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.602,
+      "receipt": {},
+      "region": [
+        399,
+        443,
+        1431,
+        1456
+      ],
+      "samplesChanged": 249,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.000",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.45,
+      "receipt": {},
+      "region": [
+        2440,
+        2456,
+        2767,
+        2779
+      ],
+      "samplesChanged": 23,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.001",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.49,
+      "receipt": {},
+      "region": [
+        2037,
+        2053,
+        2703,
+        2713
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.002",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.172,
+      "receipt": {},
+      "region": [
+        1908,
+        1916,
+        2446,
+        2465
+      ],
+      "samplesChanged": 83,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.003",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.396,
+      "receipt": {},
+      "region": [
+        1885,
+        1894,
+        2398,
+        2413
+      ],
+      "samplesChanged": 65,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.004",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.607,
+      "receipt": {},
+      "region": [
+        1845,
+        1882,
+        2373,
+        2406
+      ],
+      "samplesChanged": 303,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.007",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.188,
+      "receipt": {},
+      "region": [
+        1822,
+        1838,
+        2404,
+        2419
+      ],
+      "samplesChanged": 105,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.008",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.92,
+      "receipt": {},
+      "region": [
+        1786,
+        1820,
+        2353,
+        2402
+      ],
+      "samplesChanged": 293,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.010",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.543,
+      "receipt": {},
+      "region": [
+        1736,
+        1768,
+        2265,
+        2279
+      ],
+      "samplesChanged": 163,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.012",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.126,
+      "receipt": {},
+      "region": [
+        1708,
+        1723,
+        2182,
+        2197
+      ],
+      "samplesChanged": 77,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.014",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.833,
+      "receipt": {},
+      "region": [
+        1734,
+        1751,
+        2129,
+        2143
+      ],
+      "samplesChanged": 85,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.015",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.638,
+      "receipt": {},
+      "region": [
+        1743,
+        1753,
+        2041,
+        2057
+      ],
+      "samplesChanged": 71,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.016",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.368,
+      "receipt": {},
+      "region": [
+        1790,
+        1798,
+        1918,
+        1934
+      ],
+      "samplesChanged": 68,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.017",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.013,
+      "receipt": {},
+      "region": [
+        1818,
+        1832,
+        1711,
+        1733
+      ],
+      "samplesChanged": 3,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.018",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.318,
+      "receipt": {},
+      "region": [
+        1817,
+        1828,
+        1647,
+        1670
+      ],
+      "samplesChanged": 67,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.019",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.749,
+      "receipt": {},
+      "region": [
+        1773,
+        1783,
+        1567,
+        1582
+      ],
+      "samplesChanged": 46,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.020",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.886,
+      "receipt": {},
+      "region": [
+        1785,
+        1795,
+        1500,
+        1516
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.021",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.84,
+      "receipt": {},
+      "region": [
+        1762,
+        1777,
+        1471,
+        1486
+      ],
+      "samplesChanged": 77,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.022",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.722,
+      "receipt": {},
+      "region": [
+        1746,
+        1759,
+        1458,
+        1474
+      ],
+      "samplesChanged": 78,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.023",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.332,
+      "receipt": {},
+      "region": [
+        1731,
+        1744,
+        1381,
+        1402
+      ],
+      "samplesChanged": 107,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.025",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.733,
+      "receipt": {},
+      "region": [
+        1733,
+        1751,
+        1284,
+        1315
+      ],
+      "samplesChanged": 210,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.027",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.999,
+      "receipt": {},
+      "region": [
+        1744,
+        1768,
+        1254,
+        1279
+      ],
+      "samplesChanged": 100,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.028",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.565,
+      "receipt": {},
+      "region": [
+        1761,
+        1771,
+        1215,
+        1228
+      ],
+      "samplesChanged": 71,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.029",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.86,
+      "receipt": {},
+      "region": [
+        1776,
+        1786,
+        1000,
+        1012
+      ],
+      "samplesChanged": 62,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.030",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.385,
+      "receipt": {},
+      "region": [
+        1747,
+        1762,
+        988,
+        1000
+      ],
+      "samplesChanged": 71,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.031",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.215,
+      "receipt": {},
+      "region": [
+        1685,
+        1701,
+        977,
+        988
+      ],
+      "samplesChanged": 74,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.032",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.882,
+      "receipt": {},
+      "region": [
+        1659,
+        1669,
+        954,
+        966
+      ],
+      "samplesChanged": 64,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.033",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.173,
+      "receipt": {},
+      "region": [
+        1656,
+        1666,
+        932,
+        948
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.035",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.132,
+      "receipt": {},
+      "region": [
+        1657,
+        1675,
+        840,
+        855
+      ],
+      "samplesChanged": 110,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-archon-gideon.037",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.292,
+      "receipt": {},
+      "region": [
+        1651,
+        1668,
+        822,
+        832
+      ],
+      "samplesChanged": 77,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-blackrose-lilmoth.000",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.327,
+      "receipt": {},
+      "region": [
+        3450,
+        3462,
+        1357,
+        1372
+      ],
+      "samplesChanged": 41,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-blackrose-lilmoth.001",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.07,
+      "receipt": {},
+      "region": [
+        3449,
+        3464,
+        2024,
+        2047
+      ],
+      "samplesChanged": 128,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-blackrose-lilmoth.002",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.31,
+      "receipt": {},
+      "region": [
+        3456,
+        3481,
+        2004,
+        2023
+      ],
+      "samplesChanged": 143,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-blackrose-lilmoth.004",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.853,
+      "receipt": {},
+      "region": [
+        3494,
+        3505,
+        1981,
+        2000
+      ],
+      "samplesChanged": 89,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.000",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.698,
+      "receipt": {},
+      "region": [
+        1800,
+        1828,
+        638,
+        663
+      ],
+      "samplesChanged": 26,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.002",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.782,
+      "receipt": {},
+      "region": [
+        1761,
+        1780,
+        554,
+        574
+      ],
+      "samplesChanged": 145,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.004",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 2.425,
+      "receipt": {},
+      "region": [
+        1746,
+        1792,
+        515,
+        544
+      ],
+      "samplesChanged": 414,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.006",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.309,
+      "receipt": {},
+      "region": [
+        1719,
+        1744,
+        501,
+        520
+      ],
+      "samplesChanged": 137,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.008",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.584,
+      "receipt": {},
+      "region": [
+        1741,
+        1756,
+        376,
+        396
+      ],
+      "samplesChanged": 111,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.009",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.814,
+      "receipt": {},
+      "region": [
+        1729,
+        1761,
+        316,
+        372
+      ],
+      "samplesChanged": 644,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.010",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.639,
+      "receipt": {},
+      "region": [
+        1617,
+        1627,
+        88,
+        103
+      ],
+      "samplesChanged": 71,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.011",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.217,
+      "receipt": {},
+      "region": [
+        1621,
+        1633,
+        63,
+        87
+      ],
+      "samplesChanged": 122,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.013",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.837,
+      "receipt": {},
+      "region": [
+        1589,
+        1612,
+        33,
+        52
+      ],
+      "samplesChanged": 159,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.015",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.746,
+      "receipt": {},
+      "region": [
+        1636,
+        1653,
+        21,
+        31
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.016",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.317,
+      "receipt": {},
+      "region": [
+        1658,
+        1676,
+        18,
+        28
+      ],
+      "samplesChanged": 33,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-blackwood-road.017",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.848,
+      "receipt": {},
+      "region": [
+        1677,
+        1696,
+        15,
+        25
+      ],
+      "samplesChanged": 104,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.010",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.391,
+      "receipt": {},
+      "region": [
+        1940,
+        1955,
+        1136,
+        1151
+      ],
+      "samplesChanged": 77,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.011",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.25,
+      "receipt": {},
+      "region": [
+        2074,
+        2129,
+        1149,
+        1185
+      ],
+      "samplesChanged": 453,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.012",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.401,
+      "receipt": {},
+      "region": [
+        2214,
+        2225,
+        1065,
+        1079
+      ],
+      "samplesChanged": 58,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.013",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.079,
+      "receipt": {},
+      "region": [
+        2225,
+        2243,
+        1065,
+        1097
+      ],
+      "samplesChanged": 170,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.014",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.668,
+      "receipt": {},
+      "region": [
+        2259,
+        2271,
+        1110,
+        1123
+      ],
+      "samplesChanged": 67,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.015",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.711,
+      "receipt": {},
+      "region": [
+        2325,
+        2340,
+        1083,
+        1096
+      ],
+      "samplesChanged": 73,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.016",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.841,
+      "receipt": {},
+      "region": [
+        2739,
+        2749,
+        813,
+        832
+      ],
+      "samplesChanged": 66,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.017",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.048,
+      "receipt": {},
+      "region": [
+        2709,
+        2739,
+        747,
+        774
+      ],
+      "samplesChanged": 156,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.018",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.515,
+      "receipt": {},
+      "region": [
+        2788,
+        2808,
+        729,
+        741
+      ],
+      "samplesChanged": 96,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.019",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.293,
+      "receipt": {},
+      "region": [
+        2889,
+        2906,
+        702,
+        709
+      ],
+      "samplesChanged": 71,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.020",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.653,
+      "receipt": {},
+      "region": [
+        2958,
+        2975,
+        663,
+        676
+      ],
+      "samplesChanged": 70,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.021",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.417,
+      "receipt": {},
+      "region": [
+        3022,
+        3039,
+        669,
+        676
+      ],
+      "samplesChanged": 71,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.022",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.668,
+      "receipt": {},
+      "region": [
+        3516,
+        3531,
+        277,
+        295
+      ],
+      "samplesChanged": 92,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.023",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.363,
+      "receipt": {},
+      "region": [
+        3573,
+        3583,
+        253,
+        267
+      ],
+      "samplesChanged": 56,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-soulrest.024",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.412,
+      "receipt": {},
+      "region": [
+        3572,
+        3583,
+        268,
+        284
+      ],
+      "samplesChanged": 32,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.014",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.451,
+      "receipt": {},
+      "region": [
+        1324,
+        1340,
+        1260,
+        1268
+      ],
+      "samplesChanged": 59,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.015",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.065,
+      "receipt": {},
+      "region": [
+        1072,
+        1087,
+        1206,
+        1219
+      ],
+      "samplesChanged": 96,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.016",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.682,
+      "receipt": {},
+      "region": [
+        1056,
+        1066,
+        1191,
+        1208
+      ],
+      "samplesChanged": 77,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.017",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.715,
+      "receipt": {},
+      "region": [
+        1077,
+        1087,
+        1126,
+        1142
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.018",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.489,
+      "receipt": {},
+      "region": [
+        1068,
+        1084,
+        1089,
+        1107
+      ],
+      "samplesChanged": 90,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.019",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.762,
+      "receipt": {},
+      "region": [
+        1065,
+        1075,
+        1116,
+        1128
+      ],
+      "samplesChanged": 62,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.020",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 2.586,
+      "receipt": {},
+      "region": [
+        1035,
+        1064,
+        1139,
+        1159
+      ],
+      "samplesChanged": 199,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.022",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.78,
+      "receipt": {},
+      "region": [
+        1011,
+        1027,
+        1130,
+        1143
+      ],
+      "samplesChanged": 97,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-gideon-stormhold.023",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.715,
+      "receipt": {},
+      "region": [
+        988,
+        1003,
+        1212,
+        1227
+      ],
+      "samplesChanged": 77,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.001",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.48,
+      "receipt": {},
+      "region": [
+        1832,
+        1844,
+        1854,
+        1868
+      ],
+      "samplesChanged": 70,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.002",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.973,
+      "receipt": {},
+      "region": [
+        1886,
+        1897,
+        1845,
+        1869
+      ],
+      "samplesChanged": 68,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.004",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.633,
+      "receipt": {},
+      "region": [
+        1927,
+        1944,
+        1804,
+        1848
+      ],
+      "samplesChanged": 115,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.005",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.803,
+      "receipt": {},
+      "region": [
+        1968,
+        1979,
+        1702,
+        1717
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.006",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.852,
+      "receipt": {},
+      "region": [
+        2154,
+        2184,
+        1593,
+        1612
+      ],
+      "samplesChanged": 169,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.008",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.552,
+      "receipt": {},
+      "region": [
+        2276,
+        2298,
+        1518,
+        1532
+      ],
+      "samplesChanged": 110,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.009",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.969,
+      "receipt": {},
+      "region": [
+        2316,
+        2331,
+        1500,
+        1511
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.010",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.299,
+      "receipt": {},
+      "region": [
+        2717,
+        2734,
+        1548,
+        1555
+      ],
+      "samplesChanged": 52,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-helstrom-blackrose.011",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.278,
+      "receipt": {},
+      "region": [
+        2916,
+        2931,
+        1524,
+        1537
+      ],
+      "samplesChanged": 13,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.003",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.371,
+      "receipt": {},
+      "region": [
+        3356,
+        3367,
+        521,
+        537
+      ],
+      "samplesChanged": 74,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.004",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.411,
+      "receipt": {},
+      "region": [
+        3363,
+        3370,
+        541,
+        558
+      ],
+      "samplesChanged": 71,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.005",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.077,
+      "receipt": {},
+      "region": [
+        3394,
+        3422,
+        555,
+        566
+      ],
+      "samplesChanged": 134,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.006",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.69,
+      "receipt": {},
+      "region": [
+        3458,
+        3473,
+        585,
+        599
+      ],
+      "samplesChanged": 75,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.007",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.483,
+      "receipt": {},
+      "region": [
+        3498,
+        3520,
+        741,
+        779
+      ],
+      "samplesChanged": 100,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.008",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.019,
+      "receipt": {},
+      "region": [
+        3370,
+        3397,
+        837,
+        849
+      ],
+      "samplesChanged": 134,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.009",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.628,
+      "receipt": {},
+      "region": [
+        3348,
+        3359,
+        860,
+        876
+      ],
+      "samplesChanged": 74,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.010",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.699,
+      "receipt": {},
+      "region": [
+        3349,
+        3364,
+        877,
+        910
+      ],
+      "samplesChanged": 172,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-soulrest-blackrose.011",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.382,
+      "receipt": {},
+      "region": [
+        3387,
+        3397,
+        1238,
+        1258
+      ],
+      "samplesChanged": 30,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.014",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.435,
+      "receipt": {},
+      "region": [
+        867,
+        879,
+        1855,
+        1870
+      ],
+      "samplesChanged": 76,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.015",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.437,
+      "receipt": {},
+      "region": [
+        882,
+        905,
+        1869,
+        1898
+      ],
+      "samplesChanged": 172,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.016",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.595,
+      "receipt": {},
+      "region": [
+        905,
+        913,
+        1906,
+        1922
+      ],
+      "samplesChanged": 68,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.018",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.262,
+      "receipt": {},
+      "region": [
+        984,
+        1000,
+        1881,
+        1894
+      ],
+      "samplesChanged": 73,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.019",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.652,
+      "receipt": {},
+      "region": [
+        1046,
+        1091,
+        1866,
+        1895
+      ],
+      "samplesChanged": 205,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.020",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.216,
+      "receipt": {},
+      "region": [
+        1110,
+        1120,
+        1929,
+        1945
+      ],
+      "samplesChanged": 35,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.021",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.642,
+      "receipt": {},
+      "region": [
+        1175,
+        1184,
+        2024,
+        2039
+      ],
+      "samplesChanged": 65,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.022",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.921,
+      "receipt": {},
+      "region": [
+        1161,
+        1174,
+        2046,
+        2073
+      ],
+      "samplesChanged": 133,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.024",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.928,
+      "receipt": {},
+      "region": [
+        1307,
+        1336,
+        2184,
+        2195
+      ],
+      "samplesChanged": 141,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.025",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.431,
+      "receipt": {},
+      "region": [
+        1457,
+        1465,
+        2240,
+        2256
+      ],
+      "samplesChanged": 68,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.027",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.437,
+      "receipt": {},
+      "region": [
+        1464,
+        1472,
+        2306,
+        2322
+      ],
+      "samplesChanged": 68,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.028",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.299,
+      "receipt": {},
+      "region": [
+        1460,
+        1468,
+        2341,
+        2357
+      ],
+      "samplesChanged": 38,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.029",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.431,
+      "receipt": {},
+      "region": [
+        1446,
+        1456,
+        2579,
+        2592
+      ],
+      "samplesChanged": 53,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.030",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.55,
+      "receipt": {},
+      "region": [
+        1422,
+        1437,
+        2638,
+        2653
+      ],
+      "samplesChanged": 49,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.031",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.689,
+      "receipt": {},
+      "region": [
+        1336,
+        1361,
+        2703,
+        2721
+      ],
+      "samplesChanged": 139,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.032",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.061,
+      "receipt": {},
+      "region": [
+        1326,
+        1337,
+        2789,
+        2813
+      ],
+      "samplesChanged": 116,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.033",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.618,
+      "receipt": {},
+      "region": [
+        1353,
+        1363,
+        2857,
+        2873
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.034",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.636,
+      "receipt": {},
+      "region": [
+        1059,
+        1072,
+        2943,
+        2956
+      ],
+      "samplesChanged": 68,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.035",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.632,
+      "receipt": {},
+      "region": [
+        978,
+        988,
+        2910,
+        2923
+      ],
+      "samplesChanged": 67,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.036",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.015,
+      "receipt": {},
+      "region": [
+        960,
+        976,
+        2892,
+        2902
+      ],
+      "samplesChanged": 56,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.037",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.986,
+      "receipt": {},
+      "region": [
+        958,
+        970,
+        2880,
+        2890
+      ],
+      "samplesChanged": 61,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.039",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.485,
+      "receipt": {},
+      "region": [
+        810,
+        826,
+        3159,
+        3177
+      ],
+      "samplesChanged": 126,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.040",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.187,
+      "receipt": {},
+      "region": [
+        813,
+        828,
+        3211,
+        3226
+      ],
+      "samplesChanged": 14,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.041",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.026,
+      "receipt": {},
+      "region": [
+        722,
+        740,
+        3327,
+        3337
+      ],
+      "samplesChanged": 84,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.042",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.879,
+      "receipt": {},
+      "region": [
+        664,
+        680,
+        3345,
+        3357
+      ],
+      "samplesChanged": 76,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.043",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.955,
+      "receipt": {},
+      "region": [
+        583,
+        626,
+        3417,
+        3430
+      ],
+      "samplesChanged": 44,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.044",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.686,
+      "receipt": {},
+      "region": [
+        506,
+        564,
+        3399,
+        3420
+      ],
+      "samplesChanged": 328,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.045",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 2.101,
+      "receipt": {},
+      "region": [
+        492,
+        506,
+        3399,
+        3414
+      ],
+      "samplesChanged": 101,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.047",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 2.531,
+      "receipt": {},
+      "region": [
+        413,
+        454,
+        3338,
+        3358
+      ],
+      "samplesChanged": 217,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.048",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 0.875,
+      "receipt": {},
+      "region": [
+        361,
+        376,
+        3336,
+        3346
+      ],
+      "samplesChanged": 72,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-stormhold-thorn.049",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.145,
+      "receipt": {},
+      "region": [
+        318,
+        347,
+        3384,
+        3400
+      ],
+      "samplesChanged": 181,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-thorn-tear-road.001",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.449,
+      "receipt": {},
+      "region": [
+        363,
+        379,
+        3471,
+        3517
+      ],
+      "samplesChanged": 234,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-thorn-tear-road.004",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 2.923,
+      "receipt": {},
+      "region": [
+        293,
+        359,
+        3479,
+        3515
+      ],
+      "samplesChanged": 698,
+      "status": "applied"
+    },
+    {
+      "id": "patch.route-grade.road-thorn-tear-road.005",
+      "kind": "route-grade",
+      "maxAbsDeltaM": 1.859,
+      "receipt": {},
+      "region": [
+        267,
+        285,
+        3522,
+        3538
+      ],
+      "samplesChanged": 138,
+      "status": "applied"
+    }
+  ],
+  "patchesFile": "/home/analyticalplatform/workspace/elder-souls-dev/elder-souls-argonia/world/sources/terrain/route-grade-patches.json",
+  "refused": 0,
+  "schemaVersion": 1
+}

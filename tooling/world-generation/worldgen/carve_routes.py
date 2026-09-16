@@ -5,8 +5,8 @@
 
 THE BUG THIS FIXES. The chain used to carve the ground along the PUBLISHED
 route files and then, later in the same run, rewrite those files from that
-ground: `reroute_majors` repairs every stretch of `routes.json` too steep to
-walk, and `compile_minor_routes` re-solves `routes-minor.json` over the new
+ground: the major-road stage rewrote `routes.json` from the graded heights,
+and `compile_minor_routes` re-solves `routes-minor.json` over the new
 height grid. That is a cycle, not a pipeline. Two `--force` runs of the chain
 on identical sources moved 147 of the 1,809 files it publishes, because run 2
 carved the terrain for run 1's rewritten roads. Nothing could ever be declared

@@ -1,0 +1,4918 @@
+{
+  "schemaVersion": 2,
+  "thresholds": {
+    "deepM": 0.3,
+    "fordMaxM": 20.0,
+    "fordMaxDepthM": 1.2,
+    "ferryMinM": 70.0,
+    "dedupeGridM": 30.0
+  },
+  "counts": {
+    "major": {
+      "total": 50,
+      "lake": 7,
+      "river": 11,
+      "marsh": 32,
+      "bands": {
+        "ferry": 1,
+        "span": 22,
+        "ford": 27
+      }
+    },
+    "minor": {
+      "total": 101,
+      "lake": 23,
+      "river": 34,
+      "marsh": 44,
+      "bands": {
+        "ferry": 7,
+        "span": 28,
+        "ford": 66
+      }
+    }
+  },
+  "deepestM": 18.32,
+  "widestM": 411.3,
+  "crossings": [
+    {
+      "wayName": "the Blackwood Road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "lake",
+      "entityId": "body.221-1650",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        430.9,
+        3092.6
+      ],
+      "banks": [
+        [
+          524.9,
+          3191.4
+        ],
+        [
+          350.2,
+          3044.1
+        ]
+      ],
+      "spanM": 411.3,
+      "maxDepthM": 6.84,
+      "nearestPlaceId": "place.imperial-fringe.the-drowning-gate",
+      "nearestPlaceName": "The Drowning Gate",
+      "nearestPlaceM": 90.2,
+      "servesRoutes": [
+        "route.road.gideon-blackwood-road"
+      ],
+      "band": "ferry",
+      "id": "crossing.major.001"
+    },
+    {
+      "wayName": "the Tear road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.3525-81",
+      "entityKind": "swamp",
+      "positionM": [
+        6504.1,
+        357.8
+      ],
+      "banks": [
+        [
+          6560.6,
+          452.0
+        ],
+        [
+          6487.0,
+          253.8
+        ]
+      ],
+      "spanM": 242.3,
+      "maxDepthM": 2.52,
+      "nearestPlaceId": "place.dunmer-north.branchmont",
+      "nearestPlaceName": "Branchmont",
+      "nearestPlaceM": 90.8,
+      "servesRoutes": [
+        "route.road.thorn-tear-road"
+      ],
+      "band": "span",
+      "id": "crossing.major.002"
+    },
+    {
+      "wayName": "the Prison road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1284-3448",
+      "entityKind": "swamp",
+      "positionM": [
+        2415.5,
+        6373.5
+      ],
+      "banks": [
+        [
+          2355.6,
+          6396.1
+        ],
+        [
+          2459.0,
+          6341.3
+        ]
+      ],
+      "spanM": 231.8,
+      "maxDepthM": 3.69,
+      "nearestPlaceId": "place.imperial-penal-south.blackrose",
+      "nearestPlaceName": "Blackrose",
+      "nearestPlaceM": 69.7,
+      "servesRoutes": [
+        "route.road.blackrose-lilmoth",
+        "route.road.helstrom-blackrose",
+        "route.road.soulrest-blackrose"
+      ],
+      "band": "span",
+      "id": "crossing.major.003"
+    },
+    {
+      "wayName": "the Tear road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.3525-81",
+      "entityKind": "swamp",
+      "positionM": [
+        6430.6,
+        130.2
+      ],
+      "banks": [
+        [
+          6458.0,
+          213.9
+        ],
+        [
+          6410.2,
+          43.1
+        ]
+      ],
+      "spanM": 195.8,
+      "maxDepthM": 2.64,
+      "nearestPlaceId": "place.dunmer-north.branchmont",
+      "nearestPlaceName": "Branchmont",
+      "nearestPlaceM": 185.2,
+      "servesRoutes": [
+        "route.road.thorn-tear-road"
+      ],
+      "band": "span",
+      "id": "crossing.major.004"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1787-344",
+      "entityKind": "lake-lowland",
+      "positionM": [
+        3363.8,
+        700.8
+      ],
+      "banks": [
+        [
+          3396.6,
+          705.0
+        ],
+        [
+          3328.5,
+          701.9
+        ]
+      ],
+      "spanM": 166.6,
+      "maxDepthM": 2.76,
+      "nearestPlaceId": "place.dunmer-north.tear-road-stage",
+      "nearestPlaceName": "Tear Road Stage",
+      "nearestPlaceM": 52.8,
+      "servesRoutes": [
+        "track.dunmer-north.tear-road-stage"
+      ],
+      "band": "ferry",
+      "id": "crossing.minor.005"
+    },
+    {
+      "wayName": "the Bogmother causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        2647.9,
+        6060.4
+      ],
+      "banks": [
+        [
+          2585.9,
+          6026.4
+        ],
+        [
+          2700.2,
+          6116.5
+        ]
+      ],
+      "spanM": 156.2,
+      "maxDepthM": 2.04,
+      "nearestPlaceId": "place.imperial-penal-south.lake-boardwalk-village",
+      "nearestPlaceName": "Spine",
+      "nearestPlaceM": 95.5,
+      "servesRoutes": [
+        "route.road.helstrom-blackrose"
+      ],
+      "band": "span",
+      "id": "crossing.major.006"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.2926-515",
+      "entityKind": "pond",
+      "positionM": [
+        5370.7,
+        934.0
+      ],
+      "banks": [
+        [
+          5335.5,
+          904.8
+        ],
+        [
+          5373.8,
+          978.4
+        ]
+      ],
+      "spanM": 152.7,
+      "maxDepthM": 12.8,
+      "nearestPlaceId": "place.dunmer-north.the-shut-village",
+      "nearestPlaceName": "The Shut Village",
+      "nearestPlaceM": 41.9,
+      "servesRoutes": [
+        "track.dunmer-north.the-shut-village"
+      ],
+      "band": "ferry",
+      "id": "crossing.minor.007"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2848-1068",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        5279.5,
+        1985.6
+      ],
+      "banks": [
+        [
+          5249.3,
+          2005.4
+        ],
+        [
+          5328.4,
+          2012.5
+        ]
+      ],
+      "spanM": 145.4,
+      "maxDepthM": 1.54,
+      "nearestPlaceId": "place.hist-heartland.sleeping-in-the-ring",
+      "nearestPlaceName": "Sleeps-In-The-Ring",
+      "nearestPlaceM": 49.6,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.008"
+    },
+    {
+      "wayName": "the Coast road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        2538.4,
+        6222.1
+      ],
+      "banks": [
+        [
+          2488.7,
+          6223.8
+        ],
+        [
+          2582.7,
+          6246.5
+        ]
+      ],
+      "spanM": 119.1,
+      "maxDepthM": 1.68,
+      "nearestPlaceId": "place.imperial-penal-south.cordon-cellars",
+      "nearestPlaceName": "Cordon Two, Under-Stores",
+      "nearestPlaceM": 135.0,
+      "servesRoutes": [
+        "route.track.mercantile-coast.coast-road",
+        "route.road.soulrest-blackrose"
+      ],
+      "band": "span",
+      "id": "crossing.major.009"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.221-1650",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        464.9,
+        3133.0
+      ],
+      "banks": [
+        [
+          512.3,
+          3138.9
+        ],
+        [
+          433.2,
+          3136.6
+        ]
+      ],
+      "spanM": 114.5,
+      "maxDepthM": 5.4,
+      "nearestPlaceId": "place.imperial-fringe.the-drowning-gate",
+      "nearestPlaceName": "The Drowning Gate",
+      "nearestPlaceM": 111.4,
+      "servesRoutes": [
+        "track.imperial-fringe.the-pass-shelter"
+      ],
+      "band": "ferry",
+      "id": "crossing.minor.010"
+    },
+    {
+      "wayName": "the Bogmother causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3332.5,
+        3156.5
+      ],
+      "banks": [
+        [
+          3325.4,
+          3112.3
+        ],
+        [
+          3352.0,
+          3200.8
+        ]
+      ],
+      "spanM": 102.5,
+      "maxDepthM": 3.72,
+      "nearestPlaceId": "place.hist-heartland.root-gallery-helstrom-underway",
+      "nearestPlaceName": "The Underway",
+      "nearestPlaceM": 289.6,
+      "servesRoutes": [
+        "route.road.helstrom-blackrose"
+      ],
+      "band": "span",
+      "id": "crossing.major.011"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.824-179",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1460.3,
+        306.3
+      ],
+      "banks": [
+        [
+          1420.2,
+          285.1
+        ],
+        [
+          1497.0,
+          338.4
+        ]
+      ],
+      "spanM": 100.3,
+      "maxDepthM": 8.28,
+      "nearestPlaceId": "place.dunmer-north.the-flu-cordon",
+      "nearestPlaceName": "The Flu Cordon",
+      "nearestPlaceM": 41.5,
+      "servesRoutes": [
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "ferry",
+      "id": "crossing.minor.012"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.635-1651",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1210.7,
+        3035.0
+      ],
+      "banks": [
+        [
+          1222.8,
+          3024.6
+        ],
+        [
+          1219.7,
+          3062.2
+        ]
+      ],
+      "spanM": 99.7,
+      "maxDepthM": 5.71,
+      "nearestPlaceId": "place.imperial-fringe.gideon",
+      "nearestPlaceName": "Gideon",
+      "nearestPlaceM": 131.9,
+      "servesRoutes": [
+        "track.imperial-fringe.moonmarch-ground"
+      ],
+      "band": "ferry",
+      "id": "crossing.minor.013"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1277-865",
+      "entityKind": "lake-lowland",
+      "positionM": [
+        2423.9,
+        1504.3
+      ],
+      "banks": [
+        [
+          2445.6,
+          1537.7
+        ],
+        [
+          2406.5,
+          1468.8
+        ]
+      ],
+      "spanM": 96.1,
+      "maxDepthM": 4.05,
+      "nearestPlaceId": "place.dunmer-north.the-drover-camp",
+      "nearestPlaceName": "Drover Camp",
+      "nearestPlaceM": 56.7,
+      "servesRoutes": [
+        "track.dunmer-north.the-northern-rest"
+      ],
+      "band": "ferry",
+      "id": "crossing.minor.014"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.221-1650",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        417.0,
+        3176.7
+      ],
+      "banks": [
+        [
+          387.0,
+          3204.7
+        ],
+        [
+          449.6,
+          3169.5
+        ]
+      ],
+      "spanM": 83.9,
+      "maxDepthM": 6.24,
+      "nearestPlaceId": "place.imperial-fringe.the-drowning-gate",
+      "nearestPlaceName": "The Drowning Gate",
+      "nearestPlaceM": 73.5,
+      "servesRoutes": [
+        "track.imperial-fringe.the-drowning-gate"
+      ],
+      "band": "ferry",
+      "id": "crossing.minor.015"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        2111.5,
+        5912.0
+      ],
+      "banks": [
+        [
+          2078.3,
+          5922.2
+        ],
+        [
+          2144.8,
+          5917.5
+        ]
+      ],
+      "spanM": 77.2,
+      "maxDepthM": 1.56,
+      "nearestPlaceId": "place.imperial-penal-south.longmont",
+      "nearestPlaceName": "Longmont",
+      "nearestPlaceM": 33.1,
+      "servesRoutes": [
+        "track.imperial-penal-south.longmont"
+      ],
+      "band": "span",
+      "id": "crossing.minor.016"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        4634.3,
+        2542.5
+      ],
+      "banks": [
+        [
+          4600.7,
+          2533.4
+        ],
+        [
+          4667.3,
+          2549.8
+        ]
+      ],
+      "spanM": 71.8,
+      "maxDepthM": 4.68,
+      "nearestPlaceId": "place.hist-heartland.hermit-hut-exile-warden",
+      "nearestPlaceName": "The Set-Aside Hut",
+      "nearestPlaceM": 235.2,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.017"
+    },
+    {
+      "wayName": "the Corimont road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1293-692",
+      "entityKind": "backswamp",
+      "positionM": [
+        2305.5,
+        1183.1
+      ],
+      "banks": [
+        [
+          2284.3,
+          1208.7
+        ],
+        [
+          2314.0,
+          1157.0
+        ]
+      ],
+      "spanM": 66.4,
+      "maxDepthM": 2.13,
+      "nearestPlaceId": "place.dunmer-north.hatching-pools",
+      "nearestPlaceName": "Hatching Pools",
+      "nearestPlaceM": 251.4,
+      "servesRoutes": [
+        "route.road.alten-corimont-stormhold",
+        "route.road.gideon-stormhold",
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.018"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2508-2288",
+      "entityKind": "swamp",
+      "positionM": [
+        4695.6,
+        4133.3
+      ],
+      "banks": [
+        [
+          4671.2,
+          4133.8
+        ],
+        [
+          4725.2,
+          4119.7
+        ]
+      ],
+      "spanM": 66.1,
+      "maxDepthM": 1.44,
+      "nearestPlaceId": "place.saxhleel-coast.wall-hist-village",
+      "nearestPlaceName": "Still-Water Sleeping-Tree",
+      "nearestPlaceM": 112.7,
+      "servesRoutes": [
+        "track.saxhleel-coast.wall-hist-village"
+      ],
+      "band": "span",
+      "id": "crossing.minor.019"
+    },
+    {
+      "wayName": "the Corimont road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1789-698",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3283.3,
+        1235.0
+      ],
+      "banks": [
+        [
+          3267.4,
+          1211.1
+        ],
+        [
+          3305.0,
+          1259.6
+        ]
+      ],
+      "spanM": 65.1,
+      "maxDepthM": 1.39,
+      "nearestPlaceId": "place.dunmer-north.the-shoal-bank",
+      "nearestPlaceName": "Shoal Bank",
+      "nearestPlaceM": 79.2,
+      "servesRoutes": [
+        "route.road.alten-corimont-stormhold"
+      ],
+      "band": "span",
+      "id": "crossing.major.020"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.294-3096",
+      "entityKind": "mudflat",
+      "positionM": [
+        535.8,
+        5662.4
+      ],
+      "banks": [
+        [
+          517.0,
+          5638.6
+        ],
+        [
+          553.8,
+          5686.4
+        ]
+      ],
+      "spanM": 60.8,
+      "maxDepthM": 0.59,
+      "nearestPlaceId": "place.mercantile-coast.oliis-drake-deep",
+      "nearestPlaceName": "The Drake Hole",
+      "nearestPlaceM": 216.3,
+      "servesRoutes": [
+        "track.mercantile-coast.lighter-flotilla"
+      ],
+      "band": "span",
+      "id": "crossing.minor.021"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2597.0,
+        2850.1
+      ],
+      "banks": [
+        [
+          2582.7,
+          2873.4
+        ],
+        [
+          2612.5,
+          2827.1
+        ]
+      ],
+      "spanM": 56.3,
+      "maxDepthM": 3.12,
+      "nearestPlaceId": "place.hist-heartland.artisan-chime-makers",
+      "nearestPlaceName": "Thousand-Chimes",
+      "nearestPlaceM": 201.5,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "span",
+      "id": "crossing.major.022"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.692-1779",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1302.9,
+        3243.9
+      ],
+      "banks": [
+        [
+          1318.4,
+          3260.3
+        ],
+        [
+          1299.6,
+          3218.8
+        ]
+      ],
+      "spanM": 56.1,
+      "maxDepthM": 3.23,
+      "nearestPlaceId": "place.imperial-fringe.the-marble-field",
+      "nearestPlaceName": "The Marble Field",
+      "nearestPlaceM": 75.8,
+      "servesRoutes": [
+        "track.imperial-fringe.stonewastes"
+      ],
+      "band": "span",
+      "id": "crossing.minor.023"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.805-583",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1467.5,
+        1145.7
+      ],
+      "banks": [
+        [
+          1442.2,
+          1146.1
+        ],
+        [
+          1492.3,
+          1139.8
+        ]
+      ],
+      "spanM": 55.1,
+      "maxDepthM": 3.32,
+      "nearestPlaceId": "place.dunmer-north.the-diggings-ladder",
+      "nearestPlaceName": "Diggings Ladder",
+      "nearestPlaceM": 51.8,
+      "servesRoutes": [
+        "track.dunmer-north.the-diggings-ladder",
+        "track.dunmer-north.silyanorn-diggings"
+      ],
+      "band": "span",
+      "id": "crossing.minor.024"
+    },
+    {
+      "wayName": "the Long road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "lake",
+      "entityId": "body.692-1779",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1357.2,
+        3068.3
+      ],
+      "banks": [
+        [
+          1380.3,
+          3063.7
+        ],
+        [
+          1334.1,
+          3080.2
+        ]
+      ],
+      "spanM": 54.1,
+      "maxDepthM": 2.75,
+      "nearestPlaceId": "place.imperial-fringe.gideon",
+      "nearestPlaceName": "Gideon",
+      "nearestPlaceM": 41.5,
+      "servesRoutes": [
+        "route.road.archon-gideon",
+        "route.road.gideon-blackwood-road",
+        "route.road.gideon-soulrest",
+        "route.road.gideon-stormhold"
+      ],
+      "band": "span",
+      "id": "crossing.major.025"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2121-3166",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        3939.1,
+        5801.6
+      ],
+      "banks": [
+        [
+          3926.2,
+          5777.3
+        ],
+        [
+          3942.7,
+          5825.8
+        ]
+      ],
+      "spanM": 53.8,
+      "maxDepthM": 0.82,
+      "nearestPlaceId": "place.mercantile-coast.bog-blight-ground-murkmire",
+      "nearestPlaceName": "Murkmire Pulled Field",
+      "nearestPlaceM": 42.8,
+      "servesRoutes": [
+        "track.mercantile-coast.ashroot-village"
+      ],
+      "band": "span",
+      "id": "crossing.minor.026"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        4055.2,
+        2251.0
+      ],
+      "banks": [
+        [
+          4046.8,
+          2227.9
+        ],
+        [
+          4067.2,
+          2274.1
+        ]
+      ],
+      "spanM": 52.8,
+      "maxDepthM": 3.96,
+      "nearestPlaceId": "place.hist-heartland.xal-meeruth-station",
+      "nearestPlaceName": "The Meeruth Station",
+      "nearestPlaceM": 50.9,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.027"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        4406.3,
+        1910.7
+      ],
+      "banks": [
+        [
+          4403.3,
+          1891.0
+        ],
+        [
+          4414.2,
+          1930.2
+        ]
+      ],
+      "spanM": 47.5,
+      "maxDepthM": 1.68,
+      "nearestPlaceId": "place.hist-heartland.wisp-lure-basin",
+      "nearestPlaceName": "The Guide-Lights",
+      "nearestPlaceM": 57.4,
+      "servesRoutes": [
+        "track.hist-heartland.walkway-junction-high-crossroads"
+      ],
+      "band": "span",
+      "id": "crossing.minor.028"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2368.9,
+        2319.7
+      ],
+      "banks": [
+        [
+          2348.5,
+          2319.5
+        ],
+        [
+          2389.2,
+          2323.4
+        ]
+      ],
+      "spanM": 40.5,
+      "maxDepthM": 2.04,
+      "nearestPlaceId": "place.hist-heartland.root-gallery-lantern-hollow",
+      "nearestPlaceName": "Lantern Hollow",
+      "nearestPlaceM": 124.5,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "span",
+      "id": "crossing.major.029"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3667.4,
+        2912.5
+      ],
+      "banks": [
+        [
+          3683.4,
+          2900.8
+        ],
+        [
+          3652.0,
+          2922.7
+        ]
+      ],
+      "spanM": 39.6,
+      "maxDepthM": 1.56,
+      "nearestPlaceId": "place.hist-heartland.guide-camp-gate-side",
+      "nearestPlaceName": "Gate-Side Camp",
+      "nearestPlaceM": 178.1,
+      "servesRoutes": [
+        "track.hist-heartland.bereaved-mnemic"
+      ],
+      "band": "span",
+      "id": "crossing.minor.030"
+    },
+    {
+      "wayName": "the Tear road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.3525-81",
+      "entityKind": "swamp",
+      "positionM": [
+        6479.9,
+        231.6
+      ],
+      "banks": [
+        [
+          6487.0,
+          246.8
+        ],
+        [
+          6465.1,
+          219.3
+        ]
+      ],
+      "spanM": 37.8,
+      "maxDepthM": 1.08,
+      "nearestPlaceId": "place.dunmer-north.branchmont",
+      "nearestPlaceName": "Branchmont",
+      "nearestPlaceM": 100.7,
+      "servesRoutes": [
+        "route.road.thorn-tear-road"
+      ],
+      "band": "span",
+      "id": "crossing.major.031"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3831.9,
+        2751.3
+      ],
+      "banks": [
+        [
+          3843.9,
+          2736.3
+        ],
+        [
+          3829.8,
+          2766.0
+        ]
+      ],
+      "spanM": 35.3,
+      "maxDepthM": 1.08,
+      "nearestPlaceId": "place.hist-heartland.guide-camp-gate-side",
+      "nearestPlaceName": "Gate-Side Camp",
+      "nearestPlaceM": 237.5,
+      "servesRoutes": [
+        "track.hist-heartland.bereaved-mnemic"
+      ],
+      "band": "span",
+      "id": "crossing.minor.032"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1912-542",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3502.9,
+        991.2
+      ],
+      "banks": [
+        [
+          3518.9,
+          983.1
+        ],
+        [
+          3487.5,
+          992.5
+        ]
+      ],
+      "spanM": 34.1,
+      "maxDepthM": 1.54,
+      "nearestPlaceId": "place.pirate-freeholds.corimont-hist-less-camp",
+      "nearestPlaceName": "No-Tree",
+      "nearestPlaceM": 67.2,
+      "servesRoutes": [
+        "track.pirate-freeholds.corimont-hist-less-camp"
+      ],
+      "band": "span",
+      "id": "crossing.minor.033"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1277-865",
+      "entityKind": "lake-lowland",
+      "positionM": [
+        2301.8,
+        1716.3
+      ],
+      "banks": [
+        [
+          2308.6,
+          1731.2
+        ],
+        [
+          2293.7,
+          1701.5
+        ]
+      ],
+      "spanM": 34.0,
+      "maxDepthM": 0.81,
+      "nearestPlaceId": "place.dunmer-north.the-monsoon-boom",
+      "nearestPlaceName": "The Monsoon Boom",
+      "nearestPlaceM": 59.1,
+      "servesRoutes": [
+        "track.dunmer-north.the-monsoon-boom"
+      ],
+      "band": "span",
+      "id": "crossing.minor.034"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.34-1661",
+      "entityKind": "backswamp",
+      "positionM": [
+        17.5,
+        3137.7
+      ],
+      "banks": [
+        [
+          8.6,
+          3142.1
+        ],
+        [
+          21.9,
+          3128.7
+        ]
+      ],
+      "spanM": 29.6,
+      "maxDepthM": 1.65,
+      "nearestPlaceId": "place.imperial-fringe.the-last-post",
+      "nearestPlaceName": "Last Post",
+      "nearestPlaceM": 51.0,
+      "servesRoutes": [
+        "track.imperial-fringe.the-last-post"
+      ],
+      "band": "span",
+      "id": "crossing.minor.035"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.611-2937",
+      "entityKind": "swamp",
+      "positionM": [
+        1104.2,
+        5361.4
+      ],
+      "banks": [
+        [
+          1091.2,
+          5357.4
+        ],
+        [
+          1117.1,
+          5368.4
+        ]
+      ],
+      "spanM": 28.8,
+      "maxDepthM": 1.19,
+      "nearestPlaceId": "place.naga-kur-deeps.naga-village-settled",
+      "nearestPlaceName": "Long-Water Hold",
+      "nearestPlaceM": 24.5,
+      "servesRoutes": [
+        "track.naga-kur-deeps.naga-village-settled"
+      ],
+      "band": "span",
+      "id": "crossing.minor.036"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1277-865",
+      "entityKind": "lake-lowland",
+      "positionM": [
+        2243.8,
+        1650.9
+      ],
+      "banks": [
+        [
+          2237.3,
+          1639.6
+        ],
+        [
+          2253.7,
+          1662.3
+        ]
+      ],
+      "spanM": 28.7,
+      "maxDepthM": 1.65,
+      "nearestPlaceId": "place.dunmer-north.the-lightning-yard",
+      "nearestPlaceName": "Lightning Yard",
+      "nearestPlaceM": 15.8,
+      "servesRoutes": [
+        "track.dunmer-north.the-lightning-yard"
+      ],
+      "band": "span",
+      "id": "crossing.minor.037"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3300.0,
+        371.7
+      ],
+      "banks": [
+        [
+          3310.5,
+          363.5
+        ],
+        [
+          3290.1,
+          378.4
+        ]
+      ],
+      "spanM": 25.4,
+      "maxDepthM": 2.04,
+      "nearestPlaceId": "place.dunmer-north.hackwing-wall",
+      "nearestPlaceName": "Hackwing Wall",
+      "nearestPlaceM": 200.4,
+      "servesRoutes": [
+        "track.dunmer-north.the-veterans-ridge"
+      ],
+      "band": "span",
+      "id": "crossing.minor.038"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.221-1650",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        362.8,
+        3151.0
+      ],
+      "banks": [
+        [
+          365.0,
+          3139.7
+        ],
+        [
+          358.0,
+          3162.4
+        ]
+      ],
+      "spanM": 25.4,
+      "maxDepthM": 1.56,
+      "nearestPlaceId": "place.imperial-fringe.the-drowning-gate",
+      "nearestPlaceName": "The Drowning Gate",
+      "nearestPlaceM": 14.8,
+      "servesRoutes": [
+        "track.imperial-fringe.the-drowning-gate"
+      ],
+      "band": "span",
+      "id": "crossing.minor.039"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2534.2,
+        3064.6
+      ],
+      "banks": [
+        [
+          2527.9,
+          3073.1
+        ],
+        [
+          2542.8,
+          3055.9
+        ]
+      ],
+      "spanM": 21.5,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.hist-heartland.artisan-chime-makers",
+      "nearestPlaceName": "Thousand-Chimes",
+      "nearestPlaceM": 39.3,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "span",
+      "id": "crossing.major.040"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1787-344",
+      "entityKind": "lake-lowland",
+      "positionM": [
+        3268.1,
+        797.9
+      ],
+      "banks": [
+        [
+          3265.8,
+          808.4
+        ],
+        [
+          3268.2,
+          787.3
+        ]
+      ],
+      "spanM": 20.2,
+      "maxDepthM": 0.36,
+      "nearestPlaceId": "place.dunmer-north.the-wamasu-shrine",
+      "nearestPlaceName": "Shrine of Haynekhtnamet",
+      "nearestPlaceM": 99.4,
+      "servesRoutes": [
+        "track.dunmer-north.the-north-cut"
+      ],
+      "band": "span",
+      "id": "crossing.minor.041"
+    },
+    {
+      "wayName": "the Lake road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.824-3417",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        1471.3,
+        6322.5
+      ],
+      "banks": [
+        [
+          1472.7,
+          6330.3
+        ],
+        [
+          1471.9,
+          6314.7
+        ]
+      ],
+      "spanM": 17.7,
+      "maxDepthM": 0.36,
+      "nearestPlaceId": "place.imperial-penal-south.saltrice-village",
+      "nearestPlaceName": "Wide-Furrow",
+      "nearestPlaceM": 82.8,
+      "servesRoutes": [
+        "route.road.soulrest-blackrose",
+        "route.track.mercantile-coast.coast-road"
+      ],
+      "band": "ford",
+      "id": "crossing.major.042"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.1150-3112",
+      "entityKind": "horizontal-channel",
+      "positionM": [
+        1732.1,
+        5910.6
+      ],
+      "banks": [
+        [
+          1737.5,
+          5917.5
+        ],
+        [
+          1725.0,
+          5903.4
+        ]
+      ],
+      "spanM": 17.7,
+      "maxDepthM": 1.68,
+      "nearestPlaceId": "place.imperial-penal-south.feeder-portage",
+      "nearestPlaceName": "The Windlass Reckoning",
+      "nearestPlaceM": 14.7,
+      "servesRoutes": [
+        "track.imperial-penal-south.feeder-portage"
+      ],
+      "band": "span",
+      "id": "crossing.minor.043"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.3118-400",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        6020.9,
+        701.7
+      ],
+      "banks": [
+        [
+          6028.7,
+          704.2
+        ],
+        [
+          6019.3,
+          698.0
+        ]
+      ],
+      "spanM": 17.6,
+      "maxDepthM": 0.67,
+      "nearestPlaceId": "place.dunmer-north.thorn-paddy-terraces",
+      "nearestPlaceName": "Thorn Terraces",
+      "nearestPlaceM": 180.8,
+      "servesRoutes": [
+        "track.dunmer-north.channel-cross-village",
+        "track.dunmer-north.crystalgate",
+        "track.dunmer-north.saltmarch-village",
+        "track.dunmer-north.stands-on-the-island",
+        "track.dunmer-north.the-field-gate-garrison"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.044"
+    },
+    {
+      "wayName": "the Bog causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.976-2536",
+      "entityKind": "horizontal-channel",
+      "positionM": [
+        1856.2,
+        4850.2
+      ],
+      "banks": [
+        [
+          1862.8,
+          4856.8
+        ],
+        [
+          1849.5,
+          4843.5
+        ]
+      ],
+      "spanM": 16.6,
+      "maxDepthM": 1.99,
+      "nearestPlaceId": "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
+      "nearestPlaceName": "Nine-Stakes Field",
+      "nearestPlaceM": 78.6,
+      "servesRoutes": [
+        "route.road.gideon-soulrest"
+      ],
+      "band": "span",
+      "id": "crossing.major.045"
+    },
+    {
+      "wayName": "the Blackwood Road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "lake",
+      "entityId": "body.221-1650",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        342.7,
+        3048.0
+      ],
+      "banks": [
+        [
+          349.4,
+          3044.9
+        ],
+        [
+          336.1,
+          3044.9
+        ]
+      ],
+      "spanM": 14.3,
+      "maxDepthM": 2.16,
+      "nearestPlaceId": "place.imperial-fringe.bog-iron-workings",
+      "nearestPlaceName": "Bog Iron Workings",
+      "nearestPlaceM": 55.7,
+      "servesRoutes": [
+        "route.road.gideon-blackwood-road"
+      ],
+      "band": "span",
+      "id": "crossing.major.046"
+    },
+    {
+      "wayName": "the Blackwood Road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.183-1646",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        313.4,
+        3030.1
+      ],
+      "banks": [
+        [
+          316.5,
+          3036.3
+        ],
+        [
+          316.5,
+          3026.9
+        ]
+      ],
+      "spanM": 13.0,
+      "maxDepthM": 0.65,
+      "nearestPlaceId": "place.imperial-fringe.bog-iron-workings",
+      "nearestPlaceName": "Bog Iron Workings",
+      "nearestPlaceM": 24.2,
+      "servesRoutes": [
+        "route.road.gideon-blackwood-road"
+      ],
+      "band": "ford",
+      "id": "crossing.major.047"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.315-3637",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        515.5,
+        6672.5
+      ],
+      "banks": [
+        [
+          515.5,
+          6678.9
+        ],
+        [
+          515.5,
+          6665.6
+        ]
+      ],
+      "spanM": 12.5,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.mercantile-coast.soulrest-divers-yard",
+      "nearestPlaceName": "The Divers' Yard",
+      "nearestPlaceM": 9.6,
+      "servesRoutes": [
+        "track.mercantile-coast.soulrest-divers-yard"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.048"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.1247-947",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        2278.4,
+        1746.8
+      ],
+      "banks": [
+        [
+          2273.3,
+          1751.6
+        ],
+        [
+          2283.5,
+          1746.1
+        ]
+      ],
+      "spanM": 12.2,
+      "maxDepthM": 1.13,
+      "nearestPlaceId": "place.dunmer-north.the-monsoon-boom",
+      "nearestPlaceName": "The Monsoon Boom",
+      "nearestPlaceM": 66.7,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "ford",
+      "id": "crossing.major.049"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.489-1496",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        825.5,
+        2776.1
+      ],
+      "banks": [
+        [
+          822.5,
+          2780.9
+        ],
+        [
+          824.1,
+          2770.7
+        ]
+      ],
+      "spanM": 12.2,
+      "maxDepthM": 0.79,
+      "nearestPlaceId": "place.imperial-fringe.the-stone-drop",
+      "nearestPlaceName": "The Stone Drop",
+      "nearestPlaceM": 138.4,
+      "servesRoutes": [
+        "track.imperial-fringe.the-pass-shelter"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.050"
+    },
+    {
+      "wayName": null,
+      "wayClass": "causeway",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        2982.0,
+        6124.0
+      ],
+      "banks": [
+        [
+          2977.6,
+          6119.6
+        ],
+        [
+          2987.0,
+          6129.0
+        ]
+      ],
+      "spanM": 12.2,
+      "maxDepthM": 1.8,
+      "nearestPlaceId": "place.mercantile-coast.glowfen-murkmire",
+      "nearestPlaceName": "Lights-From-Under",
+      "nearestPlaceM": 18.2,
+      "servesRoutes": [
+        "track.mercantile-coast.glowfen-murkmire"
+      ],
+      "band": "span",
+      "id": "crossing.minor.051"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.952-324",
+      "entityKind": "sloped-chute",
+      "positionM": [
+        1741.0,
+        591.9
+      ],
+      "banks": [
+        [
+          1742.2,
+          588.3
+        ],
+        [
+          1741.4,
+          594.6
+        ]
+      ],
+      "spanM": 12.1,
+      "maxDepthM": 2.72,
+      "nearestPlaceId": "place.dunmer-north.the-drowned-terrace",
+      "nearestPlaceName": "The Drowned Terrace",
+      "nearestPlaceM": 430.0,
+      "servesRoutes": [
+        "track.dunmer-north.the-divers-landing",
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "span",
+      "id": "crossing.minor.052"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.2811-2151",
+      "entityKind": "lagoon",
+      "positionM": [
+        5199.5,
+        3986.9
+      ],
+      "banks": [
+        [
+          5198.4,
+          3992.0
+        ],
+        [
+          5203.9,
+          3981.0
+        ]
+      ],
+      "spanM": 12.1,
+      "maxDepthM": 1.08,
+      "nearestPlaceId": "place.saxhleel-coast.quarantine-village-lagoon",
+      "nearestPlaceName": "Keeps-Its-Own-Cordon",
+      "nearestPlaceM": 19.2,
+      "servesRoutes": [
+        "track.saxhleel-coast.quarantine-village-lagoon"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.053"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.973-3292",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        1658.8,
+        5856.4
+      ],
+      "banks": [
+        [
+          1665.4,
+          5856.4
+        ],
+        [
+          1652.1,
+          5856.4
+        ]
+      ],
+      "spanM": 11.8,
+      "maxDepthM": 0.48,
+      "nearestPlaceId": "place.imperial-penal-south.feeder-portage",
+      "nearestPlaceName": "The Windlass Reckoning",
+      "nearestPlaceM": 102.9,
+      "servesRoutes": [
+        "track.imperial-penal-south.feeder-portage"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.054"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1337-2398",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2435.4,
+        4380.6
+      ],
+      "banks": [
+        [
+          2440.2,
+          4375.8
+        ],
+        [
+          2430.8,
+          4385.2
+        ]
+      ],
+      "spanM": 11.1,
+      "maxDepthM": 1.16,
+      "nearestPlaceId": "place.naga-kur-deeps.wamasu-pond-adult",
+      "nearestPlaceName": "The Standing Charge",
+      "nearestPlaceM": 37.9,
+      "servesRoutes": [
+        "track.naga-kur-deeps.wamasu-pond-adult"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.055"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1024-834",
+      "entityKind": "pond",
+      "positionM": [
+        1899.3,
+        1550.4
+      ],
+      "banks": [
+        [
+          1903.6,
+          1545.6
+        ],
+        [
+          1897.3,
+          1555.8
+        ]
+      ],
+      "spanM": 10.9,
+      "maxDepthM": 1.43,
+      "nearestPlaceId": "place.imperial-fringe.silver-mouth",
+      "nearestPlaceName": "Silver Mouth",
+      "nearestPlaceM": 74.9,
+      "servesRoutes": [
+        "track.dunmer-north.mazzatun"
+      ],
+      "band": "span",
+      "id": "crossing.minor.056"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1002-335",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1790.4,
+        655.6
+      ],
+      "banks": [
+        [
+          1787.6,
+          654.9
+        ],
+        [
+          1793.1,
+          660.4
+        ]
+      ],
+      "spanM": 10.9,
+      "maxDepthM": 18.32,
+      "nearestPlaceId": "place.dunmer-north.the-rim-hermitage",
+      "nearestPlaceName": "Rim Hermitage",
+      "nearestPlaceM": 441.7,
+      "servesRoutes": [
+        "track.dunmer-north.the-divers-landing",
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "span",
+      "id": "crossing.minor.057"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1193-3286",
+      "entityKind": "swamp",
+      "positionM": [
+        2220.8,
+        5988.7
+      ],
+      "banks": [
+        [
+          2220.8,
+          5982.5
+        ],
+        [
+          2220.8,
+          5994.3
+        ]
+      ],
+      "spanM": 10.2,
+      "maxDepthM": 0.72,
+      "nearestPlaceId": "place.imperial-penal-south.necromantic-dig",
+      "nearestPlaceName": "The Quiet Excavation",
+      "nearestPlaceM": 107.9,
+      "servesRoutes": [
+        "track.imperial-penal-south.longmont"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.058"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.3110-404",
+      "entityKind": "pool",
+      "positionM": [
+        5694.4,
+        732.7
+      ],
+      "banks": [
+        [
+          5694.2,
+          737.1
+        ],
+        [
+          5698.2,
+          729.3
+        ]
+      ],
+      "spanM": 10.0,
+      "maxDepthM": 0.93,
+      "nearestPlaceId": "place.dunmer-north.stands-on-the-island",
+      "nearestPlaceName": "Stands-On-The-Hammock",
+      "nearestPlaceM": 181.7,
+      "servesRoutes": [
+        "track.dunmer-north.stands-on-the-island"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.059"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.1057-2046",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        1930.4,
+        3759.0
+      ],
+      "banks": [
+        [
+          1932.5,
+          3753.9
+        ],
+        [
+          1930.2,
+          3764.0
+        ]
+      ],
+      "spanM": 9.3,
+      "maxDepthM": 0.58,
+      "nearestPlaceId": "place.imperial-fringe.cassian-farm",
+      "nearestPlaceName": "Cassian's Holding",
+      "nearestPlaceM": 77.5,
+      "servesRoutes": [
+        "track.imperial-fringe.cassian-farm"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.060"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2593.7,
+        2756.8
+      ],
+      "banks": [
+        [
+          2593.7,
+          2762.1
+        ],
+        [
+          2592.9,
+          2751.9
+        ]
+      ],
+      "spanM": 8.6,
+      "maxDepthM": 0.84,
+      "nearestPlaceId": "place.hist-heartland.miregaunt-ground-slow-ground",
+      "nearestPlaceName": "The Slow Ground",
+      "nearestPlaceM": 175.2,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "ford",
+      "id": "crossing.major.061"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.836-841",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1805.7,
+        1808.2
+      ],
+      "banks": [
+        [
+          1804.1,
+          1811.9
+        ],
+        [
+          1809.6,
+          1804.1
+        ]
+      ],
+      "spanM": 8.2,
+      "maxDepthM": 1.03,
+      "nearestPlaceId": "place.imperial-fringe.the-white-throat",
+      "nearestPlaceName": "The White Throat",
+      "nearestPlaceM": 43.3,
+      "servesRoutes": [
+        "track.imperial-fringe.hangs-above-the-water"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.062"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2107-1456",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3874.1,
+        2684.2
+      ],
+      "banks": [
+        [
+          3877.6,
+          2680.7
+        ],
+        [
+          3870.6,
+          2686.9
+        ]
+      ],
+      "spanM": 7.8,
+      "maxDepthM": 1.03,
+      "nearestPlaceId": "place.hist-heartland.stilt-channel-edge-uxaneet",
+      "nearestPlaceName": "Ux-Aneet",
+      "nearestPlaceM": 274.2,
+      "servesRoutes": [
+        "track.hist-heartland.bereaved-mnemic"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.063"
+    },
+    {
+      "wayName": "the Long road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "lake",
+      "entityId": "body.692-1779",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1324.9,
+        3087.0
+      ],
+      "banks": [
+        [
+          1329.4,
+          3084.9
+        ],
+        [
+          1322.3,
+          3088.0
+        ]
+      ],
+      "spanM": 7.7,
+      "maxDepthM": 0.59,
+      "nearestPlaceId": "place.imperial-fringe.gideon",
+      "nearestPlaceName": "Gideon",
+      "nearestPlaceM": 10.1,
+      "servesRoutes": [
+        "route.road.archon-gideon",
+        "route.road.gideon-blackwood-road",
+        "route.road.gideon-soulrest",
+        "route.road.gideon-stormhold"
+      ],
+      "band": "ford",
+      "id": "crossing.major.064"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.1054-2078",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        1919.0,
+        3829.6
+      ],
+      "banks": [
+        [
+          1916.9,
+          3825.1
+        ],
+        [
+          1919.2,
+          3833.8
+        ]
+      ],
+      "spanM": 7.7,
+      "maxDepthM": 0.47,
+      "nearestPlaceId": "place.imperial-fringe.the-knapping-floor-of-the-high-scree",
+      "nearestPlaceName": "High Scree Floor",
+      "nearestPlaceM": 58.9,
+      "servesRoutes": [
+        "track.imperial-fringe.cassian-farm"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.065"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        4042.1,
+        2220.8
+      ],
+      "banks": [
+        [
+          4041.4,
+          2216.9
+        ],
+        [
+          4045.3,
+          2224.7
+        ]
+      ],
+      "spanM": 7.6,
+      "maxDepthM": 0.48,
+      "nearestPlaceId": "place.hist-heartland.xal-meeruth-station",
+      "nearestPlaceName": "The Meeruth Station",
+      "nearestPlaceM": 38.3,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "ford",
+      "id": "crossing.major.066"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.836-841",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1699.1,
+        1706.9
+      ],
+      "banks": [
+        [
+          1696.0,
+          1709.3
+        ],
+        [
+          1699.9,
+          1709.3
+        ]
+      ],
+      "spanM": 7.6,
+      "maxDepthM": 0.67,
+      "nearestPlaceId": "place.imperial-fringe.twyllbek-crown",
+      "nearestPlaceName": "Twyllbek Crown",
+      "nearestPlaceM": 95.3,
+      "servesRoutes": [
+        "track.dunmer-north.mazzatun",
+        "track.imperial-fringe.the-stone-talkers-watch"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.067"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.1058-2030",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1925.5,
+        3723.3
+      ],
+      "banks": [
+        [
+          1924.7,
+          3719.4
+        ],
+        [
+          1928.6,
+          3727.2
+        ]
+      ],
+      "spanM": 7.6,
+      "maxDepthM": 0.44,
+      "nearestPlaceId": "place.imperial-fringe.cassian-farm",
+      "nearestPlaceName": "Cassian's Holding",
+      "nearestPlaceM": 43.8,
+      "servesRoutes": [
+        "track.imperial-fringe.cassian-farm"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.068"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.924-1598",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1705.4,
+        2908.4
+      ],
+      "banks": [
+        [
+          1706.2,
+          2912.5
+        ],
+        [
+          1705.4,
+          2903.9
+        ]
+      ],
+      "spanM": 7.1,
+      "maxDepthM": 0.58,
+      "nearestPlaceId": "place.imperial-fringe.slough-point",
+      "nearestPlaceName": "Slough Point",
+      "nearestPlaceM": 29.6,
+      "servesRoutes": [
+        "track.imperial-fringe.slough-point"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.069"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2508-2288",
+      "entityKind": "swamp",
+      "positionM": [
+        4746.6,
+        4123.6
+      ],
+      "banks": [
+        [
+          4742.5,
+          4122.8
+        ],
+        [
+          4751.1,
+          4123.6
+        ]
+      ],
+      "spanM": 7.1,
+      "maxDepthM": 0.36,
+      "nearestPlaceId": "place.saxhleel-coast.terrace-village-ridge",
+      "nearestPlaceName": "Climbs-The-Long-Back",
+      "nearestPlaceM": 128.7,
+      "servesRoutes": [
+        "track.saxhleel-coast.wall-hist-village"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.070"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1739-565",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3181.9,
+        998.2
+      ],
+      "banks": [
+        [
+          3178.1,
+          1000.4
+        ],
+        [
+          3185.9,
+          998.0
+        ]
+      ],
+      "spanM": 6.9,
+      "maxDepthM": 0.47,
+      "nearestPlaceId": "place.dunmer-north.the-north-cut",
+      "nearestPlaceName": "North Cut",
+      "nearestPlaceM": 9.0,
+      "servesRoutes": [
+        "track.dunmer-north.the-north-cut"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.071"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1043-2114",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        1906.9,
+        3860.6
+      ],
+      "banks": [
+        [
+          1902.8,
+          3860.4
+        ],
+        [
+          1910.6,
+          3862.7
+        ]
+      ],
+      "spanM": 6.9,
+      "maxDepthM": 0.47,
+      "nearestPlaceId": "place.imperial-fringe.ladder-to-the-light",
+      "nearestPlaceName": "Ladder-To-The-Light",
+      "nearestPlaceM": 65.1,
+      "servesRoutes": [
+        "track.imperial-fringe.fenmarch-village",
+        "track.imperial-fringe.cassian-farm"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.072"
+    },
+    {
+      "wayName": "the Lake road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.712-3516",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        1260.5,
+        6421.9
+      ],
+      "banks": [
+        [
+          1257.3,
+          6425.1
+        ],
+        [
+          1263.6,
+          6418.9
+        ]
+      ],
+      "spanM": 6.6,
+      "maxDepthM": 0.58,
+      "nearestPlaceId": "place.mercantile-coast.mudfoot",
+      "nearestPlaceName": "Mudfoot",
+      "nearestPlaceM": 73.4,
+      "servesRoutes": [
+        "route.road.soulrest-blackrose",
+        "route.track.mercantile-coast.coast-road"
+      ],
+      "band": "ford",
+      "id": "crossing.major.073"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.3118-400",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        6101.1,
+        725.9
+      ],
+      "banks": [
+        [
+          6097.7,
+          729.3
+        ],
+        [
+          6102.4,
+          723.0
+        ]
+      ],
+      "spanM": 6.6,
+      "maxDepthM": 0.56,
+      "nearestPlaceId": "place.dunmer-north.thorn-paddy-terraces",
+      "nearestPlaceName": "Thorn Terraces",
+      "nearestPlaceM": 101.0,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "ford",
+      "id": "crossing.major.074"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.3118-400",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        5731.6,
+        745.1
+      ],
+      "banks": [
+        [
+          5734.2,
+          741.8
+        ],
+        [
+          5732.6,
+          748.1
+        ]
+      ],
+      "spanM": 6.6,
+      "maxDepthM": 0.55,
+      "nearestPlaceId": "place.dunmer-north.stands-on-the-island",
+      "nearestPlaceName": "Stands-On-The-Hammock",
+      "nearestPlaceM": 168.6,
+      "servesRoutes": [
+        "track.dunmer-north.channel-cross-village",
+        "track.dunmer-north.crystalgate",
+        "track.dunmer-north.saltmarch-village",
+        "track.dunmer-north.stands-on-the-island",
+        "track.dunmer-north.the-field-gate-garrison"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.075"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.264-3080",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        481.1,
+        5626.1
+      ],
+      "banks": [
+        [
+          477.1,
+          5626.1
+        ],
+        [
+          484.9,
+          5626.1
+        ]
+      ],
+      "spanM": 6.3,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.mercantile-coast.lighter-flotilla",
+      "nearestPlaceName": "Lighter Flotilla",
+      "nearestPlaceM": 261.8,
+      "servesRoutes": [
+        "track.mercantile-coast.lighter-flotilla"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.076"
+    },
+    {
+      "wayName": "the Bogmother causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.1557-2456",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        2839.8,
+        4490.0
+      ],
+      "banks": [
+        [
+          2836.5,
+          4487.1
+        ],
+        [
+          2842.8,
+          4491.0
+        ]
+      ],
+      "spanM": 6.0,
+      "maxDepthM": 0.43,
+      "nearestPlaceId": "place.naga-kur-deeps.horwalli-waterworks-deeps",
+      "nearestPlaceName": "The Horwalli Cut",
+      "nearestPlaceM": 35.1,
+      "servesRoutes": [
+        "route.road.helstrom-blackrose"
+      ],
+      "band": "ford",
+      "id": "crossing.major.077"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2245-1351",
+      "entityKind": "backswamp",
+      "positionM": [
+        4122.9,
+        2435.7
+      ],
+      "banks": [
+        [
+          4119.7,
+          2438.6
+        ],
+        [
+          4126.0,
+          2434.7
+        ]
+      ],
+      "spanM": 6.0,
+      "maxDepthM": 1.56,
+      "nearestPlaceId": "place.hist-heartland.bereaved-mnemic",
+      "nearestPlaceName": "Keeps-the-Egg",
+      "nearestPlaceM": 7.5,
+      "servesRoutes": [
+        "track.hist-heartland.bereaved-mnemic"
+      ],
+      "band": "span",
+      "id": "crossing.minor.078"
+    },
+    {
+      "wayName": "the Blackwood Road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "lake",
+      "entityId": "body.221-1650",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        520.9,
+        3205.1
+      ],
+      "banks": [
+        [
+          521.7,
+          3207.1
+        ],
+        [
+          521.7,
+          3201.6
+        ]
+      ],
+      "spanM": 5.5,
+      "maxDepthM": 2.4,
+      "nearestPlaceId": "place.imperial-fringe.cartwrights-cross",
+      "nearestPlaceName": "Cartwright's Cross",
+      "nearestPlaceM": 76.4,
+      "servesRoutes": [
+        "route.road.gideon-blackwood-road"
+      ],
+      "band": "span",
+      "id": "crossing.major.079"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1002-335",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1806.8,
+        688.2
+      ],
+      "banks": [
+        [
+          1804.1,
+          685.4
+        ],
+        [
+          1809.6,
+          690.9
+        ]
+      ],
+      "spanM": 5.5,
+      "maxDepthM": 9.8,
+      "nearestPlaceId": "place.dunmer-north.the-rim-hermitage",
+      "nearestPlaceName": "Rim Hermitage",
+      "nearestPlaceM": 405.9,
+      "servesRoutes": [
+        "track.dunmer-north.the-divers-landing",
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "span",
+      "id": "crossing.minor.080"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.501-1470",
+      "entityKind": "pond",
+      "positionM": [
+        904.8,
+        2744.5
+      ],
+      "banks": [
+        [
+          905.6,
+          2741.0
+        ],
+        [
+          904.0,
+          2748.0
+        ]
+      ],
+      "spanM": 5.5,
+      "maxDepthM": 1.32,
+      "nearestPlaceId": "place.imperial-fringe.castle-giovesse",
+      "nearestPlaceName": "Castle Giovesse",
+      "nearestPlaceM": 106.6,
+      "servesRoutes": [
+        "track.imperial-fringe.the-pass-shelter"
+      ],
+      "band": "span",
+      "id": "crossing.minor.081"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.301-3605",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        493.5,
+        6572.0
+      ],
+      "banks": [
+        [
+          493.5,
+          6575.5
+        ],
+        [
+          493.5,
+          6568.5
+        ]
+      ],
+      "spanM": 5.5,
+      "maxDepthM": 0.35,
+      "nearestPlaceId": "place.mercantile-coast.soulrest",
+      "nearestPlaceName": "Soulrest",
+      "nearestPlaceM": 48.8,
+      "servesRoutes": [
+        "track.mercantile-coast.soulrest-divers-yard"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.082"
+    },
+    {
+      "wayName": "the Bogmother causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.1890-1832",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        3482.7,
+        3202.4
+      ],
+      "banks": [
+        [
+          3479.7,
+          3202.4
+        ],
+        [
+          3486.0,
+          3202.4
+        ]
+      ],
+      "spanM": 4.7,
+      "maxDepthM": 0.46,
+      "nearestPlaceId": "place.hist-heartland.root-gallery-helstrom-underway",
+      "nearestPlaceName": "The Underway",
+      "nearestPlaceM": 311.3,
+      "servesRoutes": [
+        "route.road.helstrom-blackrose"
+      ],
+      "band": "ford",
+      "id": "crossing.major.083"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.3118-400",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        6053.8,
+        708.1
+      ],
+      "banks": [
+        [
+          6053.8,
+          705.0
+        ],
+        [
+          6053.8,
+          711.3
+        ]
+      ],
+      "spanM": 4.7,
+      "maxDepthM": 0.55,
+      "nearestPlaceId": "place.dunmer-north.thorn-paddy-terraces",
+      "nearestPlaceName": "Thorn Terraces",
+      "nearestPlaceM": 147.6,
+      "servesRoutes": [
+        "track.dunmer-north.channel-cross-village",
+        "track.dunmer-north.crystalgate",
+        "track.dunmer-north.saltmarch-village",
+        "track.dunmer-north.stands-on-the-island",
+        "track.dunmer-north.the-field-gate-garrison"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.084"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.3118-400",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        6064.8,
+        712.2
+      ],
+      "banks": [
+        [
+          6064.8,
+          715.2
+        ],
+        [
+          6064.8,
+          708.9
+        ]
+      ],
+      "spanM": 4.7,
+      "maxDepthM": 0.67,
+      "nearestPlaceId": "place.dunmer-north.thorn-paddy-terraces",
+      "nearestPlaceName": "Thorn Terraces",
+      "nearestPlaceM": 136.5,
+      "servesRoutes": [
+        "track.dunmer-north.channel-cross-village",
+        "track.dunmer-north.crystalgate",
+        "track.dunmer-north.saltmarch-village",
+        "track.dunmer-north.stands-on-the-island",
+        "track.dunmer-north.the-field-gate-garrison"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.085"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3843.9,
+        2706.8
+      ],
+      "banks": [
+        [
+          3843.9,
+          2703.4
+        ],
+        [
+          3843.2,
+          2709.6
+        ]
+      ],
+      "spanM": 4.7,
+      "maxDepthM": 1.32,
+      "nearestPlaceId": "place.hist-heartland.guide-camp-gate-side",
+      "nearestPlaceName": "Gate-Side Camp",
+      "nearestPlaceM": 253.3,
+      "servesRoutes": [
+        "track.hist-heartland.bereaved-mnemic"
+      ],
+      "band": "span",
+      "id": "crossing.minor.086"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1062-2057",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        1925.4,
+        3794.6
+      ],
+      "banks": [
+        [
+          1928.6,
+          3794.6
+        ],
+        [
+          1922.4,
+          3794.6
+        ]
+      ],
+      "spanM": 4.7,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.imperial-fringe.ladder-to-the-light",
+      "nearestPlaceName": "Ladder-To-The-Light",
+      "nearestPlaceM": 66.5,
+      "servesRoutes": [
+        "track.imperial-fringe.cassian-farm"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.087"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.791-2668",
+      "entityKind": "horizontal-channel",
+      "positionM": [
+        1601.2,
+        4689.1
+      ],
+      "banks": [
+        [
+          1601.2,
+          4692.3
+        ],
+        [
+          1601.2,
+          4686.1
+        ]
+      ],
+      "spanM": 4.7,
+      "maxDepthM": 0.44,
+      "nearestPlaceId": "place.imperial-fringe.reedcutters-toll",
+      "nearestPlaceName": "Reedcutters' Bridge",
+      "nearestPlaceM": 29.9,
+      "servesRoutes": [
+        "track.imperial-fringe.reedcutters-toll"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.088"
+    },
+    {
+      "wayName": "the Long road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2752-2409",
+      "entityKind": "swamp",
+      "positionM": [
+        5029.7,
+        4402.0
+      ],
+      "banks": [
+        [
+          5028.4,
+          4404.0
+        ],
+        [
+          5032.3,
+          4399.3
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 1.31,
+      "nearestPlaceId": "place.saxhleel-coast.east-estuary-rootworm-station",
+      "nearestPlaceName": "The Estuary Mouth Station",
+      "nearestPlaceM": 34.9,
+      "servesRoutes": [
+        "route.road.archon-gideon"
+      ],
+      "band": "span",
+      "id": "crossing.major.089"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.836-841",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1575.1,
+        1594.4
+      ],
+      "banks": [
+        [
+          1577.7,
+          1591.8
+        ],
+        [
+          1574.6,
+          1596.5
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 0.55,
+      "nearestPlaceId": "place.imperial-fringe.twyllbek-ruins",
+      "nearestPlaceName": "Twyllbek Ruins",
+      "nearestPlaceM": 157.2,
+      "servesRoutes": [
+        "track.dunmer-north.mazzatun"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.090"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.836-841",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1715.0,
+        1717.6
+      ],
+      "banks": [
+        [
+          1712.4,
+          1720.3
+        ],
+        [
+          1717.1,
+          1716.3
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 0.91,
+      "nearestPlaceId": "place.imperial-fringe.the-white-throat",
+      "nearestPlaceName": "The White Throat",
+      "nearestPlaceM": 96.4,
+      "servesRoutes": [
+        "track.dunmer-north.mazzatun",
+        "track.imperial-fringe.the-stone-talkers-watch"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.091"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.1277-865",
+      "entityKind": "lake-lowland",
+      "positionM": [
+        2277.2,
+        1714.8
+      ],
+      "banks": [
+        [
+          2279.6,
+          1712.4
+        ],
+        [
+          2275.7,
+          1716.3
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 1.05,
+      "nearestPlaceId": "place.dunmer-north.the-monsoon-boom",
+      "nearestPlaceName": "The Monsoon Boom",
+      "nearestPlaceM": 79.4,
+      "servesRoutes": [
+        "track.dunmer-north.the-monsoon-boom"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.092"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3634.3,
+        2460.8
+      ],
+      "banks": [
+        [
+          3631.7,
+          2458.2
+        ],
+        [
+          3636.4,
+          2462.1
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.hist-heartland.boardwalk-branching-many-ways",
+      "nearestPlaceName": "Many-Ways",
+      "nearestPlaceM": 267.9,
+      "servesRoutes": [
+        "track.hist-heartland.insular-hereditary-watch",
+        "track.hist-heartland.nightbound-lightless"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.093"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1074-1698",
+      "entityKind": "backswamp",
+      "positionM": [
+        1959.2,
+        3063.7
+      ],
+      "banks": [
+        [
+          1957.6,
+          3065.3
+        ],
+        [
+          1961.5,
+          3061.4
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 0.67,
+      "nearestPlaceId": "place.imperial-fringe.long-causeway",
+      "nearestPlaceName": "Long Causeway",
+      "nearestPlaceM": 15.3,
+      "servesRoutes": [
+        "track.imperial-fringe.long-causeway"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.094"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.836-841",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1767.0,
+        1769.9
+      ],
+      "banks": [
+        [
+          1769.6,
+          1767.3
+        ],
+        [
+          1765.7,
+          1772.0
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 0.67,
+      "nearestPlaceId": "place.imperial-fringe.the-white-throat",
+      "nearestPlaceName": "The White Throat",
+      "nearestPlaceM": 31.7,
+      "servesRoutes": [
+        "track.imperial-fringe.onkobra-kwama-mine"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.095"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1284-3448",
+      "entityKind": "swamp",
+      "positionM": [
+        2422.1,
+        6315.4
+      ],
+      "banks": [
+        [
+          2419.8,
+          6313.1
+        ],
+        [
+          2423.7,
+          6317.0
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 1.29,
+      "nearestPlaceId": "place.imperial-penal-south.blackrose",
+      "nearestPlaceName": "Blackrose",
+      "nearestPlaceM": 117.6,
+      "servesRoutes": [
+        "track.imperial-penal-south.longmont"
+      ],
+      "band": "span",
+      "id": "crossing.minor.096"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.985-3526",
+      "entityKind": "horizontal-tidal",
+      "positionM": [
+        1793.1,
+        6448.6
+      ],
+      "banks": [
+        [
+          1795.5,
+          6451.0
+        ],
+        [
+          1790.8,
+          6446.3
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 0.89,
+      "nearestPlaceId": "place.imperial-penal-south.rockspring",
+      "nearestPlaceName": "Rockspring",
+      "nearestPlaceM": 19.4,
+      "servesRoutes": [
+        "track.imperial-penal-south.rockspring"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.097"
+    },
+    {
+      "wayName": "the Long road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.1890-1832",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        3490.3,
+        3290.1
+      ],
+      "banks": [
+        [
+          3493.0,
+          3290.1
+        ],
+        [
+          3487.5,
+          3290.1
+        ]
+      ],
+      "spanM": 3.9,
+      "maxDepthM": 0.43,
+      "nearestPlaceId": "place.hist-heartland.root-gallery-helstrom-underway",
+      "nearestPlaceName": "The Underway",
+      "nearestPlaceM": 399.4,
+      "servesRoutes": [
+        "route.road.archon-gideon",
+        "route.road.helstrom-blackrose"
+      ],
+      "band": "ford",
+      "id": "crossing.major.098"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.2960-432",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        5428.7,
+        783.8
+      ],
+      "banks": [
+        [
+          5426.3,
+          784.1
+        ],
+        [
+          5431.0,
+          781.8
+        ]
+      ],
+      "spanM": 3.8,
+      "maxDepthM": 0.33,
+      "nearestPlaceId": "place.dunmer-north.the-shut-village",
+      "nearestPlaceName": "The Shut Village",
+      "nearestPlaceM": 153.3,
+      "servesRoutes": [
+        "track.dunmer-north.hixinoag"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.099"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.836-841",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1705.0,
+        1711.6
+      ],
+      "banks": [
+        [
+          1703.0,
+          1713.2
+        ],
+        [
+          1705.4,
+          1713.2
+        ]
+      ],
+      "spanM": 3.8,
+      "maxDepthM": 0.67,
+      "nearestPlaceId": "place.imperial-fringe.twyllbek-crown",
+      "nearestPlaceName": "Twyllbek Crown",
+      "nearestPlaceM": 96.5,
+      "servesRoutes": [
+        "track.dunmer-north.mazzatun",
+        "track.imperial-fringe.the-stone-talkers-watch"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.100"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1564-441",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2813.4,
+        833.5
+      ],
+      "banks": [
+        [
+          2813.0,
+          835.8
+        ],
+        [
+          2815.4,
+          831.1
+        ]
+      ],
+      "spanM": 3.8,
+      "maxDepthM": 0.35,
+      "nearestPlaceId": "place.dunmer-north.stormhold-causeway",
+      "nearestPlaceName": "Bogmother Causeway",
+      "nearestPlaceM": 42.4,
+      "servesRoutes": [
+        "track.dunmer-north.the-black-stage",
+        "track.dunmer-north.the-first-count"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.101"
+    },
+    {
+      "wayName": "the Bog causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1097-2192",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2048.9,
+        4010.4
+      ],
+      "banks": [
+        [
+          2050.8,
+          4008.5
+        ],
+        [
+          2046.9,
+          4012.4
+        ]
+      ],
+      "spanM": 3.3,
+      "maxDepthM": 0.45,
+      "nearestPlaceId": "place.imperial-fringe.red-cart-yard",
+      "nearestPlaceName": "Red Cart Yard",
+      "nearestPlaceM": 67.1,
+      "servesRoutes": [
+        "route.road.gideon-soulrest"
+      ],
+      "band": "ford",
+      "id": "crossing.major.102"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.3043-787",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        5589.7,
+        1478.6
+      ],
+      "banks": [
+        [
+          5587.7,
+          1480.6
+        ],
+        [
+          5591.6,
+          1476.6
+        ]
+      ],
+      "spanM": 3.3,
+      "maxDepthM": 0.55,
+      "nearestPlaceId": "place.dunmer-north.the-two-gate-bridge",
+      "nearestPlaceName": "Two-Gate Bridge",
+      "nearestPlaceM": 41.0,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "ford",
+      "id": "crossing.major.103"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.2968-700",
+      "entityKind": "sloped-chute",
+      "positionM": [
+        5523.9,
+        1374.4
+      ],
+      "banks": [
+        [
+          5521.9,
+          1376.4
+        ],
+        [
+          5525.8,
+          1372.4
+        ]
+      ],
+      "spanM": 3.3,
+      "maxDepthM": 0.35,
+      "nearestPlaceId": "place.dunmer-north.nine-stone-bench",
+      "nearestPlaceName": "Nine-Stone Bench",
+      "nearestPlaceM": 12.0,
+      "servesRoutes": [
+        "track.dunmer-north.nine-stone-bench"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.104"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.817-188",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1488.0,
+        381.9
+      ],
+      "banks": [
+        [
+          1490.0,
+          379.9
+        ],
+        [
+          1486.0,
+          383.8
+        ]
+      ],
+      "spanM": 3.3,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.dunmer-north.the-flu-cordon",
+      "nearestPlaceName": "The Flu Cordon",
+      "nearestPlaceM": 114.3,
+      "servesRoutes": [
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.105"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.895-1645",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1712.8,
+        2924.7
+      ],
+      "banks": [
+        [
+          1714.8,
+          2926.6
+        ],
+        [
+          1710.9,
+          2922.7
+        ]
+      ],
+      "spanM": 3.3,
+      "maxDepthM": 0.45,
+      "nearestPlaceId": "place.imperial-fringe.slough-point",
+      "nearestPlaceName": "Slough Point",
+      "nearestPlaceM": 13.3,
+      "servesRoutes": [
+        "track.imperial-fringe.slough-point"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.106"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.504-1400",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        917.7,
+        2575.3
+      ],
+      "banks": [
+        [
+          919.7,
+          2573.3
+        ],
+        [
+          915.7,
+          2577.3
+        ]
+      ],
+      "spanM": 3.3,
+      "maxDepthM": 0.38,
+      "nearestPlaceId": "place.imperial-fringe.ridge-runners-post",
+      "nearestPlaceName": "Ridge Runners' Post",
+      "nearestPlaceM": 100.5,
+      "servesRoutes": [
+        "track.imperial-fringe.the-pass-shelter"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.107"
+    },
+    {
+      "wayName": "the Long road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2760-2066",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        4946.1,
+        3845.3
+      ],
+      "banks": [
+        [
+          4946.1,
+          3847.9
+        ],
+        [
+          4946.1,
+          3843.2
+        ]
+      ],
+      "spanM": 3.1,
+      "maxDepthM": 0.45,
+      "nearestPlaceId": "place.hist-heartland.nine-trunks",
+      "nearestPlaceName": "Nine-Trunks",
+      "nearestPlaceM": 93.3,
+      "servesRoutes": [
+        "route.road.archon-gideon"
+      ],
+      "band": "ford",
+      "id": "crossing.major.108"
+    },
+    {
+      "wayName": "the Bog causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.643-2936",
+      "entityKind": "swamp",
+      "positionM": [
+        1222.8,
+        5389.0
+      ],
+      "banks": [
+        [
+          1222.8,
+          5386.4
+        ],
+        [
+          1222.0,
+          5391.1
+        ]
+      ],
+      "spanM": 3.1,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.naga-kur-deeps.beast-keeper-crocodile",
+      "nearestPlaceName": "Teeth-Pens",
+      "nearestPlaceM": 86.5,
+      "servesRoutes": [
+        "route.road.gideon-soulrest"
+      ],
+      "band": "ford",
+      "id": "crossing.major.109"
+    },
+    {
+      "wayName": "the Lake road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.824-3417",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        1465.4,
+        6333.5
+      ],
+      "banks": [
+        [
+          1464.1,
+          6334.2
+        ],
+        [
+          1468.0,
+          6333.5
+        ]
+      ],
+      "spanM": 3.1,
+      "maxDepthM": 1.08,
+      "nearestPlaceId": "place.imperial-penal-south.saltrice-village",
+      "nearestPlaceName": "Wide-Furrow",
+      "nearestPlaceM": 74.4,
+      "servesRoutes": [
+        "route.road.soulrest-blackrose",
+        "route.track.mercantile-coast.coast-road"
+      ],
+      "band": "ford",
+      "id": "crossing.major.110"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.838-236",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1618.0,
+        449.3
+      ],
+      "banks": [
+        [
+          1617.6,
+          447.3
+        ],
+        [
+          1620.0,
+          449.6
+        ]
+      ],
+      "spanM": 3.1,
+      "maxDepthM": 0.65,
+      "nearestPlaceId": "place.dunmer-north.the-flu-cordon",
+      "nearestPlaceName": "The Flu Cordon",
+      "nearestPlaceM": 253.1,
+      "servesRoutes": [
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.111"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        1939.6,
+        5790.6
+      ],
+      "banks": [
+        [
+          1941.2,
+          5790.6
+        ],
+        [
+          1937.2,
+          5790.6
+        ]
+      ],
+      "spanM": 3.1,
+      "maxDepthM": 0.72,
+      "nearestPlaceId": "place.imperial-penal-south.blackrose-drowned-hist",
+      "nearestPlaceName": "Speaks-Below-The-Water",
+      "nearestPlaceM": 17.4,
+      "servesRoutes": [
+        "track.imperial-penal-south.blackrose-drowned-hist"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.112"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1913-853",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3472.4,
+        1584.7
+      ],
+      "banks": [
+        [
+          3475.0,
+          1584.7
+        ],
+        [
+          3470.3,
+          1585.5
+        ]
+      ],
+      "spanM": 3.1,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.hist-heartland.nightbound-lightless",
+      "nearestPlaceName": "The Lightless Village",
+      "nearestPlaceM": 97.5,
+      "servesRoutes": [
+        "track.pirate-freeholds.trunk-road-tradehouse"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.113"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.922-288",
+      "entityKind": "sloped-chute",
+      "positionM": [
+        1729.3,
+        581.3
+      ],
+      "banks": [
+        [
+          1727.3,
+          581.3
+        ],
+        [
+          1731.2,
+          581.3
+        ]
+      ],
+      "spanM": 2.4,
+      "maxDepthM": 0.86,
+      "nearestPlaceId": "place.dunmer-north.the-flu-cordon",
+      "nearestPlaceName": "The Flu Cordon",
+      "nearestPlaceM": 424.1,
+      "servesRoutes": [
+        "track.dunmer-north.the-divers-landing",
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.114"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.182-3242",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        413.2,
+        6020.9
+      ],
+      "banks": [
+        [
+          411.3,
+          6020.9
+        ],
+        [
+          415.2,
+          6020.9
+        ]
+      ],
+      "spanM": 2.4,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.mercantile-coast.oliis-ferry-stage",
+      "nearestPlaceName": "Estuary Stage",
+      "nearestPlaceM": 111.4,
+      "servesRoutes": [
+        "track.mercantile-coast.oliis-boardwalk"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.115"
+    },
+    {
+      "wayName": "the Blackwood Road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "lake",
+      "entityId": "body.221-1650",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        329.6,
+        3038.5
+      ],
+      "banks": [
+        [
+          331.4,
+          3040.2
+        ],
+        [
+          328.2,
+          3037.1
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 1.08,
+      "nearestPlaceId": "place.imperial-fringe.bog-iron-workings",
+      "nearestPlaceName": "Bog Iron Workings",
+      "nearestPlaceM": 39.8,
+      "servesRoutes": [
+        "route.road.gideon-blackwood-road"
+      ],
+      "band": "ford",
+      "id": "crossing.major.116"
+    },
+    {
+      "wayName": "the Bogmother causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1828-1638",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3345.5,
+        3020.8
+      ],
+      "banks": [
+        [
+          3347.3,
+          3019.1
+        ],
+        [
+          3344.9,
+          3022.2
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.48,
+      "nearestPlaceId": "place.hist-heartland.root-gallery-helstrom-underway",
+      "nearestPlaceName": "The Underway",
+      "nearestPlaceM": 166.6,
+      "servesRoutes": [
+        "route.road.helstrom-blackrose"
+      ],
+      "band": "ford",
+      "id": "crossing.major.117"
+    },
+    {
+      "wayName": "the Bogmother causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        2702.8,
+        6119.0
+      ],
+      "banks": [
+        [
+          2701.0,
+          6117.3
+        ],
+        [
+          2704.2,
+          6119.6
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.36,
+      "nearestPlaceId": "place.imperial-penal-south.west-market-town",
+      "nearestPlaceName": "Threewater",
+      "nearestPlaceM": 136.5,
+      "servesRoutes": [
+        "route.road.helstrom-blackrose"
+      ],
+      "band": "ford",
+      "id": "crossing.major.118"
+    },
+    {
+      "wayName": "the Lake road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1408-3425",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        2571.2,
+        6262.8
+      ],
+      "banks": [
+        [
+          2571.0,
+          6261.4
+        ],
+        [
+          2569.4,
+          6264.5
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.58,
+      "nearestPlaceId": "place.imperial-penal-south.cordon-cellars",
+      "nearestPlaceName": "Cordon Two, Under-Stores",
+      "nearestPlaceM": 82.9,
+      "servesRoutes": [
+        "route.road.soulrest-blackrose"
+      ],
+      "band": "ford",
+      "id": "crossing.major.119"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1888-1088",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3459.5,
+        1996.6
+      ],
+      "banks": [
+        [
+          3460.1,
+          1995.2
+        ],
+        [
+          3457.8,
+          1998.4
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 1.67,
+      "nearestPlaceId": "place.hist-heartland.hist-less-refuge-wild",
+      "nearestPlaceName": "No-Tree Camp",
+      "nearestPlaceM": 68.0,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.120"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.3385-271",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        6153.1,
+        636.7
+      ],
+      "banks": [
+        [
+          6151.7,
+          635.3
+        ],
+        [
+          6154.9,
+          638.4
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.55,
+      "nearestPlaceId": "place.dunmer-north.thorn",
+      "nearestPlaceName": "Thorn",
+      "nearestPlaceM": 61.9,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "ford",
+      "id": "crossing.major.121"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.949-176",
+      "entityKind": "pond",
+      "positionM": [
+        1759.6,
+        301.0
+      ],
+      "banks": [
+        [
+          1757.9,
+          299.2
+        ],
+        [
+          1760.2,
+          302.4
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 3.81,
+      "nearestPlaceId": "place.dunmer-north.the-drowned-terrace",
+      "nearestPlaceName": "The Drowned Terrace",
+      "nearestPlaceM": 215.7,
+      "servesRoutes": [
+        "track.dunmer-north.the-divers-landing"
+      ],
+      "band": "span",
+      "id": "crossing.minor.122"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2365-2042",
+      "entityKind": "swamp",
+      "positionM": [
+        4497.3,
+        3729.6
+      ],
+      "banks": [
+        [
+          4496.5,
+          3728.8
+        ],
+        [
+          4498.8,
+          3731.1
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.71,
+      "nearestPlaceId": "place.hist-heartland.heretic-stone-restarted",
+      "nearestPlaceName": "The Restarted Work",
+      "nearestPlaceM": 2.7,
+      "servesRoutes": [
+        "track.hist-heartland.heretic-stone-restarted"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.123"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.2492-2032",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        4540.9,
+        3722.7
+      ],
+      "banks": [
+        [
+          4539.6,
+          3724.1
+        ],
+        [
+          4542.7,
+          3721.0
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.32,
+      "nearestPlaceId": "place.hist-heartland.heretic-stone-restarted",
+      "nearestPlaceName": "The Restarted Work",
+      "nearestPlaceM": 42.7,
+      "servesRoutes": [
+        "track.hist-heartland.heretic-stone-restarted"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.124"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3575.8,
+        2413.3
+      ],
+      "banks": [
+        [
+          3574.5,
+          2412.0
+        ],
+        [
+          3577.6,
+          2415.1
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.36,
+      "nearestPlaceId": "place.hist-heartland.boardwalk-branching-many-ways",
+      "nearestPlaceName": "Many-Ways",
+      "nearestPlaceM": 308.2,
+      "servesRoutes": [
+        "track.hist-heartland.insular-hereditary-watch",
+        "track.hist-heartland.nightbound-lightless"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.125"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.220-3262",
+      "entityKind": "horizontal-channel",
+      "positionM": [
+        362.5,
+        5966.7
+      ],
+      "banks": [
+        [
+          361.9,
+          5965.3
+        ],
+        [
+          364.3,
+          5968.4
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.32,
+      "nearestPlaceId": "place.mercantile-coast.oliis-ferry-stage",
+      "nearestPlaceName": "Estuary Stage",
+      "nearestPlaceM": 39.0,
+      "servesRoutes": [
+        "track.mercantile-coast.oliis-ferry-stage"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.126"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1912-542",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3525.3,
+        976.7
+      ],
+      "banks": [
+        [
+          3526.7,
+          976.1
+        ],
+        [
+          3523.6,
+          978.4
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.pirate-freeholds.corimont-hist-less-camp",
+      "nearestPlaceName": "No-Tree",
+      "nearestPlaceM": 44.1,
+      "servesRoutes": [
+        "track.pirate-freeholds.corimont-hist-less-camp"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.127"
+    },
+    {
+      "wayName": "the Bogmother causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        2527.9,
+        5949.0
+      ],
+      "banks": [
+        [
+          2527.9,
+          5947.3
+        ],
+        [
+          2528.7,
+          5950.4
+        ]
+      ],
+      "spanM": 1.6,
+      "maxDepthM": 0.36,
+      "nearestPlaceId": "place.imperial-penal-south.lake-boardwalk-village",
+      "nearestPlaceName": "Spine",
+      "nearestPlaceM": 121.0,
+      "servesRoutes": [
+        "route.road.helstrom-blackrose"
+      ],
+      "band": "ford",
+      "id": "crossing.major.128"
+    },
+    {
+      "wayName": "the Coast road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1408-3425",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        2582.7,
+        6256.1
+      ],
+      "banks": [
+        [
+          2582.7,
+          6254.3
+        ],
+        [
+          2583.5,
+          6257.5
+        ]
+      ],
+      "spanM": 1.6,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.imperial-penal-south.cordon-cellars",
+      "nearestPlaceName": "Cordon Two, Under-Stores",
+      "nearestPlaceM": 80.6,
+      "servesRoutes": [
+        "route.track.mercantile-coast.coast-road"
+      ],
+      "band": "ford",
+      "id": "crossing.major.129"
+    },
+    {
+      "wayName": "the Blackwood Road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "lake",
+      "entityId": "body.692-1779",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        1225.6,
+        3298.3
+      ],
+      "banks": [
+        [
+          1226.7,
+          3297.2
+        ],
+        [
+          1224.4,
+          3299.5
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 1.07,
+      "nearestPlaceId": "place.imperial-fringe.onkobra-field-station",
+      "nearestPlaceName": "Onkobra Field Station",
+      "nearestPlaceM": 71.5,
+      "servesRoutes": [
+        "route.road.gideon-blackwood-road"
+      ],
+      "band": "ford",
+      "id": "crossing.major.130"
+    },
+    {
+      "wayName": "the Blackwood Road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.183-1646",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        315.3,
+        3024.2
+      ],
+      "banks": [
+        [
+          316.5,
+          3025.3
+        ],
+        [
+          314.1,
+          3023.0
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.31,
+      "nearestPlaceId": "place.imperial-fringe.bog-iron-workings",
+      "nearestPlaceName": "Bog Iron Workings",
+      "nearestPlaceM": 19.8,
+      "servesRoutes": [
+        "route.road.gideon-blackwood-road"
+      ],
+      "band": "ford",
+      "id": "crossing.major.131"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.1268-1133",
+      "entityKind": "horizontal-channel",
+      "positionM": [
+        2322.3,
+        2070.0
+      ],
+      "banks": [
+        [
+          2323.4,
+          2068.9
+        ],
+        [
+          2321.1,
+          2071.2
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.55,
+      "nearestPlaceId": "place.hist-heartland.dive-shaft-xanmeer-well",
+      "nearestPlaceName": "The Sunk Well",
+      "nearestPlaceM": 82.3,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "ford",
+      "id": "crossing.major.132"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.914-278",
+      "entityKind": "pond",
+      "positionM": [
+        1690.1,
+        489.2
+      ],
+      "banks": [
+        [
+          1688.9,
+          488.0
+        ],
+        [
+          1691.3,
+          490.4
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.dunmer-north.the-flu-cordon",
+      "nearestPlaceName": "The Flu Cordon",
+      "nearestPlaceM": 334.5,
+      "servesRoutes": [
+        "track.dunmer-north.the-divers-landing",
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.133"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.922-288",
+      "entityKind": "sloped-chute",
+      "positionM": [
+        1719.1,
+        562.1
+      ],
+      "banks": [
+        [
+          1717.9,
+          563.2
+        ],
+        [
+          1720.3,
+          560.9
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.62,
+      "nearestPlaceId": "place.dunmer-north.the-flu-cordon",
+      "nearestPlaceName": "The Flu Cordon",
+      "nearestPlaceM": 403.5,
+      "servesRoutes": [
+        "track.dunmer-north.the-divers-landing",
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.134"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3708.0,
+        2877.7
+      ],
+      "banks": [
+        [
+          3709.2,
+          2876.5
+        ],
+        [
+          3706.9,
+          2878.8
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.36,
+      "nearestPlaceId": "place.hist-heartland.guide-camp-gate-side",
+      "nearestPlaceName": "Gate-Side Camp",
+      "nearestPlaceM": 170.9,
+      "servesRoutes": [
+        "track.hist-heartland.bereaved-mnemic"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.135"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3689.2,
+        2896.5
+      ],
+      "banks": [
+        [
+          3690.4,
+          2895.3
+        ],
+        [
+          3688.1,
+          2897.6
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.36,
+      "nearestPlaceId": "place.hist-heartland.guide-camp-gate-side",
+      "nearestPlaceName": "Gate-Side Camp",
+      "nearestPlaceM": 174.5,
+      "servesRoutes": [
+        "track.hist-heartland.bereaved-mnemic"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.136"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.2492-2032",
+      "entityKind": "sloped-riffle",
+      "positionM": [
+        4544.7,
+        3719.0
+      ],
+      "banks": [
+        [
+          4543.5,
+          3720.2
+        ],
+        [
+          4545.8,
+          3717.8
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.32,
+      "nearestPlaceId": "place.hist-heartland.heretic-stone-restarted",
+      "nearestPlaceName": "The Restarted Work",
+      "nearestPlaceM": 47.1,
+      "servesRoutes": [
+        "track.hist-heartland.heretic-stone-restarted"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.137"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1062-2057",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        1931.4,
+        3768.4
+      ],
+      "banks": [
+        [
+          1930.2,
+          3767.2
+        ],
+        [
+          1932.5,
+          3769.5
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.imperial-fringe.ladder-to-the-light",
+      "nearestPlaceName": "Ladder-To-The-Light",
+      "nearestPlaceM": 83.2,
+      "servesRoutes": [
+        "track.imperial-fringe.cassian-farm"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.138"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.913-1021",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1788.8,
+        1832.7
+      ],
+      "banks": [
+        [
+          1790.0,
+          1833.8
+        ],
+        [
+          1787.6,
+          1831.5
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.91,
+      "nearestPlaceId": "place.imperial-fringe.the-white-throat",
+      "nearestPlaceName": "The White Throat",
+      "nearestPlaceM": 40.6,
+      "servesRoutes": [
+        "track.imperial-fringe.hangs-above-the-water"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.139"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "lake",
+      "entityId": "body.221-1650",
+      "entityKind": "tarn-upland",
+      "positionM": [
+        514.3,
+        3140.9
+      ],
+      "banks": [
+        [
+          515.5,
+          3142.1
+        ],
+        [
+          513.1,
+          3139.7
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.imperial-fringe.cartwrights-cross",
+      "nearestPlaceName": "Cartwright's Cross",
+      "nearestPlaceM": 101.5,
+      "servesRoutes": [
+        "track.imperial-fringe.the-pass-shelter"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.140"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1193-3286",
+      "entityKind": "swamp",
+      "positionM": [
+        2207.1,
+        5963.3
+      ],
+      "banks": [
+        [
+          2205.9,
+          5962.2
+        ],
+        [
+          2208.3,
+          5964.5
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.72,
+      "nearestPlaceId": "place.imperial-penal-south.longmont",
+      "nearestPlaceName": "Longmont",
+      "nearestPlaceM": 131.8,
+      "servesRoutes": [
+        "track.imperial-penal-south.longmont"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.141"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        2965.4,
+        5983.7
+      ],
+      "banks": [
+        [
+          2964.2,
+          5984.9
+        ],
+        [
+          2966.6,
+          5982.5
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.mercantile-coast.ixtaxh-xanmeer",
+      "nearestPlaceName": "Ixtaxh Xanmeer",
+      "nearestPlaceM": 69.1,
+      "servesRoutes": [
+        "track.mercantile-coast.ixtaxh-xanmeer"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.142"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.182-3242",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        352.1,
+        5928.9
+      ],
+      "banks": [
+        [
+          350.9,
+          5927.7
+        ],
+        [
+          353.3,
+          5930.0
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.mercantile-coast.oliis-ferry-stage",
+      "nearestPlaceName": "Estuary Stage",
+      "nearestPlaceM": 4.2,
+      "servesRoutes": [
+        "track.mercantile-coast.oliis-ferry-stage"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.143"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.2579-586",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        4724.1,
+        1121.4
+      ],
+      "banks": [
+        [
+          4722.9,
+          1122.6
+        ],
+        [
+          4725.2,
+          1120.2
+        ]
+      ],
+      "spanM": 1.1,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.hist-heartland.porter-relay-poling",
+      "nearestPlaceName": "The Poling Relay",
+      "nearestPlaceM": 50.5,
+      "servesRoutes": [
+        "track.pirate-freeholds.dunmer-frontier-holding"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.144"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2848-1068",
+      "entityKind": "marsh-fringe",
+      "positionM": [
+        5247.7,
+        2009.7
+      ],
+      "banks": [
+        [
+          5247.7,
+          2010.9
+        ],
+        [
+          5247.7,
+          2008.5
+        ]
+      ],
+      "spanM": 0.8,
+      "maxDepthM": 0.7,
+      "nearestPlaceId": "place.hist-heartland.sleeping-in-the-ring",
+      "nearestPlaceName": "Sleeps-In-The-Ring",
+      "nearestPlaceM": 11.6,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "ford",
+      "id": "crossing.major.145"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.922-288",
+      "entityKind": "sloped-chute",
+      "positionM": [
+        1708.1,
+        548.4
+      ],
+      "banks": [
+        [
+          1709.3,
+          548.4
+        ],
+        [
+          1706.9,
+          548.4
+        ]
+      ],
+      "spanM": 0.8,
+      "maxDepthM": 0.41,
+      "nearestPlaceId": "place.dunmer-north.the-flu-cordon",
+      "nearestPlaceName": "The Flu Cordon",
+      "nearestPlaceM": 386.2,
+      "servesRoutes": [
+        "track.dunmer-north.the-divers-landing",
+        "track.dunmer-north.the-flu-cordon"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.146"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.643-2936",
+      "entityKind": "swamp",
+      "positionM": [
+        1126.9,
+        5368.4
+      ],
+      "banks": [
+        [
+          1125.7,
+          5368.4
+        ],
+        [
+          1128.0,
+          5368.4
+        ]
+      ],
+      "spanM": 0.8,
+      "maxDepthM": 0.34,
+      "nearestPlaceId": "place.naga-kur-deeps.naga-village-settled",
+      "nearestPlaceName": "Long-Water Hold",
+      "nearestPlaceM": 47.9,
+      "servesRoutes": [
+        "track.naga-kur-deeps.naga-village-settled"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.147"
+    },
+    {
+      "wayName": "the Bog causeway",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1189-2027",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2149.5,
+        3811.0
+      ],
+      "banks": [
+        [
+          2148.8,
+          3811.0
+        ],
+        [
+          2149.5,
+          3811.8
+        ]
+      ],
+      "spanM": 0.0,
+      "maxDepthM": 3.35,
+      "nearestPlaceId": "place.imperial-fringe.the-old-office-house",
+      "nearestPlaceName": "Old Office House",
+      "nearestPlaceM": 83.3,
+      "servesRoutes": [
+        "route.road.gideon-soulrest"
+      ],
+      "band": "span",
+      "id": "crossing.major.148"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3706.9,
+        2511.5
+      ],
+      "banks": [
+        [
+          3706.9,
+          2510.7
+        ],
+        [
+          3706.9,
+          2511.5
+        ]
+      ],
+      "spanM": 0.0,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.hist-heartland.boardwalk-branching-many-ways",
+      "nearestPlaceName": "Many-Ways",
+      "nearestPlaceM": 236.6,
+      "servesRoutes": [
+        "track.hist-heartland.insular-hereditary-watch",
+        "track.hist-heartland.nightbound-lightless"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.149"
+    },
+    {
+      "wayName": null,
+      "wayClass": "footpath",
+      "network": "minor",
+      "water": "river",
+      "entityId": "reach.766-1948",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1760.2,
+        3569.8
+      ],
+      "banks": [
+        [
+          1761.0,
+          3570.6
+        ],
+        [
+          1761.0,
+          3569.0
+        ]
+      ],
+      "spanM": 0.0,
+      "maxDepthM": 0.32,
+      "nearestPlaceId": "place.imperial-fringe.the-borrowed-house",
+      "nearestPlaceName": "The Borrowed House",
+      "nearestPlaceM": 75.3,
+      "servesRoutes": [
+        "track.imperial-fringe.bone-road-waystation"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.150"
+    },
+    {
+      "wayName": null,
+      "wayClass": "track",
+      "network": "minor",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        3871.4,
+        6009.9
+      ],
+      "banks": [
+        [
+          3872.1,
+          6009.2
+        ],
+        [
+          3871.4,
+          6009.9
+        ]
+      ],
+      "spanM": 0.0,
+      "maxDepthM": 0.48,
+      "nearestPlaceId": "place.mercantile-coast.screen-watch",
+      "nearestPlaceName": "Screen-Watch",
+      "nearestPlaceM": 107.2,
+      "servesRoutes": [
+        "track.mercantile-coast.ashroot-village"
+      ],
+      "band": "ford",
+      "id": "crossing.minor.151"
+    }
+  ],
+  "source": "world/sources/routes/water-crossings.json via worldgen.export_routes"
+}

@@ -7,6 +7,12 @@ instead of dry-land paint. Standalone so the (slow) full shape + carve run
 isn't needed after a water recompile. It paints the portage drag-path tracks
 too, from the shape stage's `portage-track.npy` when the vault carries one.
 
+ROUTE PAINT IS LADDER-GATED (Phase 16e). Majors, minors and portages are each
+painted only when the stage that solves that network is on this run's ladder
+(`CHAIN_ENABLED`); with no ladder in the environment a hand run paints none of
+them unless `--paint-all` is passed, so it can never repaint stale published
+lines onto frozen ground.
+
 POSITION-SEEDED AND WINDOWABLE (Phase 16b item 6). Every noise field now comes
 from `position_noise.normal_field`: its value at a sample is a function of the
 absolute coordinate, the salt and the seed, never of the draw order, so a
@@ -53,6 +59,22 @@ STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refi
 WINDOW_PAD_M = 440.0
 
 
+def _stage_test(enabled: str | None, paint_all: bool):
+    """Predicate: did `stage` run on the ladder that is driving this bake?
+
+    `CHAIN_ENABLED` is exported by scripts/terrain-chain.sh as a space-separated
+    list of enabled stage names, or "all". Unset means nobody told us what the
+    ladder was: a hand run then paints NOTHING derived (so it can never repaint
+    stale route lines by accident) unless `--paint-all` says otherwise.
+    """
+    if paint_all or (enabled or "").strip() == "all":
+        return lambda stage: True
+    if enabled is None:
+        return lambda stage: False
+    names = set(enabled.split())
+    return lambda stage: stage in names
+
+
 def _bake(h, npz, water, roads, minor, origin, seed=SEED):
     gy, gx = np.gradient(h, RAW_M)
     slope_f = np.hypot(gx, gy).astype(np.float32)
@@ -68,6 +90,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--window", nargs=4, type=int, metavar=("Y0", "Y1", "X0", "X1"),
                     help="bake only this sample window (padded by WINDOW_PAD_M)")
+    ap.add_argument("--paint-all", action="store_true",
+                    help="hand run: paint every route network as if the whole ladder ran")
     args = ap.parse_args()
 
     vault_dir = DEFAULT_HEIGHTS.parent
@@ -79,8 +103,10 @@ def main() -> None:
     # runs sea-level only, as it did before Phase 8b — a ground-only build
     # (Phase 16b) paints no shoreline from water that was not compiled on it.
     enabled = os.environ.get("CHAIN_ENABLED")
+    ran = _stage_test(enabled, args.paint_all)
     water_path = vault_dir.parent / "water-pass1.npz"
-    use_water = water_path.exists() and (enabled is None or "compile_water" in enabled.split())
+    use_water = water_path.exists() and (enabled is None or "all" == enabled.strip()
+                                        or "compile_water" in enabled.split())
     water = np.load(water_path) if use_water else None
     print("rebake: water-aware" if use_water else "rebake: sea level only (no compiled water on this ladder)")
 
@@ -97,12 +123,33 @@ def main() -> None:
             (np.arange(h.shape[0], dtype=np.float32) / h.shape[0])[:, None], h.shape).copy(),
     )
     w4 = up(water["w2"]) if water is not None else None
-    # Ground carried clear by a bridge/deck gets no road surface painted on it.
-    roads = rasterize_roads(h.shape, (0, 0)) & ~major_spanning_mask(h.shape, STEP, (0, 0))
+    # ROUTE PAINT IS LADDER-GATED (Phase 16e). Each network is painted only if
+    # the stage that produces its geometry ran on THIS ground; otherwise the
+    # bake would re-rasterise last generation's published lines onto frozen
+    # terrain they were never solved on (measured: 91,890 stale texels after
+    # the 16b/16d rebakes, docs/research/phase16/16e-road-paint-census.md).
+    roads = np.zeros(h.shape, dtype=bool)
+    if ran("solve_major_routes"):
+        # Ground carried clear by a bridge/deck gets no road surface painted.
+        roads = rasterize_roads(h.shape, (0, 0)) & ~major_spanning_mask(h.shape, STEP, (0, 0))
+        print("roads: painted from routes.json (solve_major_routes on the ladder)")
+    else:
+        print("roads: not painted (solve_major_routes not on the ladder)")
     portage = vault_dir / "portage-track.npy"
-    if portage.exists():
-        roads = roads | np.load(portage).astype(bool)
-    minor = rasterize_minor_paint(h.shape, STEP, (0, 0))
+    if ran("compile_minor_waterways"):
+        if portage.exists():
+            roads = roads | np.load(portage).astype(bool)
+            print("portage: unioned from portage-track.npy (compile_minor_waterways on the ladder)")
+        else:
+            print("portage: not painted (no portage-track.npy in the vault)")
+    else:
+        print("portage: not painted (compile_minor_waterways not on the ladder)")
+    if ran("compile_minor_routes"):
+        minor = rasterize_minor_paint(h.shape, STEP, (0, 0))
+        print("minor: painted from routes-minor.json (compile_minor_routes on the ladder)")
+    else:
+        minor = np.zeros(h.shape, dtype=np.int8)
+        print("minor: not painted (compile_minor_routes not on the ladder)")
 
     if args.window is None:
         mat, control = _bake(h, fields, w4, roads, minor, (0, 0))

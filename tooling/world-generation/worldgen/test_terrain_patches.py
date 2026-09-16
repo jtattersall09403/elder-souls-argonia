@@ -289,3 +289,68 @@ def test_reauthoring_on_a_patched_census_keeps_the_patches(monkeypatch):
 
     pruned = wc.author(None, spec=spec, log=lambda *a: None, existing=first, prune=True)
     assert pruned == []
+
+
+# ---------------------------------------------------------------- route-grade (16e)
+
+def _grade_patch(profile, flat=5.0, shoulder=6.0, **kw):
+    e = [p[0] for p in profile]; s_ = [p[1] for p in profile]
+    pad = flat * 0.5 + shoulder
+    p = _patch([min(e) - pad, min(s_) - pad, max(e) + pad, max(s_) + pad], kind="route-grade",
+               max_delta=3.0, params={"profile": profile, "flatWidthM": flat, "shoulderM": shoulder},
+               blendM=0.0, **kw)
+    return p
+
+
+def test_route_grade_sets_the_surface_to_the_profile_and_blends_over_the_shoulder():
+    h = _ground()
+    h[:, 40:50] = 12.0                        # a 2 m terrace lip across the road's line
+    # a road along row 40 from col 30 to col 60, graded to a ramp from 10 to 12 m
+    profile = [[c * M, 40 * M, 10.0 + 2.0 * (c - 30) / 30.0] for c in range(30, 61)]
+    patch = _grade_patch(profile)
+    out, rec = tp.apply_route_grade(h, patch, _ctx(with_channel=False))
+    assert rec["samplesChanged"] > 0
+    # on the centreline the surface IS the profile
+    assert abs(float(out[40, 45]) - 11.0) < 0.05
+    # past the shoulder the ground is untouched
+    assert float(out[40 + 8, 45]) == 12.0 and float(out[40 - 8, 45]) == 12.0
+    assert tp.check_invariants(h, out, patch, _ctx(with_channel=False)) == []
+
+
+def test_route_grade_never_touches_recorded_water_and_the_invariant_catches_it():
+    h = _ground()
+    ctx = _ctx(with_channel=False)
+    # a road along row 65 straight through the pond (cols 20-30 are wet at level 8)
+    profile = [[c * M, 65 * M, 10.5] for c in range(1, 41)]
+    patch = _grade_patch(profile)
+    out, _rec = tp.apply_route_grade(h, patch, ctx)
+    assert np.array_equal(out[60:70, 20:30], h[60:70, 20:30]), "the pond's bed moved"
+    guard = int(np.ceil(tp.SHORE_GUARD_M / M))
+    assert float(out[65, 19]) == 10.0, "the shore band beside the pond was graded"
+    assert abs(float(out[65, 20 - guard - 3]) - 10.5) < 0.05, "the approach outside the shore band was not graded"
+    # a hand-made version that does move the bed is refused by invariant 7
+    bad = out.copy()
+    bad[65, 25] = 9.5
+    errs = tp.check_invariants(h, bad, patch, ctx)
+    assert any(e.startswith("water:") and "recorded water" in e for e in errs), errs
+
+
+def test_route_grade_is_refused_in_a_channels_shoulder():
+    h = _ground()
+    ctx = _ctx(with_channel=True)             # trench down column 90, width 6 m
+    profile = [[c * M, 40 * M, 9.0] for c in range(70, 111)]   # a road across the trench
+    patch = _grade_patch(profile)
+    out, _rec = tp.apply_route_grade(h, patch, ctx)
+    errs = tp.check_invariants(h, out, patch, ctx)
+    assert any(e.startswith("channels:") for e in errs), errs
+
+
+def test_route_grade_lifts_a_hollow_its_cut_would_close():
+    h = _ground()
+    ctx = _ctx(with_channel=False)
+    # a 9.5 m trench cut into a flat 10 m plain would hold water: it is lifted to its spill
+    profile = [[c * M, 40 * M, 9.5] for c in range(30, 61)]
+    patch = _grade_patch(profile)
+    out, rec = tp.apply_route_grade(h, patch, ctx)
+    assert rec["pocketsFilled"] > 0
+    assert not any(e.startswith("water:") for e in tp.check_invariants(h, out, patch, ctx))

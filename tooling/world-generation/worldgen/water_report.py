@@ -209,6 +209,22 @@ class ShippedWater:
         out["depthM"] = float(self._tex(self.signed_depth_m("wet"), east_m, south_m, self.mpp2))
         return out
 
+    def reach_band_grid(self) -> np.ndarray | None:
+        """int8 surface-grid raster of the graph `band` of the reach under each
+        texel (0 where the entity is not a reach or there is no entity),
+        read through the id raster and `hydrology-graph.json`; None without
+        an id raster. The record-legal replacement for the Phase 3
+        `river_band` class raster (0066)."""
+        if self.ids is None:
+            return None
+        reaches, _bodies = self._graph_index
+        lut = np.zeros(len(self.entities) + 1, dtype=np.int8)
+        for i, e in enumerate(self.entities, 1):
+            rec = reaches.get(e.get("id"))
+            if rec is not None:
+                lut[i] = int(rec.get("band") or 0)
+        return lut[self.ids]
+
     def kind_grid(self, kinds) -> np.ndarray | None:
         """Boolean surface-grid mask of the texels whose entity kind is in
         `kinds`, read through the id raster; None without one."""

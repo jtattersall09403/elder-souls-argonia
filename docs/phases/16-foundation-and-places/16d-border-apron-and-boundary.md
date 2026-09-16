@@ -424,7 +424,7 @@ province the water is the open sea at level 0 over the apron's ground.**
 
 - `waterMaterial.ts`: ring 2's height PNG rides in the spare rows of
   `uSurfTex` (the shader is at the flyover GPU's 16-sampler limit; a new
-  sampler broke it), and `esSurfaceAt` returns `(0, −h_apron)` when
+  sampler broke it); `esSurfaceAt` returns `(0, −h_apron)` when
   `wpos` lies outside `[0, extent]²`; in the vertex stage, when outside,
   and the clamped edge texel is not a sea class, `esKl` becomes the coast
   class with the coast's median turbidity and salinity, `esFl` zero flow at

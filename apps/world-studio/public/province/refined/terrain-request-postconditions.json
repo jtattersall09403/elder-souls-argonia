@@ -1,27 +1,27 @@
 {
   "artifactSha256": {
     "fulfillment": "6b7cf3608b62834da1759cc3b6a7d33252472be366c44b1e3226a21430a7afcb",
-    "height": "e6faec72f4da766f5e78cdf83503c595646e729c6713318418a6d9a709fd724d",
+    "height": "004f7a884a725ae7a330a4465a6b56da5d194b1b243def46f8ddbffa54751083",
     "plan": "054c0aaea94fe1ecca4e498d95ce934a3f89893fa3729a805dfd4da5189dd306",
     "water": "de7076531e65636180ba1ed2e58a8e53145867628dfcf00d84f3e2fe4cb26012"
   },
-  "finalHeightSha256": "02488c6dbbb19de6b7cd3e39bc5953862ff96f99008bd0668b053119918597c4",
+  "finalHeightSha256": "3a767991a84d876832684bd28e7751321b1af8e0444733a2562d4e0988adf686",
   "globalFindings": [
     {
       "detail": "postcondition report binds the exact final terrain raster",
       "field": "finalHeightSha256",
-      "measured": "02488c6dbbb19de6b7cd3e39bc5953862ff96f99008bd0668b053119918597c4",
+      "measured": "3a767991a84d876832684bd28e7751321b1af8e0444733a2562d4e0988adf686",
       "status": "pass"
     },
     {
-      "detail": "final water is bound to the exact final terrain hash",
+      "detail": "final water is bound to the exact natural terrain hash",
       "field": "waterSourceHeightSha256",
       "status": "pass"
     }
   ],
   "kind": "terrain-request-postconditions",
   "planDigest": "9542351e3292bd84531f1f4ec5ec8e4fb83053cedea6360bbc3be18294318a9c",
-  "reportDigest": "7a2088ebab511156a71b5c7d256d5f4102d65a2ea944cc79d8e261e135d5357a",
+  "reportDigest": "ba68523cd2972058942f46f3121f76408134fe24f47ea38a2ff534bdd5be5fa9",
   "requests": [
     {
       "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",

@@ -936,7 +936,7 @@ Each packet:
    the 16f scatter);
 3. minor routes, ways and the travel-service graph densified through the
    minor-route and service stages (16e's code, on 16g's ladder row; never a
-   fresh major-route solve, and minor routes are never graded);
+   fresh major-route solve; minor routes are never graded);
 4. the causal location network for the packet from the 16g plot: settlements
    and POIs through the settlement skill, every dungeon-kind record's
    promises checked against a realisation recipe that exists, tier A

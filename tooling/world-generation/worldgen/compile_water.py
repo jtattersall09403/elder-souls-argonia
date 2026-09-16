@@ -87,7 +87,7 @@ from . import channels as ch
 from . import freeze
 from . import hydrology_graph as hg
 from . import standing_water as sw
-from .compile_chunks import DEFAULT_HEIGHTS
+from .compile_chunks import DEFAULT_HEIGHTS, NATURAL_HEIGHTS
 from .export_web_chunks import encode_rg16
 from .npz_io import savez as _savez
 from .scale import RAW_M
@@ -2075,7 +2075,7 @@ def provenance(refined: np.ndarray) -> dict:
     if applied.exists():
         doc = json.loads(applied.read_text(encoding="utf-8"))
         if doc.get("naturalSha256") != natural:
-            raise SystemExit("compile_water: refined-height-f32.npy is not the array apply_terrain_patches wrote "
+            raise SystemExit("compile_water: refined-height-natural-f32.npy is not the array apply_terrain_patches wrote "
                              f"({natural[:12]}… vs {str(doc.get('naturalSha256'))[:12]}…): a stage between them touched the ground")
         if doc.get("frozenSha256") != frozen:
             raise SystemExit("compile_water: the patch receipt names a different frozen base than freeze.json")
@@ -2089,7 +2089,7 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(argv)
     vault = DEFAULT_HEIGHTS.parent.parent
     npz = np.load(vault / "hydrology-pass1.npz")
-    refined = np.load(DEFAULT_HEIGHTS)
+    refined = np.load(NATURAL_HEIGHTS)
     sol_path = DEFAULT_HEIGHTS.parent / CHANNELS_FILE
     if not sol_path.exists():
         raise SystemExit(f"{sol_path} missing: run worldgen.carve_province first "

@@ -49,7 +49,7 @@ import numpy as np
 from scipy import ndimage
 
 from .catalogue import REPO_ROOT
-from .compile_chunks import DEFAULT_HEIGHTS
+from .compile_chunks import DEFAULT_HEIGHTS, NATURAL_HEIGHTS
 from .scale import RAW_M
 from .terrain_requests import delivery_digest, verify_fulfillment_manifest
 
@@ -415,7 +415,8 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
 
 
 def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
-                 *, artifact_hashes: dict[str, str], water_height_sha256: str | None = None) -> dict:
+                 *, artifact_hashes: dict[str, str], water_height_sha256: str | None = None,
+                 natural_height_sha256: str | None = None) -> dict:
     """Return a deterministic, content-addressed report; never write here."""
     global_findings: list[dict] = []
     for error in verify_fulfillment_manifest(plan, fulfillment):
@@ -428,14 +429,21 @@ def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
     global_findings.append(_finding("finalHeightSha256", "pass",
                                     "postcondition report binds the exact final terrain raster",
                                     final_height_hash))
-    if water_height_sha256 != final_height_hash:
+    # The water is solved ONCE on the NATURAL array (frozen base + place
+    # patches); the final raster is that array plus the route-grade patches,
+    # which `patch_water --graded` proved moved no water (16e, decision
+    # 0068). So the water binds to the natural array's hash, not the final
+    # one; when no natural hash is supplied (a test on a single array) the
+    # final hash is the natural hash.
+    expected = natural_height_sha256 or final_height_hash
+    if water_height_sha256 != expected:
         global_findings.append(_finding(
             "waterSourceHeightSha256", "unsupported" if water_height_sha256 is None else "fail",
-            "final water must declare the exact SHA-256 of the terrain it was solved from",
-            {"claimed": water_height_sha256, "actual": final_height_hash}))
+            "final water must declare the exact SHA-256 of the natural terrain it was solved from",
+            {"claimed": water_height_sha256, "actual": expected}))
     else:
         global_findings.append(_finding("waterSourceHeightSha256", "pass",
-                                        "final water is bound to the exact final terrain hash"))
+                                        "final water is bound to the exact natural terrain hash"))
 
     required_water = {"w_full", "wet_full", "cls", "vx", "vz"}
     missing = sorted(required_water - set(water))
@@ -601,9 +609,12 @@ def main(argv: list[str] | None = None) -> int:
         provenance = json.loads(provenance_path.read_text())
         water_height_hash = provenance.get("sourceHeightSha256")
         paths["waterProvenance"] = provenance_path
+    natural_hash = None
+    if NATURAL_HEIGHTS.exists():
+        natural_hash = _array_digest(np.load(NATURAL_HEIGHTS).astype(np.float32))
     report = build_report(plan, fulfillment, height, water,
                           artifact_hashes={name: _file_digest(path) for name, path in paths.items()},
-                          water_height_sha256=water_height_hash)
+                          water_height_sha256=water_height_hash, natural_height_sha256=natural_hash)
     _atomic_json(args.out, report)
     failures = sum(row["status"] != "pass" for row in report["globalFindings"]) \
         + sum(row["status"] != "pass" for request in report["requests"]

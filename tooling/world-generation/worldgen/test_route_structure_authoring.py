@@ -18,14 +18,15 @@ import numpy as np
 
 from .grade_routes import STRUCTURES_PATH
 from .author_route_structures import (DECK_THICKNESS_M, GRADIENT_CAP_KIND,
-                                      NO_WATER, SpanWater,
-                                      _highest_suffix_by_way, _kind,
-                                      _reconcile_prior_windows, _refresh,
-                                      _way_length_m, _window_rise,
+                                      MARSH_DECK_FAMILY, NO_WATER, SpanWater,
+                                      _chain_and_z, _highest_suffix_by_way,
+                                      _kind, _reconcile_prior_windows, _refresh,
+                                      _way_length_m, _window_rise, author,
                                       obstacle_span)
-from .compile_route_structures import (RAMP_KINDS, RAMP_MAX_DEG, SPAN_KINDS,
+from .compile_route_structures import (FAMILIES, RAMP_KINDS, RAMP_MAX_DEG, SPAN_KINDS,
                                        compile_structure, measure_window,
                                        ramp_ok)
+from .scale import RAW_M
 from .test_route_structures import _kit_stub, _slope_way
 from .ladder import requires_layer, requires_stage
 
@@ -340,3 +341,102 @@ def test_every_published_structure_stands_on_a_way_that_exists():
         f"{len(stale)} published route structures name ground the current routes do "
         f"not have — re-run `python3 -m worldgen.author_route_structures` and "
         f"`compile_route_structures`:\n  " + "\n  ".join(stale[:10]))
+
+
+# --------------------------------------------------------------------------
+# THE CROSSING RECORD DECIDES WHAT IS BUILT (16e deliverable 5, decision 0068)
+# --------------------------------------------------------------------------
+def _road_over_water():
+    """A flat ROAD with 1 m of standing water over its middle, and the pieces
+    the two modules need to judge it. The road is the case that shipped the
+    220 m stone viaduct over a fen, so the family here is the stone one."""
+    cells = 240
+    heights = np.zeros((cells, cells), dtype=np.float32)
+    way = {"id": "route.road.test", "kind": "road",
+           "px": [[4, 20], [60, 20]], "name": "Test Road"}
+    length = _way_length_m(way)
+    depth = np.full((4000, 4000), -5.0, dtype=np.float32)
+    # Wet from a third to two thirds of the way, in WORLD metres.
+    wet0, wet1 = length / 3.0, 2.0 * length / 3.0
+    depth[:, int(wet0):int(wet1)] = 1.0
+    water = SpanWater(depth, metres_per_pixel=1.0)
+    stretch_doc = {"ways": [{"wayId": way["id"], "kind": "road",
+                             "stretches": [{"fromM": wet0 - 5.0, "toM": wet1 + 5.0,
+                                            "worstDeg": 20.0, "overM": 50.0}]}]}
+    return way, heights, water, stretch_doc, (wet0, wet1)
+
+
+def _crossing(band: str, water_label: str, way, banks_m):
+    """One stub row in the shape `derive_crossings` writes."""
+    a, b = banks_m
+    return {"id": f"crossing.test.{band}.{water_label}", "band": band,
+            "water": water_label, "spanM": round(b - a, 1), "maxDepthM": 1.0,
+            "entityId": "w.test", "entityKind": "channel-major",
+            "servesRoutes": [way["id"]],
+            # The banks are world points; the module projects them onto the
+            # way's own chainage, so a straight west-east way at z = const
+            # makes x = chainage.
+            "banks": [[a, 20 * 3 * RAW_M], [b, 20 * 3 * RAW_M]]}
+
+
+def _author(crossing, services=None):
+    way, heights, water, doc, banks = _road_over_water()
+    # The way starts at px x = 4, so chainage 0 is 4 macro px east of the
+    # origin: the banks are given in the same world frame as the way.
+    chain, xs, zs, _z = _chain_and_z(way, heights)
+    a = float(np.interp(banks[0], chain, xs))
+    b = float(np.interp(banks[1], chain, xs))
+    rows = [] if crossing is None else [_crossing(*crossing, way, (a, b))]
+    out = author(doc, {way["id"]: way}, heights, {way["id"]}, [],
+                 water=water, crossings=rows, services=services or {})
+    return out
+
+
+def test_a_marsh_crossing_on_a_road_is_a_boardwalk_not_a_stone_bridge():
+    out = _author(("span", "marsh"))
+    assert len(out["structures"]) == 1, out["structures"]
+    st = out["structures"][0]
+    assert st["kind"] == "deck"
+    assert st["family"] == MARSH_DECK_FAMILY
+    assert st["pieceRef"] == FAMILIES[MARSH_DECK_FAMILY]["deck"]["asset"]
+
+
+def test_a_marsh_crossing_is_a_boardwalk_at_any_band():
+    """A fen is crossed on posts however wide or narrow it is."""
+    for band in ("ford", "span"):
+        st = _author((band, "marsh"))["structures"]
+        assert len(st) == 1 and st[0]["kind"] == "deck", (band, st)
+
+
+def test_a_ferry_band_crossing_builds_nothing_and_is_reported():
+    out = _author(("ferry", "lake"))
+    assert out["structures"] == []
+    assert len(out["ferryCrossings"]) == 1
+    row = out["ferryCrossings"][0]
+    assert row["wayId"] == "route.road.test"
+    assert row["crossingId"].endswith("ferry.lake")
+    assert row["serviceId"] is None
+
+
+def test_a_ferry_window_names_the_service_that_serves_it():
+    out = _author(("ferry", "lake"),
+                  services={"crossing.test.ferry.lake": "boat.test"})
+    assert out["ferryCrossings"][0]["serviceId"] == "boat.test"
+
+
+def test_a_river_span_crossing_is_still_a_bridge():
+    out = _author(("span", "river"))
+    st = out["structures"]
+    assert len(st) == 1 and st[0]["kind"] == "bridge"
+    assert st[0]["family"] == "stone-civic"
+
+
+def test_a_shallow_narrow_ford_on_a_river_builds_nothing():
+    """The road goes through the water; a ford is not a structure."""
+    assert _author(("ford", "river"))["structures"] == []
+
+
+def test_a_window_with_no_crossing_keeps_todays_logic():
+    out = _author(None)
+    st = out["structures"]
+    assert len(st) == 1 and st[0]["kind"] == "bridge" and st[0]["family"] == "stone-civic"

@@ -36,8 +36,8 @@ export function computeFacts() {
   const graph = "world/sources/hydrology/hydrology-graph.json";
   if (existsSync(join(ROOT, graph))) { const g = readJson(graph); const s = g.stats ?? {}; facts.hydrologyRivers = s.rivers; facts.hydrologyReaches = s.reaches; facts.hydrologyBodies = s.bodies; facts.hydrologyFalls = s.falls; for (const k of ["hydrologyRivers", "hydrologyReaches", "hydrologyBodies", "hydrologyFalls"]) src[k] = `${graph} stats`; }
   // ferries
-  const ferries = "world/sources/routes/ferry-crossings.json";
-  if (existsSync(join(ROOT, ferries))) { const f = readJson(ferries); const s = f.services ?? f; facts.ferryServices = Array.isArray(s) ? s.length : Object.keys(s).length; src.ferryServices = ferries; }
+  const ferries = "world/sources/routes/travel-services.json";
+  if (existsSync(join(ROOT, ferries))) { const f = readJson(ferries); const s = f.services ?? []; facts.travelServices = s.length; src.travelServices = ferries; facts.ferryServices = s.filter((v) => v.serviceKind === "ferry").length; src.ferryServices = `${ferries} serviceKind=ferry`; }
   // kits, bodies, standards
   facts.publishedKits = count("apps/world-studio/public/kits", ".kit.json"); src.publishedKits = "apps/world-studio/public/kits/*.kit.json";
   facts.builtBodies = count("packages/character-assets/files/races", ".glb"); src.builtBodies = "packages/character-assets/files/races/*.glb";

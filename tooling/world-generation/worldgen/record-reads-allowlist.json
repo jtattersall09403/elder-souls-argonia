@@ -6,14 +6,6 @@
    "portedBy": "16g",
    "why": "\"floodBand\": hyd[\"floodBand\"],"
   },
-  "compile_minor_routes": {
-   "portedBy": "16e",
-   "why": "cost = np.where(s.flood >= 2, cost * COST_FLOOD, cost)"
-  },
-  "compile_minor_waterways": {
-   "portedBy": "16e",
-   "why": "cost = boat_cost_surface(ocean, s.lakes, s.river_band, s.tidal, s.wetlands)"
-  },
   "compile_scatter": {
    "portedBy": "16f",
    "why": "np.asarray(Image.open(province / \"water\" / \"water-surface.png\").convert(\"RGB\")),"
@@ -45,10 +37,6 @@
   "terrain_scour": {
    "portedBy": "16g",
    "why": "wet=(s.wetlands | (s.flood >= 2)"
-  },
-  "water_crossings": {
-   "portedBy": "16e",
-   "why": "npz = np.load(cw.DEFAULT_HEIGHTS.parent.parent / \"hydrology-pass1.npz\")"
   }
  }
 }

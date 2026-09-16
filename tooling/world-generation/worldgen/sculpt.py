@@ -119,7 +119,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 # The road corridors the uplift is suppressed along. A FROZEN input
 # (`carve-inputs/sculpt-corridors.json`, seeded once from the published
 # network and never re-promoted by `carve_routes --promote`): the published
-# `routes.json` is rewritten by `reroute_majors` from the ground this very
+# `routes.json` is solved by `solve_major_routes` from the ground this very
 # stage shapes, and reading it here was the chain's last live cycle (Phase 16b,
 # decision 0059). Re-seeding it is a deliberate act: delete the file, re-sculpt.
 SCULPT_CORRIDORS = "sculpt-corridors.json"

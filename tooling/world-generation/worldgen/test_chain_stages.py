@@ -23,12 +23,12 @@ def test_code_change_makes_a_stage_stale():
 
 def test_a_file_a_later_stage_rewrites_is_not_held_against_the_stage(tmp_path):
     """The chain has feedback edges — `sculpt_province` reads the routes that
-    `reroute_majors` later rewrites. Holding the sculpt to that file would
+    `solve_major_routes` later rewrites. Holding the sculpt to that file would
     rebuild the whole province on every run."""
     fed_back = tmp_path / "routes.json"
     fed_back.write_text("changed since the sculpt read it")
     stamp = {"code": "c", "inputs": {str(fed_back): "the-old-hash"}, "outputs": {}}
-    written_by = {str(fed_back): 3}          # reroute_majors, two stages later
+    written_by = {str(fed_back): 3}          # solve_major_routes, two stages later
     assert cs.is_fresh(stamp, "c", at=1, written_by=written_by)
     # The same file owned by an EARLIER stage is a real dependency.
     assert not cs.is_fresh(stamp, "c", at=4, written_by=written_by)

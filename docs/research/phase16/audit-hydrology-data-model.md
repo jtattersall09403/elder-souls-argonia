@@ -100,7 +100,7 @@ so the grader sees the water; last on the graded ground that ships).
 
 Feedback edges, each named in the chain script:
 
-- `sculpt_province` reads `routes.json`, rewritten by `reroute_majors` five
+- `sculpt_province` reads `routes.json`, rewritten by the major-road stage five
   stages later (frozen behind `--allow-sculpt`);
 - `reroute_lanes` runs after both water solves, but the lane dredge runs
   earlier in `refine_province` ("one pass repairs the line; a second serves it");

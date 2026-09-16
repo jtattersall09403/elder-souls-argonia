@@ -189,7 +189,11 @@
     "vanilla:clutter/stockade/stockadescaffoldstairs01": "direct",
     "vanilla:clutter/stockade/stockadescaffoldtop3sided01": "stilt",
     "vanilla:dungeons/mines/ore/mineoreiron01": "dug-in",
-    "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01": "pad"
+    "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01": "pad",
+    "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01": "route-structure",
+    "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01": "route-structure",
+    "vanilla:dungeons/nordic/exterior/nortmpextplattower01": "route-structure",
+    "vanilla:landscape/bridges/bridgeshort01": "route-structure"
   },
   "expandedRefs": {
     "dungeon-root-v1": "parcel.interior.assetRef is a kit-family claim expanded by worldgen.interiors_index, not a renderable asset identity"

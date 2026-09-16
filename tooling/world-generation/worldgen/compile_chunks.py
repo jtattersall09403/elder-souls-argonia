@@ -50,7 +50,13 @@ from .scale import (AUTHORED_UV_EXTENT_M, HYDRO_RASTER_EDGE_EXTENT_M, RAW_M,
                     VERTICAL_SCALE_AT_GEOMETRY)
 from .vault import HEIGHTFIELD_DIR, REPO_ROOT, VAULT_ROOT  # noqa: F401 — re-exported
 
+# DEFAULT_HEIGHTS is the ground the world is built on: natural plus the
+# `route-grade` patches, written by `apply_route_patches` (16e).
 DEFAULT_HEIGHTS = HEIGHTFIELD_DIR / "province-refined" / "refined-height-f32.npy"
+# NATURAL_HEIGHTS is the ground before grading, written by
+# `apply_terrain_patches` (16b) and read by every stage that must never see
+# the grading it causes.
+NATURAL_HEIGHTS = HEIGHTFIELD_DIR / "province-refined" / "refined-height-natural-f32.npy"
 META_PATH = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined" / "meta.json"
 
 

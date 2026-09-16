@@ -188,7 +188,7 @@ def digest(res: dict) -> str:
               "`compile_water` → `rebake_landcover` → `compile_scatter` for any exemplar chunk",
               "the road moved through → `macro_plot` → `compile_minor_routes` → `export_places`.",
               "Quest provisions that name the city's neighbours (docs/quests/20) are unaffected;",
-              "the root-transit stations (anchors/root-transit.json) are positioned relative to",
+              "the rootworm stations (routes/travel-services.json) are positioned relative to",
               "Helstrom and should be re-checked if Helstrom moves.", ""]
     return "\n".join(lines)
 

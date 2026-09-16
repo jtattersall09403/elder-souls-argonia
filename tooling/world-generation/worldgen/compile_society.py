@@ -27,7 +27,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
 from scipy import ndimage
 
 from .routes import BOAT_PORTAGE, boat_cost_surface, cost_surface, routes_from
@@ -65,41 +65,21 @@ def load_lane_terminal_uv(path: Path = LANE_TERMINALS_PATH) -> dict[str, tuple[f
 
 
 def publish_roads(routes_out: list[dict], province: Path = PREVIEW_DIR) -> bool:
-    """Publish the society solve's roads without clobbering a live repair.
+    """Record the society solve's pass-1 road corridors, and publish nothing.
 
-    `reroute_majors` repairs the published `routes.json` in place and records
-    what it repaired FROM in `routes-repaired-by.json` (`naturalSha256`, the
-    hash of `routes-natural.json`). So this writes the solver output to
-    `routes-natural.json` — the file siting reads — and then:
+    The MAJOR roads are solved once, below the freeze gate, on the frozen
+    ground by `worldgen.solve_major_routes` (decision 0068): it writes both
+    `routes.json` and `routes-natural.json`. This Phase 4 pass runs above the
+    gate on the Phase 3 water classes, so its corridors are a record of the
+    society solve, not the world's roads — they go to `routes-society.json`
+    and nothing downstream reads them as geometry.
 
-      * hash unchanged and a repaired `routes.json` on disk  -> leave it alone;
-      * anything else -> write `routes.json` and drop the repair marker, so the
-        chain knows `reroute_majors` has to run again.
-
-    Returns True if `routes.json` was rewritten.
+    Always returns False: no published road file is touched here.
     """
-    natural = province / "routes-natural.json"
-    roads = province / "routes.json"
-    marker = province / "routes-repaired-by.json"
-    natural.write_text(json.dumps({"routes": routes_out}))
-    # stamp the registry ids/names onto the geometry files (worldgen.route_registry)
-    from .route_registry import attach as _attach_route_ids
-    _attach_route_ids()
-    fresh = hashlib.sha256(natural.read_bytes()).hexdigest()
-    stamped = json.loads(marker.read_text()) if marker.exists() else {}
-    if roads.exists() and stamped.get("naturalSha256") == fresh:
-        print("routes: natural roads unchanged - keeping the reroute_majors repair "
-              "in routes.json (routes-natural.json refreshed)")
-        return False
-    roads.write_text(natural.read_text())
-    if marker.exists():
-        marker.unlink()
-        print("routes: natural roads CHANGED - routes.json rewritten and the repair "
-              "marker cleared; re-run `python3 -m worldgen.reroute_majors`")
-    else:
-        print("routes: routes.json written from the society solve "
-              "(no repair marker; run `python3 -m worldgen.reroute_majors` next)")
-    return True
+    (province / "routes-society.json").write_text(json.dumps({"routes": routes_out}))
+    print("routes: pass-1 society corridors recorded in routes-society.json "
+          "(the published roads come from `python3 -m worldgen.solve_major_routes`)")
+    return False
 
 
 def _canonical_bytes(doc: dict) -> bytes:
@@ -290,32 +270,9 @@ def main() -> None:
         "boatPortage": BOAT_PORTAGE,
     })
 
-    # Rootworm transit (speculative pass 1, AGENT_AUTHORED — plan §19).
-    root_file = json.loads((ANCHORS_PATH.parent / "root-transit.json").read_text())
-    root_px = {s["id"]: (int(s["u"] * w), int(s["v"] * h)) for s in root_file["stations"]}
-
-    routes_img = np.zeros((h, w, 4), dtype=np.uint8)
-    wide = ndimage.binary_dilation(road_mask)
-    routes_img[wide] = (225, 205, 160, 235)
-    Image.fromarray(routes_img).save(PREVIEW_DIR / "soc-routes.png")
-
-    waterways_img = np.zeros((h, w, 4), dtype=np.uint8)
-    waterways_img[ndimage.binary_dilation(water_mask)] = (120, 215, 255, 220)
-    waterways_img[ndimage.binary_dilation(portage_mask)] = (245, 180, 90, 230)
-    Image.fromarray(waterways_img).save(PREVIEW_DIR / "soc-waterways.png")
-
-    # Rootways drawn as straight faint arcs between stations (schematic only).
-    rootways_img = np.zeros((h, w, 4), dtype=np.uint8)
-    for e in root_file["edges"]:
-        (x0, y0), (x1, y1) = root_px[e["from"]], root_px[e["to"]]
-        n = int(max(abs(x1 - x0), abs(y1 - y0)))
-        for i in range(0, n, 4):  # dotted
-            t = i / n
-            rootways_img[int(y0 + (y1 - y0) * t), int(x0 + (x1 - x0) * t)] = (150, 240, 150, 235)
-    rootways_img = np.array(Image.fromarray(rootways_img).filter(ImageFilter.MaxFilter(3)))
-    for sid, (x, y) in root_px.items():
-        rootways_img[max(y-2,0):y+3, max(x-2,0):x+3] = (110, 230, 110, 255)
-    Image.fromarray(rootways_img).save(PREVIEW_DIR / "soc-rootways.png")
+    # The route/waterway/rootway overlays are painted BELOW the freeze gate by
+    # `worldgen.paint_route_overlays`, from the published route records — this
+    # stage never re-runs, so its pixels could not follow a re-solved road (0068).
 
     danger_img = np.zeros((h, w, 4), dtype=np.uint8)
     for band, (_, colour) in DANGER_BANDS.items():
@@ -334,7 +291,6 @@ def main() -> None:
         "cultureLegend": {name: {"name": name, "rgb": list(spec["colour"])} for name, spec in CULTURES.items()},
         "routeLengthsKm": {f"{r['from']}->{r['to']}": r["lengthKm"] for r in routes_out},
         "waterRoutes": water_routes,
-        "rootStations": list(root_px.keys()),
         "dangerModel": "base(region) + 2.9*depth/10km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart); high dry ground capped at band 3",
         **soc.stats,
     }

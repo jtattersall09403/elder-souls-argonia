@@ -215,10 +215,227 @@ export const FERRY_TEXT: readonly TextEntry[] = [
   },
 ];
 
+
+/**
+ * Travel services beyond the ferries - the boat lanes and the rootworm
+ * Underground Express. The graph is `world/sources/routes/travel-services.json`;
+ * every `text.*` id it carries is registered here and checked by
+ * `python3 -m worldgen.travel_services --check`.
+ *
+ * Register: boat owners are tradespeople working their own water. They state
+ * the fare and the one rule of their boat, and nothing else.
+ */
+export const TRAVEL_TEXT: readonly TextEntry[] = [
+  {
+    id: "text.boat.alten-corimont-helstrom.name",
+    surface: "descriptive",
+    text: "Alten Corimont to Helstrom, by boat",
+    note: "Service-menu label for the registry boat lane between Alten Corimont and Helstrom.",
+  },
+  {
+    id: "text.boat.alten-corimont-helstrom.hail",
+    surface: "dialogue",
+    text: "Five drakes upriver to Helstrom. I leave when you sit down.",
+    note: "The boat owner at Alten Corimont. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.archon-helstrom.name",
+    surface: "descriptive",
+    text: "Archon to Helstrom, by boat",
+    note: "Service-menu label for the registry boat lane between Archon and Helstrom.",
+  },
+  {
+    id: "text.boat.archon-helstrom.hail",
+    surface: "dialogue",
+    text: "Helstrom, five drakes. Keep your gear out of the bilge.",
+    note: "The boat owner at Archon. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.archon-thorn.name",
+    surface: "descriptive",
+    text: "Archon to Thorn, by boat",
+    note: "Service-menu label for the registry boat lane between Archon and Thorn.",
+  },
+  {
+    id: "text.boat.archon-thorn.hail",
+    surface: "dialogue",
+    text: "Five drakes and I put you off at Thorn. Pay before you board.",
+    note: "The boat owner at Archon. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.blackrose-lilmoth.name",
+    surface: "descriptive",
+    text: "Blackrose to Lilmoth, by boat",
+    note: "Service-menu label for the registry boat lane between Blackrose and Lilmoth.",
+  },
+  {
+    id: "text.boat.blackrose-lilmoth.hail",
+    surface: "dialogue",
+    text: "Lilmoth is five drakes. Do not stand up in my boat.",
+    note: "The boat owner at Blackrose. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.gideon-helstrom.name",
+    surface: "descriptive",
+    text: "Gideon to Helstrom, by boat",
+    note: "Service-menu label for the registry boat lane between Gideon and Helstrom.",
+  },
+  {
+    id: "text.boat.gideon-helstrom.hail",
+    surface: "dialogue",
+    text: "Five drakes to Helstrom. If you are late I go without you.",
+    note: "The boat owner at Gideon. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.lake-ferry-stage-blackrose.name",
+    surface: "descriptive",
+    text: "The North Stage to Blackrose, by boat",
+    note: "Service-menu label for the registry boat lane between The North Stage and Blackrose.",
+  },
+  {
+    id: "text.boat.lake-ferry-stage-blackrose.hail",
+    surface: "dialogue",
+    text: "Across to Blackrose, five drakes. Keep your blade sheathed on my boat.",
+    note: "The boat owner at The North Stage. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.lilmoth-archon.name",
+    surface: "descriptive",
+    text: "Lilmoth to Archon, by boat",
+    note: "Service-menu label for the registry boat lane between Lilmoth and Archon.",
+  },
+  {
+    id: "text.boat.lilmoth-archon.hail",
+    surface: "dialogue",
+    text: "Archon, five drakes. I take no cargo that I cannot lift myself.",
+    note: "The boat owner at Lilmoth. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.lilmoth-lighter-flotilla.name",
+    surface: "descriptive",
+    text: "Lilmoth to Lighter Flotilla, by boat",
+    note: "Service-menu label for the registry boat lane between Lilmoth and Lighter Flotilla.",
+  },
+  {
+    id: "text.boat.lilmoth-lighter-flotilla.hail",
+    surface: "dialogue",
+    text: "Out to the flotilla, five drakes. Mind the step, it is wet.",
+    note: "The boat owner at Lilmoth. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.oliis-ferry-stage-oliis-boardwalk.name",
+    surface: "descriptive",
+    text: "Estuary Stage to Walks-The-Mangrove, by boat",
+    note: "Service-menu label for the registry boat lane between Estuary Stage and Walks-The-Mangrove.",
+  },
+  {
+    id: "text.boat.oliis-ferry-stage-oliis-boardwalk.hail",
+    surface: "dialogue",
+    text: "Over to the boardwalk, five drakes. Sit at the back of the boat.",
+    note: "The boat owner at Estuary Stage. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.soulrest-blackrose.name",
+    surface: "descriptive",
+    text: "Soulrest to Blackrose, by boat",
+    note: "Service-menu label for the registry boat lane between Soulrest and Blackrose.",
+  },
+  {
+    id: "text.boat.soulrest-blackrose.hail",
+    surface: "dialogue",
+    text: "Blackrose, five drakes. Once I am off the landing I do not turn back.",
+    note: "The boat owner at Soulrest. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.soulrest-lilmoth.name",
+    surface: "descriptive",
+    text: "Soulrest to Lilmoth, by boat",
+    note: "Service-menu label for the registry boat lane between Soulrest and Lilmoth.",
+  },
+  {
+    id: "text.boat.soulrest-lilmoth.hail",
+    surface: "dialogue",
+    text: "Down to Lilmoth for five drakes. One bag each, kept on your knees.",
+    note: "The boat owner at Soulrest. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.boat.stormhold-alten-corimont.name",
+    surface: "descriptive",
+    text: "Stormhold to Alten Corimont, by boat",
+    note: "Service-menu label for the registry boat lane between Stormhold and Alten Corimont.",
+  },
+  {
+    id: "text.boat.stormhold-alten-corimont.hail",
+    surface: "dialogue",
+    text: "Alten Corimont, five drakes. You bail when I tell you.",
+    note: "The boat owner at Stormhold. Fare stated, then the one rule of his boat.",
+  },
+  {
+    id: "text.rootworm.underground-express.name",
+    surface: "descriptive",
+    text: "The Underground Express",
+    note: "Service-menu label for the rootworm network. Placeholder until the stations are re-authored in 16g.",
+  },
+  {
+    id: "text.rootworm.underground-express.hail",
+    surface: "dialogue",
+    text: "The worm is awake. Say where you are going and stand in the mouth.",
+    note: "The Waykeeper at a root node. Placeholder line until the hero Hist nodes are authored in 16g.",
+  },
+];
+
+/**
+ * The travel interaction itself (16e deliverable 7): the prompt at an
+ * operator's socket, the fare line in the menu and the three outcomes.
+ *
+ * `{role}` and `{gold}` are filled by the caller from the service record.
+ * Register: the game talking to the player, so plain and short.
+ */
+export const TRAVEL_UI_TEXT: readonly TextEntry[] = [
+  {
+    id: "text.travel.prompt-talk",
+    surface: "system",
+    text: "Talk to the {role}",
+    note: "Shown when the character is within four metres of an operator socket. {role} is the service record's operator role, such as ferryman or boat owner.",
+  },
+  {
+    id: "text.travel.menu-fare",
+    surface: "ui",
+    text: "{gold} drakes",
+    note: "The fare in the service menu. Drakes are the septim by its Black Marsh name; {gold} is the fare after any free-passage gate.",
+  },
+  {
+    id: "text.travel.menu-free",
+    surface: "ui",
+    text: "no charge",
+    note: "Shown in place of the fare when a free-passage gate holds.",
+  },
+  {
+    id: "text.travel.cannot-pay",
+    surface: "system",
+    text: "You cannot pay the fare.",
+    note: "The purse is short. States the cause; the fare is already on screen beside it.",
+  },
+  {
+    id: "text.travel.unavailable",
+    surface: "system",
+    text: "Nobody is taking passengers now.",
+    note: "An availability gate fails, or the record carries a gate this build cannot evaluate. Says only that the service is shut, because the reason is weather or season and the player can see it.",
+  },
+  {
+    id: "text.travel.arrived",
+    surface: "system",
+    text: "You arrive.",
+    note: "Shown for three seconds after a trip resolves. Two words: nothing was simulated, so nothing is described.",
+  },
+];
+
 /** The live catalogue. Built at module load so a malformed entry fails the tests. */
 export const CATALOGUE = buildCatalogue([
   ...SYSTEM_TEXT,
   ...COMBAT_SANDBOX_TEXT,
   ...EQUIPMENT_TEXT,
   ...FERRY_TEXT,
+  ...TRAVEL_TEXT,
+  ...TRAVEL_UI_TEXT,
 ]);

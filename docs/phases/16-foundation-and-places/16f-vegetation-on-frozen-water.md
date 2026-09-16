@@ -8,48 +8,59 @@ regions) are answered with measurements and delivered where the answer is yes.
 
 Needs ruling 10 (already given for 16b); no new ruling.
 
-## Starting state (2026-09-13; the closing 16e agent rewrites this)
+## Starting state (2026-09-15, written by the closing 16e agent)
 
+- **The ladder is built through 16e** (`province/ladder.json` `through: 16e`;
+  the `route-structures` 3D layer is hidden by `SHOWN_FROM` until 16h draws
+  it). The ground you scatter on is `refined-height-f32.npy` = the NATURAL
+  array (`compile_chunks.NATURAL_HEIGHTS`, frozen base + place patches) plus
+  the `route-grade` patches (`world/sources/terrain/route-grade-patches.json`,
+  applied by `apply_route_patches`); water was compiled on the natural array
+  and `patch_water_graded` proved the grading moved none of it.
+- **Roads are the published `routes.json`** (`solve_major_routes`, every cell
+  of the solve, no decimation; `junctions`), painted by `rebake_landcover`
+  only when the ladder produced them (`road_paint_census --check` is the
+  gate: no road texel more than 5 m off a ladder line). Minor routes and
+  waterways are 16g's and are NOT on disk for this ground: `routes-minor.json`
+  and `waterways-minor.json` are stale and unpainted; the scatter must not
+  clear corridors for them until 16g republishes.
+- **Crossings and ferries are records**: `world/sources/routes/water-crossings.json`
+  (schema 2: `entityId`, `entityKind`, `water`, `band`, `banks`) and
+  `travel-services.json` (stations with `berth.jettyM`); the span pieces are
+  placements in `province/route-structures.json` with `walkSurface` and
+  `crossingId`. A boulder-at-the-fall or strip rock (your deliverable 2)
+  must not land on a structure's `pointsM` or a ferry landing.
+- **The record reader** is `ProvinceSurvey.water_at / reach / body`
+  (`water_report.ShippedWater`); the survey also carries `channel_grid`,
+  `standing_body_grid`, `reach_band_grid` (16e) beside `marsh_grid`. Your
+  allowlist rows are `compile_scatter` and `rebake_landcover` (and
+  `landcover.py` reached through it, 16d's note below).
 - **Ground cover is a runtime ring, not a bundle** (world 65 §T3):
-  `apps/world-studio/src/vegetation/Groundcover.tsx` (736 lines) regenerates
-  it from the land-cover raster within a 75 m ring, reading
-  `world/sources/flora/groundcover.json` (density in instances per hectare,
-  a survival rule and a `maxInstances` cap). Deliverable 0 changes that
-  file, the table and `mine_groundcover.py`, not `compile_scatter`; there
-  are no "groundcover bundles in git history" to diff — measure by sampling
-  the ring's placement function at each site against the pre-0048 table.
-  The file is app-private (0038); do not grow it, 10b extracts it.
-- **The graph's reach vocabulary** (0058, commit 443c33fb) is
-  `horizontal-channel | horizontal-tidal | horizontal-backwater |
-  sloped-riffle | sloped-rapid | sloped-chute | vertical-fall`; bodies are
-  `ocean, lagoon, lake-lowland, tarn-upland, pond, pool, plunge-pool,
-  marsh-fringe, marsh-deep, swamp, backswamp, mudflat`. There is no
-  `horizontal-river`, `horizontal-stream` or `drowned-forest`. Every reach
-  (615) carries `centreline`, `widthM`, `depthM`, `season`, `band`; no
-  reach-owner raster is needed.
+  `apps/world-studio/src/vegetation/Groundcover.tsx` regenerates it from the
+  land-cover raster within a 75 m ring, reading
+  `world/sources/flora/groundcover.json`; deliverable 0 changes that file,
+  the table and `mine_groundcover.py`, not `compile_scatter`; measure by
+  sampling the ring's placement function against the pre-0048 table. The
+  file is app-private (0038); do not grow it, 10b extracts it.
+- **The graph's reach vocabulary** (0058) is `horizontal-channel |
+  horizontal-tidal | horizontal-backwater | sloped-riffle | sloped-rapid |
+  sloped-chute | vertical-fall`; bodies `ocean, lagoon, lake-lowland,
+  tarn-upland, pond, pool, plunge-pool, marsh-fringe, marsh-deep, swamp,
+  backswamp, mudflat`. Every reach carries `centreline`, `widthM`, `depthM`,
+  `season`, `band`; the compiled extent is `water-id.png` (`kind_grid`).
 - **The gate is missing, not broken**: `scatter.Layer.gate` reads region,
   water depth, slope and land cover only; `compile_scatter.ProvinceFields`
-  decodes only `water-surface.png`; `SCATTER_INPUTS` names no graph file
-  (root cause: audit-hydrology-data-model §5).
+  decodes only `water-surface.png`; `SCATTER_INPUTS` names no graph file.
 - **`stripBoulderCandidates` is TypeScript in the water renderer**
   (`packages/game-core/src/water/render/ChannelStrips.ts`, 1 boulder per
-  160 m² of wetted bed), not a compiler export; reimplement the rule
-  deterministically in Python from `water-meta` channels with that file as
-  the spec; give the constant one home.
-- **No rock kit exists** (31 kit configs, none `rocks-v1`); the vault rock
-  candidates are world 90 §76, not the chain audit §5 (which is cliffs).
-  `underwater-v1` holds 23 assets.
-- **The delta and corridor answer is written** (16a ledger §"thin
-  classes": one delta, `river.889-484`; corridor classes follow band-3
-  channel reaches); deliverable 4 applies it.
-- **Ladder rows exist**: `[16f]="compile_scatter"` and `rebake_landcover`
-  on 16b's row; confirm, never duplicate; bump `DELIVERED_THROUGH`.
-- **`test_vegetation_ladder.py` is green today** (wired into
-  `test:placement`); 0048's "stays red pending the rollout" is history.
-  Inherited red, not yours: four catalogue-export tests owned by 16g.
-- **The committed vegetation bundles are stale**: `ladder.json` ran through
-  16b and skipped `compile_scatter` and `compile_water`; "shown failing on
-  today's bundles" measures a pre-freeze world — say so or rebake first.
+  160 m² of wetted bed), not a compiler export; reimplement it in Python.
+- **No rock kit exists** (none `rocks-v1`); vault rock candidates are world
+  90 §76. `underwater-v1` holds 23 assets.
+- **Ladder rows exist**: `[16f]="compile_scatter"`; `rebake_landcover` is on
+  16b's row; confirm, never duplicate; bump `DELIVERED_THROUGH`.
+- **Tests**: `test_vegetation_ladder.py` is green; four catalogue-export tests
+  are red and owned by 16g. The committed vegetation bundles are stale
+  (`compile_scatter` skipped through 16e): rebake before measuring.
 
 ## Read
 

@@ -8,20 +8,20 @@
   {
    "id": "route.boat.soulrest-lilmoth",
    "beforeOverlandM": [
-    190.0
+    204.0
    ],
    "afterOverlandM": [
-    190.0
+    204.0
    ],
-   "pointsBefore": 773,
-   "pointsAfter": 773,
+   "pointsBefore": 769,
+   "pointsAfter": 769,
    "edits": [
     {
      "atM": [
       3216.1,
       6851.7
      ],
-     "lengthM": 190.0,
+     "lengthM": 204.0,
      "status": "rerouted",
      "points": 0
     },
@@ -30,7 +30,7 @@
       3216.1,
       6851.7
      ],
-     "lengthM": 190.0,
+     "lengthM": 204.0,
      "status": "rerouted",
      "points": 0
     },
@@ -39,117 +39,65 @@
       3216.1,
       6851.7
      ],
-     "lengthM": 190.0,
+     "lengthM": 204.0,
      "status": "rerouted",
      "points": 0
     }
    ]
   },
   {
+   "id": "route.boat.lilmoth-archon",
+   "beforeOverlandM": [],
+   "afterOverlandM": [],
+   "pointsBefore": 359,
+   "pointsAfter": 359,
+   "edits": []
+  },
+  {
    "id": "route.boat.archon-thorn",
-   "beforeOverlandM": [
-    138.0
-   ],
-   "afterOverlandM": [
-    138.0
-   ],
-   "pointsBefore": 787,
-   "pointsAfter": 787,
-   "edits": [
-    {
-     "atM": [
-      6325.2,
-      1006.2
-     ],
-     "lengthM": 138.0,
-     "status": "rerouted",
-     "points": 0
-    },
-    {
-     "atM": [
-      6325.2,
-      1006.2
-     ],
-     "lengthM": 138.0,
-     "status": "rerouted",
-     "points": 0
-    },
-    {
-     "atM": [
-      6325.2,
-      1006.2
-     ],
-     "lengthM": 138.0,
-     "status": "rerouted",
-     "points": 0
-    }
-   ]
+   "beforeOverlandM": [],
+   "afterOverlandM": [],
+   "pointsBefore": 756,
+   "pointsAfter": 756,
+   "edits": []
   },
   {
    "id": "route.boat.stormhold-alten-corimont",
    "beforeOverlandM": [
-    106.0
+    144.0
    ],
    "afterOverlandM": [
-    106.0
+    144.0
    ],
-   "pointsBefore": 255,
-   "pointsAfter": 255,
+   "pointsBefore": 400,
+   "pointsAfter": 400,
    "edits": [
     {
      "atM": [
-      3746.2,
-      1137.8
+      2656.8,
+      737.5
      ],
-     "lengthM": 106.0,
+     "lengthM": 144.0,
      "status": "unsolved",
      "why": "no wet anchor on the lane"
     }
    ]
   },
   {
+   "id": "route.boat.blackrose-lilmoth",
+   "beforeOverlandM": [],
+   "afterOverlandM": [],
+   "pointsBefore": 307,
+   "pointsAfter": 307,
+   "edits": []
+  },
+  {
    "id": "route.boat.alten-corimont-helstrom",
-   "beforeOverlandM": [
-    106.0,
-    126.0,
-    168.0
-   ],
-   "afterOverlandM": [
-    106.0,
-    126.0,
-    168.0
-   ],
-   "pointsBefore": 459,
-   "pointsAfter": 459,
-   "edits": [
-    {
-     "atM": [
-      3201.5,
-      2777.4
-     ],
-     "lengthM": 168.0,
-     "status": "unsolved",
-     "why": "no wet line inside a 90 px box"
-    },
-    {
-     "atM": [
-      3095.4,
-      1443.1
-     ],
-     "lengthM": 126.0,
-     "status": "unsolved",
-     "why": "no wet line inside a 90 px box"
-    },
-    {
-     "atM": [
-      3835.7,
-      1143.3
-     ],
-     "lengthM": 106.0,
-     "status": "unsolved",
-     "why": "no wet anchor on the lane"
-    }
-   ]
+   "beforeOverlandM": [],
+   "afterOverlandM": [],
+   "pointsBefore": 502,
+   "pointsAfter": 502,
+   "edits": []
   }
  ]
 }

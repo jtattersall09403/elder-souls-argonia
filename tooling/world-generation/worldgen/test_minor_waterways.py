@@ -8,8 +8,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-from . import catalogue, compile_minor_waterways as mw, known_red
-from .ladder import requires_delivered
+from . import catalogue, compile_minor_waterways as mw, known_red, routes
 
 
 class _TargetSurvey:
@@ -232,9 +231,6 @@ def test_boat_stations_are_channelled_or_explained():
     assert served == expected
 
 
-# compile_minor_waterways.run() still reads the deleted `lakes` / `river_band` /
-# `tidal` / `wetlands` fields (allowlist: ported by 16e).
-@requires_delivered("16e")
 def test_recompile_is_deterministic_and_shares_one_step_graph_per_run(monkeypatch):
     real = mw.StepGraph
     builds = 0
@@ -252,3 +248,40 @@ def test_recompile_is_deterministic_and_shares_one_step_graph_per_run(monkeypatc
                         lambda route_id, target_m, hull_class=None, water=None: 0.0)
     assert mw.run(write=False) == mw.run(write=False)
     assert builds == 2
+
+
+def test_boat_cost_from_record_reads_kinds_and_bands():
+    """The cost surface comes from the record's kinds and reach bands
+    (decision 0066): sea cheapest, a big reach cheaper than a small one,
+    marsh is the pole cost and dry ground is a portage."""
+    n = 6
+    marsh = np.zeros((n, n), np.float32)
+    marsh[0, 0] = 1.0
+    band = np.zeros((n, n), np.int8)
+    band[1, 0] = 1
+    band[1, 1] = 3
+
+    class _Water:
+        def kind_grid(self, kinds):
+            g = np.zeros((n, n), bool)
+            ks = set(kinds)
+            if "ocean" in ks:
+                g[2, 0] = True
+            if "horizontal-tidal" in ks:
+                g[3, 0] = True
+            if "lake-lowland" in ks:
+                g[4, 0] = True
+            return g
+
+    s = SimpleNamespace(grid_n=n, marsh_grid=marsh, reach_band_grid=band, water=_Water())
+    cost = mw.boat_cost_from_record(s)
+
+    assert cost[2, 0] == routes.BOAT_OPEN_SEA
+    assert cost[2, 0] == cost.min()
+    assert cost[1, 1] < cost[1, 0]
+    assert cost[1, 1] == routes.BOAT_MAJOR_RIVER
+    assert cost[1, 0] == routes.BOAT_MINOR_RIVER
+    assert cost[0, 0] == routes.BOAT_MARSH_POLE
+    assert cost[3, 0] == routes.BOAT_TIDAL
+    assert cost[4, 0] == routes.BOAT_LAKE
+    assert cost[5, 5] == routes.BOAT_PORTAGE

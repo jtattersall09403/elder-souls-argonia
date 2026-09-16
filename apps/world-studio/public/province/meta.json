@@ -20,5 +20,5 @@
  "imageHeight": 1345,
  "imageOrientation": "row 0 is north",
  "source": "Tamriel Worldspaces (Nexus SSE mod 118678), Argonia.esp, via worldgen.extract_province",
- "heightSource": "refined-height-f32.npy (the frozen base plus its typed patches), low-passed and decimated by 3"
+ "heightSource": "refined-height-natural-f32.npy (the frozen base plus its typed patches), low-passed and decimated by 3"
 }

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from types import SimpleNamespace
 
 import numpy as np
 
@@ -113,3 +114,30 @@ def test_the_walled_solver_is_deterministic():
     a, pa = mr.multi_source_field(cost, seeds, 5.5, h, mr.ROUTING_CAP_DEG)
     b, pb = mr.multi_source_field(cost, seeds, 5.5, h, mr.ROUTING_CAP_DEG)
     assert np.array_equal(a, b) and np.array_equal(pa, pb)
+
+
+def test_cost_surface_reads_the_record_grids():
+    """cost_surface penalises wet-season ground and a band-2 reach crossing,
+    and leaves a band-1 reach alone (decision 0066: the record, not the
+    deleted Phase-3 flood/river_band fields)."""
+    n = 8
+    z = np.zeros((n, n), bool)
+    stub = SimpleNamespace(
+        slope_grid=np.zeros((n, n), np.float32),
+        wet_grid=z.copy(),
+        open_water=z.copy(),
+        wet_season=z.copy(),
+        wet_season_grid=z.copy(),
+        height_grid=np.zeros((n, n), np.float32),
+        reach_band_grid=np.zeros((n, n), np.int8),
+        region_grid=np.zeros((n, n), np.int16),
+    )
+    plain = mr.cost_surface(stub)
+    stub.wet_season[4, 4] = True
+    stub.wet_season_grid[4, 4] = True
+    stub.reach_band_grid[4, 5] = 2
+    stub.reach_band_grid[4, 6] = 1
+    cost = mr.cost_surface(stub)
+    assert cost[4, 4] > plain[4, 4]
+    assert cost[4, 5] > plain[4, 5]
+    assert cost[4, 6] == plain[4, 6]

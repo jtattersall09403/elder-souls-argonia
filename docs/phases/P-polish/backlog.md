@@ -264,81 +264,9 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   tint came out of an owner-reviewed ground round and every ground change needs
   a look, so it wants an owner call plus a `build_ground_materials` re-run and
   a terrain recompile.
-- **`grade_settlement_pads` does not exempt route-structure windows.**
-  `grade_routes` reads `world/sources/routes/route-structures.json` and leaves
-  every authored window's ground alone (`grade_routes.py:157,173`), because a
-  structure stands on the ground it was measured on. `grade_settlement_pads.py`
-  reads no such thing: where a settlement pad overlaps a structure window it
-  moves that ground after the author has measured it and before
-  `compile_route_structures` re-measures it. Since 2026-09-09 both modules take
-  one measurement (`compile_route_structures.measure_window`), so the compiler
-  now raises with a named cause instead of laying a deck on a grade the cap
-  forbids — but the honest fix is for the pad grader to take the same exclusion
-  windows the route grader takes. Cheap: it is the same window list, read from
-  the same path.
-- **The "three badly routed ways" are not badly routed. The fault is a
-  RESOLUTION MISMATCH between the router's height field and the grader's**
-  (re-measured 2026-09-09 against the shipped data, superseding the earlier
-  entry here, which was written from a province state that has since moved).
-  Blocking `test_no_shipped_route_structure_is_unauthored` (61 structures now
-  carry no `why`, not 49).
-  * The routers cost against `ProvinceSurvey.height_grid` — 1345², 5.48 m/px,
-    smoothed. `grade_routes` measures the full-resolution ungraded terrain,
-    4033², sampled at `STEP * RAW_M` = 5.48 m. Along
-    `route.road.helstrom-blackrose` the two surfaces differ by **0.13 m RMS,
-    1.02 m worst**, yet the same 1,799-sample line reads **2 samples over the
-    8 deg cap (max 9.3 deg) on the router's grid and 44 over cap (max 25.6 deg)
-    on the ground the grader sees**; `route.road.soulrest-blackrose` reads
-    **0 over cap (max 7.8 deg) against 15 over cap (max 19.4 deg)**. A 1 m pip
-    over a 5.48 m step is 10.3 deg — that is the whole excess.
-  * So the corridors are right. `helstrom-blackrose` gains 35 m over 1.4 km and
-    gives it back over 1.6 km (≈1.4 deg mean): it takes a saddle, gently, and
-    24 of its 24 structure windows sit on near-flat ground with net rises of
-    −5.5 to +3.8 m. `track.dunmer-north.riverwalk` is 852 m long, has **2**
-    structures and grades to **3.8 deg** — the 4,912 m / 349.6 m / 22-window
-    figures in the earlier entry describe terrain that no longer exists.
-  * Neither remedy the owner proposed on 2026-09-09 can touch this. A cheaper
-    climb cost cannot help a solver that is already routing a 1.4 deg line, and
-    a hand-authored line is drawn on the same 5.48 m view, so it inherits the
-    same invisible pips. The override mechanism was still built
-    (`worldgen/authored_routes.py`, `world/sources/routes/authored-routes.json`,
-    honoured exactly by `reroute_majors` and `compile_minor_routes`) and ships
-    EMPTY, for the genuinely awkward corridor.
-  * **The real fix is downstream, in `author_route_structures`**: it turns a
-    sub-metre roughness pip into a bridge or a lip-step. Either the grader
-    should absorb these (they are far inside `MAX_FILL_M` = 6 m — measure why
-    it does not, before changing anything), or the author needs a minimum rise
-    / minimum sustained-length threshold so a 0.5 m bump over 18 m of a flat
-    causeway is not a span. That is one change and it retires most of the 61
-    missing `why`s at once. `author_route_structures.py` was outside this
-    task's scope.
-  The other 41 unauthored ways were authored on 2026-09-09 (sentences written
-  against their place catalogue records and reviewed by a separate agent under
-  the `text-review` skill); they sat at 14–19% window coverage with 1–5
-  structures each and are ordinary authored geometry. After that pass
-  `test_no_shipped_route_structure_is_unauthored` is red on **49 structures
-  across these 3 ways only**, down from 116 across 44.
-- **Gap plan B2's `MAX_FILL_M` hypothesis is measurably wrong — do not raise
-  it.** B2 asked whether raising `grade_routes.MAX_FILL_M` from 6 m to 8 m
-  would clear most over-cap windows before anyone authored them. Measured
-  2026-09-09 by calling `grade_routes.grade()` (pure, writes nothing) on the
-  ungraded snapshot at five values, 4 s per pass:
-
-  | MAX_FILL_M | survivor ways | ways with stretches | over-cap stretches | over-cap m | cells filled >6 m |
-  | --- | --- | --- | --- | --- | --- |
-  | 6 | 38 | 43 | 112 | 1693 | 0 |
-  | 8 | 38 | 40 | 98 | 1347 | 202 |
-  | 10 | 37 | 38 | 94 | 1243 | 250 |
-  | 14 | 37 | 38 | 94 | 1243 | 250 |
-  | 20 | 37 | 38 | 94 | 1243 | 250 |
-
-  The curve is flat from 10 m on: going to 20 m of made ground buys **one** way
-  out of 38. The survivors are bench-limited (`need > r_max`: no 30 deg bench
-  fits inside `MAX_SHOULDER_M`), not fill-limited, so the fill cap is not the
-  lever. Raising it would bury 250 cells under more than 6 m of embankment and
-  leave the authoring debt where it is. The lever, if one is wanted, is the
-  shoulder budget or the routing, not the fill.
-
+- **`grade_settlement_pads` does not exempt route-structure windows.** — ABSORBED into 16e, delivered 2026-09-15 (16e: pads consume the shared exclusion-window module (16h applies it)); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
+- **The "three badly routed ways" are not badly routed. The fault is a** — ABSORBED into 16e, delivered 2026-09-15 (16e: the pip is absorbed by the rewritten grader at 1.83 m sampling); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
+- **Gap plan B2's `MAX_FILL_M` hypothesis is measurably wrong — do not raise** — ABSORBED into 16e, delivered 2026-09-15 (16e: MAX_FILL_M left at 6 m; grading is a patch author); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
 - **DONE 2026-09-09 (owner ruling): the water solve no longer suppresses a
   crossing.** Both mechanisms below are deleted, not made structure-aware —
   `ROAD_MAX_DEPTH_M`/`POOL_MIN_KEEP_RELIEF_M` and the `road_cap`/`road_reject`
@@ -390,26 +318,9 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   Related false positive: `worldgen/compile_water.py:755-770` reports
   `road/trackCellsInWater`, which will count legitimate bridge crossings as
   defects once the above is fixed.
-- **The road raster paints the frozen line; everything else measures the
-  published one.** `refine_province.rasterize_roads` (`:470-490`) reads
-  `carve-inputs/routes.json`, which `carve_routes.SOURCES` promotes from
-  `routes-natural.json` — deliberately, to break the `reroute_majors` cycle.
-  Measured 2026-09-09, frozen vs published `routes.json`, per-vertex nearest
-  distance in macro px (1 px = 5.48 m): all 10 majors differ; median deviation
-  0 px on every one, max 12 px (≈66 m) on `route.road.helstrom-blackrose`,
-  then 9.2, 7.3, 6.4, 6.3 px; `alten-corimont-stormhold` 0. So it matters only
-  locally, but where it does the painted ~27 m corridor (landcover rebake,
-  `rebake_landcover.py:64`) is up to 66 m off the road the player walks.
-  `carve_routes.warn_on_drift` only compares bytes against the promotion
-  source, so it says nothing about this: today it reports `routes-minor.json`
-  STALE and majors current. Whoever next unpicks the carve/reroute cycle
-  should make the drift check report the geometric deviation, not just
-  inequality, and decide whether landcover should paint the published line.
-- **Route structures emit no navigation data.** `compile_route_structures.py`
-  places 205 spanning pieces but no nav cut and no deck-to-ground link, unlike
-  stilt parcels (`export_settlement_bundle.py:619-635`). No province navmesh is
-  baked today, so nothing is wrong yet; whoever bakes one must give bridges and
-  decks the treatment stilts already get.
+- **The road raster paints the frozen line; everything else measures the** — ABSORBED into 16e, delivered 2026-09-15 (16e: the road raster paints the published line (routes_raster.rasterize_roads)); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
+- **Route structures emit no navigation data.** — ABSORBED into 16e, delivered 2026-09-15 (16e: every structure emits a walkSurface record); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
+- **The terrain chain finds integration defects one run at a time.** Every stage's unit tests were green on 2026-09-15 and the 16e chain still failed twice in a row, each time on a downstream stage's assumption about an upstream artefact (`terrain_request_postconditions` bound the water to the final terrain hash after the natural/graded split; `paint_route_overlays` assumed every station has a `positionM`). The chain stops at the first failure by design, so each one costs a run. Mechanism: a `terrain-chain.sh --check-contracts` pass that, before any stage runs, loads every artefact each enabled stage declares it reads (a per-stage `READS` list in `chain_stages`, the same list the fingerprint uses) and validates shape, required fields and hash bindings against the current files, printing every mismatch as one list; a new stage declares its reads or fails the pass. Owner asked for this on 2026-09-16.
 
 ## Owner rulings 2026-09-09 — ways over water, and how roads choose their line
 
@@ -427,27 +338,8 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   record's prose says "water a shallow-draft hull can reach" / the siting
   constraint reads "navigable water for a shallow-draft hull". The test passes
   (`pytest worldgen/test_macro_plot.py -k navigable`, 1 passed).
-- **The navigable check measures the wrong water.** `macro_plot.navigable_violations`
-  takes the DEEPEST cell within `NAVIGABLE_REACH_M` (150 m) of the map dot via a
-  maximum filter (`macro_plot.py:2795-2801`). At Alten Corimont that reads
-  **3.6 m** while the harbour itself is 2.4 m and the dot's own cell is 0.0 m —
-  so the keeled claim was passing on a deep hole 150 m away, and the check was
-  never what exposed the 2.4 m. A port can therefore pass on water no berth
-  touches. Fix: sample along the serving route/waterfront (the way
-  `blueprint._validate_docks` already does, sampling off the berth) rather than
-  a radial max. Until then the check is a weak upper bound, not evidence.
-- **`watercraft-v1` is built but reaches nothing.** The kit is complete
-  (45/45, `tooling/asset-pipeline/output/kits/watercraft-v1.kit.json`: swamp
-  plank ferries, poled raft, Argonian dugout with oars, Imperial ferries) but
-  (a) `watercraft-v1.glb` is absent from `apps/world-studio/public/kits/`,
-  where all 21 other kits sit, and (b) `settlements.json` lists 18 kits and
-  `watercraft-v1` is not among them, so no placement has ever referenced a
-  hull. The wiring exists — `blueprint.py:401` gives `argonian-stilt` the kit,
-  and `asset-aliases.json:15,16,37` maps `boats-keeled` /
-  `boats-raft-canoe` / `plank-ferry-swamp` to real families that 20+ catalogue
-  places request. None of the six compiled exemplars asks for a hull, so the
-  boat path is untested. Docks advertise a `hullClass` that nothing consumes.
-  Done when a compiled place places a hull at a berth of the class it declares.
+- **The navigable check measures the wrong water.** — ABSORBED into 16e, delivered 2026-09-15 (16e: crossings and berths read the water record (derive_crossings, travel_services)); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
+- **`watercraft-v1` is built but reaches nothing.** — ABSORBED into 16e, delivered 2026-09-15 (16e: the hull at each berth is placed by 16h from travel-services.json berth records); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
 - **The "57 water crossings" number was never reproducible — CLOSED 2026-09-09.**
   It appeared in three docs with no script, test or report behind it, and its
   lake/river split was inverted against `water-meta.json`'s own
@@ -455,30 +347,9 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   `python3 -m worldgen.water_crossings`, which writes
   `world/sources/routes/water-crossings.json` and can be re-run by anyone:
   52 major-network crossings (31 river, 21 lake), 63 on tracks, deepest 1.48 m.
-  The ferry/ford/span decisions are `world/sources/routes/ferry-crossings.json`.
-- **The router should take the long way round rather than bridge a gorge.**
-  Owner: "Can we try to make the routing algorithm just choose better routes to
-  begin with? Perhaps by changing its costs or something? Going 'the long way
-  round' so as to reduce bridge lengths is good road building." That is better
-  than the length cap that was proposed, and it is what a real surveyor does.
-  Measured today: 211 spanning structures, shortest 23.6 m, **median 70.0 m**,
-  longest 389.6 m, and 69 % are longer than the longest whole bridge vanilla
-  ships. A road needing a 70 m bridge two hundred times has been routed without
-  reference to where the ground is crossable, because the cost function does not
-  know a span is expensive. Done when: span length distribution falls sharply
-  with no loss of connectivity, and the province's eight cities stay joined.
-- **Water crossings become ferries, and a ferry is talk-and-teleport.** Owner:
-  "we should definitely have ferry crossings. I know we have the assets for
-  this, I've looked at some ferry pieces myself. These could be 'talk and
-  teleport' like fast travel for simplicity." There are **57** crossings to
-  author — 45 lake, 12 river, the river ones 16–108 m wide and 1.2–2.0 m deep —
-  exposed when the two water-suppressing mechanisms were deleted. The blocking
-  gap is structural and measured: `author_route_structures.author()` takes no
-  water input at all, `grade_routes` excludes every wet sample from the stretches
-  it emits, and `compile_route_structures.KIND_ROLE` has no `ford`, `ferry` or
-  `causeway` kind, so a water crossing cannot become a built thing today. Done
-  when: every one of the 57 is a ferry, a declared ford or a span, and none is
-  an undeclared gap.
+  The ferry/ford/span decisions are `world/sources/routes/travel-services.json`.
+- **The router should take the long way round rather than bridge a gorge.** — ABSORBED into 16e, delivered 2026-09-15 (16e: solve_major_routes prices crossings from the record; a span over 52 m is a red in the ledger); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
+- **Water crossings become ferries, and a ferry is talk-and-teleport.** — ABSORBED into 16e, delivered 2026-09-15 (16e: derive_crossings + travel-services.json; talk-and-arrive is the packages contract); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
 - **CORRECTION, and it matters for what may be built.** An earlier note here
   argued a long viaduct was implausible because "this province has no polity
   that built one". That is wrong. Black Marsh **was an Imperial province**:
@@ -497,12 +368,7 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   authored arch with its own parapet instead of a chain. Do the renderer and the
   record together; a field no consumer reads is worse than none (standard 12).
   Evidence is in decision 0051 call 4.
-- **One crossing has no piece to stand on.**
-  `structure.hist-heartland-alten-markmont.2` wants its deck 5.4 m above the
-  ground and the BM&V passerelle set ships posts 1.516 m long and no pier. It is
-  built and reported with `postShortfallM` in
-  `world/sources/sites/route-structures.md` rather than faked. Either source a
-  Bosmer/root pier, or re-author the window as a stepped ascent.
+- **One crossing has no piece to stand on.** — ABSORBED into 16e, delivered 2026-09-15 (16e: the pier-less crossing is re-authored by the crossing-aware span author); evidence in [the 16e ledger](../../research/phase16/16e-ledger.md).
 - **The character sheets label their donor NPCs with editor ids, because the
   vault has no string tables.** `Skyrim.esm` is a localised plugin, so every
   NPC's `FULL` field is a four-byte string id (Dravin's is 61944).

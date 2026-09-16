@@ -32,7 +32,7 @@ read through the one accessor, `water_report.ShippedWater`.
 
 WHY A REPAIR PASS AND NOT A FIX IN `compile_society`
 ----------------------------------------------------
-Exactly the reasoning `reroute_majors` records for the roads, plus one more.
+Exactly the reasoning `solve_major_routes` records for the roads, plus one more.
 `compile_society` is a Phase 4 step that derives danger, cultures and
 territories from the same run, and it runs BEFORE the water compiler exists in
 the chain — there is no signed depth for it to read. And `waterways-natural.json`,
@@ -69,8 +69,8 @@ WHERE IT SITS
     compile_society -> **reroute_lanes** -> (terrain chain: shape_province ->
     compile_water -> ...)
 
-It is the water counterpart of `reroute_majors`, and runs in the same place:
-after the Phase 4 solve, before the terrain chain, so the carve and
+It is the water counterpart of the major-road solve, and runs in the same
+place: after the Phase 4 solve, before the terrain chain, so the carve and
 `dock_dredge.dredge_lanes` see the repaired line.
 """
 
@@ -284,6 +284,30 @@ def repair(points_m, nav: np.ndarray, mpp: float, need: float, runs: list[dict],
     return cur, edits
 
 
+def shallow_runs(points_m, water: ShippedWater, need_m: float) -> list[dict]:
+    """The stretches of one lane with water over them SHALLOWER than the
+    smallest hull that uses it (`need_m`), measured as the water gate
+    measures them. Ruling 6: never dredged; declared on the lane as a gap the
+    plot answers (16g re-sites the station or re-lines the lane on water the
+    record has)."""
+    from .compile_water import DEPTH_QUANTUM_M
+    level = np.where(water.wet2, water.w2, np.nan).astype(np.float64)
+    pts = dd._resample_line([tuple(map(float, p)) for p in points_m])
+    samples = np.stack([pts[:, 1] / water.mpp2, pts[:, 0] / water.mpp2], axis=1)
+    if not dd._inside(samples, water.w2.shape).all():
+        return []
+    levels = dd._lane_levels(level, samples, water.mpp2)
+    ground = dd._sample_levels(water.ground2.astype(np.float64), samples)
+    wet = np.isfinite(levels) & (ground < levels)
+    shallow = wet & ((levels - ground) < need_m - DEPTH_QUANTUM_M)
+    out = []
+    for a, b in dd._runs(shallow):
+        out.append({"lengthM": float(b - a) * dd.RESAMPLE_M,
+                    "fromM": float(a) * dd.RESAMPLE_M, "toM": float(b) * dd.RESAMPLE_M,
+                    "atM": [round(float(pts[a, 0]), 1), round(float(pts[a, 1]), 1)]})
+    return out
+
+
 def _lane_points_m(lane: dict, px_m: float = HYDRO_PX_M):
     """The lane's geometry in metres — the exact line if it carries one, else
     its raster cell centres, with the declared berths substituted at the ends.
@@ -323,7 +347,7 @@ def run(write: bool = True, province: Path = PROVINCE,
     report: list[dict] = []
     for lane in doc.get("lanes", []):
         before = overland_runs(_lane_points_m(lane), water)
-        if not before:
+        if not before and not shallow_runs(_lane_points_m(lane), water, need):
             continue
         pts_before = _lane_points_m(lane)
         pts, edits, left = pts_before, [], before
@@ -333,6 +357,18 @@ def run(write: bool = True, province: Path = PROVINCE,
             left = overland_runs(pts, water)
             if not left or not any(e["status"] == "rerouted" for e in more):
                 break
+        # what no wet line on the record can float is DECLARED on the lane, not
+        # hidden: a typed gap the plot answers (16g re-sites a station or
+        # retires the lane; decision 0068), which the water gate reads
+        lane["gaps"] = ([{"kind": "overland", "fromM": round(r["fromM"], 1), "toM": round(r["toM"], 1),
+                          "atM": [round(float(v), 1) for v in r["atM"]], "lengthM": round(float(r["lengthM"]), 1),
+                          "owner": "16g", "why": "no wet line on the record floats this hop (ruling 6: never dredged)"}
+                         for r in left]
+                        + [{"kind": "shallow", "fromM": round(r["fromM"], 1), "toM": round(r["toM"], 1),
+                            "atM": r["atM"], "lengthM": round(r["lengthM"], 1),
+                            "owner": "16g", "why": f"water over the lane is shallower than the {need:.1f} m the smallest hull "
+                                                   f"needs (ruling 6: never dredged; re-site or re-line in the plot)"}
+                           for r in shallow_runs(pts, water, need)])
         # The repaired line is EXACT metres. Publishing it as raster cells would
         # re-quantise a channel four metres wide onto a 5.48 m lattice and put
         # the lane back on the bank, so `pointsM` carries the geometry and `px`

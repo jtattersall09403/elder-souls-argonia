@@ -896,7 +896,8 @@ def residual_over_cap(stretch_doc: dict, structures: list[dict]) -> dict[str, fl
     return out
 
 
-def write_report(rows: list[dict], residual: dict[str, float], path: Path) -> str:
+def write_report(rows: list[dict], residual: dict[str, float], path: Path,
+                 ferries: list[dict] | None = None) -> str:
     by_way: dict[str, list[dict]] = {}
 
     for r in rows:
@@ -991,6 +992,31 @@ def write_report(rows: list[dict], residual: dict[str, float], path: Path) -> st
                       + ". The BM&V passerelle set ships no pier. This is a "
                         "recorded sourcing gap.")]
 
+    if ferries:
+        served = [f for f in ferries if f.get("serviceId")]
+        lines += [
+            "", "## Ferry crossings", "",
+            "A ferry-band crossing carries NO structure: it is too wide to wade "
+            "and too wide to deck, so the way stops at the bank and a boat "
+            "takes it on. The windows below were authored as spans and are now "
+            "reported instead, with the crossing they stand on "
+            "(`world/sources/routes/water-crossings.json`) and the travel "
+            "service that serves it "
+            "(`world/sources/routes/travel-services.json`).",
+            "",
+            f"* {len(ferries)} ferry windows, {len(served)} served by a "
+            f"service, {len(ferries) - len(served)} with none.",
+            "",
+            "| way | from m | to m | crossing | span m | water | service |",
+            "| --- | ---: | ---: | --- | ---: | --- | --- |",
+        ]
+        for f in ferries:
+            svc = (f"served by `{f['serviceId']}`" if f.get("serviceId")
+                   else "NO SERVICE (a plot/16g call)")
+            lines.append("| `{}` | {:.0f} | {:.0f} | `{}` | {:.0f} | {} ({}) | {} |".format(
+                f["wayId"], f["fromM"], f["toM"], f["crossingId"], f["spanM"],
+                f["water"], f["entityKind"], svc))
+
     left = {k: v for k, v in residual.items() if v > 0.0}
     lines += ["", "Ways with over-cap metres no structure covers: "
               + ("none." if not left else
@@ -1037,6 +1063,7 @@ def studio_export(by_way: dict[str, dict], rows: list[dict]) -> dict:
                 "family": st["family"], "pieces": r["pieces"],
                 "riseM": r["riseM"], "spanM": r["spanM"], "why": st["why"],
                 "pointsM": [[p["posM"][0], p["posM"][2]] for p in ps],
+                **({"crossingId": st["crossingId"]} if st.get("crossingId") else {}),
             })
     for label, ids in (("place no piece", unplaced),
                        ("carry no authored `why`", unauthored)):
@@ -1095,12 +1122,13 @@ def main() -> None:
 
     kit = load_kit()
     validate(kit)
-    structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
+    authored = json.loads(STRUCTURES_PATH.read_text())
+    structures = authored["structures"]
     heights = np.load(DEFAULT_HEIGHTS)
     by_way, rows = compile_all(structures, {w["id"]: w for w in ways()}, heights, kit)
     publish_route_outputs(by_way)
     residual = residual_over_cap(json.loads(STRETCHES_PATH.read_text()), structures)
-    write_report(rows, residual, REPORT_PATH)
+    write_report(rows, residual, REPORT_PATH, authored.get("ferryCrossings"))
     STUDIO_PATH.write_text(json.dumps(studio_export(by_way, rows),
                                       indent=2, sort_keys=True) + "\n")
     print(f"{len(rows)} structures, {sum(r['pieces'] for r in rows)} pieces, "

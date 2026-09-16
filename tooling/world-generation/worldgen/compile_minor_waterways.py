@@ -72,7 +72,8 @@ from . import blueprint as bp_mod
 from . import catalogue
 from .compile_minor_routes import OUT_MD, StepGraph, trace
 from .hydrology_intent import load_authored_minor_waterways
-from .routes import boat_cost_surface
+from . import routes
+from .site_fields import _resample
 from .site_fields import ProvinceSurvey
 from .water_report import ShippedWater
 
@@ -290,11 +291,49 @@ def navigable(s: ProvinceSurvey) -> np.ndarray:
     return s.wet_grid
 
 
+# Standing bodies a hull floats on that are not the open sea.
+_LAKE_KINDS = frozenset({"lagoon", "lake-lowland", "tarn-upland", "pond",
+                         "pool", "plunge-pool"})
+_TIDAL_KINDS = frozenset({"horizontal-tidal"})
+_SEA_KINDS = frozenset({"ocean"})
+
+
+def _kind_masks(s: ProvinceSurvey) -> dict[str, np.ndarray]:
+    """Analysis-grid boolean masks for the record kinds the boat cost needs,
+    built once per survey (the entity raster resample is the expensive part)."""
+    cached = getattr(s, "_boat_kind_masks", None)
+    if cached is not None:
+        return cached
+    out: dict[str, np.ndarray] = {}
+    for name, kinds in (("tidalReach", _TIDAL_KINDS), ("lake", _LAKE_KINDS), ("sea", _SEA_KINDS)):
+        grid = s.water.kind_grid(kinds)
+        if grid is None:
+            out[name] = np.zeros((s.grid_n, s.grid_n), dtype=bool)
+        else:
+            out[name] = _resample(grid.astype(np.float32), s.grid_n) > 0
+    s._boat_kind_masks = out
+    return out
+
+
+def boat_cost_from_record(s: ProvinceSurvey) -> np.ndarray:
+    """Per-cell boat cost built from the RECORD (decision 0066): body/reach
+    kind and reach band by graph id, never a re-derived classification."""
+    m = _kind_masks(s)
+    cost = np.full((s.grid_n, s.grid_n), routes.BOAT_PORTAGE)
+    cost[s.marsh_grid > 0] = routes.BOAT_MARSH_POLE
+    cost[m["tidalReach"]] = routes.BOAT_TIDAL
+    band = s.reach_band_grid
+    cost[band == 1] = routes.BOAT_MINOR_RIVER
+    cost[band == 2] = routes.BOAT_MEDIUM_RIVER
+    cost[band >= 3] = routes.BOAT_MAJOR_RIVER
+    cost[m["lake"]] = routes.BOAT_LAKE
+    cost[m["sea"]] = routes.BOAT_OPEN_SEA
+    return cost
+
+
 def cost_surface(s: ProvinceSurvey) -> np.ndarray:
-    """Phase 4 boat costs on the published rasters; land is impassable."""
-    ocean = s.open_water & ~s.lakes & (s.river_band == 0)
-    cost = boat_cost_surface(ocean, s.lakes, s.river_band, s.tidal, s.wetlands)
-    return np.where(navigable(s), cost, np.inf)
+    """Boat costs from the record; land is impassable."""
+    return np.where(navigable(s), boat_cost_from_record(s), np.inf)
 
 
 def seed_network(s: ProvinceSurvey) -> np.ndarray:
@@ -308,7 +347,7 @@ def seed_network(s: ProvinceSurvey) -> np.ndarray:
             row, col = s.grid_px(float(x), float(z))
             mask[row, col] = True
     mask = ndimage.binary_dilation(mask, iterations=1)
-    mask |= s.river_band >= 2
+    mask |= s.reach_band_grid >= 2
     return mask & navigable(s)
 
 
@@ -388,7 +427,8 @@ def classify(s: ProvinceSurvey, path: list[tuple[int, int]], length_m: float, re
     rows, cols = cells[:, 0], cells[:, 1]
     if length_m <= CROSSING_M and is_ferry_crossing(rec):
         return "crossing"
-    corridor = float(((s.river_band[rows, cols] >= 2) | s.lakes[rows, cols]).mean())
+    lake = _kind_masks(s)["lake"]
+    corridor = float(((s.reach_band_grid[rows, cols] >= 2) | lake[rows, cols]).mean())
     return "river" if corridor >= 0.5 else "channel"
 
 
@@ -743,7 +783,7 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
         "schemaVersion": SCHEMA_VERSION, "kind": "minor-waterways",
         "generatedBy": "worldgen.compile_minor_waterways (Phase 11 Part 3c, decision 0041)",
         "grid": {"size": w, "metresPerPixel": px_m},
-        "costs": {"note": "worldgen.routes.boat_cost_surface; land impassable"},
+        "costs": {"note": "worldgen.compile_minor_waterways.boat_cost_from_record; land impassable"},
         "arrivalM": ARRIVAL_M, "maxChannelM": MAX_CHANNEL_M, "snapM": SNAP_M,
         "crossingM": CROSSING_M,
         "summary": {"channels": len(channels), "onNetworkAlready": len(on_network),

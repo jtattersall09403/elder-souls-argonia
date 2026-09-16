@@ -8,9 +8,9 @@ than inventing a second convention:
   metre-space polyline, independent of any published raster, so nothing that
   reads it is validating a solve against its own output;
 * a named way's authored geometry is PUBLISHED EXACTLY — it is not a hint, a
-  seed or a waypoint list. `reroute_majors` will not re-solve an authored
-  road's steep stretches and `compile_minor_routes` will not re-trace an
-  authored track: the line the author drew is the line the world gets;
+  seed or a waypoint list. `solve_major_routes` publishes an authored road
+  exactly as drawn and `compile_minor_routes` will not re-trace an authored
+  track: the line the author drew is the line the world gets;
 * every entry carries a `why` — a world record, written against the place
   catalogue and reviewed under the `text-review` skill before commit
   (engineering standard 12: the sentence describes the record, it does not

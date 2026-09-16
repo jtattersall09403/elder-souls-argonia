@@ -277,15 +277,25 @@ def corridor_masks(shape, step: int, origin_full=(0, 0), province: Path | None =
     return trunk, ground
 
 
+def published_major_polylines(province: Path | None = None) -> list[list]:
+    """`px` polylines of every published road and trunk (never a boat lane)."""
+    path = (province or PROVINCE) / "routes.json"
+    if not path.exists():
+        return []
+    return [r["px"] for r in json.loads(path.read_text()).get("routes", [])
+            if r.get("class") in ("road", "trunk")]
+
+
 def rasterize_roads(shape, origin_full=(0, 0), step: int = 3) -> np.ndarray:
-    """The FROZEN major-road corridors (macro [x, y] px) as a bool mask ~27 m
-    wide at full resolution. Water rules override later, so crossings stay
-    unpainted (bridges/ferries are placed features). Reads `carve_routes`'
-    frozen network, never the published `routes.json` that `reroute_majors`
-    rewrites from this very ground (the chain could not settle otherwise)."""
-    from .carve_routes import carve_polylines
+    """The PUBLISHED major roads (`routes.json`, macro [x, y] px) as a bool
+    mask ~27 m wide at full resolution: the line the character walks is the
+    line that is painted (16e, decision 0068). Water rules override later, so
+    crossings stay unpainted (bridges/ferries are placed features). The old
+    reason to paint the frozen carve lines instead (a chain that could not
+    settle) expired when the roads moved below the gate and started reading
+    the natural array only."""
     mask = np.zeros(shape, dtype=bool)
-    for px in carve_polylines():
+    for px in published_major_polylines():
         for (x0m, y0m), (x1m, y1m) in zip(px, px[1:]):
             x0, y0 = x0m * step - origin_full[1], y0m * step - origin_full[0]
             x1, y1 = x1m * step - origin_full[1], y1m * step - origin_full[0]

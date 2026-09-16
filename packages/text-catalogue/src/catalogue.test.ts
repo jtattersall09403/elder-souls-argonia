@@ -14,10 +14,12 @@ import {
   COMBAT_SANDBOX_TEXT,
   EQUIPMENT_TEXT,
   FERRY_TEXT,
+  TRAVEL_TEXT,
+  TRAVEL_UI_TEXT,
 } from "./entries.js";
 
 /** Every exported block, so a new block cannot be added without the count moving. */
-const BLOCKS = [SYSTEM_TEXT, COMBAT_SANDBOX_TEXT, EQUIPMENT_TEXT, FERRY_TEXT];
+const BLOCKS = [SYSTEM_TEXT, COMBAT_SANDBOX_TEXT, EQUIPMENT_TEXT, FERRY_TEXT, TRAVEL_TEXT, TRAVEL_UI_TEXT];
 const ALL = BLOCKS.flat();
 
 const entry = (over: Partial<TextEntry> = {}): TextEntry => ({

@@ -45,7 +45,7 @@
       "id": "patch.request.place.dunmer-north.nine-fords",
       "kind": "terrain-request",
       "maxAbsDeltaM": 1.0,
-      "reason": "channels: 56 samples raised inside a channel or its shoulder; water: 310 frozen wet samples dried; water: 48 samples of new depression (makesWater not declared); structures: crosses structure.road-stormhold-thorn.41 without declaring it",
+      "reason": "channels: 56 samples raised inside a channel or its shoulder; water: 310 frozen wet samples dried; water: 48 samples of new depression (makesWater not declared)",
       "region": [
         731,
         974,
@@ -87,7 +87,7 @@
       "id": "patch.request.place.dunmer-north.the-crown-terrace",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.5,
-      "reason": "water: 150 frozen wet samples dried; water: 33 samples of new depression (makesWater not declared); structures: crosses structure.road-thorn-tear-road.1 without declaring it",
+      "reason": "water: 150 frozen wet samples dried; water: 33 samples of new depression (makesWater not declared)",
       "region": [
         292,
         360,
@@ -129,7 +129,7 @@
       "id": "patch.request.place.dunmer-north.the-shut-village",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.5,
-      "reason": "water: 5 frozen wet samples dried; water: 12 samples of new depression (makesWater not declared); structures: crosses structure.dunmer-north-the-shut-village.3 without declaring it",
+      "reason": "water: 5 frozen wet samples dried; water: 12 samples of new depression (makesWater not declared)",
       "region": [
         469,
         525,
@@ -395,7 +395,7 @@
       "id": "patch.request.place.imperial-penal-south.flu-quarantine-village",
       "kind": "terrain-request",
       "maxAbsDeltaM": 2.0,
-      "reason": "water: 62 frozen wet samples dried; water: 3 samples of new depression (makesWater not declared); structures: crosses structure.road-soulrest-blackrose.5 without declaring it",
+      "reason": "water: 62 frozen wet samples dried; water: 3 samples of new depression (makesWater not declared)",
       "region": [
         3730,
         3798,
@@ -647,7 +647,7 @@
       "id": "patch.request.place.naga-kur-deeps.naga-village-settled",
       "kind": "terrain-request",
       "maxAbsDeltaM": 3.0,
-      "reason": "water: 261 frozen wet samples dried; structures: crosses structure.naga-kur-deeps-naga-village-settled.1 without declaring it",
+      "reason": "water: 261 frozen wet samples dried",
       "region": [
         2882,
         2972,

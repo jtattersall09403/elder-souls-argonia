@@ -4,21 +4,21 @@
 major roads repaired in place from a solve made above the freeze gate, a
 grader that overwrote the terrain in two passes, ferry hulls and bridges
 placed physically before the runtime that draws placed pieces was fixed
-(16h: yaw sign, box colliders, anchoring to the highest sample), and the
-rootworm network re-authored before the Hist trees it hangs on are placed
+(16h: yaw sign, box colliders, anchoring to the highest sample); the
+rootworm network was to be re-authored before the Hist trees it hangs on are placed
 (16g). The owner reviewed the brief on 2026-09-15 and ruled on each.
 
 **Decisions.**
 
 1. **The major roads are re-solved below the freeze gate, on the frozen
    ground, by a new `solve_major_routes` stage.** `compile_society`'s roads
-   (above the gate) are history: the frozen ground keeps the gentler
-   corridors it was sculpted with, which is harmless, and the danger and
+   (above the gate) are history: the frozen ground keeps its gentler
+   sculpted corridors, which is harmless; the danger and
    culture fields stay as frozen. Nothing above 16e's ladder row runs
    again. The sequence is one way: solve → the choke points the best line
    still had to take, patched locally → paint. The router costs make it
    avoid steep ground, river beds (a reach polygon is a wall except at a
-   recorded crossing) and marsh, and zigzag up long slopes on its own; a
+   recorded crossing) and marsh; it zigzags up long slopes on its own; a
    typed junction record fixes where named roads meet (first: the
    Gideon–Archon × Helstrom–Blackrose crossroads on dry ground at about
    3.20 E, 3.59 S). Minor routes are solved in 16g on the re-validated plot
@@ -37,8 +37,8 @@ rootworm network re-authored before the Hist trees it hangs on are placed
    placed piece where its record puts it (16h gains a `water` anchor class
    for hulls). Each exemplar's and packet's ferries are built with the
    place (16i, 16j). At 16e's check the owner walks roads and fords, uses a
-   ferry through its landing socket, and reads spans, graded sections,
-   crossings and services on the 2D map with hover text.
+   ferry through its landing socket; spans, graded sections,
+   crossings and services are read on the 2D map with hover text.
 4. **One travel-service graph.** `travel-services.json` is the province's
    Morrowind-style service record (ferry, boat, rootworm; guide, cart and
    porter in the vocabulary for Phase 15); `ferry-crossings.json` folds into
@@ -54,6 +54,23 @@ rootworm network re-authored before the Hist trees it hangs on are placed
 6. **Surviving old road paint is a defect to census and repaint** (the owner
    stands on it at 0.08 E, 2.97 S); a test keeps road texels within 5 m of a
    published line.
+
+7. **Calls made while delivering (2026-09-15).** Two height arrays:
+   `refined-height-natural-f32.npy` (the frozen base plus the place
+   patches; read by the water compile, the router and the grader) and
+   `refined-height-f32.npy` (natural plus the route-grade patches; read by
+   everything downstream), so grading can never feed back into routing.
+   Route-grade patches live in their own file and are applied after every
+   place patch; where two roads share a corridor the first patch wins and
+   absorbs the later one. A walkable channel bank or marsh edge (at most
+   30°) that no patch may move stays natural. A crossing's band is decided
+   by width AND depth (a ford is never deeper than the small-draft line); a
+   marsh is never a ferry crossing: a road over marsh is carried on a
+   boardwalk deck or the router keeps it out of the marsh (deep marsh costs
+   16× dry ground). A ferry berth is where the hull floats, found by walking
+   from the landing into the water; the walk is the jetty length 16h
+   places; a landing that never floats its hull demotes the service. The
+   land-cover bake paints only lines the ladder produced.
 
 **Consequences.** The 16e brief is the specification; the 16g and 16h briefs,
 the phases README (Phase 9 scope note, Phase 11 table, Phase 15 list), quests

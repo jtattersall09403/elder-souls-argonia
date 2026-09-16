@@ -16,7 +16,7 @@
 import type {
   MinorTrack, MinorTracksBundle, RegisteredRoute, RouteGeometry, RoutesIndexBundle,
 } from "@elder-souls/contracts";
-import { HYDRO_GRID_SAMPLES, METRES_PER_HYDRO_SAMPLE } from "../provinceScale";
+import { HYDRO_GRID_SAMPLES, METRES_PER_HYDRO_SAMPLE, metresToHydroPixel } from "../provinceScale";
 
 export type { MinorTrack, RegisteredRoute, RouteGeometry, RoutesIndexBundle } from "@elder-souls/contracts";
 
@@ -146,9 +146,12 @@ export async function loadRouteStructures(baseUrl: string): Promise<RouteStructu
   return d?.structures ?? [];
 }
 
-/** A structure's trace in hydrology-grid pixels, the space the layer draws in. */
+/** A structure's trace in hydrology-grid pixels, the space the layer draws in.
+ * Uses the same metre→pixel conversion as every other metres-based trace here
+ * (`metresToPx`): the plain divide it used before landed half a pixel south-east
+ * of the metre it names, because the layer's uv helper re-adds the cell centre. */
 export function structurePx(s: RouteStructure): [number, number][] {
-  return s.pointsM.map(([x, z]) => [x / METRES_PER_HYDRO_PX, z / METRES_PER_HYDRO_PX]);
+  return s.pointsM.map((p) => metresToPx(p as [number, number]));
 }
 
 /** The hover label: what it is, how many pieces, and the height it carries. */
@@ -161,22 +164,217 @@ export function structureLabel(s: RouteStructure): string {
 /** Hatched styling: one colour for built stone/timber, dashes read as treads. */
 export const STRUCTURE_STYLE = { stroke: "#ffb454", width: 3.4, dash: "1.5 2" };
 
+/* ---------------------------------------------------------------------------
+ * The four route sub-layers (16e deliverable 8, decision 0068).
+ *
+ * Every value below is READ from a record `worldgen.export_routes` published
+ * into province/ — route-grades.json, crossings.json, travel-services.json.
+ * Nothing here recomputes a gradient, a span, a depth or a fare: the browser
+ * draws the record (decision 0066). All three are tolerated absent, like the
+ * minor waterways, so a studio on ground where the stage has not run is blank
+ * rather than broken.
+ * ------------------------------------------------------------------------ */
+
+/** Province-frame metres [east, south] → the layer's hydrology-pixel space. */
+export function metresToPx(p: [number, number]): [number, number] {
+  return [metresToHydroPixel(p[0]), metresToHydroPixel(p[1])];
+}
+
+/** One capped choke point on a solved road (worldgen.grade_routes). */
+export interface RouteGrade {
+  id: string;
+  wayId: string | null;
+  class: string | null;
+  fromM: number | null;
+  toM: number | null;
+  lengthM: number | null;
+  worstDegBefore: number | null;
+  capDeg: number | null;
+  /** Recomputed by the exporter from the authored profile, not by the browser. */
+  gradientAfterDeg: number;
+  maxDeltaM: number | null;
+  /** What the apply receipt says actually moved; null when the vault is absent. */
+  maxAbsDeltaM: number | null;
+  shoulderM: number | null;
+  absorbed?: unknown;
+  why: string | null;
+  /** The profile's ground trace, [east, south] metres. */
+  lineM: [number, number][];
+}
+
+export async function loadRouteGrades(baseUrl: string): Promise<RouteGrade[]> {
+  const d = await getJson<{ patches?: RouteGrade[] }>(`${baseUrl}province/route-grades.json`);
+  return d?.patches ?? [];
+}
+
+export const GRADE_STYLE = { stroke: "#f0a63c", width: 4.2 };
+
+export function gradeLabel(g: RouteGrade): string {
+  const span = g.fromM === null || g.toM === null ? "" : `${g.fromM.toFixed(0)}–${g.toM.toFixed(0)} m`;
+  const len = g.lengthM === null ? "" : `, ${g.lengthM.toFixed(0)} m long`;
+  const before = g.worstDegBefore === null ? "?" : g.worstDegBefore.toFixed(2);
+  const delta = g.maxAbsDeltaM === null
+    ? (g.maxDeltaM === null ? "not recorded" : `${g.maxDeltaM.toFixed(2)} m (authored bound)`)
+    : `${g.maxAbsDeltaM.toFixed(2)} m`;
+  return [
+    `${g.wayId ?? g.id}`,
+    `chainage ${span}${len}`,
+    `gradient ${before}° → ${g.gradientAfterDeg.toFixed(2)}° (cap ${g.capDeg === null ? "?" : g.capDeg.toFixed(1)}°)`,
+    `max |delta| ${delta}`,
+    `shoulder ${g.shoulderM === null ? "?" : g.shoulderM.toFixed(1)} m`,
+    g.why ?? "",
+  ].filter(Boolean).join("\n");
+}
+
+/** A way standing in non-sea water (worldgen.derive_crossings, schema 2). */
+export interface WaterCrossing {
+  id: string;
+  water: string;
+  band: "ford" | "span" | "ferry" | string;
+  spanM: number;
+  maxDepthM: number;
+  entityId: string;
+  entityKind: string;
+  positionM: [number, number];
+  banks: [number, number][];
+  servesRoutes: string[];
+  wayName?: string;
+  wayClass?: string;
+  network?: string;
+  nearestPlaceId?: string;
+  nearestPlaceName?: string;
+  nearestPlaceM?: number;
+}
+
+export async function loadCrossings(baseUrl: string): Promise<WaterCrossing[]> {
+  const d = await getJson<{ crossings?: WaterCrossing[] }>(`${baseUrl}province/crossings.json`);
+  return d?.crossings ?? [];
+}
+
+/** Band colours: a ford you wade, a span you cross dry, a ferry you must pay. */
+export const CROSSING_BAND_COLOUR: Record<string, string> = {
+  ford: "#5fd07a", span: "#ff9f43", ferry: "#ff5252",
+};
+
+export function crossingLabel(c: WaterCrossing): string {
+  const place = c.nearestPlaceName ? `near ${c.nearestPlaceName}` : "";
+  return [
+    c.id,
+    `${c.band} — ${c.water}${c.wayName ? ` on ${c.wayName}` : ""}`,
+    `${c.spanM.toFixed(0)} m across, ${c.maxDepthM.toFixed(2)} m deep`,
+    `${c.entityId} (${c.entityKind})`,
+    c.servesRoutes.length ? `serves ${c.servesRoutes.join(", ")}` : "",
+    place,
+  ].filter(Boolean).join("\n");
+}
+
+/** Travel services: who carries you, from where, for what (travel-services.json). */
+export interface TravelStation {
+  id: string;
+  kind: string;
+  placeId?: string;
+  positionM: [number, number];
+  status?: string;
+  piece?: string;
+  berth?: { depthM?: number; jettyM?: number; floats?: boolean; hullClass?: string; entityId?: string; entityKind?: string };
+}
+
+export interface TravelHop {
+  from: string;
+  to: string;
+  lengthM?: number;
+  follows?: Record<string, string>;
+}
+
+export interface TravelService {
+  id: string;
+  serviceKind: string;
+  status?: string;
+  form?: string;
+  fare?: { gold?: number; freeIf?: unknown[] };
+  operator?: { role?: string; ownerFaction?: string | null; nearestPlaceId?: string };
+  hops: TravelHop[];
+  stations?: string[];
+  why?: string;
+}
+
+export interface TravelServicesBundle {
+  stations: TravelStation[];
+  services: TravelService[];
+  rootways: { id: string; from: string; to: string; status?: string }[];
+}
+
+export async function loadTravelServices(baseUrl: string): Promise<TravelServicesBundle> {
+  const d = await getJson<Partial<TravelServicesBundle>>(`${baseUrl}province/travel-services.json`);
+  return { stations: d?.stations ?? [], services: d?.services ?? [], rootways: d?.rootways ?? [] };
+}
+
+export const STATION_COLOUR: Record<string, string> = {
+  place: "#e6ecf5", "ferry-landing": "#ff9f43", "root-node": "#6fd08c",
+};
+
+/** Hop styling by service kind: a ferry is a fixed run, a boat a hire, a
+ *  rootworm the Hist's own road — solid, dashed, dotted green. */
+export const HOP_STYLE: Record<string, { stroke: string; dash?: string }> = {
+  ferry: { stroke: "#ff9f43" },
+  boat: { stroke: "#5fd6e8", dash: "6 4" },
+  rootworm: { stroke: "#6fd08c", dash: "1.5 3" },
+};
+
+export function serviceLabel(s: TravelService): string {
+  const fare = s.fare?.gold === undefined ? "" : `${s.fare.gold} gold`;
+  return [
+    s.id,
+    s.serviceKind + (s.form ? ` (${s.form})` : ""),
+    fare,
+    s.operator?.role ? `operator: ${s.operator.role}` : "",
+    s.status ? `status: ${s.status}` : "",
+  ].filter(Boolean).join("\n");
+}
+
+export function stationLabel(st: TravelStation): string {
+  const b = st.berth;
+  const berth = b
+    ? [b.depthM === undefined ? "" : `berth ${b.depthM.toFixed(2)} m deep`,
+       b.jettyM === undefined ? "" : `jetty ${b.jettyM.toFixed(1)} m`,
+       b.floats === undefined ? "" : (b.floats ? "floats" : "fixed")].filter(Boolean).join(", ")
+    : "";
+  return [st.id, st.kind, st.placeId ?? "", berth, st.status ? `status: ${st.status}` : ""]
+    .filter(Boolean).join("\n");
+}
+
+/** The four independently toggled route sub-layers (`routeLayers=`). */
+export const ROUTE_SUB_LAYERS = ["spans", "grades", "crossings", "services"] as const;
+export type RouteSubLayer = (typeof ROUTE_SUB_LAYERS)[number];
+
+export function parseRouteLayers(value: string | null): RouteSubLayer[] {
+  const want = new Set((value ?? "").split(",").map((s) => s.trim()).filter(Boolean));
+  return ROUTE_SUB_LAYERS.filter((n) => want.has(n));
+}
+
 /** Query keys owned by the waterways layer (`water=1`); the selected route is `route`. */
-export const ROUTES_URL_KEYS = ["water", "route"] as const;
+export const ROUTES_URL_KEYS = ["water", "route", "routeLayers"] as const;
 
 export interface RoutesUrlState {
   showWater: boolean;
   selectedKey: string | null;
+  /** Sub-layers switched on; every one defaults off. */
+  subLayers: RouteSubLayer[];
 }
 
 export function parseRoutesUrl(q: URLSearchParams): RoutesUrlState {
-  return { showWater: q.get("water") === "1", selectedKey: q.get("route") };
+  return {
+    showWater: q.get("water") === "1",
+    selectedKey: q.get("route"),
+    subLayers: parseRouteLayers(q.get("routeLayers")),
+  };
 }
 
 export function encodeRoutesUrl(s: RoutesUrlState): Record<string, string> {
   const out: Record<string, string> = {};
   if (s.showWater) out.water = "1";
   if (s.selectedKey) out.route = s.selectedKey;
+  if (s.subLayers.length) out.routeLayers = ROUTE_SUB_LAYERS.filter((n) => s.subLayers.includes(n)).join(",");
   return out;
 }
 

@@ -17,7 +17,7 @@ the chain has cycles and ignores them by design.
 | `refine_province` | sculpted base, `hydrology-pass1.npz`, frozen `carve-inputs/` (`refine_province.py:476-479`), catalogue terrain requests (`:539-548`), **blueprints via `dock_dredge`** (`:171-177`), `authored-minor-waterways.json`, published `waterways.json` (`:375`) | refined height, `channels-pass1.npz`, pre-local snapshot, `ground-control.png`, flood states |
 | `compile_water` ×2 | refined terrain + channels (`compile_water.py:5-18`) | `province/water/*`, `sourceHeightSha256` (`:771-815`) |
 | `reroute_lanes` ×2 | compiled depth + `waterways.json` | rewrites `waterways.json` in place |
-| `reroute_majors` | rasters + `routes.json` | rewrites `routes.json` in place |
+| `solve_major_routes` (was `reroute_majors`, retired 2026-09-15) | frozen natural heights + the water record | writes `routes.json` + `routes-natural.json` |
 | `compile_minor_routes` | routes, waterways, the plot (`:199-200`) | `routes-minor.json` |
 | `grade_routes` ×2 | `refined-height-ungraded-f32.npy` snapshot + routes (`grade_routes.py:28-31`) | refined height (a diff on the snapshot), stretch export |
 | `author_route_structures` / `compile_route_structures` | stretches, graded height, kit json | `route-structures.json`, compiled pieces |
@@ -29,7 +29,7 @@ the chain has cycles and ignores them by design.
 
 Feedback edges (file → why):
 
-1. `sculpt` ← `routes.json` ← `reroute_majors` — corridor suppression; live, hard-skipped behind `--allow-sculpt` (`terrain-chain.sh:318-327`; STILL OPEN in `carve_routes.py:41-49`).
+1. `sculpt` ← `routes.json` ← the major-road solve — corridor suppression; live, hard-skipped behind `--allow-sculpt` (`terrain-chain.sh:318-327`; STILL OPEN in `carve_routes.py:41-49`).
 2. refine carve ← routes — fixed 2026-09-09 by the frozen `carve-inputs/` promoted by `carve_routes --promote` (before it, two identical runs moved 147 of 1,809 files).
 3. `reroute_lanes` — admitted two-run edge: the dredge runs earlier in refine, "one pass repairs the line; a second serves it" (`terrain-chain.sh:104-110`).
 4. `dock_dredge` ← blueprints — terrain cut inside refine to satisfy a place's berth (`dock_dredge.py:21-30`).
@@ -107,7 +107,7 @@ A re-freeze needs: (a) which sculpt is the base; (b) pits filled or accepted; (c
 3. `refine_province_base` — no blueprints, no dredges, no authored waterways, no terrain requests → `refined-height-frozen-f32.npy` + sha
 4. **FREEZE GATE** — hash recorded, owner sign-off
 5. `compile_water` — once; levels and bodies become read-only facts
-6. `compile_society` / `reroute_majors` / `compile_minor_routes` on frozen A+B
+6. `compile_society` / `solve_major_routes` / `compile_minor_routes` on frozen A+B
 7. `grade_routes` → `author_route_structures` → `grade_routes` → `compile_route_structures` (a patch stack on the frozen base)
 8. `macro_plot` → meso → micro, reading frozen A+B only
 9. `apply_terrain_patches` (pads, dock dredges, poling channels, typed requests)

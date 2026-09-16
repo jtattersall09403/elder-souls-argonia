@@ -72,7 +72,9 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 PATCHES_PATH = REPO_ROOT / "world" / "sources" / "terrain" / "terrain-patches.json"
 STRUCTURES_PATH = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "route-structures.json"
 SCHEMA_VERSION = 1
-KINDS = ("poling-channel", "terrain-request", "bed-cut", "levee")
+KINDS = ("poling-channel", "terrain-request", "bed-cut", "levee", "route-grade")
+GRADE_KINDS = ("route-grade",)                # 16e: may never change a cell inside recorded water or its shore band (invariant 7)
+SHORE_GUARD_M = 22.0                          # = the water shader's wet-shore band: grading stops at its outer edge
 CHANNEL_CLASS_KINDS = ("poling-channel", "bed-cut")    # may LOWER ground inside a channel or its shoulder
 SHOULDER_RAISE_KINDS = ("levee",)             # may RAISE ground in a channel's shoulder (never its width)
 BED_CUT_BLEND_M = 2.0                         # a bed-cut tapers back to the bank over this past the width
@@ -178,6 +180,15 @@ class Context:
     @property
     def wet(self) -> np.ndarray:
         return np.isfinite(self.level)
+
+    def shore_guard(self, mpp: float = RAW_M) -> np.ndarray:
+        """Recorded water plus its shore band (SHORE_GUARD_M, the shader's
+        wet-shore reach): the cells a route-grade patch never moves, so a
+        graded road can neither lower a body's rim nor change the ground the
+        shore shader reads (16e). Cached per context."""
+        if getattr(self, "_shore_guard", None) is None:
+            self._shore_guard = ndimage.binary_dilation(self.wet, iterations=int(np.ceil(SHORE_GUARD_M / mpp)))
+        return self._shore_guard
 
     def channel_masks(self, box: Box, mpp: float = RAW_M):
         """(inside a water width, inside a width + shoulder) over the box.
@@ -317,7 +328,79 @@ def apply_kind(h: np.ndarray, patch: dict, ctx: Context, mpp: float = RAW_M) -> 
         if "cells" in patch.get("params", {}):
             return apply_rim_levee(out, patch, ctx, mpp)
         return apply_levee(out, patch, ctx, mpp)
+    if kind == "route-grade":
+        return apply_route_grade(out, patch, ctx, mpp)
     raise ValueError(f"unknown kind {kind}")
+
+
+def apply_route_grade(h: np.ndarray, patch: dict, ctx: "Context", mpp: float = RAW_M) -> tuple[np.ndarray, dict]:
+    """A graded stretch of one road (16e, decision 0068): the running surface
+    is set to the authored longitudinal profile across `flatWidthM`, and
+    blends back to the natural ground over `shoulderM` beyond it. The
+    profile is `params.profile`: [[east_m, south_m, target_z], ...] samples
+    about one raw sample apart along the centreline. Cells inside recorded
+    water (`ctx.wet`, the frozen high-water line) are never touched, so an
+    approach ramp stops at the water's edge and a ford's bed stays natural
+    (invariant 7). It is neither a channel-class kind (it never lowers a bed)
+    nor a shoulder-raise kind: invariant 3 keeps it out of every channel's
+    shoulder as well."""
+    from scipy.spatial import cKDTree
+    prm = patch["params"]
+    prof = np.asarray(prm["profile"], dtype=np.float64)
+    if prof.ndim != 2 or prof.shape[1] != 3 or len(prof) < 2:
+        raise ValueError("route-grade: params.profile must be [[east, south, z], ...] with two or more samples")
+    half = float(prm["flatWidthM"]) * 0.5
+    shoulder = float(prm["shoulderM"])
+    if half <= 0 or shoulder < 0:
+        raise ValueError("route-grade: flatWidthM must be positive and shoulderM non-negative")
+    y0, y1, x0, x1 = region_box(patch, h.shape, mpp)
+    gy, gx = np.mgrid[y0:y1, x0:x1]
+    pts = np.stack([gx.ravel() * mpp, gy.ravel() * mpp], 1)      # (east, south) of every cell centre
+    # densify the profile so the nearest-sample distance is a distance to the line
+    dense = [prof[0]]
+    for a, b in zip(prof[:-1], prof[1:]):
+        n = max(int(np.ceil(np.hypot(b[0] - a[0], b[1] - a[1]) / (0.5 * mpp))), 1)
+        for i in range(1, n + 1):
+            dense.append(a + (b - a) * (i / n))
+    dense = np.asarray(dense)
+    d, idx = cKDTree(dense[:, :2]).query(pts)
+    d = d.reshape(gy.shape)
+    target = dense[idx, 2].reshape(gy.shape)
+    win = h[y0:y1, x0:x1]
+    t = np.clip((d - half) / max(shoulder, 1e-6), 0.0, 1.0)         # 0 on the surface, 1 past the shoulder
+    w = 1.0 - _smoothstep(t)
+    new = win * (1.0 - w) + target * w
+    touch = (d <= half + shoulder) & ~ctx.shore_guard(mpp)[y0:y1, x0:x1]
+    new = np.where(touch, new, win).astype(np.float32)
+    # A cut bench or a filled hollow must not leave a closed pocket: as the
+    # levee kinds do, every hollow the grading newly closes is lifted to its
+    # spill (a road drains along itself; a puddle deeper than
+    # DEPRESSION_MIN_M would be new water, which invariant 4 refuses).
+    # Judged over the padded window invariant 4 reasons in, so a hollow the
+    # patch closes against ground OUTSIDE its region is seen too.
+    py0, py1 = max(y0 - WINDOW_PAD_PX, 0), min(y1 + WINDOW_PAD_PX, h.shape[0])
+    px0, px1 = max(x0 - WINDOW_PAD_PX, 0), min(x1 + WINDOW_PAD_PX, h.shape[1])
+    big = h[py0:py1, px0:px1].astype(np.float32, copy=True)
+    big_new = big.copy()
+    big_new[y0 - py0:y1 - py0, x0 - px0:x1 - px0] = new
+    big_touch = np.zeros(big.shape, bool)
+    big_touch[y0 - py0:y1 - py0, x0 - px0:x1 - px0] = touch
+    filled = 0
+    dep_old = (_fill_window(big) - big) > DEPRESSION_MIN_M
+    for _ in range(3):
+        fill = _fill_window(big_new)
+        pocket = ((fill - big_new) > DEPRESSION_MIN_M) & ~dep_old & big_touch
+        if not pocket.any():
+            break
+        big_new = np.where(pocket, fill, big_new).astype(np.float32)
+        filled += int(pocket.sum())
+    new = big_new[y0 - py0:y1 - py0, x0 - px0:x1 - px0]
+    out = h.copy()
+    out[y0:y1, x0:x1] = new
+    delta = new - win
+    return out, {"samplesChanged": int((delta != 0).sum()), "pocketsFilled": filled,
+                 "maxRaiseM": round(float(delta.max()), 3) if delta.size else 0.0,
+                 "maxCutM": round(float(-delta.min()), 3) if delta.size else 0.0}
 
 
 def _smoothstep(t: np.ndarray) -> np.ndarray:
@@ -589,6 +672,12 @@ def check_invariants(before: np.ndarray, after: np.ndarray, patch: dict, ctx: Co
                              makes_water=bool(patch.get("makesWater")),
                              dries_body_cells=dries_body_cells(patch),
                              channel_width=inside if kind in CHANNEL_CLASS_KINDS + SHOULDER_RAISE_KINDS else None)
+    # 7. recorded water (16e): a graded road never touches a wet cell
+    if kind in GRADE_KINDS:
+        wet_touched = (d != 0) & ctx.shore_guard(mpp)[wy0:wy1, wx0:wx1]
+        if wet_touched.any():
+            errs.append(f"water: {int(wet_touched.sum())} samples inside recorded water or its {SHORE_GUARD_M:.0f} m "
+                        f"shore band moved by a {kind} patch")
     # 6. structures
     for s in ctx.structures:
         if s["id"] in patch.get("crosses", []):

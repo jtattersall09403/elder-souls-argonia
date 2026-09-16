@@ -139,32 +139,34 @@ STAGES=(
   "apply_terrain_patches"
   "patch_water"
   "compile_water"
-  # The published boat lanes are re-solved against the water this run just
-  # compiled, on measured depth. It runs after BOTH water solves and writes
-  # nothing when there is nothing to fix. Its repaired line is carved for only
-  # after a deliberate `carve_routes --promote` (see the header).
+  # The published boat lanes are re-lined ONCE against the compiled water on
+  # measured depth (16e): nothing below moves the water, so one entry.
   "reroute_lanes"
-  "reroute_majors"
-  "compile_minor_routes"
+  # 16e (decision 0068), one way: the major roads solved on the NATURAL
+  # array, the choke points patched locally, the graded array written, the
+  # water proof over the grading, then the spans and the crossings on the
+  # graded ground. Nothing here re-runs anything above.
+  "solve_major_routes"
   "grade_routes"
+  "apply_route_patches"
+  "patch_water_graded"
+  "derive_crossings"
   "author_route_structures"
-  "grade_routes"
-  # The pieces are compiled HERE, between the second grade and the pads: the
-  # author runs between the two grades and its windows are grading-exempt, so
-  # pass 2 leaves the ground inside them alone, and this is the last point at
-  # which the author and the compiler provably see the same surface.
   "compile_route_structures"
+  "travel_services"
+  # 16g: the minor networks on the re-validated plot (never graded).
+  "compile_minor_routes"
+  "compile_minor_waterways"
   # Settlement pads still grade the ground here (16h turns them into typed
   # patches, plan chunk 16h); until then they are the one edit below the gate
   # that is not yet a patch, and `patch_water` runs before them on purpose.
   "grade_settlement_pads"
   "compile_chunks"
   "export_web_chunks"
-  # Water is compiled ONCE (16c, 0057 §1): the entry above grading is the
-  # shipped one; `reroute_lanes` re-lines the boat lanes on it (16e).
-  "reroute_lanes"
   "terrain_request_postconditions"
   "rebake_landcover"
+  "export_routes"
+  "paint_route_overlays"
   # The beyond-border apron (16d) reads the province's border chunks and the
   # land-cover bake it just wrote, and runs in seconds: the 670 MB heightmap
   # decode lives in `extract_apron_source` (run once by hand, never here).
@@ -179,7 +181,7 @@ STAGES=(
   "compile_scatter"
 )
 
-DELIVERED_THROUGH="16d"
+DELIVERED_THROUGH="16e"
 declare -A LADDER=(
   # 16b: the frozen base and its patches, the chunks and the land-cover bake
   # (sea-level shorelines only: no water is compiled on this ladder). The
@@ -194,14 +196,14 @@ declare -A LADDER=(
   # 16e: routes, grading as patches, spans, ferries; patch_water over the
   # grading patches; reroute_lanes on the compiled water (never a second
   # water compile: water is compiled once, 0057 §1).
-  [16e]=""
+  [16e]="reroute_lanes solve_major_routes grade_routes apply_route_patches patch_water_graded derive_crossings author_route_structures compile_route_structures travel_services export_routes paint_route_overlays"
   # 16f: vegetation on the frozen water.
   [16f]="compile_scatter"
   # 16h: pads as patches, the settlement compile and publish.
   [16h]=""
   # 16g: the plot re-solve; 16i: exemplars; 16j: the trial packet (stage names
   # are written by the chunk that delivers them).
-  [16g]=""
+  [16g]="compile_minor_routes compile_minor_waterways"
   [16i]=""
   [16j]=""
 )
@@ -217,6 +219,12 @@ done
 # The studio layer each stage produces. A skipped stage's layer is HIDDEN by
 # the studio (it reads province/ladder.json, written at the end of every run):
 # a layer is shown only if it was rebuilt on the current ground.
+# A layer whose records are produced by one chunk but drawn correctly only
+# from a later one stays hidden until the ladder reaches that chunk (16e's
+# route structures are drawn by the settlement runtime 16h fixes; 0068).
+declare -A SHOWN_FROM=(
+  [route-structures]="16h"
+)
 declare -A LAYER_OF=(
   [export_settlement_bundle]="settlements"
   [compile_route_structures]="route-structures"
@@ -363,6 +371,16 @@ done
 hidden=()
 for stage in "${SKIPPED_STAGES[@]}"; do
   [[ -n "${LAYER_OF[$stage]:-}" ]] && hidden+=("${LAYER_OF[$stage]}")
+done
+for layer in "${!SHOWN_FROM[@]}"; do
+  if [[ -z "$full" ]]; then
+    reached=""
+    for chunk in "${LADDER_ORDER[@]}"; do
+      [[ "$chunk" == "${SHOWN_FROM[$layer]}" ]] && reached=1
+      [[ "$chunk" == "$through" ]] && break
+    done
+    [[ -n "$reached" ]] || hidden+=("$layer")
+  fi
 done
 python3 - "$through" "${full:+full}" "$(printf '%s ' "${RAN_STAGES[@]}")" "$(printf '%s ' "${SKIPPED_STAGES[@]}")" "$(printf '%s ' "${hidden[@]}")" <<'PY'
 import json, sys

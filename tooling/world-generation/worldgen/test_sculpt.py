@@ -160,6 +160,21 @@ def test_road_grades_stay_traversable(terrain):
     grades = []
     routes = json.loads(routes_path.read_text())["routes"]
     assert len(routes) >= 8
+    # a stretch a published structure carries (a stair up the Tear pass, a
+    # deck) is walked on the pieces, not on the ground: excluded, like water
+    structures_path = PROVINCE / "route-structures.json"
+    carried: dict[str, list[tuple[float, float, float, float]]] = {}
+    if structures_path.exists():
+        for st in json.loads(structures_path.read_text()).get("structures", []):
+            pts = np.asarray(st.get("pointsM", []), dtype=float)
+            if len(pts):
+                carried.setdefault(st["wayId"], []).append(
+                    (pts[:, 0].min() - 8.0, pts[:, 0].max() + 8.0, pts[:, 1].min() - 8.0, pts[:, 1].max() + 8.0))
+
+    def on_structure(route_id: str, x_px: float, y_px: float) -> bool:
+        xm, ym = x_px * M_C, y_px * M_C
+        return any(x0 <= xm <= x1 and y0 <= ym <= y1 for x0, x1, y0, y1 in carried.get(route_id, []))
+
     for route in routes:
         px = route.get("px", [])
         for (x0, y0), (x1, y1) in zip(px, px[1:]):
@@ -168,7 +183,7 @@ def test_road_grades_stay_traversable(terrain):
             zb = z[min(y1, z.shape[0] - 1), min(x1, z.shape[1] - 1)]
             # water/channel crossings are bridged or ferried (acceptance
             # rules) — the walked grade excludes the wet cells themselves
-            if d > 0 and za > 1.0 and zb > 1.0:
+            if d > 0 and za > 1.0 and zb > 1.0 and not on_structure(route["id"], x0, y0):
                 grades.append(abs(zb - za) / d)
     grades = np.array(grades)
     assert np.percentile(grades, 95) < 0.35, f"p95 road grade {np.percentile(grades, 95):.2f}"

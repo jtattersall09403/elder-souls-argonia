@@ -96,7 +96,7 @@ AUTHOR_MERGE_GAP_M = 60.0
 # is not a structure and is dropped — see `obstacle_span`.
 #
 #: The water compiler's own "deep enough to matter" threshold, identical to
-#: `water_crossings.DEEP_M` so the two can never disagree about what is wet.
+#: `derive_crossings.DEEP_M` so the two can never disagree about what is wet.
 SPAN_DEEP_M = 0.3
 #: WHICH SEASON, and why it is not the dry one. The bake publishes both ends of
 #: the seasonal rule and `ShippedWater.signed_depth_m` demands the caller name
@@ -118,6 +118,94 @@ DECK_THICKNESS_M = max(
 #: Chainage between obstacle samples. Under the 1.8 m water/height texel, so a
 #: single-texel gap cannot fall between two samples.
 SPAN_SAMPLE_M = 1.5
+
+# --------------------------------------------------------------------------
+# THE CROSSING RECORD DECIDES WHAT IS BUILT (decision 0068, 16e deliverable 5)
+# --------------------------------------------------------------------------
+# A measured gap on a road used to become a stone bridge every time, because
+# `_kind` only ever asked how long and how steep the window was. That put a
+# 220 m stone viaduct over a fen — a thing no engineer builds and no province
+# has. What the window IS was already measured next door, in
+# `derive_crossings`: the water's kind, its width, its depth and its band. So
+# the kind is READ from that record (0066: read the record, never re-solve it)
+# and only the windows no crossing covers fall back to the shape rule.
+#
+#   ferry band  -> NOTHING is built. A ferry is a service, not geometry; the
+#                  window is reported and whether a boat serves it is read from
+#                  travel-services.json.
+#   marsh       -> a boardwalk, at any length. A fen is crossed on posts.
+#   river/lake, span band -> a bridge, as before.
+#   ford band   -> nothing: the road goes through the water.
+#
+#: A boardwalk over a fen is Argonian root-timber work wherever it runs, so a
+#: marsh deck on an Imperial road is built from the family that already chains
+#: a walkway on its own posts (`root-passerelle`) rather than from a stone
+#: arch. No new piece: this is the family the tracks already use.
+MARSH_DECK_FAMILY = "root-timber"
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+CROSSINGS_PATH = _REPO_ROOT / "world" / "sources" / "routes" / "water-crossings.json"
+SERVICES_PATH = _REPO_ROOT / "world" / "sources" / "routes" / "travel-services.json"
+
+
+def load_crossings(path: Path | None = None) -> list[dict]:
+    """The derived water crossings, or [] where they have not been derived."""
+    path = CROSSINGS_PATH if path is None else path
+    if not path.exists():
+        return []
+    return json.loads(path.read_text(encoding="utf-8")).get("crossings", [])
+
+
+def crossings_by_way(rows: list[dict]) -> dict[str, list[dict]]:
+    """way id -> the crossings that stand on it (`servesRoutes`)."""
+    out: dict[str, list[dict]] = {}
+    for r in rows:
+        for wid in r.get("servesRoutes") or []:
+            out.setdefault(wid, []).append(r)
+    return out
+
+
+def ferry_services(path: Path | None = None) -> dict[str, str]:
+    """crossing id -> the travel service that serves it, from the authored
+    record. A ferry window with no row here is a plot call, not a structure."""
+    path = SERVICES_PATH if path is None else path
+    if not path.exists():
+        return {}
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    out: dict[str, str] = {}
+    for svc in doc.get("services") or []:
+        cid = (svc.get("crossing") or {}).get("id")
+        if cid:
+            out[cid] = svc["id"]
+    return out
+
+
+def _bank_chainage(crossing: dict, chain: np.ndarray, xs: np.ndarray,
+                   zs: np.ndarray) -> tuple[float, float]:
+    """The crossing's two dry bank points, projected onto the way's chainage.
+
+    The banks are world metres; the way is resampled exactly as the compiler
+    resamples it (`_chain_and_z`), so the nearest sample to each bank names the
+    chainage the crossing occupies on this way.
+    """
+    cs = []
+    for bx, bz in crossing.get("banks") or []:
+        k = int(np.argmin(np.hypot(xs - float(bx), zs - float(bz))))
+        cs.append(float(chain[k]))
+    if not cs:
+        return (0.0, 0.0)
+    return (min(cs), max(cs))
+
+
+def crossing_for_window(crossings: list[dict], chain: np.ndarray, xs: np.ndarray,
+                        zs: np.ndarray, from_m: float, to_m: float) -> dict | None:
+    """The crossing this window stands on — the one it overlaps most, or None."""
+    best, best_overlap = None, 0.0
+    for c in crossings:
+        a, b = _bank_chainage(c, chain, xs, zs)
+        overlap = min(float(to_m), b) - max(float(from_m), a)
+        if overlap > best_overlap:
+            best, best_overlap = c, overlap
+    return best
 
 # A window graded steeper than this end to end is not a deck (see the 12 deg
 # compile_route_structures.RAMP_MAX_DEG): it is a flight. Three degrees of
@@ -588,7 +676,7 @@ def obstacle_span(chain: np.ndarray, xs: np.ndarray, zs: np.ndarray,
 
 def _resolve(chain: np.ndarray, xs: np.ndarray, zs: np.ndarray, hs: np.ndarray,
              from_m: float, to_m: float, worst_deg: float, way_kind: str,
-             water: SpanWater) -> dict | None:
+             water: SpanWater, crossing: dict | None = None) -> dict | None:
     """One window -> the structure it justifies, or None for "not a structure".
 
     THE single place a span window is trimmed to its obstacle. A window whose
@@ -607,7 +695,17 @@ def _resolve(chain: np.ndarray, xs: np.ndarray, zs: np.ndarray, hs: np.ndarray,
     m = measure_window(chain, hs, from_m, to_m)
     if m["spanM"] <= CHAINAGE_TOLERANCE_M:
         return None
+    if crossing is not None:
+        # The crossing record answers the question before the shape rule gets
+        # to guess at it (see THE CROSSING RECORD DECIDES WHAT IS BUILT).
+        if crossing["band"] == "ferry":
+            return {"ferry": crossing, "windowFromM": m["fromM"],
+                    "windowToM": m["toM"]}
+        if crossing["water"] != "marsh" and crossing["band"] == "ford":
+            return None
     kind = _kind(m["spanM"], m["riseM"], worst_deg, way_kind)
+    if crossing is not None and crossing["water"] == "marsh":
+        kind = "deck"
     if kind not in SPAN_KINDS:
         return {"fromM": m["fromM"], "toM": m["toM"], "riseM": m["riseM"],
                 "spanM": m["spanM"], "kind": kind, "gapM": 0.0,
@@ -618,12 +716,21 @@ def _resolve(chain: np.ndarray, xs: np.ndarray, zs: np.ndarray, hs: np.ndarray,
     trimmed = measure_window(chain, hs, gap[0], gap[1])
     if trimmed["spanM"] <= CHAINAGE_TOLERANCE_M:
         return None
-    return {"fromM": trimmed["fromM"], "toM": trimmed["toM"],
-            "riseM": trimmed["riseM"], "spanM": trimmed["spanM"],
-            "kind": _kind(trimmed["spanM"], trimmed["riseM"], worst_deg,
-                          way_kind, gap_m=trimmed["spanM"]),
-            "gapM": trimmed["spanM"],
-            "windowFromM": m["fromM"], "windowToM": m["toM"]}
+    kind = _kind(trimmed["spanM"], trimmed["riseM"], worst_deg,
+                 way_kind, gap_m=trimmed["spanM"])
+    out = {"fromM": trimmed["fromM"], "toM": trimmed["toM"],
+           "riseM": trimmed["riseM"], "spanM": trimmed["spanM"],
+           "kind": kind, "gapM": trimmed["spanM"],
+           "windowFromM": m["fromM"], "windowToM": m["toM"]}
+    if crossing is not None:
+        out["crossingId"] = crossing["id"]          # the record join the 2D map's hover reads (0066)
+    if crossing is not None and crossing["water"] == "marsh" and kind in SPAN_KINDS:
+        # A fen is crossed on a boardwalk, whatever the way's culture is: the
+        # deck stands on its own posts in soft ground where an arch has nothing
+        # to spring from.
+        out["kind"] = "deck"
+        out["familyOverride"] = MARSH_DECK_FAMILY
+    return out
 
 
 def _chain_and_z(way: dict, heights: np.ndarray) \
@@ -638,7 +745,8 @@ def _chain_and_z(way: dict, heights: np.ndarray) \
 
 
 def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray,
-             water: SpanWater = NO_WATER) -> dict | None:
+             water: SpanWater = NO_WATER,
+             by_way: dict[str, list[dict]] | None = None) -> dict | None:
     """Re-measure one authored window and re-choose its kind and piece.
 
     The measurement is `compile_route_structures.measure_window`, the same call
@@ -649,11 +757,15 @@ def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray,
     not get to survive by being old.
     """
     chain, xs, zs, z = _chain_and_z(ways_by_id[st["wayId"]], heights)
-    m = _resolve(chain, xs, zs, z, st.get("windowFromM", st["fromM"]),
-                 st.get("windowToM", st["toM"]), st["worstDeg"],
-                 GRADIENT_CAP_KIND[st["wayId"]], water)
+    wf, wt = st.get("windowFromM", st["fromM"]), st.get("windowToM", st["toM"])
+    crossing = crossing_for_window((by_way or {}).get(st["wayId"], []),
+                                   chain, xs, zs, wf, wt)
+    m = _resolve(chain, xs, zs, z, wf, wt, st["worstDeg"],
+                 GRADIENT_CAP_KIND[st["wayId"]], water, crossing)
     if m is None:
         return None
+    if "ferry" in m:
+        return dict(m, wayId=st["wayId"], priorId=st["id"])
     out = dict(st)
     out["fromM"] = round(m["fromM"], 2)
     out["toM"] = round(m["toM"], 2)
@@ -662,7 +774,9 @@ def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray,
     out["windowFromM"] = round(m["windowFromM"], 2)
     out["windowToM"] = round(m["windowToM"], 2)
     out["kind"] = m["kind"]
-    fam = _family(st["wayId"])
+    if m.get("crossingId"):
+        out["crossingId"] = m["crossingId"]
+    fam = m.get("familyOverride") or _family(st["wayId"])
     out["family"] = fam
     out["pieceRef"] = (FAMILIES[fam][KIND_ROLE[out["kind"]]]["asset"]
                        if fam is not None else None)
@@ -866,7 +980,8 @@ def _highest_suffix_by_way(structures: list[dict]) -> dict[str, int]:
 
 def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
            survivors: set[str], prior: list[dict] | None = None,
-           *, water: SpanWater) -> dict:
+           *, water: SpanWater, crossings: list[dict] | None = None,
+           services: dict[str, str] | None = None) -> dict:
     """Valid existing structures are kept and new measured windows are added.
 
     Numbering continues from the HIGHEST suffix already issued on each way, not
@@ -891,6 +1006,22 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
     # A stored structure whose way disappeared, or whose raw chainage is past
     # a re-routed way's new endpoint, cannot be built. Reconcile it loudly;
     # keeping the same way id is not evidence that old chainage still exists.
+    by_way = crossings_by_way(crossings if crossings is not None else load_crossings())
+    services = ferry_services() if services is None else services
+    ferries: dict[tuple[str, str], dict] = {}
+
+    def record_ferry(wid: str, res: dict) -> None:
+        c = res["ferry"]
+        ferries[(wid, c["id"])] = {
+            "wayId": wid,
+            "fromM": round(float(res["windowFromM"]), 2),
+            "toM": round(float(res["windowToM"]), 2),
+            "crossingId": c["id"], "spanM": c["spanM"],
+            "maxDepthM": c["maxDepthM"], "water": c["water"],
+            "entityKind": c["entityKind"],
+            "serviceId": services.get(c["id"]),
+        }
+
     kept, dropped, clipped = _reconcile_prior_windows(prior or [], ways_by_id)
     for s, reason in dropped:
         print(f"dropped stored structure {s['id']}: {reason}")
@@ -904,9 +1035,14 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
     stale_noise: list[str] = []
     stale_no_gap: list[str] = []
     for row in kept:
-        fresh = _refresh(row, ways_by_id, heights, water)
+        fresh = _refresh(row, ways_by_id, heights, water, by_way)
         if fresh is None:
             stale_no_gap.append(f"{row['id']} ({row['wayId']})")
+            continue
+        if "ferry" in fresh:
+            # A ferry crossing is a service, not geometry: the stored structure
+            # over it is retired and the window is reported instead.
+            record_ferry(row["wayId"], fresh)
             continue
         # The same noise floor applies to a STORED structure re-measured on
         # today's ground. Most of the province's unauthored backlog is here:
@@ -992,8 +1128,13 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
             if any(a - 0.01 <= w["fromM"] and w["toM"] <= b + 0.01
                    for a, b in taken.get(wid, [])):
                 continue          # already carried by an authored structure
+            crossing = crossing_for_window(by_way.get(wid, []), chain, wxs, wzs,
+                                           w["fromM"], w["toM"])
             res = _resolve(chain, wxs, wzs, wz, w["fromM"], w["toM"],
-                           w["worstDeg"], entry["kind"], water)
+                           w["worstDeg"], entry["kind"], water, crossing)
+            if res is not None and "ferry" in res:
+                record_ferry(wid, res)
+                continue
             if res is None:
                 no_gap.append(f"{wid} {w['fromM']:.0f}-{w['toM']:.0f} m")
                 continue
@@ -1003,6 +1144,7 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
                 continue
             counts[wid] = n = counts.get(wid, 0) + 1
             kind = res["kind"]
+            fam = res.get("familyOverride") or _family(wid)
             structures.append(_mark({
                 "id": f"structure.{slug}.{n}",
                 "wayId": wid,
@@ -1016,6 +1158,7 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
                 "windowToM": round(res["windowToM"], 2),
                 "worstDeg": w["worstDeg"],
                 "capDeg": cap,
+                **({"crossingId": res["crossingId"]} if res.get("crossingId") else {}),
                 "pieceRef": (FAMILIES[fam][KIND_ROLE[kind]]["asset"]
                              if fam is not None else None),
                 "why": _why(wid, kind),
@@ -1050,12 +1193,23 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
                     else "no authored `why`")
             print(f"  {s['id']}: {miss}; length {s['toM'] - s['fromM']:.1f} m, "
                   f"rise {s['riseM']:.2f} m, worst gradient {s['worstDeg']:.2f} deg")
+    ferry_rows = [ferries[k] for k in sorted(ferries)]
+    if ferry_rows:
+        served = sum(1 for r in ferry_rows if r["serviceId"])
+        print(f"{len(ferry_rows)} windows stand on a FERRY-band crossing and carry "
+              f"no structure ({served} served by a travel service, "
+              f"{len(ferry_rows) - served} with no service — a plot call)")
     return {"schemaVersion": SCHEMA_VERSION,
+            "ferryCrossings": ferry_rows,
             "_": "Authored geometry over the route stretches terrain grading "
                  "cannot fix. Generated by `python3 -m worldgen.author_route_"
                  "structures` from output/route-grading-stretches.json; the "
                  "windows are measured, the family, kind and why are authored "
-                 "in that module. Compiled by worldgen.compile_route_structures.",
+                 "in that module; what a measured water gap becomes is read "
+                 "from world/sources/routes/water-crossings.json (ferry: no "
+                 "structure; marsh: a boardwalk; river/lake span: a bridge; "
+                 "ford: the road goes through the water). Compiled by "
+                 "worldgen.compile_route_structures.",
             "structures": structures}
 
 

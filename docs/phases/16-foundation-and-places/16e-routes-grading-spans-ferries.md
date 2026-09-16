@@ -211,12 +211,14 @@ compile. That is the 16c round-1 mistake in route vocabulary, not a
 convention. Port each to the record reader, delete its raster reads and its
 allowlist row; `test_record_reads` fails if any come back. Concretely:
 
-- a **crossing** is where a published line enters a reach polygon
-  (centreline ± `widthM`/2) or a body; it carries the graph id it crosses and
-  takes its kind from that record: `ford` where `depthM` and `widthM` allow
-  it, `span` or `ferry` per the 0051 / `ferry-crossings.json` bands on the
-  recorded width, **forbidden** across a `horizontal-backwater` reach except
-  by ferry or span, never across a `vertical-fall`;
+- a **crossing** is where a published line enters a water entity's compiled
+  extent (the `water-id.png` raster realises the record, 0065; there is no
+  polygon helper and none is needed); it carries the entity id it crosses and
+  takes its band from the record and the measurement: `ford` only under 20 m
+  wide AND no deeper than the small-draft line (1.2 m), `span` under 70 m,
+  `ferry` beyond; a `horizontal-backwater` reach and a standing body are
+  priced as ferry water by the router, a `vertical-fall` or chute is never
+  crossed;
 - a **lane's** floating depth is the reach or body record per hull class
   (`HULL_CLASS_DEPTH_M`), base season, never a raster class;
 - the **router's water costs and walls** and the **grading exclusion window**
@@ -269,19 +271,28 @@ depth, a height), which 0066 allows.
    must (the span author's stair, lip-step or short crossing); then it emits
    all the patches at once as one new kind, **`route-grade`**: a chainage window on
    one road carrying the graded longitudinal profile (cut and fill against
-   the ungraded ground), the flat width and the shoulder, with `after`
-   ordering against any patch it overlaps. The structure windows go to the
+   the ungraded ground), the flat width and the shoulder. The patches live
+   in their own file, `world/sources/terrain/route-grade-patches.json`
+   (same schema), applied after every place patch. Two roads sharing a
+   corridor grade the same ground once: the first patch wins and absorbs
+   the later one (a profile proved on the natural ground cannot be
+   re-proved on ground already moved). The structure windows go to the
    author as its input in the same pass; no second grading pass exists. A
    small `apply_route_patches` stage applies them through the same patch
    application function 16b's stage uses and writes the graded array as a
    separate file that every downstream stage reads; the ungraded array is
    never touched, so no snapshot is needed and the router cannot see its
-   own grading. `patch_water` then proves none moved a level, a body's
-   extent or a channel. No separate bench, fill, cut or ramp kinds: a ramp
-   *is* the profile at the cap over a short lip. The invariants gain a
-   seventh: no `route-grade` inside a
-   reach polygon or its shoulder or inside a body, except a ford's own
-   approach ramps, which stop at the water's recorded edge. Grading never
+   own grading. `patch_water --graded` then proves none moved a level, a
+   body's extent or a channel. No separate bench, fill, cut or ramp kinds:
+   a ramp *is* the profile at the cap over a short lip. A run on a
+   channel's bank or a body's edge, where 16b's invariants let no patch
+   move the ground, stays **natural** when it is walkable (at most 30°: a
+   ford's approach, a marsh edge) and is reported as a bank; steeper, it is
+   a window for the span author. The invariants gain a
+   seventh: no `route-grade` inside recorded water or its 22 m shore band
+   (the band that the water shader reads, so a graded road can neither lower a
+   body's rim nor change the shore's ground), nor inside a channel's
+   shoulder; a ford's approach ramp stops at the band's outer edge. Grading never
    re-runs `apply_terrain_patches`, the water compile or anything above it;
    the exclusion-window function lives in one module that 16h's
    `grade_settlement_pads` consumes unchanged. The old module's profile
@@ -297,7 +308,11 @@ depth, a height), which 0066 allows.
    exclusion and smoothing skipped the sample; the backlog measurement is
    the regression test); the author keeps a minimum sustained rise and
    length so a 0.5 m bump over 18 m of causeway is never a span; `MAX_FILL_M` unchanged (the measurement showed it is the wrong
-   lever). The remaining spans are short crossings and terrace steps built
+   lever). The author reads the crossing record: a ferry-band crossing gets
+   no structure (the service record answers it, or the report says NO
+   SERVICE for 16g), a marsh crossing gets a boardwalk deck, a river or
+   lake crossing in the span band a bridge, a ford nothing. The remaining
+   spans are short crossings and terrace steps built
    under decision 0051's rules on the graded ground; the trestle-foot ground
    fit confirmed; the one crossing with no pier sourced or re-authored as a
    stepped ascent. Each structure emits a typed `walkSurface` (deck
@@ -315,8 +330,11 @@ depth, a height), which 0066 allows.
    the authored judgement in `ferry-crossings.json` (someone lives there, has
    a motive, would be poorer if the crossing were free). For each active
    ferry: landings re-sited where the way meets the recorded water's edge,
-   each berth carrying the reach or body id whose base-season depth floats
-   the declared hull class, the operator socket typed (`ferry-slot.*`
+   each berth found by walking from the landing into the water to the
+   first point that floats the declared hull class (within 30 m; the walk's
+   length is recorded as `jettyM`, the dock length 16h places; a landing that never
+   floats its hull demotes the service to `unmatched` with the reason: no
+   dredging, ruling 6), the operator socket typed (`ferry-slot.*`
    becomes a roster slot 16g's prior→roster rule generates an NPC record
    for). The seventh service stays `deferred`: it depends on two deferred
    catalogue records, which is 16g's plot call; say so on the record.
@@ -389,13 +407,13 @@ depth, a height), which 0066 allows.
 - **The chain ladder** (plan §3): this chunk's stages, in order, are
   `reroute_lanes` (once, after `compile_water`), `solve_major_routes`,
   `grade_routes` (the rewritten author: patches and structure windows in
-  one pass), `author_route_structures`, `apply_route_patches`,
-  `patch_water` (over the grading patches; never a second `compile_water`
-  or `apply_terrain_patches`), `derive_crossings`,
+  one pass), `apply_route_patches`, `patch_water_graded` (the water proof
+  over the grading; never a second `compile_water` or
+  `apply_terrain_patches`), `derive_crossings`, `author_route_structures`,
   `compile_route_structures`, `travel_services`, `export_routes`,
   `paint_route_overlays`. The second `reroute_lanes` entry and
   `reroute_majors` are removed; `compile_minor_routes` and
-  `compile_minor_waterways` move to the `[16g]` row. Fill the `[16e]` row in
+  `compile_minor_waterways` sit on the `[16g]` row. Fill the `[16e]` row in
   `terrain-chain.sh`, confirm `worldgen/ladder.py`'s `OWNER` map and bump
   `DELIVERED_THROUGH` in the delivering commit.
 - **One way, proven cheaply**: a second plain chain run after delivery
@@ -431,13 +449,19 @@ are on the 2D map with hover information. No tracks, plants or buildings.
   each hover explain itself? Walk one.
 - The 2D map's `spans` layer: is every span a short crossing or a terrace
   step, with no long viaduct left? Hover a bridge and a stair.
-- One ford: the lake ford by Helstrom (`x=3.470&z=2.807`) and the river ford
-  outside Gideon (`x=1.325&z=3.087`; positions re-measured on the graph, the
-  delivering agent updates the URLs): can you wade it; does the road ramp
+- Two river fords: on the Gideon–Stormhold road (`?view=character&x=2.278&z=1.747&t=12:00`,
+  12 m wide, 1.1 m deep) and on the Blackwood road west of Gideon
+  (`x=0.313&z=3.030`, 13 m, 0.65 m): can you wade it; does the road ramp
   down to the water's edge and up the far bank?
-- One ferry, the Drowning Gate east landing (`x=0.458&z=3.132`): does a
-  prompt appear at the landing marker; does paying take you to the west
-  landing; when refused, does the refusal read right?
+- One ferry, the Drowning Gate east landing (`?view=character&x=0.350&z=3.044&t=12:00`):
+  walk to the pole with the label, press E: does the menu open; does paying
+  take you to the west landing (`x=0.525&z=3.191`); does a refusal read
+  right? (The Onkobra bond ferry at `x=1.334&z=3.080` is the other live one.
+  The Underway basin ferry is `unmatched`: the road no longer enters the
+  basin, a 16g call.)
+- The one span over 52 m: Stormhold–Thorn at chainage 8.6 km crosses a dry
+  hollow on a 200 m bridge (`x=5.9&z=1.0` on the 2D `spans` layer): steer
+  it with an authored line or a junction, or accept it.
 - The 2D map's `travel services` layer: do the ferry hops, the boat services
   and the four placeholder rootworm stations join places a traveller would
   want joined? (The rootworm stations move in 16g.)

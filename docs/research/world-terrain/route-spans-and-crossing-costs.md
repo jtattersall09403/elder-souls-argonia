@@ -13,7 +13,7 @@ There is no gorge under a single one of them. The long spans are made in
 | Network | File | Cost terms |
 | --- | --- | --- |
 | Major roads (Phase 4 `compile_society`) | `tooling/world-generation/worldgen/routes.py:32-48` | `1 + slope*30*TUNE + 30*(slope/0.5)^2`, then multipliers: wetland 3, frequent flood 2, z>40 m 3, river band >=2 **8**, lake/sea **25**, plus an edge-margin ramp |
-| Major-road repair | `worldgen/reroute_majors.py:121-163` | same surface + `routes.grade_factor` on each STEP (`routes.py:162-177`: quadratic below the class cap, 600x wall above) |
+| Major roads, solved below the gate | `worldgen/solve_major_routes.py` | same surface + `routes.grade_factor` on each STEP (`routes.py:162-177`: quadratic below the class cap, 600x wall above) |
 | Minor tracks | `worldgen/compile_minor_routes.py:171-187` | same shape; river **9**, open water **60**, jungle 1.8 |
 
 Crossings are therefore already priced, and priced hard. Tobler
@@ -150,9 +150,9 @@ is re-plotted. Minutes.
 **Changing a routing cost is the opposite.** It moves `routes.json`, which
 invalidates the `routes-natural.json` snapshot that siting scores against
 (`site_fields` / `macro_plot` `dist_to_route_m`), which re-plots committed
-places — the exact feedback loop `reroute_majors.snapshot_natural_routes`
-exists to prevent. It then re-runs the whole published chain named at
-`reroute_majors.py:44-46`: minor routes → grading (heightfield) → chunks →
+places — the exact feedback loop the natural-routes snapshot exists to
+prevent. It then re-runs the whole published chain below the freeze gate:
+minor routes → grading (heightfield) → chunks →
 web chunks → water → landcover → scatter. That would move owner-approved place
 spacing and the exemplars, and is an owner decision, not ours.
 

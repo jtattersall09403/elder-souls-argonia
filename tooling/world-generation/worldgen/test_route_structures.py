@@ -192,37 +192,17 @@ def test_residual_is_zero_when_every_stretch_is_covered():
 # --------------------------------------------------------------------------
 # grading exemption
 # --------------------------------------------------------------------------
-def test_grading_leaves_a_structure_window_alone():
-    """Inside a structure's window the ground keeps its natural shape, and the
-    way's measured 'after' gradient ignores it — the player is on the pieces."""
-    way, h = _slope_way()
-    graded_free, stats_free = G.grade(h, [way], step=G.STEP)
-    spans = {way["id"]: [(0.0, 400.0)]}
-    graded_span, stats_span = G.grade(h, [way], step=G.STEP, spans=spans)
-
-    pts = G.resample(way["px"], G.STEP)
-    ds = np.maximum(np.hypot(*np.diff(pts, axis=0).T) * RAW_M, 1e-6)
-    chain = np.concatenate([[0.0], np.cumsum(ds)])
-    inside = (chain > 20.0) & (chain < 380.0)
-    ix = np.clip(np.round(pts[inside, 0]).astype(int), 0, h.shape[1] - 1)
-    iy = np.clip(np.round(pts[inside, 1]).astype(int), 0, h.shape[0] - 1)
-
-    # The free run cuts the slope; the exempt run does not touch it.
-    assert np.abs(graded_free[iy, ix] - h[iy, ix]).max() > 1.0
-    assert np.abs(graded_span[iy, ix] - h[iy, ix]).max() < 1e-3
-    assert stats_span[0]["structureM"] > 0.0
-    assert stats_span[0]["after"] <= stats_free[0]["after"] + 1e-6
-
-
 def test_stretch_export_finds_the_over_cap_run():
+    """The grader's run finder (16e): one window round the steep samples,
+    extended by the landing either side; a structure window is what the
+    grader hands over when no patch fits (test_grade_routes proves that)."""
     chain = np.arange(0.0, 100.0, 2.0)
     slopes = np.full(len(chain) - 1, 5.0)
     slopes[10:20] = 30.0
-    ok = np.ones(len(slopes), dtype=bool)
-    out = G.over_cap_stretches(chain, slopes, ok, 12.0)
-    assert len(out) == 1
-    assert out[0]["fromM"] < 20.0 < out[0]["toM"]
-    assert out[0]["worstDeg"] == 30.0
+    runs = G.over_cap_runs(chain, slopes > 12.0)
+    assert len(runs) == 1
+    a, b = runs[0]
+    assert chain[a] < 20.0 < chain[b - 1]
 
 
 # --------------------------------------------------------------------------

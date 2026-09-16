@@ -114,6 +114,15 @@ class Route:
     points_m: np.ndarray  # (n, 2) world metres, [x, z]
 
 
+# Reach kinds that are a flowing channel (the record's vocabulary, 0058); a
+# `horizontal-backwater` reach is the body it crosses and is NOT a channel.
+CHANNEL_REACH_KINDS = frozenset({"horizontal-channel", "horizontal-tidal", "sloped-riffle",
+                                 "sloped-rapid", "sloped-chute", "vertical-fall"})
+# Body kinds a road cannot ford: crossed by ferry or not at all.
+STANDING_BODY_KINDS = frozenset({"ocean", "lagoon", "lake-lowland", "tarn-upland", "pond",
+                                 "pool", "plunge-pool"})
+
+
 class ProvinceSurvey:
     """Every published province field, decoded, plus the survey primitives
     (aspect, viewshed, effort-to-reach, mined-form analogue)."""
@@ -402,6 +411,36 @@ class ProvinceSurvey:
         if grid is None:
             return np.zeros((self.grid_n, self.grid_n), np.float32)
         return _resample(grid.astype(np.float32), self.grid_n)
+
+    @cached_property
+    def channel_grid(self) -> np.ndarray:
+        """Fraction (0..1) of each analysis cell whose water entity is a
+        flowing reach (every reach kind except `horizontal-backwater`, which
+        is the body it runs through), read through the entity raster."""
+        grid = self.water.kind_grid(CHANNEL_REACH_KINDS)
+        if grid is None:
+            return np.zeros((self.grid_n, self.grid_n), np.float32)
+        return _resample(grid.astype(np.float32), self.grid_n)
+
+    @cached_property
+    def standing_body_grid(self) -> np.ndarray:
+        """Fraction (0..1) of each analysis cell whose water entity is a
+        standing body a road cannot ford (`STANDING_BODY_KINDS`: the sea,
+        lagoons, lakes, tarns, ponds and pools), read through the entity
+        raster."""
+        grid = self.water.kind_grid(STANDING_BODY_KINDS)
+        if grid is None:
+            return np.zeros((self.grid_n, self.grid_n), np.float32)
+        return _resample(grid.astype(np.float32), self.grid_n)
+
+    @cached_property
+    def reach_band_grid(self) -> np.ndarray:
+        """int8 graph `band` of the reach under each analysis cell (0 = none),
+        nearest-resampled from `ShippedWater.reach_band_grid`."""
+        grid = self.water.reach_band_grid()
+        if grid is None:
+            return np.zeros((self.grid_n, self.grid_n), np.int8)
+        return _resample(grid, self.grid_n)
 
     # ------------------------------------------------------------------ #
     # the record (decision 0066): kinds, ids, levels, seasons by graph id
