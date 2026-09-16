@@ -1,28 +1,35 @@
 /**
  * "Routes" — clickable road, boat-lane, minor-track and minor-channel lines
- * over the 2D map (Phase 11 Part 4 step 2, owner feedback round).
+ * over the 2D map, with the four route sub-layers (spans, grades, crossings,
+ * services) drawn from their published records.
  *
  * Roads (routes.json) and minor tracks (routes-minor.json) draw in tan; boat
  * lanes (waterways.json) and minor channels (waterways-minor.json, tolerated
  * absent) draw in cyan under `water=1`. Clicking any line opens a details
  * panel: id, name, class, mode, from/to, length, and — for lines whose `id` is
  * in the route registry (routes-index.json, written by worldgen.export_routes)
- * — confidence, sources and notes. Minor routes with no registry id show their
- * derived fields only.
+ * — confidence, sources and notes.
  *
- * Mount inside the map canvas's `position: relative` wrapper, under
- * PlacesLayer: the SVG shares its u/v space. Selection round-trips through the
- * URL (`route=`); App owns the query string.
+ * HOVER goes through the map's one tooltip (owner 2026-09-16): every element
+ * here reports its `TipSection`s through `onHover`, and App merges them into
+ * the readout it already draws for the ground, the water and the graph. A
+ * span or a flight is drawn as a RECOLOURED STRETCH of its road line, never a
+ * marker (owner 2026-09-16).
+ *
+ * Mount inside the map's transformed wrapper, under PlacesLayer: the SVG
+ * shares its u/v space. Selection round-trips through the URL (`route=`);
+ * App owns the query string.
  */
 import { useEffect, useMemo, useState } from "react";
 import {
-  CROSSING_BAND_COLOUR, GRADE_STYLE, HOP_STYLE, ROUTE_STYLE, STATION_COLOUR, STRUCTURE_STYLE,
-  crossingLabel, gradeLabel, loadCrossings, loadMinorWaterways, loadRoads, loadRouteGrades,
-  loadRoutesIndex, loadRouteStructures, loadTravelServices, loadWaterways, metresToPx,
-  selectMajor, selectMinor, serviceLabel, stationLabel, structureLabel, structurePx,
+  CROSSING_BAND_COLOUR, GRADE_STYLE, HOP_STYLE, ROUTE_STYLE, STATION_COLOUR, STRUCTURE_COLOUR,
+  STRUCTURE_STYLE, crossingTip, gradeTip, loadCrossings, loadMinorWaterways, loadRoads,
+  loadRouteGrades, loadRoutesIndex, loadRouteStructures, loadTravelServices, loadWaterways,
+  metresToPx, routeTip, selectMajor, selectMinor, serviceTip, stationTip, structurePx, structureTip,
   type MinorTrack, type RouteGrade, type RouteGeometry, type RouteSelection, type RouteStructure,
   type RouteSubLayer, type RoutesIndexBundle, type TravelServicesBundle, type WaterCrossing,
 } from "./routesData";
+import type { TipSection } from "../map/hydrographIndex";
 import { hydroPixelCenterToUv } from "../provinceScale";
 import { loadLadder, type Ladder } from "../ladder";
 
@@ -53,29 +60,9 @@ export interface RoutesLayerProps {
   /** Which of the four route sub-layers are on (`routeLayers=`; spans and
    *  crossings unless the URL says otherwise). */
   subLayers?: RouteSubLayer[];
-}
-
-/** One kind of structure, one shape: the map reads at a glance which is which. */
-const STRUCTURE_MARK: Record<string, { fill: string; shape: "square" | "diamond" | "triangle" | "circle" | "bar" }> = {
-  bridge: { fill: "#ffb454", shape: "diamond" },
-  deck: { fill: "#d89a52", shape: "square" },
-  trestle: { fill: "#c58a4a", shape: "bar" },
-  stair: { fill: "#9fd0ff", shape: "triangle" },
-  "stepped-ascent": { fill: "#7fb0e8", shape: "triangle" },
-  "lip-step": { fill: "#b7c4d4", shape: "circle" },
-};
-
-function Mark({ u, v, fill, shape, r = 5 }: {
-  u: number; v: number; fill: string; shape: string; r?: number;
-}) {
-  const common = { fill, stroke: "#0b0f15", strokeWidth: 0.8, vectorEffect: "non-scaling-stroke" as const };
-  if (shape === "circle") return <circle cx={u} cy={v} r={r * 0.8} {...common} />;
-  if (shape === "square") return <rect x={u - r} y={v - r} width={r * 2} height={r * 2} {...common} />;
-  if (shape === "bar") return <rect x={u - r * 1.4} y={v - r * 0.6} width={r * 2.8} height={r * 1.2} {...common} />;
-  if (shape === "triangle") {
-    return <polygon points={`${u},${v - r * 1.2} ${u - r},${v + r * 0.9} ${u + r},${v + r * 0.9}`} {...common} />;
-  }
-  return <polygon points={`${u},${v - r} ${u + r},${v} ${u},${v + r} ${u - r},${v}`} {...common} />;
+  /** The sections the map's tooltip should show for the hovered element, or
+   *  null when the pointer leaves it. */
+  onHover?: (sections: TipSection[] | null) => void;
 }
 
 function Row({ k, v }: { k: string; v: unknown }) {
@@ -87,7 +74,9 @@ function Row({ k, v }: { k: string; v: unknown }) {
   );
 }
 
-export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSelectedKey, placeName, subLayers = [] }: RoutesLayerProps) {
+export function RoutesLayer({
+  baseUrl, showWater, showTracks, selectedKey, onSelectedKey, placeName, subLayers = [], onHover,
+}: RoutesLayerProps) {
   const [index, setIndex] = useState<RoutesIndexBundle | null>(null);
   const [roads, setRoads] = useState<RouteGeometry[]>([]);
   const [lanes, setLanes] = useState<RouteGeometry[]>([]);
@@ -112,6 +101,10 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
     showTracks && !minorRoutesBuilt ? "minor routes" : "",
     showWater && !minorChannelsBuilt ? "minor waterways" : "",
   ].filter(Boolean).join(" and ");
+  const hover = (sections: TipSection[] | null) => ({
+    onPointerEnter: () => onHover?.(sections),
+    onPointerLeave: () => onHover?.(null),
+  });
 
   useEffect(() => {
     let alive = true;
@@ -121,8 +114,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
     // Every layer here is gated on the STAGE that produces it having run on
     // this ground (province/ladder.json `ran`), not on the record's
     // `hiddenLayers` list: `compile_route_structures` ran at 16e while
-    // `hiddenLayers` still names "route-structures", so the bridges and decks
-    // the owner asked to see were being suppressed by a stale hint.
+    // `hiddenLayers` still names "route-structures" (16h draws it in 3D).
     loadLadder(baseUrl).then((l) => {
       if (!alive) return;
       setLadder(l);
@@ -156,7 +148,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
 
   useEffect(() => {
     // the spans layer needs them too: a structure's hover names the crossing
-    // it carries, and that join is read from crossings.json's entityId
+    // it carries (route-structures.json `crossingId`, decision 0066)
     if ((!showCrossings && !showSpans) || crossings !== null) return;
     let alive = true;
     loadCrossings(baseUrl).then((c) => { if (alive) setCrossings(c); }).catch(() => { if (alive) setCrossings([]); });
@@ -193,22 +185,8 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
 
   const selected = useMemo(() => lines.find((l) => l.key === selectedKey) ?? null, [lines, selectedKey]);
 
-  /** The crossing a structure carries, when a record says so. TODAY NOTHING
-   *  DOES: route-structures.json carries no crossing id, and crossings.json's
-   *  `entityId` names the WATER BODY the way stands in (`body.<r>-<c>`), not
-   *  the span over it. Matching the two by position would be the browser
-   *  re-solving a join no record states (decision 0066), so the hover simply
-   *  omits the line until a structure record carries `crossingId`. */
-  const crossingByStructure = useMemo(() => {
-    const m = new Map<string, WaterCrossing>();
-    const byId = new Map((crossings ?? []).map((c) => [c.id, c]));
-    for (const s of structures) {
-      const cid = (s as RouteStructure & { crossingId?: string }).crossingId;
-      const c = cid ? byId.get(cid) : undefined;
-      if (c) m.set(s.id, c);
-    }
-    return m;
-  }, [crossings, structures]);
+  /** The crossing a structure carries, by the `crossingId` its record states. */
+  const crossingById = useMemo(() => new Map((crossings ?? []).map((c) => [c.id, c])), [crossings]);
 
   const stationPos = useMemo(() => {
     const m = new Map<string, [number, number]>();
@@ -225,7 +203,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
           const pts = l.px.map(([c, r]) => `${uv(c)},${uv(r)}`).join(" ");
           const on = l.key === selectedKey;
           return (
-            <g key={l.key} style={{ cursor: "pointer" }}
+            <g key={l.key} style={{ cursor: "pointer" }} {...hover([routeTip(l)])}
               onClick={(e) => { e.stopPropagation(); onSelectedKey(on ? null : l.key); }}>
               {/* fat invisible hit line: thin routes are hard to hit exactly;
                   pointerEvents "stroke" so a transparent stroke still hits */}
@@ -237,32 +215,19 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
             </g>
           );
         })}
-        {/* Authored geometry over the stretches grading could not fix: short
-            hatched runs along the way, with the kind, piece count and rise on
-            hover. The pieces themselves are placed in 3D by 16h. */}
+        {/* SPANS AND FLIGHTS: the stretch of the road each structure occupies,
+            recoloured by kind. The pieces themselves are placed in 3D by 16h. */}
         {showSpans && structures.map((s) => {
           const px = structurePx(s);
+          if (px.length < 2) return null;
           const pts = px.map(([c, r]) => `${uv(c)},${uv(r)}`).join(" ");
-          const mark = STRUCTURE_MARK[s.kind] ?? { fill: STRUCTURE_STYLE.stroke, shape: "diamond" };
-          const mid = px[Math.floor(px.length / 2)];
-          const carried = showSpans ? crossingByStructure.get(s.id) ?? null : null;
-          const title = [
-            s.id,
-            structureLabel(s),
-            `family ${s.family}`,
-            `${(s.spanM).toFixed(0)} m long`,
-            carried ? `carries ${carried.id} (${carried.band}, ${carried.water})` : "",
-            s.why,
-          ].filter(Boolean).join("\n");
+          const colour = STRUCTURE_COLOUR[s.kind] ?? STRUCTURE_STYLE.stroke;
+          const carried = s.crossingId ? crossingById.get(s.crossingId) ?? null : null;
           return (
-            <g key={s.id} style={{ pointerEvents: "stroke" }}>
-              <polyline points={pts} fill="none" stroke={mark.fill}
-                strokeWidth={STRUCTURE_STYLE.width} strokeDasharray={STRUCTURE_STYLE.dash}
+            <g key={s.id} style={{ pointerEvents: "stroke" }} {...hover([structureTip(s, carried)])}>
+              <polyline points={pts} fill="none" stroke="transparent" strokeWidth={9} vectorEffect="non-scaling-stroke" />
+              <polyline points={pts} fill="none" stroke={colour} strokeWidth={STRUCTURE_STYLE.width}
                 strokeLinecap="butt" vectorEffect="non-scaling-stroke" opacity={0.95} />
-              {showSpans && mid && (
-                <Mark u={uv(mid[0])} v={uv(mid[1])} fill={mark.fill} shape={mark.shape} />
-              )}
-              <title>{title}</title>
             </g>
           );
         })}
@@ -273,13 +238,12 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
           if (g.lineM.length < 2) return null;
           const pts = g.lineM.map((p) => { const [c, r] = metresToPx(p); return `${uv(c)},${uv(r)}`; }).join(" ");
           return (
-            <g key={g.id} style={{ pointerEvents: "stroke" }}>
+            <g key={g.id} style={{ pointerEvents: "stroke" }} {...hover([gradeTip(g)])}>
               <polyline points={pts} fill="none" stroke="transparent" strokeWidth={9}
                 vectorEffect="non-scaling-stroke" />
               <polyline points={pts} fill="none" stroke={GRADE_STYLE.stroke}
                 strokeWidth={GRADE_STYLE.width} strokeLinecap="round"
                 vectorEffect="non-scaling-stroke" opacity={0.9} />
-              <title>{gradeLabel(g)}</title>
             </g>
           );
         })}
@@ -289,7 +253,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
           const [cx, cy] = metresToPx(c.positionM);
           const colour = CROSSING_BAND_COLOUR[c.band] ?? "#ffffff";
           return (
-            <g key={c.id} style={{ pointerEvents: "all" }}>
+            <g key={c.id} style={{ pointerEvents: "all" }} {...hover([crossingTip(c)])}>
               {c.banks?.length === 2 && (
                 <polyline points={c.banks.map((b) => { const [u2, v2] = metresToPx(b); return `${uv(u2)},${uv(v2)}`; }).join(" ")}
                   fill="none" stroke={colour} strokeWidth={1.2} strokeDasharray="3 2"
@@ -298,7 +262,6 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
               <circle cx={uv(cx)} cy={uv(cy)} r={4.5} fill={colour} stroke="#0b0f15" strokeWidth={0.8}
                 vectorEffect="non-scaling-stroke" />
               <text x={uv(cx) + 6} y={uv(cy) - 5} fill={colour} fontSize={8} opacity={0.85}>{c.water}</text>
-              <title>{crossingLabel(c)}</title>
             </g>
           );
         })}
@@ -310,12 +273,11 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
             if (!a || !b) return null;
             const st = HOP_STYLE[sv.serviceKind] ?? { stroke: "#c9d3e0" };
             return (
-              <g key={`${sv.id}:${i}`} style={{ pointerEvents: "stroke" }}>
+              <g key={`${sv.id}:${i}`} style={{ pointerEvents: "stroke" }} {...hover([serviceTip(sv)])}>
                 <line x1={uv(a[0])} y1={uv(a[1])} x2={uv(b[0])} y2={uv(b[1])} stroke="transparent"
                   strokeWidth={9} vectorEffect="non-scaling-stroke" />
                 <line x1={uv(a[0])} y1={uv(a[1])} x2={uv(b[0])} y2={uv(b[1])} stroke={st.stroke}
                   strokeWidth={2} strokeDasharray={st.dash} vectorEffect="non-scaling-stroke" opacity={0.9} />
-                <title>{serviceLabel(sv)}</title>
               </g>
             );
           }))}
@@ -323,10 +285,9 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
             if (!st.positionM) return null;
             const [sx, sy] = metresToPx(st.positionM);
             return (
-              <g key={st.id} style={{ pointerEvents: "all" }}>
+              <g key={st.id} style={{ pointerEvents: "all" }} {...hover([stationTip(st)])}>
                 <circle cx={uv(sx)} cy={uv(sy)} r={3.6} fill={STATION_COLOUR[st.kind] ?? "#c9d3e0"}
                   stroke="#0b0f15" strokeWidth={0.8} vectorEffect="non-scaling-stroke" />
-                <title>{stationLabel(st)}</title>
               </g>
             );
           })}
@@ -362,6 +323,8 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
             <Row k="length" v={selected.lengthKm === null ? null : `${selected.lengthKm.toFixed(2)} km`} />
             {selected.registry ? <>
               <Row k="confidence" v={selected.registry.confidence} />
+              <Row k="condition" v={selected.registry.condition} />
+              <Row k="condition why" v={selected.registry.conditionWhy} />
               {selected.registry.solved === false && <Row k="solved" v="no geometry solved yet" />}
               <Row k="notes" v={selected.registry.notes} />
               <Row k="sources" v={selected.registry.sources} />

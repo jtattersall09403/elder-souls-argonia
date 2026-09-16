@@ -131,6 +131,9 @@ export function App() {
   const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
   const [tip, setTip] = useState<{ x: number; y: number; sections: TipSection[] } | null>(null);
+  // What the routes layer is hovering (a road, a span, a crossing, a station):
+  // merged into the one tooltip above the ground/water rows (owner 2026-09-16).
+  const routeTipRef = useRef<TipSection[] | null>(null);
   const hydroIndexRef = useRef<HydrographIndex | null>(null);
   const [view, setView] = useState<"map" | "fly3d" | "character">(
     urlParams.get("view") === "fly3d" ? "fly3d"
@@ -587,10 +590,14 @@ export function App() {
     return () => { alive = false; };
   }, [ladderReady, hiddenLayers]);
 
-  function onMove(e: React.PointerEvent<HTMLCanvasElement>) {
+  function onMove(e: React.PointerEvent<HTMLDivElement>) {
+    // On the transformed WRAPPER, not the canvas, so a move over a routes or
+    // places SVG element still updates the readout; the map maths reads the
+    // canvas's own (transformed) rect, so it holds at any zoom.
     const canvas = canvasRef.current;
+    const viewport = mapViewportRef.current;
     const heights = displayHeights();
-    if (!canvas || !heights || !meta) return;
+    if (!canvas || !viewport || !heights || !meta) return;
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor(((e.clientX - rect.left) / rect.width) * meta.imageWidth);
     const y = Math.floor(((e.clientY - rect.top) / rect.height) * meta.imageHeight);
@@ -650,9 +657,11 @@ export function App() {
       if (fallsAlpha > 0 && !reach?.fall) sections.push({ title: "Marker", rows: [["what", "a waterfall or plunge pool (see the legend)"]] });
     }
     setReadout(`${here[0][1]} · elevation ${hgt.toFixed(1)} m${region ? ` · ${region}` : ""}`);
-    // rect is the TRANSFORMED canvas; the tip lives in the untransformed
-    // wrapper, so divide the offset back out (it is then scaled with it).
-    setTip({ x: (e.clientX - rect.left) / map.zoom, y: (e.clientY - rect.top) / map.zoom, sections });
+    if (routeTipRef.current) sections.unshift(...routeTipRef.current);
+    // The tip lives in the (untransformed) zoom viewport, positioned in its
+    // own pixels, so it never scales with the map (owner 2026-09-16).
+    const vr = viewport.getBoundingClientRect();
+    setTip({ x: e.clientX - vr.left, y: e.clientY - vr.top, sections });
   }
 
   function enterFly(xKm: number, zKm: number) {
@@ -959,16 +968,27 @@ export function App() {
         position: "relative", width: "100%",
         transform: `translate(${map.pan.x}px, ${map.pan.y}px) scale(${map.zoom})`,
         transformOrigin: "0 0",
-      }}>
-        <canvas ref={canvasRef} onPointerMove={onMove} onPointerLeave={() => setTip(null)}
-          onDoubleClick={onDoubleClick}
+      }} onPointerMove={onMove} onPointerLeave={() => setTip(null)}>
+        <canvas ref={canvasRef} onDoubleClick={onDoubleClick}
           style={{ width: "100%", display: "block", imageRendering: "pixelated", touchAction: "none" }} />
+        {routeVectors && (
+          <RoutesLayer baseUrl={import.meta.env.BASE_URL} showWater={routesUrl.showWater}
+            showTracks={placesUrl.showTracks} selectedKey={routesUrl.selectedKey}
+            onSelectedKey={(selectedKey) => setRoutesUrl((r) => ({ ...r, selectedKey }))}
+            placeName={placeName} subLayers={routesUrl.subLayers}
+            onHover={(sections) => { routeTipRef.current = sections; }} />
+        )}
+        {showCatalogue && (
+          <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
+            onUrlState={setPlacesUrl} onFly={flyToFraction} />
+        )}
+      </div>
         {tip && (
           <div style={{
             position: "absolute", left: tip.x + 14, top: tip.y + 10, pointerEvents: "none",
             background: "rgba(10, 14, 20, 0.88)", color: "#e6ecf5", padding: "6px 10px 2px",
-            borderRadius: 6, font: "12px system-ui", lineHeight: "16px", maxWidth: 440, zIndex: 2,
-            transform: tip.x > 560 ? "translateX(calc(-100% - 26px))" : undefined,
+            borderRadius: 6, font: "12px system-ui", lineHeight: "16px", maxWidth: 440, zIndex: 4,
+            transform: tip.x > (mapViewportRef.current?.clientWidth ?? 900) * 0.6 ? "translateX(calc(-100% - 26px))" : undefined,
           }}>
             {tip.sections.map((sec) => (
               <div key={sec.title} style={{ marginBottom: 6 }}>
@@ -985,17 +1005,6 @@ export function App() {
             ))}
           </div>
         )}
-        {routeVectors && (
-          <RoutesLayer baseUrl={import.meta.env.BASE_URL} showWater={routesUrl.showWater}
-            showTracks={placesUrl.showTracks} selectedKey={routesUrl.selectedKey}
-            onSelectedKey={(selectedKey) => setRoutesUrl((r) => ({ ...r, selectedKey }))}
-            placeName={placeName} subLayers={routesUrl.subLayers} />
-        )}
-        {showCatalogue && (
-          <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
-            onUrlState={setPlacesUrl} onFly={flyToFraction} />
-        )}
-      </div>
       </div>
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).

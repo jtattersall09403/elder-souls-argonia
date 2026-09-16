@@ -190,15 +190,15 @@ def _grade_patch(pid: str, x0: float, y: float, x1: float) -> dict:
             "params": {"flatWidthM": 5.0, "shoulderM": 6.0, "capDeg": 8.0, "profile": prof}}
 
 
-def test_declare_overlaps_keeps_the_first_patch_and_absorbs_the_overlapping_one():
+def test_declare_order_keeps_every_patch_and_orders_the_overlapping_ones():
     a = _grade_patch("patch.route-grade.a.000", 40 * M, 40 * M, 80 * M)
     b = _grade_patch("patch.route-grade.b.000", 60 * M, 42 * M, 100 * M)
     c = _grade_patch("patch.route-grade.c.000", 150 * M, 150 * M, 190 * M)
     assert any("overlap without a declared order" in e for e in tp.validate([a, b], (N, N)))
-    kept = gr.declare_overlaps([a, b, c], (N, N))
-    assert [p["id"] for p in kept] == [a["id"], c["id"]]
-    assert a["source"]["absorbed"] == [b["id"]]
-    assert [p["order"] for p in kept] == [0, 1]
+    kept = gr.declare_order([a, b, c], (N, N))
+    assert [p["id"] for p in kept] == [a["id"], b["id"], c["id"]]
+    assert b["after"] == [a["id"]] and a["after"] == [] and c["after"] == []
+    assert [p["order"] for p in kept] == [0, 1, 2]
     assert tp.validate(kept, (N, N)) == []
 
 
@@ -226,3 +226,30 @@ def test_write_stretches_and_report_carry_only_the_ways_with_windows(tmp_path):
     survivors = text.split("## Survivors", 1)[1]
     rows = [ln for ln in survivors.splitlines() if ln.startswith("| `")]
     assert len(rows) == 1 and "route.road.with-window" in rows[0] and "cap" in rows[0]
+
+
+def test_a_small_bump_under_the_cap_is_still_a_choke_point():
+    """A 1.5 m hump over 24 m never breaks the 8 deg cap (7.1 deg) but is a
+    bump on foot (owner 2026-09-16): `rough_samples` flags it."""
+    from .grade_routes import rough_samples, RAW_M
+    n = 120
+    z = np.zeros(n)
+    x = np.arange(n) * RAW_M
+    hump = (x > 100.0) & (x < 124.0)
+    z[hump] = 1.5 * np.sin(np.pi * (x[hump] - 100.0) / 24.0)
+    flagged = rough_samples(z)
+    assert flagged[hump].any()
+    assert not flagged[x < 60.0].any() and not flagged[x > 170.0].any()
+
+
+def test_the_first_and_last_metres_at_a_city_anchor_are_never_patched():
+    """The settlement pad grades the anchor ring (16h); a road patch there
+    moved a waterfront class cell at Thorn (2026-09-16)."""
+    from .grade_routes import ANCHOR_CLEAR_M, over_cap_runs
+    chain = np.arange(0.0, 400.0, 1.83)
+    flag = np.zeros(len(chain) - 1, bool)
+    flag[3:6] = True            # a step 5 m from the start
+    flag[100:103] = True        # a step mid-way
+    runs = over_cap_runs(chain, flag)
+    kept = [(a, b) for a, b in runs if chain[a] >= ANCHOR_CLEAR_M and chain[min(b, len(chain) - 1)] <= chain[-1] - ANCHOR_CLEAR_M]
+    assert len(runs) == 2 and len(kept) == 1 and chain[kept[0][0]] > 150.0

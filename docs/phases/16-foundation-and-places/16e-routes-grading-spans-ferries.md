@@ -430,41 +430,47 @@ depth, a height), which 0066 allows.
   non-obvious calls, 16f's Starting state rewritten, the backlog rows
   absorbed here struck.
 
-## Owner check
+## Owner check (round 3, 2026-09-16; the ledger §2d has the numbers)
 
-**What you will see at this check** (plan §3, build only what is delivered):
-the ground, the water and the apron, plus the roads and fords on the ground
-and the ferries usable through their landing marker. Bridges, ferry boats and
-landings are drawn when 16h has fixed the runtime that draws them; here they
-are on the 2D map with hover information. No tracks, plants or buildings.
+**What you will see at this check:** the ground, the water and the apron,
+the eight major roads and their fords on the ground, the ferries usable
+through their landing marker. Bridges, decks and flights are on the 2D map
+as recoloured stretches of the road line (16h draws them in 3D). No
+tracks, plants or buildings.
 
-- The 2D map's `routes` layer first: does `stormhold-thorn` stay out of the
-  river; does `archon-gideon` take the southern high ground; is the
-  crossroads at `x=3.47&z=3.29` on dry ground with both roads through it?
-- Walk `route.road.helstrom-blackrose` from Helstrom (`?view=character&x=3.47&z=2.81&t=12:00`)
-  for ten minutes: does it read as a road (a bench, a surface, no 30°
-  scramble; a zigzag where the hill is long)?
-- Two more roads of your choosing: same question.
-- The 2D map's `graded sections` layer: are there few, are they short; does
-  each hover explain itself? Walk one.
-- The 2D map's `spans` layer: is every span a short crossing or a terrace
-  step, with no long viaduct left? Hover a bridge and a stair.
-- Two river fords: on the Gideon–Stormhold road (`?view=character&x=2.278&z=1.747&t=12:00`,
-  12 m wide, 1.1 m deep) and on the Blackwood road west of Gideon
-  (`x=0.313&z=3.030`, 13 m, 0.65 m): can you wade it; does the road ramp
-  down to the water's edge and up the far bank?
+- The 2D map (`?cat=1`): hover a road, a coloured stretch (a bridge, a
+  boardwalk, a flight), a crossing dot and, with `services` ticked, a
+  station: everything comes up in the one tooltip. The tooltip stays the same size
+  when you zoom.
+- Blackrose: the dotted ellipse with the blue fill is gone; only the dug
+  lake and the city dot remain.
+- Stormhold–Thorn: leaves Stormhold south of the lake, runs along the
+  south-west side of the river, crosses it once at `x=4.50&z=1.60` (a 34 m
+  bridge), then east along the mountain foot and north up the east coast
+  to Thorn. Walk `?view=character&x=3.7&z=0.64&t=12:00` east for ten
+  minutes: does it stay out of the river and off the deep marsh?
+- Gideon–Stormhold: fords the stream at `x=1.73&z=2.85` and goes north; no
+  swing east along the Archon road.
+- Soulrest (`x=0.52&z=6.5`) and Lilmoth (`x=3.5&z=6.3`): the road's last
+  leg comes straight in from the north / the north-west.
+- Two river fords: Gideon–Stormhold at `?view=character&x=1.73&z=2.85&t=12:00`
+  and the Blackwood road west of Gideon (`x=0.313&z=3.030`): can you wade
+  it; does the road ramp down to the water's edge and up the far bank?
 - One ferry, the Drowning Gate east landing (`?view=character&x=0.350&z=3.044&t=12:00`):
   walk to the pole with the label, press E: does the menu open; does paying
-  take you to the west landing (`x=0.525&z=3.191`); does a refusal read
-  right? (The Onkobra bond ferry at `x=1.334&z=3.080` is the other live one.
-  The Underway basin ferry is `unmatched`: the road no longer enters the
-  basin, a 16g call.)
-- The one span over 52 m: Stormhold–Thorn at chainage 8.6 km crosses a dry
-  hollow on a 200 m bridge (`x=5.9&z=1.0` on the 2D `spans` layer): steer
-  it with an authored line or a junction, or accept it.
-- The 2D map's `travel services` layer: do the ferry hops, the boat services
-  and the four placeholder rootworm stations join places a traveller would
-  want joined? (The rootworm stations move in 16g.)
+  take you to the west landing (`x=0.525&z=3.191`)?
+- Bumps: walk the Gideon–Soulrest road south from Gideon (`x=1.42&z=3.1`)
+  for five minutes: are the metre-high humps and trenches gone? (What is
+  left near water is the 22 m shore band no patch may touch, plus the
+  flights.)
+- **Four calls:** the long stepped ascents the router took where the
+  grader cannot follow (Blackwood road 518 m at `x=1.02&z=3.22`,
+  Stormhold–Thorn 434 m at `x=5.39&z=1.54` and 461 m at `x=6.07&z=1.01`,
+  the Tear pass 388 m at `x=6.42&z=0.62`): steer each with a pin round the
+  climb on the map, accept it, or ask for an authored line.
+- **One vault call:** the ledger's vault note (§2d): regenerate the
+  hydrology body rasters under `--refreeze` before any run that reaches
+  the water compile, or reconcile the graph's inputs first.
 
 ## Gotchas
 

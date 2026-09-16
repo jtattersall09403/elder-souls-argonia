@@ -265,6 +265,9 @@ export interface RegisteredRoute {
   /** Named routes with no solved geometry yet are `false`. */
   solved?: boolean;
   notes?: string;
+  /** The 4E 201 state of the way: `worn` | `decayed` | `broken` (registry). */
+  condition?: string;
+  conditionWhy?: string;
   sources: string[];
   aliases: string[];
   /**

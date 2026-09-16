@@ -54,7 +54,7 @@ SERVICES_PATH = REPO_ROOT / "world/sources/routes/travel-services.json"
 # Prose/policy blocks the map never shows; dropped so the browser payload is data.
 SERVICES_DROP = ("_", "policy", "operatorModel")
 
-FIELDS = ("name", "mode", "class", "from", "to", "confidence", "solved", "notes")
+FIELDS = ("name", "mode", "class", "from", "to", "confidence", "solved", "notes", "condition", "conditionWhy")
 
 
 def project(route: dict) -> dict:

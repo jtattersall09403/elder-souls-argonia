@@ -11,8 +11,10 @@ The major roads are solved on the frozen ground by `solve_major_routes` with
 a gradient-walled cost, so a road already contours and zigzags where it can.
 What is left is short: a terrace lip, a bench that has to be cut, a hollow
 that has to be filled. This module walks every published major road at one
-raw sample (1.83 m), finds each run of samples steeper than the class cap,
-and decides for each run from its measured shape:
+raw sample (1.83 m), finds each run of samples steeper than the class cap OR
+standing more than ROUGH_M off the road's running median (a bump, a trench,
+a terrace lip: owner 2026-09-16), and decides for each run from its measured
+shape:
 
 * **patch** — a capped, smoothed longitudinal profile pinned to the ground at
   both ends of the run fits inside the cut and fill limits and inside the
@@ -84,6 +86,18 @@ RUN_MERGE_GAP_M = 25.0         # over-cap runs closer than this are one run
 RUN_LANDING_M = 8.0            # each run is extended this far into good ground at both ends
 WIDEN_STEPS_M = (0.0, 20.0, 45.0, 90.0)   # a run that will not grade is retried as a longer ramp
 BANK_MAX_DEG = 30.0            # a channel bank this steep or less stays natural (a ford's approach); steeper is a stair
+# Roughness (owner 2026-09-16: small bumps, trenches and terrace steps of a
+# metre or two were left in and feel odd on foot). A sample that stands more
+# than ROUGH_M above or below the road's own ROUGH_WINDOW_M running median is
+# a choke point like an over-cap run and is graded the same way: the profile
+# smooths it to the envelope.
+ROUGH_M = 0.5
+ROUGH_WINDOW_M = 40.0
+# The ground inside a city's anchor ring is the settlement pad's (16h,
+# `grade_settlement_pads`), never a road patch's: a road's first and last
+# ANCHOR_CLEAR_M are left alone (2026-09-16: the two roads ending at Thorn's
+# waterfront anchor graded a cell of the water's class band 2 m above it).
+ANCHOR_CLEAR_M = 60.0
 
 
 # ---------------------------------------------------------------------------
@@ -221,7 +235,17 @@ def way_samples(way: dict, natural: np.ndarray, wet: np.ndarray) -> dict:
     iy = np.clip(np.round(ys).astype(int), 0, wet.shape[0] - 1)
     ix = np.clip(np.round(xs).astype(int), 0, wet.shape[1] - 1)
     return {"xs": xs, "ys": ys, "z": z, "ds": ds, "chain": chain, "deg": deg, "wet": wet[iy, ix],
-            "iy": iy, "ix": ix}
+            "iy": iy, "ix": ix, "rough": rough_samples(z)}
+
+
+def rough_samples(z: np.ndarray) -> np.ndarray:
+    """Samples that stand more than ROUGH_M off the profile's running median
+    over ROUGH_WINDOW_M: a bump, a trench, a terrace lip."""
+    if len(z) < 3:
+        return np.zeros(len(z), bool)
+    size = max(3, int(round(ROUGH_WINDOW_M / RAW_M)) | 1)
+    base = ndimage.median_filter(z, size=size, mode="nearest")
+    return np.abs(z - base) > ROUGH_M
 
 
 def _slug(way_id: str) -> str:
@@ -279,9 +303,17 @@ def author_patch(way: dict, smp: dict, a: int, b: int, ordinal: int) -> tuple[di
     return patch, window
 
 
-def prove_patch(patch: dict, natural: np.ndarray, ctx: tp.Context, cut_max: float) -> tuple[bool, str, float]:
-    """Apply the patch to a scratch window of the natural ground through the
-    chain's own machinery and run the invariants; returns (ok, reason, amp)."""
+def prove_patch(patch: dict, natural: np.ndarray, ctx: tp.Context, cut_max: float,
+                keep: np.ndarray | None = None) -> tuple[bool, str, float]:
+    """Apply the patch to a scratch window of `natural` (the ground as it
+    stands, earlier patches included) through the chain's own machinery and
+    run the invariants; returns (ok, reason, amp). With `keep` (an array the
+    same shape as `natural`) an accepted patch is written into it, so the
+    next patch is authored and proved on ground that includes this one:
+    that is how `apply_route_patches` applies them (cumulatively, in
+    order), so two patches that overlap agree instead of the later one
+    being dropped (2026-09-16: 26 of 118 were dropped that way, and the
+    choke points under them stayed)."""
     y0, y1, x0, x1 = tp.region_box(patch, natural.shape)
     # the scratch window must hold the shore guard's full reach, or a cell
     # the chain's apply refuses (inside the guard) is proved here as free
@@ -314,6 +346,8 @@ def prove_patch(patch: dict, natural: np.ndarray, ctx: tp.Context, cut_max: floa
     errs = tp.check_invariants(local, out, shifted, lctx)
     if errs:
         return False, errs[0], amp
+    if keep is not None:
+        keep[wy0:wy1, wx0:wx1] = out
     return True, "", amp
 
 
@@ -322,17 +356,27 @@ def _shift_stations(stations, dy: int, dx: int):
     return (ys - dy, xs - dx, *stations[2:])
 
 
-def grade_way(way: dict, natural: np.ndarray, ctx: tp.Context) -> dict:
-    """One way: its patches, its structure windows and the numbers."""
-    smp = way_samples(way, natural, ctx.wet)
+def grade_way(way: dict, natural: np.ndarray, ctx: tp.Context, scratch: np.ndarray | None = None,
+              anchor_clear_m: float = 0.0) -> dict:
+    """One way: its patches, its structure windows and the numbers. With
+    `scratch` (the ground with every earlier patch applied) each run is
+    authored on that ground and an accepted patch is applied into it;
+    `anchor_clear_m` leaves the way's two ends alone (a published road ends
+    at a city anchor, whose ring is the settlement pad's ground)."""
+    ground = natural if scratch is None else scratch
+    smp = way_samples(way, ground, ctx.wet)
     guard = ctx.shore_guard(RAW_M)[smp["iy"], smp["ix"]]
     cap = GRADIENT_CAP_DEG[way["kind"]]
     cut_max, _fill = MAX_OFFSET_M[way["kind"]]
     seg_wet = smp["wet"][:-1] | smp["wet"][1:]
-    flag = (smp["deg"] > cap) & ~seg_wet
+    seg_rough = smp["rough"][:-1] | smp["rough"][1:]
+    flag = ((smp["deg"] > cap) | seg_rough) & ~seg_wet
     patches, windows, banks = [], [], []
     ordinal = 0
+    length_m = float(smp["chain"][-1])
     for a, b in over_cap_runs(smp["chain"], flag):
+        if smp["chain"][a] < anchor_clear_m or smp["chain"][min(b, len(smp["chain"]) - 1)] > length_m - anchor_clear_m:
+            continue                       # the settlement pad's ground (16h)
         chosen, window, reason = None, None, ""
         first_window = None
         if guard[a:b].all():
@@ -361,7 +405,7 @@ def grade_way(way: dict, natural: np.ndarray, ctx: tp.Context) -> dict:
             if patch is None:
                 reason = window["reason"]
                 continue
-            ok, reason, amp = prove_patch(patch, natural, ctx, cut_max)
+            ok, reason, amp = prove_patch(patch, ground, ctx, cut_max, keep=scratch)
             if ok:
                 patch["maxDeltaM"] = round(amp + 0.05, 3)
                 chosen = patch
@@ -369,6 +413,9 @@ def grade_way(way: dict, natural: np.ndarray, ctx: tp.Context) -> dict:
         if chosen is not None:
             patches.append(chosen)
             ordinal += 1
+            if scratch is not None:
+                # the next run on this way is authored on the ground as it now stands
+                smp["z"] = sample_bilinear(scratch, smp["xs"], smp["ys"]).astype(np.float64)
         elif (reason.startswith("channels") or reason.startswith("water")) \
                 and (first_window or window or {}).get("worstDeg", 99) <= BANK_MAX_DEG:
             # the run lies on a channel's bank or a body's edge, where no
@@ -391,29 +438,23 @@ def grade_way(way: dict, natural: np.ndarray, ctx: tp.Context) -> dict:
     over_before = float(smp["ds"][smp["deg"] > cap].sum())
     return {"id": way["id"], "kind": way["kind"], "capDeg": cap,
             "lengthM": round(float(smp["chain"][-1]), 2), "overCapM": round(over_before, 1),
+            "roughM": round(float(smp["ds"][seg_rough].sum()), 1),
             "worstDeg": round(float(smp["deg"].max()) if len(smp["deg"]) else 0.0, 2),
             "wetSamples": int(smp["wet"].sum()), "patches": patches, "windows": windows, "banks": banks}
 
 
-def declare_overlaps(patches: list[dict], shape) -> list[dict]:
-    """Two roads sharing a corridor (or meeting at a junction) grade the same
-    ground: the first patch wins and the later one is DROPPED, because a
-    profile authored on the natural ground cannot be re-proved on ground the
-    first patch already moved. Returns the kept list; each kept patch names
-    the ids it absorbed in `source.absorbed`."""
-    kept: list[dict] = []
+def declare_order(patches: list[dict], shape) -> list[dict]:
+    """Every patch is kept; a patch whose region overlaps an earlier one
+    declares it in `after` (invariant 5), which is the order they were
+    authored and proved in (`grade_all` works on one scratch array), and the
+    order `apply_route_patches` applies them in."""
     boxes: list = []
-    for p in patches:
+    for k, p in enumerate(patches):
         box = tp.region_box(p, shape)
-        hit = next((k for k, b in enumerate(boxes) if tp._intersects(box, b)), None)
-        if hit is not None:
-            kept[hit]["source"].setdefault("absorbed", []).append(p["id"])
-            continue
-        kept.append(p)
-        boxes.append(box)
-    for k, p in enumerate(kept):
         p["order"] = k
-    return kept
+        p["after"] = [patches[j]["id"] for j, b in enumerate(boxes) if tp._intersects(box, b)]
+        boxes.append(box)
+    return patches
 
 
 # ---------------------------------------------------------------------------
@@ -449,11 +490,11 @@ def write_report(stats: list[dict], path: Path = REPORT_PATH) -> None:
              f"{sum(s['overCapM'] for s in stats):.0f} m. Route-grade patches: {n_patch} over {patch_m:.0f} m. "
              f"Structure windows: {n_win}. Channel banks left natural (a ford's approach, at most "
              f"{BANK_MAX_DEG:.0f} deg): {sum(len(s.get('banks', [])) for s in stats)}.", "", "## Per way", "",
-             "| way | class | length m | over-cap m before | worst deg | patches | patched m | windows | banks left natural |",
-             "|---|---|---:|---:|---:|---:|---:|---:|---:|"]
+             "| way | class | length m | over-cap m before | rough m before | worst deg | patches | patched m | windows | banks left natural |",
+             "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for s in stats:
         pm = sum(p["source"]["toM"] - p["source"]["fromM"] for p in s["patches"])
-        lines.append(f"| `{s['id']}` | {s['kind']} | {s['lengthM']:.0f} | {s['overCapM']:.0f} | {s['worstDeg']:.1f} | "
+        lines.append(f"| `{s['id']}` | {s['kind']} | {s['lengthM']:.0f} | {s['overCapM']:.0f} | {s.get('roughM', 0):.0f} | {s['worstDeg']:.1f} | "
                      f"{len(s['patches'])} | {pm:.0f} | {len(s['windows'])} | {len(s.get('banks', []))} |")
     lines += ["", "## Survivors", "",
               "Ways with a window a patch could not take; `author_route_structures` builds the piece.", "",
@@ -467,8 +508,9 @@ def write_report(stats: list[dict], path: Path = REPORT_PATH) -> None:
 
 
 def grade_all(natural: np.ndarray, ctx: tp.Context, way_list: list[dict] | None = None) -> tuple[list[dict], list[dict]]:
-    stats = [grade_way(w, natural, ctx) for w in (way_list if way_list is not None else ways())]
-    patches = declare_overlaps([p for s in stats for p in s["patches"]], natural.shape)
+    scratch = natural.copy()
+    stats = [grade_way(w, natural, ctx, scratch, ANCHOR_CLEAR_M) for w in (way_list if way_list is not None else ways())]
+    patches = declare_order([p for s in stats for p in s["patches"]], natural.shape)
     errs = tp.validate(patches, natural.shape)
     if errs:
         raise SystemExit("grade_routes: the authored patches fail validation: " + "; ".join(errs[:5]))

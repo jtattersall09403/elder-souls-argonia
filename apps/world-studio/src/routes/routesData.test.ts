@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
-  METRES_PER_HYDRO_PX, crossingLabel, encodeRoutesUrl, gradeLabel, metresToPx, parseRouteLayers,
-  parseRoutesUrl, pixelLengthKm, selectMajor, selectMinor, serviceLabel, stationLabel,
-  structureLabel, structurePx,
+  METRES_PER_HYDRO_PX, crossingTip, encodeRoutesUrl, gradeTip, metresToPx, parseRouteLayers,
+  parseRoutesUrl, pixelLengthKm, selectMajor, selectMinor, serviceTip, stationTip,
+  structureTip, structurePx,
   type RouteGeometry, type RouteGrade, type RouteStructure, type RoutesIndexBundle,
   type TravelService, type TravelStation, type WaterCrossing,
 } from "./routesData";
@@ -79,7 +79,10 @@ describe("route structures (worldgen.compile_route_structures)", () => {
       pieces: 2, riseM: -4.25, spanM: 30, why: "because", pointsM: [[0, 0], [METRES_PER_HYDRO_PX, 0]],
     };
     expect(structurePx(s)).toEqual([metresToPx([0, 0]), metresToPx([METRES_PER_HYDRO_PX, 0])]);
-    expect(structureLabel(s)).toBe("stair — 2 pieces, 4.3 m rise over 30 m");
+    const tip = structureTip(s);
+    expect(tip.title).toBe("stair on track.x.y");
+    expect(tip.rows).toContainEqual(["size", "4.3 m rise over 30 m"]);
+    expect(tip.rows).toContainEqual(["pieces", "2 pieces (stone-rural)"]);
   });
 
   it("keeps every structure on a way the map actually draws", () => {
@@ -120,54 +123,63 @@ describe("the four route sub-layers (16e deliverable 8)", () => {
     why: "the ground ran over the cap", lineM: [[0, 0], [10, 0]],
   };
 
-  it("labels a grade patch from the record, before → after, with the applied delta", () => {
-    const t = gradeLabel(grade);
-    expect(t).toContain("route.road.x");
-    expect(t).toContain("chainage 21–42 m, 21 m long");
-    expect(t).toContain("gradient 8.08° → 7.41° (cap 8.0°)");
-    expect(t).toContain("max |delta| 0.57 m");
-    expect(t).toContain("shoulder 2.0 m");
-    expect(t).toContain("the ground ran over the cap");
+  it("builds a grade tip from the record, before → after, with the applied delta", () => {
+    const tip = gradeTip(grade);
+    const flat = tip.rows.map(([k, v]) => `${k}: ${v}`).join("\n");
+    expect(tip.title).toContain("route.road.x");
+    expect(flat).toContain("chainage: 21–42 m, 21 m long");
+    expect(flat).toContain("gradient: 8.08° → 7.41° (cap 8.0°)");
+    expect(flat).toContain("max |delta|: 0.57 m");
+    expect(flat).toContain("shoulder: 2.0 m");
+    expect(flat).toContain("the ground ran over the cap");
   });
 
   it("says which number it is showing when the apply receipt is absent", () => {
-    expect(gradeLabel({ ...grade, maxAbsDeltaM: null })).toContain("0.95 m (authored bound)");
+    expect(gradeTip({ ...grade, maxAbsDeltaM: null }).rows).toContainEqual(["max |delta|", "0.95 m (authored bound)"]);
   });
 
-  it("labels a crossing with its band, water, span, depth and the routes it serves", () => {
+  it("builds a crossing tip with its band, water, span, depth and the routes it serves", () => {
     const c: WaterCrossing = {
       id: "crossing.major.001", water: "lake", band: "ferry", spanM: 411.3, maxDepthM: 6.84,
       entityId: "body.221-1650", entityKind: "tarn-upland", positionM: [430.9, 3092.6],
       banks: [[524.9, 3191.4], [350.2, 3044.1]], servesRoutes: ["route.road.gideon-blackwood-road"],
       wayName: "the Blackwood Road", nearestPlaceName: "The Drowning Gate",
     };
-    const t = crossingLabel(c);
-    expect(t).toContain("crossing.major.001");
-    expect(t).toContain("ferry — lake on the Blackwood Road");
-    expect(t).toContain("411 m across, 6.84 m deep");
-    expect(t).toContain("body.221-1650 (tarn-upland)");
-    expect(t).toContain("serves route.road.gideon-blackwood-road");
-    expect(t).toContain("near The Drowning Gate");
+    const tip = crossingTip(c);
+    expect(tip.title).toBe("ferry — lake on the Blackwood Road");
+    expect(tip.rows).toContainEqual(["id", "crossing.major.001"]);
+    expect(tip.rows).toContainEqual(["size", "411 m across, 6.84 m deep"]);
+    expect(tip.rows).toContainEqual(["water", "body.221-1650 (tarn-upland)"]);
+    expect(tip.rows).toContainEqual(["serves", "route.road.gideon-blackwood-road"]);
+    expect(tip.rows).toContainEqual(["near", "The Drowning Gate"]);
   });
 
-  it("labels a service by kind, fare, operator and status, and a station by its berth", () => {
+  it("builds a service tip by kind, fare, operator and status, and a station tip by its berth", () => {
     const sv: TravelService = {
       id: "boat.alten-corimont-helstrom", serviceKind: "boat", form: "station-run",
       status: "active", fare: { gold: 5 }, operator: { role: "boat owner" },
       hops: [{ from: "station.a", to: "station.b" }],
     };
-    const t = serviceLabel(sv);
-    expect(t).toContain("boat (station-run)");
-    expect(t).toContain("5 gold");
-    expect(t).toContain("operator: boat owner");
-    expect(t).toContain("status: active");
+    const tip = serviceTip(sv);
+    expect(tip.title).toBe("boat (station-run): boat.alten-corimont-helstrom");
+    expect(tip.rows).toContainEqual(["fare", "5 gold"]);
+    expect(tip.rows).toContainEqual(["operator", "boat owner"]);
+    expect(tip.rows).toContainEqual(["status", "active"]);
 
     const st: TravelStation = {
       id: "ferry-landing.drowning-gate.east", kind: "ferry-landing", positionM: [350.2, 3044.1],
       status: "active", berth: { depthM: 2.64, floats: true },
     };
-    const label = stationLabel(st);
-    expect(label).toContain("ferry-landing");
-    expect(label).toContain("berth 2.64 m deep, floats");
+    const s = stationTip(st);
+    expect(s.title).toBe("ferry-landing: ferry-landing.drowning-gate.east");
+    expect(s.rows).toContainEqual(["berth", "berth 2.64 m deep, floats"]);
+  });
+
+  it("tolerates a station whose berth numbers are null (the crash of 2026-09-16)", () => {
+    const st: TravelStation = {
+      id: "ferry-landing.x", kind: "ferry-landing", positionM: null, status: "unmatched",
+      berth: { depthM: null, jettyM: null, floats: null },
+    };
+    expect(stationTip(st).rows).not.toContainEqual(expect.arrayContaining(["berth"]));
   });
 });

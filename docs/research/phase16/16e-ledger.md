@@ -60,6 +60,107 @@ defects fixed (a citation to a page that does not exist, a road named after
 a ruin a province away, a coast road mis-tiered as attested). Three
 load-bearing calls are the owner's (dossier § Open calls).
 
+### 2d. Round 3, 2026-09-16 (owner walk of the 2D map; decision [0069](../../decisions/0069-the-road-network-is-six-legs-and-two-exits.md))
+
+**The road set.** Helstrom–Blackrose and Alten Corimont–Stormhold are cut
+(the sources reach both by water and root); the coast road is a `track` for
+16g; the crossroads junction and the Underway basin ferry go with the
+Helstrom road. Eight major roads remain: the six city legs and the two
+attested exits.
+
+**Root cause of the wandering and the bumps.** The router walled every
+step over the 8° cap between neighbouring analysis cells (a 1 m step cost
+×335 and a 2 m step ×1,300; 40 % of the province's cells have such a step
+to a neighbour), so the lines ran kilometres round 1–2 m terraces and kept
+the bumps they could not avoid; the cell's own steepness then multiplied
+the step's. Now (`routes.grade_factor` with `gradable_m`, `GRADE_OVER`):
+a step a route-grade patch can take is earthworks ADDED to the ground
+cost; only a rise over `GRADABLE_STEP_M` (5 m in one 5.48 m step) is a
+wall; the cell steepness term is mild; deep marsh costs ×6, not ×16. The
+lines, before → after:
+
+| Road | Round 2 km | Round 3 km | Over-cap on the grid, m |
+|---|---:|---:|---:|
+| stormhold-thorn | 10.99 | 8.80 | 410 |
+| gideon-stormhold | 6.62 | 4.50 | 19 |
+| archon-gideon | 7.59 | 6.24 | 0 |
+| gideon-soulrest | 6.77 | 5.86 | 8 |
+| soulrest-blackrose | 3.18 | 3.01 | 0 |
+| blackrose-lilmoth | 2.11 | 1.64 | 27 |
+| gideon-blackwood-road | 3.56 | 2.50 | 165 |
+| thorn-tear-road | 1.71 | 1.25 | 78 |
+
+**Steers.** Stormhold–Thorn: the round-2 north-of-the-river pins are gone;
+eight pins hold it on the flat south-west of river.889-484 (south of the
+lake east of Stormhold), across the river once at 4496 E 1601 S (a 34 m
+bridge), then east along the mountain foot and up the east coast strip to
+Thorn: 8.8 km, 5 channel samples, no swing through the coastal swamp.
+Gideon–Stormhold: a pin at 1733 E 2846 S takes it over the stream
+(reach.949-1591, ford) and north. Soulrest and Lilmoth: the pins became
+**approach pins** (a straight 30 m corridor for the final leg): the plain
+pin was honoured and the road still looped round to the flat side.
+
+**Crossings and spans.** Crossings are derived for the major roads only
+(46: 22 river, 5 lake, 19 marsh; 25 span band, 21 ford), on every flowing
+reach or standing body the line meets whatever the compiled depth reads at
+that texel. A river running through a marsh body is the marsh's own
+crossing (owner 2026-09-16: the boardwalk over the fen crosses the river in
+it at the same level), so the Thorn road crosses the fen on one deck.
+Spans are authored FROM the crossing record bank to bank (8 bridges, 18
+decks); a dry over-cap window is a flight (7 stairs, 7 stepped ascents),
+never a bridge: round 2 had 25 bridges of 29 spans over dry ground.
+`author_route_structures` is a pure function of the ground, the roads and
+the crossings (the prior-window carry, the obstacle trimming and the
+SpanWater season logic are gone: 1,248 → 748 lines).
+
+**Grading.** Roughness is a choke point (`ROUGH_M` 0.5 m off a 40 m running
+median); patches are authored one after another on one scratch array and
+overlapping ones declare their order (26 of 118 were being dropped as
+"absorbed" in round 2, 11 of them next to a neighbour on the same road).
+A road's first and last 60 m (`ANCHOR_CLEAR_M`) are never patched: that
+ground is the settlement pad's (16h). A patch at Thorn's waterfront
+anchor had lifted a water-class cell 2 m above its water. The numbers in
+§3 are from the final run. What is still over the cap on the graded ground and why, per
+road (samples at 1.83 m): the structure windows carry most of it (Thorn
+344 of 519), the 22 m water shore band where no patch may move the ground
+carries the next share (Thorn 90, Blackwood 105, Gideon–Stormhold 86).
+6–70 samples per road sit outside both: a backlog row.
+
+**Reds for the owner.** Four stepped ascents over 380 m stand where the
+router took a long climb the grader cannot take (Blackwood road 518 m at
+`x=1.02&z=3.22`, Stormhold–Thorn 434 m at `x=5.39&z=1.54` and 461 m at
+`x=6.07&z=1.01`, the Tear pass 388 m at `x=6.42&z=0.62`); a pin round the
+climb or an authored line is the honest fix, chosen on the map.
+
+**The map.** One tooltip (the map's own, outside the zoom transform so it
+never scales), fed by the routes layer's hover; spans and flights as
+recoloured stretches of the road line; the `services` crash (a station
+with `null` berth numbers) fixed and tested; the Blackrose lake
+placeholder (a dashed ellipse `hydrology_graph.write_layers` drew for the
+declared, then-undug lake) removed from the code; its box in the two
+committed overlay images is repainted from the water record (the images are
+only regenerated by the 16a derive; see the vault note below).
+
+**Vault note (defect, mine, 2026-09-16).** Re-running `hydrology_graph
+derive` to redraw the overlays overwrote the vault's
+`hydrology-graph-solution.npz` and `hydrology-graph-bodies.npz` (not in
+git; read by `patch_water`, `terrain_patches`, `terrain_preconditions` and
+`compile_water`). The solution file was restored byte-identical from the
+carve's copy (`province-refined/channels-pass1.npz`). The body rasters
+could not be: the re-derive differs from the frozen graph (57 small bodies
+fewer, 54 levels moved by up to 1.25 m; the graph's inputs moved after the
+freeze). Two candidates were measured against the chain's own gate: the
+re-derive passes `patch_water` (natural, 119 patches, 0 problems) and
+`patch_water --graded` (0 problems); a rebuild from the frozen compile's
+`water-pass1.npz` extents fails the natural gate on two levee patches. The
+re-derive is installed; the rebuild sits beside it as
+`hydrology-graph-bodies.rebuilt-2026-09-16.npz`. Consequence: a routine
+run that reaches `compile_water` would realise body extents from a raster
+missing 57 bodies the record lists, so **before the next such run the
+rasters must be regenerated under `--refreeze` or the graph's inputs
+reconciled** (backlog row; the owner decides when). Nothing in 16e's
+ladder reads them.
+
 ## 3. Grading (the natural array is untouched)
 
 | Measure | Value |

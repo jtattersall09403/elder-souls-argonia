@@ -67,15 +67,23 @@ MAJOR_CLASSES = ("road", "trunk")
 CAP_DEG = {"road": 8.0, "trunk": 8.0}          # = grade_routes.GRADIENT_CAP_DEG["road"]
 
 # --- per-cell ground costs (multipliers on a 1.0 base) ----------------------
-SLOPE_LINEAR = 12.0        # x tan(slope): gentle ground preferred
-SLOPE_QUADRATIC = 30.0     # x (tan/0.5)^2: cliff faces near-prohibitive
+# The cell's own steepness (any direction: a side-hill cut). Mild on purpose:
+# the longitudinal gradient is priced per STEP below (`grade_factor` with
+# GRADABLE_STEP_M), and the two multiply, so a steep cell term on top of the
+# step term made a 2 m terrace lip cost a kilometre of road (2026-09-16).
+SLOPE_LINEAR = 6.0         # x tan(slope): gentle ground preferred
+SLOPE_QUADRATIC = 2.0      # x tan(slope)^2: a cliff face costs, a bench does not
+# The biggest rise one analysis step may take on a road: what a route-grade
+# patch can ramp (the fill cap plus a cut of the same order). Steeper is a
+# cliff and a wall to the router.
+GRADABLE_STEP_M = 5.0
 COST_MOUNTAIN = 3.0        # above MOUNTAIN_M
 MOUNTAIN_M = 40.0
 COST_JUNGLE = 2.0          # region 13: dense canopy slows roads
 COST_WET = 3.0             # measured shallow standing water off any recorded body
 COST_WET_SEASON = 2.0      # ground the wet season floods
 COST_MARSH_FRINGE = 3.0    # marsh-fringe, mudflat bodies
-COST_MARSH_DEEP = 16.0     # marsh-deep, swamp, backswamp: a dry detour wins unless it is very long
+COST_MARSH_DEEP = 6.0      # marsh-deep, swamp, backswamp: a dry detour wins up to ~6x the length; longer, a boardwalk is built (was 16: the Thorn road looped 2.7 km round 300 m of fen, 2026-09-16)
 COST_BANK = 4.0            # the cells beside a flowing reach: its carved bank, which grading may never touch
 BANK_CELLS = 2             # how many analysis cells (5.48 m) of bank are priced
 # --- crossing prices, per cell inside the water (a wide crossing is more
@@ -104,6 +112,12 @@ PAD_MIN_PX = 120
 # roads heading the same way share one road and split later instead of
 # running side by side. Roads are solved longest first.
 ROAD_REUSE = 0.35
+# An APPROACH pin (owner 2026-09-16: "Soulrest from the north, Lilmoth from
+# the north-west") fixes the side a road enters a city from. The leg between
+# the pin and its city is solved inside a straight corridor this wide, so the
+# road cannot pass the pin and then loop round to enter from another side
+# because a flat cell round the back was cheaper.
+APPROACH_CORRIDOR_M = 30.0
 
 
 # ---------------------------------------------------------------------------
@@ -164,7 +178,7 @@ def cost_surface(s: ProvinceSurvey) -> np.ndarray:
     raster and the graph (0066); the only sampled water is the measured
     wet mask, which is a measurement."""
     slope = np.tan(np.radians(s.slope_grid))
-    cost = 1.0 + slope * SLOPE_LINEAR + SLOPE_QUADRATIC * (slope / 0.5) ** 2
+    cost = 1.0 + slope * SLOPE_LINEAR + SLOPE_QUADRATIC * slope ** 2
     cost = np.where(s.height_grid > MOUNTAIN_M, cost * COST_MOUNTAIN, cost)
     cost = np.where(s.region_grid == 13, cost * COST_JUNGLE, cost)
     cost = np.where(s.wet_season_grid & ~s.wet_grid, cost * COST_WET_SEASON, cost)
@@ -200,7 +214,7 @@ def solve_leg(cost: np.ndarray, height: np.ndarray, px_m: float, cap_deg: float,
               start: tuple[int, int], goal: tuple[int, int],
               box: tuple[int, int, int, int] | None = None) -> list[tuple[int, int]] | None:
     """Least-cost path from `start` to `goal` (both (col, row)) where each
-    step costs `run * mean(cell costs) * grade_factor(dz, run, cap)`. The A*
+    step costs `run * (mean(cell costs) + grade_factor(dz, run, cap) - 1)`. The A*
     heuristic is the straight-line run at the minimum cell cost inside the
     box, which is admissible because every multiplier is >= 1. Returns the
     px list, ends included, or None when no finite path exists."""
@@ -238,8 +252,14 @@ def solve_leg(cost: np.ndarray, height: np.ndarray, px_m: float, cap_deg: float,
                 if not np.isfinite(cn):
                     continue
                 run = (1.4142135623730951 if dy and dx else 1.0) * px_m
-                nd = d + run * 0.5 * (cyx + cn) * float(
-                    grade_factor(float(sub_h[ny, nx]) - zyx, run, cap_deg))
+                gf = float(grade_factor(float(sub_h[ny, nx]) - zyx, run, cap_deg, GRADABLE_STEP_M))
+                if not np.isfinite(gf):
+                    continue
+                # the gradient surcharge ADDS to the ground cost (earthworks
+                # on top of the ground), it does not multiply it: multiplied,
+                # a terrace face's own steepness times its step made one
+                # 4 m lip cost a kilometre of flat road (2026-09-16)
+                nd = d + run * (0.5 * (cyx + cn) + (gf - 1.0))
                 if nd < dist[ny, nx]:
                     dist[ny, nx] = nd
                     prev[ny, nx] = y * ww + x
@@ -256,19 +276,36 @@ def solve_leg(cost: np.ndarray, height: np.ndarray, px_m: float, cap_deg: float,
     return out
 
 
+def corridor_cost(cost: np.ndarray, a: tuple[int, int], b: tuple[int, int],
+                  half_width_px: float) -> np.ndarray:
+    """`cost` with every cell farther than `half_width_px` from the segment
+    a-b (both (col, row)) walled off: the straight final approach into a
+    city an approach pin asks for."""
+    h, w = cost.shape
+    cols, rows = np.meshgrid(np.arange(w, dtype=np.float64), np.arange(h, dtype=np.float64))
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    seg2 = float(dx * dx + dy * dy)
+    t = np.zeros_like(cols) if seg2 == 0.0 else np.clip(((cols - a[0]) * dx + (rows - a[1]) * dy) / seg2, 0.0, 1.0)
+    d = np.hypot(cols - (a[0] + t * dx), rows - (a[1] + t * dy))
+    return np.where(d <= half_width_px, cost, np.inf)
+
+
 def solve_via(cost: np.ndarray, height: np.ndarray, px_m: float, cap_deg: float,
-              points: list[tuple[int, int]]) -> list[tuple[int, int]]:
+              points: list[tuple[int, int]],
+              corridors: list[bool] | None = None) -> list[tuple[int, int]]:
     """Solve a road through an ordered list of points (start, vias..., goal),
-    boxed first and on the whole grid if the box has no path."""
+    boxed first and on the whole grid if the box has no path. `corridors[i]`
+    solves leg i inside the APPROACH_CORRIDOR_M straight corridor."""
     h, w = cost.shape
     path: list[tuple[int, int]] = []
-    for a, b in zip(points[:-1], points[1:]):
+    for i, (a, b) in enumerate(zip(points[:-1], points[1:])):
         pad = max(PAD_MIN_PX, int(PAD_FRACTION * math.hypot(b[0] - a[0], b[1] - a[1])))
         box = (max(0, min(a[1], b[1]) - pad), min(h, max(a[1], b[1]) + pad + 1),
                max(0, min(a[0], b[0]) - pad), min(w, max(a[0], b[0]) + pad + 1))
-        leg = solve_leg(cost, height, px_m, cap_deg, a, b, box)
+        leg_cost = corridor_cost(cost, a, b, APPROACH_CORRIDOR_M / px_m) if corridors and corridors[i] else cost
+        leg = solve_leg(leg_cost, height, px_m, cap_deg, a, b, box)
         if leg is None:
-            leg = solve_leg(cost, height, px_m, cap_deg, a, b, None)
+            leg = solve_leg(leg_cost, height, px_m, cap_deg, a, b, None)
         if leg is None:
             raise SystemExit(f"solve_major_routes: no finite path from {a} to {b}: a wall "
                              f"(a fall, a chute) closes every line; author the road or fix the record")
@@ -305,17 +342,26 @@ def endpoints(anchors_doc: dict, w: int, h: int) -> dict[str, tuple[int, int]]:
 
 
 def road_points(road: dict, ends: dict[str, tuple[int, int]], junctions: list[dict],
-                s: ProvinceSurvey) -> list[tuple[int, int]]:
-    """start, the junctions this road passes through (ordered by distance
-    from the start), goal."""
+                s: ProvinceSurvey) -> tuple[list[tuple[int, int]], list[bool]]:
+    """(start, the junctions and pins this road passes through ordered by
+    distance from the start, goal) and, per leg, whether it is an approach
+    corridor: the leg between an `approach` pin and the nearer of the road's
+    two ends."""
     a, b = ends[road["from"]], ends[road["to"]]
     vias = []
     for j in junctions:
         if road["id"] in j["roads"]:
             row, col = s.grid_px(float(j["positionM"][0]), float(j["positionM"][1]))   # (row, col)
-            vias.append((col, row))                                                  # the solver's (col, row)
-    vias.sort(key=lambda p: math.hypot(p[0] - a[0], p[1] - a[1]))
-    return [a, *vias, b]
+            vias.append(((col, row), bool(j.get("approach"))))                       # the solver's (col, row)
+    vias.sort(key=lambda v: math.hypot(v[0][0] - a[0], v[0][1] - a[1]))
+    points = [a, *(p for p, _ in vias), b]
+    corridors = [False] * (len(points) - 1)
+    for k, (p, approach) in enumerate(vias, 1):
+        if not approach:
+            continue
+        to_start = math.hypot(p[0] - a[0], p[1] - a[1]) <= math.hypot(p[0] - b[0], p[1] - b[1])
+        corridors[0 if to_start else len(points) - 2] = True
+    return points, corridors
 
 
 def measure(px: list[tuple[int, int]], s: ProvinceSurvey, cap_deg: float) -> dict:
@@ -357,7 +403,7 @@ def solve_all(s: ProvinceSurvey, roads: list[dict], anchors_doc: dict,
             px = [tuple(p) for p in to_px(override, s)]
             how = "authored"
         else:
-            px = solve_via(cost, height, px_m, cap, road_points(road, ends, junctions, s))
+            px = solve_via(cost, height, px_m, cap, *road_points(road, ends, junctions, s))
             how = "solved"
         rec = {"id": road["id"], "name": road.get("name"), "class": road["class"],
                "from": road["from"], "to": road["to"],

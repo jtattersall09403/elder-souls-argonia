@@ -53,14 +53,17 @@ inferred. All live.
   The rename waits for 16g’s naming pass, because two catalogue records repeat the name in prose that must be rewritten and text-reviewed with it.
 - The coast road's confidence was `CANON_DERIVED` with no attesting page; now `LORE_INFERRED`.
 
-## Open calls for the owner (load-bearing)
+## Open calls, decided by the owner (2026-09-16, decision 0069)
 
-1. `argonia-4e201-state.md` §6 puts Alten Corimont ON the northern trunk
-   (Stormhold → Tenmar Wall → Alten Corimont → Riverwalk → Thorn); the
-   registry makes Stormhold–Thorn direct with a spur to Corimont, and the
-   owner's 2026-09-16 steer sends the trunk north of the river. One must win.
-2. Archon–Gideon and Helstrom–Blackrose: canon says river and root, not
-   road, across the heartland. Keep them as roads (the acceptance rule wants
-   eight cities joined by legs that may be ferried), or re-type their middle
-   legs to boardwalk-and-ferry with `conditionSections`.
-3. Alten Corimont's land link: a local track/boardwalk (class `track`), not a road.
+1. Alten Corimont is reached by water and root, never by a main road: the
+   Alten Corimont–Stormhold road is cut (a track may reach it in 16g). The
+   `argonia-4e201-state.md` §6 trunk reading (Stormhold → Tenmar Wall → Alten
+   Corimont → Riverwalk → Thorn) does not win; the Stormhold–Thorn trunk
+   runs along the south side of river.889-484 and crosses once at the
+   mountain foot.
+2. Helstrom is reached by river and root: the Helstrom–Blackrose road is cut
+   and the crossroads with it. Gideon–Archon stays a road, `broken` in the
+   middle: a doomed Imperial project across the interior.
+3. The Soulrest–Lilmoth coast road is a stage-counted `track`, solved with
+   the minor network; the main roads are the six city legs and the two
+   attested exit roads (the Blackwood Road, the Tear road).

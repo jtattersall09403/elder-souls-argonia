@@ -13,11 +13,12 @@ re-run in a minute.
 
 WHAT A CROSSING IS
 ------------------
-A contiguous run of way samples standing in NON-SEA water deeper than
-`DEEP_M`, read from the SHIPPED water record (decision 0066): the entity under
-the sample comes from `ShippedWater.water_at`, its kind and id come from the
+A contiguous run of way samples standing in NON-SEA water on the record:
+any flowing reach or standing body the way meets, and a marsh body where the
+compiled depth is over `DEEP_M` (see `_crossing_cell`). The entity under the
+sample comes from `ShippedWater.water_at`, its kind and id come from the
 signed hydrology graph, and only the depth is measured, on the compiled
-surface raster. Nothing here re-runs the water compile or decides "river",
+surface raster. Major roads only: the minor network is 16g's. Nothing here re-runs the water compile or decides "river",
 "lake" or "sea" for itself. `spanM` is the arc length of that run along the way — the
 distance the traveller must actually get across. `maxDepthM` is the deepest
 sample on it. Both are measured; nothing here is inferred from a name.
@@ -139,6 +140,24 @@ def _densify(way: dict) -> list[tuple[float, float]]:
     return pts
 
 
+def _crossing_cell(sw, rec: dict | None, depth_m: float) -> bool:
+    """Is this way sample standing in water a traveller has to cross?
+
+    A flowing reach or a standing body on the record is a crossing wherever
+    the way meets it, whatever the compiled depth reads at that texel: the
+    road line crosses the mapped river, so the map must show a crossing
+    there (owner 2026-09-16: roads crossed streams with no crossing record
+    because a narrow channel read under `DEEP_M` at one texel). A marsh
+    body is an AREA the road may run through on ground that is dry most of
+    the year, so there the measured depth still decides.
+    """
+    if rec is None or rec.get("kind") == "ocean":
+        return False
+    if sw.reach(rec.get("id")) is not None or rec.get("kind") in LAKE_KINDS:
+        return True
+    return depth_m > DEEP_M
+
+
 def _label(sw, entity_id: str, kind: str) -> str:
     """river / lake / marsh, from the RECORD — never from a raster."""
     if sw.reach(entity_id) is not None:
@@ -156,7 +175,11 @@ def derive(sw=None) -> list[dict]:
     pa = np.array([[p[2], p[3]] for p in places]) if places else None
 
     runs: list[dict] = []
-    for fname in ("routes.json", "routes-minor.json"):
+    # The MAJOR roads only (owner 2026-09-16): the minor lines on this ground
+    # are the stale Phase 11 solve that 16g re-solves, and their crossings
+    # were drawing over the map as if they were decided. 16g derives its own
+    # when its tracks exist.
+    for fname in ("routes.json",):
         doc = json.loads((PROVINCE / fname).read_text(encoding="utf-8"))
         ways = list(doc.get("routes") or []) + list(doc.get("tracks") or [])
         for way in ways:
@@ -169,7 +192,7 @@ def derive(sw=None) -> list[dict]:
                 iy = min(max(int(round(zm / mpp)), 0), h - 1)
                 ix = min(max(int(round(xm / mpp)), 0), w - 1)
                 d = float(depth[iy, ix])
-                if rec is not None and rec.get("kind") != "ocean" and d > DEEP_M:
+                if _crossing_cell(sw, rec, d):
                     if run is None:
                         run = {"way": way, "file": fname, "pts": [], "dep": [], "ent": [],
                                "banks": [prev_dry if prev_dry is not None else (xm, zm), None]}
@@ -248,8 +271,9 @@ def document(rows: list[dict]) -> dict:
         return {b: sum(1 for r in rs if r["band"] == b) for b in ("ferry", "span", "ford")}
 
     return {
-        "_": ("Every place a way stands in non-sea water deeper than "
-              f"{DEEP_M} m, read from the shipped water record (the entity "
+        "_": ("Every place a MAJOR road meets a flowing reach or a standing "
+              f"body on the water record, or stands in marsh deeper than {DEEP_M} m "
+              "(the entity "
               "and its kind come from the signed hydrology graph; only the "
               "depth is measured). `banks` are the two DRY approach points "
               "of the run: the way sample just before it enters the water "

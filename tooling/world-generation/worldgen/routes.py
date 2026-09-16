@@ -160,18 +160,32 @@ def routes_from(cost: np.ndarray, source: tuple[int, int],
 # a place that can only be reached over the cap still gets a path — reported as
 # a survivor needing a bridge or stair — rather than silently disconnecting.
 GRADE_QUADRATIC = 8.0     # x cost at exactly the cap, from the (g/cap)^2 term
-GRADE_WALL = 600.0        # x cost per unit of gradient excess above the cap
+GRADE_WALL = 600.0        # x cost per unit of gradient excess above the cap (ungraded ways)
+GRADE_OVER = 40.0         # added cost per unit of excess on a way that grading will patch (earthworks): a 2 m lip ~ 500 m of flat road, and a long straight climb loses to its own zigzag
 GRADE_MARGIN = 0.85       # route to this fraction of the cap: grading, the
                           # 1.83 m resample and sub-cell relief all cost a
                           # little headroom, so the solver keeps some back.
 
 
-def grade_factor(dz, dist_m, cap_deg: float):
+def grade_factor(dz, dist_m, cap_deg: float, gradable_m: float | None = None):
     """Cost multiplier for a step that gains `dz` metres over `dist_m`.
 
     Works on scalars or arrays; deterministic and monotone in |dz|.
+
+    Without `gradable_m` (tracks, footpaths: never graded, they follow the
+    ground) the cap is a wall: `GRADE_WALL` per unit of excess. With it (the
+    major roads, which `grade_routes` patches) a step over the cap is
+    earthworks, not a wall: `GRADE_OVER` per unit of excess, so a 1-2 m
+    terrace lip costs a short ramp's worth of road and the line crosses it
+    where the ground is otherwise good instead of wandering kilometres round
+    it (owner 2026-09-16: roads looped inland and bumps were left in); only
+    a rise no patch can take (`gradable_m` in one step) is infinite.
     """
     cap = np.tan(np.radians(cap_deg)) * GRADE_MARGIN
     g = np.abs(dz) / np.maximum(dist_m, 1e-6)
     r = g / max(cap, 1e-6)
-    return 1.0 + GRADE_QUADRATIC * r ** 2 + GRADE_WALL * np.maximum(r - 1.0, 0.0)
+    excess = np.maximum(r - 1.0, 0.0)
+    if gradable_m is None:
+        return 1.0 + GRADE_QUADRATIC * r ** 2 + GRADE_WALL * excess
+    within = 1.0 + GRADE_QUADRATIC * np.minimum(r, 1.0) ** 2 + GRADE_OVER * excess
+    return np.where(np.abs(dz) > gradable_m, np.inf, within)

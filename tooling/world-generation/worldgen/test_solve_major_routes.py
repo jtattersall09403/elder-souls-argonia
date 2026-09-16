@@ -156,7 +156,32 @@ def test_road_points_orders_vias_by_distance_from_the_start():
         {"id": "junction.other", "positionM": [10, 10], "roads": ["route.major.elsewhere"]},
     ]
 
-    assert road_points(road, ends, junctions, survey) == [(0, 0), (10, 15), (20, 30), (40, 40)]
+    points, corridors = road_points(road, ends, junctions, survey)
+    assert points == [(0, 0), (10, 15), (20, 30), (40, 40)]
+    assert corridors == [False, False, False]
+
+
+def test_an_approach_pin_makes_the_leg_to_its_nearer_end_a_corridor():
+    survey = SimpleNamespace(grid_px=lambda x, z: (int(z / 5), int(x / 5)))
+    road = {"id": "route.major.test", "from": "a", "to": "b"}
+    ends = {"a": (0, 0), "b": (40, 40)}
+    junctions = [{"id": "junction.pin.b.approach", "kind": "pin", "approach": True,
+                  "positionM": [175, 150], "roads": ["route.major.test"]}]
+    points, corridors = road_points(road, ends, junctions, survey)
+    assert points == [(0, 0), (35, 30), (40, 40)]
+    assert corridors == [False, True]
+
+
+def test_a_corridor_leg_cannot_loop_round_a_cheap_flank():
+    # a cheap ring round the goal: the free solve loops through it, the
+    # corridor solve holds the straight line (cost 3 on it, 1 round the back)
+    cost = np.full((40, 40), 3.0)
+    cost[5:35, 30:34] = 1.0
+    height = np.zeros((40, 40))
+    free = solve_via(cost, height, 5.48, 8.0, [(20, 5), (20, 35)])
+    held = solve_via(cost, height, 5.48, 8.0, [(20, 5), (20, 35)], corridors=[True])
+    assert any(c >= 30 for c, _r in free)
+    assert all(abs(c - 20) <= 6 for c, _r in held)
 
 
 # ---------------------------------------------------------------------------
@@ -218,3 +243,26 @@ def test_load_junctions_rejects_an_untyped_id(tmp_path):
 
 def test_load_junctions_on_a_missing_file_is_empty(tmp_path):
     assert load_junctions(tmp_path / "nope.json") == []
+
+
+# ---------------------------------------------------------------------------
+# 8. a gradable step is earthworks, a cliff is a wall (owner 2026-09-16)
+# ---------------------------------------------------------------------------
+def test_a_gradable_step_costs_earthworks_and_a_cliff_is_a_wall():
+    from .routes import grade_factor
+    lip = grade_factor(2.0, 5.48, 8.0, gradable_m=8.0)      # a 2 m terrace lip on a road
+    walled = grade_factor(2.0, 5.48, 8.0)                    # the same lip on a track
+    assert 20.0 < lip < 60.0, lip                            # a short ramp's worth, not a wall
+    assert walled > 10 * lip                                 # tracks are never graded: the cap walls them
+    assert grade_factor(8.5, 5.48, 8.0, gradable_m=8.0) == np.inf
+    assert grade_factor(0.0, 5.48, 8.0, gradable_m=8.0) == 1.0
+
+
+def test_the_step_cost_adds_the_gradient_to_the_ground_instead_of_multiplying():
+    # a one-cell 2 m lip across a flat plain: the line crosses it (short) and
+    # pays a bounded surcharge, it does not run to the grid edge to avoid it
+    cost = np.ones((30, 60))
+    height = np.zeros((30, 60))
+    height[:, 30:] = 2.0
+    path = solve_via(cost, height, 5.48, 8.0, [(5, 15), (55, 15)])
+    assert all(abs(r - 15) <= 2 for _c, r in path)

@@ -1,6 +1,6 @@
 {
   "$schema": "SettlementAnchor[] + SuggestedConnection[] from @elder-souls/contracts",
-  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected and APPROVED by the project owner at the Phase 2 visual gate (2026-08-22); broad locations are settled but may be nudged during detailed placement phases. Owner requirement: all major cities are connected by the road network (see suggestedConnections; master plan §88).",
+  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected and APPROVED by the project owner at the Phase 2 visual gate (2026-08-22); broad locations are settled but may be nudged during detailed placement phases. Owner requirement (2026-09-16): the six city legs plus the two attested exit roads are the road network; Helstrom and Alten Corimont are reached by water and root, never by a main road (see suggestedConnections; master plan §88).",
   "anchors": [
     {
       "id": "stormhold",
@@ -204,15 +204,6 @@
       "notes": "Southern corridor, eastern leg."
     },
     {
-      "from": "alten-corimont",
-      "to": "stormhold",
-      "confidence": "COMMUNITY_CONSENSUS",
-      "sources": [
-        "community-inkarnate-4e231"
-      ],
-      "notes": "Shadowfen link; Alten Corimont's overland tie into the network."
-    },
-    {
       "from": "stormhold",
       "to": "thorn",
       "confidence": "LORE_INFERRED",
@@ -237,16 +228,7 @@
       "sources": [
         "owner-decision-2026-08-22"
       ],
-      "notes": "Owner-specified west-east trunk route. The Helstrom-Blackrose road crosses it at a crossroads (candidate site for the community map's 'Crossroads' settlement); both Archon-Helstrom and Gideon-Helstrom travel run via that junction — no direct Helstrom-Archon or Helstrom-Gideon edges exist (owner decisions 2026-08-22)."
-    },
-    {
-      "from": "helstrom",
-      "to": "blackrose",
-      "confidence": "COMMUNITY_CONSENSUS",
-      "sources": [
-        "community-inkarnate-4e231"
-      ],
-      "notes": "Heartland-to-south chain; intersects the Archon-Gideon trunk at the crossroads."
+      "notes": "Owner-specified west-east trunk route across the interior; a doomed Imperial project now `broken` in the middle (registry condition). No road meets it: Helstrom is reached by water and root (owner 2026-09-16), so the former crossroads junction is gone."
     },
     {
       "from": "gideon",

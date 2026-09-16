@@ -41,7 +41,11 @@ describe("settlement anchors source data", () => {
       adjacency.set(c.from, [...(adjacency.get(c.from) ?? []), c.to]);
       adjacency.set(c.to, [...(adjacency.get(c.to) ?? []), c.from]);
     }
-    const majors = anchors.filter((a) => a.rank === "major").map((a) => a.id);
+    // Helstrom and Alten Corimont are reached by water and root, never by a
+    // main road (decision 0069, owner 2026-09-16): the road network joins
+    // the other six.
+    const byWater = new Set(["helstrom", "alten-corimont"]);
+    const majors = anchors.filter((a) => a.rank === "major" && !byWater.has(a.id)).map((a) => a.id);
     const seen = new Set([majors[0]]);
     const queue = [majors[0]];
     while (queue.length) {

@@ -250,18 +250,19 @@
       ]
     },
     "route.road.alten-corimont-stormhold": {
-      "name": "the Corimont road",
+      "name": "the Corimont boardwalk",
       "mode": "road",
-      "class": "road",
+      "class": "track",
       "from": "alten-corimont",
       "to": "stormhold",
       "confidence": "AGENT_INVENTED",
-      "notes": "The offshoot from the Border road down to the freehold; the opening hours' only road out (docs/research/quests-and-cast/opening-hours-and-start-area.md).",
+      "notes": "A local boardwalk spur from the freehold up to the Thorn trunk, never a main road (owner 2026-09-16, decision 0069: Alten Corimont is reached by water and root); solved with the minor network in 16g. The id is kept because six catalogue records patrol or reach it.",
+      "condition": "decayed",
+      "conditionWhy": "canon gives the freehold water access only; a local boardwalk spur to the trunk, not a city road",
       "sources": [
         "uesp:Lore:Alten Corimont"
       ],
       "aliases": [
-        "route.road.alten-corimont-stormhold",
         "route.shadowfen-paths"
       ]
     },
@@ -273,6 +274,8 @@
       "to": "gideon",
       "confidence": "AGENT_INVENTED",
       "notes": "The interior crossing; the province's longest single leg.",
+      "condition": "broken",
+      "conditionWhy": "firm legs at each end; canon crosses Middle Argonia by raft and root, so the middle is a marked route that dissolves into poled channel",
       "sources": [
         "uesp:Lore:Archon"
       ],
@@ -288,6 +291,8 @@
       "to": "lilmoth",
       "confidence": "AGENT_INVENTED",
       "notes": "Imperial-penal-south administrative register: the road the cordons used.",
+      "condition": "broken",
+      "conditionWhy": "an Imperial cordon road with sunken sections south of the prison since Umbriel (4E 48); a ferried gap",
       "sources": [
         "uesp:Lore:Blackrose",
         "uesp:Lore:Lilmoth"
@@ -354,6 +359,8 @@
       "to": "blackwood-road",
       "confidence": "CANON_NAMED",
       "notes": "The canon exit road to Leyawiin; playable edge closed (00-core acceptance rules).",
+      "condition": "worn",
+      "conditionWhy": "locally maintained on an Imperial alignment; the Gloommire legs close in the monsoon (a flood board at the gate)",
       "sources": [
         "uesp:Lore:Gideon",
         "uesp:Lore:Gideon"
@@ -389,6 +396,8 @@
       "to": "soulrest",
       "confidence": "AGENT_INVENTED",
       "notes": "Flood-damaged legs are bridged or ferried, never absent (acceptance rule).",
+      "condition": "broken",
+      "conditionWhy": "bridged and ferried in pieces: the causeway ends in water twice",
       "sources": [
         "uesp:Lore:Gideon",
         "uesp:Lore:Soulrest"
@@ -406,6 +415,8 @@
       "to": "stormhold",
       "confidence": "AGENT_INVENTED",
       "notes": "Skirts the western upland rim between the two frontier cities.",
+      "condition": "decayed",
+      "conditionWhy": "an Imperial alignment sinking into peat scar; causeway blocks tilted, long boardwalk patches",
       "sources": [
         "world/sources/lore/regions/blackwood-and-gloommire.md"
       ],
@@ -434,22 +445,6 @@
         "road:pilgrim-way"
       ]
     },
-    "route.road.helstrom-blackrose": {
-      "name": "the Helstrom way",
-      "mode": "road",
-      "class": "road",
-      "from": "helstrom",
-      "to": "blackrose",
-      "confidence": "AGENT_INVENTED",
-      "notes": "Named for the Bogmother shrine the catalogue places on it. Renamed 2026-09-16: Bogmother is a ruin south-west of Stormhold (Lore:Bogmother) and the canon causeway runs Stormhold-Bogmother, not here.",
-      "sources": [
-        "uesp:Lore:Helstrom",
-        "uesp:Lore:Blackrose"
-      ],
-      "aliases": [
-        "route.bogmother-causeway"
-      ]
-    },
     "route.road.soulrest-blackrose": {
       "name": "the Lake road",
       "mode": "road",
@@ -458,6 +453,8 @@
       "to": "blackrose",
       "confidence": "AGENT_INVENTED",
       "notes": "",
+      "condition": "worn",
+      "conditionWhy": "a lakeside track shadowing the river boats actually use",
       "sources": [
         "uesp:Lore:Blackrose"
       ],
@@ -471,6 +468,8 @@
       "to": "thorn",
       "confidence": "AGENT_INVENTED",
       "notes": "The two Morrowind-facing cities' trunk; dunmer-north English-compound register.",
+      "condition": "worn",
+      "conditionWhy": "locally kept on an old Dunmer alignment: flagged stretches, unlit Dunmer light posts, long timber bridges patched",
       "sources": [
         "uesp:Lore:Stormhold",
         "uesp:Lore:Thorn"
@@ -488,6 +487,8 @@
       "to": "tear-road",
       "confidence": "CANON_DERIVED",
       "notes": "Canon exit toward Tear in Morrowind; playable edge closed.",
+      "condition": "worn",
+      "conditionWhy": "decayed but passable; the live saltrice trade north, watched at both ends since the invasion of Morrowind",
       "sources": [
         "uesp:Lore:Thorn",
         "uesp:Lore:Tear"
@@ -668,12 +669,14 @@
     "route.track.mercantile-coast.coast-road": {
       "name": "the Coast road",
       "mode": "road",
-      "class": "road",
+      "class": "track",
       "from": "soulrest",
       "to": "lilmoth",
       "confidence": "LORE_INFERRED",
       "solved": false,
-      "notes": "The landward coast road between the two southern ports, counted in Imperial stages from Soulrest; no geometry until the minor-route compiler runs. Neither Lore:Soulrest nor Lore:Lilmoth attests a coast road (audit 2026-09-16).",
+      "notes": "The landward coast track between the two southern ports, counted in Imperial stages from Soulrest; solved with the minor network in 16g (owner 2026-09-16: the main roads are the six city legs and the two attested exit roads; the coast is served by sea, and this is a stage-counted track, not a road). Neither Lore:Soulrest nor Lore:Lilmoth attests a coast road (audit 2026-09-16).",
+      "condition": "worn",
+      "conditionWhy": "a milestone-counted coast track between two ports most people reach by boat",
       "sources": [
         "uesp:Lore:Soulrest",
         "uesp:Lore:Lilmoth",

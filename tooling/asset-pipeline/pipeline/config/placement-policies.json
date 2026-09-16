@@ -194,6 +194,8 @@
     "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01": "route-structure",
     "vanilla:dungeons/nordic/exterior/nortmpextplattower01": "route-structure",
     "vanilla:landscape/bridges/bridgeshort01": "route-structure",
+    "vanilla:landscape/bridges/bridgenarrow01": "route-structure",
+    "vanilla:landscape/bridges/bridge01": "route-structure",
     "vanilla:landscape/bridges/bridgelong01": "route-structure"
   },
   "expandedRefs": {

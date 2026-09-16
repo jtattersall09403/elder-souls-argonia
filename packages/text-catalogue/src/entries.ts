@@ -114,20 +114,6 @@ export const EQUIPMENT_TEXT: readonly TextEntry[] = [
  */
 export const FERRY_TEXT: readonly TextEntry[] = [
   {
-    id: "text.ferry.underway-basin.name",
-    surface: "descriptive",
-    text: "The basin raft",
-    note: "Map and service-menu label for the Helstrom basin crossing.",
-  },
-  {
-    id: "text.ferry.underway-basin.hail",
-    surface: "dialogue",
-    text:
-      "Three drakes and I pole you over. Or walk under Helstrom for nothing. The root keeps some of the people who enter it.",
-    note:
-      "Argonian village poler. The ferry only exists because the free alternative is the Underway, a Hist root gallery — so the line names the price and the alternative, and lets the player weigh them. No threat: he is stating what the root is like.",
-  },
-  {
     id: "text.ferry.onkobra-bond.name",
     surface: "descriptive",
     text: "The bonded crossing",

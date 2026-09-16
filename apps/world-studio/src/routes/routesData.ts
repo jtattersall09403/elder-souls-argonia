@@ -17,6 +17,7 @@ import type {
   MinorTrack, MinorTracksBundle, RegisteredRoute, RouteGeometry, RoutesIndexBundle,
 } from "@elder-souls/contracts";
 import { HYDRO_GRID_SAMPLES, METRES_PER_HYDRO_SAMPLE, metresToHydroPixel } from "../provinceScale";
+import type { TipSection } from "../map/hydrographIndex";
 
 export type { MinorTrack, RegisteredRoute, RouteGeometry, RoutesIndexBundle } from "@elder-souls/contracts";
 
@@ -134,6 +135,8 @@ export interface RouteStructure {
   riseM: number;
   spanM: number;
   why: string;
+  /** The crossing record a bridge or deck carries (`crossings.json` id). */
+  crossingId?: string;
   /** One point per placed piece, [x east, z south] in metres. */
   pointsM: [number, number][];
 }
@@ -154,15 +157,53 @@ export function structurePx(s: RouteStructure): [number, number][] {
   return s.pointsM.map((p) => metresToPx(p as [number, number]));
 }
 
-/** The hover label: what it is, how many pieces, and the height it carries. */
-export function structureLabel(s: RouteStructure): string {
-  const rise = Math.abs(s.riseM);
-  return `${s.kind} — ${s.pieces} piece${s.pieces === 1 ? "" : "s"}, `
-    + `${rise.toFixed(1)} m rise over ${s.spanM.toFixed(0)} m`;
+/* ---------------------------------------------------------------------------
+ * Hover sections. Every route record hovers through the map's ONE tooltip
+ * (owner 2026-09-16: no second tooltip), so each builder returns the
+ * `TipSection` rows App renders; nothing here is a preformatted string.
+ * ------------------------------------------------------------------------ */
+const row = (k: string, v: string | null | undefined): [string, string][] =>
+  v === null || v === undefined || v === "" ? [] : [[k, v]];
+const num = (v: number | null | undefined, digits: number, unit = "") =>
+  v === null || v === undefined ? null : `${v.toFixed(digits)}${unit}`;
+
+/** A road, lane, track or channel line. */
+export function routeTip(sel: RouteSelection): TipSection {
+  const reg = sel.registry;
+  return {
+    title: sel.name,
+    rows: [
+      ...row("id", sel.id ?? "derived, no registry entry"),
+      ...row("mode", `${sel.mode}${sel.klass ? ` (${sel.klass})` : ""}`),
+      ...row("from → to", `${sel.from} → ${sel.to}`),
+      ...row("length", num(sel.lengthKm, 2, " km")),
+      ...row("condition", reg?.condition ? `${reg.condition}${reg.conditionWhy ? ` — ${reg.conditionWhy}` : ""}` : null),
+      ...row("confidence", reg?.confidence),
+    ],
+  };
 }
 
-/** Hatched styling: one colour for built stone/timber, dashes read as treads. */
-export const STRUCTURE_STYLE = { stroke: "#ffb454", width: 3.4, dash: "1.5 2" };
+/** A structure: what it is, how many pieces, and the height it carries. */
+export function structureTip(s: RouteStructure, carried?: WaterCrossing | null): TipSection {
+  return {
+    title: `${s.kind} on ${s.wayId}`,
+    rows: [
+      ...row("id", s.id),
+      ...row("pieces", `${s.pieces} piece${s.pieces === 1 ? "" : "s"} (${s.family})`),
+      ...row("size", `${Math.abs(s.riseM).toFixed(1)} m rise over ${s.spanM.toFixed(0)} m`),
+      ...row("carries", carried ? `${carried.id} (${carried.band}, ${carried.water})` : null),
+      ...row("why", s.why),
+    ],
+  };
+}
+
+/** One colour per structure kind; a span is drawn as a recoloured stretch of
+ *  its road line (owner 2026-09-16), a flight the same way. */
+export const STRUCTURE_COLOUR: Record<string, string> = {
+  bridge: "#ffb454", deck: "#d89a52", trestle: "#c58a4a",
+  stair: "#9fd0ff", "stepped-ascent": "#7fb0e8", "lip-step": "#b7c4d4",
+};
+export const STRUCTURE_STYLE = { stroke: "#ffb454", width: 3.4 };
 
 /* ---------------------------------------------------------------------------
  * The four route sub-layers (16e deliverable 8, decision 0068).
@@ -209,21 +250,21 @@ export async function loadRouteGrades(baseUrl: string): Promise<RouteGrade[]> {
 
 export const GRADE_STYLE = { stroke: "#f0a63c", width: 4.2 };
 
-export function gradeLabel(g: RouteGrade): string {
-  const span = g.fromM === null || g.toM === null ? "" : `${g.fromM.toFixed(0)}–${g.toM.toFixed(0)} m`;
-  const len = g.lengthM === null ? "" : `, ${g.lengthM.toFixed(0)} m long`;
-  const before = g.worstDegBefore === null ? "?" : g.worstDegBefore.toFixed(2);
+export function gradeTip(g: RouteGrade): TipSection {
+  const span = g.fromM === null || g.toM === null ? null : `${g.fromM.toFixed(0)}–${g.toM.toFixed(0)} m`;
   const delta = g.maxAbsDeltaM === null
     ? (g.maxDeltaM === null ? "not recorded" : `${g.maxDeltaM.toFixed(2)} m (authored bound)`)
     : `${g.maxAbsDeltaM.toFixed(2)} m`;
-  return [
-    `${g.wayId ?? g.id}`,
-    `chainage ${span}${len}`,
-    `gradient ${before}° → ${g.gradientAfterDeg.toFixed(2)}° (cap ${g.capDeg === null ? "?" : g.capDeg.toFixed(1)}°)`,
-    `max |delta| ${delta}`,
-    `shoulder ${g.shoulderM === null ? "?" : g.shoulderM.toFixed(1)} m`,
-    g.why ?? "",
-  ].filter(Boolean).join("\n");
+  return {
+    title: `graded: ${g.wayId ?? g.id}`,
+    rows: [
+      ...row("chainage", span ? `${span}${g.lengthM === null ? "" : `, ${g.lengthM.toFixed(0)} m long`}` : null),
+      ...row("gradient", `${num(g.worstDegBefore, 2) ?? "?"}° → ${g.gradientAfterDeg.toFixed(2)}° (cap ${num(g.capDeg, 1) ?? "?"}°)`),
+      ...row("max |delta|", delta),
+      ...row("shoulder", num(g.shoulderM, 1, " m") ?? "?"),
+      ...row("why", g.why),
+    ],
+  };
 }
 
 /** A way standing in non-sea water (worldgen.derive_crossings, schema 2). */
@@ -256,16 +297,17 @@ export const CROSSING_BAND_COLOUR: Record<string, string> = {
   ford: "#5fd07a", span: "#ff9f43", ferry: "#ff5252",
 };
 
-export function crossingLabel(c: WaterCrossing): string {
-  const place = c.nearestPlaceName ? `near ${c.nearestPlaceName}` : "";
-  return [
-    c.id,
-    `${c.band} — ${c.water}${c.wayName ? ` on ${c.wayName}` : ""}`,
-    `${c.spanM.toFixed(0)} m across, ${c.maxDepthM.toFixed(2)} m deep`,
-    `${c.entityId} (${c.entityKind})`,
-    c.servesRoutes.length ? `serves ${c.servesRoutes.join(", ")}` : "",
-    place,
-  ].filter(Boolean).join("\n");
+export function crossingTip(c: WaterCrossing): TipSection {
+  return {
+    title: `${c.band} — ${c.water}${c.wayName ? ` on ${c.wayName}` : ""}`,
+    rows: [
+      ...row("id", c.id),
+      ...row("size", `${c.spanM.toFixed(0)} m across, ${c.maxDepthM.toFixed(2)} m deep`),
+      ...row("water", `${c.entityId} (${c.entityKind})`),
+      ...row("serves", c.servesRoutes.length ? c.servesRoutes.join(", ") : null),
+      ...row("near", c.nearestPlaceName),
+    ],
+  };
 }
 
 /** Travel services: who carries you, from where, for what (travel-services.json). */
@@ -273,10 +315,10 @@ export interface TravelStation {
   id: string;
   kind: string;
   placeId?: string;
-  positionM: [number, number];
+  positionM: [number, number] | null;
   status?: string;
   piece?: string;
-  berth?: { depthM?: number; jettyM?: number; floats?: boolean; hullClass?: string; entityId?: string; entityKind?: string };
+  berth?: { depthM?: number | null; jettyM?: number | null; floats?: boolean | null; hullClass?: string; entityId?: string; entityKind?: string };
 }
 
 export interface TravelHop {
@@ -321,26 +363,36 @@ export const HOP_STYLE: Record<string, { stroke: string; dash?: string }> = {
   rootworm: { stroke: "#6fd08c", dash: "1.5 3" },
 };
 
-export function serviceLabel(s: TravelService): string {
-  const fare = s.fare?.gold === undefined ? "" : `${s.fare.gold} gold`;
-  return [
-    s.id,
-    s.serviceKind + (s.form ? ` (${s.form})` : ""),
-    fare,
-    s.operator?.role ? `operator: ${s.operator.role}` : "",
-    s.status ? `status: ${s.status}` : "",
-  ].filter(Boolean).join("\n");
+export function serviceTip(s: TravelService): TipSection {
+  return {
+    title: `${s.serviceKind}${s.form ? ` (${s.form})` : ""}: ${s.id}`,
+    rows: [
+      ...row("fare", s.fare?.gold === undefined ? null : `${s.fare.gold} gold`),
+      ...row("operator", s.operator?.role),
+      ...row("status", s.status),
+      ...row("why", s.why),
+    ],
+  };
 }
 
-export function stationLabel(st: TravelStation): string {
+/** A station's berth; every number is optional on the record (a place
+ *  station has none, a landing may carry `null` before the water is proved). */
+export function stationTip(st: TravelStation): TipSection {
   const b = st.berth;
   const berth = b
-    ? [b.depthM === undefined ? "" : `berth ${b.depthM.toFixed(2)} m deep`,
-       b.jettyM === undefined ? "" : `jetty ${b.jettyM.toFixed(1)} m`,
-       b.floats === undefined ? "" : (b.floats ? "floats" : "fixed")].filter(Boolean).join(", ")
+    ? [num(b.depthM, 2, " m deep") && `berth ${num(b.depthM, 2, " m deep")}`,
+       num(b.jettyM, 1, " m") && `jetty ${num(b.jettyM, 1, " m")}`,
+       b.floats === undefined || b.floats === null ? "" : (b.floats ? "floats" : "fixed")]
+        .filter(Boolean).join(", ")
     : "";
-  return [st.id, st.kind, st.placeId ?? "", berth, st.status ? `status: ${st.status}` : ""]
-    .filter(Boolean).join("\n");
+  return {
+    title: `${st.kind}: ${st.id}`,
+    rows: [
+      ...row("place", st.placeId),
+      ...row("berth", berth),
+      ...row("status", st.status),
+    ],
+  };
 }
 
 /** The four independently toggled route sub-layers (`routeLayers=`). */

@@ -26610,7 +26610,7 @@
       ],
       "confidence": "CANON_FIXED",
       "why": {
-        "founding": "One of the prisons built by the Empire after 1E 2837. The Imperial rule for this province was to put a prison where the marsh could be the wall. It stands off the Bogmother causeway, the road that the Legion already held.",
+        "founding": "One of the prisons built by the Empire after 1E 2837. The Imperial rule for this province was to put a prison where the marsh could be the wall. It stands off the road that the Legion already held.",
         "siteAdvantages": "Firm ground with marsh water on every side and a single causeway, a short haul from the Bogmother road, which carried the convicts in and the ore out.",
         "occupantsMotive": "Empty of the living. Full of Argonian dead who died away from their Hist and whose bones were never brought to the dirt.",
         "pressures": "The Blackrose Chainbreakers want the dead repatriated; the structure is sound enough that somebody will eventually want it back.",
@@ -26646,9 +26646,7 @@
         "reachedVia": [
           "place.mercantile-coast.chasepoint"
         ],
-        "travelServiceEdges": [
-          "road:route.road.helstrom-blackrose"
-        ]
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "occupants": [],

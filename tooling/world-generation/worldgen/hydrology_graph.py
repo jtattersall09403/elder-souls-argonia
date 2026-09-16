@@ -1467,7 +1467,7 @@ KIND_ABOUT = {
 BODY_ABOUT = {
     "ocean": "Sea-connected water below sea level that the coarse pass calls open ocean.",
     "lagoon": "Sea-connected water below sea level that winds inland beyond the open-ocean reach.",
-    "lake-lowland": "Standing water of 1 hectare or more whose level is under 30 m. A dashed outline is the DECLARED Blackrose lake (authored-bodies.json), dug by the shape stage to its declared bed and island.",
+    "lake-lowland": "Standing water of 1 hectare or more whose level is under 30 m (the Blackrose lake is one, authored in authored-bodies.json and dug by the shape stage).",
     "tarn-upland": "Standing water of 1 hectare or more whose level is 30 m or higher (an upland or mountain lake).",
     "pond": "Standing water between 500 m2 and 1 hectare.",
     "pool": "Standing water under 500 m2.",
@@ -1487,6 +1487,12 @@ SEASON_COLOUR = {"perennial": (60, 120, 240), "seasonal": (240, 150, 40), "ephem
 
 
 def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies=None, npz=None) -> dict:
+    """The studio overlay images. Rendered by `derive` ONLY: `load_solution`
+    rebuilds a BodySolution without the derive's filled/forced state, and a
+    render from it paints marsh the derive did not (tried 2026-09-16, 53k
+    texels differed province-wide). To change an overlay, change this
+    function and re-run `derive`; on an unchanged shaped base the graph is
+    byte-identical (check `contentSha256`) and only the images move."""
     import numpy as np
     from PIL import Image, ImageDraw
     from . import standing_water as sw
@@ -1574,24 +1580,11 @@ def write_layers(graph: dict, coarse_shape, out_dir: Path = PROVINCE_DIR, bodies
             e, s = r["centreline"][0]
             x, y = px(e, s)
             falls_draw.ellipse([x - 4, y - 4, x + 4, y + 4], outline=(255, 60, 60, 255), fill=(255, 255, 255, 255), width=2)
+    # An authored body (the Blackrose lake) draws like every other body, from
+    # its dug cells: the dashed-ellipse placeholder it had while it was only
+    # declared was removed on 2026-09-16 (owner: the lake is dug, the
+    # placeholder drew over it).
     for b in graph["bodies"]:
-        if b["origin"] == "authored" and b["deepestCell"]:
-            rx, ry = b["terrainPrecondition"]["radiiM"]
-            x, y = b["deepestCell"][0] / STEP, b["deepestCell"][1] / STEP
-            box = [x - rx / mpp_c, y - ry / mpp_c, x + rx / mpp_c, y + ry / mpp_c]
-            # declared, not yet dug: a dashed outline (16b shapes the shore and
-            # raises the island), a faint fill, and the island ring
-            body_draw.ellipse(box, fill=(*BODY_COLOUR[b["kind"]], 90))
-            season_draw.ellipse(box, fill=(*SEASON_COLOUR[b["season"]], 90))
-            import math
-            n_dash = 40
-            for k in range(0, n_dash, 2):
-                a0, a1 = 360.0 * k / n_dash, 360.0 * (k + 1) / n_dash
-                body_draw.arc(box, a0, a1, fill=(255, 255, 255, 255), width=2)
-            isl = (b["terrainPrecondition"].get("island") or {}).get("radiusM")
-            if isl:
-                ri = isl / mpp_c
-                body_draw.ellipse([x - ri, y - ri, x + ri, y + ri], outline=(255, 255, 255, 200), width=1)
         if b["kind"] == "plunge-pool" and b["deepestCell"]:
             x, y = b["deepestCell"][0] / STEP, b["deepestCell"][1] / STEP
             falls_draw.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(120, 200, 255, 255))

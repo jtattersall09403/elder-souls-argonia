@@ -15,7 +15,6 @@
   "paint_route_overlays",
   "patch_water_graded",
   "rebake_landcover",
-  "solve_major_routes",
   "terrain_request_postconditions",
   "travel_services"
  ],
