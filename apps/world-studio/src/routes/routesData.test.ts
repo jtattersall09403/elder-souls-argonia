@@ -46,11 +46,14 @@ describe("routes index (worldgen.export_routes)", () => {
 
   it("measures pixel paths in km and round-trips the URL state", () => {
     expect(pixelLengthKm([[0, 0], [1000, 0]], 5.48352)).toBeCloseTo(5.48352, 3);
-    expect(encodeRoutesUrl({ showWater: false, selectedKey: null, subLayers: [] })).toEqual({});
+    expect(encodeRoutesUrl({ showWater: false, selectedKey: null, subLayers: [] })).toEqual({ routeLayers: "none" });
     const s = parseRoutesUrl(new URLSearchParams({ water: "1", route: "route.road.soulrest-blackrose" }));
     expect(s.showWater).toBe(true);
-    expect(s.subLayers).toEqual([]);
-    expect(encodeRoutesUrl(s)).toEqual({ water: "1", route: "route.road.soulrest-blackrose" });
+    // no routeLayers in the query means the owner-facing default, not nothing
+    expect(s.subLayers).toEqual(["spans", "crossings"]);
+    expect(encodeRoutesUrl(s)).toEqual({
+      water: "1", route: "route.road.soulrest-blackrose", routeLayers: "spans,crossings",
+    });
   });
 });
 
@@ -100,7 +103,10 @@ describe("the four route sub-layers (16e deliverable 8)", () => {
   });
 
   it("parses the routeLayers query in a fixed order and ignores unknown names", () => {
-    expect(parseRouteLayers(null)).toEqual([]);
+    expect(parseRouteLayers(null)).toEqual(["spans", "crossings"]);
+    // the explicit empty set round-trips, so "all four off" survives a reload
+    expect(parseRouteLayers("none")).toEqual([]);
+    expect(encodeRoutesUrl({ showWater: false, selectedKey: null, subLayers: [] }).routeLayers).toBe("none");
     expect(parseRouteLayers("services, spans,bogus")).toEqual(["spans", "services"]);
     const s = parseRoutesUrl(new URLSearchParams({ routeLayers: "grades,crossings" }));
     expect(s.subLayers).toEqual(["grades", "crossings"]);

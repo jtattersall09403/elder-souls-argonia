@@ -4358,12 +4358,12 @@
       "entrance": "gate",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.18,
-        "v": 0.42
+        "u": 0.192,
+        "v": 0.4196
       },
       "positionM": [
-        1327.2,
-        3096.9
+        1415.0,
+        3093.0
       ],
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); position kept exactly.",

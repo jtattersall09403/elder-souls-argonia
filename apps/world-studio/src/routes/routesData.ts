@@ -347,8 +347,17 @@ export function stationLabel(st: TravelStation): string {
 export const ROUTE_SUB_LAYERS = ["spans", "grades", "crossings", "services"] as const;
 export type RouteSubLayer = (typeof ROUTE_SUB_LAYERS)[number];
 
+/**
+ * The sub-layers on when the URL says nothing (owner 2026-09-16: bridges,
+ * decks, fords and ferries should be on the map without hunting for a
+ * checkbox). `routeLayers=none` is the explicit empty set, so "all four off"
+ * still round-trips through the URL.
+ */
+export const ROUTE_SUB_LAYERS_DEFAULT: RouteSubLayer[] = ["spans", "crossings"];
+
 export function parseRouteLayers(value: string | null): RouteSubLayer[] {
-  const want = new Set((value ?? "").split(",").map((s) => s.trim()).filter(Boolean));
+  if (value === null) return [...ROUTE_SUB_LAYERS_DEFAULT];
+  const want = new Set(value.split(",").map((s) => s.trim()).filter(Boolean));
   return ROUTE_SUB_LAYERS.filter((n) => want.has(n));
 }
 
@@ -358,7 +367,7 @@ export const ROUTES_URL_KEYS = ["water", "route", "routeLayers"] as const;
 export interface RoutesUrlState {
   showWater: boolean;
   selectedKey: string | null;
-  /** Sub-layers switched on; every one defaults off. */
+  /** Sub-layers switched on; `spans` and `crossings` default on. */
   subLayers: RouteSubLayer[];
 }
 
@@ -374,7 +383,9 @@ export function encodeRoutesUrl(s: RoutesUrlState): Record<string, string> {
   const out: Record<string, string> = {};
   if (s.showWater) out.water = "1";
   if (s.selectedKey) out.route = s.selectedKey;
-  if (s.subLayers.length) out.routeLayers = ROUTE_SUB_LAYERS.filter((n) => s.subLayers.includes(n)).join(",");
+  out.routeLayers = s.subLayers.length
+    ? ROUTE_SUB_LAYERS.filter((n) => s.subLayers.includes(n)).join(",")
+    : "none";
   return out;
 }
 

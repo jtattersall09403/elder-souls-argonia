@@ -10,62 +10,67 @@ the shipped bundle; only the depth is measured, on the compiled surface.
 Positions are on whatever `province/routes.json` and `routes-minor.json`
 are published at the time of the run — re-run after any route rebuild.
 
-- **50 on the major network** (11 river, 7 lake, 32 marsh): 1 ferry-band, 22 span-band, 27 ford-band.
+- **55 on the major network** (12 river, 5 lake, 38 marsh): 1 ferry-band, 26 span-band, 28 ford-band.
 - **101 on tracks and footpaths** (34 river, 23 lake, 44 marsh): 7 ferry-band, 28 span-band, 66 ford-band.
-- Deepest crossing anywhere: **18.32 m**. Widest: **411.3 m**. A crossing is a ford only where it is both narrower than 20 m and no deeper than 1.2 m — the small-draft hull depth the docks are dredged to — so width and depth both decide the band.
+- Deepest crossing anywhere: **18.32 m**. Widest: **1043.2 m**. A crossing is a ford only where it is both narrower than 20 m and no deeper than 1.2 m — the small-draft hull depth the docks are dredged to — so width and depth both decide the band.
 
 ## Major network, widest first
 
 | id | water | entity | span m | depth m | band | position | nearest place | m |
 |---|---|---|---:|---:|---|---|---|---:|
-| `crossing.major.001` | lake | `body.221-1650` | 411.3 | 6.84 | ferry | 430.9, 3092.6 | The Drowning Gate | 90.2 |
-| `crossing.major.002` | marsh | `body.3525-81` | 242.3 | 2.52 | span | 6504.1, 357.8 | Branchmont | 90.8 |
-| `crossing.major.003` | marsh | `body.1284-3448` | 231.8 | 3.69 | span | 2415.5, 6373.5 | Blackrose | 69.7 |
-| `crossing.major.004` | marsh | `body.3525-81` | 195.8 | 2.64 | span | 6430.6, 130.2 | Branchmont | 185.2 |
-| `crossing.major.006` | marsh | `body.1209-3032` | 156.2 | 2.04 | span | 2647.9, 6060.4 | Spine | 95.5 |
-| `crossing.major.008` | marsh | `body.2848-1068` | 145.4 | 1.54 | span | 5279.5, 1985.6 | Sleeps-In-The-Ring | 49.6 |
-| `crossing.major.009` | marsh | `body.1209-3032` | 119.1 | 1.68 | span | 2538.4, 6222.1 | Cordon Two, Under-Stores | 135.0 |
-| `crossing.major.011` | marsh | `body.2442-1212` | 102.5 | 3.72 | span | 3332.5, 3156.5 | The Underway | 289.6 |
-| `crossing.major.017` | marsh | `body.2442-1212` | 71.8 | 4.68 | span | 4634.3, 2542.5 | The Set-Aside Hut | 235.2 |
-| `crossing.major.018` | marsh | `body.1293-692` | 66.4 | 2.13 | span | 2305.5, 1183.1 | Hatching Pools | 251.4 |
-| `crossing.major.020` | marsh | `body.1789-698` | 65.1 | 1.39 | span | 3283.3, 1235.0 | Shoal Bank | 79.2 |
-| `crossing.major.022` | marsh | `body.2442-1212` | 56.3 | 3.12 | span | 2597.0, 2850.1 | Thousand-Chimes | 201.5 |
-| `crossing.major.025` | lake | `body.692-1779` | 54.1 | 2.75 | span | 1357.2, 3068.3 | Gideon | 41.5 |
-| `crossing.major.027` | marsh | `body.2442-1212` | 52.8 | 3.96 | span | 4055.2, 2251.0 | The Meeruth Station | 50.9 |
-| `crossing.major.029` | marsh | `body.2442-1212` | 40.5 | 2.04 | span | 2368.9, 2319.7 | Lantern Hollow | 124.5 |
+| `crossing.major.001` | marsh | `body.2442-1212` | 1043.2 | 5.28 | span | 4165.6, 1148.0 | The Hiring Yard | 119.3 |
+| `crossing.major.002` | lake | `body.221-1650` | 411.3 | 6.84 | ferry | 430.9, 3092.6 | The Drowning Gate | 90.2 |
+| `crossing.major.003` | marsh | `body.2442-1212` | 259.1 | 2.04 | span | 3514.9, 446.6 | Long Water | 181.6 |
+| `crossing.major.004` | marsh | `body.3525-81` | 242.3 | 2.52 | span | 6504.1, 357.8 | Branchmont | 90.8 |
+| `crossing.major.005` | marsh | `body.1284-3448` | 231.8 | 3.69 | span | 2415.5, 6373.5 | Blackrose | 69.7 |
+| `crossing.major.006` | marsh | `body.3525-81` | 195.8 | 2.64 | span | 6430.6, 130.2 | Branchmont | 185.2 |
+| `crossing.major.008` | marsh | `body.1209-3032` | 156.2 | 2.04 | span | 2647.9, 6060.4 | Spine | 95.5 |
+| `crossing.major.010` | marsh | `body.2848-1068` | 145.4 | 1.54 | span | 5279.5, 1985.6 | Sleeps-In-The-Ring | 49.6 |
+| `crossing.major.012` | marsh | `body.1209-3032` | 103.9 | 1.8 | span | 2528.5, 6223.7 | Cordon Two, Under-Stores | 140.7 |
+| `crossing.major.013` | marsh | `body.2442-1212` | 102.9 | 3.84 | span | 3361.2, 402.4 | Guar Ground | 195.8 |
+| `crossing.major.014` | marsh | `body.2442-1212` | 102.5 | 3.72 | span | 3332.5, 3156.5 | The Underway | 289.6 |
+| `crossing.major.020` | marsh | `body.1293-692` | 66.4 | 2.13 | span | 2305.5, 1183.1 | Hatching Pools | 251.4 |
+| `crossing.major.022` | marsh | `body.1789-698` | 65.1 | 1.39 | span | 3283.3, 1235.0 | Shoal Bank | 79.2 |
+| `crossing.major.027` | marsh | `body.2442-1212` | 48.3 | 2.64 | span | 3814.4, 583.6 | Nine Mile | 63.7 |
+| `crossing.major.030` | marsh | `body.2442-1212` | 38.6 | 2.16 | span | 3867.4, 629.3 | Nine Sockets | 90.3 |
 | `crossing.major.031` | marsh | `body.3525-81` | 37.8 | 1.08 | span | 6479.9, 231.6 | Branchmont | 100.7 |
-| `crossing.major.040` | marsh | `body.2442-1212` | 21.5 | 0.6 | span | 2534.2, 3064.6 | Thousand-Chimes | 39.3 |
-| `crossing.major.042` | marsh | `body.824-3417` | 17.7 | 0.36 | ford | 1471.3, 6322.5 | Wide-Furrow | 82.8 |
-| `crossing.major.045` | river | `reach.976-2536` | 16.6 | 1.99 | span | 1856.2, 4850.2 | Nine-Stakes Field | 78.6 |
-| `crossing.major.046` | lake | `body.221-1650` | 14.3 | 2.16 | span | 342.7, 3048.0 | Bog Iron Workings | 55.7 |
-| `crossing.major.047` | river | `reach.183-1646` | 13.0 | 0.65 | ford | 313.4, 3030.1 | Bog Iron Workings | 24.2 |
-| `crossing.major.049` | river | `reach.1247-947` | 12.2 | 1.13 | ford | 2278.4, 1746.8 | The Monsoon Boom | 66.7 |
-| `crossing.major.061` | marsh | `body.2442-1212` | 8.6 | 0.84 | ford | 2593.7, 2756.8 | The Slow Ground | 175.2 |
-| `crossing.major.064` | lake | `body.692-1779` | 7.7 | 0.59 | ford | 1324.9, 3087.0 | Gideon | 10.1 |
-| `crossing.major.066` | marsh | `body.2442-1212` | 7.6 | 0.48 | ford | 4042.1, 2220.8 | The Meeruth Station | 38.3 |
-| `crossing.major.073` | marsh | `body.712-3516` | 6.6 | 0.58 | ford | 1260.5, 6421.9 | Mudfoot | 73.4 |
-| `crossing.major.074` | river | `reach.3118-400` | 6.6 | 0.56 | ford | 6101.1, 725.9 | Thorn Terraces | 101.0 |
-| `crossing.major.077` | river | `reach.1557-2456` | 6.0 | 0.43 | ford | 2839.8, 4490.0 | The Horwalli Cut | 35.1 |
-| `crossing.major.079` | lake | `body.221-1650` | 5.5 | 2.4 | span | 520.9, 3205.1 | Cartwright's Cross | 76.4 |
-| `crossing.major.083` | river | `reach.1890-1832` | 4.7 | 0.46 | ford | 3482.7, 3202.4 | The Underway | 311.3 |
-| `crossing.major.089` | marsh | `body.2752-2409` | 4.4 | 1.31 | span | 5029.7, 4402.0 | The Estuary Mouth Station | 34.9 |
-| `crossing.major.098` | river | `reach.1890-1832` | 3.9 | 0.43 | ford | 3490.3, 3290.1 | The Underway | 399.4 |
-| `crossing.major.102` | marsh | `body.1097-2192` | 3.3 | 0.45 | ford | 2048.9, 4010.4 | Red Cart Yard | 67.1 |
-| `crossing.major.103` | river | `reach.3043-787` | 3.3 | 0.55 | ford | 5589.7, 1478.6 | Two-Gate Bridge | 41.0 |
-| `crossing.major.108` | marsh | `body.2760-2066` | 3.1 | 0.45 | ford | 4946.1, 3845.3 | Nine-Trunks | 93.3 |
-| `crossing.major.109` | marsh | `body.643-2936` | 3.1 | 0.34 | ford | 1222.8, 5389.0 | Teeth-Pens | 86.5 |
-| `crossing.major.110` | marsh | `body.824-3417` | 3.1 | 1.08 | ford | 1465.4, 6333.5 | Wide-Furrow | 74.4 |
-| `crossing.major.116` | lake | `body.221-1650` | 2.2 | 1.08 | ford | 329.6, 3038.5 | Bog Iron Workings | 39.8 |
-| `crossing.major.117` | marsh | `body.1828-1638` | 2.2 | 0.48 | ford | 3345.5, 3020.8 | The Underway | 166.6 |
-| `crossing.major.118` | marsh | `body.1209-3032` | 2.2 | 0.36 | ford | 2702.8, 6119.0 | Threewater | 136.5 |
-| `crossing.major.119` | marsh | `body.1408-3425` | 2.2 | 0.58 | ford | 2571.2, 6262.8 | Cordon Two, Under-Stores | 82.9 |
-| `crossing.major.120` | marsh | `body.1888-1088` | 2.2 | 1.67 | span | 3459.5, 1996.6 | No-Tree Camp | 68.0 |
-| `crossing.major.121` | river | `reach.3385-271` | 2.2 | 0.55 | ford | 6153.1, 636.7 | Thorn | 61.9 |
-| `crossing.major.128` | marsh | `body.1209-3032` | 1.6 | 0.36 | ford | 2527.9, 5949.0 | Spine | 121.0 |
-| `crossing.major.129` | marsh | `body.1408-3425` | 1.6 | 0.34 | ford | 2582.7, 6256.1 | Cordon Two, Under-Stores | 80.6 |
-| `crossing.major.130` | lake | `body.692-1779` | 1.1 | 1.07 | ford | 1225.6, 3298.3 | Onkobra Field Station | 71.5 |
-| `crossing.major.131` | river | `reach.183-1646` | 1.1 | 0.31 | ford | 315.3, 3024.2 | Bog Iron Workings | 19.8 |
-| `crossing.major.132` | river | `reach.1268-1133` | 1.1 | 0.55 | ford | 2322.3, 2070.0 | The Sunk Well | 82.3 |
-| `crossing.major.145` | marsh | `body.2848-1068` | 0.8 | 0.7 | ford | 5247.7, 2009.7 | Sleeps-In-The-Ring | 11.6 |
-| `crossing.major.148` | marsh | `body.1189-2027` | 0.0 | 3.35 | span | 2149.5, 3811.0 | Old Office House | 83.3 |
+| `crossing.major.032` | marsh | `body.2442-1212` | 35.4 | 0.6 | span | 3701.9, 457.2 | Nine Mile | 121.9 |
+| `crossing.major.036` | marsh | `body.2442-1212` | 31.3 | 0.6 | span | 3652.0, 438.7 | Long Water | 144.0 |
+| `crossing.major.042` | marsh | `body.2442-1212` | 24.4 | 1.68 | span | 4635.0, 1627.2 | The Minder's House | 94.9 |
+| `crossing.major.043` | marsh | `body.2442-1212` | 21.9 | 1.2 | span | 3230.7, 379.7 | Cut-And-Stack | 186.1 |
+| `crossing.major.045` | marsh | `body.824-3417` | 17.7 | 0.36 | ford | 1471.3, 6322.5 | Wide-Furrow | 82.8 |
+| `crossing.major.048` | river | `reach.976-2536` | 16.6 | 1.99 | span | 1856.2, 4850.2 | Nine-Stakes Field | 78.6 |
+| `crossing.major.049` | lake | `body.221-1650` | 14.3 | 2.16 | span | 342.7, 3048.0 | Bog Iron Workings | 55.7 |
+| `crossing.major.050` | river | `reach.183-1646` | 13.0 | 0.65 | ford | 313.4, 3030.1 | Bog Iron Workings | 24.2 |
+| `crossing.major.052` | river | `reach.1247-947` | 12.2 | 1.13 | ford | 2278.4, 1746.8 | The Monsoon Boom | 66.7 |
+| `crossing.major.055` | marsh | `body.2442-1212` | 12.1 | 0.6 | ford | 3771.6, 538.1 | Nine Mile | 38.7 |
+| `crossing.major.064` | marsh | `body.2442-1212` | 9.9 | 0.6 | ford | 4654.1, 1612.7 | The Minder's House | 115.8 |
+| `crossing.major.069` | river | `reach.1015-1489` | 7.6 | 0.67 | ford | 1923.9, 2741.8 | Rests-The-Walkers | 84.4 |
+| `crossing.major.076` | river | `reach.1039-1527` | 6.6 | 1.13 | ford | 1924.0, 2763.0 | Rests-The-Walkers | 89.7 |
+| `crossing.major.077` | marsh | `body.712-3516` | 6.6 | 0.58 | ford | 1260.5, 6421.9 | Mudfoot | 73.4 |
+| `crossing.major.078` | river | `reach.3118-400` | 6.6 | 0.56 | ford | 6101.1, 725.9 | Thorn Terraces | 101.0 |
+| `crossing.major.081` | river | `reach.1557-2456` | 6.0 | 0.43 | ford | 2839.8, 4490.0 | The Horwalli Cut | 35.1 |
+| `crossing.major.083` | lake | `body.221-1650` | 5.5 | 2.4 | span | 520.9, 3205.1 | Cartwright's Cross | 76.4 |
+| `crossing.major.092` | marsh | `body.2752-2409` | 4.4 | 1.31 | span | 5029.7, 4402.0 | The Estuary Mouth Station | 34.9 |
+| `crossing.major.093` | marsh | `body.1071-1088` | 4.4 | 0.59 | ford | 1963.1, 1985.0 | The Quiet Pit | 75.3 |
+| `crossing.major.102` | river | `reach.1890-1832` | 3.9 | 0.43 | ford | 3490.3, 3290.1 | The Underway | 399.4 |
+| `crossing.major.106` | marsh | `body.1097-2192` | 3.3 | 0.45 | ford | 2048.9, 4010.4 | Red Cart Yard | 67.1 |
+| `crossing.major.107` | river | `reach.3043-787` | 3.3 | 0.55 | ford | 5589.7, 1478.6 | Two-Gate Bridge | 41.0 |
+| `crossing.major.112` | marsh | `body.2760-2066` | 3.1 | 0.45 | ford | 4946.1, 3845.3 | Nine-Trunks | 93.3 |
+| `crossing.major.113` | marsh | `body.643-2936` | 3.1 | 0.34 | ford | 1222.8, 5389.0 | Teeth-Pens | 86.5 |
+| `crossing.major.114` | marsh | `body.824-3417` | 3.1 | 1.08 | ford | 1465.4, 6333.5 | Wide-Furrow | 74.4 |
+| `crossing.major.115` | marsh | `body.2442-1212` | 3.1 | 1.32 | span | 4517.1, 1573.8 | The Minder's House | 64.7 |
+| `crossing.major.121` | lake | `body.221-1650` | 2.2 | 1.08 | ford | 329.6, 3038.5 | Bog Iron Workings | 39.8 |
+| `crossing.major.122` | marsh | `body.2442-1212` | 2.2 | 0.48 | ford | 2351.8, 3009.9 | Sermon Road Camp | 147.7 |
+| `crossing.major.123` | marsh | `body.1828-1638` | 2.2 | 0.48 | ford | 3345.5, 3020.8 | The Underway | 166.6 |
+| `crossing.major.124` | marsh | `body.1209-3032` | 2.2 | 0.36 | ford | 2702.8, 6119.0 | Threewater | 136.5 |
+| `crossing.major.125` | marsh | `body.1408-3425` | 2.2 | 0.58 | ford | 2571.2, 6262.8 | Cordon Two, Under-Stores | 82.9 |
+| `crossing.major.126` | river | `reach.3385-271` | 2.2 | 0.55 | ford | 6153.1, 636.7 | Thorn | 61.9 |
+| `crossing.major.133` | marsh | `body.1209-3032` | 1.6 | 0.36 | ford | 2527.9, 5949.0 | Spine | 121.0 |
+| `crossing.major.134` | marsh | `body.2442-1212` | 1.6 | 1.32 | span | 3854.9, 647.6 | Nine Sockets | 112.4 |
+| `crossing.major.135` | lake | `body.692-1779` | 1.1 | 1.07 | ford | 1225.6, 3298.3 | Onkobra Field Station | 71.5 |
+| `crossing.major.136` | river | `reach.183-1646` | 1.1 | 0.31 | ford | 315.3, 3024.2 | Bog Iron Workings | 19.8 |
+| `crossing.major.137` | river | `reach.1085-1169` | 1.1 | 0.31 | ford | 1987.8, 2135.8 | The Coiling Reach | 83.5 |
+| `crossing.major.150` | marsh | `body.2848-1068` | 0.8 | 0.7 | ford | 5247.7, 2009.7 | Sleeps-In-The-Ring | 11.6 |
+| `crossing.major.153` | marsh | `body.1189-2027` | 0.0 | 3.35 | span | 2149.5, 3811.0 | Old Office House | 83.3 |
 

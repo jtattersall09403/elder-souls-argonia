@@ -9,14 +9,14 @@
   },
   "counts": {
     "major": {
-      "total": 50,
-      "lake": 7,
-      "river": 11,
-      "marsh": 32,
+      "total": 55,
+      "lake": 5,
+      "river": 12,
+      "marsh": 38,
       "bands": {
         "ferry": 1,
-        "span": 22,
-        "ford": 27
+        "span": 26,
+        "ford": 28
       }
     },
     "minor": {
@@ -32,8 +32,40 @@
     }
   },
   "deepestM": 18.32,
-  "widestM": 411.3,
+  "widestM": 1043.2,
   "crossings": [
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        4165.6,
+        1148.0
+      ],
+      "banks": [
+        [
+          3961.5,
+          781.8
+        ],
+        [
+          4436.2,
+          1508.0
+        ]
+      ],
+      "spanM": 1043.2,
+      "maxDepthM": 5.28,
+      "nearestPlaceId": "place.pirate-freeholds.corimont-hiring-yard",
+      "nearestPlaceName": "The Hiring Yard",
+      "nearestPlaceM": 119.3,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.001"
+    },
     {
       "wayName": "the Blackwood Road",
       "wayClass": "trunk",
@@ -64,7 +96,39 @@
         "route.road.gideon-blackwood-road"
       ],
       "band": "ferry",
-      "id": "crossing.major.001"
+      "id": "crossing.major.002"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3514.9,
+        446.6
+      ],
+      "banks": [
+        [
+          3397.4,
+          441.8
+        ],
+        [
+          3632.4,
+          438.7
+        ]
+      ],
+      "spanM": 259.1,
+      "maxDepthM": 2.04,
+      "nearestPlaceId": "place.pirate-freeholds.half-chartered-anchorage",
+      "nearestPlaceName": "Long Water",
+      "nearestPlaceM": 181.6,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.003"
     },
     {
       "wayName": "the Tear road",
@@ -96,7 +160,7 @@
         "route.road.thorn-tear-road"
       ],
       "band": "span",
-      "id": "crossing.major.002"
+      "id": "crossing.major.004"
     },
     {
       "wayName": "the Prison road",
@@ -130,7 +194,7 @@
         "route.road.soulrest-blackrose"
       ],
       "band": "span",
-      "id": "crossing.major.003"
+      "id": "crossing.major.005"
     },
     {
       "wayName": "the Tear road",
@@ -162,7 +226,7 @@
         "route.road.thorn-tear-road"
       ],
       "band": "span",
-      "id": "crossing.major.004"
+      "id": "crossing.major.006"
     },
     {
       "wayName": null,
@@ -194,7 +258,7 @@
         "track.dunmer-north.tear-road-stage"
       ],
       "band": "ferry",
-      "id": "crossing.minor.005"
+      "id": "crossing.minor.007"
     },
     {
       "wayName": "the Bogmother causeway",
@@ -226,7 +290,7 @@
         "route.road.helstrom-blackrose"
       ],
       "band": "span",
-      "id": "crossing.major.006"
+      "id": "crossing.major.008"
     },
     {
       "wayName": null,
@@ -258,7 +322,7 @@
         "track.dunmer-north.the-shut-village"
       ],
       "band": "ferry",
-      "id": "crossing.minor.007"
+      "id": "crossing.minor.009"
     },
     {
       "wayName": "the Border road",
@@ -290,40 +354,7 @@
         "route.road.stormhold-thorn"
       ],
       "band": "span",
-      "id": "crossing.major.008"
-    },
-    {
-      "wayName": "the Coast road",
-      "wayClass": "road",
-      "network": "major",
-      "water": "marsh",
-      "entityId": "body.1209-3032",
-      "entityKind": "swamp",
-      "positionM": [
-        2538.4,
-        6222.1
-      ],
-      "banks": [
-        [
-          2488.7,
-          6223.8
-        ],
-        [
-          2582.7,
-          6246.5
-        ]
-      ],
-      "spanM": 119.1,
-      "maxDepthM": 1.68,
-      "nearestPlaceId": "place.imperial-penal-south.cordon-cellars",
-      "nearestPlaceName": "Cordon Two, Under-Stores",
-      "nearestPlaceM": 135.0,
-      "servesRoutes": [
-        "route.track.mercantile-coast.coast-road",
-        "route.road.soulrest-blackrose"
-      ],
-      "band": "span",
-      "id": "crossing.major.009"
+      "id": "crossing.major.010"
     },
     {
       "wayName": null,
@@ -355,7 +386,72 @@
         "track.imperial-fringe.the-pass-shelter"
       ],
       "band": "ferry",
-      "id": "crossing.minor.010"
+      "id": "crossing.minor.011"
+    },
+    {
+      "wayName": "the Lake road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1209-3032",
+      "entityKind": "swamp",
+      "positionM": [
+        2528.5,
+        6223.7
+      ],
+      "banks": [
+        [
+          2488.7,
+          6223.8
+        ],
+        [
+          2564.7,
+          6255.1
+        ]
+      ],
+      "spanM": 103.9,
+      "maxDepthM": 1.8,
+      "nearestPlaceId": "place.imperial-penal-south.cordon-cellars",
+      "nearestPlaceName": "Cordon Two, Under-Stores",
+      "nearestPlaceM": 140.7,
+      "servesRoutes": [
+        "route.road.soulrest-blackrose",
+        "route.track.mercantile-coast.coast-road"
+      ],
+      "band": "span",
+      "id": "crossing.major.012"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3361.2,
+        402.4
+      ],
+      "banks": [
+        [
+          3330.1,
+          363.5
+        ],
+        [
+          3396.6,
+          441.0
+        ]
+      ],
+      "spanM": 102.9,
+      "maxDepthM": 3.84,
+      "nearestPlaceId": "place.dunmer-north.the-guar-ground",
+      "nearestPlaceName": "Guar Ground",
+      "nearestPlaceM": 195.8,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.013"
     },
     {
       "wayName": "the Bogmother causeway",
@@ -387,7 +483,7 @@
         "route.road.helstrom-blackrose"
       ],
       "band": "span",
-      "id": "crossing.major.011"
+      "id": "crossing.major.014"
     },
     {
       "wayName": null,
@@ -419,7 +515,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "ferry",
-      "id": "crossing.minor.012"
+      "id": "crossing.minor.015"
     },
     {
       "wayName": null,
@@ -451,7 +547,7 @@
         "track.imperial-fringe.moonmarch-ground"
       ],
       "band": "ferry",
-      "id": "crossing.minor.013"
+      "id": "crossing.minor.016"
     },
     {
       "wayName": null,
@@ -483,7 +579,7 @@
         "track.dunmer-north.the-northern-rest"
       ],
       "band": "ferry",
-      "id": "crossing.minor.014"
+      "id": "crossing.minor.017"
     },
     {
       "wayName": null,
@@ -515,7 +611,7 @@
         "track.imperial-fringe.the-drowning-gate"
       ],
       "band": "ferry",
-      "id": "crossing.minor.015"
+      "id": "crossing.minor.018"
     },
     {
       "wayName": null,
@@ -547,39 +643,7 @@
         "track.imperial-penal-south.longmont"
       ],
       "band": "span",
-      "id": "crossing.minor.016"
-    },
-    {
-      "wayName": "the Border road",
-      "wayClass": "trunk",
-      "network": "major",
-      "water": "marsh",
-      "entityId": "body.2442-1212",
-      "entityKind": "marsh-deep",
-      "positionM": [
-        4634.3,
-        2542.5
-      ],
-      "banks": [
-        [
-          4600.7,
-          2533.4
-        ],
-        [
-          4667.3,
-          2549.8
-        ]
-      ],
-      "spanM": 71.8,
-      "maxDepthM": 4.68,
-      "nearestPlaceId": "place.hist-heartland.hermit-hut-exile-warden",
-      "nearestPlaceName": "The Set-Aside Hut",
-      "nearestPlaceM": 235.2,
-      "servesRoutes": [
-        "route.road.stormhold-thorn"
-      ],
-      "band": "span",
-      "id": "crossing.major.017"
+      "id": "crossing.minor.019"
     },
     {
       "wayName": "the Corimont road",
@@ -609,11 +673,10 @@
       "nearestPlaceM": 251.4,
       "servesRoutes": [
         "route.road.alten-corimont-stormhold",
-        "route.road.gideon-stormhold",
-        "route.road.stormhold-thorn"
+        "route.road.gideon-stormhold"
       ],
       "band": "span",
-      "id": "crossing.major.018"
+      "id": "crossing.major.020"
     },
     {
       "wayName": null,
@@ -645,7 +708,7 @@
         "track.saxhleel-coast.wall-hist-village"
       ],
       "band": "span",
-      "id": "crossing.minor.019"
+      "id": "crossing.minor.021"
     },
     {
       "wayName": "the Corimont road",
@@ -677,7 +740,7 @@
         "route.road.alten-corimont-stormhold"
       ],
       "band": "span",
-      "id": "crossing.major.020"
+      "id": "crossing.major.022"
     },
     {
       "wayName": null,
@@ -709,39 +772,7 @@
         "track.mercantile-coast.lighter-flotilla"
       ],
       "band": "span",
-      "id": "crossing.minor.021"
-    },
-    {
-      "wayName": "the Rim road",
-      "wayClass": "road",
-      "network": "major",
-      "water": "marsh",
-      "entityId": "body.2442-1212",
-      "entityKind": "marsh-deep",
-      "positionM": [
-        2597.0,
-        2850.1
-      ],
-      "banks": [
-        [
-          2582.7,
-          2873.4
-        ],
-        [
-          2612.5,
-          2827.1
-        ]
-      ],
-      "spanM": 56.3,
-      "maxDepthM": 3.12,
-      "nearestPlaceId": "place.hist-heartland.artisan-chime-makers",
-      "nearestPlaceName": "Thousand-Chimes",
-      "nearestPlaceM": 201.5,
-      "servesRoutes": [
-        "route.road.gideon-stormhold"
-      ],
-      "band": "span",
-      "id": "crossing.major.022"
+      "id": "crossing.minor.023"
     },
     {
       "wayName": null,
@@ -773,7 +804,7 @@
         "track.imperial-fringe.stonewastes"
       ],
       "band": "span",
-      "id": "crossing.minor.023"
+      "id": "crossing.minor.024"
     },
     {
       "wayName": null,
@@ -806,42 +837,7 @@
         "track.dunmer-north.silyanorn-diggings"
       ],
       "band": "span",
-      "id": "crossing.minor.024"
-    },
-    {
-      "wayName": "the Long road",
-      "wayClass": "road",
-      "network": "major",
-      "water": "lake",
-      "entityId": "body.692-1779",
-      "entityKind": "tarn-upland",
-      "positionM": [
-        1357.2,
-        3068.3
-      ],
-      "banks": [
-        [
-          1380.3,
-          3063.7
-        ],
-        [
-          1334.1,
-          3080.2
-        ]
-      ],
-      "spanM": 54.1,
-      "maxDepthM": 2.75,
-      "nearestPlaceId": "place.imperial-fringe.gideon",
-      "nearestPlaceName": "Gideon",
-      "nearestPlaceM": 41.5,
-      "servesRoutes": [
-        "route.road.archon-gideon",
-        "route.road.gideon-blackwood-road",
-        "route.road.gideon-soulrest",
-        "route.road.gideon-stormhold"
-      ],
-      "band": "span",
-      "id": "crossing.major.025"
+      "id": "crossing.minor.025"
     },
     {
       "wayName": null,
@@ -883,24 +879,24 @@
       "entityId": "body.2442-1212",
       "entityKind": "marsh-deep",
       "positionM": [
-        4055.2,
-        2251.0
+        3814.4,
+        583.6
       ],
       "banks": [
         [
-          4046.8,
-          2227.9
+          3792.2,
+          573.4
         ],
         [
-          4067.2,
-          2274.1
+          3833.0,
+          590.7
         ]
       ],
-      "spanM": 52.8,
-      "maxDepthM": 3.96,
-      "nearestPlaceId": "place.hist-heartland.xal-meeruth-station",
-      "nearestPlaceName": "The Meeruth Station",
-      "nearestPlaceM": 50.9,
+      "spanM": 48.3,
+      "maxDepthM": 2.64,
+      "nearestPlaceId": "place.pirate-freeholds.freehold-naga-camp",
+      "nearestPlaceName": "Nine Mile",
+      "nearestPlaceM": 63.7,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -940,38 +936,6 @@
       "id": "crossing.minor.028"
     },
     {
-      "wayName": "the Rim road",
-      "wayClass": "road",
-      "network": "major",
-      "water": "marsh",
-      "entityId": "body.2442-1212",
-      "entityKind": "marsh-deep",
-      "positionM": [
-        2368.9,
-        2319.7
-      ],
-      "banks": [
-        [
-          2348.5,
-          2319.5
-        ],
-        [
-          2389.2,
-          2323.4
-        ]
-      ],
-      "spanM": 40.5,
-      "maxDepthM": 2.04,
-      "nearestPlaceId": "place.hist-heartland.root-gallery-lantern-hollow",
-      "nearestPlaceName": "Lantern Hollow",
-      "nearestPlaceM": 124.5,
-      "servesRoutes": [
-        "route.road.gideon-stormhold"
-      ],
-      "band": "span",
-      "id": "crossing.major.029"
-    },
-    {
       "wayName": null,
       "wayClass": "track",
       "network": "minor",
@@ -1001,7 +965,39 @@
         "track.hist-heartland.bereaved-mnemic"
       ],
       "band": "span",
-      "id": "crossing.minor.030"
+      "id": "crossing.minor.029"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3867.4,
+        629.3
+      ],
+      "banks": [
+        [
+          3863.5,
+          617.3
+        ],
+        [
+          3856.5,
+          645.5
+        ]
+      ],
+      "spanM": 38.6,
+      "maxDepthM": 2.16,
+      "nearestPlaceId": "place.pirate-freeholds.rim-keystone-chamber",
+      "nearestPlaceName": "Nine Sockets",
+      "nearestPlaceM": 90.3,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.030"
     },
     {
       "wayName": "the Tear road",
@@ -1036,6 +1032,38 @@
       "id": "crossing.major.031"
     },
     {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3701.9,
+        457.2
+      ],
+      "banks": [
+        [
+          3689.6,
+          444.2
+        ],
+        [
+          3712.3,
+          471.6
+        ]
+      ],
+      "spanM": 35.4,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.pirate-freeholds.freehold-naga-camp",
+      "nearestPlaceName": "Nine Mile",
+      "nearestPlaceM": 121.9,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.032"
+    },
+    {
       "wayName": null,
       "wayClass": "track",
       "network": "minor",
@@ -1065,7 +1093,7 @@
         "track.hist-heartland.bereaved-mnemic"
       ],
       "band": "span",
-      "id": "crossing.minor.032"
+      "id": "crossing.minor.033"
     },
     {
       "wayName": null,
@@ -1097,7 +1125,7 @@
         "track.pirate-freeholds.corimont-hist-less-camp"
       ],
       "band": "span",
-      "id": "crossing.minor.033"
+      "id": "crossing.minor.034"
     },
     {
       "wayName": null,
@@ -1129,7 +1157,39 @@
         "track.dunmer-north.the-monsoon-boom"
       ],
       "band": "span",
-      "id": "crossing.minor.034"
+      "id": "crossing.minor.035"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3652.0,
+        438.7
+      ],
+      "banks": [
+        [
+          3635.6,
+          438.7
+        ],
+        [
+          3668.5,
+          438.7
+        ]
+      ],
+      "spanM": 31.3,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.pirate-freeholds.half-chartered-anchorage",
+      "nearestPlaceName": "Long Water",
+      "nearestPlaceM": 144.0,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.036"
     },
     {
       "wayName": null,
@@ -1161,7 +1221,7 @@
         "track.imperial-fringe.the-last-post"
       ],
       "band": "span",
-      "id": "crossing.minor.035"
+      "id": "crossing.minor.037"
     },
     {
       "wayName": null,
@@ -1193,7 +1253,7 @@
         "track.naga-kur-deeps.naga-village-settled"
       ],
       "band": "span",
-      "id": "crossing.minor.036"
+      "id": "crossing.minor.038"
     },
     {
       "wayName": null,
@@ -1225,7 +1285,7 @@
         "track.dunmer-north.the-lightning-yard"
       ],
       "band": "span",
-      "id": "crossing.minor.037"
+      "id": "crossing.minor.039"
     },
     {
       "wayName": null,
@@ -1257,7 +1317,7 @@
         "track.dunmer-north.the-veterans-ridge"
       ],
       "band": "span",
-      "id": "crossing.minor.038"
+      "id": "crossing.minor.040"
     },
     {
       "wayName": null,
@@ -1289,39 +1349,71 @@
         "track.imperial-fringe.the-drowning-gate"
       ],
       "band": "span",
-      "id": "crossing.minor.039"
+      "id": "crossing.minor.041"
     },
     {
-      "wayName": "the Rim road",
-      "wayClass": "road",
+      "wayName": "the Border road",
+      "wayClass": "trunk",
       "network": "major",
       "water": "marsh",
       "entityId": "body.2442-1212",
       "entityKind": "marsh-deep",
       "positionM": [
-        2534.2,
-        3064.6
+        4635.0,
+        1627.2
       ],
       "banks": [
         [
-          2527.9,
-          3073.1
+          4625.7,
+          1636.4
         ],
         [
-          2542.8,
-          3055.9
+          4644.5,
+          1617.6
         ]
       ],
-      "spanM": 21.5,
-      "maxDepthM": 0.6,
-      "nearestPlaceId": "place.hist-heartland.artisan-chime-makers",
-      "nearestPlaceName": "Thousand-Chimes",
-      "nearestPlaceM": 39.3,
+      "spanM": 24.4,
+      "maxDepthM": 1.68,
+      "nearestPlaceId": "place.hist-heartland.officeholder-tree-minder-house",
+      "nearestPlaceName": "The Minder's House",
+      "nearestPlaceM": 94.9,
       "servesRoutes": [
-        "route.road.gideon-stormhold"
+        "route.road.stormhold-thorn"
       ],
       "band": "span",
-      "id": "crossing.major.040"
+      "id": "crossing.major.042"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3230.7,
+        379.7
+      ],
+      "banks": [
+        [
+          3234.5,
+          390.1
+        ],
+        [
+          3229.8,
+          369.0
+        ]
+      ],
+      "spanM": 21.9,
+      "maxDepthM": 1.2,
+      "nearestPlaceId": "place.dunmer-north.cut-and-stack",
+      "nearestPlaceName": "Cut-And-Stack",
+      "nearestPlaceM": 186.1,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.043"
     },
     {
       "wayName": null,
@@ -1353,7 +1445,7 @@
         "track.dunmer-north.the-north-cut"
       ],
       "band": "span",
-      "id": "crossing.minor.041"
+      "id": "crossing.minor.044"
     },
     {
       "wayName": "the Lake road",
@@ -1386,7 +1478,7 @@
         "route.track.mercantile-coast.coast-road"
       ],
       "band": "ford",
-      "id": "crossing.major.042"
+      "id": "crossing.major.045"
     },
     {
       "wayName": null,
@@ -1418,7 +1510,7 @@
         "track.imperial-penal-south.feeder-portage"
       ],
       "band": "span",
-      "id": "crossing.minor.043"
+      "id": "crossing.minor.046"
     },
     {
       "wayName": null,
@@ -1454,7 +1546,7 @@
         "track.dunmer-north.the-field-gate-garrison"
       ],
       "band": "ford",
-      "id": "crossing.minor.044"
+      "id": "crossing.minor.047"
     },
     {
       "wayName": "the Bog causeway",
@@ -1486,7 +1578,7 @@
         "route.road.gideon-soulrest"
       ],
       "band": "span",
-      "id": "crossing.major.045"
+      "id": "crossing.major.048"
     },
     {
       "wayName": "the Blackwood Road",
@@ -1518,7 +1610,7 @@
         "route.road.gideon-blackwood-road"
       ],
       "band": "span",
-      "id": "crossing.major.046"
+      "id": "crossing.major.049"
     },
     {
       "wayName": "the Blackwood Road",
@@ -1550,7 +1642,7 @@
         "route.road.gideon-blackwood-road"
       ],
       "band": "ford",
-      "id": "crossing.major.047"
+      "id": "crossing.major.050"
     },
     {
       "wayName": null,
@@ -1582,7 +1674,7 @@
         "track.mercantile-coast.soulrest-divers-yard"
       ],
       "band": "ford",
-      "id": "crossing.minor.048"
+      "id": "crossing.minor.051"
     },
     {
       "wayName": "the Rim road",
@@ -1614,7 +1706,7 @@
         "route.road.gideon-stormhold"
       ],
       "band": "ford",
-      "id": "crossing.major.049"
+      "id": "crossing.major.052"
     },
     {
       "wayName": null,
@@ -1646,7 +1738,7 @@
         "track.imperial-fringe.the-pass-shelter"
       ],
       "band": "ford",
-      "id": "crossing.minor.050"
+      "id": "crossing.minor.053"
     },
     {
       "wayName": null,
@@ -1678,7 +1770,39 @@
         "track.mercantile-coast.glowfen-murkmire"
       ],
       "band": "span",
-      "id": "crossing.minor.051"
+      "id": "crossing.minor.054"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        3771.6,
+        538.1
+      ],
+      "banks": [
+        [
+          3767.2,
+          531.9
+        ],
+        [
+          3772.7,
+          543.7
+        ]
+      ],
+      "spanM": 12.1,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.pirate-freeholds.freehold-naga-camp",
+      "nearestPlaceName": "Nine Mile",
+      "nearestPlaceM": 38.7,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "ford",
+      "id": "crossing.major.055"
     },
     {
       "wayName": null,
@@ -1711,7 +1835,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "span",
-      "id": "crossing.minor.052"
+      "id": "crossing.minor.056"
     },
     {
       "wayName": null,
@@ -1743,7 +1867,7 @@
         "track.saxhleel-coast.quarantine-village-lagoon"
       ],
       "band": "ford",
-      "id": "crossing.minor.053"
+      "id": "crossing.minor.057"
     },
     {
       "wayName": null,
@@ -1775,7 +1899,7 @@
         "track.imperial-penal-south.feeder-portage"
       ],
       "band": "ford",
-      "id": "crossing.minor.054"
+      "id": "crossing.minor.058"
     },
     {
       "wayName": null,
@@ -1807,7 +1931,7 @@
         "track.naga-kur-deeps.wamasu-pond-adult"
       ],
       "band": "ford",
-      "id": "crossing.minor.055"
+      "id": "crossing.minor.059"
     },
     {
       "wayName": null,
@@ -1839,7 +1963,7 @@
         "track.dunmer-north.mazzatun"
       ],
       "band": "span",
-      "id": "crossing.minor.056"
+      "id": "crossing.minor.060"
     },
     {
       "wayName": null,
@@ -1872,7 +1996,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "span",
-      "id": "crossing.minor.057"
+      "id": "crossing.minor.061"
     },
     {
       "wayName": null,
@@ -1904,7 +2028,7 @@
         "track.imperial-penal-south.longmont"
       ],
       "band": "ford",
-      "id": "crossing.minor.058"
+      "id": "crossing.minor.062"
     },
     {
       "wayName": null,
@@ -1936,7 +2060,39 @@
         "track.dunmer-north.stands-on-the-island"
       ],
       "band": "ford",
-      "id": "crossing.minor.059"
+      "id": "crossing.minor.063"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        4654.1,
+        1612.7
+      ],
+      "banks": [
+        [
+          4649.2,
+          1611.4
+        ],
+        [
+          4659.4,
+          1616.1
+        ]
+      ],
+      "spanM": 9.9,
+      "maxDepthM": 0.6,
+      "nearestPlaceId": "place.hist-heartland.officeholder-tree-minder-house",
+      "nearestPlaceName": "The Minder's House",
+      "nearestPlaceM": 115.8,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "ford",
+      "id": "crossing.major.064"
     },
     {
       "wayName": null,
@@ -1968,39 +2124,7 @@
         "track.imperial-fringe.cassian-farm"
       ],
       "band": "ford",
-      "id": "crossing.minor.060"
-    },
-    {
-      "wayName": "the Rim road",
-      "wayClass": "road",
-      "network": "major",
-      "water": "marsh",
-      "entityId": "body.2442-1212",
-      "entityKind": "marsh-deep",
-      "positionM": [
-        2593.7,
-        2756.8
-      ],
-      "banks": [
-        [
-          2593.7,
-          2762.1
-        ],
-        [
-          2592.9,
-          2751.9
-        ]
-      ],
-      "spanM": 8.6,
-      "maxDepthM": 0.84,
-      "nearestPlaceId": "place.hist-heartland.miregaunt-ground-slow-ground",
-      "nearestPlaceName": "The Slow Ground",
-      "nearestPlaceM": 175.2,
-      "servesRoutes": [
-        "route.road.gideon-stormhold"
-      ],
-      "band": "ford",
-      "id": "crossing.major.061"
+      "id": "crossing.minor.065"
     },
     {
       "wayName": null,
@@ -2032,7 +2156,7 @@
         "track.imperial-fringe.hangs-above-the-water"
       ],
       "band": "ford",
-      "id": "crossing.minor.062"
+      "id": "crossing.minor.066"
     },
     {
       "wayName": null,
@@ -2064,42 +2188,7 @@
         "track.hist-heartland.bereaved-mnemic"
       ],
       "band": "ford",
-      "id": "crossing.minor.063"
-    },
-    {
-      "wayName": "the Long road",
-      "wayClass": "road",
-      "network": "major",
-      "water": "lake",
-      "entityId": "body.692-1779",
-      "entityKind": "tarn-upland",
-      "positionM": [
-        1324.9,
-        3087.0
-      ],
-      "banks": [
-        [
-          1329.4,
-          3084.9
-        ],
-        [
-          1322.3,
-          3088.0
-        ]
-      ],
-      "spanM": 7.7,
-      "maxDepthM": 0.59,
-      "nearestPlaceId": "place.imperial-fringe.gideon",
-      "nearestPlaceName": "Gideon",
-      "nearestPlaceM": 10.1,
-      "servesRoutes": [
-        "route.road.archon-gideon",
-        "route.road.gideon-blackwood-road",
-        "route.road.gideon-soulrest",
-        "route.road.gideon-stormhold"
-      ],
-      "band": "ford",
-      "id": "crossing.major.064"
+      "id": "crossing.minor.067"
     },
     {
       "wayName": null,
@@ -2131,39 +2220,39 @@
         "track.imperial-fringe.cassian-farm"
       ],
       "band": "ford",
-      "id": "crossing.minor.065"
+      "id": "crossing.minor.068"
     },
     {
-      "wayName": "the Border road",
-      "wayClass": "trunk",
+      "wayName": "the Rim road",
+      "wayClass": "road",
       "network": "major",
-      "water": "marsh",
-      "entityId": "body.2442-1212",
-      "entityKind": "marsh-deep",
+      "water": "river",
+      "entityId": "reach.1015-1489",
+      "entityKind": "sloped-rapid",
       "positionM": [
-        4042.1,
-        2220.8
+        1923.9,
+        2741.8
       ],
       "banks": [
         [
-          4041.4,
-          2216.9
+          1920.8,
+          2745.7
         ],
         [
-          4045.3,
-          2224.7
+          1924.7,
+          2737.8
         ]
       ],
       "spanM": 7.6,
-      "maxDepthM": 0.48,
-      "nearestPlaceId": "place.hist-heartland.xal-meeruth-station",
-      "nearestPlaceName": "The Meeruth Station",
-      "nearestPlaceM": 38.3,
+      "maxDepthM": 0.67,
+      "nearestPlaceId": "place.imperial-fringe.the-road-nisswo-house",
+      "nearestPlaceName": "Rests-The-Walkers",
+      "nearestPlaceM": 84.4,
       "servesRoutes": [
-        "route.road.stormhold-thorn"
+        "route.road.gideon-stormhold"
       ],
       "band": "ford",
-      "id": "crossing.major.066"
+      "id": "crossing.major.069"
     },
     {
       "wayName": null,
@@ -2196,7 +2285,7 @@
         "track.imperial-fringe.the-stone-talkers-watch"
       ],
       "band": "ford",
-      "id": "crossing.minor.067"
+      "id": "crossing.minor.070"
     },
     {
       "wayName": null,
@@ -2228,7 +2317,7 @@
         "track.imperial-fringe.cassian-farm"
       ],
       "band": "ford",
-      "id": "crossing.minor.068"
+      "id": "crossing.minor.071"
     },
     {
       "wayName": null,
@@ -2260,7 +2349,7 @@
         "track.imperial-fringe.slough-point"
       ],
       "band": "ford",
-      "id": "crossing.minor.069"
+      "id": "crossing.minor.072"
     },
     {
       "wayName": null,
@@ -2292,7 +2381,7 @@
         "track.saxhleel-coast.wall-hist-village"
       ],
       "band": "ford",
-      "id": "crossing.minor.070"
+      "id": "crossing.minor.073"
     },
     {
       "wayName": null,
@@ -2324,7 +2413,7 @@
         "track.dunmer-north.the-north-cut"
       ],
       "band": "ford",
-      "id": "crossing.minor.071"
+      "id": "crossing.minor.074"
     },
     {
       "wayName": null,
@@ -2357,7 +2446,39 @@
         "track.imperial-fringe.cassian-farm"
       ],
       "band": "ford",
-      "id": "crossing.minor.072"
+      "id": "crossing.minor.075"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "river",
+      "entityId": "reach.1039-1527",
+      "entityKind": "sloped-rapid",
+      "positionM": [
+        1924.0,
+        2763.0
+      ],
+      "banks": [
+        [
+          1927.1,
+          2766.0
+        ],
+        [
+          1920.8,
+          2759.8
+        ]
+      ],
+      "spanM": 6.6,
+      "maxDepthM": 1.13,
+      "nearestPlaceId": "place.imperial-fringe.the-road-nisswo-house",
+      "nearestPlaceName": "Rests-The-Walkers",
+      "nearestPlaceM": 89.7,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "ford",
+      "id": "crossing.major.076"
     },
     {
       "wayName": "the Lake road",
@@ -2390,7 +2511,7 @@
         "route.track.mercantile-coast.coast-road"
       ],
       "band": "ford",
-      "id": "crossing.major.073"
+      "id": "crossing.major.077"
     },
     {
       "wayName": "the Border road",
@@ -2422,7 +2543,7 @@
         "route.road.stormhold-thorn"
       ],
       "band": "ford",
-      "id": "crossing.major.074"
+      "id": "crossing.major.078"
     },
     {
       "wayName": null,
@@ -2458,7 +2579,7 @@
         "track.dunmer-north.the-field-gate-garrison"
       ],
       "band": "ford",
-      "id": "crossing.minor.075"
+      "id": "crossing.minor.079"
     },
     {
       "wayName": null,
@@ -2490,7 +2611,7 @@
         "track.mercantile-coast.lighter-flotilla"
       ],
       "band": "ford",
-      "id": "crossing.minor.076"
+      "id": "crossing.minor.080"
     },
     {
       "wayName": "the Bogmother causeway",
@@ -2522,7 +2643,7 @@
         "route.road.helstrom-blackrose"
       ],
       "band": "ford",
-      "id": "crossing.major.077"
+      "id": "crossing.major.081"
     },
     {
       "wayName": null,
@@ -2554,7 +2675,7 @@
         "track.hist-heartland.bereaved-mnemic"
       ],
       "band": "span",
-      "id": "crossing.minor.078"
+      "id": "crossing.minor.082"
     },
     {
       "wayName": "the Blackwood Road",
@@ -2586,7 +2707,7 @@
         "route.road.gideon-blackwood-road"
       ],
       "band": "span",
-      "id": "crossing.major.079"
+      "id": "crossing.major.083"
     },
     {
       "wayName": null,
@@ -2619,7 +2740,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "span",
-      "id": "crossing.minor.080"
+      "id": "crossing.minor.084"
     },
     {
       "wayName": null,
@@ -2651,7 +2772,7 @@
         "track.imperial-fringe.the-pass-shelter"
       ],
       "band": "span",
-      "id": "crossing.minor.081"
+      "id": "crossing.minor.085"
     },
     {
       "wayName": null,
@@ -2683,39 +2804,7 @@
         "track.mercantile-coast.soulrest-divers-yard"
       ],
       "band": "ford",
-      "id": "crossing.minor.082"
-    },
-    {
-      "wayName": "the Bogmother causeway",
-      "wayClass": "road",
-      "network": "major",
-      "water": "river",
-      "entityId": "reach.1890-1832",
-      "entityKind": "sloped-riffle",
-      "positionM": [
-        3482.7,
-        3202.4
-      ],
-      "banks": [
-        [
-          3479.7,
-          3202.4
-        ],
-        [
-          3486.0,
-          3202.4
-        ]
-      ],
-      "spanM": 4.7,
-      "maxDepthM": 0.46,
-      "nearestPlaceId": "place.hist-heartland.root-gallery-helstrom-underway",
-      "nearestPlaceName": "The Underway",
-      "nearestPlaceM": 311.3,
-      "servesRoutes": [
-        "route.road.helstrom-blackrose"
-      ],
-      "band": "ford",
-      "id": "crossing.major.083"
+      "id": "crossing.minor.086"
     },
     {
       "wayName": null,
@@ -2751,7 +2840,7 @@
         "track.dunmer-north.the-field-gate-garrison"
       ],
       "band": "ford",
-      "id": "crossing.minor.084"
+      "id": "crossing.minor.087"
     },
     {
       "wayName": null,
@@ -2787,7 +2876,7 @@
         "track.dunmer-north.the-field-gate-garrison"
       ],
       "band": "ford",
-      "id": "crossing.minor.085"
+      "id": "crossing.minor.088"
     },
     {
       "wayName": null,
@@ -2819,7 +2908,7 @@
         "track.hist-heartland.bereaved-mnemic"
       ],
       "band": "span",
-      "id": "crossing.minor.086"
+      "id": "crossing.minor.089"
     },
     {
       "wayName": null,
@@ -2851,7 +2940,7 @@
         "track.imperial-fringe.cassian-farm"
       ],
       "band": "ford",
-      "id": "crossing.minor.087"
+      "id": "crossing.minor.090"
     },
     {
       "wayName": null,
@@ -2883,7 +2972,7 @@
         "track.imperial-fringe.reedcutters-toll"
       ],
       "band": "ford",
-      "id": "crossing.minor.088"
+      "id": "crossing.minor.091"
     },
     {
       "wayName": "the Long road",
@@ -2915,7 +3004,39 @@
         "route.road.archon-gideon"
       ],
       "band": "span",
-      "id": "crossing.major.089"
+      "id": "crossing.major.092"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.1071-1088",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        1963.1,
+        1985.0
+      ],
+      "banks": [
+        [
+          1960.8,
+          1987.4
+        ],
+        [
+          1965.5,
+          1982.7
+        ]
+      ],
+      "spanM": 4.4,
+      "maxDepthM": 0.59,
+      "nearestPlaceId": "place.imperial-fringe.the-quiet-pit",
+      "nearestPlaceName": "The Quiet Pit",
+      "nearestPlaceM": 75.3,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "ford",
+      "id": "crossing.major.093"
     },
     {
       "wayName": null,
@@ -2947,7 +3068,7 @@
         "track.dunmer-north.mazzatun"
       ],
       "band": "ford",
-      "id": "crossing.minor.090"
+      "id": "crossing.minor.094"
     },
     {
       "wayName": null,
@@ -2980,7 +3101,7 @@
         "track.imperial-fringe.the-stone-talkers-watch"
       ],
       "band": "ford",
-      "id": "crossing.minor.091"
+      "id": "crossing.minor.095"
     },
     {
       "wayName": null,
@@ -3012,7 +3133,7 @@
         "track.dunmer-north.the-monsoon-boom"
       ],
       "band": "ford",
-      "id": "crossing.minor.092"
+      "id": "crossing.minor.096"
     },
     {
       "wayName": null,
@@ -3045,7 +3166,7 @@
         "track.hist-heartland.nightbound-lightless"
       ],
       "band": "ford",
-      "id": "crossing.minor.093"
+      "id": "crossing.minor.097"
     },
     {
       "wayName": null,
@@ -3077,7 +3198,7 @@
         "track.imperial-fringe.long-causeway"
       ],
       "band": "ford",
-      "id": "crossing.minor.094"
+      "id": "crossing.minor.098"
     },
     {
       "wayName": null,
@@ -3109,7 +3230,7 @@
         "track.imperial-fringe.onkobra-kwama-mine"
       ],
       "band": "ford",
-      "id": "crossing.minor.095"
+      "id": "crossing.minor.099"
     },
     {
       "wayName": null,
@@ -3141,7 +3262,7 @@
         "track.imperial-penal-south.longmont"
       ],
       "band": "span",
-      "id": "crossing.minor.096"
+      "id": "crossing.minor.100"
     },
     {
       "wayName": null,
@@ -3173,7 +3294,7 @@
         "track.imperial-penal-south.rockspring"
       ],
       "band": "ford",
-      "id": "crossing.minor.097"
+      "id": "crossing.minor.101"
     },
     {
       "wayName": "the Long road",
@@ -3202,11 +3323,10 @@
       "nearestPlaceName": "The Underway",
       "nearestPlaceM": 399.4,
       "servesRoutes": [
-        "route.road.archon-gideon",
-        "route.road.helstrom-blackrose"
+        "route.road.archon-gideon"
       ],
       "band": "ford",
-      "id": "crossing.major.098"
+      "id": "crossing.major.102"
     },
     {
       "wayName": null,
@@ -3238,7 +3358,7 @@
         "track.dunmer-north.hixinoag"
       ],
       "band": "ford",
-      "id": "crossing.minor.099"
+      "id": "crossing.minor.103"
     },
     {
       "wayName": null,
@@ -3271,7 +3391,7 @@
         "track.imperial-fringe.the-stone-talkers-watch"
       ],
       "band": "ford",
-      "id": "crossing.minor.100"
+      "id": "crossing.minor.104"
     },
     {
       "wayName": null,
@@ -3304,7 +3424,7 @@
         "track.dunmer-north.the-first-count"
       ],
       "band": "ford",
-      "id": "crossing.minor.101"
+      "id": "crossing.minor.105"
     },
     {
       "wayName": "the Bog causeway",
@@ -3336,7 +3456,7 @@
         "route.road.gideon-soulrest"
       ],
       "band": "ford",
-      "id": "crossing.major.102"
+      "id": "crossing.major.106"
     },
     {
       "wayName": "the Border road",
@@ -3368,7 +3488,7 @@
         "route.road.stormhold-thorn"
       ],
       "band": "ford",
-      "id": "crossing.major.103"
+      "id": "crossing.major.107"
     },
     {
       "wayName": null,
@@ -3400,7 +3520,7 @@
         "track.dunmer-north.nine-stone-bench"
       ],
       "band": "ford",
-      "id": "crossing.minor.104"
+      "id": "crossing.minor.108"
     },
     {
       "wayName": null,
@@ -3432,7 +3552,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "ford",
-      "id": "crossing.minor.105"
+      "id": "crossing.minor.109"
     },
     {
       "wayName": null,
@@ -3464,7 +3584,7 @@
         "track.imperial-fringe.slough-point"
       ],
       "band": "ford",
-      "id": "crossing.minor.106"
+      "id": "crossing.minor.110"
     },
     {
       "wayName": null,
@@ -3496,7 +3616,7 @@
         "track.imperial-fringe.the-pass-shelter"
       ],
       "band": "ford",
-      "id": "crossing.minor.107"
+      "id": "crossing.minor.111"
     },
     {
       "wayName": "the Long road",
@@ -3528,7 +3648,7 @@
         "route.road.archon-gideon"
       ],
       "band": "ford",
-      "id": "crossing.major.108"
+      "id": "crossing.major.112"
     },
     {
       "wayName": "the Bog causeway",
@@ -3560,7 +3680,7 @@
         "route.road.gideon-soulrest"
       ],
       "band": "ford",
-      "id": "crossing.major.109"
+      "id": "crossing.major.113"
     },
     {
       "wayName": "the Lake road",
@@ -3593,7 +3713,39 @@
         "route.track.mercantile-coast.coast-road"
       ],
       "band": "ford",
-      "id": "crossing.major.110"
+      "id": "crossing.major.114"
+    },
+    {
+      "wayName": "the Border road",
+      "wayClass": "trunk",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        4517.1,
+        1573.8
+      ],
+      "banks": [
+        [
+          4514.5,
+          1573.8
+        ],
+        [
+          4519.2,
+          1574.6
+        ]
+      ],
+      "spanM": 3.1,
+      "maxDepthM": 1.32,
+      "nearestPlaceId": "place.hist-heartland.officeholder-tree-minder-house",
+      "nearestPlaceName": "The Minder's House",
+      "nearestPlaceM": 64.7,
+      "servesRoutes": [
+        "route.road.stormhold-thorn"
+      ],
+      "band": "span",
+      "id": "crossing.major.115"
     },
     {
       "wayName": null,
@@ -3625,7 +3777,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "ford",
-      "id": "crossing.minor.111"
+      "id": "crossing.minor.116"
     },
     {
       "wayName": null,
@@ -3657,7 +3809,7 @@
         "track.imperial-penal-south.blackrose-drowned-hist"
       ],
       "band": "ford",
-      "id": "crossing.minor.112"
+      "id": "crossing.minor.117"
     },
     {
       "wayName": null,
@@ -3689,7 +3841,7 @@
         "track.pirate-freeholds.trunk-road-tradehouse"
       ],
       "band": "ford",
-      "id": "crossing.minor.113"
+      "id": "crossing.minor.118"
     },
     {
       "wayName": null,
@@ -3722,7 +3874,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "ford",
-      "id": "crossing.minor.114"
+      "id": "crossing.minor.119"
     },
     {
       "wayName": null,
@@ -3754,7 +3906,7 @@
         "track.mercantile-coast.oliis-boardwalk"
       ],
       "band": "ford",
-      "id": "crossing.minor.115"
+      "id": "crossing.minor.120"
     },
     {
       "wayName": "the Blackwood Road",
@@ -3786,7 +3938,39 @@
         "route.road.gideon-blackwood-road"
       ],
       "band": "ford",
-      "id": "crossing.major.116"
+      "id": "crossing.major.121"
+    },
+    {
+      "wayName": "the Rim road",
+      "wayClass": "road",
+      "network": "major",
+      "water": "marsh",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
+      "positionM": [
+        2351.8,
+        3009.9
+      ],
+      "banks": [
+        [
+          2353.2,
+          3011.2
+        ],
+        [
+          2350.1,
+          3008.1
+        ]
+      ],
+      "spanM": 2.2,
+      "maxDepthM": 0.48,
+      "nearestPlaceId": "place.imperial-fringe.the-sermon-road-camp",
+      "nearestPlaceName": "Sermon Road Camp",
+      "nearestPlaceM": 147.7,
+      "servesRoutes": [
+        "route.road.gideon-stormhold"
+      ],
+      "band": "ford",
+      "id": "crossing.major.122"
     },
     {
       "wayName": "the Bogmother causeway",
@@ -3818,7 +4002,7 @@
         "route.road.helstrom-blackrose"
       ],
       "band": "ford",
-      "id": "crossing.major.117"
+      "id": "crossing.major.123"
     },
     {
       "wayName": "the Bogmother causeway",
@@ -3850,7 +4034,7 @@
         "route.road.helstrom-blackrose"
       ],
       "band": "ford",
-      "id": "crossing.major.118"
+      "id": "crossing.major.124"
     },
     {
       "wayName": "the Lake road",
@@ -3879,42 +4063,11 @@
       "nearestPlaceName": "Cordon Two, Under-Stores",
       "nearestPlaceM": 82.9,
       "servesRoutes": [
-        "route.road.soulrest-blackrose"
+        "route.road.soulrest-blackrose",
+        "route.track.mercantile-coast.coast-road"
       ],
       "band": "ford",
-      "id": "crossing.major.119"
-    },
-    {
-      "wayName": "the Border road",
-      "wayClass": "trunk",
-      "network": "major",
-      "water": "marsh",
-      "entityId": "body.1888-1088",
-      "entityKind": "marsh-deep",
-      "positionM": [
-        3459.5,
-        1996.6
-      ],
-      "banks": [
-        [
-          3460.1,
-          1995.2
-        ],
-        [
-          3457.8,
-          1998.4
-        ]
-      ],
-      "spanM": 2.2,
-      "maxDepthM": 1.67,
-      "nearestPlaceId": "place.hist-heartland.hist-less-refuge-wild",
-      "nearestPlaceName": "No-Tree Camp",
-      "nearestPlaceM": 68.0,
-      "servesRoutes": [
-        "route.road.stormhold-thorn"
-      ],
-      "band": "span",
-      "id": "crossing.major.120"
+      "id": "crossing.major.125"
     },
     {
       "wayName": "the Border road",
@@ -3946,7 +4099,7 @@
         "route.road.stormhold-thorn"
       ],
       "band": "ford",
-      "id": "crossing.major.121"
+      "id": "crossing.major.126"
     },
     {
       "wayName": null,
@@ -3978,7 +4131,7 @@
         "track.dunmer-north.the-divers-landing"
       ],
       "band": "span",
-      "id": "crossing.minor.122"
+      "id": "crossing.minor.127"
     },
     {
       "wayName": null,
@@ -4010,7 +4163,7 @@
         "track.hist-heartland.heretic-stone-restarted"
       ],
       "band": "ford",
-      "id": "crossing.minor.123"
+      "id": "crossing.minor.128"
     },
     {
       "wayName": null,
@@ -4042,7 +4195,7 @@
         "track.hist-heartland.heretic-stone-restarted"
       ],
       "band": "ford",
-      "id": "crossing.minor.124"
+      "id": "crossing.minor.129"
     },
     {
       "wayName": null,
@@ -4075,7 +4228,7 @@
         "track.hist-heartland.nightbound-lightless"
       ],
       "band": "ford",
-      "id": "crossing.minor.125"
+      "id": "crossing.minor.130"
     },
     {
       "wayName": null,
@@ -4107,7 +4260,7 @@
         "track.mercantile-coast.oliis-ferry-stage"
       ],
       "band": "ford",
-      "id": "crossing.minor.126"
+      "id": "crossing.minor.131"
     },
     {
       "wayName": null,
@@ -4139,7 +4292,7 @@
         "track.pirate-freeholds.corimont-hist-less-camp"
       ],
       "band": "ford",
-      "id": "crossing.minor.127"
+      "id": "crossing.minor.132"
     },
     {
       "wayName": "the Bogmother causeway",
@@ -4171,39 +4324,39 @@
         "route.road.helstrom-blackrose"
       ],
       "band": "ford",
-      "id": "crossing.major.128"
+      "id": "crossing.major.133"
     },
     {
-      "wayName": "the Coast road",
-      "wayClass": "road",
+      "wayName": "the Border road",
+      "wayClass": "trunk",
       "network": "major",
       "water": "marsh",
-      "entityId": "body.1408-3425",
-      "entityKind": "marsh-fringe",
+      "entityId": "body.2442-1212",
+      "entityKind": "marsh-deep",
       "positionM": [
-        2582.7,
-        6256.1
+        3854.9,
+        647.6
       ],
       "banks": [
         [
-          2582.7,
-          6254.3
+          3855.7,
+          646.3
         ],
         [
-          2583.5,
-          6257.5
+          3854.9,
+          649.4
         ]
       ],
       "spanM": 1.6,
-      "maxDepthM": 0.34,
-      "nearestPlaceId": "place.imperial-penal-south.cordon-cellars",
-      "nearestPlaceName": "Cordon Two, Under-Stores",
-      "nearestPlaceM": 80.6,
+      "maxDepthM": 1.32,
+      "nearestPlaceId": "place.pirate-freeholds.rim-keystone-chamber",
+      "nearestPlaceName": "Nine Sockets",
+      "nearestPlaceM": 112.4,
       "servesRoutes": [
-        "route.track.mercantile-coast.coast-road"
+        "route.road.stormhold-thorn"
       ],
-      "band": "ford",
-      "id": "crossing.major.129"
+      "band": "span",
+      "id": "crossing.major.134"
     },
     {
       "wayName": "the Blackwood Road",
@@ -4235,7 +4388,7 @@
         "route.road.gideon-blackwood-road"
       ],
       "band": "ford",
-      "id": "crossing.major.130"
+      "id": "crossing.major.135"
     },
     {
       "wayName": "the Blackwood Road",
@@ -4267,39 +4420,39 @@
         "route.road.gideon-blackwood-road"
       ],
       "band": "ford",
-      "id": "crossing.major.131"
+      "id": "crossing.major.136"
     },
     {
       "wayName": "the Rim road",
       "wayClass": "road",
       "network": "major",
       "water": "river",
-      "entityId": "reach.1268-1133",
+      "entityId": "reach.1085-1169",
       "entityKind": "horizontal-channel",
       "positionM": [
-        2322.3,
-        2070.0
+        1987.8,
+        2135.8
       ],
       "banks": [
         [
-          2323.4,
-          2068.9
+          1989.0,
+          2137.0
         ],
         [
-          2321.1,
-          2071.2
+          1986.6,
+          2134.7
         ]
       ],
       "spanM": 1.1,
-      "maxDepthM": 0.55,
-      "nearestPlaceId": "place.hist-heartland.dive-shaft-xanmeer-well",
-      "nearestPlaceName": "The Sunk Well",
-      "nearestPlaceM": 82.3,
+      "maxDepthM": 0.31,
+      "nearestPlaceId": "place.hist-heartland.serpent-ground-giant-snake",
+      "nearestPlaceName": "The Coiling Reach",
+      "nearestPlaceM": 83.5,
       "servesRoutes": [
         "route.road.gideon-stormhold"
       ],
       "band": "ford",
-      "id": "crossing.major.132"
+      "id": "crossing.major.137"
     },
     {
       "wayName": null,
@@ -4332,7 +4485,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "ford",
-      "id": "crossing.minor.133"
+      "id": "crossing.minor.138"
     },
     {
       "wayName": null,
@@ -4365,7 +4518,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "ford",
-      "id": "crossing.minor.134"
+      "id": "crossing.minor.139"
     },
     {
       "wayName": null,
@@ -4397,7 +4550,7 @@
         "track.hist-heartland.bereaved-mnemic"
       ],
       "band": "ford",
-      "id": "crossing.minor.135"
+      "id": "crossing.minor.140"
     },
     {
       "wayName": null,
@@ -4429,7 +4582,7 @@
         "track.hist-heartland.bereaved-mnemic"
       ],
       "band": "ford",
-      "id": "crossing.minor.136"
+      "id": "crossing.minor.141"
     },
     {
       "wayName": null,
@@ -4461,7 +4614,7 @@
         "track.hist-heartland.heretic-stone-restarted"
       ],
       "band": "ford",
-      "id": "crossing.minor.137"
+      "id": "crossing.minor.142"
     },
     {
       "wayName": null,
@@ -4493,7 +4646,7 @@
         "track.imperial-fringe.cassian-farm"
       ],
       "band": "ford",
-      "id": "crossing.minor.138"
+      "id": "crossing.minor.143"
     },
     {
       "wayName": null,
@@ -4525,7 +4678,7 @@
         "track.imperial-fringe.hangs-above-the-water"
       ],
       "band": "ford",
-      "id": "crossing.minor.139"
+      "id": "crossing.minor.144"
     },
     {
       "wayName": null,
@@ -4557,7 +4710,7 @@
         "track.imperial-fringe.the-pass-shelter"
       ],
       "band": "ford",
-      "id": "crossing.minor.140"
+      "id": "crossing.minor.145"
     },
     {
       "wayName": null,
@@ -4589,7 +4742,7 @@
         "track.imperial-penal-south.longmont"
       ],
       "band": "ford",
-      "id": "crossing.minor.141"
+      "id": "crossing.minor.146"
     },
     {
       "wayName": null,
@@ -4621,7 +4774,7 @@
         "track.mercantile-coast.ixtaxh-xanmeer"
       ],
       "band": "ford",
-      "id": "crossing.minor.142"
+      "id": "crossing.minor.147"
     },
     {
       "wayName": null,
@@ -4653,7 +4806,7 @@
         "track.mercantile-coast.oliis-ferry-stage"
       ],
       "band": "ford",
-      "id": "crossing.minor.143"
+      "id": "crossing.minor.148"
     },
     {
       "wayName": null,
@@ -4685,7 +4838,7 @@
         "track.pirate-freeholds.dunmer-frontier-holding"
       ],
       "band": "ford",
-      "id": "crossing.minor.144"
+      "id": "crossing.minor.149"
     },
     {
       "wayName": "the Border road",
@@ -4717,7 +4870,7 @@
         "route.road.stormhold-thorn"
       ],
       "band": "ford",
-      "id": "crossing.major.145"
+      "id": "crossing.major.150"
     },
     {
       "wayName": null,
@@ -4750,7 +4903,7 @@
         "track.dunmer-north.the-flu-cordon"
       ],
       "band": "ford",
-      "id": "crossing.minor.146"
+      "id": "crossing.minor.151"
     },
     {
       "wayName": null,
@@ -4782,7 +4935,7 @@
         "track.naga-kur-deeps.naga-village-settled"
       ],
       "band": "ford",
-      "id": "crossing.minor.147"
+      "id": "crossing.minor.152"
     },
     {
       "wayName": "the Bog causeway",
@@ -4814,7 +4967,7 @@
         "route.road.gideon-soulrest"
       ],
       "band": "span",
-      "id": "crossing.major.148"
+      "id": "crossing.major.153"
     },
     {
       "wayName": null,
@@ -4847,7 +5000,7 @@
         "track.hist-heartland.nightbound-lightless"
       ],
       "band": "ford",
-      "id": "crossing.minor.149"
+      "id": "crossing.minor.154"
     },
     {
       "wayName": null,
@@ -4879,7 +5032,7 @@
         "track.imperial-fringe.bone-road-waystation"
       ],
       "band": "ford",
-      "id": "crossing.minor.150"
+      "id": "crossing.minor.155"
     },
     {
       "wayName": null,
@@ -4911,7 +5064,7 @@
         "track.mercantile-coast.ashroot-village"
       ],
       "band": "ford",
-      "id": "crossing.minor.151"
+      "id": "crossing.minor.156"
     }
   ],
   "source": "world/sources/routes/water-crossings.json via worldgen.export_routes"

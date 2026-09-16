@@ -24,12 +24,16 @@ import {
   type RouteSubLayer, type RoutesIndexBundle, type TravelServicesBundle, type WaterCrossing,
 } from "./routesData";
 import { hydroPixelCenterToUv } from "../provinceScale";
-import { loadLadder } from "../ladder";
+import { loadLadder, type Ladder } from "../ladder";
 
 const VB = 1000;
 
 /** Hydrology pixel → this SVG's viewBox coordinate (the layer's one mapping). */
 const uv = (pixel: number) => hydroPixelCenterToUv(pixel) * VB;
+
+/** A layer draws only if the stage that makes it ran on this ground. No
+ *  ladder record at all (a build from before the record existed) hides nothing. */
+const stageRan = (l: Ladder | null, stage: string) => l === null || l.ran.includes(stage);
 
 const PANEL: React.CSSProperties = {
   background: "rgba(10,14,20,0.9)", color: "#e6ecf5", border: "1px solid #2b3644",
@@ -46,7 +50,8 @@ export interface RoutesLayerProps {
   onSelectedKey: (key: string | null) => void;
   /** `place.<region>.<slug>` → display name, supplied by the places bundle. */
   placeName: (id: string) => string;
-  /** Which of the four route sub-layers are on (`routeLayers=`); default none. */
+  /** Which of the four route sub-layers are on (`routeLayers=`; spans and
+   *  crossings unless the URL says otherwise). */
   subLayers?: RouteSubLayer[];
 }
 
@@ -92,20 +97,38 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
   const [grades, setGrades] = useState<RouteGrade[] | null>(null);
   const [crossings, setCrossings] = useState<WaterCrossing[] | null>(null);
   const [services, setServices] = useState<TravelServicesBundle | null>(null);
+  const [ladder, setLadder] = useState<Ladder | null>(null);
   const [open, setOpen] = useState(true);
   const layerOn = (n: RouteSubLayer) => subLayers.includes(n);
   const showSpans = layerOn("spans"), showGrades = layerOn("grades");
   const showCrossings = layerOn("crossings"), showServices = layerOn("services");
+  // routes-minor.json / waterways-minor.json are the Phase 11 solve; on this
+  // ground their stages were skipped, so they would draw a second, stale road
+  // network beside the real one (owner 2026-09-16). A build with no ladder
+  // record at all hides nothing (ladder.ts).
+  const minorRoutesBuilt = stageRan(ladder, "compile_minor_routes");
+  const minorChannelsBuilt = stageRan(ladder, "compile_minor_waterways");
+  const unbuiltMinor = [
+    showTracks && !minorRoutesBuilt ? "minor routes" : "",
+    showWater && !minorChannelsBuilt ? "minor waterways" : "",
+  ].filter(Boolean).join(" and ");
 
   useEffect(() => {
     let alive = true;
     const set = <T,>(f: (v: T) => void) => (v: T) => { if (alive) f(v); };
     loadRoutesIndex(baseUrl).then(set(setIndex)).catch(() => {});
     loadRoads(baseUrl).then(set(setRoads)).catch(() => {});
-    // bridges and decks are drawn only if their stage ran on this ground (province/ladder.json)
+    // Every layer here is gated on the STAGE that produces it having run on
+    // this ground (province/ladder.json `ran`), not on the record's
+    // `hiddenLayers` list: `compile_route_structures` ran at 16e while
+    // `hiddenLayers` still names "route-structures", so the bridges and decks
+    // the owner asked to see were being suppressed by a stale hint.
     loadLadder(baseUrl).then((l) => {
-      if (l?.hiddenLayers.includes("route-structures")) return;
-      loadRouteStructures(baseUrl).then(set(setStructures)).catch(() => {});
+      if (!alive) return;
+      setLadder(l);
+      if (stageRan(l, "compile_route_structures")) {
+        loadRouteStructures(baseUrl).then(set(setStructures)).catch(() => {});
+      }
     });
     return () => { alive = false; };
   }, [baseUrl]);
@@ -113,11 +136,14 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
   useEffect(() => {
     if (!showWater || channels !== null) return;
     let alive = true;
-    Promise.all([loadWaterways(baseUrl), loadMinorWaterways(baseUrl)])
+    Promise.all([
+      loadWaterways(baseUrl),
+      minorChannelsBuilt ? loadMinorWaterways(baseUrl) : Promise.resolve([] as MinorTrack[]),
+    ])
       .then(([l, c]) => { if (alive) { setLanes(l); setChannels(c); } })
       .catch(() => { if (alive) setChannels([]); });
     return () => { alive = false; };
-  }, [showWater, channels, baseUrl]);
+  }, [showWater, channels, minorChannelsBuilt, baseUrl]);
 
   // The three published records are fetched the first time their layer is
   // switched on, and kept: they are small and the owner toggles them often.
@@ -147,23 +173,23 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
   }, [showServices, services, baseUrl]);
 
   useEffect(() => {
-    if (!showTracks || tracks.length) return;
+    if (!showTracks || tracks.length || !minorRoutesBuilt) return;
     let alive = true;
     import("../places/placesData").then(({ loadMinorTracks }) => loadMinorTracks(baseUrl))
       .then((b) => { if (alive && b) setTracks(b.tracks); })
       .catch(() => {});
     return () => { alive = false; };
-  }, [showTracks, tracks.length, baseUrl]);
+  }, [showTracks, tracks.length, minorRoutesBuilt, baseUrl]);
 
   const lines = useMemo(() => {
     const out: RouteSelection[] = roads.map((g) => selectMajor(g, "road", index));
-    if (showTracks) out.push(...tracks.map((t) => selectMinor(t, "track", index, placeName)));
+    if (showTracks && minorRoutesBuilt) out.push(...tracks.map((t) => selectMinor(t, "track", index, placeName)));
     if (showWater) {
       out.push(...lanes.map((g) => selectMajor(g, "boat", index)));
-      out.push(...(channels ?? []).map((t) => selectMinor(t, "channel", index, placeName)));
+      if (minorChannelsBuilt) out.push(...(channels ?? []).map((t) => selectMinor(t, "channel", index, placeName)));
     }
     return out;
-  }, [roads, lanes, tracks, channels, index, showWater, showTracks, placeName]);
+  }, [roads, lanes, tracks, channels, index, showWater, showTracks, minorRoutesBuilt, minorChannelsBuilt, placeName]);
 
   const selected = useMemo(() => lines.find((l) => l.key === selectedKey) ?? null, [lines, selectedKey]);
 
@@ -306,6 +332,14 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
           })}
         </>}
       </svg>
+
+      {unbuiltMinor && (
+        <div style={{
+          ...PANEL, position: "absolute", top: 8, left: 8, zIndex: 3, maxWidth: 260, opacity: 0.85,
+        }}>
+          {unbuiltMinor}: not built on this ground (16g)
+        </div>
+      )}
 
       {selected && (
         <div style={{

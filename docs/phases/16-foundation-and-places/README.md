@@ -219,7 +219,7 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 | 16c | [Water once](16c-water-once.md) — compile on the frozen base; fix the runtime (ocean, edges, seams, hover, falls); probes that fail | walk 14 water sites + beach + open sea | 7 | delivered 2026-09-14, owner walk pending ([ledger](../../research/phase16/16c-water-once-ledger.md), [0063](../../decisions/0063-water-once-the-line-is-high-water.md)) |
 | 16d | [Beyond-border apron and boundary](16d-border-apron-and-boundary.md) — stitched all-Tamriel slice, fade, wall, message | mountain viewpoint N, W, NW; walk to the edge | 8 | delivered 2026-09-15, accepted by the owner 2026-09-15 ([ledger](../../research/phase16/16d-ledger.md), [0067](../../decisions/0067-the-apron-is-the-tamriel-map-at-one-to-one.md)) |
 | 16e | [Routes, grading, spans and ferries on the frozen world](16e-routes-grading-spans-ferries.md) — routes on the record, grading as a patch stack, span pips, crossings and ferries decided from the graph, the one travel-service graph with a talk-pay-arrive contract, paint on the published line; nothing drawn in 3D that 16h's runtime cannot yet draw right | walk three roads, two fords; use one ferry; spans and services on the 2D map | 9 | delivered 2026-09-15, owner walk pending ([ledger](../../research/phase16/16e-ledger.md), [0068](../../decisions/0068-routes-below-the-gate-records-here-realised-in-16h.md)) |
-| 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md) — channel membership, rocks at falls and cliffs, grass coverage, rows, hanging roots, bare rock, mountain dressing, the submerged band and wreck statics (from Phase 9, 0062) | five region sites + one river + one fall | 10 | todo |
+| 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md) — the bake and the scatter ported to the record; channel membership; ground cover restored with a floor; the existing boulder ladder extended to cliffs, falls, rapids beds, rocky surf, the uplands and one authored boulder field (dressing zones); rows, hanging roots, bare rock under trees; the submerged band and the wreck kit (0062); life over the water, the algae constituent and the seasonal foliage response (the strays sent here) | five region sites + one river + one fall + the beach + the boulder field | 10 | brief rewritten with its delivery plan 2026-09-16; awaiting the owner's go |
 | 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md) — re-validate every record; move, re-type, cut; design groups; co-siting sets; the promise vocabulary for dungeon-kind places and its migration (0062) | the plot review report + the design-group list | 11 | todo |
 | 16h | [Settlement runtime and kit QA](16h-settlement-runtime-and-kit-qa.md) — yaw sign, real colliders, anchoring, pads as patches, mounts, nav, stairs, composites, renderable kinds; the off-world kit loop | Lilmoth gate walk-through; the kit sheets | 12 | todo |
 | 16i | [Exemplars end to end](16i-exemplars-end-to-end.md) — five places exterior + tier A interiors verbatim + the interior load contract + reserved doors (0062) + approach + nav + dressing; owner walk; skill v2 | walk all five, inside and out | 13 | todo |
@@ -257,6 +257,11 @@ them where the blueprint put them.
   (schema 2, keyed to water entity ids), `world/sources/terrain/route-grade-patches.json`,
   the talk-to-service contract `packages/game-core/src/travel/`, the natural
   array `refined-height-natural-f32.npy` beside the graded one (16e).
+- `world/sources/flora/dressing-zones.json` (authored dressing overlays,
+  the boulder field first), the flora kit's extended rock set, `wrecks-v1`,
+  the habitat mask the air layer and Phase 13 read, `algae` on every body
+  in `water-meta.json`, the instance-identity contract in
+  `vegetation-index.json` (16f).
 - `.claude/skills/settlement-build/` v2 and a `kit-qa` skill.
 - The interior load contract and portal records in `packages/`, tier A
   interiors verbatim from plugin cells, the reserved-door state, the promise

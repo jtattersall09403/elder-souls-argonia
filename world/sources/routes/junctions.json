@@ -1,12 +1,97 @@
 {
   "schemaVersion": 1,
-  "_": "Where named major roads MEET, as a record (decision 0068): `solve_major_routes` routes every road listed on a junction through its position, so a crossroads is a design fact and not an accident of two independent solves. `positionM` is metres [east, south] in the province frame. Each entry carries a lore `why`. Add a junction only where the meeting point is itself a world fact (a crossroads settlement, a toll point, a pass); two roads that merely share a corridor need no entry.",
+  "_": "Where named major roads MEET, as a record (decision 0068): `solve_major_routes` routes every road listed on a junction through its position, so a crossroads is a design fact and not an accident of two independent solves. `positionM` is metres [east, south] in the province frame. Each entry carries a lore `why`. Add a junction only where the meeting point is itself a world fact (a crossroads settlement, a toll point, a pass); two roads that merely share a corridor need no entry. A `pin` is the same record with one road: a point the owner steered that road through (a river crossing, a mountain-foot lowland, an approach side); the router honours pins in start-to-goal order.",
   "junctions": [
     {
       "id": "junction.hist-heartland.crossroads",
-      "positionM": [3200.0, 3590.0],
-      "roads": ["route.road.archon-gideon", "route.road.helstrom-blackrose"],
-      "why": "The owner-specified west-east trunk (Archon-Gideon) and the heartland-to-south chain (Helstrom-Blackrose) cross here on dry, slightly higher ground; all Archon-Helstrom and Gideon-Helstrom travel runs through this junction and no direct road exists (owner decisions 2026-08-22 and 2026-09-15; settlement-anchors.json notes). The community map's 'Crossroads' settlement is a prior for a place here, to be decided in the 16g plot.",
+      "positionM": [
+        3470.0,
+        3290.0
+      ],
+      "roads": [
+        "route.road.archon-gideon",
+        "route.road.helstrom-blackrose"
+      ],
+      "why": "The owner-specified west-east trunk (Archon-Gideon) and the heartland-to-south chain (Helstrom-Blackrose) cross here on dry, slightly higher ground; all Archon-Helstrom and Gideon-Helstrom travel runs through this junction and no direct road exists (owner decisions 2026-08-22 and 2026-09-15, position corrected by the owner 2026-09-16; settlement-anchors.json notes). The community map's 'Crossroads' settlement is a prior for a place here, to be decided in the 16g plot.",
+      "confidence": "OWNER_DECISION"
+    },
+    {
+      "id": "junction.pin.stormhold-thorn.river-north",
+      "kind": "pin",
+      "positionM": [
+        3372.0,
+        356.0
+      ],
+      "roads": [
+        "route.road.stormhold-thorn"
+      ],
+      "why": "Owner steer 2026-09-16: the Thorn road leaves Stormhold north-east, crosses the major river once here, and runs along its northern side instead of south through the Hist heartland marsh.",
+      "confidence": "OWNER_DECISION"
+    },
+    {
+      "id": "junction.pin.stormhold-thorn.north-lowland",
+      "kind": "pin",
+      "positionM": [
+        4535.0,
+        1464.0
+      ],
+      "roads": [
+        "route.road.stormhold-thorn"
+      ],
+      "why": "Owner steer 2026-09-16: the Thorn road keeps to the lowland at the foot of the northern mountains, north of the heartland marsh, before turning up the coast to Thorn.",
+      "confidence": "OWNER_DECISION"
+    },
+    {
+      "id": "junction.pin.gideon-stormhold.mountain-foot-south",
+      "kind": "pin",
+      "positionM": [
+        1864.0,
+        2577.0
+      ],
+      "roads": [
+        "route.road.gideon-stormhold"
+      ],
+      "why": "Owner steer 2026-09-16: the Stormhold road out of Gideon follows the firm lowland at the base of the western mountains instead of entering the heartland.",
+      "confidence": "OWNER_DECISION"
+    },
+    {
+      "id": "junction.pin.gideon-stormhold.mountain-foot-north",
+      "kind": "pin",
+      "positionM": [
+        2188.0,
+        1640.0
+      ],
+      "roads": [
+        "route.road.gideon-stormhold"
+      ],
+      "why": "Owner steer 2026-09-16: the same road stays at the foot of the north-western mountains on its way up to Stormhold.",
+      "confidence": "OWNER_DECISION"
+    },
+    {
+      "id": "junction.pin.blackrose-lilmoth.approach",
+      "kind": "pin",
+      "positionM": [
+        3477.0,
+        6235.0
+      ],
+      "roads": [
+        "route.road.blackrose-lilmoth"
+      ],
+      "why": "Owner steer 2026-09-16: the Lilmoth road approaches the city from the north-west, not looping round to enter from the east.",
+      "confidence": "OWNER_DECISION"
+    },
+    {
+      "id": "junction.pin.soulrest.approach",
+      "kind": "pin",
+      "positionM": [
+        521.0,
+        6427.0
+      ],
+      "roads": [
+        "route.road.gideon-soulrest",
+        "route.road.soulrest-blackrose"
+      ],
+      "why": "Owner steer 2026-09-16: the roads into Soulrest approach from the north, not curling round to the west.",
       "confidence": "OWNER_DECISION"
     }
   ]

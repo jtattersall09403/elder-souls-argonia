@@ -1,6 +1,6 @@
 {
   "$schema": "SettlementAnchor[] + SuggestedConnection[] from @elder-souls/contracts",
-  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected and APPROVED by the project owner at the Phase 2 visual gate (2026-08-22); broad locations are settled but may be nudged during detailed placement phases. Owner requirement: all major cities are connected by the road network (see suggestedConnections; master plan \u00a788).",
+  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected and APPROVED by the project owner at the Phase 2 visual gate (2026-08-22); broad locations are settled but may be nudged during detailed placement phases. Owner requirement: all major cities are connected by the road network (see suggestedConnections; master plan §88).",
   "anchors": [
     {
       "id": "stormhold",
@@ -36,15 +36,15 @@
       "id": "gideon",
       "name": "Gideon",
       "rank": "major",
-      "u": 0.18,
-      "v": 0.42,
+      "u": 0.192,
+      "v": 0.4196,
       "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
       "sources": [
         "uesp:Lore:Gideon",
         "community-inkarnate-4e231"
       ],
-      "notes": "Owner-corrected: sits in the measured saddle of the western border belt (barrier ~46 m vs 60-87 m flanks) where the Cyrodiil road naturally crosses.",
+      "notes": "Owner-corrected: sits in the measured saddle of the western border belt (barrier ~46 m vs 60-87 m flanks) where the Cyrodiil road naturally crosses. Anchor moved ~90 m east on 2026-09-16 (owner): the old cell sat on the tarn's shore; the new one is dry, 1.4 deg, inside the record's tolerance.",
       "role": "western gateway city on the Blackwood Road to Leyawiin"
     },
     {
@@ -100,7 +100,10 @@
       "v": 0.8659,
       "toleranceUV": 0.04,
       "nudge": {
-        "from": [0.51, 0.87],
+        "from": [
+          0.51,
+          0.87
+        ],
         "date": "2026-09-03",
         "reason": "owner feedback round: approved pin was 68% land / 52% buildable; 153 m north-west is 89% / 73% on firm lowland, coast 228 m (worldgen.anchor_nudge)"
       },
@@ -120,7 +123,10 @@
       "v": 0.8856,
       "toleranceUV": 0.05,
       "nudge": {
-        "from": [0.05, 0.91],
+        "from": [
+          0.05,
+          0.91
+        ],
         "date": "2026-09-03",
         "reason": "owner feedback round: approved pin was 47% land / 43% buildable (half in the sea); 234 m inland is 84% / 78%, coast 225 m (worldgen.anchor_nudge)"
       },
@@ -152,19 +158,29 @@
     {
       "id": "blackwood-road",
       "from": "gideon",
-      "exitUV": [0.005, 0.42],
+      "exitUV": [
+        0.005,
+        0.42
+      ],
       "to": "Cyrodiil (Leyawiin)",
       "confidence": "CANON_FIXED",
-      "sources": ["uesp:Lore:Gideon"],
+      "sources": [
+        "uesp:Lore:Gideon"
+      ],
       "notes": "Canon: Gideon is 'the first settlement on the Blackwood Road, which comes in from the west through the hills that form the southernmost provincial border'. Exits through the measured western pass. Province edges are closed in play (plan §88): the gate is scenery/lore, not a walkable exit."
     },
     {
       "id": "tear-road",
       "from": "thorn",
-      "exitUV": [0.87, 0.005],
+      "exitUV": [
+        0.87,
+        0.005
+      ],
       "to": "Morrowind (Tear)",
       "confidence": "CANON_FIXED",
-      "sources": ["uesp:Lore:Thorn"],
+      "sources": [
+        "uesp:Lore:Thorn"
+      ],
       "notes": "Canon: Thorn is neighboured by 'Morrowind to the north, toward Tear'; House Dres trade/slave history rides this road. Closed border gate in play. (Stormhold's Shadowfen also borders Morrowind northward but no named road is attested - candidate only.)"
     }
   ],
@@ -221,7 +237,7 @@
       "sources": [
         "owner-decision-2026-08-22"
       ],
-      "notes": "Owner-specified west-east trunk route. The Helstrom-Blackrose road crosses it at a crossroads (candidate site for the community map's 'Crossroads' settlement); both Archon-Helstrom and Gideon-Helstrom travel run via that junction \u2014 no direct Helstrom-Archon or Helstrom-Gideon edges exist (owner decisions 2026-08-22)."
+      "notes": "Owner-specified west-east trunk route. The Helstrom-Blackrose road crosses it at a crossroads (candidate site for the community map's 'Crossroads' settlement); both Archon-Helstrom and Gideon-Helstrom travel run via that junction — no direct Helstrom-Archon or Helstrom-Gideon edges exist (owner decisions 2026-08-22)."
     },
     {
       "from": "helstrom",

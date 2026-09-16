@@ -72,6 +72,14 @@ rootworm network was to be re-authored before the Hist trees it hangs on are pla
    places; a landing that never floats its hull demotes the service. The
    land-cover bake paints only lines the ladder produced.
 
+8. **Roads attract roads; pins carry steers (owner 2026-09-16).** Roads are
+   solved longest first and a built road's cells cost 0.35 of the ground
+   to the roads after it, so shared corridors are one road that splits
+   later. An owner steer on a road's line is a `pin` in `junctions.json`
+   (one road, a measured dry gentle point in the described box, a `why`),
+   never a hand-drawn line; a long bridge over dry ground is answered with
+   a pin, not a structure.
+
 **Consequences.** The 16e brief is the specification; the 16g and 16h briefs,
 the phases README (Phase 9 scope note, Phase 11 table, Phase 15 list), quests
 20's root-transit note and 0061 §4 were reconciled in the same change.

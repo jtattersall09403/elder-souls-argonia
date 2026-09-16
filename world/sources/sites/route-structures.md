@@ -8,43 +8,46 @@ Caps: a flight may reach 35 deg in masonry and 48 deg in lashed timber; a deck o
 
 | way | structures | kinds | pieces | rise m | residual over-cap m |
 | --- | --- | --- | --- | --- | --- |
-| `route.road.alten-corimont-stormhold` | 5 | bridge, stepped-ascent | 17 | 1.9 | 286 |
-| `route.road.archon-gideon` | 1 | stepped-ascent | 1 | 4.0 | 9 |
-| `route.road.gideon-blackwood-road` | 4 | bridge | 16 | 3.8 | 564 |
-| `route.road.gideon-soulrest` | 3 | bridge | 3 | 0.5 | 121 |
-| `route.road.gideon-stormhold` | 5 | bridge, deck | 18 | 1.3 | 374 |
-| `route.road.soulrest-blackrose` | 1 | deck | 3 | 0.1 | 0 |
-| `route.road.stormhold-thorn` | 6 | bridge | 79 | 17.3 | 916 |
-| `route.road.thorn-tear-road` | 1 | stepped-ascent | 4 | 17.5 | 0 |
+| `route.road.alten-corimont-stormhold` | 7 | bridge, stepped-ascent | 23 | 2.8 | 286 |
+| `route.road.archon-gideon` | 1 | stepped-ascent | 1 | 4.0 | 0 |
+| `route.road.gideon-blackwood-road` | 5 | bridge | 8 | 4.0 | 552 |
+| `route.road.gideon-soulrest` | 2 | bridge | 8 | 0.3 | 110 |
+| `route.road.gideon-stormhold` | 2 | bridge | 8 | 0.8 | 454 |
+| `route.road.soulrest-blackrose` | 1 | deck | 5 | 0.2 | 0 |
+| `route.road.stormhold-thorn` | 9 | bridge, deck, lip-step, stepped-ascent | 91 | 28.6 | 824 |
+| `route.road.thorn-tear-road` | 2 | stepped-ascent | 7 | 35.5 | 0 |
 
 | structure | kind | family | from m | to m | rise m | pieces |
 | --- | --- | --- | --- | --- | --- | --- |
-| `structure.road-alten-corimont-stormhold.18` | bridge | stone-civic | 2821 | 2824 | 0.2 | 3 |
-| `structure.road-alten-corimont-stormhold.19` | bridge | stone-civic | 3474 | 3483 | 0.2 | 5 |
+| `structure.road-alten-corimont-stormhold.18` | bridge | stone-civic | 2829 | 2830 | 0.1 | 2 |
+| `structure.road-alten-corimont-stormhold.19` | bridge | stone-civic | 3482 | 3488 | -0.0 | 3 |
 | `structure.road-alten-corimont-stormhold.20` | stepped-ascent | stone-civic | 795 | 797 | -1.0 | 1 |
-| `structure.road-alten-corimont-stormhold.21` | bridge | stone-civic | 3475 | 3482 | 0.0 | 4 |
-| `structure.road-alten-corimont-stormhold.22` | bridge | stone-civic | 3192 | 3199 | -0.5 | 4 |
+| `structure.road-alten-corimont-stormhold.21` | bridge | stone-civic | 3481 | 3488 | -0.4 | 4 |
+| `structure.road-alten-corimont-stormhold.22` | bridge | stone-civic | 3190 | 3205 | -0.5 | 5 |
+| `structure.road-alten-corimont-stormhold.23` | bridge | stone-civic | 3198 | 3206 | -0.5 | 4 |
+| `structure.road-alten-corimont-stormhold.24` | bridge | stone-civic | 3481 | 3489 | -0.2 | 4 |
 | `structure.road-archon-gideon.1` | stepped-ascent | stone-civic | 0 | 13 | 4.0 | 1 |
-| `structure.road-gideon-blackwood-road.34` | bridge | stone-civic | 1536 | 1563 | -1.4 | 10 |
-| `structure.road-gideon-blackwood-road.36` | bridge | stone-civic | 1037 | 1049 | 0.8 | 1 |
-| `structure.road-gideon-blackwood-road.37` | bridge | stone-civic | 1877 | 1892 | -0.5 | 1 |
-| `structure.road-gideon-blackwood-road.38` | bridge | stone-civic | 2194 | 2202 | -1.1 | 4 |
-| `structure.road-gideon-soulrest.6` | bridge | stone-civic | 638 | 650 | 0.1 | 1 |
-| `structure.road-gideon-soulrest.7` | bridge | stone-civic | 3661 | 3679 | 0.2 | 1 |
-| `structure.road-gideon-soulrest.8` | bridge | stone-civic | 3661 | 3681 | 0.2 | 1 |
-| `structure.road-gideon-stormhold.10` | bridge | stone-civic | 638 | 650 | 0.1 | 1 |
-| `structure.road-gideon-stormhold.13` | bridge | stone-civic | 6281 | 6292 | -0.2 | 5 |
-| `structure.road-gideon-stormhold.14` | bridge | stone-civic | 6283 | 6290 | 0.0 | 4 |
-| `structure.road-gideon-stormhold.15` | deck | root-timber | 2819 | 2829 | 0.4 | 4 |
-| `structure.road-gideon-stormhold.16` | bridge | stone-civic | 5999 | 6007 | -0.5 | 4 |
-| `structure.road-soulrest-blackrose.6` | deck | root-timber | 1291 | 1297 | -0.1 | 3 |
-| `structure.road-stormhold-thorn.13` | bridge | stone-civic | 478 | 481 | -0.0 | 3 |
-| `structure.road-stormhold-thorn.2` | bridge | stone-civic | 2135 | 2152 | -0.2 | 1 |
-| `structure.road-stormhold-thorn.33` | bridge | stone-civic | 382 | 390 | 0.3 | 4 |
-| `structure.road-stormhold-thorn.34` | bridge | stone-civic | 8705 | 8720 | -1.0 | 1 |
-| `structure.road-stormhold-thorn.35` | bridge | stone-civic | 8619 | 8819 | -15.2 | 66 |
-| `structure.road-stormhold-thorn.36` | bridge | stone-civic | 665 | 673 | 0.5 | 4 |
-| `structure.road-thorn-tear-road.1` | stepped-ascent | stone-civic | 1001 | 1081 | -17.5 | 4 |
+| `structure.road-gideon-blackwood-road.34` | bridge | stone-civic | 1461 | 1473 | -1.0 | 1 |
+| `structure.road-gideon-blackwood-road.37` | bridge | stone-civic | 1766 | 1811 | -0.6 | 1 |
+| `structure.road-gideon-blackwood-road.38` | bridge | stone-civic | 950 | 962 | 0.8 | 1 |
+| `structure.road-gideon-blackwood-road.39` | bridge | stone-civic | 1790 | 1805 | -0.5 | 1 |
+| `structure.road-gideon-blackwood-road.40` | bridge | stone-civic | 2107 | 2115 | -1.1 | 4 |
+| `structure.road-gideon-soulrest.8` | bridge | stone-civic | 3657 | 3682 | 0.1 | 7 |
+| `structure.road-gideon-soulrest.9` | bridge | stone-civic | 3611 | 3631 | 0.2 | 1 |
+| `structure.road-gideon-stormhold.1` | bridge | stone-civic | 7425 | 7432 | -0.5 | 4 |
+| `structure.road-gideon-stormhold.2` | bridge | stone-civic | 7708 | 7715 | -0.2 | 4 |
+| `structure.road-soulrest-blackrose.6` | deck | root-timber | 1311 | 1323 | -0.2 | 5 |
+| `structure.road-stormhold-thorn.2` | deck | root-timber | 2072 | 2116 | 0.0 | 14 |
+| `structure.road-stormhold-thorn.33` | stepped-ascent | stone-civic | 319 | 324 | -1.0 | 1 |
+| `structure.road-stormhold-thorn.36` | bridge | stone-civic | 211 | 220 | -0.3 | 5 |
+| `structure.road-stormhold-thorn.37` | stepped-ascent | stone-civic | 1205 | 1221 | 3.9 | 1 |
+| `structure.road-stormhold-thorn.39` | lip-step | stone-civic | 7541 | 7559 | 1.2 | 1 |
+| `structure.road-stormhold-thorn.40` | lip-step | stone-civic | 8002 | 8020 | 1.6 | 1 |
+| `structure.road-stormhold-thorn.41` | stepped-ascent | stone-civic | 1307 | 1324 | -3.9 | 1 |
+| `structure.road-stormhold-thorn.42` | lip-step | stone-civic | 4461 | 4479 | 1.4 | 1 |
+| `structure.road-stormhold-thorn.43` | bridge | stone-civic | 8314 | 8514 | -15.2 | 66 |
+| `structure.road-thorn-tear-road.1` | stepped-ascent | stone-civic | 1001 | 1081 | -18.0 | 3 |
+| `structure.road-thorn-tear-road.2` | stepped-ascent | stone-civic | 1015 | 1094 | -17.5 | 4 |
 
 ## Crossings
 
@@ -54,38 +57,34 @@ The deck line is a taut string from one end of the window to the other, lying on
 
 That is also why so few crossings are a single arch. The windows come from the grader's over-cap stretches and their median fall is 3.9 m, so a flat vanilla bridge laid across one of those meets the lower road several metres in the air. A chained viaduct steps down with the ground, one module at a time.
 
-* 23 crossings, 135 pieces.
-* 8 are one authored bridge (worst overhang 11.4 m); 15 are chained.
-* 32 piers placed, 0 that do not reach the ground under them; deepest foundation buried 0.00 m (one trestle storey is 2.731 m).
-* systems: `nordic-viaduct` 13, `root-passerelle` 2, `stone-arch` 8.
+* 19 crossings, 136 pieces.
+* 5 are one authored bridge (worst overhang 11.4 m); 14 are chained.
+* 28 piers placed, 0 that do not reach the ground under them; deepest foundation buried 0.00 m (one trestle storey is 2.731 m).
+* systems: `nordic-viaduct` 12, `root-passerelle` 2, `stone-arch` 5.
 
 | crossing | way | system | arrangement | span m | pieces | piers |
 | --- | --- | --- | --- | --- | --- | --- |
-| `structure.road-alten-corimont-stormhold.18` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 3 | 3 | 0 |
-| `structure.road-alten-corimont-stormhold.19` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 9 | 5 | 1 |
+| `structure.road-alten-corimont-stormhold.18` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 2 | 2 | 0 |
+| `structure.road-alten-corimont-stormhold.19` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 6 | 3 | 0 |
 | `structure.road-alten-corimont-stormhold.21` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 8 | 4 | 0 |
-| `structure.road-alten-corimont-stormhold.22` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 8 | 4 | 0 |
-| `structure.road-gideon-blackwood-road.34` | `route.road.gideon-blackwood-road` | nordic-viaduct | chain | 27 | 10 | 3 |
-| `structure.road-gideon-blackwood-road.36` | `route.road.gideon-blackwood-road` | stone-arch | monolith | 12 | 1 | 0 |
-| `structure.road-gideon-blackwood-road.37` | `route.road.gideon-blackwood-road` | stone-arch | monolith | 15 | 1 | 0 |
-| `structure.road-gideon-blackwood-road.38` | `route.road.gideon-blackwood-road` | nordic-viaduct | chain | 8 | 4 | 0 |
-| `structure.road-gideon-soulrest.6` | `route.road.gideon-soulrest` | stone-arch | monolith | 12 | 1 | 0 |
-| `structure.road-gideon-soulrest.7` | `route.road.gideon-soulrest` | stone-arch | monolith | 18 | 1 | 0 |
-| `structure.road-gideon-soulrest.8` | `route.road.gideon-soulrest` | stone-arch | monolith | 20 | 1 | 0 |
-| `structure.road-gideon-stormhold.10` | `route.road.gideon-stormhold` | stone-arch | monolith | 12 | 1 | 0 |
-| `structure.road-gideon-stormhold.13` | `route.road.gideon-stormhold` | nordic-viaduct | chain | 11 | 5 | 1 |
-| `structure.road-gideon-stormhold.14` | `route.road.gideon-stormhold` | nordic-viaduct | chain | 8 | 4 | 0 |
-| `structure.road-gideon-stormhold.15` | `route.road.gideon-stormhold` | root-passerelle | chain | 11 | 4 | 0 |
-| `structure.road-gideon-stormhold.16` | `route.road.gideon-stormhold` | nordic-viaduct | chain | 8 | 4 | 0 |
-| `structure.road-soulrest-blackrose.6` | `route.road.soulrest-blackrose` | root-passerelle | chain | 6 | 3 | 0 |
-| `structure.road-stormhold-thorn.13` | `route.road.stormhold-thorn` | nordic-viaduct | chain | 3 | 3 | 0 |
-| `structure.road-stormhold-thorn.2` | `route.road.stormhold-thorn` | stone-arch | monolith | 17 | 1 | 0 |
-| `structure.road-stormhold-thorn.33` | `route.road.stormhold-thorn` | nordic-viaduct | chain | 8 | 4 | 0 |
-| `structure.road-stormhold-thorn.34` | `route.road.stormhold-thorn` | stone-arch | monolith | 15 | 1 | 0 |
-| `structure.road-stormhold-thorn.35` | `route.road.stormhold-thorn` | nordic-viaduct | chain | 200 | 66 | 27 |
-| `structure.road-stormhold-thorn.36` | `route.road.stormhold-thorn` | nordic-viaduct | chain | 8 | 4 | 0 |
+| `structure.road-alten-corimont-stormhold.22` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 15 | 5 | 0 |
+| `structure.road-alten-corimont-stormhold.23` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 8 | 4 | 0 |
+| `structure.road-alten-corimont-stormhold.24` | `route.road.alten-corimont-stormhold` | nordic-viaduct | chain | 8 | 4 | 0 |
+| `structure.road-gideon-blackwood-road.34` | `route.road.gideon-blackwood-road` | stone-arch | monolith | 12 | 1 | 0 |
+| `structure.road-gideon-blackwood-road.37` | `route.road.gideon-blackwood-road` | stone-arch | monolith | 45 | 1 | 0 |
+| `structure.road-gideon-blackwood-road.38` | `route.road.gideon-blackwood-road` | stone-arch | monolith | 12 | 1 | 0 |
+| `structure.road-gideon-blackwood-road.39` | `route.road.gideon-blackwood-road` | stone-arch | monolith | 15 | 1 | 0 |
+| `structure.road-gideon-blackwood-road.40` | `route.road.gideon-blackwood-road` | nordic-viaduct | chain | 8 | 4 | 0 |
+| `structure.road-gideon-soulrest.8` | `route.road.gideon-soulrest` | nordic-viaduct | chain | 26 | 7 | 0 |
+| `structure.road-gideon-soulrest.9` | `route.road.gideon-soulrest` | stone-arch | monolith | 20 | 1 | 0 |
+| `structure.road-gideon-stormhold.1` | `route.road.gideon-stormhold` | nordic-viaduct | chain | 8 | 4 | 0 |
+| `structure.road-gideon-stormhold.2` | `route.road.gideon-stormhold` | nordic-viaduct | chain | 8 | 4 | 0 |
+| `structure.road-soulrest-blackrose.6` | `route.road.soulrest-blackrose` | root-passerelle | chain | 12 | 5 | 0 |
+| `structure.road-stormhold-thorn.2` | `route.road.stormhold-thorn` | root-passerelle | chain | 44 | 14 | 0 |
+| `structure.road-stormhold-thorn.36` | `route.road.stormhold-thorn` | nordic-viaduct | chain | 9 | 5 | 1 |
+| `structure.road-stormhold-thorn.43` | `route.road.stormhold-thorn` | nordic-viaduct | chain | 200 | 66 | 27 |
 
 Crossings whose deck stands higher above the ground than the length of the system's own posts, so that the system has no footing: none.
 
-Ways with over-cap metres no structure covers: `route.road.alten-corimont-stormhold` (286 m), `route.road.archon-gideon` (9 m), `route.road.gideon-blackwood-road` (564 m), `route.road.gideon-soulrest` (121 m), `route.road.gideon-stormhold` (374 m), `route.road.helstrom-blackrose` (36 m), `route.road.stormhold-thorn` (916 m)
+Ways with over-cap metres no structure covers: `route.road.alten-corimont-stormhold` (286 m), `route.road.gideon-blackwood-road` (552 m), `route.road.gideon-soulrest` (110 m), `route.road.gideon-stormhold` (454 m), `route.road.helstrom-blackrose` (36 m), `route.road.stormhold-thorn` (824 m)
 

@@ -355,7 +355,7 @@
       "confidence": "CANON_NAMED",
       "notes": "The canon exit road to Leyawiin; playable edge closed (00-core acceptance rules).",
       "sources": [
-        "uesp:Lore:Blackwood Road",
+        "uesp:Lore:Gideon",
         "uesp:Lore:Gideon"
       ],
       "aliases": [
@@ -435,13 +435,13 @@
       ]
     },
     "route.road.helstrom-blackrose": {
-      "name": "the Bogmother causeway",
+      "name": "the Helstrom way",
       "mode": "road",
       "class": "road",
       "from": "helstrom",
       "to": "blackrose",
       "confidence": "AGENT_INVENTED",
-      "notes": "Named for the Bogmother shrine the catalogue places on it.",
+      "notes": "Named for the Bogmother shrine the catalogue places on it. Renamed 2026-09-16: Bogmother is a ruin south-west of Stormhold (Lore:Bogmother) and the canon causeway runs Stormhold-Bogmother, not here.",
       "sources": [
         "uesp:Lore:Helstrom",
         "uesp:Lore:Blackrose"
@@ -671,9 +671,9 @@
       "class": "road",
       "from": "soulrest",
       "to": "lilmoth",
-      "confidence": "CANON_DERIVED",
+      "confidence": "LORE_INFERRED",
       "solved": false,
-      "notes": "The landward coast road between the two southern ports, counted in Imperial stages from Soulrest; no geometry until the minor-route compiler runs.",
+      "notes": "The landward coast road between the two southern ports, counted in Imperial stages from Soulrest; no geometry until the minor-route compiler runs. Neither Lore:Soulrest nor Lore:Lilmoth attests a coast road (audit 2026-09-16).",
       "sources": [
         "uesp:Lore:Soulrest",
         "uesp:Lore:Lilmoth",

@@ -48,8 +48,8 @@ no circular dependency. Ruling 6: no dredging.
   should take the higher ground to the south. Marsh bodies cost enough that
   a dry detour wins.
 - The crossroads of the Gideon–Archon and Helstrom–Blackrose roads sits on
-  dry, slightly higher ground at about **3.20 E, 3.59 S** (studio
-  `x=3.20&z=3.59`). A typed junction record fixes it there and both roads
+  dry, slightly higher ground at **3.47 E, 3.29 S** (studio `x=3.47&z=3.29`;
+  corrected by the owner 2026-09-16). A typed junction record fixes it there and both roads
   pass through it.
 - The cost model is improved, not patched per road: the three asks are the
   worked examples for costs that hold province-wide; the ledger shows
@@ -440,7 +440,7 @@ are on the 2D map with hover information. No tracks, plants or buildings.
 
 - The 2D map's `routes` layer first: does `stormhold-thorn` stay out of the
   river; does `archon-gideon` take the southern high ground; is the
-  crossroads at `x=3.20&z=3.59` on dry ground with both roads through it?
+  crossroads at `x=3.47&z=3.29` on dry ground with both roads through it?
 - Walk `route.road.helstrom-blackrose` from Helstrom (`?view=character&x=3.47&z=2.81&t=12:00`)
   for ten minutes: does it read as a road (a bench, a surface, no 30°
   scramble; a zigzag where the hill is long)?

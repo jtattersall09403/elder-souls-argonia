@@ -145,16 +145,18 @@ def test_solve_via_passes_through_its_via_point():
 # 6. junction ordering along a road
 # ---------------------------------------------------------------------------
 def test_road_points_orders_vias_by_distance_from_the_start():
-    survey = SimpleNamespace(grid_px=lambda x, z: (int(x / 5), int(z / 5)))
+    # ProvinceSurvey.grid_px returns (row, col); road_points must hand the
+    # solver (col, row). The stub keeps that order so a transposed via fails.
+    survey = SimpleNamespace(grid_px=lambda x, z: (int(z / 5), int(x / 5)))
     road = {"id": "route.major.test", "from": "a", "to": "b"}
     ends = {"a": (0, 0), "b": (40, 40)}
     junctions = [
-        {"id": "junction.far", "positionM": [100, 100], "roads": ["route.major.test"]},
-        {"id": "junction.near", "positionM": [50, 50], "roads": ["route.major.test"]},
+        {"id": "junction.far", "positionM": [100, 150], "roads": ["route.major.test"]},
+        {"id": "junction.near", "positionM": [50, 75], "roads": ["route.major.test"]},
         {"id": "junction.other", "positionM": [10, 10], "roads": ["route.major.elsewhere"]},
     ]
 
-    assert road_points(road, ends, junctions, survey) == [(0, 0), (10, 10), (20, 20), (40, 40)]
+    assert road_points(road, ends, junctions, survey) == [(0, 0), (10, 15), (20, 30), (40, 40)]
 
 
 # ---------------------------------------------------------------------------

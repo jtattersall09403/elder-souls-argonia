@@ -37,19 +37,38 @@ unless a row says otherwise. Nothing above 16e's ladder row ran.
 
 - Stormhold–Thorn: 4 channel samples over 11 km (was a river bed for much of its length).
 - Archon–Gideon: 18 standing-body samples, all at the Drowning Gate side; the marsh count is in the crossings table.
-- The crossroads `junction.hist-heartland.crossroads` at 3200 E, 3590 S: both roads pass through it (`routes.json` `junctions`).
+- The crossroads `junction.hist-heartland.crossroads`: **round 1 claimed it was honoured and was wrong** — `road_points` fed the survey's (row, col) to the solver as (col, row), so the pin sat transposed; found on 2026-09-16 when the owner placed the pins below, fixed with a test that would have caught it. The owner also corrected the position to 3470 E, 3290 S.
 - The sea is a wall for a road; a city anchor on the waterfront is always enterable.
+
+### 2b. Round 2, 2026-09-16 (owner walk of the 2D map)
+
+- **Roads attract roads.** Each road was solved alone, so two roads heading the same way ran side by side (Blackrose, 2.9 E 1.74 S, 0.74 E 6.22 S). `solve_major_routes` now solves longest first and prices a built road's cells at 0.35 of the ground cost for the roads after it, so later roads merge onto earlier ones and split later.
+- **Pins** (`junctions.json`, `kind: pin`, one road each) carry the owner's steers: Stormhold–Thorn north-east across the major river (3603 E, 230 S) and along the lowland north of the heartland marsh (4283 E, 1409 S); Gideon–Stormhold at the foot of the western mountains (1864 E, 2577 S) and the north-western ones (1694 E, 1563 S); the Lilmoth approach from the north-west (3477 E, 6235 S); the Soulrest approach from the north (521 E, 6427 S). Pins are chosen by measurement inside the owner's described box: dry within 30 m, gentle, on the intended side of the river.
+- **Gideon's anchor** moved 90 m east off the tarn's shore (dry, 1.4°), inside its tolerance; recorded on the anchor.
+- The stale minor tracks and channels the 2D map still drew (16g's, skipped on this ground) are hidden until their stage runs; the Blackrose lake placeholder overlay is removed; the four route sub-layers are always visible with spans and crossings on by default; the map zooms.
+
+### 2c. The lore audit (owner ask, 2026-09-16)
+
+Every major route was checked against the source books (dossier
+`world/sources/lore/topics/roads-and-routes-4e201.md`). Two are attested by
+name (the Blackwood Road at Gideon; the Tear road at Thorn); the rest are
+project extrapolation the registry already flagged. The sources reach
+Helstrom and Alten Corimont by water and root, not by road. Every route now
+carries a 4E 201 `condition` (worn / decayed / broken) with its reason for
+the span author, the painter and 16f's dressing to read. Three registry
+defects fixed (a citation to a page that does not exist, a road named after
+a ruin a province away, a coast road mis-tiered as attested). Three
+load-bearing calls are the owner's (dossier § Open calls).
 
 ## 3. Grading (the natural array is untouched)
 
 | Measure | Value |
 |---|---:|
-| route-grade patches kept | 136 |
-| patches absorbed (shared corridors, junctions) | 98 |
-| road length graded (m) | 5,622 |
-| amplitude median / p90 / max (m) | 0.89 / 1.74 / 2.97 |
-| widest shoulder (m) | 6.5 |
-| structure windows handed to the span author | 17 |
+| route-grade patches kept | 154 |
+| patches absorbed (shared corridors, junctions) | 97 |
+| road length graded (m) | 6,281 |
+| amplitude median / max (m) | 0.88 / 2.98 |
+| structure windows handed to the span author | 29 |
 | `patch_water --graded` | pass, 0 problems |
 
 Every patch was proved on a scratch window through the chain's own
@@ -68,8 +87,8 @@ the plot re-sites a station or re-lines the lane on water the record has.
 ## 4. Spans and crossings
 
 - Crossings on the record: 151 (major: 27 fords, 22 spans, 1 ferry-band, the Drowning Gate tarn at 411 m; minor: 66 / 28 / 7, on the stale minor lines 16g re-solves).
-- Structures: 26 (21 bridges, 3 stepped ascents, 2 boardwalk decks); span lengths in metres, sorted: 3, 3, 6, 8, 8, 8, 8, 8, 8, 8, 9, 11, 11, 12, 12, 12, 15, 15, 17, 18, 20, 27, 200. Was: 272 structures, 211 spans, median 70 m.
-- **One span over 52 m remains and is a red:** `route.road.stormhold-thorn` at 8,619 m, a 200 m bridge over a DRY hollow (a 15 m fall over 475 m, 44° at its worst; no crossing record under it). The router took the hollow because every detour cost more on the analysis grid; the grader could not fill it (over 6 m). The honest fixes are a routing one: an authored line for that stretch (`authored-routes.json`) or a junction pin that steers the road round the hollow, chosen on the 2D map by the owner, then one re-solve. Left for the owner check.
+- Structures (round 2): 29 (17 bridges, 7 stepped ascents, 3 lip-steps, 2 boardwalk decks); span lengths in metres, sorted: 2, 6, 8, 8, 8, 8, 8, 8, 9, 12, 12, 12, 15, 15, 20, 26, 44, 45, 200. Was: 272 structures, 211 spans, median 70 m.
+- **One span over 52 m remains and is a red:** `route.road.stormhold-thorn` at 5,363 E, 1,606 S (studio `x=5.36&z=1.61`), a 200 m bridge over a DRY hollow (a 15 m fall over 475 m, 44° at its worst; no crossing record under it). The router took the hollow because every detour cost more on the analysis grid; the grader could not fill it (over 6 m). The honest fixes are a routing one: an authored line for that stretch (`authored-routes.json`) or a junction pin that steers the road round the hollow, chosen on the 2D map by the owner, then one re-solve. Left for the owner check.
 - The 220 m stone viaduct over the fen is gone: marsh crossings are boardwalk decks and the deep marsh now costs the router 16× dry ground, so `soulrest-blackrose` goes round.
 
 ## 5. Ferries and services
@@ -78,7 +97,7 @@ the plot re-sites a station or re-lines the lane on water the record has.
 |---|---|
 | ferry.hist-heartland.underway-basin | **unmatched** after the final solve: `helstrom-blackrose` no longer walks into the basin (the marsh cost sends it round), so the nearest crossing is a 4.7 m ford and its water floats no canoe. The premise on the record ("the surface route crosses the deep basin") is a 16g plot call: keep the Underway story with a re-sited ferry, or retire the service |
 | ferry.imperial-fringe.drowning-gate | matched; berths 2.40 / 2.04 m, jetties 1 / 1 m |
-| ferry.imperial-fringe.onkobra-bond | matched; berths 1.92 / 1.20 m, jetties 5 / 1 m |
+| ferry.imperial-fringe.onkobra-bond | **unmatched** after round 2: the pinned Gideon–Stormhold road no longer crosses the lower Onkobra by the bonded shed, so no road crossing matches within 400 m; a 16g plot call with the Underway one (re-site the customs ferry where the roads now cross, or retire it) |
 | 4 station-run ferries | carried; 9 hops `unresolved` (no registry lane joins the pair: the minor waterways 16g solves) |
 | 12 boat services | one per registry lane between stations declaring `boat`; `FAST boat.corimont_helstrom` resolves |
 | rootworm.underground-express | `placeholder`; re-authored at the hero Hist nodes in 16g |

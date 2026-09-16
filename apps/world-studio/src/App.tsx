@@ -11,6 +11,7 @@ import { RoutesLayer } from "./routes/RoutesLayer";
 import { Minimap } from "./character/Minimap";
 import { loadMinimapOverlay, type MinimapOverlay } from "./character/minimapOverlay";
 import { ROUTE_SUB_LAYERS, encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
+import { MAP_ZOOM_STEP, useMapZoom } from "./map/mapZoom";
 // Loaded on demand: the character mode pulls in the combat and animation
 // packages (a 10 MB animation table among them) that the map and the
 // flyover never need (2026-09-13).
@@ -70,6 +71,19 @@ setWeatherOverride(parseWeatherParam(urlParams.get("w")));
 type ProvinceMeta = ProvinceMapMeta;
 
 const anchors = anchorsFile.anchors as SettlementAnchor[];
+
+const ZOOM_BTN: React.CSSProperties = {
+  padding: "1px 8px", borderRadius: 5, cursor: "pointer", border: "1px solid #4a5568",
+  background: "#1c2430", color: "#d8dee7", font: "13px system-ui",
+};
+
+/** What each route sub-layer shows, for the checkbox's hover. */
+const ROUTE_SUB_LAYER_ABOUT: Record<string, string> = {
+  spans: "bridges, boardwalk decks, trestles and stairs authored over the ways",
+  grades: "the choke points the road grader capped, with before/after slope",
+  crossings: "every place a way stands in water — ford, causeway, bridge or ferry",
+  services: "ferry and boat services, their stations and the hops between them",
+};
 const connections = (anchorsFile.suggestedConnections ?? []) as SuggestedConnection[];
 
 /**
@@ -107,6 +121,8 @@ function conditionHeights(base: Float32Array, w: number, h: number, mode: Exclud
 
 export function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mapViewportRef = useRef<HTMLDivElement>(null);
+  const map = useMapZoom(mapViewportRef);
   const heightsRef = useRef<Float32Array | null>(null);
   const conditionedRef = useRef<Partial<Record<Conditioning, Float32Array>>>({});
   const [meta, setMeta] = useState<ProvinceMeta | null>(null);
@@ -474,6 +490,10 @@ export function App() {
     })();
   }, []);
 
+  /** Are the clickable vector route lines mounted? Then the painted route and
+   *  waterway rasters stand down — one geometry, drawn once. */
+  const drawsVectorRoutes = showCatalogue || routesUrl.showWater || routesUrl.subLayers.length > 0;
+
   // Repaint terrain + anchors whenever data, sea level or conditioning changes.
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -504,16 +524,20 @@ export function App() {
                         "hydrograph-rivers", "hydrograph-falls"]) {
       const img = overlaysRef.current[name];
       // routes/waterways are drawn as clickable vector lines under ?cat=1
-      if (showCatalogue && (name === "routes" || name === "waterways")) continue;
+      if (drawsVectorRoutes && (name === "routes" || name === "waterways")) continue;
       if (layers[name] && img) ctx.drawImage(img, 0, 0, w, h);
     }
 
     // Suggested transport connections (candidate edges, not road geometry).
     const byId = new Map(anchors.map((a) => [a.id, a]));
+    // The Phase 4 suggested-connection lines and the anchor tolerance rings
+    // are review guides, not world data; the roads are solved now (16e), so
+    // they draw only on request (?anchors=1), never by default (owner 2026-09-16).
+    const showAnchorGuides = new URLSearchParams(window.location.search).get("anchors") === "1";
     ctx.strokeStyle = "rgba(255,255,255,0.45)";
     ctx.lineWidth = 1.5;
     ctx.setLineDash([2, 6]);
-    for (const c of connections) {
+    for (const c of showAnchorGuides ? connections : []) {
       const from = byId.get(c.from);
       const to = byId.get(c.to);
       if (!from || !to) continue;
@@ -530,11 +554,13 @@ export function App() {
       const y = a.v * h;
       const major = a.rank === "major";
       ctx.strokeStyle = major ? "rgba(255,220,120,0.55)" : "rgba(180,200,255,0.5)";
-      ctx.setLineDash([6, 5]);
-      ctx.beginPath();
-      ctx.arc(x, y, a.toleranceUV * w, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.setLineDash([]);
+      if (showAnchorGuides) {
+        ctx.setLineDash([6, 5]);
+        ctx.beginPath();
+        ctx.arc(x, y, a.toleranceUV * w, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
       ctx.fillStyle = major ? "#ffd678" : "#b4c8ff";
       ctx.beginPath();
       ctx.arc(x, y, major ? 5 : 4, 0, Math.PI * 2);
@@ -545,7 +571,7 @@ export function App() {
       ctx.fillStyle = major ? "#ffe9b8" : "#d5e0ff";
       ctx.fillText(a.name, x + 8, y + 4);
     }
-  }, [meta, seaLevel, conditioning, layers, overlaysReady, showCatalogue]);
+  }, [meta, seaLevel, conditioning, layers, overlaysReady, drawsVectorRoutes]);
 
   // Reuse the scene's water truth, including native channels and seasonal
   // access. A separate legacy class raster labels dry banks as open water.
@@ -624,7 +650,9 @@ export function App() {
       if (fallsAlpha > 0 && !reach?.fall) sections.push({ title: "Marker", rows: [["what", "a waterfall or plunge pool (see the legend)"]] });
     }
     setReadout(`${here[0][1]} · elevation ${hgt.toFixed(1)} m${region ? ` · ${region}` : ""}`);
-    setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, sections });
+    // rect is the TRANSFORMED canvas; the tip lives in the untransformed
+    // wrapper, so divide the offset back out (it is then scaled with it).
+    setTip({ x: (e.clientX - rect.left) / map.zoom, y: (e.clientY - rect.top) / map.zoom, sections });
   }
 
   function enterFly(xKm: number, zKm: number) {
@@ -703,6 +731,12 @@ export function App() {
   // ?hud=0 hides every overlay panel — probe screenshots must be able to
   // show ONLY the world (owner 2026-08-30: capture what needs judging).
   const hudHidden = new URLSearchParams(window.location.search).get("hud") === "0";
+
+  // The routes layer draws the same geometry as the painted routes/waterways
+  // rasters, so wherever it is mounted those rasters stand down (the owner
+  // read the two together as duplicated roads). It no longer waits for the
+  // places catalogue: the route sub-layers are owner-facing on their own.
+  const routeVectors = drawsVectorRoutes;
 
   const blueprintOverlay = showBlueprints ? (
     <BlueprintView baseUrl={import.meta.env.BASE_URL} initial={blueprintUrl}
@@ -831,7 +865,7 @@ export function App() {
           // Under the places layer the painted route/waterway rasters are
           // replaced by the clickable vector lines (same geometry, drawn
           // once) — the owner saw both and read them as duplicated roads.
-          const replaced = showCatalogue && (name === "routes" || name === "waterways");
+          const replaced = routeVectors && (name === "routes" || name === "waterways");
           return (
             <label key={name} style={{ cursor: replaced ? "default" : "pointer", opacity: replaced ? 0.45 : 1 }}
               title={replaced ? "drawn as clickable lines by the places layer" : layerAbout[name]}>
@@ -851,6 +885,35 @@ export function App() {
             onChange={(e) => setShowBlueprints(e.target.checked)} />{" "}
           Blueprints (Phase 11 Part 7)
         </label>
+      </div>
+      {/* Routes group. These lived inside the places layer's filter panel,
+          which is COLLAPSED until you press its "Places" caret — so the owner
+          never saw them (2026-09-16). They belong in the map's own strip, and
+          the vector route layers no longer depend on the places catalogue. */}
+      <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
+        <span>Routes:</span>
+        <label style={{ cursor: "pointer" }} title="boat lanes and, when built, minor channels">
+          <input type="checkbox" checked={routesUrl.showWater}
+            onChange={(e) => setRoutesUrl((r) => ({ ...r, showWater: e.target.checked }))} /> waterways
+        </label>
+        {ROUTE_SUB_LAYERS.map((n) => (
+          <label key={n} style={{ cursor: "pointer" }} title={ROUTE_SUB_LAYER_ABOUT[n]}>
+            <input type="checkbox" checked={routesUrl.subLayers.includes(n)}
+              onChange={(e) => setRoutesUrl((r) => ({
+                ...r,
+                subLayers: e.target.checked
+                  ? ROUTE_SUB_LAYERS.filter((x) => x === n || r.subLayers.includes(x))
+                  : r.subLayers.filter((x) => x !== n),
+              }))} /> {n}
+          </label>
+        ))}
+        <span style={{ display: "flex", gap: 6, alignItems: "center", borderLeft: "1px solid #3a4655", paddingLeft: 12 }}>
+          zoom ×{map.zoom.toFixed(1)}
+          <button onClick={() => map.zoomBy(MAP_ZOOM_STEP)} title="zoom in" style={ZOOM_BTN}>+</button>
+          <button onClick={() => map.zoomBy(1 / MAP_ZOOM_STEP)} title="zoom out" style={ZOOM_BTN}>−</button>
+          <button onClick={map.reset} title="back to the whole province" style={ZOOM_BTN}>reset</button>
+          <span style={{ opacity: 0.6 }}>wheel over the map zooms; drag to pan</span>
+        </span>
       </div>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
         <span>Interior relief:</span>
@@ -882,10 +945,24 @@ export function App() {
           </div>
         ) : null,
       )}
-      <div style={{ position: "relative" }}>
+      {/* The zoom viewport clips; the single wrapper inside it carries the
+          transform, so the canvas and every layer drawn over it (the places
+          and routes SVGs) scale and pan as one. `getBoundingClientRect()`
+          reports the transformed canvas, so the hover readout's maths still
+          returns true province metres at any zoom. */}
+      <div ref={mapViewportRef} style={{
+        position: "relative", width: "min(92vmin, 900px)", overflow: "hidden",
+        borderRadius: 6, touchAction: "none",
+        cursor: map.dragging ? "grabbing" : map.zoom > 1 ? "grab" : undefined,
+      }}>
+      <div style={{
+        position: "relative", width: "100%",
+        transform: `translate(${map.pan.x}px, ${map.pan.y}px) scale(${map.zoom})`,
+        transformOrigin: "0 0",
+      }}>
         <canvas ref={canvasRef} onPointerMove={onMove} onPointerLeave={() => setTip(null)}
           onDoubleClick={onDoubleClick}
-          style={{ width: "min(92vmin, 900px)", imageRendering: "pixelated", borderRadius: 6, touchAction: "none" }} />
+          style={{ width: "100%", display: "block", imageRendering: "pixelated", touchAction: "none" }} />
         {tip && (
           <div style={{
             position: "absolute", left: tip.x + 14, top: tip.y + 10, pointerEvents: "none",
@@ -908,38 +985,17 @@ export function App() {
             ))}
           </div>
         )}
-        {showCatalogue && (
-          <>
-            <RoutesLayer baseUrl={import.meta.env.BASE_URL} showWater={routesUrl.showWater}
-              showTracks={placesUrl.showTracks} selectedKey={routesUrl.selectedKey}
-              onSelectedKey={(selectedKey) => setRoutesUrl((r) => ({ ...r, selectedKey }))}
-              placeName={placeName} subLayers={routesUrl.subLayers} />
-            <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
-              onUrlState={setPlacesUrl} onFly={flyToFraction}
-              controls={(
-                <>
-                  <label style={{ cursor: "pointer" }}>
-                    <input type="checkbox" checked={routesUrl.showWater}
-                      onChange={(e) => setRoutesUrl((r) => ({ ...r, showWater: e.target.checked }))} /> waterways
-                  </label>
-                  {/* The four route sub-layers (16e deliverable 8): each one
-                      independent, all off by default, round-tripped as
-                      ?routeLayers=spans,grades,crossings,services. */}
-                  {ROUTE_SUB_LAYERS.map((n) => (
-                    <label key={n} style={{ cursor: "pointer" }}>
-                      <input type="checkbox" checked={routesUrl.subLayers.includes(n)}
-                        onChange={(e) => setRoutesUrl((r) => ({
-                          ...r,
-                          subLayers: e.target.checked
-                            ? [...r.subLayers, n]
-                            : r.subLayers.filter((x) => x !== n),
-                        }))} /> {n}
-                    </label>
-                  ))}
-                </>
-              )} />
-          </>
+        {routeVectors && (
+          <RoutesLayer baseUrl={import.meta.env.BASE_URL} showWater={routesUrl.showWater}
+            showTracks={placesUrl.showTracks} selectedKey={routesUrl.selectedKey}
+            onSelectedKey={(selectedKey) => setRoutesUrl((r) => ({ ...r, selectedKey }))}
+            placeName={placeName} subLayers={routesUrl.subLayers} />
         )}
+        {showCatalogue && (
+          <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
+            onUrlState={setPlacesUrl} onFly={flyToFraction} />
+        )}
+      </div>
       </div>
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).
@@ -956,6 +1012,9 @@ export function App() {
         on the owner-chosen strong terrain (regardless of the relief toggle): rivers by
         drainage area, wetlands and tidal flats, flood frequency, soils, basins, salinity.
         The hover tooltip reports region, danger and culture wherever you point.
+        The map zooms with the wheel (or the +/-/reset buttons) and pans by dragging
+        once zoomed in; every layer moves with it and the hover position stays in true
+        province kilometres.
         <strong> Double-click anywhere on the map to fly there in 3D</strong> (the flyover
         drapes the currently-toggled layers over the terrain, so pick layers first);
         the URL captures the view for sharing.

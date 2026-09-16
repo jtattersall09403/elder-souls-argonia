@@ -160,6 +160,16 @@ Needs ruling 11 (the floor).
    chunk places (the Hist communion slot, buildout register), with the
    quests 20 root-transit note updated; a service whose station this review
    moves or cuts is re-derived, never left pointing at old ground.
+6a. **The Underway basin ferry** (`ferry.hist-heartland.underway-basin`,
+   `status: unmatched` since 16e): the Helstrom–Blackrose road no longer
+   enters the basin, so the record's premise ("the surface route crosses the
+   deep basin") is false. Decide with the plot: re-site the ferry where a
+   road or a station meets the basin, or retire the service and keep the
+   Underway as the root gallery alone; either way `travel_services --check`
+   must be green with no `unmatched` active service. The lanes with declared
+   `gaps` in `province/waterways.json` (overland or shallower than a canoe)
+   are the same kind of call: re-site the station or re-line the lane on
+   water the record has; never dredge (ruling 6).
 6b. **Empty `terrain-request-known-red.json`**: every registered request
    is re-sited, re-typed or dropped; the register dies with its last row.
 6c. **One density vocabulary**: state in world 97 §75 how the catalogue's
@@ -184,6 +194,7 @@ chunk because it is where the plot and the lore meet:
    of ≥ 1 ha, every waterfall, the lagoons and bays, the mountain
    peaks (make sensible choices about what constitutes a 'peak that should have a name') and the mountain passes the routes use. Smaller creeks and ponds are named
    only where a place or quest refers to them.
+1b. `route.road.helstrom-blackrose` is misnamed "the Bogmother causeway" (the ruin and the attested causeway are south-west of Stormhold; dossier `world/sources/lore/topics/roads-and-routes-4e201.md`): rename it here and rewrite the catalogue prose that repeats the name (`place.mercantile-coast.white-rose-prison` § founding, `place.dunmer-north.the-northern-rest` § siteAdvantages), text-reviewed together.
 2. Grounding: the lore dossiers first (`world/sources/lore/`), then UESP for
    established names (the Onkobra, the Blackwood, Oliis Bay and the rest
    exist in the source books and must land on the right entity); extrapolated names follow the

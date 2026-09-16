@@ -6,23 +6,19 @@
       "family": "stone-civic",
       "id": "structure.road-alten-corimont-stormhold.18",
       "kind": "bridge",
-      "pieces": 3,
+      "pieces": 2,
       "pointsM": [
         [
-          2408.816,
+          2407.68,
           1299.594
         ],
         [
-          2407.853,
-          1299.594
-        ],
-        [
-          2406.759,
+          2407.133,
           1299.594
         ]
       ],
-      "riseM": 0.16,
-      "spanM": 3.0,
+      "riseM": 0.15,
+      "spanM": 1.5,
       "wayId": "route.road.alten-corimont-stormhold",
       "why": "The road meets standing water several times between Alten Corimont and Stormhold. Each sheet is broad enough that a cart cannot be walked through it. The crossings are spanned."
     },
@@ -30,36 +26,28 @@
       "family": "stone-civic",
       "id": "structure.road-alten-corimont-stormhold.19",
       "kind": "bridge",
-      "pieces": 5,
+      "pieces": 3,
       "pointsM": [
         [
           2467.584,
-          881.349
+          880.233
         ],
         [
           2467.584,
-          880.386
+          879.27
         ],
         [
-          2465.859,
-          875.638
-        ],
-        [
-          2464.684,
-          874.463
-        ],
-        [
-          2466.54,
-          876.319
+          2466.023,
+          875.803
         ]
       ],
-      "riseM": 0.23,
-      "spanM": 9.1,
+      "riseM": -0.04,
+      "spanM": 6.0,
       "wayId": "route.road.alten-corimont-stormhold",
       "why": "The road meets standing water several times between Alten Corimont and Stormhold. Each sheet is broad enough that a cart cannot be walked through it. The crossings are spanned."
     },
     {
-      "crossingId": "crossing.major.020",
+      "crossingId": "crossing.major.022",
       "family": "stone-civic",
       "id": "structure.road-alten-corimont-stormhold.20",
       "kind": "stepped-ascent",
@@ -83,22 +71,22 @@
       "pointsM": [
         [
           2467.584,
-          880.829
+          881.223
         ],
         [
           2467.584,
-          879.866
+          880.26
         ],
         [
-          2465.491,
-          875.271
+          2465.77,
+          875.549
         ],
         [
-          2465.384,
-          875.163
+          2465.656,
+          875.435
         ]
       ],
-      "riseM": 0.03,
+      "riseM": -0.43,
       "spanM": 7.5,
       "wayId": "route.road.alten-corimont-stormhold",
       "why": "The road meets standing water several times between Alten Corimont and Stormhold. Each sheet is broad enough that a cart cannot be walked through it. The crossings are spanned."
@@ -107,27 +95,87 @@
       "family": "stone-civic",
       "id": "structure.road-alten-corimont-stormhold.22",
       "kind": "bridge",
+      "pieces": 5,
+      "pointsM": [
+        [
+          2367.131,
+          1103.937
+        ],
+        [
+          2367.812,
+          1103.256
+        ],
+        [
+          2372.831,
+          1102.188
+        ],
+        [
+          2378.293,
+          1102.188
+        ],
+        [
+          2380.523,
+          1101.512
+        ]
+      ],
+      "riseM": -0.5,
+      "spanM": 15.4,
+      "wayId": "route.road.alten-corimont-stormhold",
+      "why": "The road meets standing water several times between Alten Corimont and Stormhold. Each sheet is broad enough that a cart cannot be walked through it. The crossings are spanned."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-alten-corimont-stormhold.23",
+      "kind": "bridge",
       "pieces": 4,
       "pointsM": [
         [
-          2374.36,
+          2374.356,
           1102.188
         ],
         [
-          2375.323,
+          2375.319,
           1102.188
         ],
         [
-          2380.511,
-          1101.525
+          2380.508,
+          1101.528
         ],
         [
-          2380.717,
-          1101.318
+          2380.714,
+          1101.321
         ]
       ],
       "riseM": -0.5,
       "spanM": 7.7,
+      "wayId": "route.road.alten-corimont-stormhold",
+      "why": "The road meets standing water several times between Alten Corimont and Stormhold. Each sheet is broad enough that a cart cannot be walked through it. The crossings are spanned."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-alten-corimont-stormhold.24",
+      "kind": "bridge",
+      "pieces": 4,
+      "pointsM": [
+        [
+          2467.584,
+          881.053
+        ],
+        [
+          2467.584,
+          880.09
+        ],
+        [
+          2465.65,
+          875.429
+        ],
+        [
+          2465.543,
+          875.322
+        ]
+      ],
+      "riseM": -0.24,
+      "spanM": 7.5,
       "wayId": "route.road.alten-corimont-stormhold",
       "why": "The road meets standing water several times between Alten Corimont and Stormhold. Each sheet is broad enough that a cart cannot be walked through it. The crossings are spanned."
     },
@@ -151,67 +199,15 @@
       "family": "stone-civic",
       "id": "structure.road-gideon-blackwood-road.34",
       "kind": "bridge",
-      "pieces": 10,
-      "pointsM": [
-        [
-          893.046,
-          3207.859
-        ],
-        [
-          892.083,
-          3207.859
-        ],
-        [
-          886.621,
-          3207.859
-        ],
-        [
-          884.04,
-          3206.666
-        ],
-        [
-          887.903,
-          3202.803
-        ],
-        [
-          891.765,
-          3198.941
-        ],
-        [
-          894.095,
-          3196.611
-        ],
-        [
-          887.584,
-          3207.859
-        ],
-        [
-          887.222,
-          3203.484
-        ],
-        [
-          891.084,
-          3199.622
-        ]
-      ],
-      "riseM": -1.4,
-      "spanM": 27.1,
-      "wayId": "route.road.gideon-blackwood-road",
-      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck."
-    },
-    {
-      "family": "stone-civic",
-      "id": "structure.road-gideon-blackwood-road.36",
-      "kind": "bridge",
       "pieces": 1,
       "pointsM": [
         [
-          1058.319,
-          3247.65
+          886.773,
+          3207.859
         ]
       ],
-      "riseM": 0.8,
-      "spanM": 12.1,
+      "riseM": -0.99,
+      "spanM": 12.0,
       "wayId": "route.road.gideon-blackwood-road",
       "why": "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck."
     },
@@ -222,8 +218,40 @@
       "pieces": 1,
       "pointsM": [
         [
-          816.898,
-          3152.878
+          836.866,
+          3161.879
+        ]
+      ],
+      "riseM": -0.61,
+      "spanM": 45.2,
+      "wayId": "route.road.gideon-blackwood-road",
+      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-gideon-blackwood-road.38",
+      "kind": "bridge",
+      "pieces": 1,
+      "pointsM": [
+        [
+          1058.319,
+          3247.645
+        ]
+      ],
+      "riseM": 0.8,
+      "spanM": 12.1,
+      "wayId": "route.road.gideon-blackwood-road",
+      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-gideon-blackwood-road.39",
+      "kind": "bridge",
+      "pieces": 1,
+      "pointsM": [
+        [
+          816.895,
+          3152.874
         ]
       ],
       "riseM": -0.51,
@@ -233,75 +261,83 @@
     },
     {
       "family": "stone-civic",
-      "id": "structure.road-gideon-blackwood-road.38",
+      "id": "structure.road-gideon-blackwood-road.40",
       "kind": "bridge",
       "pieces": 4,
       "pointsM": [
         [
-          597.043,
+          597.038,
           3174.958
         ],
         [
-          596.08,
+          596.075,
           3174.958
         ],
         [
-          590.618,
+          590.613,
           3174.958
         ],
         [
-          590.456,
+          590.451,
           3174.958
         ]
       ],
-      "riseM": -1.1,
+      "riseM": -1.09,
       "spanM": 7.6,
       "wayId": "route.road.gideon-blackwood-road",
       "why": "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck."
-    },
-    {
-      "family": "stone-civic",
-      "id": "structure.road-gideon-soulrest.6",
-      "kind": "bridge",
-      "pieces": 1,
-      "pointsM": [
-        [
-          1600.0,
-          3031.199
-        ]
-      ],
-      "riseM": 0.14,
-      "spanM": 12.1,
-      "wayId": "route.road.gideon-soulrest",
-      "why": "Two channels cross the road between Gideon and Soulrest. Each is about a metre deep and some tens of metres wide. The road is carried over both."
-    },
-    {
-      "crossingId": "crossing.major.045",
-      "family": "stone-civic",
-      "id": "structure.road-gideon-soulrest.7",
-      "kind": "bridge",
-      "pieces": 1,
-      "pointsM": [
-        [
-          1864.397,
-          4860.006
-        ]
-      ],
-      "riseM": 0.2,
-      "spanM": 18.3,
-      "wayId": "route.road.gideon-soulrest",
-      "why": "Two channels cross the road between Gideon and Soulrest. Each is about a metre deep and some tens of metres wide. The road is carried over both."
     },
     {
       "crossingId": "crossing.major.045",
       "family": "stone-civic",
       "id": "structure.road-gideon-soulrest.8",
       "kind": "bridge",
+      "pieces": 7,
+      "pointsM": [
+        [
+          1829.702,
+          4841.948
+        ],
+        [
+          1828.739,
+          4841.948
+        ],
+        [
+          1823.277,
+          4841.948
+        ],
+        [
+          1818.61,
+          4843.867
+        ],
+        [
+          1814.747,
+          4847.729
+        ],
+        [
+          1810.885,
+          4851.592
+        ],
+        [
+          1809.562,
+          4853.099
+        ]
+      ],
+      "riseM": 0.11,
+      "spanM": 25.8,
+      "wayId": "route.road.gideon-soulrest",
+      "why": "Two channels cross the road between Gideon and Soulrest. Each is about a metre deep and some tens of metres wide. The road is carried over both."
+    },
+    {
+      "crossingId": "crossing.major.048",
+      "family": "stone-civic",
+      "id": "structure.road-gideon-soulrest.9",
+      "kind": "bridge",
       "pieces": 1,
       "pointsM": [
         [
           1864.397,
-          4859.371
+          4859.369
         ]
       ],
       "riseM": 0.18,
@@ -311,130 +347,25 @@
     },
     {
       "family": "stone-civic",
-      "id": "structure.road-gideon-stormhold.10",
-      "kind": "bridge",
-      "pieces": 1,
-      "pointsM": [
-        [
-          1600.0,
-          3031.199
-        ]
-      ],
-      "riseM": 0.14,
-      "spanM": 12.1,
-      "wayId": "route.road.gideon-stormhold",
-      "why": "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck."
-    },
-    {
-      "family": "stone-civic",
-      "id": "structure.road-gideon-stormhold.13",
-      "kind": "bridge",
-      "pieces": 5,
-      "pointsM": [
-        [
-          2467.584,
-          882.461
-        ],
-        [
-          2467.584,
-          881.498
-        ],
-        [
-          2466.645,
-          876.425
-        ],
-        [
-          2464.395,
-          874.175
-        ],
-        [
-          2467.326,
-          877.106
-        ]
-      ],
-      "riseM": -0.24,
-      "spanM": 10.6,
-      "wayId": "route.road.gideon-stormhold",
-      "why": "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck."
-    },
-    {
-      "family": "stone-civic",
-      "id": "structure.road-gideon-stormhold.14",
+      "id": "structure.road-gideon-stormhold.1",
       "kind": "bridge",
       "pieces": 4,
       "pointsM": [
         [
-          2467.584,
-          880.831
-        ],
-        [
-          2467.584,
-          879.868
-        ],
-        [
-          2465.493,
-          875.272
-        ],
-        [
-          2465.385,
-          875.165
-        ]
-      ],
-      "riseM": 0.02,
-      "spanM": 7.5,
-      "wayId": "route.road.gideon-stormhold",
-      "why": "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck."
-    },
-    {
-      "crossingId": "crossing.major.061",
-      "family": "root-timber",
-      "id": "structure.road-gideon-stormhold.15",
-      "kind": "deck",
-      "pieces": 4,
-      "pointsM": [
-        [
-          2593.705,
-          2762.523
-        ],
-        [
-          2593.705,
-          2760.702
-        ],
-        [
-          2593.705,
-          2757.061
-        ],
-        [
-          2593.705,
-          2753.744
-        ]
-      ],
-      "riseM": 0.4,
-      "spanM": 10.6,
-      "wayId": "route.road.gideon-stormhold",
-      "why": "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck."
-    },
-    {
-      "family": "stone-civic",
-      "id": "structure.road-gideon-stormhold.16",
-      "kind": "bridge",
-      "pieces": 4,
-      "pointsM": [
-        [
-          2374.358,
+          2374.357,
           1102.188
         ],
         [
-          2375.321,
+          2375.32,
           1102.188
         ],
         [
-          2380.509,
-          1101.526
+          2380.508,
+          1101.527
         ],
         [
-          2380.716,
-          1101.319
+          2380.715,
+          1101.321
         ]
       ],
       "riseM": -0.5,
@@ -443,383 +374,533 @@
       "why": "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck."
     },
     {
-      "crossingId": "crossing.major.073",
+      "family": "stone-civic",
+      "id": "structure.road-gideon-stormhold.2",
+      "kind": "bridge",
+      "pieces": 4,
+      "pointsM": [
+        [
+          2467.584,
+          881.052
+        ],
+        [
+          2467.584,
+          880.089
+        ],
+        [
+          2465.65,
+          875.429
+        ],
+        [
+          2465.549,
+          875.328
+        ]
+      ],
+      "riseM": -0.25,
+      "spanM": 7.5,
+      "wayId": "route.road.gideon-stormhold",
+      "why": "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck."
+    },
+    {
+      "crossingId": "crossing.major.077",
       "family": "root-timber",
       "id": "structure.road-soulrest-blackrose.6",
       "kind": "deck",
-      "pieces": 3,
+      "pieces": 5,
       "pointsM": [
         [
-          1258.495,
-          6423.917
+          1254.169,
+          6428.242
         ],
         [
-          1259.782,
-          6422.629
+          1255.457,
+          6426.955
         ],
         [
-          1261.471,
-          6420.94
+          1258.031,
+          6424.38
+        ],
+        [
+          1260.606,
+          6421.806
+        ],
+        [
+          1261.402,
+          6421.009
         ]
       ],
-      "riseM": -0.08,
-      "spanM": 6.0,
+      "riseM": -0.19,
+      "spanM": 12.0,
       "wayId": "route.road.soulrest-blackrose",
       "why": "The road leaves the coastal terrace and falls into the lake basin. The fen at the bottom holds standing water all year, so the last stretch is carried over it. The fen bottom is too soft for a cut face or a fill."
     },
     {
-      "family": "stone-civic",
-      "id": "structure.road-stormhold-thorn.13",
-      "kind": "bridge",
-      "pieces": 3,
-      "pointsM": [
-        [
-          2451.133,
-          957.842
-        ],
-        [
-          2451.133,
-          958.805
-        ],
-        [
-          2450.926,
-          959.823
-        ]
-      ],
-      "riseM": -0.01,
-      "spanM": 3.0,
-      "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
-    },
-    {
-      "family": "stone-civic",
+      "crossingId": "crossing.major.030",
+      "family": "root-timber",
       "id": "structure.road-stormhold-thorn.2",
-      "kind": "bridge",
-      "pieces": 1,
+      "kind": "deck",
+      "pieces": 14,
       "pointsM": [
         [
-          2906.266,
-          1769.786
+          3864.873,
+          618.629
+        ],
+        [
+          3866.276,
+          619.638
+        ],
+        [
+          3869.917,
+          619.638
+        ],
+        [
+          3871.365,
+          621.831
+        ],
+        [
+          3871.365,
+          625.472
+        ],
+        [
+          3871.365,
+          629.113
+        ],
+        [
+          3869.845,
+          632.124
+        ],
+        [
+          3867.271,
+          634.699
+        ],
+        [
+          3864.696,
+          637.274
+        ],
+        [
+          3862.122,
+          639.848
+        ],
+        [
+          3859.547,
+          642.423
+        ],
+        [
+          3856.973,
+          644.997
+        ],
+        [
+          3854.915,
+          647.786
+        ],
+        [
+          3854.915,
+          647.973
         ]
       ],
-      "riseM": -0.23,
-      "spanM": 16.6,
+      "riseM": 0.0,
+      "spanM": 43.9,
       "wayId": "route.road.stormhold-thorn",
       "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
     },
     {
       "family": "stone-civic",
       "id": "structure.road-stormhold-thorn.33",
-      "kind": "bridge",
-      "pieces": 4,
-      "pointsM": [
-        [
-          2464.929,
-          874.708
-        ],
-        [
-          2465.61,
-          875.389
-        ],
-        [
-          2467.584,
-          880.034
-        ],
-        [
-          2467.584,
-          880.186
-        ]
-      ],
-      "riseM": 0.35,
-      "spanM": 7.5,
-      "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
-    },
-    {
-      "family": "stone-civic",
-      "id": "structure.road-stormhold-thorn.34",
-      "kind": "bridge",
+      "kind": "stepped-ascent",
       "pieces": 1,
       "pointsM": [
         [
-          5351.916,
-          1617.664
+          2830.153,
+          706.717
         ]
       ],
-      "riseM": -0.96,
-      "spanM": 15.0,
+      "riseM": -0.98,
+      "spanM": 4.5,
       "wayId": "route.road.stormhold-thorn",
       "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
     },
     {
       "family": "stone-civic",
-      "id": "structure.road-stormhold-thorn.35",
+      "id": "structure.road-stormhold-thorn.36",
+      "kind": "bridge",
+      "pieces": 5,
+      "pointsM": [
+        [
+          2808.149,
+          685.44
+        ],
+        [
+          2809.112,
+          685.44
+        ],
+        [
+          2814.126,
+          684.359
+        ],
+        [
+          2815.273,
+          683.213
+        ],
+        [
+          2813.445,
+          685.04
+        ]
+      ],
+      "riseM": -0.35,
+      "spanM": 9.0,
+      "wayId": "route.road.stormhold-thorn",
+      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-stormhold-thorn.37",
+      "kind": "stepped-ascent",
+      "pieces": 1,
+      "pointsM": [
+        [
+          3323.008,
+          350.945
+        ]
+      ],
+      "riseM": 3.87,
+      "spanM": 16.1,
+      "wayId": "route.road.stormhold-thorn",
+      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-stormhold-thorn.39",
+      "kind": "lip-step",
+      "pieces": 1,
+      "pointsM": [
+        [
+          5334.094,
+          1797.223
+        ]
+      ],
+      "riseM": 1.24,
+      "spanM": 18.0,
+      "wayId": "route.road.stormhold-thorn",
+      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+    },
+    {
+      "crossingId": "crossing.major.082",
+      "family": "stone-civic",
+      "id": "structure.road-stormhold-thorn.40",
+      "kind": "lip-step",
+      "pieces": 1,
+      "pointsM": [
+        [
+          5190.247,
+          1705.375
+        ]
+      ],
+      "riseM": 1.64,
+      "spanM": 18.1,
+      "wayId": "route.road.stormhold-thorn",
+      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-stormhold-thorn.41",
+      "kind": "stepped-ascent",
+      "pieces": 1,
+      "pointsM": [
+        [
+          3330.322,
+          347.287
+        ]
+      ],
+      "riseM": -3.87,
+      "spanM": 16.1,
+      "wayId": "route.road.stormhold-thorn",
+      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-stormhold-thorn.42",
+      "kind": "lip-step",
+      "pieces": 1,
+      "pointsM": [
+        [
+          4703.032,
+          1816.873
+        ]
+      ],
+      "riseM": 1.42,
+      "spanM": 18.0,
+      "wayId": "route.road.stormhold-thorn",
+      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+    },
+    {
+      "family": "stone-civic",
+      "id": "structure.road-stormhold-thorn.43",
       "kind": "bridge",
       "pieces": 66,
       "pointsM": [
         [
           5324.498,
-          1610.398
+          1610.401
         ],
         [
           5324.498,
-          1611.361
+          1611.364
         ],
         [
           5324.498,
-          1616.823
+          1616.826
         ],
         [
-          5327.784,
-          1614.352
+          5327.786,
+          1614.351
         ],
         [
           5329.981,
-          1614.509
+          1614.512
         ],
         [
-          5328.332,
-          1619.288
+          5328.33,
+          1619.29
         ],
         [
-          5324.538,
+          5324.54,
           1623.122
         ],
         [
           5329.981,
-          1623.14
+          1623.143
         ],
         [
           5329.981,
-          1628.602
+          1628.605
         ],
         [
-          5333.841,
-          1624.746
+          5333.843,
+          1624.744
         ],
         [
           5335.465,
-          1626.288
+          1626.29
         ],
         [
-          5337.688,
-          1626.382
+          5337.69,
+          1626.38
         ],
         [
-          5341.551,
-          1622.52
+          5341.552,
+          1622.518
         ],
         [
-          5345.413,
-          1618.658
+          5345.415,
+          1618.656
         ],
         [
           5346.432,
-          1621.659
+          1621.662
         ],
         [
-          5349.26,
-          1620.294
+          5349.262,
+          1620.292
         ],
         [
           5351.916,
-          1619.345
+          1619.347
         ],
         [
-          5353.107,
-          1621.931
+          5353.109,
+          1621.929
         ],
         [
-          5356.969,
-          1618.068
+          5356.971,
+          1618.067
         ],
         [
           5357.399,
-          1612.785
+          1612.782
         ],
         [
-          5360.816,
-          1608.738
+          5360.818,
+          1608.736
         ],
         [
           5362.883,
-          1609.211
+          1609.213
         ],
         [
-          5364.663,
-          1610.374
+          5364.665,
+          1610.373
         ],
         [
           5368.366,
-          1606.446
+          1606.444
         ],
         [
-          5368.51,
-          1601.044
+          5368.512,
+          1601.042
         ],
         [
-          5372.372,
-          1597.182
+          5372.374,
+          1597.18
         ],
         [
-          5377.222,
+          5377.225,
           1595.704
         ],
         [
-          5382.684,
+          5382.687,
           1595.704
         ],
         [
-          5387.171,
-          1593.35
+          5387.173,
+          1593.348
         ],
         [
-          5391.033,
-          1589.488
+          5391.035,
+          1589.486
         ],
         [
-          5394.895,
-          1585.625
+          5394.897,
+          1585.624
         ],
         [
-          5398.758,
-          1581.763
+          5398.76,
+          1581.761
         ],
         [
-          5402.62,
-          1577.901
+          5402.622,
+          1577.899
         ],
         [
-          5406.482,
-          1574.039
+          5406.484,
+          1574.037
         ],
         [
           5406.751,
-          1578.852
+          1578.855
         ],
         [
-          5410.329,
-          1575.675
+          5410.331,
+          1575.673
         ],
         [
-          5414.191,
-          1571.813
+          5414.193,
+          1571.811
         ],
         [
-          5418.054,
-          1567.951
+          5418.055,
+          1567.949
         ],
         [
-          5419.073,
-          1566.931
+          5419.075,
+          1566.929
         ],
         [
-          5329.037,
+          5329.039,
           1623.122
         ],
         [
           5329.981,
-          1627.639
+          1627.642
         ],
         [
-          5333.16,
-          1625.426
+          5333.162,
+          1625.425
         ],
         [
           5335.465,
-          1625.325
+          1625.327
         ],
         [
-          5337.007,
-          1627.063
+          5337.009,
+          1627.061
         ],
         [
-          5340.87,
-          1623.201
+          5340.872,
+          1623.199
         ],
         [
-          5344.732,
-          1619.339
+          5344.734,
+          1619.337
         ],
         [
           5346.432,
-          1620.696
+          1620.699
         ],
         [
-          5348.579,
-          1620.975
+          5348.581,
+          1620.973
         ],
         [
           5351.916,
-          1618.382
+          1618.384
         ],
         [
-          5352.426,
-          1622.612
+          5352.428,
+          1622.61
         ],
         [
-          5356.288,
-          1618.749
+          5356.29,
+          1618.748
         ],
         [
           5357.399,
-          1613.748
+          1613.745
         ],
         [
-          5360.135,
-          1609.419
+          5360.137,
+          1609.417
         ],
         [
           5362.883,
-          1608.248
+          1608.25
         ],
         [
-          5363.982,
-          1611.055
+          5363.984,
+          1611.054
         ],
         [
-          5367.844,
-          1607.193
+          5367.846,
+          1607.191
         ],
         [
           5368.366,
-          1601.947
+          1601.945
         ],
         [
-          5371.691,
-          1597.863
+          5371.693,
+          1597.861
         ],
         [
-          5376.259,
+          5376.262,
           1595.704
         ],
         [
-          5381.721,
+          5381.724,
           1595.704
         ],
         [
-          5386.49,
-          1594.031
+          5386.492,
+          1594.029
         ],
         [
-          5390.352,
-          1590.169
+          5390.354,
+          1590.167
         ],
         [
-          5394.215,
-          1586.306
+          5394.216,
+          1586.305
         ],
         [
-          5398.077,
-          1582.444
+          5398.079,
+          1582.442
         ],
         [
-          5401.939,
-          1578.582
+          5401.941,
+          1578.58
         ],
         [
           5406.751,
-          1577.889
+          1577.892
         ]
       ],
       "riseM": -15.25,
@@ -829,52 +910,48 @@
     },
     {
       "family": "stone-civic",
-      "id": "structure.road-stormhold-thorn.36",
-      "kind": "bridge",
-      "pieces": 4,
+      "id": "structure.road-thorn-tear-road.1",
+      "kind": "stepped-ascent",
+      "pieces": 3,
       "pointsM": [
         [
-          2381.398,
-          1100.637
+          6517.69,
+          504.484
         ],
         [
-          2380.717,
-          1101.318
+          6541.839,
+          502.212
         ],
         [
-          2375.616,
-          1102.188
-        ],
-        [
-          2375.334,
-          1102.188
+          6537.337,
+          514.469
         ]
       ],
-      "riseM": 0.5,
-      "spanM": 7.7,
-      "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "riseM": -18.0,
+      "spanM": 79.4,
+      "wayId": "route.road.thorn-tear-road",
+      "why": "The Thorn road climbs out of the Tear valley on a shoulder of rock rather than mud. A cut deep enough to hold the trunk cap would undercut the shoulder along its whole length."
     },
     {
       "family": "stone-civic",
-      "id": "structure.road-thorn-tear-road.1",
+      "id": "structure.road-thorn-tear-road.2",
       "kind": "stepped-ascent",
       "pieces": 4,
       "pointsM": [
         [
-          6529.047,
+          6529.049,
           499.0
         ],
         [
-          6542.105,
-          504.75
+          6542.107,
+          504.751
         ],
         [
-          6535.096,
+          6535.094,
           515.451
         ],
         [
-          6538.5,
+          6538.502,
           531.901
         ]
       ],

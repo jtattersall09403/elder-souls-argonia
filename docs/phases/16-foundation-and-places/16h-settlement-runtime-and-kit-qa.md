@@ -195,6 +195,7 @@ than inherit as a guess: deliverable 3.
 - Nine-Trunks `x=4.97&z=3.76`: climb the stair onto a stilt deck.
 - Mazzatun `x=1.99&z=1.34`: are the terraces on the ground, faced the way
   the blueprint view (`?bp=1`) shows, with no piece floating?
+- The route structures carry their road's 4E 201 `condition` (registry, 16e): a `broken` road's bridge may be authored collapsed or overgrown where the kit has such a piece; say on the record which pieces exist for that.
 - The route layer drawn for the first time by the corrected runtime (16e's
   records; the layer was hidden until this chunk): the Nine-Trunks viaduct
   `x=4.517&z=3.608` and the Xul-Vaat walkway `x=1.203&z=5.730` standing with

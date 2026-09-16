@@ -99,6 +99,11 @@ EDGE_PENALTY = 6.0
 # that finds no path inside the box is re-run on the whole grid.
 PAD_FRACTION = 0.6
 PAD_MIN_PX = 120
+# Roads attract roads (owner 2026-09-16): once a road is solved its cells cost
+# this fraction of their ground cost to the roads solved after it, so two
+# roads heading the same way share one road and split later instead of
+# running side by side. Roads are solved longest first.
+ROAD_REUSE = 0.35
 
 
 # ---------------------------------------------------------------------------
@@ -307,7 +312,8 @@ def road_points(road: dict, ends: dict[str, tuple[int, int]], junctions: list[di
     vias = []
     for j in junctions:
         if road["id"] in j["roads"]:
-            vias.append(s.grid_px(float(j["positionM"][0]), float(j["positionM"][1])))
+            row, col = s.grid_px(float(j["positionM"][0]), float(j["positionM"][1]))   # (row, col)
+            vias.append((col, row))                                                  # the solver's (col, row)
     vias.sort(key=lambda p: math.hypot(p[0] - a[0], p[1] - a[1]))
     return [a, *vias, b]
 
@@ -338,6 +344,12 @@ def solve_all(s: ProvinceSurvey, roads: list[dict], anchors_doc: dict,
     ends = endpoints(anchors_doc, s.grid_n, s.grid_n)
     authored = load_by_id()
     out, report = [], {}
+    cost = cost.copy()
+    built = np.zeros(cost.shape, bool)
+    def straight(road):
+        a, b = ends[road["from"]], ends[road["to"]]
+        return math.hypot(a[0] - b[0], a[1] - b[1])
+    roads = sorted(roads, key=lambda r: (r["class"] != "trunk", -straight(r)))
     for road in roads:
         cap = CAP_DEG[road["class"]]
         override = authored.get(road["id"])
@@ -359,6 +371,12 @@ def solve_all(s: ProvinceSurvey, roads: list[dict], anchors_doc: dict,
             rec["authoredGeometryDigest"] = override["contentDigest"]
         out.append(rec)
         report[road["id"]] = {"geometry": how, **measure(px, s, cap)}
+        for c, r in px:
+            if not built[r, c] and np.isfinite(cost[r, c]):
+                cost[r, c] *= ROAD_REUSE
+                built[r, c] = True
+    order = {r["id"]: i for i, r in enumerate(load_roads())}
+    out.sort(key=lambda rec: order.get(rec["id"], 999))
     return out, report
 
 

@@ -23664,7 +23664,8 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.murkwater",
-          "place.dunmer-north.stormhold"
+          "place.dunmer-north.stormhold",
+          "route.track.bogmother-causeway"
         ],
         "travelServiceEdges": []
       },

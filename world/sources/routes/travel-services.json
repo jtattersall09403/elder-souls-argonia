@@ -601,9 +601,9 @@
       "crossing": {
         "entityId": "reach.1890-1832",
         "entityKind": "sloped-riffle",
-        "id": "crossing.major.083",
-        "maxDepthM": 0.46,
-        "spanM": 4.7
+        "id": "crossing.major.102",
+        "maxDepthM": 0.43,
+        "spanM": 3.9
       },
       "fare": {
         "freeIf": [
@@ -622,7 +622,7 @@
             "road": "route.road.helstrom-blackrose"
           },
           "from": "ferry-landing.underway-basin.north",
-          "lengthM": 6.3,
+          "lengthM": 5.5,
           "to": "ferry-landing.underway-basin.south"
         }
       ],
@@ -633,9 +633,9 @@
         "ferry-landing.underway-basin.south"
       ],
       "measured": {
-        "maxDepthM": 0.46,
+        "maxDepthM": 0.43,
         "source": "world/sources/routes/water-crossings.json",
-        "spanM": 4.7
+        "spanM": 3.9
       },
       "operator": {
         "nearestPlaceId": "place.hist-heartland.root-gallery-helstrom-underway",
@@ -682,7 +682,7 @@
       "crossing": {
         "entityId": "body.221-1650",
         "entityKind": "tarn-upland",
-        "id": "crossing.major.001",
+        "id": "crossing.major.002",
         "maxDepthM": 6.84,
         "spanM": 411.3
       },
@@ -742,13 +742,7 @@
     {
       "available": [],
       "craft": "swamp-rowboat-ferry",
-      "crossing": {
-        "entityId": "body.692-1779",
-        "entityKind": "tarn-upland",
-        "id": "crossing.major.025",
-        "maxDepthM": 2.75,
-        "spanM": 54.1
-      },
+      "crossing": null,
       "fare": {
         "freeIf": [],
         "gold": 10
@@ -797,12 +791,13 @@
         "route.road.gideon-soulrest",
         "route.road.gideon-stormhold"
       ],
-      "status": "active",
+      "status": "unmatched",
       "text": {
         "hail": "text.ferry.onkobra-bond.hail",
         "name": "text.ferry.onkobra-bond.name",
         "refusal": "text.ferry.onkobra-bond.refusal"
       },
+      "unmatchedWhy": "No crossing on ['route.road.archon-gideon', 'route.road.gideon-soulrest', 'route.road.gideon-stormhold'] lies within 400 m of the authored landings; the nearest is crossing.major.076 at 646 m (6.6 m, reach.1039-1527).",
       "water": {
         "class": "river",
         "name": "the lower Onkobra"
@@ -1210,7 +1205,7 @@
         1380.3,
         3063.7
       ],
-      "status": "active"
+      "status": "unmatched"
     },
     {
       "berth": {
@@ -1232,7 +1227,7 @@
         1334.1,
         3080.2
       ],
-      "status": "active"
+      "status": "unmatched"
     },
     {
       "berth": {
@@ -1243,16 +1238,16 @@
         "hullClass": "canoe",
         "jettyM": null,
         "positionM": [
-          3480.7,
-          3202.4
+          3488.5,
+          3290.1
         ]
       },
       "id": "ferry-landing.underway-basin.north",
       "kind": "ferry-landing",
       "piece": "landing-argonian",
       "positionM": [
-        3479.7,
-        3202.4
+        3487.5,
+        3290.1
       ],
       "status": "unmatched"
     },
@@ -1265,16 +1260,16 @@
         "hullClass": "canoe",
         "jettyM": null,
         "positionM": [
-          3485.0,
-          3202.4
+          3492.0,
+          3290.1
         ]
       },
       "id": "ferry-landing.underway-basin.south",
       "kind": "ferry-landing",
       "piece": "landing-argonian",
       "positionM": [
-        3486.0,
-        3202.4
+        3493.0,
+        3290.1
       ],
       "status": "unmatched"
     },
