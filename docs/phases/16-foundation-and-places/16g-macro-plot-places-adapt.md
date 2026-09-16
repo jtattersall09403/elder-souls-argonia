@@ -149,7 +149,11 @@ Needs ruling 11 (the floor).
 4. **The plot re-solve** (`macro_plot --resolve-all` under the seed rule, pins
    kept) — once, on the frozen world; the two backlog-red records
    (dive-shaft, Giovesse lines) resolved by the review, not the solver.
-5. **Minor routes and waterways** solved on the new plot (`compile_minor_routes`
+5. **Minor routes and waterways** solved on the new plot (their vegetation
+   clearance is a `vegetation-clearance` patch emitted per track into
+   `world/sources/flora/vegetation-patches.json` and applied by 16f's
+   `apply_vegetation_patches` to the touched chunks only; the scatter is
+   never re-run for a track, owner 2026-09-16) (`compile_minor_routes`
    and `compile_minor_waterways`, ported by 16e and on this chunk's ladder
    row; run once). Minor routes get **no grading** (owner 2026-09-15), so
    the solver carries the same gradient cost as 16e's major router and a

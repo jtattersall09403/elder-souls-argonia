@@ -296,7 +296,7 @@ Phase 10 places trees — nothing for shafts to pass through (polish backlog,
 with volumetric clouds, the rain-occlusion depth map and lens droplets).
 
 **Tier 3 — polish.** Bioluminescent night ecology (Phase 13, needs species),
-seasonal foliage response (16f / Phase 10), lightning and weather audio
+seasonal foliage response (polish backlog, owner 2026-09-16), lightning and weather audio
 (12b), per-device-class quality budgets and performance gates (14).
 Volumetric (froxel) fog is **cut** (owner 2026-09-13: the shipped mist, haze
 and fog are what we want; no heavier fog technique).

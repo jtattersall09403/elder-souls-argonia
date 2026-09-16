@@ -78,7 +78,8 @@ opening-scene places.
    owner judges them.
 8. **Phase 13 loses its strays:** discovery pointers to the packet brief
    pass, arrows and physical materials to 10b, seasonal foliage to 16f and
-   Phase 10, froxel fog and eclipse states to 14 and P.
+   Phase 10 (re-homed to the polish backlog by the owner on 2026-09-16),
+   froxel fog and eclipse states to 14 and P.
 9. **The owner is hands-on for every major city and for the opening-scene
    places** (the prisoner tutorial in the marsh near Stormhold and Alten
    Corimont) in every phase; no skill runs unattended on them (world 96 §3).

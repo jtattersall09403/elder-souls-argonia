@@ -778,7 +778,7 @@ its manifest answers the `contents`, `hostility`, `rewardProfile`,
 **Moved out (0062):** the diegetic discovery feed is authored in each
 packet's quest-brief pass (quests 90 §65b; Phase 15 step 5) and this phase
 only consumes it; arrows and physical materials are 10b's; seasonal foliage
-response to `s(t)` is 16f's and Phase 10's; froxel fog and the calendared
+response to `s(t)` is a polish-backlog row (owner 2026-09-16); froxel fog and the calendared
 eclipse world states are **cut** (owner 2026-09-13: the shipped mist, haze
 and fog are what we want; no eclipse events). What stays here is what needs
 species, territories and compiled numbers.

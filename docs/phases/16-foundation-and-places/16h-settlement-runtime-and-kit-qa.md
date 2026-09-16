@@ -161,6 +161,15 @@ than inherit as a guess: deliverable 3.
    "blocked"; the province navmesh remains Phase 10b's and the record says so. Some decks and stilt type assets come with a partial or complete staircase built-in. Some of these reach the ground by sinking stilts into terrain, some may be designed to have extra stairs or ramps or ways attached to their bottom step - figure all of this out.
    Test: collider top within step height of the deck, base within step
    height of the ground.
+8b. **Settlement vegetation clearance as a patch** (owner 2026-09-16): a
+   blueprint's `hardClear`, `thinned` and `kept` become a
+   `vegetation-clearance` patch in `world/sources/flora/vegetation-patches.json`
+   (16f's kind and applier, `apply_vegetation_patches`, the keep gradient
+   of `settlement_clearance.py` carried over), applied to the touched
+   chunks' published bundles with a receipt; `compile_scatter` is never
+   re-run for a settlement and reads no settlement data. The runtime ring
+   evaluates the same patch list. Test: a moved settlement's receipt names
+   only its chunks.
 9. **Dressing vocabulary** (D11): per-rule draws with a distinct-asset floor;
    interior-kit assets never placed outside. Test: ≥ 4 distinct, ≤ 40 % share.
 10. **Export gates**: corrupt-GLB parse; `test:placement` selects by
