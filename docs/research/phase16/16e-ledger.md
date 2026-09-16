@@ -132,6 +132,18 @@ router took a long climb the grader cannot take (Blackwood road 518 m at
 `x=6.07&z=1.01`, the Tear pass 388 m at `x=6.42&z=0.62`); a pin round the
 climb or an authored line is the honest fix, chosen on the map.
 
+**Round 3b (owner, same day).** The four long flights were gentle slopes:
+the grader's refused windows (a run in a shore band, a channel shoulder or a
+new hollow) were 100–500 m long with a gentle overall grade and one or two
+wrinkles; the author built a flight over the whole window. Now a
+flight is authored only over the steep runs (15° or steeper) inside the
+window, so a gentle window gets a short flight at its wrinkle or nothing;
+the owner keeps long flights where the ground is genuinely steep. The
+tooltip is `position: fixed` in page coordinates and flips near the
+window's right and bottom edges, so the map's clipping box never cuts it
+off. The travel-service graph is 16g's to re-author with the places it
+re-plots, with harbour stations for cities not on joined water (0069).
+
 **The map.** One tooltip (the map's own, outside the zoom transform so it
 never scales), fed by the routes layer's hover; spans and flights as
 recoloured stretches of the road line; the `services` crash (a station

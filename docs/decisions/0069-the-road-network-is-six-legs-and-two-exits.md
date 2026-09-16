@@ -73,5 +73,20 @@ ground data per the owner's asks.
   re-solve; the naming pass no longer has a Helstrom road to rename.
 - 16f: the vegetation brief's road walk should name a road that exists
   (Gideon–Stormhold or Stormhold–Thorn), not the Helstrom road.
+- 16g owns the travel-service graph as much as the places (owner
+  2026-09-16): the stations, ferries and boat services in
+  `travel-services.json` join places from the earlier catalogue that 16g
+  re-plots, so the plot re-solve re-authors the services with the places.
+  A boat service never lands at a city unless the city itself sits on water
+  joined to the boat's own water: 16g chooses a nearby place on
+  acceptable water as each major city's harbour station and the service
+  lands there.
 - 16h draws the bridges, decks and flights the record now carries; the
   ledger lists them.
+- A flight of steps is built only over the steep runs inside a refused
+  grading window (`author_route_structures.steep_runs`, 15° or steeper);
+  a gentle window with a wrinkle gets a short flight at the wrinkle, or
+  nothing (owner 2026-09-16: a 518 m "stepped ascent" was a gentle slope).
+- `hydrology_graph derive` refuses to run while the shaped base is frozen
+  without an explicit `--refreeze`, because it overwrites the vault's
+  solution files.

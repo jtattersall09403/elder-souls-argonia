@@ -660,8 +660,9 @@ export function App() {
     if (routeTipRef.current) sections.unshift(...routeTipRef.current);
     // The tip lives in the (untransformed) zoom viewport, positioned in its
     // own pixels, so it never scales with the map (owner 2026-09-16).
-    const vr = viewport.getBoundingClientRect();
-    setTip({ x: e.clientX - vr.left, y: e.clientY - vr.top, sections });
+    // page coordinates: the tip is `position: fixed`, so the map's clipping
+    // viewport cannot cut it off at the south or east edge (owner 2026-09-16)
+    setTip({ x: e.clientX, y: e.clientY, sections });
   }
 
   function enterFly(xKm: number, zKm: number) {
@@ -985,10 +986,14 @@ export function App() {
       </div>
         {tip && (
           <div style={{
-            position: "absolute", left: tip.x + 14, top: tip.y + 10, pointerEvents: "none",
+            position: "fixed", left: tip.x + 14, top: tip.y + 10, pointerEvents: "none",
             background: "rgba(10, 14, 20, 0.88)", color: "#e6ecf5", padding: "6px 10px 2px",
-            borderRadius: 6, font: "12px system-ui", lineHeight: "16px", maxWidth: 440, zIndex: 4,
-            transform: tip.x > (mapViewportRef.current?.clientWidth ?? 900) * 0.6 ? "translateX(calc(-100% - 26px))" : undefined,
+            borderRadius: 6, font: "12px system-ui", lineHeight: "16px", maxWidth: 440, zIndex: 40,
+            // flip to the left / above the pointer near the window's right / bottom edge
+            transform: [
+              tip.x > window.innerWidth * 0.6 ? "translateX(calc(-100% - 26px))" : "",
+              tip.y > window.innerHeight * 0.55 ? "translateY(calc(-100% - 20px))" : "",
+            ].join(" ") || undefined,
           }}>
             {tip.sections.map((sec) => (
               <div key={sec.title} style={{ marginBottom: 6 }}>

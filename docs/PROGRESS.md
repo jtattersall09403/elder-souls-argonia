@@ -46,7 +46,7 @@ open only the plan sections the active phase needs.
 
 ## Waiting on user
 
-- **16e round 3** ([0069](decisions/0069-the-road-network-is-six-legs-and-two-exits.md), [ledger §2d](research/phase16/16e-ledger.md)): walk the round-3 owner check in the [brief](phases/16-foundation-and-places/16e-routes-grading-spans-ferries.md) (the map's one tooltip, Blackrose, the Thorn and Gideon–Stormhold lines, the two approaches, two fords, one ferry, bumps); four calls on the long stepped ascents; one call on the vault's hydrology body rasters (regenerate under `--refreeze` before any run that reaches the water compile); then `deliver 16f`.
+- **16e round 3** ([0069](decisions/0069-the-road-network-is-six-legs-and-two-exits.md), [ledger §2d](research/phase16/16e-ledger.md)): walk the round-3 owner check in the [brief](phases/16-foundation-and-places/16e-routes-grading-spans-ferries.md) (the map's one tooltip, Blackrose, the Thorn and Gideon–Stormhold lines, the two approaches, two fords, one ferry, bumps); the long flights now only where the ground is steep; one call on the vault's hydrology body rasters (regenerate under `--refreeze` before any run that reaches the water compile); then `deliver 16f`.
 - **16c round 2** ([0065](decisions/0065-the-compile-realises-the-graphs-classification.md),
   [round-2 ledger](research/phase16/16c-round-2-ledger.md)): walk the round-2
   owner check (the list in the [brief](phases/16-foundation-and-places/16c-water-once.md)),

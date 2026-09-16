@@ -7,8 +7,8 @@ import math
 import numpy as np
 
 from .grade_routes import STRUCTURES_PATH
-from .author_route_structures import (MARSH_DECK_FAMILY, _chain_and_z, _kind,
-                                      _way_length_m, author)
+from .author_route_structures import (MARSH_DECK_FAMILY, STAIR_MIN_DEG, _chain_and_z, _kind,
+                                      _way_length_m, author, steep_runs)
 from .compile_route_structures import (FAMILIES, RAMP_KINDS, RAMP_MAX_DEG, SPAN_KINDS,
                                        measure_window, ramp_ok)
 from .scale import RAW_M
@@ -285,3 +285,21 @@ def test_a_window_on_a_crossing_is_not_authored_twice():
 def test_ids_are_numbered_per_way_in_chainage_order():
     st = _author(("span", "river"))["structures"]
     assert st[0]["id"] == "structure.road-test.1"
+
+
+def test_a_gentle_window_with_one_wrinkle_gets_one_short_flight_not_a_long_one():
+    """The 518 m stepped ascent of 2026-09-16: a refused window over a
+    gentle slope with one 2 m lip inside it. The flight is the lip."""
+    chain = np.arange(0.0, 500.0, 1.83)
+    z = chain * 0.02                       # a 1.1 deg slope
+    lip = (chain > 240.0) & (chain < 246.0)
+    z[lip] += np.linspace(0.0, 2.0, lip.sum())
+    z[chain >= 246.0] += 2.0
+    runs = steep_runs(chain, z, 0.0, 500.0)
+    assert len(runs) == 1 and 235.0 < runs[0][0] < 246.0 and runs[0][1] - runs[0][0] < 15.0
+
+
+def test_a_gentle_window_builds_nothing():
+    chain = np.arange(0.0, 300.0, 1.83)
+    z = chain * np.tan(np.radians(STAIR_MIN_DEG - 3.0))
+    assert steep_runs(chain, z, 0.0, 300.0) == []

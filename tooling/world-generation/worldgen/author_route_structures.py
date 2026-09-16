@@ -69,8 +69,9 @@ AUTHOR_MERGE_GAP_M = 60.0
 #   river/lake, ford band -> nothing: the road goes through the water.
 #
 # The grader's over-cap windows are the OTHER kind of structure: a flight of
-# steps, a stepped ascent or a lip step over dry ground a route-grade patch
-# could not take. A dry window is never a span (owner 2026-09-16: the map
+# steps, a stepped ascent or a lip step over the STEEP RUNS inside dry ground
+# a route-grade patch could not take (`steep_runs`); a gentle window with a
+# wrinkle in it gets one short flight at the wrinkle, or nothing. A dry window is never a span (owner 2026-09-16: the map
 # showed bridges where there was no water; the old rule bridged any dip
 # deeper than one deck thickness, and 25 of 29 published spans crossed
 # nothing). A window that overlaps a crossing's banks is the crossing's and
@@ -535,6 +536,36 @@ def _family(way_id: str) -> str | None:
 MIN_STRUCTURE_RISE_M = 1.2
 
 
+#: A flight is built only over ground that is genuinely steep: a run of
+#: samples steeper than this (owner 2026-09-16: the grader's refused windows
+#: are 100-500 m long with a gentle overall grade and one or two wrinkles
+#: inside, and a 518 m stepped ascent was authored over a gentle slope).
+STAIR_MIN_DEG = 15.0
+#: Steep samples closer together than this are one flight.
+STAIR_MERGE_GAP_M = 10.0
+
+
+def steep_runs(chain: np.ndarray, z: np.ndarray, from_m: float, to_m: float) -> list[tuple[float, float]]:
+    """The chainage runs inside [from_m, to_m] where the ground itself is
+    steeper than STAIR_MIN_DEG, merged over STAIR_MERGE_GAP_M: what a flight
+    of steps actually has to climb. Empty where the window is gentle."""
+    i0 = int(np.searchsorted(chain, from_m, side="left"))
+    i1 = int(np.searchsorted(chain, to_m, side="right"))
+    if i1 - i0 < 2:
+        return []
+    c, h = chain[i0:i1], z[i0:i1]
+    deg = np.degrees(np.arctan(np.abs(np.diff(h)) / np.maximum(np.diff(c), 1e-6)))
+    steep = deg > STAIR_MIN_DEG
+    runs: list[list[float]] = []
+    for k in np.flatnonzero(steep):
+        a, b = float(c[k]), float(c[k + 1])
+        if runs and a - runs[-1][1] <= STAIR_MERGE_GAP_M:
+            runs[-1][1] = b
+        else:
+            runs.append([a, b])
+    return [(a, b) for a, b in runs]
+
+
 def _kind(length_m: float, rise_m: float, worst_deg: float, way_kind: str) -> str:
     """The piece a DRY over-cap window asks for, from its measured shape:
     never a span (a span is authored from the crossing record, see the
@@ -662,19 +693,21 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray, *,
             else:
                 kind, fam = ("bridge" if kind_of_way in ("road", "trunk_road") else "deck"), _family(wid)
             found.append((m["fromM"], dict(kind=kind, fam=fam, m=m, gap=m["spanM"], worst=0.0, cid=c["id"])))
-        # 2. the grader's dry windows, never a span
+        # 2. the grader's dry windows, never a span: a flight only over the
+        #    steep runs inside the window, nothing where it is gentle
         for w in merged_stretches(way, stretches.get(wid, []), cap, heights):
             if any(min(w["toM"], b) - max(w["fromM"], a) > 0.0 for a, b in taken):
                 continue                   # the crossing's, authored above
-            m = measure_window(chain, z, w["fromM"], w["toM"])
-            if m["spanM"] <= CHAINAGE_TOLERANCE_M:
-                continue
-            if abs(m["riseM"]) < MIN_STRUCTURE_RISE_M:
-                noise.append(f"{wid} {w['fromM']:.0f}-{w['toM']:.0f} m ({m['riseM']:+.2f} m)")
-                continue
-            kind = _kind(m["spanM"], m["riseM"], w["worstDeg"], kind_of_way)
-            found.append((m["fromM"], dict(kind=kind, fam=_family(wid), m=m, gap=0.0,
-                                           worst=w["worstDeg"], cid=None)))
+            for a, b in steep_runs(chain, z, w["fromM"], w["toM"]):
+                m = measure_window(chain, z, a, b)
+                if m["spanM"] <= CHAINAGE_TOLERANCE_M:
+                    continue
+                if abs(m["riseM"]) < MIN_STRUCTURE_RISE_M:
+                    noise.append(f"{wid} {a:.0f}-{b:.0f} m ({m['riseM']:+.2f} m)")
+                    continue
+                kind = _kind(m["spanM"], m["riseM"], w["worstDeg"], kind_of_way)
+                found.append((m["fromM"], dict(kind=kind, fam=_family(wid), m=m, gap=0.0,
+                                               worst=w["worstDeg"], cid=None)))
         for n, (_at, f) in enumerate(sorted(found, key=lambda kv: kv[0]), 1):
             structures.append(_record(wid, kind_of_way, n, f["kind"], f["m"]["fromM"], f["m"]["toM"],
                                       f["m"]["riseM"], f["gap"], f["worst"], cap, f["fam"], f["cid"]))

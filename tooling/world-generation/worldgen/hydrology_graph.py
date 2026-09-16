@@ -1684,7 +1684,23 @@ def report(graph: dict, places_path: Path = PROVINCE_DIR / "places.json") -> str
 # CLI
 # ---------------------------------------------------------------------------
 
+def refuse_if_frozen() -> None:
+    """The derive writes the vault's solution files (`SOLUTION_FILE`,
+    `BODIES_FILE`) that every stage below the freeze gate reads. Once the
+    shaped base is frozen those files are the record; a casual re-run
+    replaced them with a re-derive that no longer matched it (2026-09-16).
+    So with a frozen base on record, derive only under --refreeze."""
+    from . import freeze
+    from .freeze import SHAPED
+    if freeze.recorded(SHAPED) and not freeze.refreeze_allowed():
+        raise SystemExit("hydrology_graph derive: the shaped base is frozen (freeze.json) and the derive would "
+                         "overwrite the vault's hydrology-graph-solution.npz and hydrology-graph-bodies.npz that "
+                         "the chain reads. Run it through `terrain-chain.sh --refreeze` (the frozen rungs are "
+                         "re-recorded and the owner walks the result), or set ES_REFREEZE=1 deliberately.")
+
+
 def derive(vault: Path, out: Path, log=print) -> dict:
+    refuse_if_frozen()
     g, npz, sha = load_inputs(vault)
     log(f"shaped base {vault} sha256 {sha[:16]}…")
     from . import approved_bodies as ab
