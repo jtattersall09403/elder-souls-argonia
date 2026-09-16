@@ -753,6 +753,11 @@ def build(kit_id: str, vault: Path) -> dict:
     # it lives outside Blender; see pipeline/trunk_solids.py.
     from . import trunk_solids
     trunk_solids.rewrite(manifest_path)
+    # Post-pass: the shape facts the placer needs (closed underside, open
+    # back, pivot above base). Same reason as trunk_solids — it reads the
+    # finished GLB, so it lives outside Blender; see pipeline/vet_kit.py.
+    from . import vet_kit
+    vet_kit.record_geometry(manifest_path)
     summary = json.loads(manifest_path.read_text())
     total_mb = output_glb.stat().st_size / 1e6
     print(f"[kit] {kit_id}: {len(summary['assets'])} assets -> {output_glb.name} "

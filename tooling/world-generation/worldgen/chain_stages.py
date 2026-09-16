@@ -5,6 +5,7 @@ lists it). This module owns what a stage *is* — how it is invoked, and how the
 chain decides a stage's work is already on disk:
 
     python3 -m worldgen.chain_stages run <key> <stage> [args...]
+    python3 -m worldgen.chain_stages adopt <key> <stage>     # stamp the accepted outputs, no run
 
 A stage is skipped when three fingerprints all match the last recorded run:
 
@@ -258,10 +259,58 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
     return elapsed, True
 
 
+def adopt(key: str, stage: str) -> dict:
+    """Record the stage's CURRENT on-disk inputs and outputs as its stamp
+    without running it (owner 2026-09-16: nothing earlier is rebuilt).
+
+    Used when a stage's outputs were accepted by the owner as they stand but
+    the stamp book has no entry at the stage's current chain position (the
+    order changed under it), so a plain run would re-run it. The paths come
+    from the stage's most recent stamp under any key; every one is re-hashed
+    at its current content and the entry is marked `adopted` with the key it
+    was copied from. A stage with no earlier stamp cannot be adopted: it has
+    never run through the chain, and its reads are unknown.
+    """
+    book = _load()
+    # The reads the stage DECLARES to the contract pass (chain_contracts.READS)
+    # are always part of the adopted input list: an older stamp predates the
+    # stage's current reads (grade_routes gained the natural array in 16e).
+    from .chain_contracts import READS, declared_paths
+    declared = sorted({str(p) for entry in READS.get(stage, [])
+                       for p in declared_paths(entry) if Path(p).is_file()})
+    prior = [(k, v) for k, v in book.items() if v.get("stage") == stage]
+    if prior:
+        prior.sort(key=lambda kv: (_position(kv[0]), kv[0] == key))
+        from_key, source = prior[-1]
+        inputs = {p: _sha_file(Path(p)) for p in [*source.get("inputs", {}), *declared]}
+        outputs = {p: _sha_file(Path(p)) for p in source.get("outputs", {})}
+    else:
+        # Never stamped anywhere: the declared reads are the file list;
+        # outputs are unknown and stay empty, so the stamp holds the stage to
+        # its code and its inputs only.
+        if not declared:
+            raise SystemExit(f"adopt: {stage} has no earlier stamp and declares no reads")
+        from_key = "chain_contracts.READS"
+        inputs = {p: _sha_file(Path(p)) for p in declared}
+        outputs = {}
+    entry = {"stage": stage, "code": _sha_sources(module_closure(stage)),
+             "inputs": inputs, "outputs": outputs,
+             "adopted": {"from": from_key,
+                         "why": "outputs accepted on disk; recorded without a run (owner 2026-09-16)"}}
+    book[key] = entry
+    STAMPS.write_text(json.dumps(book, indent=1, sort_keys=True) + "\n")
+    return entry
+
+
 def main(argv: list[str] | None = None) -> None:
     args = list(argv if argv is not None else sys.argv[1:])
     force = "--force" in args
     args = [a for a in args if a != "--force"]
+    if len(args) >= 3 and args[0] == "adopt":
+        entry = adopt(args[1], args[2])
+        print(f"[{args[2]}] adopted from {entry['adopted']['from']}: "
+              f"{len(entry['inputs'])} inputs, {len(entry['outputs'])} outputs re-hashed")
+        return
     if len(args) < 3 or args[0] != "run":
         print(__doc__)
         raise SystemExit(2)

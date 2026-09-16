@@ -26,7 +26,192 @@ import struct
 import sys
 from pathlib import Path
 
+import numpy as np
+
 from .placement_metadata import validate_asset_placement
+
+from .trunk_solids import accessor, load_glb
+
+#: Downward-facing = triangle normal within ~72 deg of straight down.
+_DOWN_DOT = 0.3
+#: Footprint raster resolution for the underside test.
+_FOOT_GRID = 32
+#: Fraction of the footprint a rock's underside must cover to count closed.
+_UNDERSIDE_CLOSED = 0.6
+#: Horizontal directions sampled for the open-back test.
+_YAW_STEPS = 16
+#: A direction with less than this share of the face area is a hole...
+_OPEN_SHARE = 0.02
+#: ...and only if the direction facing it carries at least this much.
+_FACING_SHARE = 0.15
+
+
+def _lod0_triangles(gltf, blob, binoff, root_node) -> np.ndarray:
+    """Every LOD0 triangle of one asset, as an (n, 3, 3) array of GLB-space
+    (Y-up) vertices. Billboard cards and decimated levels are skipped: they
+    are impostors, not the shape the placer has to sit on the ground."""
+    tris: list[np.ndarray] = []
+    for child_index in root_node.get("children", []):
+        node = gltf["nodes"][child_index]
+        extras = node.get("extras", {})
+        if extras.get("lod") or extras.get("billboard") or "mesh" not in node:
+            continue
+        translation = np.array(node.get("translation", [0.0, 0.0, 0.0]))
+        for prim in gltf["meshes"][node["mesh"]]["primitives"]:
+            pos = accessor(gltf, blob, binoff,
+                           prim["attributes"]["POSITION"]).astype("f8")
+            pos = pos + translation
+            if "indices" in prim:
+                idx = accessor(gltf, blob, binoff, prim["indices"]).ravel()
+            else:
+                idx = np.arange(len(pos))
+            tris.append(pos[idx.reshape(-1, 3).astype("i8")])
+    return np.concatenate(tris) if tris else np.empty((0, 3, 3))
+
+
+def _face_normals(tris: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Unit face normals and triangle areas."""
+    a, b, c = tris[:, 0], tris[:, 1], tris[:, 2]
+    cross = np.cross(b - a, c - a)
+    norm = np.linalg.norm(cross, axis=1)
+    area = 0.5 * norm
+    unit = np.zeros_like(cross)
+    ok = norm > 1e-12
+    unit[ok] = cross[ok] / norm[ok, None]
+    return unit, area
+
+
+def _underside_closed(tris: np.ndarray, normals: np.ndarray) -> float:
+    """Share of the asset's ground footprint covered by downward-facing
+    geometry, rasterised on a 32x32 grid.
+
+    A boulder authored to stand free has a closed bottom; a cliff-face shell
+    authored to be embedded in a hillside has none, and reads as a hollow
+    tent when a scatter pass stands it on open ground (owner round 4).
+    """
+    if not len(tris):
+        return 0.0
+    y = tris[:, :, 1]
+    low, high = float(y.min()), float(y.max())
+    band = low + 0.1 * max(high - low, 1e-6)
+    base = tris[(y.max(axis=1) <= band)]
+    footprint = base if len(base) else tris
+    xz = footprint[:, :, [0, 2]].reshape(-1, 2)
+    lo, hi = xz.min(axis=0), xz.max(axis=0)
+    span = np.maximum(hi - lo, 1e-6)
+    down = tris[normals[:, 1] < -_DOWN_DOT][:, :, [0, 2]]
+    if not len(down):
+        return 0.0
+    grid = np.zeros((_FOOT_GRID, _FOOT_GRID), dtype=bool)
+    centres = (np.arange(_FOOT_GRID) + 0.5) / _FOOT_GRID
+    gx = lo[0] + centres * span[0]
+    gz = lo[1] + centres * span[1]
+    for tri in down:
+        (x0, z0), (x1, z1), (x2, z2) = tri
+        i0 = max(0, int(np.searchsorted(gx, min(x0, x1, x2)) - 1))
+        i1 = min(_FOOT_GRID, int(np.searchsorted(gx, max(x0, x1, x2)) + 1))
+        j0 = max(0, int(np.searchsorted(gz, min(z0, z1, z2)) - 1))
+        j1 = min(_FOOT_GRID, int(np.searchsorted(gz, max(z0, z1, z2)) + 1))
+        if i0 >= i1 or j0 >= j1:
+            continue
+        px, pz = np.meshgrid(gx[i0:i1], gz[j0:j1], indexing="ij")
+        d = (z1 - z2) * (x0 - x2) + (x2 - x1) * (z0 - z2)
+        if abs(d) < 1e-12:
+            continue
+        w0 = ((z1 - z2) * (px - x2) + (x2 - x1) * (pz - z2)) / d
+        w1 = ((z2 - z0) * (px - x2) + (x0 - x2) * (pz - z2)) / d
+        inside = (w0 >= 0) & (w1 >= 0) & (w0 + w1 <= 1)
+        grid[i0:i1, j0:j1] |= inside
+    return float(grid.mean())
+
+
+def _open_back_yaw(normals: np.ndarray, area: np.ndarray) -> float | None:
+    """Bearing of the direction the asset has no face area pointing in, where
+    the opposite direction carries plenty: the signature of an open-backed
+    shell (a cliff face authored to be buried in the hill).
+
+    Bearing is in the asset's local frame, degrees from +Z toward +X.
+    """
+    total = float(area.sum())
+    if total <= 0.0:
+        return None
+    yaws = np.arange(_YAW_STEPS) * (360.0 / _YAW_STEPS)
+    rad = np.radians(yaws)
+    dirs = np.stack([np.sin(rad), np.zeros_like(rad), np.cos(rad)], axis=1)
+    # `>=` with a float nudge, not `>`: a wall exactly 45 deg off a sampled
+    # bearing (every axis-aligned mesh) would otherwise count for neither of
+    # its two neighbouring bins and read as a hole in a closed box.
+    cos45 = np.cos(np.radians(45.0)) - 1e-9
+    shares = np.array([
+        float(area[(normals @ d) >= cos45].sum()) / total for d in dirs])
+    half = _YAW_STEPS // 2
+    opposites = np.roll(shares, -half)
+    open_bin = (shares < _OPEN_SHARE) & (opposites > _FACING_SHARE)
+    if not open_bin.any() or open_bin.all():
+        return None
+    # A hole usually spans SEVERAL neighbouring bearings; its direction is the
+    # middle of that run, not whichever end the scan met first. Rotate so a
+    # run never straddles the wrap, then take the strongest run's midpoint.
+    start = int(np.argmax(~open_bin))
+    rolled = np.roll(open_bin, -start)
+    rolled_opp = np.roll(opposites, -start)
+    best: tuple[float, float] | None = None
+    i = 0
+    while i < _YAW_STEPS:
+        if not rolled[i]:
+            i += 1
+            continue
+        j = i
+        while j < _YAW_STEPS and rolled[j]:
+            j += 1
+        strength = float(rolled_opp[i:j].max())
+        centre = (start + (i + j - 1) / 2.0) % _YAW_STEPS
+        if best is None or strength > best[0]:
+            best = (strength, centre * (360.0 / _YAW_STEPS))
+        i = j
+    return None if best is None else round(best[1], 1)
+
+
+def measure_geometry(manifest_path: Path) -> dict[str, dict]:
+    """Per-asset shape facts the placement passes need but the kit build does
+    not record: is the bottom closed, is there an open back, and how far the
+    pivot sits above the mesh base."""
+    manifest = json.loads(Path(manifest_path).read_text())
+    glb_path = Path(manifest_path).with_suffix("").with_suffix(".glb")
+    gltf, blob, binoff = load_glb(glb_path)
+    roots = {}
+    for node in gltf["nodes"]:
+        asset_id = (node.get("extras") or {}).get("assetId")
+        if asset_id and "children" in node:
+            roots[asset_id] = node
+    out: dict[str, dict] = {}
+    for asset in manifest["assets"]:
+        root = roots.get(asset["id"])
+        if root is None:
+            continue
+        tris = _lod0_triangles(gltf, blob, binoff, root)
+        normals, area = _face_normals(tris)
+        coverage = _underside_closed(tris, normals)
+        out[asset["id"]] = {
+            "undersideClosed": bool(coverage >= _UNDERSIDE_CLOSED),
+            "undersideCoverage": round(coverage, 3),
+            "openBackYawDeg": _open_back_yaw(normals, area),
+            "pivotAboveBaseM": round(
+                float(asset.get("originOffsetM", [0.0, 0.0, 0.0])[2]), 3),
+        }
+    return out
+
+
+def record_geometry(manifest_path: Path) -> dict[str, dict]:
+    """Write `measure_geometry` back into the kit manifest (build post-pass,
+    beside sizeM/originOffsetM)."""
+    path = Path(manifest_path)
+    manifest = json.loads(path.read_text())
+    measured = measure_geometry(path)
+    for asset in manifest["assets"]:
+        asset.update(measured.get(asset["id"], {}))
+    path.write_text(json.dumps(manifest, indent=1) + "\n")
+    return measured
 
 
 def _vet_glb_materials(glb_path: Path) -> list[str]:

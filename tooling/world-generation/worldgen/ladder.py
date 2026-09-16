@@ -23,6 +23,9 @@ OWNER = {"water": "16c", "route-structures": "16e (drawn from 16h)", "vegetation
          "grade_routes": "16e", "solve_major_routes": "16e", "apply_route_patches": "16e",
          "derive_crossings": "16e", "travel_services": "16e", "paint_route_overlays": "16e",
          "compile_water": "16c", "compile_scatter": "16f",
+         "rebake_landcover": "16b (re-run at 16f: the bake reads the record)",
+         "apply_vegetation_patches": "16f", "compile_water_dressing": "16f",
+         "settlement_ground_control": "16h",
          "compile_route_structures": "16e", "terrain_request_postconditions": "16c",
          "compile_minor_routes": "16g", "compile_minor_waterways": "16g",
          "compile_settlement": "16h", "grade_settlement_pads": "16h"}

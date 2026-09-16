@@ -7,7 +7,7 @@ import { ALL_WATER_LAYERS, type WaterAssets, type WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
 import { UnderwaterBubbles } from "./UnderwaterBubbles";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadeImpactBursts, cascadePathEmitters } from "./WaterCascadeSources";
-import { buildChannelStripGeometry, stripBoulderCandidates } from "./ChannelStrips";
+import { buildChannelStripGeometry } from "./ChannelStrips";
 import { WaterfallSheets } from "./WaterfallSheets";
 import { FoamField } from "./FoamField";
 import { WaterFlowContacts } from "../flowContacts";
@@ -140,7 +140,7 @@ export interface WaterSurfaceHandle {
   falls: WaterfallSheets | null;
   /** Persistent foam energy field; the pipeline steps it before the water pass. */
   foam: FoamField | null;
-  stripDiagnostics: { count: number; triangles: number; boulderCandidates: number };
+  stripDiagnostics: { count: number; triangles: number };
 }
 
 export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExtentM, ripple, contactBodies, onReady }: {
@@ -190,7 +190,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   const strips = useMemo(() => {
     const channels = [...(assets.meta.channels ?? []), ...(falls?.chuteStrips ?? [])];
     if (!channels.length) return null;
-    const built = buildChannelStripGeometry(channels);
+    const built = buildChannelStripGeometry(channels, { rocks: assets.bedRocks });
     if (!built.triangleCount) return null;
     const materials = {
       above: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
@@ -201,11 +201,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     mesh.layers.set(WATER_LAYER);
     mesh.frustumCulled = false;
     mesh.receiveShadow = true;
-    // the boulder rule the scatter compiler will consume (1 rock / 160 m² of
-    // bed, seeded by strip id) — surfaced as a count so the job can be sized
-    let boulderCandidates = 0;
-    for (const strip of channels) boulderCandidates += stripBoulderCandidates(strip).length;
-    return { mesh, materials, triangles: built.triangleCount, count: built.stripCount, boulderCandidates };
+    return { mesh, materials, triangles: built.triangleCount, count: built.stripCount };
   }, [assets, csm, uniforms, tier, runtime.applyAerial, falls]);
   useEffect(() => () => {
     if (!strips) return;
@@ -264,8 +260,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
       const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh] : [])];
       onReadyRef.current?.({
         uniforms, mesh, meshes, materials, effects, bubbles, falls, foam,
-        stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0,
-          boulderCandidates: strips?.boulderCandidates ?? 0 },
+        stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0 },
         setUnderwater(underwater: boolean) {
           mesh.material = underwater ? materials.below : materials.above;
           if (strips) strips.mesh.material = underwater ? strips.materials.below : strips.materials.above;

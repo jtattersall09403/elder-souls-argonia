@@ -16,6 +16,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import {
   buildFloraKit,
+  mergeFloraKits,
   lodDistances,
   maxDrawDistance,
   type FloraKit,
@@ -95,6 +96,56 @@ function windTuneAttribute(
   return grown;
 }
 
+/**
+ * Metres. A vegetation mesh casts into the shadow cascades only while its
+ * bounding sphere's centre is within this of the focus. The character CSM
+ * reaches 300 m over 2 cascades; trees further out contribute nothing a
+ * player can see and cost a full alpha-tested depth pass each.
+ */
+const SHADOW_CAST_RANGE_M = 120;
+
+/**
+ * Block slot for a (species, level) small enough to stay unsplit. Distinct
+ * from the four quarters because the wind-tune attribute is per block: two
+ * buckets sharing a slot would share one attribute and re-tune each other.
+ */
+const UNSPLIT_BLOCK = 4;
+
+/** Per-block geometry views, cached on the source kit geometry. */
+const BLOCK_GEOMETRIES = Symbol("esBlockGeometries");
+
+/**
+ * A view of a kit geometry for one neighbourhood block: the same index and
+ * the same vertex attributes (by reference — no buffer is copied or
+ * uploaded twice), with room for its own `esWindTune` instanced attribute.
+ * Cached on the source so a rebuild reuses it; block 0 is the source itself.
+ */
+function blockGeometry(source: THREE.BufferGeometry, block: number): THREE.BufferGeometry {
+  if (block === 0) return source;
+  const host = source as unknown as
+    { [BLOCK_GEOMETRIES]?: Map<number, THREE.BufferGeometry> };
+  let cache = host[BLOCK_GEOMETRIES];
+  if (!cache) {
+    cache = new Map();
+    host[BLOCK_GEOMETRIES] = cache;
+  }
+  const cached = cache.get(block);
+  if (cached) return cached;
+  const view = new THREE.BufferGeometry();
+  view.setIndex(source.getIndex());
+  for (const [name, attribute] of Object.entries(source.attributes)) {
+    if (name === WIND_TUNE_ATTRIBUTE) continue;
+    view.setAttribute(name, attribute);
+  }
+  for (const group of source.groups) view.addGroup(group.start, group.count, group.materialIndex);
+  source.computeBoundingSphere();
+  source.computeBoundingBox();
+  view.boundingSphere = source.boundingSphere ? source.boundingSphere.clone() : null;
+  view.boundingBox = source.boundingBox ? source.boundingBox.clone() : null;
+  cache.set(block, view);
+  return view;
+}
+
 export function Vegetation({
   focusRef,
   baseUrl,
@@ -124,23 +175,36 @@ export function Vegetation({
   const store = sharedChunkStore(baseUrl);
   const [chunksManifest, setChunksManifest] = useState<ChunksManifest | null>(null);
   const [index, setIndex] = useState<VegetationIndex | null>(null);
+  /** Both kit manifests: the land kit and the 16f underwater band kit. */
   const [manifest, setManifest] = useState<KitManifest | null>(null);
+  const [underwaterManifest, setUnderwaterManifest] = useState<KitManifest | null>(null);
   const loaded = useRef(new Map<string, ChunkVegetation>());
   const pending = useRef(new Set<string>());
   const groups = useRef<DrawGroup[]>([]);
+  /** Last state the chunk-ring scan ran against (see the scan guard). */
+  const lastScan = useRef<
+    { cx: number; cz: number; loaded: number; pending: number } | null>(null);
 
-  const gltf = useLoader(GLTFLoader, `${baseUrl}kits/flora-province-v1.glb`);
+  // Two kits, one renderer: the palettes place land species (trees, shrubs,
+  // rocks) and the 16f underwater band (kelp, corals, shell beds, wrecks),
+  // which ship in separate GLBs. The array form of `useLoader` loads both.
+  const [gltf, underwaterGltf] = useLoader(GLTFLoader, [
+    `${baseUrl}kits/flora-province-v1.glb`,
+    `${baseUrl}kits/underwater-v1.glb`,
+  ]);
 
   useEffect(() => {
     let cancelled = false;
     Promise.all([
       fetch(`${baseUrl}province/vegetation/vegetation-index.json`).then((r) => r.json()),
       fetch(`${baseUrl}kits/flora-province-v1.kit.json`).then((r) => r.json()),
+      fetch(`${baseUrl}kits/underwater-v1.kit.json`).then((r) => r.json()),
     ])
-      .then(([i, m]) => {
+      .then(([i, m, u]) => {
         if (!cancelled) {
           setIndex(i as VegetationIndex);
           setManifest(m as KitManifest);
+          setUnderwaterManifest(u as KitManifest);
         }
       })
       .catch(() => undefined);
@@ -153,10 +217,20 @@ export function Vegetation({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseUrl]);
 
-  const kit: FloraKit | null = useMemo(
-    () => (manifest ? buildFloraKit(gltf, manifest) : null),
-    [gltf, manifest],
-  );
+  const kit: FloraKit | null = useMemo(() => {
+    if (!manifest || !underwaterManifest) return null;
+    // First wins on a duplicate id: a few assets (tbp_seaweed06,
+    // waterkelptall02/03) ship in both kits, and the palettes were authored
+    // against the land kit's copy.
+    const merged = mergeFloraKits(
+      buildFloraKit(gltf, manifest),
+      buildFloraKit(underwaterGltf, underwaterManifest),
+    );
+    if (import.meta.env.DEV) {
+      console.info(`[vegetation] kit: ${merged.size} assets (flora + underwater)`);
+    }
+    return merged;
+  }, [gltf, underwaterGltf, manifest, underwaterManifest]);
 
   // Rebuild the instanced meshes whenever the set of loaded chunks changes —
   // or the focus has walked far enough that per-instance LOD choices are
@@ -165,6 +239,11 @@ export function Vegetation({
   // upgraded it to the real model (owner round-2 "cardboard cutout" defect).
   const [revision, setRevision] = useState(0);
   const lastBuildFocus = useRef<{ x: number; z: number } | null>(null);
+  /** Focus of the rebuild already SCHEDULED (not yet committed). Comparing
+   * against the committed focus re-fired `setRevision` every frame until
+   * React ran the effect; comparing against the pending one fires once per
+   * crossing. */
+  const pendingBuildFocus = useRef<{ x: number; z: number } | null>(null);
   const REBUILD_MOVE_M = 48;
 
   // Wind sway (module 55 §98): one uniform block shared by every plant
@@ -178,12 +257,24 @@ export function Vegetation({
     if (!index || !root.current) return;
     const focus = focusRef.current;
     const size = index.chunkMetres;
-    const last = lastBuildFocus.current;
+    const last = pendingBuildFocus.current ?? lastBuildFocus.current;
     if (last && Math.hypot(focus.x - last.x, focus.z - last.z) > REBUILD_MOVE_M) {
+      pendingBuildFocus.current = { x: focus.x, z: focus.z };
       setRevision((r) => r + 1);
     }
     const cx = Math.floor(focus.x / size);
     const cz = Math.floor(focus.z / size);
+    // The ring scan builds a key string per chunk, so run it only when the
+    // set it could change has changed: the focus chunk, or an arrival. It
+    // used to allocate 25 strings every frame for a no-op.
+    const scan = lastScan.current;
+    if (scan && scan.cx === cx && scan.cz === cz
+        && scan.loaded === loaded.current.size && scan.pending === pending.current.size) {
+      return;
+    }
+    lastScan.current = {
+      cx, cz, loaded: loaded.current.size, pending: pending.current.size,
+    };
 
     for (let dz = -chunkRing; dz <= chunkRing; dz++) {
       for (let dx = -chunkRing; dx <= chunkRing; dx++) {
@@ -201,6 +292,7 @@ export function Vegetation({
               originZ: (cz + dz) * size,
               bundle: decodeVegetationBundle(buffer),
             });
+            pendingBuildFocus.current = null;
             setRevision((r) => r + 1);
           })
           .catch(() => undefined)
@@ -225,6 +317,7 @@ export function Vegetation({
     // to be spending on bookkeeping.
     const focus = focusRef.current;
     lastBuildFocus.current = { x: focus.x, z: focus.z };
+    pendingBuildFocus.current = null;
     const matrix = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();
     const euler = new THREE.Euler();
@@ -232,11 +325,21 @@ export function Vegetation({
     const scale = new THREE.Vector3();
 
     // Pass one: bucket every instance by the draw it belongs to.
+    //
+    // A bucket stores the COMPOSE INPUTS, not matrices: a `Matrix4` per
+    // instance was ~81k throwaway objects per rebuild at chunk ring 2. Pass
+    // two composes each one into a single scratch matrix and copies it into
+    // the instance buffer with `setMatrixAt`.
+    const PLACEMENT_STRIDE = 7; // x, y, z, tiltX, yaw, tiltZ, scale
     interface Bucket {
       species: string;
       level: number;
-      transforms: THREE.Matrix4[];
-      /** Flat (stiffness − 1, sink) pairs, parallel to `transforms`. */
+      /** Neighbourhood block (0-8) — see `blockIndexOf`. */
+      block: number;
+      /** Flat placement tuples, `PLACEMENT_STRIDE` numbers per instance. */
+      placements: number[];
+      count: number;
+      /** Flat (stiffness − 1, sink) pairs, parallel to `placements`. */
       windTune: number[];
     }
     const buckets = new Map<string, Bucket>();
@@ -244,19 +347,37 @@ export function Vegetation({
     // the same final world position the mesh got, sink and re-grounding
     // included, or the invisible wall stands somewhere the tree does not.
     const solidByAsset = new Map(
-      (manifest?.assets ?? []).map((a) => [a.id, isSolid(a)]),
+      // Land kit first: the underwater band's plants and debris are
+      // bed-anchored and carry no collision, so a shared id keeps its land
+      // (solid) reading.
+      [...(underwaterManifest?.assets ?? []), ...(manifest?.assets ?? [])]
+        .map((a) => [a.id, isSolid(a)]),
     );
     const solids: SolidInstance[] = [];
     // A chunk instance can sit anywhere in its 468 m square, so chunk-level
     // culls must allow for the worst case: focus at one corner, instance at
     // the opposite one.
     const halfDiagonal = index.chunkMetres * Math.SQRT1_2;
+    // One InstancedMesh per species spanning the whole 5x5 neighbourhood
+    // (~2.3 km) can never be frustum-rejected, so `frustumCulled` bought
+    // nothing. The neighbourhood is instead QUARTERED at the focus chunk's
+    // centre lines — chunks before the focus on an axis go to 0, the focus
+    // chunk and those after it to 1 — and a mesh is built per (species,
+    // level, quarter): a quarter behind the camera is genuinely rejected,
+    // for 4x the bucket count rather than the 9x a finer grid cost (measured
+    // ~554 potential draws at 9 blocks, too many for the browser).
+    const focusChunkX = Math.floor(focus.x / index.chunkMetres);
+    const focusChunkZ = Math.floor(focus.z / index.chunkMetres);
+    const blockAxis = (delta: number): number => (delta < 0 ? 0 : 1);
     let culled = 0;
     let billboardInstances = 0;
     for (const chunk of loaded.current.values()) {
       const centreX = chunk.originX + index.chunkMetres / 2;
       const centreZ = chunk.originZ + index.chunkMetres / 2;
       const chunkDistance = Math.hypot(focus.x - centreX, focus.z - centreZ);
+      const blockIndex =
+        blockAxis(Math.round(chunk.originZ / index.chunkMetres) - focusChunkZ) * 2
+        + blockAxis(Math.round(chunk.originX / index.chunkMetres) - focusChunkX);
 
       for (const speciesGroup of chunk.bundle.species) {
         if (speciesGroup.count === 0) continue;
@@ -306,10 +427,13 @@ export function Vegetation({
           const level = asBillboard
             ? entry.billboardIndex!
             : Math.min(entry.levels.length - 1, near);
-          const key = `${id}|${level}`;
+          const key = `${id}|${level}|${blockIndex}`;
           let bucket = buckets.get(key);
           if (!bucket) {
-            bucket = { species: id!, level, transforms: [], windTune: [] };
+            bucket = {
+              species: id!, level, block: blockIndex,
+              placements: [], count: 0, windTune: [],
+            };
             buckets.set(key, bucket);
           }
           // Anchor per the mined authoring conventions (bundle v2,
@@ -330,11 +454,9 @@ export function Vegetation({
           } else {
             y = inst.y * verticalScale;
           }
-          position.set(inst.x, y, inst.z);
-          euler.set(inst.tiltX, inst.yaw, inst.tiltZ, "YXZ");
-          quaternion.setFromEuler(euler);
-          scale.setScalar(inst.scale);
-          bucket.transforms.push(matrix.compose(position, quaternion, scale).clone());
+          bucket.placements.push(
+            inst.x, y, inst.z, inst.tiltX, inst.yaw, inst.tiltZ, inst.scale);
+          bucket.count++;
           // Wind tuning is per instance because both terms are: stiffness
           // scales with the trunk's radius AT THIS SCALE, and the sink is
           // drawn per instance from the species' range.
@@ -355,40 +477,65 @@ export function Vegetation({
       }
     }
 
+    // Between the passes: a (species, level) with few instances is not worth
+    // quartering. Splitting it multiplies draws for a mesh whose whole set
+    // would be submitted in one cheap call anyway, and most buckets in a
+    // jungle neighbourhood hold a handful. Under this many instances across
+    // the neighbourhood, the quarters are merged back into one unsplit
+    // bucket with its own bounding sphere.
+    const UNSPLIT_BELOW = 120;
+    const byLevel = new Map<string, Bucket[]>();
+    for (const bucket of buckets.values()) {
+      const key = `${bucket.species}|${bucket.level}`;
+      const list = byLevel.get(key);
+      if (list) list.push(bucket);
+      else byLevel.set(key, [bucket]);
+    }
+    for (const [key, list] of byLevel) {
+      if (list.length < 2) continue;
+      let total = 0;
+      for (const bucket of list) total += bucket.count;
+      if (total >= UNSPLIT_BELOW) continue;
+      const merged: Bucket = {
+        species: list[0].species, level: list[0].level,
+        block: UNSPLIT_BLOCK, placements: [], count: total, windTune: [],
+      };
+      for (const bucket of list) {
+        for (const value of bucket.placements) merged.placements.push(value);
+        for (const value of bucket.windTune) merged.windTune.push(value);
+        buckets.delete(`${key}|${bucket.block}`);
+      }
+      buckets.set(`${key}|${UNSPLIT_BLOCK}`, merged);
+    }
+
     // Pass two: one InstancedMesh per bucket per geometry part.
     let instances = 0;
     let triangles = 0;
     for (const bucket of buckets.values()) {
       const entry = kit.get(bucket.species)!;
       // `level` is clamped to a valid index where it is chosen, so this is a
-      // real lookup, not a fallback — which is what lets the wind attribute
-      // live on the shared kit geometry: one bucket per (species, level) means
-      // one writer per geometry.
+      // real lookup, not a fallback.
       const parts = entry.levels[bucket.level].parts;
-      instances += bucket.transforms.length;
+      instances += bucket.count;
       for (const part of parts) {
-        // Per-instance wind tuning has to live on the geometry, and kit
-        // geometries persist across rebuilds — so the attribute is cached on
-        // the geometry and GROWN in place rather than reallocated. A fresh
-        // InstancedBufferAttribute every rebuild would strand its GPU buffer
-        // (nothing disposes a bare attribute), which at ~14k instances a
-        // rebuild adds up over a session. Over-allocation is harmless: the
-        // InstancedMesh draws `count` instances, not the attribute's length.
-        const windTune = windTuneAttribute(part.geometry, bucket.transforms.length);
+        // Per-instance wind tuning lives on the geometry, so each (species,
+        // level, BLOCK) mesh needs its own copy of that attribute: blocks
+        // share a kit geometry, and one shared attribute would let the last
+        // block written re-tune every other block's wind. `blockGeometry`
+        // hands back a per-block view that SHARES every real vertex buffer
+        // and is cached across rebuilds, so the extra cost is one small
+        // object per (part, block), not a duplicated mesh.
+        const geometry = blockGeometry(part.geometry, bucket.block);
+        // The attribute is cached on that geometry and GROWN in place rather
+        // than reallocated. A fresh InstancedBufferAttribute every rebuild
+        // would strand its GPU buffer (nothing disposes a bare attribute).
+        // Over-allocation is harmless: the InstancedMesh draws `count`
+        // instances, not the attribute's length.
+        const windTune = windTuneAttribute(geometry, bucket.count);
         windTune.array.set(bucket.windTune);
         windTune.needsUpdate = true;
-        const mesh = new THREE.InstancedMesh(
-          part.geometry, part.material, bucket.transforms.length);
+        const mesh = new THREE.InstancedMesh(geometry, part.material, bucket.count);
         mesh.frustumCulled = true;
-        // Levels 0–1 cast: they cover the CSM reach (character maxFar 300 m,
-        // and level 1 runs to ~2.6× the species' near ring). Level 2 is
-        // beyond useful shadow range and would only bloat the cascade passes.
-        mesh.castShadow = bucket.level <= 1;
-        // Flat cards are lit as ground (normals bent up at kit load) and sit
-        // mostly beyond the CSM reach; letting the nearer ones receive the
-        // cascade's shadows over their whole up-facing quad blacks the card
-        // out wholesale rather than shading leaves (round-4 "stark dark
-        // distant trees"). Mesh levels keep receiving.
         const isCard =
           entry.billboardIndex !== null && bucket.level === entry.billboardIndex;
         mesh.receiveShadow = !isCard;
@@ -401,17 +548,35 @@ export function Vegetation({
         if (!isCard) {
           applyWindSwayWithShadow(part.material, part.depthMaterial, wind);
         }
-        for (let i = 0; i < bucket.transforms.length; i++) {
-          mesh.setMatrixAt(i, bucket.transforms[i]);
+        for (let i = 0; i < bucket.count; i++) {
+          const at = i * PLACEMENT_STRIDE;
+          position.set(
+            bucket.placements[at], bucket.placements[at + 1], bucket.placements[at + 2]);
+          euler.set(
+            bucket.placements[at + 3], bucket.placements[at + 4],
+            bucket.placements[at + 5], "YXZ");
+          quaternion.setFromEuler(euler);
+          scale.setScalar(bucket.placements[at + 6]);
+          mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
         }
         mesh.instanceMatrix.needsUpdate = true;
         mesh.computeBoundingSphere();
+        // Shadows: only the NEAREST mesh level, and only where the cascades
+        // can see it. Levels 0–1 casting across the whole neighbourhood was
+        // two extra alpha-tested, wind-displaced depth passes over every
+        // species in ~2.3 km of jungle. The flag is recomputed here, on the
+        // rebuild, never per frame.
+        const centre = mesh.boundingSphere?.center;
+        mesh.castShadow =
+          bucket.level === 0
+          && centre !== undefined
+          && Math.hypot(centre.x - focus.x, centre.z - focus.z) <= SHADOW_CAST_RANGE_M;
         group.add(mesh);
         groups.current.push({ mesh, species: bucket.species, level: bucket.level });
-        const geometryIndex = part.geometry.getIndex();
+        const geometryIndex = geometry.getIndex();
         triangles +=
-          ((geometryIndex ? geometryIndex.count : part.geometry.attributes.position.count) / 3)
-          * bucket.transforms.length;
+          ((geometryIndex ? geometryIndex.count : geometry.attributes.position.count) / 3)
+          * bucket.count;
       }
     }
 
@@ -429,7 +594,7 @@ export function Vegetation({
     // numbers rather than guessing them from a screenshot.
     (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })
       .__STUDIO_VEGETATION_DEBUG__ = stats;
-  }, [kit, index, manifest, revision, verticalScale, onStats, onSolids, focusRef,
+  }, [kit, index, manifest, underwaterManifest, revision, verticalScale, onStats, onSolids, focusRef,
       drawScale, chunksManifest, store, wind]);
 
   return <group ref={root} name="vegetation" />;

@@ -35,19 +35,29 @@ import numpy as np
 from PIL import Image
 from scipy import ndimage
 
+from . import dressing_zones as dz
+from . import rock_dressing as rd
 from .composition import Composition
 from .regions import REGION_CLASSES
-from .routes_raster import corridor_masks
+from .routes_raster import major_corridor_masks
 from .scale import PROVINCE_EXTENT_M, RAW_M
-from .scatter import (ROUTE_CLEAR, ROUTE_THIN, Fields, Palette, clark_evans,
-                      encode, scatter_chunk)
-from .settlement_clearance import keep_raster
+from .scatter import (CLIFF_SLOPE_DEG, ROUTE_CLEAR, ROUTE_CONDITION_SHIFT,
+                      ROUTE_THIN, Fields, Palette, clark_evans, encode,
+                      scatter_chunk)
+from .water_report import CHANNEL_REACH_KINDS, ShippedWater, WATER_DIR
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 CHUNK_SAMPLES = 256                       # matches compile_chunks
 CHUNK_M = CHUNK_SAMPLES * RAW_M           # 467.9 m
 DEFAULT_SEED = 0x5CA77E5
+#: `ShippedWater.season_index_grid` index -> the graph's season name.
+SEASON_NAMES = ("none", "perennial", "seasonal", "ephemeral")
+#: How anything downstream names one plant (16f). Written into the index so a
+#: patch receipt and a bundle can never disagree about what an ordinal means.
+IDENTITY = ("an instance is addressed as (chunk, species, ordinal) in the "
+            "PUBLISHED bundle, after vegetation patches; a patch receipt "
+            "lists what it removed per chunk and species")
 
 
 class ProvinceFields:
@@ -63,7 +73,6 @@ class ProvinceFields:
     def __init__(self, province: Path = PROVINCE,
                  height_file: str = "height-rg.png"):
         refined = json.loads((province / "refined" / "meta.json").read_text())
-        water_meta = json.loads((province / "water" / "water-meta.json").read_text())
         hydro = json.loads((province / "hydrology-meta.json").read_text())
 
         self.px_m = refined["metresPerPixel"]
@@ -72,29 +81,68 @@ class ProvinceFields:
         lo, hi = refined["heightMinMetres"], refined["heightMaxMetres"]
         self.height_m = (rgb[..., 0] * 256 + rgb[..., 1]) / 65535.0 * (hi - lo) + lo
 
-        from .compile_water import decode_surface
-        water_level, depth = decode_surface(
-            np.asarray(Image.open(province / "water" / "water-surface.png").convert("RGB")),
-            water_meta)
-        wet = depth > 0.05     # signed depth (schema v2): dry ground reads negative
-        depth = np.maximum(depth, 0.0)
-
-        # Nearest wet cell's water level, everywhere.
-        land_d, (iy, ix) = ndimage.distance_transform_edt(~wet, return_indices=True)
-        table = water_level[iy, ix]
-        self.depth_m = np.where(wet, depth, table - self.height_m).astype(np.float32)
+        # --- the water, read from the signed record (decision 0066) --------
+        # Nothing here decides what water IS: kind, season, identity, width
+        # and band all come from the hydrology graph through `ShippedWater`,
+        # on the surface grid (same registration as the refined height
+        # raster). Only distances and depths are MEASURED off it.
+        w = ShippedWater()
+        self.water = w
+        self.depth_m = w.signed_depth_m("wet").copy()
+        wet = self.depth_m > 0.0
+        # The encoding clamps dry ground at -6 m, so anything below that is
+        # simply "dry"; the old -20 floor no longer means anything.
+        np.clip(self.depth_m, -6.0, 25.5, out=self.depth_m)
         # Signed distance to the water's EDGE (+ land, − water): the meso
         # 'scene' field — reed belts, bank thickets and riparian galleries all
         # band on it (research/vegetation/openworld-vegetation-placement-architecture.md).
+        land_d, (iy, ix) = ndimage.distance_transform_edt(~wet, return_indices=True)
         water_d = ndimage.distance_transform_edt(wet)
-        self.shore_m = (np.where(wet, -water_d, land_d) * self.px_m).astype(np.float32)
-        # Beyond a few metres the distinction stops meaning anything, and an
-        # unclamped value would let a distant mountain read as "-200 m above
-        # the water table" and skew every response curve.
-        np.clip(self.depth_m, -20.0, 25.5, out=self.depth_m)
+        self.shore_m = (np.where(wet, -water_d, land_d) * w.mpp2).astype(np.float32)
+
+        # The record AT the nearest water, everywhere: on dry ground the
+        # local water is the water you can see from it.
+        self.kind_idx = w.kind_index_grid()
+        self.kind_names = w.kind_names()
+        season_idx = w.season_index_grid()
+        self.near_kind = self.kind_idx[iy, ix]
+        self.near_season = season_idx[iy, ix]
+        self.near_label = w.ids[iy, ix]
+
+        # Salt exposure: signed distance to SALT water by KIND (ocean, lagoon,
+        # tidal reach) — an interior lake is wet but not salty.
+        salt = w.kind_grid({"ocean", "lagoon", "horizontal-tidal"})
+        salt_in = ndimage.distance_transform_edt(~salt) * w.mpp2
+        salt_out = ndimage.distance_transform_edt(salt) * w.mpp2
+        self.coast_m = np.where(salt, -salt_out, salt_in).astype(np.float32)
+
+        # Channels and their wetted banks: the belt no trunk may stand in.
+        channel = w.kind_grid(CHANNEL_REACH_KINDS)
+        ch_out, (cy, cx) = ndimage.distance_transform_edt(
+            ~channel, return_indices=True)
+        ch_in = ndimage.distance_transform_edt(channel)
+        self.channel_m = (np.where(channel, -ch_in, ch_out) * w.mpp2).astype(np.float32)
+        widths = w.reach_width_grid()
+        self.bank_margin_m = np.clip(
+            widths[cy, cx] * 0.3, 2.0, 10.0).astype(np.float32)
+
+        # Distance to the nearest MAJOR (band 3) reach — the record's own
+        # river ranking, for layers that band on the big water.
+        band3 = w.reach_band_grid() == 3
+        self.corridor_m = ((ndimage.distance_transform_edt(~band3) * w.mpp2)
+                           .astype(np.float32) if band3.any()
+                           else np.full(band3.shape, 1e9, dtype=np.float32))
+        self.water_px_m = w.mpp2
 
         gy, gx = np.gradient(self.height_m, self.px_m)
         self.slope_deg = np.degrees(np.arctan(np.hypot(gx, gy))).astype(np.float32)
+        # Distance to the nearest CLIFF texel (16f): fallen stone gathers at
+        # the foot of a face wherever the face is, so "near a cliff" is a
+        # distance-to-feature field like the shore, not a region class.
+        cliff = self.slope_deg >= CLIFF_SLOPE_DEG
+        self.cliff_m = ((ndimage.distance_transform_edt(~cliff) * self.px_m)
+                        .astype(np.float32) if cliff.any()
+                        else np.full(cliff.shape, 1e9, dtype=np.float32))
 
         region_rgb = np.asarray(Image.open(province / "hydro-regions.png")
                                 .convert("RGB"))
@@ -104,28 +152,24 @@ class ProvinceFields:
             match = np.all(region_rgb == np.array(colour, dtype=np.uint8), axis=-1)
             self.region[match] = class_id
 
-        # Salt-exposure field (round 4): signed distance to the OCEAN, from
-        # the region raster's ocean class. Distinct from `shore_m` (nearest
-        # water of any kind) — an interior lake is wet but not salty.
-        # Mangrove-classified intertidal shallows count as land here: they
-        # are the coast's own vegetation, not open sea.
-        ocean = self.region == 0
-        coast_in = ndimage.distance_transform_edt(~ocean) * self.region_px_m
-        coast_out = ndimage.distance_transform_edt(ocean) * self.region_px_m
-        self.coast_m = np.where(ocean, -coast_out, coast_in).astype(np.float32)
-
         control = np.asarray(Image.open(province / "refined" / "ground-control.png")
                              .convert("RGBA"))
         self.land_cover = control[..., 0].copy()
 
-        # Route corridors (major roads + Part 3b tracks/footpaths/boardwalks)
-        # on the ground-control grid: trunks cleared, groundcover thinned.
+        # Route corridors on the ground-control grid: MAJOR roads only —
+        # trunks cleared, groundcover thinned. The minor network's clearance
+        # is a vegetation PATCH applied after the scatter (16f).
         # Route px are on the 1345 macro grid; the control raster is the
         # full-res one, so the step is its size ratio.
         step = int(round(control.shape[0] / 1345))
-        trunk, ground = corridor_masks(control.shape[:2], step, province=province)
-        self.corridor = (trunk.astype(np.uint8) * ROUTE_CLEAR
-                         | ground.astype(np.uint8) * ROUTE_THIN)
+        # The cleared widths and the packed condition both come from the
+        # authored state of repair (owner 2026-09-16); bits 4-6 carry it so
+        # `scatter.route_allows` can keep more groundcover on a worse road.
+        trunk, ground, condition = major_corridor_masks(control.shape[:2], step,
+                                                        province=province)
+        self.corridor = ((trunk.astype(np.uint8) * ROUTE_CLEAR
+                          | ground.astype(np.uint8) * ROUTE_THIN)
+                         | (condition.astype(np.uint8) << ROUTE_CONDITION_SHIFT))
 
         # The height raster is a vertex lattice: N samples span N - 1
         # intervals.  Use the source-derived shared extent rather than adding
@@ -135,11 +179,13 @@ class ProvinceFields:
         # raster) — sampling it with px_m read the wrong quadrant entirely.
         self.control_px_m = self.extent_m / control.shape[0]
 
-        # Settlement clearance (0041): built ground is bare, the worked fringe
-        # is graded, declared kept plants are protected. Shares the corridors'
-        # grid; 255 = untouched wild, 0 = built ground.
-        self.settlement_keep = keep_raster(
-            control.shape[:2], self.control_px_m, province=province)
+        # Authored dressing zones (16f deliverable 4): a small integer raster
+        # on the control grid, 0 off every zone. Rasterised over each
+        # polygon's own bounding box, so this costs the zones' area.
+        self.zones = dz.load_zones()
+        self.zone_names = [""] + [z["id"] for z in self.zones]
+        self.zone_idx = dz.rasterise(self.zones, control.shape[:2],
+                                     self.control_px_m)
 
     # -- sampling --
 
@@ -150,33 +196,11 @@ class ProvinceFields:
             return None
         return array[row, col]
 
-    def _keep_at(self, x: float, z: float, radius_m: float = 0.0) -> float:
-        """Settlement keep factor, tested over the plant's own EXTENT.
-
-        A canopy overhangs its trunk exactly as a fern's fronds overhang its
-        origin, and the modding scene's standing lesson (No Grass In Objects,
-        via research/rendering/building-placement-rendering-treatments.md §2.3)
-        is that an origin-only test leaves geometry poking through floors. So a
-        plant with reach is judged on the worst of its origin and four points
-        at its radius — invisible in the data if you get it wrong, obvious on
-        the ground.
-        """
-        keep = self._pixel(self.settlement_keep, x, z, self.control_px_m)
-        keep = 255 if keep is None else int(keep)
-        if radius_m > 0.0 and keep > 0:
-            for dx, dz in ((radius_m, 0.0), (-radius_m, 0.0),
-                           (0.0, radius_m), (0.0, -radius_m)):
-                v = self._pixel(self.settlement_keep, x + dx, z + dz,
-                                self.control_px_m)
-                if v is not None and int(v) < keep:
-                    keep = int(v)
-        return keep / 255.0
-
     def as_fields(self) -> Fields:
         return Fields(
             height=lambda x, z: float(self._pixel(self.height_m, x, z, self.px_m) or 0.0),
             water_depth=lambda x, z: float(
-                v if (v := self._pixel(self.depth_m, x, z, self.px_m)) is not None else -20.0),
+                v if (v := self._pixel(self.depth_m, x, z, self.water_px_m)) is not None else -6.0),
             slope=lambda x, z: float(
                 v if (v := self._pixel(self.slope_deg, x, z, self.px_m)) is not None else 90.0),
             region=lambda x, z: int(
@@ -186,11 +210,43 @@ class ProvinceFields:
             route_corridor=lambda x, z: int(
                 v if (v := self._pixel(self.corridor, x, z, self.control_px_m)) is not None else 0),
             shore=lambda x, z: float(
-                v if (v := self._pixel(self.shore_m, x, z, self.px_m)) is not None else 9999.0),
+                v if (v := self._pixel(self.shore_m, x, z, self.water_px_m)) is not None else 9999.0),
             coast=lambda x, z: float(
-                v if (v := self._pixel(self.coast_m, x, z, self.region_px_m)) is not None else 99999.0),
-            settlement_keep=self._keep_at,
+                v if (v := self._pixel(self.coast_m, x, z, self.water_px_m)) is not None else 99999.0),
+            water_kind=lambda x, z: self._kind_at(x, z),
+            water_season=lambda x, z: self._season_at(x, z),
+            water_entity=lambda x, z: self._entity_at(x, z),
+            channel=lambda x, z: float(
+                v if (v := self._pixel(self.channel_m, x, z, self.water_px_m)) is not None else 1e9),
+            bank_margin=lambda x, z: float(
+                v if (v := self._pixel(self.bank_margin_m, x, z, self.water_px_m)) is not None else 0.0),
+            corridor=lambda x, z: float(
+                v if (v := self._pixel(self.corridor_m, x, z, self.water_px_m)) is not None else 1e9),
+            cliff=lambda x, z: float(
+                v if (v := self._pixel(self.cliff_m, x, z, self.px_m)) is not None else 1e9),
+            zone=lambda x, z: self._zone_at(x, z),
         )
+
+    def _zone_at(self, x: float, z: float) -> str:
+        v = self._pixel(self.zone_idx, x, z, self.control_px_m)
+        return self.zone_names[int(v)] if v is not None else ""
+
+    # -- the record at a position (never a re-derivation) --
+
+    def _kind_at(self, x: float, z: float) -> str:
+        v = self._pixel(self.near_kind, x, z, self.water_px_m)
+        return self.kind_names[int(v)] if v is not None else "none"
+
+    def _season_at(self, x: float, z: float) -> str:
+        v = self._pixel(self.near_season, x, z, self.water_px_m)
+        return SEASON_NAMES[int(v)] if v is not None else "none"
+
+    def _entity_at(self, x: float, z: float) -> tuple[str, str]:
+        label = self._pixel(self.near_label, x, z, self.water_px_m)
+        if label is None or int(label) <= 0:
+            return ("", "")
+        entity_id = self.water.entities[int(label) - 1]["id"]
+        return (entity_id, self.water.river_of(entity_id) or "")
 
     def chunk_grid(self) -> int:
         return int(math.ceil(self.extent_m / CHUNK_M))
@@ -266,11 +322,24 @@ def compile_chunk(fields_source: ProvinceFields, palette: Palette,
         cx * CHUNK_M, cz * CHUNK_M, CHUNK_M, Palette(palette.id, scatter_layers),
         fields, seed, chunk_id=(cx, cz),
     )
+    # Record-driven rock passes (16f deliverable 3): rocks whose positions
+    # come from the hydrology record rather than from a density — the bed of
+    # every steep reach and both sides of every cascade. They run AFTER the
+    # scatter (so they are never blocked by it) and BEFORE composition (so
+    # their sink, anchor and clumping are composed like any other instance).
+    bounds = (cx * CHUNK_M, cz * CHUNK_M, (cx + 1) * CHUNK_M, (cz + 1) * CHUNK_M)
+    bed, bed_records = rd.bed_boulders(fields_source.water, bounds, seed, fields)
+    casc, casc_records = rd.cascade_rocks(fields_source.water, bounds, seed, fields)
+    instances += bed + casc
     order = species_order(palette)
+    # An open-bottomed rock keeps its own sink floor (Layer.sink_jitter).
+    jitter = {layer.species: tuple(layer.sink_jitter) for layer in scatter_layers}
     instances, counts = composition.compose(
         instances, attachment_layers, fields, seed,
-        area_ha=CHUNK_M * CHUNK_M / 10_000, allowed=set(order))
-    return present, instances, encode(instances, order), counts
+        area_ha=CHUNK_M * CHUNK_M / 10_000, allowed=set(order),
+        sink_jitter=jitter)
+    return (present, instances, encode(instances, order), counts,
+            bed_records + casc_records)
 
 
 # Set once in the parent before the worker pool forks, so every worker
@@ -292,10 +361,15 @@ def _compile_one(cell: tuple[int, int]):
         _WORK["source"], _WORK["palette"], _WORK["composition"],
         _WORK["seed"], _WORK["report"])
     cx, cz = cell
-    present, instances, blob, counts = compile_chunk(
+    present, instances, blob, counts, bed_rocks = compile_chunk(
         source, palette, cx, cz, seed, composition)
     if not instances:
         return None
+    # Under-canopy litter (deliverable 10): the discs the ground mask is
+    # accumulated from, measured off each instance's own crown.
+    crowns = _WORK["crowns"]
+    litter = [(i.x, i.z, crowns[i.species] * i.scale) for i in instances
+              if i.tier in ("T1", "T2") and i.species in crowns]
     tiers = Counter(i.tier for i in instances)
     species = Counter(i.species for i in instances)
     region = source.modal_region(cx, cz)
@@ -327,7 +401,91 @@ def _compile_one(cell: tuple[int, int]):
             values.sort()
             record["clarkEvansR"] = round(values[len(values) // 2], 3)
         record["variation"] = variation_probe(instances, CHUNK_M)
-    return record, blob, tiers, species, counts, class_counts, class_area
+    return (record, blob, tiers, species, counts, class_counts, class_area,
+            bed_rocks, litter)
+
+
+#: Roles whose instances put a crown over the ground — the discs the litter
+#: mask is accumulated from (16f deliverable 10).
+CANOPY_ROLES = frozenset({"canopy", "emergent", "landmark-giant", "gallery"})
+#: Ground the litter mask blends toward leaf litter (landcover ids).
+LITTER_BLEND_COVERS = (23, 31, 36)          # BC_ROCK, MOUNTAIN_ROCK, DIRT_CLIFF
+
+
+def canopy_crowns(data: dict) -> dict[str, float]:
+    """species -> crown RADIUS in metres, for every canopy-role species.
+
+    Read from the palette DOCUMENT rather than from `Palette`, because `role`
+    is an annotation the sampler drops. The radius is measured off the kit's
+    own `sizeM` (the mesh's z-up box, so the crown is the larger of components
+    0 and 1), never a per-species guess.
+    """
+    manifest = rd._manifest()
+    out: dict[str, float] = {}
+    for entry in data["byRegionClass"].values():
+        for layer in entry["layers"]:
+            species = layer["species"]
+            if layer.get("role") not in CANOPY_ROLES or species in out:
+                continue
+            asset = manifest.get(species)
+            if asset is not None:
+                out[species] = max(asset["sizeM"][0], asset["sizeM"][1]) / 2.0
+    return out
+
+
+def litter_alpha(discs, size_px: int, metres_per_px: float,
+                 threshold: float = 0.5) -> np.ndarray:
+    """The under-canopy litter mask: 255 where crowns cover the texel.
+
+    Accumulated like a coverage (overlapping crowns add), thresholded, then
+    blurred one texel so the blend has no stair-step edge.
+    """
+    acc = np.zeros((size_px, size_px), dtype=np.float32)
+    for x, z, radius in discs:
+        if radius <= 0:
+            continue
+        r_px = radius / metres_per_px
+        c, r = x / metres_per_px, z / metres_per_px
+        c0, c1 = max(0, int(c - r_px)), min(size_px, int(c + r_px) + 1)
+        r0, r1 = max(0, int(r - r_px)), min(size_px, int(r + r_px) + 1)
+        if c0 >= c1 or r0 >= r1:
+            continue
+        ys = np.arange(r0, r1)[:, None] + 0.5 - r
+        xs = np.arange(c0, c1)[None, :] + 0.5 - c
+        acc[r0:r1, c0:c1] += (ys * ys + xs * xs) <= r_px * r_px
+    mask = (acc >= threshold).astype(np.float32)
+    mask = ndimage.uniform_filter(mask, size=3)
+    return np.clip(mask * 255.0, 0, 255).astype(np.uint8)
+
+
+def litter_from_bundles(out_dir: Path, order: list[str], crowns: dict[str, float]) -> list:
+    """Every crown disc in every published bundle (the merge source for a
+    partial run's litter mask)."""
+    from .scatter import decode
+    discs: list = []
+    for path in sorted(out_dir.glob("chunk_*_vegetation.bin")):
+        for group in decode(path.read_bytes()):
+            species = order[group["index"]]
+            r0 = crowns.get(species)
+            if r0 is None or group["anchor"] != 0:
+                continue
+            for inst in group["instances"]:
+                discs.append((inst["x"], inst["z"], r0 * inst["scale"]))
+    return discs
+
+
+def write_litter_mask(discs, province: Path = PROVINCE) -> int:
+    """Write the litter mask into the ALPHA of `refined/ground-tint.png`.
+
+    The tint raster's RGB is the macro climate tint; its alpha was unused, so
+    the mask rides in it and the splat shader reads one texture it already
+    samples. Returns the number of texels set.
+    """
+    path = province / "refined" / "ground-tint.png"
+    tint = np.asarray(Image.open(path).convert("RGB"))
+    alpha = litter_alpha(discs, tint.shape[0], PROVINCE_EXTENT_M / tint.shape[0])
+    Image.fromarray(np.dstack([tint, alpha]), "RGBA").save(path)
+    return int((alpha > 0).sum())
 
 
 def variation_probe(instances, size_m: float, cell_m: float = 58.0) -> dict:
@@ -383,8 +541,22 @@ def variation_probe(instances, size_m: float, cell_m: float = 58.0) -> dict:
 # The rasters this compiler reads that the ground can move, and the snapshot
 # of each one it last read. Kept in the vault (never in the repo: they are
 # 4 k images, and a scratch copy of the vault keeps its own book).
-SCATTER_INPUTS = ("refined/height-rg.png", "water/water-surface.png",
-                  "refined/ground-control.png")
+def scatter_inputs(province: Path = PROVINCE) -> list[Path]:
+    """The rasters this compiler reads, as absolute paths.
+
+    Derived from the water record's own meta rather than named here, so the
+    record decides which files it ships (0066) and this module never hard-codes
+    a water raster's file name."""
+    meta = json.loads((WATER_DIR / "water-meta.json").read_text())
+    surface = WATER_DIR / meta["surface"]["file"]
+    ids = WATER_DIR / meta["surface"].get("idFile", meta.get("idFile", "water-id.png"))
+    return [province / "refined" / "height-rg.png",
+            province / "refined" / "ground-control.png", surface, ids]
+
+
+def _snapshot_name(source: Path) -> str:
+    """Snapshot file name for an input: its last two path parts, flattened."""
+    return f"{source.parent.name}_{source.name}"
 
 
 def _snapshot_dir() -> Path:
@@ -392,8 +564,30 @@ def _snapshot_dir() -> Path:
     return DEFAULT_HEIGHTS.parent / "scatter-input-snapshots"
 
 
+def recipe_hash() -> str:
+    """One hash of everything that changes EVERY chunk's answer without
+    moving a raster: the palettes, the composition rules, the dressing zones,
+    the kit manifests and this compiler's own code. A footprint run whose
+    recipe moved re-scatters the whole province; the raster diff alone
+    re-did 125 of 256 chunks after a palette rebuild (16f) and left the rest
+    on the old rules."""
+    import hashlib
+    from .chain_stages import module_closure
+    h = hashlib.sha256()
+    for path in [REPO_ROOT / "world" / "sources" / "flora" / "palettes.json",
+                 REPO_ROOT / "world" / "sources" / "flora" / "dressing-zones.json",
+                 REPO_ROOT / "world" / "sources" / "placement" / "composition-rules.json",
+                 PROVINCE.parent / "kits" / "flora-province-v1.kit.json",
+                 PROVINCE.parent / "kits" / "underwater-v1.kit.json",
+                 *module_closure("compile_scatter")]:
+        if path.exists():
+            h.update(path.name.encode())
+            h.update(path.read_bytes())
+    return h.hexdigest()
+
+
 def record_inputs(province: Path = PROVINCE) -> None:
-    """Remember the rasters this run scattered from.
+    """Remember the rasters (and the recipe) this run scattered from.
 
     Written on EVERY run, incremental or not: the next run can only measure
     what moved if the previous one left something to measure against, and a
@@ -402,11 +596,11 @@ def record_inputs(province: Path = PROVINCE) -> None:
     """
     snaps = _snapshot_dir()
     snaps.mkdir(parents=True, exist_ok=True)
-    for rel in SCATTER_INPUTS:
-        source = province / rel
+    for source in scatter_inputs(province):
         if source.exists():
-            np.save(snaps / (rel.replace("/", "_") + ".npy"),
+            np.save(snaps / (_snapshot_name(source) + ".npy"),
                     np.asarray(Image.open(source).convert("RGBA")))
+    (snaps / "recipe.sha256").write_text(recipe_hash())
 
 
 def changed_chunks(footprint_path, province: Path = PROVINCE,
@@ -425,13 +619,17 @@ def changed_chunks(footprint_path, province: Path = PROVINCE,
     rows = sample_rows or (doc_shape[0] if doc_shape else None)
     snaps = _snapshot_dir()
     snaps.mkdir(parents=True, exist_ok=True)
+    recipe = snaps / "recipe.sha256"
+    if not recipe.exists() or recipe.read_text().strip() != recipe_hash():
+        print("footprint: the recipe (palettes, rules, kits or code) moved — compiling every chunk")
+        record_inputs(province)
+        return None
     measured: list = []
-    for rel in SCATTER_INPUTS:
-        source = province / rel
+    for source in scatter_inputs(province):
         if not source.exists():
             return None
         current = np.asarray(Image.open(source).convert("RGBA"))
-        snap = snaps / (rel.replace("/", "_") + ".npy")
+        snap = snaps / (_snapshot_name(source) + ".npy")
         previous = np.load(snap) if snap.exists() else None
         found = fp.changed_boxes(current, previous)
         np.save(snap, current)
@@ -470,6 +668,7 @@ def main() -> None:
         for region, entry in data["byRegionClass"].items()
     }, scale)
     print(f"density scale x{scale:g}")
+    crowns = canopy_crowns(data)
     source = ProvinceFields()
     grid = source.chunk_grid()
     all_cells = [(cx, cz) for cz in range(grid) for cx in range(grid)]
@@ -510,14 +709,19 @@ def main() -> None:
     class_area_px: Counter = Counter()
     _WORK.update(source=source, palette=palette, composition=Composition.load(),
                  seed=args.seed, report=args.report,
-                 fields_for_report=source.as_fields())
+                 crowns=crowns, fields_for_report=source.as_fields())
     per_chunk = []
+    all_bed_rocks: list = []
+    all_litter: list = []
     with Pool(min(cpu_count(), len(wanted))) as pool:
         results = pool.imap(_compile_one, wanted, chunksize=1)
         for (cx, cz), result in zip(wanted, results):
             if result is None:
                 continue
-            record, blob, tiers, species, counts, class_hits, class_area = result
+            (record, blob, tiers, species, counts, class_hits, class_area,
+             bed_rocks, litter) = result
+            all_bed_rocks += bed_rocks
+            all_litter += litter
             totals.update(tiers)
             totals.update(counts)
             totals["chunks"] += 1
@@ -532,6 +736,32 @@ def main() -> None:
                 (out_dir / f"chunk_{cx}_{cz}_vegetation.bin").write_bytes(blob)
                 index[f"{cx}_{cz}"] = record
 
+    # The record the water renderer stamps foam from, and the ground mask the
+    # splat shader blends litter by. Both are whole-province files: a run
+    # that compiled every chunk writes them outright; a partial run (a
+    # --chunk list, or a chain footprint) MERGES — the compiled chunks'
+    # rocks replace those chunks' entries in the existing record, and the
+    # litter mask is re-rendered from every bundle on disk — so neither a
+    # one-chunk run nor a chain run can delete a rock or a crown it never
+    # compiled (the 16f chain run did exactly that until this merge).
+    if out_dir:
+        compiled = {(cx, cz) for cx, cz in wanted}
+        whole_province = len(compiled) == len(all_cells)
+        if whole_province:
+            bed_rocks_out = all_bed_rocks
+        else:
+            bed_rocks_out = [r for r in rd.read_bed_rocks()
+                             if (int(r["x"] // CHUNK_M), int(r["z"] // CHUNK_M)) not in compiled]
+            bed_rocks_out += all_bed_rocks
+        rd.write_bed_rocks(bed_rocks_out)
+        litter_all = all_litter if whole_province else litter_from_bundles(
+            out_dir, species_order(palette), _WORK["crowns"])
+        set_px = write_litter_mask(litter_all)
+        print(f"  bed rocks: {len(bed_rocks_out):,} in {rd.BED_ROCKS_PATH.name} "
+              f"({len(all_bed_rocks):,} from this run); litter mask {set_px:,} "
+              f"texels from {len(litter_all):,} crowns"
+              + ("" if whole_province else " (merged: partial run)"))
+
     if out_dir:
         if carried:
             recomputed, index = index, {}
@@ -545,7 +775,9 @@ def main() -> None:
                     # re-scattered and dressed nothing: its bundle is gone
                     (out_dir / f"chunk_{cx}_{cz}_vegetation.bin").unlink(missing_ok=True)
         (out_dir / "vegetation-index.json").write_text(
-            json.dumps({"seed": args.seed, "chunkMetres": round(CHUNK_M, 2),
+            json.dumps({"schemaVersion": 3,
+                        "identity": IDENTITY,
+                        "seed": args.seed, "chunkMetres": round(CHUNK_M, 2),
                         "speciesOrder": species_order(palette),
                         "chunks": index}, indent=1) + "\n")
 

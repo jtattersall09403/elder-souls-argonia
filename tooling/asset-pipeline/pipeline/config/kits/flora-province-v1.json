@@ -1,6 +1,6 @@
 {
  "id": "flora-province-v1",
- "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts \u2014 the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job.",
+ "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts — the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job.",
  "output": "tooling/asset-pipeline/output/kits/flora-province-v1.glb",
  "lodRatios": [
   0.35,
@@ -221,7 +221,7 @@
   {
    "asset": "composite:jungle/anvil-emergent-giant",
    "compose": {
-    "note": "The rare giant: the 56 m Anvil column, a four-crown canopy and the mod's own buttress-root flare at the foot. ~68 m x ~40 m at scale 1, placed at 0.66-0.88 for 45-60 m emergents. The buttress sits low and half-buried on purpose \u2014 it is what makes the trunk read as a rainforest giant rather than a pole.",
+    "note": "The rare giant: the 56 m Anvil column, a four-crown canopy and the mod's own buttress-root flare at the foot. ~68 m x ~40 m at scale 1, placed at 0.66-0.88 for 45-60 m emergents. The buttress sits low and half-buried on purpose — it is what makes the trunk read as a rainforest giant rather than a pole.",
     "parts": [
      {
       "asset": "tropical:landscape/trees/anvilgianttrunk"
@@ -276,12 +276,12 @@
       "yawDeg": 0,
       "scale": 0.75,
       "solid": true,
-      "solidNote": "the buttress flare is something you walk INTO, not canopy \u2014 owner round 8 walked through it"
+      "solidNote": "the buttress flare is something you walk INTO, not canopy — owner round 8 walked through it"
      }
     ]
    },
    "collisionRadiusM": 1.9,
-   "collisionRadiusNote": "measured off the column's own cross-section a few metres up (~3.8 m thick). The automatic percentile returns 0.17 m here \u2014 a 56 m giant you walk straight through.",
+   "collisionRadiusNote": "measured off the column's own cross-section a few metres up (~3.8 m thick). The automatic percentile returns 0.17 m here — a 56 m giant you walk straight through.",
    "lodFlatFrom": "bmv:landscape/trees/datepalm1",
    "lodRatios": [
     0.2,
@@ -456,6 +456,159 @@
   },
   {
    "asset": "vanilla:plants/floraswampfungalpod02"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockl01"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockl03"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockl05"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockm01"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockm04"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rocks01"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rocks02"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockl01wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockl02wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockl03wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockl04wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockl05wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockm02wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockpilel01wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockpilel02wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockpilel03wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockpilem02wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpiles01"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpiles02"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpiles03"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpiles04"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpilem01"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpilem02"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpilel01"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpilel02"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpilel03"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockpilel04"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockcliff01"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockcliff02"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockcliff03"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockcliff04"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockcliff05"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockcliff06"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockcliff07"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockcliff08"
+  },
+  {
+   "asset": "vanilla:landscape/plants/deadshrub01"
+  },
+  {
+   "asset": "vanilla:landscape/plants/tundrashrub01"
+  },
+  {
+   "asset": "vanilla:landscape/plants/tundrashrub02"
+  },
+  {
+   "asset": "vanilla:landscape/plants/tundrashrub03"
+  },
+  {
+   "asset": "vanilla:landscape/plants/tundrascrub01"
+  },
+  {
+   "asset": "vanilla:landscape/plants/reachshrub01"
+  },
+  {
+   "asset": "vanilla:landscape/plants/thicket01"
+  },
+  {
+   "asset": "vanilla:plants/floramountainflower01purple"
+  },
+  {
+   "asset": "vanilla:plants/floramountainflower01blue"
+  },
+  {
+   "asset": "vanilla:plants/floramountainflower01red"
+  },
+  {
+   "asset": "vanilla:landscape/trees/treepineforestlog01"
+  },
+  {
+   "asset": "vanilla:landscape/trees/treepineforestlog02"
+  },
+  {
+   "asset": "vanilla:landscape/trees/treepineforeststump01"
+  },
+  {
+   "asset": "vanilla:landscape/trees/treepineforeststump02a"
+  },
+  {
+   "asset": "vanilla:landscape/trees/treeaspenlog01"
+  },
+  {
+   "asset": "vanilla:landscape/trees/treeaspenstump01"
   }
  ],
  "textureAliases": {

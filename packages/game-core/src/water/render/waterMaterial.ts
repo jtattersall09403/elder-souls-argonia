@@ -126,6 +126,10 @@ export interface WaterUniforms extends FoamFieldUniforms {
   /** Texels at or below this signed depth are buried (never level-weighted). */
   uSurfBuried: { value: number };
   uSurfShore: { value: THREE.Texture };
+  /** 16f colour constituents (water-colour.png: R algae, G dark), on the
+   * surface grid; `uColourOn` 0 when the build ships no dressing. */
+  uColourTex: { value: THREE.Texture | null };
+  uColourOn: { value: number };
   uFlowTex: { value: THREE.Texture };
   uKlassTex: { value: THREE.Texture };
   uFlowExtentM: { value: number };
@@ -203,6 +207,8 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uSurfDepthSpan: { value: m.surface.depthSpanM ?? 25.5 },
     uSurfBuried: { value: buriedThresholdM(m) },
     uSurfShore: { value: assets.shoreTex },
+    uColourTex: { value: assets.dressing?.colourTex ?? null },
+    uColourOn: { value: assets.dressing ? 1 : 0 },
     uFlowTex: { value: assets.flowTex },
     uKlassTex: { value: assets.klassTex },
     uFlowExtentM: { value: m.flow.size * m.flow.metresPerPixel },
@@ -298,6 +304,8 @@ export const SAMPLER_GLSL = /* glsl */ `
   uniform float uSurfDepthSpan;
   uniform float uSurfBuried;
   uniform sampler2D uSurfShore;
+  uniform sampler2D uColourTex;
+  uniform float uColourOn;
   uniform sampler2D uFlowTex;
   uniform sampler2D uKlassTex;
   uniform float uFlowExtentM;
@@ -383,6 +391,13 @@ export const SAMPLER_GLSL = /* glsl */ `
     return vec2(esH, esPlain.y);
   }
 
+  // 16f colour constituents at wpos: x algae, y dark (tannin). Zero without
+  // the dressing. Same grid and clamp as the shore raster.
+  vec2 esColourAt(vec2 wpos){
+    if (uColourOn < 0.5) return vec2(0.0);
+    float extent = uSurfSize * uSurfMpp;
+    return texture2D(uColourTex, clamp(wpos / extent, vec2(0.0), vec2(1.0))).rg;
+  }
   // Shore raster: R = shore distance, G = season response, B = tannin.
   // (Data never rides PNG alpha — canvas premultiply corrupts it.)
   vec3 esShoreAt(vec2 wpos){
@@ -614,7 +629,8 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
   uniform vec4 uPlunges[${MAX_PLUNGE_SOURCES}];
   uniform int uPlungeCount;
   varying vec4 vEsData;   // stillW, signed depth + lift, exposure, shoreDist
-  varying vec4 vEsKlass;  // turbidity(silt), salinity, tannin, class index
+  varying vec4 vEsKlass;
+varying vec2 vEsColour;  // 16f: algae, dark  // turbidity(silt), salinity, tannin, class index
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
   varying vec3 vEsNormalW; // world-space wave normal
   varying vec4 vEsSurf;   // fetch exposure, shoreward dir (xz), surf energy
@@ -780,13 +796,17 @@ attribute float aSide;
 attribute float aSideM;
 attribute float aArc;
 attribute float aScroll;
+attribute vec2 aRockFoam;   // 16f: baked rock foam at the centreline and at this edge
+varying vec2 vEsRockFoam;
 attribute float aEdge;
 varying float vEsSide;
 varying vec4 vEsStrip;
+varying vec2 vEsRockFoam;
 #endif
 uniform float uVerticalScale;
 varying vec4 vEsData;
 varying vec4 vEsKlass;
+varying vec2 vEsColour;  // 16f: algae, dark
 varying vec3 vEsFlow;
 varying vec3 vEsNormalW;
 varying vec4 vEsSurf;
@@ -804,6 +824,7 @@ vec3 esRestW = (modelMatrix * vec4(position, 1.0)).xyz;
 #ifdef ES_STRIP
 vEsSide = aSide;
 vEsStrip = vec4(aSideM, aArc, aScroll, aEdge);
+vEsRockFoam = aRockFoam;
 vec2 esSurf = vec2(aStill, max(aBedDepth, 0.0));
 #else
 vec2 esSurf = esSurfaceAt(esRestW.xz);
@@ -914,6 +935,7 @@ if (esFlowSp > ${FLOW_WAVE_MIN_GLSL}) {
 vEsSurf = vec4(esFetch, esShoreDir, esSurfE);
 vEsData = vec4(esStill, esVDepth, esExposure, esShore);
 vEsKlass = vec4(esKl.g, esKl.b, esSS.z, esKl.r * 255.0);   // turbidity, salinity, tannin, class
+vEsColour = esColourAt(esRestW.xz);
 // surface drop along the current → cascades/rapids where water descends
 float esDropSlope = 0.0;
 #ifdef ES_STRIP
@@ -946,6 +968,7 @@ ${strip ? "#define ES_STRIP 1" : ""}
 #ifdef ES_STRIP
 varying float vEsSide;
 varying vec4 vEsStrip;
+varying vec2 vEsRockFoam;
 #endif
 ${strip ? STRIP_AERATION_GLSL + WHITEWATER_GLSL : ""}
 ${NOISE_GLSL}
@@ -1115,6 +1138,13 @@ float esStreak = esWhitewater(esStripU, vEsStrip.y, uTransportTime, esStripGain(
 float esWhite = clamp(esAer * (0.35 + 0.65 * esStreak), 0.0, 1.0);
 // below the slope x speed threshold the film stays clear (no white streaks)
 esWhite *= mix(0.15, 1.0, esBlend);
+// 16f: the foam a bed boulder leaves (pillow upstream, tail downstream),
+// baked per station from bed-rocks.json; interpolated across the ribbon
+// between the centreline and the edge value, broken by the streak noise
+{
+  float esRockF = mix(vEsRockFoam.x, vEsRockFoam.y, clamp(abs(vEsSide), 0.0, 1.0));
+  esWhite = clamp(esWhite + esRockF * (0.6 + 0.4 * esStreak) * (1.0 - esWhite), 0.0, 1.0);
+}
 // The player and the floating bodies churn a steep stream too. The contact
 // rings and the ripple-sim crest reach the FIELD fragment only (they are
 // added into esFoamE there), and this branch replaces that block wholesale,
@@ -1143,9 +1173,13 @@ roughnessFactor = mix(0.5, 0.9, esWhite);
 #include <emissivemap_fragment>`
           : variant === "above"
           ? /* glsl */ `
-float esTurb = vEsKlass.x;   // suspended silt — "whitewater" opacity
+// 16f colour constituents (decision 0070, dossier water-colour.md): the
+// dark constituent is more tannin (blackwater under canopy); algae adds a
+// little suspended matter and, below, a green cast to the albedo.
+float esAlgae = vEsColour.x;
+float esTurb = clamp(vEsKlass.x + esAlgae * 0.25, 0.0, 1.0);   // suspended silt — "whitewater" opacity
 float esSal = vEsKlass.y;
-float esTan = vEsKlass.z;    // dissolved tannin — "blackwater" tea
+float esTan = clamp(vEsKlass.z + vEsColour.y * 0.7, 0.0, 1.0);    // dissolved tannin — "blackwater" tea
 float esMurk = clamp(esTurb * 0.7 + esTan * 0.8, 0.0, 1.0);
 // ---- the shoreline is cut by the terrain; its fade is VERTICAL -----------
 // Reconstruct the scene point behind this pixel from the UNREFRACTED scene
@@ -1181,6 +1215,7 @@ vec3 esAlbClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), esSal);
 vec3 esAlb = esAlbClear;
 esAlb = mix(esAlb, vec3(0.115, 0.085, 0.048), clamp(esTurb, 0.0, 1.0));  // silt tan
 esAlb = mix(esAlb, vec3(0.045, 0.065, 0.022), clamp(esTan, 0.0, 1.0));   // tea green
+esAlb = mix(esAlb, vec3(0.16, 0.30, 0.10), esAlgae * 0.55);              // algae green (16f)
 
 // ---- foam: a system, not a blanket (round 2 defect: white sheets) ------
 float esShoreD = vEsData.w;
@@ -1309,8 +1344,9 @@ roughnessFactor = mix(
   0.92, esFoam);
 #include <emissivemap_fragment>`
           : /* glsl */ `
-float esTurb = clamp(vEsKlass.x + vEsKlass.z, 0.0, 1.0);
+float esTurb = clamp(vEsKlass.x + vEsKlass.z + vEsColour.y * 0.7, 0.0, 1.0);
 vec3 esAlbU = mix(vec3(0.05, 0.14, 0.15), vec3(0.06, 0.08, 0.03), esTurb);
+esAlbU = mix(esAlbU, vec3(0.16, 0.30, 0.10), vEsColour.x * 0.55);       // algae green (16f)
 diffuseColor.rgb = esAlbU;
 roughnessFactor = 0.4;
 float esFoam = 0.0;

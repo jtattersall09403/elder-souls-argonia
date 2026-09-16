@@ -247,14 +247,19 @@ period. Observed values (Tropical Skyrim's overrides of the vanilla records):
 | TundraGrass01/03/04 | 3–5 | 14–19° | 30–40 u | 0.20 | 240–270 |
 
 Two structural facts beyond the values: grass is bound to **painted ground
-texture** (`LTEX.GNAM`), and **no texture allows more than three grasses** —
-20 of 47 allow none at all.
+texture** (`LTEX.GNAM`), and **no texture allows more than three grasses**.
+The table above is Tropical Skyrim's conversion; vanilla `Skyrim.esm` sits
+lower (marsh 38, reach 14, forest 15, tundra 12–19 at 28–38°) over 68
+textures of which 48 bind no grass (71 %), each with a hand-painted
+`…NoGrass` twin. The vanilla figures and the engine's fade settings are in
+[research/vegetation/groundcover-system.md](../vegetation/groundcover-system.md)
+(16f correction, 2026-09-16).
 
 > **Rule.** T3 groundcover takes this parameter list verbatim as its schema
 > (values computed from our own fields, never copied), keys off our land-cover
 > classes rather than painted textures, allows **at most three species per
-> class**, and treats bare ground as a first-class outcome — 43 % of ground
-> types here carry no grass at all. Marsh grass at 2× forest grass and 12×
+> class**, and treats bare ground as a first-class outcome: 71 % of vanilla
+> ground textures carry no grass at all (43 % under Tropical Skyrim). Marsh grass at 2× forest grass and 12×
 > tundra grass is the density ladder's shape.
 
 ### R11 — The two-tier design split is Bethesda's own, not our invention

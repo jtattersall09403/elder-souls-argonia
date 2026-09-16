@@ -21,7 +21,7 @@ next agent read the SAME numbers:
   one stem measure, used by both gates so they cannot disagree.
 
 THE STEM MEASURE. "Trees per hectare" is *T1-tier instances whose role is not
-rock or cliff dressing*: the hero stratum the player reads as forest —
+rock, wet rock or cliff dressing*: the hero stratum the player reads as forest —
 giants, emergents, canopy, gallery, waterline and drowned trees, basin
 mangrove, and the rootland's tree-scale fungi. It deliberately excludes the
 T2 understory, lianas, epiphytes, aquatics and the boulder ladder (counting
@@ -47,7 +47,20 @@ PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 VEGETATION = PROVINCE / "vegetation"
 
 #: Roles carried at T1 that are rock, not vegetation.
-ROCK_ROLES = frozenset({"rock", "cliff-dressing"})
+ROCK_ROLES = frozenset({"rock", "cliff-dressing", "wet-rock"})
+
+#: Other T1 roles that are DRESSING rather than a standing tree, and so are
+#: not part of a region's tree ladder either (16f): fallen trunks and stumps
+#: (`deadfall`), dead shrubs and mountain forbs. Counting a fallen log as a
+#: stem would let deadfall pay for canopy.
+DRESSING_ROLES = frozenset({"deadfall", "dead-shrub", "mountain-forb"})
+
+#: A province-wide overlay (16f deliverable 12) is appended to one region's
+#: palette but gated to every land class and keyed to the water record. It is
+#: not that region's authored density, so the ladder refuses the prefix —
+#: otherwise the region holding the overlay would be re-based for layers that
+#: stand everywhere.
+OVERLAY_ROLE_PREFIX = "overlay-"
 
 #: The delivered ladder, tropical jungle (class 13) = 1.00. Owner constraint
 #: 2026-09-09: the jungle's current level FEELS RIGHT and does not move; every
@@ -105,8 +118,12 @@ TARGET_RATIOS: dict[int, float] = {
 #: A[r] = delivered[r] / authored_stem_density(r); average over several bakes
 #: before writing them back. Never edit these to make a gate go green.
 MEASURED_DELIVERED_PER_HA: dict[int, float] = {
-    1: 13.44, 2: 34.36, 3: 36.18, 4: 61.54, 5: 8.53, 6: 138.24, 7: 133.45,
-    8: 25.24, 9: 25.52, 11: 29.24, 12: 0.69, 13: 39.10, 14: 159.63,
+    # Re-fitted 2026-09-16 (16f) from ONE bake on the record-baked paint: the
+    # land-cover bake now reads the water record (0070) and the covers under
+    # every region moved, so the 2026-09-09 means describe ground that no
+    # longer ships. One draw, not a mean: average in the next bakes.
+    1: 13.84, 2: 30.20, 3: 23.32, 4: 66.10, 5: 2.75, 6: 133.07, 7: 135.41,
+    8: 24.80, 9: 38.82, 11: 32.60, 12: 1.38, 13: 57.41, 14: 34.64,
 }
 
 #: delivered / authored for the same shipping. This is the fraction of an
@@ -122,8 +139,11 @@ MEASURED_DELIVERED_PER_HA: dict[int, float] = {
 #: level it describes rather than carried over from the pre-re-base bake, and
 #: averaged for the reason given on MEASURED_DELIVERED_PER_HA above.
 MEASURED_ATTENUATION: dict[int, float] = {
-    1: 0.198, 2: 0.234, 3: 0.213, 4: 0.184, 5: 0.077, 6: 0.742, 7: 0.660,
-    8: 0.536, 9: 0.227, 11: 0.531, 12: 0.115, 13: 0.461, 14: 0.355,
+    # Re-fitted 2026-09-16 (16f), one draw on the record-baked paint (see
+    # MEASURED_DELIVERED_PER_HA); the channel gate and the water-kind gates
+    # are now part of what attenuates a region (5 and 14 most of all).
+    1: 0.203, 2: 0.205, 3: 0.130, 4: 0.197, 5: 0.028, 6: 0.714, 7: 0.670,
+    8: 0.527, 9: 0.345, 11: 0.593, 12: 0.230, 13: 0.676, 14: 0.072,
 }
 
 #: Classes whose region covers so little of the province that their per-pixel
@@ -164,7 +184,12 @@ THIN_RATIO_TOLERANCE = 0.35
 
 def is_stem_layer(layer: dict) -> bool:
     """True for the layers the stem measure counts (see module docstring)."""
-    return layer.get("tier") == "T1" and layer.get("role") not in ROCK_ROLES
+    role = layer.get("role") or ""
+    if role in ROCK_ROLES or role in DRESSING_ROLES:
+        return False
+    if role.startswith(OVERLAY_ROLE_PREFIX):
+        return False
+    return layer.get("tier") == "T1"
 
 
 def load_palettes(path: Path = PALETTES) -> dict[str, dict]:
@@ -190,6 +215,21 @@ def delivered_equivalent(palettes: dict[str, dict], region: int) -> float:
     return authored_stem_density(palettes, region) * MEASURED_ATTENUATION.get(region, 0.0)
 
 
+#: A region whose re-base factor would exceed this is starved by its GATES
+#: (the channel margin, the water-kind gates), not by its authoring; scaling
+#: the authored count further only piles rejected candidates on the same
+#: eligible ground. Capped, and the gap recorded in the ledger (16f).
+MAX_MULTIPLIER = 2.5
+#: Thin classes whose dressing is keyed to the water RECORD, not the region
+#: paint (16f deliverable 12, decision 0070): the tidal delta (3) fires on the
+#: reaches and mouth bodies of `river.889-484`; the deep river corridor (5)
+#: fires within 60 m of a band-3 reach. Their painted area is no longer where
+#: their stems are meant to stand (the corridor's paint IS the wetted bank
+#: the channel gate keeps trees out of), so the between-region ratio gate
+#: does not judge them; their layers keep their palettes where painted.
+RECORD_KEYED_CLASSES = frozenset({3, 5})
+
+
 def multipliers() -> dict[int, float]:
     """Authored re-base factor per region class.
 
@@ -203,7 +243,7 @@ def multipliers() -> dict[int, float]:
         delivered = MEASURED_DELIVERED_PER_HA.get(region, 0.0)
         if delivered <= 0.0:
             continue
-        out[region] = round(ratio * reference / delivered, 4)
+        out[region] = round(min(ratio * reference / delivered, MAX_MULTIPLIER), 4)
     out[13] = 1.0
     return out
 

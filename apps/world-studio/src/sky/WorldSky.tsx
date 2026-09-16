@@ -953,6 +953,7 @@ void main() {
         texture: a.surfaceTex, size: m.size, metresPerPixel: m.metresPerPixel, minM: m.minM, spanM: m.maxM - m.minM,
         depthMinM: m.depthMinM ?? 0, depthSpanM: m.depthSpanM ?? 25.5, buriedM: buriedThresholdM(a.meta),
         liftM: () => { const o = a.world.levelOffsets(worldClock.epochMinutes()); return o.season * 0.2 + o.tide * 0.5; },
+        habitat: a.dressing?.habitatTex,
       });
     }).catch(() => setAirWater(null));
     return () => { alive = false; };

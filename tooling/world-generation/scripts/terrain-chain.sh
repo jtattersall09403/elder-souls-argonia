@@ -19,10 +19,21 @@
 #   ./scripts/terrain-chain.sh --force         # re-run every stage BELOW the gate, ignoring the unchanged-stage skip (the frozen rungs still do not run)
 #   ./scripts/terrain-chain.sh --from grade_routes    # resume at a stage
 #   ./scripts/terrain-chain.sh --list          # stages, in order
-#   ./scripts/terrain-chain.sh --refreeze      # let the frozen base be re-derived (rare, deliberate)
+#   ./scripts/terrain-chain.sh --refreeze      # let the frozen base AND the water be re-derived (rare, deliberate)
 #   ./scripts/terrain-chain.sh --through 16b  # build only the stages delivered up to a chunk (default: DELIVERED_THROUGH)
 #   ./scripts/terrain-chain.sh --full          # every stage the LADDER hides, whatever chunk owns it (still not the frozen rungs)
 #   ./scripts/terrain-chain.sh --steal-lock    # take a lock a dead run left
+#   ./scripts/terrain-chain.sh --check-contracts  # just the pre-run contract pass (no lock, nothing runs)
+#
+# THE CONTRACT PASS. A run stops at the first failing stage, so a chain that
+# trips over one stage's assumption about an upstream artefact costs a full
+# rebuild per assumption — 16e lost two runs that way (the water bound to the
+# wrong terrain array, then a station with no `positionM`). So every stage
+# below the gate DECLARES what it reads and the fields it indexes in
+# `worldgen/chain_contracts.py`, and a plain run checks them ALL right after
+# `verify_freeze`, before anything is built: one list of every mismatch, in
+# seconds. A stage that is enabled and declares nothing fails the pass. Run it
+# on its own with `--check-contracts`.
 #
 # Run from tooling/world-generation. A forced re-run of everything below the
 # gate is roughly ten minutes; a run with nothing changed is seconds; a
@@ -128,6 +139,13 @@ declare -A STAGE_ARGS=(
 # The six rungs above the freeze gate (decision 0066). A routine run checks
 # them with `worldgen.verify_freeze` and skips them; only `--refreeze` rebuilds.
 ABOVE_GATE=(sculpt_province compile_hydrology compile_society shape_province hydrology_graph carve_province)
+# WATER IS COMPILED ONCE (0057 §1; owner 2026-09-16: nothing earlier is
+# rebuilt, refrozen or recompiled). `compile_water` is skipped on every routine
+# run like the rungs above the gate, whatever its fingerprint says: its vault
+# inputs and its code have both moved since 16c, and re-running it would
+# realise the water from a different raster than the one the owner walked.
+# Only `--refreeze` reaches it (decision 0070).
+WATER_FROZEN=(compile_water)
 
 STAGES=(
   "sculpt_province"
@@ -179,9 +197,16 @@ STAGES=(
   "export_settlement_bundle"
   "settlement_ground_control"
   "compile_scatter"
+  # Clearance is a typed PATCH on the published bundles, not a compiler input
+  # (16f, decision 0070): the scatter dresses the wild province once, and the
+  # patches 16g/16h/Phase 15 author are applied to its output here.
+  "apply_vegetation_patches"
+  # 16f: the insects' habitat and the water's colour constituents, read from
+  # the record and the scatter output; sidecar rasters, the water untouched.
+  "compile_water_dressing"
 )
 
-DELIVERED_THROUGH="16e"
+DELIVERED_THROUGH="16f"
 declare -A LADDER=(
   # 16b: the frozen base and its patches, the chunks and the land-cover bake
   # (sea-level shorelines only: no water is compiled on this ladder). The
@@ -197,8 +222,10 @@ declare -A LADDER=(
   # grading patches; reroute_lanes on the compiled water (never a second
   # water compile: water is compiled once, 0057 §1).
   [16e]="reroute_lanes solve_major_routes grade_routes apply_route_patches patch_water_graded derive_crossings author_route_structures compile_route_structures travel_services export_routes paint_route_overlays"
-  # 16f: vegetation on the frozen water.
-  [16f]="compile_scatter"
+  # 16f (delivered 2026-09-16): the scatter on the record, the clearance
+  # patch stage (empty list on this ladder) and the water dressing sidecars.
+  # `rebake_landcover` stays on 16b's row and re-runs because its code moved.
+  [16f]="compile_scatter apply_vegetation_patches compile_water_dressing"
   # 16h: pads as patches, the settlement compile and publish.
   [16h]=""
   # 16g: the plot re-solve; 16i: exemplars; 16j: the trial packet (stage names
@@ -241,6 +268,7 @@ force=""
 steal=""
 through="$DELIVERED_THROUGH"
 full=""
+contracts_only=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --list) printf '%s\n' "${STAGES[@]}"; exit 0 ;;
@@ -250,8 +278,9 @@ while [[ $# -gt 0 ]]; do
     --ground-only) through="16b"; shift ;;
     --full) full=1; shift ;;
     --steal-lock) steal=1; shift ;;
+    --check-contracts) contracts_only=1; shift ;;
     --from) from="${2:?--from needs a stage name}"; shift 2 ;;
-    *) echo "usage: $0 [--from <stage>] [--force] [--refreeze] [--through <chunk>|--full] [--steal-lock] [--list]" >&2; exit 2 ;;
+    *) echo "usage: $0 [--from <stage>] [--force] [--refreeze] [--through <chunk>|--full] [--steal-lock] [--check-contracts] [--list]" >&2; exit 2 ;;
   esac
 done
 
@@ -268,6 +297,34 @@ if [[ -z "$full" ]]; then
 fi
 # Stages read this to know what else ran (rebake_landcover: is there compiled water on this ladder?).
 export CHAIN_ENABLED="${ENABLED:-all}"
+
+# ------------------------------------------------------- the contract pass
+# The stages whose read contracts this invocation is responsible for: the
+# enabled ones below the freeze gate, and for `--from`, only those from that
+# point on (a resumed run does not answer for stages it will not execute).
+contract_stages() {
+  local list="${ENABLED:-$(printf '%s ' "${STAGES[@]}")}"
+  local out="" stage started=0
+  for stage in "${STAGES[@]}"; do
+    printf '%s\n' $list | grep -qx "$stage" || continue
+    printf '%s\n' "${ABOVE_GATE[@]}" | grep -qx "$stage" && continue
+    if [[ -n "$from" && $started -eq 0 ]]; then
+      [[ "$stage" == "$from" ]] && started=1 || continue
+    fi
+    out="$out $stage"
+  done
+  printf '%s' "${out# }"
+}
+
+if [[ -n "$contracts_only" ]]; then
+  if [[ -z "${ES_REFREEZE:-}" ]]; then
+    echo "=== verify_freeze ==="
+    python3 -m worldgen.verify_freeze
+  fi
+  echo "=== contracts ==="
+  python3 -m worldgen.chain_contracts --stages "$(contract_stages)"
+  exit $?
+fi
 
 # ---------------------------------------------------------------- the lock
 LOCK="$VAULT/chain.lock"
@@ -306,6 +363,10 @@ if [[ -z "${ES_REFREEZE:-}" ]]; then
 else
   echo "=== verify_freeze === skipped (--refreeze: the frozen rungs will be rebuilt and re-recorded)"
 fi
+
+# Every enabled below-gate stage's read contract, before a single stage runs.
+echo "=== contracts ==="
+python3 -m worldgen.chain_contracts --stages "$(contract_stages)"
 
 CHAIN_TIMES="$(mktemp)"
 export CHAIN_TIMES
@@ -350,6 +411,10 @@ for stage in "${STAGES[@]}"; do
   if [[ -z "${ES_REFREEZE:-}" ]] && printf '%s\n' "${ABOVE_GATE[@]}" | grep -qx "$stage"; then
     echo "=== $stage === skipped (above the freeze gate; --refreeze to rebuild)"
     SKIPPED_STAGES+=("$stage")
+    continue
+  fi
+  if [[ -z "${ES_REFREEZE:-}" ]] && printf '%s\n' "${WATER_FROZEN[@]}" | grep -qx "$stage"; then
+    echo "=== $stage === skipped (the water is compiled once, 0057; --refreeze to recompile it)"
     continue
   fi
   if [[ -z "$full" ]] && ! printf '%s\n' $ENABLED | grep -qx "$stage"; then

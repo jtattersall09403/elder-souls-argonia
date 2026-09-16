@@ -497,7 +497,7 @@ of 5–15 m; per-channel falloff radii differ (ground material 8 m, vegetation
 Hist, a shade tree, a reed bed at the piles); a farm's field has a hard edge,
 a camp's a soft one; attachment species are not free-standing. *E*
 (waterline is the densest band; composition rules C1–C5); *S*; *O* 0041 §
-Slopes. **Enforced by** `worldgen/settlement_clearance.py`, one keep-factor
+Slopes. **Enforced by** `worldgen/vegetation_patches.py`, one keep-factor
 rule (1 wild, 0 built ground) read by both halves of the vegetation. The
 compiler samples it as a raster in `compile_scatter.ProvinceFields`; the
 runtime groundcover ring evaluates the same rule in

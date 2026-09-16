@@ -164,6 +164,19 @@ class Layer:
     needs a rock face to be embedded in, and on flat ground it reads as a
     hollow open-backed slab (owner round 4)."""
     land_cover: tuple[int, ...] = ()
+    land_cover_not: tuple[int, ...] = ()
+    """Covers this layer refuses (16f deliverable 10, the litter mask's twin).
+
+    An EXCLUDE list rather than an allow-list because the woody layers it
+    gates already carry their own ecology; naming every cover a jungle tree
+    may stand on would re-author thirteen regions to say "not bare rock"."""
+    cliff_m: tuple[float, float] = (-1.0, 1e12)
+    """Band on the distance to the nearest CLIFF texel (ground >= 28 deg),
+    metres. Rock piles gather at the foot of a cliff wherever they are, which
+    is a distance-to-feature gate, not a region one (mined rule 3)."""
+    zone: str = ""
+    """Authored dressing zone id (16f deliverable 4). Empty = everywhere;
+    set = this layer only places inside that zone's polygon."""
     altitude_m: tuple[float, float] = (-999.0, 9999.0)
     """Height above sea level, metres — montane species vs lowland species.
     Region class is a coarse proxy; this is the direct control."""
@@ -242,6 +255,14 @@ class Layer:
     scale_range: tuple[float, float] = (0.9, 1.2)
     yaw_random: bool = True
     tilt_deg_max: float = 4.0
+    sink_jitter: tuple[float, float] = (0.5, 1.5)
+    """Multiplier band on the composed sink (composition C2). The default is
+    the historic fixed +-50 %; an OPEN-BOTTOMED rock raises its floor to
+    (0.8, 1.5) so its hollow underside is never left showing (16f)."""
+    back_yaw_deg: float = 0.0
+    """Degrees added to the downhill aim for an OPEN-BACKED piece, so the
+    face the mesh has no geometry on turns into the hill. Read from the kit
+    manifest's `openBackYawDeg`; meaningless without `align_to_slope`."""
     align_to_slope: float = 0.0
     """How strongly this layer lies WITH the ground (0 = off, 1 = fully).
 
@@ -253,6 +274,26 @@ class Layer:
     from the downhill azimuth and the tilt tips the model's up-axis toward the
     terrain normal by this fraction of the local slope. Never give this to a
     tree layer."""
+    # --- the water record (0066) ---------------------------------------
+    # Hard gates read from the SIGNED hydrology record, never re-derived: the
+    # kind, season and identity of the water nearest this position, and the
+    # channel geometry the record declares. A depth number cannot say "this is
+    # a river" or "this is the sea"; these can.
+    water_kinds: tuple[str, ...] = ()
+    """If set, the NEAREST water's graph kind must be one of these (a reach
+    kind or a body kind from the graph vocabulary)."""
+    season_kinds: tuple[str, ...] = ()
+    """If set, the nearest water's season must be one of these — a kelp bed
+    cannot stand in water that is gone for half the year."""
+    water_entities: tuple[str, ...] = ()
+    """If set, the nearest water's entity id OR its river id must be one of
+    these: a species authored for one named river or lake."""
+    channel_exclusion: bool = False
+    """Refuse to stand inside a flowing channel or on its wetted bank margin
+    (`channel(x, z) < bank_margin(x, z)`). Everything but the water-edge and
+    aquatic layers sets this: a tree does not grow in the river."""
+    corridor_m: tuple[float, float] = (-1.0, 1e12)
+    """Band on the distance to the nearest band-3 (major) reach, metres."""
     # Clearance: what this layer stamps, and what it refuses to grow inside.
     clearance_radius_m: float = 0.0
     respects_clearance: bool = True
@@ -260,7 +301,18 @@ class Layer:
     def gate(self, depth_m: float, slope_deg: float, region: int,
              cover: int, altitude_m: float = 0.0,
              shore_m: float = 0.0, glade: float = 0.5,
-             coast_m: float = 99999.0) -> bool:
+             coast_m: float = 99999.0,
+             water_kind: str = "none", water_season: str = "none",
+             water_entity: tuple[str, str] = ("", ""),
+             channel_m: float = 1e9, bank_margin_m: float = 0.0,
+             corridor_m: float = 1e9, cliff_m: float = 1e9,
+             zone: str = "") -> bool:
+        if self.zone and zone != self.zone:
+            return False
+        if not (self.cliff_m[0] <= cliff_m <= self.cliff_m[1]):
+            return False
+        if self.land_cover_not and cover in self.land_cover_not:
+            return False
         if self.region_classes and region not in self.region_classes:
             return False
         if not (self.water_depth_m[0] <= depth_m <= self.water_depth_m[1]):
@@ -276,6 +328,16 @@ class Layer:
         if not (self.glade_band[0] <= glade <= self.glade_band[1]):
             return False
         if not (self.coast_m[0] <= coast_m <= self.coast_m[1]):
+            return False
+        if self.water_kinds and water_kind not in self.water_kinds:
+            return False
+        if self.season_kinds and water_season not in self.season_kinds:
+            return False
+        if self.water_entities and not set(water_entity) & set(self.water_entities):
+            return False
+        if self.channel_exclusion and channel_m < bank_margin_m:
+            return False
+        if not (self.corridor_m[0] <= corridor_m <= self.corridor_m[1]):
             return False
         return True
 
@@ -329,13 +391,23 @@ class Palette:
         layers = []
         for entry in data["layers"]:
             fields = {k: v for k, v in entry.items() if k not in cls.ANNOTATION_KEYS}
-            for key in ("region_classes", "land_cover"):
+            for key in ("region_classes", "land_cover", "land_cover_not"):
                 if key in fields:
                     fields[key] = tuple(fields[key])
             for key in ("water_depth_m", "scale_range", "altitude_m",
-                        "shore_m", "glade_band", "coast_m"):
+                        "shore_m", "glade_band", "coast_m", "corridor_m",
+                        "cliff_m", "sink_jitter",
+                        "water_kinds", "season_kinds", "water_entities"):
                 if key in fields:
                     fields[key] = tuple(fields[key])
+            for key, legal in (("water_kinds", WATER_KINDS),
+                               ("season_kinds", SEASON_KINDS)):
+                for value in fields.get(key, ()):
+                    if value not in legal:
+                        raise ValueError(
+                            f"layer {fields.get('species', '?')}: {key} entry "
+                            f"{value!r} is not in the hydrology graph's "
+                            f"vocabulary ({sorted(legal)})")
             layers.append(Layer(**fields))
         return cls(id=data["id"], layers=layers)
 
@@ -388,19 +460,57 @@ class Fields:
     shore: Callable[[float, float], float] = lambda x, z: 9999.0
     """Signed distance to the water's edge, metres (+ land, − water)."""
     route_corridor: Callable[[float, float], int] = lambda x, z: 0
-    """Route-corridor bits at this position: ROUTE_CLEAR (a road/track/path
-    keeps woody layers out) | ROUTE_THIN (groundcover is trodden down).
-    Zero everywhere off a route. Fed by `routes_raster.corridor_masks`."""
+    """Route-corridor bits at this position, packed as
+    `clear/thin bits | (condition << 4)`:
+
+    * bit 0 ROUTE_CLEAR — a road/track/path keeps woody layers out
+    * bit 1 ROUTE_THIN  — groundcover is trodden down
+    * bits 4-6 (ROUTE_CONDITION_SHIFT/MASK) — the major road's authored state
+      of repair, 0 off-road else 1 maintained .. 4 broken
+      (`routes_raster.CONDITION_CODES`)
+
+    Zero everywhere off a route. Fed by `routes_raster.corridor_masks` /
+    `major_corridor_masks` + `condition_raster`."""
     coast: Callable[[float, float], float] = lambda x, z: 99999.0
     """Signed distance to the OCEAN, metres (+ inland, − at sea) — the salt-
     exposure field the coastal gradient reads (round 4)."""
-    settlement_keep: Callable[..., float] = lambda x, z, radius_m=0.0: 1.0
-    """Share of wild vegetation a settlement's clearance leaves standing here:
-    1.0 wild, 0.0 built ground, graded through the worked fringe. Fed by
-    `settlement_clearance.keep_raster` (decision 0041). `radius_m` is the
-    plant's own reach — the answer is the worst over that disc, because a
-    canopy overhangs its trunk."""
+    water_kind: Callable[[float, float], str] = lambda x, z: "none"
+    """Graph kind of the NEAREST water (reach or body kind, "none" if the
+    record knows of none). Read from the signed record (0066)."""
+    water_season: Callable[[float, float], str] = lambda x, z: "none"
+    """Season of the nearest water: perennial | seasonal | ephemeral."""
+    water_entity: Callable[[float, float], tuple] = lambda x, z: ("", "")
+    """(entity id, river id) of the nearest water."""
+    channel: Callable[[float, float], float] = lambda x, z: 1e9
+    """Signed distance to the nearest flowing CHANNEL, metres (negative
+    inside one)."""
+    bank_margin: Callable[[float, float], float] = lambda x, z: 0.0
+    """The wetted bank margin of the nearest channel, metres — its declared
+    width scaled and clamped, the belt a trunk may not stand in."""
+    corridor: Callable[[float, float], float] = lambda x, z: 1e9
+    """Distance to the nearest band-3 (major) reach, metres."""
+    cliff: Callable[[float, float], float] = lambda x, z: 1e9
+    """Distance to the nearest cliff texel (slope >= CLIFF_SLOPE_DEG), metres."""
+    zone: Callable[[float, float], str] = lambda x, z: ""
+    """Authored dressing-zone id at this position, "" off every zone."""
 
+
+# The hydrology graph's own vocabulary (`world/sources/hydrology/
+# hydrology-graph.json`, block `vocabulary`), held here so a palette typo is
+# a load-time error rather than a layer that silently never places.
+# `test_vegetation_record.py` asserts these against the graph itself.
+WATER_KINDS = frozenset({
+    "horizontal-channel", "horizontal-tidal", "horizontal-backwater",
+    "sloped-riffle", "sloped-rapid", "sloped-chute", "vertical-fall",
+    "ocean", "lagoon", "lake-lowland", "tarn-upland", "pond", "pool",
+    "plunge-pool", "marsh-fringe", "marsh-deep", "swamp", "backswamp",
+    "mudflat",
+})
+SEASON_KINDS = frozenset({"perennial", "seasonal", "ephemeral"})
+
+#: What counts as a cliff for `Fields.cliff` and the cliff-dressing gate:
+#: the mined slope floor for open-backed cliff pieces (rock rule 3).
+CLIFF_SLOPE_DEG = 28.0
 
 HECTARE_M2 = 10_000.0
 
@@ -411,6 +521,11 @@ HECTARE_M2 = 10_000.0
 ROUTE_CLEAR = 1                 # woody layers (T1/T2) removed
 ROUTE_THIN = 2                  # groundcover (T3) survives at this share
 ROUTE_THIN_KEEP = 0.08          # owner 2026-09-04: trodden, not carpeted (was 0.25)
+ROUTE_CONDITION_SHIFT = 4       # bits 4-6 carry the major road's condition
+ROUTE_CONDITION_MASK = 0b111
+# How much groundcover survives on the road by its state of repair (owner
+# 2026-09-16): a maintained road is trodden bare, a broken one is untouched.
+ROUTE_THIN_KEEP_BY_CONDITION = {1: 0.08, 2: 0.25, 3: 0.6, 4: 1.0}
 
 
 def route_allows(layer: "Layer", corridor: int, roll: float) -> bool:
@@ -418,7 +533,11 @@ def route_allows(layer: "Layer", corridor: int, roll: float) -> bool:
     if not corridor:
         return True
     if layer.tier == "T3":
-        return not (corridor & ROUTE_THIN) or roll < ROUTE_THIN_KEEP
+        if not (corridor & ROUTE_THIN):
+            return True
+        cond = (corridor >> ROUTE_CONDITION_SHIFT) & ROUTE_CONDITION_MASK
+        keep = ROUTE_THIN_KEEP_BY_CONDITION.get(cond, ROUTE_THIN_KEEP)
+        return roll < keep
     return not (corridor & ROUTE_CLEAR)
 
 
@@ -564,7 +683,15 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                                       altitude_m=fields.height(cx, cz),
                                       shore_m=fields.shore(cx, cz),
                                       glade=glade_cell,
-                                      coast_m=fields.coast(cx, cz)):
+                                      coast_m=fields.coast(cx, cz),
+                                      water_kind=fields.water_kind(cx, cz),
+                                      water_season=fields.water_season(cx, cz),
+                                      water_entity=fields.water_entity(cx, cz),
+                                      channel_m=fields.channel(cx, cz),
+                                      bank_margin_m=fields.bank_margin(cx, cz),
+                                      corridor_m=fields.corridor(cx, cz),
+                                      cliff_m=fields.cliff(cx, cz),
+                                      zone=fields.zone(cx, cz)):
                         continue
                     # The soft response is rolled ONCE, per member. Rolling it
                     # here as well squared it (slope 0.7 delivered 0.49) —
@@ -601,35 +728,26 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                                           altitude_m=fields.height(px, pz),
                                           shore_m=fields.shore(px, pz),
                                           glade=glade_cell,
-                                          coast_m=fields.coast(px, pz)):
+                                          coast_m=fields.coast(px, pz),
+                                          water_kind=fields.water_kind(px, pz),
+                                          water_season=fields.water_season(px, pz),
+                                          water_entity=fields.water_entity(px, pz),
+                                          channel_m=fields.channel(px, pz),
+                                          bank_margin_m=fields.bank_margin(px, pz),
+                                          corridor_m=fields.corridor(px, pz),
+                                          cliff_m=fields.cliff(px, pz),
+                                          zone=fields.zone(px, pz)):
                             continue
                         if uniform_at(mkey, 2) > layer.weight(depth_m, slope_m):
                             continue
                         if not route_allows(layer, fields.route_corridor(px, pz),
                                             uniform_at(mkey, 7)):
                             continue
-                        # Settlement clearance: every tier, one graded roll on
-                        # its own stream so the pattern outside a town is
-                        # untouched by whether a town exists.
-                        keep = fields.settlement_keep(
-                            px, pz, layer.clearance_radius_m)
-                        cleared = keep < 1.0 and uniform_at(mkey, 8) >= keep
                         if layer.respects_clearance and _blocked(px, pz, stamps):
                             continue
 
                         lo, hi = layer.scale_range
                         scale = lo + (hi - lo) * uniform_at(mkey, 3)
-                        if cleared:
-                            # Felling a tree must not let the understory rush in
-                            # behind it. The plant still occupies its ground for
-                            # the competition pass; it simply is not there. Skip
-                            # this and the thinned band refills from below and
-                            # grades nothing (measured: 68 -> 63 instead of 68 ->
-                            # 24 in the 0.2-0.4 keep band).
-                            if layer.clearance_radius_m > 0:
-                                stamps.append(
-                                    (px, pz, layer.clearance_radius_m * scale))
-                            continue
                         yaw = (uniform_at(mkey, 4) * math.tau
                                if layer.yaw_random else 0.0)
                         tilt = math.radians(layer.tilt_deg_max)
@@ -640,7 +758,8 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                             # Yaw so the model's +Z points downhill (jittered,
                             # or every boulder on a hillside faces alike), then
                             # tip the up-axis downhill to meet the normal.
-                            yaw = aim + (uniform_at(mkey, 4) - 0.5) * 0.8
+                            yaw = (aim + math.radians(layer.back_yaw_deg)
+                                   + (uniform_at(mkey, 4) - 0.5) * 0.8)
                             tilt_x = pitch * layer.align_to_slope + tilt_x
                         instances.append(Instance(
                             species=layer.species,

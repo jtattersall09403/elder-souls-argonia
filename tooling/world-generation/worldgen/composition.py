@@ -8,7 +8,7 @@ source authors COMPOSE models rather than where they put them:
 * **C1/C2 — pivot anchoring + sink.** The anchor is the model pivot, never
   bbox-min; pivots sink 0.2–0.8 m into flat ground and ~2× that on slopes.
   `finalise_anchors` bakes a per-instance sink (per-species flat depth from
-  the mined p50s, slope term from the class table, ±50 % jitter).
+  the mined p50s, slope term from the class table, the layer's own jitter band).
 * **C3 — attachments.** Hanging vines/moss and the tramaroot pieces are never
   free-standing in any source; they are composed onto a host (same XY as a
   bush/tree, pivot metres up). `split_layers` pulls them out of the scatter
@@ -75,7 +75,8 @@ def _quantised(x: float, z: float) -> tuple[int, int]:
 
 @dataclass
 class TrunkCapsule:
-    """A tree's measured trunk, from the kit manifest (collision v2: offsets
+    """A tree's measured trunk, from the kit manifest (collision frame v2/v3:
+    offsets
     are pivot-relative, world axes). The attachment pass hangs things ON this
     axis — round 5 hung them in a ±0.5 m square around the model pivot, which
     for off-axis trunks (the willow's is 7 m from its pivot) meant vines
@@ -87,21 +88,54 @@ class TrunkCapsule:
     height: float
 
 
+#: Collision frames whose `collisionCapsule` is pivot-relative in glTF Y-up
+#: metres. v3 (tooling/asset-pipeline/pipeline/trunk_solids.py) re-fitted the
+#: multi-capsule `collisionSegments` and re-tagged the frame; the single
+#: `collisionCapsule` that this loader reads kept v2's meaning exactly
+#: (radiusM/heightM/baseOffsetM = [x, y, z] from the pivot). Accepting only
+#: "pivot-yup-v2" silently emptied the trunk table against the shipped kit,
+#: which is what dropped the attachment pass into its pivot-square fallback.
+TRUNK_FRAMES = ("pivot-yup-v2", "pivot-yup-v3")
+
+
 def load_trunk_capsules(path: Path = KIT_MANIFEST_PATH) -> dict[str, TrunkCapsule]:
-    """species id -> trunk, for every kit asset carrying a v2 trunk capsule.
+    """species id -> trunk, for every kit asset carrying a trunk capsule.
     Returns {} when the kit manifest is absent (unit tests, bare checkouts)."""
     if not path.exists():
         return {}
     trunks: dict[str, TrunkCapsule] = {}
     for asset in json.loads(path.read_text()).get("assets", []):
         capsule = asset.get("collisionCapsule")
-        if not capsule or asset.get("collisionFrame") != "pivot-yup-v2":
+        if not capsule or asset.get("collisionFrame") not in TRUNK_FRAMES:
             continue
         base = capsule.get("baseOffsetM", [0.0, 0.0, 0.0])
         trunks[asset["id"]] = TrunkCapsule(
             x=base[0], z=base[2], base_y=base[1],
             radius=capsule["radiusM"], height=capsule["heightM"])
     return trunks
+
+
+def load_strand_tops(path: Path = KIT_MANIFEST_PATH) -> dict[str, float]:
+    """species id -> metres from the model pivot UP to the mesh top.
+
+    An attachment mesh's pivot sits mid-strand (measured on the shipped kit:
+    pivot-to-top is 1.404 / 1.383 m for hangingvines1 / 2 against 2.729 /
+    2.708 m tall, 1.303 / 0.809 m for florahangingmoss02aaa / 03aaa against
+    2.606 / 1.618 m), so hanging the PIVOT at the attach height put half the
+    strand above the branch it hangs from. `sizeM` and `originOffsetM` are kit source
+    space (z-up): index 2 is vertical, and the offset is pivot-from-bbox-min,
+    so `sizeM[2] - originOffsetM[2]` is the pivot-to-top distance the
+    attachment pass hangs by."""
+    if not path.exists():
+        return {}
+    tops: dict[str, float] = {}
+    for asset in json.loads(path.read_text()).get("assets", []):
+        size = asset.get("sizeM")
+        origin = asset.get("originOffsetM")
+        if not size or not origin or len(size) < 3 or len(origin) < 3:
+            continue
+        tops[asset["id"]] = float(size[2]) - float(origin[2])
+    return tops
 
 
 @dataclass
@@ -136,8 +170,11 @@ class Composition:
     #: that round 5 hung 2–6 m vines on, well above the whole plant.
     MIN_HOST_TRUNK_M = 6.0
 
-    def __init__(self, data: dict, trunks: dict[str, TrunkCapsule] | None = None):
+    def __init__(self, data: dict, trunks: dict[str, TrunkCapsule] | None = None,
+                 strand_tops: dict[str, float] | None = None):
         self.trunks: dict[str, TrunkCapsule] = trunks or {}
+        #: species -> pivot-to-mesh-top, for hanging attachments by their top.
+        self.strand_tops: dict[str, float] = strand_tops or {}
         self.species: dict[str, SpeciesRule] = {}
         spawn = data.get("attachmentSpawn", {})
         #: species -> {"default": p, host-id: p} — per-host spawn probability.
@@ -189,7 +226,8 @@ class Composition:
     @classmethod
     def load(cls, path: Path = RULES_PATH,
              kit_path: Path = KIT_MANIFEST_PATH) -> "Composition":
-        return cls(json.loads(path.read_text()), load_trunk_capsules(kit_path))
+        return cls(json.loads(path.read_text()), load_trunk_capsules(kit_path),
+                   load_strand_tops(kit_path))
 
     # -- classification --------------------------------------------------
 
@@ -252,17 +290,26 @@ class Composition:
 
     # -- pass 1: pivot sink + water layering (C1, C2, C5) ------------------
 
-    def sink_m(self, species: str, slope_deg: float, rand: float) -> float:
+    def sink_m(self, species: str, slope_deg: float, rand: float,
+               jitter: tuple[float, float] = (0.5, 1.5)) -> float:
         flat, per_deg, cap = self.CLASS_SINK[self._size_class(species)]
         rule = self.species.get(species)
         if rule and not math.isnan(rule.sink_flat_m):
             flat = rule.sink_flat_m
         sink = flat + per_deg * max(0.0, slope_deg - 10.0)
-        return min(cap, max(0.0, sink)) * (0.5 + rand)   # ±50 % jitter
+        lo, hi = jitter
+        return min(cap, max(0.0, sink)) * (lo + (hi - lo) * rand)
 
     def finalise_anchors(self, instances: list[Instance], fields: Fields,
-                         seed: int) -> None:
-        """Bake anchor mode, sink and (for water species) the surface Y."""
+                         seed: int,
+                         sink_jitter: dict[str, tuple[float, float]] | None = None
+                         ) -> None:
+        """Bake anchor mode, sink and (for water species) the surface Y.
+
+        `sink_jitter` is the per-species multiplier band its layer authored
+        (`Layer.sink_jitter`); species not named keep the historic +-50 %.
+        An open-bottomed rock raises the floor so its hollow underside is
+        never left proud of the ground (16f)."""
         salt = hash64(seed, _SALT_SINK)
         for inst in instances:
             mode = self.anchor_mode(inst.species)
@@ -275,21 +322,32 @@ class Composition:
                 inst.sink = 0.0
                 continue
             qx, qz = _quantised(inst.x, inst.z)
+            lo, hi = (sink_jitter or {}).get(inst.species, (0.5, 1.5))
             inst.sink = self.sink_m(
                 inst.species, fields.slope(inst.x, inst.z),
-                uniform_at(salt, qx, qz))
+                uniform_at(salt, qx, qz), jitter=(lo, hi))
 
     # -- pass 2: cluster expansion (C4) ------------------------------------
 
     def expand_clusters(self, instances: list[Instance], fields: Fields,
                         seed: int, allowed: set[str]) -> list[Instance]:
-        """Companion pieces for every placed cluster-part instance."""
+        """Companion pieces for every placed cluster-part instance.
+
+        A companion never crosses the wetted bank margin its anchor respects
+        (16f): the pass places 1-4 pieces within 2 m of the anchor without
+        re-gating, so an anchor standing just outside a channel's margin used
+        to spawn trunks inside it (47 on the last province bake). Where the
+        anchor itself is already in the margin — an aquatic layer, which is
+        allowed there — the companions are not filtered.
+        """
         salt = hash64(seed, _SALT_CLUSTER)
         extras: list[Instance] = []
         for inst in instances:
             rule = self.species.get(inst.species)
             if not rule or rule.klass != "cluster-part":
                 continue
+            anchor_outside = (fields.channel(inst.x, inst.z)
+                              >= fields.bank_margin(inst.x, inst.z))
             companions = [c for c in rule.companions if c in allowed] or [inst.species]
             qx, qz = _quantised(inst.x, inst.z)
             key = hash64(salt, qx, qz)
@@ -300,6 +358,8 @@ class Composition:
                 radius = CLUSTER_RADIUS_M * math.sqrt(uniform_at(mkey, 1))
                 px = inst.x + math.cos(angle) * radius
                 pz = inst.z + math.sin(angle) * radius
+                if anchor_outside and fields.channel(px, pz) < fields.bank_margin(px, pz):
+                    continue
                 species = companions[int(uniform_at(mkey, 2) * len(companions))
                                      % len(companions)]
                 lo, hi = CLUSTER_SINK_M
@@ -366,7 +426,13 @@ class Composition:
                                   fields.land_cover(host.x, host.z),
                                   altitude_m=fields.height(host.x, host.z),
                                   shore_m=fields.shore(host.x, host.z),
-                                  coast_m=fields.coast(host.x, host.z)):
+                                  coast_m=fields.coast(host.x, host.z),
+                                  water_kind=fields.water_kind(host.x, host.z),
+                                  water_season=fields.water_season(host.x, host.z),
+                                  water_entity=fields.water_entity(host.x, host.z),
+                                  channel_m=fields.channel(host.x, host.z),
+                                  bank_margin_m=fields.bank_margin(host.x, host.z),
+                                  corridor_m=fields.corridor(host.x, host.z)):
                     continue
                 qx, qz = _quantised(host.x, host.z)
                 key = hash64(lsalt, qx, qz)
@@ -411,14 +477,27 @@ class Composition:
                         px = host.x + (uniform_at(mkey, 1) * 2 - 1) * jitter
                         pz = host.z + (uniform_at(mkey, 2) * 2 - 1) * jitter
                         yaw = uniform_at(mkey, 3) * math.tau
+                    piece_scale = lo + (hi - lo) * uniform_at(mkey, 4)
+                    # HANG BY THE TOP, not the pivot: the attach height is
+                    # where the strand MEETS the host, and the pivot sits
+                    # mid-strand. Never so low that the strand's top is in
+                    # the soil (0.3 m clearance minimum).
+                    top_m = self.strand_tops.get(layer.species, 0.0) * piece_scale
+                    if trunk is not None and top_m + 0.3 > (trunk.base_y + trunk.height * 0.8) * host.scale:
+                        # the host's usable trunk is shorter than the strand:
+                        # a tree fern cannot carry a 1.4 m vine (measured on
+                        # `manfern`, 374 pieces above the trunk); no piece
+                        continue
+                    hang_m = max(hang_m, top_m + 0.3)
                     spawned.append(Instance(
                         species=layer.species, tier=layer.tier,
                         x=px, z=pz,
-                        # ABSOLUTE elevation: host ground + attach height,
-                        # scaled with the host so big trees hang things higher.
-                        y=fields.height(host.x, host.z) + hang_m,
+                        # ABSOLUTE elevation: the strand's TOP sits at host
+                        # ground + attach height (scaled with the host so big
+                        # trees hang things higher); the pivot is below it.
+                        y=fields.height(host.x, host.z) + hang_m - top_m,
                         yaw=yaw,
-                        scale=lo + (hi - lo) * uniform_at(mkey, 4),
+                        scale=piece_scale,
                         tilt_x=0.0, tilt_z=0.0,
                         anchor=ANCHOR_ATTACHED, sink=0.0,
                     ))
@@ -428,9 +507,11 @@ class Composition:
 
     def compose(self, instances: list[Instance],
                 attachment_layers: list[Layer], fields: Fields, seed: int,
-                area_ha: float, allowed: set[str]) -> tuple[list[Instance], dict]:
+                area_ha: float, allowed: set[str],
+                sink_jitter: dict[str, tuple[float, float]] | None = None
+                ) -> tuple[list[Instance], dict]:
         """Run every pass in order; returns (instances, counts-for-report)."""
-        self.finalise_anchors(instances, fields, seed)
+        self.finalise_anchors(instances, fields, seed, sink_jitter)
         clumped = self.expand_clusters(instances, fields, seed, allowed)
         attached = self.spawn_attachments(
             instances + clumped, attachment_layers, fields, seed, area_ha)

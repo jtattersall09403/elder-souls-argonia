@@ -261,3 +261,18 @@ export const BILLBOARD_BRIGHTNESS = 1.25;
 export function maxDrawDistance(heightM: number): number {
   return Math.max(80, heightM * 35);
 }
+
+/**
+ * Merges two built kits into one index. The renderer draws species from both
+ * the land kit (`flora-province-v1`) and the 16f underwater band kit
+ * (`underwater-v1`), and a handful of ids ship in BOTH (tbp_seaweed06,
+ * waterkelptall02/03). FIRST WINS: the land kit is passed first because the
+ * palettes were authored against its copy of those shared assets.
+ */
+export function mergeFloraKits(first: FloraKit, second: FloraKit): FloraKit {
+  const merged: FloraKit = new Map(first);
+  for (const [id, species] of second) {
+    if (!merged.has(id)) merged.set(id, species);
+  }
+  return merged;
+}

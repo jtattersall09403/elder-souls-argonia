@@ -40,3 +40,26 @@ def test_last_writers_takes_the_latest_stage(tmp_path):
         "07-grade_routes": {"outputs": {"/x/height.npy": "b"}},
     }
     assert cs.last_writers(book) == {"/x/height.npy": 7}
+
+
+def test_adopt_stamps_the_current_files_without_running(tmp_path, monkeypatch):
+    """`adopt` copies a stage's file list from its latest earlier stamp and
+    re-hashes every path at its CURRENT content (owner 2026-09-16: accepted
+    outputs are recorded, never rebuilt). A stage never stamped cannot be
+    adopted."""
+    import json
+    import pytest
+    art = tmp_path / "roads.json"
+    art.write_text("accepted on disk")
+    book = {"06-grade_routes": {"stage": "grade_routes", "code": "old",
+                                "inputs": {}, "outputs": {str(art): "stale-hash"}}}
+    stamps = tmp_path / "chain-stamps.json"
+    stamps.write_text(json.dumps(book))
+    monkeypatch.setattr(cs, "STAMPS", stamps)
+    entry = cs.adopt("12-grade_routes", "grade_routes")
+    assert entry["outputs"][str(art)] == cs._sha_file(art)
+    assert entry["adopted"]["from"] == "06-grade_routes"
+    assert entry["code"] == cs._sha_sources(cs.module_closure("grade_routes"))
+    assert cs.is_fresh(json.loads(stamps.read_text())["12-grade_routes"], entry["code"], 12, {})
+    with pytest.raises(SystemExit):
+        cs.adopt("11-solve_major_routes", "never_ran")

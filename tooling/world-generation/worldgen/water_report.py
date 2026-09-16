@@ -31,6 +31,16 @@ CLASS_NAMES = ("none", "coast", "estuary", "river", "lake", "marsh")
 # The graph's body kinds that are marsh: shallow standing water that is waded,
 # poled and built on (`hydrology-graph.json` vocabulary.bodyKinds).
 MARSH_KINDS = frozenset({"marsh-fringe", "marsh-deep", "swamp", "backswamp"})
+# Reach kinds that are a flowing channel (the record's vocabulary, 0058); a
+# `horizontal-backwater` reach is the body it crosses and is NOT a channel.
+# These live HERE, with the record reader, because every consumer that joins
+# through the record needs them (site_fields re-exports them for its callers).
+CHANNEL_REACH_KINDS = frozenset({"horizontal-channel", "horizontal-tidal", "sloped-riffle",
+                                 "sloped-rapid", "sloped-chute", "vertical-fall"})
+# Body kinds a road cannot ford: crossed by ferry or not at all.
+STANDING_BODY_KINDS = frozenset({"ocean", "lagoon", "lake-lowland", "tarn-upland", "pond",
+                                 "pool", "plunge-pool"})
+SEASON_INDEX = {"perennial": 1, "seasonal": 2, "ephemeral": 3}
 
 
 class ShippedWater:
@@ -224,6 +234,58 @@ class ShippedWater:
             if rec is not None:
                 lut[i] = int(rec.get("band") or 0)
         return lut[self.ids]
+
+    def vocabulary(self) -> dict:
+        """The graph's own `vocabulary` block — the ONE list of legal reach
+        kinds, body kinds and seasons (0066: read it, never restate it)."""
+        return json.loads(self.graph_path.read_text(encoding="utf-8"))["vocabulary"]
+
+    def kind_names(self) -> list[str]:
+        """Index -> kind name for `kind_index_grid` (0 is "none")."""
+        v = self.vocabulary()
+        return ["none"] + list(v["reachKinds"]) + list(v["bodyKinds"])
+
+    def kind_index_grid(self) -> np.ndarray | None:
+        """uint8 surface-grid raster of the index into `kind_names()` of the
+        entity under each texel (0 none); None without an id raster."""
+        if self.ids is None:
+            return None
+        index = {name: i for i, name in enumerate(self.kind_names())}
+        lut = np.zeros(len(self.entities) + 1, dtype=np.uint8)
+        for i, e in enumerate(self.entities, 1):
+            lut[i] = index.get(e.get("kind"), 0)
+        return lut[self.ids]
+
+    def season_index_grid(self) -> np.ndarray | None:
+        """uint8 surface-grid raster of the season of the entity under each
+        texel: 0 none, 1 perennial, 2 seasonal, 3 ephemeral. The graph
+        record's `season` wins; the compiled entity's own is the fallback."""
+        if self.ids is None:
+            return None
+        lut = np.zeros(len(self.entities) + 1, dtype=np.uint8)
+        for i, e in enumerate(self.entities, 1):
+            rec = self.record(e.get("id")) or {}
+            season = rec.get("season") or e.get("season")
+            lut[i] = SEASON_INDEX.get(season, 0)
+        return lut[self.ids]
+
+    def reach_width_grid(self) -> np.ndarray | None:
+        """float32 surface-grid raster of the reach's declared `widthM` under
+        each texel (0 off a reach); None without an id raster."""
+        if self.ids is None:
+            return None
+        reaches, _bodies = self._graph_index
+        lut = np.zeros(len(self.entities) + 1, dtype=np.float32)
+        for i, e in enumerate(self.entities, 1):
+            rec = reaches.get(e.get("id"))
+            if rec is not None:
+                lut[i] = float(rec.get("widthM") or 0.0)
+        return lut[self.ids]
+
+    def river_of(self, entity_id: str) -> str | None:
+        """The `river` id the reach with this id belongs to, or None."""
+        rec = self.reach(entity_id)
+        return rec.get("river") if rec else None
 
     def kind_grid(self, kinds) -> np.ndarray | None:
         """Boolean surface-grid mask of the texels whose entity kind is in

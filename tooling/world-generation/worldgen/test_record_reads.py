@@ -45,6 +45,9 @@ EXEMPT = {
     "author_terrain_patches", "chain_stages", "ladder", "site_fields", "npz_io",
     "regions", "reclassify_regions", "report_regions", "terrain_preconditions",
     "water_correction_patches", "water_report",
+    # the pre-run contract pass names the water rasters as ARTEFACTS to
+    # validate (shape, fields, hash bindings); it classifies nothing
+    "chain_contracts",
     # samples compile_water's own `water-pass1.npz` for a MEASUREMENT of the
     # ground it just built (0066 permits sampling a compiled raster for a
     # measurement; every class it reports comes from the graph by id)
@@ -63,6 +66,13 @@ PATTERNS = [
     # realisation of the graph, not a pre-graph classification.
     re.compile(r"\.(flood|tidal|salinity|wetlands|lakes|river_band)\b(?!\s*=\s*)"),
     re.compile(r"\[\s*[\"'](floodBand|tidal|salinity|riverBand|onLake|wetland)[\"']\s*\]"),
+    # The Phase 3 macro fields the ground bake used to paint wetness and salt
+    # from, and the component-area test it used to tell a lake from a pool
+    # (ported to the record in 16f). Named so the port cannot be quietly undone.
+    re.compile(r"\b(twi|wetlands)\s*="),
+    re.compile(r"\bsalinity\s*=\s*npz"),
+    re.compile(r"rivers\s*==\s*band"),
+    re.compile(r"LAKE_MIN_KM2"),
 ]
 
 

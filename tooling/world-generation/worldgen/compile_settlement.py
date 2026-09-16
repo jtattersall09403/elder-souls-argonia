@@ -66,7 +66,7 @@ from .blueprint_promises import check_promises, load_record, write_ledger
 from . import place_obligations
 from . import player_purpose as pp_mod
 from . import terrain_requests
-from . import settlement_clearance as sc_mod
+from . import vegetation_patches as sc_mod
 
 SCHEMA_VERSION = 1
 GENERATOR_ID = "compile_settlement"

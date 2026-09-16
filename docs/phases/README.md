@@ -373,7 +373,8 @@ Deliverables:
 - the **base terrain built once** to enable every feature the graph names
   (trenches, plunge bowls, knickpoints, tarn bowls, filled or accepted
   erosion pits, cliff realism, smoother deterracing), frozen with a
-  content hash and a byte-identical two-run proof;
+  content hash (the two-run proof 16b used is retired: one run per chunk,
+  nothing above it re-executed, owner 2026-09-16);
 - the **water compiled once** on that base, read-only to everything below,
   with the runtime defects (muted swell, static detail normals, horizon
   blend, hard discards, owner-mask gaps, LOD hover) fixed and the probes

@@ -416,10 +416,9 @@ depth, a height), which 0066 allows.
   `compile_minor_waterways` sit on the `[16g]` row. Fill the `[16e]` row in
   `terrain-chain.sh`, confirm `worldgen/ladder.py`'s `OWNER` map and bump
   `DELIVERED_THROUGH` in the delivering commit.
-- **One way, proven cheaply**: a second plain chain run after delivery
-  prints `skip (unchanged)` for every stage above this chunk's row and
-  re-runs nothing above it (no byte-identical two-run proof is required; the
-  network is frozen when the owner accepts it).
+- **One way**: one chain run, started at this chunk's first stage; nothing
+  above it re-executed; no second-run or byte-identical proof (owner
+  2026-09-16; the network is frozen when the owner accepts it).
 - One route solve; grading fully expressed as patches with the frozen array
   untouched; every skipped route probe green with its skip removed; all eight
   cities joined; the allowlist rows for this chunk's modules deleted; the

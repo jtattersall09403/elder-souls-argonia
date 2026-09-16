@@ -64,6 +64,7 @@ N = SOURCE_GRID_SAMPLES          # 4033 province samples per axis
 LAST = N - 1                     # 4032, the province's last sample index
 E = TERRAIN_SUPPORT_EXTENT_M     # 7369.85088 m, the east/south border
 NEAR_N = N + 2 * NEAR_PAD        # 5313, the ring-1 box
+BAND_ROWS = 256                  # apron_height's row band (memory, not maths)
 R0_OFF = NEAR_PAD - CHUNK        # 384: the ring-0 box's offset in the near crop
 R0_N = N + 2 * CHUNK             # 4545: the ring-0 (extended) box
 R1_STEP = 16                     # ring 1 pitch in samples (29.25 m)
@@ -141,15 +142,26 @@ def apron_height(canon: np.ndarray, rows: np.ndarray, cols: np.ndarray,
     """h_apron at fine coordinates (rows, cols):
     canon + smooth(nearest border cell) * w1(d) + (raw - smooth)(nearest border cell) * w2(d)."""
     raw, smooth = deltas
-    rc = np.clip(np.rint(rows), 0, LAST).astype(np.int64)
-    cc = np.clip(np.rint(cols), 0, LAST).astype(np.int64)
-    d = square_distance_m(rows, cols)
-    w1 = 1.0 - smoothstep(0.0, BLEND_M, d)
-    w2 = 1.0 - smoothstep(0.0, FINE_BLEND_M, d)
-    s = smooth[rc, cc]
-    f = raw[rc, cc] - s
-    # float64 so that canon + (heights - canon) * 1 is heights exactly at d = 0.
-    return (canon.astype(np.float64) + s * w1 + f * w2).astype(np.float32)
+    # Evaluated in ROW BANDS. The expression is elementwise per (row, col)
+    # plus a border-cell lookup, so banding changes nothing in the result;
+    # whole-array evaluation held ~ten 5313² float64 temporaries at once
+    # (≈4–5 GiB), which alone is fine but under eight parallel test workers
+    # took the 12 GiB session cgroup down (2026-09-16).
+    out = np.empty(rows.shape, dtype=np.float32)
+    band = max(1, BAND_ROWS)
+    for r0 in range(0, rows.shape[0], band):
+        r1 = min(r0 + band, rows.shape[0])
+        rb, cb, canon_b = rows[r0:r1], cols[r0:r1], canon[r0:r1]
+        rc = np.clip(np.rint(rb), 0, LAST).astype(np.int64)
+        cc = np.clip(np.rint(cb), 0, LAST).astype(np.int64)
+        d = square_distance_m(rb, cb)
+        w1 = 1.0 - smoothstep(0.0, BLEND_M, d)
+        w2 = 1.0 - smoothstep(0.0, FINE_BLEND_M, d)
+        s = smooth[rc, cc]
+        f = raw[rc, cc] - s
+        # float64 so that canon + (heights - canon) * 1 is heights exactly at d = 0.
+        out[r0:r1] = (canon_b.astype(np.float64) + s * w1 + f * w2).astype(np.float32)
+    return out
 
 
 def linearised(edge: np.ndarray, knot_step: int, lod: int) -> np.ndarray:
@@ -307,9 +319,14 @@ class Paint:
         v_frac = np.clip(rows / N, 0.0, 1.0).astype(np.float32)
         gz, gx = np.gradient(h, pitch_m)
         slope = np.hypot(gx, gz).astype(np.float32)
-        rivers = np.zeros(h.shape, dtype=np.int8)
-        _mat, control = compile_ground_control(h, region, rivers, slope, pitch_m,
-                                               origin=origin, seed=SEED, v_frac=v_frac)
+        # `water=None` is WaterPaint.from_sea_level: the apron lies BEYOND the
+        # province border, where the hydrology record stops. Out there the only
+        # water is the sea at level 0, so the bake paints coast where the apron
+        # falls below it and dry ground everywhere else (0066: no record to read,
+        # nothing invented in its place).
+        _mat, control, _prov = compile_ground_control(
+            h, region, slope, pitch_m, water=None, origin=origin, seed=SEED,
+            v_frac=v_frac)
         control = np.asarray(control, dtype=np.uint8).copy()
 
         # Seam blend: within PAINT_BLEND_M the categorical ids are dithered to the

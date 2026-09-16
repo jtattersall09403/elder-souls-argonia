@@ -41,6 +41,18 @@ PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 # Authored route structures (worldgen.author_route_structures); chainage
 # windows are metres along `grade_routes.resample`d centrelines.
 STRUCTURES_PATH = REPO_ROOT / "world" / "sources" / "routes" / "route-structures.json"
+# The route registry: the AUTHORED state of repair of every route (`condition`,
+# and optional `conditionSections` chainage windows in metres along the
+# resampled published polyline — the same chainage the structures use).
+REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
+
+# Condition codes written into the condition raster (0 = off-road).
+CONDITION_CODES = {"maintained": 1, "worn": 2, "decayed": 3, "broken": 4}
+DEFAULT_CONDITION = 2           # an unregistered road is a used, rutted road
+# How much of the authored clearance width a road of each condition actually
+# holds open: a maintained road is cut verge to verge, a broken one clears
+# nothing at all (owner 2026-09-16).
+CONDITION_WIDTH_FACTOR = {1: 1.0, 2: 0.85, 3: 0.5, 4: 0.0}
 
 # Structure kinds whose running surface is CARRIED CLEAR of the ground: the
 # road is up on the piece, so the dip, river or gully underneath keeps its
@@ -258,6 +270,44 @@ def corridor_masks(shape, step: int, origin_full=(0, 0), province: Path | None =
     province = province or PROVINCE
     routes = (major_routes(province / "routes.json")
               + minor_routes(province / "routes-minor.json"))
+    return _corridor_masks(shape, step, origin_full, routes)
+
+
+def major_corridor_masks(shape, step: int, origin_full=(0, 0),
+                         province: Path | None = None,
+                         registry: Path | None = None):
+    """(trunk_mask, ground_mask, condition_raster) over the MAJOR roads only.
+
+    The vegetation scatter clears for roads and trunk roads; the minor network
+    (tracks, footpaths, boardwalks) is cleared as a vegetation PATCH instead
+    (16f), so the scatter must not bake it in a second time.
+
+    The cleared widths follow the road's AUTHORED STATE OF REPAIR (owner
+    2026-09-16): the clearance width is scaled by `CONDITION_WIDTH_FACTOR`, so
+    a maintained road is held open verge to verge, a decayed one is half
+    closed in, and a broken one clears nothing — the growth runs right across
+    it. The third return is `condition_raster` on the same grid, for callers
+    that paint or thin by condition."""
+    province = province or PROVINCE
+    lines = _condition_lines(shape, step, origin_full, province, registry)
+    widths = CLEARANCE_M["road"]         # road and trunk_road are the same
+    trunk = np.zeros(shape, dtype=bool)
+    ground = np.zeros(shape, dtype=bool)
+    for code, line in lines.items():
+        if not line.any():
+            continue
+        factor = CONDITION_WIDTH_FACTOR[code]
+        for width, target in ((widths["trunk"], trunk), (widths["ground"], ground)):
+            w = width * factor
+            if w <= 0.0:
+                continue
+            it = _iterations(w)
+            target |= ndimage.binary_dilation(line, iterations=it) if it else line
+    return trunk, ground, condition_raster(shape, step, origin_full,
+                                           province, registry)
+
+
+def _corridor_masks(shape, step: int, origin_full, routes):
     trunk = np.zeros(shape, dtype=bool)
     ground = np.zeros(shape, dtype=bool)
     for kind, widths in CLEARANCE_M.items():
@@ -275,6 +325,74 @@ def corridor_masks(shape, step: int, origin_full=(0, 0), province: Path | None =
             it = _iterations(width)
             target |= ndimage.binary_dilation(line, iterations=it) if it else line
     return trunk, ground
+
+
+def route_conditions(path: Path | None = None) -> dict[str, tuple[int, list]]:
+    """routeId -> (condition code, [(fromM, toM, code)]) from the registry.
+
+    Windows are metres of chainage along `grade_routes.resample(px, STEP)` of
+    the PUBLISHED polyline, the same chainage `_span_line` walks."""
+    path = REGISTRY_PATH if path is None else path
+    out: dict[str, tuple[int, list]] = {}
+    if not path.exists():
+        return out
+    for r in json.loads(path.read_text()).get("routes", []):
+        code = CONDITION_CODES.get(str(r.get("condition", "")), DEFAULT_CONDITION)
+        sections = []
+        for s in (r.get("conditionSections") or []):
+            a, b = float(s["fromM"]), float(s["toM"])
+            sections.append((min(a, b), max(a, b),
+                             CONDITION_CODES.get(str(s.get("condition", "")), code)))
+        out[str(r.get("id", ""))] = (code, sections)
+    return out
+
+
+def _condition_lines(shape, step: int, origin_full, province: Path | None,
+                     registry: Path | None) -> dict[int, np.ndarray]:
+    """{condition code: 1 px centreline mask} over the major roads."""
+    province = province or PROVINCE
+    conditions = route_conditions(registry)
+    lines = {c: np.zeros(shape, dtype=bool) for c in CONDITION_CODES.values()}
+    for wid, _kind, px in major_ways(province / "routes.json"):
+        if len(px) < 2:
+            continue
+        code, sections = conditions.get(wid, (DEFAULT_CONDITION, []))
+        pts = resample(px, step)
+        if len(pts) < 2:
+            continue
+        seg = np.hypot(*np.diff(pts, axis=0).T) * RAW_M
+        chain = np.concatenate([[0.0], np.cumsum(seg)])
+        codes = np.full(len(chain), code, dtype=np.int8)
+        for a, b, sec in sections:
+            codes[(chain >= a) & (chain <= b)] = sec
+        xs = np.rint(pts[:, 0]).astype(int) - origin_full[1]
+        ys = np.rint(pts[:, 1]).astype(int) - origin_full[0]
+        ok = (xs >= 0) & (xs < shape[1]) & (ys >= 0) & (ys < shape[0])
+        for c in CONDITION_CODES.values():
+            sel = ok & (codes == c)
+            if sel.any():
+                lines[c][ys[sel], xs[sel]] = True
+    return lines
+
+
+def condition_raster(shape, step: int, origin_full=(0, 0),
+                     province: Path | None = None,
+                     registry: Path | None = None) -> np.ndarray:
+    """int8 raster of the authored ROAD CONDITION along every major road.
+
+    0 off-road, 1 maintained, 2 worn, 3 decayed, 4 broken, stamped at the road
+    clearance width (`CLEARANCE_M["road"]["trunk"]`). Where two roads overlap
+    the BETTER condition wins (the ground is the better road's ground)."""
+    lines = _condition_lines(shape, step, origin_full, province, registry)
+    it = _iterations(CLEARANCE_M["road"]["trunk"])
+    out = np.zeros(shape, dtype=np.int8)
+    for c in sorted(CONDITION_CODES.values(), reverse=True):   # lower wins last
+        line = lines[c]
+        if not line.any():
+            continue
+        band = ndimage.binary_dilation(line, iterations=it) if it else line
+        out[band] = c
+    return out
 
 
 def published_major_polylines(province: Path | None = None) -> list[list]:

@@ -223,28 +223,77 @@ export function selectNearestSolids(
   costOf: (instance: SolidInstance) => number = () => 1,
   maxCount = Number.POSITIVE_INFINITY,
 ): { chosen: SolidInstance[]; coveredRadiusM: number } {
-  const withinRange: { instance: SolidInstance; distanceSq: number }[] = [];
+  // Partial selection, not a full sort. The budget stops after a few dozen
+  // instances in practice (COLLIDER_BUDGET 3600 / ~59 colliders a moulded
+  // tree ≈ 61), while the ring holds hundreds of candidates — a jungle
+  // thicket measures ~1,411 solids inside 45 m, i.e. ~280 inside the 20 m
+  // ring. Sorting all ~280 to read the first ~61 was the waste; a min-heap
+  // is built in O(n) and popped only as many times as the budget affords.
+  const heap: SolidInstance[] = [];
+  const heapDistSq: number[] = [];
   const maxSq = radiusM * radiusM;
   for (const instance of instances) {
     const dx = instance.x - focus.x;
     const dz = instance.z - focus.z;
     const distanceSq = dx * dx + dz * dz;
-    if (distanceSq <= maxSq) withinRange.push({ instance, distanceSq });
+    if (distanceSq <= maxSq) {
+      heap.push(instance);
+      heapDistSq.push(distanceSq);
+    }
   }
-  withinRange.sort((a, b) => a.distanceSq - b.distanceSq);
+  const size = heap.length;
+  const siftDown = (start: number): void => {
+    let root = start;
+    for (;;) {
+      const left = root * 2 + 1;
+      if (left >= size) return;
+      const right = left + 1;
+      let child = left;
+      if (right < size && heapDistSq[right] < heapDistSq[left]) child = right;
+      if (heapDistSq[child] >= heapDistSq[root]) return;
+      const d = heapDistSq[root]; heapDistSq[root] = heapDistSq[child]; heapDistSq[child] = d;
+      const v = heap[root]; heap[root] = heap[child]; heap[child] = v;
+      root = child;
+    }
+  };
+  for (let i = (size >> 1) - 1; i >= 0; i--) siftDown(i);
+
   const chosen: SolidInstance[] = [];
   let spent = 0;
   let coveredRadiusM = radiusM;
-  for (const entry of withinRange) {
-    const cost = Math.max(1, costOf(entry.instance));
+  let remaining = size;
+  while (remaining > 0) {
+    const instance = heap[0];
+    const distanceSq = heapDistSq[0];
+    const cost = Math.max(1, costOf(instance));
     if (spent + cost > budget || chosen.length >= maxCount) {
       // Everything past here is unaffordable, so cover is honestly only as
       // far as the last one taken.
-      coveredRadiusM = Math.sqrt(entry.distanceSq);
+      coveredRadiusM = Math.sqrt(distanceSq);
       break;
     }
     spent += cost;
-    chosen.push(entry.instance);
+    chosen.push(instance);
+    remaining--;
+    heap[0] = heap[remaining];
+    heapDistSq[0] = heapDistSq[remaining];
+    heap.length = remaining;
+    heapDistSq.length = remaining;
+    if (remaining > 1) {
+      // Re-sift against the shrunken heap.
+      let root = 0;
+      for (;;) {
+        const left = root * 2 + 1;
+        if (left >= remaining) break;
+        const right = left + 1;
+        let child = left;
+        if (right < remaining && heapDistSq[right] < heapDistSq[left]) child = right;
+        if (heapDistSq[child] >= heapDistSq[root]) break;
+        const d = heapDistSq[root]; heapDistSq[root] = heapDistSq[child]; heapDistSq[child] = d;
+        const v = heap[root]; heap[root] = heap[child]; heap[child] = v;
+        root = child;
+      }
+    }
   }
   return { chosen, coveredRadiusM };
 }

@@ -9,55 +9,52 @@ Ground.
 
 Needs ruling 11 (the floor).
 
-## Starting state (2026-09-13; the closing 16f agent rewrites this)
+## Starting state (2026-09-16, written by the closing 16f agent; the closing 16g agent rewrites 16h's)
 
-- **Tests gated by 16d's purge (`@requires_delivered`), yours to un-gate as
-  you port** (decision 0067; the reader is `ProvinceSurvey.water_at / reach /
-  body`; the survey's `flood/tidal/salinity/wetlands/lakes/river_band` and the
-  `riverBand/onLake/wetland/tidal/floodBand/salinity` sample keys no longer
-  exist — a consumer raises `AttributeError`/`KeyError` until ported): `test_site_survey.py::test_dossier_has_every_section_and_is_deterministic`,
-  `::test_scour_is_deterministic_and_ids_are_well_formed`,
-  `::test_scour_sites_sit_where_their_landform_should` (site_dossier:148,
-  terrain_scour:142 read `river_band`). Whole modules are silent until then.
-- **827 records in eight `places-*.json` files**; `schemaVersion` is
-  file-level. Status: 429 active, 244 deferred, 66 ruined, 45 abandoned,
-  22 drowned, 12 seasonal, 6 contested, 3 cut. **Only 580 are sited**
-  (`positionM`, workflow `plotted`); 247 are `derived` with no position, so
-  "re-validate every record" is 580 re-measurements plus 247 records that
-  are re-typed or confirmed against recipes only.
-- **Most of the promise schema already ships**: `interior` (with `kind`),
-  `entrance`, `underwaterAccess`, `sockets`, `contents` slots with
-  `slotId`, `relations`, `densityLayer` on all 827; `interior.family |
-  sizeBand | wetFraction | entranceCount | exteriorShell` on 483,
-  `programRef` on 482, `verticalRelationship` on 85, `interior.schemaVersion`
-  on 12. Absent: `roomFunctions`, anchor sockets, `whereInInterior`, light
-  regime, lock class, `designGroup`, `coSitedWith`, `reservedFor`,
-  `ownerGuided`, `extent`. The vocabulary to extend is world 70 §48's
-  `InteriorProgram` (already in `packages/contracts`), edited in place —
-  one vocabulary, not a second list.
-- **The 155 building-kind records** also have interiors and get tier A or
-  a reserved door (16i, 0062), not promises; say so on each.
-- **`verify_delivery_manifest` is a function** in `place_obligations.py`
-  (called from `compile_settlement.py` and `export_settlement_bundle.py`);
-  its owner set `DELIVERY_OWNERS` is closed with an exactness check, so an
-  `interiors` owner is added there together with `DELIVERY_OWNER_BY_ROOT`
-  and `PROMISE_OWNER_BY_KIND`, or the module raises.
-- `design-groups.json` does not exist (create it); `macro_plot --resolve-all`
-  exists and **pins are placed before** a resolve-all (`macro_plot.py`
-  ~2252), not after; `catalogue --check` compares against git HEAD.
-- **`terrain-request-known-red.json` names 16g as its owner**: typed terrain
-  requests the frozen world does not deliver (54 records carry
-  `terrainRequests`); under 0059 each is re-sited, re-typed or dropped and
-  the register empties (a registered red that stops failing is itself a
-  hard error, `known_red.py`).
-- **Red today, yours to fix**: `test_export_places`, `test_export_blueprints`,
-  `test_export_purpose_ledger` (155 rows on disk vs 154 fresh) and
-  `test_render_blueprint` (fixture `aroundIds` names no parcel); the
-  published `places.json` is stale against the catalogue before you start.
-- `ladder.json` ran through 16b; the minor routes and waterways this chunk
-  re-derives from (16e's stage) do not exist on the frozen ground until 16e
-  lands. Decision 0050 (the retired raised-hammock class) is in your read:
-  44 catalogue passages still say "raised hammock" in prose.
+- **The ladder is built through 16f** (`terrain-chain.sh` `DELIVERED_THROUGH="16f"`;
+  the `[16f]` row is `compile_scatter apply_vegetation_patches
+  compile_water_dressing`; `[16g]` is `compile_minor_routes
+  compile_minor_waterways`). **One run per chunk, from your own first stage
+  (`--from compile_minor_routes`), nothing above it** (owner 2026-09-16;
+  plan §3). `compile_water` is skipped on every routine run; a stage whose
+  accepted outputs lack a stamp at its position is recorded with
+  `python3 -m worldgen.chain_stages adopt <NN-stage> <stage>`, never re-run.
+  `--check-contracts` runs before every stage: a stage you add declares its
+  reads in `worldgen/chain_contracts.py` or the run refuses.
+- **The scatter reads no settlement or track data** (decision 0070). Your
+  minor routes clear vegetation by emitting one `vegetation-clearance`
+  patch per track into `world/sources/flora/vegetation-patches.json`
+  (schema in the file; validator `vegetation_patches.load_patches`) and
+  running `apply_vegetation_patches` (position-addressed rolls, a receipt in
+  `province/vegetation/vegetation-patches-receipt.json`); `compile_scatter`
+  is never re-run for a track. The runtime ring reads the published copy.
+- **The water record is read through `ShippedWater`** (`water_report.py`:
+  `kind_index_grid`, `season_index_grid`, `reach_width_grid`, `river_of`,
+  `kind_grid`, `reach_band_grid`) and `ProvinceSurvey` (`site_fields.py`)
+  on the 1345 grid; `test_record_reads.py` fails any module below the gate
+  that re-derives water; your four allowlist rows (`audit_place_semantics`,
+  `hostility_frequency`, `macro_plot`, `site_dossier`, `terrain_scour`) are
+  the last ones: delete each as you port it.
+- **The travel-service graph is yours** (0069): `travel-services.json`
+  stations join places you re-plot; two stations carry `positionM: null`
+  (deferred); a boat service lands at a harbour station on joined water.
+- **Wrecks are places** (0062): `wrecks-v1` (19 statics, mined ground
+  contact, no connector templates anywhere) is built; each wreck record's
+  water depth is confirmed here (3d) and 16h stands it up. Six Depths hulls
+  reference textures the mod does not ship: the owner eyeballs them first.
+- **Dressing zones** (`world/sources/flora/dressing-zones.json`, overlays in
+  `worldgen/dressing_zones.py`) are the authored-overlay record; the delta
+  overlay is keyed to `river.889-484`'s reaches and `body.2822-1398`.
+- **Red today and yours**: `test_export_places`, `test_export_blueprints`,
+  `test_export_purpose_ledger`, `test_render_blueprint`,
+  `test_committed_water_facts` (3), `test_water_fact_invariants` (4),
+  `test_audit_place_semantics` (1) — all read the stale plot or the
+  pre-graph survey keys; none is in `test:placement`. Also
+  `test_solve_major_routes::test_a_gradable_step_costs_earthworks_and_a_cliff_is_a_wall`
+  (16e's, backlog row) is red outside the gate.
+- 827 records in eight `places-*.json` files, 580 sited; the promise schema
+  facts and the `terrain-request-known-red.json` ownership from the
+  2026-09-13 note still hold (see git history of this section).
 
 ## Read
 

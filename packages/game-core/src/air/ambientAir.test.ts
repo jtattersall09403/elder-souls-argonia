@@ -358,3 +358,22 @@ describe("hover species exist only over standing water, in localised knots (owne
     sw.dispose();
   });
 });
+
+describe("habitat weights (16f)", () => {
+  it("every species names where the record says it lives, and the weights are sane", () => {
+    for (const sp of Object.values(AIR_SPECIES)) {
+      expect(sp.habitat, `${sp.id} habitat`).toBeDefined();
+      for (const w of sp.habitat!) expect(w).toBeGreaterThanOrEqual(0);
+      expect(Math.max(...sp.habitat!)).toBeGreaterThan(0);
+    }
+    // fireflies gather on wet ground and under canopy, never keyed to open water alone
+    expect(AIR_SPECIES.fireflies.habitat).toEqual([0, 1, 1]);
+    // midges and dragonflies want standing water
+    expect(AIR_SPECIES.dragonflies.habitat![0]).toBe(1);
+    expect(AIR_SPECIES.midges.habitat![0]).toBe(1);
+  });
+  it("a ground species that binds the raster for its habitat is not gated to open water", () => {
+    // fireflies have no hover height: binding water must leave the depth gate off
+    expect(AIR_SPECIES.fireflies.hoverAboveWaterM).toBeUndefined();
+  });
+});

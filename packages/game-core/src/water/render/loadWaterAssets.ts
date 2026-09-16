@@ -1,3 +1,4 @@
+import type { BedRock } from "./ChannelStrips";
 import * as THREE from "three";
 import { WaterData, assertWaterSchema, decodeDepthByte, type WaterMeta } from "../waterData";
 import { WaterWorld } from "../waterWorld";
@@ -214,10 +215,35 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     windSpeedMS: options.windSpeedMS,
   });
 
+  // 16f: the water dressing sidecar (habitat + colour constituents). Optional
+  // by design: the water compile never writes it and a build without the
+  // dressing stage still loads.
+  const dressing = await (async () => {
+    try {
+      const r = await fetch(`${waterBase}water-dressing.json`);
+      if (!r.ok) return undefined;
+      const side = await r.json() as { schemaVersion: number; size: number; metresPerPixel: number; habitat: { file: string }; colour: { file: string } };
+      if (side.schemaVersion !== 1) return undefined;
+      const [habitatImg, colourImg] = await Promise.all([
+        fetchImageData(`${waterBase}${side.habitat.file}`), fetchImageData(`${waterBase}${side.colour.file}`)]);
+      return { habitatTex: dataTexture(habitatImg, THREE.LinearFilter), colourTex: dataTexture(colourImg, THREE.LinearFilter),
+        size: side.size, metresPerPixel: side.metresPerPixel };
+    } catch { return undefined; }
+  })();
+
+  // 16f: the scatter's bed boulders, for the strips' baked foam (optional).
+  const bedRocks = await fetch(`${waterBase}bed-rocks.json`)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((doc: { schemaVersion?: number; rocks?: BedRock[] } | null) =>
+      doc && doc.schemaVersion === 1 && Array.isArray(doc.rocks) ? doc.rocks : [])
+    .catch(() => [] as BedRock[]);
+
   return {
     data,
     world,
     meta,
+    dressing,
+    bedRocks,
     surfaceTex: dataTexture(surfaceAtlas, THREE.NearestFilter),
     flowTex: dataTexture(flowImg, THREE.LinearFilter),
     klassTex: dataTexture(klassImg, THREE.LinearFilter),

@@ -31,7 +31,7 @@ architecture is four tiers:
 |---|---|---|---|
 | **T1 Hero placed statics** | authored/compiler-placed identity assets: hero trees, root formations, rock outcrops, wrecks | `BatchedMesh` per atlas group; compiled colliders (trunk capsules only) | 50–300 refs |
 | **T2 Instanced mid detail** | seed-stable scattered trees/shrubs/large reeds | binary transforms **in the chunk bundle** (`vegetation-instances.bin`, ~12–16 B/instance); rendered via the instancing library with BVH frustum culling + LOD chain (full mesh → reduced → billboard) | 1–5k; ≤~50k visible total |
-| **T3 Groundcover** | grass, small reeds, ferns, litter | **not in bundles** — regenerated at runtime from the land-cover raster (same deterministic hash as the compiler) in a camera ring; atlas cross-quads; no collision, no shadow casting | 10–30k instances in ring; fade radius+density = the quality knob |
+| **T3 Groundcover** | grass, small reeds, ferns, litter | **not in bundles** — regenerated at runtime from the land-cover raster (same deterministic hash as the compiler) in a camera ring; atlas cross-quads; no collision, no shadow casting | 30k / 45k / 60k instances in the ring by quality preset (`packages/game-core/src/core/quality.ts`); per-species fade bands and the ring radius are the quality knob (16f) |
 | **T4 Distant** | tree lines and silhouettes beyond T2 range | octahedral or cross-billboard impostors + compiler-baked merged far-LOD meshes per LOD-2 chunk (the DynDOLOD/OpenMW object-paging lesson) | one draw per chunk/species group |
 
 Library verdicts (details/citations in the research doc): three.js

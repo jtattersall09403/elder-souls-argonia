@@ -165,7 +165,7 @@ than inherit as a guess: deliverable 3.
    blueprint's `hardClear`, `thinned` and `kept` become a
    `vegetation-clearance` patch in `world/sources/flora/vegetation-patches.json`
    (16f's kind and applier, `apply_vegetation_patches`, the keep gradient
-   of `settlement_clearance.py` carried over), applied to the touched
+   of `vegetation_patches.py` carried over), applied to the touched
    chunks' published bundles with a receipt; `compile_scatter` is never
    re-run for a settlement and reads no settlement data. The runtime ring
    evaluates the same patch list. Test: a moved settlement's receipt names

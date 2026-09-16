@@ -213,7 +213,13 @@ def write_ground_tint(h: np.ndarray, npz, rng) -> None:
     dark = 1.0 - 0.06 * wet_q - 0.05 * south + 0.04 * coast
     tint = (np.stack([tr, tg, tb], -1) * dark[..., None]).clip(0.0, 2.0)
     STUDIO_DIR.mkdir(parents=True, exist_ok=True)
-    Image.fromarray((tint * 127.5).astype(np.uint8)).save(STUDIO_DIR / "ground-tint.png")
+    # RGBA, alpha 0: the ALPHA channel is the under-canopy litter mask
+    # (16f deliverable 10), written by worldgen.compile_scatter once the
+    # scatter knows where the crowns are. Carving it as RGB would leave the
+    # shader reading alpha = 1 and litter the whole province.
+    rgb = (tint * 127.5).astype(np.uint8)
+    Image.fromarray(np.dstack([rgb, np.zeros(rgb.shape[:2], np.uint8)]),
+                    "RGBA").save(STUDIO_DIR / "ground-tint.png")
 
 
 def main() -> None:

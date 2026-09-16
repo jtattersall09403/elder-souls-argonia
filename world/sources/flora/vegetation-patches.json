@@ -1,0 +1,8 @@
+{
+ "schemaVersion": 1,
+ "about": "Typed vegetation-clearance patches applied to the published vegetation bundles by worldgen.apply_vegetation_patches after the scatter (16f, decision 0070); 16g emits them for minor tracks, 16h for settlements, Phase 15 one packet at a time, and the scatter compiler never reads them. The runtime ground-cover ring evaluates this same list from the published copy at province/vegetation-patches.json; an instance is addressed as (chunk, species, ordinal) in the PUBLISHED bundle, after patches, and a patch's receipt lists what it removed per chunk and species.",
+ "kinds": {
+  "vegetation-clearance": "A patch carries hardClear polygons, thinned polygons, kept plants and an optional fringeFalloffM, each in world metres, alongside its id, owner {record, chunk} and why. The keep gradient: hardClear polygons keep 0, thinned polygons ramp from FRINGE_MIN_KEEP at the built edge to a full wild 1 over fringeFalloffM (default 15 m), and kept discs are protected out to their kind's radius."
+ },
+ "patches": []
+}

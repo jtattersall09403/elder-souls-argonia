@@ -33,8 +33,13 @@ Then: python3 -m worldgen.compile_scatter --report ... per the 0036 run-book.
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
+from . import dressing_zones as dz          # 16f rocks and dressing zones
+from . import landcover as lc
+from . import rock_dressing as rd           # 16f rocks and dressing zones
+from .regions import REGION_CLASSES         # 16f rocks and dressing zones
 from .vegetation_ladder import (MEASURED_ATTENUATION, MEASURED_DELIVERED_PER_HA,
                                 TARGET_RATIOS, is_stem_layer, multipliers)
 
@@ -202,9 +207,54 @@ S = {
     "kelp_short_b": "vanilla:landscape/plants/kelpshortstatic01",  # 0.73 × 0.79 × 1.36 m
     "fungal_pod_a": "vanilla:plants/floraswampfungalpod01",     # 1.37 × 1.07 × 0.43 m
     "fungal_pod_b": "vanilla:plants/floraswampfungalpod02",     # 0.51 × 0.65 × 0.29 m
-    # REJECTED on the same measurements: tbp_seaweed01 (29.3 m) and
-    # tbp_seaweed02 (42.7 m) are giant-kelp columns taller than our canopy,
-    # in water the province never carries; floramushroom01–06 measure
+    # --- UPLAND DRESSING (16f deliverable 11) -----------------------------
+    # The sixteen vanilla upland pieces the flora kit shipped and no palette
+    # placed. Sizes are the kit manifest's measured LOD0 bounds; every
+    # placement figure each layer carries is read from the mined vanilla
+    # record (`vanilla-tamriel-placement.json`), never typed here.
+    "dead_shrub": "vanilla:landscape/plants/deadshrub01",       # 5.58 x 3.76 x 2.49 m
+    "tundra_shrub_a": "vanilla:landscape/plants/tundrashrub01",  # 1.74 x 3.50 x 1.06 m
+    "tundra_shrub_b": "vanilla:landscape/plants/tundrashrub02",  # 3.03 x 3.36 x 1.05 m
+    "tundra_shrub_c": "vanilla:landscape/plants/tundrashrub03",  # 7.45 x 5.23 x 1.21 m
+    "tundra_scrub": "vanilla:landscape/plants/tundrascrub01",    # 5.51 x 5.54 x 1.38 m
+    "reach_shrub": "vanilla:landscape/plants/reachshrub01",      # 2.34 x 1.96 x 1.82 m
+    "thicket": "vanilla:landscape/plants/thicket01",             # 2.60 x 3.05 x 2.03 m
+    "mtn_flower_purple": "vanilla:plants/floramountainflower01purple",
+    "mtn_flower_blue": "vanilla:plants/floramountainflower01blue",
+    "mtn_flower_red": "vanilla:plants/floramountainflower01red",
+    "pine_log_a": "vanilla:landscape/trees/treepineforestlog01",   # 7.24 x 15.73 x 4.28 m
+    "pine_log_b": "vanilla:landscape/trees/treepineforestlog02",   # 7.96 x 11.17 x 6.33 m
+    "pine_stump_a": "vanilla:landscape/trees/treepineforeststump01",   # 9.14 x 8.04 x 7.45 m
+    "pine_stump_b": "vanilla:landscape/trees/treepineforeststump02a",  # 11.00 x 10.47 x 7.22 m
+    "aspen_log": "vanilla:landscape/trees/treeaspenlog01",        # 4.71 x 10.84 x 3.65 m
+    "aspen_stump": "vanilla:landscape/trees/treeaspenstump01",    # 5.08 x 4.85 x 4.00 m
+    # --- UNDERWATER BAND (2026-09-16) -------------------------------------
+    # The drowned layer's own species, all in `underwater-v1`. Sizes are the
+    # kit manifest's measured LOD0 bounds.
+    "kelp_tall_v": "vanilla:landscape/plants/kelptallstatic01",   # 1.48 x 1.38 x 3.98 m
+    "kelp_short_v": "vanilla:landscape/plants/kelpshortstatic01", # 0.73 x 0.79 x 1.36 m
+    "kelp_tree_a": "depths:landscape/grass/tbp_seaweed01",        # 29.3 m column
+    "kelp_tree_b": "depths:landscape/grass/tbp_seaweed02",        # 42.7 m column
+    "coral_big": "depths:dos/misc/tbp_coralbig",                  # 16.8 x 17.9 x 3.57 m
+    "coral_med": "depths:dos/misc/tbp_coralmedium",               # 11.2 x 10.9 x 3.17 m
+    "coral_small": "depths:landscape/grass/tbp_coralsmall01",     # 5.40 x 5.33 x 2.66 m
+    "algae_mat": "depths:landscape/grass/tbpalgae01",             # 2.94 x 3.65 x 0.37 m
+    "driftwood_a": "depths:landscape/grass/tbpcoastdriftwood01",  # 3.11 x 3.08 x 1.51 m
+    "driftwood_b": "depths:landscape/grass/tbpcoastdriftwood02",  # 3.20 x 2.19 x 1.39 m
+    "clam_a": "vanilla:plants/clam01",
+    "clam_b": "vanilla:plants/clamlarge01",
+    "clam_c": "vanilla:plants/clamthin01",
+    "boards_a": "vanilla:clutter/shipwreck/shipwreckboards01",    # 2.70 m plank
+    "boards_b": "vanilla:clutter/shipwreck/shipwreckboards02",
+    "boards_c": "vanilla:clutter/shipwreck/shipwreckboards03",
+    "rowboat_back": "depths:dos/boats/rowboatbrokenback",         # 2.78 x 3.89 x 1.27 m
+    "rowboat_front": "depths:dos/boats/rowboatbrokenfront",       # 2.71 x 4.85 x 1.52 m
+    # tbp_seaweed01 (29.3 m) and tbp_seaweed02 (42.7 m) were rejected in
+    # round 2 as giant-kelp columns taller than any water the province
+    # carries. That was true at native size and is no longer how they are
+    # used: Bethesda's own mine places them at 8-70 m of depth at scale
+    # 0.15-1.15, so `deep_kelp_trees` below takes them at 0.15-0.35 in 6-25 m
+    # of water, where a 4-10 m stipe is right. floramushroom01–06 measure
     # 2.6 × 2.0 × 0.55 m flat sheets at 2.2–2.8 k tris and take their
     # textures from textures/architecture/farmhouse — surface-applied shelf
     # fungus, not a free-standing floor plant.
@@ -217,15 +267,62 @@ RIPARIAN_DRY = dict(shore_boost_gain=-0.55, shore_boost_peak_m=0.0,
                     shore_boost_half_width_m=18.0)          # M2 inverted
 
 
+# --- what each role is allowed to stand in (the water record, 0066) -------
+#
+# The scatter reads kind, season and channel geometry from the signed
+# hydrology record; a palette says which of the record's kinds a role belongs
+# to. Depth alone could never express this — 0.4 m of water is a marsh pool
+# or the middle of a river, and only the record knows which.
+
+#: Roles that must never stand in a flowing channel or on its wetted bank.
+CHANNEL_EXCLUDED_ROLES = frozenset({
+    "canopy", "emergent", "gallery", "understory", "gap-thicket", "green-wall",
+    "bank-wall", "landmark-giant", "interior-shrub", "fungal-giant",
+    "floor-fungi", "fungal-floor", "forb", "tall-grass", "rock",
+    "cliff-dressing",
+})
+#: Still water and slack water: where a tree can stand in the water at all.
+_SLACK_WATER = ("horizontal-backwater", "marsh-fringe", "marsh-deep", "swamp",
+                "backswamp", "pond", "pool")
+ROLE_WATER_KINDS = {
+    "waterline-tree": _SLACK_WATER,
+    "drowned-tree": _SLACK_WATER,
+    "drowned-tree-dry": _SLACK_WATER,
+    "drowned-thicket": _SLACK_WATER,
+    # Mangroves are the tidal coast: sea, lagoon, tidal reach, mudflat.
+    # a mangrove stands in any still brackish-to-fresh water of its basin:
+    # the marsh sheets, the backwaters and the backswamps as much as the
+    # lagoon (measured: the lagoon-only list starved region 14 to 0.45 of its
+    # 1.40 ratio, 16f)
+    "basin-mangrove": ("lagoon", "mudflat", "ocean", "horizontal-tidal",
+                       "marsh-fringe", "marsh-deep", "swamp", "backswamp",
+                       "horizontal-backwater", "pond"),
+    "aquatic-kelp": ("ocean", "lagoon", "lake-lowland", "tarn-upland", "pond",
+                     "horizontal-backwater", "horizontal-tidal"),
+    "aquatic-lilypads": ("pond", "pool", "lake-lowland", "backswamp",
+                         "horizontal-backwater", "marsh-deep"),
+    # aquatic-reeds: no kind gate — reeds fringe every kind of water there is.
+}
+#: Roles that need water that is there all year.
+ROLE_SEASONS = {"aquatic-kelp": ("perennial",)}
+
+
 def layer(species: str, per_ha: float, **kw) -> dict:
     entry = {"species": S[species], "tier": kw.pop("tier", "T2"),
              "instances_per_hectare": round(per_ha, 2)}
     entry.update(kw)
+    role = entry.get("role", "")
+    if role in CHANNEL_EXCLUDED_ROLES:
+        entry.setdefault("channel_exclusion", True)
+    if role in ROLE_WATER_KINDS:
+        entry.setdefault("water_kinds", list(ROLE_WATER_KINDS[role]))
+    if role in ROLE_SEASONS:
+        entry.setdefault("season_kinds", list(ROLE_SEASONS[role]))
     return entry
 
 
 def landmark_giant(species: str, per_ha: float = 0.12,
-                   depth=(-99.0, 1.0), slope_max=32.0) -> dict:
+                   depth=(-6.0, 1.0), slope_max=32.0) -> dict:
     """Owner 0036 Q2: rare ×1.8–2.6 navigation silhouettes, wide clearance."""
     return layer(species, per_ha, tier="T1", role="landmark-giant",
                  clump_size_median=1, clump_size_tail=0.0, singleton_share=1.0,
@@ -235,7 +332,7 @@ def landmark_giant(species: str, per_ha: float = 0.12,
                  respects_clearance=False)
 
 
-def emergent(species: str, per_ha: float, depth=(-99.0, WADE),
+def emergent(species: str, per_ha: float, depth=(-6.0, WADE),
              scale=(1.15, 1.5)) -> dict:
     """Ecology §1.2: the few big-crowned trees standing over the canopy —
     ordinary scale range's top end, not the owner's landmark giants. Species
@@ -249,7 +346,7 @@ def emergent(species: str, per_ha: float, depth=(-99.0, WADE),
                  clearance_radius_m=4.0)
 
 
-def canopy(species: str, per_ha: float, depth=(-99.0, WADE), scale=(0.65, 1.05),
+def canopy(species: str, per_ha: float, depth=(-6.0, WADE), scale=(0.65, 1.05),
            slope_max=38.0, riparian=None, clearance=1.6, **kw) -> dict:
     """The closed-canopy workhorse. Wading gate (M1), tropical slope
     tolerance (real rainforest fully covers 25° hillsides — ecology §5.1)."""
@@ -268,7 +365,7 @@ def canopy(species: str, per_ha: float, depth=(-99.0, WADE), scale=(0.65, 1.05),
     return entry
 
 
-def understory(species: str, per_ha: float, depth=(-99.0, WADE),
+def understory(species: str, per_ha: float, depth=(-6.0, WADE),
                scale=(0.5, 0.9), riparian=None, **kw) -> dict:
     """Saplings and small trees — ecology §1.2's 100–150/ha asset tier."""
     defaults = dict(clump_size_median=5, clump_radius_m=8.0)
@@ -284,7 +381,7 @@ def understory(species: str, per_ha: float, depth=(-99.0, WADE),
     return entry
 
 
-def interior_shrub(species: str, per_ha: float, depth=(-99.0, WADE), **kw) -> dict:
+def interior_shrub(species: str, per_ha: float, depth=(-6.0, WADE), **kw) -> dict:
     """Sparse under closed canopy (ecology §6.5: primary interior is OPEN at
     eye level) — confined to the closed end of the openness field."""
     return layer(species, per_ha, role="interior-shrub",
@@ -293,7 +390,7 @@ def interior_shrub(species: str, per_ha: float, depth=(-99.0, WADE), **kw) -> di
                  slope_deg_max=40.0, scale_range=[0.7, 1.2], **kw)
 
 
-def gap_thicket(species: str, per_ha: float, depth=(-99.0, WADE), **kw) -> dict:
+def gap_thicket(species: str, per_ha: float, depth=(-6.0, WADE), **kw) -> dict:
     """Treefall-gap regrowth: shrubs ×4–8 where light reaches the floor
     (ecology §1.4) — the open end of the openness field."""
     defaults = dict(slope_deg_max=40.0)
@@ -305,7 +402,7 @@ def gap_thicket(species: str, per_ha: float, depth=(-99.0, WADE), **kw) -> dict:
                  scale_range=[0.8, 1.4], **defaults)
 
 
-def green_wall(species: str, per_ha: float, depth=(-99.0, WADE), **kw) -> dict:
+def green_wall(species: str, per_ha: float, depth=(-6.0, WADE), **kw) -> dict:
     """The edge wall (ecology §6.2): dense growth on the mid band between
     closed interior and open glade — where the light gradient lives."""
     return layer(species, per_ha, role="green-wall",
@@ -316,7 +413,7 @@ def green_wall(species: str, per_ha: float, depth=(-99.0, WADE), **kw) -> dict:
 
 
 def bank_wall(species: str, per_ha: float, shore=(0.0, 15.0),
-              depth=(-99.0, WADE), **kw) -> dict:
+              depth=(-6.0, WADE), **kw) -> dict:
     """Water-margin green wall: rivers/pools open the canopy, so their banks
     thicken (ecology §6.2) — banded on shore distance, not on the glade."""
     return layer(species, per_ha, role="bank-wall", shore_m=list(shore),
@@ -331,7 +428,7 @@ def gallery(species: str, per_ha: float, shore=(0.0, 35.0), scale=(0.6, 1.0),
     forest density inside ~35 m of the water, abrupt outer edge."""
     return layer(species, per_ha, tier="T1", role="gallery",
                  shore_m=list(shore), clump_size_median=4, clump_radius_m=10.0,
-                 water_depth_m=[-99.0, WADE], slope_deg_max=34.0,
+                 water_depth_m=[-6.0, WADE], slope_deg_max=34.0,
                  slope_half_angle_deg=25.0, scale_range=list(scale),
                  clearance_radius_m=1.5, **kw)
 
@@ -356,7 +453,7 @@ def drowned_tree(species: str, per_ha: float, **kw) -> list[dict]:
                  scale_range=[0.6, 0.95], clearance_radius_m=1.8, **kw)
     dry = layer(species, per_ha * 0.55, tier="T1", role="drowned-tree-dry",
                 clump_size_median=3, clump_radius_m=13.0,
-                water_depth_m=[-99.0, -0.5], slope_deg_max=32.0,
+                water_depth_m=[-6.0, -0.5], slope_deg_max=32.0,
                 slope_half_angle_deg=25.0, scale_range=[0.65, 1.0],
                 clearance_radius_m=1.8, **kw)
     return [deep, dry]
@@ -429,49 +526,13 @@ def drowned_thicket_guild(species: str, per_ha: float) -> dict:
                  scale_range=[0.8, 1.4])
 
 
-def boulders(per_ha: float, slope_max: float = 55.0) -> list[dict]:
-    """Freestanding rock scatter — a size ladder of CLOSED boulders (round 5).
-
-    Three round-4 defects, one layer set: rocks were the open-backed
-    `moss_rockcliff01` cliff shell (you could look into its hollow side); they
-    stamped no clearance, so they grew inside each other; and they took the
-    default random yaw + ±4° tilt, which is right for a trunk and wrong for a
-    rock. Clearance is generous relative to each mesh's footprint, and
-    `align_to_slope` lays the long axis with the hill.
-    """
-    ladder = (("boulder_hero", 0.06, (0.7, 1.3), 5.0),
-              ("boulder_big", 0.14, (0.7, 1.4), 4.5),
-              ("boulder_mid", 0.25, (0.7, 1.4), 2.6),
-              ("boulder_small", 0.30, (0.7, 1.5), 2.0),
-              ("stone", 0.25, (0.8, 1.8), 1.1))
-    return [
-        layer(species, per_ha * share, role="rock", tier="T1",
-              clump_size_median=3, clump_size_tail=0.55, clump_radius_m=9.0,
-              water_depth_m=[-99.0, -0.5], slope_deg_max=slope_max,
-              scale_range=list(scale), patchiness=1.1, glade_response=0.0,
-              # Big-to-small: each size stamps clearance for the next, so a
-              # hero boulder never has a second rock standing inside it.
-              clearance_radius_m=clearance, align_to_slope=0.9)
-        for species, share, scale, clearance in ladder
-    ]
+# `boulders()` and `cliff_dressing()` were typed from memory (a 0.08 m bury, a
+# 55 deg slope cap, one open-backed shell used freestanding). They are replaced
+# by worldgen/rock_dressing.py, which reads every figure from the mined vanilla
+# record and from the kit's measured meshes (16f deliverable 3).
 
 
-def cliff_dressing(per_ha: float) -> dict:
-    """`moss_rockcliff01` used as what it actually is: a shell that dresses a
-    cliff face. Steep ground only, laid into the slope, so the open back faces
-    the hill rather than the player (round 5, A2)."""
-    return layer("moss_rock", per_ha, role="cliff-dressing", tier="T1",
-                 clump_size_median=2, clump_radius_m=12.0,
-                 water_depth_m=[-99.0, -0.5],
-                 # Steep-only: below 28° the shell has no cliff to hide in and
-                 # its hollow back faces the player.
-                 slope_deg_min=28.0, slope_deg_max=70.0,
-                 slope_half_angle_deg=60.0, scale_range=[0.6, 1.1],
-                 glade_response=0.0, clearance_radius_m=9.0,
-                 align_to_slope=1.0)
-
-
-def epiphyte_moss(species: str, per_ha: float, depth=(-99.0, 1.0)) -> dict:
+def epiphyte_moss(species: str, per_ha: float, depth=(-6.0, 1.0)) -> dict:
     """Hanging moss/epiphyte dressing rides where the big trees are (same
     gates), clumped so trunks read dressed rather than the air."""
     return layer(species, per_ha, role="epiphyte",
@@ -512,9 +573,13 @@ REGIONS[13] = {
         # One composite, placed sparsely. Its own mesh is 66.7 m at scale 1,
         # so the scale range is a DOWNSCALE — which only ever sharpens texel
         # density — rather than the round-6 upscale of a smaller tree.
+        # Clumped, not a pure jittered grid: measured Clark-Evans R 1.10 on
+        # the shipped scatter — MORE even than random, where hand placement
+        # sits at ~0.45 (rule R1). Same density, grouped.
         layer("anvil_giant", 0.9, tier="T1", role="emergent",
-              clump_size_median=1, singleton_share=1.0, clump_radius_m=0.0,
-              water_depth_m=[-99.0, WADE], slope_deg_max=30.0,
+              clump_size_median=2.0, clump_size_tail=0.3,
+              singleton_share=0.35, clump_radius_m=14.0,
+              water_depth_m=[-6.0, WADE], slope_deg_max=30.0,
               patchiness=0.4, glade_response=0.0,
               scale_range=[0.68, 0.88], clearance_radius_m=9.0),
 
@@ -565,10 +630,10 @@ REGIONS[13] = {
         green_wall("trop_shrub", 130.0),
         bank_wall("big_shrub", 210.0, shore=(0.0, 15.0)),
         layer("vines_a", 40.0, role="liana", clump_size_median=4,
-              clump_radius_m=8.0, water_depth_m=[-99.0, WADE],
+              clump_radius_m=8.0, water_depth_m=[-6.0, WADE],
               slope_deg_max=36.0, scale_range=[0.9, 1.6]),
         layer("vines_b", 35.0, role="liana", clump_size_median=4,
-              clump_radius_m=8.0, water_depth_m=[-99.0, WADE],
+              clump_radius_m=8.0, water_depth_m=[-6.0, WADE],
               slope_deg_max=36.0, scale_range=[0.9, 1.6]),
         epiphyte_moss("moss_b", 40.0),
         aquatic_reeds(95.0),
@@ -582,20 +647,20 @@ REGIONS[7] = {
             " wading cypress matrix, waterline mangrove, bimodal drowned"
             " cypress, pool guilds. T3: SWAMP_GRASS/MARSH_GRASS covers.",
     "layers": [
-        landmark_giant("cypress_big", 0.12, depth=(-99.0, 1.0)),
-        emergent("cypress_big", 4.0, depth=(-99.0, 1.0)),
+        landmark_giant("cypress_big", 0.12, depth=(-6.0, 1.0)),
+        emergent("cypress_big", 4.0, depth=(-6.0, 1.0)),
         # Weights re-tuned after the 2026-09-08 species swap: the broad rain
         # tree's clearance stamps out more understory than the cypress it
         # replaced, so the authored numbers below are higher than the old
         # ones to deliver the SAME count per chunk (5,12: 6.2 k both ways).
-        canopy("cypress_big", 40.0, depth=(-99.0, 1.0), riparian=RIPARIAN_WET,
+        canopy("cypress_big", 40.0, depth=(-6.0, 1.0), riparian=RIPARIAN_WET,
                scale=(0.6, 0.95), clump_radius_m=16.0),
-        canopy("cypress", 55.0, depth=(-99.0, 0.8), riparian=RIPARIAN_WET,
+        canopy("cypress", 55.0, depth=(-6.0, 0.8), riparian=RIPARIAN_WET,
                scale=(0.6, 0.95)),
         # Signature: the broad flat-crowned "rain tree" (34 m crown at unit
         # scale, here 16-21 m tall) spreading over the pools — it leads the
         # canopy; the giant cypress is the ROOTLAND's dominant, not this one's.
-        canopy("rain_tree", 40.0, depth=(-99.0, 0.8), riparian=RIPARIAN_WET,
+        canopy("rain_tree", 40.0, depth=(-6.0, 0.8), riparian=RIPARIAN_WET,
                scale=(0.8, 1.05), clump_size_median=2, clump_radius_m=18.0,
                clearance=2.6),
         waterline_tree("mangrove_b", 24.0),
@@ -606,15 +671,15 @@ REGIONS[7] = {
         dead_snag("snag_b", 3.0, scale=(0.5, 0.8)),   # 32 m mesh
         canopy("willow_a", 18.0, depth=(-2.0, 0.5), scale=(0.6, 0.9),
                slope_max=28.0),
-        understory("trop_plant", 70.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET),
-        understory("fern_big", 110.0, depth=(-99.0, 0.5), riparian=RIPARIAN_WET),
-        interior_shrub("bracken", 55.0, depth=(-99.0, 0.4)),
-        gap_thicket("trop_plant", 90.0, depth=(-99.0, 0.3)),
-        gap_thicket("big_shrub", 110.0, depth=(-99.0, 0.3)),
-        green_wall("bracken", 100.0, depth=(-99.0, 0.4)),
+        understory("trop_plant", 70.0, depth=(-6.0, 0.6), riparian=RIPARIAN_WET),
+        understory("fern_big", 110.0, depth=(-6.0, 0.5), riparian=RIPARIAN_WET),
+        interior_shrub("bracken", 55.0, depth=(-6.0, 0.4)),
+        gap_thicket("trop_plant", 90.0, depth=(-6.0, 0.3)),
+        gap_thicket("big_shrub", 110.0, depth=(-6.0, 0.3)),
+        green_wall("bracken", 100.0, depth=(-6.0, 0.4)),
         bank_wall("fern_big", 170.0),
         layer("vines_a", 45.0, role="liana", clump_size_median=3,
-              clump_radius_m=8.0, water_depth_m=[-99.0, 0.8],
+              clump_radius_m=8.0, water_depth_m=[-6.0, 0.8],
               slope_deg_max=35.0, scale_range=[0.9, 1.5]),
         epiphyte_moss("moss_a", 70.0),
         aquatic_reeds(145.0, guild="reed-bed"),
@@ -632,12 +697,12 @@ REGIONS[6] = {
             " T3: MOSS/BC_MOSS covers only.",
     "layers": [
         landmark_giant("cypress_big", 0.15, depth=(-3.0, 1.0)),
-        emergent("cypress_big", 10.0, depth=(-99.0, 1.0)),
-        canopy("cypress_big", 110.0, depth=(-99.0, 1.0), riparian=RIPARIAN_WET,
+        emergent("cypress_big", 10.0, depth=(-6.0, 1.0)),
+        canopy("cypress_big", 110.0, depth=(-6.0, 1.0), riparian=RIPARIAN_WET,
                scale=(0.75, 1.15), clump_radius_m=15.0, clearance=2.2),
-        canopy("cypress", 45.0, depth=(-99.0, 0.8), scale=(0.7, 1.0)),
-        understory("manfern", 28.0, depth=(-99.0, 0.6), scale=(0.8, 1.2)),
-        interior_shrub("fern_big", 40.0, depth=(-99.0, 0.5)),
+        canopy("cypress", 45.0, depth=(-6.0, 0.8), scale=(0.7, 1.0)),
+        understory("manfern", 28.0, depth=(-6.0, 0.6), scale=(0.8, 1.2)),
+        interior_shrub("fern_big", 40.0, depth=(-6.0, 0.5)),
         # Signature: fungus at tree scale. Canon lists lucan mold and mushroom
         # caves for the dark interior (Online:Shadowfen "Mushroom Cave",
         # Online:Murkmire "Mushrooms That Nourish"); the 15 m cap is a rare
@@ -694,7 +759,7 @@ REGIONS[4] = {
         # mangrove, strand scrub on the dune line, thicket where fresh water
         # reaches the back of the lagoon.
         layer("algrass", 60.0, role="tall-grass", clump_size_median=8,
-              clump_radius_m=9.0, water_depth_m=[-99.0, 0.25],
+              clump_radius_m=9.0, water_depth_m=[-6.0, 0.25],
               slope_deg_max=22.0, scale_range=[0.7, 1.2]),
         understory("loebush", 30.0, depth=(-6.0, -0.2), scale=(0.6, 1.0)),
         gap_thicket("trop_shrub", 40.0, depth=(-6.0, 0.1)),
@@ -724,7 +789,7 @@ REGIONS[3] = {
         # kelp. Salt-flat sward on the drying mud, ferns on the levee crowns,
         # tall kelp in the deeper channels between them.
         layer("algrass", 70.0, role="tall-grass", clump_size_median=7,
-              clump_radius_m=8.0, water_depth_m=[-99.0, 0.3],
+              clump_radius_m=8.0, water_depth_m=[-6.0, 0.3],
               slope_deg_max=26.0, scale_range=[0.7, 1.2]),
         understory("fern", 20.0, depth=(-6.0, -0.1), scale=(0.6, 1.0)),
         # Reeds were 61% of everything the delta's floor carried — a reed bed
@@ -741,23 +806,23 @@ REGIONS[5] = {
     "note": "A moving-water gallery: cypress walls on the banks (riparian"
             " boost), aquatics in the margins, open channel kept open.",
     "layers": [
-        landmark_giant("cypress_big", 0.08, depth=(-99.0, 0.6)),
-        canopy("cypress", 40.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
+        landmark_giant("cypress_big", 0.08, depth=(-6.0, 0.6)),
+        canopy("cypress", 40.0, depth=(-6.0, 0.6), riparian=RIPARIAN_WET,
                scale=(0.6, 0.95)),
         # Signature: the tall columnar Cyrodiil cypress, upscaled to 28-35 m,
         # walling the big navigable rivers (the Onkobra/Panther corridors,
         # Lore:Black Marsh) — a different silhouette from the swamp cypress.
-        canopy("column_cypress_a", 28.0, depth=(-99.0, 0.6),
+        canopy("column_cypress_a", 28.0, depth=(-6.0, 0.6),
                riparian=RIPARIAN_WET, scale=(1.2, 1.5), clearance=2.2,
                clump_radius_m=14.0),
-        canopy("column_cypress_b", 22.0, depth=(-99.0, 0.6),
+        canopy("column_cypress_b", 22.0, depth=(-6.0, 0.6),
                riparian=RIPARIAN_WET, scale=(1.2, 1.5), clearance=2.2,
                clump_radius_m=14.0),
         waterline_tree("willow_a", 20.0, scale=(0.6, 0.9)),
-        understory("trop_plant", 30.0, depth=(-99.0, 0.5), riparian=RIPARIAN_WET),
-        understory("manfern", 30.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET,
+        understory("trop_plant", 30.0, depth=(-6.0, 0.5), riparian=RIPARIAN_WET),
+        understory("manfern", 30.0, depth=(-6.0, 0.4), riparian=RIPARIAN_WET,
                    scale=(0.7, 1.1)),
-        understory("fern_big", 30.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
+        understory("fern_big", 30.0, depth=(-6.0, 0.4), riparian=RIPARIAN_WET),
         bank_wall("big_shrub", 100.0),
         bank_wall("manfern", 80.0),
         aquatic_reeds(190.0),
@@ -772,28 +837,28 @@ REGIONS[8] = {
             " Reed flats, scattered trees, thickets only at the water.",
     "layers": [
         landmark_giant("cypress", 0.06, depth=(-3.0, 0.6)),
-        canopy("cypress", 9.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
+        canopy("cypress", 9.0, depth=(-6.0, 0.6), riparian=RIPARIAN_WET,
                scale=(0.6, 0.9), clump_radius_m=18.0),
         # Signature: thin-stemmed "stick trees" in loose stands — the open
         # marsh the player crosses reads as sparse poles, not a cypress edge.
-        canopy("stick_tree_a", 14.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
+        canopy("stick_tree_a", 14.0, depth=(-6.0, 0.6), riparian=RIPARIAN_WET,
                scale=(0.8, 1.2), clump_radius_m=20.0, patchiness=1.2,
                clearance=1.2),
-        canopy("stick_tree_b", 12.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
+        canopy("stick_tree_b", 12.0, depth=(-6.0, 0.6), riparian=RIPARIAN_WET,
                scale=(0.8, 1.2), clump_radius_m=20.0, patchiness=1.2,
                clearance=1.2),
         waterline_tree("willow_b", 12.0, scale=(0.6, 0.9)),
-        understory("loebush", 40.0, depth=(-99.0, 0.2)),
-        understory("fern", 50.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
+        understory("loebush", 40.0, depth=(-6.0, 0.2)),
+        understory("fern", 50.0, depth=(-6.0, 0.4), riparian=RIPARIAN_WET),
         bank_wall("bracken", 125.0),
         # Round 8 breadth pass: the band the player crosses is a SWARD, and it
         # carried none — reeds at the water and bare between. Grass and herbs
         # give the open marsh something at knee height away from the pools.
         layer("algrass", 70.0, role="tall-grass", clump_size_median=8,
-              clump_radius_m=9.0, water_depth_m=[-99.0, 0.3],
+              clump_radius_m=9.0, water_depth_m=[-6.0, 0.3],
               slope_deg_max=30.0, scale_range=[0.8, 1.4]),
         layer("chickweed", 30.0, role="forb", clump_size_median=7,
-              clump_radius_m=7.0, water_depth_m=[-99.0, 0.2],
+              clump_radius_m=7.0, water_depth_m=[-6.0, 0.2],
               slope_deg_max=30.0, scale_range=[0.9, 1.4]),
         aquatic_reeds(320.0, guild="reed-bed"),
         aquatic_lilypads(50.0, guild="lilypad-pond"),
@@ -812,22 +877,22 @@ REGIONS[9] = {
         # Signature: rare flat-crowned umbrella trees standing alone in the
         # grass beyond the ribbon — canon's "fast-growing grasses" plain
         # (Lore:Black Marsh, The Argonian Account) with a few survivors.
-        canopy("umbrella_tree", 2.5, depth=(-99.0, 0.2), scale=(0.9, 1.3),
+        canopy("umbrella_tree", 2.5, depth=(-6.0, 0.2), scale=(0.9, 1.3),
                riparian=RIPARIAN_DRY, clump_size_median=1, singleton_share=0.7,
                clump_radius_m=12.0, clearance=4.0, slope_max=25.0,
                patchiness=0.6),
         bank_wall("loebush", 110.0, shore=(0.0, 18.0)),
-        understory("fern", 30.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
+        understory("fern", 30.0, depth=(-6.0, 0.4), riparian=RIPARIAN_WET),
         layer("algrass", 55.0, role="tall-grass", clump_size_median=8,
-              clump_radius_m=8.0, water_depth_m=[-99.0, 0.5],
+              clump_radius_m=8.0, water_depth_m=[-6.0, 0.5],
               slope_deg_max=32.0, scale_range=[0.8, 1.4]),
         layer("chickweed", 40.0, role="forb", clump_size_median=8,
-              clump_radius_m=7.0, water_depth_m=[-99.0, 0.4],
+              clump_radius_m=7.0, water_depth_m=[-6.0, 0.4],
               slope_deg_max=32.0, scale_range=[0.9, 1.5]),
         # Round 8 breadth pass: bracken on the abrupt outer edge of the
         # gallery ribbon (§6.1 — the edge is where the light gradient lives),
         # and pads on the standing water the flood leaves behind.
-        gap_thicket("bracken", 40.0, depth=(-99.0, 0.3), slope_deg_max=30.0),
+        gap_thicket("bracken", 40.0, depth=(-6.0, 0.3), slope_deg_max=30.0),
         aquatic_lilypads(30.0),
         aquatic_reeds(95.0),
     ],
@@ -843,9 +908,11 @@ REGIONS[11] = {
             " between the two does not step out from under a 35 m canopy into"
             " a 12 m one.",
     "layers": [
+        # Clumped for the same measured reason as region 13's anvil layer.
         layer("anvil_giant", 0.5, tier="T1", role="emergent",
-              clump_size_median=1, singleton_share=1.0, clump_radius_m=0.0,
-              water_depth_m=[-99.0, WADE], slope_deg_max=30.0,
+              clump_size_median=2.0, clump_size_tail=0.3,
+              singleton_share=0.35, clump_radius_m=14.0,
+              water_depth_m=[-6.0, WADE], slope_deg_max=30.0,
               patchiness=0.4, glade_response=0.0,
               scale_range=[0.68, 0.88], clearance_radius_m=9.0),
         canopy("anvil_canopy", 11.0, riparian=RIPARIAN_WET,
@@ -873,7 +940,7 @@ REGIONS[11] = {
         # where the jungle has big-shrub banks.
         bank_wall("bamboo", 155.0),
         layer("chickweed", 35.0, role="forb", clump_size_median=7,
-              clump_radius_m=7.0, water_depth_m=[-99.0, 0.3],
+              clump_radius_m=7.0, water_depth_m=[-6.0, 0.3],
               slope_deg_max=36.0, scale_range=[0.9, 1.5]),
         epiphyte_moss("moss_b", 25.0),
     ],
@@ -976,38 +1043,36 @@ REGIONS[2] = {
         # meshes) — northern Black Marsh is "more temperate" than the
         # southern swamps (Lore:Thornmarsh) and Blackwood is "dark and woodsy"
         # (Lore:Blackwood); cedar thins to an accent.
-        canopy("hill_aspen_a", 40.0, depth=(-99.0, -0.3), scale=(0.8, 1.15),
+        canopy("hill_aspen_a", 40.0, depth=(-6.0, -0.3), scale=(0.8, 1.15),
                slope_max=46.0, riparian=RIPARIAN_DRY, patchiness=1.3,
                clearance=1.5, slope_half_angle_deg=35.0),
-        canopy("hill_aspen_b", 35.0, depth=(-99.0, -0.3), scale=(0.8, 1.15),
+        canopy("hill_aspen_b", 35.0, depth=(-6.0, -0.3), scale=(0.8, 1.15),
                slope_max=46.0, riparian=RIPARIAN_DRY, patchiness=1.3,
                clearance=1.4, slope_half_angle_deg=35.0),
-        canopy("cedar", 22.0, depth=(-99.0, -0.3), scale=(0.7, 1.0),
+        canopy("cedar", 22.0, depth=(-6.0, -0.3), scale=(0.7, 1.0),
                slope_max=48.0, riparian=RIPARIAN_DRY, patchiness=1.3,
                clearance=1.5, slope_half_angle_deg=35.0),
-        understory("fall_shrub", 70.0, depth=(-99.0, -0.2),
+        understory("fall_shrub", 70.0, depth=(-6.0, -0.2),
                    riparian=RIPARIAN_DRY, scale=(0.8, 1.3),
                    slope_deg_max=52.0, slope_half_angle_deg=35.0),
-        gap_thicket("fall_shrub", 70.0, depth=(-99.0, -0.2),
+        gap_thicket("fall_shrub", 70.0, depth=(-6.0, -0.2),
                     slope_deg_max=50.0),
-        gap_thicket("gorse", 60.0, depth=(-99.0, -0.2), slope_deg_max=50.0),
+        gap_thicket("gorse", 60.0, depth=(-6.0, -0.2), slope_deg_max=50.0),
         gallery("alder", 50.0, shore=(0.0, 25.0), scale=(0.8, 1.1)),
         # Round 8 breadth pass: bracken under the stands, loebush in the open
         # scrub between them, herbs in the sward — the hill floor was three
         # species and read as one.
-        interior_shrub("bracken", 40.0, depth=(-99.0, -0.2)),
-        understory("loebush", 35.0, depth=(-99.0, -0.2),
+        interior_shrub("bracken", 40.0, depth=(-6.0, -0.2)),
+        understory("loebush", 35.0, depth=(-6.0, -0.2),
                    riparian=RIPARIAN_DRY, slope_deg_max=50.0,
                    slope_half_angle_deg=35.0),
         layer("chickweed", 30.0, role="forb", clump_size_median=7,
-              clump_radius_m=7.0, water_depth_m=[-99.0, 0.1],
+              clump_radius_m=7.0, water_depth_m=[-6.0, 0.1],
               slope_deg_max=46.0, scale_range=[0.9, 1.4]),
         layer("algrass", 70.0, role="tall-grass", clump_size_median=6,
-              clump_radius_m=7.0, water_depth_m=[-99.0, 0.1],
+              clump_radius_m=7.0, water_depth_m=[-6.0, 0.1],
               slope_deg_max=50.0, slope_half_angle_deg=35.0,
               scale_range=[0.8, 1.4]),
-        *boulders(30.0, slope_max=55.0),
-        cliff_dressing(9.0),
     ],
 }
 
@@ -1017,41 +1082,39 @@ REGIONS[1] = {
             " with altitude, bare rock carrying the view. Trees stop at the"
             " high altitude band; scrub climbs a little further.",
     "layers": [
-        canopy("juniper", 32.0, depth=(-99.0, -0.5), scale=(0.7, 1.1),
+        canopy("juniper", 32.0, depth=(-6.0, -0.5), scale=(0.7, 1.1),
                slope_max=50.0, altitude_m=[0.0, 420.0], clearance=1.5,
                riparian=RIPARIAN_DRY, slope_half_angle_deg=35.0),
         # Signature: pine on the Morrowind-facing border ranges, in stands,
         # stopping below the juniper line (Lore:Thornmarsh — the north is
         # temperate; the mountains are the only cold ground in the province).
-        canopy("pine_a", 30.0, depth=(-99.0, -0.5), scale=(0.75, 1.15),
+        canopy("pine_a", 30.0, depth=(-6.0, -0.5), scale=(0.75, 1.15),
                slope_max=45.0, altitude_m=[0.0, 380.0], clearance=1.8,
                riparian=RIPARIAN_DRY, patchiness=1.4, slope_half_angle_deg=32.0),
-        canopy("cedar", 6.0, depth=(-99.0, -0.5), scale=(0.6, 0.9),
+        canopy("cedar", 6.0, depth=(-6.0, -0.5), scale=(0.6, 0.9),
                slope_max=38.0, altitude_m=[0.0, 300.0], clearance=1.6,
                riparian=RIPARIAN_DRY, patchiness=1.3),
-        understory("fall_shrub", 45.0, depth=(-99.0, -0.3),
+        understory("fall_shrub", 45.0, depth=(-6.0, -0.3),
                    altitude_m=[0.0, 480.0], scale=(0.7, 1.2)),
         # Round 8 breadth pass: the mountains carried ONE understory species,
         # so every slope in the province's only cold ground read identically.
         # These five are the temperate-hill understory the uplands already
         # use, gated to the altitudes each can hold — bracken and gorse below
         # the treeline, grass and herbs climbing past it onto the open fell.
-        interior_shrub("loebush", 25.0, depth=(-99.0, -0.3),
+        interior_shrub("loebush", 25.0, depth=(-6.0, -0.3),
                        altitude_m=[0.0, 440.0]),
-        gap_thicket("bracken", 35.0, depth=(-99.0, -0.3),
+        gap_thicket("bracken", 35.0, depth=(-6.0, -0.3),
                     altitude_m=[0.0, 400.0], slope_deg_max=48.0),
-        gap_thicket("gorse", 30.0, depth=(-99.0, -0.3),
+        gap_thicket("gorse", 30.0, depth=(-6.0, -0.3),
                     altitude_m=[0.0, 460.0], slope_deg_max=48.0),
         layer("algrass", 60.0, role="tall-grass", clump_size_median=6,
-              clump_radius_m=8.0, water_depth_m=[-99.0, -0.2],
+              clump_radius_m=8.0, water_depth_m=[-6.0, -0.2],
               altitude_m=[0.0, 620.0], slope_deg_max=48.0,
               slope_half_angle_deg=35.0, scale_range=[0.7, 1.2]),
         layer("chickweed", 30.0, role="forb", clump_size_median=7,
-              clump_radius_m=7.0, water_depth_m=[-99.0, -0.2],
+              clump_radius_m=7.0, water_depth_m=[-6.0, -0.2],
               altitude_m=[0.0, 560.0], slope_deg_max=45.0,
               scale_range=[0.8, 1.3]),
-        *boulders(55.0, slope_max=60.0),
-        cliff_dressing(16.0),
     ],
 }
 
@@ -1142,54 +1205,75 @@ def rebase_stems(region: int, layers: list[dict], factor: float) -> None:
 EXCLUSIVE_UNDERSTORY: dict[int, list[dict]] = {
     # Border mountains: green fern in the slope hollows, the one place on the
     # ladder where the province stops being swamp.
-    1: [understory("brack_a", 45.0, depth=(-99.0, 0.1), scale=(0.8, 1.3),
+    1: [understory("brack_a", 45.0, depth=(-6.0, 0.1), scale=(0.8, 1.3),
                    clump_radius_m=6.0),
-        gap_thicket("brack_b", 35.0, depth=(-99.0, 0.1), slope_deg_max=38.0)],
+        gap_thicket("brack_b", 35.0, depth=(-6.0, 0.1), slope_deg_max=38.0)],
     # Upland hills: fern with a second shrub hue, so the grassland north
     # reads as its own country from the marsh edge.
-    2: [understory("brack_c", 55.0, depth=(-99.0, 0.2), scale=(0.8, 1.3)),
-        gap_thicket("big_shrub_b", 22.0, depth=(-99.0, 0.2))],
-    # Tidal delta: submerged coral grass and short kelp on the salt flats.
-    3: [aquatic_kelp("coral_grass", 60.0, depth=(0.3, 2.5), peak=1.0),
-        aquatic_kelp("kelp_short_b", 70.0, depth=(0.5, 3.0), peak=1.4)],
-    # Coastal lagoon: the big weed clumps and a taller stipe offshore.
-    4: [aquatic_kelp("seaweed_clump", 18.0, depth=(1.2, 6.0), peak=2.4,
-                     scale=(0.5, 0.9)),
-        aquatic_kelp("wkelp_tall_b", 55.0, depth=(1.0, 5.0), peak=2.0)],
-    # Deep river corridor: small bank reeds and a tall submerged waterweed.
+    2: [understory("brack_c", 55.0, depth=(-6.0, 0.2), scale=(0.8, 1.3)),
+        gap_thicket("big_shrub_b", 22.0, depth=(-6.0, 0.2))],
+    # Tidal delta and coastal lagoon: their aquatics are no longer authored
+    # here. Everything that stands in water is now gated on the hydrology
+    # record's water KIND, season and depth by AQUATIC_BAND below, which every
+    # region carries — a land region class was never the right thing to decide
+    # what grows on a sea bed (2026-09-16). Moving them out left 3 and 4 with
+    # nothing exclusive, so both take two DRY-footed species instead, chosen
+    # from the flora kit's unplaced assets (16f deliverable 12).
+    #
+    # Tidal delta: the salt sward on the drying flats between the channels,
+    # and a fern stand on the dry levee crowns the region already plants
+    # `fern` on. Neither stands in either of its neighbours (8, 14).
+    3: [layer("coral_grass", 45.0, role="tall-grass", clump_size_median=8,
+              clump_radius_m=7.0, water_depth_m=[-6.0, 0.25],
+              slope_deg_max=22.0, scale_range=[0.8, 1.4]),
+        understory("brack_e", 35.0, depth=(-6.0, -0.1), scale=(0.8, 1.2))],
+    # Coastal lagoon and salt marsh: strand-palm regrowth on the dune line
+    # (the mesh the province's other three palm coasts never use), and a
+    # broad fern clump where fresh water reaches the back of the lagoon.
+    # Neither is carried by 8, 11, 12, 13 or 14.
+    4: [understory("palm_c", 22.0, depth=(-6.0, -0.2), scale=(0.35, 0.55)),
+        understory("brackclump_d", 30.0, depth=(-6.0, 0.1), scale=(0.7, 1.1))],
+    # Deep river corridor: banana clumps on the bank (canon tropical flora,
+    # fauna-hazards § Flora) and the small 7.9 m jungle tree as the bank
+    # thicket's own silhouette. The brief asked for a second REED here; the
+    # kit has no unplaced reed left (reed_large/med/small_a/small_b are all
+    # placed, and reed_large/med belong to region 8, a neighbour), so the
+    # corridor's exclusivity is carried by these two instead.
     5: [aquatic_reeds(90.0, species="reed_small_a"),
-        aquatic_kelp("wkelp_tall_c", 45.0, depth=(1.0, 4.5), peak=1.8)],
+        understory("banana", 40.0, depth=(-6.0, 0.3), riparian=RIPARIAN_WET,
+                   scale=(0.8, 1.2)),
+        bank_wall("jungle_tree_hero", 35.0, shore=(0.0, 18.0))],
     # Rootland deep marsh: fungal pods on the floor between the buttresses.
     6: [layer("fungal_pod_a", 40.0, role="floor-fungi", clump_size_median=5,
-              clump_radius_m=5.0, water_depth_m=[-99.0, 0.15],
+              clump_radius_m=5.0, water_depth_m=[-6.0, 0.15],
               slope_deg_max=22.0, scale_range=[0.8, 1.6]),
-        understory("brackclump_a", 30.0, depth=(-99.0, 0.2), scale=(0.7, 1.1))],
+        understory("brackclump_a", 30.0, depth=(-6.0, 0.2), scale=(0.7, 1.1))],
     # Interior swamp: the smaller pod, and a broader fern clump.
     7: [layer("fungal_pod_b", 55.0, role="floor-fungi", clump_size_median=6,
-              clump_radius_m=5.0, water_depth_m=[-99.0, 0.15],
+              clump_radius_m=5.0, water_depth_m=[-6.0, 0.15],
               slope_deg_max=22.0, scale_range=[0.9, 1.8]),
-        understory("brackclump_b", 35.0, depth=(-99.0, 0.25), scale=(0.7, 1.1))],
+        understory("brackclump_b", 35.0, depth=(-6.0, 0.25), scale=(0.7, 1.1))],
     # Fringe marsh: the reed flats the region is named for stop being one
     # mesh. These two are the wide, 12-triangle beds — the cheapest way to
     # make the open marsh read as reed country.
     8: [aquatic_reeds(120.0, species="reed_large", scale=(0.7, 1.1)),
         aquatic_reeds(140.0, species="reed_med", scale=(0.7, 1.2))],
     # Seasonal floodplain: fern on the abrupt outer edge of the gallery.
-    9: [gap_thicket("brackclump_c", 45.0, depth=(-99.0, 0.3),
+    9: [gap_thicket("brackclump_c", 45.0, depth=(-6.0, 0.3),
                     slope_deg_max=30.0),
-        understory("brack_d", 40.0, depth=(-99.0, 0.3), scale=(0.8, 1.3))],
+        understory("brack_d", 40.0, depth=(-6.0, 0.3), scale=(0.8, 1.3))],
     # Firm lowland: our largest lowland class, and the one that most needed
     # something of its own at eye level.
-    11: [understory("brackclump_e", 45.0, depth=(-99.0, 0.2), scale=(0.7, 1.1)),
-         gap_thicket("big_shrub_c", 20.0, depth=(-99.0, 0.2))],
+    11: [understory("brackclump_e", 45.0, depth=(-6.0, 0.2), scale=(0.7, 1.1)),
+         gap_thicket("big_shrub_c", 20.0, depth=(-6.0, 0.2))],
     # Lake and standing water: a second pad hue at the margin, and a
     # submerged weed clump off the bank.
     12: [aquatic_lilypads(45.0, species="pond_reedpad"),
          aquatic_kelp("seaweed_clump_b", 12.0, depth=(1.5, 6.0), peak=2.6,
                       scale=(0.5, 0.9))],
     # Tropical jungle: understory only — the ladder holds region 13's stems.
-    13: [understory("brackclump_f", 40.0, depth=(-99.0, 0.2), scale=(0.8, 1.2)),
-         understory("brack_f", 55.0, depth=(-99.0, 0.2), scale=(0.9, 1.4))],
+    13: [understory("brackclump_f", 40.0, depth=(-6.0, 0.2), scale=(0.8, 1.2)),
+         understory("brack_f", 55.0, depth=(-6.0, 0.2), scale=(0.9, 1.4))],
     # Mangrove forest: fine reeds in the root channels, and the tall
     # waterweed it shares with the river corridor (they never meet).
     14: [aquatic_reeds(110.0, species="reed_small_b"),
@@ -1198,6 +1282,473 @@ EXCLUSIVE_UNDERSTORY: dict[int, list[dict]] = {
 
 for _region, _layers in EXCLUSIVE_UNDERSTORY.items():
     REGIONS[_region]["layers"].extend(_layers)
+
+
+# ===========================================================================
+# THE UNDERWATER BAND (2026-09-16)  ---  keep additions inside this block
+# ===========================================================================
+#
+# What the drowned layer stands in is decided by the HYDROLOGY RECORD, never
+# by a land region class (0065/0066): a sea bed is a sea bed whether the
+# nearest dry ground is jungle, marsh or mountain, and gating kelp on
+# "coastal lagoon & salt marsh" left every other stretch of coast bare.
+#
+# So every layer here carries `region_classes=()` and is gated on the
+# record's water KIND, its SEASON and the signed DEPTH, plus the ground
+# material where the material is the point (coral wants rock, clams want
+# sand). `merge_palettes` stamps an empty `region_classes` with the region
+# key it was read under, so "province-wide" is realised by appending the
+# whole band to EVERY region class including 0 (ocean) — there is no region
+# key that means "all", and the union of all of them is the province.
+#
+# Depth floor: every AQUATIC role starts at >= 0.3 m of wet-season standing
+# water, so nothing in the band can stand above the waterline. The two
+# WATERLINE layers (strand driftwood, washed-up planks) are deliberately NOT
+# aquatic roles — they are the debris line where the water meets the land,
+# banded on `shore_m`, and the depth floor does not apply to them.
+#
+# Per-group densities are the group total, split evenly across the group's
+# species (three kelp species at 60/ha is 20/ha each, not 180/ha).
+
+_ANY_SEASON = None
+
+
+def aquatic(species: str, per_ha: float, role: str, kinds: tuple[str, ...],
+            depth: tuple[float, float], **kw) -> dict:
+    """One layer of the underwater band: a bed species in a named water kind.
+
+    `channel_exclusion` is False on every one of them — unlike a tree, a weed
+    bed in a flowing reach is exactly right, and the kind gate already says
+    which reaches it belongs to.
+    """
+    assert depth[0] >= 0.3, f"{species}: aquatic depth floor is 0.3 m"
+    entry = layer(species, per_ha, tier="T2", role=role,
+                  water_depth_m=list(depth), water_kinds=list(kinds),
+                  channel_exclusion=False, **kw)
+    return entry
+
+
+def waterline(species: str, per_ha: float, role: str, kinds: tuple[str, ...],
+              shore: tuple[float, float], **kw) -> dict:
+    """The debris line: pieces the sea leaves at the edge, banded on shore
+    distance rather than on depth, so they read as washed up rather than
+    sunk."""
+    return layer(species, per_ha, tier="T2", role=role, shore_m=list(shore),
+                 water_kinds=list(kinds), channel_exclusion=False, **kw)
+
+
+def _split(species: tuple[str, ...], per_ha: float, builder, **kw) -> list[dict]:
+    """Group density split evenly across the group's species."""
+    return [builder(name, round(per_ha / len(species), 2), **kw)
+            for name in species]
+
+
+#: Land-cover material ids the band gates on, by name (`worldgen.landcover`).
+_ROCKY_BED = (lc.PEBBLES, lc.BC_ROCK, lc.MOSSY_ROCK, lc.OCEAN_FLOOR)
+_SANDY_BED = (lc.SEABED_SAND, lc.BEACH_SAND, lc.SILT)
+_STRAND = (lc.BEACH_SAND, lc.SAND, lc.SEABED_SAND)
+
+AQUATIC_BAND: list[dict] = [
+    # Kelp forest — the band's canopy. Perennial only: a kelp bed that dries
+    # out in the dry season is a dead kelp bed.
+    *_split(("kelp_tall_v", "wkelp_tall_b", "wkelp_tall_c"), 60.0, aquatic,
+            role="aquatic-kelp", depth=(2.0, 12.0),
+            kinds=("ocean", "lagoon", "lake-lowland", "tarn-upland",
+                   "horizontal-tidal"),
+            season_kinds=["perennial"], depth_peak_m=5.0,
+            depth_half_width_m=4.0, clump_size_median=5, clump_radius_m=6.0,
+            singleton_share=0.2, scale_range=[0.8, 1.3]),
+    # Seaweed clumps — the broad salt-water weed, shallower than the kelp.
+    *_split(("seaweed_clump", "seaweed_clump_b"), 25.0, aquatic,
+            role="aquatic-seaweed", depth=(1.0, 8.0),
+            kinds=("ocean", "lagoon", "horizontal-tidal"),
+            season_kinds=["perennial"], depth_peak_m=3.0,
+            depth_half_width_m=3.0, clump_size_median=6, clump_radius_m=7.0,
+            scale_range=[0.5, 0.9]),
+    # Deep kelp trees — the two giant-kelp columns, small and deep (see the
+    # note in S). At 0.15-0.35 they stand 4-15 m: a stipe, not a canopy.
+    *_split(("kelp_tree_a", "kelp_tree_b"), 8.0, aquatic,
+            role="aquatic-kelp-deep", depth=(6.0, 25.0),
+            kinds=("ocean", "lagoon", "lake-lowland"),
+            season_kinds=["perennial"], depth_peak_m=12.0,
+            depth_half_width_m=7.0, clump_size_median=3, clump_radius_m=12.0,
+            singleton_share=0.3, scale_range=[0.15, 0.35]),
+    # Corals — reef, so they need rock or a swept floor, not silt. The mod
+    # places them at 2.3-5.5 m of depth on its own coral-forest ground.
+    *_split(("coral_big", "coral_med", "coral_small"), 20.0, aquatic,
+            role="aquatic-coral", depth=(2.0, 6.0),
+            kinds=("ocean", "lagoon"), land_cover=list(_ROCKY_BED),
+            season_kinds=["perennial"], depth_peak_m=3.5,
+            depth_half_width_m=2.0, clump_size_median=4, clump_radius_m=5.0,
+            scale_range=[0.6, 1.2]),
+    # Algae mats — the still, warm, shallow water of the interior: swamp,
+    # backswamp, marsh pools. Any season; a drying pool still scums over.
+    aquatic("algae_mat", 40.0, role="aquatic-algae", depth=(0.3, 2.0),
+            kinds=("backswamp", "swamp", "marsh-deep", "pond", "pool",
+                   "horizontal-backwater"),
+            depth_peak_m=0.8, depth_half_width_m=1.0,
+            clump_size_median=8, clump_radius_m=6.0, tilt_deg_max=0.0,
+            scale_range=[0.8, 1.4]),
+    # Driftwood sunk on the bed of still fresh water.
+    *_split(("driftwood_a", "driftwood_b"), 1.5, aquatic,
+            role="aquatic-deadfall", depth=(0.5, 6.0),
+            kinds=("lake-lowland", "lagoon", "horizontal-backwater", "pond"),
+            clump_size_median=1, singleton_share=0.8, clump_radius_m=14.0,
+            scale_range=[0.8, 1.2]),
+    # ...and the same pieces thrown up on the strand at the waterline.
+    *_split(("driftwood_a", "driftwood_b"), 2.0, waterline,
+            role="strand-deadfall", shore=(-3.0, 0.5),
+            kinds=("ocean", "lagoon"), land_cover=list(_STRAND),
+            clump_size_median=2, singleton_share=0.7, clump_radius_m=12.0,
+            scale_range=[0.8, 1.2]),
+    # Shell beds — clams on sand and silt, in the shallows where they are
+    # worth wading out to. Tight clumps: a shell bed is a bed.
+    *_split(("clam_a", "clam_b", "clam_c"), 30.0, aquatic,
+            role="aquatic-shells", depth=(0.3, 5.0),
+            kinds=("ocean", "lagoon", "horizontal-tidal"),
+            land_cover=list(_SANDY_BED), depth_peak_m=1.5,
+            depth_half_width_m=2.0, clump_size_median=6, clump_radius_m=4.0,
+            singleton_share=0.1, scale_range=[0.9, 1.25]),
+    # Wreck timber at the waterline: the sea's own litter, and the hint that
+    # something bigger is on the bed further out (16g/16h plot the hulls).
+    *_split(("boards_a", "boards_b", "boards_c"), 1.0, waterline,
+            role="strand-debris", shore=(-2.0, 3.0),
+            kinds=("ocean", "lagoon"),
+            clump_size_median=3, clump_radius_m=5.0, scale_range=[0.95, 1.05]),
+    # A broken rowboat on the bed of a lake or a backwater: rare enough to be
+    # a find, common enough that the water is not empty.
+    *_split(("rowboat_back", "rowboat_front"), 0.15, aquatic,
+            role="aquatic-debris", depth=(0.5, 4.0),
+            kinds=("lake-lowland", "lagoon", "horizontal-backwater"),
+            clump_size_median=1, singleton_share=1.0, clump_radius_m=0.0,
+            scale_range=[0.9, 1.1]),
+]
+
+# Region 0 is the ocean: no land vegetation is authored for it anywhere, so
+# without this it would be the one region class the band never reached.
+REGIONS[0] = {"id": "ocean", "layers": [],
+              "note": "open water and sea bed — the underwater band only; "
+                      "nothing in region 0 stands on dry land."}
+
+for _spec in REGIONS.values():
+    _spec["layers"].extend(json.loads(json.dumps(AQUATIC_BAND)))
+
+
+
+# ===========================================================================
+# --- rocks and dressing zones (16f) ---  keep additions inside this block
+# ===========================================================================
+#
+# Every rock figure is read from the mined vanilla record at build time by
+# worldgen/rock_dressing.py; the rules those figures support are stated once in
+# docs/research/vegetation/rock-placement-rules.md. Nothing below types a
+# sink, a tilt, a scale or a slope band.
+
+#: Every LAND region class (0 is open ocean). A layer that belongs everywhere
+#: carries this explicitly rather than an empty gate: `merge_palettes` reads an
+#: empty `region_classes` as "the region whose palette holds it", so a
+#: province-wide layer has to name its regions.
+LAND_REGION_CLASSES = tuple(sorted(r for r in REGION_CLASSES if r != 0))
+
+#: Ground the lowland rock scatter may stand on (mined rule 3).
+_LOWLAND_ROCK_COVERS = ("GRASS_DIRT", "SCRUB", "TROP_GRASS", "LITTER",
+                        "FOREST_FLOOR")
+
+# --- upland rock, per region ------------------------------------------------
+# Regions 1 and 2 keep the totals they shipped with (55 and 30 boulders/ha);
+# the lowland classes get a thin scatter on their soft covers only.
+REGIONS[1]["layers"] += rd.boulders_dry((1,), 55.0)
+REGIONS[1]["layers"] += rd.rock_piles((1,), 8.0)
+REGIONS[2]["layers"] += rd.boulders_dry((2,), 30.0)
+REGIONS[2]["layers"] += rd.rock_piles((2,), 8.0)
+for _region in (5, 9, 11, 13):
+    REGIONS[_region]["layers"] += rd.boulders_dry(
+        (_region,), 3.0, land_cover=_LOWLAND_ROCK_COVERS)
+
+# --- province-wide rock -----------------------------------------------------
+# Cliffs, cliff feet, wet rocks, surf and falls are decided by the GROUND and
+# the water record, never by a land region: a cliff is a cliff in the jungle as
+# much as in the mountains, and a rapid's bed rocks belong to the rapid. They
+# are written ONCE, gated to every land class, and filed under region 1 purely
+# because that is the palette a reader looks in for rock — the region key does
+# no work here; `region_classes` does all of it.
+_PROVINCE_ROCKS: list[dict] = []
+_PROVINCE_ROCKS += rd.cliff_pieces(12.0)          # >= 28 deg ground, open backs in
+_PROVINCE_ROCKS += rd.cliff_foot_piles(1.5, 15.0)  # fallen stone below a face
+_PROVINCE_ROCKS += rd.wet_rocks(25.0)              # in and beside the water
+_PROVINCE_ROCKS += rd.surf_rocks(40.0)             # rocky sea shore
+_PROVINCE_ROCKS += rd.fall_rocks(60.0)             # falls, chutes, plunge pools
+for _layer in _PROVINCE_ROCKS:
+    _layer["region_classes"] = list(LAND_REGION_CLASSES)
+REGIONS[1]["layers"] += _PROVINCE_ROCKS
+
+# --- authored dressing zones (deliverable 4) --------------------------------
+# A zone overlay is ADDITIVE: it is appended to every region palette its
+# polygon touches and suppresses nothing, so the region's own dressing still
+# stands inside it. Which regions a polygon touches is a raster question the
+# compiler answers, so the layer is gated on the zone id and on every land
+# class; the zone raster does the rest.
+_ZONE_LAYERS = dz.zone_layers()
+for _layer in _ZONE_LAYERS:
+    _layer["region_classes"] = list(LAND_REGION_CLASSES)
+REGIONS[1]["layers"] += _ZONE_LAYERS
+
+# --- the litter mask's twin (deliverable 10) --------------------------------
+# Woody layers do not grow out of bare rock. The mask in the ground tint's
+# alpha makes the GROUND under a canopy read as litter; this keeps the canopy
+# off the rock in the first place. Regions 1 and 2 are the exception the
+# mountains need: their own trees do stand on mountain rock.
+_WOODY_ROLES = frozenset({
+    "landmark-giant", "emergent", "canopy", "understory", "gallery",
+    "gap-thicket", "green-wall", "bank-wall", "waterline-tree",
+    "drowned-tree", "drowned-tree-dry", "basin-mangrove",
+})
+_BARE_ROCK_COVERS = (lc.BC_ROCK, lc.MOUNTAIN_ROCK, lc.DIRT_CLIFF)
+for _region, _spec in REGIONS.items():
+    _excluded = ([lc.BC_ROCK, lc.DIRT_CLIFF] if _region in (1, 2)
+                 else list(_BARE_ROCK_COVERS))
+    for _layer in _spec["layers"]:
+        if _layer.get("role") in _WOODY_ROLES and not _layer.get("land_cover"):
+            _layer["land_cover_not"] = _excluded
+
+
+# ===========================================================================
+# --- upland dressing (16f deliverable 11) ---  keep additions inside this block
+# ===========================================================================
+#
+# Sixteen vanilla upland pieces shipped in flora-province-v1 that no palette
+# placed: dead shrubs, tundra scrub, the Reach shrub, the thicket, the three
+# mountain flowers, and the pine/aspen deadfall. They are DRESSING, not a
+# stratum — the mountains and the hills read as bare ground between their
+# stands, and this is what a player finds when they walk into that ground.
+#
+# Every slope gate below is the species' own mined slope p75 + 10 deg (the
+# mined record is the evidence for where vanilla stood each piece; the +10
+# is the same widening the rock layers use, so a piece vanilla put on a 23
+# deg hillside is not refused the 30 deg one next to it). Sinks are NOT typed
+# here: `composition.Composition` reads each species' mined `pivotOffsetM`
+# from world/sources/placement/composition-rules.json.
+
+#: Soil covers the upland dressing may stand on.
+_UPLAND_SOIL_COVERS = ("GRASS_DIRT", "SCRUB", "TROP_GRASS", "PEAT",
+                       "MUD_LEAVES")
+#: ...plus the stony ones the dead shrubs and the rock-tolerant forbs hold.
+_UPLAND_ROCK_COVERS = ("SCREE", "PEBBLES", "MOUNTAIN_ROCK", "MOSSY_ROCK")
+_UPLAND_ALL_COVERS = _UPLAND_SOIL_COVERS + _UPLAND_ROCK_COVERS
+
+#: `treepineforeststump02a` is the only one of the sixteen vanilla never
+#: placed in Tamriel, so it has no mined row of its own. It takes
+#: `treepineforeststump01`'s profile — the same authored pine stump at a
+#: different break — exactly as `rock_dressing.MINED_ALIAS` does for
+#: `moss_rockcliff01`. The same alias is written into composition-rules.json
+#: so its SINK comes from the same evidence rather than a class default.
+UPLAND_MINED_ALIAS = {
+    S["pine_stump_b"]: S["pine_stump_a"],
+}
+
+
+def _cover_ids(names: tuple[str, ...]) -> list[int]:
+    return [getattr(lc, name) for name in names]
+
+
+def _upland_slope_max(species: str) -> float:
+    """Mined slope p75 + 10 deg, the band this piece is allowed to stand on."""
+    mined_id = UPLAND_MINED_ALIAS.get(S[species], S[species])
+    return round(rd.mined(mined_id)["slope_p75"] + 10.0, 1)
+
+
+def _mined_count(species: str) -> int:
+    mined_id = UPLAND_MINED_ALIAS.get(S[species], S[species])
+    return int(rd.mined(mined_id)["n"])
+
+
+def dressing(species: str, per_ha: float, role: str, regions: tuple[int, ...],
+             covers: tuple[str, ...], *, tier: str = "T2", **kw) -> dict:
+    """One upland dressing layer: a mined slope band, a cover allow-list and
+    the channel exclusion every dry-footed piece carries."""
+    return layer(species, per_ha, tier=tier, role=role,
+                 region_classes=list(regions),
+                 land_cover=_cover_ids(covers),
+                 slope_deg_max=_upland_slope_max(species),
+                 channel_exclusion=True,
+                 water_depth_m=kw.pop("water_depth_m", [-99.0, -0.2]),
+                 **kw)
+
+
+def _split_by_mined(species: tuple[str, ...], total_per_ha: float,
+                    **kw) -> list[dict]:
+    """A group total split across its species by their mined counts — the
+    proportions vanilla itself placed them in."""
+    counts = {name: _mined_count(name) for name in species}
+    n = sum(counts.values())
+    return [dressing(name, round(total_per_ha * counts[name] / n, 2), **kw)
+            for name in species]
+
+
+_UPLAND: list[dict] = []
+# Dead shrubs: the province's driest silhouette, on soil AND on stone.
+_UPLAND += [dressing("dead_shrub", 9.0, "dead-shrub", (1,), _UPLAND_ALL_COVERS,
+                     clump_size_median=4, clump_radius_m=9.0,
+                     scale_range=[0.67, 1.19], patchiness=1.1),
+            dressing("dead_shrub", 9.0, "dead-shrub", (2,), _UPLAND_ALL_COVERS,
+                     clump_size_median=4, clump_radius_m=9.0,
+                     scale_range=[0.67, 1.19], patchiness=1.1)]
+# Region 1's low scrub mat: four meshes at 10/ha between them, in the mined
+# proportions, above the 100 m line where the mountains start.
+_UPLAND += _split_by_mined(
+    ("tundra_shrub_a", "tundra_shrub_b", "tundra_shrub_c", "tundra_scrub"),
+    10.0, role="dead-shrub", regions=(1,), covers=_UPLAND_ALL_COVERS,
+    clump_size_median=5, clump_radius_m=8.0, scale_range=[0.61, 1.10],
+    altitude_m=[100.0, 9999.0], patchiness=1.2)
+# Region 2's own two: the Reach shrub and the thicket.
+_UPLAND += [dressing("reach_shrub", 6.0, "dead-shrub", (2,), _UPLAND_ALL_COVERS,
+                     clump_size_median=5, clump_radius_m=8.0,
+                     scale_range=[0.91, 1.24], patchiness=1.1),
+            dressing("thicket", 12.0, "dead-shrub", (2,), _UPLAND_ALL_COVERS,
+                     clump_size_median=6, clump_radius_m=7.0,
+                     scale_range=[0.64, 1.18], patchiness=1.2)]
+# Mountain flowers: 5/ha between the three hues in both upland regions,
+# split by mined count. Region 1 keeps them above 100 m (the montane band).
+_UPLAND += _split_by_mined(
+    ("mtn_flower_purple", "mtn_flower_blue", "mtn_flower_red"), 5.0,
+    role="mountain-forb", regions=(1,), covers=_UPLAND_ALL_COVERS,
+    clump_size_median=6, clump_radius_m=6.0, scale_range=[0.90, 1.55],
+    altitude_m=[100.0, 9999.0])
+_UPLAND += _split_by_mined(
+    ("mtn_flower_purple", "mtn_flower_blue", "mtn_flower_red"), 5.0,
+    role="mountain-forb", regions=(2,), covers=_UPLAND_ALL_COVERS,
+    clump_size_median=6, clump_radius_m=6.0, scale_range=[0.90, 1.55])
+# Deadfall in the montane forest belt: fallen pine trunks and their stumps,
+# on soil only (a log lies on the forest floor, not on scree), above 100 m
+# where region 1's pine and juniper stand. T1 for the logs — a 15 m trunk is
+# a hero silhouette; the stumps are ordinary mid instances.
+_UPLAND += _split_by_mined(
+    ("pine_log_a", "pine_log_b"), 1.5, role="deadfall", regions=(1,),
+    covers=_UPLAND_SOIL_COVERS, tier="T1", clump_size_median=1,
+    singleton_share=0.8, clump_radius_m=14.0, scale_range=[0.65, 1.10],
+    altitude_m=[100.0, 9999.0], clearance_radius_m=2.0)
+_UPLAND += _split_by_mined(
+    ("pine_stump_a", "pine_stump_b"), 1.0, role="deadfall", regions=(1,),
+    covers=_UPLAND_SOIL_COVERS, clump_size_median=1, singleton_share=0.8,
+    clump_radius_m=12.0, scale_range=[0.42, 1.00],
+    altitude_m=[100.0, 9999.0], clearance_radius_m=1.5)
+# ...and the aspen pair in the hills, 1.5/ha between them in their mined
+# proportions (139 logs to 158 stumps). Written as two calls rather than one
+# split so the log keeps the T1 tier every fallen trunk carries.
+_UPLAND += [dressing("aspen_log", 0.7, "deadfall", (2,), _UPLAND_SOIL_COVERS,
+                     tier="T1", clump_size_median=1, singleton_share=0.8,
+                     clump_radius_m=12.0, scale_range=[0.66, 1.00],
+                     clearance_radius_m=1.5),
+            dressing("aspen_stump", 0.8, "deadfall", (2,), _UPLAND_SOIL_COVERS,
+                     clump_size_median=1, singleton_share=0.8,
+                     clump_radius_m=12.0, scale_range=[0.88, 1.00],
+                     clearance_radius_m=1.5)]
+
+for _layer in _UPLAND:
+    REGIONS[_layer["region_classes"][0]]["layers"].append(_layer)
+
+
+# ===========================================================================
+# --- thin classes on the record (16f deliverable 12) ---
+# ===========================================================================
+#
+# Two region classes are thin strips on the paint and rich places in the
+# record. Rather than widening the raster, their dressing is ALSO applied as
+# an overlay keyed to the hydrology record itself (0065/0066: the compile
+# realises the graph, it never re-derives it), gated on the water ENTITY or
+# on the distance to a major reach rather than on which class the paint gave
+# the texel. Regions 3 and 5 keep their own palettes where the raster paints
+# them; these copies stand wherever the record says the same place is.
+#
+# The copies carry an `overlay-` role prefix. That is not decoration: a
+# province-wide overlay is not part of any region's authored tree ladder, so
+# `vegetation_ladder.is_stem_layer` refuses the prefix and the ladder keeps
+# measuring what each region's own table authored (a T1 gallery copy added to
+# thirteen regions would otherwise re-base every one of them).
+
+HYDRO_GRAPH = (REPO_ROOT / "world" / "sources" / "hydrology"
+               / "hydrology-graph.json")
+
+#: The delta river and the radius around its mouth the overlay reaches.
+DELTA_RIVER_ID = "river.889-484"
+DELTA_MOUTH_RADIUS_M = 400.0
+#: Body kinds the delta dressing belongs in around that mouth.
+DELTA_BODY_KINDS = ("mudflat", "lagoon")
+#: Roles of region 3's own layers the overlay repeats: the mudflat and
+#: salt-marsh tiers (reeds, the salt sward, the mangrove edge).
+DELTA_OVERLAY_ROLES = ("aquatic-reeds", "tall-grass", "waterline-tree",
+                       "basin-mangrove")
+#: Roles of region 5's that the corridor overlay repeats, and how far from a
+#: band-3 reach centreline the gallery ribbon reaches.
+CORRIDOR_OVERLAY_ROLES = ("gallery", "waterline-tree")
+CORRIDOR_HALF_WIDTH_M = 60.0
+
+
+def delta_entities(path: Path = HYDRO_GRAPH) -> list[str]:
+    """Entity ids the delta overlay stands on, read from the graph.
+
+    Every reach of the delta river, plus every mudflat or lagoon body whose
+    bbox centre lies within 400 m of that river's mouth. Cell units become
+    metres by the graph header's own `grid.metresPerSample`, which is how
+    `compile_water` reads `bboxCells`.
+    """
+    graph = json.loads(path.read_text(encoding="utf-8"))
+    mps = float(graph["grid"]["metresPerSample"])
+    river = next(r for r in graph["rivers"] if r["id"] == DELTA_RIVER_ID)
+    ids = list(river["reaches"])
+    mouth_e, mouth_s = float(river["mouthEastM"]), float(river["mouthSouthM"])
+    for body in graph["bodies"]:
+        if body.get("kind") not in DELTA_BODY_KINDS or not body.get("bboxCells"):
+            continue
+        x0, y0, x1, y1 = body["bboxCells"]
+        east = (x0 + x1) / 2.0 * mps
+        south = (y0 + y1) / 2.0 * mps
+        if math.hypot(east - mouth_e, south - mouth_s) <= DELTA_MOUTH_RADIUS_M:
+            ids.append(body["id"])
+    return ids
+
+
+def _overlay_copies(region: int, roles: tuple[str, ...]) -> list[dict]:
+    copies = []
+    for entry in REGIONS[region]["layers"]:
+        if entry.get("role") in roles:
+            copy = json.loads(json.dumps(entry))
+            copy["role"] = "overlay-" + copy["role"]
+            copy["region_classes"] = list(LAND_REGION_CLASSES)
+            copies.append(copy)
+    return copies
+
+
+def delta_overlay() -> list[dict]:
+    entities = delta_entities()
+    copies = _overlay_copies(3, DELTA_OVERLAY_ROLES)
+    for copy in copies:
+        copy["water_entities"] = entities
+        copy["note"] = (f"delta dressing keyed to the hydrology record: the "
+                        f"reaches of {DELTA_RIVER_ID} and the mudflat/lagoon "
+                        f"bodies within {DELTA_MOUTH_RADIUS_M:.0f} m of its "
+                        f"mouth, whatever class the region paint gives the "
+                        f"texel (16f deliverable 12)")
+    return copies
+
+
+def corridor_overlay() -> list[dict]:
+    copies = _overlay_copies(5, CORRIDOR_OVERLAY_ROLES)
+    for copy in copies:
+        copy["corridor_m"] = [0.0, CORRIDOR_HALF_WIDTH_M]
+        copy["note"] = (f"the river corridor's gallery ribbon, applied within "
+                        f"{CORRIDOR_HALF_WIDTH_M:.0f} m of any band-3 reach "
+                        f"centreline province-wide (16f deliverable 12)")
+    return copies
+
+
+_DELTA_OVERLAY = delta_overlay()
+_CORRIDOR_OVERLAY = corridor_overlay()
+# Appended ONCE each (they already name every land class, like the province
+# rock layers above): the palette a reader looks in for the delta's dressing
+# is region 3's, and for the corridor's is region 5's.
+REGIONS[3]["layers"] += _DELTA_OVERLAY
+REGIONS[5]["layers"] += _CORRIDOR_OVERLAY
 
 
 def build() -> dict:
@@ -1281,9 +1832,10 @@ def build() -> dict:
             "targetRatios": TARGET_RATIOS,
             "measuredDeliveredPerHectare2026_09_09": MEASURED_DELIVERED_PER_HA,
             "measuredAttenuation2026_09_09": MEASURED_ATTENUATION,
-            "pending": "these ratios are DESIGN targets until compile_scatter "
-                       "re-runs; test_vegetation_ladder::test_delivered_ladder "
-                       "stays red until it does",
+            "pending": "these ratios are DESIGN targets; the delivered "
+                       "numbers are whatever the last compile_scatter run "
+                       "produced (test_vegetation_ladder::test_delivered_"
+                       "ladder measures them)",
         },
         "byRegionClass": total,
         "densityScale": 1.0,

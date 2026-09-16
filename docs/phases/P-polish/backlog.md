@@ -188,15 +188,14 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   again.
 - **Running attacks** — nice to have if suitable animations can be sourced;
   not a blocker if not.
-- **Trees/plants look stark growing straight out of bare rock in mountainous
-  terrain.** Consider terrain texture painting so ground under trees in rocky
+- ~~**Trees/plants look stark growing straight out of bare rock in mountainous
+  terrain.**~~ ABSORBED into 16f, delivered 2026-09-16 (woody layers gated off the cliff classes; an under-canopy litter mask in `ground-tint.png` alpha blends rock to litter under trees; [ledger](../../research/phase16/16f-ledger.md)). Consider terrain texture painting so ground under trees in rocky
   areas reads as "rock with leaves and dirt on it" rather than bare rock.
-- **Small plants/bushes sometimes read as placed in ordered rows/grids**,
+- ~~**Small plants/bushes sometimes read as placed in ordered rows/grids**~~ ABSORBED into 16f, delivered 2026-09-16 (measured: a single giant tree stood on a jittered grid, now clumped; a bearing-peak check joined the scatter tests),
   looking cultivated rather than wild — placement jitter/distribution needs
   a look.
-- **Hanging root tree decorations are still appearing** despite believing
-  they'd been disabled.
-- **Consider more rock/boulder placement outside the uplands/mountains** —
+- ~~**Hanging root tree decorations are still appearing**~~ ABSORBED into 16f, delivered 2026-09-16 (the vines and moss hung in the air because the composition accepted an older collision frame than the kit ships; fixed at the root, every piece now touches its trunk).
+- ~~**Consider more rock/boulder placement outside the uplands/mountains**~~ ABSORBED into 16f, delivered 2026-09-16 (the Rockpark stones dressing zone on the Gideon–Soulrest coast; lowland boulders at 3 /ha on firm covers; candidates for Phase 15 in the ledger) —
   candidate lowland areas for a maze-like boulder region (climbable rocks of
   varying size, with nooks/crannies for loot), similar to boulder regions in
   other open-world games. Needs a map survey for viable spots plus research
@@ -205,14 +204,12 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   one-handed, greatsword, greataxe/hammer). Source more granular per-weapon
   animation sets from a highly-rated mod within those categories.
 - **Dual wielding** — not yet decided/scoped, raised as an open question.
-- **Uplands/mountains feel too bare on terrain dressing** compared to the
-  lowlands. Needs research: what dressing is appropriate, what's available
+- ~~**Uplands/mountains feel too bare on terrain dressing**~~ ABSORBED into 16f, delivered 2026-09-16 (dead shrubs, tundra shrubs, mountain flowers, logs and stumps at the vanilla calibration; rock piles and cliff pieces; rock grass on mountain rock). Needs research: what dressing is appropriate, what's available
   in our current assets/mods/vanilla, and how other open-world games dress
   mountain terrain.
 - **Deterracing could be smoother** — visible terracing artefacts remain.
-- **Grass coverage** — open question on whether/how much grass coverage
-  exists currently and whether it needs improving.
-- **Waterfall sides need rocks.** Sheet edges read wrong where they meet bare
+- ~~**Grass coverage**~~ ABSORBED into 16f, delivered 2026-09-16 (measured at five sites before and after; floors per region and land cover; the ring rebuilt).
+- ~~**Waterfall sides need rocks.**~~ ABSORBED into 16f, delivered 2026-09-16 (2–4 wet boulders against each side of every fall's lip and a ring round the plunge pool, from the cascade record). Sheet edges read wrong where they meet bare
   terrain; scatter boulders tight against every compiled cascade lip/side
   (`water-meta.json` `cascades[]`) in the Phase 10 scatter compiler. Varden
   recipe, research/rendering/waterfalls-realtime.md §6.
@@ -323,6 +320,9 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
 - **Seasonal foliage response** (re-homed here from 16f by the owner, 2026-09-16; decision 0062 item 8): one uniform, the clock's season scalar the water already reads, drives a per-role dryness response in the T1–T3 vegetation materials (grass, forbs and floodplain trees dry and yellow in the dry season; the evergreen jungle roof barely moves), the response per role stated in `palettes.json`'s conventions and applied through the same material hook the wind uses (re-applied after CSM's `setupMaterial`). Renderer-only; nothing else depends on it. Owner check: the floodplain at both seasons.
 - ~~**The terrain chain finds integration defects one run at a time.**~~ — ABSORBED into 16f (deliverable 16: `terrain-chain.sh --check-contracts` with a per-stage `READS` list), owner 2026-09-16. Every stage's unit tests were green on 2026-09-15 and the 16e chain still failed twice in a row, each time on a downstream stage's assumption about an upstream artefact (`terrain_request_postconditions` bound the water to the final terrain hash after the natural/graded split; `paint_route_overlays` assumed every station has a `positionM`). The chain stops at the first failure by design, so each one costs a run. Mechanism: a `terrain-chain.sh --check-contracts` pass that, before any stage runs, loads every artefact each enabled stage declares it reads (a per-stage `READS` list in `chain_stages`, the same list the fingerprint uses) and validates shape, required fields and hash bindings against the current files, printing every mismatch as one list; a new stage declares its reads or fails the pass. Owner asked for this on 2026-09-16.
 
+- **A 16e router test is red outside the gate** (found 2026-09-16 during 16f): `worldgen/test_solve_major_routes.py::test_a_gradable_step_costs_earthworks_and_a_cliff_is_a_wall` asserts `routes.grade_factor(2.0, 5.48, 8.0, gradable_m=8.0) < 60` and the code returns 91.2; the file is not in `test:placement`'s explicit list; preflight never sees it. Either the round-3 earthworks cost or the test's bound is wrong; the roads are accepted as they stand (owner 2026-09-16: nothing earlier is rebuilt), so the fix is a test-or-constant decision for the next agent who touches the router; the file then joins the gate.
+- **Cross-pool texture precedence in the kit build** (found 2026-09-16, rock kit): `build_kit`'s `filled` set is global across pools, so whichever pool fills a shared vanilla texture path first wins it for the whole kit; `textures/landscape/rocks01.dds` in `flora-province-v1` resolved to BM&V's texturepack copy, not Tropical Skyrim's. Mechanism: resolve shared vanilla texture paths by an explicit pool precedence (tropical > bmv > vanilla) recorded in the kit config, with a build log line per substitution.
+
 ## Owner rulings 2026-09-09 — ways over water, and how roads choose their line
 
 - **Alten Corimont is served by shallow-draft boats.** Its harbour measures 2.4 m
@@ -416,3 +416,5 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
 - **Studio load: the two 4033² ground rasters** (`refined/ground-control.png` 19.1 MB, `chunks/normal-grad.png` 17.8 MB) are the bulk of every 3D load. Measured 2026-09-13: lossless WebP is 14.5 / 13.7 MB (−24 %); a 2017² control map would be a quarter the size but changes the paint the owner reviewed. Mechanism: `rebake_landcover` / `compile_chunks` write WebP, `ChunkTerrain` loads it; check decode time in the browser before switching. The load-order fix of 2026-09-13 (tiles prefetched before the textures; character mode split out of the map/fly bundle; settlements and water not fetched while the ladder hides them) is in; this is the remaining size lever.
 
 - **Compiled level vs the graph's wet-season level (found by 16d part A, 2026-09-15).** For tarn `body.200-770` the compiled/graph `levelM` is 289.71 while the graph's `wetSeasonLevelM` is 290.2: the compiled level equals `levelM`, not `wetSeasonLevelM`, although 0063 says the compiled level *is* the high-water line. Mechanism to check: `compile_water` reads `levelM` where a body carries a distinct `wetSeasonLevelM`. Either the vocabulary (16a graph fields) or the compile is off by that field; owner's 16c walk decides which. File: `worldgen/compile_water.py`, `hydrology-graph.json` bodies with `wetSeasonLevelM != levelM`.
+
+- **Clearance stamping is one-directional, so a rock PAIR can overlap (found by 16f, 2026-09-16).** `scatter._blocked` tests only the stamped disc of the rock that was placed first, so two rocks are held apart by the larger one's footprint rather than by the sum of the two. Measured on a synthetic 55 boulders/ha mountain hectare: `rockl02` and `rockl03` land 9.41 m apart where the sum of their footprint half-diagonals (× 0.8) wants 9.93 m. Mechanism: make `_blocked` take the candidate's own clearance and test `dist < stamp_radius + own_radius` — a one-line change with a province-wide density consequence, so it needs a re-bake and a look, not a quiet fix. Files: `worldgen/scatter.py` `_blocked` / the stamp push in `scatter_chunk`; the test that documents the limit is `worldgen/test_rock_layers.py::test_no_rock_stands_inside_another`.

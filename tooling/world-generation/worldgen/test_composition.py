@@ -1,6 +1,7 @@
 """The composition passes (rules C1–C5, composition.py) do what the mining
 doc says: pivot sinking, attachment hosting, cluster clumps, water layering."""
 
+import json as _json
 import math
 
 import pytest
@@ -115,6 +116,49 @@ def test_cluster_expansion_makes_tight_sunk_mixed_clumps(comp):
     assert {e.species for e in extras} - {CLUSTER}    # genuinely mixed
 
 
+def test_companions_never_cross_the_bank_margin(comp):
+    """16f: a companion may not stand inside a channel margin its anchor
+    respects. The field below is a channel running along x = 0 with a 3 m
+    wetted margin; anchors sit at x = 4, so part of every 2 m companion disc
+    would otherwise fall inside it."""
+    channel_fields = Fields(
+        height=lambda x, z: 5.0,
+        water_depth=lambda x, z: 0.0,
+        slope=lambda x, z: 0.0,
+        region=lambda x, z: 7,
+        channel=lambda x, z: abs(x),
+        bank_margin=lambda x, z: 3.0,
+    )
+    anchors = [inst(CLUSTER, x=4.0, z=50.0 + i * 30) for i in range(60)]
+    allowed = {CLUSTER, FERN}
+    extras = comp.expand_clusters(anchors, channel_fields, seed=11,
+                                  allowed=allowed)
+    assert extras                                     # the pass still runs
+    assert all(abs(e.x) >= 3.0 for e in extras), (
+        "a companion crossed the wetted bank margin its anchor stands outside")
+    # Without the gate the same seed does put companions in the margin, so
+    # this is measuring the fix and not an empty disc.
+    open_fields = Fields(
+        height=lambda x, z: 5.0, water_depth=lambda x, z: 0.0,
+        slope=lambda x, z: 0.0, region=lambda x, z: 7)
+    unguarded = comp.expand_clusters(anchors, open_fields, seed=11,
+                                     allowed=allowed)
+    assert any(abs(e.x) < 3.0 for e in unguarded)
+    assert len(extras) < len(unguarded)
+
+
+def test_companions_of_an_anchor_already_in_the_margin_are_kept(comp):
+    """An aquatic anchor is allowed in the margin; its companions keep it."""
+    wet = Fields(
+        height=lambda x, z: 5.0, water_depth=lambda x, z: 0.3,
+        slope=lambda x, z: 0.0, region=lambda x, z: 7,
+        channel=lambda x, z: 0.5, bank_margin=lambda x, z: 3.0)
+    anchors = [inst(CLUSTER, x=0.5, z=50.0 + i * 30) for i in range(20)]
+    extras = comp.expand_clusters(anchors, wet, seed=11,
+                                  allowed={CLUSTER, FERN})
+    assert len(extras) >= len(anchors)
+
+
 def test_standalone_species_are_not_clumped(comp):
     extras = comp.expand_clusters([inst(TREE)], fields(), seed=7, allowed={TREE})
     assert extras == []
@@ -140,7 +184,11 @@ def test_attachments_hang_on_hosts_above_the_ground(comp):
         # ~1.8 m radius, slightly off-pivot. Anything under ~2.5 m is on the
         # tree; the round-5 defect was hanging in air out to arbitrary crowns.
         assert math.hypot(vine.x - host.x, vine.z - host.z) <= 2.5
-        assert 5.0 + 2.0 <= vine.y <= 5.0 + 7.0       # 2.5–6 m recommended band
+        # The STRAND'S TOP sits in the 2.5–6 m recommended band; the pivot is
+        # half a strand below it (the mesh pivot is mid-strand).
+        top = vine.y + comp.strand_tops[VINES] * vine.scale
+        assert 5.0 + 2.5 - 1e-6 <= top <= 5.0 + 6.0 + 1e-6
+        assert vine.y > 5.0
     # ACCENT rate, not authored density: zero-precedent vines dress ~10 % of
     # eligible hosts (× the region-7 humidity multiplier), never most of them.
     assert 1 <= len(spawned) <= 15
@@ -187,7 +235,6 @@ def test_attachments_cling_to_the_measured_trunk():
     axis ~7 m from its pivot) meant vines stuck to outer leaves and empty air
     (owner round-5 feedback). Pseudo-trees with no real trunk stop hosting."""
     from .composition import RULES_PATH, TrunkCapsule
-    import json as _json
     trunks = {WILLOW: TrunkCapsule(x=6.4, z=-4.2, base_y=0.0,
                                    radius=0.5, height=22.0)}
     comp2 = Composition(_json.loads(RULES_PATH.read_text()), trunks)
@@ -245,3 +292,75 @@ def test_bundle_v2_roundtrips_anchor_and_sink():
     assert groups[1]["anchor"] == ANCHOR_WATER_SURFACE
     assert groups[1]["instances"][0]["y"] == pytest.approx(6.5)
     assert groups[1]["instances"][0]["sink"] == 0.0
+
+
+def _kit(frame: str) -> dict:
+    return {"assets": [
+        {"id": WILLOW, "collisionFrame": frame,
+         "sizeM": [9.0, 9.0, 22.0], "originOffsetM": [4.5, 4.5, 0.0],
+         "collisionCapsule": {"radiusM": 0.5, "heightM": 22.0,
+                              "baseOffsetM": [6.4, 0.0, -4.2]}},
+        {"id": VINES, "sizeM": [1.567, 1.13, 2.729],
+         "originOffsetM": [0.787, 0.634, 1.325]},
+    ]}
+
+
+@pytest.mark.parametrize("frame", ["pivot-yup-v2", "pivot-yup-v3"])
+def test_trunk_capsules_load_from_both_collision_frames(tmp_path, frame):
+    """The pipeline re-tagged flora collision as `pivot-yup-v3` when it
+    re-fitted the multi-capsule solids (trunk_solids.py); the single
+    `collisionCapsule` this loader reads kept v2's meaning. Accepting only v2
+    emptied the trunk table against the SHIPPED kit, which dropped the
+    attachment pass into its pivot-square fallback (55 % of hanging pieces
+    above their host's trunk top)."""
+    from .composition import load_strand_tops, load_trunk_capsules
+    path = tmp_path / "kit.json"
+    path.write_text(_json.dumps(_kit(frame)))
+    trunks = load_trunk_capsules(path)
+    assert set(trunks) == {WILLOW}
+    assert trunks[WILLOW].x == pytest.approx(6.4)
+    assert trunks[WILLOW].z == pytest.approx(-4.2)
+    assert trunks[WILLOW].height == pytest.approx(22.0)
+    # And the strand top comes off sizeM/originOffsetM, vertical = index 2.
+    assert load_strand_tops(path)[VINES] == pytest.approx(2.729 - 1.325)
+
+
+def test_unknown_collision_frame_is_ignored(tmp_path):
+    from .composition import load_trunk_capsules
+    path = tmp_path / "kit.json"
+    path.write_text(_json.dumps(_kit("pivot-zup-v1")))
+    assert load_trunk_capsules(path) == {}
+
+
+def test_shipped_kit_is_loadable_and_every_host_has_a_real_trunk(comp):
+    """Guards the root cause at the shipped data, not just the loader."""
+    from .composition import KIT_MANIFEST_PATH
+    if not KIT_MANIFEST_PATH.exists():
+        pytest.skip("kit manifest not in this checkout")
+    assert comp.trunks, "shipped kit manifest yielded no trunk capsules"
+    assert comp.tree_hosts
+    for host in comp.tree_hosts:
+        assert comp.trunks[host].height >= comp.MIN_HOST_TRUNK_M
+    # The pseudo-trees round 5 hung 2–6 m vines on are out.
+    assert CLUSTER not in comp.tree_hosts
+    assert "bmv:landscape/trees/bambooplant" not in comp.tree_hosts
+
+
+def test_attachment_top_touches_the_trunk_and_clears_the_soil():
+    """The piece hangs BY ITS TOP at the attach height, and never so low that
+    its top is in the ground."""
+    from .composition import RULES_PATH, TrunkCapsule
+    trunks = {WILLOW: TrunkCapsule(x=0.0, z=0.0, base_y=0.0,
+                                   radius=0.5, height=22.0)}
+    comp2 = Composition(_json.loads(RULES_PATH.read_text()), trunks,
+                        {VINES: 1.404})
+    hosts = [inst(WILLOW, x=i * 30.0, z=50.0) for i in range(80)]
+    layer = Layer(species=VINES, instances_per_hectare=40.0,
+                  scale_range=(0.9, 1.6))
+    spawned = comp2.spawn_attachments(hosts, [layer], fields(height=5.0),
+                                      seed=3, area_ha=1.0)
+    assert spawned
+    for vine in spawned:
+        top = vine.y + 1.404 * vine.scale
+        assert 5.0 + 0.3 - 1e-6 <= top <= 5.0 + 0.8 * 22.0 + 1e-6
+        assert vine.y < top

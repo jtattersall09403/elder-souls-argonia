@@ -1,0 +1,16 @@
+{
+ "schemaVersion": 1,
+ "about": "Authored local dressing overlays (16f deliverable 4, decision 0070): a zone is a polygon in world metres with a palette overlay of scatter layers the compiler applies INSIDE the polygon on top of the region palette. The mechanism Phase 15 packets and Phase 12 exteriors reuse for any authored local dressing. Every zone carries a lore `why` with its dossier or UESP source; `overlay` names layer builders in worldgen/build_palettes.py (ZONE_OVERLAYS) so the numbers stay with the mined rules, never typed here.",
+ "zones": [
+  {
+   "id": "zone.mercantile-coast.rockpark-stones",
+   "kind": "boulder-field",
+   "name": "the Rockpark stones",
+   "polygonM": [[720, 5020], [860, 4995], [985, 5060], [1000, 5190], [900, 5285], [760, 5260], [700, 5140]],
+   "overlay": "boulder-field",
+   "why": "A stony coastal bench of the upland hills where the road from Gideon to Soulrest passes above Oliis-style sea cliffs: the cliff 5 m off its edge feeds it fallen stone, and the plague-abandoned village beside it is named Rockpark in the catalogue (place.mercantile-coast.rockpark), a village that took its name from the stones it stood among. Canon puts rocky cliffs on this coast (Bright-Throat Village 'on rocky cliffs over Oliis Bay', UESP Lore:Murkmire) and large loose rock in the lowlands only where a river carries it (the Onkobra, Lore:Black Marsh); Black Marsh quarries no stone (world/sources/lore/topics/material-culture.md), so the field reads as natural fallen stone, never worked. Survey and the other candidates: docs/research/phase16/16f-ledger.md.",
+   "sources": ["Lore:Murkmire", "Lore:Black Marsh", "world/sources/lore/regions/murkmire.md", "world/sources/lore/regions/blackwood-and-gloommire.md", "world/sources/lore/topics/material-culture.md"],
+   "owner": {"chunk": "16f", "site": "?view=character&x=0.84&z=5.14"}
+  }
+ ]
+}

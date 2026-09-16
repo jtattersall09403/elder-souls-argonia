@@ -56,6 +56,8 @@ def test_authored_ladder_hits_the_target_ratios():
     reference = vl.delivered_equivalent(palettes, 13)
     assert reference > 0.0
     for region, target in sorted(vl.TARGET_RATIOS.items()):
+        if region in vl.RECORD_KEYED_CLASSES:
+            continue                # keyed to the record, not the paint (16f)
         if region not in vl.MEASURED_ATTENUATION:
             continue
         ratio = vl.delivered_equivalent(palettes, region) / reference
@@ -83,6 +85,7 @@ def test_authored_ladder_ordering():
     and therefore harder to satisfy by accident."""
     palettes = _palettes()
     equiv = {r: vl.delivered_equivalent(palettes, r) for r in vl.TARGET_RATIOS
+             if r not in vl.RECORD_KEYED_CLASSES
              if r in vl.MEASURED_ATTENUATION}
     # Mangrove out-stems the jungle — a thicket, not a roof (§7.1 type 3).
     assert equiv[14] > equiv[13]
@@ -97,6 +100,8 @@ def test_authored_ladder_ordering():
     # before it was retired (decision 0050); it is the same transitive claim.
     for lower, higher in ((6, 13), (7, 6), (11, 5), (11, 2), (8, 11),
                           (4, 8), (1, 4), (9, 1), (12, 9)):
+        if lower in vl.RECORD_KEYED_CLASSES or higher in vl.RECORD_KEYED_CLASSES:
+            continue                # the corridor is record-keyed (16f)
         assert equiv[lower] < equiv[higher], (
             f"ladder inverted: region {lower} ({equiv[lower]:.1f}/ha) should "
             f"sit below region {higher} ({equiv[higher]:.1f}/ha)")
@@ -131,6 +136,8 @@ def test_delivered_ladder():
     area_ha = vl.region_area_ha()
     failures, unmeasurable = [], []
     for region, target in sorted(vl.TARGET_RATIOS.items()):
+        if region in vl.RECORD_KEYED_CLASSES:
+            continue                # keyed to the record, not the paint (16f)
         if region == 0:
             continue
         area = area_ha.get(region, 0.0)
@@ -184,7 +191,7 @@ def test_no_region_class_leaves_the_delivered_gate_silently():
     area_ha = vl.region_area_ha()
     excused = {r for r in vl.TARGET_RATIOS if r != 0
                and area_ha.get(r, 0.0) < vl.MIN_MEASURABLE_AREA_HA}
-    tested = {r for r in vl.TARGET_RATIOS if r != 0} - excused
+    tested = {r for r in vl.TARGET_RATIOS if r != 0} - excused - vl.RECORD_KEYED_CLASSES
     thin_but_tested = tested & vl.THIN_SAMPLE_CLASSES
     assert thin_but_tested, (
         "every thin-sample class is being excused by the area floor, so the "
@@ -266,9 +273,23 @@ def test_no_species_is_the_whole_understory_of_a_region():
             f"of the whole understory")
 
 
+def _water_regimes(rules):
+    """The groups of species that can stand at the SAME point.
+
+    The cap of three is Bethesda's per-painted-texture limit, and it is about
+    what draws together. The two bed covers carry a wet list for the water and
+    a dry list for the ground it leaves; a point is in one regime or the other,
+    so the two lists are counted apart rather than added up.
+    """
+    wet = [r for r in rules if r.get("waterRule") == "below-at-least"]
+    dry = [r for r in rules if r.get("waterRule") == "above"]
+    land = [r for r in rules if not r.get("waterRule")]
+    return [g for g in (wet, dry + land, land + dry) if g]
+
+
 def test_groundcover_has_a_region_axis():
     data = json.loads(GROUNDCOVER.read_text())
-    assert data["schemaVersion"] == 2
+    assert data["schemaVersion"] == 3
     assert "PROVISIONAL" not in data["status"]
     base = data["byLandCover"]
     regions = data["byRegionClass"]
@@ -283,9 +304,12 @@ def test_groundcover_has_a_region_axis():
         by_asset: dict[str, list[str]] = collections.defaultdict(list)
         for cover in covers:
             rules = spec["swaps"].get(cover) or base[cover]["species"]
-            assert 0 < len(rules) <= data["rules"]["maxSpeciesPerCover"], (
-                f"region {region} cover {cover}: {len(rules)} species breaks "
-                f"the LTEX.GNAM cap of {data['rules']['maxSpeciesPerCover']}")
+            assert rules, f"region {region} cover {cover}: no species"
+            for regime in _water_regimes(rules):
+                assert len(regime) <= data["rules"]["maxSpeciesPerCover"], (
+                    f"region {region} cover {cover}: {len(regime)} species can "
+                    f"stand at one point, over the LTEX.GNAM cap of "
+                    f"{data['rules']['maxSpeciesPerCover']}")
             for rule in rules:
                 by_asset[rule["asset"]].append(cover)
         limit = data["rules"]["maxCoversPerSpeciesPerRegion"]
@@ -314,10 +338,15 @@ def test_palette_species_are_all_in_the_shipped_flora_kit():
     not simply reach for the held stock: adding a species to a palette without
     adding it to the kit compiles a forest of missing meshes."""
     palettes = _palettes()
-    kit = {a["asset"] for a in json.loads(FLORA_KIT.read_text())["assets"]}
+    # 16f: the underwater band's species ship in `underwater-v1`, which the
+    # vegetation runtime loads beside the flora kit; a species must be in one
+    # of the kits the runtime loads, never in none.
+    kit = set()
+    for name in ("flora-province-v1", "underwater-v1"):
+        kit |= {a["asset"] for a in json.loads((FLORA_KIT.parent / f"{name}.json").read_text())["assets"]}
     used = {layer["species"] for entry in palettes.values()
             for layer in entry["layers"]}
-    assert used <= kit, f"not in flora-province-v1: {sorted(used - kit)}"
+    assert used <= kit, f"in no scatter kit (flora-province-v1, underwater-v1): {sorted(used - kit)}"
 
 
 # --- gate 4: the ground ring's own breadth -----------------------------------

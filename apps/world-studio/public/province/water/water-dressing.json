@@ -1,0 +1,67 @@
+{
+ "schemaVersion": 1,
+ "about": "Dressing of the frozen water record (16f, decision 0070): the insects' habitat and the water's colour constituents, on the surface grid. Read only through this file; water-meta.json is untouched.",
+ "size": 2017,
+ "metresPerPixel": 3.65568,
+ "habitat": {
+  "file": "water-habitat.png",
+  "channels": {
+   "r": "standing water: open bodies and the deep marsh sheets (midges, dragonflies)",
+   "g": "wet ground: marsh, the seasonal band, a ~15 m halo round every shore (fireflies)",
+   "b": "canopy fraction from the scatter (fireflies, pollen, leaf fall)"
+  }
+ },
+ "colour": {
+  "file": "water-colour.png",
+  "channels": {
+   "r": "algae: still shallow perennial water open to the sky",
+   "g": "dark: tannin in slow swamp water under canopy",
+   "b": "unused"
+  },
+  "rules": {
+   "algaeByKind": {
+    "pond": 0.6,
+    "pool": 0.5,
+    "backswamp": 0.7,
+    "swamp": 0.55,
+    "marsh-deep": 0.5,
+    "horizontal-backwater": 0.4,
+    "marsh-fringe": 0.3,
+    "lake-lowland": 0.15,
+    "lagoon": 0.05
+   },
+   "darkByKind": {
+    "backswamp": 0.8,
+    "swamp": 0.7,
+    "marsh-deep": 0.6,
+    "horizontal-backwater": 0.5,
+    "pond": 0.3,
+    "pool": 0.3,
+    "marsh-fringe": 0.3,
+    "lake-lowland": 0.1
+   },
+   "seasonFactor": {
+    "perennial": 1.0,
+    "seasonal": 0.5,
+    "ephemeral": 0.0
+   },
+   "algaeCanopyShade": 0.6,
+   "smoothingM": 29.2,
+   "maxGradientPerM": 0.035,
+   "dossier": "world/sources/lore/topics/water-colour.md"
+  }
+ },
+ "stats": {
+  "wetTexels": 1698643,
+  "standingShareOfWet": 0.9551,
+  "wetGroundTexels": 729681,
+  "canopyMeanOverWet": 0.0682,
+  "algaeMeanOverWet": 0.0823,
+  "algaeTexelsOver0.3": 267748,
+  "darkTexelsOver0.3": 64090,
+  "maxGradientPerM": {
+   "algae": 0.0222,
+   "dark": 0.0214
+  }
+ }
+}

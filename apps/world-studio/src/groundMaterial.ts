@@ -54,6 +54,14 @@ export function useGroundManifest(base: string, requested?: string): { set: stri
   return { set, manifest: groundCache[set] };
 }
 
+/** Land-cover ids of the bare-rock covers the under-canopy litter mask blends
+ * away, and of leaf litter itself. Mirrors `worldgen/landcover.py`'s material
+ * order (BC_ROCK 23, MOUNTAIN_ROCK 31, DIRT_CLIFF 36, LITTER 21); ids, not
+ * names, because a material SET renames the slots (`trop_rocks` is the
+ * bmv-v1 name for DIRT_CLIFF). */
+export const LITTER_BLEND_IDS = [23, 31, 36];
+export const LITTER_MATERIAL_ID = 21;
+
 export interface GroundUniforms {
   uGrad: { value: THREE.Texture };
   uVerticalScale: { value: number };
@@ -156,6 +164,13 @@ export function createGroundMaterial(
     // albedo array layer indices of the two cliff slots (read by name)
     uCliffLayer: { value: new THREE.Vector2(cliffRock?.id ?? 0, cliffDirt?.id ?? 0) },
     uCliffNrmBase: { value: n },   // layer of the first cliff normal map in uTex (rock; dirt follows)
+    // Under-canopy litter (16f deliverable 10): where a crown covers the
+    // ground, bare rock covers read as leaf litter. The mask is the ALPHA of
+    // the province tint raster, written by worldgen/compile_scatter; per
+    // material, 1 = "blend me toward litter under a canopy".
+    uLitterOf: { value: new Float32Array(manifest.materials.map(
+      (m) => (LITTER_BLEND_IDS.includes(m.id) ? 1 : 0))) },
+    uLitterLayer: { value: LITTER_MATERIAL_ID },
   };
 
   const material = new THREE.MeshStandardMaterial({ roughness: 1.0, metalness: 0.0 });
@@ -210,6 +225,9 @@ uniform float uTileM[ES_N];
 uniform vec3 uAvgCol[ES_N];
 uniform float uCliffOf[ES_N];
 uniform vec2 uCliffLayer;
+uniform float uLitterOf[ES_N];
+uniform float uLitterLayer;
+float esLitter;   // under-canopy litter coverage at this fragment (0..1)
 ${cliffNrmOk ? "#define ES_CLIFF_NRM\nuniform float uCliffNrmBase;" : ""}
 vec3 esNrmW; // world-space gradient-map normal, shared by splat + lighting
 
@@ -241,12 +259,23 @@ vec3 esAvgCol(int i, vec3 w) {
 }
 // near: tiled texture of the texel's two materials; far: their flat
 // average colours (kills distant tiling, Frostbite near/far pattern)
+// Under a crown, a bare-rock texel reads as leaf litter: the rock forest
+// floor of Argonia's uplands is covered, not swept (16f deliverable 10).
+// The blend is on the SAMPLE, so the rock still shows through at the mask's
+// soft edge and on the triplanar cliff faces.
+vec3 esLitterMix(int i, vec3 c, vec3 w, vec3 worldPos) {
+  float k = uLitterOf[i] * esLitter;
+  if (k <= 0.001) return c;
+  return mix(c, esTriSample(int(uLitterLayer), w, worldPos), k);
+}
 vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
   vec4 c = texelFetch(uCtrl, clamp(tc, ivec2(0), ivec2(uCtrlSize) - 1), 0);
   int i0 = int(c.r * 255.0 + 0.5);
   int i1 = int(c.g * 255.0 + 0.5);
-  vec3 near_ = mix(esTriSample(i0, w, worldPos), esTriSample(i1, w, worldPos), c.b);
-  vec3 far_ = mix(esAvgCol(i0, w), esAvgCol(i1, w), c.b);
+  vec3 near_ = mix(esLitterMix(i0, esTriSample(i0, w, worldPos), w, worldPos),
+                   esLitterMix(i1, esTriSample(i1, w, worldPos), w, worldPos), c.b);
+  vec3 far_ = mix(mix(esAvgCol(i0, w), uAvgCol[int(uLitterLayer)], uLitterOf[i0] * esLitter),
+                  mix(esAvgCol(i1, w), uAvgCol[int(uLitterLayer)], uLitterOf[i1] * esLitter), c.b);
   return mix(near_, far_, fade);
 }`,
       )
@@ -263,6 +292,7 @@ vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
   float esFade = smoothstep(1200.0, 5500.0, esDist);
   vec3 esW = pow(abs(esNrmW), vec3(6.0));
   esW /= (esW.x + esW.y + esW.z);
+  esLitter = texture2D(uTint, vProvinceUv).a;
   vec2 esP = vProvinceUv * uCtrlSize - 0.5;
   ivec2 esP0 = ivec2(floor(esP));
   vec2 esF = fract(esP);

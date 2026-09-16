@@ -1,0 +1,1080 @@
+{
+ "kit": "wrecks-v1",
+ "assets": [
+  {
+   "id": "vanilla:dungeons/ship/shipwrecklarge01",
+   "node": "es|8cabf36b3d|vanilla__dungeons_ship_shipwrecklarge01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    19.154,
+    61.377,
+    25.57
+   ],
+   "originOffsetM": [
+    9.566,
+    31.335,
+    0.474
+   ],
+   "triangles": 49897,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodfloor01.dds",
+    "shipwoodside01.dds",
+    "wrroofint01.dds",
+    "wrshields.dds"
+   ],
+   "materials": [
+    "Alpha01.Mat",
+    "Alpha02.Mat",
+    "L1_DetailsShields01.Mat",
+    "Object01.Mat",
+    "Object02:29.Mat",
+    "Object02:3.Mat",
+    "Shack01:3.Mat",
+    "Shack01:8.Mat",
+    "ShipLargeInside02:3.Mat",
+    "ShipLargeInside02:4.Mat",
+    "ShipwreckLarge01:3.Mat",
+    "ShipwreckLarge01:4.Mat",
+    "ShipwreckLarge01:5 - Object02:5 - ShipLargeInside02:5 - Stairs0",
+    "ShipwreckLarge01:6 - ShipLargeInside02:6 - Details01:6 - L1_Det"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.474,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.474
+  },
+  {
+   "id": "vanilla:dungeons/ship/shipwrecklarge02",
+   "node": "es|0b2f2323be|vanilla__dungeons_ship_shipwrecklarge02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    19.177,
+    61.377,
+    18.809
+   ],
+   "originOffsetM": [
+    9.588,
+    31.335,
+    0.474
+   ],
+   "triangles": 51344,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodfloor01.dds",
+    "shipwoodside01.dds",
+    "wrshields.dds"
+   ],
+   "materials": [
+    "Alpha03.Mat",
+    "Alpha04.Mat",
+    "L1_DetailsShields03:11 - L1_DetailsShields02:11.Mat",
+    "Object03.Mat",
+    "Object04.Mat",
+    "Object07.Mat",
+    "ShipCaptainsBroken01.Mat",
+    "ShipLargeInside03:3.Mat",
+    "ShipLargeInside03:4.Mat",
+    "ShipwreckLarge02:3.Mat",
+    "ShipwreckLarge02:4.Mat",
+    "ShipwreckLarge02:5 - Stairs02:5 - ShipLargeInside03:5 - ShipCap",
+    "ShipwreckLarge02:6 - ShipLargeInside03:6 - Details02:6 - L1_Det"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.474,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.474
+  },
+  {
+   "id": "vanilla:dungeons/ship/shipwrecklarge03",
+   "node": "es|e4de4c6d25|vanilla__dungeons_ship_shipwrecklarge03",
+   "category": "dungeon-kit",
+   "sizeM": [
+    19.177,
+    37.634,
+    18.809
+   ],
+   "originOffsetM": [
+    9.588,
+    24.052,
+    0.474
+   ],
+   "triangles": 31349,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodfloor01.dds",
+    "shipwoodside01.dds",
+    "wrroofint01.dds",
+    "wrshields.dds"
+   ],
+   "materials": [
+    "Alpha05.Mat",
+    "L1_DetailsShields04.Mat",
+    "Object08.Mat",
+    "Object09.Mat",
+    "Object12.Mat",
+    "Shack02:3.Mat",
+    "Shack02:8.Mat",
+    "ShipwreckLarge03:3.Mat",
+    "ShipwreckLarge03:4.Mat",
+    "ShipwreckLarge03:5 - Stairs03:5 - Shack02:5 - Object09:5 - Deta",
+    "ShipwreckLarge03:6 - Details03:6 - L1_DetailsShields04:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.474,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.972,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.474
+  },
+  {
+   "id": "vanilla:dungeons/ship/shipwrecklarge04",
+   "node": "es|dcb5e9cc13|vanilla__dungeons_ship_shipwrecklarge04",
+   "category": "dungeon-kit",
+   "sizeM": [
+    18.226,
+    25.739,
+    18.189
+   ],
+   "originOffsetM": [
+    9.113,
+    10.262,
+    0.119
+   ],
+   "triangles": 17581,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodfloor01.dds",
+    "shipwoodside01.dds",
+    "wrshields.dds"
+   ],
+   "materials": [
+    "Alpha06.Mat",
+    "Object05:5.Mat",
+    "Object05:6.Mat",
+    "Object06.Mat",
+    "Object10:11.Mat",
+    "Object10:5.Mat",
+    "Object10:6.Mat",
+    "Object11.Mat",
+    "Object13.Mat",
+    "ShipwreckLarge04:3.Mat",
+    "ShipwreckLarge04:4.Mat",
+    "ShipwreckLarge04:5.Mat",
+    "ShipwreckLarge04:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.119,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.119
+  },
+  {
+   "id": "vanilla:dungeons/ship/shiplongboatwreck01",
+   "node": "es|81667c5ebd|nilla__dungeons_ship_shiplongboatwreck01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    11.943,
+    18.102,
+    15.095
+   ],
+   "originOffsetM": [
+    5.972,
+    9.047,
+    0.114
+   ],
+   "triangles": 12789,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodfloor01.dds",
+    "shipwoodside01.dds",
+    "wrshields.dds"
+   ],
+   "materials": [
+    "Alpha:12.Mat",
+    "Alpha:9.Mat",
+    "L1_DetailsShields02.Mat",
+    "ShipLongBoatWreck01:3.Mat",
+    "ShipLongBoatWreck01:4.Mat",
+    "ShipLongBoatWreck01:5 - L1_DetailsShields02:5.Mat",
+    "ShipLongBoatWreck01:6 - L1_DetailsShields02:6.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.114,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.838,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.114
+  },
+  {
+   "id": "vanilla:dungeons/ship/shiplongboatwreck02",
+   "node": "es|6ae8b71f1f|nilla__dungeons_ship_shiplongboatwreck02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    8.548,
+    13.436,
+    6.764
+   ],
+   "originOffsetM": [
+    4.274,
+    6.73,
+    0.012
+   ],
+   "triangles": 7285,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodfloor01.dds",
+    "shipwoodside01.dds",
+    "wrshields.dds"
+   ],
+   "materials": [
+    "Alpha01.Mat.001",
+    "AlphaMore.Mat",
+    "L1_Details:11.Mat",
+    "L1_Details:6.Mat",
+    "ShipLongBoatWreck02:3.Mat",
+    "ShipLongBoatWreck02:4.Mat",
+    "ShipLongBoatWreck02:5 - L1_Details:5.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.012,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.012
+  },
+  {
+   "id": "vanilla:clutter/shipwreck/shipwreckboards01",
+   "node": "es|b113ff323a|lla__clutter_shipwreck_shipwreckboards01",
+   "category": "clutter",
+   "sizeM": [
+    0.22,
+    2.728,
+    0.057
+   ],
+   "originOffsetM": [
+    0.11,
+    1.364,
+    0.028
+   ],
+   "triangles": 26,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "woodedgetrim01.dds"
+   ],
+   "materials": [
+    "ShipwreckBoards01:0.Mat",
+    "ShipwreckBoards01:1.Mat",
+    "ShipwreckBoards01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.028,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.971,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
+  },
+  {
+   "id": "vanilla:clutter/shipwreck/shipwreckboards02",
+   "node": "es|462b22a21f|lla__clutter_shipwreck_shipwreckboards02",
+   "category": "clutter",
+   "sizeM": [
+    0.213,
+    1.936,
+    0.057
+   ],
+   "originOffsetM": [
+    0.107,
+    0.968,
+    0.028
+   ],
+   "triangles": 26,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "woodedgetrim01.dds"
+   ],
+   "materials": [
+    "ShipwreckBoards02:0.Mat",
+    "ShipwreckBoards02:1.Mat",
+    "ShipwreckBoards02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.028,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.96,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
+  },
+  {
+   "id": "vanilla:clutter/shipwreck/shipwreckboards03",
+   "node": "es|5287bc4e81|lla__clutter_shipwreck_shipwreckboards03",
+   "category": "clutter",
+   "sizeM": [
+    0.22,
+    1.716,
+    0.057
+   ],
+   "originOffsetM": [
+    0.11,
+    0.858,
+    0.028
+   ],
+   "triangles": 37,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "woodedgetrim01.dds"
+   ],
+   "materials": [
+    "ShipwreckBoards03:0.Mat",
+    "ShipwreckBoards03:1.Mat",
+    "ShipwreckBoards03:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.028,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.943,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
+  },
+  {
+   "id": "depths:dos/ships/shipatmoranlongshipwreck01",
+   "node": "es|7902f89852|hs__dos_ships_shipatmoranlongshipwreck01",
+   "category": "misc",
+   "sizeM": [
+    6.979,
+    12.104,
+    6.915
+   ],
+   "originOffsetM": [
+    3.493,
+    11.05,
+    -0.065
+   ],
+   "triangles": 9212,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "atmoranshipdeck01.dds",
+    "atmoranshiprope01.dds",
+    "atmoranshipside01.dds"
+   ],
+   "materials": [
+    "deck.Mat",
+    "hull.Mat",
+    "shiprope.Mat",
+    "shipwood01.Mat",
+    "shipwood02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.065,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.951,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.065
+  },
+  {
+   "id": "depths:dos/ships/shipatmoranlongshipwreck02",
+   "node": "es|e0c24f8131|hs__dos_ships_shipatmoranlongshipwreck02",
+   "category": "misc",
+   "sizeM": [
+    7.003,
+    13.241,
+    6.631
+   ],
+   "originOffsetM": [
+    3.499,
+    2.19,
+    -0.065
+   ],
+   "triangles": 10338,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "atmoranshipdeck01.dds",
+    "atmoranshiprope01.dds",
+    "atmoranshipside01.dds"
+   ],
+   "materials": [
+    "Deck.Mat",
+    "Hull.Mat",
+    "shiprope.Mat.001",
+    "shipwood01.Mat.001",
+    "shipwood02.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.065,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.986,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.065
+  },
+  {
+   "id": "depths:dos/ships/shipatmoranrowboatwreck01",
+   "node": "es|6286494f4f|ths__dos_ships_shipatmoranrowboatwreck01",
+   "category": "misc",
+   "sizeM": [
+    2.869,
+    4.167,
+    2.146
+   ],
+   "originOffsetM": [
+    1.433,
+    4.044,
+    0.028
+   ],
+   "triangles": 3740,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "atmoranshipdeck01.dds",
+    "atmoranshipside01.dds"
+   ],
+   "materials": [
+    "Shipdeck01.Mat",
+    "Shipside01.Mat",
+    "Shipwood01.Mat",
+    "Shipwood02.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.028,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.984,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
+  },
+  {
+   "id": "depths:dos/ships/shipatmoranrowboatwreck02",
+   "node": "es|ff37b58d0a|ths__dos_ships_shipatmoranrowboatwreck02",
+   "category": "misc",
+   "sizeM": [
+    2.851,
+    4.429,
+    2.146
+   ],
+   "originOffsetM": [
+    1.437,
+    0.384,
+    0.028
+   ],
+   "triangles": 3996,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "atmoranshipdeck01.dds",
+    "atmoranshipside01.dds"
+   ],
+   "materials": [
+    "Shipdeck01.Mat.001",
+    "Shipside01.Mat.001",
+    "Shipwood01.Mat.001",
+    "Shipwood02.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.028,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.991,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
+  },
+  {
+   "id": "depths:dos/ships/shipatmoranwarshipwreck01",
+   "node": "es|af676dca15|ths__dos_ships_shipatmoranwarshipwreck01",
+   "category": "misc",
+   "sizeM": [
+    9.733,
+    21.44,
+    12.138
+   ],
+   "originOffsetM": [
+    4.909,
+    1.752,
+    0.005
+   ],
+   "triangles": 12546,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "atmoranshipdeck01.dds.001",
+    "atmoranshiprope01.dds.001",
+    "atmoranshipside01.dds.001"
+   ],
+   "materials": [
+    "Hull:1.Mat",
+    "Hull:2.Mat",
+    "Shields.Mat",
+    "Shipdeck.Mat",
+    "Shiprope.Mat",
+    "Shipwood01.Mat.002",
+    "Shipwood02.Mat.002"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.005,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.957,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.005
+  },
+  {
+   "id": "depths:dos/ships/shipatmoranwarshipwreck02",
+   "node": "es|5fb16fe929|ths__dos_ships_shipatmoranwarshipwreck02",
+   "category": "misc",
+   "sizeM": [
+    9.602,
+    22.702,
+    9.053
+   ],
+   "originOffsetM": [
+    4.828,
+    19.535,
+    0.033
+   ],
+   "triangles": 12362,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "atmoranshipdeck01.dds.001",
+    "atmoranshiprope01.dds.001",
+    "atmoranshipside01.dds.001"
+   ],
+   "materials": [
+    "Deck.Mat.001",
+    "Hull:1.Mat.001",
+    "Hull:2.Mat.001",
+    "Shields.Mat.001",
+    "Shiprope.Mat.001",
+    "Shipwood01.Mat.003",
+    "Shipwood02.Mat.003"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.033,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.99,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.033
+  },
+  {
+   "id": "depths:dos/ships/shipbreticcarrack_halfwreck01",
+   "node": "es|07ef91a0a7|_dos_ships_shipbreticcarrack_halfwreck01",
+   "category": "misc",
+   "sizeM": [
+    11.93,
+    14.612,
+    15.843
+   ],
+   "originOffsetM": [
+    5.826,
+    16.366,
+    4.61
+   ],
+   "triangles": 16033,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "atmoranshipdeck01.dds.001",
+    "atmoranshipside01.dds.001"
+   ],
+   "materials": [
+    "shipcarvings.Mat",
+    "shipdeck001.Mat",
+    "shipside.Mat",
+    "shipwood001.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.61,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.955,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.61
+  },
+  {
+   "id": "depths:dos/ships/shipbreticcarrack_halfwreck02",
+   "node": "es|86f288ac74|_dos_ships_shipbreticcarrack_halfwreck02",
+   "category": "misc",
+   "sizeM": [
+    11.591,
+    20.86,
+    13.495
+   ],
+   "originOffsetM": [
+    5.795,
+    6.037,
+    4.614
+   ],
+   "triangles": 27015,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "atmoranshipdeck01.dds.001",
+    "atmoranshiprope01.dds.001",
+    "atmoranshipsails01.dds",
+    "atmoranshipside01.dds.001"
+   ],
+   "materials": [
+    "Shipcarvings.Mat",
+    "Shipdeck001.Mat",
+    "Shipside.Mat",
+    "Shipwood001.Mat",
+    "shiprope.Mat.002",
+    "shipwindows.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.614,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.96,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.614
+  },
+  {
+   "id": "depths:dos/boats/rowboatbrokenback",
+   "node": "es|ee8eb1d8ec|depths__dos_boats_rowboatbrokenback",
+   "category": "misc",
+   "sizeM": [
+    2.777,
+    3.894,
+    1.269
+   ],
+   "originOffsetM": [
+    1.389,
+    3.866,
+    0.764
+   ],
+   "triangles": 1672,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Boatwood.Mat",
+    "Object001.Mat",
+    "Rowboatdetails.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.764,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.882,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.764
+  },
+  {
+   "id": "depths:dos/boats/rowboatbrokenfront",
+   "node": "es|a6d9e7a1d1|depths__dos_boats_rowboatbrokenfront",
+   "category": "misc",
+   "sizeM": [
+    2.711,
+    4.854,
+    1.521
+   ],
+   "originOffsetM": [
+    1.352,
+    0.988,
+    0.757
+   ],
+   "triangles": 1550,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Boatwood.Mat.001",
+    "Object001.Mat.001",
+    "Rowboatdetails.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.757,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.789,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.757
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\wrecks-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [
+  "textures/atmoranships/atmoranshipwood01.dds",
+  "textures/atmoranships/atmoranshipwood01_n.dds",
+  "textures/atmoranships/atmoranshipwood02.dds",
+  "textures/atmoranships/atmoranshipwood02_n.dds",
+  "textures/dos/ships/atmoran/atmoranshipwood01.dds",
+  "textures/dos/ships/atmoran/atmoranshipwood01_n.dds",
+  "textures/dos/ships/atmoran/atmoranshipwood02.dds",
+  "textures/dos/ships/atmoran/atmoranshipwood02_n.dds",
+  "textures/dos/ships/atmoran/atmshipshields.dds",
+  "textures/dos/ships/atmoran/atmshipshields_n.dds",
+  "textures/dos/ships/bretic/breticshipside01_n.dds"
+ ],
+ "texturesSubstituted": {
+  "textures/atmoranships/atmoranshipdeck01.dds": "textures/dos/ships/atmoran/atmoranshipdeck01.dds",
+  "textures/atmoranships/atmoranshipdeck01_n.dds": "textures/dos/ships/atmoran/atmoranshipdeck01_n.dds",
+  "textures/atmoranships/atmoranshiprope01.dds": "textures/dos/ships/atmoran/atmoranshiprope01.dds",
+  "textures/atmoranships/atmoranshiprope01_n.dds": "textures/dos/ships/atmoran/atmoranshiprope01_n.dds",
+  "textures/atmoranships/atmoranshipside01.dds": "textures/dos/ships/atmoran/atmoranshipside01.dds",
+  "textures/atmoranships/atmoranshipside01_n.dds": "textures/dos/ships/atmoran/atmoranshipside01_n.dds"
+ },
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 122
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ }
+}

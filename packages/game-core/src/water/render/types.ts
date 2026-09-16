@@ -8,6 +8,7 @@ import type { UnderwaterBubbleDiagnostics } from "./UnderwaterBubbles";
 import type { UnderwaterBubblePassDiagnostics } from "./UnderwaterBubblePass";
 import type { WaterfallDiagnostics, WaterfallTextureSet } from "./WaterfallSheets";
 import type { WaterfallKit } from "./WaterfallKit";
+import type { BedRock } from "./ChannelStrips";
 
 export interface WaterAssets {
   data: WaterData;
@@ -25,6 +26,15 @@ export interface WaterAssets {
    * when the compile declared no `surface.ownerFile`. The field surface
    * discards where this is set; the strip/sheet meshes draw there instead. */
   ownerTex: THREE.DataTexture | null;
+  /** 16f water dressing (decision 0070), read from `water-dressing.json`
+   * beside the compile's outputs and absent on a build without it:
+   * `habitat` RGB = standing water / wet ground / canopy fraction (the air
+   * layer's habitat), `colour` RGB = algae / dark (tannin) / unused (the
+   * material's colour constituents). Both on the surface grid. Linear. */
+  dressing?: { habitatTex: THREE.DataTexture; colourTex: THREE.DataTexture; size: number; metresPerPixel: number };
+  /** 16f: the bed boulders the scatter placed in steep reaches
+   * (`bed-rocks.json`), for the strips' baked foam; empty without the file. */
+  bedRocks: readonly BedRock[];
   tidalAmplitudeM: number;
   seasonalAmplitudeM: number;
   /** The beyond-border ground (16d): the apron's coarse height tile as the
@@ -101,8 +111,9 @@ export interface WaterDebugState {
   bubbles?: UnderwaterBubbleDiagnostics;
   bubblePass?: UnderwaterBubblePassDiagnostics;
   /** Compiled steep-stream strip meshes (decision 0046 item 4); the boulder
-   * candidates are `stripBoulderCandidates` over every ribbon (a scatter job). */
-  strips?: { count: number; triangles: number; boulderCandidates?: number };
+   * bed rocks are placed by `worldgen/rock_dressing.py` and shipped as
+   * `province/water/bed-rocks.json` (a scatter job). */
+  strips?: { count: number; triangles: number };
   /** Compiled waterfall sheets: every sheet is free flight — ramps are
    * `chuteStrips` in the strip mesh; base quads, mist kit and per-fall budget. */
   falls?: WaterfallDiagnostics;

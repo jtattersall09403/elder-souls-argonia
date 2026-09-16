@@ -46,10 +46,11 @@ def test_understory_breadth_is_reported():
     `test_vegetation_ladder.py`; this only proves the report sees the layer."""
     flora = ab.understory_breadth()
     assert flora["distinctUnderstorySpecies"] > 0
-    # Derived, not literal: the palettes carry one entry per region class
-    # except ocean, so retiring or adding a class must not need a test edit
+    # Derived, not literal: the palettes carry one entry per region class,
+    # ocean included since the underwater band gave region 0 its own layers
+    # (2026-09-16), so retiring or adding a class must not need a test edit
     # (class 10, raised hammock, was retired 2026-09-09 — decision 0050).
     from worldgen.regions import REGION_CLASSES
-    assert len(flora["byRegionClass"]) == len(REGION_CLASSES) - 1
+    assert len(flora["byRegionClass"]) == len(REGION_CLASSES)
     for region, row in flora["byRegionClass"].items():
         assert row["species"] > 0, region

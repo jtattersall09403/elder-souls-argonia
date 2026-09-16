@@ -438,6 +438,13 @@ def build(vault: Path = DEFAULT_VAULT) -> dict:
             # A plugin's record type is direct evidence and beats the path
             # guess: an urn filed under architecture/ is still a container.
             for record_type, refined in RECORD_TYPE_CATEGORY.items():
+                # ...except for landscape rock: Bethesda hangs CONT records on
+                # `rockl01.nif`/`rockm02.nif` (an ore-rock lootable), which
+                # says what that REFERENCE is, not what the mesh is. A boulder
+                # filed as a container lost its rock sink and its convex
+                # collision proxy (decision 0036).
+                if row["category"] == "rock":
+                    break
                 if record_type in row.get("recordTypes", ()):
                     row["category"] = refined
                     row["confidence"] = 0.95

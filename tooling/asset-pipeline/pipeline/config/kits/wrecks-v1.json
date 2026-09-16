@@ -1,0 +1,70 @@
+{
+ "id": "wrecks-v1",
+ "description": "Wrecked hulls as PLACES. Every piece here is a whole broken ship or a piece of one big enough to be plotted by hand: 16g and 16h place them as places with stable ids, and nothing in this kit is ever scattered. Vanilla supplies the four large wrecks and the two longboat wrecks; Depths of Skyrim supplies the Atmoran longship, rowboat and warship wrecks and the two Bretic carrack half-wrecks; `dos/boats/rowboatbrokenback` and `rowboatbrokenfront` are the small broken rowboat halves, shared with underwater-v1 where they read as debris rather than as a place. The vanilla `shipwreckboards01-03` planks are here so a plotted wreck can carry its own scattered timber without a second kit load. NOT WRECKS, deliberately left out: the intact hulls `dos/ships/ship`, `shipbreticcaravel`/`2`, `shipbreticcarrack`, `shipbreticjollyboat`/`2` and `imperialship01masts` are seaworthy ships, and a seaworthy ship on the sea bed is a different placement decision from a wreck. The `_c` twins of both carrack half-wrecks are also out: they are the same geometry with the shader property stripped (measured \u2014 identical block list and shape names, 1 kB apart, `BSLightingShaderProperty` present in one and absent in the other), i.e. collision/LOD twins, not different meshes. NO ASSEMBLY TEMPLATES EXIST for any wreck piece. `world/sources/placement/kit-assemblies-mined.json` carries no template naming shipwreck*, shiplongboatwreck*, shipwreckboards* or any `dos/ships` piece in any of its four mined worldspaces, and every wreck piece appears in `pieceUse` with aloneInstances == instances. So this kit is a PIECE LIST with mined ground contact, not an assembly kit: a wreck is placed alone, sunk by its own measured figure, and never snapped to another piece. INTERIOR: `vanilla:dungeons/ship/shipwrecklarge01` is the one wreck that carries a vanilla interior link \u2014 cell `Icerunner01` through `vanilla:dungeons/ship/shipdoor02` (`exterior-interior-links.json`), which is 16i's tier-A candidate for a boardable wreck.",
+ "culture": "neutral-underwater",
+ "output": "tooling/asset-pipeline/output/kits/wrecks-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "assets": [
+  {
+   "asset": "vanilla:dungeons/ship/shipwrecklarge01"
+  },
+  {
+   "asset": "vanilla:dungeons/ship/shipwrecklarge02"
+  },
+  {
+   "asset": "vanilla:dungeons/ship/shipwrecklarge03"
+  },
+  {
+   "asset": "vanilla:dungeons/ship/shipwrecklarge04"
+  },
+  {
+   "asset": "vanilla:dungeons/ship/shiplongboatwreck01"
+  },
+  {
+   "asset": "vanilla:dungeons/ship/shiplongboatwreck02"
+  },
+  {
+   "asset": "vanilla:clutter/shipwreck/shipwreckboards01"
+  },
+  {
+   "asset": "vanilla:clutter/shipwreck/shipwreckboards02"
+  },
+  {
+   "asset": "vanilla:clutter/shipwreck/shipwreckboards03"
+  },
+  {
+   "asset": "depths:dos/ships/shipatmoranlongshipwreck01"
+  },
+  {
+   "asset": "depths:dos/ships/shipatmoranlongshipwreck02"
+  },
+  {
+   "asset": "depths:dos/ships/shipatmoranrowboatwreck01"
+  },
+  {
+   "asset": "depths:dos/ships/shipatmoranrowboatwreck02"
+  },
+  {
+   "asset": "depths:dos/ships/shipatmoranwarshipwreck01"
+  },
+  {
+   "asset": "depths:dos/ships/shipatmoranwarshipwreck02"
+  },
+  {
+   "asset": "depths:dos/ships/shipbreticcarrack_halfwreck01"
+  },
+  {
+   "asset": "depths:dos/ships/shipbreticcarrack_halfwreck02"
+  },
+  {
+   "asset": "depths:dos/boats/rowboatbrokenback"
+  },
+  {
+   "asset": "depths:dos/boats/rowboatbrokenfront"
+  }
+ ]
+}

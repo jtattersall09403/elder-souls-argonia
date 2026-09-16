@@ -337,9 +337,15 @@ def classify(path: str) -> Classification:
         _, category, cultures, biomes, tags = best
         confidence = 0.8
 
-    # Flora/rock refinement from the filename.
-    if category in {"tree", "plant", "shrub", "grass", "rock", "root", "fungus",
-                    "aquatic-plant", "deadfall", "terrain-feature"}:
+    # Flora/rock refinement from the filename. A mesh that lives in a rocks
+    # DIRECTORY is a rock whatever its filename says about what grows on it:
+    # `moss_rockcliff01`, `rockpilel03moss` are rocks with moss painted on,
+    # and letting the "moss" hint file them as plants gave them a plant's
+    # 0.05 m sink (owner round 4, decision 0036).
+    if category == "rock":
+        pass
+    elif category in {"tree", "plant", "shrub", "grass", "root", "fungus",
+                      "aquatic-plant", "deadfall", "terrain-feature"}:
         for fragment, refined in _FLORA_HINTS:
             if fragment in stem:
                 category = refined

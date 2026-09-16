@@ -40,8 +40,8 @@
   },
   {
    "path": "world/sources/flora/palettes.json",
-   "enforced": false,
-   "owner": "Phase 10 (vegetation) — version when the palette schema next changes"
+   "enforced": true,
+   "_": "Vegetation palettes (worldgen.build_palettes). schemaVersion 3 (16f): layers carry the water-record gates (water_kinds, season_kinds, channel_exclusion)."
   },
   {
    "path": "packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json",

@@ -1,0 +1,205 @@
+"""A vegetation-clearance patch clears its ground, and the grading is real.
+
+These are the regression guards for decision 0041's clearing integration and
+placement principle C13. They run on synthetic fields in a fraction of a
+second — no province rasters, no compiler run — so there is no excuse for not
+running them.
+"""
+
+import numpy as np
+import pytest
+
+from . import vegetation_patches as sc
+from .scatter import Fields, Layer, Palette, scatter_chunk
+
+# A 100 x 100 m built core inside a 200 x 200 m worked fringe, with one kept
+# tree standing in the middle of the built ground.
+HARD = [[[100.0, 100.0], [200.0, 100.0], [200.0, 200.0], [100.0, 200.0]]]
+THIN = [[[50.0, 50.0], [250.0, 50.0], [250.0, 250.0], [50.0, 250.0]]]
+KEPT = [{"id": "kept.test.hist", "kind": "hist-tree", "positionM": [150.0, 150.0]}]
+CLEARANCE = {"hardClear": HARD, "thinned": THIN, "kept": KEPT}
+
+
+def fields_for(depth=0.0, slope=0.0, region=7, cover=0):
+    return Fields(
+        height=lambda x, z: 0.0,
+        water_depth=lambda x, z: depth,
+        slope=lambda x, z: slope,
+        region=lambda x, z: region,
+        land_cover=lambda x, z: cover,
+    )
+
+
+PATCH = {"id": "patch.test", "kind": "vegetation-clearance",
+         "owner": {"record": "settlement.test", "chunk": "16h"}, "why": "test",
+         **CLEARANCE}
+
+
+def scatter(density=400.0, tier="T2", radius=0.0):
+    """The WILD scatter: the compiler never sees a settlement (16f)."""
+    palette = Palette("p", [Layer(species="tree", tier=tier,
+                                  instances_per_hectare=density,
+                                  clearance_radius_m=radius)])
+    return scatter_chunk(0, 0, 300, palette, fields_for(), seed=4242)
+
+
+def patched(instances, radius=0.0):
+    """What the patch applier leaves of a wild scatter."""
+    from .apply_vegetation_patches import patch_id_hash, survives
+    h = patch_id_hash(PATCH["id"])
+    return [i for i in instances if survives(i.x, i.z, PATCH, 4242, h, radius)]
+
+
+# --- the hard failures ------------------------------------------------------
+
+
+def test_no_plant_stands_on_built_ground():
+    wild = scatter()
+    inside = [i for i in wild if sc.keep_at(i.x, i.z, CLEARANCE) == 0.0]
+    assert inside, "fixture: the wild scatter must reach the built ground"
+    assert [i for i in patched(wild) if sc.keep_at(i.x, i.z, CLEARANCE) == 0.0] == []
+
+
+def test_all_tiers_are_cleared_by_the_same_patch():
+    for tier in ("T1", "T2", "T3"):
+        wild = scatter(tier=tier)
+        assert [i for i in patched(wild) if sc.keep_at(i.x, i.z, CLEARANCE) == 0.0] == []
+
+
+def test_a_plants_extent_is_cleared_not_just_its_origin():
+    """A canopy rooted 3 m outside the wall still overhangs the floor: the
+    applier judges the plant over its reach, not its origin alone."""
+    wild = scatter(density=2000.0)
+    near_wall = [i for i in wild
+                 if sc.keep_at(i.x, i.z, CLEARANCE) > 0.0
+                 and sc.distance_to_polygon(i.x, i.z, HARD[0]) < 4.0]
+    assert near_wall, "fixture: nothing rooted just outside the wall"
+    origin_only = patched(near_wall, radius=0.0)
+    with_reach = patched(near_wall, radius=6.0)
+    assert len(with_reach) < len(origin_only)
+
+
+def test_the_fringe_is_thinner_than_the_wild_but_not_empty():
+    wild = scatter(density=1200.0)
+    left = patched(wild)
+    def band(items):
+        return [i for i in items if 0.0 < sc.keep_at(i.x, i.z, CLEARANCE) < 1.0]
+    before, after = len(band(wild)), len(band(left))
+    assert before > 30, "fixture too sparse to measure a fringe"
+    assert 0 < after < before
+    far = [i for i in wild if sc.keep_at(i.x, i.z, CLEARANCE) == 1.0]
+    far_after = [i for i in left if sc.keep_at(i.x, i.z, CLEARANCE) == 1.0]
+    assert len(far_after) == len(far), "the wild ground outside the patch is untouched"
+
+
+def test_the_grade_is_a_gradient_not_a_step():
+    """Survival rises monotonically with distance from the built edge."""
+    edges = [sc.keep_at(x, 150.0, CLEARANCE) for x in (99.0, 95.0, 90.0, 85.0)]
+    assert edges == sorted(edges), edges
+    assert edges[0] < edges[-1]
+    assert sc.keep_at(60.0, 150.0, CLEARANCE) == pytest.approx(1.0)
+
+
+def test_a_kept_plant_keeps_its_ground():
+    wild = scatter(density=3000.0)
+    under = [i for i in wild if np.hypot(i.x - 150.0, i.z - 150.0) <= 10.0]
+    assert under, "fixture: nothing under the kept tree"
+    assert len(patched(under)) == len(under)
+
+
+def test_weeds_are_enriched_at_the_wall_foot():
+    """The 0-1.2 m band outside a wall is a deliberate keep, not an oversight."""
+    x = 150.0
+    # Walk out from the wall to the first ground the clearing leaves standing.
+    z = next(z for z in np.arange(100.0, 96.0, -0.02)
+             if sc.keep_at(x, z, CLEARANCE) > 0.0)
+    at_wall = sc.keep_at(x, z, CLEARANCE)
+    # Un-enriched, the fringe rate this close to the wall is the floor.
+    assert at_wall > sc.FRINGE_MIN_KEEP * 1.5
+    # ... and the enrichment is local: it is gone by the band's edge.
+    assert sc.keep_at(x, z - sc.WALL_ENRICH_BAND_M - 0.1, CLEARANCE) < at_wall
+
+
+# --- the shared rule --------------------------------------------------------
+
+def test_scalar_and_vectorised_rules_agree():
+    rng = np.random.default_rng(7)
+    xs = rng.uniform(30.0, 270.0, 500)
+    zs = rng.uniform(30.0, 270.0, 500)
+    for margin in (0.0, 0.9):
+        vector = sc.keep_field(xs, zs, CLEARANCE, margin)
+        scalar = np.array([sc.keep_at(x, z, CLEARANCE, margin)
+                           for x, z in zip(xs, zs)])
+        assert np.allclose(vector, scalar)
+
+
+def test_the_raster_never_reports_built_ground_as_wild():
+    """Cell-centre sampling let plants 20 cm inside a wall survive; the
+    conservative half-cell margin is what stops it."""
+    px_m = 1.83
+    keep = sc.keep_raster((200, 200), px_m, [CLEARANCE])
+    rng = np.random.default_rng(3)
+    for x, z in zip(rng.uniform(101.0, 199.0, 200), rng.uniform(101.0, 199.0, 200)):
+        if sc.keep_at(x, z, CLEARANCE) == 0.0:
+            assert keep[int(z / px_m), int(x / px_m)] == 0, (x, z)
+
+
+def test_affected_chunks_covers_the_interior_and_uses_the_scatter_chunk_size():
+    assert sc.CHUNK_M == pytest.approx(467.927, abs=0.01)
+    wide = {"hardClear": [[[100.0, 100.0], [1500.0, 100.0],
+                           [1500.0, 200.0], [100.0, 200.0]]], "thinned": []}
+    cells = sc.affected_chunks(wide)
+    # 0..1500 m spans four chunks at 467.9 m, INCLUDING the ones with no vertex.
+    assert [c[0] for c in cells] == [0, 1, 2, 3]
+    assert {c[1] for c in cells} == {0}
+
+
+# --- the patch-list validator ----------------------------------------------
+
+def _write(tmp_path, patches, schema=1):
+    import json
+    path = tmp_path / "vegetation-patches.json"
+    path.write_text(json.dumps({"schemaVersion": schema, "patches": patches}))
+    return path
+
+
+def _patch(**over):
+    patch = {"id": "patch.test.one", "kind": "vegetation-clearance",
+             "owner": {"record": "place.test", "chunk": "16h"},
+             "why": "the test needs a valid patch",
+             "hardClear": HARD, "thinned": THIN, "kept": KEPT}
+    patch.update(over)
+    return patch
+
+
+def test_a_valid_patch_list_loads(tmp_path):
+    loaded = sc.load_patches(_write(tmp_path, [_patch()]))
+    assert [p["id"] for p in loaded] == ["patch.test.one"]
+
+
+def test_a_patch_missing_its_kind_is_refused(tmp_path):
+    bad = _patch()
+    del bad["kind"]
+    with pytest.raises(ValueError, match="patch.test.one"):
+        sc.load_patches(_write(tmp_path, [bad]))
+
+
+def test_a_duplicate_id_is_refused(tmp_path):
+    with pytest.raises(ValueError, match="duplicate"):
+        sc.load_patches(_write(tmp_path, [_patch(), _patch()]))
+
+
+def test_a_two_point_polygon_is_refused(tmp_path):
+    bad = _patch(hardClear=[[[0.0, 0.0], [1.0, 1.0]]])
+    with pytest.raises(ValueError, match="patch.test.one"):
+        sc.load_patches(_write(tmp_path, [bad]))
+
+
+def test_a_wrong_schema_version_is_refused(tmp_path):
+    with pytest.raises(ValueError, match="schemaVersion"):
+        sc.load_patches(_write(tmp_path, [_patch()], schema=2))
+
+
+def test_the_shipped_patch_list_is_valid():
+    """The authored file itself must pass its own validator."""
+    sc.load_patches()

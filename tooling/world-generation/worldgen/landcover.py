@@ -22,13 +22,16 @@ is the future source of truth for footsteps, groundcover and encounters too.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import numpy as np
 from scipy import ndimage
 
 from .fastfilter import gaussian
 from .position_noise import SEED_DEFAULT, normal_field
-from .scale import TUNE, TUNE_A, TUNE_S
+from .scale import TUNE, TUNE_S
 from .sculpt import TALUS_FULL_TAN, TALUS_TAN
+from .water_report import CHANNEL_REACH_KINDS
 
 # Material ids — index order of build_ground_materials.MATERIALS.
 (SILT, RIVER_MUD, BANK_WET, SCUM, BLACK_MUD, PUDDLE, CLAY, MUCK, BC_MUD,
@@ -41,6 +44,9 @@ from .sculpt import TALUS_FULL_TAN, TALUS_TAN
 # splat shader samples them on the triplanar SIDE projections.
 CLIFF_ROCK, CLIFF_DIRT = 38, 39
 N_MATERIALS = 40
+
+# Major-road state of repair, as `routes_raster.CONDITION_CODES` writes it.
+ROAD_MAINTAINED, ROAD_WORN, ROAD_DECAYED, ROAD_BROKEN = 1, 2, 3, 4
 
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
@@ -63,8 +69,6 @@ REGION_PALETTES = {
     13: dict(base=JUNGLE, damp=BLACK_MUD, wet=BLACK_MUD, bank=BC_MUD, high=FOREST_FLOOR, litter=LITTER),  # tropical jungle
 }
 MARSHY = {3, 4, 6, 7, 8, 12}          # regions where wet-ground micro rules dominate
-# Channel bed half-widths (m) by river band, matching the refine CHANNELS.
-BAND_HALF_W = {1: 10.0 * TUNE, 2: 22.0 * TUNE, 3: 45.0 * TUNE}
 
 # Northern palette zone (owner 2026-08-23: the northern half — including the
 # second big river basin around Helstrom's approaches — must feel distinct
@@ -85,7 +89,6 @@ NORTH_PALETTES = {
 NORTH_V = 0.45              # province v-fraction where the northern zone ends
 # Metre/area literals in this module were tuned at x3 and convert via
 # scale.TUNE/TUNE_A so the approved control map survives rescales (0015).
-LAKE_MIN_KM2 = 0.15 * TUNE_A  # fresh water bigger than this shores like a lake
 # Mountain elevation belts (region 1; climatology: foothill forest ->
 # low cloud-forest belt -> crag; montane cooling allowed, never frost).
 # Phase 6b: belts rescaled to the sculpted ranges (summits ~650 m; foothill
@@ -100,6 +103,127 @@ MONT_FOREST_M, MONT_CLOUD_M, MONT_CRAG_M = 100.0, 280.0, 440.0
 # runs in metres), so they take no TUNE_S.
 SCREE_MIN_TAN = 0.8 * TALUS_TAN     # below this the slope holds soil/vegetation
 SCREE_MAX_TAN = TALUS_FULL_TAN      # above this loose debris cannot rest
+
+
+# --- the water record (decision 0066) --------------------------------------
+#
+# The bake does NOT decide where water is, what kind it is, or how salt it is.
+# Every water rule below joins through `WaterPaint`, which is the SIGNED
+# hydrology graph realised by the water compile (`water_report.ShippedWater`),
+# resampled onto the bake's grid. Nothing here re-derives a water class from a
+# height threshold, a Phase 3 band raster or a connected-component area test.
+
+# Kind names, from the graph vocabulary (`ShippedWater.kind_names`). Sets, not
+# thresholds: what a texel's water IS decides how the ground around it paints.
+STEEP_KINDS = frozenset({"sloped-riffle", "sloped-rapid", "sloped-chute", "vertical-fall"})
+MARSH_PAINT_KINDS = frozenset({"marsh-fringe", "marsh-deep", "swamp", "backswamp"})
+LAKE_KINDS = frozenset({"lake-lowland", "tarn-upland"})
+POOL_KINDS = frozenset({"pond", "pool", "plunge-pool"})
+SALT_KINDS = frozenset({"ocean", "lagoon", "horizontal-tidal"})
+MANGROVE_KINDS = frozenset({"lagoon", "mudflat"})
+STREAM_HALF_W_M = 4.0   # a reach narrower than 8 m banks as a stream (BANK_WET)
+
+# The contract the provenance gate checks: which water kinds may decide each
+# water-painted material. Written FROM the rules in compile_ground_control —
+# if a rule changes, this changes with it (test_landcover_provenance).
+_CH = CHANNEL_REACH_KINDS
+WATER_PAINT_KINDS: dict[int, frozenset[str]] = {
+    SILT:        _CH | SALT_KINDS | MANGROVE_KINDS | MARSH_PAINT_KINDS,
+    RIVER_MUD:   _CH | LAKE_KINDS | POOL_KINDS | frozenset({"horizontal-backwater"}),
+    BANK_WET:    _CH | LAKE_KINDS | frozenset({"horizontal-backwater"}),
+    # the shallows of any fresh water that is not a lake and not a brisk reach
+    SCUM:        (MARSH_PAINT_KINDS | POOL_KINDS | LAKE_KINDS | _CH
+                  | frozenset({"horizontal-backwater", "mudflat"})),
+    PUDDLE:      LAKE_KINDS,
+    MUCK:        MARSH_PAINT_KINDS | POOL_KINDS | MANGROVE_KINDS,
+    # mangrove mud also fringes an estuary CLASS whose nearest entity is the
+    # tidal channel itself
+    BC_MUD:      SALT_KINDS | MANGROVE_KINDS | MARSH_PAINT_KINDS | _CH,
+    BLACK_MUD:   MARSH_PAINT_KINDS | POOL_KINDS | LAKE_KINDS | SALT_KINDS | MANGROVE_KINDS,
+    PEBBLES:     STEEP_KINDS | frozenset({"tarn-upland"}),
+    SALT:        SALT_KINDS | MANGROVE_KINDS,
+    BEACH_SAND:  SALT_KINDS,
+    SEABED_SAND: SALT_KINDS,
+    OCEAN_FLOOR: SALT_KINDS,
+}
+WATER_DERIVED: frozenset[int] = frozenset(WATER_PAINT_KINDS)
+_WATER_DERIVED_ARR = np.array(sorted(WATER_DERIVED), dtype=np.int16)
+
+
+@dataclass
+class WaterPaint:
+    """The water record on the bake's own grid: what the ground is painted by.
+
+    All grids are `height.shape`. `depth`/`depth_dry` are SIGNED depth in
+    metres at the wet and dry seasons (> 0 is standing water); `kind` indexes
+    `kind_names` (0 = none), `half_width` is the reach's widthM/2 where the
+    texel is a reach (0 elsewhere), `klass` is the compiled water class
+    realising the record's salinity (water-class.png R: 0 none, 1 coast,
+    2 estuary, 3 river, 4 lake, 5 marsh).
+    """
+
+    depth: np.ndarray
+    depth_dry: np.ndarray
+    kind: np.ndarray
+    kind_names: list[str]
+    half_width: np.ndarray
+    klass: np.ndarray
+
+    def indices(self, names) -> np.ndarray:
+        """uint8 indices of the named kinds that this vocabulary carries."""
+        wanted = frozenset(names)
+        return np.array([i for i, n in enumerate(self.kind_names) if n in wanted],
+                        dtype=np.uint8)
+
+    def __getitem__(self, sl):
+        """The same record over a window (rebake_landcover --window)."""
+        return WaterPaint(self.depth[sl], self.depth_dry[sl], self.kind[sl],
+                          self.kind_names, self.half_width[sl], self.klass[sl])
+
+    @staticmethod
+    def _resample(a, shape, order):
+        a = np.asarray(a)
+        if a.shape[:2] == tuple(shape):
+            return a
+        z = (shape[0] / a.shape[0], shape[1] / a.shape[1])
+        out = ndimage.zoom(a, z, order=order, mode="nearest", grid_mode=True)
+        pad = [(0, max(0, shape[i] - out.shape[i])) for i in range(2)]
+        return np.pad(out, pad, mode="edge")[: shape[0], : shape[1]]
+
+    @classmethod
+    def from_record(cls, shipped, shape, m_per_px) -> "WaterPaint":
+        """Read the shipped water record (`water_report.ShippedWater`) and put
+        it on a `shape` grid. Categorical grids resample nearest (order 0) so
+        no texel is ever given a kind or a class nobody authored; the signed
+        depth resamples bilinearly (order 1) so the waterline stays smooth."""
+        names = shipped.kind_names()
+        kind = shipped.kind_index_grid()
+        width = shipped.reach_width_grid()
+        if kind is None or width is None:
+            raise ValueError("the shipped water bundle carries no water-id.png: "
+                             "the ground cannot be painted from the record (0066)")
+        return cls(
+            depth=cls._resample(shipped.signed_depth_m("wet"), shape, 1).astype(np.float32),
+            depth_dry=cls._resample(shipped.signed_depth_m("dry"), shape, 1).astype(np.float32),
+            kind=cls._resample(kind, shape, 0).astype(np.uint8),
+            kind_names=names,
+            half_width=(cls._resample(width, shape, 0).astype(np.float32) * 0.5),
+            klass=cls._resample(shipped.cls, shape, 0).astype(np.uint8),
+        )
+
+    @classmethod
+    def from_sea_level(cls, height) -> "WaterPaint":
+        """The apron beyond the province border, where the ONLY water is the
+        sea at level 0 — there is no graph out there to read."""
+        depth = (-np.asarray(height, dtype=np.float32)).astype(np.float32)
+        wet = depth > 0.0
+        return cls(
+            depth=depth, depth_dry=depth.copy(),
+            kind=np.where(wet, 1, 0).astype(np.uint8),
+            kind_names=["none", "ocean"],
+            half_width=np.zeros(depth.shape, dtype=np.float32),
+            klass=np.where(wet, 1, 0).astype(np.uint8),
+        )
 
 
 def _region_map(region, slot):
@@ -125,31 +249,39 @@ def _warp_regions(region, m_per_px, origin=(0, 0), seed=SEED_DEFAULT):
     return ndimage.map_coordinates(region, [yy, xx], order=0, mode="nearest")
 
 
-def compile_ground_control(height, region, rivers, slope, m_per_px,
-                           origin=(0, 0), seed=SEED_DEFAULT, salinity=None, twi=None, wetlands=None, roads=None,
-                           minor_routes=None, v_frac=None, water_level=None):
-    """Return (landcover material raster int16, control RGBA uint8).
+def compile_ground_control(height, region, slope, m_per_px, water=None,
+                           origin=(0, 0), seed=SEED_DEFAULT, roads=None,
+                           minor_routes=None, v_frac=None):
+    """Return (landcover material raster int16, control RGBA uint8, provenance uint8).
 
-    height: metres relative to sea level (water surface y=0); region: region
-    class raster; rivers: river band raster (0/1/2/3); slope: rise/run;
-    origin/seed: absolute sample coordinate of this window's (0, 0) and the
-    noise seed — every noise field is position-seeded (position_noise), so a
-    window bakes the same numbers the whole-province bake would give it;
-    salinity/twi/wetlands: optional macro fields, roads: optional bool mask;
-    minor_routes: optional int8 raster of minor-route surface classes
-    (routes_raster.MINOR_TRACK / MINOR_PATH) — the Part 3b tracks and
-    footpaths, painted narrower and duller than the trunk roads;
-    v_frac: optional 0(north)..1(south) province-latitude raster enabling the
-    northern palette zone — all at the same resolution as height.
-    water_level: optional LOCAL water-surface height raster (Phase 8b
-    compile_water W): when given, every water-relative rule (beds, waterline
-    bands, shallows) uses height-above-local-water, so mountain tarns, high
-    rivers and marsh pools get silt/mud beds and shore grammar instead of
-    reading as dry mossy land (owner 8b round 2). Absolute-elevation rules
-    (mountain belts, salt flats) still use `height`.
+    height: metres relative to sea level; region: region class raster; slope:
+    rise/run; origin/seed: absolute sample coordinate of this window's (0, 0)
+    and the noise seed — every noise field is position-seeded
+    (position_noise), so a window bakes the same numbers the whole-province
+    bake would give it.
+
+    water: the WATER RECORD on this grid (`WaterPaint`) — where water is, what
+    kind it is and how deep it stands in each season, read from the signed
+    hydrology graph as the water compile realised it (decision 0066). None
+    means `WaterPaint.from_sea_level(height)`: beyond the province border the
+    only water is the sea at level 0 and there is no record to read.
+
+    roads: optional int8 CONDITION raster of the major roads (0 off-road,
+    1 maintained .. 4 broken — `routes_raster.condition_raster`), which
+    decides how much built surface still shows and how much of the underlying
+    ground has broken back through. A plain bool mask is still accepted and
+    read as `worn`. minor_routes: optional int8 raster of minor
+    route surface classes (routes_raster.MINOR_TRACK / MINOR_PATH); v_frac:
+    optional 0(north)..1(south) province-latitude raster enabling the northern
+    palette zone — all at the same resolution as height.
+
+    The third return is the PROVENANCE raster: for every texel a water rule
+    decided, the kind index of the water that decided it (0 elsewhere). It is
+    the evidence that each water-derived material was painted by the record
+    and not by a height threshold.
     """
     shape = height.shape
-    rel = height if water_level is None else (height - water_level).astype(np.float32)
+    wp = water if water is not None else WaterPaint.from_sea_level(height)
     region = _warp_regions(region, m_per_px, origin, seed)
 
     # Palette zone: northern regions bind land-cover slots to different
@@ -176,17 +308,57 @@ def compile_ground_control(height, region, rivers, slope, m_per_px,
     # paint slope bands — they striped the basin, owner report 2026-08-23).
     slope_lf = gaussian(slope, 22.0 * TUNE / m_per_px)
 
+    # --- the record, joined once ------------------------------------------
+    # Every water rule below asks two questions of the record and no others:
+    # how deep does the water stand here (wet and dry season), and what KIND
+    # is the nearest water. Nothing decides "lake", "sea" or "marsh" itself.
+    water = wp.depth > 0.0
+    kind = wp.kind
+    i_chan = wp.indices(CHANNEL_REACH_KINDS)
+    i_steep = wp.indices(STEEP_KINDS)
+    i_marsh = wp.indices(MARSH_PAINT_KINDS)
+    i_lake = wp.indices(LAKE_KINDS)
+    i_pool = wp.indices(POOL_KINDS)
+    i_salt = wp.indices(SALT_KINDS)
+    i_mang = wp.indices(MANGROVE_KINDS)
+    i_tarn = wp.indices(("tarn-upland",))
+    i_mudflat = wp.indices(("mudflat",))
+    i_pan = wp.indices(("mudflat", "lagoon"))
+    i_body = wp.indices(set(wp.kind_names[1:]) - set(CHANNEL_REACH_KINDS)
+                        - {"horizontal-backwater"})
+
+    shore_d = (ndimage.distance_transform_edt(~water) * m_per_px).astype(np.float32)
+    if water.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(~water, return_indices=True)
+        near_kind = kind[iy, ix]
+        near_klass = wp.klass[iy, ix]
+    else:
+        shore_d = np.full(shape, 1e9, dtype=np.float32)
+        near_kind = np.zeros(shape, dtype=np.uint8)
+        near_klass = np.zeros(shape, dtype=np.uint8)
+
+    # The channel network of the record: reach kinds that flow (a
+    # horizontal-backwater reach IS the body it crosses, so it banks as one).
+    channel_bed = np.isin(kind, i_chan)
+    if channel_bed.any():
+        cd, (cy, cx) = ndimage.distance_transform_edt(~channel_bed, return_indices=True)
+        chan_d = (cd * m_per_px).astype(np.float32)
+        near_hw = wp.half_width[cy, cx]
+        del cd
+    else:
+        chan_d = np.full(shape, 1e9, dtype=np.float32)
+        near_hw = np.zeros(shape, dtype=np.float32)
+
+    # Water provenance: the kind index of the water that decided each texel.
+    prov = np.zeros(shape, dtype=np.uint8)
+
+    def paint(mask):
+        prov[mask] = near_kind[mask]
+
     # Multi-scale patchiness (owner 2026-08-23: uniform ~35 m blobs read as
     # camouflage). Fine-grained variation only where the ground is "doing
     # something" — near water, channels and on slopes; calm interior ground
     # gets broad coherent patches instead.
-    water = rel < 0.05
-    shore_d = (ndimage.distance_transform_edt(~water) * m_per_px).astype(np.float32)
-    chan_d = np.full(shape, 1e9, dtype=np.float32)
-    for band in BAND_HALF_W:
-        m = rivers == band
-        if m.any():
-            chan_d = np.minimum(chan_d, (ndimage.distance_transform_edt(~m) * m_per_px).astype(np.float32))
     activity = np.clip(
         np.clip(1.0 - shore_d / (130.0 * TUNE), 0, 1)
         + np.clip(1.0 - chan_d / (110.0 * TUNE), 0, 1)
@@ -196,14 +368,17 @@ def compile_ground_control(height, region, rivers, slope, m_per_px,
     fine = normal_field(shape, 14.0 * TUNE / m_per_px, "patch-fine", origin, seed)    # ~14 m speckle
     patch_mix = broad + patch * (0.25 + 0.75 * activity)
 
-    # Wetness patches: TWI + wetlands push ground to each region's damp/wet
-    # materials; dry pans on the seasonal floodplain.
+    # Wetness patches: the RECORD'S OWN hollows (ground that stands under
+    # water in the wet season and dries out in the dry one) and the reach of
+    # the marsh bodies, instead of the Phase 3 TWI/wetlands fields.
     wet_score = 0.8 * patch_mix
-    if twi is not None:
-        t = np.nan_to_num(twi.astype(np.float32))
-        wet_score = wet_score + (t - t.mean()) / max(t.std(), 1e-9)
-    if wetlands is not None:
-        wet_score = wet_score + 0.8 * wetlands.astype(np.float32)
+    wet_score = wet_score + np.where(water & (wp.depth_dry <= 0.0), 1.6, 0.0)
+    marsh_cells = np.isin(kind, i_marsh)
+    if marsh_cells.any():
+        marsh_d = (ndimage.distance_transform_edt(~marsh_cells) * m_per_px).astype(np.float32)
+        wet_score = (wet_score + np.where(marsh_d < 30.0 * TUNE, 0.9, 0.0)
+                     + np.where(marsh_d < 60.0 * TUNE, 0.4, 0.0))
+        del marsh_d
     mat = np.where(wet_score > 0.6, rmap("damp"), mat)
     mat = np.where(wet_score > 1.5, rmap("wet"), mat)
     mat = np.where(fine > 1.05 + 0.55 * (1.0 - activity), rmap("litter"), mat)
@@ -229,7 +404,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px,
     # in the lowlands (owner round 5: the cold mossy-rock cobbles were being
     # slapped on every steep surface, INCLUDING underwater channel walls;
     # steep ground below the waterline keeps its bed material instead).
-    above_water = rel > -0.2
+    above_water = wp.depth < 0.2
     mat = np.where(marshy & (slope_lf > 0.07 * TUNE_S) & above_water, PEAT_SLOPE, mat)
     steep_rock = np.where(np.isin(region, (1, 2)), MOUNTAIN_ROCK,
                           np.where(marshy | (region == 13), BC_ROCK, DIRT_CLIFF))
@@ -246,91 +421,101 @@ def compile_ground_control(height, region, rivers, slope, m_per_px,
              & (prom < 0.0) & (broad > -0.9))
     mat = np.where(scree, SCREE, mat)
 
-    # Salt flats where brackish, flat and low (noise-broken).
-    if salinity is not None:
-        salty = salinity > 0.45
-        mat = np.where(salty & (height < 1.5) & (slope_lf < 0.03 * TUNE_S) & (patch > 0.55), SALT, mat)
-    else:
-        salty = np.isin(region, [0, 3, 4])
+    # Salt pans: the drying margin of the record's OWN salt flats — a mudflat
+    # or a lagoon — never "low ground with a high Phase 3 salinity number".
+    flat_pan = slope_lf < 0.012 * TUNE_S
+    near_salty = np.isin(near_kind, i_salt) | np.isin(near_klass, (1, 2))
+    pan = (np.isin(near_kind, i_pan) & flat_pan & (patch > 0.55)
+           & (shore_d < 58.0 * TUNE))
+    mat = np.where(pan, SALT, mat)
+    paint(pan)
 
-    # Channel gradient (the Bethesda 3-stage water edge, scaled per band):
-    # bed silt -> wet river mud waterline -> bank. Streams (band 1) bank in
+    # Channel gradient (the Bethesda 3-stage water edge): bed silt -> wet
+    # river mud waterline -> bank, laid on the reach's compiled extent.
+    # Streams (a reach narrower than 8 m, from the record's widthM) bank in
     # mossy pebbles; bigger rivers use the regional bank material — part of
     # the per-water-type shoreline grammar (owner 2026-08-23).
-    channel_bed = np.zeros(shape, dtype=bool)
-    for band, half_w in BAND_HALF_W.items():
-        m = rivers == band
-        if not m.any():
-            continue
-        d = (ndimage.distance_transform_edt(~m) * m_per_px).astype(np.float32)
-        bank_mat = np.full(shape, BANK_WET, dtype=np.int16) if band == 1 else rmap("bank")
-        mat = np.where(d < half_w + 26.0 * TUNE, bank_mat, mat)
-        mat = np.where(d < half_w + 10.0 * TUNE, RIVER_MUD, mat)
-        mat = np.where(d < half_w, SILT, mat)
-        channel_bed |= d < half_w
+    if channel_bed.any():
+        chan_near = np.isin(near_kind, i_chan) | (chan_d < 26.0 * TUNE)
+        bank_mat = np.where(near_hw < STREAM_HALF_W_M, BANK_WET, rmap("bank"))
+        m_bank = chan_near & (chan_d < 26.0 * TUNE)
+        mat = np.where(m_bank, bank_mat, mat)
+        paint(m_bank)
+        m_mud = chan_near & (chan_d < 10.0 * TUNE)
+        mat = np.where(m_mud, RIVER_MUD, mat)
+        paint(m_mud)
+        mat = np.where(channel_bed, SILT, mat)
+        paint(channel_bed)
 
     # Standing-water gradient around every water contact — contour-following
     # distance bands, highest priority so nothing dry ever touches a
-    # waterline. Each WATER TYPE gets its own progression (owner 2026-08-23):
+    # waterline. The band applies where the NEAREST water is a standing body,
+    # so a texel is decided by the water nearest to it, once. Each water type
+    # gets its own progression (owner 2026-08-23):
     #   sea coast (salty):  sand beach -> salt/sand -> damp fringe;
     #                       rocky cove where the shore is steep;
     #   lake (big fresh):   wet pebble bank -> regional bank mud -> damp;
     #   swamp pool (small): black mud -> muck -> damp (no pebble bank);
     # shallows likewise: sea sand / lake puddle-mud / marsh-pool scum.
-    _, (iy, ix) = ndimage.distance_transform_edt(~water, return_indices=True)
-    near_salty = salty[iy, ix] if isinstance(salty, np.ndarray) else np.full(shape, bool(salty))
-    lblw, _n = ndimage.label(water)
-    areas = np.bincount(lblw.ravel())
-    big = np.zeros_like(areas, dtype=bool)
-    big[areas * (m_per_px ** 2) / 1e6 >= LAKE_MIN_KM2] = True
-    near_big = big[lblw[iy, ix]]
+    near_lake = np.isin(near_kind, i_lake)
+    near_body = np.isin(near_kind, i_body)
     rocky = gaussian(slope_lf, 20.0 * TUNE / m_per_px) > 0.045 * TUNE_S
-    low = rel < 2.5
-    band2 = (~water) & (shore_d < 58.0 * TUNE) & low          # damp fringe
-    band1 = (~water) & (shore_d < 32.0 * TUNE) & low          # wet mud / salt / rock
-    band0 = (~water) & (shore_d < 13.0 * TUNE) & (rel < 3.0)  # waterline
+    low = wp.depth > -2.5
+    band2 = (~water) & near_body & (shore_d < 58.0 * TUNE) & low          # damp fringe
+    band1 = (~water) & near_body & (shore_d < 32.0 * TUNE) & low          # wet mud / salt / rock
+    band0 = (~water) & near_body & (shore_d < 13.0 * TUNE) & (wp.depth > -3.0)
     mat = np.where(band2, rmap("damp"), mat)
+    prov[band2] = 0
     # Coast typing (research: tropical-shoreline-materials Part D):
-    # sheltered muddy wetland coast = mangrove country (mud, never sand);
-    # exposed sediment coast = dry BEACH sand above the wet swash line;
-    # very flat saline ground keeps its salt pans; steep salty = rocky cove.
-    # mangrove mud coasts: lagoons and saline WETLAND fringes — but NOT the
-    # delta mouth bars, which are sand (owner round 5 + research Part D)
-    mangrove = np.isin(region, (4,)) | (wetlands if isinstance(wetlands, np.ndarray) else False)
-    flat_pan = slope_lf < 0.012 * TUNE_S
+    # mangrove country is the record's own sheltered saline water — a lagoon,
+    # a mudflat, an estuary class, or a marsh body standing in salt water —
+    # and it is mud, never sand; exposed sediment coast is dry BEACH sand
+    # above the wet swash line; very flat saline ground keeps its salt pans;
+    # steep salty shore is a rocky cove.
+    mangrove = (np.isin(near_kind, i_mang) | (near_klass == 2)
+                | (np.isin(near_kind, i_marsh) & near_salty))
     b1_salty = np.where(mangrove, BC_MUD, np.where(flat_pan, SALT, BEACH_SAND))
-    b1 = np.where(near_salty, b1_salty, np.where(near_big, rmap("bank"), MUCK))
+    b1 = np.where(near_salty, b1_salty, np.where(near_lake, rmap("bank"), MUCK))
     mat = np.where(band1, b1, mat)
+    paint(band1)
     # the waterline of an exposed sandy coast is WET SAND (seabed_sand, the
     # same sand the shallows show), not the pebble shore: `SAND` is vanilla
     # coastbeach01, a shingle, and painted 13 m either side of the waterline
     # it read as gravel where the map promised a beach (owner 2026-09-12)
     b0 = np.where(near_salty, np.where(mangrove, BLACK_MUD, SEABED_SAND),
-                  np.where(near_big, BANK_WET, BLACK_MUD))
+                  np.where(near_lake, BANK_WET, BLACK_MUD))
     mat = np.where(band0, b0, mat)
-    # rocky coves only where mountain spurs actually meet the sea — never on
-    # low sandy delta bars (owner round 5: cobbles on sand islands)
-    cove = rocky & np.isin(region, (1, 2, 10, 11)) & (height > 1.5)
-    mat = np.where((band0 | band1) & near_salty & cove, BC_ROCK, mat)
-    # freshwater gravel bars on brisk upland reaches (research §1.2) — only
-    # in genuinely mountainous/upland regions where gravel supply exists
-    upland_gravel = (~near_salty) & (slope_lf > 0.02 * TUNE_S) & np.isin(region, (1, 2))
-    shallow = (rel >= -0.7) & water
+    paint(band0)
+    # rocky coves only where mountain spurs actually meet salt water — never
+    # on low sandy delta bars (owner round 5: cobbles on sand islands)
+    cove = rocky & np.isin(region, (1, 2, 10, 11)) & (height > 1.5) & near_salty
+    m_cove = (band0 | band1) & cove
+    mat = np.where(m_cove, BC_ROCK, mat)
+    prov[m_cove] = 0
+    # freshwater gravel bars on brisk reaches (research §1.2) — the record's
+    # riffles, rapids, chutes and falls, the water that actually moves gravel
+    upland_gravel = np.isin(near_kind, i_steep)
+    shallow = water & (wp.depth <= 0.7)
     sh = np.where(near_salty, np.where(mangrove, SILT, SEABED_SAND),
                   np.where(upland_gravel, PEBBLES,
-                           np.where(near_big & ~marshy, PUDDLE, SCUM)))
+                           np.where(near_lake & ~marshy, PUDDLE, SCUM)))
     mat = np.where(shallow, sh, mat)
-    mat = np.where(band0 & upland_gravel & ~near_salty, PEBBLES, mat)
-    # deep beds by water type (owner rounds 4-5): the pebbly riverbed
-    # texture belongs to RIVERS only — swamp and lake beds are soft mud,
-    # the sea floor rippled sand, mountain water gravel
-    deep = rel < -0.7
-    river_bed = ndimage.distance_transform_edt(rivers == 0) * m_per_px < 40.0
-    mat = np.where(deep, RIVER_MUD, mat)                              # lakes/ponds default
-    mat = np.where(deep & np.isin(region, (6, 7, 8, 13, 4)), BLACK_MUD, mat)  # swamp beds
-    mat = np.where(deep & river_bed, SILT, mat)                       # true riverbed
-    mat = np.where(deep & near_salty, OCEAN_FLOOR, mat)
-    mat = np.where(deep & np.isin(region, (1, 2)), PEBBLES, mat)
+    paint(shallow)
+    m_gravel = band0 & upland_gravel & ~near_salty
+    mat = np.where(m_gravel, PEBBLES, mat)
+    paint(m_gravel)
+    # deep beds by the KIND of the water standing on them (owner rounds 4-5):
+    # the pebbly riverbed texture belongs to moving water only — swamp and
+    # lake beds are soft mud, the sea floor rippled sand, mountain water gravel
+    deep = wp.depth > 0.7
+    mat = np.where(deep, RIVER_MUD, mat)                                   # default
+    mat = np.where(deep & np.isin(near_kind, i_chan), SILT, mat)           # channel bed
+    mat = np.where(deep & np.isin(near_kind, i_steep), PEBBLES, mat)       # brisk reaches
+    mat = np.where(deep & np.isin(near_kind, i_marsh), BLACK_MUD, mat)     # swamp beds
+    mat = np.where(deep & np.isin(near_kind, i_salt), OCEAN_FLOOR, mat)    # sea floor
+    mat = np.where(deep & np.isin(near_kind, i_tarn), PEBBLES, mat)        # tarn gravel
+    mat = np.where(deep & np.isin(near_kind, i_mudflat), BC_MUD, mat)      # tidal flat
+    paint(deep)
 
     # Roads LAST so the wet fringes can't swallow them (they previously ran
     # before the shore bands and vanished — owner report): Phase 4 corridors
@@ -339,11 +524,41 @@ def compile_ground_control(height, region, rivers, slope, m_per_px,
     # dry ground — crossings over water/channel beds stay unpainted
     # (bridges/ferries/boardwalks are placed features, Phase 11+).
     if roads is not None:
+        roads = np.asarray(roads)
+        if roads.dtype == bool:
+            # Legacy bool callers (the border apron, older fixtures): a road
+            # with no authored state of repair is a worn road.
+            cond = np.where(roads, ROAD_WORN, 0).astype(np.int8)
+        else:
+            cond = roads.astype(np.int8)
         wear = normal_field(shape, 120.0 * TUNE / m_per_px, "wear", origin, seed)   # ~120 m wear stretches
+        on_road_all = (cond > 0) & ~water & ~channel_bed
+        # The surface a road shows is its authored state of repair (owner
+        # 2026-09-16): a maintained road is built surface with the odd worn
+        # patch; a decayed one is a track with the underlying ground breaking
+        # through; a broken one is all but gone, a few traces in the cover.
         road_mat = np.full(shape, BC_ROAD, dtype=np.int16)
-        road_mat[wear > 0.55] = PATH
-        road_mat[(wet_score > 1.2) & (wear > 0.3)] = TRACK
-        mat = np.where(roads & ~water & ~channel_bed, road_mat, mat)
+        keep_under = np.zeros(shape, dtype=bool)
+
+        m = cond == ROAD_MAINTAINED
+        road_mat = np.where(m & (wear > 0.75), PATH, road_mat)
+
+        m = cond == ROAD_WORN
+        road_mat = np.where(m & (wear > 0.45), PATH, road_mat)
+        road_mat = np.where(m & (wet_score > 1.2) & (wear > 0.3), TRACK, road_mat)
+
+        m = cond == ROAD_DECAYED
+        road_mat = np.where(m, TRACK, road_mat)
+        road_mat = np.where(m & (wear > 0.2), PATH, road_mat)
+        keep_under |= m & (wear > 0.55)
+
+        m = cond == ROAD_BROKEN
+        road_mat = np.where(m, TRACK, road_mat)
+        keep_under |= m & (wear <= 0.85)
+
+        on_road = on_road_all & ~keep_under
+        mat = np.where(on_road, road_mat, mat)
+        prov[on_road] = 0
 
     # Minor routes (Part 3b): a track is a cart-width worn dirt surface, a
     # footpath a single-texel trodden strip; boardwalks paint nothing (they
@@ -352,10 +567,19 @@ def compile_ground_control(height, region, rivers, slope, m_per_px,
     # and on dry ground only, same rule as above.
     if minor_routes is not None:
         dry = ~water & ~channel_bed
-        mat = np.where((minor_routes == 1) & dry, TRACK, mat)
-        mat = np.where((minor_routes == 2) & dry, PATH, mat)
+        m_track = (minor_routes == 1) & dry
+        m_path = (minor_routes == 2) & dry
+        mat = np.where(m_track, TRACK, mat)
+        mat = np.where(m_path, PATH, mat)
+        prov[m_track | m_path] = 0
         if roads is not None:
-            mat = np.where(roads & dry, road_mat, mat)
+            on_road = (cond > 0) & dry & ~keep_under
+            mat = np.where(on_road, road_mat, mat)
+            prov[on_road] = 0
+
+    # The provenance raster answers only for the materials the water rules
+    # own: anywhere else the ground was decided by region, slope or noise.
+    prov = np.where(np.isin(mat, _WATER_DERIVED_ARR), prov, 0).astype(np.uint8)
 
     # Control map: blur each material's mask a little and keep the top two per
     # texel -> (id0, id1, blend), tracked incrementally so a full-res compile
@@ -394,4 +618,4 @@ def compile_ground_control(height, region, rivers, slope, m_per_px,
         (blend * 255).astype(np.uint8),
         (macro * 255).astype(np.uint8),
     ], -1).astype(np.uint8)
-    return mat.astype(np.int16), control
+    return mat.astype(np.int16), control, prov

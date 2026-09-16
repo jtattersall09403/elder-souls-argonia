@@ -86,6 +86,15 @@ export interface AirSpecies {
    * a swarm and some holds almost none, so walking takes you through pockets
    * instead of a uniform cloud. 0 disables and the field is even. */
   patchM: number;
+  /**
+   * 16f: where the RECORD says this species lives, as weights on the water
+   * dressing's habitat raster (R standing water, G wet ground, B canopy).
+   * When the scene binds a habitat texture the patch centres are weighted by
+   * `dot(habitat, weights)` and the value noise only textures the density
+   * inside it; without one the noise alone patches as before. Omitted: the
+   * species is everywhere its conditions allow.
+   */
+  habitat?: readonly [number, number, number];
   /** Extra brightness between eye and sun — Mie forward scatter. For dust
    * and pollen this is most of their visibility, and it is what makes them
    * show in a shaft of light and near-vanish elsewhere. */
@@ -114,6 +123,8 @@ export interface AirWaterSurface {
   buriedM: number;
   /** Tide + season lift (m) near the camera this frame (≤ 0 since 16c). */
   liftM: () => number;
+  /** 16f habitat raster (water-habitat.png) on the same grid, or absent. */
+  habitat?: THREE.Texture;
 }
 
 /**
@@ -183,6 +194,8 @@ uniform sampler2D uAirWaterTex;
 uniform vec4 uAirWaterInfo;    // size, metresPerPixel, minM, spanM
 uniform vec4 uAirWaterDepth;   // depthMinM, depthSpanM, buriedM, enabled (0/1)
 uniform vec3 uAirHover;        // hover above water (m), hover band (m), lift (m)
+uniform sampler2D uAirHabitat; // 16f: R standing water, G wet ground, B canopy
+uniform vec4 uAirHabitatW;     // species weights on those, w = enabled (0/1)
 
 varying float vAlpha;
 varying float vBacklit;
@@ -307,6 +320,17 @@ void main() {
     vec2 esPatchUV = mod(world.xz / uPatchM, 256.0);
     esPatch = smoothstep(uPatchBand.x, uPatchBand.y, esAirNoise(esPatchUV));
   }
+  // 16f: the RECORD says where life is. With a habitat raster bound the
+  // swarm gathers where its weighted habitat is set (marsh and canopy for
+  // fireflies, standing water for midges and dragonflies, canopy for pollen
+  // and leaf fall) and the value noise only textures the density inside
+  // it; the height-above-surface rule above is untouched.
+  if (uAirHabitatW.w > 0.5) {
+    vec2 esHabF = clamp(world.xz / uAirWaterInfo.y - 0.5, vec2(0.0), vec2(uAirWaterInfo.x - 1.001));
+    vec3 esHab = texelFetch(uAirHabitat, ivec2(esHabF + 0.5), 0).rgb;
+    float esHabW = clamp(dot(esHab, uAirHabitatW.xyz), 0.0, 1.0);
+    esPatch = esHabW * (0.35 + 0.65 * esPatch);
+  }
 
   vAlpha = fade * blink * uAmount * haze * near * esPatch * esWaterGate;
   gl_PointSize = uSizePx * aScale * uPixelRatio * (10.0 / dist);
@@ -430,6 +454,8 @@ export class AirSwarm {
         uAirWaterInfo: { value: new THREE.Vector4(1, 1, 0, 1) },
         uAirWaterDepth: { value: new THREE.Vector4(0, 1, -2.5, 0) },
         uAirHover: { value: new THREE.Vector3(species.hoverAboveWaterM ?? 0, species.hoverBandM ?? 0, 0) },
+        uAirHabitat: { value: null },
+        uAirHabitatW: { value: new THREE.Vector4(...(species.habitat ?? [0, 0, 0]), 0) },
         // Scene-linear radiance, written every frame by update().
         uCore: { value: new THREE.Color(0, 0, 0) },
         uHalo: { value: new THREE.Color(0, 0, 0) },
@@ -462,10 +488,20 @@ export class AirSwarm {
    * a species with a hover height reads it; the others keep the ground. */
   setWater(water: AirWaterSurface | null): void {
     const u = this.material.uniforms;
-    const on = water !== null && this.species.hoverAboveWaterM !== undefined;
-    (u.uAirWaterTex as { value: THREE.Texture | null }).value = on ? water!.texture : null;
-    if (on) {
+    // The habitat (16f) binds for EVERY species that declares weights; the
+    // surface floor only for the hover species, as before.
+    const habitat = water !== null && this.species.habitat !== undefined && water.habitat !== undefined;
+    const hover = water !== null && this.species.hoverAboveWaterM !== undefined;
+    (u.uAirWaterTex as { value: THREE.Texture | null }).value = hover || habitat ? water!.texture : null;
+    (u.uAirHabitat as { value: THREE.Texture | null }).value = habitat ? water!.habitat! : null;
+    (u.uAirHabitatW.value as THREE.Vector4).w = habitat ? 1 : 0;
+    if (hover || habitat) {
       (u.uAirWaterInfo.value as THREE.Vector4).set(water!.size, water!.metresPerPixel, water!.minM, water!.spanM);
+    }
+    // the surface floor and the standing-water gate are the HOVER species'
+    // (16c); a ground species that binds the raster for its habitat keeps
+    // the ground as its floor and is never gated to open water
+    if (hover) {
       (u.uAirWaterDepth.value as THREE.Vector4).set(water!.depthMinM, water!.depthSpanM, water!.buriedM, 1);
       (u.uAirHover.value as THREE.Vector3).z = water!.liftM();
     } else {
@@ -562,6 +598,7 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
   /** Dusk and night over wet ground. The signature of a warm marsh. */
   fireflies: {
     id: "fireflies",
+    habitat: [0, 1, 1],
     // Density is deliberately modest. Measured: the blink envelope has a 25%
     // duty cycle, so 420 in this box puts roughly 19 lit in view at once —
     // enough to read as a swarm without returning to the "cloud of flashing
@@ -619,6 +656,7 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
   /** Daytime spore and pollen drift under canopy. Catches the sun. */
   pollen: {
     id: "pollen",
+    habitat: [0, 0, 1],
     count: 500,
     // a column of lit air around the player
     box: [20, 0, 20],
@@ -649,6 +687,7 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
   /** Midge knots over water at dawn and dusk. Tight, fast, unlit. */
   midges: {
     id: "midges",
+    habitat: [1, 0.4, 0],
     count: 520,
     // low knots over the water
     box: [24, 0, 24],
@@ -691,6 +730,7 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
    */
   dragonflies: {
     id: "dragonflies",
+    habitat: [1, 0, 0],
     count: 180,
     // hunting height over open water
     box: [22, 0, 22],
@@ -727,6 +767,7 @@ export const AIR_SPECIES: Record<string, AirSpecies> = {
   /** Leaf fall under the canopy. Slow, heavy, wind-carried. */
   leaves: {
     id: "leaves",
+    habitat: [0, 0, 1],
     count: 110,
     // from the canopy down to the floor
     box: [18, 0, 18],

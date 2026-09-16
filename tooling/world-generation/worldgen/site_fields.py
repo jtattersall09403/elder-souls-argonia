@@ -114,13 +114,9 @@ class Route:
     points_m: np.ndarray  # (n, 2) world metres, [x, z]
 
 
-# Reach kinds that are a flowing channel (the record's vocabulary, 0058); a
-# `horizontal-backwater` reach is the body it crosses and is NOT a channel.
-CHANNEL_REACH_KINDS = frozenset({"horizontal-channel", "horizontal-tidal", "sloped-riffle",
-                                 "sloped-rapid", "sloped-chute", "vertical-fall"})
-# Body kinds a road cannot ford: crossed by ferry or not at all.
-STANDING_BODY_KINDS = frozenset({"ocean", "lagoon", "lake-lowland", "tarn-upland", "pond",
-                                 "pool", "plunge-pool"})
+# The record's kind vocabularies live with the record reader; re-exported here
+# because every existing caller imports them from this module.
+from .water_report import CHANNEL_REACH_KINDS, STANDING_BODY_KINDS  # noqa: F401
 
 
 class ProvinceSurvey:

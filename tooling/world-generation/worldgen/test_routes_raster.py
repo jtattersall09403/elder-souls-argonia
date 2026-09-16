@@ -5,8 +5,9 @@ import json
 import numpy as np
 
 from .landcover import PATH, TRACK
-from .routes_raster import (ABUTMENT_INSET_M, MINOR_PATH, MINOR_TRACK,
-                            corridor_masks, major_spanning_mask,
+from .routes_raster import (ABUTMENT_INSET_M, CONDITION_CODES, MINOR_PATH,
+                            MINOR_TRACK, condition_raster, corridor_masks,
+                            major_corridor_masks, major_spanning_mask,
                             rasterize_minor_paint)
 from .scale import RAW_M
 from .scatter import ROUTE_CLEAR, ROUTE_THIN, Layer, route_allows
@@ -107,3 +108,53 @@ def test_route_allows_drops_trees_and_thins_herbs():
     assert route_allows(herb, ROUTE_THIN, 0.01)
     assert not route_allows(herb, ROUTE_THIN, 0.99)
     assert route_allows(tree, 0, 0.99)
+
+
+def _condition_province(tmp_path):
+    """Two vertical roads and a registry: one worn with a decayed window, one
+    maintained; the pair cross at a shared macro px so overlap is exercised."""
+    (tmp_path / "routes.json").write_text(json.dumps({"routes": [
+        {"id": "route.road.worn", "class": "road", "px": [[20, 10], [20, 40]]},
+        {"id": "route.road.kept", "class": "trunk", "px": [[10, 25], [30, 25]]},
+    ]}))
+    (tmp_path / "registry.json").write_text(json.dumps({"routes": [
+        {"id": "route.road.worn", "condition": "worn",
+         "conditionSections": [{"fromM": _FROM_M, "toM": _TO_M,
+                                "condition": "broken", "why": "drowned"}]},
+        {"id": "route.road.kept", "condition": "maintained"},
+    ]}))
+    return tmp_path
+
+
+def test_condition_raster_sections_and_overlap(tmp_path):
+    province = _condition_province(tmp_path)
+    cond = condition_raster((200, 200), 3, province=province,
+                            registry=province / "registry.json")
+    assert cond.dtype == np.int8
+    # off-road stays 0
+    assert cond[5, 5] == 0
+    # the section window is painted BROKEN, the rest of the way WORN
+    assert cond[_row(0.5 * (_FROM_M + _TO_M)), 60] == CONDITION_CODES["broken"]
+    assert cond[_row(_TO_M + 40.0), 60] == CONDITION_CODES["worn"]
+    assert cond[_row(_FROM_M - 20.0), 60] == CONDITION_CODES["worn"]
+    # the maintained trunk is painted maintained, and where the two overlap the
+    # BETTER condition wins
+    assert cond[75, 40] == CONDITION_CODES["maintained"]
+    assert cond[75, 60] == CONDITION_CODES["maintained"]
+    # stamped at the road clearance width (14 m), not one texel
+    width = (cond[_row(_TO_M + 40.0)] > 0).sum()
+    assert 5 <= width <= 10
+
+
+def test_major_corridor_masks_scale_with_condition(tmp_path):
+    province = _condition_province(tmp_path)
+    trunk, ground, cond = major_corridor_masks((200, 200), 3, province=province,
+                                               registry=province / "registry.json")
+    assert cond.shape == trunk.shape == ground.shape
+    broken_row = _row(0.5 * (_FROM_M + _TO_M))
+    worn_row = _row(_TO_M + 40.0)
+    # a broken section clears nothing: overgrown verge to verge
+    assert not trunk[broken_row, 50:70].any()
+    assert not ground[broken_row, 50:70].any()
+    # the worn stretch clears a narrower corridor than the maintained trunk
+    assert 0 < trunk[worn_row, 50:70].sum() < trunk[75, 30:50].sum()

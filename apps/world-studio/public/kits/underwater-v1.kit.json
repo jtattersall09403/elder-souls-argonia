@@ -42,7 +42,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.251,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.22
   },
   {
    "id": "depths:dos/misc/tbp_coralmedium",
@@ -85,7 +89,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.686,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.469
   },
   {
    "id": "depths:landscape/grass/tbp_coralsmall01",
@@ -128,7 +136,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.009,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.046
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed01",
@@ -171,7 +183,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.022
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed02",
@@ -214,7 +230,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.074,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.496
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06",
@@ -257,7 +277,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.116,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.973
   },
   {
    "id": "depths:landscape/grass/tbpalgae01",
@@ -300,7 +324,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.106
   },
   {
    "id": "depths:landscape/grass/waterkelptall02",
@@ -343,7 +371,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.323,
+   "openBackYawDeg": 213.8,
+   "pivotAboveBaseM": 0.09
   },
   {
    "id": "depths:landscape/grass/waterkelptall03",
@@ -386,7 +418,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.323,
+   "openBackYawDeg": 213.8,
+   "pivotAboveBaseM": 0.801
   },
   {
    "id": "depths:landscape/grass/tbpcoastdriftwood01",
@@ -442,7 +478,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.699,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.485
   },
   {
    "id": "depths:landscape/grass/tbpcoastdriftwood02",
@@ -498,7 +538,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.139,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.254
   },
   {
    "id": "depths:landscape/grass/tbprockgrasswater03",
@@ -541,51 +585,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
-  },
-  {
-   "id": "depths:dos/misc/dugupground",
-   "node": "es|8fd82f5766|depths__dos_misc_dugupground",
-   "category": "misc",
-   "sizeM": [
-    10.109,
-    9.292,
-    2.192
-   ],
-   "originOffsetM": [
-    4.807,
-    4.522,
-    1.208
-   ],
-   "triangles": 758,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": false,
-   "alphaTest": false,
-   "collision": "none",
-   "droppedShapes": [],
-   "textures": [
-    "dirt02.dds"
-   ],
-   "materials": [
-    "MS14CoffinGrounds:0.Mat",
-    "MS14CoffinGrounds:1.Mat"
-   ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 1.208,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.234
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01",
@@ -630,7 +634,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.911,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl03",
@@ -675,7 +683,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.653,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05",
@@ -720,7 +732,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.709,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena",
@@ -765,7 +781,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokenb",
@@ -810,7 +830,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
@@ -855,7 +879,11 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.34,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02",
@@ -898,7 +926,11 @@
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.956,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03",
@@ -941,7 +973,11 @@
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.149,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.006
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone",
@@ -984,7 +1020,11 @@
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.872,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.061
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
@@ -1027,7 +1067,548 @@
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.599,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.318
+  },
+  {
+   "id": "depths:landscape/grass/tbp_seaweed06var1",
+   "node": "es|f6186873b7|epths__landscape_grass_tbp_seaweed06var1",
+   "category": "aquatic-plant",
+   "sizeM": [
+    7.391,
+    6.744,
+    4.205
+   ],
+   "originOffsetM": [
+    3.695,
+    3.372,
+    0.973
+   ],
+   "triangles": 667,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "seaweed08.dds"
+   ],
+   "materials": [
+    "ShadowFoliage.Mat.005"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.973,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.232,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.973
+  },
+  {
+   "id": "vanilla:plants/clam01",
+   "node": "es|084e374bd9|vanilla__plants_clam01",
+   "category": "plant",
+   "sizeM": [
+    0.528,
+    0.711,
+    0.532
+   ],
+   "originOffsetM": [
+    0.264,
+    0.355,
+    0.018
+   ],
+   "triangles": 648,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "clam.dds"
+   ],
+   "materials": [
+    "Clam01:0.Mat",
+    "Clam01_1:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.018,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.965,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.018
+  },
+  {
+   "id": "vanilla:plants/clamlarge01",
+   "node": "es|9cc7205fee|vanilla__plants_clamlarge01",
+   "category": "plant",
+   "sizeM": [
+    0.576,
+    0.883,
+    0.645
+   ],
+   "originOffsetM": [
+    0.276,
+    0.314,
+    0.003
+   ],
+   "triangles": 648,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "clam.dds"
+   ],
+   "materials": [
+    "ClamLarge01:0.Mat",
+    "ClamLarge01_1:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.003,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.739,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.003
+  },
+  {
+   "id": "vanilla:plants/clamthin01",
+   "node": "es|db19132f17|vanilla__plants_clamthin01",
+   "category": "plant",
+   "sizeM": [
+    0.458,
+    0.762,
+    0.555
+   ],
+   "originOffsetM": [
+    0.197,
+    0.35,
+    0.012
+   ],
+   "triangles": 648,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "clam.dds"
+   ],
+   "materials": [
+    "ClamThin01:0.Mat",
+    "ClamThin01_1:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.012,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.887,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.012
+  },
+  {
+   "id": "vanilla:clutter/shipwreck/shipwreckboards01",
+   "node": "es|b113ff323a|lla__clutter_shipwreck_shipwreckboards01",
+   "category": "clutter",
+   "sizeM": [
+    0.22,
+    2.728,
+    0.057
+   ],
+   "originOffsetM": [
+    0.11,
+    1.364,
+    0.028
+   ],
+   "triangles": 26,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "woodedgetrim01.dds"
+   ],
+   "materials": [
+    "ShipwreckBoards01:0.Mat",
+    "ShipwreckBoards01:1.Mat",
+    "ShipwreckBoards01:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.028,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.971,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
+  },
+  {
+   "id": "vanilla:clutter/shipwreck/shipwreckboards02",
+   "node": "es|462b22a21f|lla__clutter_shipwreck_shipwreckboards02",
+   "category": "clutter",
+   "sizeM": [
+    0.213,
+    1.936,
+    0.057
+   ],
+   "originOffsetM": [
+    0.107,
+    0.968,
+    0.028
+   ],
+   "triangles": 26,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "woodedgetrim01.dds"
+   ],
+   "materials": [
+    "ShipwreckBoards02:0.Mat",
+    "ShipwreckBoards02:1.Mat",
+    "ShipwreckBoards02:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.028,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.96,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
+  },
+  {
+   "id": "vanilla:clutter/shipwreck/shipwreckboards03",
+   "node": "es|5287bc4e81|lla__clutter_shipwreck_shipwreckboards03",
+   "category": "clutter",
+   "sizeM": [
+    0.22,
+    1.716,
+    0.057
+   ],
+   "originOffsetM": [
+    0.11,
+    0.858,
+    0.028
+   ],
+   "triangles": 37,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "woodedgetrim01.dds"
+   ],
+   "materials": [
+    "ShipwreckBoards03:0.Mat",
+    "ShipwreckBoards03:1.Mat",
+    "ShipwreckBoards03:2.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.028,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.943,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
+  },
+  {
+   "id": "depths:dos/boats/rowboatbrokenback",
+   "node": "es|ee8eb1d8ec|depths__dos_boats_rowboatbrokenback",
+   "category": "misc",
+   "sizeM": [
+    2.777,
+    3.894,
+    1.269
+   ],
+   "originOffsetM": [
+    1.389,
+    3.866,
+    0.764
+   ],
+   "triangles": 1672,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Boatwood.Mat",
+    "Object001.Mat",
+    "Rowboatdetails.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.764,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.882,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.764
+  },
+  {
+   "id": "depths:dos/boats/rowboatbrokenfront",
+   "node": "es|a6d9e7a1d1|depths__dos_boats_rowboatbrokenfront",
+   "category": "misc",
+   "sizeM": [
+    2.711,
+    4.854,
+    1.521
+   ],
+   "originOffsetM": [
+    1.352,
+    0.988,
+    0.757
+   ],
+   "triangles": 1550,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Boatwood.Mat.001",
+    "Object001.Mat.001",
+    "Rowboatdetails.Mat.001"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.757,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.789,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.757
+  },
+  {
+   "id": "vanilla:landscape/plants/kelpshortstatic01",
+   "node": "es|ef96d36562|illa__landscape_plants_kelpshortstatic01",
+   "category": "aquatic-plant",
+   "sizeM": [
+    0.731,
+    0.794,
+    1.36
+   ],
+   "originOffsetM": [
+    0.362,
+    0.33,
+    0.024
+   ],
+   "triangles": 25,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastkelpgrass01.dds"
+   ],
+   "materials": [
+    "L1_StaticKelpShort01.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.024,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.358,
+   "openBackYawDeg": 292.5,
+   "pivotAboveBaseM": 0.024
+  },
+  {
+   "id": "vanilla:landscape/plants/kelptallstatic01",
+   "node": "es|921c464c26|nilla__landscape_plants_kelptallstatic01",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.476,
+    1.38,
+    3.983
+   ],
+   "originOffsetM": [
+    0.734,
+    0.688,
+    0.09
+   ],
+   "triangles": 34,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastkelpgrass01.dds"
+   ],
+   "materials": [
+    "StaticKelpTall01:0.Mat"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.09,
+    "buryM": 0.35,
+    "buryCapM": 0.75,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.277,
+   "openBackYawDeg": 213.8,
+   "pivotAboveBaseM": 0.09
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\underwater-v1.glb",
@@ -1051,8 +1632,8 @@
   "textures/creationclub/_shared/dungeons/ayleidruins/arwetstone01_n.dds": "textures/igsresources/dungeons/ayleidruins/arwetstone01_n.dds"
  },
  "alphaModes": {
-  "MASK": 8,
-  "OPAQUE": 22
+  "MASK": 17,
+  "OPAQUE": 35
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",

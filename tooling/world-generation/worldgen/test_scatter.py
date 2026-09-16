@@ -87,6 +87,102 @@ def test_output_is_clustered_the_way_hand_placement_is():
             "this a little lower than clumping alone, which is why the band is "
             "wider than the mined spread."
         )
+        if len(points) >= 300:
+            ratio = _bearing_peak_ratio(points)
+            assert ratio < 1.5, (
+                f"nearest-neighbour bearings peak at {ratio:.2f} at median "
+                f"{median}: the scatter has a lattice in it. A jittered grid "
+                "scores well above 2 (its neighbours sit on the axes); "
+                "uniform-random sits at ~1.25 at this n.")
+
+
+def _bearing_peak_ratio(points, bins: int = 16) -> float:
+    """How directional the nearest-neighbour bearings are.
+
+    A grid betrays itself here and nowhere else: Clark-Evans only measures how
+    FAR the neighbour is, so a lattice of clumps passes it while every plant
+    still has its neighbour due north. 16 bins over the circle; the ratio is
+    the four fullest bins against four average ones, so 1.0 is perfectly
+    isotropic.
+    """
+    counts = [0] * bins
+    for x, z in points:
+        best, bearing = None, 0.0
+        for qx, qz in points:
+            if (qx, qz) == (x, z):
+                continue
+            d = math.hypot(qx - x, qz - z)
+            if best is None or d < best:
+                best, bearing = d, math.atan2(qz - z, qx - x)
+        if best is None:
+            continue
+        counts[int((bearing % math.tau) / math.tau * bins) % bins] += 1
+    total = sum(counts)
+    if not total:
+        return 1.0
+    return sum(sorted(counts)[-4:]) / (4 * total / bins)
+
+
+def test_channel_exclusion_rejects_the_channel_and_its_bank_margin():
+    """A trunk may not stand in a river, nor on its wetted bank (16f)."""
+    layer = Layer(species="cypress", instances_per_hectare=200,
+                  channel_exclusion=True)
+    assert layer.gate(0.0, 0.0, 7, 0, channel_m=30.0, bank_margin_m=6.0)
+    assert not layer.gate(0.0, 0.0, 7, 0, channel_m=3.0, bank_margin_m=6.0)
+    assert not layer.gate(0.0, 0.0, 7, 0, channel_m=-4.0, bank_margin_m=6.0)
+    # Off, the same position is fine — a reed belt lives exactly there.
+    reeds = Layer(species="reeds", instances_per_hectare=200)
+    assert reeds.gate(0.0, 0.0, 7, 0, channel_m=-4.0, bank_margin_m=6.0)
+
+    inside = Fields(
+        height=lambda x, z: 0.0, water_depth=lambda x, z: 0.0,
+        slope=lambda x, z: 0.0, region=lambda x, z: 7,
+        channel=lambda x, z: 1.0, bank_margin=lambda x, z: 6.0,
+    )
+    assert scatter_chunk(0, 0, 200, Palette("p", [layer]), inside, seed=3) == []
+    assert scatter_chunk(0, 0, 200, Palette("p", [layer]), flat_fields(),
+                         seed=3) != []
+
+
+def test_water_kind_gate():
+    """A layer gated to the record's kinds refuses every other kind."""
+    kelp = Layer(species="kelp", instances_per_hectare=200,
+                 water_kinds=("ocean", "lagoon"), season_kinds=("perennial",))
+    assert kelp.gate(1.0, 0.0, 7, 0, water_kind="ocean", water_season="perennial")
+    assert not kelp.gate(1.0, 0.0, 7, 0, water_kind="pond", water_season="perennial")
+    assert not kelp.gate(1.0, 0.0, 7, 0, water_kind="ocean", water_season="seasonal")
+
+    sea = Fields(height=lambda x, z: 0.0, water_depth=lambda x, z: 1.0,
+                 slope=lambda x, z: 0.0, region=lambda x, z: 7,
+                 water_kind=lambda x, z: "ocean",
+                 water_season=lambda x, z: "perennial")
+    pond = Fields(height=lambda x, z: 0.0, water_depth=lambda x, z: 1.0,
+                  slope=lambda x, z: 0.0, region=lambda x, z: 7,
+                  water_kind=lambda x, z: "pond",
+                  water_season=lambda x, z: "perennial")
+    assert scatter_chunk(0, 0, 200, Palette("p", [kelp]), sea, seed=5) != []
+    assert scatter_chunk(0, 0, 200, Palette("p", [kelp]), pond, seed=5) == []
+
+
+def test_named_water_entity_gate_matches_the_reach_or_its_river():
+    layer = Layer(species="lotus", instances_per_hectare=200,
+                  water_entities=("river-argonian-main",))
+    assert layer.gate(0.5, 0.0, 7, 0, water_entity=("reach-0412", "river-argonian-main"))
+    assert layer.gate(0.5, 0.0, 7, 0, water_entity=("river-argonian-main", ""))
+    assert not layer.gate(0.5, 0.0, 7, 0, water_entity=("reach-0412", "river-other"))
+
+
+def test_unknown_water_kind_raises_at_load():
+    """A typo in a palette is a load error, never a layer that quietly never
+    places anything."""
+    good = {"id": "p", "layers": [{"species": "kelp", "water_kinds": ["ocean"]}]}
+    assert Palette.from_dict(good).layers[0].water_kinds == ("ocean",)
+    bad = {"id": "p", "layers": [{"species": "kelp", "water_kinds": ["lake"]}]}
+    with pytest.raises(ValueError, match="kelp"):
+        Palette.from_dict(bad)
+    worse = {"id": "p", "layers": [{"species": "kelp", "season_kinds": ["wet"]}]}
+    with pytest.raises(ValueError, match="season_kinds"):
+        Palette.from_dict(worse)
 
 
 def test_a_gate_that_rejects_the_region_places_nothing():
@@ -397,3 +493,74 @@ def test_slope_min_gate_keeps_cliff_dressing_off_flat_ground():
     steep = scatter_chunk(0.0, 0.0, 200.0, palette, _ramp_fields(0.8), seed=5)
     assert flat == []
     assert steep
+
+
+def test_back_yaw_turns_an_open_back_into_the_hill():
+    """An open-BACKED cliff piece aims its missing face uphill (16f).
+
+    The aligned yaw points the model's +Z downhill; `back_yaw_deg` 180 turns
+    it round so the hollow side faces the slope it is embedded in.
+    """
+    fields = _ramp_fields(0.5)
+    def place(back):
+        palette = Palette("t", [Layer(species="shell", instances_per_hectare=400.0,
+                                      slope_deg_max=80.0, align_to_slope=1.0,
+                                      back_yaw_deg=back)])
+        return scatter_chunk(0.0, 0.0, 200.0, palette, fields, seed=11)
+    plain, turned = place(0.0), place(180.0)
+    assert plain and len(plain) == len(turned)
+    for a, b in zip(plain, turned):
+        assert (a.x, a.z) == (b.x, b.z)
+        assert math.cos(b.yaw - a.yaw) == pytest.approx(-1.0, abs=1e-6)
+
+
+def test_cliff_zone_and_cover_gates():
+    """The three gates 16f added: distance to a cliff, the authored dressing
+    zone, and the covers a layer refuses."""
+    fields = Fields(height=lambda x, z: 0.0, water_depth=lambda x, z: -6.0,
+                    slope=lambda x, z: 5.0, region=lambda x, z: 1,
+                    land_cover=lambda x, z: 23 if x < 100 else 17,
+                    cliff=lambda x, z: 5.0 if z < 100 else 90.0,
+                    zone=lambda x, z: "zone.a" if x < 100 else "")
+    def place(**kw):
+        return scatter_chunk(0.0, 0.0, 200.0, Palette("t", [
+            Layer(species="s", instances_per_hectare=800.0, **kw)]), fields, seed=3)
+    near = place(cliff_m=(0.0, 15.0))
+    assert near and all(i.z < 100 for i in near)
+    zoned = place(zone="zone.a")
+    assert zoned and all(i.x < 100 for i in zoned)
+    off_rock = place(land_cover_not=(23,))
+    assert off_rock and all(i.x >= 100 for i in off_rock)
+
+
+def test_sink_jitter_band_is_the_layers_own():
+    """An open-bottomed rock's sink floor is raised, so its hollow underside
+    is never left showing (16f)."""
+    from .composition import Composition
+    comp = Composition.load()
+    species = "vanilla:landscape/rocks/rockl02"
+    flat = comp.sink_m(species, 0.0, 0.5)
+    assert comp.sink_m(species, 0.0, 0.0, jitter=(0.8, 1.5)) == pytest.approx(flat * 0.8)
+    assert comp.sink_m(species, 0.0, 0.0) == pytest.approx(flat * 0.5)
+
+
+def test_litter_mask_is_set_under_a_crown_and_clear_away_from_one():
+    """16f deliverable 10: the alpha of the ground tint marks where crowns
+    cover the ground."""
+    from .compile_scatter import litter_alpha
+    alpha = litter_alpha([(100.0, 100.0, 12.0)], size_px=64, metres_per_px=5.0)
+    assert alpha[20, 20] == 255                      # under the crown
+    assert alpha[0, 0] == 0                          # 140 m away, nothing
+    assert alpha[63, 63] == 0
+
+
+def test_shipped_litter_mask_has_an_alpha_channel():
+    """The shipped tint must carry an alpha channel at all: read as RGB the
+    shader would see alpha = 1 and litter the whole province."""
+    from pathlib import Path
+    from PIL import Image
+    from .compile_scatter import PROVINCE
+    path = PROVINCE / "refined" / "ground-tint.png"
+    if not path.exists():
+        pytest.skip("no shipped ground tint")
+    assert Image.open(path).mode == "RGBA"

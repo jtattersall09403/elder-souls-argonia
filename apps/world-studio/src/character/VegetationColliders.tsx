@@ -76,8 +76,16 @@ const MAX_BODIES = 1400;
  */
 const REBUILD_AT_COVER_FRACTION = 0.55;
 
+/**
+ * Identity of a placed solid: species and its GROUND POSITION, quantised to a
+ * centimetre. Y is deliberately NOT part of it. A vegetation rebuild
+ * re-grounds every instance against the streamed terrain, so the same tree
+ * can come back a centimetre higher; keying on Y made that a destroy-and-
+ * rebuild of hundreds of bodies that had not moved. Now the height is a
+ * property of the body, updated in place when only it changed.
+ */
 function instanceKey(instance: SolidInstance): string {
-  return `${instance.species}|${instance.x.toFixed(2)}|${instance.z.toFixed(2)}|${instance.y.toFixed(2)}`;
+  return `${instance.species}|${instance.x.toFixed(2)}|${instance.z.toFixed(2)}`;
 }
 
 function buildBody(
@@ -136,7 +144,7 @@ export function VegetationColliders({
   onCount?: (count: number) => void;
 }) {
   const { world, rapier } = useRapier();
-  const bodies = useRef(new Map<string, RigidBody>());
+  const bodies = useRef(new Map<string, { body: RigidBody; y: number }>());
   const builtAt = useRef<{ x: number; z: number; covered: number } | null>(null);
   const assetsRef = useRef<Map<string, FloraCollisionAsset> | null>(null);
 
@@ -164,7 +172,12 @@ export function VegetationColliders({
     const shapesFor = (species: string): FloraCollider[] => {
       let cached = shapes.get(species);
       if (cached === undefined) {
-        cached = collidersFor(assetsRef.current?.get(species));
+        // A species with no entry in THIS manifest is not a defect: since 16f
+        // the renderer also draws the underwater-band kit, whose bed-anchored
+        // plants and debris carry no collision at all. No shapes, no body, and
+        // no log — silently, once per species, never per instance.
+        const asset = assetsRef.current?.get(species);
+        cached = asset ? collidersFor(asset) : [];
         shapes.set(species, cached);
       }
       return cached;
@@ -180,7 +193,7 @@ export function VegetationColliders({
   useEffect(() => {
     const live = bodies.current;
     return () => {
-      for (const body of live.values()) world.removeRigidBody(body);
+      for (const entry of live.values()) world.removeRigidBody(entry.body);
       live.clear();
     };
   }, [world]);
@@ -205,17 +218,29 @@ export function VegetationColliders({
     // actually change on a rebuild.
     const wanted = new Map<string, SolidInstance>();
     for (const instance of chosen) wanted.set(instanceKey(instance), instance);
-    for (const [key, body] of bodies.current) {
+    for (const [key, entry] of bodies.current) {
       if (!wanted.has(key)) {
-        world.removeRigidBody(body);
+        world.removeRigidBody(entry.body);
         bodies.current.delete(key);
       }
     }
     for (const [key, instance] of wanted) {
-      if (bodies.current.has(key)) continue;
+      const live = bodies.current.get(key);
+      if (live) {
+        // Same plant, re-grounded: move it rather than rebuild it.
+        if (Math.abs(live.y - instance.y) > 0.005) {
+          live.body.setTranslation(
+            { x: instance.x, y: instance.y, z: instance.z }, false);
+          live.y = instance.y;
+        }
+        continue;
+      }
       const shapes = caches.shapesFor(instance.species);
       if (!shapes.length) continue;
-      bodies.current.set(key, buildBody(world, rapier, instance, shapes));
+      bodies.current.set(
+        key,
+        { body: buildBody(world, rapier, instance, shapes), y: instance.y },
+      );
     }
     onCount?.(bodies.current.size);
   });

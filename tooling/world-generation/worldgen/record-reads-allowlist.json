@@ -6,10 +6,6 @@
    "portedBy": "16g",
    "why": "\"floodBand\": hyd[\"floodBand\"],"
   },
-  "compile_scatter": {
-   "portedBy": "16f",
-   "why": "np.asarray(Image.open(province / \"water\" / \"water-surface.png\").convert(\"RGB\")),"
-  },
   "compile_settlement": {
    "portedBy": "16h",
    "why": "band = int(survey.flood[row, col])"
@@ -21,10 +17,6 @@
   "macro_plot": {
    "portedBy": "16g",
    "why": "wet = bool(s.wetlands[row, col]) or bool(s.flood[row, col] >= 2)"
-  },
-  "rebake_landcover": {
-   "portedBy": "16f",
-   "why": "salinity=npz[\"salinity\"], twi=npz[\"twi\"], wetlands=npz[\"wetlands\"],"
   },
   "settlement_ground_control": {
    "portedBy": "16h",

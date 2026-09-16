@@ -135,7 +135,7 @@ Needs ruling 10 (already given for 16b); no new ruling.
   cover, altitude, shore, glade and coast only; `SCATTER_INPUTS` names no
   graph file; `ProvinceFields` decodes `water-surface.png` alone and takes
   the sea from `hydro-regions.png` class 0. It reads settlement clearance
-  from `settlement_clearance.keep_raster` (stale 2026-09-09 blueprints) and
+  from `vegetation_patches.keep_raster` (stale 2026-09-09 blueprints) and
   route corridors from `routes_raster.corridor_masks` (the stale minor
   lines too); the runtime ring evaluates the same settlement function in
   `packages/game-core/src/vegetation/settlementClearance.ts`.
@@ -180,16 +180,17 @@ Needs ruling 10 (already given for 16b); no new ruling.
   (Keshu's rites, Scotti's border bridge). A dossier is written before any
   body is made black.
 - **The chain would not skip the water (found 2026-09-16, after 16e 3b).**
-  `compile_water`'s stamp records two vault inputs (`hydrology-pass1.npz`,
-  `channels-pass1.npz`) whose hashes have moved since 16c; its code
-  hash has moved as well. A plain run would therefore recompile the water; the vault's
-  `hydrology-graph-bodies.npz` is the 2026-09-16 re-derive (57 bodies short
-  of the record; 16e ledger vault note). Water is compiled once (0057 §1):
-  this chunk freezes `compile_water` in `terrain-chain.sh` behind
-  `--refreeze` like the six rungs above the gate. The 16e route stages
-  (`solve_major_routes` through `patch_water_graded`) have no stamps at their
-  current positions either, so a plain run re-runs them; byte-identity is
-  proven, not assumed, at this chunk's chain run.
+  `compile_water`'s stamp records two vault inputs whose hashes have moved
+  since 16c; its code hash has moved as well. A plain run would therefore
+  recompile the water; the 16e route stages have no stamps at their
+  current positions, so a plain run would re-solve and re-grade the roads.
+  The owner wants nothing earlier rebuilt, refrozen or recompiled
+  (2026-09-16). This chunk therefore (a) makes the chain SKIP `compile_water` on
+  every routine run, the way it skips the six rungs above the gate (only a
+  deliberate `--refreeze` reaches it); (b) it adds `chain_stages adopt`,
+  which records the accepted on-disk outputs of a stage as its stamp
+  without running it, used once here for the 16e stages. 16f's own runs
+  start at `rebake_landcover`.
 - **Tests**: `npm run test:placement` is 537 green, 13 skipped; the six
   16g-gated tests skip, none is red; `test_vegetation_ladder` is green on
   bundles the chain skipped through 16e (false assurance; the bundles are
@@ -223,7 +224,7 @@ Needs ruling 10 (already given for 16b); no new ruling.
 - `worldgen/scatter.py`, `compile_scatter.py`, `composition.py`,
   `build_palettes.py` (palettes.json is GENERATED from it),
   `vegetation_ladder.py`, `landcover.py`, `rebake_landcover.py`,
-  `settlement_clearance.py`, `routes_raster.py`, `water_report.py`,
+  `vegetation_patches.py`, `routes_raster.py`, `water_report.py`,
   `site_fields.py`, `mine_placement.py`, `chain_stages.py`;
   `world/sources/flora/palettes.json` (conventions: the WADING rule M1),
   `groundcover.json`, `world/sources/placement/composition-rules.json`,
@@ -264,7 +265,7 @@ shipped control map and every scatter exclusion to its id and fails on a
 missing id or a disagreeing kind, shown failing on today's bake and bundles.
 
 Two stale inputs are removed rather than ported. The scatter's read of
-`settlement_clearance.keep_raster` and of the minor-route corridors goes:
+`vegetation_patches.keep_raster` and of the minor-route corridors goes:
 settlements and tracks clear vegetation through the patch kind of
 deliverable 9, never through the scatter. Ground contact for every rock,
 bed-anchored plant and landmark tree is its own mined figure, never a
@@ -445,7 +446,7 @@ proves that no `rock`, `landmark-giant` or bed-anchored species resolves to
    `vegetation-clearance`, in its own file
    `world/sources/flora/vegetation-patches.json` (schemaVersion; id, owner
    record, `hardClear`, `thinned` with its keep gradient, `kept`; the
-   authored grading of `settlement_clearance.py` carried over verbatim),
+   authored grading of `vegetation_patches.py` carried over verbatim),
    applied by a small stage `apply_vegetation_patches` that removes or
    thins instances inside the polygons in the published bundles of the
    chunks it touches and writes a receipt; the runtime ring evaluates the
@@ -587,8 +588,9 @@ proves that no `rock`, `landmark-giant` or bed-anchored species resolves to
   stage. Fill the `[16f]` row in `terrain-chain.sh`, add `rebake_landcover`
   and `settlement_ground_control` to `ladder.py`'s `OWNER`, bump
   `DELIVERED_THROUGH="16f"` in the delivering commit; the `vegetation` layer
-  then shows. `--check-contracts` passes, then a second plain run prints
-  `skip (unchanged)` for every stage above this chunk's row.
+  then shows. `--check-contracts` passes; ONE run, started at this chunk's
+  first stage (`--from rebake_landcover`); no second-run proof (owner
+  2026-09-16: one run per chunk, nothing above it re-executed).
 - Channel gate green and proven failable; both allowlist rows deleted and
   `landcover.py` under the gate; the provenance join green; every dressing
   question has a number and a decision in the ledger; every rock rule
@@ -722,7 +724,7 @@ At most six ingested images (plan §8), each listed in the ledger.
    attachment composition, then implements the condition-aware corridor
    rule with its monotonic test). Waits for 2.
 8. **The clearance patch kind** (Fable designs the schema and the applier's
-   contract from `settlement_clearance.py`; `deliver` implements
+   contract from `vegetation_patches.py`; `deliver` implements
    `apply_vegetation_patches`, renames the runtime evaluator, keeps the
    parity test, adds the receipt test; 16g's and 16h's briefs already name
    it). Independent.
@@ -742,9 +744,9 @@ At most six ingested images (plan §8), each listed in the ledger.
     gradient test. Waits for 3 (and 6 for the stamps).
 12. **The chain** (Fable): kits copied, `--check-contracts`,
     `rebake_landcover`, the apron, `compile_scatter`, the new stages; the
-    `[16f]` row filled, `OWNER` rows added, `DELIVERED_THROUGH="16f"`; a
-    second plain run proves one-way; `test_vegetation_ladder` and the
-    frame-rate measurement re-run on the new bundles.
+    `[16f]` row filled, `OWNER` rows added, `DELIVERED_THROUGH="16f"`; one
+    run from `rebake_landcover` down, nothing above it; `test_vegetation_ladder`
+    re-run on the new bundles.
 13. **Close** (Fable): the ledger with its numbers, decision 0070
     finalised, 16g's Starting state rewritten, backlog rows struck and the
     seasonal-foliage row added, credits checked, PROGRESS updated, the
