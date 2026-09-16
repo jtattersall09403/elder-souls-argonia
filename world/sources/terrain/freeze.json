@@ -1,21 +1,31 @@
 {
-  "schemaVersion": 1,
-  "frozen": {
-    "heightfield-sculpted-f32.npy": {
-      "sha256": "7f59c47b20ecc64480dc6eba4ef0afa297fe5a4a66062ec792f4e311a7e82768",
-      "frozenOn": "2026-09-11",
-      "why": "the sculpted base: orogeny, benching, naturalness, coastal banks"
-    },
-    "heightfield-shaped-f32.npy": {
-      "sha256": "4d81cdf865ed315f2347f86e9c332186c1e575686fff36718388260b0df9bef9",
-      "frozenOn": "2026-09-11",
-      "why": "the shaped ground the hydrology graph is solved on: terrace, detail noise, the Blackrose lake and feeders, portages, shoreline smoothing, fluvial continuum"
-    },
-    "refined-height-frozen-f32.npy": {
-      "sha256": "4a74a06bfa194834d620ba011fd5cf4dbfdd3f6689c0e25d2dc537900006500f",
-      "frozenOn": "2026-09-11",
-      "why": "the frozen base: the shaped ground carved to the hydrology graph (trenches, weirs, plunge bowls, islets); patches only from here on"
-    }
+ "schemaVersion": 1,
+ "frozen": {
+  "heightfield-sculpted-f32.npy": {
+   "sha256": "7f59c47b20ecc64480dc6eba4ef0afa297fe5a4a66062ec792f4e311a7e82768",
+   "frozenOn": "2026-09-11",
+   "why": "the sculpted base: orogeny, benching, naturalness, coastal banks"
   },
-  "about": "Content hashes of the terrain arrays the province is built on. A chain stage refuses to overwrite a recorded array with different content unless ES_REFREEZE=1; see worldgen/freeze.py and decision 0059."
+  "heightfield-shaped-f32.npy": {
+   "sha256": "4d81cdf865ed315f2347f86e9c332186c1e575686fff36718388260b0df9bef9",
+   "frozenOn": "2026-09-11",
+   "why": "the shaped ground the hydrology graph is solved on: terrace, detail noise, the Blackrose lake and feeders, portages, shoreline smoothing, fluvial continuum"
+  },
+  "refined-height-frozen-f32.npy": {
+   "sha256": "4a74a06bfa194834d620ba011fd5cf4dbfdd3f6689c0e25d2dc537900006500f",
+   "frozenOn": "2026-09-11",
+   "why": "the frozen base: the shaped ground carved to the hydrology graph (trenches, weirs, plunge bowls, islets); patches only from here on"
+  },
+  "hydrology-graph-solution.npz": {
+   "sha256": "9044eeab14be2ae414e5decea43672a4d7e5966efd64fc929ad1e0dc6b87d7b9",
+   "frozenOn": "2026-09-16",
+   "why": "the channel solution the graph derive left (restored byte-identical from the carve's copy on 2026-09-16 after an accidental re-derive)"
+  },
+  "hydrology-graph-bodies.npz": {
+   "sha256": "ccfecb9f11b3442be6d8c0e286a44c335ca7368e081344945fe82068b4ea4007",
+   "frozenOn": "2026-09-16",
+   "why": "the graph's body level and sea rasters that every patch gate and the water compile read; repaired on 2026-09-16 against the frozen graph and the compiled water after an accidental re-derive (16e ledger 2d), never re-derived; a refreeze regenerates it"
+  }
+ },
+ "about": "Content hashes of the terrain arrays the province is built on. A chain stage refuses to overwrite a recorded array with different content unless ES_REFREEZE=1; see worldgen/freeze.py and decision 0059."
 }

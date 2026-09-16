@@ -89,4 +89,5 @@ ground data per the owner's asks.
   nothing (owner 2026-09-16: a 518 m "stepped ascent" was a gentle slope).
 - `hydrology_graph derive` refuses to run while the shaped base is frozen
   without an explicit `--refreeze`, because it overwrites the vault's
-  solution files.
+  solution files; those two files are recorded in `freeze.json` and
+  checked by `verify_freeze` like the frozen arrays.

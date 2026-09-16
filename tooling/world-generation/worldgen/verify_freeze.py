@@ -62,7 +62,7 @@ def graph_doc(path: Path | None = None) -> dict:
 
 
 def check_arrays(doc: dict) -> tuple[list[str], list[str]]:
-    """(lines to print, failures) for the three frozen arrays against the vault."""
+    """(lines to print, failures) for every frozen vault file against the record."""
     lines: list[str] = []
     bad: list[str] = []
     for name, rec in doc["frozen"].items():
@@ -70,7 +70,7 @@ def check_arrays(doc: dict) -> tuple[list[str], list[str]]:
         if cand is None:
             lines.append(f"  {name}: not in the vault (recorded {rec['sha256'][:16]}…) — skipped")
             continue
-        sha = freeze.sha256_of(np.load(cand, mmap_mode="r"))
+        sha = freeze.sha256_of_file(cand)
         if sha == rec["sha256"]:
             lines.append(f"  {name}: {sha[:16]}… ok (frozen {rec['frozenOn']})")
         else:

@@ -43,6 +43,20 @@ def sha256_of(arr: np.ndarray) -> str:
     return hashlib.sha256(np.ascontiguousarray(arr).tobytes()).hexdigest()
 
 
+def sha256_of_file(path: Path) -> str:
+    """Content hash of a frozen vault file: an .npy array, or every array of
+    an .npz in key order (so a re-save with new zip timestamps is not drift;
+    the graph's solution files are .npz)."""
+    if path.suffix == ".npz":
+        z = np.load(path, allow_pickle=False)
+        h = hashlib.sha256()
+        for key in sorted(z.files):
+            h.update(key.encode("utf-8"))
+            h.update(np.ascontiguousarray(z[key]).tobytes())
+        return h.hexdigest()
+    return sha256_of(np.load(path, mmap_mode="r"))
+
+
 def load() -> dict:
     if not FREEZE_PATH.exists():
         return {"schemaVersion": SCHEMA_VERSION, "frozen": {}}
@@ -122,7 +136,7 @@ def main() -> int:
         if cand is None:
             print(f"{name}: recorded {rec['sha256'][:16]}… not in the vault")
             continue
-        sha = sha256_of(np.load(cand, mmap_mode="r"))
+        sha = sha256_of_file(cand)
         state = "ok" if sha == rec["sha256"] else "DIFFERS"
         rc |= state != "ok"
         print(f"{name}: recorded {rec['sha256'][:16]}… vault {sha[:16]}… {state} ({rec['frozenOn']})")
