@@ -460,9 +460,15 @@ def floor_submerged_depths(data: dict, heights: dict[str, float] | None = None) 
             band = layer.get("water_depth_m")
             if band is None or band[0] >= need:
                 continue
-            layer["water_depth_m"] = [need, max(band[1], need)]
+            # The band SLIDES down-to-up; it is not just clipped. The author
+            # chose how thick a band the species occupies and only its floor
+            # is physically wrong, so clipping alone would leave a sliver:
+            # coral's authored 2-6 m became 4.28-6 m, which is 20 ha of the
+            # whole province against 66 ha when the 4 m thickness is kept.
+            ceiling = round(max(band[1], need + (band[1] - band[0])), 2)
+            layer["water_depth_m"] = [need, ceiling]
             changed.append(f"region {region} {role} {layer['species']}: "
-                           f"min depth {band[0]} -> {need} m")
+                           f"{band[0]}-{band[1]} -> {need}-{ceiling} m")
     return changed
 
 
