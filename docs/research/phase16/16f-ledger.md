@@ -279,3 +279,17 @@ trees out of and its dressing now follows band-3 reaches.
   depth buffer or the BVH culling the research names) are the next two
   levers, queued in the backlog. Rocks have the decimated levels and no
   card; small plants leave the scene at 60–80 m.
+
+## 12. Sites for the owner walk (computed from the shipped data, 2026-09-17)
+
+The brief's Owner check names sites "the ledger gives"; these are them
+(`?view=character&…`, add `&t=` as the check says). Wrecks are NOT in place
+(16g plots them); the underwater band is.
+
+- Underwater kelp and seaweed, densest: `x=2.93&z=5.17`, then `x=3.08&z=6.67`, `x=5.78&z=2.02`.
+- Corals: `x=4.88&z=2.48`, then `x=4.42&z=5.92`.
+- Shell beds: `x=5.17&z=3.38`, then `x=5.47&z=2.33`.
+- Sunken debris is sparse everywhere (3 pieces per 150 m cell at most): `x=2.33&z=1.57`.
+- Backswamp (largest, 1.2 ha) for the water colour: `x=2.34&z=1.21`; mudflat (delta mouth, 0.9 ha): `x=1.50&z=6.46`; lagoon beside it: `x=1.74&z=6.26`.
+- Band-3 corridor (gallery of waterline trees): `x=1.85&z=4.86`.
+- Roads by condition (midpoint / quarter point): Gideon–Stormhold `decayed` `x=1.97&z=2.08` / `x=1.84&z=2.74`; Archon–Gideon `broken` `x=3.60&z=3.58` / `x=4.77&z=3.55`; Gideon–Soulrest `broken` `x=1.92&z=4.74`; Blackrose–Lilmoth `broken` `x=3.01&z=6.23`. The brief's `route.road.helstrom-blackrose` does not exist in the registry (Helstrom is reached by water and root since 0069); read that bullet as Gideon–Stormhold.
