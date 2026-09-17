@@ -70,6 +70,10 @@ export interface VegetationStats {
   culled: number;
   /** Instances drawn as their `_lod_flat` far billboard (T4). */
   billboardInstances: number;
+  /** Per-species drawn instances and world-Y range at this rebuild. Added
+   * 2026-09-17 for the "underwater band invisible" probe: the aggregate
+   * counts cannot tell a missing species from a distant one. */
+  bySpecies: Record<string, { drawn: number; minY: number; maxY: number }>;
 }
 
 function chunkKey(cx: number, cz: number): string {
@@ -520,7 +524,18 @@ export function Vegetation({
     // Pass two: one InstancedMesh per bucket per geometry part.
     let instances = 0;
     let triangles = 0;
+    const bySpecies: VegetationStats["bySpecies"] = {};
     for (const bucket of buckets.values()) {
+      {
+        const seen = bySpecies[bucket.species]
+          ?? (bySpecies[bucket.species] = { drawn: 0, minY: Infinity, maxY: -Infinity });
+        seen.drawn += bucket.count;
+        for (let i = 0; i < bucket.count; i++) {
+          const y = bucket.placements[i * PLACEMENT_STRIDE + 1];
+          if (y < seen.minY) seen.minY = y;
+          if (y > seen.maxY) seen.maxY = y;
+        }
+      }
       const entry = kit.get(bucket.species)!;
       // `level` is clamped to a valid index where it is chosen, so this is a
       // real lookup, not a fallback.
@@ -596,6 +611,7 @@ export function Vegetation({
       triangles: Math.round(triangles),
       culled,
       billboardInstances,
+      bySpecies,
     };
     onStats?.(stats);
     onSolids?.(solids);
@@ -603,6 +619,12 @@ export function Vegetation({
     // numbers rather than guessing them from a screenshot.
     (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })
       .__STUDIO_VEGETATION_DEBUG__ = stats;
+    if (import.meta.env.DEV) {
+      // Dev-only probe handle (2026-09-17): the drawn meshes themselves, so a
+      // probe can hide a species and measure what it was painting.
+      (window as unknown as { __STUDIO_VEGETATION_MESHES__?: DrawGroup[] })
+        .__STUDIO_VEGETATION_MESHES__ = groups.current;
+    }
   }, [kit, index, manifest, underwaterManifest, revision, verticalScale, onStats, onSolids, focusRef,
       drawScale, chunksManifest, store, wind]);
 
