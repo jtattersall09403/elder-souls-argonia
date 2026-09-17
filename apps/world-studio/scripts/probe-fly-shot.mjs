@@ -1,0 +1,13 @@
+import { chromium } from "playwright";
+const browser = await chromium.launch({ headless: true, args: ["--use-gl=angle","--use-angle=swiftshader","--enable-unsafe-swiftshader"] });
+const page = await browser.newPage({ viewport: { width: 800, height: 450 } });
+const logs = [];
+page.on("console", m => logs.push(m.type() + ": " + m.text().slice(0, 200)));
+page.on("pageerror", e => logs.push("pageerror: " + e.message.slice(0, 300)));
+await page.goto("http://localhost:8081/?view=fly3d&x=4.02&z=4.61&t=12:00");
+await page.waitForTimeout(45000);
+const info = await page.evaluate(() => ({ canvases: document.querySelectorAll("canvas").length, text: document.body.innerText.slice(0, 400).replace(/\s+/g, " "), longTasks: performance.getEntriesByType("longtask").length, resources: performance.getEntriesByType("resource").length, transferred: Math.round(performance.getEntriesByType("resource").reduce((n, r) => n + (r.transferSize || 0), 0) / 1048576) }));
+console.log(JSON.stringify(info));
+await page.screenshot({ path: "/tmp/shots/fly-jungle.png" });
+console.log(logs.filter(l => !/WebSocket|vite/.test(l)).slice(0, 15).join("\n"));
+await browser.close();

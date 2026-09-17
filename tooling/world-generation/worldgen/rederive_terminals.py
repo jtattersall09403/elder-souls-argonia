@@ -37,7 +37,7 @@ from shapely.geometry import LineString, Point
 
 from . import blueprint_integration as bi
 from . import province_network as pn
-from .site_fields import ProvinceSurvey
+from .site_fields import ProvinceSurvey, shared_survey
 
 UV_DP = 9
 
@@ -143,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--apply", action="store_true",
                         help="rewrite the blueprint; without it, report only")
     args = parser.parse_args(argv)
-    survey = ProvinceSurvey()
+    survey = shared_survey()
     network = pn.load_network()
     findings = 0
     for path in args.paths:

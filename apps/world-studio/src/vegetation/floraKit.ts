@@ -222,15 +222,19 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
  * one (T4, module 65 §110), or its last decimated mesh where it does not.
  */
 export function lodDistances(heightM: number): number[] {
-  const reach = Math.max(MIN_MESH_LOD_REACH_M, heightM * 6);
-  // Ring 0 (full mesh) is CAPPED: height × 6 alone held the 42 m canopy
-  // tree's 5,252-triangle mesh out to 254 m, and a jungle holds hundreds of
-  // them — the round-10 FPS drop. Past ~150 m nobody reads full geometry.
-  // Ring 1 ends the light decimation; ring 2 hands over to the deep-decimated
-  // level, and the flat card takes over beyond it. Before ring 2 existed the
-  // deep level was DEAD for every billboard species (the card replaced it at
-  // exactly the distance it would have started).
-  return [Math.min(reach, 150), reach * 1.6, reach * 2.6];
+  // Measured 2026-09-16 at the jungle site: the old rings (full mesh to
+  // height × 6, capped 150 m) drew 3.1 M triangles in character view and
+  // 4.7 M from the air — ~2,800 full canopy meshes at 5–12 k triangles
+  // each. Shipped open worlds hold full geometry to a few tens of metres and
+  // hand over to decimated levels and cards well inside 300 m. Ring 0 (full
+  // mesh) ends at height × 2.5 inside 24–60 m; ring 1 (the 0.35 decimation)
+  // at height × 5 inside 50–140 m; ring 2 (the 0.12 decimation) at height ×
+  // 8 inside 100–260 m; beyond it a billboard species runs on its flat card,
+  // the rest on the deep level to their draw distance.
+  const ring0 = Math.min(60, Math.max(MIN_MESH_LOD_REACH_M, heightM * 2.5));
+  const ring1 = Math.min(140, Math.max(50, heightM * 5));
+  const ring2 = Math.min(260, Math.max(100, heightM * 8));
+  return [ring0, Math.max(ring1, ring0 + 10), Math.max(ring2, ring1 + 20)];
 }
 
 /**
@@ -259,7 +263,10 @@ export const BILLBOARD_BRIGHTNESS = 1.25;
  * that must not cost draws at two kilometres.
  */
 export function maxDrawDistance(heightM: number): number {
-  return Math.max(80, heightM * 35);
+  // Small plants leave at 60–80 m; a 20 m tree persists to 700 m; nothing
+  // is drawn past 900 m (the chunk ring is ~1.2 km, but a card at that
+  // distance is a few pixels).
+  return Math.min(900, Math.max(60, heightM * 35));
 }
 
 /**

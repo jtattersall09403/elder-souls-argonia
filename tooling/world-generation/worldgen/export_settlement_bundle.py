@@ -28,7 +28,7 @@ from pathlib import Path
 
 import numpy as np
 
-from .site_fields import ProvinceSurvey
+from .site_fields import ProvinceSurvey, shared_survey
 from .compile_settlement import (
     blueprint_sha256, _canonical_sha256, compiled_blueprint_objects,
     compiled_terrain_objects,
@@ -728,7 +728,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     — can mistake this build for a clean one. It is off by default, it is never
     set in CI, and it must be asked for explicitly with a reason.
     """
-    survey = ProvinceSurvey()
+    survey = shared_survey()
     known_red = load_warning_known_red(known_red_path)
     overridden: list[str] = []
     if catalogue_records_by_id is None:

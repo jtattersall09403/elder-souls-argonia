@@ -94,7 +94,7 @@ def _terrain_evidence(record):
 
 
 def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: type("Survey", (), {
+    monkeypatch.setattr(ex, "shared_survey", lambda: type("Survey", (), {
         "uv_to_m": staticmethod(lambda u, v: (u * 100, v * 100))})())
     bp = {"blueprint": {"id": "place.a", "boundary": [[0, 0], [1, 0], [1, 1]],
                         "parcels": [{"id": "parcel.a", "footprint": [[.1, .2], [.3, .2], [.2, .4]]}],
@@ -269,7 +269,7 @@ def test_every_current_multi_fit_use_has_an_explicit_compatibility_rule():
 
 
 def test_refuses_compiler_errors(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     _write(tmp_path / "sett/place.a.settlement.json",
            {"id": "place.a", "errors": ["bad"], "placements": []})
     with pytest.raises(ValueError, match="refusing to publish"):
@@ -305,7 +305,7 @@ def _build(tmp_path):
 
 def test_refuses_a_warning_with_no_structured_row(tmp_path, monkeypatch):
     """An unattributable warning cannot be explained, so it still blocks."""
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     bp = {"id": "place.a"}
     _write(tmp_path / "bp/place.a.json", {"blueprint": bp})
     _write(tmp_path / "sett/place.a.settlement.json", {
@@ -318,7 +318,7 @@ def test_refuses_a_warning_with_no_structured_row(tmp_path, monkeypatch):
 
 
 def test_refuses_an_unregistered_flood_warning(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     _warned_settlement(tmp_path)
     with pytest.raises(ValueError, match="UNEXPLAINED WARNING"):
         _build(tmp_path)
@@ -326,7 +326,7 @@ def test_refuses_an_unregistered_flood_warning(tmp_path, monkeypatch):
 
 def test_a_registered_warning_is_reported_by_name_and_does_not_block(tmp_path, monkeypatch,
                                                                      capsys):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     _warned_settlement(tmp_path)
     _register(tmp_path, monkeypatch, [{
         "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
@@ -343,7 +343,7 @@ def test_a_registered_warning_is_reported_by_name_and_does_not_block(tmp_path, m
 
 
 def test_a_register_row_that_has_started_passing_blocks(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     _warned_settlement(tmp_path, conforms=True)
     _register(tmp_path, monkeypatch, [{
         "placeId": "place.a", "subjectId": "parcel.a", "rule": "civic-sacred-dry",
@@ -355,7 +355,7 @@ def test_a_register_row_that_has_started_passing_blocks(tmp_path, monkeypatch):
 
 
 def test_a_register_row_whose_place_vanished_blocks(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     _warned_settlement(tmp_path, conforms=True)
     _register(tmp_path, monkeypatch, [{
         "placeId": "place.gone", "subjectId": "parcel.x", "rule": "civic-sacred-dry",
@@ -382,7 +382,7 @@ def test_the_shipped_register_rows_are_well_formed():
 
 
 def test_refuses_stale_success_after_blueprint_mutation(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     original = {"id": "place.a", "boundary": [[0, 0], [1, 0], [1, 1]]}
     compiled = tmp_path / "sett/place.a.settlement.json"
     _write(compiled, {"id": "place.a", "sourceBlueprintSha256": ex.blueprint_sha256(original),
@@ -398,7 +398,7 @@ def test_refuses_stale_success_after_blueprint_mutation(tmp_path, monkeypatch):
 
 
 def test_refuses_an_authored_exemplar_with_no_compiled_output(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     _write(tmp_path / "bp/place.a.json", {"blueprint": {"id": "place.a"}})
     with pytest.raises(ValueError, match="missing compiled blueprints: place.a"):
         ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
@@ -406,7 +406,7 @@ def test_refuses_an_authored_exemplar_with_no_compiled_output(tmp_path, monkeypa
 
 
 def test_refuses_missing_route_output_and_missing_structure_placements(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     source_row = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
                   "fromM": 10, "toM": 20}
     source = _route_source(tmp_path, [source_row])
@@ -422,7 +422,7 @@ def test_refuses_missing_route_output_and_missing_structure_placements(tmp_path,
 
 
 def test_refuses_route_output_with_stale_embedded_authored_row(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     source_row = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
                   "fromM": 10, "toM": 20}
     stale_row = {**source_row, "kind": "deck"}
@@ -436,7 +436,7 @@ def test_refuses_route_output_with_stale_embedded_authored_row(tmp_path, monkeyp
 
 
 def test_refuses_a_gap_in_a_route_structure_placement_set(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     source_row = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
                   "fromM": 10, "toM": 30}
     placements = [
@@ -519,7 +519,7 @@ def _obligation_bundle_fixture(tmp_path):
 
 
 def test_bundle_verifies_and_carries_phase11_compiled_receipt(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: type("Survey", (), {
+    monkeypatch.setattr(ex, "shared_survey", lambda: type("Survey", (), {
         "uv_to_m": staticmethod(lambda u, v: (u * 100, v * 100))})())
     record, _settlement, source, evidence = _obligation_bundle_fixture(tmp_path)
     bundle = ex.build_bundle(
@@ -531,7 +531,7 @@ def test_bundle_verifies_and_carries_phase11_compiled_receipt(tmp_path, monkeypa
 
 
 def test_bundle_rejects_omitted_non_rendered_compiled_object(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", _MetreSurvey)
+    monkeypatch.setattr(ex, "shared_survey", _MetreSurvey)
     record, settlement_path, source, evidence = _obligation_bundle_fixture(tmp_path)
     document = json.loads(settlement_path.read_text())
     document["compiledObjects"] = [row for row in document["compiledObjects"]
@@ -545,7 +545,7 @@ def test_bundle_rejects_omitted_non_rendered_compiled_object(tmp_path, monkeypat
 
 
 def test_bundle_rejects_receipt_hash_not_bound_to_compiled_object(tmp_path, monkeypatch):
-    monkeypatch.setattr(ex, "ProvinceSurvey", _MetreSurvey)
+    monkeypatch.setattr(ex, "shared_survey", _MetreSurvey)
     record, settlement_path, source, evidence = _obligation_bundle_fixture(tmp_path)
     document = json.loads(settlement_path.read_text())
     receipt = document["phase11ObligationReceipt"]
@@ -570,7 +570,7 @@ def test_bundle_rejects_receipt_hash_not_bound_to_compiled_object(tmp_path, monk
 ])
 def test_bundle_fails_closed_on_bad_phase11_compiled_receipt(
         tmp_path, monkeypatch, mutation, expected):
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     record, settlement_path, source, evidence = _obligation_bundle_fixture(tmp_path)
     document = json.loads(settlement_path.read_text())
     if mutation == "missing":
@@ -826,7 +826,7 @@ def test_a_non_waivable_breach_stops_a_whole_export_even_under_the_override(
     """End to end: the gate is wired into build_bundle, not merely available."""
     monkeypatch.setattr(ex, "lod_contract_errors",
                         lambda *a, **k: ["kit-x/asset:short: LOD chain has 2 tier(s)"])
-    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
     _warned_settlement(tmp_path, conforms=True)
     with pytest.raises(ValueError) as raised:
         ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",

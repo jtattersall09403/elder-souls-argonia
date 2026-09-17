@@ -60,7 +60,7 @@ from pathlib import Path
 
 from . import blueprint as bp_mod
 from . import parcel_kinds as pk_mod
-from .site_fields import ProvinceSurvey
+from .site_fields import ProvinceSurvey, shared_survey
 from .blueprint_integration import check_integration
 from .blueprint_promises import check_promises, load_record, write_ledger
 from . import place_obligations
@@ -1411,7 +1411,7 @@ def main(argv: list[str] | None = None) -> int:
     data = json.loads(Path(args.blueprint).read_text())
     bp = data["blueprint"]
     known = None if args.skip_catalogue else bp_mod.catalogue_ids()
-    survey = ProvinceSurvey()
+    survey = shared_survey()
     schema_errors, schema_warnings = bp_mod.validate_blueprint_full(bp, known, survey)
     for w in schema_warnings:
         print(f"compile_settlement: WARN: {w}", file=sys.stderr)

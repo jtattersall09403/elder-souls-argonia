@@ -985,13 +985,13 @@ def main(argv: list[str] | None = None) -> int:
     from pathlib import Path as _Path
 
     from . import blueprint as _bp_mod
-    from .site_fields import ProvinceSurvey
+    from .site_fields import shared_survey
 
     ap = argparse.ArgumentParser(description="97 C-stitch report for one or more blueprints")
     ap.add_argument("paths", nargs="*", type=_Path)
     args = ap.parse_args(argv)
     paths = args.paths or sorted(_bp_mod.BLUEPRINT_DIR.glob("*.json"))
-    survey = ProvinceSurvey()
+    survey = shared_survey()
     network = pn.load_network()
     bad = 0
     for path in paths:

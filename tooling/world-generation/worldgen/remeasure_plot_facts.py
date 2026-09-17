@@ -46,7 +46,7 @@ import json
 from copy import deepcopy
 
 from . import catalogue
-from .site_fields import ProvinceSurvey
+from .site_fields import ProvinceSurvey, shared_survey
 
 #: The season a `plotFacts` distance means. See the module docstring.
 PLOT_FACT_SEASON = "dry"
@@ -113,7 +113,7 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     fields = MEASURED_FIELDS if args.with_route else ("distanceToWaterM",)
 
-    s = ProvinceSurvey()
+    s = shared_survey()
     files = list(catalogue.load_region_files())
     before_pos = _positions(files)
     before_recs = {rec["id"]: deepcopy(rec) for rf in files for rec in rf.places}

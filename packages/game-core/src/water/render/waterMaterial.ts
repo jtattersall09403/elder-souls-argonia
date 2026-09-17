@@ -797,7 +797,6 @@ attribute float aSideM;
 attribute float aArc;
 attribute float aScroll;
 attribute vec2 aRockFoam;   // 16f: baked rock foam at the centreline and at this edge
-varying vec2 vEsRockFoam;
 attribute float aEdge;
 varying float vEsSide;
 varying vec4 vEsStrip;

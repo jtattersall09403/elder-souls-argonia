@@ -98,7 +98,7 @@ from . import catalogue
 from . import province_network as pn
 from .authored_routes import load_by_id, to_px
 from .routes import EDGE_MARGIN, EDGE_PENALTY, NEIGHBOR_OFFSETS, grade_factor
-from .site_fields import ProvinceSurvey
+from .site_fields import ProvinceSurvey, shared_survey
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OUT_JSON = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "routes-minor.json"
@@ -382,7 +382,7 @@ def demand(files: list[catalogue.RegionFile],
 
 
 def run(write: bool = True) -> dict:
-    s = ProvinceSurvey()
+    s = shared_survey()
     files = catalogue.load_region_files()
     cost = cost_surface(s)
     height = s.height_grid            # natural ground; the property re-derives, so hoist it

@@ -8,6 +8,13 @@ import { CityMarkers } from "./CityMarkers";
 import { ApronTerrain } from "./ApronTerrain";
 import { Vegetation, type VegetationStats } from "./vegetation/Vegetation";
 import { Groundcover } from "./vegetation/Groundcover";
+import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
+
+/** The fly camera sees the canopy from above and moves fast: the medium
+ * preset (draw scale 0.8, a 65 m ground ring) instead of the character
+ * view's full one. Measured 2026-09-16: the air view drew 4.7 M vegetation
+ * triangles at full scale. */
+const FLY_QUALITY = QUALITY_PRESETS.medium;
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
@@ -314,13 +321,14 @@ export function Fly3D(props: Fly3DProps) {
               <>
                 <Suspense fallback={null}>
                   <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
-                    verticalScale={props.exaggeration} onStats={props.onVegetationStats} />
+                    verticalScale={props.exaggeration} onStats={props.onVegetationStats}
+                    quality={FLY_QUALITY} />
                 </Suspense>
                 {/* T3 groundcover ring: runtime grass keyed on the painted
                     ground, province-wide (it needs no compiled bundles). */}
                 <Suspense fallback={null}>
                   <Groundcover focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
-                    verticalScale={props.exaggeration} />
+                    verticalScale={props.exaggeration} quality={FLY_QUALITY} />
                 </Suspense>
               </>
             )}

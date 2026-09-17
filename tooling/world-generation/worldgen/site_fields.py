@@ -803,3 +803,34 @@ class ProvinceSurvey:
                             f"dressed {len(chunks)} chunks of the province so far"}
         return {"chunk": [cx, cz], "compiled": True, **rec,
                 "speciesPaletteSize": len(self.vegetation_index.get("speciesOrder", []))}
+
+
+# --------------------------------------------------------------------------- #
+# one survey per process
+# --------------------------------------------------------------------------- #
+# A survey is ~700 MB of decoded rasters and a pure function of the published
+# files, so every tool and test in a process shares one. The cache is keyed on
+# the signature (name, mtime, size) of the files the survey reads, so a chain
+# run that republishes a raster is served a fresh survey and never a stale one.
+# Building a private `ProvinceSurvey()` per call site is what let the placement
+# suite hold four copies at once (2026-09-17, the 12 GiB session cap).
+_SHARED_SURVEY: dict[tuple, "ProvinceSurvey"] = {}
+
+
+def _survey_signature(province: Path) -> tuple:
+    paths = sorted([*province.glob("*.png"), *province.glob("*.json"),
+                    *province.glob("refined/*"), *province.glob("water/**/*")])
+    return tuple((str(p.relative_to(province)), p.stat().st_mtime_ns, p.stat().st_size)
+                 for p in paths if p.is_file())
+
+
+def shared_survey(province: Path = PROVINCE) -> "ProvinceSurvey":
+    """The process-wide survey of `province`, loaded on first request and
+    reloaded only when a file it reads changes. Raises like `ProvinceSurvey()`
+    when the published rasters are missing."""
+    key = (str(province), _survey_signature(province))
+    hit = _SHARED_SURVEY.get(key)
+    if hit is None:
+        _SHARED_SURVEY.clear()          # a moved signature frees the old copy
+        hit = _SHARED_SURVEY[key] = ProvinceSurvey(province)
+    return hit

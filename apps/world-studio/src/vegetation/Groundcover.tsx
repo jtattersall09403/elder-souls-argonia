@@ -538,10 +538,31 @@ function sharedRegionRaster(baseUrl: string): Promise<ControlRaster> {
       ctx.drawImage(bitmap, 0, 0);
       const px = ctx.getImageData(0, 0, bitmap.width, bitmap.height).data;
       bitmap.close();
+      // The shipped raster carries a partial alpha (120, an overlay-style
+      // PNG since 2026-09-13). A 2D canvas stores premultiplied colour and
+      // getImageData un-premultiplies it with rounding, so an exact legend
+      // match failed on every texel (55,175,45 read back as 55,174,45),
+      // every texel decoded as region 0, and the ring bound no species
+      // anywhere (measured 2026-09-16: 68 tiles, 0 instances). Match the
+      // NEAREST legend colour instead; anything farther than a few units
+      // from every legend entry is genuinely unknown.
+      const entries = [...byColour.entries()].map(([key, id]) => [key >> 16, (key >> 8) & 255, key & 255, id]);
+      const exact = new Map<number, number>();
       const ids = new Uint8Array(canvas.width * canvas.height);
       for (let i = 0; i < ids.length; i++) {
-        const key = (px[i * 4] << 16) | (px[i * 4 + 1] << 8) | px[i * 4 + 2];
-        ids[i] = byColour.get(key) ?? 0;
+        const r = px[i * 4], g = px[i * 4 + 1], b = px[i * 4 + 2];
+        const key = (r << 16) | (g << 8) | b;
+        let id = byColour.get(key) ?? exact.get(key);
+        if (id === undefined) {
+          let best = 0, bestD = 9e9;
+          for (const [lr, lg, lb, lid] of entries) {
+            const d = (lr - r) ** 2 + (lg - g) ** 2 + (lb - b) ** 2;
+            if (d < bestD) { bestD = d; best = lid; }
+          }
+          id = bestD <= 48 ? best : 0;     // ≤ ~7 units per channel
+          exact.set(key, id);
+        }
+        ids[i] = id;
       }
       return {
         ids,
@@ -592,6 +613,8 @@ export interface GroundcoverStats {
   /** 1 unless the authored densities exceeded MAX_INSTANCES; then the
    * proportional thinning factor actually applied. */
   densityScale: number;
+  /** Candidate rejections in the last generation pass, by filter. */
+  rejected?: Record<string, number>;
   /** Deterministic foundation rubble in the exported signed-distance bands. */
   foundationScatterInstances: number;
 }
@@ -783,6 +806,8 @@ export function Groundcover({
     // boundary is one row of tiles, not the whole ring.
     let tiles = 0;
     const live = new Set<number>();
+    // Why candidates die, for the probe (numbers, not a screenshot).
+    const rej = { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 };
     for (let tz = ftz - tileReach; tz <= ftz + tileReach; tz++) {
       for (let tx = ftx - tileReach; tx <= ftx + tileReach; tx++) {
         const centreX = (tx + 0.5) * TILE_M;
@@ -799,6 +824,7 @@ export function Groundcover({
         if (cache.has(key)) continue;
 
         const perSpecies: TilePlacement[][] = SPECIES_PLANS.map(() => []);
+        let incomplete = false;
         for (const plan of SPECIES_PLANS) {
           // Candidates on a jittered grid at the species' peak density —
           // Bethesda's GRAS placement model, jitter amplitude as authored.
@@ -811,7 +837,7 @@ export function Groundcover({
           // ≤0.15 m across covers — well under a texel).
           const jitterM = plan.anyRule.positionJitterM;
           for (let k = 0; k < g * g; k++) {
-            if (u01(hash32(tx, tz, plan.index, k * 8)) >= keepP) continue;
+            if (u01(hash32(tx, tz, plan.index, k * 8)) >= keepP) { rej.keep++; continue; }
             const jx = (u01(hash32(tx, tz, plan.index, k * 8 + 1)) - 0.5) * 2;
             const jz = (u01(hash32(tx, tz, plan.index, k * 8 + 2)) - 0.5) * 2;
             const x = tx * TILE_M + ((k % g) + 0.5) * cell + jx * jitterM;
@@ -823,24 +849,24 @@ export function Groundcover({
             const region = regionRaster
               ? coverAt(regionRaster, x, z) : REGION_UNKNOWN;
             const rule = plan.bySlot.get(slotKey(region, coverAt(control, x, z)));
-            if (!rule) continue; // bare cover, or bound to other species here
+            if (!rule) { rej.bare++; continue; } // bare cover, or bound to other species here
             // Acceptance is the cover's share of the species' peak density,
             // modulated by the species' own clump field (mechanism 3). The
             // field's mean is 1, so the authored density is preserved.
             const clump = clumpAt(x, z, plan.index);
             const accept = (rule.density / plan.maxDensity) * (0.35 + 1.3 * clump);
-            if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= accept) continue;
+            if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= accept) { rej.accept++; continue; }
 
             const speciesRadiusM = radii.current.get(plan.id) ?? 0;
-            if (excludedByFootprints(x, z, speciesRadiusM, exclusions)) continue;
+            if (excludedByFootprints(x, z, speciesRadiusM, exclusions)) { rej.footprint++; continue; }
             // Vegetation patches (0041 gotcha (b)): the published bundles were
             // patched by the stage, but this layer is generated here and has to
             // obey the same patch list or grass grows through the floors.
             if (!survivesPatches(x, z, speciesRadiusM, clearanceIndex,
-              u01(hash32(tx, tz, plan.index, k * 8 + 7)))) continue;
+              u01(hash32(tx, tz, plan.index, k * 8 + 7)))) { rej.patch++; continue; }
 
             const h = groundHeightM(store, chunks, x, z);
-            if (h === null) continue;
+            if (h === null) { incomplete = true; rej.height++; continue; }
             // Slope from the same heights (true metres — the authored limits
             // are physical, not exaggerated).
             const step = 2;
@@ -848,19 +874,19 @@ export function Groundcover({
             const south = groundHeightM(store, chunks, x, z + step);
             if (east !== null && south !== null) {
               const slopeDeg = Math.atan(Math.hypot(east - h, south - h) / step) * (180 / Math.PI);
-              if (slopeDeg > rule.slopeDegMax) continue;
+              if (slopeDeg > rule.slopeDegMax) { rej.slope++; continue; }
             }
             if (waterData) {
               const depth = waterData.depthProxy(x, z);
               if (rule.waterRule === "above") {
-                if (depth > DRY_SPECIES_MAX_DEPTH_M) continue;
+                if (depth > DRY_SPECIES_MAX_DEPTH_M) { rej.water++; continue; }
               } else if (plan.needsWater && rule.waterRule === "below-at-least") {
                 // Reeds stand IN shallow water, kelp and coral on the bed —
                 // how deep is the rule's own, not one constant for both.
                 const maxDepth = rule.maxDepthM ?? DEFAULT_WATER_SPECIES_MAX_DEPTH_M;
-                if (depth <= 0.02 || depth > maxDepth) continue;
+                if (depth <= 0.02 || depth > maxDepth) { rej.water++; continue; }
               } else if (depth > LAND_SPECIES_MAX_DEPTH_M) {
-                continue; // drowned grass under open water reads as a bug
+                rej.water++; continue; // drowned grass under open water reads as a bug
               }
             }
 
@@ -890,7 +916,13 @@ export function Groundcover({
             });
           }
         }
-        cache.set(key, perSpecies);
+        // A tile generated before the terrain chunks under it had decoded
+        // rejected every candidate on a missing height. Caching that as the
+        // tile's answer left the ring EMPTY for good (measured 2026-09-16:
+        // 68 tiles, 0 instances in the jungle); an incomplete tile is not
+        // cached, so the next rebuild (chunk arrival bumps `revision`)
+        // generates it again on real ground.
+        if (!incomplete) cache.set(key, perSpecies);
       }
     }
     // Evict what left the ring. Without this the cache is the whole province.
@@ -1024,6 +1056,7 @@ export function Groundcover({
       triangles: Math.round(triangles),
       tiles,
       densityScale,
+      rejected: rej,
       foundationScatterInstances: visibleScatter.length,
     };
     onStats?.(stats);

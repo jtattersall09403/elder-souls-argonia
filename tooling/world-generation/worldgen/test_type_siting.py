@@ -325,12 +325,6 @@ SHIPPED_FOOTPRINT_OVERLAPS = 415
 SHIPPED_MIN_FROM_CLASS_VIOLATIONS = 21
 
 
-@pytest.fixture(scope="module")
-def survey():
-    from worldgen.site_fields import ProvinceSurvey
-    return ProvinceSurvey()
-
-
 def _shipped_violations(s=None):
     from . import catalogue
     recipes = {t["type"]: t

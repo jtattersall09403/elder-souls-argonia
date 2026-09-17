@@ -55,7 +55,7 @@ import numpy as np
 from . import catalogue
 from .regions import REGION_CLASSES
 from . import plot_stats
-from .site_fields import ProvinceSurvey
+from .site_fields import ProvinceSurvey, shared_survey
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 SITES_DIR = REPO_ROOT / "world" / "sources" / "sites"
@@ -2390,7 +2390,7 @@ def terrain_promise_violations(s: ProvinceSurvey | None = None) -> list[dict]:
     full terrain+water chain. This asks the same question of the shipped
     rasters in seconds, so a plot that promises a 40 m sinkhole in 2 m of
     water is caught before anything is compiled."""
-    s = s or ProvinceSurvey()
+    s = s or shared_survey()
     from .terrain_siting import gate_for
     gate = gate_for(s)
     out: list[dict] = []
@@ -2757,7 +2757,7 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False
 
 def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | None = None,
         resolve_all: bool = False) -> dict:
-    s = ProvinceSurvey()
+    s = shared_survey()
     (demands, files, scour, free, result, unresolved, resite, pinned,
      ceiling_trace) = solve(s, seed, resolve_all=resolve_all)
     plotted = {did: (next(d for d in demands if d.id == did), r["candidate"]) for did, r in result.items()}
@@ -2864,7 +2864,7 @@ def report_only() -> dict:
     write them into `macro-plot.json` / `macro-plot.md`, without re-solving:
     the plotted positions are read back out of the catalogue, so no record can
     move. Returns the stats."""
-    s = ProvinceSurvey()
+    s = shared_survey()
     demands, files = build_demand(load_recipes())
     live = {d.id for d in demands}
     positions = {rec["id"]: rec["positionM"]
@@ -2904,7 +2904,7 @@ def main(argv: list[str] | None = None) -> None:
                          "plot and write them into the report; does not solve or move anything")
     a = ap.parse_args(argv)
     if a.validate:
-        bad = navigable_violations(ProvinceSurvey())
+        bad = navigable_violations(shared_survey())
         for v in bad:
             print(f"[macro-plot] 97 A8/G5 {v['id']} ({v['type']}, {v['hullClass']}): "
                   f"{v['depthM']} m within {NAVIGABLE_REACH_M:.0f} m, needs {v['needM']} m"

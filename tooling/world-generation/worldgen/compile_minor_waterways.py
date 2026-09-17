@@ -73,7 +73,7 @@ from . import catalogue
 from .compile_minor_routes import OUT_MD, StepGraph, trace
 from .hydrology_intent import load_authored_minor_waterways
 from . import routes
-from .site_fields import _resample
+from .site_fields import _resample, shared_survey
 from .site_fields import ProvinceSurvey
 from .water_report import ShippedWater
 
@@ -129,14 +129,18 @@ MIN_BERTH_DEPTH_M = bp_mod.HULL_CLASS_DEPTH_M["canoe"]
 HULL_DEPTH_M = bp_mod.HULL_CLASS_DEPTH_M
 
 
-@lru_cache(maxsize=1)
 def centre_depth_grid(s: ProvinceSurvey) -> np.ndarray:
     """Published water depth AT EACH GRID CELL CENTRE — the same number
     `ProvinceSurvey.sample()` reports, so the depth this compiler sites a berth
-    by is the depth `blueprint.py` then checks it against."""
+    by is the depth `blueprint.py` then checks it against. Memoised on the
+    survey itself (a module cache keyed on the survey would pin it)."""
+    memo = getattr(s, "_centre_depth_grid", None)
+    if memo is not None:
+        return memo
     idx = np.clip(((np.arange(s.grid_n) + 0.5) * s.grid_px_m / s.height_px_m).astype(int),
                   0, s.water_depth_m.shape[0] - 1)
-    return s.water_depth_m[np.ix_(idx, idx)]
+    s._centre_depth_grid = s.water_depth_m[np.ix_(idx, idx)]
+    return s._centre_depth_grid
 
 
 # --------------------------------------------------------------------------- #
@@ -453,7 +457,7 @@ class SolveContext:
 
 
 def solve_context() -> SolveContext:
-    s = ProvinceSurvey()
+    s = shared_survey()
     files = catalogue.load_region_files()
     cost = cost_surface(s)
     nav = navigable(s)

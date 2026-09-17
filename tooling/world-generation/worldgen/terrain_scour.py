@@ -56,7 +56,7 @@ import numpy as np
 from scipy import ndimage
 
 from .regions import REGION_CLASSES
-from .site_fields import REPO_ROOT, ProvinceSurvey
+from .site_fields import REPO_ROOT, ProvinceSurvey, shared_survey
 
 SCHEMA_VERSION = 1
 DEFAULT_SEED = 1109                       # phase 11, part 0 item 2
@@ -689,7 +689,7 @@ def main(argv: list[str] | None = None) -> None:
     if unknown:
         p.error(f"unknown landform class(es): {', '.join(unknown)}")
 
-    s = ProvinceSurvey()
+    s = shared_survey()
     result = sweep(s, classes, args.seed, not args.no_viewshed)
     doc = {
         "schemaVersion": SCHEMA_VERSION,

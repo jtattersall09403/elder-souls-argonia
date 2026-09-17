@@ -11,7 +11,10 @@ therefore no longer pay to load it.
 Where the caching lives (all of it content- or signature-keyed, so an edit to
 a source file invalidates it and nothing stale is ever served):
 
-* `street_router.default_survey()` — one `ProvinceSurvey` per process.
+* `site_fields.shared_survey()` — one `ProvinceSurvey` per process, keyed on
+  the signature of the files it reads (`street_router.default_survey()`
+  delegates to it); every compiler builds its survey through it, so a test
+  that stubs the survey stubs `<module>.shared_survey`.
 * `street_router.local_field()` — the 1 m cost field per (way, blueprint,
   survey), keyed on the way and blueprint content the field is built from.
 * `blueprint.validate_all()` — keyed on the blueprint dir's file signature

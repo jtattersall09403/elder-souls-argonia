@@ -940,19 +940,16 @@ def check_blueprint(bp: dict, survey=None) -> list[str]:
     return problems
 
 
-_SURVEY_CACHE: list = [None]
 
 
 def default_survey():
     """The province survey, loaded once per process. Returns None if the
     published rasters are not in this checkout (schema-only checks still run)."""
-    if _SURVEY_CACHE[0] is None:
-        try:
-            from .site_fields import ProvinceSurvey
-            _SURVEY_CACHE[0] = ProvinceSurvey()
-        except Exception:                               # noqa: BLE001
-            _SURVEY_CACHE[0] = False
-    return _SURVEY_CACHE[0] or None
+    try:
+        from .site_fields import shared_survey
+        return shared_survey()
+    except Exception:                                   # noqa: BLE001
+        return None
 
 
 def apply_to_file(path: Path, survey=None) -> list[str]:

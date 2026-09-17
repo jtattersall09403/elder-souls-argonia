@@ -49,7 +49,7 @@ import numpy as np
 from .compile_scatter import CHUNK_M
 from .regions import REGION_CLASSES, SOIL_CLASSES
 from .scatter import decode as decode_vegetation
-from .site_fields import REPO_ROOT, ProvinceSurvey
+from .site_fields import REPO_ROOT, ProvinceSurvey, shared_survey
 
 SCHEMA_VERSION = 1
 DEFAULT_OUT = REPO_ROOT / "world" / "sources" / "sites" / "dossiers"
@@ -477,7 +477,7 @@ def main(argv: list[str] | None = None) -> None:
     p.add_argument("--stdout", action="store_true", help="print the digest only")
     args = p.parse_args(argv)
 
-    s = ProvinceSurvey()
+    s = shared_survey()
     if args.anchor:
         x, z = s.anchor_points_m[args.anchor]
         site_id = args.id or args.anchor

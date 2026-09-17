@@ -67,22 +67,40 @@ function memoryBudgetBytes() {
   return m ? Number(m[1]) * 1024 : 16 * 2 ** 30;
 }
 const GIB = 2 ** 30;
-const budget = memoryBudgetBytes();
-// Measured 2026-09-16: the editor session and its agents hold ~3.5 GiB
-// before a gate starts; a placement worker peaks near 1 GiB on the province
-// rasters (the apron test's 5 GiB spike was fixed at the root, see
-// build_border_apron.apron_height). Budget: 4 GiB reserved, 2 GiB per pytest
-// worker, at most 4 workers; and every gate runs under memwatch.sh, which
-// kills THE GATE if the cgroup passes the ceiling, never the session.
-// Measured 2026-09-16 on the placement suite alone: 3 workers → 10.5 GiB
-// (the idle session already holds ~4.4 GiB), 2 workers fit. Per worker
-// budget 3 GiB over a 4.5 GiB reserve; at most 2 workers on this box.
+// The budget is what is FREE under the cap right now, not the cap: the dev
+// server, headless browsers and other sessions in the same cgroup already
+// hold several GiB (measured 1.9–4 GiB idle on 2026-09-16/17). "Used" is the
+// UNRECLAIMABLE part of memory.stat (anon + shmem + kernel): memory.current
+// also counts the file cache of every raster read, which the kernel reclaims
+// under pressure long before it kills anything (3.1 GiB of cache idle on
+// 2026-09-17 made preflight run one worker for nothing).
+function memoryUsedBytes() {
+  try {
+    const stat = readFileSync("/sys/fs/cgroup/memory.stat", "utf8");
+    let used = 0;
+    for (const key of ["anon", "shmem", "kernel"]) {
+      const m = new RegExp(`^${key} (\\d+)`, "m").exec(stat);
+      if (m) used += Number(m[1]);
+    }
+    return used;
+  } catch { return 0; }
+}
+const capBytes = memoryBudgetBytes();
+const usedBytes = memoryUsedBytes();
+const budget = capBytes - usedBytes;
+// Measured 2026-09-17 on the placement suite alone, one worker: the worker
+// settles near 2.2 GiB (one shared province survey per process, see
+// site_fields.shared_survey; the apron test's 5 GiB spike was fixed at the
+// root in build_border_apron.apron_height). Budget: 1.5 GiB reserve for the
+// other gates, 3 GiB per pytest worker, at most 2 workers; and every gate
+// runs under memwatch.sh, which kills THE GATE if the unreclaimable memory
+// passes the ceiling, never the session.
 const pyWorkers = Math.max(1, Math.min(2, availableParallelism(),
-  Math.floor((budget - 4.5 * GIB) / (3 * GIB))));
+  Math.floor((budget - 1.5 * GIB) / (3 * GIB))));
 const wsJobs = Math.max(2, Math.min(4, availableParallelism()));
-const ceilingGib = Math.max(6, Math.floor(budget / GIB) - 2);
+const ceilingGib = Math.max(6, Math.floor(capBytes / GIB) - 2);
 const env = { PYTEST_XDIST_AUTO_NUM_WORKERS: String(pyWorkers), WORKSPACE_JOBS: String(wsJobs) };
-console.log(`preflight: memory budget ${(budget / GIB).toFixed(1)} GiB → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, three waves, watchdog ceiling ${ceilingGib} GiB`);
+console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, three waves, watchdog ceiling ${ceilingGib} GiB`);
 const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // The placement suite runs ALONE: at 4 workers beside typecheck it still
 // reached 10.2 GiB (measured 2026-09-16); the rest pair up.

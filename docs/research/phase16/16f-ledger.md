@@ -244,3 +244,38 @@ bake (to be averaged in the next); the re-base multiplier is capped at 2.5×
 two record-keyed thin classes (delta 3, corridor 5) leave the ratio gate,
 because the corridor's paint is the wetted bank the channel gate keeps
 trees out of and its dressing now follows band-3 reaches.
+
+## 11. The owner's first look (2026-09-16 evening): three defects, all fixed
+
+- **A shader error killed the water material**: the strip's rock-foam
+  varying was declared twice in the vertex shader (once beside the attribute,
+  once with the strip varyings). Removed the duplicate.
+- **No ground cover anywhere; it predates 16f**: `hydro-regions.png`
+  has carried a partial alpha (120) since 2026-09-13; a 2D canvas stores
+  premultiplied colour and hands back 55,174,45 for the legend's 55,175,45,
+  so every texel decoded as region 0 and the ring bound no species (probe:
+  68 tiles, 0 instances; 497,767 candidates rejected as "bare"). The ring now
+  matches the nearest legend colour. A second, 16f-made defect sat behind it:
+  a tile generated before its terrain chunks had decoded was cached empty for
+  good; an incomplete tile is no longer cached. After both: 14,874 instances,
+  59 draws in the jungle ring. The ring's debug hook now reports rejections
+  per filter.
+- **Frame rate**: measured at the jungle site, the tree layer drew 3.13 M
+  triangles in character view and 4.68 M from the air, because the full-mesh
+  ring ran to height × 6 (capped 150 m) and the light decimation to 240 m:
+  ~2,800 canopy meshes at 5–12 k triangles each. The LOD mechanism exists
+  (three decimated levels per asset at 0.35 and 0.12, a flat billboard card
+  for the tree species that have one, per-species draw distance) but its
+  distances were far outside what shipped worlds use. Now: full mesh to
+  height × 2.5 inside 24–60 m, the 0.35 level to height × 5 inside 50–140 m,
+  the 0.12 level to height × 8 inside 100–260 m, cards beyond; draw distance
+  capped at 900 m; shadow casters within 60 m; the fly camera runs the
+  medium preset and rebuilds the instance set at most every 0.75 s (each
+  rebuild walks ~80,000 instances, which was the "hang" while flying).
+  Result: 0.75 M triangles in both views (4.2× and 6.2× less), 204 draws.
+  The ground cover ring is now the larger triangle count (0.93 M for
+  14,874 instances: the swordferns are 100–128 triangles each); a far-band
+  cross-quad tier for the T3 ring and occlusion culling (a hierarchical
+  depth buffer or the BVH culling the research names) are the next two
+  levers, queued in the backlog. Rocks have the decimated levels and no
+  card; small plants leave the scene at 60–80 m.

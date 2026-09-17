@@ -49,7 +49,7 @@ from pathlib import Path
 import numpy as np
 
 from . import catalogue
-from .site_fields import PROVINCE, ProvinceSurvey
+from .site_fields import PROVINCE, ProvinceSurvey, shared_survey
 
 REPORT = catalogue.REPO_ROOT / "world" / "sources" / "sites" / "hostility-frequency.md"
 SIDECAR = Path(__file__).resolve().parents[1] / "output" / "hostility-frequency.json"
@@ -127,7 +127,7 @@ def resample(px: list[tuple[int, int]], m_per_px: float, step_m: float) -> list[
 
 
 def build_report() -> dict:
-    s = ProvinceSurvey()
+    s = shared_survey()
     m_per_px = s.grid_px_m
     cell_km2 = (m_per_px / 1000.0) ** 2
     # The denominator of every /km2 figure the owner reads, so it is MEASURED,

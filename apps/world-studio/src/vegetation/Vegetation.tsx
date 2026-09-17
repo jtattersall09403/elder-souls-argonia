@@ -102,7 +102,7 @@ function windTuneAttribute(
  * reaches 300 m over 2 cascades; trees further out contribute nothing a
  * player can see and cost a full alpha-tested depth pass each.
  */
-const SHADOW_CAST_RANGE_M = 120;
+const SHADOW_CAST_RANGE_M = 60;   // 120 m cast every near canopy into both cascades (2026-09-16)
 
 /**
  * Block slot for a (species, level) small enough to stay unsplit. Distinct
@@ -245,6 +245,8 @@ export function Vegetation({
    * crossing. */
   const pendingBuildFocus = useRef<{ x: number; z: number } | null>(null);
   const REBUILD_MOVE_M = 48;
+  const REBUILD_MIN_INTERVAL_S = 0.75;
+  const lastBuildTime = useRef(0);
 
   // Wind sway (module 55 §98): one uniform block shared by every plant
   // material AND its shadow-depth twin, fed from the same weather sample the
@@ -258,7 +260,14 @@ export function Vegetation({
     const focus = focusRef.current;
     const size = index.chunkMetres;
     const last = pendingBuildFocus.current ?? lastBuildFocus.current;
-    if (last && Math.hypot(focus.x - last.x, focus.z - last.z) > REBUILD_MOVE_M) {
+    // A fast camera (fly mode) crosses 48 m several times a second; every
+    // crossing re-walks ~80,000 instances on the main thread, which is the
+    // "hang" while flying. Rebuild at most once per REBUILD_MIN_INTERVAL_S;
+    // the LOD is a fraction of a second stale at speed, nothing else.
+    const now = state.clock.elapsedTime;
+    if (last && Math.hypot(focus.x - last.x, focus.z - last.z) > REBUILD_MOVE_M
+        && now - lastBuildTime.current >= REBUILD_MIN_INTERVAL_S) {
+      lastBuildTime.current = now;
       pendingBuildFocus.current = { x: focus.x, z: focus.z };
       setRevision((r) => r + 1);
     }

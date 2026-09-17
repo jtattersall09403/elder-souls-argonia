@@ -49,7 +49,7 @@ import numpy as np
 
 from .authored_routes import load_by_id, to_px
 from .routes import NEIGHBOR_OFFSETS, grade_factor
-from .site_fields import STANDING_BODY_KINDS, ProvinceSurvey, _resample
+from .site_fields import STANDING_BODY_KINDS, ProvinceSurvey, _resample, shared_survey
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
@@ -435,7 +435,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args(argv)
-    s = ProvinceSurvey()
+    s = shared_survey()
     roads = load_roads()
     anchors_doc = json.loads(ANCHORS_PATH.read_text(encoding="utf-8"))
     junctions = load_junctions()

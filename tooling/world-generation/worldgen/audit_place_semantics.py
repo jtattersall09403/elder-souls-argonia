@@ -158,8 +158,8 @@ class SurveyTerrain:
 
     def __init__(self, survey=None):
         if survey is None:
-            from .site_fields import ProvinceSurvey
-            survey = ProvinceSurvey()
+            from .site_fields import shared_survey
+            survey = shared_survey()
         self.s = survey
         from . import travel_cost
         self._effort = travel_cost.EffortMetric(survey)

@@ -32,7 +32,7 @@ from pathlib import Path
 import numpy as np
 
 from .regions import REGION_CLASSES
-from .site_fields import ProvinceSurvey
+from .site_fields import ProvinceSurvey, shared_survey
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 ANCHORS_PATH = REPO_ROOT / "world" / "sources" / "anchors" / "settlement-anchors.json"
@@ -122,7 +122,7 @@ def score_site(a: dict, s: ProvinceSurvey, x: float, z: float, home_zone: str | 
 
 
 def scan(s: ProvinceSurvey | None = None) -> dict:
-    s = s or ProvinceSurvey()
+    s = s or shared_survey()
     data = json.loads(ANCHORS_PATH.read_text())
     out = {}
     for a in data["anchors"]:

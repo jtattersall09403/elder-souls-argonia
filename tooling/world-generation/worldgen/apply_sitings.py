@@ -48,7 +48,7 @@ from pathlib import Path
 from . import blueprint as bp_mod
 from . import catalogue
 from .macro_plot import OVERRIDES_PATH
-from .site_fields import ProvinceSurvey
+from .site_fields import ProvinceSurvey, shared_survey
 
 MOVE_THRESHOLD_M = 5.0
 NEIGHBOUR_WARN_M = 120.0
@@ -145,7 +145,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--no-chain", action="store_true", help="write the overrides and move the records only; do not re-run the dependants")
     ap.add_argument("--replot", action="store_true", help="full whole-province re-solve with the sitings pinned (moves other records too)")
     a = ap.parse_args(argv)
-    s = ProvinceSurvey()
+    s = shared_survey()
     overrides, moves = build_overrides(s)
     for m in moves:
         flag = "ANCH" if m.get("anchor") else ("MOVE" if m["moved"] else "same")
