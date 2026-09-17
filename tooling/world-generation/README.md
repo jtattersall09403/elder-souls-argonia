@@ -171,17 +171,13 @@ and `skimage.segmentation.watershed`), `pytest` (+ optional `pytest-xdist`).
 ## Tests
 
 ```
-npm run test:placement        # from the repo root — the default, fast run
-npm run test:placement:slow   # the held-out province-raster tests
+npm run test:placement        # from the repo root — every placement gate
 ```
 
-Two tiers. The default run excludes `@pytest.mark.slow`, which is reserved for
-tests that re-grade or re-solve a full 4033x4033 province raster
-(`test_grade_routes.py`'s two province tests). They are real gates and must be
-run before anything that touches grading — they are held out only so the other
-~490 tests stay cheap enough to run on every change. Both scripts use
-`pytest-xdist` (`-n=auto`) when it is installed and fall back to a serial run
-when it is not, so a fresh checkout needs no extra dependency.
+One tier: there is no held-out split (the `slow` marker was retired on
+2026-09-17 — it selected a single 0.85 s test, which now runs here). The
+script uses `pytest-xdist` (`-n=auto`) when it is installed and falls back to
+a serial run when it is not, so a fresh checkout needs no extra dependency.
 
 The suites lean on three process-lifetime caches, all keyed on the content or
 the file signature of their inputs, so editing a source file invalidates them

@@ -41,10 +41,6 @@ jobs:
       # a real defect in a delivered layer, never "known red by design". The
       # province-level halves also skip without the asset vault (this runner).
       - run: npm run test:placement
-      # The slow split re-grades the whole province from the vault rasters. It
-      # skips where the vault is absent (that includes this runner), so it is
-      # wired here to stop it drifting, not as a CI-side measurement.
-      - run: npm run test:placement:slow
       # The half of the connector/footprint evidence chain that PRODUCES the
       # measurements consumed by the placement suite (97 G19).
       - run: npm run test:pipeline
@@ -56,7 +52,7 @@ jobs:
       # numpy/scipy and the Node build job has neither.
       #
       # Its province-level half needs the asset vault and SKIPS on this runner,
-      # exactly as `test:placement:slow` does — wired to stop it drifting, and
+      # wired to stop it drifting, and
       # the measurement happens on a machine that has the world. `test_water.py`
       # runs its synthetic worlds here for real, and so does
       # `test_reroute_lanes.py`, which needs no data at all.

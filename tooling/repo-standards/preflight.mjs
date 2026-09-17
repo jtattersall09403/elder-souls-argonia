@@ -4,8 +4,11 @@
  *
  *   npm run preflight
  *
- * The deploy workflow runs five independent gates (npm test, typecheck, the
- * placement suite, the water suite, the raster manifest check). Run one at a
+ * The deploy workflow's gates, all of them (npm test, typecheck, the placement
+ * suite, the water suite, the pipeline suite, the raster manifest check and the
+ * credits check) — exact parity since the slow placement tier was retired on
+ * 2026-09-17. `--runner` additionally hides the asset vault, the way the
+ * GitHub runner has it hidden. Run one at a
  * time, each failure costs a full wait-fix-wait cycle; run here in parallel
  * the wall time is about two gates' worth (~3 min, two waves) and the report shows everything
  * that would have failed on CI, in one go. Nothing here changes what a gate
@@ -15,7 +18,8 @@
  * /tmp/preflight/<gate>.log; the summary prints the lines that matter.
  */
 import { spawn } from "node:child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { availableParallelism } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -32,7 +36,19 @@ const GATES = {
   "water":         ["npm run test:water",       [/^FAILED/, /passed|failed/, /Error/]],
   "pipeline":      ["npm run test:pipeline",    [/^FAILED/, /passed|failed/, /Error/]],
   "rasters":       ["npm run province:check",   [/province rasters/]],
+  "credits":       ["cd tooling/world-generation && python3 -m worldgen.check_credits", [/FAIL/, /Error/, /missing/]],
 };
+
+// RUNNER MODE: `npm run preflight -- --runner` points both vault overrides at
+// a fresh empty directory, so every gate runs exactly as the GitHub Pages
+// runner runs it — with no asset vault. A gate that needs the vault must
+// SKIP there, never error (2026-09-17: two apron tests errored and took the
+// deploy down).
+const runnerMode = process.argv.includes("--runner");
+const runnerEnv = runnerMode
+  ? { ES_ASSET_PIPELINE_ROOT: mkdtempSync(join(tmpdir(), "no-vault-")), ES_VAULT_ROOT: "" }
+  : {};
+if (runnerMode) runnerEnv.ES_VAULT_ROOT = runnerEnv.ES_ASSET_PIPELINE_ROOT;
 
 function run(name, cmd, extraEnv = {}) {
   return new Promise((resolve) => {
@@ -99,12 +115,13 @@ const pyWorkers = Math.max(1, Math.min(2, availableParallelism(),
   Math.floor((budget - 1.5 * GIB) / (3 * GIB))));
 const wsJobs = Math.max(2, Math.min(4, availableParallelism()));
 const ceilingGib = Math.max(6, Math.floor(capBytes / GIB) - 2);
-const env = { PYTEST_XDIST_AUTO_NUM_WORKERS: String(pyWorkers), WORKSPACE_JOBS: String(wsJobs) };
+const env = { PYTEST_XDIST_AUTO_NUM_WORKERS: String(pyWorkers), WORKSPACE_JOBS: String(wsJobs), ...runnerEnv };
+if (runnerMode) console.log("preflight: runner mode (no asset vault)");
 console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, three waves, watchdog ceiling ${ceilingGib} GiB`);
 const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // The placement suite runs ALONE: at 4 workers beside typecheck it still
 // reached 10.2 GiB (measured 2026-09-16); the rest pair up.
-const WAVES = [["placement"], ["water", "typecheck", "rasters"], ["pipeline", "npm-test"]];
+const WAVES = [["placement"], ["water", "typecheck", "rasters"], ["pipeline", "npm-test", "credits"]];
 const results = [];
 for (const wave of WAVES) {
   results.push(...await Promise.all(wave.map((name) =>

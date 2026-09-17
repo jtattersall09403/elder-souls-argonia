@@ -37,6 +37,12 @@ def web():
 
 @pytest.fixture(scope="module")
 def inputs():
+    # The raw heightfield and the map's near block live in the asset vault,
+    # outside the repo: absent on the deploy runner, so the two checks that
+    # rebuild the apron from them skip there (the shipped-edge checks run).
+    for path in (DEFAULT_HEIGHTS, apron.NEAR_PATH):
+        if not path.exists():
+            pytest.skip(f"vault input absent on this machine: {path.name}")
     heights = np.load(DEFAULT_HEIGHTS).astype(np.float32)
     near = np.load(apron.NEAR_PATH).astype(np.float32)
     return heights, near

@@ -64,7 +64,6 @@ def test_no_ford_is_deeper_than_a_wader():
     assert deep_fords == [], f"ford-band crossings deeper than a wader: {deep_fords[:8]}"
 
 
-@pytest.mark.slow
 def test_the_crossing_list_is_current():
     """Re-derive from the live bake and diff. Needs the vault."""
     try:
