@@ -564,3 +564,29 @@ def test_shipped_litter_mask_has_an_alpha_channel():
     if not path.exists():
         pytest.skip("no shipped ground tint")
     assert Image.open(path).mode == "RGBA"
+
+
+def test_submerged_layers_never_sit_shallower_than_their_plant():
+    """A rigid 3.98 m kelp authored for [0.8, 6.0] m water stood 2-3 m out of
+    the sea (owner walk 2026-09-17); the floor is the plant's drawn height at
+    its largest scale. Drowned trees, reeds and lilypads keep their bands: all
+    three stand proud of the water by design."""
+    from .compile_scatter import floor_submerged_depths
+    data = {"byRegionClass": {"4": {"layers": [
+        {"role": "aquatic-kelp", "species": "k", "water_depth_m": [0.8, 6.0], "scale_range": [0.9, 1.2]},
+        {"role": "aquatic-kelp", "species": "k", "water_depth_m": [5.0, 6.0]},
+        {"role": "drowned-tree", "species": "t", "water_depth_m": [0.4, 3.0]},
+        {"role": "aquatic-reeds", "species": "r", "water_depth_m": [-0.15, 1.5]},
+        {"role": "aquatic-lilypads", "species": "l", "water_depth_m": [0.4, 2.2]},
+        {"role": "aquatic-shells", "species": "c", "water_depth_m": [0.3, 5.0]},
+    ]}}}
+    changed = floor_submerged_depths(data, {"k": 3.98, "t": 9.0, "c": 0.12,
+                                                 "r": 4.3, "l": 3.3})
+    layers = data["byRegionClass"]["4"]["layers"]
+    assert layers[0]["water_depth_m"] == [4.78, 6.0]
+    assert layers[1]["water_depth_m"] == [5.0, 6.0]
+    assert layers[2]["water_depth_m"] == [0.4, 3.0]
+    assert layers[3]["water_depth_m"] == [-0.15, 1.5]   # reeds emerge by design
+    assert layers[4]["water_depth_m"] == [0.4, 2.2]     # lilypads float
+    assert layers[5]["water_depth_m"] == [0.3, 5.0]     # shells: 0.12 m fits 0.3 m
+    assert len(changed) == 1 and "0.8 -> 4.78" in changed[0]

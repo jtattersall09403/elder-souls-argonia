@@ -412,6 +412,60 @@ CANOPY_ROLES = frozenset({"canopy", "emergent", "landmark-giant", "gallery"})
 LITTER_BLEND_COVERS = (23, 31, 36)          # BC_ROCK, MOUNTAIN_ROCK, DIRT_CLIFF
 
 
+#: Roles whose pieces live wholly UNDER the water, so the water has to be deep
+#: enough to cover the mesh. Named explicitly, never by an `aquatic-` prefix:
+#: reeds grow UP out of shallow water and lilypads float ON it, so both stand
+#: proud by design, as do `drowned-tree` and `drowned-thicket`.
+SUBMERGED_ROLES = frozenset({
+    "aquatic-kelp", "aquatic-kelp-deep", "aquatic-seaweed", "aquatic-coral",
+    "aquatic-algae", "aquatic-shells", "aquatic-deadfall", "aquatic-debris",
+})
+
+
+def _kit_heights() -> dict[str, float]:
+    """species -> drawn height in metres (the kit's z-up box, `sizeM[2]`),
+    from both kits the scatter places from."""
+    out: dict[str, float] = {}
+    for name in ("flora-province-v1.kit.json", "underwater-v1.kit.json"):
+        path = PROVINCE.parent / "kits" / name
+        if not path.exists():
+            continue
+        for asset in json.loads(path.read_text(encoding="utf-8"))["assets"]:
+            out.setdefault(asset["id"], float(asset["sizeM"][2]))
+    return out
+
+
+def floor_submerged_depths(data: dict, heights: dict[str, float] | None = None) -> list[str]:
+    """Raise every SUBMERGED layer's minimum water depth to the piece's own
+    drawn height (kit `sizeM[2]` times the layer's largest scale), in place.
+
+    An authored band like [0.8, 6.0] on a 3.98 m kelp put the plant's top
+    2-3 m above the sea surface wherever the bed was shallow (owner walk
+    2026-09-17, `x=0.15&z=6.35`): a rigid mesh cannot bend with the swell,
+    so the only depth it can stand in is one that covers it. Returns the
+    layers it changed, for the report.
+    """
+    heights = _kit_heights() if heights is None else heights
+    changed: list[str] = []
+    for region, entry in data["byRegionClass"].items():
+        for layer in entry["layers"]:
+            role = layer.get("role") or ""
+            if role not in SUBMERGED_ROLES:
+                continue
+            height = heights.get(layer["species"])
+            if height is None:
+                continue
+            lo, hi = layer.get("scale_range", (1.0, 1.0))
+            need = round(height * max(lo, hi), 2)
+            band = layer.get("water_depth_m")
+            if band is None or band[0] >= need:
+                continue
+            layer["water_depth_m"] = [need, max(band[1], need)]
+            changed.append(f"region {region} {role} {layer['species']}: "
+                           f"min depth {band[0]} -> {need} m")
+    return changed
+
+
 def canopy_crowns(data: dict) -> dict[str, float]:
     """species -> crown RADIUS in metres, for every canopy-role species.
 
@@ -661,6 +715,8 @@ def main() -> None:
     args = ap.parse_args()
 
     data = json.loads(Path(args.palettes).read_text())
+    for line in floor_submerged_depths(data):
+        print("submerged floor:", line)
     scale = args.density_scale if args.density_scale is not None else float(
         data.get("densityScale", 1.0))
     palette = merge_palettes({

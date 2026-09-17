@@ -293,3 +293,29 @@ The brief's Owner check names sites "the ledger gives"; these are them
 - Backswamp (largest, 1.2 ha) for the water colour: `x=2.34&z=1.21`; mudflat (delta mouth, 0.9 ha): `x=1.50&z=6.46`; lagoon beside it: `x=1.74&z=6.26`.
 - Band-3 corridor (gallery of waterline trees): `x=1.85&z=4.86`.
 - Roads by condition (midpoint / quarter point): Gideon–Stormhold `decayed` `x=1.97&z=2.08` / `x=1.84&z=2.74`; Archon–Gideon `broken` `x=3.60&z=3.58` / `x=4.77&z=3.55`; Gideon–Soulrest `broken` `x=1.92&z=4.74`; Blackrose–Lilmoth `broken` `x=3.01&z=6.23`. The brief's `route.road.helstrom-blackrose` does not exist in the registry (Helstrom is reached by water and root since 0069); read that bullet as Gideon–Stormhold.
+
+## 13. The underwater band's depth floor (owner walk, 2026-09-17)
+
+The owner could not find the band, then found kelp standing out of the sea.
+Measured, not guessed: the renderer seats every underwater instance on the
+streamed seabed with its designed sink (zero null ground samples at two
+sites), so the pieces were scattered into water shallower than themselves —
+a 3.98 m mesh under a band opening at 0.8 m.
+
+Fixed at the source. `compile_scatter.floor_submerged_depths` raises every
+submerged layer's minimum `water_depth_m` to the piece's own drawn height
+(`sizeM[2]` from either kit) at the layer's largest scale, so a rigid mesh
+is only ever placed in water that covers it. The eight submerged roles are
+named in `SUBMERGED_ROLES`; reeds, lilypads, `drowned-tree` and
+`drowned-thicket` are excluded, because those four stand proud by design.
+264 shipped layers are floored, the largest move being the 4 m kelps from
+0.8–2.0 m to 5.18 m. Area kept: 68.5 % of all water and 87 % of the ocean
+(1,511 ha) is deeper than 5.18 m, so the band loses only its shallow fringe.
+`test_submerged_layers_never_sit_shallower_than_their_plant` pins both
+halves, the floor and the four exclusions.
+
+**Not yet realised in the shipped bundles.** The palette is read at scatter
+time, so this needs one `terrain-chain.sh --from compile_scatter` run (57 s
+over 256 chunks, nothing above it) and a raster publish. The recipe hash
+carries the code change, so that run re-scatters the whole province by
+itself.
