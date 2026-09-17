@@ -53,8 +53,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 GRAPH_DIR = REPO_ROOT / "world" / "sources" / "hydrology"
 GRAPH_PATH = GRAPH_DIR / "hydrology-graph.json"
 PROVINCE_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
-DEFAULT_VAULT = (Path.home() / "workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source"
-                 "/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/argonia-heightfield")
+from .vault import HEIGHTFIELD_DIR as DEFAULT_VAULT   # honours ES_VAULT_ROOT like every other stage
 STEP = 3
 
 # --- vocabularies --------------------------------------------------------------
