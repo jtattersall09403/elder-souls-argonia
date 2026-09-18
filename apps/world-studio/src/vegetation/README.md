@@ -134,6 +134,10 @@ reports `cards: false` while that is the case, with `byTier` and
   rubble lattice is walked — re-deriving every settlement in the province per
   rebuild, to throw all but one away, was the worst cost of a tile crossing.
 
+A bed-cover species (`below-at-least` to 4 m or deeper) runs every tier
+radius at 0.6 of the land figure: under water nobody sees to the land
+radius, so the carpet is not drawn into the fog (16f round 2).
+
 Water is three regimes, not two. A rule with `waterRule: "below-at-least"`
 stands in the water down to its own `maxDepthM`: 1.5 m for the marsh species
 that wade, 4 m for the kelp and coral on the river bed, the seabed and the

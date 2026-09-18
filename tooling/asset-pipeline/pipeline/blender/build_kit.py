@@ -844,11 +844,16 @@ for asset in PLAN["assets"]:
     billboard_materials = set()
     # Derived cards come FIRST and only where no authored card exists: an
     # authored `_lod_flat` is the source pool's own art and always wins.
-    if (PLAN.get("bakeCards") and not asset.get("lodFlatNif")
-            and asset.get("bakeCard", True)
+    # `bakeCard: "force"` overrides that: the pool's card is another species'
+    # or a crown chunk, so this asset's own silhouette is baked instead and the
+    # authored NIF is ignored.
+    forced = asset.get("bakeCard") == "force"
+    if (PLAN.get("bakeCards")
+            and (forced or not asset.get("lodFlatNif"))
+            and asset.get("bakeCard", True) is not False
             and asset["category"] not in CARD_SKIP_CATEGORIES):
         bake_asset_cards(asset, meshes, root, lo, hi, size)
-    if asset.get("lodFlatNif"):
+    if asset.get("lodFlatNif") and not forced:
         flat_meshes = import_nif_meshes(asset["lodFlatNif"])
         # Optional per-asset atlas override (`lodFlatTexture`, data-root
         # relative). The shared card atlas path resolves to BM&V's TROPICAL

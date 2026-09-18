@@ -7,7 +7,8 @@ from pathlib import Path
 
 from .build_kit import (
     CARD_ATLAS_MAX_PX, DirSource, RarSource, _default_collision, _flat_lod_of,
-    _part_specs, card_resolution_px, pack_card_tiles, resolve_lod_ratios,
+    _part_specs, card_resolution_px, pack_card_tiles, resolve_bake_card,
+    resolve_lod_ratios,
     set_alpha_modes,
 )
 
@@ -223,3 +224,21 @@ def test_lod_ratios_resolve_entry_then_category_then_kit():
     assert resolve_lod_ratios({}, kit, "rock") == []
     assert resolve_lod_ratios({"lodRatios": [0.5]}, kit, "rock") == [0.5]
     assert resolve_lod_ratios({}, {}, "rock") == [0.35, 0.12]
+
+
+def test_bake_card_force_overrides_an_authored_card():
+    # Default: the pool's authored `_lod_flat` wins. `false` opts out of baking
+    # entirely. `"force"` is the third state: the authored card is another
+    # species' LOD art (the willows' aspen crown chunk), so bake this asset's
+    # own silhouette and ignore the NIF.
+    assert resolve_bake_card({}) is True
+    assert resolve_bake_card({"bakeCard": False}) is False
+    assert resolve_bake_card({"bakeCard": "force"}) == "force"
+    assert resolve_bake_card({"bakeCard": "FORCE"}) == "force"
+    # The Blender half bakes when forced even though a card NIF exists, and
+    # skips the authored import; the resolver is what both halves branch on.
+    asset = {"bakeCard": resolve_bake_card({"bakeCard": "force"}),
+             "lodFlatNif": "X:/meshes/t/x_lod_flat.nif"}
+    forced = asset.get("bakeCard") == "force"
+    assert forced and (forced or not asset.get("lodFlatNif"))
+    assert not (asset.get("lodFlatNif") and not forced)

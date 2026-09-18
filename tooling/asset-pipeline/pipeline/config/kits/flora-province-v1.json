@@ -1,6 +1,6 @@
 {
  "id": "flora-province-v1",
- "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts — the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job.",
+ "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts — the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job. Eleven species borrowed a far card from another species (lodFlatFrom); those borrows were removed on 2026-09-18 and replaced by cards baked from each asset's own mesh (bakeCards), so no silhouette shows another species.",
  "output": "tooling/asset-pipeline/output/kits/flora-province-v1.glb",
  "lodRatios": [
   0.35,
@@ -27,8 +27,7 @@
    "asset": "bmv:vvardenfell/flora/algrass03b"
   },
   {
-   "asset": "bmv:landscape/trees/mangrovereachtree0gkb9",
-   "lodFlatFrom": "bmv:landscape/trees/mangrovereachtree0gkb3"
+   "asset": "bmv:landscape/trees/mangrovereachtree0gkb9"
   },
   {
    "asset": "bmv:landscape/grass/vurt_reeds"
@@ -47,7 +46,6 @@
   },
   {
    "asset": "bmv:landscape/trees/cypress3",
-   "lodFlatFrom": "bmv:landscape/trees/gkbcyrodilcypress2",
    "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
   },
   {
@@ -55,7 +53,6 @@
   },
   {
    "asset": "bmv:landscape/trees/cypress1",
-   "lodFlatFrom": "bmv:landscape/trees/gkbcyrodilcypress1",
    "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
   },
   {
@@ -72,7 +69,8 @@
   },
   {
    "asset": "bmv:landscape/trees/treewillow01a",
-   "lodFlatFrom": "bmv:landscape/trees/gkbjungletreenew23v2weeping"
+   "bakeCard": "force",
+   "bakeCardNote": "the pool's own _lod_flat is aspen LOD art, not this willow's silhouette"
   },
   {
    "asset": "bmv:landscape/trees/hangingvines1"
@@ -88,7 +86,8 @@
   },
   {
    "asset": "bmv:landscape/trees/treewillow02a",
-   "lodFlatFrom": "bmv:landscape/trees/gkbjungletreenew24v2weeping"
+   "bakeCard": "force",
+   "bakeCardNote": "the pool's own _lod_flat is aspen LOD art, not this willow's silhouette"
   },
   {
    "asset": "bmv:landscape/plants/esloebush08"
@@ -98,7 +97,8 @@
   },
   {
    "asset": "bmv:landscape/trees/treewillow03a",
-   "lodFlatFrom": "bmv:landscape/trees/gkbjungletreenew11v2weeping"
+   "bakeCard": "force",
+   "bakeCardNote": "the pool's own _lod_flat is aspen LOD art, not this willow's silhouette"
   },
   {
    "asset": "bmv:landscape/plants/chickweed"
@@ -171,8 +171,7 @@
    "asset": "bmv:landscape/trees/fanpalm4"
   },
   {
-   "asset": "bmv:landscape/trees/fanpalm6",
-   "lodFlatFrom": "bmv:landscape/trees/fanpalm4"
+   "asset": "bmv:landscape/trees/fanpalm6"
   },
   {
    "asset": "composite:jungle/anvil-canopy-tree",
@@ -214,7 +213,6 @@
      }
     ]
    },
-   "lodFlatFrom": "bmv:landscape/trees/datepalm2",
    "lodRatios": [
     0.2,
     0.06
@@ -284,7 +282,6 @@
    },
    "collisionRadiusM": 1.9,
    "collisionRadiusNote": "measured off the column's own cross-section a few metres up (~3.8 m thick). The automatic percentile returns 0.17 m here — a 56 m giant you walk straight through.",
-   "lodFlatFrom": "bmv:landscape/trees/datepalm1",
    "lodRatios": [
     0.2,
     0.06
@@ -324,12 +321,10 @@
    "asset": "bmv:landscape/trees/datepalm2"
   },
   {
-   "asset": "bmv:landscape/trees/beachpalm5",
-   "lodFlatFrom": "bmv:landscape/trees/beachpalm4"
+   "asset": "bmv:landscape/trees/beachpalm5"
   },
   {
-   "asset": "bmv:landscape/trees/fanpalm5",
-   "lodFlatFrom": "bmv:landscape/trees/fanpalm4"
+   "asset": "bmv:landscape/trees/fanpalm5"
   },
   {
    "asset": "bmv:landscape/trees/gkbcyrodilcypress1",

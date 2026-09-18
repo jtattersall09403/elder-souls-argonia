@@ -96,6 +96,14 @@ const NEAR_FRACTION = 0.4;
 const FAR_THIN = 0.35;
 /** Short species stop at `1.6 r` where the tall ones stop at `2.2 r`. */
 const SHORT_FAR_FRACTION = 1.6 / 2.2;
+/** A bed-cover species (one that stands under metres of water: the river
+ * bed, the seabed, the ocean floor) runs every tier radius at this scale.
+ * Visibility under water is short, so a carpet drawn to the land radius is
+ * fill-rate spent inside fog nobody sees through (owner, 16f round 2). */
+const SUBMERGED_RADIUS_SCALE = 0.6;
+/** `maxDepthM` at or above this marks a bed cover; the wading reeds (1.5 m)
+ * stand proud of the water and keep the land radii. */
+const BED_COVER_DEPTH_M = 4;
 const TIER_NEAR = 0;
 const TIER_MID = 1;
 const TIER_FAR = 2;
@@ -149,6 +157,9 @@ interface SpeciesPlan {
   /** Any rule at all, for the jitter amplitude (they differ by ≤0.15 m). */
   anyRule: SpeciesRule;
   needsWater: boolean;
+  /** A bed cover (`below-at-least` to `BED_COVER_DEPTH_M` or deeper): its
+   * tier radii are scaled by `SUBMERGED_RADIUS_SCALE`. */
+  submerged: boolean;
   /** Under `SHORT_SPECIES_M` tall: its FAR tier stops proportionally sooner.
    * A property of the MESH, so it is the same on every rule for a species. */
   short: boolean;
@@ -208,6 +219,7 @@ function buildPlans(): SpeciesPlan[] {
             bySlot: new Map(),
             anyRule: rule,
             needsWater: false,
+            submerged: false,
             short: false,
           };
           plans.set(rule.asset, plan);
@@ -215,7 +227,10 @@ function buildPlans(): SpeciesPlan[] {
         plan.bySlot.set(slotKey(region, Number(coverId)), rule);
         plan.maxDensity = Math.max(plan.maxDensity, rule.density);
         plan.short = rule.heightM < SHORT_SPECIES_M;
-        if (rule.waterRule === "below-at-least") plan.needsWater = true;
+        if (rule.waterRule === "below-at-least") {
+          plan.needsWater = true;
+          if ((rule.maxDepthM ?? 0) >= BED_COVER_DEPTH_M) plan.submerged = true;
+        }
       }
     }
   }
@@ -1144,15 +1159,18 @@ export function Groundcover({
       for (const plan of SPECIES_PLANS) {
         const list = tile.perSpecies[plan.index];
         if (list.length === 0) continue;
-        const speciesFarM = plan.short ? shortFarRadiusM : farRadiusM;
+        const radiusScale = plan.submerged ? SUBMERGED_RADIUS_SCALE : 1;
+        const speciesFarM = (plan.short ? shortFarRadiusM : farRadiusM) * radiusScale;
+        const speciesNearM = nearRadiusM * radiusScale;
+        const speciesMidM = ringRadiusM * radiusScale;
         const bucket = visible[plan.index];
         for (let i = 0; i < list.length; i++) {
           const item = list[i];
           const distance = Math.hypot(focus.x - item.x, focus.z - item.z);
           if (distance > speciesFarM) continue;
           // Mechanism 2: full mesh, card, thinned card — never a cliff.
-          const tier = distance <= nearRadiusM ? TIER_NEAR
-            : distance <= ringRadiusM ? TIER_MID : TIER_FAR;
+          const tier = distance <= speciesNearM ? TIER_NEAR
+            : distance <= speciesMidM ? TIER_MID : TIER_FAR;
           // The far band keeps 35 %, and it is exactly the subset a
           // far-generated tile holds, so an instance neither appears nor
           // disappears when its tile changes band.
@@ -1183,11 +1201,14 @@ export function Groundcover({
       // no billboard level at all) every tier runs on the full mesh: correct,
       // just not yet cheap.
       const card = cards.get(plan.id) ?? null;
-      const speciesFarM = plan.short ? shortFarRadiusM : farRadiusM;
+      const radiusScale = plan.submerged ? SUBMERGED_RADIUS_SCALE : 1;
+      const speciesFarM = (plan.short ? shortFarRadiusM : farRadiusM) * radiusScale;
+      const speciesNearM = nearRadiusM * radiusScale;
+      const speciesMidM = ringRadiusM * radiusScale;
       const tierBands: [number, number, number, number][] = [
-        [0, nearRadiusM, TIER_BAND_M[0][0], TIER_BAND_M[0][1]],
-        [nearRadiusM, ringRadiusM, TIER_BAND_M[1][0], TIER_BAND_M[1][1]],
-        [ringRadiusM, speciesFarM, TIER_BAND_M[2][0], TIER_BAND_M[2][1]],
+        [0, speciesNearM, TIER_BAND_M[0][0], TIER_BAND_M[0][1]],
+        [speciesNearM, speciesMidM, TIER_BAND_M[1][0], TIER_BAND_M[1][1]],
+        [speciesMidM, speciesFarM, TIER_BAND_M[2][0], TIER_BAND_M[2][1]],
       ];
       for (let tier = 0; tier < TIER_COUNT; tier++) {
         const parts = tier === TIER_NEAR || !card ? entry.levels[0].parts : [card];

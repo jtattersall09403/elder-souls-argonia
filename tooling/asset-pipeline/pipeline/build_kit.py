@@ -490,9 +490,12 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         if entry.get("collisionRadiusM"):
             record["collisionRadiusM"] = entry["collisionRadiusM"]
         if "bakeCard" in entry:
-            # Per-asset opt-out of the kit's `bakeCards` (an asset whose
-            # silhouette a card cannot carry).
-            record["bakeCard"] = bool(entry["bakeCard"])
+            # Per-asset control of the kit's `bakeCards`: `false` opts out (an
+            # asset whose silhouette a card cannot carry); `"force"` bakes even
+            # though the pool ships an authored `_lod_flat`, for the cards that
+            # UV a crown chunk or another species' LOD art instead of this
+            # asset's own silhouette.
+            record["bakeCard"] = resolve_bake_card(entry)
         if entry.get("compose"):
             record["parts"] = parts
         # A species may BORROW another species' authored card (`lodFlatFrom`):
@@ -505,7 +508,7 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         elif entry.get("compose"):
             resolved.append(record)
             continue
-        flat = _flat_lod_of(row)
+        flat = None if record.get("bakeCard") == "force" else _flat_lod_of(row)
         if flat and (data_root / flat).exists():
             wanted.setdefault(row["pool"], set()).update(
                 _referenced_textures(data_root / flat))
@@ -731,6 +734,18 @@ _COLLISION_BY_CATEGORY = {
     "container": "convex",
     "boat": "mesh",
 }
+
+
+def resolve_bake_card(entry):
+    """Per-asset `bakeCard`: `"force"` verbatim, anything else coerced to bool.
+
+    `force` means "ignore the authored `_lod_flat` and bake this asset's own
+    silhouette"; the authored card always wins otherwise.
+    """
+    value = entry.get("bakeCard", True)
+    if isinstance(value, str) and value.lower() == "force":
+        return "force"
+    return bool(value)
 
 
 def _default_collision(row: dict) -> str:

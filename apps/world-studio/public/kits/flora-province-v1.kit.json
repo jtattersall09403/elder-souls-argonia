@@ -1781,7 +1781,7 @@
    ],
    "billboard": true,
    "billboardMaterials": [
-    "mangrovereachtree0gkb3_LOD_FLAT:0.Mat"
+    "mangrovereachtree0gkb9_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -2538,7 +2538,7 @@
    ],
    "billboard": true,
    "billboardMaterials": [
-    "mangrovereachtree0gkb3_LOD_FLAT:0.Mat.001"
+    "mangrovereachtree0gkb3_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -3480,8 +3480,7 @@
     "cypressbark4.dds",
     "gkbmapleconifer21.dds",
     "grandoak12.dds",
-    "spanishmoss6.dds",
-    "tamrieltreelod.dds.001"
+    "spanishmoss6.dds"
    ],
    "materials": [
     "cypress3.Mat",
@@ -3492,10 +3491,6 @@
     "cypress3_5.Mat",
     "cypress3_6.Mat",
     "cypress3_7.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "gkbcyrodilcypress2_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -4757,6 +4752,26 @@
      ]
     }
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.75,
+     0.25,
+     1.0
+    ],
+    "b": [
+     0.25,
+     0.75,
+     0.5,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4870,8 +4885,7 @@
     "cypressbark4.dds",
     "gkbmapleconifer21.dds",
     "spanishmoss11.dds",
-    "spanishmoss6.dds",
-    "tamrieltreelod.dds.001"
+    "spanishmoss6.dds"
    ],
    "materials": [
     "cypress1.Mat",
@@ -4879,10 +4893,6 @@
     "cypress1_2.Mat",
     "cypress1_3.Mat",
     "cypress1_4.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "gkbcyrodilcypress1_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -6144,6 +6154,26 @@
      ]
     }
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.75,
+     0.75,
+     1.0
+    ],
+    "b": [
+     0.75,
+     0.75,
+     1.0,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6406,15 +6436,15 @@
    "cardRects": {
     "a": [
      0.0,
-     0.75,
+     0.5,
      0.25,
-     1.0
+     0.75
     ],
     "b": [
      0.25,
-     0.75,
      0.5,
-     1.0
+     0.5,
+     0.75
     ]
    },
    "billboardMaterials": [
@@ -6462,17 +6492,12 @@
    "collision": "trunk-capsule",
    "droppedShapes": [],
    "textures": [
-    "tamrieltreelod.dds",
     "treewillow01.dds",
     "treewillowbark01.dds"
    ],
    "materials": [
     "ReachTree02:3.Mat",
     "ReachTree02:3_1.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "gkbjungletreenew23v2weeping_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -7734,6 +7759,26 @@
      ]
     }
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.5,
+     0.75,
+     0.75
+    ],
+    "b": [
+     0.75,
+     0.5,
+     1.0,
+     0.75
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -8054,17 +8099,12 @@
    "collision": "trunk-capsule",
    "droppedShapes": [],
    "textures": [
-    "tamrieltreelod.dds",
     "treewillow01.dds",
     "treewillowbark01.dds"
    ],
    "materials": [
     "ReachTree02:3.Mat.001",
     "ReachTree02:3_1.Mat.001"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "gkbjungletreenew24v2weeping_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -9326,6 +9366,26 @@
      ]
     }
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.25,
+     0.25,
+     0.5
+    ],
+    "b": [
+     0.25,
+     0.25,
+     0.5,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -9502,17 +9562,12 @@
    "collision": "trunk-capsule",
    "droppedShapes": [],
    "textures": [
-    "tamrieltreelod.dds",
     "treewillow01.dds",
     "treewillowbark01.dds"
    ],
    "materials": [
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat.002",
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.001"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "gkbjungletreenew11v2weeping_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -10773,6 +10828,26 @@
       -1.351
      ]
     }
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.25,
+     0.75,
+     0.5
+    ],
+    "b": [
+     0.75,
+     0.25,
+     1.0,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -14749,16 +14824,16 @@
    "cardAtlas": "es|cardatlas_512_0",
    "cardRects": {
     "a": [
-     0.5,
-     0.75,
-     0.75,
-     1.0
+     0.0,
+     0.0,
+     0.25,
+     0.25
     ],
     "b": [
-     0.75,
-     0.75,
-     1.0,
-     1.0
+     0.25,
+     0.0,
+     0.5,
+     0.25
     ]
    },
    "billboardMaterials": [
@@ -21235,8 +21310,7 @@
     "fanpalm7.dds",
     "gkbpalmbark14.dds",
     "palmbarknew14.dds",
-    "palmmiddle3.dds",
-    "tamrieltreelod.dds"
+    "palmmiddle3.dds"
    ],
    "materials": [
     "palmtree6.Mat",
@@ -21247,10 +21321,6 @@
     "palmtree6_5.Mat",
     "palmtree6_6.Mat",
     "palmtree6_7.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "fanpalm4_LOD_FLAT:0.Mat.001"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -21862,6 +21932,26 @@
      ]
     }
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.0,
+     0.75,
+     0.25
+    ],
+    "b": [
+     0.75,
+     0.0,
+     1.0,
+     0.25
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -21906,18 +21996,13 @@
    "textures": [
     "anvilbarkpalm.dds",
     "anvilleafpalm02.dds",
-    "mp_valenwood_tree01.dds",
-    "tamrieltreelod.dds"
+    "mp_valenwood_tree01.dds"
    ],
    "materials": [
     "BedrollHay01:0.Mat",
     "BedrollHay01:0.Mat.001",
     "BedrollHay01:0.Mat.002",
     "BedrollHay01:0.Mat.003"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "datepalm2_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -23179,6 +23264,26 @@
      ]
     }
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_1",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.75,
+     0.25,
+     1.0
+    ],
+    "b": [
+     0.25,
+     0.75,
+     0.5,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_1"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -23223,8 +23328,7 @@
    "textures": [
     "anvilleafpalm02.dds",
     "giant_tree.dds",
-    "mp_valenwood_tree01.dds",
-    "tamrieltreelod.dds"
+    "mp_valenwood_tree01.dds"
    ],
    "materials": [
     "BedrollHay01:0.Mat.004",
@@ -23235,10 +23339,6 @@
     "CaveGEPillar06:3.Mat",
     "CaveGEPillar06:9.Mat",
     "WRTempleTree02Roots:5.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "datepalm1_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -24499,6 +24599,26 @@
       0.609
      ]
     }
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_1",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.75,
+     0.75,
+     1.0
+    ],
+    "b": [
+     0.75,
+     0.75,
+     1.0,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_1"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -30893,7 +31013,7 @@
    ],
    "billboard": true,
    "billboardMaterials": [
-    "datepalm2_LOD_FLAT:0.Mat.001"
+    "datepalm2_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -31032,8 +31152,7 @@
     "palmleafnew3dead.dds",
     "palmleafnew3full2.dds",
     "palmleafnew3full4.dds",
-    "palmleafnew3sat.dds",
-    "tamrieltreelod.dds"
+    "palmleafnew3sat.dds"
    ],
    "materials": [
     "palmtree5.Mat",
@@ -31042,10 +31161,6 @@
     "palmtree5_3.Mat",
     "palmtree5_4.Mat",
     "palmtree5_5.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "beachpalm4_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -31670,6 +31785,26 @@
      ]
     }
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_1",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.5,
+     0.25,
+     0.75
+    ],
+    "b": [
+     0.25,
+     0.5,
+     0.5,
+     0.75
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_1"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -31718,8 +31853,7 @@
     "fanpalm7.dds",
     "gkbpalmbark14.dds",
     "palmbarknew14.dds",
-    "palmmiddle3.dds",
-    "tamrieltreelod.dds"
+    "palmmiddle3.dds"
    ],
    "materials": [
     "palmtree5.Mat.001",
@@ -31730,10 +31864,6 @@
     "palmtree5_5.Mat.001",
     "palmtree5_6.Mat",
     "palmtree5_7.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "fanpalm4_LOD_FLAT:0.Mat.002"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -32592,6 +32722,26 @@
      ]
     }
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_512_1",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.5,
+     0.75,
+     0.75
+    ],
+    "b": [
+     0.75,
+     0.5,
+     1.0,
+     0.75
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_512_1"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -32650,7 +32800,7 @@
    ],
    "billboard": true,
    "billboardMaterials": [
-    "gkbcyrodilcypress1_LOD_FLAT:0.Mat.001"
+    "gkbcyrodilcypress1_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -33969,7 +34119,7 @@
    ],
    "billboard": true,
    "billboardMaterials": [
-    "gkbcyrodilcypress2_LOD_FLAT:0.Mat.001"
+    "gkbcyrodilcypress2_LOD_FLAT:0.Mat"
    ],
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
@@ -35284,23 +35434,23 @@
    ],
    "billboard": true,
    "cardSource": "baked",
-   "cardAtlas": "es|cardatlas_512_0",
+   "cardAtlas": "es|cardatlas_512_1",
    "cardRects": {
     "a": [
      0.0,
-     0.5,
      0.25,
-     0.75
+     0.25,
+     0.5
     ],
     "b": [
      0.25,
+     0.25,
      0.5,
-     0.5,
-     0.75
+     0.5
     ]
    },
    "billboardMaterials": [
-    "es|card_es|cardatlas_512_0"
+    "es|card_es|cardatlas_512_1"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -35420,23 +35570,23 @@
    ],
    "billboard": true,
    "cardSource": "baked",
-   "cardAtlas": "es|cardatlas_512_0",
+   "cardAtlas": "es|cardatlas_512_1",
    "cardRects": {
     "a": [
      0.5,
-     0.5,
+     0.25,
      0.75,
-     0.75
+     0.5
     ],
     "b": [
      0.75,
-     0.5,
+     0.25,
      1.0,
-     0.75
+     0.5
     ]
    },
    "billboardMaterials": [
-    "es|card_es|cardatlas_512_0"
+    "es|card_es|cardatlas_512_1"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -36751,23 +36901,23 @@
    ],
    "billboard": true,
    "cardSource": "baked",
-   "cardAtlas": "es|cardatlas_512_0",
+   "cardAtlas": "es|cardatlas_512_1",
    "cardRects": {
     "a": [
      0.0,
+     0.0,
      0.25,
-     0.25,
-     0.5
+     0.25
     ],
     "b": [
      0.25,
-     0.25,
+     0.0,
      0.5,
-     0.5
+     0.25
     ]
    },
    "billboardMaterials": [
-    "es|card_es|cardatlas_512_0"
+    "es|card_es|cardatlas_512_1"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -38078,23 +38228,23 @@
    ],
    "billboard": true,
    "cardSource": "baked",
-   "cardAtlas": "es|cardatlas_512_0",
+   "cardAtlas": "es|cardatlas_512_1",
    "cardRects": {
     "a": [
      0.5,
-     0.25,
+     0.0,
      0.75,
-     0.5
+     0.25
     ],
     "b": [
      0.75,
-     0.25,
+     0.0,
      1.0,
-     0.5
+     0.25
     ]
    },
    "billboardMaterials": [
-    "es|card_es|cardatlas_512_0"
+    "es|card_es|cardatlas_512_1"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -39405,23 +39555,23 @@
    ],
    "billboard": true,
    "cardSource": "baked",
-   "cardAtlas": "es|cardatlas_512_0",
+   "cardAtlas": "es|cardatlas_512_2",
    "cardRects": {
     "a": [
      0.0,
-     0.0,
+     0.5,
      0.25,
-     0.25
+     1.0
     ],
     "b": [
      0.25,
-     0.0,
      0.5,
-     0.25
+     0.5,
+     1.0
     ]
    },
    "billboardMaterials": [
-    "es|card_es|cardatlas_512_0"
+    "es|card_es|cardatlas_512_2"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -44085,23 +44235,23 @@
    ],
    "billboard": true,
    "cardSource": "baked",
-   "cardAtlas": "es|cardatlas_512_0",
+   "cardAtlas": "es|cardatlas_512_2",
    "cardRects": {
     "a": [
      0.5,
-     0.0,
+     0.5,
      0.75,
-     0.25
+     1.0
     ],
     "b": [
      0.75,
-     0.0,
+     0.5,
      1.0,
-     0.25
+     1.0
     ]
    },
    "billboardMaterials": [
-    "es|card_es|cardatlas_512_0"
+    "es|card_es|cardatlas_512_2"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -44156,23 +44306,23 @@
    ],
    "billboard": true,
    "cardSource": "baked",
-   "cardAtlas": "es|cardatlas_512_1",
+   "cardAtlas": "es|cardatlas_512_2",
    "cardRects": {
     "a": [
      0.0,
      0.0,
-     0.5,
-     1.0
+     0.25,
+     0.5
     ],
     "b": [
-     0.5,
+     0.25,
      0.0,
-     1.0,
-     1.0
+     0.5,
+     0.5
     ]
    },
    "billboardMaterials": [
-    "es|card_es|cardatlas_512_1"
+    "es|card_es|cardatlas_512_2"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -49340,7 +49490,7 @@
   "textures/landscape/grass/seaweed02_n.dds": "textures/dos/plants/seaweed02_n.dds"
  },
  "alphaModes": {
-  "MASK": 382,
+  "MASK": 373,
   "OPAQUE": 121
  },
  "trunkSolids": {
