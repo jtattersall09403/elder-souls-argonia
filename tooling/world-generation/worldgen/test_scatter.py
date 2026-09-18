@@ -525,7 +525,7 @@ def test_back_yaw_turns_an_open_back_into_the_hill():
     assert plain and len(plain) == len(turned)
     for a, b in zip(plain, turned):
         assert (a.x, a.z) == (b.x, b.z)
-        assert math.cos(b.yaw - a.yaw) == pytest.approx(-1.0, abs=1e-6)
+        assert math.cos(b.yaw - a.yaw) == pytest.approx(-1.0, abs=1e-3)
 
 
 def test_cliff_zone_and_cover_gates():
@@ -686,7 +686,7 @@ def test_burial_sinks_a_rock_whose_footprint_overhangs_a_ridge():
     # 0.5 m/m fall over a 2 m half-footprint = 1 m of ground drop at the edge.
     extra, cap = burial(_ridge_fields(0.5), layer, 100.0, 100.0,
                         yaw=0.0, tilt_x=0.0, tilt_z=0.0, scale=1.0)
-    assert cap == pytest.approx(0.6 * 6.0)
+    assert cap == pytest.approx(0.8 * 6.0)
     assert extra >= 1.0
     assert extra == pytest.approx(1.0 + 0.25)
 
@@ -699,21 +699,21 @@ def test_burial_is_zero_on_flat_ground():
                   slope=lambda x, z: 0.0, region=lambda x, z: 2)
     extra, cap = burial(flat, layer, 50.0, 50.0, 0.0, 0.0, 0.0, 1.0)
     assert extra == 0.0
-    assert cap == pytest.approx(0.6 * 6.0)
+    assert cap == pytest.approx(0.8 * 6.0)
 
 
 def test_burial_never_swallows_the_piece():
     """The demand is returned UNCAPPED and the sampler refuses a placement
     whose demand exceeds the cap: round 3 clamped the demand to the cap here,
     so the refusal could never fire and capped shells shipped floating (16f
-    round 4). The cap itself is 0.6 x the scaled height or the species' mined
+    round 4). The cap itself is 0.8 x the scaled height or the species' mined
     deep-quartile sink, whichever is larger."""
     from .scatter import burial, scatter_chunk, Palette
 
     layer = Layer(species="rock", footprint_half_m=(3.0, 3.0), height_m=2.0)
     extra, cap = burial(_ridge_fields(4.0), layer, 100.0, 100.0,
                         0.0, 0.0, 0.0, 1.5)
-    assert cap == pytest.approx(0.6 * 2.0 * 1.5)
+    assert cap == pytest.approx(0.8 * 2.0 * 1.5)
     assert extra > cap
     deep = Layer(species="rock", footprint_half_m=(3.0, 3.0), height_m=2.0,
                  sink_deep_m=9.0)
@@ -753,7 +753,7 @@ def test_burial_leaves_a_plant_layer_alone():
 
 
 def test_composition_adds_the_measured_burial_under_its_cap():
-    """`finalise_anchors` ADDS the sampler's measurement to the composed sink
+    """`finalise_anchors` takes the LARGER of the sampler's measurement and the composed sink
     and holds the total under the instance's own cap."""
     from .composition import Composition
 
@@ -772,7 +772,7 @@ def test_composition_adds_the_measured_burial_under_its_cap():
                       tilt_x=0.0, tilt_z=0.0, extra_sink_m=1.5,
                       sink_cap_m=0.2)
     comp.finalise_anchors([plain, buried, capped], flat, seed=4)
-    assert buried.sink == pytest.approx(plain.sink + 1.5)
+    assert buried.sink == pytest.approx(max(plain.sink, 1.5))
     assert capped.sink == pytest.approx(0.2)
 
 

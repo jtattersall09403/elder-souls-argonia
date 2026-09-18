@@ -254,6 +254,27 @@ export function buildFloraKit(
     });
 
     if (byLevel.size === 0) continue;
+    // An alpha-tested part is never drawn decimated (16f round 5). Every
+    // plant in the kit is built from dozens to hundreds of small separate
+    // islands of triangles (leaf cards, twig cards, bark strips: median 2–16
+    // triangles each) and collapse decimation shreds them into slivers with
+    // scrambled UVs — the owner's leaves, branches and trunk strips that
+    // vanished at the middle distance. Such a part keeps its base geometry at
+    // every mesh level, and the identical-level rule below then folds the
+    // chain to "full mesh, then card". Only an opaque part (none in the
+    // land kit today) still steps down through the builder's decimation.
+    const base = byLevel.get(0);
+    if (base) {
+      for (const [level, parts] of byLevel) {
+        if (level === 0 || level === billboardLevel) continue;
+        for (const part of parts) {
+          const std = part.material as THREE.MeshStandardMaterial;
+          if (!std?.alphaTest) continue;
+          const source = base.find((b) => b.material === part.material);
+          if (source) part.geometry = source.geometry;
+        }
+      }
+    }
     // A level that is not smaller than the one before it is not a level:
     // the builder's decimation floors at ~300 triangles a part, so a small
     // mesh (every palm: 60–256 triangles a part) ships three identical

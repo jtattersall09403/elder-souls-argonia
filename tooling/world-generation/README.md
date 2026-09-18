@@ -261,6 +261,11 @@ arrangement. None of it changes what any test asserts.
   **Re-run `rebake_landcover` and then `compile_scatter` whenever either
   route file changes** — the minor network is derived from the plot, so a
   re-plot moves the paint.
+- `rock_bottom_profiles.py` mines every rock's rim from the raw kits into
+  `world/sources/placement/rock-bottom-profiles.json` (re-run after any kit
+  rebuild); `scatter.burial` seats rocks on it. `rock_mesh_census.py`
+  measures the shipped rocks by their real vertices; `rock_census.py` keeps
+  the tilt, scale and open-back checks.
 - `worldgen/society.py` — fixed danger (depth-into-marsh model, decision
   0004/0007) and lore-grounded culture territories.
 - `worldgen/shape_province.py` + `worldgen/carve_province.py` — the shaped ground and the frozen carve (Phase 16b; formerly the refine step, retired by 0059)

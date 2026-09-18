@@ -332,9 +332,15 @@ class Composition:
             # median says how deep this kind of rock sits, the measured
             # exposure says how much more THIS one needs so its base plane
             # does not stand proud where the hill falls away (16f, owner walk
-            # 2026-09-18). The cap is the instance's own 0.6 x scaled height,
+            # 2026-09-18). The cap is the instance's own 0.8 x scaled height,
             # so burying a rock can never swallow it.
-            inst.sink = min(sink + inst.extra_sink_m, inst.sink_cap_m)
+            # The sampler measured the burial demand with the pivot ON the
+            # ground; lowering the pivot by the composed sink lowers every
+            # rim point by the same amount, so the demand net of the sink is
+            # `extra − sink`, and the total is the LARGER of the two, never
+            # their sum (round 5: the sum over-buried every rock by its own
+            # base sink and refused seatable ones against the cap).
+            inst.sink = min(max(sink, inst.extra_sink_m), inst.sink_cap_m)
 
     # -- pass 2: cluster expansion (C4) ------------------------------------
 

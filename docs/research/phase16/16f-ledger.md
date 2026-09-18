@@ -541,3 +541,12 @@ VM and none is invented.
 | Audit all scatter types' levels and textures | `kit_lod_audit.py` over both raw kits: land 159 assets, 118 carded, 41 rocks one level no card (by design), 86 with identical chains; underwater 79 assets, none carded (by design, exempt), 9 rocks with decimated levels against 0071 | audit shipped; underwater rock levels → backlog with the kit rebuild |
 | Water reflections in a little | 260–420 m | 160–260 m (0075 §5) |
 | Frame rates poor | not measurable here. Safe reductions shipped: the SSR range; the identical-level dedupe (the palms' dithered pairs are gone); collapsed copies cost vertex work only. Candidates the owner's numbers would settle, none changed without them: 2048 px × 2 cascades in character mode; `dprMax` 1.5 at the high preset; the ring's 5 ms/frame tile budget while tiles are pending; the 16 m rebuild's main-thread walk of ~80 k instances | ask in the owner check: the HUD's fps and the quality preset |
+
+The owner's second walk of the round (same day): leaves gone at the middle
+distance and back close up, for some trees never back; trunks and branches
+too; a floating open-backed rock at 1.59 km E / 2.30 km S.
+
+| Owner item | Measured cause | Shipped |
+|---|---|---|
+| Leaves (and trunks, branches) vanish at the middle distance, return close up; for some never | the builder's decimated levels: every plant part is 27–961 separate islands of 2–16 triangles (leaf, twig and bark cards) and collapse decimation shreds them (the screenshot's "branches" are the slivers). Not the emission: the audit shows every level carries every part | no decimated geometry for an alpha-tested part (0075 §6): the ladder is full model → card; builder exports none |
+| A floating, open-backed rock at 1.59 E / 2.30 S | `rock_census` passes it (plane 1.35 m under); by its mesh the pile's side boulder stands 1.28 m off the ground. Province-wide 3,282 of 18,530 rocks (18 %) gap > 0.3 m by the mesh against 13 by the plane. Five further causes surfaced on the way and are in 0075 §7: the profile has to be posed before the underside is read, the sum of base sink and demand over-buried, the encoder's byte rounding of yaw/tilt re-hung 2.4 % and two profile definitions were wrong | underside seating at the shipped pose plus a final cut (0075 §7): **0 of 13,871 rocks gap**, 21 plane-floats, 80 swallowed (0.6 %). The pile and the shell at the owner's site are refused (not placed); cliff shells thin where they cannot sit — the owner check asks whether the mountainsides now read bare |

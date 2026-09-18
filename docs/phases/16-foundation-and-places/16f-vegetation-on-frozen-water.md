@@ -740,6 +740,14 @@ runtime rule changed. `?view=character&…`. Start the studio yourself
   model to a finer one, in clean instant switches, never thin, transparent
   or missing at any point as you close the distance. Repeat while walking
   away from it.
+- The middle distance, jungle `x=0.93&z=5.21` and the trees around it: from
+  100 m in to touching, a tree keeps every leaf, twig and trunk strip the
+  whole way; the only switch is the flat card becoming the model.
+- Rocks by their real shape: `x=1.59&z=2.30` (the pile that stood off the
+  ground is gone, refused as unseatable) and any cliff pieces nearby: no gap
+  under any side. Then look along a mountainside (`x=1.59&z=1.63`): a
+  quarter of the province's rocks were refused this round, mostly cliff
+  shells; say whether the slopes now read too bare.
 - Camera swing: stand 40–60 m from a tree and swing the camera all the way
   round the character, then continue walking. Nothing should change
   visibility as the camera moves round.

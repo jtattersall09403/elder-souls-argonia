@@ -41,8 +41,8 @@ from .composition import Composition
 from .regions import REGION_CLASSES
 from .routes_raster import major_corridor_masks
 from .scale import PROVINCE_EXTENT_M, RAW_M
-from .scatter import (CLIFF_SLOPE_DEG, ROUTE_CLEAR, ROUTE_CONDITION_SHIFT,
-                      ROUTE_THIN, Fields, Palette, clark_evans, encode,
+from .scatter import (ANCHOR_TERRAIN, CLIFF_SLOPE_DEG, ROUTE_CLEAR, ROUTE_CONDITION_SHIFT,
+                      ROUTE_THIN, Fields, Instance, Palette, clark_evans, encode,
                       scatter_chunk)
 from .water_report import CHANNEL_REACH_KINDS, ShippedWater, WATER_DIR
 
@@ -275,6 +275,24 @@ class ProvinceFields:
         return set(np.unique(window).tolist()) if window.size else set()
 
 
+def attach_bottom_profiles(palette: Palette) -> Palette:
+    """Give every rock layer its species' mined underside (16f round 5).
+
+    The palettes file carries the layer's footprint and height, which switch
+    the burial rule on; the underside point list is mined per species from
+    the kit (`rock_bottom_profiles.py`) and would bloat the palettes file, so
+    it is attached here, at compile time, by species. A layer that has no
+    profile keeps the base-plane rule."""
+    from . import rock_dressing as rd
+    from dataclasses import replace
+    layers = []
+    for layer in palette.layers:
+        profile = rd.bottom_profile(layer.species) if layer.footprint_half_m else None
+        layers.append(replace(layer, bottom_profile=np.asarray(profile, dtype=float))
+                      if profile else layer)
+    return Palette(id=palette.id, layers=layers)
+
+
 def merge_palettes(palettes: dict[int, Palette], density_scale: float = 1.0) -> Palette:
     """One province palette whose layers carry their own region gate.
 
@@ -290,7 +308,7 @@ def merge_palettes(palettes: dict[int, Palette], density_scale: float = 1.0) -> 
             layer.instances_per_hectare *= density_scale
             layers.append(layer)
     layers.sort(key=lambda layer: (-layer.clearance_radius_m, layer.species))
-    return Palette(id="province", layers=layers)
+    return attach_bottom_profiles(Palette(id="province", layers=layers))
 
 
 def species_order(palette: Palette) -> list[str]:
@@ -338,8 +356,41 @@ def compile_chunk(fields_source: ProvinceFields, palette: Palette,
         instances, attachment_layers, fields, seed,
         area_ha=CHUNK_M * CHUNK_M / 10_000, allowed=set(order),
         sink_jitter=jitter)
+    instances = cut_hanging_rocks(instances, palette, fields, order)
     return (present, instances, encode(instances, order), counts,
             bed_records + casc_records)
+
+
+def cut_hanging_rocks(instances: list[Instance], palette: Palette, fields: Fields,
+                      order: list[str]) -> list[Instance]:
+    """The last word on a rock: measured at the pose and sink the BUNDLE will
+    carry (encoded, then decoded — the encoder rounds scale and sink to a
+    byte over each group's range) by the same underside rule the census
+    applies, and cut if it still gaps (16f round 5, owner: "you could just
+    cut them"). Nothing the census can find ships."""
+    from .rock_mesh_census import underside_gaps
+    from .scatter import BURIAL_TOLERANCE_M, decode
+    profiles = {layer.species: layer.bottom_profile for layer in palette.layers
+                if layer.bottom_profile is not None}
+    if not any(inst.species in profiles for inst in instances):
+        return instances
+    shipped = {order[group["index"]]: group["instances"] for group in decode(encode(instances, order))}
+    cursor = {species: 0 for species in shipped}
+    kept = []
+    for inst in instances:
+        profile = profiles.get(inst.species)
+        if profile is None or inst.anchor != ANCHOR_TERRAIN or inst.species not in shipped:
+            kept.append(inst)
+            continue
+        as_shipped = shipped[inst.species][cursor[inst.species]]
+        cursor[inst.species] += 1
+        gaps = underside_gaps(profile, as_shipped["x"], fields.height(as_shipped["x"], as_shipped["z"]) - as_shipped["sink"],
+                              as_shipped["z"], as_shipped["yaw"], as_shipped["tiltX"], as_shipped["tiltZ"],
+                              as_shipped["scale"], fields.height)
+        if gaps and max(gaps) > BURIAL_TOLERANCE_M:
+            continue
+        kept.append(inst)
+    return kept
 
 
 # Set once in the parent before the worker pool forks, so every worker

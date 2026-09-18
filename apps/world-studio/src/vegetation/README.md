@@ -26,8 +26,9 @@ can still install its own hook afterwards.
 
 - **LOD is stepped, never crossfaded (16f round 5, decision 0075).** A
   species has a ladder of camera-distance intervals tiling [0, draw
-  distance), one kit level each (`lodLadder`; identical decimation levels
-  are dropped at kit load). A rebuild emits an instance into every rung the
+  distance), one kit level each (`lodLadder`). An alpha-tested part never
+  uses decimated geometry (collapse decimation shreds card foliage), so a
+  plant's ladder is full model → card; identical levels are dropped at load. A rebuild emits an instance into every rung the
   camera could reach before the next rebuild (`lodCopies`, ± `LOD_MARGIN_M`),
   closing a copy's edge only where the neighbouring copy was emitted too;
   the shader (`packages/game-core/src/fx/lodFade.ts`) keeps exactly one copy

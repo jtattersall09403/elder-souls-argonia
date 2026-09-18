@@ -45,7 +45,7 @@ import math
 from functools import lru_cache
 from pathlib import Path
 
-from .scatter import ANCHOR_TERRAIN, Instance, Layer, burial, hash64, uniform_at
+from .scatter import ANCHOR_TERRAIN, Instance, Layer, burial, hash64, shipped_pose, uniform_at
 from .vegetation_ladder import ROCK_ROLES  # the one definition of the set
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -235,6 +235,26 @@ def footprint_half_m(species: str) -> tuple[float, float]:
 def height_m(species: str) -> float:
     """The mesh's own height, metres (`sizeM[2]`; the NIF box is z-up)."""
     return float(_manifest()[species]["sizeM"][2])
+
+
+BOTTOM_PROFILES_PATH = (Path(__file__).resolve().parents[3] / "world" / "sources"
+                        / "placement" / "rock-bottom-profiles.json")
+
+
+@lru_cache(maxsize=1)
+def _bottom_profiles() -> dict[str, dict]:
+    if not BOTTOM_PROFILES_PATH.exists():
+        return {}
+    return json.loads(BOTTOM_PROFILES_PATH.read_text(encoding="utf-8"))["species"]
+
+
+def bottom_profile(species: str) -> tuple[tuple[float, float, float], ...] | None:
+    """The rock's own rim, mined from its mesh (`rock_bottom_profiles.py`);
+    None when the kit has not been profiled, and the plane rule stands in."""
+    entry = _bottom_profiles().get(species)
+    if not entry:
+        return None
+    return tuple(tuple(p) for p in entry["points"])
 
 
 def pivot_above_base_m(species: str) -> float:
@@ -571,6 +591,7 @@ def _seating_layer(species: str) -> Layer:
                  footprint_half_m=footprint_half_m(species),
                  height_m=height_m(species),
                  pivot_above_base_m=pivot_above_base_m(species),
+                 bottom_profile=bottom_profile(species),
                  sink_deep_m=max(0.0, m["sink_p25"]))
 
 
@@ -587,6 +608,7 @@ def _instance(species: str, x: float, z: float, fields, key: int,
     tilt_z = (uniform_at(key, 13) * 2 - 1) * tilt
     if scale is None:
         scale = m["scale_p5"] + (m["scale_p95"] - m["scale_p5"]) * uniform_at(key, 11)
+    yaw, tilt_x, tilt_z = shipped_pose(yaw, tilt_x, tilt_z)
     extra, cap = burial(fields, _seating_layer(species), x, z, yaw,
                         tilt_x, tilt_z, scale)
     if extra > cap:

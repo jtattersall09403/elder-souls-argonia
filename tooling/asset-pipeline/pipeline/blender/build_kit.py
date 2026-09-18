@@ -823,7 +823,12 @@ for asset in PLAN["assets"]:
     # previous level's; the runtime (`floraKit.ts`) drops any that slip
     # through, so gaps in the `lod` numbering are fine.
     previous_effective = None
-    for level, ratio in enumerate(asset["lodRatios"], start=1):
+    # An alpha-tested asset gets no decimated levels at all (16f round 5):
+    # its parts are hundreds of separate leaf/twig/bark cards that collapse
+    # decimation shreds (leaves and branches vanished at mid distance). The
+    # runtime substitutes the base geometry for any that still ship.
+    lod_ratios = [] if asset.get("doubleSided") else asset["lodRatios"]
+    for level, ratio in enumerate(lod_ratios, start=1):
         effectives = []
         for obj in meshes:
             # Ratios are proportional; the floor is absolute. Small source
