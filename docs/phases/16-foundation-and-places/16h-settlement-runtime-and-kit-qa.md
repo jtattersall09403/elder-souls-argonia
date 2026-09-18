@@ -99,6 +99,16 @@ disagreeing kind, shown failing on the five shipped blueprints. Ground
 contact is the second thing this chunk must read from its source rather
 than inherit as a guess: deliverable 3.
 
+**Rule scope, moved here from 16g (planning 2026-09-18) with the rule
+decided:** the `argonian-stilt` 15–30 % over-water share is asked only of
+a district whose parcels touch a recorded body, reach or flood band (by
+id); `works-quays-flood-section` is asked only of a works parcel that does; a
+district or works on dry high ground is out of scope (Lilmoth's
+`council-crown` and `hist-court`, the licensed camp's stage and deck). The
+backlog rows and the known-red rows in
+`world/sources/settlements/settlement-warning-known-red.json` retire with
+this port; the register must still fail if a row in scope quietly passes.
+
 ## Deliver (in this order — each with the audit's proving test, shown failing first)
 
 1. **The yaw sign**: **negate** the runtime rotation — `setFromAxisAngle(+yaw)`
