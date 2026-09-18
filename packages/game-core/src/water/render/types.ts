@@ -31,7 +31,10 @@ export interface WaterAssets {
    * `habitat` RGB = standing water / wet ground / canopy fraction (the air
    * layer's habitat), `colour` RGB = algae / dark (tannin) / unused (the
    * material's colour constituents). Both on the surface grid. Linear. */
-  dressing?: { habitatTex: THREE.DataTexture; colourTex: THREE.DataTexture; size: number; metresPerPixel: number };
+  /** The colour constituents (algae, dark) are packed into the ALPHA of
+   * `shoreTex` and `klassTex` at load (16-sampler limit); the habitat
+   * raster is read by the air layer, never by the water shader. */
+  dressing?: { habitatTex: THREE.DataTexture; size: number; metresPerPixel: number };
   /** 16f: the bed boulders the scatter placed in steep reaches
    * (`bed-rocks.json`), for the strips' baked foam; empty without the file. */
   bedRocks: readonly BedRock[];

@@ -54,10 +54,7 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
   const bubblePass = useMemo(() => new UnderwaterBubblePass(tier.name === "low"), [tier.name]);
   useEffect(() => () => bubblePass.dispose(), [bubblePass]);
 
-  const rt = useMemo(() => {
-    const size = gl.getDrawingBufferSize(new THREE.Vector2());
-    const w = Math.max(2, Math.round(size.x * tier.rtScale));
-    const h = Math.max(2, Math.round(size.y * tier.rtScale));
+  const makeTarget = (w: number, h: number) => {
     const depthTexture = new THREE.DepthTexture(w, h);
     depthTexture.type = THREE.UnsignedIntType;
     const target = new THREE.WebGLRenderTarget(w, h, {
@@ -70,7 +67,25 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
     });
     target.texture.colorSpace = THREE.NoColorSpace;
     return target;
+  };
+  const rt = useMemo(() => {
+    const size = gl.getDrawingBufferSize(new THREE.Vector2());
+    return makeTarget(Math.max(2, Math.round(size.x * tier.rtScale)), Math.max(2, Math.round(size.y * tier.rtScale)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gl, tier]);
+  /**
+   * A second scene target, made the first time the camera goes under.
+   *
+   * Submerged, pass 1 draws the water's UNDERSIDE into the scene target while
+   * that material refracts the scene through `uSceneColor` and soft-depths
+   * against `uSceneDepth` — the same target it is being drawn into. That is a
+   * framebuffer feedback loop (undefined on every GPU; ANGLE reports
+   * GL_INVALID_OPERATION per draw and some drivers stall on it). Under water
+   * the underside therefore samples the PREVIOUS frame's target and the two
+   * targets swap each frame; one frame of refraction latency is invisible.
+   */
+  const rtAlt = useRef<THREE.WebGLRenderTarget | null>(null);
+  const swap = useRef(false);
 
   const blit = useMemo(() => {
     const uniforms = {
@@ -169,6 +184,8 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
 
   useEffect(() => () => {
     rt.dispose();
+    rtAlt.current?.dispose();
+    rtAlt.current = null;
     blit.material.dispose();
   }, [rt, blit]);
 
@@ -213,6 +230,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     const rw = Math.max(2, Math.round(size.x * tier.rtScale));
     const rh = Math.max(2, Math.round(size.y * tier.rtScale));
     if (rt.width !== rw || rt.height !== rh) rt.setSize(rw, rh);
+    if (rtAlt.current && (rtAlt.current.width !== rw || rtAlt.current.height !== rh)) rtAlt.current.setSize(rw, rh);
 
     const epoch = runtime.epochMinutes();
     const cam = camera as THREE.PerspectiveCamera;
@@ -223,20 +241,28 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     const camSample = assets.world.sample({ x: trueX, y: trueY, z: trueZ }, epoch);
     const underwater = camSample.depth > 0 && trueY < camSample.surfaceHeight - 0.06;
 
+    // Which target this frame renders INTO and which one the water reads.
+    // Above water both are `rt` (the surface is drawn in pass 3, after the
+    // scene is complete). Under water they are the two ping-pong targets.
+    if (underwater && !rtAlt.current) rtAlt.current = makeTarget(rw, rh);
+    const alt = rtAlt.current;
+    const drawTarget = underwater && alt && swap.current ? alt : rt;
+    const readTarget = underwater && alt ? (drawTarget === rt ? alt : rt) : rt;
+
     // feed the water material's shared per-frame camera uniforms
     if (h) {
-      h.uniforms.uSceneColor.value = rt.texture;
-      h.uniforms.uSceneDepth.value = rt.depthTexture as THREE.Texture;
+      h.uniforms.uSceneColor.value = readTarget.texture;
+      h.uniforms.uSceneDepth.value = readTarget.depthTexture as THREE.Texture;
       h.uniforms.uCamNear.value = cam.near;
       h.uniforms.uCamFar.value = cam.far;
       h.uniforms.uResolution.value.set(size.x, size.y);
       h.uniforms.uProjMatrix.value.copy(cam.projectionMatrix);
       h.setUnderwater(underwater);
-      h.effects.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
+      h.effects.setDepth(readTarget.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
       // sheets + mist: fade at the surface when submerged, and no soft-depth
       // read while the water layer draws into the scene target (feedback)
       h.falls?.setUnderwater(underwater, camSample.surfaceHeight * verticalScale);
-      h.falls?.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
+      h.falls?.setDepth(readTarget.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
     }
 
     // ---- pass 0: advance the interactive ripple patch (2 tiny passes) and
@@ -254,13 +280,16 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     if ((frames.current & 1) === 0) renderer.shadowMap.needsUpdate = true;
     renderer.toneMapping = THREE.NoToneMapping;
     cam.layers.mask = underwater ? (1 | (1 << WATER_LAYER)) : 1;
-    renderer.setRenderTarget(rt);
+    renderer.setRenderTarget(drawTarget);
     renderer.clear();
     renderer.render(scene, cam);
     renderer.toneMapping = prevTone;
+    if (underwater && alt) swap.current = !swap.current;
 
     // ---- pass 2: tone-mapped blit (+ underwater fog/god rays) → screen ----
     const bu = blit.uniforms;
+    blit.material.map = drawTarget.texture;
+    bu.uSceneDepthB.value = drawTarget.depthTexture as THREE.Texture;
     bu.uUnderwater.value = underwater ? 1 : 0;
     bu.uUwTime.value = runtime.waveTimeS();
     bu.uCamPos.value.copy(camPos);
@@ -288,7 +317,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       Math.max(amb.z, 1e-4) * tint.z * 24.0,
     );
     bu.uBubbleColor.value = bubblePass.render(renderer, cam, h?.bubbles, underwater,
-      rt.depthTexture as THREE.Texture, rw, rh, bu.uUwAbsorb.value, bu.uUwFog.value);
+      drawTarget.depthTexture as THREE.Texture, rw, rh, bu.uUwAbsorb.value, bu.uUwFog.value);
     bu.uBubbleActive.value = bu.uBubbleColor.value ? 1 : 0;
     renderer.setRenderTarget(null);
     renderer.render(blit.scene, blit.camera);

@@ -1549,8 +1549,14 @@ _SEABED_SHELLS = ("clam_a", "clam_b", "clam_c", "sb_clam_large", "sb_conch",
 SEABED_BAND: list[dict] = [
     # Pebble and shingle mats - the commonest thing on a sea bed, and the
     # layer that stops it reading as bare sand. No cover gate: shingle lies on
-    # anything.
-    *_seabed_split(("sb_pebbles_a", "sb_pebbles_b"), 25.0,
+    # anything. Densities in this band were re-authored on 2026-09-18 (16f
+    # round 3) against what a SWIMMER sees: visibility under water is 10-20 m,
+    # so a layer has to put several pieces inside a 15 m radius (0.07 ha) to
+    # read at all. At the old 25/ha a mat stood every 400 m^2 and the owner
+    # found the floor bare everywhere. The ring (groundcover.json covers 0,
+    # 33, 35) carries the fine carpet at thousands per hectare; this band is
+    # the medium pieces, a few hundred per hectare at the shoreline.
+    *_seabed_split(("sb_pebbles_a", "sb_pebbles_b"), 120.0,
                    role="seabed-pebbles", depth=(0.3, 30.0),
                    depth_peak_m=3.0, depth_half_width_m=12.0,
                    clump_size_median=6, clump_radius_m=5.0,
@@ -1561,7 +1567,7 @@ SEABED_BAND: list[dict] = [
     # with Jokerine's scallops, conch and sand dollar and Shores of Skyrim's
     # three shells. Every one of them is a hand prop at native size, so the
     # scale range is what puts a scallop at 0.15-0.30 m.
-    *_seabed_split(_SEABED_SHELLS, 18.0,
+    *_seabed_split(_SEABED_SHELLS, 70.0,
                    role="seabed-shells", depth=(0.3, 15.0),
                    depth_peak_m=2.0, depth_half_width_m=5.0,
                    clump_size_median=6, clump_radius_m=4.0,
@@ -1577,7 +1583,7 @@ SEABED_BAND: list[dict] = [
     # ones together are 0.12 % - so the cover gate is DROPPED rather than
     # re-pointed at a cover that would place almost nothing. The shallow
     # depth band (0.3-8 m, peak 1.5 m) is what keeps barnacles inshore.
-    seabed("sb_barnacles", 4.0, role="seabed-shells", depth=(0.3, 8.0),
+    seabed("sb_barnacles", 12.0, role="seabed-shells", depth=(0.3, 8.0),
            depth_peak_m=1.5,
            depth_half_width_m=3.0, clump_size_median=4, clump_radius_m=3.0,
            scale_range=[0.7, 1.1]),
@@ -1589,12 +1595,12 @@ SEABED_BAND: list[dict] = [
     # and never the surf covers (measured, see the barnacle note). What keeps
     # a reef where a reef belongs is now the depth band and `coast_m`:
     # within 600 m of the shore, 2-12 m down.
-    seabed("sb_coral", 15.0, role="seabed-coral", depth=(2.0, 12.0),
+    seabed("sb_coral", 40.0, role="seabed-coral", depth=(2.0, 12.0),
            coast_m=[-600.0, 0.0], depth_peak_m=5.0,
            depth_half_width_m=4.0, clump_size_median=8, clump_radius_m=6.0,
            singleton_share=0.05, patchiness=1.8, tilt_deg_max=8.0,
            scale_range=[2.5, 6.0]),
-    seabed("sb_coral_spiky", 15.0, role="seabed-coral", depth=(2.0, 12.0),
+    seabed("sb_coral_spiky", 40.0, role="seabed-coral", depth=(2.0, 12.0),
            coast_m=[-600.0, 0.0], depth_peak_m=5.0,
            depth_half_width_m=4.0, clump_size_median=8, clump_radius_m=6.0,
            singleton_share=0.05, patchiness=1.8, tilt_deg_max=8.0,
@@ -1603,18 +1609,18 @@ SEABED_BAND: list[dict] = [
     # is the SEA side of the shoreline: `coast_m` is signed and negative at
     # sea (scatter.py `Fields.coast`), so a [0, 250] gate was the LAND side
     # and placed 0 starfish.
-    seabed("sb_starfish", 6.0, role="seabed-starfish", depth=(0.3, 8.0),
+    seabed("sb_starfish", 16.0, role="seabed-starfish", depth=(0.3, 8.0),
            coast_m=[-250.0, 0.0], depth_peak_m=1.5, depth_half_width_m=3.0,
            clump_size_median=3, clump_radius_m=4.0, singleton_share=0.4,
            tilt_deg_max=12.0, scale_range=[0.7, 1.35]),
     # Sponges: the deeper half of the bed, where the reef stops.
-    seabed("sb_sponge", 8.0, role="seabed-sponge", depth=(2.0, 20.0),
+    seabed("sb_sponge", 24.0, role="seabed-sponge", depth=(2.0, 20.0),
            depth_peak_m=8.0, depth_half_width_m=7.0, clump_size_median=4,
            clump_radius_m=5.0, singleton_share=0.3, tilt_deg_max=10.0,
            scale_range=[0.8, 2.0]),
     # Sunken driftwood, inshore: what the sea takes back out again.
     *_seabed_split(("sb_driftwood_a", "sb_driftwood_b", "sb_driftwood_c",
-                    "driftwood_a", "driftwood_b"), 1.5,
+                    "driftwood_a", "driftwood_b"), 3.0,
                    role="seabed-debris", depth=(0.5, 12.0),
                    # sea side of the shoreline (signed `coast_m`), as starfish
                    coast_m=[-300.0, 0.0], clump_size_median=1,
@@ -1638,7 +1644,7 @@ SEABED_BAND: list[dict] = [
                    clump_size_median=1, singleton_share=1.0,
                    clump_radius_m=0.0, scale_range=[0.9, 1.1]),
     # Algae mats had freshwater kinds only. The sea gets them too, shallow.
-    seabed("algae_mat", 15.0, role="seabed-algae", depth=(0.3, 4.0),
+    seabed("algae_mat", 45.0, role="seabed-algae", depth=(0.3, 4.0),
            mined_mesh="landscape/grass/tbpalgae01.nif",
            depth_peak_m=1.0, depth_half_width_m=1.5, clump_size_median=8,
            clump_radius_m=6.0, tilt_deg_max=0.0, scale_range=[0.8, 1.4]),

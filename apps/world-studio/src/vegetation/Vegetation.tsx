@@ -96,6 +96,11 @@ export interface VegetationStats {
    * 2026-09-17 for the "underwater band invisible" probe: the aggregate
    * counts cannot tell a missing species from a distant one. */
   bySpecies: Record<string, { drawn: number; minY: number; maxY: number }>;
+  /** Wall time of the last rebuild, ms: `bucket` is pass one (cull, ground,
+   * LOD, bucket), `fill` is pass two (matrices, attributes, pool), `total`
+   * the whole effect. Published so the walking stutter is measured, not
+   * guessed (16f round 3). */
+  rebuildMs: { total: number; bucket: number; fill: number };
 }
 
 function chunkKey(cx: number, cz: number): string {
@@ -122,6 +127,15 @@ function instancedAttribute(
     new Float32Array(Math.max(instances, 64) * itemSize), itemSize);
   geometry.setAttribute(name, grown);
   return grown;
+}
+
+/** Flag an instanced buffer for upload, but only its FILLED prefix: pooled
+ * buffers are over-allocated by 1.5x, and a bare `needsUpdate` would re-send
+ * the slack on every rebuild. */
+function uploadRange(attribute: THREE.BufferAttribute, floats: number): void {
+  attribute.clearUpdateRanges();
+  attribute.addUpdateRange(0, floats);
+  attribute.needsUpdate = true;
 }
 
 /**
@@ -215,6 +229,26 @@ export function Vegetation({
   const loaded = useRef(new Map<string, ChunkVegetation>());
   const pending = useRef(new Set<string>());
   const groups = useRef<DrawGroup[]>([]);
+  /**
+   * Persistent instanced meshes keyed `species|level|block|part`, alive for
+   * the component's life (the ground-cover ring's mechanism 7). A rebuild
+   * used to dispose and recreate every mesh, re-uploading every buffer 16 m
+   * apart — the walking stutter. Now a rebuild writes into the pooled mesh,
+   * grows it by 1.5x only when it is too small, and parks an unfilled one at
+   * `count = 0`. Disposed on unmount only.
+   */
+  const pool = useRef(new Map<string, THREE.InstancedMesh>());
+  useEffect(() => {
+    const live = pool.current;
+    const group = root.current;
+    return () => {
+      for (const mesh of live.values()) {
+        group?.remove(mesh);
+        mesh.dispose();
+      }
+      live.clear();
+    };
+  }, []);
   /** Last state the chunk-ring scan ran against (see the scan guard). */
   const lastScan = useRef<
     { cx: number; cz: number; loaded: number; pending: number } | null>(null);
@@ -241,7 +275,12 @@ export function Vegetation({
           setUnderwaterManifest(u as KitManifest);
         }
       })
-      .catch(() => undefined);
+      // Never silent: a bundle index or kit manifest that fails to load is
+      // the whole scatter layer missing, and a swallowed rejection was how
+      // "every tree and rock vanished" reached the owner with no console line.
+      .catch((error: unknown) => {
+        console.error("[vegetation] index or kit manifest failed to load", error);
+      });
     store.manifest()
       .then((m) => { if (!cancelled) setChunksManifest(m); })
       .catch(() => undefined);
@@ -323,6 +362,15 @@ export function Vegetation({
   // held when the chunk arrived, so walking up to a far billboard never
   // upgraded it to the real model (owner round-2 "cardboard cutout" defect).
   const [revision, setRevision] = useState(0);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    // Dev-only: force a rebuild at the current focus, so a headless probe
+    // (whose software GL runs at well under 1 fps, too slow to walk the
+    // 16 m that triggers one) can time the pooled steady state.
+    const host = window as unknown as { __STUDIO_VEGETATION_REBUILD__?: () => void };
+    host.__STUDIO_VEGETATION_REBUILD__ = () => setRevision((r) => r + 1);
+    return () => { delete host.__STUDIO_VEGETATION_REBUILD__; };
+  }, []);
   const lastBuildFocus = useRef<{ x: number; z: number } | null>(null);
   /** Focus of the rebuild already SCHEDULED (not yet committed). Comparing
    * against the committed focus re-fired `setRevision` every frame until
@@ -416,10 +464,9 @@ export function Vegetation({
     const group = root.current;
     if (!group || !kit || !index) return;
 
-    for (const drawn of groups.current) {
-      group.remove(drawn.mesh);
-      drawn.mesh.dispose();
-    }
+    const rebuildStart = performance.now();
+    // Nothing is destroyed here (mechanism 7): every pooled mesh this
+    // rebuild does not fill is parked at `count = 0` at the end.
     groups.current = [];
 
     // One instanced mesh per (species, LOD level, geometry part) across ALL
@@ -454,6 +501,30 @@ export function Vegetation({
       windTune: number[];
       /** Flat (dIn, dOut, wIn, wOut) quads, parallel to `placements`. */
       bands: number[];
+      /** Extents of the instance PIVOTS, for the bounding sphere: tracked
+       * here so the sphere never has to read the instance matrices back. */
+      minX: number; minY: number; minZ: number;
+      maxX: number; maxY: number; maxZ: number;
+      maxScale: number;
+    }
+    const emptyExtents = () => ({
+      minX: Infinity, minY: Infinity, minZ: Infinity,
+      maxX: -Infinity, maxY: -Infinity, maxZ: -Infinity, maxScale: 0,
+    });
+    const extend = (b: Bucket, x: number, y: number, z: number, sc: number) => {
+      if (x < b.minX) b.minX = x; if (x > b.maxX) b.maxX = x;
+      if (y < b.minY) b.minY = y; if (y > b.maxY) b.maxY = y;
+      if (z < b.minZ) b.minZ = z; if (z > b.maxZ) b.maxZ = z;
+      if (sc > b.maxScale) b.maxScale = sc;
+    };
+    // Farthest a kit vertex can lie from its pivot at scale 1: the height
+    // (pivot at the base) and half the wider horizontal side, from the
+    // manifest's `sizeM` (x, y horizontal; z up).
+    const reachM = new Map<string, number>();
+    for (const a of [...(manifest?.assets ?? []), ...(underwaterManifest?.assets ?? [])]) {
+      if (!reachM.has(a.id)) {
+        reachM.set(a.id, Math.hypot(a.sizeM[2], Math.max(a.sizeM[0], a.sizeM[1]) / 2));
+      }
     }
     const buckets = new Map<string, Bucket>();
     // Solid instances collected as they are placed — the collider ring needs
@@ -634,13 +705,14 @@ export function Vegetation({
             if (!bucket) {
               bucket = {
                 species: id!, level, block: blockIndex,
-                placements: [], count: 0, windTune: [], bands: [],
+                placements: [], count: 0, windTune: [], bands: [], ...emptyExtents(),
               };
               buckets.set(key, bucket);
             }
             bucket.placements.push(
               inst.x, y, inst.z, inst.tiltX, inst.yaw, inst.tiltZ, inst.scale);
             bucket.count++;
+            extend(bucket, inst.x, y, inst.z, inst.scale);
             bucket.windTune.push(stiffness, sink);
             bucket.bands.push(band[0], band[1], band[2], band[3]);
           }
@@ -678,9 +750,11 @@ export function Vegetation({
       const merged: Bucket = {
         species: list[0].species, level: list[0].level,
         block: UNSPLIT_BLOCK, placements: [], count: total, windTune: [],
-        bands: [],
+        bands: [], ...emptyExtents(),
       };
       for (const bucket of list) {
+        extend(merged, bucket.minX, bucket.minY, bucket.minZ, bucket.maxScale);
+        extend(merged, bucket.maxX, bucket.maxY, bucket.maxZ, bucket.maxScale);
         for (const value of bucket.placements) merged.placements.push(value);
         for (const value of bucket.windTune) merged.windTune.push(value);
         for (const value of bucket.bands) merged.bands.push(value);
@@ -689,7 +763,9 @@ export function Vegetation({
       buckets.set(`${key}|${UNSPLIT_BLOCK}`, merged);
     }
 
-    // Pass two: one InstancedMesh per bucket per geometry part.
+    const bucketMs = performance.now() - rebuildStart;
+    // Pass two: one InstancedMesh per bucket per geometry part, from the pool.
+    const filled = new Set<string>();
     let instances = 0;
     let triangles = 0;
     const bySpecies: VegetationStats["bySpecies"] = {};
@@ -709,7 +785,8 @@ export function Vegetation({
       // real lookup, not a fallback.
       const parts = entry.levels[bucket.level].parts;
       instances += bucket.count;
-      for (const part of parts) {
+      for (let partIndex = 0; partIndex < parts.length; partIndex++) {
+        const part = parts[partIndex];
         // Per-instance wind tuning lives on the geometry, so each (species,
         // level, BLOCK) mesh needs its own copy of that attribute: blocks
         // share a kit geometry, and one shared attribute would let the last
@@ -726,14 +803,27 @@ export function Vegetation({
         const windTune = instancedAttribute(
           geometry, WIND_TUNE_ATTRIBUTE, 2, bucket.count);
         windTune.array.set(bucket.windTune);
-        windTune.needsUpdate = true;
+        uploadRange(windTune, bucket.count * 2);
         // The crossfade band, same per-block story as the wind tune.
         const bands = instancedAttribute(
           geometry, LOD_BAND_ATTRIBUTE, 4, bucket.count);
         bands.array.set(bucket.bands);
-        bands.needsUpdate = true;
-        const mesh = new THREE.InstancedMesh(geometry, part.material, bucket.count);
-        mesh.frustumCulled = true;
+        uploadRange(bands, bucket.count * 4);
+        const meshKey = `${bucket.species}|${bucket.level}|${bucket.block}|${partIndex}`;
+        let mesh = pool.current.get(meshKey);
+        if (!mesh || mesh.instanceMatrix.count < bucket.count) {
+          // Too small (or new): grow by 1.5x so a neighbourhood that keeps
+          // creeping up by a few instances does not reallocate every 16 m.
+          if (mesh) { group.remove(mesh); mesh.dispose(); }
+          mesh = new THREE.InstancedMesh(
+            geometry, part.material, Math.max(64, Math.ceil(bucket.count * 1.5)));
+          mesh.frustumCulled = true;
+          mesh.boundingSphere = new THREE.Sphere();
+          pool.current.set(meshKey, mesh);
+          group.add(mesh);
+        }
+        mesh.count = bucket.count;
+        filled.add(meshKey);
         const isCard =
           entry.billboardIndex !== null && bucket.level === entry.billboardIndex;
         mesh.receiveShadow = !isCard;
@@ -762,8 +852,18 @@ export function Vegetation({
           scale.setScalar(bucket.placements[at + 6]);
           mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
         }
-        mesh.instanceMatrix.needsUpdate = true;
-        mesh.computeBoundingSphere();
+        uploadRange(mesh.instanceMatrix, bucket.count * 16);
+        // Bounding sphere from the bucket's own pivot extents plus the
+        // species' reach at its largest scale — `computeBoundingSphere()`
+        // read every instance matrix back per rebuild.
+        const sphere = mesh.boundingSphere!;
+        sphere.center.set(
+          (bucket.minX + bucket.maxX) / 2, (bucket.minY + bucket.maxY) / 2,
+          (bucket.minZ + bucket.maxZ) / 2);
+        sphere.radius =
+          Math.hypot(bucket.maxX - bucket.minX, bucket.maxY - bucket.minY,
+            bucket.maxZ - bucket.minZ) / 2
+          + (reachM.get(bucket.species) ?? entry.heightM) * bucket.maxScale;
         // Shadows: only the NEAREST mesh level, and only where the cascades
         // can see it. Levels 0–1 casting across the whole neighbourhood was
         // two extra alpha-tested, wind-displaced depth passes over every
@@ -774,7 +874,6 @@ export function Vegetation({
           bucket.level === 0
           && centre !== undefined
           && Math.hypot(centre.x - focus.x, centre.z - focus.z) <= SHADOW_CAST_RANGE_M;
-        group.add(mesh);
         groups.current.push({ mesh, species: bucket.species, level: bucket.level });
         const geometryIndex = geometry.getIndex();
         triangles +=
@@ -783,6 +882,22 @@ export function Vegetation({
       }
     }
 
+    // Park every pooled mesh this rebuild did not fill: drawn nothing, but
+    // its buffers stay for the next crossing.
+    for (const [meshKey, mesh] of pool.current) {
+      if (!filled.has(meshKey)) mesh.count = 0;
+    }
+    const totalMs = performance.now() - rebuildStart;
+    const rebuildMs = {
+      total: Math.round(totalMs * 10) / 10,
+      bucket: Math.round(bucketMs * 10) / 10,
+      fill: Math.round((totalMs - bucketMs) * 10) / 10,
+    };
+    if (import.meta.env.DEV) {
+      console.debug(
+        `vegetation rebuild ${rebuildMs.total} ms (bucket ${rebuildMs.bucket}, fill ${rebuildMs.fill}), `
+        + `${groups.current.length} draws, ${instances} instances, pool ${pool.current.size}`);
+    }
     const stats: VegetationStats = {
       chunks: loaded.current.size,
       instances,
@@ -792,6 +907,7 @@ export function Vegetation({
       billboardInstances,
       occluded,
       bySpecies,
+      rebuildMs,
     };
     onStats?.(stats);
     onSolids?.(solids);

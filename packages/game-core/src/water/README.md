@@ -43,6 +43,25 @@ the model was made physical on the real terrain by
   lift reads `uWetWindMS` (wire it from the wind speed). Underwater absorb
   floor (0.045, 0.028, 0.022): turbidity 0 sees ~20 m, 0.5 ~3 m.
 
+## 16f round 3 (decision 0072): samplers, the underwater target, SSR
+
+- **The water material is at the GPU's 16-sampler limit.** Nine explicit
+  samplers (`uSurfTex`, `uSurfShore`, `uFlowTex`, `uKlassTex`, `uFoamTex`,
+  `uSceneColor`, `uSceneDepth`, `uRipple`, `uOwnerTex`) plus the environment
+  map and the shadow cascades. **A new per-texel field goes in a spare
+  channel, never a new sampler**: the apron tile rides the surface texture's
+  spare rows (16d) and the 16f colour constituents ride alpha — algae in
+  `shoreTex.a`, dark in `klassTex.a`, written at load by
+  `loadWaterAssets.packChannel` into the DataTexture bytes (the PNGs stay
+  RGB; a PNG's own alpha is never data because the canvas decode
+  premultiplies it).
+- **Under water the scene target ping-pongs** (`WaterPipeline.tsx`): the
+  underside samples the previous frame's target while pass 1 draws into the
+  other, so the surface never reads the framebuffer it is being drawn into.
+  The second target is made on first submersion.
+- **SSR fades 260–420 m** (`SSR_FADE_START_M/END_M`); beyond that the sky
+  reflection from the environment map is the same pixel.
+
 ## The 0047 contract in one paragraph
 
 `water-surface.png` B is **signed depth** `W − ground` (`depth = B/255 ·

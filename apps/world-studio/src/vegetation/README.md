@@ -41,6 +41,13 @@ can still install its own hook afterwards.
   cell's target is its canopy top, so a cell is only called hidden when the
   tallest thing that could stand in it is hidden too. Only past 120 m, and
   unknown ground never occludes. Reported as `occluded` in the stats.
+- **Pooled meshes.** One `InstancedMesh` per (species, level, block, part)
+  for the component's life; a rebuild writes into it, uploads only the
+  filled prefix (`addUpdateRange`) and sets the bounding sphere from the
+  bucket's extents; a slot not filled draws nothing (`count = 0`). Disposing
+  and recreating every mesh each 16 m, and reading every matrix back for
+  `computeBoundingSphere`, was half the rebuild (0072 §8). `rebuildMs` on the
+  stats hook and a dev-only `__STUDIO_VEGETATION_REBUILD__()` for probes.
 - **Rocks collide as their own triangles.** A `convex` species gets ONE Rapier
   trimesh built from its LOD0 geometry, not the manifest box: a box around a
   30 m cliff walls off the ledge it exists to offer. `Vegetation` builds the
@@ -66,6 +73,14 @@ tiers; nothing the ring places winks out.
 | NEAR | full mesh, kit level 0 | authored | 0 – `0.4 r` | (0, `0.4 r`, 0, 4) |
 | MID | baked card, view A | authored | `0.4 r` – `r` | (`0.4 r`, `r`, 4, 6) |
 | FAR | baked card, view A | 35 % | `r` – far radius | (`r`, far, 6, 10) |
+
+**Membership is per TILE, with an overlap** (decision 0072 §2): a tile's
+plants are copied into every tier whose outer radius plus 14 m (the 8 m
+rebuild distance plus the widest fade half-width) its nearest point is
+within, so both copies of a crossing plant exist at the crossfade and the
+shader fades in both directions from the live camera distance. Assigning
+one tier per instance at rebuild time (round 2) made a card copy fade OUT as
+the camera walked towards it, with no mesh copy until the next rebuild.
 
 A species under 0.6 m tall ends its FAR tier at `1.6 r` rather than the
 preset's far radius (which is `2.2 r`): a 30 cm tuft at 150 m is a pixel that
@@ -119,13 +134,25 @@ reports `cards: false` while that is the case, with `byTier` and
   now too. Tens of thousands of alpha-tested double-sided cards sampling two
   cascades is the most expensive work in this layer. The shadow it returns on a
   blade of grass covers a pixel or two.
-- **Persistent meshes.** One `InstancedMesh` per (species, tier, quadrant,
-  part) for the component's life. A rebuild writes matrices, colours and bands
-  into the buffers it already has and sets `count`; a mesh only grows (by
-  1.5x) when a rebuild needs more room than it holds, and one this rebuild did
-  not fill draws nothing rather than being destroyed. Destroying and recreating
-  ~59 instanced meshes every 16 m was a GPU buffer reallocation storm for data
-  that mostly had not changed. Twelve slots share one kit geometry through a
+- **Persistent meshes, block-copied.** One `InstancedMesh` per (species,
+  tier, quadrant, part) for the component's life. A tile's matrices and
+  colours are composed ONCE when it is generated and stored as typed arrays
+  (the far subset first, each block sorted by `keep`), so a rebuild is a
+  few `array.set` copies per mesh and a budget thin is a prefix; the
+  bounding sphere comes from the tile extents, never from reading matrices
+  back. A mesh only grows (by 1.5x) when a rebuild needs more room, and one
+  this rebuild did not fill draws nothing rather than being destroyed.
+- **Budgeted generation.** Tiles are generated in `useFrame`, nearest first,
+  within 5 ms a frame (14 ms while the ring is cold), and a fill is requested
+  when the queue drains or every 0.25 s while it is long; the overlap margin
+  hides the tiles still queued at the edge. Generating a whole row of tiles
+  inside the rebuild was the half-second hitch every 16 m. Per tile the
+  ground, slope and water are sampled once on a 2 m grid, and a species bound
+  on none of the tile's (region, cover) slots costs nothing.
+- **Independent hashes.** `packages/game-core/src/vegetation/ringHash.ts`:
+  both hashes end in MurmurHash3's finaliser, mirrored bit for bit in the
+  Python twin. Without it consecutive salts were correlated and every plant
+  stood on one of two diagonals in its cell (the rows of 16f round 3). Twelve slots share one kit geometry through a
   per-slot view (`slotGeometry`, the same trick `Vegetation.tsx` uses for its
   blocks), so each gets its own `esLodBand` without duplicating a vertex
   buffer. Tiles beyond the mid radius are GENERATED thinned (`far: true`) and
@@ -185,7 +212,13 @@ cd apps/world-studio && npm run build
 cd ../combat-sandbox && node ../world-studio/scripts/probe-vegetation.mjs
 ```
 
-Boots the built studio over the five areas decision 0036 Q3 signed off,
+Against the running dev server (`npm run studio`): `node scripts/probe-local-16f.mjs "view=character&x=4.02&z=4.61&t=12:00"`
+reads both debug hooks at a site, and `node scripts/probe-local-walk.mjs "<query>" 90 20`
+loads, forces three rebuilds, sprints for 20 s and prints every
+`vegetation rebuild … ms` and `flora colliders rebuild … ms` line
+(`rebuildMs` is on both hooks; the ring's line is `[groundcover] rebuild …`).
+
+The built-studio probe below boots over the five areas decision 0036 Q3 signed off,
 screenshots each and reads `window.__STUDIO_VEGETATION_DEBUG__`
 (`{chunks, instances, draws, triangles}`). Artifacts land in
 `apps/world-studio/artifacts/`. Note the probe passes `--base` to

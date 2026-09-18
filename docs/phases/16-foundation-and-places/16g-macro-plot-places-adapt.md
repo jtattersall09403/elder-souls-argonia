@@ -47,8 +47,10 @@ the published bundles (0070); the scatter is never re-run.
 
 ## Starting state (2026-09-18, written by the planning agent after 16f round 2; the closing 16g agent rewrites 16h's)
 
-Run the `routing-audit` skill over this brief before building: 16f round 2
-was still landing when this was written.
+Run the `routing-audit` skill over this brief before building: 16f round 3
+landed after this was written (decision 0072: the ring's tiers, the studio's
+fresh-file middleware, the water's colour on alpha, denser sea-bed bands;
+no stage above `compile_scatter` re-ran).
 
 - **The ladder is built through 16f** (`terrain-chain.sh`
   `DELIVERED_THROUGH="16f"`; `[16g]="compile_minor_routes compile_minor_waterways"`).

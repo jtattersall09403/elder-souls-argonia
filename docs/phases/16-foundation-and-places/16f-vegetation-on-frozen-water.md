@@ -674,6 +674,19 @@ Everything below is drawn by the kits and bundles published on 2026-09-18.
 - Frame rate at the jungle and at the lowland river `x=1.85&z=4.89`: low,
   medium or high, one word each.
 
+## Owner check, round 3 (2026-09-18; decision 0072, ledger §16)
+
+Everything below is drawn by the kits and bundles published on 2026-09-18
+(round 3). `?view=character&…` unless said otherwise. The local studio
+must be freshly started for this round (the server fix is in its config).
+
+- Trees and rocks: jungle `x=4.02&z=4.61`, Rockpark `x=0.84&z=5.14`: are they back?
+- Rows: `x=2.21&z=1.11`, `x=3.04&z=6.46`, floodplain `x=3.01&z=2.45`: any straight lines of plants left?
+- Ground cover while walking, jungle `x=4.02&z=4.61`: walk 150 m in one line; plants ahead should sharpen as you approach and soften as you leave, never vanish as you get close, never reappear all at once; is there still a hitch every few steps?
+- Sea bed: beach `x=6.12&z=1.638`, swim out and along the shore; reefs `x=4.72&z=5.77`, `x=5.33&z=4.88`, `x=5.62&z=2.32`: pebbles, shells, algae mats, sponges, starfish and coral heads on the floor?
+- Console: any line mentioning texture units, or `GL_INVALID_OPERATION`, at the beach or under water?
+- Frame rate at the jungle, the beach and under water: low, medium or high, one word each; the console prints `vegetation rebuild … ms` and `flora colliders rebuild … ms` lines while you walk — paste the largest of each.
+
 ## Gotchas
 
 - Do not retune the density ladder (0048); the jungle's stem count is the

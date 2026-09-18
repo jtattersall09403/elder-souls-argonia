@@ -62,8 +62,41 @@ def _hash_lattice(ix: np.ndarray, iz: np.ndarray, salt: int) -> np.ndarray:
     h = (h ^ (h >> np.uint32(15))) * np.uint32(0x165667B1)
     h = h ^ np.uint32((salt * 0x9E3779B1) & 0xFFFFFFFF)
     h = (h ^ (h >> np.uint32(13))) * np.uint32(0x85EBCA6B)
-    h = h ^ (h >> np.uint32(16))
+    return _fmix32(h).astype(np.float64) / 4294967296.0
+
+
+def hash32(a: int, b: int, c: int, d: np.ndarray) -> np.ndarray:
+    """The runtime's candidate hash (`hash32` in `ringHash.ts`), vectorised
+    over the last argument, bit for bit. The twin used to draw its keep,
+    jitter and accept rolls from `np.random`, so `test_no_species_stands_in_rows`
+    measured a stream the browser never used and stayed green while the
+    runtime's correlated streams drew rows (16f round 3)."""
+    m = np.uint32(0xFFFFFFFF)
+    h = np.uint32(0x9E3779B9) ^ (np.uint32(a & 0xFFFFFFFF) * np.uint32(0x85EBCA6B))
+    h = ((h ^ (h >> np.uint32(13))) * np.uint32(0xC2B2AE35)) ^ (np.uint32(b & 0xFFFFFFFF) * np.uint32(0x27D4EB2F))
+    h = ((h ^ (h >> np.uint32(15))) * np.uint32(0x165667B1)) ^ (np.uint32(c & 0xFFFFFFFF) * np.uint32(0x9E3779B1))
+    h = ((h ^ (h >> np.uint32(13))) * np.uint32(0x85EBCA6B)) ^ (d.astype(np.uint32) * np.uint32(0xC2B2AE35))
+    return _fmix32(h & m)
+
+
+def u01(h: np.ndarray) -> np.ndarray:
     return h.astype(np.float64) / 4294967296.0
+
+
+def _fmix32(h: np.ndarray) -> np.ndarray:
+    """MurmurHash3's finaliser, uint32. The mixing above folds the salt in
+    with one multiply and one shift, which is not an avalanche: consecutive
+    salts (consecutive species) gave near-identical fields, and in the
+    runtime's candidate hash the same weakness put every plant on one of two
+    diagonals per cell (rows; owner, 16f round 3). Mirrors `fmix32` in
+    `Groundcover.tsx` bit for bit."""
+    h = h.astype(np.uint32)
+    h = h ^ (h >> np.uint32(16))
+    h = h * np.uint32(0x85EBCA6B)
+    h = h ^ (h >> np.uint32(13))
+    h = h * np.uint32(0xC2B2AE35)
+    h = h ^ (h >> np.uint32(16))
+    return h
 
 
 def clump(x: np.ndarray, z: np.ndarray, wavelength_m: float, salt: int) -> np.ndarray:
@@ -218,14 +251,20 @@ def place(table: dict, site_xz, radius_m: float = RING_RADIUS_M,
                     max(0.0, abs(cz - (tz + 0.5) * TILE_M) - TILE_M / 2))
                 if near > radius_m:
                     continue
-                k = np.arange(g * g)[rng.random(g * g) < keep_p]
+                # The SAME streams the runtime draws (Groundcover.tsx): keep
+                # on salt k*8, the x and z jitter on k*8+1 and k*8+2, accept
+                # on k*8+3. Anything else here would measure a ring nobody
+                # sees.
+                ks = np.arange(g * g)
+                k = ks[u01(hash32(tx, tz, plan["index"], ks * 8)) < keep_p]
                 if k.size == 0:
                     continue
                 # Stratified: one candidate per cell, uniform over the WHOLE
                 # cell. A fixed jitter amplitude smaller than the cell leaves
                 # the lattice visible as rows wherever the cell is wide.
-                x = tx * TILE_M + ((k % g) + rng.random(k.size)) * cell
-                z = tz * TILE_M + ((k // g) + rng.random(k.size)) * cell
+                x = tx * TILE_M + ((k % g) + u01(hash32(tx, tz, plan["index"], k * 8 + 1))) * cell
+                z = tz * TILE_M + ((k // g) + u01(hash32(tx, tz, plan["index"], k * 8 + 2))) * cell
+                accept_roll = u01(hash32(tx, tz, plan["index"], k * 8 + 3))
 
                 # Region THEN cover, exactly as the runtime resolves it.
                 region = data.region_at(x, z)
@@ -254,6 +293,7 @@ def place(table: dict, site_xz, radius_m: float = RING_RADIUS_M,
                 if not ok.any():
                     continue
                 x, z = x[ok], z[ok]
+                accept_roll = accept_roll[ok]
                 density, slope_max = density[ok], slope_max[ok]
                 fade, height, below, max_depth = (fade[ok], height[ok],
                                                   below[ok], max_depth[ok])
@@ -264,7 +304,7 @@ def place(table: dict, site_xz, radius_m: float = RING_RADIUS_M,
                 # cover the two or three species trade dominance in patches.
                 c = clump(x, z, wavelength, plan["index"])
                 p = np.clip((density / max_density) * (0.35 + 1.3 * c), 0.0, 1.0)
-                acc = rng.random(x.size) < p
+                acc = accept_roll < p
                 x, z = x[acc], z[acc]
                 slope_max, fade, height = slope_max[acc], fade[acc], height[acc]
                 below, max_depth, dry = below[acc], max_depth[acc], dry[acc]

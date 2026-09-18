@@ -113,6 +113,7 @@ function buildBody(
   instance: SolidInstance,
   shapes: FloraCollider[],
   vertexCache: Map<string, Float32Array>,
+  debug: ColliderDebug,
 ): RigidBody {
   // ONE fixed body per instance, rotated exactly as the renderer rotates the
   // mesh (same YXZ euler), so each shape's own offset is a plain local
@@ -132,6 +133,7 @@ function buildBody(
       // The rock's own triangles. Scale is baked into the vertices (Rapier
       // shapes carry no scale); the body already holds the rotation and the
       // translation, so the collider needs neither.
+      const t0 = performance.now();
       world.createCollider(
         rapier.ColliderDesc.trimesh(
           scaledVertices(vertexCache, instance.species, shape.vertices, s),
@@ -139,6 +141,8 @@ function buildBody(
         ),
         body,
       );
+      debug.trimeshMs += performance.now() - t0;
+      debug.trimeshesBuilt++;
       continue;
     }
     const desc =
@@ -161,6 +165,19 @@ function buildBody(
     world.createCollider(desc, body);
   }
   return body;
+}
+
+/**
+ * Dev-only rebuild costs, published on `window.__STUDIO_VEG_COLLIDERS_DEBUG__`
+ * (same convention as the vegetation stats hook) so the walking stutter can
+ * be attributed: `lastBuildMs` is one whole rebuild (select + diff + bodies),
+ * `trimeshMs` the part of it spent creating rock trimesh colliders.
+ */
+interface ColliderDebug {
+  lastBuildMs: number;
+  bodies: number;
+  trimeshesBuilt: number;
+  trimeshMs: number;
 }
 
 export function VegetationColliders({
@@ -189,6 +206,7 @@ export function VegetationColliders({
   /** The shape map the current body set was built against; a change in
    * identity (the kit finishing its load) forces one rebuild. */
   const seenShapes = useRef<Map<string, FloraCollider[]> | null>(null);
+  const seenSolids = useRef<SolidInstance[] | null>(null);
   const vertexCache = useRef(new Map<string, Float32Array>());
 
   // Shapes and per-species collider cost, cached: the manifest never changes
@@ -222,6 +240,14 @@ export function VegetationColliders({
       seenShapes.current = shapeMap;
       builtAt.current = null; // the kit has arrived: rebuild against real shapes
     }
+    // A new solids list (every vegetation rebuild publishes a fresh array)
+    // also forces a rebuild: the first list arrives AFTER this ring's first
+    // pass, and without this nothing was solid at a spawn until the player
+    // had walked 1.5 m (found 2026-09-18, 16f round 3).
+    if (seenSolids.current !== solidsRef.current) {
+      seenSolids.current = solidsRef.current;
+      builtAt.current = null;
+    }
     const focus = focusRef.current;
     const built = builtAt.current;
     if (
@@ -231,6 +257,8 @@ export function VegetationColliders({
     ) {
       return;
     }
+    const debug: ColliderDebug = { lastBuildMs: 0, bodies: 0, trimeshesBuilt: 0, trimeshMs: 0 };
+    const buildStart = performance.now();
     const { chosen, coveredRadiusM } = selectNearestSolids(
       solidsRef.current, focus, RING_M, COLLIDER_BUDGET, caches.costOf, MAX_BODIES,
     );
@@ -262,12 +290,22 @@ export function VegetationColliders({
       bodies.current.set(
         key,
         {
-          body: buildBody(world, rapier, instance, shapes, vertexCache.current),
+          body: buildBody(world, rapier, instance, shapes, vertexCache.current, debug),
           y: instance.y,
         },
       );
     }
     onCount?.(bodies.current.size);
+    if (import.meta.env.DEV) {
+      debug.lastBuildMs = Math.round((performance.now() - buildStart) * 10) / 10;
+      debug.trimeshMs = Math.round(debug.trimeshMs * 10) / 10;
+      debug.bodies = bodies.current.size;
+      (window as unknown as { __STUDIO_VEG_COLLIDERS_DEBUG__?: ColliderDebug })
+        .__STUDIO_VEG_COLLIDERS_DEBUG__ = debug;
+      console.debug(
+        `flora colliders rebuild ${debug.lastBuildMs} ms, ${debug.bodies} bodies, `
+        + `${debug.trimeshesBuilt} trimeshes in ${debug.trimeshMs} ms`);
+    }
   });
 
   return null;

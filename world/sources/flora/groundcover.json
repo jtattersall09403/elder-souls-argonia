@@ -19,7 +19,7 @@
   "resolution": "species for (region class, land cover) = byRegionClass[region].swaps[cover] when present, else byLandCover[cover].species. A swap replaces the base list for that one cover in that one region; it never merges",
   "whyTheCapStillHolds": "LTEX.GNAM's limit of three is per painted texture, so it caps how many species may share one cover. It does not constrain the same cover carrying different species in different regions. The swap layer therefore fits inside the shipped-game rule rather than bending it",
   "bareGroundIsFine": "six covers carry no species at all: the roads and tracks, the paint under them, cliff faces, the salt pans and the wettest black mud. Open mud between the clumps is what gives a reed bed its edge. Every other cover carries at least two species, because a single species on a cover shows as one plant repeated across it",
-  "tier": "T3, regenerated at runtime from the land-cover raster inside a camera ring, never written into chunk bundles (module 65 §110)",
+  "tier": "T3, regenerated at runtime from the land-cover raster inside a camera ring, never written into chunk bundles (module 65 \u00a7110)",
   "candidatePlacement": "v4: one candidate per lattice cell, uniform over the whole cell. v3 carried a per-rule positionJitterM of 0.42 to 0.55 m around the cell centre, which is smaller than the cell of any rule under about 7,000 per hectare, so those species stood in straight rows. The field is gone; the ring jitters over the full cell from the same hash streams",
   "densityUnit": "instances per hectare inside the ring, before the slope response and before the per-species distance thinning",
   "heightM": "the asset's own vertical size in the built kit manifest, copied here so the ring can sort species into near and far without loading the kit first",
@@ -36,7 +36,7 @@
    "species": [
     {
      "asset": "bmv:landscape/grass/rockgrasswater01",
-     "density": 800,
+     "density": 2400,
      "slopeDegMax": 34,
      "heightVariance": 0.3,
      "waveperiod": 70,
@@ -48,7 +48,7 @@
     },
     {
      "asset": "vanilla:landscape/grass/waterkelpshort01",
-     "density": 700,
+     "density": 2100,
      "slopeDegMax": 34,
      "heightVariance": 0.3,
      "waveperiod": 70,
@@ -967,7 +967,7 @@
    "species": [
     {
      "asset": "vanilla:landscape/grass/watercoralgrass01",
-     "density": 400,
+     "density": 1200,
      "slopeDegMax": 50,
      "heightVariance": 0.3,
      "waveperiod": 70,
@@ -979,7 +979,7 @@
     },
     {
      "asset": "bmv:landscape/grass/rockgrasswater01",
-     "density": 400,
+     "density": 1200,
      "slopeDegMax": 50,
      "heightVariance": 0.3,
      "waveperiod": 70,
@@ -991,7 +991,7 @@
     },
     {
      "asset": "depths:landscape/grass/tbprockgrasswater03",
-     "density": 250,
+     "density": 750,
      "slopeDegMax": 50,
      "heightVariance": 0.3,
      "waveperiod": 70,
@@ -1064,7 +1064,7 @@
    "species": [
     {
      "asset": "vanilla:landscape/grass/waterkelpshort01",
-     "density": 300,
+     "density": 900,
      "slopeDegMax": 50,
      "heightVariance": 0.3,
      "waveperiod": 70,
@@ -1076,7 +1076,7 @@
     },
     {
      "asset": "vanilla:landscape/grass/watercoralgrass01",
-     "density": 300,
+     "density": 900,
      "slopeDegMax": 50,
      "heightVariance": 0.3,
      "waveperiod": 70,
@@ -1088,7 +1088,7 @@
     },
     {
      "asset": "depths:landscape/grass/tbprockgrasswater03",
-     "density": 250,
+     "density": 750,
      "slopeDegMax": 50,
      "heightVariance": 0.3,
      "waveperiod": 70,

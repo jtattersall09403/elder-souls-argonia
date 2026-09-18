@@ -19,7 +19,14 @@
  *     mesh near, a viewer-facing baked card at the authored density to the
  *     ring radius, the same card at 35 % density out to the far radius, and
  *     every boundary dissolved by the dithered LOD crossfade. Nothing the
- *     ring places ever winks out.
+ *     ring places ever winks out. **Tier membership is decided per TILE with
+ *     an overlap margin, never per instance at rebuild time** (owner, 16f
+ *     round 3): a plant is in every tier's buffer it could reach before the
+ *     next rebuild, and the shader — which measures the live camera distance
+ *     every frame — does all the fading, in both directions. The old
+ *     one-tier-per-instance assignment made a plant fade OUT as the camera
+ *     walked towards it (its card copy crossed the band's inner edge and no
+ *     mesh copy existed yet), then reappear all at once at the next rebuild.
  *  3. **A clump field.** A second value-noise field per species, on its own
  *     12 m wavelength, decides which of a cover's two or three species
  *     dominates where. Without it a three-species cover is an even mix
@@ -33,10 +40,15 @@
  *  6. **No shadow receipt.** Tens of thousands of alpha-tested double-sided
  *     cards sampling two cascades is the single most expensive thing this
  *     layer could do, for a shadow nobody reads on a grass blade.
- *  7. **Persistent meshes.** The (species, tier, quadrant) meshes live for the
- *     component's life and grow their buffers by 1.5x when a rebuild needs
- *     more room. Destroying and recreating ~59 InstancedMeshes every 16 m was
- *     a GPU buffer reallocation storm for data that mostly did not change.
+ *  7. **Persistent meshes, block-copied.** The (species, tier, quadrant)
+ *     meshes live for the component's life and grow their buffers by 1.5x
+ *     when a rebuild needs more room. Every tile's instance matrices and
+ *     colours are composed ONCE when the tile is generated and stored as
+ *     typed arrays, so a rebuild is a handful of `array.set` copies per mesh
+ *     rather than a compose per instance; the bounding sphere comes from the
+ *     tile extents, never from reading the matrices back. That is what makes
+ *     an 8 m rebuild cadence affordable, and the cadence is what keeps the
+ *     overlap margin (and so the collapsed near-mesh copies) small.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -63,6 +75,7 @@ import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { groundHeightM } from "./terrainHeight";
+import { hash32, latticeValue, u01 } from "@elder-souls/game-core/vegetation/ringHash";
 import {
   indexPatches,
   survivesPatches,
@@ -111,6 +124,37 @@ const TIER_COUNT = 3;
 /** Crossfade half-widths, metres: (fade-in, fade-out) per tier. Wider the
  * further out, because the further band is the cheaper one to double up. */
 const TIER_BAND_M: [number, number][] = [[0, 4], [4, 6], [6, 10]];
+/** Metres of focus movement between rebuilds. A tile crossing also rebuilds
+ * (that is when tiles are generated); this is the finer cadence the tier
+ * overlap is sized from. */
+const REBUILD_MOVE_M = 8;
+/** A tile joins a tier's buffer when its nearest point is within the tier's
+ * outer radius PLUS this margin: the furthest the focus can move before the
+ * next rebuild, plus the widest fade-in half-width, so the incoming copy is
+ * always drawn (dithered to nothing by the shader) before the camera reaches
+ * its band. Both copies of a crossing plant then exist at the moment of the
+ * crossfade, which is the whole point. */
+const TIER_OVERLAP_M = REBUILD_MOVE_M + 6;
+/** Main-thread budget per frame for generating tiles (ms). A row of ~22
+ * tiles entering the ring used to be generated in one go inside the rebuild
+ * effect — ~18 ms a tile, half a second of stall every 16 m of walking,
+ * which was the "stutter" the owner felt. Generation now runs in `useFrame`
+ * nearest-tile-first within this budget, and a fill is requested when the
+ * queue drains (or every FILL_INTERVAL_S while it is long); the overlap
+ * margin hides the tiles still in the queue at the ring's edge. */
+const GENERATE_BUDGET_MS = 5;
+/** While more than this many tiles are still wanted (a spawn, a teleport,
+ * a raster arriving), the budget rises to GENERATE_BUDGET_COLD_MS so the ring
+ * fills in a second or two instead of creeping outward for ten. */
+const GENERATE_COLD_TILES = 40;
+const GENERATE_BUDGET_COLD_MS = 14;
+const FILL_INTERVAL_S = 0.25;
+/** Metres between the per-tile ground samples (height, slope, water depth).
+ * The terrain the ring re-grounds on is 1.83 m per sample, so a 2 m grid
+ * loses nothing a plant can show; it replaces three height reads and a
+ * water read PER CANDIDATE with one bilinear read each. */
+const TILE_GRID_M = 2;
+const TILE_GRID_N = TILE_M / TILE_GRID_M + 1; // 9 samples per axis
 /** Hard budget. The authored densities want ~30k in jungle; if a rebuild asks
  * for more than this, every species is thinned proportionally. */
 const MAX_INSTANCES = 60_000;
@@ -238,34 +282,6 @@ function buildPlans(): SpeciesPlan[] {
 }
 
 const SPECIES_PLANS = buildPlans();
-
-/** Deterministic 32-bit mix; `salt` separates the random streams one
- * candidate draws (keep / jitter x / jitter z / accept / yaw / height). */
-function hash32(a: number, b: number, c: number, d: number): number {
-  let h = 0x9e3779b9 ^ Math.imul(a | 0, 0x85ebca6b);
-  h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35) ^ Math.imul(b | 0, 0x27d4eb2f);
-  h = Math.imul(h ^ (h >>> 15), 0x165667b1) ^ Math.imul(c | 0, 0x9e3779b1);
-  h = Math.imul(h ^ (h >>> 13), 0x85ebca6b) ^ Math.imul(d | 0, 0xc2b2ae35);
-  h ^= h >>> 16;
-  return h >>> 0;
-}
-
-function u01(h: number): number {
-  return h / 4294967296;
-}
-
-/** One deterministic value per integer lattice point, for the clump field.
- * Integer mixing only, so `worldgen.groundcover_ring._hash_lattice` computes
- * the identical value in numpy and a species' patches land in the same places
- * in the measurement twin as on screen. */
-function latticeValue(ix: number, iz: number, salt: number): number {
-  let h = (0x9e3779b9 ^ Math.imul(ix | 0, 0x85ebca6b)) >>> 0;
-  h = (Math.imul(h ^ (h >>> 13), 0xc2b2ae35) ^ Math.imul(iz | 0, 0x27d4eb2f)) >>> 0;
-  h = (Math.imul(h ^ (h >>> 15), 0x165667b1) ^ Math.imul(salt | 0, 0x9e3779b1)) >>> 0;
-  h = Math.imul(h ^ (h >>> 13), 0x85ebca6b) >>> 0;
-  h = (h ^ (h >>> 16)) >>> 0;
-  return h / 4294967296;
-}
 
 /**
  * Bilinear value noise on a `CLUMP_WAVELENGTH_M` lattice, in [0,1].
@@ -772,29 +788,57 @@ function tileKey(tx: number, tz: number): number {
   return (tx + TILE_KEY_ORIGIN) * TILE_KEY_STRIDE + (tz + TILE_KEY_ORIGIN);
 }
 
-/** A generated tile. `far` marks a tile generated at FAR density (the keep
- * roll thinned on the candidate lattice up front, so a tile nobody will see
- * in detail costs 35 % of the work). It is regenerated in full the moment it
- * enters the MID band. */
-interface CachedTile {
-  far: boolean;
-  perSpecies: TilePlacement[][];
+/** Distance from the focus to the nearest point of a tile, so edge tiles
+ * still count while any part of them is inside a radius. */
+function tileNearestM(focus: { x: number; z: number }, tx: number, tz: number): number {
+  const centreX = (tx + 0.5) * TILE_M;
+  const centreZ = (tz + 0.5) * TILE_M;
+  return Math.hypot(
+    Math.max(0, Math.abs(focus.x - centreX) - TILE_M / 2),
+    Math.max(0, Math.abs(focus.z - centreZ) - TILE_M / 2),
+  );
 }
 
-/** One cached instance. Everything here is focus-INDEPENDENT; the tier, the
- * quadrant and the budget are applied when the meshes are filled. */
+/**
+ * A generated tile. `far` marks a tile generated at FAR density (the keep
+ * roll thinned on the candidate lattice up front, so a tile nobody will see
+ * in detail costs 35 % of the work). It is regenerated in full the moment it
+ * enters the MID band.
+ *
+ * Per species the tile holds its instances as READY-TO-COPY typed arrays:
+ * `matrices` (16 floats each) and `colours` (3 floats each), ordered so that
+ * the far subset (`farKeep < FAR_THIN`) comes first — `farCount` of them —
+ * and each of the two blocks is sorted by the `keep` roll. The FAR tier
+ * copies the first block; NEAR and MID copy both; a budget thin takes a
+ * prefix of each block, which is the lowest-`keep` subset and so the same
+ * plants rebuild after rebuild.
+ */
+interface CachedTile {
+  far: boolean;
+  perSpecies: TileSpecies[];
+  /** World-space extents of the tile's ground, for bounding spheres. */
+  minY: number;
+  maxY: number;
+}
+
+interface TileSpecies {
+  count: number;
+  farCount: number;
+  matrices: Float32Array;
+  colours: Float32Array;
+}
+
+const EMPTY_TILE_SPECIES: TileSpecies = {
+  count: 0, farCount: 0, matrices: new Float32Array(0), colours: new Float32Array(0),
+};
+
+/** One candidate while a tile is being generated; composed into the tile's
+ * typed arrays at the end of generation and never kept. */
 interface TilePlacement {
   x: number; y: number; z: number; yaw: number;
-  /** Height variance only — the distance scale fade is applied at fill. */
   scale: number;
-  /** Stable roll for the budget thin. */
   keep: number;
-  /** This candidate's own keep roll, normalised against the tile's keep
-   * probability, so `farKeep < FAR_THIN` is EXACTLY the subset a far-band
-   * tile generates when it is thinned up front. One rule for both, or an
-   * instance would appear and disappear as its tile changed band. */
   farKeep: number;
-  /** Colour, already sampled from the ground tint and varied. */
   r: number; g: number; b: number;
 }
 
@@ -817,6 +861,9 @@ export interface GroundcoverStats {
   rejected?: Record<string, number>;
   /** Deterministic foundation rubble in the exported signed-distance bands. */
   foundationScatterInstances: number;
+  /** Main-thread cost: tile generation since the last fill (spread over
+   * frames within GENERATE_BUDGET_MS each) and this fill. */
+  rebuildMs: { generate: number; fill: number };
 }
 
 export function Groundcover({
@@ -860,6 +907,17 @@ export function Groundcover({
    * ring and drops the ones that left. */
   const tileCache = useRef(new Map<number, CachedTile>());
   const focusTile = useRef<[number, number]>([Number.NaN, Number.NaN]);
+  /** Focus of the last rebuild REQUESTED (the 8 m cadence measures from it). */
+  const lastBuildFocus = useRef<{ x: number; z: number } | null>(null);
+  /** True while tiles in the ring may still need generating. */
+  const genPending = useRef(true);
+  const lastFillTime = useRef(0);
+  const generatedSinceFill = useRef(0);
+  const coldStart = useRef(true);
+  /** Generation counters since the last fill, reported by the fill. */
+  const genStats = useRef({ generated: 0, ms: 0, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } });
+  /** Set once the inputs exist; `useFrame` calls it with a time budget. */
+  const generateRef = useRef<((budgetMs: number) => { generated: number; remaining: number }) | null>(null);
   const [revision, setRevision] = useState(0);
 
   const gltf = useLoader(GLTFLoader, `${baseUrl}kits/groundcover-province-v1.glb`);
@@ -983,8 +1041,32 @@ export function Groundcover({
     }
     const tx = Math.floor(focus.x / TILE_M);
     const tz = Math.floor(focus.z / TILE_M);
+    const moved = lastBuildFocus.current
+      ? Math.hypot(focus.x - lastBuildFocus.current.x, focus.z - lastBuildFocus.current.z)
+      : Infinity;
+    let fill = false;
     if (tx !== focusTile.current[0] || tz !== focusTile.current[1]) {
       focusTile.current = [tx, tz];
+      genPending.current = true;
+    }
+    if (moved >= REBUILD_MOVE_M) fill = true;
+    // Generate a few tiles a frame, nearest first, inside the budget; ask
+    // for a fill when the queue drains or has been draining for a while.
+    if (genPending.current && generateRef.current) {
+      const { generated, remaining } = generateRef.current(
+        coldStart.current ? GENERATE_BUDGET_COLD_MS : GENERATE_BUDGET_MS);
+      coldStart.current = remaining > GENERATE_COLD_TILES;
+      generatedSinceFill.current += generated;
+      if (remaining === 0) genPending.current = false;
+      if (generatedSinceFill.current > 0
+          && (remaining === 0 || state.clock.elapsedTime - lastFillTime.current > FILL_INTERVAL_S)) {
+        fill = true;
+      }
+    }
+    if (fill) {
+      lastBuildFocus.current = { x: focus.x, z: focus.z };
+      lastFillTime.current = state.clock.elapsedTime;
+      generatedSinceFill.current = 0;
       setRevision((r) => r + 1);
     }
   });
@@ -1000,197 +1082,93 @@ export function Groundcover({
 
     const focus = focusRef.current;
     const waterData = water.current;
-    const tileHa = (TILE_M * TILE_M) / 10_000;
-    const tileReach = Math.ceil(farRadiusM / TILE_M);
+    // Tiles are kept out to the far radius PLUS the overlap, so the FAR tier
+    // of a tile about to enter view is already drawn (faded to nothing).
+    const keepRadiusM = farRadiusM + TIER_OVERLAP_M;
+    const tileReach = Math.ceil(keepRadiusM / TILE_M);
     const [ftx, ftz] = focusTile.current;
     const cache = tileCache.current;
-
-    // Pass one: make sure every tile touching the ring is in the cache.
-    // Generation is PURE per tile — it never reads the focus — so a tile that
-    // was already generated is reused verbatim and the cost of crossing a
-    // boundary is one row of tiles, not the whole ring.
-    let tiles = 0;
-    let tilesGenerated = 0;
-    const live = new Set<number>();
-    // Why candidates die, for the probe (numbers, not a screenshot).
-    const rej = { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 };
-    for (let tz = ftz - tileReach; tz <= ftz + tileReach; tz++) {
-      for (let tx = ftx - tileReach; tx <= ftx + tileReach; tx++) {
-        const centreX = (tx + 0.5) * TILE_M;
-        const centreZ = (tz + 0.5) * TILE_M;
-        // Tile culled on its nearest point, so edge tiles still contribute.
-        const nearest = Math.hypot(
-          Math.max(0, Math.abs(focus.x - centreX) - TILE_M / 2),
-          Math.max(0, Math.abs(focus.z - centreZ) - TILE_M / 2),
-        );
-        if (nearest > farRadiusM) continue;
-        tiles++;
-        const key = tileKey(tx, tz);
-        live.add(key);
-        // A tile wholly outside the mid radius is only ever drawn as thinned
-        // far cards, so it is GENERATED thinned: 35 % of the candidates, and
-        // 35 % of the ground/water/patch sampling that dominates the cost.
-        // It is regenerated in full the moment it enters the mid band.
-        const wantFar = nearest > ringRadiusM;
-        const cached = cache.get(key);
-        if (cached && !(cached.far && !wantFar)) continue;
-        tilesGenerated++;
-
-        const perSpecies: TilePlacement[][] = SPECIES_PLANS.map(() => []);
-        let incomplete = false;
-        for (const plan of SPECIES_PLANS) {
-          // Candidates on a stratified grid at the species' peak density —
-          // Bethesda's GRAS placement model, one sample uniform per cell.
-          const candidates = plan.maxDensity * tileHa;
-          const g = Math.max(1, Math.ceil(Math.sqrt(candidates)));
-          const cell = TILE_M / g;
-          const keepP = candidates / (g * g);
-          const keepThreshold = wantFar ? keepP * FAR_THIN : keepP;
-          for (let k = 0; k < g * g; k++) {
-            const genKeep = u01(hash32(tx, tz, plan.index, k * 8));
-            if (genKeep >= keepThreshold) { rej.keep++; continue; }
-            // Stratified: one candidate per cell, uniform over the WHOLE cell.
-            // A fixed jitter amplitude smaller than the cell left the lattice
-            // visible as rows wherever the cell was wide (every rule under
-            // ~7,000 /ha has a cell over 1.2 m).
-            const ux = u01(hash32(tx, tz, plan.index, k * 8 + 1));
-            const uz = u01(hash32(tx, tz, plan.index, k * 8 + 2));
-            const x = tx * TILE_M + ((k % g) + ux) * cell;
-            const z = tz * TILE_M + (Math.floor(k / g) + uz) * cell;
-
-            // Region THEN cover: the swap layer is what stops the delta, the
-            // interior swamp and the mangrove coast sharing one reed wherever
-            // they share a cover id.
-            const region = regionRaster
-              ? coverAt(regionRaster, x, z) : REGION_UNKNOWN;
-            const rule = plan.bySlot.get(slotKey(region, coverAt(control, x, z)));
-            if (!rule) { rej.bare++; continue; } // bare cover, or bound to other species here
-            // Acceptance is the cover's share of the species' peak density,
-            // modulated by the species' own clump field (mechanism 3). The
-            // field's mean is 1, so the authored density is preserved.
-            const clump = clumpAt(x, z, plan.index);
-            const accept = (rule.density / plan.maxDensity) * (0.35 + 1.3 * clump);
-            if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= accept) { rej.accept++; continue; }
-
-            const speciesRadiusM = radii.current.get(plan.id) ?? 0;
-            if (excludedByFootprints(x, z, speciesRadiusM, exclusions)) { rej.footprint++; continue; }
-            // Vegetation patches (0041 gotcha (b)): the published bundles were
-            // patched by the stage, but this layer is generated here and has to
-            // obey the same patch list or grass grows through the floors.
-            if (!survivesPatches(x, z, speciesRadiusM, clearanceIndex,
-              u01(hash32(tx, tz, plan.index, k * 8 + 7)))) { rej.patch++; continue; }
-
-            const h = groundHeightM(store, chunks, x, z);
-            if (h === null) { incomplete = true; rej.height++; continue; }
-            // Slope from the same heights (true metres — the authored limits
-            // are physical, not exaggerated).
-            const step = 2;
-            const east = groundHeightM(store, chunks, x + step, z);
-            const south = groundHeightM(store, chunks, x, z + step);
-            if (east !== null && south !== null) {
-              const slopeDeg = Math.atan(Math.hypot(east - h, south - h) / step) * (180 / Math.PI);
-              if (slopeDeg > rule.slopeDegMax) { rej.slope++; continue; }
-            }
-            if (waterData) {
-              const depth = waterData.depthProxy(x, z);
-              if (rule.waterRule === "above") {
-                if (depth > DRY_SPECIES_MAX_DEPTH_M) { rej.water++; continue; }
-              } else if (plan.needsWater && rule.waterRule === "below-at-least") {
-                // Reeds stand IN shallow water, kelp and coral on the bed —
-                // how deep is the rule's own, not one constant for both.
-                const maxDepth = rule.maxDepthM ?? DEFAULT_WATER_SPECIES_MAX_DEPTH_M;
-                if (depth <= 0.02 || depth > maxDepth) { rej.water++; continue; }
-              } else if (depth > LAND_SPECIES_MAX_DEPTH_M) {
-                rej.water++; continue; // drowned grass under open water reads as a bug
-              }
-            }
-
-            // Colour off the ground beneath (mechanism 4), varied per
-            // instance so a patch is not one flat swatch.
-            let r = 1; let gg = 1; let b = 1;
-            if (tint) {
-              const t = Math.min(tint.size - 1, Math.max(0, Math.floor(x / tint.metresPerTexel)));
-              const tzz = Math.min(tint.size - 1, Math.max(0, Math.floor(z / tint.metresPerTexel)));
-              const o = (tzz * tint.size + t) * 3;
-              const drift = 1 + (u01(hash32(tx, tz, plan.index, k * 8 + 5)) - 0.5)
-                * 2 * COLOUR_VARIANCE;
-              r = Math.min(1, (tint.rgb[o] / 255) * drift);
-              gg = Math.min(1, (tint.rgb[o + 1] / 255) * drift);
-              b = Math.min(1, (tint.rgb[o + 2] / 255) * drift);
-            }
-            const vary = (u01(hash32(tx, tz, plan.index, k * 8 + 5)) - 0.5) * 2;
-            perSpecies[plan.index].push({
-              x,
-              y: h * verticalScale,
-              z,
-              yaw: u01(hash32(tx, tz, plan.index, k * 8 + 4)) * Math.PI * 2,
-              scale: 1 + vary * rule.heightVariance,
-              keep: u01(hash32(tx, tz, plan.index, k * 8 + 6)),
-              farKeep: keepP > 0 ? genKeep / keepP : 1,
-              r, g: gg, b,
-            });
-          }
-        }
-        // A tile generated before the terrain chunks under it had decoded
-        // rejected every candidate on a missing height. Caching that as the
-        // tile's answer left the ring EMPTY for good (measured 2026-09-16:
-        // 68 tiles, 0 instances in the jungle); an incomplete tile is not
-        // cached, so the next rebuild (chunk arrival bumps `revision`)
-        // generates it again on real ground.
-        if (!incomplete) cache.set(key, { far: wantFar, perSpecies });
-      }
-    }
-    // Evict what left the ring. Without this the cache is the whole province.
-    for (const key of cache.keys()) if (!live.has(key)) cache.delete(key);
-
-    // Pass two: tier, quadrant and budget — everything the focus decides.
-    // Quadrants (mechanism 5) are the four sectors around the focus; each gets
-    // its own mesh with its own tight bounding sphere, so frustum culling
-    // actually rejects instead of always seeing a 150 m mesh.
-    const nearRadiusM = ringRadiusM * NEAR_FRACTION;
-    const shortFarRadiusM = farRadiusM * SHORT_FAR_FRACTION;
-    // 12 buckets per species: tier * 4 + quadrant.
-    const visible: TilePlacement[][][] = SPECIES_PLANS.map(
-      () => Array.from({ length: TIER_COUNT * 4 }, () => [] as TilePlacement[]));
-    let total = 0;
-    for (const key of live) {
-      const tile = cache.get(key);
-      if (!tile) continue;
-      for (const plan of SPECIES_PLANS) {
-        const list = tile.perSpecies[plan.index];
-        if (list.length === 0) continue;
-        const radiusScale = plan.submerged ? SUBMERGED_RADIUS_SCALE : 1;
-        const speciesFarM = (plan.short ? shortFarRadiusM : farRadiusM) * radiusScale;
-        const speciesNearM = nearRadiusM * radiusScale;
-        const speciesMidM = ringRadiusM * radiusScale;
-        const bucket = visible[plan.index];
-        for (let i = 0; i < list.length; i++) {
-          const item = list[i];
-          const distance = Math.hypot(focus.x - item.x, focus.z - item.z);
-          if (distance > speciesFarM) continue;
-          // Mechanism 2: full mesh, card, thinned card — never a cliff.
-          const tier = distance <= speciesNearM ? TIER_NEAR
-            : distance <= speciesMidM ? TIER_MID : TIER_FAR;
-          // The far band keeps 35 %, and it is exactly the subset a
-          // far-generated tile holds, so an instance neither appears nor
-          // disappears when its tile changes band.
-          if (tier === TIER_FAR && item.farKeep >= FAR_THIN) continue;
-          bucket[tier * 4 + (item.x >= focus.x ? 1 : 0) + (item.z >= focus.z ? 2 : 0)]
-            .push(item);
-          total++;
-        }
-      }
-    }
-
-    // Pass three: budget guard — thin every species by the same factor.
-    const densityScale = total > maxInstances ? maxInstances / total : 1;
-
+    const stats0 = genStats.current;
+    genStats.current = { generated: 0, ms: 0, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } };
     const matrix = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();
     const position = new THREE.Vector3();
     const scale = new THREE.Vector3();
-    const colour = new THREE.Color();
     const up = new THREE.Vector3(0, 1, 0);
+
+    // Pass one is no longer here: tiles are generated in `useFrame` within a
+    // per-frame budget (`generateTiles`, nearest first) and this effect fills
+    // the meshes from whatever the cache holds. A tile still in the queue is
+    // at the ring's edge, inside the overlap margin, where the shader draws
+    // it faded to nothing anyway.
+    let tiles = 0;
+    const live: { key: number; nearest: number; tx: number; tz: number }[] = [];
+    const liveKeys = new Set<number>();
+    for (let tz = ftz - tileReach; tz <= ftz + tileReach; tz++) {
+      for (let tx = ftx - tileReach; tx <= ftx + tileReach; tx++) {
+        const nearest = tileNearestM(focus, tx, tz);
+        if (nearest > keepRadiusM) continue;
+        tiles++;
+        const key = tileKey(tx, tz);
+        live.push({ key, nearest, tx, tz });
+        liveKeys.add(key);
+      }
+    }
+    const tilesGenerated = stats0.generated;
+    const rej = stats0.rejected;
+    // Evict what left the ring. Without this the cache is the whole province.
+    for (const key of cache.keys()) if (!liveKeys.has(key)) cache.delete(key);
+    const tGenerated = performance.now();
+
+    // Pass two: tier membership per TILE, with the overlap, per species.
+    // A tile is copied into every tier whose outer radius (plus the overlap)
+    // its nearest point is within; the shader collapses the copies that are
+    // outside their band this frame and dissolves the ones crossing it. The
+    // quadrant is the tile centre's, so each mesh keeps a tight sphere that
+    // can leave the frustum.
+    const nearRadiusM = ringRadiusM * NEAR_FRACTION;
+    const shortFarRadiusM = farRadiusM * SHORT_FAR_FRACTION;
+    interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tx: number; tz: number; minY: number; maxY: number }[]; count: number }
+    const slots: SlotTiles[][] = SPECIES_PLANS.map(
+      () => Array.from({ length: TIER_COUNT * 4 }, () => ({ tiles: [], count: 0 })));
+    let total = 0;
+    for (const entry of live) {
+      const tile = cache.get(entry.key);
+      if (!tile) continue;
+      const centreX = (entry.tx + 0.5) * TILE_M;
+      const centreZ = (entry.tz + 0.5) * TILE_M;
+      const quadrant = (centreX >= focus.x ? 1 : 0) + (centreZ >= focus.z ? 2 : 0);
+      for (const plan of SPECIES_PLANS) {
+        const species = tile.perSpecies[plan.index];
+        if (species.count === 0) continue;
+        const radiusScale = plan.submerged ? SUBMERGED_RADIUS_SCALE : 1;
+        const speciesFarM = (plan.short ? shortFarRadiusM : farRadiusM) * radiusScale;
+        const speciesNearM = nearRadiusM * radiusScale;
+        const speciesMidM = ringRadiusM * radiusScale;
+        const inNear = entry.nearest <= speciesNearM + TIER_OVERLAP_M;
+        const inMid = entry.nearest <= speciesMidM + TIER_OVERLAP_M;
+        const inFar = entry.nearest <= speciesFarM + TIER_OVERLAP_M;
+        const bucket = slots[plan.index];
+        const record = { species, far: false, tx: entry.tx, tz: entry.tz, minY: tile.minY, maxY: tile.maxY };
+        if (inNear) { bucket[TIER_NEAR * 4 + quadrant].tiles.push(record); bucket[TIER_NEAR * 4 + quadrant].count += species.count; }
+        if (inMid) { bucket[TIER_MID * 4 + quadrant].tiles.push(record); bucket[TIER_MID * 4 + quadrant].count += species.count; }
+        if (inFar) {
+          const farRecord = { ...record, far: true };
+          bucket[TIER_FAR * 4 + quadrant].tiles.push(farRecord);
+          bucket[TIER_FAR * 4 + quadrant].count += species.farCount;
+        }
+        // The budget counts PLANTS, not copies: a tile inside the mid band is
+        // its whole list once (its extra tier copies are the overlap cost the
+        // shader collapses), a far tile its thinned subset.
+        total += inMid ? species.count : (inFar ? species.farCount : 0);
+      }
+    }
+
+    // Pass three: budget guard — thin every species by the same factor. The
+    // thin is a prefix of each tile block (sorted by `keep`), so the same
+    // plants survive from one rebuild to the next.
+    const densityScale = total > maxInstances ? maxInstances / total : 1;
+
     let instances = 0;
     let triangles = 0;
     const byTier: [number, number, number] = [0, 0, 0];
@@ -1210,17 +1188,33 @@ export function Groundcover({
         [speciesNearM, speciesMidM, TIER_BAND_M[1][0], TIER_BAND_M[1][1]],
         [speciesMidM, speciesFarM, TIER_BAND_M[2][0], TIER_BAND_M[2][1]],
       ];
+      const speciesHeightM = plan.anyRule.heightM * (1 + plan.anyRule.heightVariance) * 1.5;
       for (let tier = 0; tier < TIER_COUNT; tier++) {
         const parts = tier === TIER_NEAR || !card ? entry.levels[0].parts : [card];
         const band = tierBands[tier];
         for (let quadrant = 0; quadrant < 4; quadrant++) {
           const slot = tier * 4 + quadrant;
-          const raw = visible[plan.index][slot];
-          const list = densityScale < 1
-            ? raw.filter((p) => p.keep < densityScale) : raw;
-          if (list.length === 0) continue;
-          instances += list.length;
-          byTier[tier] += list.length;
+          const slotTiles = slots[plan.index][slot];
+          if (slotTiles.count === 0) continue;
+          // Count after the budget thin (a prefix per block).
+          let drawn = 0;
+          let minX = Infinity; let maxX = -Infinity; let minZ = Infinity; let maxZ = -Infinity;
+          let minY = Infinity; let maxY = -Infinity;
+          for (const t of slotTiles.tiles) {
+            const sp = t.species;
+            const farN = Math.ceil(sp.farCount * densityScale);
+            const restN = t.far ? 0 : Math.ceil((sp.count - sp.farCount) * densityScale);
+            drawn += farN + restN;
+            if (t.tx * TILE_M < minX) minX = t.tx * TILE_M;
+            if ((t.tx + 1) * TILE_M > maxX) maxX = (t.tx + 1) * TILE_M;
+            if (t.tz * TILE_M < minZ) minZ = t.tz * TILE_M;
+            if ((t.tz + 1) * TILE_M > maxZ) maxZ = (t.tz + 1) * TILE_M;
+            if (t.minY < minY) minY = t.minY;
+            if (t.maxY > maxY) maxY = t.maxY;
+          }
+          if (drawn === 0) continue;
+          instances += drawn;
+          byTier[tier] += drawn;
           for (let partIndex = 0; partIndex < parts.length; partIndex++) {
             const part = parts[partIndex];
             const meshKey = `${plan.index}|${slot}|${partIndex}`;
@@ -1237,12 +1231,16 @@ export function Groundcover({
               applyCylindricalBillboard(part.material, lodFade);
             }
             let mesh = meshPool.current.get(meshKey);
-            if (!mesh || mesh.instanceMatrix.count < list.length) {
+            if (!mesh || mesh.instanceMatrix.count < drawn) {
               // Grow by 1.5x so a ring that keeps creeping up by a few
               // instances does not reallocate on every rebuild.
               if (mesh) { group.remove(mesh); mesh.dispose(); }
-              mesh = new THREE.InstancedMesh(
-                geometry, part.material, Math.max(64, Math.ceil(list.length * 1.5)));
+              const capacity = Math.max(64, Math.ceil(drawn * 1.5));
+              mesh = new THREE.InstancedMesh(geometry, part.material, capacity);
+              // The colour attribute is allocated up front (three would
+              // create it lazily on the first `setColorAt`, one instance at
+              // a time — this fill writes it in blocks).
+              mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 3), 3);
               mesh.frustumCulled = true;
               // Groundcover NEVER casts (module 65 §111 / research §4.2): tens
               // of thousands of alpha-tested casters would dominate the
@@ -1255,35 +1253,49 @@ export function Groundcover({
               group.add(mesh);
               meshPool.current.set(meshKey, mesh);
             }
-            const bands = bandAttribute(geometry, list.length);
+            const matrices = mesh.instanceMatrix.array as Float32Array;
+            const colours = mesh.instanceColor!.array as Float32Array;
+            let at = 0;
+            for (const t of slotTiles.tiles) {
+              const sp = t.species;
+              const farN = Math.ceil(sp.farCount * densityScale);
+              const restN = t.far ? 0 : Math.ceil((sp.count - sp.farCount) * densityScale);
+              if (farN > 0) {
+                matrices.set(sp.matrices.subarray(0, farN * 16), at * 16);
+                colours.set(sp.colours.subarray(0, farN * 3), at * 3);
+                at += farN;
+              }
+              if (restN > 0) {
+                matrices.set(sp.matrices.subarray(sp.farCount * 16, (sp.farCount + restN) * 16), at * 16);
+                colours.set(sp.colours.subarray(sp.farCount * 3, (sp.farCount + restN) * 3), at * 3);
+                at += restN;
+              }
+            }
+            // One band per mesh — every instance in it crosses the same two
+            // boundaries — but the attribute is per instance because that is
+            // the channel the shared fade shader reads.
+            const bands = bandAttribute(geometry, drawn);
             const bandArray = bands.array as Float32Array;
-            for (let i = 0; i < list.length; i++) {
-              const p = list[i];
-              // One band per mesh — every instance in it crosses the same two
-              // boundaries — but the attribute is per instance because that is
-              // the channel the shared fade shader reads.
+            for (let i = 0; i < drawn; i++) {
               bandArray[i * 4] = band[0];
               bandArray[i * 4 + 1] = band[1];
               bandArray[i * 4 + 2] = band[2];
               bandArray[i * 4 + 3] = band[3];
-              position.set(p.x, p.y, p.z);
-              quaternion.setFromAxisAngle(up, p.yaw);
-              scale.setScalar(p.scale);
-              mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
-              mesh.setColorAt(i, colour.setRGB(p.r, p.g, p.b));
             }
             bands.needsUpdate = true;
-            mesh.count = list.length;
+            mesh.count = drawn;
             mesh.instanceMatrix.needsUpdate = true;
-            if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-            // A per-quadrant sphere is the whole point: computed from these
-            // instances alone, it is a quarter-ring and can leave the frustum.
-            mesh.computeBoundingSphere();
+            mesh.instanceColor!.needsUpdate = true;
+            // The sphere from the tiles' extents (a quarter-ring), never by
+            // reading the matrices back; the height term covers the plants.
+            const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
+            sphere.center.set((minX + maxX) / 2, (minY + maxY) / 2, (minZ + maxZ) / 2);
+            sphere.radius = Math.hypot(maxX - minX, maxY - minY + speciesHeightM, maxZ - minZ) / 2 + speciesHeightM;
             liveMeshes.add(meshKey);
             const index = part.geometry.getIndex();
             triangles +=
               ((index ? index.count : part.geometry.attributes.position.count) / 3)
-              * list.length;
+              * drawn;
           }
         }
       }
@@ -1347,6 +1359,7 @@ export function Groundcover({
       foundationScatterMesh.current.count = 0;
     }
 
+    const tFilled = performance.now();
     const stats: GroundcoverStats = {
       instances,
       draws: liveMeshes.size + (visibleScatter.length ? 1 : 0),
@@ -1358,10 +1371,14 @@ export function Groundcover({
       densityScale,
       rejected: rej,
       foundationScatterInstances: visibleScatter.length,
+      rebuildMs: {
+        generate: Math.round(stats0.ms * 10) / 10,
+        fill: Math.round((tFilled - tGenerated) * 10) / 10,
+      },
     };
     onStats?.(stats);
     if (import.meta.env.DEV) {
-      // What a tile crossing actually costs, in the two units that matter.
+      // What a rebuild actually costs, in the units that matter.
       console.debug(
         "[groundcover] rebuild",
         `tiles ${tilesGenerated}/${tiles} generated`,
@@ -1369,6 +1386,7 @@ export function Groundcover({
         `draws ${stats.draws}`,
         `pool ${meshPool.current.size}`,
         `cards ${cards.size}`,
+        `ms generate ${stats.rebuildMs.generate} fill ${stats.rebuildMs.fill}`,
       );
     }
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
@@ -1378,6 +1396,229 @@ export function Groundcover({
       regionRaster, tint, foundationParts, revision, verticalScale,
       onStats, focusRef, store, ringRadiusM, farRadiusM, maxInstances, wind,
       lodFade]);
+
+  // The tile generator, installed for `useFrame` whenever an input changes.
+  // Pure per tile (never reads the focus) so a tile is reusable wherever the
+  // focus goes; ordered nearest-first per call so the near tier fills first.
+  useEffect(() => {
+    if (!kit || !control || !chunks) { generateRef.current = null; return; }
+    const tileHa = (TILE_M * TILE_M) / 10_000;
+    const matrix = new THREE.Matrix4();
+    const quaternion = new THREE.Quaternion();
+    const position = new THREE.Vector3();
+    const scale = new THREE.Vector3();
+    const up = new THREE.Vector3(0, 1, 0);
+    const grid = new Float32Array(TILE_GRID_N * TILE_GRID_N);
+    const depthGrid = new Float32Array(TILE_GRID_N * TILE_GRID_N);
+    const slotsPresent = new Set<number>();
+
+    /** Bilinear read of a per-tile grid at local metres (0..TILE_M). */
+    const gridAt = (g: Float32Array, lx: number, lz: number): number => {
+      const u = Math.max(0, Math.min(TILE_GRID_N - 1.0001, lx / TILE_GRID_M));
+      const v = Math.max(0, Math.min(TILE_GRID_N - 1.0001, lz / TILE_GRID_M));
+      const ix = Math.floor(u); const iz = Math.floor(v);
+      const fx = u - ix; const fz = v - iz;
+      const i = iz * TILE_GRID_N + ix;
+      return (g[i] * (1 - fx) + g[i + 1] * fx) * (1 - fz)
+        + (g[i + TILE_GRID_N] * (1 - fx) + g[i + TILE_GRID_N + 1] * fx) * fz;
+    };
+
+    const generateTile = (tx: number, tz: number, wantFar: boolean, rej: typeof genStats.current.rejected): CachedTile | null => {
+      const waterData = water.current;
+      const x0 = tx * TILE_M; const z0 = tz * TILE_M;
+      // The tile's ground and water ONCE, on a 2 m grid, with the slope's
+      // one-sample margin folded into the bilinear read below.
+      let minY = Infinity; let maxY = -Infinity;
+      for (let iz = 0; iz < TILE_GRID_N; iz++) {
+        for (let ix = 0; ix < TILE_GRID_N; ix++) {
+          const x = x0 + ix * TILE_GRID_M; const z = z0 + iz * TILE_GRID_M;
+          const h = groundHeightM(store, chunks, x, z);
+          // A tile generated before the terrain chunks under it had decoded
+          // rejected every candidate on a missing height; caching that left
+          // the ring EMPTY for good (measured 2026-09-16: 68 tiles, 0
+          // instances in the jungle). An incomplete tile is not cached, so
+          // it is generated again once the chunk arrives.
+          if (h === null) { rej.height++; return null; }
+          grid[iz * TILE_GRID_N + ix] = h;
+          depthGrid[iz * TILE_GRID_N + ix] = waterData ? waterData.depthProxy(x, z) : -10;
+          const y = h * verticalScale;
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+      }
+      // Which (region, cover) slots the tile's paint actually holds, so a
+      // species bound nowhere on it costs nothing: a third of all candidate
+      // work was the `bare` rejection of species the tile could never hold.
+      slotsPresent.clear();
+      for (let iz = 0; iz < TILE_GRID_N - 1; iz++) {
+        for (let ix = 0; ix < TILE_GRID_N - 1; ix++) {
+          const x = x0 + (ix + 0.5) * TILE_GRID_M; const z = z0 + (iz + 0.5) * TILE_GRID_M;
+          const region = regionRaster ? coverAt(regionRaster, x, z) : REGION_UNKNOWN;
+          slotsPresent.add(slotKey(region, coverAt(control, x, z)));
+        }
+      }
+      const perSpecies: TilePlacement[][] = SPECIES_PLANS.map(() => []);
+      for (const plan of SPECIES_PLANS) {
+        let bound = false;
+        for (const key of slotsPresent) if (plan.bySlot.has(key)) { bound = true; break; }
+        if (!bound) continue;
+        // Candidates on a stratified grid at the species' peak density —
+        // Bethesda's GRAS placement model, one sample uniform per cell.
+        const candidates = plan.maxDensity * tileHa;
+        const g = Math.max(1, Math.ceil(Math.sqrt(candidates)));
+        const cell = TILE_M / g;
+        const keepP = candidates / (g * g);
+        const keepThreshold = wantFar ? keepP * FAR_THIN : keepP;
+        const speciesRadiusM = radii.current.get(plan.id) ?? 0;
+        for (let k = 0; k < g * g; k++) {
+          const genKeep = u01(hash32(tx, tz, plan.index, k * 8));
+          if (genKeep >= keepThreshold) { rej.keep++; continue; }
+          // Stratified: one candidate per cell, uniform over the WHOLE cell.
+          // A fixed jitter amplitude smaller than the cell left the lattice
+          // visible as rows wherever the cell was wide (every rule under
+          // ~7,000 /ha has a cell over 1.2 m).
+          const ux = u01(hash32(tx, tz, plan.index, k * 8 + 1));
+          const uz = u01(hash32(tx, tz, plan.index, k * 8 + 2));
+          const lx = ((k % g) + ux) * cell;
+          const lz = (Math.floor(k / g) + uz) * cell;
+          const x = x0 + lx;
+          const z = z0 + lz;
+
+          // Region THEN cover: the swap layer is what stops the delta, the
+          // interior swamp and the mangrove coast sharing one reed wherever
+          // they share a cover id.
+          const region = regionRaster ? coverAt(regionRaster, x, z) : REGION_UNKNOWN;
+          const rule = plan.bySlot.get(slotKey(region, coverAt(control, x, z)));
+          if (!rule) { rej.bare++; continue; } // bare cover, or bound to other species here
+          // Acceptance is the cover's share of the species' peak density,
+          // modulated by the species' own clump field (mechanism 3). The
+          // field's mean is 1, so the authored density is preserved.
+          const clump = clumpAt(x, z, plan.index);
+          const accept = (rule.density / plan.maxDensity) * (0.35 + 1.3 * clump);
+          if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= accept) { rej.accept++; continue; }
+
+          if (excludedByFootprints(x, z, speciesRadiusM, exclusions)) { rej.footprint++; continue; }
+          // Vegetation patches (0041 gotcha (b)): the published bundles were
+          // patched by the stage, but this layer is generated here and has to
+          // obey the same patch list or grass grows through the floors.
+          if (!survivesPatches(x, z, speciesRadiusM, clearanceIndex,
+            u01(hash32(tx, tz, plan.index, k * 8 + 7)))) { rej.patch++; continue; }
+
+          const h = gridAt(grid, lx, lz);
+          // Slope from the same grid (true metres — the authored limits are
+          // physical, not exaggerated).
+          const east = gridAt(grid, lx + TILE_GRID_M, lz);
+          const south = gridAt(grid, lx, lz + TILE_GRID_M);
+          const slopeDeg = Math.atan(Math.hypot(east - h, south - h) / TILE_GRID_M) * (180 / Math.PI);
+          if (slopeDeg > rule.slopeDegMax) { rej.slope++; continue; }
+          if (waterData) {
+            const depth = gridAt(depthGrid, lx, lz);
+            if (rule.waterRule === "above") {
+              if (depth > DRY_SPECIES_MAX_DEPTH_M) { rej.water++; continue; }
+            } else if (plan.needsWater && rule.waterRule === "below-at-least") {
+              // Reeds stand IN shallow water, kelp and coral on the bed —
+              // how deep is the rule's own, not one constant for both.
+              const maxDepth = rule.maxDepthM ?? DEFAULT_WATER_SPECIES_MAX_DEPTH_M;
+              if (depth <= 0.02 || depth > maxDepth) { rej.water++; continue; }
+            } else if (depth > LAND_SPECIES_MAX_DEPTH_M) {
+              rej.water++; continue; // drowned grass under open water reads as a bug
+            }
+          }
+
+          // Colour off the ground beneath (mechanism 4), varied per
+          // instance so a patch is not one flat swatch.
+          let r = 1; let gg = 1; let b = 1;
+          if (tint) {
+            const t = Math.min(tint.size - 1, Math.max(0, Math.floor(x / tint.metresPerTexel)));
+            const tzz = Math.min(tint.size - 1, Math.max(0, Math.floor(z / tint.metresPerTexel)));
+            const o = (tzz * tint.size + t) * 3;
+            const drift = 1 + (u01(hash32(tx, tz, plan.index, k * 8 + 5)) - 0.5)
+              * 2 * COLOUR_VARIANCE;
+            r = Math.min(1, (tint.rgb[o] / 255) * drift);
+            gg = Math.min(1, (tint.rgb[o + 1] / 255) * drift);
+            b = Math.min(1, (tint.rgb[o + 2] / 255) * drift);
+          }
+          const vary = (u01(hash32(tx, tz, plan.index, k * 8 + 5)) - 0.5) * 2;
+          perSpecies[plan.index].push({
+            x, y: h * verticalScale, z,
+            yaw: u01(hash32(tx, tz, plan.index, k * 8 + 4)) * Math.PI * 2,
+            scale: 1 + vary * rule.heightVariance,
+            keep: u01(hash32(tx, tz, plan.index, k * 8 + 6)),
+            farKeep: keepP > 0 ? genKeep / keepP : 1,
+            r, g: gg, b,
+          });
+        }
+      }
+      // Compose the tile's arrays once: far subset first, each block sorted
+      // by `keep`, so every later fill is a block copy.
+      const composed: TileSpecies[] = perSpecies.map((list) => {
+        if (list.length === 0) return EMPTY_TILE_SPECIES;
+        const farPart = list.filter((p) => p.farKeep < FAR_THIN).sort((a, c) => a.keep - c.keep);
+        const restPart = list.filter((p) => p.farKeep >= FAR_THIN).sort((a, c) => a.keep - c.keep);
+        const ordered = farPart.concat(restPart);
+        const matrices = new Float32Array(ordered.length * 16);
+        const colours = new Float32Array(ordered.length * 3);
+        for (let i = 0; i < ordered.length; i++) {
+          const item = ordered[i];
+          position.set(item.x, item.y, item.z);
+          quaternion.setFromAxisAngle(up, item.yaw);
+          scale.setScalar(item.scale);
+          matrix.compose(position, quaternion, scale);
+          matrix.toArray(matrices, i * 16);
+          colours[i * 3] = item.r;
+          colours[i * 3 + 1] = item.g;
+          colours[i * 3 + 2] = item.b;
+        }
+        return { count: ordered.length, farCount: farPart.length, matrices, colours };
+      });
+      return {
+        far: wantFar, perSpecies: composed,
+        minY: Number.isFinite(minY) ? minY : 0, maxY: Number.isFinite(maxY) ? maxY : 0,
+      };
+    };
+
+    generateRef.current = (budgetMs: number) => {
+      const t0 = performance.now();
+      const focus = focusRef.current;
+      const keepRadiusM = farRadiusM + TIER_OVERLAP_M;
+      const tileReach = Math.ceil(keepRadiusM / TILE_M);
+      const ftx = Math.floor(focus.x / TILE_M);
+      const ftz = Math.floor(focus.z / TILE_M);
+      const cache = tileCache.current;
+      // Everything the ring wants that the cache lacks (or holds thinned
+      // where full is now wanted), nearest first.
+      const wanted: { tx: number; tz: number; nearest: number; far: boolean }[] = [];
+      for (let tz = ftz - tileReach; tz <= ftz + tileReach; tz++) {
+        for (let tx = ftx - tileReach; tx <= ftx + tileReach; tx++) {
+          const nearest = tileNearestM(focus, tx, tz);
+          if (nearest > keepRadiusM) continue;
+          const wantFar = nearest > ringRadiusM + TIER_OVERLAP_M;
+          const cached = cache.get(tileKey(tx, tz));
+          if (cached && !(cached.far && !wantFar)) continue;
+          wanted.push({ tx, tz, nearest, far: wantFar });
+        }
+      }
+      wanted.sort((a, b) => a.nearest - b.nearest);
+      let generated = 0;
+      let i = 0;
+      const rej = genStats.current.rejected;
+      for (; i < wanted.length; i++) {
+        if (generated > 0 && performance.now() - t0 > budgetMs) break;
+        const w = wanted[i];
+        const tile = generateTile(w.tx, w.tz, w.far, rej);
+        generated++;
+        if (tile) tileCache.current.set(tileKey(w.tx, w.tz), tile);
+      }
+      genStats.current.generated += generated;
+      genStats.current.ms += performance.now() - t0;
+      // A tile that came back incomplete (chunk not decoded yet) stays
+      // wanted; it is retried on a later frame rather than spun on now.
+      return { generated, remaining: wanted.length - i };
+    };
+    genPending.current = true;
+    return () => { generateRef.current = null; };
+  }, [kit, control, chunks, exclusions, clearanceIndex, regionRaster, tint,
+      verticalScale, ringRadiusM, farRadiusM, store, focusRef]);
 
   // The pool outlives every rebuild, so it is dropped once, on unmount.
   useEffect(() => () => {
@@ -1394,6 +1635,7 @@ export function Groundcover({
   // unswapped species for as long as the player stayed near them.
   useEffect(() => {
     tileCache.current.clear();
+    genPending.current = true;
   }, [control, regionRaster, tint, chunks, exclusions, clearanceIndex,
       verticalScale, ringRadiusM]);
 

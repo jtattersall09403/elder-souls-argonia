@@ -126,9 +126,9 @@ export interface WaterUniforms extends FoamFieldUniforms {
   /** Texels at or below this signed depth are buried (never level-weighted). */
   uSurfBuried: { value: number };
   uSurfShore: { value: THREE.Texture };
-  /** 16f colour constituents (water-colour.png: R algae, G dark), on the
-   * surface grid; `uColourOn` 0 when the build ships no dressing. */
-  uColourTex: { value: THREE.Texture | null };
+  /** 16f colour constituents: algae rides `uSurfShore.a`, dark rides
+   * `uKlassTex.a` (packed at load; the shader is at the 16-sampler limit).
+   * `uColourOn` 0 when the build ships no dressing. */
   uColourOn: { value: number };
   uFlowTex: { value: THREE.Texture };
   uKlassTex: { value: THREE.Texture };
@@ -207,7 +207,6 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uSurfDepthSpan: { value: m.surface.depthSpanM ?? 25.5 },
     uSurfBuried: { value: buriedThresholdM(m) },
     uSurfShore: { value: assets.shoreTex },
-    uColourTex: { value: assets.dressing?.colourTex ?? null },
     uColourOn: { value: assets.dressing ? 1 : 0 },
     uFlowTex: { value: assets.flowTex },
     uKlassTex: { value: assets.klassTex },
@@ -292,6 +291,11 @@ export const NOISE_GLSL = /* glsl */ `
   }
 `;
 
+/** Screen-space reflections march only this near (metres): beyond it the
+ * environment map's sky reflection is indistinguishable at the pixel. */
+export const SSR_FADE_START_M = 260;
+export const SSR_FADE_END_M = 420;
+
 /** Shared data samplers (W/depth/shore raster, flow, class). */
 export const SAMPLER_GLSL = /* glsl */ `
   uniform sampler2D uSurfTex;
@@ -304,7 +308,6 @@ export const SAMPLER_GLSL = /* glsl */ `
   uniform float uSurfDepthSpan;
   uniform float uSurfBuried;
   uniform sampler2D uSurfShore;
-  uniform sampler2D uColourTex;
   uniform float uColourOn;
   uniform sampler2D uFlowTex;
   uniform sampler2D uKlassTex;
@@ -391,15 +394,19 @@ export const SAMPLER_GLSL = /* glsl */ `
     return vec2(esH, esPlain.y);
   }
 
-  // 16f colour constituents at wpos: x algae, y dark (tannin). Zero without
-  // the dressing. Same grid and clamp as the shore raster.
+  // 16f colour constituents at wpos: x algae (shore raster A), y dark
+  // (class raster A). Zero without the dressing. The alpha bytes are written
+  // at load into the DataTexture, never decoded from a PNG's alpha (canvas
+  // premultiply would corrupt the RGB), which is why they can ride alpha.
   vec2 esColourAt(vec2 wpos){
     if (uColourOn < 0.5) return vec2(0.0);
     float extent = uSurfSize * uSurfMpp;
-    return texture2D(uColourTex, clamp(wpos / extent, vec2(0.0), vec2(1.0))).rg;
+    float algae = texture2D(uSurfShore, clamp(wpos / extent, vec2(0.0), vec2(1.0))).a;
+    float dark = texture2D(uKlassTex, clamp(wpos / uFlowExtentM, vec2(0.0), vec2(1.0))).a;
+    return vec2(algae, dark);
   }
-  // Shore raster: R = shore distance, G = season response, B = tannin.
-  // (Data never rides PNG alpha — canvas premultiply corrupts it.)
+  // Shore raster: R = shore distance, G = season response, B = tannin,
+  // A = algae (packed at load; a PNG's own alpha is never data).
   vec3 esShoreAt(vec2 wpos){
     float extent = uSurfSize * uSurfMpp;
     vec3 s = texture2D(uSurfShore, clamp(wpos / extent, vec2(0.0), vec2(1.0))).rgb;
@@ -1369,10 +1376,13 @@ outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esBan
 vec3 esView = normalize(cameraPosition - vEsWorldPos);
 vec3 esSpecEnv = reflectedLight.indirectSpecular;
 #ifdef ES_SSR
-if (esDist < 1200.0) {
+// Distance LOD (16f round 3): the 18-step screen-space march ran to 1.2 km,
+// where a reflection is a pixel or two the environment map already gives.
+// Past ${SSR_FADE_END_M} m the sky reflection alone carries the far field.
+if (esDist < ${SSR_FADE_END_M.toFixed(1)}) {
   vec4 esS = esSsr(vEsWorldPos, reflect(-esView, esNW));
   float esFres = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
-  float esSsrFade = 1.0 - smoothstep(800.0, 1200.0, esDist);
+  float esSsrFade = 1.0 - smoothstep(${SSR_FADE_START_M.toFixed(1)}, ${SSR_FADE_END_M.toFixed(1)}, esDist);
   esSpecEnv = mix(esSpecEnv, esS.rgb * esFres,
     clamp(esS.a, 0.0, 1.0) * uSsrStrength * esSsrFade * (1.0 - esFoam));
 }

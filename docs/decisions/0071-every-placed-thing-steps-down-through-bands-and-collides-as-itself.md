@@ -48,8 +48,10 @@ row that deferred the flora billboard audit.
    was already right (one ocean body; 20 lagoons up to 2.5 km inland keep
    their kind); the last two raster-derived salt reads and the map's
    whole-piece painting rule are gone. The compiled `ocean` label's 56 ha
-   over-reach into tidal creeks is a 16c defect, queued for the next
-   refreeze, never patched below the gate.
+   over-reach into tidal creeks is a 16c defect above the gate; the owner
+   ruled on 2026-09-18 that no refreeze will ever run and accepted it as
+   it is (the backlog row records what it costs: sea class and sea-bed
+   dressing on shallow tidal creek within 700 m of the open sea).
 10. **The sea bed is dressed from the shoreline out, under `ocean` only.**
     Pebbles, stones, shells, real coral, starfish, sponges, debris, medium
     and large wet rocks, gated by the record kind and a coastline density

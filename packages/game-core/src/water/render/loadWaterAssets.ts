@@ -60,6 +60,19 @@ async function fetchImageData(url: string): Promise<ImageData> {
   return ctx.getImageData(0, 0, canvas.width, canvas.height);
 }
 
+/** Copy one channel of `src` into one channel of `dst`, nearest-resampled
+ * when the two rasters differ in size (both cover the province extent). */
+export function packChannel(src: ImageData, srcChannel: number, dst: ImageData, dstChannel: number): void {
+  const sw = src.width, sh = src.height, dw = dst.width, dh = dst.height;
+  for (let y = 0; y < dh; y++) {
+    const sy = Math.min(sh - 1, Math.floor((y + 0.5) * sh / dh));
+    for (let x = 0; x < dw; x++) {
+      const sx = Math.min(sw - 1, Math.floor((x + 0.5) * sw / dw));
+      dst.data[(y * dw + x) * 4 + dstChannel] = src.data[(sy * sw + sx) * 4 + srcChannel];
+    }
+  }
+}
+
 function dataTexture(img: ImageData, filter: THREE.MagnificationTextureFilter): THREE.DataTexture {
   const tex = new THREE.DataTexture(
     new Uint8Array(img.data.buffer.slice(0)),
@@ -226,8 +239,16 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
       if (side.schemaVersion !== 1) return undefined;
       const [habitatImg, colourImg] = await Promise.all([
         fetchImageData(`${waterBase}${side.habitat.file}`), fetchImageData(`${waterBase}${side.colour.file}`)]);
-      return { habitatTex: dataTexture(habitatImg, THREE.LinearFilter), colourTex: dataTexture(colourImg, THREE.LinearFilter),
-        size: side.size, metresPerPixel: side.metresPerPixel };
+      // The colour constituents ride the ALPHA of two rasters the shader
+      // already binds — algae in the shore raster, dark in the class raster
+      // — because the water material was at the GPU's 16-sampler limit and
+      // a sampler of its own pushed it to 17 (the owner's console: "Trying
+      // to use 16 texture units while this GPU supports only 16"). The PNGs
+      // stay RGB; the alpha byte is written here, after the canvas decode,
+      // straight into the DataTexture bytes, so no premultiply touches it.
+      packChannel(colourImg, 0, shoreImg, 3);
+      packChannel(colourImg, 1, klassImg, 3);
+      return { habitatTex: dataTexture(habitatImg, THREE.LinearFilter), size: side.size, metresPerPixel: side.metresPerPixel };
     } catch { return undefined; }
   })();
 
