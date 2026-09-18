@@ -45,12 +45,21 @@ promises fixed here; NPC statblocks are 10c's, populations 13's and 15's.
 Vegetation clearance for the tracks it lays is a typed patch applied to
 the published bundles (0070); the scatter is never re-run.
 
-## Starting state (2026-09-18, written by the planning agent after 16f round 2; the closing 16g agent rewrites 16h's)
+## Starting state (2026-09-18, written by the planning agent after 16f round 2; audited by the delivering agent the same day; the closing 16g agent rewrites 16h's)
 
-Run the `routing-audit` skill over this brief before building: 16f round 3
-landed after this was written (decision 0072: the ring's tiers, the studio's
-fresh-file middleware, the water's colour on alpha, denser sea-bed bands;
-no stage above `compile_scatter` re-ran).
+Routing audit (delivering agent, 2026-09-18): every claim below held
+against the tree except these, corrected here. **`macro_plot` cannot run
+at all today**: 16d purged `ProvinceSurvey.wetlands`/`flood` and
+`free_ground` (~707) still reads them, so `python3 -m worldgen.macro_plot
+--dry-run` raises `AttributeError` before solving; deliverable 0 is the
+prerequisite of every other deliverable, not a parallel lane. The seven
+red files are 12 failed / 38 passed. The hero Hist already carry a
+`heroHist` block on 12 records (10 power slots, 2 reserves with
+`powerSlot: null`, ids `hist.<region>.<slug>`): `histCommunion` is that
+block, not a second one. Built and unpublished kits also exist:
+`hlaalu-domestic`, `vanilla-farmhouse-int`, `vanilla-imperial-int`,
+`watercraft-v1` in `tooling/asset-pipeline/output/kits/`. 16f rounds 3–5
+(0072–0075) re-ran nothing above `compile_scatter`.
 
 - **The ladder is built through 16f** (`terrain-chain.sh`
   `DELIVERED_THROUGH="16f"`; `[16g]="compile_minor_routes compile_minor_waterways"`).
