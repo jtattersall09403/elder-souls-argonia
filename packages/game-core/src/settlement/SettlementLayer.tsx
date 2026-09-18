@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
+import { createKitLoader } from "../assets/kitLoader";
+import { useKitDecoders } from "../assets/useKitDecoders";
 import {
   anchorPlacement,
   finalPlacementTransform,
@@ -186,6 +188,7 @@ export function SettlementLayer({
   const [fatalError, setFatalError] = useState<Error | null>(null);
   const [gltfs, setGltfs] = useState<Map<string, GLTF>>(() => new Map());
   const pendingKits = useRef(new Set<string>());
+  const decoders = useKitDecoders(baseUrl);
   const [revision, setRevision] = useState(0);
   const builtAt = useRef<{ x: number; z: number; coveredRadiusM: number } | null>(null);
   const incomplete = useRef(false);
@@ -227,7 +230,7 @@ export function SettlementLayer({
       return residents.has(p.id)
         || Math.hypot(p.positionM[0] - focus.x, p.positionM[2] - focus.z) <= cap * drawScale;
     }).map((p) => p.kit));
-    const loader = new GLTFLoader();
+    const loader = createKitLoader(decoders);
     for (const id of wanted) {
       if (gltfs.has(id) || pendingKits.current.has(id)) continue;
       const kit = bundle.kits[id];
@@ -242,7 +245,7 @@ export function SettlementLayer({
         `settlement kit ${id} failed: ${error instanceof Error ? error.message : String(error)}`)))
         .finally(() => pendingKits.current.delete(id));
     }
-  }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs]);
+  }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs, decoders]);
 
   const kits = useMemo(() => {
     return new Map([...gltfs].map(([id, gltf]) => [id, buildArchitectureKit(gltf)]));

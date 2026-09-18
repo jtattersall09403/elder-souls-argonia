@@ -55,6 +55,13 @@ asset registry.
 
 ### In use now
 
+- **Basis Universal transcoder** (Binomial LLC, Apache-2.0) — the
+  `basis_transcoder.js`/`.wasm` three.js ships, served at `<app>/basis/` so
+  every kit's KTX2/UASTC textures transcode to the device's GPU format
+  (`packages/basis-transcoder`). **meshoptimizer / gltfpack** (Arseny
+  Kapoulkine, MIT) — the meshopt decoder three.js bundles for
+  `EXT_meshopt_compression`; gltfpack 1.2 is the build-time encoder
+  (`pipeline/kit_compress.py`), a tool, not an asset.
 - **ecctrl** (Erdong Chen / pmndrs) — character controller used by the combat
   sandbox, MIT.
 - Skyrim vanilla assets (Bethesda) — **meshes and textures** (including the

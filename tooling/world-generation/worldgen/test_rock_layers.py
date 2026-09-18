@@ -60,10 +60,20 @@ def test_sink_is_the_mined_p50(region, layer):
 
 @pytest.mark.parametrize("region,layer", ROCKS)
 def test_tilt_yaw_and_scale_are_mined(region, layer):
-    """Rules 2 and 6: tilt is twice the mined median, yaw is uniform, scale
-    is the mined p5-p95."""
+    """Rules 2 and 6: the hillside pitch is taken on at the mined ratio of
+    median tilt to median slope, the residual jitter is the mined p25, yaw is
+    uniform, scale is the mined p5-p95.
+
+    The mine's `tiltDeg` is the placed reference's TOTAL off-vertical angle
+    (`mine_placement`: hypot(rotX, rotY)), so it already holds the
+    slope-following; drawing 2 x p50 per axis AND adding the whole pitch
+    (round 3) shipped 25 % of rocks past their own p95 (16f round 4)."""
     m = rd.mined(layer["species"])
-    assert 0.0 < layer["tilt_deg_max"] <= 2.0 * m["tilt_p50"] + 0.1
+    assert layer["tilt_deg_max"] == pytest.approx(m["tilt_p25"], abs=0.01)
+    assert layer["align_to_slope"] == pytest.approx(
+        min(1.0, m["tilt_p50"] / max(m["slope_p50"], 1.0)), abs=0.001)
+    assert 0.0 < layer["align_to_slope"] <= 1.0
+    assert layer["sink_deep_m"] == pytest.approx(max(0.0, m["sink_p25"]), abs=0.001)
     assert layer.get("yaw_random", True) is True
     assert m["yaw_uniformity"] > 0.7, "mined yaw is not uniform for this species"
     if "BORROWED" in (layer.get("note") or ""):
@@ -73,7 +83,6 @@ def test_tilt_yaw_and_scale_are_mined(region, layer):
         assert layer["scale_range"][0] < layer["scale_range"][1]
     else:
         assert layer["scale_range"] == [m["scale_p5"], m["scale_p95"]]
-    assert layer.get("align_to_slope") == 1.0
 
 
 @pytest.mark.parametrize("source,layer", EMITTED)

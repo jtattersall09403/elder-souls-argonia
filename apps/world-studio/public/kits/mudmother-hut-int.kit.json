@@ -3046,5 +3046,38 @@
   "fitter": "pipeline.trunk_solids",
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
+ },
+ "compression": {
+  "schemaVersion": 1,
+  "tool": "gltfpack 1.2",
+  "args": [
+   "-cc",
+   "-tc",
+   "-tq",
+   "8",
+   "-kn",
+   "-km",
+   "-ke",
+   "-vtf",
+   "-vpf",
+   "-tj",
+   "4",
+   "-tu",
+   "color,normal,attrib"
+  ],
+  "textures": {
+   "color": "uastc",
+   "normal": "uastc",
+   "attrib": "uastc"
+  },
+  "textureQuality": 8,
+  "textureContainer": "ktx2",
+  "geometry": "EXT_meshopt_compression",
+  "bytesBefore": 23686900,
+  "bytesAfter": 11599196,
+  "images": 50,
+  "imageBytesAfter": 10412953,
+  "warnings": [],
+  "sha256": "a1ac7de5ded394c1273b9f993daf56559cde1a30fbdc3e767dd5040363726826"
  }
 }

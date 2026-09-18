@@ -708,7 +708,10 @@ export function WorldSky({
     gl.toneMappingExposure = 1e-4;
     gl.outputColorSpace = THREE.SRGBColorSpace;
     gl.shadowMap.enabled = true;
-    gl.shadowMap.type = THREE.PCFSoftShadowMap;
+    // PCF, not PCFSoft: three r184 deprecates PCFSoft and silently renders
+    // PCF anyway; leaving the deprecated value set made materials compile
+    // with the wrong shadow sampler type (WaterPipeline.tsx explains).
+    gl.shadowMap.type = THREE.PCFShadowMap;
   }, [gl]);
 
   // Cascaded shadow maps: mandatory for a sun over kilometres of terrain.
@@ -821,6 +824,11 @@ export function WorldSky({
     // Newly patched programs compile off the main thread where the driver
     // supports it (KHR_parallel_shader_compile) — synchronous first-use
     // compiles of the big CSM shaders are the load-time frame stalls.
+    // This compiles OUTSIDE the water pipeline's frame, so it must see the
+    // same shadow type the shadow maps are built with: a program compiled
+    // while the deprecated PCFSoft value is set gets `sampler2D` shadow
+    // samplers against PCF comparison textures (WaterPipeline.tsx explains).
+    if (gl.shadowMap.type === THREE.PCFSoftShadowMap) gl.shadowMap.type = THREE.PCFShadowMap;
     if (anyNew) void gl.compileAsync(scene, camera).catch(() => {});
   };
 

@@ -23,12 +23,25 @@ extracted assets, audition builds, or rendered evidence.
 python3 -m pipeline.build    --character dunmer-combat   # -> output/character-dunmer-combat.glb
 python3 -m pipeline.validate --character dunmer-combat   # structural GLB check
 
-python3 -m pipeline.build_kit --kit settlement-mud-v1    # -> output/kits/<kit>.glb
+python3 -m pipeline.build_kit --kit settlement-mud-v1    # -> output/kits/<kit>.glb (raw), republishes a published kit
+python3 -m pipeline.kit_compress --kit settlement-mud-v1 # publish: KTX2/UASTC + meshopt -> apps/world-studio/public/kits/
+python3 -m pipeline.kit_compress --kit settlement-mud-v1 --check   # verify the published kit
+python3 -m pipeline.texture_quality --source output/kits/x.glb --packed ../../apps/world-studio/public/kits/x.glb
 python3 -m pipeline.vet_kit   output/kits/settlement-mud-v1.kit.json
 python3 -m pipeline.placement_metadata                    # used-asset coverage gate
 
 python3 -m pipeline.vault_inventory                      # -> world/sources/assets/vault-inventory.md
 ```
+
+**Kits reach `public/kits/` only through `kit_compress`** (owner 2026-09-18,
+pulled forward from Phase 14): the raw build under `output/kits/` is what the
+measuring tools read (`vet_kit`, `trunk_solids`, `measure_footprints`,
+`interiors_index`, trimesh); the published copy is gltfpack's KTX2/UASTC +
+meshopt compression of it, recorded in the manifest's `compression` block,
+and `test_kit_compress.py` refuses an unrecorded or uncompressed kit. The
+encoder is the native gltfpack 1.2 at `toolchain.json` `gltfpack` (the npm
+build has no Basis encoder). Format choice and numbers:
+[docs/research/rendering/gpu-texture-and-mesh-compression.md](../../docs/research/rendering/gpu-texture-and-mesh-compression.md).
 
 Every kit manifest asset carries a required `placement` object. The builder
 measures only `groundContactOffsetM` from the final transformed LOD0 bounds;

@@ -1115,5 +1115,11 @@
   "fitter": "pipeline.trunk_solids",
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
+ },
+ "compression": {
+  "schemaVersion": 1,
+  "enabled": false,
+  "bytes": 856724,
+  "reason": "0.86 MB of geometry with 16 px stub textures; loaded by sharedWaterAssets from paths without a renderer (App.tsx), which the KTX2 transcoder needs to choose a GPU format. Nothing to gain, one loader path to keep renderer-free."
  }
 }

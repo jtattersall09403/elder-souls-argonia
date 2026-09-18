@@ -38,6 +38,8 @@
     "playwright": "^1.62.1",
     "typescript": "^6.0.3",
     "vite": "^8.0.16",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "@elder-souls/basis-transcoder": "^0.1.0",
+    "@elder-souls/character-assets": "^0.1.0"
   }
 }

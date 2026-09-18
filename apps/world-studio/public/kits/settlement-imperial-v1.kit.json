@@ -1176,5 +1176,38 @@
  "alphaModes": {
   "MASK": 0,
   "OPAQUE": 98
+ },
+ "compression": {
+  "schemaVersion": 1,
+  "tool": "gltfpack 1.2",
+  "args": [
+   "-cc",
+   "-tc",
+   "-tq",
+   "8",
+   "-kn",
+   "-km",
+   "-ke",
+   "-vtf",
+   "-vpf",
+   "-tj",
+   "4",
+   "-tu",
+   "color,normal,attrib"
+  ],
+  "textures": {
+   "color": "uastc",
+   "normal": "uastc",
+   "attrib": "uastc"
+  },
+  "textureQuality": 8,
+  "textureContainer": "ktx2",
+  "geometry": "EXT_meshopt_compression",
+  "bytesBefore": 18620720,
+  "bytesAfter": 7669544,
+  "images": 25,
+  "imageBytesAfter": 6316751,
+  "warnings": [],
+  "sha256": "3e5157d8a11c91b094c1a62b92aba1d28062c18336e99f1280ec0548063d43ce"
  }
 }

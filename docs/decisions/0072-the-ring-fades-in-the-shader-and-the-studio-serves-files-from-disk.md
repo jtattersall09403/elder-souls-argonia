@@ -20,6 +20,13 @@ frame rate. The evidence and the numbers are in the
    middleware; the index-load rejection in `Vegetation.tsx` is logged,
    never swallowed. The rule this enshrines: **a layer that fails to load
    its data says so on the console; a silent catch is a defect.**
+   *Round 4 amendment:* the middleware validates rather than re-sends — a
+   weak ETag from size+mtime and Last-Modified, `Cache-Control: no-cache`,
+   304 on a match (the first version streamed every byte on every load,
+   ~110 MB per reload) — and a missing file inside one of public/'s own
+   folders is a 404, never the SPA fallback's `index.html`. The production
+   build is unaffected: dist/ is copied and Pages serves it with its own
+   ETags.
 2. **Ground-cover tier membership is decided per TILE with an overlap
    margin; the shader does all the fading.** A plant is copied into
    every tier's buffer whose outer radius (plus the margin: the rebuild

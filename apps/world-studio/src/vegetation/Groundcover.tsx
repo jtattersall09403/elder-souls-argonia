@@ -55,6 +55,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
+import { configureKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { buildFloraKit, type FloraKit, type KitManifest } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
@@ -872,6 +874,7 @@ export function Groundcover({
   verticalScale = 1,
   onStats,
   quality,
+  settlementsVisible = false,
 }: {
   /** Same shape the chunk terrain uses: ground position, not a camera. */
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
@@ -879,6 +882,9 @@ export function Groundcover({
   verticalScale?: number;
   onStats?: (stats: GroundcoverStats) => void;
   quality?: QualitySettings;
+  /** Whether the ladder shows the settlement layer; the footprint bundle is
+   * fetched only then. */
+  settlementsVisible?: boolean;
 }) {
   const ringRadiusM = quality?.groundcoverRadiusM ?? RING_RADIUS_M;
   const farRadiusM = quality?.groundcoverFarRadiusM ?? RING_FAR_RADIUS_M;
@@ -920,7 +926,9 @@ export function Groundcover({
   const generateRef = useRef<((budgetMs: number) => { generated: number; remaining: number }) | null>(null);
   const [revision, setRevision] = useState(0);
 
-  const gltf = useLoader(GLTFLoader, `${baseUrl}kits/groundcover-province-v1.glb`);
+  const decoders = useKitDecoders(baseUrl);
+  const gltf = useLoader(GLTFLoader, `${baseUrl}kits/groundcover-province-v1.glb`,
+    (loader) => configureKitLoader(loader, decoders));
 
   useEffect(() => {
     let cancelled = false;
@@ -930,17 +938,6 @@ export function Groundcover({
         if (!cancelled) {
           setManifest(m);
           radii.current = new Map(m.assets.map((a) => [a.id, Math.max(a.sizeM[0], a.sizeM[1]) / 2]));
-        }
-      })
-      .catch(() => undefined);
-    fetch(`${baseUrl}province/settlements.json`)
-      .then((r) => r.ok ? r.json() : Promise.reject(new Error("no settlements")))
-      .then((b: { groundTreatments?: FoundationTreatment[] }) => {
-        if (!cancelled) {
-          const treatments = (b.groundTreatments ?? []).filter((t) =>
-            Array.isArray(t.footprintM) && Array.isArray(t.foundationScatterBandM));
-          setExclusions(treatments.map((t) => t.footprintM));
-          setFoundationTreatments(treatments);
         }
       })
       .catch(() => undefined);
@@ -976,6 +973,28 @@ export function Groundcover({
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseUrl]);
+
+  // The settlement bundle (10 MB) feeds only the building footprints the
+  // grass keeps out of and their foundation scatter bands. While the ladder
+  // hides the settlement layer (16f) there is nothing to keep out of, so the
+  // fetch waits for the layer to be shown (16f round 4: it was 9.7 MB of
+  // pure waste on every start-up).
+  useEffect(() => {
+    if (!settlementsVisible) return;
+    let cancelled = false;
+    fetch(`${baseUrl}province/settlements.json`)
+      .then((r) => r.ok ? r.json() : Promise.reject(new Error("no settlements")))
+      .then((b: { groundTreatments?: FoundationTreatment[] }) => {
+        if (!cancelled) {
+          const treatments = (b.groundTreatments ?? []).filter((t) =>
+            Array.isArray(t.footprintM) && Array.isArray(t.foundationScatterBandM));
+          setExclusions(treatments.map((t) => t.footprintM));
+          setFoundationTreatments(treatments);
+        }
+      })
+      .catch(() => undefined);
+    return () => { cancelled = true; };
+  }, [baseUrl, settlementsVisible]);
 
   useEffect(() => {
     if (manifest) setKit(buildFloraKit(gltf, manifest));

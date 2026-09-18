@@ -18,6 +18,7 @@ import {
   CHARACTER_MODEL_OFFSET,
 } from "@elder-souls/game-core/physics/characterPhysics";
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
+import { visualSupportY } from "@elder-souls/game-core/physics/visualSupport";
 import { spawnBodyY } from "./spawnHeight";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
 import { DEFAULT_SEX, RACE_IDS, resolveBuild, type RaceId } from "@elder-souls/game-core/actors/races";
@@ -377,7 +378,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           // Cap pixel density — see Fly3D (8b round 2 perf); the quality
           // preset tightens it further on foot (fill rate is the retina tax).
           dpr={[1, quality.dprMax]}
-          shadows="soft"
+          // "percentage" = PCFShadowMap, matching Fly3D: "soft" is deprecated
+          // in three r184 and r3f re-applies it on every Canvas render, forcing
+          // a shadow re-render each frame (WaterPipeline.tsx explains).
+          shadows="percentage"
           style={{ width: "100%", height: "100%" }}
           onCreated={({ gl }) => { glRef.current = gl.domElement; }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
@@ -417,6 +421,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                   baseUrl={import.meta.env.BASE_URL}
                   verticalScale={verticalScale}
                   quality={quality}
+                  settlementsVisible={!hiddenLayers.has("settlements")}
                 />
               </>
             )}
@@ -825,9 +830,11 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     lastPosition.current.copy(position);
     locomotion.update(adapter, intent, camera3P.yaw, delta);
     speedMultiplierRef.current = locomotion.animationSpeed;
-    // Keep the grounding solve's support plane on the terrain under the actor.
-    supportYRef.current = world.groundHeight(position.x, position.z)
-      ?? position.y - CHARACTER_BODY_CENTER_HEIGHT;
+    // Keep the grounding solve's support plane on whatever the actor STANDS
+    // ON (rock, quay, floor), falling back to the terrain. See visualSupport.ts
+    // for the landing-into-a-boulder defect the terrain-only plane caused.
+    supportYRef.current = visualSupportY(
+      adapter.supportHeight(), world.groundHeight(position.x, position.z), position.y);
     camera3P.update(intent.camera, position, delta);
     const cameraGround = world.groundHeight(camera3P.position.x, camera3P.position.z);
     if (cameraGround !== null && camera3P.position.y < cameraGround + 0.6) {

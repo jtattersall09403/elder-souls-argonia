@@ -7,7 +7,7 @@ from pathlib import Path
 
 from .build_kit import (
     CARD_ATLAS_MAX_PX, DirSource, RarSource, _default_collision, _flat_lod_of,
-    _part_specs, card_resolution_px, pack_card_tiles, resolve_bake_card,
+    _part_specs, bakes_own_card, card_resolution_px, pack_card_tiles, resolve_bake_card,
     resolve_lod_ratios,
     set_alpha_modes,
 )
@@ -226,19 +226,84 @@ def test_lod_ratios_resolve_entry_then_category_then_kit():
     assert resolve_lod_ratios({}, {}, "rock") == [0.35, 0.12]
 
 
-def test_bake_card_force_overrides_an_authored_card():
-    # Default: the pool's authored `_lod_flat` wins. `false` opts out of baking
-    # entirely. `"force"` is the third state: the authored card is another
-    # species' LOD art (the willows' aspen crown chunk), so bake this asset's
-    # own silhouette and ignore the NIF.
+def test_every_asset_bakes_its_own_card_under_bake_cards():
+    # 16f round 4: an authored `_lod_flat` is matched to a mesh by NAME
+    # (an atlas rect by vanilla slot) and three trees wore another tree's
+    # picture. Under `bakeCards` every asset bakes its own card; `false` is
+    # the only opt-out; the old `"force"` reads as plain `true`.
     assert resolve_bake_card({}) is True
     assert resolve_bake_card({"bakeCard": False}) is False
-    assert resolve_bake_card({"bakeCard": "force"}) == "force"
-    assert resolve_bake_card({"bakeCard": "FORCE"}) == "force"
-    # The Blender half bakes when forced even though a card NIF exists, and
-    # skips the authored import; the resolver is what both halves branch on.
-    asset = {"bakeCard": resolve_bake_card({"bakeCard": "force"}),
-             "lodFlatNif": "X:/meshes/t/x_lod_flat.nif"}
-    forced = asset.get("bakeCard") == "force"
-    assert forced and (forced or not asset.get("lodFlatNif"))
-    assert not (asset.get("lodFlatNif") and not forced)
+    assert resolve_bake_card({"bakeCard": "force"}) is True
+    assert resolve_bake_card({"bakeCard": "false"}) is False
+    kit = {"bakeCards": True, "bakeCardSkipCategories": ["rock"]}
+    assert bakes_own_card({}, kit, "tree") is True
+    assert bakes_own_card({"bakeCard": False}, kit, "tree") is False
+    assert bakes_own_card({}, kit, "rock") is False
+    assert bakes_own_card({}, {}, "tree") is False
+
+
+def _shipped_flora_cards():
+    """(asset record, card mesh bounds per view) for every species in the
+    SHIPPED flora kit, read from the GLB's own accessor bounds."""
+    import struct
+    root = Path(__file__).resolve().parents[3] / "apps/world-studio/public/kits"
+    manifest = json.loads((root / "flora-province-v1.kit.json").read_text())
+    with open(root / "flora-province-v1.glb", "rb") as fh:
+        fh.read(12)
+        length = struct.unpack("<II", fh.read(8))[0]
+        gltf = json.loads(fh.read(length))
+    nodes, meshes, accessors = gltf["nodes"], gltf["meshes"], gltf["accessors"]
+    by_node = {n.get("name"): i for i, n in enumerate(nodes)}
+    out = []
+    for asset in manifest["assets"]:
+        cards = []
+        stack = [by_node[asset["node"]]]
+        while stack:
+            node = nodes[stack.pop()]
+            stack.extend(node.get("children", []))
+            extras = node.get("extras", {})
+            if "mesh" not in node or not extras.get("billboard"):
+                continue
+            lo, hi = [1e9] * 3, [-1e9] * 3
+            for prim in meshes[node["mesh"]]["primitives"]:
+                acc = accessors[prim["attributes"]["POSITION"]]
+                lo = [min(a, b) for a, b in zip(lo, acc["min"])]
+                hi = [max(a, b) for a, b in zip(hi, acc["max"])]
+            cards.append((node.get("name", ""), extras, lo, hi))
+        out.append((asset, cards))
+    return out
+
+
+def test_shipped_flora_cards_are_baked_from_their_own_mesh():
+    """The card↔mesh identity gate (16f round 4). Every far card in the
+    shipped flora kit must be BAKED (`cardSource: "baked"`), carry this
+    asset's own node hash in its name, and be the square frame
+    `bake_asset_cards` renders — `max(height, footprint) × 1.02` of THIS
+    asset's `sizeM`, standing on its base. A mod-authored `_lod_flat` fails
+    all three: it is bound by name to an atlas rect, so it was
+    `gkbjungletreenew17v2`'s picture on `hodalder01gkb`, vanilla
+    `TreePineForest05`'s on `scottish-pine22`, and a single 27 m plane on the
+    11 m `gkbjungletreenew30v3` (the owner's 1.11 km E / 5.21 km S tree)."""
+    wrong = []
+    for asset, cards in _shipped_flora_cards():
+        if not cards:
+            continue
+        w, d, h = asset["sizeM"]
+        frame = max(h, w, d) * 1.02
+        node_hash = asset["node"][3:13]
+        for name, extras, lo, hi in cards:
+            span = [hi[i] - lo[i] for i in range(3)]
+            reasons = []
+            if extras.get("cardSource") != "baked":
+                reasons.append("not baked")
+            if node_hash not in name:
+                reasons.append(f"card {name!r} is not this asset's hash {node_hash}")
+            # Y is up in the GLB; the quad is square, `frame` on a side, and
+            # one of X/Z is the (flat) card normal.
+            if abs(span[1] - frame) > 0.05 * frame + 0.02:
+                reasons.append(f"height {span[1]:.2f} != frame {frame:.2f}")
+            if abs(max(span[0], span[2]) - frame) > 0.05 * frame + 0.02:
+                reasons.append(f"width {max(span[0], span[2]):.2f} != frame {frame:.2f}")
+            if reasons:
+                wrong.append(f"{asset['id']}: " + "; ".join(reasons))
+    assert not wrong, "\n".join(wrong)

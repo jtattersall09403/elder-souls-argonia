@@ -564,9 +564,12 @@ proves that no `rock`, `landmark-giant` or bed-anchored species resolves to
 - **Vegetation clearance is a patch** (deliverable 9): 16g emits them for
   minor tracks, 16h for settlements, Phase 15 per packet; none re-runs the
   scatter.
-- **Rock colliders** are fitted capsules today (`trunk_solids`). Phase 9c's
-  climb contact and 16h's convex-part collider export are the moment rocks
-  take real hulls; the kit build keeps the mesh so that is a re-export.
+- **Rock colliders are real already** (round 2, decision 0071): a rock
+  collides as a Rapier trimesh of its own LOD0 triangles, scaled per
+  instance. The earlier note here — that rocks are fitted capsules awaiting
+  hulls in 9c/16h — was stale and is struck (round 4 measured it: a capsule
+  drop onto a rock rests on its top face and never ejects). Phase 9c's climb
+  contact reads the same trimesh; no re-export is owed.
 - **Dressing zones** (deliverable 4) are the authored-overlay record for
   Phase 15 packets and Phase 12 exteriors.
 - **The habitat mask** (deliverable 14) is Phase 13's spawn input for
@@ -686,6 +689,44 @@ must be freshly started for this round (the server fix is in its config).
 - Sea bed: beach `x=6.12&z=1.638`, swim out and along the shore; reefs `x=4.72&z=5.77`, `x=5.33&z=4.88`, `x=5.62&z=2.32`: pebbles, shells, algae mats, sponges, starfish and coral heads on the floor?
 - Console: any line mentioning texture units, or `GL_INVALID_OPERATION`, at the beach or under water?
 - Frame rate at the jungle, the beach and under water: low, medium or high, one word each; the console prints `vegetation rebuild … ms` and `flora colliders rebuild … ms` lines while you walk — paste the largest of each.
+
+## Owner check, round 4 (2026-09-18; decision 0073, ledger §17)
+
+Everything below is drawn by the kits and bundles published on 2026-09-18
+(round 4). `?view=character&…` unless said otherwise. Start the studio
+yourself (`npm run studio`) — no agent started one this round.
+
+- Quality bands, the main fix: jungle `x=4.02&z=4.61`. Pick a tree 60–150 m
+  off and walk straight at it, then do the same with a clump of ferns 20–40 m
+  off and with a rock. Each should only ever get sharper or softer — none of
+  them should go thin, transparent or invisible as you close the distance.
+- Billboards: `x=1.11&z=5.21` — the wide-crowned jungle tree about 9 m away
+  and the smaller tree beside it. Walk 150 m away until they turn into flat
+  cards and back again: the card should be the same shape as the tree.
+- Trees at distance: from high ground (`x=1.59&z=1.63`, or any mountain
+  looking out): distant trees should stay drawn as flat cards right out to
+  the edge of the loaded land instead of disappearing a few hundred metres
+  out. Ridges should still hide whatever is behind them.
+- Rocks: `x=2.16&z=1.23` (cliff pieces) and `x=0.85&z=5.10` — upright, open
+  sides into the hill, no gap under the downhill edge, no hollow shells.
+- Jumping on rocks: Rockpark `x=0.84&z=5.14` or `x=2.54&z=1.20` — walk up to
+  a boulder and jump onto it, including a running jump. You should land on
+  the stone and stay standing on it: no sinking into it on landing, no pop or
+  slide to another spot a moment later.
+- Sea bed: beach `x=6.12&z=1.638`, swim out to `x=6.09&z=1.78` and keep going
+  to `x=6.00&z=1.90`: pebbles, shells, seagrass patches, sponges and small
+  stones, still dressed several hundred metres out, thinning past about a
+  kilometre. Also check the gorge fall `x=2.53&z=0.32` — the rocks at the lip
+  are seated now.
+- Console (open it before loading, then resize the window once), at
+  `x=6.12&z=1.63&ex=1&mats=bmv-v1&t=10:00&d=8-17` and `x=6.02&z=1.85&…`:
+  no `GL_INVALID_OPERATION`, no `Framebuffer is incomplete`, no repeating
+  `PCFSoftShadowMap` line, no `linvel` error. Two deprecation lines remain
+  (`THREE.Clock`, Rapier) — those are inside libraries we use, not our code.
+- Loading: load once, then reload. The second load should be much faster;
+  the Network tab should show `304` against the kit and province files.
+- Frame rate at the jungle, the beach and under water: low, medium or high,
+  one word each.
 
 ## Gotchas
 

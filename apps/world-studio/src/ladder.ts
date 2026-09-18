@@ -32,12 +32,22 @@ export function loadLadder(baseUrl: string): Promise<Ladder | null> {
   return p;
 }
 
-/** The set of hidden layer names; empty until the record loads or if there is none. */
+/**
+ * Every layer the ladder can hide. Until the record has loaded ALL of them
+ * are hidden: the old "nothing hidden until we know" default mounted the
+ * settlement layer for the frames before ladder.json arrived, which started
+ * its 9.7 MB bundle download on every start-up and then unmounted it
+ * (16f round 4). The ladder is a 600-byte file; waiting for it costs
+ * nothing visible.
+ */
+export const LADDER_LAYERS = ["apron", "settlements", "vegetation", "water", "route-structures"] as const;
+
+/** The set of hidden layer names: everything until the record loads, then the record's list (empty if there is none). */
 export function useHiddenLayers(baseUrl: string): Set<string> {
-  const [hidden, setHidden] = useState<Set<string>>(() => new Set());
+  const [hidden, setHidden] = useState<Set<string>>(() => new Set<string>(LADDER_LAYERS));
   useEffect(() => {
     let alive = true;
-    loadLadder(baseUrl).then((l) => { if (alive && l) setHidden(new Set(l.hiddenLayers)); });
+    loadLadder(baseUrl).then((l) => { if (alive) setHidden(new Set(l ? l.hiddenLayers : [])); });
     return () => { alive = false; };
   }, [baseUrl]);
   return hidden;

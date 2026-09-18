@@ -896,7 +896,16 @@ Deliverables:
   mesh is a straight draw-call and triangle cost across the whole province.
   Fix in the kit builder + LOD selection, then re-measure the province
   budget;
-- compressed textures and geometry;
+- **compressed textures and geometry — DONE, pulled forward by the owner on
+  2026-09-18 (decision 0073)**: the composed Pages site had reached 1,041 MB
+  against the 1 GB limit, so every kit now ships KTX2/UASTC textures and
+  meshopt geometry through `pipeline/kit_compress.py` (556 → 222 MB; the
+  site with every kit in 999 → 561 MB), the runtime decodes via
+  `game-core/assets/kitLoader.ts`; the duplicated character assets ship
+  once. Numbers and the per-role choice:
+  [research/rendering/gpu-texture-and-mesh-compression.md](../research/rendering/gpu-texture-and-mesh-compression.md).
+  What stays here: per-device texture budgets and any ETC1S trade the owner
+  chooses for opaque architecture (measured 4/5, ~30 % smaller);
 - performance budgets by device class;
 - GitHub Pages build containing approved runtime content only;
 - **sparse local state variants, consumed and budgeted** (the overlay

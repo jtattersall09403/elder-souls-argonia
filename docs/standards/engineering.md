@@ -1,6 +1,6 @@
 # Engineering standards
 
-Fifteen standing rules that are **cheap to require now and brutal to retrofit**.
+Sixteen standing rules that are **cheap to require now and brutal to retrofit**.
 Adopted by the owner 2026-09-01 (decision
 [0042](../decisions/0042-buildout-steers-and-engineering-standards.md) §8) after
 the lesson of the renderer: the code that has to be true of *everything* must be
@@ -299,6 +299,44 @@ Checked mechanically by `npm test` (repo-standards `checkDocsCurrent`); the
 failure demonstrations are the 2026-09-13 run over the tree before the audit
 fixes landed (the check found leftovers the audits had listed) and a
 throwaway doc quoting `deadbeef…`, which the hash rule rejected.
+
+## 16. What ships is compressed, and the payload is a budget with a gate
+
+Owner 2026-09-18, after the composed Pages site was found at ~1,041 MB
+against GitHub's 1 GB limit and the studio was measured downloading ~231 MB
+before the world appeared, 70–91 % of it uncompressed PNG inside kits. The
+owner's question was how to stop it happening again; the answer is that a
+written rule is the weakest of the three layers below, so all three exist.
+
+- **Compressed by default.** An asset that reaches a browser is stored in the
+  format its kind warrants — kits are UASTC/KTX2 textures plus meshopt
+  geometry, published only through `pipeline/kit_compress.py`, never copied
+  raw. The raw build stays under `output/kits/` for the tools that measure
+  it. A kit that opts out carries the reason in its config and its manifest
+  (`waterfall-fx-v1`: 16 px stub textures loaded from renderer-less paths).
+  GPU-compressed textures stay compressed in VRAM, so this is a budget for
+  the mid-range GPUs we target, not only for the download.
+- **The payload is measured, not assumed.** Work that adds to what a player
+  downloads states the before and after in its ledger. The measuring tool is
+  `apps/world-studio/scripts/probe-deployed-requests.mjs`, which serves the
+  production build under the Pages base path and reports every request with
+  its bytes and status; a startup payload nobody measured is a number that
+  will be discovered by the owner instead.
+- **The budgets, as gates.** Startup kit bytes ≤ 52 MB
+  (`test_kit_compress.py`, 45.6 MB today); composed site fails over 900 MB
+  and warns over 750 MB (`tooling/pages-site/compose.mjs`, 380 MB today with
+  the current ladder, 561 MB with every kit); every published kit carries a
+  `compression` record whose size matches the shipped file. Raising a budget
+  is a decision with a measurement, never an edit in passing.
+- **Ship only what the shipped ladder can display.** The Pages artefact
+  derives its contents from `province/ladder.json` and reachability, so data
+  for a hidden layer is not published and returns by itself when the layer
+  is shown (decision 0073 §7).
+
+Checked mechanically: `test_kit_compress.py` (in `npm run test:pipeline`),
+shown failing on all 21 uncompressed kits and on a startup total of 118.9 MB;
+the compose gates, shown failing by planting a reference to a kit that does
+not exist and to a chain-only raster.
 
 ## Running the checks
 

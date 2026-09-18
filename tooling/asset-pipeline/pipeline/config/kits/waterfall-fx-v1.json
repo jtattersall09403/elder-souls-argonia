@@ -4,6 +4,8 @@
  "output": "apps/world-studio/public/kits/waterfall-fx-v1.glb",
  "lodRatios": [],
  "textureMaxSize": 16,
+ "compression": false,
+ "compressionReason": "0.86 MB of geometry with 16 px stub textures; loaded by sharedWaterAssets from paths without a renderer (App.tsx), which the KTX2 transcoder needs to choose a GPU format. Nothing to gain, one loader path to keep renderer-free.",
  "assets": [
   {
    "asset": "vanilla:effects/fxwaterfallbodytall",

@@ -428,6 +428,9 @@ SUBMERGED_ROLES = frozenset({
     # purpose.
     "seabed-coral", "seabed-debris", "seabed-bones", "seabed-clutter",
     "seabed-boat", "seabed-algae",
+    # Low seagrass (16f round 4): a 0.6-1.4 m tuft has to be under the
+    # surface, or it is a reed.
+    "seabed-seagrass",
 })
 
 
@@ -759,7 +762,13 @@ def main() -> None:
     all_cells = [(cx, cz) for cz in range(grid) for cx in range(grid)]
     footprint_cells = None
     if not args.footprint:
-        record_inputs()
+        # A whole-province run leaves the snapshot the next footprint run
+        # measures against. A `--chunk` probe run must NOT: it stamped the
+        # new recipe before the chain ran, so the chain believed the recipe
+        # unchanged and re-scattered 125 of 256 chunks, leaving the rest on
+        # the old rules (16f round 4).
+        if not args.chunk:
+            record_inputs()
     else:
         footprint_cells = changed_chunks(args.footprint)
         if footprint_cells is None:

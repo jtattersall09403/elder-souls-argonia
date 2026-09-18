@@ -4,6 +4,7 @@ Prior art and technique studies behind the browser renderer: ground, sky, weathe
 
 | File | What it answers | Status |
 | --- | --- | --- |
+| [gpu-texture-and-mesh-compression.md](gpu-texture-and-mesh-compression.md) | Why every kit ships KTX2/UASTC textures and meshopt geometry, ETC1S measured and rejected per role, the gltfpack flags the runtime requires, before/after bytes. Read by `pipeline/kit_compress.py` and `game-core/src/assets/kitLoader.ts`. | live design input |
 | [webgl-terrain-many-material-splatting.md](webgl-terrain-many-material-splatting.md) | How to render 20–60+ ground materials on a province terrain without exploding shader cost: baked ID+blend control map into KTX2 arrays. Grounds decision 0011. | live design input |
 | [skyrim-morrowind-landscape-texture-granularity.md](skyrim-morrowind-landscape-texture-granularity.md) | How Bethesda gets granular ground texturing from a small global texture budget, and what that means for our splat design. Read by `worldgen/landcover.py`. | live design input |
 | [black-marsh-ground-texture-sources.md](black-marsh-ground-texture-sources.md) | Which tileable ground diffuses/normals to build the palette from, with verified licences and IDs. Read by `worldgen/build_ground_materials.py`. | live design input |

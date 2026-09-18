@@ -12,14 +12,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
+import { configureKitLoader, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import {
   buildFloraKit,
   mergeFloraKits,
-  lodDistances,
+  lodRings,
   maxDrawDistance,
-  SUBMERGED_LOD_SCALE,
+  treeDrawDistance,
   SUBMERGED_MAX_DRAW_M,
   type FloraKit,
   type KitManifest,
@@ -63,6 +65,13 @@ import {
 
 /** Chunks drawn around the focus. Beyond this a chunk is simply not built. */
 const CHUNK_RING = 2;
+/**
+ * How close (metres, horizontal) a sea-bed instance must come to the focus
+ * before the underwater kit is fetched: 3.3x the 120 m it draws at. A runner
+ * (~7 m/s) needs ~40 s to close the 280 m gap; a 27 MB kit on a 20 Mbit/s
+ * link takes ~11 s. Underwater spawns are inside it and fetch at once.
+ */
+const UNDERWATER_KIT_LEAD_M = 400;
 
 /** Hard cap per (species, level) draw so a pathological chunk cannot stall. */
 const MAX_PER_DRAW = 6000;
@@ -255,11 +264,32 @@ export function Vegetation({
 
   // Two kits, one renderer: the palettes place land species (trees, shrubs,
   // rocks) and the 16f underwater band (kelp, corals, shell beds, wrecks),
-  // which ship in separate GLBs. The array form of `useLoader` loads both.
-  const [gltf, underwaterGltf] = useLoader(GLTFLoader, [
-    `${baseUrl}kits/flora-province-v1.glb`,
-    `${baseUrl}kits/underwater-v1.glb`,
-  ]);
+  // which ship in separate GLBs. The land kit loads up front (Suspense); the
+  // 27 MB underwater kit loads ON DEMAND, the first time a rebuild meets an
+  // instance whose species only that kit holds within UNDERWATER_KIT_LEAD_M
+  // of the focus (16f round 4). The sea bed draws to SUBMERGED_MAX_DRAW_M
+  // (120 m), so the request goes out well before a walker can see the bed;
+  // an underwater spawn requests it on the first rebuild, the same moment it
+  // used to start loading. The chunk ring is NOT the trigger: rivers and
+  // lakes carry bed dressing too, so 210 of the province's 256 chunks hold a
+  // sea-bed species and no 5x5 ring is without one.
+  // Kits ship KTX2/meshopt-compressed (pipeline/kit_compress.py); the
+  // decoders are the renderer's, shared by every kit load.
+  const decoders = useKitDecoders(baseUrl);
+  const gltf = useLoader(GLTFLoader, `${baseUrl}kits/flora-province-v1.glb`,
+    (loader) => configureKitLoader(loader, decoders));
+  const [underwaterGltf, setUnderwaterGltf] = useState<GLTF | null>(null);
+  const [underwaterWanted, setUnderwaterWanted] = useState(false);
+  useEffect(() => {
+    if (!underwaterWanted) return;
+    let cancelled = false;
+    createKitLoader(decoders).loadAsync(`${baseUrl}kits/underwater-v1.glb`)
+      .then((g) => { if (!cancelled) setUnderwaterGltf(g); })
+      .catch((error: unknown) => {
+        console.error("[vegetation] underwater kit failed to load", error);
+      });
+    return () => { cancelled = true; };
+  }, [baseUrl, underwaterWanted, decoders]);
 
   useEffect(() => {
     let cancelled = false;
@@ -295,12 +325,12 @@ export function Vegetation({
     // First wins on a duplicate id: a few assets (tbp_seaweed06,
     // waterkelptall02/03) ship in both kits, and the palettes were authored
     // against the land kit's copy.
-    const merged = mergeFloraKits(
-      buildFloraKit(gltf, manifest),
-      buildFloraKit(underwaterGltf, underwaterManifest, true),
-    );
+    const land = buildFloraKit(gltf, manifest);
+    const merged = underwaterGltf
+      ? mergeFloraKits(land, buildFloraKit(underwaterGltf, underwaterManifest, true))
+      : land;
     if (import.meta.env.DEV) {
-      console.info(`[vegetation] kit: ${merged.size} assets (flora + underwater)`);
+      console.info(`[vegetation] kit: ${merged.size} assets (flora${underwaterGltf ? " + underwater" : ""})`);
     }
     return merged;
   }, [gltf, underwaterGltf, manifest, underwaterManifest]);
@@ -576,6 +606,11 @@ export function Vegetation({
     const occlusion = new OcclusionCellCache(
       { x: eye.x, y: eye.y, z: eye.z }, sampleGround, tallestM,
     );
+    // Species the underwater kit alone holds: meeting one while that kit is
+    // not loaded is the request for it (see the loader above).
+    const underwaterOnly = new Set(underwaterManifest?.assets.map((a) => a.id) ?? []);
+    for (const a of manifest?.assets ?? []) underwaterOnly.delete(a.id);
+    let needsUnderwater = false;
     for (const chunk of loaded.current.values()) {
       const centreX = chunk.originX + index.chunkMetres / 2;
       const centreZ = chunk.originZ + index.chunkMetres / 2;
@@ -588,7 +623,22 @@ export function Vegetation({
         if (speciesGroup.count === 0) continue;
         const id = index.speciesOrder?.[speciesGroup.index];
         const entry = id ? kit.get(id) : undefined;
-        if (!entry) continue;
+        if (!entry) {
+          // A sea-bed species the (unloaded) underwater kit holds: request
+          // the kit once one of its instances comes within the lead distance.
+          if (id && !needsUnderwater && underwaterOnly.has(id)) {
+            const positions = speciesGroup.positions;
+            for (let i = 0; i < speciesGroup.count; i++) {
+              const dx = positions[i * 3] - focus.x;
+              const dz = positions[i * 3 + 2] - focus.z;
+              if (dx * dx + dz * dz <= UNDERWATER_KIT_LEAD_M * UNDERWATER_KIT_LEAD_M) {
+                needsUnderwater = true;
+                break;
+              }
+            }
+          }
+          continue;
+        }
         if (entry.suspect) {
           // Broken bounds (geometry far from the pivot): drawing it puts the
           // mesh underground or in the sky either way. A sourcing job.
@@ -603,20 +653,23 @@ export function Vegetation({
         // Submerged species draw shorter: underwater sight lines are a few
         // dozen metres, so a kelp bed resolved at 400 m is triangles behind a
         // wall of water and scatter.
+        // A tree on land is the exception: it draws to the loaded ring's own
+        // reach (as its baked card beyond ring 2) and never vanish-fades
+        // inside it — visible from the mountains (owner, round 4).
         const maxDraw = entry.submerged
           ? Math.min(maxDrawDistance(entry.heightM) * drawScale, SUBMERGED_MAX_DRAW_M)
-          : maxDrawDistance(entry.heightM) * drawScale;
+          : entry.category === "tree"
+            ? treeDrawDistance(chunkRing, index.chunkMetres)
+            : maxDrawDistance(entry.heightM) * drawScale;
         if (chunkDistance - halfDiagonal > maxDraw) {
           culled += speciesGroup.count;
           continue;
         }
 
-        // Quality scales the rings too, so lower tiers shift work toward the
-        // cheap levels — but never below the near ring, or plants beside the
-        // camera would regress to cards (the round-2 defect).
-        const rings = lodDistances(entry.heightM)
-          .map((r, i) => (i === 0 ? r : r * drawScale))
-          .map((r) => (entry.submerged ? r * SUBMERGED_LOD_SCALE : r));
+        // Quality scales the outer rings, so lower tiers shift work toward
+        // the cheap levels — never the near ring, and never inverted (see
+        // `lodRings`).
+        const rings = lodRings(entry.heightM, drawScale, entry.submerged);
         const count = Math.min(speciesGroup.count, MAX_PER_DRAW);
         for (let i = 0; i < count; i++) {
           const inst = readInstance(speciesGroup, i);
@@ -911,6 +964,7 @@ export function Vegetation({
     };
     onStats?.(stats);
     onSolids?.(solids);
+    if (needsUnderwater) setUnderwaterWanted(true);
     // Same convention as the sky and water debug hooks: probes read the
     // numbers rather than guessing them from a screenshot.
     (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })

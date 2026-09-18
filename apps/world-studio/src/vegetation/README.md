@@ -27,10 +27,28 @@ can still install its own hook afterwards.
 - **LOD is crossfaded, not switched.** Within 21 m of a ring an instance is
   drawn into BOTH levels (`lodEmissions`), each with a fade band, and the
   shader (`packages/game-core/src/fx/lodFade.ts`) discards fragments against a
-  4x4 Bayer threshold with complementary smoothsteps — so exactly one copy
-  survives per pixel and the swap becomes a dissolve. The rebuild trigger is
-  16 m, inside the band, because a fade the rebuild never revisits is a pop.
-  Measured at the jungle site: 4,846 -> 5,515 instances (+13.8%).
+  4x4 Bayer threshold: the incoming copy keeps the pixels whose threshold is
+  BELOW its fade factor, the outgoing copy keeps those AT OR ABOVE it — exact
+  complements, coverage 1 at every distance (`lodFadeFactors` /
+  `lodPixelKept` are the TypeScript mirror; the unit test walks every
+  quarter metre of every ring against all 16 thresholds). Round 3 tested
+  both copies on the same side, the kept sets nested, and everything faded
+  to half at the middle of every ring (owner round 4). The rebuild trigger
+  is 16 m, inside the band, because a fade the rebuild never revisits is a
+  pop. The ring ladder comes from `lodRings` (quality-scaled, never inverted,
+  every level ≥ 10 m wide).
+- **A tree never vanishes inside the loaded ring.** `treeDrawDistance` is
+  the far corner of the outermost loaded chunk (~2 km at ring 2), so a tree
+  is drawn — as its baked card beyond ring 2 — wherever it is loaded and
+  unoccluded (owner round 4: visible from the mountains). Everything else
+  keeps the height-scaled `maxDrawDistance` cull (60–900 m). Cost at the
+  jungle site: +13.5 k card instances inside 1.1 km.
+- **Every far card is baked from its own mesh.** The kit builder bakes a
+  card per species under `bakeCards` and never imports a mod-authored
+  `_lod_flat` (those are an atlas rect bound by NAME; three trees wore
+  another tree's picture). `test_shipped_flora_cards_are_baked_from_their_own_mesh`
+  reads the shipped GLB and fails on any card whose hash or frame is not
+  this asset's.
 - **Nothing that is not a plant sways.** `KitSpecies.sways` is false for the
   manifest categories `rock`, `deadfall`, `container`, `misc`, `ruin`,
   `architecture` and `clutter` (66 species). Their materials are never

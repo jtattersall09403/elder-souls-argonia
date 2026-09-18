@@ -279,7 +279,10 @@ export function Fly3D(props: Fly3DProps) {
       // Cap pixel density: retina 2× quadruples every fullscreen pass (scene
       // RT + blit + water); 1.5 is visually near-identical (8b round 2 perf)
       dpr={[1, 1.5]}
-      shadows="soft"
+      // "percentage" = PCFShadowMap. "soft" is deprecated in three r184 and
+      // r3f re-applies it on every Canvas render, which forced a shadow
+      // re-render each frame and mis-typed shadow samplers (WaterPipeline.tsx).
+      shadows="percentage"
       style={{ width: "100%", height: "100%" }}
       onCreated={({ camera }) => {
         if (initialAim) {
@@ -328,7 +331,8 @@ export function Fly3D(props: Fly3DProps) {
                     ground, province-wide (it needs no compiled bundles). */}
                 <Suspense fallback={null}>
                   <Groundcover focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
-                    verticalScale={props.exaggeration} quality={FLY_QUALITY} />
+                    verticalScale={props.exaggeration} quality={FLY_QUALITY}
+                    settlementsVisible={!hiddenLayers.has("settlements")} />
                 </Suspense>
               </>
             )}

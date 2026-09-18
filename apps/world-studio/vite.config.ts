@@ -3,6 +3,14 @@ import { extname, join, normalize } from "node:path";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import characterAssets from "@elder-souls/character-assets/plugin";
+import basisTranscoder from "@elder-souls/basis-transcoder/plugin";
+
+// The composed Pages site: sandbox at SANDBOX_BASE, studio at STUDIO_BASE.
+// The studio's production build resolves the character files (races,
+// armour, rig, bow rigs — 112 MB) against the sandbox's copy instead of
+// shipping its own (owner 2026-09-18); dev still serves them itself.
+const SANDBOX_BASE = "/elder-souls-argonia/";
+const STUDIO_BASE = `${SANDBOX_BASE}studio/`;
 
 /**
  * Serve `public/` from the DISK, not from Vite's start-up file list.
@@ -17,6 +25,17 @@ import characterAssets from "@elder-souls/character-assets/plugin";
  * every tree, rock and sea-bed piece silently disappeared from the studio.
  * This middleware runs before Vite's own and streams any file that exists
  * under `public/` as it is on disk right now.
+ *
+ * It validates, it never blindly re-sends (16f round 4): the first version
+ * streamed every byte on every load, so a reload re-downloaded ~110 MB of
+ * kits and rasters that had not changed. Like Vite's own public serving it
+ * answers with `Cache-Control: no-cache` (the browser MUST revalidate every
+ * time — nothing stale is ever shown) plus a weak ETag built from the file's
+ * size and mtime and a Last-Modified header; a request carrying a matching
+ * `If-None-Match` / `If-Modified-Since` gets a 304 and no body. A rewrite
+ * by the chain or a kit builder changes the mtime, so the next request is a
+ * fresh 200. The production build (Pages) does not use this: its files are
+ * copied into dist/ and GitHub serves them with its own ETags.
  */
 const MIME: Record<string, string> = {
   ".json": "application/json", ".glb": "model/gltf-binary", ".png": "image/png",
@@ -36,11 +55,36 @@ function freshPublicFiles(): Plugin {
         const file = normalize(join(publicDir, pathname));
         if (!file.startsWith(publicDir)) return next();
         let stat;
-        try { stat = statSync(file); } catch { return next(); }
-        if (!stat.isFile()) return next();
+        try { stat = statSync(file); } catch { stat = null; }
+        if (!stat || !stat.isFile()) {
+          // A missing file inside one of public/'s own folders (kits/,
+          // province/, textures/) is a 404, never Vite's SPA fallback: the
+          // fallback answers index.html with a 200, the loader parses HTML
+          // as JSON and a whole layer vanishes silently (round 3's defect).
+          // Paths outside those folders (/src/, /@fs/, the character-assets
+          // plugin's rig and armour files) fall through to Vite as before.
+          const top = pathname.split("/")[1];
+          let topIsPublicDir = false;
+          try { topIsPublicDir = !!top && statSync(join(publicDir, top)).isDirectory(); } catch { /* not ours */ }
+          if (!topIsPublicDir) return next();
+          res.statusCode = 404;
+          res.setHeader("Content-Type", "text/plain");
+          res.end(`not found under public/: ${pathname}`);
+          return;
+        }
+        const etag = `W/"${stat.size.toString(16)}-${Math.floor(stat.mtimeMs).toString(16)}"`;
+        const lastModified = new Date(stat.mtimeMs);
+        lastModified.setMilliseconds(0);
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("ETag", etag);
+        res.setHeader("Last-Modified", lastModified.toUTCString());
+        const inm = req.headers["if-none-match"];
+        const ims = req.headers["if-modified-since"];
+        const fresh = inm ? inm.split(",").some((t) => t.trim() === etag) :
+          ims ? Date.parse(ims) >= lastModified.getTime() : false;
+        if (fresh) { res.statusCode = 304; res.end(); return; }
         res.setHeader("Content-Type", MIME[ext]);
         res.setHeader("Content-Length", String(stat.size));
-        res.setHeader("Cache-Control", "no-cache");
         if (req.method === "HEAD") { res.end(); return; }
         createReadStream(file).pipe(res);
       });
@@ -66,8 +110,8 @@ const TUNNEL_HOST = TUNNEL_URL ? new URL(TUNNEL_URL).host : "localhost";
 
 export default defineConfig(({ command }) => ({
   // Deployed under the Pages site at /studio/; local dev serves from root.
-  base: command === "build" ? "/elder-souls-argonia/studio/" : "/",
-  plugins: [freshPublicFiles(), react(), characterAssets()],
+  base: command === "build" ? STUDIO_BASE : "/",
+  plugins: [freshPublicFiles(), react(), characterAssets({ sharedBase: SANDBOX_BASE }), basisTranscoder()],
   build: { target: "es2022", sourcemap: false },
   // Pre-bundle the heavy deps up front: discovering them on the first page
   // load makes the dev server re-optimise and reload the page mid-load.

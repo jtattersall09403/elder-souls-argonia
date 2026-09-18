@@ -10,10 +10,21 @@
  * (alpha blending sorts wrongly through a canopy and costs the most on the
  * devices that can least afford it) but to DITHER: draw both levels over a
  * band of metres, and discard each one's fragments against a screen-space
- * Bayer threshold. The two copies use complementary smoothsteps against the
- * SAME threshold pattern, so for every pixel exactly one of them survives —
- * no double coverage, no holes, no sorting, and it works in the depth pass and
- * on opaque rocks because the discard is injected after `alphatest_fragment`.
+ * Bayer threshold. For every pixel exactly one of the two copies survives:
+ * the copy fading IN keeps the pixels whose threshold is BELOW its fade
+ * factor, the copy fading OUT keeps the pixels whose threshold is AT OR
+ * ABOVE the same factor — exact complements, so coverage is 1 at every
+ * distance. (Round 3 tested both copies against the same side of the
+ * threshold, so the two kept sets NESTED instead of complementing: coverage
+ * was max(s, 1-s), half the plant's pixels were empty at the middle of every
+ * ring, and every tree, grass card and rock "faded out and back in" as the
+ * camera crossed a ring — owner, round 4.) No double coverage, no holes, no
+ * sorting, and it works in the depth pass and on opaque rocks because the
+ * discard is the first statement of `main()`.
+ *
+ * `lodFadeFactors` and `lodPixelKept` below are the SAME arithmetic in
+ * TypeScript, so the coverage invariant is unit-tested without a GPU; the
+ * GLSL is asserted to carry the same comparison.
  *
  * The per-instance band is an instanced `vec4` attribute, `esLodBand` =
  * (dIn, dOut, wIn, wOut) in metres: fade in across `dIn ± wIn`, out across
@@ -118,9 +129,59 @@ export function createLodFadeUniforms(): LodFadeUniforms {
   return { esLodViewPos: { value: new THREE.Vector3() } };
 }
 
+/** GLSL `smoothstep`, for the TypeScript mirror of the vertex shader. */
+function smoothstep(edge0: number, edge1: number, x: number): number {
+  const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
+  return t * t * (3 - 2 * t);
+}
+
+/**
+ * The fade factors one copy carries at distance `d`, exactly as the vertex
+ * shader computes them from its `esLodBand`: `fadeIn` rises 0→1 across the
+ * inner ring (1 = fully in; `dIn <= 0` is always 1), `fadeOut` rises 0→1
+ * across the outer ring (0 = fully in, 1 = gone; `dOut <= 0` or `>= 1e8` is
+ * always 0). Both are the RAW smoothstep — no `1 -` anywhere — so the copy
+ * fading out at a ring holds the bit-identical number the copy fading in
+ * holds, and the two comparisons in `lodPixelKept` are exact complements.
+ */
+export function lodFadeFactors(
+  band: readonly [number, number, number, number],
+  d: number,
+): { fadeIn: number; fadeOut: number } {
+  const [dIn, dOut, wIn, wOut] = band;
+  const fadeIn = dIn <= 0 ? 1 : smoothstep(dIn - wIn, dIn + wIn, d);
+  const fadeOut = dOut <= 0 || dOut >= 1e8 ? 0 : smoothstep(dOut - wOut, dOut + wOut, d);
+  return { fadeIn, fadeOut };
+}
+
+/** The 4×4 ordered-dither thresholds `esBayer4` produces: k/16, k = 0..15. */
+export const BAYER4_THRESHOLDS: readonly number[] = Array.from(
+  { length: 16 },
+  (_, k) => k / 16,
+);
+
+/**
+ * Whether a fragment with dither threshold `bayer` survives — the fragment
+ * shader's discard, inverted. Kept iff `bayer < fadeIn` AND `bayer >= fadeOut`.
+ * At a ring the incoming copy has `fadeIn = s` and the outgoing copy has
+ * `fadeOut = s`, so they keep `{bayer < s}` and `{bayer >= s}`: every pixel
+ * exactly once.
+ */
+export function lodPixelKept(
+  factors: { fadeIn: number; fadeOut: number },
+  bayer: number,
+): boolean {
+  return bayer < factors.fadeIn && bayer >= factors.fadeOut;
+}
+
+/** True when the copy draws nothing at all and the vertex shader collapses it. */
+export function lodCopyCollapsed(factors: { fadeIn: number; fadeOut: number }): boolean {
+  return factors.fadeIn <= 0 || factors.fadeOut >= 1;
+}
+
 const VERTEX_HEAD = /* glsl */ `
 uniform vec3 esLodViewPos;
-varying float vEsLod;
+varying vec2 vEsLod;
 
 #ifdef USE_INSTANCING
   // vec4(dIn, dOut, wIn, wOut) metres. Unbound => (0,0,0,0) => fully visible.
@@ -138,24 +199,27 @@ const VERTEX_BODY = /* glsl */ `
     vec4 esBand = vec4(0.0);
   #endif
   float esLodD = distance(esLodViewPos.xz, esLodOrigin.xz);
+  // (fadeIn, fadeOut): both RAW smoothsteps — see lodFadeFactors(). The copy
+  // fading out at a ring must hold the bit-identical number the copy fading
+  // in holds, so the fragment test below partitions the pixels exactly.
   float esLodIn = esBand.x <= 0.0
     ? 1.0
     : smoothstep(esBand.x - esBand.z, esBand.x + esBand.z, esLodD);
   float esLodOut = (esBand.y <= 0.0 || esBand.y >= 1e8)
-    ? 1.0
-    : 1.0 - smoothstep(esBand.y - esBand.w, esBand.y + esBand.w, esLodD);
-  vEsLod = min(esLodIn, esLodOut);
+    ? 0.0
+    : smoothstep(esBand.y - esBand.w, esBand.y + esBand.w, esLodD);
+  vEsLod = vec2(esLodIn, esLodOut);
   // A copy that is fully faded out still costs a full transform, rasterisation
   // and a discarded fragment for every pixel it covers — and the crossfade
   // doubles how many such copies exist. Collapsing every vertex onto the
   // pivot makes its triangles zero-area, so the rasteriser produces no
   // fragments at all and the copy costs vertex work only.
-  if (vEsLod <= 0.0) transformed = vec3(0.0);
+  if (esLodIn <= 0.0 || esLodOut >= 1.0) transformed = vec3(0.0);
 }
 `;
 
 const FRAGMENT_HEAD = /* glsl */ `
-varying float vEsLod;
+varying vec2 vEsLod;
 
 // 4x4 ordered (Bayer) dither, built arithmetically: GLSL ES 1.00 forbids
 // indexing a const array with a non-constant expression, so the usual lookup
@@ -174,9 +238,15 @@ float esBayer4(vec2 a) {
 // never going to use. (It runs before the alpha test rather than after it for
 // the same reason — and it is injected into the depth material too, so a
 // half-faded plant's shadow dissolves with it.)
+// Kept iff bayer < fadeIn AND bayer >= fadeOut (`lodPixelKept`): the
+// incoming copy at a ring keeps {bayer < s}, the outgoing keeps {bayer >= s}.
 const FRAGMENT_BODY = /* glsl */ `
-  if (vEsLod < esBayer4(gl_FragCoord.xy)) discard;
+  float esLodBayer = esBayer4(gl_FragCoord.xy);
+  if (esLodBayer >= vEsLod.x || esLodBayer < vEsLod.y) discard;
 `;
+
+/** The fragment test, exported so a test can hold the GLSL to the mirror. */
+export const LOD_FRAGMENT_TEST = FRAGMENT_BODY;
 
 interface LodPatchState {
   esLodUniforms?: LodFadeUniforms;

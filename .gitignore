@@ -1,5 +1,7 @@
 node_modules/
 dist/
+# The composed GitHub Pages site (tooling/pages-site/compose.mjs): build output.
+/site/
 *.tsbuildinfo
 *.log
 .DS_Store

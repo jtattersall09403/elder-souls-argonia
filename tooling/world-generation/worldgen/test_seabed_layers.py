@@ -61,7 +61,9 @@ def test_no_palette_layer_places_a_card_fan_or_a_walkable_floor():
 
 
 def test_the_shoreline_ramp_is_dense_inshore_and_thin_offshore():
-    """1.0 within ~150 m of the coast, 0.4 at 500 m, 0.2 far out.
+    """1.0 at the coast, still ~0.9 at 300 m, ~0.7 at 600 m, ~0.4 at 1 km,
+    0.2 far out (16f round 4: the 425 m run put 0.4 at 500 m, and the owner
+    found the floor thin a short swim from the beach).
 
     The distances are measured AT SEA, where `coast_m` is negative, so the
     ramp has to read the magnitude. It used to clamp at zero, which made
@@ -69,11 +71,11 @@ def test_the_shoreline_ramp_is_dense_inshore_and_thin_offshore():
     ramp was inert and the whole bed ran at its shoreline density.
     """
     assert rd.seabed_ramp_factor(0.0) > 0.99
-    assert rd.seabed_ramp_factor(100.0) >= 0.9
-    assert rd.seabed_ramp_factor(500.0) <= 0.45
-    assert abs(rd.seabed_ramp_factor(500.0) - 0.4) < 0.02
-    assert rd.seabed_ramp_factor(1000.0) <= 0.25
-    assert abs(rd.seabed_ramp_factor(5000.0) - rd.SEABED_RAMP_FLOOR) < 0.001
+    assert rd.seabed_ramp_factor(300.0) >= 0.9
+    assert 0.65 <= rd.seabed_ramp_factor(600.0) <= 0.75
+    assert 0.38 <= rd.seabed_ramp_factor(1000.0) <= 0.48
+    assert rd.seabed_ramp_factor(2000.0) <= 0.25
+    assert abs(rd.seabed_ramp_factor(6000.0) - rd.SEABED_RAMP_FLOOR) < 0.001
     # The sea side reads the same as the land side at the same distance.
     for m in (100.0, 150.0, 500.0, 1000.0):
         assert rd.seabed_ramp_factor(-m) == rd.seabed_ramp_factor(m)
@@ -90,7 +92,7 @@ def test_the_sampler_bell_is_symmetric_about_the_shoreline():
     layer = Layer(species="x", **rd.SEABED_RAMP)
     for m in (0.0, 100.0, 425.0, 1000.0):
         assert abs(layer.coast_factor(-m) - layer.coast_factor(m)) < 1e-9
-    assert layer.coast_factor(-1000.0) < 0.25 * layer.coast_factor(0.0)
+    assert layer.coast_factor(-2500.0) < 0.25 * layer.coast_factor(0.0)
 
 
 def test_every_seabed_coast_gate_is_on_the_sea_side():
@@ -115,8 +117,8 @@ def test_the_reef_is_banded_by_depth_and_distance_not_by_a_land_cover():
     assert coral, "no coral layer"
     for layer in coral:
         assert not layer.get("land_cover"), layer["species"]
-        assert layer["water_depth_m"] == [2.0, 12.0], layer["species"]
-        assert layer["coast_m"][1] <= 0.0 and layer["coast_m"][0] >= -600.0
+        assert layer["water_depth_m"] == [2.0, 14.0], layer["species"]
+        assert layer["coast_m"][1] <= 0.0 and layer["coast_m"][0] >= -900.0
         assert layer["clump_size_median"] >= 8 and layer["singleton_share"] <= 0.05
 
 

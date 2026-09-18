@@ -10,6 +10,7 @@
 
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { LOD_BAND_M } from "@elder-souls/game-core/fx/lodFade";
 
 export interface KitLevel {
   readonly parts: {
@@ -321,6 +322,42 @@ export function maxDrawDistance(heightM: number): number {
   // is drawn past 900 m (the chunk ring is ~1.2 km, but a card at that
   // distance is a few pixels).
   return Math.min(900, Math.max(60, heightM * 35));
+}
+
+/**
+ * A TREE never vanishes inside the loaded chunk ring (owner, 16f round 4:
+ * "when not occluded and within visibility distance they should draw, in low
+ * quality, at a high distance — looking out from the mountains"). Its draw
+ * distance is the ring's own reach — the far corner of the outermost loaded
+ * chunk — so the only limit is the chunk ring itself, and the fade-out band
+ * sits beyond anything that is loaded. Beyond ring 2 a tree is its baked
+ * card (two quads), so the price of the last kilometre is card instances,
+ * never mesh: at the jungle site (1.11 km E / 5.21 km S) 13.3 k trees stood
+ * inside the old 900 m cap and 17.8 k inside 1.1 km, 26.6 k in the whole
+ * 5×5 ring. Terrain occlusion still culls what a ridge hides.
+ */
+export function treeDrawDistance(chunkRing: number, chunkMetres: number): number {
+  return (chunkRing + 1) * chunkMetres * Math.SQRT2;
+}
+
+/**
+ * The ring ladder a species runs at a quality scale, submerged or not — the
+ * one place `Vegetation.tsx` gets its rings. Ring 0 (full mesh) is never
+ * scaled down, or plants beside the camera would regress to cards (the
+ * round-2 defect); the outer rings scale, and are then pushed apart so every
+ * level keeps a band at least `2 × LOD_BAND_M` wide. Without that the low
+ * preset (`vegDrawScale` 0.55) left a 20–28 m tree a level-1 band only
+ * 5–6 m wide (submerged: 2.5 m) — narrower than the crossfade itself, so
+ * that level never finished fading in before it started fading out.
+ */
+export function lodRings(heightM: number, drawScale: number, submerged: boolean): number[] {
+  const rings = lodDistances(heightM)
+    .map((r, i) => (i === 0 ? r : r * drawScale))
+    .map((r) => (submerged ? r * SUBMERGED_LOD_SCALE : r));
+  for (let i = 1; i < rings.length; i++) {
+    rings[i] = Math.max(rings[i], rings[i - 1] + 2 * LOD_BAND_M);
+  }
+  return rings;
 }
 
 /**

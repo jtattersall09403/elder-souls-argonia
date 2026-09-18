@@ -86,6 +86,26 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
    */
   const rtAlt = useRef<THREE.WebGLRenderTarget | null>(null);
   const swap = useRef(false);
+  /**
+   * Resize a scene target AND its depth texture together. three's
+   * `RenderTarget.setSize` updates the colour texture's image size and
+   * disposes the GL objects, but leaves `depthTexture.image` at the old size
+   * (only `setupDepthTexture` corrects it, and only when the target is next
+   * RENDERED INTO). Under water the ping-pong samples the other target's
+   * depth texture before that target is rendered, so after a canvas resize
+   * (DevTools opening, a window drag, a DPR change) three re-uploaded that
+   * depth texture at the stale size as immutable storage; next frame it was
+   * attached beside a colour texture of the new size: "Framebuffer is
+   * incomplete: Attachments are not all the same size" on every clear and
+   * draw until the next resize. Keeping the image in step makes the first
+   * upload — sampled or attached — the right size (16f round 4).
+   */
+  const resizeTarget = (t: THREE.WebGLRenderTarget, w: number, h: number) => {
+    if (t.width === w && t.height === h) return;
+    t.setSize(w, h);
+    const d = t.depthTexture;
+    if (d) { d.image.width = w; d.image.height = h; d.needsUpdate = true; }
+  };
 
   const blit = useMemo(() => {
     const uniforms = {
@@ -229,8 +249,21 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     const size = renderer.getDrawingBufferSize(new THREE.Vector2());
     const rw = Math.max(2, Math.round(size.x * tier.rtScale));
     const rh = Math.max(2, Math.round(size.y * tier.rtScale));
-    if (rt.width !== rw || rt.height !== rh) rt.setSize(rw, rh);
-    if (rtAlt.current && (rtAlt.current.width !== rw || rtAlt.current.height !== rh)) rtAlt.current.setSize(rw, rh);
+    resizeTarget(rt, rw, rh);
+    if (rtAlt.current) resizeTarget(rtAlt.current, rw, rh);
+
+    // Shadow type, normalised BEFORE any material compiles this frame.
+    // three r184 deprecates PCFSoftShadowMap and rewrites it to PCFShadowMap
+    // inside `shadowMap.render` — but that runs only on the frames this
+    // pipeline lets shadows update (every other one), and r3f's
+    // `<Canvas shadows="soft">` writes PCFSoft back on every Canvas render.
+    // A material compiled on a frame that still reads PCFSoft gets the
+    // SHADOWMAP_TYPE_BASIC define (`sampler2D` shadow samplers) bound to the
+    // PCF comparison-mode depth textures: "Mismatch between texture format
+    // and sampler type (shadow)" on every draw of that material, for good,
+    // because the program key never changes. One write here keeps every
+    // compile and every shadow pass on PCF and stops the per-frame warning.
+    if (renderer.shadowMap.type === THREE.PCFSoftShadowMap) renderer.shadowMap.type = THREE.PCFShadowMap;
 
     const epoch = runtime.epochMinutes();
     const cam = camera as THREE.PerspectiveCamera;
@@ -255,14 +288,21 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       h.uniforms.uSceneDepth.value = readTarget.depthTexture as THREE.Texture;
       h.uniforms.uCamNear.value = cam.near;
       h.uniforms.uCamFar.value = cam.far;
-      h.uniforms.uResolution.value.set(size.x, size.y);
+      // The surface, the effects and the falls read the scene at
+      // gl_FragCoord / resolution, so the resolution is that of the buffer
+      // they are DRAWN INTO: the canvas above water (pass 3), the
+      // rtScale-sized scene target when submerged (pass 1) — the canvas size
+      // there mis-registered every read by 1/rtScale (16f round 4).
+      const passW = underwater ? rw : size.x;
+      const passH = underwater ? rh : size.y;
+      h.uniforms.uResolution.value.set(passW, passH);
       h.uniforms.uProjMatrix.value.copy(cam.projectionMatrix);
       h.setUnderwater(underwater);
-      h.effects.setDepth(readTarget.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
+      h.effects.setDepth(readTarget.depthTexture as THREE.Texture, cam.near, cam.far, passW, passH);
       // sheets + mist: fade at the surface when submerged, and no soft-depth
       // read while the water layer draws into the scene target (feedback)
       h.falls?.setUnderwater(underwater, camSample.surfaceHeight * verticalScale);
-      h.falls?.setDepth(readTarget.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
+      h.falls?.setDepth(readTarget.depthTexture as THREE.Texture, cam.near, cam.far, passW, passH);
     }
 
     // ---- pass 0: advance the interactive ripple patch (2 tiny passes) and

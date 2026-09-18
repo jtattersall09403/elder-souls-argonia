@@ -98,11 +98,17 @@ jobs:
       - run: npm run build
       # Compose the Pages site: combat sandbox at the root path (the playable
       # build until apps/game is real), world studio under /studio/.
+      #
+      # The artefact carries only what the shipped ladder can display
+      # (decision 0073). GitHub Pages publishes at most 1 GB and the raw
+      # compose measured 999 MB on 2026-09-18, ~430 MB of it architecture kits
+      # that province/ladder.json hides until 16h. compose.mjs derives the
+      # excluded set at build time from ladder.json and the records, keeps
+      # every kit the built code or a live record names, and FAILS on an
+      # unknown layer, a missing named kit, a surviving reference to an
+      # excluded file, or a site over 900 MB (warns over 750 MB).
       - name: Compose site
-        run: |
-          mkdir -p site/studio
-          cp -r apps/combat-sandbox/dist/* site/
-          cp -r apps/world-studio/dist/* site/studio/
+        run: npm run site:compose
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

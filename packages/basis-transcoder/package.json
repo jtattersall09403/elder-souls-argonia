@@ -1,0 +1,12 @@
+{
+  "name": "@elder-souls/basis-transcoder",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./plugin": "./plugin.mjs"
+  },
+  "peerDependencies": {
+    "three": "^0.184.0"
+  }
+}

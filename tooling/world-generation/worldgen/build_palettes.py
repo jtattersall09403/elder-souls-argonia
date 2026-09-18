@@ -289,6 +289,10 @@ S = {
     "sb_barrel": "vanilla:clutter/barrel01",               # 0.79 x 0.79 x 1.14 m
     "sb_basket": "vanilla:clutter/basket01",               # 0.50 x 0.49 x 0.44 m
     "sb_bucket": "vanilla:clutter/bucket01",               # 0.50 x 0.54 x 0.43 m
+    # Low seagrass for the sea bed (16f round 4): Tropical Skyrim's water
+    # rock-grass tuft and vanilla's short kelp, both already in
+    # `underwater-v1` and neither placed in the sea until now.
+    "sb_seagrass": "depths:landscape/grass/tbprockgrasswater03",  # 2.69 x 2.42 x 0.61 m
     # tbp_seaweed01 (29.3 m) and tbp_seaweed02 (42.7 m) were rejected in
     # round 2 as giant-kelp columns taller than any water the province
     # carries. That was true at native size and is no longer how they are
@@ -1529,8 +1533,8 @@ def seabed(species: str, per_ha: float, role: str,
                     **rd.SEABED_RAMP, **kw)
     note = (f"SEABED: `ocean` only. {per_ha:g}/ha at the shoreline, written "
             f"at {rd.SEABED_RAMP_FLOOR:g}x that because the ramp multiplier "
-            f"runs 1-5: 1.0 within 150 m of the coast, 0.4 at 500 m, 0.2 "
-            f"beyond. {mined_depths_note(mined_mesh)}")
+            f"runs 1-5: 1.0 at the coast, ~0.9 at 300 m, ~0.7 at 600 m, "
+            f"~0.4 at 1 km, 0.2 beyond. {mined_depths_note(mined_mesh)}")
     entry["note"] = (entry["note"] + "; " + note) if entry.get("note") else note
     return entry
 
@@ -1556,10 +1560,23 @@ SEABED_BAND: list[dict] = [
     # found the floor bare everywhere. The ring (groundcover.json covers 0,
     # 33, 35) carries the fine carpet at thousands per hectare; this band is
     # the medium pieces, a few hundred per hectare at the shoreline.
-    *_seabed_split(("sb_pebbles_a", "sb_pebbles_b"), 120.0,
+    #
+    # Round 4 (the same day): the owner swam 33 m out from the beach into
+    # 6.6 m of water and found "some, but not very much". Measured on the
+    # shipped bundles that was 2.3 pieces per 100 m^2 inside 50 m of the
+    # shore, 0.9 at 100-150 m and 0.02 past 400 m - the 425 m ramp and the
+    # narrow depth bells between them. Every density below is ~3x, the
+    # depth bells are wider so the deeper floor keeps its stone and shingle,
+    # the ramp runs to 900 m (`rock_dressing.SEABED_RAMP`), and low seagrass
+    # patches are added. Budget, at the shoreline in the shallowest band,
+    # ~10 pieces per 100 m^2 across all layers; the meshes are 50-660
+    # triangles and the submerged draw ceiling is 120 m (floraKit.ts), so a
+    # full 120 m disc holds ~4,500 pieces at ~0.3 M triangles beyond the
+    # first LOD ring. `seabed_census.py` measures the product by band.
+    *_seabed_split(("sb_pebbles_a", "sb_pebbles_b"), 400.0,
                    role="seabed-pebbles", depth=(0.3, 30.0),
-                   depth_peak_m=3.0, depth_half_width_m=12.0,
-                   clump_size_median=6, clump_radius_m=5.0,
+                   depth_peak_m=3.0, depth_half_width_m=30.0,
+                   clump_size_median=7, clump_radius_m=5.0,
                    singleton_share=0.15, tilt_deg_max=6.0,
                    scale_range=[0.8, 1.6]),
     # Shell beds. The three vanilla clams kept their own shallow band in the
@@ -1567,12 +1584,24 @@ SEABED_BAND: list[dict] = [
     # with Jokerine's scallops, conch and sand dollar and Shores of Skyrim's
     # three shells. Every one of them is a hand prop at native size, so the
     # scale range is what puts a scallop at 0.15-0.30 m.
-    *_seabed_split(_SEABED_SHELLS, 70.0,
-                   role="seabed-shells", depth=(0.3, 15.0),
-                   depth_peak_m=2.0, depth_half_width_m=5.0,
+    *_seabed_split(_SEABED_SHELLS, 180.0,
+                   role="seabed-shells", depth=(0.3, 16.0),
+                   depth_peak_m=2.0, depth_half_width_m=8.0,
                    clump_size_median=6, clump_radius_m=4.0,
                    singleton_share=0.08, tilt_deg_max=10.0,
                    scale_range=[0.8, 1.6]),
+    # Low seagrass patches (owner, round 4): Tropical Skyrim's water grass
+    # tuft in dense patches on the shallow floor, and vanilla's short kelp
+    # in looser beds a little deeper. Both stand 0.6-1.4 m off the bed, so
+    # the submerged floor (`SUBMERGED_ROLES`) keeps them under the surface.
+    seabed("sb_seagrass", 140.0, role="seabed-seagrass", depth=(0.8, 10.0),
+           depth_peak_m=2.5, depth_half_width_m=4.0, clump_size_median=10,
+           clump_radius_m=5.0, singleton_share=0.05, patchiness=1.6,
+           tilt_deg_max=4.0, scale_range=[0.8, 1.3]),
+    seabed("kelp_short_v", 70.0, role="seabed-seagrass", depth=(1.6, 12.0),
+           depth_peak_m=4.0, depth_half_width_m=5.0, clump_size_median=8,
+           clump_radius_m=6.0, singleton_share=0.1, patchiness=1.4,
+           tilt_deg_max=4.0, scale_range=[0.8, 1.3]),
     # Barnacle crusts. These were cover-gated to the surf covers (BC_ROCK,
     # PEBBLES, MOSSY_ROCK) and placed 0 instances province-wide, because the
     # bake never paints those under the sea. Measured on the shipped
@@ -1583,9 +1612,9 @@ SEABED_BAND: list[dict] = [
     # ones together are 0.12 % - so the cover gate is DROPPED rather than
     # re-pointed at a cover that would place almost nothing. The shallow
     # depth band (0.3-8 m, peak 1.5 m) is what keeps barnacles inshore.
-    seabed("sb_barnacles", 12.0, role="seabed-shells", depth=(0.3, 8.0),
+    seabed("sb_barnacles", 30.0, role="seabed-shells", depth=(0.3, 8.0),
            depth_peak_m=1.5,
-           depth_half_width_m=3.0, clump_size_median=4, clump_radius_m=3.0,
+           depth_half_width_m=3.5, clump_size_median=4, clump_radius_m=3.0,
            scale_range=[0.7, 1.1]),
     # Reef. Jokerine's two meshes are the only genuine 3D corals that exist
     # for Skyrim SE - everything else on offer is a card fan like the three we
@@ -1595,35 +1624,36 @@ SEABED_BAND: list[dict] = [
     # and never the surf covers (measured, see the barnacle note). What keeps
     # a reef where a reef belongs is now the depth band and `coast_m`:
     # within 600 m of the shore, 2-12 m down.
-    seabed("sb_coral", 40.0, role="seabed-coral", depth=(2.0, 12.0),
-           coast_m=[-600.0, 0.0], depth_peak_m=5.0,
-           depth_half_width_m=4.0, clump_size_median=8, clump_radius_m=6.0,
+    seabed("sb_coral", 90.0, role="seabed-coral", depth=(2.0, 14.0),
+           coast_m=[-900.0, 0.0], depth_peak_m=5.0,
+           depth_half_width_m=5.0, clump_size_median=8, clump_radius_m=6.0,
            singleton_share=0.05, patchiness=1.8, tilt_deg_max=8.0,
            scale_range=[2.5, 6.0]),
-    seabed("sb_coral_spiky", 40.0, role="seabed-coral", depth=(2.0, 12.0),
-           coast_m=[-600.0, 0.0], depth_peak_m=5.0,
-           depth_half_width_m=4.0, clump_size_median=8, clump_radius_m=6.0,
+    seabed("sb_coral_spiky", 90.0, role="seabed-coral", depth=(2.0, 14.0),
+           coast_m=[-900.0, 0.0], depth_peak_m=5.0,
+           depth_half_width_m=5.0, clump_size_median=8, clump_radius_m=6.0,
            singleton_share=0.05, patchiness=1.8, tilt_deg_max=8.0,
            scale_range=[4.0, 9.0]),
     # Starfish: shallow and inshore only, within 250 m of the coast. The gate
     # is the SEA side of the shoreline: `coast_m` is signed and negative at
     # sea (scatter.py `Fields.coast`), so a [0, 250] gate was the LAND side
     # and placed 0 starfish.
-    seabed("sb_starfish", 16.0, role="seabed-starfish", depth=(0.3, 8.0),
-           coast_m=[-250.0, 0.0], depth_peak_m=1.5, depth_half_width_m=3.0,
+    seabed("sb_starfish", 45.0, role="seabed-starfish", depth=(0.3, 9.0),
+           coast_m=[-400.0, 0.0], depth_peak_m=1.5, depth_half_width_m=4.0,
            clump_size_median=3, clump_radius_m=4.0, singleton_share=0.4,
            tilt_deg_max=12.0, scale_range=[0.7, 1.35]),
-    # Sponges: the deeper half of the bed, where the reef stops.
-    seabed("sb_sponge", 24.0, role="seabed-sponge", depth=(2.0, 20.0),
-           depth_peak_m=8.0, depth_half_width_m=7.0, clump_size_median=4,
+    # Sponges: the deeper half of the bed, where the reef stops, and the one
+    # growth the deep floor keeps.
+    seabed("sb_sponge", 90.0, role="seabed-sponge", depth=(2.0, 25.0),
+           depth_peak_m=8.0, depth_half_width_m=16.0, clump_size_median=4,
            clump_radius_m=5.0, singleton_share=0.3, tilt_deg_max=10.0,
            scale_range=[0.8, 2.0]),
     # Sunken driftwood, inshore: what the sea takes back out again.
     *_seabed_split(("sb_driftwood_a", "sb_driftwood_b", "sb_driftwood_c",
-                    "driftwood_a", "driftwood_b"), 3.0,
+                    "driftwood_a", "driftwood_b"), 5.0,
                    role="seabed-debris", depth=(0.5, 12.0),
                    # sea side of the shoreline (signed `coast_m`), as starfish
-                   coast_m=[-300.0, 0.0], clump_size_median=1,
+                   coast_m=[-400.0, 0.0], clump_size_median=1,
                    singleton_share=0.85, clump_radius_m=14.0,
                    scale_range=[0.8, 1.2]),
     # Bones on the floor: the drowned. Rare, and deep enough to be a find.
@@ -1644,9 +1674,9 @@ SEABED_BAND: list[dict] = [
                    clump_size_median=1, singleton_share=1.0,
                    clump_radius_m=0.0, scale_range=[0.9, 1.1]),
     # Algae mats had freshwater kinds only. The sea gets them too, shallow.
-    seabed("algae_mat", 45.0, role="seabed-algae", depth=(0.3, 4.0),
+    seabed("algae_mat", 130.0, role="seabed-algae", depth=(0.3, 6.0),
            mined_mesh="landscape/grass/tbpalgae01.nif",
-           depth_peak_m=1.0, depth_half_width_m=1.5, clump_size_median=8,
+           depth_peak_m=1.0, depth_half_width_m=2.5, clump_size_median=8,
            clump_radius_m=6.0, tilt_deg_max=0.0, scale_range=[0.8, 1.4]),
 ]
 
@@ -1721,13 +1751,15 @@ REGIONS[1]["layers"] += _PROVINCE_ROCKS
 # carry the MEAN of the three `rocks0*wet` profiles, since nobody has ever
 # placed them anywhere. Both borrowings are stated in each layer's own note.
 _SEABED_ROCKS: list[dict] = []
-# Small stone, 14/ha at the shoreline: half to the three vanilla wet stones by
-# mined count, half evenly across the twelve Shores pieces.
-_SEABED_ROCKS += rd.seabed_rocks(rd.SEABED_WET_SMALL, 7.0, (0.3, 30.0),
+# Small stone, 70/ha at the shoreline (14 before 16f round 4, when the owner
+# asked for more small rocks and stones on the near-shore floor): half to
+# the three vanilla wet stones by mined count, half evenly across the twelve
+# Shores pieces.
+_SEABED_ROCKS += rd.seabed_rocks(rd.SEABED_WET_SMALL, 35.0, (0.3, 30.0),
                                  role="wet-rock")
 _SHORE_MEAN = rd.shore_rock_mean()
 _SEABED_ROCKS += rd.seabed_rocks(
-    rd.SHORE_ROCKS, 7.0, (0.3, 30.0), role="wet-rock",
+    rd.SHORE_ROCKS, 35.0, (0.3, 30.0), role="wet-rock",
     shares={_s: 1.0 / len(rd.SHORE_ROCKS) for _s in rd.SHORE_ROCKS},
     profile=_SHORE_MEAN,
     borrowed_from=("the mean of the three `rocks0*wet` mined rows "
@@ -1736,9 +1768,9 @@ _SEABED_ROCKS += rd.seabed_rocks(
     # size, not the small boulders their file sizes suggested, so they are
     # scaled up to read as 0.2-1.0 m bed stone.
     scale_range=[3.0, 6.0])
-_SEABED_ROCKS += rd.seabed_rocks(rd.SEABED_WET_MEDIUM, 3.0, (1.0, 40.0),
+_SEABED_ROCKS += rd.seabed_rocks(rd.SEABED_WET_MEDIUM, 14.0, (1.0, 40.0),
                                  role="wet-rock")
-_SEABED_ROCKS += rd.seabed_rocks(rd.SEABED_WET_LARGE, 0.8, (2.0, 45.0),
+_SEABED_ROCKS += rd.seabed_rocks(rd.SEABED_WET_LARGE, 3.0, (2.0, 45.0),
                                  role="wet-rock")
 REGIONS[1]["layers"] += _SEABED_ROCKS
 

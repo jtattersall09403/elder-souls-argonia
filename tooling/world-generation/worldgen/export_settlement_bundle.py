@@ -381,7 +381,13 @@ def texture_cap_errors(kits: dict, lod: dict, kits_dir: Path = KITS) -> list[str
 
 
 def _image_size(blob: bytes) -> tuple[int, int]:
-    """PNG/JPEG dimensions from the header alone; no decode, no dependency."""
+    """PNG/JPEG/KTX2 dimensions from the header alone; no decode, no dependency."""
+    # KTX2 (KHR_texture_basisu) is what the compressed kits ship since 0073 §7c:
+    # 12-byte identifier, then vkFormat/typeSize, then level-0 width/height as
+    # little-endian uint32 at byte 20 and 24.
+    if blob[:12] == b"\xabKTX 20\xbb\r\n\x1a\n":
+        width, height = struct.unpack_from("<II", blob, 20)
+        return width, height
     if blob[:8] == b"\x89PNG\r\n\x1a\n":
         width, height = struct.unpack_from(">II", blob, 16)
         return width, height
@@ -396,7 +402,8 @@ def _image_size(blob: bytes) -> tuple[int, int]:
                 height, width = struct.unpack_from(">HH", blob, offset + 5)
                 return width, height
             offset += 2 + length
-    raise ValueError("kit texture is neither PNG nor JPEG; size cannot be measured")
+    raise ValueError(
+        "kit texture is not PNG, JPEG or KTX2; size cannot be measured")
 
 
 def lod0_part_counts(kit: str, kits_dir: Path = KITS) -> dict[str, int]:

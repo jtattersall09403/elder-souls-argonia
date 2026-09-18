@@ -279,17 +279,35 @@ class Layer:
     height_m: float | None = None
     """The model's height in metres before scale (`sizeM[2]`). Only used to
     cap the burial rule, so a piece can never be sunk out of sight."""
+    pivot_above_base_m: float = 0.0
+    """How far the model's pivot sits above its own lowest point along its
+    up-axis, metres before scale (the kit manifest's `pivotAboveBaseM`). The
+    burial rule measures the BASE plane, which is this far below the pivot:
+    measuring at the pivot over-demanded ~5 m of burial on every cliff shell
+    (rockcliff07 pivot 5.4 m up), so every shell hit its cap (16f round 4)."""
+    sink_deep_m: float = 0.0
+    """The deepest quartile of the species' mined pivot sink, metres (the
+    mine's `sinkM.p25`, negated). The burial cap is never below it: a cliff
+    shell's mined median sink (rockcliff02: 8.6 m of a 10.8 m mesh) exceeds
+    0.6 x its height, and a cap at 0.6 x height clipped the mined figure."""
     align_to_slope: float = 0.0
-    """How strongly this layer lies WITH the ground (0 = off, 1 = fully).
+    """How much of the hillside's pitch this layer's up-axis takes on
+    (0 = stands vertical, 1 = lies fully with the ground).
 
     Trees grow vertical whatever the hillside does; rocks and deadfall do not
-    — they settle into the slope, long axis following it. Random yaw plus a
-    ±4° tilt (the default for everything) is right for a trunk and wrong for a
-    boulder, which is why the uplands read as rocks dropped onto the hill
-    rather than resting in it (owner Phase 10 round 4). When set, yaw comes
-    from the downhill azimuth and the tilt tips the model's up-axis toward the
-    terrain normal by this fraction of the local slope. Never give this to a
-    tree layer."""
+    — they settle into the slope, long axis following it (owner Phase 10
+    round 4). For a rock layer this is a MINED ratio, `tiltDeg.p50 /
+    slopeDeg.p50` (`rock_dressing.rock_layer`): Bethesda tilts a boulder
+    about as much as the ground it sits on (rockl02: 22.9 deg on 24.0 deg
+    ground, ratio 0.95) and a cliff shell hardly at all (rockcliff02: 3.8 deg
+    on 32.6 deg ground, ratio 0.12 — the shell is buried upright, not laid
+    along the face). When set, yaw comes from the downhill azimuth and the
+    tilt tips the model's up-axis toward the terrain normal by this fraction
+    of the local slope; `tilt_deg_max` is then the RESIDUAL jitter on top
+    (the mined `tiltDeg.p25`, the tilt Bethesda gives even on flat ground),
+    never the whole band. Round 3 drew the whole band (2 x p50 per axis) AND
+    added the pitch, which laid 30 m shells at 43-70 deg on 45 deg faces where
+    the mine allows 23 deg (16f round 4). Never give this to a tree layer."""
     # --- the water record (0066) ---------------------------------------
     # Hard gates read from the SIGNED hydrology record, never re-derived: the
     # kind, season and identity of the water nearest this position, and the
@@ -804,6 +822,14 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                             tilt_x = pitch * layer.align_to_slope + tilt_x
                         extra_sink, sink_cap = burial(
                             fields, layer, px, pz, yaw, tilt_x, tilt_z, scale)
+                        if extra_sink > sink_cap:
+                            # The ground under this footprint falls away
+                            # further than the piece may be buried: it
+                            # cannot be seated here, so it is not placed
+                            # here. A rock that cannot sit is a gap, never
+                            # a floating shell (16f round 4; the cap is the
+                            # species' mined deep-quartile sink).
+                            continue
                         instances.append(Instance(
                             species=layer.species,
                             tier=layer.tier,
@@ -895,21 +921,31 @@ def burial(fields: Fields, layer: Layer, x: float, z: float, yaw: float,
     nx, ny, nz = base_plane_normal(yaw, tilt_x, tilt_z)
     if abs(ny) < 1e-6:
         return 0.0, math.inf
-    ground0 = fields.height(x, z)
+    # The BASE point: the pivot (on the ground before any sink) moved down
+    # the model's own up-axis by the pivot's height above the base.
+    drop = layer.pivot_above_base_m * scale
+    bx, bz = x - nx * drop, z - nz * drop
+    base_y = fields.height(x, z) - ny * drop
     cy, sy = math.cos(yaw), math.sin(yaw)
-    exposure = 0.0
+    exposure = base_y - fields.height(bx, bz)
     for i in range(BURIAL_SAMPLES):
         theta = math.tau * i / BURIAL_SAMPLES
         lx, lz = rx * math.cos(theta), rz * math.sin(theta)
         dx = lx * cy + lz * sy
         dz = -lx * sy + lz * cy
-        plane = ground0 - (nx * dx + nz * dz) / ny
-        exposure = max(exposure, plane - fields.height(x + dx, z + dz))
-    cap = (BURIAL_HEIGHT_SHARE * layer.height_m * scale
+        plane = base_y - (nx * dx + nz * dz) / ny
+        exposure = max(exposure, plane - fields.height(bx + dx, bz + dz))
+    # The cap is 0.6 x the scaled height OR the species' mined deep-quartile
+    # sink, whichever is larger: the mined sink is Bethesda's own answer for
+    # how deep this piece goes, and a cap below it clipped every cliff shell.
+    cap = (max(BURIAL_HEIGHT_SHARE * layer.height_m, layer.sink_deep_m) * scale
            if layer.height_m else math.inf)
     if exposure <= BURIAL_TOLERANCE_M:
         return 0.0, cap
-    return min(exposure + BURIAL_MARGIN_M, cap), cap
+    # The DEMAND, uncapped: the caller compares it with the cap and refuses
+    # the placement when the piece cannot be seated (round 3 clamped it here,
+    # so the refusal could never fire and capped shells shipped floating).
+    return exposure + BURIAL_MARGIN_M, cap
 
 
 def _blocked(x: float, z: float, stamps: Iterable[tuple[float, float, float]]) -> bool:
@@ -984,7 +1020,12 @@ def encode(instances: list[Instance], species_order: list[str]) -> bytes:
         for instance in group:
             body += INSTANCE_STRUCT.pack(
                 instance.x, instance.y, instance.z,
-                _quantise(instance.yaw / math.tau),
+                # WRAP the yaw, never clamp it: a solved yaw is often negative
+            # (`downhill + 180 - back` for an open-backed shell, `aim +
+            # jitter` for a boulder), and clamping it to 0 turned 54 % of the
+            # shipped rocks — 75-85 % of the cliff shells — to yaw 0, with
+            # their open backs facing wherever (16f round 4, owner walk).
+            _quantise((instance.yaw % math.tau) / math.tau),
                 _quantise((instance.scale - lo) / span),
                 _quantise(instance.tilt_x / math.pi + 0.5),
                 _quantise(instance.tilt_z / math.pi + 0.5),

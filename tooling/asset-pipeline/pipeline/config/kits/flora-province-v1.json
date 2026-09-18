@@ -1,13 +1,15 @@
 {
  "id": "flora-province-v1",
- "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts — the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job. Eleven species borrowed a far card from another species (lodFlatFrom); those borrows were removed on 2026-09-18 and replaced by cards baked from each asset's own mesh (bakeCards), so no silhouette shows another species.",
+ "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts — the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job. Every species' far card is baked from its own mesh (bakeCards, 16f round 4): a mod-authored _lod_flat is matched to a mesh by name only, and three trees wore another tree's picture. Rocks get no card.",
  "output": "tooling/asset-pipeline/output/kits/flora-province-v1.glb",
  "lodRatios": [
   0.35,
   0.12
  ],
  "bakeCards": true,
- "lodRatiosByCategory": {"rock": []},
+ "lodRatiosByCategory": {
+  "rock": []
+ },
  "textureMaxSize": 256,
  "billboardTextureMaxSize": 1024,
  "assets": [
@@ -45,15 +47,13 @@
    "asset": "bmv:landscape/grass/waterkelptall01"
   },
   {
-   "asset": "bmv:landscape/trees/cypress3",
-   "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
+   "asset": "bmv:landscape/trees/cypress3"
   },
   {
    "asset": "bmv:landscape/plants/kelptallstatic01aaa"
   },
   {
-   "asset": "bmv:landscape/trees/cypress1",
-   "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
+   "asset": "bmv:landscape/trees/cypress1"
   },
   {
    "asset": "bmv:landscape/plants/florahangingmoss02aaa"
@@ -68,9 +68,7 @@
    "asset": "bmv:vurt_shroom/vurt_shroom_big1"
   },
   {
-   "asset": "bmv:landscape/trees/treewillow01a",
-   "bakeCard": "force",
-   "bakeCardNote": "the pool's own _lod_flat is aspen LOD art, not this willow's silhouette"
+   "asset": "bmv:landscape/trees/treewillow01a"
   },
   {
    "asset": "bmv:landscape/trees/hangingvines1"
@@ -85,9 +83,7 @@
    "asset": "bmv:landscape/grass/waterkelpshort01"
   },
   {
-   "asset": "bmv:landscape/trees/treewillow02a",
-   "bakeCard": "force",
-   "bakeCardNote": "the pool's own _lod_flat is aspen LOD art, not this willow's silhouette"
+   "asset": "bmv:landscape/trees/treewillow02a"
   },
   {
    "asset": "bmv:landscape/plants/esloebush08"
@@ -96,9 +92,7 @@
    "asset": "bmv:landscape/plants/fern01"
   },
   {
-   "asset": "bmv:landscape/trees/treewillow03a",
-   "bakeCard": "force",
-   "bakeCardNote": "the pool's own _lod_flat is aspen LOD art, not this willow's silhouette"
+   "asset": "bmv:landscape/trees/treewillow03a"
   },
   {
    "asset": "bmv:landscape/plants/chickweed"
@@ -327,12 +321,10 @@
    "asset": "bmv:landscape/trees/fanpalm5"
   },
   {
-   "asset": "bmv:landscape/trees/gkbcyrodilcypress1",
-   "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
+   "asset": "bmv:landscape/trees/gkbcyrodilcypress1"
   },
   {
-   "asset": "bmv:landscape/trees/gkbcyrodilcypress2",
-   "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
+   "asset": "bmv:landscape/trees/gkbcyrodilcypress2"
   },
   {
    "asset": "bmv:vurt_shroom/vurt_shroom_big6"

@@ -427,3 +427,94 @@ are only ratios).
 | Frame rate variable, often poor: causes other than "more things" | found and fixed: (a) the ring's row-of-tiles generation stall and the per-instance fill (above); (b) `Vegetation.tsx` disposed and recreated every instanced mesh on every 16 m rebuild and read every matrix back for `computeBoundingSphere`; (c) the budget overcount drew nothing extra but hid a third of the jungle; (d) submerged, the water underside rendered into the target it sampled (a feedback loop; ANGLE reports an error per draw and some drivers serialise on it); (e) SSR to 1.2 km; (f) the 17th sampler (a failed binding every frame). Left as measured rows for the owner's machine: the collider ring's trimesh cost (instrumented, `__STUDIO_VEG_COLLIDERS_DEBUG__`, could not be exercised on this VM) and `Vegetation.tsx` pass one (a ground sample and an occlusion lookup per instance, ~18–21 ms steady in the jungle here) | pooled meshes with prefix uploads and extents spheres (jungle fill 28–75 → 16–18 ms, total 46–128 → 34–39 ms; Rockpark fill 12–23 → 4–10 ms); ping-pong target under water; SSR 420 m; the sampler fold; `rebuildMs` on both debug hooks and a collider hook; a new solids list rebuilds the colliders (nothing was solid at a spawn until 1.5 m walked) |
 
 Chain: `terrain-chain.sh --from compile_scatter` (70 s; `apply_vegetation_patches` 0 patches; `compile_water_dressing` re-run on the new scatter), `province:publish` 10.3 MB. Tests: `ringHash.test.ts` (2), the water render and fx suites (671 green), `test_seabed_layers`, `test_groundcover_floors` (the rows test red-then-green), `test_underwater_band`.
+
+## 17. Round 4 (owner feedback of 2026-09-18, delivered the same day; decision 0073)
+
+Every sentence of the owner's round-4 list, with the measured cause and what
+shipped. Delivered by five parallel Fable lanes (the owner lifted the
+Fable/Opus split for this session). Numbers are from the published bundles,
+unit tests and headless request probes against the local dev server and the
+production build; frame time is not measurable on this VM and none is
+invented.
+
+| Owner item | Measured cause | Shipped |
+|---|---|---|
+| Trees fade out as you walk towards them, then return | round 3's crossfade gave BOTH copies the same dither test, so the kept sets nested instead of complementing: coverage `max(s, 1−s)`, **0.5 at the ring midpoint**. Half of every crossing instance was not drawn. One shader, so trees, ground cover, rocks and the sea bed all did it | the vertex stage carries both raw smoothsteps and the fragment test is `bayer >= vEsLod.x \|\| bayer < vEsLod.y`: exact complements, so every pixel carries one copy at every distance, depth and shadow twins included (0073 §1). Gate walks every 0.25 m of four ladders × 16 thresholds; 4 of 5 cases red on round 3's rule |
+| Ground cover fades to almost invisible, then in as the high-quality version; rocks too | same cause | same fix; no change needed in `Groundcover.tsx` |
+| "I don't think trees should be doing the fading-to-invisible thing at all" | height-derived draw distance `min(900, max(60, h×35)) × drawScale` — a 10 m tree gone at 350 m, an 8 m fade; and at the low preset a 20–28 m tree's level-1 band was 5–6 m, narrower than the 10 m crossfade, so that level never reached full opacity | land trees draw to the far corner of the outermost loaded chunk (≈ 1,985 m at ring 2), so the vanish band is beyond anything loaded; occlusion untouched; `lodRings` is the one ladder source and keeps every level ≥ 10 m. Jungle site: 13.3k → 17.8k trees inside 1.1 km, all extra in the card tier (~55k triangles worst case), same draw calls |
+| Instantaneous swaps are acceptable if simpler | the complement rule is three shader lines | offer not taken; smooth dissolve kept and now provably correct (0073 §1) |
+| Some trees wear a billboard of a totally different shape, e.g. 1.11 E · 5.21 S | 34 of 159 species wore a mod-authored `_lod_flat` bound to the mesh by NAME; nothing could prove the picture was that tree. `hodalder01gkb` wore another species' card; `scottish-pine22` a vanilla pine's; a shrub an aspen's; the owner's tree (`gkbjungletreenew30v3`, 9.1 m) a **27.4 m** plane | under `bakeCards` every asset outside the skip categories bakes from its own mesh; the authored NIF is never extracted; `bakeCard: false` is the only opt-out. Kit rebuilt: 118 baked cards, only the 41 rocks without one. Gate reads the SHIPPED GLB and requires this asset's node hash; red on the old kit listing all 34. Supersedes round 2's "no card is mapped by a wrong filename" (0073 §3). Flora kit 62.5 → 80.5 MB |
+| Rocks hollow, rotated, or sunk wrong (0.85 E · 5.10 S; 2.16 E · 1.23 S) | four root causes: (a) `scatter.encode()` CLAMPED negative yaw to byte 0, destroying the open-back solve (`downhill + π − back`, usually negative) on write — the rule's own unit test was green; (b) mined `tiltDeg` is the TOTAL off-vertical angle and was applied on top of full slope-following, double-counted; (c) burial measured the ground plane through the PIVOT, not the base, under a cap below the shells' own mined median sink; (d) `burial()` returned its demand pre-clamped, so the refusal could never fire. Before: 30 % floating, 25 % over mined tilt, 54 % of all rocks at a yaw of zero, 3,926 open backs facing outward | yaw wraps; `align_to_slope = tiltDeg.p50 / slopeDeg.p50` per species; base plane measured at the base; **an unseatable rock is refused, never shipped floating** (~9 %, 20,249 → 18,530). After: 13 floats (0.07 %), 0 over-tilt, 0 open backs outward, 27 swallowed (0.15 %), yaw-0 under 1 %. `rock_census.py` reads the published bundles; 5 of 8 red before |
+| Jumping onto a rock clips into it, then the position snaps out | NOT collision: a Rapier capsule dropped on the rock trimesh at 3/6/10.5 m/s sinks ≤ 0.16 m transiently and rests on the top; residency never destroys a rock beneath the character. Each of the three landing clips is whole-clip `floor-contact`, which follows the support plane exactly — and the studio fed it the TERRAIN height under the body, a −1.2 m correction on a 1.2 m boulder, released at 20/s by the next clip | `PlayerMovementController.supportHeight()`, implemented in `EcctrlAdapter` from the grounding shape-cast's witness point; `visualSupportY` falls back terrain → body feet. Test red at `expected -1.2 to be close to 0`. No gameplay value touched. Stale note struck: rocks already collide as their own triangles, so the brief's deferral of rock hulls to 9c/16h is gone |
+| Sea bed has some dressing but not much a little way out (6.09 E · 1.78 S); want much denser, fading out much further | that spot is 33 m from the beach in 6.6 m of water; density fell off a 425 m ramp through depth bells | ramp 425 → 900 m; bands ~3× denser; two low-seagrass species already in `underwater-v1` placed at sea for the first time; sea-bed rocks 14 → 70/ha small, 3 → 14 medium, 0.8 → 3 large. Pieces per 100 m²: 0–50 m 2.30 → 7.78; 100–150 0.87 → 4.78; 200–300 0.15 → 2.58; 400–600 0.02 → 1.79; 1–2 km 0.01 → 0.5–0.8. By depth 16–25 m (77 % of the floor) 0.02 → 1.24. Instances 73,581 → 433,170; 72 distinct assets; bundle folder 20 MB. No asset sourced, no credit change |
+| "Is the loading-from-disk work going to work deployed? Is all of it?" | the middleware is a `configureServer` plugin (dev only); `vite build` copies `public/` into `dist/` and Pages serves it. Production build exit 0 in 74 s; a request probe over the built output at the Pages base path: 414 requests, 0 non-2xx; every URL goes through `import.meta.env.BASE_URL`; gitignored province groups are restored by `province:fetch` in both CI jobs | audited clean — **except** the size ceiling below, which would have failed the deploy for an unrelated reason |
+| (found in that audit) the published site is at GitHub Pages' 1 GB limit | composed site measured ~1,041 MB before this round (studio dist + combat-sandbox dist), i.e. already OVER; 42 MB of it two `probe-*` kits referenced by no app code, script, test or skill | probe kits removed from `public/`; the Pages artefact now carries only what the shipped ladder can display, with a size gate (0073 §7, §8 of this section) |
+| "Very slow to load locally. Expected? Faster deployed? Was it the caching?" | ~217 MB is downloaded before anything appears; ~120 MB of it is three vegetation kits fetched every start; 70–91 % of each kit's bytes are PNG. The dev server adds 258 requests and 42 MB of unbundled JS that Pages does not pay (4 files, 6 MB there). And yes: round 3's middleware sent no ETag, so **every reload re-downloaded ~250 MB** | the middleware validates — weak size+mtime ETag, Last-Modified, `Cache-Control: no-cache`, 304 on a match; a missing file inside `public/`'s own folders is a 404, never the SPA fallback. Measured: cold 251.6 MB, **warm 9.4 MB with 786 of 793 revalidated** (warm was 251.6 MB before). Honest answer to the owner: the first visit on Pages is SLOWER (same payload over the network), later visits cheap. The real fix is KTX2/Draco on the 89 MB of kit PNG — Phase 14's, an owner call to pull forward |
+| `GL_INVALID_OPERATION: Mismatch between texture format and sampler type (…shadow)` | `<Canvas shadows="soft">` makes r3f write `PCFSoftShadowMap` on every Canvas render; three rewrites it to PCF only inside the shadow pass, which the pipeline skips on odd frames and which never runs before `compileAsync`. A material compiled on a "PCFSoft" frame takes `SHADOWMAP_TYPE_BASIC` → a plain `sampler2D` bound to the CSM cascades' comparison-mode depth textures. Permanent: the program key never changes | PCFShadowMap declared in `WorldSky`, both Canvases say `"percentage"`; the type is normalised before pass 1 and before `compileAsync`. Shadow type in use is what three was silently using anyway |
+| `Framebuffer is incomplete: Attachments are not all the same size` (hundreds, under water) | three's `setSize` resizes only the colour texture; the depth texture is corrected when the target itself becomes a render destination; under water the ping-pong SAMPLES the other target's depth first, so after any canvas resize a stale-size depth texture was uploaded immutably and attached to a new-size framebuffer | `resizeTarget` moves `depthTexture.image` with `setSize` for both targets. Found alongside: surface, crown and fall passes read scene depth at the CANVAS size while drawing into the 0.9-scale scene target under water — every submerged refraction and soft-depth read mis-registered by 1/0.9; fixed |
+| `PCFSoftShadowMap has been deprecated`, once per frame from `WaterPipeline.tsx:285` | same cause; r3f also set `shadowMap.needsUpdate` because the type "changed", forcing a full shadow pass per Canvas re-render and defeating the every-other-frame policy | gone with the normalisation; `CharacterMode` and `Fly3D` both declare `"percentage"` |
+| `THREE.Clock` and Rapier deprecation lines | both inside dependencies (`@react-three/fiber`'s events module; `@dimforge/rapier3d-compat`'s own `init()`), no call of ours | left; reported as upstream, not ours to silence |
+| (found by the probes) `TypeError: Cannot read properties of null (reading 'linvel')` on every character start | PRE-EXISTING, not this round's work: ecctrl attaches its handle in React's layout phase, rapier creates the rigid body in a passive effect; `EcctrlAdapter.ready` tested only that the handle was attached — so the water-contact path called `handle.body.linvel()` on null for the first frames | `ready` means the BODY exists; every body accessor null-safe through a private getter |
+
+Startup payload, cold, measured on the production build with
+`probe-deployed-requests.mjs`: inland start 202.9 MB (no underwater kit, no
+`settlements.json`), underwater spawn 230.9 MB, Lilmoth gate 231.1 MB,
+against a 264.4 MB baseline. The underwater kit (27 MB) now loads when a bed
+species stands within 400 m of the focus; honest limit recorded — 210 of 256
+chunks hold bed dressing, so that saving lands at genuinely inland starts
+only. `settlements.json` (9.7 MB) is gated on the ladder in the ground-cover
+ring; the navigation widget was already gated; a third path that mounted
+`SettlementLayer` for a few frames before `ladder.json` loaded is closed.
+
+Chain: `terrain-chain.sh --from compile_scatter` under `memwatch.sh` (peak
+3.3 GiB, 92 s): `compile_scatter` 256/256, `apply_vegetation_patches` (0
+patches), `compile_water_dressing`. Nothing above re-run.
+`npm run province:publish` uploaded the vegetation, refined and water groups
+and refreshed `rasters-manifest.json`; `npm run facts` regenerated
+`docs/FACTS.md`.
+
+**The Pages artefact** (0073 §7). Composed site 998,851,580 B → 564,155,592 B
+(56 % of the limit): 17 kits excluded because only a dark record names them,
+plus `province/refined/height-natural-rg.png` (4.85 MB, read only by the
+chain); 5 kits kept because the built index names them (flora, groundcover,
+underwater and the two waterfall sets). Derived at build time from
+`ladder.json` and reachability, never from a list. Five gates fail the build
+(unknown ladder layer, a named kit missing, a surviving reference to an
+excluded file, a chain-only raster something now reads, over 900 MB; warning
+over 750 MB), proven by planting a JSON naming a non-existent kit and the
+chain-only raster: three errors, exit 1 — and `wrecks-v1` was KEPT because
+something named it, which is the 16h un-hide path in miniature. Request
+probe against the pruned site: beach 568 requests / 207.4 MB, inland 536 /
+179.4 MB, Lilmoth gate 568 / 207.5 MB, 2D map 75 / 23.3 MB, **zero non-2xx**
+in every run. At 16h the excluded kits return and the site would stand at
+~965 MB, which is why compression came forward (0073 §7b).
+
+**Compression, pulled forward out of Phase 14** (owner, 2026-09-18; 0073
+§7b–7d). Every kit publishes through `pipeline/kit_compress.py`: UASTC/KTX2
+textures and meshopt geometry. The format choice is measured, not assumed —
+ETC1S against UASTC on the four representative kits: flora masked foliage
+32.3 dB median / 22.3 min with 0.26 % alpha-cutoff flips against 39.4 / 28.4
+and 0.10 %; underwater 32.7 against 45.4; architecture 31.9 against 44.9. Of
+four ingested comparison crops (the six-image budget), a judge scored source
+against UASTC 5/5 twice and source against ETC1S 2/5 on the foliage card
+atlas, naming blocky canopy interiors, softened cut-out edges; colour bleeding into transparent cells. Our foliage is alpha-tested cards, so UASTC
+is the rule for every role and ETC1S stays a per-kit option with its price
+recorded. No kit carries a normal or metal/rough map (censused: 21 kits, 0 of
+each). Geometry keeps FLOAT positions and UVs: quantised positions hang every
+mesh under a dequantisation node, which moves the mesh away from the node
+whose extras the runtime reads; every LOD would have collapsed to level 0
+— caught before publishing; float costs 4 KB.
+
+Bytes: kits 556 → 222 MB (flora 80.5 → 26.9, settlement-root 49.2 → 16.8,
+wrecks 30.2 → 8.2, underwater 27.0 → 13.6, groundcover 11.4 → 5.1;
+`waterfall-fx-v1` opts out with its reason recorded). Composed site with
+every kit in 999 → 561 MB; with the current ladder's exclusions, 569 →
+380 MB — so 16h un-hiding the settlement layer no longer breaches the limit.
+Cold studio start 231 → 162 MB with zero non-2xx on the production build;
+startup kits 118.9 → 45.6 MB; flora's resident VRAM ~150 → ~40 MB. The
+character files ship once (112 MB saved): the studio's production build
+resolves them against the sandbox's copy; both apps build; the sandbox's
+locomotion visual check passes. Encode 2 min 40 s for the set, peak 2.3 GiB
+under `memwatch.sh`, byte-identical across two runs. Gate:
+`test_kit_compress.py`, shown failing on all 21 uncompressed kits, then on a
+118.9 MB startup total. Standard 16 records the budgets.

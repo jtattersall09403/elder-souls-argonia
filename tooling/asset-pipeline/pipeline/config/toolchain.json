@@ -3,6 +3,7 @@
   "blender": "~/tools/blender-4.4.3-windows-x64/blender.exe",
   "winePrefix": "~/tools/wine-pynifly-prefix",
   "addon": "io_scene_nifly",
+  "gltfpack": "~/tools/gltfpack-1.2/gltfpack",
   "bsaDir": "skyrim-source/Data",
   "textureBsa": "Skyrim - Textures.bsa",
   "animationBsa": "Skyrim - Animations.bsa",

@@ -18,12 +18,29 @@ second copy of the table. Full per-species tables: run
    0.08 m bury. **Rule:** sink = the species' mined p50 with the p25–p75
    spread as the jitter; never a class default (`Composition.CLASS_SINK` is
    the fallback for unmined species only; `test_rock_rules.py` proves no
-   rock reaches it).
-2. **Rocks tilt.** Median tilt 15–23° on boulders (p95 50–60°), 3–17° on
-   cliffs, 9–18° on piles; yaw is uniform (0.86–0.99). **Rule:** yaw random;
-   `tilt_deg_max` = 2 × the mined tilt p50 (a uniform draw whose median is
-   the mined median), on top of `align_to_slope` = 1 so the long axis lies
-   with the hill.
+   rock reaches it). On top of that the sampler's burial rule
+   (`scatter.burial`) measures the mesh's BASE plane — `pivotAboveBaseM`
+   below the pivot, tilted as baked — against the ground at eight bearings
+   on the footprint and sinks the piece until it is under the ground
+   everywhere, capped at 0.6 × the scaled height or the species' mined
+   deep-quartile sink (`sinkM.p25`, scaled), whichever is larger. **A piece
+   whose demand exceeds its cap is not placed** (16f round 4): a rock that
+   cannot sit on that ground is a gap, never a floating shell. Record-placed
+   rocks (bed boulders, cascade lips and rims) are seated the same way.
+2. **Rocks tilt — by the slope, not on top of it.** The mine's `tiltDeg`
+   is the placed reference's TOTAL off-vertical angle (`hypot(rotX, rotY)`),
+   so it already contains the slope-following. Median tilt 15–23° on
+   boulders, 3–11° on cliff shells, 12–17° on piles, against median slopes
+   of 24°, 33° and 14°; yaw is uniform (0.86–0.99). **Rule:** yaw random;
+   `align_to_slope` = the mined `tiltDeg.p50 / slopeDeg.p50` (a boulder
+   takes on ~0.95 of the hillside's pitch, a cliff shell ~0.12 — it is
+   buried upright, not laid along the face); `tilt_deg_max` = the mined
+   `tiltDeg.p25`, the residual tilt Bethesda gives even on flat ground.
+   Round 3 drew 2 × p50 per axis AND added the whole pitch, which shipped
+   25 % of all rocks past their mined p95 (30 m shells at 43–70° on 45°
+   faces, base plane up to 30 m proud). Some species' mined p95 is
+   polluted by unnormalised rotations (rockl04 117°, rockpilem01 342°), so
+   p95 is a census bound, never an authoring figure.
 3. **Rocks stand on slopes.** Slope p25–p75 is 10–35° for boulders and piles,
    16–47° for cliff pieces. The piles' ground is the `NoRocks` texture
    twin of the rock texture (LRocks01NoRocks 15–29 %), i.e. bare painted
@@ -68,7 +85,12 @@ second copy of the table. Full per-species tables: run
   has many. An open-backed piece is laid with its back into the hill
   (`align_to_slope`): yaw = downhill azimuth + 180° − `openBackYawDeg`, so the
   open back faces uphill. Never freestanding. Six of the nine cliff pieces
-  carry an `openBackYawDeg` and all nine are open underneath.
+  carry an `openBackYawDeg` and all nine are open underneath. That yaw is
+  usually NEGATIVE. The bundle writer must WRAP it rather than clamp it:
+  until 16f round 4 `scatter.encode` clamped negative yaws to byte 0, so
+  54 % of all shipped rocks (75–85 % of the cliff shells) stood at yaw 0
+  with their open backs facing wherever, while the in-memory test of the
+  rule stayed green. `test_rock_census.py` now reads the shipped bundles.
 - `pivotAboveBaseM`: the pivot's height above the mesh's lowest point, so a
   sink is measured from the right datum.
 
@@ -105,6 +127,17 @@ pipeline's texture resolution. Credits: root README § Credits.
   open side outward, the water relation, rocks are not stems), plus the two
   record-driven passes and the dressing-zone overlay, so a rule typed from
   memory cannot ship again (decision 0036's round-4 lesson).
+- `worldgen/rock_census.py` + `test_rock_census.py` — the gate on the
+  PRODUCT (16f round 4): every rock in the published bundles measured on
+  the published ground — base-plane float, total tilt against the mined
+  p95, scale, sink against the mined median, open back against uphill,
+  swallowed (top under the lowest ground beneath the footprint). Shown
+  failing on the round-3 bundles (20,249 rocks: 30 % floated, 25 % over
+  tilt, 3,926 open backs outward, 54 % yaw 0). `python3 -m
+  worldgen.rock_census --near 2160,1230` lists the rocks around a point.
+- `worldgen/seabed_census.py` + `test_seabed_census.py` — the sea-floor
+  gate: pieces per 100 m² of ocean floor by distance from the shore and by
+  depth, from the published bundles.
 
   Known limit, queued in `docs/phases/P-polish/backlog.md`: clearance
   stamping is one-directional, so a PAIR of rocks is held apart by the larger

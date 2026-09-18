@@ -842,18 +842,16 @@ for asset in PLAN["assets"]:
     # it beyond the mesh rings. These are static cross/flat cutout cards —
     # fine at distance, no octahedral impostor authoring (module 65 §110).
     billboard_materials = set()
-    # Derived cards come FIRST and only where no authored card exists: an
-    # authored `_lod_flat` is the source pool's own art and always wins.
-    # `bakeCard: "force"` overrides that: the pool's card is another species'
-    # or a crown chunk, so this asset's own silhouette is baked instead and the
-    # authored NIF is ignored.
-    forced = asset.get("bakeCard") == "force"
-    if (PLAN.get("bakeCards")
-            and (forced or not asset.get("lodFlatNif"))
-            and asset.get("bakeCard", True) is not False
-            and asset["category"] not in CARD_SKIP_CATEGORIES):
+    # The Python half decided `bakeCard` per asset (`bakes_own_card`): under
+    # `bakeCards` every asset outside the skip categories bakes a card from
+    # ITS OWN mesh and never imports an authored `_lod_flat` (those UV a
+    # shared atlas rect by vanilla slot, matched by name — nothing can prove
+    # the picture is this tree; 16f round 4). The authored path survives
+    # for kits that do not bake and for `bakeCard: false` opt-outs.
+    baked = bool(asset.get("bakeCard")) and asset["category"] not in CARD_SKIP_CATEGORIES
+    if baked:
         bake_asset_cards(asset, meshes, root, lo, hi, size)
-    if asset.get("lodFlatNif") and not forced:
+    if asset.get("lodFlatNif") and not baked:
         flat_meshes = import_nif_meshes(asset["lodFlatNif"])
         # Optional per-asset atlas override (`lodFlatTexture`, data-root
         # relative). The shared card atlas path resolves to BM&V's TROPICAL

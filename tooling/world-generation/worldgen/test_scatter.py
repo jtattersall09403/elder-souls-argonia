@@ -245,6 +245,20 @@ def test_encode_round_trips_through_decode():
     assert reed["scale"] == pytest.approx(1.4, abs=0.01)
 
 
+@pytest.mark.parametrize("yaw", [-0.3, -math.pi / 2, -3.0, math.tau + 1.0, 7.5])
+def test_encode_wraps_a_yaw_outside_zero_to_tau(yaw):
+    """A solved yaw is often negative (`downhill + 180 - back`), and the
+    writer used to CLAMP it to byte 0: 54 % of the shipped rocks, 75-85 % of
+    the cliff shells, came out at yaw 0 with their open backs facing wherever
+    (16f round 4). Wrapping keeps the bearing; the check is on the direction
+    the decoded yaw points, one quantum of tolerance."""
+    blob = encode([Instance("rock", "T1", 0.0, 0.0, 0.0, yaw, 1.0, 0.0, 0.0)],
+                  ["rock"])
+    got = decode(blob)[0]["instances"][0]["yaw"]
+    delta = (got - yaw + math.pi) % math.tau - math.pi
+    assert abs(delta) <= math.tau / 255 + 1e-9, (yaw, got)
+
+
 def test_bundle_size_stays_inside_the_budget():
     instances = [Instance("reed", "T3", float(i), 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)
                  for i in range(1000)]
@@ -689,13 +703,46 @@ def test_burial_is_zero_on_flat_ground():
 
 
 def test_burial_never_swallows_the_piece():
-    from .scatter import burial
+    """The demand is returned UNCAPPED and the sampler refuses a placement
+    whose demand exceeds the cap: round 3 clamped the demand to the cap here,
+    so the refusal could never fire and capped shells shipped floating (16f
+    round 4). The cap itself is 0.6 x the scaled height or the species' mined
+    deep-quartile sink, whichever is larger."""
+    from .scatter import burial, scatter_chunk, Palette
 
     layer = Layer(species="rock", footprint_half_m=(3.0, 3.0), height_m=2.0)
     extra, cap = burial(_ridge_fields(4.0), layer, 100.0, 100.0,
                         0.0, 0.0, 0.0, 1.5)
     assert cap == pytest.approx(0.6 * 2.0 * 1.5)
-    assert extra == pytest.approx(cap)
+    assert extra > cap
+    deep = Layer(species="rock", footprint_half_m=(3.0, 3.0), height_m=2.0,
+                 sink_deep_m=9.0)
+    assert burial(_ridge_fields(4.0), deep, 100.0, 100.0,
+                  0.0, 0.0, 0.0, 1.5)[1] == pytest.approx(9.0 * 1.5)
+    # On the sampler: the same piece, dense, on a ridge it cannot sit on.
+    layer = Layer(species="rock", instances_per_hectare=400.0,
+                  region_classes=(2,), footprint_half_m=(3.0, 3.0),
+                  height_m=2.0, align_to_slope=0.0, tilt_deg_max=0.0)
+    placed = scatter_chunk(0.0, 0.0, 200.0, Palette("r", [layer]),
+                           _ridge_fields(4.0), seed=3)
+    assert all(i.extra_sink_m <= i.sink_cap_m for i in placed)
+    flat = Fields(height=lambda x, z: 12.0, water_depth=lambda x, z: -5.0,
+                  slope=lambda x, z: 0.0, region=lambda x, z: 2)
+    assert len(placed) < len(scatter_chunk(0.0, 0.0, 200.0, Palette("r", [layer]),
+                                           flat, seed=3))
+
+
+def test_burial_measures_the_base_plane_not_the_pivot():
+    """A pivot 5 m up inside a cliff shell is not where the mesh meets the
+    ground: the base plane is `pivot_above_base_m` lower (16f round 4)."""
+    from .scatter import burial
+
+    low = Layer(species="rock", footprint_half_m=(2.0, 2.0), height_m=12.0)
+    high = Layer(species="rock", footprint_half_m=(2.0, 2.0), height_m=12.0,
+                 pivot_above_base_m=5.0)
+    args = (_ridge_fields(0.5), 100.0, 100.0, 0.0, 0.0, 0.0, 1.0)
+    assert burial(args[0], low, *args[1:])[0] == pytest.approx(1.25)
+    assert burial(args[0], high, *args[1:])[0] == 0.0
 
 
 def test_burial_leaves_a_plant_layer_alone():

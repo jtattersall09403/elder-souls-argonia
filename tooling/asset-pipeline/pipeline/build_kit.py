@@ -448,15 +448,17 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     # Pass 1: every mesh, one extraction per archive. Species whose source
     # pool ships a ready-made `x_lod_flat.nif` billboard (registry field
     # `lodVariant`) bring it along as the T4 far tier — flat cutout cards the
-    # renderer switches to beyond the decimated chain (module 65 §110).
+    # renderer switches to beyond the decimated chain (module 65 §110) —
+    # only for assets that do not bake their own (`bakes_own_card`).
     by_pool: dict[str, list[str]] = {}
-    for entry, _row in rows:
+    for entry, main_row in rows:
+        baked = bakes_own_card(entry, kit, main_row.get("category", "misc"))
         for spec in _part_specs(entry):
             row = index[spec["asset"]]
             by_pool.setdefault(row["pool"], []).append(row["path"])
-            if _flat_lod_of(row):
+            if not baked and _flat_lod_of(row):
                 by_pool[row["pool"]].append(_flat_lod_of(row))
-        donor = _flat_donor_row(entry, index)
+        donor = None if baked else _flat_donor_row(entry, index)
         if donor is not None and _flat_lod_of(donor):
             by_pool.setdefault(donor["pool"], []).append(_flat_lod_of(donor))
     for pool, paths in by_pool.items():
@@ -489,26 +491,26 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         }
         if entry.get("collisionRadiusM"):
             record["collisionRadiusM"] = entry["collisionRadiusM"]
-        if "bakeCard" in entry:
-            # Per-asset control of the kit's `bakeCards`: `false` opts out (an
-            # asset whose silhouette a card cannot carry); `"force"` bakes even
-            # though the pool ships an authored `_lod_flat`, for the cards that
-            # UV a crown chunk or another species' LOD art instead of this
-            # asset's own silhouette.
-            record["bakeCard"] = resolve_bake_card(entry)
+        # Decided here, once, for both halves: the Blender half bakes when
+        # this is true and imports the authored `_lod_flat` (if any) only
+        # when it is false.
+        record["bakeCard"] = bakes_own_card(entry, kit, record["category"])
         if entry.get("compose"):
             record["parts"] = parts
+        if record["bakeCard"]:
+            resolved.append(record)
+            continue
         # A species may BORROW another species' authored card (`lodFlatFrom`):
-        # willows whose own cards UV a crown chunk, composites that have none.
-        # Sourcing an existing card is a sourcing decision, not new art; the
-        # Blender half rescales it to this asset's height.
+        # composites that have none, in a kit that does not bake. Sourcing an
+        # existing card is a sourcing decision, not new art; the Blender half
+        # rescales it to this asset's height.
         donor = _flat_donor_row(entry, index)
         if donor is not None:
             row = donor
         elif entry.get("compose"):
             resolved.append(record)
             continue
-        flat = None if record.get("bakeCard") == "force" else _flat_lod_of(row)
+        flat = _flat_lod_of(row)
         if flat and (data_root / flat).exists():
             wanted.setdefault(row["pool"], set()).update(
                 _referenced_textures(data_root / flat))
@@ -737,15 +739,34 @@ _COLLISION_BY_CATEGORY = {
 
 
 def resolve_bake_card(entry):
-    """Per-asset `bakeCard`: `"force"` verbatim, anything else coerced to bool.
-
-    `force` means "ignore the authored `_lod_flat` and bake this asset's own
-    silhouette"; the authored card always wins otherwise.
-    """
+    """Per-asset `bakeCard`, coerced to bool. Only `false` means anything: it
+    opts the asset out of baking (a silhouette a card cannot carry). The old
+    `"force"` value reads as `true` — it is what every asset does now."""
     value = entry.get("bakeCard", True)
-    if isinstance(value, str) and value.lower() == "force":
-        return "force"
+    if isinstance(value, str):
+        return value.lower() != "false"
     return bool(value)
+
+
+def bakes_own_card(entry, kit, category):
+    """True when this asset's far card is BAKED FROM ITS OWN MESH.
+
+    Under `bakeCards` every asset outside `bakeCardSkipCategories` bakes its
+    own card unless it carries `bakeCard: false`; an authored `_lod_flat`
+    from the source pool is never used in that case. Authored cards UV a rect
+    of a shared atlas indexed by the VANILLA tree slot, so they can only be
+    matched to a mesh by name and nothing can prove the picture is this tree
+    (16f round 4: `hodalder01gkb` wore `gkbjungletreenew17v2`'s card,
+    `scottish-pine22` wore vanilla `TreePineForest05`'s, and
+    `gkbjungletreenew30v3`'s was a single 27 m plane on an 11 m tree). A
+    kit without `bakeCards` keeps the authored card path as before.
+    """
+    if not kit.get("bakeCards"):
+        return False
+    skip = kit.get("bakeCardSkipCategories", CARD_SKIP_CATEGORIES)
+    if category in skip:
+        return False
+    return resolve_bake_card(entry)
 
 
 def _default_collision(row: dict) -> str:
@@ -877,6 +898,13 @@ def build(kit_id: str, vault: Path) -> dict:
     total_mb = output_glb.stat().st_size / 1e6
     print(f"[kit] {kit_id}: {len(summary['assets'])} assets -> {output_glb.name} "
           f"({total_mb:.1f} MB), manifest {manifest_path.name}")
+    # Publish: the raw build above is the measurement product; what ships
+    # under apps/world-studio/public/kits/ is its KTX2/meshopt compression
+    # (pipeline/kit_compress.py). A kit already published there is
+    # refreshed; a first publish is `python3 -m pipeline.kit_compress --kit`.
+    from . import kit_compress
+    if kit.get("publish", (kit_compress.PUBLIC_KITS / f"{kit_id}.glb").exists()):
+        summary["compression"] = kit_compress.publish(kit_id)
     return summary
 
 

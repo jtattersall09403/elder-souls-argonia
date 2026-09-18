@@ -70,6 +70,15 @@ chunks are RG16 PNGs + `chunks-web-manifest.json` written by
   only when that exact build has already succeeded; `-- --without-water` is
   the fast blueprint-only diagnosis. `PHASE11_WATER_SITE=<comma-list>` narrows
   the water half for diagnosis without changing the normal close-out suite.
+- `node scripts/probe-deployed-requests.mjs "?view=character&x=..&z=.."` —
+  deployed-build request audit: serves `dist/` under the Pages base path
+  with a plain static server (no dev middleware), opens the URL headless and
+  lists every file the app fetched with status and bytes; any non-2xx is a
+  file that would 404 on Pages. `--url http://127.0.0.1:<port>/` points it
+  at a running dev server instead and `--reloads 1` shows what the ETag /
+  304 revalidation saves on a second load. Network-quiet is not "loaded"
+  under software GL (a 60 MB kit GLB parses for minutes there), so a
+  layer that fetches after a big parse may be missing from the list.
 - `node scripts/probe-sky.mjs` (from `apps/combat-sandbox`) — fixed-instant
   sky/light probe: pins the named region presets at exact WorldInstants,
   asserts sun altitude/day phase/moon phase/exposure via

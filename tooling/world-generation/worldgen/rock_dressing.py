@@ -45,7 +45,7 @@ import math
 from functools import lru_cache
 from pathlib import Path
 
-from .scatter import ANCHOR_TERRAIN, Instance, hash64, uniform_at
+from .scatter import ANCHOR_TERRAIN, Instance, Layer, burial, hash64, uniform_at
 from .vegetation_ladder import ROCK_ROLES  # the one definition of the set
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -205,8 +205,10 @@ def mined(species: str) -> dict:
         "sink_p25": -entry["sinkM"]["p25"],
         "sink_p50": -entry["sinkM"]["p50"],
         "sink_p75": -entry["sinkM"]["p75"],
+        "tilt_p25": entry["tiltDeg"]["p25"],
         "tilt_p50": entry["tiltDeg"]["p50"],
         "tilt_p95": entry["tiltDeg"]["p95"],
+        "slope_p50": entry["slopeDeg"]["p50"],
         "slope_p75": entry["slopeDeg"]["p75"],
         "yaw_uniformity": entry["rotationZUniformity"],
         "scale_p5": entry["scale"]["p5"],
@@ -233,6 +235,16 @@ def footprint_half_m(species: str) -> tuple[float, float]:
 def height_m(species: str) -> float:
     """The mesh's own height, metres (`sizeM[2]`; the NIF box is z-up)."""
     return float(_manifest()[species]["sizeM"][2])
+
+
+def pivot_above_base_m(species: str) -> float:
+    """How far the pivot sits above the mesh's lowest point, metres
+    (`pivotAboveBaseM`, written by `vet_kit` from `originOffsetM[2]`)."""
+    entry = _manifest()[species]
+    value = entry.get("pivotAboveBaseM")
+    if value is None:
+        value = (entry.get("originOffsetM") or [0, 0, 0])[2]
+    return max(0.0, float(value))
 
 
 def footprint_half_diagonal_m(species: str) -> float:
@@ -283,7 +295,15 @@ def rock_layer(species: str, per_ha: float, *, wet: bool = False,
     m = profile if profile is not None else mined(species)
     role = role or ("wet-rock" if wet else "rock")
     assert role in ROCK_ROLES, role
-    tilt_max = min(45.0, 2.0 * m["tilt_p50"])
+    # Rule 2 (tilt), as the mine states it. `tiltDeg` is the placed
+    # reference's total off-vertical angle, and it already CONTAINS the
+    # slope-following: so the hillside pitch is taken on at the mined ratio
+    # of median tilt to median slope, and the residual jitter is the mined
+    # p25 — the tilt Bethesda gives even on flat ground. Round 3 drew 2 x p50
+    # per axis and added the whole pitch on top, and shipped 25 % of all
+    # rocks past their mined p95 (16f round 4).
+    align = min(1.0, m["tilt_p50"] / max(m["slope_p50"], 1.0))
+    tilt_max = m["tilt_p25"]
     link = m["clump_link_m"] or 2.0 * (m["mean_nn_m"] or 8.0)
     back = open_back_yaw_deg(species)
     entry = {
@@ -293,7 +313,7 @@ def rock_layer(species: str, per_ha: float, *, wet: bool = False,
         "role": role,
         "yaw_random": True,
         "tilt_deg_max": round(tilt_max, 2),
-        "align_to_slope": 1.0,
+        "align_to_slope": round(align, 3),
         "scale_range": [m["scale_p5"], m["scale_p95"]],
         "slope_deg_max": round(m["slope_p75"] + 10.0, 2),
         "clump_size_median": 3,
@@ -304,11 +324,16 @@ def rock_layer(species: str, per_ha: float, *, wet: bool = False,
         # measured for exposure.
         "footprint_half_m": [round(v, 3) for v in footprint_half_m(species)],
         "height_m": round(height_m(species), 3),
+        "sink_deep_m": round(max(0.0, m["sink_p25"]), 3),
+        "pivot_above_base_m": round(pivot_above_base_m(species), 3),
         "patchiness": 1.1,
         "glade_response": 0.0,
         "note": (
             f"mined n={m['n']}: sink p50 {m['sink_p50']:.2f} m (composition "
-            f"rules); tilt_deg_max = 2 x tilt p50 {m['tilt_p50']:.2f}; yaw "
+            f"rules), burial cap floor = deep-quartile sink {m['sink_p25']:.2f}; "
+            f"align_to_slope = tilt p50 {m['tilt_p50']:.2f} / slope p50 "
+            f"{m['slope_p50']:.2f}; tilt_deg_max = residual tilt p25 "
+            f"{m['tilt_p25']:.2f}; yaw "
             f"random (rotZ uniformity {m['yaw_uniformity']:.2f}); scale_range "
             f"= p5-p95 {m['scale_p5']:.2f}-{m['scale_p95']:.2f}; slope_deg_max "
             f"= slope p75 {m['slope_p75']:.2f} + 10; clump_radius_m = link "
@@ -419,17 +444,20 @@ def surf_rocks(per_ha: float = 40.0) -> list[dict]:
                      land_cover=_cover_ids(SURF_COVERS))
 
 
-#: The sea-bed ramp. Density is 1.0 at the shoreline, 0.4 at 500 m out and
-#: 0.2 far offshore, realised on the sampler's existing `coast_factor`
-#: (scatter.py, a Gaussian bell on the ABSOLUTE distance to the shoreline -
-#: `coast_m` is signed, negative at sea). That factor
-#: only ever BOOSTS - it runs from 1 far out to 1+gain at the coast - so the
-#: decay is got by authoring the layer at a fifth of its shoreline density and
-#: setting the gain to 4: 0.2 x (1 + 4 x bell) is 1.0 on the bell's peak and
-#: 0.2 where the bell has died. A half-width of 425 m puts the 0.4 crossing at
-#: 500 m exactly. `seabed_ramp_factor` below is the same arithmetic, exposed
-#: so a test can assert the shape without rebuilding a sampler.
-SEABED_RAMP = dict(coast_boost_gain=4.0, coast_half_width_m=425.0)
+#: The sea-bed ramp. Density is 1.0 at the shoreline, still ~0.9 at 300 m,
+#: ~0.7 at 600 m, ~0.4 at 1 km and 0.2 far offshore, realised on the
+#: sampler's existing `coast_factor` (scatter.py, a Gaussian bell on the
+#: ABSOLUTE distance to the shoreline - `coast_m` is signed, negative at sea).
+#: That factor only ever BOOSTS - it runs from 1 far out to 1+gain at the
+#: coast - so the decay is got by authoring the layer at a fifth of its
+#: shoreline density and setting the gain to 4: 0.2 x (1 + 4 x bell) is 1.0
+#: on the bell's peak and 0.2 where the bell has died. The half-width was
+#: 425 m (0.4 at 500 m) until 16f round 4, when the owner found the floor
+#: thin a short swim out: the run is now 900 m, so the bed is still visibly
+#: dressed well past where a swimmer turns back. `seabed_ramp_factor` below
+#: is the same arithmetic, exposed so a test can assert the shape without
+#: rebuilding a sampler.
+SEABED_RAMP = dict(coast_boost_gain=4.0, coast_half_width_m=900.0)
 SEABED_RAMP_FLOOR = 0.2
 
 
@@ -467,7 +495,8 @@ def seabed_rocks(species_list, per_ha: float, depth: tuple[float, float],
             f" authored at {SEABED_RAMP_FLOOR:g}x the shoreline density with"
             f" coast_boost_gain {SEABED_RAMP['coast_boost_gain']:g} /"
             f" half-width {SEABED_RAMP['coast_half_width_m']:g} m, so density"
-            " is 1.0 at the shore, 0.4 at 500 m and 0.2 far offshore")
+            " is 1.0 at the shore, ~0.7 at 600 m, ~0.4 at 1 km and 0.2 far"
+            " offshore")
         if borrowed_from:
             entry["note"] += (
                 f"; every mined figure here is BORROWED from {borrowed_from}"
@@ -481,8 +510,9 @@ def shore_rock_mean() -> dict:
     """The mean of the three `rocks0*wet` mined profiles, for Shores of
     Skyrim's twelve rocks (see `SHORE_ROCKS`)."""
     rows = [mined(s) for s in SEABED_WET_SMALL]
-    keys = ("sink_p25", "sink_p50", "sink_p75", "tilt_p50", "tilt_p95",
-            "slope_p75", "yaw_uniformity", "scale_p5", "scale_p95",
+    keys = ("sink_p25", "sink_p50", "sink_p75", "tilt_p25", "tilt_p50",
+            "tilt_p95", "slope_p50", "slope_p75", "yaw_uniformity",
+            "scale_p5", "scale_p95",
             "submerged_fraction", "above_water_p50", "mean_nn_m",
             "clark_evans_r", "clump_link_m")
     out = {k: sum(float(r[k]) for r in rows) / len(rows) for k in keys}
@@ -531,18 +561,43 @@ def _bed_species(radius_m: float) -> str:
     return _BED_BY_RADIUS[-1][1]
 
 
-def _instance(species: str, x: float, z: float, fields, key: int) -> Instance:
+def _seating_layer(species: str) -> Layer:
+    """The mesh-side fields the sampler's burial rule reads, for a rock the
+    RECORD places (bed and cascade rocks never pass through a palette layer,
+    and round 3 shipped them unseated: cascade lip rocks 16-18 m proud on a
+    gorge wall, 16f round 4)."""
     m = mined(species)
-    tilt = math.radians(min(45.0, 2.0 * m["tilt_p50"]))
+    return Layer(species=species,
+                 footprint_half_m=footprint_half_m(species),
+                 height_m=height_m(species),
+                 pivot_above_base_m=pivot_above_base_m(species),
+                 sink_deep_m=max(0.0, m["sink_p25"]))
+
+
+def _instance(species: str, x: float, z: float, fields, key: int,
+              scale: float | None = None) -> Instance | None:
+    """One record-placed rock, seated by the burial rule; None where the
+    ground under its footprint falls away further than it may be buried."""
+    m = mined(species)
+    # A bed rock stands in a channel bed, which the record treats as level:
+    # the residual mined tilt only (the same rule as `rock_layer`).
+    tilt = math.radians(m["tilt_p25"])
+    yaw = uniform_at(key, 10) * math.tau
+    tilt_x = (uniform_at(key, 12) * 2 - 1) * tilt
+    tilt_z = (uniform_at(key, 13) * 2 - 1) * tilt
+    if scale is None:
+        scale = m["scale_p5"] + (m["scale_p95"] - m["scale_p5"]) * uniform_at(key, 11)
+    extra, cap = burial(fields, _seating_layer(species), x, z, yaw,
+                        tilt_x, tilt_z, scale)
+    if extra > cap:
+        return None
     return Instance(
         species=species, tier="T1", x=x, z=z,
         y=fields.height(x, z),
-        yaw=uniform_at(key, 10) * math.tau,
-        scale=m["scale_p5"] + (m["scale_p95"] - m["scale_p5"]) * uniform_at(key, 11),
-        tilt_x=(uniform_at(key, 12) * 2 - 1) * tilt,
-        tilt_z=(uniform_at(key, 13) * 2 - 1) * tilt,
+        yaw=yaw, scale=scale, tilt_x=tilt_x, tilt_z=tilt_z,
         anchor=ANCHOR_TERRAIN,
         sink=max(0.0, m["sink_p50"]),
+        extra_sink_m=extra, sink_cap_m=cap,
     )
 
 
@@ -608,11 +663,14 @@ def bed_boulders(water, chunk_bounds: tuple[float, float, float, float],
                     placed += 1
                     continue
                 key = hash64(rng_key, placed)
-                instances.append(_bed_instance(radius, rx, rz, fields, key))
+                placed += 1
+                inst = _bed_instance(radius, rx, rz, fields, key)
+                if inst is None:
+                    continue
+                instances.append(inst)
                 records.append({"reachId": reach["id"], "x": round(rx, 2),
                                 "z": round(rz, 2), "radiusM": round(radius, 2),
                                 "tx": round(tx, 4), "tz": round(tz, 4)})
-                placed += 1
     return instances, records
 
 
@@ -623,15 +681,39 @@ def _bed_scale(species: str, radius_m: float) -> float:
                max(_BED_SCALE_RANGE[0], radius_m / mesh_radius))
 
 
-def _bed_instance(radius_m: float, x: float, z: float, fields, key: int) -> Instance:
+def _bed_instance(radius_m: float, x: float, z: float, fields, key: int
+                  ) -> Instance | None:
     species = _bed_species(radius_m)
-    inst = _instance(species, x, z, fields, key)
-    inst.scale = _bed_scale(species, radius_m)
-    return inst
+    return _instance(species, x, z, fields, key,
+                     scale=_bed_scale(species, radius_m))
 
 
 CASCADE_LIP_SPECIES = f"{_WET}rockl01wet"
 CASCADE_RIM_SPECIES = f"{_WET}rockl03wet"
+#: What a cascade rock falls back to when the big boulder cannot be seated
+#: where the record puts it: the same wet family, one size down each time.
+CASCADE_FALLBACK = (f"{_WET}rockl03wet", f"{_WET}rockm02wet")
+#: How far out from the record's position a cascade rock may step, metres,
+#: looking for bank it can sit on (the lip of a carved gorge is a 60-75 deg
+#: wall where nothing seats; the bank top is a few metres further out).
+CASCADE_SEAT_STEPS_M = (0.0, 2.0, 4.0, 6.0)
+
+
+def _seat_cascade_rock(species: str, x: float, z: float, ax: float, az: float,
+                       fields, key: int) -> Instance | None:
+    """A cascade rock seated on the nearest ground that takes it: the
+    record's position first, then outward along (ax, az) in
+    `CASCADE_SEAT_STEPS_M`, the big boulder first and the smaller wet rocks
+    after it. None only when nothing seats within the reach. Round 3 placed
+    the record's position unseated (lip rocks 16-18 m proud on gorge walls)
+    and the bare refusal rule then dropped 79 % of them (16f round 4)."""
+    for step in CASCADE_SEAT_STEPS_M:
+        px, pz = x + ax * step, z + az * step
+        for candidate in (species, *CASCADE_FALLBACK):
+            inst = _instance(candidate, px, pz, fields, key)
+            if inst is not None:
+                return inst
+    return None
 
 
 def cascade_rocks(water, chunk_bounds: tuple[float, float, float, float],
@@ -661,9 +743,13 @@ def cascade_rocks(water, chunk_bounds: tuple[float, float, float, float],
                 off = half + 1.0 + uniform_at(key, 0) * 2.0   # 1-3 m clear
                 px = lip["x"] + ax * sign * off
                 pz = lip["z"] + az * sign * off
-                instances.append(_instance(CASCADE_LIP_SPECIES, px, pz, fields, key))
-                records.append({"cascadeId": cascade["id"], "x": round(px, 2),
-                                "z": round(pz, 2),
+                inst = _seat_cascade_rock(CASCADE_LIP_SPECIES, px, pz,
+                                          ax * sign, az * sign, fields, key)
+                if inst is None:
+                    continue
+                instances.append(inst)
+                records.append({"cascadeId": cascade["id"], "x": round(inst.x, 2),
+                                "z": round(inst.z, 2),
                                 "radiusM": round(half, 2),
                                 "tx": round(dx / run, 4), "tz": round(dz / run, 4)})
         rim = 3 + int(uniform_at(key0, 99) * 3)                # 3-5 on the rim
@@ -675,9 +761,14 @@ def cascade_rocks(water, chunk_bounds: tuple[float, float, float, float],
             pz = plunge["z"] + math.sin(angle) * radius
             if fields.water_depth(px, pz) < -1.0:              # wet or bank only
                 continue
-            instances.append(_instance(CASCADE_RIM_SPECIES, px, pz, fields, key))
-            records.append({"cascadeId": cascade["id"], "x": round(px, 2),
-                            "z": round(pz, 2), "radiusM": round(radius, 2),
+            inst = _seat_cascade_rock(CASCADE_RIM_SPECIES, px, pz,
+                                      math.cos(angle), math.sin(angle),
+                                      fields, key)
+            if inst is None:
+                continue
+            instances.append(inst)
+            records.append({"cascadeId": cascade["id"], "x": round(inst.x, 2),
+                            "z": round(inst.z, 2), "radiusM": round(radius, 2),
                             "tx": round(math.cos(angle), 4),
                             "tz": round(math.sin(angle), 4)})
     return instances, records

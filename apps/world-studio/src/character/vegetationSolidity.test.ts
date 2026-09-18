@@ -5,7 +5,7 @@
  * chunk the owner reported walking through trunks in (Phase 10 round 10,
  * 4.12 km E · 4.51 km S), builds Rapier bodies exactly as
  * `VegetationColliders` does (same quaternion composition, same scaling),
- * then samples the trees' actual wood-mesh surfaces out of the shipped GLB
+ * then samples the trees' actual wood-mesh surfaces out of the raw kit build
  * and asserts the physics world contains them. This is the check the owner
  * otherwise does by walking into trees: if it goes red, trunks are
  * walk-through again — fix the kit post-pass (`pipeline/trunk_solids.py`)
@@ -23,6 +23,16 @@ import {
 } from "@elder-souls/game-core/physics/floraSolids";
 
 const PUBLIC = join(__dirname, "../../public");
+// Geometry is read from the RAW kit build, not the published GLB: since the
+// kit-compression pass (decision 0073 §7c) the shipped file is meshopt-packed
+// (`EXT_meshopt_compression`) with KTX2 textures, so plain accessor and
+// `images[].uri` reads no longer apply to it. `output/kits/` is the
+// byte-identical uncompressed source the published kit is made from, and is
+// the sanctioned route for tooling that parses accessors (trunk_solids,
+// vet_kit, measure_footprints, the interiors index). Nothing here asserts
+// anything about the shipped container — it measures the wood meshes the
+// colliders are fitted to.
+const RAW_KITS = join(__dirname, "../../../../tooling/asset-pipeline/output/kits");
 // The Phase 16 ladder (province/ladder.json): the shipped vegetation bundles
 // are judged only once their chunk (16f) has delivered them; until then the
 // layer is hidden and the bundles on disk are the old scatter on new ground.
@@ -90,7 +100,7 @@ const CARD_TRI_AREA_PER_HEIGHT2 = 2.0e-3;
 const isCard = (meanTriAreaM2: number, heightM: number) =>
   heightM > 0 && meanTriAreaM2 > CARD_TRI_AREA_PER_HEIGHT2 * heightM * heightM;
 
-/** Per-species wood-mesh VERTICES from the shipped GLB, pivot space (Y-up). */
+/** Per-species wood-mesh VERTICES from the raw kit GLB, pivot space (Y-up). */
 function woodVertices(
   glb: Buffer,
   heights: Map<string, number>,
@@ -177,7 +187,7 @@ beforeAll(async () => {
   // sizeM is kit source space (z-up): [x, y, height].
   const heights = new Map<string, number>(
     manifest.assets.map((a: FloraCollisionAsset) => [a.id, a.sizeM?.[2] ?? 0]));
-  wood = woodVertices(readFileSync(join(PUBLIC, "kits/flora-province-v1.glb")),
+  wood = woodVertices(readFileSync(join(RAW_KITS, "flora-province-v1.glb")),
     heights);
 
   // Build the bodies exactly as VegetationColliders does.

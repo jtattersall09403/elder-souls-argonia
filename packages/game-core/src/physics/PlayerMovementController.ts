@@ -50,6 +50,13 @@ export interface PlayerMovementController {
 
   /** Whether the controller currently rests on ground. */
   isGrounded(): boolean;
+  /**
+   * World Y of the surface the controller is standing on, from its OWN ground
+   * query (so a boulder, a quay or a floor counts, not just the terrain), or
+   * null while it reports no ground. The visual grounding solve stands the
+   * model on this plane (`physics/visualSupport.ts`).
+   */
+  supportHeight(): number | null;
   /** Whether the controller is airborne and descending. */
   isFalling(): boolean;
   /** Controller-reported horizontal move speed (m/s). */

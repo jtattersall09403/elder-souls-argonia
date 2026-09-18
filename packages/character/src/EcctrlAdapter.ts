@@ -16,12 +16,26 @@ export class EcctrlAdapter implements PlayerMovementController {
     this.ref = ref;
   }
 
+  /**
+   * True only once the controller can be READ: ecctrl attaches its handle in
+   * React's layout phase, but @react-three/rapier creates the rigid body the
+   * handle's `body` getter returns in a passive effect, so for the first
+   * frame(s) after mount the handle exists and `handle.body` is null. Every
+   * caller treats `ready` as "safe to read velocity/position", so readiness
+   * is the BODY, not the handle (16f round 4: the character view's
+   * `TypeError: Cannot read properties of null (reading 'linvel')`).
+   */
   get ready(): boolean {
-    return this.ref.current !== null;
+    return this.body !== null;
   }
 
   private get handle(): EcctrlHandle | null {
     return this.ref.current;
+  }
+
+  /** The rigid body, or null before rapier has created it / after disposal. */
+  private get body(): EcctrlHandle["body"] | null {
+    return this.ref.current?.body ?? null;
   }
 
   position(out: THREE.Vector3): THREE.Vector3 {
@@ -31,9 +45,9 @@ export class EcctrlAdapter implements PlayerMovementController {
   }
 
   linearVelocity(out: THREE.Vector3): THREE.Vector3 {
-    const handle = this.handle;
-    if (handle) {
-      const v = handle.body.linvel();
+    const body = this.body;
+    if (body) {
+      const v = body.linvel();
       out.set(v.x, v.y, v.z);
     } else {
       out.set(0, 0, 0);
@@ -42,11 +56,11 @@ export class EcctrlAdapter implements PlayerMovementController {
   }
 
   verticalVelocity(): number {
-    return this.handle?.body.linvel().y ?? 0;
+    return this.body?.linvel().y ?? 0;
   }
 
   setLinearVelocity(velocity: { x: number; y: number; z: number }): void {
-    this.handle?.body.setLinvel(velocity, true);
+    this.body?.setLinvel(velocity, true);
   }
 
   forward(out: THREE.Vector3): THREE.Vector3 {
@@ -57,12 +71,13 @@ export class EcctrlAdapter implements PlayerMovementController {
 
   faceDirection(direction: THREE.Vector3, lock: boolean): void {
     const handle = this.handle;
-    if (!handle) return;
+    const body = this.body;
+    if (!handle || !body) return;
     handle.setForwardDir(direction);
     handle.setLockForward(lock);
-    handle.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    body.setAngvel({ x: 0, y: 0, z: 0 }, true);
     const yaw = Math.atan2(direction.x, direction.z);
-    handle.body.setRotation(
+    body.setRotation(
       { x: 0, y: Math.sin(yaw / 2), z: 0, w: Math.cos(yaw / 2) },
       true,
     );
@@ -84,15 +99,22 @@ export class EcctrlAdapter implements PlayerMovementController {
   }
 
   teleport(position: { x: number; y: number; z: number }): void {
-    const handle = this.handle;
-    if (!handle) return;
-    handle.body.setTranslation(position, true);
-    handle.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
-    handle.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    const body = this.body;
+    if (!body) return;
+    body.setTranslation(position, true);
+    body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    body.setAngvel({ x: 0, y: 0, z: 0 }, true);
   }
 
   isGrounded(): boolean {
     return this.handle?.isOnGround ?? false;
+  }
+
+  supportHeight(): number | null {
+    // `standPoint` is the world-space hit of ecctrl's ground shape-cast and is
+    // only refreshed while `isOnGround`; off the ground it is stale.
+    const handle = this.handle;
+    return handle?.isOnGround ? handle.standPoint.y : null;
   }
 
   isFalling(): boolean {
