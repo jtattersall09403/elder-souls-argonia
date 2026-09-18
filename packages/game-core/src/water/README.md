@@ -59,7 +59,7 @@ the model was made physical on the real terrain by
   underside samples the previous frame's target while pass 1 draws into the
   other, so the surface never reads the framebuffer it is being drawn into.
   The second target is made on first submersion.
-- **SSR fades 260–420 m** (`SSR_FADE_START_M/END_M`); beyond that the sky
+- **SSR fades 160–260 m** (`SSR_FADE_START_M/END_M`, owner 16f round 5); beyond that the sky
   reflection from the environment map is the same pixel.
 
 ## The 0047 contract in one paragraph

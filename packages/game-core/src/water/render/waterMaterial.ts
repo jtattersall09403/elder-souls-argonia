@@ -292,9 +292,11 @@ export const NOISE_GLSL = /* glsl */ `
 `;
 
 /** Screen-space reflections march only this near (metres): beyond it the
- * environment map's sky reflection is indistinguishable at the pixel. */
-export const SSR_FADE_START_M = 260;
-export const SSR_FADE_END_M = 420;
+ * environment map's sky reflection is indistinguishable at the pixel.
+ * 1.2 km → 420 m (16f round 3) → 260 m (round 5, owner: bring it in a
+ * little further; the march is per water pixel, so this is frame time). */
+export const SSR_FADE_START_M = 160;
+export const SSR_FADE_END_M = 260;
 
 /** Shared data samplers (W/depth/shore raster, flow, class). */
 export const SAMPLER_GLSL = /* glsl */ `

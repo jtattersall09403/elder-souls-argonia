@@ -518,3 +518,26 @@ locomotion visual check passes. Encode 2 min 40 s for the set, peak 2.3 GiB
 under `memwatch.sh`, byte-identical across two runs. Gate:
 `test_kit_compress.py`, shown failing on all 21 uncompressed kits, then on a
 118.9 MB startup total. Standard 16 records the budgets.
+
+## 18. Round 5 (owner feedback of 2026-09-18, delivered the same day; decision 0075)
+
+The owner's fifth walk, in the jungle: trees fading OUT on approach, some
+vanishing at a range and dissolving back in close up, palms gone for good,
+crowns drawn before trunks, rocks half-drawn or gone up close; "multiple
+sticking plasters"; fine to drop the fade; copy Skyrim; audit every scatter
+type; reflections in a little further; frame rates still poor. Measured by a
+headless walk through the real emission and shader arithmetic
+(`lodFade.test.ts`, the new gate), the shipped raw kits
+(`kit_lod_audit.py`) and code reading; frame time is not measurable on this
+VM and none is invented.
+
+| Owner item | Measured cause | Shipped |
+|---|---|---|
+| Trees fade out as you approach, come back when very close; rocks likewise, or gone | three defects in ONE place, the choice of which copies a rebuild emits: copies chosen from the character's position while the shader faded from the camera's (5.8 m orbit against 10 m bands and a 21 m reach); rungs resolving to the same kit level merged into one band that kept the ring's fade edge with nothing behind it — a 2 m rock drawn at 6 %→94 % of its pixels across 10 m and dissolving again at 33→25 m with the camera ahead of the character; correctness conditional on a rebuild landing inside 16 m. The straight-line walk the round-4 gate modelled never showed it | `lodLadder` + `lodCopies` (0075 §1–2): hard steps by camera distance, edges closed only against emitted neighbours, every distance from the camera; gate walks five real ladders with the cadence, the camera ±5.8 m, an overrun and a rebuild that never lands: 0 holes; round-4 rule red |
+| Vanishing suddenly at a range, then slow fade in close | the sudden loss is the merged band collapsing the copy at its inner ring (`transformed = 0`) once the fade passed 1; the slow return is the next rebuild's copy arriving mid-band | same fix |
+| Palms: tops fade; some vanish for good | every palm shipped three byte-identical mesh levels (60–256 triangles a part, under the 300-triangle decimation floor) and was crossfaded against itself at two rings under the defect above; the card at h×8 = 153 m is the only real transition | identical levels dropped at load and no longer exported (0075 §3); the ladder is one mesh rung and the card |
+| Crowns drawn before trunks | not the kit: no level lacks a part its base has (audit, 0 of 238 assets); an instance's parts share one band, so a crown without a trunk was a half-collapsed copy in the defect above | same fix; audit is the gate |
+| Instant swaps are fine; copy Skyrim | — | taken (0075 §1); the scatter has no crossfade now |
+| Audit all scatter types' levels and textures | `kit_lod_audit.py` over both raw kits: land 159 assets, 118 carded, 41 rocks one level no card (by design), 86 with identical chains; underwater 79 assets, none carded (by design, exempt), 9 rocks with decimated levels against 0071 | audit shipped; underwater rock levels → backlog with the kit rebuild |
+| Water reflections in a little | 260–420 m | 160–260 m (0075 §5) |
+| Frame rates poor | not measurable here. Safe reductions shipped: the SSR range; the identical-level dedupe (the palms' dithered pairs are gone); collapsed copies cost vertex work only. Candidates the owner's numbers would settle, none changed without them: 2048 px × 2 cascades in character mode; `dprMax` 1.5 at the high preset; the ring's 5 ms/frame tile budget while tiles are pending; the 16 m rebuild's main-thread walk of ~80 k instances | ask in the owner check: the HUD's fps and the quality preset |

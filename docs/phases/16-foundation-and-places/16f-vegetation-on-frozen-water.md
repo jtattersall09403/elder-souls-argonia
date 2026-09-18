@@ -728,6 +728,32 @@ yourself (`npm run studio`) — no agent started one this round.
 - Frame rate at the jungle, the beach and under water: low, medium or high,
   one word each.
 
+## Owner check, round 5 (2026-09-18; decision 0075, ledger §18)
+
+Everything below is drawn by the same kits and bundles as round 4; only the
+runtime rule changed. `?view=character&…`. Start the studio yourself
+(`npm run studio`).
+
+- The main fix, jungle `x=4.02&z=4.61`: pick a tree 100–150 m off and walk
+  straight at it, then a palm, then a rock, then a big leafy plant. Each
+  should only ever change from a flat picture to a model and from a rougher
+  model to a finer one, in clean instant switches, never thin, transparent
+  or missing at any point as you close the distance. Repeat while walking
+  away from it.
+- Camera swing: stand 40–60 m from a tree and swing the camera all the way
+  round the character, then continue walking. Nothing should change
+  visibility as the camera moves round.
+- Rocks: walk right up to several boulders and cliff pieces (`x=2.16&z=1.23`,
+  `x=0.85&z=5.10`): solid right up to touching distance; a small rock should dissolve to
+  nothing only far away (about 70 m for a 2 m rock), never close.
+- Palms at `x=6.12&z=1.638` (beach): approach from 200 m; the card should
+  switch to the model once, then nothing else should happen to it.
+- Water reflections: on the beach at midday, reflections of the shore in the
+  water should end nearer than before, with the far water taking the sky.
+- Frame rate at the jungle, beach and under water: the number on the HUD
+  and the name of your quality preset, so the next round can measure rather
+  than guess.
+
 ## Gotchas
 
 - Do not retune the density ladder (0048); the jungle's stem count is the

@@ -614,16 +614,25 @@ function checkProvinceRasters() {
 
 // ---------------------------------------------------------------------------
 
-checkDeterminism();
-checkProvinceRasters();
-checkProse();
-checkHydrologyGraph();
-checkDocsCurrent();
-checkSingletons();
-checkIds();
-checkSchemaVersions();
-checkCredits();
-checkPlaybookMoves();
+// `--docs`: only the prose and docs-currency gates (seconds), so an agent
+// that has just written prose can fix it before the two-minute preflight
+// instead of learning about it from the preflight (owner, 2026-09-18).
+const docsOnly = process.argv.includes("--docs");
+if (docsOnly) {
+  checkProse();
+  checkDocsCurrent();
+} else {
+  checkDeterminism();
+  checkProvinceRasters();
+  checkProse();
+  checkHydrologyGraph();
+  checkDocsCurrent();
+  checkSingletons();
+  checkIds();
+  checkSchemaVersions();
+  checkCredits();
+  checkPlaybookMoves();
+}
 
 for (const n of notes) console.log(`note  ${n}`);
 

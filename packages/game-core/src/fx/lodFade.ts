@@ -1,41 +1,60 @@
 /**
- * Dithered LOD crossfade for instanced vegetation — the companion injection to
- * `windSway.ts`, and deliberately the same shape (chained `onBeforeCompile`, a
- * shared uniform block, a cache-key suffix, a `reapply` hook for the CSM pass
- * that overwrites `onBeforeCompile`).
+ * Distance-stepped LOD for instanced vegetation, rocks and dressing — the
+ * companion injection to `windSway.ts`, the same shape (chained
+ * `onBeforeCompile`, a shared uniform block, a cache-key suffix, a `reapply`
+ * hook for the CSM pass that overwrites `onBeforeCompile`).
  *
- * The defect it fixes: an instance swapped from its full mesh to a decimated
- * level, or from a level to its billboard card, in ONE frame — the owner's
- * single hard jump between quality levels. The industry answer is not to blend
- * (alpha blending sorts wrongly through a canopy and costs the most on the
- * devices that can least afford it) but to DITHER: draw both levels over a
- * band of metres, and discard each one's fragments against a screen-space
- * Bayer threshold. For every pixel exactly one of the two copies survives:
- * the copy fading IN keeps the pixels whose threshold is BELOW its fade
- * factor, the copy fading OUT keeps the pixels whose threshold is AT OR
- * ABOVE the same factor — exact complements, so coverage is 1 at every
- * distance. (Round 3 tested both copies against the same side of the
- * threshold, so the two kept sets NESTED instead of complementing: coverage
- * was max(s, 1-s), half the plant's pixels were empty at the middle of every
- * ring, and every tree, grass card and rock "faded out and back in" as the
- * camera crossed a ring — owner, round 4.) No double coverage, no holes, no
- * sorting, and it works in the depth pass and on opaque rocks because the
- * discard is the first statement of `main()`.
+ * THE RULE (16f round 5, decision 0075; the Skyrim rule): a species has a
+ * LADDER of distance intervals that tile the distance line from 0 to its draw
+ * distance, each naming one kit level (full mesh, a decimated mesh, the baked
+ * card). At any camera distance exactly one interval holds, and that level is
+ * drawn — a hard step at every boundary, chosen per pixel from the live
+ * camera distance. Nothing dissolves between levels. The one fade is the
+ * VANISH at the end of the ladder for things that do vanish (a ground plant
+ * at 100 m, a rock at 70 m): a short screen-door dither to nothing, which is
+ * what Skyrim's object fade does too. Land trees never vanish inside the
+ * loaded ring (their ladder ends past it), so they never take that edge.
+ *
+ * Why it cannot hole. The CPU rebuild emits an instance into every interval
+ * the camera could reach before the NEXT rebuild (`lodCopies`: interval ±
+ * `LOD_MARGIN_M`), and a copy's edge is closed only where the neighbouring
+ * copy was also emitted; otherwise that edge is OPEN and the copy keeps
+ * drawing past it. So the emitted copies always tile the whole line: at
+ * every camera distance exactly one is kept, regardless of where the camera
+ * has gone since the rebuild. Outrun the rebuild and you see the wrong level
+ * for a few metres — never a hole, never a half-drawn thing. Rounds 2–4 had
+ * the copies chosen from the CHARACTER's position with the shader fading
+ * from the CAMERA's, closed edges facing copies that were never emitted
+ * (every rock: three rungs merged into one band that dissolved at 24 m with
+ * nothing behind it), and the whole thing correct only if a rebuild landed
+ * within 16 m. The gate walks real ladders with a rebuild cadence and a
+ * camera swung ahead of and behind the character and requires one copy per
+ * pixel on every frame.
+ *
+ * The dither, where it is used, is a partition: the copy fading IN keeps the
+ * pixels whose Bayer threshold is BELOW its factor, the copy fading OUT keeps
+ * those AT OR ABOVE the same factor. With a half-width of 0 both factors are
+ * `step(edge, d)` and the partition is the hard step. The ground-cover ring
+ * still dissolves its tile bands this way (every tier copy of a plant exists
+ * at once there, so its partition is exact by construction). It works in the
+ * depth pass and on opaque rocks because the discard is the first statement
+ * of `main()`, before any texture fetch.
  *
  * `lodFadeFactors` and `lodPixelKept` below are the SAME arithmetic in
  * TypeScript, so the coverage invariant is unit-tested without a GPU; the
  * GLSL is asserted to carry the same comparison.
  *
  * The per-instance band is an instanced `vec4` attribute, `esLodBand` =
- * (dIn, dOut, wIn, wOut) in metres: fade in across `dIn ± wIn`, out across
- * `dOut ± wOut`. `dIn <= 0` means "already in"; `dOut <= 0` or `dOut >= 1e8`
- * means "never fades out" — and (0,0,0,0), which is what WebGL hands an
- * unbound attribute, therefore decodes to "fully visible, no fade", exactly
- * the behaviour before this existed.
+ * (dIn, dOut, wIn, wOut) in metres: kept from `dIn` (stepped, or dithered
+ * across `dIn ± wIn`) to `dOut` (likewise). `dIn <= 0` means "already in";
+ * `dOut >= LOD_OPEN_M` (or `<= 0`) means "never out" — so (0,0,0,0), which
+ * is what WebGL hands an unbound attribute, decodes to "fully visible".
  *
  * Distance is measured from `esLodViewPos`, an explicit uniform, NOT from the
  * built-in `cameraPosition`: in the shadow pass `cameraPosition` is the light,
- * which would fade a plant's shadow out while the plant stayed.
+ * which would fade a plant's shadow out while the plant stayed. The CPU side
+ * measures from the same camera position (`Vegetation.tsx`), never from the
+ * character.
  */
 
 import * as THREE from "three";
@@ -49,27 +68,71 @@ export interface LodFadeUniforms {
 /** Instanced `vec4` attribute: (dIn, dOut, wIn, wOut), metres. */
 export const LOD_BAND_ATTRIBUTE = "esLodBand";
 
+/** An edge at or beyond this is open: the copy never steps out there. */
+export const LOD_OPEN_M = 1e9;
+
 /**
- * Half-width, in metres, of each crossfade band. Both copies of a crossfading
- * instance are drawn over `2 × LOD_BAND_M`, so this is paid in instances.
+ * Half-width, in metres, of a dithered edge where one is used (the ground
+ * ring's tile bands; `lodRings` keeps mesh rungs at least 2× this apart so a
+ * rung is never narrower than one band).
  */
 export const LOD_BAND_M = 5;
 
-/**
- * Metres of movement between rebuilds (`REBUILD_MOVE_M` in the renderer).
- * The overlap has to be at least this plus the band half-width, or the camera
- * can walk past a boundary between two rebuilds and see the swap happen with
- * no second copy drawn at all.
- */
+/** Metres of CAMERA movement between rebuilds (`REBUILD_MOVE_M` in the renderer). */
 export const LOD_REBUILD_MOVE_M = 16;
 
-/** How far either side of a ring an instance is emitted into BOTH levels. */
-export const LOD_OVERLAP_M = LOD_REBUILD_MOVE_M + LOD_BAND_M;
+/**
+ * How far past an interval's edges an instance is still emitted into it. Must
+ * exceed the rebuild distance; the extra is slack for the rebuild throttle
+ * (0.75 s: a sprint covers ~6 m in that time). Overrunning it costs a wrong
+ * level until the next rebuild, never a hole (see the header).
+ */
+export const LOD_MARGIN_M = LOD_REBUILD_MOVE_M + 8;
 
-/** Fade-out half-width at the draw-distance cull (wider: it is a vanish). */
+/** Dither half-width of the vanish at the end of a ladder. */
 export const LOD_CULL_BAND_M = 8;
 
-/** One draw an instance is emitted into, with the band it fades over. */
+/** One rung of a species' ladder: kit level `level` is drawn for camera distances in [lo, hi). */
+export interface LodRung {
+  level: number;
+  lo: number;
+  hi: number;
+}
+
+/**
+ * A species' ladder from its ring distances and its kit chain. Rung i of the
+ * rings resolves to kit level min(i, last mesh level); the rung past the
+ * last ring is the card where the species has one, else the last mesh
+ * level. Rungs are clipped to `maxDraw`, and adjacent rungs that resolve to
+ * the SAME kit level are one rung (a rock with one level has a one-rung
+ * ladder; drawing it twice with a fade edge between the two copies was the
+ * round-4 rock defect). The result tiles [0, maxDraw).
+ */
+export function lodLadder(
+  rings: readonly number[],
+  meshLevels: number,
+  cardLevel: number | null,
+  maxDraw: number,
+): LodRung[] {
+  const out: LodRung[] = [];
+  let lo = 0;
+  for (let i = 0; i <= rings.length; i++) {
+    const hi = i < rings.length ? Math.min(rings[i], maxDraw) : maxDraw;
+    const level = i < rings.length || cardLevel === null
+      ? Math.min(meshLevels - 1, i)
+      : cardLevel;
+    if (hi > lo) {
+      const last = out[out.length - 1];
+      if (last && last.level === level) last.hi = hi;
+      else out.push({ level, lo, hi });
+    }
+    lo = Math.max(lo, hi);
+    if (lo >= maxDraw) break;
+  }
+  return out;
+}
+
+/** One draw an instance is emitted into, with the band it is kept over. */
 export interface LodEmission {
   level: number;
   /** (dIn, dOut, wIn, wOut), metres. */
@@ -77,50 +140,40 @@ export interface LodEmission {
 }
 
 /**
- * The band level `level` occupies: from its ring's inner bound to its outer
- * one. Level 0 starts at 0, which the shader reads as "no fade-in"; the last
- * level ends at the species' draw distance and fades out there.
+ * Which copies one instance at camera distance `d` is emitted into. Every
+ * rung within `margin` of `d`; each copy's inner edge closes at its rung's
+ * `lo` only if the rung below was emitted too, its outer edge at `hi` only
+ * if the rung above was — otherwise the edge is open. The final rung's
+ * outer edge is the vanish (dithered over `LOD_CULL_BAND_M`) when `vanish`
+ * is set, open otherwise. Pure, so the invariant is testable without a GPU.
  */
-function bandFor(
-  level: number,
-  rings: readonly number[],
-  maxDraw: number,
-): [number, number, number, number] {
-  const lo = level > 0 ? rings[level - 1] : 0;
-  const last = level >= rings.length;
-  const hi = last ? maxDraw : rings[level];
-  return [lo, hi, LOD_BAND_M, last ? LOD_CULL_BAND_M : LOD_BAND_M];
-}
-
-/**
- * Which draws one instance at distance `d` goes into, and over what band.
- *
- * Normally one. Inside `overlap` of a ring it is two — the level it is in and
- * the neighbour it is about to become — with complementary bands: the inner
- * copy fades OUT across the ring, the outer one fades IN across the same ring
- * with the same half-width. Pure, so the arithmetic is testable without a GPU.
- */
-export function lodEmissions(
+export function lodCopies(
   d: number,
-  rings: readonly number[],
-  maxDraw: number,
-  overlap: number = LOD_OVERLAP_M,
+  ladder: readonly LodRung[],
+  vanish: boolean,
+  margin: number = LOD_MARGIN_M,
 ): LodEmission[] {
-  let level = rings.length;
-  for (let i = 0; i < rings.length; i++) {
-    if (d < rings[i]) {
-      level = i;
-      break;
+  const emitted: boolean[] = ladder.map((r) => d >= r.lo - margin && d < r.hi + margin);
+  if (!emitted.some(Boolean)) {
+    // Beyond the ladder (the caller culls there) or before it: keep the
+    // nearest rung fully open rather than draw nothing.
+    let best = 0;
+    for (let i = 1; i < ladder.length; i++) {
+      if (Math.abs(d - ladder[i].lo) < Math.abs(d - ladder[best].lo)) best = i;
     }
+    emitted[best] = true;
   }
-  const band = bandFor(level, rings, maxDraw);
-  const out: LodEmission[] = [{ level, band }];
-  const [lo, hi] = band;
-  if (level < rings.length && d > hi - overlap) {
-    out.push({ level: level + 1, band: bandFor(level + 1, rings, maxDraw) });
-  }
-  if (level > 0 && d < lo + overlap) {
-    out.push({ level: level - 1, band: bandFor(level - 1, rings, maxDraw) });
+  const out: LodEmission[] = [];
+  for (let i = 0; i < ladder.length; i++) {
+    if (!emitted[i]) continue;
+    const rung = ladder[i];
+    const dIn = i > 0 && emitted[i - 1] ? rung.lo : 0;
+    const isLast = i === ladder.length - 1;
+    let dOut = LOD_OPEN_M;
+    let wOut = 0;
+    if (!isLast && emitted[i + 1]) dOut = rung.hi;
+    else if (isLast && vanish) { dOut = rung.hi; wOut = LOD_CULL_BAND_M; }
+    out.push({ level: rung.level, band: [dIn, dOut, 0, wOut] });
   }
   return out;
 }
@@ -129,18 +182,19 @@ export function createLodFadeUniforms(): LodFadeUniforms {
   return { esLodViewPos: { value: new THREE.Vector3() } };
 }
 
-/** GLSL `smoothstep`, for the TypeScript mirror of the vertex shader. */
-function smoothstep(edge0: number, edge1: number, x: number): number {
-  const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
+/** The vertex shader's `esLodRamp`: a hard step at `edge` when `w` is 0, else a smoothstep across `edge ± w`. */
+function ramp(edge: number, w: number, x: number): number {
+  if (!(w > 0)) return x >= edge ? 1 : 0;
+  const t = Math.min(1, Math.max(0, (x - (edge - w)) / (2 * w)));
   return t * t * (3 - 2 * t);
 }
 
 /**
  * The fade factors one copy carries at distance `d`, exactly as the vertex
  * shader computes them from its `esLodBand`: `fadeIn` rises 0→1 across the
- * inner ring (1 = fully in; `dIn <= 0` is always 1), `fadeOut` rises 0→1
- * across the outer ring (0 = fully in, 1 = gone; `dOut <= 0` or `>= 1e8` is
- * always 0). Both are the RAW smoothstep — no `1 -` anywhere — so the copy
+ * inner edge (1 = fully in; `dIn <= 0` is always 1), `fadeOut` rises 0→1
+ * across the outer edge (0 = fully in, 1 = gone; `dOut <= 0` or open is
+ * always 0). Both are the RAW ramp — no `1 -` anywhere — so the copy
  * fading out at a ring holds the bit-identical number the copy fading in
  * holds, and the two comparisons in `lodPixelKept` are exact complements.
  */
@@ -149,8 +203,8 @@ export function lodFadeFactors(
   d: number,
 ): { fadeIn: number; fadeOut: number } {
   const [dIn, dOut, wIn, wOut] = band;
-  const fadeIn = dIn <= 0 ? 1 : smoothstep(dIn - wIn, dIn + wIn, d);
-  const fadeOut = dOut <= 0 || dOut >= 1e8 ? 0 : smoothstep(dOut - wOut, dOut + wOut, d);
+  const fadeIn = dIn <= 0 ? 1 : ramp(dIn, wIn, d);
+  const fadeOut = dOut <= 0 || dOut >= LOD_OPEN_M ? 0 : ramp(dOut, wOut, d);
   return { fadeIn, fadeOut };
 }
 
@@ -182,6 +236,11 @@ export function lodCopyCollapsed(factors: { fadeIn: number; fadeOut: number }): 
 const VERTEX_HEAD = /* glsl */ `
 uniform vec3 esLodViewPos;
 varying vec2 vEsLod;
+// A hard step at the edge when the half-width is 0 (smoothstep with equal
+// edges is undefined in GLSL), else a dither ramp across edge ± w.
+float esLodRamp(float edge, float w, float d) {
+  return w > 0.0 ? smoothstep(edge - w, edge + w, d) : step(edge, d);
+}
 
 #ifdef USE_INSTANCING
   // vec4(dIn, dOut, wIn, wOut) metres. Unbound => (0,0,0,0) => fully visible.
@@ -202,12 +261,10 @@ const VERTEX_BODY = /* glsl */ `
   // (fadeIn, fadeOut): both RAW smoothsteps — see lodFadeFactors(). The copy
   // fading out at a ring must hold the bit-identical number the copy fading
   // in holds, so the fragment test below partitions the pixels exactly.
-  float esLodIn = esBand.x <= 0.0
-    ? 1.0
-    : smoothstep(esBand.x - esBand.z, esBand.x + esBand.z, esLodD);
+  float esLodIn = esBand.x <= 0.0 ? 1.0 : esLodRamp(esBand.x, esBand.z, esLodD);
   float esLodOut = (esBand.y <= 0.0 || esBand.y >= 1e8)
     ? 0.0
-    : smoothstep(esBand.y - esBand.w, esBand.y + esBand.w, esLodD);
+    : esLodRamp(esBand.y, esBand.w, esLodD);
   vEsLod = vec2(esLodIn, esLodOut);
   // A copy that is fully faded out still costs a full transform, rasterisation
   // and a discarded fragment for every pixel it covers — and the crossfade

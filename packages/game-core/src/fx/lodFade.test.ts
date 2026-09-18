@@ -3,20 +3,19 @@ import * as THREE from "three";
 import {
   applyLodFade,
   createLodFadeUniforms,
+  lodCopies,
   lodCopyCollapsed,
-  lodEmissions,
   lodFadeFactors,
+  lodLadder,
   lodPixelKept,
   reapplyLodFade,
   BAYER4_THRESHOLDS,
-  LOD_BAND_M,
   LOD_CULL_BAND_M,
+  LOD_MARGIN_M,
+  LOD_OPEN_M,
+  LOD_REBUILD_MOVE_M,
   LOD_FRAGMENT_TEST,
-  LOD_OVERLAP_M,
 } from "./lodFade";
-
-const RINGS = [60, 140, 260];
-const MAX_DRAW = 700;
 
 /** How many of `bands` keep the pixel with threshold `bayer` at distance `d`. */
 function coverage(bands: readonly [number, number, number, number][], d: number, bayer: number): number {
@@ -25,33 +24,101 @@ function coverage(bands: readonly [number, number, number, number][], d: number,
   return kept;
 }
 
-describe("coverage across every ring is exactly one copy per pixel", () => {
-  // Round 4 owner defect: both copies discarded against the same side of the
-  // threshold, the kept sets nested, coverage fell to 1/2 at the middle of
-  // every ring and everything "faded out and back in" on approach. This
-  // walks every quarter metre and every one of the 16 dither thresholds.
-  it("for the baked scatter's ring ladder (lodEmissions)", () => {
-    const holes: string[] = [];
-    for (let d = 0; d <= MAX_DRAW - LOD_CULL_BAND_M; d += 0.25) {
-      const bands = lodEmissions(d, RINGS, MAX_DRAW).map((e) => e.band);
-      for (const bayer of BAYER4_THRESHOLDS) {
-        const n = coverage(bands, d, bayer);
-        if (n !== 1) holes.push(`d=${d} bayer=${bayer}: ${n} copies`);
-      }
-    }
-    expect(holes.slice(0, 5)).toEqual([]);
-  });
+/** Ladders as the scatter builds them (`lodRings` numbers for real species). */
+const LADDERS = {
+  // 2 m rock: one level, no card, vanishes at 70 m; rings run PAST its draw distance.
+  rock2m: { ladder: lodLadder([24, 50, 100], 1, null, 70), vanish: true, maxDraw: 70 },
+  // 19 m palm: three mesh levels and a card, a land tree (never vanishes).
+  palm19: { ladder: lodLadder([48, 96, 153], 3, 3, 1985), vanish: false, maxDraw: 1985 },
+  // 6 m jungle tree.
+  jungle6: { ladder: lodLadder([24, 50, 100], 3, 3, 1985), vanish: false, maxDraw: 1985 },
+  // A shrub with one mesh level and a card, vanishing at 120 m.
+  shrubCard: { ladder: lodLadder([24, 50, 100], 1, 1, 120), vanish: true, maxDraw: 120 },
+  // A submerged species whose rings sit closer than the margin.
+  kelp: { ladder: lodLadder([12, 25, 50], 3, 3, 120), vanish: true, maxDraw: 120 },
+};
 
-  it("for a submerged ladder whose rings sit closer than the overlap", () => {
-    const rings = [12, 25, 50];
-    const holes: string[] = [];
-    for (let d = 0; d <= 120 - LOD_CULL_BAND_M; d += 0.25) {
-      const bands = lodEmissions(d, rings, 120).map((e) => e.band);
-      for (const bayer of BAYER4_THRESHOLDS) {
-        if (coverage(bands, d, bayer) !== 1) holes.push(`d=${d} bayer=${bayer}`);
-      }
+describe("lodLadder", () => {
+  it("tiles [0, maxDraw) with one rung per distinct kit level", () => {
+    expect(LADDERS.rock2m.ladder).toEqual([{ level: 0, lo: 0, hi: 70 }]);
+    expect(LADDERS.palm19.ladder).toEqual([
+      { level: 0, lo: 0, hi: 48 }, { level: 1, lo: 48, hi: 96 },
+      { level: 2, lo: 96, hi: 153 }, { level: 3, lo: 153, hi: 1985 },
+    ]);
+    expect(LADDERS.shrubCard.ladder).toEqual([
+      { level: 0, lo: 0, hi: 100 }, { level: 1, lo: 100, hi: 120 },
+    ]);
+  });
+  it("clips rungs to the draw distance", () => {
+    expect(lodLadder([24, 50, 100], 3, 3, 60)).toEqual([
+      { level: 0, lo: 0, hi: 24 }, { level: 1, lo: 24, hi: 50 }, { level: 2, lo: 50, hi: 60 },
+    ]);
+  });
+});
+
+/**
+ * Walk the camera in from `from` to 1 m with a rebuild every
+ * LOD_REBUILD_MOVE_M of CHARACTER movement (the throttle at speed adds up to
+ * `slack` more) while the camera sits `cameraOffset` metres ahead of (-) or
+ * behind (+) the character, and require exactly one copy per pixel on every
+ * frame. Returns the frames that broke it.
+ */
+function walk(
+  { ladder, vanish, maxDraw }: { ladder: ReturnType<typeof lodLadder>; vanish: boolean; maxDraw: number },
+  cameraOffset: number,
+  slack = 0,
+  from = maxDraw + 40,
+): string[] {
+  const holes: string[] = [];
+  let character = from;
+  let copies = lodCopies(character + cameraOffset, ladder, vanish);
+  let lastBuild = character;
+  for (; character > 1; character -= 0.25) {
+    if (lastBuild - character > LOD_REBUILD_MOVE_M + slack) {
+      const eye = character + cameraOffset;
+      copies = lodCopies(eye, ladder, vanish);
+      lastBuild = character;
     }
-    expect(holes.slice(0, 5)).toEqual([]);
+    const d = character + cameraOffset;
+    if (d < 0 || d > maxDraw - LOD_CULL_BAND_M) continue;
+    const bands = copies.map((c) => c.band);
+    for (const bayer of BAYER4_THRESHOLDS) {
+      const n = coverage(bands, d, bayer);
+      if (n !== 1) holes.push(`d=${d.toFixed(2)} bayer=${bayer}: ${n} copies`);
+    }
+  }
+  return holes;
+}
+
+describe("every frame draws exactly one copy per pixel", () => {
+  for (const [name, ladder] of Object.entries(LADDERS)) {
+    for (const cameraOffset of [0, 5.8, -5.8]) {
+      it(`${name}, camera ${cameraOffset} m from the character, rebuild every ${LOD_REBUILD_MOVE_M} m`, () => {
+        expect(walk(ladder, cameraOffset).slice(0, 5)).toEqual([]);
+      });
+    }
+    it(`${name}, a sprint that overruns the rebuild by the throttle slack`, () => {
+      expect(walk(ladder, -5.8, LOD_MARGIN_M - LOD_REBUILD_MOVE_M - 1).slice(0, 5)).toEqual([]);
+    });
+    it(`${name}, a rebuild that never lands still draws one copy per pixel`, () => {
+      // Outrun completely: the level is wrong for a while, never absent.
+      const holes: string[] = [];
+      const copies = lodCopies(ladder.maxDraw - 10, ladder.ladder, ladder.vanish);
+      for (let d = 0; d < ladder.maxDraw - LOD_CULL_BAND_M; d += 0.5) {
+        for (const bayer of BAYER4_THRESHOLDS) {
+          if (coverage(copies.map((c) => c.band), d, bayer) !== 1) holes.push(`d=${d}`);
+        }
+      }
+      expect(holes.slice(0, 5)).toEqual([]);
+    });
+  }
+
+  it("was red on the round-4 rule: a rock's merged band dissolved at its inner ring", () => {
+    // What rounds 2–4 emitted for a rock at 55 m: one copy whose band still
+    // carried the ring-1 fade-in edge although nothing sat below it.
+    const round4Band: [number, number, number, number] = [24, 100, 5, 5];
+    const kept = BAYER4_THRESHOLDS.filter((b) => lodPixelKept(lodFadeFactors(round4Band, 22), b));
+    expect(kept.length).toBeLessThan(16 / 2);
   });
 
   it("for the ground ring's three tile-band tiers drawn together", () => {
@@ -78,57 +145,44 @@ describe("coverage across every ring is exactly one copy per pixel", () => {
     for (const bayer of BAYER4_THRESHOLDS) expect(lodPixelKept(gone, bayer)).toBe(false);
   });
 
+  it("a hard step is a step: nothing partial on either side of the edge", () => {
+    for (const d of [47.99, 48, 48.01]) {
+      const inFactor = lodFadeFactors([48, LOD_OPEN_M, 0, 0], d).fadeIn;
+      const outFactor = lodFadeFactors([0, 48, 0, 0], d).fadeOut;
+      expect(inFactor === 0 || inFactor === 1).toBe(true);
+      expect(inFactor).toBe(outFactor);
+    }
+  });
+
   it("the GLSL discard is the mirror's comparison, both sides", () => {
-    // fadeIn (vEsLod.x) keeps bayer BELOW it; fadeOut (vEsLod.y) keeps bayer
-    // AT OR ABOVE it. Any other pairing nests the two sets.
     expect(LOD_FRAGMENT_TEST).toContain("esLodBayer >= vEsLod.x || esLodBayer < vEsLod.y");
   });
 });
 
-describe("lodEmissions", () => {
-  it("emits one copy well away from any boundary", () => {
-    const emissions = lodEmissions(100, RINGS, MAX_DRAW);
-    expect(emissions).toHaveLength(1);
-    expect(emissions[0].level).toBe(1);
-    expect(emissions[0].band).toEqual([60, 140, LOD_BAND_M, LOD_BAND_M]);
+describe("lodCopies", () => {
+  const { ladder } = LADDERS.palm19;
+  it("emits one open copy well away from any boundary", () => {
+    // The card rung is wide: 300 m is more than a margin from both its edges.
+    const copies = lodCopies(300, ladder, false);
+    expect(copies).toEqual([{ level: 3, band: [0, LOD_OPEN_M, 0, 0] }]);
   });
-
-  it("level 0 never fades in (dIn 0 reads as already visible)", () => {
-    const [only] = lodEmissions(5, RINGS, MAX_DRAW);
-    expect(only.level).toBe(0);
-    expect(only.band[0]).toBe(0);
+  it("closes an edge only against a neighbour that was emitted", () => {
+    const copies = lodCopies(96 - 10, ladder, false);
+    expect(copies.map((c) => c.level)).toEqual([1, 2]);
+    expect(copies[0].band).toEqual([0, 96, 0, 0]);
+    expect(copies[1].band).toEqual([96, LOD_OPEN_M, 0, 0]);
   });
-
-  it("emits two complementary copies inside the overlap below a ring", () => {
-    const emissions = lodEmissions(140 - LOD_OVERLAP_M + 1, RINGS, MAX_DRAW);
-    expect(emissions.map((e) => e.level).sort()).toEqual([1, 2]);
-    const inner = emissions.find((e) => e.level === 1)!;
-    const outer = emissions.find((e) => e.level === 2)!;
-    // The inner copy fades OUT across exactly the ring the outer fades IN
-    // across, with the same half-width: complementary smoothsteps.
-    expect(inner.band[1]).toBe(140);
-    expect(outer.band[0]).toBe(140);
-    expect(inner.band[3]).toBe(outer.band[2]);
+  it("a vanishing species dithers its last edge; a land tree never does", () => {
+    const [rock] = lodCopies(60, LADDERS.rock2m.ladder, true);
+    expect(rock.band).toEqual([0, 70, 0, LOD_CULL_BAND_M]);
+    const [tree] = lodCopies(1900, ladder, false);
+    expect(tree.band[1]).toBe(LOD_OPEN_M);
   });
-
-  it("emits two copies inside the overlap above a ring", () => {
-    const emissions = lodEmissions(60 + LOD_OVERLAP_M - 1, RINGS, MAX_DRAW);
-    expect(emissions.map((e) => e.level).sort()).toEqual([0, 1]);
-  });
-
-  it("the last level fades out at the draw distance, wider", () => {
-    const [last] = lodEmissions(400, RINGS, MAX_DRAW);
-    expect(last.level).toBe(3);
-    expect(last.band[1]).toBe(MAX_DRAW);
-    expect(last.band[3]).toBe(8);
-  });
-
-  it("never emits a level outside the chain", () => {
-    for (let d = 0; d <= MAX_DRAW; d += 3) {
-      for (const emission of lodEmissions(d, RINGS, MAX_DRAW)) {
-        expect(emission.level).toBeGreaterThanOrEqual(0);
-        expect(emission.level).toBeLessThanOrEqual(RINGS.length);
-      }
+  it("never emits a level outside the ladder and never nothing", () => {
+    for (let d = 0; d <= 2100; d += 3) {
+      const copies = lodCopies(d, ladder, false);
+      expect(copies.length).toBeGreaterThan(0);
+      for (const c of copies) expect(ladder.some((r) => r.level === c.level)).toBe(true);
     }
   });
 });

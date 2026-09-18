@@ -24,19 +24,19 @@ can still install its own hook afterwards.
 
 ### Four mechanisms in the baked scatter (16g)
 
-- **LOD is crossfaded, not switched.** Within 21 m of a ring an instance is
-  drawn into BOTH levels (`lodEmissions`), each with a fade band, and the
-  shader (`packages/game-core/src/fx/lodFade.ts`) discards fragments against a
-  4x4 Bayer threshold: the incoming copy keeps the pixels whose threshold is
-  BELOW its fade factor, the outgoing copy keeps those AT OR ABOVE it — exact
-  complements, coverage 1 at every distance (`lodFadeFactors` /
-  `lodPixelKept` are the TypeScript mirror; the unit test walks every
-  quarter metre of every ring against all 16 thresholds). Round 3 tested
-  both copies on the same side, the kept sets nested, and everything faded
-  to half at the middle of every ring (owner round 4). The rebuild trigger
-  is 16 m, inside the band, because a fade the rebuild never revisits is a
-  pop. The ring ladder comes from `lodRings` (quality-scaled, never inverted,
-  every level ≥ 10 m wide).
+- **LOD is stepped, never crossfaded (16f round 5, decision 0075).** A
+  species has a ladder of camera-distance intervals tiling [0, draw
+  distance), one kit level each (`lodLadder`; identical decimation levels
+  are dropped at kit load). A rebuild emits an instance into every rung the
+  camera could reach before the next rebuild (`lodCopies`, ± `LOD_MARGIN_M`),
+  closing a copy's edge only where the neighbouring copy was emitted too;
+  the shader (`packages/game-core/src/fx/lodFade.ts`) keeps exactly one copy
+  per pixel at the live camera distance with a hard step at each rung and a
+  short dither only at the vanish. Every distance, CPU and GPU, is from the
+  CAMERA. The gate walks real ladders with the rebuild cadence and the
+  camera ahead of and behind the character and requires one copy per pixel
+  on every frame; rounds 2–4's rule (copies chosen from the character,
+  merged bands with edges facing copies never emitted) is shown red.
 - **A tree never vanishes inside the loaded ring.** `treeDrawDistance` is
   the far corner of the outermost loaded chunk (~2 km at ring 2), so a tree
   is drawn — as its baked card beyond ring 2 — wherever it is loaded and

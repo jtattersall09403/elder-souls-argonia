@@ -817,18 +817,30 @@ for asset in PLAN["assets"]:
         obj.parent = root
 
     lods = []
+    # A level the floor leaves identical to the one before it is not a level
+    # (16f round 5): every palm (60–256 triangles a part) shipped three copies
+    # of its base mesh. Skip a level whose effective ratios all equal the
+    # previous level's; the runtime (`floraKit.ts`) drops any that slip
+    # through, so gaps in the `lod` numbering are fine.
+    previous_effective = None
     for level, ratio in enumerate(asset["lodRatios"], start=1):
+        effectives = []
         for obj in meshes:
-            copy = obj.copy()
-            copy.data = obj.data.copy()
-            copy.name = "%s__lod%d" % (obj.name, level)
-            bpy.context.scene.collection.objects.link(copy)
             # Ratios are proportional; the floor is absolute. Small source
             # meshes keep their geometry rather than collapsing to a plane.
             source_tris = len(obj.data.loop_triangles) or len(obj.data.polygons)
             effective = ratio
             if source_tris > 0:
                 effective = min(1.0, max(ratio, MIN_LOD_TRIANGLES / source_tris))
+            effectives.append(effective)
+        if effectives == (previous_effective or [1.0] * len(meshes)):
+            continue
+        previous_effective = effectives
+        for obj, effective in zip(meshes, effectives):
+            copy = obj.copy()
+            copy.data = obj.data.copy()
+            copy.name = "%s__lod%d" % (obj.name, level)
+            bpy.context.scene.collection.objects.link(copy)
             modifier = copy.modifiers.new(name="decimate", type="DECIMATE")
             modifier.ratio = effective
             copy.parent = root

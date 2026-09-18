@@ -37,9 +37,9 @@ import { sharedWindUniforms } from "./windUniforms";
 import {
   applyLodFadeWithShadow,
   createLodFadeUniforms,
-  lodEmissions,
+  lodCopies,
+  lodLadder,
   LOD_BAND_ATTRIBUTE,
-  LOD_OVERLAP_M,
   LOD_REBUILD_MOVE_M,
 } from "@elder-souls/game-core/fx/lodFade";
 import {
@@ -387,10 +387,11 @@ export function Vegetation({
   }, [kit, manifest, underwaterManifest, shapesRef]);
 
   // Rebuild the instanced meshes whenever the set of loaded chunks changes —
-  // or the focus has walked far enough that per-instance LOD choices are
-  // stale. Without the movement trigger, LOD was frozen at whatever distance
-  // held when the chunk arrived, so walking up to a far billboard never
-  // upgraded it to the real model (owner round-2 "cardboard cutout" defect).
+  // or the CAMERA has moved far enough that per-instance LOD choices are
+  // stale. The camera, not the focus: the shader steps levels on the camera
+  // distance, so the copies must be chosen from the same point (round 5 —
+  // the character-position choice left the camera, orbiting 5.8 m around
+  // the character, outside the copies' reach and drew half-trees).
   const [revision, setRevision] = useState(0);
   useEffect(() => {
     if (!import.meta.env.DEV) return;
@@ -401,24 +402,22 @@ export function Vegetation({
     host.__STUDIO_VEGETATION_REBUILD__ = () => setRevision((r) => r + 1);
     return () => { delete host.__STUDIO_VEGETATION_REBUILD__; };
   }, []);
-  const lastBuildFocus = useRef<{ x: number; z: number } | null>(null);
-  /** Focus of the rebuild already SCHEDULED (not yet committed). Comparing
-   * against the committed focus re-fired `setRevision` every frame until
+  const lastBuildEye = useRef<{ x: number; z: number } | null>(null);
+  /** Eye of the rebuild already SCHEDULED (not yet committed). Comparing
+   * against the committed eye re-fired `setRevision` every frame until
    * React ran the effect; comparing against the pending one fires once per
    * crossing. */
-  const pendingBuildFocus = useRef<{ x: number; z: number } | null>(null);
-  // 48 m was a third of the way to the first LOD ring, so an instance could
-  // cross a boundary and be drawn at the wrong level for 48 m of walking. The
-  // crossfade needs the rebuild to happen INSIDE the band it fades over, so
-  // the trigger is the same 16 m the overlap is sized from. The 0.75 s
-  // throttle is what keeps a fast fly-through from re-walking the instances
-  // every frame.
+  const pendingBuildEye = useRef<{ x: number; z: number } | null>(null);
+  // The trigger is the rebuild distance `LOD_MARGIN_M` is sized from: past
+  // it an instance may be drawn at the wrong level until the rebuild lands
+  // (never half-drawn — see lodFade.ts). The 0.75 s throttle is what keeps
+  // a fast fly-through from re-walking the instances every frame.
   const REBUILD_MOVE_M = LOD_REBUILD_MOVE_M;
   const REBUILD_MIN_INTERVAL_S = 0.75;
   const lastBuildTime = useRef(0);
   /** The REAL camera, for the LOD fade uniform and the occlusion eye. The
    * focus is a ground position and in fly mode is nowhere near the camera. */
-  const cameraPos = useRef(new THREE.Vector3());
+  const cameraPos = useRef(new THREE.Vector3(NaN, NaN, NaN));
 
   // Wind sway (module 55 §98): one uniform block shared by every plant
   // material AND its shadow-depth twin, fed from the same weather sample the
@@ -439,16 +438,17 @@ export function Vegetation({
     if (!index || !root.current) return;
     const focus = focusRef.current;
     const size = index.chunkMetres;
-    const last = pendingBuildFocus.current ?? lastBuildFocus.current;
-    // A fast camera (fly mode) crosses 48 m several times a second; every
+    const eye = cameraPos.current;
+    const last = pendingBuildEye.current ?? lastBuildEye.current;
+    // A fast camera (fly mode) crosses 16 m several times a second; every
     // crossing re-walks ~80,000 instances on the main thread, which is the
     // "hang" while flying. Rebuild at most once per REBUILD_MIN_INTERVAL_S;
     // the LOD is a fraction of a second stale at speed, nothing else.
     const now = state.clock.elapsedTime;
-    if (last && Math.hypot(focus.x - last.x, focus.z - last.z) > REBUILD_MOVE_M
+    if (last && Math.hypot(eye.x - last.x, eye.z - last.z) > REBUILD_MOVE_M
         && now - lastBuildTime.current >= REBUILD_MIN_INTERVAL_S) {
       lastBuildTime.current = now;
-      pendingBuildFocus.current = { x: focus.x, z: focus.z };
+      pendingBuildEye.current = { x: eye.x, z: eye.z };
       setRevision((r) => r + 1);
     }
     const cx = Math.floor(focus.x / size);
@@ -481,7 +481,7 @@ export function Vegetation({
               originZ: (cz + dz) * size,
               bundle: decodeVegetationBundle(buffer),
             });
-            pendingBuildFocus.current = null;
+            pendingBuildEye.current = null;
             setRevision((r) => r + 1);
           })
           .catch(() => undefined)
@@ -504,8 +504,15 @@ export function Vegetation({
     // measured 449 draws for 13 chunks, which is the wrong end of the budget
     // to be spending on bookkeeping.
     const focus = focusRef.current;
-    lastBuildFocus.current = { x: focus.x, z: focus.z };
-    pendingBuildFocus.current = null;
+    // Every distance below is from the CAMERA (`eye`), the point the shader
+    // steps on; the focus only names the chunk neighbourhood's blocks.
+    // Before the first frame has sampled the camera, the focus stands in
+    // (character mode's camera orbits within 6 m of it, inside the margin).
+    const eye = Number.isFinite(cameraPos.current.x)
+      ? cameraPos.current
+      : new THREE.Vector3(focus.x, 0, focus.z);
+    lastBuildEye.current = { x: eye.x, z: eye.z };
+    pendingBuildEye.current = null;
     const matrix = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();
     const euler = new THREE.Euler();
@@ -593,7 +600,6 @@ export function Vegetation({
     for (const species of kit.values()) {
       if (species.heightM > tallestM) tallestM = species.heightM;
     }
-    const eye = cameraPos.current;
     const sampleGround = chunksManifest
       ? (x: number, z: number) => {
           // Rendered space, like the camera: the terrain mesh is drawn at
@@ -614,7 +620,7 @@ export function Vegetation({
     for (const chunk of loaded.current.values()) {
       const centreX = chunk.originX + index.chunkMetres / 2;
       const centreZ = chunk.originZ + index.chunkMetres / 2;
-      const chunkDistance = Math.hypot(focus.x - centreX, focus.z - centreZ);
+      const chunkDistance = Math.hypot(eye.x - centreX, eye.z - centreZ);
       const blockIndex =
         blockAxis(Math.round(chunk.originZ / index.chunkMetres) - focusChunkZ) * 2
         + blockAxis(Math.round(chunk.originX / index.chunkMetres) - focusChunkX);
@@ -629,8 +635,8 @@ export function Vegetation({
           if (id && !needsUnderwater && underwaterOnly.has(id)) {
             const positions = speciesGroup.positions;
             for (let i = 0; i < speciesGroup.count; i++) {
-              const dx = positions[i * 3] - focus.x;
-              const dz = positions[i * 3 + 2] - focus.z;
+              const dx = positions[i * 3] - eye.x;
+              const dz = positions[i * 3 + 2] - eye.z;
               if (dx * dx + dz * dz <= UNDERWATER_KIT_LEAD_M * UNDERWATER_KIT_LEAD_M) {
                 needsUnderwater = true;
                 break;
@@ -668,12 +674,18 @@ export function Vegetation({
 
         // Quality scales the outer rings, so lower tiers shift work toward
         // the cheap levels — never the near ring, and never inverted (see
-        // `lodRings`).
+        // `lodRings`). The ladder tiles [0, maxDraw) with one kit level per
+        // rung; a species whose chain is shorter than the rings (a rock: one
+        // level, no card) gets one rung and one copy.
         const rings = lodRings(entry.heightM, drawScale, entry.submerged);
+        const meshLevels = entry.billboardIndex ?? entry.levels.length;
+        const ladder = lodLadder(rings, meshLevels, entry.billboardIndex, maxDraw);
+        // A land tree's ladder ends past the loaded ring: nothing to vanish.
+        const vanishes = entry.submerged || entry.category !== "tree";
         const count = Math.min(speciesGroup.count, MAX_PER_DRAW);
         for (let i = 0; i < count; i++) {
           const inst = readInstance(speciesGroup, i);
-          const instDistance = Math.hypot(inst.x - focus.x, inst.z - focus.z);
+          const instDistance = Math.hypot(inst.x - eye.x, inst.z - eye.z);
           if (instDistance > maxDraw) {
             culled++;
             continue;
@@ -705,41 +717,17 @@ export function Vegetation({
           } else {
             y = inst.y * verticalScale;
           }
-          // LOD per INSTANCE, not per chunk: chunk-centre distance put whole
-          // 468 m squares — including the plants beside the camera — on their
-          // far `_lod_flat` cards (owner round-2 "cardboard cutout" defect).
-          // Beyond ring 2 a billboard species runs entirely on its flat cards
-          // (T4 far tier); species without one keep the decimated chain.
-          //
-          // Within OVERLAP of a ring the instance is emitted TWICE, into the
-          // level it is in and the one it is becoming, with complementary
-          // fade bands. The dithered discard in the shader then keeps exactly
-          // one of the two per pixel, which is what turns the old one-frame
-          // swap into a crossfade (owner: one hard jump between quality
-          // levels).
-          const emissions = lodEmissions(instDistance, rings, maxDraw, LOD_OVERLAP_M);
-          // Two rungs can resolve to the SAME kit level (a species whose
-          // decimated chain is shorter than the ring count, or whose card
-          // index repeats): drawing that twice would double the geometry, so
-          // the pair is merged into one band spanning both.
-          const byResolved = new Map<number, [number, number, number, number]>();
-          let drewCard = false;
-          for (const emission of emissions) {
-            const asBillboard =
-              entry.billboardIndex !== null && emission.level === rings.length;
-            const resolved = asBillboard
-              ? entry.billboardIndex!
-              : Math.min(entry.levels.length - 1, emission.level);
-            const existing = byResolved.get(resolved);
-            if (existing) {
-              existing[0] = Math.min(existing[0], emission.band[0]);
-              existing[1] = Math.max(existing[1], emission.band[1]);
-              existing[3] = Math.max(existing[3], emission.band[3]);
-            } else {
-              byResolved.set(resolved, [...emission.band]);
-            }
-            if (asBillboard && emission === emissions[0]) drewCard = true;
-          }
+          // LOD per INSTANCE, from the camera distance: the copies this
+          // instance is emitted into are every ladder rung the camera can
+          // reach before the next rebuild, each stepping to its neighbour
+          // only where that neighbour was emitted too (`lodCopies`). The
+          // shader then keeps exactly one copy per pixel at the live camera
+          // distance — a hard step at each rung, a short dither only at the
+          // vanish. Beyond the last ring a billboard species runs on its
+          // baked card; species without one keep their last mesh level.
+          const emissions = lodCopies(instDistance, ladder, vanishes);
+          const drewCard = entry.billboardIndex !== null && emissions.some(
+            (e) => e.level === entry.billboardIndex && instDistance >= e.band[0]);
           // Wind tuning is per instance because both terms are: stiffness
           // scales with the trunk's radius AT THIS SCALE, and the sink is
           // drawn per instance from the species' range. A non-swaying species
@@ -752,7 +740,7 @@ export function Vegetation({
             ? -1
             : trunkRadius === null ? 0 : windStiffness(trunkRadius, inst.scale) - 1;
           const sink = speciesGroup.anchorMode === ANCHOR_PIVOT_TERRAIN ? inst.sink : 0;
-          for (const [level, band] of byResolved) {
+          for (const { level, band } of emissions) {
             const key = `${id}|${level}|${blockIndex}`;
             let bucket = buckets.get(key);
             if (!bucket) {

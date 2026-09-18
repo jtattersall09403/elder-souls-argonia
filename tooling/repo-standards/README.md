@@ -18,6 +18,7 @@ npm test -w @elder-souls/repo-standards
 
 Two habits this exists to enforce:
 
+- **`npm run docs:check` runs only the prose and docs-currency gates** (`check.mjs --docs`, seconds): run it as soon as prose is written, before preflight.
 - **Notes are debt, not decoration.** A note names an unversioned bundle or a
   baselined singleton that has been removed. Clear them when you are in the file
   anyway.

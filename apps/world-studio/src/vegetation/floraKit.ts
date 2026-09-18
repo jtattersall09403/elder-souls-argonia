@@ -96,6 +96,16 @@ function assetIdOf(object: THREE.Object3D): string | null {
   return object.name ? object.name.replace("__", ":") : null;
 }
 
+/** Triangles across a level's parts, for the identical-level test. */
+function partTriangles(parts: KitLevel["parts"]): number {
+  let total = 0;
+  for (const part of parts) {
+    const index = part.geometry.getIndex();
+    total += (index ? index.count : part.geometry.attributes.position.count) / 3;
+  }
+  return total;
+}
+
 /** Level index from the exporter's `lod` extra; base meshes have none. */
 function levelOf(object: THREE.Object3D): number {
   const extras = (object.userData ?? {}) as { lod?: number };
@@ -244,13 +254,25 @@ export function buildFloraKit(
     });
 
     if (byLevel.size === 0) continue;
+    // A level that is not smaller than the one before it is not a level:
+    // the builder's decimation floors at ~300 triangles a part, so a small
+    // mesh (every palm: 60–256 triangles a part) ships three identical
+    // chains. Drawing them as three rungs stepped the same geometry against
+    // itself at two rings for nothing; here they are one level (round 5).
     const levels: KitLevel[] = [];
+    const kept: number[] = [];
     const sorted = [...byLevel.keys()].sort((a, b) => a - b);
     for (const level of sorted) {
-      levels.push({ parts: byLevel.get(level)!, triangles: level === 0 ? triangles : 0 });
+      const parts = byLevel.get(level)!;
+      if (level !== billboardLevel && kept.length > 0) {
+        const previous = byLevel.get(kept[kept.length - 1])!;
+        if (partTriangles(parts) >= partTriangles(previous)) continue;
+      }
+      kept.push(level);
+      levels.push({ parts, triangles: level === 0 ? triangles : 0 });
     }
     const billboardIndex =
-      billboardLevel === null ? null : sorted.indexOf(billboardLevel);
+      billboardLevel === null ? null : kept.indexOf(billboardLevel);
     kit.set(id, {
       id,
       levels,

@@ -150,6 +150,10 @@ The overall goal at this point is to build the province-scale world, in a way th
   runs every gate the deploy runs — `npm test`, typecheck, the placement,
   water and pipeline suites, the raster manifest — in parallel (~2 min) and
   lists every failure at once, so one wait replaces a fix-wait-fix loop.
+  **Prose first** (owner 2026-09-18): the moment you finish writing or
+  editing any docs or player-visible text, run `npm run docs:check` (the
+  prose and docs-currency gates alone, seconds) and fix what it names, so
+  preflight is run once, not once per prose slip.
 - **Don't over-validate.** `npm test` and `npm run typecheck` are the routine
   gates. If you touched animation/movement/physics/camera code, also run
   `npm run visual:check -w @elder-souls/combat-sandbox -- <group>` (fast, no video). Nothing else is required
