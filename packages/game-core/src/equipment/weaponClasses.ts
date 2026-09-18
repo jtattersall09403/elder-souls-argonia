@@ -1,7 +1,7 @@
 import { MOVESETS, BUILT_MOVESETS, type MovesetDefinition, type MovesetId } from "./movesets";
 import { applyCriticalStyle, swingCriticalAttack, type CriticalStyle } from "./movesets/criticals";
 import { WEAPON_CLASS_POISE_DAMAGE } from "../combat/poise";
-import type { AttackId, AttackSpec, RangedStats, WeaponClass } from "./types";
+import type { AttackId, AttackSpec, RangedStats, WeaponClass, WeaponClassEffect } from "./types";
 
 export type { MovesetId } from "./movesets";
 
@@ -54,6 +54,12 @@ export type WeaponClassProfile = {
    * Omitted means `thrust`, which is the authored-execution default.
    */
   criticalStyle?: CriticalStyle;
+  /**
+   * What this shape of weapon does to a target beyond its damage. Data,
+   * resolved by combat/classEffects; a new kind extends the enum, never
+   * resolveHit.
+   */
+  effects: readonly WeaponClassEffect[];
   /** Sheath socket on the rig; the pipeline records the same value per item. */
   sheathSocket: string;
   /**
@@ -119,81 +125,93 @@ export const MAIN_HAND_NODE_HALF_TURN: readonly [number, number, number, number]
 export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> = {
   dagger: {
     id: "dagger", label: "Dagger", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.42, weightKg: 1.2, speedScale: 0.72, criticalEntryRangeBonus: -0.5,
+    lengthMeters: 0.42, weightKg: 1.2, speedScale: 0.74, criticalEntryRangeBonus: -0.5,
     powerScale: 0.55, staminaScale: 0.6, stability: 0.3, physicalAbsorption: 0.55,
+    effects: [],
     sheathSocket: "WeaponDagger",
   },
   shortSword: {
     id: "shortSword", label: "Short Sword", moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.72, weightKg: 2.2, speedScale: 0.88, criticalEntryRangeBonus: -0.2,
     powerScale: 0.82, staminaScale: 0.85, stability: 0.5, physicalAbsorption: 0.82,
+    effects: [],
     sheathSocket: "WeaponSword",
   },
   straightSword: {
     id: "straightSword", label: "Sword", moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.98, weightKg: 3.2, speedScale: 1, criticalEntryRangeBonus: 0,
     powerScale: 1, staminaScale: 1, stability: 0.58, physicalAbsorption: 0.92,
+    effects: [],
     sheathSocket: "WeaponSword",
   },
   scimitar: {
     id: "scimitar", label: "Scimitar", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.95, weightKg: 3, speedScale: 0.92, criticalEntryRangeBonus: -0.05,
+    lengthMeters: 0.95, weightKg: 3, speedScale: 0.85, criticalEntryRangeBonus: -0.05,
     powerScale: 0.95, staminaScale: 0.94, stability: 0.52, physicalAbsorption: 0.88,
+    effects: [],
     sheathSocket: "WeaponSword",
   },
   greatsword: {
     id: "greatsword", label: "Greatsword", moveset: "greatsword", twoHanded: true,
-    lengthMeters: 1.42, weightKg: 7.5, speedScale: 1.34, criticalEntryRangeBonus: 0.55,
+    lengthMeters: 1.42, weightKg: 7.5, speedScale: 1.4, criticalEntryRangeBonus: 0.55,
     powerScale: 1.62, staminaScale: 1.4, stability: 0.62, physicalAbsorption: 0.95,
+    effects: [],
     sheathSocket: "WeaponBack",
   },
   axe: {
     id: "axe", label: "War Axe", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.78, weightKg: 4, speedScale: 1.06, criticalEntryRangeBonus: -0.15,
+    lengthMeters: 0.78, weightKg: 4, speedScale: 1.11, criticalEntryRangeBonus: -0.15,
     powerScale: 1.12, staminaScale: 1.08, stability: 0.44, physicalAbsorption: 0.8,
     criticalStyle: "swing",
+    effects: [{ kind: "bleed", fraction: 0.25, seconds: 4 }],
     sheathSocket: "WeaponAxe",
   },
   greataxe: {
     id: "greataxe", label: "Battleaxe", moveset: "greataxe", twoHanded: true,
-    lengthMeters: 1.35, weightKg: 9, speedScale: 1.42, criticalEntryRangeBonus: 0.45,
+    lengthMeters: 1.35, weightKg: 9, speedScale: 1.43, criticalEntryRangeBonus: 0.45,
     powerScale: 1.78, staminaScale: 1.5, stability: 0.55, physicalAbsorption: 0.92,
     criticalStyle: "swing",
+    effects: [{ kind: "bleed", fraction: 0.3, seconds: 4 }],
     sheathSocket: "WeaponBack",
   },
   mace: {
     id: "mace", label: "Mace", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.8, weightKg: 5, speedScale: 1.12, criticalEntryRangeBonus: -0.2,
+    lengthMeters: 0.8, weightKg: 5, speedScale: 1.25, criticalEntryRangeBonus: -0.2,
     powerScale: 1.2, staminaScale: 1.15, stability: 0.48, physicalAbsorption: 0.86,
     criticalStyle: "swing",
+    effects: [{ kind: "armourPierce", share: 0.25 }],
     sheathSocket: "WeaponMace",
   },
   warhammer: {
     id: "warhammer", label: "Warhammer", moveset: "greataxe", twoHanded: true,
-    lengthMeters: 1.3, weightKg: 11, speedScale: 1.55, criticalEntryRangeBonus: 0.35,
+    lengthMeters: 1.3, weightKg: 11, speedScale: 1.62, criticalEntryRangeBonus: 0.35,
     powerScale: 2.05, staminaScale: 1.62, stability: 0.5, physicalAbsorption: 0.9,
     criticalStyle: "swing",
+    effects: [{ kind: "armourPierce", share: 0.35 }],
     sheathSocket: "WeaponBack",
   },
   spear: {
     id: "spear", label: "Spear", moveset: "greatsword", twoHanded: true,
     lengthMeters: 2.1, weightKg: 5, speedScale: 1.15, criticalEntryRangeBonus: 1.1,
     powerScale: 1.15, staminaScale: 1.05, stability: 0.4, physicalAbsorption: 0.78,
+    effects: [],
     sheathSocket: "WeaponBack",
   },
   halberd: {
     id: "halberd", label: "Halberd", moveset: "greataxe", twoHanded: true,
-    lengthMeters: 2.2, weightKg: 8, speedScale: 1.4, criticalEntryRangeBonus: 1.2,
+    lengthMeters: 2.2, weightKg: 8, speedScale: 1.45, criticalEntryRangeBonus: 1.2,
     powerScale: 1.6, staminaScale: 1.45, stability: 0.45, physicalAbsorption: 0.85,
     criticalStyle: "swing",
+    effects: [],
     sheathSocket: "WeaponBack",
   },
   // Bows do not fight, they shoot: their melee numbers exist only so that a bow
   // in hand is still a describable object. What a bow *does* is in `ranged`.
   shortbow: {
     id: "shortbow", label: "Hunting Bow", moveset: "bow", twoHanded: true,
-    lengthMeters: 1.25, weightKg: 1.4, speedScale: 1.2, criticalEntryRangeBonus: 0,
+    lengthMeters: 1.25, weightKg: 1.4, speedScale: 1.0, criticalEntryRangeBonus: 0,
     powerScale: 0.35, staminaScale: 0.8, stability: 0.18, physicalAbsorption: 0.25,
+    effects: [],
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
     heldRotation: OFF_HAND_NODE_HALF_TURN,
@@ -207,8 +225,9 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   },
   longbow: {
     id: "longbow", label: "Longbow", moveset: "bow", twoHanded: true,
-    lengthMeters: 1.75, weightKg: 1.9, speedScale: 1.2, criticalEntryRangeBonus: 0,
+    lengthMeters: 1.75, weightKg: 1.9, speedScale: 1.1, criticalEntryRangeBonus: 0,
     powerScale: 0.4, staminaScale: 0.85, stability: 0.2, physicalAbsorption: 0.3,
+    effects: [],
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
     heldRotation: OFF_HAND_NODE_HALF_TURN,
@@ -224,6 +243,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     id: "warbow", label: "War Bow", moveset: "bow", twoHanded: true,
     lengthMeters: 1.9, weightKg: 2.3, speedScale: 1.25, criticalEntryRangeBonus: 0,
     powerScale: 0.45, staminaScale: 0.95, stability: 0.22, physicalAbsorption: 0.32,
+    effects: [],
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
     heldRotation: OFF_HAND_NODE_HALF_TURN,
@@ -241,6 +261,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     lengthMeters: 1.6, weightKg: 4, speedScale: 1.25, criticalEntryRangeBonus: 0.4,
     powerScale: 0.7, staminaScale: 0.9, stability: 0.35, physicalAbsorption: 0.5,
     criticalStyle: "swing",
+    effects: [],
     sheathSocket: "WeaponBack",
   },
 };

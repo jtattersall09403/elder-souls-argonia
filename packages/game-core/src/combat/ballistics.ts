@@ -373,11 +373,17 @@ export const JOULES_PER_ARMOUR_POINT = 3;
  * every other kind of damage meets. The arrowhead's business is *how well the
  * armour works*, not whether the arrow counts at all: a bodkin makes plate
  * behave like far less of it, a broadhead like far more.
+ *
+ * `damageMultiplier` is the archer — `RangedModifiers.damage`, and any hit-zone
+ * multiplier the caller wants folded in with it. The physics is the arrow; the
+ * multiplier is who loosed it. It scales the delivered damage only: penetration
+ * is decided by energy, and skill does not make a shaft pass through plate.
  */
 export function resolveArrowImpact(
   arrow: ArrowPhysics,
   impactSpeed: number,
   target: ImpactTarget,
+  damageMultiplier = 1,
 ): ImpactResult {
   const head = ARROWHEADS[arrow.head];
   const impactEnergyJoules = kineticEnergyJoules(arrow.massKg, impactSpeed);
@@ -392,7 +398,7 @@ export function resolveArrowImpact(
   const damage = damageAfterArmour(
     effectiveEnergyJoules * DAMAGE_PER_JOULE * head.woundSeverity,
     effectiveRating,
-  );
+  ) * Math.max(0, damageMultiplier);
 
   return {
     impactEnergyJoules,
@@ -425,7 +431,11 @@ export type RangedModifiers = {
   sway: number;
   /** Multiplies stamina drain while drawing and holding. */
   drawStaminaCost: number;
-  /** Final multiplier on delivered damage. */
+  /**
+   * Final multiplier on delivered damage. Applied once, by passing it to
+   * `resolveArrowImpact` as its fourth argument — never by multiplying the
+   * result afterwards, or a shot gets scaled twice.
+   */
   damage: number;
 };
 

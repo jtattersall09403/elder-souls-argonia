@@ -5,6 +5,7 @@ import { input, type InputAction } from "@elder-souls/game-core/io/input";
 import { UI_MENU_BINDINGS, uiMenuInput } from "@elder-souls/game-core/io/uiMenus";
 import { useGameStore } from "@elder-souls/game-core/core/store";
 import { MAX_ENEMIES } from "@elder-souls/game-core/combat/tuning";
+import { marksmanScalars, meleeScalars } from "@elder-souls/game-core/combat/skillScalars";
 import { ENEMY_ARCHETYPES } from "@elder-souls/game-core/actors/enemyArchetypes";
 import { FullscreenButton } from "./FullscreenButton";
 import type { VisualScenario } from "@elder-souls/game-core/validation/visualScenarios";
@@ -225,6 +226,10 @@ function FpsCounter() {
 
 export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario | null }) {
   const state = useGameStore();
+  // The sliders show what the skill *does*, not the skill number alone: the
+  // same curves the rules read (`combat/skillScalars`), never a second copy.
+  const marksman = marksmanScalars(state.marksmanSkill);
+  const melee = meleeScalars(state.meleeSkill);
   const [help, setHelp] = useState(false);
   const [touch, setTouch] = useState(false);
   useEffect(() => {
@@ -404,27 +409,43 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
             onChange={(event) => state.patch({ arrowGravityScale: Number(event.target.value) })}
           />
         </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={state.skillsEnabled}
+            onChange={(event) => state.patch({ skillsEnabled: event.target.checked })}
+          />
+          {text(CATALOGUE, "text.sandbox.skills-enabled")}
+        </label>
         <label className="enemy-picker">
-          {text(CATALOGUE, "text.sandbox.bow-nock-speed")}: {state.bowNockSpeedMultiplier.toFixed(2)}&times;
+          {text(CATALOGUE, "text.sandbox.marksman-skill")}: {state.marksmanSkill} (nock &times;{marksman.nockSpeed.toFixed(2)}, draw &times;{marksman.drawSpeed.toFixed(2)}, damage &times;{marksman.damage.toFixed(2)})
           <input
             type="range"
-            min={0.1}
-            max={5}
-            step={0.1}
-            value={state.bowNockSpeedMultiplier}
-            onChange={(event) => state.patch({ bowNockSpeedMultiplier: Number(event.target.value) })}
+            min={0}
+            max={100}
+            step={5}
+            value={state.marksmanSkill}
+            onChange={(event) => state.patch({ marksmanSkill: Number(event.target.value) })}
           />
         </label>
         <label className="enemy-picker">
-          {text(CATALOGUE, "text.sandbox.bow-draw-speed")}: {state.bowDrawSpeedMultiplier.toFixed(2)}&times;
+          {text(CATALOGUE, "text.sandbox.melee-skill")}: {state.meleeSkill} (damage &times;{melee.damagePosition.toFixed(2)}, stamina &times;{melee.staminaCost.toFixed(2)})
           <input
             type="range"
-            min={0.1}
-            max={5}
-            step={0.1}
-            value={state.bowDrawSpeedMultiplier}
-            onChange={(event) => state.patch({ bowDrawSpeedMultiplier: Number(event.target.value) })}
+            min={0}
+            max={100}
+            step={5}
+            value={state.meleeSkill}
+            onChange={(event) => state.patch({ meleeSkill: Number(event.target.value) })}
           />
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={state.classEffectsEnabled}
+            onChange={(event) => state.patch({ classEffectsEnabled: event.target.checked })}
+          />
+          {text(CATALOGUE, "text.sandbox.class-effects")}
         </label>
         <label className="enemy-picker">
           Bow view:

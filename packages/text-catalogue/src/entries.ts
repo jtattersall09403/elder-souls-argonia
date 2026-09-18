@@ -81,8 +81,10 @@ export const COMBAT_SANDBOX_TEXT: readonly TextEntry[] = [
   { id: "text.sandbox.archer-opponent", surface: "ui", text: "Archer opponent" },
   { id: "text.sandbox.combat-ready", surface: "ui", text: "Combat test ready" },
   { id: "text.sandbox.arrow-gravity", surface: "ui", text: "Arrow gravity" },
-  { id: "text.sandbox.bow-nock-speed", surface: "ui", text: "Bow nocking speed" },
-  { id: "text.sandbox.bow-draw-speed", surface: "ui", text: "Bow draw speed" },
+  { id: "text.sandbox.skills-enabled", surface: "ui", text: "Apply skill curves" },
+  { id: "text.sandbox.marksman-skill", surface: "ui", text: "Marksman skill" },
+  { id: "text.sandbox.melee-skill", surface: "ui", text: "Weapon skill" },
+  { id: "text.sandbox.class-effects", surface: "ui", text: "Class effects" },
   {
     id: "text.sandbox.character-prompt",
     surface: "ui",

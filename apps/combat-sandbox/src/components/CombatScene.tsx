@@ -69,6 +69,10 @@ import {
   directionTo,
 } from "@elder-souls/game-core/combat/aimConvergence";
 import { launchSpeed, NEUTRAL_RANGED_MODIFIERS, resolveArrowImpact } from "@elder-souls/game-core/combat/ballistics";
+import { marksmanScalars, meleeScalars } from "@elder-souls/game-core/combat/skillScalars";
+import { applyMeleeModifiers, NEUTRAL_MELEE_MODIFIERS } from "@elder-souls/game-core/combat/modifiers";
+import { applyStatusEffects, tickStatusEffects, type ActiveStatusEffect } from "@elder-souls/game-core/combat/statusEffects";
+import { WEAPON_CLASSES } from "@elder-souls/game-core/equipment/weaponClasses";
 import { hitZoneForBone } from "@elder-souls/game-core/combat/hitZones";
 import { nearestHurtboxBone, stickArrow, isActorCapsuleName } from "@elder-souls/game-core/combat/stuckArrows";
 import { traceArrowSurface } from "@elder-souls/game-core/combat/arrowSurface";
@@ -180,6 +184,19 @@ import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
 import { canBackstabState } from "@elder-souls/game-core/combat/backstab";
 import { FirstPersonBow, hasSkeletalHurtbox, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type FirstPersonBowState, type HurtboxBone, type SoleBoneRefs } from "@elder-souls/character";
 import { Arena } from "./Arena";
+
+/**
+ * The skill curves are a switch, not a default. Off, every modifier is neutral
+ * — the calibrated feel the visual scenarios were tuned against; on, the two
+ * sliders drive the module 76 curves. Pure reads of the store, no state.
+ */
+function playerRangedModifiers(skillsEnabled: boolean, marksmanSkill: number) {
+  return skillsEnabled ? marksmanScalars(marksmanSkill) : NEUTRAL_RANGED_MODIFIERS;
+}
+
+function playerMeleeModifiers(skillsEnabled: boolean, meleeSkill: number) {
+  return skillsEnabled ? meleeScalars(meleeSkill) : NEUTRAL_MELEE_MODIFIERS;
+}
 
 const UP = new THREE.Vector3(0, 1, 0);
 const ENEMY_FELLED_MESSAGE_DURATION = 1.8;
@@ -1104,7 +1121,19 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // Validation runs a fixed, deterministic scene; background fetches would only
   // add noise to it.
   useCarriedAssetWarmup(!visualScenario, playerBuild.sex);
-  const playerWeapon = playerLoadout.mainHand;
+  const meleeSkill = useGameStore((state) => state.meleeSkill);
+  const skillsEnabled = useGameStore((state) => state.skillsEnabled);
+  /**
+   * The player's weapon as their skill wields it: the moveset re-costed in
+   * stamina (`applyMeleeModifiers`). Damage is *not* baked in here — it is
+   * applied once at resolve time, through `HitContext.attacker`.
+   */
+  const playerWeapon = useMemo(() => {
+    const base = playerLoadout.mainHand;
+    return { ...base, attacks: applyMeleeModifiers(base.attacks, playerMeleeModifiers(skillsEnabled, meleeSkill)) };
+  }, [playerLoadout, meleeSkill, skillsEnabled]);
+  /** Bleeds and the like the player is carrying. The player has no Fighter. */
+  const playerStatus = useRef<ActiveStatusEffect[]>([]);
   const consumeArrow = useInventoryStore((state) => state.remove);
   const playerGuard = useMemo(() => activeGuardProfile(playerLoadout), [playerLoadout]);
   // What a raised guard is *made of* and what it *looks like* come from the
@@ -1561,6 +1590,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const enemyWeapon = f.archetype.loadout.mainHand;
     const result = resolveHit(f.health, f.stamina, {
       attack,
+      // What the class itself does on a hit (bleed, armour pierce), and how well
+      // the player swings it. Both read at the moment of contact.
+      effects: useGameStore.getState().classEffectsEnabled ? WEAPON_CLASSES[playerWeapon.stats.class].effects : [],
+      attacker: playerMeleeModifiers(useGameStore.getState().skillsEnabled, useGameStore.getState().meleeSkill),
       // A guard only covers what the defender is facing. Without this a
       // shield stopped a sword swung into the back of its owner's head.
       guard: f.state === "guard" && !execution && player.current && enemyGuardCovers(e, player.current.currPos)
@@ -1612,6 +1645,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       return true;
     }
     f.health = result.health;
+    if (result.kind === "hit" || result.kind === "execution") {
+      f.status = applyStatusEffects(f.status, result.status);
+    }
     hitStop.current = result.hitStop;
     const handle = player.current;
     triggerShake(result.kind === "execution" ? "execution" : isHeavyAttack(attack) ? "enemyHeavyHit" : "enemyHit", handle ? {
@@ -1685,11 +1721,14 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // can be clear of the body and a shaft left there stands in mid-air.
       const plant = { segment: { bone: hit.bone }, point: hit.point };
       const zone = hitZoneForBone(struck?.bone.name ?? null);
+      // The shooter here is an enemy archer, and only the player has a skill
+      // slider, so the archer's own multiplier is a flat 1; the hit zone is the
+      // whole of it.
       const impact = resolveArrowImpact(hit.arrow.physics, hit.speed, {
         armourRating: totalArmourRating(playerArmour),
         obliquityRad: hit.obliquityRad,
-      });
-      const damage = impact.damage * zone.damageMultiplier;
+      }, zone.damageMultiplier);
+      const damage = impact.damage;
       if (damage <= 0) return;
       // A raised guard stops arrows from the front, exactly as it does a
       // blade. The "attacker" direction is where the shaft flew in from.
@@ -1753,11 +1792,13 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // Identical call for the player above and every enemy here.
     const plant = { segment: { bone: hit.bone }, point: hit.point };
     const zone = hitZoneForBone(struck?.bone.name ?? null);
+    // The player loosed this one: their Marksman skill and the hit zone, both
+    // applied once, inside the resolve.
     const impact = resolveArrowImpact(hit.arrow.physics, hit.speed, {
       armourRating: totalArmourRating(wornArmourFor(f.archetype.armour)),
       obliquityRad: hit.obliquityRad,
-    });
-    const damage = impact.damage * zone.damageMultiplier;
+    }, playerRangedModifiers(useGameStore.getState().skillsEnabled, useGameStore.getState().marksmanSkill).damage * zone.damageMultiplier);
+    const damage = impact.damage;
     if (damage <= 0) return;
 
     // A raised guard stops arrows too. Same rules a sword blow meets — the
@@ -1838,6 +1879,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       || playerAction.current === "riposte";
     const result = resolveHit(playerHealth.current, playerStamina.current, {
       attack,
+      // The enemy's class effects apply; their skill does not exist yet, so
+      // `attacker` stays neutral (only the player has a skill slider).
+      effects: useGameStore.getState().classEffectsEnabled ? WEAPON_CLASSES[enemyWeapon.stats.class].effects : [],
       // Facing, not just guarding: you cannot get a shield between yourself
       // and something behind you.
       guard: playerAction.current === "guard" && equipped.current
@@ -1896,6 +1940,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     }
 
     playerHealth.current = result.health;
+    if (result.kind === "hit" || result.kind === "execution") {
+      playerStatus.current = applyStatusEffects(playerStatus.current, result.status);
+    }
     triggerDamageVignette();
     const reaction = hitReactionForAttack(attack);
     triggerShake(result.kind === "hit" && result.heavy ? "playerHeavyHit" : "playerHit", {
@@ -2258,6 +2305,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const aliveEnemies = activeEnemies.filter((e) => e.fighter.health > 0);
     playerActionTime.current += delta;
     staminaCooldown.current -= delta;
+    const playerStatusTick = tickStatusEffects(playerStatus.current, delta);
+    playerStatus.current = playerStatusTick.active;
+    if (playerStatusTick.damage > 0 && playerHealth.current > 0) {
+      playerHealth.current = Math.max(0, playerHealth.current - playerStatusTick.damage);
+      if (playerHealth.current <= 0) {
+        startPlayerAction("dead", "DEATH");
+        combatAudio.play("death");
+        announce("YOU DIED", 8);
+      }
+    }
     // Poise does not trickle back: it sits where the last hit left it and snaps
     // to full after a quiet interval (DS1). That is what makes it a breakpoint
     // stat rather than a second stamina bar.
@@ -2398,11 +2455,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // player stayed up, kept moving and kept shooting, and could not die.
     const playerDead = playerAction.current === "dead" || playerHealth.current <= 0;
     if (ranged && bowAnimations && equipped.current) {
-      const rangedModifiers = {
-        ...NEUTRAL_RANGED_MODIFIERS,
-        nockSpeed: useGameStore.getState().bowNockSpeedMultiplier,
-        drawSpeed: useGameStore.getState().bowDrawSpeedMultiplier,
-      };
+      // Everything the bow does in the player's hands comes from one skill.
+      const skillState = useGameStore.getState();
+      const rangedModifiers = playerRangedModifiers(skillState.skillsEnabled, skillState.marksmanSkill);
       const raised = isAiming(bowCycle.current);
       const bowStep = advanceBowCycle(
         bowCycle.current,
@@ -3241,6 +3296,19 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       f.actionTime += delta;
       f.decisionTimer -= delta;
       f.staminaCooldown -= delta;
+      // A bleed keeps working between blows, and can finish what a blow
+      // started: the death path below is the one any hit uses.
+      const statusTick = tickStatusEffects(f.status, delta);
+      f.status = statusTick.active;
+      if (statusTick.damage > 0 && f.health > 0) {
+        f.health = Math.max(0, f.health - statusTick.damage);
+        if (f.health <= 0) {
+          clearLockIfTarget(e);
+          setEnemyMode(e, "dead", "DEATH");
+          combatAudio.play("death");
+          announce("ENEMY FELLED", ENEMY_FELLED_MESSAGE_DURATION);
+        }
+      }
       advancePoise(f.poise, delta);
       const enemyHandle = e.handle.current;
       const toPlayerX = playerPos.x - e.position.x;

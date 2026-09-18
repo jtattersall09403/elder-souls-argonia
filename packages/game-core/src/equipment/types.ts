@@ -66,6 +66,18 @@ export function isBowClass(id: WeaponClass) {
   return BOW_CLASSES.includes(id);
 }
 
+/**
+ * What a shape of weapon does to a target beyond its damage.
+ *
+ * A closed union of *data*, resolved in `combat/classEffects`. A new kind is an
+ * entry here plus a case there; the hit-resolve order never changes.
+ */
+export type WeaponClassEffect =
+  /** Ignores this fraction of the defender's armour rating, 0-1. */
+  | { kind: "armourPierce"; share: number }
+  /** Extra damage = `fraction` x the health damage that landed, over `seconds`. */
+  | { kind: "bleed"; fraction: number; seconds: number };
+
 export type ShieldClass = "buckler" | "roundShield" | "kiteShield" | "towerShield";
 
 /** Fractional absorption per damage type. Absent types absorb nothing. */

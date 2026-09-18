@@ -70,19 +70,19 @@ const MATERIALS: MaterialProfile[] = [
   },
   {
     id: "imperial", label: "Imperial", tier: 2,
-    damageScale: 1.02, weightScale: 0.95, guardScale: 1, valuePerKg: 22,
+    damageScale: 1.02, weightScale: 0.95, guardScale: 1, valuePerKg: 9,
     requirementBonus: {},
     description: "Legion pattern, forged for a shield wall.",
   },
   {
     id: "silver", label: "Silver", tier: 3,
-    damageScale: 1.05, weightScale: 1.0, guardScale: 0.95, valuePerKg: 55,
+    damageScale: 1.0, weightScale: 0.7, guardScale: 0.95, valuePerKg: 55,
     requirementBonus: {}, bonusDamage: { magic: 6 },
     description: "Soft metal, bitter to anything that should already be dead.",
   },
   {
     id: "dwarven", label: "Dwarven", tier: 3,
-    damageScale: 1.16, weightScale: 1.2, guardScale: 1.08, valuePerKg: 40,
+    damageScale: 1.25, weightScale: 1.2, guardScale: 1.08, valuePerKg: 40,
     requirementBonus: { strength: 2 },
     description: "Dwemer alloy, still bright after four thousand years.",
   },
@@ -118,13 +118,13 @@ const MATERIALS: MaterialProfile[] = [
   },
   {
     id: "akaviri", label: "Akaviri", tier: 5,
-    damageScale: 1.4, weightScale: 0.85, guardScale: 1.04, valuePerKg: 120,
+    damageScale: 1.4, weightScale: 1.0, guardScale: 1.04, valuePerKg: 120,
     requirementBonus: { agility: 4 },
     description: "A Blades katana, folded by a craft nobody here remembers.",
   },
   {
     id: "nordhero", label: "Nord Hero", tier: 5,
-    damageScale: 1.42, weightScale: 1.0, guardScale: 1.08, valuePerKg: 110,
+    damageScale: 1.42, weightScale: 0.9, guardScale: 1.08, valuePerKg: 110,
     requirementBonus: { strength: 3 },
     description: "Skyforge steel, made for the hand of someone worth naming.",
   },

@@ -1,6 +1,24 @@
-import type { AttackDefinition, GuardProfile } from "../equipment/types";
+import type { AttackDefinition, GuardProfile, WeaponClassEffect } from "../equipment/types";
 import { damageAfterArmour } from "./armourMitigation";
 import { BLOCK_HIT_STOP, resolveGuardImpact } from "./blockReaction";
+import { bleedFromLandedDamage, effectiveArmourRating } from "./classEffects";
+import { NEUTRAL_MELEE_MODIFIERS, type MeleeModifiers } from "./modifiers";
+import type { StatusEffectApplication } from "./statusEffects";
+
+/**
+ * THE RESOLVE ORDER. One blow, six steps, in this order and no other:
+ *
+ *   1. i-frames win outright -> `iframe`.
+ *   2. a guard resolves the blow (`resolveGuardImpact`); class effects take no
+ *      part, because a guard or a miss bleeds nobody.
+ *   3. incoming = attack damage x hit-zone multiplier x attacker damagePosition.
+ *   4. the defender's armour rating is reduced by the class's armourPierce.
+ *   5. landed = damageAfterArmour(incoming, that rating).
+ *   6. the class's after-effects are scaled by what landed.
+ *
+ * New effects extend `WeaponClassEffect` and `classEffects.ts`; this order
+ * never changes. See `combat/README.md`.
+ */
 
 export type HitContext = {
   attack: AttackDefinition;
@@ -27,14 +45,21 @@ export type HitContext = {
    * it struck and a sword swing that does not.
    */
   hitZoneMultiplier?: number;
+  /**
+   * The attacking weapon class's effects. Omitted (or `[]`) switches them off,
+   * which is what an unarmed or effect-less blow wants.
+   */
+  effects?: readonly WeaponClassEffect[];
+  /** What the attacker's skill is worth. Defaults to neutral. */
+  attacker?: MeleeModifiers;
 };
 
 export type HitResult =
   | { kind: "iframe" }
   | { kind: "blocked"; health: number; stamina: number; hitStop: number }
   | { kind: "guardBroken"; health: number; stamina: number; killed: boolean; hitStop: number }
-  | { kind: "hit"; health: number; killed: boolean; heavy: boolean; hitStop: number }
-  | { kind: "execution"; health: number; killed: boolean; hitStop: number };
+  | { kind: "hit"; health: number; killed: boolean; heavy: boolean; hitStop: number; status: StatusEffectApplication[] }
+  | { kind: "execution"; health: number; killed: boolean; hitStop: number; status: StatusEffectApplication[] };
 
 export function isHeavyAttack(attack: AttackDefinition) {
   return attack.id === "heavy" || attack.id === "heavy2";
@@ -74,14 +99,15 @@ export function resolveHit(
     };
   }
 
-  const landed = damageAfterArmour(
-    ctx.attack.damage * (ctx.hitZoneMultiplier ?? 1),
-    ctx.armourRating ?? 0,
-  );
+  const effects = ctx.effects ?? [];
+  const attacker = ctx.attacker ?? NEUTRAL_MELEE_MODIFIERS;
+  const incoming = ctx.attack.damage * (ctx.hitZoneMultiplier ?? 1) * attacker.damagePosition;
+  const landed = damageAfterArmour(incoming, effectiveArmourRating(ctx.armourRating ?? 0, effects));
+  const status = bleedFromLandedDamage(landed, effects);
   const health = Math.max(0, defenderHealth - landed);
   const hitStop = ctx.execution ? ctx.attack.hitStop ?? 0.13 : ctx.attack.hitStop ?? 0.055;
   if (ctx.execution) {
-    return { kind: "execution", health, killed: health <= 0, hitStop };
+    return { kind: "execution", health, killed: health <= 0, hitStop, status };
   }
-  return { kind: "hit", health, killed: health <= 0, heavy, hitStop };
+  return { kind: "hit", health, killed: health <= 0, heavy, hitStop, status };
 }

@@ -48,7 +48,7 @@ open only the plan sections the active phase needs.
 
 | Lane | Status | Evidence / current task |
 |---|---|---|
-| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | in progress: round 0 (effects slot + one resolve step, skill inputs, speed table, real weapon data) started 2026-09-18 | [brief](phases/lanes/weapons-lane.md) |
+| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | in progress: round 0 delivered 2026-09-18 ([0076](decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md)), owner playtest pending; next "deliver the weapons lane, round 1" | [brief](phases/lanes/weapons-lane.md) |
 
 ## Waiting on user
 
@@ -59,6 +59,7 @@ open only the plan sections the active phase needs.
   [brief](phases/16-foundation-and-places/16f-vegetation-on-frozen-water.md) —
   trees, palms, plants and rocks stepping cleanly on approach, the camera
   swing, water reflections and the HUD frame rate with the preset name.
+- **Weapons lane round 0** ([0076](decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md)): the round-0 playtest in the combat sandbox (tick "Apply skill curves", the two skill sliders, the class-effects box, the new class speeds) and two calls: sign the speed table; say whether the curves should be on when the sandbox starts.
 - **Nothing else blocking (owner 2026-09-18):** the 16b–16e owner walks, the
   female character and armour sheets (0054/0056) and the workstream C round-9
   calls (0040) are all closed. The next chunk is `deliver 16g`; the 16g agent

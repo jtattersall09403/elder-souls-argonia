@@ -231,10 +231,29 @@ export type GameSnapshot = {
    * only; player and enemy elevation solvers use the same selected value.
    */
   arrowGravityScale: number;
-  /** Sandbox multiplier over each bow's authored nocking duration. */
-  bowNockSpeedMultiplier: number;
-  /** Sandbox multiplier over each bow's force-derived draw duration. */
-  bowDrawSpeedMultiplier: number;
+  /**
+   * Whether the skill curves are applied at all. Off = the calibrated feel
+   * every visual scenario was tuned against (neutral modifiers everywhere);
+   * on = the module 76 curves for the two skill sliders below.
+   */
+  skillsEnabled: boolean;
+  /**
+   * The player's Marksman skill, 0-100. Everything a bow does in their hands —
+   * nocking, draw rate, sway, stamina, damage — is derived from it through
+   * `combat/skillScalars.marksmanScalars`. Defaults to a starting character's
+   * 10; the sandbox slider is how the owner compares a novice with a master.
+   */
+  marksmanSkill: number;
+  /**
+   * The player's weapon skill, 0-100, through `meleeScalars`: where in the
+   * class's damage range their blows land and what a swing costs.
+   */
+  meleeSkill: number;
+  /**
+   * Weapon-class effects (bleed, armour pierce, ...) are applied on a hit.
+   * Off isolates the base damage rule when reading numbers.
+   */
+  classEffectsEnabled: boolean;
   /**
    * How a raised bow is viewed. `eye`: the third-person body's eye view (the
    * original); `firstPerson`: Skyrim's first-person arms rig on the camera;

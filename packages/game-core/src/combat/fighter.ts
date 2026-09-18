@@ -4,6 +4,7 @@ import type { EnemyArchetype } from "../actors/enemyArchetypes";
 import { DEFAULT_ENEMY_ARCHETYPE } from "../actors/enemyArchetypes";
 import { COMBAT_TUNING } from "./weapon";
 import { createPoise, resetPoise, type PoiseState } from "./poise";
+import type { ActiveStatusEffect } from "./statusEffects";
 import { wornArmourFor } from "../inventory/store";
 import { PLAYER_ESTUS, PLAYER_MAX_HEALTH } from "./tuning";
 
@@ -55,6 +56,11 @@ export type Fighter = {
    * formula the player does — worn armour and (at 10c) Agility.
    */
   poise: PoiseState;
+  /**
+   * After-effects running on this actor (bleeds today). Held per fighter and
+   * ticked by `tickStatusEffects`; a blow only ever *applies* to this list.
+   */
+  status: ActiveStatusEffect[];
 
   state: FighterState;
   actionTime: number;
@@ -124,6 +130,7 @@ export function createFighter(
     estus: player ? PLAYER_ESTUS : archetype.estus,
     equipped: true,
     poise: createPoise(wornArmourFor(archetype.armour)),
+    status: [],
     state: player ? "idle" : "watching",
     actionTime: 0,
     attack: null,
@@ -153,6 +160,7 @@ export function resetFighter(fighter: Fighter) {
   fighter.estus = fighter.team === "player" ? PLAYER_ESTUS : fighter.archetype.estus;
   fighter.equipped = true;
   resetPoise(fighter.poise);
+  fighter.status = [];
   fighter.state = fighter.team === "player" ? "idle" : "watching";
   fighter.actionTime = 0;
   fighter.attack = null;

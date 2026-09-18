@@ -17,37 +17,42 @@ data in the arsenal, in a shape the buildout's perks and class effects plug
 into without a refactor. The owner's side backlog (0074 context) is
 delivered in the same rounds.
 
-## Starting state (2026-09-18, written by the planning agent; the closing round-1 agent rewrites this)
+## Starting state (2026-09-18, rewritten at round-0 close; the closing round-1 agent rewrites this)
 
-Run the `routing-audit` skill over this brief before building.
+Run the `routing-audit` skill over this brief before building. **Round 0
+is delivered** ([0076](../../decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md)):
 
 - **Classes** (`packages/game-core/src/equipment/weaponClasses.ts`): dagger,
   shortSword, straightSword, scimitar, axe, mace (moveset `oneHanded`);
   greatsword; greataxe, warhammer (`greataxe`); shortbow, longbow, warbow
   (`bow`); **spear and staff borrow `greatsword`, halberd borrows
   `greataxe`** — a spear swings rather than thrusts. No pike, quarterstaff,
-  unarmed, dual-wield, rapier, claw or katana class. `resolveMoveset` falls
-  back to `oneHanded` for any moveset not in `BUILT_MOVESETS`; the borrow is
-  visible on the profile (`borrowedMoveset`). Each class already carries a
-  `speedScale` divided by its moveset's reference class.
+  unarmed, dual-wield, rapier, claw or katana class. Every class carries an
+  `effects` list (mace and warhammer pierce armour, axe and battleaxe
+  bleed, the rest empty) and a `speedScale` calibrated to Skyrim's records
+  (0076 §4); a new class must set both.
 - **Movesets** (`equipment/movesets/`): `bow`, `oneHanded`, `twoHanded`,
-  `shield`, `criticals`; the index comment names spears and dual wield as
-  the next families.
-- **Damage**: `defineWeapon` resolves attack damage = total base damage ×
-  the attack's motion value. There is no per-class effect slot and no single
-  place where "what this weapon does to a target beyond damage" resolves.
-  `armourMitigation.ts`, `backstab.ts`, `blockReaction.ts`, `poise.ts` are
-  separate steps.
-- **Bows**: `combat/bowShot.ts` and `combat/ballistics.ts` hold
-  `RangedModifiers`; nock and draw speed are clip speed today with no skill
-  input; damage is physical (impact speed) with no skill multiplier.
+  `shield`, `criticals`; `resolveMoveset` falls back to `oneHanded` for a
+  moveset not in `BUILT_MOVESETS` (`borrowedMoveset` on the item says so).
+- **Hit resolution**: `combat/resolveHit.ts` is the single step for every
+  contact, in the fixed order `combat/README.md` records; `HitContext`
+  takes `effects` and `attacker: MeleeModifiers`; results carry `status`
+  applications that `combat/statusEffects.ts` ticks on `Fighter.status`.
+- **Skill inputs**: `combat/skillScalars.ts` turns a 0–100 skill into
+  `RangedModifiers` (nock, draw, sway, draw stamina, damage) and
+  `MeleeModifiers` (damage position, stamina cost). `resolveArrowImpact`
+  takes the damage multiplier as its fourth argument. The sandbox store has
+  `marksmanSkill`, `meleeSkill` (default 10) and `classEffectsEnabled`
+  (default true), driven from the HUD.
+- **Records**: `equipment/generated/weapon-records.json` holds Skyrim's own
+  damage, weight, value, speed, reach and crit for all 53 arsenal items,
+  mined by `tooling/asset-pipeline/pipeline/weapon_records.py` (reuses the
+  ESM readers in `npc_records.py`). Materials were refitted to it (0076 §5).
 - **Landing**: `anim/landing.ts` exposes `selectLandingAnimation` and
   `landingAnimationSpeed`; `locomotion/explorerLocomotion.ts` uses both.
-  Movement is not locked during the landing clip, hence the owner's
-  "sliding on landing".
-- **Sandbox** (`apps/combat-sandbox/src/`): enemy spawning is one
-  archetype set at a time; there is no per-enemy race or weapon-set picker.
-- **Arsenal data**: the weapon stats the inventory shows are placeholders.
+  Movement is not locked during the landing clip (the "sliding on landing").
+- **Sandbox** (`apps/combat-sandbox/src/components/`): enemy spawning is
+  one archetype set at a time; no per-enemy race or weapon-set picker.
 - **Sources, verified 2026-08-26 (90 §74.3), none downloaded:** Animated
   Armoury (SSE 35978: rapier, pike, halberd, quarterstaff, claw, katana
   meshes + loose-`.hkx` player *and* NPC movesets; "just credit NickaNak",
@@ -58,12 +63,6 @@ Run the `routing-audit` skill over this brief before building.
   Marsh weapon meshes (skins for existing classes, no movesets). The vault
   and `../elder-scrolls-asset-pipeline/skyrim-source` are checked first;
   downloads use the owner's Nexus key on this VM, never echoed.
-- **Stats design** (module 76 §118, §121): skill sets the position in a
-  class's damage range; Marksman keeps ballistics and `P(effMarksman)`
-  multiplies delivered damage; owner numbers 2026-09-18 for nock ×1.0→1.6
-  and draw ×1.0→2.0 (0074 decision 3). Hand-to-Hand deals stamina damage
-  and opens a finisher. 10c implements the skills; this lane leaves the
-  inputs.
 
 ## Rounds
 
@@ -72,7 +71,7 @@ stream (Fable writes them from this section), one owner playtest per round.
 Rounds 2 and 3 may be delivered together if the round-1 playtest raised no
 steer.
 
-### Round 0 — the shape everything else is authored in
+### Round 0 — the shape everything else is authored in — DELIVERED 2026-09-18 (0076)
 
 1. **One resolve step, one effects slot.** Each weapon class carries
    `effects: WeaponClassEffect[]` (empty today) and every hit resolves

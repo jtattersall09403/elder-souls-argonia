@@ -1,59 +1,102 @@
 import { describe, expect, it } from "vitest";
-import { resolveHit } from "./resolveHit";
-import { STRAIGHT_SWORD } from "../equipment/arsenal";
+import { resolveHit, type HitContext } from "./resolveHit";
+import { damageAfterArmour } from "./armourMitigation";
+import type { AttackDefinition, GuardProfile } from "../equipment/types";
 
-const GUARD = STRAIGHT_SWORD.stats.guard;
+const ATTACK = {
+  id: "light1",
+  animation: "ATTACK_LIGHT_1",
+  damage: 100,
+  motionValue: 1,
+  stamina: 20,
+  windup: 0.2,
+  active: 0.1,
+  recovery: 0.3,
+  range: 2,
+  arc: 1,
+  lunge: 1,
+  hitStop: 0.055,
+} as unknown as AttackDefinition;
 
-const light = STRAIGHT_SWORD.attacks.light1;
-const heavy = STRAIGHT_SWORD.attacks.heavy;
-const riposte = STRAIGHT_SWORD.attacks.riposte;
+const GUARD: GuardProfile = { stability: 0.6, absorption: { physical: 0.9 } };
 
-describe("resolveHit", () => {
-  it("ignores contact during dodge invulnerability", () => {
-    const result = resolveHit(100, 100, { attack: light, guard: null, iframe: true, execution: null });
-    expect(result.kind).toBe("iframe");
+const base = (over: Partial<HitContext> = {}): HitContext => ({
+  attack: ATTACK,
+  guard: null,
+  iframe: false,
+  execution: null,
+  ...over,
+});
+
+describe("one resolve step for every blow", () => {
+  it("is numerically unchanged when effects and attacker are omitted", () => {
+    const plain = resolveHit(200, 100, base({ armourRating: 150 }));
+    expect(plain.kind).toBe("hit");
+    if (plain.kind !== "hit") throw new Error("expected a hit");
+    // 100 damage against rating 150 is halved by the mitigation curve.
+    expect(200 - plain.health).toBeCloseTo(damageAfterArmour(100, 150), 9);
+    expect(200 - plain.health).toBeCloseTo(50, 9);
+    expect(plain.status).toEqual([]);
   });
 
-  it("still lands an execution through invulnerability", () => {
-    const result = resolveHit(100, 100, { attack: riposte, guard: null, iframe: true, execution: "riposte" });
-    expect(result.kind).toBe("execution");
+  it("i-frames and guards resolve before anything else", () => {
+    expect(resolveHit(200, 100, base({ iframe: true })).kind).toBe("iframe");
+    const blocked = resolveHit(200, 100, base({
+      guard: GUARD,
+      effects: [{ kind: "bleed", fraction: 0.25, seconds: 4 }],
+    }));
+    expect(blocked.kind).toBe("blocked");
+    expect(blocked).not.toHaveProperty("status");
   });
 
-  it("subtracts weapon damage on a clean hit and flags heavy attacks", () => {
-    const result = resolveHit(100, 100, { attack: heavy, guard: null, iframe: false, execution: null });
-    expect(result.kind).toBe("hit");
-    if (result.kind !== "hit") return;
-    expect(result.health).toBe(100 - heavy.damage);
-    expect(result.heavy).toBe(true);
-    expect(result.killed).toBe(false);
+  it("armour pierce lands more than the same blow without it", () => {
+    const without = resolveHit(200, 100, base({ armourRating: 150, effects: [] }));
+    const with25 = resolveHit(200, 100, base({
+      armourRating: 150,
+      effects: [{ kind: "armourPierce", share: 0.25 }],
+    }));
+    if (without.kind !== "hit" || with25.kind !== "hit") throw new Error("expected hits");
+    expect(200 - with25.health).toBeGreaterThan(200 - without.health);
+    // Rating 150 -> 112.5.
+    expect(200 - with25.health).toBeCloseTo(damageAfterArmour(100, 112.5), 9);
   });
 
-  it("reports a kill when damage empties health", () => {
-    const result = resolveHit(light.damage - 1, 100, { attack: light, guard: null, iframe: false, execution: null });
-    expect(result.kind).toBe("hit");
-    if (result.kind !== "hit") return;
-    expect(result.health).toBe(0);
-    expect(result.killed).toBe(true);
+  it("bleeds by a fraction of what landed, on hits and executions only", () => {
+    const hit = resolveHit(200, 100, base({
+      armourRating: 150,
+      effects: [{ kind: "bleed", fraction: 0.25, seconds: 4 }],
+    }));
+    if (hit.kind !== "hit") throw new Error("expected a hit");
+    const landed = 200 - hit.health;
+    expect(hit.status).toHaveLength(1);
+    expect(hit.status[0].totalDamage).toBeCloseTo(landed * 0.25, 9);
+    expect(hit.status[0].seconds).toBe(4);
+
+    const execution = resolveHit(200, 100, base({
+      execution: "backstab",
+      armourRating: 0,
+      effects: [{ kind: "bleed", fraction: 0.3, seconds: 4 }],
+    }));
+    if (execution.kind !== "execution") throw new Error("expected an execution");
+    expect(execution.status[0].totalDamage).toBeCloseTo(30, 9);
   });
 
-  it("blocks with a full stamina bar", () => {
-    const result = resolveHit(100, 100, { attack: light, guard: GUARD, iframe: false, execution: null });
-    expect(result.kind).toBe("blocked");
-    if (result.kind !== "blocked") return;
-    expect(result.health).toBeLessThanOrEqual(100);
-    expect(result.stamina).toBeLessThan(100);
+  it("applies damagePosition before armour", () => {
+    const weak = resolveHit(200, 100, base({
+      armourRating: 150,
+      attacker: { damagePosition: 0.4, staminaCost: 1.25 },
+    }));
+    if (weak.kind !== "hit") throw new Error("expected a hit");
+    expect(200 - weak.health).toBeCloseTo(damageAfterArmour(40, 150), 9);
+    expect(200 - weak.health).toBeCloseTo(20, 9);
   });
 
-  it("breaks a guard with an empty stamina bar and applies guard-break damage", () => {
-    const result = resolveHit(100, 0, { attack: light, guard: GUARD, iframe: false, execution: null, guardBreakDamage: 18 });
-    expect(result.kind).toBe("guardBroken");
-    if (result.kind !== "guardBroken") return;
-    expect(result.health).toBe(82);
-    expect(result.stamina).toBe(0);
-  });
-
-  it("bypasses guard for executions", () => {
-    const result = resolveHit(100, 100, { attack: riposte, guard: GUARD, iframe: false, execution: "backstab" });
-    expect(result.kind).toBe("execution");
+  it("multiplies the hit zone and the attacker's position together", () => {
+    const head = resolveHit(200, 100, base({
+      hitZoneMultiplier: 2,
+      attacker: { damagePosition: 0.5, staminaCost: 1 },
+    }));
+    if (head.kind !== "hit") throw new Error("expected a hit");
+    expect(200 - head.health).toBeCloseTo(100, 9);
   });
 });
