@@ -255,9 +255,10 @@ green with only 16h's two rows left.
 
 ## Deliver
 
-Two parts with one owner check each. Part 1 is the ground and must be
-accepted before Part 2's re-typing decisions are final; Part 2's records
-are the ones 16h–16j, 12, 13 and 15 read.
+Two parts, one owner check at the end (owner 2026-09-18): Part 1 is the
+ground; Part 2's records are the ones 16h–16j, 12, 13 and 15 read and
+are built in parallel with Part 1's later steps. A cut or merge the owner
+rejects at the check re-migrates the Part 2 records built on it.
 
 ### Part 1 — the plot, the minor networks and fast travel
 
@@ -306,15 +307,21 @@ are the ones 16h–16j, 12, 13 and 15 read.
      they were chosen on the old ground, the records are re-plotted like
      any other; 16i re-authors each blueprint where its record lands
      (`apply_sitings` must not re-pin them from the stale blueprints; the
-     ledger names where each of the five moved to). **A city pin is an
-     approximate location, not a centre** (owner 2026-09-18): it fixed
-     where the major road arrives (16e's approach pins). The city's centre
-     is sited sensibly within its broad area on the measured ground, at
-     most its own footprint radius (M5 230 m, 0041) from the pin, so the
-     road's end still lies inside the city and the city's own ways (16h,
-     16i) carry the approach; a city the ground cannot hold inside that
-     radius is an owner call, reported with the measurement, not moved
-     silently. The plot review report starts from the run's `seeding`
+     ledger names where each of the five moved to). **A city pin is where the
+     city's gate stands on its main road, not its centre** (owner
+     2026-09-18). Each pinned city carries two sited points on the record:
+     `gate` (on the road, at or near the pin; the road is frozen and is
+     not re-solved) and `centre`, chosen thoughtfully: ground where a city
+     of that footprint can actually be built (slope, water and the flood
+     line measured from the record, the culture's siting grammar in the
+     recipe), reachable from the gate by a street or way that the existing
+     street router (`street_router`, the blueprint tooling) can actually
+     find on the measured ground. The centre may be some distance from the
+     gate; the record stores the found gate-to-centre way so 16h/16i build
+     it rather than re-derive it. The exclusion footprint is drawn around
+     the centre. A city whose local geography cannot hold its footprint on
+     any centre the router can reach from the gate is an owner call,
+     reported with the measurement, not moved silently. The plot review report starts from the run's `seeding`
      block.
    - *The review of every record* against the frozen world, by tool where
      the rule is coded and by reasoning where it is not: water facts from
@@ -323,7 +330,15 @@ are the ones 16h–16j, 12, 13 and 15 read.
      magnitude band or, where a blueprint exists, measured from its built
      ground — Lilmoth 225 m — and no other record may stand inside it
      unless `boundTo`/`mayAbut` says so; the solver already scores this,
-     so make it a gate: a record inside another's footprint fails), sightline
+     so make it a gate: a record inside another's footprint fails).
+     Places are not circles (owner 2026-09-18): the radius is the
+     estimate for the many small records, where the error is metres; for
+     M4 and M5 records the review authors a `footprintPolygon` on the
+     record where the geography makes the circle wrong (a city along a
+     shore or a ridge, a town on a river bend), sized from the recipe's
+     magnitude band and shaped to the buildable ground; the gate
+     checks the polygon where one exists and the radius otherwise;
+     16i's built hull replaces the polygon when the blueprint exists, sightline
      (A6), proximity (A6b), danger bands (A7), "on the road"
      against the 0069 network (A8), navigable water sampled along the
      serving lane (B5 depth classes), the enclave gate (A11), the approach
@@ -417,16 +432,23 @@ are the ones 16h–16j, 12, 13 and 15 read.
      joined to the boat's own water (a boat never lands at a city that is
      not on its water; 16g chooses the nearby place and the service lands
      there);
-   - **every station of every service sits on water its craft floats**
-     (owner 2026-09-18; the 16e berth walk, applied to the whole graph, not
-     only to cities): the berth is found by walking from the landing into
-     the recorded water to the first point that floats the declared hull
-     class; a station that never floats its craft changes craft, moves, or
-     its service retires with the reason on the record;
-   - `ferry.imperial-fringe.onkobra-bond`: change the craft to one the far
-     berth floats, move the landing to water that floats the declared
-     hull, or retire the service with the reason on the record; the two
-     `positionM: null` stations are sited or their services retired;
+   - **connectedness over depth** (owner 2026-09-18): fast travel is
+     talk-pay-arrive, not a simulated voyage, so the gate is that the
+     graph is **one connected network** (every station reaches every other
+     by some chain of hops, through hubs) and that every station stands
+     at the edge of recorded water (or a rootway) and every hop follows a
+     recorded lane, reach chain or rootway. Water depth along a hop and at
+     a berth is **reported, not gated**: a hop that runs through water too
+     shallow for its craft is a warning line in the ledger, never an
+     `unmatched` status; the 16e berth walk still records `jettyM` and the
+     depth found so 16h can place the dock; a landing on dry ground is
+     still a fail. This relaxes 16e's berth rule for the whole graph and
+     re-admits the Onkobra bond ferry unless the review finds a better
+     reason to move it;
+   - `ferry.imperial-fringe.onkobra-bond` becomes active under the
+     connectedness rule (its shallow far berth is a ledger warning) unless
+     the review re-sites it for a better reason; the two `positionM: null`
+     stations are sited or their services retired;
    - every ferry-band lake crossing the 16e ledger marks NO SERVICE gets a
      service or a recorded reason (nobody lives there to run one);
    - **the rootworm network** authored properly: the four `placeholder`
@@ -440,8 +462,9 @@ are the ones 16h–16j, 12, 13 and 15 read.
      said so; confirm); quests 20's root-transit note rewritten.
    - a service whose station this review moved or cut is re-derived,
      never left pointing at old ground.
-   Tests: every station resolves to a live record with a position; every
-   hop follows a recorded lane, reach chain or rootway; every quests 20/25
+   Tests: the graph is connected (shown failing on a planted island);
+   every station resolves to a live record with a position at a water or
+   rootway edge; every hop follows a recorded lane, reach chain or rootway; every quests 20/25
    `FAST` node resolves to a service id; the `ServiceSocket` contract in
    `packages/game-core/src/travel/` (16e) reads the re-authored graph
    unchanged.
@@ -608,9 +631,9 @@ are the ones 16h–16j, 12, 13 and 15 read.
 **What you will see** (plan §3, build only what is delivered): no new 3D
 layer. The 2D map (`?cat=1`) shows the settled plot, the tracks, the
 waterways and the service graph with hover text; the ledger and the
-records carry the rest. Two checks, so Part 2 can run while you read Part 1.
+records carry the rest. One check, everything at once.
 
-**Check 1 — the plot (after Part 1):**
+**The plot:**
 
 - Read the ledger's plot review summary: moves, re-types, merges, cuts and
   re-references by region. Is there any cut or merge you reject? Say which.
@@ -624,11 +647,14 @@ records carry the rest. Two checks, so Part 2 can run while you read Part 1.
 - The density table per zone: any zone that feels empty or crowded on the
   map compared with its number?
 - The Onkobra ferry call and the NO SERVICE crossings: agree or steer.
-- Each of the eight cities: is its centre in the broad area you expect,
-  does its road still reach it, does a boat or ferry land there? The
-  ledger names any city the ground could not hold within its area.
+- Each of the eight cities: is the gate on its road where you expect,
+  is the centre on buildable ground, does the found way from gate to
+  centre look sane, does a boat or ferry land there? The
+  ledger names any city whose geography could not hold its footprint.
+- The fast-travel map: is it one joined-up network with nothing
+  stranded? The ledger's shallow-water warnings are for information.
 
-**Check 2 — the records (after Part 2):**
+**The records:**
 
 - The family→recipe table: any family you would rather source than re-type,
   or re-type than source?
@@ -712,12 +738,14 @@ the patch application, the postconditions, the plot export. Rasters
 published; the ledger's stage list checked against 0b. `DELIVERED_THROUGH`
 bumped in this commit.
 
-**Step 5 — gates and Check 1 (Fable, with one `deliver` pass for the
-seven red files).** Tests green on the record and in `test:placement`;
-density per zone in the ledger; `npm run preflight`; commit; `npm run
-studio`; hand the owner Check 1.
+**Step 5 — gates (Fable, with one `deliver` pass for the seven red
+files).** Tests green on the record and in `test:placement`; density per
+zone in the ledger; `npm run preflight`; commit.
 
-**Step 6 — Part 2, three lanes at once while the owner reads Check 1.**
+**Step 6 — Part 2, three lanes at once, started as soon as step 3's
+remedies are decided (they run beside steps 4 and 5; the lanes touch the
+catalogue's `interior` blocks, the registries and the hydrology names;
+the chain run writes no part of these).**
 - *Promises*: Fable designs the vocabulary and the family→recipe table and
   decides the sourcing from lane D's candidates (download, hash, credit);
   a `deliver` pass implements the schema, the migration, the
@@ -732,13 +760,14 @@ studio`; hand the owner Check 1.
   the text-catalogue keys and the tooltip and generates the extrapolated
   names by register; `text-review` in bulk.
 
-**Step 7 — close (Fable).** Docs reconciled (the acceptance list); 16h's
-Starting state rewritten from the ledger's ending state; PROGRESS row and
-Waiting-on-user refreshed with Check 2; the decision record finished;
-`npm run preflight`; commit by pathspec. Not pushed.
+**Step 7 — close and the one owner check (Fable).** Docs reconciled (the
+acceptance list); 16h's Starting state rewritten from the ledger's ending
+state; PROGRESS row and Waiting-on-user refreshed; the decision record
+finished; `npm run preflight`; commit by pathspec; `npm run studio`; hand
+the owner the check. Not pushed.
 
-**Order of the owner's answers.** Check 1 rejections re-open step 3 for
-the named records only (a seeded re-run, not a second resolve-all); any
-Part 2 record built on a rejected cut or merge is re-migrated with it;
-Check 2 rejections re-open the named table, sample or list. Neither
-re-runs the chain above `apply_sitings`.
+**Order of the owner's answers.** A rejected move, cut or merge re-opens
+step 3 for the named records only (a seeded re-run, not a second
+resolve-all) and any Part 2 record built on it is re-migrated with it; a
+rejected table, sample or name list re-opens that lane. Nothing re-runs
+the chain above `apply_sitings`.
