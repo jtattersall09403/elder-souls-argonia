@@ -30,7 +30,7 @@ open only the plan sections the active phase needs.
 | Milestone | Status | Evidence / current task |
 |---|---|---|
 | 0–8c — sources, monorepo, province, hydrology, society, studio, terrain, character, light, water, weather | done | decisions 0001–0032; phases README §86.1; water and weather closed "good enough" (0025, 0032) |
-| L, N, T, S, C — lore, quest review, text, stats design, combat workstreams | done | 0018/0026/0030 (N), 0043 (T), 0031–0037 (S), 0040/0054–0056 (C: 20 built bodies, female review sheets and the armour collar sheet still open for the owner's look) |
+| L, N, T, S, C — lore, quest review, text, stats design, combat workstreams | done | 0018/0026/0030 (N), 0043 (T), 0031–0037 (S), 0040/0054–0056 (C: 20 built bodies; the female sheets, the collar cards and the round-9 calls all closed by the owner 2026-09-18) |
 | 10 — asset deep catalogue, kits, vegetation machinery | done | owner CLOSED 2026-09-04; [0036](decisions/0036-phase10-placement-decisions.md); density ladder [0048](decisions/0048-vegetation-density-ladder.md) |
 | 11 — settlement/location system | absorbed into 16 (0057, 0061) | where each deliverable went: phases README § Phase 11; history [0041](decisions/0041-phase11-settlement-decisions.md) |
 | **16 — frozen foundation and place ladder** | **in progress: 16a accepted 2026-09-11; 16b round 2 delivered 2026-09-12 (0060); 16c round 2 delivered 2026-09-14 ([0064](decisions/0064-waterfalls-are-the-vanilla-kit.md) falls, [0065](decisions/0065-the-compile-realises-the-graphs-classification.md) the graph is the classification; [round-2 ledger](research/phase16/16c-round-2-ledger.md)), owner walk pending; 16d delivered 2026-09-15 and **accepted by the owner 2026-09-15** ([0067](decisions/0067-the-apron-is-the-tamriel-map-at-one-to-one.md), [ledger](research/phase16/16d-ledger.md); leftovers go to the polish backlog as the owner records them); 16e delivered 2026-09-15, round 3 delivered 2026-09-16 ([0068](decisions/0068-routes-below-the-gate-records-here-realised-in-16h.md), [0069](decisions/0069-the-road-network-is-six-legs-and-two-exits.md), [ledger §2d](research/phase16/16e-ledger.md)), owner walk pending; 16f delivered 2026-09-16 ([0070](decisions/0070-vegetation-and-dressing-read-the-record.md)), round 2 delivered 2026-09-18 ([0071](decisions/0071-every-placed-thing-steps-down-through-bands-and-collides-as-itself.md)), **round 3 delivered 2026-09-18** ([0072](decisions/0072-the-ring-fades-in-the-shader-and-the-studio-serves-files-from-disk.md), [ledger §16](research/phase16/16f-ledger.md)), owner walk pending; next `deliver 16g`** | [plan](phases/16-foundation-and-places/README.md); 16a [0058](decisions/0058-the-hydrology-graph-is-the-water-record.md); 16b [0059](decisions/0059-terrain-built-once-frozen-base-and-typed-patches.md), [0060](decisions/0060-rivers-reach-the-coast-profiles-are-graded.md), [ledger](research/phase16/16b-terrain-once-ledger.md); then 16c water · 16d apron · 16e routes/ferries · 16f vegetation (+ submerged band) · 16g plot (+ promise vocabulary) · 16h runtime + kit QA · 16i exemplars (tier A interiors) · 16j rollout skill + trial packet |
@@ -46,27 +46,13 @@ open only the plan sections the active phase needs.
 
 ## Waiting on user
 
-- **16f round 3** ([0072](decisions/0072-the-ring-fades-in-the-shader-and-the-studio-serves-files-from-disk.md), [ledger §16](research/phase16/16f-ledger.md)): restart the local studio, then walk the round-3 check in the [brief](phases/16-foundation-and-places/16f-vegetation-on-frozen-water.md) § Owner check, round 3 (trees and rocks back, rows, ground cover while walking, the sea bed and the reefs, the console, frame rates with the two rebuild lines); the round-2 items not yet walked (standing on rocks, the roads, 3D grass up close) still stand; eyeball the six Depths of Skyrim wreck hulls before 16g plots a wreck; then `deliver 16g`.
-- **16e round 3** ([0069](decisions/0069-the-road-network-is-six-legs-and-two-exits.md), [ledger §2d](research/phase16/16e-ledger.md)): walk the round-3 owner check in the [brief](phases/16-foundation-and-places/16e-routes-grading-spans-ferries.md) (the map's one tooltip, Blackrose, the Thorn and Gideon–Stormhold lines, the two approaches, two fords, one ferry, bumps); the long flights now only where the ground is steep; one call on the vault's hydrology body rasters (regenerate under `--refreeze`; 16f freezes the water stage so no routine run reaches it).
-- **16c round 2** ([0065](decisions/0065-the-compile-realises-the-graphs-classification.md),
-  [round-2 ledger](research/phase16/16c-round-2-ledger.md)): walk the round-2
-  owner check (the list in the [brief](phases/16-foundation-and-places/16c-water-once.md)),
-  and say whether the 96 levee patches (76 river banks, 20 body rims) and the
-  5 bed-cuts are accepted; then
-  `deliver 16d`.
-- **16b round 2** ([0060](decisions/0060-rivers-reach-the-coast-profiles-are-graded.md),
-  [ledger §9](research/phase16/16b-terrain-once-ledger.md)): the listed water
-  departures still want a principle or rows sent back.
-- **Female characters and armour** ([0054](decisions/0054-sex-is-an-axis-not-a-second-set-of-races.md),
-  [0056](decisions/0056-armour-is-blended-to-the-wearer-not-deformed-to-fit.md)):
-  the two female sheets in `docs/evidence/races/`, the picker's two open calls
-  (keep race on sex flip? faces or names in the grid?), the eighteen collar
-  cards in `armour-neck-check.png`.
-- **Earlier rounds still open for a look, none blocking:** weapon reach and
-  the FaceGen races (0040); the water round-2 evidence ledger
-  ([archive](research/archive/water-round-2-2026-09/water-round2-evidence.md));
-  the 6b terrain-feel re-check bundled into the 8b close; the 8c leftovers the
-  owner records in the backlog. The 2026-09-09 walkthrough of the deployed
-  province is archived at
+- **Nothing blocking (owner 2026-09-18):** the 16b–16f owner walks, the
+  female character and armour sheets (0054/0056) and the workstream C round-9
+  calls (0040) are all closed. The next chunk is `deliver 16g`; the 16g agent
+  reports its own owner check when it lands.
+- **Earlier evidence still open for a look, none blocking:** the water round-2
+  evidence ledger ([archive](research/archive/water-round-2-2026-09/water-round2-evidence.md));
+  the 8c leftovers the owner records in the backlog. The 2026-09-09
+  walkthrough of the deployed province is archived at
   [research/archive/phase11-rounds/walkthrough-2026-09-09.md](research/archive/phase11-rounds/walkthrough-2026-09-09.md);
   its settlement findings are the 16h work.
