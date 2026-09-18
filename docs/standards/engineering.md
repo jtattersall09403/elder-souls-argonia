@@ -1,6 +1,6 @@
 # Engineering standards
 
-Sixteen standing rules that are **cheap to require now and brutal to retrofit**.
+Seventeen standing rules that are **cheap to require now and brutal to retrofit**.
 Adopted by the owner 2026-09-01 (decision
 [0042](../decisions/0042-buildout-steers-and-engineering-standards.md) §8) after
 the lesson of the renderer: the code that has to be true of *everything* must be
@@ -337,6 +337,27 @@ Checked mechanically: `test_kit_compress.py` (in `npm run test:pipeline`),
 shown failing on all 21 uncompressed kits and on a startup total of 118.9 MB;
 the compose gates, shown failing by planting a reference to a kit that does
 not exist and to a chain-only raster.
+
+## 17. Saved state is versioned, serialisable data from the moment a system is written
+
+Owner 2026-09-18 (decision 0074 §4). Every runtime system in `packages/`
+that holds state a player expects to survive a reload — inventory,
+equipment, quest flags, discovered markers, faction standing, world-state
+overlays, the character sheet, positions of things that move — exposes that
+state through one contract: a plain-data snapshot with its own
+`schemaVersion` (standard 7), produced and consumed by two pure functions
+(`snapshot()` / `restore(data)`), never by reaching into live objects.
+State that is derived (caches, GPU resources, animation mixers) is rebuilt
+from the snapshot, never saved. Phase 10c ships the `SaveGame` contract
+that composes these; until then a system that cannot produce its snapshot
+is a defect against this standard, not a later job.
+
+**Why now:** the save format is the one contract that touches every
+system's state shape; retrofitting it means opening every system twice.
+
+Checked: a system's `snapshot()`/`restore()` round-trip test (in the
+pattern of the package's other unit tests); the composed contract's gate
+arrives with 10c.
 
 ## Running the checks
 

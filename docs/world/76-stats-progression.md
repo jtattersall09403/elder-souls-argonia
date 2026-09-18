@@ -442,7 +442,7 @@ condition loss per use (§121).
 | Axe | Str | Agi | Combat | as Long Blade |
 | Spear | End | Agi | Combat | as Long Blade |
 | Short Blade | Spd | Agi | Stealth | as Long Blade; its sneak-opener table is the best after the dagger's (§121.5) |
-| Marksman | Agi | Agi | Stealth | delivered-damage position 0.40→1.00 · draw speed ×0.85→1.20 · sway ×1.4→0.6 · draw stamina ×1.25→0.80. **No Strength multiplier** — deliberate divergence from canon, §117 point 1 |
+| Marksman | Agi | Agi | Stealth | delivered-damage position 0.40→1.00 (a multiplier on top of the ballistics) · nock speed ×1.0→1.6 · draw speed ×1.0→2.0 (owner 2026-09-18, 0074 §3; continuous, monotone) · sway ×1.4→0.6 · draw stamina ×1.25→0.80. **No Strength multiplier** — deliberate divergence from canon, §117 point 1 |
 | Hand-to-Hand | Spd | Agi | Stealth | damage position 0.40→1.00 · stamina damage to the target ×1.0→2.0; empty an opponent's stamina and they can be finished. **No Strength multiplier** — canon's H2H damage uses neither Speed nor Strength |
 | Block | Agi | Agi | Combat | stability ×0.85→1.15 (absolute cap 0.95) · guard stamina ×1.30→0.78 |
 | Heavy Armor | End | — | Combat | worn heavy rating ×0.55→1.20 · its effective weight ×1.10→0.90 · wear ×1.4→0.6. (Canon is `rating × skill/30`, i.e. naked at skill 0 and ×3.3 at 100; ours is compressed because the rating band is calibrated against the hits-to-die targets, §128) |

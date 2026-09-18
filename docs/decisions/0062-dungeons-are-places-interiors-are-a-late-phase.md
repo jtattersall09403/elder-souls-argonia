@@ -68,7 +68,7 @@ opening-scene places.
 5. **No early throwaway experiment.** The question it would have answered
    ("can we assemble a cave?") is answered by the kit data; the first
    Phase 12 exemplar is a modular root cavern.
-6. **One queue, no parallel lines:** 16a–16j → 9 (thin swim first) → 10b
+6. **One queue, no parallel lines** (amended 2026-09-18 by 0074: one queue for the *world build*; side lanes may run beside it on files no active chunk touches)**:** 16a–16j → 9 (thin swim first) → 10b
    (with the renderer extraction) → 10c → 13 → 12 → 12b → 14 → 15. Rollout
    waits until every system it rolls out exists; 15A/15B (0061) collapse
    back into one Phase 15 pass per packet. The 16j trial packet is packet

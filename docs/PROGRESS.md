@@ -44,6 +44,12 @@ open only the plan sections the active phase needs.
 | 14 — streaming and deployment (budgets, chunk format, impostor audit) | todo | the renderer extraction moved to 10b (0062) |
 | 15 — rollout by region packet, one pass per packet | todo | opens from the roadmap 16j drafts (`docs/phases/15-rollout/`); the 16j trial packet is packet one; major cities and the opening-scene places are owner-guided (0062) |
 
+## Side lanes (decision 0074; rules in [phases/lanes/README.md](phases/lanes/README.md))
+
+| Lane | Status | Evidence / current task |
+|---|---|---|
+| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | todo | [brief](phases/lanes/weapons-lane.md); invoke "deliver the weapons lane, round 0" |
+
 ## Waiting on user
 
 - **16f round 4 delivered 2026-09-18, walk pending**

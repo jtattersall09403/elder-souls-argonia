@@ -119,7 +119,7 @@ The overall goal at this point is to build the province-scale world, in a way th
   **not finished or frozen** — re-architect and extend them when the game needs
   it (see world module 75 §51.1), keeping the controller boundary and the
   package rule intact.
-- **Obey the sixteen engineering standards** ([docs/standards/engineering.md](docs/standards/engineering.md),
+- **Obey the seventeen engineering standards** ([docs/standards/engineering.md](docs/standards/engineering.md),
   decision 0042): stable IDs on everything placed; every player-visible string
   in `packages/text-catalogue`, never a literal; `schemaVersion` on runtime
   data; determinism in world building; no new module-level mutable singletons

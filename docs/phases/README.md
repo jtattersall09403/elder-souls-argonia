@@ -152,6 +152,8 @@ gates, and parts of a phase may be re-slotted into another when risk ordering
 favours it (owner permission, 0034 — e.g. the flora half of ecology runs with
 Phase 10's vegetation work; a thin swim slice may run any time). The §86.0
 constraints are what must hold; the phase boundaries are packaging.
+**Side lanes** (decision 0074) run beside this queue on files no active chunk
+touches: [lanes/README.md](lanes/README.md).
 
 **Phase numbers are stable IDs, not positions.** The order of work has been
 revised (0034) but IDs are never renumbered, so decision records, quest
@@ -634,16 +636,13 @@ Deliverables:
   studio compose the same packages through different scene adapters;
 - inventory and equipment systems and UI in the studio;
 - enemies, targeting and lock-on; the bow;
-- **polearm sourcing *and* moveset wiring, together** (owner ruling
-  2026-09-01, [0042 §4](../decisions/0042-buildout-steers-and-engineering-standards.md)
-  — moved here from Phase 10): download, convert and audition the clips for the
-  kept chassis classes, then wire them, in one pass with one owner playtest.
-  Sources verified in [90 §74.3](../world/90-asset-strategy.md): Animated Armoury (SSE
-  35978, rapier/pike/halberd/quarterstaff/claw/katana + player *and* NPC
-  loose-`.hkx` movesets), Animated Heavy Armory (51100), Skyrim Spear Mechanic
-  (25146). Today `spear`, `halberd` and `staff` are classes borrowing the
-  `greatsword`/`greataxe` movesets — a spear swings rather than thrusts.
-  Credits go into the root README in the same change (§73);
+- **polearm sourcing *and* moveset wiring — moved to the weapons side lane**
+  (owner 2026-09-18, decision [0074](../decisions/0074-side-lanes-beside-the-world-build-and-the-weapons-lane.md),
+  brief [lanes/weapons-lane.md](lanes/weapons-lane.md); was 0042 §4's 10b
+  item): the lane sources and wires every kept chassis class, unarmed, dual
+  wield and the Black Marsh weapon skins in the sandbox, with the effects
+  slot and the skill inputs 10c feeds. 10b keeps only the *port* of those
+  movesets into the studio;
 - **the renderer extraction — `packages/world-render`** (owner 2026-09-13,
   decision 0062, moved here from Phase 14 where 0042 §3 had put it): this
   phase already extracts scene orchestration from the same app and the same

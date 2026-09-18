@@ -2,7 +2,7 @@
  "schemaVersion": 1,
  "rule": "hard prose hits per docs/ markdown file may only fall; a file absent here must have zero",
  "files": {
-  "docs/PROGRESS.md": 2,
+  "docs/PROGRESS.md": 1,
   "docs/README.md": 2,
   "docs/decisions/0004-fixed-difficulty-constraint.md": 1,
   "docs/decisions/0005-province-heightfield-ingest.md": 3,
