@@ -40,16 +40,26 @@ def test_rotate_yxz_matches_the_base_plane_normal():
             __import__("pytest").approx(v) for v in base_plane_normal(yaw, tx, tz))
 
 
-def test_the_rim_demands_sink_where_the_plane_did_not():
-    # The owner's rock at 1.59 km E / 2.30 km S (round 5): a pile on a 30°
-    # slope, yaw 97°, tilt 11.6°/-1.1°, scale 0.88. The plane census passed
-    # it buried 1.35 m; its mesh stood 1.28 m off the ground on one bearing.
+def test_the_cut_removes_a_rock_that_hangs_at_its_shipped_pose():
+    # The owner's pile at 1.59 km E / 2.30 km S (round 5): the plane rule
+    # seats it 2.79 m deep on a 30° slope and by its own underside it still
+    # stands 1.3 m off the ground on one side. The cut, measured at the
+    # encoded pose, drops it; a boulder that sits stays.
+    from . import compile_scatter as cs
+    from .scatter import Instance, ANCHOR_TERRAIN, Palette
     species = "vanilla:landscape/rocks/rockpilel01"
-    profile = rd.bottom_profile(species)
-    assert profile
-    args = (Slope(), 0.0, 0.0, math.radians(97.4), math.radians(11.6), math.radians(-1.1), 0.88)
-    plane_demand, _ = burial(Slope(), _layer(species, None), *args[1:])
-    rim_demand, cap = burial(Slope(), _layer(species, profile), *args[1:])
-    assert rim_demand > plane_demand
-    # Whether the pile is then seated deeper or refused is the cap's call;
-    # either way it does not ship hanging.
+    layer = _layer(species, rd.bottom_profile(species))
+    palette = cs.attach_bottom_profiles(Palette(id="t", layers=[layer]))
+    hanging = Instance(species=species, tier="T1", x=0.0, z=0.0, y=0.0,
+                       yaw=math.radians(97.4), scale=0.88, tilt_x=math.radians(11.6),
+                       tilt_z=math.radians(-1.1), anchor=ANCHOR_TERRAIN, sink=2.79)
+    seated = Instance(species=species, tier="T1", x=0.0, z=0.0, y=0.0,
+                      yaw=0.0, scale=0.88, tilt_x=0.0, tilt_z=0.0,
+                      anchor=ANCHOR_TERRAIN, sink=6.0)
+    old = cs.CUT_GAP_M
+    cs.CUT_GAP_M = 0.5
+    try:
+        kept = cs.cut_hanging_rocks([hanging, seated], palette, Slope(), [species])
+    finally:
+        cs.CUT_GAP_M = old
+    assert kept == [seated]

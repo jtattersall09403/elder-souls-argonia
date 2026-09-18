@@ -365,13 +365,20 @@ def cut_hanging_rocks(instances: list[Instance], palette: Palette, fields: Field
                       order: list[str]) -> list[Instance]:
     """The last word on a rock: measured at the pose and sink the BUNDLE will
     carry (encoded, then decoded — the encoder rounds scale and sink to a
-    byte over each group's range) by the same underside rule the census
-    applies, and cut if it still gaps (16f round 5, owner: "you could just
-    cut them"). Nothing the census can find ships."""
+    byte over each group's range) against its own underside
+    (`rock_mesh_census.underside_gaps`), and cut if it hangs by more than
+    `CUT_GAP_M` (16f round 5, owner: seat rocks as round 4 did and cut the
+    few that hang, never sink everything deeper)."""
     from .rock_mesh_census import underside_gaps
-    from .scatter import BURIAL_TOLERANCE_M, decode
+    from .scatter import decode
+    if CUT_GAP_M is None:
+        return instances
+    from . import rock_dressing as rd
+    # Boulders and piles only: a cliff shell's hollow sits against the hill
+    # and its measured "hang" is the shell over the falling slope, which the
+    # owner judged right as round 4 placed it (84 % of measured hangs).
     profiles = {layer.species: layer.bottom_profile for layer in palette.layers
-                if layer.bottom_profile is not None}
+                if layer.bottom_profile is not None and layer.species not in rd.CLIFFS}
     if not any(inst.species in profiles for inst in instances):
         return instances
     shipped = {order[group["index"]]: group["instances"] for group in decode(encode(instances, order))}
@@ -387,10 +394,17 @@ def cut_hanging_rocks(instances: list[Instance], palette: Palette, fields: Field
         gaps = underside_gaps(profile, as_shipped["x"], fields.height(as_shipped["x"], as_shipped["z"]) - as_shipped["sink"],
                               as_shipped["z"], as_shipped["yaw"], as_shipped["tiltX"], as_shipped["tiltZ"],
                               as_shipped["scale"], fields.height)
-        if gaps and max(gaps) > BURIAL_TOLERANCE_M:
+        if gaps and max(gaps) > CUT_GAP_M:
             continue
         kept.append(inst)
     return kept
+
+
+#: A boulder or pile whose lower half stands more than this above the
+#: ground anywhere under it, at its shipped pose, is cut (owner 16f round 5:
+#: seat as round 4 did, cut the few that hang — 802 of 18,517 at this
+#: threshold, the owner's pile at 0.81 m among them). None disables the cut.
+CUT_GAP_M: float | None = 0.75
 
 
 # Set once in the parent before the worker pool forks, so every worker

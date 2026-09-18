@@ -77,41 +77,35 @@ is in the [16f ledger §18](../research/phase16/16f-ledger.md).
    through decimation. The cost is triangles inside the card ring (100–260 m
    by height); the owner's frame numbers decide whether the card ring
    moves nearer.
-7. **A rock is seated by its own underside, posed as it will ship, and cut
-   if it still hangs.** The round-4 burial rule sampled a flat base plane on
-   the footprint ellipse and its census passed 18,517 of 18,530 rocks;
-   measured by their real vertices (`rock_mesh_census.py`) 3,282 (18 %)
-   stood off the ground by more than 0.3 m somewhere — the owner's pile at
-   1.59 km E / 2.30 km S by 1.28 m with the plane 1.35 m "buried".
-   `rock_bottom_profiles.py` mines each rock's underside (the lowest 70 % of
-   its height, one vertex per 0.25 m voxel, both kits) into
-   `world/sources/placement/rock-bottom-profiles.json`; `scatter.burial`
-   poses that set exactly as the renderer poses the mesh (yaw and tilts
-   already rounded to the byte the bundle carries, `shipped_pose`) and finds
-   the lowest vertex over each 0.4 m ground cell; every one must be at or
-   under the ground. The composed sink is the larger of the mined base sink
-   and that demand (no longer their sum); the cap is 0.8 of the scaled
-   height or the mined deep-quartile sink; a seated top must keep a tenth
-   of the height above the lowest ground under it; the encoder rounds sinks
-   upward; and `compile_scatter.cut_hanging_rocks` measures each rock once
-   more at its encoded pose and drops what still gaps (the encoder's scale
-   rounding, 20 rocks). The census measures the same profile the compiler
-   uses for seating, so the two agree by construction: **0 of 13,871 gap**. Four
-   wrong turns are recorded so nobody repeats them: bearing bins from the
-   pivot (a leaning slab "demands" 10 m on flat ground), down-facing normals
-   (miss the pile), a base band at 30 % (misses it too) and a profile taken
-   before posing (a tilted slab's face hangs 2.9 m over falling ground).
-   **The cost is density:** 18,530 → 13,871 rocks, mostly cliff shells that
-   cannot be seated on the slopes they were offered (`rockcliff02` 1,248 →
-   260, `rockcliff07` 1,072 → 61, `rockcliff03` 1,046 → 381; `rockcliff01`
-   and the mossy shell keep ~1,050 and ~1,250). The owner's rule stands: a
-   rock that cannot sit is not placed. If the mountainsides read bare, the
-   next lever is the cliff palette's slope band, not the seating rule.
+7. **Rocks are seated as round 4 seated them, and a boulder or pile whose
+   lower half still hangs is cut.** The owner's walk found a pile hanging
+   1.3 m off a 30° slope at 1.59 km E / 2.30 km S; measured by their real
+   vertices (`rock_mesh_census.py`) the round-4 plane rule left such rocks
+   standing. One attempt seated every rock by its own underside; it sank
+   nearly every rock too deep and refused a quarter of them. The owner
+   reverted it the same day ("we were nearly there; now we've overcorrected").
+   What stands: the base-plane seating, cap and sink composition of 0073
+   are untouched; `rock_bottom_profiles.py` mines each rock's lower half
+   (one vertex per 0.25 m voxel, both kits) into
+   `world/sources/placement/rock-bottom-profiles.json`;
+   `compile_scatter.cut_hanging_rocks` poses that set exactly as the bundle
+   will carry the rock (after encoding) and drops any boulder or pile whose
+   lower half stands more than 0.75 m off the ground anywhere under it: 792
+   of 18,517, the owner's pile among them, 17,725 standing. Cliff shells are
+   never cut: their hollow sits against the hill, the owner judged them right
+   as placed. The measure would call 84 % of them "hanging" (the shell
+   over the falling slope). Wrong turns recorded so nobody repeats them:
+   bearing bins from the pivot (a leaning slab "demands" 10 m on flat
+   ground), down-facing normals (miss the pile), a profile taken before
+   posing (a tilted slab's face hangs 2.9 m over falling ground) and
+   seating on the underside at all (Skyrim's rocks show their bellies on
+   hillsides; burying them to hide that is the overcorrection).
 
 ## Consequences
 
-- The census that gates rocks reads the mesh (`rock_mesh_census.py`). The
-  plane census stays for the tilt, scale and open-back checks.
+- `rock_mesh_census.py` reports what the cut counts (boulders and piles
+  hanging past 0.75 m, cliff shells separately); `rock_census.py` keeps the
+  float, tilt, scale, swallow and open-back checks.
 - One mechanism, three exported functions, one attribute layout; the
   ground ring and the scatter share the shader. Phase 14 locks the ring
   distances as a table; nothing else moves.

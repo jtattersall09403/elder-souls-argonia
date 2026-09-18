@@ -743,11 +743,11 @@ runtime rule changed. `?view=character&…`. Start the studio yourself
 - The middle distance, jungle `x=0.93&z=5.21` and the trees around it: from
   100 m in to touching, a tree keeps every leaf, twig and trunk strip the
   whole way; the only switch is the flat card becoming the model.
-- Rocks by their real shape: `x=1.59&z=2.30` (the pile that stood off the
-  ground is gone, refused as unseatable) and any cliff pieces nearby: no gap
-  under any side. Then look along a mountainside (`x=1.59&z=1.63`): a
-  quarter of the province's rocks were refused this round, mostly cliff
-  shells; say whether the slopes now read too bare.
+- Rocks: `x=1.59&z=2.30` (the hanging pile is gone; everything else is
+  placed as it was in round 4) and any hillside: rocks sit at their earlier
+  depth, boulders and piles that hung by more than three quarters of a
+  metre are gone (792 of 18,517). If a rock still visibly floats, name it:
+  cliff shells are deliberately not cut, so a floating one is a new case.
 - Camera swing: stand 40–60 m from a tree and swing the camera all the way
   round the character, then continue walking. Nothing should change
   visibility as the camera moves round.

@@ -29,16 +29,18 @@ RAW_KITS = [REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits" / name
             for name in ("flora-province-v1.glb", "underwater-v1.glb")]
 GRID = 16
 MIN_CELL_M = 0.4
-#: A gap under this is the raster's own noise.
-GAP_TOLERANCE_M = 0.3
+#: The cut's own threshold (`compile_scatter.CUT_GAP_M`): a boulder or pile
+#: whose lower half stands further than this off the ground is what ships
+#: cut, so the census counts what the compiler counts. Cliff shells are
+#: reported separately and never cut (their hollow sits against the hill).
+GAP_TOLERANCE_M = 0.75
 #: The lowest share of a rock's height that is its BASE: the lowest vertex
 #: per footprint cell among these is the underside that must meet the
-#: ground. Measured on the shipped province (16f round 5): 0.5 misses the
-#: owner's pile whose side boulder hung 1.3 m off a 30° slope (its bottom is
-#: at 60 % of the pile's height); 1.0 counts every boulder's widest bulge and
-#: refuses half the kit on flat ground. Down-facing normals were tried and
-#: missed the pile too.
-BASE_BAND = 0.7
+#: ground. Measured on the shipped province (16f round 5): 0.5 is the band
+#: at which a boulder or pile the owner sees as floating (a pile whose side
+#: boulder hung 1.3 m off a 30° slope) reads as hanging, while a boulder's
+#: belly on a hillside — which Skyrim shows too — mostly does not.
+BASE_BAND = 0.5
 
 
 def _glb(path: Path):
@@ -212,7 +214,9 @@ def main() -> None:
                   + " ".join(f"{g:+.1f}" for g in sorted(gaps, reverse=True) if g > 0))
     total = sum(s["n"] for s in per_species.values())
     gapping = sum(s["gapping"] for s in per_species.values())
-    print(json.dumps({"rocks": total, "gapping": gapping,
+    cliffs = sum(s["gapping"] for k, s in per_species.items() if "cliff" in k)
+    print(json.dumps({"rocks": total, "gapping": gapping, "gappingCliffShells": cliffs,
+                      "gappingBouldersAndPiles": gapping - cliffs,
                       "share": round(gapping / total, 4) if total else 0,
                       "bySpecies": {k: v for k, v in sorted(per_species.items(), key=lambda kv: -kv[1]["gapping"]) if v["gapping"]}},
                      indent=1))

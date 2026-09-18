@@ -45,7 +45,7 @@ import math
 from functools import lru_cache
 from pathlib import Path
 
-from .scatter import ANCHOR_TERRAIN, Instance, Layer, burial, hash64, shipped_pose, uniform_at
+from .scatter import ANCHOR_TERRAIN, Instance, Layer, burial, hash64, uniform_at
 from .vegetation_ladder import ROCK_ROLES  # the one definition of the set
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -608,7 +608,6 @@ def _instance(species: str, x: float, z: float, fields, key: int,
     tilt_z = (uniform_at(key, 13) * 2 - 1) * tilt
     if scale is None:
         scale = m["scale_p5"] + (m["scale_p95"] - m["scale_p5"]) * uniform_at(key, 11)
-    yaw, tilt_x, tilt_z = shipped_pose(yaw, tilt_x, tilt_z)
     extra, cap = burial(fields, _seating_layer(species), x, z, yaw,
                         tilt_x, tilt_z, scale)
     if extra > cap:

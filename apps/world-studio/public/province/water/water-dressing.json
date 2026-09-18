@@ -55,10 +55,10 @@
   "wetTexels": 1698643,
   "standingShareOfWet": 0.9551,
   "wetGroundTexels": 729681,
-  "canopyMeanOverWet": 0.0683,
+  "canopyMeanOverWet": 0.0682,
   "algaeMeanOverWet": 0.0823,
-  "algaeTexelsOver0.3": 267792,
-  "darkTexelsOver0.3": 64193,
+  "algaeTexelsOver0.3": 267801,
+  "darkTexelsOver0.3": 63919,
   "maxGradientPerM": {
    "algae": 0.0222,
    "dark": 0.0214

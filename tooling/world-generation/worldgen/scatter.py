@@ -290,10 +290,10 @@ class Layer:
     bottom_profile: Any = None
     """The rock's own underside vertices (N×3, model space, glb y-up, metres
     before scale; `rock-bottom-profiles.json`, mined from the kit by
-    `rock_bottom_profiles.py`). When set, the burial rule POSES the set as
-    the renderer will and finds the lowest vertex over every ground cell
-    (`rock_mesh_census.underside_gaps`): each must be at or under the
-    ground. The base plane is the fallback for an unprofiled species."""
+    `rock_bottom_profiles.py`). NOT a seating input: the owner reverted
+    underside seating (it sank every rock too deep, 16f round 5) and the
+    base plane above seats rocks. `compile_scatter.cut_hanging_rocks` uses
+    the set to CUT the few rocks that still hang after seating."""
     sink_deep_m: float = 0.0
     """The deepest quartile of the species' mined pivot sink, metres (the
     mine's `sinkM.p25`, negated). The burial cap is never below it: a cliff
@@ -829,8 +829,6 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                                        - math.radians(layer.back_yaw_deg)
                                        + (uniform_at(mkey, 4) - 0.5) * 0.28)
                             tilt_x = pitch * layer.align_to_slope + tilt_x
-                        # Seat the rock at the pose the bundle will carry.
-                        yaw, tilt_x, tilt_z = shipped_pose(yaw, tilt_x, tilt_z)
                         extra_sink, sink_cap = burial(
                             fields, layer, px, pz, yaw, tilt_x, tilt_z, scale)
                         if extra_sink > sink_cap:
@@ -891,16 +889,10 @@ BURIAL_TOLERANCE_M = 0.15
 #: How far PAST the measured exposure a buried piece goes, metres — the plane
 #: has to be under the ground, not level with it.
 BURIAL_MARGIN_M = 0.25
-#: Fraction of a model's scaled height the TOTAL sink may never exceed
-#: (0.6 → 0.8 in 16f round 5: seating a rock by its real underside asks for
-#: up to ~0.75 of a round boulder's height on flat ground, which is what the
-#: mined Skyrim sinks do; 0.6 refused ordinary boulders on level ground).
-BURIAL_HEIGHT_SHARE = 0.8
+#: Fraction of a model's scaled height the TOTAL sink may never exceed.
+BURIAL_HEIGHT_SHARE = 0.6
 #: Bearings sampled around the footprint ellipse.
 BURIAL_SAMPLES = 8
-#: Share of a rock's scaled height that must stand above the lowest ground
-#: under its footprint once seated; deeper is refused, never swallowed.
-VISIBLE_SHARE = 0.1
 
 
 def rotate_yxz(px: float, py: float, pz: float, yaw: float, tilt_x: float,
@@ -950,28 +942,6 @@ def burial(fields: Fields, layer: Layer, x: float, z: float, yaw: float,
     # how deep this piece goes, and a cap below it clipped every cliff shell.
     cap = (max(BURIAL_HEIGHT_SHARE * layer.height_m, layer.sink_deep_m) * scale
            if layer.height_m else math.inf)
-    if layer.bottom_profile is not None and len(layer.bottom_profile):
-        # The mesh's own rim (16f round 5): a pile or a shell is not a plane,
-        # and the plane passed 18 % of rocks that showed a hole under one
-        # side by their real vertices. Each profile point is placed exactly
-        # as the renderer places the vertex (Ry(yaw)·Rx(tilt_x)·Rz(tilt_z),
-        # uniform scale, pivot on the ground) and must sit under the ground
-        # beneath it.
-        from .rock_mesh_census import underside_gaps_and_ground
-        pivot_y = fields.height(x, z)
-        gaps, lowest_ground = underside_gaps_and_ground(
-            np.asarray(layer.bottom_profile, dtype=float), x, pivot_y, z,
-            yaw, tilt_x, tilt_z, scale, fields.height)
-        exposure = max(gaps) if gaps else -math.inf
-        # Never swallowed: the seated top must stand at least VISIBLE_SHARE of
-        # the scaled height above the LOWEST ground under the footprint, or
-        # the piece is refused (the cap is lowered to what that allows).
-        if layer.height_m:
-            top = pivot_y + (layer.height_m - layer.pivot_above_base_m) * scale
-            cap = min(cap, top - lowest_ground - VISIBLE_SHARE * layer.height_m * scale)
-        if exposure <= BURIAL_TOLERANCE_M:
-            return 0.0, cap
-        return exposure + BURIAL_MARGIN_M, cap
     rx = layer.footprint_half_m[0] * scale
     rz = layer.footprint_half_m[1] * scale
     nx, ny, nz = base_plane_normal(yaw, tilt_x, tilt_z)
@@ -1080,7 +1050,7 @@ def encode(instances: list[Instance], species_order: list[str]) -> bytes:
                 _quantise((instance.scale - lo) / span),
                 _quantise(instance.tilt_x / math.pi + 0.5),
                 _quantise(instance.tilt_z / math.pi + 0.5),
-                _quantise_up((instance.sink - sink_lo) / sink_span),
+                _quantise((instance.sink - sink_lo) / sink_span),
             )
     return bytes(header + body)
 
