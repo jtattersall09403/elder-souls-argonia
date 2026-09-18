@@ -289,7 +289,7 @@ def _water_regimes(rules):
 
 def test_groundcover_has_a_region_axis():
     data = json.loads(GROUNDCOVER.read_text())
-    assert data["schemaVersion"] == 3
+    assert data["schemaVersion"] == 4
     assert "PROVISIONAL" not in data["status"]
     base = data["byLandCover"]
     regions = data["byRegionClass"]
@@ -416,17 +416,21 @@ def test_no_ground_mesh_carries_three_land_covers():
 
 def test_ground_ring_meshes_stay_inside_the_instancing_budget():
     """The ring instances these in the tens of thousands inside ~75 m, so they
-    are budgeted differently from the flora kit: 128 triangles is the shipped
-    seven's own maximum (`grassfern01`) and 3.3 m the tallest of them
-    (`marshgrassobj01`). This reads the BUILT manifest, so it fails on what
-    actually ships rather than on what the config asked for."""
+    are budgeted differently from the flora kit: 3.3 m is the tallest of the
+    shipped seven (`marshgrassobj01`). The triangle ceiling was 128, that same
+    seven's own maximum — but a 128-triangle budget can only buy crossed cards,
+    which is exactly what the owner saw underfoot in 16f. 16f round 2 raises it
+    to 2,400, the cost of vanilla's own `floraspikygrass02`, and turns the kit's
+    `bakeCards` on so the far tier is a rendered card and the geometry is paid
+    for only in the near band. This reads the BUILT manifest, so it fails on
+    what actually ships rather than on what the config asked for."""
     manifest = (REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
                 / "groundcover-province-v1.kit.json")
     if not manifest.exists():
         pytest.skip("no built ground-ring kit in this checkout")
     assets = json.loads(manifest.read_text())["assets"]
     heavy = {a["id"].rsplit("/", 1)[-1]: a["triangles"]
-             for a in assets if a["triangles"] > 128}
+             for a in assets if a["triangles"] > 2400}
     assert not heavy, f"over the ground-ring triangle budget: {heavy}"
     big = {a["id"].rsplit("/", 1)[-1]: a["sizeM"]
            for a in assets if max(a["sizeM"]) > 3.3}

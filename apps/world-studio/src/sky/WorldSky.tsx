@@ -14,6 +14,9 @@ import {
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
+import { reapplyLodFade } from "@elder-souls/game-core/fx/lodFade";
+import { reapplyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
+import { reapplyGroundTint } from "../vegetation/Groundcover";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import { AERIAL_DOME_PARS_GLSL, applyAerialPerspective, createAerialUniforms, type AerialUniforms } from "./aerial";
 import {
@@ -790,6 +793,21 @@ export function WorldSky({
           // round 5. reapplyWindSway is a no-op on materials wind never
           // touched.
           reapplyWindSway(m);
+          // The LOD crossfade hook is wiped by exactly the same assignment,
+          // and losing it costs more than losing wind: the dither discard
+          // stops, both copies of a crossfading instance draw solid, and
+          // vegetation doubles up at every ring.
+          reapplyLodFade(m);
+          // The card tier's cylindrical billboard rides the same vertex seam
+          // and is wiped by the same assignment; restored AFTER the fade,
+          // which owns the `esLodViewPos` declaration the card reuses. Lose
+          // it and every distant grass card faces wherever the scatter
+          // pointed it — edge-on half the time.
+          reapplyCylindricalBillboard(m);
+          // And the ground-cover tint hook, for the same reason: without it
+          // `instanceColor` never reaches the pixel and the whole ring goes
+          // back to one flat kit green over the painted ground.
+          reapplyGroundTint(m);
           // Architecture wetness/window emission uses the same defensive
           // contract: CSM owns the first patch, then the settlement surface
           // hook is restored and chains it (Round B checklist item 12).

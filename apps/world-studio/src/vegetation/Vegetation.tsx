@@ -19,6 +19,8 @@ import {
   mergeFloraKits,
   lodDistances,
   maxDrawDistance,
+  SUBMERGED_LOD_SCALE,
+  SUBMERGED_MAX_DRAW_M,
   type FloraKit,
   type KitManifest,
 } from "./floraKit";
@@ -30,7 +32,24 @@ import {
   WIND_TUNE_ATTRIBUTE,
 } from "@elder-souls/game-core/fx/windSway";
 import { sharedWindUniforms } from "./windUniforms";
-import { isSolid, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
+import {
+  applyLodFadeWithShadow,
+  createLodFadeUniforms,
+  lodEmissions,
+  LOD_BAND_ATTRIBUTE,
+  LOD_OVERLAP_M,
+  LOD_REBUILD_MOVE_M,
+} from "@elder-souls/game-core/fx/lodFade";
+import {
+  OcclusionCellCache,
+  OCCLUSION_MIN_DISTANCE_M,
+} from "@elder-souls/game-core/render/terrainOcclusion";
+import {
+  collidersFor,
+  isSolid,
+  type FloraCollider,
+  type SolidInstance,
+} from "@elder-souls/game-core/physics/floraSolids";
 import { lastWeatherSample } from "../weather/weatherState";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { groundHeightM } from "./terrainHeight";
@@ -70,6 +89,9 @@ export interface VegetationStats {
   culled: number;
   /** Instances drawn as their `_lod_flat` far billboard (T4). */
   billboardInstances: number;
+  /** Instances dropped because a ridge stands between them and the camera
+   * (`OcclusionCellCache`, one ray per 32 m cell). */
+  occluded: number;
   /** Per-species drawn instances and world-Y range at this rebuild. Added
    * 2026-09-17 for the "underwater band invisible" probe: the aggregate
    * counts cannot tell a missing species from a distant one. */
@@ -86,17 +108,19 @@ function chunkKey(cx: number, cz: number): string {
  * same GPU buffer (see the call site for why a fresh attribute each time is
  * not free).
  */
-function windTuneAttribute(
+function instancedAttribute(
   geometry: THREE.BufferGeometry,
+  name: string,
+  itemSize: number,
   instances: number,
 ): THREE.InstancedBufferAttribute {
-  const existing = geometry.getAttribute(WIND_TUNE_ATTRIBUTE) as
+  const existing = geometry.getAttribute(name) as
     | THREE.InstancedBufferAttribute
     | undefined;
   if (existing && existing.count >= instances) return existing;
   const grown = new THREE.InstancedBufferAttribute(
-    new Float32Array(Math.max(instances, 64) * 2), 2);
-  geometry.setAttribute(WIND_TUNE_ATTRIBUTE, grown);
+    new Float32Array(Math.max(instances, 64) * itemSize), itemSize);
+  geometry.setAttribute(name, grown);
   return grown;
 }
 
@@ -138,7 +162,7 @@ function blockGeometry(source: THREE.BufferGeometry, block: number): THREE.Buffe
   const view = new THREE.BufferGeometry();
   view.setIndex(source.getIndex());
   for (const [name, attribute] of Object.entries(source.attributes)) {
-    if (name === WIND_TUNE_ATTRIBUTE) continue;
+    if (name === WIND_TUNE_ATTRIBUTE || name === LOD_BAND_ATTRIBUTE) continue;
     view.setAttribute(name, attribute);
   }
   for (const group of source.groups) view.addGroup(group.start, group.count, group.materialIndex);
@@ -157,6 +181,7 @@ export function Vegetation({
   onStats,
   quality,
   onSolids,
+  shapesRef,
 }: {
   /** Same shape the chunk terrain uses: ground position, not a camera. */
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
@@ -169,6 +194,11 @@ export function Vegetation({
    * fly mode passes nothing and pays nothing. Injected rather than published
    * to a global so the two apps stay uncoupled. */
   onSolids?: (solids: SolidInstance[]) => void;
+  /** Filled once the kit is loaded with the collider shape set per species —
+   * ROCKS AS THEIR OWN TRIANGLES, which only this component can build because
+   * only it holds the kit geometry. The collider ring reads it rather than
+   * re-fetching the manifest and boxing everything. */
+  shapesRef?: React.MutableRefObject<Map<string, FloraCollider[]> | null>;
 }) {
   const chunkRing = quality?.vegChunkRing ?? CHUNK_RING;
   const drawScale = quality?.vegDrawScale ?? 1;
@@ -228,13 +258,64 @@ export function Vegetation({
     // against the land kit's copy.
     const merged = mergeFloraKits(
       buildFloraKit(gltf, manifest),
-      buildFloraKit(underwaterGltf, underwaterManifest),
+      buildFloraKit(underwaterGltf, underwaterManifest, true),
     );
     if (import.meta.env.DEV) {
       console.info(`[vegetation] kit: ${merged.size} assets (flora + underwater)`);
     }
     return merged;
   }, [gltf, underwaterGltf, manifest, underwaterManifest]);
+
+  // Collider shapes, built ONCE per kit load. A `convex` species (every rock,
+  // boulder pile and cliff shell) collides as its own LOD0 triangles: a box
+  // around a 30 m cliff walls off the ledge it exists to offer, and a box
+  // around a boulder pile stops the player a metre short of the stone. The
+  // geometry comes from the kit the renderer already holds, so nothing is
+  // fetched or decoded twice.
+  useEffect(() => {
+    if (!shapesRef || !kit || !manifest || !underwaterManifest) return;
+    const assets = new Map(
+      [...underwaterManifest.assets, ...manifest.assets].map((a) => [a.id, a]),
+    );
+    const geometryFor = (assetId: string) => {
+      const parts = kit.get(assetId)?.levels[0]?.parts;
+      if (!parts?.length) return null;
+      // One merged array pair across the level's parts, index offsets applied.
+      let vertexCount = 0;
+      let indexCount = 0;
+      for (const part of parts) {
+        const position = part.geometry.getAttribute("position");
+        const index = part.geometry.getIndex();
+        vertexCount += position.count;
+        indexCount += index ? index.count : position.count;
+      }
+      const positions = new Float32Array(vertexCount * 3);
+      const index = new Uint32Array(indexCount);
+      let vertexAt = 0;
+      let indexAt = 0;
+      for (const part of parts) {
+        const position = part.geometry.getAttribute("position");
+        for (let i = 0; i < position.count; i++) {
+          positions[(vertexAt + i) * 3] = position.getX(i);
+          positions[(vertexAt + i) * 3 + 1] = position.getY(i);
+          positions[(vertexAt + i) * 3 + 2] = position.getZ(i);
+        }
+        const partIndex = part.geometry.getIndex();
+        const count = partIndex ? partIndex.count : position.count;
+        for (let i = 0; i < count; i++) {
+          index[indexAt + i] = (partIndex ? partIndex.getX(i) : i) + vertexAt;
+        }
+        vertexAt += position.count;
+        indexAt += count;
+      }
+      return { positions, index };
+    };
+    const shapes = new Map<string, FloraCollider[]>();
+    for (const id of kit.keys()) {
+      shapes.set(id, collidersFor(assets.get(id), geometryFor));
+    }
+    shapesRef.current = shapes;
+  }, [kit, manifest, underwaterManifest, shapesRef]);
 
   // Rebuild the instanced meshes whenever the set of loaded chunks changes —
   // or the focus has walked far enough that per-instance LOD choices are
@@ -248,18 +329,35 @@ export function Vegetation({
    * React ran the effect; comparing against the pending one fires once per
    * crossing. */
   const pendingBuildFocus = useRef<{ x: number; z: number } | null>(null);
-  const REBUILD_MOVE_M = 48;
+  // 48 m was a third of the way to the first LOD ring, so an instance could
+  // cross a boundary and be drawn at the wrong level for 48 m of walking. The
+  // crossfade needs the rebuild to happen INSIDE the band it fades over, so
+  // the trigger is the same 16 m the overlap is sized from. The 0.75 s
+  // throttle is what keeps a fast fly-through from re-walking the instances
+  // every frame.
+  const REBUILD_MOVE_M = LOD_REBUILD_MOVE_M;
   const REBUILD_MIN_INTERVAL_S = 0.75;
   const lastBuildTime = useRef(0);
+  /** The REAL camera, for the LOD fade uniform and the occlusion eye. The
+   * focus is a ground position and in fly mode is nowhere near the camera. */
+  const cameraPos = useRef(new THREE.Vector3());
 
   // Wind sway (module 55 §98): one uniform block shared by every plant
   // material AND its shadow-depth twin, fed from the same weather sample the
   // sky, rain and waves read — so the world gusts together.
   const wind = sharedWindUniforms;
+  // LOD crossfade: one uniform block for every vegetation material and its
+  // depth twin. Local to this renderer (the groundcover ring has no LOD chain
+  // to fade between), so no new shared singleton.
+  const lodFade = useMemo(() => createLodFadeUniforms(), []);
 
   useFrame((state) => {
     const weather = lastWeatherSample();
     if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
+    // Every frame, and from the camera rather than the built-in
+    // `cameraPosition`: in the shadow pass that uniform is the light.
+    lodFade.esLodViewPos.value.copy(state.camera.position);
+    cameraPos.current.copy(state.camera.position);
     if (!index || !root.current) return;
     const focus = focusRef.current;
     const size = index.chunkMetres;
@@ -354,6 +452,8 @@ export function Vegetation({
       count: number;
       /** Flat (stiffness − 1, sink) pairs, parallel to `placements`. */
       windTune: number[];
+      /** Flat (dIn, dOut, wIn, wOut) quads, parallel to `placements`. */
+      bands: number[];
     }
     const buckets = new Map<string, Bucket>();
     // Solid instances collected as they are placed — the collider ring needs
@@ -384,6 +484,27 @@ export function Vegetation({
     const blockAxis = (delta: number): number => (delta < 0 ? 0 : 1);
     let culled = 0;
     let billboardInstances = 0;
+    let occluded = 0;
+    // One occlusion ray per 32 m cell, from the camera, against the streamed
+    // ground. The canopy top is the tallest species in the kit, so a cell is
+    // only called hidden when even that would be hidden.
+    let tallestM = 0;
+    for (const species of kit.values()) {
+      if (species.heightM > tallestM) tallestM = species.heightM;
+    }
+    const eye = cameraPos.current;
+    const sampleGround = chunksManifest
+      ? (x: number, z: number) => {
+          // Rendered space, like the camera: the terrain mesh is drawn at
+          // `verticalScale`, so an unscaled sample would compare a true-metre
+          // hill against a scaled sight line.
+          const h = groundHeightM(store, chunksManifest, x, z);
+          return h === null ? null : h * verticalScale;
+        }
+      : () => null;
+    const occlusion = new OcclusionCellCache(
+      { x: eye.x, y: eye.y, z: eye.z }, sampleGround, tallestM,
+    );
     for (const chunk of loaded.current.values()) {
       const centreX = chunk.originX + index.chunkMetres / 2;
       const centreZ = chunk.originZ + index.chunkMetres / 2;
@@ -408,7 +529,12 @@ export function Vegetation({
         // hundred metres out, canopy persists to the ring edge. This is what
         // keeps the coming density increase affordable — most instances are
         // small plants that must not render at two kilometres.
-        const maxDraw = maxDrawDistance(entry.heightM) * drawScale;
+        // Submerged species draw shorter: underwater sight lines are a few
+        // dozen metres, so a kelp bed resolved at 400 m is triangles behind a
+        // wall of water and scatter.
+        const maxDraw = entry.submerged
+          ? Math.min(maxDrawDistance(entry.heightM) * drawScale, SUBMERGED_MAX_DRAW_M)
+          : maxDrawDistance(entry.heightM) * drawScale;
         if (chunkDistance - halfDiagonal > maxDraw) {
           culled += speciesGroup.count;
           continue;
@@ -417,7 +543,9 @@ export function Vegetation({
         // Quality scales the rings too, so lower tiers shift work toward the
         // cheap levels — but never below the near ring, or plants beside the
         // camera would regress to cards (the round-2 defect).
-        const rings = lodDistances(entry.heightM).map((r, i) => (i === 0 ? r : r * drawScale));
+        const rings = lodDistances(entry.heightM)
+          .map((r, i) => (i === 0 ? r : r * drawScale))
+          .map((r) => (entry.submerged ? r * SUBMERGED_LOD_SCALE : r));
         const count = Math.min(speciesGroup.count, MAX_PER_DRAW);
         for (let i = 0; i < count; i++) {
           const inst = readInstance(speciesGroup, i);
@@ -426,28 +554,14 @@ export function Vegetation({
             culled++;
             continue;
           }
-          // LOD per INSTANCE, not per chunk: chunk-centre distance put whole
-          // 468 m squares — including the plants beside the camera — on their
-          // far `_lod_flat` cards (owner round-2 "cardboard cutout" defect).
-          // Beyond ring 2 a billboard species runs entirely on its flat cards
-          // (T4 far tier); species without one keep the decimated chain.
-          const near =
-            instDistance < rings[0] ? 0
-            : instDistance < rings[1] ? 1
-            : instDistance < rings[2] ? 2
-            : 3;
-          const asBillboard = entry.billboardIndex !== null && near === 3;
-          const level = asBillboard
-            ? entry.billboardIndex!
-            : Math.min(entry.levels.length - 1, near);
-          const key = `${id}|${level}|${blockIndex}`;
-          let bucket = buckets.get(key);
-          if (!bucket) {
-            bucket = {
-              species: id!, level, block: blockIndex,
-              placements: [], count: 0, windTune: [],
-            };
-            buckets.set(key, bucket);
+          // Terrain occlusion: a ridge between the camera and this instance
+          // means nothing it draws reaches a pixel. Only beyond
+          // OCCLUSION_MIN_DISTANCE_M — a rebuild is 16 m apart, and a near
+          // instance popping back is worse than the triangles it saved.
+          if (instDistance > OCCLUSION_MIN_DISTANCE_M
+              && occlusion.occluded(inst.x, inst.z)) {
+            occluded++;
+            continue;
           }
           // Anchor per the mined authoring conventions (bundle v2,
           // docs/research/vegetation/vegetation-composition-rules.md): terrain species
@@ -467,18 +581,70 @@ export function Vegetation({
           } else {
             y = inst.y * verticalScale;
           }
-          bucket.placements.push(
-            inst.x, y, inst.z, inst.tiltX, inst.yaw, inst.tiltZ, inst.scale);
-          bucket.count++;
+          // LOD per INSTANCE, not per chunk: chunk-centre distance put whole
+          // 468 m squares — including the plants beside the camera — on their
+          // far `_lod_flat` cards (owner round-2 "cardboard cutout" defect).
+          // Beyond ring 2 a billboard species runs entirely on its flat cards
+          // (T4 far tier); species without one keep the decimated chain.
+          //
+          // Within OVERLAP of a ring the instance is emitted TWICE, into the
+          // level it is in and the one it is becoming, with complementary
+          // fade bands. The dithered discard in the shader then keeps exactly
+          // one of the two per pixel, which is what turns the old one-frame
+          // swap into a crossfade (owner: one hard jump between quality
+          // levels).
+          const emissions = lodEmissions(instDistance, rings, maxDraw, LOD_OVERLAP_M);
+          // Two rungs can resolve to the SAME kit level (a species whose
+          // decimated chain is shorter than the ring count, or whose card
+          // index repeats): drawing that twice would double the geometry, so
+          // the pair is merged into one band spanning both.
+          const byResolved = new Map<number, [number, number, number, number]>();
+          let drewCard = false;
+          for (const emission of emissions) {
+            const asBillboard =
+              entry.billboardIndex !== null && emission.level === rings.length;
+            const resolved = asBillboard
+              ? entry.billboardIndex!
+              : Math.min(entry.levels.length - 1, emission.level);
+            const existing = byResolved.get(resolved);
+            if (existing) {
+              existing[0] = Math.min(existing[0], emission.band[0]);
+              existing[1] = Math.max(existing[1], emission.band[1]);
+              existing[3] = Math.max(existing[3], emission.band[3]);
+            } else {
+              byResolved.set(resolved, [...emission.band]);
+            }
+            if (asBillboard && emission === emissions[0]) drewCard = true;
+          }
           // Wind tuning is per instance because both terms are: stiffness
           // scales with the trunk's radius AT THIS SCALE, and the sink is
-          // drawn per instance from the species' range.
+          // drawn per instance from the species' range. A non-swaying species
+          // (rock, log, crate, sunken wall) is pushed to stiffness 0 as well
+          // as having its material left unpatched — it may SHARE a material
+          // with a plant, and then the only thing standing between a boulder
+          // and a bending boulder is this number.
           const trunkRadius = entry.trunkRadiusM;
-          bucket.windTune.push(
-            trunkRadius === null ? 0 : windStiffness(trunkRadius, inst.scale) - 1,
-            speciesGroup.anchorMode === ANCHOR_PIVOT_TERRAIN ? inst.sink : 0,
-          );
-          if (asBillboard) billboardInstances++;
+          const stiffness = !entry.sways
+            ? -1
+            : trunkRadius === null ? 0 : windStiffness(trunkRadius, inst.scale) - 1;
+          const sink = speciesGroup.anchorMode === ANCHOR_PIVOT_TERRAIN ? inst.sink : 0;
+          for (const [level, band] of byResolved) {
+            const key = `${id}|${level}|${blockIndex}`;
+            let bucket = buckets.get(key);
+            if (!bucket) {
+              bucket = {
+                species: id!, level, block: blockIndex,
+                placements: [], count: 0, windTune: [], bands: [],
+              };
+              buckets.set(key, bucket);
+            }
+            bucket.placements.push(
+              inst.x, y, inst.z, inst.tiltX, inst.yaw, inst.tiltZ, inst.scale);
+            bucket.count++;
+            bucket.windTune.push(stiffness, sink);
+            bucket.bands.push(band[0], band[1], band[2], band[3]);
+          }
+          if (drewCard) billboardInstances++;
           if (onSolids && solidByAsset.get(id!)) {
             solids.push({
               species: id!, x: inst.x, y, z: inst.z,
@@ -512,10 +678,12 @@ export function Vegetation({
       const merged: Bucket = {
         species: list[0].species, level: list[0].level,
         block: UNSPLIT_BLOCK, placements: [], count: total, windTune: [],
+        bands: [],
       };
       for (const bucket of list) {
         for (const value of bucket.placements) merged.placements.push(value);
         for (const value of bucket.windTune) merged.windTune.push(value);
+        for (const value of bucket.bands) merged.bands.push(value);
         buckets.delete(`${key}|${bucket.block}`);
       }
       buckets.set(`${key}|${UNSPLIT_BLOCK}`, merged);
@@ -555,9 +723,15 @@ export function Vegetation({
         // would strand its GPU buffer (nothing disposes a bare attribute).
         // Over-allocation is harmless: the InstancedMesh draws `count`
         // instances, not the attribute's length.
-        const windTune = windTuneAttribute(geometry, bucket.count);
+        const windTune = instancedAttribute(
+          geometry, WIND_TUNE_ATTRIBUTE, 2, bucket.count);
         windTune.array.set(bucket.windTune);
         windTune.needsUpdate = true;
+        // The crossfade band, same per-block story as the wind tune.
+        const bands = instancedAttribute(
+          geometry, LOD_BAND_ATTRIBUTE, 4, bucket.count);
+        bands.array.set(bucket.bands);
+        bands.needsUpdate = true;
         const mesh = new THREE.InstancedMesh(geometry, part.material, bucket.count);
         mesh.frustumCulled = true;
         const isCard =
@@ -569,9 +743,14 @@ export function Vegetation({
         // on it. The shadow-depth twin is patched in the same call: patch the
         // colour material alone and every tree's shadow stands still while
         // the tree moves.
-        if (!isCard) {
+        if (!isCard && entry.sways) {
           applyWindSwayWithShadow(part.material, part.depthMaterial, wind);
         }
+        // The fade runs on EVERY tier, cards included: the card tier is where
+        // the worst pop was, and the discard is the first statement in the
+        // fragment shader, so it works on opaque rock materials and in the
+        // depth pass too.
+        applyLodFadeWithShadow(part.material, part.depthMaterial, lodFade);
         for (let i = 0; i < bucket.count; i++) {
           const at = i * PLACEMENT_STRIDE;
           position.set(
@@ -611,6 +790,7 @@ export function Vegetation({
       triangles: Math.round(triangles),
       culled,
       billboardInstances,
+      occluded,
       bySpecies,
     };
     onStats?.(stats);
@@ -626,7 +806,7 @@ export function Vegetation({
         .__STUDIO_VEGETATION_MESHES__ = groups.current;
     }
   }, [kit, index, manifest, underwaterManifest, revision, verticalScale, onStats, onSolids, focusRef,
-      drawScale, chunksManifest, store, wind]);
+      drawScale, chunksManifest, store, wind, lodFade]);
 
   return <group ref={root} name="vegetation" />;
 }

@@ -389,11 +389,11 @@
    "file": "29-track_mud.png",
    "tileM": 6.0,
    "avgColor": [
-    60,
-    54,
-    50
+    86,
+    76,
+    52
    ],
-   "source": "Poly Haven aerial_mud_1 (CC0)",
+   "source": "Tropical Skyrim (roads/road01.dds)",
    "cliff": "dirt"
   },
   {

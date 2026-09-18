@@ -82,6 +82,7 @@ python3 -m worldgen.compile_society "<...>/argonia-heightfield/hydrology-pass1.n
 python3 -m worldgen.shape_province "<...>/heightfield-f32.npy" "<...>/hydrology-pass1.npz"   # valleys, lake, portages, fluvial -> heightfield-shaped
 python3 -m worldgen.hydrology_graph derive     # Phase 16a/b: the typed water graph, solved on the shaped ground (world/sources/hydrology/)
 python3 -m worldgen.carve_province             # trenches, weirs, bowls to the graph -> refined-height-frozen (the freeze)
+python3 -m worldgen.paint_hydrograph_bodies    # repaint the studio's hydrograph-bodies overlay from the COMPILED record (below the gate; derive's own painter is frozen)
 
 # 4. Ground-material library (rerun only when the palette changes): CC0
 #    downloads (cached in vault) + vanilla BSA -> studio textures + manifest
@@ -145,22 +146,29 @@ culture rules. Outputs are deterministic (fixed noise seed).
 ## Generated rasters live in a release, not in git
 
 The big generated province rasters — `chunks/**.png`, `refined/*.png`,
-`water/**.png` and everything under `vegetation/` (about 106 MB, 984 files) —
-are rebuild output, not source. They are **gitignored**. What git carries is
-`apps/world-studio/public/province/rasters-manifest.json`: the sha256 of every
-file plus a combined sha, and the name of the release asset that holds them.
-The set is defined once, in `tooling/province-artefact/set.json`.
+`water/**.png`, `apron/**.png` and everything under `vegetation/` (about
+122 MB, 1252 files) — are rebuild output, not source. They are **gitignored**.
+What git carries is `apps/world-studio/public/province/rasters-manifest.json`.
 
-- **After any chain run:** `npm run province:publish` (uploads the archive to
-  the rolling `province-rasters` GitHub release and rewrites the manifest),
-  then commit the manifest with the rest of the change.
-- **On a fresh checkout:** `npm run province:fetch` once — it downloads the
-  asset, verifies every file against the manifest before anything lands, and
-  extracts in place. It is also the first step of both Pages jobs.
-- **`npm test` refuses a tree whose rasters and manifest disagree.** If the
-  files are missing or stale it tells you to run `npm run province:fetch`; if
-  they differ from the manifest (a rebuild nobody published) it tells you to
-  run `npm run province:publish`. `npm run province:check` is that gate alone.
+The set is defined once, in `tooling/province-artefact/set.json`, as **five
+groups**: `chunks`, `refined`, `water`, `vegetation`, `apron`. The manifest is
+**per group** (its files, their sha256s, a combined sha and the group's release
+asset name), and each group ships as its own asset of the rolling
+`province-rasters` release.
+
+- **After any chain run:** `npm run province:publish`. It rewrites the manifest
+  and **uploads only the groups whose content changed** — a scatter-only run
+  ships the vegetation archive alone, not the whole 122 MB. Commit the manifest
+  with the rest of the change. `--dry-run` prints the per-group plan without
+  touching the release.
+- **On a fresh checkout:** `npm run province:fetch` once — it downloads each
+  missing or stale group's asset, verifies every file against the manifest
+  before anything lands, and extracts in place. It is also the first step of
+  both Pages jobs.
+- **`npm test` refuses a tree whose rasters and manifest disagree**, naming the
+  group. Missing or stale files point you at `npm run province:fetch`; files
+  that differ from the manifest (a rebuild nobody published) point you at
+  `npm run province:publish`. `npm run province:check` is that gate alone.
 
 ## Dependencies
 

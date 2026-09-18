@@ -126,6 +126,43 @@ POOLS: tuple[Pool, ...] = (
             "XanmeerResources.esp",
         ],
     ),
+    # --- 16f round 2 (2026-09-18): 3D ground plants and sea-bed dressing ----
+    Pool(
+        id="drjacopo",
+        label="DrJacopo's 3D Landscapes and Grass Library",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/80687",
+        credit="DrJacopo's - 3D Landscapes and Grass Library (Nexus SSE 80687, DrJacopo and JonnyWang13; a modder's resource)",
+        archive_sha256="5026606faae2b72cc796242dbc2e3f13d0a22133f9afafe6e2a9a71ecb298c68",
+        directory="{vault}/skyrim-source/mod-sources/drjacopo-3d-grass-library-80687/extracted",
+        plugins=[],
+    ),
+    Pool(
+        id="hoddminir",
+        label="Hoddminir Plants and Trees",
+        source="https://www.nexusmods.com/skyrim/mods/38651",
+        credit="Hoddminir Plants and Trees (Nexus classic 38651, Ztree and Elinen; with credit to Vurt, SparrowPrince and Ga-Knomboe Boy; non-commercial)",
+        archive_sha256="42e6127a06c2c277fc98eecae097238aff2b59edb6dcd69db13a8d7169321b47",
+        directory="{vault}/skyrim-source/mod-sources/hoddminir-plants-and-trees-38651/extracted",
+        plugins=[],
+    ),
+    Pool(
+        id="jokerine",
+        label="Jokerine's Seashells",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/4492",
+        credit="Seashells (Nexus SSE 4492, Jokerine; SSE conversion by Rusey)",
+        directory="{vault}/skyrim-source/mod-sources/seashells-jokerine-4492/extracted",
+        plugins=[],
+        archive_sha256="b561bd0a1ead01c007febb708b6279d80a37c7c8efa8655f800874fbc5c61c68",
+    ),
+    Pool(
+        id="shores",
+        label="Shores of Skyrim, CC Attribution files",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/140081",
+        credit="Shores of Skyrim - Base Object Swapper, Part Two CC Attribution files (Nexus SSE 140081, FrankBlack; CC-BY)",
+        directory="{vault}/skyrim-source/mod-sources/shores-of-skyrim-cc-140081/extracted",
+        plugins=[],
+        archive_sha256="44307f926585bc24ffa7a5ef5b09b63e450edca87dd255c48e0ea59856ee6934",
+    ),
     # --- Phase 11 item 6b settlement sourcing (decision 0041) ----------------
     # Six pools downloaded 2026-09-02 to close the settlement-inventory gaps.
     # Marsh-Rest (Nexus classic 50111) was downloaded and deliberately NOT

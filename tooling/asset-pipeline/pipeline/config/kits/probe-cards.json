@@ -1,22 +1,29 @@
 {
  "id": "probe-cards",
- "description": "Audition authored _lod_flat cards as far-tier donors for species whose own cards are wrong (willows: crown-chunk UVs) or missing (cypresses, fanpalm6, the anvil composites). Crops are judged against BM&V's tamrieltreelodtropical atlas.",
- "output": "probe-cards.glb",
- "lodRatios": [0.35, 0.12],
+ "description": "Probe for the derived far-tier card bake (bakeCards): one tree WITH an authored _lod_flat card (datepalm1, which must keep it), one tree without (dwarfjunip05), one crossed-quad ground-cover grass (vurt_greengrass), and one rock (skipped by bakeCardSkipCategories, and LOD0-only under lodRatiosByCategory).",
+ "output": "tooling/asset-pipeline/output/kits/probe-cards.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "lodRatiosByCategory": {
+  "rock": []
+ },
+ "bakeCards": true,
  "textureMaxSize": 512,
  "billboardTextureMaxSize": 1024,
  "assets": [
-  {"asset": "bmv:landscape/trees/hodsalixgkb09"},
-  {"asset": "bmv:landscape/trees/treewillow01v2a"},
-  {"asset": "bmv:landscape/trees/gkbcyrodilcypress1"},
-  {"asset": "bmv:landscape/trees/gkbcyrodilcypress2"},
-  {"asset": "bmv:landscape/trees/mangrovereachtree0gkb8"},
-  {"asset": "bmv:landscape/trees/mangrovereachtree0gkb2"},
-  {"asset": "bmv:landscape/trees/datepalm1"},
-  {"asset": "bmv:landscape/trees/datepalm2"},
-  {"asset": "bmv:landscape/trees/flatpalm1"},
-  {"asset": "bmv:landscape/trees/flatpalm2"},
-  {"asset": "bmv:landscape/trees/giantredwood1"},
-  {"asset": "bmv:landscape/trees/dwarfjunip04"}
+  {
+   "asset": "bmv:landscape/trees/datepalm1"
+  },
+  {
+   "asset": "bmv:landscape/trees/dwarfjunip05"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_greengrass"
+  },
+  {
+   "asset": "bmv:landscape/rocks/alrocks/al_rock01"
+  }
  ]
 }

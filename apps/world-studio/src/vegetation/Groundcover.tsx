@@ -15,10 +15,11 @@
  *     the focus — so crossing a tile boundary regenerates only the new row of
  *     tiles and evicts the row that left. Everything focus-dependent (fade,
  *     quadrant, budget) happens when the meshes are filled from the cache.
- *  2. **Fade is a band per species**, not one radius for all: anything under
- *     0.6 m tall is at full density to 30 m and gone by its own `fadeM` of
- *     50 m, taller species run to the ring radius. A 30 cm tuft at 60 m is a
- *     pixel that still costs a vertex.
+ *  2. **Three quality tiers per species**, not one radius and a cliff: full
+ *     mesh near, a viewer-facing baked card at the authored density to the
+ *     ring radius, the same card at 35 % density out to the far radius, and
+ *     every boundary dissolved by the dithered LOD crossfade. Nothing the
+ *     ring places ever winks out.
  *  3. **A clump field.** A second value-noise field per species, on its own
  *     12 m wavelength, decides which of a cover's two or three species
  *     dominates where. Without it a three-species cover is an even mix
@@ -32,6 +33,10 @@
  *  6. **No shadow receipt.** Tens of thousands of alpha-tested double-sided
  *     cards sampling two cascades is the single most expensive thing this
  *     layer could do, for a shadow nobody reads on a grass blade.
+ *  7. **Persistent meshes.** The (species, tier, quadrant) meshes live for the
+ *     component's life and grow their buffers by 1.5x when a rebuild needs
+ *     more room. Destroying and recreating ~59 InstancedMeshes every 16 m was
+ *     a GPU buffer reallocation storm for data that mostly did not change.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -46,6 +51,14 @@ import {
   applyWindSway,
   updateWindSway,
 } from "@elder-souls/game-core/fx/windSway";
+import {
+  applyLodFade,
+  createLodFadeUniforms,
+  LOD_BAND_ATTRIBUTE,
+} from "@elder-souls/game-core/fx/lodFade";
+import {
+  applyCylindricalBillboard,
+} from "@elder-souls/game-core/fx/billboardQuad";
 import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
 import { sharedWaterAssets } from "../water/waterAssets";
@@ -61,14 +74,35 @@ import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
 /** Ring tiling. Tiles are world-aligned so placement is position-independent. */
 const TILE_M = 16;
 const RING_RADIUS_M = 75;
-/** Instances scale to zero over the last slice of their OWN fade distance,
- * so the species that stop at 50 m shrink out there rather than at the ring. */
-const SCALE_FADE_FRACTION = 0.15;
-/** Full density to here for species under `SHORT_SPECIES_M`, then thinned. */
-const FULL_DENSITY_SHORT_M = 30;
-/** …and to here for the taller ones, which run to the ring radius. */
-const FULL_DENSITY_TALL_M = 55;
+const RING_FAR_RADIUS_M = 165;
 const SHORT_SPECIES_M = 0.6;
+
+/**
+ * Three quality tiers per species, not one radius and a cliff (owner: every
+ * placed thing steps DOWN through quality bands rather than vanishing).
+ * `r` is the preset's `groundcoverRadiusM`:
+ *
+ *  - NEAR, full mesh, out to `0.4 r`;
+ *  - MID, one baked card at the authored density, to `r`;
+ *  - FAR, the same card at 35 % density, to the preset's far radius — or
+ *    proportionally sooner for a species under `SHORT_SPECIES_M`, because a
+ *    30 cm tuft at 150 m is a pixel that still costs a vertex.
+ *
+ * Nothing pops at a boundary: every tier carries an `esLodBand` and dissolves
+ * across it (`lodFade.ts`), and the FAR band fades to nothing at its radius.
+ */
+const NEAR_FRACTION = 0.4;
+/** Fraction of a species' instances the FAR tier keeps. */
+const FAR_THIN = 0.35;
+/** Short species stop at `1.6 r` where the tall ones stop at `2.2 r`. */
+const SHORT_FAR_FRACTION = 1.6 / 2.2;
+const TIER_NEAR = 0;
+const TIER_MID = 1;
+const TIER_FAR = 2;
+const TIER_COUNT = 3;
+/** Crossfade half-widths, metres: (fade-in, fade-out) per tier. Wider the
+ * further out, because the further band is the cheaper one to double up. */
+const TIER_BAND_M: [number, number][] = [[0, 4], [4, 6], [6, 10]];
 /** Hard budget. The authored densities want ~30k in jungle; if a rebuild asks
  * for more than this, every species is thinned proportionally. */
 const MAX_INSTANCES = 60_000;
@@ -93,7 +127,6 @@ interface SpeciesRule {
   density: number; // instances per hectare
   slopeDegMax: number;
   heightVariance: number;
-  positionJitterM: number;
   waterRule?: string;
   /** The asset's own vertical size, copied from the built kit manifest. */
   heightM: number;
@@ -116,12 +149,9 @@ interface SpeciesPlan {
   /** Any rule at all, for the jitter amplitude (they differ by ≤0.15 m). */
   anyRule: SpeciesRule;
   needsWater: boolean;
-  /** The species' own fade band. `fadeM` is authored per rule but is a
-   * property of the MESH's height, so it is the same on every rule for a
-   * species; the plan takes the widest, and the full-density distance from
-   * the same height test the table used. */
-  fadeM: number;
-  fullDensityM: number;
+  /** Under `SHORT_SPECIES_M` tall: its FAR tier stops proportionally sooner.
+   * A property of the MESH, so it is the same on every rule for a species. */
+  short: boolean;
 }
 
 /** groundcover.json v2: (region class, land-cover id) → species. Covers with
@@ -134,8 +164,8 @@ const TABLE = groundcoverTable as unknown as {
   byRegionClass: Record<string, { swaps: Record<string, SpeciesRule[]> }>;
 };
 
-if (TABLE.schemaVersion !== 3) {
-  throw new Error(`groundcover.json schema ${TABLE.schemaVersion}, expected 3`);
+if (TABLE.schemaVersion !== 4) {
+  throw new Error(`groundcover.json schema ${TABLE.schemaVersion}, expected 4`);
 }
 
 /** Wavelength of the per-species clump field, and how far an instance's
@@ -178,16 +208,13 @@ function buildPlans(): SpeciesPlan[] {
             bySlot: new Map(),
             anyRule: rule,
             needsWater: false,
-            fadeM: 0,
-            fullDensityM: FULL_DENSITY_TALL_M,
+            short: false,
           };
           plans.set(rule.asset, plan);
         }
         plan.bySlot.set(slotKey(region, Number(coverId)), rule);
         plan.maxDensity = Math.max(plan.maxDensity, rule.density);
-        plan.fadeM = Math.max(plan.fadeM, rule.fadeM);
-        plan.fullDensityM = rule.heightM < SHORT_SPECIES_M
-          ? FULL_DENSITY_SHORT_M : FULL_DENSITY_TALL_M;
+        plan.short = rule.heightM < SHORT_SPECIES_M;
         if (rule.waterRule === "below-at-least") plan.needsWater = true;
       }
     }
@@ -260,34 +287,52 @@ function clumpAt(x: number, z: number, salt: number): number {
  * instead would define `USE_COLOR` and make the shader read a `color`
  * geometry attribute the kit meshes do not have, which is black grass. So the
  * fragment shader gets the missing two lines, chained onto whatever hook is
- * already there (the wind sway wraps this one in turn, and its CSM restore
- * carries it) and applied once per material.
+ * already there.
+ *
+ * Install/reapply is the same contract wind and the LOD fade use, and for the
+ * same reason: `csm.setupMaterial` OVERWRITES `onBeforeCompile` with a plain
+ * assignment, so without `reapplyGroundTint` in WorldSky's patch pass the
+ * ground tint silently stopped reaching the pixel and the whole ring went
+ * back to one flat kit green.
  */
-function applyGroundTint(material: THREE.Material): void {
-  const flagged = material as THREE.Material & { esGroundTint?: boolean };
-  if (flagged.esGroundTint) return;
-  flagged.esGroundTint = true;
+interface TintPatchState {
+  esGroundTint?: boolean;
+  esGroundTintWrapped?: THREE.Material["onBeforeCompile"];
+}
+
+function installGroundTint(material: THREE.Material): void {
+  const state = material.userData as TintPatchState;
+  state.esGroundTint = true;
   const previous = material.onBeforeCompile;
-  material.onBeforeCompile = (shader, renderer) => {
+  const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
     previous?.call(material, shader, renderer);
+    if (shader.fragmentShader.includes("es-ground-tint")) return;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <color_fragment>",
       `#include <color_fragment>
+      // es-ground-tint
       #if defined( USE_INSTANCING_COLOR ) && !defined( USE_COLOR ) && !defined( USE_COLOR_ALPHA )
         diffuseColor.rgb *= vColor.rgb;
       #endif`,
     );
   };
+  material.onBeforeCompile = wrapped;
+  state.esGroundTintWrapped = wrapped;
   material.needsUpdate = true;
 }
 
-/** Fraction of a species' instances that survive at this distance. Full
- * density inside `fullDensityM`, then linear to zero at the species' own
- * `fadeM` — Bethesda's fade BAND and Unreal's per-variety cull distance. */
-function distanceKeepFraction(distance: number, fadeM: number, fullM: number): number {
-  if (distance <= fullM) return 1;
-  if (distance >= fadeM) return 0;
-  return (fadeM - distance) / (fadeM - fullM);
+function applyGroundTint(material: THREE.Material): void {
+  if ((material.userData as TintPatchState).esGroundTint) return;
+  installGroundTint(material);
+}
+
+/** Restore the tint hook after CSM overwrote `onBeforeCompile`. No-op on
+ * materials this layer never patched, so it is safe on a whole scene. */
+export function reapplyGroundTint(material: THREE.Material): void {
+  const state = material.userData as TintPatchState;
+  if (!state.esGroundTint) return;
+  if (material.onBeforeCompile === state.esGroundTintWrapped) return;
+  installGroundTint(material);
 }
 
 // --- land-cover raster -------------------------------------------------------
@@ -394,6 +439,35 @@ export function foundationScatterPoints(treatment: FoundationTreatment): Foundat
     }
   }
   return points;
+}
+
+/**
+ * Is any of this treatment's scatter band within `radiusM` of the focus?
+ *
+ * A bbox test on the footprint, expanded by the band's outer edge. Cheap
+ * enough to run over every settlement in the province each rebuild, which is
+ * the point: `foundationScatterPoints` walks a 0.65 m lattice over the whole
+ * band, and running that for every settlement in Black Marsh to keep the one
+ * the player is standing in was the ring's worst rebuild cost.
+ */
+function nearTreatment(
+  focus: { x: number; z: number },
+  treatment: FoundationTreatment,
+  radiusM: number,
+): boolean {
+  const poly = treatment.footprintM;
+  if (poly.length < 3) return false;
+  const outer = Math.max(0, treatment.foundationScatterBandM[1]);
+  let minX = Infinity; let maxX = -Infinity; let minZ = Infinity; let maxZ = -Infinity;
+  for (const [x, z] of poly) {
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (z < minZ) minZ = z;
+    if (z > maxZ) maxZ = z;
+  }
+  const dx = Math.max(minX - outer - focus.x, 0, focus.x - (maxX + outer));
+  const dz = Math.max(minZ - outer - focus.z, 0, focus.z - (maxZ + outer));
+  return Math.hypot(dx, dz) <= radiusM;
 }
 
 /** Reject by origin PLUS species radius: a fern rooted outside a floor may
@@ -574,6 +648,99 @@ function sharedRegionRaster(baseUrl: string): Promise<ControlRaster> {
   return regionPromise;
 }
 
+/**
+ * The baked card for each species, read from the GLB ONCE.
+ *
+ * The kit builder gives a billboard level two mesh children tagged
+ * `cardView: "a"` and `"b"` (glTF extras, never node names). Grass uses view A
+ * only: a tuft has no distinguished profile worth two atlas slots, and one
+ * card per species halves the card tier's draws. `buildFloraKit` does not
+ * carry the view tag through its `parts`, so it is looked up here from the
+ * scene graph and cached per species for the component's life.
+ *
+ * A species with no card (every species in the kit as it stands today, which
+ * ships no billboard level at all) simply has no entry, and its mid and far
+ * tiers fall back to level 0 — the ring is correct before the rebuilt kit
+ * lands, just not yet cheap.
+ */
+function buildCardIndex(gltf: { scene: THREE.Object3D }): Map<string, KitLevelPart> {
+  const cards = new Map<string, KitLevelPart>();
+  for (const root of gltf.scene.children) {
+    const extras = (root.userData ?? {}) as { assetId?: string };
+    const id = extras.assetId ?? (root.name ? root.name.replace("__", ":") : null);
+    if (!id) continue;
+    root.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh || cards.has(id)) return;
+      const data = (mesh.userData ?? {}) as { billboard?: boolean; cardView?: string };
+      if (data.billboard !== true || data.cardView !== "a") return;
+      const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+      // A card whose material lost its texture draws as a solid untextured
+      // rectangle at distance (the "grey slab" defect); skip it and let the
+      // species run on its mesh.
+      if (!(material as THREE.MeshStandardMaterial)?.map) return;
+      cards.set(id, { geometry: mesh.geometry, material });
+    });
+  }
+  return cards;
+}
+
+interface KitLevelPart {
+  geometry: THREE.BufferGeometry;
+  material: THREE.Material;
+}
+
+/**
+ * Per-SLOT geometry views, cached on the source kit geometry.
+ *
+ * The `esLodBand` crossfade attribute is an instanced attribute, and instanced
+ * attributes live on the geometry, not on the mesh. Twelve meshes (3 tiers x 4
+ * quadrants) share one kit geometry, so one shared attribute would let the
+ * last slot written re-band every other slot. A view shares every real vertex
+ * buffer by reference — nothing is copied or uploaded twice — and only holds
+ * its own band attribute. (Vegetation.tsx solves the identical problem for its
+ * neighbourhood blocks; that copy is the other agent's file this round.)
+ */
+const SLOT_GEOMETRIES = Symbol("esSlotGeometries");
+
+function slotGeometry(source: THREE.BufferGeometry, slot: number): THREE.BufferGeometry {
+  if (slot === 0) return source;
+  const host = source as unknown as
+    { [SLOT_GEOMETRIES]?: Map<number, THREE.BufferGeometry> };
+  const cache = host[SLOT_GEOMETRIES] ?? (host[SLOT_GEOMETRIES] = new Map());
+  const cached = cache.get(slot);
+  if (cached) return cached;
+  const view = new THREE.BufferGeometry();
+  view.setIndex(source.getIndex());
+  for (const [name, attribute] of Object.entries(source.attributes)) {
+    if (name === LOD_BAND_ATTRIBUTE) continue;
+    view.setAttribute(name, attribute);
+  }
+  for (const group of source.groups) view.addGroup(group.start, group.count, group.materialIndex);
+  source.computeBoundingSphere();
+  source.computeBoundingBox();
+  view.boundingSphere = source.boundingSphere ? source.boundingSphere.clone() : null;
+  view.boundingBox = source.boundingBox ? source.boundingBox.clone() : null;
+  cache.set(slot, view);
+  return view;
+}
+
+/** The `esLodBand` attribute for one slot geometry, allocated once and GROWN
+ * in place: a fresh attribute every rebuild strands its GPU buffer (nothing
+ * disposes a bare attribute). Over-allocation is harmless — the mesh draws
+ * `count` instances, not the attribute's length. */
+function bandAttribute(
+  geometry: THREE.BufferGeometry, instances: number,
+): THREE.InstancedBufferAttribute {
+  const existing = geometry.getAttribute(LOD_BAND_ATTRIBUTE) as
+    | THREE.InstancedBufferAttribute | undefined;
+  if (existing && existing.count >= instances) return existing;
+  const grown = new THREE.InstancedBufferAttribute(
+    new Float32Array(Math.max(instances, 64) * 4), 4);
+  geometry.setAttribute(LOD_BAND_ATTRIBUTE, grown);
+  return grown;
+}
+
 // Terrain height: shared with the baked-scatter renderer — see terrainHeight.ts.
 
 // --- component ---------------------------------------------------------------
@@ -590,7 +757,16 @@ function tileKey(tx: number, tz: number): number {
   return (tx + TILE_KEY_ORIGIN) * TILE_KEY_STRIDE + (tz + TILE_KEY_ORIGIN);
 }
 
-/** One cached instance. Everything here is focus-INDEPENDENT; the fade, the
+/** A generated tile. `far` marks a tile generated at FAR density (the keep
+ * roll thinned on the candidate lattice up front, so a tile nobody will see
+ * in detail costs 35 % of the work). It is regenerated in full the moment it
+ * enters the MID band. */
+interface CachedTile {
+  far: boolean;
+  perSpecies: TilePlacement[][];
+}
+
+/** One cached instance. Everything here is focus-INDEPENDENT; the tier, the
  * quadrant and the budget are applied when the meshes are filled. */
 interface TilePlacement {
   x: number; y: number; z: number; yaw: number;
@@ -598,9 +774,11 @@ interface TilePlacement {
   scale: number;
   /** Stable roll for the budget thin. */
   keep: number;
-  /** Stable roll for the distance thin, so a species thins out of the same
-   * instances every frame instead of shimmering. */
-  fadeRoll: number;
+  /** This candidate's own keep roll, normalised against the tile's keep
+   * probability, so `farKeep < FAR_THIN` is EXACTLY the subset a far-band
+   * tile generates when it is thinned up front. One rule for both, or an
+   * instance would appear and disappear as its tile changed band. */
+  farKeep: number;
   /** Colour, already sampled from the ground tint and varied. */
   r: number; g: number; b: number;
 }
@@ -610,6 +788,13 @@ export interface GroundcoverStats {
   draws: number;
   triangles: number;
   tiles: number;
+  /** Instances drawn per quality tier: [near mesh, mid card, far card]. */
+  byTier: [number, number, number];
+  /** Tiles GENERATED this rebuild (the rest came from the cache) — the cost
+   * of crossing a tile boundary, in the only unit that matters. */
+  tilesGenerated: number;
+  /** False while the kit ships no baked cards: every tier is then level 0. */
+  cards: boolean;
   /** 1 unless the authored densities exceeded MAX_INSTANCES; then the
    * proportional thinning factor actually applied. */
   densityScale: number;
@@ -634,6 +819,7 @@ export function Groundcover({
   quality?: QualitySettings;
 }) {
   const ringRadiusM = quality?.groundcoverRadiusM ?? RING_RADIUS_M;
+  const farRadiusM = quality?.groundcoverFarRadiusM ?? RING_FAR_RADIUS_M;
   const maxInstances = quality?.groundcoverMaxInstances ?? MAX_INSTANCES;
   const root = useRef<THREE.Group>(null);
   const [manifest, setManifest] = useState<KitManifest | null>(null);
@@ -648,13 +834,16 @@ export function Groundcover({
   const radii = useRef(new Map<string, number>());
   const water = useRef<WaterData | null>(null);
   const store = sharedChunkStore(baseUrl);
-  const meshes = useRef<THREE.InstancedMesh[]>([]);
+  /** Persistent meshes, keyed `species|tier|quadrant|part` (mechanism 7). A
+   * mesh is recreated only when a rebuild needs more room than its buffers
+   * hold; otherwise the rebuild writes into the buffers it already has. */
+  const meshPool = useRef(new Map<string, THREE.InstancedMesh>());
   const foundationScatterMesh = useRef<THREE.InstancedMesh | null>(null);
   const requested = useRef(new Set<number>());
   /** Per-tile cache (mechanism 1). A tile's instances do not depend on the
    * focus, so crossing a boundary regenerates only the tiles that entered the
    * ring and drops the ones that left. */
-  const tileCache = useRef(new Map<number, TilePlacement[][]>());
+  const tileCache = useRef(new Map<number, CachedTile>());
   const focusTile = useRef<[number, number]>([Number.NaN, Number.NaN]);
   const [revision, setRevision] = useState(0);
 
@@ -744,10 +933,19 @@ export function Groundcover({
   // The easy half of the wind work: groundcover casts no shadows, so there is
   // no depth-material twin to keep in step (see Vegetation.tsx).
   const wind = sharedWindUniforms;
+  // The ring's own crossfade/billboard view position. Its own, not the
+  // vegetation layer's: the two draw different kits, so no material is
+  // shared, and one uniform object per layer keeps the dependency one-way.
+  const lodFade = useMemo(() => createLodFadeUniforms(), []);
+  const cards = useMemo(() => buildCardIndex(gltf), [gltf]);
 
   useFrame((state) => {
     const weather = lastWeatherSample();
     if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
+    // The crossfade and the billboard both measure from the REAL camera, not
+    // from `cameraPosition` (the light, in the shadow pass) and not from the
+    // focus (the character's feet, which is a metre and a half out).
+    lodFade.esLodViewPos.value.copy(state.camera.position);
     const focus = focusRef.current;
     // Ensure the chunks under the ring are decoding at LOD 1 (the store
     // dedups with the terrain's own requests); a decode arrival rebuilds.
@@ -757,9 +955,9 @@ export function Groundcover({
       // than by a freshly built `${cx},${cy}` string.
       for (let i = 0; i < CORNER_OFFSETS.length; i += 2) {
         const cx = Math.max(0, Math.min(chunks.grid[0] - 1,
-          Math.floor((focus.x + CORNER_OFFSETS[i] * ringRadiusM) / chunks.chunkMetres)));
+          Math.floor((focus.x + CORNER_OFFSETS[i] * farRadiusM) / chunks.chunkMetres)));
         const cy = Math.max(0, Math.min(chunks.grid[1] - 1,
-          Math.floor((focus.z + CORNER_OFFSETS[i + 1] * ringRadiusM) / chunks.chunkMetres)));
+          Math.floor((focus.z + CORNER_OFFSETS[i + 1] * farRadiusM) / chunks.chunkMetres)));
         const key = cx * CHUNK_KEY_STRIDE + cy;
         if (requested.current.has(key)) continue;
         requested.current.add(key);
@@ -780,23 +978,15 @@ export function Groundcover({
     const group = root.current;
     if (!group || !kit || !control || !chunks) return;
 
-    for (const mesh of meshes.current) {
-      group.remove(mesh);
-      mesh.dispose();
-    }
-    meshes.current = [];
-    if (foundationScatterMesh.current) {
-      // The geometry and material outlive the mesh now (one pair per
-      // component), so only the instance buffer is dropped here.
-      group.remove(foundationScatterMesh.current);
-      foundationScatterMesh.current.dispose();
-      foundationScatterMesh.current = null;
-    }
+    // Nothing is destroyed here (mechanism 7). Every mesh this rebuild does
+    // not fill is hidden by setting its `count` to 0 at the end; the meshes
+    // themselves, their buffers and their bounding spheres survive.
+    const liveMeshes = new Set<string>();
 
     const focus = focusRef.current;
     const waterData = water.current;
     const tileHa = (TILE_M * TILE_M) / 10_000;
-    const tileReach = Math.ceil(ringRadiusM / TILE_M);
+    const tileReach = Math.ceil(farRadiusM / TILE_M);
     const [ftx, ftz] = focusTile.current;
     const cache = tileCache.current;
 
@@ -805,6 +995,7 @@ export function Groundcover({
     // was already generated is reused verbatim and the cost of crossing a
     // boundary is one row of tiles, not the whole ring.
     let tiles = 0;
+    let tilesGenerated = 0;
     const live = new Set<number>();
     // Why candidates die, for the probe (numbers, not a screenshot).
     const rej = { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 };
@@ -817,31 +1008,40 @@ export function Groundcover({
           Math.max(0, Math.abs(focus.x - centreX) - TILE_M / 2),
           Math.max(0, Math.abs(focus.z - centreZ) - TILE_M / 2),
         );
-        if (nearest > ringRadiusM) continue;
+        if (nearest > farRadiusM) continue;
         tiles++;
         const key = tileKey(tx, tz);
         live.add(key);
-        if (cache.has(key)) continue;
+        // A tile wholly outside the mid radius is only ever drawn as thinned
+        // far cards, so it is GENERATED thinned: 35 % of the candidates, and
+        // 35 % of the ground/water/patch sampling that dominates the cost.
+        // It is regenerated in full the moment it enters the mid band.
+        const wantFar = nearest > ringRadiusM;
+        const cached = cache.get(key);
+        if (cached && !(cached.far && !wantFar)) continue;
+        tilesGenerated++;
 
         const perSpecies: TilePlacement[][] = SPECIES_PLANS.map(() => []);
         let incomplete = false;
         for (const plan of SPECIES_PLANS) {
-          // Candidates on a jittered grid at the species' peak density —
-          // Bethesda's GRAS placement model, jitter amplitude as authored.
+          // Candidates on a stratified grid at the species' peak density —
+          // Bethesda's GRAS placement model, one sample uniform per cell.
           const candidates = plan.maxDensity * tileHa;
           const g = Math.max(1, Math.ceil(Math.sqrt(candidates)));
           const cell = TILE_M / g;
           const keepP = candidates / (g * g);
-          // Position must exist before the cover under it can be sampled, so
-          // the jitter amplitude is the plan's first rule's (they differ by
-          // ≤0.15 m across covers — well under a texel).
-          const jitterM = plan.anyRule.positionJitterM;
+          const keepThreshold = wantFar ? keepP * FAR_THIN : keepP;
           for (let k = 0; k < g * g; k++) {
-            if (u01(hash32(tx, tz, plan.index, k * 8)) >= keepP) { rej.keep++; continue; }
-            const jx = (u01(hash32(tx, tz, plan.index, k * 8 + 1)) - 0.5) * 2;
-            const jz = (u01(hash32(tx, tz, plan.index, k * 8 + 2)) - 0.5) * 2;
-            const x = tx * TILE_M + ((k % g) + 0.5) * cell + jx * jitterM;
-            const z = tz * TILE_M + (Math.floor(k / g) + 0.5) * cell + jz * jitterM;
+            const genKeep = u01(hash32(tx, tz, plan.index, k * 8));
+            if (genKeep >= keepThreshold) { rej.keep++; continue; }
+            // Stratified: one candidate per cell, uniform over the WHOLE cell.
+            // A fixed jitter amplitude smaller than the cell left the lattice
+            // visible as rows wherever the cell was wide (every rule under
+            // ~7,000 /ha has a cell over 1.2 m).
+            const ux = u01(hash32(tx, tz, plan.index, k * 8 + 1));
+            const uz = u01(hash32(tx, tz, plan.index, k * 8 + 2));
+            const x = tx * TILE_M + ((k % g) + ux) * cell;
+            const z = tz * TILE_M + (Math.floor(k / g) + uz) * cell;
 
             // Region THEN cover: the swap layer is what stops the delta, the
             // interior swamp and the mangrove coast sharing one reed wherever
@@ -911,7 +1111,7 @@ export function Groundcover({
               yaw: u01(hash32(tx, tz, plan.index, k * 8 + 4)) * Math.PI * 2,
               scale: 1 + vary * rule.heightVariance,
               keep: u01(hash32(tx, tz, plan.index, k * 8 + 6)),
-              fadeRoll: u01(hash32(tx, tz, plan.index, k * 8 + 2)),
+              farKeep: keepP > 0 ? genKeep / keepP : 1,
               r, g: gg, b,
             });
           }
@@ -922,34 +1122,43 @@ export function Groundcover({
         // 68 tiles, 0 instances in the jungle); an incomplete tile is not
         // cached, so the next rebuild (chunk arrival bumps `revision`)
         // generates it again on real ground.
-        if (!incomplete) cache.set(key, perSpecies);
+        if (!incomplete) cache.set(key, { far: wantFar, perSpecies });
       }
     }
     // Evict what left the ring. Without this the cache is the whole province.
     for (const key of cache.keys()) if (!live.has(key)) cache.delete(key);
 
-    // Pass two: fade, quadrant and budget — everything the focus decides.
+    // Pass two: tier, quadrant and budget — everything the focus decides.
     // Quadrants (mechanism 5) are the four sectors around the focus; each gets
     // its own mesh with its own tight bounding sphere, so frustum culling
     // actually rejects instead of always seeing a 150 m mesh.
-    const visible: TilePlacement[][][] = SPECIES_PLANS.map(() => [[], [], [], []]);
+    const nearRadiusM = ringRadiusM * NEAR_FRACTION;
+    const shortFarRadiusM = farRadiusM * SHORT_FAR_FRACTION;
+    // 12 buckets per species: tier * 4 + quadrant.
+    const visible: TilePlacement[][][] = SPECIES_PLANS.map(
+      () => Array.from({ length: TIER_COUNT * 4 }, () => [] as TilePlacement[]));
     let total = 0;
     for (const key of live) {
-      const perSpecies = cache.get(key);
-      if (!perSpecies) continue;
+      const tile = cache.get(key);
+      if (!tile) continue;
       for (const plan of SPECIES_PLANS) {
-        const list = perSpecies[plan.index];
+        const list = tile.perSpecies[plan.index];
         if (list.length === 0) continue;
+        const speciesFarM = plan.short ? shortFarRadiusM : farRadiusM;
         const bucket = visible[plan.index];
         for (let i = 0; i < list.length; i++) {
           const item = list[i];
           const distance = Math.hypot(focus.x - item.x, focus.z - item.z);
-          if (distance > ringRadiusM) continue;
-          // Mechanism 2: the species thins over ITS band, not the ring's.
-          const fadeM = Math.min(plan.fadeM, ringRadiusM);
-          const keepFraction = distanceKeepFraction(distance, fadeM, plan.fullDensityM);
-          if (keepFraction <= 0 || item.fadeRoll >= keepFraction) continue;
-          bucket[(item.x >= focus.x ? 1 : 0) + (item.z >= focus.z ? 2 : 0)].push(item);
+          if (distance > speciesFarM) continue;
+          // Mechanism 2: full mesh, card, thinned card — never a cliff.
+          const tier = distance <= nearRadiusM ? TIER_NEAR
+            : distance <= ringRadiusM ? TIER_MID : TIER_FAR;
+          // The far band keeps 35 %, and it is exactly the subset a
+          // far-generated tile holds, so an instance neither appears nor
+          // disappears when its tile changes band.
+          if (tier === TIER_FAR && item.farKeep >= FAR_THIN) continue;
+          bucket[tier * 4 + (item.x >= focus.x ? 1 : 0) + (item.z >= focus.z ? 2 : 0)]
+            .push(item);
           total++;
         }
       }
@@ -966,59 +1175,114 @@ export function Groundcover({
     const up = new THREE.Vector3(0, 1, 0);
     let instances = 0;
     let triangles = 0;
+    const byTier: [number, number, number] = [0, 0, 0];
     for (const plan of SPECIES_PLANS) {
       const entry = kit.get(plan.id);
       if (!entry) continue; // species missing from the kit: skip, never throw
-      const fadeM = Math.min(plan.fadeM, ringRadiusM);
-      const scaleFadeStartM = fadeM * (1 - SCALE_FADE_FRACTION);
-      for (let quadrant = 0; quadrant < 4; quadrant++) {
-        const list = densityScale < 1
-          ? visible[plan.index][quadrant].filter((p) => p.keep < densityScale)
-          : visible[plan.index][quadrant];
-        if (list.length === 0) continue;
-        instances += list.length;
-        for (const part of entry.levels[0].parts) {
-          const mesh = new THREE.InstancedMesh(part.geometry, part.material, list.length);
-          mesh.frustumCulled = true;
-          // Groundcover NEVER casts (module 65 §111 / research §4.2): tens of
-          // thousands of alpha-tested casters would dominate the cascades.
-          // Nor does it RECEIVE: alpha-tested double-sided cards sampling two
-          // cascades is the most expensive thing this layer could do, for a
-          // shadow nobody reads on a blade of grass.
-          mesh.castShadow = false;
-          mesh.receiveShadow = false;
-          applyGroundTint(part.material);
-          applyWindSway(part.material, wind);
-          for (let i = 0; i < list.length; i++) {
-            const p = list[i];
-            const distance = Math.hypot(focus.x - p.x, focus.z - p.z);
-            const shrink = distance <= scaleFadeStartM ? 1
-              : Math.max(0, 1 - (distance - scaleFadeStartM) / (fadeM - scaleFadeStartM));
-            position.set(p.x, p.y, p.z);
-            quaternion.setFromAxisAngle(up, p.yaw);
-            scale.setScalar(p.scale * shrink);
-            mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
-            mesh.setColorAt(i, colour.setRGB(p.r, p.g, p.b));
+      // View A of the species' baked card. Absent (the kit as it stands ships
+      // no billboard level at all) every tier runs on the full mesh: correct,
+      // just not yet cheap.
+      const card = cards.get(plan.id) ?? null;
+      const speciesFarM = plan.short ? shortFarRadiusM : farRadiusM;
+      const tierBands: [number, number, number, number][] = [
+        [0, nearRadiusM, TIER_BAND_M[0][0], TIER_BAND_M[0][1]],
+        [nearRadiusM, ringRadiusM, TIER_BAND_M[1][0], TIER_BAND_M[1][1]],
+        [ringRadiusM, speciesFarM, TIER_BAND_M[2][0], TIER_BAND_M[2][1]],
+      ];
+      for (let tier = 0; tier < TIER_COUNT; tier++) {
+        const parts = tier === TIER_NEAR || !card ? entry.levels[0].parts : [card];
+        const band = tierBands[tier];
+        for (let quadrant = 0; quadrant < 4; quadrant++) {
+          const slot = tier * 4 + quadrant;
+          const raw = visible[plan.index][slot];
+          const list = densityScale < 1
+            ? raw.filter((p) => p.keep < densityScale) : raw;
+          if (list.length === 0) continue;
+          instances += list.length;
+          byTier[tier] += list.length;
+          for (let partIndex = 0; partIndex < parts.length; partIndex++) {
+            const part = parts[partIndex];
+            const meshKey = `${plan.index}|${slot}|${partIndex}`;
+            const geometry = slotGeometry(part.geometry, slot);
+            applyGroundTint(part.material);
+            // Cards neither sway nor take the wind's per-instance tune: at a
+            // card's distance the motion is sub-pixel, and it would fight the
+            // billboard rotation that shares the same vertex seam.
+            if (tier === TIER_NEAR || !card) applyWindSway(part.material, wind);
+            // Order is load-bearing: the fade declares `esLodViewPos`, the
+            // billboard reuses that declaration (see billboardQuad.ts).
+            applyLodFade(part.material, lodFade);
+            if (tier !== TIER_NEAR && card) {
+              applyCylindricalBillboard(part.material, lodFade);
+            }
+            let mesh = meshPool.current.get(meshKey);
+            if (!mesh || mesh.instanceMatrix.count < list.length) {
+              // Grow by 1.5x so a ring that keeps creeping up by a few
+              // instances does not reallocate on every rebuild.
+              if (mesh) { group.remove(mesh); mesh.dispose(); }
+              mesh = new THREE.InstancedMesh(
+                geometry, part.material, Math.max(64, Math.ceil(list.length * 1.5)));
+              mesh.frustumCulled = true;
+              // Groundcover NEVER casts (module 65 §111 / research §4.2): tens
+              // of thousands of alpha-tested casters would dominate the
+              // cascades. Nor does it RECEIVE: alpha-tested double-sided cards
+              // sampling two cascades is the most expensive thing this layer
+              // could do, for a shadow nobody reads on a blade of grass.
+              mesh.castShadow = false;
+              mesh.receiveShadow = false;
+              mesh.name = `groundcover-${plan.id}-t${tier}-q${quadrant}`;
+              group.add(mesh);
+              meshPool.current.set(meshKey, mesh);
+            }
+            const bands = bandAttribute(geometry, list.length);
+            const bandArray = bands.array as Float32Array;
+            for (let i = 0; i < list.length; i++) {
+              const p = list[i];
+              // One band per mesh — every instance in it crosses the same two
+              // boundaries — but the attribute is per instance because that is
+              // the channel the shared fade shader reads.
+              bandArray[i * 4] = band[0];
+              bandArray[i * 4 + 1] = band[1];
+              bandArray[i * 4 + 2] = band[2];
+              bandArray[i * 4 + 3] = band[3];
+              position.set(p.x, p.y, p.z);
+              quaternion.setFromAxisAngle(up, p.yaw);
+              scale.setScalar(p.scale);
+              mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
+              mesh.setColorAt(i, colour.setRGB(p.r, p.g, p.b));
+            }
+            bands.needsUpdate = true;
+            mesh.count = list.length;
+            mesh.instanceMatrix.needsUpdate = true;
+            if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+            // A per-quadrant sphere is the whole point: computed from these
+            // instances alone, it is a quarter-ring and can leave the frustum.
+            mesh.computeBoundingSphere();
+            liveMeshes.add(meshKey);
+            const index = part.geometry.getIndex();
+            triangles +=
+              ((index ? index.count : part.geometry.attributes.position.count) / 3)
+              * list.length;
           }
-          mesh.instanceMatrix.needsUpdate = true;
-          if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-          // A per-quadrant sphere is the whole point: computed from these
-          // instances alone, it is a quarter-ring and can leave the frustum.
-          mesh.computeBoundingSphere();
-          group.add(mesh);
-          meshes.current.push(mesh);
-          const index = part.geometry.getIndex();
-          triangles +=
-            ((index ? index.count : part.geometry.attributes.position.count) / 3) * list.length;
         }
       }
+    }
+    // Everything the pool holds that this rebuild did not fill draws nothing
+    // — `count = 0` — but keeps its buffers for the next crossing.
+    for (const [meshKey, mesh] of meshPool.current) {
+      if (!liveMeshes.has(meshKey)) mesh.count = 0;
     }
 
     // The compiler-authored foundation band is separate from ordinary flora:
     // grass/fern exclusion still accounts for the full species radius, while
     // these small rubble pieces occupy only the explicitly exported outside
     // band and never appear beneath a building floor.
+    // Filter the treatments BEFORE scattering them: `foundationScatterPoints`
+    // walks a lattice over a whole building's band, and re-deriving every
+    // settlement in the province per rebuild — to throw all but one away on
+    // distance — was the single most expensive thing a tile crossing did.
     const scatter = foundationTreatments
+      .filter((t) => nearTreatment(focus, t, farRadiusM))
       .flatMap(foundationScatterPoints)
       .filter((p) => Math.hypot(focus.x - p.x, focus.z - p.z) <= ringRadiusM)
       .filter((p) => !waterData || waterData.depthProxy(p.x, p.z) <= LAND_SPECIES_MAX_DEPTH_M);
@@ -1029,9 +1293,16 @@ export function Groundcover({
     const scatterScale = groundedScatter.length > MAX_FOUNDATION_SCATTER
       ? MAX_FOUNDATION_SCATTER / groundedScatter.length : 1;
     const visibleScatter = groundedScatter.filter(({ point }) => point.keep < scatterScale);
+    const scatterMesh = foundationScatterMesh.current;
+    if (scatterMesh && scatterMesh.instanceMatrix.count < visibleScatter.length) {
+      group.remove(scatterMesh);
+      scatterMesh.dispose();
+      foundationScatterMesh.current = null;
+    }
     if (visibleScatter.length) {
       const { geometry, material } = foundationParts;
-      const mesh = new THREE.InstancedMesh(geometry, material, visibleScatter.length);
+      const mesh = foundationScatterMesh.current ?? new THREE.InstancedMesh(
+        geometry, material, Math.max(64, Math.ceil(visibleScatter.length * 1.5)));
       for (let i = 0; i < visibleScatter.length; i++) {
         const { point: p, heightM } = visibleScatter[i];
         position.set(p.x, heightM * verticalScale + 0.06 * p.scale, p.z);
@@ -1039,33 +1310,62 @@ export function Groundcover({
         scale.set(p.scale * 1.35, p.scale * 0.55, p.scale);
         mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
       }
+      mesh.count = visibleScatter.length;
       mesh.instanceMatrix.needsUpdate = true;
       mesh.computeBoundingSphere();
       mesh.castShadow = false;
       mesh.receiveShadow = false;
       mesh.name = "foundation-scatter";
-      group.add(mesh);
-      foundationScatterMesh.current = mesh;
+      if (!foundationScatterMesh.current) {
+        group.add(mesh);
+        foundationScatterMesh.current = mesh;
+      }
       triangles += (geometry.getIndex()?.count ?? geometry.attributes.position.count)
         / 3 * visibleScatter.length;
+    } else if (foundationScatterMesh.current) {
+      foundationScatterMesh.current.count = 0;
     }
 
     const stats: GroundcoverStats = {
       instances,
-      draws: meshes.current.length + (foundationScatterMesh.current ? 1 : 0),
+      draws: liveMeshes.size + (visibleScatter.length ? 1 : 0),
       triangles: Math.round(triangles),
       tiles,
+      byTier,
+      tilesGenerated,
+      cards: cards.size > 0,
       densityScale,
       rejected: rej,
       foundationScatterInstances: visibleScatter.length,
     };
     onStats?.(stats);
+    if (import.meta.env.DEV) {
+      // What a tile crossing actually costs, in the two units that matter.
+      console.debug(
+        "[groundcover] rebuild",
+        `tiles ${tilesGenerated}/${tiles} generated`,
+        `instances ${instances} (near ${byTier[0]} / mid ${byTier[1]} / far ${byTier[2]})`,
+        `draws ${stats.draws}`,
+        `pool ${meshPool.current.size}`,
+        `cards ${cards.size}`,
+      );
+    }
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
-  }, [kit, control, chunks, exclusions, foundationTreatments, clearanceIndex,
+  }, [kit, cards, control, chunks, exclusions, foundationTreatments, clearanceIndex,
       regionRaster, tint, foundationParts, revision, verticalScale,
-      onStats, focusRef, store, ringRadiusM, maxInstances, wind]);
+      onStats, focusRef, store, ringRadiusM, farRadiusM, maxInstances, wind,
+      lodFade]);
+
+  // The pool outlives every rebuild, so it is dropped once, on unmount.
+  useEffect(() => () => {
+    for (const mesh of meshPool.current.values()) {
+      mesh.removeFromParent();
+      mesh.dispose();
+    }
+    meshPool.current.clear();
+  }, []);
 
   // Anything the cached tiles were generated FROM invalidates them: a raster
   // arriving late, a new patch list, a different vertical scale. Without this
@@ -1074,7 +1374,7 @@ export function Groundcover({
   useEffect(() => {
     tileCache.current.clear();
   }, [control, regionRaster, tint, chunks, exclusions, clearanceIndex,
-      verticalScale]);
+      verticalScale, ringRadiusM]);
 
   return <group ref={root} name="groundcover" />;
 }

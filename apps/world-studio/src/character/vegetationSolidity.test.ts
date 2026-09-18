@@ -192,6 +192,9 @@ beforeAll(async () => {
         .setTranslation(inst.x, inst.y, inst.z)
         .setRotation({ x: q.x, y: q.y, z: q.z, w: q.w }));
     for (const shape of shapes) {
+      // This harness drives the manifest path only (no geometry provider), so
+      // a trimesh can never appear here.
+      if (shape.kind === "trimesh") continue;
       const desc = shape.kind === "capsule"
         ? RAPIER.ColliderDesc.capsule(shape.halfHeightM * inst.scale, shape.radiusM * inst.scale)
         : RAPIER.ColliderDesc.cuboid(

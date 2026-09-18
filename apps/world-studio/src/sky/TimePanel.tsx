@@ -159,8 +159,7 @@ export function TimePanel({
         </label>
         {wx && (
           <span style={{ opacity: 0.7 }}>
-            wind {wx.windSpeedMS.toFixed(1)} m/s · vis{" "}
-            {wx.visibilityM >= 1000 ? `${(wx.visibilityM / 1000).toFixed(1)} km` : `${Math.round(wx.visibilityM)} m`}
+            wind {wx.windSpeedMS.toFixed(1)} m/s
             {wx.wetness > 0.05 ? ` · wet ${(wx.wetness * 100).toFixed(0)}%` : ""}
           </span>
         )}

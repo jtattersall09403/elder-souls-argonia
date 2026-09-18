@@ -41,6 +41,22 @@ def test_area_report_partitions_the_province(survey):
     assert 0.4 < a["authoredLandKm2"] / a["provinceBoundingAreaKm2"] < 0.8
 
 
+def test_open_sea_census_is_the_record_ocean_not_a_region_class(survey):
+    """`openSeaKm2` counts the ocean ENTITY, not region-raster class 0.
+
+    The census used to split the province by the region raster, which is a
+    painted class and re-derives sea-ness. The sea is not inland: only the
+    one body the graph calls `ocean` is open sea.
+    """
+    w = survey.water
+    ocean = w.kind_grid({"ocean"})
+    if ocean is None:
+        pytest.skip("no compiled water id raster")
+    entity_km2 = float(ocean.sum()) * (w.mpp2 / 1000.0) ** 2
+    reported = survey.area_report()["openSeaKm2"]
+    assert reported == pytest.approx(entity_km2, rel=0.10)
+
+
 def test_decoded_fields_have_plausible_ranges(survey):
     assert survey.danger.max() <= 5 and survey.danger.max() >= 4
     assert survey.region_grid.max() <= 14

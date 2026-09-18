@@ -459,8 +459,10 @@ READS: dict[str, list[Check]] = {
     ],
     "rebake_landcover": [
         P(npy, CURRENT, 2, "float32", True),
-        P(npz, VAULT / "hydrology-pass1.npz", ("sink", "sea")),
-        P(npz, VAULT / "water-pass1.npz", ("w_full", "wet_full")),
+        # 16f ported the bake to the signed record (0070): it reads the graph
+        # and the route registry's condition, never the pass-1 rasters.
+        P(json_doc, SOURCES / "hydrology" / "hydrology-graph.json", ("reaches", "bodies"), 1),
+        P(json_items, SOURCES / "routes" / "registry.json", "routes", ("id",)),
         P(json_items, PROVINCE / "routes.json", "routes", ("px",)),
         P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
     ],

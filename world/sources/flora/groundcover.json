@@ -1,2448 +1,2356 @@
 {
-  "id": "argonia-groundcover-v3",
-  "schemaVersion": 3,
-  "status": "ACTIVE. The land-cover base is the mined Bethesda GRAS binding; the region layer above it is decision 0048; the distance, clump and ground-colour fields are 16f.",
-  "grounding": {
-    "schema": "docs/research/placement-settlements/shipped-world-placement-rules.md R10: GRAS carries density, slope limits, a distance-from-water rule with a mode enum, position jitter, height/colour variance and a wind wave period; LTEX.GNAM binds grasses to painted ground and never allows more than three",
-    "observedValues": "world/sources/placement/groundcover-rules.json",
-    "landCoverIds": "tooling/world-generation/worldgen/landcover.py, holding the same ids that the ground-control raster stores in its red channel",
-    "regionClasses": "tooling/world-generation/worldgen/regions.py, holding the same ids that apps/world-studio/public/province/hydro-regions.png stores by colour",
-    "why": "v1 was keyed by land cover alone, so the tidal delta, the interior swamp and the mangrove coast got identical grass wherever they shared a cover id. Round 13 spread the ring over 34 meshes. 16f fixed what was left. Sixteen covers carried no species, so a mountain, a mudflat and a beach were bare ground with a few weeds standing on it; the kit's variety was texture-only, five groups of identical geometry reading as one plant; every species faded at the same distance in an even mix. The kit is now 62 meshes chosen for silhouette. Six covers are bare. Each species carries its own height, fade distance and clump field.",
-    "richCoverTotals": "the rich covers are authored at 2.2 times the pre-round-13 totals rather than at the totals themselves. Measured at those totals the ring put the jungle floor at 52% coverage and the rootland at 51%, both under the floors in worldgen/test_groundcover_floors.py. At 2.2 times they measure 63% and 65%, which is 16 to 19 thousand instances in a 75 m ring against a cap of 60 thousand. The multiplier is a measured number, so it is recorded with the table rather than in a commit message."
-  },
-  "clumpWavelengthM": 12,
-  "colourVariance": 0.12,
-  "rules": {
-    "maxSpeciesPerCover": 3,
-    "maxSpeciesPerCoverNote": "three is the cap on species that can stand at the same point, not on the length of a cover's list. The river bed and the seabed carry two lists, a wet one for the water that covers them and a dry one for the ground that the water has left. A point is inside one regime or the other, so neither list passes three",
-    "maxCoversPerSpeciesPerRegion": 2,
-    "resolution": "species for (region class, land cover) = byRegionClass[region].swaps[cover] when present, else byLandCover[cover].species. A swap replaces the base list for that one cover in that one region; it never merges",
-    "whyTheCapStillHolds": "LTEX.GNAM's limit of three is per painted texture, so it caps how many species may share one cover. It does not constrain the same cover carrying different species in different regions. The swap layer therefore fits inside the shipped-game rule rather than bending it",
-    "bareGroundIsFine": "six covers carry no species at all: the roads and tracks, the paint under them, cliff faces, the salt pans and the wettest black mud. Open mud between the clumps is what gives a reed bed its edge. Every other cover carries at least two species, because a single species on a cover shows as one plant repeated across it",
-    "tier": "T3, regenerated at runtime from the land-cover raster inside a camera ring, never written into chunk bundles (module 65 §110)",
-    "densityUnit": "instances per hectare inside the ring, before the slope response and before the per-species distance thinning",
-    "heightM": "the asset's own vertical size in the built kit manifest, copied here so the ring can sort species into near and far without loading the kit first",
-    "fadeM": "the distance at which this species has thinned to nothing. Anything under 0.6 m tall is gone by 50 m, since a 30 cm tuft covers about a pixel at that range and still costs a draw. Taller species run to the ring radius. This is Bethesda's fade band and Unreal's per-variety cull distance, set per species rather than one radius for all",
-    "waterRule": "below-at-least puts a species in the water; above puts it on ground that the water has left, at a depth of 2 cm or less. A rule with neither is ordinary land cover. It tolerates the shallow standing water of a marsh to a depth of half a metre",
-    "maxDepthM": "how deep a below-at-least species will stand. 1.5 m for the marsh species that wade; 4 m for the three bed covers, which are the river bed, the seabed and the ocean floor",
-    "clumpWavelengthM": "wavelength of the per-species value-noise field that decides which of a cover's two or three species dominates where. Without it a three-species cover is an even mix everywhere and reads as one texture. At 12 m the species trade dominance in patches that a walking player crosses every few seconds",
-    "colourVariance": "how far each instance's colour may drift from the ground tint underneath it. The ring takes its colour from ground-tint.png, the Witcher 3 pigment-map trick, so grass roots match the ground in which they stand rather than floating as a separate green",
-    "assetPool": "every asset here must be in tooling/asset-pipeline/pipeline/config/kits/groundcover-province-v1.json, the one GLB that the ring loads. Adding a species is a kit rebuild, not a data edit. The kit carries 62 meshes. The triangle ceiling is 128, the highest count among the seven shipped assets. Every addition carries a silhouette that no other asset in the kit already has"
-  },
-  "byLandCover": {
-    "0": {
-      "cover": "SILT",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/rockgrasswater01",
-          "density": 800,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 0.204,
-          "fadeM": 50.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 4.0
-        },
-        {
-          "asset": "vanilla:landscape/grass/waterkelpshort01",
-          "density": 700,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 1.36,
-          "fadeM": 75.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 4.0
-        },
-        {
-          "asset": "bmv:landscape/grass/36grassobj",
-          "density": 1400,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 1.657,
-          "fadeM": 75.0,
-          "waterRule": "above",
-          "unitsFromWater": 0
-        },
-        {
-          "asset": "bmv:landscape/grass/esusheepssorrel",
-          "density": 800,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 1.249,
-          "fadeM": 75.0,
-          "waterRule": "above",
-          "unitsFromWater": 0
-        },
-        {
-          "asset": "bmv:landscape/grass/dandelion-1k",
-          "density": 800,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 0.766,
-          "fadeM": 75.0,
-          "waterRule": "above",
-          "unitsFromWater": 0
-        }
-      ]
+ "id": "argonia-groundcover-v4",
+ "schemaVersion": 4,
+ "status": "ACTIVE. The land-cover base is the mined Bethesda GRAS binding; the region layer above it is decision 0048; the distance, clump and ground-colour fields are 16f.",
+ "grounding": {
+  "schema": "docs/research/placement-settlements/shipped-world-placement-rules.md R10: GRAS carries density, slope limits, a distance-from-water rule with a mode enum, position jitter, height/colour variance and a wind wave period; LTEX.GNAM binds grasses to painted ground and never allows more than three",
+  "observedValues": "world/sources/placement/groundcover-rules.json",
+  "landCoverIds": "tooling/world-generation/worldgen/landcover.py, holding the same ids that the ground-control raster stores in its red channel",
+  "regionClasses": "tooling/world-generation/worldgen/regions.py, holding the same ids that apps/world-studio/public/province/hydro-regions.png stores by colour",
+  "why": "v1 was keyed by land cover alone, so the tidal delta, the interior swamp and the mangrove coast got identical grass wherever they shared a cover id. Round 13 spread the ring over 34 meshes. 16f fixed what was left. Sixteen covers carried no species, so a mountain, a mudflat and a beach were bare ground with a few weeds standing on it; the kit's variety was texture-only, five groups of identical geometry reading as one plant; every species faded at the same distance in an even mix. The kit is now 62 meshes chosen for silhouette. Six covers are bare. Each species carries its own height, fade distance and clump field. 16f round 2: 34 of the 61 species measured as crossed-quad cards of twelve triangles or fewer, which is what the owner saw underfoot, so sixteen modelled species at 102 to 2,298 triangles joined the kit from DrJacopo's grass library, Hoddminir and vanilla's own never-kitted `plants/` clumps. Every lush cover now carries one of them at two fifths of its density, and the cards keep the rest. No cover's total moved: the share was taken from the species that were already there.",
+  "richCoverTotals": "the rich covers are authored at 2.2 times the pre-round-13 totals rather than at the totals themselves. Measured at those totals the ring put the jungle floor at 52% coverage and the rootland at 51%, both under the floors in worldgen/test_groundcover_floors.py. At 2.2 times they measure 63% and 65%, which is 16 to 19 thousand instances in a 75 m ring against a cap of 60 thousand. The multiplier is a measured number, so it is recorded with the table rather than in a commit message."
+ },
+ "clumpWavelengthM": 12,
+ "colourVariance": 0.12,
+ "rules": {
+  "maxSpeciesPerCover": 3,
+  "maxSpeciesPerCoverNote": "three is the cap on species that can stand at the same point, not on the length of a cover's list. The river bed and the seabed carry two lists, a wet one for the water that covers them and a dry one for the ground that the water has left. A point is inside one regime or the other, so neither list passes three",
+  "maxCoversPerSpeciesPerRegion": 2,
+  "resolution": "species for (region class, land cover) = byRegionClass[region].swaps[cover] when present, else byLandCover[cover].species. A swap replaces the base list for that one cover in that one region; it never merges",
+  "whyTheCapStillHolds": "LTEX.GNAM's limit of three is per painted texture, so it caps how many species may share one cover. It does not constrain the same cover carrying different species in different regions. The swap layer therefore fits inside the shipped-game rule rather than bending it",
+  "bareGroundIsFine": "six covers carry no species at all: the roads and tracks, the paint under them, cliff faces, the salt pans and the wettest black mud. Open mud between the clumps is what gives a reed bed its edge. Every other cover carries at least two species, because a single species on a cover shows as one plant repeated across it",
+  "tier": "T3, regenerated at runtime from the land-cover raster inside a camera ring, never written into chunk bundles (module 65 §110)",
+  "candidatePlacement": "v4: one candidate per lattice cell, uniform over the whole cell. v3 carried a per-rule positionJitterM of 0.42 to 0.55 m around the cell centre, which is smaller than the cell of any rule under about 7,000 per hectare, so those species stood in straight rows. The field is gone; the ring jitters over the full cell from the same hash streams",
+  "densityUnit": "instances per hectare inside the ring, before the slope response and before the per-species distance thinning",
+  "heightM": "the asset's own vertical size in the built kit manifest, copied here so the ring can sort species into near and far without loading the kit first",
+  "fadeM": "the distance at which this species has thinned to nothing. Anything under 0.6 m tall is gone by 50 m, since a 30 cm tuft covers about a pixel at that range and still costs a draw. Taller species run to the ring radius. This is Bethesda's fade band and Unreal's per-variety cull distance, set per species rather than one radius for all",
+  "waterRule": "below-at-least puts a species in the water; above puts it on ground that the water has left, at a depth of 2 cm or less. A rule with neither is ordinary land cover. It tolerates the shallow standing water of a marsh to a depth of half a metre",
+  "maxDepthM": "how deep a below-at-least species will stand. 1.5 m for the marsh species that wade; 25 m for the three bed covers, which are the river bed, the seabed and the ocean floor. The bed covers were capped at 4 m until 2026-09-18, which left every stretch of sea deeper than 4 m with no ground cover from the ring at all - bare sand under the palette's kelp. 25 m is where the ring's own fade distance and the water's own extinction have taken a 0.2-1.4 m plant out of sight anyway",
+  "clumpWavelengthM": "wavelength of the per-species value-noise field that decides which of a cover's two or three species dominates where. Without it a three-species cover is an even mix everywhere and reads as one texture. At 12 m the species trade dominance in patches that a walking player crosses every few seconds",
+  "colourVariance": "how far each instance's colour may drift from the ground tint underneath it. The ring takes its colour from ground-tint.png, the Witcher 3 pigment-map trick, so grass roots match the ground in which they stand rather than floating as a separate green",
+  "assetPool": "every asset here must be in tooling/asset-pipeline/pipeline/config/kits/groundcover-province-v1.json, the one GLB that the ring loads. Adding a species is a kit rebuild, not a data edit. The kit carries 77 meshes. The triangle ceiling is 2,400: it was 128, which can only buy a crossed card, and 16f round 2 raised it so the ring can carry modelled plants. The far tier is a card baked from each mesh (`bakeCards`), so the geometry is paid for near the camera only. Every addition carries a silhouette that no other asset in the kit already has"
+ },
+ "byLandCover": {
+  "0": {
+   "cover": "SILT",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/rockgrasswater01",
+     "density": 800,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 0.204,
+     "fadeM": 50.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 25.0
     },
-    "1": {
-      "cover": "RIVER_MUD",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/solojunco",
-          "density": 800,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.715,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_reeds",
-          "density": 800,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.7,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/ewpshore11",
-          "density": 800,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        }
-      ]
+    {
+     "asset": "vanilla:landscape/grass/waterkelpshort01",
+     "density": 700,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 1.36,
+     "fadeM": 75.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 25.0
     },
-    "2": {
-      "cover": "BANK_WET",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/cattailgrass",
-          "density": 800,
-          "slopeDegMax": 26,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.491,
-          "fadeM": 75.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 1.5
-        },
-        {
-          "asset": "bmv:landscape/grass/ewpshore03a",
-          "density": 800,
-          "slopeDegMax": 26,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.716,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/ewpshore14",
-          "density": 800,
-          "slopeDegMax": 26,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.644,
-          "fadeM": 75.0
-        }
-      ]
+    {
+     "asset": "bmv:landscape/grass/36grassobj",
+     "density": 1400,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 1.657,
+     "fadeM": 75.0,
+     "waterRule": "above",
+     "unitsFromWater": 0
     },
-    "3": {
-      "cover": "SCUM",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/ewplake07",
-          "density": 3080,
-          "slopeDegMax": 30,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.361,
-          "fadeM": 50.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 1.5
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_greengrass",
-          "density": 2200,
-          "slopeDegMax": 30,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_mixedplants",
-          "density": 2200,
-          "slopeDegMax": 30,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        }
-      ]
+    {
+     "asset": "bmv:landscape/grass/esusheepssorrel",
+     "density": 800,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 1.249,
+     "fadeM": 75.0,
+     "waterRule": "above",
+     "unitsFromWater": 0
     },
-    "5": {
-      "cover": "PUDDLE",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/cattailgrass",
-          "density": 1000,
-          "slopeDegMax": 20,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.491,
-          "fadeM": 75.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 1.5
-        },
-        {
-          "asset": "htbm:landscape/grass/ewpshore13",
-          "density": 800,
-          "slopeDegMax": 20,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "6": {
-      "cover": "CLAY",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/13grassobj",
-          "density": 1000,
-          "slopeDegMax": 30,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.947,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_bentgrass",
-          "density": 1000,
-          "slopeDegMax": 30,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.944,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "7": {
-      "cover": "MUCK",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/vurt_marshplant1",
-          "density": 800,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.881,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "htbm:landscape/grass/ewpshore16",
-          "density": 700,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/ewpsea03",
-          "density": 700,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "8": {
-      "cover": "BC_MUD",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/vurt_marshplant1",
-          "density": 800,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.881,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "htbm:landscape/grass/ewpshore16",
-          "density": 700,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/ewpsea06",
-          "density": 700,
-          "slopeDegMax": 24,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "9": {
-      "cover": "PEAT",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/marshgrassobj01",
-          "density": 11000,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 3.18,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_eriophorum",
-          "density": 5500,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.683,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/esuburdock",
-          "density": 3960,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.312,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "10": {
-      "cover": "MUD_LEAVES",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/grassfern01",
-          "density": 3520,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 0.804,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_bigfern",
-          "density": 2640,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 0.971,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/ug_forestgroundcover02",
-          "density": 1980,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 0.388,
-          "fadeM": 50.0
-        }
-      ]
-    },
-    "11": {
-      "cover": "MARSH_GRASS",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/marshgrassobj01",
-          "density": 15400,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 3.18,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_reeds",
-          "density": 7700,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.7,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/36grassobj",
-          "density": 3300,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.657,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "12": {
-      "cover": "UNDERGROWTH",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/ferngrass01",
-          "density": 11000,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 1.454,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/esurosebaywillowherb01",
-          "density": 4840,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 0.678,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_bigfern2",
-          "density": 3960,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 1.012,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "13": {
-      "cover": "BC_MOSS",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/ug_forestgroundcover02",
-          "density": 4400,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.42,
-          "waveperiod": 120,
-          "heightM": 0.388,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/ug_forestgroundcover",
-          "density": 3300,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.42,
-          "waveperiod": 120,
-          "heightM": 0.427,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_mgrass",
-          "density": 2640,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.42,
-          "waveperiod": 120,
-          "heightM": 0.91,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "14": {
-      "cover": "MOSS",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/forestgrass01",
-          "density": 3960,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.388,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/weedygroundcover",
-          "density": 2640,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.388,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/woodanemone-white-2k",
-          "density": 1980,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.859,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "15": {
-      "cover": "SWAMP_GRASS",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/grassplant01",
-          "density": 13200,
-          "slopeDegMax": 36,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.804,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_bentgrass",
-          "density": 8800,
-          "slopeDegMax": 36,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.944,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_strangeplant",
-          "density": 6600,
-          "slopeDegMax": 36,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.678,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "16": {
-      "cover": "TROP_GRASS",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/grassfern01",
-          "density": 8800,
-          "slopeDegMax": 42,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.804,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_greengrass",
-          "density": 6600,
-          "slopeDegMax": 42,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.904,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "vanilla:landscape/grass/fallforestgrassobj01",
-          "density": 5500,
-          "slopeDegMax": 42,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.911,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "17": {
-      "cover": "GRASS_DIRT",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/mixgrass01",
-          "density": 5500,
-          "slopeDegMax": 45,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.388,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/13grassobj",
-          "density": 4400,
-          "slopeDegMax": 45,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.947,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/dandelion-1k",
-          "density": 3300,
-          "slopeDegMax": 45,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.766,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "18": {
-      "cover": "SCRUB",
-      "species": [
-        {
-          "asset": "vanilla:landscape/plants/reachbush01",
-          "density": 2640,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.725,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/esusheepssorrel",
-          "density": 3300,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.249,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_yelgrass",
-          "density": 3300,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.85,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "19": {
-      "cover": "JUNGLE",
-      "species": [
-        {
-          "asset": "tropical:landscape/grass/ferngrass01",
-          "density": 15400,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 1.454,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "vanilla:landscape/plants/swordfern01",
-          "density": 11000,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 1.072,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "vanilla:landscape/plants/reachbush01",
-          "density": 8800,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 1.725,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "20": {
-      "cover": "FOREST_FLOOR",
-      "species": [
-        {
-          "asset": "vanilla:landscape/plants/swordfern05",
-          "density": 7700,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 1.446,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "vanilla:landscape/plants/reachfern01",
-          "density": 5500,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 0.712,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/forestgrass02",
-          "density": 4400,
-          "slopeDegMax": 50,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 0.479,
-          "fadeM": 50.0
-        }
-      ]
-    },
-    "21": {
-      "cover": "LITTER",
-      "species": [
-        {
-          "asset": "vanilla:landscape/plants/swordfern06",
-          "density": 4400,
-          "slopeDegMax": 46,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 1.097,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/forestgrass01",
-          "density": 3300,
-          "slopeDegMax": 46,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 0.388,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/fieldgrass01",
-          "density": 2640,
-          "slopeDegMax": 46,
-          "heightVariance": 0.33,
-          "positionJitterM": 0.42,
-          "waveperiod": 240,
-          "heightM": 0.91,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "22": {
-      "cover": "MOSSY_ROCK",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/rockgrass01",
-          "density": 200,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.163,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/esuheather02",
-          "density": 150,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.093,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "23": {
-      "cover": "BC_ROCK",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/32grassobj",
-          "density": 350,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.11,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "vanilla:landscape/plants/swordfern06",
-          "density": 250,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.097,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "24": {
-      "cover": "SAND",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/reachgrassobj01",
-          "density": 700,
-          "slopeDegMax": 42,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 520,
-          "heightM": 0.646,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/esuclover02red",
-          "density": 500,
-          "slopeDegMax": 42,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 520,
-          "heightM": 0.531,
-          "fadeM": 50.0
-        }
-      ]
-    },
-    "26": {
-      "cover": "DRY_CLAY",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/tundragrassobj04",
-          "density": 450,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.515,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_yelgrass",
-          "density": 450,
-          "slopeDegMax": 34,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.85,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "28": {
-      "cover": "PEAT_SLOPE",
-      "species": [
-        {
-          "asset": "bmv:landscape/grass/vurt_eriophorum",
-          "density": 700,
-          "slopeDegMax": 38,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.683,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/ug_forestgroundcover",
-          "density": 500,
-          "slopeDegMax": 38,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.427,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "vanilla:landscape/plants/reachfern01",
-          "density": 400,
-          "slopeDegMax": 38,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.712,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "31": {
-      "cover": "MOUNTAIN_ROCK",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/rockgrass01",
-          "density": 700,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.163,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/esuheather02",
-          "density": 500,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.093,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "32": {
-      "cover": "BEACH_SAND",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/beachgrassobj01",
-          "density": 550,
-          "slopeDegMax": 42,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 520,
-          "heightM": 0.804,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "vanilla:landscape/grass/beachgrassobj02",
-          "density": 450,
-          "slopeDegMax": 42,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 520,
-          "heightM": 0.538,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_notlupins",
-          "density": 400,
-          "slopeDegMax": 42,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 520,
-          "heightM": 1.214,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "33": {
-      "cover": "SEABED_SAND",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/watercoralgrass01",
-          "density": 400,
-          "slopeDegMax": 50,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 1.257,
-          "fadeM": 75.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 4.0
-        },
-        {
-          "asset": "bmv:landscape/grass/rockgrasswater01",
-          "density": 400,
-          "slopeDegMax": 50,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 0.204,
-          "fadeM": 50.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 4.0
-        },
-        {
-          "asset": "vanilla:landscape/grass/beachgrassobj01",
-          "density": 550,
-          "slopeDegMax": 50,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 0.804,
-          "fadeM": 75.0,
-          "waterRule": "above",
-          "unitsFromWater": 0
-        },
-        {
-          "asset": "vanilla:landscape/grass/beachgrassobj02",
-          "density": 450,
-          "slopeDegMax": 50,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 0.538,
-          "fadeM": 50.0,
-          "waterRule": "above",
-          "unitsFromWater": 0
-        },
-        {
-          "asset": "bmv:landscape/grass/ewpshore14",
-          "density": 400,
-          "slopeDegMax": 50,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 0.644,
-          "fadeM": 75.0,
-          "waterRule": "above",
-          "unitsFromWater": 0
-        }
-      ]
-    },
-    "34": {
-      "cover": "PEBBLES",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/reachgrassobj02",
-          "density": 450,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.352,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/32grassobj",
-          "density": 350,
-          "slopeDegMax": 40,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.11,
-          "fadeM": 75.0
-        }
-      ]
-    },
-    "35": {
-      "cover": "OCEAN_FLOOR",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/waterkelpshort01",
-          "density": 300,
-          "slopeDegMax": 50,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 1.36,
-          "fadeM": 75.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 4.0
-        },
-        {
-          "asset": "vanilla:landscape/grass/watercoralgrass01",
-          "density": 300,
-          "slopeDegMax": 50,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 70,
-          "heightM": 1.257,
-          "fadeM": 75.0,
-          "waterRule": "below-at-least",
-          "unitsFromWater": 0,
-          "maxDepthM": 4.0
-        }
-      ]
-    },
-    "37": {
-      "cover": "SCREE",
-      "species": [
-        {
-          "asset": "vanilla:landscape/grass/reachgrassobj02",
-          "density": 400,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.352,
-          "fadeM": 50.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_notlupins",
-          "density": 300,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 1.214,
-          "fadeM": 75.0
-        },
-        {
-          "asset": "bmv:landscape/grass/vurt_brownplants",
-          "density": 300,
-          "slopeDegMax": 44,
-          "heightVariance": 0.3,
-          "positionJitterM": 0.55,
-          "waveperiod": 120,
-          "heightM": 0.678,
-          "fadeM": 75.0
-        }
-      ]
+    {
+     "asset": "bmv:landscape/grass/dandelion-1k",
+     "density": 800,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 0.766,
+     "fadeM": 75.0,
+     "waterRule": "above",
+     "unitsFromWater": 0
     }
+   ]
   },
-  "byRegionClass": {
-    "1": {
-      "id": "border mountains",
-      "note": "regional variant of the base ring for border mountains",
-      "swaps": {
-        "9": [
-          {
-            "asset": "bmv:landscape/grass/vurt_bentgrass",
-            "density": 8250,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.944,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_eriophorum",
-            "density": 4125,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.683,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/esuheather02",
-            "density": 2970,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.093,
-            "fadeM": 75.0
-          }
-        ],
-        "13": [
-          {
-            "asset": "bmv:landscape/grass/ug_forestgroundcover02",
-            "density": 3300,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ug_forestgroundcover",
-            "density": 2475,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.427,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "vanilla:landscape/grass/rockgrass01",
-            "density": 1980,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.163,
-            "fadeM": 50.0
-          }
-        ]
-      }
+  "1": {
+   "cover": "RIVER_MUD",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/solojunco",
+     "density": 800,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.715,
+     "fadeM": 75.0
     },
-    "2": {
-      "id": "upland hills",
-      "note": "regional variant of the base ring for upland hills",
-      "swaps": {
-        "9": [
-          {
-            "asset": "bmv:landscape/grass/36grassobj",
-            "density": 9350,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.657,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_eriophorum",
-            "density": 4675,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.683,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/esufoxglove02",
-            "density": 3366,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.633,
-            "fadeM": 75.0
-          }
-        ],
-        "16": [
-          {
-            "asset": "tropical:landscape/grass/grassfern01",
-            "density": 7480,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.804,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "vanilla:landscape/grass/reachgrassobj01",
-            "density": 5610,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.646,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "vanilla:landscape/grass/fallforestgrassobj01",
-            "density": 4675,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.911,
-            "fadeM": 75.0
-          }
-        ]
-      }
+    {
+     "asset": "bmv:landscape/grass/vurt_reeds",
+     "density": 800,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.7,
+     "fadeM": 75.0
     },
-    "3": {
-      "id": "tidal delta",
-      "note": "regional variant of the base ring for tidal delta",
-      "swaps": {
-        "3": [
-          {
-            "asset": "bmv:landscape/grass/ewplake07",
-            "density": 3542,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.361,
-            "fadeM": 50.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 1.5
-          },
-          {
-            "asset": "bmv:landscape/grass/solojunco",
-            "density": 2530,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.715,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ewpshore11",
-            "density": 2530,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ],
-        "6": [
-          {
-            "asset": "bmv:landscape/grass/ewpshore14",
-            "density": 1150,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.644,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ewpsea03",
-            "density": 1150,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ],
-        "9": [
-          {
-            "asset": "bmv:landscape/grass/vurt_reeds",
-            "density": 12650,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.7,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_eriophorum",
-            "density": 6325,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.683,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "htbm:landscape/grass/ewpshore13",
-            "density": 4554,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ],
-        "11": [
-          {
-            "asset": "bmv:landscape/grass/vurt_reeds",
-            "density": 17710,
-            "slopeDegMax": 34,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.7,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ewpshore11",
-            "density": 8855,
-            "slopeDegMax": 34,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/36grassobj",
-            "density": 3795,
-            "slopeDegMax": 34,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.657,
-            "fadeM": 75.0
-          }
-        ],
-        "33": [
-          {
-            "asset": "vanilla:landscape/grass/watercoralgrass01",
-            "density": 460,
-            "slopeDegMax": 50,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 1.257,
-            "fadeM": 75.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 4.0
-          },
-          {
-            "asset": "bmv:landscape/grass/rockgrasswater01",
-            "density": 460,
-            "slopeDegMax": 50,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 0.204,
-            "fadeM": 50.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 4.0
-          },
-          {
-            "asset": "vanilla:landscape/grass/beachgrassobj01",
-            "density": 632,
-            "slopeDegMax": 50,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 0.804,
-            "fadeM": 75.0,
-            "waterRule": "above",
-            "unitsFromWater": 0
-          },
-          {
-            "asset": "vanilla:landscape/grass/beachgrassobj02",
-            "density": 518,
-            "slopeDegMax": 50,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 0.538,
-            "fadeM": 50.0,
-            "waterRule": "above",
-            "unitsFromWater": 0
-          },
-          {
-            "asset": "bmv:landscape/grass/solojunco",
-            "density": 460,
-            "slopeDegMax": 50,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 1.715,
-            "fadeM": 75.0
-          }
-        ]
-      }
-    },
-    "4": {
-      "id": "coastal lagoon & salt marsh",
-      "note": "regional variant of the base ring for coastal lagoon & salt marsh",
-      "swaps": {
-        "3": [
-          {
-            "asset": "bmv:landscape/grass/ewplake07",
-            "density": 3388,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.361,
-            "fadeM": 50.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 1.5
-          },
-          {
-            "asset": "bmv:landscape/grass/ewpsea06",
-            "density": 2420,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_mixedplants",
-            "density": 2420,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ]
-      }
-    },
-    "5": {
-      "id": "deep river corridor",
-      "note": "regional variant of the base ring for deep river corridor",
-      "swaps": {
-        "3": [
-          {
-            "asset": "bmv:landscape/grass/ewplake07",
-            "density": 3080,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.361,
-            "fadeM": 50.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 1.5
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_greengrass",
-            "density": 2200,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ewpsea03",
-            "density": 2200,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ]
-      }
-    },
-    "6": {
-      "id": "rootland deep marsh",
-      "note": "regional variant of the base ring for rootland deep marsh",
-      "swaps": {
-        "3": [
-          {
-            "asset": "bmv:landscape/grass/ewplake07",
-            "density": 3696,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.361,
-            "fadeM": 50.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 1.5
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_strangeplant",
-            "density": 2640,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.678,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_mixedplants",
-            "density": 2640,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ],
-        "6": [
-          {
-            "asset": "bmv:landscape/grass/vurt_greenyelplant",
-            "density": 1200,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.91,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_bentgrass",
-            "density": 1200,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.944,
-            "fadeM": 75.0
-          }
-        ],
-        "13": [
-          {
-            "asset": "bmv:landscape/grass/ug_forestgroundcover02",
-            "density": 5280,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ug_forestgroundcover",
-            "density": 3960,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.427,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_bigfern",
-            "density": 3168,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.971,
-            "fadeM": 75.0
-          }
-        ],
-        "17": [
-          {
-            "asset": "bmv:landscape/grass/mixgrass01",
-            "density": 6600,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_greenyelplant",
-            "density": 5280,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.91,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/dandelion-1k",
-            "density": 3960,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.766,
-            "fadeM": 75.0
-          }
-        ]
-      }
-    },
-    "7": {
-      "id": "interior swamp",
-      "note": "regional variant of the base ring for interior swamp",
-      "swaps": {
-        "0": [
-          {
-            "asset": "bmv:landscape/grass/rockgrasswater01",
-            "density": 880,
-            "slopeDegMax": 34,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 0.204,
-            "fadeM": 50.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 4.0
-          },
-          {
-            "asset": "vanilla:landscape/grass/waterkelpshort01",
-            "density": 770,
-            "slopeDegMax": 34,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 1.36,
-            "fadeM": 75.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 4.0
-          },
-          {
-            "asset": "bmv:landscape/grass/36grassobj",
-            "density": 1540,
-            "slopeDegMax": 34,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 1.657,
-            "fadeM": 75.0,
-            "waterRule": "above",
-            "unitsFromWater": 0
-          },
-          {
-            "asset": "bmv:landscape/grass/esusheepssorrel",
-            "density": 880,
-            "slopeDegMax": 34,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 1.249,
-            "fadeM": 75.0,
-            "waterRule": "above",
-            "unitsFromWater": 0
-          },
-          {
-            "asset": "bmv:landscape/grass/esuclover02red",
-            "density": 880,
-            "slopeDegMax": 34,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 70,
-            "heightM": 0.531,
-            "fadeM": 50.0
-          }
-        ],
-        "17": [
-          {
-            "asset": "bmv:landscape/grass/mixgrass01",
-            "density": 6050,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/13grassobj",
-            "density": 4840,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.947,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/esuclover02red",
-            "density": 3630,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.531,
-            "fadeM": 50.0
-          }
-        ]
-      }
-    },
-    "8": {
-      "id": "fringe marsh",
-      "note": "regional variant of the base ring for fringe marsh",
-      "swaps": {
-        "3": [
-          {
-            "asset": "bmv:landscape/grass/ewplake07",
-            "density": 3234,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.361,
-            "fadeM": 50.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 1.5
-          },
-          {
-            "asset": "htbm:landscape/grass/ewpshore16",
-            "density": 2310,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_mixedplants",
-            "density": 2310,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ],
-        "8": [
-          {
-            "asset": "bmv:landscape/grass/vurt_marshplant1",
-            "density": 840,
-            "slopeDegMax": 24,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.881,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/solojunco",
-            "density": 735,
-            "slopeDegMax": 24,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.715,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ewpsea06",
-            "density": 735,
-            "slopeDegMax": 24,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ]
-      }
-    },
-    "9": {
-      "id": "seasonal floodplain",
-      "note": "regional variant of the base ring for seasonal floodplain",
-      "swaps": {
-        "14": [
-          {
-            "asset": "bmv:landscape/grass/32grassobj",
-            "density": 3960,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.11,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/weedygroundcover",
-            "density": 2640,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/woodanemone-white-2k",
-            "density": 1980,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.859,
-            "fadeM": 75.0
-          }
-        ],
-        "18": [
-          {
-            "asset": "vanilla:landscape/plants/reachbush01",
-            "density": 2640,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.725,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/esusheepssorrel",
-            "density": 3300,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.249,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/esufoxglove02",
-            "density": 3300,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.633,
-            "fadeM": 75.0
-          }
-        ]
-      }
-    },
-    "11": {
-      "id": "firm lowland",
-      "note": "regional variant of the base ring for firm lowland",
-      "swaps": {
-        "13": [
-          {
-            "asset": "bmv:landscape/grass/ug_forestgroundcover02",
-            "density": 4400,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ug_forestgroundcover",
-            "density": 3300,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.427,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/dandelion-1k",
-            "density": 2640,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.42,
-            "waveperiod": 120,
-            "heightM": 0.766,
-            "fadeM": 75.0
-          }
-        ],
-        "14": [
-          {
-            "asset": "bmv:landscape/grass/forestgrass01",
-            "density": 3960,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/esuclover02red",
-            "density": 2640,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.531,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/woodanemone-white-2k",
-            "density": 1980,
-            "slopeDegMax": 44,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.859,
-            "fadeM": 75.0
-          }
-        ],
-        "17": [
-          {
-            "asset": "bmv:landscape/grass/mixgrass01",
-            "density": 5500,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/13grassobj",
-            "density": 4400,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.947,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/esuclover02red",
-            "density": 3300,
-            "slopeDegMax": 45,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.531,
-            "fadeM": 50.0
-          }
-        ],
-        "24": [
-          {
-            "asset": "vanilla:landscape/grass/reachgrassobj01",
-            "density": 700,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 520,
-            "heightM": 0.646,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/32grassobj",
-            "density": 500,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 520,
-            "heightM": 1.11,
-            "fadeM": 75.0
-          }
-        ],
-        "34": [
-          {
-            "asset": "vanilla:landscape/grass/reachgrassobj02",
-            "density": 450,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.352,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/esuburdock",
-            "density": 350,
-            "slopeDegMax": 40,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.312,
-            "fadeM": 75.0
-          }
-        ]
-      }
-    },
-    "12": {
-      "id": "lake & standing water",
-      "note": "regional variant of the base ring for lake & standing water",
-      "swaps": {}
-    },
-    "13": {
-      "id": "tropical jungle",
-      "note": "regional variant of the base ring for tropical jungle",
-      "swaps": {
-        "16": [
-          {
-            "asset": "vanilla:landscape/plants/swordfern01",
-            "density": 11000,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.072,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_greengrass",
-            "density": 8250,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "vanilla:landscape/grass/fallforestgrassobj01",
-            "density": 6875,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.911,
-            "fadeM": 75.0
-          }
-        ],
-        "21": [
-          {
-            "asset": "vanilla:landscape/plants/swordfern06",
-            "density": 5500,
-            "slopeDegMax": 46,
-            "heightVariance": 0.33,
-            "positionJitterM": 0.42,
-            "waveperiod": 240,
-            "heightM": 1.097,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/forestgrass01",
-            "density": 4125,
-            "slopeDegMax": 46,
-            "heightVariance": 0.33,
-            "positionJitterM": 0.42,
-            "waveperiod": 240,
-            "heightM": 0.388,
-            "fadeM": 50.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_bigfern2",
-            "density": 3300,
-            "slopeDegMax": 46,
-            "heightVariance": 0.33,
-            "positionJitterM": 0.42,
-            "waveperiod": 240,
-            "heightM": 1.012,
-            "fadeM": 75.0
-          }
-        ]
-      }
-    },
-    "14": {
-      "id": "mangrove forest",
-      "note": "regional variant of the base ring for mangrove forest",
-      "swaps": {
-        "3": [
-          {
-            "asset": "bmv:landscape/grass/ewplake07",
-            "density": 3696,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.361,
-            "fadeM": 50.0,
-            "waterRule": "below-at-least",
-            "unitsFromWater": 0,
-            "maxDepthM": 1.5
-          },
-          {
-            "asset": "bmv:landscape/grass/solojunco",
-            "density": 2640,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 1.715,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "htbm:landscape/grass/ewpshore16",
-            "density": 2640,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ],
-        "6": [
-          {
-            "asset": "bmv:landscape/grass/ewpshore11",
-            "density": 1200,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ewpsea06",
-            "density": 1200,
-            "slopeDegMax": 30,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 120,
-            "heightM": 0.904,
-            "fadeM": 75.0
-          }
-        ],
-        "32": [
-          {
-            "asset": "vanilla:landscape/grass/beachgrassobj01",
-            "density": 660,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 520,
-            "heightM": 0.804,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/ewpshore03a",
-            "density": 540,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 520,
-            "heightM": 0.716,
-            "fadeM": 75.0
-          },
-          {
-            "asset": "bmv:landscape/grass/vurt_notlupins",
-            "density": 480,
-            "slopeDegMax": 42,
-            "heightVariance": 0.3,
-            "positionJitterM": 0.55,
-            "waveperiod": 520,
-            "heightM": 1.214,
-            "fadeM": 75.0
-          }
-        ]
-      }
+    {
+     "asset": "bmv:landscape/grass/ewpshore11",
+     "density": 800,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
     }
+   ]
   },
-  "bare": {
-    "covers": [
-      "BLACK_MUD",
-      "SALT",
-      "PATH",
-      "TRACK",
-      "BC_ROAD",
-      "DIRT_CLIFF"
-    ],
-    "why": "roads, tracks, cliff faces, salt pans and the wettest black mud carry no groundcover. Every other painted cover carries at least two species. The river bed, the seabed and the ocean floor left this list in 16f. The vanilla mine shows that Skyrim's kelp and coral are painted-ground grass records like any other, so the ring places them rather than the scatter compiler. The broken lowland rock left the list as well, being steep dirt-cliff ground rather than a cliff face. A bare mountainside was most of what made the uplands read as a quarry"
+  "2": {
+   "cover": "BANK_WET",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/cattailgrass",
+     "density": 800,
+     "slopeDegMax": 26,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.491,
+     "fadeM": 75.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 1.5
+    },
+    {
+     "asset": "bmv:landscape/grass/ewpshore03a",
+     "density": 800,
+     "slopeDegMax": 26,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.716,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/ewpshore14",
+     "density": 800,
+     "slopeDegMax": 26,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.644,
+     "fadeM": 75.0
+    }
+   ]
   },
-  "regionCovers": {
-    "1": [
-      7,
-      9,
-      13,
-      18,
-      20,
-      23,
-      31,
-      34,
-      37
-    ],
-    "2": [
-      2,
-      7,
-      9,
-      10,
-      16,
-      17,
-      18,
-      20,
-      21,
-      23,
-      28,
-      31,
-      34,
-      37
-    ],
-    "3": [
-      0,
-      2,
-      3,
-      5,
-      6,
-      7,
-      8,
-      9,
-      11,
-      32,
-      33,
-      34
-    ],
-    "4": [
-      0,
-      2,
-      3,
-      5,
-      6,
-      7,
-      8,
-      11,
-      32,
-      33
-    ],
-    "5": [
-      0,
-      2,
-      3,
-      5,
-      34
-    ],
-    "6": [
-      0,
-      1,
-      2,
-      3,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      34
-    ],
-    "7": [
-      0,
-      1,
-      2,
-      3,
-      5,
-      6,
-      7,
-      8,
-      9,
-      11,
-      12,
-      15,
-      16,
-      17
-    ],
-    "8": [
-      0,
-      1,
-      2,
-      3,
-      5,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      15,
-      16,
-      17,
-      18,
-      24
-    ],
+  "3": {
+   "cover": "SCUM",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/ewplake07",
+     "density": 3080,
+     "slopeDegMax": 30,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.361,
+     "fadeM": 50.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 1.5
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_greengrass",
+     "density": 2200,
+     "slopeDegMax": 30,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_mixedplants",
+     "density": 2200,
+     "slopeDegMax": 30,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "5": {
+   "cover": "PUDDLE",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/cattailgrass",
+     "density": 1000,
+     "slopeDegMax": 20,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.491,
+     "fadeM": 75.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 1.5
+    },
+    {
+     "asset": "htbm:landscape/grass/ewpshore13",
+     "density": 800,
+     "slopeDegMax": 20,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "6": {
+   "cover": "CLAY",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/13grassobj",
+     "density": 1000,
+     "slopeDegMax": 30,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.947,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_bentgrass",
+     "density": 1000,
+     "slopeDegMax": 30,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.944,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "7": {
+   "cover": "MUCK",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/vurt_marshplant1",
+     "density": 800,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.881,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "htbm:landscape/grass/ewpshore16",
+     "density": 700,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/ewpsea03",
+     "density": 700,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "8": {
+   "cover": "BC_MUD",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/vurt_marshplant1",
+     "density": 800,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.881,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "htbm:landscape/grass/ewpshore16",
+     "density": 700,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/ewpsea06",
+     "density": 700,
+     "slopeDegMax": 24,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "9": {
+   "cover": "PEAT",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/marshgrassobj01",
+     "density": 8184,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 3.18,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_eriophorum",
+     "density": 4092,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.683,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "vanilla:plants/floraspikygrass02",
+     "density": 8184,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.226,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "10": {
+   "cover": "MUD_LEAVES",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/grassfern01",
+     "density": 2791,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 0.804,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_bigfern",
+     "density": 2093,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 0.971,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/fernbrackenclusterdrj",
+     "density": 3256,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.118,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "11": {
+   "cover": "MARSH_GRASS",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/marshgrassobj01",
+     "density": 10560,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 3.18,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_reeds",
+     "density": 5280,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.7,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "vanilla:plants/floraspikygrass02",
+     "density": 10560,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.226,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "12": {
+   "cover": "UNDERGROWTH",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/ferngrass01",
+     "density": 8250,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.454,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/esurosebaywillowherb01",
+     "density": 3630,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 0.678,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/swordferndrj",
+     "density": 7920,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.111,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "13": {
+   "cover": "BC_MOSS",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/ug_forestgroundcover02",
+     "density": 3545,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.388,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/ug_forestgroundcover",
+     "density": 2659,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.427,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "hoddminir:ztree's/plants/ladymantle",
+     "density": 4136,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.278,
+     "fadeM": 50.0
+    }
+   ]
+  },
+  "14": {
+   "cover": "MOSS",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/forestgrass01",
+     "density": 3089,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.388,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/weedygroundcover",
+     "density": 2059,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.388,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "hoddminir:ztree's/plants/celandine",
+     "density": 3432,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.29,
+     "fadeM": 50.0
+    }
+   ]
+  },
+  "15": {
+   "cover": "SWAMP_GRASS",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/grassplant01",
+     "density": 10296,
+     "slopeDegMax": 36,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.804,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_bentgrass",
+     "density": 6864,
+     "slopeDegMax": 36,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.944,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/tyroliangrasstalldrj",
+     "density": 11440,
+     "slopeDegMax": 36,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.963,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "16": {
+   "cover": "TROP_GRASS",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/grassfern01",
+     "density": 7166,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.804,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_greengrass",
+     "density": 5374,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.904,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/complexgrassdrj10",
+     "density": 8360,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.642,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "17": {
+   "cover": "GRASS_DIRT",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/mixgrass01",
+     "density": 4400,
+     "slopeDegMax": 45,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.388,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/13grassobj",
+     "density": 3520,
+     "slopeDegMax": 45,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.947,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/complexgrassdrj05",
+     "density": 5280,
+     "slopeDegMax": 45,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.524,
+     "fadeM": 50.0
+    }
+   ]
+  },
+  "18": {
+   "cover": "SCRUB",
+   "species": [
+    {
+     "asset": "vanilla:landscape/plants/reachbush01",
+     "density": 2464,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.725,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/esusheepssorrel",
+     "density": 3080,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.249,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/nettledrj",
+     "density": 3696,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.526,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "19": {
+   "cover": "JUNGLE",
+   "species": [
+    {
+     "asset": "tropical:landscape/grass/ferngrass01",
+     "density": 12320,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.454,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "vanilla:landscape/plants/swordfern01",
+     "density": 8800,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.072,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "vanilla:landscape/plants/swordferncluster01",
+     "density": 14080,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.446,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "20": {
+   "cover": "FOREST_FLOOR",
+   "species": [
+    {
+     "asset": "vanilla:landscape/plants/swordfern05",
+     "density": 6160,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.446,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "vanilla:landscape/plants/reachfern01",
+     "density": 4400,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 0.712,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "hoddminir:ztree's/plants/braken",
+     "density": 7040,
+     "slopeDegMax": 50,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.125,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "21": {
+   "cover": "LITTER",
+   "species": [
+    {
+     "asset": "vanilla:landscape/plants/swordfern06",
+     "density": 3545,
+     "slopeDegMax": 46,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.097,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/forestgrass01",
+     "density": 2659,
+     "slopeDegMax": 46,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 0.388,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/swordfern05",
+     "density": 4136,
+     "slopeDegMax": 46,
+     "heightVariance": 0.33,
+     "waveperiod": 240,
+     "heightM": 1.175,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "22": {
+   "cover": "MOSSY_ROCK",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/rockgrass01",
+     "density": 200,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.163,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/esuheather02",
+     "density": 150,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.093,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "23": {
+   "cover": "BC_ROCK",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/32grassobj",
+     "density": 350,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.11,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "vanilla:landscape/plants/swordfern06",
+     "density": 250,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.097,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "24": {
+   "cover": "SAND",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/reachgrassobj01",
+     "density": 420,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 520,
+     "heightM": 0.646,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/esuclover02red",
+     "density": 300,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 520,
+     "heightM": 0.531,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/coastalgrassdrj01_short",
+     "density": 480,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 520,
+     "heightM": 0.456,
+     "fadeM": 50.0
+    }
+   ]
+  },
+  "26": {
+   "cover": "DRY_CLAY",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/tundragrassobj04",
+     "density": 450,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.515,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_yelgrass",
+     "density": 450,
+     "slopeDegMax": 34,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.85,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "27": {
+   "cover": "PATH",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/mixgrass01",
+     "density": 1200,
+     "slopeDegMax": 45,
+     "heightVariance": 0.3,
+     "positionJitterM": 0.55,
+     "waveperiod": 120,
+     "heightM": 0.388,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/weedygroundcover",
+     "density": 800,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "positionJitterM": 0.55,
+     "waveperiod": 120,
+     "heightM": 0.388,
+     "fadeM": 50.0
+    }
+   ]
+  },
+  "28": {
+   "cover": "PEAT_SLOPE",
+   "species": [
+    {
+     "asset": "bmv:landscape/grass/vurt_eriophorum",
+     "density": 700,
+     "slopeDegMax": 38,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.683,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/ug_forestgroundcover",
+     "density": 500,
+     "slopeDegMax": 38,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.427,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "vanilla:landscape/plants/reachfern01",
+     "density": 400,
+     "slopeDegMax": 38,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.712,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "29": {
+   "cover": "TRACK",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/fallforestgrassobj01",
+     "density": 1200,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "positionJitterM": 0.55,
+     "waveperiod": 120,
+     "heightM": 0.911,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_mgrass",
+     "density": 800,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "positionJitterM": 0.42,
+     "waveperiod": 120,
+     "heightM": 0.91,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "31": {
+   "cover": "MOUNTAIN_ROCK",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/rockgrass01",
+     "density": 700,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.163,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/esuheather02",
+     "density": 500,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.093,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "32": {
+   "cover": "BEACH_SAND",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/beachgrassobj01",
+     "density": 462,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 520,
+     "heightM": 0.804,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "vanilla:landscape/grass/beachgrassobj02",
+     "density": 378,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 520,
+     "heightM": 0.538,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "drjacopo:landscape/grass/coastalgrassdrj01",
+     "density": 560,
+     "slopeDegMax": 42,
+     "heightVariance": 0.3,
+     "waveperiod": 520,
+     "heightM": 0.58,
+     "fadeM": 50.0
+    }
+   ]
+  },
+  "33": {
+   "cover": "SEABED_SAND",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/watercoralgrass01",
+     "density": 400,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 1.257,
+     "fadeM": 75.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 25.0
+    },
+    {
+     "asset": "bmv:landscape/grass/rockgrasswater01",
+     "density": 400,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 0.204,
+     "fadeM": 50.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 25.0
+    },
+    {
+     "asset": "depths:landscape/grass/tbprockgrasswater03",
+     "density": 250,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 0.61,
+     "fadeM": 75.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 25.0
+    },
+    {
+     "asset": "vanilla:landscape/grass/beachgrassobj01",
+     "density": 550,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 0.804,
+     "fadeM": 75.0,
+     "waterRule": "above",
+     "unitsFromWater": 0
+    },
+    {
+     "asset": "vanilla:landscape/grass/beachgrassobj02",
+     "density": 450,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 0.538,
+     "fadeM": 50.0,
+     "waterRule": "above",
+     "unitsFromWater": 0
+    },
+    {
+     "asset": "bmv:landscape/grass/ewpshore14",
+     "density": 400,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 0.644,
+     "fadeM": 75.0,
+     "waterRule": "above",
+     "unitsFromWater": 0
+    }
+   ]
+  },
+  "34": {
+   "cover": "PEBBLES",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/reachgrassobj02",
+     "density": 450,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.352,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/32grassobj",
+     "density": 350,
+     "slopeDegMax": 40,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.11,
+     "fadeM": 75.0
+    }
+   ]
+  },
+  "35": {
+   "cover": "OCEAN_FLOOR",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/waterkelpshort01",
+     "density": 300,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 1.36,
+     "fadeM": 75.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 25.0
+    },
+    {
+     "asset": "vanilla:landscape/grass/watercoralgrass01",
+     "density": 300,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 1.257,
+     "fadeM": 75.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 25.0
+    },
+    {
+     "asset": "depths:landscape/grass/tbprockgrasswater03",
+     "density": 250,
+     "slopeDegMax": 50,
+     "heightVariance": 0.3,
+     "waveperiod": 70,
+     "heightM": 0.61,
+     "fadeM": 75.0,
+     "waterRule": "below-at-least",
+     "unitsFromWater": 0,
+     "maxDepthM": 25.0
+    }
+   ]
+  },
+  "37": {
+   "cover": "SCREE",
+   "species": [
+    {
+     "asset": "vanilla:landscape/grass/reachgrassobj02",
+     "density": 400,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.352,
+     "fadeM": 50.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_notlupins",
+     "density": 300,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 1.214,
+     "fadeM": 75.0
+    },
+    {
+     "asset": "bmv:landscape/grass/vurt_brownplants",
+     "density": 300,
+     "slopeDegMax": 44,
+     "heightVariance": 0.3,
+     "waveperiod": 120,
+     "heightM": 0.678,
+     "fadeM": 75.0
+    }
+   ]
+  }
+ },
+ "byRegionClass": {
+  "1": {
+   "id": "border mountains",
+   "note": "regional variant of the base ring for border mountains",
+   "swaps": {
     "9": [
-      0,
-      1,
-      2,
-      3,
-      5,
-      6,
-      7,
-      9,
-      10,
-      11,
-      14,
-      15,
-      16,
-      17,
-      18,
-      28,
-      34
-    ],
-    "11": [
-      0,
-      1,
-      2,
-      3,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      23,
-      24,
-      28,
-      31,
-      34
-    ],
-    "12": [
-      0,
-      1,
-      2,
-      3,
-      5,
-      34
+     {
+      "asset": "bmv:landscape/grass/vurt_bentgrass",
+      "density": 6138,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.944,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_eriophorum",
+      "density": 3069,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.683,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/icelandicgrassdensedrj",
+      "density": 6138,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.147,
+      "fadeM": 75.0
+     }
     ],
     "13": [
-      0,
-      2,
-      3,
-      5,
-      7,
-      8,
-      16,
-      18,
-      19,
-      20,
-      21
+     {
+      "asset": "bmv:landscape/grass/ug_forestgroundcover02",
+      "density": 2659,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ug_forestgroundcover",
+      "density": 1994,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.427,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/tyroliangrasstalldrj",
+      "density": 3102,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.963,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "2": {
+   "id": "upland hills",
+   "note": "regional variant of the base ring for upland hills",
+   "swaps": {
+    "9": [
+     {
+      "asset": "bmv:landscape/grass/36grassobj",
+      "density": 6957,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.657,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_eriophorum",
+      "density": 3478,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.683,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/icelandicgrassdensedrj",
+      "density": 6956,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.147,
+      "fadeM": 75.0
+     }
+    ],
+    "16": [
+     {
+      "asset": "tropical:landscape/grass/grassfern01",
+      "density": 6091,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.804,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "vanilla:landscape/grass/reachgrassobj01",
+      "density": 4568,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.646,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/tyroliangrasstalldrj",
+      "density": 7106,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.963,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "3": {
+   "id": "tidal delta",
+   "note": "regional variant of the base ring for tidal delta",
+   "swaps": {
+    "3": [
+     {
+      "asset": "bmv:landscape/grass/ewplake07",
+      "density": 3542,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.361,
+      "fadeM": 50.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 1.5
+     },
+     {
+      "asset": "bmv:landscape/grass/solojunco",
+      "density": 2530,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.715,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ewpshore11",
+      "density": 2530,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ],
+    "6": [
+     {
+      "asset": "bmv:landscape/grass/ewpshore14",
+      "density": 1150,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.644,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ewpsea03",
+      "density": 1150,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ],
+    "9": [
+     {
+      "asset": "bmv:landscape/grass/vurt_reeds",
+      "density": 9411,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.7,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_eriophorum",
+      "density": 4706,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.683,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/coastalgrassdrj01",
+      "density": 9412,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.58,
+      "fadeM": 50.0
+     }
+    ],
+    "11": [
+     {
+      "asset": "bmv:landscape/grass/vurt_reeds",
+      "density": 12144,
+      "slopeDegMax": 34,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.7,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ewpshore11",
+      "density": 6072,
+      "slopeDegMax": 34,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "vanilla:plants/floraspikygrass02",
+      "density": 12144,
+      "slopeDegMax": 34,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.226,
+      "fadeM": 75.0
+     }
+    ],
+    "33": [
+     {
+      "asset": "vanilla:landscape/grass/watercoralgrass01",
+      "density": 460,
+      "slopeDegMax": 50,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 1.257,
+      "fadeM": 75.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 4.0
+     },
+     {
+      "asset": "bmv:landscape/grass/rockgrasswater01",
+      "density": 460,
+      "slopeDegMax": 50,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 0.204,
+      "fadeM": 50.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 4.0
+     },
+     {
+      "asset": "vanilla:landscape/grass/beachgrassobj01",
+      "density": 632,
+      "slopeDegMax": 50,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 0.804,
+      "fadeM": 75.0,
+      "waterRule": "above",
+      "unitsFromWater": 0
+     },
+     {
+      "asset": "vanilla:landscape/grass/beachgrassobj02",
+      "density": 518,
+      "slopeDegMax": 50,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 0.538,
+      "fadeM": 50.0,
+      "waterRule": "above",
+      "unitsFromWater": 0
+     },
+     {
+      "asset": "bmv:landscape/grass/solojunco",
+      "density": 460,
+      "slopeDegMax": 50,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 1.715,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "4": {
+   "id": "coastal lagoon & salt marsh",
+   "note": "regional variant of the base ring for coastal lagoon & salt marsh",
+   "swaps": {
+    "3": [
+     {
+      "asset": "bmv:landscape/grass/ewplake07",
+      "density": 3388,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.361,
+      "fadeM": 50.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 1.5
+     },
+     {
+      "asset": "bmv:landscape/grass/ewpsea06",
+      "density": 2420,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_mixedplants",
+      "density": 2420,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "5": {
+   "id": "deep river corridor",
+   "note": "regional variant of the base ring for deep river corridor",
+   "swaps": {
+    "3": [
+     {
+      "asset": "bmv:landscape/grass/ewplake07",
+      "density": 3080,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.361,
+      "fadeM": 50.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 1.5
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_greengrass",
+      "density": 2200,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ewpsea03",
+      "density": 2200,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "6": {
+   "id": "rootland deep marsh",
+   "note": "regional variant of the base ring for rootland deep marsh",
+   "swaps": {
+    "3": [
+     {
+      "asset": "bmv:landscape/grass/ewplake07",
+      "density": 3696,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.361,
+      "fadeM": 50.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 1.5
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_strangeplant",
+      "density": 2640,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.678,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_mixedplants",
+      "density": 2640,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ],
+    "6": [
+     {
+      "asset": "bmv:landscape/grass/vurt_greenyelplant",
+      "density": 1200,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.91,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_bentgrass",
+      "density": 1200,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.944,
+      "fadeM": 75.0
+     }
+    ],
+    "13": [
+     {
+      "asset": "bmv:landscape/grass/ug_forestgroundcover02",
+      "density": 4254,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ug_forestgroundcover",
+      "density": 3191,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.427,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/veratrumdrj",
+      "density": 4963,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.935,
+      "fadeM": 75.0
+     }
+    ],
+    "17": [
+     {
+      "asset": "bmv:landscape/grass/mixgrass01",
+      "density": 5280,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_greenyelplant",
+      "density": 4224,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.91,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/nettledrj",
+      "density": 6336,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.526,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "7": {
+   "id": "interior swamp",
+   "note": "regional variant of the base ring for interior swamp",
+   "swaps": {
+    "0": [
+     {
+      "asset": "bmv:landscape/grass/rockgrasswater01",
+      "density": 880,
+      "slopeDegMax": 34,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 0.204,
+      "fadeM": 50.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 4.0
+     },
+     {
+      "asset": "vanilla:landscape/grass/waterkelpshort01",
+      "density": 770,
+      "slopeDegMax": 34,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 1.36,
+      "fadeM": 75.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 4.0
+     },
+     {
+      "asset": "bmv:landscape/grass/36grassobj",
+      "density": 1540,
+      "slopeDegMax": 34,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 1.657,
+      "fadeM": 75.0,
+      "waterRule": "above",
+      "unitsFromWater": 0
+     },
+     {
+      "asset": "bmv:landscape/grass/esusheepssorrel",
+      "density": 880,
+      "slopeDegMax": 34,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 1.249,
+      "fadeM": 75.0,
+      "waterRule": "above",
+      "unitsFromWater": 0
+     },
+     {
+      "asset": "bmv:landscape/grass/esuclover02red",
+      "density": 880,
+      "slopeDegMax": 34,
+      "heightVariance": 0.3,
+      "waveperiod": 70,
+      "heightM": 0.531,
+      "fadeM": 50.0
+     }
+    ],
+    "17": [
+     {
+      "asset": "bmv:landscape/grass/mixgrass01",
+      "density": 4840,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "bmv:landscape/grass/13grassobj",
+      "density": 3872,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.947,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/veratrumdrj",
+      "density": 5808,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.935,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "8": {
+   "id": "fringe marsh",
+   "note": "regional variant of the base ring for fringe marsh",
+   "swaps": {
+    "3": [
+     {
+      "asset": "bmv:landscape/grass/ewplake07",
+      "density": 3234,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.361,
+      "fadeM": 50.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 1.5
+     },
+     {
+      "asset": "htbm:landscape/grass/ewpshore16",
+      "density": 2310,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_mixedplants",
+      "density": 2310,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ],
+    "8": [
+     {
+      "asset": "bmv:landscape/grass/vurt_marshplant1",
+      "density": 840,
+      "slopeDegMax": 24,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.881,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/solojunco",
+      "density": 735,
+      "slopeDegMax": 24,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.715,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ewpsea06",
+      "density": 735,
+      "slopeDegMax": 24,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "9": {
+   "id": "seasonal floodplain",
+   "note": "regional variant of the base ring for seasonal floodplain",
+   "swaps": {
+    "14": [
+     {
+      "asset": "bmv:landscape/grass/32grassobj",
+      "density": 3089,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.11,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/weedygroundcover",
+      "density": 2059,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "hoddminir:ztree's/plants/ladymantle",
+      "density": 3432,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.278,
+      "fadeM": 50.0
+     }
+    ],
+    "18": [
+     {
+      "asset": "vanilla:landscape/plants/reachbush01",
+      "density": 2464,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.725,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/esusheepssorrel",
+      "density": 3080,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.249,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/nettledrj",
+      "density": 3696,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.526,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "11": {
+   "id": "firm lowland",
+   "note": "regional variant of the base ring for firm lowland",
+   "swaps": {
+    "13": [
+     {
+      "asset": "bmv:landscape/grass/ug_forestgroundcover02",
+      "density": 3545,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ug_forestgroundcover",
+      "density": 2659,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.427,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/fernbrackenclusterdrj",
+      "density": 4136,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.118,
+      "fadeM": 75.0
+     }
     ],
     "14": [
-      0,
-      1,
-      2,
-      3,
-      5,
-      6,
-      7,
-      32,
-      33,
-      35
+     {
+      "asset": "bmv:landscape/grass/forestgrass01",
+      "density": 3089,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "bmv:landscape/grass/esuclover02red",
+      "density": 2059,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.531,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "hoddminir:ztree's/plants/celandine",
+      "density": 3432,
+      "slopeDegMax": 44,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.29,
+      "fadeM": 50.0
+     }
+    ],
+    "17": [
+     {
+      "asset": "bmv:landscape/grass/mixgrass01",
+      "density": 4400,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "bmv:landscape/grass/13grassobj",
+      "density": 3520,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.947,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/complexgrassdrj05",
+      "density": 5280,
+      "slopeDegMax": 45,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.524,
+      "fadeM": 50.0
+     }
+    ],
+    "24": [
+     {
+      "asset": "vanilla:landscape/grass/reachgrassobj01",
+      "density": 420,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 520,
+      "heightM": 0.646,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/32grassobj",
+      "density": 300,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 520,
+      "heightM": 1.11,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/coastalgrassdrj01_short",
+      "density": 480,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 520,
+      "heightM": 0.456,
+      "fadeM": 50.0
+     }
+    ],
+    "34": [
+     {
+      "asset": "vanilla:landscape/grass/reachgrassobj02",
+      "density": 450,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.352,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "bmv:landscape/grass/esuburdock",
+      "density": 350,
+      "slopeDegMax": 40,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.312,
+      "fadeM": 75.0
+     }
     ]
+   }
   },
-  "regionCoversNote": "land covers each region class actually paints, measured from the shipped apps/world-studio/public/province/refined/ground-control.png against hydro-regions.png (covers holding >=0.5% of the class's area and not in bare.covers, re-measured 2026-09-16 after the bare list shrank to six). A swap for a cover that a region does not paint is dead data; the breadth gate reads this list, not the whole cover table."
+  "12": {
+   "id": "lake & standing water",
+   "note": "regional variant of the base ring for lake & standing water",
+   "swaps": {}
+  },
+  "13": {
+   "id": "tropical jungle",
+   "note": "regional variant of the base ring for tropical jungle",
+   "swaps": {
+    "16": [
+     {
+      "asset": "vanilla:landscape/plants/swordfern01",
+      "density": 8957,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.072,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_greengrass",
+      "density": 6718,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/swordferndrj",
+      "density": 10450,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.111,
+      "fadeM": 75.0
+     }
+    ],
+    "21": [
+     {
+      "asset": "vanilla:landscape/plants/swordfern06",
+      "density": 4431,
+      "slopeDegMax": 46,
+      "heightVariance": 0.33,
+      "waveperiod": 240,
+      "heightM": 1.097,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/forestgrass01",
+      "density": 3324,
+      "slopeDegMax": 46,
+      "heightVariance": 0.33,
+      "waveperiod": 240,
+      "heightM": 0.388,
+      "fadeM": 50.0
+     },
+     {
+      "asset": "drjacopo:landscape/grass/swordfern05",
+      "density": 5170,
+      "slopeDegMax": 46,
+      "heightVariance": 0.33,
+      "waveperiod": 240,
+      "heightM": 1.175,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  },
+  "14": {
+   "id": "mangrove forest",
+   "note": "regional variant of the base ring for mangrove forest",
+   "swaps": {
+    "3": [
+     {
+      "asset": "bmv:landscape/grass/ewplake07",
+      "density": 3696,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.361,
+      "fadeM": 50.0,
+      "waterRule": "below-at-least",
+      "unitsFromWater": 0,
+      "maxDepthM": 1.5
+     },
+     {
+      "asset": "bmv:landscape/grass/solojunco",
+      "density": 2640,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 1.715,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "htbm:landscape/grass/ewpshore16",
+      "density": 2640,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ],
+    "6": [
+     {
+      "asset": "bmv:landscape/grass/ewpshore11",
+      "density": 1200,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ewpsea06",
+      "density": 1200,
+      "slopeDegMax": 30,
+      "heightVariance": 0.3,
+      "waveperiod": 120,
+      "heightM": 0.904,
+      "fadeM": 75.0
+     }
+    ],
+    "32": [
+     {
+      "asset": "vanilla:landscape/grass/beachgrassobj01",
+      "density": 660,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 520,
+      "heightM": 0.804,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/ewpshore03a",
+      "density": 540,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 520,
+      "heightM": 0.716,
+      "fadeM": 75.0
+     },
+     {
+      "asset": "bmv:landscape/grass/vurt_notlupins",
+      "density": 480,
+      "slopeDegMax": 42,
+      "heightVariance": 0.3,
+      "waveperiod": 520,
+      "heightM": 1.214,
+      "fadeM": 75.0
+     }
+    ]
+   }
+  }
+ },
+ "bare": {
+  "covers": [
+   "BLACK_MUD",
+   "SALT",
+   "BC_ROAD",
+   "DIRT_CLIFF"
+  ],
+  "why": "the built road surface, cliff faces, salt pans and the wettest black mud carry no groundcover. Every other painted cover carries at least two species. The river bed, the seabed and the ocean floor left this list in 16f. The vanilla mine shows that Skyrim's kelp and coral are painted-ground grass records like any other, so the ring places them rather than the scatter compiler. The broken lowland rock left the list as well, being steep dirt-cliff ground rather than a cliff face. A bare mountainside was most of what made the uplands read as a quarry. The dirt path and the churned track left the list on 2026-09-18: a decayed or broken road is a surface grass is taking back, so both carry sparse grass at a fraction of the verge's density, while the built road surface stays swept bare"
+ },
+ "regionCovers": {
+  "1": [
+   7,
+   9,
+   13,
+   18,
+   20,
+   23,
+   31,
+   34,
+   37
+  ],
+  "2": [
+   2,
+   7,
+   9,
+   10,
+   16,
+   17,
+   18,
+   20,
+   21,
+   23,
+   28,
+   31,
+   34,
+   37
+  ],
+  "3": [
+   0,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   11,
+   32,
+   33,
+   34
+  ],
+  "4": [
+   0,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   11,
+   32,
+   33
+  ],
+  "5": [
+   0,
+   2,
+   3,
+   5,
+   34
+  ],
+  "6": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   34
+  ],
+  "7": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   11,
+   12,
+   15,
+   16,
+   17
+  ],
+  "8": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   15,
+   16,
+   17,
+   18,
+   24
+  ],
+  "9": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   9,
+   10,
+   11,
+   14,
+   15,
+   16,
+   17,
+   18,
+   28,
+   34
+  ],
+  "11": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   23,
+   24,
+   28,
+   31,
+   34
+  ],
+  "12": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   34
+  ],
+  "13": [
+   0,
+   2,
+   3,
+   5,
+   7,
+   8,
+   16,
+   18,
+   19,
+   20,
+   21
+  ],
+  "14": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   32,
+   33,
+   35
+  ]
+ },
+ "regionCoversNote": "land covers each region class actually paints, measured from the shipped apps/world-studio/public/province/refined/ground-control.png against hydro-regions.png (covers holding >=0.5% of the class's area and not in bare.covers, re-measured 2026-09-16 after the bare list shrank to six). A swap for a cover that a region does not paint is dead data; the breadth gate reads this list, not the whole cover table."
 }

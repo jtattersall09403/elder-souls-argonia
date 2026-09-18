@@ -304,6 +304,10 @@ def pool_sources(pool: str, vault: Path, tropical: bool = True) -> PoolSources:
         "sailboats": "sailboats-expanded-40057",
         "impships": "cyrodiil-ship-boat-resource-59426",
         "boatsanim": "boats-operational-animated-110882",
+        "drjacopo": "drjacopo-3d-grass-library-80687",
+        "hoddminir": "hoddminir-plants-and-trees-38651",
+        "jokerine": "seashells-jokerine-4492",
+        "shores": "shores-of-skyrim-cc-140081",
     }
     if pool in dir_pools:
         root = vault / "skyrim-source/mod-sources" / dir_pools[pool] / "extracted"
@@ -477,7 +481,7 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
             "id": entry["asset"],
             "nif": to_windows(nif),
             "category": row.get("category", "misc"),
-            "lodRatios": entry.get("lodRatios", kit.get("lodRatios", [0.35, 0.12])),
+            "lodRatios": resolve_lod_ratios(entry, kit, row.get("category", "misc")),
             "collision": entry.get("collision", _default_collision(row)),
             "doubleSided": entry.get(
                 "doubleSided", row.get("category") in FOLIAGE_CATEGORIES
@@ -485,6 +489,10 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         }
         if entry.get("collisionRadiusM"):
             record["collisionRadiusM"] = entry["collisionRadiusM"]
+        if "bakeCard" in entry:
+            # Per-asset opt-out of the kit's `bakeCards` (an asset whose
+            # silhouette a card cannot carry).
+            record["bakeCard"] = bool(entry["bakeCard"])
         if entry.get("compose"):
             record["parts"] = parts
         # A species may BORROW another species' authored card (`lodFlatFrom`):
@@ -603,6 +611,86 @@ def _part_specs(entry: dict) -> list[dict]:
 FOLIAGE_CATEGORIES = {"tree", "shrub", "plant", "grass", "aquatic-plant", "fungus"}
 
 
+DEFAULT_LOD_RATIOS = [0.35, 0.12]
+
+
+def resolve_lod_ratios(entry, kit, category):
+    """The decimation ladder for one asset: entry, then category, then kit.
+
+    `lodRatiosByCategory` exists because decimation is wrong for some
+    categories rather than merely coarse: an open-shell cliff piece multiplies
+    its boundary edges 5-10x under the decimator (rockcliff03 level 2 carries
+    354 boundary edges on 336 triangles), which is the holes-in-rocks-at-
+    distance defect. An empty list means LOD0 only — plus a card, where one is
+    authored or baked.
+    """
+    if "lodRatios" in entry:
+        return list(entry["lodRatios"])
+    by_category = kit.get("lodRatiosByCategory") or {}
+    if category in by_category:
+        return list(by_category[category])
+    return list(kit.get("lodRatios", DEFAULT_LOD_RATIOS))
+
+
+# --- baked far-tier cards ----------------------------------------------------
+#
+# Only 44 of 159 flora species (and no ground cover at all) ship an authored
+# `_lod_flat` card, so everything else runs its deepest decimated mesh to the
+# draw distance. `bakeCards` renders a card FROM the source mesh instead — a
+# derived LOD, the same thing DynDOLOD's tree-LOD billboard generator does,
+# never new art. The two functions below are the whole arithmetic of it and
+# are DUPLICATED verbatim in blender/build_kit.py, which runs in Wine
+# Blender's interpreter and cannot import this package; a unit test asserts
+# the two copies stay identical, so edit them together.
+
+#: Tile edge in px for assets under 1.5 m, under 8 m, and taller.
+CARD_RESOLUTION_PX = (128, 256, 512)
+#: Cards pack into atlases no larger than this on either edge.
+CARD_ATLAS_MAX_PX = 2048
+#: Categories that never get a baked card (a rock reads wrong as a cutout).
+CARD_SKIP_CATEGORIES = ("rock",)
+
+
+def card_resolution_px(height_m, overrides=None):
+    """Tile edge in px for an asset of this height (kit `cardResolutionPx`)."""
+    small, medium, large = tuple(overrides or CARD_RESOLUTION_PX)
+    if height_m < 1.5:
+        return int(small)
+    if height_m < 8.0:
+        return int(medium)
+    return int(large)
+
+
+def pack_card_tiles(count, tile_px, atlas_max_px=CARD_ATLAS_MAX_PX):
+    """Grid-pack `count` square tiles of one resolution class into atlases.
+
+    Returns `(tiles, sizes)`: one `(atlas_index, [u0, v0, u1, v1])` per tile in
+    order, and one `(width_px, height_px)` per atlas. Tiles fill row-major from
+    the TOP-left; an atlas is trimmed to the rows and columns it actually uses,
+    so a four-card probe does not ship a 2048 x 2048 image that is 99% empty.
+    """
+    if count <= 0:
+        return [], []
+    cols = max(1, atlas_max_px // tile_px)
+    per_atlas = cols * cols
+    tiles, sizes = [], []
+    for atlas in range((count + per_atlas - 1) // per_atlas):
+        here = min(per_atlas, count - atlas * per_atlas)
+        rows_used = (here + cols - 1) // cols
+        cols_used = min(cols, here)
+        width, height = tile_px * cols_used, tile_px * rows_used
+        sizes.append((width, height))
+        for i in range(here):
+            col, row = i % cols, i // cols
+            u0 = col * tile_px / width
+            u1 = (col + 1) * tile_px / width
+            # glTF/Blender UV v runs bottom-up; row 0 is the TOP row.
+            v1 = 1.0 - row * tile_px / height
+            v0 = 1.0 - (row + 1) * tile_px / height
+            tiles.append((atlas, [u0, v0, u1, v1]))
+    return tiles, sizes
+
+
 def _flat_donor_row(entry: dict, index: dict[str, dict]) -> dict | None:
     """The registry row whose authored card this entry borrows, if any."""
     donor_id = entry.get("lodFlatFrom")
@@ -704,6 +792,9 @@ def build(kit_id: str, vault: Path) -> dict:
     output_glb = (REPO_ROOT / kit["output"]).resolve()
     output_glb.parent.mkdir(parents=True, exist_ok=True)
     summary_json = work / "summary.json"
+    card_dir = output_glb.parent / f"{kit['id']}-cards"
+    if kit.get("bakeCards"):
+        card_dir.mkdir(parents=True, exist_ok=True)
 
     plan = {
         "kit": kit["id"],
@@ -716,6 +807,15 @@ def build(kit_id: str, vault: Path) -> dict:
         # each species ~10 texels and cards rendered as solid slabs (owner
         # Phase 10 round 3). The atlas keeps its own, larger cap.
         "billboardTextureMaxSize": kit.get("billboardTextureMaxSize", 1024),
+        # Derived far-tier cards for species with no authored `_lod_flat`
+        # (see card_resolution_px / pack_card_tiles above).
+        "bakeCards": bool(kit.get("bakeCards", False)),
+        "bakeCardSkipCategories": list(
+            kit.get("bakeCardSkipCategories", CARD_SKIP_CATEGORIES)),
+        "cardResolutionPx": list(
+            kit.get("cardResolutionPx", CARD_RESOLUTION_PX)),
+        "cardAtlasMaxPx": int(kit.get("cardAtlasMaxPx", CARD_ATLAS_MAX_PX)),
+        "cardDir": to_windows(card_dir),
         "output_glb": to_windows(output_glb),
         "summary_json": to_windows(summary_json),
     }

@@ -572,7 +572,7 @@ def test_submerged_layers_never_sit_shallower_than_their_plant():
     its largest scale, sliding the whole band down-to-up so the authored
     thickness survives. Drowned trees, reeds and lilypads keep their bands: all
     three stand proud of the water by design."""
-    from .compile_scatter import floor_submerged_depths
+    from .compile_scatter import floor_submerged_depths, _kit_heights
     data = {"byRegionClass": {"4": {"layers": [
         {"role": "aquatic-kelp", "species": "k", "water_depth_m": [0.8, 6.0], "scale_range": [0.9, 1.2]},
         {"role": "aquatic-kelp", "species": "k", "water_depth_m": [5.0, 6.0]},
@@ -591,3 +591,153 @@ def test_submerged_layers_never_sit_shallower_than_their_plant():
     assert layers[4]["water_depth_m"] == [0.4, 2.2]     # lilypads float
     assert layers[5]["water_depth_m"] == [0.3, 5.0]     # shells: 0.12 m fits 0.3 m
     assert len(changed) == 1 and "0.8-6.0 -> 4.78-9.98" in changed[0]
+
+    # The floor is the TOP ABOVE THE BED, not the whole bounding box: the
+    # scatter seats a piece by its pivot, so the part that must be covered is
+    # `sizeM[2] - pivotAboveBaseM`. `waterkelptall02` and `waterkelptall03`
+    # are byte-identical 3.983 m meshes with pivots 0.090 and 0.801, so at the
+    # same max scale their floors must differ by exactly 0.71 x that scale.
+    heights = _kit_heights()
+    tall02 = heights["depths:landscape/grass/waterkelptall02"]
+    tall03 = heights["depths:landscape/grass/waterkelptall03"]
+    assert round(tall02 - tall03, 3) == 0.711
+    twins = {"byRegionClass": {"4": {"layers": [
+        {"role": "aquatic-kelp", "species": "depths:landscape/grass/waterkelptall02",
+         "water_depth_m": [0.8, 6.0], "scale_range": [0.8, 1.3]},
+        {"role": "aquatic-kelp", "species": "depths:landscape/grass/waterkelptall03",
+         "water_depth_m": [0.8, 6.0], "scale_range": [0.8, 1.3]},
+    ]}}}
+    floor_submerged_depths(twins)
+    floors = [l["water_depth_m"][0] for l in twins["byRegionClass"]["4"]["layers"]]
+    assert floors == [5.06, 4.14], floors          # 3.893 and 3.182 at 1.3
+    assert round(floors[0] - floors[1], 2) == 0.92  # 0.711 x 1.3, to 2 dp
+    # On the old whole-box measure both would have been 3.983 x 1.3 = 5.18,
+    # identical, and both 1.2-1.9 m too deep.
+
+
+def test_open_back_is_solved_to_uphill_on_a_thirty_degree_slope():
+    """The owner walk's defect: an open back that does not face the hill.
+
+    The world bearing of the missing face is `yaw + back_yaw_deg`; uphill is
+    the downhill aim turned 180. The old rule ADDED the offset to the aim,
+    which lands the face at `downhill + 2 x back` — right only for a back at
+    90 or 270 deg. `rockcliff02`'s back is 258.8 deg, and the shipped province
+    put it a median 26.7 deg off uphill.
+    """
+    grade = math.tan(math.radians(30.0))
+    fields = _ramp_fields(grade)
+    back = 258.8
+    palette = Palette("t", [Layer(species="shell", instances_per_hectare=400.0,
+                                  slope_deg_max=80.0, align_to_slope=1.0,
+                                  back_yaw_deg=back)])
+    placed = scatter_chunk(0.0, 0.0, 200.0, palette, fields, seed=11)
+    assert placed
+    uphill = math.atan2(grade, 0.0) + math.pi   # downhill is +X, so uphill -X
+    for inst in placed:
+        delta = (inst.yaw + math.radians(back)) - uphill
+        delta = (delta + math.pi) % math.tau - math.pi
+        assert abs(delta) <= math.radians(10.0), math.degrees(delta)
+
+
+def test_a_piece_with_no_open_back_still_points_its_plus_z_downhill():
+    fields = _ramp_fields(0.5)
+    palette = Palette("t", [Layer(species="rock", instances_per_hectare=400.0,
+                                  slope_deg_max=80.0, align_to_slope=1.0)])
+    placed = scatter_chunk(0.0, 0.0, 200.0, palette, fields, seed=11)
+    assert placed
+    downhill = math.pi / 2.0                     # +X
+    for inst in placed:
+        delta = (inst.yaw - downhill + math.pi) % math.tau - math.pi
+        assert abs(delta) <= math.radians(23.0)
+
+
+# --- the burial rule ---------------------------------------------------------
+
+def _ridge_fields(fall_per_m: float) -> Fields:
+    """A ridge crest along x = 100: ground falls away on both sides."""
+    return Fields(
+        height=lambda x, z: -fall_per_m * abs(x - 100.0),
+        water_depth=lambda x, z: -5.0,
+        slope=lambda x, z: 8.0,
+        region=lambda x, z: 2,
+    )
+
+
+def test_burial_sinks_a_rock_whose_footprint_overhangs_a_ridge():
+    """No rock floats: the footprint's lowest ground sample must end up at or
+    below the pivot's sink (owner walk 2026-09-18)."""
+    from .scatter import burial
+
+    layer = Layer(species="rock", footprint_half_m=(2.0, 2.0), height_m=6.0)
+    # 0.5 m/m fall over a 2 m half-footprint = 1 m of ground drop at the edge.
+    extra, cap = burial(_ridge_fields(0.5), layer, 100.0, 100.0,
+                        yaw=0.0, tilt_x=0.0, tilt_z=0.0, scale=1.0)
+    assert cap == pytest.approx(0.6 * 6.0)
+    assert extra >= 1.0
+    assert extra == pytest.approx(1.0 + 0.25)
+
+
+def test_burial_is_zero_on_flat_ground():
+    from .scatter import burial
+
+    layer = Layer(species="rock", footprint_half_m=(2.0, 2.0), height_m=6.0)
+    flat = Fields(height=lambda x, z: 12.0, water_depth=lambda x, z: -5.0,
+                  slope=lambda x, z: 0.0, region=lambda x, z: 2)
+    extra, cap = burial(flat, layer, 50.0, 50.0, 0.0, 0.0, 0.0, 1.0)
+    assert extra == 0.0
+    assert cap == pytest.approx(0.6 * 6.0)
+
+
+def test_burial_never_swallows_the_piece():
+    from .scatter import burial
+
+    layer = Layer(species="rock", footprint_half_m=(3.0, 3.0), height_m=2.0)
+    extra, cap = burial(_ridge_fields(4.0), layer, 100.0, 100.0,
+                        0.0, 0.0, 0.0, 1.5)
+    assert cap == pytest.approx(0.6 * 2.0 * 1.5)
+    assert extra == pytest.approx(cap)
+
+
+def test_burial_leaves_a_plant_layer_alone():
+    from .scatter import burial
+
+    assert burial(_ridge_fields(0.5), Layer(species="fern"), 100.0, 100.0,
+                  0.0, 0.0, 0.0, 1.0) == (0.0, math.inf)
+
+
+def test_composition_adds_the_measured_burial_under_its_cap():
+    """`finalise_anchors` ADDS the sampler's measurement to the composed sink
+    and holds the total under the instance's own cap."""
+    from .composition import Composition
+
+    comp = Composition({"species": {}})
+    flat = Fields(height=lambda x, z: 0.0, water_depth=lambda x, z: -5.0,
+                  slope=lambda x, z: 0.0, region=lambda x, z: 2)
+    plain = Instance(species="vanilla:landscape/rocks/rockl01", tier="T1",
+                     x=1.0, y=0.0, z=1.0, yaw=0.0, scale=1.0,
+                     tilt_x=0.0, tilt_z=0.0)
+    buried = Instance(species="vanilla:landscape/rocks/rockl01", tier="T1",
+                      x=1.0, y=0.0, z=1.0, yaw=0.0, scale=1.0,
+                      tilt_x=0.0, tilt_z=0.0, extra_sink_m=1.5,
+                      sink_cap_m=9.0)
+    capped = Instance(species="vanilla:landscape/rocks/rockl01", tier="T1",
+                      x=1.0, y=0.0, z=1.0, yaw=0.0, scale=1.0,
+                      tilt_x=0.0, tilt_z=0.0, extra_sink_m=1.5,
+                      sink_cap_m=0.2)
+    comp.finalise_anchors([plain, buried, capped], flat, seed=4)
+    assert buried.sink == pytest.approx(plain.sink + 1.5)
+    assert capped.sink == pytest.approx(0.2)
+
+
+def test_the_bundle_sink_range_covers_the_burial():
+    """The encoder quantises sink into the species' own [min, max] range, so
+    the range has to be computed AFTER the burial is added, or a buried rock
+    would be clipped back to the un-buried maximum."""
+    group = [Instance(species="r", tier="T1", x=float(i), y=0.0, z=0.0,
+                      yaw=0.0, scale=1.0, tilt_x=0.0, tilt_z=0.0,
+                      sink=0.5 + 3.0 * i)
+             for i in range(3)]
+    decoded = decode(encode(group, ["r"]))[0]
+    assert decoded["sinkRange"] == (0.5, 6.5)
+    assert [i["sink"] for i in decoded["instances"]] == \
+        pytest.approx([0.5, 3.5, 6.5], abs=0.03)

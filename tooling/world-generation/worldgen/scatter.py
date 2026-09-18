@@ -259,10 +259,26 @@ class Layer:
     """Multiplier band on the composed sink (composition C2). The default is
     the historic fixed +-50 %; an OPEN-BOTTOMED rock raises its floor to
     (0.8, 1.5) so its hollow underside is never left showing (16f)."""
-    back_yaw_deg: float = 0.0
-    """Degrees added to the downhill aim for an OPEN-BACKED piece, so the
-    face the mesh has no geometry on turns into the hill. Read from the kit
-    manifest's `openBackYawDeg`; meaningless without `align_to_slope`."""
+    back_yaw_deg: float | None = None
+    """The bearing, in the MODEL's own frame, of the face the mesh has no
+    geometry on (the kit manifest's `openBackYawDeg`; degrees from +Z toward
+    +X). `None` = the piece has no open back.
+
+    The yaw is solved so that this face ends up pointing UPHILL:
+    `yaw = downhill_aim + pi - back_yaw_deg`, whose world bearing for the open
+    face is `back_yaw_deg + yaw = downhill + 180`. The old rule added the
+    offset to the aim, which put the open face at `downhill + 2 x back`, and so
+    faced uphill only for a back at 90 or 270 deg (owner walk 2026-09-18:
+    rockcliff02, back 258.8, missed uphill by a median 26.7 deg). Meaningless
+    without `align_to_slope`."""
+    footprint_half_m: tuple[float, float] | None = None
+    """Half the model's footprint (x, z) in metres, before scale — from the
+    kit manifest's `sizeM`, filled in by `rock_dressing.rock_layer`. Set it
+    and the sampler applies the burial rule: no rock floats, i.e. its
+    footprint's lowest ground sample sits at or below the pivot's sink."""
+    height_m: float | None = None
+    """The model's height in metres before scale (`sizeM[2]`). Only used to
+    cap the burial rule, so a piece can never be sunk out of sight."""
     align_to_slope: float = 0.0
     """How strongly this layer lies WITH the ground (0 = off, 1 = fully).
 
@@ -364,10 +380,17 @@ class Layer:
 
     def coast_factor(self, coast_m: float) -> float:
         """Salt-exposure density multiplier at a distance from the ocean
-        (1 when off). Monotone: peaks at the coast, fades inland."""
+        (1 when off). Monotone: peaks at the coast, fades away on BOTH sides.
+
+        `coast_m` is SIGNED (positive inland, negative at sea), so the bell
+        reads `abs(coast_m)` - distance from the shoreline itself. With the
+        old `max(0.0, coast_m)` every sea texel read 0 m and took the full
+        boost, which made the sea-bed ramp inert: the whole bed ran at its
+        shoreline density. Land layers are unaffected: they never place at
+        sea, so they only ever see coast_m >= 0, where abs() is identity."""
         if self.coast_boost_gain == 0.0:
             return 1.0
-        bell = math.exp(-(max(0.0, coast_m) / self.coast_half_width_m) ** 2)
+        bell = math.exp(-(abs(coast_m) / self.coast_half_width_m) ** 2)
         return max(0.15, 1.0 + self.coast_boost_gain * bell)
 
 
@@ -396,7 +419,7 @@ class Palette:
                     fields[key] = tuple(fields[key])
             for key in ("water_depth_m", "scale_range", "altitude_m",
                         "shore_m", "glade_band", "coast_m", "corridor_m",
-                        "cliff_m", "sink_jitter",
+                        "cliff_m", "sink_jitter", "footprint_half_m",
                         "water_kinds", "season_kinds", "water_entities"):
                 if key in fields:
                     fields[key] = tuple(fields[key])
@@ -441,6 +464,14 @@ class Instance:
     anchor: int = ANCHOR_TERRAIN
     sink: float = 0.0
     """Metres the pivot sits BELOW the ground (rule C2); ≥ 0, terrain mode only."""
+    extra_sink_m: float = 0.0
+    """Burial the SAMPLER measured for this instance on top of the composed
+    sink (`composition.finalise_anchors` adds it): how far the tilted base
+    plane would stand above the ground at the footprint's edge. An
+    open-bottomed piece on curving ground shows its base plane otherwise."""
+    sink_cap_m: float = math.inf
+    """Ceiling on the TOTAL sink for this instance, metres — 0.6 x the model's
+    scaled height, so burying a rock can never swallow it."""
 
 
 @dataclass
@@ -755,12 +786,24 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                         tilt_z = (uniform_at(mkey, 6) * 2 - 1) * tilt
                         if layer.align_to_slope > 0.0:
                             aim, pitch = terrain_aim(fields, px, pz)
-                            # Yaw so the model's +Z points downhill (jittered,
-                            # or every boulder on a hillside faces alike), then
-                            # tip the up-axis downhill to meet the normal.
-                            yaw = (aim + math.radians(layer.back_yaw_deg)
-                                   + (uniform_at(mkey, 4) - 0.5) * 0.8)
+                            if layer.back_yaw_deg is None:
+                                # No open face: yaw so the model's +Z points
+                                # downhill, jittered, or every boulder on a
+                                # hillside faces alike.
+                                yaw = aim + (uniform_at(mkey, 4) - 0.5) * 0.8
+                            else:
+                                # An open face is SOLVED to uphill: its world
+                                # bearing is back_yaw_deg + yaw, and uphill is
+                                # aim + 180. The jitter is +-8 deg, not the
+                                # +-22.9 deg the general case takes, because
+                                # that alone could turn a hollow back out of
+                                # the hill (owner walk 2026-09-18).
+                                yaw = (aim + math.pi
+                                       - math.radians(layer.back_yaw_deg)
+                                       + (uniform_at(mkey, 4) - 0.5) * 0.28)
                             tilt_x = pitch * layer.align_to_slope + tilt_x
+                        extra_sink, sink_cap = burial(
+                            fields, layer, px, pz, yaw, tilt_x, tilt_z, scale)
                         instances.append(Instance(
                             species=layer.species,
                             tier=layer.tier,
@@ -770,6 +813,8 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                             scale=scale,
                             tilt_x=tilt_x,
                             tilt_z=tilt_z,
+                            extra_sink_m=extra_sink,
+                            sink_cap_m=sink_cap,
                         ))
                         if layer.clearance_radius_m > 0:
                             stamps.append(
@@ -801,6 +846,70 @@ def terrain_aim(fields: Fields, x: float, z: float) -> tuple[float, float]:
     if grade < 1e-6:
         return 0.0, 0.0
     return math.atan2(-dhdx, -dhdz), math.atan(grade)
+
+
+#: Ground exposure the burial rule tolerates before it sinks a piece, metres.
+#: Under this the base plane is within the raster's own noise of the ground.
+BURIAL_TOLERANCE_M = 0.15
+#: How far PAST the measured exposure a buried piece goes, metres — the plane
+#: has to be under the ground, not level with it.
+BURIAL_MARGIN_M = 0.25
+#: Fraction of a model's scaled height the TOTAL sink may never exceed.
+BURIAL_HEIGHT_SHARE = 0.6
+#: Bearings sampled around the footprint ellipse.
+BURIAL_SAMPLES = 8
+
+
+def base_plane_normal(yaw: float, tilt_x: float, tilt_z: float
+                      ) -> tuple[float, float, float]:
+    """World normal of the model's base plane, for a YXZ euler (the renderer's
+    convention: R = Ry(yaw) . Rx(tilt_x) . Rz(tilt_z) applied to local +Y)."""
+    ax = -math.sin(tilt_z)
+    ay = math.cos(tilt_z) * math.cos(tilt_x)
+    az = math.cos(tilt_z) * math.sin(tilt_x)
+    cy, sy = math.cos(yaw), math.sin(yaw)
+    return (ax * cy + az * sy, ay, -ax * sy + az * cy)
+
+
+def burial(fields: Fields, layer: Layer, x: float, z: float, yaw: float,
+           tilt_x: float, tilt_z: float, scale: float) -> tuple[float, float]:
+    """(extra sink, total-sink cap) for one instance, both metres.
+
+    The rule (owner walk 2026-09-18, "the rock has a hollow back and does not
+    sit in the hill"): NO ROCK FLOATS — the lowest ground sample under its
+    footprint must be at or below the pivot's sink. A single scalar sink under
+    a pivot cannot say that on curving ground, and 38 of the kit's 41 rocks are
+    open underneath (`undersideCoverage` < 0.3), so wherever the hill falls
+    away faster than the tilted base plane does, the base plane itself shows.
+
+    So the plane is measured, not assumed: take the plane through the pivot
+    with the tilt this instance actually baked, sample the ground at eight
+    bearings on the (scaled, yawed) footprint ellipse, and take the worst
+    height of plane over ground. Layers with no `footprint_half_m` — every
+    plant — are untouched.
+    """
+    if layer.footprint_half_m is None:
+        return 0.0, math.inf
+    rx = layer.footprint_half_m[0] * scale
+    rz = layer.footprint_half_m[1] * scale
+    nx, ny, nz = base_plane_normal(yaw, tilt_x, tilt_z)
+    if abs(ny) < 1e-6:
+        return 0.0, math.inf
+    ground0 = fields.height(x, z)
+    cy, sy = math.cos(yaw), math.sin(yaw)
+    exposure = 0.0
+    for i in range(BURIAL_SAMPLES):
+        theta = math.tau * i / BURIAL_SAMPLES
+        lx, lz = rx * math.cos(theta), rz * math.sin(theta)
+        dx = lx * cy + lz * sy
+        dz = -lx * sy + lz * cy
+        plane = ground0 - (nx * dx + nz * dz) / ny
+        exposure = max(exposure, plane - fields.height(x + dx, z + dz))
+    cap = (BURIAL_HEIGHT_SHARE * layer.height_m * scale
+           if layer.height_m else math.inf)
+    if exposure <= BURIAL_TOLERANCE_M:
+        return 0.0, cap
+    return min(exposure + BURIAL_MARGIN_M, cap), cap
 
 
 def _blocked(x: float, z: float, stamps: Iterable[tuple[float, float, float]]) -> bool:

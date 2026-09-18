@@ -66,9 +66,9 @@ second copy of the table. Full per-species tables: run
   rock that is not closed underneath is a shell: cliff dressing only.
 - `openBackYawDeg`: a horizontal direction with no faces while the opposite
   has many. An open-backed piece is laid with its back into the hill
-  (`align_to_slope`, yaw from the uphill azimuth plus this offset), never
-  freestanding. `moss_rockcliff01` is the known open shell (round 4's
-  hollow-sided rock).
+  (`align_to_slope`): yaw = downhill azimuth + 180° − `openBackYawDeg`, so the
+  open back faces uphill. Never freestanding. Six of the nine cliff pieces
+  carry an `openBackYawDeg` and all nine are open underneath.
 - `pivotAboveBaseM`: the pivot's height above the mesh's lowest point, so a
   sink is measured from the right datum.
 

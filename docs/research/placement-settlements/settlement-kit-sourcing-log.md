@@ -975,3 +975,77 @@ profile.
 `structure.hist-heartland-alten-markmont.2`, wants a deck 5.4 m above ground.
 The BM&V passerelle set ships no pier, only posts 1.516 m long. Recorded in the
 route-structures report and in the polish backlog.
+
+## 16f round 2 — 3D ground cover (2026-09-18)
+
+The owner saw ground cover that reads as flat. It measures flat: 34 of the 61
+species in the ring kit are crossed-quad cards of twelve triangles or fewer,
+because every Vurt/Tamira `landscape/grass/` family in the vault is a
+billboard whatever its filename suggests (max 84 triangles, median 31). We
+never make art, so the fix was sourcing. Survey and rejections:
+[3D ground cover research](../vegetation/groundcover-system.md) §2 and the
+Nexus table in the research pass that preceded this row.
+
+| Mod | Nexus | File | sha256 | Taken | Permission, as the mod's own description states it |
+|---|---|---|---|---|---|
+| DrJacopo's - 3D Landscapes and Grass Library (DrJacopo / JonnyWang13) | SSE 80687 | `DrJacopos - 3D Grass Library - Meshes-80687-16-53-1763626250.zip` (11.7 MB); textures `Cathedral - 3D Landscapes-80687-16-41-1730160308.zip` (403 MB) and `Cathedral - 3D Grass Library - Resource Textures-80687-16-51-1738912342.zip` (1.76 GB) | `5026606faae2b72cc796242dbc2e3f13d0a22133f9afafe6e2a9a71ecb298c68`; textures `97033963747cf55bec36bd5d6ccb47812fecc268a5ed8720029eb379c3e89c8a` and `30f786263287501971e46fd39be42b5a03c3fc3fbfe6ade410c612144514832a` | eleven modelled species: two complex grasses, the Icelandic and Tyrolian tussocks, coastal grass in two heights, three ferns, nettle and veratrum | "The 'Library' is a resource for other mods. Mod Authors, please read carefully. You will include these textures in your mod. Your mod must require the main file from this page." The last line is a load-order instruction for players running the Skyrim mod; the page is published as a modder's resource. |
+| Hoddminir Plants and Trees (Ztree and Elinen) | classic 38651 | `Hoddminir Plants and trees 1024-38651-3-0.zip` (204 MB) | `42e6127a06c2c277fc98eecae097238aff2b59edb6dcd69db13a8d7169321b47` | four modelled species: `FernLarge01`, `braken`, `LadyMantle`, `Celandine` | "You can use this resource but I ask that you give me, Ztree, Vurt, SparrowPrince and Ga-Knomboe Boy credit. Users can not use the new models in these files for any mods that are being sold." This project is free; all five names are in the README credit row. |
+
+Rejected and why: **3D Grass for Vanilla** (SSE 122363, FiberianHufky96) was
+downloaded and then dropped: its one worthwhile mesh, `ferngrass01`, is
+byte-identical geometry to DrJacopo's `SwordFern05` — 254 triangles, the same
+0.877 x 0.948 x 1.175 m bounds — so kitting it would have been the same plant
+twice under two credits. The archive stays in the vault; the pool is retired
+from the registry. **Skyrim 3D Trees and Plants** (SSE 12371, Mathy79) asks for
+per-use permission, so it is out. **Origins Of Forest** (45719) and **Freak's
+Floral Fields** (125349) build on the DrJacopo library we now hold, and
+**Grass Enrichment Project** (175168) on Hoddminir's, so all three are
+redundant rather than refused.
+
+Two more species needed no download at all. Vanilla's own `landscape/plants/`
+clumps were never kitted: `swordferncluster01` (1,424 triangles) and
+`floraspikygrass02` (2,298) were in the vault the whole time. And Tropical
+Skyrim ships the same plant twice, but the modelled one is the wrong size for
+this tier: `Plants/Tamira/New Plants/GrassPlant01` is 778 triangles at 4.25 x
+4.25 x 2.41 m, a shrub rather than ankle-height cover, so the ring keeps the
+128-triangle card `Landscape/grass/GrassPlant01` and SWAMP_GRASS gains a third
+species (`TyrolianGrassTallDrJ`) instead. Hoddminir's `FernLarge01` is out for
+the same reason, at 3.67 m across against the ring's 3.3 m ceiling.
+
+Texture resolution for the DrJacopo pool: the 7.6 GB seasonal texture set
+unpacks to `resource-textures/` beside the pool rather than inside it, so it
+does not swamp the pool's Data root. The 41 files the kitted meshes reference
+and the pool's own `textures/` lacks are symlinked into
+`extracted/textures/landscape/` and `…/landscape/grass/`, which is what
+`build_kit.pool_sources` expects: a pool's `extracted/` must be a Bethesda
+Data root with `meshes/` and `textures/` as siblings; the Blender importer
+resolves a NIF's texture paths against the folder above `meshes/`.
+
+## 16f round 2 addendum: the sea bed (2026-09-18)
+
+The owner's walk found the sea bed bare. What stood on it was flat. Two mods
+close the gap; a third was surveyed and rejected.
+
+| Mod (author) | Nexus | Archive | sha256 | Taken | Permission |
+|---|---|---|---|---|---|
+| Seashells (Jokerine; SSE conversion by Rusey) | SSE 4492 | `Seashells SSE-4492-3-0.7z` (9,803,037 B) | `b561bd0a1ead01c007febb708b6279d80a37c7c8efa8655f800874fbc5c61c68` | `coral`, `coral_spiky`, `starfish`, `sponge`, `conch`, `sanddollar`, `clam_large`, six scallops: 13 of the 45 meshes in `Seashells.bsa`, extracted to `extracted/meshes|textures` with `pipeline.bsa` | **OPEN.** Nexus exposes no permission field on either API (the GraphQL `Mod` type has 38 fields and carries no licence among them; the v1 mod JSON carries no permission block). This mod's file description states no terms. Credit required and given; the permission text has to be confirmed on the mod page before a public build ships. Deferred rather than closed because the confirmation is a human page read, not an agent job. |
+| Shores of Skyrim, Base Object Swapper, Part Two CC Attribution Files (FrankBlack) | SSE 140081 | `b) Shores of Skyrim Part Two CC Attribution Files-140081-1-4-1741221118.rar` (80,295,535 B) | `44307f926585bc24ffa7a5ef5b09b63e450edca87dd255c48e0ea59856ee6934` | `ShoreRock01-12`, `SeaShell02`, `SeaShell03`, `SnailShell01`. The `data/` wrapper was flattened so `extracted/` is a Bethesda Data root | **CC-BY**, self-declared: the file is titled "Part Two CC Attribution Files" and its description reads "This part of the mod contains files you can use for your own mod". |
+
+Measured after the kit build, because the file sizes misled the survey: the
+twelve shore rocks are **0.07–0.16 m** meshes: shingle, not the small
+boulders 15–29 KB suggested, so the stone band scales them 3–6x. Jokerine's
+pieces are collectable clutter at hand-prop size for the same reason: a
+scallop is 0.19 m and is placed at 0.8–1.6x, a coral 0.22–0.32 m and placed at
+2.5–9x. `ShoreRock05` is dropped from the stone band: the kit measures an open
+back at 112.5 degrees on it, so it is a cliff shell, not a free-standing rock.
+
+Not taken: **Starfish on Shores** (SSE 160829, Mihail), three 98 KB starfish.
+Jokerine's starfish covers the need from a mod whose permission is the more
+likely yes, while Mihail is known to restrict reuse. The archive stays in the
+vault unused, so it carries no credit obligation.
+
+Hard gap, recorded rather than substituted: **sea urchins and anemones exist
+in no Skyrim SE asset anywhere.** 29 index queries over the Nexus GraphQL
+router returned zero, against an empty vault registry. There is likewise no
+coral-reef static mod for SSE at all, which is why the reef is Jokerine's two
+meshes rather than a purpose-built set.

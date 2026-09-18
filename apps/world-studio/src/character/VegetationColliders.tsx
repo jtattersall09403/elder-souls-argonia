@@ -4,10 +4,8 @@ import { useRapier } from "@react-three/rapier";
 import type { World, RigidBody } from "@dimforge/rapier3d-compat";
 import * as THREE from "three";
 import {
-  collidersFor,
   selectNearestSolids,
   type FloraCollider,
-  type FloraCollisionAsset,
   type SolidInstance,
 } from "@elder-souls/game-core/physics/floraSolids";
 
@@ -88,11 +86,33 @@ function instanceKey(instance: SolidInstance): string {
   return `${instance.species}|${instance.x.toFixed(2)}|${instance.z.toFixed(2)}`;
 }
 
+/**
+ * Instance-scaled trimesh vertices, cached per (species, scale). Rapier copies
+ * the array into its own storage at collider creation, but BUILDING it is a
+ * few thousand multiplies per rock and the ring sees the same handful of
+ * species at the same handful of scales.
+ */
+function scaledVertices(
+  cache: Map<string, Float32Array>,
+  species: string,
+  vertices: Float32Array,
+  scale: number,
+): Float32Array {
+  const key = `${species}|${scale.toFixed(2)}`;
+  const cached = cache.get(key);
+  if (cached) return cached;
+  const scaled = new Float32Array(vertices.length);
+  for (let i = 0; i < vertices.length; i++) scaled[i] = vertices[i] * scale;
+  cache.set(key, scaled);
+  return scaled;
+}
+
 function buildBody(
   world: World,
   rapier: ReturnType<typeof useRapier>["rapier"],
   instance: SolidInstance,
   shapes: FloraCollider[],
+  vertexCache: Map<string, Float32Array>,
 ): RigidBody {
   // ONE fixed body per instance, rotated exactly as the renderer rotates the
   // mesh (same YXZ euler), so each shape's own offset is a plain local
@@ -108,6 +128,19 @@ function buildBody(
   );
   const s = instance.scale;
   for (const shape of shapes) {
+    if (shape.kind === "trimesh") {
+      // The rock's own triangles. Scale is baked into the vertices (Rapier
+      // shapes carry no scale); the body already holds the rotation and the
+      // translation, so the collider needs neither.
+      world.createCollider(
+        rapier.ColliderDesc.trimesh(
+          scaledVertices(vertexCache, instance.species, shape.vertices, s),
+          shape.indices,
+        ),
+        body,
+      );
+      continue;
+    }
     const desc =
       shape.kind === "capsule"
         ? rapier.ColliderDesc.capsule(shape.halfHeightM * s, shape.radiusM * s)
@@ -132,62 +165,46 @@ function buildBody(
 
 export function VegetationColliders({
   solidsRef,
+  shapesRef,
   focusRef,
-  baseUrl,
   onCount,
 }: {
   /** Solid instances published by `Vegetation` on its last rebuild. */
   solidsRef: React.MutableRefObject<SolidInstance[]>;
+  /**
+   * Collider shapes per species, published by `Vegetation` once its kit has
+   * loaded. This component used to fetch the kit manifest itself and box every
+   * rock, which is the only shape a manifest can describe. Rocks now collide
+   * as their OWN TRIANGLES, and those triangles live in the kit GLB — so the
+   * shapes have to come from whoever holds the kit.
+   */
+  shapesRef: React.MutableRefObject<Map<string, FloraCollider[]> | null>;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
-  baseUrl: string;
   /** Reports how many bodies are live, for the debug HUD. */
   onCount?: (count: number) => void;
 }) {
   const { world, rapier } = useRapier();
   const bodies = useRef(new Map<string, { body: RigidBody; y: number }>());
   const builtAt = useRef<{ x: number; z: number; covered: number } | null>(null);
-  const assetsRef = useRef<Map<string, FloraCollisionAsset> | null>(null);
-
-  // The same manifest `Vegetation` reads, fetched independently so the two
-  // components stay uncoupled; it is a small JSON and the browser serves the
-  // second request from cache.
-  useEffect(() => {
-    let cancelled = false;
-    fetch(`${baseUrl}kits/flora-province-v1.kit.json`)
-      .then((r) => r.json())
-      .then((m: { assets: FloraCollisionAsset[] }) => {
-        if (!cancelled) {
-          assetsRef.current = new Map(m.assets.map((a) => [a.id, a]));
-          builtAt.current = null; // force a rebuild now shapes exist
-        }
-      })
-      .catch(() => undefined);
-    return () => { cancelled = true; };
-  }, [baseUrl]);
+  /** The shape map the current body set was built against; a change in
+   * identity (the kit finishing its load) forces one rebuild. */
+  const seenShapes = useRef<Map<string, FloraCollider[]> | null>(null);
+  const vertexCache = useRef(new Map<string, Float32Array>());
 
   // Shapes and per-species collider cost, cached: the manifest never changes
   // within a session and `collidersFor` allocates.
   const caches = useMemo(() => {
-    const shapes = new Map<string, FloraCollider[]>();
-    const shapesFor = (species: string): FloraCollider[] => {
-      let cached = shapes.get(species);
-      if (cached === undefined) {
-        // A species with no entry in THIS manifest is not a defect: since 16f
-        // the renderer also draws the underwater-band kit, whose bed-anchored
-        // plants and debris carry no collision at all. No shapes, no body, and
-        // no log — silently, once per species, never per instance.
-        const asset = assetsRef.current?.get(species);
-        cached = asset ? collidersFor(asset) : [];
-        shapes.set(species, cached);
-      }
-      return cached;
-    };
+    // A species absent from the map is not a defect: since 16f the renderer
+    // also draws the underwater-band kit, whose bed-anchored plants and debris
+    // carry no collision at all. No shapes, no body, and no log.
+    const shapesFor = (species: string): FloraCollider[] =>
+      shapesRef.current?.get(species) ?? [];
     return {
       shapesFor,
       costOf: (instance: SolidInstance) =>
         Math.max(1, shapesFor(instance.species).length),
     };
-  }, []);
+  }, [shapesRef]);
 
   // Drop every body on unmount (mode switches), not per rebuild.
   useEffect(() => {
@@ -199,7 +216,12 @@ export function VegetationColliders({
   }, [world]);
 
   useFrame(() => {
-    if (!assetsRef.current) return;
+    const shapeMap = shapesRef.current;
+    if (!shapeMap) return;
+    if (seenShapes.current !== shapeMap) {
+      seenShapes.current = shapeMap;
+      builtAt.current = null; // the kit has arrived: rebuild against real shapes
+    }
     const focus = focusRef.current;
     const built = builtAt.current;
     if (
@@ -239,7 +261,10 @@ export function VegetationColliders({
       if (!shapes.length) continue;
       bodies.current.set(
         key,
-        { body: buildBody(world, rapier, instance, shapes), y: instance.y },
+        {
+          body: buildBody(world, rapier, instance, shapes, vertexCache.current),
+          y: instance.y,
+        },
       );
     }
     onCount?.(bodies.current.size);

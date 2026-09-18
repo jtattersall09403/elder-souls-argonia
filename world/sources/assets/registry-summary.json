@@ -17,8 +17,8 @@
     "tree": 932,
     "armour": 874,
     "misc": 432,
-    "plant": 416,
-    "rock": 329,
+    "plant": 405,
+    "rock": 340,
     "dungeon-kit": 327,
     "boat": 275,
     "signage": 256,
@@ -64,12 +64,12 @@
     "furniture": 264,
     "misc": 209,
     "door": 172,
-    "plant": 123,
+    "plant": 122,
     "terrain-feature": 98,
-    "container": 91,
     "trap": 91,
+    "container": 89,
+    "rock": 71,
     "effect": 68,
-    "rock": 68,
     "tree": 47,
     "ice": 46,
     "deadfall": 39,
@@ -130,6 +130,75 @@
    },
    "withLodVariant": 0,
    "withDimensions": 77,
+   "observedPlaced": 0
+  },
+  "drjacopo": {
+   "label": "DrJacopo's 3D Landscapes and Grass Library",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/80687",
+   "credit": "DrJacopo's - 3D Landscapes and Grass Library (Nexus SSE 80687, DrJacopo and JonnyWang13; a modder's resource)",
+   "archiveSha256": "5026606faae2b72cc796242dbc2e3f13d0a22133f9afafe6e2a9a71ecb298c68",
+   "meshesSeen": 579,
+   "registered": 579,
+   "skippedNonContent": {},
+   "categories": {
+    "grass": 478,
+    "shrub": 43,
+    "plant": 34,
+    "aquatic-plant": 18,
+    "deadfall": 6
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "hoddminir": {
+   "label": "Hoddminir Plants and Trees",
+   "source": "https://www.nexusmods.com/skyrim/mods/38651",
+   "credit": "Hoddminir Plants and Trees (Nexus classic 38651, Ztree and Elinen; with credit to Vurt, SparrowPrince and Ga-Knomboe Boy; non-commercial)",
+   "archiveSha256": "42e6127a06c2c277fc98eecae097238aff2b59edb6dcd69db13a8d7169321b47",
+   "meshesSeen": 836,
+   "registered": 520,
+   "skippedNonContent": {
+    "lod": 316
+   },
+   "categories": {
+    "misc": 278,
+    "plant": 124,
+    "shrub": 62,
+    "tree": 56
+   },
+   "withLodVariant": 293,
+   "withDimensions": 0,
+   "observedPlaced": 2
+  },
+  "jokerine": {
+   "label": "Jokerine's Seashells",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/4492",
+   "credit": "Seashells (Nexus SSE 4492, Jokerine; SSE conversion by Rusey)",
+   "archiveSha256": "b561bd0a1ead01c007febb708b6279d80a37c7c8efa8655f800874fbc5c61c68",
+   "meshesSeen": 45,
+   "registered": 45,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 45
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "shores": {
+   "label": "Shores of Skyrim, CC Attribution files",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/140081",
+   "credit": "Shores of Skyrim - Base Object Swapper, Part Two CC Attribution files (Nexus SSE 140081, FrankBlack; CC-BY)",
+   "archiveSha256": "44307f926585bc24ffa7a5ef5b09b63e450edca87dd255c48e0ea59856ee6934",
+   "meshesSeen": 19,
+   "registered": 19,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 19
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
    "observedPlaced": 0
   },
   "mudmother": {
@@ -319,7 +388,7 @@
    },
    "withLodVariant": 0,
    "withDimensions": 25,
-   "observedPlaced": 2
+   "observedPlaced": 7
   },
   "sirenroot": {
    "label": "SIRENROOT \u2014 Deluge of Deceit (ruin-block and caustics resource)",

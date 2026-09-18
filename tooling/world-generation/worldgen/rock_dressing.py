@@ -25,10 +25,17 @@ Two kinds of output:
 Mesh-side rules come from the kit manifest (`vet_kit.py` measures them):
 
 * `undersideCoverage` — how much of the footprint has downward faces. Under
-  0.3 the mesh is hollow beneath: it may only lie on gentle ground, sunk
-  deeper, so the hollow never shows (`OPEN_BOTTOM`).
+  0.3 the mesh is hollow beneath. A freestanding boulder that is hollow may
+  only lie on gentle ground, sunk deeper (`OPEN_BOTTOM`); a pile or a cliff
+  piece keeps its mined slope band, because the sources lay those flat on
+  slopes, and the sampler's burial rule seats them instead.
+* `sizeM` — the footprint every rock layer passes to the sampler
+  (`footprint_half_m`, `height_m`), which is what turns the burial rule on:
+  no rock floats, so where the hill falls away under the footprint the piece
+  is sunk until its base plane is under the ground.
 * `openBackYawDeg` — a horizontal direction with no faces. Such a piece is
-  cliff dressing only, laid with that face into the hill (`back_yaw_deg`).
+  cliff dressing only, laid with that face into the hill: the sampler solves
+  the yaw so the open face points UPHILL (`back_yaw_deg`).
 """
 
 from __future__ import annotations
@@ -39,12 +46,18 @@ from functools import lru_cache
 from pathlib import Path
 
 from .scatter import ANCHOR_TERRAIN, Instance, hash64, uniform_at
+from .vegetation_ladder import ROCK_ROLES  # the one definition of the set
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MINED_PATH = (REPO_ROOT / "world" / "sources" / "placement"
               / "vanilla-tamriel-placement.json")
 KIT_MANIFEST_PATH = (REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
                      / "flora-province-v1.kit.json")
+#: The sea-bed rock family lives in the underwater kit, not the flora kit, so
+#: the manifest lookup reads both. Flora wins a clash: it is the older kit and
+#: nothing is authored twice.
+UNDERWATER_MANIFEST_PATH = (REPO_ROOT / "apps" / "world-studio" / "public"
+                            / "kits" / "underwater-v1.kit.json")
 BED_ROCKS_PATH = (REPO_ROOT / "apps" / "world-studio" / "public" / "province"
                   / "water" / "bed-rocks.json")
 
@@ -80,6 +93,31 @@ WET_ROCKS = (f"{_WET}rockl01wet", f"{_WET}rockl02wet", f"{_WET}rockl03wet",
              f"{_WET}rockpilel01wet", f"{_WET}rockpilel02wet",
              f"{_WET}rockpilel03wet", f"{_WET}rockpilem02wet")
 
+#: The nine `wetrocks` meshes vanilla ships and never placed. They carry no
+#: mined row of their own (vanilla placed only the ten above), so each takes
+#: the mined profile of the DRY mesh it is a wet retexture of - same geometry,
+#: same box, same pivot, different texture set - via `MINED_ALIAS` below.
+SEABED_WET_SMALL = (f"{_WET}rocks01wet", f"{_WET}rocks02wet",
+                    f"{_WET}rocks03wet")
+SEABED_WET_MEDIUM = (f"{_WET}rockm01wet", f"{_WET}rockm03wet",
+                     f"{_WET}rockm04wet", f"{_WET}rockpilem01wet",
+                     f"{_WET}rockpilem03wet")
+SEABED_WET_LARGE = (f"{_WET}rockl01wet", f"{_WET}rockl02wet",
+                    f"{_WET}rockl03wet", f"{_WET}rockl04wet",
+                    f"{_WET}rockl05wet", f"{_WET}rockpilel01wet",
+                    f"{_WET}rockpilel02wet", f"{_WET}rockpilel03wet",
+                    f"{_WET}rockshelf01wet")
+#: Shores of Skyrim's twelve shore rocks. FrankBlack's own meshes: nobody has
+#: ever placed them in a shipped worldspace, so there is no mine to read. They
+#: take the MEAN of the three `rocks0*wet` figures, which is the nearest thing
+#: the record holds - the same size class of wet shore stone, from the same
+#: kind of ground - and every layer built from them says so in its note.
+#: `shorerock05` is NOT here: the kit measures an open back at 112.5 deg on
+#: it, so it is a cliff shell, not a free-standing stone, and a free-standing
+#: layer would show its missing face (the mesh rule `freestanding` checks).
+SHORE_ROCKS = tuple(f"shores:shoresofskyrim/shorerock{i:02d}"
+                    for i in range(1, 13) if i != 5)
+
 #: The water the wet family stands in (rule 5): every flowing channel kind
 #: plus slack and standing water and the sea.
 WET_KINDS = ("horizontal-channel", "horizontal-tidal", "sloped-riffle",
@@ -94,6 +132,13 @@ LOWLAND_COVERS = ("GRASS_DIRT", "SCRUB", "TROP_GRASS", "LITTER", "FOREST_FLOOR")
 SURF_COVERS = ("BC_ROCK", "PEBBLES", "MOSSY_ROCK")
 
 CLIFF_SLOPE_DEG = 28.0
+
+#: The roles this module emits, re-exported from `vegetation_ladder` so there
+#: is exactly one definition: "rock" (freestanding boulders AND the pile
+#: family), "wet-rock", "cliff-dressing". Every layer carrying one of them
+#: gets a `footprint_half_m`, which is what switches the sampler's burial rule
+#: on.
+assert ROCK_ROLES == frozenset({"rock", "wet-rock", "cliff-dressing"})
 
 
 def _cover_ids(names) -> list[int]:
@@ -110,8 +155,14 @@ def _mined_doc() -> dict:
 
 @lru_cache(maxsize=1)
 def _manifest() -> dict[str, dict]:
-    doc = json.loads(KIT_MANIFEST_PATH.read_text(encoding="utf-8"))
-    return {entry["id"]: entry for entry in doc["assets"]}
+    merged: dict[str, dict] = {}
+    for path in (UNDERWATER_MANIFEST_PATH, KIT_MANIFEST_PATH):
+        if not path.exists():
+            continue
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        for entry in doc["assets"]:
+            merged[entry["id"]] = entry
+    return merged
 
 
 #: A mod rock that vanilla never placed takes its mined profile from the
@@ -121,6 +172,11 @@ def _manifest() -> dict[str, dict]:
 #: 495 vanilla placements of rockcliff01 are its evidence.
 MINED_ALIAS = {
     "bmv:landscape/rocks/moss_rockcliff01": "vanilla:landscape/rocks/rockcliff01",
+    # The unplaced `wetrocks` are the wet retextures of dry meshes vanilla
+    # placed in their thousands: same geometry, same box, same pivot.
+    **{f"{_WET}{stem}wet": f"{_ROCK}{stem}" for stem in (
+        "rocks01", "rocks02", "rocks03", "rockm01", "rockm03", "rockm04",
+        "rockpilem01", "rockpilem03", "rockshelf01")},
 }
 
 
@@ -136,6 +192,10 @@ def mined(species: str) -> dict:
     Raises rather than falling back: a rock with no mined profile must not
     quietly take a class default (rock rule 1).
     """
+    if species in SHORE_ROCKS:
+        # Never placed by anybody: the borrowed profile IS its record, and it
+        # is derived from mined rows rather than typed (see `shore_rock_mean`).
+        return shore_rock_mean()
     entry = _mined_doc().get(mined_key(species))
     if entry is None:
         raise KeyError(f"{species} has no mined profile in {MINED_PATH.name}")
@@ -157,6 +217,22 @@ def mined(species: str) -> dict:
         "clark_evans_r": entry.get("clarkEvansR"),
         "clump_link_m": clump.get("linkDistanceM"),
     }
+
+
+def footprint_half_m(species: str) -> tuple[float, float]:
+    """Half the mesh's own footprint (x, y of the NIF's z-up `sizeM`), metres.
+
+    The sampler needs this to sample the ground around a rock's footprint for
+    the burial rule; it is passed on the Layer so `scatter.py` never reads the
+    kit manifest itself.
+    """
+    size = _manifest()[species]["sizeM"]
+    return (float(size[0]) / 2.0, float(size[1]) / 2.0)
+
+
+def height_m(species: str) -> float:
+    """The mesh's own height, metres (`sizeM[2]`; the NIF box is z-up)."""
+    return float(_manifest()[species]["sizeM"][2])
 
 
 def footprint_half_diagonal_m(species: str) -> float:
@@ -190,14 +266,23 @@ def freestanding(species: str) -> bool:
 # --- layers -----------------------------------------------------------------
 
 def rock_layer(species: str, per_ha: float, *, wet: bool = False,
-               role: str | None = None, **gates) -> dict:
+               role: str | None = None,
+               depth: tuple[float, float] = (-1.0, 2.5),
+               profile: dict | None = None, **gates) -> dict:
     """One rock layer, every presentation field set from the mined figures.
 
     Shape fields (sink jitter, tilt, yaw, scale, slope band, clumping,
     clearance) are DERIVED here; `gates` carries only where the layer is
     allowed to look (region, cover, shore, water kinds, zone).
+
+    `depth` is the wet branch's water band. It defaults to the surf band
+    (-1 m of dry bank to 2.5 m of water) that `wet_rocks`/`surf_rocks` have
+    always used; the sea-bed bands below widen it, because the ocean floor
+    runs far deeper than the surf line and had no rock in it at all.
     """
-    m = mined(species)
+    m = profile if profile is not None else mined(species)
+    role = role or ("wet-rock" if wet else "rock")
+    assert role in ROCK_ROLES, role
     tilt_max = min(45.0, 2.0 * m["tilt_p50"])
     link = m["clump_link_m"] or 2.0 * (m["mean_nn_m"] or 8.0)
     back = open_back_yaw_deg(species)
@@ -205,7 +290,7 @@ def rock_layer(species: str, per_ha: float, *, wet: bool = False,
         "species": species,
         "tier": "T1",
         "instances_per_hectare": round(per_ha, 3),
-        "role": role or ("wet-rock" if wet else "rock"),
+        "role": role,
         "yaw_random": True,
         "tilt_deg_max": round(tilt_max, 2),
         "align_to_slope": 1.0,
@@ -215,6 +300,10 @@ def rock_layer(species: str, per_ha: float, *, wet: bool = False,
         "clump_radius_m": round(link / 2.0, 2),
         "singleton_share": 0.15,
         "clearance_radius_m": round(footprint_half_diagonal_m(species) + 0.5, 2),
+        # The sampler's burial rule reads these; no layer without them is
+        # measured for exposure.
+        "footprint_half_m": [round(v, 3) for v in footprint_half_m(species)],
+        "height_m": round(height_m(species), 3),
         "patchiness": 1.1,
         "glade_response": 0.0,
         "note": (
@@ -229,7 +318,7 @@ def rock_layer(species: str, per_ha: float, *, wet: bool = False,
             f"submerged fraction {m['submerged_fraction']:.3f}"),
     }
     if wet:
-        entry["water_depth_m"] = [-1.0, 2.5]
+        entry["water_depth_m"] = [float(depth[0]), float(depth[1])]
         entry["water_kinds"] = list(WET_KINDS)
         entry["channel_exclusion"] = False
     else:
@@ -244,11 +333,26 @@ def rock_layer(species: str, per_ha: float, *, wet: bool = False,
         entry["back_yaw_deg"] = float(back)
         entry["note"] += f"; open back at {back:.0f} deg laid into the hill"
     elif not wet and underside_cover(species) < 0.3:
-        # Hollow underneath: gentle ground only, and sunk past its own floor.
-        entry["slope_deg_max"] = 20.0
-        entry["sink_jitter"] = [0.8, 1.5]
-        entry["note"] += (f"; underside coverage {underside_cover(species):.3f}"
-                          " < 0.3 so <=20 deg ground and a raised sink floor")
+        # Hollow underneath. A FREESTANDING boulder is held to gentle ground
+        # and sunk past its own floor. A pile is not: the sources lay piles
+        # flat on slopes, so a pile keeps its mined band, and the sampler's
+        # burial rule (`scatter.burial`) is what stops its open bottom
+        # showing. The 20 deg cap used to be applied to everything hollow,
+        # which silenced a whole cliff piece: `rockcliff05` is open-bottomed
+        # and has NO open back, so it took slope_deg_max 20 while
+        # `cliff_pieces` gave it slope_deg_min 28 — an empty band, and zero
+        # placements province-wide (owner walk 2026-09-18).
+        if role == "rock" and species not in PILES:
+            entry["slope_deg_max"] = 20.0
+            entry["sink_jitter"] = [0.8, 1.5]
+            entry["note"] += (
+                f"; underside coverage {underside_cover(species):.3f}"
+                " < 0.3 so <=20 deg ground and a raised sink floor")
+        else:
+            entry["note"] += (
+                f"; underside coverage {underside_cover(species):.3f} < 0.3,"
+                " but a pile/cliff piece keeps its mined slope band and is"
+                " seated by the burial rule")
     entry.update(gates)
     return entry
 
@@ -313,6 +417,77 @@ def surf_rocks(per_ha: float = 40.0) -> list[dict]:
     """Rocky surf: the same family on the sea's own rock and shingle covers."""
     return wet_rocks(per_ha, shore=(-6.0, 8.0), kinds=("ocean", "lagoon"),
                      land_cover=_cover_ids(SURF_COVERS))
+
+
+#: The sea-bed ramp. Density is 1.0 at the shoreline, 0.4 at 500 m out and
+#: 0.2 far offshore, realised on the sampler's existing `coast_factor`
+#: (scatter.py, a Gaussian bell on the ABSOLUTE distance to the shoreline -
+#: `coast_m` is signed, negative at sea). That factor
+#: only ever BOOSTS - it runs from 1 far out to 1+gain at the coast - so the
+#: decay is got by authoring the layer at a fifth of its shoreline density and
+#: setting the gain to 4: 0.2 x (1 + 4 x bell) is 1.0 on the bell's peak and
+#: 0.2 where the bell has died. A half-width of 425 m puts the 0.4 crossing at
+#: 500 m exactly. `seabed_ramp_factor` below is the same arithmetic, exposed
+#: so a test can assert the shape without rebuilding a sampler.
+SEABED_RAMP = dict(coast_boost_gain=4.0, coast_half_width_m=425.0)
+SEABED_RAMP_FLOOR = 0.2
+
+
+def seabed_ramp_factor(coast_m: float) -> float:
+    """The shoreline density ramp at a signed distance from the ocean
+    (negative = at sea; only the magnitude matters), normalised so
+    the shoreline reads 1.0 (what the sampler computes is this divided by
+    `SEABED_RAMP_FLOOR`, against a layer authored at that fraction)."""
+    bell = math.exp(-(abs(coast_m) / SEABED_RAMP["coast_half_width_m"]) ** 2)
+    return SEABED_RAMP_FLOOR * (1.0 + SEABED_RAMP["coast_boost_gain"] * bell)
+
+
+def seabed_rocks(species_list, per_ha: float, depth: tuple[float, float],
+                 role: str, *, shares: dict[str, float] | None = None,
+                 borrowed_from: str | None = None,
+                 profile: dict | None = None, **gates) -> list[dict]:
+    """Rock on the sea bed proper: the same `rock_layer` shape as the surf
+    band, with the water band widened past 2.5 m and the shoreline ramp on.
+
+    `ocean` only - the record's word for the sea. Inland water that happens to
+    sit at sea level (a lagoon, a tidal marsh reach) is not sea and gets no
+    sea bed (decision 0065: the compile realises the graph's kind, it does not
+    re-derive one from an elevation).
+    """
+    shares = shares or _by_mined_count(species_list)
+    out = []
+    for species in species_list:
+        entry = rock_layer(species, per_ha * shares[species], wet=True,
+                           role=role, depth=depth, region_classes=[],
+                           profile=profile,
+                           water_kinds=["ocean"], season_kinds=["perennial"],
+                           **SEABED_RAMP, **gates)
+        entry["note"] += (
+            f"; SEABED: band {depth[0]:.1f}-{depth[1]:.1f} m in `ocean` only,"
+            f" authored at {SEABED_RAMP_FLOOR:g}x the shoreline density with"
+            f" coast_boost_gain {SEABED_RAMP['coast_boost_gain']:g} /"
+            f" half-width {SEABED_RAMP['coast_half_width_m']:g} m, so density"
+            " is 1.0 at the shore, 0.4 at 500 m and 0.2 far offshore")
+        if borrowed_from:
+            entry["note"] += (
+                f"; every mined figure here is BORROWED from {borrowed_from}"
+                " - this mesh was authored by a mod and has never been placed"
+                " in a shipped worldspace, so there is no mine of its own")
+        out.append(entry)
+    return out
+
+
+def shore_rock_mean() -> dict:
+    """The mean of the three `rocks0*wet` mined profiles, for Shores of
+    Skyrim's twelve rocks (see `SHORE_ROCKS`)."""
+    rows = [mined(s) for s in SEABED_WET_SMALL]
+    keys = ("sink_p25", "sink_p50", "sink_p75", "tilt_p50", "tilt_p95",
+            "slope_p75", "yaw_uniformity", "scale_p5", "scale_p95",
+            "submerged_fraction", "above_water_p50", "mean_nn_m",
+            "clark_evans_r", "clump_link_m")
+    out = {k: sum(float(r[k]) for r in rows) / len(rows) for k in keys}
+    out["n"] = sum(r["n"] for r in rows)
+    return out
 
 
 def fall_rocks(per_ha: float = 60.0) -> list[dict]:

@@ -883,7 +883,7 @@ Deliverables:
 - dependency-aware streaming (nav tiles stream with chunks, §114);
 - LOD and instance batching; vegetation quality tiers locked as one
   declarative table (T3 ring, T2 caps, impostor distances — §112);
-- **billboard/impostor audit for the flora kit** (owner observation,
+- **billboard/impostor audit for the flora kit** — DONE in 16f round 2 (2026-09-18, decision 0071): the audit found no card mapped by a wrong filename (11 explicit borrows only) but 115 of 159 flora species, all 61 ground-cover species and all underwater species had NO card; the kit builder now bakes a card per asset from its own mesh (`bakeCards`), rocks ship one mesh level; the runtime crossfades every level by dither. What stays here for Phase 14: locking the distances as one declarative table and the per-device budgets. Original observation kept for the record (owner,
   2026-09-01 — a performance item, so it lands here rather than in Phase 10's
   look-pass): ① several tree types show the **wrong silhouette** at distance
   (palms resolving to a conifer/pine card — a card↔species mapping fault in

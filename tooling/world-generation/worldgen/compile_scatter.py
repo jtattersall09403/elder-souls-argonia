@@ -419,25 +419,48 @@ LITTER_BLEND_COVERS = (23, 31, 36)          # BC_ROCK, MOUNTAIN_ROCK, DIRT_CLIFF
 SUBMERGED_ROLES = frozenset({
     "aquatic-kelp", "aquatic-kelp-deep", "aquatic-seaweed", "aquatic-coral",
     "aquatic-algae", "aquatic-shells", "aquatic-deadfall", "aquatic-debris",
+    # The sea-bed band (2026-09-18). Pebbles, shells, starfish, sponges and
+    # stones are NOT here: they lie flat on the bed and read correctly in any
+    # depth the band admits. The rock layers are not here either - a rock is
+    # seated by the sampler's burial rule off its `footprint_half_m`, which is
+    # the right mechanism for a boulder, and the role they carry (`wet-rock`)
+    # is shared with the surf band, which stands half out of the water on
+    # purpose.
+    "seabed-coral", "seabed-debris", "seabed-bones", "seabed-clutter",
+    "seabed-boat", "seabed-algae",
 })
 
 
 def _kit_heights() -> dict[str, float]:
-    """species -> drawn height in metres (the kit's z-up box, `sizeM[2]`),
-    from both kits the scatter places from."""
+    """species -> how far the piece's TOP stands above the bed it is seated
+    on, metres, from both kits the scatter places from.
+
+    Not `sizeM[2]`. The scatter seats a piece by its authored PIVOT, and
+    `pivotAboveBaseM` (a verbatim copy of `originOffsetM[2]`, written back by
+    `vet_kit`) is how far that pivot sits above the mesh's own lowest point.
+    So the part that has to be under the water is
+    `sizeM[2] - pivotAboveBaseM`, and using the whole box instead over-floors
+    every piece whose pivot is up inside it. The two meshes that prove it are
+    `waterkelptall02` and `waterkelptall03`: byte-identical 3.983 m boxes,
+    pivots 0.090 and 0.801, so `03` stands 0.71 m shorter above the bed for
+    exactly the same drawn geometry.
+    """
     out: dict[str, float] = {}
     for name in ("flora-province-v1.kit.json", "underwater-v1.kit.json"):
         path = PROVINCE.parent / "kits" / name
         if not path.exists():
             continue
         for asset in json.loads(path.read_text(encoding="utf-8"))["assets"]:
-            out.setdefault(asset["id"], float(asset["sizeM"][2]))
+            pivot = float(asset.get("pivotAboveBaseM",
+                                    asset.get("originOffsetM", [0, 0, 0])[2]))
+            out.setdefault(asset["id"], float(asset["sizeM"][2]) - pivot)
     return out
 
 
 def floor_submerged_depths(data: dict, heights: dict[str, float] | None = None) -> list[str]:
     """Raise every SUBMERGED layer's minimum water depth to the piece's own
-    drawn height (kit `sizeM[2]` times the layer's largest scale), in place.
+    TOP ABOVE THE BED (`sizeM[2] - pivotAboveBaseM`, times the layer's
+    largest scale), in place.
 
     An authored band like [0.8, 6.0] on a 3.98 m kelp put the plant's top
     2-3 m above the sea surface wherever the bed was shallow (owner walk
@@ -452,11 +475,11 @@ def floor_submerged_depths(data: dict, heights: dict[str, float] | None = None) 
             role = layer.get("role") or ""
             if role not in SUBMERGED_ROLES:
                 continue
-            height = heights.get(layer["species"])
-            if height is None:
+            top_above_bed = heights.get(layer["species"])
+            if top_above_bed is None:
                 continue
             lo, hi = layer.get("scale_range", (1.0, 1.0))
-            need = round(height * max(lo, hi), 2)
+            need = round(top_above_bed * max(lo, hi), 2)
             band = layer.get("water_depth_m")
             if band is None or band[0] >= need:
                 continue

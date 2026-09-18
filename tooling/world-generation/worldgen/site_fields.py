@@ -64,7 +64,6 @@ PLACEMENT_DIR = REPO_ROOT / "world" / "sources" / "placement"
 # Region classes that are open water rather than authored, walkable/wadeable
 # ground. Marsh and tidal flats are NOT here: they are played on.
 OPEN_WATER_REGIONS = (0, 12)          # ocean, lake & standing water
-OCEAN_REGION = 0
 RIVER_REGION = 5                      # deep river corridor
 
 
@@ -430,6 +429,26 @@ class ProvinceSurvey:
         return _resample(grid.astype(np.float32), self.grid_n)
 
     @cached_property
+    def ocean_grid(self) -> np.ndarray:
+        """Fraction (0..1) of each analysis cell whose water entity KIND is
+        `ocean` — the record's one sea body, read through the entity raster.
+        The sea is not inland: nothing here derives sea-ness from a region
+        class, a height or connectivity."""
+        grid = self.water.kind_grid({"ocean"})
+        if grid is None:
+            return np.zeros((self.grid_n, self.grid_n), np.float32)
+        return _resample(grid.astype(np.float32), self.grid_n)
+
+    @cached_property
+    def lake_grid(self) -> np.ndarray:
+        """Fraction (0..1) of each analysis cell whose water entity KIND is a
+        lake or tarn, read through the entity raster."""
+        grid = self.water.kind_grid({"lake-lowland", "tarn-upland"})
+        if grid is None:
+            return np.zeros((self.grid_n, self.grid_n), np.float32)
+        return _resample(grid.astype(np.float32), self.grid_n)
+
+    @cached_property
     def reach_band_grid(self) -> np.ndarray:
         """int8 graph `band` of the reach under each analysis cell (0 = none),
         nearest-resampled from `ShippedWater.reach_band_grid`."""
@@ -462,17 +481,17 @@ class ProvinceSurvey:
     def area_report(self) -> dict:
         cell_km2 = (self.grid_px_m / 1000.0) ** 2
         n = self.grid_n * self.grid_n
-        reg = self.region_grid
         # The parts must partition the square, so they are cut out of the SAME
         # mask `land` is the complement of: measured open water. Naming which
-        # body a wet cell belongs to is what the region raster is for; deciding
-        # that water is there is not (see `water_intent`). Splitting the four
+        # body a wet cell belongs to is what the RECORD is for (the entity's
+        # own kind, 0065/0066), not a region-raster class; deciding that water
+        # is there is not the record's job (see `water_intent`). Splitting the four
         # parts across the two meanings is how this report used to double-count
         # the 1.88 km² the region raster calls ocean or lake and the water bake
         # publishes as at most ankle-deep.
         deep = self.open_water
-        ocean = deep & (reg == OCEAN_REGION)
-        lake = deep & (reg == 12)
+        ocean = deep & (self.ocean_grid > 0.5)
+        lake = deep & (self.lake_grid > 0.5)
         river_open = deep & (~ocean) & (~lake)
         # Marsh is what the graph calls marsh (its marsh body kinds, read by id
         # through the entity raster), not a region-raster class of our own.

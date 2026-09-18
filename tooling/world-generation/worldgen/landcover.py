@@ -424,7 +424,11 @@ def compile_ground_control(height, region, slope, m_per_px, water=None,
     # Salt pans: the drying margin of the record's OWN salt flats — a mudflat
     # or a lagoon — never "low ground with a high Phase 3 salinity number".
     flat_pan = slope_lf < 0.012 * TUNE_S
-    near_salty = np.isin(near_kind, i_salt) | np.isin(near_klass, (1, 2))
+    # SALT is the record's kinds and nothing else: the class raster's coast /
+    # estuary classes are painted from the compile's sea MASK (connectivity
+    # and height), so accepting them here laundered a non-record sea-ness
+    # decision back into the bake (owner rule: the sea is not inland).
+    near_salty = np.isin(near_kind, i_salt)
     pan = (np.isin(near_kind, i_pan) & flat_pan & (patch > 0.55)
            & (shore_d < 58.0 * TUNE))
     mat = np.where(pan, SALT, mat)
@@ -532,11 +536,23 @@ def compile_ground_control(height, region, slope, m_per_px, water=None,
         else:
             cond = roads.astype(np.int8)
         wear = normal_field(shape, 120.0 * TUNE / m_per_px, "wear", origin, seed)   # ~120 m wear stretches
+        gap = normal_field(shape, 2.5 * TUNE / m_per_px, "gap", origin, seed)     # ~2.5 m potholes/washouts
         on_road_all = (cond > 0) & ~water & ~channel_bed
         # The surface a road shows is its authored state of repair (owner
-        # 2026-09-16): a maintained road is built surface with the odd worn
-        # patch; a decayed one is a track with the underlying ground breaking
-        # through; a broken one is all but gone, a few traces in the cover.
+        # 2026-09-18): condition changes the MATERIAL MIX, the width and the
+        # fine gaps - never whether there is a road at all. A maintained road
+        # is built surface with the odd worn patch; a decayed one is a dirt
+        # path with cobbles surviving in stretches; a broken one is a path
+        # with a few remnants of surface and washouts breaking through. The
+        # long-wavelength erasure this block used to do (`wear` deleting the
+        # surface over ~120 m stretches) left 82% of a broken road with no
+        # road class at all, so it was invisible on the ground and from the
+        # air (owner walk 2026-09-18). Gaps are now SHORT (sigma 10 m), so a
+        # road always reads as a continuous line. The gap thresholds are
+        # 1.6 and 1.0 standard deviations, written in the units this field
+        # actually has: at sigma 2.5 m the smoothing is barely over one
+        # texel, so the field lands at std 1.18 rather than 1, and the plain
+        # numbers would have opened 11% and 22% gaps instead of 5% and 16%.
         road_mat = np.full(shape, BC_ROAD, dtype=np.int16)
         keep_under = np.zeros(shape, dtype=bool)
 
@@ -547,14 +563,20 @@ def compile_ground_control(height, region, slope, m_per_px, water=None,
         road_mat = np.where(m & (wear > 0.45), PATH, road_mat)
         road_mat = np.where(m & (wet_score > 1.2) & (wear > 0.3), TRACK, road_mat)
 
+        # decayed: a dirt path with about 65% of the old cobbles still in it,
+        # churned to mud where the ground is wet, and ~5% fine gaps.
         m = cond == ROAD_DECAYED
-        road_mat = np.where(m, TRACK, road_mat)
-        road_mat = np.where(m & (wear > 0.2), PATH, road_mat)
-        keep_under |= m & (wear > 0.55)
+        road_mat = np.where(m, PATH, road_mat)
+        road_mat = np.where(m & (wear < 0.4), BC_ROAD, road_mat)
+        road_mat = np.where(m & (wet_score > 1.2), TRACK, road_mat)
+        keep_under |= m & (gap > 1.89)
 
+        # broken: a path with ~20% remnants of surface and ~16% fine gaps.
         m = cond == ROAD_BROKEN
-        road_mat = np.where(m, TRACK, road_mat)
-        keep_under |= m & (wear <= 0.85)
+        road_mat = np.where(m, PATH, road_mat)
+        road_mat = np.where(m & (wear < -0.85), BC_ROAD, road_mat)
+        road_mat = np.where(m & (wet_score > 1.2), TRACK, road_mat)
+        keep_under |= m & (gap > 1.18)
 
         on_road = on_road_all & ~keep_under
         mat = np.where(on_road, road_mat, mat)

@@ -1,6 +1,6 @@
 {
  "id": "underwater-v1",
- "description": "The drowned layer \u2014 underwater POIs are a province acceptance criterion and the catalogue has drowned/submerged place families to feed. Reef and bed flora (coral at three scales, seaweed, algae, kelp, driftwood, water rock-grass) from Depths of Skyrim with the 174995 corrected meshes, its wreck family (Atmoran longship/rowboat/warship, Bretic carrack half-wrecks) for sunken structures, and SIRENROOT's free-standing broken/hollow ruin blocks and WALKABLE rubble floors, which give a submerged ruin a swimmable, standable interior. Culture-neutral: wrecks and reefs belong to no building culture, so this kit may be combined with any settlement kit at a shoreline. Depths of Skyrim's large WRECK HULLS are not here: they are places, not scatter, and they live in `wrecks-v1` for 16g/16h to plot. What this kit takes from Depths is its reef and bed flora plus the two small broken rowboat halves, which are dressing-scale sunken debris. 2026-09-16 pass: `tbp_seaweed06var1` added (the palettes already asked for it and the kit lacked it, so every instance of it resolved to nothing); vanilla `clam01`/`clamlarge01`/`clamthin01` for shell beds, `shipwreckboards01-03` for waterline debris, `kelpshortstatic01`/`kelptallstatic01` for the kelp forest; `dos/misc/dugupground` dropped (it is Depths' dig-site marker, not bed dressing). `tbp_seaweed01`/`02` stay: at 29.3 m and 42.7 m they are giant-kelp columns, and Bethesda's own mine places them at 8-70 m of depth at scale 0.15-1.15, so the palette uses them small and deep rather than at native size. Phase 11 Part 6 sourcing gap FILLED: a sunken Argonian shrine (Lilmoth's drowned quarter, the shrine to Xhon-Mehl the Fisher) had no focal object that reads Argonian - the mud kit's `sithisshrine` is the wrong Argonian culture for Murkmire, and everything else we hold is Imperial or Daedric. HTBM's xanmeer ruin ornament supplies it: `totem02` (0.40 x 0.49 x 2.07 m) is a standing carved totem, `totem03` (1.11 x 1.29 x 1.56 m) the squat altar-height idol block, `runicstone` (1.19 x 0.65 x 1.14 m) the inscribed marker, and `serpentsigilstatue` (1.38 x 0.44 x 0.63 m) the serpent-sigil plaque. All four carry the mod's own `architecture/xanmeer` textures, i.e. they are the Argonian ruin set rather than pieces borrowed from elsewhere - HTBM's `statuegoddess` and `totem01` were REJECTED for exactly that reason (they carry `here there be monsters - the call of cthulhu` textures, a different culture), and `serpentsigilstone` was rejected as a 0.14 m decal, too small to be a focal object. All four are opaque stone, so they survive submersion with no alpha/foliage problems. The same four are the right dry-land shrine dressing for `settlement-stilt-v1`.",
+ "description": "The drowned layer — underwater POIs are a province acceptance criterion and the catalogue has drowned/submerged place families to feed. Reef and bed flora (coral at three scales, seaweed, algae, kelp, driftwood, water rock-grass) from Depths of Skyrim with the 174995 corrected meshes, its wreck family (Atmoran longship/rowboat/warship, Bretic carrack half-wrecks) for sunken structures, and SIRENROOT's free-standing broken/hollow ruin blocks and WALKABLE rubble floors, which give a submerged ruin a swimmable, standable interior. Culture-neutral: wrecks and reefs belong to no building culture, so this kit may be combined with any settlement kit at a shoreline. Depths of Skyrim's large WRECK HULLS are not here: they are places, not scatter, and they live in `wrecks-v1` for 16g/16h to plot. What this kit takes from Depths is its reef and bed flora plus the two small broken rowboat halves, which are dressing-scale sunken debris. 2026-09-16 pass: `tbp_seaweed06var1` added (the palettes already asked for it and the kit lacked it, so every instance of it resolved to nothing); vanilla `clam01`/`clamlarge01`/`clamthin01` for shell beds, `shipwreckboards01-03` for waterline debris, `kelpshortstatic01`/`kelptallstatic01` for the kelp forest; `dos/misc/dugupground` dropped (it is Depths' dig-site marker, not bed dressing). `tbp_seaweed01`/`02` stay: at 29.3 m and 42.7 m they are giant-kelp columns, and Bethesda's own mine places them at 8-70 m of depth at scale 0.15-1.15, so the palette uses them small and deep rather than at native size. Phase 11 Part 6 sourcing gap FILLED: a sunken Argonian shrine (Lilmoth's drowned quarter, the shrine to Xhon-Mehl the Fisher) had no focal object that reads Argonian - the mud kit's `sithisshrine` is the wrong Argonian culture for Murkmire, and everything else we hold is Imperial or Daedric. HTBM's xanmeer ruin ornament supplies it: `totem02` (0.40 x 0.49 x 2.07 m) is a standing carved totem, `totem03` (1.11 x 1.29 x 1.56 m) the squat altar-height idol block, `runicstone` (1.19 x 0.65 x 1.14 m) the inscribed marker, and `serpentsigilstatue` (1.38 x 0.44 x 0.63 m) the serpent-sigil plaque. All four carry the mod's own `architecture/xanmeer` textures, i.e. they are the Argonian ruin set rather than pieces borrowed from elsewhere - HTBM's `statuegoddess` and `totem01` were REJECTED for exactly that reason (they carry `here there be monsters - the call of cthulhu` textures, a different culture), and `serpentsigilstone` was rejected as a 0.14 m decal, too small to be a focal object. All four are opaque stone, so they survive submersion with no alpha/foliage problems. The same four are the right dry-land shrine dressing for `settlement-stilt-v1`. 2026-09-18 seabed pass: the three Depths corals (`tbp_coralbig/medium/small01`) were REMOVED - measured at 16.8 x 17.9 x 3.6 m / 11.2 x 10.9 x 3.2 / 5.4 x 5.3 x 2.7 on 144/94/64 triangles with 46-72% of their triangle area within 15 degrees of horizontal, they are near-flat card fans that read on the sea bed as large flat squares stacked on each other. The three sirenroot `aruniquerubblewalkablefl*` floors STAY, against the seabed brief's instruction to drop them: they are not scatter (no palette layer has ever placed them) but they ARE placed by hand in Lilmoth's drowned quarter (`world/sources/blueprints/place.mercantile-coast.lilmoth.json`), and the build's own placement-policy inventory refuses a kit that stops emitting an asset a blueprint asks for. Keeping them costs the sea bed nothing and keeps that place standing. Real coral now comes from Jokerine's `coral` and `coral_spiky`, the only genuine 3D coral meshes that exist for Skyrim SE. Shores of Skyrim adds twelve distinct shore rocks and three large shells; Jokerine adds scallops, a conch, a sand dollar, a large clam, a sponge and a starfish; vanilla adds the nine unused wet rocks, `nordicbarnaclecluster01`, the three coast driftwoods, three bones and three containers; BM&V adds the two pebble mats. Sea urchins and anemones exist in no Skyrim SE asset anywhere, so the bed has none: a recorded gap, not a substitution.",
  "culture": "neutral-underwater",
  "output": "tooling/asset-pipeline/output/kits/underwater-v1.glb",
  "lodRatios": [
@@ -9,15 +9,6 @@
  ],
  "textureMaxSize": 512,
  "assets": [
-  {
-   "asset": "depths:dos/misc/tbp_coralbig"
-  },
-  {
-   "asset": "depths:dos/misc/tbp_coralmedium"
-  },
-  {
-   "asset": "depths:landscape/grass/tbp_coralsmall01"
-  },
   {
    "asset": "depths:landscape/grass/tbp_seaweed01"
   },
@@ -107,6 +98,153 @@
   },
   {
    "asset": "vanilla:landscape/plants/kelptallstatic01"
+  },
+  {
+   "asset": "jokerine:_seaside/coral"
+  },
+  {
+   "asset": "jokerine:_seaside/coral_spiky"
+  },
+  {
+   "asset": "jokerine:_seaside/starfish"
+  },
+  {
+   "asset": "jokerine:_seaside/sponge"
+  },
+  {
+   "asset": "jokerine:_seaside/conch"
+  },
+  {
+   "asset": "jokerine:_seaside/sanddollar"
+  },
+  {
+   "asset": "jokerine:_seaside/scallop_red"
+  },
+  {
+   "asset": "jokerine:_seaside/scallop_blue"
+  },
+  {
+   "asset": "jokerine:_seaside/scallop_yellow"
+  },
+  {
+   "asset": "jokerine:_seaside/scallop_greenwhite"
+  },
+  {
+   "asset": "jokerine:_seaside/scallop_purplewhite"
+  },
+  {
+   "asset": "jokerine:_seaside/scallop_slate"
+  },
+  {
+   "asset": "jokerine:_seaside/clam_large"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock01"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock02"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock03"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock04"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock05"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock06"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock07"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock08"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock09"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock10"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock11"
+  },
+  {
+   "asset": "shores:shoresofskyrim/shorerock12"
+  },
+  {
+   "asset": "shores:shoresofskyrim/seashell02"
+  },
+  {
+   "asset": "shores:shoresofskyrim/seashell03"
+  },
+  {
+   "asset": "shores:shoresofskyrim/snailshell01"
+  },
+  {
+   "asset": "vanilla:plants/nordicbarnaclecluster01"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rocks01wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rocks02wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rocks03wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockm01wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockm03wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockm04wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockpilem01wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockpilem03wet"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/wetrocks/rockshelf01wet"
+  },
+  {
+   "asset": "vanilla:landscape/trees/coastdriftwood01"
+  },
+  {
+   "asset": "vanilla:landscape/trees/coastdriftwood02"
+  },
+  {
+   "asset": "vanilla:landscape/trees/coastdriftwood03"
+  },
+  {
+   "asset": "vanilla:clutter/bones/humanskull"
+  },
+  {
+   "asset": "vanilla:clutter/bones/humanribcagefull"
+  },
+  {
+   "asset": "vanilla:clutter/bones/mammothskull1"
+  },
+  {
+   "asset": "vanilla:clutter/barrel01"
+  },
+  {
+   "asset": "vanilla:clutter/basket01"
+  },
+  {
+   "asset": "vanilla:clutter/bucket01"
+  },
+  {
+   "asset": "bmv:landscape/grass/riverbedpebbles"
+  },
+  {
+   "asset": "bmv:landscape/grass/smallpebbles"
   }
  ]
 }

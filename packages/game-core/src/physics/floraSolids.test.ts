@@ -222,3 +222,36 @@ describe("collidersFor on ordinary species", () => {
     expect(collidersFor(broken)).toEqual([colliderFor(leaningTrunk)]);
   });
 });
+
+describe("rocks collide as their own triangles", () => {
+  // Two triangles sharing an edge — enough to prove the copy and the index.
+  const positions = [0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1];
+  const index = [0, 1, 2, 1, 3, 2];
+
+  it("returns ONE trimesh when the caller can supply the geometry", () => {
+    const shapes = collidersFor(boulder, () => ({ positions, index }));
+    expect(shapes).toHaveLength(1);
+    const shape = shapes[0];
+    if (shape.kind !== "trimesh") throw new Error("expected a trimesh");
+    expect(shape.vertices).toHaveLength(positions.length);
+    expect(shape.vertices.length / 3).toBe(4);
+    expect(Array.from(shape.indices)).toEqual(index);
+  });
+
+  it("builds a sequential index when the geometry has none", () => {
+    const shapes = collidersFor(boulder, () => ({ positions, index: null }));
+    const shape = shapes[0];
+    if (shape.kind !== "trimesh") throw new Error("expected a trimesh");
+    expect(Array.from(shape.indices)).toEqual([0, 1, 2, 3]);
+  });
+
+  it("falls back to the manifest box when no geometry is supplied", () => {
+    expect(collidersFor(boulder)).toEqual([colliderFor(boulder)]);
+    expect(collidersFor(boulder, () => null)).toEqual([colliderFor(boulder)]);
+  });
+
+  it("leaves trunks on their moulded capsules", () => {
+    const shapes = collidersFor(leaningTrunk, () => ({ positions, index }));
+    expect(shapes.every((s) => s.kind === "capsule")).toBe(true);
+  });
+});

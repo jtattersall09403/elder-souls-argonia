@@ -20,8 +20,14 @@ export interface QualitySettings {
   /** Architecture LOD/draw-distance multiplier. Colliders and gameplay data
    * are unchanged; only the visual tier boundary moves. */
   readonly architectureDrawScale: number;
-  /** T3 groundcover ring radius in metres. */
+  /** T3 groundcover MID radius in metres: full-density card tier ends here.
+   * The near (full-mesh) tier ends at 0.4x this. */
   readonly groundcoverRadiusM: number;
+  /** T3 groundcover FAR radius in metres: the thinned card tier runs from
+   * `groundcoverRadiusM` to here and fades to nothing at it. Short species
+   * (under 0.6 m) stop proportionally sooner — a 30 cm tuft at 150 m is a
+   * pixel that still costs a vertex. */
+  readonly groundcoverFarRadiusM: number;
   /** T3 groundcover hard instance budget. */
   readonly groundcoverMaxInstances: number;
   /** Upper devicePixelRatio clamp for the canvas. */
@@ -35,6 +41,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     vegChunkRing: 1,
     architectureDrawScale: 0.65,
     groundcoverRadiusM: 50,
+    groundcoverFarRadiusM: 110,
     groundcoverMaxInstances: 30_000,
     dprMax: 1,
   },
@@ -44,6 +51,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     vegChunkRing: 2,
     architectureDrawScale: 1,
     groundcoverRadiusM: 65,
+    groundcoverFarRadiusM: 145,
     groundcoverMaxInstances: 45_000,
     dprMax: 1.25,
   },
@@ -53,6 +61,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     vegChunkRing: 2,
     architectureDrawScale: 1.25,
     groundcoverRadiusM: 75,
+    groundcoverFarRadiusM: 165,
     groundcoverMaxInstances: 60_000,
     dprMax: 1.5,
   },

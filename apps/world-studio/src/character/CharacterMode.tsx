@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
@@ -26,7 +26,7 @@ import { ChunkWorld } from "./chunkWorld";
 import { ApronTerrain } from "../ApronTerrain";
 import { ChunkColliders } from "./ChunkColliders";
 import { VegetationColliders } from "./VegetationColliders";
-import type { SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
+import type { FloraCollider, SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
 import { TouchControls } from "./TouchControls";
 import { WorldSky } from "../sky/WorldSky";
 import { StudioWater } from "../water/StudioWater";
@@ -62,6 +62,41 @@ import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
  * camera, and desktop/touch/gamepad input parity. The HUD doubles as the
  * environment-query probe: position, chunk, ground material, region, water.
  */
+
+/**
+ * The HUD is fed ~7 times a second. Held in this component's own state it
+ * re-rendered the WHOLE character tree — canvas children, physics props and
+ * all — seven times a second, for two text readouts. So it is published on a
+ * channel instead: the driver writes, and only the small components that
+ * actually display it subscribe and re-render. React's own
+ * `useSyncExternalStore` does the subscribing, so there is no bespoke
+ * lifecycle to get wrong.
+ */
+export interface HudChannel {
+  latest: CharacterHudState | null;
+  publish: (state: CharacterHudState) => void;
+  subscribe: (listener: () => void) => () => void;
+}
+
+function createHudChannel(): HudChannel {
+  const listeners = new Set<() => void>();
+  const channel: HudChannel = {
+    latest: null,
+    publish: (state) => {
+      channel.latest = state;
+      for (const listener of listeners) listener();
+    },
+    subscribe: (listener) => {
+      listeners.add(listener);
+      return () => { listeners.delete(listener); };
+    },
+  };
+  return channel;
+}
+
+function useHud(channel: HudChannel): CharacterHudState | null {
+  return useSyncExternalStore(channel.subscribe, () => channel.latest);
+}
 
 export interface CharacterHudState {
   xKm: number;
@@ -118,7 +153,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const [manifest, setManifest] = useState<ChunksManifest | null>(null);
   const [spawn, setSpawn] = useState<Vec3 | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [hud, setHud] = useState<CharacterHudState | null>(null);
+  const hudChannel = useMemo(() => createHudChannel(), []);
   const player = useRef<EcctrlHandle | null>(null);
   const focusRef = useRef({ x: spawnKm.x * 1000, z: spawnKm.z * 1000 });
   const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
@@ -312,6 +347,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // the physics ring (which makes the near ones solid). A ref, not state: the
   // list changes on every vegetation rebuild and must not re-render the scene.
   const floraSolidsRef = useRef<SolidInstance[]>([]);
+  /** Collider shapes per species, published by `Vegetation` once its kit is
+   * loaded: rocks collide as their own triangles, which needs the kit
+   * geometry the renderer already holds. */
+  const floraShapesRef = useRef<Map<string, FloraCollider[]> | null>(null);
   const [floraColliderCount, setFloraColliderCount] = useState(0);
   const handleSolids = useCallback((solids: SolidInstance[]) => {
     floraSolidsRef.current = solids;
@@ -369,6 +408,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                   verticalScale={verticalScale}
                   quality={quality}
                   onSolids={handleSolids}
+                  shapesRef={floraShapesRef}
                 />
                 {/* T3 groundcover ring around the walking character — same
                     component and constants as the flyover. */}
@@ -428,8 +468,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             {!hiddenLayers.has("vegetation") && (
               <VegetationColliders
                 solidsRef={floraSolidsRef}
+                shapesRef={floraShapesRef}
                 focusRef={focusRef}
-                baseUrl={import.meta.env.BASE_URL}
                 onCount={setFloraColliderCount}
               />
             )}
@@ -477,7 +517,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               supportYRef={supportYRef}
               focusRef={focusRef}
               extentM={terrainExtentM}
-              onHud={setHud}
+              onHud={hudChannel.publish}
               onWaterContact={onWaterContact}
               onPositionKm={onPositionKm}
             />
@@ -498,9 +538,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         color: "#e6ecf5", font: "13px system-ui",
       }}>
         <button onClick={onExit} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
-        <button onClick={() => hud && onFlyHere(hud.xKm, hud.zKm)} style={{ padding: "4px 10px", cursor: "pointer" }}>✈ Fly here</button>
+        <button onClick={() => {
+          const hud = hudChannel.latest;
+          if (hud) onFlyHere(hud.xKm, hud.zKm);
+        }} style={{ padding: "4px 10px", cursor: "pointer" }}>✈ Fly here</button>
         <button
-          onClick={() => hud && setCrateOrigin({ x: hud.xKm * 1000, y: hud.altM, z: hud.zKm * 1000 })}
+          onClick={() => {
+            const hud = hudChannel.latest;
+            if (hud) setCrateOrigin({ x: hud.xKm * 1000, y: hud.altM, z: hud.zKm * 1000 });
+          }}
           title="Drop three floating crates ahead of you (Phase 8b buoyancy test)"
           style={{ padding: "4px 10px", cursor: "pointer" }}
         >💧 crates</button>
@@ -529,19 +575,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <span title="Solid plants and rocks around you (trunks and boulders are solid; reeds and ferns are not)">
           solid {floraColliderCount}
         </span>
-        {hud && (
-          <span style={{ opacity: 0.9 }}>
-            {hud.xKm.toFixed(2)} km E · {hud.zKm.toFixed(2)} km S · alt {hud.altM.toFixed(1)} m
-            {" · "}chunk {hud.chunk[0]},{hud.chunk[1]}
-            {hud.groundMaterial ? ` · ${hud.groundMaterial}` : ""}
-            {hud.region && hud.region !== "unknown" ? ` · ${hud.region}` : ""}
-            {hud.waterDepth !== undefined ? ` · ${hud.waterBody ?? "water"} ${hud.waterDepth.toFixed(1)} m deep` : ""}
-            {hud.dayPhase ? ` · ${hud.dayPhase}` : ""}
-            {hud.visibilityM !== undefined ? ` · vis ~${hud.visibilityM} m` : ""}
-            {" · "}{["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(hud.headingDeg / 45) % 8]} {Math.round(hud.headingDeg)}°
-            {" · "}{hud.grounded ? `${hud.speed.toFixed(1)} m/s` : "airborne"}
-          </span>
-        )}
+        <CharacterHud channel={hudChannel} />
       </div>
       <div style={{
         position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)",
@@ -561,19 +595,60 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {edgeMessage}
         </div>
       )}
-      {hud && mapCanvas && mapMeta && (
-        <Minimap
+      {mapCanvas && mapMeta && (
+        <CharacterHudMinimap
+          channel={hudChannel}
           mapCanvas={mapCanvas}
           meta={mapMeta}
-          xKm={hud.xKm}
-          zKm={hud.zKm}
-          headingDeg={hud.headingDeg}
           bottomPx={touch ? 210 : 12}
           overlay={minimapOverlay}
         />
       )}
       {touch && <TouchControls />}
     </div>
+  );
+}
+
+/** The readout — the only thing that re-renders on a HUD tick. Identical
+ * text to the version that lived in the parent; only the ownership moved. */
+function CharacterHud({ channel }: { channel: HudChannel }) {
+  const hud = useHud(channel);
+  if (!hud) return null;
+  return (
+    <span style={{ opacity: 0.9 }}>
+      {hud.xKm.toFixed(2)} km E · {hud.zKm.toFixed(2)} km S · alt {hud.altM.toFixed(1)} m
+      {" · "}chunk {hud.chunk[0]},{hud.chunk[1]}
+      {hud.groundMaterial ? ` · ${hud.groundMaterial}` : ""}
+      {hud.region && hud.region !== "unknown" ? ` · ${hud.region}` : ""}
+      {hud.waterDepth !== undefined ? ` · ${hud.waterBody ?? "water"} ${hud.waterDepth.toFixed(1)} m deep` : ""}
+      {hud.dayPhase ? ` · ${hud.dayPhase}` : ""}
+      {hud.visibilityM !== undefined ? ` · vis ~${hud.visibilityM} m` : ""}
+      {" · "}{["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(hud.headingDeg / 45) % 8]} {Math.round(hud.headingDeg)}°
+      {" · "}{hud.grounded ? `${hud.speed.toFixed(1)} m/s` : "airborne"}
+    </span>
+  );
+}
+
+/** The minimap subscribes for itself, for the same reason. */
+function CharacterHudMinimap({ channel, mapCanvas, meta, bottomPx, overlay }: {
+  channel: HudChannel;
+  mapCanvas: HTMLCanvasElement;
+  meta: MapMeta;
+  bottomPx: number;
+  overlay?: MinimapOverlay | null;
+}) {
+  const hud = useHud(channel);
+  if (!hud) return null;
+  return (
+    <Minimap
+      mapCanvas={mapCanvas}
+      meta={meta}
+      xKm={hud.xKm}
+      zKm={hud.zKm}
+      headingDeg={hud.headingDeg}
+      bottomPx={bottomPx}
+      overlay={overlay}
+    />
   );
 }
 

@@ -1,12 +1,12 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "root": "apps/world-studio/public/province",
-  "comment": "The generated province rasters. These are rebuild output, not source: they live in a rolling GitHub release (tag province-rasters) and are fetched, never committed. Everything else under province/ (the small overlay PNGs and all JSON) stays in git.",
-  "patterns": [
-    "chunks/**/*.png",
-    "refined/*.png",
-    "water/**/*.png",
-    "vegetation/**",
-    "apron/**/*.png"
-  ]
+  "comment": "The generated province rasters, in five groups. They are rebuild output, not source: each group ships as its own asset of a rolling GitHub release (tag province-rasters) and is fetched, never committed, so a chain run that touches one stage republishes only that group. Everything else under province/ (the small overlay PNGs and all JSON) stays in git.",
+  "groups": {
+    "chunks": ["chunks/**/*.png"],
+    "refined": ["refined/*.png"],
+    "water": ["water/**/*.png"],
+    "vegetation": ["vegetation/**"],
+    "apron": ["apron/**/*.png"]
+  }
 }

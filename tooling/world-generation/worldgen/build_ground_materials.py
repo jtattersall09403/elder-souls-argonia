@@ -116,7 +116,14 @@ MATERIALS = [
     # owner reviewed the tint in an earlier ground round and, told what it was,
     # said they had simply missed it.
     ("peat_slope",    "ts",  "landscape/frozenmarshdirtslopes01.dds",        8.0, None, 45),
-    ("track_mud",     "ph",  "aerial_mud_1",                                6.0, None, 55),
+    # track_mud RECHOSEN 2026-09-18 (owner walk: decayed/broken roads invisible).
+    # Poly Haven aerial_mud_1 at lum 55 sat within 3-5 luma of every lowland
+    # cover it is painted against (grass_dirt 58, moss 52, muck 50), so a
+    # churned track could not be told from the verge. Tropical Skyrim's own
+    # repaint of Skyrim's dirt road is warm brown (R-G +8 raw) and is held 14
+    # or more luma ABOVE the lowland grasses, which is what makes a track read
+    # as a line on the ground and from the air.
+    ("track_mud",     "ts",  "roads/road01.dds",                            6.0, None, 72),
     ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 74),
     ("mountain_rock", "ts",  "mountains/mountainslab01.dds",               16.0, None, 62),
     # Phase 8b rounds 3-4 — tropical shorelines (research Part C + Tropical

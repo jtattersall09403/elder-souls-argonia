@@ -41,6 +41,23 @@ a used kit asset without an asset-level policy, while reporting explicitly
 expanded family references separately. This keeps a new blueprint promise from
 quietly falling through a fixed historical asset-count list.
 
+A kit config may set `bakeCards: true`. Only 44 of 159 flora species ship an
+authored `_lod_flat` card and no ground cover does, so everything else runs its
+deepest decimated mesh to the draw distance. With `bakeCards` on, every asset
+that has no authored card (and whose category is not in
+`bakeCardSkipCategories`, default `["rock"]`; a single asset opts out with
+`"bakeCard": false`) gets two orthographic views rendered from its own LOD0
+meshes, crossed into an X-shaped card at the level past the decimated chain and
+packed into shared 2048-max atlases (`cardResolutionPx`, default 128/256/512 px
+by height). This is a **derived LOD**, the same thing DynDOLOD's tree-LOD
+billboard generator produces from a mesh the mod already ships — it is not new
+art, and it adds no source we do not already credit. Each card mesh carries
+`billboard`, `cardSource: "baked"` and `cardView` ("a"/"b") extras; the manifest
+records `cardAtlas` and `cardRects`. A kit may also set `lodRatiosByCategory`
+(e.g. `{"rock": []}`) to give a category its own decimation ladder — an empty
+list ships LOD0 only, which is what open-shell cliff meshes need, since
+decimating them multiplies boundary edges and opens holes at distance.
+
 Kit asset roots are named `es|<10 hex of sha1(asset id)>|<last 40 chars of the
 id>` — short enough to survive Blender's 63-character object-name limit, unique
 by construction, and recorded verbatim in the manifest's `node` field; the full

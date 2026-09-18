@@ -95,14 +95,16 @@ asset registry.
 - **ambientCG** (ambientcg.com, CC0) — ground textures in the terrain
   material library (Ground024/025/026/040/050/051/054).
 - **Poly Haven** (polyhaven.com, CC0) — ground textures in the terrain
-  material library (mud_forest, aerial_mud_1, mud_cracked_dry_riverbed_002;
+  material library (mud_forest, mud_cracked_dry_riverbed_002;
   8b shoreline additions: coast_sand_05, aerial_beach_01,
   ganges_river_pebbles).
 - **Tropical Skyrim — A Climate Overhaul** (Nexus classic Skyrim mod 33017,
   Soolie) — tropical landscape ground textures in the terrain material
   library (beach, ocean floor, river gravel/bed/mud, tropicalised moss
-  rocks + mountain slabs, marsh dirt slopes, and the cliff albedo + normal
-  maps sampled on the terrain's steep faces); grass and plant meshes/textures in the flora and
+  rocks + mountain slabs, marsh dirt slopes, the dirt-road track surface
+  (`roads/road01.dds`, the 16f road-legibility fix; converted PNG SHA-256
+  `4bd4cfdcf964177a1ddd3451663b4895571adcb402040159238f0dbc4eff5e36`), and
+  the cliff albedo + normal maps sampled on the terrain's steep faces); grass and plant meshes/textures in the flora and
   groundcover kits (ferngrass, grassfern, grassplant, marsh grass, cattail,
   man fern — Phase 10); owner-preferred source for later tropical
   flora/creature needs (module 90 §74.1a). **Phase 10 round 7:** its Anvil
@@ -265,7 +267,33 @@ asset registry.
   https://github.com/jeantimex/threejs-water) — the ping-pong wave-equation
   ripple simulation adapted for the interactive water patch around the
   player (`apps/world-studio/src/water/RippleSim.ts`).
-
+- **DrJacopo's - 3D Landscapes and Grass Library** (Nexus SSE mod 80687,
+  DrJacopo / JonnyWang13; published as a modder's resource) — modelled 3D
+  grass, sedge, fern and herb meshes and their textures in the ground-cover
+  ring kit (16f round 2). Meshes archive SHA-256
+  `5026606faae2b72cc796242dbc2e3f13d0a22133f9afafe6e2a9a71ecb298c68`; the two
+  texture archives are
+  `97033963747cf55bec36bd5d6ccb47812fecc268a5ed8720029eb379c3e89c8a`
+  (Cathedral - 3D Landscapes) and
+  `30f786263287501971e46fd39be42b5a03c3fc3fbfe6ade410c612144514832a`
+  (Resource Textures).
+- **Hoddminir Plants and Trees** (Nexus classic Skyrim mod 38651, Ztree and
+  Elinen, with credit to Vurt, SparrowPrince and Ga-Knomboe Boy as the author
+  asks) — 3D fern, bracken and low-herb meshes in the ground-cover ring kit.
+  The author permits use of these models only in work that is not sold, and
+  this project is free and non-commercial. Archive SHA-256
+  `42e6127a06c2c277fc98eecae097238aff2b59edb6dcd69db13a8d7169321b47`.
+- **Seashells** (Nexus SSE mod 4492, Jokerine; SSE conversion by Rusey —
+  https://www.nexusmods.com/skyrimspecialedition/mods/4492) — coral, spiky
+  coral, starfish, sponge, conch, sand dollar, six scallops and a large clam
+  in the sea-bed kit (16f round 2). Credit required; the permission text is
+  to be confirmed on the mod page (OPEN row in the sourcing log). Archive
+  SHA-256 `b561bd0a1ead01c007febb708b6279d80a37c7c8efa8655f800874fbc5c61c68`.
+- **Shores of Skyrim - Base Object Swapper, Part Two CC Attribution files**
+  (Nexus SSE mod 140081, FrankBlack; CC-BY per the file's own description —
+  https://www.nexusmods.com/skyrimspecialedition/mods/140081) — eleven shore
+  stones and three large shells in the sea-bed kit. Archive SHA-256
+  `44307f926585bc24ffa7a5ef5b09b63e450edca87dd255c48e0ea59856ee6934`.
 ### Planned (recorded before ingestion; move up when used)
 
 - **Narrative asset pool** — 25 mods (A01–A25) and 12 vanilla families

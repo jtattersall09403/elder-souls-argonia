@@ -153,8 +153,11 @@ def test_major_corridor_masks_scale_with_condition(tmp_path):
     assert cond.shape == trunk.shape == ground.shape
     broken_row = _row(0.5 * (_FROM_M + _TO_M))
     worn_row = _row(_TO_M + 40.0)
-    # a broken section clears nothing: overgrown verge to verge
-    assert not trunk[broken_row, 50:70].any()
-    assert not ground[broken_row, 50:70].any()
+    # a broken section still holds a trace open - half the authored width
+    # (owner walk 2026-09-18). Clearing NOTHING was the old rule, and it left
+    # the trees standing over the line and the bake with no corridor to paint,
+    # so a broken road could not be found on the ground or from the air.
+    assert 0 < trunk[broken_row, 50:70].sum() < trunk[worn_row, 50:70].sum()
+    assert ground[broken_row, 50:70].any()
     # the worn stretch clears a narrower corridor than the maintained trunk
     assert 0 < trunk[worn_row, 50:70].sum() < trunk[75, 30:50].sum()

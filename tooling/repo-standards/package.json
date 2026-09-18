@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Mechanical enforcement of docs/standards/engineering.md — determinism, no new package singletons, stable IDs, schemaVersion, asset credits. No dependencies by design.",
+  "description": "Mechanical enforcement of docs/standards/engineering.md \u2014 determinism, no new package singletons, stable IDs, schemaVersion, asset credits. No dependencies by design.",
   "scripts": {
-    "test": "node check.mjs"
+    "test": "node check.mjs && node --test ../province-artefact/common.test.mjs"
   }
 }

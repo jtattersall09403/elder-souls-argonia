@@ -815,7 +815,7 @@
 {"id":"tropical:landscape/ice/iciclesmallsingle","pool":"tropical","path":"meshes/landscape/ice/iciclesmallsingle.nif","category":"ice","confidence":0.8,"biomes":["alpine","cold"],"observedIn":["vanilla-tamriel"],"observedUses":183,"observedScaleP50":1.0}
 {"id":"tropical:landscape/ice/iciclethinstrip","pool":"tropical","path":"meshes/landscape/ice/iciclethinstrip.nif","category":"ice","confidence":0.8,"biomes":["alpine","cold"]}
 {"id":"tropical:landscape/rocks/rock","pool":"tropical","path":"meshes/landscape/rocks/rock.nif","category":"rock","confidence":0.8}
-{"id":"tropical:landscape/rocks/rockl01","pool":"tropical","path":"meshes/landscape/rocks/rockl01.nif","category":"rock","confidence":0.8,"observedIn":["vanilla-tamriel"],"observedUses":2284,"observedScaleP50":1.0}
+{"id":"tropical:landscape/rocks/rockl01","pool":"tropical","path":"meshes/landscape/rocks/rockl01.nif","category":"rock","confidence":0.8,"observedIn":["depths-underwater","vanilla-tamriel"],"observedUses":2377,"observedScaleP50":1.0}
 {"id":"tropical:plants/citsbambooleafingr","pool":"tropical","path":"meshes/plants/citsbambooleafingr.nif","category":"plant","confidence":0.8}
 {"id":"tropical:plants/citsflorabamboo01","pool":"tropical","path":"meshes/plants/citsflorabamboo01.nif","category":"plant","confidence":0.8,"editorIds":["TreeFallForestShrub01","TreeAspen04"],"recordTypes":["TREE"],"sizeM":[12.048,13.612,24.081],"originOffsetUnits":[-402,-458,-709]}
 {"id":"tropical:plants/citsflorabamboo02","pool":"tropical","path":"meshes/plants/citsflorabamboo02.nif","category":"plant","confidence":0.8}

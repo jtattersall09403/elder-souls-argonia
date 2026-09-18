@@ -39,6 +39,10 @@ and `world/sources/flora/groundcover.json` (schema 3).
   its ~250 grass meshes are asset pool only (`EGrass01–58`, ~45 `ESu`
   summer herbs, ~20 `ESp` flowers, Vurt's set, the `EWp` waterside set,
   litter mats). It lives at `tooling/asset-pipeline/black-marsh-mod-source/`.
+  Measured 2026-09-18: those meshes are crossed-quad billboards, at most 84
+  triangles and a median of 31, which is why the ring read as flat close up;
+  the vault's real 3D clumps are in `plants/`, not `grass/`; 16f round 2
+  kits them alongside three sourced 3D grass mods.
 - The vault holds ~300 usable ground-cover meshes against the 34 the kit
   shipped; the 34 were mostly the same few silhouettes retextured (five
   groups of byte-identical geometry): variety was texture-only.

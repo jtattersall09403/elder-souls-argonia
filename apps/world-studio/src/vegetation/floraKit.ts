@@ -37,6 +37,19 @@ export interface KitSpecies {
    * where the species has no trunk capsule (ground plants, aquatics), which
    * the caller reads as "no stiffening". */
   readonly trunkRadiusM: number | null;
+  /** Manifest `category` (`tree`, `rock`, `aquatic-plant`, …) — the kit's own
+   * vocabulary, carried through so the renderer can treat non-plants as the
+   * non-plants they are. */
+  readonly category: string | null;
+  /** False for anything that is not a plant (rock, deadfall, container, misc,
+   * ruin, architecture, clutter). A boulder that bends in the wind is the
+   * owner's defect; the renderer must neither patch its material nor let it
+   * inherit a plant's sway through a shared material. */
+  readonly sways: boolean;
+  /** True for the underwater-band species (and anything the manifest calls
+   * aquatic): under water you can see a few dozen metres at best, so these
+   * draw shorter and step down their LOD chain sooner. */
+  readonly submerged: boolean;
   /** Bounds so far from the origin they are clearly stray geometry (the
    * algrass03b case: mesh ~83 m from its pivot). Renderers should skip these
    * — drawing them puts geometry underground or in the sky either way. */
@@ -59,6 +72,10 @@ export interface KitManifestAsset {
   collision?: string;
   collisionFrame?: string;
   collisionCapsule?: { radiusM: number; heightM: number; baseOffsetM: [number, number, number] };
+  /** Kit vocabulary. Land kit: tree, rock, shrub, aquatic-plant, plant,
+   * fungus, deadfall, container, grass. Underwater kit adds ruin,
+   * architecture, clutter, misc. */
+  category?: string;
 }
 
 export interface KitManifest {
@@ -91,7 +108,36 @@ function isBillboard(object: THREE.Object3D): boolean {
   return extras.billboard === true;
 }
 
-export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
+/**
+ * Manifest categories that are not plants. Nothing in this set sways: wind
+ * displacing a boulder, a fallen log, a crate or a sunken wall is the owner's
+ * round-16f defect, and no amount of amplitude tuning makes it right.
+ */
+export const NON_SWAYING_CATEGORIES = new Set([
+  "rock", "deadfall", "container", "misc", "ruin", "architecture", "clutter",
+]);
+
+/** Categories that only ever stand under water. */
+const SUBMERGED_CATEGORIES = new Set(["aquatic-plant", "aquatic"]);
+
+/**
+ * Metres. Draw ceiling for a submerged species: underwater sight lines are
+ * short, and a kelp frond resolved at 400 m is triangles spent behind a wall
+ * of scatter.
+ */
+export const SUBMERGED_MAX_DRAW_M = 120;
+
+/** Submerged LOD rings are halved for the same reason. */
+export const SUBMERGED_LOD_SCALE = 0.5;
+
+export function buildFloraKit(
+  gltf: GLTF,
+  manifest: KitManifest,
+  /** True for the underwater-band kit: every species in it is submerged,
+   * whatever category the manifest gives it (a sunken wall is still only ever
+   * seen through water). */
+  underwater = false,
+): FloraKit {
   const heights = new Map(manifest.assets.map((a) => [a.id, a.sizeM[2]]));
   const anchors = new Map(
     manifest.assets.map((a) => {
@@ -108,6 +154,7 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
   const trunkRadii = new Map(
     manifest.assets.map((a) => [a.id, a.collisionCapsule?.radiusM ?? null]),
   );
+  const categories = new Map(manifest.assets.map((a) => [a.id, a.category ?? null]));
   const alphaTested = new Set(
     manifest.assets.filter((a) => a.alphaTest).map((a) => a.id),
   );
@@ -138,7 +185,11 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
         // Lift the card out of its baked-in canopy shade (round-4 lever).
         // Materials are shared across a species' cards, so brighten once.
         const card = material0 as THREE.MeshStandardMaterial;
-        if (!card.userData.esBillboardBrightened) {
+        // Only AUTHORED cards need it: they bake canopy shade into the paint.
+        // A baked card (`cardSource: "baked"`) was rendered under flat white
+        // light by the kit builder, so brightening it would blow it out.
+        const baked = (mesh.userData ?? {}).cardSource === "baked";
+        if (!baked && !card.userData.esBillboardBrightened) {
           card.color.multiplyScalar(BILLBOARD_BRIGHTNESS);
           card.userData.esBillboardBrightened = true;
         }
@@ -205,6 +256,9 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
       billboardIndex,
       heightM: heights.get(id) ?? 4,
       trunkRadiusM: trunkRadii.get(id) ?? null,
+      category: categories.get(id) ?? null,
+      sways: !NON_SWAYING_CATEGORIES.has(categories.get(id) ?? ""),
+      submerged: underwater || SUBMERGED_CATEGORIES.has(categories.get(id) ?? ""),
       // Round-4 note: bbox-bottom anchoring (`anchorYM`) is GONE — bundle v2
       // species anchor by PIVOT with a baked sink (mined convention; the bbox
       // bottom is often a hanging frond tip and lifted trunks into the air).

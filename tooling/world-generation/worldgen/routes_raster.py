@@ -50,9 +50,12 @@ REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
 CONDITION_CODES = {"maintained": 1, "worn": 2, "decayed": 3, "broken": 4}
 DEFAULT_CONDITION = 2           # an unregistered road is a used, rutted road
 # How much of the authored clearance width a road of each condition actually
-# holds open: a maintained road is cut verge to verge, a broken one clears
-# nothing at all (owner 2026-09-16).
-CONDITION_WIDTH_FACTOR = {1: 1.0, 2: 0.85, 3: 0.5, 4: 0.0}
+# holds open: a maintained road is cut verge to verge, a broken one keeps
+# half its width as a cleared trace. Factor 0 for broken (the 2026-09-16
+# value) meant no corridor existed at all, so trees grew over the line and
+# nothing was cleared or painted - the owner could not find the road
+# (owner walk 2026-09-18).
+CONDITION_WIDTH_FACTOR = {1: 1.0, 2: 0.85, 3: 0.7, 4: 0.5}
 
 # Structure kinds whose running surface is CARRIED CLEAR of the ground: the
 # road is up on the piece, so the dip, river or gully underneath keeps its

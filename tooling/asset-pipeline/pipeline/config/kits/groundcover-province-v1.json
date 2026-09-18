@@ -1,192 +1,244 @@
 {
-  "id": "groundcover-province-v1",
-  "description": "The grass/fern/reed/rush species that world/sources/flora/groundcover.json binds to painted ground (T3 runtime ring, module 65 §110). Kept separate from flora-province-v1 so the ring renderer loads a few hundred KB rather than the 12 MB tree kit before the ground can dress. No LOD chain: these are 3–128-triangle alpha cards drawn inside a ~75 m ring, so decimation would shred the cutouts. Textures capped at 256 px like the flora kit (ships to GitHub Pages). Round 13 (decision 0048) took the ring from 7 meshes to 34; 16f takes it to 60. The 26 additions are chosen for silhouette rather than texture. The 34-mesh kit held five groups of byte-identical geometry under different textures, which read as one species at 20 m, so every addition carries a (triangle count, bounding size) signature that no other asset in the kit already has. The triangle ceiling stays 128. Four candidates that the plan named (swordfern03 172, swordferncluster02 824, reachmountainmosscover07 193 and 19 m wide, vurt_fernfield 336) measured over it or out of ground-cover scale and were dropped; clover01 built at 3.65 m in width, which exceeds the ring's 3.3 m size ceiling, so the build dropped it after measurement. Two underwater grasses (waterkelpshort01, watercoralgrass01) join them for the bed covers SILT/SEABED_SAND/OCEAN_FLOOR, which the vanilla mine shows to be painted-ground grass records and so the ring's work; the bed's third species is the kit's existing rockgrasswater01, reused rather than re-added on the vanilla path because the two meshes are the same geometry.",
-  "output": "tooling/asset-pipeline/output/kits/groundcover-province-v1.glb",
-  "lodRatios": [],
-  "textureMaxSize": 256,
-  "assets": [
-    {
-      "asset": "bmv:landscape/grass/vurt_reeds"
-    },
-    {
-      "asset": "bmv:landscape/grass/esurosebaywillowherb01"
-    },
-    {
-      "asset": "tropical:landscape/grass/cattailgrass"
-    },
-    {
-      "asset": "tropical:landscape/grass/ferngrass01"
-    },
-    {
-      "asset": "tropical:landscape/grass/grassfern01"
-    },
-    {
-      "asset": "tropical:landscape/grass/grassplant01"
-    },
-    {
-      "asset": "tropical:landscape/grass/marshgrassobj01"
-    },
-    {
-      "asset": "bmv:landscape/grass/solojunco"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_marshplant1"
-    },
-    {
-      "asset": "bmv:landscape/grass/ewpsea03"
-    },
-    {
-      "asset": "bmv:landscape/grass/ewpsea06"
-    },
-    {
-      "asset": "bmv:landscape/grass/ewpshore11"
-    },
-    {
-      "asset": "bmv:landscape/grass/ewpshore14"
-    },
-    {
-      "asset": "bmv:landscape/grass/ewpshore03a"
-    },
-    {
-      "asset": "htbm:landscape/grass/ewpshore13"
-    },
-    {
-      "asset": "htbm:landscape/grass/ewpshore16"
-    },
-    {
-      "asset": "bmv:landscape/grass/ewplake07"
-    },
-    {
-      "asset": "bmv:landscape/grass/rockgrasswater01"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_greengrass"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_yelgrass"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_bentgrass"
-    },
-    {
-      "asset": "bmv:landscape/grass/mixgrass01"
-    },
-    {
-      "asset": "bmv:landscape/grass/forestgrass01"
-    },
-    {
-      "asset": "bmv:landscape/grass/forestgrass02"
-    },
-    {
-      "asset": "bmv:landscape/grass/ug_forestgroundcover02"
-    },
-    {
-      "asset": "bmv:landscape/grass/weedygroundcover"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_bigfern"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_bigfern2"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_brownplants"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_strangeplant"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_mgrass"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_greenyelplant"
-    },
-    {
-      "asset": "bmv:landscape/grass/fieldgrass01"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_mixedplants"
-    },
-    {
-      "asset": "vanilla:landscape/grass/beachgrassobj01"
-    },
-    {
-      "asset": "vanilla:landscape/grass/beachgrassobj02"
-    },
-    {
-      "asset": "vanilla:landscape/grass/rockgrass01"
-    },
-    {
-      "asset": "vanilla:landscape/grass/reachgrassobj01"
-    },
-    {
-      "asset": "vanilla:landscape/grass/reachgrassobj02"
-    },
-    {
-      "asset": "vanilla:landscape/grass/fallforestgrassobj01"
-    },
-    {
-      "asset": "vanilla:landscape/grass/tundragrassobj04"
-    },
-    {
-      "asset": "vanilla:landscape/plants/swordfern01"
-    },
-    {
-      "asset": "vanilla:landscape/plants/swordfern05"
-    },
-    {
-      "asset": "vanilla:landscape/plants/swordfern06"
-    },
-    {
-      "asset": "vanilla:landscape/plants/reachfern01"
-    },
-    {
-      "asset": "vanilla:landscape/plants/reachbush01"
-    },
-    {
-      "asset": "bmv:landscape/grass/esuburdock"
-    },
-    {
-      "asset": "bmv:landscape/grass/esusheepssorrel"
-    },
-    {
-      "asset": "bmv:landscape/grass/esuheather02"
-    },
-    {
-      "asset": "bmv:landscape/grass/esufoxglove02"
-    },
-    {
-      "asset": "bmv:landscape/grass/esuclover02red"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_eriophorum"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_notlupins"
-    },
-    {
-      "asset": "bmv:landscape/grass/ug_forestgroundcover"
-    },
-    {
-      "asset": "bmv:landscape/grass/13grassobj"
-    },
-    {
-      "asset": "bmv:landscape/grass/32grassobj"
-    },
-    {
-      "asset": "bmv:landscape/grass/36grassobj"
-    },
-    {
-      "asset": "bmv:landscape/grass/dandelion-1k"
-    },
-    {
-      "asset": "bmv:landscape/grass/woodanemone-white-2k"
-    },
-    {
-      "asset": "vanilla:landscape/grass/waterkelpshort01"
-    },
-    {
-      "asset": "vanilla:landscape/grass/watercoralgrass01"
-    }
-  ]
+ "id": "groundcover-province-v1",
+ "description": "The grass/fern/reed/rush species that world/sources/flora/groundcover.json binds to painted ground (T3 runtime ring, module 65 §110). Kept separate from flora-province-v1 so the ring renderer loads a few hundred KB rather than the 12 MB tree kit before the ground can dress. No LOD chain: these are 3–128-triangle alpha cards drawn inside a ~75 m ring, so decimation would shred the cutouts. Textures capped at 256 px like the flora kit (ships to GitHub Pages). Round 13 (decision 0048) took the ring from 7 meshes to 34; 16f takes it to 60. The 26 additions are chosen for silhouette rather than texture. The 34-mesh kit held five groups of byte-identical geometry under different textures, which read as one species at 20 m, so every addition carries a (triangle count, bounding size) signature that no other asset in the kit already has. The triangle ceiling stays 128. Four candidates that the plan named (swordfern03 172, swordferncluster02 824, reachmountainmosscover07 193 and 19 m wide, vurt_fernfield 336) measured over it or out of ground-cover scale and were dropped; clover01 built at 3.65 m in width, which exceeds the ring's 3.3 m size ceiling, so the build dropped it after measurement. Two underwater grasses (waterkelpshort01, watercoralgrass01) join them for the bed covers SILT/SEABED_SAND/OCEAN_FLOOR, which the vanilla mine shows to be painted-ground grass records and so the ring's work; the bed's third species is the kit's existing rockgrasswater01, reused rather than re-added on the vanilla path because the two meshes are the same geometry. 16f round 2 (2026-09-18): the owner saw ground cover that reads as 2D, and the measurement agreed — 34 of the 61 species were crossed-quad cards of 12 triangles or fewer, because every Vurt/Tamira `grass/` family in the vault is a billboard whatever its name says. Sixteen true-3D species join them from two permitted mods (DrJacopo's 3D Grass Library, Hoddminir) and from vanilla's own never-kitted `plants/` clumps, at 102 to 2,298 triangles. Two candidates measured out of ring scale and are NOT here: Tropical Skyrim's own modelled `Plants/Tamira/New Plants/GrassPlant01` (778 triangles, but 4.25 m across and 2.41 m tall — a shrub for the flora kit, not ankle-height cover, so its 128-triangle card twin `landscape/grass/grassplant01` stays), and Hoddminir's `FernLarge01` (236 triangles, 3.67 m across, over the 3.3 m size ceiling). The triangle ceiling therefore moves from 128 to 2,400 for this kit, and `bakeCards` is on: the far tier is a rendered card baked from each mesh, so the geometry is paid for only where the player can see it. The 3.3 m size ceiling is unchanged. The sea-bed pass adds `depths:landscape/grass/tbprockgrasswater03`, already carried by `underwater-v1`: the bed covers needed a third wet species and this is the one the ring can place.",
+ "output": "tooling/asset-pipeline/output/kits/groundcover-province-v1.glb",
+ "lodRatios": [],
+ "textureMaxSize": 256,
+ "assets": [
+  {
+   "asset": "bmv:landscape/grass/vurt_reeds"
+  },
+  {
+   "asset": "bmv:landscape/grass/esurosebaywillowherb01"
+  },
+  {
+   "asset": "tropical:landscape/grass/cattailgrass"
+  },
+  {
+   "asset": "tropical:landscape/grass/ferngrass01"
+  },
+  {
+   "asset": "tropical:landscape/grass/grassplant01"
+  },
+  {
+   "asset": "tropical:landscape/grass/grassfern01"
+  },
+  {
+   "asset": "tropical:landscape/grass/marshgrassobj01"
+  },
+  {
+   "asset": "bmv:landscape/grass/solojunco"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_marshplant1"
+  },
+  {
+   "asset": "bmv:landscape/grass/ewpsea03"
+  },
+  {
+   "asset": "bmv:landscape/grass/ewpsea06"
+  },
+  {
+   "asset": "bmv:landscape/grass/ewpshore11"
+  },
+  {
+   "asset": "bmv:landscape/grass/ewpshore14"
+  },
+  {
+   "asset": "bmv:landscape/grass/ewpshore03a"
+  },
+  {
+   "asset": "htbm:landscape/grass/ewpshore13"
+  },
+  {
+   "asset": "htbm:landscape/grass/ewpshore16"
+  },
+  {
+   "asset": "bmv:landscape/grass/ewplake07"
+  },
+  {
+   "asset": "bmv:landscape/grass/rockgrasswater01"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_greengrass"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_yelgrass"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_bentgrass"
+  },
+  {
+   "asset": "bmv:landscape/grass/mixgrass01"
+  },
+  {
+   "asset": "bmv:landscape/grass/forestgrass01"
+  },
+  {
+   "asset": "bmv:landscape/grass/forestgrass02"
+  },
+  {
+   "asset": "bmv:landscape/grass/ug_forestgroundcover02"
+  },
+  {
+   "asset": "bmv:landscape/grass/weedygroundcover"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_bigfern"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_bigfern2"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_brownplants"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_strangeplant"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_mgrass"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_greenyelplant"
+  },
+  {
+   "asset": "bmv:landscape/grass/fieldgrass01"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_mixedplants"
+  },
+  {
+   "asset": "vanilla:landscape/grass/beachgrassobj01"
+  },
+  {
+   "asset": "vanilla:landscape/grass/beachgrassobj02"
+  },
+  {
+   "asset": "vanilla:landscape/grass/rockgrass01"
+  },
+  {
+   "asset": "vanilla:landscape/grass/reachgrassobj01"
+  },
+  {
+   "asset": "vanilla:landscape/grass/reachgrassobj02"
+  },
+  {
+   "asset": "vanilla:landscape/grass/fallforestgrassobj01"
+  },
+  {
+   "asset": "vanilla:landscape/grass/tundragrassobj04"
+  },
+  {
+   "asset": "vanilla:landscape/plants/swordfern01"
+  },
+  {
+   "asset": "vanilla:landscape/plants/swordfern05"
+  },
+  {
+   "asset": "vanilla:landscape/plants/swordfern06"
+  },
+  {
+   "asset": "vanilla:landscape/plants/reachfern01"
+  },
+  {
+   "asset": "vanilla:landscape/plants/reachbush01"
+  },
+  {
+   "asset": "bmv:landscape/grass/esuburdock"
+  },
+  {
+   "asset": "bmv:landscape/grass/esusheepssorrel"
+  },
+  {
+   "asset": "bmv:landscape/grass/esuheather02"
+  },
+  {
+   "asset": "bmv:landscape/grass/esufoxglove02"
+  },
+  {
+   "asset": "bmv:landscape/grass/esuclover02red"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_eriophorum"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_notlupins"
+  },
+  {
+   "asset": "bmv:landscape/grass/ug_forestgroundcover"
+  },
+  {
+   "asset": "bmv:landscape/grass/13grassobj"
+  },
+  {
+   "asset": "bmv:landscape/grass/32grassobj"
+  },
+  {
+   "asset": "bmv:landscape/grass/36grassobj"
+  },
+  {
+   "asset": "bmv:landscape/grass/dandelion-1k"
+  },
+  {
+   "asset": "bmv:landscape/grass/woodanemone-white-2k"
+  },
+  {
+   "asset": "vanilla:landscape/grass/waterkelpshort01"
+  },
+  {
+   "asset": "vanilla:landscape/grass/watercoralgrass01"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/complexgrassdrj10"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/complexgrassdrj05"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/icelandicgrassdensedrj"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/tyroliangrasstalldrj"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/coastalgrassdrj01"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/coastalgrassdrj01_short"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/swordferndrj"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/swordfern05"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/fernbrackenclusterdrj"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/veratrumdrj"
+  },
+  {
+   "asset": "drjacopo:landscape/grass/nettledrj"
+  },
+  {
+   "asset": "hoddminir:ztree's/plants/braken"
+  },
+  {
+   "asset": "hoddminir:ztree's/plants/ladymantle"
+  },
+  {
+   "asset": "hoddminir:ztree's/plants/celandine"
+  },
+  {
+   "asset": "vanilla:landscape/plants/swordferncluster01"
+  },
+  {
+   "asset": "vanilla:plants/floraspikygrass02"
+  },
+  {
+   "asset": "depths:landscape/grass/tbprockgrasswater03"
+  }
+ ],
+ "bakeCards": true
 }

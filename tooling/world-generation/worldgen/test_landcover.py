@@ -11,7 +11,7 @@ import numpy as np
 
 from .landcover import (BC_MUD, BC_ROAD, BEACH_SAND, BLACK_MUD, CLAY,
                         MARSH_GRASS, MUCK, N_MATERIALS, OCEAN_FLOOR, PATH,
-                        RIVER_MUD, SALT, SEABED_SAND, SILT, SWAMP_GRASS, TRACK,
+                        RIVER_MUD, SALT, SCUM, SEABED_SAND, SILT, SWAMP_GRASS, TRACK,
                         TROP_GRASS, WATER_PAINT_KINDS, WaterPaint,
                         compile_ground_control)
 from .position_noise import normal_field
@@ -249,3 +249,121 @@ def test_rebake_window_matches_global():
                        roads[sl], minor[sl], (py0, px0))
     inner = (slice(y0 - py0, y1 - py0), slice(x0 - px0, x1 - px0))
     assert np.array_equal(part[inner], whole[y0:y1, x0:x1])
+
+
+# --- the road SURFACE is continuous; condition changes the mix (2026-09-18) ---
+#
+# The owner's walk found decayed and broken major roads invisible from the air
+# and on foot. The bake used to delete the road class outright over ~120 m
+# stretches of `wear`, which left 82% of a broken road with no road texel at
+# all. These three tests gate the rule that replaced it: a road of any
+# condition is a continuous painted line, and condition moves the material MIX
+# from built surface towards dirt path.
+
+_ROAD_ROW = 149
+_ROAD_COLS = slice(10, 250)
+
+
+def _road_bake(condition, seed=1):
+    """A straight east-west road of one authored condition across dry ground."""
+    h, reg, slope, mpp, water, _seed, _ = _fixture(seed=seed)
+    roads = np.zeros(h.shape, dtype=np.int8)
+    roads[148:151, :] = condition
+    mat, _, _ = compile_ground_control(h, reg, slope, mpp, water=water,
+                                       seed=seed, roads=roads)
+    return mat[_ROAD_ROW, _ROAD_COLS]
+
+
+#: Three seeds, because one 240-texel line under a metres-wide noise field
+#: carries enough sampling noise to swing a share by five points.
+SEEDS = (1, 2, 3)
+
+
+def _is_road(line):
+    return np.isin(line, [BC_ROAD, PATH, TRACK])
+
+
+def _paintable(seed):
+    """Texels a road of ANY condition may paint: the bake leaves the river
+    crossing and its bed unpainted whatever the state of repair, because a
+    crossing is a placed bridge and not a painted surface. Measuring
+    continuity over them would be measuring the river."""
+    return _is_road(_road_bake(1, seed))
+
+
+def _longest_gap_m(line, paintable):
+    """Longest run of consecutive non-road texels, in metres."""
+    off = ~_is_road(line) & paintable
+    run = best = 0
+    for v in off:
+        run = run + 1 if v else 0
+        best = max(best, run)
+    return best * M_PER_PX
+
+
+#: Road-class share the paintable centreline must hold, per authored condition.
+CENTRELINE_FLOOR = {1: 0.95, 2: 0.95, 3: 0.90, 4: 0.80}
+#: A hole longer than this reads as the road stopping, not as a washout.
+MAX_GAP_M = 12.0
+
+
+def test_every_condition_paints_a_continuous_road_line():
+    for seed in SEEDS:
+        paintable = _paintable(seed)
+        for cond, floor in CENTRELINE_FLOOR.items():
+            line = _road_bake(cond, seed)
+            share = _is_road(line)[paintable].mean()
+            assert share >= floor, (
+                f"seed {seed}, condition {cond}: {share:.2f} of the paintable "
+                f"centreline carries a road class, floor {floor}")
+            gap = _longest_gap_m(line, paintable)
+            assert gap <= MAX_GAP_M, (
+                f"seed {seed}, condition {cond}: {gap:.1f} m of unbroken "
+                f"non-road along the centreline, cap {MAX_GAP_M} m. Gaps are "
+                f"potholes and washouts, never stretches of erased road")
+
+
+def test_built_surface_recedes_as_the_road_decays():
+    """The mix, not the existence, is what condition moves: cobbles give way to
+    dirt path from maintained through to broken."""
+    for seed in SEEDS:
+        paintable = _paintable(seed)
+        shares = [(_road_bake(c, seed) == BC_ROAD)[paintable].mean()
+                  for c in (1, 2, 3, 4)]
+        assert all(a >= b for a, b in zip(shares, shares[1:])), (
+            f"seed {seed}: BC_ROAD share by condition "
+            f"{[round(s, 3) for s in shares]} is not non-increasing")
+        assert shares[0] > shares[3], (
+            f"seed {seed}: a broken road keeps as much built surface as a new "
+            f"one")
+
+
+def test_a_broken_road_still_holds_a_cleared_trace_open():
+    """Width factor 0 meant no corridor existed, so nothing cleared the trees
+    off a broken road and nothing was painted under them."""
+    from .routes_raster import CONDITION_WIDTH_FACTOR
+    assert CONDITION_WIDTH_FACTOR[4] > 0
+    assert (CONDITION_WIDTH_FACTOR[1] >= CONDITION_WIDTH_FACTOR[2]
+            >= CONDITION_WIDTH_FACTOR[3] >= CONDITION_WIDTH_FACTOR[4])
+
+
+def test_class_raster_coast_over_a_swamp_paints_no_salt():
+    """The class raster is not a salt licence: the record's KIND alone is.
+
+    `water-class.png` paints coast/estuary from the compile's sea MASK
+    (ocean-connected ground below 0), so a swamp sheet inside that mask used
+    to come back to the bake as salt water and grow beach sand and seabed.
+    """
+    h, reg, slope, mpp, water, seed, roads = _fixture()
+    kind = water.kind.copy()
+    klass = water.klass.copy()
+    kind[60:80, 0:30] = K["swamp"]        # the record: fresh interior swamp
+    klass[60:80, 0:30] = 1                # the class raster: "coast"
+    mislabelled = WaterPaint(depth=water.depth, depth_dry=water.depth_dry,
+                             kind=kind, kind_names=KIND_NAMES,
+                             half_width=water.half_width, klass=klass)
+    mat, _, _ = compile_ground_control(h, reg, slope, mpp, water=mislabelled,
+                                       seed=seed, roads=roads)
+    bed = mat[62:78, 2:28]                # the swamp's own shallow bed
+    assert np.isin(bed, [SILT, SEABED_SAND, BEACH_SAND, SALT, OCEAN_FLOOR]).sum() == 0
+    assert (bed == SCUM).mean() > 0.9

@@ -29,6 +29,19 @@ export type FloraCollider =
       kind: "box";
       halfExtentsM: [number, number, number];
       offsetM: [number, number, number];
+    }
+  | {
+      /**
+       * The asset's own triangles. Rocks and cliff shells are convex-flagged
+       * in the manifest, but the shape a player meets is the silhouette, not a
+       * box around it: a box around a 30 m cliff wall walls off the ledge it
+       * is supposed to offer, and a box around a boulder pile stops the player
+       * a metre short of the stone. Vertices are in the instance's local pivot
+       * frame, Y-up, at scale 1 — the same frame the capsules and the box use.
+       */
+      kind: "trimesh";
+      vertices: Float32Array;
+      indices: Uint32Array;
     };
 
 export interface FloraCollisionAsset {
@@ -74,8 +87,10 @@ export interface FloraCollisionAsset {
  * `collision` values the kit builder emits that mean "the player cannot pass
  * through this". Everything else — the ferns, reeds, grasses, mushrooms,
  * groundcover, lily pads and the hanging accents — is scenery you wade
- * through, and `none` explicitly includes the open-backed cliff dressing
- * shell, which has no honest solid volume to give.
+ * through. The cliff dressing shells are NOT in that group: every one of them
+ * ships `"collision": "convex"`, and they collide as their own triangles
+ * (`trimeshFromGeometry`), which is the only honest answer for a piece that is
+ * open at the back and underneath.
  */
 const SOLID_COLLISION_KINDS = new Set(["trunk-capsule", "convex"]);
 
@@ -99,19 +114,56 @@ function yTo(direction: [number, number, number]): [number, number, number, numb
 }
 
 /**
+ * Build a triangle-mesh collider from raw geometry arrays.
+ *
+ * Copies and welds nothing: Rapier wants a flat vertex array and a triangle
+ * index array, and the kit's LOD0 geometry is already exactly that. An absent
+ * index means the positions are already in triangle order.
+ */
+export function trimeshFromGeometry(
+  positions: ArrayLike<number>,
+  index: ArrayLike<number> | null,
+): Extract<FloraCollider, { kind: "trimesh" }> {
+  const vertices = new Float32Array(positions.length);
+  for (let i = 0; i < positions.length; i++) vertices[i] = positions[i];
+  const count = index ? index.length : positions.length / 3;
+  const indices = new Uint32Array(count);
+  for (let i = 0; i < count; i++) indices[i] = index ? index[i] : i;
+  return { kind: "trimesh", vertices, indices };
+}
+
+/** Merged LOD0 geometry for one asset, in its local pivot frame at scale 1. */
+export interface FloraGeometry {
+  positions: ArrayLike<number>;
+  index: ArrayLike<number> | null;
+}
+
+/**
  * Every collider for one species, in instance-local metres (multiply lengths
  * and offsets by the instance scale at spawn; the whole set then rotates with
  * the instance's own rotation — offsets are pivot-relative in the asset's
  * UNROTATED local frame).
  *
- * A tree returns the capsule set moulded to its wood; a rock its box. Empty
- * where the species is walk-through or the manifest carries no usable shape,
- * including any kit still on a pre-v3 frame.
+ * A tree returns the capsule set moulded to its wood. A `convex` asset (every
+ * rock, boulder pile and cliff shell) returns ONE trimesh of its own LOD0
+ * triangles when the caller can supply that geometry, and falls back to the
+ * manifest box when it cannot — which is what the pure-manifest callers and
+ * the tests get. Empty where the species is walk-through or the manifest
+ * carries no usable shape, including any kit still on a pre-v3 frame.
  */
 export function collidersFor(
   asset: FloraCollisionAsset | undefined,
+  geometryProvider?: (assetId: string) => FloraGeometry | null | undefined,
 ): FloraCollider[] {
   if (!isSolid(asset) || !asset) return [];
+  if (asset.collision === "convex" && geometryProvider) {
+    // Before the frame check on purpose: geometry-derived triangles are in the
+    // mesh's own frame and owe the manifest's shape contract nothing.
+    const geometry = geometryProvider(asset.id);
+    if (geometry && geometry.positions.length >= 9) {
+      return [trimeshFromGeometry(geometry.positions, geometry.index)];
+    }
+  }
   if (asset.collisionFrame !== COLLISION_FRAME) return [];
   const segments = asset.collisionSegments;
   if (segments?.length) {

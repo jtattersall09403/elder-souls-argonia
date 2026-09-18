@@ -27,6 +27,26 @@
    "materials": [
     "BSX.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.9,
+     0.0625,
+     1.0
+    ],
+    "b": [
+     0.0625,
+     0.9,
+     0.125,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -70,6 +90,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.9,
+     0.1875,
+     1.0
+    ],
+    "b": [
+     0.1875,
+     0.9,
+     0.25,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -115,6 +155,26 @@
    "materials": [
     "SnowGrass01:0.Mat.001"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.9,
+     0.3125,
+     1.0
+    ],
+    "b": [
+     0.3125,
+     0.9,
+     0.375,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -159,6 +219,26 @@
    "materials": [
     "FernGrass01:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.9,
+     0.4375,
+     1.0
+    ],
+    "b": [
+     0.4375,
+     0.9,
+     0.5,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -176,50 +256,6 @@
    "undersideCoverage": 0.352,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.005
-  },
-  {
-   "id": "tropical:landscape/grass/grassfern01",
-   "node": "es|6532d213b0|tropical__landscape_grass_grassfern01",
-   "category": "plant",
-   "sizeM": [
-    1.297,
-    1.257,
-    0.804
-   ],
-   "originOffsetM": [
-    0.619,
-    0.623,
-    0.044
-   ],
-   "triangles": 128,
-   "lodRatios": [],
-   "doubleSided": true,
-   "alphaTest": true,
-   "collision": "none",
-   "droppedShapes": [],
-   "textures": [
-    "swordfern.dds"
-   ],
-   "materials": [
-    "FernGrass01:0.Mat.001"
-   ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.044,
-    "buryM": 0.08,
-    "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044
   },
   {
    "id": "tropical:landscape/grass/grassplant01",
@@ -245,7 +281,91 @@
     "grassplant01.dds"
    ],
    "materials": [
+    "FernGrass01:0.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.9,
+     0.5625,
+     1.0
+    ],
+    "b": [
+     0.5625,
+     0.9,
+     0.625,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.044,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.044
+  },
+  {
+   "id": "tropical:landscape/grass/grassfern01",
+   "node": "es|6532d213b0|tropical__landscape_grass_grassfern01",
+   "category": "plant",
+   "sizeM": [
+    1.297,
+    1.257,
+    0.804
+   ],
+   "originOffsetM": [
+    0.619,
+    0.623,
+    0.044
+   ],
+   "triangles": 128,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "swordfern.dds"
+   ],
+   "materials": [
     "FernGrass01:0.Mat.002"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.9,
+     0.6875,
+     1.0
+    ],
+    "b": [
+     0.6875,
+     0.9,
+     0.75,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -291,6 +411,26 @@
    "materials": [
     "MarshGrassObj01:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_256_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.5,
+     0.125,
+     1.0
+    ],
+    "b": [
+     0.125,
+     0.5,
+     0.25,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_256_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -334,6 +474,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.002"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_256_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.5,
+     0.375,
+     1.0
+    ],
+    "b": [
+     0.375,
+     0.5,
+     0.5,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_256_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -379,6 +539,26 @@
    "materials": [
     "SnowGrass01:0.Mat.003"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.9,
+     0.8125,
+     1.0
+    ],
+    "b": [
+     0.8125,
+     0.9,
+     0.875,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -422,6 +602,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.004"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.9,
+     0.9375,
+     1.0
+    ],
+    "b": [
+     0.9375,
+     0.9,
+     1.0,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -467,6 +667,26 @@
    "materials": [
     "SnowGrass01:0.Mat.005"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.8,
+     0.0625,
+     0.9
+    ],
+    "b": [
+     0.0625,
+     0.8,
+     0.125,
+     0.9
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -510,6 +730,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.006"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.8,
+     0.1875,
+     0.9
+    ],
+    "b": [
+     0.1875,
+     0.8,
+     0.25,
+     0.9
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -555,6 +795,26 @@
    "materials": [
     "SnowGrass01:0.Mat.007"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.8,
+     0.3125,
+     0.9
+    ],
+    "b": [
+     0.3125,
+     0.8,
+     0.375,
+     0.9
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -598,6 +858,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.008"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.8,
+     0.4375,
+     0.9
+    ],
+    "b": [
+     0.4375,
+     0.8,
+     0.5,
+     0.9
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -643,6 +923,26 @@
    "materials": [
     "SnowGrass01:0.Mat.009"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.8,
+     0.5625,
+     0.9
+    ],
+    "b": [
+     0.5625,
+     0.8,
+     0.625,
+     0.9
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -686,6 +986,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.010"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.8,
+     0.6875,
+     0.9
+    ],
+    "b": [
+     0.6875,
+     0.8,
+     0.75,
+     0.9
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -731,6 +1051,26 @@
    "materials": [
     "SnowGrass01:0.Mat.011"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.8,
+     0.8125,
+     0.9
+    ],
+    "b": [
+     0.8125,
+     0.8,
+     0.875,
+     0.9
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -774,6 +1114,26 @@
    ],
    "materials": [
     "RocksGrassObj02:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.8,
+     0.9375,
+     0.9
+    ],
+    "b": [
+     0.9375,
+     0.8,
+     1.0,
+     0.9
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -819,6 +1179,26 @@
    "materials": [
     "SnowGrass01:0.Mat.012"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.7,
+     0.0625,
+     0.8
+    ],
+    "b": [
+     0.0625,
+     0.7,
+     0.125,
+     0.8
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -862,6 +1242,26 @@
    ],
    "materials": [
     "MarshGrassObj01:0.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.7,
+     0.1875,
+     0.8
+    ],
+    "b": [
+     0.1875,
+     0.7,
+     0.25,
+     0.8
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -907,6 +1307,26 @@
    "materials": [
     "MarshGrassObj01:0.Mat.002"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.7,
+     0.3125,
+     0.8
+    ],
+    "b": [
+     0.3125,
+     0.7,
+     0.375,
+     0.8
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -950,6 +1370,26 @@
    ],
    "materials": [
     "ForestGrass01:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.7,
+     0.4375,
+     0.8
+    ],
+    "b": [
+     0.4375,
+     0.7,
+     0.5,
+     0.8
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -995,6 +1435,26 @@
    "materials": [
     "ForestGrass01:0.Mat.001"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.7,
+     0.5625,
+     0.8
+    ],
+    "b": [
+     0.5625,
+     0.7,
+     0.625,
+     0.8
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1038,6 +1498,26 @@
    ],
    "materials": [
     "ForestGrass02:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.7,
+     0.6875,
+     0.8
+    ],
+    "b": [
+     0.6875,
+     0.7,
+     0.75,
+     0.8
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1083,6 +1563,26 @@
    "materials": [
     "ForestGrass01:0.Mat.002"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.7,
+     0.8125,
+     0.8
+    ],
+    "b": [
+     0.8125,
+     0.7,
+     0.875,
+     0.8
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1126,6 +1626,26 @@
    ],
    "materials": [
     "ForestGrass01:0.Mat.003"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.7,
+     0.9375,
+     0.8
+    ],
+    "b": [
+     0.9375,
+     0.7,
+     1.0,
+     0.8
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1171,6 +1691,26 @@
    "materials": [
     "VolcanicGrassObj02:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.6,
+     0.0625,
+     0.7
+    ],
+    "b": [
+     0.0625,
+     0.6,
+     0.125,
+     0.7
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1214,6 +1754,26 @@
    ],
    "materials": [
     "VolcanicGrassObj02:0.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.6,
+     0.1875,
+     0.7
+    ],
+    "b": [
+     0.1875,
+     0.6,
+     0.25,
+     0.7
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1259,6 +1819,26 @@
    "materials": [
     "SnowGrass01:0.Mat.013"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.6,
+     0.3125,
+     0.7
+    ],
+    "b": [
+     0.3125,
+     0.6,
+     0.375,
+     0.7
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1302,6 +1882,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.014"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.6,
+     0.4375,
+     0.7
+    ],
+    "b": [
+     0.4375,
+     0.6,
+     0.5,
+     0.7
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1347,6 +1947,26 @@
    "materials": [
     "FieldGrass01:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.6,
+     0.5625,
+     0.7
+    ],
+    "b": [
+     0.5625,
+     0.6,
+     0.625,
+     0.7
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1390,6 +2010,26 @@
    ],
    "materials": [
     "FieldGrass01:0.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.6,
+     0.6875,
+     0.7
+    ],
+    "b": [
+     0.6875,
+     0.6,
+     0.75,
+     0.7
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1435,6 +2075,26 @@
    "materials": [
     "FieldGrass01:0.Mat.002"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.6,
+     0.8125,
+     0.7
+    ],
+    "b": [
+     0.8125,
+     0.6,
+     0.875,
+     0.7
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1478,6 +2138,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.015"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.6,
+     0.9375,
+     0.7
+    ],
+    "b": [
+     0.9375,
+     0.6,
+     1.0,
+     0.7
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1523,6 +2203,26 @@
    "materials": [
     "BeachGrassObj01:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.5,
+     0.0625,
+     0.6
+    ],
+    "b": [
+     0.0625,
+     0.5,
+     0.125,
+     0.6
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1566,6 +2266,26 @@
    ],
    "materials": [
     "BeachGrassObj02:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.5,
+     0.1875,
+     0.6
+    ],
+    "b": [
+     0.1875,
+     0.5,
+     0.25,
+     0.6
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1611,6 +2331,26 @@
    "materials": [
     "RocksGrassObj01:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.5,
+     0.3125,
+     0.6
+    ],
+    "b": [
+     0.3125,
+     0.5,
+     0.375,
+     0.6
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1654,6 +2394,26 @@
    ],
    "materials": [
     "ReachGrassObj01:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.5,
+     0.4375,
+     0.6
+    ],
+    "b": [
+     0.4375,
+     0.5,
+     0.5,
+     0.6
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1699,6 +2459,26 @@
    "materials": [
     "ReachGrassObj02:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.5,
+     0.5625,
+     0.6
+    ],
+    "b": [
+     0.5625,
+     0.5,
+     0.625,
+     0.6
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1742,6 +2522,26 @@
    ],
    "materials": [
     "FallForestGrassObj01:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.5,
+     0.6875,
+     0.6
+    ],
+    "b": [
+     0.6875,
+     0.5,
+     0.75,
+     0.6
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1787,6 +2587,26 @@
    "materials": [
     "TundraGrassObj04:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.5,
+     0.8125,
+     0.6
+    ],
+    "b": [
+     0.8125,
+     0.5,
+     0.875,
+     0.6
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1830,6 +2650,26 @@
    ],
    "materials": [
     "L2_SwordFern01:0 - L1_SwordFern01:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.5,
+     0.9375,
+     0.6
+    ],
+    "b": [
+     0.9375,
+     0.5,
+     1.0,
+     0.6
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1875,6 +2715,26 @@
    "materials": [
     "L2_SwordFern05:0 - L1_SwordFern05:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.4,
+     0.0625,
+     0.5
+    ],
+    "b": [
+     0.0625,
+     0.4,
+     0.125,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1918,6 +2778,26 @@
    ],
    "materials": [
     "L2_SwordFern06:0 - L1_SwordFern06:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.4,
+     0.1875,
+     0.5
+    ],
+    "b": [
+     0.1875,
+     0.4,
+     0.25,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -1963,6 +2843,26 @@
    "materials": [
     "L2_ReachFern01:0 - L1_ReachFern01:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.4,
+     0.3125,
+     0.5
+    ],
+    "b": [
+     0.3125,
+     0.4,
+     0.375,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2006,6 +2906,26 @@
    ],
    "materials": [
     "L2_ReachBush01:2 - L1_ReachBush01:2.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_256_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.5,
+     0.625,
+     1.0
+    ],
+    "b": [
+     0.625,
+     0.5,
+     0.75,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_256_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -2051,6 +2971,26 @@
    "materials": [
     "SnowGrass01:0.Mat.016"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.4,
+     0.4375,
+     0.5
+    ],
+    "b": [
+     0.4375,
+     0.4,
+     0.5,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2094,6 +3034,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.017"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.4,
+     0.5625,
+     0.5
+    ],
+    "b": [
+     0.5625,
+     0.4,
+     0.625,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -2139,6 +3099,26 @@
    "materials": [
     "SnowGrass01:0.Mat.018"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.4,
+     0.6875,
+     0.5
+    ],
+    "b": [
+     0.6875,
+     0.4,
+     0.75,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2182,6 +3162,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.019"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.4,
+     0.8125,
+     0.5
+    ],
+    "b": [
+     0.8125,
+     0.4,
+     0.875,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -2227,6 +3227,26 @@
    "materials": [
     "SnowGrass01:0.Mat.020"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.4,
+     0.9375,
+     0.5
+    ],
+    "b": [
+     0.9375,
+     0.4,
+     1.0,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2270,6 +3290,26 @@
    ],
    "materials": [
     "FieldGrass01:0.Mat.003"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.3,
+     0.0625,
+     0.4
+    ],
+    "b": [
+     0.0625,
+     0.3,
+     0.125,
+     0.4
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -2315,6 +3355,26 @@
    "materials": [
     "VolcanicGrassObj02:0.Mat.002"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.3,
+     0.1875,
+     0.4
+    ],
+    "b": [
+     0.1875,
+     0.3,
+     0.25,
+     0.4
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2358,6 +3418,26 @@
    ],
    "materials": [
     "ForestGrass01:0.Mat.004"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.3,
+     0.3125,
+     0.4
+    ],
+    "b": [
+     0.3125,
+     0.3,
+     0.375,
+     0.4
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -2403,6 +3483,26 @@
    "materials": [
     "TundraGrassObj03:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.3,
+     0.4375,
+     0.4
+    ],
+    "b": [
+     0.4375,
+     0.3,
+     0.5,
+     0.4
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2446,6 +3546,26 @@
    ],
    "materials": [
     "SnowGrass01:0.Mat.021"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.3,
+     0.5625,
+     0.4
+    ],
+    "b": [
+     0.5625,
+     0.3,
+     0.625,
+     0.4
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -2491,6 +3611,26 @@
    "materials": [
     "SnowGrass01:0.Mat.022"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_256_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.5,
+     0.875,
+     1.0
+    ],
+    "b": [
+     0.875,
+     0.5,
+     1.0,
+     1.0
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_256_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2534,6 +3674,26 @@
    ],
    "materials": [
     "TundraGrassObj03:0.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.3,
+     0.6875,
+     0.4
+    ],
+    "b": [
+     0.6875,
+     0.3,
+     0.75,
+     0.4
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -2579,6 +3739,26 @@
    "materials": [
     "TundraGrassObj03:0.Mat.002"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.3,
+     0.8125,
+     0.4
+    ],
+    "b": [
+     0.8125,
+     0.3,
+     0.875,
+     0.4
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2622,6 +3802,26 @@
    ],
    "materials": [
     "CoastKelpShort01:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.3,
+     0.9375,
+     0.4
+    ],
+    "b": [
+     0.9375,
+     0.3,
+     1.0,
+     0.4
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
    ],
    "placement": {
     "schemaVersion": 1,
@@ -2667,6 +3867,26 @@
    "materials": [
     "coral:0.Mat"
    ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.2,
+     0.0625,
+     0.3
+    ],
+    "b": [
+     0.0625,
+     0.2,
+     0.125,
+     0.3
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2684,16 +3904,1109 @@
    "undersideCoverage": 0.0,
    "openBackYawDeg": 225.0,
    "pivotAboveBaseM": 0.032
+  },
+  {
+   "id": "drjacopo:landscape/grass/complexgrassdrj10",
+   "node": "es|0412581a49|acopo__landscape_grass_complexgrassdrj10",
+   "category": "grass",
+   "sizeM": [
+    1.36,
+    1.178,
+    0.642
+   ],
+   "originOffsetM": [
+    0.741,
+    0.619,
+    0.071
+   ],
+   "triangles": 137,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "complexgrasshybriddrj.dds"
+   ],
+   "materials": [
+    "Complex03.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.2,
+     0.1875,
+     0.3
+    ],
+    "b": [
+     0.1875,
+     0.2,
+     0.25,
+     0.3
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.071,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 213.8,
+   "pivotAboveBaseM": 0.071
+  },
+  {
+   "id": "drjacopo:landscape/grass/complexgrassdrj05",
+   "node": "es|26c78a7aca|acopo__landscape_grass_complexgrassdrj05",
+   "category": "grass",
+   "sizeM": [
+    1.068,
+    0.961,
+    0.524
+   ],
+   "originOffsetM": [
+    0.552,
+    0.448,
+    0.042
+   ],
+   "triangles": 387,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "complexgrasshybriddrj.dds"
+   ],
+   "materials": [
+    "Complex03.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.2,
+     0.3125,
+     0.3
+    ],
+    "b": [
+     0.3125,
+     0.2,
+     0.375,
+     0.3
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.042,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 213.8,
+   "pivotAboveBaseM": 0.042
+  },
+  {
+   "id": "drjacopo:landscape/grass/icelandicgrassdensedrj",
+   "node": "es|23681b3b99|__landscape_grass_icelandicgrassdensedrj",
+   "category": "grass",
+   "sizeM": [
+    1.504,
+    1.489,
+    1.147
+   ],
+   "originOffsetM": [
+    0.847,
+    0.616,
+    0.14
+   ],
+   "triangles": 360,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "icelandicgrassdrj.dds"
+   ],
+   "materials": [
+    "IcelandicGrassDrJ.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.2,
+     0.4375,
+     0.3
+    ],
+    "b": [
+     0.4375,
+     0.2,
+     0.5,
+     0.3
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.14,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.111,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.14
+  },
+  {
+   "id": "drjacopo:landscape/grass/tyroliangrasstalldrj",
+   "node": "es|52f8dfb3a8|po__landscape_grass_tyroliangrasstalldrj",
+   "category": "grass",
+   "sizeM": [
+    1.441,
+    1.584,
+    0.963
+   ],
+   "originOffsetM": [
+    0.753,
+    0.86,
+    0.124
+   ],
+   "triangles": 297,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "tyroliangrassdrj.dds"
+   ],
+   "materials": [
+    "TyrolianGrassTallDrJ.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.2,
+     0.5625,
+     0.3
+    ],
+    "b": [
+     0.5625,
+     0.2,
+     0.625,
+     0.3
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.124,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.486,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.124
+  },
+  {
+   "id": "drjacopo:landscape/grass/coastalgrassdrj01",
+   "node": "es|292ef8d1fb|acopo__landscape_grass_coastalgrassdrj01",
+   "category": "grass",
+   "sizeM": [
+    1.741,
+    1.798,
+    0.58
+   ],
+   "originOffsetM": [
+    0.916,
+    0.929,
+    0.082
+   ],
+   "triangles": 168,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastalgrassdrj01.dds"
+   ],
+   "materials": [
+    "CoastalGrassDrJ01.NIF.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.2,
+     0.6875,
+     0.3
+    ],
+    "b": [
+     0.6875,
+     0.2,
+     0.75,
+     0.3
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.082,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.082
+  },
+  {
+   "id": "drjacopo:landscape/grass/coastalgrassdrj01_short",
+   "node": "es|8925644bd0|_landscape_grass_coastalgrassdrj01_short",
+   "category": "grass",
+   "sizeM": [
+    1.369,
+    1.413,
+    0.456
+   ],
+   "originOffsetM": [
+    0.72,
+    0.73,
+    0.065
+   ],
+   "triangles": 168,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastalgrassdrj01.dds"
+   ],
+   "materials": [
+    "CoastalGrassDrJ01.NIF.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.2,
+     0.8125,
+     0.3
+    ],
+    "b": [
+     0.8125,
+     0.2,
+     0.875,
+     0.3
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.065,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.065
+  },
+  {
+   "id": "drjacopo:landscape/grass/swordferndrj",
+   "node": "es|a17b72680e|drjacopo__landscape_grass_swordferndrj",
+   "category": "plant",
+   "sizeM": [
+    1.383,
+    1.478,
+    1.111
+   ],
+   "originOffsetM": [
+    0.778,
+    0.671,
+    0.13
+   ],
+   "triangles": 336,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "swordferndrj.dds"
+   ],
+   "materials": [
+    "SwordFernDrJ.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.2,
+     0.9375,
+     0.3
+    ],
+    "b": [
+     0.9375,
+     0.2,
+     1.0,
+     0.3
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.13,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.13
+  },
+  {
+   "id": "drjacopo:landscape/grass/swordfern05",
+   "node": "es|3463b10ced|drjacopo__landscape_grass_swordfern05",
+   "category": "plant",
+   "sizeM": [
+    0.877,
+    0.948,
+    1.175
+   ],
+   "originOffsetM": [
+    0.408,
+    0.536,
+    0.252
+   ],
+   "triangles": 254,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "swordferndrj.dds"
+   ],
+   "materials": [
+    "SwordFern05.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.1,
+     0.0625,
+     0.2
+    ],
+    "b": [
+     0.0625,
+     0.1,
+     0.125,
+     0.2
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.252,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.008,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.252
+  },
+  {
+   "id": "drjacopo:landscape/grass/fernbrackenclusterdrj",
+   "node": "es|a06f24bc3f|o__landscape_grass_fernbrackenclusterdrj",
+   "category": "shrub",
+   "sizeM": [
+    1.812,
+    1.688,
+    1.118
+   ],
+   "originOffsetM": [
+    0.963,
+    0.765,
+    0.083
+   ],
+   "triangles": 273,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fernbrackendrj.dds"
+   ],
+   "materials": [
+    "Stem3HP.004.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.125,
+     0.1,
+     0.1875,
+     0.2
+    ],
+    "b": [
+     0.1875,
+     0.1,
+     0.25,
+     0.2
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.083,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.083
+  },
+  {
+   "id": "drjacopo:landscape/grass/veratrumdrj",
+   "node": "es|80bec16524|drjacopo__landscape_grass_veratrumdrj",
+   "category": "grass",
+   "sizeM": [
+    1.146,
+    0.975,
+    0.935
+   ],
+   "originOffsetM": [
+    0.586,
+    0.593,
+    0.036
+   ],
+   "triangles": 338,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "veratrumdrj.dds"
+   ],
+   "materials": [
+    "VeratrumDrJ.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.25,
+     0.1,
+     0.3125,
+     0.2
+    ],
+    "b": [
+     0.3125,
+     0.1,
+     0.375,
+     0.2
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.036,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.036
+  },
+  {
+   "id": "drjacopo:landscape/grass/nettledrj",
+   "node": "es|0d0adb70a3|drjacopo__landscape_grass_nettledrj",
+   "category": "grass",
+   "sizeM": [
+    0.764,
+    0.894,
+    1.526
+   ],
+   "originOffsetM": [
+    0.39,
+    0.413,
+    0.025
+   ],
+   "triangles": 290,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "nettledrj.dds"
+   ],
+   "materials": [
+    "NettleDrJ.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_256_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.0,
+     0.125,
+     0.5
+    ],
+    "b": [
+     0.125,
+     0.0,
+     0.25,
+     0.5
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_256_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.025,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.025
+  },
+  {
+   "id": "hoddminir:ztree's/plants/braken",
+   "node": "es|98f7845249|hoddminir__ztree's_plants_braken",
+   "category": "shrub",
+   "sizeM": [
+    2.836,
+    2.705,
+    1.125
+   ],
+   "originOffsetM": [
+    1.243,
+    1.342,
+    0.03
+   ],
+   "triangles": 176,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "braken.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.375,
+     0.1,
+     0.4375,
+     0.2
+    ],
+    "b": [
+     0.4375,
+     0.1,
+     0.5,
+     0.2
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.03,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.001,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.03
+  },
+  {
+   "id": "hoddminir:ztree's/plants/ladymantle",
+   "node": "es|13ccaf28ae|hoddminir__ztree's_plants_ladymantle",
+   "category": "plant",
+   "sizeM": [
+    1.237,
+    1.182,
+    0.278
+   ],
+   "originOffsetM": [
+    0.618,
+    0.591,
+    0.048
+   ],
+   "triangles": 102,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "daggkopa1a.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.5,
+     0.1,
+     0.5625,
+     0.2
+    ],
+    "b": [
+     0.5625,
+     0.1,
+     0.625,
+     0.2
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.048,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.048
+  },
+  {
+   "id": "hoddminir:ztree's/plants/celandine",
+   "node": "es|9ff0cb6a47|hoddminir__ztree's_plants_celandine",
+   "category": "plant",
+   "sizeM": [
+    1.247,
+    1.191,
+    0.29
+   ],
+   "originOffsetM": [
+    0.623,
+    0.596,
+    0.052
+   ],
+   "triangles": 110,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "svalort1a.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat.002"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.625,
+     0.1,
+     0.6875,
+     0.2
+    ],
+    "b": [
+     0.6875,
+     0.1,
+     0.75,
+     0.2
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.052,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.052
+  },
+  {
+   "id": "vanilla:landscape/plants/swordferncluster01",
+   "node": "es|01a3918537|lla__landscape_plants_swordferncluster01",
+   "category": "plant",
+   "sizeM": [
+    2.945,
+    2.745,
+    1.446
+   ],
+   "originOffsetM": [
+    1.742,
+    0.83,
+    0.087
+   ],
+   "triangles": 1424,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "swordfern.dds"
+   ],
+   "materials": [
+    "L2_SwordFernCluster01:0 - L1_SwordFernCluster01:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.75,
+     0.1,
+     0.8125,
+     0.2
+    ],
+    "b": [
+     0.8125,
+     0.1,
+     0.875,
+     0.2
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.087,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.032,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.087
+  },
+  {
+   "id": "vanilla:plants/floraspikygrass02",
+   "node": "es|eb548ac303|vanilla__plants_floraspikygrass02",
+   "category": "grass",
+   "sizeM": [
+    2.347,
+    1.563,
+    1.226
+   ],
+   "originOffsetM": [
+    1.174,
+    0.782,
+    0.058
+   ],
+   "triangles": 2298,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "spikygrass01.dds"
+   ],
+   "materials": [
+    "SpikyGrass02:0 - L1_SpikyGrass02:0.Mat"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.875,
+     0.1,
+     0.9375,
+     0.2
+    ],
+    "b": [
+     0.9375,
+     0.1,
+     1.0,
+     0.2
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.058,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.021,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.058
+  },
+  {
+   "id": "depths:landscape/grass/tbprockgrasswater03",
+   "node": "es|0b77d91aab|ths__landscape_grass_tbprockgrasswater03",
+   "category": "grass",
+   "sizeM": [
+    2.695,
+    2.42,
+    0.612
+   ],
+   "originOffsetM": [
+    1.238,
+    1.223,
+    0.234
+   ],
+   "triangles": 40,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rocksgrasswater01.dds"
+   ],
+   "materials": [
+    "RocksGrassObj02:0.Mat.001"
+   ],
+   "billboard": true,
+   "cardSource": "baked",
+   "cardAtlas": "es|cardatlas_128_0",
+   "cardRects": {
+    "a": [
+     0.0,
+     0.0,
+     0.0625,
+     0.1
+    ],
+    "b": [
+     0.0625,
+     0.0,
+     0.125,
+     0.1
+    ]
+   },
+   "billboardMaterials": [
+    "es|card_es|cardatlas_128_0"
+   ],
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.234,
+    "buryM": 0.08,
+    "buryCapM": 0.25,
+    "slopeBuryPerM": 0.08,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.234
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\groundcover-province-v1.glb",
  "metresPerUnit": 0.014224,
- "texturesMissing": [],
+ "texturesMissing": [
+  "textures/landscape/grass/clovers_n.dds",
+  "textures/landscape/grass/swordferndrj_n.dds",
+  "textures/leaves44.dds"
+ ],
  "texturesSubstituted": {
-  "textures/landscape/grass/rocksgrasswater01.dds": "textures/texturepack/landscape/grass/rocksgrasswater01.dds"
+  "textures/landscape/grass/rocksgrasswater01.dds": "textures/texturepack/landscape/grass/rocksgrasswater01.dds",
+  "textures/landscape/grass/complexgrasshybriddrj.dds": "textures/landscape/grass/complexgrasshybriddrj_d.dds"
  },
  "alphaModes": {
-  "MASK": 61,
+  "MASK": 80,
   "OPAQUE": 0
  },
  "trunkSolids": {

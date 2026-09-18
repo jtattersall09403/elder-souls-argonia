@@ -26,7 +26,20 @@ def _rock_layers() -> list[tuple[str, dict]]:
             for layer in entry["layers"] if layer.get("role") in ROCK_ROLES]
 
 
+def _emitted_layers() -> list[tuple[str, dict]]:
+    """Every rock layer `rock_dressing` emits TODAY, by the function that
+    emits it. The shipped `palettes.json` is a BAKE of these: a rule change
+    here reaches the file only on the next `build_palettes` run, so the rules
+    that move are checked against the emitter and the rest against the bake.
+    """
+    return ([("boulders_dry", l) for l in rd.boulders_dry((1,), 40.0)]
+            + [("rock_piles", l) for l in rd.rock_piles((1,), 8.0)]
+            + [("cliff_pieces", l) for l in rd.cliff_pieces()]
+            + [("wet_rocks", l) for l in rd.wet_rocks()])
+
+
 ROCKS = _rock_layers()
+EMITTED = _emitted_layers()
 COMPOSITION = Composition.load()
 
 
@@ -53,25 +66,51 @@ def test_tilt_yaw_and_scale_are_mined(region, layer):
     assert 0.0 < layer["tilt_deg_max"] <= 2.0 * m["tilt_p50"] + 0.1
     assert layer.get("yaw_random", True) is True
     assert m["yaw_uniformity"] > 0.7, "mined yaw is not uniform for this species"
-    assert layer["scale_range"] == [m["scale_p5"], m["scale_p95"]]
+    if "BORROWED" in (layer.get("note") or ""):
+        # A mesh nobody ever placed has no mined scale of its own, and Shores
+        # of Skyrim's stones measure 0.07-0.16 m at native size: the layer
+        # states its measured scale instead, and its note says why.
+        assert layer["scale_range"][0] < layer["scale_range"][1]
+    else:
+        assert layer["scale_range"] == [m["scale_p5"], m["scale_p95"]]
     assert layer.get("align_to_slope") == 1.0
 
 
-@pytest.mark.parametrize("region,layer", ROCKS)
-def test_slope_band(region, layer):
-    """Rule 3: the slope gate is the mined p75 + 10, except an open-bottomed
-    dry rock (20 deg, so its hollow underside never shows) and an open-backed
-    cliff piece (a face to be embedded in)."""
+@pytest.mark.parametrize("source,layer", EMITTED)
+def test_slope_band(source, layer):
+    """Rule 3: the slope gate is the mined p75 + 10, except an open-BACKED
+    cliff piece (a face to be embedded in) and a hollow-bottomed FREESTANDING
+    boulder (20 deg, so its hollow underside never shows).
+
+    A pile is hollow underneath too and keeps its mined band: the sources lay
+    piles flat on slopes, and the sampler's burial rule is what seats them.
+    Capping a pile — or, as shipped, a cliff piece — at 20 deg while its layer
+    also carries slope_deg_min 28 leaves an EMPTY band: that is why
+    `rockcliff05` had zero placements province-wide.
+    """
     species = layer["species"]
     m = rd.mined(species)
     if rd.open_back_yaw_deg(species) is not None:
         assert layer["slope_deg_min"] == rd.CLIFF_SLOPE_DEG
         assert layer["slope_deg_max"] >= 70.0
-    elif layer["role"] != "wet-rock" and rd.underside_cover(species) < 0.3:
+    elif (layer["role"] == "rock" and species not in rd.PILES
+            and rd.underside_cover(species) < 0.3):
         assert layer["slope_deg_max"] == 20.0
         assert tuple(layer["sink_jitter"]) == (0.8, 1.5)
     else:
         assert layer["slope_deg_max"] == pytest.approx(m["slope_p75"] + 10.0, abs=0.01)
+    assert layer.get("slope_deg_min", 0.0) < layer["slope_deg_max"], \
+        f"{species}: empty slope band, it can never place"
+
+
+@pytest.mark.parametrize("source,layer", EMITTED)
+def test_every_rock_layer_carries_its_footprint(source, layer):
+    """The burial rule is switched on by `footprint_half_m`: a rock layer
+    without it is never measured for exposure, and floats."""
+    species = layer["species"]
+    assert layer["footprint_half_m"] == \
+        [round(v, 3) for v in rd.footprint_half_m(species)]
+    assert layer["height_m"] == pytest.approx(rd.height_m(species), abs=0.001)
 
 
 @pytest.mark.parametrize("region,layer", ROCKS)
@@ -93,9 +132,16 @@ def test_water_relation(region, layer):
     record's own kinds; every other rock is gated dry."""
     species = layer["species"]
     if layer["role"] == "wet-rock":
-        assert "wetrocks/" in species or species.endswith("rocks03"), species
+        assert ("wetrocks/" in species or species.endswith("rocks03")
+                or species in rd.SHORE_ROCKS), species
         assert layer["water_kinds"], species
-        assert layer["water_depth_m"] == [-1.0, 2.5]
+        # The surf band is [-1, 2.5]; the sea-bed bands widen it past the
+        # surf line and say so in their own note (`seabed_rocks`).
+        if "SEABED:" in (layer.get("note") or ""):
+            lo, hi = layer["water_depth_m"]
+            assert 0.0 < lo < hi <= 45.0, layer["water_depth_m"]
+        else:
+            assert layer["water_depth_m"] == [-1.0, 2.5]
         assert layer["channel_exclusion"] is False
     else:
         assert layer["water_depth_m"][1] <= 0.0, species
@@ -173,6 +219,55 @@ def test_no_rock_stands_inside_another():
             floor = 0.8 * max(radius[a.species] * a.scale,
                               radius[b.species] * b.scale)
             assert gap >= floor * 0.999, (a.species, b.species, gap, floor)
+
+
+def _layers_from(entries) -> list[Layer]:
+    out = []
+    for entry in entries:
+        fields = {k: v for k, v in entry.items()
+                  if k not in Palette.ANNOTATION_KEYS}
+        for key in ("scale_range", "water_depth_m", "region_classes",
+                    "land_cover", "sink_jitter", "water_kinds",
+                    "footprint_half_m"):
+            if key in fields:
+                fields[key] = tuple(fields[key])
+        out.append(Layer(**fields))
+    return out
+
+
+def test_every_cliff_piece_places_on_a_mountainside():
+    """A cliff shell nobody can place is a silent hole in the kit.
+
+    `rockcliff05` shipped with slope_deg_min 28 AND slope_deg_max 20 — the
+    hollow-bottom cap overrode the cliff band — so it had zero instances in
+    all 256 shipped bundles (owner walk 2026-09-18).
+    """
+    fields = _slope_fields(math.tan(math.radians(35.0)))
+    placed = scatter_chunk(0.0, 0.0, 400.0,
+                           Palette("cliffs", _layers_from(rd.cliff_pieces())),
+                           fields, seed=17)
+    got = {i.species for i in placed}
+    missing = sorted(set(rd.CLIFFS) - got)
+    assert not missing, missing
+
+
+def test_an_open_backed_cliff_piece_lays_its_back_into_the_hill():
+    """Every open-backed shell, at its own mined offset, on a 35 deg face."""
+    fields = _slope_fields(math.tan(math.radians(35.0)))
+    uphill = math.pi     # the ground falls toward +z, so uphill is -z
+    for entry in rd.cliff_pieces():
+        back = rd.open_back_yaw_deg(entry["species"])
+        if back is None:
+            continue
+        placed = scatter_chunk(0.0, 0.0, 400.0,
+                               Palette("c", _layers_from([entry])), fields,
+                               seed=17)
+        assert placed, entry["species"]
+        for inst in placed:
+            delta = (inst.yaw + math.radians(back)) - uphill
+            delta = (delta + math.pi) % math.tau - math.pi
+            assert abs(delta) <= math.radians(10.0), \
+                (entry["species"], math.degrees(delta))
 
 
 # --- the record-driven passes ----------------------------------------------

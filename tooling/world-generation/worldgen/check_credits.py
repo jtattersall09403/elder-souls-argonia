@@ -57,6 +57,10 @@ POOL_CREDIT_MARKERS = {
     "sailboats": "Sailboats - Script Free Sailing EXPANDED",
     "impships": "Cyrodiil Ship and boat resource",
     "boatsanim": "Boats - Operational Animated Travel",
+    "drjacopo": "DrJacopo's - 3D Landscapes and Grass Library",
+    "hoddminir": "Hoddminir Plants and Trees",
+    "jokerine": "Seashells",
+    "shores": "Shores of Skyrim",
 }
 
 

@@ -1,0 +1,4626 @@
+{
+ "source": {
+  "label": "depths+underwater-treasure",
+  "method": "worldgen.mine_placement \u2014 every placed reference measured against the terrain, water table and painted ground under it (module 95 \u00a786.0b)",
+  "date": "2026-09-18",
+  "plugins": [
+   "DepthsOfSkyrim.esp",
+   "Underwater_Treasure.esp"
+  ],
+  "worldspaces": [
+   "Tamriel"
+  ],
+  "instances": 4693
+ },
+ "macro": {
+  "cellsWalked": 1398,
+  "cellsWithRefs": 673,
+  "cellAreaM2": 3394.4,
+  "cellsMissingWaterHeight": 0,
+  "unresolvedBaseRefs": 3162,
+  "unresolvedDistinctBases": 348,
+  "topUnresolved": [
+   [
+    "Skyrim.esm:00108E35 (FXAmbWaterSalmon02B)",
+    739
+   ],
+   [
+    "Skyrim.esm:00108E36 (FXAmbWaterSalmon02A)",
+    508
+   ],
+   [
+    "Skyrim.esm:00108E37 (FXAmbWaterSalmon01B)",
+    419
+   ],
+   [
+    "Skyrim.esm:00108E38 (FXAmbWaterSalmon01A)",
+    122
+   ],
+   [
+    "Skyrim.esm:00098596 (ShipKatariahAnchorChain01)",
+    49
+   ],
+   [
+    "Skyrim.esm:0007E8C6 (SlaughterfishEggNest01)",
+    41
+   ],
+   [
+    "Skyrim.esm:00085F82 (ClamThin01)",
+    38
+   ],
+   [
+    "Dragonborn.esm:04018488",
+    38
+   ],
+   [
+    "Skyrim.esm:00085F83 (ClamLarge01)",
+    34
+   ],
+   [
+    "Skyrim.esm:000775FD (MountainTrim01CoastBeach01)",
+    31
+   ],
+   [
+    "Skyrim.esm:000C49ED (BoneHumanRibcageFullStatic)",
+    27
+   ],
+   [
+    "Skyrim.esm:000C49E6 (BoneHumanArmRStatic)",
+    26
+   ],
+   [
+    "Skyrim.esm:000C49E5 (BoneHumanArmLStatic)",
+    25
+   ],
+   [
+    "Dragonborn.esm:04018486",
+    25
+   ],
+   [
+    "Skyrim.esm:000C49E9 (BoneHumanHandLStatic)",
+    23
+   ],
+   [
+    "Skyrim.esm:000C49EA (BoneHumanHandRStatic)",
+    21
+   ],
+   [
+    "Skyrim.esm:000C49EB (BoneHumanLegLStatic)",
+    21
+   ],
+   [
+    "Skyrim.esm:00085F80 (Clam01)",
+    21
+   ],
+   [
+    "Skyrim.esm:000C49EC (BoneHumanLegRStatic)",
+    19
+   ],
+   [
+    "Skyrim.esm:0007EDF6 (NordicBarnacleCluster01)",
+    18
+   ]
+  ],
+  "refsPerCell": {
+   "p5": 1.0,
+   "p25": 1.0,
+   "p50": 3.0,
+   "p75": 6.0,
+   "p95": 26.0
+  },
+  "refsPerHectare": {
+   "p5": 2.946,
+   "p25": 2.946,
+   "p50": 8.838,
+   "p75": 17.676,
+   "p95": 76.597
+  },
+  "perHectareByCategory": {
+   "unresolved": {
+    "cells": 415,
+    "p5": 2.946,
+    "p25": 5.892,
+    "p50": 8.838,
+    "p75": 17.676,
+    "p95": 97.219
+   },
+   "aquatic-plant": {
+    "cells": 362,
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 5.892,
+    "p95": 11.784
+   },
+   "rock": {
+    "cells": 152,
+    "p5": 2.946,
+    "p25": 5.892,
+    "p50": 5.892,
+    "p75": 11.784,
+    "p95": 17.676
+   },
+   "terrain-feature": {
+    "cells": 80,
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 2.946,
+    "p95": 5.892
+   },
+   "clutter": {
+    "cells": 59,
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 2.946,
+    "p95": 17.676
+   },
+   "misc": {
+    "cells": 51,
+    "p5": 2.946,
+    "p25": 5.892,
+    "p50": 11.784,
+    "p75": 17.676,
+    "p95": 38.298
+   },
+   "dungeon-kit": {
+    "cells": 4,
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 2.946,
+    "p95": 5.892
+   },
+   "architecture": {
+    "cells": 2,
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 2.946,
+    "p95": 2.946
+   },
+   "furniture": {
+    "cells": 1,
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 2.946,
+    "p95": 2.946
+   }
+  }
+ },
+ "composition": {
+  "distinctSpecies": 415,
+  "cumulativeShare": {
+   "top1": 0.157,
+   "top3": 0.355,
+   "top5": 0.465,
+   "top10": 0.573,
+   "top20": 0.683,
+   "top50": 0.807,
+   "top100": 0.885
+  },
+  "speciesPerDressedCell": {
+   "p5": 1.0,
+   "p25": 1.0,
+   "p50": 2.0,
+   "p75": 4.0,
+   "p95": 9.0
+  },
+  "categoryShare": {
+   "unresolved": 0.674,
+   "aquatic-plant": 0.134,
+   "rock": 0.094,
+   "misc": 0.056,
+   "clutter": 0.02,
+   "terrain-feature": 0.02,
+   "dungeon-kit": 0.001,
+   "architecture": 0.0,
+   "furniture": 0.0
+  }
+ },
+ "variation": {
+  "perCellCount": {
+   "mean": 7.0,
+   "sd": 13.8,
+   "coefficientOfVariation": 1.986
+  },
+  "densityCorrelationByDistance": {
+   "58m": 0.28,
+   "117m": 0.146,
+   "175m": 0.139,
+   "233m": 0.124,
+   "350m": 0.141,
+   "466m": 0.082,
+   "699m": -0.035
+  },
+  "openSpaceRadiusM": {}
+ },
+ "bands": {
+  "byWaterDepth": {
+   "deep>2m": {
+    "instances": 2408,
+    "cells": 173,
+    "perHectareWhereFound": 41.01,
+    "categoryShare": {
+     "unresolved": 0.705,
+     "aquatic-plant": 0.121,
+     "misc": 0.093,
+     "rock": 0.047,
+     "clutter": 0.017,
+     "terrain-feature": 0.015,
+     "dungeon-kit": 0.002,
+     "furniture": 0.0
+    },
+    "topSpecies": [
+     [
+      "edid:FXAmbWaterSalmon02B",
+      462,
+      0.1919
+     ],
+     [
+      "edid:FXAmbWaterSalmon01B",
+      192,
+      0.0797
+     ],
+     [
+      "edid:FXAmbWaterSalmon02A",
+      162,
+      0.0673
+     ],
+     [
+      "landscape/trees/tbp_seaweed02.nif",
+      96,
+      0.0399
+     ],
+     [
+      "landscape/trees/tbp_seaweed01.nif",
+      94,
+      0.039
+     ],
+     [
+      "landscape/grass/tbp_coralsmall01.nif",
+      91,
+      0.0378
+     ],
+     [
+      "dos/misc/tbp_coralmedium.nif",
+      85,
+      0.0353
+     ],
+     [
+      "dos/misc/tbp_coralbig.nif",
+      75,
+      0.0311
+     ],
+     [
+      "edid:FXAmbWaterSalmon01A",
+      53,
+      0.022
+     ],
+     [
+      "edid:ShipKatariahAnchorChain01",
+      48,
+      0.0199
+     ],
+     [
+      "dragonborn.esm#018488",
+      38,
+      0.0158
+     ],
+     [
+      "edid:MountainTrim01CoastBeach01",
+      27,
+      0.0112
+     ],
+     [
+      "landscape/rocks/rockl01.nif",
+      27,
+      0.0112
+     ],
+     [
+      "dragonborn.esm#018486",
+      25,
+      0.0104
+     ]
+    ]
+   },
+   "shallow 0.5-2m": {
+    "instances": 14,
+    "cells": 9,
+    "perHectareWhereFound": 4.58,
+    "categoryShare": {
+     "unresolved": 0.429,
+     "rock": 0.429,
+     "aquatic-plant": 0.143
+    },
+    "topSpecies": [
+     [
+      "edid:ClamLarge01",
+      3,
+      0.2143
+     ],
+     [
+      "landscape/grass/tbp_seaweed06.nif",
+      1,
+      0.0714
+     ],
+     [
+      "edid:MountainTrim01CoastBeach01",
+      1,
+      0.0714
+     ],
+     [
+      "landscape/rocks/rockm04.nif",
+      1,
+      0.0714
+     ],
+     [
+      "landscape/rocks/rockm02.nif",
+      1,
+      0.0714
+     ],
+     [
+      "edid:critterSpawnPond_Deep_FishOnly",
+      1,
+      0.0714
+     ],
+     [
+      "edid:MountainCliff04",
+      1,
+      0.0714
+     ],
+     [
+      "landscape/rocks/rockpilem02.nif",
+      1,
+      0.0714
+     ],
+     [
+      "landscape/rocks/rockl03.nif",
+      1,
+      0.0714
+     ],
+     [
+      "landscape/rocks/rockl01.nif",
+      1,
+      0.0714
+     ],
+     [
+      "landscape/rocks/rockpilel04.nif",
+      1,
+      0.0714
+     ],
+     [
+      "landscape/grass/tbp_coralsmall01.nif",
+      1,
+      0.0714
+     ]
+    ]
+   },
+   "waterline 0-0.5m": {
+    "instances": 0
+   },
+   "damp 0-0.5m above": {
+    "instances": 1,
+    "cells": 1,
+    "perHectareWhereFound": 2.95,
+    "categoryShare": {
+     "unresolved": 1.0
+    },
+    "topSpecies": [
+     [
+      "edid:CoastDriftWood03",
+      1,
+      1.0
+     ]
+    ]
+   },
+   "dry 0.5-2m above": {
+    "instances": 14,
+    "cells": 1,
+    "perHectareWhereFound": 41.24,
+    "categoryShare": {
+     "unresolved": 0.929,
+     "misc": 0.071
+    },
+    "topSpecies": [
+     [
+      "edid:TreeThicket01",
+      2,
+      0.1429
+     ],
+     [
+      "edid:ShipOar01",
+      2,
+      0.1429
+     ],
+     [
+      "edid:TreeReachCliffTree01",
+      1,
+      0.0714
+     ],
+     [
+      "edid:CoastDriftWood01",
+      1,
+      0.0714
+     ],
+     [
+      "edid:MountainTrim01CoastBeach01",
+      1,
+      0.0714
+     ],
+     [
+      "edid:CrateSmall03Weathered",
+      1,
+      0.0714
+     ],
+     [
+      "dos/ships/shipbreticjollyboat2.nif",
+      1,
+      0.0714
+     ],
+     [
+      "edid:CoastDriftWood02",
+      1,
+      0.0714
+     ],
+     [
+      "edid:MountainTrim02Rocks01",
+      1,
+      0.0714
+     ],
+     [
+      "edid:TreeTundraDriftWood02",
+      1,
+      0.0714
+     ],
+     [
+      "edid:TreeFloraSpikyGrass02",
+      1,
+      0.0714
+     ],
+     [
+      "edid:TreeDeadShrub",
+      1,
+      0.0714
+     ]
+    ]
+   },
+   "high >2m above": {
+    "instances": 22,
+    "cells": 2,
+    "perHectareWhereFound": 32.41,
+    "categoryShare": {
+     "unresolved": 1.0
+    },
+    "topSpecies": [
+     [
+      "edid:TreeThicket01",
+      10,
+      0.4545
+     ],
+     [
+      "edid:TreeFloraSpikyGrass02",
+      4,
+      0.1818
+     ],
+     [
+      "edid:TreeDeadShrub",
+      2,
+      0.0909
+     ],
+     [
+      "edid:RockL01",
+      2,
+      0.0909
+     ],
+     [
+      "edid:TreeReachCliffTree01",
+      1,
+      0.0455
+     ],
+     [
+      "edid:CrateSmallLong03Weathered",
+      1,
+      0.0455
+     ],
+     [
+      "edid:TreeReachCliffTree02",
+      1,
+      0.0455
+     ],
+     [
+      "edid:RockL03",
+      1,
+      0.0455
+     ]
+    ]
+   }
+  },
+  "bySlope": {
+   "0-5deg": {
+    "instances": 130,
+    "cells": 28,
+    "perHectareWhereFound": 13.68,
+    "categoryShare": {
+     "unresolved": 0.7,
+     "misc": 0.192,
+     "aquatic-plant": 0.085,
+     "rock": 0.015,
+     "furniture": 0.008
+    },
+    "topSpecies": [
+     [
+      "edid:FXAmbWaterSalmon02B",
+      64,
+      0.4923
+     ],
+     [
+      "dos/misc/tbp_coralbig.nif",
+      15,
+      0.1154
+     ],
+     [
+      "edid:FXAmbWaterSalmon01B",
+      13,
+      0.1
+     ],
+     [
+      "landscape/grass/tbp_coralsmall01.nif",
+      10,
+      0.0769
+     ],
+     [
+      "dos/misc/tbp_coralmedium.nif",
+      10,
+      0.0769
+     ],
+     [
+      "edid:FXAmbWaterSalmon02A",
+      7,
+      0.0538
+     ],
+     [
+      "edid:FXAmbWaterSalmon01A",
+      1,
+      0.0077
+     ],
+     [
+      "edid:BlackreachECorner01",
+      1,
+      0.0077
+     ],
+     [
+      "landscape/trees/tbp_seaweed01.nif",
+      1,
+      0.0077
+     ],
+     [
+      "edid:ShipwreckBoards02",
+      1,
+      0.0077
+     ],
+     [
+      "dragonborn.esm#03AB51",
+      1,
+      0.0077
+     ],
+     [
+      "dlc02/furniture/dlc2darkelfshelf04.nif",
+      1,
+      0.0077
+     ],
+     [
+      "dragonborn.esm#021748",
+      1,
+      0.0077
+     ],
+     [
+      "landscape/rocks/rockl01.nif",
+      1,
+      0.0077
+     ]
+    ]
+   },
+   "5-15deg": {
+    "instances": 1795,
+    "cells": 139,
+    "perHectareWhereFound": 38.04,
+    "categoryShare": {
+     "unresolved": 0.728,
+     "aquatic-plant": 0.106,
+     "misc": 0.099,
+     "rock": 0.036,
+     "clutter": 0.017,
+     "terrain-feature": 0.012,
+     "dungeon-kit": 0.003
+    },
+    "topSpecies": [
+     [
+      "edid:FXAmbWaterSalmon02B",
+      377,
+      0.21
+     ],
+     [
+      "edid:FXAmbWaterSalmon01B",
+      156,
+      0.0869
+     ],
+     [
+      "edid:FXAmbWaterSalmon02A",
+      126,
+      0.0702
+     ],
+     [
+      "landscape/grass/tbp_coralsmall01.nif",
+      74,
+      0.0412
+     ],
+     [
+      "dos/misc/tbp_coralmedium.nif",
+      72,
+      0.0401
+     ],
+     [
+      "dos/misc/tbp_coralbig.nif",
+      60,
+      0.0334
+     ],
+     [
+      "landscape/trees/tbp_seaweed01.nif",
+      56,
+      0.0312
+     ],
+     [
+      "landscape/trees/tbp_seaweed02.nif",
+      54,
+      0.0301
+     ],
+     [
+      "edid:FXAmbWaterSalmon01A",
+      44,
+      0.0245
+     ],
+     [
+      "dragonborn.esm#018488",
+      35,
+      0.0195
+     ],
+     [
+      "edid:ShipKatariahAnchorChain01",
+      25,
+      0.0139
+     ],
+     [
+      "dragonborn.esm#018486",
+      24,
+      0.0134
+     ],
+     [
+      "edid:ClamThin01",
+      20,
+      0.0111
+     ],
+     [
+      "edid:BoneHumanArmRStatic",
+      17,
+      0.0095
+     ]
+    ]
+   },
+   "15-30deg": {
+    "instances": 364,
+    "cells": 97,
+    "perHectareWhereFound": 11.06,
+    "categoryShare": {
+     "unresolved": 0.591,
+     "aquatic-plant": 0.179,
+     "rock": 0.118,
+     "misc": 0.058,
+     "clutter": 0.03,
+     "terrain-feature": 0.025
+    },
+    "topSpecies": [
+     [
+      "landscape/trees/tbp_seaweed02.nif",
+      31,
+      0.0852
+     ],
+     [
+      "landscape/trees/tbp_seaweed01.nif",
+      31,
+      0.0852
+     ],
+     [
+      "edid:FXAmbWaterSalmon02A",
+      26,
+      0.0714
+     ],
+     [
+      "edid:FXAmbWaterSalmon02B",
+      19,
+      0.0522
+     ],
+     [
+      "edid:FXAmbWaterSalmon01B",
+      17,
+      0.0467
+     ],
+     [
+      "edid:ClamLarge01",
+      8,
+      0.022
+     ],
+     [
+      "landscape/rocks/rockm02.nif",
+      8,
+      0.022
+     ],
+     [
+      "landscape/rocks/rockl01.nif",
+      8,
+      0.022
+     ],
+     [
+      "landscape/rocks/rockl02.nif",
+      8,
+      0.022
+     ],
+     [
+      "edid:FXAmbWaterSalmon01A",
+      7,
+      0.0192
+     ],
+     [
+      "edid:MountainTrim01CoastBeach01",
+      7,
+      0.0192
+     ],
+     [
+      "landscape/rocks/rockl03.nif",
+      7,
+      0.0192
+     ],
+     [
+      "edid:MineWoodplanks04",
+      7,
+      0.0192
+     ],
+     [
+      "dos/misc/lcr_booktower01.nif",
+      6,
+      0.0165
+     ]
+    ]
+   },
+   "30-45deg": {
+    "instances": 111,
+    "cells": 34,
+    "perHectareWhereFound": 9.62,
+    "categoryShare": {
+     "unresolved": 0.721,
+     "aquatic-plant": 0.189,
+     "rock": 0.054,
+     "terrain-feature": 0.027,
+     "misc": 0.009
+    },
+    "topSpecies": [
+     [
+      "edid:ShipKatariahAnchorChain01",
+      23,
+      0.2072
+     ],
+     [
+      "landscape/trees/tbp_seaweed02.nif",
+      13,
+      0.1171
+     ],
+     [
+      "landscape/trees/tbp_seaweed01.nif",
+      5,
+      0.045
+     ],
+     [
+      "landscape/rocks/rockl01.nif",
+      4,
+      0.036
+     ],
+     [
+      "edid:MountainTrimSlab",
+      3,
+      0.027
+     ],
+     [
+      "edid:MountainTrim01CoastBeach01",
+      3,
+      0.027
+     ],
+     [
+      "landscape/grass/tbp_coralsmall01.nif",
+      3,
+      0.027
+     ],
+     [
+      "edid:RockL04",
+      3,
+      0.027
+     ],
+     [
+      "edid:BlackreachEPillar03",
+      3,
+      0.027
+     ],
+     [
+      "edid:FXAmbWaterSalmon01B",
+      3,
+      0.027
+     ],
+     [
+      "edid:FXAmbWaterSalmon02A",
+      2,
+      0.018
+     ],
+     [
+      "edid:Barrel02Static",
+      2,
+      0.018
+     ],
+     [
+      "edid:RockCliff06",
+      2,
+      0.018
+     ],
+     [
+      "edid:FXAmbWaterSalmon02B",
+      2,
+      0.018
+     ]
+    ]
+   },
+   "45-90deg": {
+    "instances": 64,
+    "cells": 12,
+    "perHectareWhereFound": 15.71,
+    "categoryShare": {
+     "unresolved": 0.75,
+     "aquatic-plant": 0.156,
+     "misc": 0.031,
+     "terrain-feature": 0.031,
+     "rock": 0.031
+    },
+    "topSpecies": [
+     [
+      "edid:BlackreachEPillar03",
+      5,
+      0.0781
+     ],
+     [
+      "edid:RockL03",
+      4,
+      0.0625
+     ],
+     [
+      "landscape/grass/tbp_coralsmall01.nif",
+      3,
+      0.0469
+     ],
+     [
+      "edid:MountainTrim01CoastBeach01",
+      3,
+      0.0469
+     ],
+     [
+      "landscape/grass/tbp_seaweed06.nif",
+      3,
+      0.0469
+     ],
+     [
+      "edid:RockL04",
+      3,
+      0.0469
+     ],
+     [
+      "edid:FXAmbWaterSalmon01B",
+      3,
+      0.0469
+     ],
+     [
+      "edid:BlackreachEPillar01",
+      2,
+      0.0312
+     ],
+     [
+      "landscape/trees/tbp_seaweed02.nif",
+      2,
+      0.0312
+     ],
+     [
+      "edid:FXMistLow01HalfVisAdjust",
+      2,
+      0.0312
+     ],
+     [
+      "edid:RockL01",
+      2,
+      0.0312
+     ],
+     [
+      "edid:MineScaffoldRopeLong01",
+      2,
+      0.0312
+     ],
+     [
+      "edid:MountainCliff04",
+      2,
+      0.0312
+     ],
+     [
+      "landscape/trees/tbp_seaweed01.nif",
+      2,
+      0.0312
+     ]
+    ]
+   }
+  }
+ },
+ "species": {
+  "edid:FXAmbWaterSalmon02B": {
+   "category": "unresolved",
+   "count": 739,
+   "cells": 144,
+   "perHectareWhereFound": 15.12,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 7.195,
+    "p50": 7.195,
+    "p75": 7.195,
+    "p95": 14.418
+   },
+   "aboveWaterM": {
+    "p5": -38.787,
+    "p25": -11.09,
+    "p50": -2.133,
+    "p75": -1.318,
+    "p95": -0.609
+   },
+   "sinkM": {
+    "p5": 0.431,
+    "p25": 1.122,
+    "p50": 1.73,
+    "p75": 2.247,
+    "p95": 4.599
+   },
+   "groundWaterDepthM": {
+    "p5": 2.281,
+    "p25": 2.737,
+    "p50": 3.186,
+    "p75": 4.164,
+    "p95": 30.364
+   },
+   "floodedGroundFraction": 0.625,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.98,
+   "meanNearestNeighbourM": 4.91,
+   "clarkEvansR": 0.382,
+   "clumping": {
+    "linkDistanceM": 9.83,
+    "clumps": 259,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 8.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 2.0,
+     "p50": 5.0,
+     "p75": 16.0,
+     "p95": 128.0
+    },
+    "clumpRadiusM": {
+     "p5": 2.777,
+     "p25": 5.389,
+     "p50": 6.959,
+     "p75": 9.653,
+     "p95": 13.707
+    },
+    "fractionInClumps": 0.685
+   },
+   "groundTop": [
+    [
+     "TBPCoralForest01Grass",
+     179
+    ],
+    [
+     "LCoastBeach01",
+     122
+    ],
+    [
+     "LCoastOceanFloor01",
+     74
+    ],
+    [
+     "LRiverBottom01",
+     45
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 2.097,
+    "p25": 7.508,
+    "p50": 7.508,
+    "p75": 8.745,
+    "p95": 20.859
+   }
+  },
+  "edid:FXAmbWaterSalmon02A": {
+   "category": "unresolved",
+   "count": 508,
+   "cells": 215,
+   "perHectareWhereFound": 6.96,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 7.195,
+    "p75": 14.418,
+    "p95": 21.7
+   },
+   "aboveWaterM": {
+    "p5": -52.088,
+    "p25": -27.541,
+    "p50": -16.003,
+    "p75": -7.966,
+    "p95": -1.106
+   },
+   "sinkM": {
+    "p5": 1.125,
+    "p25": 1.837,
+    "p50": 2.748,
+    "p75": 4.174,
+    "p95": 14.116
+   },
+   "groundWaterDepthM": {
+    "p5": 2.564,
+    "p25": 5.007,
+    "p50": 21.44,
+    "p75": 30.149,
+    "p95": 61.212
+   },
+   "floodedGroundFraction": 0.319,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.883,
+   "meanNearestNeighbourM": 7.75,
+   "clarkEvansR": 0.409,
+   "clumping": {
+    "linkDistanceM": 15.49,
+    "clumps": 311,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 4.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 3.0,
+     "p95": 5.0
+    },
+    "clumpRadiusM": {
+     "p5": 0.0,
+     "p25": 3.122,
+     "p50": 5.054,
+     "p75": 7.817,
+     "p95": 12.65
+    },
+    "fractionInClumps": 0.386
+   },
+   "groundTop": [
+    [
+     "LCoastOceanFloor01",
+     59
+    ],
+    [
+     "LCoastBeach01",
+     29
+    ],
+    [
+     "TBPCoralForest01Grass",
+     26
+    ],
+    [
+     "LRiverBottom01",
+     11
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 9.584,
+    "p25": 15.007,
+    "p50": 17.582,
+    "p75": 38.414,
+    "p95": 49.155
+   }
+  },
+  "edid:FXAmbWaterSalmon01B": {
+   "category": "unresolved",
+   "count": 419,
+   "cells": 163,
+   "perHectareWhereFound": 7.57,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 7.195,
+    "p50": 7.195,
+    "p75": 10.182,
+    "p95": 24.022
+   },
+   "aboveWaterM": {
+    "p5": -52.13,
+    "p25": -25.956,
+    "p50": -13.317,
+    "p75": -4.197,
+    "p95": -2.046
+   },
+   "sinkM": {
+    "p5": 0.939,
+    "p25": 1.739,
+    "p50": 2.575,
+    "p75": 3.69,
+    "p95": 11.653
+   },
+   "groundWaterDepthM": {
+    "p5": 4.552,
+    "p25": 4.876,
+    "p50": 11.158,
+    "p75": 21.607,
+    "p95": 60.915
+   },
+   "floodedGroundFraction": 0.458,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.917,
+   "meanNearestNeighbourM": 4.96,
+   "clarkEvansR": 0.273,
+   "clumping": {
+    "linkDistanceM": 9.92,
+    "clumps": 245,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 4.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 4.0,
+     "p95": 11.0
+    },
+    "clumpRadiusM": {
+     "p5": 0.0,
+     "p25": 2.158,
+     "p50": 4.368,
+     "p75": 7.242,
+     "p95": 13.795
+    },
+    "fractionInClumps": 0.48
+   },
+   "groundTop": [
+    [
+     "TBPCoralForest01Grass",
+     67
+    ],
+    [
+     "LCoastOceanFloor01",
+     61
+    ],
+    [
+     "LCoastBeach01",
+     23
+    ],
+    [
+     "LRiverBottom01",
+     17
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 4.423,
+    "p25": 12.168,
+    "p50": 20.082,
+    "p75": 20.082,
+    "p95": 30.053
+   }
+  },
+  "landscape/trees/tbp_seaweed02.nif": {
+   "category": "aquatic-plant",
+   "count": 267,
+   "cells": 213,
+   "perHectareWhereFound": 3.69,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 14.418,
+    "p75": 24.022,
+    "p95": 38.783
+   },
+   "aboveWaterM": {
+    "p5": -70.396,
+    "p25": -53.096,
+    "p50": -29.505,
+    "p75": -19.166,
+    "p95": -7.655
+   },
+   "sinkM": {
+    "p5": -2.182,
+    "p25": -0.042,
+    "p50": 0.0,
+    "p75": 0.004,
+    "p95": 5.949
+   },
+   "groundWaterDepthM": {
+    "p5": 9.374,
+    "p25": 21.48,
+    "p50": 31.098,
+    "p75": 56.269,
+    "p95": 76.888
+   },
+   "floodedGroundFraction": 0.375,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 0.15,
+    "p25": 0.41,
+    "p50": 0.61,
+    "p75": 0.9,
+    "p95": 1.15
+   },
+   "heightM": {
+    "p5": 6.397,
+    "p25": 17.484,
+    "p50": 26.013,
+    "p75": 38.379,
+    "p95": 49.04
+   },
+   "widthM": {
+    "p5": 1.944,
+    "p25": 5.313,
+    "p50": 7.904,
+    "p75": 11.662,
+    "p95": 14.902
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.965,
+   "meanNearestNeighbourM": 14.01,
+   "clarkEvansR": 0.538,
+   "clumping": {
+    "linkDistanceM": 28.01,
+    "clumps": 246,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpRadiusM": {
+     "p5": 3.442,
+     "p25": 3.442,
+     "p50": 21.682,
+     "p75": 23.853,
+     "p95": 23.853
+    },
+    "fractionInClumps": 0.041
+   },
+   "groundTop": [
+    [
+     "LCoastOceanFloor01",
+     38
+    ],
+    [
+     "LCoastOceanFloor01NoGrass",
+     24
+    ],
+    [
+     "LCoastBeach01",
+     19
+    ],
+    [
+     "LRiverMud01NoGrass",
+     4
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 11.148,
+    "p25": 20.983,
+    "p50": 36.437,
+    "p75": 40.708,
+    "p95": 47.896
+   }
+  },
+  "landscape/trees/tbp_seaweed01.nif": {
+   "category": "aquatic-plant",
+   "count": 248,
+   "cells": 191,
+   "perHectareWhereFound": 3.83,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 12.478,
+    "p75": 20.445,
+    "p95": 34.231
+   },
+   "aboveWaterM": {
+    "p5": -69.39,
+    "p25": -55.866,
+    "p50": -33.236,
+    "p75": -21.393,
+    "p95": -12.436
+   },
+   "sinkM": {
+    "p5": -1.339,
+    "p25": -0.006,
+    "p50": -0.0,
+    "p75": 0.0,
+    "p95": 0.017
+   },
+   "groundWaterDepthM": {
+    "p5": 12.853,
+    "p25": 25.083,
+    "p50": 39.112,
+    "p75": 59.259,
+    "p95": 68.684
+   },
+   "floodedGroundFraction": 0.383,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 0.33,
+    "p25": 0.59,
+    "p50": 0.88,
+    "p75": 1.0,
+    "p95": 1.1
+   },
+   "heightM": {
+    "p5": 9.655,
+    "p25": 17.263,
+    "p50": 25.748,
+    "p75": 29.259,
+    "p95": 32.185
+   },
+   "widthM": {
+    "p5": 1.723,
+    "p25": 3.08,
+    "p50": 4.594,
+    "p75": 5.22,
+    "p95": 5.742
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.985,
+   "meanNearestNeighbourM": 16.77,
+   "clarkEvansR": 0.656,
+   "clumping": {
+    "linkDistanceM": 33.55,
+    "clumps": 211,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 6.0
+    },
+    "clumpRadiusM": {
+     "p5": 25.325,
+     "p25": 27.548,
+     "p50": 29.973,
+     "p75": 35.975,
+     "p95": 37.452
+    },
+    "fractionInClumps": 0.093
+   },
+   "groundTop": [
+    [
+     "LCoastOceanFloor01",
+     46
+    ],
+    [
+     "LCoastBeach01",
+     12
+    ],
+    [
+     "LCoastOceanFloor01NoGrass",
+     11
+    ],
+    [
+     "LRiverBottom01",
+     7
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 10.124,
+    "p25": 10.915,
+    "p50": 33.299,
+    "p75": 56.514,
+    "p95": 62.536
+   }
+  },
+  "edid:FXAmbWaterSalmon01A": {
+   "category": "unresolved",
+   "count": 122,
+   "cells": 54,
+   "perHectareWhereFound": 6.66,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 10.182,
+    "p75": 12.478,
+    "p95": 21.7
+   },
+   "aboveWaterM": {
+    "p5": -59.143,
+    "p25": -28.146,
+    "p50": -16.527,
+    "p75": -11.159,
+    "p95": -5.649
+   },
+   "sinkM": {
+    "p5": 1.264,
+    "p25": 2.219,
+    "p50": 3.912,
+    "p75": 5.802,
+    "p95": 38.491
+   },
+   "groundWaterDepthM": {
+    "p5": 9.998,
+    "p25": 16.391,
+    "p50": 29.602,
+    "p75": 56.47,
+    "p95": 64.649
+   },
+   "floodedGroundFraction": 0.434,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.865,
+   "meanNearestNeighbourM": 5.97,
+   "clarkEvansR": 0.308,
+   "clumping": {
+    "linkDistanceM": 11.94,
+    "clumps": 75,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 4.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 4.0,
+     "p95": 10.0
+    },
+    "clumpRadiusM": {
+     "p5": 0.0,
+     "p25": 5.081,
+     "p50": 6.316,
+     "p75": 8.599,
+     "p95": 15.896
+    },
+    "fractionInClumps": 0.352
+   },
+   "groundTop": [
+    [
+     "LCoastOceanFloor01",
+     15
+    ],
+    [
+     "LRiverBottom01NoGrass",
+     11
+    ],
+    [
+     "LCoastOceanFloor01NoGrass",
+     7
+    ],
+    [
+     "LCoastBeach01",
+     7
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 21.249,
+    "p25": 36.499,
+    "p50": 42.441,
+    "p75": 42.441,
+    "p95": 50.34
+   }
+  },
+  "landscape/grass/tbp_coralsmall01.nif": {
+   "category": "aquatic-plant",
+   "count": 102,
+   "cells": 30,
+   "perHectareWhereFound": 10.02,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 7.195,
+    "p50": 7.195,
+    "p75": 7.195,
+    "p95": 33.421
+   },
+   "aboveWaterM": {
+    "p5": -5.498,
+    "p25": -4.779,
+    "p50": -3.755,
+    "p75": -2.959,
+    "p95": -2.37
+   },
+   "sinkM": {
+    "p5": -0.308,
+    "p25": -0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 5.604
+   },
+   "groundWaterDepthM": {
+    "p5": 2.351,
+    "p25": 2.914,
+    "p50": 3.541,
+    "p75": 5.007,
+    "p95": 11.541
+   },
+   "floodedGroundFraction": 0.902,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 0.77,
+    "p25": 0.9,
+    "p50": 1.0,
+    "p75": 1.12,
+    "p95": 1.21
+   },
+   "heightM": {
+    "p5": 2.037,
+    "p25": 2.381,
+    "p50": 2.646,
+    "p75": 2.963,
+    "p95": 3.201
+   },
+   "widthM": {
+    "p5": 4.151,
+    "p25": 4.852,
+    "p50": 5.391,
+    "p75": 6.038,
+    "p95": 6.523
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 5.052,
+    "p75": 356.442,
+    "p95": 504.064
+   },
+   "rotationZUniformity": 0.988,
+   "meanNearestNeighbourM": 8.53,
+   "clarkEvansR": 0.54,
+   "clumping": {
+    "linkDistanceM": 17.05,
+    "clumps": 57,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 5.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 5.0,
+     "p95": 7.0
+    },
+    "clumpRadiusM": {
+     "p5": 3.303,
+     "p25": 8.742,
+     "p50": 15.012,
+     "p75": 20.419,
+     "p95": 27.914
+    },
+    "fractionInClumps": 0.382
+   },
+   "groundTop": [
+    [
+     "TBPCoralForest01Grass",
+     43
+    ],
+    [
+     "LCoastOceanFloor01",
+     22
+    ],
+    [
+     "LCoastBeach01",
+     21
+    ],
+    [
+     "LRiverBottom01",
+     4
+    ]
+   ],
+   "clearanceToBuiltM": {}
+  },
+  "dos/misc/tbp_coralbig.nif": {
+   "category": "misc",
+   "count": 97,
+   "cells": 32,
+   "perHectareWhereFound": 8.93,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 7.195,
+    "p50": 7.195,
+    "p75": 7.195,
+    "p95": 10.182
+   },
+   "aboveWaterM": {
+    "p5": -5.337,
+    "p25": -4.438,
+    "p50": -3.524,
+    "p75": -2.812,
+    "p95": -2.276
+   },
+   "sinkM": {
+    "p5": -0.613,
+    "p25": -0.008,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.013
+   },
+   "groundWaterDepthM": {
+    "p5": 2.276,
+    "p25": 2.652,
+    "p50": 3.524,
+    "p75": 4.779,
+    "p95": 5.347
+   },
+   "floodedGroundFraction": 0.773,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 0.63,
+    "p25": 0.78,
+    "p50": 0.92,
+    "p75": 1.0,
+    "p95": 1.11
+   },
+   "heightM": {
+    "p5": 2.24,
+    "p25": 2.774,
+    "p50": 3.272,
+    "p75": 3.556,
+    "p95": 3.947
+   },
+   "widthM": {
+    "p5": 11.282,
+    "p25": 13.968,
+    "p50": 16.475,
+    "p75": 17.908,
+    "p95": 19.878
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 3.576,
+    "p75": 356.424,
+    "p95": 499.148
+   },
+   "rotationZUniformity": 0.987,
+   "meanNearestNeighbourM": 11.97,
+   "clarkEvansR": 0.716,
+   "clumping": {
+    "linkDistanceM": 23.95,
+    "clumps": 52,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 4.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 4.0,
+     "p95": 11.0
+    },
+    "clumpRadiusM": {
+     "p5": 6.362,
+     "p25": 8.695,
+     "p50": 12.731,
+     "p75": 19.75,
+     "p95": 37.092
+    },
+    "fractionInClumps": 0.464
+   },
+   "groundTop": [
+    [
+     "TBPCoralForest01Grass",
+     41
+    ],
+    [
+     "LCoastOceanFloor01",
+     15
+    ],
+    [
+     "LCoastBeach01",
+     13
+    ],
+    [
+     "LRiverBottom01",
+     4
+    ]
+   ],
+   "clearanceToBuiltM": {}
+  },
+  "dos/misc/tbp_coralmedium.nif": {
+   "category": "misc",
+   "count": 95,
+   "cells": 29,
+   "perHectareWhereFound": 9.65,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 7.195,
+    "p50": 7.195,
+    "p75": 7.195,
+    "p95": 10.182
+   },
+   "aboveWaterM": {
+    "p5": -5.348,
+    "p25": -4.292,
+    "p50": -3.398,
+    "p75": -2.845,
+    "p95": -2.276
+   },
+   "sinkM": {
+    "p5": -0.645,
+    "p25": -0.0,
+    "p50": 0.0,
+    "p75": 0.001,
+    "p95": 0.526
+   },
+   "groundWaterDepthM": {
+    "p5": 2.251,
+    "p25": 2.79,
+    "p50": 3.285,
+    "p75": 4.322,
+    "p95": 7.341
+   },
+   "floodedGroundFraction": 0.895,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 0.77,
+    "p25": 0.84,
+    "p50": 0.93,
+    "p75": 1.04,
+    "p95": 1.19
+   },
+   "heightM": {
+    "p5": 2.42,
+    "p25": 2.641,
+    "p50": 2.923,
+    "p75": 3.269,
+    "p95": 3.741
+   },
+   "widthM": {
+    "p5": 8.587,
+    "p25": 9.367,
+    "p50": 10.371,
+    "p75": 11.598,
+    "p95": 13.27
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 3.576,
+    "p75": 356.424,
+    "p95": 357.642
+   },
+   "rotationZUniformity": 0.962,
+   "meanNearestNeighbourM": 11.21,
+   "clarkEvansR": 0.696,
+   "clumping": {
+    "linkDistanceM": 22.41,
+    "clumps": 51,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 6.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 6.0,
+     "p95": 13.0
+    },
+    "clumpRadiusM": {
+     "p5": 14.177,
+     "p25": 14.794,
+     "p50": 16.77,
+     "p75": 19.4,
+     "p95": 31.046
+    },
+    "fractionInClumps": 0.411
+   },
+   "groundTop": [
+    [
+     "TBPCoralForest01Grass",
+     49
+    ],
+    [
+     "LCoastOceanFloor01",
+     15
+    ],
+    [
+     "LCoastBeach01",
+     13
+    ],
+    [
+     "LRiverBottom01",
+     6
+    ]
+   ],
+   "clearanceToBuiltM": {}
+  },
+  "landscape/rocks/rockl01.nif": {
+   "category": "rock",
+   "count": 93,
+   "cells": 62,
+   "perHectareWhereFound": 4.42,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 10.182,
+    "p75": 20.445,
+    "p95": 35.025
+   },
+   "aboveWaterM": {
+    "p5": -35.88,
+    "p25": -21.444,
+    "p50": -11.714,
+    "p75": -6.891,
+    "p95": -3.677
+   },
+   "sinkM": {
+    "p5": -2.11,
+    "p25": -1.568,
+    "p50": -0.98,
+    "p75": -0.454,
+    "p95": 0.17
+   },
+   "groundWaterDepthM": {
+    "p5": 2.852,
+    "p25": 9.559,
+    "p50": 17.227,
+    "p75": 20.499,
+    "p95": 51.76
+   },
+   "floodedGroundFraction": 0.301,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.91
+   },
+   "heightM": {
+    "p5": 3.997,
+    "p25": 3.997,
+    "p50": 3.997,
+    "p75": 3.997,
+    "p95": 7.634
+   },
+   "widthM": {
+    "p5": 5.988,
+    "p25": 5.988,
+    "p50": 5.988,
+    "p75": 5.988,
+    "p95": 11.438
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 8.211,
+    "p50": 349.381,
+    "p75": 356.856,
+    "p95": 506.529
+   },
+   "rotationZUniformity": 0.612,
+   "meanNearestNeighbourM": 8.23,
+   "clarkEvansR": 0.346,
+   "clumping": {
+    "linkDistanceM": 16.47,
+    "clumps": 80,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 2.0
+    },
+    "clumpRadiusM": {
+     "p5": 10.734,
+     "p25": 10.734,
+     "p50": 10.734,
+     "p75": 10.734,
+     "p95": 10.734
+    },
+    "fractionInClumps": 0.043
+   },
+   "groundTop": [
+    [
+     "LRocks01NoRocks",
+     26
+    ],
+    [
+     "LCoastBeach01",
+     1
+    ],
+    [
+     "LCoastBeach02",
+     1
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 12.254,
+    "p25": 12.254,
+    "p50": 12.254,
+    "p75": 12.521,
+    "p95": 12.521
+   }
+  },
+  "landscape/rocks/rockl03.nif": {
+   "category": "rock",
+   "count": 79,
+   "cells": 60,
+   "perHectareWhereFound": 3.88,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 10.182,
+    "p75": 17.682,
+    "p95": 29.987
+   },
+   "aboveWaterM": {
+    "p5": -31.487,
+    "p25": -20.138,
+    "p50": -11.036,
+    "p75": -5.9,
+    "p95": -3.362
+   },
+   "sinkM": {
+    "p5": -1.373,
+    "p25": -0.853,
+    "p50": -0.527,
+    "p75": 0.01,
+    "p95": 0.131
+   },
+   "groundWaterDepthM": {
+    "p5": 2.731,
+    "p25": 4.62,
+    "p50": 9.629,
+    "p75": 22.76,
+    "p95": 32.038
+   },
+   "floodedGroundFraction": 0.278,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.05,
+    "p95": 1.05
+   },
+   "heightM": {
+    "p5": 2.56,
+    "p25": 2.56,
+    "p50": 2.56,
+    "p75": 2.688,
+    "p95": 2.688
+   },
+   "widthM": {
+    "p5": 5.86,
+    "p25": 5.86,
+    "p50": 5.86,
+    "p75": 6.153,
+    "p95": 6.153
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 7.342,
+    "p50": 349.419,
+    "p75": 359.553,
+    "p95": 503.785
+   },
+   "rotationZUniformity": 0.448,
+   "meanNearestNeighbourM": 11.41,
+   "clarkEvansR": 0.45,
+   "clumping": {
+    "linkDistanceM": 22.82,
+    "clumps": 68,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 2.0
+    },
+    "clumpRadiusM": {},
+    "fractionInClumps": 0.0
+   },
+   "groundTop": [
+    [
+     "LRocks01NoRocks",
+     13
+    ],
+    [
+     "LCoastBeach01",
+     5
+    ],
+    [
+     "LRiverBottom01NoGrass",
+     1
+    ],
+    [
+     "LCoastOceanFloor01",
+     1
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 22.538,
+    "p25": 22.538,
+    "p50": 22.538,
+    "p75": 28.759,
+    "p95": 28.759
+   }
+  },
+  "landscape/rocks/rockl02.nif": {
+   "category": "rock",
+   "count": 76,
+   "cells": 56,
+   "perHectareWhereFound": 4.0,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 10.182,
+    "p50": 19.112,
+    "p75": 19.112,
+    "p95": 27.156
+   },
+   "aboveWaterM": {
+    "p5": -30.456,
+    "p25": -22.302,
+    "p50": -15.748,
+    "p75": -6.826,
+    "p95": -3.97
+   },
+   "sinkM": {
+    "p5": -1.958,
+    "p25": -0.644,
+    "p50": -0.117,
+    "p75": 0.0,
+    "p95": 0.007
+   },
+   "groundWaterDepthM": {
+    "p5": 3.643,
+    "p25": 15.271,
+    "p50": 18.01,
+    "p75": 21.709,
+    "p95": 32.359
+   },
+   "floodedGroundFraction": 0.197,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {
+    "p5": 3.698,
+    "p25": 3.698,
+    "p50": 3.698,
+    "p75": 3.698,
+    "p95": 3.698
+   },
+   "widthM": {
+    "p5": 8.762,
+    "p25": 8.762,
+    "p50": 8.762,
+    "p75": 8.762,
+    "p95": 8.762
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 10.619,
+    "p50": 350.957,
+    "p75": 357.84,
+    "p95": 503.594
+   },
+   "rotationZUniformity": 0.636,
+   "meanNearestNeighbourM": 13.97,
+   "clarkEvansR": 0.559,
+   "clumping": {
+    "linkDistanceM": 27.94,
+    "clumps": 60,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 3.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 3.0
+    },
+    "clumpRadiusM": {
+     "p5": 11.135,
+     "p25": 11.941,
+     "p50": 23.551,
+     "p75": 23.551,
+     "p95": 27.362
+    },
+    "fractionInClumps": 0.171
+   },
+   "groundTop": [
+    [
+     "LRocks01NoRocks",
+     12
+    ],
+    [
+     "LCoastOceanFloor01",
+     1
+    ],
+    [
+     "LCoastBeach01",
+     1
+    ],
+    [
+     "LRiverBottom01NoGrass",
+     1
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 5.438,
+    "p25": 8.455,
+    "p50": 47.442,
+    "p75": 50.543,
+    "p95": 51.2
+   }
+  },
+  "landscape/rocks/rockm02.nif": {
+   "category": "rock",
+   "count": 58,
+   "cells": 40,
+   "perHectareWhereFound": 4.27,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 14.418,
+    "p75": 17.682,
+    "p95": 21.7
+   },
+   "aboveWaterM": {
+    "p5": -31.128,
+    "p25": -22.732,
+    "p50": -9.166,
+    "p75": -3.702,
+    "p95": -2.04
+   },
+   "sinkM": {
+    "p5": -0.535,
+    "p25": -0.458,
+    "p50": -0.033,
+    "p75": 0.001,
+    "p95": 0.143
+   },
+   "groundWaterDepthM": {
+    "p5": 3.226,
+    "p25": 11.762,
+    "p50": 23.599,
+    "p75": 29.399,
+    "p95": 31.814
+   },
+   "floodedGroundFraction": 0.328,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {
+    "p5": 1.835,
+    "p25": 1.835,
+    "p50": 1.835,
+    "p75": 1.835,
+    "p95": 1.835
+   },
+   "widthM": {
+    "p5": 2.361,
+    "p25": 2.361,
+    "p50": 2.361,
+    "p75": 2.361,
+    "p95": 2.361
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 340.748,
+    "p75": 356.424,
+    "p95": 496.632
+   },
+   "rotationZUniformity": 0.526,
+   "meanNearestNeighbourM": 7.28,
+   "clarkEvansR": 0.301,
+   "clumping": {
+    "linkDistanceM": 14.57,
+    "clumps": 51,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpRadiusM": {},
+    "fractionInClumps": 0.0
+   },
+   "groundTop": [
+    [
+     "LRocks01NoRocks",
+     10
+    ],
+    [
+     "LRiverBottom01NoGrass",
+     5
+    ],
+    [
+     "LCoastBeach01",
+     4
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 19.578,
+    "p25": 19.578,
+    "p50": 19.578,
+    "p75": 34.399,
+    "p95": 34.399
+   }
+  },
+  "clutter/ruins/ruins_largechest.nif": {
+   "category": "clutter",
+   "count": 52,
+   "cells": 50,
+   "perHectareWhereFound": 3.06,
+   "slopeDeg": {},
+   "aboveWaterM": {
+    "p5": -31.671,
+    "p25": -10.602,
+    "p50": -5.065,
+    "p75": -1.881,
+    "p95": 57.578
+   },
+   "sinkM": {},
+   "groundWaterDepthM": {},
+   "floodedGroundFraction": 0.0,
+   "submergedFraction": 0.885,
+   "scale": {
+    "p5": 0.65,
+    "p25": 0.94,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {
+    "p5": 0.786,
+    "p25": 1.136,
+    "p50": 1.209,
+    "p75": 1.209,
+    "p95": 1.209
+   },
+   "widthM": {
+    "p5": 1.202,
+    "p25": 1.738,
+    "p50": 1.849,
+    "p75": 1.849,
+    "p95": 1.849
+   },
+   "tiltDeg": {
+    "p5": 11.459,
+    "p25": 22.918,
+    "p50": 22.924,
+    "p75": 23.071,
+    "p95": 36.645
+   },
+   "rotationZUniformity": 0.956,
+   "meanNearestNeighbourM": 10.66,
+   "clarkEvansR": 0.373,
+   "clumping": {
+    "linkDistanceM": 21.31,
+    "clumps": 52,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 1.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 1.0
+    },
+    "clumpRadiusM": {},
+    "fractionInClumps": 0.0
+   },
+   "groundTop": [],
+   "clearanceToBuiltM": {}
+  },
+  "edid:ShipKatariahAnchorChain01": {
+   "category": "unresolved",
+   "count": 49,
+   "cells": 3,
+   "perHectareWhereFound": 48.12,
+   "slopeDeg": {
+    "p5": 12.478,
+    "p25": 12.478,
+    "p50": 12.478,
+    "p75": 30.877,
+    "p95": 30.877
+   },
+   "aboveWaterM": {
+    "p5": -59.643,
+    "p25": -45.988,
+    "p50": -31.59,
+    "p75": -15.431,
+    "p95": -2.232
+   },
+   "sinkM": {
+    "p5": 4.744,
+    "p25": 18.399,
+    "p50": 34.33,
+    "p75": 48.064,
+    "p95": 61.409
+   },
+   "groundWaterDepthM": {
+    "p5": 60.764,
+    "p25": 60.764,
+    "p50": 67.118,
+    "p75": 67.118,
+    "p95": 67.118
+   },
+   "floodedGroundFraction": 0.98,
+   "submergedFraction": 0.98,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.589,
+   "meanNearestNeighbourM": null,
+   "clarkEvansR": null,
+   "clumping": {},
+   "groundTop": [
+    [
+     "LRiverBottom01",
+     25
+    ],
+    [
+     "LCoastOceanFloor01NoGrass",
+     23
+    ]
+   ],
+   "clearanceToBuiltM": {}
+  },
+  "landscape/rocks/rockm04.nif": {
+   "category": "rock",
+   "count": 43,
+   "cells": 29,
+   "perHectareWhereFound": 4.37,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 10.182,
+    "p75": 16.131,
+    "p95": 17.682
+   },
+   "aboveWaterM": {
+    "p5": -27.036,
+    "p25": -23.206,
+    "p50": -13.779,
+    "p75": -5.555,
+    "p95": -2.1
+   },
+   "sinkM": {
+    "p5": -0.013,
+    "p25": 0.0,
+    "p50": 0.033,
+    "p75": 0.094,
+    "p95": 0.247
+   },
+   "groundWaterDepthM": {
+    "p5": 8.664,
+    "p25": 11.837,
+    "p50": 21.822,
+    "p75": 24.561,
+    "p95": 28.77
+   },
+   "floodedGroundFraction": 0.279,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {
+    "p5": 1.849,
+    "p25": 1.849,
+    "p50": 1.849,
+    "p75": 1.849,
+    "p95": 1.849
+   },
+   "widthM": {
+    "p5": 2.93,
+    "p25": 2.93,
+    "p50": 2.93,
+    "p75": 2.93,
+    "p95": 2.93
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 18.076,
+    "p75": 359.604,
+    "p95": 504.389
+   },
+   "rotationZUniformity": 0.501,
+   "meanNearestNeighbourM": 8.54,
+   "clarkEvansR": 0.357,
+   "clumping": {
+    "linkDistanceM": 17.08,
+    "clumps": 38,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpRadiusM": {},
+    "fractionInClumps": 0.0
+   },
+   "groundTop": [
+    [
+     "LRocks01NoRocks",
+     7
+    ],
+    [
+     "LCoastBeach01",
+     3
+    ],
+    [
+     "LCoastBeach02",
+     1
+    ],
+    [
+     "LCoastOceanFloor01NoGrass",
+     1
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 33.398,
+    "p25": 33.398,
+    "p50": 33.398,
+    "p75": 33.398,
+    "p95": 33.398
+   }
+  },
+  "edid:SlaughterfishEggNest01": {
+   "category": "unresolved",
+   "count": 41,
+   "cells": 13,
+   "perHectareWhereFound": 9.29,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 10.182,
+    "p75": 14.418,
+    "p95": 21.7
+   },
+   "aboveWaterM": {
+    "p5": -72.895,
+    "p25": -60.881,
+    "p50": -33.464,
+    "p75": -17.08,
+    "p95": -5.647
+   },
+   "sinkM": {
+    "p5": -0.087,
+    "p25": -0.081,
+    "p50": -0.058,
+    "p75": 0.289,
+    "p95": 8.383
+   },
+   "groundWaterDepthM": {
+    "p5": 5.627,
+    "p25": 15.641,
+    "p50": 21.095,
+    "p75": 54.073,
+    "p95": 54.797
+   },
+   "floodedGroundFraction": 0.39,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 0.74,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.04
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 7.96,
+    "p50": 341.64,
+    "p75": 356.585,
+    "p95": 501.576
+   },
+   "rotationZUniformity": 0.946,
+   "meanNearestNeighbourM": 5.22,
+   "clarkEvansR": 0.319,
+   "clumping": {
+    "linkDistanceM": 10.45,
+    "clumps": 24,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 3.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 3.0,
+     "p95": 5.0
+    },
+    "clumpRadiusM": {
+     "p5": 1.431,
+     "p25": 3.609,
+     "p50": 5.216,
+     "p75": 9.487,
+     "p95": 12.125
+    },
+    "fractionInClumps": 0.488
+   },
+   "groundTop": [
+    [
+     "LRiverMud01NoGrass",
+     6
+    ],
+    [
+     "LCoastBeach01",
+     5
+    ],
+    [
+     "LRocks01NoRocks",
+     2
+    ],
+    [
+     "LRocks01",
+     1
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 3.628,
+    "p25": 5.666,
+    "p50": 12.61,
+    "p75": 34.678,
+    "p95": 42.532
+   }
+  },
+  "landscape/rocks/rockm01.nif": {
+   "category": "rock",
+   "count": 41,
+   "cells": 34,
+   "perHectareWhereFound": 3.55,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 7.195,
+    "p75": 16.131,
+    "p95": 19.112
+   },
+   "aboveWaterM": {
+    "p5": -31.869,
+    "p25": -22.545,
+    "p50": -16.146,
+    "p75": -4.894,
+    "p95": -2.345
+   },
+   "sinkM": {
+    "p5": -0.769,
+    "p25": -0.632,
+    "p50": 0.0,
+    "p75": 0.008,
+    "p95": 0.253
+   },
+   "groundWaterDepthM": {
+    "p5": 9.476,
+    "p25": 10.465,
+    "p50": 19.379,
+    "p75": 28.944,
+    "p95": 31.622
+   },
+   "floodedGroundFraction": 0.146,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {
+    "p5": 1.721,
+    "p25": 1.721,
+    "p50": 1.721,
+    "p75": 1.721,
+    "p95": 1.721
+   },
+   "widthM": {
+    "p5": 3.513,
+    "p25": 3.513,
+    "p50": 3.513,
+    "p75": 3.513,
+    "p95": 3.513
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 11.515,
+    "p75": 353.033,
+    "p95": 505.122
+   },
+   "rotationZUniformity": 0.467,
+   "meanNearestNeighbourM": 7.3,
+   "clarkEvansR": 0.275,
+   "clumping": {
+    "linkDistanceM": 14.59,
+    "clumps": 38,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpRadiusM": {},
+    "fractionInClumps": 0.0
+   },
+   "groundTop": [
+    [
+     "LRiverBottom01NoGrass",
+     2
+    ],
+    [
+     "LRocks01NoRocks",
+     2
+    ],
+    [
+     "LCoastBeach01",
+     1
+    ],
+    [
+     "LRiverMud01NoGrass",
+     1
+    ]
+   ],
+   "clearanceToBuiltM": {}
+  },
+  "landscape/mountains/mountaintrim01.nif": {
+   "category": "terrain-feature",
+   "count": 40,
+   "cells": 37,
+   "perHectareWhereFound": 3.18,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 10.182,
+    "p75": 14.418,
+    "p95": 29.071
+   },
+   "aboveWaterM": {
+    "p5": -34.502,
+    "p25": -23.263,
+    "p50": -7.715,
+    "p75": -4.946,
+    "p95": -3.431
+   },
+   "sinkM": {
+    "p5": -1.64,
+    "p25": -1.41,
+    "p50": -1.204,
+    "p75": -0.825,
+    "p95": -0.437
+   },
+   "groundWaterDepthM": {
+    "p5": 3.869,
+    "p25": 5.138,
+    "p50": 8.999,
+    "p75": 28.465,
+    "p95": 31.921
+   },
+   "floodedGroundFraction": 0.35,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {
+    "p5": 4.964,
+    "p25": 4.964,
+    "p50": 4.964,
+    "p75": 4.964,
+    "p95": 4.964
+   },
+   "widthM": {
+    "p5": 31.805,
+    "p25": 31.805,
+    "p50": 31.805,
+    "p75": 31.805,
+    "p95": 31.805
+   },
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 4.0,
+    "p50": 16.092,
+    "p75": 355.221,
+    "p95": 496.795
+   },
+   "rotationZUniformity": 0.639,
+   "meanNearestNeighbourM": null,
+   "clarkEvansR": null,
+   "clumping": {},
+   "groundTop": [
+    [
+     "LCoastBeach01",
+     8
+    ],
+    [
+     "LCoastOceanFloor01",
+     3
+    ],
+    [
+     "LCoastOceanFloor01NoGrass",
+     2
+    ],
+    [
+     "LRocks01NoRocks",
+     1
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 27.056,
+    "p25": 27.056,
+    "p50": 27.056,
+    "p75": 27.056,
+    "p95": 27.056
+   }
+  },
+  "edid:ClamThin01": {
+   "category": "unresolved",
+   "count": 38,
+   "cells": 19,
+   "perHectareWhereFound": 5.89,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 10.182,
+    "p75": 12.478,
+    "p95": 17.682
+   },
+   "aboveWaterM": {
+    "p5": -65.247,
+    "p25": -33.834,
+    "p50": -20.464,
+    "p75": -10.254,
+    "p95": -2.342
+   },
+   "sinkM": {
+    "p5": -0.164,
+    "p25": -0.068,
+    "p50": -0.004,
+    "p75": 0.0,
+    "p95": 0.645
+   },
+   "groundWaterDepthM": {
+    "p5": 6.182,
+    "p25": 19.84,
+    "p50": 20.7,
+    "p75": 33.919,
+    "p95": 64.722
+   },
+   "floodedGroundFraction": 0.605,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 0.49,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.13
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 6.841,
+    "p25": 11.186,
+    "p50": 347.596,
+    "p75": 356.699,
+    "p95": 499.148
+   },
+   "rotationZUniformity": 0.936,
+   "meanNearestNeighbourM": 3.52,
+   "clarkEvansR": 0.171,
+   "clumping": {
+    "linkDistanceM": 7.04,
+    "clumps": 23,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 3.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 3.0,
+     "p95": 3.0
+    },
+    "clumpRadiusM": {
+     "p5": 0.85,
+     "p25": 1.62,
+     "p50": 1.672,
+     "p75": 2.465,
+     "p95": 3.333
+    },
+    "fractionInClumps": 0.395
+   },
+   "groundTop": [
+    [
+     "LCoastOceanFloor01",
+     8
+    ],
+    [
+     "LCoastOceanFloor01NoGrass",
+     6
+    ],
+    [
+     "LRiverMud01NoGrass",
+     4
+    ],
+    [
+     "LCoastBeach01",
+     2
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 4.458,
+    "p25": 6.97,
+    "p50": 12.656,
+    "p75": 20.842,
+    "p95": 29.045
+   }
+  },
+  "dragonborn.esm#018488": {
+   "category": "unresolved",
+   "count": 38,
+   "cells": 3,
+   "perHectareWhereFound": 37.32,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 10.182,
+    "p50": 12.478,
+    "p75": 12.478,
+    "p95": 16.131
+   },
+   "aboveWaterM": {
+    "p5": -31.606,
+    "p25": -31.269,
+    "p50": -30.907,
+    "p75": -30.662,
+    "p95": -15.004
+   },
+   "sinkM": {
+    "p5": -0.026,
+    "p25": -0.01,
+    "p50": -0.0,
+    "p75": 0.0,
+    "p95": 0.025
+   },
+   "groundWaterDepthM": {
+    "p5": 14.978,
+    "p25": 30.634,
+    "p50": 30.898,
+    "p75": 31.269,
+    "p95": 31.611
+   },
+   "floodedGroundFraction": 1.0,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 352.875,
+    "p25": 353.001,
+    "p50": 353.001,
+    "p75": 494.251,
+    "p95": 504.688
+   },
+   "rotationZUniformity": 0.964,
+   "meanNearestNeighbourM": 0.81,
+   "clarkEvansR": 0.098,
+   "clumping": {
+    "linkDistanceM": 1.61,
+    "clumps": 13,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 3.0,
+     "p95": 10.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 2.0,
+     "p50": 10.0,
+     "p75": 10.0,
+     "p95": 10.0
+    },
+    "clumpRadiusM": {
+     "p5": 0.968,
+     "p25": 1.107,
+     "p50": 1.318,
+     "p75": 1.318,
+     "p95": 1.781
+    },
+    "fractionInClumps": 0.684
+   },
+   "groundTop": [
+    [
+     "LCoastOceanFloor01NoGrass",
+     18
+    ],
+    [
+     "LCoastBeach01",
+     8
+    ],
+    [
+     "LRiverBottom01NoGrass",
+     5
+    ],
+    [
+     "LRocks01NoRocks",
+     4
+    ]
+   ],
+   "clearanceToBuiltM": {}
+  },
+  "edid:ClamLarge01": {
+   "category": "unresolved",
+   "count": 34,
+   "cells": 13,
+   "perHectareWhereFound": 7.7,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 12.478,
+    "p75": 16.131,
+    "p95": 19.112
+   },
+   "aboveWaterM": {
+    "p5": -64.194,
+    "p25": -30.248,
+    "p50": -20.375,
+    "p75": -7.86,
+    "p95": -1.702
+   },
+   "sinkM": {
+    "p5": -2.428,
+    "p25": -0.126,
+    "p50": -0.064,
+    "p75": 0.011,
+    "p95": 0.616
+   },
+   "groundWaterDepthM": {
+    "p5": 1.255,
+    "p25": 6.188,
+    "p50": 19.954,
+    "p75": 21.55,
+    "p95": 64.224
+   },
+   "floodedGroundFraction": 0.706,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 0.45,
+    "p25": 0.81,
+    "p50": 1.0,
+    "p75": 1.04,
+    "p95": 1.13
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 6.874,
+    "p25": 12.722,
+    "p50": 345.626,
+    "p75": 487.62,
+    "p95": 499.148
+   },
+   "rotationZUniformity": 0.941,
+   "meanNearestNeighbourM": 5.95,
+   "clarkEvansR": 0.33,
+   "clumping": {
+    "linkDistanceM": 11.9,
+    "clumps": 20,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 5.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 5.0,
+     "p95": 5.0
+    },
+    "clumpRadiusM": {
+     "p5": 1.354,
+     "p25": 2.177,
+     "p50": 3.875,
+     "p75": 3.875,
+     "p95": 8.85
+    },
+    "fractionInClumps": 0.471
+   },
+   "groundTop": [
+    [
+     "LCoastOceanFloor01",
+     7
+    ],
+    [
+     "LCoastOceanFloor01NoGrass",
+     4
+    ],
+    [
+     "LRiverMud01NoGrass",
+     4
+    ],
+    [
+     "LDirt01",
+     4
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 3.441,
+    "p25": 3.441,
+    "p50": 10.864,
+    "p75": 14.373,
+    "p95": 14.373
+   }
+  },
+  "edid:MountainTrim01CoastBeach01": {
+   "category": "unresolved",
+   "count": 31,
+   "cells": 9,
+   "perHectareWhereFound": 10.15,
+   "slopeDeg": {
+    "p5": 7.195,
+    "p25": 7.195,
+    "p50": 12.478,
+    "p75": 20.445,
+    "p95": 53.804
+   },
+   "aboveWaterM": {
+    "p5": -29.035,
+    "p25": -8.536,
+    "p50": -6.6,
+    "p75": -6.032,
+    "p95": -4.779
+   },
+   "sinkM": {
+    "p5": -3.935,
+    "p25": -2.788,
+    "p50": -2.016,
+    "p75": 1.42,
+    "p95": 9.615
+   },
+   "groundWaterDepthM": {
+    "p5": 1.991,
+    "p25": 4.022,
+    "p50": 7.212,
+    "p75": 14.673,
+    "p95": 17.047
+   },
+   "floodedGroundFraction": 0.903,
+   "submergedFraction": 1.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 9.369,
+    "p25": 358.27,
+    "p50": 358.969,
+    "p75": 358.969,
+    "p95": 359.759
+   },
+   "rotationZUniformity": 0.761,
+   "meanNearestNeighbourM": 9.32,
+   "clarkEvansR": 0.594,
+   "clumping": {
+    "linkDistanceM": 18.65,
+    "clumps": 12,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 6.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 2.0,
+     "p50": 5.0,
+     "p75": 9.0,
+     "p95": 9.0
+    },
+    "clumpRadiusM": {
+     "p5": 12.276,
+     "p25": 12.276,
+     "p50": 24.115,
+     "p75": 28.922,
+     "p95": 28.922
+    },
+    "fractionInClumps": 0.645
+   },
+   "groundTop": [
+    [
+     "LCoastOceanFloor01",
+     12
+    ],
+    [
+     "LCoastBeach01",
+     10
+    ],
+    [
+     "LRocks01",
+     3
+    ],
+    [
+     "LRiverBottom01",
+     2
+    ]
+   ],
+   "clearanceToBuiltM": {}
+  }
+ },
+ "associations": {
+  "edid:FXAmbWaterSalmon02B": [
+   [
+    "dos/misc/tbp_coralbig.nif",
+    26,
+    3.8
+   ],
+   [
+    "dos/misc/tbp_coralmedium.nif",
+    20,
+    3.22
+   ],
+   [
+    "landscape/grass/tbp_coralsmall01.nif",
+    20,
+    3.12
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    7,
+    2.18
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    80,
+    1.74
+   ],
+   [
+    "edid:ClamThin01",
+    7,
+    1.72
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    51,
+    1.46
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    16,
+    1.38
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    47,
+    1.03
+   ],
+   [
+    "landscape/trees/tbp_seaweed01.nif",
+    30,
+    0.73
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    4,
+    0.64
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    3,
+    0.64
+   ]
+  ],
+  "edid:FXAmbWaterSalmon02A": [
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    10,
+    2.09
+   ],
+   [
+    "edid:ClamThin01",
+    12,
+    1.98
+   ],
+   [
+    "dos/misc/tbp_coralbig.nif",
+    19,
+    1.86
+   ],
+   [
+    "landscape/grass/tbp_coralsmall01.nif",
+    17,
+    1.77
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    80,
+    1.74
+   ],
+   [
+    "dos/misc/tbp_coralmedium.nif",
+    16,
+    1.73
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    29,
+    1.68
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    85,
+    1.63
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    79,
+    1.16
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    13,
+    1.1
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    13,
+    1.02
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    11,
+    1.01
+   ]
+  ],
+  "edid:FXAmbWaterSalmon01B": [
+   [
+    "edid:FXAmbWaterSalmon01A",
+    24,
+    1.84
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    12,
+    1.71
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    6,
+    1.65
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    85,
+    1.63
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    13,
+    1.58
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    51,
+    1.46
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    21,
+    1.45
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    14,
+    1.45
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    13,
+    1.45
+   ],
+   [
+    "landscape/grass/tbp_coralsmall01.nif",
+    10,
+    1.38
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    17,
+    1.25
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    60,
+    1.16
+   ]
+  ],
+  "landscape/trees/tbp_seaweed02.nif": [
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    7,
+    1.47
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    13,
+    1.21
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    79,
+    1.16
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    60,
+    1.16
+   ],
+   [
+    "edid:ClamThin01",
+    7,
+    1.16
+   ],
+   [
+    "landscape/trees/tbp_seaweed01.nif",
+    67,
+    1.11
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    14,
+    1.11
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    13,
+    1.11
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    10,
+    1.09
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    18,
+    1.05
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    47,
+    1.03
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    6,
+    0.86
+   ]
+  ],
+  "landscape/trees/tbp_seaweed01.nif": [
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    8,
+    1.88
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    67,
+    1.11
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    17,
+    1.11
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    9,
+    1.09
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    48,
+    1.04
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    58,
+    0.95
+   ],
+   [
+    "edid:ClamThin01",
+    5,
+    0.93
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    10,
+    0.88
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    8,
+    0.83
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    13,
+    0.74
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    30,
+    0.73
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    10,
+    0.63
+   ]
+  ],
+  "edid:FXAmbWaterSalmon01A": [
+   [
+    "landscape/rocks/rockm02.nif",
+    7,
+    2.18
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    24,
+    1.84
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    5,
+    1.83
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    29,
+    1.68
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    2,
+    1.66
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    16,
+    1.38
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    4,
+    1.35
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    3,
+    1.29
+   ],
+   [
+    "landscape/trees/tbp_seaweed01.nif",
+    17,
+    1.11
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    5,
+    1.11
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    18,
+    1.05
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    5,
+    1.04
+   ]
+  ],
+  "landscape/grass/tbp_coralsmall01.nif": [
+   [
+    "dos/misc/tbp_coralmedium.nif",
+    27,
+    20.89
+   ],
+   [
+    "dos/misc/tbp_coralbig.nif",
+    24,
+    16.82
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    20,
+    3.12
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    3,
+    1.82
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    17,
+    1.77
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    1,
+    1.5
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    10,
+    1.38
+   ],
+   [
+    "edid:ClamThin01",
+    1,
+    1.18
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    3,
+    1.12
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    1,
+    1.02
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    4,
+    0.42
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    1,
+    0.42
+   ]
+  ],
+  "dos/misc/tbp_coralbig.nif": [
+   [
+    "dos/misc/tbp_coralmedium.nif",
+    25,
+    18.13
+   ],
+   [
+    "landscape/grass/tbp_coralsmall01.nif",
+    24,
+    16.82
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    26,
+    3.8
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    19,
+    1.86
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    3,
+    1.71
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    4,
+    1.4
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    1,
+    1.4
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    1,
+    0.96
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    5,
+    0.65
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    1,
+    0.39
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    1,
+    0.38
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    1,
+    0.34
+   ]
+  ],
+  "dos/misc/tbp_coralmedium.nif": [
+   [
+    "landscape/grass/tbp_coralsmall01.nif",
+    27,
+    20.89
+   ],
+   [
+    "dos/misc/tbp_coralbig.nif",
+    25,
+    18.13
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    20,
+    3.22
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    3,
+    1.88
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    16,
+    1.73
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    1,
+    1.55
+   ],
+   [
+    "edid:ClamThin01",
+    1,
+    1.22
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    3,
+    1.16
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    8,
+    1.14
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    1,
+    1.05
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    1,
+    0.43
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    1,
+    0.41
+   ]
+  ],
+  "landscape/rocks/rockl01.nif": [
+   [
+    "landscape/rocks/rockm04.nif",
+    17,
+    6.36
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    18,
+    5.28
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    27,
+    4.88
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    12,
+    3.83
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    13,
+    3.53
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    7,
+    3.45
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    16,
+    3.1
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    2,
+    1.45
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    17,
+    1.13
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    15,
+    0.76
+   ],
+   [
+    "landscape/trees/tbp_seaweed01.nif",
+    13,
+    0.74
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    13,
+    0.66
+   ]
+  ],
+  "landscape/rocks/rockl03.nif": [
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    18,
+    5.46
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    27,
+    4.88
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    23,
+    4.61
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    12,
+    3.96
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    9,
+    3.48
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    5,
+    2.55
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    9,
+    2.52
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    3,
+    2.24
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    21,
+    1.45
+   ],
+   [
+    "dos/misc/tbp_coralbig.nif",
+    4,
+    1.4
+   ],
+   [
+    "dos/misc/tbp_coralmedium.nif",
+    3,
+    1.16
+   ],
+   [
+    "clutter/ruins/ruins_largechest.nif",
+    5,
+    1.12
+   ]
+  ],
+  "landscape/rocks/rockl02.nif": [
+   [
+    "landscape/rocks/rockm01.nif",
+    14,
+    4.95
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    23,
+    4.61
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    11,
+    3.57
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    8,
+    3.32
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    6,
+    3.28
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    16,
+    3.1
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    8,
+    2.4
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    3,
+    2.4
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    17,
+    1.25
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    5,
+    1.11
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    16,
+    0.89
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    15,
+    0.85
+   ]
+  ],
+  "landscape/rocks/rockm02.nif": [
+   [
+    "landscape/rocks/rockm04.nif",
+    15,
+    8.7
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    14,
+    6.93
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    7,
+    5.35
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    9,
+    4.09
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    13,
+    3.53
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    9,
+    2.52
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    8,
+    2.4
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    2,
+    2.24
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    7,
+    2.18
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    14,
+    1.45
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    14,
+    1.11
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    13,
+    1.02
+   ]
+  ],
+  "clutter/ruins/ruins_largechest.nif": [
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    2,
+    1.79
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    5,
+    1.12
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    2,
+    0.93
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    2,
+    0.79
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    2,
+    0.73
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    2,
+    0.67
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    3,
+    0.65
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    1,
+    0.61
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    6,
+    0.38
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    4,
+    0.33
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    3,
+    0.28
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    4,
+    0.25
+   ]
+  ],
+  "landscape/rocks/rockm04.nif": [
+   [
+    "landscape/rocks/rockm02.nif",
+    15,
+    8.7
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    12,
+    8.19
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    17,
+    6.36
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    10,
+    6.27
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    9,
+    3.48
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    8,
+    3.32
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    3,
+    3.16
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    12,
+    1.71
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    1,
+    1.55
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    3,
+    1.29
+   ],
+   [
+    "edid:ClamThin01",
+    1,
+    1.22
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    10,
+    1.09
+   ]
+  ],
+  "landscape/rocks/rockm01.nif": [
+   [
+    "landscape/rocks/rockm04.nif",
+    12,
+    8.19
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    14,
+    6.93
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    7,
+    6.3
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    11,
+    5.88
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    14,
+    4.95
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    12,
+    3.96
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    12,
+    3.83
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    2,
+    2.64
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    5,
+    1.83
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    13,
+    1.58
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    13,
+    1.21
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    11,
+    1.01
+   ]
+  ],
+  "landscape/mountains/mountaintrim01.nif": [
+   [
+    "landscape/rocks/rockm04.nif",
+    10,
+    6.27
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    11,
+    5.88
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    18,
+    5.46
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    18,
+    5.28
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    5,
+    4.13
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    9,
+    4.09
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    11,
+    3.57
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    2,
+    2.43
+   ],
+   [
+    "dos/misc/tbp_coralmedium.nif",
+    3,
+    1.88
+   ],
+   [
+    "landscape/grass/tbp_coralsmall01.nif",
+    3,
+    1.82
+   ],
+   [
+    "dos/misc/tbp_coralbig.nif",
+    3,
+    1.71
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    13,
+    1.45
+   ]
+  ],
+  "edid:ClamThin01": [
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    5,
+    11.81
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    2,
+    3.22
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    12,
+    1.98
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    7,
+    1.72
+   ],
+   [
+    "dos/misc/tbp_coralmedium.nif",
+    1,
+    1.22
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    1,
+    1.22
+   ],
+   [
+    "landscape/grass/tbp_coralsmall01.nif",
+    1,
+    1.18
+   ],
+   [
+    "landscape/trees/tbp_seaweed02.nif",
+    7,
+    1.16
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    1,
+    0.96
+   ],
+   [
+    "landscape/trees/tbp_seaweed01.nif",
+    5,
+    0.93
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    1,
+    0.89
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    4,
+    0.87
+   ]
+  ],
+  "edid:BoneHumanRibcageFullStatic": [
+   [
+    "edid:ClamThin01",
+    5,
+    11.81
+   ],
+   [
+    "landscape/rocks/rockm01.nif",
+    2,
+    2.64
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    2,
+    2.43
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    3,
+    2.4
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    3,
+    2.24
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    2,
+    2.24
+   ],
+   [
+    "edid:FXAmbWaterSalmon02B",
+    7,
+    2.18
+   ],
+   [
+    "edid:FXAmbWaterSalmon02A",
+    10,
+    2.09
+   ],
+   [
+    "landscape/mountains/mountaintrimslab.nif",
+    1,
+    2.04
+   ],
+   [
+    "landscape/trees/tbp_seaweed01.nif",
+    8,
+    1.88
+   ],
+   [
+    "clutter/ruins/ruins_largechest.nif",
+    2,
+    1.79
+   ],
+   [
+    "edid:FXAmbWaterSalmon01A",
+    2,
+    1.66
+   ]
+  ],
+  "landscape/mountains/mountaintrimslab.nif": [
+   [
+    "landscape/rocks/rockm01.nif",
+    7,
+    6.3
+   ],
+   [
+    "landscape/rocks/rockm02.nif",
+    7,
+    5.35
+   ],
+   [
+    "landscape/mountains/mountaintrim01.nif",
+    5,
+    4.13
+   ],
+   [
+    "landscape/rocks/rockl01.nif",
+    7,
+    3.45
+   ],
+   [
+    "landscape/rocks/rockl02.nif",
+    6,
+    3.28
+   ],
+   [
+    "edid:ClamThin01",
+    2,
+    3.22
+   ],
+   [
+    "landscape/rocks/rockm04.nif",
+    3,
+    3.16
+   ],
+   [
+    "landscape/rocks/rockl03.nif",
+    5,
+    2.55
+   ],
+   [
+    "edid:BoneHumanRibcageFullStatic",
+    1,
+    2.04
+   ],
+   [
+    "edid:FXAmbWaterSalmon01B",
+    6,
+    1.13
+   ],
+   [
+    "dos/misc/tbp_coralmedium.nif",
+    1,
+    1.05
+   ],
+   [
+    "landscape/grass/tbp_coralsmall01.nif",
+    1,
+    1.02
+   ]
+  ]
+ }
+}

@@ -467,7 +467,7 @@
    "pivotOffsetM": {
     "p50": -1.2
    },
-   "note": "OPEN-BACKED cliff-face dressing shell, 9.9 m tall, doubleSided with collision 'none' - authored to be embedded in a cliff, not to stand free. Round 5: freestanding scatter uses the closed vanilla boulders below; this is restricted to steep slopes with align_to_slope so its open back lies into the hill."
+   "note": "OPEN-BACKED cliff-face dressing shell, 9.9 m tall, collision convex (trimesh at runtime), open back at 270 deg, laid with the back into the hill - authored to be embedded in a cliff, not to stand free. Round 5: freestanding scatter uses the closed vanilla boulders below; this is restricted to steep slopes with align_to_slope so its open back lies into the hill."
   },
   "vanilla:landscape/rocks/rockl04": {
    "class": "standalone",
@@ -1712,6 +1712,321 @@
     "source": "vanilla-tamriel-placement.json",
     "n": 158
    }
+  },
+  "vanilla:landscape/rocks/wetrocks/rocks01wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.982,
+    "p50": -0.664,
+    "p75": -0.381
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 498,
+    "alias": "vanilla:landscape/rocks/rocks01"
+   },
+   "evidence": "no placement of its own: `rocks01wet` is the WET RETEXTURE of `rocks01` - same geometry, same box, same pivot - so it takes that mesh's mined sink (498 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "vanilla:landscape/rocks/wetrocks/rocks02wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.403,
+    "p50": -0.257,
+    "p75": -0.11
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 1763,
+    "alias": "vanilla:landscape/rocks/rocks02"
+   },
+   "evidence": "no placement of its own: `rocks02wet` is the WET RETEXTURE of `rocks02` - same geometry, same box, same pivot - so it takes that mesh's mined sink (1763 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "vanilla:landscape/rocks/wetrocks/rocks03wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.701,
+    "p50": -0.495,
+    "p75": -0.324
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 1088,
+    "alias": "vanilla:landscape/rocks/rocks03"
+   },
+   "evidence": "no placement of its own: `rocks03wet` is the WET RETEXTURE of `rocks03` - same geometry, same box, same pivot - so it takes that mesh's mined sink (1088 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "vanilla:landscape/rocks/wetrocks/rockm01wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.896,
+    "p50": -0.554,
+    "p75": -0.248
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 1570,
+    "alias": "vanilla:landscape/rocks/rockm01"
+   },
+   "evidence": "no placement of its own: `rockm01wet` is the WET RETEXTURE of `rockm01` - same geometry, same box, same pivot - so it takes that mesh's mined sink (1570 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "vanilla:landscape/rocks/wetrocks/rockm03wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -1.347,
+    "p50": -0.943,
+    "p75": -0.548
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 996,
+    "alias": "vanilla:landscape/rocks/rockm03"
+   },
+   "evidence": "no placement of its own: `rockm03wet` is the WET RETEXTURE of `rockm03` - same geometry, same box, same pivot - so it takes that mesh's mined sink (996 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "vanilla:landscape/rocks/wetrocks/rockm04wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.849,
+    "p50": -0.58,
+    "p75": -0.283
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 679,
+    "alias": "vanilla:landscape/rocks/rockm04"
+   },
+   "evidence": "no placement of its own: `rockm04wet` is the WET RETEXTURE of `rockm04` - same geometry, same box, same pivot - so it takes that mesh's mined sink (679 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilem01wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.361,
+    "p50": -0.232,
+    "p75": -0.12
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 763,
+    "alias": "vanilla:landscape/rocks/rockpilem01"
+   },
+   "evidence": "no placement of its own: `rockpilem01wet` is the WET RETEXTURE of `rockpilem01` - same geometry, same box, same pivot - so it takes that mesh's mined sink (763 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilem03wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.339,
+    "p50": -0.251,
+    "p75": -0.149
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 60,
+    "alias": "vanilla:landscape/rocks/rockpilem03"
+   },
+   "evidence": "no placement of its own: `rockpilem03wet` is the WET RETEXTURE of `rockpilem03` - same geometry, same box, same pivot - so it takes that mesh's mined sink (60 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "vanilla:landscape/rocks/wetrocks/rockshelf01wet": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.072,
+    "p50": 0.021,
+    "p75": 0.131
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 137,
+    "alias": "vanilla:landscape/rocks/rockshelf01"
+   },
+   "evidence": "no placement of its own: `rockshelf01wet` is the WET RETEXTURE of `rockshelf01` - same geometry, same box, same pivot - so it takes that mesh's mined sink (137 placed instances in Tamriel), exactly as `rock_dressing.MINED_ALIAS` does for `moss_rockcliff01`. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock01": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock02": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock03": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock04": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock05": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock06": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock07": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock08": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock09": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock10": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock11": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
+  },
+  "shores:shoresofskyrim/shorerock12": {
+   "class": "standalone",
+   "count": 0,
+   "pivotOffsetM": {
+    "p25": -0.695,
+    "p50": -0.472,
+    "p75": -0.272
+   },
+   "mined": {
+    "source": "vanilla-tamriel-placement.json",
+    "n": 3349,
+    "alias": "mean of rocks01wet/rocks02wet/rocks03wet"
+   },
+   "evidence": "FrankBlack's own mesh: nobody has placed it in a shipped worldspace, so its sink is the MEAN of the three `rocks0*wet` mined rows (n=3349 between them) - the same size class of wet shore stone on the same kind of ground. Added 2026-09-18 with the sea-bed rock bands."
   }
  },
  "attachmentSpawn": {

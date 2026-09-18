@@ -209,7 +209,6 @@ def place(table: dict, site_xz, radius_m: float = RING_RADIUS_M,
         g = max(1, math.ceil(math.sqrt(candidates)))
         cell = TILE_M / g
         keep_p = candidates / (g * g)
-        jitter = plan["anyRule"]["positionJitterM"]
         xs: list[np.ndarray] = []
         zs: list[np.ndarray] = []
         for tz in range(ftz - reach, ftz + reach + 1):
@@ -222,10 +221,11 @@ def place(table: dict, site_xz, radius_m: float = RING_RADIUS_M,
                 k = np.arange(g * g)[rng.random(g * g) < keep_p]
                 if k.size == 0:
                     continue
-                x = (tx * TILE_M + ((k % g) + 0.5) * cell
-                     + (rng.random(k.size) - 0.5) * 2 * jitter)
-                z = (tz * TILE_M + ((k // g) + 0.5) * cell
-                     + (rng.random(k.size) - 0.5) * 2 * jitter)
+                # Stratified: one candidate per cell, uniform over the WHOLE
+                # cell. A fixed jitter amplitude smaller than the cell leaves
+                # the lattice visible as rows wherever the cell is wide.
+                x = tx * TILE_M + ((k % g) + rng.random(k.size)) * cell
+                z = tz * TILE_M + ((k // g) + rng.random(k.size)) * cell
 
                 # Region THEN cover, exactly as the runtime resolves it.
                 region = data.region_at(x, z)

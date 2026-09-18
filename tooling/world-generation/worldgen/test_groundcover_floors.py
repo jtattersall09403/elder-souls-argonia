@@ -15,7 +15,10 @@ from pathlib import Path
 
 import pytest
 
-from .groundcover_ring import RingInputs, TABLE_PATH, load_table, measure
+import numpy as np
+
+from .groundcover_ring import (RingInputs, TABLE_PATH, build_plans, load_table,
+                              measure, place)
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KIT_CONFIG = (REPO_ROOT / "tooling/asset-pipeline/pipeline/config/kits"
@@ -43,7 +46,7 @@ MAX_BARE_RADIUS_M = 14.0
 MIN_ENTROPY_BITS = 1.5
 
 #: Exactly the covers that carry nothing (landcover.py ids).
-BARE_COVERS = ["BLACK_MUD", "SALT", "PATH", "TRACK", "BC_ROAD", "DIRT_CLIFF"]
+BARE_COVERS = ["BLACK_MUD", "SALT", "BC_ROAD", "DIRT_CLIFF"]
 
 
 @pytest.fixture(scope="module")
@@ -88,14 +91,18 @@ def test_species_mix_is_not_a_monoculture(site, measured):
 
 # --- the table itself --------------------------------------------------------
 
-def test_the_bare_list_is_exactly_the_seven_covers_that_carry_nothing():
+def test_the_bare_list_is_exactly_the_covers_that_carry_nothing():
     table = load_table()
-    assert table["schemaVersion"] == 3
+    assert table["schemaVersion"] == 4
     assert table["bare"]["covers"] == BARE_COVERS, (
         "bare.covers drifted. The river bed, the seabed and the ocean floor "
         "are not bare: Skyrim's kelp and coral are painted-ground grass "
         "records, so the ring plants them. Nor is the broken lowland rock, "
-        "which is steep dirt-cliff ground and not a cliff face (16f).")
+        "which is steep dirt-cliff ground and not a cliff face (16f). Nor are "
+        "the dirt path and the churned track: a decayed or broken road is a "
+        "surface grass is taking back, and a road nobody can see is what "
+        "leaving them bare produced (owner walk 2026-09-18). Only the swept "
+        "built surface stays bare.")
 
 
 def test_every_cover_that_is_not_bare_carries_at_least_two_species():
@@ -123,7 +130,7 @@ def test_the_two_bed_covers_carry_a_wet_and_a_dry_binding():
         assert wet and dry, (
             f"cover {cover} ({table['byLandCover'][cover]['cover']}): "
             f"{len(wet)} wet and {len(dry)} dry species")
-        assert all(r["maxDepthM"] == 4.0 for r in wet)
+        assert all(r["maxDepthM"] == 25.0 for r in wet)   # raised from 4 m, 2026-09-18
 
 
 def test_every_rule_carries_its_height_and_its_fade_distance():
@@ -150,3 +157,45 @@ def test_every_species_is_in_the_shipped_ring_kit_config():
     used |= {rule["asset"] for spec in table["byRegionClass"].values()
              for rules in spec["swaps"].values() for rule in rules}
     assert used <= kit, f"not in groundcover-province-v1: {sorted(used - kit)}"
+
+
+def _folded_bearing_peak_ratio(xs, zs, bins: int = 8) -> float:
+    """Peak bin over mean bin of the nearest-neighbour bearing histogram.
+
+    Bearings are folded onto 0-180 degrees (a lattice's neighbour due north and
+    due south are the same row), so 1.0 is isotropic and a grid spikes. This is
+    the measure `test_scatter.test_output_is_clustered_the_way_hand_placement_is`
+    uses; a lattice betrays itself here and nowhere else.
+    """
+    from scipy.spatial import cKDTree
+    pts = np.column_stack([xs, zs])
+    _, idx = cKDTree(pts).query(pts, k=2)
+    d = pts[idx[:, 1]] - pts
+    ang = np.degrees(np.arctan2(d[:, 1], d[:, 0])) % 180.0
+    counts = np.bincount((ang / 180.0 * bins).astype(int) % bins, minlength=bins)
+    # The candidate lattice is world-axis aligned, so its rows can only spike
+    # the 0 deg and 90 deg bins; the max over every bin fired on sampling
+    # noise at n ~ 200 (2026-09-18: a species at 1.61 in the 45 deg bin).
+    axis = max(counts[0], counts[bins // 2])
+    return float(axis / (counts.sum() / bins))
+
+
+def test_no_species_stands_in_rows(ring_inputs):
+    """The candidate lattice must not show. Low-density species have the widest
+    cells, so they are where a fixed jitter amplitude reads as straight rows."""
+    table = load_table()
+    placed = place(table, SITES["floodplain"], 75.0, ring_inputs)
+    density = {p["id"]: p["maxDensity"] for p in build_plans(table)}
+    thin = sorted((density[a], a) for a, (xs, _) in placed.items()
+                  if xs.size >= 300)[:3]
+    assert thin, "no species placed 300 instances at the floodplain site"
+    rows = {}
+    for _, asset in thin:
+        xs, zs = placed[asset]
+        ratio = _folded_bearing_peak_ratio(xs, zs)
+        if ratio > 1.5:
+            rows[asset] = round(ratio, 2)
+    assert not rows, (
+        f"nearest-neighbour bearings peak on a lattice axis: {rows} "
+        f"(peak bin / mean bin, ceiling 1.5). Candidates must be jittered "
+        f"over the whole cell, not by a fixed amplitude around its centre.")

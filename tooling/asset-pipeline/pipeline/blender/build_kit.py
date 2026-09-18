@@ -475,6 +475,287 @@ def asset_node_name(asset_id):
     return name
 
 
+# --- derived far-tier cards ("bakeCards") ------------------------------------
+#
+# A card rendered FROM the source mesh is a derived LOD, the same thing
+# DynDOLOD's tree-LOD billboard generator produces — never new art. Species
+# with an authored `_lod_flat` keep theirs; everything else in a kit with
+# `bakeCards` on gets two orthographic views rendered here, crossed into an
+# X-shaped card, and packed into shared atlases.
+#
+# card_resolution_px and pack_card_tiles below are DUPLICATED VERBATIM from
+# pipeline/build_kit.py (this interpreter is Wine Blender's and cannot import
+# the package); test_build_kit.py asserts the two copies are identical.
+
+CARD_RESOLUTION_PX = tuple(PLAN.get("cardResolutionPx") or (128, 256, 512))
+CARD_ATLAS_MAX_PX = int(PLAN.get("cardAtlasMaxPx", 2048))
+CARD_SKIP_CATEGORIES = set(PLAN.get("bakeCardSkipCategories") or ("rock",))
+CARD_DIR = PLAN.get("cardDir")
+#: One entry per rendered view, filled during the asset loop and consumed by
+#: pack_baked_cards() once every asset's views exist.
+CARD_JOBS = []
+
+
+def card_resolution_px(height_m, overrides=None):
+    """Tile edge in px for an asset of this height (kit `cardResolutionPx`)."""
+    small, medium, large = tuple(overrides or CARD_RESOLUTION_PX)
+    if height_m < 1.5:
+        return int(small)
+    if height_m < 8.0:
+        return int(medium)
+    return int(large)
+
+
+def pack_card_tiles(count, tile_px, atlas_max_px=CARD_ATLAS_MAX_PX):
+    """Grid-pack `count` square tiles of one resolution class into atlases.
+
+    Returns `(tiles, sizes)`: one `(atlas_index, [u0, v0, u1, v1])` per tile in
+    order, and one `(width_px, height_px)` per atlas. Tiles fill row-major from
+    the TOP-left; an atlas is trimmed to the rows and columns it actually uses,
+    so a four-card probe does not ship a 2048 x 2048 image that is 99% empty.
+    """
+    if count <= 0:
+        return [], []
+    cols = max(1, atlas_max_px // tile_px)
+    per_atlas = cols * cols
+    tiles, sizes = [], []
+    for atlas in range((count + per_atlas - 1) // per_atlas):
+        here = min(per_atlas, count - atlas * per_atlas)
+        rows_used = (here + cols - 1) // cols
+        cols_used = min(cols, here)
+        width, height = tile_px * cols_used, tile_px * rows_used
+        sizes.append((width, height))
+        for i in range(here):
+            col, row = i % cols, i // cols
+            u0 = col * tile_px / width
+            u1 = (col + 1) * tile_px / width
+            # glTF/Blender UV v runs bottom-up; row 0 is the TOP row.
+            v1 = 1.0 - row * tile_px / height
+            v0 = 1.0 - (row + 1) * tile_px / height
+            tiles.append((atlas, [u0, v0, u1, v1]))
+    return tiles, sizes
+
+
+_CARD_SCENE = {}
+
+
+def card_scene():
+    """Cycles CPU, flat white world, orthographic camera — built once.
+
+    White background at strength 1 with `film_transparent` lights the mesh
+    evenly and leaves the frame transparent, so the card holds albedo-like
+    colour that the runtime then lights as ground (a card rendered under a sun
+    would carry a baked-in shadow that fights every other time of day).
+    EEVEE is not an option: headless Wine has no GL context.
+    """
+    if _CARD_SCENE:
+        return _CARD_SCENE
+    scene = bpy.context.scene
+    scene.render.engine = "CYCLES"
+    scene.cycles.device = "CPU"
+    scene.cycles.samples = 8
+    scene.cycles.use_denoising = False
+    scene.cycles.max_bounces = 2
+    scene.cycles.transparent_max_bounces = 64   # foliage cards layer deep
+    scene.render.film_transparent = True
+    scene.render.image_settings.file_format = "PNG"
+    scene.render.image_settings.color_mode = "RGBA"
+    # No tone map: the card must carry the same albedo as the mesh it stands
+    # in for, and AgX/Filmic would desaturate it against its own LOD chain.
+    try:
+        scene.view_settings.view_transform = "Standard"
+    except TypeError:
+        pass
+    world = bpy.data.worlds.new("es|cards")
+    world.use_nodes = True
+    background = world.node_tree.nodes["Background"]
+    background.inputs[0].default_value = (1.0, 1.0, 1.0, 1.0)
+    background.inputs[1].default_value = 1.0
+    scene.world = world
+    cam_data = bpy.data.cameras.new("es|card_cam")
+    cam_data.type = "ORTHO"
+    cam_data.clip_start = 0.01
+    cam_data.clip_end = 10000.0
+    cam = bpy.data.objects.new("es|card_cam", cam_data)
+    scene.collection.objects.link(cam)
+    scene.camera = cam
+    _CARD_SCENE.update(scene=scene, cam=cam, cam_data=cam_data)
+    return _CARD_SCENE
+
+
+def card_material(image):
+    """Alpha-tested, double-sided, unlit-colour-from-atlas card material."""
+    mat = bpy.data.materials.new("es|card_%s" % image.name)
+    mat.use_nodes = True
+    tree = mat.node_tree
+    tree.nodes.clear()
+    out = tree.nodes.new("ShaderNodeOutputMaterial")
+    bsdf = tree.nodes.new("ShaderNodeBsdfPrincipled")
+    bsdf.inputs["Metallic"].default_value = 0.0
+    bsdf.inputs["Roughness"].default_value = 0.85
+    tex = tree.nodes.new("ShaderNodeTexImage")
+    tex.image = image
+    tree.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+    tree.links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
+    tree.links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
+    mat.use_backface_culling = False
+    if hasattr(mat, "blend_method"):
+        try:
+            mat.blend_method = "BLEND"   # set_alpha_modes() rewrites to MASK
+        except TypeError:
+            pass
+    return mat
+
+
+def card_quad(asset, root, level, view, corners):
+    """One vertical quad of the crossed card, in screen order.
+
+    `corners` run bottom-left, bottom-right, top-right, top-left as the CAMERA
+    sees them, so the UV rect maps the rendered view onto the quad the right
+    way round whichever axis the view looked down.
+    """
+    name = "es|card_%s_%s" % (asset_node_name(asset["id"])[3:13], view)
+    mesh = bpy.data.meshes.new(name)
+    mesh.from_pydata([tuple(c) for c in corners], [], [(0, 1, 2, 3)])
+    mesh.update()
+    uv = mesh.uv_layers.new(name="UVMap")
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.scene.collection.objects.link(obj)
+    obj.parent = root
+    obj["lod"] = level
+    obj["billboard"] = True
+    obj["cardSource"] = "baked"
+    # The tree renderer draws both quads as a crossed card; the grass renderer
+    # draws view "a" alone as a camera-facing quad.
+    obj["cardView"] = view
+    obj["assetId"] = asset["id"]
+    return obj, uv
+
+
+def bake_asset_cards(asset, meshes, root, lo, hi, size):
+    """Render this asset's two views and build its crossed card.
+
+    The card stands exactly where the mesh stands: its bottom edge is at the
+    mesh's lowest point (z = lo.z, i.e. -originOffsetM.z), so the runtime's
+    pivot-minus-sink placement puts card and mesh on the same ground.
+
+    The camera frame is SQUARE — `ortho_scale` on both axes — because the
+    atlas packs square tiles, so the quad is the frame rather than the
+    tight bounds: a tall tree's card is as wide as it is tall, with
+    transparent margin. The silhouette still lands on the mesh's own
+    footprint; only empty texels are spent.
+    """
+    ctx = card_scene()
+    scene, cam, cam_data = ctx["scene"], ctx["cam"], ctx["cam_data"]
+    extent = max(hi.x - lo.x, hi.y - lo.y)
+    frame = max(size.z, extent) * 1.02
+    if frame < 0.02 or not CARD_DIR:
+        return []
+    resolution = card_resolution_px(size.z, CARD_RESOLUTION_PX)
+    scene.render.resolution_x = scene.render.resolution_y = resolution
+    cam_data.ortho_scale = frame
+    cx, cy = (lo.x + hi.x) / 2.0, (lo.y + hi.y) / 2.0
+    z0, z1 = lo.z, lo.z + frame
+    cz = lo.z + frame / 2.0          # base sits on the bottom edge of the frame
+    half = frame / 2.0
+    for obj in bpy.data.objects:
+        if obj.type == "MESH":
+            obj.hide_render = obj not in meshes
+    safe = asset["id"].replace(":", "__").replace("/", "_").replace(" ", "_")
+    plan = [
+        # view, camera location, camera rotation, quad corners (camera order)
+        ("a", (cx, lo.y - frame, cz), (math.radians(90), 0.0, 0.0),
+         [(cx - half, cy, z0), (cx + half, cy, z0),
+          (cx + half, cy, z1), (cx - half, cy, z1)]),
+        ("b", (lo.x - frame, cy, cz), (math.radians(90), 0.0, math.radians(-90)),
+         [(cx, cy + half, z0), (cx, cy - half, z0),
+          (cx, cy - half, z1), (cx, cy + half, z1)]),
+    ]
+    jobs = []
+    for view, location, rotation, corners in plan:
+        cam.location = location
+        cam.rotation_euler = rotation
+        path = os.path.join(CARD_DIR, "%s-%s.png" % (safe, view))
+        scene.render.filepath = path
+        bpy.ops.render.render(write_still=True)
+        obj, uv = card_quad(asset, root, len(asset["lodRatios"]) + 1, view, corners)
+        jobs.append({"assetId": asset["id"], "view": view, "path": path,
+                     "res": resolution, "object": obj, "uv": uv})
+    for obj in bpy.data.objects:
+        if obj.type == "MESH":
+            obj.hide_render = False
+    CARD_JOBS.extend(jobs)
+    print("[kit]   baked card %s %dpx frame=%.2fm" % (asset["id"], resolution, frame))
+    return jobs
+
+
+def pack_baked_cards():
+    """Atlas every rendered view, bind the materials, rewrite the card UVs.
+
+    Returns `{assetId: {"cardAtlas": name, "cardRects": {view: rect},
+    "billboardMaterials": [...]}}`.
+    """
+    per_asset = {}
+    by_resolution = {}
+    for job in CARD_JOBS:
+        by_resolution.setdefault(job["res"], []).append(job)
+    for resolution in sorted(by_resolution):
+        jobs = by_resolution[resolution]
+        tiles, sizes = pack_card_tiles(len(jobs), resolution, CARD_ATLAS_MAX_PX)
+        atlases = []
+        for index, (width, height) in enumerate(sizes):
+            image = bpy.data.images.new(
+                "es|cardatlas_%d_%d" % (resolution, index),
+                width=width, height=height, alpha=True)
+            image.colorspace_settings.name = "sRGB"
+            atlases.append({
+                "image": image,
+                "buffer": np.zeros((height, width, 4), dtype=np.float32),
+                "material": None,
+            })
+        for job, (atlas_index, rect) in zip(jobs, tiles):
+            source = bpy.data.images.load(job["path"], check_existing=False)
+            # Flood the silhouette's RGB outward while the tile is still its
+            # own image: doing it on the assembled atlas would bleed one
+            # species' colour into its neighbour's tile.
+            dilate_edge_rgb(source, iterations=max(4, resolution // 32))
+            width, height = source.size
+            pixels = np.empty(width * height * 4, dtype=np.float32)
+            source.pixels.foreach_get(pixels)
+            atlas = atlases[atlas_index]
+            buffer = atlas["buffer"]
+            x0 = int(round(rect[0] * buffer.shape[1]))
+            y0 = int(round(rect[1] * buffer.shape[0]))
+            buffer[y0:y0 + height, x0:x0 + width] = pixels.reshape(height, width, 4)
+            bpy.data.images.remove(source)
+            job["atlas"] = atlas
+            job["rect"] = [round(c, 6) for c in rect]
+        for atlas in atlases:
+            atlas["buffer"][..., :3] = np.clip(atlas["buffer"][..., :3], 0.0, 1.0)
+            atlas["image"].pixels.foreach_set(atlas["buffer"].reshape(-1))
+            atlas["image"].update()
+            atlas["material"] = card_material(atlas["image"])
+            # Each species owns one small rect of a shared atlas, exactly like
+            # the authored `_lod_flat` atlases — so the general texture
+            # downscale must not touch it.
+            BILLBOARD_IMAGES.add(atlas["image"].name)
+        for job in jobs:
+            material = job["atlas"]["material"]
+            job["object"].data.materials.append(material)
+            u0, v0, u1, v1 = job["rect"]
+            corners = [(u0, v0), (u1, v0), (u1, v1), (u0, v1)]
+            for i, loop_uv in enumerate(job["uv"].data):
+                loop_uv.uv = corners[i % 4]
+            record = per_asset.setdefault(job["assetId"], {
+                "cardAtlas": job["atlas"]["image"].name,
+                "cardRects": {},
+                "billboardMaterials": set(),
+            })
+            record["cardRects"][job["view"]] = job["rect"]
+            record["billboardMaterials"].add(material.name)
+    return per_asset
+
+
 exported = []
 for asset in PLAN["assets"]:
     # Bake transforms and convert units in one step, then detach from any
@@ -561,6 +842,12 @@ for asset in PLAN["assets"]:
     # it beyond the mesh rings. These are static cross/flat cutout cards —
     # fine at distance, no octahedral impostor authoring (module 65 §110).
     billboard_materials = set()
+    # Derived cards come FIRST and only where no authored card exists: an
+    # authored `_lod_flat` is the source pool's own art and always wins.
+    if (PLAN.get("bakeCards") and not asset.get("lodFlatNif")
+            and asset.get("bakeCard", True)
+            and asset["category"] not in CARD_SKIP_CATEGORIES):
+        bake_asset_cards(asset, meshes, root, lo, hi, size)
     if asset.get("lodFlatNif"):
         flat_meshes = import_nif_meshes(asset["lodFlatNif"])
         # Optional per-asset atlas override (`lodFlatTexture`, data-root
@@ -699,6 +986,19 @@ for asset in PLAN["assets"]:
     exported.append(root)
     print("[kit] %-52s %7d tris  %5.2f x %5.2f x %5.2f m" % (
         asset["id"], triangles, size.x, size.y, size.z))
+
+baked_cards = pack_baked_cards()
+for record in SUMMARY["assets"]:
+    baked = baked_cards.get(record["id"])
+    if not baked:
+        continue
+    record["billboard"] = True
+    record["cardSource"] = "baked"
+    record["cardAtlas"] = baked["cardAtlas"]
+    record["cardRects"] = baked["cardRects"]
+    record["billboardMaterials"] = sorted(baked["billboardMaterials"])
+if baked_cards:
+    print("[kit] baked far-tier cards for %d assets" % len(baked_cards))
 
 max_texture = PLAN.get("textureMaxSize", 1024)
 max_billboard = PLAN.get("billboardTextureMaxSize", 1024)

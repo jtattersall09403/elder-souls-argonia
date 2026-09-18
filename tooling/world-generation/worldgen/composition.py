@@ -309,7 +309,9 @@ class Composition:
         `sink_jitter` is the per-species multiplier band its layer authored
         (`Layer.sink_jitter`); species not named keep the historic +-50 %.
         An open-bottomed rock raises the floor so its hollow underside is
-        never left proud of the ground (16f)."""
+        never left proud of the ground (16f), and any burial the sampler
+        measured for the instance (`Instance.extra_sink_m`) is added on top,
+        capped by `Instance.sink_cap_m`."""
         salt = hash64(seed, _SALT_SINK)
         for inst in instances:
             mode = self.anchor_mode(inst.species)
@@ -323,9 +325,16 @@ class Composition:
                 continue
             qx, qz = _quantised(inst.x, inst.z)
             lo, hi = (sink_jitter or {}).get(inst.species, (0.5, 1.5))
-            inst.sink = self.sink_m(
+            sink = self.sink_m(
                 inst.species, fields.slope(inst.x, inst.z),
                 uniform_at(salt, qx, qz), jitter=(lo, hi))
+            # The sampler's burial rule ADDS to the composed sink: the species
+            # median says how deep this kind of rock sits, the measured
+            # exposure says how much more THIS one needs so its base plane
+            # does not stand proud where the hill falls away (16f, owner walk
+            # 2026-09-18). The cap is the instance's own 0.6 x scaled height,
+            # so burying a rock can never swallow it.
+            inst.sink = min(sink + inst.extra_sink_m, inst.sink_cap_m)
 
     # -- pass 2: cluster expansion (C4) ------------------------------------
 

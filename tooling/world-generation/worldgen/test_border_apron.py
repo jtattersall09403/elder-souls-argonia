@@ -233,4 +233,4 @@ def test_manifest_files_exist_and_are_in_the_publish_set(manifest):
     assert not missing, f"apron manifest names {len(missing)} missing files: {missing[:5]}"
     assert len(manifest["ring0"]["chunks"]) == 68
     publish = json.loads((apron.REPO_ROOT / "tooling" / "province-artefact" / "set.json").read_text())
-    assert "apron/**/*.png" in publish["patterns"], "the apron PNGs are not in the province publish set"
+    assert publish["groups"]["apron"] == ["apron/**/*.png"], "the apron PNGs are not their own group in the province publish set"

@@ -9392,17 +9392,17 @@
 {"id":"bmv:landscape/rocks/marocks/ma_rock30","pool":"bmv","path":"meshes/landscape/rocks/marocks/ma_rock30.nif","category":"rock","confidence":0.8}
 {"id":"bmv:landscape/rocks/marocks/ma_rock31","pool":"bmv","path":"meshes/landscape/rocks/marocks/ma_rock31.nif","category":"rock","confidence":0.8}
 {"id":"bmv:landscape/rocks/marocks/ma_rock_lava","pool":"bmv","path":"meshes/landscape/rocks/marocks/ma_rock_lava.nif","category":"rock","confidence":0.8}
-{"id": "bmv:landscape/rocks/mossrockcliff_02", "pool": "bmv", "path": "meshes/landscape/rocks/mossrockcliff_02.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockcliff01", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockcliff01.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockcliff03", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockcliff03.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockcliff04", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockcliff04.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockcliff05", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockcliff05.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockcliff06", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockcliff06.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockcliff07", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockcliff07.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockl05", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockl05.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockm01", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockm01.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockpiles02", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockpiles02.nif", "category": "rock", "confidence": 0.8}
-{"id": "bmv:landscape/rocks/moss_rockpiles04", "pool": "bmv", "path": "meshes/landscape/rocks/moss_rockpiles04.nif", "category": "rock", "confidence": 0.8}
+{"id":"bmv:landscape/rocks/mossrockcliff_02","pool":"bmv","path":"meshes/landscape/rocks/mossrockcliff_02.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockcliff01","pool":"bmv","path":"meshes/landscape/rocks/moss_rockcliff01.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockcliff03","pool":"bmv","path":"meshes/landscape/rocks/moss_rockcliff03.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockcliff04","pool":"bmv","path":"meshes/landscape/rocks/moss_rockcliff04.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockcliff05","pool":"bmv","path":"meshes/landscape/rocks/moss_rockcliff05.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockcliff06","pool":"bmv","path":"meshes/landscape/rocks/moss_rockcliff06.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockcliff07","pool":"bmv","path":"meshes/landscape/rocks/moss_rockcliff07.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockl05","pool":"bmv","path":"meshes/landscape/rocks/moss_rockl05.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockm01","pool":"bmv","path":"meshes/landscape/rocks/moss_rockm01.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockpiles02","pool":"bmv","path":"meshes/landscape/rocks/moss_rockpiles02.nif","category":"rock","confidence":0.8}
+{"id":"bmv:landscape/rocks/moss_rockpiles04","pool":"bmv","path":"meshes/landscape/rocks/moss_rockpiles04.nif","category":"rock","confidence":0.8}
 {"id":"bmv:landscape/rocks/pineclustertall","pool":"bmv","path":"meshes/landscape/rocks/pineclustertall.nif","category":"rock","confidence":0.8}
 {"id":"bmv:landscape/rocks/rm_rocks/rm_mountaincliff01","pool":"bmv","path":"meshes/landscape/rocks/rm_rocks/rm_mountaincliff01.nif","category":"rock","confidence":0.8}
 {"id":"bmv:landscape/rocks/rm_rocks/rm_mountaincliff02","pool":"bmv","path":"meshes/landscape/rocks/rm_rocks/rm_mountaincliff02.nif","category":"rock","confidence":0.8}

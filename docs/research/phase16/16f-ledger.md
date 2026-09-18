@@ -127,36 +127,67 @@ cover 19) while adding variety. "After" rows land with the ring rebuild.
   by it. The tint raster was RGB (alpha read as 1 = the whole province
   littered): now carved RGBA with alpha 0, guarded by a test.
 
-## 5. Underwater (deliverable 8)
+## 5. Underwater and the sea bed (deliverable 8; re-cut 2026-09-18)
 
-Depths of Skyrim's own pieces carry mined contact (seaweed trees 8–70 m
-deep at scale 0.15–1.15; corals in a 2.3–5.5 m band); every wreck hull is
-single-digit n; Underwater Treasure places no flora, only loot. Skyrim's
-underwater grasses are GRAS records painted by texture, so bed cover is the
-ring's (SILT, SEABED_SAND, OCEAN_FLOOR bound with a 4 m depth cap). Shell
-beds exist in vanilla (`clam01`, `clamlarge01`, `clamthin01`). Kit/palette
-defects fixed: `tbp_seaweed06var1` used but not in the kit. No wreck piece
-has a connector template anywhere in the mined worldspaces, so `wrecks-v1`
-is a piece list, not an assembly kit (19 statics, 30.2 MB; the `_c` hull
-variants are shader-stripped twins and are left out; intact hulls are not
-wrecks and are left out). Six Depths hulls reference textures the mod does
-not ship (`atmoranshipwood01/02`, `atmshipshields`, `breticshipside01_n`):
-the owner eyeballs those six before 16g plots a wreck on them; the six
-vanilla wrecks carry the kit if they read grey. The underwater kit grew 23
-→ 33 assets; 23 province-wide band layers (kelp forest, seaweed, deep kelp
-trees, corals, algae mats, driftwood, shell beds, sunken debris), each gated
-by water kind, season, signed depth and bed cover; the old region-gated
-aquatic layers are gone. Before, on the shipped bundles: 487 of 5,795
-aquatic instances stood in under 0.3 m of water (the old region gates).
-Breadth: 21 of 23 scatter-eligible underwater assets used (91 %).
+The owner's walk: the sea bed is bare nearly everywhere. Where it is not, it
+reads as "large flat horizontal 2D squares jumbled on top of each other".
+Measured, those squares are Depths of Skyrim's three corals: 16.8 x 17.9 x
+3.6 m, 11.2 x 10.9 x 3.2 and 5.4 x 5.3 x 2.7 on 144/94/64 triangles, with
+46–72 % of their triangle area within 15 degrees of horizontal. Card fans.
+All three are out of the kit and out of every layer.
+
+The band's figures used to be quoted from an ad-hoc mine nobody committed.
+The mine is now a file: `world/sources/placement/depths-underwater-placement.json`
+(4,693 refs, DepthsOfSkyrim.esp + Underwater_Treasure.esp, Tamriel, 17 s).
+Every Depths species' band quotes it or says it has no mined row.
+
+Kit `underwater-v1`: 33 → 79 assets. Added: Jokerine's `coral` and
+`coral_spiky` (the sole genuine 3D corals for Skyrim SE), starfish, sponge, conch, sand
+dollar, six scallops, a large clam; Shores of Skyrim's eleven usable shore
+rocks and three shells; the nine vanilla `wetrocks` no layer had ever used;
+`nordicbarnaclecluster01`; the three vanilla coast driftwoods; three bones;
+barrel, basket, bucket; BM&V's two pebble mats. The three sirenroot walkable
+floors STAY (Lilmoth's drowned quarter places them by hand).
+
+Eleven new province-wide bands, `ocean` only: pebbles, shells, barnacles,
+reef, starfish, sponges, sunken driftwood, bones, lost cargo, a rowboat and
+algae, plus three sea-bed rock bands (small 14/ha, medium 3/ha, large
+0.8/ha) that reach 45 m down, where the old wet band stopped at 2.5 m. All of
+them ride a shoreline ramp on the sampler's `coast_factor`: 1.0 within 150 m
+of the coast, 0.4 at 500 m, 0.2 beyond. Lagoons and tidal reaches are
+excluded: "sea" is the record's word `ocean` (decision 0065). The ring's three bed
+covers had a 4 m depth cap, so anything deeper carried no cover at all; it is
+now 25 m.
+
+Sea urchins and anemones exist in NO Skyrim SE asset, in the vault or on
+Nexus: 29 index queries found zero. That is a hard gap, recorded, not
+substituted. Coral is Jokerine's two meshes for the same reason: no
+coral-reef static mod exists for SSE at all.
+
+Earlier in the deliverable, still true: no wreck piece has a connector
+template in any mined worldspace, so `wrecks-v1` is a piece list, not an
+assembly kit (19 statics, 30.2 MB). Six Depths hulls reference textures the
+mod does not ship; the owner eyeballs those six before 16g plots a wreck.
 
 ## 6. Roads (deliverable 5)
 
 Registry census: 8 major roads, no `conditionSections`; worn 4, decayed 1,
-broken 3, maintained 0. Synthetic bake: non-road share of the surface
-maintained 0.00, worn 0.00, decayed 0.54, broken 0.87 (monotonic); T3 keep
-by condition 0.08 / 0.25 / 0.60 / 1.00. Shipped map before: worn 0.094,
-decayed 0.048, broken 0.046 (no condition paint; noise).
+broken 3, maintained 0. T3 keep by condition 0.08 / 0.25 / 0.60 / 1.00.
+
+Rule, rewritten 2026-09-18 after the owner walk found decayed and broken
+roads invisible: condition moves the material MIX, the cleared width and the
+fine gaps. It never deletes the surface. The old rule erased the road class
+over ~120 m stretches of the `wear` field, which left 82% of a broken road
+with no road texel at all. Synthetic bake, road-class share of the paintable
+centreline over seeds 1-3 (worldgen/test_landcover.py): maintained 1.00,
+worn 1.00, decayed 0.93, broken 0.82; longest hole 0.0 / 0.0 / 3.7 / 7.3 m
+against a 12 m cap; BC_ROAD share falls monotonically with condition. Gaps
+are a 2.5 m noise field at 5% (decayed) and 16% (broken). Width factors are
+now 1.0 / 0.85 / 0.7 / 0.5, so a broken road still clears trees off half its
+width. TRACK's texture moved to Tropical Skyrim's dirt road (mean luminance
+71.5 against the lowland covers' 50-58, where the old mud sat at 54.5).
+PATH and TRACK now carry sparse grass. Shipped-raster shares are re-measured
+after the chain run.
 
 ## 7. Water dressing (deliverables 14 and 15)
 
@@ -177,7 +208,7 @@ GPU, the owner's machine reports it):
 | ground-cover ring | whole ring regenerated every 16 m (396,033 candidate cells) | per-tile cache; only new tiles generated |
 | tree neighbourhood rebuild | ~81,000 `Matrix4` allocations per rebuild | zero; one scratch matrix |
 | frustum culling | one bounding sphere per species over 2.3 km; never rejects | quarters around the focus; ~115 → ~143 draws (jungle, 2.3 parts) |
-| shadows | levels 0–1 cast, alpha-tested, both cascades | level 0 only, within 120 m |
+| shadows | levels 0–1 cast, alpha-tested, both cascades | level 0 only, within 60 m (120 m on 2026-09-16, halved the next morning) |
 | rebuild trigger | `setState` re-fired every frame until commit | once per crossing |
 | collider ring | bodies keyed on y, recreated on 1 cm shifts | keyed on (species, x, z); moved in place |
 | nearest-solid selection | full sort per rebuild | min-heap, popped to the budget |
@@ -319,3 +350,58 @@ time, so this needs one `terrain-chain.sh --from compile_scatter` run (57 s
 over 256 chunks, nothing above it) and a raster publish. The recipe hash
 carries the code change, so that run re-scatters the whole province by
 itself.
+
+## 14. Sea versus inland water (audit, 2026-09-18)
+
+The owner's rule holds in the record. The graph has one `ocean` body. The 20
+lagoons keep their kind up to 2.5 km inland. Vegetation, land cover,
+rock, groundcover and water dressing all read the kind through the entity id.
+Three residual reads are fixed here. `landcover.py:429` no longer accepts the
+class raster's coast/estuary as salt, so only `SALT_KINDS` decides a salty
+shore. `site_fields.py:493` splits the area census by the record's own kinds
+(`ocean_grid`, `lake_grid`) instead of region classes 0 and 12; open sea reads
+16.86 km² against the ocean entity's 17.42 km². The `hydrograph-bodies` overlay
+is repainted from the compiled record by `worldgen/paint_hydrograph_bodies.py`:
+lagoon falls from 75.0 ha to 7.9 ha and swamp rises from 73.6 ha to 176.0 ha,
+both now within 3 % of the id raster. `derive` still carries 16a's painter above
+the freeze gate; this script is what refreshes the layer below it. The compiled
+`ocean` label over-reaches the sea by 56 ha of tidal creek
+(`compile_water.py:1565`, 16c, above the gate) — queued in
+`docs/phases/P-polish/backlog.md`.
+
+## 15. Round 2 (owner feedback of 2026-09-17, delivered 2026-09-18; decision 0071)
+
+Every item of the owner's list, with the measured cause and what shipped.
+Renderer numbers are the local probe at the jungle site
+(`probe-local-16f.mjs`, `x=4.02&z=4.61`), which counts instances and
+triangles but cannot measure frame time; the owner's machine does.
+
+| Owner item | Measured cause | Shipped |
+|---|---|---|
+| Rocks sway | every non-card material took the wind hook; a rock has no trunk capsule so it swayed at the full amplitude tuned for palms | wind by category: rocks, deadfall, containers, ruins, architecture and clutter carry stiffness 0 and no hook (66 species) |
+| Standing on a rock floats you; invisible walls | the collider was the bounding box shrunk 12 %: a flat lid 0.19–0.68 m above the domed stone on the boulders people climb (3.9 m on a cliff shell), 8–26 % of every footprint solid air | rocks collide as a Rapier trimesh of their own LOD0 triangles, scaled per instance (`floraSolids.trimeshFromGeometry`); the box is the fallback with no geometry |
+| Hollow backs on slopes | the open back was turned to `downhill + 2β` (only uphill for β = 90/270: rockcliff02 −26.7°, rockcliff04 +16.3° medians), yaw jitter ±22.9°; the sink was one number under the pivot while the downhill footprint edge stood up to 1.4 m (p90) above the ground; rockcliff05 never placed (slope band 28–20°) | yaw = downhill + 180° − β, jitter ±8°; the base plane is sampled at 8 points on the footprint and the sink raised by any exposure + 0.25 m (cap 0.6 × height); the open-bottom cap applies to freestanding boulders only; rockcliff05 places (448 instances) |
+| Holes in rocks at distance | decimation multiplied boundary edges 5–10× on the open shells (rockcliff03 level 2: 354 open edges on 336 triangles), shown from 25 m out | rocks ship one mesh level (`lodRatiosByCategory {"rock": []}`) |
+| Plants in straight rows | a fixed 0.42–0.55 m jitter on a per-species lattice whose cell is 2–4 m for any rule under ~7,000 /ha | full-cell stratified jitter; folded-bearing peak on the worst species 2.05 → 1.35 (a lattice scores > 2); `test_no_species_stands_in_rows` |
+| Quality drops in one jump | levels switched at the 48 m rebuild, no transition | dithered crossfade between adjacent levels and a fade-out at the draw distance (`lodFade.ts`), rebuild every 16 m, both copies inside a 21 m overlap; a fully faded copy collapses to zero-area triangles |
+| Ground cover vanishes at a line; wants bands for everything | one full-mesh ring to 65/75 m, then nothing; 61 species with no card | mesh to 0.4 r, camera-facing card to r, sparser card to 110/145/165 m by preset; cards baked for all 78 ring species and the 74 flora species without one |
+| Grass looks 2D up close | the asset: 34 of 61 ring species were crossed cards of ≤ 12 triangles | 16 true-3D species sourced (DrJacopo, Hoddminir, vanilla `plants/`) at 40 % of every lush cover's density, totals unchanged; the 3.3 m size ceiling holds |
+| Billboard mismatches | no card mapped by a wrong filename; 11 explicit borrows (three willows wear weeping-jungle silhouettes, the two composites a date palm); 115 flora species had NO card | baked cards replace nothing authored; the 74 uncarded species now carry their own silhouette |
+| Occlusion culling and a far tier "now" | queued in the backlog | terrain-horizon test per 32 m cell at each rebuild (1,554 instances culled at the jungle site); the far ring above |
+| Frame rate worse | two layers came back into the frame on 2026-09-17 that had drawn nothing before: the ground ring (0 instances since 2026-09-13, a premultiplied-alpha decode) and the water surface (its shader had failed to compile); plus the ring rebuilt 59 meshes every 16 m and re-derived every settlement's rubble province-wide | persistent instanced meshes (a crossing generates 8 of 298 tiles, recreates 0 meshes), rubble prefiltered by distance, the HUD split so the scene tree stops re-rendering at 7 Hz, the card tiers (ring 2.80 M → 0.80 M triangles at 3× the instances), the collapsed faded copies, submerged species drawn to 120 m |
+| Broken and decayed roads invisible | the bake erased 82 % of a broken road's surface over 120 m stretches; the track texture had the ground's luminance (ΔL 3–5); broken roads had no corridor at all | the surface always stays: cobbles → dirt → track with 2.5 m potholes (5 % decayed, 16 % broken); TRACK is Tropical Skyrim's road01 (L 71.5, ΔL +14 to +22 against the ground); widths 1.0/0.85/0.7/0.5; sparse grass on PATH and TRACK |
+| HUD "vis" | — | removed |
+| Flat squares on the sea bed | Depths of Skyrim's `tbp_coralbig/medium/small01`: 16.8/11.2/5.4 m card fans, 46–72 % of their area horizontal, clumped at 5 m | removed from the kit and every palette; 547 instances gone |
+| Sea-bed cover nearly everywhere, densest near shore | under `ocean` only kelp, seaweed, cover-gated corals and clams; no pebbles, no debris, ring bed cover capped at 4 m, wet rocks stopped at 2.5 m | 11 sea-bed bands + 3 rock bands, `ocean` only, a 0.2-base coastline ramp (1.0 at the shore, 0.4 at 500 m); the ring's bed covers run to 25 m; Jokerine's two 3D corals, sponge, starfish, shells; Shores of Skyrim stones and shells; nine unused vanilla wet rocks, barnacle clusters, driftwood, bones, containers; the mine of Depths and Underwater Treasure committed (`depths-underwater-placement.json`, 4,693 refs) |
+| Coral reefs? | the only corals were the card fans; no coral-reef static mod exists for Skyrim SE; sea urchins and anemones exist nowhere (a hard gap) | Jokerine's `coral` and `coral_spiky` in clumped reef patches within 600 m of the shore, 2–12 m deep: 2,915 pieces; the densest 150 m cells are `x=4.72&z=5.77`, `x=5.33&z=4.88`, `x=5.62&z=2.32`, `x=5.17&z=4.58`, `x=5.62&z=4.27` |
+| Depth floor over-stated by the box | `pivotAboveBaseM == originOffsetM[2]` on all 33 assets (one quantity, two names); `waterkelptall03` alone sits 0.71 m higher than its twins | floor = (sizeM[2] − pivotAboveBaseM) × max scale; tall02 5.06 m vs tall03 4.14 m |
+| "The water record classes inland water as sea" | false of the graph (one ocean body; 20 lagoons up to 2.5 km inland keep their kind); the compiled `ocean` label over-reaches by 56 ha of tidal creek (16c, above the gate, backlog row); two raster-derived salt reads below the gate; the map painted 74.9 ha of lagoon against 8.5 | §14: reads fixed; the map's bodies layer painted from the record (lagoon 7.9 ha, swamp 176 ha) |
+| `province:publish` slow | one 122 MB archive re-uploaded for any change | five per-group assets; only changed groups upload |
+
+Chain: `terrain-chain.sh --from rebake_landcover`, 142 s (rebake 37 s,
+apron, scatter 66 s over 256 chunks), then a second `--from compile_scatter`
+after the sea-bed gates were corrected (the coast field is signed, − at sea;
+the first run's starfish, driftwood and coral gates read the land side).
+Second-run census (680,062 instances): coral 2,915, starfish 885, barnacle clusters 635, driftwood 243, sponges 1,034, pebble mats 7,031, shells 3,304, shore stones 550, wet rocks 1,485; rockcliff05 448. Kits: flora 159 assets (54.4 MB, 74 baked cards), ground cover 78 (11.4 MB,
+78 cards), underwater 79 (27.0 MB). Docs: decision 0071; playbook §2 row;
+backlog rows struck; Phase 14's billboard row closed.

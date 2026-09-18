@@ -3,8 +3,11 @@ import struct
 
 import pytest
 
+from pathlib import Path
+
 from .build_kit import (
-    DirSource, RarSource, _default_collision, _flat_lod_of, _part_specs,
+    CARD_ATLAS_MAX_PX, DirSource, RarSource, _default_collision, _flat_lod_of,
+    _part_specs, card_resolution_px, pack_card_tiles, resolve_lod_ratios,
     set_alpha_modes,
 )
 
@@ -149,3 +152,74 @@ def test_a_composite_entry_resolves_to_its_source_parts():
 def test_an_empty_composite_is_a_config_error_not_an_empty_tree():
     with pytest.raises(ValueError):
         _part_specs({"asset": "composite:x", "compose": {"parts": []}})
+
+
+# --- derived far-tier cards ---------------------------------------------------
+
+
+def test_card_resolution_class_by_height():
+    assert card_resolution_px(0.4) == 128     # ground cover
+    assert card_resolution_px(1.49) == 128
+    assert card_resolution_px(1.5) == 256     # shrub / small tree
+    assert card_resolution_px(7.99) == 256
+    assert card_resolution_px(8.0) == 512     # canopy tree
+    assert card_resolution_px(31.0) == 512
+    assert card_resolution_px(0.4, [64, 128, 256]) == 64
+    assert card_resolution_px(30.0, [64, 128, 256]) == 256
+
+
+def test_atlas_packing_arithmetic():
+    # 512 px tiles: 4 x 4 = 16 per 2048 atlas.
+    tiles, sizes = pack_card_tiles(17, 512)
+    assert len(tiles) == 17
+    assert sizes == [(2048, 2048), (512, 512)]
+    assert tiles[0] == (0, [0.0, 0.75, 0.25, 1.0])     # top-left tile
+    assert tiles[3] == (0, [0.75, 0.75, 1.0, 1.0])     # top-right
+    assert tiles[4] == (0, [0.0, 0.5, 0.25, 0.75])     # second row
+    assert tiles[15] == (0, [0.75, 0.0, 1.0, 0.25])    # bottom-right
+    assert tiles[16] == (1, [0.0, 0.0, 1.0, 1.0])      # alone on atlas 1
+
+    # 128 px tiles: 16 x 16 = 256 per atlas; 8 x 8 = 64 at 256 px.
+    assert pack_card_tiles(257, 128)[1] == [(2048, 2048), (128, 128)]
+    assert pack_card_tiles(65, 256)[1] == [(2048, 2048), (256, 256)]
+
+    # A part-filled atlas is trimmed to the rows and columns it uses.
+    tiles, sizes = pack_card_tiles(6, 512)
+    assert sizes == [(2048, 1024)]
+    assert tiles[0] == (0, [0.0, 0.5, 0.25, 1.0])
+    assert tiles[5] == (0, [0.25, 0.0, 0.5, 0.5])
+    assert pack_card_tiles(2, 512)[1] == [(1024, 512)]
+    assert pack_card_tiles(0, 512) == ([], [])
+
+    # Every rect is inside the atlas and no two of a class overlap.
+    tiles, sizes = pack_card_tiles(40, 256, CARD_ATLAS_MAX_PX)
+    seen = set()
+    for atlas, rect in tiles:
+        assert all(0.0 <= c <= 1.0 for c in rect)
+        assert rect[0] < rect[2] and rect[1] < rect[3]
+        assert (atlas, tuple(rect)) not in seen
+        seen.add((atlas, tuple(rect)))
+
+
+def test_card_packing_rule_is_identical_in_the_blender_half():
+    # The Blender process cannot import this package, so the two pure
+    # functions are duplicated there. Drift would mean cards whose UV rect
+    # does not match the atlas they were blitted into.
+    import re
+    here = Path(__file__).resolve().parent
+    pattern = re.compile(
+        r"\ndef card_resolution_px.*?\n    return tiles, sizes\n", re.S)
+    host = pattern.search((here / "build_kit.py").read_text())
+    blender = pattern.search((here / "blender" / "build_kit.py").read_text())
+    assert host and blender
+    assert host.group(0) == blender.group(0)
+
+
+def test_lod_ratios_resolve_entry_then_category_then_kit():
+    kit = {"lodRatios": [0.35, 0.12], "lodRatiosByCategory": {"rock": []}}
+    assert resolve_lod_ratios({}, kit, "tree") == [0.35, 0.12]
+    # Decimation multiplies boundary edges on open-shell cliff meshes, so
+    # rocks ship LOD0 only.
+    assert resolve_lod_ratios({}, kit, "rock") == []
+    assert resolve_lod_ratios({"lodRatios": [0.5]}, kit, "rock") == [0.5]
+    assert resolve_lod_ratios({}, {}, "rock") == [0.35, 0.12]

@@ -646,6 +646,34 @@ buildings, no wrecks in place.
   and salt-marsh dressing at the one; a gallery of waterline trees along
   the other.
 
+## Owner check, round 2 (2026-09-18; decision 0071, ledger §15)
+
+Everything below is drawn by the kits and bundles published on 2026-09-18.
+`?view=character&…` unless said otherwise.
+
+- Rocks: `x=2.54&z=1.20` (the cliff piece you named), `x=0.84&z=5.14`
+  (Rockpark): stand on a boulder — feet on the stone, not a foot of air;
+  walk round it — no invisible wall; watch it in wind — no sway; back away
+  to 40 m — no holes; the cliff pieces sit into the slope.
+- Quality bands: at the jungle `x=4.02&z=4.61` walk 150 m in one line and
+  watch one tree and one patch of ground cover: they dissolve between
+  levels instead of jumping; the ground cover thins into cards and holds
+  to ~145 m instead of ending at a line.
+- Grass up close: jungle floor, floodplain `x=3.01&z=2.45`, rootland
+  `x=2.84&z=3.02`: ferns, nettles and tussocks read as 3D from a stride
+  away; the crossed-card grasses are still there but no longer alone.
+- Rows: `x=2.21&z=1.11` and `x=3.04&z=6.46`: no straight lines of plants.
+- Roads: broken Archon–Gideon `x=3.60&z=3.58` and `x=4.77&z=3.55`; decayed
+  Gideon–Stormhold `x=1.97&z=2.08`: a visible dirt or track surface with
+  cobbled remnants and potholes, grass creeping over the edges; check it once from the
+  air and once at ground level.
+- Sea bed: `x=3.05&z=6.65` (the flat squares are gone); swim out from the
+  beach `x=6.12&z=1.638` and along the shore: pebbles, shells, stones,
+  sponges, starfish and rocks on the floor, kelp and seaweed as before,
+  thinning as you go further out; reefs at the sites ledger §15 lists.
+- Frame rate at the jungle and at the lowland river `x=1.85&z=4.89`: low,
+  medium or high, one word each.
+
 ## Gotchas
 
 - Do not retune the density ladder (0048); the jungle's stem count is the

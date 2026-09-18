@@ -22,26 +22,87 @@ the instanced range) is not. Wind **is** shipped. `applyWindSway`
 weather sample. It chains `onBeforeCompile` rather than replacing it, so CSM
 can still install its own hook afterwards.
 
+### Four mechanisms in the baked scatter (16g)
+
+- **LOD is crossfaded, not switched.** Within 21 m of a ring an instance is
+  drawn into BOTH levels (`lodEmissions`), each with a fade band, and the
+  shader (`packages/game-core/src/fx/lodFade.ts`) discards fragments against a
+  4x4 Bayer threshold with complementary smoothsteps — so exactly one copy
+  survives per pixel and the swap becomes a dissolve. The rebuild trigger is
+  16 m, inside the band, because a fade the rebuild never revisits is a pop.
+  Measured at the jungle site: 4,846 -> 5,515 instances (+13.8%).
+- **Nothing that is not a plant sways.** `KitSpecies.sways` is false for the
+  manifest categories `rock`, `deadfall`, `container`, `misc`, `ruin`,
+  `architecture` and `clutter` (66 species). Their materials are never
+  wind-patched AND their `esWindTune.x` is −1 (stiffness 0), because a rock
+  can share a material with a plant.
+- **Terrain occlusion.** One ray per 32 m cell from the camera against the
+  streamed ground (`packages/game-core/src/render/terrainOcclusion.ts`); the
+  cell's target is its canopy top, so a cell is only called hidden when the
+  tallest thing that could stand in it is hidden too. Only past 120 m, and
+  unknown ground never occludes. Reported as `occluded` in the stats.
+- **Rocks collide as their own triangles.** A `convex` species gets ONE Rapier
+  trimesh built from its LOD0 geometry, not the manifest box: a box around a
+  30 m cliff walls off the ledge it exists to offer. `Vegetation` builds the
+  shape map (only it holds the kit) and publishes it to `VegetationColliders`
+  through `shapesRef`.
+
 ### The ring's numbers
 
-Radius and instance cap are quality presets, not constants
-(`packages/game-core/src/core/quality.ts`): **50 / 65 / 75 m** and **30k / 45k
-/ 60k instances** for low / medium / high. Over budget, every species is
-thinned by the same factor and the factor is reported as `densityScale`. Tiles
-are 16 m and world-aligned, so placement does not depend on the direction of
-approach.
+Radii and the instance cap are quality presets, not constants
+(`packages/game-core/src/core/quality.ts`): a MID radius of **50 / 65 / 75 m**,
+a FAR radius of **110 / 145 / 165 m**, and **30k / 45k / 60k instances** for
+low / medium / high. Over budget, every species is thinned by the same factor
+and the factor is reported as `densityScale`. Tiles are 16 m and world-aligned,
+so placement does not depend on the direction of approach.
 
-### Six mechanisms in the ring (16f)
+### Three quality tiers per species
+
+`r` is the preset's MID radius. Every placed thing steps DOWN through the
+tiers; nothing the ring places winks out.
+
+| Tier | Geometry | Density | Range | `esLodBand` (dIn, dOut, wIn, wOut) |
+|---|---|---|---|---|
+| NEAR | full mesh, kit level 0 | authored | 0 – `0.4 r` | (0, `0.4 r`, 0, 4) |
+| MID | baked card, view A | authored | `0.4 r` – `r` | (`0.4 r`, `r`, 4, 6) |
+| FAR | baked card, view A | 35 % | `r` – far radius | (`r`, far, 6, 10) |
+
+A species under 0.6 m tall ends its FAR tier at `1.6 r` rather than the
+preset's far radius (which is `2.2 r`): a 30 cm tuft at 150 m is a pixel that
+still costs a vertex. Every boundary is a dissolve, not a switch — the same
+dithered crossfade the baked scatter uses
+(`packages/game-core/src/fx/lodFade.ts`), fed by an `esLodBand` instanced
+attribute per mesh, with `esLodViewPos` written each frame from the camera.
+The FAR band fades to nothing at its outer radius.
+
+The card is one quad, so it must face the viewer or it is edge-on half the
+time. That rotation is in the vertex shader
+(`packages/game-core/src/fx/billboardQuad.ts`,
+`applyCylindricalBillboard`): cylindrical — about the instance's own Y axis
+only, so grass stays rooted and foreshortens from above — and it ignores the
+instance's scatter yaw entirely. Rotating on the CPU would mean rewriting every
+instance matrix every frame, which is the whole cost the card tier exists to
+avoid. Cards do not sway: at that distance the motion is sub-pixel and it would
+fight the billboard.
+
+**Until the kit ships cards, every tier draws level 0.** The card is looked up
+once per species from the GLB (`buildCardIndex`: a billboard-level mesh whose
+`userData.cardView` is `"a"`); a species with none falls back to its full mesh
+at every tier — correct, just not yet cheap. `__STUDIO_GROUNDCOVER_DEBUG__`
+reports `cards: false` while that is the case, with `byTier` and
+`tilesGenerated` beside it.
+
+### Seven mechanisms in the ring (16f)
 
 - **Per-tile cache.** Generation is pure per tile and cannot see the focus,
   so crossing a tile boundary generates the row that entered and evicts the
   row that left; the rest is refilled from the cache. Any input to the
   generation (a raster arriving late, a new patch list) clears the cache.
-- **Fade is a band per species.** Each rule carries `fadeM`: under 0.6 m tall
-  means full density to 30 m, with nothing left by 50 m; taller species hold to
-  55 m and run to the ring radius. Instances are dropped on a stable roll, so
-  a species thins out of the *same* plants each frame instead of shimmering.
-  Over the last 15 % of each species' own band the scale runs to zero.
+- **Three quality tiers per species** (the table above) rather than one radius
+  and a cliff. The FAR tier's 35 % thin is a stable roll (`farKeep`), so a
+  species thins out of the *same* plants each frame instead of shimmering —
+  and it is the *same subset* a far-band tile generates when it is thinned up
+  front, so an instance neither appears nor vanishes as its tile changes band.
 - **A clump field.** A value-noise field per species, on the table's 12 m
   `clumpWavelengthM`, scales acceptance by `0.35 + 1.3 × clump`. Its mean is
   1, so the authored density survives while the two or three species sharing
@@ -58,6 +119,20 @@ approach.
   now too. Tens of thousands of alpha-tested double-sided cards sampling two
   cascades is the most expensive work in this layer. The shadow it returns on a
   blade of grass covers a pixel or two.
+- **Persistent meshes.** One `InstancedMesh` per (species, tier, quadrant,
+  part) for the component's life. A rebuild writes matrices, colours and bands
+  into the buffers it already has and sets `count`; a mesh only grows (by
+  1.5x) when a rebuild needs more room than it holds, and one this rebuild did
+  not fill draws nothing rather than being destroyed. Destroying and recreating
+  ~59 instanced meshes every 16 m was a GPU buffer reallocation storm for data
+  that mostly had not changed. Twelve slots share one kit geometry through a
+  per-slot view (`slotGeometry`, the same trick `Vegetation.tsx` uses for its
+  blocks), so each gets its own `esLodBand` without duplicating a vertex
+  buffer. Tiles beyond the mid radius are GENERATED thinned (`far: true`) and
+  regenerated in full when they enter the MID band, and the settlement
+  foundation treatments are filtered by a bbox test *before* their 0.65 m
+  rubble lattice is walked — re-deriving every settlement in the province per
+  rebuild, to throw all but one away, was the worst cost of a tile crossing.
 
 Water is three regimes, not two. A rule with `waterRule: "below-at-least"`
 stands in the water down to its own `maxDepthM`: 1.5 m for the marsh species
