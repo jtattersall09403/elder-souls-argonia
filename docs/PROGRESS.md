@@ -48,7 +48,7 @@ open only the plan sections the active phase needs.
 
 | Lane | Status | Evidence / current task |
 |---|---|---|
-| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | todo | [brief](phases/lanes/weapons-lane.md); invoke "deliver the weapons lane, round 0" |
+| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | in progress: round 0 (effects slot + one resolve step, skill inputs, speed table, real weapon data) started 2026-09-18 | [brief](phases/lanes/weapons-lane.md) |
 
 ## Waiting on user
 
