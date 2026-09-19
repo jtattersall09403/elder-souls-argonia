@@ -51,9 +51,11 @@ the lever is the **number of planner turns**, not output size.
    subagent loads CLAUDE.md; its golden rules were rewritten to one
    operative statement each, with the dated owner history left in the
    decisions they cite. No rule was dropped or weakened.
-6. **Measure, don't hope.** Re-run the script after a week of sessions; the
-   cached-input total per session and the shell share are the numbers that
-   should fall.
+6. **Measure, don't hope.** A `SessionStart` hook in the committed
+   `.claude/settings.json` prints one line at every session start: the last
+   ten sessions' average cached input, turns and shell share against the
+   baseline above (111M, 280 turns, 68%). Those numbers should fall; if
+   they climb back, the agent says so in its first update.
 
 ## Not done here
 

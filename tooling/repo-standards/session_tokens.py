@@ -31,6 +31,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--last", type=int, default=10)
     ap.add_argument("--dir", default=PROJ)
+    ap.add_argument("--brief", action="store_true",
+                    help="two lines for the SessionStart hook: recent sessions vs the 0079 baseline")
     a = ap.parse_args()
     files = sorted(glob.glob(os.path.join(a.dir, "*.jsonl")), key=os.path.getmtime)[-a.last:]
     if not files:
@@ -67,6 +69,18 @@ def main():
         out = sum(u.get("output_tokens", 0) for u in usage)
         bill["cache_read"] += cr; bill["cache_create"] += cc; bill["output"] += out
         rows.append((os.path.basename(f)[:8], n, cr / 1e6, cc / 1e6, out / 1e6, models.most_common(1)[0][0] if models else "?"))
+    if a.brief:
+        real = [r for r in rows if r[1] >= 20]
+        if not real:
+            return
+        avg_cached = sum(r[2] for r in real) / len(real)
+        avg_turns = sum(r[1] for r in real) / len(real)
+        shell = 100 * (carried["bash-do"] + carried["bash-explore"]) / (sum(carried.values()) or 1)
+        # baseline: the 25 sessions measured for decision 0079 (2026-09-19)
+        print(f"[token report, decision 0079] last {len(real)} sessions: avg {avg_cached:.0f}M cached input, "
+              f"{avg_turns:.0f} turns, shell {shell:.0f}% of carried context "
+              f"(baseline 111M, 280 turns, 68%). Full report: python3 tooling/repo-standards/session_tokens.py")
+        return
     print(f"{len(files)} sessions   session  turns  cached(M)  new(M)  out(M)  main model")
     for r in rows:
         print(f"                     {r[0]}  {r[1]:5d}  {r[2]:9.1f}  {r[3]:6.1f}  {r[4]:6.2f}  {r[5]}")
