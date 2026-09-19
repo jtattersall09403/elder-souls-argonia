@@ -6,7 +6,7 @@ On `npm run preflight` (or preflight.mjs):
   1. no uncommitted change              -> allow
   2. stamp matches the current diff      -> allow (already reviewed)
   3. stamp younger than FIX_WINDOW min   -> allow (the fix cycle after a review)
-  4. otherwise run a headless Sonnet review of the diff (read-only tools),
+  4. otherwise run a headless Opus (low) review of the diff (read-only tools),
      write .claude/review-findings.md and the stamp, then
        - no findings -> allow, preflight runs
        - findings    -> exit 2: the findings are the refusal message; the
@@ -25,7 +25,7 @@ FINDINGS = os.path.join(ROOT, ".claude", "review-findings.md")
 FIX_WINDOW_MIN = 20
 MAX_DIFF_BYTES = 250_000
 TIMEOUT_S = 540
-MODEL = "sonnet"
+MODEL = "opus"  # low effort via the machine-wide modelSettings; owner 2026-09-19: Opus has headroom, review is judgement
 
 PROMPT = """You are a code reviewer for this repo (read CLAUDE.md's golden rules and
 docs/standards/engineering.md if you need them; both are short). Below is the

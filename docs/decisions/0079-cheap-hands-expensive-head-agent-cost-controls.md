@@ -79,7 +79,9 @@ the lever is the **number of planner turns**, not output size.
    `tooling/repo-standards/review_gate.py` is a `PreToolUse` hook on any
    `preflight` command: no change → allow; stamp matches the diff → allow;
    stamp younger than 20 min → allow (the fix cycle); otherwise it runs
-   `claude -p` on Sonnet with read-only tools over the uncommitted diff
+   `claude -p` on Opus at low effort (owner 2026-09-19: Opus has weekly
+   headroom and review is judgement; tested on Sonnet first) with read-only
+   tools over the uncommitted diff
    (JSON and lockfiles excluded, small new source files included, 250 KB
    cap), writes `.claude/review-findings.md` and a stamp (both gitignored),
    and either lets preflight run (no findings) or refuses it with the
