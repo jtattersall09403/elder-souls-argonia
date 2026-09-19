@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "generatedBy": "worldgen.apply_sitings — do not hand-edit; the blueprint's chosen siting is the source",
+ "generatedBy": "worldgen.apply_sitings — do not hand-edit; each row's `source` names the tool that owns it (a blueprint path here, worldgen.plot_remedies for `plot-remedies`)",
  "overrides": [
   {
    "id": "place.dunmer-north.mazzatun",

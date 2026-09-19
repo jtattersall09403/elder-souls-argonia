@@ -124,12 +124,12 @@
       "underwaterAccess": "argonian-only-depth",
       "localStateVariants": [],
       "position": {
-        "u": 0.34544,
-        "v": 0.66448
+        "u": 0.3447,
+        "v": 0.70315
       },
       "positionM": [
-        2547.1,
-        4899.5
+        2541.6,
+        5184.7
       ],
       "footprintRadiusM": 30.0,
       "footprintSource": "band",
@@ -142,20 +142,20 @@
         {
           "siteId": "site.free.open-water-0702",
           "score": 4.216,
-          "whyLost": "too close to place.naga-kur-deeps.beast-keeper-crocodile"
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.open-water-0711",
           "score": 4.196,
-          "whyLost": "too close to place.mercantile-coast.pilgrim-xanmeer"
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "open water in lake & standing water (danger band 5), 631 m from the nearest route; at the water's edge; won on region, remote, submerged.",
+      "whySiteWon": "open water in lake & standing water (danger band 5), 729 m from the nearest route; at the water's edge; won on culture-clump, region, remote.",
       "plotFacts": {
         "landform": "open-water",
         "regionClass": "lake & standing water",
         "dangerBand": 5,
-        "distanceToRouteM": 631.3,
+        "distanceToRouteM": 729.1,
         "distanceToWaterM": 0.0,
         "water": {
           "entityId": "body.1209-3032",
@@ -164,7 +164,7 @@
           "season": "perennial",
           "distanceM": 0.0
         },
-        "score": 3.619
+        "score": 4.293
       },
       "hostility": {
         "baseline": "hostile",
@@ -2888,47 +2888,47 @@
         "trader"
       ],
       "position": {
-        "u": 0.43914,
-        "v": 0.78272
+        "u": 0.45848,
+        "v": 0.77529
       },
       "positionM": [
-        3238.0,
-        5771.4
+        3380.6,
+        5716.6
       ],
       "footprintRadiusM": 105.0,
       "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1168",
-          "score": 4.557,
-          "whyLost": "lost on score"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-1213",
           "score": 4.347,
+          "whyLost": "too close to place.mercantile-coast.ashroot-village"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1212",
+          "score": 4.223,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1169",
-          "score": 4.333,
+          "siteId": "site.free.any-shallow-marsh-1194",
+          "score": 4.162,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 401 m from the nearest route; its choice #2 landform; won on culture-clump, landform, nearPoint.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 470 m from the nearest route; its choice #2 landform; won on landform, culture-clump, nearPoint.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 400.9,
-        "distanceToWaterM": 38.8,
+        "distanceToRouteM": 470.0,
+        "distanceToWaterM": 29.5,
         "water": {
-          "entityId": "body.1792-3158",
+          "entityId": "body.1841-3139",
           "kind": "swamp",
-          "levelM": 3.55,
+          "levelM": 1.35,
           "season": "perennial",
-          "distanceM": 38.8
+          "distanceM": 29.5
         },
-        "score": 4.694
+        "score": 4.333
       }
     },
     {
@@ -3082,7 +3082,7 @@
       "underwaterAccess": "none",
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "ownerFaction": "faction.deepmire-caretakers",
       "hostility": {
         "baseline": "sanctuary",
@@ -3229,7 +3229,50 @@
           "sourcePath": "why.pressures",
           "factionRef": "faction.umbriel-witness-society"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.28892,
+        "v": 0.6496
+      },
+      "positionM": [
+        2130.3,
+        4789.9
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.flood-high-032",
+          "score": 2.971,
+          "whyLost": "too close to place.naga-kur-deeps.necropolis-nightbound"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0881",
+          "score": 2.338,
+          "whyLost": "too close to place.hist-heartland.treasure-hunters-dead-camp"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0982",
+          "score": 2.336,
+          "whyLost": "too close to route"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 202 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on nearPoint, danger, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 201.6,
+        "distanceToWaterM": 39.9,
+        "water": {
+          "entityId": "reach.1186-2596",
+          "kind": "horizontal-channel",
+          "levelM": 4.71,
+          "season": "perennial",
+          "distanceM": 39.9
+        },
+        "score": 2.006
+      }
     },
     {
       "id": "place.naga-kur-deeps.dive-shaft-natural-deeps",
@@ -9480,31 +9523,47 @@
       "ownerFaction": "faction.naga-kur",
       "localStateVariants": [],
       "position": {
-        "u": 0.1268,
+        "u": 0.14465,
         "v": 0.79983
       },
       "positionM": [
-        934.9,
+        1066.5,
         5897.5
       ],
       "footprintRadiusM": 115.0,
       "footprintSource": "band",
-      "candidatesConsidered": [],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 116 m from the nearest route; at the water's edge; won on danger, parent, landform; placed from the homeless batch at stage 'neighbour-zone'.",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 116.3,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.486-3253",
-          "kind": "swamp",
-          "levelM": 3.2,
-          "season": "perennial",
-          "distanceM": 0.0
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1206",
+          "score": 3.893,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
         },
-        "score": 1.378
+        {
+          "siteId": "site.free.any-shallow-marsh-1226",
+          "score": 3.733,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1225",
+          "score": 3.595,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 196 m from the nearest route; its choice #2 landform; won on culture-clump, landform, region.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 195.7,
+        "distanceToWaterM": 55.9,
+        "water": {
+          "entityId": "body.610-3266",
+          "kind": "swamp",
+          "levelM": 2.12,
+          "season": "perennial",
+          "distanceM": 55.9
+        },
+        "score": 3.578
       },
       "hostility": {
         "baseline": "wary",
@@ -11859,7 +11918,7 @@
       "underwaterAccess": "none",
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "ownerFaction": "faction.cyrodilic-collections",
       "hostility": {
         "baseline": "sanctuary",
@@ -12015,7 +12074,50 @@
         "lodging",
         "shrine",
         "trader"
-      ]
+      ],
+      "position": {
+        "u": 0.48302,
+        "v": 0.71653
+      },
+      "positionM": [
+        3561.5,
+        5283.4
+      ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.tropical-jungle.enclosed-clearing-005",
+          "score": 5.248,
+          "whyLost": "too close to place.mercantile-coast.keshu-grove"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1065",
+          "score": 4.889,
+          "whyLost": "too close to place.mercantile-coast.pilgrim-xanmeer"
+        },
+        {
+          "siteId": "site.free.open-water-0701",
+          "score": 4.79,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 931 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, landform; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 931.1,
+        "distanceToWaterM": 5.5,
+        "water": {
+          "entityId": "body.1949-2893",
+          "kind": "swamp",
+          "levelM": 0.18,
+          "season": "perennial",
+          "distanceM": 5.5
+        },
+        "score": 3.986
+      }
     },
     {
       "id": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "minor-waterways-repair-marker",
-  "naturalSha256": "b76db9cf60a2b4f5bb2a02972741fa77788cad5730b193d31f3666f43b34d928",
-  "publishedSha256": "2cea7ed8df851192897a5bb3660bdb08def1a9e2ce56b17b619ff697c1b19aca",
+  "naturalSha256": "e93df9c12829adaf1881476127db4a069e8c7fea1b7a63189e0162cddfcc5b11",
+  "publishedSha256": "6e7aded1b895afa03f0f3ebd93c3942e67774ecbef4643f73384afb5eb614c72",
   "reason": "explicit water-to-dock berths fitted after the dock-independent solve"
 }

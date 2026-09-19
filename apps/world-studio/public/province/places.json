@@ -11,7 +11,7 @@
     "hist-heartland": "#32823c",
     "naga-kur-deeps": "#6e7d2d"
   },
-  "unsitedCount": 277,
+  "unsitedCount": 260,
   "questGroups": [
     {
       "group": "main",
@@ -23,7 +23,7 @@
       "group": "faction",
       "label": "Chainbreakers",
       "line": "quest.line.chainbreakers",
-      "places": 12
+      "places": 13
     },
     {
       "group": "faction",
@@ -41,7 +41,7 @@
       "group": "faction",
       "label": "Marsh Charter",
       "line": "quest.line.marsh-charter",
-      "places": 5
+      "places": 6
     },
     {
       "group": "faction",
@@ -53,7 +53,7 @@
       "group": "faction",
       "label": "Nisswo",
       "line": "quest.line.nisswo",
-      "places": 5
+      "places": 6
     },
     {
       "group": "faction",
@@ -71,13 +71,13 @@
       "group": "faction",
       "label": "Shadowscales",
       "line": "quest.line.shadowscales",
-      "places": 2
+      "places": 3
     },
     {
       "group": "faction",
       "label": "Sunken Archive",
       "line": "quest.line.sunken-archive",
-      "places": 8
+      "places": 9
     },
     {
       "group": "faction",
@@ -89,7 +89,7 @@
       "group": "faction",
       "label": "Umbriel Witness",
       "line": "quest.line.umbriel-witness",
-      "places": 1
+      "places": 2
     },
     {
       "group": "daedric",
@@ -101,13 +101,13 @@
       "group": "local",
       "label": "local",
       "line": null,
-      "places": 387
+      "places": 400
     },
     {
       "group": "proposed",
       "label": "proposed",
       "line": null,
-      "places": 46
+      "places": 48
     }
   ],
   "places": [
@@ -12016,6 +12016,116 @@
         }
       ],
       "interiorScope": "one interior with 2 entrances"
+    },
+    {
+      "id": "place.dunmer-north.the-slumped-hamlet",
+      "name": "The Slumped Hamlet",
+      "region": "dunmer-north",
+      "class": "ruin",
+      "family": "depopulated",
+      "type": "subsidence-hamlet",
+      "magnitude": "M1",
+      "importanceTier": 4,
+      "dangerTier": "D2",
+      "densityLayer": "fine-tempo",
+      "status": "abandoned",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.73661,
+        "v": 0.10672
+      },
+      "positionM": [
+        5431.4,
+        786.9
+      ],
+      "plotFacts": {
+        "landform": "ford",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 669.8,
+        "distanceToWaterM": 12.3,
+        "water": {
+          "entityId": "body.2953-433",
+          "kind": "pond",
+          "levelM": 226.62,
+          "season": "perennial",
+          "distanceM": 12.3
+        },
+        "score": 3.045
+      },
+      "whySiteWon": "ford in border mountains (danger band 3), 670 m from the nearest route; at the water's edge; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; bound to body.2879-340 within 60 m.",
+      "why": {
+        "founding": "A hamlet built over a limestone void near the rim, The households took four generations to notice the void and one season to leave.",
+        "siteAdvantages": "Good dry ground with a spring, which was the void's doing too. The households made the connection only after the ground gave way.",
+        "occupantsMotive": "No one lives here now; the households moved two hundred metres and rebuilt, the province's standard answer to subsidence.",
+        "pressures": "The old and new hamlets are in sight of each other. The old one is still going down.",
+        "wouldChangeIf": "Would take the new hamlet too if the void runs as the rim's geology suggests."
+      },
+      "hardConstraints": [
+        "visible subsidence",
+        "a rebuilt hamlet in sight of it"
+      ],
+      "reachedVia": [
+        "place.dunmer-north.tear-road-stage",
+        "place.dunmer-north.wolk-market"
+      ],
+      "discovery": "sightline",
+      "valueTier": "tier-1",
+      "purpose": "lore-reveal (mild) + vista-landmark",
+      "hook": "Good ground with a spring on it. The void that fed the spring took six houses down with it.",
+      "stance": "hostile",
+      "interior": "delve · abandoned-plantation · S1 · wet 40%",
+      "purposeDetail": {
+        "primary": "lore-reveal",
+        "impact": "mild",
+        "secondary": [
+          "vista-landmark"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "hostile",
+        "owner": "faction.blackguards",
+        "clearable": true,
+        "respawn": "faction-refills",
+        "flips": []
+      },
+      "interiorDetail": {
+        "kind": "delve",
+        "family": "abandoned-plantation",
+        "sizeBand": "S1",
+        "wetFraction": 0.4,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
+      },
+      "entrance": "sinkhole-lip",
+      "underwaterAccess": "shallow-dive",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "rank-and-file · D2 · few — D2 in the tilted houses"
+        ],
+        "loot": [
+          "hidden-cache · loot-cache · tier-1",
+          "ledger-or-document · lore-fragment · tier-1"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "LD21 · tier-3",
+      "questLinks": [
+        {
+          "code": "LD21",
+          "title": "The Spring That Ate Its Village",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior"
     },
     {
       "id": "place.dunmer-north.the-standing-bid",
@@ -31322,6 +31432,217 @@
       "interiorScope": "one interior"
     },
     {
+      "id": "place.imperial-fringe.glenbridge",
+      "name": "Glenbridge",
+      "region": "imperial-fringe",
+      "class": "settlement",
+      "family": "mixed-settlement",
+      "type": "shrine-town",
+      "magnitude": "M4",
+      "importanceTier": 1,
+      "dangerTier": "D2",
+      "densityLayer": "landmark",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.20042,
+        "v": 0.22496
+      },
+      "positionM": [
+        1477.8,
+        1658.8
+      ],
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 593.1,
+        "distanceToWaterM": 112.5,
+        "water": {
+          "entityId": "reach.836-841",
+          "kind": "sloped-rapid",
+          "levelM": 186.79,
+          "season": "perennial",
+          "distanceM": 112.5
+        },
+        "score": 4.474
+      },
+      "whySiteWon": "firm ground in upland hills (danger band 3), 593 m from the nearest route; its choice #3 landform; won on culture-clump, nearPoint, landform; placed from the homeless batch at stage 'neighbour-zone'.",
+      "why": {
+        "founding": "Pilgrims from all over Tamriel come to hear the Nisswo read a ruined Sithis xanmeer's decay as the god's sermon; a town grew to feed them.",
+        "siteAdvantages": "A bridged glen on the last easy ground before the bog, where the pilgrim road crosses.",
+        "occupantsMotive": "The Nisswo stay because the sermon is not finished until the stone is gone; the innkeepers stay because pilgrims eat.",
+        "pressures": "Foreign pilgrims want the ruin preserved; the Nisswo find that blasphemous. Rectavius is still sealed below. The seal is two centuries older than the Nisswo who tends it.",
+        "wouldChangeIf": "Would empty in a season if the xanmeer finally collapsed."
+      },
+      "hardConstraints": [
+        "a bridged crossing",
+        "within sight of the sermon xanmeer"
+      ],
+      "reachedVia": [
+        "place.imperial-fringe.nine-arch-stage",
+        "route.pilgrim-way-blackwood"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-2",
+      "purpose": "service-hub (major) + social-drama, faction-gateway",
+      "hook": "The pilgrim town has beds, guides and a nightly argument about what the Nisswo actually said on the hill.",
+      "stance": "friendly",
+      "interior": null,
+      "purposeDetail": {
+        "primary": "service-hub",
+        "impact": "major",
+        "secondary": [
+          "social-drama",
+          "faction-gateway"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "friendly",
+        "owner": null,
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": null,
+      "entrance": "gate",
+      "underwaterAccess": "none",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "family · D1 · few — D1 townsfolk and innkeepers",
+          "priest · few — Nisswo of the Turning Path",
+          "rank-and-file · D1 · few — D2 pilgrim-road guards"
+        ],
+        "loot": [
+          "ledger-or-document · lore-fragment · tier-2"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "cart",
+          "guide"
+        ],
+        "destinations": [
+          {
+            "id": "place.imperial-fringe.swampmoth-town",
+            "name": "Swampmoth Town"
+          },
+          {
+            "id": "place.imperial-fringe.the-road-nisswo-house",
+            "name": "Rests-The-Walkers"
+          }
+        ]
+      },
+      "questProvisions": [
+        "quest.provision.canon.glenbridge"
+      ],
+      "tierOwnership": "LF43 · tier-3; LF44 · tier-3; LF45 · tier-3; LF46 · tier-3; LF47 · tier-3; LF48 · tier-3; LF49 · tier-3; LF50 · tier-3; LF51 · tier-3; LF52 · tier-3; NI-line · tier-2",
+      "questLinks": [
+        {
+          "code": "LF43",
+          "title": "The Sermon Overflow",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF44",
+          "title": "Rests-The-Walkers",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF45",
+          "title": "Under the Sermon Xanmeer",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF46",
+          "title": "Dreams In Mud",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF47",
+          "title": "The Bridge Toll of Reeds",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF48",
+          "title": "A Priest for the Second Shrine",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF49",
+          "title": "Whose Water Is Blessed",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF50",
+          "title": "The Pilgrim Who Did Not Arrive",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF51",
+          "title": "Counting the Sermon Road",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF52",
+          "title": "The Gate That Closes the Road",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "NI-line",
+          "title": null,
+          "line": "quest.line.nisswo",
+          "lineName": "Nisswo",
+          "group": "faction",
+          "tier": 2,
+          "role": "line"
+        }
+      ],
+      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+    },
+    {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
       "name": "Sermon Xanmeer",
       "region": "imperial-fringe",
@@ -32326,6 +32647,108 @@
       "interiorScope": null
     },
     {
+      "id": "place.imperial-fringe.lower-onkobra-paddies",
+      "name": "Lower Onkobra Paddies",
+      "region": "imperial-fringe",
+      "class": "works",
+      "family": "cultivation",
+      "type": "paddy-works",
+      "magnitude": "M1",
+      "importanceTier": 4,
+      "dangerTier": "D2",
+      "densityLayer": "fine-tempo",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.24466,
+        "v": 0.35844
+      },
+      "positionM": [
+        1804.0,
+        2643.0
+      ],
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 32.0,
+        "water": {
+          "entityId": "body.982-1465",
+          "kind": "marsh-deep",
+          "levelM": 15.67,
+          "season": "perennial",
+          "distanceM": 32.0
+        },
+        "score": 3.454
+      },
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 39 m from the nearest route; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; bound to river.352-503 within 200 m.",
+      "why": {
+        "founding": "Rice takes the flood that drowns the fringe's other crops. Gideon is fed from these terraces.",
+        "siteAdvantages": "A terraced flood plain with controllable inflow. The flood provides the irrigation. The sluice decides how much each terrace takes.",
+        "occupantsMotive": "The families here own the water rather than the land.",
+        "pressures": "The sluice was Imperial-built and one gate has jammed open since the Oblivion Crisis; the lower terraces are permanently wet.",
+        "wouldChangeIf": "Would be worth twice as much with a working gate."
+      },
+      "hardConstraints": [
+        "terraced flood plain",
+        "a controllable inflow",
+        "must sit inside the Gideon fringe culture zone, not in the marsh interior"
+      ],
+      "reachedVia": [
+        "place.imperial-fringe.onkobra-ferry",
+        "place.imperial-fringe.gideon"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-1",
+      "purpose": "resource-source (mild) + social-drama",
+      "hook": "Gideon's rice comes off these terraces. Disputes over the sluice decide how much each family harvests.",
+      "stance": "neutral",
+      "interior": null,
+      "purposeDetail": {
+        "primary": "resource-source",
+        "impact": "mild",
+        "secondary": [
+          "social-drama"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "neutral",
+        "owner": null,
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": null,
+      "entrance": "none",
+      "underwaterAccess": "surface-swim",
+      "contents": {
+        "creatures": [
+          "territorial-grazer · D1 · few — D1 children driving birds"
+        ],
+        "npcs": [
+          "family · D1 · few — D1 paddy families"
+        ],
+        "loot": []
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "LF19 · tier-3",
+      "questLinks": [
+        {
+          "code": "LF19",
+          "title": "Kwama and Consequence",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": null
+    },
+    {
       "id": "place.imperial-fringe.lowmere-raft-town",
       "name": "Lowmere",
       "region": "imperial-fringe",
@@ -33102,6 +33525,365 @@
       "tierOwnership": null,
       "questLinks": [],
       "interiorScope": "one interior with 2 entrances"
+    },
+    {
+      "id": "place.imperial-fringe.onkobra-clay-pits",
+      "name": "Onkobra Clay Pits",
+      "region": "imperial-fringe",
+      "class": "works",
+      "family": "extraction",
+      "type": "clay-pit-and-kiln",
+      "magnitude": "M1",
+      "importanceTier": 2,
+      "dangerTier": "D1",
+      "densityLayer": "destination",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.2086,
+        "v": 0.3789
+      },
+      "positionM": [
+        1538.1,
+        2793.9
+      ],
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 93.2,
+        "distanceToWaterM": 170.3,
+        "water": {
+          "entityId": "body.777-1621",
+          "kind": "backswamp",
+          "levelM": 53.1,
+          "season": "perennial",
+          "distanceM": 170.3
+        },
+        "score": 2.856
+      },
+      "whySiteWon": "local tie in firm lowland (danger band 2), 93 m from the nearest route; no free 'ravine' site was left in the zone, so plain ground; won on region, hinterland, parent; bound to river.352-503 within 200 m.",
+      "why": {
+        "founding": "Gideon sells red pottery, which means a red clay bank, a water source and a firing floor within a cart of the city.",
+        "siteAdvantages": "A cut meander bank exposes the clay in a two-metre seam; the river takes the waste and brings the fuel.",
+        "occupantsMotive": "Four potting families work it in rotation. The order of the rotation is disputed.",
+        "pressures": "The river is undercutting the seam. The wintertide worm road comes up through a root breach in the same bank, so the waykeepers want the bank undisturbed.",
+        "wouldChangeIf": "Would move fifty metres upstream, as it has three times before."
+      },
+      "hardConstraints": [
+        "exposed clay seam at a river bank",
+        "flat drying ground"
+      ],
+      "reachedVia": [
+        "place.imperial-fringe.cartwrights-cross",
+        "place.imperial-fringe.mile-house-of-the-eagle"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-1",
+      "purpose": "resource-source (mild) + social-drama",
+      "hook": "Gideon's red clay comes out of this bank in a two-metre seam, dug and fired by people who owe the council for the privilege.",
+      "stance": "guarded",
+      "interior": "building · dwelling · S1 · wet 20%",
+      "purposeDetail": {
+        "primary": "resource-source",
+        "impact": "mild",
+        "secondary": [
+          "social-drama"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "guarded",
+        "owner": null,
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "verticalRelationship": "behind"
+      },
+      "entrance": "door",
+      "underwaterAccess": "surface-swim",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "family · D1 · few — D1 potting families",
+          "rank-and-file · few — children on the drying floor"
+        ],
+        "loot": [
+          "workshop-stock · materials · tier-1"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "LF17 · tier-3",
+      "questLinks": [
+        {
+          "code": "LF17",
+          "title": "Clay for the Court",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior"
+    },
+    {
+      "id": "place.imperial-fringe.onkobra-ferry",
+      "name": "Onkobra Ferry",
+      "region": "imperial-fringe",
+      "class": "transit",
+      "family": "landing",
+      "type": "ferry-stage",
+      "magnitude": "M1",
+      "importanceTier": 3,
+      "dangerTier": "D2",
+      "densityLayer": "fine-tempo",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.23761,
+        "v": 0.39006
+      },
+      "positionM": [
+        1752.0,
+        2876.1
+      ],
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 7.8,
+        "distanceToWaterM": 29.5,
+        "water": {
+          "entityId": "body.948-1588",
+          "kind": "marsh-deep",
+          "levelM": 18.0,
+          "season": "perennial",
+          "distanceM": 29.5
+        },
+        "score": 3.814
+      },
+      "whySiteWon": "local tie in firm lowland (danger band 2), 8 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, culture-clump, region; placed from the homeless batch at stage 'neighbour-zone'; bound to river.352-503 within 200 m.",
+      "why": {
+        "founding": "The river below Gideon is too wide to bridge. It still has to be crossed.",
+        "siteAdvantages": "A double bend slows the current to polling speed. Both banks shelve gently.",
+        "occupantsMotive": "The ferry family has held the crossing four generations and treats the rope as property.",
+        "pressures": "The bonded warehouse opposite would rather load direct and cut them out.",
+        "wouldChangeIf": "Would end when a bridge is built, which the council proposes every decade."
+      },
+      "hardConstraints": [
+        "slack water",
+        "shelving banks both sides",
+        "must be on a river reach wide enough to need a punt"
+      ],
+      "reachedVia": [
+        "place.imperial-fringe.fig-market"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-1",
+      "purpose": "service-hub (mild) + navigation-aid",
+      "hook": "The lower river's crossing. There is a punt, a ferryman and a queue.",
+      "stance": "neutral",
+      "interior": null,
+      "purposeDetail": {
+        "primary": "service-hub",
+        "impact": "mild",
+        "secondary": [
+          "navigation-aid"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "neutral",
+        "owner": null,
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": null,
+      "entrance": "none",
+      "underwaterAccess": "surface-swim",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "family · D1 · few — D1 ferry family"
+        ],
+        "loot": []
+      },
+      "travelStation": {
+        "modes": [
+          "boat",
+          "ferry"
+        ],
+        "destinations": [
+          {
+            "id": "place.imperial-fringe.gideon",
+            "name": "Gideon"
+          },
+          {
+            "id": "place.imperial-fringe.slough-point",
+            "name": "Slough Point"
+          },
+          {
+            "id": "place.imperial-fringe.the-eight-steps",
+            "name": "The Eight Steps"
+          },
+          {
+            "id": "place.imperial-fringe.fig-market",
+            "name": "Fig Market"
+          },
+          {
+            "id": "place.imperial-fringe.highwater-hamlet",
+            "name": "Highwater"
+          }
+        ]
+      },
+      "questProvisions": [],
+      "tierOwnership": "LF20 · tier-3",
+      "questLinks": [
+        {
+          "code": "LF20",
+          "title": "The Ferryman's Count",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": null
+    },
+    {
+      "id": "place.imperial-fringe.onkobra-field-station",
+      "name": "Onkobra Field Station",
+      "region": "imperial-fringe",
+      "class": "civic",
+      "family": "learning",
+      "type": "field-station",
+      "magnitude": "M1",
+      "importanceTier": 3,
+      "dangerTier": "D2",
+      "densityLayer": "fine-tempo",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "imperial",
+      "position": {
+        "u": 0.16329,
+        "v": 0.44226
+      },
+      "positionM": [
+        1204.0,
+        3261.0
+      ],
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 52.0,
+        "distanceToWaterM": 17.3,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 17.3
+        },
+        "score": 4.901
+      },
+      "whySiteWon": "local tie in firm lowland (danger band 2), 52 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on route, nearPoint, region; bound to river.352-503 within 200 m.",
+      "why": {
+        "founding": "Cyrodilic Collections needed somewhere to hold specimens between the licensed dig and the boat to Gideon. The licence for the station is pinned to its wall.",
+        "siteAdvantages": "On the Onkobra bank where the current is slow enough to land a boat and the bank high enough that the jars survive the monsoon.",
+        "occupantsMotive": "Two scholars and a local assistant who does the actual collecting; they stay because the licence is site-specific and would take two years to move.",
+        "pressures": "Underfunded and half a year behind on its returns. It sells duplicate specimens to pay for lamp oil. The assistant knows about the sales. The scholars think she does not.",
+        "wouldChangeIf": "Would close within a season if the licence lapsed. The jars would end up in a Gideon tradehouse."
+      },
+      "hardConstraints": [
+        "a landable bank on the Onkobra",
+        "a licence-bearing structure"
+      ],
+      "reachedVia": [
+        "place.imperial-fringe.onkobra-ferry"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-2",
+      "purpose": "lore-reveal (real) + faction-gateway, social-drama",
+      "hook": "Specimens wait here for the boat to Gideon. The licence nailed to the wall does not cover half of what is in the crates.",
+      "stance": "neutral",
+      "interior": "building · civic-hall · S1 · wet 20%",
+      "purposeDetail": {
+        "primary": "lore-reveal",
+        "impact": "real",
+        "secondary": [
+          "faction-gateway",
+          "social-drama"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "neutral",
+        "owner": "faction.cyrodilic-collections",
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "verticalRelationship": "behind"
+      },
+      "entrance": "door",
+      "underwaterAccess": "surface-swim",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "rank-and-file · D1 · few — D1 scholars",
+          "rank-and-file · D1 · few — D1 local collecting assistant",
+          "rank-and-file · D2 · single — D2 river hazards on the approach"
+        ],
+        "loot": [
+          "ledger-or-document · lore-fragment · tier-2",
+          "workshop-stock · materials · tier-2"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [
+        "quest.provision.canon.cyrodilic-collections"
+      ],
+      "tierOwnership": "LF06 · tier-3; SA-line · tier-2",
+      "questLinks": [
+        {
+          "code": "LF06",
+          "title": "Jars Out of Order",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "SA-line",
+          "title": null,
+          "line": "quest.line.sunken-archive",
+          "lineName": "Sunken Archive",
+          "group": "faction",
+          "tier": 2,
+          "role": "line"
+        }
+      ],
+      "interiorScope": "one interior"
     },
     {
       "id": "place.imperial-fringe.onkobra-kwama-mine",
@@ -34951,6 +35733,208 @@
         {
           "code": "LF61",
           "title": "The Village That Counts Strangers",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+    },
+    {
+      "id": "place.imperial-fringe.swampmoth-town",
+      "name": "Swampmoth Town",
+      "region": "imperial-fringe",
+      "class": "settlement",
+      "family": "mixed-settlement",
+      "type": "garrison-town",
+      "magnitude": "M4",
+      "importanceTier": 2,
+      "dangerTier": "D2",
+      "densityLayer": "destination",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.1607,
+        "v": 0.38459
+      },
+      "positionM": [
+        1184.9,
+        2835.8
+      ],
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 298.3,
+        "distanceToWaterM": 110.2,
+        "water": {
+          "entityId": "body.635-1651",
+          "kind": "tarn-upland",
+          "levelM": 72.53,
+          "season": "perennial",
+          "distanceM": 110.2
+        },
+        "score": 3.412
+      },
+      "whySiteWon": "local tie in upland hills (danger band 2), 298 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on culture-clump-yielded, bound, region; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'.",
+      "why": {
+        "founding": "A garrison feeds, drinks and buys, so a town grows below its gate whether or not the garrison is legitimate.",
+        "siteAdvantages": "The apron of firm ground below the fort's wall, inside the arc it can protect.",
+        "occupantsMotive": "The town lives off the toll company. In public it says otherwise.",
+        "pressures": "If the tolls fail, the town starves. It supports the company for that reason.",
+        "wouldChangeIf": "Would survive as a road village at a third the size, which is what it was before."
+      },
+      "hardConstraints": [
+        "below a held fort, within its protective arc"
+      ],
+      "reachedVia": [
+        "place.imperial-fringe.cartwrights-cross",
+        "place.imperial-fringe.mile-house-of-the-eagle"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-2",
+      "purpose": "service-hub (real) + social-drama, faction-gateway",
+      "hook": "The town under the fort's gate. The toll company pays for the well, the watch and the beer.",
+      "stance": "friendly",
+      "interior": null,
+      "purposeDetail": {
+        "primary": "service-hub",
+        "impact": "real",
+        "secondary": [
+          "social-drama",
+          "faction-gateway"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "friendly",
+        "owner": "faction.imperial-legion-remnant",
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": null,
+      "entrance": "gate",
+      "underwaterAccess": "none",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "family · D1 · few — D1 townsfolk",
+          "rank-and-file · D1 · few — D2 off-duty toll hands",
+          "rank-and-file · D1 · few — D2 self-appointed town watch"
+        ],
+        "loot": []
+      },
+      "travelStation": {
+        "modes": [
+          "cart"
+        ],
+        "destinations": [
+          {
+            "id": "place.imperial-fringe.cartwrights-cross",
+            "name": "Cartwright's Cross"
+          },
+          {
+            "id": "place.imperial-fringe.mile-house-of-the-eagle",
+            "name": "Mile House of the Eagle"
+          },
+          {
+            "id": "place.imperial-fringe.glenbridge",
+            "name": "Glenbridge"
+          }
+        ]
+      },
+      "questProvisions": [
+        "quest.provision.canon.fort-swampmoth"
+      ],
+      "tierOwnership": "FG05 · tier-2; LF62 · tier-3; LF63 · tier-3; LF64 · tier-3; LF65 · tier-3; LF66 · tier-3; LF67 · tier-3; LF68 · tier-3; LF69 · tier-3; LF70 · tier-3",
+      "questLinks": [
+        {
+          "code": "FG05",
+          "title": "A Fort Paid Twice",
+          "line": "quest.line.marsh-charter",
+          "lineName": "Marsh Charter",
+          "group": "faction",
+          "tier": 2,
+          "role": "owner"
+        },
+        {
+          "code": "LF62",
+          "title": "Held, But Not By the Empire",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF63",
+          "title": "The Shadow Line",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF64",
+          "title": "Signals for Legions Gone",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF65",
+          "title": "Billeted Without Orders",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF66",
+          "title": "The Smithy's Quiet Contract",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF67",
+          "title": "Bog Iron, Deeper Pools",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF68",
+          "title": "Takes-The-Field",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF69",
+          "title": "The Quarantine That Stayed Shut",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF70",
+          "title": "Xi-Tsei, Counted",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -38102,6 +39086,117 @@
       "interiorScope": "one interior"
     },
     {
+      "id": "place.imperial-fringe.the-marble-field",
+      "name": "The Marble Field",
+      "region": "imperial-fringe",
+      "class": "sacred",
+      "family": "the-dead",
+      "type": "foreign-graveyard",
+      "magnitude": null,
+      "importanceTier": 4,
+      "dangerTier": "D3",
+      "densityLayer": "fine-tempo",
+      "status": "abandoned",
+      "workflow": "plotted",
+      "culture": "imperial",
+      "position": {
+        "u": 0.13487,
+        "v": 0.5137
+      },
+      "positionM": [
+        994.5,
+        3787.8
+      ],
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 465.7,
+        "distanceToWaterM": 363.5,
+        "water": {
+          "entityId": "reach.580-2263",
+          "kind": "sloped-rapid",
+          "levelM": 121.67,
+          "season": "perennial",
+          "distanceM": 363.5
+        },
+        "score": 4.082
+      },
+      "whySiteWon": "local tie in border mountains (danger band 3), 466 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region.",
+      "why": {
+        "founding": "Imperials buried their dead here for two centuries in a province where burial does not work.",
+        "siteAdvantages": "A dry shoulder of the rim above the city, chosen by people who assumed dry ground stays dry.",
+        "occupantsMotive": "The Imperial families left and took the upkeep with them. Argonians will not tend a grave, having other arrangements.",
+        "pressures": "The water table rose. A third of the plots have surfaced. Gideon does not discuss it.",
+        "wouldChangeIf": "Would be cleared if a Gideon contractor would take the work."
+      },
+      "hardConstraints": [
+        "a knoll outside a city wall"
+      ],
+      "reachedVia": [
+        "place.imperial-fringe.cartwrights-cross",
+        "place.imperial-fringe.mile-house-of-the-eagle"
+      ],
+      "discovery": "document",
+      "valueTier": "tier-1",
+      "purpose": "dungeon-delve (mild) + lore-reveal",
+      "hook": "Two centuries of Imperial burials on a knoll that stopped being dry. The vaults at the bottom are open.",
+      "stance": "hostile",
+      "interior": "delve · sinkhole-ruin · S1 · wet 0%",
+      "purposeDetail": {
+        "primary": "dungeon-delve",
+        "impact": "mild",
+        "secondary": [
+          "lore-reveal"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "hostile",
+        "owner": "faction.sap-poachers",
+        "clearable": true,
+        "respawn": "faction-refills",
+        "flips": []
+      },
+      "interiorDetail": {
+        "kind": "delve",
+        "family": "sinkhole-ruin",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "verticalRelationship": "below"
+      },
+      "entrance": "grave-cut",
+      "underwaterAccess": "none",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "rank-and-file · D1 · few — D1 by day; the province does not raise its dead"
+        ],
+        "loot": [
+          "unique-item · unique-item · tier-1",
+          "hidden-cache · loot-cache · tier-1",
+          "ledger-or-document · lore-fragment · tier-1",
+          "grave-goods · loot-cache · tier-1"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "LF13 · tier-3",
+      "questLinks": [
+        {
+          "code": "LF13",
+          "title": "The Marble Field Sale",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior"
+    },
+    {
       "id": "place.imperial-fringe.the-month-chapel",
       "name": "The Month Chapel",
       "region": "imperial-fringe",
@@ -38646,6 +39741,139 @@
         {
           "code": "LF60",
           "title": "The Pass Shelter Ledger",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior"
+    },
+    {
+      "id": "place.imperial-fringe.the-quiet-pit",
+      "name": "The Quiet Pit",
+      "region": "imperial-fringe",
+      "class": "martial",
+      "family": "carceral",
+      "type": "holding-pit",
+      "magnitude": null,
+      "importanceTier": 3,
+      "dangerTier": "D3",
+      "densityLayer": "fine-tempo",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.25654,
+        "v": 0.42188
+      },
+      "positionM": [
+        1891.6,
+        3110.7
+      ],
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 79.8,
+        "distanceToWaterM": 49.7,
+        "water": {
+          "entityId": "body.1074-1698",
+          "kind": "backswamp",
+          "levelM": 18.25,
+          "season": "perennial",
+          "distanceM": 49.7
+        },
+        "score": 4.307
+      },
+      "whySiteWon": "local tie in firm lowland (danger band 3), 80 m from the nearest route; no free 'sinkhole' site was left in the zone, so plain ground; won on culture-clump, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
+      "why": {
+        "founding": "Argonians build no prisons, so where the Owing needs to hold someone it uses a pit and calls it waiting.",
+        "siteAdvantages": "A dry storage pit at the back of a broker's yard, roofed and grated, invisible from the road.",
+        "occupantsMotive": "The brokers hold debtors here for a day or two until the Owing is transferred. It is legal.",
+        "pressures": "Somebody was held for eleven days last year. The village still talks about it.",
+        "wouldChangeIf": "Would be filled in during the week in which a court ruled that waiting is imprisonment."
+      },
+      "hardConstraints": [
+        "a dry roofed pit",
+        "inside a private yard"
+      ],
+      "reachedVia": [
+        "place.imperial-fringe.cartwrights-cross",
+        "place.imperial-fringe.mile-house-of-the-eagle"
+      ],
+      "discovery": "rumour",
+      "valueTier": "tier-2",
+      "purpose": "stealth-challenge (real) + social-drama, quest-anchor",
+      "hook": "The Owing is a debt worked off rather than paid. It builds no prisons. It uses a roofed pit at the back of a broker's yard and calls it waiting.",
+      "stance": "hostile",
+      "interior": "delve · imperial-fort · S2 · wet 0%",
+      "purposeDetail": {
+        "primary": "stealth-challenge",
+        "impact": "real",
+        "secondary": [
+          "social-drama",
+          "quest-anchor"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "hostile",
+        "owner": "faction.the-owing-brokers",
+        "clearable": true,
+        "respawn": "faction-refills",
+        "flips": [
+          "→ hostile when flag flag.quiet-pit.caught-inside True"
+        ]
+      },
+      "interiorDetail": {
+        "kind": "delve",
+        "family": "imperial-fort",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
+      },
+      "entrance": "trapdoor",
+      "underwaterAccess": "none",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "rank-and-file · D2 · few — D2 yard hands",
+          "rank-and-file · single — whoever is in the pit"
+        ],
+        "loot": [
+          "ledger-or-document · lore-fragment · tier-2"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [
+        "quest.provision.canon.the-owing"
+      ],
+      "tierOwnership": "LF03 · tier-3; LF69 · tier-3; BC-line · tier-2",
+      "questLinks": [
+        {
+          "code": "BC-line",
+          "title": null,
+          "line": "quest.line.chainbreakers",
+          "lineName": "Chainbreakers",
+          "group": "faction",
+          "tier": 2,
+          "role": "line"
+        },
+        {
+          "code": "LF03",
+          "title": "Waiting, They Call It",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF69",
+          "title": "The Quarantine That Stayed Shut",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -42101,6 +43329,109 @@
       "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
     },
     {
+      "id": "place.imperial-penal-south.blackrose-drowned-hist",
+      "name": "Speaks-Below-The-Water",
+      "region": "imperial-penal-south",
+      "class": "sacred",
+      "family": "hist",
+      "type": "drowned-hist",
+      "magnitude": null,
+      "importanceTier": 1,
+      "dangerTier": "D2",
+      "densityLayer": "landmark",
+      "status": "drowned",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.309,
+        "v": 0.87643
+      },
+      "positionM": [
+        2278.4,
+        6462.3
+      ],
+      "plotFacts": {
+        "landform": "open-water",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 2,
+        "distanceToRouteM": 61.3,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 1.928
+      },
+      "whySiteWon": "open water in seasonal floodplain (danger band 2), 61 m from the nearest route; at the water's edge; won on submerged, danger, parent; bound to body.1290-3508 within 30 m; needs 3 m of water; landform wishes taken from the type recipe (record had none).",
+      "why": {
+        "founding": "Blackrose's Hist stands in the lake rather than in the city. The lake rose over it.",
+        "siteAdvantages": "It grew on the island's old shore; three centuries of raised lake level put six metres of water over its crown.",
+        "occupantsMotive": "Tenders dive to it. The city has no other tree. It has not planted a second, since that would be taken as a judgement on this one.",
+        "pressures": "An underwater Hist cannot be communed with in any of the usual ways. The tenders have improvised a practice which no village upriver will recognise.",
+        "wouldChangeIf": "Lowering the lake would expose it, but it is not agreed whether that would save it or kill it."
+      },
+      "hardConstraints": [
+        "fully submerged",
+        "inland of the coast plain, on the Blackrose lake system"
+      ],
+      "reachedVia": [
+        "place.imperial-penal-south.longmont",
+        "place.imperial-penal-south.lake-ferry-stage"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-3",
+      "purpose": "lore-reveal (real) + wonder-oddity, faction-gateway",
+      "hook": "The city's tree is alive six metres under the lake. The tenders go down to it on weighted lines.",
+      "stance": "sanctuary",
+      "interior": null,
+      "purposeDetail": {
+        "primary": "lore-reveal",
+        "impact": "real",
+        "secondary": [
+          "wonder-oddity",
+          "faction-gateway"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "sanctuary",
+        "owner": "faction.blackrose-tenders",
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": null,
+      "entrance": "none",
+      "underwaterAccess": "shallow-dive",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "priest · single · named",
+          "rank-and-file · few"
+        ],
+        "loot": [
+          "shrine-offerings · power-boon · tier-3 · weighted down the offering lines, never recovered"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "LR10 · tier-3; tier-0",
+      "questLinks": [
+        {
+          "code": "LR10",
+          "title": "Speaking Below the Water",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": null
+    },
+    {
       "id": "place.imperial-penal-south.blackrose-prison",
       "name": "Blackrose Prison",
       "region": "imperial-penal-south",
@@ -43629,6 +44960,128 @@
       "interiorScope": "one interior with 3 entrances"
     },
     {
+      "id": "place.imperial-penal-south.lake-divers-yard",
+      "name": "The Barge Yard",
+      "region": "imperial-penal-south",
+      "class": "works",
+      "family": "craft",
+      "type": "salvage-divers-yard",
+      "magnitude": "M1",
+      "importanceTier": 3,
+      "dangerTier": "D2",
+      "densityLayer": "fine-tempo",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.32164,
+        "v": 0.88238
+      },
+      "positionM": [
+        2371.6,
+        6506.2
+      ],
+      "plotFacts": {
+        "landform": "saddle",
+        "regionClass": "firm lowland",
+        "dangerBand": 1,
+        "distanceToRouteM": 82.4,
+        "distanceToWaterM": 11.0,
+        "water": {
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
+          "season": "perennial",
+          "distanceM": 11.0
+        },
+        "score": 1.529
+      },
+      "whySiteWon": "saddle in firm lowland (danger band 1), 82 m from the nearest route; at the water's edge; won on route, submerged, hinterland; placed from the homeless batch at stage 'region-relaxed'; bound to body.1290-3508 within 150 m; landform wishes taken from the type recipe (record had none).",
+      "why": {
+        "founding": "Three centuries of laden barges have gone down in this lake, most of them in the same two places. Longmont's boat families worked them first and built the yard.",
+        "siteAdvantages": "On the shore nearest the deep hole where the wrecks concentrate, with a crane frame and a drying floor.",
+        "occupantsMotive": "Crews dive for cargo, not hulls; the toll families buy the recovered goods at a discount they set themselves.",
+        "pressures": "Some of the sunk cargo was insured and some was smuggled. The paperwork for both is still in the city.",
+        "wouldChangeIf": "A rise in the lake would put the wrecks out of free-diving range entirely."
+      },
+      "hardConstraints": [
+        "beside drowned ground"
+      ],
+      "reachedVia": [
+        "place.imperial-penal-south.longmont",
+        "place.imperial-penal-south.lake-ferry-stage"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-2",
+      "purpose": "service-hub (real) + resource-source, faction-gateway, quest-anchor",
+      "hook": "A chart of every sinking in the lake, painted on the shed wall by the people who work them.",
+      "stance": "friendly",
+      "interior": "building · dwelling · S1 · wet 10%",
+      "purposeDetail": {
+        "primary": "service-hub",
+        "impact": "real",
+        "secondary": [
+          "resource-source",
+          "faction-gateway",
+          "quest-anchor"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "friendly",
+        "owner": "faction.lake-divers",
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.1,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "verticalRelationship": "behind"
+      },
+      "entrance": "door",
+      "underwaterAccess": "deep-dive",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "merchant · single",
+          "trainer · single · named",
+          "crew · few"
+        ],
+        "loot": [
+          "workshop-stock · gear · tier-2 · diving gear made in the yard",
+          "ledger-or-document · map-knowledge · tier-2 · the sinkings chart, kept as bookkeeping"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "LR17 · tier-3; PP04 · tier-3",
+      "questLinks": [
+        {
+          "code": "LR17",
+          "title": "The Yard's Missing Keel",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "PP04",
+          "title": "Provably Stolen",
+          "line": "quest.line.proposed",
+          "lineName": "Proposed from the plotted province",
+          "group": "proposed",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior"
+    },
+    {
       "id": "place.imperial-penal-south.lake-ferry-stage",
       "name": "The North Stage",
       "region": "imperial-penal-south",
@@ -44124,156 +45577,6 @@
       "interiorScope": "one interior with 3 entrances"
     },
     {
-      "id": "place.imperial-penal-south.longmont",
-      "name": "Longmont",
-      "region": "imperial-penal-south",
-      "class": "settlement",
-      "family": "water-village",
-      "type": "stilt-village",
-      "magnitude": "M3",
-      "importanceTier": 1,
-      "dangerTier": "D2",
-      "densityLayer": "landmark",
-      "status": "active",
-      "workflow": "plotted",
-      "culture": "argonian",
-      "position": {
-        "u": 0.23314,
-        "v": 0.927
-      },
-      "positionM": [
-        1719.1,
-        6835.2
-      ],
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 285.1,
-        "distanceToWaterM": 66.3,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 66.3
-        },
-        "score": 1.765
-      },
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 285 m from the nearest route; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on region, ring; landform wishes taken from the type recipe (record had none).",
-      "why": {
-        "founding": "A shore village on the approach to Blackrose from the south-west. It is the last stop before the city's toll gates.",
-        "siteAdvantages": "A long shallow flat on the south-western shore, poleable all year and outside the city's wall line.",
-        "occupantsMotive": "Freight bound for Blackrose by land is broken to boats here, by people who are not the city and charge less than it.",
-        "pressures": "Blackrose has twice tried to bring Longmont inside its toll regime and twice found the village simply stops handling freight.",
-        "wouldChangeIf": "Absorption into the city's toll regime would move the whole trade to Rockspring in one season."
-      },
-      "hardConstraints": [
-        "built over water at the highest seasonal level, piled to the bed",
-        "inland of the coast plain, on the Blackrose lake system"
-      ],
-      "reachedVia": [
-        "place.imperial-penal-south.lake-ferry-stage"
-      ],
-      "discovery": "road",
-      "valueTier": "tier-2",
-      "purpose": "safe-rest (real) + service-hub, social-drama",
-      "hook": "A kilometre of stilt village that breaks land freight to boats for less than the city charges.",
-      "stance": "wary",
-      "interior": "building · dwelling · S1 · wet 15%",
-      "purposeDetail": {
-        "primary": "safe-rest",
-        "impact": "real",
-        "secondary": [
-          "service-hub",
-          "social-drama"
-        ]
-      },
-      "stanceDetail": {
-        "baseline": "wary",
-        "owner": "faction.longmont-polers",
-        "clearable": false,
-        "respawn": "none",
-        "flips": [
-          "→ friendly when settlementStandingAtLeast place.imperial-penal-south.longmont 1"
-        ]
-      },
-      "interiorDetail": {
-        "kind": "building",
-        "family": "dwelling",
-        "sizeBand": "S1",
-        "wetFraction": 0.15,
-        "entranceCount": 2,
-        "exteriorShell": true,
-        "verticalRelationship": "behind"
-      },
-      "entrance": "door",
-      "underwaterAccess": "surface-swim",
-      "contents": {
-        "creatures": [],
-        "npcs": [
-          "merchant · single",
-          "family · band",
-          "hermit · single · named"
-        ],
-        "loot": [
-          "provisions · rest-shelter · tier-1"
-        ]
-      },
-      "travelStation": {
-        "modes": [
-          "boat",
-          "ferry"
-        ],
-        "destinations": [
-          {
-            "id": "place.imperial-penal-south.blackrose",
-            "name": "Blackrose"
-          },
-          {
-            "id": "place.imperial-penal-south.lake-ferry-stage",
-            "name": "The North Stage"
-          },
-          {
-            "id": "place.imperial-penal-south.lake-boardwalk-village",
-            "name": "Spine"
-          }
-        ]
-      },
-      "questProvisions": [],
-      "tierOwnership": "LR56 · tier-3; LR57 · tier-3; LR58 · tier-3",
-      "questLinks": [
-        {
-          "code": "LR56",
-          "title": "The Register Below",
-          "line": "quest.line.local",
-          "lineName": "Local quests",
-          "group": "local",
-          "tier": 3,
-          "role": "owner"
-        },
-        {
-          "code": "LR57",
-          "title": "The Second Stage",
-          "line": "quest.line.local",
-          "lineName": "Local quests",
-          "group": "local",
-          "tier": 3,
-          "role": "owner"
-        },
-        {
-          "code": "LR58",
-          "title": "Who Reads the Water",
-          "line": "quest.line.local",
-          "lineName": "Local quests",
-          "group": "local",
-          "tier": 3,
-          "role": "owner"
-        }
-      ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
-    },
-    {
       "id": "place.imperial-penal-south.manned-toll-tower",
       "name": "The Water Reckoning",
       "region": "imperial-penal-south",
@@ -44631,6 +45934,115 @@
       "interiorScope": "one interior"
     },
     {
+      "id": "place.imperial-penal-south.natural-dive-shaft",
+      "name": "The Blue Hole",
+      "region": "imperial-penal-south",
+      "class": "transit",
+      "family": "submerged-way",
+      "type": "dive-shaft",
+      "magnitude": null,
+      "importanceTier": 3,
+      "dangerTier": "D4",
+      "densityLayer": "fine-tempo",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.33577,
+        "v": 0.84445
+      },
+      "positionM": [
+        2475.8,
+        6226.5
+      ],
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 27.4,
+        "distanceToWaterM": 12.3,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 12.3
+        },
+        "score": 2.338
+      },
+      "whySiteWon": "local tie in fringe marsh (danger band 2), 27 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; bound to body.1290-3508 within 80 m; needs 1 m of water; landform wishes taken from the type recipe (record had none).",
+      "why": {
+        "founding": "A karst shaft in the lake floor that drops well below the lake bed and connects to something else.",
+        "siteAdvantages": "A vertical hole nine metres wide in an otherwise flat lake bottom, with a cold current coming out of it.",
+        "occupantsMotive": "Unworked. Two lake-divers have gone down it and one came back.",
+        "pressures": "The current reverses seasonally. Whatever it comes from fills and empties.",
+        "wouldChangeIf": "Mapping where it surfaces would rewrite the basin's hydrology and open a route."
+      },
+      "hardConstraints": [
+        "submerged entrance"
+      ],
+      "reachedVia": [
+        "place.imperial-penal-south.longmont",
+        "place.imperial-penal-south.lake-ferry-stage"
+      ],
+      "discovery": "rumour",
+      "valueTier": "tier-3",
+      "purpose": "traversal-puzzle (real) + dungeon-delve, hidden-secret",
+      "hook": "A karst shaft nine metres wide in the lake floor, with cold water rising out of it and no bottom in sight.",
+      "stance": "hostile",
+      "interior": "delve · flooded-cave · S2 · wet 95%",
+      "purposeDetail": {
+        "primary": "traversal-puzzle",
+        "impact": "real",
+        "secondary": [
+          "dungeon-delve",
+          "hidden-secret"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "hostile",
+        "owner": null,
+        "clearable": true,
+        "respawn": "slow",
+        "flips": []
+      },
+      "interiorDetail": {
+        "kind": "delve",
+        "family": "flooded-cave",
+        "sizeBand": "S2",
+        "wetFraction": 0.95,
+        "entranceCount": 3,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
+      },
+      "entrance": "underwater-entry",
+      "underwaterAccess": "deep-dive",
+      "contents": {
+        "creatures": [
+          "apex-ambusher · D4 · single · on on-approach"
+        ],
+        "npcs": [],
+        "loot": [
+          "personal-effects · route-unlock · tier-3 · the diver who did not come back, with the line still running from his belt"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "LR14 · tier-3",
+      "questLinks": [
+        {
+          "code": "LR14",
+          "title": "The Blue Hole",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior with 3 entrances"
+    },
+    {
       "id": "place.imperial-penal-south.necromantic-dig",
       "name": "The Quiet Excavation",
       "region": "imperial-penal-south",
@@ -44744,6 +46156,104 @@
         }
       ],
       "interiorScope": "one interior"
+    },
+    {
+      "id": "place.imperial-penal-south.plague-cordon",
+      "name": "The Cordon",
+      "region": "imperial-penal-south",
+      "class": "ruin",
+      "family": "depopulated",
+      "type": "plague-cordon-line",
+      "magnitude": null,
+      "importanceTier": 3,
+      "dangerTier": "D2",
+      "densityLayer": "fine-tempo",
+      "status": "ruined",
+      "workflow": "plotted",
+      "culture": "mixed",
+      "position": {
+        "u": 0.36151,
+        "v": 0.86051
+      },
+      "positionM": [
+        2665.6,
+        6345.0
+      ],
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 54.8,
+        "distanceToWaterM": 46.9,
+        "water": {
+          "entityId": "body.1432-3476",
+          "kind": "marsh-fringe",
+          "levelM": 3.54,
+          "season": "perennial",
+          "distanceM": 46.9
+        },
+        "score": 5.386
+      },
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 55 m from the nearest route; its first-choice landform; won on landform, route, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "why": {
+        "founding": "The line Blackrose held during the Flu, marked in stone every hundred paces from the hills to the water.",
+        "siteAdvantages": "It follows the narrows, where six kilometres of stone can close the basin.",
+        "occupantsMotive": "Unenforced since the Flu. Every stone is still standing.",
+        "pressures": "Villages on the far side of the line still describe themselves as being outside, sixteen centuries later.",
+        "wouldChangeIf": "Removing the stones would need a council vote that no member has put on the roll."
+      },
+      "hardConstraints": [
+        "uses water as part of the line where it can"
+      ],
+      "reachedVia": [
+        "place.imperial-penal-south.rose-supply-town",
+        "place.imperial-penal-south.three-gate-toll"
+      ],
+      "discovery": "document",
+      "valueTier": "tier-1",
+      "purpose": "lore-reveal (mild) + navigation-aid",
+      "hook": "Six kilometres of hundred-pace marker stones, all still standing, each cut with the same three words.",
+      "stance": "neutral",
+      "interior": null,
+      "purposeDetail": {
+        "primary": "lore-reveal",
+        "impact": "mild",
+        "secondary": [
+          "navigation-aid"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "neutral",
+        "owner": null,
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": null,
+      "entrance": "gate",
+      "underwaterAccess": "none",
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          "hidden-cache · rumour · tier-1 · offerings left at the stones"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "PP18 · tier-3",
+      "questLinks": [
+        {
+          "code": "PP18",
+          "title": "Who Was Fed",
+          "line": "quest.line.proposed",
+          "lineName": "Proposed from the plotted province",
+          "group": "proposed",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": null
     },
     {
       "id": "place.imperial-penal-south.prison-born-refuge",
@@ -51022,6 +52532,106 @@
       "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
     },
     {
+      "id": "place.mercantile-coast.oliis-drake-deep",
+      "name": "The Drake Hole",
+      "region": "mercantile-coast",
+      "class": "lair",
+      "family": "beast-lair",
+      "type": "sea-drake-deep",
+      "magnitude": null,
+      "importanceTier": 3,
+      "dangerTier": "D4",
+      "densityLayer": "fine-tempo",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.53383,
+        "v": 0.84188
+      },
+      "positionM": [
+        3936.2,
+        6207.6
+      ],
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 248.2,
+        "distanceToWaterM": 57.2,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 57.2
+        },
+        "score": 4.162
+      },
+      "whySiteWon": "local tie in fringe marsh (danger band 3), 248 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on route, bound, region; bound to body.ocean within 60 m; needs 4 m of water; landform wishes taken from the type recipe (record had none).",
+      "why": {
+        "founding": "A drowned sinkhole in the bay floor, forty metres deep, with something living at the bottom of it.",
+        "siteAdvantages": "A deep, cold, permanent hole in an otherwise shallow bay.",
+        "occupantsMotive": "The occupant. The fishers work around it in a circle visible on any chart of their nets.",
+        "pressures": "The hole is directly on the natural lighterage line and every hull crosses it.",
+        "wouldChangeIf": "No bay crew will attempt it."
+      },
+      "hardConstraints": [
+        "deep standing salt water over a bay floor",
+        "off the Oliis bay, within a morning's paddle of Breathing-Stone"
+      ],
+      "reachedVia": [
+        "place.mercantile-coast.bramman-river-ferry",
+        "place.mercantile-coast.lighter-flotilla"
+      ],
+      "discovery": "rumour",
+      "valueTier": "tier-4",
+      "purpose": "combat-challenge (major) + dungeon-delve, unique-item",
+      "hook": "Forty metres down in the bay floor is a hole which the fishers do not name at sea. Something lives in it.",
+      "stance": "hostile",
+      "interior": "delve · flooded-cave · S1 · wet 100%",
+      "purposeDetail": {
+        "primary": "combat-challenge",
+        "impact": "major",
+        "secondary": [
+          "dungeon-delve",
+          "unique-item"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "hostile",
+        "owner": null,
+        "clearable": true,
+        "respawn": "slow",
+        "flips": []
+      },
+      "interiorDetail": {
+        "kind": "delve",
+        "family": "flooded-cave",
+        "sizeBand": "S1",
+        "wetFraction": 1.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "verticalRelationship": "below"
+      },
+      "entrance": "underwater-entry",
+      "underwaterAccess": "argonian-only-depth",
+      "contents": {
+        "creatures": [
+          "guardian-boss · D4 · single · on on-approach"
+        ],
+        "npcs": [],
+        "loot": [
+          "hidden-cache · unique-item · tier-4 · what the hole has taken off the lane above it"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": null,
+      "questLinks": [],
+      "interiorScope": "one interior"
+    },
+    {
       "id": "place.mercantile-coast.oliis-ferry-stage",
       "name": "Estuary Stage",
       "region": "mercantile-coast",
@@ -54590,18 +56200,18 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.34544,
-        "v": 0.66448
+        "u": 0.3447,
+        "v": 0.70315
       },
       "positionM": [
-        2547.1,
-        4899.5
+        2541.6,
+        5184.7
       ],
       "plotFacts": {
         "landform": "open-water",
         "regionClass": "lake & standing water",
         "dangerBand": 5,
-        "distanceToRouteM": 631.3,
+        "distanceToRouteM": 729.1,
         "distanceToWaterM": 0.0,
         "water": {
           "entityId": "body.1209-3032",
@@ -54610,9 +56220,9 @@
           "season": "perennial",
           "distanceM": 0.0
         },
-        "score": 3.619
+        "score": 4.293
       },
-      "whySiteWon": "open water in lake & standing water (danger band 5), 631 m from the nearest route; at the water's edge; won on region, remote, submerged.",
+      "whySiteWon": "open water in lake & standing water (danger band 5), 729 m from the nearest route; at the water's edge; won on culture-clump, region, remote.",
       "why": {
         "founding": "A maintained air pocket on the flooded shortcut under the narrows.",
         "siteAdvantages": "The midpoint of a dive that cannot be made on one breath.",
@@ -55271,29 +56881,29 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.43914,
-        "v": 0.78272
+        "u": 0.45848,
+        "v": 0.77529
       },
       "positionM": [
-        3238.0,
-        5771.4
+        3380.6,
+        5716.6
       ],
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 400.9,
-        "distanceToWaterM": 38.8,
+        "distanceToRouteM": 470.0,
+        "distanceToWaterM": 29.5,
         "water": {
-          "entityId": "body.1792-3158",
+          "entityId": "body.1841-3139",
           "kind": "swamp",
-          "levelM": 3.55,
+          "levelM": 1.35,
           "season": "perennial",
-          "distanceM": 38.8
+          "distanceM": 29.5
         },
-        "score": 4.694
+        "score": 4.333
       },
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 401 m from the nearest route; its choice #2 landform; won on culture-clump, landform, nearPoint.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 470 m from the nearest route; its choice #2 landform; won on landform, culture-clump, nearPoint.",
       "why": {
         "founding": "The Naga-Kur's seat: the tribe built for surviving the worst thing in the swamp, around the tree that made them.",
         "siteAdvantages": "A defensible rise in the inner swamps with black water on all sides and one poling approach. That approach is the tribe's toll. Cargo bound for the eastern swamp is counted at the stage.",
@@ -55412,6 +57022,124 @@
         }
       ],
       "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+    },
+    {
+      "id": "place.naga-kur-deeps.deepmire-refuge",
+      "name": "Deepmire, the Refuge",
+      "region": "naga-kur-deeps",
+      "class": "civic",
+      "family": "refuge",
+      "type": "refuge-station",
+      "magnitude": "M1",
+      "importanceTier": 1,
+      "dangerTier": "D4",
+      "densityLayer": "landmark",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.28892,
+        "v": 0.6496
+      },
+      "positionM": [
+        2130.3,
+        4789.9
+      ],
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 201.6,
+        "distanceToWaterM": 39.9,
+        "water": {
+          "entityId": "reach.1186-2596",
+          "kind": "horizontal-channel",
+          "levelM": 4.71,
+          "season": "perennial",
+          "distanceM": 39.9
+        },
+        "score": 2.006
+      },
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 202 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on nearPoint, danger, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "why": {
+        "founding": "The shelter of last resort. A ridge eight metres over the flood, hard to reach and avoided even by the tribes, where the presence of Sithis is strong. It holds pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only in an emergency. A few caretakers tend it.",
+        "siteAdvantages": "High, dry, defensible ground in a province that has almost none, with one approach that can be walked and no approach that can be poled.",
+        "occupantsMotive": "The caretakers do not live here. They keep the plateau fit for habitation. Stores are turned and shelters re-roofed each season.",
+        "pressures": "In 4E 48 the need did come: Murkmire's survivors fled up onto the plateau while Umbriel passed overhead. The caretakers have fed that memory ever since. The Umbriel Witness Society wants the memorial catalogued. The Nisswo want it let go. The caretakers want it left exactly as it is.",
+        "wouldChangeIf": "If the argument over the memorial is settled over the caretakers' heads, the plateau stops being a refuge and becomes a destination."
+      },
+      "hardConstraints": [
+        "culture zone: naga-kur-deeps",
+        "upland ground above the flood by 40m+"
+      ],
+      "reachedVia": [
+        "place.naga-kur-deeps.leviathan-bone-field",
+        "place.naga-kur-deeps.root-whisper-village"
+      ],
+      "discovery": "rumour",
+      "valueTier": "tier-4",
+      "purpose": "safe-rest (major) + lore-reveal, quest-anchor",
+      "hook": "One of the few dry plateaus in the province, kept ready since the night in 4E 48. Travellers may shelter, but the caretakers permit no residence.",
+      "stance": "sanctuary",
+      "interior": "dungeon · root-cavern · S3 · wet 0%",
+      "purposeDetail": {
+        "primary": "safe-rest",
+        "impact": "major",
+        "secondary": [
+          "lore-reveal",
+          "quest-anchor"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "sanctuary",
+        "owner": "faction.deepmire-caretakers",
+        "clearable": false,
+        "respawn": "none",
+        "flips": [
+          "→ guarded when flag flag.deepmire.shelter-abused True"
+        ]
+      },
+      "interiorDetail": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S3",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
+      },
+      "entrance": "stair-throat",
+      "underwaterAccess": "none",
+      "contents": {
+        "creatures": [
+          "something-old · D4 · single · on on-noise — whatever walks the bone country below; the caretakers call it Sithis"
+        ],
+        "npcs": [
+          "named-keeper · single · named — the caretaker whose season is turning the stores",
+          "hermit · few"
+        ],
+        "loot": [
+          "provisions · rest-shelter · tier-2 · stores turned every season for a night in 4E 48",
+          "ledger-or-document · lore-fragment · tier-4 · the pre-Duskfall xanmeer survey, kept in one copy"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [
+        "quest.provision.deepmire-refuge"
+      ],
+      "tierOwnership": "UW04 · tier-2",
+      "questLinks": [
+        {
+          "code": "UW04",
+          "title": "The Refuge",
+          "line": "quest.line.umbriel-witness",
+          "lineName": "Umbriel Witness",
+          "group": "faction",
+          "tier": 2,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior"
     },
     {
       "id": "place.naga-kur-deeps.dive-shaft-natural-deeps",
@@ -57183,29 +58911,29 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.1268,
+        "u": 0.14465,
         "v": 0.79983
       },
       "positionM": [
-        934.9,
+        1066.5,
         5897.5
       ],
       "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 116.3,
-        "distanceToWaterM": 0.0,
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 195.7,
+        "distanceToWaterM": 55.9,
         "water": {
-          "entityId": "body.486-3253",
+          "entityId": "body.610-3266",
           "kind": "swamp",
-          "levelM": 3.2,
+          "levelM": 2.12,
           "season": "perennial",
-          "distanceM": 0.0
+          "distanceM": 55.9
         },
-        "score": 1.378
+        "score": 3.578
       },
-      "whySiteWon": "open water in lake & standing water (danger band 3), 116 m from the nearest route; at the water's edge; won on danger, parent, landform; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 196 m from the nearest route; its choice #2 landform; won on culture-clump, landform, region.",
       "why": {
         "founding": "A settled Naga tribe with a tended Hist, villages, fields and a quarrel with their own tribeless relatives.",
         "siteAdvantages": "Firm ground on the inner swamp's main poling route, with a landing deep enough for laden craft.",
@@ -57977,6 +59705,140 @@
       "tierOwnership": null,
       "questLinks": [],
       "interiorScope": "one interior with 3 entrances"
+    },
+    {
+      "id": "place.naga-kur-deeps.root-whisper-village",
+      "name": "Root-Whisper Village",
+      "region": "naga-kur-deeps",
+      "class": "settlement",
+      "family": "tribal-village",
+      "type": "hist-village",
+      "magnitude": "M3",
+      "importanceTier": 1,
+      "dangerTier": "D4",
+      "densityLayer": "landmark",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.48302,
+        "v": 0.71653
+      },
+      "positionM": [
+        3561.5,
+        5283.4
+      ],
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 931.1,
+        "distanceToWaterM": 5.5,
+        "water": {
+          "entityId": "body.1949-2893",
+          "kind": "swamp",
+          "levelM": 0.18,
+          "season": "perennial",
+          "distanceM": 5.5
+        },
+        "score": 3.986
+      },
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 931 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, landform; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none).",
+      "why": {
+        "founding": "The Barsaebic Ayleids destroyed the tribe here and harvested its souls into the Remnant of Argon. The Hist did not die but slept. While it slept it was called the Dreaming Tree. At the end of the Second Era the souls were returned and the village was re-founded on its own ground, below the xanmeer Vakka-Bok.",
+        "siteAdvantages": "East Deepmire ground that the tribe never left, held below a pre-Duskfall xanmeer that marks it from a distance and keeps the approach to one line.",
+        "occupantsMotive": "A tribe rebuilt out of returned souls, living on the ground where it was killed. The tree stands at the centre of the village. The tribe exists because the tree survived.",
+        "pressures": "The Hist is centuries old but speaks like a hatchling. Its own tree-minder treats it as convalescent. Cyrodilic Collections, which helped resurrect the tribe, still treats the village as its find.",
+        "wouldChangeIf": "If the Dreaming Tree failed a second time there would be no second Remnant. The tribe organises its whole year around that."
+      },
+      "hardConstraints": [
+        "culture zone: naga-kur-deeps",
+        "between two xanmeer sites"
+      ],
+      "reachedVia": [
+        "place.naga-kur-deeps.ferry-stage-guide-hire",
+        "place.naga-kur-deeps.deepmire-refuge"
+      ],
+      "discovery": "rumour",
+      "valueTier": "tier-4",
+      "purpose": "quest-anchor (major) + safe-rest, lore-reveal",
+      "hook": "A Hist with a hatchling's voice and an elder's trunk. The village was re-founded at the end of the Second Era, when the souls the Ayleids harvested were returned.",
+      "stance": "sanctuary",
+      "interior": "dungeon · root-cavern · S3 · wet 0%",
+      "purposeDetail": {
+        "primary": "quest-anchor",
+        "impact": "major",
+        "secondary": [
+          "safe-rest",
+          "lore-reveal"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "sanctuary",
+        "owner": "faction.root-whisper",
+        "clearable": false,
+        "respawn": "none",
+        "flips": [
+          "→ guarded when flag flag.deeps.dreaming-tree-cut True"
+        ]
+      },
+      "interiorDetail": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S3",
+        "wetFraction": 0.0,
+        "entranceCount": 2,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
+      },
+      "entrance": "hollow-trunk",
+      "underwaterAccess": "none",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "named-keeper · single · named — the tribe's speaker, who times the day around the two hours the tree speaks",
+          "priest · single",
+          "family · band",
+          "quest-giver · single — an outside scholar tolerated on sufferance"
+        ],
+        "loot": [
+          "shrine-offerings · power-boon · tier-4 · a gift made by the tree to anyone whom it has addressed",
+          "ledger-or-document · lore-fragment · tier-3 · the tribe's account of the Remnant of Argon and the return"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "LN12 · tier-3; LN13 · tier-3; LN14 · tier-3",
+      "questLinks": [
+        {
+          "code": "LN12",
+          "title": "A Word With No Tribe",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LN13",
+          "title": "One Trip Only",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LN14",
+          "title": "Recorded, Not Spoken",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
     },
     {
       "id": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",
@@ -62801,6 +64663,126 @@
       "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
     },
     {
+      "id": "place.saxhleel-coast.archon-bonded-row",
+      "name": "The Company Row",
+      "region": "saxhleel-coast",
+      "class": "works",
+      "family": "storage-and-freight",
+      "type": "bonded-warehouse",
+      "magnitude": "M1",
+      "importanceTier": 2,
+      "dangerTier": "D1",
+      "densityLayer": "destination",
+      "status": "active",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.67935,
+        "v": 0.65555
+      },
+      "positionM": [
+        5009.2,
+        4833.7
+      ],
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 2,
+        "distanceToRouteM": 148.1,
+        "distanceToWaterM": 24.5,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 24.5
+        },
+        "score": 2.897
+      },
+      "whySiteWon": "firm ground in tropical jungle (danger band 2), 148 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, hinterland, parent; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; bound to body.2834-2585 within 120 m.",
+      "why": {
+        "founding": "The East Empire Company's charter died. Its bonded stores are still standing, built heavily enough to outlast a war.",
+        "siteAdvantages": "On the stone quay, where the Company laid footings that will carry a loaded cart.",
+        "occupantsMotive": "The harbour authority uses one corner. It has no lawful way into the rest.",
+        "pressures": "Cargo is bonded against a duty no state now collects; the seals are two centuries old and worth more intact.",
+        "wouldChangeIf": "An Imperial writ would open it, or a good forgery."
+      },
+      "hardConstraints": [
+        "on the quay",
+        "cargo-bearing ground",
+        "inside Archon's cleared quay apron"
+      ],
+      "reachedVia": [
+        "place.saxhleel-coast.seafalls"
+      ],
+      "discovery": "road",
+      "valueTier": "tier-3",
+      "purpose": "resource-source (real) + unique-item",
+      "hook": "Two centuries of bonded cargo behind a wax seal; the office that could lift it died with the charter.",
+      "stance": "guarded",
+      "interior": "building · dwelling · S1 · wet 0%",
+      "purposeDetail": {
+        "primary": "resource-source",
+        "impact": "real",
+        "secondary": [
+          "unique-item"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "guarded",
+        "owner": null,
+        "clearable": false,
+        "respawn": "none",
+        "flips": []
+      },
+      "interiorDetail": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "verticalRelationship": "behind"
+      },
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "official · D1 · few — D1 clerks",
+          "rank-and-file · few — a night watch of two"
+        ],
+        "loot": [
+          "unique-item · unique-item · tier-3",
+          "strongroom · loot-cache · tier-3"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [],
+      "tierOwnership": "SX01 · tier-3; SX20 · tier-3; tier-2",
+      "questLinks": [
+        {
+          "code": "SX01",
+          "title": "The Plate Seal",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "SX20",
+          "title": "Bonded And Gone",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior"
+    },
+    {
       "id": "place.saxhleel-coast.archon-glowgill-byre",
       "name": "The Sunken Byre",
       "region": "saxhleel-coast",
@@ -63060,29 +65042,29 @@
       "workflow": "plotted",
       "culture": "imperial",
       "position": {
-        "u": 0.68827,
-        "v": 0.59829
+        "u": 0.72322,
+        "v": 0.60424
       },
       "positionM": [
-        5075.0,
-        4411.5
+        5332.7,
+        4455.4
       ],
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "flood-high",
         "regionClass": "mangrove forest",
         "dangerBand": 2,
-        "distanceToRouteM": 28.0,
-        "distanceToWaterM": 19.8,
+        "distanceToRouteM": 15.5,
+        "distanceToWaterM": 7.8,
         "water": {
-          "entityId": "body.2768-2424",
-          "kind": "swamp",
-          "levelM": 1.62,
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
           "season": "perennial",
-          "distanceM": 19.8
+          "distanceM": 7.8
         },
-        "score": 5.504
+        "score": 5.688
       },
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 28 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on bound, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "flood high in mangrove forest (danger band 2), 16 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, nearPoint; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'.",
       "why": {
         "founding": "A reef-strewn approach to the province's only lawful deep-water port has to be lit or the port is worthless in the wet season.",
         "siteAdvantages": "The outermost hard ground on the approach, built up clear of the mangrove and square on the reef gap.",
@@ -63276,6 +65258,120 @@
           "lineName": "Local quests",
           "group": "local",
           "tier": 3,
+          "role": "owner"
+        }
+      ],
+      "interiorScope": "one interior"
+    },
+    {
+      "id": "place.saxhleel-coast.archon-shadowscale-sanctuary",
+      "name": "The Closed Sanctuary",
+      "region": "saxhleel-coast",
+      "class": "sacred",
+      "family": "rite",
+      "type": "shadowscale-ground",
+      "magnitude": "M1",
+      "importanceTier": 1,
+      "dangerTier": "D3",
+      "densityLayer": "destination",
+      "status": "abandoned",
+      "workflow": "plotted",
+      "culture": "argonian",
+      "position": {
+        "u": 0.6496,
+        "v": 0.63696
+      },
+      "positionM": [
+        4789.9,
+        4696.6
+      ],
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 342.4,
+        "distanceToWaterM": 81.5,
+        "water": {
+          "entityId": "body.2676-2607",
+          "kind": "swamp",
+          "levelM": 1.52,
+          "season": "perennial",
+          "distanceM": 81.5
+        },
+        "score": 4.918
+      },
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 342 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on bound, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'.",
+      "why": {
+        "founding": "Children born under the Shadow were given up to the Dark Brotherhood here under the old compact; the compact lapsed and the sanctuary was closed by order in 4E 187.",
+        "siteAdvantages": "Off every lane and every path. The approach is thorn and mud from end to end, with the nearest boat lane a third of a kilometre away through thorn deep enough that the watcher hears anyone coming.",
+        "occupantsMotive": "A watcher sits where he can see the path, paid quarterly by a Cheydinhal factor who has not visited in 14 years.",
+        "pressures": "The Cheydinhal Listener wants it back, but the harbour authority would rather it stopped existing. The birth-sign roll inside names living adults who do not know what was promised on their behalf.",
+        "wouldChangeIf": "If the roll were made public, or the door opened, the adults named on it would learn what was promised on their behalf."
+      },
+      "hardConstraints": [
+        "concealed approach — no sightline from any route",
+        "within 2 km of Archon",
+        "one door, sealed"
+      ],
+      "reachedVia": [],
+      "discovery": "rumour",
+      "valueTier": "tier-4",
+      "purpose": "lore-reveal (major) + unique-item, quest-anchor",
+      "hook": "The Shadowscale school Archon sealed with the birth-sign rolls still inside it. The Brotherhood in Cheydinhal wants it reopened.",
+      "stance": "sanctuary",
+      "interior": "dungeon · flooded-cave · S3 · wet 40%",
+      "purposeDetail": {
+        "primary": "lore-reveal",
+        "impact": "major",
+        "secondary": [
+          "unique-item",
+          "quest-anchor"
+        ]
+      },
+      "stanceDetail": {
+        "baseline": "sanctuary",
+        "owner": "faction.shadowscales",
+        "clearable": false,
+        "respawn": "none",
+        "flips": [
+          "→ hostile when questStage quest.sq.closed-sanctuary >= 30"
+        ]
+      },
+      "interiorDetail": {
+        "kind": "dungeon",
+        "family": "flooded-cave",
+        "sizeBand": "S3",
+        "wetFraction": 0.4,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "verticalRelationship": "below"
+      },
+      "entrance": "grave-cut",
+      "underwaterAccess": "shallow-dive",
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          "named-keeper · D3 · single · named — one watcher outside who has been here longer than the closure",
+          "lieutenant · D3 · pair — Cheydinhal agents surveying the place for reopening"
+        ],
+        "loot": [
+          "unique-item · unique-item · tier-4",
+          "ledger-or-document · lore-fragment · tier-4"
+        ]
+      },
+      "travelStation": null,
+      "questProvisions": [
+        "quest.provision.archon-shadowscale-facility"
+      ],
+      "tierOwnership": "SS01 · tier-2; tier-1:SS01",
+      "questLinks": [
+        {
+          "code": "SS01",
+          "title": "Last of the Scale",
+          "line": "quest.line.shadowscales",
+          "lineName": "Shadowscales",
+          "group": "faction",
+          "tier": 2,
           "role": "owner"
         }
       ],

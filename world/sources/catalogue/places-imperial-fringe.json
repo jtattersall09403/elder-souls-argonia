@@ -6232,7 +6232,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -6333,7 +6333,50 @@
           "sourcePath": "questHooks.opportunity",
           "factionRef": "faction.nisswo"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.20042,
+        "v": 0.22496
+      },
+      "positionM": [
+        1477.8,
+        1658.8
+      ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0348",
+          "score": 4.265,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0318",
+          "score": 4.187,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0349",
+          "score": 3.947,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 593 m from the nearest route; its choice #3 landform; won on culture-clump, nearPoint, landform; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 593.1,
+        "distanceToWaterM": 112.5,
+        "water": {
+          "entityId": "reach.836-841",
+          "kind": "sloped-rapid",
+          "levelM": 186.79,
+          "season": "perennial",
+          "distanceM": 112.5
+        },
+        "score": 4.474
+      }
     },
     {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
@@ -9077,7 +9120,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
@@ -9123,6 +9166,49 @@
           }
         ],
         "loot": []
+      },
+      "position": {
+        "u": 0.24466,
+        "v": 0.35844
+      },
+      "positionM": [
+        1804.0,
+        2643.0
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0093",
+          "score": 4.709,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0097",
+          "score": 4.531,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0581",
+          "score": 4.468,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 39 m from the nearest route; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; bound to river.352-503 within 200 m.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 32.0,
+        "water": {
+          "entityId": "body.982-1465",
+          "kind": "marsh-deep",
+          "levelM": 15.67,
+          "season": "perennial",
+          "distanceM": 32.0
+        },
+        "score": 3.454
       }
     },
     {
@@ -11305,7 +11391,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -11367,6 +11453,49 @@
             "provenance": null
           }
         ]
+      },
+      "position": {
+        "u": 0.2086,
+        "v": 0.3789
+      },
+      "positionM": [
+        1538.1,
+        2793.9
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0167",
+          "score": 3.961,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0248",
+          "score": 3.72,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.cliff-bench-014",
+          "score": 3.369,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "local tie in firm lowland (danger band 2), 93 m from the nearest route; no free 'ravine' site was left in the zone, so plain ground; won on region, hinterland, parent; bound to river.352-503 within 200 m.",
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 93.2,
+        "distanceToWaterM": 170.3,
+        "water": {
+          "entityId": "body.777-1621",
+          "kind": "backswamp",
+          "levelM": 53.1,
+          "season": "perennial",
+          "distanceM": 170.3
+        },
+        "score": 2.856
       }
     },
     {
@@ -11517,7 +11646,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
@@ -11595,7 +11724,50 @@
       ],
       "services": [
         "ferry"
-      ]
+      ],
+      "position": {
+        "u": 0.23761,
+        "v": 0.39006
+      },
+      "positionM": [
+        1752.0,
+        2876.1
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0095",
+          "score": 4.797,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0257",
+          "score": 4.671,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0093",
+          "score": 4.619,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "local tie in firm lowland (danger band 2), 8 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, culture-clump, region; placed from the homeless batch at stage 'neighbour-zone'; bound to river.352-503 within 200 m.",
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 7.8,
+        "distanceToWaterM": 29.5,
+        "water": {
+          "entityId": "body.948-1588",
+          "kind": "marsh-deep",
+          "levelM": 18.0,
+          "season": "perennial",
+          "distanceM": 29.5
+        },
+        "score": 3.814
+      }
     },
     {
       "id": "place.imperial-fringe.onkobra-field-station",
@@ -11761,7 +11933,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -11846,7 +12018,50 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "position": {
+        "u": 0.16329,
+        "v": 0.44226
+      },
+      "positionM": [
+        1204.0,
+        3261.0
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0609",
+          "score": 5.358,
+          "whyLost": "too close to place.imperial-fringe.giovesse-lines"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0608",
+          "score": 5.348,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0607",
+          "score": 5.299,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        }
+      ],
+      "whySiteWon": "local tie in firm lowland (danger band 2), 52 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on route, nearPoint, region; bound to river.352-503 within 200 m.",
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 52.0,
+        "distanceToWaterM": 17.3,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 17.3
+        },
+        "score": 4.901
+      }
     },
     {
       "id": "place.imperial-fringe.onkobra-kwama-mine",
@@ -17000,7 +17215,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -17088,7 +17303,50 @@
           "sourcePath": "questHooks.opportunity",
           "placeRef": "place.imperial-fringe.gideon"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.1607,
+        "v": 0.38459
+      },
+      "positionM": [
+        1184.9,
+        2835.8
+      ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0138",
+          "score": 4.311,
+          "whyLost": "too close to place.imperial-fringe.ashen-tower"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0607",
+          "score": 4.165,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        },
+        {
+          "siteId": "site.scour.upland-hills.saddle-053",
+          "score": 4.157,
+          "whyLost": "too close to place.imperial-fringe.mile-house-of-the-eagle"
+        }
+      ],
+      "whySiteWon": "local tie in upland hills (danger band 2), 298 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on culture-clump-yielded, bound, region; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'.",
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 298.3,
+        "distanceToWaterM": 110.2,
+        "water": {
+          "entityId": "body.635-1651",
+          "kind": "tarn-upland",
+          "levelM": 72.53,
+          "season": "perennial",
+          "distanceM": 110.2
+        },
+        "score": 3.412
+      }
     },
     {
       "id": "place.imperial-fringe.takes-the-field",
@@ -25730,7 +25988,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -25853,6 +26111,49 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "position": {
+        "u": 0.13487,
+        "v": 0.5137
+      },
+      "positionM": [
+        994.5,
+        3787.8
+      ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0735",
+          "score": 4.717,
+          "whyLost": "too close to place.imperial-fringe.westfield-village"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0736",
+          "score": 4.104,
+          "whyLost": "too close to place.imperial-fringe.the-cold-forge"
+        },
+        {
+          "siteId": "site.local.the-marble-field-99",
+          "score": 4.07,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "local tie in border mountains (danger band 3), 466 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region.",
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 465.7,
+        "distanceToWaterM": 363.5,
+        "water": {
+          "entityId": "reach.580-2263",
+          "kind": "sloped-rapid",
+          "levelM": 121.67,
+          "season": "perennial",
+          "distanceM": 363.5
+        },
+        "score": 4.082
       }
     },
     {
@@ -27350,7 +27651,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -27466,6 +27767,49 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "position": {
+        "u": 0.25654,
+        "v": 0.42188
+      },
+      "positionM": [
+        1891.6,
+        3110.7
+      ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0613",
+          "score": 4.613,
+          "whyLost": "too close to place.imperial-fringe.fenmarch-village"
+        },
+        {
+          "siteId": "site.free.roadside-0174",
+          "score": 4.543,
+          "whyLost": "too close to place.imperial-fringe.moonrack-calcinator"
+        },
+        {
+          "siteId": "site.free.roadside-0090",
+          "score": 4.408,
+          "whyLost": "too close to place.imperial-fringe.the-art-and-ash-place"
+        }
+      ],
+      "whySiteWon": "local tie in firm lowland (danger band 3), 80 m from the nearest route; no free 'sinkhole' site was left in the zone, so plain ground; won on culture-clump, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 79.8,
+        "distanceToWaterM": 49.7,
+        "water": {
+          "entityId": "body.1074-1698",
+          "kind": "backswamp",
+          "levelM": 18.25,
+          "season": "perennial",
+          "distanceM": 49.7
+        },
+        "score": 4.307
       }
     },
     {

@@ -99,6 +99,32 @@
       "why": "the city's own quay"
     }
   },
+  "roadEdges": [
+    {
+      "from": "ferry-landing.drowning-gate.east",
+      "roadId": "route.road.gideon-blackwood-road",
+      "to": "station.imperial-fringe.gideon",
+      "why": "ferry.imperial-fringe.drowning-gate repairs the break in route.road.gideon-blackwood-road; its landing stands on that road, which runs to station.imperial-fringe.gideon"
+    },
+    {
+      "from": "ferry-landing.drowning-gate.west",
+      "roadId": "route.road.gideon-blackwood-road",
+      "to": "station.imperial-fringe.gideon",
+      "why": "ferry.imperial-fringe.drowning-gate repairs the break in route.road.gideon-blackwood-road; its landing stands on that road, which runs to station.imperial-fringe.gideon"
+    },
+    {
+      "from": "ferry-landing.onkobra-bond.town",
+      "roadId": "route.road.archon-gideon",
+      "to": "station.imperial-fringe.gideon",
+      "why": "ferry.imperial-fringe.onkobra-bond repairs the break in route.road.archon-gideon; its landing stands on that road, which runs to station.imperial-fringe.gideon"
+    },
+    {
+      "from": "ferry-landing.onkobra-bond.far",
+      "roadId": "route.road.archon-gideon",
+      "to": "station.imperial-fringe.gideon",
+      "why": "ferry.imperial-fringe.onkobra-bond repairs the break in route.road.archon-gideon; its landing stands on that road, which runs to station.imperial-fringe.gideon"
+    }
+  ],
   "rootways": [
     {
       "from": "root-node.helstrom",
@@ -784,21 +810,42 @@
         },
         {
           "follows": {
-            "reaches": []
+            "lanes": [
+              "waterway.imperial-penal-south.lake-ferry-stage",
+              "route.boat.blackrose-lilmoth",
+              "route.boat.soulrest-lilmoth",
+              "waterway.imperial-penal-south.saltrice-village"
+            ]
           },
           "from": "station.imperial-penal-south.lake-ferry-stage",
-          "lengthM": 430.1,
-          "to": "station.imperial-penal-south.lake-boardwalk-village",
-          "unresolved": true
+          "jettyM": {
+            "station.imperial-penal-south.lake-boardwalk-village": 153.6,
+            "station.imperial-penal-south.lake-ferry-stage": 171.7
+          },
+          "laneDepthM": {
+            "station.imperial-penal-south.lake-boardwalk-village": 7.92,
+            "station.imperial-penal-south.lake-ferry-stage": 0.24
+          },
+          "lengthM": 3274.7,
+          "to": "station.imperial-penal-south.lake-boardwalk-village"
         },
         {
           "follows": {
-            "reaches": []
+            "bodies": [
+              "body.ocean"
+            ]
           },
           "from": "station.imperial-penal-south.lake-boardwalk-village",
-          "lengthM": 492.7,
-          "to": "station.imperial-penal-south.longmont",
-          "unresolved": true
+          "jettyM": {
+            "station.imperial-penal-south.lake-boardwalk-village": 153.6,
+            "station.imperial-penal-south.longmont": 129.1
+          },
+          "laneDepthM": {
+            "station.imperial-penal-south.lake-boardwalk-village": 7.92,
+            "station.imperial-penal-south.longmont": 1.08
+          },
+          "lengthM": 894.4,
+          "to": "station.imperial-penal-south.longmont"
         },
         {
           "follows": {
@@ -845,7 +892,15 @@
         "name": "text.ferry.blackrose-lake.name",
         "refusal": "text.ferry.refused-owing"
       },
-      "unmatchedWhy": "hop station.imperial-penal-south.longmont -> station.imperial-penal-south.three-gate-toll: station.imperial-penal-south.longmont is 129 m from the nearest lane vertex (limit 60 m); station.imperial-penal-south.three-gate-toll is 209 m from the nearest lane vertex (limit 60 m)",
+      "unmatchedWhy": "hop station.imperial-penal-south.longmont -> station.imperial-penal-south.three-gate-toll: station.imperial-penal-south.longmont is 285 m from the nearest lane vertex (berth walk 250 m)",
+      "warnings": [
+        {
+          "at": "station.imperial-penal-south.lake-ferry-stage -> station.imperial-penal-south.lake-boardwalk-village at [3457, 6643]",
+          "depthM": 0.0,
+          "kind": "shallow-hop",
+          "needM": 1.2
+        }
+      ],
       "water": {
         "class": "lake",
         "name": "the Blackrose lake"
@@ -863,12 +918,23 @@
       "hops": [
         {
           "follows": {
-            "reaches": []
+            "lanes": [
+              "route.boat.soulrest-lilmoth",
+              "waterway.mercantile-coast.oliis-ferry-stage",
+              "waterway.mercantile-coast.glowfen-murkmire"
+            ]
           },
           "from": "station.mercantile-coast.bramman-river-ferry",
-          "lengthM": 1328.9,
-          "to": "station.mercantile-coast.oliis-ferry-stage",
-          "unresolved": true
+          "jettyM": {
+            "station.mercantile-coast.bramman-river-ferry": 161.4,
+            "station.mercantile-coast.oliis-ferry-stage": 10.9
+          },
+          "laneDepthM": {
+            "station.mercantile-coast.bramman-river-ferry": 1.32,
+            "station.mercantile-coast.oliis-ferry-stage": 3.84
+          },
+          "lengthM": 2928.6,
+          "to": "station.mercantile-coast.oliis-ferry-stage"
         }
       ],
       "hullClass": "small-draft",
@@ -891,13 +957,20 @@
         "station.mercantile-coast.bramman-river-ferry",
         "station.mercantile-coast.oliis-ferry-stage"
       ],
-      "status": "unmatched",
+      "status": "active",
       "text": {
         "hail": "text.ferry.stage-generic.hail",
         "name": "text.ferry.bramman-oliis.name",
         "refusal": "text.ferry.refused-weather"
       },
-      "unmatchedWhy": "hop station.mercantile-coast.bramman-river-ferry -> station.mercantile-coast.oliis-ferry-stage: station.mercantile-coast.bramman-river-ferry is 161 m from the nearest lane vertex (limit 60 m)",
+      "warnings": [
+        {
+          "at": "station.mercantile-coast.bramman-river-ferry -> station.mercantile-coast.oliis-ferry-stage at [995, 7093]",
+          "depthM": 0.12,
+          "kind": "shallow-hop",
+          "needM": 1.2
+        }
+      ],
       "water": {
         "class": "river",
         "name": "the Bramman"
@@ -1070,7 +1143,7 @@
             "rootway": "rootway.helstrom-naga-deeps"
           },
           "from": "root-node.helstrom",
-          "lengthM": 2922.9,
+          "lengthM": 2870.0,
           "to": "root-node.naga-deeps"
         },
         {
@@ -1267,8 +1340,8 @@
       },
       "placeId": "place.naga-kur-deeps.dead-water-village",
       "positionM": [
-        3238.0,
-        5771.4
+        3380.6,
+        5716.6
       ],
       "rootKind": "station",
       "status": "active",
@@ -1373,7 +1446,8 @@
         1719.1,
         6835.2
       ],
-      "status": "active"
+      "status": "unmatched",
+      "unmatchedWhy": "place place.imperial-penal-south.longmont carries no positionM — a station cannot stand nowhere"
     },
     {
       "id": "station.imperial-penal-south.three-gate-toll",
@@ -1490,7 +1564,25 @@
         4819.9,
         4244.3
       ],
-      "status": "active"
+      "retiredWhy": "its two services, estuary-run and jungle-stage, were retired (no lane, no sited stage); Archon is served by lilmoth-archon and archon-thorn",
+      "status": "retired"
+    }
+  ],
+  "transferEdges": [
+    {
+      "from": "root-node.east-estuary",
+      "to": "station.saxhleel-coast.archon",
+      "why": "64 m apart, within the 300 m walk"
+    },
+    {
+      "from": "root-node.helstrom",
+      "to": "station.hist-heartland.helstrom",
+      "why": "167 m apart, within the 300 m walk"
+    },
+    {
+      "from": "root-node.north-shadowfen",
+      "to": "station.dunmer-north.stormhold",
+      "why": "both stand at place.dunmer-north.stormhold"
     }
   ],
   "vocabulary": {

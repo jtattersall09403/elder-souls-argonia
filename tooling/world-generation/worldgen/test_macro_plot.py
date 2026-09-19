@@ -19,6 +19,10 @@ from . import catalogue, macro_plot
 
 ANCHORS = json.loads(macro_plot.REPO_ROOT.joinpath("world/sources/anchors/settlement-anchors.json").read_text())
 
+ACCEPTED_HOMELESS_IDS = {
+    r["id"] for r in json.loads(macro_plot.HOMELESS_ACCEPTED.read_text())["records"]
+}
+
 
 def _live():
     for rf in catalogue.load_region_files():
@@ -28,10 +32,16 @@ def _live():
 
 
 def test_every_live_record_is_plotted_with_a_why():
-    missing = [rec["id"] for _z, rec in _live()
-               if rec.get("workflow") not in {"plotted", "authored", "frozen"}
-               or "position" not in rec or not rec.get("whySiteWon")]
+    live = {rec["id"]: rec for _z, rec in _live()}
+    missing = [rid for rid, rec in live.items()
+               if rid not in ACCEPTED_HOMELESS_IDS
+               and (rec.get("workflow") not in {"plotted", "authored", "frozen"}
+                    or "position" not in rec or not rec.get("whySiteWon"))]
     assert not missing, f"unplotted live records: {missing[:10]} (+{max(0, len(missing) - 10)})"
+    for rid in ACCEPTED_HOMELESS_IDS:
+        rec = live.get(rid)
+        assert rec is not None, rid
+        assert "position" not in rec and rec.get("workflow") == "derived", rid
 
 
 def test_deferred_and_cut_records_carry_no_position():
@@ -78,6 +88,9 @@ def test_positions_are_inside_the_province_and_in_the_report():
     assert rep["schemaVersion"] == macro_plot.SCHEMA_VERSION
     n = 0
     for _z, rec in _live():
+        if rec["id"] in ACCEPTED_HOMELESS_IDS:
+            assert "position" not in rec, rec["id"]
+            continue
         u, v = rec["position"]["u"], rec["position"]["v"]
         assert 0.0 <= u <= 1.0 and 0.0 <= v <= 1.0, rec["id"]
         n += 1
@@ -103,8 +116,12 @@ def test_no_two_live_places_share_ground():
 
 def test_places_stay_within_spill_distance_of_their_zone():
     rep = json.loads(macro_plot.REPORT_JSON.read_text())
+    accepted_by_zone: dict[str, int] = {}
+    for zone, rec in _live():
+        if rec["id"] in ACCEPTED_HOMELESS_IDS:
+            accepted_by_zone[zone] = accepted_by_zone.get(zone, 0) + 1
     for zone, z in rep["byZone"].items():
-        assert z["plotted"] == z["live"], zone
+        assert z["plotted"] == z["live"] - accepted_by_zone.get(zone, 0), zone
 
 
 @requires_delivered("16g")

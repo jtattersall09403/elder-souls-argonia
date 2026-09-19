@@ -16906,7 +16906,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -17014,7 +17014,50 @@
           }
         ]
       },
-      "terrainRequests": []
+      "terrainRequests": [],
+      "position": {
+        "u": 0.53383,
+        "v": 0.84188
+      },
+      "positionM": [
+        3936.2,
+        6207.6
+      ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0513",
+          "score": 4.274,
+          "whyLost": "too close to place.mercantile-coast.oliis-ferry-stage"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1343",
+          "score": 3.469,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0516",
+          "score": 3.379,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "local tie in fringe marsh (danger band 3), 248 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on route, bound, region; bound to body.ocean within 60 m; needs 4 m of water; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 248.2,
+        "distanceToWaterM": 57.2,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 57.2
+        },
+        "score": 4.162
+      }
     },
     {
       "id": "place.mercantile-coast.oliis-ferry-stage",

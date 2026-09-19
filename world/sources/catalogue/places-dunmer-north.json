@@ -31191,7 +31191,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
       "underwaterAccess": "shallow-dive",
@@ -31297,7 +31297,41 @@
           }
         ]
       },
-      "terrainRequests": []
+      "terrainRequests": [],
+      "position": {
+        "u": 0.73661,
+        "v": 0.10672
+      },
+      "positionM": [
+        5431.4,
+        786.9
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.border-mountains.ford-033",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.border-mountains.spring-head-015",
+          "score": 3.023,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ford in border mountains (danger band 3), 670 m from the nearest route; at the water's edge; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; bound to body.2879-340 within 60 m.",
+      "plotFacts": {
+        "landform": "ford",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 669.8,
+        "distanceToWaterM": 12.3,
+        "water": {
+          "entityId": "body.2953-433",
+          "kind": "pond",
+          "levelM": 226.62,
+          "season": "perennial",
+          "distanceM": 12.3
+        },
+        "score": 3.045
+      }
     },
     {
       "id": "place.dunmer-north.the-standing-bid",

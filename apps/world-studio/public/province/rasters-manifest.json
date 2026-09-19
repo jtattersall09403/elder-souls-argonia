@@ -3857,9 +3857,9 @@
       ]
     },
     "refined": {
-      "sha256": "426937ff67703968332e0d58bdec120e4f45a5eace19ee987f28e66125f41139",
-      "sizeBytes": 29323390,
-      "asset": "province-refined-426937ff6770.tar.gz",
+      "sha256": "a15a69a0e8ce11780542fdfbbde42312947757979b8713beb15764a78a10cfe7",
+      "sizeBytes": 24472332,
+      "asset": "province-refined-a15a69a0e8ce.tar.gz",
       "files": [
         {
           "path": "refined/ground-control.png",
@@ -3875,11 +3875,6 @@
           "path": "refined/ground-tint.png",
           "sha256": "d2331096500d80d3aae12806b3ff8f61635f2ce82a67fa48cf3b16001bb3ae1a",
           "bytes": 793927
-        },
-        {
-          "path": "refined/height-natural-rg.png",
-          "sha256": "6a9864476c6f169aaf79b54eb178bf4c5734f3899f09387e55e956562fae19f6",
-          "bytes": 4851058
         },
         {
           "path": "refined/height-rg.png",
@@ -3936,9 +3931,9 @@
       ]
     },
     "vegetation": {
-      "sha256": "1b0b8489dcd424118bbf800156a1885ae01912b45c80a8128ba670a06af9201a",
-      "sizeBytes": 20083150,
-      "asset": "province-vegetation-1b0b8489dcd4.tar.gz",
+      "sha256": "aa881288d053850279c498cce6ab7a7a1ee8461b7ba1216aa52c6cacccc0f0fa",
+      "sizeBytes": 19924965,
+      "asset": "province-vegetation-aa881288d053.tar.gz",
       "files": [
         {
           "path": "vegetation/chunk_0_0_vegetation.bin",
@@ -3947,8 +3942,8 @@
         },
         {
           "path": "vegetation/chunk_0_10_vegetation.bin",
-          "sha256": "ac5dc1e087688d8a18680b76f61fa5c00a7ac2b107de1a988e1d80ed1c6a10c5",
-          "bytes": 178150
+          "sha256": "0daa46f6b99eb371c63c806da9d54d8af65a9cb171b2e0f677098b72fed77683",
+          "bytes": 177181
         },
         {
           "path": "vegetation/chunk_0_11_vegetation.bin",
@@ -3977,13 +3972,13 @@
         },
         {
           "path": "vegetation/chunk_0_1_vegetation.bin",
-          "sha256": "395153cf63ba1e0640d9d71ab2265e2e0415c33e217b441afa7e7109408eef7e",
-          "bytes": 31406
+          "sha256": "d3b4ef443bc9fdd6578da40e77b4eb7d1bd2a1824051da7e937abde5b2929ba3",
+          "bytes": 30522
         },
         {
           "path": "vegetation/chunk_0_2_vegetation.bin",
-          "sha256": "0acca611daf2d2d17b48457faab83feb66579638ed86968b50cc3a245511d3f9",
-          "bytes": 25439
+          "sha256": "91415fe7c90b1312bad8186270b5dea4a84d30ef3bc11e4d655eba02336dba8d",
+          "bytes": 25031
         },
         {
           "path": "vegetation/chunk_0_3_vegetation.bin",
@@ -4002,13 +3997,13 @@
         },
         {
           "path": "vegetation/chunk_0_6_vegetation.bin",
-          "sha256": "f848efc11d2b740b51dd5509efbc8a119e9a692c585b7fbfc46349fcbdea8e02",
-          "bytes": 38733
+          "sha256": "b3ca6afebde48029586c51e1b0431c10316130c86c761f7cebbe9d6867cc1e84",
+          "bytes": 38444
         },
         {
           "path": "vegetation/chunk_0_7_vegetation.bin",
-          "sha256": "ce600027e8cccd7f25ba19c2a344a1e00fbf2afd51b35b0cda4330f803fb9311",
-          "bytes": 34143
+          "sha256": "eb2cfe43edc7f36e475662e6b47492b6a18564be86838cbaf1eaaff72c99ed54",
+          "bytes": 34126
         },
         {
           "path": "vegetation/chunk_0_8_vegetation.bin",
@@ -4017,8 +4012,8 @@
         },
         {
           "path": "vegetation/chunk_0_9_vegetation.bin",
-          "sha256": "f8e71574322638bb8af5aac972f34aaf0565ffc7a6b8a71eeae66eb63ad732e8",
-          "bytes": 110949
+          "sha256": "74a4be164990f5a41e3737174472d8155e8073f06cf436e0361930609717f8da",
+          "bytes": 110609
         },
         {
           "path": "vegetation/chunk_10_0_vegetation.bin",
@@ -4057,23 +4052,23 @@
         },
         {
           "path": "vegetation/chunk_10_1_vegetation.bin",
-          "sha256": "32bf1afbce5be91210b693719dd345f852c38082278ed7787349cec4ff7a4c8a",
-          "bytes": 21971
+          "sha256": "244ba63b7b6f3e624f6867cd056f99568fd79ef8b96cca5b64fc31fcb448255b",
+          "bytes": 21529
         },
         {
           "path": "vegetation/chunk_10_2_vegetation.bin",
-          "sha256": "1ceefeb2da29c4941e991c26199376e83149684a75c5c3e0fdf67d5aeef98b44",
-          "bytes": 56549
+          "sha256": "aed252c4a16eba46077b6868a9619213564930417d1e167bdf77a61fc847d59b",
+          "bytes": 54798
         },
         {
           "path": "vegetation/chunk_10_3_vegetation.bin",
-          "sha256": "8c56af33a9973b9a11ffeea9ffeac11d52c399e153ce036e5a720bafe062af03",
-          "bytes": 55580
+          "sha256": "d6d9c30343ea53705907fb82df06005fb6670e2251a6503d7c03cbd38d1aecb5",
+          "bytes": 54135
         },
         {
           "path": "vegetation/chunk_10_4_vegetation.bin",
-          "sha256": "08facad18e8b728253abcc6541fd00de6b63527f5bcbde6487519fdeb19258eb",
-          "bytes": 68942
+          "sha256": "5e34e7ceb86e4c57210d5a62dca9b42d8641daf8c229f8788d13269356696b47",
+          "bytes": 66851
         },
         {
           "path": "vegetation/chunk_10_5_vegetation.bin",
@@ -4087,8 +4082,8 @@
         },
         {
           "path": "vegetation/chunk_10_7_vegetation.bin",
-          "sha256": "3bea4d3b34ca48f2a0b6ce78d9afad5634022692f216df50b38ef3f1f2825a31",
-          "bytes": 98913
+          "sha256": "4370b8b92cac2ae657966da0ddc7f9c56897655b4212909d8c9c74cb567e4a6a",
+          "bytes": 97162
         },
         {
           "path": "vegetation/chunk_10_8_vegetation.bin",
@@ -4102,8 +4097,8 @@
         },
         {
           "path": "vegetation/chunk_11_0_vegetation.bin",
-          "sha256": "694cc848ccb71f80061ea7cc085184101cef0a2fda8dd6a48a55c2b2b4eae7d4",
-          "bytes": 63876
+          "sha256": "377914149a1aaab28bd0c59c16576b7d125353da4ef153cf0878e6b760784f05",
+          "bytes": 61003
         },
         {
           "path": "vegetation/chunk_11_10_vegetation.bin",
@@ -4137,8 +4132,8 @@
         },
         {
           "path": "vegetation/chunk_11_1_vegetation.bin",
-          "sha256": "5b26d97ef1a59e9b504b354d49b8cbe3ee21d50e5070c104b8765cf6428a39fc",
-          "bytes": 23467
+          "sha256": "c638206c62b56f9991d8f7f31676551a836207583b8999a6035112d47580a56b",
+          "bytes": 21512
         },
         {
           "path": "vegetation/chunk_11_2_vegetation.bin",
@@ -4147,13 +4142,13 @@
         },
         {
           "path": "vegetation/chunk_11_3_vegetation.bin",
-          "sha256": "0d4767ebc478e030ef2d76440a5bc4018dc7b5bb72af5b61971210d480786df3",
-          "bytes": 72988
+          "sha256": "ef5cf080677a8d9a240c719bc4f8a807191185f890d36adfc399685e8145e235",
+          "bytes": 70880
         },
         {
           "path": "vegetation/chunk_11_4_vegetation.bin",
-          "sha256": "f905fefba549379bf73cee32e3a666957b4d5c25b978c82e0d9a88b561610cde",
-          "bytes": 142977
+          "sha256": "c5c3e87823f663bbef9efa9ec87ed2ba48cb33f4f59b41df71f9edd5a97a3bdd",
+          "bytes": 136636
         },
         {
           "path": "vegetation/chunk_11_5_vegetation.bin",
@@ -4182,8 +4177,8 @@
         },
         {
           "path": "vegetation/chunk_12_0_vegetation.bin",
-          "sha256": "a84e00e6f4c1cbb360e42ff3e23d24d844cfad09c7139543b3a8c415bb1edca0",
-          "bytes": 67990
+          "sha256": "74f6c6471008f5fdf52e03d23aded2e7e5c1ef9823bd59136dc0c34a62989625",
+          "bytes": 64981
         },
         {
           "path": "vegetation/chunk_12_10_vegetation.bin",
@@ -4217,8 +4212,8 @@
         },
         {
           "path": "vegetation/chunk_12_1_vegetation.bin",
-          "sha256": "8a4f928ff8c3929bec2eeed0c7c33359b20709dfac15af072cee61c415200b09",
-          "bytes": 46944
+          "sha256": "35bda4fd958f3b47b5ff0e9b5a81cc8155cdccc65978c9085bd0d468eb6bd018",
+          "bytes": 44190
         },
         {
           "path": "vegetation/chunk_12_2_vegetation.bin",
@@ -4227,8 +4222,8 @@
         },
         {
           "path": "vegetation/chunk_12_3_vegetation.bin",
-          "sha256": "8c2a1d47e718eb1d033568a5cf44d61d7a9e2a61e6e83e6ce9f8e4bffeb4fb51",
-          "bytes": 139305
+          "sha256": "66f4824bcee4211eb6503eda0facd5d6f485314d93ad5b538516f1a812eb601a",
+          "bytes": 139067
         },
         {
           "path": "vegetation/chunk_12_4_vegetation.bin",
@@ -4262,8 +4257,8 @@
         },
         {
           "path": "vegetation/chunk_13_0_vegetation.bin",
-          "sha256": "a9d519a1ddd24e2a25843213d227ab29f920321ef890122110c900b129b404e3",
-          "bytes": 49562
+          "sha256": "243ce004ab3383e75a58c8f943cb589555cad2c12cc593e45dccb606f21327b0",
+          "bytes": 48304
         },
         {
           "path": "vegetation/chunk_13_10_vegetation.bin",
@@ -4297,18 +4292,18 @@
         },
         {
           "path": "vegetation/chunk_13_1_vegetation.bin",
-          "sha256": "04a2413a64e0d620cc02355ededee237d092af03f041cd153dc62716205c66ea",
-          "bytes": 41300
+          "sha256": "8083cdc5d627c3ffae8bac67e7d0a0d54d5805b77f8204d7325b49fac00eb123",
+          "bytes": 40008
         },
         {
           "path": "vegetation/chunk_13_2_vegetation.bin",
-          "sha256": "162e03e27ca521df6af28dc0105695fcb06544d7d658c36f8c7af4456411caac",
-          "bytes": 107906
+          "sha256": "df676ce11c9f53d8278771a050be7b50eec23a93155585cf04bdf121a74e42d6",
+          "bytes": 107124
         },
         {
           "path": "vegetation/chunk_13_3_vegetation.bin",
-          "sha256": "46c2d90b92c9dcecba85cd37f9986ff8003f02a661739a748362a4f46f73e643",
-          "bytes": 191393
+          "sha256": "c1f6bd2bd323b334fe9a2db966af1ebbd9f4215cb5f6f555f452d2d3fc4e014e",
+          "bytes": 189642
         },
         {
           "path": "vegetation/chunk_13_4_vegetation.bin",
@@ -4342,8 +4337,8 @@
         },
         {
           "path": "vegetation/chunk_14_0_vegetation.bin",
-          "sha256": "799952f6f5e26349145b29cc4c6ba2ee2f93fd35b08958367fbe776b19d8fa93",
-          "bytes": 46978
+          "sha256": "55d8f7fb71880d040a14ce2a2b0be92560157ab4d913aef7f6c091a98489bac7",
+          "bytes": 45822
         },
         {
           "path": "vegetation/chunk_14_10_vegetation.bin",
@@ -4377,18 +4372,18 @@
         },
         {
           "path": "vegetation/chunk_14_1_vegetation.bin",
-          "sha256": "abc37b1afce4aeedb7796ee14f7dfdd36442464be2aa12a9bf4848963d2f11c5",
-          "bytes": 63383
+          "sha256": "4b64973dad39bc0b49d01e89fcf30fa7f207caaa4fecc1c16216c7744a857ac5",
+          "bytes": 58827
         },
         {
           "path": "vegetation/chunk_14_2_vegetation.bin",
-          "sha256": "af37c1d6b31138e20fd11f60380d9fb6db5578f88f247efa30714038983f54e6",
-          "bytes": 116457
+          "sha256": "9a65ece5094c936457722574cdafed36059e754d07849b4933e7fd0c06c9f109",
+          "bytes": 109844
         },
         {
           "path": "vegetation/chunk_14_3_vegetation.bin",
-          "sha256": "d4de5e003b329cc451f0f56016ff3824c4cc6c4f92676a4c023dc7638317b7f6",
-          "bytes": 125501
+          "sha256": "44f55ca5bdacdb84415cf4fb15c6422f1ff3b96c664caf492323d09f5aed4457",
+          "bytes": 119432
         },
         {
           "path": "vegetation/chunk_14_4_vegetation.bin",
@@ -4422,8 +4417,8 @@
         },
         {
           "path": "vegetation/chunk_15_0_vegetation.bin",
-          "sha256": "1bd03e3e893e5b02e0e09c511a299ecf85c9912e8368f0a61b3c1532f47be4be",
-          "bytes": 148893
+          "sha256": "856b74e8179d6bbe4bf2a7b7c4a12761b22aa6833a7516f16be041d0140cc895",
+          "bytes": 147686
         },
         {
           "path": "vegetation/chunk_15_10_vegetation.bin",
@@ -4457,13 +4452,13 @@
         },
         {
           "path": "vegetation/chunk_15_1_vegetation.bin",
-          "sha256": "6f604009999f85f14d86f4a1bf67eab03ab2c925653a9f1bb25fb0ea3efb894f",
-          "bytes": 116559
+          "sha256": "77d5497a78a9d1af956b0f7bca400096c72260878d6ed8acdd02dbec4c0bd6f9",
+          "bytes": 113652
         },
         {
           "path": "vegetation/chunk_15_2_vegetation.bin",
-          "sha256": "5add2df1742c49a8510df7b45c8c3b10689f80fcba742b22a47f12205dccacbe",
-          "bytes": 139305
+          "sha256": "924ac2eac3ad4588c7042886f576b7f11f7d9d1a15ad75fbaee61ed5bbd5a91e",
+          "bytes": 138149
         },
         {
           "path": "vegetation/chunk_15_3_vegetation.bin",
@@ -4507,8 +4502,8 @@
         },
         {
           "path": "vegetation/chunk_1_10_vegetation.bin",
-          "sha256": "5a3cf53812abbc308b906c0125baaf0e40d104b9f7bf04c62bc04bed27f8bb12",
-          "bytes": 88679
+          "sha256": "ca0460c56ead69bf68fa2cd977e1be7ee499e037064da56cee3982f077b6bcb8",
+          "bytes": 87744
         },
         {
           "path": "vegetation/chunk_1_11_vegetation.bin",
@@ -4537,8 +4532,8 @@
         },
         {
           "path": "vegetation/chunk_1_1_vegetation.bin",
-          "sha256": "dc88b855bff0ece340432e75aa155a7a5af3507c84f0aaaf7871d6e0fe9ae97e",
-          "bytes": 39158
+          "sha256": "c2ccb9357453351374adc0d96fb2055687da5918453ce616b9a050e2a145456c",
+          "bytes": 37169
         },
         {
           "path": "vegetation/chunk_1_2_vegetation.bin",
@@ -4567,18 +4562,18 @@
         },
         {
           "path": "vegetation/chunk_1_7_vegetation.bin",
-          "sha256": "8a5d4054559b241f668b94fdff2b15f21c18d1b950297466182487973b655ff1",
-          "bytes": 24657
+          "sha256": "4e928093f00f9f91b66730d89ae6e91efccd3ce1fa7ff045ad9613e2540e5863",
+          "bytes": 23127
         },
         {
           "path": "vegetation/chunk_1_8_vegetation.bin",
-          "sha256": "07a2f792dba182cbe7131ae03a2c6f5908484a0f39b82d1cb9c690a4ac17a3a8",
-          "bytes": 48508
+          "sha256": "da37180b475b6a5bd93f3b12278750a20615787a3470aaf945032aaf1f2f0226",
+          "bytes": 47284
         },
         {
           "path": "vegetation/chunk_1_9_vegetation.bin",
-          "sha256": "4238c496c6eade972ad2f1b077540dbb149ca012021f8089f59ee151a5298c9e",
-          "bytes": 42524
+          "sha256": "2c672a852d5c308b80f837f96b44654b367cf6c46a1d7125b9982b51bafe8520",
+          "bytes": 41079
         },
         {
           "path": "vegetation/chunk_2_0_vegetation.bin",
@@ -4587,8 +4582,8 @@
         },
         {
           "path": "vegetation/chunk_2_10_vegetation.bin",
-          "sha256": "39d94c14a6a8ce9435d5af4d691141c53230e42128cdd368a159480d10666970",
-          "bytes": 91790
+          "sha256": "bfe14f9caac719b5a2990fd484b4f56b795b24e8823b8882393833761a262d7d",
+          "bytes": 91076
         },
         {
           "path": "vegetation/chunk_2_11_vegetation.bin",
@@ -4617,18 +4612,18 @@
         },
         {
           "path": "vegetation/chunk_2_1_vegetation.bin",
-          "sha256": "f59e22dcccfc49f3f555a58e1c8ed9f938bb8295a006de5c42a65fb2996b1596",
-          "bytes": 20543
+          "sha256": "f9bd2ffea39a8160593d52e4e1de41b035819737a776ba5e4da4fa7d5956a223",
+          "bytes": 18996
         },
         {
           "path": "vegetation/chunk_2_2_vegetation.bin",
-          "sha256": "9744c06be67b1986854a85ddfeec5eb270b6f8cebde3c942cc6a187b72c825b8",
-          "bytes": 28975
+          "sha256": "5dccf4f5cd545f3b667dbff0fe08eb1cc2e0d15eadaf879157008b205cba16f8",
+          "bytes": 27819
         },
         {
           "path": "vegetation/chunk_2_3_vegetation.bin",
-          "sha256": "7d9845aa773cf1be9dba773c07d9f6c5be6c093b1a2fa1db6c5f2a83d472f14e",
-          "bytes": 35843
+          "sha256": "928b26847c077b6f730d9bc3e661cc338451a3230d912f4da999d0603e916314",
+          "bytes": 35316
         },
         {
           "path": "vegetation/chunk_2_4_vegetation.bin",
@@ -4642,28 +4637,28 @@
         },
         {
           "path": "vegetation/chunk_2_6_vegetation.bin",
-          "sha256": "2fd7879be3d5d4bc735b118c5a17a3110213d03d25975d2237a6e61144d12731",
-          "bytes": 47437
+          "sha256": "71bbf44295bfa40aef4d198276129dde925cff462a9f452c33a315e603215124",
+          "bytes": 44530
         },
         {
           "path": "vegetation/chunk_2_7_vegetation.bin",
-          "sha256": "c33d34df2af933a3909a6174ece0ec57aeccc4538b724b91dc5f1396689a5c61",
-          "bytes": 62567
+          "sha256": "af069f651ea98ef319632c88484aa12b3bb9d215c1f46ab53a6b9df31c425f5d",
+          "bytes": 59932
         },
         {
           "path": "vegetation/chunk_2_8_vegetation.bin",
-          "sha256": "6e69b200a7a2e11439c34c2b374b08c69f504f3f6d52c20ba81f73f3165b59ca",
-          "bytes": 114009
+          "sha256": "d744f25844c0c6a0f9c9609a7f4afc4de642313f98b7ec632f5eafc89878e09c",
+          "bytes": 113720
         },
         {
           "path": "vegetation/chunk_2_9_vegetation.bin",
-          "sha256": "e3e12a06fee43721f5d7e9fdb838541f8126295c5c1b919c087f2697245e5260",
-          "bytes": 90549
+          "sha256": "cded3ce19331940e78371b4dad5d6f78121e0290a646a2260b4f2f17352833ed",
+          "bytes": 89308
         },
         {
           "path": "vegetation/chunk_3_0_vegetation.bin",
-          "sha256": "051c83423e642f909468c70dcf93adca88a43292095bbb63e9c23240c293e18b",
-          "bytes": 22158
+          "sha256": "c6d57599c4b15f722fa110931f596f3a787825ead153c4f6ba578282a90043ba",
+          "bytes": 20713
         },
         {
           "path": "vegetation/chunk_3_10_vegetation.bin",
@@ -4697,23 +4692,23 @@
         },
         {
           "path": "vegetation/chunk_3_1_vegetation.bin",
-          "sha256": "fac6908d79fbd2ebe883c25d4563322671af4065fb77335ca0b4927af0bc9f61",
-          "bytes": 14967
+          "sha256": "e2af88b9a0452872600541711d368188c909c309bf975532aa48aa65cc9d7b97",
+          "bytes": 14168
         },
         {
           "path": "vegetation/chunk_3_2_vegetation.bin",
-          "sha256": "58bb1e132a3dfb814c28e113e5c31f2cf5c5007fd90d95ea681560836628f5d0",
-          "bytes": 31559
+          "sha256": "d07870f991619cf1e5b8faf0c96179b231926fdb7486c2adc4ec9218db13cb8e",
+          "bytes": 24164
         },
         {
           "path": "vegetation/chunk_3_3_vegetation.bin",
-          "sha256": "5b5d7a1923b21483e68cf61f3efa97b2c764982f5392fc9f06317e72d67d7011",
-          "bytes": 45686
+          "sha256": "50db353f081c4ba62c3cd53f0675aae7ae84f1b4fa769c72fde956fdb5a874c1",
+          "bytes": 39022
         },
         {
           "path": "vegetation/chunk_3_4_vegetation.bin",
-          "sha256": "dd0ff4263b2401545a8b153ceaf3efdac30bd42ced6ef8164b9c057d25b065a2",
-          "bytes": 56685
+          "sha256": "bba7dc998e991c8ad942bffdd4530ca1cf4807e3fdf23d646d9accdedea1beab",
+          "bytes": 55767
         },
         {
           "path": "vegetation/chunk_3_5_vegetation.bin",
@@ -4722,8 +4717,8 @@
         },
         {
           "path": "vegetation/chunk_3_6_vegetation.bin",
-          "sha256": "a066a17dbcab2eebeabb0f94a6cedec3a82c29fa6004f4ff02d44e0a92a14a44",
-          "bytes": 77306
+          "sha256": "64b4cfe8b2cd7ba9121b7a8f31ea7788f801fd630aa2b503b110cf36092b7574",
+          "bytes": 77255
         },
         {
           "path": "vegetation/chunk_3_7_vegetation.bin",
@@ -4737,13 +4732,13 @@
         },
         {
           "path": "vegetation/chunk_3_9_vegetation.bin",
-          "sha256": "b1608005e944d0a2589c00ae0e11fea9e2cc960045b9d51ee0806c32a4d4b1ce",
-          "bytes": 53387
+          "sha256": "dfda366827b0f2c2dfe8a023c7b3ad075bc3c96b8ace4cc9da33cae909a8e69d",
+          "bytes": 53370
         },
         {
           "path": "vegetation/chunk_4_0_vegetation.bin",
-          "sha256": "857428502a230a4636664f8c14474c35af0ffd67a3ae9300bfe35f07967578c3",
-          "bytes": 19523
+          "sha256": "0da38be69a3308579115482dfc939e3fdff0529d157c4e1f4502b6418883900f",
+          "bytes": 17041
         },
         {
           "path": "vegetation/chunk_4_10_vegetation.bin",
@@ -4777,53 +4772,53 @@
         },
         {
           "path": "vegetation/chunk_4_1_vegetation.bin",
-          "sha256": "01deec963b0c852641b574fde4130fbf53bd561f2191ab4037957bce3c097375",
-          "bytes": 19982
+          "sha256": "391ded99aa7e1a98c00e2966d798a31a35c98cf88ab4e4f2cd72dabe3045884e",
+          "bytes": 17721
         },
         {
           "path": "vegetation/chunk_4_2_vegetation.bin",
-          "sha256": "00e99e6cb1ddaac3b3bca16230f5ba6eb92032a9fa0f0cdf9eadc775fcb16d80",
-          "bytes": 40127
+          "sha256": "dfca8838781ebb275b24ecb431c0fb05310ee08cc63037c0317c1306f1ff46a7",
+          "bytes": 38648
         },
         {
           "path": "vegetation/chunk_4_3_vegetation.bin",
-          "sha256": "bcce0cc8d583590ed8c9cab4558d27f3ef5cc4532deedb257c7ddae85bbbbe9f",
-          "bytes": 54356
+          "sha256": "f371cfabc037364e3ee8175044a30bea5fd3aefa356ed1fc90e74ce01e256411",
+          "bytes": 52520
         },
         {
           "path": "vegetation/chunk_4_4_vegetation.bin",
-          "sha256": "96e8f3dc084e715ec42591003934b4546359146124e9d1da22809b4df5231f68",
-          "bytes": 72512
+          "sha256": "53cb7dfac9b1314ee88f69a9ab22e32651f0f16289e9cf3cf275851d1daab642",
+          "bytes": 70982
         },
         {
           "path": "vegetation/chunk_4_5_vegetation.bin",
-          "sha256": "1dce24212eb36638897dfb50e215af1dd18906a33f40af340dc502396234be9e",
-          "bytes": 92980
+          "sha256": "89c7e1b19c69941dccd83fd65d09c7a32168c8300621bbf24091cffca408007d",
+          "bytes": 92215
         },
         {
           "path": "vegetation/chunk_4_6_vegetation.bin",
-          "sha256": "f4625216ccea530bdd6b137007118a8dc73f7d2f699b9ee6cd825336371c0101",
-          "bytes": 90906
+          "sha256": "b0605ea386ebec82b34f9278f960c804f2d5dc3e56abe126529a07b2dc6936c8",
+          "bytes": 89104
         },
         {
           "path": "vegetation/chunk_4_7_vegetation.bin",
-          "sha256": "a4c1ea341a1c376bfc501bf3f045e4d82614dbb3af80c25baad3d48af6c1410a",
-          "bytes": 73430
+          "sha256": "5b79f4b88b8b5db4a523bb97dfc9f7cd422af8ee3cb6ed819067bccbb1afcd3b",
+          "bytes": 71628
         },
         {
           "path": "vegetation/chunk_4_8_vegetation.bin",
-          "sha256": "cc11b225adc9b0f4ace260521ac9ca5e37e1b253603d90f9ce4f60ce45352ad6",
-          "bytes": 87999
+          "sha256": "74f84578dd63d40765d6122be33101ac157466e7997936e75dcc642b1db4c657",
+          "bytes": 87727
         },
         {
           "path": "vegetation/chunk_4_9_vegetation.bin",
-          "sha256": "182b7d679ef5e35aeaeb7ac14c569ebc80915c3d2503dbf96c7e76875a900fb8",
-          "bytes": 87982
+          "sha256": "3fc13ddeaef0b2fb06189e41412b998099d0ed5bce993077b54598c3ec7e3c79",
+          "bytes": 87268
         },
         {
           "path": "vegetation/chunk_5_0_vegetation.bin",
-          "sha256": "a4703e3234cf4122abdc1a4e67b259ce74e95d9c82e16a1a8180bc7ad0d056a8",
-          "bytes": 32664
+          "sha256": "8e1ef4686070d35f8ab1781db0ac0ab9b66ac6aed6bac5373910f21b1e1e1006",
+          "bytes": 32324
         },
         {
           "path": "vegetation/chunk_5_10_vegetation.bin",
@@ -4857,18 +4852,18 @@
         },
         {
           "path": "vegetation/chunk_5_1_vegetation.bin",
-          "sha256": "97edd2fcf65557e431f3eedef450e294c58a640df3710e068f0590c204930ce7",
-          "bytes": 50786
+          "sha256": "03305f6981d5cc59421b8a90b6dfbd7aca1fd349e38d3b20545643c6d266ed92",
+          "bytes": 45006
         },
         {
           "path": "vegetation/chunk_5_2_vegetation.bin",
-          "sha256": "d3fa42ade08e4496f8b417dbf685a52ad1508538eeb5a79a0c038ecbacf03b9c",
-          "bytes": 48457
+          "sha256": "56ff27a4eff912fc77dfe45d1234eeb6c20047ed6ba601dc07199d70763d4bfe",
+          "bytes": 47046
         },
         {
           "path": "vegetation/chunk_5_3_vegetation.bin",
-          "sha256": "b2fc30784eb6f5565764f5aae110de109e2d54796b18cc0e30c3eecc8565ff9a",
-          "bytes": 83562
+          "sha256": "401f072914472703c3b44bbac39cd3642ec173642f43e0e6572646c9b64e38bd",
+          "bytes": 82814
         },
         {
           "path": "vegetation/chunk_5_4_vegetation.bin",
@@ -4887,13 +4882,13 @@
         },
         {
           "path": "vegetation/chunk_5_7_vegetation.bin",
-          "sha256": "116fb6a5b6fa6365044b5feac789e75046ab848bfe41d46f722aaa359c50abe6",
-          "bytes": 92096
+          "sha256": "c44e315afb5167c97a8701d9fd554fb2039154c4be257cfd0cba6df7595b1b97",
+          "bytes": 90447
         },
         {
           "path": "vegetation/chunk_5_8_vegetation.bin",
-          "sha256": "9ff1a2b58774c169bb21f62d13c05eca3a516f8564b38562eeb07bc6b92a1241",
-          "bytes": 80910
+          "sha256": "e9c6d95a03de678175394c50b416983b2ab8ecd5cc6580ae9d50efa558fb9be1",
+          "bytes": 80876
         },
         {
           "path": "vegetation/chunk_5_9_vegetation.bin",
@@ -4902,8 +4897,8 @@
         },
         {
           "path": "vegetation/chunk_6_0_vegetation.bin",
-          "sha256": "65aa2e144cd7178647a8bca146af82a79292d98451105a594d95e8aee6e12925",
-          "bytes": 59320
+          "sha256": "af07a0a33fbdd8fcb9d9138f273ede75bf9f321ee71c68acc455591f1fad0b0e",
+          "bytes": 55920
         },
         {
           "path": "vegetation/chunk_6_10_vegetation.bin",
@@ -4937,18 +4932,18 @@
         },
         {
           "path": "vegetation/chunk_6_1_vegetation.bin",
-          "sha256": "d639fad1a769b58237f1e7b247caf8f8684a2b93645ff1c69282e0bb0d336d6a",
-          "bytes": 53642
+          "sha256": "402f2f7038f70d9ab662484f5d53923f5c393fc37c5bf05407f06e98f5705d44",
+          "bytes": 53387
         },
         {
           "path": "vegetation/chunk_6_2_vegetation.bin",
-          "sha256": "bab803fc15ababe740cd39d4c0b34a049cd1f07f255fc32af7411d75c0b046a0",
-          "bytes": 57739
+          "sha256": "e70ccd689bc4f43058a6f97822c42f539c2a6dd70e5e4dbfa4a1a2353a5ca094",
+          "bytes": 55342
         },
         {
           "path": "vegetation/chunk_6_3_vegetation.bin",
-          "sha256": "0e691f4130f1f1424b0cbbe11f1fb46848b5f90eaec2f8775cee7f81a641af7b",
-          "bytes": 64658
+          "sha256": "d16968a95a24f0e0ae90b6c32ab72efa4ff4742564bf7ae3adc0c01ef191b634",
+          "bytes": 63315
         },
         {
           "path": "vegetation/chunk_6_4_vegetation.bin",
@@ -4957,13 +4952,13 @@
         },
         {
           "path": "vegetation/chunk_6_5_vegetation.bin",
-          "sha256": "96b83ff47906bf7d24d1afec86ccd2882723d445cd633609c6687a55f2f25ec1",
-          "bytes": 68602
+          "sha256": "370eb24c500512994e4ec5962d0bfd233fe5a15656a2dfbe2ff9f28f864685a9",
+          "bytes": 68483
         },
         {
           "path": "vegetation/chunk_6_6_vegetation.bin",
-          "sha256": "f177ece808a0f1e4c5da40979fb3c75c0d255d8f189fdc754e2becaefcb68e2a",
-          "bytes": 73277
+          "sha256": "efd3ef98cca2f2199658cdd66725cd2d871111da3424413a51cbea5d187a6eae",
+          "bytes": 72767
         },
         {
           "path": "vegetation/chunk_6_7_vegetation.bin",
@@ -4982,8 +4977,8 @@
         },
         {
           "path": "vegetation/chunk_7_0_vegetation.bin",
-          "sha256": "e7eaaed4dc0c3a82a8a32a10efaf8cf686782012dc9bac29aeaec5c1031b3529",
-          "bytes": 50616
+          "sha256": "32ef5c01831ca4f51a0a599112178c95c619078d88441f65a688f8ca8c448037",
+          "bytes": 45074
         },
         {
           "path": "vegetation/chunk_7_10_vegetation.bin",
@@ -5017,53 +5012,53 @@
         },
         {
           "path": "vegetation/chunk_7_1_vegetation.bin",
-          "sha256": "e8906cf8d676220f3deeb880fe05e56e1ca4676247b4d3dec20700a4ba4073e8",
-          "bytes": 54696
+          "sha256": "dbfc58ddf10e55121c0722bbe4391d6611dceb50ffda0b1cb7f2dd4e8cec7e60",
+          "bytes": 54645
         },
         {
           "path": "vegetation/chunk_7_2_vegetation.bin",
-          "sha256": "97c8bf90a0f582a550d4ac2eaea135725ee22eee4a154c176b86ad720805519b",
-          "bytes": 57994
+          "sha256": "61cf7fb5bfa20a3a77af7569d97e35c325e3c8b9cbc4821d565936477b128bf4",
+          "bytes": 56073
         },
         {
           "path": "vegetation/chunk_7_3_vegetation.bin",
-          "sha256": "f8a0681638ed90ac202d26bb5d090402e3173544b9ab5c5479fcb6f04ac9841e",
-          "bytes": 63060
+          "sha256": "ac2f7e9c2fb17fbaa7ea7a41e9b66648a5f0f12f407f692f8ba3c4e52bbc8330",
+          "bytes": 62737
         },
         {
           "path": "vegetation/chunk_7_4_vegetation.bin",
-          "sha256": "802837e87a1757231fa2327f57da30a2f4e7a542795403a975c8f0d98b2f34e9",
-          "bytes": 87098
+          "sha256": "889dcd8cd8c8d3e1615573635ec833b9e77d2784a6489bdbc825096b914fc8a7",
+          "bytes": 86656
         },
         {
           "path": "vegetation/chunk_7_5_vegetation.bin",
-          "sha256": "1215571e267915ba70eabd233a60b09d714628ed942b3b5efff962dc31ebb6a8",
-          "bytes": 65814
+          "sha256": "c05e6813fee95b82f943b6740873a24b85f97a3203a49766ee825d4cfe040abb",
+          "bytes": 64182
         },
         {
           "path": "vegetation/chunk_7_6_vegetation.bin",
-          "sha256": "2b4ab97753528969054c90f4e1cefaf19ad0259fff27abfcb1d204f31761d44f",
-          "bytes": 50378
+          "sha256": "fb68f6f95a517b371f1fa0f30bad9a4ebe80e2aa8fd1632f222d2a8828a320ee",
+          "bytes": 50055
         },
         {
           "path": "vegetation/chunk_7_7_vegetation.bin",
-          "sha256": "560af161a55d0659a882337c8f1a35a8fae4628543c24fc73743361273aa5e8c",
-          "bytes": 81284
+          "sha256": "f92222a0c032fb6725caf2b85a82dfb449c87436e13a31fc29a3cd3de8f2fc2a",
+          "bytes": 81029
         },
         {
           "path": "vegetation/chunk_7_8_vegetation.bin",
-          "sha256": "dbaf429c1bde24095a5ec646915fec62ce9dd10dc759fd2318d6ba8343d1c4b8",
-          "bytes": 122747
+          "sha256": "d01483a8771064d0a99e3aef292a1c9632b00f0a63364ed4ef52191ed46c0f0b",
+          "bytes": 121591
         },
         {
           "path": "vegetation/chunk_7_9_vegetation.bin",
-          "sha256": "930bd310451513165d000a8afd9472ccf9f1a92c63081601b6aa2ae43d7facbf",
-          "bytes": 145850
+          "sha256": "719befcfaae4b0d4afcfa16c09e6cb06d6d952543ccdc1f26bfea63d547e17a5",
+          "bytes": 143079
         },
         {
           "path": "vegetation/chunk_8_0_vegetation.bin",
-          "sha256": "475f0b31fbff07c0baa46ec4f2e5fe148580b7176c9520af0ea5767eff16513f",
-          "bytes": 40229
+          "sha256": "da148f5f88c769ea97fe37c8f1f77e3aeb874a47e63fc3b15239ac30b28c427f",
+          "bytes": 40042
         },
         {
           "path": "vegetation/chunk_8_10_vegetation.bin",
@@ -5097,13 +5092,13 @@
         },
         {
           "path": "vegetation/chunk_8_1_vegetation.bin",
-          "sha256": "dd7fcb931c432cbb4fc6711cef88164868e3ede2b933474fbc8511c6cb338261",
-          "bytes": 36897
+          "sha256": "54cf49e0970a45a0ac7d351c800bcf6494f6e41b2d3388819ed0a4646522bac9",
+          "bytes": 36234
         },
         {
           "path": "vegetation/chunk_8_2_vegetation.bin",
-          "sha256": "93a0820ab717767974e969f27fba4932871420728a2a01aebae2ddb02ca3d090",
-          "bytes": 46808
+          "sha256": "2caa437da363ab25d70676ab5a61cbc43c56b537be8693305175b894449a3420",
+          "bytes": 46111
         },
         {
           "path": "vegetation/chunk_8_3_vegetation.bin",
@@ -5112,8 +5107,8 @@
         },
         {
           "path": "vegetation/chunk_8_4_vegetation.bin",
-          "sha256": "0b94ca2ccb659104e5a5df4b63480052aa567673d5327d7692a37210056fde79",
-          "bytes": 96295
+          "sha256": "d6940b2c62ffa00a0f68cad30e2dbad82cd897e49cef4c54f5a9d6f14cb0da72",
+          "bytes": 93711
         },
         {
           "path": "vegetation/chunk_8_5_vegetation.bin",
@@ -5122,13 +5117,13 @@
         },
         {
           "path": "vegetation/chunk_8_6_vegetation.bin",
-          "sha256": "5027c06bb965b5af1753bfe7ae20f3248521de0d8b2891e65c01e31ee44f4358",
-          "bytes": 72699
+          "sha256": "0935627d9a8cddec8b960e5b65d577bf4f9ee3072364e4909e4b4442c8012d70",
+          "bytes": 70540
         },
         {
           "path": "vegetation/chunk_8_7_vegetation.bin",
-          "sha256": "25b2dcbad9e7e1702ac45b56c3fca1171477361ba1b097b3f94baa9d5d54a6b0",
-          "bytes": 89784
+          "sha256": "2b641381b653839923f63dc7afa5e9c8e76f8ebbbc90d97f566fbea124dfd2ce",
+          "bytes": 87931
         },
         {
           "path": "vegetation/chunk_8_8_vegetation.bin",
@@ -5142,8 +5137,8 @@
         },
         {
           "path": "vegetation/chunk_9_0_vegetation.bin",
-          "sha256": "686c9ce626a6d7bc47ea700b76325563b07b15af6a4e7778b0c254c22ef32b62",
-          "bytes": 82831
+          "sha256": "3101b3948c58c7eda300c6319dc2ec373a6bdc8b43c189db6f2b4c7c82862fbe",
+          "bytes": 79754
         },
         {
           "path": "vegetation/chunk_9_10_vegetation.bin",
@@ -5177,23 +5172,23 @@
         },
         {
           "path": "vegetation/chunk_9_1_vegetation.bin",
-          "sha256": "2d2029c52c2dad54bab13792567f67a3a3424981950d2a8febb9e9c2e27dd6d2",
-          "bytes": 25915
+          "sha256": "beba42dd499ef9ddefb035e8d0d6e262c2b2007e6d98f817fc56323d33b03b2b",
+          "bytes": 25796
         },
         {
           "path": "vegetation/chunk_9_2_vegetation.bin",
-          "sha256": "b42bc963497a62a32afa8bf7ef62246ea2c288a83a3b195f7e688b532605f50b",
-          "bytes": 33446
+          "sha256": "473f2951eabbdd67c5002d4ead3df8517ffcb4e3f90d390906d863d66be3b008",
+          "bytes": 33344
         },
         {
           "path": "vegetation/chunk_9_3_vegetation.bin",
-          "sha256": "2e61170d368141eac26bc9083345c91e4ad2644ddc967c15d1b27b0ff65863a4",
-          "bytes": 63910
+          "sha256": "d428b3f0b45bf4ba0c04149f0e1f932e0f3a8e9106a2392f071f75be8dbe0927",
+          "bytes": 61717
         },
         {
           "path": "vegetation/chunk_9_4_vegetation.bin",
-          "sha256": "8ea867c7cc511e306309e6407a358aba7d58eeefcfe28ec9bc3e3c1d827c6daa",
-          "bytes": 117307
+          "sha256": "25fd87c816821da5b59e953b8624de2c45256fd3338bcfbc4737402251ba4604",
+          "bytes": 116423
         },
         {
           "path": "vegetation/chunk_9_5_vegetation.bin",
@@ -5207,13 +5202,13 @@
         },
         {
           "path": "vegetation/chunk_9_7_vegetation.bin",
-          "sha256": "9df9ac9823da2d89f55462d67ecc260e27ccb19ccf04f6d0d84459156637268a",
-          "bytes": 130006
+          "sha256": "d5a62a48799010e45b55a7c44fb737b78aa28e97ebdf733ded8d8d68e56b0acd",
+          "bytes": 128374
         },
         {
           "path": "vegetation/chunk_9_8_vegetation.bin",
-          "sha256": "9771ef8cca6e4a88fcce6cb35da85ee17d0872d6ecba19ab6222917d4beb4297",
-          "bytes": 118089
+          "sha256": "9a7cc9e2683d55816d9cba3c07d7ac5d261facb4e45f7fa54b1b1f2327631de0",
+          "bytes": 117239
         },
         {
           "path": "vegetation/chunk_9_9_vegetation.bin",

@@ -728,7 +728,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [
           "place.saxhleel-coast.archon"
@@ -828,7 +828,50 @@
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
       },
-      "sitingNote": "Bound to Archon: the Company's bonded stores ARE the Archon quay; the free-siting pass had put them 275 m inland in jungle. The D1 tier is the city apron's, not the surrounding marsh band the danger raster reads here."
+      "sitingNote": "Bound to Archon: the Company's bonded stores ARE the Archon quay; the free-siting pass had put them 275 m inland in jungle. The D1 tier is the city apron's, not the surrounding marsh band the danger raster reads here.",
+      "position": {
+        "u": 0.67935,
+        "v": 0.65555
+      },
+      "positionM": [
+        5009.2,
+        4833.7
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.mangrove-forest.river-mouth-007",
+          "score": 3.99,
+          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+        },
+        {
+          "siteId": "site.free.roadside-0542",
+          "score": 3.583,
+          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+        },
+        {
+          "siteId": "site.free.roadside-0001",
+          "score": 3.532,
+          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 2), 148 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, hinterland, parent; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; bound to body.2834-2585 within 120 m.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 2,
+        "distanceToRouteM": 148.1,
+        "distanceToWaterM": 24.5,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 24.5
+        },
+        "score": 2.897
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-glowgill-byre",
@@ -1624,32 +1667,49 @@
         }
       ],
       "position": {
-        "u": 0.68827,
-        "v": 0.59829
+        "u": 0.72322,
+        "v": 0.60424
       },
       "positionM": [
-        5075.0,
-        4411.5
+        5332.7,
+        4455.4
       ],
       "footprintRadiusM": 45.0,
       "footprintSource": "band",
-      "candidatesConsidered": [],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 28 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on bound, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0544",
+          "score": 5.267,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0931",
+          "score": 5.221,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.mangrove-forest.island-045",
+          "score": 4.539,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in mangrove forest (danger band 2), 16 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, nearPoint; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "flood-high",
         "regionClass": "mangrove forest",
         "dangerBand": 2,
-        "distanceToRouteM": 28.0,
-        "distanceToWaterM": 19.8,
+        "distanceToRouteM": 15.5,
+        "distanceToWaterM": 7.8,
         "water": {
-          "entityId": "body.2768-2424",
-          "kind": "swamp",
-          "levelM": 1.62,
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
           "season": "perennial",
-          "distanceM": 19.8
+          "distanceM": 7.8
         },
-        "score": 5.504
-      }
+        "score": 5.688
+      },
+      "scourSiteId": "site.scour.mangrove-forest.flood-high-033"
     },
     {
       "id": "place.saxhleel-coast.archon-quarantine-shed",
@@ -2266,7 +2326,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -2422,6 +2482,49 @@
         "reachedVia": [
           "place.saxhleel-coast.archon-trial-ground"
         ]
+      },
+      "position": {
+        "u": 0.6496,
+        "v": 0.63696
+      },
+      "positionM": [
+        4789.9,
+        4696.6
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0960",
+          "score": 4.772,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0962",
+          "score": 4.704,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0993",
+          "score": 4.621,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 342 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on bound, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 342.4,
+        "distanceToWaterM": 81.5,
+        "water": {
+          "entityId": "body.2676-2607",
+          "kind": "swamp",
+          "levelM": 1.52,
+          "season": "perennial",
+          "distanceM": 81.5
+        },
+        "score": 4.918
       }
     },
     {

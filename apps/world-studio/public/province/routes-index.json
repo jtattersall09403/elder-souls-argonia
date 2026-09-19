@@ -29,7 +29,7 @@
       "from": "archon",
       "to": "helstrom",
       "confidence": "CANON_DERIVED",
-      "solved": false,
+      "solved": true,
       "notes": "The estuary that feeds the provincial centre; root-transit station root-east-estuary sits on it.",
       "sources": [
         "uesp:Lore:Archon"
@@ -117,7 +117,7 @@
       "from": "gideon",
       "to": "helstrom",
       "confidence": "CANON_DERIVED",
-      "solved": true,
+      "solved": false,
       "notes": "Canon west-to-east river from near Topal Bay through Gideon; canoe channel, not a lane.",
       "sources": [
         "uesp:Lore:Onkobra River"
@@ -134,7 +134,7 @@
       "from": "lilmoth",
       "to": "lighter-flotilla",
       "confidence": "CANON_DERIVED",
-      "solved": false,
+      "solved": true,
       "notes": "Canon: big hulls cannot dock at Lilmoth, so everything is lightered between the deep anchorage and the quay.",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -168,7 +168,7 @@
       "from": "lilmoth",
       "to": "murkmire-interior",
       "confidence": "CANON_NAMED",
-      "solved": false,
+      "solved": true,
       "notes": "Inland from Lilmoth; the Tum-Taleel bridge toll (waters.md).",
       "sources": [
         "uesp:Lore:Keel-Sakka River"
@@ -200,7 +200,7 @@
       "from": "soulrest",
       "to": "blackrose",
       "confidence": "CANON_NAMED",
-      "solved": false,
+      "solved": true,
       "notes": "Canon navigable interior route (the Imperial Navy sailed it in 1E 1033); Phase 4's lane solver did not keep it — a Part 3c boat-lane candidate when the water graph is re-solved.",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -435,7 +435,7 @@
       "from": "glenbridge",
       "to": "the-road-nisswo-house",
       "confidence": "LORE_IMPLIED",
-      "solved": false,
+      "solved": true,
       "notes": "The pilgrim walk to the Sermon Xanmeer, kept by nisswo houses at walking intervals.",
       "sources": [
         "uesp:Lore:Nisswo",
@@ -505,7 +505,7 @@
       "from": "plague-cordon",
       "to": "flu-quarantine-village",
       "confidence": "LORE_IMPLIED",
-      "solved": false,
+      "solved": true,
       "notes": "The Knahaten Flu cordon's own patrol path, still walked between the hundred-pace marker stones from the hills to the water.",
       "sources": [
         "uesp:Lore:Knahaten Flu",

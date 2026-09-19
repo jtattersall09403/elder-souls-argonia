@@ -456,12 +456,13 @@
         "road:pilgrim-way"
       ],
       "confidence": "LORE_IMPLIED",
-      "solved": false,
+      "solved": true,
       "sources": [
         "uesp:Lore:Nisswo",
         "world/sources/catalogue/places-imperial-fringe.json (glenbridge)"
       ],
-      "notes": "The pilgrim walk to the Sermon Xanmeer, kept by nisswo houses at walking intervals."
+      "notes": "The pilgrim walk to the Sermon Xanmeer, kept by nisswo houses at walking intervals.",
+      "geometryId": "track.road.glenbridge-the-road-nisswo-house"
     },
     {
       "id": "route.road.soulrest-blackrose",
@@ -531,8 +532,9 @@
         "uesp:Lore:Knahaten Flu",
         "world/sources/lore/blackrose.md"
       ],
-      "solved": false,
-      "notes": "The Knahaten Flu cordon's own patrol path, still walked between the hundred-pace marker stones from the hills to the water."
+      "solved": true,
+      "notes": "The Knahaten Flu cordon's own patrol path, still walked between the hundred-pace marker stones from the hills to the water.",
+      "geometryId": "track.track.blackrose-cordon-line"
     },
     {
       "id": "route.track.bogmother-causeway",

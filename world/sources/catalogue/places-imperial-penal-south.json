@@ -2354,7 +2354,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "post-umbriel",
@@ -2426,7 +2426,50 @@
           "sourcePath": "why.founding",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.309,
+        "v": 0.87643
+      },
+      "positionM": [
+        2278.4,
+        6462.3
+      ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.local.blackrose-drowned-hist-ew387",
+          "score": 2.056,
+          "whyLost": "too close to place.imperial-penal-south.manned-toll-tower"
+        },
+        {
+          "siteId": "site.local.blackrose-drowned-hist-ew311",
+          "score": 2.054,
+          "whyLost": "too close to place.imperial-penal-south.manned-toll-tower"
+        },
+        {
+          "siteId": "site.local.blackrose-drowned-hist-ew220",
+          "score": 2.043,
+          "whyLost": "too close to place.imperial-penal-south.manned-toll-tower"
+        }
+      ],
+      "whySiteWon": "open water in seasonal floodplain (danger band 2), 61 m from the nearest route; at the water's edge; won on submerged, danger, parent; bound to body.1290-3508 within 30 m; needs 3 m of water; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "open-water",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 2,
+        "distanceToRouteM": 61.3,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 1.928
+      }
     },
     {
       "id": "place.imperial-penal-south.blackrose-prison",
@@ -8335,7 +8378,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8418,7 +8461,51 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "position": {
+        "u": 0.32164,
+        "v": 0.88238
+      },
+      "positionM": [
+        2371.6,
+        6506.2
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.firm-lowland.saddle-071",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1274",
+          "score": 4.419,
+          "whyLost": "too close to place.imperial-penal-south.bramman-head"
+        },
+        {
+          "siteId": "site.free.open-water-0962",
+          "score": 3.449,
+          "whyLost": "too close to place.imperial-penal-south.rose-supply-town"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.cove-027",
+          "score": 3.369,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
+        }
+      ],
+      "whySiteWon": "saddle in firm lowland (danger band 1), 82 m from the nearest route; at the water's edge; won on route, submerged, hinterland; placed from the homeless batch at stage 'region-relaxed'; bound to body.1290-3508 within 150 m; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "saddle",
+        "regionClass": "firm lowland",
+        "dangerBand": 1,
+        "distanceToRouteM": 82.4,
+        "distanceToWaterM": 11.0,
+        "water": {
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
+          "season": "perennial",
+          "distanceM": 11.0
+        },
+        "score": 1.529
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-drowned-village",
@@ -11566,7 +11653,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry",
       "eraLayers": [
         "merethic",
@@ -11673,7 +11760,50 @@
           },
           "note": "A karst shaft nine metres across dropping well below the lake bed — the record's entire identity; the plot found no natural sinkhole here."
         }
-      ]
+      ],
+      "position": {
+        "u": 0.33577,
+        "v": 0.84445
+      },
+      "positionM": [
+        2475.8,
+        6226.5
+      ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.fringe-marsh.cove-007",
+          "score": 2.528,
+          "whyLost": "too close to place.imperial-penal-south.manned-toll-tower"
+        },
+        {
+          "siteId": "site.local.natural-dive-shaft-ew365",
+          "score": 2.478,
+          "whyLost": "too close to place.imperial-penal-south.manned-toll-tower"
+        },
+        {
+          "siteId": "site.local.natural-dive-shaft-e12",
+          "score": 2.466,
+          "whyLost": "too close to place.imperial-penal-south.blackrose-drowned-hist"
+        }
+      ],
+      "whySiteWon": "local tie in fringe marsh (danger band 2), 27 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; bound to body.1290-3508 within 80 m; needs 1 m of water; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "local-tie",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 27.4,
+        "distanceToWaterM": 12.3,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 12.3
+        },
+        "score": 2.338
+      }
     },
     {
       "id": "place.imperial-penal-south.necromantic-dig",
@@ -12414,7 +12544,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "knahaten-flu"
@@ -12466,7 +12596,50 @@
           "placeRef": "place.imperial-penal-south.blackrose"
         }
       ],
-      "designGroup": "group.rose-cordon"
+      "designGroup": "group.rose-cordon",
+      "position": {
+        "u": 0.36151,
+        "v": 0.86051
+      },
+      "positionM": [
+        2665.6,
+        6345.0
+      ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1279",
+          "score": 5.204,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0610",
+          "score": 5.189,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1252",
+          "score": 4.863,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 55 m from the nearest route; its first-choice landform; won on landform, route, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 54.8,
+        "distanceToWaterM": 46.9,
+        "water": {
+          "entityId": "body.1432-3476",
+          "kind": "marsh-fringe",
+          "levelM": 3.54,
+          "season": "perennial",
+          "distanceM": 46.9
+        },
+        "score": 5.386
+      }
     },
     {
       "id": "place.imperial-penal-south.prison-born-refuge",
