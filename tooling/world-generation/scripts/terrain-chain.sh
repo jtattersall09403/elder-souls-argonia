@@ -491,7 +491,17 @@ done
 # whatever its position, so the transitive consumers (below the gate, within
 # the delivered chunks, not already run) run here in STAGES order. This is what
 # used to be done by hand-moving a consumer below its producer's row.
-if [[ -z "$no_cascade" && ${#RAN_STAGES[@]} -gt 0 ]]; then
+#
+# The line is UNCONDITIONAL: a run that printed neither `cascade:` line left no
+# way to tell "nothing was stale" from "the block never ran", which is exactly
+# what happened when a run with stages inside its range printed no cascade at
+# all. Refusing the cascade and having nothing to cascade both say so by name.
+cascade=""
+if [[ -n "$no_cascade" ]]; then
+  echo "cascade: none (--no-cascade)"
+elif [[ ${#RAN_STAGES[@]} -eq 0 ]]; then
+  echo "cascade: none (no stage ran)"
+else
   cascade="$(python3 -m worldgen.chain_stages --cascade-from "$(printf '%s ' "${RAN_STAGES[@]}")")"
   if [[ -n "$cascade" ]]; then
     echo "cascade: $cascade"

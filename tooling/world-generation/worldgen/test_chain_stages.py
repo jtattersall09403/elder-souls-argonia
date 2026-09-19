@@ -178,3 +178,41 @@ def test_seed_receipts_fills_only_what_is_missing(tmp_path, monkeypatch):
     assert fresh["seeded"] is True and fresh["ranAt"].startswith("seeded 20")
     assert fresh["inputs"][str(art)] == cs._sha_file(art)
     assert cs.seed_receipts(["already_ran", "never_ran"]) == []
+
+
+def _cascade_block() -> str:
+    """The cascade section of terrain-chain.sh, from its marker to its `fi`."""
+    from pathlib import Path
+    script = (Path(__file__).resolve().parents[1] / "scripts" / "terrain-chain.sh").read_text()
+    body = script.split('\ncascade=""\n', 1)[1]
+    end = body.index("\nfi\n")
+    return 'cascade=""\n' + body[:end] + "\nfi\n"
+
+
+def _run_cascade(*, no_cascade: str, ran: list[str], stub: str) -> str:
+    """Execute that block alone, with python3 and run_stage stubbed out."""
+    import subprocess
+    harness = f"""
+set -euo pipefail
+no_cascade={no_cascade!r}
+RAN_STAGES=({" ".join(ran)})
+SKIPPED_STAGES=()
+run_stage() {{ :; }}
+python3() {{ printf '%s' {stub!r}; }}
+{_cascade_block()}
+"""
+    done = subprocess.run(["bash", "-c", harness], capture_output=True, text=True)
+    assert done.returncode == 0, done.stderr
+    return done.stdout
+
+
+def test_the_chain_always_prints_a_cascade_line():
+    """Neither line printed left "nothing stale" and "block skipped" identical."""
+    assert "cascade: none (--no-cascade)" in _run_cascade(
+        no_cascade="1", ran=["apply_vegetation_patches"], stub="")
+    assert "cascade: none (no stage ran)" in _run_cascade(no_cascade="", ran=[], stub="")
+    assert "cascade: none" in _run_cascade(
+        no_cascade="", ran=["apply_vegetation_patches"], stub="")
+    ran_line = _run_cascade(no_cascade="", ran=["apply_vegetation_patches"],
+                            stub="publish_rasters")
+    assert "cascade: publish_rasters" in ran_line

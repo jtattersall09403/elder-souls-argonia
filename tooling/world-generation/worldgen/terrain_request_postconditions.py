@@ -51,7 +51,8 @@ from scipy import ndimage
 from .catalogue import REPO_ROOT
 from .compile_chunks import DEFAULT_HEIGHTS, NATURAL_HEIGHTS
 from .scale import RAW_M
-from .terrain_requests import delivery_digest, verify_fulfillment_manifest
+from .terrain_requests import (_request_id, catalogue_records, delivery_digest,
+                               verify_fulfillment_manifest)
 
 SCHEMA_VERSION = 1
 # The published records are the ones a consumer actually reads; the vault copy
@@ -414,10 +415,35 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
     return findings
 
 
+def withdrawn_request_ids(plan: dict, records: list[dict]) -> list[str]:
+    """Plan rows whose owning catalogue record no longer carries the request.
+
+    The published plan is rewritten only by a frozen stage, so a request the
+    catalogue has since dropped stays in the plan until the next refreeze.
+    Such a row is neither a failure nor a debt to register: it is withdrawn,
+    and it disappears the moment the plan is republished.
+    """
+    live: dict[str, set[str]] = {}
+    for record in records:
+        place_id = record.get("id")
+        if not isinstance(place_id, str):
+            continue
+        ids = live.setdefault(place_id, set())
+        for request in record.get("terrainRequests") or []:
+            try:
+                ids.add(_request_id(place_id, request))
+            except (KeyError, TypeError):
+                continue
+    return sorted({row["id"] for row in plan.get("requests", [])
+                   if row["id"] not in live.get(row.get("placeId"), set())})
+
+
 def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
                  *, artifact_hashes: dict[str, str], water_height_sha256: str | None = None,
-                 natural_height_sha256: str | None = None) -> dict:
+                 natural_height_sha256: str | None = None,
+                 withdrawn: list[str] | tuple[str, ...] = ()) -> dict:
     """Return a deterministic, content-addressed report; never write here."""
+    withdrawn_ids = set(withdrawn)
     global_findings: list[dict] = []
     for error in verify_fulfillment_manifest(plan, fulfillment):
         global_findings.append(_finding("fulfillment", "fail", error))
@@ -471,7 +497,8 @@ def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
             request_results.append({
                 "requestId": request["id"], "placeId": request["placeId"],
                 "deliverySha256": delivery_digest(request["delivery"]),
-                "status": "pass" if all(row["status"] == "pass" for row in findings) else "fail",
+                "status": "withdrawn" if request["id"] in withdrawn_ids
+                else "pass" if all(row["status"] == "pass" for row in findings) else "fail",
                 "findings": findings,
             })
     payload = {
@@ -484,9 +511,10 @@ def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
             "survivalMinFraction": SURVIVAL_MIN_FRACTION,
         }),
         "globalFindings": global_findings, "requests": request_results,
+        "withdrawn": sorted(withdrawn_ids),
     }
     passed = all(row["status"] == "pass" for row in global_findings) \
-        and all(row["status"] == "pass" for row in request_results)
+        and all(row["status"] in ("pass", "withdrawn") for row in request_results)
     return {"schemaVersion": SCHEMA_VERSION, "kind": "terrain-request-postconditions",
             "status": "pass" if passed else "fail", **payload,
             "reportDigest": _json_digest(payload)}
@@ -526,9 +554,10 @@ def load_known_red(path: Path | None = None) -> dict[str, dict]:
 
 def classify_report(report: dict, known_red: dict[str, dict]) -> dict[str, list[str]]:
     """Split a report's request outcomes against the known-red register."""
+    withdrawn = set(report.get("withdrawn") or [])
     failing = {row["requestId"] for row in report.get("requests", [])
-               if row.get("status") != "pass"}
-    published = {row["requestId"] for row in report.get("requests", [])}
+               if row.get("status") not in ("pass", "withdrawn")} - withdrawn
+    published = {row["requestId"] for row in report.get("requests", [])} - withdrawn
     # A row marked `flapping` is one the plot/carve/flood loop moves in and out
     # of failure from pass to pass: the plot sites on predicted carve delivery,
     # the carve runs, the flood settles, and a promise that cleared by
@@ -547,7 +576,10 @@ def classify_report(report: dict, known_red: dict[str, dict]) -> dict[str, list[
         "unexpectedFailures": sorted(failing - set(known_red)),
         "recoveredNoLongerRed": sorted(((set(known_red) & published) - failing) - flapping),
         "flappingNotFailingThisRun": sorted(((set(known_red) & published) - failing) & flapping),
-        "missingFromReport": sorted(set(known_red) - published),
+        # A withdrawn row is not missing: it is still in the plan, and its
+        # register row goes when the plan is republished.
+        "missingFromReport": sorted(set(known_red) - published - withdrawn),
+        "withdrawn": sorted(withdrawn),
     }
 
 
@@ -612,13 +644,15 @@ def main(argv: list[str] | None = None) -> int:
     natural_hash = None
     if NATURAL_HEIGHTS.exists():
         natural_hash = _array_digest(np.load(NATURAL_HEIGHTS).astype(np.float32))
+    withdrawn = withdrawn_request_ids(plan, catalogue_records())
     report = build_report(plan, fulfillment, height, water,
                           artifact_hashes={name: _file_digest(path) for name, path in paths.items()},
-                          water_height_sha256=water_height_hash, natural_height_sha256=natural_hash)
+                          water_height_sha256=water_height_hash, natural_height_sha256=natural_hash,
+                          withdrawn=withdrawn)
     _atomic_json(args.out, report)
     failures = sum(row["status"] != "pass" for row in report["globalFindings"]) \
         + sum(row["status"] != "pass" for request in report["requests"]
-              for row in request["findings"])
+              if request["status"] != "withdrawn" for row in request["findings"])
     print(f"terrain request postconditions: {report['status']} — "
           f"{len(report['requests'])} requests, {failures} non-passing findings; {args.out}")
     known_red = load_known_red()
@@ -628,6 +662,9 @@ def main(argv: list[str] | None = None) -> int:
         owner = row.get("owner") or "water-owned"
         where = row.get("queuedIn") or KNOWN_RED_DOC
         print(f"  KNOWN-RED ({owner}, see {where}): {request_id}")
+    for request_id in split["withdrawn"]:
+        print(f"  WITHDRAWN {request_id} (record no longer carries it; "
+              f"plan republished at the next refreeze)")
     for request_id in split["unexpectedFailures"]:
         print(f"  UNEXPECTED FAILURE: {request_id}")
     for request_id in split["recoveredNoLongerRed"]:

@@ -21,7 +21,7 @@
   ],
   "kind": "terrain-request-postconditions",
   "planDigest": "9542351e3292bd84531f1f4ec5ec8e4fb83053cedea6360bbc3be18294318a9c",
-  "reportDigest": "e12c6cb194541196d2feb47c4c8807cfc8594521787593ecd1e102450e784622",
+  "reportDigest": "5df62010ae78ccd597d88948141802466f68d82f0df4f6b7850b63dcd15c8908",
   "requests": [
     {
       "deliverySha256": "3396f09468d4f90342cd75f4596091dad4d4f716a71ccb51f4a3327d26e871f9",
@@ -92,7 +92,7 @@
       ],
       "placeId": "place.dunmer-north.the-divers-landing",
       "requestId": "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef",
-      "status": "fail"
+      "status": "withdrawn"
     },
     {
       "deliverySha256": "2a485dd9bfd2ba9a279417132f4ad9abfc5633a36ce2afec959ed201bc28ad7a",
@@ -143,7 +143,7 @@
       ],
       "placeId": "place.dunmer-north.the-slumped-hamlet",
       "requestId": "terrain-request.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1",
-      "status": "fail"
+      "status": "withdrawn"
     },
     {
       "deliverySha256": "cb07029d13bba0f39d2380c25de8fc6b06675eb6be3b1458d191dcc0fd8484d8",
@@ -194,7 +194,7 @@
       ],
       "placeId": "place.dunmer-north.the-two-hundred-roofs",
       "requestId": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
-      "status": "fail"
+      "status": "withdrawn"
     },
     {
       "deliverySha256": "feeca3d7e62541698791c08b1fa3216b4a302587fbeb249d85bb9d7f90482117",
@@ -226,7 +226,7 @@
       ],
       "placeId": "place.hist-heartland.greenspring",
       "requestId": "terrain-request.hist-heartland.greenspring.spring.7bcc10aaafd7",
-      "status": "fail"
+      "status": "withdrawn"
     },
     {
       "deliverySha256": "d70e87bdf154b1c8101a44e978ac7974626b2f917e02e875873a77e05b73e445",
@@ -338,7 +338,7 @@
       ],
       "placeId": "place.imperial-fringe.the-drowned-furrow",
       "requestId": "terrain-request.imperial-fringe.the-drowned-furrow.pool.589387107c40",
-      "status": "fail"
+      "status": "withdrawn"
     },
     {
       "deliverySha256": "a5a6fbb65dba0735671f29c82485b1f5612edb19594af236d503afb5991dc678",
@@ -546,11 +546,19 @@
       ],
       "placeId": "place.pirate-freeholds.chasecreek",
       "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
-      "status": "fail"
+      "status": "withdrawn"
     }
   ],
   "schemaVersion": 1,
   "sourceDigest": "5d4e91385a888babeb8aef808db7b5e10ca6c36b6741d5957fc5c9b13ba49c38",
-  "status": "fail",
-  "thresholdsSha256": "6c341a70713e0417d5395a209524ad6975dec93aa8ef2b2d683e486ca1870a80"
+  "status": "pass",
+  "thresholdsSha256": "6c341a70713e0417d5395a209524ad6975dec93aa8ef2b2d683e486ca1870a80",
+  "withdrawn": [
+    "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef",
+    "terrain-request.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1",
+    "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
+    "terrain-request.hist-heartland.greenspring.spring.7bcc10aaafd7",
+    "terrain-request.imperial-fringe.the-drowned-furrow.pool.589387107c40",
+    "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb"
+  ]
 }

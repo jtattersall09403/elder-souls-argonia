@@ -113,6 +113,58 @@ def test_erased_operation_witness_fails_every_execution_backed_field():
     assert by_field["widthM"]["status"] == "fail"
 
 
+def _broken_documents():
+    """A plan whose single request fails: its operation witness was erased."""
+    plan, fulfillment, height, water, height_hash = _documents(
+        {"feature": "test-pool", "capacity": "punt", "widthM": 8.0})
+    fulfillment = copy.deepcopy(fulfillment)
+    evidence = fulfillment["fulfillments"][0]["operationEvidence"][0]
+    evidence["witnesses"][0]["baseHeightM"] = 0.0
+    evidence.pop("evidenceSha256")
+    payload = json.dumps(evidence, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    evidence["evidenceSha256"] = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+    fulfillment["fulfillments"][0]["evidenceRefs"] = [
+        f"terrain-operation-evidence.{evidence['operationId']}.sha256.{evidence['evidenceSha256']}"]
+    return plan, fulfillment, height, water, height_hash
+
+
+def test_plan_row_whose_record_dropped_the_request_is_withdrawn_not_a_failure():
+    plan, fulfillment, height, water, height_hash = _broken_documents()
+    # The record still exists; it no longer carries this request.
+    records = [{"id": "place.test", "position": {"u": 0.5, "v": 0.5}, "terrainRequests": []}]
+    withdrawn = post.withdrawn_request_ids(plan, records)
+    assert withdrawn == [plan["requests"][0]["id"]]
+    report = post.build_report(plan, fulfillment, height, water,
+                               artifact_hashes={"fixture": "a" * 64},
+                               water_height_sha256=height_hash, withdrawn=withdrawn)
+    assert report["status"] == "pass"
+    assert report["withdrawn"] == withdrawn
+    assert report["requests"][0]["status"] == "withdrawn"
+    split = post.classify_report(report, {})
+    assert split["withdrawn"] == withdrawn
+    assert split["unexpectedFailures"] == []
+
+
+def test_plan_row_the_record_still_carries_is_still_an_unexpected_failure():
+    plan, fulfillment, height, water, height_hash = _broken_documents()
+    records = requests_records = [{
+        "id": "place.test", "position": {"u": 0.5, "v": 0.5},
+        "terrainRequests": [{"kind": "pool", "radiusM": 20,
+                             "delivery": {"feature": "test-pool", "capacity": "punt",
+                                          "widthM": 8.0},
+                             "note": "test fixture"}],
+    }]
+    assert post.withdrawn_request_ids(plan, requests_records) == []
+    report = post.build_report(plan, fulfillment, height, water,
+                               artifact_hashes={"fixture": "a" * 64},
+                               water_height_sha256=height_hash,
+                               withdrawn=post.withdrawn_request_ids(plan, records))
+    assert report["status"] == "fail"
+    split = post.classify_report(report, {})
+    assert split["unexpectedFailures"] == [plan["requests"][0]["id"]]
+    assert split["withdrawn"] == []
+
+
 def test_spatially_local_downstream_erasure_invalidates_semantic_shape_promises():
     delivery = {"feature": "divided-pool", "widthM": 20.0, "lengthM": 28.0,
                 "featureCount": 3, "access": "swimming", "sides": 3}
@@ -282,8 +334,10 @@ def test_final_water_postconditions_are_green_apart_from_the_known_red_water_row
     height = np.load(DEFAULT_HEIGHTS).astype(np.float32)
     loaded = np.load(water_path)
     water = {name: loaded[name] for name in loaded.files}
+    withdrawn = post.withdrawn_request_ids(plan, requests.catalogue_records())
     report = post.build_report(plan, fulfillment, height, water,
-                              artifact_hashes={}, water_height_sha256=None)
+                              artifact_hashes={}, water_height_sha256=None,
+                              withdrawn=withdrawn)
     split = post.classify_report(report, post.load_known_red())
     assert split["unexpectedFailures"] == []
     assert split["missingFromReport"] == []
