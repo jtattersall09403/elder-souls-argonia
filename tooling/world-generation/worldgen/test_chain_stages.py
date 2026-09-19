@@ -114,6 +114,27 @@ def test_check_stale_reports_a_changed_input_and_a_missing_receipt(tmp_path, mon
     assert cs.stale_findings(["never_ran"]) == ["MISSING RECEIPT never_ran"]
 
 
+def test_a_stale_ok_read_never_makes_a_stage_stale(tmp_path, monkeypatch):
+    """A declared feedback edge is read knowingly of the previous publication
+    (the cascade already skips it), so it is neither weighed in the receipt
+    nor reported stale (16g, 2026-09-19)."""
+    import json
+    from . import chain_contracts as cc
+    out = _receipt_dir(tmp_path, monkeypatch)
+    out.mkdir(parents=True)
+    feedback = tmp_path / "feedback.json"
+    feedback.write_text("moved since the stage ran")
+    monkeypatch.setitem(cc.READS, "fake_stage",
+                        [cc.stale_ok(cc.P(cc.exists, feedback), reason="feedback edge")])
+    assert cs.stale_ok_paths("fake_stage") == {str(feedback)}
+    reads, _ = cs.declared_io("fake_stage")
+    assert reads == []                                  # not weighed at all
+    (out / "fake_stage.json").write_text(json.dumps(
+        {"stage": "fake_stage", "ranAt": "2026-09-18T09:00:00Z",
+         "inputs": {str(feedback): "0" * 64}, "outputs": {}}))
+    assert cs.stale_findings(["fake_stage"]) == []      # even on an older receipt
+
+
 def test_check_stale_exits_1_on_a_finding(tmp_path, monkeypatch):
     import json
     import pytest

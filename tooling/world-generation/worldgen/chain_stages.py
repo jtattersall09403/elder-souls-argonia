@@ -279,11 +279,24 @@ def _sha_or_none(path: Path) -> str | None:
     return _sha_file(p)
 
 
+def stale_ok_paths(stage: str) -> set[str]:
+    """The reads this stage declares `stale_ok`: the feedback edges the cascade
+    already skips, read knowingly of the previous publication. They can never
+    make the stage stale, so the receipt does not weigh them."""
+    from .chain_contracts import READS, declared_paths, stale_ok
+    return {str(p) for entry in (READS.get(stage) or []) if isinstance(entry, stale_ok)
+            for p in declared_paths(entry)}
+
+
 def declared_io(stage: str) -> tuple[list[Path], list[Path]]:
-    """The stage's DECLARED reads and writes (chain_contracts), deduplicated."""
+    """The stage's DECLARED reads and writes (chain_contracts), deduplicated.
+
+    A `stale_ok` read is left out of the reads: it is a declared feedback edge,
+    not an input whose movement invalidates this stage."""
     from .chain_contracts import READS, WRITES, declared_paths
+    skip = stale_ok_paths(stage)
     reads = {str(p): Path(p) for entry in (READS.get(stage) or [])
-             for p in declared_paths(entry)}
+             for p in declared_paths(entry) if str(p) not in skip}
     writes = {str(p): Path(p) for p in WRITES.get(stage, [])}
     return list(reads.values()), list(writes.values())
 
@@ -321,7 +334,10 @@ def stale_findings(stages=None) -> list[str]:
             out.append(f"MISSING RECEIPT {stage}")
             continue
         ran_at = doc.get("ranAt", "?")
+        skip = stale_ok_paths(stage)        # also for receipts written before the rule
         for artefact, sha in sorted((doc.get("inputs") or {}).items()):
+            if artefact in skip:
+                continue
             if _sha_or_none(Path(artefact)) != sha:
                 out.append(f"STALE {stage}: {cc._short(Path(artefact))} changed since {ran_at}")
     return out

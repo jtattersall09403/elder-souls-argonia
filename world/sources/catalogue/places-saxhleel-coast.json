@@ -10907,7 +10907,7 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -10917,7 +10917,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -13446,8 +13446,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "flooded-gallery",
-          "sump",
-          "cache"
+          "cache",
+          "collapse"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -13462,7 +13462,7 @@
           {
             "scale": "smallGroup",
             "footing": "swim",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -13472,7 +13472,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -18460,7 +18460,8 @@
         "roomFunctions": [
           "stair-shaft",
           "hearth",
-          "cache"
+          "cache",
+          "midden"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -18490,7 +18491,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {

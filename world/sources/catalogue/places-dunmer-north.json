@@ -290,7 +290,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -517,8 +517,7 @@
         "roomFunctions": [
           "stair-shaft",
           "antechamber",
-          "gallery",
-          "shrine"
+          "drain"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -538,11 +537,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-bogmother.shrine",
-            "kind": "shrine",
-            "whereInInterior": "main"
-          },
-          {
             "id": "evidence.bogmother.the-swept-line",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -558,7 +552,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -5614,7 +5608,6 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
           "cache"
         ],
         "loop": "shortcut-back",
@@ -5630,7 +5623,7 @@
           {
             "scale": "duel",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -5660,7 +5653,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -6519,16 +6512,20 @@
         "family": "root-cavern",
         "sizeBand": "S3",
         "wetFraction": 0.2,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": true,
         "programRef": null,
+        "factsVariedForVariety": [
+          "entranceCount 1 -> 2"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
           "gallery",
-          "cache"
+          "cache",
+          "collapse"
         ],
-        "loop": "shortcut-back",
+        "loop": "second-entrance",
         "traversal": {
           "swimM": 18,
           "diveM": 0,
@@ -6541,7 +6538,7 @@
           {
             "scale": "duel",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -6549,6 +6546,11 @@
             "id": "socket.dunmer-north-hutan-tzel.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.dunmer-north-hutan-tzel.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           },
           {
             "id": "evidence.hutan-tzel.a-recut-post",
@@ -6581,7 +6583,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -7321,7 +7323,7 @@
           "diveM": 16,
           "climbM": 0,
           "breathGated": true,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -7644,7 +7646,8 @@
           "stair-shaft",
           "gallery",
           "cache",
-          "boss"
+          "boss",
+          "root-throat"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -7659,12 +7662,12 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "generous"
           },
           {
             "scale": "boss",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -7699,7 +7702,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -7784,7 +7787,9 @@
         "score": null
       },
       "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.dunmer-north.mazzatun.json): The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
-      "candidatesConsidered": []
+      "candidatesConsidered": [],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint"
     },
     {
       "id": "place.dunmer-north.mazzatun-hist",
@@ -11756,7 +11761,7 @@
           "captive",
           "sump"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -19216,7 +19221,8 @@
         "roomFunctions": [
           "flooded-gallery",
           "sump",
-          "cache"
+          "cache",
+          "collapse"
         ],
         "loop": "none",
         "traversal": {
@@ -19231,7 +19237,7 @@
           {
             "scale": "smallGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -19261,7 +19267,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "none"
       },
       "contents": {
@@ -29817,7 +29823,7 @@
           "cache",
           "drain"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -31855,7 +31861,7 @@
           "cache",
           "cistern"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 20,
           "diveM": 4,
@@ -34649,7 +34655,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -34669,7 +34675,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "simple"
       },
       "contents": {
@@ -35507,7 +35513,7 @@
           "cache",
           "workshop"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -38597,12 +38603,10 @@
         "verticalRelationship": "behind",
         "roomFunctions": [
           "entrance",
-          "hearth",
           "counting-room",
-          "cistern",
           "cache"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 20,
           "diveM": 4,
@@ -38635,7 +38639,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "simple"
       },
       "contents": {

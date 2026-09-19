@@ -167,7 +167,7 @@
           }
         ],
         "anchorSockets": [],
-        "light": "dark",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -4364,7 +4364,7 @@
           "root-throat",
           "gallery",
           "cache",
-          "midden"
+          "sump"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -4637,9 +4637,9 @@
           "stair-shaft",
           "gallery",
           "cache",
-          "collapse"
+          "root-throat"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -4662,7 +4662,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -8751,8 +8751,7 @@
         "roomFunctions": [
           "root-throat",
           "gallery",
-          "cache",
-          "sump"
+          "cache"
         ],
         "loop": "none",
         "traversal": {
@@ -18293,7 +18292,7 @@
           {
             "scale": "largeGroup",
             "footing": "swim",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -19890,8 +19889,7 @@
         "roomFunctions": [
           "gauntlet",
           "gallery",
-          "cache",
-          "sump"
+          "cache"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -19921,7 +19919,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "dark",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -20145,7 +20143,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "gauntlet",
-          "nursery"
+          "nursery",
+          "root-throat"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -20160,7 +20159,7 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -20175,7 +20174,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -20964,8 +20963,7 @@
         "roomFunctions": [
           "root-throat",
           "gallery",
-          "cache",
-          "sump"
+          "cache"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -20995,7 +20993,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "bioluminescent",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -21797,7 +21795,7 @@
           "collapse",
           "flooded-gallery",
           "sump",
-          "drain"
+          "midden"
         ],
         "loop": "vertical-return",
         "traversal": {
@@ -21816,7 +21814,7 @@
           }
         ],
         "anchorSockets": [],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -25310,8 +25308,8 @@
         "verticalRelationship": "within",
         "roomFunctions": [
           "entrance",
-          "gallery",
-          "cache"
+          "cache",
+          "gauntlet"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -25346,7 +25344,7 @@
             "whereInInterior": "threshold"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -26050,7 +26048,8 @@
           "cistern",
           "flooded-gallery",
           "sump",
-          "cache"
+          "cache",
+          "midden"
         ],
         "loop": "vertical-return",
         "traversal": {
@@ -26065,7 +26064,7 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -26080,7 +26079,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -26325,8 +26324,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
-          "cache"
+          "cache",
+          "sump"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -26356,7 +26355,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {

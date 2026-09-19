@@ -159,7 +159,8 @@
           "stair-shaft",
           "gallery",
           "cache",
-          "boss"
+          "boss",
+          "collapse"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -204,7 +205,7 @@
             "whereInInterior": "threshold"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -3007,7 +3008,8 @@
         "roomFunctions": [
           "ossuary",
           "collapse",
-          "gallery"
+          "gallery",
+          "midden"
         ],
         "loop": "none",
         "traversal": {
@@ -3022,7 +3024,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -5468,8 +5470,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "gauntlet",
-          "cache",
-          "midden"
+          "nursery",
+          "cache"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -5514,7 +5516,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -9855,7 +9857,7 @@
             "whereInInterior": "threshold"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -11710,7 +11712,7 @@
           {
             "scale": "largeGroup",
             "footing": "swim",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -11720,7 +11722,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -14376,8 +14378,7 @@
           {
             "id": "socket.imperial-penal-south-rose-flooded-passage.boss",
             "kind": "boss",
-            "whereInInterior": "deep",
-            "provision": "quest.provision.blackrose-tunnels"
+            "whereInInterior": "deep"
           },
           {
             "id": "socket.imperial-penal-south-rose-flooded-passage.boss-chest",
@@ -14706,7 +14707,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {

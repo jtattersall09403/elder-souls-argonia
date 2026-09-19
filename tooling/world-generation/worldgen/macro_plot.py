@@ -2666,6 +2666,31 @@ def apply_footprint_fields(rec: dict) -> None:
     rec["footprintSource"] = source
 
 
+def refresh_footprints(write: bool = True) -> list[str]:
+    """Fill the MISSING footprints on positioned records, and nothing else.
+
+    The seeded solve keeps a committed dot untouched, so a record whose
+    footprint a remedy cleared stays null until the next full re-plot (82 s).
+    This writes those fields alone, from the same source of truth
+    (`apply_footprint_fields`), so the validator can go green in a second."""
+    fixed = []
+    for rf in catalogue.load_region_files():
+        touched = False
+        for rec in rf.places:
+            if rec.get("position") is None:
+                continue
+            if rec.get("footprintRadiusM") is not None and rec.get("footprintSource") is not None:
+                continue
+            apply_footprint_fields(rec)
+            if rec.get("footprintRadiusM") is not None:
+                fixed.append(rec["id"])
+                touched = True
+        if touched and write:
+            catalogue.dump_json(rf.path, {"schemaVersion": catalogue.PLACES_SCHEMA_VERSION,
+                                          "region": rf.region, "seed": rf.seed, "places": rf.places})
+    return fixed
+
+
 HOMELESS_ACCEPTED = REPO_ROOT / "world/sources/sites/plot-homeless-accepted.json"
 
 
@@ -2710,7 +2735,13 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
                         rec["workflow"] = "derived"
                 continue
             if r.get("seeded"):
-                continue    # committed dot kept: the record is not rewritten
+                # committed dot kept: the record is not rewritten, EXCEPT that a
+                # positioned record must carry a footprint. A remedy that cleared
+                # the footprint and then re-pinned the same cell leaves the record
+                # seeded with nulls, which the catalogue validator rejects.
+                if rec.get("footprintRadiusM") is None or rec.get("footprintSource") is None:
+                    apply_footprint_fields(rec)
+                continue
             d = by_d[rec["id"]]
             c: Candidate = r["candidate"]
             u, v = s.m_to_uv(c.x, c.z)
@@ -3478,6 +3509,9 @@ def main(argv: list[str] | None = None) -> None:
                     help="seconds-fast plot-time gate: every typed terrainRequests[] promise on the "
                          "COMMITTED plot must be deliverable on the ground under its dot; "
                          "exits non-zero on any blocker")
+    ap.add_argument("--refresh-footprints", action="store_true",
+                    help="write the MISSING footprintRadiusM/footprintSource on positioned records "
+                         "(from the type recipe) and change nothing else")
     ap.add_argument("--report-only", action="store_true",
                     help="97 G3: recompute the Clark-Evans clustering stats over the COMMITTED "
                          "plot and write them into the report; does not solve or move anything")
@@ -3496,6 +3530,12 @@ def main(argv: list[str] | None = None) -> None:
             print(f"[macro-plot] terrain promise {row['id']}: {row['blocker']}")
         print(f"[macro-plot] {len(bad)} undeliverable terrain promises")
         raise SystemExit(1 if bad else 0)
+    if a.refresh_footprints:
+        fixed = refresh_footprints()
+        for rid in fixed:
+            print(f"[macro-plot] footprint written for {rid}")
+        print(f"[macro-plot] {len(fixed)} missing footprints filled")
+        return
     if a.report_only:
         stats = report_only()
         print(f"[macro-plot] Clark-Evans median R {stats['median']}; "

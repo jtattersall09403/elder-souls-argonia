@@ -7404,11 +7404,15 @@
       "interior": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.1,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "programRef": null,
+        "factsVariedForVariety": [
+          "sizeBand S1 -> S2",
+          "exteriorShell -> True"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "ossuary",
@@ -7417,7 +7421,7 @@
         ],
         "loop": "second-entrance",
         "traversal": {
-          "swimM": 2,
+          "swimM": 5,
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
@@ -7428,7 +7432,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -7458,7 +7462,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -16503,7 +16507,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -19834,8 +19838,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
-          "cache"
+          "cache",
+          "collapse"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -19850,7 +19854,7 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -19880,7 +19884,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {

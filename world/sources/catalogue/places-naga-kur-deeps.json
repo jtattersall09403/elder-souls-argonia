@@ -3125,7 +3125,8 @@
         "roomFunctions": [
           "stair-shaft",
           "gallery",
-          "cache"
+          "cache",
+          "midden"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -3140,7 +3141,7 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -4413,19 +4414,23 @@
       "interior": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
         "programRef": null,
+        "factsVariedForVariety": [
+          "sizeBand S1 -> S2"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "flooded-gallery",
-          "sump"
+          "sump",
+          "collapse"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
-          "swimM": 10,
+          "swimM": 20,
           "diveM": 4,
           "climbM": 0,
           "breathGated": true,
@@ -4436,11 +4441,11 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [],
-        "light": "dark",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -6990,6 +6995,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "entrance",
+          "flooded-gallery",
           "sump",
           "cache",
           "boss"
@@ -7032,7 +7038,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "dark",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -11964,7 +11970,8 @@
         "roomFunctions": [
           "root-throat",
           "gallery",
-          "cache"
+          "cache",
+          "sump"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -11979,7 +11986,7 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -12004,7 +12011,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "none"
       },
       "contents": {
@@ -12600,8 +12607,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "gauntlet",
-          "boss",
-          "midden"
+          "nursery",
+          "boss"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -12636,7 +12643,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -12897,7 +12904,7 @@
           {
             "scale": "boss",
             "footing": "swim",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -13206,16 +13213,20 @@
         "family": "root-cavern",
         "sizeBand": "S3",
         "wetFraction": 0.0,
-        "entranceCount": 1,
-        "exteriorShell": false,
+        "entranceCount": 2,
+        "exteriorShell": true,
         "programRef": null,
+        "factsVariedForVariety": [
+          "entranceCount 1 -> 2",
+          "exteriorShell -> True"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "stair-shaft",
           "cache",
           "captive"
         ],
-        "loop": "shortcut-back",
+        "loop": "second-entrance",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -13243,6 +13254,11 @@
             "whereInInterior": "hidden"
           },
           {
+            "id": "socket.naga-kur-deeps-sithis-temple-mass-sacrifice.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
+          },
+          {
             "id": "evidence.sithis-temple-mass-sacrifice.teeth-of-sithis-the-count",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -13253,7 +13269,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {

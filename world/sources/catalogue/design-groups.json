@@ -61,7 +61,7 @@
     "place.imperial-penal-south.plague-cordon"
    ],
    "loreReason": "The cordon is the line drawn round the supply town and has no existence apart from it.",
-   "maxSpreadM": 60
+   "maxSpreadM": 150
   }
  ]
 }

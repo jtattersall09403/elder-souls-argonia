@@ -3693,10 +3693,10 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
-          "cache"
+          "cache",
+          "sump"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -3739,7 +3739,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "dark",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -12280,8 +12280,7 @@
           "entrance",
           "gallery",
           "cache",
-          "captive",
-          "sump"
+          "captive"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -12326,7 +12325,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -15148,10 +15147,10 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "entrance",
-          "gallery",
-          "cache"
+          "cache",
+          "sump"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -15184,7 +15183,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -23820,19 +23819,21 @@
       "interior": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
         "programRef": null,
+        "factsVariedForVariety": [
+          "sizeBand S1 -> S2"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
           "cache",
-          "sump"
+          "collapse"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -23845,7 +23846,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -25783,9 +25784,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "antechamber",
-          "dock-cavern",
-          "cache",
-          "lookout"
+          "cache"
         ],
         "loop": "none",
         "traversal": {
@@ -25825,7 +25824,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -26029,7 +26028,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -26631,10 +26630,10 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "entrance",
-          "gallery",
-          "cache"
+          "cache",
+          "gauntlet"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -26672,7 +26671,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -27697,11 +27696,10 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "antechamber",
-          "barracks",
           "cell-block",
-          "archive"
+          "gallery"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -27729,7 +27727,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -34083,7 +34081,7 @@
           }
         ],
         "anchorSockets": [],
-        "light": "dark",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {

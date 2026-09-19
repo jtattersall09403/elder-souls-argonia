@@ -95,7 +95,10 @@ def test_positions_are_inside_the_province_and_in_the_report():
         assert 0.0 <= u <= 1.0 and 0.0 <= v <= 1.0, rec["id"]
         n += 1
     assert rep["demand"]["plotted"] == n
-    assert rep["demand"]["homelessUnresolved"] == 0, "the homeless batch must be resolved or recorded as cut/deferred"
+    # the batch is resolved or recorded as cut/deferred — except the records
+    # the owner has ACCEPTED as unsited, which is exactly this register
+    assert rep["demand"]["homelessUnresolved"] == len(ACCEPTED_HOMELESS_IDS), \
+        "the homeless batch must be resolved, recorded as cut/deferred, or accepted"
 
 
 def test_no_two_live_places_share_ground():
@@ -106,7 +109,11 @@ def test_no_two_live_places_share_ground():
     `test_type_siting`. This one is the absolute floor, and it holds over the
     shipped catalogue whether or not the re-plot has run yet.
     """
-    pts = [(rec["id"], rec["positionM"]) for _z, rec in _live()]
+    pts = [(rec["id"], rec["positionM"]) for _z, rec in _live()
+           if rec["id"] not in ACCEPTED_HOMELESS_IDS]
+    for rid in ACCEPTED_HOMELESS_IDS:      # they hold no ground because they have none
+        rec = next(r for _z, r in _live() if r["id"] == rid)
+        assert "positionM" not in rec, rid
     floor = macro_plot.COLLISION_MIN_M - 1e-6
     for i in range(len(pts)):
         for j in range(i + 1, len(pts)):
@@ -580,3 +587,23 @@ def test_the_accepted_register_ships_the_schema_the_solver_reads():
     assert doc["schemaVersion"] == 1
     for r in doc["records"]:
         assert set(r) == {"id", "reason", "since"} and r["reason"] and r["since"]
+
+
+def test_a_kept_seeded_record_with_a_cleared_footprint_gets_one():
+    """A remedy that clears the footprint and re-pins the same cell leaves the
+    record SEEDED, so the solve never rewrites it: the keep path fills the
+    missing footprint itself (16g, 2026-09-19)."""
+    from pathlib import Path
+    src = next(r for rf in catalogue.load_region_files() for r in rf.places
+               if r.get("footprintSource") == "band")
+    rec = dict(src, footprintRadiusM=None, footprintSource=None)
+    rf = catalogue.RegionFile(path=Path("x.json"), region="test", seed="t", places=[rec])
+    d = _water_demand(rid=rec["id"])
+    macro_plot.apply_to_records({"test": rf}, [d], {rec["id"]: {"seeded": True}}, None)
+    assert rec["footprintRadiusM"] == src["footprintRadiusM"]
+    assert rec["footprintSource"] == "band"
+    assert rec["position"] == src["position"]       # nothing else moved
+
+
+def test_refresh_footprints_fills_only_the_missing_ones():
+    assert macro_plot.refresh_footprints(write=False) == []

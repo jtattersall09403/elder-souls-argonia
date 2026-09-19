@@ -361,7 +361,8 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json (The Drag, The Gate Narrows)"
       ],
-      "notes": "The hauled portage across the neck at the narrows; land route, hulls on bog-oak rollers."
+      "notes": "The hauled portage across the neck at the narrows; land route, hulls on bog-oak rollers.",
+      "reason": "deeps-narrows-west: no place of that name in the catalogue; deeps-narrows-east: no place of that name in the catalogue"
     },
     {
       "id": "route.road.gideon-blackwood-road",
@@ -623,7 +624,8 @@
       ],
       "note": "Not a route so much as a sequence the guides at Gate-Side sell: two nights, the far shelter between them, and the wisp ground to be walked past in daylight. Unmarked on the ground by design.",
       "from": "helstrom",
-      "to": "hist-heartland-deep-basin"
+      "to": "hist-heartland-deep-basin",
+      "reason": "hist-heartland-deep-basin: no place of that name in the catalogue"
     },
     {
       "id": "route.track.hist-heartland.helstrom-pilgrim-way",
@@ -639,7 +641,8 @@
       ],
       "note": "The walked approach to the grove capital from the south-east: the Nisswo rest house one day short of the gate, the sap-road camp, the swept terrace and the Tsoko delegation camp all sit on it.",
       "from": "helstrom",
-      "to": "hist-heartland-pilgrim-south"
+      "to": "hist-heartland-pilgrim-south",
+      "reason": "hist-heartland-pilgrim-south: no place of that name in the catalogue"
     },
     {
       "id": "route.track.hist-heartland.helstrom-underway",
@@ -655,7 +658,8 @@
       ],
       "note": "The trunk root under Helstrom, kept floored and lit by the Waykeepers as far as the second junction and unmaintained beyond it. Underground; no surface geometry will ever solve for it.",
       "from": "helstrom",
-      "to": "hist-heartland-second-junction"
+      "to": "hist-heartland-second-junction",
+      "reason": "hist-heartland-second-junction: no place of that name in the catalogue"
     },
     {
       "id": "route.track.hist-heartland.poling-stages",
@@ -756,7 +760,8 @@
         "uesp:Lore:Keel-Sakka River",
         "world/sources/lore/lilmoth.md"
       ],
-      "notes": "Out of Lilmoth’s north gate to the head of poling water on the Keel-Sakka; the customs suburb and the beast ground sit on it."
+      "notes": "Out of Lilmoth’s north gate to the head of poling water on the Keel-Sakka; the customs suburb and the beast ground sit on it.",
+      "reason": "keel-sakka: no place of that name in the catalogue"
     },
     {
       "id": "route.track.mercantile-coast.nisswo-line",
@@ -792,7 +797,8 @@
       "sources": [
         "world/sources/catalogue/places-mercantile-coast.json"
       ],
-      "notes": "Portered cargo above the gravel sill where the river stops carrying hulls."
+      "notes": "Portered cargo above the gravel sill where the river stops carrying hulls.",
+      "reason": "interior: no place of that name in the catalogue"
     },
     {
       "id": "route.track.north-shadowfen-rootworm-line",
@@ -845,7 +851,8 @@
       "sources": [
         "world/sources/catalogue/places-dunmer-north.json"
       ],
-      "notes": "The uncounted ledge line parallel to the pass, a person wide and no beasts."
+      "notes": "The uncounted ledge line parallel to the pass, a person wide and no beasts.",
+      "reason": "tear-road: no place of that name in the catalogue"
     },
     {
       "id": "route.track.rose-causeway",
@@ -881,7 +888,8 @@
       "sources": [
         "world/sources/catalogue/places-dunmer-north.json"
       ],
-      "notes": "Porter stages over the saddle into Morrowind; carts stop at the Tear Road Stage."
+      "notes": "Porter stages over the saddle into Morrowind; carts stop at the Tear Road Stage.",
+      "reason": "place.dunmer-north.the-pass-station: cut; tear-road: no place of that name in the catalogue"
     },
     {
       "id": "route.road.alten-corimont-stormhold",

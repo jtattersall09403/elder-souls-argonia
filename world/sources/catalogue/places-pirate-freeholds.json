@@ -10645,7 +10645,7 @@
           "entrance",
           "dock-cavern",
           "cache",
-          "lookout"
+          "workshop"
         ],
         "loop": "none",
         "traversal": {
@@ -10660,7 +10660,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [

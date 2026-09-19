@@ -545,6 +545,18 @@ def registry_stage_ids(route_id: str, aliases: set[str], files) -> list[str]:
     return sorted(out)
 
 
+def registry_place_gap(slug: str, all_by_slug: dict[str, dict]) -> str:
+    """Why this endpoint cannot carry a line, or "" when it can."""
+    rec = all_by_slug.get(slug)
+    if rec is None:
+        return f"{slug}: no place of that name in the catalogue"
+    if rec.get("status") in {"cut", "deferred"}:
+        return f"{rec['id']}: {rec['status']}"
+    if "positionM" not in rec:
+        return f"{rec['id']}: no positionM in the macro plot"
+    return ""
+
+
 def registry_demand(files, routes: list[dict] | None = None) -> list[dict]:
     """Every registry row this run lays: a named minor LAND route with no
     geometry whose `from` and `to` both resolve to a live plotted record.
@@ -555,28 +567,48 @@ def registry_demand(files, routes: list[dict] | None = None) -> list[dict]:
     """
     rows = routes if routes is not None else load_registry()
     by_slug: dict[str, dict] = {}
+    all_by_slug: dict[str, dict] = {}
+    by_id: dict[str, dict] = {}
     for rf in files:
         for rec in rf.places:
+            by_id[rec["id"]] = rec
+            all_by_slug.setdefault(rec["id"].rsplit(".", 1)[-1], rec)
             if rec.get("status") in {"cut", "deferred"} or "positionM" not in rec:
                 continue
             by_slug.setdefault(rec["id"].rsplit(".", 1)[-1], rec)
     out: list[dict] = []
     for row in rows:
-        if row.get("solved", True) or row.get("geometryId"):
+        gid = row.get("geometryId")
+        # A row this stage already laid is laid AGAIN: the compile rewrites
+        # routes-minor.json from scratch, so skipping a solved row silently
+        # dropped its track from the published file on every re-run
+        # (found 2026-09-19). A geometryId from another stage is not ours.
+        ours = isinstance(gid, str) and gid.startswith("track.")
+        if not ours and (row.get("solved", True) or gid):
             continue
         if row.get("mode") not in REGISTRY_LAND_MODES or row.get("class") not in REGISTRY_LAND_CLASSES:
             continue
         start = by_slug.get(str(row.get("from")))
         end = by_slug.get(str(row.get("to")))
         joins = row.get("joinsRouteId")
-        if start is None or (end is None and not joins):
-            continue
         stage_ids = [sid for sid in (row.get("stages")
                                      or registry_stage_ids(row["id"], set(row.get("aliases") or []), files))
-                     if sid in {r["id"] for rf in files for r in rf.places}
-                     and sid not in {start["id"], (end or {}).get("id")}]
-        by_id = {r["id"]: r for rf in files for r in rf.places}
-        stages = [by_id[sid] for sid in stage_ids if "positionM" in by_id[sid]]
+                     if sid in by_id
+                     and sid not in {(start or {}).get("id"), (end or {}).get("id")}]
+        # A row this stage is asked to lay gets an ANSWER, never silence: an
+        # end or a stage the macro plot never placed is a refusal with a
+        # reason, mirroring the minor-waterway rule (16g, 2026-09-19).
+        gaps = [registry_place_gap(str(row.get("from")), all_by_slug)]
+        if not joins:
+            gaps.append(registry_place_gap(str(row.get("to")), all_by_slug))
+        gaps += [f"stage {sid}: no positionM in the macro plot"
+                 for sid in stage_ids if "positionM" not in by_id[sid]]
+        gaps = [g for g in gaps if g]
+        if gaps:
+            out.append({"row": row, "from": start, "to": end, "joinsRouteId": joins,
+                        "stages": [], "refusal": "; ".join(gaps)})
+            continue
+        stages = [by_id[sid] for sid in stage_ids]
         if end is not None:
             ax, az = start["positionM"]
             bx, bz = end["positionM"]
@@ -584,7 +616,7 @@ def registry_demand(files, routes: list[dict] | None = None) -> list[dict]:
             stages.sort(key=lambda r: ((r["positionM"][0] - ax) * vx
                                        + (r["positionM"][1] - az) * vz))
         out.append({"row": row, "from": start, "to": end, "joinsRouteId": joins,
-                    "stages": stages})
+                    "stages": stages, "refusal": ""})
     return out
 
 
@@ -653,19 +685,36 @@ def lay_registry_track(s, graph: "StepGraph", job: dict, height, px_m: float
 
 
 def solve_registry(doc: dict, write: bool = True, path: Path | None = None) -> list[dict]:
-    """Stamp `geometryId` / `solved: true` on every registry row this run laid."""
+    """Settle every registry row this stage was asked to lay.
+
+    A row it drew gets `geometryId` / `solved: true`; a row on
+    `registryUnlaid` gets `solved: false` + `reason` and loses any stale
+    `geometryId`. Mirrors the minor-waterway rule: an answer, never silence.
+    """
     path = path or REGISTRY_PATH
     laid = {t["registryRoute"]: t["id"] for t in doc["tracks"] if t.get("registryRoute")}
+    unlaid = {u["id"]: u["why"] for u in doc.get("registryUnlaid") or []}
     data = json.loads(path.read_text())
     solved = []
+    changed = False
     for row in data["routes"]:
         gid = laid.get(row["id"])
-        if not gid or row.get("geometryId") == gid:
-            continue
-        row["geometryId"] = gid
-        row["solved"] = True
-        solved.append({"id": row["id"], "geometryId": gid})
-    if write and solved:
+        if gid:
+            if row.get("geometryId") != gid or row.get("solved") is not True or "reason" in row:
+                changed = True
+            row["geometryId"], row["solved"] = gid, True
+            row.pop("reason", None)
+            solved.append({"id": row["id"], "geometryId": gid})
+        elif row["id"] in unlaid:
+            # asked for and not drawn: the row says so instead of carrying a
+            # stale geometryId no file backs
+            reason = unlaid[row["id"]]
+            if (row.get("solved") is not False or row.get("geometryId")
+                    or row.get("reason") != reason):
+                changed = True
+            row.pop("geometryId", None)
+            row["solved"], row["reason"] = False, reason
+    if write and changed:
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return solved
 
@@ -889,6 +938,9 @@ def run(write: bool = True) -> dict:
     registry_unlaid: list[dict] = []
     registry_laid: list[str] = []
     for job in registry_demand(files):
+        if job["refusal"]:
+            registry_unlaid.append({"id": job["row"]["id"], "why": job["refusal"]})
+            continue
         track, why = lay_registry_track(s, graph, job, height, px_m)
         if track is None:
             registry_unlaid.append({"id": job["row"]["id"], "why": why})

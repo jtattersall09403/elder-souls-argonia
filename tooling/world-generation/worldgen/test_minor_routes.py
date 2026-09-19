@@ -65,7 +65,11 @@ def test_every_settlement_is_reached_on_road_by_track_or_listed_unconnected():
     plotted = _plotted()
     on_road_settlements = [rid for rid in doc["summary"]["onRoadIds"]
                            if plotted.get(rid, {}).get("classification", {}).get("class") == "settlement"]
-    assert sorted(unaccounted) == sorted(on_road_settlements)
+    # Every settlement not served by a track is one the compiler counted as
+    # already standing on a road. The reverse is not equality: a named registry
+    # row may START at an on-road settlement (the Coast road at Soulrest), so
+    # an on-road place can also be a track's `from` (2026-09-19).
+    assert [rid for rid in unaccounted if rid not in on_road_settlements] == []
 
 
 # --------------------------------------------------------------------------
@@ -260,7 +264,31 @@ def test_a_registry_row_already_solved_or_off_the_land_is_not_laid():
             "from": "a", "to": "b", "solved": False}
     missing = {"id": "route.track.r.ghost", "mode": "road", "class": "track",
                "from": "a", "to": "nowhere", "solved": False}
-    assert mr.registry_demand(files, [solved, boat, missing]) == []
+    jobs = mr.registry_demand(files, [solved, boat, missing])
+    # the ghost row is still ANSWERED: refused with a reason, never silence
+    assert [j["row"]["id"] for j in jobs] == ["route.track.r.ghost"]
+    assert jobs[0]["refusal"] == "nowhere: no place of that name in the catalogue"
+
+
+def test_a_registry_row_whose_stage_is_unplotted_is_refused_with_a_reason(tmp_path):
+    ghost = _place("place.r.mid", 115.0, 195.0,
+                   relations={"reachedVia": ["route.track.r.line"]})
+    ghost.pop("positionM")
+    files = _rf([_place("place.r.a", 15.0, 15.0), _place("place.r.b", 215.0, 15.0), ghost])
+    row = {"id": "route.track.r.line", "mode": "road", "class": "track",
+           "from": "a", "to": "b", "solved": False, "stages": ["place.r.mid"]}
+    jobs = mr.registry_demand(files, [row])
+    assert [j["row"]["id"] for j in jobs] == ["route.track.r.line"]
+    assert jobs[0]["refusal"] == "stage place.r.mid: no positionM in the macro plot"
+
+    # ... and the refusal lands on the registry row, clearing the stale id
+    reg = tmp_path / "registry.json"
+    reg.write_text(json.dumps({"routes": [dict(row, geometryId="track.stale")]}))
+    doc = {"tracks": [], "registryUnlaid": [{"id": row["id"], "why": jobs[0]["refusal"]}]}
+    mr.solve_registry(doc, path=reg)
+    out = json.loads(reg.read_text())["routes"][0]
+    assert out["solved"] is False and "geometryId" not in out
+    assert out["reason"] == "stage place.r.mid: no positionM in the macro plot"
 
 
 def test_the_shipped_registry_names_the_tracks_this_run_will_lay():
