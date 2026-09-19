@@ -10,8 +10,9 @@ exports a GLB and renders an inventory icon.
 
 An item may declare ``obj`` + ``textures`` instead of ``nif``: a Wavefront mesh
 with loose maps, already converted to PNG by the host (a mod that ships no NIF).
-Everything after the import is the same path, so the GLB and the manifest entry
-are indistinguishable.
+The OBJ is first turned onto the NIF hand-node convention from the plan's
+``orient`` block (see ``orient_obj``); everything after that is the same path,
+so the GLB and the manifest entry are indistinguishable.
 
 Env: BUILD_PLAN -> json with keys items[], summary_json.
 """
@@ -156,6 +157,11 @@ def obj_material(objects, textures):
     for obj in objects:
         obj.data.materials.clear()
         obj.data.materials.append(material)
+        # An OBJ with several `usemtl` groups (the cleaver: handle and blade)
+        # leaves faces pointing at slots that no longer exist, and those faces
+        # export with no material at all. Every face wears the one material.
+        for polygon in obj.data.polygons:
+            polygon.material_index = 0
 
 
 def world_bounds(objects):
@@ -183,6 +189,68 @@ def normalise_scale(objects, target_length):
         obj.matrix_world = Matrix.Identity(4)
     bpy.context.view_layer.update()
     return scale, [round(v, 4) for v in size]
+
+
+# Wavefront axes as `wm.obj_import` lands them in Blender (forward -Z, up Y):
+# OBJ x -> X, OBJ y -> Z, OBJ z -> -Y. The Y-up GLB export undoes the same
+# mapping, so an OBJ axis and the exported GLB axis are one and the same.
+OBJ_AXIS_TO_BLENDER = {"x": Vector((1, 0, 0)), "y": Vector((0, 0, 1)), "z": Vector((0, -1, 0))}
+
+
+def grip_centre(objects, long_axis, pommel, length):
+    """Centre of the vertices in the pommel-end fifth of the length (the handle)."""
+    low = Vector((1e9, 1e9, 1e9))
+    high = Vector((-1e9, -1e9, -1e9))
+    near = length * 0.2
+    for obj in objects:
+        for vertex in obj.data.vertices:
+            point = obj.matrix_world @ vertex.co
+            if abs(point[long_axis] - pommel) <= near:
+                for axis in range(3):
+                    low[axis] = min(low[axis], point[axis])
+                    high[axis] = max(high[axis], point[axis])
+    return (low + high) * 0.5
+
+
+def orient_obj(objects, orient):
+    """Put an OBJ mesh on the NIF hand-node convention.
+
+    A NIF weapon is authored with the blade along the socket's +Z (Blender -Y
+    under the Y-up export), the width on X and the hand at the origin. An OBJ
+    is authored about whatever its modeller chose, so the plan states which
+    native axis end strikes (`tip`) and where the hand sits as a fraction of
+    the length up from the pommel (`grip`); the second-longest extent becomes
+    the width, the cross-section is centred, and the mesh is rewritten in
+    place so the exporter sees a NIF-shaped object.
+    """
+    bpy.context.view_layer.update()
+    low, high = world_bounds(objects)
+    size = high - low
+    tip_dir = OBJ_AXIS_TO_BLENDER[orient["tip"][1]] * (1 if orient["tip"][0] == "+" else -1)
+    long_axis = max(range(3), key=lambda i: abs(tip_dir[i]))
+    other = [i for i in range(3) if i != long_axis]
+    wide_axis = max(other, key=lambda i: size[i])
+    wide_dir = Vector((0, 0, 0))
+    wide_dir[wide_axis] = 1.0
+    new_y = -tip_dir                       # blade along Blender -Y (GLB +Z)
+    new_x = wide_dir                       # width along X
+    new_z = new_x.cross(new_y)             # right-handed, so no mirroring
+    rotation = Matrix((new_x, new_y, new_z)).to_4x4()   # rows: old -> new
+    length = size[long_axis]
+    pommel = low[long_axis] if tip_dir[long_axis] > 0 else high[long_axis]
+    # After the rotation the pommel is at +Y: leave it `grip * length` above
+    # the origin so the hand (origin) sits that far up the handle. The axis
+    # runs through the HANDLE, not the box centre: a one-sided blade (the
+    # cleaver) would otherwise put the haft a hand's width off the socket.
+    centre = grip_centre(objects, long_axis, pommel, length)
+    centre[long_axis] = pommel
+    shift = Vector((0, orient["grip"] * length, 0)) - rotation @ centre
+    matrix = Matrix.Translation(shift) @ rotation
+    for obj in objects:
+        obj.data.transform(matrix @ obj.matrix_world.copy())
+        obj.matrix_world = Matrix.Identity(4)
+    bpy.context.view_layer.update()
+    return {"tip": orient["tip"], "grip": orient["grip"], "lengthNative": round(length, 4)}
 
 
 def render_icon(objects, path):
@@ -264,6 +332,7 @@ drop_terms = [term.lower() for term in PLAN.get("drop", [])]
 
 for item in PLAN["items"]:
     clear_scene()
+    oriented = None
     if item.get("obj"):
         # An OBJ item ships no scabbard and no shader: every shape is the weapon,
         # and its material comes from the maps the arsenal entry names.
@@ -273,6 +342,7 @@ for item in PLAN["items"]:
             SUMMARY["warnings"].append("%s: the OBJ imported no mesh" % item["id"])
             continue
         obj_material(kept, item.get("textures", {}))
+        oriented = orient_obj(kept, item["orient"])
     else:
         bpy.ops.import_scene.pynifly(
             filepath=item["nif"],
@@ -323,6 +393,7 @@ for item in PLAN["items"]:
         "nativeSize": native,
         "scale": round(scale, 5),
         "targetLength": item["target_length"],
+        "oriented": oriented,
         # Metres, in the exported Y-up frame, so the game can size a collider
         # and place a grip without re-deriving either from the mesh.
         "sizeMeters": [round(high[0] - low[0], 5),

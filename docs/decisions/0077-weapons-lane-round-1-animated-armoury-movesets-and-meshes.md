@@ -74,9 +74,12 @@ round 0, lane brief § Owner check). Implements decision 0074 §2 round 1.
    weapons ship through a new OBJ path in `build_weapons.py` (TGA re-encoded
    to PNG at 1024 max, hand-authored records naming their vanilla source,
    new `wood`, `bone` and `obsidian` materials). Skyrim Spear Mechanic's
-   one-handed thrust set is round 2's first item. Open: the five OBJ meshes
-   are built with their length on Y rather than about the hand node and sit
-   wrong in the hand until the builder rotates them (lane brief § Round 1b).
+   one-handed thrust set is round 2's first item. The five OBJ meshes were
+   first built with their length on Y rather than about the hand node; at
+   the round's close the entry's `orient` block (striking end, hand origin
+   as a fraction of the length from the class's vanilla exemplar) turns them
+   onto the NIF convention in the builder (mod inventory § Black Marsh
+   Import).
 6. **Weapon GLBs are raw** (JPEG textures, no meshopt), the 54 old ones and
    the 28 new alike: standard 16 says what ships is compressed. Queued in
    the backlog as one pass through the kit compressor over the weapon set,

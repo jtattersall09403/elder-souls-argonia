@@ -322,6 +322,25 @@ PNGs, then runs the same scale-to-length, icon render and manifest emission the
 NIF path runs, so the GLB and the manifest entry are indistinguishable
 downstream. The raw TGAs never leave the build directory.
 
+**Orientation (round 1b close, 2026-09-19).** A NIF weapon is authored about
+the hand node: blade along the socket's +Z, width on X, origin where the hand
+holds. These OBJs were not (four lay along Y, all five were centred), so the
+entry carries an `"orient"` block and `orient_obj` in the Blender builder
+rewrites the mesh onto that convention before scaling. `tip` names the native
+axis whose positive end strikes, read off the vertex cross-sections (every one
+of the five: wide pommel, thin grip, then the blade or head widening to the far
+end, all at +y, the club at +z). `grip` is the hand origin as a fraction of the
+length up from the pommel, taken from the vanilla exemplar of the same class in
+the built GLBs: dagger 0.24 (iron dagger), greatsword 0.18, warhammer 0.42,
+katana 0.18 (iron katana), mace 0.28. The second-longest extent becomes the
+width, and the axis runs through the handle (the centre of the pommel-end
+fifth), not the box centre, so the one-sided cleaver blade hangs off a haft
+that still sits in the hand. The summary records the block under
+`oriented`. Found on the same pass: an OBJ with two `usemtl` groups (the
+cleaver's handle and blade) left its second group's faces pointing at a
+cleared material slot, so the blade exported with no material and drew as
+bare white; `obj_material` now puts every face on the one material.
+
 **An authored record.** With no plugin there is no Bethesda record to read, so
 these five carry a `"record"` block in `arsenal.json` copied wholesale from a
 named vanilla record of the same class and material tier, plus `"recordFrom"`

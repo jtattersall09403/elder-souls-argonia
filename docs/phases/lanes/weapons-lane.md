@@ -17,15 +17,15 @@ data in the arsenal, in a shape the buildout's perks and class effects plug
 into without a refactor. The owner's side backlog (0074 context) is
 delivered in the same rounds.
 
-## Starting state (2026-09-19, rewritten at round-1 close; the closing round-2 agent rewrites this)
+## Starting state (2026-09-19, rewritten at the round-1b close; the closing round-2 agent rewrites this)
 
 Run the `routing-audit` skill over this brief before building. **Rounds 0
 and 1 are delivered** ([0076](../../decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md),
 [0077](../../decisions/0077-weapons-lane-round-1-animated-armoury-movesets-and-meshes.md)):
 
 - **Classes** (`packages/game-core/src/equipment/weaponClasses.ts`): the
-  one-handed set (dagger, shortSword, straightSword, scimitar, axe, mace,
-  **katana** on the borrowed `oneHanded` set), **rapier** and **claw** on
+  one-handed set (dagger, shortSword, straightSword, scimitar, axe, mace),
+  **katana**, **rapier** and **claw** on
   their own sets, greatsword, greataxe and warhammer, **spear and pike** on
   the `pike` thrust set, **halberd** and **staff** (Quarterstaff) on their
   own haft sets, plus the three bows. Every class carries `effects`,
@@ -38,16 +38,18 @@ and 1 are delivered** ([0076](../../decisions/0076-weapons-lane-round-0-effects-
   excepted (slot analogue, commented).
 - **Packs** (`packages/character-assets/files/rig-skyrim-humanoid.<pack>.glb`,
   manifest in `anim/generated/`): core, criticals, oneHanded, shield, bow,
-  greatsword, greataxe, pike, halberd, quarterstaff, rapier, claw. **No
-  katana pack**: its source clips are interleaved-uncompressed Havok, which
-  the importer cannot read (backlog row; 0077 §5a).
-- **Arsenal**: 81 items (53 vanilla + 28 Animated Armoury: iron, steel,
-  elven, ebony × rapier, katana, claw, pike, spear, halberd, quarterstaff),
-  every one with a mined record (`weapon-records.json`; mod items from
-  `NewArmoury.esp` with its hash). `build_weapons.py` takes a `root` for
-  mod meshes. The builder skips an unmapped pipeline class with a warning
-  (`UNMAPPED_ARSENAL_ITEMS`) rather than throwing. Weapon GLBs are raw
-  (backlog row).
+  greatsword, greataxe, pike, halberd, quarterstaff, rapier, claw, **katana**
+  (its clips read through `pipeline/hkx_interleaved.py`, which converts
+  interleaved-uncompressed Havok to the spline form the importer reads).
+- **Arsenal**: 92 items (53 vanilla + 28 Animated Armoury + 6 Animated
+  Heavy Armory tridents/half-pikes on `pike`/`spear` + 5 Black Marsh Import
+  OBJ weapons with hand-authored records on `wood`, `bone`, `obsidian`),
+  every one with a mined or authored record (`weapon-records.json`).
+  `build_weapons.py` takes a `root` (and `plugin`) for mod meshes and an
+  `orient` block for OBJ meshes (striking end + hand origin, turned onto the
+  NIF hand-node convention in Blender). The builder skips an unmapped
+  pipeline class with a warning (`UNMAPPED_ARSENAL_ITEMS`) rather than
+  throwing. Weapon GLBs are raw (backlog row).
 - **Enemies**: pike, halberd, rapier and claw wardens beside the existing
   five; the sandbox HUD lists every `ENEMY_ARCHETYPES` entry.
 - **Hit resolution and skill inputs**: as round 0 left them
@@ -60,12 +62,13 @@ and 1 are delivered** ([0076](../../decisions/0076-weapons-lane-round-0-effects-
 - **Sources in the vault** (`mod-sources/extracted/`, records in
   `SOURCES.json`, inventory in
   [polearm-and-blade-mod-inventory.md](../../research/combat-and-systems/polearm-and-blade-mod-inventory.md)):
-  Animated Armoury 2.3 (shipping; permission explicit); Animated Heavy
-  Armory 2.4.2, Skyrim Spear Mechanic 3.0 and Black Marsh Import 0.1
-  (downloaded, **held on unverified permissions**, backlog row). Vanilla
-  `h2h`, `beasth2h_*` and `dw` clips for round 2 are in the animations BSA;
-  the claw's off-hand `dw*` clips in Animated Armoury folder 14 are
-  spline-compressed and readable.
+  Animated Armoury 2.3, Animated Heavy Armory 2.4.2, Skyrim Spear Mechanic
+  3.0 and Black Marsh Import 0.1, all cleared by the owner (permissions read
+  2026-09-19). Vanilla `h2h`, `beasth2h_*` and `dw` clips for round 2 are in
+  the animations BSA; the claw's off-hand `dw*` clips in Animated Armoury
+  folder 14 are spline-compressed and readable. Spear Mechanic's one-handed
+  thrust set and Heavy Armory's shortspear set are readable and cleared: a
+  `shortspear` class is round 2's first item.
 
 ## Rounds
 
@@ -102,7 +105,7 @@ steer.
    its reader); mod meshes are authored by hand with the source cited. The
    inventory shows what the data says; the screen itself is 10b's.
 
-### Round 1 — polearms and Black Marsh skins — DELIVERED 2026-09-19 (0077; katana moveset and Black Marsh skins held, see the decision)
+### Round 1 — polearms and Black Marsh skins — DELIVERED 2026-09-19 (0077)
 
 Download, convert and audition the Animated Armoury, Animated Heavy Armory
 and Spear Mechanic clips through `tooling/asset-pipeline`; choose per class
@@ -113,48 +116,22 @@ Marsh Import's five weapons enter as skins on existing classes. Credits in
 root `README.md` § Credits, source and hash on every asset, in the same
 commit. Enemies in the sandbox fight with the NPC sets.
 
-### Round 1b — the katana read, the cleared mods' meshes — IN PROGRESS (paused 2026-09-19)
+### Round 1b — the katana read, the cleared mods' meshes — DELIVERED 2026-09-19 (0077 §5)
 
-Delivered and committed: `pipeline/hkx_interleaved.py` converts
-interleaved-uncompressed Havok animation to the spline form the importer
-reads (round trip on all 59 katana clips: max 0.0003 units, 0.10°); the
-`katana` pack (idle, five attacks, four guard clips, equip, sprint) is built,
-installed and wired to the katana class; the owner cleared Animated
-Heavy Armory, Skyrim Spear Mechanic and Black Marsh Import (permissions
-read 2026-09-19), and eleven weapons from the first and third are built
-(three tridents on `pike`, three half-pikes on `spear`, the five Black Marsh
-OBJ weapons with hand-authored records and new `wood`, `bone`, `obsidian`
-materials). Contact windows (blade 1.05): KATANA_LIGHT_1 0.356..0.425,
-LIGHT_2 0.375..0.500, HEAVY 0.745..0.783, HEAVY_2 0.375..0.429; LIGHT_3 is a
-lunge with no tip sweep (use the one-handed LIGHT_3 fractions, commented, as
-the claw does).
+`pipeline/hkx_interleaved.py` reads the interleaved-uncompressed katana
+clips (round trip on all 59: max 0.0003 units, 0.10°); the `katana` pack and
+moveset are wired to the class; the owner cleared the three held mods and
+eleven of their weapons are built (three tridents, three half-pikes, the
+five Black Marsh OBJ weapons), the OBJs turned onto the hand-node convention
+by the entry's `orient` block. Contact windows (blade 1.05): KATANA_LIGHT_1
+0.356..0.425, LIGHT_2 0.375..0.500, HEAVY 0.745..0.783, HEAVY_2
+0.375..0.429; LIGHT_3 is a lunge with no tip sweep (one-handed LIGHT_3
+fractions, commented, as the claw does).
 
-**Resume with "resume weapons workstream round 1". Remaining, in order (one
-Opus `deliver` brief, .ts only, then Fable closes):**
-1. DONE 2026-09-19 (commit follows): the katana is wired. Was: KATANA_* names into the `AnimationState` union
-   (core/types.ts); `KATANA_ANIMATIONS`/`KATANA_MOVESET` in
-   `equipment/movesets/blades.ts` in the rapier pattern (own idle, five
-   attacks, four guard clips, equip, sprint; parry/riposte/backstab/unequip
-   inherited); register `katana` in `movesets/index.ts` (pack "katana",
-   speedReference "straightSword"); `weaponClasses.ts` katana → moveset
-   "katana"; `npm run weapons:reach`; tests as the other blades; visual
-   `attacks` group.
-2. The five Black Marsh OBJ meshes are built with their length on Y, not Z
-   (Skyrim NIFs are authored about the hand node; these were not): decide
-   the axis and grip in `pipeline/blender/build_weapons.py`'s OBJ branch
-   (rotate to the NIF convention, origin at the grip end), rebuild the five,
-   re-bake reach; a Sonnet look at the icons afterwards.
-3. Skyrim Spear Mechanic's one-handed spear thrust set and Animated Heavy
-   Armory's shortspear set are readable and cleared: a `shortspear`
-   one-handed thrust class and pack is round 2's first item, not this
-   round's.
-4. Fable: remove the "interleaved HKX reader" and "held on permissions"
-   backlog rows (done), amend decision 0077 §5, refresh this starting
-   state, PROGRESS, preflight, commit.
+### Round 2 — shortspear, unarmed, claws and dual wield
 
-### Round 2 — unarmed, claws and dual wield
-
-Vanilla `h2h` and `beasth2h_*` wired as the unarmed moveset with the clawed
+First a `shortspear` one-handed thrust class and pack from Skyrim Spear
+Mechanic's set (Heavy Armory's shortspear meshes on it). Then vanilla `h2h` and `beasth2h_*` wired as the unarmed moveset with the clawed
 set selected by race; the stamina-damage rule and the finisher opening from
 76 §121 as data on the effects slot. Vanilla `dw` wired as dual wield for
 the one-handed classes that allow it.

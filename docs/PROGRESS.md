@@ -48,7 +48,7 @@ open only the plan sections the active phase needs.
 
 | Lane | Status | Evidence / current task |
 |---|---|---|
-| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | in progress: rounds 0 and 1 delivered ([0076](decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md), [0077](decisions/0077-weapons-lane-round-1-animated-armoury-movesets-and-meshes.md)); round 1b PAUSED 2026-09-19 with the katana wired and 11 cleared-mod weapons in; the OBJ-mesh orientation fix is left (brief § Round 1b); owner playtest pending; resume with "resume weapons workstream round 1" | [brief](phases/lanes/weapons-lane.md) |
+| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | in progress: rounds 0 and 1 delivered ([0076](decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md), [0077](decisions/0077-weapons-lane-round-1-animated-armoury-movesets-and-meshes.md)); round 1b delivered 2026-09-19 (katana pack + moveset, 11 cleared-mod weapons, OBJ meshes on the hand-node convention; 0077 §5); owner playtest of rounds 0–1 pending (§ Waiting on the owner); next: "deliver weapons round 2" | [brief](phases/lanes/weapons-lane.md) |
 
 ## Waiting on user
 
@@ -59,7 +59,7 @@ open only the plan sections the active phase needs.
   [brief](phases/16-foundation-and-places/16f-vegetation-on-frozen-water.md) —
   trees, palms, plants and rocks stepping cleanly on approach, the camera
   swing, water reflections and the HUD frame rate with the preset name.
-- **Weapons lane rounds 0 and 1** ([0076](decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md), [0077](decisions/0077-weapons-lane-round-1-animated-armoury-movesets-and-meshes.md)): the playtest in the combat sandbox (skill sliders and curves box, class effects, the new speeds; pike, spear, halberd, quarterstaff, rapier and claw in your hands and in the new opponents' hands), plus three calls: sign the speed table; say whether the curves should be on when the sandbox starts; read the permission boxes of Nexus mods 51100, 25146 and 48551 (Skyrim Spear Mechanic, Animated Heavy Armory, Black Marsh Import) so their assets can ship or be dropped.
+- **Weapons lane rounds 0 and 1** ([0076](decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md), [0077](decisions/0077-weapons-lane-round-1-animated-armoury-movesets-and-meshes.md)): the playtest in the combat sandbox (skill sliders and curves box, class effects, the new speeds; pike, spear, halberd, quarterstaff, rapier and claw in your hands and in the new opponents' hands), the katana, the tridents and half-pikes and the five Black Marsh weapons (bone dagger, great cleaver, obsidian warhammer, jagged katana, ball club) sitting right in the hand, plus two calls: sign the speed table; say whether the curves should be on when the sandbox starts.
 - **16g is being delivered (2026-09-18):** nothing to check until it lands; the 16g agent reports its own owner check with the 2D map, the ledger and the records.
 - **Nothing else blocking (owner 2026-09-18):** the 16b–16e owner walks, the
   female character and armour sheets (0054/0056) and the workstream C round-9

@@ -669,6 +669,7 @@
       "class": "dagger",
       "material": "bone",
       "obj": "bone_knife.obj",
+      "orient": { "tip": "+y", "grip": 0.24 },
       "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
       "textures": {
         "diffuse": "bone_knife_diff.tga",
@@ -690,6 +691,7 @@
       "class": "greatsword",
       "material": "steel",
       "obj": "iron_cleaver.obj",
+      "orient": { "tip": "+y", "grip": 0.18 },
       "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
       "textures": {
         "diffuse": "cleaver_diff.tga",
@@ -711,6 +713,7 @@
       "class": "warhammer",
       "material": "obsidian",
       "obj": "obsidian_warhammer.obj",
+      "orient": { "tip": "+y", "grip": 0.42 },
       "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
       "textures": {
         "diffuse": "warhammer_diff.tga",
@@ -732,6 +735,7 @@
       "class": "katana",
       "material": "silver",
       "obj": "silver_jagged_katana.obj",
+      "orient": { "tip": "+y", "grip": 0.18 },
       "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
       "textures": {
         "diffuse": "katana_diffuse.tga",
@@ -753,6 +757,7 @@
       "class": "mace",
       "material": "wood",
       "obj": "wooden_ballclub.obj",
+      "orient": { "tip": "+z", "grip": 0.28 },
       "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
       "textures": {
         "diffuse": "wooden_ballclub_diff.tga",

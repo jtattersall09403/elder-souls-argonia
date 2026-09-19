@@ -41,6 +41,22 @@ CONFIG = Path(__file__).resolve().parent / "config" / "weapons"
 QUIVER_SUFFIX = "--quiver"
 
 
+def obj_orientation(item_id, entry):
+    """Validate the `orient` block an OBJ item must carry (see the plan item)."""
+    if not entry.get("obj"):
+        return None
+    orient = entry.get("orient")
+    if not isinstance(orient, dict):
+        raise ValueError(f"{item_id}: an obj item needs an `orient` block (tip, grip)")
+    tip = str(orient.get("tip", ""))
+    if len(tip) != 2 or tip[0] not in "+-" or tip[1] not in "xyz":
+        raise ValueError(f"{item_id}: orient.tip must be one of +x -x +y -y +z -z")
+    grip = float(orient.get("grip", -1))
+    if not 0.0 <= grip <= 1.0:
+        raise ValueError(f"{item_id}: orient.grip is a fraction of the length (0..1)")
+    return {"tip": tip, "grip": grip}
+
+
 def resolve_set(set_id: str, only: list[str] | None) -> dict:
     """Resolve a declarative item set into flat, validated build entries."""
     config = json.loads((CONFIG / f"{set_id}.json").read_text())
@@ -71,6 +87,13 @@ def resolve_set(set_id: str, only: list[str] | None) -> dict:
             # because an OBJ carries no Skyrim shader to read them off.
             "obj": entry.get("obj"),
             "textures": dict(entry.get("textures", {})),
+            # An OBJ is not authored about the hand node as a NIF is: `orient`
+            # names the native axis whose positive end strikes (`tip`) and the
+            # hand origin as a fraction of the length up from the pommel
+            # (`grip`, read off the vanilla exemplar of the class). Required
+            # with `obj`; the Blender side rotates the mesh onto the NIF
+            # convention (blade on the socket's +Z, width on X) from it.
+            "orient": obj_orientation(item_id, entry),
             # Optional vault-relative data root for a modded mesh (Animated
             # Armoury and friends ship loose files, not a BSA). Absent means the
             # vanilla archives, byte-for-byte as before.
@@ -235,6 +258,7 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
         }
         if item["obj"]:
             entry["obj"] = to_windows(item["obj_path"])
+            entry["orient"] = item["orient"]
             entry["textures"] = {
                 role: to_windows(path) for role, path
                 in convert_textures(item["texture_paths"], png_dir).items()
