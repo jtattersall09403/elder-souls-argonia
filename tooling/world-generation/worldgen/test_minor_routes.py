@@ -38,7 +38,12 @@ def test_every_track_serves_a_live_plotted_place_and_starts_at_it():
         # Only a settlement may exceed the walking limit: it always keeps its
         # path (compile_minor_routes.run), and the digest lists the length.
         assert t["lengthKm"] > 0, t["id"]
-        if t["lengthKm"] * 1000 > mr.MAX_TRACK_M + px:
+        # A registry-laid track (`registryRoute`) is a NAMED row of the route
+        # registry, run through its authored stages rather than solved to the
+        # nearest network cell (compile_minor_routes.lay_registry_track), so
+        # MAX_TRACK_M — the limit on how far a place may be from a road — has
+        # nothing to say about its length.
+        if t["lengthKm"] * 1000 > mr.MAX_TRACK_M + px and not t.get("registryRoute"):
             assert rec["classification"]["class"] == "settlement", t["id"]
 
 
@@ -52,11 +57,15 @@ def test_every_settlement_is_reached_on_road_by_track_or_listed_unconnected():
     served = {t["from"] for t in doc["tracks"]} | {u["id"] for u in doc["unconnected"]}
     settlements = [rid for rid, rec in _plotted().items() if rec["classification"]["class"] == "settlement"]
     unaccounted = [rid for rid in settlements if rid not in served]
-    # the remainder must be the "already on a road" count
-    assert len(unaccounted) == doc["summary"]["onRoadAlready"] - sum(
-        1 for rid, rec in _plotted().items()
-        if rid not in served and rec["classification"]["class"] != "settlement" and rec.get("discovery") == "road"
-        and rec["classification"]["class"] not in {"lair", "camp"})
+    # The remainder must be exactly the settlements the compiler counted as
+    # already standing on a road. It publishes the IDS it counted
+    # (`summary.onRoadIds`), so this compares two lists; the old form
+    # reconstructed the number from the catalogue and could only restate its
+    # own arithmetic (16g review, 2026-09-19).
+    plotted = _plotted()
+    on_road_settlements = [rid for rid in doc["summary"]["onRoadIds"]
+                           if plotted.get(rid, {}).get("classification", {}).get("class") == "settlement"]
+    assert sorted(unaccounted) == sorted(on_road_settlements)
 
 
 # --------------------------------------------------------------------------

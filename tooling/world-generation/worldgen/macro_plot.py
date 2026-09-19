@@ -237,6 +237,7 @@ class Candidate:
     used_by: str | None = None
     zone_dist: dict = field(default_factory=dict)   # metres to each culture zone (filled by attach_zone_distances)
     navigable_depth_m: float = 0.0          # deepest RECORD depth (reach/body) within NAVIGABLE_REACH_M
+    for_demand: str | None = None           # generated for ONE tied demand; invisible to every other
 
 
 @dataclass
@@ -995,25 +996,40 @@ def _water_entity_names() -> dict[str, str]:
     return out
 
 
+def entity_distance_m(survey: "ProvinceSurvey", want: str) -> "np.ndarray | None":
+    """Metres from every analysis cell to the NAMED water entity's own cells
+    (a river id covers every reach that names it). None when the graph has no
+    such entity on the ground. Cached per survey: the solver asks millions of
+    times."""
+    cache = getattr(survey, "_entity_distance_cache", None)
+    if cache is None:
+        cache = survey._entity_distance_cache = {}
+    if want not in cache:
+        from scipy import ndimage
+        labels = _tie_entity_labels(survey, want)
+        mask = np.isin(survey._entity_label_grid, list(labels)) if labels else None
+        cache[want] = (None if mask is None or not mask.any()
+                       else ndimage.distance_transform_edt(~mask) * survey.grid_px_m)
+    return cache[want]
+
+
 def near_water_ok(d: Demand, c: Candidate, survey: "ProvinceSurvey | None") -> bool:
-    """Typed `sitingPrefs.nearWater`: the candidate's NEAREST dry-season water
-    entity must BE the named one (a reach counts as its river) and be within
-    `maxM`. Naming the water the record's prose names is the whole point, so
-    "a different river, closer" fails."""
+    """Typed `sitingPrefs.nearWater`: the candidate is within `maxM` of THAT
+    entity's own cells (a reach counts as its river).
+
+    It used to require the entity to be the candidate's NEAREST water, which
+    is a different and wrong claim: a shipyard beside the Archon lagoon may
+    perfectly well have a swamp puddle nearer than the lagoon, and the tie
+    still holds (coordinator ruling 2026-09-19). `plotFacts.water` still
+    records the nearest water; the tie is a separate fact about a named body."""
     if d.near_water is None or survey is None:
         return True
     want, max_m = d.near_water
-    near = survey.nearest_water_entity(c.x, c.z)
-    if not near or not near.get("entityId"):
+    dist = entity_distance_m(survey, want)
+    if dist is None:
         return False
-    eid = near["entityId"]
-    if eid != want:
-        if not want.startswith("river."):
-            return False
-        reach = survey.water.reach(eid)
-        if not reach or reach.get("river") != want:
-            return False
-    return float(near.get("distanceM") or 0.0) <= max_m + 1e-9
+    row, col = survey.grid_px(c.x, c.z)
+    return float(dist[row, col]) <= max_m + 1e-9
 
 
 def min_depth_ok(d: Demand, c: Candidate, survey: "ProvinceSurvey | None" = None) -> bool:
@@ -1452,6 +1468,261 @@ def pinned_candidate(s: ProvinceSurvey, rid: str, x: float, z: float) -> Candida
 
 
 # --------------------------------------------------------------------------- #
+# local candidates for a TYPED TIE (16g review, 2026-09-19)
+# --------------------------------------------------------------------------- #
+# The supply is a province-wide lattice: the scour sites plus free cells at
+# FREE_SPACING_M. A typed tie (`nearPoint`, `boundTo`, `nearWater` +
+# `minDepthM`) names a domain tens of metres across, and the lattice simply
+# holds nothing inside it — 30 live records ended the seeded run homeless with
+# every physical gate willing and no cell to stand on. So a tied demand brings
+# its OWN candidates: a fine lattice inside its own radius, measured off the
+# same survey as every other candidate and judged by every same gate. They are
+# private to the demand that generated them (`for_demand`), so generating
+# supply for one record can never move another.
+LOCAL_TIE_SPACING_M = 8.0        # fine enough to find a quay apron
+LOCAL_TIE_MAX = 400              # per demand, nearest to the tie point first
+LOCAL_TIE_FALLBACK_RADIUS_M = 400.0   # water tie with no nearPoint/boundTo radius
+GENERIC_LANDFORMS = {"any-firm-ground", "any-shallow-marsh", "any-channel-bank"}
+
+
+def _tie_anchor(d: Demand, positions: dict[str, tuple[float, float]]
+                ) -> tuple[float, float, float] | None:
+    """(x, z, radius) of the record's land tie: its `nearPoint`, else the
+    committed dot of the live record it is `boundTo`."""
+    if d.near_point is not None:
+        return d.near_point
+    if d.bound_to and d.bound_to in positions:
+        bx, bz = positions[d.bound_to]
+        return (bx, bz, d.bound_max)
+    return None
+
+
+def _tie_lattice(x: float, z: float, radius: float, extent: float) -> list[tuple[float, float, float]]:
+    """(distance, x, z) at LOCAL_TIE_SPACING_M inside the radius, nearest
+    first — a fixed lattice on the tie point, so the set is deterministic."""
+    step = LOCAL_TIE_SPACING_M
+    k = int(radius // step)
+    out = []
+    for i in range(-k, k + 1):
+        for j in range(-k, k + 1):
+            px_ = x + i * step
+            pz_ = z + j * step
+            dist = math.hypot(px_ - x, pz_ - z)
+            if dist > radius or not (0.0 <= px_ < extent and 0.0 <= pz_ < extent):
+                continue
+            out.append((dist, px_, pz_))
+    out.sort(key=lambda t: (round(t[0], 3), t[1], t[2]))
+    return out
+
+
+def _clear_of_footprints(d: Demand, x: float, z: float,
+                         footprints: list[tuple[str, float, float, float]]) -> bool:
+    for oid, ox, oz, ofp in footprints:
+        if oid == d.id:
+            continue
+        if math.hypot(x - ox, z - oz) < ofp + d.footprint_m:
+            return False
+    return True
+
+
+def _local_land_candidates(s: ProvinceSurvey, d: Demand, tie: tuple[float, float, float],
+                           footprints: list[tuple[str, float, float, float]]) -> list[Candidate]:
+    """Standable cells inside the record's own tie radius, filtered by the
+    survey to the classes the record/recipe asks for and clear of every other
+    sited record's footprint."""
+    x, z, radius = tie
+    rec_depth = s.recorded_depth_m
+    generic = {lf for lf in d.landforms if lf in GENERIC_LANDFORMS}
+    out: list[Candidate] = []
+    n = 0
+    for _dist, px_, pz_ in _tie_lattice(x, z, radius, s.extent_m):
+        row, col = s.grid_px(px_, pz_)
+        landform = _classify_free(s, row, col)
+        if landform is None:
+            continue
+        if generic and landform not in generic:
+            continue
+        rname = REGION_CLASSES[int(s.region_grid[row, col])][0]
+        if d.regions and rname not in d.regions:
+            continue
+        if d.min_depth_m <= 0.0 and float(rec_depth[row, col]) > 0.0:
+            continue
+        if not _clear_of_footprints(d, px_, pz_, footprints):
+            continue
+        n += 1
+        c = pinned_candidate(s, d.id, px_, pz_)
+        c.id = f"site.local.{d.id.rsplit('.', 1)[-1]}-{n}"
+        c.kind = "free"
+        c.landform = "local-tie"
+        c.for_demand = d.id
+        c.concealment = min(1.0, 0.3 + 0.5 * (rname in {"tropical jungle", "rootland deep marsh",
+                                                        "mangrove forest"}))
+        out.append(c)
+        if n >= LOCAL_TIE_MAX:
+            break
+    return out
+
+
+def _tie_entity_labels(s: ProvinceSurvey, want: str) -> set[int]:
+    """Entity labels (1 + index) of the named body/reach — a river id covers
+    every reach that names it, exactly as `near_water_ok` reads it."""
+    labels: set[int] = set()
+    for i, e in enumerate(s.water.entities):
+        eid = e.get("id")
+        if eid == want:
+            labels.add(i + 1)
+        elif want.startswith("river."):
+            reach = s.water.reach(eid)
+            if reach and reach.get("river") == want:
+                labels.add(i + 1)
+    return labels
+
+
+def _local_water_candidates(s: ProvinceSurvey, d: Demand, tie: tuple[float, float, float] | None,
+                            positions: dict[str, tuple[float, float]]) -> list[Candidate]:
+    """Cells of the record's own water deep enough for its `minDepthM`, read
+    off the RECORD depth grid (0066) — the graph's designed depth, never a
+    measurement of the bake."""
+    if d.min_depth_m <= 0.0:
+        return []
+    if tie is not None:
+        x, z, radius = tie
+    else:
+        pos = positions.get(d.id)
+        if pos is None:
+            return []
+        x, z, radius = pos[0], pos[1], LOCAL_TIE_FALLBACK_RADIUS_M
+    labels = _tie_entity_labels(s, d.near_water[0]) if d.near_water else set()
+    rec_depth = s.recorded_depth_m
+    ent = s._entity_label_grid
+    out: list[Candidate] = []
+    seen: set[tuple[int, int]] = set()
+    n = 0
+    for _dist, px_, pz_ in _tie_lattice(x, z, radius, s.extent_m):
+        row, col = s.grid_px(px_, pz_)
+        if (row, col) in seen:
+            continue
+        seen.add((row, col))
+        if labels and int(ent[row, col]) not in labels:
+            continue
+        if float(rec_depth[row, col]) + 1e-9 < d.min_depth_m:
+            continue
+        n += 1
+        c = pinned_candidate(s, d.id, px_, pz_)
+        c.id = f"site.local.{d.id.rsplit('.', 1)[-1]}-w{n}"
+        c.kind = "free-water"
+        c.landform = "open-water"
+        c.for_demand = d.id
+        c.water_relation = 1.0
+        c.concealment = 0.0
+        out.append(c)
+        if n >= LOCAL_TIE_MAX:
+            break
+    return out
+
+
+def _entity_domain_candidates(s: ProvinceSurvey, d: Demand,
+                              footprints: list[tuple[str, float, float, float]]) -> list[Candidate]:
+    """The NAMED water is the domain, for a record with no other tie.
+
+    A record carrying only `nearWater` (no `nearPoint`, no live `boundTo`) and
+    no dot — because an earlier run stripped it — had no point to lattice
+    around at all. Its own body IS the point: land ties take the band within
+    `maxM` outside the entity's edge, water ties take the entity's own cells
+    at `minDepthM` or deeper, and both are capped at the 400 nearest the
+    entity's centroid so the set is deterministic (ruling 2026-09-19)."""
+    want, max_m = d.near_water
+    dist = entity_distance_m(s, want)
+    labels = _tie_entity_labels(s, want)
+    if dist is None or not labels:
+        return []
+    cells = np.argwhere(np.isin(s._entity_label_grid, list(labels)))
+    crow, ccol = float(cells[:, 0].mean()), float(cells[:, 1].mean())
+    rec_depth = s.recorded_depth_m
+    out: list[Candidate] = []
+
+    def _ordered(mask: np.ndarray) -> list[tuple[int, int]]:
+        rc = np.argwhere(mask)
+        if not len(rc):
+            return []
+        order = np.lexsort((rc[:, 1], rc[:, 0],
+                            np.round(np.hypot(rc[:, 0] - crow, rc[:, 1] - ccol), 3)))
+        return [(int(r), int(c)) for r, c in rc[order]]
+
+    n = 0
+    for row, col in _ordered((dist > 0.0) & (dist <= max_m)):
+        landform = _classify_free(s, row, col)
+        if landform is None:
+            continue
+        rname = REGION_CLASSES[int(s.region_grid[row, col])][0]
+        if d.regions and rname not in d.regions:
+            continue
+        x = (col + 0.5) * s.grid_px_m
+        z = (row + 0.5) * s.grid_px_m
+        if d.min_depth_m <= 0.0 and float(rec_depth[row, col]) > 0.0:
+            continue
+        if not _clear_of_footprints(d, x, z, footprints):
+            continue
+        n += 1
+        c = pinned_candidate(s, d.id, x, z)
+        c.id = f"site.local.{d.id.rsplit('.', 1)[-1]}-e{n}"
+        c.kind = "free"
+        c.landform = "local-tie"
+        c.for_demand = d.id
+        out.append(c)
+        if n >= LOCAL_TIE_MAX:
+            break
+    if d.min_depth_m > 0.0:
+        # a WATER candidate is judged on depth, never on standable ground
+        n = 0
+        for row, col in _ordered(np.isin(s._entity_label_grid, list(labels))
+                                 & (rec_depth + 1e-9 >= d.min_depth_m)):
+            x = (col + 0.5) * s.grid_px_m
+            z = (row + 0.5) * s.grid_px_m
+            n += 1
+            c = pinned_candidate(s, d.id, x, z)
+            c.id = f"site.local.{d.id.rsplit('.', 1)[-1]}-ew{n}"
+            c.kind = "free-water"
+            c.landform = "open-water"
+            c.for_demand = d.id
+            c.water_relation = 1.0
+            c.concealment = 0.0
+            out.append(c)
+            if n >= LOCAL_TIE_MAX:
+                break
+    return out
+
+
+def local_tie_candidates(s: ProvinceSurvey, demands: list[Demand]) -> list[Candidate]:
+    """Every tied demand's own local supply, in id order (deterministic)."""
+    positions: dict[str, tuple[float, float]] = {}
+    footprints: list[tuple[str, float, float, float]] = []
+    recipes_fp = _recipe_footprints()
+    for d in demands:
+        pos = d.record.get("positionM")
+        if not (isinstance(pos, list) and len(pos) == 2):
+            continue
+        positions[d.id] = (float(pos[0]), float(pos[1]))
+        fp = d.record.get("footprintRadiusM")
+        if fp is None:
+            fp = recipes_fp.get(d.type, (DEFAULT_FOOTPRINT_M, ""))[0]
+        footprints.append((d.id, float(pos[0]), float(pos[1]), float(fp)))
+    footprints.sort()
+    out: list[Candidate] = []
+    for d in sorted(demands, key=lambda d: d.id):
+        tie = _tie_anchor(d, positions)
+        if tie is None and d.near_water is None and d.min_depth_m <= 0.0:
+            continue
+        if tie is None and d.near_water is not None and d.id not in positions:
+            out += _entity_domain_candidates(s, d, footprints)
+            continue
+        if tie is not None:
+            out += _local_land_candidates(s, d, tie, footprints)
+        out += _local_water_candidates(s, d, tie, positions)
+    return out
+
+
+# --------------------------------------------------------------------------- #
 # the committed plot as the SEED of the solve (2026-09-07)
 # --------------------------------------------------------------------------- #
 # The scorer is globally sensitive to its input rasters: a small, legitimate
@@ -1705,6 +1976,12 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
     plotted_d: dict[str, tuple[Demand, Candidate]] = {}
     result: dict[str, dict] = {}
     by_id = {c.id: c for c in cands}
+
+    def _visible(d: Demand, c: Candidate) -> bool:
+        """A candidate generated for a typed tie belongs to that demand alone,
+        so extra local supply for one record can never move another."""
+        return c.for_demand is None or c.for_demand == d.id
+
     if thomas_prior is None:
         thomas_prior = build_thomas_prior(demands, cands, DEFAULT_SEED)
 
@@ -1773,7 +2050,7 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
     for d in demands:
         if d.id not in dependent_ids:
             continue
-        sites = [c for c in cands if water_identity_ok(d, c, s)]
+        sites = [c for c in cands if _visible(d, c) and water_identity_ok(d, c, s)]
         if d.near_point is not None:
             x, z, radius = d.near_point
             sites = [c for c in sites if math.hypot(c.x - x, c.z - z)
@@ -1836,6 +2113,8 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                     continue
                 meta = {oid: od for oid, (od, _oc) in plotted_d.items()}
                 for c in cands:
+                    if not _visible(d, c):
+                        continue
                     if c.used_by:
                         continue
                     owners = reserved_by.get(c.id, set())
@@ -1992,6 +2271,8 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
         meta_now = {oid: od for oid, (od, _oc) in plotted_d.items()}
         best = None
         for c in cands:
+            if not _visible(d, c):
+                continue
             if c.used_by or not water_identity_ok(d, c, s):
                 continue
             sc, parts = score_pair(d, c, plotted_xy, True, s, True, meta_now)
@@ -2048,6 +2329,8 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             meta_now = {oid: od for oid, (od, _oc) in plotted_d.items()}
             options = []
             for c in cands:
+                if not _visible(d, c):
+                    continue
                 holder = c.used_by
                 if holder is None or holder in referenced_ids:
                     continue
@@ -2103,6 +2386,8 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             # both land honestly, and judge every gate at each step.
             options = []
             for c in cands:
+                if not _visible(d, c):
+                    continue
                 if c.used_by or not water_identity_ok(d, c, s):
                     continue
                 sc, parts = score_pair(d, c, plotted_xy, True, s, True, meta_now)
@@ -2168,6 +2453,8 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
         sole: dict[str, int] = {}
         blockers: dict[str, int] = {}
         for c in cands:
+            if not _visible(d, c):
+                continue
             sc, _parts = score_pair(d, c, plotted_xy, True, s, True, diag_meta)
             cluster = thomas_prior_score(d, c, thomas_prior, True, plotted_xy)
             sep_ok, blocker = separation_ok(d, c, plotted_d, 0.5, s)
@@ -2913,6 +3200,12 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False
     attach_water_depth(s, cands)
     attach_anchor_ids(s, cands)
     thomas_prior = build_thomas_prior(demands, cands, seed)
+    # A typed tie brings its own local supply (see `local_tie_candidates`).
+    # Generated AFTER the clustering prior so the prior — a province-wide
+    # density model built from the shared lattice — is byte-identical.
+    local = local_tie_candidates(s, demands)
+    attach_zone_distances(s, local)
+    cands = cands + local
     seeded: dict[str, dict] = {}
     resite: list[dict] = []
     pinned: list[dict] = []
@@ -2948,6 +3241,19 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
     (demands, files, scour, free, result, unresolved, resite, pinned,
      ceiling_trace) = solve(s, seed, resolve_all=resolve_all)
     plotted = {did: (next(d for d in demands if d.id == did), r["candidate"]) for did, r in result.items()}
+    # A homeless LIVE record is a FAILURE of the seeded solve (16g review,
+    # 2026-09-19). `apply_to_records` strips a homeless record's dot, so
+    # continuing would quietly unplot it and every downstream stage would build
+    # on the hole. The raise comes BEFORE the write-back: the committed
+    # positions stay exactly as they were, and the gates that refused each
+    # record are printed so the tie can be argued with.
+    if unresolved and not resolve_all:
+        print(f"{len(unresolved)} live records could not be sited in the seeded solve:")
+        for h in sorted(unresolved, key=lambda h: h["id"]):
+            top = list((h.get("whyHomeless") or {}).items())[:3]
+            print(f"  {h['id']}: " + (", ".join(f"{gate} x{n}" for gate, n in top) or "no candidates at all"))
+        raise RuntimeError("macro_plot left live records homeless: "
+                           + ", ".join(sorted(h["id"] for h in unresolved)))
     apply_to_records(files, demands, result, s)
     rep = build_report(demands, result, unresolved, plotted, s, seed, len(scour), len(free))
     rep["feedbackChecks"] = feedback_checks(demands, result, s)

@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import math
 
+import numpy as np
 import pytest
 from .ladder import requires_delivered, requires_layer, requires_stage
 
@@ -40,13 +41,34 @@ def test_deferred_and_cut_records_carry_no_position():
 
 
 def test_settlement_anchors_keep_their_owner_approved_positions():
+    """The owner's gate/centre rule (2026-09-18, macro_plot.assign step 1).
+
+    A city that carries a `cityLayout` puts its RECORD on the solved centre
+    and its GATE on the main road at the anchor pixel, so the anchor's u,v is
+    a tolerance on the gate, not an exact match on the dot. A city without a
+    layout block still sits exactly where the anchor says."""
     by_slug = {a["id"]: a for a in ANCHORS["anchors"]}
     seen = set()
+    survey = None
     for _z, rec in _live():
         slug = rec["id"].rsplit(".", 1)[-1]
         if rec["importanceTier"] == 0 and slug in by_slug:
             a = by_slug[slug]
-            assert abs(rec["position"]["u"] - a["u"]) < 1e-6 and abs(rec["position"]["v"] - a["v"]) < 1e-6, rec["id"]
+            layout = rec.get("cityLayout") or {}
+            centre, gate = layout.get("centre"), layout.get("gate")
+            if centre and gate:
+                x, z = rec["positionM"]
+                assert abs(x - centre[0]) < 1e-3 and abs(z - centre[1]) < 1e-3, \
+                    f"{rec['id']}: the dot is not the cityLayout centre"
+                if survey is None:
+                    survey = macro_plot.shared_survey()
+                gu, gv = survey.m_to_uv(float(gate[0]), float(gate[1]))
+                tol = float(a["toleranceUV"])
+                assert abs(gu - a["u"]) <= tol and abs(gv - a["v"]) <= tol, \
+                    f"{rec['id']}: the gate is outside the anchor's toleranceUV"
+            else:
+                assert abs(rec["position"]["u"] - a["u"]) < 1e-6 \
+                    and abs(rec["position"]["v"] - a["v"]) < 1e-6, rec["id"]
             seen.add(slug)
     assert seen == set(by_slug), f"anchors without a tier-0 catalogue record: {set(by_slug) - seen}"
 
@@ -178,22 +200,33 @@ class WaterStub:
     which entity is nearest a point, how far, and which river a reach is on."""
 
     class _Graph:
-        def __init__(self, reaches):
+        def __init__(self, reaches, entities):
             self._reaches = reaches
+            self.entities = [{"id": eid} for eid in entities]
 
         def reach(self, entity_id):
             return self._reaches.get(entity_id)
 
     def __init__(self, nearest: dict[tuple[float, float], dict],
-                 reaches: dict[str, dict] | None = None):
+                 reaches: dict[str, dict] | None = None,
+                 entities: dict[str, list[tuple[int, int]]] | None = None):
         import numpy as np
         self._nearest = nearest
-        self.water = self._Graph(reaches or {})
+        # which CELLS each entity occupies: the `nearWater` tie measures the
+        # distance to the named entity's own water, not to the nearest water
+        entities = entities or {}
+        self.water = self._Graph(reaches or {}, entities)
         self.extent_m = 10000.0
+        self.grid_n = 100
+        self.grid_px_m = 100.0
         self.height_grid = None
         self.water_depth_m = np.zeros((100, 100), dtype="float32")
         self.danger = np.full((100, 100), 2, dtype="int16")
         self.region_grid = np.zeros((100, 100), dtype="int16")
+        self._entity_label_grid = np.zeros((100, 100), dtype="int32")
+        for i, cells in enumerate(entities.values()):
+            for row, col in cells:
+                self._entity_label_grid[row, col] = i + 1
 
     def grid_px(self, x, z):
         return int(z / 100.0), int(x / 100.0)
@@ -227,12 +260,16 @@ def _two_river_stub():
                  (2000.0, 2000.0): {"entityId": "reach.y1", "distanceM": 5.0},
                  (3000.0, 3000.0): {"entityId": "reach.x2", "distanceM": 600.0}},
         reaches={"reach.x1": {"river": "river.x"}, "reach.x2": {"river": "river.x"},
-                 "reach.y1": {"river": "river.y"}})
+                 "reach.y1": {"river": "river.y"}},
+        # cells are 100 m: x1 under (1000, 1000), y1 under (2000, 2000),
+        # x2 600 m east of (3000, 3000)
+        entities={"reach.x1": [(10, 10)], "reach.y1": [(20, 20)], "reach.x2": [(30, 36)]})
 
 
 def test_near_water_never_takes_the_wrong_river_however_good_the_ground():
-    """A record tied to river X is refused river Y's bank even where the rest
-    of the score is better (Y's dot is at the water's edge, X's is 30 m off)."""
+    """A record tied to river X is refused river Y's bank: X is 1 km away
+    there, and the tie is a distance to the NAMED river's own water (ruling
+    2026-09-19). Water nearer than the named entity is simply irrelevant."""
     s = _two_river_stub()
     d = _water_demand(near_water=("river.x", 250.0))
     on_x = _water_candidate("c-x", 1000.0, 1000.0)
@@ -253,7 +290,8 @@ def test_near_water_max_m_binds():
 
 
 def test_near_water_matches_a_body_or_a_reach_by_its_own_id():
-    s = WaterStub(nearest={(1000.0, 1000.0): {"entityId": "body.lake", "distanceM": 12.0}})
+    s = WaterStub(nearest={(1000.0, 1000.0): {"entityId": "body.lake", "distanceM": 12.0}},
+                  entities={"body.lake": [(10, 10)]})
     c = _water_candidate("c", 1000.0, 1000.0)
     assert macro_plot.near_water_ok(_water_demand(near_water=("body.lake", 50.0)), c, s)
     assert not macro_plot.near_water_ok(_water_demand(near_water=("body.other", 50.0)), c, s)
@@ -359,3 +397,116 @@ def test_route_reference_ids_cover_the_committed_registry():
     real = next(r["id"] for r in registry["routes"] if r["id"].startswith("route.road."))
     assert real in ids
     assert "route.road.made-up-by-this-test" not in ids
+
+
+# --------------------------------------------------------------------------
+# local candidates for a typed tie (16g review, 2026-09-19)
+# --------------------------------------------------------------------------
+def _tie_demand(rid: str, zone: str, **kw) -> macro_plot.Demand:
+    """A synthetic demand carrying nothing but the typed tie under test."""
+    fields = dict(id=rid, zone=zone, tier=3, layer="fine-tempo", magnitude=None,
+                  cls="wonder", type="shrine-wayside", danger=2,
+                  landforms=["any-firm-ground"], landforms_from_recipe=True,
+                  regions=set(), parents=[], hints={}, record={})
+    fields.update(kw)
+    return macro_plot.Demand(**fields)
+
+
+def _base_pool(s):
+    return (macro_plot.load_scour(s)
+            + macro_plot.free_ground(s, macro_plot.DEFAULT_SEED)
+            + macro_plot.roadside_ground(s, macro_plot.DEFAULT_SEED))
+
+
+def _prepared(s, cands):
+    macro_plot.attach_zone_distances(s, cands)
+    macro_plot.attach_water_depth(s, cands)
+    macro_plot.attach_anchor_ids(s, cands)
+    return cands
+
+
+@requires_delivered("16g")
+def test_a_typed_near_point_is_sited_where_the_province_lattice_has_nothing(survey):
+    """`sitingPrefs.nearPoint` names a domain tens of metres across; the
+    province-wide supply is a 140 m lattice plus the scour sites, so a tie this
+    tight can have no candidate at all. The demand brings its own (fails on the
+    base pool alone, which is what left 30 live records homeless in 16g)."""
+    s = survey
+    base = _prepared(s, _base_pool(s))
+    xs = np.array([c.x for c in base])
+    zs = np.array([c.z for c in base])
+    point = None
+    step = 8
+    # the homeless batch widens a nearPoint by NEAR_POINT_RELAX, so the tie is
+    # only genuinely unreachable when the lattice is outside the RELAXED radius
+    clear_m = 60.0 * macro_plot.NEAR_POINT_RELAX
+    for row in range(step, s.grid_n - step, step):
+        for col in range(step, s.grid_n - step, step):
+            if macro_plot._classify_free(s, row, col) != "any-firm-ground":
+                continue
+            x = (col + 0.5) * s.grid_px_m
+            z = (row + 0.5) * s.grid_px_m
+            if float(np.min(np.hypot(xs - x, zs - z))) <= clear_m:
+                continue
+            zone = s.culture_names.get(int(s.culture[row, col]))
+            if zone:
+                point = (x, z, zone)
+                break
+        if point:
+            break
+    assert point, "no firm-ground cell in the province is that far from the lattice"
+    x, z, zone = point
+    d = _tie_demand("place.test.near-point", zone, near_point=(x, z, 60.0))
+
+    _r, homeless = macro_plot.assign([d], base, s, s.anchor_points_m)
+    assert [h["id"] for h in homeless] == [d.id], "the base pool already reaches this tie"
+
+    local = macro_plot.local_tie_candidates(s, [d])
+    assert local, "no local candidates were generated for the typed nearPoint"
+    assert all(c.for_demand == d.id and math.hypot(c.x - x, c.z - z) <= 60.0 for c in local)
+    result, homeless = macro_plot.assign([d], base + _prepared(s, local), s, s.anchor_points_m)
+    assert not homeless, "the record is still homeless with its own local candidates"
+    c = result[d.id]["candidate"]
+    assert math.hypot(c.x - x, c.z - z) <= 60.0
+
+
+@requires_delivered("16g")
+def test_a_typed_min_depth_is_sited_on_water_that_records_that_depth(survey):
+    """`sitingPrefs.minDepthM` is read off the RECORD depth grid (0066). The
+    submerged lattice is 60 m and carries no depth guarantee, so a 5 m tie can
+    find nothing; the demand's own water candidates are cells of its named body
+    that record the depth."""
+    s = survey
+    rec_depth = s.recorded_depth_m
+    deep = np.argwhere(rec_depth >= 5.0)
+    assert len(deep), "the province records no water 5 m deep"
+    point = None
+    for row, col in deep[:: max(1, len(deep) // 200)]:
+        x = (int(col) + 0.5) * s.grid_px_m
+        z = (int(row) + 0.5) * s.grid_px_m
+        if macro_plot._point_depth_m(s, x, z) < macro_plot.SUBMERGED_MIN_DEPTH_M:
+            continue
+        zone = s.culture_names.get(int(s.culture[int(row), int(col)]))
+        near = s.nearest_water_entity(x, z)
+        if zone and near and near.get("entityId"):
+            point = (x, z, zone, near["entityId"])
+            break
+    assert point, "no 5 m cell is also measurably submerged inside a culture zone"
+    x, z, zone, eid = point
+    d = _tie_demand("place.test.min-depth", zone, hints={"submerged": True},
+                    min_depth_m=5.0, near_water=(eid, 60.0),
+                    record={"positionM": [x, z]})
+
+    base = _prepared(s, _base_pool(s) + macro_plot.free_submerged(s, macro_plot.DEFAULT_SEED, {zone}))
+    _r, homeless = macro_plot.assign([d], base, s, s.anchor_points_m)
+
+    local = macro_plot.local_tie_candidates(s, [d])
+    assert local, "no local water candidates were generated for the typed minDepthM"
+    for c in local:
+        row, col = s.grid_px(c.x, c.z)
+        assert float(rec_depth[row, col]) >= 5.0 and c.landform == "open-water"
+    result, homeless2 = macro_plot.assign([d], base + _prepared(s, local), s, s.anchor_points_m)
+    assert not homeless2, "the record is still homeless with its own water candidates"
+    c = result[d.id]["candidate"]
+    row, col = s.grid_px(c.x, c.z)
+    assert float(rec_depth[row, col]) >= 5.0

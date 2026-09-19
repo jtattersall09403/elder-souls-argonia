@@ -786,6 +786,10 @@ def run(write: bool = True) -> dict:
     tracks: list[dict] = []
     unconnected: list[dict] = []
     on_road = 0
+    # WHICH records arrived already on a road, not just how many: the invariant
+    # test used to reconstruct the number from the catalogue and could only
+    # ever restate its own arithmetic (16g review, 2026-09-19).
+    on_road_ids: list[str] = []
     terminals = blueprint_terminals()
     # A hand-authored track is published exactly as drawn — same contract as
     # `authored_waterways`. It still gets its length, its class and its network
@@ -836,6 +840,7 @@ def run(write: bool = True) -> dict:
                            for i in range(len(path) - 1))
             if override is None and length_m <= ARRIVAL_M:
                 on_road += 1
+                on_road_ids.append(rec["id"])
                 continue
             if override is None and length_m > MAX_TRACK_M and rec["classification"]["class"] != "settlement":
                 unconnected.append({"id": rec["id"], "why": f"cheapest land path {length_m / 1000:.1f} km", "batch": bi})
@@ -899,7 +904,8 @@ def run(write: bool = True) -> dict:
            "costs": {"wetland": COST_WETLAND, "wetSeason": COST_WET_SEASON, "mountain": COST_MOUNTAIN,
                      "river": COST_RIVER, "openWater": COST_DEEP, "jungle": COST_JUNGLE},
            "arrivalM": ARRIVAL_M, "maxTrackM": MAX_TRACK_M,
-           "summary": {"tracks": len(tracks), "onRoadAlready": on_road, "unconnected": len(unconnected),
+           "summary": {"tracks": len(tracks), "onRoadAlready": on_road,
+                       "onRoadIds": sorted(on_road_ids), "unconnected": len(unconnected),
                        "byKind": {k: sum(1 for t in tracks if t["kind"] == k)
                                   for k in ("track", "footpath", "boardwalk", "causeway")},
                        "totalKm": round(sum(t["lengthKm"] for t in tracks), 2)},

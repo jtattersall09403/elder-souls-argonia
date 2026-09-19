@@ -661,8 +661,7 @@
         "nearWater": {
           "entityId": "body.2834-2585",
           "maxM": 40
-        },
-        "minDepthM": 1.5
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -2481,8 +2480,7 @@
         "nearWater": {
           "entityId": "body.2834-2585",
           "maxM": 40
-        },
-        "minDepthM": 1.5
+        }
       },
       "culture": "imperial",
       "occupants": [

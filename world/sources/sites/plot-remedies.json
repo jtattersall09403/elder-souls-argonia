@@ -159,6 +159,17 @@
    "why": "Canon puts the drowned Hist in Blackrose Lake. The record is tied to body.1290-3508 within 10 m on 5.0 m of water; the dot at 1642.3, 6023.6 reads body.973-3292 (marsh-fringe, level 1.62 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.)"
   },
   {
+   "id": "place.imperial-penal-south.longmont",
+   "kind": "pin-by-siting",
+   "sitingPrefs": {
+    "nearWater": {
+     "entityId": "body.1290-3508",
+     "maxM": 60
+    }
+   },
+   "why": "Longmont is the Blackrose lake ferry's station (ferry.imperial-penal-south.blackrose-lake); its record keyed to body.ocean 66 m off, so the lake hop could not follow one body."
+  },
+  {
    "id": "place.imperial-penal-south.lake-drowned-village",
    "kind": "pin-by-siting",
    "sitingPrefs": {
@@ -256,10 +267,9 @@
     "nearWater": {
      "entityId": "body.2834-2585",
      "maxM": 40
-    },
-    "minDepthM": 1.5
+    }
    },
-   "why": "The shipyard launches hulls into the Archon lagoon. The record is tied to body.2834-2585 within 40 m on 1.5 m of water; the dot at 5009.2, 4833.7 reads body.ocean (ocean, level 0.0 m) 24.5 m away."
+   "why": "The shipyard builds hulls on the bank of the Archon lagoon and launches them down slipways into it. The record is tied to body.2834-2585 within 40 m and bound to Archon. It carries no depth requirement, because the sheds and the slipways stand on dry ground. The dot at 5009.2, 4833.7 reads body.ocean (ocean, level 0.0 m) 24.5 m away."
   },
   {
    "id": "place.saxhleel-coast.archon-bonded-row",
@@ -268,10 +278,9 @@
     "nearWater": {
      "entityId": "body.2834-2585",
      "maxM": 40
-    },
-    "minDepthM": 1.5
+    }
    },
-   "why": "The bonded row berths hulls on the Archon lagoon. The record is tied to body.2834-2585 within 40 m on 1.5 m of water; the dot at 4901.7, 4425.8 reads body.2677-2418 (swamp, level 2.82 m) 5.5 m away."
+   "why": "The bonded row is a terrace of warehouses at the edge of the Archon lagoon. Cargo comes ashore from hulls moored off the bank. The record is tied to body.2834-2585 within 40 m and bound to Archon. The warehouses are built on the bank, so the record carries no depth requirement. The dot at 4901.7, 4425.8 reads body.2677-2418 (swamp, level 2.82 m) 5.5 m away."
   },
   {
    "id": "place.saxhleel-coast.mangrove-reef",

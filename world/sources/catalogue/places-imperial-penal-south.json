@@ -10401,6 +10401,10 @@
           ],
           "neighbourRelation": "Blackrose's north-western neighbour on the same lake, not the coast",
           "densityGradient": "lake shore, dense"
+        },
+        "nearWater": {
+          "entityId": "body.1290-3508",
+          "maxM": 60
         }
       },
       "relations": {
@@ -10485,7 +10489,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -10500,49 +10504,6 @@
           "description": "The village has stopped handling freight; a kilometre of loading deck stands empty and Blackrose is hurting."
         }
       ],
-      "position": {
-        "u": 0.23314,
-        "v": 0.927
-      },
-      "positionM": [
-        1719.1,
-        6835.2
-      ],
-      "footprintRadiusM": 115.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1247",
-          "score": 3.408,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1274",
-          "score": 3.058,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.roadside-0352",
-          "score": 3.005,
-          "whyLost": "taken by place.imperial-penal-south.flu-quarantine-village"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 285 m from the nearest route; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on region, ring; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 285.1,
-        "distanceToWaterM": 66.3,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 66.3
-        },
-        "score": 1.765
-      },
       "hostility": {
         "baseline": "wary",
         "owner": "faction.longmont-polers",
