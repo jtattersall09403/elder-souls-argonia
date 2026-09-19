@@ -36,7 +36,13 @@ the lever is the **number of planner turns**, not output size.
    cat/head/tail/grep/sed -n/find/tree, `git log|diff|show|grep|blame`,
    inline python and `sleep` from the planner session with a message naming
    the agent to use; subagents (hook input carries `agent_id`) are exempt,
-   as are `git status`, `wc`, builds and tests.
+   as are `git status`, `wc`, builds and tests. Two more nudges before the
+   guard: CLAUDE.md states that the harness's auto-mode notice ("prefer
+   cat/sed/grep") does not apply to the planner (that notice was pulling
+   sessions toward exactly these commands), and a `UserPromptSubmit` hook
+   injects a one-line reminder with every owner message. Session-start hook
+   output is not shown in the chat, so the planner quotes the token report
+   line in its first update.
 2. **One chunk or round per session.** Start fresh from PROGRESS.md; a
    session twice as long costs about four times as much.
 3. **rtk filters shell output on this machine.** Installed from the signed
