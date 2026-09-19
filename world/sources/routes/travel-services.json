@@ -1165,7 +1165,7 @@
             "rootway": "rootway.helstrom-naga-deeps"
           },
           "from": "root-node.helstrom",
-          "lengthM": 2870.0,
+          "lengthM": 3034.3,
           "to": "root-node.naga-deeps"
         },
         {
@@ -1362,8 +1362,8 @@
       },
       "placeId": "place.naga-kur-deeps.dead-water-village",
       "positionM": [
-        3380.6,
-        5716.6
+        2991.3,
+        5870.1
       ],
       "rootKind": "station",
       "status": "active",

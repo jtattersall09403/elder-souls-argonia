@@ -1,15 +1,20 @@
 {
  "schemaVersion": 1,
  "about": "Written by scripts/terrain-chain.sh: the Phase 16 ladder this build was made through. A studio layer whose producing stage was skipped is hidden: it was not rebuilt on this ground (plan 16 \u00a73).",
- "through": "16f",
+ "through": "16g",
  "ran": [
+  "apply_sitings",
   "apply_vegetation_patches",
-  "compile_scatter",
-  "compile_water_dressing"
- ],
- "skipped": [
   "compile_minor_routes",
   "compile_minor_waterways",
+  "export_places",
+  "export_routes",
+  "macro_plot",
+  "paint_route_overlays",
+  "terrain_request_postconditions",
+  "travel_services"
+ ],
+ "skipped": [
   "compile_settlement",
   "export_settlement_bundle",
   "grade_settlement_pads",

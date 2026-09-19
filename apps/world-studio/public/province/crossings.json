@@ -57,9 +57,9 @@
       ],
       "spanM": 231.4,
       "maxDepthM": 2.88,
-      "nearestPlaceId": "place.imperial-penal-south.feeder-portage",
-      "nearestPlaceName": "The Windlass Reckoning",
-      "nearestPlaceM": 68.6,
+      "nearestPlaceId": "place.imperial-penal-south.lilmothiit-quarry",
+      "nearestPlaceName": "Robbed City",
+      "nearestPlaceM": 115.9,
       "servesRoutes": [
         "route.road.soulrest-blackrose"
       ],
@@ -89,9 +89,9 @@
       ],
       "spanM": 127.7,
       "maxDepthM": 3.69,
-      "nearestPlaceId": "place.imperial-penal-south.blackrose",
-      "nearestPlaceName": "Blackrose",
-      "nearestPlaceM": 66.9,
+      "nearestPlaceId": "place.imperial-penal-south.manned-toll-tower",
+      "nearestPlaceName": "The Water Reckoning",
+      "nearestPlaceM": 54.5,
       "servesRoutes": [
         "route.road.blackrose-lilmoth"
       ],
@@ -121,9 +121,9 @@
       ],
       "spanM": 78.3,
       "maxDepthM": 1.68,
-      "nearestPlaceId": "place.pirate-freeholds.freehold-market",
-      "nearestPlaceName": "The Open Ground",
-      "nearestPlaceM": 117.4,
+      "nearestPlaceId": "place.pirate-freeholds.freehold-smithy",
+      "nearestPlaceName": "The Chimney",
+      "nearestPlaceM": 86.7,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -153,9 +153,9 @@
       ],
       "spanM": 66.9,
       "maxDepthM": 4.68,
-      "nearestPlaceId": "place.hist-heartland.nisswo-rest-house-interior",
-      "nearestPlaceName": "The Turning House",
-      "nearestPlaceM": 108.1,
+      "nearestPlaceId": "place.pirate-freeholds.chasecreek",
+      "nearestPlaceName": "Chasecreek",
+      "nearestPlaceM": 149.6,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -185,9 +185,9 @@
       ],
       "spanM": 62.1,
       "maxDepthM": 2.13,
-      "nearestPlaceId": "place.dunmer-north.hatching-pools",
-      "nearestPlaceName": "Hatching Pools",
-      "nearestPlaceM": 251.5,
+      "nearestPlaceId": "place.dunmer-north.hixinoag",
+      "nearestPlaceName": "Hixinoag",
+      "nearestPlaceM": 107.5,
       "servesRoutes": [
         "route.road.gideon-stormhold"
       ],
@@ -217,9 +217,9 @@
       ],
       "spanM": 55.0,
       "maxDepthM": 2.85,
-      "nearestPlaceId": "place.imperial-penal-south.blackrose",
-      "nearestPlaceName": "Blackrose",
-      "nearestPlaceM": 71.6,
+      "nearestPlaceId": "place.imperial-penal-south.blackrose-drowned-hist",
+      "nearestPlaceName": "Speaks-Below-The-Water",
+      "nearestPlaceM": 68.9,
       "servesRoutes": [
         "route.road.soulrest-blackrose"
       ],
@@ -249,9 +249,9 @@
       ],
       "spanM": 54.1,
       "maxDepthM": 1.8,
-      "nearestPlaceId": "place.pirate-freeholds.alten-corimont",
-      "nearestPlaceName": "Alten Corimont",
-      "nearestPlaceM": 40.1,
+      "nearestPlaceId": "place.pirate-freeholds.corimont-crosstrees",
+      "nearestPlaceName": "Crosstrees",
+      "nearestPlaceM": 42.7,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -281,9 +281,9 @@
       ],
       "spanM": 40.2,
       "maxDepthM": 1.92,
-      "nearestPlaceId": "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
-      "nearestPlaceName": "Nine-Stakes Field",
-      "nearestPlaceM": 49.0,
+      "nearestPlaceId": "place.imperial-penal-south.ledgered-blackguards",
+      "nearestPlaceName": "The Book House",
+      "nearestPlaceM": 237.4,
       "servesRoutes": [
         "route.road.gideon-soulrest"
       ],
@@ -313,9 +313,9 @@
       ],
       "spanM": 36.3,
       "maxDepthM": 1.32,
-      "nearestPlaceId": "place.hist-heartland.officeholder-tree-minder-house",
-      "nearestPlaceName": "The Minder's House",
-      "nearestPlaceM": 79.4,
+      "nearestPlaceId": "place.hist-heartland.nisswo-rest-house-interior",
+      "nearestPlaceName": "The Turning House",
+      "nearestPlaceM": 245.1,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -345,9 +345,9 @@
       ],
       "spanM": 29.8,
       "maxDepthM": 0.7,
-      "nearestPlaceId": "place.naga-kur-deeps.serpent-ground-moon-adder",
-      "nearestPlaceName": "The Adder Banks",
-      "nearestPlaceM": 70.4,
+      "nearestPlaceId": "place.naga-kur-deeps.ferry-stage-guide-hire",
+      "nearestPlaceName": "The Hire Stage",
+      "nearestPlaceM": 51.5,
       "servesRoutes": [
         "route.road.soulrest-blackrose"
       ],
@@ -377,9 +377,9 @@
       ],
       "spanM": 26.9,
       "maxDepthM": 1.31,
-      "nearestPlaceId": "place.dunmer-north.cut-and-stack",
-      "nearestPlaceName": "Cut-And-Stack",
-      "nearestPlaceM": 133.2,
+      "nearestPlaceId": "place.dunmer-north.hackwing-wall",
+      "nearestPlaceName": "Hackwing Wall",
+      "nearestPlaceM": 113.4,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -411,7 +411,7 @@
       "maxDepthM": 0.6,
       "nearestPlaceId": "place.hist-heartland.greenspring",
       "nearestPlaceName": "Greenspring",
-      "nearestPlaceM": 138.6,
+      "nearestPlaceM": 128.9,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -441,9 +441,9 @@
       ],
       "spanM": 21.2,
       "maxDepthM": 0.48,
-      "nearestPlaceId": "place.dunmer-north.branchmont",
-      "nearestPlaceName": "Branchmont",
-      "nearestPlaceM": 240.0,
+      "nearestPlaceId": "place.dunmer-north.boom-keepers-lodge",
+      "nearestPlaceName": "Broken Boom",
+      "nearestPlaceM": 99.4,
       "servesRoutes": [
         "route.road.thorn-tear-road"
       ],
@@ -475,7 +475,7 @@
       "maxDepthM": 1.08,
       "nearestPlaceId": "place.hist-heartland.greenspring",
       "nearestPlaceName": "Greenspring",
-      "nearestPlaceM": 176.9,
+      "nearestPlaceM": 165.0,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -505,9 +505,9 @@
       ],
       "spanM": 14.4,
       "maxDepthM": 1.56,
-      "nearestPlaceId": "place.dunmer-north.branchmont",
-      "nearestPlaceName": "Branchmont",
-      "nearestPlaceM": 269.0,
+      "nearestPlaceId": "place.dunmer-north.boom-keepers-lodge",
+      "nearestPlaceName": "Broken Boom",
+      "nearestPlaceM": 131.8,
       "servesRoutes": [
         "route.road.thorn-tear-road"
       ],
@@ -537,9 +537,9 @@
       ],
       "spanM": 14.1,
       "maxDepthM": 0.65,
-      "nearestPlaceId": "place.imperial-fringe.bog-iron-workings",
-      "nearestPlaceName": "Bog Iron Workings",
-      "nearestPlaceM": 27.3,
+      "nearestPlaceId": "place.imperial-fringe.claywater-station",
+      "nearestPlaceName": "Claywater Station",
+      "nearestPlaceM": 28.0,
       "servesRoutes": [
         "route.road.gideon-blackwood-road"
       ],
@@ -569,9 +569,9 @@
       ],
       "spanM": 13.3,
       "maxDepthM": 1.56,
-      "nearestPlaceId": "place.dunmer-north.branchmont",
-      "nearestPlaceName": "Branchmont",
-      "nearestPlaceM": 192.9,
+      "nearestPlaceId": "place.dunmer-north.boom-keepers-lodge",
+      "nearestPlaceName": "Broken Boom",
+      "nearestPlaceM": 50.5,
       "servesRoutes": [
         "route.road.thorn-tear-road"
       ],
@@ -601,9 +601,9 @@
       ],
       "spanM": 11.8,
       "maxDepthM": 0.84,
-      "nearestPlaceId": "place.hist-heartland.officeholder-tree-minder-house",
-      "nearestPlaceName": "The Minder's House",
-      "nearestPlaceM": 91.2,
+      "nearestPlaceId": "place.hist-heartland.nisswo-rest-house-interior",
+      "nearestPlaceName": "The Turning House",
+      "nearestPlaceM": 218.2,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -633,9 +633,9 @@
       ],
       "spanM": 11.5,
       "maxDepthM": 0.56,
-      "nearestPlaceId": "place.imperial-fringe.the-quiet-pit",
-      "nearestPlaceName": "The Quiet Pit",
-      "nearestPlaceM": 69.5,
+      "nearestPlaceId": "place.imperial-fringe.dreams-in-mud",
+      "nearestPlaceName": "Dreams-In-Mud",
+      "nearestPlaceM": 209.3,
       "servesRoutes": [
         "route.road.gideon-stormhold"
       ],
@@ -665,9 +665,9 @@
       ],
       "spanM": 8.9,
       "maxDepthM": 0.46,
-      "nearestPlaceId": "place.hist-heartland.serpent-ground-giant-snake",
-      "nearestPlaceName": "The Coiling Reach",
-      "nearestPlaceM": 93.1,
+      "nearestPlaceId": "place.imperial-fringe.hollow-arch-toll",
+      "nearestPlaceName": "Hollow Arch",
+      "nearestPlaceM": 94.5,
       "servesRoutes": [
         "route.road.gideon-stormhold"
       ],
@@ -697,9 +697,9 @@
       ],
       "spanM": 8.2,
       "maxDepthM": 0.16,
-      "nearestPlaceId": "place.dunmer-north.andalen-plantation",
-      "nearestPlaceName": "Andalen Plantation",
-      "nearestPlaceM": 64.1,
+      "nearestPlaceId": "place.dunmer-north.the-permit-dig",
+      "nearestPlaceName": "Permit Dig",
+      "nearestPlaceM": 21.0,
       "servesRoutes": [
         "route.road.gideon-stormhold"
       ],
@@ -729,9 +729,9 @@
       ],
       "spanM": 7.6,
       "maxDepthM": 0.57,
-      "nearestPlaceId": "place.dunmer-north.thorn-paddy-terraces",
-      "nearestPlaceName": "Thorn Terraces",
-      "nearestPlaceM": 95.9,
+      "nearestPlaceId": "place.dunmer-north.the-thorn-bond",
+      "nearestPlaceName": "Thorn Bond",
+      "nearestPlaceM": 87.7,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -761,9 +761,9 @@
       ],
       "spanM": 7.1,
       "maxDepthM": 0.05,
-      "nearestPlaceId": "place.imperial-fringe.the-art-and-ash-place",
-      "nearestPlaceName": "Makes-And-Burns",
-      "nearestPlaceM": 25.8,
+      "nearestPlaceId": "place.imperial-fringe.bonded-shed-of-the-onkobra",
+      "nearestPlaceName": "Bonded Shed",
+      "nearestPlaceM": 22.3,
       "servesRoutes": [
         "route.road.archon-gideon",
         "route.road.gideon-soulrest"
@@ -796,7 +796,7 @@
       "maxDepthM": 0.11,
       "nearestPlaceId": "place.imperial-fringe.onkobra-field-station",
       "nearestPlaceName": "Onkobra Field Station",
-      "nearestPlaceM": 60.7,
+      "nearestPlaceM": 48.0,
       "servesRoutes": [
         "route.road.gideon-blackwood-road"
       ],
@@ -826,9 +826,9 @@
       ],
       "spanM": 5.3,
       "maxDepthM": 0.43,
-      "nearestPlaceId": "place.imperial-fringe.the-second-empire-locks",
-      "nearestPlaceName": "Old Locks",
-      "nearestPlaceM": 60.4,
+      "nearestPlaceId": "place.imperial-fringe.lower-onkobra-paddies",
+      "nearestPlaceName": "Lower Onkobra Paddies",
+      "nearestPlaceM": 66.9,
       "servesRoutes": [
         "route.road.gideon-stormhold"
       ],
@@ -858,9 +858,9 @@
       ],
       "spanM": 4.4,
       "maxDepthM": 0.55,
-      "nearestPlaceId": "place.dunmer-north.thorn",
-      "nearestPlaceName": "Thorn",
-      "nearestPlaceM": 62.0,
+      "nearestPlaceId": "place.dunmer-north.the-thorn-bond",
+      "nearestPlaceName": "Thorn Bond",
+      "nearestPlaceM": 84.8,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -890,9 +890,9 @@
       ],
       "spanM": 3.3,
       "maxDepthM": 0.45,
-      "nearestPlaceId": "place.imperial-fringe.red-cart-yard",
-      "nearestPlaceName": "Red Cart Yard",
-      "nearestPlaceM": 67.1,
+      "nearestPlaceId": "place.imperial-fringe.the-counted-dead",
+      "nearestPlaceName": "Counts-The-Dead",
+      "nearestPlaceM": 165.8,
       "servesRoutes": [
         "route.road.gideon-soulrest"
       ],
@@ -922,9 +922,9 @@
       ],
       "spanM": 3.3,
       "maxDepthM": 0.43,
-      "nearestPlaceId": "place.dunmer-north.the-two-gate-bridge",
-      "nearestPlaceName": "Two-Gate Bridge",
-      "nearestPlaceM": 39.7,
+      "nearestPlaceId": "place.dunmer-north.ten-thousand-nests",
+      "nearestPlaceName": "Ten-Thousand-Nests",
+      "nearestPlaceM": 103.8,
       "servesRoutes": [
         "route.road.stormhold-thorn"
       ],
@@ -986,9 +986,9 @@
       ],
       "spanM": 3.1,
       "maxDepthM": 0.0,
-      "nearestPlaceId": "place.hist-heartland.dream-wallow-sap-pool",
-      "nearestPlaceName": "The Sap Wallow",
-      "nearestPlaceM": 25.6,
+      "nearestPlaceId": "place.hist-heartland.bubble-spire-open-helstrom",
+      "nearestPlaceName": "The Open Mouth",
+      "nearestPlaceM": 95.6,
       "servesRoutes": [
         "route.road.archon-gideon"
       ],
@@ -1018,9 +1018,9 @@
       ],
       "spanM": 2.4,
       "maxDepthM": -0.37,
-      "nearestPlaceId": "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
-      "nearestPlaceName": "Nine-Stakes Field",
-      "nearestPlaceM": 62.8,
+      "nearestPlaceId": "place.imperial-penal-south.ledgered-blackguards",
+      "nearestPlaceName": "The Book House",
+      "nearestPlaceM": 256.8,
       "servesRoutes": [
         "route.road.gideon-soulrest"
       ],
@@ -1050,9 +1050,9 @@
       ],
       "spanM": 1.6,
       "maxDepthM": -0.73,
-      "nearestPlaceId": "place.imperial-fringe.onkobra-field-station",
-      "nearestPlaceName": "Onkobra Field Station",
-      "nearestPlaceM": 28.8,
+      "nearestPlaceId": "place.imperial-fringe.moonmarch-ground",
+      "nearestPlaceName": "Moonmarch Ground",
+      "nearestPlaceM": 56.5,
       "servesRoutes": [
         "route.road.gideon-blackwood-road"
       ],
@@ -1082,9 +1082,9 @@
       ],
       "spanM": 1.1,
       "maxDepthM": -0.36,
-      "nearestPlaceId": "place.hist-heartland.dream-wallow-sap-pool",
-      "nearestPlaceName": "The Sap Wallow",
-      "nearestPlaceM": 46.0,
+      "nearestPlaceId": "place.hist-heartland.bubble-spire-open-helstrom",
+      "nearestPlaceName": "The Open Mouth",
+      "nearestPlaceM": 124.7,
       "servesRoutes": [
         "route.road.archon-gideon"
       ],
@@ -1114,9 +1114,9 @@
       ],
       "spanM": 1.1,
       "maxDepthM": -5.04,
-      "nearestPlaceId": "place.imperial-fringe.cartwrights-cross",
-      "nearestPlaceName": "Cartwright's Cross",
-      "nearestPlaceM": 142.0,
+      "nearestPlaceId": "place.imperial-fringe.the-embankment-that-drowned",
+      "nearestPlaceName": "Drowned Embankment",
+      "nearestPlaceM": 33.3,
       "servesRoutes": [
         "route.road.gideon-blackwood-road"
       ],

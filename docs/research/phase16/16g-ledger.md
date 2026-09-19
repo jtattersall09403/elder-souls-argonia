@@ -517,11 +517,19 @@ Live records 580; plotted 567; homeless 13; typed-siting violations 8 (closing p
 
 ### Moves by region
 
-No record moved.
+| region | moved | median m | p90 m | max m |
+|---|---|---|---|---|
+| naga-kur-deeps | 3 | 285.3 | 391.8 | 418.5 |
+| saxhleel-coast | 1 | 261.4 | 261.4 | 261.4 |
 
 Fifteen largest moves:
 
-No record moved.
+| id | type | from | to | m | why |
+|---|---|---|---|---|---|
+| `place.naga-kur-deeps.dead-water-village` | hist-village | 3380.6, 5716.6 | 2991.3, 5870.1 | 418.5 | terrain promise no longer deliverable here: dry-rise:heightClass clearance -0.26<1.40 |
+| `place.naga-kur-deeps.air-pocket-station-deeps` | air-pocket-station | 2541.6, 5184.7 | 2547.1, 4899.5 | 285.3 | terrain promise no longer deliverable here: pool:depthM 2.4<6.0 |
+| `place.saxhleel-coast.archon-lighthouse` | lighthouse | 5332.7, 4455.4 | 5075.0, 4411.5 | 261.4 | terrain promise no longer deliverable here: islet:waterRelation clearance -0.06<2.00 |
+| `place.naga-kur-deeps.naga-village-settled` | naga-village | 1066.5, 5897.5 | 934.9, 5897.5 | 131.6 | terrain promise no longer deliverable here: dry-rise:waterRelation clearance -0.32<1.40 |
 
 Reasoning: _(to be written by hand)_
 
@@ -591,7 +599,7 @@ Reasoning: _(to be written by hand)_
 
 ### Clark–Evans
 
-Median R = 1.123; zones evener than random: dunmer-north, imperial-fringe, imperial-penal-south, mercantile-coast, naga-kur-deeps, pirate-freeholds, saxhleel-coast.
+Median R = 1.143; zones evener than random: dunmer-north, imperial-fringe, imperial-penal-south, mercantile-coast, naga-kur-deeps, pirate-freeholds, saxhleel-coast.
 
 | zone | n | area km² | mean NN m | expected m | R |
 |---|---|---|---|---|---|
@@ -600,9 +608,9 @@ Median R = 1.123; zones evener than random: dunmer-north, imperial-fringe, imper
 | imperial-fringe | 118 | 6.96 | 142.1 | 131.0 | 1.085 |
 | imperial-penal-south | 39 | 0.93 | 134.4 | 104.1 | 1.291 |
 | mercantile-coast | 63 | 3.51 | 157.6 | 144.8 | 1.088 |
-| naga-kur-deeps | 39 | 2.6 | 198.0 | 176.2 | 1.123 |
+| naga-kur-deeps | 39 | 2.6 | 201.4 | 176.2 | 1.143 |
 | pirate-freeholds | 31 | 0.8 | 134.2 | 96.5 | 1.391 |
-| saxhleel-coast | 35 | 1.72 | 161.9 | 132.3 | 1.224 |
+| saxhleel-coast | 35 | 1.72 | 158.9 | 132.3 | 1.201 |
 
 Reasoning: _(to be written by hand)_
 

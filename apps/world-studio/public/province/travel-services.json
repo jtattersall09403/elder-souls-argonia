@@ -123,6 +123,12 @@
       "roadId": "route.road.archon-gideon",
       "to": "station.imperial-fringe.gideon",
       "why": "ferry.imperial-fringe.onkobra-bond repairs the break in route.road.archon-gideon; its landing stands on that road, which runs to station.imperial-fringe.gideon"
+    },
+    {
+      "from": "station.mercantile-coast.bramman-river-ferry",
+      "roadId": "route.track.mercantile-coast.coast-road",
+      "to": "station.mercantile-coast.soulrest",
+      "why": "place.mercantile-coast.bramman-river-ferry is a stage of route.track.mercantile-coast.coast-road, which carries it to station.mercantile-coast.soulrest"
     }
   ],
   "rootways": [
@@ -794,6 +800,7 @@
     {
       "available": [],
       "craft": "swamp-rowboat-ferry",
+      "deferredWhy": "station.imperial-penal-south.lake-boardwalk-village, station.imperial-penal-south.longmont, station.imperial-penal-south.three-gate-toll are in the accepted-homeless register",
       "fare": {
         "freeIf": [],
         "gold": 8
@@ -886,21 +893,12 @@
         "station.imperial-penal-south.longmont",
         "station.imperial-penal-south.three-gate-toll"
       ],
-      "status": "unmatched",
+      "status": "deferred",
       "text": {
         "hail": "text.ferry.stage-generic.hail",
         "name": "text.ferry.blackrose-lake.name",
         "refusal": "text.ferry.refused-owing"
       },
-      "unmatchedWhy": "hop station.imperial-penal-south.longmont -> station.imperial-penal-south.three-gate-toll: station.imperial-penal-south.longmont is 285 m from the nearest lane vertex (berth walk 250 m)",
-      "warnings": [
-        {
-          "at": "station.imperial-penal-south.lake-ferry-stage -> station.imperial-penal-south.lake-boardwalk-village at [3457, 6643]",
-          "depthM": 0.0,
-          "kind": "shallow-hop",
-          "needM": 1.2
-        }
-      ],
       "water": {
         "class": "lake",
         "name": "the Blackrose lake"
@@ -1143,7 +1141,7 @@
             "rootway": "rootway.helstrom-naga-deeps"
           },
           "from": "root-node.helstrom",
-          "lengthM": 2870.0,
+          "lengthM": 3034.3,
           "to": "root-node.naga-deeps"
         },
         {
@@ -1340,8 +1338,8 @@
       },
       "placeId": "place.naga-kur-deeps.dead-water-village",
       "positionM": [
-        3380.6,
-        5716.6
+        2991.3,
+        5870.1
       ],
       "rootKind": "station",
       "status": "active",

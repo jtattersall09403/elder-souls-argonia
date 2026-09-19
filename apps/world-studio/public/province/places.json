@@ -2800,7 +2800,7 @@
         "family": "root-cavern",
         "sizeBand": "S3",
         "wetFraction": 0.2,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": true,
         "verticalRelationship": "below"
       },
@@ -38348,7 +38348,7 @@
       "purpose": "dungeon-delve (real) + combat-challenge",
       "hook": "The province has almost no rock, so its caves are root galleries. This is the westernmost. Something has moved into it.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -38366,7 +38366,7 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
@@ -49558,7 +49558,7 @@
       "purpose": "dungeon-delve (real) + lore-reveal, combat-challenge",
       "hook": "Four villages bury on this one dry crown. Something has been digging at the far end.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 10%",
+      "interior": "delve · root-cavern · S2 · wet 10%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -49579,10 +49579,10 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.1,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
@@ -56200,18 +56200,18 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.3447,
-        "v": 0.70315
+        "u": 0.34544,
+        "v": 0.66448
       },
       "positionM": [
-        2541.6,
-        5184.7
+        2547.1,
+        4899.5
       ],
       "plotFacts": {
         "landform": "open-water",
         "regionClass": "lake & standing water",
         "dangerBand": 5,
-        "distanceToRouteM": 729.1,
+        "distanceToRouteM": 631.3,
         "distanceToWaterM": 0.0,
         "water": {
           "entityId": "body.1209-3032",
@@ -56220,9 +56220,9 @@
           "season": "perennial",
           "distanceM": 0.0
         },
-        "score": 4.293
+        "score": 3.119
       },
-      "whySiteWon": "open water in lake & standing water (danger band 5), 729 m from the nearest route; at the water's edge; won on culture-clump, region, remote.",
+      "whySiteWon": "open water in lake & standing water (danger band 5), 631 m from the nearest route; at the water's edge; won on region, remote, submerged.",
       "why": {
         "founding": "A maintained air pocket on the flooded shortcut under the narrows.",
         "siteAdvantages": "The midpoint of a dive that cannot be made on one breath.",
@@ -56881,29 +56881,29 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.45848,
-        "v": 0.77529
+        "u": 0.40568,
+        "v": 0.79611
       },
       "positionM": [
-        3380.6,
-        5716.6
+        2991.3,
+        5870.1
       ],
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 470.0,
-        "distanceToWaterM": 29.5,
+        "distanceToRouteM": 343.5,
+        "distanceToWaterM": 17.3,
         "water": {
-          "entityId": "body.1841-3139",
+          "entityId": "body.1209-3032",
           "kind": "swamp",
-          "levelM": 1.35,
+          "levelM": 0.84,
           "season": "perennial",
-          "distanceM": 29.5
+          "distanceM": 17.3
         },
-        "score": 4.333
+        "score": 3.89
       },
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 470 m from the nearest route; its choice #2 landform; won on landform, culture-clump, nearPoint.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 344 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, nearPoint, region.",
       "why": {
         "founding": "The Naga-Kur's seat: the tribe built for surviving the worst thing in the swamp, around the tree that made them.",
         "siteAdvantages": "A defensible rise in the inner swamps with black water on all sides and one poling approach. That approach is the tribe's toll. Cargo bound for the eastern swamp is counted at the stage.",
@@ -57528,7 +57528,7 @@
       "purpose": "traversal-puzzle (real) + combat-challenge",
       "hook": "A painted gauge post gives the length of the window. The salvage board beside it lists what the last mistiming produced.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 40%",
+      "interior": "delve · flooded-cave · S2 · wet 40%",
       "purposeDetail": {
         "primary": "traversal-puzzle",
         "impact": "real",
@@ -57548,7 +57548,7 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
@@ -58911,29 +58911,29 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.14465,
+        "u": 0.1268,
         "v": 0.79983
       },
       "positionM": [
-        1066.5,
+        934.9,
         5897.5
       ],
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 195.7,
-        "distanceToWaterM": 55.9,
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
+        "dangerBand": 3,
+        "distanceToRouteM": 116.3,
+        "distanceToWaterM": 0.0,
         "water": {
-          "entityId": "body.610-3266",
+          "entityId": "body.486-3253",
           "kind": "swamp",
-          "levelM": 2.12,
+          "levelM": 3.2,
           "season": "perennial",
-          "distanceM": 55.9
+          "distanceM": 0.0
         },
-        "score": 3.578
+        "score": 1.378
       },
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 196 m from the nearest route; its choice #2 landform; won on culture-clump, landform, region.",
+      "whySiteWon": "open water in lake & standing water (danger band 3), 116 m from the nearest route; at the water's edge; won on danger, parent, culture-clump; placed from the homeless batch at stage 'region-relaxed'.",
       "why": {
         "founding": "A settled Naga tribe with a tended Hist, villages, fields and a quarrel with their own tribeless relatives.",
         "siteAdvantages": "Firm ground on the inner swamp's main poling route, with a landing deep enough for laden craft.",
@@ -60245,8 +60245,8 @@
         "family": "root-cavern",
         "sizeBand": "S3",
         "wetFraction": 0.0,
-        "entranceCount": 1,
-        "exteriorShell": false,
+        "entranceCount": 2,
+        "exteriorShell": true,
         "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
@@ -60267,7 +60267,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.naga-kur-deeps.umbriel-stripped-undead",
@@ -65042,29 +65042,29 @@
       "workflow": "plotted",
       "culture": "imperial",
       "position": {
-        "u": 0.72322,
-        "v": 0.60424
+        "u": 0.68827,
+        "v": 0.59829
       },
       "positionM": [
-        5332.7,
-        4455.4
+        5075.0,
+        4411.5
       ],
       "plotFacts": {
-        "landform": "flood-high",
+        "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 2,
-        "distanceToRouteM": 15.5,
-        "distanceToWaterM": 7.8,
+        "distanceToRouteM": 28.0,
+        "distanceToWaterM": 19.8,
         "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
+          "entityId": "body.2768-2424",
+          "kind": "swamp",
+          "levelM": 1.62,
           "season": "perennial",
-          "distanceM": 7.8
+          "distanceM": 19.8
         },
-        "score": 5.688
+        "score": 5.512
       },
-      "whySiteWon": "flood high in mangrove forest (danger band 2), 16 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, nearPoint; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 28 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on bound, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
         "founding": "A reef-strewn approach to the province's only lawful deep-water port has to be lit or the port is worthless in the wet season.",
         "siteAdvantages": "The outermost hard ground on the approach, built up clear of the mangrove and square on the reef gap.",

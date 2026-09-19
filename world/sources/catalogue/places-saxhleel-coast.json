@@ -1667,49 +1667,38 @@
         }
       ],
       "position": {
-        "u": 0.72322,
-        "v": 0.60424
+        "u": 0.68827,
+        "v": 0.59829
       },
       "positionM": [
-        5332.7,
-        4455.4
+        5075.0,
+        4411.5
       ],
       "footprintRadiusM": 45.0,
       "footprintSource": "band",
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0544",
-          "score": 5.267,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0931",
-          "score": 5.221,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.mangrove-forest.island-045",
-          "score": 4.539,
+          "siteId": "site.free.roadside-0004",
+          "score": 5.5,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in mangrove forest (danger band 2), 16 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, nearPoint; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 28 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on bound, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "flood-high",
+        "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 2,
-        "distanceToRouteM": 15.5,
-        "distanceToWaterM": 7.8,
+        "distanceToRouteM": 28.0,
+        "distanceToWaterM": 19.8,
         "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
+          "entityId": "body.2768-2424",
+          "kind": "swamp",
+          "levelM": 1.62,
           "season": "perennial",
-          "distanceM": 7.8
+          "distanceM": 19.8
         },
-        "score": 5.688
-      },
-      "scourSiteId": "site.scour.mangrove-forest.flood-high-033"
+        "score": 5.512
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-quarantine-shed",

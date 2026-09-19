@@ -1,7 +1,7 @@
 # Macro plot — coverage report (Phase 11 Part 3)
 
 Seed 1103. Supply: 1185 scour sites + 3057 free-ground points. Demand: 580 live records; **567 plotted**, 13 unresolved.
-Placed from the homeless batch: {'neighbour-zone': 9, 'spacing-1/2-region-relaxed': 4, 'region-relaxed': 1}.
+Placed from the homeless batch: {'region-relaxed': 1, 'neighbour-zone': 1}.
 
 | zone | live | plotted | homeless | landform wishes from recipe | top landforms |
 |---|---|---|---|---|---|
@@ -10,16 +10,16 @@ Placed from the homeless batch: {'neighbour-zone': 9, 'spacing-1/2-region-relaxe
 | imperial-fringe | 120 | 118 | 2 | 0 | any-firm-ground 79, local-tie 6, ravine 5, ridge-end 5 |
 | imperial-penal-south | 44 | 39 | 5 | 43 | any-firm-ground 19, open-water 6, any-shallow-marsh 4, flood-high 2 |
 | mercantile-coast | 65 | 63 | 2 | 65 | any-firm-ground 27, any-shallow-marsh 13, flood-high 5, open-water 5 |
-| naga-kur-deeps | 40 | 39 | 1 | 27 | any-shallow-marsh 26, open-water 6, any-firm-ground 5, islet 1 |
+| naga-kur-deeps | 40 | 39 | 1 | 27 | any-shallow-marsh 25, open-water 7, any-firm-ground 5, islet 1 |
 | pirate-freeholds | 31 | 31 | 0 | 0 | any-firm-ground 21, cliff-bench 4, anchor 1, box-canyon 1 |
-| saxhleel-coast | 37 | 35 | 2 | 0 | any-firm-ground 17, any-shallow-marsh 8, flood-high 3, anchor 1 |
+| saxhleel-coast | 37 | 35 | 2 | 0 | any-firm-ground 17, any-shallow-marsh 9, flood-high 2, anchor 1 |
 
 ## Spacing and routes
 
 - nearest-neighbour distance p5 / median / p95: 74 / 124 / 263 m
 - same-type pairs closer than 300 m: 1
 - median distance to a route: 261 m; fine-tempo records within 300 m of a route: 58 %
-- route-visibility sweep (359 samples every 150 m, radius 450 m): mean 3.84 destination/landmark places in sight; dead 10 %, crowded (4+) 48 %
+- route-visibility sweep (359 samples every 150 m, radius 450 m): mean 3.86 destination/landmark places in sight; dead 10 %, crowded (4+) 48 %
 
 ## Anti-sameyness quota (no type > 25 % of a zone)
 
@@ -166,10 +166,10 @@ Placed from the homeless batch: {'neighbour-zone': 9, 'spacing-1/2-region-relaxe
 | `place.saxhleel-coast.archon-bonded-row` | bound | `place.saxhleel-coast.archon` | 243 | — |
 | `place.saxhleel-coast.archon-bonded-row` | nearWater | `body.2834-2585` | 24.5 | — |
 | `place.saxhleel-coast.archon-harbour-hist` | bound | `place.saxhleel-coast.archon` | 181 | — |
-| `place.saxhleel-coast.archon-lighthouse` | sightline | `place.saxhleel-coast.archon` | 443 | True |
-| `place.saxhleel-coast.archon-lighthouse` | sightline | `place.saxhleel-coast.padomaic-wrecker-beach` | 1157 | True |
-| `place.saxhleel-coast.archon-lighthouse` | sightline | `place.saxhleel-coast.gap-reef` | 337 | True |
-| `place.saxhleel-coast.archon-lighthouse` | bound | `place.saxhleel-coast.archon` | 443 | — |
+| `place.saxhleel-coast.archon-lighthouse` | sightline | `place.saxhleel-coast.archon` | 253 | True |
+| `place.saxhleel-coast.archon-lighthouse` | sightline | `place.saxhleel-coast.padomaic-wrecker-beach` | 1076 | True |
+| `place.saxhleel-coast.archon-lighthouse` | sightline | `place.saxhleel-coast.gap-reef` | 299 | True |
+| `place.saxhleel-coast.archon-lighthouse` | bound | `place.saxhleel-coast.archon` | 253 | — |
 | `place.saxhleel-coast.archon-sacked-quarter` | bound | `place.saxhleel-coast.archon` | 129 | — |
 | `place.saxhleel-coast.archon-shadowscale-sanctuary` | bound | `place.saxhleel-coast.archon` | 154 | — |
 | `place.saxhleel-coast.coast-hist-less-refuge` | bound | `place.saxhleel-coast.archon` | 624 | — |
@@ -177,15 +177,15 @@ Placed from the homeless batch: {'neighbour-zone': 9, 'spacing-1/2-region-relaxe
 | `place.saxhleel-coast.contested-bank` | minDepth | `None` | 3.1 | — |
 | `place.saxhleel-coast.deep-bank` | minDepth | `None` | 21.2 | — |
 | `place.saxhleel-coast.east-estuary-rootworm-station` | bound | `place.saxhleel-coast.archon` | 233 | — |
-| `place.saxhleel-coast.estuary-keepers-lodge` | bound | `place.saxhleel-coast.archon-lighthouse` | 810 | — |
-| `place.saxhleel-coast.gap-reef` | sightline | `place.saxhleel-coast.archon-lighthouse` | 337 | True |
-| `place.saxhleel-coast.gap-reef` | bound | `place.saxhleel-coast.archon-lighthouse` | 337 | — |
+| `place.saxhleel-coast.estuary-keepers-lodge` | bound | `place.saxhleel-coast.archon-lighthouse` | 878 | — |
+| `place.saxhleel-coast.gap-reef` | sightline | `place.saxhleel-coast.archon-lighthouse` | 299 | True |
+| `place.saxhleel-coast.gap-reef` | bound | `place.saxhleel-coast.archon-lighthouse` | 299 | — |
 | `place.saxhleel-coast.gap-reef` | minDepth | `None` | 3.1 | — |
 | `place.saxhleel-coast.lagoon-submerged-xanmeer` | minDepth | `None` | 6.0 | — |
 | `place.saxhleel-coast.oliis-coast-lay-by` | bound | `place.saxhleel-coast.archon` | 281 | — |
 | `place.saxhleel-coast.outer-reef` | minDepth | `None` | 9.6 | — |
-| `place.saxhleel-coast.padomaic-wrecker-beach` | sightline | `place.saxhleel-coast.archon-lighthouse` | 1157 | True |
-| `place.saxhleel-coast.padomaic-wrecker-beach` | bound | `place.saxhleel-coast.archon-lighthouse` | 1157 | — |
+| `place.saxhleel-coast.padomaic-wrecker-beach` | sightline | `place.saxhleel-coast.archon-lighthouse` | 1076 | True |
+| `place.saxhleel-coast.padomaic-wrecker-beach` | bound | `place.saxhleel-coast.archon-lighthouse` | 1076 | — |
 | `place.saxhleel-coast.pearl-lots` | minDepth | `None` | 2.9 | — |
 | `place.saxhleel-coast.quarantine-village-lagoon` | bound | `place.saxhleel-coast.archon` | 619 | — |
 
@@ -193,20 +193,8 @@ Placed from the homeless batch: {'neighbour-zone': 9, 'spacing-1/2-region-relaxe
 
 | record | stage | site |
 |---|---|---|
-| `place.dunmer-north.the-slumped-hamlet` | neighbour-zone | site.scour.border-mountains.ford-033 |
-| `place.imperial-fringe.glenbridge` | neighbour-zone | site.free.any-firm-ground-0317 |
-| `place.imperial-fringe.lower-onkobra-paddies` | neighbour-zone | site.free.roadside-0266 |
-| `place.imperial-fringe.onkobra-ferry` | neighbour-zone | site.local.onkobra-ferry-e1 |
-| `place.imperial-fringe.swampmoth-town` | spacing-1/2-region-relaxed | site.local.swampmoth-town-1 |
-| `place.imperial-fringe.the-quiet-pit` | neighbour-zone | site.local.the-quiet-pit-2 |
-| `place.imperial-penal-south.lake-divers-yard` | region-relaxed | site.scour.firm-lowland.saddle-071 |
-| `place.imperial-penal-south.natural-dive-shaft` | neighbour-zone | site.local.natural-dive-shaft-e169 |
-| `place.imperial-penal-south.plague-cordon` | neighbour-zone | site.free.roadside-0107 |
-| `place.naga-kur-deeps.deepmire-refuge` | neighbour-zone | site.free.any-firm-ground-1006 |
-| `place.naga-kur-deeps.root-whisper-village` | spacing-1/2-region-relaxed | site.free.any-firm-ground-1091 |
-| `place.saxhleel-coast.archon-bonded-row` | spacing-1/2-region-relaxed | site.free.any-firm-ground-1021 |
-| `place.saxhleel-coast.archon-lighthouse` | spacing-1/2-region-relaxed | site.scour.mangrove-forest.flood-high-033 |
-| `place.saxhleel-coast.archon-shadowscale-sanctuary` | neighbour-zone | site.free.any-firm-ground-0995 |
+| `place.naga-kur-deeps.naga-village-settled` | region-relaxed | site.free.open-water-0865 |
+| `place.saxhleel-coast.archon-lighthouse` | neighbour-zone | site.free.any-shallow-marsh-0930 |
 
 ## Dangling relations: 1 edges point at deferred/cut/unknown records
 
@@ -216,7 +204,7 @@ Placed from the homeless batch: {'neighbour-zone': 9, 'spacing-1/2-region-relaxe
 
 ## Landforms used
 
-any-firm-ground 297, any-shallow-marsh 83, open-water 28, flood-high 16, ravine 15, ridge-end 13, cliff-bench 10, saddle 10, anchor 9, cove 8, local-tie 8, islet 7, box-canyon 6, gorge 6, island 6, spring-head 6, waterfall 6, summit 5, water-narrows 5, enclosed-clearing 4, ford 4, isthmus 4, pinned (Part 6 meso siting) 4, headland 3, land-bridge 1, natural-harbour 1, oxbow 1, river-mouth 1
+any-firm-ground 297, any-shallow-marsh 83, open-water 29, flood-high 15, ravine 15, ridge-end 13, cliff-bench 10, saddle 10, anchor 9, cove 8, local-tie 8, islet 7, box-canyon 6, gorge 6, island 6, spring-head 6, waterfall 6, summit 5, water-narrows 5, enclosed-clearing 4, ford 4, isthmus 4, pinned (Part 6 meso siting) 4, headland 3, land-bridge 1, natural-harbour 1, oxbow 1, river-mouth 1
 
 ## Homeless batch (unresolved)
 
@@ -284,7 +272,7 @@ any-firm-ground 297, any-shallow-marsh 83, open-water 28, flood-high 16, ravine 
 | `place.imperial-fringe.fort-swampmoth` | committed.fort-swampmoth | any-firm-ground | upland hills | firm ground in upland hills (danger band 2), 93 m from the nearest route; its choice #5 landform; won on nearPoint, route, region; placed from the homeless batch at stage 'neighbour-zone'. |
 | `place.imperial-fringe.gideon` | anchor.gideon | anchor | firm lowland | Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18). |
 | `place.imperial-fringe.gideon-rootworm-terminus` | committed.gideon-rootworm-terminus | any-firm-ground | firm lowland | firm ground in firm lowland (danger band 3), 74 m from the nearest route; its choice #4 landform; won on culture-clump, bound, landform. |
-| `place.imperial-fringe.glenbridge` | site.free.any-firm-ground-0317 | any-firm-ground | upland hills | firm ground in upland hills (danger band 3), 593 m from the nearest route; its choice #3 landform; won on culture-clump, nearPoint, landform; placed from the homeless batch at stage 'neighbour-zone'. |
+| `place.imperial-fringe.glenbridge` | committed.glenbridge | any-firm-ground | upland hills | firm ground in upland hills (danger band 3), 593 m from the nearest route; its choice #3 landform; won on culture-clump, nearPoint, landform; placed from the homeless batch at stage 'neighbour-zone'. |
 | `place.imperial-fringe.glenbridge-sermon-xanmeer` | committed.glenbridge-sermon-xanmeer | any-firm-ground | upland hills | firm ground in upland hills (danger band 3), 547 m from the nearest route; no free 'summit' site was left in the zone, so plain ground; won on culture-clump, bound, region. |
 | `place.imperial-fringe.orma-tactile-ruin` | committed.orma-tactile-ruin | box-canyon | upland hills | box canyon in upland hills (danger band 3), 806 m from the nearest route; at the water's edge; its first-choice landform; won on landform, remote, region. |
 | `place.imperial-fringe.rockgrove` | committed.rockgrove | box-canyon | firm lowland | box canyon in firm lowland (danger band 3), 944 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, remote. |
@@ -292,7 +280,7 @@ any-firm-ground 297, any-shallow-marsh 83, open-water 28, flood-high 16, ravine 
 | `place.imperial-fringe.stonewastes` | committed.stonewastes | any-firm-ground | upland hills | firm ground in upland hills (danger band 3), 677 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, parent, landform; site exchanged in the swap pass with place.imperial-fringe.westfield-village (+1.27). |
 | `place.imperial-fringe.the-silent-halls` | committed.the-silent-halls | enclosed-clearing | firm lowland | enclosed clearing in firm lowland (danger band 4), 114 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, landform, region. |
 | `place.imperial-penal-south.blackrose` | anchor.blackrose | anchor | fringe marsh | Owner-approved settlement anchor 'blackrose' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18). |
-| `place.imperial-penal-south.blackrose-drowned-hist` | site.local.blackrose-drowned-hist-ew388 | open-water | seasonal floodplain | open water in seasonal floodplain (danger band 2), 61 m from the nearest route; at the water's edge; won on submerged, danger, parent; bound to body.1290-3508 within 30 m; needs 3 m of water; landform wishes taken from the type recipe (record had none). |
+| `place.imperial-penal-south.blackrose-drowned-hist` | committed.blackrose-drowned-hist | open-water | seasonal floodplain | open water in seasonal floodplain (danger band 2), 61 m from the nearest route; at the water's edge; won on submerged, danger, parent; bound to body.1290-3508 within 30 m; needs 3 m of water; landform wishes taken from the type recipe (record had none). |
 | `place.imperial-penal-south.blackrose-prison` | committed.blackrose-prison | flood-high | firm lowland | flood high in firm lowland (danger band 2), 181 m from the nearest route; its first-choice landform; won on landform, bound, region; landform wishes taken from the type recipe (record had none). |
 | `place.imperial-penal-south.bramman-head` | committed.bramman-head | river-mouth | tidal delta | river mouth in tidal delta (danger band 2), 350 m from the nearest route; at the water's edge; won on nearPoint, parent, route; placed from the homeless batch at stage 'region-relaxed'; needs 1.2 m of water; landform wishes taken from the type recipe (record had none). |
 | `place.imperial-penal-south.chainbreaker-shelter` | committed.chainbreaker-shelter | any-firm-ground | fringe marsh | firm ground in fringe marsh (danger band 3), 241 m from the nearest route; its first-choice landform; won on landform, culture-clump, region; landform wishes taken from the type recipe (record had none). |
@@ -316,14 +304,14 @@ any-firm-ground 297, any-shallow-marsh 83, open-water 28, flood-high 16, ravine 
 | `place.mercantile-coast.white-rose-prison` | committed.white-rose-prison | flood-high | firm lowland | flood high in firm lowland (danger band 4), 1027 m from the nearest route; its first-choice landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none). |
 | `place.mercantile-coast.xinchei-konu` | committed.xinchei-konu | saddle | firm lowland | saddle in firm lowland (danger band 3), 895 m from the nearest route; at the water's edge; its choice #5 landform; won on culture-clump, region, landform; landform wishes taken from the type recipe (record had none). |
 | `place.naga-kur-deeps.bereaved-hist-less-since` | committed.bereaved-hist-less-since | any-shallow-marsh | interior swamp | shallow marsh in interior swamp (danger band 3), 299 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, culture-clump, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.naga-village-settled (+1.25). |
-| `place.naga-kur-deeps.dead-water-village` | site.free.any-shallow-marsh-1169 | any-shallow-marsh | interior swamp | shallow marsh in interior swamp (danger band 4), 470 m from the nearest route; its choice #2 landform; won on landform, culture-clump, nearPoint. |
-| `place.naga-kur-deeps.deepmire-refuge` | site.free.any-firm-ground-1006 | any-firm-ground | firm lowland | firm ground in firm lowland (danger band 4), 202 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on nearPoint, danger, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none). |
+| `place.naga-kur-deeps.dead-water-village` | site.free.any-shallow-marsh-1191 | any-shallow-marsh | interior swamp | shallow marsh in interior swamp (danger band 4), 344 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, nearPoint, region. |
+| `place.naga-kur-deeps.deepmire-refuge` | committed.deepmire-refuge | any-firm-ground | firm lowland | firm ground in firm lowland (danger band 4), 202 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on nearPoint, danger, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none). |
 | `place.naga-kur-deeps.ferry-stage-guide-hire` | committed.ferry-stage-guide-hire | any-shallow-marsh | interior swamp | shallow marsh in interior swamp (danger band 4), 33 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, parent, culture-clump; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.refugee-camp-raid (+0.80). |
 | `place.naga-kur-deeps.harmed-hist-enslaved` | committed.harmed-hist-enslaved | any-shallow-marsh | rootland deep marsh | shallow marsh in rootland deep marsh (danger band 4), 66 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on culture-clump, region, danger; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none). |
 | `place.naga-kur-deeps.horwalli-waterworks-deeps` | committed.horwalli-waterworks-deeps | any-firm-ground | tropical jungle | firm ground in tropical jungle (danger band 4), 845 m from the nearest route; its choice #3 landform; won on nearPoint, landform, culture-clump; placed from the homeless batch at stage 'neighbour-zone'. |
-| `place.naga-kur-deeps.naga-village-settled` | site.free.any-shallow-marsh-1205 | any-shallow-marsh | interior swamp | shallow marsh in interior swamp (danger band 4), 196 m from the nearest route; its choice #2 landform; won on culture-clump, landform, region. |
+| `place.naga-kur-deeps.naga-village-settled` | site.free.open-water-0865 | open-water | lake & standing water | open water in lake & standing water (danger band 3), 116 m from the nearest route; at the water's edge; won on danger, parent, culture-clump; placed from the homeless batch at stage 'region-relaxed'. |
 | `place.naga-kur-deeps.root-gallery-blight-warren` | committed.root-gallery-blight-warren | any-firm-ground | tropical jungle | firm ground in tropical jungle (danger band 4), 1110 m from the nearest route; its choice #5 landform; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none). |
-| `place.naga-kur-deeps.root-whisper-village` | site.free.any-firm-ground-1091 | any-firm-ground | tropical jungle | firm ground in tropical jungle (danger band 4), 931 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, landform; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none). |
+| `place.naga-kur-deeps.root-whisper-village` | committed.root-whisper-village | any-firm-ground | tropical jungle | firm ground in tropical jungle (danger band 4), 931 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, landform; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none). |
 | `place.naga-kur-deeps.sithis-temple-mass-sacrifice` | committed.sithis-temple-mass-sacrifice | open-water | rootland deep marsh | open water in rootland deep marsh (danger band 5), 1086 m from the nearest route; at the water's edge; won on culture-clump, region, remote; landform wishes taken from the type recipe (record had none). |
 | `place.naga-kur-deeps.umbriel-stripped-undead` | committed.umbriel-stripped-undead | any-shallow-marsh | interior swamp | shallow marsh in interior swamp (danger band 4), 49 m from the nearest route; its choice #2 landform; won on landform, region, culture-clump. |
 | `place.naga-kur-deeps.wild-hist-rogue-deeps` | committed.wild-hist-rogue-deeps | any-shallow-marsh | interior swamp | shallow marsh in interior swamp (danger band 4), 710 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, region, danger; landform wishes taken from the type recipe (record had none). |
@@ -336,7 +324,7 @@ any-firm-ground 297, any-shallow-marsh 83, open-water 28, flood-high 16, ravine 
 | `place.pirate-freeholds.upriver-hist-village` | committed.upriver-hist-village | any-firm-ground | firm lowland | firm ground in firm lowland (danger band 3), 366 m from the nearest route; at the water's edge; its first-choice landform; won on landform, culture-clump, region. |
 | `place.saxhleel-coast.archon` | anchor.archon | anchor | tropical jungle | Owner-approved settlement anchor 'archon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18). |
 | `place.saxhleel-coast.archon-harbour-hist` | committed.archon-harbour-hist | any-firm-ground | tropical jungle | firm ground in tropical jungle (danger band 2), 82 m from the nearest route; at the water's edge; its choice #2 landform; won on culture-clump, landform, bound. |
-| `place.saxhleel-coast.archon-shadowscale-sanctuary` | site.free.any-firm-ground-0995 | any-firm-ground | tropical jungle | firm ground in tropical jungle (danger band 4), 342 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on bound, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'. |
+| `place.saxhleel-coast.archon-shadowscale-sanctuary` | committed.archon-shadowscale-sanctuary | any-firm-ground | tropical jungle | firm ground in tropical jungle (danger band 4), 342 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on bound, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'. |
 | `place.saxhleel-coast.cantemir-headland` | committed.cantemir-headland | flood-high | mangrove forest | flood high in mangrove forest (danger band 3), 27 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, nearPoint, landform. |
 | `place.saxhleel-coast.east-estuary-rootworm-station` | committed.east-estuary-rootworm-station | any-firm-ground | tropical jungle | firm ground in tropical jungle (danger band 2), 27 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, culture-clump. |
 | `place.saxhleel-coast.lagoon-submerged-xanmeer` | committed.lagoon-submerged-xanmeer | open-water | lake & standing water | open water in lake & standing water (danger band 4), 423 m from the nearest route; at the water's edge; won on culture-clump, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; needs 6 m of water. |
@@ -354,18 +342,18 @@ any-firm-ground 297, any-shallow-marsh 83, open-water 28, flood-high 16, ravine 
 | stormhold | 14 | — | 56 | 7 / 47 / 123 |
 | thorn | 13 | — | 36 | 7 / 41 / 79 |
 | gideon | 14 | — | 80 | 13 / 59 / 148 |
-| helstrom | 14 | — | 83 | 4 / 32 / 263 |
+| helstrom | 14 | — | 83 | 4 / 32 / 264 |
 | archon | 14 | — | 56 | 7 / 29 / 95 |
-| blackrose | 14 | — | 66 | 14 / 42 / 118 |
-| lilmoth | 14 | — | 63 | 11 / 31 / 111 |
-| soulrest | 14 | — | 40 | 7 / 22 / 80 |
+| blackrose | 14 | — | 66 | 14 / 43 / 117 |
+| lilmoth | 14 | — | 63 | 11 / 31 / 112 |
+| soulrest | 14 | — | 40 | 7 / 22 / 79 |
 | alten-corimont | 14 | — | 67 | 11 / 60 / 143 |
 
 Rest-cadence gaps (add a rest or soften): `place.dunmer-north.the-crystal-prospectors` (641 m), `place.dunmer-north.the-guar-ground` (945 m)
 
 ## Clustering — Clark-Evans R per zone (97 A5 / G3)
 
-R = 1 is random in the zone's own shape. Even spacing (R > 1) is ACCEPTED where the typed footprint, proximity and isolation gates require it (owner steer 2026-09-09, reversing the earlier 'R < 1 everywhere' target); what is still wanted is that the settled zones stay the most clustered, because that is where lore puts hamlet clumps. Reported, not gated. Median R 1.123; Evener than random: dunmer-north, imperial-fringe, imperial-penal-south, mercantile-coast, naga-kur-deeps, pirate-freeholds, saxhleel-coast.
+R = 1 is random in the zone's own shape. Even spacing (R > 1) is ACCEPTED where the typed footprint, proximity and isolation gates require it (owner steer 2026-09-09, reversing the earlier 'R < 1 everywhere' target); what is still wanted is that the settled zones stay the most clustered, because that is where lore puts hamlet clumps. Reported, not gated. Median R 1.143; Evener than random: dunmer-north, imperial-fringe, imperial-penal-south, mercantile-coast, naga-kur-deeps, pirate-freeholds, saxhleel-coast.
 
 | zone | plotted | land km² | mean NN m | same-mask null m | R |
 |---|---:|---:|---:|---:|---:|
@@ -374,6 +362,6 @@ R = 1 is random in the zone's own shape. Even spacing (R > 1) is ACCEPTED where 
 | imperial-fringe | 118 | 6.96 | 142.1 | 131.0 | **1.085** |
 | imperial-penal-south | 39 | 0.93 | 134.4 | 104.1 | **1.291** |
 | mercantile-coast | 63 | 3.51 | 157.6 | 144.8 | **1.088** |
-| naga-kur-deeps | 39 | 2.6 | 198.0 | 176.2 | **1.123** |
+| naga-kur-deeps | 39 | 2.6 | 201.4 | 176.2 | **1.143** |
 | pirate-freeholds | 31 | 0.8 | 134.2 | 96.5 | **1.391** |
-| saxhleel-coast | 35 | 1.72 | 161.9 | 132.3 | **1.224** |
+| saxhleel-coast | 35 | 1.72 | 158.9 | 132.3 | **1.201** |

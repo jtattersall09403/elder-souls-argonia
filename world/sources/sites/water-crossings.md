@@ -18,38 +18,38 @@ are published at the time of the run — re-run after any route rebuild.
 
 | id | water | entity | span m | depth m | band | position | nearest place | m |
 |---|---|---|---:|---:|---|---|---|---:|
-| `crossing.major.001` | marsh | `body.973-3292` | 231.4 | 2.88 | span | 1725.3, 5992.7 | The Windlass Reckoning | 68.6 |
-| `crossing.major.002` | marsh | `body.1284-3448` | 127.7 | 3.69 | span | 2426.1, 6409.1 | Blackrose | 66.9 |
-| `crossing.major.003` | marsh | `body.2442-1212` | 78.3 | 1.68 | span | 3820.8, 1269.4 | The Open Ground | 117.4 |
-| `crossing.major.004` | marsh | `body.2442-1212` | 66.9 | 4.68 | span | 4397.8, 1513.1 | The Turning House | 108.1 |
-| `crossing.major.005` | marsh | `body.1293-692` | 62.1 | 2.13 | span | 2304.3, 1183.1 | Hatching Pools | 251.5 |
-| `crossing.major.006` | marsh | `body.1284-3448` | 55.0 | 2.85 | span | 2290.9, 6394.5 | Blackrose | 71.6 |
-| `crossing.major.007` | marsh | `body.2442-1212` | 54.1 | 1.8 | span | 3844.3, 1181.7 | Alten Corimont | 40.1 |
-| `crossing.major.008` | lake | `body.1015-2680` | 40.2 | 1.92 | span | 1859.0, 4911.9 | Nine-Stakes Field | 49.0 |
-| `crossing.major.009` | marsh | `body.2442-1212` | 36.3 | 1.32 | span | 4469.4, 1598.4 | The Minder's House | 79.4 |
-| `crossing.major.010` | marsh | `body.699-3093` | 29.8 | 0.7 | span | 1261.9, 5697.4 | The Adder Banks | 70.4 |
-| `crossing.major.011` | river | `reach.1747-253` | 26.9 | 1.31 | span | 3235.8, 433.6 | Cut-And-Stack | 133.2 |
-| `crossing.major.012` | marsh | `body.2442-1212` | 26.4 | 0.6 | span | 4699.4, 1798.6 | Greenspring | 138.6 |
-| `crossing.major.013` | marsh | `body.3525-81` | 21.2 | 0.48 | span | 6382.8, 78.8 | Branchmont | 240.0 |
-| `crossing.major.014` | marsh | `body.2442-1212` | 19.9 | 1.08 | ford | 4665.8, 1779.9 | Greenspring | 176.9 |
-| `crossing.major.015` | marsh | `body.3525-81` | 14.4 | 1.56 | span | 6401.3, 47.3 | Branchmont | 269.0 |
-| `crossing.major.016` | river | `reach.183-1646` | 14.1 | 0.65 | ford | 312.6, 3033.7 | Bog Iron Workings | 27.3 |
-| `crossing.major.017` | marsh | `body.3525-81` | 13.3 | 1.56 | span | 6371.9, 129.6 | Branchmont | 192.9 |
-| `crossing.major.018` | marsh | `body.2442-1212` | 11.8 | 0.84 | ford | 4474.6, 1571.0 | The Minder's House | 91.2 |
-| `crossing.major.019` | river | `reach.1073-1089` | 11.5 | 0.56 | ford | 1963.6, 1998.1 | The Quiet Pit | 69.5 |
-| `crossing.major.020` | river | `reach.1050-1140` | 8.9 | 0.46 | ford | 1952.1, 2122.1 | The Coiling Reach | 93.1 |
-| `crossing.major.021` | river | `reach.1197-837` | 8.2 | 0.16 | ford | 2208.4, 1564.4 | Andalen Plantation | 64.1 |
-| `crossing.major.022` | river | `reach.3118-400` | 7.6 | 0.57 | ford | 6107.9, 734.8 | Thorn Terraces | 95.9 |
-| `crossing.major.023` | river | `reach.878-1669` | 7.1 | 0.05 | ford | 1604.6, 3043.4 | Makes-And-Burns | 25.8 |
-| `crossing.major.024` | lake | `body.692-1779` | 5.3 | 0.11 | ford | 1218.0, 3306.9 | Onkobra Field Station | 60.7 |
-| `crossing.major.025` | river | `reach.991-1467` | 5.3 | 0.43 | ford | 1832.2, 2703.7 | Old Locks | 60.4 |
-| `crossing.major.026` | river | `reach.3385-271` | 4.4 | 0.55 | ford | 6153.8, 637.4 | Thorn | 62.0 |
-| `crossing.major.027` | marsh | `body.1097-2192` | 3.3 | 0.45 | ford | 2048.9, 4010.4 | Red Cart Yard | 67.1 |
-| `crossing.major.028` | river | `reach.3043-787` | 3.3 | 0.43 | ford | 5584.2, 1462.1 | Two-Gate Bridge | 39.7 |
+| `crossing.major.001` | marsh | `body.973-3292` | 231.4 | 2.88 | span | 1725.3, 5992.7 | Robbed City | 115.9 |
+| `crossing.major.002` | marsh | `body.1284-3448` | 127.7 | 3.69 | span | 2426.1, 6409.1 | The Water Reckoning | 54.5 |
+| `crossing.major.003` | marsh | `body.2442-1212` | 78.3 | 1.68 | span | 3820.8, 1269.4 | The Chimney | 86.7 |
+| `crossing.major.004` | marsh | `body.2442-1212` | 66.9 | 4.68 | span | 4397.8, 1513.1 | Chasecreek | 149.6 |
+| `crossing.major.005` | marsh | `body.1293-692` | 62.1 | 2.13 | span | 2304.3, 1183.1 | Hixinoag | 107.5 |
+| `crossing.major.006` | marsh | `body.1284-3448` | 55.0 | 2.85 | span | 2290.9, 6394.5 | Speaks-Below-The-Water | 68.9 |
+| `crossing.major.007` | marsh | `body.2442-1212` | 54.1 | 1.8 | span | 3844.3, 1181.7 | Crosstrees | 42.7 |
+| `crossing.major.008` | lake | `body.1015-2680` | 40.2 | 1.92 | span | 1859.0, 4911.9 | The Book House | 237.4 |
+| `crossing.major.009` | marsh | `body.2442-1212` | 36.3 | 1.32 | span | 4469.4, 1598.4 | The Turning House | 245.1 |
+| `crossing.major.010` | marsh | `body.699-3093` | 29.8 | 0.7 | span | 1261.9, 5697.4 | The Hire Stage | 51.5 |
+| `crossing.major.011` | river | `reach.1747-253` | 26.9 | 1.31 | span | 3235.8, 433.6 | Hackwing Wall | 113.4 |
+| `crossing.major.012` | marsh | `body.2442-1212` | 26.4 | 0.6 | span | 4699.4, 1798.6 | Greenspring | 128.9 |
+| `crossing.major.013` | marsh | `body.3525-81` | 21.2 | 0.48 | span | 6382.8, 78.8 | Broken Boom | 99.4 |
+| `crossing.major.014` | marsh | `body.2442-1212` | 19.9 | 1.08 | ford | 4665.8, 1779.9 | Greenspring | 165.0 |
+| `crossing.major.015` | marsh | `body.3525-81` | 14.4 | 1.56 | span | 6401.3, 47.3 | Broken Boom | 131.8 |
+| `crossing.major.016` | river | `reach.183-1646` | 14.1 | 0.65 | ford | 312.6, 3033.7 | Claywater Station | 28.0 |
+| `crossing.major.017` | marsh | `body.3525-81` | 13.3 | 1.56 | span | 6371.9, 129.6 | Broken Boom | 50.5 |
+| `crossing.major.018` | marsh | `body.2442-1212` | 11.8 | 0.84 | ford | 4474.6, 1571.0 | The Turning House | 218.2 |
+| `crossing.major.019` | river | `reach.1073-1089` | 11.5 | 0.56 | ford | 1963.6, 1998.1 | Dreams-In-Mud | 209.3 |
+| `crossing.major.020` | river | `reach.1050-1140` | 8.9 | 0.46 | ford | 1952.1, 2122.1 | Hollow Arch | 94.5 |
+| `crossing.major.021` | river | `reach.1197-837` | 8.2 | 0.16 | ford | 2208.4, 1564.4 | Permit Dig | 21.0 |
+| `crossing.major.022` | river | `reach.3118-400` | 7.6 | 0.57 | ford | 6107.9, 734.8 | Thorn Bond | 87.7 |
+| `crossing.major.023` | river | `reach.878-1669` | 7.1 | 0.05 | ford | 1604.6, 3043.4 | Bonded Shed | 22.3 |
+| `crossing.major.024` | lake | `body.692-1779` | 5.3 | 0.11 | ford | 1218.0, 3306.9 | Onkobra Field Station | 48.0 |
+| `crossing.major.025` | river | `reach.991-1467` | 5.3 | 0.43 | ford | 1832.2, 2703.7 | Lower Onkobra Paddies | 66.9 |
+| `crossing.major.026` | river | `reach.3385-271` | 4.4 | 0.55 | ford | 6153.8, 637.4 | Thorn Bond | 84.8 |
+| `crossing.major.027` | marsh | `body.1097-2192` | 3.3 | 0.45 | ford | 2048.9, 4010.4 | Counts-The-Dead | 165.8 |
+| `crossing.major.028` | river | `reach.3043-787` | 3.3 | 0.43 | ford | 5584.2, 1462.1 | Ten-Thousand-Nests | 103.8 |
 | `crossing.major.029` | marsh | `body.2760-2066` | 3.1 | 0.45 | ford | 4946.1, 3845.3 | Nine-Trunks | 93.3 |
-| `crossing.major.030` | lake | `body.2643-1904` | 3.1 | 0.0 | ford | 4736.5, 3542.4 | The Sap Wallow | 25.6 |
-| `crossing.major.031` | river | `reach.976-2536` | 2.4 | -0.37 | ford | 1864.4, 4882.3 | Nine-Stakes Field | 62.8 |
-| `crossing.major.032` | lake | `body.692-1779` | 1.6 | -0.73 | ford | 1190.5, 3323.0 | Onkobra Field Station | 28.8 |
-| `crossing.major.033` | lake | `body.2643-1904` | 1.1 | -0.36 | ford | 4771.8, 3549.0 | The Sap Wallow | 46.0 |
-| `crossing.major.034` | lake | `body.221-1650` | 1.1 | -5.04 | ford | 474.3, 3270.9 | Cartwright's Cross | 142.0 |
+| `crossing.major.030` | lake | `body.2643-1904` | 3.1 | 0.0 | ford | 4736.5, 3542.4 | The Open Mouth | 95.6 |
+| `crossing.major.031` | river | `reach.976-2536` | 2.4 | -0.37 | ford | 1864.4, 4882.3 | The Book House | 256.8 |
+| `crossing.major.032` | lake | `body.692-1779` | 1.6 | -0.73 | ford | 1190.5, 3323.0 | Moonmarch Ground | 56.5 |
+| `crossing.major.033` | lake | `body.2643-1904` | 1.1 | -0.36 | ford | 4771.8, 3549.0 | The Open Mouth | 124.7 |
+| `crossing.major.034` | lake | `body.221-1650` | 1.1 | -5.04 | ford | 474.3, 3270.9 | Drowned Embankment | 33.3 |
 

@@ -2,7 +2,7 @@
 
 Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/world-studio/public/province/routes-minor.json`.
 
-- **171 paths**, 121.9 km in total: track 50, footpath 117, boardwalk 4, causeway 0
+- **183 paths**, 202.83 km in total: track 57, footpath 120, boardwalk 5, causeway 1
 - 47 places were already on a road or landing (within 45 m)
 - 2 of the paths are **unmapped** (batch 4): routed, graded and painted ground that the player's map never draws, so a rumoured place is still found by walking
 - 2 places have **no land path** (boat-, guide- or root-served — a design fact to check, not a failure; longest allowed path 4.0 km):
@@ -10,37 +10,37 @@ Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/wo
   - `place.imperial-fringe.the-hollow-pass-station` — cheapest land path 6.0 km
   - `place.imperial-fringe.the-pass-shelter` — cheapest land path 4.0 km
 
-- 5 settlements sit further than 4.0 km along the cheapest walkable line and keep their path anyway (a settlement is always reachable on foot): `place.imperial-fringe.lowmere-raft-town` (7.04 km), `place.dunmer-north.the-veterans-ridge` (6.292 km), `place.dunmer-north.crystalgate` (6.069 km), `place.pirate-freeholds.dunmer-frontier-holding` (5.559 km), `place.imperial-fringe.glenbridge` (4.457 km)
+- 12 settlements sit further than 4.0 km along the cheapest walkable line and keep their path anyway (a settlement is always reachable on foot): `place.imperial-fringe.gideon` (24.371 km), `place.imperial-fringe.bone-road-waystation` (18.058 km), `place.dunmer-north.the-pen-yard` (11.051 km), `place.mercantile-coast.soulrest` (9.799 km), `place.imperial-fringe.lowmere-raft-town` (7.04 km), `place.dunmer-north.the-veterans-ridge` (6.292 km), `place.dunmer-north.crystalgate` (6.069 km), `place.pirate-freeholds.dunmer-frontier-holding` (5.559 km), `place.dunmer-north.stormhold` (5.071 km), `place.imperial-fringe.glenbridge` (4.457 km), `place.imperial-fringe.cartwrights-cross` (4.226 km), `place.dunmer-north.stormhold` (4.176 km)
 
 ## Longest paths
 
 | path | kind | km |
 |---|---|---|
+| `place.imperial-fringe.gideon` | footpath | 24.371 |
+| `place.imperial-fringe.bone-road-waystation` | track | 18.058 |
+| `place.dunmer-north.the-pen-yard` | track | 11.051 |
+| `place.mercantile-coast.soulrest` | track | 9.799 |
 | `place.imperial-fringe.lowmere-raft-town` | footpath | 7.04 |
 | `place.dunmer-north.the-veterans-ridge` | track | 6.292 |
 | `place.dunmer-north.crystalgate` | track | 6.069 |
 | `place.pirate-freeholds.dunmer-frontier-holding` | track | 5.559 |
+| `place.dunmer-north.stormhold` | causeway | 5.071 |
 | `place.imperial-fringe.glenbridge` | track | 4.457 |
+| `place.imperial-fringe.cartwrights-cross` | track | 4.226 |
+| `place.dunmer-north.stormhold` | track | 4.176 |
 | `place.imperial-fringe.marcians-terrace` | footpath | 3.369 |
 | `place.pirate-freeholds.veterans-holding` | track | 3.14 |
 | `place.dunmer-north.mazzatun` | track | 2.957 |
-| `place.dunmer-north.murkwater` | track | 2.824 |
-| `place.dunmer-north.hissmir` | track | 2.747 |
-| `place.imperial-fringe.stonewastes` | track | 2.691 |
-| `place.dunmer-north.stands-on-the-island` | track | 2.666 |
-| `place.imperial-fringe.slough-point` | footpath | 2.55 |
-| `place.dunmer-north.channel-cross-village` | track | 2.47 |
-| `place.imperial-fringe.glenbridge` | track | 2.378 |
 
 ## Minor waterways — channels, rivers, ferry crossings (Phase 11 Part 3c)
 
 Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 boat cost surface, land impassable); data in `apps/world-studio/public/province/waterways-minor.json`.
 
-- **134 channels**, 55.87 km in total: channel 119, river 6, crossing 9
+- **133 channels**, 54.82 km in total: channel 118, river 6, crossing 9
 - 55 water-bound places already sit on a lane or navigable river (within 45 m)
-- **When each lane has its water**: 86 carry a hull all year, 0 only in the wet season and 48 run over ground that the water bake finds dry in every season (150 cells). That last group is a defect. Those lanes are drawn but cannot be poled; each carries `"season": "dry"` in the JSON. The worst of them are listed below. The fix is to carve the bed or to withdraw the lane.
-- 67 lanes cross ground the record cannot float their hull on: 27 portages and 178 decked runs, typed on the lane in `features[]`. Nothing is dredged to close them.
-- 32 water-bound places have **no boat path** (reached on foot, by root or by guide — a design fact to check, not a failure):
+- **When each lane has its water**: 87 carry a hull all year, 0 only in the wet season and 46 run over ground that the water bake finds dry in every season (144 cells). That last group is a defect. Those lanes are drawn but cannot be poled; each carries `"season": "dry"` in the JSON. The worst of them are listed below. The fix is to carve the bed or to withdraw the lane.
+- 65 lanes cross ground the record cannot float their hull on: 25 portages and 171 decked runs, typed on the lane in `features[]`. Nothing is dredged to close them.
+- 33 water-bound places have **no boat path** (reached on foot, by root or by guide — a design fact to check, not a failure):
 
   - `place.dunmer-north.boom-keepers-lodge` — no connected navigable water within 260 m
   - `place.dunmer-north.ten-thousand-nests` — no connected navigable water within 260 m
@@ -68,6 +68,7 @@ Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 b
   - `place.imperial-fringe.the-standing-mist` — no connected navigable water within 260 m
   - `place.imperial-fringe.watch-of-the-weighed-cart` — no connected navigable water within 260 m
   - `place.naga-kur-deeps.horwalli-waterworks-deeps` — no connected navigable water within 260 m
+  - `place.naga-kur-deeps.naga-village-settled` — no connected navigable water within 260 m
   - `place.naga-kur-deeps.raft-village-lashed` — no connected navigable water within 260 m
   - `place.naga-kur-deeps.root-gallery-blight-warren` — no connected navigable water within 260 m
   - `route.boat.deeps-inner-poling-line` — deeps-hire-stage: no place of that name in the catalogue; deeps-dead-water: no place of that name in the catalogue
@@ -87,9 +88,9 @@ Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 b
 | `place.hist-heartland.sap-tapping-licensed` | channel | 0.213 | 6 |
 | `place.dunmer-north.the-white-pans` | channel | 0.51 | 5 |
 | `place.imperial-fringe.the-silent-halls` | channel | 0.324 | 4 |
-| `place.naga-kur-deeps.dead-water-village` | channel | 0.561 | 4 |
 | `place.saxhleel-coast.banner-stack` | channel | 0.483 | 4 |
-| _…38 more_ | | | |
+| `place.dunmer-north.nine-fords` | channel | 0.085 | 3 |
+| _…36 more_ | | | |
 
 ### Longest channels
 
