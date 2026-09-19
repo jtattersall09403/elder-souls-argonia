@@ -208,12 +208,16 @@ extrapolation/quest-plan-deltas.md D8/D16.)
 | **Stonewastes and the Four Winds hall** | Canon hereditary defenders, xanmeer keep, Hist in the town centre | FG08 and the Marsh Charter's re-anchored premise |
 | **Reed writ enforcement points** | `EXTRAPOLATED` from the Veiled Reed's paper government: **toll/crossing points on the major road and boat routes**, and a **restricted-door flag class** on civic archives, guarded districts, bonded stores and dock offices — the doors the Reed allegiance writs open | 30 §24b.2 — Reed track tier rewards |
 
-**Root-transit network note.** The four-station rootworm network in the
-compiled data (helstrom, north-shadowfen, naga-deeps, east-estuary) is a
-**Pass-1 placeholder**: 16e carries it into the travel-service record as
-`status: placeholder`; it is re-authored with Hist-node placement in chunk 16g
-(decision 0068), and quests and rewards touching root transit are finalized
-in the packet co-design loop (16j, then Phase 15).
+**Root-transit network note.** 16g re-authored the rootworm network on the
+places (decision 0068). `world/sources/routes/rootworm-stations.json` holds
+four sited stations — `root-node.helstrom` (the hub, on the Helstrom rootworm
+station), `root-node.north-shadowfen` (Stormhold), `root-node.naga-deeps`
+(Dead Water village) and `root-node.east-estuary` (the east estuary station) —
+joined by three rootways out of Helstrom, each carried into the travel-service
+graph with a Waykeeper slot. Gideon is seasonal rather than a standing
+station (§12b). The Underway stays story-only: it carries no travel service.
+Quests and rewards that touch root transit are finalised in the packet
+co-design loop (16j, then Phase 15).
 
 ## 13. Quest-ready location packet
 

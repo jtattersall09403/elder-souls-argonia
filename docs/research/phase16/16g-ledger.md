@@ -513,40 +513,15 @@ facts, not defaults — so they are held for review rather than forced.
 
 ## 2. Plot review
 
-Live records 580; plotted 574; homeless 6; typed-siting violations 5 (closing pass needs the solve result — see report); dead route fraction 0.095; seeding mode `resolve-all`.
+Live records 580; plotted 567; homeless 13; typed-siting violations 8 (closing pass needs the solve result — see report); dead route fraction 0.095; seeding mode `seeded-from-committed`.
 
 ### Moves by region
 
-| region | moved | median m | p90 m | max m |
-|---|---|---|---|---|
-| dunmer-north | 122 | 977.2 | 3901.3 | 5344.1 |
-| hist-heartland | 109 | 1253.8 | 3012.1 | 4694.0 |
-| imperial-fringe | 116 | 709.1 | 2557.8 | 3419.6 |
-| imperial-penal-south | 41 | 482.4 | 1175.6 | 1638.8 |
-| mercantile-coast | 60 | 535.1 | 3040.1 | 4055.2 |
-| naga-kur-deeps | 33 | 680.6 | 2151.4 | 2666.1 |
-| pirate-freeholds | 30 | 240.4 | 655.4 | 976.2 |
-| saxhleel-coast | 36 | 445.0 | 1266.7 | 1800.2 |
+No record moved.
 
 Fifteen largest moves:
 
-| id | type | from | to | m | why |
-|---|---|---|---|---|---|
-| `place.dunmer-north.breathes-underneath` | air-pocket-grotto | 710.1, 441.4 | 6051.1, 260.5 | 5344.1 | firm ground in upland hills (danger band 3), 329 m from the nearest route |
-| `place.dunmer-north.feeds-the-north` | fishing-bank | 929.5, 496.3 | 6127.8, 1620.4 | 5318.5 | island in coastal lagoon & salt marsh (danger band 3), 194 m from the nearest route |
-| `place.dunmer-north.the-ninth-chapel` | ruined-chapel | 858.2, 638.8 | 6131.1, 918.5 | 5280.3 | firm ground in firm lowland (danger band 2), 16 m from the nearest route |
-| `place.dunmer-north.hutan-tzel` | hist-village | 7109.4, 1006.2 | 2267.4, 1302.3 | 4851.0 | cliff bench in firm lowland (danger band 2), 62 m from the nearest route |
-| `place.dunmer-north.the-salt-ledge` | smugglers-ledge | 6248.5, 298.9 | 1488.8, 57.6 | 4765.8 | ridge end in border mountains (danger band 3), 1286 m from the nearest route |
-| `place.dunmer-north.hatching-pools` | hatchery-village | 2322.3, 1433.9 | 7043.6, 1187.2 | 4727.7 | flood high in firm lowland (danger band 3), 526 m from the nearest route |
-| `place.hist-heartland.cut-and-carried` | hist-village | 6917.5, 1439.4 | 2810.3, 3711.9 | 4694.0 | firm ground in firm lowland (danger band 4), 88 m from the nearest route |
-| `place.hist-heartland.necropolis-dead-tenders` | necropolis-village | 7125.8, 1318.8 | 2541.6, 1730.1 | 4602.6 | firm ground in firm lowland (danger band 4), 285 m from the nearest route |
-| `place.dunmer-north.the-shell-ground` | shell-beast-ground | 5305.3, 1625.9 | 896.6, 907.5 | 4466.8 | firm ground in border mountains (danger band 3), 1421 m from the nearest route |
-| `place.dunmer-north.andalen-plantation` | derelict-plantation | 2146.8, 1582.0 | 6498.6, 1046.8 | 4384.6 | firm ground in firm lowland (danger band 3), 91 m from the nearest route |
-| `place.dunmer-north.the-north-holding-pit` | holding-pit | 6278.7, 800.5 | 2130.3, 1576.5 | 4220.4 | ravine in firm lowland (danger band 3), 76 m from the nearest route |
-| `place.dunmer-north.the-permit-dig` | dig-camp | 2859.7, 309.8 | 6840.7, 1560.1 | 4172.7 | firm ground in firm lowland (danger band 3), 346 m from the nearest route |
-| `place.mercantile-coast.lilmoth-divers-yard` | salvage-divers-yard | 4417.0, 6023.6 | 397.6, 5486.3 | 4055.2 | open water in mangrove forest (danger band 0), 543 m from the nearest route |
-| `place.dunmer-north.nine-marks` | standing-curiosity | 2733.5, 1236.5 | 6698.1, 721.1 | 3998.0 | firm ground in upland hills (danger band 3), 261 m from the nearest route |
-| `place.dunmer-north.the-tide-fair` | market-fair-ground | 2898.0, 172.7 | 6632.3, 1461.4 | 3950.4 | shallow marsh in mangrove forest (danger band 0), 118 m from the nearest route |
+No record moved.
 
 Reasoning: _(to be written by hand)_
 
@@ -566,7 +541,12 @@ Reasoning: _(to be written by hand)_
 
 | designGroup | members | ids |
 |---|---|---|
+| `group.gandranen` | 2 | `place.dunmer-north.gandranen-library`, `place.dunmer-north.gandranen-ruins` |
+| `group.helstrom` | 3 | `place.hist-heartland.guide-camp-gate-side`, `place.hist-heartland.helstrom`, `place.hist-heartland.rootworm-station-helstrom` |
 | `group.lost-city` | 2 | `place.hist-heartland.lost-city`, `place.hist-heartland.xal-krona-making-ground` |
+| `group.gideon` | 2 | `place.imperial-fringe.bonded-shed-of-the-onkobra`, `place.imperial-fringe.gideon` |
+| `group.blackrose-siege-works` | 2 | `place.imperial-penal-south.akaviri-works`, `place.imperial-penal-south.rebellion-earthworks` |
+| `group.rose-cordon` | 2 | `place.imperial-penal-south.plague-cordon`, `place.imperial-penal-south.rose-supply-town` |
 
 Reasoning: _(to be written by hand)_
 
@@ -580,14 +560,14 @@ Reasoning: _(to be written by hand)_
 
 | id | gate | centre | gate→centre m | way m | polygon ha | footprintRadiusM | positionM == centre |
 |---|---|---|---|---|---|---|---|
-| `place.dunmer-north.stormhold` | 2656.8, 737.5 | 2684.0, 792.0 | 60.9 | 65.7 | 15.9 | 230.0 | yes |
+| `place.dunmer-north.stormhold` | 2656.8, 737.5 | 2706.0, 781.0 | 65.7 | 67.1 | 15.9 | 230.0 | yes |
 | `place.dunmer-north.thorn` | 6193.6, 589.5 | 6248.0, 616.0 | 60.5 | 65.2 | 15.9 | 230.0 | yes |
-| `place.hist-heartland.helstrom` | 3462.8, 2799.3 | 3190.0, 2816.0 | 273.3 | 279.5 | 16.1 | 230.0 | yes |
-| `place.imperial-fringe.gideon` | 1417.5, 3095.4 | 1551.0, 3069.0 | 136.1 | 161.1 | 15.8 | 230.0 | yes |
-| `place.imperial-penal-south.blackrose` | 2360.7, 6418.5 | 2123.0, 6215.0 | 312.9 | 334.3 | 16.0 | 230.0 | yes |
-| `place.mercantile-coast.lilmoth` | 3610.9, 6385.6 | 3597.0, 6325.0 | 62.1 | 66.4 | 15.4 | 225.0 | yes |
+| `place.hist-heartland.helstrom` | 3419.0, 2771.9 | 3190.0, 2805.0 | 231.3 | 246.5 | 16.1 | 230.0 | yes |
+| `place.imperial-fringe.gideon` | 1417.5, 3095.4 | 1551.0, 3069.0 | 136.1 | 160.3 | 15.7 | 230.0 | yes |
+| `place.imperial-penal-south.blackrose` | 2360.7, 6418.5 | 2123.0, 6215.0 | 312.9 | 334.3 | 15.6 | 230.0 | yes |
+| `place.mercantile-coast.lilmoth` | 3610.9, 6385.6 | 3597.0, 6325.0 | 62.1 | 66.0 | 15.4 | 225.0 | yes |
 | `place.mercantile-coast.soulrest` | 518.2, 6533.6 | 528.0, 6424.0 | 110.0 | 113.4 | 16.0 | 230.0 | yes |
-| `place.pirate-freeholds.alten-corimont` | 3835.7, 1143.3 | 3905.0, 1144.0 | 69.3 | 85.8 | 5.8 | 140.0 | yes |
+| `place.pirate-freeholds.alten-corimont` | 3912.5, 1115.9 | 3927.0, 1177.0 | 62.8 | 121.6 | 5.9 | 140.0 | yes |
 | `place.saxhleel-coast.archon` | 5162.7, 4647.3 | 4917.0, 4609.0 | 248.7 | 261.7 | 15.9 | 230.0 | yes |
 
 Reasoning: _(to be written by hand)_
@@ -611,20 +591,49 @@ Reasoning: _(to be written by hand)_
 
 ### Clark–Evans
 
-Median R = 1.117; zones evener than random: dunmer-north, imperial-fringe, imperial-penal-south, mercantile-coast, naga-kur-deeps, pirate-freeholds, saxhleel-coast.
+Median R = 1.123; zones evener than random: dunmer-north, imperial-fringe, imperial-penal-south, mercantile-coast, naga-kur-deeps, pirate-freeholds, saxhleel-coast.
 
 | zone | n | area km² | mean NN m | expected m | R |
 |---|---|---|---|---|---|
-| dunmer-north | 127 | 7.56 | 139.3 | 136.4 | 1.021 |
-| hist-heartland | 116 | 8.98 | 150.2 | 174.7 | 0.86 |
-| imperial-fringe | 119 | 6.96 | 146.9 | 131.7 | 1.115 |
-| imperial-penal-south | 42 | 0.93 | 136.4 | 101.0 | 1.351 |
-| mercantile-coast | 65 | 3.51 | 142.9 | 142.0 | 1.006 |
-| naga-kur-deeps | 38 | 2.6 | 204.8 | 177.9 | 1.152 |
-| pirate-freeholds | 31 | 0.8 | 150.2 | 96.5 | 1.557 |
-| saxhleel-coast | 36 | 1.72 | 148.4 | 132.8 | 1.117 |
+| dunmer-north | 126 | 7.56 | 150.5 | 137.3 | 1.096 |
+| hist-heartland | 116 | 8.98 | 149.1 | 174.7 | 0.853 |
+| imperial-fringe | 118 | 6.96 | 142.1 | 131.0 | 1.085 |
+| imperial-penal-south | 39 | 0.93 | 134.4 | 104.1 | 1.291 |
+| mercantile-coast | 63 | 3.51 | 157.6 | 144.8 | 1.088 |
+| naga-kur-deeps | 39 | 2.6 | 198.0 | 176.2 | 1.123 |
+| pirate-freeholds | 31 | 0.8 | 134.2 | 96.5 | 1.391 |
+| saxhleel-coast | 35 | 1.72 | 161.9 | 132.3 | 1.224 |
 
 Reasoning: _(to be written by hand)_
+
+## 3. Close (2026-09-19)
+
+- 16g delivered on the frozen world: 567 of 580 records sited, 240 typed
+  remedies applied (`world/sources/sites/plot-remedies.json`; the reasoning is
+  in [16g-remedy-plan.md](16g-remedy-plan.md), the rulings in decisions
+  [0078](../../decisions/0078-places-adapt-to-the-frozen-world.md) items 8-12
+  and [0080](../../decisions/0080-the-chain-runs-by-dependency-not-position.md)).
+- Thirteen records stand in `world/sources/sites/plot-homeless-accepted.json`,
+  the only homeless a seeded run tolerates.
+- Minor networks: 171 tracks (121.9 km) and 134 waterway channels (55.9 km).
+- One travel-service graph with road edges, transfer edges, berth walks
+  (`jettyM`) and body-following hops; a harbour station per city (nine, in
+  `world/sources/routes/harbour-stations.json`, Gideon's the bond-ferry
+  landing station); a rootworm network in `rootworm-stations.json`.
+- Design groups registered in `world/sources/catalogue/design-groups.json`,
+  spread measured anchor to member.
+- Interior promises refreshed (sameness pairs 198 down to 27) and the NPC
+  roster re-applied (474 records).
+- The known-red register is empty; six withdrawn requests are classified
+  `withdrawn` until the next refreeze.
+- The chain runs by dependency: receipts, `--check-stale`, cascade (0080).
+- Backlog: the water bundle is missing 27 graph bodies (a 16c defect); the
+  Blackrose lake is realised as `body.1284-3448`.
+
+**Owner calls taken this round.** The pirate-freeholds zone water identity;
+Blackrose's centre onto its lake (realised in 16h); the stronghold reserved at
+the Empty Steading (reversible); the opening ring read as places.
+
 
 ## 0b. Pause point (2026-09-19) and the resume plan
 

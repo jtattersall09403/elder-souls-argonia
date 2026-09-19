@@ -25,7 +25,7 @@ Baseline (pre-0079, 25 sessions): 111M cached, 280 turns, shell 68%.
 
 1-day window (8 sessions today vs 3 yesterday vs 73 older): cost units 21.7M avg today vs 48.3M avs yesterday vs 30.9M older; sleeps 60 total today vs 70 yesterday vs 1210 older; agent calls today include the new `find:14, run:12` (absent from every earlier window).
 
-Costliest sessions, last 7 d: `a8d8bde8` (965 turns, 96.6M units, 429/370 shell/explore, 0 sleeps, deliver:16) and `75f79fdf` (945 turns, 93.8M units, 493/428 shell/explore, deliver:18/research:8) — both ran before the guard existed and each is several "rounds" long, not the one-chunk-per-session the rule asks for.
+Costliest sessions, last 7 d: `a8d8bde8` (965 turns, 96.6M units, 429/370 shell/explore, 0 sleeps, deliver:16) and `75f79fdf` (945 turns, 93.8M units, 493/428 shell/explore, deliver:18/research:8) — both ran before the guard existed and each is several "rounds" long, not the one-chunk-per-session pattern the rule requires.
 
 ### Control checks
 

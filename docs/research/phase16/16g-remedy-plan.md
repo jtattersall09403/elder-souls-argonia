@@ -63,7 +63,7 @@ quotes the measurement). Ledger §2's reasoning rows point here.
 | stormhold | `place.dunmer-north.stormhold-causeway` | 99 m from centre, 69 m from the lane, Velasen Tarn 9.27 m |
 | thorn | `place.dunmer-north.the-thorn-bond` | pinned this round to ≥1.2 m within 250 m of Thorn; Thorn's single boat station |
 | helstrom | `place.hist-heartland.helstrom` | the lane `alten-corimont-helstrom` ends at the gate on 0.0 m; `compile_minor_waterways` re-lines the lane to its last floating sample (≈421 m out) and the station reads the lane end |
-| gideon | station `ferry-landing.onkobra-bond.town` (a `stationId` row: a ferry landing is a derived station, not a record) | a harbour is a station a traveller boards, and the rootworm terminus is a root node, so the gate refused it; the bond ferry lands here and joins Gideon by the Blackwood Road (the road edge). No keel water in Gideon's ring |
+| gideon | station `ferry-landing.onkobra-bond.town` (a `stationId` row: a ferry landing is a derived station, not a record) | a harbour is a station a traveller boards while the rootworm terminus is a root node, so the gate refused it; the bond ferry lands here and joins Gideon by the Blackwood Road (the road edge). No keel water in Gideon's ring |
 | blackrose | `place.imperial-penal-south.intact-fort` | owner-call row above |
 | lilmoth | `place.mercantile-coast.lilmoth` (socket `dock.lilmoth.lighter-quay`, 3902,6366 on `body.ocean`) | the quay is the city's own socket |
 | soulrest | `place.mercantile-coast.soulrest-divers-yard` | 210 m, lane 101 m, 2.15 m — the only harbour depth inside 600 m |
@@ -180,7 +180,7 @@ under the stated rule and records it in `why`.
   river; Gideon's founding line names its pond alone.
 - **Prose rows only where the current record contradicts the sentence.**
   Ten plan-listed records read true on the re-plotted record (the pack's
-  water table was measured on the previous plot) and were left alone:
+  water table was measured on the previous plot) and were not changed:
   `beast-keeper-lizard-steed`, `bioluminescent-glowfen`,
   `drowning-narrows-current`, `hammock-tree-island-greenmoss`,
   `sinkhole-mouth-basin`, `dream-wallow-sap-pool`, `mass-grave-flu-memorial`,

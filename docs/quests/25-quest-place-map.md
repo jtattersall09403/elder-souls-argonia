@@ -192,8 +192,16 @@ owner is holding open (touchpoint ③ question (a)).
 
 ## 20e. Move-a-dot proposals (applied as `sitingPrefs` edits)
 
-Fifteen edits, made now because moving a dot costs nothing before anything is
-built. They take effect at the **next** `python3 -m worldgen.macro_plot` run.
+**Applied by 16g.** Each ask below was written into the named record's
+`sitingPrefs` as a typed tie and solved against the frozen ground by the
+remedy pass (reasoning in
+[research/phase16/16g-remedy-plan.md](../research/phase16/16g-remedy-plan.md)).
+The asks the ground could not hold are in
+`world/sources/sites/plot-homeless-accepted.json`, where the owner decides
+whether to loosen the tie, re-type the place, cut it or unfreeze the water.
+
+Fifteen edits, made because moving a dot costs nothing before anything is
+built.
 
 | Place | The ask | Why |
 |---|---|---|

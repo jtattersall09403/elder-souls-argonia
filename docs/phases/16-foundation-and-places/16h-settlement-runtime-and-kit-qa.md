@@ -8,69 +8,82 @@ the off-world kit QA loop with the owner and package it as a skill.
 
 Needs ruling 12 (the loop and its budget, plan §8).
 
-## Starting state (2026-09-13; the closing 16g agent rewrites this)
+## Starting state (2026-09-19; written by the closing 16g agent)
 
+**What 16g settled, with the home of each artefact.** The macro plot ran on the frozen
+world: 567 of 580 records sited, 240 typed remedies applied
+(`world/sources/sites/plot-remedies.json`, reasoning in
+[research/phase16/16g-remedy-plan.md](../../research/phase16/16g-remedy-plan.md),
+rulings in [0078](../../decisions/0078-places-adapt-to-the-frozen-world.md)
+items 8-12 and [0080](../../decisions/0080-the-chain-runs-by-dependency-not-position.md)).
+Beside the dots: 171 minor tracks (121.9 km) and 134 waterway channels
+(55.9 km); one travel-service graph with road edges, transfer edges, berth
+walks (`jettyM`) and body-following hops; a harbour station per city (nine,
+`world/sources/routes/harbour-stations.json`, Gideon's on the bond-ferry
+landing); a five-record rootworm network (`rootworm-stations.json`); design
+groups registered (`design-groups.json`, spread measured anchor to member);
+interior promises refreshed (sameness pairs 198 down to 27) and the NPC
+roster re-applied (474). The known-red register is empty and six withdrawn
+requests are classified `withdrawn` until the next refreeze. The chain now
+runs by dependency (receipts, `--check-stale`, cascade; 0080).
+
+**What 16g handed you.**
+- **Blackrose's centre moves onto its lake** in the city pass: the owner's
+  call, made on the plot and not yet realised in a blueprint.
+- **Villages with underwater access need their entrances on the bank**, from
+  `underwaterAccessDetail`, when the blueprint is drawn.
+- **Thirteen records are homeless by owner acceptance**
+  (`world/sources/sites/plot-homeless-accepted.json`): the owner may loosen,
+  re-type, cut or unfreeze water for any of them before you start. Re-read the
+  file rather than the count.
+- **The stale Lilmoth quay promise is gone**; the quay socket stands on ocean.
+- Open with the owner as they arise: the pirate-freeholds zone water identity;
+  the stronghold reserved at the Empty Steading (reversible).
+- The water bundle is missing 27 graph bodies (a 16c backlog row); the
+  Blackrose lake is realised as `body.1284-3448`.
+
+**What the tree still holds against you.**
 - **Tests gated by 16d's purge (`@requires_delivered`), yours to un-gate as
   you port** (decision 0067; the reader is `ProvinceSurvey.water_at / reach /
-  body`; the survey's `flood/tidal/salinity/wetlands/lakes/river_band` and the
-  `riverBand/onLake/wetland/tidal/floodBand/salinity` sample keys no longer
-  exist — a consumer raises `AttributeError`/`KeyError` until ported): nine tests in `test_compile_settlement.py` (`test_ground_fit_ladder_rejects_underdeclared_fits`,
-  `test_corrected_blueprint_compiles_clean`, `test_deterministic`,
-  `test_landmark_carries_its_authored_ground_fit`,
-  `test_dock_without_a_built_asset_cannot_emit_a_placeholder`,
-  `test_budget_enforced`, `test_pad_grades_emitted_only_for_pad`,
-  `test_pad_grade_carries_the_authored_tilt_axis`,
-  `test_physical_dock_asset_ref_becomes_runtime_geometry`) —
-  `compile_settlement.py:597` reads `survey.flood`. The suite is 517-green
-  MINUS these until you port; develop your fix list knowing that.
-- **The runtime exists and renders**: `packages/game-core/src/settlement/`
-  is ~1,650 lines over nine files (`SettlementLayer.tsx`, `anchoring.ts`,
-  `collisionResidency.ts`, `lod.ts`, `materials.ts`, `kit.ts`, `types.ts`,
-  tests). Nothing here is new-build; every step below is a fix inside it.
-- **The shipped bundle is stale**: `apps/world-studio/public/province/settlements.json`
-  (10 MB, 2026-09-09) was built on the pre-16b ground; `ladder.json` lists
-  every settlement stage as skipped and hides the layer. Rebuild before
-  measuring anything. (The file is mode 0600 on this machine; fix the mode
-  if a second agent cannot read it.)
-- **The yaw defect is a sign, not a missing plus.** `anchoring.ts` ~91 already
-  rotates by `+yawDeg`; three.js `rotateY(+θ)` *is* the compile convention's
-  R(−θ) (audit §5). The fix is to **negate**, in `finalPlacementTransform`
-  and in `solidFrom` (`SettlementLayer.tsx` ~140, not `anchoring.ts`).
-  Measured: median heading error 92.7°, 691 of 733 settlement pieces.
-- **No non-box collider path exists anywhere**: `SettlementColliders.tsx`
-  ~34–42 only calls `ColliderDesc.cuboid()`; the layer falls back to
-  per-primitive boxes. Step 2 adds a convex/trimesh path to the studio,
-  not just an export change.
-- **The collider budget is already 1,600** (`export_settlement_bundle.py`
-  `COLLIDER_PART_BUDGET`, 0052; Lilmoth 1,033 worst case). Re-measure after
-  real collision; never re-fit from the retired 256.
+  body`, and the survey's `flood/tidal/salinity/wetlands/lakes/river_band`
+  keys no longer exist): the nine `test_compile_settlement.py` tests listed in
+  audit §9, blocked because `compile_settlement.py:597` reads `survey.flood`.
+- **The runtime exists and renders**: `packages/game-core/src/settlement/` is
+  ~1,650 lines over nine files. Nothing below is new-build; every step is a fix.
+- **The settlement bundle is stale.** `apps/world-studio/public/province/settlements.json`
+  was built on pre-16b ground and `ladder.json` hides the layer; the 16g chain
+  run republished places, routes and paint, not settlements. Rebuild before
+  measuring. (Mode 0600 here; fix the mode if a second agent cannot read it.)
+- **The yaw defect is a sign, not a missing plus.** `anchoring.ts` ~91 rotates
+  by `+yawDeg`; three.js `rotateY(+0)` is the compile convention's R(-0)
+  (audit §5). Negate, in `finalPlacementTransform` and in `solidFrom`
+  (`SettlementLayer.tsx` ~140). Measured: median heading error 92.7 degrees,
+  691 of 733 pieces.
+- **No non-box collider path exists**: `SettlementColliders.tsx` ~34-42 only
+  calls `ColliderDesc.cuboid()`. Step 2 adds a convex/trimesh path. The
+  collider budget is already 1,600 (`export_settlement_bundle.py`, 0052;
+  Lilmoth 1,033 worst case): re-measure, never re-fit from the retired 256.
 - **One waiver is live**: `shippedWithKnownErrors.count = 2`, both the stale
-  Mazzatun pad receipt (D9). `worldgen/known_red.py` `KNOWN_RED` is empty.
-- **The tests are green and prove nothing**: `npm run test:placement` →
-  517 passed, 13 skipped, through every defect above. Audit §7 names five
-  gates that cannot fail (`test_export_settlement_bundle.py` ~469/492/602,
-  `settlement.test.ts` ~93, the nav handoff test). Make each fail first.
+  Mazzatun pad receipt (D9).
+- **The tests are green and prove nothing**: `npm run test:placement` gave
+  517 passed, 13 skipped through every defect above. Audit §7 names five gates
+  that cannot fail; make each fail first.
 - **The nav handoff is hard-coded and its test asserts the hard-coding**
-  (`settlementNavigationHandoff.test.ts` expects `blocked-no-navigation-runtime`);
-  step 8 rewrites the test, not only the widget.
-- **Composites exist and are used only at Lilmoth**: 45 `assetRef` values with the `composite:` prefix there, none elsewhere; the expansion is not in
-  `compile_settlement.py` — find it before writing another.
+  (`settlementNavigationHandoff.test.ts` expects `blocked-no-navigation-runtime`).
+- **Composites are used only at Lilmoth**: 45 `composite:` asset refs there,
+  none elsewhere; the expansion is not in `compile_settlement.py`.
 - **The data this chunk needs is built and unshipped**: `<kit>.connectors.json`,
-  `<kit>.footprints.json`, `<kit>.interiors.json` sit in
-  `tooling/asset-pipeline/output/kits/`; `apps/world-studio/public/kits/`
+  `<kit>.footprints.json`, `<kit>.interiors.json` in
+  `tooling/asset-pipeline/output/kits/`, while `apps/world-studio/public/kits/`
   holds only the 43 `.glb` + `.kit.json` pairs. Step 7 is copy-and-consume.
-- `placement_metadata.py` is `tooling/asset-pipeline/pipeline/placement_metadata.py`
-  (used by `build_kit.py`, `vet_kit.py`), not a worldgen module; the anchor
-  class threads from there through the kit manifest.
-- `.claude/skills/kit-qa/` does not exist; `render_sheet.py` (91 lines)
-  renders single pieces; the assembly renderer is new.
-- **The chain ladder** has one declaration (`worldgen/ladder.py`, all nine
-  chunks, since 16d); the `[16h]` row in `terrain-chain.sh` is empty and
-  waits for this chunk's stage names.
+- `placement_metadata.py` sits in `tooling/asset-pipeline/pipeline/`, not in
+  worldgen; the anchor class threads from there through the kit manifest.
+  `.claude/skills/kit-qa/` does not exist and the assembly renderer is new.
+- **The chain ladder** declares all nine chunks (`worldgen/ladder.py`); the
+  `[16h]` row in `terrain-chain.sh` is empty and waits for your stage names.
 - Keep: `settlement-warning-known-red.json`, the `COMPATIBLE_ASSET_GROUND_FITS`
   shelf, the three non-waivable 0052 gates, collision residency by authored
   boundary.
-
 ## Read
 
 - [research/phase16/audit-settlements-delivered.md](../../research/phase16/audit-settlements-delivered.md)

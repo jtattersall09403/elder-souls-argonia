@@ -51,6 +51,18 @@ of truth for the position; `apply_sitings` is the only writer of
 `macro-plot-overrides.json`; major-city anchors keep their owner-approved
 dot (the blueprint's geometry sits around it).
 
+**What 16g taught (2026-09-19).**
+- A tie written as prose is a tie nothing honours: put it in `sitingPrefs`
+  (`nearWater`, `minDepthM`, `nearPoint`, `boundTo`, `sightlineTo`).
+- The record wins over the plan. Where the ground disagreed with a written
+  ask, the record was corrected and the departure listed (16g remedy plan,
+  "Departures found while authoring").
+- A seeded `macro_plot` run fails on any record left homeless; the only
+  tolerated exceptions are the rows in
+  `world/sources/sites/plot-homeless-accepted.json`, each an owner call.
+- The chain runs by dependency (receipts, `--check-stale`, cascade; 0080),
+  so a hand edit invalidates only what read it.
+
 ## 1b. How this document stays current
 
 Not by memory. Engineering standard 13 (`npm test`) fails when a blueprint,

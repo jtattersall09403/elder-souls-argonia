@@ -44,7 +44,10 @@ distance, the scoring terms that carried it, and whether it came from the
 homeless batch), `plotFacts` (the land under the dot). Positions are
 approximate; Part 6's compiler sites the footprint on real terrain. To move a
 place, change its `sitingPrefs` or a scoring weight and re-run the plot.
-Typed siting in `sitingPrefs`: `boundTo {place, maxM}`, `sightlineTo [ids]`, `nearWater {entityId, maxM}` (a hydrology-graph river, reach or body id; a reach counts as its river; maxM 10-1500) and `minDepthM` (0.3-40 m of recorded water within 150 m) — the plot reads all four as hard gates, so a tie written only as prose is a tie nothing honours.
+Typed siting in `sitingPrefs`: `boundTo {place, maxM}`, `sightlineTo [ids]`, `nearWater {entityId, maxM}` (a hydrology-graph river, reach or body id; a reach counts as its river; maxM 10-1500) `minDepthM` (0.3-40 m of recorded water within 150 m) and `nearPoint {x, z, maxM}` (a point in metres the place must stand near) — the plot reads all five as hard gates, so a tie written only as prose is a tie nothing honours.
+A record the plot cannot site is homeless and fails a seeded run, unless it is
+listed in `world/sources/sites/plot-homeless-accepted.json` (the accepted
+register, one owner call per row with the reason and what would resolve it).
 
 ## `rewardProfile.valueTier` — the one scale (0041 enrichment, 2026-09-02)
 
@@ -115,6 +118,9 @@ pass flips it as it corrects each record.
 A record that sells passage carries `travelStation {modes[], destinations[]}` —
 the Morrowind-style pay-and-go network; destinations must be live records that
 are stations themselves.
+Each major city boards a boat at one harbour, resolved from
+`world/sources/routes/harbour-stations.json`, whose rows carry the `stationId`
+of the station a traveller actually boards at.
 
 ## schemaVersion 2 record fields added by 16g
 
