@@ -6126,7 +6126,7 @@
         "nearPoint": {
           "x": 1965.0,
           "z": 1997.9,
-          "maxM": 150.0
+          "maxM": 400.0
         }
       },
       "relations": {
@@ -21815,11 +21815,11 @@
         "nearPoint": {
           "x": 1890.0,
           "z": 4550.0,
-          "maxM": 80.0
+          "maxM": 200.0
         },
         "nearWater": {
           "entityId": "body.1001-2519",
-          "maxM": 40
+          "maxM": 80
         }
       },
       "relations": {
@@ -25653,7 +25653,7 @@
         "nearPoint": {
           "x": 978.5,
           "z": 3851.8,
-          "maxM": 60.0
+          "maxM": 400.0
         }
       },
       "relations": {

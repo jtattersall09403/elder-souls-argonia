@@ -297,6 +297,23 @@ def test_near_water_matches_a_body_or_a_reach_by_its_own_id():
     assert not macro_plot.near_water_ok(_water_demand(near_water=("body.other", 50.0)), c, s)
 
 
+def test_tie_to_a_body_absent_from_the_bundle_reads_the_graph_redirect(monkeypatch):
+    """A graph body the compile merged away (`realisedBy`) still resolves: the
+    graph is the water record (0065/0066), so the tie follows the redirect
+    rather than yielding an empty mask. `body.1290-3508`, the Blackrose lake,
+    is the live instance."""
+    s = WaterStub(nearest={(1000.0, 1000.0): {"entityId": "body.kept", "distanceM": 12.0}},
+                  entities={"body.kept": [(10, 10)]})
+    c = _water_candidate("c", 1000.0, 1000.0)
+    d = _water_demand(near_water=("body.merged", 50.0))
+    assert not macro_plot.near_water_ok(d, c, s)          # no redirect yet
+    monkeypatch.setattr(macro_plot, "_graph_realised_by",
+                        lambda: {"body.merged": "body.kept"})
+    s._entity_distance_cache = {}
+    assert macro_plot._tie_entity_labels(s, "body.merged") == {1}
+    assert macro_plot.near_water_ok(d, c, s)
+
+
 def test_min_depth_refuses_shallow_water_at_every_stage():
     """A 1.5 m record is never placed where the RECORD depth within 150 m is
     0.6 m; and a submerged record must MEASURE its depth at its own dot."""
@@ -510,3 +527,39 @@ def test_a_typed_min_depth_is_sited_on_water_that_records_that_depth(survey):
     c = result[d.id]["candidate"]
     row, col = s.grid_px(c.x, c.z)
     assert float(rec_depth[row, col]) >= 5.0
+
+
+def test_accepted_homeless_register_replaces_the_raise_and_keeps_no_dot(tmp_path):
+    """A live record the seeded solve cannot site raises — unless the owner has
+    accepted it in `plot-homeless-accepted.json`, and then it still ships with
+    no position and `workflow: derived` (16g round D, 2026-09-19)."""
+    from pathlib import Path
+    reg = tmp_path / "plot-homeless-accepted.json"
+    unresolved = [{"id": "place.test.unsitable"}]
+
+    assert macro_plot.accepted_homeless(reg) == {}          # no register yet
+    assert macro_plot.blocking_homeless(unresolved, {}) == unresolved
+
+    reg.write_text(json.dumps({"schemaVersion": 1, "records": [
+        {"id": "place.test.unsitable", "reason": "tie contradicts the frozen ground",
+         "since": "2026-09-19"}]}))
+    accepted = macro_plot.accepted_homeless(reg)
+    assert accepted == {"place.test.unsitable": "tie contradicts the frozen ground"}
+    assert macro_plot.blocking_homeless(unresolved, accepted) == []
+
+    # accepted or not, the record keeps NO dot: `apply_to_records` sees no result
+    rec = {"id": "place.test.unsitable", "workflow": "plotted",
+           "position": {"u": 0.5, "v": 0.5}, "positionM": [10.0, 10.0],
+           "plotFacts": {"landform": "stale"}}
+    rf = catalogue.RegionFile(path=Path("x.json"), region="test", seed="t", places=[rec])
+    d = _water_demand(rid="place.test.unsitable")
+    macro_plot.apply_to_records({"test": rf}, [d], {}, None)
+    assert "position" not in rec and "positionM" not in rec and "plotFacts" not in rec
+    assert rec["workflow"] == "derived"
+
+
+def test_the_accepted_register_ships_the_schema_the_solver_reads():
+    doc = json.loads(macro_plot.HOMELESS_ACCEPTED.read_text())
+    assert doc["schemaVersion"] == 1
+    for r in doc["records"]:
+        assert set(r) == {"id", "reason", "since"} and r["reason"] and r["since"]

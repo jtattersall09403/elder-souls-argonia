@@ -2271,9 +2271,9 @@
         },
         "nearWater": {
           "entityId": "body.1290-3508",
-          "maxM": 10
+          "maxM": 30
         },
-        "minDepthM": 5.0
+        "minDepthM": 3.0
       },
       "relations": {
         "dependsOn": [],
@@ -8040,7 +8040,7 @@
         },
         "nearWater": {
           "entityId": "body.1290-3508",
-          "maxM": 60
+          "maxM": 150
         }
       },
       "relations": {
@@ -8269,7 +8269,7 @@
         },
         "nearWater": {
           "entityId": "body.1290-3508",
-          "maxM": 60
+          "maxM": 150
         }
       },
       "relations": {
@@ -8473,9 +8473,9 @@
         },
         "nearWater": {
           "entityId": "body.1290-3508",
-          "maxM": 10
+          "maxM": 30
         },
-        "minDepthM": 5.0
+        "minDepthM": 3.0
       },
       "relations": {
         "dependsOn": [
@@ -10404,7 +10404,7 @@
         },
         "nearWater": {
           "entityId": "body.1290-3508",
-          "maxM": 60
+          "maxM": 150
         }
       },
       "relations": {
@@ -11504,7 +11504,7 @@
         },
         "nearWater": {
           "entityId": "body.1290-3508",
-          "maxM": 30
+          "maxM": 80
         },
         "minDepthM": 1.0
       },
@@ -12349,7 +12349,7 @@
         },
         "boundTo": {
           "place": "place.imperial-penal-south.rose-supply-town",
-          "maxM": 60
+          "maxM": 150
         }
       },
       "relations": {
@@ -15515,7 +15515,7 @@
         },
         "nearWater": {
           "entityId": "body.1290-3508",
-          "maxM": 80
+          "maxM": 150
         }
       },
       "relations": {
@@ -16376,7 +16376,7 @@
         },
         "nearWater": {
           "entityId": "body.1290-3508",
-          "maxM": 60
+          "maxM": 150
         }
       },
       "relations": {

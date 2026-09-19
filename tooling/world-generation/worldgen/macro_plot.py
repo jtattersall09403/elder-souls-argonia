@@ -1563,9 +1563,46 @@ def _local_land_candidates(s: ProvinceSurvey, d: Demand, tie: tuple[float, float
     return out
 
 
+@functools.lru_cache(maxsize=1)
+def _graph_realised_by() -> dict[str, str]:
+    """{graph id: the id that REALISES it} for every body the graph redirects.
+
+    A body the compile merged into another carries the target in `realisedBy`;
+    the graph is the water record (0065/0066), so a tie to the merged id is
+    read through to the body that actually carries its water."""
+    doc = json.loads(HYDROLOGY_GRAPH.read_text())
+    return {b["id"]: b["realisedBy"] for b in doc.get("bodies") or []
+            if b.get("realisedBy")}
+
+
 def _tie_entity_labels(s: ProvinceSurvey, want: str) -> set[int]:
     """Entity labels (1 + index) of the named body/reach — a river id covers
-    every reach that names it, exactly as `near_water_ok` reads it."""
+    every reach that names it, exactly as `near_water_ok` reads it.
+
+    When the compiled bundle carries no entity for the id, the graph's own
+    `realisedBy` chain is followed: the record, never a re-derivation."""
+    labels = _tie_entity_labels_direct(s, want)
+    if labels:
+        return labels
+    seen = {want}
+    redirect = _graph_realised_by()
+    node = want
+    while (node := redirect.get(node)) and node not in seen:
+        seen.add(node)
+        labels = _tie_entity_labels_direct(s, node)
+        if labels:
+            if node not in _TIE_FALLBACK_LOGGED:
+                _TIE_FALLBACK_LOGGED.add(node)
+                print(f"tie: {want} absent from water-meta, read from the graph "
+                      f"as {node}")
+            return labels
+    return set()
+
+
+_TIE_FALLBACK_LOGGED: set[str] = set()
+
+
+def _tie_entity_labels_direct(s: ProvinceSurvey, want: str) -> set[int]:
     labels: set[int] = set()
     for i, e in enumerate(s.water.entities):
         eid = e.get("id")
@@ -1709,16 +1746,29 @@ def local_tie_candidates(s: ProvinceSurvey, demands: list[Demand]) -> list[Candi
         footprints.append((d.id, float(pos[0]), float(pos[1]), float(fp)))
     footprints.sort()
     out: list[Candidate] = []
+    faults: dict[str, str] = {}
+    s._tie_faults = faults
     for d in sorted(demands, key=lambda d: d.id):
         tie = _tie_anchor(d, positions)
         if tie is None and d.near_water is None and d.min_depth_m <= 0.0:
             continue
+        mine: list[Candidate] = []
         if tie is None and d.near_water is not None and d.id not in positions:
-            out += _entity_domain_candidates(s, d, footprints)
-            continue
-        if tie is not None:
-            out += _local_land_candidates(s, d, tie, footprints)
-        out += _local_water_candidates(s, d, tie, positions)
+            mine += _entity_domain_candidates(s, d, footprints)
+        else:
+            if tie is not None:
+                mine += _local_land_candidates(s, d, tie, footprints)
+            mine += _local_water_candidates(s, d, tie, positions)
+        # The record's own culture zone is judged FIRST: a tie that only reaches
+        # cells in a neighbour's territory has supplied nothing this record can
+        # use, and saying so is better than a lattice of candidates every one of
+        # which the zone gate will reject (16g review, 2026-09-19).
+        in_zone = [c for c in mine if c.zone == d.zone]
+        if mine and not in_zone and d.near_water is not None:
+            want, max_m = d.near_water
+            faults[d.id] = (f"no in-zone candidate within {max_m:g} m of {want}")
+            print(f"tie: {d.id}: {faults[d.id]}")
+        out += in_zone
     return out
 
 
@@ -2480,6 +2530,9 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                 why["would have fitted"] = why.get("would have fitted", 0) + 1
             elif len(failed) == 1:
                 sole[failed[0]] = sole.get(failed[0], 0) + 1
+        fault = getattr(s, "_tie_faults", {}).get(h["id"])
+        if fault:
+            h["tieFault"] = fault
         h["whyHomeless"] = dict(sorted(why.items(), key=lambda kv: -kv[1]))
         h["soleBlocker"] = dict(sorted(sole.items(), key=lambda kv: -kv[1]))
         h["separationBlockers"] = dict(sorted(blockers.items(), key=lambda kv: -kv[1])[:5])
@@ -2613,6 +2666,31 @@ def apply_footprint_fields(rec: dict) -> None:
     rec["footprintSource"] = source
 
 
+HOMELESS_ACCEPTED = REPO_ROOT / "world/sources/sites/plot-homeless-accepted.json"
+
+
+def accepted_homeless(path: Path | None = None) -> dict[str, str]:
+    """{record id: reason} the owner has ACCEPTED as unsited.
+
+    A live record the seeded solve cannot place is a failure and raises — that
+    gate is what stops a hole being built on. A record whose tie contradicts
+    the frozen ground is a different thing: it cannot be solved below the gate
+    at all, and naming it here says so out loud instead of blocking every other
+    stage. It still ships unpositioned, `workflow: derived`; nothing downstream
+    may read a dot for it."""
+    p = path or HOMELESS_ACCEPTED
+    if not p.exists():
+        return {}
+    doc = json.loads(p.read_text())
+    return {r["id"]: r.get("reason", "") for r in doc.get("records") or []}
+
+
+def blocking_homeless(unresolved: list[dict], accepted: dict[str, str]) -> list[dict]:
+    """The unresolved records that still FAIL the run: everything the register
+    does not name."""
+    return [h for h in unresolved if h["id"] not in accepted]
+
+
 def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Demand],
                      result: dict[str, dict], s: ProvinceSurvey) -> None:
     by_d = {d.id: d for d in demands}
@@ -2628,7 +2706,7 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
                     for k in ("position", "positionM", "scourSiteId", "candidatesConsidered", "whySiteWon",
                               "plotFacts", "footprintRadiusM", "footprintSource", "footprintPolygon"):
                         rec.pop(k, None)
-                    if rec.get("workflow") == "plotted":
+                    if rec.get("workflow") == "plotted" or rec["id"] in by_d:
                         rec["workflow"] = "derived"
                 continue
             if r.get("seeded"):
@@ -3248,12 +3326,18 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
     # positions stay exactly as they were, and the gates that refused each
     # record are printed so the tie can be argued with.
     if unresolved and not resolve_all:
+        accepted = accepted_homeless()
+        blocking = blocking_homeless(unresolved, accepted)
         print(f"{len(unresolved)} live records could not be sited in the seeded solve:")
         for h in sorted(unresolved, key=lambda h: h["id"]):
             top = list((h.get("whyHomeless") or {}).items())[:3]
             print(f"  {h['id']}: " + (", ".join(f"{gate} x{n}" for gate, n in top) or "no candidates at all"))
-        raise RuntimeError("macro_plot left live records homeless: "
-                           + ", ".join(sorted(h["id"] for h in unresolved)))
+        for rid in sorted(accepted):
+            if any(h["id"] == rid for h in unresolved):
+                print(f"accepted homeless: {rid} ({accepted[rid]})")
+        if blocking:
+            raise RuntimeError("macro_plot left live records homeless: "
+                               + ", ".join(sorted(h["id"] for h in blocking)))
     apply_to_records(files, demands, result, s)
     rep = build_report(demands, result, unresolved, plotted, s, seed, len(scour), len(free))
     rep["feedbackChecks"] = feedback_checks(demands, result, s)

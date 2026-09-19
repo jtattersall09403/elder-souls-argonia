@@ -11610,7 +11610,7 @@
         },
         "nearWater": {
           "entityId": "river.720-1110",
-          "maxM": 150
+          "maxM": 300
         }
       },
       "relations": {
@@ -16838,9 +16838,9 @@
         },
         "nearWater": {
           "entityId": "body.ocean",
-          "maxM": 10
+          "maxM": 60
         },
-        "minDepthM": 6.0
+        "minDepthM": 4.0
       },
       "relations": {
         "dependsOn": [],
@@ -29476,7 +29476,7 @@
         },
         "nearWater": {
           "entityId": "body.ocean",
-          "maxM": 30
+          "maxM": 100
         }
       },
       "relations": {

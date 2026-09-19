@@ -152,11 +152,11 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.1290-3508",
-     "maxM": 10
+     "maxM": 30
     },
-    "minDepthM": 5.0
+    "minDepthM": 3.0
    },
-   "why": "Canon puts the drowned Hist in Blackrose Lake. The record is tied to body.1290-3508 within 10 m on 5.0 m of water; the dot at 1642.3, 6023.6 reads body.973-3292 (marsh-fringe, level 1.62 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.)"
+   "why": "Canon puts the drowned Hist in Blackrose Lake. The record is tied to body.1290-3508 within 10 m on 5.0 m of water; the dot at 1642.3, 6023.6 reads body.973-3292 (marsh-fringe, level 1.62 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.) loosened: nearWater.maxM 10 → 30; minDepthM 5 → 3, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-penal-south.longmont",
@@ -164,10 +164,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.1290-3508",
-     "maxM": 60
+     "maxM": 150
     }
    },
-   "why": "Longmont is the Blackrose lake ferry's station (ferry.imperial-penal-south.blackrose-lake); its record keyed to body.ocean 66 m off, so the lake hop could not follow one body."
+   "why": "Longmont is the Blackrose lake ferry's station (ferry.imperial-penal-south.blackrose-lake); its record keyed to body.ocean 66 m off, so the lake hop could not follow one body. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-penal-south.lake-drowned-village",
@@ -175,11 +175,11 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.1290-3508",
-     "maxM": 10
+     "maxM": 30
     },
-    "minDepthM": 5.0
+    "minDepthM": 3.0
    },
-   "why": "Canon puts the drowned village in Blackrose Lake. The record is tied to body.1290-3508 within 10 m on 5.0 m of water; the dot at 1598.4, 6511.7 reads body.877-3568 (lagoon, level 0.0 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.)"
+   "why": "Canon puts the drowned village in Blackrose Lake. The record is tied to body.1290-3508 within 10 m on 5.0 m of water; the dot at 1598.4, 6511.7 reads body.877-3568 (lagoon, level 0.0 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.) loosened: nearWater.maxM 10 → 30; minDepthM 5 → 3, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-penal-south.lake-boardwalk-village",
@@ -187,10 +187,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.1290-3508",
-     "maxM": 60
+     "maxM": 150
     }
    },
-   "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2612.9, 6868.1 reads body.ocean (ocean, level 0.0 m) 0.0 m away."
+   "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2612.9, 6868.1 reads body.ocean (ocean, level 0.0 m) 0.0 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-penal-south.lake-divers-yard",
@@ -198,10 +198,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.1290-3508",
-     "maxM": 60
+     "maxM": 150
     }
    },
-   "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2481.3, 6747.5 reads body.ocean (ocean, level 0.0 m) 0.0 m away."
+   "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2481.3, 6747.5 reads body.ocean (ocean, level 0.0 m) 0.0 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-penal-south.west-market-town",
@@ -209,10 +209,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.1290-3508",
-     "maxM": 60
+     "maxM": 150
     }
    },
-   "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2750.0, 6281.4 reads body.1496-3444 (mudflat, level 0.54 m) 19.8 m away."
+   "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2750.0, 6281.4 reads body.1496-3444 (mudflat, level 0.54 m) 19.8 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-penal-south.natural-dive-shaft",
@@ -220,11 +220,11 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.1290-3508",
-     "maxM": 30
+     "maxM": 80
     },
     "minDepthM": 1.0
    },
-   "why": "The shaft is dived from the lake. The record is tied to body.1290-3508 within 30 m on 1.0 m of water; the dot at 2563.5, 6144.3 reads body.1209-3032 (swamp, level 0.84 m) 0.0 m away."
+   "why": "The shaft is dived from the lake. The record is tied to body.1290-3508 within 30 m on 1.0 m of water; the dot at 2563.5, 6144.3 reads body.1209-3032 (swamp, level 0.84 m) 0.0 m away. loosened: nearWater.maxM 30 → 80, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-penal-south.three-gate-toll",
@@ -232,10 +232,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.1290-3508",
-     "maxM": 80
+     "maxM": 150
     }
    },
-   "why": "The toll stands on the lake approach. The record is tied to body.1290-3508 within 80 m; the dot at 1368.1, 6484.3 reads body.712-3516 (marsh-fringe, level 1.64 m) 36.8 m away."
+   "why": "The toll stands on the lake approach. The record is tied to body.1290-3508 within 80 m; the dot at 1368.1, 6484.3 reads body.712-3516 (marsh-fringe, level 1.64 m) 36.8 m away. loosened: nearWater.maxM 80 → 150, the ground could not hold the tighter tie."
   },
   {
    "id": "place.mercantile-coast.whitebone-reef",
@@ -243,10 +243,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.ocean",
-     "maxM": 30
+     "maxM": 100
     }
    },
-   "why": "A reef is an ocean feature. The record is tied to body.ocean within 30 m; the dot at 3813.8, 5919.5 reads body.1209-3032 (swamp, level 0.84 m) 0.0 m away."
+   "why": "A reef is an ocean feature. The record is tied to body.ocean within 30 m; the dot at 3813.8, 5919.5 reads body.1209-3032 (swamp, level 0.84 m) 0.0 m away. loosened: nearWater.maxM 30 → 100, the ground could not hold the tighter tie."
   },
   {
    "id": "place.mercantile-coast.oliis-drake-deep",
@@ -254,11 +254,11 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.ocean",
-     "maxM": 10
+     "maxM": 60
     },
-    "minDepthM": 6.0
+    "minDepthM": 4.0
    },
-   "why": "The drake deep is an ocean dive. The record is tied to body.ocean within 10 m on 6.0 m of water; the dot at 3051.6, 5711.1 reads body.1703-3069 (swamp, level 1.41 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.)"
+   "why": "The drake deep is an ocean dive. The record is tied to body.ocean within 10 m on 6.0 m of water; the dot at 3051.6, 5711.1 reads body.1703-3069 (swamp, level 1.41 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.) loosened: nearWater.maxM 10 → 60; minDepthM 6 → 4, the ground could not hold the tighter tie."
   },
   {
    "id": "place.saxhleel-coast.archon-shipyard",
@@ -266,10 +266,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.2834-2585",
-     "maxM": 40
+     "maxM": 120
     }
    },
-   "why": "The shipyard builds hulls on the bank of the Archon lagoon and launches them down slipways into it. The record is tied to body.2834-2585 within 40 m and bound to Archon. It carries no depth requirement, because the sheds and the slipways stand on dry ground. The dot at 5009.2, 4833.7 reads body.ocean (ocean, level 0.0 m) 24.5 m away."
+   "why": "The shipyard builds hulls on the bank of the Archon lagoon and launches them down slipways into it. The record is tied to body.2834-2585 within 40 m and bound to Archon. It carries no depth requirement, because the sheds and the slipways stand on dry ground. The dot at 5009.2, 4833.7 reads body.ocean (ocean, level 0.0 m) 24.5 m away. loosened: nearWater.maxM 40 → 120, the ground could not hold the tighter tie."
   },
   {
    "id": "place.saxhleel-coast.archon-bonded-row",
@@ -277,10 +277,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.2834-2585",
-     "maxM": 40
+     "maxM": 120
     }
    },
-   "why": "The bonded row is a terrace of warehouses at the edge of the Archon lagoon. Cargo comes ashore from hulls moored off the bank. The record is tied to body.2834-2585 within 40 m and bound to Archon. The warehouses are built on the bank, so the record carries no depth requirement. The dot at 4901.7, 4425.8 reads body.2677-2418 (swamp, level 2.82 m) 5.5 m away."
+   "why": "The bonded row is a terrace of warehouses at the edge of the Archon lagoon. Cargo comes ashore from hulls moored off the bank. The record is tied to body.2834-2585 within 40 m and bound to Archon. The warehouses are built on the bank, so the record carries no depth requirement. The dot at 4901.7, 4425.8 reads body.2677-2418 (swamp, level 2.82 m) 5.5 m away. loosened: nearWater.maxM 40 → 120, the ground could not hold the tighter tie."
   },
   {
    "id": "place.saxhleel-coast.mangrove-reef",
@@ -288,11 +288,11 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "body.ocean",
-     "maxM": 20
+     "maxM": 60
     },
     "minDepthM": 1.0
    },
-   "why": "A mangrove reef is an ocean feature. The record is tied to body.ocean within 20 m on 1.0 m of water; the dot at 4800.8, 3709.6 reads body.2622-1997 (swamp, level 5.62 m) 22.6 m away."
+   "why": "A mangrove reef is an ocean feature. The record is tied to body.ocean within 20 m on 1.0 m of water; the dot at 4800.8, 3709.6 reads body.2622-1997 (swamp, level 5.62 m) 22.6 m away. loosened: nearWater.maxM 20 → 60, the ground could not hold the tighter tie."
   },
   {
    "id": "place.dunmer-north.the-slumped-hamlet",
@@ -400,10 +400,10 @@
    "sitingPrefs": {
     "boundTo": {
      "place": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",
-     "maxM": 450
+     "maxM": 800
     }
    },
-   "why": "Canon puts Root-Whisper village below its xanmeer, Vakka-Bok. the dot at 2289.4, 5305.3 reads body.1237-2896 (marsh-deep, level 1.83 m) 17.3 m away."
+   "why": "Canon puts Root-Whisper village below its xanmeer, Vakka-Bok. the dot at 2289.4, 5305.3 reads body.1237-2896 (marsh-deep, level 1.83 m) 17.3 m away. loosened: boundTo.maxM 450 → 800, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-fringe.swampmoth-town",
@@ -447,10 +447,10 @@
    "sitingPrefs": {
     "boundTo": {
      "place": "place.imperial-penal-south.rose-supply-town",
-     "maxM": 60
+     "maxM": 150
     }
    },
-   "why": "The cordon is drawn round the supply town and is one design with it. the dot at 2484.1, 6426.8 reads body.1284-3448 (swamp, level 1.36 m) 11.0 m away."
+   "why": "The cordon is drawn round the supply town and is one design with it. the dot at 2484.1, 6426.8 reads body.1284-3448 (swamp, level 1.36 m) 11.0 m away. loosened: boundTo.maxM 60 → 150, the ground could not hold the tighter tie."
   },
   {
    "id": "place.pirate-freeholds.opening-work-barge",
@@ -526,10 +526,10 @@
     "nearPoint": {
      "x": 2525.0,
      "z": 4476.0,
-     "maxM": 100.0
+     "maxM": 300.0
     }
    },
-   "why": "The refuge belongs on the ridge over the flood at 2525, 4476. the dot at 1110.4, 5360.1 reads body.611-2937 (swamp, level 3.04 m) 0.0 m away."
+   "why": "The refuge belongs on the ridge over the flood at 2525, 4476. the dot at 1110.4, 5360.1 reads body.611-2937 (swamp, level 3.04 m) 0.0 m away. loosened: nearPoint.maxM 100 → 300, the ground could not hold the tighter tie."
   },
   {
    "id": "place.saxhleel-coast.archon-lighthouse",
@@ -554,14 +554,14 @@
     "nearPoint": {
      "x": 1890.0,
      "z": 4550.0,
-     "maxM": 80.0
+     "maxM": 200.0
     },
     "nearWater": {
      "entityId": "body.1001-2519",
-     "maxM": 40
+     "maxM": 80
     }
    },
-   "why": "The steading is the player stronghold: the approach point at 1890, 4550 with the marsh edge of body.1001-2519 40 m off and the Gideon-Soulrest road about 230 m away."
+   "why": "The steading is the player stronghold: the approach point at 1890, 4550 with the marsh edge of body.1001-2519 40 m off and the Gideon-Soulrest road about 230 m away. loosened: nearPoint.maxM 80 → 200; nearWater.maxM 40 → 80, the ground could not hold the tighter tie."
   },
   {
    "id": "place.mercantile-coast.keel-sakka-stilts",
@@ -569,10 +569,10 @@
    "sitingPrefs": {
     "nearWater": {
      "entityId": "river.720-1110",
-     "maxM": 150
+     "maxM": 300
     }
    },
-   "why": "Canon puts the Keel-Sakka village up its own river (Lore:Keel-Sakka River, names register river.720-1110). The record is tied to river.720-1110 within 150 m; the dot at 211.1, 6094.9 reads body.ocean (ocean, level 0.0 m) 0.0 m away."
+   "why": "Canon puts the Keel-Sakka village up its own river (Lore:Keel-Sakka River, names register river.720-1110). The record is tied to river.720-1110 within 150 m; the dot at 211.1, 6094.9 reads body.ocean (ocean, level 0.0 m) 0.0 m away. loosened: nearWater.maxM 150 → 300, the ground could not hold the tighter tie."
   },
   {
    "id": "place.dunmer-north.mazzatun",
@@ -1332,10 +1332,10 @@
     "nearPoint": {
      "x": 3961.8,
      "z": 918.5,
-     "maxM": 150.0
+     "maxM": 400.0
     }
    },
-   "why": "Rule: the nearest point on a published major road (apps/world-studio/public/province/routes.json). That is 3961.8, 918.5 on route.road.stormhold-thorn, 947.0 m from the committed dot at 4866.6, 638.8."
+   "why": "Rule: the nearest point on a published major road (apps/world-studio/public/province/routes.json). That is 3961.8, 918.5 on route.road.stormhold-thorn, 947.0 m from the committed dot at 4866.6, 638.8. loosened: nearPoint.maxM 150 → 400, the ground could not hold the tighter tie."
   },
   {
    "id": "place.dunmer-north.the-last-landing",
@@ -1452,10 +1452,10 @@
     "nearPoint": {
      "x": 1965.0,
      "z": 1997.9,
-     "maxM": 150.0
+     "maxM": 400.0
     }
    },
-   "why": "Rule: the nearest water crossing on a Gideon road in world/sources/routes/water-crossings.json. That is crossing.major.019 at 1965.0, 1997.9 on route.road.gideon-stormhold, span 11.5 m, 593.7 m from the committed dot. A bridge village belongs at its bridge."
+   "why": "Rule: the nearest water crossing on a Gideon road in world/sources/routes/water-crossings.json. That is crossing.major.019 at 1965.0, 1997.9 on route.road.gideon-stormhold, span 11.5 m, 593.7 m from the committed dot. A bridge village belongs at its bridge. loosened: nearPoint.maxM 150 → 400, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-penal-south.rose-outworks",
@@ -1524,10 +1524,10 @@
     "nearPoint": {
      "x": 4462.1,
      "z": 5826.8,
-     "maxM": 300.0
+     "maxM": 700.0
     }
    },
-   "why": "Rule: hold the record's own bearing from Archon and set the distance. It lies south of Archon at 222.4 m today; the point on that bearing is 4462.1, 5826.8."
+   "why": "Rule: hold the record's own bearing from Archon and set the distance. It lies south of Archon at 222.4 m today; the point on that bearing is 4462.1, 5826.8. loosened: nearPoint.maxM 300 → 700, the ground could not hold the tighter tie."
   },
   {
    "id": "place.saxhleel-coast.cantemir-headland",
@@ -1739,10 +1739,10 @@
     "nearPoint": {
      "x": 978.5,
      "z": 3851.8,
-     "maxM": 60.0
+     "maxM": 400.0
     }
    },
-   "why": "Rule: 149 m further out along its own bearing from Gideon, which stands at 1551.0, 3069.0; the field is 820.8 m out today, so the point is 978.5, 3851.8. Line of sight to Gideon does not survive the move (the survey reports false there), which is recorded rather than hidden: the field is a quarry floor, not a watchpost."
+   "why": "Rule: 149 m further out along its own bearing from Gideon, which stands at 1551.0, 3069.0; the field is 820.8 m out today, so the point is 978.5, 3851.8. Line of sight to Gideon does not survive the move (the survey reports false there), which is recorded rather than hidden: the field is a quarry floor, not a watchpost. loosened: nearPoint.maxM 60 → 400, the ground could not hold the tighter tie."
   },
   {
    "id": "place.imperial-fringe.moonrack-calcinator",

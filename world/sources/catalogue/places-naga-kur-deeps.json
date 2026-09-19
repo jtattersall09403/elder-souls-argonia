@@ -2977,7 +2977,7 @@
         "nearPoint": {
           "x": 2525.0,
           "z": 4476.0,
-          "maxM": 100.0
+          "maxM": 300.0
         }
       },
       "relations": {
@@ -11756,7 +11756,7 @@
         ],
         "boundTo": {
           "place": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",
-          "maxM": 450
+          "maxM": 800
         }
       },
       "relations": {

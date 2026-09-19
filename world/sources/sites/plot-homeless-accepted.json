@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "records": [
+    {
+      "id": "place.dunmer-north.the-field-gate-garrison",
+      "reason": "tie contradicts the frozen ground after loosening (culture clump); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.imperial-fringe.the-empty-steading",
+      "reason": "tie contradicts the frozen ground after loosening (no sole blocker); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.imperial-fringe.the-stone-talkers-watch",
+      "reason": "tie contradicts the frozen ground after loosening (culture clump); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.imperial-penal-south.lake-boardwalk-village",
+      "reason": "tie contradicts the frozen ground after loosening (separation); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.imperial-penal-south.lake-drowned-village",
+      "reason": "tie contradicts the frozen ground after loosening (separation); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.imperial-penal-south.longmont",
+      "reason": "tie contradicts the frozen ground after loosening (separation); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.imperial-penal-south.three-gate-toll",
+      "reason": "tie contradicts the frozen ground after loosening (separation); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.imperial-penal-south.west-market-town",
+      "reason": "tie contradicts the frozen ground after loosening (separation); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.mercantile-coast.keel-sakka-stilts",
+      "reason": "tie contradicts the frozen ground after loosening (no sole blocker); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.mercantile-coast.whitebone-reef",
+      "reason": "tie contradicts the frozen ground after loosening (culture clump); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.naga-kur-deeps.wreck-submerged-barge",
+      "reason": "tie contradicts the frozen ground after loosening (culture clump); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.saxhleel-coast.archon-shipyard",
+      "reason": "tie contradicts the frozen ground after loosening (separation); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    },
+    {
+      "id": "place.saxhleel-coast.mangrove-reef",
+      "reason": "tie contradicts the frozen ground after loosening (culture clump); owner call: loosen further, re-type, cut, or unfreeze water",
+      "since": "2026-09-19"
+    }
+  ]
+}

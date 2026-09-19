@@ -660,7 +660,7 @@
         },
         "nearWater": {
           "entityId": "body.2834-2585",
-          "maxM": 40
+          "maxM": 120
         }
       },
       "culture": "argonian",
@@ -2176,7 +2176,7 @@
         "nearPoint": {
           "x": 4462.1,
           "z": 5826.8,
-          "maxM": 300.0
+          "maxM": 700.0
         }
       },
       "relations": {
@@ -2479,7 +2479,7 @@
         },
         "nearWater": {
           "entityId": "body.2834-2585",
-          "maxM": 40
+          "maxM": 120
         }
       },
       "culture": "imperial",
@@ -12370,7 +12370,7 @@
         },
         "nearWater": {
           "entityId": "body.ocean",
-          "maxM": 20
+          "maxM": 60
         },
         "minDepthM": 1.0
       },
