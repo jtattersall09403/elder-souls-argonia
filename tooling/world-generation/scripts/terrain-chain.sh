@@ -22,7 +22,17 @@
 #   ./scripts/terrain-chain.sh --refreeze      # let the frozen base AND the water be re-derived (rare, deliberate)
 #   ./scripts/terrain-chain.sh --through 16b  # build only the stages delivered up to a chunk (default: DELIVERED_THROUGH)
 #   ./scripts/terrain-chain.sh --full          # every stage the LADDER hides, whatever chunk owns it (still not the frozen rungs)
+#   ./scripts/terrain-chain.sh --no-cascade    # run only the requested range: do NOT run the consumers of what it rewrote
 #   ./scripts/terrain-chain.sh --steal-lock    # take a lock a dead run left
+#
+# POSITION ASKS, STALENESS DECIDES. `--from`/`--through` name the range
+# REQUESTED. When those stages rewrite an artefact, every stage that reads it
+# (transitively, below the gate, within the delivered chunks, not already run)
+# runs afterwards in STAGES order — printed as `cascade: ...`, disabled with
+# `--no-cascade`. `python3 -m worldgen.chain_stages --check-stale` is the gate:
+# it compares each stage's receipt (output/chain/receipts/<stage>.json, written
+# when the stage runs) against the artefacts on disk now and exits 1 on any
+# input that has moved since.
 #   ./scripts/terrain-chain.sh --check-contracts  # just the pre-run contract pass (no lock, nothing runs)
 #
 # THE CONTRACT PASS. A run stops at the first failing stage, so a chain that
@@ -212,6 +222,16 @@ STAGES=(
   # the services' hops follow the minor waterways, so they are solved after them
   "travel_services"
   "export_places"
+  # These four sit below 16g's row rather than on their own (16c/16e/16f).
+  # It is not a convenience: the first three READ artefacts a 16g stage
+  # writes (the registry, the minor tracks, the travel services, the
+  # vegetation patches), so `--check-contracts` refuses them any higher —
+  # test_chain_contracts.py proves it by trying each move. The cascade, not
+  # the position, is now what guarantees they run after a 16g stage.
+  # `terrain_request_postconditions` would pass the order gate on its 16c
+  # row; it stays here because it judges the FINISHED world and its inputs
+  # are .npy arrays, which no WRITES entry names, so no cascade could bring
+  # it back down. Moving it is a decision for the planner, not a tidy-up.
   # The exports and the patches read the re-solved plot, so they come after it:
   # the route index and the overlays carry the stations and the minor tracks,
   # the vegetation clearance patches sit over the new settlement footprints,
@@ -225,7 +245,7 @@ STAGES=(
   "terrain_request_postconditions"
 )
 
-DELIVERED_THROUGH="16f"
+DELIVERED_THROUGH="16g"
 declare -A LADDER=(
   # 16b: the frozen base and its patches, the chunks and the land-cover bake
   # (sea-level shorelines only: no water is compiled on this ladder). The
@@ -293,6 +313,7 @@ steal=""
 through="$DELIVERED_THROUGH"
 full=""
 contracts_only=""
+no_cascade=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --list) printf '%s\n' "${STAGES[@]}"; exit 0 ;;
@@ -304,7 +325,8 @@ while [[ $# -gt 0 ]]; do
     --steal-lock) steal=1; shift ;;
     --check-contracts) contracts_only=1; shift ;;
     --from) from="${2:?--from needs a stage name}"; shift 2 ;;
-    *) echo "usage: $0 [--from <stage>] [--force] [--refreeze] [--through <chunk>|--full] [--steal-lock] [--check-contracts] [--list]" >&2; exit 2 ;;
+    --no-cascade) no_cascade=1; shift ;;
+    *) echo "usage: $0 [--from <stage>] [--force] [--refreeze] [--through <chunk>|--full] [--no-cascade] [--steal-lock] [--check-contracts] [--list]" >&2; exit 2 ;;
   esac
 done
 
@@ -414,6 +436,20 @@ summary() {
 }
 trap 'summary; rm -f "$LOCK"' EXIT
 
+# One stage, at its own position in STAGES (the stamp key is position+name).
+run_stage() {
+  local stage="$1" i=0 pos=0 args=()
+  for name in "${STAGES[@]}"; do
+    i=$((i + 1))
+    [[ "$name" == "$stage" ]] && { pos=$i; break; }
+  done
+  echo "=== $stage ==="
+  if [[ -n "${STAGE_ARGS[$stage]:-}" ]]; then
+    IFS='|' read -r -a args <<< "${STAGE_ARGS[$stage]}"
+  fi
+  python3 -m worldgen.chain_stages run $force "$(printf '%02d-%s' "$pos" "$stage")" "$stage" "${args[@]}"
+}
+
 started=0
 index=0
 for stage in "${STAGES[@]}"; do
@@ -447,18 +483,39 @@ for stage in "${STAGES[@]}"; do
     continue
   fi
   RAN_STAGES+=("$stage")
-  echo "=== $stage ==="
-  args=()
-  if [[ -n "${STAGE_ARGS[$stage]:-}" ]]; then
-    IFS='|' read -r -a args <<< "${STAGE_ARGS[$stage]}"
-  fi
-  python3 -m worldgen.chain_stages run $force "$key" "$stage" "${args[@]}"
+  run_stage "$stage"
 done
+
+# THE CASCADE. The requested range is what was ASKED for; staleness decides the
+# rest. A stage that reads an artefact something in this run rewrote is stale
+# whatever its position, so the transitive consumers (below the gate, within
+# the delivered chunks, not already run) run here in STAGES order. This is what
+# used to be done by hand-moving a consumer below its producer's row.
+if [[ -z "$no_cascade" && ${#RAN_STAGES[@]} -gt 0 ]]; then
+  cascade="$(python3 -m worldgen.chain_stages --cascade-from "$(printf '%s ' "${RAN_STAGES[@]}")")"
+  if [[ -n "$cascade" ]]; then
+    echo "cascade: $cascade"
+    for stage in $cascade; do
+      RAN_STAGES+=("$stage")
+      run_stage "$stage"
+    done
+    # A cascaded stage DID run: its layer must not be hidden as un-rebuilt.
+    remaining=()
+    for stage in "${SKIPPED_STAGES[@]:-}"; do
+      [[ -n "$stage" ]] || continue
+      printf '%s\n' $cascade | grep -qx "$stage" || remaining+=("$stage")
+    done
+    SKIPPED_STAGES=("${remaining[@]:-}")
+  else
+    echo "cascade: none"
+  fi
+fi
 
 # The ladder record the studio reads (province/ladder.json): what ran, what
 # was skipped, and which layers are therefore hidden as not rebuilt.
 hidden=()
-for stage in "${SKIPPED_STAGES[@]}"; do
+for stage in "${SKIPPED_STAGES[@]:-}"; do
+  [[ -n "$stage" ]] || continue
   [[ -n "${LAYER_OF[$stage]:-}" ]] && hidden+=("${LAYER_OF[$stage]}")
 done
 for layer in "${!SHOWN_FROM[@]}"; do

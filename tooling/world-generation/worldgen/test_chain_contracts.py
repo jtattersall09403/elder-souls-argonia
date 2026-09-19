@@ -342,3 +342,98 @@ def test_the_minor_routes_stage_runs_with_registry():
     text = SCRIPT.read_text(encoding="utf-8")
     assert '[compile_minor_routes]="--registry"' in text, "STAGE_ARGS row missing"
     assert cc.SOURCES / "routes" / "registry.json" in cc.WRITES["compile_minor_routes"]
+
+
+# ------------------------------------------------------------- the cascade
+# Position asks, staleness decides: a stage that reads what another stage just
+# rewrote must run, wherever it sits. These fail without `cascade_from`.
+
+def test_cascade_follows_the_artefact_not_the_position(tmp_path):
+    x, y = tmp_path / "x.json", tmp_path / "y.json"
+    stages = ["A", "B", "C"]
+    reads = {"A": [], "B": [cc.P(cc.exists, x)], "C": [cc.P(cc.exists, y)]}
+    writes = {"A": [x], "B": [], "C": []}
+    rows = {"A": "16b", "B": "16b", "C": "16b"}
+    got = cc.cascade_from(["A"], stages=stages, reads=reads, writes=writes,
+                          rows=rows, delivered="16g")
+    assert got == ["B"]                       # C reads y, which nobody rewrote
+
+
+def test_cascade_is_transitive_and_skips_the_undelivered(tmp_path):
+    x, y = tmp_path / "x.json", tmp_path / "y.json"
+    stages = ["A", "B", "C", "D"]
+    reads = {"A": [], "B": [cc.P(cc.exists, x)], "C": [cc.P(cc.exists, y)],
+             "D": [cc.P(cc.exists, y)]}
+    writes = {"A": [x], "B": [y], "C": [], "D": []}
+    rows = {"A": "16b", "B": "16b", "C": "16b", "D": "16j"}
+    got = cc.cascade_from(["A"], stages=stages, reads=reads, writes=writes,
+                          rows=rows, delivered="16g")
+    assert got == ["B", "C"]                  # D's chunk has not delivered
+    # already run is never re-run
+    assert cc.cascade_from(["A", "B"], stages=stages, reads=reads, writes=writes,
+                           rows=rows, delivered="16g") == ["C"]
+
+
+def test_cascade_on_the_real_table():
+    """The four stages 16g hand-moved below its row are exactly what the
+    cascade finds on its own."""
+    got = cc.cascade_from(["compile_minor_routes"])
+    assert "apply_vegetation_patches" in got   # reads the clearance patches it writes
+    assert "paint_route_overlays" in got       # reads the registry it writes
+    assert "compile_minor_routes" not in got
+
+
+def test_cascade_never_reaches_above_the_gate():
+    for stage in cc.cascade_from(["macro_plot"]):
+        assert stage not in cc.ABOVE_GATE
+        assert stage not in cc.NEVER_RUN
+
+
+def test_ladder_rows_and_delivered_through_are_read_from_the_script():
+    rows, through = cc.ladder_rows(), cc.delivered_through()
+    from .ladder import LADDER_ORDER
+    assert through in LADDER_ORDER
+    assert rows["macro_plot"] == "16g" and rows["compile_scatter"] == "16f"
+    assert set(rows) <= set(cc.script_stages())
+
+
+def test_cascade_does_not_follow_an_admitted_feedback_edge(tmp_path):
+    """A `stale_ok` read is declared to be of the PREVIOUS publication. If the
+    cascade followed it, every run would cascade the whole chain."""
+    x = tmp_path / "x.json"
+    stages, rows = ["A", "B"], {"A": "16b", "B": "16b"}
+    writes = {"A": [x], "B": []}
+    plain = {"A": [], "B": [cc.P(cc.exists, x)]}
+    admitted = {"A": [], "B": [cc.stale_ok(cc.P(cc.exists, x), reason="the previous run's copy")]}
+    assert cc.cascade_from(["A"], stages=stages, reads=plain, writes=writes,
+                           rows=rows, delivered="16g") == ["B"]
+    assert cc.cascade_from(["A"], stages=stages, reads=admitted, writes=writes,
+                           rows=rows, delivered="16g") == []
+
+
+def test_the_three_consumers_cannot_sit_on_their_own_ladder_row(monkeypatch):
+    """16g hand-moved four stages below its row. Three of them read artefacts a
+    16g stage WRITES, so the order gate refuses to have them any higher: the
+    cascade is what makes them run, not their position. The fourth,
+    `terrain_request_postconditions`, passes the order gate where its 16c row
+    sits — it is left below deliberately (it judges the FINISHED world, and its
+    inputs are .npy arrays, which no WRITES entry names, so the cascade could
+    not bring it back)."""
+    order = cc.script_stages()
+    after = {"export_routes": "compile_route_structures",
+             "paint_route_overlays": "compile_route_structures",
+             "apply_vegetation_patches": "compile_water_dressing"}
+    for stage, anchor in after.items():
+        moved = [s for s in order if s != stage]
+        moved.insert(moved.index(anchor) + 1, stage)
+        monkeypatch.setattr(cc, "script_stages", lambda path=None, o=moved: o)
+        hard = [f for f in cc.order_findings(moved)
+                if not f.startswith("warn: ") and f.startswith(f"order: {stage} ")]
+        assert hard, f"{stage} could move up: re-check its position"
+    monkeypatch.undo()
+    moved = [s for s in order if s != "terrain_request_postconditions"]
+    moved.insert(moved.index("compile_water") + 1, "terrain_request_postconditions")
+    monkeypatch.setattr(cc, "script_stages", lambda path=None, o=moved: o)
+    assert not [f for f in cc.order_findings(moved)
+                if not f.startswith("warn: ")
+                and f.startswith("order: terrain_request_postconditions ")]

@@ -180,8 +180,17 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 - **Build only what is delivered (owner, 2026-09-12).** The chain
   (`tooling/world-generation/scripts/terrain-chain.sh`) carries a LADDER: a
   list, per chunk, of the stages that chunk has delivered, cumulative from
-  16b. A plain run builds `--through` the highest delivered chunk
-  (`DELIVERED_THROUGH` in the script) and SKIPS every stage a later chunk
+  16b. `--through` names the last stage a run REQUESTS, not the last stage it
+  executes: when the requested stages rewrite an artefact, the stages that
+  read it cascade automatically afterwards, transitively, below the freeze
+  gate and within the delivered chunks, printed as `cascade: ...` and
+  disabled with `--no-cascade`. A consumer therefore no longer has to be
+  moved below its producer in `STAGES` to be rebuilt.
+  `python3 -m worldgen.chain_stages --check-stale` is the gate: it compares
+  every stage's receipt (`output/chain/receipts/<stage>.json`, written when
+  the stage runs) with the artefacts on disk now, and exits 1 naming each
+  input that has moved since. A plain run builds `--through` the highest
+  delivered chunk (`DELIVERED_THROUGH` in the script) and SKIPS every stage a later chunk
   still owns, because those stages are the old code and are known to be
   wrong on the frozen world; running them only produces a build that is
   wrong in ways nobody is checking. Some of them also move the ground under

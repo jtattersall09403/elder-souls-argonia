@@ -6,6 +6,8 @@ chain decides a stage's work is already on disk:
 
     python3 -m worldgen.chain_stages run <key> <stage> [args...]
     python3 -m worldgen.chain_stages adopt <key> <stage>     # stamp the accepted outputs, no run
+    python3 -m worldgen.chain_stages --check-stale           # any stage whose declared input moved since it ran
+    python3 -m worldgen.chain_stages --cascade-from <stages> # what must run because those stages rewrote artefacts
 
 A stage is skipped when three fingerprints all match the last recorded run:
 
@@ -53,6 +55,12 @@ from .compile_chunks import HEIGHTFIELD_DIR, REPO_ROOT
 
 PKG_DIR = Path(__file__).resolve().parent
 STAMPS = (HEIGHTFIELD_DIR / "chain-stamps.json").resolve()
+#: One receipt per stage that RAN: the declared reads and writes with the
+#: sha256 they had when the stage finished. The stamp book above answers "is
+#: this stage's own work still on disk"; the receipt answers "has anything the
+#: stage read been rewritten since", which is what `--check-stale` reports and
+#: what the cascade acts on. Gitignored with the rest of `output/`.
+RECEIPTS = (Path(REPO_ROOT) / "tooling" / "world-generation" / "output" / "chain" / "receipts")
 # Roots whose files count as a stage's inputs/outputs. Everything else a stage
 # opens (the standard library, site-packages, /proc) is noise.
 _ROOTS = (Path(REPO_ROOT).resolve(), Path(HEIGHTFIELD_DIR).resolve())
@@ -256,7 +264,91 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
     book[key] = {"stage": stage, "code": code, "inputs": inputs, "outputs": outputs}
     STAMPS.parent.mkdir(parents=True, exist_ok=True)
     STAMPS.write_text(json.dumps(book, indent=1, sort_keys=True) + "\n")
+    write_receipt(stage)
     return elapsed, True
+
+
+# ---------------------------------------------------------------- receipts
+
+def _sha_or_none(path: Path) -> str | None:
+    """The file's sha256, or None when it is not a file (missing, or a whole
+    directory declared as a family — neither has bytes to compare)."""
+    p = Path(path)
+    if not p.is_file():
+        return None
+    return _sha_file(p)
+
+
+def declared_io(stage: str) -> tuple[list[Path], list[Path]]:
+    """The stage's DECLARED reads and writes (chain_contracts), deduplicated."""
+    from .chain_contracts import READS, WRITES, declared_paths
+    reads = {str(p): Path(p) for entry in (READS.get(stage) or [])
+             for p in declared_paths(entry)}
+    writes = {str(p): Path(p) for p in WRITES.get(stage, [])}
+    return list(reads.values()), list(writes.values())
+
+
+def write_receipt(stage: str, ran_at: str | None = None) -> Path:
+    """Record what this stage's declared inputs and outputs were when it ran."""
+    reads, writes = declared_io(stage)
+    doc = {
+        "stage": stage,
+        "ranAt": ran_at or time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "inputs": {str(p): _sha_or_none(p) for p in sorted(reads, key=str)},
+        "outputs": {str(p): _sha_or_none(p) for p in sorted(writes, key=str)},
+    }
+    RECEIPTS.mkdir(parents=True, exist_ok=True)
+    out = RECEIPTS / f"{stage}.json"
+    out.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+    return out
+
+
+def stale_findings(stages=None) -> list[str]:
+    """`STALE`/`MISSING RECEIPT` lines for every stage a plain run may execute.
+
+    A stage whose receipt records an input hash that no longer matches the file
+    read something a later edit or a later stage has rewritten: its published
+    output describes a world that has moved.
+    """
+    from . import chain_contracts as cc
+    names = list(stages) if stages is not None else cc.delivered_stages()
+    out: list[str] = []
+    for stage in names:
+        path = RECEIPTS / f"{stage}.json"
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            out.append(f"MISSING RECEIPT {stage}")
+            continue
+        ran_at = doc.get("ranAt", "?")
+        for artefact, sha in sorted((doc.get("inputs") or {}).items()):
+            if _sha_or_none(Path(artefact)) != sha:
+                out.append(f"STALE {stage}: {cc._short(Path(artefact))} changed since {ran_at}")
+    return out
+
+
+def seed_receipts(stages=None) -> list[str]:
+    """Write a receipt from the CURRENT tree for every stage that has none.
+
+    The mechanism arrived after the stages had already run, so every stage
+    looked stale on the first `--check-stale`. Seeding says once, explicitly,
+    "the tree as it stands is what these stages were run against"; it never
+    overwrites a receipt a real run wrote, so it cannot launder a stale stage
+    twice. The stamp is marked `seeded` and dated.
+    """
+    from . import chain_contracts as cc
+    names = list(stages) if stages is not None else cc.delivered_stages()
+    now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    seeded = []
+    for stage in names:
+        if (RECEIPTS / f"{stage}.json").exists():
+            continue
+        path = write_receipt(stage, ran_at=f"seeded {now}")
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        doc["seeded"] = True
+        path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+        seeded.append(stage)
+    return seeded
 
 
 def adopt(key: str, stage: str) -> dict:
@@ -304,6 +396,26 @@ def adopt(key: str, stage: str) -> dict:
 
 def main(argv: list[str] | None = None) -> None:
     args = list(argv if argv is not None else sys.argv[1:])
+    if args and args[0] == "--seed-receipts":
+        seeded = seed_receipts()
+        print(f"seeded {len(seeded)} receipt(s): {' '.join(seeded) or 'none'}")
+        return
+    if args and args[0] == "--check-stale":
+        findings = stale_findings()
+        # The rungs above the gate and the once-compiled water are not judged
+        # here: they are inputs, checked by hash (decision 0066).
+        print("frozen stages: covered by verify_freeze")
+        for line in findings:
+            print(line)
+        if findings:
+            raise SystemExit(1)
+        print("OK")
+        return
+    if args and args[0] == "--cascade-from":
+        from .chain_contracts import cascade_from
+        ran = [name for arg in args[1:] for name in arg.split()]
+        print(" ".join(cascade_from(ran)))
+        return
     force = "--force" in args
     args = [a for a in args if a != "--force"]
     if len(args) >= 3 and args[0] == "adopt":

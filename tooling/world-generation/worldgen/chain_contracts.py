@@ -763,6 +763,99 @@ def script_stages(path: Path | None = None) -> list[str]:
     return _stage_names_from_script(path.read_text(encoding="utf-8"))
 
 
+def ladder_rows(path: Path | None = None) -> dict[str, str]:
+    """{stage: the chunk whose LADDER row owns it}, read from the script."""
+    path = path or Path(__file__).resolve().parents[1] / "scripts" / "terrain-chain.sh"
+    text = path.read_text(encoding="utf-8")
+    block = re.search(r"\ndeclare -A LADDER=\(\n(.*?)\n\)\n", text, re.S)
+    out: dict[str, str] = {}
+    if not block:
+        return out
+    for chunk, names in re.findall(r'^\s*\[([0-9a-z]+)\]="([^"]*)"', block.group(1), re.M):
+        for stage in names.split():
+            out[stage] = chunk
+    return out
+
+
+def delivered_through(path: Path | None = None) -> str:
+    """`DELIVERED_THROUGH` — the highest chunk a plain run builds."""
+    path = path or Path(__file__).resolve().parents[1] / "scripts" / "terrain-chain.sh"
+    found = re.search(r'^DELIVERED_THROUGH="([^"]+)"', path.read_text(encoding="utf-8"), re.M)
+    return found.group(1) if found else ""
+
+
+def delivered_stages(stages: list[str] | None = None, *, rows: dict[str, str] | None = None,
+                     delivered: str | None = None) -> list[str]:
+    """The stages a plain run may execute: below the gate, never-run excluded,
+    and owned by a ladder row at or before DELIVERED_THROUGH."""
+    from .ladder import LADDER_ORDER
+    stages = list(stages if stages is not None else script_stages())
+    rows = ladder_rows() if rows is None else rows
+    delivered = delivered_through() if delivered is None else delivered
+    limit = LADDER_ORDER.index(delivered) if delivered in LADDER_ORDER else len(LADDER_ORDER) - 1
+    out = []
+    for stage in stages:
+        if stage in ABOVE_GATE or stage in NEVER_RUN:
+            continue
+        chunk = rows.get(stage)
+        if chunk in LADDER_ORDER and LADDER_ORDER.index(chunk) <= limit:
+            out.append(stage)
+    return out
+
+
+def _keys(paths: Iterable[Path]) -> set[str]:
+    return {str(Path(p).resolve()) for p in paths}
+
+
+def cascade_from(ran: Iterable[str], *, stages: list[str] | None = None,
+                 reads: dict[str, list[Check]] | None = None,
+                 writes: dict[str, list[Path]] | None = None,
+                 rows: dict[str, str] | None = None,
+                 delivered: str | None = None) -> list[str]:
+    """STALENESS, not position: the stages that must run because something
+    that ran rewrote an artefact they read.
+
+    The transitive closure over READS x WRITES, restricted to stages a plain
+    run may execute (below the gate, delivered chunk, not `compile_water`) and
+    minus the ones already run, returned in STAGES order. This is what replaces
+    hand-moving a consumer below its producer's row.
+    """
+    stages = list(stages if stages is not None else script_stages())
+    reads = READS if reads is None else reads
+    writes = WRITES if writes is None else writes
+    eligible = set(delivered_stages(stages, rows=rows, delivered=delivered))
+    ran = list(ran)
+    done = set(ran)
+    picked: list[str] = []
+    frontier: set[str] = set()
+    for stage in ran:
+        frontier |= _keys(writes.get(stage, []))
+    while frontier:
+        added = []
+        for stage in stages:
+            if stage in done or stage not in eligible:
+                continue
+            # A `stale_ok` read is DECLARED to be of the previous
+            # publication, with the reason written down: it is the chain's
+            # admitted feedback edge and following it would cascade the whole
+            # chain off any stage at all.
+            got = _keys(p for entry in (reads.get(stage) or [])
+                        if not isinstance(entry, stale_ok)
+                        for p in declared_paths(entry))
+            got -= _keys(writes.get(stage, []))     # read-modify-write, as the order gate has it
+            if got & frontier:
+                added.append(stage)
+        if not added:
+            break
+        picked.extend(added)
+        done |= set(added)
+        frontier = set()
+        for stage in added:
+            frontier |= _keys(writes.get(stage, []))
+    chosen = set(picked)
+    return [s for s in stages if s in chosen]
+
+
 def _stamps() -> dict:
     from . import chain_stages
     try:
