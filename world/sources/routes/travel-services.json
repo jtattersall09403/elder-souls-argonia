@@ -72,8 +72,8 @@
     },
     "gideon": {
       "placeId": null,
-      "stationId": null,
-      "why": null
+      "stationId": "ferry-landing.onkobra-bond.town",
+      "why": "a harbour is a station a traveller boards; the rootworm terminus is a root node. The bond ferry lands here and joins Gideon by the Blackwood Road (road edge, 0079 connectedness rule)"
     },
     "helstrom": {
       "placeId": "place.hist-heartland.helstrom",
@@ -81,9 +81,9 @@
       "why": "the city's own quay"
     },
     "lilmoth": {
-      "placeId": null,
-      "stationId": null,
-      "why": null
+      "placeId": "place.mercantile-coast.lilmoth",
+      "stationId": "station.mercantile-coast.lilmoth",
+      "why": "The city's own socket dock.lilmoth.lighter-quay at 3902,6366 stands on body.ocean; the schema has no socket field, so the socket is named here."
     },
     "soulrest": {
       "placeId": "place.mercantile-coast.soulrest",
@@ -981,6 +981,7 @@
           "predicate": "weatherIs"
         }
       ],
+      "retiredWhy": "No lane exists: `route.boat.archon-estuary` was never published, and both stages were unsited. Archon rides `route.boat.lilmoth-archon`.",
       "serviceKind": "ferry",
       "severs": [],
       "stations": [
@@ -988,21 +989,12 @@
         "station.mercantile-coast.soulrest",
         "station.saxhleel-coast.portdun-mont"
       ],
-      "status": "unmatched",
+      "status": "retired",
       "text": {
         "hail": "text.ferry.stage-generic.hail",
         "name": "text.ferry.estuary-run.name",
         "refusal": "text.ferry.refused-weather"
       },
-      "unmatchedWhy": "hop station.mercantile-coast.soulrest -> station.saxhleel-coast.portdun-mont: station.saxhleel-coast.portdun-mont is 120 m from the nearest lane vertex (limit 60 m)",
-      "warnings": [
-        {
-          "at": "station.saxhleel-coast.archon -> station.mercantile-coast.soulrest at [3786, 6512]",
-          "depthM": 0.0,
-          "kind": "shallow-hop",
-          "needM": 1.2
-        }
-      ],
       "water": {
         "class": "estuary",
         "name": "the Saxhleel estuary"
@@ -1012,7 +1004,6 @@
     {
       "available": [],
       "craft": "native-plank-ferry",
-      "deferredWhy": "Both `place.saxhleel-coast.jungle-ferry-stage` and `place.saxhleel-coast.estuary-ferry-stage` are `status: deferred` in the catalogue. The edge is written now so that promoting either record is a one-line status flip and not a rediscovery.",
       "fare": {
         "freeIf": [],
         "gold": 6
@@ -1061,6 +1052,7 @@
       },
       "questUse": null,
       "refusedIf": [],
+      "retiredWhy": "No lane exists: `route.boat.archon-estuary` was never published, and both stages were unsited. Archon rides `route.boat.lilmoth-archon`.",
       "serviceKind": "ferry",
       "severs": [],
       "stations": [
@@ -1069,7 +1061,7 @@
         "station.mercantile-coast.soulrest",
         "station.saxhleel-coast.estuary-ferry-stage"
       ],
-      "status": "deferred",
+      "status": "retired",
       "text": {
         "hail": "text.ferry.stage-generic.hail",
         "name": "text.ferry.jungle-stage.name",
@@ -1094,7 +1086,7 @@
             "rootway": "rootway.helstrom-north-shadowfen"
           },
           "from": "root-node.helstrom",
-          "lengthM": 1042.8,
+          "lengthM": 2217.1,
           "to": "root-node.north-shadowfen"
         },
         {
@@ -1110,7 +1102,7 @@
             "rootway": "rootway.helstrom-east-estuary"
           },
           "from": "root-node.helstrom",
-          "lengthM": 1165.9,
+          "lengthM": 2451.8,
           "to": "root-node.east-estuary"
         }
       ],
@@ -1258,14 +1250,14 @@
           "stationId": "root-node.east-estuary"
         }
       },
-      "placeId": null,
+      "placeId": "place.saxhleel-coast.east-estuary-rootworm-station",
       "positionM": [
-        4424.1,
-        3465.5
+        5149.0,
+        4584.3
       ],
       "rootKind": "station",
-      "status": "placeholder",
-      "why": "The eastern estuary call of the express; the place is chosen with the eastern hero Hist."
+      "status": "active",
+      "why": "The placeholder node stood 1333 m from the east estuary rootworm station and is the same facility; the node is sited on the station at 5149.0, 4584.3."
     },
     {
       "id": "root-node.helstrom",
@@ -1278,14 +1270,15 @@
           "stationId": "root-node.helstrom"
         }
       },
-      "placeId": null,
+      "placeId": "place.hist-heartland.rootworm-station-helstrom",
       "positionM": [
         3465.5,
         2801.9
       ],
       "rootKind": "hub",
       "status": "placeholder",
-      "why": "The Hist heartland is where the rootways meet; the hub node waits on the Helstrom hero-Hist siting."
+      "unmatchedWhy": "place place.hist-heartland.rootworm-station-helstrom carries no positionM — a station cannot stand nowhere",
+      "why": "The hub of the rootway network, sited on the Helstrom rootworm station at 3270.9, 2848.7."
     },
     {
       "id": "root-node.naga-deeps",
@@ -1298,14 +1291,15 @@
           "stationId": "root-node.naga-deeps"
         }
       },
-      "placeId": null,
+      "placeId": "place.naga-kur-deeps.dead-water-village",
       "positionM": [
         3465.5,
         4866.5
       ],
       "rootKind": "station",
       "status": "placeholder",
-      "why": "The southern deep call of the express; the place is chosen with the southern hero Hist."
+      "unmatchedWhy": "place place.naga-kur-deeps.dead-water-village carries no positionM — a station cannot stand nowhere",
+      "why": "The southern terminus is Dead Water village, the terminus the dossiers name, with three roster slots. It stays placeholder: the village is re-sited by this round's pin, so the node takes its position when the chain sites the record."
     },
     {
       "id": "root-node.north-shadowfen",
@@ -1318,14 +1312,14 @@
           "stationId": "root-node.north-shadowfen"
         }
       },
-      "placeId": null,
+      "placeId": "place.dunmer-north.stormhold",
       "positionM": [
-        3613.0,
-        1769.6
+        2656.8,
+        737.5
       ],
       "rootKind": "station",
-      "status": "placeholder",
-      "why": "The northern call of the express; the place is chosen with the northern hero Hist."
+      "status": "active",
+      "why": "The northern terminus is Stormhold's own slot, at 2706.0, 781.0."
     },
     {
       "id": "station.dunmer-north.stormhold",
@@ -1385,7 +1379,8 @@
         2612.9,
         6868.1
       ],
-      "status": "active"
+      "status": "unmatched",
+      "unmatchedWhy": "place place.imperial-penal-south.lake-boardwalk-village carries no positionM — a station cannot stand nowhere"
     },
     {
       "id": "station.imperial-penal-south.lake-ferry-stage",
@@ -1415,7 +1410,8 @@
         1368.1,
         6484.3
       ],
-      "status": "active"
+      "status": "unmatched",
+      "unmatchedWhy": "place place.imperial-penal-south.three-gate-toll carries no positionM — a station cannot stand nowhere"
     },
     {
       "id": "station.mercantile-coast.bramman-river-ferry",
@@ -1435,7 +1431,8 @@
         3292.9,
         6846.2
       ],
-      "status": "active"
+      "status": "unmatched",
+      "unmatchedWhy": "place place.mercantile-coast.lighter-flotilla carries no positionM — a station cannot stand nowhere"
     },
     {
       "id": "station.mercantile-coast.lilmoth",
@@ -1465,7 +1462,8 @@
         348.2,
         5930.4
       ],
-      "status": "active"
+      "status": "unmatched",
+      "unmatchedWhy": "place place.mercantile-coast.oliis-ferry-stage carries no positionM — a station cannot stand nowhere"
     },
     {
       "id": "station.mercantile-coast.soulrest",
@@ -1502,14 +1500,16 @@
       "kind": "place",
       "placeId": "place.saxhleel-coast.estuary-ferry-stage",
       "positionM": null,
-      "status": "deferred"
+      "status": "unmatched",
+      "unmatchedWhy": "place place.saxhleel-coast.estuary-ferry-stage carries no positionM — a station cannot stand nowhere"
     },
     {
       "id": "station.saxhleel-coast.jungle-ferry-stage",
       "kind": "place",
       "placeId": "place.saxhleel-coast.jungle-ferry-stage",
       "positionM": null,
-      "status": "deferred"
+      "status": "unmatched",
+      "unmatchedWhy": "place place.saxhleel-coast.jungle-ferry-stage carries no positionM — a station cannot stand nowhere"
     },
     {
       "id": "station.saxhleel-coast.portdun-mont",

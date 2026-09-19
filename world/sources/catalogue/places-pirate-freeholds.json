@@ -450,7 +450,8 @@
           3791.85,
           1203.63
         ]
-      ]
+      ],
+      "ownerGuided": true
     },
     {
       "id": "place.pirate-freeholds.bone-carriers-camp",
@@ -1644,19 +1645,7 @@
         "opportunity": "the keeper sets the lay-by fee and the households split it",
         "tierOwnership": "LP18 · tier-3"
       },
-      "terrainRequests": [
-        {
-          "kind": "cut",
-          "radiusM": 80,
-          "delivery": {
-            "feature": "screened-hull-creek",
-            "waterRelation": "channel-linked",
-            "depthM": 2.0,
-            "capacity": "sea-going-hull"
-          },
-          "note": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel"
-        }
-      ],
+      "terrainRequests": [],
       "sitingNote": "Moved in round 4: 'a creek mouth deep enough to lie in' was plotted 118 m from any water. Bound to the rise over the creek east of the toll span, where the water is 36 m below the houses.",
       "services": []
     },
@@ -2220,7 +2209,8 @@
         },
         "score": 5.869
       },
-      "sitingNote": "Network-role bind (round 4): the record IS the free port's own masthead lookout, so it must stand on the port's ground. Previously plotted 361 m out, which also put its D1 tier on band-3 ground; bound to Alten Corimont inside the port ring."
+      "sitingNote": "Network-role bind (round 4): the record IS the free port's own masthead lookout, so it must stand on the port's ground. Previously plotted 361 m out, which also put its D1 tier on band-3 ground; bound to Alten Corimont inside the port ring.",
+      "ownerGuided": true
     },
     {
       "id": "place.pirate-freeholds.corimont-gambling-house",
@@ -3692,7 +3682,12 @@
         ],
         "scourSiteIds": [
           "site.scour.firm-lowland.cliff-bench-069"
-        ]
+        ],
+        "nearPoint": {
+          "x": 3830.2,
+          "z": 1362.7,
+          "maxM": 60.0
+        }
       },
       "culture": "dunmer",
       "dangerTier": "D3",
@@ -3754,7 +3749,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -3780,49 +3775,6 @@
         "derelict (the ramp rotting, the rails robbed for timber)",
         "in use again (the ramp regraded, the rails sound, nobody in Corimont saying so)"
       ],
-      "position": {
-        "u": 0.50905,
-        "v": 0.1967
-      },
-      "positionM": [
-        3753.5,
-        1450.4
-      ],
-      "footprintRadiusM": 40.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0399",
-          "score": 2.144,
-          "whyLost": "taken by place.pirate-freeholds.corimont-hiring-yard"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0295",
-          "score": 1.944,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0403",
-          "score": 1.922,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 117 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.corimont-low-store (+1.55).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 116.6,
-        "distanceToWaterM": 69.8,
-        "water": {
-          "entityId": "body.2442-1212",
-          "kind": "marsh-deep",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 69.8
-        },
-        "score": 4.054
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.dres-remnant",
@@ -6963,9 +6915,10 @@
         ],
         "scourSiteIds": [],
         "boundTo": {
-          "place": "place.pirate-freeholds.alten-corimont",
-          "maxM": 250
-        }
+          "place": "place.pirate-freeholds.opening-work-camp",
+          "maxM": 200
+        },
+        "minDepthM": 0.6
       },
       "culture": "argonian",
       "ownerFaction": "faction.the-owing-brokers",
@@ -7050,7 +7003,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 0,
-      "workflow": "plotted",
+      "workflow": "derived",
       "relations": {
         "dependsOn": [
           "place.pirate-freeholds.alten-corimont"
@@ -7185,50 +7138,9 @@
           }
         ]
       },
-      "position": {
-        "u": 0.53181,
-        "v": 0.16666
-      },
-      "positionM": [
-        3921.3,
-        1228.9
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0388",
-          "score": 4.178,
-          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
-        },
-        {
-          "siteId": "site.free.roadside-0606",
-          "score": 4.128,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        },
-        {
-          "siteId": "site.free.roadside-0630",
-          "score": 4.124,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 80 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on culture-clump, bound, region.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 79.8,
-        "distanceToWaterM": 69.8,
-        "water": {
-          "entityId": "body.2442-1212",
-          "kind": "marsh-deep",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 69.8
-        },
-        "score": 4.098
-      },
-      "sitingNote": "Where a new character is processed onto the roll. Held at D1 against a danger raster that reads band 3 here, because the opening ring's first 250 m has to be survivable (docs/research/quests-and-cast/opening-hours-and-start-area.md §5, Ring A); the raster needs the ring carved into it at Part 6 rather than the record retiered."
+      "sitingNote": "Where a new character is processed onto the roll. Held at D1 against a danger raster that reads band 3 here, because the opening ring's first 250 m has to be survivable (docs/research/quests-and-cast/opening-hours-and-start-area.md §5, Ring A); the raster needs the ring carved into it at Part 6 rather than the record retiered.",
+      "ownerGuided": true,
+      "vasteiTutorialScene": true
     },
     {
       "id": "place.pirate-freeholds.opening-work-camp",
@@ -7521,7 +7433,8 @@
         },
         "score": 3.746
       },
-      "sitingNote": "Held at D1 with the barge for the same Ring A reason; see place.pirate-freeholds.opening-work-barge."
+      "sitingNote": "Held at D1 with the barge for the same Ring A reason; see place.pirate-freeholds.opening-work-barge.",
+      "ownerGuided": true
     },
     {
       "id": "place.pirate-freeholds.plague-cordon-line",
@@ -7942,7 +7855,8 @@
         ],
         "scourSiteIds": [
           "site.scour.deep-river-corridor.confluence-005"
-        ]
+        ],
+        "minDepthM": 6.5
       },
       "culture": "argonian",
       "dangerTier": "D3",
@@ -7990,7 +7904,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -8122,44 +8036,6 @@
         ]
       },
       "promotedWhy": "Dungeon balance: the region's only underwater-entrance delve (research §2 sub-target).",
-      "position": {
-        "u": 0.47707,
-        "v": 0.12828
-      },
-      "positionM": [
-        3517.7,
-        945.9
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0130",
-          "score": 2.835,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0163",
-          "score": 2.054,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 349 m from the nearest route; at the water's edge; won on route, region, submerged.",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 348.8,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.1912-542",
-          "kind": "marsh-deep",
-          "levelM": 7.77,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 3.329
-      },
       "questHooks": {
         "provisions": [],
         "tags": [],
@@ -8187,8 +8063,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "An intact Imperial fort above the gorge stretch of the trunk, abandoned two hundred years ago, into which somebody moved and started charging.",
-        "siteAdvantages": "It stands on the bluff over the reach where road and river lane run together in one gorge and neither can go around it, which is why the Legion built there.",
+        "founding": "An intact Imperial fort above the trunk road, abandoned two hundred years ago, into which somebody moved and started charging.",
+        "siteAdvantages": "It stands on the rise over the reach where road and boat lane run together and neither can go around it, which is why the Legion built there.",
         "occupantsMotive": "A toll-taking outfit with a bought claim, thirty hired men and no legal standing.",
         "pressures": "They are the free port's only rival for the road trade. The port would still rather have them than the state.",
         "wouldChangeIf": "If the state ever garrisoned it properly, the whole zone's economy is enclosed in a season."
@@ -9242,7 +9118,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Barsaebic Ayleids left keystone mechanisms across the fringe of this country. One of them is cut into the rim rock above the river.",
+        "founding": "The Barsaebic Ayleids left keystone mechanisms across the fringe of this country. One of them is cut into the rim rock above the pool.",
         "siteAdvantages": "A dry chamber in the ravine wall, above the flood and below the snow.",
         "occupantsMotive": "Unoccupied; the mechanism is what is left.",
         "pressures": "The sockets are empty and the keystones have not been found.",
@@ -9693,7 +9569,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The legal crossing of the northern rim needs a staged shelter, because the pass is above the snowline for part of the year and people die on it.",
-        "siteAdvantages": "The saddle at 226 m, the lowest crossing of the wall for many kilometres.",
+        "siteAdvantages": "The saddle at 183 m, the lowest crossing of the wall for many kilometres.",
         "occupantsMotive": "A keeper on the state's roll who takes a second wage from the free port.",
         "pressures": "The pass closes seasonally. When it closes, the ledge trade doubles.",
         "wouldChangeIf": "If the state funded it properly the rim would be policed and this zone's economy would change entirely."
@@ -9784,10 +9660,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [],
-        "travelServiceEdges": [
-          "porter:corimont-rim",
-          "road:rim-pass"
-        ]
+        "travelServiceEdges": []
       },
       "season": "dry",
       "eraLayers": [
@@ -10547,8 +10420,7 @@
           "ridge-end"
         ],
         "scourSiteIds": [
-          "site.scour.border-mountains.ridge-end-026",
-          "site.scour.border-mountains.saddle-041"
+          "site.scour.border-mountains.cliff-bench-010"
         ]
       },
       "culture": "argonian",
@@ -10603,7 +10475,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -10624,49 +10496,6 @@
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
       "ownerFaction": "faction.salt-teeth",
-      "position": {
-        "u": 0.52765,
-        "v": 0.09333
-      },
-      "positionM": [
-        3890.6,
-        688.2
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.border-mountains.cliff-bench-042",
-          "score": 4.291,
-          "whyLost": "too close to place.pirate-freeholds.veterans-holding"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0139",
-          "score": 3.353,
-          "whyLost": "too close to place.pirate-freeholds.veterans-holding"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0109",
-          "score": 2.928,
-          "whyLost": "too close to place.pirate-freeholds.veterans-holding"
-        }
-      ],
-      "whySiteWon": "cliff bench in firm lowland (danger band 3), 35 m from the nearest route; at the water's edge; its first-choice landform; won on landform, hinterland, danger; placed from the homeless batch at stage 'region-relaxed'.",
-      "plotFacts": {
-        "landform": "cliff-bench",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 35.1,
-        "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "body.2442-1212",
-          "kind": "marsh-deep",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
-        "score": 1.688
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.salt-teeth",
@@ -10770,8 +10599,7 @@
         "tags": [],
         "opportunity": null,
         "tierOwnership": null
-      },
-      "scourSiteId": "site.scour.firm-lowland.cliff-bench-000"
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-snowline-hermitage",

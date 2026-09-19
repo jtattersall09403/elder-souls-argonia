@@ -501,7 +501,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Goods declared but not yet taxed have to sit somewhere lockable. Gideon's court is their lawful holder.",
-        "siteAdvantages": "On the river landing directly below the city, so a cart can be sealed at the wharf and opened in court.",
+        "siteAdvantages": "On the waterside landing directly below the city, so a cart can be sealed at the wharf and opened in court.",
         "occupantsMotive": "The bond-keeper's authority comes from the courthouse. He mentions this often.",
         "pressures": "Half the bond is Cyrodilic Collections crates and half is what the antiquities fences shipped instead; the labels do not always match.",
         "wouldChangeIf": "Would be looted in a night if the courthouse ever stopped sitting."
@@ -527,7 +527,11 @@
         "preferences": [
           "a court seal on the door"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "boundTo": {
+          "place": "place.imperial-fringe.gideon",
+          "maxM": 100
+        }
       },
       "relations": {
         "dependsOn": [
@@ -623,53 +627,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.22913,
-        "v": 0.40374
-      },
-      "positionM": [
-        1689.5,
-        2977.0
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0259",
-          "score": 5.176,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0093",
-          "score": 5.068,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0170",
-          "score": 5.037,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 55 m from the nearest route; at the water's edge; its choice #4 landform; won on culture-clump, route, landform.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 55.1,
-        "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "reach.895-1645",
-          "kind": "sloped-rapid",
-          "levelM": 38.39,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
-        "score": 5.182
-      },
       "hostility": {
         "baseline": "guarded",
         "owner": "faction.gideon-civic-council",
@@ -770,7 +731,8 @@
           "sourcePath": "why.pressures",
           "factionRef": "faction.cyrodilic-collections"
         }
-      ]
+      ],
+      "designGroup": "group.gideon"
     },
     {
       "id": "place.imperial-fringe.bone-road-waystation",
@@ -2333,7 +2295,6 @@
           "route.blackwood-road"
         ],
         "travelServiceEdges": [
-          "boat:claywater",
           "boat:route.boat.alten-corimont-helstrom",
           "road:route.road.gideon-blackwood-road"
         ],
@@ -2956,7 +2917,12 @@
           "a walled yard",
           "a single-storey plan"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "nearPoint": {
+          "x": 1373.7,
+          "z": 3359.1,
+          "maxM": 60.0
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -3046,7 +3012,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
@@ -3054,49 +3020,6 @@
         "a good week (yard raked, house quiet)",
         "a bad week (yard unraked, doors barred from inside)"
       ],
-      "position": {
-        "u": 0.1268,
-        "v": 0.55293
-      },
-      "positionM": [
-        934.9,
-        4077.0
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0255",
-          "score": 4.769,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0250",
-          "score": 4.759,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0278",
-          "score": 4.748,
-          "whyLost": "taken by place.imperial-fringe.nine-arch-stage"
-        }
-      ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 763 m from the nearest route; its choice #3 landform; won on landform, hinterland, parent; site exchanged in the swap pass with place.imperial-fringe.low-water-fair (+0.59).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 762.5,
-        "distanceToWaterM": 147.1,
-        "water": {
-          "entityId": "reach.580-2263",
-          "kind": "sloped-rapid",
-          "levelM": 121.67,
-          "season": "perennial",
-          "distanceM": 147.1
-        },
-        "score": 2.013
-      },
       "hostility": {
         "baseline": "sanctuary",
         "owner": null,
@@ -4458,7 +4381,12 @@
         ],
         "scourSiteIds": [
           "site.scour.border-mountains.ridge-end-012"
-        ]
+        ],
+        "nearPoint": {
+          "x": 1269.4,
+          "z": 3287.4,
+          "maxM": 150.0
+        }
       },
       "relations": {
         "dependsOn": [
@@ -4565,53 +4493,10 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "landmark",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.10523,
-        "v": 0.46963
-      },
-      "positionM": [
-        775.9,
-        3462.8
-      ],
-      "footprintRadiusM": 65.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0170",
-          "score": 4.412,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0171",
-          "score": 4.017,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0094",
-          "score": 4.013,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        }
-      ],
-      "whySiteWon": "ridge end in border mountains (danger band 3), 267 m from the nearest route; its first-choice landform; won on landform, region, parent; placed from the homeless batch at stage 'neighbour-zone'.",
-      "plotFacts": {
-        "landform": "ridge-end",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 267.4,
-        "distanceToWaterM": 202.2,
-        "water": {
-          "entityId": "body.444-1782",
-          "kind": "pond",
-          "levelM": 60.73,
-          "season": "perennial",
-          "distanceM": 202.2
-        },
-        "score": 2.845
-      },
       "hostility": {
         "baseline": "guarded",
         "owner": "faction.swampmoth-toll-company",
@@ -4691,8 +4576,7 @@
           "sourcePath": "why.siteAdvantages",
           "routeRef": "route.road.stormhold-thorn"
         }
-      ],
-      "scourSiteId": "site.scour.border-mountains.ridge-end-014"
+      ]
     },
     {
       "id": "place.imperial-fringe.gideon",
@@ -4727,7 +4611,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "Founded where the Blackwood Road out of Leyawiin crosses the low saddle in the western border belt, the province's land door.",
-        "siteAdvantages": "A measured 46 m barrier gap flanked by 60–87 m ridges; firm lowland and drinkable spring water on the marsh side; the Onkobra's red clay downstream.",
+        "siteAdvantages": "A measured 46 m barrier gap flanked by 60-87 m ridges; firm lowland and drinkable spring water on the marsh side; a pond 77 m from the gate that the town's clay is dug from.",
         "occupantsMotive": "A civic council in the old Governor's Mansion keeps the courthouse and archive working. Paper is the authority that the city still recognises. Leyawiin trade pays for it.",
         "pressures": "Monsoon closes the road for months; the archive's writs are honoured nowhere east of the Onkobra; Cyrodilic Collections and the antiquities fences fight over the same crates.",
         "wouldChangeIf": "Would fail if the Blackwood Road silted permanently, or if the disputed Hist cutting in the city gardens took root and made Gideon an Argonian city."
@@ -4785,9 +4669,7 @@
         "travelServiceEdges": [
           "boat:route.boat.alten-corimont-helstrom",
           "road:route.road.gideon-blackwood-road",
-          "rootworm:helstrom-gideon",
-          "rootworm:route.road.gideon-stormhold",
-          "rootworm:wintertide-only"
+          "rootworm:route.road.gideon-stormhold"
         ],
         "patrols": [],
         "visibleFrom": []
@@ -5130,7 +5012,9 @@
           1324.27,
           3111.9
         ]
-      ]
+      ],
+      "designGroup": "group.gideon",
+      "ownerGuided": true
     },
     {
       "id": "place.imperial-fringe.gideon-rootworm-terminus",
@@ -5198,9 +5082,7 @@
           "place.imperial-fringe.onkobra-clay-pits"
         ],
         "travelServiceEdges": [
-          "rootworm:helstrom-gideon",
-          "rootworm:route.road.gideon-stormhold",
-          "rootworm:wintertide-only"
+          "rootworm:route.road.gideon-stormhold"
         ],
         "supplies": [
           "place.imperial-fringe.gideon"
@@ -6127,7 +6009,12 @@
         ],
         "sightlineTo": [
           "place.imperial-fringe.glenbridge-sermon-xanmeer"
-        ]
+        ],
+        "nearPoint": {
+          "x": 1965.0,
+          "z": 1997.9,
+          "maxM": 150.0
+        }
       },
       "relations": {
         "supplies": [
@@ -6232,48 +6119,10 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "landmark",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.20042,
-        "v": 0.22496
-      },
-      "positionM": [
-        1477.8,
-        1658.8
-      ],
-      "footprintRadiusM": 140.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0706",
-          "score": 3.776,
-          "whyLost": "taken by place.imperial-fringe.stonewastes"
-        },
-        {
-          "siteId": "site.free.roadside-0261",
-          "score": 3.453,
-          "whyLost": "taken by place.imperial-fringe.gideon-rootworm-terminus"
-        }
-      ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 593 m from the nearest route; its choice #3 landform; won on culture-clump, landform, region.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 3,
-        "distanceToRouteM": 593.1,
-        "distanceToWaterM": 112.5,
-        "water": {
-          "entityId": "reach.836-841",
-          "kind": "sloped-rapid",
-          "levelM": 186.79,
-          "season": "perennial",
-          "distanceM": 112.5
-        },
-        "score": 3.39
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": null,
@@ -7041,7 +6890,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "When the Onkobra gorge floods it fills to within a few metres of the rim, so the people who work the gorge live in it: cut chambers and built galleries on the wall, above the worst water and below the wind.",
+        "founding": "When the gorge floods it fills to within a few metres of the rim, so the people who work the gorge live in it: cut chambers and built galleries on the wall, above the worst water and below the wind.",
         "siteAdvantages": "Dry rock at a constant temperature, on a face that has to be climbed to be reached.",
         "occupantsMotive": "They net the fish that the narrows concentrate. Boats that need a hand through the rapid pay for a pilot.",
         "pressures": "The galleries are reached by ladder and rope. Every year somebody falls. The village argues about cutting a stair, which would also let others up.",
@@ -7527,9 +7376,7 @@
           "place.imperial-fringe.fig-market",
           "place.imperial-fringe.lower-onkobra-paddies"
         ],
-        "travelServiceEdges": [
-          "boat:floodplain-wet-season"
-        ],
+        "travelServiceEdges": [],
         "dependsOn": [
           "place.imperial-fringe.the-drowning-gate"
         ],
@@ -8575,9 +8422,7 @@
         "reachedVia": [
           "route.marsh-edge-way"
         ],
-        "travelServiceEdges": [
-          "walk:causeway"
-        ],
+        "travelServiceEdges": [],
         "dependsOn": [],
         "supplies": [],
         "rivals": [],
@@ -9034,7 +8879,11 @@
           "a sluice",
           "drying platforms"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "nearWater": {
+          "entityId": "river.352-503",
+          "maxM": 200
+        }
       },
       "relations": {
         "supplies": [
@@ -9115,53 +8964,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "position": {
-        "u": 0.25694,
-        "v": 0.35585
-      },
-      "positionM": [
-        1894.6,
-        2623.9
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0551",
-          "score": 5.046,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0255",
-          "score": 4.995,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0252",
-          "score": 4.97,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 22 m from the nearest route; its first-choice landform; won on landform, route, region.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 21.9,
-        "distanceToWaterM": 97.0,
-        "water": {
-          "entityId": "reach.991-1467",
-          "kind": "horizontal-channel",
-          "levelM": 15.67,
-          "season": "perennial",
-          "distanceM": 97.0
-        },
-        "score": 4.316
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -11297,7 +11103,11 @@
         ],
         "scourSiteIds": [
           "site.scour.firm-lowland.oxbow-003"
-        ]
+        ],
+        "nearWater": {
+          "entityId": "river.352-503",
+          "maxM": 200
+        }
       },
       "relations": {
         "supplies": [
@@ -11382,53 +11192,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
-      "position": {
-        "u": 0.04648,
-        "v": 0.55367
-      },
-      "positionM": [
-        342.7,
-        4082.5
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.firm-lowland.ravine-037",
-          "score": 4.164,
-          "whyLost": "too close to place.imperial-fringe.cartwrights-cross"
-        },
-        {
-          "siteId": "site.free.roadside-0167",
-          "score": 3.961,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0248",
-          "score": 3.72,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        }
-      ],
-      "whySiteWon": "ravine in border mountains (danger band 3), 814 m from the nearest route; its first-choice landform; won on culture-clump, landform, hinterland; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.imperial-fringe.the-sunk-lane (+0.85).",
-      "plotFacts": {
-        "landform": "ravine",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 814.3,
-        "distanceToWaterM": 349.3,
-        "water": {
-          "entityId": "body.260-2029",
-          "kind": "pond",
-          "levelM": 325.63,
-          "season": "perennial",
-          "distanceM": 349.3
-        },
-        "score": 2.618
-      },
       "hostility": {
         "baseline": "guarded",
         "owner": null,
@@ -11487,8 +11254,7 @@
             "provenance": null
           }
         ]
-      },
-      "scourSiteId": "site.scour.border-mountains.ravine-051"
+      }
     },
     {
       "id": "place.imperial-fringe.onkobra-ferry",
@@ -11542,7 +11308,11 @@
         ],
         "scourSiteIds": [
           "site.scour.firm-lowland.oxbow-003"
-        ]
+        ],
+        "nearWater": {
+          "entityId": "river.352-503",
+          "maxM": 200
+        }
       },
       "relations": {
         "dependsOn": [
@@ -11553,7 +11323,7 @@
         ],
         "travelServiceEdges": [
           "boat:route.boat.alten-corimont-helstrom",
-          "ferry:onkobra-crossing"
+          "route.boat.alten-corimont-helstrom"
         ],
         "supplies": [
           "place.imperial-fringe.fig-market",
@@ -11634,53 +11404,10 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "position": {
-        "u": 0.25174,
-        "v": 0.53433
-      },
-      "positionM": [
-        1856.2,
-        3939.9
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0257",
-          "score": 4.671,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0093",
-          "score": 4.619,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0192",
-          "score": 4.599,
-          "whyLost": "too close to place.imperial-fringe.the-counted-dead"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 4), 171 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 4,
-        "distanceToRouteM": 170.6,
-        "distanceToWaterM": 49.0,
-        "water": {
-          "entityId": "body.1038-2142",
-          "kind": "marsh-deep",
-          "levelM": 13.2,
-          "season": "perennial",
-          "distanceM": 49.0
-        },
-        "score": 3.618
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -11821,6 +11548,10 @@
           "x": 1188.0,
           "z": 3277.0,
           "maxM": 200.0
+        },
+        "nearWater": {
+          "entityId": "river.352-503",
+          "maxM": 200
         }
       },
       "relations": {
@@ -11917,7 +11648,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -11925,49 +11656,6 @@
         "licence current",
         "licence lapsed (shutters closed, jars going cloudy)"
       ],
-      "position": {
-        "u": 0.18555,
-        "v": 0.48525
-      },
-      "positionM": [
-        1368.1,
-        3578.0
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0137",
-          "score": 4.895,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0640",
-          "score": 4.873,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0641",
-          "score": 4.866,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 299 m from the nearest route; its choice #2 landform; won on landform, route, nearPoint; site exchanged in the swap pass with place.imperial-fringe.moonmarch-ground (+1.45).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 3,
-        "distanceToRouteM": 299.2,
-        "distanceToWaterM": 305.8,
-        "water": {
-          "entityId": "body.692-1779",
-          "kind": "tarn-upland",
-          "levelM": 53.46,
-          "season": "perennial",
-          "distanceM": 305.8
-        },
-        "score": 4.685
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": "faction.cyrodilic-collections",
@@ -12938,8 +12626,7 @@
           "place.imperial-fringe.mile-house-of-the-eagle"
         ],
         "travelServiceEdges": [
-          "cart:route.road.cartwrights-cross-fig-market",
-          "porter:gideon-yard"
+          "cart:route.road.cartwrights-cross-fig-market"
         ]
       },
       "culture": "argonian",
@@ -16856,7 +16543,7 @@
         "signatureFeature": "The Four Winds' drill ground on the keep terrace, worn into the stone in four wheel-shaped paths.",
         "condition": "Impeccably kept where it is stone. The mud and thatch are rebuilt when they rot.",
         "mood": "Martial and proud. Strangers are received courteously and asked their business twice.",
-        "approach": "The causeway runs straight at the keep for four hundred metres with bog on both sides. The whole length of it is watched from the terrace.",
+        "approach": "The causeway runs straight at the keep for four hundred metres with wet ground on both sides. The whole length of it is watched from the terrace.",
         "senses": "Drill counting; wet thatch; a hollow drum used as a gate signal."
       },
       "assetPlan": [
@@ -17090,7 +16777,11 @@
           "billets",
           "a smithy"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "boundTo": {
+          "place": "place.imperial-fringe.fort-swampmoth",
+          "maxM": 350
+        }
       },
       "relations": {
         "dependsOn": [
@@ -17197,7 +16888,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -17205,49 +16896,6 @@
         "garrison at strength",
         "garrison drawn down (half the billets empty, the town's trade with it)"
       ],
-      "position": {
-        "u": 0.16919,
-        "v": 0.53805
-      },
-      "positionM": [
-        1247.5,
-        3967.3
-      ],
-      "footprintRadiusM": 140.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0832",
-          "score": 3.723,
-          "whyLost": "too close to place.imperial-fringe.hangs-above-the-water"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0833",
-          "score": 3.52,
-          "whyLost": "too close to place.imperial-fringe.the-shut-door"
-        },
-        {
-          "siteId": "site.scour.upland-hills.waterfall-031",
-          "score": 3.358,
-          "whyLost": "taken by place.imperial-fringe.hangs-above-the-water"
-        }
-      ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 634 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on region, hinterland, parent.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 3,
-        "distanceToRouteM": 634.0,
-        "distanceToWaterM": 215.8,
-        "water": {
-          "entityId": "body.819-2283",
-          "kind": "lake-lowland",
-          "levelM": 17.75,
-          "season": "perennial",
-          "distanceM": 215.8
-        },
-        "score": 2.942
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": "faction.imperial-legion-remnant",
@@ -19052,7 +18700,12 @@
           "a blind bend",
           "a fallback line"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "nearPoint": {
+          "x": 945.9,
+          "z": 3150.3,
+          "maxM": 150.0
+        }
       },
       "relations": {
         "supplies": [],
@@ -19137,7 +18790,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
@@ -19213,49 +18866,6 @@
           }
         ]
       },
-      "position": {
-        "u": 0.22422,
-        "v": 0.35659
-      },
-      "positionM": [
-        1653.3,
-        2629.3
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.firm-lowland.ravine-032",
-          "score": 3.909,
-          "whyLost": "too close to place.imperial-fringe.the-hollow-under-the-figs"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0546",
-          "score": 3.372,
-          "whyLost": "too close to place.imperial-fringe.the-hollow-under-the-figs"
-        },
-        {
-          "siteId": "site.free.roadside-0159",
-          "score": 3.358,
-          "whyLost": "too close to place.imperial-fringe.the-last-post"
-        }
-      ],
-      "whySiteWon": "ravine in firm lowland (danger band 3), 176 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
-      "plotFacts": {
-        "landform": "ravine",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 175.6,
-        "distanceToWaterM": 137.1,
-        "water": {
-          "entityId": "body.982-1465",
-          "kind": "marsh-deep",
-          "levelM": 15.67,
-          "season": "perennial",
-          "distanceM": 137.1
-        },
-        "score": 3.108
-      },
       "proseRefs": [
         {
           "sourcePath": "why.founding",
@@ -19273,8 +18883,7 @@
           "sourcePath": "why.wouldChangeIf",
           "placeRef": "place.imperial-fringe.gideon"
         }
-      ],
-      "scourSiteId": "site.scour.firm-lowland.ravine-005"
+      ]
     },
     {
       "id": "place.imperial-fringe.the-buried-spears",
@@ -20649,7 +20258,7 @@
       "classification": {
         "class": "ruin",
         "family": "imperial-ruin",
-        "type": "sunken-house",
+        "type": "ducal-ruin",
         "magnitude": null,
         "variant": null
       },
@@ -20774,53 +20383,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
-      "position": {
-        "u": 0.08143,
-        "v": 0.29636
-      },
-      "positionM": [
-        600.4,
-        2185.2
-      ],
-      "footprintRadiusM": 40.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0428",
-          "score": 3.941,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0454",
-          "score": 3.142,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-channel-bank-0455",
-          "score": 2.762,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 869 m from the nearest route; its first-choice landform; won on landform, culture-clump, nearPoint.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 868.6,
-        "distanceToWaterM": 85.1,
-        "water": {
-          "entityId": "body.379-1186",
-          "kind": "pond",
-          "levelM": 286.5,
-          "season": "perennial",
-          "distanceM": 85.1
-        },
-        "score": 4.463
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -20944,20 +20510,7 @@
           "place.imperial-fringe.fig-market"
         ]
       },
-      "terrainRequests": [
-        {
-          "kind": "pool",
-          "radiusM": 45.0,
-          "delivery": {
-            "feature": "flooded-house-basin",
-            "depthClass": "swimming",
-            "current": "standing",
-            "waterRelation": "water-over-threshold",
-            "access": "swimming"
-          },
-          "note": "the flood that never went back down: standing water over the house floor, deep enough to swim the rooms and enter under the sill"
-        }
-      ],
+      "terrainRequests": [],
       "sitingNote": "Moved to the valley floor at the channel that flooded it (round 4); the old site was a dry mountain shoulder with no water to cause a drowning.",
       "proseRefs": [
         {
@@ -21489,7 +21042,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Onkobra's upper river drops through eight ledges in a kilometre, which is where boats stop and portage starts.",
+        "founding": "The upper water drops through eight ledges in a kilometre, which is where boats stop and portage starts.",
         "siteAdvantages": "A confined reach with rock ledges that no loaded boat can run.",
         "occupantsMotive": "The portage families live above and below the reach; both claim the whole of it.",
         "pressures": "Someone runs it every year on a bet and roughly every third one dies.",
@@ -22060,9 +21613,13 @@
           "site.scour.firm-lowland.confluence-011"
         ],
         "nearPoint": {
-          "x": 2050.0,
-          "z": 4346.0,
-          "maxM": 150.0
+          "x": 1890.0,
+          "z": 4550.0,
+          "maxM": 80.0
+        },
+        "nearWater": {
+          "entityId": "body.1001-2519",
+          "maxM": 40
         }
       },
       "relations": {
@@ -22149,48 +21706,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.27553,
-        "v": 0.56036
-      },
-      "positionM": [
-        2031.6,
-        4131.8
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0193",
-          "score": 3.958,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0194",
-          "score": 3.479,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 4), 5 m from the nearest route; its choice #2 landform; won on route, landform, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 4,
-        "distanceToRouteM": 5.5,
-        "distanceToWaterM": 51.7,
-        "water": {
-          "entityId": "body.1029-2301",
-          "kind": "marsh-deep",
-          "levelM": 3.24,
-          "season": "perennial",
-          "distanceM": 51.7
-        },
-        "score": 4.441
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -22320,7 +21839,8 @@
           "note": "the channel junction and the steading's own landing: navigable water up to the yard wall"
         }
       ],
-      "services": []
+      "services": [],
+      "reservedFor": "player-stronghold"
     },
     {
       "id": "place.imperial-fringe.the-fig-and-ledger",
@@ -25923,7 +25443,12 @@
           "rows of stelae",
           "visible subsidence"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "nearPoint": {
+          "x": 978.5,
+          "z": 3851.8,
+          "maxM": 60.0
+        }
       },
       "relations": {
         "visibleFrom": [
@@ -25999,48 +25524,10 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.14464,
-        "v": 0.50607
-      },
-      "positionM": [
-        1066.5,
-        3731.5
-      ],
-      "footprintRadiusM": 25.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0735",
-          "score": 3.917,
-          "whyLost": "too close to place.imperial-fringe.stonewastes"
-        },
-        {
-          "siteId": "site.scour.border-mountains.ravine-060",
-          "score": 2.886,
-          "whyLost": "too close to place.imperial-fringe.stonewastes"
-        }
-      ],
-      "whySiteWon": "saddle in border mountains (danger band 3), 401 m from the nearest route; won on region, hinterland, culture-clump.",
-      "plotFacts": {
-        "landform": "saddle",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 401.2,
-        "distanceToWaterM": 411.3,
-        "water": {
-          "entityId": "reach.580-2263",
-          "kind": "sloped-rapid",
-          "levelM": 121.67,
-          "season": "perennial",
-          "distanceM": 411.3
-        },
-        "score": 2.236
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.sap-poachers",
@@ -26160,8 +25647,7 @@
             "whereInInterior": "main"
           }
         ]
-      },
-      "scourSiteId": "site.scour.border-mountains.saddle-077"
+      }
     },
     {
       "id": "place.imperial-fringe.the-month-chapel",
@@ -27563,7 +27049,12 @@
           "a grate",
           "no visible approach from the road"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "nearPoint": {
+          "x": 1907.6,
+          "z": 3118.7,
+          "maxM": 60.0
+        }
       },
       "relations": {
         "dependsOn": [
@@ -27649,53 +27140,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.29487,
-        "v": 0.42799
-      },
-      "positionM": [
-        2174.2,
-        3155.8
-      ],
-      "footprintRadiusM": 40.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0582",
-          "score": 5.104,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0092",
-          "score": 5.048,
-          "whyLost": "too close to place.imperial-fringe.gideon"
-        },
-        {
-          "siteId": "site.free.roadside-0095",
-          "score": 5.021,
-          "whyLost": "taken by place.imperial-fringe.bonded-shed-of-the-onkobra"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 4), 223 m from the nearest route; its choice #3 landform; won on route, culture-clump, landform.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 4,
-        "distanceToRouteM": 223.2,
-        "distanceToWaterM": 117.2,
-        "water": {
-          "entityId": "reach.1171-1663",
-          "kind": "sloped-riffle",
-          "levelM": 3.18,
-          "season": "perennial",
-          "distanceM": 117.2
-        },
-        "score": 3.559
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.the-owing-brokers",
@@ -27884,9 +27332,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "travelServiceEdges": [
-          "porter:ravine-pass"
-        ]
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -31176,9 +30622,10 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "firm lowland",
+          "interior swamp",
+          "rootland deep marsh",
           "fringe marsh",
-          "upland hills"
+          "tropical jungle"
         ],
         "landformClasses": [
           "cliff-bench",
@@ -31198,7 +30645,12 @@
           "drying racks for the packing clay",
           "a Hist at the back of the shelf, not the front"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "nearPoint": {
+          "x": 523.7,
+          "z": 4570.5,
+          "maxM": 800.0
+        }
       },
       "relations": {
         "dependsOn": [
@@ -31218,9 +30670,7 @@
         "reachedVia": [
           "place.imperial-fringe.glenbridge"
         ],
-        "travelServiceEdges": [
-          "guide:ca-uxith-vent-line"
-        ]
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.ca-uxith-tribe",
@@ -34716,9 +34166,7 @@
         "rivals": [
           "place.imperial-fringe.gideon-synod-outstation"
         ],
-        "reachedVia": [
-          "boat:low-fen"
-        ],
+        "reachedVia": [],
         "dependsOn": [],
         "supplies": [],
         "patrols": [],

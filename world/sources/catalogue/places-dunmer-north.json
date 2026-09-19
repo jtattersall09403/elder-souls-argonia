@@ -385,7 +385,14 @@
           "a relic chamber still stocked",
           "standing water inside the walls"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "boundTo": {
+          "place": "place.dunmer-north.stormhold",
+          "maxM": 2500
+        },
+        "sightlineTo": [
+          "place.dunmer-north.the-black-stage"
+        ]
       },
       "relations": {
         "dependsOn": [
@@ -476,53 +483,10 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "landmark",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.77157,
-        "v": 0.23464
-      },
-      "positionM": [
-        5689.2,
-        1730.1
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.firm-lowland.flood-high-002",
-          "score": 3.01,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0302",
-          "score": 2.522,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0304",
-          "score": 2.253,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "summit in firm lowland (danger band 2), 204 m from the nearest route; its choice #2 landform; won on landform, region, route.",
-      "plotFacts": {
-        "landform": "summit",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 203.5,
-        "distanceToWaterM": 36.8,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 36.8
-        },
-        "score": 3.176
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.blackguards",
@@ -651,8 +615,7 @@
             "whereInInterior": "main"
           }
         ]
-      },
-      "scourSiteId": "site.scour.firm-lowland.summit-040"
+      }
     },
     {
       "id": "place.dunmer-north.boom-keepers-lodge",
@@ -1837,7 +1800,7 @@
           "place.dunmer-north.stormhold"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont"
+          "route.boat.stormhold-alten-corimont"
         ],
         "dependsOn": [
           "place.dunmer-north.the-black-stage"
@@ -3899,7 +3862,8 @@
           "a notched rotation post on the bank",
           "four colours of float"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [],
@@ -3987,7 +3951,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -3995,49 +3959,6 @@
         "rotation held",
         "rotation broken (six boats where two should be, and the notches ignored)"
       ],
-      "position": {
-        "u": 0.90319,
-        "v": 0.08887
-      },
-      "positionM": [
-        6659.7,
-        655.3
-      ],
-      "footprintRadiusM": 30.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.coastal-lagoon-salt-marsh.island-014",
-          "score": 3.028,
-          "whyLost": "too close to place.dunmer-north.the-ash-causeway"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0303",
-          "score": 2.568,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.river-mouth-004",
-          "score": 2.561,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "cove in firm lowland (danger band 3), 200 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, hinterland.",
-      "plotFacts": {
-        "landform": "cove",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 199.6,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.3525-81",
-          "kind": "swamp",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 2.684
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -4154,8 +4075,7 @@
           "sourcePath": "why.pressures",
           "serviceRef": "market"
         }
-      ],
-      "scourSiteId": "site.scour.firm-lowland.cove-016"
+      ]
     },
     {
       "id": "place.dunmer-north.gandranen-library",
@@ -4415,7 +4335,8 @@
           "placeRef": "place.dunmer-north.stormhold"
         }
       ],
-      "scourSiteId": "site.scour.border-mountains.cliff-bench-030"
+      "scourSiteId": "site.scour.border-mountains.cliff-bench-030",
+      "designGroup": "group.gandranen"
     },
     {
       "id": "place.dunmer-north.gandranen-ruins",
@@ -4728,7 +4649,8 @@
           }
         ]
       },
-      "sitingNote": "The northern rim basin reads 'border mountains' on the region raster: the rim's classification covers the lake and fen floor inside it, so the record's water identity and the raster class are describing the same ground."
+      "sitingNote": "The northern rim basin reads 'border mountains' on the region raster: the rim's classification covers the lake and fen floor inside it, so the record's water identity and the raster class are describing the same ground.",
+      "designGroup": "group.gandranen"
     },
     {
       "id": "place.dunmer-north.greylight-village",
@@ -5432,14 +5354,20 @@
           "warm spring-fed shallow pools",
           "screened approaches"
         ],
-        "preferences": [
-          "a single controlled approach",
-          "a keepers' compound above the pools",
-          "a defensible stockade"
-        ],
+        "preferences": {
+          "landformClasses": [
+            "any-shallow-marsh",
+            "any-channel-bank",
+            "oxbow"
+          ]
+        },
         "scourSiteIds": [
           "site.scour.border-mountains.spring-head-005"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.dunmer-north.stormhold",
+          "maxM": 1200
+        }
       },
       "relations": {
         "dependsOn": [
@@ -5543,7 +5471,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "heroHist": {
         "id": "hist.dunmer-north.hatching-pools",
         "kind": "hatchery Hist",
@@ -5554,49 +5482,6 @@
       "densityLayer": "landmark",
       "entrance": "root-mouth",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.76264,
-        "v": 0.20637
-      },
-      "positionM": [
-        5623.3,
-        1521.7
-      ],
-      "footprintRadiusM": 115.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.firm-lowland.spring-head-035",
-          "score": 3.523,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0302",
-          "score": 3.026,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0181",
-          "score": 2.984,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "spring head in firm lowland (danger band 2), 45 m from the nearest route; at the water's edge; its first-choice landform; won on landform, culture-clump, region.",
-      "plotFacts": {
-        "landform": "spring-head",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 45.2,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "reach.3064-820",
-          "kind": "sloped-rapid",
-          "levelM": 14.2,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 4.012
-      },
       "hostility": {
         "baseline": "wary",
         "owner": "faction.keepers-of-the-shell",
@@ -5746,8 +5631,7 @@
         "lodging",
         "shrine",
         "trader"
-      ],
-      "scourSiteId": "site.scour.firm-lowland.spring-head-044"
+      ]
     },
     {
       "aliases": [],
@@ -6073,7 +5957,7 @@
           "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont"
+          "route.boat.stormhold-alten-corimont"
         ],
         "rivals": [
           "place.dunmer-north.reedmoor-stilts"
@@ -6348,7 +6232,7 @@
           "place.hist-heartland.helstrom"
         ],
         "travelServiceEdges": [
-          "boat:archon-estuary",
+          "route.boat.archon-estuary",
           "guide:hutan-tzel-totem-line"
         ]
       },
@@ -7170,7 +7054,7 @@
           "marks.loriasel-caverns.the-lamia-nest"
         ]
       },
-      "workflow": "plotted",
+      "workflow": "derived",
       "id": "place.dunmer-north.loriasel-caverns",
       "schemaVersion": 3,
       "name": "Sings-Under-Water",
@@ -7217,7 +7101,8 @@
           "sinkhole",
           "spring-head",
           "ravine"
-        ]
+        ],
+        "minDepthM": 1.0
       },
       "culture": "argonian",
       "dangerTier": "D4",
@@ -7271,49 +7156,6 @@
         "wet season (the stair drowned, dive only)",
         "dry season (the first two chambers walkable)"
       ],
-      "position": {
-        "u": 0.21678,
-        "v": 0.18109
-      },
-      "positionM": [
-        1598.4,
-        1335.2
-      ],
-      "footprintRadiusM": 90.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.upland-hills.spring-head-012",
-          "score": 4.007,
-          "whyLost": "too close to max-from:ruin"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0054",
-          "score": 3.039,
-          "whyLost": "too close to max-from:ruin"
-        },
-        {
-          "siteId": "site.scour.upland-hills.spring-head-023",
-          "score": 2.998,
-          "whyLost": "too close to max-from:ruin"
-        }
-      ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 653 m from the nearest route; no free 'sinkhole' site was left in the zone, so plain ground; won on culture-clump, region, remote.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 3,
-        "distanceToRouteM": 652.7,
-        "distanceToWaterM": 149.8,
-        "water": {
-          "entityId": "reach.796-760",
-          "kind": "sloped-rapid",
-          "levelM": 275.87,
-          "season": "seasonal",
-          "distanceM": 149.8
-        },
-        "score": 2.64
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -7486,11 +7328,13 @@
           "stone construction in progress",
           "an enslaved Hist"
         ],
-        "preferences": [
-          "a half-built quarter",
-          "sap conduits",
-          "a work-gang compound"
-        ],
+        "preferences": {
+          "landformClasses": [
+            "any-shallow-marsh",
+            "any-channel-bank",
+            "oxbow"
+          ]
+        },
         "scourSiteIds": []
       },
       "relations": {
@@ -7586,37 +7430,10 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "landmark",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.26921,
-        "v": 0.18187
-      },
-      "positionM": [
-        1985.0,
-        1341.0
-      ],
-      "footprintRadiusM": 105.0,
-      "footprintSource": "blueprint",
-      "candidatesConsidered": [],
-      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.dunmer-north.mazzatun.json): The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
-      "plotFacts": {
-        "landform": "pinned (Part 6 meso siting)",
-        "regionClass": "upland hills",
-        "dangerBand": 3,
-        "distanceToRouteM": 313.3,
-        "distanceToWaterM": 109.7,
-        "water": {
-          "entityId": "reach.1078-739",
-          "kind": "sloped-chute",
-          "levelM": 203.07,
-          "season": "seasonal",
-          "distanceM": 109.7
-        },
-        "score": null
-      },
       "hostility": {
         "baseline": "wary",
         "owner": "faction.xit-xaht",
@@ -8103,7 +7920,7 @@
           "place.dunmer-north.mazzatun"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont"
+          "route.boat.stormhold-alten-corimont"
         ],
         "dependsOn": [
           "place.dunmer-north.murkwater-shadowscale-ground"
@@ -8937,8 +8754,8 @@
           "place.dunmer-north.tear-road-stage"
         ],
         "travelServiceEdges": [
-          "cart:thorn-tear-road",
-          "road:thorn-tear-road"
+          "route.road.thorn-tear-road",
+          "route.road.thorn-tear-road"
         ]
       },
       "culture": "argonian",
@@ -10169,7 +9986,7 @@
           "place.dunmer-north.riverwalk"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont"
+          "route.boat.stormhold-alten-corimont"
         ],
         "dependsOn": [],
         "rivals": [
@@ -10684,7 +10501,7 @@
           "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont"
+          "route.boat.stormhold-alten-corimont"
         ],
         "dependsOn": [
           "place.dunmer-north.wolk-market"
@@ -12995,9 +12812,9 @@
           "place.dunmer-north.the-monsoon-boom"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont",
-          "road:thorn-tear-road",
-          "rootworm:gideon-stormhold",
+          "route.boat.stormhold-alten-corimont",
+          "route.road.thorn-tear-road",
+          "route.track.north-shadowfen-rootworm-line",
           "rootworm:north-shadowfen"
         ],
         "patrols": [],
@@ -13341,7 +13158,8 @@
           2481.29,
           825.27
         ]
-      ]
+      ],
+      "ownerGuided": true
     },
     {
       "id": "place.dunmer-north.stormhold-causeway",
@@ -13640,7 +13458,7 @@
           "place.dunmer-north.thorn"
         ],
         "travelServiceEdges": [
-          "road:thorn-tear-road"
+          "route.road.thorn-tear-road"
         ],
         "rivals": [],
         "patrols": [],
@@ -13907,9 +13725,9 @@
           "place.dunmer-north.the-last-landing"
         ],
         "travelServiceEdges": [
-          "boat:archon-thorn",
-          "lighter:archon-thorn",
-          "road:thorn-tear-road"
+          "route.boat.archon-thorn",
+          "route.boat.archon-thorn",
+          "route.road.thorn-tear-road"
         ]
       },
       "culture": "argonian",
@@ -15012,7 +14830,12 @@
           "three decked gaps",
           "joint maintenance from both ends"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "nearPoint": {
+          "x": 6094.9,
+          "z": 1384.6,
+          "maxM": 150.0
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -15097,7 +14920,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
@@ -15105,49 +14928,6 @@
         "decking sound",
         "a gap open (a four-kilometre detour, or a swim)"
       ],
-      "position": {
-        "u": 0.87317,
-        "v": 0.2205
-      },
-      "positionM": [
-        6438.3,
-        1625.9
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0227",
-          "score": 4.404,
-          "whyLost": "too close to place.dunmer-north.wolk-market"
-        },
-        {
-          "siteId": "site.free.roadside-0305",
-          "score": 4.227,
-          "whyLost": "too close to place.dunmer-north.wolk-market"
-        },
-        {
-          "siteId": "site.scour.seasonal-floodplain.waterfall-051",
-          "score": 3.416,
-          "whyLost": "taken by place.dunmer-north.sings-for-the-pipes"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 33 m from the nearest route; no free 'isthmus' site was left in the zone, so plain ground; won on route, region, hinterland; site exchanged in the swap pass with place.dunmer-north.three-ways-over-water (+1.30).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 32.9,
-        "distanceToWaterM": 32.9,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 32.9
-        },
-        "score": 3.585
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -15587,7 +15367,7 @@
         ],
         "travelServiceEdges": [
           "boat:bogmother-crossing",
-          "boat:stormhold-alten-corimont",
+          "route.boat.stormhold-alten-corimont",
           "ferry:black-stage-hissmir"
         ],
         "rivals": [],
@@ -17138,7 +16918,8 @@
           "a shrine above it",
           "dead trees at the margin"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [],
@@ -17219,53 +17000,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
-      "position": {
-        "u": 0.20266,
-        "v": 0.04871
-      },
-      "positionM": [
-        1494.3,
-        359.2
-      ],
-      "footprintRadiusM": 175.0,
-      "footprintSource": "blueprint",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.upland-hills.spring-head-023",
-          "score": 2.212,
-          "whyLost": "too close to place.dunmer-north.ten-maur-wolk"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0025",
-          "score": 2.105,
-          "whyLost": "too close to place.dunmer-north.ten-maur-wolk"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0056",
-          "score": 1.635,
-          "whyLost": "too close to place.dunmer-north.ten-maur-wolk"
-        }
-      ],
-      "whySiteWon": "spring head in border mountains (danger band 3), 1109 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, remote, concealment.",
-      "plotFacts": {
-        "landform": "spring-head",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 1109.4,
-        "distanceToWaterM": 16.5,
-        "water": {
-          "entityId": "body.824-179",
-          "kind": "tarn-upland",
-          "levelM": 507.32,
-          "season": "perennial",
-          "distanceM": 16.5
-        },
-        "score": 1.392
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -17389,8 +17127,7 @@
           },
           "note": "still water fed from below, three metres deep, ringed with dead standing timber"
         }
-      ],
-      "scourSiteId": "site.scour.border-mountains.spring-head-000"
+      ]
     },
     {
       "id": "place.dunmer-north.the-charge-works",
@@ -19066,13 +18803,14 @@
         "scourSiteIds": [],
         "boundTo": {
           "place": "place.dunmer-north.the-drowned-terrace",
-          "maxM": 300.0
+          "maxM": 300
         },
         "nearPoint": {
           "x": 2012.0,
           "z": 245.0,
           "maxM": 250.0
-        }
+        },
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [
@@ -19168,53 +18906,10 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
-      "position": {
-        "u": 0.31718,
-        "v": 0.01525
-      },
-      "positionM": [
-        2338.7,
-        112.4
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.border-mountains.saddle-006",
-          "score": 3.604,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.border-mountains.spring-head-008",
-          "score": 3.604,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.border-mountains.ridge-end-016",
-          "score": 3.412,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 701 m from the nearest route; at the water's edge; no free 'any-channel-bank' site was left in the zone, so plain ground; won on bound, nearPoint, hinterland; placed from the homeless batch at stage 'region-relaxed'.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 701.4,
-        "distanceToWaterM": 11.0,
-        "water": {
-          "entityId": "body.1253-59",
-          "kind": "pool",
-          "levelM": 373.68,
-          "season": "perennial",
-          "distanceM": 11.0
-        },
-        "score": 3.946
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": null,
@@ -19337,19 +19032,7 @@
           }
         ]
       },
-      "terrainRequests": [
-        {
-          "kind": "pool",
-          "radiusM": 60,
-          "delivery": {
-            "feature": "off-bank-dive-pool",
-            "depthClass": "diving",
-            "orientation": "waterward",
-            "offsetBoatLengths": 2
-          },
-          "note": "deep water two boat-lengths off the bank, so the divers can go down from the landing itself"
-        }
-      ],
+      "terrainRequests": [],
       "services": []
     },
     {
@@ -21035,7 +20718,12 @@
           "billets",
           "a market street feeding them"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "nearPoint": {
+          "x": 3961.8,
+          "z": 918.5,
+          "maxM": 150.0
+        }
       },
       "relations": {
         "dependsOn": [
@@ -21141,7 +20829,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -21149,34 +20837,6 @@
         "open crossing",
         "closed crossing (the Accord's pact failing, traffic backed up both sides)"
       ],
-      "position": {
-        "u": 0.66001,
-        "v": 0.08663
-      },
-      "positionM": [
-        4866.6,
-        638.8
-      ],
-      "footprintRadiusM": 140.0,
-      "footprintSource": "band",
-      "scourSiteId": "site.scour.border-mountains.ridge-end-037",
-      "candidatesConsidered": [],
-      "whySiteWon": "ridge end in border mountains (danger band 3), 839 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
-      "plotFacts": {
-        "landform": "ridge-end",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 838.8,
-        "distanceToWaterM": 98.9,
-        "water": {
-          "entityId": "body.2641-407",
-          "kind": "pond",
-          "levelM": 256.82,
-          "season": "perennial",
-          "distanceM": 98.9
-        },
-        "score": 3.931
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": "faction.thorn-field-owners",
@@ -23262,7 +22922,12 @@
         ],
         "scourSiteIds": [
           "site.scour.upland-hills.water-narrows-049"
-        ]
+        ],
+        "nearPoint": {
+          "x": 6193.6,
+          "z": 589.5,
+          "maxM": 150.0
+        }
       },
       "relations": {
         "supplies": [
@@ -23273,8 +22938,8 @@
           "place.dunmer-north.riverwalk"
         ],
         "travelServiceEdges": [
-          "boat:archon-thorn",
-          "boat:stormhold-alten-corimont",
+          "route.boat.archon-thorn",
+          "route.boat.stormhold-alten-corimont",
           "porter:last-landing-inland",
           "walk:inland-carry"
         ],
@@ -23360,53 +23025,10 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "position": {
-        "u": 0.81991,
-        "v": 0.04648
-      },
-      "positionM": [
-        6045.6,
-        342.7
-      ],
-      "footprintRadiusM": 65.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0117",
-          "score": 3.961,
-          "whyLost": "too close to place.dunmer-north.thorn"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0116",
-          "score": 3.821,
-          "whyLost": "too close to place.dunmer-north.thorn"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0086",
-          "score": 3.253,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in upland hills (danger band 2), 282 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on region, hinterland, danger.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 2,
-        "distanceToRouteM": 282.3,
-        "distanceToWaterM": 47.2,
-        "water": {
-          "entityId": "body.3364-188-p2",
-          "kind": "pond",
-          "levelM": 74.74,
-          "season": "perennial",
-          "distanceM": 47.2
-        },
-        "score": 3.355
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -28308,7 +27930,7 @@
           "place.dunmer-north.channel-cross-village"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont"
+          "route.boat.stormhold-alten-corimont"
         ],
         "dependsOn": [],
         "supplies": [],
@@ -30268,7 +29890,8 @@
           "x": 3148,
           "z": 1387,
           "maxM": 350
-        }
+        },
+        "minDepthM": 1.5
       },
       "relations": {
         "rivals": [
@@ -30278,7 +29901,7 @@
           "place.dunmer-north.reedmoor-stilts"
         ],
         "travelServiceEdges": [
-          "boat:archon-estuary"
+          "route.boat.archon-estuary"
         ],
         "dependsOn": [],
         "patrols": [],
@@ -30356,7 +29979,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -30457,50 +30080,7 @@
         ],
         "loot": []
       },
-      "sitingNote": "Promoted from the reserve 2026-09-04 to fill an off-route D3 gap at (3148, 1387): more fights off the road, fewer on it (owner).",
-      "position": {
-        "u": 0.42427,
-        "v": 0.17811
-      },
-      "positionM": [
-        3128.3,
-        1313.3
-      ],
-      "footprintRadiusM": 30.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0230",
-          "score": 1.708,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0229",
-          "score": 1.579,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0259",
-          "score": 1.307,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 527 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on culture-clump, nearPoint, hinterland.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 526.5,
-        "distanceToWaterM": 11.0,
-        "water": {
-          "entityId": "body.1696-704",
-          "kind": "pond",
-          "levelM": 4.38,
-          "season": "perennial",
-          "distanceM": 11.0
-        },
-        "score": 1.814
-      }
+      "sitingNote": "Promoted from the reserve 2026-09-04 to fill an off-route D3 gap at (3148, 1387): more fights off the road, fewer on it (owner)."
     },
     {
       "id": "place.dunmer-north.the-shut-village",
@@ -31132,6 +30712,10 @@
           "x": 5273.0,
           "z": 1106.0,
           "maxM": 250.0
+        },
+        "nearWater": {
+          "entityId": "body.2879-340",
+          "maxM": 60
         }
       },
       "relations": {
@@ -31208,53 +30792,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
       "underwaterAccess": "shallow-dive",
-      "position": {
-        "u": 0.73661,
-        "v": 0.10672
-      },
-      "positionM": [
-        5431.4,
-        786.9
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.border-mountains.spring-head-015",
-          "score": 3.023,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.border-mountains.summit-012",
-          "score": 2.416,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.border-mountains.saddle-018",
-          "score": 2.166,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "ford in border mountains (danger band 3), 670 m from the nearest route; at the water's edge; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'region-relaxed'.",
-      "plotFacts": {
-        "landform": "ford",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 669.8,
-        "distanceToWaterM": 12.3,
-        "water": {
-          "entityId": "body.2953-433",
-          "kind": "pond",
-          "levelM": 226.62,
-          "season": "perennial",
-          "distanceM": 12.3
-        },
-        "score": 3.045
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.blackguards",
@@ -31357,19 +30898,7 @@
           }
         ]
       },
-      "terrainRequests": [
-        {
-          "kind": "hollow",
-          "radiusM": 60,
-          "delivery": {
-            "feature": "settlement-floor-hollow",
-            "orientation": "downslope",
-            "waterRelation": "waterward-outlet"
-          },
-          "note": "the ground under the hamlet has dropped: tilted houses on a settling floor, a cracked spring head at the low side"
-        }
-      ],
-      "scourSiteId": "site.scour.border-mountains.ford-033"
+      "terrainRequests": []
     },
     {
       "id": "place.dunmer-north.the-standing-bid",
@@ -32659,12 +32188,13 @@
         ],
         "scourSiteIds": [
           "site.scour.coastal-lagoon-salt-marsh.river-mouth-012"
-        ]
+        ],
+        "minDepthM": 1.5
       },
       "relations": {
         "supplies": [],
         "travelServiceEdges": [
-          "boat:archon-estuary"
+          "route.boat.archon-estuary"
         ],
         "dependsOn": [],
         "rivals": [],
@@ -32742,53 +32272,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
-      "position": {
-        "u": 0.10821,
-        "v": 0.10374
-      },
-      "positionM": [
-        797.9,
-        765.0
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0438",
-          "score": 2.859,
-          "whyLost": "too close to place.dunmer-north.the-quiet-landing"
-        },
-        {
-          "siteId": "site.scour.coastal-lagoon-salt-marsh.island-014",
-          "score": 2.209,
-          "whyLost": "too close to place.dunmer-north.the-ash-causeway"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0374",
-          "score": 2.074,
-          "whyLost": "too close to place.dunmer-north.bogmother"
-        }
-      ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 1553 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on culture-clump, danger, landform; site exchanged in the swap pass with place.dunmer-north.draws-the-herds (+0.38).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "border mountains",
-        "dangerBand": 3,
-        "distanceToRouteM": 1552.6,
-        "distanceToWaterM": 159.9,
-        "water": {
-          "entityId": "body.478-523",
-          "kind": "pond",
-          "levelM": 418.53,
-          "season": "perennial",
-          "distanceM": 159.9
-        },
-        "score": 2.321
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -33201,7 +32688,12 @@
           "a seal course",
           "a tally office"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "boundTo": {
+          "place": "place.dunmer-north.thorn",
+          "maxM": 250
+        },
+        "minDepthM": 1.2
       },
       "relations": {
         "dependsOn": [
@@ -33212,8 +32704,8 @@
           "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont",
-          "road:thorn-tear-road"
+          "route.boat.stormhold-alten-corimont",
+          "route.road.thorn-tear-road"
         ],
         "rivals": [
           "place.imperial-fringe.bonded-shed-of-the-onkobra"
@@ -33297,53 +32789,10 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.82912,
-        "v": 0.07578
-      },
-      "positionM": [
-        6113.5,
-        558.7
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0118",
-          "score": 6.06,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0144",
-          "score": 6.047,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0487",
-          "score": 6.028,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 76 m from the nearest route; its choice #4 landform; won on culture-clump, route, bound.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 76.2,
-        "distanceToWaterM": 93.1,
-        "water": {
-          "entityId": "reach.3385-271",
-          "kind": "sloped-rapid",
-          "levelM": 59.96,
-          "season": "seasonal",
-          "distanceM": 93.1
-        },
-        "score": 6.23
-      },
       "hostility": {
         "baseline": "guarded",
         "owner": "faction.thorn-field-owners",
@@ -33501,7 +32950,7 @@
           "place.dunmer-north.the-delta-byre"
         ],
         "travelServiceEdges": [
-          "boat:archon-estuary"
+          "route.boat.archon-estuary"
         ],
         "dependsOn": [],
         "rivals": [],
@@ -33802,7 +33251,7 @@
           "place.dunmer-north.thorn"
         ],
         "travelServiceEdges": [
-          "boat:archon-estuary"
+          "route.boat.archon-estuary"
         ],
         "dependsOn": [],
         "rivals": [],
@@ -34545,7 +33994,8 @@
           "a usable landing",
           "roof frames still standing"
         ],
-        "scourSiteIds": []
+        "scourSiteIds": [],
+        "minDepthM": 0.6
       },
       "relations": {
         "rivals": [
@@ -34553,7 +34003,7 @@
           "place.dunmer-north.the-sump-hamlet"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont"
+          "route.boat.stormhold-alten-corimont"
         ],
         "dependsOn": [
           "place.dunmer-north.the-first-count"
@@ -34631,53 +34081,10 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.33875,
-        "v": 0.15506
-      },
-      "positionM": [
-        2497.7,
-        1143.3
-      ],
-      "footprintRadiusM": 65.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0243",
-          "score": 3.537,
-          "whyLost": "too close to place.dunmer-north.nine-fords"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0182",
-          "score": 3.455,
-          "whyLost": "too close to place.dunmer-north.hutan-tzel"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0308",
-          "score": 3.416,
-          "whyLost": "taken by place.dunmer-north.the-delta-byre"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 118 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 118.1,
-        "distanceToWaterM": 22.6,
-        "water": {
-          "entityId": "body.1373-544",
-          "kind": "tarn-upland",
-          "levelM": 30.71,
-          "season": "perennial",
-          "distanceM": 22.6
-        },
-        "score": 3.092
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -34789,18 +34196,7 @@
           "place.pirate-freeholds.alten-corimont"
         ]
       },
-      "terrainRequests": [
-        {
-          "kind": "cut",
-          "radiusM": 45,
-          "delivery": {
-            "feature": "channel-arm",
-            "waterRelation": "channel-linked",
-            "access": "boat-landing"
-          },
-          "note": "a channel arm reaching the village's landing steps, which the boat crews still use"
-        }
-      ]
+      "terrainRequests": []
     },
     {
       "id": "place.dunmer-north.the-veterans-ridge",
@@ -36580,8 +35976,8 @@
           "place.dunmer-north.tear-road-stage"
         ],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont",
-          "road:thorn-tear-road"
+          "route.boat.stormhold-alten-corimont",
+          "route.road.thorn-tear-road"
         ],
         "patrols": [],
         "visibleFrom": []
@@ -36906,7 +36302,8 @@
           6029.13,
           682.7
         ]
-      ]
+      ],
+      "ownerGuided": true
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",
@@ -38828,8 +38225,8 @@
         "visibleFrom": [],
         "reachedVia": [],
         "travelServiceEdges": [
-          "boat:stormhold-alten-corimont",
-          "road:thorn-tear-road"
+          "route.boat.stormhold-alten-corimont",
+          "route.road.thorn-tear-road"
         ]
       },
       "culture": "argonian",

@@ -2626,9 +2626,9 @@
           "enclosed-clearing"
         ],
         "nearPoint": {
-          "x": 3250,
-          "z": 5600,
-          "maxM": 600
+          "x": 3238.0,
+          "z": 5771.4,
+          "maxM": 600.0
         }
       },
       "relations": {
@@ -2721,7 +2721,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "heroHist": {
         "id": "hist.naga-kur-deeps.dead-water-village",
         "powerSlot": "power.hist.naga-kur-deeps.dead-water-village",
@@ -2755,44 +2755,6 @@
           "whatChanges": "full village, drums answering, the landing crowded"
         }
       ],
-      "position": {
-        "u": 0.43914,
-        "v": 0.78272
-      },
-      "positionM": [
-        3238.0,
-        5771.4
-      ],
-      "footprintRadiusM": 105.0,
-      "footprintSource": "blueprint",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.interior-swamp.headland-052",
-          "score": 2.601,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-062",
-          "score": 2.53,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 401 m from the nearest route; its choice #2 landform; won on landform, nearPoint, culture-clump.",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 400.9,
-        "distanceToWaterM": 38.8,
-        "water": {
-          "entityId": "body.1792-3158",
-          "kind": "swamp",
-          "levelM": 3.55,
-          "season": "perennial",
-          "distanceM": 38.8
-        },
-        "score": 3.755
-      },
       "hostility": {
         "baseline": "wary",
         "owner": "faction.naga-kur",
@@ -2896,7 +2858,8 @@
       "travelStation": {
         "modes": [
           "guide",
-          "boat"
+          "boat",
+          "rootworm"
         ],
         "destinations": [
           "place.naga-kur-deeps.ferry-stage-guide-hire",
@@ -2950,7 +2913,7 @@
       ],
       "confidence": "high",
       "why": {
-        "founding": "The shelter of last resort. An all-but-inaccessible plateau that even the tribes avoid, where the presence of Sithis is strong, holding pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only to shelter. A few caretakers tend it.",
+        "founding": "The shelter of last resort. An all-but-inaccessible ridge that even the tribes avoid, standing eight metres over the flood, where the presence of Sithis is strong, holding pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only to shelter. A few caretakers tend it.",
         "siteAdvantages": "High, dry, defensible ground in a province that has almost none, with one approach that can be walked and no approach that can be poled.",
         "occupantsMotive": "The caretakers do not live here. They keep the plateau fit for habitation. Stores are turned and shelters re-roofed each season.",
         "pressures": "In 4E 48 the need did come: Murkmire's survivors fled up onto the plateau while Umbriel passed overhead. The caretakers have fed that memory ever since. The Umbriel Witness Society wants the memorial catalogued. The Nisswo want it let go. The caretakers want it left exactly as it is.",
@@ -2968,7 +2931,12 @@
           "landforms: upland-terrace, any-firm-ground, enclosed-clearing",
           "water relation: above and away from water",
           "neighbours: reached across the leviathan bone country"
-        ]
+        ],
+        "nearPoint": {
+          "x": 2525.0,
+          "z": 4476.0,
+          "maxM": 100.0
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -3072,51 +3040,8 @@
       "underwaterAccess": "none",
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "ownerFaction": "faction.deepmire-caretakers",
-      "position": {
-        "u": 0.15059,
-        "v": 0.72695
-      },
-      "positionM": [
-        1110.4,
-        5360.1
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-062",
-          "score": 4.144,
-          "whyLost": "too close to place.naga-kur-deeps.dead-water-village"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-069",
-          "score": 3.408,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.island-034",
-          "score": 2.989,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        }
-      ],
-      "whySiteWon": "open water in interior swamp (danger band 4), 160 m from the nearest route; at the water's edge; won on region, danger, parent; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 159.9,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.611-2937",
-          "kind": "swamp",
-          "levelM": 3.04,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 2.006
-      },
       "hostility": {
         "baseline": "sanctuary",
         "owner": "faction.deepmire-caretakers",
@@ -4292,7 +4217,12 @@
           "any-channel-bank",
           "any-shallow-marsh",
           "oxbow"
-        ]
+        ],
+        "nearPoint": {
+          "x": 2458.7,
+          "z": 5029.3,
+          "maxM": 60.0
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -4359,7 +4289,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "wet-peak",
       "eraLayers": [
         "current"
@@ -4368,49 +4298,6 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
-      "position": {
-        "u": 0.31272,
-        "v": 0.69497
-      },
-      "positionM": [
-        2305.8,
-        5124.3
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1063",
-          "score": 4.464,
-          "whyLost": "taken by place.naga-kur-deeps.bog-blight-ground-old-cordon"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0913",
-          "score": 4.454,
-          "whyLost": "too close to place.naga-kur-deeps.wamasu-pond-adult"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0945",
-          "score": 4.338,
-          "whyLost": "too close to place.naga-kur-deeps.wamasu-pond-adult"
-        }
-      ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 488 m from the nearest route; at the water's edge; its choice #2 landform; won on culture-clump, landform, region.",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 488.3,
-        "distanceToWaterM": 12.3,
-        "water": {
-          "entityId": "body.1271-2799",
-          "kind": "marsh-deep",
-          "levelM": 1.84,
-          "season": "seasonal",
-          "distanceM": 12.3
-        },
-        "score": 4.607
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -5676,7 +5563,7 @@
       "confidence": "medium",
       "why": {
         "founding": "A Hist held by a crew who feed it, tend it and keep its tribe on the far bank.",
-        "siteAdvantages": "A defensible rise with sixty metres of black water between the tree and the tribe that owns it. One landing, on the crew's side.",
+        "siteAdvantages": "A defensible rise with twenty-five metres of black water between the tree and the tribe that owns it. One landing, on the crew's side.",
         "occupantsMotive": "Occupiers who say they are protecting it. They tap it. What they draw is worth more than the zone's season of bone and hide.",
         "pressures": "The tribe camps within sight and has done for eleven years. The surrounding villages have come to depend on the standoff, because while it holds no rival tribe can claim the tree.",
         "wouldChangeIf": "Either party breaking the standoff resolves it violently. The tree is the likeliest casualty."
@@ -5741,7 +5628,7 @@
         "signatureFeature": "A tribe's whole village stands abandoned on one bank while the tribe lives in a camp on the other, in sight of their own tree and their own houses.",
         "condition": "half kept, half deliberately spoiled",
         "mood": "an eleven-year siege, routine now",
-        "approach": "Two settlements facing each other across sixty metres of water, one of them empty.",
+        "approach": "Two settlements facing each other across twenty-five metres of water, one of them empty.",
         "senses": "a hum that catches and restarts; drums that stopped when the scaffold went up; sap gone metallic"
       },
       "assetPlan": [
@@ -11783,8 +11670,8 @@
       ],
       "confidence": "high",
       "why": {
-        "founding": "The Barsaebic Ayleids destroyed the tribe here and harvested its souls into the Remnant of Argon. The Hist did not die but slept. While it slept it was called the Dreaming Tree. At the end of the Second Era the souls were returned and the village was re-founded on its own ground, between the twin xanmeers Xul-Thuxis and Vakka-Bok.",
-        "siteAdvantages": "East Deepmire ground the tribe never left, held between two pre-Duskfall xanmeers that mark it from a distance and keep the approach to one line.",
+        "founding": "The Barsaebic Ayleids destroyed the tribe here and harvested its souls into the Remnant of Argon. The Hist did not die but slept. While it slept it was called the Dreaming Tree. At the end of the Second Era the souls were returned and the village was re-founded on its own ground, below the xanmeer Vakka-Bok.",
+        "siteAdvantages": "East Deepmire ground the tribe never left, held below a pre-Duskfall xanmeer that marks it from a distance and keeps the approach to one line.",
         "occupantsMotive": "A tribe rebuilt out of returned souls, living on the ground where it was killed. The tree stands at the centre of the village. The tribe exists because the tree survived.",
         "pressures": "The Hist is centuries old but speaks like a hatchling. Its own tree-minder treats it as convalescent. Cyrodilic Collections, which helped resurrect the tribe, still treats the village as its find.",
         "wouldChangeIf": "If the Dreaming Tree failed a second time there would be no second Remnant. The tribe organises its whole year around that."
@@ -11804,7 +11691,11 @@
           "landforms: flood-high, any-firm-ground, enclosed-clearing",
           "water relation: beside standing water",
           "neighbours: within a day of the Refuge"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",
+          "maxM": 450
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -11906,51 +11797,8 @@
       "underwaterAccess": "none",
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "ownerFaction": "faction.cyrodilic-collections",
-      "position": {
-        "u": 0.31049,
-        "v": 0.71951
-      },
-      "positionM": [
-        2289.4,
-        5305.3
-      ],
-      "footprintRadiusM": 105.0,
-      "footprintSource": "blueprint",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0701",
-          "score": 3.24,
-          "whyLost": "taken by place.naga-kur-deeps.sithis-temple-mass-sacrifice"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1205",
-          "score": 3.18,
-          "whyLost": "taken by place.naga-kur-deeps.bereaved-hist-less-since"
-        },
-        {
-          "siteId": "site.free.open-water-0702",
-          "score": 3.118,
-          "whyLost": "too close to place.naga-kur-deeps.dead-water-village"
-        }
-      ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 575 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on culture-clump, region, remote; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 574.7,
-        "distanceToWaterM": 17.3,
-        "water": {
-          "entityId": "body.1237-2896",
-          "kind": "marsh-deep",
-          "levelM": 1.83,
-          "season": "perennial",
-          "distanceM": 17.3
-        },
-        "score": 3.037
-      },
       "hostility": {
         "baseline": "sanctuary",
         "owner": "faction.root-whisper",
@@ -12757,10 +12605,11 @@
           "any-channel-bank"
         ],
         "nearPoint": {
-          "x": 2350,
-          "z": 5000,
-          "maxM": 350
-        }
+          "x": 2316.8,
+          "z": 4844.7,
+          "maxM": 600.0
+        },
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [],
@@ -12827,7 +12676,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12836,39 +12685,6 @@
       "entrance": "sinkhole-lip",
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
-      "position": {
-        "u": 0.3142,
-        "v": 0.65704
-      },
-      "positionM": [
-        2316.8,
-        4844.7
-      ],
-      "footprintRadiusM": 25.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1009",
-          "score": 4.722,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 395 m from the nearest route; its first-choice landform; won on landform, culture-clump, nearPoint.",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 395.4,
-        "distanceToWaterM": 47.2,
-        "water": {
-          "entityId": "body.1299-2644",
-          "kind": "marsh-deep",
-          "levelM": 2.32,
-          "season": "perennial",
-          "distanceM": 47.2
-        },
-        "score": 5.092
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -16049,7 +15865,8 @@
           "x": 1100,
           "z": 6300,
           "maxM": 400
-        }
+        },
+        "minDepthM": 4.0
       },
       "relations": {
         "dependsOn": [],
@@ -16119,7 +15936,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -16129,49 +15946,6 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
-      "position": {
-        "u": 0.15878,
-        "v": 0.85188
-      },
-      "positionM": [
-        1170.7,
-        6281.4
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.interior-swamp.islet-034",
-          "score": 4.932,
-          "whyLost": "too close to place.naga-kur-deeps.naga-village-settled"
-        },
-        {
-          "siteId": "site.free.open-water-0958",
-          "score": 4.701,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0865",
-          "score": 4.527,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 476 m from the nearest route; at the water's edge; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 476.1,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.763-3395",
-          "kind": "marsh-fringe",
-          "levelM": 1.81,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 4.782
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,

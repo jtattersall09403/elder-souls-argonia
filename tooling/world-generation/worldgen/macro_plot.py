@@ -57,6 +57,8 @@ from . import catalogue
 from .regions import REGION_CLASSES
 from . import plot_stats
 from .site_fields import ProvinceSurvey, shared_survey
+from .route_reference import (ROUTE_REGISTRY_PATH, PUBLISHED_PROVINCE,  # noqa: F401
+                              route_reference_ids)
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 HYDROLOGY_GRAPH = REPO_ROOT / "world/sources/hydrology/hydrology-graph.json"
@@ -2645,11 +2647,14 @@ def build_report(demands: list[Demand], result: dict[str, dict], unresolved: lis
             all_ids.add(rec["id"])
             if rec.get("status") in {"deferred", "cut"}:
                 deferred_ids.add(rec["id"])
+    route_ids = route_reference_ids()
     dangling = []
     for d in demands:
         rel = d.record.get("relations", {}) or {}
         for k in ("dependsOn", "supplies", "rivals", "patrols", "tolls", "visibleFrom", "reachedVia"):
             for ref in rel.get(k, []) or []:
+                if ref in route_ids:
+                    continue
                 if ref in deferred_ids:
                     dangling.append({"from": d.id, "field": k, "to": ref, "why": "deferred/cut"})
                 elif ref not in all_ids:

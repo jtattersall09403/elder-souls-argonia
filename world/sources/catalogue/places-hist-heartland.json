@@ -47,7 +47,8 @@
           "cove",
           "islet",
           "waterfall"
-        ]
+        ],
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [],
@@ -113,7 +114,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -122,49 +123,6 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
       "localStateVariants": [],
-      "position": {
-        "u": 0.72175,
-        "v": 0.44659
-      },
-      "positionM": [
-        5321.8,
-        3292.9
-      ],
-      "footprintRadiusM": 30.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0558",
-          "score": 3.799,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0442",
-          "score": 3.593,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0543",
-          "score": 3.556,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "islet in coastal lagoon & salt marsh (danger band 3), 377 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, landform, region.",
-      "plotFacts": {
-        "landform": "islet",
-        "regionClass": "coastal lagoon & salt marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 376.6,
-        "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "body.2909-1833",
-          "kind": "mudflat",
-          "levelM": 1.5,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
-        "score": 4.161
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -235,8 +193,7 @@
             "whereInInterior": "main"
           }
         ]
-      },
-      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.islet-045"
+      }
     },
     {
       "id": "place.hist-heartland.alten-markmont",
@@ -306,9 +263,7 @@
         "reachedVia": [
           "place.hist-heartland.xal-meeruth-station"
         ],
-        "travelServiceEdges": [
-          "boat:markmont-corimont"
-        ]
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -2720,7 +2675,7 @@
       "confidence": "medium",
       "why": {
         "founding": "A staging post on the route by which the bones of Argonians who died away from the Hist are brought back to the dirt.",
-        "siteAdvantages": "Where the river route meets the interior walking route, at the last point at which a bundle can be re-wrapped and re-labelled before the walk. Under the racks is a cold store cut into the bank, where unclaimed bundles have been stacked since the office opened.",
+        "siteAdvantages": "Where the water route meets the interior walking route, at the last point at which a bundle can be re-wrapped and re-labelled before the walk. Under the racks is a cold store cut into the rise, where unclaimed bundles have been stacked since the office opened.",
         "occupantsMotive": "Carriers, a recognised profession and a feared one. The family pays them, not the village, so their loyalty runs to the dead.",
         "pressures": "The 4E produced more distant dead than the route can carry.",
         "wouldChangeIf": "A backlog is already visible in the racks. A second season of it would force the carriers to choose which families' dead go first. The families do not want the carriers holding that power."
@@ -3794,7 +3749,7 @@
         "signatureFeature": "Charred pile stumps in a rectangle, with the driven grave-poles planted afterwards standing inside the burnt footprint rather than outside it.",
         "condition": "nothing rebuilt since the fire, the cellar hatch kept shut",
         "mood": "disputed; nothing rebuilt",
-        "approach": "Black stumps in green water.",
+        "approach": "Black stumps on bare ash, with green water standing beyond them.",
         "senses": "wet ash underfoot where the ground stays damp; scavenger tracks crossing the burnt clearing; a scorched smell that has not left the timber; standing water gone still over the lowest stumps"
       },
       "assetPlan": [
@@ -7851,7 +7806,7 @@
       "confidence": "medium",
       "why": {
         "founding": "Founded at the Panther fork on springs that can be drunk unboiled, rare enough here to found a village.",
-        "siteAdvantages": "A channel bank where clean water rises from a stone lip, at the last firm ground before the Helstrom approach.",
+        "siteAdvantages": "Firm ground where clean water rises from a stone lip, at the last dry footing before the Helstrom approach.",
         "occupantsMotive": "A tribe that has made itself indispensable as the interior's last friendly stop. It charges nothing for water and a great deal for beds and rope.",
         "pressures": "Traffic for Helstrom comes through the village, including people whom the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
         "wouldChangeIf": "If the springs soured the village would move within a season. The Helstrom approach would then have no guaranteed clean water in a day's radius."
@@ -7929,7 +7884,7 @@
         "signatureFeature": "Water drunk without ceremony, poured from a stone lip into a run of tasting basins that visitors are expected to use before they speak.",
         "condition": "well kept in the yards used daily, threadbare a step off the path",
         "mood": "hospitable, tired, professionally patient",
-        "approach": "Coming up the Panther fork the channel water goes from black to clear over about a hundred metres. The village is smelt before it is seen.",
+        "approach": "Coming in from the fork, the standing water goes from black to clear over about a hundred metres. The village is smelt before it is seen.",
         "senses": "cold mineral water tasted before a word is spoken; wet rope and boat tar at the landing; voices bartering over bed and rope prices; frond smoke drifting from cookfires at dusk"
       },
       "assetPlan": [
@@ -8074,17 +8029,7 @@
           }
         ]
       },
-      "terrainRequests": [
-        {
-          "kind": "spring",
-          "radiusM": 40,
-          "delivery": {
-            "feature": "drinkable-spring-head",
-            "waterRelation": "channel-edge"
-          },
-          "note": "The village exists because water rises here drinkable; the ground must give a spring head above the channel."
-        }
-      ],
+      "terrainRequests": [],
       "services": [
         "lodging",
         "shrine",
@@ -8371,7 +8316,7 @@
         ],
         "boundTo": {
           "place": "place.hist-heartland.helstrom",
-          "maxM": 300.0
+          "maxM": 100
         }
       },
       "relations": {
@@ -8392,7 +8337,7 @@
           "place.hist-heartland.guide-camp-far-shelter"
         ],
         "travelServiceEdges": [
-          "guide:basin-crossing"
+          "route.track.hist-heartland.basin-guide-crossing"
         ]
       },
       "culture": "argonian",
@@ -8455,7 +8400,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "wet",
       "eraLayers": [
         "current"
@@ -8465,49 +8410,6 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.league-of-open-water",
       "localStateVariants": [],
-      "position": {
-        "u": 0.42278,
-        "v": 0.39006
-      },
-      "positionM": [
-        3117.4,
-        2876.1
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-0510",
-          "score": 3.977,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0662",
-          "score": 3.762,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.rootland-deep-marsh.isthmus-003",
-          "score": 3.663,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 273 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on culture-clump, bound, region.",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 272.7,
-        "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "body.1723-1586",
-          "kind": "marsh-deep",
-          "levelM": 1.69,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
-        "score": 4.052
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": "faction.league-of-open-water",
@@ -8570,7 +8472,8 @@
         "destinations": [
           "place.hist-heartland.guide-camp-far-shelter"
         ]
-      }
+      },
+      "designGroup": "group.helstrom"
     },
     {
       "id": "place.hist-heartland.hackwing-roost-wild",
@@ -9639,17 +9542,14 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "escorted boat convoy from Alten Corimont",
+          "route.boat.alten-corimont-helstrom",
           "place.hist-heartland.bubble-spire-open-helstrom",
           "place.hist-heartland.root-gallery-helstrom-underway",
-          "place.hist-heartland.stilt-channel-edge-uxaneet",
-          "root transit (semi-public hub)"
+          "place.hist-heartland.stilt-channel-edge-uxaneet"
         ],
         "travelServiceEdges": [
           "boat:route.boat.alten-corimont-helstrom",
-          "road:tenmar-helstrom",
-          "rootworm:helstrom-gideon",
-          "rootworm:helstrom-north-shadowfen"
+          "rootway.helstrom-north-shadowfen"
         ]
       },
       "culture": "argonian",
@@ -10001,7 +9901,9 @@
           2963.84,
           2848.69
         ]
-      ]
+      ],
+      "designGroup": "group.helstrom",
+      "ownerGuided": true
     },
     {
       "id": "place.hist-heartland.heretic-stone-restarted",
@@ -12115,8 +12017,8 @@
       ],
       "confidence": "medium",
       "why": {
-        "founding": "A stand of drowned forest in the deepest basin water that the tribes name and do not enter.",
-        "siteAdvantages": "The deepest standing water in the interior, over a drowned forest that never rotted.",
+        "founding": "A stand of drowned forest on the edge of the deepest basin water, which the tribes name and do not enter.",
+        "siteAdvantages": "The ground above the deepest standing water in the interior, over a drowned forest that never rotted.",
         "occupantsMotive": "Whatever is down there. No two recitations describe it the same way. The recitations name the water rather than any witness.",
         "pressures": "The stories are older than the name. The drowned timber is the finest known to the coast dredgers.",
         "wouldChangeIf": "Little, though the dredging outfits on the coast have begun asking what a stand of unrotted forest would be worth lifted."
@@ -16905,8 +16807,7 @@
           "place.hist-heartland.helstrom"
         ],
         "travelServiceEdges": [
-          "boat:route.boat.alten-corimont-helstrom",
-          "porter:relay-helstrom"
+          "boat:route.boat.alten-corimont-helstrom"
         ]
       },
       "culture": "argonian",
@@ -18181,7 +18082,8 @@
           "water-narrows",
           "oxbow",
           "river-mouth"
-        ]
+        ],
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [],
@@ -18256,7 +18158,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -18265,49 +18167,6 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
-      "position": {
-        "u": 0.50459,
-        "v": 0.57821
-      },
-      "positionM": [
-        3720.6,
-        4263.4
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0789",
-          "score": 4.185,
-          "whyLost": "too close to place.hist-heartland.heretic-stone-restarted"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0846",
-          "score": 3.855,
-          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
-        },
-        {
-          "siteId": "site.scour.tropical-jungle.water-narrows-003",
-          "score": 3.841,
-          "whyLost": "too close to place.saxhleel-coast.jungle-root-hollow"
-        }
-      ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 639 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on region, remote, danger; placed from the homeless batch at stage 'neighbour-zone'.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 639.5,
-        "distanceToWaterM": 39.9,
-        "water": {
-          "entityId": "body.2061-2336",
-          "kind": "swamp",
-          "levelM": 46.72,
-          "season": "perennial",
-          "distanceM": 39.9
-        },
-        "score": 3.793
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -20024,7 +19883,7 @@
         ],
         "boundTo": {
           "place": "place.hist-heartland.helstrom",
-          "maxM": 300.0
+          "maxM": 100
         }
       },
       "relations": {
@@ -20046,9 +19905,8 @@
           "place.hist-heartland.porter-relay-poling"
         ],
         "travelServiceEdges": [
-          "rootworm:helstrom-east-estuary",
-          "rootworm:helstrom-gideon",
-          "rootworm:helstrom-north-shadowfen"
+          "rootway.helstrom-east-estuary",
+          "rootway.helstrom-north-shadowfen"
         ]
       },
       "culture": "argonian",
@@ -20115,7 +19973,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "reconciliation": "replaces placeholder station 'helstrom' in the compiled root-transit graph",
       "season": "all-year",
       "eraLayers": [
@@ -20126,49 +19984,6 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.rootworm-waykeepers",
       "localStateVariants": [],
-      "position": {
-        "u": 0.4436,
-        "v": 0.38634
-      },
-      "positionM": [
-        3270.9,
-        2848.7
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0563",
-          "score": 4.136,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.enclosed-clearing-006",
-          "score": 4.129,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0536",
-          "score": 4.128,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "flood high in firm lowland (danger band 5), 136 m from the nearest route; its first-choice landform; won on culture-clump, landform, bound.",
-      "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "firm lowland",
-        "dangerBand": 5,
-        "distanceToRouteM": 135.8,
-        "distanceToWaterM": 93.2,
-        "water": {
-          "entityId": "body.1723-1586",
-          "kind": "marsh-deep",
-          "levelM": 1.69,
-          "season": "perennial",
-          "distanceM": 93.2
-        },
-        "score": 4.804
-      },
       "hostility": {
         "baseline": "guarded",
         "owner": "faction.rootworm-waykeepers",
@@ -20264,7 +20079,7 @@
           "place.hist-heartland.bubble-spire-open-helstrom"
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.flood-high-051"
+      "designGroup": "group.helstrom"
     },
     {
       "id": "place.hist-heartland.sap-collection-facility-daedric",
@@ -26673,7 +26488,8 @@
           "any-shallow-marsh",
           "spring-head",
           "sinkhole"
-        ]
+        ],
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [],
@@ -26742,7 +26558,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "wet",
       "eraLayers": [
         "current"
@@ -26751,49 +26567,6 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
-      "position": {
-        "u": 0.73736,
-        "v": 0.38337
-      },
-      "positionM": [
-        5436.9,
-        2826.8
-      ],
-      "footprintRadiusM": 175.0,
-      "footprintSource": "blueprint",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-0806",
-          "score": 3.469,
-          "whyLost": "too close to place.hist-heartland.fenlord-tomb-deep"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0841",
-          "score": 3.139,
-          "whyLost": "too close to place.naga-kur-deeps.wamasu-pond-adult"
-        },
-        {
-          "siteId": "site.free.open-water-0595",
-          "score": 2.923,
-          "whyLost": "too close to place.hist-heartland.fenlord-tomb-deep"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 302 m from the nearest route; at the water's edge; no free 'oxbow' site was left in the zone, so plain ground; won on route, region, parent.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 301.6,
-        "distanceToWaterM": 17.3,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 17.3
-        },
-        "score": 2.905
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -28386,7 +28159,7 @@
         ],
         "boundTo": {
           "place": "place.hist-heartland.lost-city",
-          "maxM": 220
+          "maxM": 100
         }
       },
       "relations": {
@@ -28490,50 +28263,7 @@
       "underwaterAccess": "surface-swim",
       "complexityBudget": "standard",
       "importanceTier": 0,
-      "workflow": "plotted",
-      "position": {
-        "u": 0.34841,
-        "v": 0.40568
-      },
-      "positionM": [
-        2569.0,
-        2991.3
-      ],
-      "footprintRadiusM": 30.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-0585",
-          "score": 4.242,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0558",
-          "score": 4.215,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0557",
-          "score": 4.175,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 510 m from the nearest route; no free 'box-canyon' site was left in the zone, so plain ground; won on culture-clump, bound, region.",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 510.4,
-        "distanceToWaterM": 41.8,
-        "water": {
-          "entityId": "body.2442-1212",
-          "kind": "marsh-deep",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 41.8
-        },
-        "score": 4.339
-      },
+      "workflow": "derived",
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -28731,7 +28461,6 @@
           "place.hist-heartland.porter-relay-poling"
         ],
         "travelServiceEdges": [
-          "boat:markmont-corimont",
           "boat:route.boat.alten-corimont-helstrom"
         ]
       },

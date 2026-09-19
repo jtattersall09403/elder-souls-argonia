@@ -93,7 +93,10 @@ SERVICE_KINDS = ["ferry", "boat", "rootworm", "guide", "cart", "porter"]
 STATION_KINDS = ["place", "ferry-landing", "root-node"]
 HOP_FOLLOWS = ["lane", "lanes", "reaches", "rootway", "road"]
 FORMS = {"road-crossing", "station-run"}
-STATUSES = {"active", "placeholder", "deferred", "unmatched"}
+STATUSES = {"active", "placeholder", "deferred", "unmatched", "retired"}
+#: A retired service is kept as a record of a decision, never re-resolved:
+#: the derive leaves it alone and the checks read `retiredWhy`.
+RETIRED = "retired"
 
 #: How far a crossing's bank midpoint may sit from a ferry's authored landing
 #: midpoint and still be the same crossing.
@@ -737,6 +740,8 @@ def _resolve_station_hops(doc: dict, stations: dict, net, sw=None) -> list[str]:
     for s in doc["services"]:
         if s.get("form") != "station-run" or s.get("serviceKind") == "rootworm":
             continue
+        if s.get("status") == RETIRED:
+            continue
         need = HULL_CLASS_DEPTH_M.get(s.get("hullClass"), 0.0)
         if s.get("status") == "unmatched":
             s["status"] = "active"
@@ -856,14 +861,19 @@ def _derive_harbours(doc: dict, places: dict, harbours=None, anchors=None, net=N
             if d <= STATION_LANE_M:
                 own = {"stationId": station_id_for_place(pid), "placeId": pid,
                        "why": "the city's own quay"}
+        authored = harbours.get(anchor) or {}
+        # A harbour may be a ferry landing rather than a place: those stations
+        # are derived, not catalogue records, so the authored row may name the
+        # station id directly (`stationId`) instead of a `placeId`.
         row = own or {
-            "stationId": (station_id_for_place(harbours.get(anchor, {}).get("placeId"))
-                          if (harbours.get(anchor) or {}).get("placeId") else None),
-            "placeId": (harbours.get(anchor) or {}).get("placeId"),
-            "why": (harbours.get(anchor) or {}).get("why"),
+            "stationId": (authored.get("stationId")
+                          or (station_id_for_place(authored["placeId"])
+                              if authored.get("placeId") else None)),
+            "placeId": authored.get("placeId"),
+            "why": authored.get("why"),
         }
         out[anchor] = row
-        if row["placeId"] is None:
+        if row["placeId"] is None and row["stationId"] is None:
             lines.append(f"harbour {anchor}: NOT SET — the city's gate is "
                          + (f"{net.nearest(gate)[1]:.0f} m off the lane network"
                             if gate else "absent")
@@ -1069,6 +1079,8 @@ def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
             errs.append(f"service {sid}: deferred needs deferredWhy")
         if status == "placeholder" and not str(s.get("placeholderWhy") or "").strip():
             errs.append(f"service {sid}: placeholder needs placeholderWhy")
+        if status == RETIRED and not str(s.get("retiredWhy") or "").strip():
+            errs.append(f"service {sid}: retired needs retiredWhy")
         if s.get("craft") is not None and s["craft"] not in craft:
             errs.append(f"service {sid}: craft {s.get('craft')!r} is not in the craft table")
 
@@ -1281,15 +1293,18 @@ def _check_harbours(doc: dict, places: dict, warn: list[str]) -> list[str]:
     if block is None:
         return ["no `harbourStations` block — run `python3 -m worldgen.travel_services`"]
     stations = {st["id"]: st for st in doc.get("stations", [])}
-    missing = [k for k, v in sorted(block.items()) if not (v or {}).get("placeId")]
+    # Filled means the traveller has somewhere to board: a place OR, for a
+    # ferry landing, the station id itself.
+    missing = [k for k, v in sorted(block.items())
+               if not ((v or {}).get("placeId") or (v or {}).get("stationId"))]
     for anchor in missing:
         warn.append(f"harbour {anchor}: no harbour place chosen yet "
                     f"(world/sources/routes/harbour-stations.json)")
     for anchor, row in sorted(block.items()):
         pid = (row or {}).get("placeId")
-        if pid is None:
+        if pid is None and not (row or {}).get("stationId"):
             continue
-        if pid not in places:
+        if pid is not None and pid not in places:
             errs.append(f"harbour {anchor}: placeId {pid!r} is not a catalogue place")
         if (row or {}).get("stationId") not in stations:
             errs.append(f"harbour {anchor}: {row.get('stationId')!r} is not a station in this "

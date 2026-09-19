@@ -36,6 +36,7 @@ import sys
 from pathlib import Path
 
 from . import catalogue
+from . import route_reference
 from . import scale
 
 REMEDIES_PATH = catalogue.REPO_ROOT / "world" / "sources" / "sites" / "plot-remedies.json"
@@ -66,10 +67,14 @@ PROSE_FIELDS = {"why.founding", "why.siteAdvantages", "why.pressures",
 #: The first path segment a `field` remedy may write: the schema fields 16g
 #: added. Anything else is refused — `field` is an escape hatch, not a hole.
 FIELD_ALLOWLIST = {"ownerGuided", "vasteiTutorialScene", "reservedFor",
-                   "coSitedWith", "underwaterAccessDetail", "heroHist", "interior"}
+                   "coSitedWith", "underwaterAccessDetail", "heroHist", "interior",
+                   "terrainRequests", "travelStation"}
 
 #: The relation lists that carry ROUTE ids (the rest carry place ids).
-ROUTE_RELATION_KEYS = ("patrols", "tolls", "travelServiceEdges")
+#: `reachedVia` is here because the stale prose names ("Topal Bay", "the
+#: coast road") that 16g re-references live in it, not only in the three
+#: service lists.
+ROUTE_RELATION_KEYS = ("patrols", "tolls", "travelServiceEdges", "reachedVia")
 
 RELATION_BLOCKS = ("relations", "relationsReserved")
 
@@ -93,8 +98,11 @@ def load_remedies(path: Path = REMEDIES_PATH) -> list[dict]:
 
 
 def load_route_ids(path: Path = ROUTE_REGISTRY_PATH) -> set[str]:
-    doc = json.loads(path.read_text(encoding="utf-8"))
-    return {r["id"] for r in doc.get("routes", [])}
+    """The shared route namespace (`worldgen.route_reference`), so a
+    replacement may name a registry id OR an alias OR a published lane OR a
+    rootway OR a named water — the same set `macro_plot.danglingRelations`
+    resolves against. Place ids are added by `Context`."""
+    return route_reference.route_reference_ids(registry_path=path)
 
 
 def load_type_recipes(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> dict[str, dict]:
@@ -207,7 +215,7 @@ class Context:
             for rec in rf.places:
                 self.by_id[rec["id"]] = rec
                 self.file_of[rec["id"]] = rf
-        self.route_ids = load_route_ids(route_registry)
+        self.route_ids = load_route_ids(route_registry) | set(self.by_id)
         self.recipes = load_type_recipes(catalogue_dir)
         self.overrides = load_overrides(overrides_path)
         self.dirty_files: set[Path] = set()
@@ -309,7 +317,11 @@ def _re_reference(ctx: Context, rec: dict, rem: dict, apply: bool) -> list[str]:
     repl = rem.get("replace")
     _require(isinstance(repl, dict) and repl, "re-reference needs a non-empty replace map")
     for new in repl.values():
-        _require(new in ctx.route_ids, f"re-reference: '{new}' is not a route in routes/registry.json")
+        # `null` = drop the edge (no successor route exists); anything else
+        # must name a live route.
+        _require(new is None or new in ctx.route_ids,
+                 f"re-reference: '{new}' is neither null (drop the edge) nor a known "
+                 f"route, lane, rootway, named water or place id")
     changes = []
     for block in RELATION_BLOCKS:
         blk = rec.get(block)
@@ -319,10 +331,20 @@ def _re_reference(ctx: Context, rec: dict, rem: dict, apply: bool) -> list[str]:
             lst = blk.get(key)
             if not isinstance(lst, list):
                 continue
-            new = [repl.get(v, v) if isinstance(v, str) else v for v in lst]
+            new = []
+            notes = []
+            for v in lst:
+                if isinstance(v, str) and v in repl:
+                    sub = repl[v]
+                    if sub is None:
+                        notes.append(f"{v}→dropped")
+                        continue
+                    notes.append(f"{v}→{sub}")
+                    new.append(sub)
+                else:
+                    new.append(v)
             if new != lst:
-                changes.append(f"{block}.{key}: " + ", ".join(
-                    f"{a}→{b}" for a, b in zip(lst, new) if a != b))
+                changes.append(f"{block}.{key}: " + ", ".join(notes))
                 if apply:
                     blk[key] = new
     return changes

@@ -258,10 +258,13 @@ def test_published_terrain_request_records_satisfy_the_real_manifest_check():
 
 @requires_stage("terrain_request_postconditions")
 def test_known_red_register_names_only_live_published_requests():
-    """The water-owned red list cannot drift away from the published plan."""
+    """The water-owned red list cannot drift away from the published plan.
+
+    The register MAY be empty (16g deliverable 7 drops the known-red requests
+    from the records rather than re-solving the water to meet them). What it
+    may never do is name a request the published plan no longer carries."""
     plan = _published(PUBLISHED_PLAN)
     known_red = post.load_known_red()
-    assert known_red, "the known-red register must exist and be non-empty while water is red"
     live = {row["id"] for row in plan["requests"]}
     assert set(known_red) <= live, sorted(set(known_red) - live)
 
@@ -286,4 +289,3 @@ def test_final_water_postconditions_are_green_apart_from_the_known_red_water_row
     assert split["missingFromReport"] == []
     assert split["recoveredNoLongerRed"] == [], (
         "these no longer fail — delete them from the known-red register")
-    assert split["knownRed"], "the water rows must still be visibly red, not silently green"

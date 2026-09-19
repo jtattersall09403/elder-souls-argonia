@@ -331,3 +331,31 @@ def test_apply_to_records_writes_the_footprint_fields_it_must_carry():
             "classification": src["classification"]}
     macro_plot.apply_footprint_fields(poly)
     assert poly["footprintSource"] == "polygon" and "footprintRadiusM" not in poly
+
+
+def test_route_reference_ids_resolve_registry_routes_and_lanes(tmp_path):
+    """`danglingRelations` resolved place ids only, so every road/track/lane
+    reference was reported dangling. A registry id, a registry alias and a
+    published lane id all resolve; a made-up id does not."""
+    reg = tmp_path / "registry.json"
+    reg.write_text(json.dumps({"schemaVersion": 1, "routes": [
+        {"id": "route.road.gideon-soulrest", "aliases": ["road:gideon-soulrest"]}]}))
+    prov = tmp_path / "province"
+    prov.mkdir()
+    (prov / "waterways.json").write_text(json.dumps(
+        {"lanes": [{"id": "route.boat.lilmoth-archon"}]}))
+    ids = macro_plot.route_reference_ids(reg, prov)
+    assert "route.road.gideon-soulrest" in ids
+    assert "road:gideon-soulrest" in ids
+    assert "route.boat.lilmoth-archon" in ids
+    assert "route.road.nowhere-at-all" not in ids
+
+
+def test_route_reference_ids_cover_the_committed_registry():
+    """The real registry: a committed `route.road.*` id resolves, a made-up
+    one does not."""
+    ids = macro_plot.route_reference_ids()
+    registry = json.loads(macro_plot.ROUTE_REGISTRY_PATH.read_text())
+    real = next(r["id"] for r in registry["routes"] if r["id"].startswith("route.road."))
+    assert real in ids
+    assert "route.road.made-up-by-this-test" not in ids

@@ -288,7 +288,8 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.imperial-fringe.gideon"
         }
-      ]
+      ],
+      "designGroup": "group.blackrose-siege-works"
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
@@ -1212,8 +1213,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A collapse in the western feeder country that swallows an entire stream.",
-        "siteAdvantages": "A hole in the western feeder country which the marsh has not filled.",
+        "founding": "A collapse in the marsh south of the city that swallows an entire stream.",
+        "siteAdvantages": "A hole in the marsh south of the city which the water has not filled.",
         "occupantsMotive": "Bare rock on the rim. Something lives below the first ledge.",
         "pressures": "It is almost certainly connected to the Blue Hole. Proving it means a dyed float coming up in the lake. No crew has paid for the dye.",
         "wouldChangeIf": "Proving the connection would open a route from the western hills into the lake floor."
@@ -1834,8 +1835,8 @@
           "place.imperial-penal-south.three-gate-toll"
         ],
         "reachedVia": [
-          "Bramman's river",
-          "the three rivers"
+          "route.boat.soulrest-blackrose",
+          "route.boat.gideon-onkobra"
         ],
         "dependsOn": [
           "place.imperial-penal-south.rose-supply-town",
@@ -2214,7 +2215,8 @@
           1900.04,
           6259.44
         ]
-      ]
+      ],
+      "ownerGuided": true
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
@@ -2266,7 +2268,12 @@
           ],
           "neighbourRelation": "in Blackrose's own lake, tended from the city shore",
           "densityGradient": "lake core, dense"
-        }
+        },
+        "nearWater": {
+          "entityId": "body.1290-3508",
+          "maxM": 10
+        },
+        "minDepthM": 5.0
       },
       "relations": {
         "dependsOn": [],
@@ -2347,7 +2354,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "post-umbriel",
@@ -2363,49 +2370,6 @@
           "description": "Drawdown has put the crown within a metre of the surface and the whole district has come to see it."
         }
       ],
-      "position": {
-        "u": 0.22273,
-        "v": 0.81693
-      },
-      "positionM": [
-        1642.3,
-        6023.6
-      ],
-      "footprintRadiusM": 40.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0971",
-          "score": 3.651,
-          "whyLost": "too close to place.imperial-penal-south.west-market-town"
-        },
-        {
-          "siteId": "site.free.open-water-0971",
-          "score": 4.151,
-          "whyLost": "too close to place.imperial-penal-south.west-market-town"
-        },
-        {
-          "siteId": "site.free.open-water-0963",
-          "score": 3.777,
-          "whyLost": "too close to place.imperial-penal-south.west-market-town"
-        }
-      ],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 70 m from the nearest route; at the water's edge; won on culture-clump, region, submerged; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 69.8,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.973-3292",
-          "kind": "marsh-fringe",
-          "levelM": 1.62,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 3.61
-      },
       "hostility": {
         "baseline": "sanctuary",
         "owner": "faction.blackrose-tenders",
@@ -2885,6 +2849,11 @@
           ],
           "neighbourRelation": "deliberately outside a village's normal ground",
           "densityGradient": "western feeder, moderate"
+        },
+        "nearPoint": {
+          "x": 1971.5,
+          "z": 6177.4,
+          "maxM": 60.0
         }
       },
       "relations": {
@@ -2947,7 +2916,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current",
@@ -3068,33 +3037,6 @@
             "whereInInterior": "main"
           }
         ]
-      },
-      "position": {
-        "u": 0.29561,
-        "v": 0.88981
-      },
-      "positionM": [
-        2179.7,
-        6561.0
-      ],
-      "footprintRadiusM": 35.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 191 m from the nearest route; its choice #4 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.saltrice-village (+1.71).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 191.3,
-        "distanceToWaterM": 66.3,
-        "water": {
-          "entityId": "body.1183-3666",
-          "kind": "marsh-fringe",
-          "levelM": 4.0,
-          "season": "perennial",
-          "distanceM": 66.3
-        },
-        "score": 3.772
       }
     },
     {
@@ -3323,7 +3265,8 @@
           "x": 1941.0,
           "z": 6295.0,
           "maxM": 200.0
-        }
+        },
+        "minDepthM": 1.2
       },
       "relations": {
         "dependsOn": [
@@ -3420,7 +3363,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -3435,49 +3378,6 @@
           "description": "The screen route is compromised; the lagoon is empty and the rings have no rope on them."
         }
       ],
-      "position": {
-        "u": 0.21976,
-        "v": 0.85932
-      },
-      "positionM": [
-        1620.4,
-        6336.2
-      ],
-      "footprintRadiusM": 65.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.fringe-marsh.ford-045",
-          "score": 4.766,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1249",
-          "score": 4.31,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1230",
-          "score": 4.088,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 326 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on nearPoint, region, danger; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 326.2,
-        "distanceToWaterM": 19.8,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 19.8
-        },
-        "score": 4.067
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": "faction.brammans-pilots",
@@ -5238,7 +5138,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The lake's shallow north-eastern arm empties for six weeks every dry season, exposing four square kilometres of bed that is a metre under water the rest of the year.",
+        "founding": "The lake's shallow north-eastern arm empties for six weeks every dry season, exposing a wide bed that is a metre under water the rest of the year.",
         "siteAdvantages": "A wide flat arm barely a metre deep, with an outlet that drops below its sill in the dry.",
         "occupantsMotive": "Longmont and Rockspring both. The drawdown is a local event; the shore villages walk out onto the bed and take what the year has dropped.",
         "pressures": "The driven poles of a drowned burial ground stand out of the bed during the drawdown, which forces an annual argument about what may be taken.",
@@ -6497,7 +6397,7 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "Lilmothiit refugees fleeing the Knahaten Flu in Murkmire went inland toward Blackrose. No account says what became of them. This is where Blackrose stopped them.",
-        "siteAdvantages": "On the Lake road west of the city, at the last narrows before the lake, where a cordon could actually be held.",
+        "siteAdvantages": "On the Lake road north of the city, at the last narrows before the water, where a cordon could actually be held.",
         "occupantsMotive": "Empty since the Flu year. It was a village-sized pen with a fence, a gate, a ration store and a burial ground larger than the village.",
         "pressures": "The fate of the Lilmothiit refugees is recorded here and nowhere else. Blackrose has kept it out of its own accounts.",
         "wouldChangeIf": "Published ration ledgers would make the city's founding families answer for it."
@@ -8064,6 +7964,10 @@
           ],
           "neighbourRelation": "often the only dry route through its stretch",
           "densityGradient": "lake shore, dense"
+        },
+        "nearWater": {
+          "entityId": "body.1290-3508",
+          "maxM": 60
         }
       },
       "relations": {
@@ -8134,7 +8038,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8235,33 +8139,6 @@
           "place.imperial-penal-south.blackrose"
         ]
       },
-      "position": {
-        "u": 0.35436,
-        "v": 0.93146
-      },
-      "positionM": [
-        2612.9,
-        6868.1
-      ],
-      "footprintRadiusM": 115.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [],
-      "whySiteWon": "open water in mangrove forest (danger band 0), 252 m from the nearest route; at the water's edge; won on region, hinterland, route; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "mangrove forest",
-        "dangerBand": 0,
-        "distanceToRouteM": 252.2,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 2.547
-      },
       "services": [
         "ferry",
         "lodging",
@@ -8316,6 +8193,10 @@
           ],
           "neighbourRelation": "always paired with drowned ground it works",
           "densityGradient": "lake shore, moderate"
+        },
+        "nearWater": {
+          "entityId": "body.1290-3508",
+          "maxM": 60
         }
       },
       "relations": {
@@ -8381,7 +8262,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8464,51 +8345,7 @@
           }
         ]
       },
-      "position": {
-        "u": 0.33652,
-        "v": 0.9151
-      },
-      "positionM": [
-        2481.3,
-        6747.5
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0880",
-          "score": 5.341,
-          "whyLost": "too close to place.imperial-penal-south.blackrose-drowned-hist"
-        },
-        {
-          "siteId": "site.free.open-water-0905",
-          "score": 4.762,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-1021",
-          "score": 4.699,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "cove in mangrove forest (danger band 0), 336 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, route, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.rebellion-earthworks (+0.29).",
-      "plotFacts": {
-        "landform": "cove",
-        "regionClass": "mangrove forest",
-        "dangerBand": 0,
-        "distanceToRouteM": 336.1,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 4.842
-      },
-      "services": [],
-      "scourSiteId": "site.scour.mangrove-forest.cove-038"
+      "services": []
     },
     {
       "id": "place.imperial-penal-south.lake-drowned-village",
@@ -8560,7 +8397,12 @@
           ],
           "neighbourRelation": "below a living settlement, or beside one that watched it go",
           "densityGradient": "lake shore, moderate"
-        }
+        },
+        "nearWater": {
+          "entityId": "body.1290-3508",
+          "maxM": 10
+        },
+        "minDepthM": 5.0
       },
       "relations": {
         "dependsOn": [
@@ -8633,7 +8475,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -8749,49 +8591,6 @@
             "whereInInterior": "main"
           }
         ]
-      },
-      "position": {
-        "u": 0.21678,
-        "v": 0.88312
-      },
-      "positionM": [
-        1598.4,
-        6511.7
-      ],
-      "footprintRadiusM": 65.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0884",
-          "score": 2.806,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0883",
-          "score": 2.79,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0788",
-          "score": 2.626,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "open water in tidal delta (danger band 3), 495 m from the nearest route; at the water's edge; won on culture-clump, region, submerged; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "tidal delta",
-        "dangerBand": 3,
-        "distanceToRouteM": 494.9,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.877-3568",
-          "kind": "lagoon",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 3.654
       }
     },
     {
@@ -9383,7 +9182,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A xanmeer that stood on the lake's old floor before the water rose, now entirely submerged and entirely intact.",
-        "siteAdvantages": "Eighteen metres down in cold clear water, with its terraces stepping up to within six metres of the surface.",
+        "siteAdvantages": "Three and a half metres down in cold clear water, with its terraces stepping up to within a metre of the surface.",
         "occupantsMotive": "Fish. Its doorways are sealed by silt at the base and open at the third terrace.",
         "pressures": "It is the deepest reachable structure in the south and the divers who work it treat it as a different profession from lake salvage.",
         "wouldChangeIf": "A silt slump would close the open terrace and seal it entirely."
@@ -9734,7 +9533,14 @@
           ],
           "neighbourRelation": "answers to a reoccupied prison",
           "densityGradient": "lake core, dense"
-        }
+        },
+        "boundTo": {
+          "place": "place.imperial-penal-south.three-gate-toll",
+          "maxM": 250
+        },
+        "sightlineTo": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       },
       "relations": {
         "dependsOn": [
@@ -9801,7 +9607,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -9955,49 +9761,6 @@
         "rivals": [
           "place.imperial-penal-south.chainlink-watchtower"
         ]
-      },
-      "position": {
-        "u": 0.25545,
-        "v": 0.77677
-      },
-      "positionM": [
-        1883.6,
-        5727.5
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.fringe-marsh.water-narrows-000",
-          "score": 1.714,
-          "whyLost": "too close to place.imperial-penal-south.chainbreaker-shelter"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1319",
-          "score": 1.256,
-          "whyLost": "taken by place.imperial-penal-south.flu-mass-grave"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1339",
-          "score": 1.224,
-          "whyLost": "too close to place.imperial-penal-south.lake-boardwalk-village"
-        }
-      ],
-      "whySiteWon": "open water in lake & standing water (danger band 4), 247 m from the nearest route; at the water's edge; won on region, hinterland, parent; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 4,
-        "distanceToRouteM": 246.8,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.1209-3032",
-          "kind": "swamp",
-          "levelM": 0.84,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 2.1
       },
       "sitingNote": "On the lake's western edge, where the culture raster reads mercantile-coast: a book-keeping smuggler crew belongs on the seam between the city's water and the coast's, not inside either. Region list widened to include the standing water beneath it.",
       "proseRefs": [
@@ -10515,8 +10278,8 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Blackrose's north-western neighbour: a lake-shore village on the approach, the last stop before the city's toll gates.",
-        "siteAdvantages": "A long shallow flat on the lake's north-west shore, poleable all year and outside the city's wall line.",
+        "founding": "Blackrose's south-western neighbour: a shore village on the approach, the last stop before the city's toll gates.",
+        "siteAdvantages": "A long shallow flat on the south-western shore, poleable all year and outside the city's wall line.",
         "occupantsMotive": "Freight bound for Blackrose by land is broken to boats here, by people who are not the city and charge less than it.",
         "pressures": "Blackrose has twice tried to bring Longmont inside its toll regime and twice found the village simply stops handling freight.",
         "wouldChangeIf": "Absorption into the city's toll regime would move the whole trade to Rockspring in one season."
@@ -10814,8 +10577,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A tower on the western channel where the feeder water enters the lake system, put there to count hulls.",
-        "siteAdvantages": "On a rock spur; the channel passes within thirty metres of it.",
+        "founding": "A tower on the south-eastern water where the marsh drains toward the lake system, put there to count hulls.",
+        "siteAdvantages": "On a rock spur; the water passes within forty metres of it.",
         "occupantsMotive": "Two counters and a boom; the boom has not been lowered in thirty years, but is maintained anyway.",
         "pressures": "Traffic off the western feeders is the hardest to count and the most valuable.",
         "wouldChangeIf": "Lowering the boom would be an act of policy that would be answered from upstream."
@@ -10839,6 +10602,11 @@
           ],
           "neighbourRelation": "one of a chain; must see a neighbour or it is not a watch",
           "densityGradient": "western feeder, moderate"
+        },
+        "nearPoint": {
+          "x": 2360.7,
+          "z": 6418.5,
+          "maxM": 100.0
         }
       },
       "relations": {
@@ -10904,7 +10672,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -10981,51 +10749,7 @@
             "provenance": "thirty years of hull counts"
           }
         ]
-      },
-      "position": {
-        "u": 0.31346,
-        "v": 0.90394
-      },
-      "positionM": [
-        2311.3,
-        6665.2
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1248",
-          "score": 4.428,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.roadside-0355",
-          "score": 4.415,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.roadside-0358",
-          "score": 3.813,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "headland in firm lowland (danger band 2), 247 m from the nearest route; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "headland",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 247.3,
-        "distanceToWaterM": 39.5,
-        "water": {
-          "entityId": "body.1242-3657",
-          "kind": "marsh-fringe",
-          "levelM": 4.68,
-          "season": "perennial",
-          "distanceM": 39.5
-        },
-        "score": 4.196
-      },
-      "scourSiteId": "site.scour.firm-lowland.headland-047"
+      }
     },
     {
       "id": "place.imperial-penal-south.marsh-giant-ground-basin",
@@ -11047,7 +10771,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A marsh giant's range on the north-east marsh, marked by two centuries of the same paths being walked.",
+        "founding": "A marsh giant's range on the marsh north of the city, marked by two centuries of the same paths being walked.",
         "siteAdvantages": "A wide shallow marsh with reed stands and no human settlement, on the Murkwood side of the lake.",
         "occupantsMotive": "The animal. Two centuries of the same circuit, walked by one giant.",
         "pressures": "The paths are the fastest route toward the Murkwood verge, so guides use them anyway.",
@@ -11318,8 +11042,8 @@
       ],
       "confidence": "CANON_FIXED",
       "why": {
-        "founding": "The forest that ever moves, last located north-east of Blackrose; located only by the Conclave of Baal at Stormhold, reading the Elder Scrolls with an old tablet.",
-        "siteAdvantages": "A stretch of deep marsh north-east of the lake where the tree line is wrong on every survey and no two surveys agree. The ground itself is ordinary. The danger arrived with the forest and leaves with it.",
+        "founding": "The forest that ever moves, last located south-east of Blackrose; located only by the Conclave of Baal at Stormhold, reading the Elder Scrolls with an old tablet.",
+        "siteAdvantages": "A stretch of coast marsh south-east of the city where the tree line is wrong on every survey and no two surveys agree. The ground itself is ordinary. The danger arrived with the forest and leaves with it.",
         "occupantsMotive": "Medusas and fellrunners, brought in with the trees.",
         "pressures": "The verge is where the forest stands now. The villages within a day of it keep a tally of where it has stood before.",
         "wouldChangeIf": "It will stand somewhere else. The villages date its previous positions from the stump-fields."
@@ -11679,7 +11403,12 @@
           ],
           "neighbourRelation": "the only entrance to a submerged place",
           "densityGradient": "lake core, moderate"
-        }
+        },
+        "nearWater": {
+          "entityId": "body.1290-3508",
+          "maxM": 30
+        },
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [],
@@ -11739,7 +11468,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "dry",
       "eraLayers": [
         "merethic",
@@ -11834,44 +11563,6 @@
           }
         ]
       },
-      "position": {
-        "u": 0.34767,
-        "v": 0.83329
-      },
-      "positionM": [
-        2563.5,
-        6144.3
-      ],
-      "footprintRadiusM": 30.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0734",
-          "score": 4.041,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0749",
-          "score": 3.973,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 88 m from the nearest route; at the water's edge; won on route, region, submerged; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 87.7,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.1209-3032",
-          "kind": "swamp",
-          "levelM": 0.84,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 4.158
-      },
       "terrainRequests": [
         {
           "kind": "sinkhole",
@@ -11941,9 +11632,9 @@
           "maxM": 450
         },
         "nearPoint": {
-          "x": 2330.0,
-          "z": 6760.0,
-          "maxM": 400.0
+          "x": 2075.5,
+          "z": 6517.2,
+          "maxM": 60.0
         }
       },
       "relations": {
@@ -12015,7 +11706,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12134,49 +11825,6 @@
           }
         ]
       },
-      "position": {
-        "u": 0.27776,
-        "v": 0.90915
-      },
-      "positionM": [
-        2048.1,
-        6703.6
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1338",
-          "score": 4.201,
-          "whyLost": "too close to place.imperial-penal-south.drowned-gallery"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1337",
-          "score": 3.976,
-          "whyLost": "too close to max-from:ruin"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.islet-009",
-          "score": 3.842,
-          "whyLost": "too close to place.imperial-penal-south.drowned-gallery"
-        }
-      ],
-      "whySiteWon": "land bridge in fringe marsh (danger band 3), 382 m from the nearest route; at the water's edge; won on bound, nearPoint, region; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "land-bridge",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 381.8,
-        "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "body.1143-3688",
-          "kind": "marsh-fringe",
-          "levelM": 3.93,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
-        "score": 3.379
-      },
       "terrainRequests": [
         {
           "kind": "dry-rise",
@@ -12189,8 +11837,7 @@
           "note": "A low spoil-hidden rise above the marsh water table, enough to keep a shored shaft dry."
         }
       ],
-      "sitingNote": "Pulled off the causeway water (64 m) onto quiet ground 135 m from any route, since the dig depends on ground the carters do not use.",
-      "scourSiteId": "site.scour.fringe-marsh.land-bridge-015"
+      "sitingNote": "Pulled off the causeway water (64 m) onto quiet ground 135 m from any route, since the dig depends on ground the carters do not use."
     },
     {
       "id": "place.imperial-penal-south.onkobra-clay-kiln",
@@ -12568,6 +12215,10 @@
           ],
           "neighbourRelation": "encircles a plague-abandoned village or a cairn field",
           "densityGradient": "eastern approach, moderate"
+        },
+        "boundTo": {
+          "place": "place.imperial-penal-south.rose-supply-town",
+          "maxM": 60
         }
       },
       "relations": {
@@ -12632,7 +12283,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "knahaten-flu"
@@ -12673,49 +12324,6 @@
           }
         ]
       },
-      "position": {
-        "u": 0.3369,
-        "v": 0.8716
-      },
-      "positionM": [
-        2484.1,
-        6426.8
-      ],
-      "footprintRadiusM": 30.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0611",
-          "score": 6.165,
-          "whyLost": "too close to place.imperial-penal-south.west-market-town"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1280",
-          "score": 5.901,
-          "whyLost": "too close to place.imperial-penal-south.west-market-town"
-        },
-        {
-          "siteId": "site.free.roadside-0107",
-          "score": 5.8,
-          "whyLost": "too close to place.imperial-penal-south.west-market-town"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 25 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, route; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 24.5,
-        "distanceToWaterM": 11.0,
-        "water": {
-          "entityId": "body.1284-3448",
-          "kind": "swamp",
-          "levelM": 1.36,
-          "season": "perennial",
-          "distanceM": 11.0
-        },
-        "score": 5.649
-      },
       "sitingNote": "The line runs east of Blackrose toward the coast hinterland, so the culture raster reads mercantile-coast on its far side. The record depends on that: the villages beyond the stones still call themselves outside. Kept in place; the 'southern' wording was corrected and the line given its surviving gate.",
       "proseRefs": [
         {
@@ -12726,7 +12334,8 @@
           "sourcePath": "why.founding",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "designGroup": "group.rose-cordon"
     },
     {
       "id": "place.imperial-penal-south.prison-born-refuge",
@@ -12750,7 +12359,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Prison-born households who left the Rose and cannot join any village. They have grown up without a Hist.",
-        "siteAdvantages": "An island in the marsh two hours off the causeway, defensible and unclaimed.",
+        "siteAdvantages": "An island on the coast marsh two hours off the causeway, defensible and unclaimed.",
         "occupantsMotive": "They are building a community with no tree and no clan. No village recognises their funeral rite.",
         "pressures": "They will not return to the Rose. No village will take them. Hissmir is weeks away. The journey has not been made.",
         "wouldChangeIf": "A village willing to sponsor them into tree-access would dissolve the settlement in a season."
@@ -13208,6 +12817,10 @@
           ],
           "neighbourRelation": "always paired with what it besieged",
           "densityGradient": "lake shore, moderate"
+        },
+        "boundTo": {
+          "place": "place.imperial-penal-south.akaviri-works",
+          "maxM": 150
         }
       },
       "relations": {
@@ -13276,7 +12889,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial"
@@ -13285,49 +12898,6 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
-      "position": {
-        "u": 0.24504,
-        "v": 0.87271
-      },
-      "positionM": [
-        1806.8,
-        6434.9
-      ],
-      "footprintRadiusM": 40.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1352",
-          "score": 3.698,
-          "whyLost": "taken by place.imperial-penal-south.vampiric-cloud-ground"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.flood-high-001",
-          "score": 3.555,
-          "whyLost": "too close to place.imperial-penal-south.vampiric-cloud-ground"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1336",
-          "score": 3.329,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        }
-      ],
-      "whySiteWon": "river mouth in tidal delta (danger band 2), 350 m from the nearest route; at the water's edge; won on hinterland, danger, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-divers-yard (+0.29).",
-      "plotFacts": {
-        "landform": "river-mouth",
-        "regionClass": "tidal delta",
-        "dangerBand": 2,
-        "distanceToRouteM": 349.8,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "reach.1249-3511",
-          "kind": "horizontal-channel",
-          "levelM": 1.6,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 1.365
-      },
       "hostility": {
         "baseline": "wary",
         "owner": null,
@@ -13407,7 +12977,7 @@
           "placeRef": "place.imperial-penal-south.blackrose"
         }
       ],
-      "scourSiteId": "site.scour.tidal-delta.river-mouth-000"
+      "designGroup": "group.blackrose-siege-works"
     },
     {
       "id": "place.imperial-penal-south.rebellion-memorial",
@@ -13764,8 +13334,8 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Blackrose's north-western neighbour, built along a natural levee on the western feeder around a hard spring that runs clear when the feeder is brown.",
-        "siteAdvantages": "A levee crest a metre above every recorded flood, with a rock spring that runs clean when the whole basin is brown.",
+        "founding": "Blackrose's south-western neighbour, built along a natural levee around a hard spring that runs clear when the flats are brown.",
+        "siteAdvantages": "A levee crest a metre above every recorded flood, with a rock spring that runs clean when the whole flat is brown.",
         "occupantsMotive": "The spring is the asset. In a bad year the village sells water to boats by the cup.",
         "pressures": "They want Longmont's freight trade. The feeder is too shallow for laden hulls.",
         "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village and end Longmont's monopoly."
@@ -14019,8 +13589,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station on the causeway road to receive them.",
-        "siteAdvantages": "On the causeway, at the point where the Rose's people will hand a body over and the villages' people will accept one.",
+        "founding": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station on the Blackrose road to receive them.",
+        "siteAdvantages": "On the Blackrose road, at the point where the Rose's people will hand a body over and the villages' people will accept one.",
         "occupantsMotive": "The Rose's families release the dead here for a fee they call a carriage charge; the Chainbreakers pay it and record every payment.",
         "pressures": "The fee is the most resented transaction in the south, but both sides need it to continue.",
         "wouldChangeIf": "The Rose refusing to release the dead would end the arrangement and put the Chainbreakers and the families in open conflict."
@@ -14043,6 +13613,11 @@
           ],
           "neighbourRelation": "between a carceral site and the interior",
           "densityGradient": "Rose approach, moderate"
+        },
+        "nearPoint": {
+          "x": 2525.2,
+          "z": 6303.3,
+          "maxM": 150.0
         }
       },
       "relations": {
@@ -14115,7 +13690,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -14173,49 +13748,6 @@
             "provenance": null
           }
         ]
-      },
-      "position": {
-        "u": 0.32937,
-        "v": 0.83879
-      },
-      "positionM": [
-        2428.6,
-        6184.8
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1319",
-          "score": 3.16,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.headland-050",
-          "score": 2.085,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.water-narrows-000",
-          "score": 1.761,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 93 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 93.1,
-        "distanceToWaterM": 38.4,
-        "water": {
-          "entityId": "body.1209-3032",
-          "kind": "swamp",
-          "levelM": 0.84,
-          "season": "perennial",
-          "distanceM": 38.4
-        },
-        "score": 3.491
       }
     },
     {
@@ -14273,7 +13805,11 @@
           "any-firm-ground",
           "any-channel-bank",
           "ravine"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.imperial-penal-south.blackrose-prison",
+          "maxM": 300
+        }
       },
       "relations": {
         "dependsOn": [
@@ -14355,7 +13891,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -14372,39 +13908,6 @@
           "description": "The seal is broken and the passage is draining into the prison's own water supply."
         }
       ],
-      "position": {
-        "u": 0.27405,
-        "v": 0.89948
-      },
-      "positionM": [
-        2020.7,
-        6632.3
-      ],
-      "footprintRadiusM": 30.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1298",
-          "score": 4.703,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        }
-      ],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 345 m from the nearest route; at the water's edge; won on bound, region, danger.",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 345.1,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.1183-3666",
-          "kind": "marsh-fringe",
-          "levelM": 4.0,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 3.37
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.umbriel-dead",
@@ -14561,7 +14064,7 @@
         "station": [],
         "marks": []
       },
-      "workflow": "plotted",
+      "workflow": "derived",
       "questHooks": {
         "provisions": [
           "quest.provision.bc04-anchor"
@@ -14617,6 +14120,11 @@
         "boundTo": {
           "place": "place.imperial-penal-south.blackrose-prison",
           "maxM": 500
+        },
+        "nearPoint": {
+          "x": 2394.1,
+          "z": 6308.4,
+          "maxM": 60.0
         }
       },
       "relations": {
@@ -14825,49 +14333,6 @@
             "whereInInterior": "main"
           }
         ]
-      },
-      "position": {
-        "u": 0.34136,
-        "v": 0.85078
-      },
-      "positionM": [
-        2517.0,
-        6273.2
-      ],
-      "footprintRadiusM": 40.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1337",
-          "score": 4.209,
-          "whyLost": "too close to place.imperial-penal-south.necromantic-dig"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.islet-022",
-          "score": 3.722,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.islet-009",
-          "score": 2.853,
-          "whyLost": "too close to place.imperial-penal-south.drowned-gallery"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 28 m from the nearest route; at the water's edge; its choice #3 landform; won on bound, landform, region; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 28.0,
-        "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "body.1372-3434",
-          "kind": "marsh-fringe",
-          "levelM": 1.42,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
-        "score": 4.055
       }
     },
     {
@@ -14920,6 +14385,11 @@
           ],
           "neighbourRelation": "always paired with a fort, occupied or not",
           "densityGradient": "Rose approach, moderate"
+        },
+        "nearPoint": {
+          "x": 2475.8,
+          "z": 6374.6,
+          "maxM": 150.0
         }
       },
       "relations": {
@@ -15014,7 +14484,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -15030,49 +14500,6 @@
           "description": "The Rose has been emptied; the town's whole economy is visibly ending."
         }
       ],
-      "position": {
-        "u": 0.33503,
-        "v": 0.86453
-      },
-      "positionM": [
-        2470.3,
-        6374.6
-      ],
-      "footprintRadiusM": 140.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.fringe-marsh.ford-014",
-          "score": 3.845,
-          "whyLost": "too close to place.imperial-penal-south.drowned-gallery"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.ford-045",
-          "score": 3.839,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.roadside-0108",
-          "score": 3.708,
-          "whyLost": "too close to place.imperial-penal-south.west-market-town"
-        }
-      ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 5 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on route, region, danger; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 5.5,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.1284-3448",
-          "kind": "swamp",
-          "levelM": 1.36,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 1.988
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": "faction.imperial-legion-remnant",
@@ -15178,7 +14605,8 @@
         "tavern",
         "temple",
         "trader"
-      ]
+      ],
+      "designGroup": "group.rose-cordon"
     },
     {
       "id": "place.imperial-penal-south.saltrice-village",
@@ -15760,6 +15188,10 @@
           "x": 1607.0,
           "z": 6520.0,
           "maxM": 250.0
+        },
+        "nearWater": {
+          "entityId": "body.1290-3508",
+          "maxM": 80
         }
       },
       "relations": {
@@ -15855,7 +15287,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -15871,49 +15303,6 @@
           "description": "The compact has lost the gates to the city; the boards read differently and the queue is longer."
         }
       ],
-      "position": {
-        "u": 0.18555,
-        "v": 0.8794
-      },
-      "positionM": [
-        1368.1,
-        6484.3
-      ],
-      "footprintRadiusM": 115.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.fringe-marsh.water-narrows-004",
-          "score": 3.863,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1247",
-          "score": 3.45,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.isthmus-044",
-          "score": 3.305,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 594 m from the nearest route; no free 'ford' site was left in the zone, so plain ground; won on nearPoint, region, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 593.9,
-        "distanceToWaterM": 36.8,
-        "water": {
-          "entityId": "body.712-3516",
-          "kind": "marsh-fringe",
-          "levelM": 1.64,
-          "season": "perennial",
-          "distanceM": 36.8
-        },
-        "score": 2.283
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": "faction.three-gate-compact",
@@ -16033,7 +15422,7 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "Where Welloc's vampiric cloud displaced the rebels' strength and skill to their opponents. The Blackrose army broke within a minute.",
-        "siteAdvantages": "The open ground north of the city, chosen by the rebels themselves for their muster.",
+        "siteAdvantages": "The open ground south of the city, chosen by the rebels themselves for their muster.",
         "occupantsMotive": "Unclaimed. Grave-singers refuse to work it, Ossu included. They say the dead here were emptied and there is no rite for that.",
         "pressures": "Blackrose's distrust of battlemages dates from this field and is now civic policy.",
         "wouldChangeIf": "A grave-singer willing to drive the poles over this field would end a two-century-old civic wound."
@@ -16661,6 +16050,10 @@
           "x": 2967.0,
           "z": 6339.0,
           "maxM": 250.0
+        },
+        "nearWater": {
+          "entityId": "body.1290-3508",
+          "maxM": 60
         }
       },
       "relations": {
@@ -16757,7 +16150,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -16772,39 +16165,6 @@
           "description": "Blackrose has enforced a toll here; half the sheds are shut and the trade has gone back to the city."
         }
       ],
-      "position": {
-        "u": 0.37295,
-        "v": 0.85188
-      },
-      "positionM": [
-        2750.0,
-        6281.4
-      ],
-      "footprintRadiusM": 140.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0613",
-          "score": 4.373,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 0 m from the nearest route; at the water's edge; its choice #4 landform; won on culture-clump, nearPoint, route; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 0.0,
-        "distanceToWaterM": 19.8,
-        "water": {
-          "entityId": "body.1496-3444",
-          "kind": "mudflat",
-          "levelM": 0.54,
-          "season": "perennial",
-          "distanceM": 19.8
-        },
-        "score": 4.952
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": "faction.threewater-scale-holders",

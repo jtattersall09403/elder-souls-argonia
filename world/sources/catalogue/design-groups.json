@@ -3,14 +3,65 @@
  "_": "Places that are ONE design: one blueprint, one build, one agent. A row here is the reason two records may sit inside each other's footprint and must be authored together; every member carries `designGroup` pointing back at the row, and worldgen.catalogue checks the membership, the liveness and the spread. See world/sources/catalogue/README.md.",
  "groups": [
   {
+   "id": "group.blackrose-siege-works",
+   "anchor": "place.imperial-penal-south.akaviri-works",
+   "members": [
+    "place.imperial-penal-south.akaviri-works",
+    "place.imperial-penal-south.rebellion-earthworks"
+   ],
+   "loreReason": "The rebellion earthworks are cut into the Akaviri siege works: one field of earth, one build.",
+   "maxSpreadM": 150
+  },
+  {
+   "id": "group.gandranen",
+   "anchor": "place.dunmer-north.gandranen-ruins",
+   "members": [
+    "place.dunmer-north.gandranen-ruins",
+    "place.dunmer-north.gandranen-library"
+   ],
+   "loreReason": "The library is a room of the Gandranen ruins, not a second site: one blueprint, one build.",
+   "maxSpreadM": 120
+  },
+  {
+   "id": "group.gideon",
+   "anchor": "place.imperial-fringe.gideon",
+   "members": [
+    "place.imperial-fringe.gideon",
+    "place.imperial-fringe.bonded-shed-of-the-onkobra"
+   ],
+   "loreReason": "The bonded shed is Gideon's quay ward: the city and its waterside ward are one design.",
+   "maxSpreadM": 100
+  },
+  {
+   "id": "group.helstrom",
+   "anchor": "place.hist-heartland.helstrom",
+   "members": [
+    "place.hist-heartland.helstrom",
+    "place.hist-heartland.rootworm-station-helstrom",
+    "place.hist-heartland.guide-camp-gate-side"
+   ],
+   "loreReason": "The rootworm station and the gate-side guide camp are districts of Helstrom, built with the city.",
+   "maxSpreadM": 100
+  },
+  {
    "id": "group.lost-city",
    "anchor": "place.hist-heartland.lost-city",
    "members": [
     "place.hist-heartland.lost-city",
     "place.hist-heartland.xal-krona-making-ground"
    ],
-   "loreReason": "The Made Ground is reached through the Lost City after MQ29 (quests 25 §20e); one blueprint, one build (plan 16 §10, item F1) The spread limit equals the Made Ground's boundTo.maxM (220 m): one number for one fact.",
-   "maxSpreadM": 220
+   "loreReason": "The Made Ground is reached through the Lost City after MQ29 (quests 25 §20e); one blueprint, one build (plan 16 §10, item F1) The spread limit equals the Made Ground's boundTo.maxM (100 m): one number for one fact.",
+   "maxSpreadM": 100
+  },
+  {
+   "id": "group.rose-cordon",
+   "anchor": "place.imperial-penal-south.rose-supply-town",
+   "members": [
+    "place.imperial-penal-south.rose-supply-town",
+    "place.imperial-penal-south.plague-cordon"
+   ],
+   "loreReason": "The cordon is the line drawn round the supply town and has no existence apart from it.",
+   "maxSpreadM": 60
   }
  ]
 }

@@ -164,7 +164,30 @@ def test_re_reference_unknown_route_refuses(world):
     rem = [{"id": "place.testland.alpha", "kind": "re-reference",
             "replace": {"route.old": "route.nowhere"}, "why": "w"}]
     _, errors = pr.run(ctx(world), rem, apply=True)
-    assert len(errors) == 1 and "not a route in routes/registry.json" in errors[0], errors
+    assert len(errors) == 1 and "nor a known route" in errors[0], errors
+
+
+def test_re_reference_rewrites_reached_via_and_accepts_the_shared_namespace(world):
+    """`reachedVia` carries the stale prose names, and a replacement may be a
+    registry ALIAS or a place id, not only a registry id."""
+    rem = [{"id": "place.testland.beta", "kind": "re-reference",
+            "replace": {"Topal Bay": "place.testland.alpha"},
+            "why": "A prose name in reachedVia, re-pointed at the record it means."}]
+    c = ctx(world)
+    b = c.by_id["place.testland.beta"]
+    b["relations"]["reachedVia"] = ["Topal Bay"]
+    report, errors = pr.run(c, rem, apply=True)
+    assert not errors, errors
+    assert b["relations"]["reachedVia"] == ["place.testland.alpha"]
+
+
+def test_re_reference_null_drops_the_edge(world):
+    rem = [{"id": "place.testland.alpha", "kind": "re-reference",
+            "replace": {"route.old": None},
+            "why": "route.old was cut by the 0069 re-author and has no successor."}]
+    apply_once(world, rem)
+    assert rec_of(world)["relations"]["patrols"] == []
+    idempotent(world, rem)
 
 
 def test_prose(world):
@@ -221,6 +244,14 @@ def test_field_allowlist(world):
             "why": "The owner walks this one; the plot may not move it."}]
     apply_once(world, rem)
     assert rec_of(world)["ownerGuided"] is True
+    idempotent(world, rem)
+
+
+def test_field_terrain_requests(world):
+    rem = [{"id": "place.testland.alpha", "kind": "field", "path": "terrainRequests", "value": [],
+            "why": "Its request is known-red: the register is emptied and the request dropped."}]
+    apply_once(world, rem)
+    assert rec_of(world)["terrainRequests"] == []
     idempotent(world, rem)
 
 

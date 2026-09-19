@@ -1,14 +1,43 @@
 {
-  "_": "Where each major city boards a boat. A city whose own record declares a water mode and whose `cityLayout.gate` stands on a published lane's water is its own harbour. `python3 -m worldgen.travel_services` fills it automatically with the reason `the city's own quay`. This file is for the rest: a city whose gate is inland names the place that harbours it and states the reason. AUTHORED (the choice is the owner's or Fable's, not a derive's guess); read by travel_services.derive, which writes the resolved answer into the `harbourStations` block of travel-services.json.",
-  "schemaVersion": 1,
-  "harbours": {
-    "stormhold": {"placeId": null, "why": null},
-    "thorn": {"placeId": null, "why": null},
-    "gideon": {"placeId": null, "why": null},
-    "helstrom": {"placeId": null, "why": null},
-    "archon": {"placeId": null, "why": null},
-    "blackrose": {"placeId": null, "why": null},
-    "lilmoth": {"placeId": null, "why": null},
-    "soulrest": {"placeId": null, "why": null}
+ "_": "Where each major city boards a boat. A city whose own record declares a water mode and whose `cityLayout.gate` stands on a published lane's water is its own harbour. `python3 -m worldgen.travel_services` fills it automatically with the reason `the city's own quay`. This file is for the rest: a city whose gate is inland names the place that harbours it and states the reason. AUTHORED (the choice is the owner's or Fable's, not a derive's guess); read by travel_services.derive, which writes the resolved answer into the `harbourStations` block of travel-services.json.",
+ "schemaVersion": 1,
+ "harbours": {
+  "stormhold": {
+   "placeId": "place.dunmer-north.stormhold-causeway",
+   "why": "The causeway station stands 99 m from the city centre and 69 m from the lane, with 9.27 m of water on Velasen Tarn; Stormhold's own gate is inland."
+  },
+  "thorn": {
+   "placeId": "place.dunmer-north.the-thorn-bond",
+   "why": "Pinned this round to at least 1.2 m of water within 250 m of Thorn, and the only boat station Thorn has."
+  },
+  "gideon": {
+   "placeId": null,
+   "stationId": "ferry-landing.onkobra-bond.town",
+   "why": "a harbour is a station a traveller boards; the rootworm terminus is a root node. The bond ferry lands here and joins Gideon by the Blackwood Road (road edge, 0079 connectedness rule)"
+  },
+  "helstrom": {
+   "placeId": "place.hist-heartland.helstrom",
+   "why": "The lane route.boat.alten-corimont-helstrom ends at the gate on 0.0 m of water; compile_minor_waterways re-lines the lane to its last floating sample about 421 m out, and the station reads the lane end."
+  },
+  "archon": {
+   "placeId": "place.saxhleel-coast.quay-tradehouse",
+   "why": "The tradehouse is 281 m from the city and 32 m from the lane; the lagoon sample 287 m out carries 5.16 m of keel water."
+  },
+  "blackrose": {
+   "placeId": "place.imperial-penal-south.intact-fort",
+   "why": "The fort sits on the lake shore, 69.9 m from the lane, with 3.76 m of water. Blackrose's own centre is 109 m from body.1290-3508 and its gate is on the road (owner call recorded in the 16g remedy plan)."
+  },
+  "lilmoth": {
+   "placeId": "place.mercantile-coast.lilmoth",
+   "why": "The city's own socket dock.lilmoth.lighter-quay at 3902,6366 stands on body.ocean; the schema has no socket field, so the socket is named here."
+  },
+  "soulrest": {
+   "placeId": "place.mercantile-coast.soulrest-divers-yard",
+   "why": "The yard is 210 m from the city and 101 m from the lane with 2.15 m of water, the only harbour depth inside 600 m."
+  },
+  "alten-corimont": {
+   "placeId": "place.pirate-freeholds.half-chartered-anchorage",
+   "why": "The anchorage stands on Galonen Lake with 7.56 m of water."
   }
+ }
 }

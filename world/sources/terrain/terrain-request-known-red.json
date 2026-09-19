@@ -3,54 +3,6 @@
   "kind": "terrain-request-known-red",
   "owner": "16g (places adapt to the frozen world, decision 0059)",
   "why": "These typed terrain requests were APPLIED as terrain patches on the frozen base (Phase 16b) but the frozen water, or the route grading below the gate, does not deliver the depth, current, water relation or surviving shape they ask for. Under 0059 the water is not re-solved to meet a place: 16g re-sites, re-types or drops the request. Refused requests are not here: they are listed with their invariant in province/refined/terrain-patches-applied.json. The postcondition gate reports these as KNOWN-RED and fails on any request outside this register.",
-  "measuredOn": "2026-09-12 first production chain on the frozen base; two rows added 2026-09-14 on the 16c water (the graph compile realises no channel through these cuts); the onkobra-ferry narrows row removed 2026-09-14 (its patch is refused, so it is no longer an applied request)",
-  "requests": [
-    {
-      "requestId": "terrain-request.dunmer-north.the-divers-landing.pool.402e185fccef",
-      "placeId": "place.dunmer-north.the-divers-landing",
-      "failingFields": [
-        "depthClass"
-      ]
-    },
-    {
-      "requestId": "terrain-request.dunmer-north.the-slumped-hamlet.hollow.9f637d5b81a1",
-      "placeId": "place.dunmer-north.the-slumped-hamlet",
-      "failingFields": [
-        "waterRelation"
-      ]
-    },
-    {
-      "requestId": "terrain-request.hist-heartland.greenspring.spring.7bcc10aaafd7",
-      "placeId": "place.hist-heartland.greenspring",
-      "failingFields": [
-        "waterRelation"
-      ]
-    },
-    {
-      "requestId": "terrain-request.imperial-fringe.the-drowned-furrow.pool.589387107c40",
-      "placeId": "place.imperial-fringe.the-drowned-furrow",
-      "failingFields": [
-        "depthClass",
-        "waterRelation",
-        "current"
-      ]
-    },
-    {
-      "requestId": "terrain-request.dunmer-north.the-two-hundred-roofs.cut.104b288cd667",
-      "placeId": "place.dunmer-north.the-two-hundred-roofs",
-      "failingFields": [
-        "waterRelation"
-      ],
-      "why": "16c: the cut asks for a linked wet channel; the graph runs no reach through it (wetChannelSamples 0). 16g re-sites or re-lines the cut on the graph's reach."
-    },
-    {
-      "requestId": "terrain-request.pirate-freeholds.chasecreek.cut.6e10c2d1badb",
-      "placeId": "place.pirate-freeholds.chasecreek",
-      "failingFields": [
-        "depthM",
-        "waterRelation"
-      ],
-      "why": "16c: the cut is dry on the frozen water (maxDepthM 0, no wet channel in support). 16g re-sites it or re-authors the line on the graph's reach."
-    }
-  ]
+  "measuredOn": "2026-09-19 (16g remedy round): the register is EMPTY. Every row it held was a request the frozen world does not deliver; under decision 0059 the water is not re-solved to meet a place, so each record's request was dropped by a `plot-remedies` field row and the record re-sited instead. The postcondition gate still fails on any applied request outside this register.",
+  "requests": []
 }

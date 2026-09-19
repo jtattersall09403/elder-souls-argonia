@@ -54,7 +54,13 @@
           ],
           "neighbourRelation": "on the Southern Sea approach the wreckers work; inside 2 km of Whitebone Reef",
           "densityGradient": "offshore, thin"
-        }
+        },
+        "nearPoint": {
+          "x": 3814.0,
+          "z": 5920.0,
+          "maxM": 600.0
+        },
+        "minDepthM": 8.0
       },
       "relations": {
         "dependsOn": [
@@ -121,7 +127,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "post-umbriel",
@@ -235,49 +241,6 @@
           }
         ]
       },
-      "position": {
-        "u": 0.39937,
-        "v": 0.8753
-      },
-      "positionM": [
-        2944.7,
-        6454.0
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1343",
-          "score": 3.539,
-          "whyLost": "taken by place.mercantile-coast.glowfen-murkmire"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1281",
-          "score": 2.887,
-          "whyLost": "too close to place.mercantile-coast.bereaved-village-murkmire"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1282",
-          "score": 2.364,
-          "whyLost": "too close to place.mercantile-coast.bereaved-village-murkmire"
-        }
-      ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 39 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on route, culture-clump, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.quinrawl-anchorage (+0.76).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 38.8,
-        "distanceToWaterM": 17.3,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 17.3
-        },
-        "score": 3.402
-      },
       "proseRefs": [
         {
           "sourcePath": "why.occupantsMotive",
@@ -308,7 +271,7 @@
       ],
       "confidence": "CANON_FIXED",
       "why": {
-        "founding": "An outsider-facing port north-west of Lilmoth, below city scale, where an Argonian raft-quarter and an outsiders' warehouse row front the same water. With Lilmoth destroyed for a century and a half the bay's outside trade came here. Enough of it stayed that the quay outgrew the village.",
+        "founding": "An outsider-facing port south-west of Lilmoth, below city scale, where an Argonian raft-quarter and an outsiders' warehouse row front the same water. With Lilmoth destroyed for a century and a half the bay's outside trade came here. Enough of it stayed that the quay outgrew the village.",
         "siteAdvantages": "Slow deep water inside the bar, deep enough for a laden hull to lie off and be worked by lighters, with firm ground behind it for a warehouse row. The 'alten-' in the name means outsiders.",
         "occupantsMotive": "Lightermen, Argonian raft-quarter families and factors from four ports. The customs presence is one clerk and an unstaffed tariff shed. The absence of inspection is what the port sells.",
         "pressures": "Now that Lilmoth is rebuilt the two ports are direct rivals. Meerhleel's advantage is that it asks no questions, but Corimont, the province's real free port, does the same behind a harbour wall.",
@@ -1331,6 +1294,10 @@
           ],
           "neighbourRelation": "neighbours argue about taking them in",
           "densityGradient": "Lilmoth hinterland, moderate"
+        },
+        "boundTo": {
+          "place": "place.mercantile-coast.bog-blight-ground-murkmire",
+          "maxM": 400
         }
       },
       "relations": {
@@ -1414,7 +1381,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "post-umbriel",
@@ -1430,49 +1397,6 @@
           "description": "A cutting has been planted in the enclosure and the recitation has stopped."
         }
       ],
-      "position": {
-        "u": 0.40865,
-        "v": 0.85068
-      },
-      "positionM": [
-        3013.2,
-        6272.5
-      ],
-      "footprintRadiusM": 115.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1281",
-          "score": 4.492,
-          "whyLost": "too close to place.imperial-penal-south.west-market-town"
-        },
-        {
-          "siteId": "site.free.roadside-0112",
-          "score": 3.95,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1303",
-          "score": 3.705,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 30 m from the nearest route; at the water's edge; its choice #2 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 29.5,
-        "distanceToWaterM": 11.0,
-        "water": {
-          "entityId": "body.1645-3422",
-          "kind": "marsh-fringe",
-          "levelM": 0.74,
-          "season": "perennial",
-          "distanceM": 11.0
-        },
-        "score": 4.227
-      },
       "hostility": {
         "baseline": "wary",
         "owner": "faction.sees-no-root",
@@ -2274,7 +2198,7 @@
       },
       "relations": {
         "reachedVia": [
-          "Topal Bay"
+          "sea.topal-bay"
         ],
         "supplies": [],
         "dependsOn": [],
@@ -3118,7 +3042,7 @@
           "place.mercantile-coast.coast-road-stage"
         ],
         "travelServiceEdges": [
-          "road:track.mercantile-coast.coast-road-stage"
+          "route.track.mercantile-coast.coast-road"
         ]
       },
       "culture": "argonian",
@@ -4290,7 +4214,7 @@
           "place.mercantile-coast.chasepoint"
         ],
         "travelServiceEdges": [
-          "road:track.mercantile-coast.coast-road-stage"
+          "route.track.mercantile-coast.coast-road"
         ]
       },
       "culture": "imperial",
@@ -7835,9 +7759,7 @@
         }
       },
       "relations": {
-        "reachedVia": [
-          "the Soulrest river"
-        ],
+        "reachedVia": [],
         "supplies": [
           "place.mercantile-coast.soulrest"
         ],
@@ -7848,7 +7770,7 @@
         "visibleFrom": [],
         "travelServiceEdges": [
           "boat:route.boat.soulrest-lilmoth",
-          "porter:track.mercantile-coast.head-of-tide"
+          "route.track.mercantile-coast.porters-carry"
         ]
       },
       "culture": "argonian",
@@ -10187,7 +10109,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A tribe that never left its xanmeer. It holds the strongest fortification in southern Murkmire without having laid a stone.",
-        "siteAdvantages": "Stone walls, one water approach, old defences that still work. The Soulrest–Blackrose road passes within sight, which suits a tribe that trades at arm’s length.",
+        "siteAdvantages": "Stone walls, one water approach, old defences that still work. The Gideon to Soulrest road passes within sight, which suits a tribe that trades at arm's length.",
         "occupantsMotive": "They are polite and immovable. Lilmoth's politics do not interest them.",
         "pressures": "Every faction in the south has wanted their walls at some point. The defences still work and no attempt has succeeded.",
         "wouldChangeIf": "If the vakka mechanisms ever failed, the village would be ordinary overnight."
@@ -11601,6 +11523,10 @@
           ],
           "neighbourRelation": "first village up the Keel-Sakka from Lilmoth, on the north-gate road, inside 3 km of the city",
           "densityGradient": "Lilmoth hinterland, dense"
+        },
+        "nearWater": {
+          "entityId": "river.720-1110",
+          "maxM": 150
         }
       },
       "relations": {
@@ -11617,8 +11543,8 @@
           "place.mercantile-coast.lilmoth"
         ],
         "travelServiceEdges": [
-          "boat:waterway.mercantile-coast.keel-sakka-stilts",
-          "road:track.mercantile-coast.keel-sakka-stilts"
+          "route.boat.lilmoth-keel-sakka",
+          "route.track.mercantile-coast.lilmoth-north-gate"
         ]
       },
       "culture": "argonian",
@@ -11680,7 +11606,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -11689,49 +11615,6 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "ownerFaction": "faction.keel-sakka-landing",
-      "position": {
-        "u": 0.02863,
-        "v": 0.8266
-      },
-      "positionM": [
-        211.1,
-        6094.9
-      ],
-      "footprintRadiusM": 115.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1356",
-          "score": 5.114,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        },
-        {
-          "siteId": "site.free.roadside-0507",
-          "score": 4.905,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        },
-        {
-          "siteId": "site.free.roadside-0508",
-          "score": 4.9,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        }
-      ],
-      "whySiteWon": "open water in mangrove forest (danger band 0), 458 m from the nearest route; at the water's edge; won on region, hinterland, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "mangrove forest",
-        "dangerBand": 0,
-        "distanceToRouteM": 457.5,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 3.275
-      },
       "hostility": {
         "baseline": "wary",
         "owner": "faction.keel-sakka-landing",
@@ -11862,6 +11745,10 @@
           ],
           "neighbourRelation": "a regional centre; routes converge on it",
           "densityGradient": "Murkmire interior, moderate"
+        },
+        "boundTo": {
+          "place": "place.mercantile-coast.lilmoth",
+          "maxM": 1500
         }
       },
       "relations": {
@@ -11940,7 +11827,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "heroHist": {
         "id": "hist.mercantile-coast.keshu-grove",
         "kind": "grove, reserve",
@@ -11956,49 +11843,6 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
-      "position": {
-        "u": 0.05392,
-        "v": 0.90469
-      },
-      "positionM": [
-        397.6,
-        6670.7
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.firm-lowland.flood-high-028",
-          "score": 2.451,
-          "whyLost": "too close to place.mercantile-coast.soulrest"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1040",
-          "score": 2.298,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1281",
-          "score": 2.154,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 66 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on culture-clump, hinterland, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.tempering-ground (+0.45).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 65.8,
-        "distanceToWaterM": 60.3,
-        "water": {
-          "entityId": "reach.269-3595",
-          "kind": "horizontal-channel",
-          "levelM": 5.02,
-          "season": "perennial",
-          "distanceM": 60.3
-        },
-        "score": 2.499
-      },
       "hostility": {
         "baseline": "sanctuary",
         "owner": "faction.nisswo",
@@ -12251,6 +12095,11 @@
           ],
           "neighbourRelation": "trades with a shore settlement it does not live in",
           "densityGradient": "Lilmoth apron, dense"
+        },
+        "nearPoint": {
+          "x": 3880.0,
+          "z": 6380.0,
+          "maxM": 400.0
         }
       },
       "relations": {
@@ -12270,7 +12119,7 @@
         ],
         "travelServiceEdges": [
           "boat:route.boat.lilmoth-archon",
-          "lighter:track.mercantile-coast.lighter-flotilla"
+          "route.boat.lilmoth-anchorage"
         ]
       },
       "culture": "argonian",
@@ -12336,7 +12185,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -12351,49 +12200,6 @@
           "description": "The crews have stopped lightering; laden hulls are lying off Lilmoth doing nothing."
         }
       ],
-      "position": {
-        "u": 0.44658,
-        "v": 0.92848
-      },
-      "positionM": [
-        3292.9,
-        6846.2
-      ],
-      "footprintRadiusM": 65.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0507",
-          "score": 4.029,
-          "whyLost": "too close to place.mercantile-coast.oliis-boardwalk"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1356",
-          "score": 3.546,
-          "whyLost": "too close to place.mercantile-coast.oliis-boardwalk"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1349",
-          "score": 3.466,
-          "whyLost": "too close to place.mercantile-coast.oliis-boardwalk"
-        }
-      ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 23 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, hinterland, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.bright-throat-village (+1.31).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 23.3,
-        "distanceToWaterM": 11.0,
-        "water": {
-          "entityId": "body.ocean",
-          "kind": "ocean",
-          "levelM": 0.0,
-          "season": "perennial",
-          "distanceM": 11.0
-        },
-        "score": 3.32
-      },
       "hostility": {
         "baseline": "wary",
         "owner": "faction.lighter-crews",
@@ -12539,8 +12345,8 @@
           "place.mercantile-coast.hist-less-fringe"
         ],
         "reachedVia": [
-          "Oliis Bay",
-          "the north-gate road"
+          "sea.oliis-bay",
+          "route.track.mercantile-coast.lilmoth-north-gate"
         ],
         "dependsOn": [
           "place.mercantile-coast.hereguard-plantation",
@@ -12554,8 +12360,8 @@
         "visibleFrom": [],
         "travelServiceEdges": [
           "boat:route.boat.lilmoth-archon",
-          "lighter:track.mercantile-coast.lighter-flotilla",
-          "road:track.mercantile-coast.coast-road-stage"
+          "route.boat.lilmoth-anchorage",
+          "route.track.mercantile-coast.coast-road"
         ]
       },
       "culture": "argonian",
@@ -12689,27 +12495,7 @@
           "description": "Wet-season peak: the lower walkways are closed and everything moves one tier up."
         }
       ],
-      "terrainRequests": [
-        {
-          "kind": "cut",
-          "radiusM": 70,
-          "delivery": {
-            "feature": "lighter-quay-channel",
-            "featureCount": 1,
-            "widthM": 12,
-            "lengthM": 100,
-            "orientation": "waterward",
-            "bank": "firm",
-            "current": "tidal",
-            "connectionCount": 1,
-            "waterRelation": "channel-linked",
-            "access": "boat-landing",
-            "depthClass": "navigable",
-            "capacity": "laden-landing"
-          },
-          "note": "Cut one compact, tidal lighter channel from the established Oliis Bay water to Lilmoth's lighter quay; the city remains inaccessible to sea-going hulls, whose cargo is lightered ashore."
-        }
-      ],
+      "terrainRequests": [],
       "position": {
         "u": 0.48783,
         "v": 0.8578
@@ -12964,7 +12750,8 @@
           3386.07,
           6407.49
         ]
-      ]
+      ],
+      "ownerGuided": true
     },
     {
       "id": "place.mercantile-coast.lilmoth-beast-market",
@@ -13331,7 +13118,17 @@
           ],
           "neighbourRelation": "always paired with drowned ground it works",
           "densityGradient": "Lilmoth apron, dense"
-        }
+        },
+        "boundTo": {
+          "place": "place.mercantile-coast.lilmoth",
+          "maxM": 500
+        },
+        "nearPoint": {
+          "x": 3853.0,
+          "z": 6404.0,
+          "maxM": 150.0
+        },
+        "minDepthM": 1.0
       },
       "relations": {
         "dependsOn": [],
@@ -13416,7 +13213,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -13431,49 +13228,6 @@
           "description": "The council has taken the valuation book; the floor is empty and the stair is chained."
         }
       ],
-      "position": {
-        "u": 0.50979,
-        "v": 0.81767
-      },
-      "positionM": [
-        3759.0,
-        6029.1
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1356",
-          "score": 4.496,
-          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
-        },
-        {
-          "siteId": "site.free.open-water-1032",
-          "score": 4.467,
-          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
-        },
-        {
-          "siteId": "site.free.open-water-1031",
-          "score": 4.457,
-          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
-        }
-      ],
-      "whySiteWon": "open water in lake & standing water (danger band 3), 328 m from the nearest route; at the water's edge; won on culture-clump, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "open-water",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 328.0,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.1209-3032",
-          "kind": "swamp",
-          "levelM": 0.84,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 4.072
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": "faction.night-reed-chapter",
@@ -16888,7 +16642,12 @@
         "boundTo": {
           "place": "place.mercantile-coast.oliis-air-station",
           "maxM": 1200
-        }
+        },
+        "nearWater": {
+          "entityId": "body.ocean",
+          "maxM": 10
+        },
+        "minDepthM": 6.0
       },
       "relations": {
         "dependsOn": [],
@@ -16954,7 +16713,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -17062,72 +16821,7 @@
           }
         ]
       },
-      "position": {
-        "u": 0.41386,
-        "v": 0.77454
-      },
-      "positionM": [
-        3051.6,
-        5711.1
-      ],
-      "footprintRadiusM": 50.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.fringe-marsh.islet-016",
-          "score": 4.255,
-          "whyLost": "too close to place.mercantile-coast.bereaved-village-murkmire"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1281",
-          "score": 3.717,
-          "whyLost": "too close to place.mercantile-coast.bereaved-village-murkmire"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1256",
-          "score": 3.658,
-          "whyLost": "too close to place.mercantile-coast.bereaved-village-murkmire"
-        }
-      ],
-      "whySiteWon": "cove in interior swamp (danger band 5), 476 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, remote; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "cove",
-        "regionClass": "interior swamp",
-        "dangerBand": 5,
-        "distanceToRouteM": 476.2,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.1703-3069",
-          "kind": "swamp",
-          "levelM": 1.41,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 2.392
-      },
-      "terrainRequests": [
-        {
-          "kind": "sinkhole",
-          "radiusM": 45,
-          "delivery": {
-            "feature": "bay-floor-sinkhole",
-            "depthM": 40
-          },
-          "note": "A drowned bay-floor sinkhole forty metres deep; the hole is the place."
-        },
-        {
-          "kind": "pool",
-          "radiusM": 110,
-          "delivery": {
-            "feature": "dark-saltwater-pool",
-            "depthClass": "dark-from-surface",
-            "current": "standing",
-            "waterRelation": "open-water"
-          },
-          "note": "Standing salt water over the hole, deep enough that the bottom is dark from the surface."
-        }
-      ],
-      "scourSiteId": "site.scour.interior-swamp.cove-035"
+      "terrainRequests": []
     },
     {
       "id": "place.mercantile-coast.oliis-ferry-stage",
@@ -17179,10 +16873,11 @@
           "densityGradient": "Lilmoth apron, dense"
         },
         "nearPoint": {
-          "x": 354.7,
-          "z": 5946.3,
-          "maxM": 200
-        }
+          "x": 3760.0,
+          "z": 6300.0,
+          "maxM": 400.0
+        },
+        "minDepthM": 1.2
       },
       "relations": {
         "dependsOn": [],
@@ -17200,7 +16895,7 @@
         ],
         "travelServiceEdges": [
           "boat:route.boat.lilmoth-archon",
-          "ferry:waterway.mercantile-coast.oliis-ferry-stage"
+          "route.boat.oliis-crossing"
         ]
       },
       "culture": "argonian",
@@ -17263,7 +16958,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -17272,33 +16967,6 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "ownerFaction": "faction.estuary-ferry-holders",
-      "position": {
-        "u": 0.04722,
-        "v": 0.80429
-      },
-      "positionM": [
-        348.2,
-        5930.4
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 406 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 405.7,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.182-3242",
-          "kind": "marsh-fringe",
-          "levelM": 1.08,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 4.145
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": "faction.estuary-ferry-holders",
@@ -19018,7 +18686,8 @@
         },
         "scourSiteCandidates": [
           "site.scour.fringe-marsh.cove-050"
-        ]
+        ],
+        "minDepthM": 1.5
       },
       "relations": {
         "dependsOn": [],
@@ -19103,7 +18772,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -19113,49 +18782,6 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "ownerFaction": "faction.salt-teeth",
-      "position": {
-        "u": 0.46265,
-        "v": 0.92521
-      },
-      "positionM": [
-        3411.3,
-        6822.1
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.upland-hills.headland-011",
-          "score": 2.84,
-          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1040",
-          "score": 2.007,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.upland-hills.spring-head-031",
-          "score": 1.932,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 93 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on hinterland, danger, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.alessian-hull (+0.76).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 93.1,
-        "distanceToWaterM": 36.8,
-        "water": {
-          "entityId": "body.1851-3750",
-          "kind": "marsh-fringe",
-          "levelM": 0.98,
-          "season": "perennial",
-          "distanceM": 36.8
-        },
-        "score": 1.511
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.salt-teeth",
@@ -19782,6 +19408,11 @@
           ],
           "neighbourRelation": "the root layer is continuous — galleries connect, and that connection is the map",
           "densityGradient": "jungle belt, sparse"
+        },
+        "nearPoint": {
+          "x": 1760.9,
+          "z": 5760.8,
+          "maxM": 300.0
         }
       },
       "relations": {
@@ -19857,7 +19488,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -19865,49 +19496,6 @@
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
-      "position": {
-        "u": 0.44212,
-        "v": 0.67192
-      },
-      "positionM": [
-        3260.0,
-        4954.4
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1040",
-          "score": 2.168,
-          "whyLost": "too close to place.mercantile-coast.stripped-village-north"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.cliff-bench-006",
-          "score": 1.89,
-          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1064",
-          "score": 1.195,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
-        }
-      ],
-      "whySiteWon": "enclosed clearing in tropical jungle (danger band 4), 1218 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.keshu-grove (+1.72).",
-      "plotFacts": {
-        "landform": "enclosed-clearing",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 1218.1,
-        "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "body.1786-2710",
-          "kind": "swamp",
-          "levelM": 1.76,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
-        "score": 3.243
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.night-reed-chapter",
@@ -20036,8 +19624,7 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      },
-      "scourSiteId": "site.scour.tropical-jungle.enclosed-clearing-005"
+      }
     },
     {
       "id": "place.mercantile-coast.sacked-customs-suburb",
@@ -20565,7 +20152,10 @@
         "boundTo": {
           "place": "place.mercantile-coast.bramman-screen",
           "maxM": 900
-        }
+        },
+        "sightlineTo": [
+          "place.mercantile-coast.bramman-screen"
+        ]
       },
       "relations": {
         "dependsOn": [
@@ -20583,8 +20173,8 @@
           "place.mercantile-coast.oliis-ferry-stage"
         ],
         "travelServiceEdges": [
-          "boat:waterway.mercantile-coast.bramman-screen",
-          "pilot:waterway.mercantile-coast.bramman-screen"
+          "route.boat.soulrest-blackrose",
+          "route.boat.soulrest-blackrose"
         ]
       },
       "culture": "argonian",
@@ -20651,7 +20241,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -20660,49 +20250,6 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "ownerFaction": "faction.brammans-pilots",
-      "position": {
-        "u": 0.54177,
-        "v": 0.81396
-      },
-      "positionM": [
-        3994.7,
-        6001.7
-      ],
-      "footprintRadiusM": 65.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0532",
-          "score": 4.12,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1307",
-          "score": 3.699,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0526",
-          "score": 3.686,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 353 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump-yielded, bound, landform; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 352.9,
-        "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "body.1209-3032",
-          "kind": "swamp",
-          "levelM": 0.84,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
-        "score": 4.747
-      },
       "hostility": {
         "baseline": "wary",
         "owner": "faction.brammans-pilots",
@@ -21837,8 +21384,8 @@
           "place.mercantile-coast.soulrest-breaking-yard"
         ],
         "reachedVia": [
-          "Southern Sea lanes",
-          "coast road"
+          "route.boat.soulrest-lilmoth",
+          "route.track.mercantile-coast.coast-road"
         ],
         "rivals": [],
         "dependsOn": [
@@ -21853,7 +21400,7 @@
         "visibleFrom": [],
         "travelServiceEdges": [
           "boat:route.boat.soulrest-lilmoth",
-          "road:track.mercantile-coast.coast-road-stage"
+          "route.track.mercantile-coast.coast-road"
         ]
       },
       "culture": "mixed",
@@ -22216,7 +21763,8 @@
           304.34,
           6467.81
         ]
-      ]
+      ],
+      "ownerGuided": true
     },
     {
       "id": "place.mercantile-coast.soulrest-breaking-yard",
@@ -22267,6 +21815,15 @@
           ],
           "neighbourRelation": "one per major port; the whole coast's hulls come from a handful of these",
           "densityGradient": "Soulrest apron, dense"
+        },
+        "boundTo": {
+          "place": "place.mercantile-coast.soulrest",
+          "maxM": 200
+        },
+        "nearPoint": {
+          "x": 584.0,
+          "z": 6626.8,
+          "maxM": 60.0
         }
       },
       "relations": {
@@ -22348,7 +21905,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -22358,49 +21915,6 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "ownerFaction": "faction.soulrest-breaking-hard",
-      "position": {
-        "u": 0.0554,
-        "v": 0.87568
-      },
-      "positionM": [
-        408.5,
-        6456.8
-      ],
-      "footprintRadiusM": 65.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.fringe-marsh.river-mouth-002",
-          "score": 3.547,
-          "whyLost": "too close to place.mercantile-coast.tempering-ground"
-        },
-        {
-          "siteId": "site.free.roadside-0242",
-          "score": 2.836,
-          "whyLost": "too close to place.mercantile-coast.soulrest-quay-tradehouse"
-        },
-        {
-          "siteId": "site.free.roadside-0241",
-          "score": 2.779,
-          "whyLost": "too close to place.mercantile-coast.soulrest-quay-tradehouse"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 1), 87 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, culture-clump, hinterland; placed from the homeless batch at stage 'region-relaxed'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 1,
-        "distanceToRouteM": 86.7,
-        "distanceToWaterM": 60.3,
-        "water": {
-          "entityId": "body.220-3496",
-          "kind": "marsh-fringe",
-          "levelM": 4.23,
-          "season": "perennial",
-          "distanceM": 60.3
-        },
-        "score": 2.654
-      },
       "hostility": {
         "baseline": "friendly",
         "owner": "faction.soulrest-breaking-hard",
@@ -29193,7 +28707,7 @@
       "confidence": "CANON_FIXED",
       "why": {
         "founding": "One of the prisons built by the Empire after 1E 2837. The Imperial rule for this province was to put a prison where the marsh could be the wall. It stands off the road that the Legion already held.",
-        "siteAdvantages": "Firm ground with marsh water on every side and a single causeway, a short haul from the Bogmother road, which carried the convicts in and the ore out.",
+        "siteAdvantages": "Firm ground with marsh water on every side and a single causeway, a short haul from the Soulrest road, which carried the convicts in and the ore out.",
         "occupantsMotive": "Empty of the living. Full of Argonian dead who died away from their Hist and whose bones were never brought to the dirt.",
         "pressures": "The Blackrose Chainbreakers want the dead repatriated; the structure is sound enough that somebody will eventually want it back.",
         "wouldChangeIf": "Reoccupation by any armed party would make the repatriation impossible and the grievance permanent."
@@ -29571,6 +29085,10 @@
           "x": 3766.6,
           "z": 5904.8,
           "maxM": 150
+        },
+        "nearWater": {
+          "entityId": "body.ocean",
+          "maxM": 30
         }
       },
       "relations": {
@@ -29633,7 +29151,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -29735,49 +29253,6 @@
             "whereInInterior": "main"
           }
         ]
-      },
-      "position": {
-        "u": 0.51723,
-        "v": 0.8028
-      },
-      "positionM": [
-        3813.8,
-        5919.5
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.open-water-0898",
-          "score": 3.944,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0897",
-          "score": 3.856,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0928",
-          "score": 3.783,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 442 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 442.0,
-        "distanceToWaterM": 0.0,
-        "water": {
-          "entityId": "body.1209-3032",
-          "kind": "swamp",
-          "levelM": 0.84,
-          "season": "perennial",
-          "distanceM": 0.0
-        },
-        "score": 4.897
       },
       "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon named by its regionClasses."
     },
