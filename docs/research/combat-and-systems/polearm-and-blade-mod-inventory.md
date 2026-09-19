@@ -333,7 +333,7 @@ end, all at +y, the club at +z). `grip` is the hand origin as a fraction of the
 length up from the pommel, taken from the vanilla exemplar of the same class in
 the built GLBs: dagger 0.24 (iron dagger), greatsword 0.18, warhammer 0.42,
 katana 0.18 (iron katana), mace 0.28. The second-longest extent becomes the
-width, and the axis runs through the handle (the centre of the pommel-end
+width. The axis runs through the handle (the centre of the pommel-end
 fifth), not the box centre, so the one-sided cleaver blade hangs off a haft
 that still sits in the hand. The summary records the block under
 `oriented`. Found on the same pass: an OBJ with two `usemtl` groups (the
