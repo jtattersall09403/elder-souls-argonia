@@ -15,6 +15,7 @@ npm test -w @elder-souls/repo-standards
 | `id-registry.json` | **standard 2** — stable-ID sources, shape, global uniqueness, retired IDs (goes live at Phase 11) |
 | `data-registry.json` | **standard 7** — runtime data paths that must carry `schemaVersion`; unversioned debt prints as a note every run |
 | `session_tokens.py` | nothing — reports where the agents' tokens go per session (decision 0079); `--brief` is printed by the SessionStart hook in `.claude/settings.json` |
+| `shell_guard.py` | decision 0079 — PreToolUse hook (`.claude/settings.json`): the planner session may not type exploratory or `sleep` commands; subagents exempt |
 | — | **standard 10** — every asset pool in `world/sources/assets/registry-summary.json` is credited in the root README |
 
 Two habits this exists to enforce:

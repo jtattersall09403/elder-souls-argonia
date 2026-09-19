@@ -2,11 +2,22 @@
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "startup",
+        "matcher": "startup|resume",
         "hooks": [
           {
             "type": "command",
             "command": "python3 tooling/repo-standards/session_tokens.py --brief --last 10 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 tooling/repo-standards/shell_guard.py"
           }
         ]
       }

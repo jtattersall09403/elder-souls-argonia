@@ -30,6 +30,13 @@ the lever is the **number of planner turns**, not output size.
    low). Both return a few lines of evidence; the output never enters the
    planner's context. `deliver` and `research` (Opus, low) keep their roles
    from the model policy in CLAUDE.md; nothing about who decides changed.
+   **Enforced** (owner, same day, after a resumed session typed 25 shell
+   commands in 53 turns): a `PreToolUse` hook in the committed
+   `.claude/settings.json` (`tooling/repo-standards/shell_guard.py`) refuses
+   cat/head/tail/grep/sed -n/find/tree, `git log|diff|show|grep|blame`,
+   inline python and `sleep` from the planner session with a message naming
+   the agent to use; subagents (hook input carries `agent_id`) are exempt,
+   as are `git status`, `wc`, builds and tests.
 2. **One chunk or round per session.** Start fresh from PROGRESS.md; a
    session twice as long costs about four times as much.
 3. **rtk filters shell output on this machine.** Installed from the signed
