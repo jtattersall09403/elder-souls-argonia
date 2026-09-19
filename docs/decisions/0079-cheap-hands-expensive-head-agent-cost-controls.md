@@ -64,6 +64,17 @@ the lever is the **number of planner turns**, not output size.
    subagent loads CLAUDE.md; its golden rules were rewritten to one
    operative statement each, with the dated owner history left in the
    decisions they cite. No rule was dropped or weakened.
+7. **A periodic review, not a standing monitor** (owner, same day). The
+   `cost-review` skill (`/cost-review` in a fresh session, about weekly)
+   runs the report over three windows (planner + subagent tokens, cost
+   units by Anthropic's price ratios, turns, explore calls, sleeps, guard
+   refusals, agent calls by type), checks each control still fires, names
+   the top sources and the sessions that broke the pattern, recommends at
+   most five changes ranked by saving ÷ risk, and appends to
+   `docs/research/agent-ops/cost-reviews.md`. It researches outside the
+   repo only on a trigger (a new cost category or a broken control).
+   The first run of the report found 1,210 sleep turns in the older
+   sessions and Opus subagent spend comparable to the planner's own.
 6. **Measure, don't hope.** A `SessionStart` hook in the committed
    `.claude/settings.json` prints one line at every session start: the last
    ten sessions' average cached input, turns and shell share against the

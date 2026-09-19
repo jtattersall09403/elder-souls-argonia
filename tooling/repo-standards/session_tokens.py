@@ -1,94 +1,207 @@
 #!/usr/bin/env python3
-"""Where do our Claude Code tokens go? Reads the session transcripts for this
-repo and reports, per session and in total, the billed token classes and the
-share of context each tool family adds (decision 0079).
+"""Where do our Claude Code tokens go, and are the 0079 controls working?
 
-    python3 tooling/repo-standards/session_tokens.py            # last 10 sessions
-    python3 tooling/repo-standards/session_tokens.py --last 25
+Reads this repo's session transcripts (planner sessions and their subagents)
+and reports three time windows side by side, so a drift shows as a trend,
+not a guess.
 
-Images are counted at a flat 1,600 tokens (how they are billed); text at
-bytes/4. "carried" weights each result by how many later turns re-sent it,
-which is what the bill tracks (cache reads dominate: cost ~ turns x length).
+    python3 tooling/repo-standards/session_tokens.py              # windows: last 7 d, previous 7 d, older
+    python3 tooling/repo-standards/session_tokens.py --days 3     # window width in days
+    python3 tooling/repo-standards/session_tokens.py --brief      # one line for the SessionStart hook
+    python3 tooling/repo-standards/session_tokens.py --sessions 8 # also list the costliest sessions of the latest window
+
+Numbers:
+  cached/new/out   billed input classes of the PLANNER session (M tokens); cost ≈ turns × length,
+                   so cached dominates and is the number to watch
+  sub(model)       the subagents' own tokens, by model, from <session>/subagents/*.jsonl
+  cost units       a relative weight: cached×0.1 + new×1.25 + uncached×1 + output×5 (Anthropic's
+                   published price ratios), summed over planner + subagents; compare windows, not currencies
+  planner shell    Bash calls typed by the planner; explore = look-around commands; sleeps; guard = hook refusals
+  context sources  share of what the planner carried (each result × the turns after it); images at a
+                   flat 1,600 tokens (how they are billed), text at bytes/4
+Decision 0079 records the baseline these controls were measured against.
 """
-import argparse, collections, glob, json, os, re, sys
+import argparse, collections, datetime as dt, glob, json, os, sys
 
 PROJ = os.path.expanduser(
     "~/.claude/projects/-home-analyticalplatform-workspace-elder-souls-dev-elder-souls-argonia")
-EXPLORE = re.compile(r"^\s*(rtk )?(cat|head|tail|sed -n|grep|rg|ls|find|wc|git (log|status|diff|show|grep)|"
-                     r"python3? - <<|python3 -c|jq|tree|stat|du|file)\b")
+import re
+EXPLORE = re.compile(r"(^|[;&|]\s*)(rtk\s+)?(cat|head|tail|sed\s+-n|grep|rg|ls|find|tree|wc|"
+                     r"git\s+(log|status|diff|show|grep)|python3?\s+-\s*<<|python3?\s+-c|jq|stat|du|file)\b")
+WEIGHT = {"cache_read": 0.1, "cache_create": 1.25, "input": 1.0, "output": 5.0}
+BASELINE = {"cached": 111, "turns": 280, "shell": 68}  # per-session averages, 25 sessions before 0079 (2026-09-19)
+
+
+def short_model(m):
+    m = m or "?"
+    for k in ("fable", "opus", "sonnet", "haiku"):
+        if k in m:
+            return k
+    return m[:8]
 
 
 def classify(name, inp):
     if name == "Bash":
-        return "bash-explore" if EXPLORE.match(inp.get("command", "")) else "bash-do"
+        return "bash-explore" if EXPLORE.search(inp.get("command", "")) else "bash-do"
     if name == "Read":
         p = inp.get("file_path", "").lower()
         return "image" if p.endswith((".png", ".jpg", ".jpeg")) else ("read-doc" if p.endswith(".md") else "read-code")
     return name
 
 
+def usage_of(path):
+    """Token classes and model counts for one transcript (planner or subagent)."""
+    u = collections.Counter(); models = collections.Counter()
+    for line in open(path, errors="replace"):
+        if '"usage"' not in line:
+            continue
+        try:
+            m = json.loads(line).get("message")
+        except ValueError:
+            continue
+        if not isinstance(m, dict) or not m.get("usage"):
+            continue
+        x = m["usage"]; models[short_model(m.get("model"))] += 1
+        u["cache_read"] += x.get("cache_read_input_tokens", 0); u["cache_create"] += x.get("cache_creation_input_tokens", 0)
+        u["input"] += x.get("input_tokens", 0); u["output"] += x.get("output_tokens", 0)
+    return u, models
+
+
+def cost_units(u):
+    return sum(u[k] * w for k, w in WEIGHT.items())
+
+
+def read_session(path):
+    sid = os.path.basename(path)[:-6]
+    s = {"id": sid[:8], "turns": 0, "first": None, "last": None, "bash": 0, "explore": 0, "sleeps": 0, "guard": 0,
+         "agents": collections.Counter(), "added": collections.Counter(), "carried": collections.Counter(),
+         "planner": collections.Counter(), "sub": collections.Counter(), "sub_units": 0.0, "model": collections.Counter()}
+    ids, turns = {}, []
+    for line in open(path, errors="replace"):
+        try:
+            d = json.loads(line)
+        except ValueError:
+            continue
+        ts = d.get("timestamp")
+        if ts:
+            s["first"] = s["first"] or ts; s["last"] = ts
+        m = d.get("message")
+        if not isinstance(m, dict):
+            continue
+        if m.get("usage"):
+            s["turns"] += 1; s["model"][short_model(m.get("model"))] += 1
+            x = m["usage"]
+            s["planner"]["cache_read"] += x.get("cache_read_input_tokens", 0); s["planner"]["cache_create"] += x.get("cache_creation_input_tokens", 0)
+            s["planner"]["input"] += x.get("input_tokens", 0); s["planner"]["output"] += x.get("output_tokens", 0)
+        c = m.get("content")
+        if not isinstance(c, list):
+            continue
+        for x in c:
+            t = x.get("type")
+            if t == "tool_use":
+                inp = x.get("input") or {}; k = classify(x["name"], inp); ids[x["id"]] = k
+                if x["name"] == "Bash":
+                    s["bash"] += 1; s["explore"] += k == "bash-explore"; s["sleeps"] += bool(re.search(r"\bsleep\s+\d", inp.get("command", "")))
+                elif x["name"] == "Agent":
+                    s["agents"][inp.get("subagent_type") or "(default)"] += 1
+            elif t == "tool_result":
+                k = ids.get(x.get("tool_use_id"), "?"); body = json.dumps(x.get("content"))
+                if "[shell guard" in body:
+                    s["guard"] += 1
+                tok = 1600 if k == "image" else len(body) / 4
+                turns.append((s["turns"], k, tok))
+    n = s["turns"]
+    for at, k, tok in turns:
+        s["added"][k] += tok; s["carried"][k] += tok * max(1, n - at)
+    for sub in glob.glob(os.path.join(os.path.dirname(path), sid, "subagents", "*.jsonl")):
+        u, models = usage_of(sub)
+        mdl = models.most_common(1)[0][0] if models else "?"
+        s["sub"][mdl] += sum(u.values()); s["sub_units"] += cost_units(u)
+    s["units"] = cost_units(s["planner"]) + s["sub_units"]
+    return s
+
+
+def when(s):
+    return dt.datetime.fromisoformat(s["last"].replace("Z", "+00:00")) if s["last"] else None
+
+
+def summarise(rows):
+    n = len(rows) or 1
+    agg = {"sessions": len(rows), "turns": sum(r["turns"] for r in rows) / n,
+           "cached": sum(r["planner"]["cache_read"] for r in rows) / n / 1e6,
+           "new": sum(r["planner"]["cache_create"] + r["planner"]["input"] for r in rows) / n / 1e6,
+           "out": sum(r["planner"]["output"] for r in rows) / n / 1e6,
+           "units": sum(r["units"] for r in rows) / n / 1e6,
+           "bash": sum(r["bash"] for r in rows) / n, "explore": sum(r["explore"] for r in rows) / n,
+           "sleeps": sum(r["sleeps"] for r in rows), "guard": sum(r["guard"] for r in rows)}
+    sub = collections.Counter(); agents = collections.Counter(); carried = collections.Counter()
+    for r in rows:
+        sub.update(r["sub"]); agents.update(r["agents"]); carried.update(r["carried"])
+    agg["sub"] = {k: v / n / 1e6 for k, v in sub.items()}
+    agg["agents"] = dict(agents)
+    tot = sum(carried.values()) or 1
+    agg["shares"] = {k: 100 * v / tot for k, v in carried.most_common()}
+    agg["shell"] = agg["shares"].get("bash-do", 0) + agg["shares"].get("bash-explore", 0)
+    return agg
+
+
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--last", type=int, default=10)
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dir", default=PROJ)
-    ap.add_argument("--brief", action="store_true",
-                    help="two lines for the SessionStart hook: recent sessions vs the 0079 baseline")
+    ap.add_argument("--days", type=float, default=7, help="window width in days (default 7)")
+    ap.add_argument("--min-turns", type=int, default=20, help="ignore sessions shorter than this")
+    ap.add_argument("--sessions", type=int, default=0, help="list the N costliest sessions of the latest window")
+    ap.add_argument("--brief", action="store_true", help="one line for the SessionStart hook (last 10 sessions)")
+    ap.add_argument("--last", type=int, default=10, help="with --brief: how many recent sessions")
     a = ap.parse_args()
-    files = sorted(glob.glob(os.path.join(a.dir, "*.jsonl")), key=os.path.getmtime)[-a.last:]
+    files = sorted(glob.glob(os.path.join(a.dir, "*.jsonl")), key=os.path.getmtime)
     if not files:
         sys.exit(f"no transcripts under {a.dir}")
-    bill = collections.Counter(); added = collections.Counter(); carried = collections.Counter()
-    rows = []
-    for f in files:
-        ids, turns, usage, models = {}, [], [], collections.Counter()
-        for line in open(f):
-            try:
-                d = json.loads(line)
-            except ValueError:
-                continue
-            m = d.get("message")
-            if not isinstance(m, dict):
-                continue
-            if m.get("usage"):
-                usage.append(m["usage"]); models[m.get("model", "?")] += 1
-            c = m.get("content")
-            if not isinstance(c, list):
-                continue
-            for x in c:
-                if x.get("type") == "tool_use":
-                    ids[x["id"]] = classify(x["name"], x.get("input") or {})
-                elif x.get("type") == "tool_result":
-                    k = ids.get(x.get("tool_use_id"), "?")
-                    t = 1600 if k == "image" else len(json.dumps(x.get("content"))) / 4
-                    turns.append((len(usage), k, t))
-        n = len(usage)
-        for at, k, t in turns:
-            added[k] += t; carried[k] += t * max(1, n - at)
-        cr = sum(u.get("cache_read_input_tokens", 0) for u in usage)
-        cc = sum(u.get("cache_creation_input_tokens", 0) for u in usage)
-        out = sum(u.get("output_tokens", 0) for u in usage)
-        bill["cache_read"] += cr; bill["cache_create"] += cc; bill["output"] += out
-        rows.append((os.path.basename(f)[:8], n, cr / 1e6, cc / 1e6, out / 1e6, models.most_common(1)[0][0] if models else "?"))
+    rows = [s for s in (read_session(f) for f in files) if s["turns"] >= a.min_turns and s["last"]]
+
     if a.brief:
-        real = [r for r in rows if r[1] >= 20]
-        if not real:
+        recent = rows[-a.last:]
+        if not recent:
             return
-        avg_cached = sum(r[2] for r in real) / len(real)
-        avg_turns = sum(r[1] for r in real) / len(real)
-        shell = 100 * (carried["bash-do"] + carried["bash-explore"]) / (sum(carried.values()) or 1)
-        # baseline: the 25 sessions measured for decision 0079 (2026-09-19)
-        print(f"[token report, decision 0079] last {len(real)} sessions: avg {avg_cached:.0f}M cached input, "
-              f"{avg_turns:.0f} turns, shell {shell:.0f}% of carried context "
-              f"(baseline 111M, 280 turns, 68%). Full report: python3 tooling/repo-standards/session_tokens.py")
+        g = summarise(recent)
+        print(f"[token report, decision 0079] last {len(recent)} sessions: avg {g['cached']:.0f}M cached input, "
+              f"{g['turns']:.0f} turns, shell {g['shell']:.0f}% of carried context, planner shell {g['bash']:.0f}/session, "
+              f"{g['sleeps']} sleeps, {g['guard']} guard refusals "
+              f"(baseline {BASELINE['cached']}M, {BASELINE['turns']} turns, {BASELINE['shell']}%). "
+              f"Full report: python3 tooling/repo-standards/session_tokens.py")
         return
-    print(f"{len(files)} sessions   session  turns  cached(M)  new(M)  out(M)  main model")
-    for r in rows:
-        print(f"                     {r[0]}  {r[1]:5d}  {r[2]:9.1f}  {r[3]:6.1f}  {r[4]:6.2f}  {r[5]}")
-    print(f"totals (M tokens): cached {bill['cache_read']/1e6:.0f}  new {bill['cache_create']/1e6:.0f}  output {bill['output']/1e6:.1f}")
-    A, C = sum(added.values()) or 1, sum(carried.values()) or 1
-    print("\ncontext by source      added   carried")
-    for k, v in carried.most_common(8):
-        print(f"  {k:14s} {100*added[k]/A:6.1f}%  {100*v/C:6.1f}%")
+
+    now = dt.datetime.now(dt.timezone.utc); w = dt.timedelta(days=a.days)
+    windows = [(f"last {a.days:g} d", [r for r in rows if when(r) > now - w]),
+               (f"previous {a.days:g} d", [r for r in rows if now - 2 * w < when(r) <= now - w]),
+               ("older", [r for r in rows if when(r) <= now - 2 * w])]
+    print(f"{len(rows)} sessions with >= {a.min_turns} turns; per-session averages unless marked total\n")
+    hdr = f"{'':22s}" + "".join(f"{name:>16s}" for name, _ in windows)
+    print(hdr)
+    G = [(name, summarise(r)) for name, r in windows]
+    def line(label, key, fmt="{:.1f}"):
+        print(f"{label:22s}" + "".join(f"{fmt.format(g[key]) if g['sessions'] else '-':>16s}" for _, g in G))
+    line("sessions", "sessions", "{:.0f}"); line("turns", "turns", "{:.0f}")
+    line("planner cached (M)", "cached", "{:.0f}"); line("planner new (M)", "new"); line("planner output (M)", "out", "{:.2f}")
+    line("cost units (M)", "units", "{:.1f}")
+    for mdl in ("fable", "opus", "sonnet", "haiku"):
+        print(f"{'sub '+mdl+' tokens (M)':22s}" + "".join(f"{g['sub'].get(mdl, 0):16.1f}" if g["sessions"] else f"{'-':>16s}" for _, g in G))
+    line("planner shell calls", "bash"); line("  of which explore", "explore")
+    line("sleeps (total)", "sleeps", "{:.0f}"); line("guard refusals (total)", "guard", "{:.0f}")
+    print(f"{'agent calls (total)':22s}" + "".join(f"{sum(g['agents'].values()):16d}" for _, g in G))
+    print(f"{'  by type':22s}" + "".join(f"{','.join(f'{k}:{v}' for k, v in sorted(g['agents'].items(), key=lambda kv: -kv[1])[:4]):>16s}" for _, g in G))
+    print("\ncontext carried by the planner, share by source")
+    keys = ["bash-do", "bash-explore", "read-code", "read-doc", "image", "Agent"]
+    for k in keys:
+        print(f"{'  '+k:22s}" + "".join(f"{g['shares'].get(k, 0):15.1f}%" if g["sessions"] else f"{'-':>16s}" for _, g in G))
+    print(f"\nbaseline before 0079 (25 sessions): {BASELINE['cached']}M cached, {BASELINE['turns']} turns, shell {BASELINE['shell']}%")
+    if a.sessions:
+        latest = sorted(windows[0][1], key=lambda r: -r["units"])[:a.sessions]
+        print(f"\ncostliest sessions, {windows[0][0]}:  id  turns  cached(M)  units(M)  shell/explore/sleeps/guard  agents")
+        for r in latest:
+            ag = ",".join(f"{k}:{v}" for k, v in r["agents"].most_common(3))
+            print(f"  {r['id']}  {r['turns']:5d}  {r['planner']['cache_read']/1e6:9.1f}  {r['units']/1e6:8.1f}  "
+                  f"{r['bash']:3d}/{r['explore']:3d}/{r['sleeps']:2d}/{r['guard']:2d}  {ag}")
 
 
 if __name__ == "__main__":
