@@ -190,20 +190,65 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     effects: [{ kind: "armourPierce", share: 0.35 }],
     sheathSocket: "WeaponBack",
   },
+  // The polearms fight with their own authored sets (`movesets/polearms.ts`):
+  // a spear and a pike thrust, a halberd and a quarterstaff swing.
   spear: {
-    id: "spear", label: "Spear", moveset: "greatsword", twoHanded: true,
+    id: "spear", label: "Spear", moveset: "pike", twoHanded: true,
     lengthMeters: 2.1, weightKg: 5, speedScale: 1.15, criticalEntryRangeBonus: 1.1,
     powerScale: 1.15, staminaScale: 1.05, stability: 0.4, physicalAbsorption: 0.78,
+    criticalStyle: "thrust",
+    effects: [],
+    sheathSocket: "WeaponBack",
+  },
+  // A pike is the spear taken to its limit: the longest reach in the arsenal,
+  // the slowest commitment, and nothing at all to do once something is inside
+  // its point.
+  pike: {
+    id: "pike", label: "Pike", moveset: "pike", twoHanded: true,
+    lengthMeters: 2.5, weightKg: 6, speedScale: 1.25, criticalEntryRangeBonus: 1.4,
+    powerScale: 1.3, staminaScale: 1.15, stability: 0.38, physicalAbsorption: 0.75,
+    criticalStyle: "thrust",
     effects: [],
     sheathSocket: "WeaponBack",
   },
   halberd: {
-    id: "halberd", label: "Halberd", moveset: "greataxe", twoHanded: true,
+    id: "halberd", label: "Halberd", moveset: "halberd", twoHanded: true,
     lengthMeters: 2.2, weightKg: 8, speedScale: 1.45, criticalEntryRangeBonus: 1.2,
     powerScale: 1.6, staminaScale: 1.45, stability: 0.45, physicalAbsorption: 0.85,
     criticalStyle: "swing",
-    effects: [],
+    // An axe head on a long haft cuts as an axe does.
+    effects: [{ kind: "bleed", fraction: 0.25, seconds: 4 }],
     sheathSocket: "WeaponBack",
+  },
+  // A thrusting blade: the shortest committed reach of the one-handed set and
+  // the quickest, with nothing behind the point.
+  rapier: {
+    id: "rapier", label: "Rapier", moveset: "rapier", twoHanded: false,
+    lengthMeters: 1.1, weightKg: 1.6, speedScale: 0.8, criticalEntryRangeBonus: 0.05,
+    powerScale: 0.85, staminaScale: 0.8, stability: 0.45, physicalAbsorption: 0.7,
+    criticalStyle: "thrust",
+    effects: [],
+    sheathSocket: "WeaponSword",
+  },
+  // The katana ships on its meshes alone: its source clips are in a Havok
+  // format the pipeline cannot read, so it borrows the one-handed moveset and
+  // `borrowedMoveset` on the item tells the player so.
+  katana: {
+    id: "katana", label: "Katana", moveset: "oneHanded", twoHanded: false,
+    lengthMeters: 1.05, weightKg: 2.8, speedScale: 0.95, criticalEntryRangeBonus: 0,
+    powerScale: 1, staminaScale: 0.95, stability: 0.55, physicalAbsorption: 0.9,
+    criticalStyle: "thrust",
+    effects: [],
+    sheathSocket: "WeaponSword",
+  },
+  // Worn on the hand: almost no reach, almost no guard, and it opens wounds.
+  claw: {
+    id: "claw", label: "Claw", moveset: "claw", twoHanded: false,
+    lengthMeters: 0.45, weightKg: 1.4, speedScale: 0.74, criticalEntryRangeBonus: -0.5,
+    powerScale: 0.55, staminaScale: 0.6, stability: 0.25, physicalAbsorption: 0.5,
+    criticalStyle: "swing",
+    effects: [{ kind: "bleed", fraction: 0.3, seconds: 3 }],
+    sheathSocket: "WeaponDagger",
   },
   // Bows do not fight, they shoot: their melee numbers exist only so that a bow
   // in hand is still a describable object. What a bow *does* is in `ranged`.
@@ -257,8 +302,8 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     },
   },
   staff: {
-    id: "staff", label: "Staff", moveset: "greatsword", twoHanded: true,
-    lengthMeters: 1.6, weightKg: 4, speedScale: 1.25, criticalEntryRangeBonus: 0.4,
+    id: "staff", label: "Quarterstaff", moveset: "quarterstaff", twoHanded: true,
+    lengthMeters: 1.6, weightKg: 4, speedScale: 1.15, criticalEntryRangeBonus: 0.4,
     powerScale: 0.7, staminaScale: 0.9, stability: 0.35, physicalAbsorption: 0.5,
     criticalStyle: "swing",
     effects: [],

@@ -1,4 +1,4 @@
-"""Read WEAP (and shield ARMO) records straight out of a vanilla Skyrim plugin.
+"""Read WEAP (and shield ARMO) records straight out of the plugin that ships them.
 
 The arsenal's weight, value, damage, speed and reach used to be placeholders.
 Bethesda already balanced every one of these meshes, so the numbers are read
@@ -8,6 +8,11 @@ the same model, and writes one generated JSON the runtime reads.
 
 Six arsenal entries are shields, which Skyrim stores as ARMO, not WEAP; they
 carry `kind: "ARMO"` and an `armourRating` instead of damage/speed/reach.
+
+Arsenal entries sourced from a mod carry a `root` (a vault-relative data
+directory); those are read from that mod's own plugin, the same way, and record
+the plugin name and hash per item. Nothing about a sourced weapon's numbers is
+invented either.
 
 Format reference: UESP "Skyrim Mod:Mod File Format/WEAP" (and /ARMO).
 Reuses `npc_records`' generic readers -- there is one ESM reader in this
@@ -26,6 +31,7 @@ from pathlib import Path
 
 from . import npc_records as nr
 from .npc_records import DATA, iter_records, iter_subrecords, record_data
+from .models import ROOT
 
 SCHEMA_VERSION = 1
 
@@ -54,6 +60,10 @@ class WeaponRecord:
     critDamage: int | None = None
     armourRating: float | None = None
     candidates: list[str] = field(default_factory=list)
+    #: Which plugin file the record was read from, for items sourced from a mod
+    #: (``{"plugin": ..., "sha256": ...}``). Vanilla items carry the top-level
+    #: ``source`` of the generated file instead.
+    source: dict | None = None
 
 
 def _model_key(path: str) -> str:
@@ -146,23 +156,97 @@ def index_plugin(path: Path) -> dict[str, list[dict]]:
             continue
         parsed["formId"] = f"{form_id:08x}"
         parsed["kind"] = sig.decode()
+        parsed["plugin"] = path.name
         index.setdefault(_model_key(parsed["model"]), []).append(parsed)
     return index
 
 
-def mine(plugins: tuple[str, ...] = ("Skyrim.esm", "Update.esm")) -> dict:
-    arsenal = json.loads(ARSENAL.read_text())
+def build_index(plugin_paths: list[Path]) -> dict[str, list[dict]]:
+    """One model-keyed record index over several plugins, later ones appended."""
     index: dict[str, list[dict]] = {}
-    for plugin in plugins:
-        p = DATA / plugin
-        if not p.exists():
+    for p in plugin_paths:
+        if not Path(p).exists():
             continue
-        for key, recs in index_plugin(p).items():
+        for key, recs in index_plugin(Path(p)).items():
             index.setdefault(key, []).extend(recs)
+    return index
+
+
+def records_for_models(plugin_paths: list[Path], models: list[str]) -> dict[str, dict | None]:
+    """The chosen WEAP/ARMO record for each model path, keyed by that path.
+
+    The same reader the arsenal mine uses, pointed at an arbitrary plugin and an
+    arbitrary list of model paths -- a mod's meshes are read exactly the way
+    Skyrim.esm's are, so a sourced weapon's damage/speed/reach never has to be
+    guessed. `None` means no record in those plugins uses that model.
+    """
+    index = build_index(list(plugin_paths))
+    out: dict[str, dict | None] = {}
+    for model in models:
+        recs = index.get(_model_key(model))
+        if not recs:
+            out[model] = None
+            continue
+        best = choose(recs)
+        out[model] = {
+            "editorId": best["editorId"], "formId": best["formId"], "kind": best["kind"],
+            "model": best["model"].replace("\\", "/"),
+            "weight": round(best["weight"], 4), "value": int(best["value"]),
+            "damage": best.get("damage"),
+            "speed": None if best.get("speed") is None else round(best["speed"], 4),
+            "reach": None if best.get("reach") is None else round(best["reach"], 4),
+            "critDamage": best.get("critDamage"),
+            "armourRating": best.get("armourRating"),
+            "candidates": sorted(c["editorId"] for c in recs),
+        }
+    return out
+
+
+def plugins_under(root: Path) -> list[Path]:
+    """Every plugin file sitting directly in a mod's ``Data`` directory, sorted."""
+    return sorted(
+        p for p in Path(root).iterdir()
+        if p.is_file() and p.suffix.lower() in (".esp", ".esm", ".esl")
+    )
+
+
+def _plugin_source(plugin_name: str, roots: dict[str, Path]) -> dict | None:
+    """``{"plugin", "sha256"}`` for a mod plugin, or None for a vanilla one."""
+    path = roots.get(plugin_name)
+    if path is None:
+        return None
+    return {"plugin": plugin_name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+
+
+def mine(plugins: tuple[str, ...] = ("Skyrim.esm", "Update.esm"),
+         vault_root: Path | None = None) -> dict:
+    """Resolve every arsenal item against the plugin that ships its mesh.
+
+    Items without a ``root`` are matched in the vanilla plugins. An item with a
+    ``root`` (a vault-relative mod data directory) is matched in the plugins
+    found directly under that root, and gains a per-item ``source`` naming that
+    plugin and its hash. Model paths are compared by `_model_key`, so a mod
+    author's casing and a leading ``meshes/`` on either side do not matter.
+
+    Animated Armoury's four "spear" items share the pike NIF, so they resolve to
+    the pike WEAP record; that is the record for that mesh and is correct.
+    """
+    root_base = Path(vault_root) if vault_root is not None else ROOT
+    arsenal = json.loads(ARSENAL.read_text())
+    vanilla_index = build_index([DATA / plugin for plugin in plugins])
+
+    mod_indexes: dict[str, dict[str, list[dict]]] = {}
+    mod_plugins: dict[str, Path] = {}
+    for rel in sorted({i["root"] for i in arsenal["items"] if i.get("root")}):
+        paths = plugins_under(root_base / rel)
+        mod_indexes[rel] = build_index(paths)
+        for path in paths:
+            mod_plugins[path.name] = path
 
     items: dict[str, dict] = {}
     missing: list[str] = []
     for item in arsenal["items"]:
+        index = mod_indexes[item["root"]] if item.get("root") else vanilla_index
         recs = index.get(_model_key(item["nif"]))
         if not recs:
             missing.append(item["id"])
@@ -178,6 +262,7 @@ def mine(plugins: tuple[str, ...] = ("Skyrim.esm", "Update.esm")) -> dict:
             critDamage=best.get("critDamage"),
             armourRating=best.get("armourRating"),
             candidates=sorted(c["editorId"] for c in recs),
+            source=_plugin_source(best["plugin"], mod_plugins),
         )
         items[item["id"]] = {k: v for k, v in asdict(rec).items() if v is not None}
     if missing:
@@ -198,7 +283,16 @@ def mine(plugins: tuple[str, ...] = ("Skyrim.esm", "Update.esm")) -> dict:
 def _main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--write", action="store_true", help=f"write {OUTPUT.name}")
+    ap.add_argument("--plugin", action="append", default=[], type=Path,
+                    help="plugin to read instead of the vault's Skyrim.esm (repeatable)")
+    ap.add_argument("--models", nargs="*", default=[],
+                    help="model paths to look up in --plugin, instead of the arsenal")
     args = ap.parse_args()
+    if args.plugin or args.models:
+        if not (args.plugin and args.models):
+            raise SystemExit("--plugin and --models are used together")
+        print(json.dumps(records_for_models(args.plugin, args.models), indent=2))
+        return
     payload = mine()
     text = json.dumps(payload, indent=2) + "\n"
     if args.write:

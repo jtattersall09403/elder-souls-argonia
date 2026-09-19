@@ -689,6 +689,370 @@
         0.06026,
         1.75006
       ]
+    },
+    "iron-rapier": {
+      "class": "rapier",
+      "material": "iron",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/iron-rapier.glb",
+      "icon": "weapon-icons/iron-rapier.png",
+      "lengthMeters": 1.1,
+      "sizeMeters": [
+        0.21467,
+        0.13115,
+        1.1
+      ]
+    },
+    "steel-rapier": {
+      "class": "rapier",
+      "material": "steel",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/steel-rapier.glb",
+      "icon": "weapon-icons/steel-rapier.png",
+      "lengthMeters": 1.1,
+      "sizeMeters": [
+        0.2501,
+        0.03114,
+        1.1
+      ]
+    },
+    "elven-rapier": {
+      "class": "rapier",
+      "material": "elven",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/elven-rapier.glb",
+      "icon": "weapon-icons/elven-rapier.png",
+      "lengthMeters": 1.1,
+      "sizeMeters": [
+        0.24044,
+        0.03451,
+        1.1
+      ]
+    },
+    "ebony-rapier": {
+      "class": "rapier",
+      "material": "ebony",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/ebony-rapier.glb",
+      "icon": "weapon-icons/ebony-rapier.png",
+      "lengthMeters": 1.1,
+      "sizeMeters": [
+        0.15762,
+        0.04792,
+        1.1
+      ]
+    },
+    "iron-katana": {
+      "class": "katana",
+      "material": "iron",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/iron-katana.glb",
+      "icon": "weapon-icons/iron-katana.png",
+      "lengthMeters": 1.05,
+      "sizeMeters": [
+        0.10175,
+        0.05901,
+        1.05
+      ]
+    },
+    "steel-katana": {
+      "class": "katana",
+      "material": "steel",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/steel-katana.glb",
+      "icon": "weapon-icons/steel-katana.png",
+      "lengthMeters": 1.05,
+      "sizeMeters": [
+        0.0941,
+        0.06336,
+        1.05
+      ]
+    },
+    "elven-katana": {
+      "class": "katana",
+      "material": "elven",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/elven-katana.glb",
+      "icon": "weapon-icons/elven-katana.png",
+      "lengthMeters": 1.05,
+      "sizeMeters": [
+        0.08581,
+        0.03106,
+        1.05
+      ]
+    },
+    "ebony-katana": {
+      "class": "katana",
+      "material": "ebony",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/ebony-katana.glb",
+      "icon": "weapon-icons/ebony-katana.png",
+      "lengthMeters": 1.05,
+      "sizeMeters": [
+        0.07617,
+        0.07219,
+        1.05
+      ]
+    },
+    "iron-claw": {
+      "class": "claw",
+      "material": "iron",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/iron-claw.glb",
+      "icon": "weapon-icons/iron-claw.png",
+      "lengthMeters": 0.45,
+      "sizeMeters": [
+        0.45,
+        0.21297,
+        0.20696
+      ]
+    },
+    "steel-claw": {
+      "class": "claw",
+      "material": "steel",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/steel-claw.glb",
+      "icon": "weapon-icons/steel-claw.png",
+      "lengthMeters": 0.45,
+      "sizeMeters": [
+        0.45,
+        0.09368,
+        0.12455
+      ]
+    },
+    "elven-claw": {
+      "class": "claw",
+      "material": "elven",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/elven-claw.glb",
+      "icon": "weapon-icons/elven-claw.png",
+      "lengthMeters": 0.45,
+      "sizeMeters": [
+        0.45,
+        0.16195,
+        0.26336
+      ]
+    },
+    "ebony-claw": {
+      "class": "claw",
+      "material": "ebony",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/ebony-claw.glb",
+      "icon": "weapon-icons/ebony-claw.png",
+      "lengthMeters": 0.45,
+      "sizeMeters": [
+        0.45,
+        0.12422,
+        0.15001
+      ]
+    },
+    "iron-pike": {
+      "class": "pike",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-pike.glb",
+      "icon": "weapon-icons/iron-pike.png",
+      "lengthMeters": 2.5,
+      "sizeMeters": [
+        0.13763,
+        0.06977,
+        2.5
+      ]
+    },
+    "steel-pike": {
+      "class": "pike",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-pike.glb",
+      "icon": "weapon-icons/steel-pike.png",
+      "lengthMeters": 2.5,
+      "sizeMeters": [
+        0.28039,
+        0.12329,
+        2.5
+      ]
+    },
+    "elven-pike": {
+      "class": "pike",
+      "material": "elven",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/elven-pike.glb",
+      "icon": "weapon-icons/elven-pike.png",
+      "lengthMeters": 2.5,
+      "sizeMeters": [
+        0.2902,
+        0.06815,
+        2.5
+      ]
+    },
+    "ebony-pike": {
+      "class": "pike",
+      "material": "ebony",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/ebony-pike.glb",
+      "icon": "weapon-icons/ebony-pike.png",
+      "lengthMeters": 2.5,
+      "sizeMeters": [
+        0.104,
+        0.05723,
+        2.5
+      ]
+    },
+    "iron-spear": {
+      "class": "spear",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-spear.glb",
+      "icon": "weapon-icons/iron-spear.png",
+      "lengthMeters": 2.1,
+      "sizeMeters": [
+        0.11561,
+        0.05861,
+        2.1
+      ]
+    },
+    "steel-spear": {
+      "class": "spear",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-spear.glb",
+      "icon": "weapon-icons/steel-spear.png",
+      "lengthMeters": 2.1,
+      "sizeMeters": [
+        0.23553,
+        0.10356,
+        2.1
+      ]
+    },
+    "elven-spear": {
+      "class": "spear",
+      "material": "elven",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/elven-spear.glb",
+      "icon": "weapon-icons/elven-spear.png",
+      "lengthMeters": 2.1,
+      "sizeMeters": [
+        0.24377,
+        0.05724,
+        2.1
+      ]
+    },
+    "ebony-spear": {
+      "class": "spear",
+      "material": "ebony",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/ebony-spear.glb",
+      "icon": "weapon-icons/ebony-spear.png",
+      "lengthMeters": 2.1,
+      "sizeMeters": [
+        0.08736,
+        0.04807,
+        2.1
+      ]
+    },
+    "iron-halberd": {
+      "class": "halberd",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-halberd.glb",
+      "icon": "weapon-icons/iron-halberd.png",
+      "lengthMeters": 2.2,
+      "sizeMeters": [
+        0.38631,
+        0.064,
+        2.2
+      ]
+    },
+    "steel-halberd": {
+      "class": "halberd",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-halberd.glb",
+      "icon": "weapon-icons/steel-halberd.png",
+      "lengthMeters": 2.2,
+      "sizeMeters": [
+        0.37509,
+        0.11319,
+        2.2
+      ]
+    },
+    "elven-halberd": {
+      "class": "halberd",
+      "material": "elven",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/elven-halberd.glb",
+      "icon": "weapon-icons/elven-halberd.png",
+      "lengthMeters": 2.2,
+      "sizeMeters": [
+        0.31699,
+        0.05997,
+        2.2
+      ]
+    },
+    "ebony-halberd": {
+      "class": "halberd",
+      "material": "ebony",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/ebony-halberd.glb",
+      "icon": "weapon-icons/ebony-halberd.png",
+      "lengthMeters": 2.2,
+      "sizeMeters": [
+        0.44981,
+        0.06694,
+        2.2
+      ]
+    },
+    "iron-quarterstaff": {
+      "class": "quarterstaff",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-quarterstaff.glb",
+      "icon": "weapon-icons/iron-quarterstaff.png",
+      "lengthMeters": 1.6,
+      "sizeMeters": [
+        0.05185,
+        0.04536,
+        1.6
+      ]
+    },
+    "steel-quarterstaff": {
+      "class": "quarterstaff",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-quarterstaff.glb",
+      "icon": "weapon-icons/steel-quarterstaff.png",
+      "lengthMeters": 1.6,
+      "sizeMeters": [
+        0.06394,
+        0.06032,
+        1.6
+      ]
+    },
+    "elven-quarterstaff": {
+      "class": "quarterstaff",
+      "material": "elven",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/elven-quarterstaff.glb",
+      "icon": "weapon-icons/elven-quarterstaff.png",
+      "lengthMeters": 1.6,
+      "sizeMeters": [
+        0.18803,
+        0.08247,
+        1.6
+      ]
+    },
+    "ebony-quarterstaff": {
+      "class": "quarterstaff",
+      "material": "ebony",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/ebony-quarterstaff.glb",
+      "icon": "weapon-icons/ebony-quarterstaff.png",
+      "lengthMeters": 1.6,
+      "sizeMeters": [
+        0.06208,
+        0.06208,
+        1.6
+      ]
     }
   }
 }

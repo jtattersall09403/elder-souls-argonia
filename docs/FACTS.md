@@ -10,7 +10,7 @@ live doc that states a different number next to one of these nouns.
 | catalogueRecords | 827 | world/sources/catalogue/places-*.json |
 | dungeonKindRecords | 327 | interior.kind in delve|dungeon|warren|complex |
 | sitedRecords | 580 | records with positionM |
-| animationClips | 103 | packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json |
+| animationClips | 163 | packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json |
 | hydrologyRivers | 101 | world/sources/hydrology/hydrology-graph.json stats |
 | hydrologyReaches | 615 | world/sources/hydrology/hydrology-graph.json stats |
 | hydrologyBodies | 2280 | world/sources/hydrology/hydrology-graph.json stats |

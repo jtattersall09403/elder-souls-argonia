@@ -78,7 +78,12 @@ const PIPELINE_CLASS_TO_WEAPON_CLASS: Readonly<Record<string, WeaponClass>> = {
   mace: "mace",
   warhammer: "warhammer",
   spear: "spear",
+  pike: "pike",
   halberd: "halberd",
+  rapier: "rapier",
+  katana: "katana",
+  claw: "claw",
+  quarterstaff: "staff",
   shortbow: "shortbow",
   longbow: "longbow",
   warbow: "warbow",
@@ -155,6 +160,8 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
   const materialId = materialOf(itemId, built);
   const material = MATERIAL_PROFILES[materialId];
   const classId = PIPELINE_CLASS_TO_WEAPON_CLASS[built.class];
+  // Unreachable from the loop below, which skips unmapped classes; kept as the
+  // contract for any direct caller.
   if (!classId) throw new RangeError(`arsenal item "${itemId}" has unmapped class ${built.class}`);
   const profile = WEAPON_CLASSES[classId];
   const moveset = resolveMoveset(profile);
@@ -285,9 +292,25 @@ function buildShield(itemId: string, built: BuiltItem): ArsenalShield {
 
 const weapons: Record<string, ArsenalWeapon> = {};
 const shields: Record<string, ArsenalShield> = {};
+/**
+ * Pipeline classes the game has not mapped yet are skipped, not fatal: the
+ * pipeline can build a mesh before the game has a class for it (the weapons
+ * lane ships meshes and movesets in separate streams), and one unmapped item
+ * must not take every app that imports the arsenal down with it. The skip is
+ * reported so it cannot go unnoticed, and `weaponRecords.test.ts` still holds
+ * the manifest and the arsenal to the same item set.
+ */
+export const UNMAPPED_ARSENAL_ITEMS: readonly string[] = Object.entries(BUILT)
+  .filter(([, built]) => built.class !== "shield" && !(built.class in PIPELINE_CLASS_TO_WEAPON_CLASS))
+  .map(([itemId]) => itemId);
 for (const [itemId, built] of Object.entries(BUILT)) {
   if (built.class === "shield") shields[itemId] = buildShield(itemId, built);
-  else weapons[itemId] = buildWeapon(itemId, built);
+  else if (built.class in PIPELINE_CLASS_TO_WEAPON_CLASS) weapons[itemId] = buildWeapon(itemId, built);
+}
+if (UNMAPPED_ARSENAL_ITEMS.length > 0) {
+  console.warn(
+    `arsenal: ${UNMAPPED_ARSENAL_ITEMS.length} item(s) skipped, pipeline class not mapped to a weapon class: ${UNMAPPED_ARSENAL_ITEMS.join(", ")}`,
+  );
 }
 
 export const ARSENAL_BLUEPRINT_WEAPONS: Readonly<Record<string, ArsenalWeapon>> = weapons;

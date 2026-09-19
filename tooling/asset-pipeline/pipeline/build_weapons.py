@@ -8,6 +8,10 @@ into the game under its explicit deployment authorization.
 
 Adding an item is one entry in ``config/weapons/<set>.json`` — its class
 supplies the size and the sheath socket, so no per-item tuning is needed.
+An item may name a ``root`` (a vault-relative data root) instead of taking the
+vanilla archives: its NIF is then resolved case-insensitively under that root,
+and each texture the NIF references is looked for there first and in the
+vanilla texture archive otherwise.
 
 Usage:
     python -m pipeline.build_weapons                 # the whole arsenal
@@ -26,6 +30,7 @@ from pathlib import Path
 
 from .bsa import BSAArchive
 from .build import BUILD_DIR, TOOLCHAIN, _expand, _referenced_textures, to_windows
+from .build_kit import DirSource
 from .models import ROOT
 
 WEAPON_SCRIPT = Path(__file__).resolve().parent / "blender" / "build_weapons.py"
@@ -57,6 +62,10 @@ def resolve_set(set_id: str, only: list[str] | None) -> dict:
             "itemClass": item_class,
             "material": entry["material"],
             "nif": entry["nif"],
+            # Optional vault-relative data root for a modded mesh (Animated
+            # Armoury and friends ship loose files, not a BSA). Absent means the
+            # vanilla archives, byte-for-byte as before.
+            "root": entry.get("root"),
             "sheathSocket": entry.get("sheathSocket", profile["sheathSocket"]),
             "target_length": float(entry.get("lengthMeters", profile["lengthMeters"])),
             # A quiver is the *worn* half of the same item: Skyrim ships the
@@ -75,6 +84,16 @@ def resolve_set(set_id: str, only: list[str] | None) -> dict:
     return {"config": config, "items": items}
 
 
+def _dir_source(cache: dict[str, DirSource], root: str) -> DirSource:
+    """One case-insensitive index per mod data root, shared across the batch."""
+    if root not in cache:
+        path = (ROOT / root).resolve()
+        if not path.is_dir():
+            raise FileNotFoundError(f"data root not found: {path}")
+        cache[root] = DirSource(path)
+    return cache[root]
+
+
 def assemble_data_root(set_id: str, items: list[dict]) -> Path:
     """One data-root for the whole batch; shared textures are extracted once."""
     work = BUILD_DIR / "weapons" / set_id
@@ -85,24 +104,44 @@ def assemble_data_root(set_id: str, items: list[dict]) -> Path:
 
     mesh_bsa = BSAArchive(ROOT / TOOLCHAIN["bsaDir"] / "Skyrim - Meshes.bsa")
     texture_bsa = BSAArchive(ROOT / TOOLCHAIN["bsaDir"] / TOOLCHAIN["textureBsa"])
+    roots: dict[str, DirSource] = {}
+
+    def place(item: dict, rel: str, key: str) -> None:
+        """Land one NIF in the batch data-root, from its mod root or the BSA."""
+        if item["root"]:
+            source = _dir_source(roots, item["root"])
+            if not source.contains(rel):
+                raise KeyError(f"{item['id']}: {rel} not under {item['root']}")
+            source.extract_many([rel], data_root)
+        else:
+            if not mesh_bsa.contains(rel):
+                raise KeyError(f"{item['id']}: {rel} not in the mesh archive")
+            mesh_bsa.extract([rel], data_root)
+        item[key] = data_root / rel
 
     wanted: set[str] = set()
+    # A texture is looked up in the mod root of the item that referenced it
+    # first, and in the vanilla archive otherwise.
+    texture_roots: dict[str, str | None] = {}
     for item in items:
-        if not mesh_bsa.contains(item["nif"]):
-            raise KeyError(f"{item['id']}: {item['nif']} not in the mesh archive")
-        mesh_bsa.extract([item["nif"]], data_root)
-        item["nif_path"] = data_root / item["nif"]
-        wanted |= _referenced_textures(item["nif_path"])
+        place(item, item["nif"], "nif_path")
+        for texture in _referenced_textures(item["nif_path"]):
+            wanted.add(texture)
+            texture_roots.setdefault(texture, item["root"])
         if item["quiver_nif"]:
-            if not mesh_bsa.contains(item["quiver_nif"]):
-                raise KeyError(f"{item['id']}: {item['quiver_nif']} not in the mesh archive")
-            mesh_bsa.extract([item["quiver_nif"]], data_root)
-            item["quiver_nif_path"] = data_root / item["quiver_nif"]
-            wanted |= _referenced_textures(item["quiver_nif_path"])
+            place(item, item["quiver_nif"], "quiver_nif_path")
+            for texture in _referenced_textures(item["quiver_nif_path"]):
+                wanted.add(texture)
+                texture_roots.setdefault(texture, item["root"])
 
     filled, absent = [], []
     for texture in sorted(wanted):
-        if texture_bsa.contains(texture):
+        root = texture_roots.get(texture)
+        source = _dir_source(roots, root) if root else None
+        if source is not None and source.contains(texture):
+            source.extract_many([texture], data_root)
+            filled.append(texture)
+        elif texture_bsa.contains(texture):
             texture_bsa.extract([texture], data_root)
             filled.append(texture)
         else:

@@ -32,6 +32,7 @@ from pathlib import Path
 
 from .build import (
     assemble_animations,
+    merge_hurtbox_for_sex,
     assemble_auxiliary_animations,
     assemble_data_root,
     run_blender,

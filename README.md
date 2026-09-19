@@ -91,6 +91,14 @@ asset registry.
   victim half of a two-handed backstab.
 - **Backstab animation for sneak killmove SE** (Nexus SSE mod 74453, Ichaflash
   original / rhonjhonson uploader, v1) — source of `BACKSTAB`/`BACKSTABBED`.
+- **Animated Armoury (DAR Version)** (Nexus SSE mod 35978, NickNak, v2.3,
+  archive sha256
+  `57ef2ddf08cea13ba648736ef955b03730ace741ecc784f19cc0ad2ff7e7cdba`) — source
+  of the rapier, pike, halberd, quarterstaff, katana and claw weapon meshes and
+  of their movesets (packs `pike`, `halberd`, `quarterstaff`, `rapier` and
+  `claw`; the katana folders' own clips are stored uncompressed and the HKX
+  importer rejects them, so a katana carries this mod's mesh and the vanilla
+  one-handed moveset).
 - **Tamriel Worldspaces — Argonia worldspace** (Nexus SSE mod 118678, author
   SqueeblySplat; a 1:1 cut of Transbot9's heightmap at PNG row 3393, col
   11788, 32 px per cell — measured 2026-09-15, decision 0067) — province

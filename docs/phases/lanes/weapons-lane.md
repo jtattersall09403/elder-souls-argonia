@@ -17,52 +17,55 @@ data in the arsenal, in a shape the buildout's perks and class effects plug
 into without a refactor. The owner's side backlog (0074 context) is
 delivered in the same rounds.
 
-## Starting state (2026-09-18, rewritten at round-0 close; the closing round-1 agent rewrites this)
+## Starting state (2026-09-19, rewritten at round-1 close; the closing round-2 agent rewrites this)
 
-Run the `routing-audit` skill over this brief before building. **Round 0
-is delivered** ([0076](../../decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md)):
+Run the `routing-audit` skill over this brief before building. **Rounds 0
+and 1 are delivered** ([0076](../../decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md),
+[0077](../../decisions/0077-weapons-lane-round-1-animated-armoury-movesets-and-meshes.md)):
 
-- **Classes** (`packages/game-core/src/equipment/weaponClasses.ts`): dagger,
-  shortSword, straightSword, scimitar, axe, mace (moveset `oneHanded`);
-  greatsword; greataxe, warhammer (`greataxe`); shortbow, longbow, warbow
-  (`bow`); **spear and staff borrow `greatsword`, halberd borrows
-  `greataxe`** — a spear swings rather than thrusts. No pike, quarterstaff,
-  unarmed, dual-wield, rapier, claw or katana class. Every class carries an
-  `effects` list (mace and warhammer pierce armour, axe and battleaxe
-  bleed, the rest empty) and a `speedScale` calibrated to Skyrim's records
-  (0076 §4); a new class must set both.
-- **Movesets** (`equipment/movesets/`): `bow`, `oneHanded`, `twoHanded`,
-  `shield`, `criticals`; `resolveMoveset` falls back to `oneHanded` for a
-  moveset not in `BUILT_MOVESETS` (`borrowedMoveset` on the item says so).
-- **Hit resolution**: `combat/resolveHit.ts` is the single step for every
-  contact, in the fixed order `combat/README.md` records; `HitContext`
-  takes `effects` and `attacker: MeleeModifiers`; results carry `status`
-  applications that `combat/statusEffects.ts` ticks on `Fighter.status`.
-- **Skill inputs**: `combat/skillScalars.ts` turns a 0–100 skill into
-  `RangedModifiers` (nock, draw, sway, draw stamina, damage) and
-  `MeleeModifiers` (damage position, stamina cost). `resolveArrowImpact`
-  takes the damage multiplier as its fourth argument. The sandbox store has
-  `marksmanSkill`, `meleeSkill` (default 10) and `classEffectsEnabled`
-  (default true), driven from the HUD.
-- **Records**: `equipment/generated/weapon-records.json` holds Skyrim's own
-  damage, weight, value, speed, reach and crit for all 53 arsenal items,
-  mined by `tooling/asset-pipeline/pipeline/weapon_records.py` (reuses the
-  ESM readers in `npc_records.py`). Materials were refitted to it (0076 §5).
+- **Classes** (`packages/game-core/src/equipment/weaponClasses.ts`): the
+  one-handed set (dagger, shortSword, straightSword, scimitar, axe, mace,
+  **katana** on the borrowed `oneHanded` set), **rapier** and **claw** on
+  their own sets, greatsword, greataxe and warhammer, **spear and pike** on
+  the `pike` thrust set, **halberd** and **staff** (Quarterstaff) on their
+  own haft sets, plus the three bows. Every class carries `effects`,
+  `speedScale`, a poise entry and a `criticalStyle`; `weaponClasses.test.ts`
+  holds the table complete.
+- **Movesets** (`equipment/movesets/`): `oneHanded`, `twoHanded`
+  (greatsword, greataxe), `polearms` (pike, halberd, quarterstaff),
+  `blades` (rapier, claw), `bow`, `shield`, `criticals`. Contact windows
+  are measured (`scripts/measure-contact-windows.mjs`), the claw lunge
+  excepted (slot analogue, commented).
+- **Packs** (`packages/character-assets/files/rig-skyrim-humanoid.<pack>.glb`,
+  manifest in `anim/generated/`): core, criticals, oneHanded, shield, bow,
+  greatsword, greataxe, pike, halberd, quarterstaff, rapier, claw. **No
+  katana pack**: its source clips are interleaved-uncompressed Havok, which
+  the importer cannot read (backlog row; 0077 §5a).
+- **Arsenal**: 81 items (53 vanilla + 28 Animated Armoury: iron, steel,
+  elven, ebony × rapier, katana, claw, pike, spear, halberd, quarterstaff),
+  every one with a mined record (`weapon-records.json`; mod items from
+  `NewArmoury.esp` with its hash). `build_weapons.py` takes a `root` for
+  mod meshes. The builder skips an unmapped pipeline class with a warning
+  (`UNMAPPED_ARSENAL_ITEMS`) rather than throwing. Weapon GLBs are raw
+  (backlog row).
+- **Enemies**: pike, halberd, rapier and claw wardens beside the existing
+  five; the sandbox HUD lists every `ENEMY_ARCHETYPES` entry.
+- **Hit resolution and skill inputs**: as round 0 left them
+  (`combat/README.md`; `skillScalars.ts`; sandbox `skillsEnabled` off by
+  default).
 - **Landing**: `anim/landing.ts` exposes `selectLandingAnimation` and
-  `landingAnimationSpeed`; `locomotion/explorerLocomotion.ts` uses both.
-  Movement is not locked during the landing clip (the "sliding on landing").
-- **Sandbox** (`apps/combat-sandbox/src/components/`): enemy spawning is
-  one archetype set at a time; no per-enemy race or weapon-set picker.
-- **Sources, verified 2026-08-26 (90 §74.3), none downloaded:** Animated
-  Armoury (SSE 35978: rapier, pike, halberd, quarterstaff, claw, katana
-  meshes + loose-`.hkx` player *and* NPC movesets; "just credit NickaNak",
-  conversions allowed); Animated Heavy Armory (51100: shortspear, half-pike,
-  poleaxe, trident); Skyrim Spear Mechanic (25146). Vanilla: 70 hand-to-hand
-  clips including the `beasth2h_*` clawed set for Argonians and Khajiit
-  plus the `dw` dual-wield set. Black Marsh Import (48551): five bespoke Black
-  Marsh weapon meshes (skins for existing classes, no movesets). The vault
-  and `../elder-scrolls-asset-pipeline/skyrim-source` are checked first;
-  downloads use the owner's Nexus key on this VM, never echoed.
+  `landingAnimationSpeed`; movement is not locked during the landing clip.
+- **Sandbox**: enemy spawning is one archetype set at a time; no per-enemy
+  race or weapon-set picker.
+- **Sources in the vault** (`mod-sources/extracted/`, records in
+  `SOURCES.json`, inventory in
+  [polearm-and-blade-mod-inventory.md](../../research/combat-and-systems/polearm-and-blade-mod-inventory.md)):
+  Animated Armoury 2.3 (shipping; permission explicit); Animated Heavy
+  Armory 2.4.2, Skyrim Spear Mechanic 3.0 and Black Marsh Import 0.1
+  (downloaded, **held on unverified permissions**, backlog row). Vanilla
+  `h2h`, `beasth2h_*` and `dw` clips for round 2 are in the animations BSA;
+  the claw's off-hand `dw*` clips in Animated Armoury folder 14 are
+  spline-compressed and readable.
 
 ## Rounds
 
@@ -99,7 +102,7 @@ steer.
    its reader); mod meshes are authored by hand with the source cited. The
    inventory shows what the data says; the screen itself is 10b's.
 
-### Round 1 — polearms and Black Marsh skins
+### Round 1 — polearms and Black Marsh skins — DELIVERED 2026-09-19 (0077; katana moveset and Black Marsh skins held, see the decision)
 
 Download, convert and audition the Animated Armoury, Animated Heavy Armory
 and Spear Mechanic clips through `tooling/asset-pipeline`; choose per class

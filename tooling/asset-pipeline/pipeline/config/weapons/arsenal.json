@@ -57,6 +57,34 @@
     "warbow": {
       "lengthMeters": 1.75,
       "sheathSocket": "WeaponBow"
+    },
+    "rapier": {
+      "lengthMeters": 1.1,
+      "sheathSocket": "WeaponSword"
+    },
+    "katana": {
+      "lengthMeters": 1.05,
+      "sheathSocket": "WeaponSword"
+    },
+    "claw": {
+      "lengthMeters": 0.45,
+      "sheathSocket": "WeaponDagger"
+    },
+    "pike": {
+      "lengthMeters": 2.5,
+      "sheathSocket": "WeaponBack"
+    },
+    "spear": {
+      "lengthMeters": 2.1,
+      "sheathSocket": "WeaponBack"
+    },
+    "halberd": {
+      "lengthMeters": 2.2,
+      "sheathSocket": "WeaponBack"
+    },
+    "quarterstaff": {
+      "lengthMeters": 1.6,
+      "sheathSocket": "WeaponBack"
     }
   },
   "items": [
@@ -377,6 +405,210 @@
       "class": "warbow",
       "material": "daedric",
       "nif": "meshes/weapons/daedric/daedricbowskinned.nif"
+    },
+    {
+      "id": "iron-rapier",
+      "class": "rapier",
+      "material": "iron",
+      "nif": "meshes/weapons/newarmoury/rapier/ironrapier.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "steel-rapier",
+      "class": "rapier",
+      "material": "steel",
+      "nif": "meshes/weapons/newarmoury/rapier/steelrapier.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "elven-rapier",
+      "class": "rapier",
+      "material": "elven",
+      "nif": "meshes/weapons/newarmoury/rapier/elvenrapier.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "ebony-rapier",
+      "class": "rapier",
+      "material": "ebony",
+      "nif": "meshes/weapons/newarmoury/rapier/ebonyrapier.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "iron-katana",
+      "class": "katana",
+      "material": "iron",
+      "nif": "meshes/weapons/newarmoury/katana/ironkatana.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "steel-katana",
+      "class": "katana",
+      "material": "steel",
+      "nif": "meshes/weapons/newarmoury/katana/steelkatana.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "elven-katana",
+      "class": "katana",
+      "material": "elven",
+      "nif": "meshes/weapons/newarmoury/katana/elvenkatana.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "ebony-katana",
+      "class": "katana",
+      "material": "ebony",
+      "nif": "meshes/weapons/newarmoury/katana/ebonykatana.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "iron-claw",
+      "class": "claw",
+      "material": "iron",
+      "nif": "meshes/weapons/newarmoury/fists/ironclaw.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data",
+      "note": "The right-hand claw; Animated Armoury's *ClawLft is the mirrored off-hand copy and is not a separate item."
+    },
+    {
+      "id": "steel-claw",
+      "class": "claw",
+      "material": "steel",
+      "nif": "meshes/weapons/newarmoury/fists/steelclaw.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data",
+      "note": "The right-hand claw; Animated Armoury's *ClawLft is the mirrored off-hand copy and is not a separate item."
+    },
+    {
+      "id": "elven-claw",
+      "class": "claw",
+      "material": "elven",
+      "nif": "meshes/weapons/newarmoury/fists/elvenclaw.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data",
+      "note": "The right-hand claw; Animated Armoury's *ClawLft is the mirrored off-hand copy and is not a separate item."
+    },
+    {
+      "id": "ebony-claw",
+      "class": "claw",
+      "material": "ebony",
+      "nif": "meshes/weapons/newarmoury/fists/ebonyclaw.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data",
+      "note": "The right-hand claw; Animated Armoury's *ClawLft is the mirrored off-hand copy and is not a separate item."
+    },
+    {
+      "id": "iron-pike",
+      "class": "pike",
+      "material": "iron",
+      "nif": "meshes/weapons/newarmoury/pikes/ironpike.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "steel-pike",
+      "class": "pike",
+      "material": "steel",
+      "nif": "meshes/weapons/newarmoury/pikes/steelpike.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "elven-pike",
+      "class": "pike",
+      "material": "elven",
+      "nif": "meshes/weapons/newarmoury/pikes/elvenpike.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "ebony-pike",
+      "class": "pike",
+      "material": "ebony",
+      "nif": "meshes/weapons/newarmoury/pikes/ebonypike.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "iron-spear",
+      "class": "spear",
+      "material": "iron",
+      "nif": "meshes/weapons/newarmoury/pikes/ironpike.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data",
+      "note": "The same Animated Armoury pike mesh built to the shorter spear class length; the mod ships no separate spear mesh."
+    },
+    {
+      "id": "steel-spear",
+      "class": "spear",
+      "material": "steel",
+      "nif": "meshes/weapons/newarmoury/pikes/steelpike.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data",
+      "note": "The same Animated Armoury pike mesh built to the shorter spear class length; the mod ships no separate spear mesh."
+    },
+    {
+      "id": "elven-spear",
+      "class": "spear",
+      "material": "elven",
+      "nif": "meshes/weapons/newarmoury/pikes/elvenpike.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data",
+      "note": "The same Animated Armoury pike mesh built to the shorter spear class length; the mod ships no separate spear mesh."
+    },
+    {
+      "id": "ebony-spear",
+      "class": "spear",
+      "material": "ebony",
+      "nif": "meshes/weapons/newarmoury/pikes/ebonypike.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data",
+      "note": "The same Animated Armoury pike mesh built to the shorter spear class length; the mod ships no separate spear mesh."
+    },
+    {
+      "id": "iron-halberd",
+      "class": "halberd",
+      "material": "iron",
+      "nif": "meshes/weapons/newarmoury/halberds/ironhalberd.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "steel-halberd",
+      "class": "halberd",
+      "material": "steel",
+      "nif": "meshes/weapons/newarmoury/halberds/steelhalberd.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "elven-halberd",
+      "class": "halberd",
+      "material": "elven",
+      "nif": "meshes/weapons/newarmoury/halberds/elvenhalberd.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "ebony-halberd",
+      "class": "halberd",
+      "material": "ebony",
+      "nif": "meshes/weapons/newarmoury/halberds/ebonyhalberd.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "iron-quarterstaff",
+      "class": "quarterstaff",
+      "material": "iron",
+      "nif": "meshes/weapons/newarmoury/quarterstaffs/ironstaff.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "steel-quarterstaff",
+      "class": "quarterstaff",
+      "material": "steel",
+      "nif": "meshes/weapons/newarmoury/quarterstaffs/steelstaff.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "elven-quarterstaff",
+      "class": "quarterstaff",
+      "material": "elven",
+      "nif": "meshes/weapons/newarmoury/quarterstaffs/elvenstaff.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "ebony-quarterstaff",
+      "class": "quarterstaff",
+      "material": "ebony",
+      "nif": "meshes/weapons/newarmoury/quarterstaffs/ebonystaff.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
     }
   ],
   "manifestOutput": "output/weapon-arsenal.items.json"

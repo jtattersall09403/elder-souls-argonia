@@ -89,14 +89,14 @@ type TwoHandedSwing =
   | "GREATAXE_HEAVY" | "GREATAXE_HEAVY_2";
 
 /** Same margin the one-handed set uses: ~1.5 fixed physics steps either side. */
-const CONTACT_MARGIN_FRACTION = 0.04;
+export const CONTACT_MARGIN_FRACTION = 0.04;
 
 /**
  * A two-handed swing commits harder than a one-handed one, which is the whole
  * reason to carry one. The chain branches later in the follow-through than the
  * one-handed 0.85, so a greatsword combo cannot be mashed at sword cadence.
  */
-const LIGHT_COMBO_BRANCH_PROGRESS = 0.9;
+export const LIGHT_COMBO_BRANCH_PROGRESS = 0.9;
 
 /**
  * Where a two-handed swing starts accepting the next input, as a fraction.
@@ -109,7 +109,7 @@ const LIGHT_COMBO_BRANCH_PROGRESS = 0.9;
  * commitment is legible on screen, and it leaves the branch point (0.9)
  * untouched, so the chain's *cadence* is exactly what it was.
  */
-const COMBO_QUEUE_OPEN_PROGRESS = 0.25;
+export const COMBO_QUEUE_OPEN_PROGRESS = 0.25;
 
 function contactTiming(animation: TwoHandedSwing) {
   // The authored clip *is* the action: a two-handed swing that finishes before
@@ -263,15 +263,21 @@ function twoHandedBackstab(
  * the class table exists to avoid. What a moveset owns is its authored timing
  * and which clips play.
  */
-function twoHandedMoveset(
-  lights: readonly [TwoHandedSwing, TwoHandedSwing, TwoHandedSwing],
-  heavies: readonly [TwoHandedSwing, TwoHandedSwing],
-  riposteAction: Extract<AnimationState, "GREATSWORD_RIPOSTE" | "GREATAXE_RIPOSTE">,
+export function twoHandedMoveset(
+  lights: readonly [AnimationState, AnimationState, AnimationState],
+  heavies: readonly [AnimationState, AnimationState],
+  riposteAction: TwoHandedExecution,
+  // Which measured contact table splits these clips. The polearm sets
+  // (`polearms.ts`) are authored to the same shape and measured with the same
+  // tool, so they reuse the whole of this builder and hand in their own
+  // measurements rather than copying it.
+  timing: (animation: AnimationState) => { windup: number; active: number; recovery: number }
+    = (animation) => contactTiming(animation as TwoHandedSwing),
 ): Record<AttackId, AttackSpec> {
-  const swing = (id: AttackId, animation: TwoHandedSwing, branch?: number) => ({
+  const swing = (id: AttackId, animation: AnimationState, branch?: number) => ({
     ...REFERENCE_MOVESET[id],
-    animation: animation as AnimationState,
-    ...contactTiming(animation),
+    animation,
+    ...timing(animation),
     comboQueueOpenProgress: COMBO_QUEUE_OPEN_PROGRESS,
     ...(branch === undefined ? {} : { comboBranchProgress: branch }),
   });

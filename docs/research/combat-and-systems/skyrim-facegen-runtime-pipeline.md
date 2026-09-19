@@ -193,7 +193,7 @@ support envelopes and one fitted hurtbox, or a set per sex. It is settled by
 measurement, comparing the two reference builds (`dunmer-male`,
 `dunmer-female`) from the same build run.
 
-**Support envelopes: sex-invariant where it counts.** Across all 103 clips the
+**Support envelopes: sex-invariant where it counts.** Across all 103 clips of that 2026-09-10 build the
 per-clip `soleMarkerMinZ` values are **bit-identical** between the two builds —
 the sole markers are read from the skeleton, which is shared, so grounding and
 the cross-fade sole margin do not care about sex. The visible-surface floor

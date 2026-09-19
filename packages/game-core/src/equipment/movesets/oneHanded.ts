@@ -52,7 +52,7 @@ const CONTACT = {
  * About one and a half fixed physics steps: enough that a rendered overlap is
  * still observable by combat on the following simulation callback.
  */
-const CONTACT_MARGIN_FRACTION = 0.04;
+export const CONTACT_MARGIN_FRACTION = 0.04;
 
 /**
  * Where the chain may branch into its successor, as a fraction of the total
@@ -61,8 +61,8 @@ const CONTACT_MARGIN_FRACTION = 0.04;
  * swing grows out of, and these preserve the chain timing the moveset and its
  * transition blends were tuned against.
  */
-const LIGHT_COMBO_BRANCH_PROGRESS = 0.85;
-const HEAVY_COMBO_BRANCH_PROGRESS = 0.98 / 1.35;
+export const LIGHT_COMBO_BRANCH_PROGRESS = 0.85;
+export const HEAVY_COMBO_BRANCH_PROGRESS = 0.98 / 1.35;
 
 /** Split a total action lock around a measured contact window. */
 function contactTiming(

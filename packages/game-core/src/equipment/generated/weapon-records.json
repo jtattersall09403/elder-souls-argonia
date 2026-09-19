@@ -393,6 +393,26 @@
         "EnchDwarvenBowTurn04"
       ]
     },
+    "ebony-claw": {
+      "editorId": "EbonyClaws",
+      "formId": "0419aaab",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Fists/EbonyClaw.nif",
+      "weight": 7.0,
+      "value": 720,
+      "damage": 11,
+      "speed": 1.3,
+      "reach": 1.0,
+      "critDamage": 0,
+      "candidates": [
+        "EbonyClaws",
+        "EbonyClawsInvis"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
     "ebony-dagger": {
       "editorId": "EbonyDagger",
       "formId": "000139ae",
@@ -503,6 +523,101 @@
         "EnchEbonyGreatswordTurn06"
       ]
     },
+    "ebony-halberd": {
+      "editorId": "EbonyHalberd",
+      "formId": "04168015",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Halberds/EbonyHalberd.nif",
+      "weight": 23.0,
+      "value": 1585,
+      "damage": 21,
+      "speed": 0.9,
+      "reach": 1.7,
+      "critDamage": 14,
+      "candidates": [
+        "EbonyHalberd"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "ebony-katana": {
+      "editorId": "EbonyKatana",
+      "formId": "04344739",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Katana/EbonyKatana.nif",
+      "weight": 13.0,
+      "value": 720,
+      "damage": 14,
+      "speed": 1.0,
+      "reach": 1.0,
+      "critDamage": 8,
+      "candidates": [
+        "EbonyKatana"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "ebony-pike": {
+      "editorId": "EbonyPike",
+      "formId": "04153bad",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Pikes/EbonyPike.nif",
+      "weight": 19.0,
+      "value": 1553,
+      "damage": 19,
+      "speed": 1.2,
+      "reach": 1.75,
+      "critDamage": 12,
+      "candidates": [
+        "EbonyPike"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "ebony-quarterstaff": {
+      "editorId": "EbonyQStaff",
+      "formId": "0418b75b",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/QuarterStaffs/EbonyStaff.nif",
+      "weight": 20.0,
+      "value": 865,
+      "damage": 17,
+      "speed": 1.0,
+      "reach": 1.5,
+      "critDamage": 9,
+      "candidates": [
+        "EbonyQStaff"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "ebony-rapier": {
+      "editorId": "EbonyRapier",
+      "formId": "04019d12",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Rapier/EbonyRapier.nif",
+      "weight": 12.0,
+      "value": 720,
+      "damage": 11,
+      "speed": 1.3,
+      "reach": 1.35,
+      "critDamage": 13,
+      "candidates": [
+        "EbonyRapier"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
     "ebony-shield": {
       "editorId": "ArmorEbonyShield",
       "formId": "00013964",
@@ -529,6 +644,25 @@
         "EnchArmorEbonyShieldResistShock04",
         "EnchArmorEbonyShieldResistShock05"
       ]
+    },
+    "ebony-spear": {
+      "editorId": "EbonyPike",
+      "formId": "04153bad",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Pikes/EbonyPike.nif",
+      "weight": 19.0,
+      "value": 1553,
+      "damage": 19,
+      "speed": 1.2,
+      "reach": 1.75,
+      "critDamage": 12,
+      "candidates": [
+        "EbonyPike"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
     },
     "ebony-sword": {
       "editorId": "EbonySword",
@@ -628,6 +762,25 @@
         "EnchEbonyBowTurn05",
         "EnchEbonyBowTurn06"
       ]
+    },
+    "elven-claw": {
+      "editorId": "ElvenClaws",
+      "formId": "0419aaa9",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Fists/ElvenClaw.nif",
+      "weight": 6.0,
+      "value": 235,
+      "damage": 9,
+      "speed": 1.3,
+      "reach": 1.0,
+      "critDamage": 0,
+      "candidates": [
+        "ElvenClaws"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
     },
     "elven-dagger": {
       "editorId": "ElvenDagger",
@@ -734,6 +887,44 @@
         "EnchElvenGreatswordTurn05"
       ]
     },
+    "elven-halberd": {
+      "editorId": "ElvenHalberd",
+      "formId": "04168013",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Halberds/ElvenHalberd.nif",
+      "weight": 21.0,
+      "value": 520,
+      "damage": 19,
+      "speed": 0.9,
+      "reach": 1.7,
+      "critDamage": 13,
+      "candidates": [
+        "ElvenHalberd"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "elven-katana": {
+      "editorId": "ElvenKatana",
+      "formId": "04344738",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Katana/ElvenKatana.nif",
+      "weight": 11.0,
+      "value": 235,
+      "damage": 12,
+      "speed": 1.0,
+      "reach": 1.0,
+      "critDamage": 7,
+      "candidates": [
+        "ElvenKatana"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
     "elven-longbow": {
       "editorId": "ElvenBow",
       "formId": "0001399d",
@@ -778,6 +969,63 @@
         "EnchElvenBowTurn05"
       ]
     },
+    "elven-pike": {
+      "editorId": "ElvenPike",
+      "formId": "04153bae",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Pikes/ElvenPike.nif",
+      "weight": 17.0,
+      "value": 509,
+      "damage": 16,
+      "speed": 1.2,
+      "reach": 1.75,
+      "critDamage": 11,
+      "candidates": [
+        "ElvenPike"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "elven-quarterstaff": {
+      "editorId": "ElvenQStaff",
+      "formId": "0418b75c",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/QuarterStaffs/ElvenStaff.nif",
+      "weight": 18.0,
+      "value": 280,
+      "damage": 14,
+      "speed": 1.0,
+      "reach": 1.5,
+      "critDamage": 6,
+      "candidates": [
+        "ElvenQStaff"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "elven-rapier": {
+      "editorId": "ElvenRapier",
+      "formId": "04019d10",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Rapier/ElvenRapier.nif",
+      "weight": 10.0,
+      "value": 235,
+      "damage": 9,
+      "speed": 1.3,
+      "reach": 1.35,
+      "critDamage": 12,
+      "candidates": [
+        "ElvenRapier"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
     "elven-shield": {
       "editorId": "ArmorElvenShield",
       "formId": "0001391e",
@@ -805,6 +1053,25 @@
         "EnchArmorElvenShieldResistShock04",
         "dunRRHerebanesFortress"
       ]
+    },
+    "elven-spear": {
+      "editorId": "ElvenPike",
+      "formId": "04153bae",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Pikes/ElvenPike.nif",
+      "weight": 17.0,
+      "value": 509,
+      "damage": 16,
+      "speed": 1.2,
+      "reach": 1.75,
+      "critDamage": 11,
+      "candidates": [
+        "ElvenPike"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
     },
     "elven-sword": {
       "editorId": "ElvenSword",
@@ -1064,6 +1331,25 @@
         "dunPinewoodGroveWoodsmansFriend"
       ]
     },
+    "iron-claw": {
+      "editorId": "IronClaws",
+      "formId": "0419aaa5",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Fists/IronClaw.nif",
+      "weight": 3.0,
+      "value": 10,
+      "damage": 5,
+      "speed": 1.3,
+      "reach": 1.0,
+      "critDamage": 0,
+      "candidates": [
+        "IronClaws"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
     "iron-dagger": {
       "editorId": "IronDagger",
       "formId": "0001397e",
@@ -1142,6 +1428,44 @@
         "EnchIronGreatswordTurn03",
         "IronGreatsword"
       ]
+    },
+    "iron-halberd": {
+      "editorId": "IronHalberd",
+      "formId": "04167fff",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Halberds/IronHalberd.nif",
+      "weight": 17.0,
+      "value": 55,
+      "damage": 14,
+      "speed": 0.9,
+      "reach": 1.7,
+      "critDamage": 10,
+      "candidates": [
+        "IronHalberd"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "iron-katana": {
+      "editorId": "IronKatana",
+      "formId": "04344734",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Katana/IronKatana.nif",
+      "weight": 7.0,
+      "value": 25,
+      "damage": 8,
+      "speed": 1.0,
+      "reach": 1.0,
+      "critDamage": 5,
+      "candidates": [
+        "IronKatana"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
     },
     "iron-longbow": {
       "editorId": "ImperialBow",
@@ -1224,6 +1548,63 @@
         "dunSilentMoonsEnchIronMace03"
       ]
     },
+    "iron-pike": {
+      "editorId": "IronPike",
+      "formId": "04153ba6",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Pikes/IronPike.nif",
+      "weight": 13.0,
+      "value": 54,
+      "damage": 11,
+      "speed": 1.2,
+      "reach": 1.7,
+      "critDamage": 10,
+      "candidates": [
+        "IronPike"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "iron-quarterstaff": {
+      "editorId": "IronQStaff",
+      "formId": "0418b756",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/QuarterStaffs/IronStaff.nif",
+      "weight": 15.0,
+      "value": 30,
+      "damage": 10,
+      "speed": 1.0,
+      "reach": 1.5,
+      "critDamage": 5,
+      "candidates": [
+        "IronQStaff"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "iron-rapier": {
+      "editorId": "IronRapier",
+      "formId": "04005903",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Rapier/IronRapier.nif",
+      "weight": 6.0,
+      "value": 25,
+      "damage": 5,
+      "speed": 1.3,
+      "reach": 1.35,
+      "critDamage": 10,
+      "candidates": [
+        "IronRapier"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
     "iron-shield": {
       "editorId": "ArmorIronShield",
       "formId": "00012eb6",
@@ -1252,6 +1633,25 @@
         "FavorRoggiShield",
         "SU02IronShield"
       ]
+    },
+    "iron-spear": {
+      "editorId": "IronPike",
+      "formId": "04153ba6",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Pikes/IronPike.nif",
+      "weight": 13.0,
+      "value": 54,
+      "damage": 11,
+      "speed": 1.2,
+      "reach": 1.7,
+      "critDamage": 10,
+      "candidates": [
+        "IronPike"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
     },
     "iron-sword": {
       "editorId": "IronSword",
@@ -1695,6 +2095,27 @@
         "SteelBattleaxe"
       ]
     },
+    "steel-claw": {
+      "editorId": "SteelClaws",
+      "formId": "0419aaa6",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Fists/SteelClaw.nif",
+      "weight": 4.0,
+      "value": 45,
+      "damage": 6,
+      "speed": 1.3,
+      "reach": 1.0,
+      "critDamage": 0,
+      "candidates": [
+        "SkyforgeSteelClaws",
+        "SteelClaws",
+        "SteelClawsInvis"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
     "steel-dagger": {
       "editorId": "SteelDagger",
       "formId": "00013986",
@@ -1778,6 +2199,45 @@
         "SkyforgeSteelGreatsword",
         "SteelGreatsword"
       ]
+    },
+    "steel-halberd": {
+      "editorId": "SteelHalberd",
+      "formId": "04168010",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Halberds/SteelHalberd.nif",
+      "weight": 18.0,
+      "value": 100,
+      "damage": 16,
+      "speed": 0.9,
+      "reach": 1.7,
+      "critDamage": 8,
+      "candidates": [
+        "SkyforgeSteelHalberd",
+        "SteelHalberd"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "steel-katana": {
+      "editorId": "SteelKatana",
+      "formId": "04344735",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Katana/SteelKatana.nif",
+      "weight": 8.0,
+      "value": 45,
+      "damage": 7,
+      "speed": 1.0,
+      "reach": 1.0,
+      "critDamage": 6,
+      "candidates": [
+        "SteelKatana"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
     },
     "steel-longbow": {
       "editorId": "HuntingBow",
@@ -1868,6 +2328,66 @@
         "dunSilentMoonsEnchSteelMace03"
       ]
     },
+    "steel-pike": {
+      "editorId": "SteelPike",
+      "formId": "04153bb4",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Pikes/SteelPike.nif",
+      "weight": 15.0,
+      "value": 99,
+      "damage": 13,
+      "speed": 1.2,
+      "reach": 1.75,
+      "critDamage": 10,
+      "candidates": [
+        "SkyforgeSteelPike",
+        "SteelPike"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "steel-quarterstaff": {
+      "editorId": "SteelQStaff",
+      "formId": "0418b760",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/QuarterStaffs/SteelStaff.nif",
+      "weight": 15.0,
+      "value": 55,
+      "damage": 11,
+      "speed": 1.0,
+      "reach": 1.5,
+      "critDamage": 6,
+      "candidates": [
+        "SkyforgeSteelQStaff",
+        "SteelQStaff"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
+    "steel-rapier": {
+      "editorId": "SteelRapier",
+      "formId": "04019d0d",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Rapier/SteelRapier.nif",
+      "weight": 7.0,
+      "value": 45,
+      "damage": 6,
+      "speed": 1.3,
+      "reach": 1.35,
+      "critDamage": 11,
+      "candidates": [
+        "SkyforgeSteelRapier",
+        "SteelRapier"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
+    },
     "steel-scimitar": {
       "editorId": "Scimitar",
       "formId": "0007a91a",
@@ -1911,6 +2431,26 @@
         "EnchArmorSteelShieldResistShock03",
         "FavorIgmundShield"
       ]
+    },
+    "steel-spear": {
+      "editorId": "SteelPike",
+      "formId": "04153bb4",
+      "kind": "WEAP",
+      "model": "weapons/NewArmoury/Pikes/SteelPike.nif",
+      "weight": 15.0,
+      "value": 99,
+      "damage": 13,
+      "speed": 1.2,
+      "reach": 1.75,
+      "critDamage": 10,
+      "candidates": [
+        "SkyforgeSteelPike",
+        "SteelPike"
+      ],
+      "source": {
+        "plugin": "NewArmoury.esp",
+        "sha256": "89973a72c02a90c1ed9b69d1f78cea11f204d9d2bf9ea0e58f9bdda4db7e73d4"
+      }
     },
     "steel-sword": {
       "editorId": "SteelSword",

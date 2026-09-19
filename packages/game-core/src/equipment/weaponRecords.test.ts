@@ -23,12 +23,15 @@ type Record_ = {
   critDamage?: number;
   armourRating?: number;
   candidates: string[];
+  /** Present only on items mined from a mod's own plugin. */
+  source?: { plugin: string; sha256: string };
 };
 
 const items = records.items as Record<string, Record_>;
 const ids = Object.keys(arsenal.items);
 
 const positive = (n: unknown) => typeof n === "number" && Number.isFinite(n) && n > 0;
+const nonNegative = (n: unknown) => typeof n === "number" && Number.isFinite(n) && n >= 0;
 
 describe("mined weapon records", () => {
   it("is schema version 1 and names the plugin it came from", () => {
@@ -48,6 +51,8 @@ describe("mined weapon records", () => {
   });
 
   it("gives every weapon damage, speed, reach and a crit", () => {
+    // Crit is only required to be a real number: Animated Armoury's four claw
+    // records leave CRDT at 0, and that is the mod's own record, not a gap.
     // Shields are ARMO in Skyrim: they carry an armour rating, not a swing.
     for (const id of ids) {
       const r = items[id];
@@ -55,8 +60,17 @@ describe("mined weapon records", () => {
         expect(positive(r.armourRating)).toBe(true);
         continue;
       }
-      expect([id, positive(r.damage), positive(r.speed), positive(r.reach), positive(r.critDamage)])
+      expect([id, positive(r.damage), positive(r.speed), positive(r.reach), nonNegative(r.critDamage)])
         .toEqual([id, true, true, true, true]);
+    }
+  });
+
+  it("credits the mod plugin behind every sourced item", () => {
+    const sourced = ids.filter((id) => items[id].source);
+    expect(sourced.length).toBeGreaterThan(0);
+    for (const id of sourced) {
+      expect(items[id].source!.plugin).toMatch(/\.es[pml]$/i);
+      expect(items[id].source!.sha256).toMatch(/^[0-9a-f]{64}$/);
     }
   });
 

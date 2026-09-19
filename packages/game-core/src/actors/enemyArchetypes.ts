@@ -177,6 +177,18 @@ export const WARHAMMER_WARDEN = armedWarden(
 export const BATTLEAXE_WARDEN = armedWarden(
   "battleaxe-warden", text(CATALOGUE, "text.sandbox.battleaxe-opponent"), weaponById("steel-battleaxe"),
 );
+export const PIKE_WARDEN = armedWarden(
+  "pike-warden", text(CATALOGUE, "text.sandbox.pike-opponent"), weaponById("steel-pike"),
+);
+export const HALBERD_WARDEN = armedWarden(
+  "halberd-warden", text(CATALOGUE, "text.sandbox.halberd-opponent"), weaponById("steel-halberd"),
+);
+export const RAPIER_WARDEN = armedWarden(
+  "rapier-warden", text(CATALOGUE, "text.sandbox.rapier-opponent"), weaponById("steel-rapier"),
+);
+export const CLAW_WARDEN = armedWarden(
+  "claw-warden", text(CATALOGUE, "text.sandbox.claw-opponent"), weaponById("steel-claw"),
+);
 export const ARCHER_WARDEN: EnemyArchetype = {
   ...armedWarden("archer-warden", text(CATALOGUE, "text.sandbox.archer-opponent"), weaponById("steel-longbow")),
   // An archer is not a swordsman who happens to be holding a bow. It is
@@ -209,6 +221,10 @@ export const ENEMY_ARCHETYPES: Readonly<Record<string, EnemyArchetype>> = Object
     GREATSWORD_WARDEN,
     BATTLEAXE_WARDEN,
     WARHAMMER_WARDEN,
+    PIKE_WARDEN,
+    HALBERD_WARDEN,
+    RAPIER_WARDEN,
+    CLAW_WARDEN,
     ARCHER_WARDEN,
   ].map((archetype) => [archetype.id, archetype]),
 );

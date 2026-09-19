@@ -536,7 +536,7 @@ them where the game needs it (§51.1); what's protected is the calibrated
 *feel*, not the code.
 
 **Animation sourcing comes first, and it is sourcing — we never author
-animation** (CLAUDE.md; module 90 §71). The rig currently carries 103 clips (measured 2026-09-13 in the generated animation manifest; the "51" of the first plan is history)
+animation** (CLAUDE.md; module 90 §71). The rig currently carries 158 clips (measured 2026-09-18 in the generated animation manifest; the "51" of the first plan and the "103" of 2026-09-13 are history)
 (locomotion, jump, one-handed and bow combat, guard, parry, rolls, criticals,
 deaths) — **none for swimming, climbing, wading, rowing or boarding**. Work the
 gap table in **module 90 §74.3**, which already names researched candidates:
@@ -569,8 +569,8 @@ interface with no mode enum or state machine (the seam is designed here,
 not extended); capability profiles already carry `swimSpeed: 0` and
 `climbSpeed: 0`; `packages/game-core/src/water/` already holds buoyancy, a
 rigid-body water model, tide and flow contacts (part of the boat stack
-exists); the manifest has 103 clips and none for swim, climb, wade, row or
-board; no boat or climb asset is in the repo (sourcing jobs, candidates in
+exists); the manifest has 158 clips (measured 2026-09-18) and none for swim, climb,
+wade, row or board; no boat or climb asset is in the repo (sourcing jobs, candidates in
 90 §74.3); the water renderer and underwater blit are app-private in
 `apps/world-studio/src/water/` until 10b extracts them, so 9a puts its
 swim logic in `packages/` and touches the app-side blit as little as it can.

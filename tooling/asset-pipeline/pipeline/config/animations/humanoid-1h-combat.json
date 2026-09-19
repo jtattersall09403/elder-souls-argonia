@@ -27,7 +27,67 @@
     "rim_parry_follow_shd": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SHDMBO/9900410SHDbbi/shd_blockbash.HKX",
     "rim_riposte_2hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000022)greatsword/1.HKX",
     "rim_riposte_2hw": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000023)waraxe/1.HKX",
-    "rim_hit_from_behind": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/0LtStaggerREP/(6135054)noshield hit back/modernstaggerlock/MSL_StaggerForwardLargest.hkx"
+    "rim_hit_from_behind": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/0LtStaggerREP/(6135054)noshield hit back/modernstaggerlock/MSL_StaggerForwardLargest.hkx",
+    "aa_pike_2hm_attackright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_attackright.hkx",
+    "aa_pike_2hm_attackleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_attackleft.hkx",
+    "aa_pike_2hm_attackpowerforward": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_attackpowerforward.hkx",
+    "aa_pike_2hm_attackpowerleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_attackpowerleft.hkx",
+    "aa_pike_2hm_sprintforwardsword": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_sprintforwardsword.hkx",
+    "aa_pike_2hm_blockanticipate": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_blockanticipate.hkx",
+    "aa_pike_2hm_blockidle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_blockidle.hkx",
+    "aa_pike_2hm_blockhita": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_blockHitA.hkx",
+    "aa_pike_2hm_blockhitb": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_blockhitB.hkx",
+    "aa_pike_2hc_equip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hc_equip.hkx",
+    "aa_pike_2hc_unequip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hc_unequip.hkx",
+    "aa_pike_2hm_walkforward": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_walkforward.hkx",
+    "aa_pike_2hm_walkbackward": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_walkbackward.hkx",
+    "aa_pike_2hm_walkleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_walkLeft.hkx",
+    "aa_pike_2hm_walkright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_walkright.hkx",
+    "aa_halberd_2hw_idle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_idle.hkx",
+    "aa_halberd_2hw_attackright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_attackright.hkx",
+    "aa_halberd_2hw_attackleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_attackleft.hkx",
+    "aa_halberd_2hw_attackpowerforwardsprint": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_attackpowerforwardsprint.hkx",
+    "aa_halberd_2hw_attackpowerright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_attackpowerright.hkx",
+    "aa_halberd_2hw_attackpowerleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_attackpowerleft.hkx",
+    "aa_halberd_2hw_sprintforwardsword": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_sprintforwardsword.hkx",
+    "aa_halberd_2hw_blockanticipate": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_blockanticipate.hkx",
+    "aa_halberd_2hw_blockidle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_blockidle.hkx",
+    "aa_halberd_2hw_blockhita": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_blockHitA.hkx",
+    "aa_halberd_2hw_blockhitb": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_blockhitB.hkx",
+    "aa_halberd_2hw_equip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_equip.hkx",
+    "aa_halberd_2hw_unequip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/12/2hw_unequip.hkx",
+    "aa_quarterstaff_2hw_idle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_idle.hkx",
+    "aa_quarterstaff_2hw_attackright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_attackright.hkx",
+    "aa_quarterstaff_2hw_attackleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_attackleft.hkx",
+    "aa_quarterstaff_2hw_attackpowerforward": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_attackpowerforward.hkx",
+    "aa_quarterstaff_2hw_sprintforwardsword": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_sprintforwardsword.hkx",
+    "aa_quarterstaff_2hw_blockanticipate": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_blockanticipate.hkx",
+    "aa_quarterstaff_2hw_blockidle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_blockidle.hkx",
+    "aa_quarterstaff_2hw_blockhita": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_blockHitA.hkx",
+    "aa_quarterstaff_2hw_blockhitb": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_blockhitB.hkx",
+    "aa_quarterstaff_2hw_equip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_equip.hkx",
+    "aa_quarterstaff_2hw_unequip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_unequip.hkx",
+    "aa_rapier_1hm_attackright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_attackright.hkx",
+    "aa_rapier_1hm_attackleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_attackleft.hkx",
+    "aa_rapier_1hm_attackpower": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_attackpower.hkx",
+    "aa_rapier_1hm_attackpowerright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_attackpowerright.hkx",
+    "aa_rapier_1hm_attackpowerleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_attackpowerleft.hkx",
+    "aa_rapier_1hm_equip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_Equip.hkx",
+    "aa_rapier_1hm_unequip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_unequip.hkx",
+    "aa_claw_1hm_idle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_idle.hkx",
+    "aa_claw_1hm_attackright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_attackright.hkx",
+    "aa_claw_1hm_attackleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_attackleft.hkx",
+    "aa_claw_1hm_attackpower": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_attackpower.hkx",
+    "aa_claw_1hm_attackpowerright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_attackpowerright.hkx",
+    "aa_claw_1hm_attackpowerleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_attackpowerleft.hkx",
+    "aa_claw_1hm_blockidle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_blockidle.hkx",
+    "aa_claw_1hm_blockhita": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_blockhita.hkx",
+    "aa_claw_1hm_blockhitb": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/14/1hm_blockhitb.hkx",
+    "aa_pike_2hm_idle_old": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_idle_OLD.hkx",
+    "aa_pike_2hm_attackpowerright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_attackpowerright.hkx",
+    "aa_quarterstaff_2hm_attackpower": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hm_attackpower.hkx",
+    "aa_quarterstaff_2hw_attackpowerbwd": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_attackpowerbwd.hkx",
+    "aa_rapier_1hm_idleold": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_idleOld.hkx"
   },
   "defaults": {
     "looping": false,
@@ -58,7 +118,7 @@
     },
     "bow": {
       "label": "Bow",
-      "description": "The shooting cycle and bow-carry locomotion. Depends on the one-handed pack because a bow borrows that moveset for the clumsy bash it makes when swung \u2014 see the polish-backlog item about giving a bow its own melee, or none at all, so an archer stops downloading a sword's moveset for a fallback swing.",
+      "description": "The shooting cycle and bow-carry locomotion. Depends on the one-handed pack because a bow borrows that moveset for the clumsy bash it makes when swung — see the polish-backlog item about giving a bow its own melee, or none at all, so an archer stops downloading a sword's moveset for a fallback swing.",
       "requires": [
         "oneHanded"
       ]
@@ -75,6 +135,41 @@
       "description": "The heavier two-handed haft chains (Skyrim's 2hw set). Carriage, locomotion, guard and draw come from the greatsword pack, so only the swings differ.",
       "requires": [
         "greatsword"
+      ]
+    },
+    "pike": {
+      "label": "Pike",
+      "description": "A pike's own two-handed thrusting moveset: idle, locomotion, the light chain, the power attacks, its guard and its draw. The parry, the criticals, run-back and crouch are not authored here; they come from the greatsword pack.",
+      "requires": [
+        "greatsword"
+      ]
+    },
+    "halberd": {
+      "label": "Halberd",
+      "description": "A halberd's own two-handed haft moveset: idle, the light chain, the power attacks, its guard and its draw. Locomotion, the parry and the criticals come from the `greataxe` (battleaxe and warhammer) and `greatsword` packs.",
+      "requires": [
+        "greataxe"
+      ]
+    },
+    "quarterstaff": {
+      "label": "Quarterstaff",
+      "description": "A quarterstaff's own two-handed moveset: idle, the light chain, the power attacks, its guard and its draw. Locomotion, the parry and the criticals come from the `greataxe` (battleaxe and warhammer) and `greatsword` packs.",
+      "requires": [
+        "greataxe"
+      ]
+    },
+    "rapier": {
+      "label": "Rapier",
+      "description": "A rapier's own one-handed thrusting moveset: idle, the light chain, the power attacks and its draw. The guard, the parry, the criticals and all locomotion come from the one-handed pack.",
+      "requires": [
+        "oneHanded"
+      ]
+    },
+    "claw": {
+      "label": "Claws",
+      "description": "A claw fighter's own one-handed moveset: idle, the light chain, the power attacks and the block held without a blade. The guard entry, the draw, the parry, the criticals and all locomotion come from the one-handed pack.",
+      "requires": [
+        "oneHanded"
       ]
     }
   },
@@ -306,7 +401,7 @@
       "playbackEndTime": 1.3,
       "crossFadeDuration": 0.18,
       "crossFadeOutDuration": 0.24,
-      "provenance": "Rim Parry and Execution 1.1, one-handed sword execution attacker (2130000018)/1.hkx, CQC02 lunge selected from source 0.1667\u20131.3s; exhaustive production-paired review rejected the source 0.10s stray blade pass and established 0.1667s as the first robust anticipation frame, retaining the authored source 0.5667s contact and 0.7s withdrawal; production-audited 0.18s entry and 0.24s exit blends",
+      "provenance": "Rim Parry and Execution 1.1, one-handed sword execution attacker (2130000018)/1.hkx, CQC02 lunge selected from source 0.1667–1.3s; exhaustive production-paired review rejected the source 0.10s stray blade pass and established 0.1667s as the first robust anticipation frame, retaining the authored source 0.5667s contact and 0.7s withdrawal; production-audited 0.18s entry and 0.24s exit blends",
       "tailSource": null
     },
     "RIPOSTE_STAB": {
@@ -349,7 +444,7 @@
           "mode": "floor-contact"
         }
       ],
-      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction, selected by production render audit as one authored impact-to-fall-to-supine-to-get-up recovery; intentional flight is source 0.82\u20130.95s, upward-only penetration prevention protects the impact/rebound through 1.10s, then visible body contact is floor-bound through early get-up",
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction, selected by production render audit as one authored impact-to-fall-to-supine-to-get-up recovery; intentional flight is source 0.82–0.95s, upward-only penetration prevention protects the impact/rebound through 1.10s, then visible body contact is floor-bound through early get-up",
       "tailSource": null
     },
     "CRITICAL_DEATH": {
@@ -370,7 +465,7 @@
           "mode": "floor-contact"
         }
       ],
-      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction ending at the full-frame-audited 1.9s stable prone pose for lethal criticals; intentional flight is source 0.82\u20130.95s, followed by upward-only impact protection until floor contact at 1.10s",
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction ending at the full-frame-audited 1.9s stable prone pose for lethal criticals; intentional flight is source 0.82–0.95s, followed by upward-only impact protection until floor contact at 1.10s",
       "tailSource": null
     },
     "BACKSTAB": {
@@ -450,7 +545,7 @@
           "mode": "floor-contact"
         }
       ],
-      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX complete lethal reaction ending at the audited stable 1.9s prone pose; intentional flight is source 0.82\u20130.95s, followed by upward-only impact protection and floor contact from 1.10s",
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX complete lethal reaction ending at the audited stable 1.9s prone pose; intentional flight is source 0.82–0.95s, followed by upward-only impact protection and floor contact from 1.10s",
       "tailSource": null
     },
     "BOW_IDLE": {
@@ -758,7 +853,7 @@
       "rootMotion": "consume",
       "crossFadeDuration": 0.06,
       "crossFadeOutDuration": 0.05,
-      "provenance": "Rim Parry and Execution 1.1, OAR (9900420) two-handed blade block-bash intro (2HM BP/9900420GSbbi/2hm_blockbashintro.HKX). Was vanilla 2hm_blockbashintro: the owner asked for the parry mod\u2019s own motion on every family that has one, and this family does.",
+      "provenance": "Rim Parry and Execution 1.1, OAR (9900420) two-handed blade block-bash intro (2HM BP/9900420GSbbi/2hm_blockbashintro.HKX). Was vanilla 2hm_blockbashintro: the owner asked for the parry mod’s own motion on every family that has one, and this family does.",
       "tailSource": "2hm_blockbash"
     },
     "GREATSWORD_PARRY_FOLLOW_THROUGH": {
@@ -831,7 +926,7 @@
       "rootMotion": "consume",
       "crossFadeDuration": 0.06,
       "crossFadeOutDuration": 0.05,
-      "provenance": "Rim Parry and Execution 1.1, OAR (9900440) two-handed haft block-bash intro (2HW BP/9900440BWbbi/2hw_blockbashintro.HKX). Skyrim authors 2hw separately from 2hm and so does the mod; a battleaxe should not parry with a greatsword\u2019s hands.",
+      "provenance": "Rim Parry and Execution 1.1, OAR (9900440) two-handed haft block-bash intro (2HW BP/9900440BWbbi/2hw_blockbashintro.HKX). Skyrim authors 2hw separately from 2hm and so does the mod; a battleaxe should not parry with a greatsword’s hands.",
       "tailSource": "2hm_blockbash"
     },
     "GREATAXE_PARRY_FOLLOW_THROUGH": {
@@ -850,7 +945,7 @@
       "playbackEndTime": 3.708,
       "crossFadeDuration": 0.18,
       "crossFadeOutDuration": 0.24,
-      "provenance": "Rim Parry and Execution 1.1, greatsword execution attacker (1Execution/(2130000022)greatsword/1.HKX). Trim and separation measured by scripts/measure-contact-windows.mjs --critical against the visual gate\u2019s own measure: the blade passes 0.23 m from a victim\u2019s spine at source 2.9750s with the pair 1.00 m apart. Earlier phases of the sequence only graze a shoulder.",
+      "provenance": "Rim Parry and Execution 1.1, greatsword execution attacker (1Execution/(2130000022)greatsword/1.HKX). Trim and separation measured by scripts/measure-contact-windows.mjs --critical against the visual gate’s own measure: the blade passes 0.23 m from a victim’s spine at source 2.9750s with the pair 1.00 m apart. Earlier phases of the sequence only graze a shoulder.",
       "tailSource": null
     },
     "GREATAXE_RIPOSTE": {
@@ -872,7 +967,7 @@
       "crossFadeDuration": 0.08,
       "crossFadeOutDuration": 0.2,
       "supportMode": "penetration",
-      "provenance": "Rim Parry and Execution 1.1, OAR (6135054) \"noshield hit back\" forward stagger \u2014 the victim pitching forward from a blow in the back. The victim half of a two-handed backstab: the attacker plays its own weapon execution, which is what makes the critical weapon-specific, and this is the reaction to it. Weapon-independent on purpose \u2014 what being run through from behind does to you does not depend on what did it.",
+      "provenance": "Rim Parry and Execution 1.1, OAR (6135054) \"noshield hit back\" forward stagger — the victim pitching forward from a blow in the back. The victim half of a two-handed backstab: the attacker plays its own weapon execution, which is what makes the critical weapon-specific, and this is the reaction to it. Weapon-independent on purpose — what being run through from behind does to you does not depend on what did it.",
       "tailSource": null
     },
     "RUN_BACK": {
@@ -898,6 +993,434 @@
       "provenance": "Vanilla 2hm_runforward played in reverse, owner-authorised fallback after rejecting the native backward run; foot tracks rebuilt from reversed motion",
       "tailSource": "mt_runforward",
       "reverseSource": true
+    },
+    "PIKE_LIGHT_1": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_attackright",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_attackright.hkx: right swing (chain hit 1).",
+      "tailSource": "2hm_attackright"
+    },
+    "PIKE_LIGHT_2": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_attackleft",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_attackleft.hkx: left swing (chain hit 2, alternating).",
+      "tailSource": "2hm_attackleft"
+    },
+    "PIKE_LIGHT_3": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_attackpowerforward",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_attackpowerforward.hkx: forward power attack as the chain finisher.",
+      "tailSource": "2hm_attackpowerforward"
+    },
+    "PIKE_HEAVY_2": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_attackpowerleft",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_attackpowerleft.hkx: left power attack (heavy follow-up).",
+      "tailSource": "2hm_attackpowerleft"
+    },
+    "PIKE_SPRINT": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_sprintforwardsword",
+      "looping": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_sprintforwardsword.hkx: sprint.",
+      "tailSource": "mt_sprintforward"
+    },
+    "PIKE_GUARD_ENTER": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_blockanticipate",
+      "crossFadeDuration": 0.2,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_blockanticipate.hkx: bringing the haft up to guard.",
+      "tailSource": "2hm_blockanticipate"
+    },
+    "PIKE_GUARD": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_blockidle.hkx: block idle.",
+      "tailSource": "2hm_idle"
+    },
+    "PIKE_GUARD_HIT_A": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_blockhita",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_blockHitA.hkx: block-hit variant A.",
+      "tailSource": "2hm_idle"
+    },
+    "PIKE_GUARD_HIT_B": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_blockhitb",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_blockhitB.hkx: block-hit variant B.",
+      "tailSource": "2hm_idle"
+    },
+    "PIKE_EQUIP": {
+      "pack": "pike",
+      "source": "aa_pike_2hc_equip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hc_equip.hkx: draw from the back.",
+      "tailSource": "2hc_equip"
+    },
+    "PIKE_UNEQUIP": {
+      "pack": "pike",
+      "source": "aa_pike_2hc_unequip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hc_unequip.hkx: sheathe onto the back.",
+      "tailSource": "2hc_unequip"
+    },
+    "PIKE_WALK": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_walkforward",
+      "looping": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_walkforward.hkx: walk.",
+      "tailSource": "mt_walkforward"
+    },
+    "PIKE_WALK_BACK": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_walkbackward",
+      "looping": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_walkbackward.hkx: walk back.",
+      "tailSource": "mt_walkbackward"
+    },
+    "PIKE_STRAFE_LEFT": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_walkleft",
+      "looping": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_walkLeft.hkx: left strafe.",
+      "tailSource": "mt_walkleft"
+    },
+    "PIKE_STRAFE_RIGHT": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_walkright",
+      "looping": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_walkright.hkx: right strafe.",
+      "tailSource": "mt_walkright"
+    },
+    "HALBERD_IDLE": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_idle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_idle.hkx: drawn idle.",
+      "tailSource": "2hm_idle"
+    },
+    "HALBERD_LIGHT_1": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_attackright",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_attackright.hkx: right swing (chain hit 1).",
+      "tailSource": "2hw_attackright"
+    },
+    "HALBERD_LIGHT_2": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_attackleft",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_attackleft.hkx: left swing (chain hit 2, alternating).",
+      "tailSource": "2hw_attackleft"
+    },
+    "HALBERD_LIGHT_3": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_attackpowerforwardsprint",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_attackpowerforwardsprint.hkx: the lunging power attack, used as the chain finisher. This folder authors no 2hw_attackpowerforward; the lunge is the forward-committing finisher that the chain needs.",
+      "tailSource": "2hw_attackpowerforwardsprint"
+    },
+    "HALBERD_HEAVY": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_attackpowerright",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_attackpowerright.hkx: right power attack.",
+      "tailSource": "2hw_attackpowerright"
+    },
+    "HALBERD_HEAVY_2": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_attackpowerleft",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_attackpowerleft.hkx: left power attack (heavy follow-up).",
+      "tailSource": "2hw_attackpowerleft"
+    },
+    "HALBERD_SPRINT": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_sprintforwardsword",
+      "looping": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_sprintforwardsword.hkx: sprint.",
+      "tailSource": "mt_sprintforward"
+    },
+    "HALBERD_GUARD_ENTER": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_blockanticipate",
+      "crossFadeDuration": 0.2,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_blockanticipate.hkx: bringing the haft up to guard.",
+      "tailSource": "2hw_blockanticipate"
+    },
+    "HALBERD_GUARD": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_blockidle.hkx: block idle.",
+      "tailSource": "2hm_idle"
+    },
+    "HALBERD_GUARD_HIT_A": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_blockhita",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_blockHitA.hkx: block-hit variant A.",
+      "tailSource": "2hm_idle"
+    },
+    "HALBERD_GUARD_HIT_B": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_blockhitb",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_blockhitB.hkx: block-hit variant B.",
+      "tailSource": "2hm_idle"
+    },
+    "HALBERD_EQUIP": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_equip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_equip.hkx: draw.",
+      "tailSource": "2hw_equip"
+    },
+    "HALBERD_UNEQUIP": {
+      "pack": "halberd",
+      "source": "aa_halberd_2hw_unequip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/12 (halberd) 2hw_unequip.hkx: sheathe.",
+      "tailSource": "2hw_unequip"
+    },
+    "QUARTERSTAFF_IDLE": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_idle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_idle.hkx: drawn idle.",
+      "tailSource": "2hm_idle"
+    },
+    "QUARTERSTAFF_LIGHT_1": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_attackright",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_attackright.hkx: right swing (chain hit 1).",
+      "tailSource": "2hw_attackright"
+    },
+    "QUARTERSTAFF_LIGHT_2": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_attackleft",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_attackleft.hkx: left swing (chain hit 2, alternating).",
+      "tailSource": "2hw_attackleft"
+    },
+    "QUARTERSTAFF_LIGHT_3": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_attackpowerforward",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_attackpowerforward.hkx: forward power attack as the chain finisher.",
+      "tailSource": "2hw_attackpowerforward"
+    },
+    "QUARTERSTAFF_SPRINT": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_sprintforwardsword",
+      "looping": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_sprintforwardsword.hkx: sprint.",
+      "tailSource": "mt_sprintforward"
+    },
+    "QUARTERSTAFF_GUARD_ENTER": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_blockanticipate",
+      "crossFadeDuration": 0.2,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_blockanticipate.hkx: bringing the staff up to guard.",
+      "tailSource": "2hw_blockanticipate"
+    },
+    "QUARTERSTAFF_GUARD": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_blockidle.hkx: block idle.",
+      "tailSource": "2hm_idle"
+    },
+    "QUARTERSTAFF_GUARD_HIT_A": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_blockhita",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_blockHitA.hkx: block-hit variant A.",
+      "tailSource": "2hm_idle"
+    },
+    "QUARTERSTAFF_GUARD_HIT_B": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_blockhitb",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_blockhitB.hkx: block-hit variant B.",
+      "tailSource": "2hm_idle"
+    },
+    "QUARTERSTAFF_EQUIP": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_equip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_equip.hkx: draw.",
+      "tailSource": "2hw_equip"
+    },
+    "QUARTERSTAFF_UNEQUIP": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_unequip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_unequip.hkx: sheathe.",
+      "tailSource": "2hw_unequip"
+    },
+    "RAPIER_LIGHT_1": {
+      "pack": "rapier",
+      "source": "aa_rapier_1hm_attackright",
+      "rootMotion": "consume",
+      "combo": 1,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_attackright.hkx: right thrust/cut (combo hit 1).",
+      "tailSource": "1hm_attackright"
+    },
+    "RAPIER_LIGHT_2": {
+      "pack": "rapier",
+      "source": "aa_rapier_1hm_attackleft",
+      "rootMotion": "consume",
+      "combo": 2,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_attackleft.hkx: left cut (combo hit 2, alternating).",
+      "tailSource": "1hm_attackleft"
+    },
+    "RAPIER_LIGHT_3": {
+      "pack": "rapier",
+      "source": "aa_rapier_1hm_attackpower",
+      "rootMotion": "consume",
+      "combo": 3,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_attackpower.hkx: standing power attack as the combo finisher.",
+      "tailSource": "1hm_attackpower"
+    },
+    "RAPIER_HEAVY": {
+      "pack": "rapier",
+      "source": "aa_rapier_1hm_attackpowerright",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_attackpowerright.hkx: right power attack.",
+      "tailSource": "1hm_attackpowerright"
+    },
+    "RAPIER_HEAVY_2": {
+      "pack": "rapier",
+      "source": "aa_rapier_1hm_attackpowerleft",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_attackpowerleft.hkx: left power attack.",
+      "tailSource": "1hm_attackpowerleft"
+    },
+    "RAPIER_EQUIP": {
+      "pack": "rapier",
+      "source": "aa_rapier_1hm_equip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_Equip.hkx: draw.",
+      "tailSource": "1hm_equip"
+    },
+    "RAPIER_UNEQUIP": {
+      "pack": "rapier",
+      "source": "aa_rapier_1hm_unequip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_unequip.hkx: sheathe.",
+      "tailSource": "1hm_unequip"
+    },
+    "CLAW_IDLE": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_idle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_idle.hkx: drawn idle.",
+      "tailSource": "1hm_idle"
+    },
+    "CLAW_LIGHT_1": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_attackright",
+      "rootMotion": "consume",
+      "combo": 1,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_attackright.hkx: right slash (combo hit 1).",
+      "tailSource": "1hm_attackright"
+    },
+    "CLAW_LIGHT_2": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_attackleft",
+      "rootMotion": "consume",
+      "combo": 2,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_attackleft.hkx: left slash (combo hit 2, alternating).",
+      "tailSource": "1hm_attackleft"
+    },
+    "CLAW_LIGHT_3": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_attackpower",
+      "rootMotion": "consume",
+      "combo": 3,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_attackpower.hkx: standing power attack as the combo finisher.",
+      "tailSource": "1hm_attackpower"
+    },
+    "CLAW_HEAVY": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_attackpowerright",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_attackpowerright.hkx: right power attack.",
+      "tailSource": "1hm_attackpowerright"
+    },
+    "CLAW_HEAVY_2": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_attackpowerleft",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_attackpowerleft.hkx: left power attack.",
+      "tailSource": "1hm_attackpowerleft"
+    },
+    "CLAW_GUARD": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_blockidle.hkx: block idle. The folder authors no blockanticipate, so GUARD_ENTER comes from the one-handed pack.",
+      "tailSource": "2hm_idle"
+    },
+    "CLAW_GUARD_HIT_A": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_blockhita",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_blockhita.hkx: block-hit variant A.",
+      "tailSource": "2hm_blockhit"
+    },
+    "CLAW_GUARD_HIT_B": {
+      "pack": "claw",
+      "source": "aa_claw_1hm_blockhitb",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/14 (claw) 1hm_blockhitb.hkx: block-hit variant B.",
+      "tailSource": "2hm_blockhit"
+    },
+    "PIKE_IDLE": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_idle_old",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_idle_OLD.hkx: the mod's earlier pike idle. The current 2hm_idle.hkx is stored uncompressed, which the HKX importer rejects, so this earlier take of the same stance is built instead.",
+      "tailSource": "2hm_idle"
+    },
+    "PIKE_HEAVY": {
+      "pack": "pike",
+      "source": "aa_pike_2hm_attackpowerright",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/11 (pike) 2hm_attackpowerright.hkx: right power attack, standing in for the uncompressed 2hm_attackpower.hkx.",
+      "tailSource": "2hm_attackpowerright"
+    },
+    "QUARTERSTAFF_HEAVY": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hm_attackpower",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hm_attackpower.hkx: the staff's standing power attack. The author named it for the 2hm slot but placed it in the quarterstaff folder, so it is a staff motion.",
+      "tailSource": "2hm_attackpower"
+    },
+    "QUARTERSTAFF_HEAVY_2": {
+      "pack": "quarterstaff",
+      "source": "aa_quarterstaff_2hw_attackpowerbwd",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/13 (quarterstaff) 2hw_attackpowerbwd.hkx: backward power attack as the heavy follow-up, standing in for the uncompressed 2hw_attackpowerLeft.hkx.",
+      "tailSource": "2hw_attackpowerbwd"
+    },
+    "RAPIER_IDLE": {
+      "pack": "rapier",
+      "source": "aa_rapier_1hm_idleold",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_idleOld.hkx: the mod's earlier rapier idle; the current 1hm_idle.hkx is stored uncompressed and the importer rejects it.",
+      "tailSource": "1hm_idle"
     }
   }
 }
