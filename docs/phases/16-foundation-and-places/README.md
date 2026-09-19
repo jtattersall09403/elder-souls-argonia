@@ -188,7 +188,7 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   moved below its producer in `STAGES` to be rebuilt.
   `python3 -m worldgen.chain_stages --check-stale` is the gate: it compares
   every stage's receipt (`output/chain/receipts/<stage>.json`, written when
-  the stage runs) with the artefacts on disk now, and exits 1 naming each
+  the stage runs) with the artefacts on disk now, then exits 1 naming each
   input that has moved since. A plain run builds `--through` the highest
   delivered chunk (`DELIVERED_THROUGH` in the script) and SKIPS every stage a later chunk
   still owns, because those stages are the old code and are known to be
@@ -236,7 +236,7 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 | 16d | [Beyond-border apron and boundary](16d-border-apron-and-boundary.md) — stitched all-Tamriel slice, fade, wall, message | mountain viewpoint N, W, NW; walk to the edge | 8 | delivered 2026-09-15, accepted by the owner 2026-09-15 ([ledger](../../research/phase16/16d-ledger.md), [0067](../../decisions/0067-the-apron-is-the-tamriel-map-at-one-to-one.md)) |
 | 16e | [Routes, grading, spans and ferries on the frozen world](16e-routes-grading-spans-ferries.md) — routes on the record, grading as a patch stack, span pips, crossings and ferries decided from the graph, the one travel-service graph with a talk-pay-arrive contract, paint on the published line; nothing drawn in 3D that 16h's runtime cannot yet draw right | walk three roads, two fords; use one ferry; spans and services on the 2D map | 9 | delivered 2026-09-15, owner walk pending ([ledger](../../research/phase16/16e-ledger.md), [0068](../../decisions/0068-routes-below-the-gate-records-here-realised-in-16h.md)) |
 | 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md) — the bake and the scatter ported to the record; channel membership; ground cover restored with a floor; the existing boulder ladder extended to cliffs, falls, rapids beds, rocky surf, the uplands and one authored boulder field (dressing zones); rows, hanging roots, bare rock under trees; the submerged band and the wreck kit (0062); life over the water, the algae constituent and the seasonal foliage response (the strays sent here); the chain contract pass; vegetation clearance for tracks and settlements defined as a patch kind applied later by 16g/16h; seasonal foliage to the polish backlog (owner 2026-09-16) | five region sites + one river + one fall + the beach + the boulder field | 10 | delivered 2026-09-16, owner walk pending ([ledger](../../research/phase16/16f-ledger.md), [0070](../../decisions/0070-vegetation-and-dressing-read-the-record.md)) |
-| 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md) — the province-wide re-plot and the review of every record on the frozen ground (move, re-type, rewrite, merge, cut); design groups and co-siting sets; the minor tracks and waterways; the travel-service graph re-authored with the places (fast travel, harbour stations, the rootworm stations at the hero Hist); the stronghold, hero Hist, owner-guided and wreck records; then the promise vocabulary for dungeon-kind places and its migration (0062), the NPC roster and the names of the water and the land. Brief rewritten with a delivery plan 2026-09-18 | one check: the 2D plot, tracks, lanes and the fast-travel network + the review report, the recipe table, a promise sample, the names | 11 | todo |
+| 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md) — the province-wide re-plot and the review of every record on the frozen ground (move, re-type, rewrite, merge, cut); design groups and co-siting sets; the minor tracks and waterways; the travel-service graph re-authored with the places (fast travel, harbour stations, the rootworm stations at the hero Hist); the stronghold, hero Hist, owner-guided and wreck records; then the promise vocabulary for dungeon-kind places and its migration (0062), the NPC roster and the names of the water and the land. Brief rewritten with a delivery plan 2026-09-18 | one check: the 2D plot, tracks, lanes and the fast-travel network + the review report, the recipe table, a promise sample, the names | 11 | delivered 2026-09-19, owner check pending ([0078](../../decisions/0078-places-adapt-to-the-frozen-world.md), [0080](../../decisions/0080-the-chain-runs-by-dependency-not-position.md), [ledger](../../research/phase16/16g-ledger.md), [remedy plan](../../research/phase16/16g-remedy-plan.md)) |
 | 16h | [Settlement runtime and kit QA](16h-settlement-runtime-and-kit-qa.md) — yaw sign, real colliders, anchoring, pads as patches, mounts, nav, stairs, composites, renderable kinds; the off-world kit loop | Lilmoth gate walk-through; the kit sheets | 12 | todo |
 | 16i | [Exemplars end to end](16i-exemplars-end-to-end.md) — five places exterior + tier A interiors verbatim + the interior load contract + reserved doors (0062) + approach + nav + dressing; owner walk; skill v2 | walk all five, inside and out | 13 | todo |
 | 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) — one region packet through the skill unattended, dungeon sites with reserved doors included; automation-readiness gate; the packet roadmap and brief template; Phase 16 closes, 9a thin swim is next (0062) | walk the packet | — | todo |
@@ -473,7 +473,7 @@ Struck from `docs/phases/P-polish/backlog.md` and owned here:
 | tidal delta / deep river corridor thin classes | 16a (graph decides), 16f applies |
 | routes: unauthored survivors churn; three "badly routed" ways are a resolution mismatch; `MAX_FILL_M` wrong lever; road raster paints the frozen line; `grade_settlement_pads` ignores structure windows; route structures emit no nav data; trestle foot ground fit; a crossing with no pier; pitch axis for whole bridges; router prefers the long way round | 16e |
 | water crossings become ferries; `watercraft-v1` reaches nothing; navigable check measures the wrong water | 16e |
-| macro plot: two records invalidated by the fields; licensed camp track overrun | 16g |
+| macro plot: two records invalidated by the fields; licensed camp track overrun | 16g (delivered 2026-09-19; 567 of 580 sited, the rest in the accepted-homeless register) |
 | stilt open-water share and quay flood-section rule scope | 16h (the rule is decided in the 16g brief's "Moved out" section; 16h ports the reads it lives in) |
 | corrupt-GLB export gate; settlement navigation; `test:placement` names files one by one | 16h |
 | prose gate does not lint `docs/`; sourcing log lint hits | 16a (docs hygiene, with the 0041 split) |
@@ -492,7 +492,12 @@ Left in the backlog as genuine polish: sky palette, moon glow, weather rows,
 foliage translucency, combat rows, the female-character rows, the physics
 mass scale (Phase 9), region tooltip reclassification.
 
-## 10. Places designed together (F1, F2 — seed list for 16g)
+## 10. Places designed together (F1, F2 — seed list, applied by 16g)
+
+16g registered these as design groups in `world/sources/sites/design-groups.json`,
+with the co-siting asks carried into each record's `sitingPrefs`. What the
+ground could not hold is in `world/sources/sites/plot-homeless-accepted.json`.
+The list below is the seed for that work.
 
 - **Merge (`designGroup` with one blueprint):** `place.hist-heartland.lost-city`
   + `place.hist-heartland.xal-krona-making-ground` (73 m apart; the Made Ground

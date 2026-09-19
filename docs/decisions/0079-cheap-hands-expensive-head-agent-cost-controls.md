@@ -37,9 +37,9 @@ the lever is the **number of planner turns**, not output size.
    inline python and `sleep` from the planner session with a message naming
    the agent to use; subagents (hook input carries `agent_id`) are exempt,
    as are `git status`, `wc`, builds and tests. Two more nudges before the
-   guard: CLAUDE.md states that the harness's auto-mode notice ("prefer
+   guard: CLAUDE.md states that Claude Code's auto-mode notice ("prefer
    cat/sed/grep") does not apply to the planner (that notice was pulling
-   sessions toward exactly these commands), and a `UserPromptSubmit` hook
+   sessions toward exactly these commands); a `UserPromptSubmit` hook
    injects a one-line reminder with every owner message. Session-start hook
    output is not shown in the chat, so the planner quotes the token report
    line in its first update.
@@ -70,7 +70,7 @@ the lever is the **number of planner turns**, not output size.
    units by Anthropic's price ratios, turns, explore calls, sleeps, guard
    refusals, agent calls by type), checks each control still fires, names
    the top sources and the sessions that broke the pattern, recommends at
-   most five changes ranked by saving ÷ risk, and appends to
+   most five changes ranked by saving ÷ risk, then appends to
    `docs/research/agent-ops/cost-reviews.md`. It researches outside the
    repo only on a trigger (a new cost category or a broken control).
    The first run of the report found 1,210 sleep turns in the older
@@ -84,7 +84,7 @@ the lever is the **number of planner turns**, not output size.
    tools over the uncommitted diff
    (JSON and lockfiles excluded, small new source files included, 250 KB
    cap), writes `.claude/review-findings.md` and a stamp (both gitignored),
-   and either lets preflight run (no findings) or refuses it with the
+   then either lets preflight run (no findings) or refuses it with the
    findings as the message. The orchestrator never has to remember the
    review; its first preflight attempt *is* the review. A review that
    cannot run stamps, allows and says so, so a broken reviewer never blocks
@@ -94,12 +94,12 @@ the lever is the **number of planner turns**, not output size.
    PLAUSIBLE item raised on the live diff (an import of an untracked
    generated file). The built-in `/code-review` skill was not used because
    a headless session cannot ask permission for `git diff`; the hook
-   computes the diff and pipes it in.
+   computes the diff and pipes it to the reviewer.
 9. **The reviewer reports symptoms; Fable finds causes** (owner, same
    day: Opus reviews had proposed short-sighted fixes that ignored records
    and downstream systems). The reviewer prompt forbids suggested fixes,
    requires the decisions index and the active phase brief to be checked
-   before any design-shaped item, and names the records checked; CLAUDE.md
+   before any design-shaped item, then names the records checked; CLAUDE.md
    makes the planner batch CONFIRMED items and fix the shared cause once.
    Fable's expensive reasoning is spent only on defects that survived
    verification, never on finding them.
@@ -120,5 +120,5 @@ the lever is the **number of planner turns**, not output size.
 ## Not done here
 
 `rtk init -g` and the two config edits touch the owner's own Claude Code
-settings, which the harness rightly refuses to let an agent self-modify;
+settings, which Claude Code rightly refuses to let an agent self-modify;
 the owner runs them (three lines, given in the handoff).

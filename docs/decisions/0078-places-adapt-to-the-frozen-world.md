@@ -50,3 +50,38 @@ The non-obvious calls:
    three active records within 500 m of the freehold carry `ownerGuided`
    and the barge carries the tutorial flag; the stale research claim was
    corrected.
+8. **The review's remedies are typed rows, and canon decides which way a
+   fault is fixed** (the plan behind the rows:
+   [16g-remedy-plan](../research/phase16/16g-remedy-plan.md)). Where a
+   dossier or UESP page ties a place to its water or its neighbour, the
+   record is pinned by typed siting (`boundTo`, `nearWater`, `nearPoint`,
+   `minDepthM`) and the solver moves it; where the prose invented a river,
+   a gorge or a compass bearing, the prose is rewritten against the record
+   (standard 12, 0065). A dive or a hull needs its depth at the dot; a
+   village with an underwater entrance keeps a dry dot and 16h places the
+   entrance on the bank. City pins never move: a city whose prose and ground
+   disagree is an owner call with its numbers (Blackrose's lake, the pirate
+   freeholds' river, the stronghold). 239 rows, every one with the
+   measurement in `why`; `plot_remedies --check` fails a row that was never
+   applied or no longer holds.
+9. **A harbour is a station a traveller boards.** Each of the nine cities
+   names one in `harbour-stations.json`: a record at its quay or, for Gideon,
+   the bond ferry's town landing (a derived station, `stationId`) because
+   the rootworm terminus is a root node and nothing in Gideon's ring holds
+   keel water. A road-crossing ferry's two landings join the network by
+   the road they cross, so connectedness is a rule about the graph, not
+   about depth (owner 2026-09-18).
+10. **The rootworm network is five records**, not four placeholders:
+   Helstrom's station (the hub), Gideon's terminus (a seasonal stop, never a
+   standing station), the east-estuary station (the placeholder node
+   1,333 m away was the same facility), Dead Water village (the naga-deeps
+   terminus, with `rootworm` added to its station modes) and Stormhold. The
+   remaining hero Hist stay unserved: the Underground Express is a line.
+11. **The Onkobra does not extend downstream.** Its headwater's chain is the
+   attested Panther and Stormhold Rivers; the four records whose id carries
+   the name are pinned to the headwater and the rest are rewritten onto
+   their own water.
+12. **The known-red register may be empty.** Its gate asserted the register
+   was non-empty for ever; it now checks rows against the live plan and
+   that no request outside the register is red, so the register can die
+   with its last row as deliverable 7 intended.

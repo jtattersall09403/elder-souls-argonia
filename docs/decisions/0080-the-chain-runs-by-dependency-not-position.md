@@ -21,7 +21,7 @@ The chain now selects by dependency.
   recorded as null.
 - `python3 -m worldgen.chain_stages --check-stale` is the gate. It compares
   each receipt against the tree now and reports `STALE <stage>: <artefact>
-  changed since <ranAt>`, or `MISSING RECEIPT <stage>`, and exits 1 on any.
+  changed since <ranAt>`, or `MISSING RECEIPT <stage>`; it exits 1 on any.
 - After the requested range has run, `terrain-chain.sh` runs the transitive
   set of stages whose reads intersect what the run rewrote, restricted to
   below the freeze gate and to ladder chunks at or before
@@ -31,13 +31,12 @@ The chain now selects by dependency.
 
 Two reads are exempt, for the same reason the order gate exempts them. A
 `stale_ok` read is declared to be of the previous publication with its reason
-written down: it is the chain's admitted feedback edge, and following it
+written down: it is the chain's admitted feedback edge; following it
 cascaded nineteen stages off a single plot stage in testing. A read of a path
 the stage also writes is read-modify-write, not a stale read.
 
 The rungs above the gate and the once-compiled water are not judged here.
-They are inputs checked by hash by `verify_freeze` (decision 0066), and
-`--check-stale` says so in a line of its output.
+They are inputs checked by hash by `verify_freeze` (decision 0066); `--check-stale` says so in a line of its output.
 
 The mechanism arrived after the stages had already run, so their receipts
 were seeded once from the tree with `--seed-receipts` (26 stages, marked

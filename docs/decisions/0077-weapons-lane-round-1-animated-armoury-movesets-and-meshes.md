@@ -66,11 +66,11 @@ round 0, lane brief § Owner check). Implements decision 0074 §2 round 1.
    parses `hkaInterleavedUncompressedAnimation` (a frame-major array of
    transforms) and writes the clip back spline-compressed through PyNifly's
    own writer; all 59 katana clips round-trip within 0.0003 units and
-   0.10°, and the `katana` pack (12 clips) is built, installed and wired to
+   0.10°; the `katana` pack (12 clips) is built, installed and wired to
    the class. (b) The owner read the three permission boxes and cleared
    Animated Heavy Armory, Skyrim Spear Mechanic and Black Marsh Import:
    three tridents (pike) and three half-pikes (spear) ship from Heavy
-   Armory with records from its plugin, and the five Black Marsh OBJ
+   Armory with records from its plugin; the five Black Marsh OBJ
    weapons ship through a new OBJ path in `build_weapons.py` (TGA re-encoded
    to PNG at 1024 max, hand-authored records naming their vanilla source,
    new `wood`, `bone` and `obsidian` materials). Skyrim Spear Mechanic's
