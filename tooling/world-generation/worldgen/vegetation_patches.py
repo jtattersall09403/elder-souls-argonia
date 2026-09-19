@@ -272,17 +272,94 @@ def bounds_m(clearance: dict) -> tuple[float, float, float, float]:
 def affected_chunks(clearance: dict, chunk_m: float = CHUNK_M) -> list[tuple[int, int]]:
     """Every vegetation chunk this settlement's clearance touches.
 
-    The whole bbox, not just the polygon vertices: a settlement wider than a
-    chunk has interior chunks with no vertex in them, and leaving one out is
+    The bbox is only the candidate set. A chunk is kept when the clearance
+    actually reaches into it: a settlement wider than a chunk still keeps its
+    interior chunks (they have no vertex in them, and leaving one out is
     exactly 0041 gotcha (c) — a chunk that keeps its old trees next to
-    recompiled neighbours.
+    recompiled neighbours), while a long diagonal track no longer drags in the
+    whole rectangle it happens to span.
     """
     x0, z0, x1, z1 = bounds_m(clearance)
     if x1 <= x0 and z1 <= z0:
         return []
-    return [(cx, cz)
-            for cz in range(int(z0 // chunk_m), int(z1 // chunk_m) + 1)
-            for cx in range(int(x0 // chunk_m), int(x1 // chunk_m) + 1)]
+    polys = [p for p in (clearance.get("hardClear") or []) + (clearance.get("thinned") or [])
+             if p and len(p) >= 3]
+    boxes = []
+    for kept in clearance.get("kept", []) or []:
+        x, z = kept["positionM"]
+        r = KEPT_RADIUS_M.get(kept.get("kind"), DEFAULT_KEPT_RADIUS_M)
+        boxes.append((x - r, z - r, x + r, z + r))
+
+    out: list[tuple[int, int]] = []
+    for cz in range(int(z0 // chunk_m), int(z1 // chunk_m) + 1):
+        for cx in range(int(x0 // chunk_m), int(x1 // chunk_m) + 1):
+            ax, az = cx * chunk_m, cz * chunk_m
+            bx, bz = ax + chunk_m, az + chunk_m
+            if any(bxa <= bx and ax <= bxb and bza <= bz and az <= bzb
+                   for bxa, bza, bxb, bzb in boxes):
+                out.append((cx, cz))
+                continue
+            probes = ((ax, az), (bx, az), (ax, bz), (bx, bz),
+                      (ax + chunk_m / 2.0, az + chunk_m / 2.0))
+            hit = False
+            for poly in polys:
+                # a chunk fully inside the polygon (interior), or a polygon
+                # vertex inside the chunk (a thin shape crossing it)
+                # or an edge crossing it with neither end in it (a band
+                # thinner than a chunk, whose vertices are all outside)
+                if any(_point_in_poly(p, poly) for p in probes) or \
+                        any(ax <= float(vx) <= bx and az <= float(vz) <= bz for vx, vz in poly) or \
+                        _edge_crosses_box(poly, ax, az, bx, bz):
+                    hit = True
+                    break
+            if hit:
+                out.append((cx, cz))
+    return out
+
+
+def _edge_crosses_box(poly, ax: float, az: float, bx: float, bz: float) -> bool:
+    """Does any polygon edge pass through the axis-aligned box? Liang–Barsky."""
+    n = len(poly)
+    for i in range(n):
+        x1, z1 = float(poly[i][0]), float(poly[i][1])
+        x2, z2 = float(poly[(i + 1) % n][0]), float(poly[(i + 1) % n][1])
+        dx, dz = x2 - x1, z2 - z1
+        t0, t1 = 0.0, 1.0
+        ok = True
+        for p, q in ((-dx, x1 - ax), (dx, bx - x1), (-dz, z1 - az), (dz, bz - z1)):
+            if p == 0.0:
+                if q < 0.0:
+                    ok = False
+                    break
+                continue
+            r = q / p
+            if p < 0.0:
+                if r > t1:
+                    ok = False
+                    break
+                t0 = max(t0, r)
+            else:
+                if r < t0:
+                    ok = False
+                    break
+                t1 = min(t1, r)
+        if ok and t0 <= t1:
+            return True
+    return False
+
+
+def _point_in_poly(pt: tuple[float, float], poly) -> bool:
+    """Even-odd ray cast; a point on the boundary may fall either way, which is
+    harmless here (a boundary chunk is touched by the polygon regardless)."""
+    x, z = pt
+    inside = False
+    n = len(poly)
+    for i in range(n):
+        x1, z1 = float(poly[i][0]), float(poly[i][1])
+        x2, z2 = float(poly[(i + 1) % n][0]), float(poly[(i + 1) % n][1])
+        if (z1 > z) != (z2 > z) and x < (x2 - x1) * (z - z1) / (z2 - z1) + x1:
+            inside = not inside
+    return inside
 
 
 def keep_raster(shape: tuple[int, int], px_m: float,

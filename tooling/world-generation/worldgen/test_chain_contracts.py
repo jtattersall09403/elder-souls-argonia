@@ -334,3 +334,11 @@ def test_the_real_script_order_has_no_order_findings():
               if s not in cc.ABOVE_GATE]
     hard = [f for f in cc.order_findings(stages) if not f.startswith("warn: ")]
     assert hard == [], "\n".join(hard)
+
+
+def test_the_minor_routes_stage_runs_with_registry():
+    """Without `--registry` the solved geometryId / solved:true never reaches
+    registry.json, and the stage's own WRITES row would be a lie."""
+    text = SCRIPT.read_text(encoding="utf-8")
+    assert '[compile_minor_routes]="--registry"' in text, "STAGE_ARGS row missing"
+    assert cc.SOURCES / "routes" / "registry.json" in cc.WRITES["compile_minor_routes"]

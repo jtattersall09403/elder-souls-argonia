@@ -337,8 +337,8 @@ tracks, ferry hops, canoe channels and additional fast-travel services grow
 around every placed settlement, always as least-cost responses to the same
 terrain fields (owner direction, 2026-08-23). Where a macro boat lane crosses
 land (portage hops, drawn amber in the studio), watershed refinement must
-resolve the hop explicitly: carve a navigable channel, or make it a real
-portage/boardwalk feature. (Mechanism exists since Phase 6 pass 2:
+resolve the hop explicitly: re-line the lane, move its station, or make it a
+real portage/boardwalk feature. (Mechanism exists since Phase 6 pass 2:
 compile_society persists lane paths in `waterways.json` — ending at the berths
 declared in `world/sources/routes/lane-terminals.json`, with the
 anchor-to-anchor solve kept beside it as `waterways-natural.json` for siting

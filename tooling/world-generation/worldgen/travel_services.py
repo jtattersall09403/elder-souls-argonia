@@ -97,7 +97,9 @@ STATUSES = {"active", "placeholder", "deferred", "unmatched"}
 
 #: How far a crossing's bank midpoint may sit from a ferry's authored landing
 #: midpoint and still be the same crossing.
-MATCH_RADIUS_M = 400.0
+#: crossing.major.025 sits 408 m off the Onkobra bond ferry; the 8 m miss is
+#: noise, not a re-site.
+MATCH_RADIUS_M = 450.0
 #: How far in from the bank the berth search walks before giving up.
 BERTH_SEARCH_M = 30.0
 #: Step of that walk, in metres.
@@ -1193,12 +1195,53 @@ def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
     return errs
 
 
+def _road_edges(doc: dict, stations: dict, live: set[str]) -> list[tuple[str, str]]:
+    """Landing -> city station edges for the road-crossing ferries.
+
+    A road-crossing ferry repairs a break in a named road, so its landings are
+    on that road: each joins the nearest active city station that the same road
+    id runs between (the registry row's `from`/`to` anchors).
+    """
+    by_anchor: dict[str, list[dict]] = {}
+    for sid in live:
+        st = stations[sid]
+        if st.get("kind") != "place" or not st.get("positionM"):
+            continue
+        by_anchor.setdefault(sid.rsplit(".", 1)[-1], []).append(st)
+    ends: dict[str, list[str]] = {}
+    for row in _registry():
+        for alias in [row.get("id")] + list(row.get("aliases") or []):
+            if alias:
+                ends[alias] = [row.get("from"), row.get("to")]
+
+    edges: list[tuple[str, str]] = []
+    for s in doc.get("services", []):
+        if s.get("status") != "active" or s.get("form") != "road-crossing":
+            continue
+        cands: list[dict] = []
+        for route_id in s.get("severs") or []:
+            for anchor in ends.get(route_id) or []:
+                cands.extend(by_anchor.get(anchor) or [])
+        if not cands:
+            continue
+        for lid in s.get("landings") or []:
+            land = stations.get(lid)
+            if lid not in live or not (land or {}).get("positionM"):
+                continue
+            near = min(cands, key=lambda c: _dist(land["positionM"], c["positionM"]))
+            edges.append((lid, near["id"]))
+    return edges
+
+
 def _check_connected(doc: dict) -> list[str]:
     """The active network is ONE component (rule 1, owner 2026-09-18).
     Connectedness is what a traveller feels; depth is only reported. Every
     active station must be reachable from every other over the hops of active
-    services — a station nobody can leave is a dead end in the world."""
-    live = {st["id"] for st in doc.get("stations", []) if st.get("status") == "active"}
+    services — a station nobody can leave is a dead end in the world.
+    A road-crossing ferry's landings join the network by the road they cross
+    (owner 2026-09-18: connectedness, not depth)."""
+    stations = {st["id"]: st for st in doc.get("stations", [])}
+    live = {sid for sid, st in stations.items() if st.get("status") == "active"}
     if len(live) < 2:
         return []
     adj: dict[str, set[str]] = {sid: set() for sid in live}
@@ -1210,6 +1253,9 @@ def _check_connected(doc: dict) -> list[str]:
             if a in live and b in live:
                 adj[a].add(b)
                 adj[b].add(a)
+    for a, b in _road_edges(doc, stations, live):
+        adj[a].add(b)
+        adj[b].add(a)
     seen, stack = set(), [min(live)]
     while stack:
         n = stack.pop()

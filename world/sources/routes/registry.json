@@ -708,6 +708,13 @@
    ],
    "confidence": "LORE_IMPLIED",
    "solved": false,
+   "stages": [
+    "place.mercantile-coast.mudfoot",
+    "place.mercantile-coast.chasepoint",
+    "place.mercantile-coast.bramman-river-ferry",
+    "place.mercantile-coast.ashfield",
+    "place.mercantile-coast.coast-road-stage"
+   ],
    "sources": [
     "uesp:Lore:Soulrest",
     "uesp:Lore:Lilmoth",

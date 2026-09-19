@@ -694,7 +694,11 @@ WRITES: dict[str, list[Path]] = {
     # 16g
     "apply_sitings": [SOURCES / "sites" / "macro-plot-overrides.json", SOURCES / "catalogue"],
     "macro_plot": [SOURCES / "sites" / "macro-plot.json", SOURCES / "catalogue"],
-    "compile_minor_routes": [PROVINCE / "routes-minor.json"],
+    # --registry attaches geometryId / solved:true to the registry rows, and
+    # the stage authors the minor tracks' clearance patches.
+    "compile_minor_routes": [PROVINCE / "routes-minor.json",
+                             SOURCES / "flora" / "vegetation-patches.json",
+                             SOURCES / "routes" / "registry.json"],
     "compile_minor_waterways": [PROVINCE / "waterways-minor.json",
                                 PROVINCE / "waterways-minor-natural.json",
                                 PROVINCE / "waterways-minor-repaired-by.json",

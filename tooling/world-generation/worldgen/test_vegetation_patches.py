@@ -154,6 +154,29 @@ def test_affected_chunks_covers_the_interior_and_uses_the_scatter_chunk_size():
     assert {c[1] for c in cells} == {0}
 
 
+def test_affected_chunks_is_polygon_aware_not_the_whole_bbox():
+    """A long diagonal track only clears the chunks it actually crosses; a
+    large square still keeps every interior chunk."""
+    c = sc.CHUNK_M
+    # a 20 m-wide track from chunk (0,0) to chunk (3,3) across a 4x4 grid
+    pts = [(20.0 + i * (3.5 * c - 20.0) / 20.0, 20.0 + i * (3.5 * c - 20.0) / 20.0)
+           for i in range(21)]
+    track = {"hardClear": [[[x - 10.0, z + 10.0] for x, z in pts]
+                           + [[x + 10.0, z - 10.0] for x, z in reversed(pts)]],
+             "thinned": []}
+    cells = set(sc.affected_chunks(track))
+    assert {(0, 0), (1, 1), (2, 2), (3, 3)} <= cells, sorted(cells)
+    # only the diagonal band (the 20 m width straddles the corners the chunks
+    # meet at); the bbox's 16 chunks are NOT all taken
+    assert all(abs(cx - cz) <= 1 for cx, cz in cells), sorted(cells)
+    assert (0, 3) not in cells and (3, 0) not in cells
+
+    square = {"hardClear": [[[10.0, 10.0], [4 * c - 10.0, 10.0],
+                             [4 * c - 10.0, 4 * c - 10.0], [10.0, 4 * c - 10.0]]],
+              "thinned": []}
+    assert set(sc.affected_chunks(square)) == {(x, z) for x in range(4) for z in range(4)}
+
+
 # --- the patch-list validator ----------------------------------------------
 
 def _write(tmp_path, patches, schema=1):

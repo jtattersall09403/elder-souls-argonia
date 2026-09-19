@@ -135,6 +135,9 @@ declare -A STAGE_ARGS=(
   # The chain runs macro_plot and the dependants as its own stages, so the
   # write-back must not run them a second time.
   [apply_sitings]="--stage"
+  # Without --registry the solved geometryId / solved:true never reaches
+  # registry.json, and every later reader binds to the previous run's tracks.
+  [compile_minor_routes]="--registry"
   [compile_settlement]="--all"
   [export_settlement_bundle]="--copy-assets"
 )
